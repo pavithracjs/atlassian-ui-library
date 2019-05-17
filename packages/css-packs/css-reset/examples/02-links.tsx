@@ -1,5 +1,4 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 
 /**
  * By default the Atlaskit website includes css-reset in examples

@@ -1,18 +1,18 @@
-//@flow
 import hyphenate from 'fbjs/lib/hyphenateStyleName';
 
 /**
  * The below code is inspired by the css function in styled components
- * https://github.com/styled-components/styled-components/blob/master/src/constructors/css.js
+  https://github.com/styled-components/styled-components/blob/master/packages/styled-components/src/types.js
  */
+
 export default function evaluateInner(
-  styles: Array<string>,
-  ...interpolations: Array<string | number>
+  styles: TemplateStringsArray,
+  ...interpolations: any[]
 ) {
   return flatten(interleave(styles, interpolations)).join('');
 }
 
-function interleave(strings, interpolations) {
+function interleave(strings: TemplateStringsArray, interpolations: any[]) {
   const result = [strings[0]];
   for (let i = 0; i < interpolations.length; i++) {
     result.push(interpolations[i], strings[i + 1]);
@@ -22,10 +22,10 @@ function interleave(strings, interpolations) {
 }
 
 function flatten(
-  chunks,
+  chunks: any[],
   executionContext = { theme: { __ATLASKIT_THEME__: { mode: 'light' } } },
 ) {
-  return chunks.reduce((ruleSet, chunk) => {
+  return chunks.reduce<string[]>((ruleSet, chunk) => {
     /* Remove falsey values */
     if (
       chunk === undefined ||
@@ -51,19 +51,18 @@ function flatten(
 
       return ruleSet;
     }
-    //$FlowFixMe
     ruleSet.push(isPlainObject(chunk) ? objToCss(chunk) : chunk.toString());
 
     return ruleSet;
   }, []);
 }
 
-function isPlainObject(x) {
+function isPlainObject(x: any) {
   return typeof x === 'object' && x.constructor === Object;
 }
 
-function objToCss(obj: Object, prevKey) {
-  const css = Object.keys(obj)
+function objToCss(obj: { [k: string]: any }, prevKey?: string) {
+  const css: string = Object.keys(obj)
     .filter(key => {
       const chunk = obj[key];
       return (
@@ -75,6 +74,7 @@ function objToCss(obj: Object, prevKey) {
       return `${hyphenate(key)}: ${obj[key]};`;
     })
     .join(' ');
+
   return prevKey
     ? `${prevKey} {
     ${css}
