@@ -1,8 +1,6 @@
-// @flow
-
 type LoggerOptions = {
-  debug?: boolean,
-  prefix?: string,
+  debug?: boolean;
+  prefix?: string;
 };
 
 /* eslint-disable no-console */
@@ -84,7 +82,7 @@ export default class Logger {
     if (!processedArgs) {
       return;
     }
-    console.groupEnd(...processedArgs);
+    console.groupEnd();
     this.groupCount--;
   }
 }

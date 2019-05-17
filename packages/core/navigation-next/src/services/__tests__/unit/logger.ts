@@ -1,5 +1,6 @@
-// @flow
 import Logger from '../../logger';
+
+declare var global: any;
 
 describe('NavigationNext Services: Logger', () => {
   const groupCollapsed = jest.fn();
@@ -19,7 +20,10 @@ describe('NavigationNext Services: Logger', () => {
 
   afterEach(() => {
     global.console.log.mockRestore();
+
+    // @ts-ignore
     Reflect.deleteProperty(global.console, 'groupCollapsed');
+    // @ts-ignore
     Reflect.deleteProperty(global.console, 'groupEnd');
   });
 
@@ -184,7 +188,7 @@ describe('NavigationNext Services: Logger', () => {
 
       logger.debugGroupEnd('first log');
 
-      expect(groupEnd.mock.calls[0]).toEqual(['prefix: first log']);
+      expect(groupEnd.mock.calls[0]).toEqual([]);
     });
   });
 });
