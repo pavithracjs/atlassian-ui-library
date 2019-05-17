@@ -5,7 +5,7 @@ jest.mock('../../../service/newUploadServiceImpl');
 import { ContextFactory } from '@atlaskit/media-core';
 import { MockFile } from '@atlaskit/media-test-helpers';
 import { LocalFileSource } from '../../../service/types';
-import { Clipboard as ClipboardComponent } from '../../clipboard/component';
+import { Clipboard as ClipboardComponent } from '../../clipboard/clipboard';
 import { Clipboard } from '../../types';
 import { mount, ReactWrapper } from 'enzyme';
 
@@ -13,6 +13,7 @@ describe('Clipboard', () => {
   let clipboard: ReactWrapper<Clipboard>;
   let addFilesWithSourceSpy: any;
   let clipboardInstance: ClipboardComponent;
+  let eventsMap: any;
 
   const context = ContextFactory.create({
     authProvider: {} as any,
@@ -24,6 +25,11 @@ describe('Clipboard', () => {
 
   beforeEach(() => {
     document.dispatchEvent(new Event('DOMContentLoaded'));
+    eventsMap = {};
+    jest.spyOn(document, 'addEventListener').mockImplementation((event, cb) => {
+      eventsMap[event] = cb;
+    });
+
     clipboard = mount(<ClipboardComponent context={context} config={config} />);
 
     clipboardInstance = clipboard.instance() as ClipboardComponent;
@@ -44,7 +50,8 @@ describe('Clipboard', () => {
         types: [],
       },
     };
-    clipboardInstance.handleEvent(event);
+    // simulate paste event on document object
+    eventsMap.paste(event);
 
     expect(addFilesWithSourceSpy).toHaveBeenCalledTimes(1);
   });
@@ -60,7 +67,8 @@ describe('Clipboard', () => {
       },
     };
 
-    clipboardInstance.handleEvent(event);
+    // simulate paste event on document object
+    eventsMap.paste(event);
 
     expect(addFilesWithSourceSpy).toHaveBeenCalledTimes(1);
     expect(
@@ -83,7 +91,8 @@ describe('Clipboard', () => {
 
   it('should not trigger errors when event.clipboardData is undefined', () => {
     const event: any = {};
-    clipboardInstance.handleEvent(event);
+    // simulate paste event on document object
+    eventsMap.paste(event);
     expect(addFilesWithSourceSpy).toHaveBeenCalledTimes(0);
   });
 
@@ -96,7 +105,8 @@ describe('Clipboard', () => {
         types: ['some-type'],
       },
     };
-    clipboardInstance.handleEvent(event);
+    // simulate paste event on document object
+    eventsMap.paste(event);
     expect(
       addFilesWithSourceSpy.mock
         .calls /*1st call*/[0] /*1st arg*/[0] /*1st item*/[0].file,
@@ -106,4 +116,6 @@ describe('Clipboard', () => {
         .calls /*1st call*/[0] /*1st arg*/[0] /*1st item*/[0].source,
     ).toEqual(LocalFileSource.PastedScreenshot);
   });
+
+  it('should remove event handler only when there are no more clipboard instances left', () => {});
 });

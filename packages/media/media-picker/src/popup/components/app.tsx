@@ -56,7 +56,7 @@ import {
   ClipboardConfig,
 } from '../../components/types';
 
-import { Clipboard } from '../../components/clipboard/component';
+import { Clipboard } from '../../components/clipboard/clipboard';
 import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {

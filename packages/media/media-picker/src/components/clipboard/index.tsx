@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Clipboard as ClipboardType, ClipboardProps } from './component';
+import { Clipboard as ClipboardType, ClipboardProps } from './clipboard';
 
 type State = {
   Clipboard?: typeof ClipboardType;
@@ -18,7 +18,7 @@ export class ClipboardLoader extends React.PureComponent<
 
   componentWillMount() {
     if (!this.state.Clipboard) {
-      import(/* webpackChunkName:"@atlaskit-internal_Clipboard" */ './component').then(
+      import(/* webpackChunkName:"@atlaskit-internal_Clipboard" */ './clipboard').then(
         module => {
           ClipboardLoader.Clipboard = module.Clipboard;
           this.setState({ Clipboard: module.Clipboard });
