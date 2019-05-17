@@ -125,6 +125,8 @@ type Props = {
   onToggleStart: () => void,
   /** Function called when a collapse/expand finishes */
   onToggleEnd: () => void,
+  /** aria-label for the resizer button to help screen readers (a11y) */
+  resizerButtonLabel?: string,
   /** The offset at the top of the page before the navigation begins. This allows
   absolute items such as a banner to be placed above nav, without lower nav items
   being pushed off the screen. **DO NOT** use this outside of this use-case. Changes
@@ -349,6 +351,7 @@ class Navigation extends PureComponent<Props, State> {
       onResizeStart,
       onSearchDrawerOpen,
       topOffset,
+      resizerButtonLabel,
     } = this.props;
 
     const {
@@ -419,6 +422,7 @@ class Navigation extends PureComponent<Props, State> {
         onResizeButton={this.triggerResizeButtonHandler}
         onResizeStart={onResizeStart}
         onResizeEnd={this.onResizeEnd}
+        resizerButtonLabel={resizerButtonLabel}
         showResizeButton={canCollapse}
       />
     ) : null;

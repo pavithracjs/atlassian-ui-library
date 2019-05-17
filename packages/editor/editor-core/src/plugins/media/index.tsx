@@ -33,6 +33,7 @@ import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
 import ClipboardMediaPickerWrapper from './ui/ClipboardMediaPickerWrapper';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
+export { insertMediaSingleNode } from './utils/media-single';
 
 export interface MediaOptions {
   provider?: Promise<MediaProvider>;

@@ -15,7 +15,7 @@ function mergeAdjacentCodeBlocks(fragment: Fragment): Fragment {
         return children.push(joinCodeBlocks(children.pop()!, maybeCodeBlock));
       }
     }
-    children.push(maybeCodeBlock);
+    return children.push(maybeCodeBlock);
   });
   return Fragment.from(children);
 }

@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 39.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
 ## 39.2.3
 - [patch] [dfc7aaa563](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc7aaa563):
 

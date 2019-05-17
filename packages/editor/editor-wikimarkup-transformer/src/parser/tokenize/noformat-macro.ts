@@ -23,7 +23,7 @@ const rawContentProcessor = (
   rawContent: string,
   length: number,
   schema: Schema,
-  context: Context,
+  _context: Context,
 ): Token => {
   const output: PMNode[] = [];
   const { codeBlock } = schema.nodes;

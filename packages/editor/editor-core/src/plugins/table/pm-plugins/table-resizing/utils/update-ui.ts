@@ -97,6 +97,7 @@ export const updateResizeHandle = (
     resizeHandleRef.style.left = `${cellRef.offsetLeft +
       cellRef.offsetWidth}px`;
   }
+  return;
 };
 
 function getHeight(element: HTMLElement): number {

@@ -1,5 +1,10 @@
 # @atlaskit/page
 
+## 10.0.1
+- [patch] [7a68e88827](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a68e88827):
+
+  - Fixed aria-hidden attribute for banner container
+
 ## 10.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

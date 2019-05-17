@@ -10,6 +10,7 @@ export const appearanceForNodeType = (
   } else if (spec.name === 'blockCard') {
     return 'block';
   }
+  return;
 };
 
 export const selectedCardAppearance = (state: EditorState) =>

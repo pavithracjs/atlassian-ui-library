@@ -48,7 +48,7 @@ export default class MentionWithProviders extends PureComponent<Props, State> {
         .then(profilecardProvider => {
           this.setState({ profilecardProvider });
         })
-        .catch(err => {
+        .catch(() => {
           this.setState({ profilecardProvider: null });
         });
     } else {

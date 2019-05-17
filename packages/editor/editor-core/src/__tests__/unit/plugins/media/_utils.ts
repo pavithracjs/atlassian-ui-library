@@ -103,11 +103,7 @@ export const mediaEditor = (
  * @param view The EditorView under test.
  * @param id The initially inserted id and __key for the media node.
  */
-export const insertMediaGroupItem = (
-  view: EditorView,
-  id: string,
-  fileId = 'id',
-) => {
+export const insertMediaGroupItem = (view: EditorView, id: string) => {
   insertMediaGroupNode(view, [{ id }], testCollectionName);
 
   return media({

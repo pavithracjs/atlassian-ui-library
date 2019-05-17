@@ -3,11 +3,12 @@ import styled, { keyframes } from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
 
 export const flagWidth = gridSize() * 50;
+export const flagAnimationTime = 400;
 
 // This is the translateX position that we target when animating a card out
 // towards the left of screen.
 const exitXPosition = `${0 - flagWidth / 2}px`;
-const flagAnimationDuration = '0.4s';
+const flagAnimationDuration = `${flagAnimationTime}ms`;
 
 const animationEnter = keyframes`
     from {

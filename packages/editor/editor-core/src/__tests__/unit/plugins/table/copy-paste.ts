@@ -54,7 +54,7 @@ describe('table plugin', () => {
     } as PluginConfig;
     return createEditor({
       doc,
-      editorPlugins: [tablesPlugin(tableOptions)],
+      editorPlugins: [tablesPlugin()],
       editorProps: {
         analyticsHandler: trackEvent,
         allowTables: tableOptions,

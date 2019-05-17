@@ -118,7 +118,7 @@ const configs: Array<BridgePluginListener<any>> = [
   createListenerConfig<TextColorPluginState>({
     bridge: 'textFormatBridge',
     pluginKey: textColorPluginKey,
-    updater: (pluginState, view, initialPass) => {
+    updater: (pluginState, _view, initialPass) => {
       let color = pluginState.color || null;
       let serialisedState: SerialisedTextColor = {
         color,

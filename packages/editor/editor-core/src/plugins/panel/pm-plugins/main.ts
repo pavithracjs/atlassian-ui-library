@@ -87,6 +87,7 @@ export const createPlugin = ({ dispatch }: PMPluginFactoryParams) =>
           dispatch(pluginKey, {
             ...pluginState,
           });
+          return;
         },
       };
     },

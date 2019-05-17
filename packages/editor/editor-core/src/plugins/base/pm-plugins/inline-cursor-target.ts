@@ -27,6 +27,7 @@ export const findSpecialNodeAfter = ($pos: ResolvedPos, tr: Transaction) => {
       return $pos.pos + 2;
     }
   }
+  return;
 };
 
 export const findSpecialNodeBefore = ($pos: ResolvedPos, tr: Transaction) => {
@@ -46,6 +47,7 @@ export const findSpecialNodeBefore = ($pos: ResolvedPos, tr: Transaction) => {
       return $pos.pos - 2;
     }
   }
+  return;
 };
 
 export default () => {

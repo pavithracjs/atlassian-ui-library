@@ -41,7 +41,7 @@ const quickInsertPlugin: EditorPlugin = {
         state,
         intl,
         { prevActive, queryChanged },
-        tr,
+        _tr,
         dispatch,
       ) => {
         analyticsService.trackEvent('atlassian.editor.quickinsert.query');
@@ -146,7 +146,7 @@ function quickInsertPluginFactory(
 
     view(editorView) {
       const providerHandler = (
-        name: string,
+        _name: string,
         providerPromise?: Promise<QuickInsertProvider>,
       ) => {
         if (providerPromise) {

@@ -10,7 +10,7 @@ import {
 } from '../_utils';
 
 ['action', 'decision', 'blockquote', 'codeblock', 'panel', 'table'].forEach(
-  (node, i) => {
+  node => {
     BrowserTestCase(
       `block-nodes.ts: Inserts ${node} and results in valid ADF`,
       { skip },

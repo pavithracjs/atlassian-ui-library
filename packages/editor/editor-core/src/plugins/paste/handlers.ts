@@ -91,7 +91,7 @@ export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
 
 export function handlePasteAsPlainText(
   slice: Slice,
-  event: ClipboardEvent,
+  _event: ClipboardEvent,
 ): Command {
   return (state: EditorState, dispatch?, view?: EditorView): boolean => {
     // In case of SHIFT+CMD+V ("Paste and Match Style") we don't want to run the usual
@@ -261,7 +261,7 @@ export function handleMacroAutoConvert(
 ): Command {
   return (
     state: EditorState,
-    dispatch?: CommandDispatch,
+    _dispatch?: CommandDispatch,
     view?: EditorView,
   ) => {
     const macro = runMacroAutoConvert(state, text);
@@ -301,7 +301,7 @@ export function handleMacroAutoConvert(
 }
 
 export function handleCodeBlock(text: string): Command {
-  return (state, dispatch, view) => {
+  return (state, dispatch) => {
     const { codeBlock } = state.schema.nodes;
     if (text && hasParentNodeOfType(codeBlock)(state.selection)) {
       const tr = closeHistory(state.tr);
@@ -322,7 +322,7 @@ function isOnlyMedia(state: EditorState, slice: Slice) {
 }
 
 export function handleMediaSingle(slice: Slice): Command {
-  return (state, dispatch, view) => {
+  return (state, _dispatch, view) => {
     if (view && isOnlyMedia(state, slice)) {
       return insertMediaAsMediaSingle(view, slice.content.firstChild!);
     }

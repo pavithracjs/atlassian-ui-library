@@ -129,7 +129,7 @@ const floatingToolbarPlugin: EditorPlugin = {
                 >
                   <ToolbarLoader
                     items={items}
-                    dispatchCommand={fn =>
+                    dispatchCommand={(fn?: Function) =>
                       fn && fn(editorView.state, editorView.dispatch)
                     }
                     editorView={editorView}
@@ -203,7 +203,7 @@ function floatingToolbarPluginFactory(options: {
       init: () => {
         ToolbarLoader.preload();
       },
-      apply(tr, pluginState, oldState, newState) {
+      apply(_tr, _pluginState, _oldState, newState) {
         const { intl } = reactContext();
         const activeConfigs = floatingToolbarHandlers
           .map(handler => handler(newState, intl, providerFactory))

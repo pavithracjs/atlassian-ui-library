@@ -9,7 +9,7 @@ import { CardsWrapper, Header } from '../example-helpers/styled';
 import { ContextFactory } from '@atlaskit/media-core';
 
 const mediaClient = createUserMediaClient();
-const context = ContextFactory.create(mediaClient.mediaClientConfig);
+const context = ContextFactory.create(mediaClient.config);
 
 const collectionName = 'recents';
 export interface ExampleState {

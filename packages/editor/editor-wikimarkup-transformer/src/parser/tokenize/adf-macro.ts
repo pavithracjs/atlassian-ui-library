@@ -12,11 +12,11 @@ export const adfMacro: TokenParser = ({ input, position, schema, context }) => {
 };
 
 const rawContentProcessor = (
-  rawAttrs: string,
+  _rawAttrs: string,
   rawContent: string,
   length: number,
   schema: Schema,
-  context: Context,
+  _context: Context,
 ): Token => {
   const json = JSON.parse(rawContent);
   const node = schema.nodeFromJSON(json);

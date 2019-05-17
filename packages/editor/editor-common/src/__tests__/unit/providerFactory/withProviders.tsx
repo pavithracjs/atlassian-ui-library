@@ -8,7 +8,7 @@ import {
 
 describe('WithProviders', () => {
   it('should pass multiple providers to UI component', () => {
-    const renderNode = (providers: Providers) => <div />;
+    const renderNode = () => <div />;
     const providerFactory = new ProviderFactory();
     providerFactory.setProvider('providerA', Promise.resolve());
     providerFactory.setProvider('providerB', Promise.resolve());

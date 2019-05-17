@@ -18,7 +18,6 @@ import {
 } from './commands';
 import RecentList from './ui/RecentSearch';
 import { EditorView } from 'prosemirror-view';
-import { DispatchAnalyticsEvent } from '../analytics';
 import { Mark } from 'prosemirror-model';
 import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
 import OpenIcon from '@atlaskit/icon/glyph/shortcut';
@@ -86,7 +85,6 @@ export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
   providerFactory,
-  dispatchAnalyticsEvent?,
 ) => {
   const linkState: HyperlinkState | undefined = stateKey.getState(state);
 
@@ -128,7 +126,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           items: [
             {
               type: 'button',
-              onClick: editInsertedLink(pos),
+              onClick: editInsertedLink(),
               selected: false,
               title: editLink,
               showTitle: true,
@@ -181,7 +179,6 @@ export const getToolbarConfig: FloatingToolbarHandler = (
               render: (
                 view?: EditorView,
                 idx?: number,
-                dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
               ):
                 | React.ComponentClass
                 | React.SFC
@@ -224,4 +221,5 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       }
     }
   }
+  return;
 };

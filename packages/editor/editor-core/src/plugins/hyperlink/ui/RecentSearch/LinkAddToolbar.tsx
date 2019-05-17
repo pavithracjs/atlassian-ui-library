@@ -389,7 +389,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     });
   };
 
-  private handleBlur = (type: string, e: FocusEvent) => {
+  private handleBlur = (type: string) => {
     const url = normalizeUrl(this.state.text);
     if (this.props.onBlur) {
       this.props.onBlur(
