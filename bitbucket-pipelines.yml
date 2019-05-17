@@ -553,8 +553,8 @@ pipelines:
             - source ./build-setup.sh
             - git merge master --no-edit
             - bolt install --pure-lockfile
-            - EXPORT input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem
-            - node build/ci-scripts/get.pkgs.in.team.js | xargs -n1 -P2 yarn measure --updateSnapshot
+            - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem
+            - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot
             - yarn measure --updateSnapshot
           # required to debug, may be we can remove this later  
           artifacts:
