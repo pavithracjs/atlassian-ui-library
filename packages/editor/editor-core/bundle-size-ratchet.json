@@ -43,8 +43,8 @@
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 164176,
-      "gzipSize": 31120
+      "size": 164369,
+      "gzipSize": 31205
     }
   },
   {
@@ -107,8 +107,8 @@
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2684085,
-      "gzipSize": 710071
+      "size": 2684305,
+      "gzipSize": 710168
     }
   }
 ]
