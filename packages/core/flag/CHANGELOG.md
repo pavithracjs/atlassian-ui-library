@@ -1,5 +1,10 @@
 # @atlaskit/flag
 
+## 11.0.1
+- [patch] [dccab11ef4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dccab11ef4):
+
+  - Fixed incorrect flag appearing after dismiss a previous one
+
 ## 11.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

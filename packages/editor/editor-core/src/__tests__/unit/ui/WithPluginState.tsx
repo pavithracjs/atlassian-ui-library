@@ -91,7 +91,7 @@ describe(name, () => {
           editorView={editorView}
           eventDispatcher={eventDispatcher}
           plugins={{ pluginState: pluginKey, plugin2State: pluginKey2 }}
-          render={({ currentPluginState }) => {
+          render={() => {
             renders++;
             return null;
           }}
@@ -143,7 +143,7 @@ describe(name, () => {
 
   it('should support old plugins with subscribe/unsubscribe methods', () => {
     const pluginState = {
-      cb(param?: any) {},
+      cb(_param?: any) {},
 
       update() {
         this.cb({ a: 1 });

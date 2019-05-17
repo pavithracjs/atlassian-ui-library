@@ -244,7 +244,6 @@ const calculateVerticalStickTop = ({
   popupOffsetParentHeight,
   popupOffsetParent,
 
-  popup,
   offset,
   position,
   placement,
@@ -459,10 +458,7 @@ export function calculatePosition({
   return position;
 }
 
-export function validatePosition(
-  position: Position,
-  popup: HTMLElement,
-): boolean {
+export function validatePosition(popup: HTMLElement): boolean {
   // popup.offsetParent does not exist if the popup element is not mounted
   if (!popup || !popup.offsetParent) {
     return false;

@@ -9,7 +9,7 @@ import { mediaGroup } from './media-group';
 export const listItem = (node: PMNode, prefix: string): string => {
   const result: string[] = [];
   let contentBuffer: string[] = [];
-  node.forEach((n, offset, index) => {
+  node.forEach(n => {
     switch (n.type.name) {
       case 'paragraph': {
         contentBuffer.push(paragraph(n));

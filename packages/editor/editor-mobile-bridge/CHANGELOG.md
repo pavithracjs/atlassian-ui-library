@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
 ## 8.2.4
 - [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
 

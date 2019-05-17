@@ -130,7 +130,7 @@ export default class Comment extends React.Component<Props, State> {
     }
   };
 
-  private onReply = (value: any, analyticsEvent: AnalyticsEvent) => {
+  private onReply = (_value: any, analyticsEvent: AnalyticsEvent) => {
     const { objectId, containerId } = this.props;
 
     fireEvent(analyticsEvent, {
@@ -189,7 +189,7 @@ export default class Comment extends React.Component<Props, State> {
     });
   };
 
-  private onDelete = (value: any, analyticsEvent: AnalyticsEvent) => {
+  private onDelete = (_value: any, analyticsEvent: AnalyticsEvent) => {
     const {
       comment: { nestedDepth, commentId },
       objectId,
@@ -222,7 +222,7 @@ export default class Comment extends React.Component<Props, State> {
     );
   };
 
-  private onEdit = (value: any, analyticsEvent: AnalyticsEvent) => {
+  private onEdit = (_value: any, analyticsEvent: AnalyticsEvent) => {
     const { objectId, containerId } = this.props;
 
     fireEvent(analyticsEvent, {
@@ -282,7 +282,7 @@ export default class Comment extends React.Component<Props, State> {
     });
   };
 
-  private onRequestCancel = (value: any, analyticsEvent: AnalyticsEvent) => {
+  private onRequestCancel = (_value: any, analyticsEvent: AnalyticsEvent) => {
     const { comment, onCancel, objectId, containerId } = this.props;
 
     // Invoke optional onCancel hook
@@ -299,7 +299,7 @@ export default class Comment extends React.Component<Props, State> {
     this.dispatch('onRevertComment', comment.conversationId, comment.commentId);
   };
 
-  private onRequestRetry = (value: any, analyticsEvent: AnalyticsEvent) => {
+  private onRequestRetry = (_value: any, analyticsEvent: AnalyticsEvent) => {
     const { lastDispatch } = this.state;
     const {
       objectId,

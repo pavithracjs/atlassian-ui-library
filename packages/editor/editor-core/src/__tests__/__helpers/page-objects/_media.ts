@@ -4,7 +4,7 @@ import { getBoundingRect, scrollToElement } from './_editor';
 
 import { snapshot } from '../../visual-regression/_utils';
 import commonMessages from '../../../messages';
-import { messages as mediaToolbarMessages } from '../../../plugins/media/toolbar';
+import { messages as mediaLayoutToolbarMessages } from '../../../plugins/media/toolbar/buildMediaLayoutButtons';
 
 export enum MediaLayout {
   center,
@@ -48,13 +48,13 @@ const LayoutSelectors = {
   },
   [MediaLayout.wrapLeft]: {
     button: `[aria-label="Media floating controls"] [aria-label="${
-      mediaToolbarMessages.wrapLeft.defaultMessage
+      mediaLayoutToolbarMessages.wrapLeft.defaultMessage
     }"]`,
     modifier: '.media-single.image-wrap-left',
   },
   [MediaLayout.wrapRight]: {
     button: `[aria-label="Media floating controls"] [aria-label="${
-      mediaToolbarMessages.wrapRight.defaultMessage
+      mediaLayoutToolbarMessages.wrapRight.defaultMessage
     }"]`,
     modifier: '.media-single.image-wrap-right',
   },

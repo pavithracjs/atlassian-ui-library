@@ -15,8 +15,8 @@ import { ErrorReportingHandler } from '@atlaskit/editor-common';
 
 describe('Media PickerFacade', () => {
   const errorReporter: ErrorReportingHandler = {
-    captureException: (err: any) => {},
-    captureMessage: (msg: any) => {},
+    captureException: () => {},
+    captureMessage: () => {},
   };
 
   const mediaClient = new MediaClient({

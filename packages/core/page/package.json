@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/page",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "description": "A component for building page layouts. Also includes the Grid and GridColumn components.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",

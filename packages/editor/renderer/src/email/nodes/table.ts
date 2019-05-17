@@ -18,7 +18,7 @@ const wrapperCss = serializeStyle({
 
 export const numberedColumnWidth = 42;
 
-export default function table({ attrs, text, node }: NodeSerializerOpts) {
+export default function table({ text, node }: NodeSerializerOpts) {
   let columnWidths = calcTableColumnWidths(node);
   if (node.attrs && node.attrs.isNumberColumnEnabled) {
     columnWidths = [numberedColumnWidth, ...columnWidths];

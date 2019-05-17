@@ -21,10 +21,7 @@ const filter = (predicates: Predicate[] | Predicate, cmd: Command): Command => {
   };
 };
 
-const isEmptySelectionAtStart = (
-  state: EditorState,
-  view?: EditorView,
-): boolean => {
+const isEmptySelectionAtStart = (state: EditorState): boolean => {
   const { empty, $from } = state.selection;
   return (
     empty &&
@@ -32,10 +29,7 @@ const isEmptySelectionAtStart = (
   );
 };
 
-const isFirstChildOfParent = (
-  state: EditorState,
-  view?: EditorView,
-): boolean => {
+const isFirstChildOfParent = (state: EditorState): boolean => {
   const { $from } = state.selection;
   return $from.depth > 1
     ? (state.selection instanceof GapCursorSelection &&

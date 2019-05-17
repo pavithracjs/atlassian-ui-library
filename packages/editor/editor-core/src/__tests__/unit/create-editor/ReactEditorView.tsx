@@ -118,7 +118,7 @@ describe(name, () => {
       const mediaNode = media({ id: '1', type: 'file', collection: '2' });
       const document = doc(p('Start'), mediaGroup(mediaNode()))(defaultSchema);
       const mediaProvider = storyMediaProviderFactory();
-      const wrapper = shallow(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           {...requiredProps()}
           editorProps={{
@@ -159,7 +159,7 @@ describe(name, () => {
     });
 
     it('should trigger editor started analytics event', () => {
-      mountWithIntl(
+      const wrapper = mountWithIntl(
         <ReactEditorView {...requiredProps()} {...analyticsProps()} />,
       );
 
@@ -169,6 +169,7 @@ describe(name, () => {
           actionSubject: 'editor',
         }),
       });
+      wrapper.unmount();
     });
 
     describe('when a transaction is dispatched', () => {
@@ -550,12 +551,7 @@ describe(name, () => {
             {...requiredProps()}
             {...analyticsProps()}
             allowAnalyticsGASV3={allowAnalyticsGASV3}
-            render={({
-              editor,
-              config,
-              eventDispatcher,
-              dispatchAnalyticsEvent,
-            }) => {
+            render={({ dispatchAnalyticsEvent }) => {
               dispatch = dispatchAnalyticsEvent;
               return <p>Component</p>;
             }}

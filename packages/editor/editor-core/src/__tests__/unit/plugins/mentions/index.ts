@@ -347,7 +347,7 @@ describe('mentionTypeahead', () => {
 
     it(
       'should trigger `mentionTypeahead` and `teamMentionTypeahead` analytics event',
-      withMentionQuery('team', ({ event, createAnalyticsEvent }) => {
+      withMentionQuery('team', ({ createAnalyticsEvent }) => {
         const commonAttrsTypeAhead = {
           componentName: 'mention',
           packageName: '@atlaskit/editor-core',
@@ -451,7 +451,7 @@ describe('mentionTypeahead', () => {
     describe('when selecting a team', () => {
       it(
         'should expand members when selecting a team mention ',
-        withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
+        withMentionQuery('Team Beta', ({ editorView }) => {
           // select Team Beta team
           selectCurrentItem()(editorView.state, editorView.dispatch);
           // should expand 2 members

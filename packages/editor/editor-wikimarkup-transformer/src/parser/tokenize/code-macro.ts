@@ -1,5 +1,5 @@
 import { Node as PMNode, Schema } from 'prosemirror-model';
-import { Token, TokenParser, Context } from '.';
+import { Token, TokenParser } from '.';
 import { commonMacro } from './common-macro';
 import { parseAttrs } from '../utils/attrs';
 import { title } from '../utils/title';
@@ -94,7 +94,6 @@ const rawContentProcessor = (
   rawContent: string,
   length: number,
   schema: Schema,
-  context: Context,
 ): Token => {
   const output: PMNode[] = [];
   const { codeBlock } = schema.nodes;

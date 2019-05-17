@@ -242,6 +242,7 @@ class ExampleEditorComponent extends React.Component<
       actions.focus();
       return false;
     }
+    return;
   };
 
   private handleTitleChange = (e: KeyboardEvent) => {

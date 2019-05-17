@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 48.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 48.2.0
+- [minor] [8555107bfd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8555107bfd):
+
+  - ensure that arbitary HTML does not get evaluated by email clients
+
 ## 48.1.4
 - [patch] [dfc7aaa563](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc7aaa563):
 

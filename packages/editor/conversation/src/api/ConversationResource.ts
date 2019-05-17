@@ -111,8 +111,8 @@ export class AbstractConversationResource implements ResourceProvider {
    * Retrieve the IDs (and meta-data) for all conversations associated with the container ID.
    */
   getConversations(
-    objectId: string,
-    containerId?: string,
+    _objectId: string,
+    _containerId?: string,
   ): Promise<Conversation[]> {
     return Promise.reject('Not implemented');
   }
@@ -132,11 +132,11 @@ export class AbstractConversationResource implements ResourceProvider {
    * Creates a new Conversation and associates it with the containerId provided.
    */
   create(
-    localId: string,
-    value: any,
-    meta: any,
-    objectId: string,
-    containerId?: string,
+    _localId: string,
+    _value: any,
+    _meta: any,
+    _objectId: string,
+    _containerId?: string,
   ): Promise<Conversation> {
     return Promise.reject('Not implemented');
   }
@@ -145,10 +145,10 @@ export class AbstractConversationResource implements ResourceProvider {
    * Adds a comment to a parent, or update if existing. ParentId can be either a conversation or another comment.
    */
   async addComment(
-    conversationId: string,
-    parentId: string,
-    doc: any,
-    localId?: string,
+    _conversationId: string,
+    _parentId: string,
+    _doc: any,
+    _localId?: string,
   ): Promise<Comment> {
     return Promise.reject('Not implemented');
   }
@@ -157,9 +157,9 @@ export class AbstractConversationResource implements ResourceProvider {
    * Updates a comment based on ID. Returns updated content
    */
   async updateComment(
-    conversationId: string,
-    commentId: string,
-    document: any,
+    _conversationId: string,
+    _commentId: string,
+    _document: any,
   ): Promise<Comment> {
     return Promise.reject('Not implemented');
   }
@@ -168,8 +168,8 @@ export class AbstractConversationResource implements ResourceProvider {
    * Deletes a comment based on ID. Returns updated comment.
    */
   async deleteComment(
-    conversationId: string,
-    commentId: string,
+    _conversationId: string,
+    _commentId: string,
   ): Promise<Pick<Comment, 'conversationId' | 'commentId' | 'deleted'>> {
     return Promise.reject('Not implemented');
   }
@@ -178,8 +178,8 @@ export class AbstractConversationResource implements ResourceProvider {
    * Reverts a comment based on ID.
    */
   async revertComment(
-    conversationId: string,
-    commentId: string,
+    _conversationId: string,
+    _commentId: string,
   ): Promise<Pick<Comment, 'conversationId' | 'commentId'>> {
     return Promise.reject('Not implemented');
   }
@@ -187,18 +187,18 @@ export class AbstractConversationResource implements ResourceProvider {
   /**
    * Updates a user in the store. Returns updated user
    */
-  async updateUser(user?: User): Promise<User | undefined> {
+  async updateUser(_user?: User): Promise<User | undefined> {
     return Promise.reject('Not implemented');
   }
 
   saveDraft(
-    isLocal: boolean,
-    value: any,
-    conversationId: string,
-    commentId: string | undefined,
-    meta: any,
-    objectId: string,
-    containerId?: string,
+    _isLocal: boolean,
+    _value: any,
+    _conversationId: string,
+    _commentId: string | undefined,
+    _meta: any,
+    _objectId: string,
+    _containerId?: string,
   ) {
     // Nothing to see here..
   }

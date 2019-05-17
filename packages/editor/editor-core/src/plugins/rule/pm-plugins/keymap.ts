@@ -1,5 +1,4 @@
 import { keymap } from 'prosemirror-keymap';
-import { Schema } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import * as commands from '../../../commands';
@@ -22,7 +21,7 @@ const insertRuleWithAnalytics = () =>
     eventType: EVENT_TYPE.TRACK,
   })(commands.insertRule());
 
-export function keymapPlugin(schema: Schema): Plugin {
+export function keymapPlugin(): Plugin {
   const list = {};
 
   keymaps.bindKeymapWithCommand(
@@ -34,13 +33,7 @@ export function keymapPlugin(schema: Schema): Plugin {
     list,
   );
 
-  keymaps.bindKeymapWithCommand(
-    keymaps.escape.common!,
-    (state: any, dispatch) => {
-      return true;
-    },
-    list,
-  );
+  keymaps.bindKeymapWithCommand(keymaps.escape.common!, () => true, list);
 
   return keymap(list);
 }

@@ -59,6 +59,7 @@ export const getPresetLayout = (section: Node): PresetLayout | undefined => {
     case '66.66,33.33':
       return 'two_right_sidebar';
   }
+  return;
 };
 
 export const createDefaultLayoutSection = (state: EditorState) => {
@@ -261,6 +262,7 @@ export const fixColumnStructure = (state: EditorState) => {
       return forceSectionToPresetLayout(state, node, pos, selectedLayout);
     }
   }
+  return;
 };
 
 export const deleteActiveLayoutNode: Command = (state, dispatch) => {

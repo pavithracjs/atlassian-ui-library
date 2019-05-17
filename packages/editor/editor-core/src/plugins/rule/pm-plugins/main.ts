@@ -5,7 +5,7 @@ import keymapPlugin from './keymap';
 import inputRulePlugin from './input-rule';
 
 const plugins = (schema: Schema) => {
-  return [inputRulePlugin(schema), keymapPlugin(schema)].filter(
+  return [inputRulePlugin(schema), keymapPlugin()].filter(
     plugin => !!plugin,
   ) as Plugin[];
 };

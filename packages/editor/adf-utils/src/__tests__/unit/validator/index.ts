@@ -251,7 +251,7 @@ describe('validate', () => {
     };
 
     const run = () => {
-      const result = validate(doc, x => undefined);
+      const result = validate(doc, _ => undefined);
       expect(result.entity).toMatchSnapshot();
     };
 

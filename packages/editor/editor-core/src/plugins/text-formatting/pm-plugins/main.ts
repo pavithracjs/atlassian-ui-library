@@ -90,13 +90,13 @@ const getTextFormattingState = (
 export const plugin = (dispatch: Dispatch) =>
   new Plugin({
     state: {
-      init(config, state: EditorState): TextFormattingState {
+      init(_config, state: EditorState): TextFormattingState {
         return getTextFormattingState(state);
       },
       apply(
-        tr,
+        _tr,
         pluginState: TextFormattingState,
-        oldState,
+        _oldState,
         newState,
       ): TextFormattingState {
         const state = getTextFormattingState(newState);
@@ -114,7 +114,7 @@ export const plugin = (dispatch: Dispatch) =>
         if (event.key === keymaps.moveRight.common) {
           return commands.moveRight()(state, dispatch);
         } else if (event.key === keymaps.moveLeft.common) {
-          return commands.moveLeft(view)(state, dispatch);
+          return commands.moveLeft()(state, dispatch);
         }
         return false;
       },

@@ -115,7 +115,7 @@ export class MediaPluginState {
 
     options.providerFactory.subscribe(
       'mediaProvider',
-      (name, provider?: Promise<MediaProvider>) =>
+      (_name, provider?: Promise<MediaProvider>) =>
         this.setMediaProvider(provider),
     );
 
@@ -236,6 +236,7 @@ export class MediaPluginState {
       const target = (node as HTMLElement).querySelector('.wrapper') || node;
       return target;
     }
+    return;
   }
 
   /**
@@ -344,7 +345,7 @@ export class MediaPluginState {
     }
 
     let rejectTimeout: number;
-    const timeoutPromise = new Promise((resolve, reject) => {
+    const timeoutPromise = new Promise((_resolve, reject) => {
       rejectTimeout = window.setTimeout(
         () =>
           reject(new Error(`Media operations did not finish in ${timeout} ms`)),
@@ -693,6 +694,7 @@ export class MediaPluginState {
       case 'dropzone':
         return INPUT_METHOD.DRAG_AND_DROP;
     }
+    return;
   };
 
   updateMediaNodeAttrs = (
@@ -792,6 +794,7 @@ export class MediaPluginState {
     ) {
       return selection.node;
     }
+    return;
   };
 
   private handleDrag = (dragState: 'enter' | 'leave') => {
@@ -827,7 +830,7 @@ export const getMediaPluginState = (state: EditorState) =>
   stateKey.getState(state) as MediaPluginState;
 
 export const createPlugin = (
-  schema: Schema,
+  _schema: Schema,
   options: MediaPluginOptions,
   reactContext: () => {},
   dispatch?: Dispatch,
@@ -838,7 +841,7 @@ export const createPlugin = (
 
   return new Plugin({
     state: {
-      init(config, state) {
+      init(_config, state) {
         return new MediaPluginState(
           state,
           options,
@@ -847,7 +850,7 @@ export const createPlugin = (
           dispatchAnalyticsEvent,
         );
       },
-      apply(tr, pluginState: MediaPluginState, oldState, newState) {
+      apply(tr, pluginState: MediaPluginState) {
         // remap editing media single position if we're in collab
         if (typeof pluginState.editingMediaSinglePos === 'number') {
           pluginState.editingMediaSinglePos = tr.mapping.map(

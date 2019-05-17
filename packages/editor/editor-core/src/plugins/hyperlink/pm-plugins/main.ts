@@ -103,7 +103,7 @@ const mapTransactionToState = (
       return { ...state, pos, node };
     }
     // If the position has been deleted, then require a navigation to show the toolbar again
-    return undefined;
+    return;
   } else if (state.type === InsertStatus.INSERT_LINK_TOOLBAR) {
     return {
       ...state,
@@ -111,6 +111,7 @@ const mapTransactionToState = (
       to: tr.mapping.map(state.to),
     };
   }
+  return;
 };
 
 const toState = (
@@ -183,6 +184,8 @@ const toState = (
         return state;
     }
   }
+
+  return;
 };
 
 const getActiveLinkMark = (
@@ -223,6 +226,7 @@ const getActiveText = (
   ) {
     return currentSlice.content.firstChild!.textContent;
   }
+  return;
 };
 
 export interface HyperlinkState {
@@ -254,7 +258,7 @@ export const plugin = (dispatch: Dispatch) =>
       apply(
         tr,
         pluginState: HyperlinkState,
-        oldState,
+        _oldState,
         newState,
       ): HyperlinkState {
         let state = pluginState;

@@ -8,6 +8,65 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+function trackers(page /*:any*/) {
+  let requests = new Set();
+  const onStarted = request => requests.add(request);
+  const onFinished = request => requests.delete(request);
+  page.on('request', onStarted);
+  page.on('requestfinished', onFinished);
+  page.on('requestfailed', onFinished);
+
+  return {
+    dispose() {
+      page.removeListener('request', onStarted);
+      page.removeListener('requestfinished', onFinished);
+      page.removeListener('requestfailed', onFinished);
+    },
+
+    inflightRequests() {
+      return Array.from(requests);
+    },
+  };
+}
+
+async function navigateToUrl(
+  page /*:any*/,
+  url /*:string*/,
+  failHandler /*:?(error: Error) => void*/,
+) {
+  if (page.url() === url) {
+    return;
+  }
+
+  // disable webpack, which breaks the 'networkidle0' setting
+  await page.setRequestInterception(true);
+  page.on('request', request => {
+    if (request.url().includes('xhr_streaming')) {
+      console.log('Aborted connection request to webpack xhr_streaming');
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
+
+  const tracker = trackers(page);
+  if (!failHandler) {
+    failHandler = error => {
+      console.warn('Navigation failed: ' + error.message);
+      console.warn('Trying to navigate to: ' + url);
+      const inflight = tracker.inflightRequests();
+      console.warn(
+        'Waiting on requests:\n' +
+          inflight.map(requests => '  ' + requests.url()).join('\n'),
+      );
+    };
+  }
+
+  // Track requests and log any hanging connections
+  await page.goto(url, { waitUntil: 'networkidle0' }).catch(failHandler);
+  tracker.dispose();
+}
+
 async function disableAllSideEffects(
   page /*: any */,
   allowSideEffects /*: Object */ = {},
@@ -146,7 +205,7 @@ async function waitForLoadedBackgroundImages(
         return Promise.race([
           new Promise((resolve, reject) => setTimeout(reject, raceTimeout)),
           Promise.all(
-            [...bgImageUrlSet].map(
+            Array.from(bgImageUrlSet).map(
               url =>
                 new Promise((resolve, reject) => {
                   const img = new Image();
@@ -164,12 +223,13 @@ async function waitForLoadedBackgroundImages(
     .catch(e => {
       console.warn(
         `waitForLoadedBackgroundImages: Failed to resolve background images within the threshold of ${timeoutMs} milliseconds`,
+        e,
       );
     });
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url);
   await disableAllAnimations(page);
   await disableAllTransitions(page);
   await disableCaretCursor(page);
@@ -198,7 +258,7 @@ async function loadExampleUrl(
     const currentUrl /*:string*/ = await page.url();
     if (currentUrl === url) return;
   }
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url);
   const errorMessage = await validateExampleLoaded(page);
 
   if (errorMessage) {
@@ -267,6 +327,7 @@ module.exports = {
   takeElementScreenShot,
   getExampleUrl,
   loadExampleUrl,
+  navigateToUrl,
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,

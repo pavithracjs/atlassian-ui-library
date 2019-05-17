@@ -1,5 +1,10 @@
 # @atlaskit/navigation
 
+## 35.1.0
+- [minor] [182db00870](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/182db00870):
+
+  - added aria-label for resizer button for better a11y
+
 ## 35.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

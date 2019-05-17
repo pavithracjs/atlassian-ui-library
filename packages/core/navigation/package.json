@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/navigation",
-  "version": "35.0.0",
+  "version": "35.1.0",
   "description": "A React component that renders a sidebar, for navigation purposes.",
   "license": "Apache-2.0",
   "module": "index.js",
