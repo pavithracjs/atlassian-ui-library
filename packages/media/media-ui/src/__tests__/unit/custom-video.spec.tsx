@@ -279,7 +279,7 @@ describe('<CustomMediaPlayer />', () => {
       expect(subscription.unsubscribe).toBeCalledTimes(1);
     });
 
-    it('should trigger Simultaneous Play onClick callback when click play button', () => {
+    it('should trigger Simultaneous Play onClick when click play button', () => {
       const { component } = setup({ isAutoPlay: false });
 
       component
@@ -289,8 +289,19 @@ describe('<CustomMediaPlayer />', () => {
       expect(subscription.onPlay).toHaveBeenCalledTimes(1);
     });
 
-    it('should trigger Simultaneous Play onClick callback if autoplay in ON', () => {
+    it('should trigger Simultaneous Play onClick if autoplay in ON', () => {
       setup({ isAutoPlay: true });
+      expect(subscription.onPlay).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger Simultaneous Play onClick after requesting full screen', () => {
+      const { component } = setup({ isAutoPlay: true });
+
+      component
+        .find(Button)
+        .last()
+        .simulate('click');
+
       expect(subscription.onPlay).toHaveBeenCalledTimes(1);
     });
   });
