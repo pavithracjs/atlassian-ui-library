@@ -1,0 +1,1 @@
+- Add support for Global Invite button and drawer
