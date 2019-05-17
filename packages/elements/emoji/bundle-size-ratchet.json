@@ -76,11 +76,7 @@
     "name": "main",
     "stats": {
       "size": 459962,
-<<<<<<< HEAD
-      "gzipSize": 125512
-=======
       "gzipSize": 125520
->>>>>>> Updated bundle size snapshots
     }
   },
   {

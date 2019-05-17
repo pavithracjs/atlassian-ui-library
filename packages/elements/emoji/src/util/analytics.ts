@@ -144,12 +144,12 @@ const extractCommonAttributes = (
   };
 };
 
-export const typeAheadCancelledEvent = (
+export const typeaheadCancelledEvent = (
   duration: number,
   query?: string,
   emojiList?: EmojiDescription[],
 ) =>
-  createEvent('ui', 'cancelled', 'emojiTypeAhead', '', {
+  createEvent('ui', 'cancelled', 'emojiTypeahead', undefined, {
     duration,
     ...extractCommonAttributes(query, emojiList),
   });
@@ -165,31 +165,35 @@ const getPosition = (
   return;
 };
 
-export const typeAheadSelectedEvent = (
+export const typeaheadSelectedEvent = (
   pressed: boolean,
   duration: number,
   emoji: EmojiDescription,
   emojiList?: EmojiDescription[],
   query?: string,
-  skinToneModifier?: string,
   exactMatch?: boolean,
 ) =>
-  createEvent('ui', pressed ? 'pressed' : 'clicked', 'emojiTypeAhead', '', {
-    baseEmojiId: emoji.id,
-    duration,
-    position: getPosition(emojiList, emoji),
-    ...extractCommonAttributes(query, emojiList),
-    emojiType: emoji.type,
-    skinToneModifier,
-    exactMatch: exactMatch || false,
-  });
+  createEvent(
+    'ui',
+    pressed ? 'pressed' : 'clicked',
+    'emojiTypeahead',
+    undefined,
+    {
+      baseEmojiId: emoji.id,
+      duration,
+      position: getPosition(emojiList, emoji),
+      ...extractCommonAttributes(query, emojiList),
+      emojiType: emoji.type,
+      exactMatch: exactMatch || false,
+    },
+  );
 
-export const typeAheadRenderedEvent = (
+export const typeaheadRenderedEvent = (
   duration: number,
   query?: string,
   emojiList?: EmojiDescription[],
 ) =>
-  createEvent('operational', 'rendered', 'emojiTypeAhead', '', {
+  createEvent('operational', 'rendered', 'emojiTypeahead', undefined, {
     duration,
     ...extractCommonAttributes(query, emojiList),
   });

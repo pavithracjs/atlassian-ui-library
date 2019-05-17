@@ -35,9 +35,9 @@ import { toEmojiId } from '../../../../util/type-helpers';
 import { Props as TypeAheadProps } from '../../../../components/typeahead/EmojiTypeAhead';
 import { State as TypeAheadState } from '../../../../components/typeahead/EmojiTypeAheadComponent';
 import {
-  typeAheadCancelledEvent,
-  typeAheadRenderedEvent,
-  typeAheadSelectedEvent,
+  typeaheadCancelledEvent,
+  typeaheadRenderedEvent,
+  typeaheadSelectedEvent,
 } from '../../../../util/analytics';
 
 function setupTypeAhead(props?: Props): Promise<ReactWrapper<any, any>> {
@@ -215,7 +215,7 @@ describe('EmojiTypeAhead', () => {
           expect.objectContaining(
             withEmojiIds(
               withSessionId(
-                typeAheadSelectedEvent(
+                typeaheadSelectedEvent(
                   false,
                   expect.any(Number),
                   choseEmoji!,
@@ -367,13 +367,13 @@ describe('EmojiTypeAhead', () => {
       waitUntil(() => doneLoading(component)).then(() => {
         expect(fireEventSpy).toHaveBeenCalledWith(
           withEmojiIds(
-            withSessionId(typeAheadRenderedEvent(expect.any(Number))),
+            withSessionId(typeaheadRenderedEvent(expect.any(Number))),
           ),
         );
         component.unmount();
         expect(fireEventSpy).toHaveBeenCalledWith(
           withEmojiIds(
-            withSessionId(typeAheadCancelledEvent(expect.any(Number))),
+            withSessionId(typeaheadCancelledEvent(expect.any(Number))),
           ),
         );
       }),
@@ -491,13 +491,12 @@ describe('EmojiTypeAhead', () => {
           expect.objectContaining(
             withEmojiIds(
               withSessionId(
-                typeAheadSelectedEvent(
+                typeaheadSelectedEvent(
                   true,
                   expect.any(Number),
                   grinEmoji,
                   [grinEmoji],
                   ':grin:',
-                  undefined,
                   true,
                 ),
               ),

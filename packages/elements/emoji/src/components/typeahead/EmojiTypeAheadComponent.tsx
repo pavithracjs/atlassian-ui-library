@@ -16,9 +16,9 @@ import {
 } from '../../types';
 import debug from '../../util/logger';
 import {
-  typeAheadCancelledEvent,
-  typeAheadSelectedEvent,
-  typeAheadRenderedEvent,
+  typeaheadCancelledEvent,
+  typeaheadSelectedEvent,
+  typeaheadRenderedEvent,
 } from '../../util/analytics';
 import { EmojiContext } from '../common/internal-types';
 import { createRecordSelectionDefault } from '../common/RecordSelectionDefault';
@@ -83,34 +83,6 @@ const uniqueExactShortNameMatchIndex = (
   return matchIndex;
 };
 
-type EventFirer = (payload: AnalyticsEventPayload) => void;
-
-const getEventFirer = (
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
-): EventFirer => {
-  let sessionId = uuid();
-  let selected = false;
-  const fireEvent = (payload: AnalyticsEventPayload): void => {
-    if (!createAnalyticsEvent) {
-      return;
-    }
-    payload.attributes.sessionId = sessionId;
-    if (payload.action === 'clicked' || payload.action === 'pressed') {
-      selected = true;
-    } else if (payload.action === 'cancelled') {
-      sessionId = uuid();
-      if (selected) {
-        selected = false;
-        return;
-      }
-      selected = false;
-    }
-    createAnalyticsEvent(payload).fire('fabric-elements');
-  };
-
-  return fireEvent;
-};
-
 export default class EmojiTypeAheadComponent extends PureComponent<
   Props,
   State
@@ -130,9 +102,10 @@ export default class EmojiTypeAheadComponent extends PureComponent<
 
   private openTime: number = 0;
   private renderStartTime: number = 0;
-  private fireAnalyticsEvent: EventFirer;
   private selectedTone: ToneSelection;
   private pressed: boolean;
+  private sessionId: string;
+  private selected: boolean;
 
   constructor(props: Props) {
     super(props);
@@ -146,9 +119,10 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     }
     this.openTime = Date.now();
     this.renderStartTime = this.openTime;
-    this.fireAnalyticsEvent = getEventFirer(props.createAnalyticsEvent);
     this.selectedTone = props.emojiProvider.getSelectedTone();
     this.pressed = false;
+    this.sessionId = uuid();
+    this.selected = false;
   }
 
   getChildContext(): EmojiContext {
@@ -169,9 +143,13 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojiProvider, query } = this.props;
     const { emojis } = this.state;
     emojiProvider.unsubscribe(this.onProviderChange);
-    this.fireAnalyticsEvent(
-      typeAheadCancelledEvent(Date.now() - this.openTime, query, emojis),
-    );
+    if (!this.selected) {
+      this.fireAnalyticsEvent(
+        typeaheadCancelledEvent(Date.now() - this.openTime, query, emojis),
+      );
+    }
+    this.sessionId = uuid();
+    this.selected = false;
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -220,6 +198,15 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       : undefined;
   };
 
+  private fireAnalyticsEvent(payload: AnalyticsEventPayload) {
+    if (!this.props.createAnalyticsEvent) {
+      return;
+    }
+    payload.attributes.sessionId = this.sessionId;
+
+    this.props.createAnalyticsEvent(payload).fire('fabric-elements');
+  }
+
   private onSearch(query?: string) {
     const { emojiProvider, listLimit } = this.props;
     const options: SearchOptions = {
@@ -244,7 +231,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const wasVisible = this.state.visible;
     const visible = emojis.length > 0;
     this.fireAnalyticsEvent(
-      typeAheadRenderedEvent(Date.now() - this.renderStartTime, query, emojis),
+      typeaheadRenderedEvent(Date.now() - this.renderStartTime, query, emojis),
     );
     debug(
       'emoji-typeahead.applyPropChanges',
@@ -292,14 +279,15 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { query } = this.props;
     const { emojis } = this.state;
 
+    this.selected = true;
+
     this.fireAnalyticsEvent(
-      typeAheadSelectedEvent(
+      typeaheadSelectedEvent(
         exactMatch || this.pressed,
         Date.now() - this.openTime,
         emoji,
         emojis,
         query,
-        this.getTone(this.selectedTone),
         exactMatch,
       ),
     );
