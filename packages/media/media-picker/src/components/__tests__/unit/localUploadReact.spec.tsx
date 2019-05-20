@@ -39,7 +39,7 @@ class DummyLocalUploadComponent extends LocalUploadComponentReact<
   }
 }
 
-describe('Clipboard', () => {
+describe('LocalUploadReact', () => {
   let localUploadComponent: ReactWrapper<DummyLocalUploadComponent>;
   let localUploadComponentInstance: DummyLocalUploadComponent;
   const onUploadsStart = jest.fn();
@@ -74,6 +74,10 @@ describe('Clipboard', () => {
 
     localUploadComponentInstance = localUploadComponent.instance() as DummyLocalUploadComponent;
     uploadComponent = (localUploadComponentInstance as any).uploadComponent;
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it('should call uploadComponent.emitUploadsStart with proper arguments', () => {
