@@ -1,4 +1,3 @@
-// @flow
 import { getColumnWidth } from '../../internal/GridColumnElement';
 
 import { name } from '../../version.json';
