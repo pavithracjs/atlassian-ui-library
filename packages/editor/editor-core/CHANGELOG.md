@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.3.0
+- [minor] [f53003a5ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f53003a5ed):
+
+  - ED-6741 Add 'appearance' to all editor analytics events
+
 ## 112.2.10
 - [patch] [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
 
