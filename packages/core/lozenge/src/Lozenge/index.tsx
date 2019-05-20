@@ -5,7 +5,7 @@ import Content from './Content';
 import { Theme, ThemeAppearance, ThemeProps, ThemeTokens } from '../theme';
 
 interface Props {
-  /** The appearance interface. */
+  /** The appearance type. */
   appearance: ThemeAppearance;
 
   /** Elements to be rendered inside the lozenge. This should ideally be just a word or two. */

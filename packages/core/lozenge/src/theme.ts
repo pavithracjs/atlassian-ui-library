@@ -4,7 +4,7 @@ import { colors, createTheme } from '@atlaskit/theme';
  * Lozenge does not support dark mode at the moment.
  * Hence, color values are the same.
  */
-export const backgroundColor = {
+export const defaultBackgroundColor = {
   default: { light: colors.N40, dark: colors.N40 },
   inprogress: { light: colors.B50, dark: colors.B50 },
   moved: { light: colors.Y75, dark: colors.Y75 },
@@ -13,7 +13,7 @@ export const backgroundColor = {
   success: { light: colors.G50, dark: colors.G50 },
 };
 
-export const textColor = {
+export const defaultTextColor = {
   default: { light: colors.N500, dark: colors.N500 },
   inprogress: { light: colors.B500, dark: colors.B500 },
   moved: { light: colors.N800, dark: colors.N800 },
@@ -65,19 +65,21 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(
   ({ appearance, isBold, maxWidth }) => ({
     ...(typeof appearance === 'object'
       ? {
-          backgroundColor: (isBold ? boldBackgroundColor : backgroundColor)
-            .default.light,
-          textColor: (isBold ? boldTextColor : textColor).default.light,
+          backgroundColor: (isBold
+            ? boldBackgroundColor
+            : defaultBackgroundColor
+          ).default.light,
+          textColor: (isBold ? boldTextColor : defaultTextColor).default.light,
           ...appearance,
         }
       : {
           backgroundColor: (isBold
             ? boldBackgroundColor[appearance]
-            : backgroundColor[appearance]
+            : defaultBackgroundColor[appearance]
           ).light,
           textColor: (isBold
             ? boldTextColor[appearance]
-            : textColor[appearance]
+            : defaultTextColor[appearance]
           ).light,
         }),
     maxWidth,

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ReactChild } from 'react';
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import { borderRadius } from '@atlaskit/theme';
 import { ThemeTokens } from '../theme';
@@ -7,7 +7,7 @@ import { ThemeTokens } from '../theme';
 const BORDER_RADIUS = `${borderRadius()}px`;
 
 interface ThemeTokensWithChildren extends ThemeTokens {
-  children?: ReactChild;
+  children?: ReactNode;
 }
 
 export default ({
