@@ -44,7 +44,7 @@ describe('Simultaneous Play Manager', () => {
     expect(videoThree.pause).toBeCalledTimes(1);
   });
 
-  it.only('should subscribe players only once', () => {
+  it('should subscribe players only once', () => {
     const videoOne = new DummyVideo(); // Subscribes
     videoOne.subscription = simultaneousPlayManager.subscribe(videoOne.pause); // tries to subscribe again
 
