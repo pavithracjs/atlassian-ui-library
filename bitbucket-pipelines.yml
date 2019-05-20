@@ -499,11 +499,11 @@ pipelines:
             - source ./build-setup.sh
             - bolt install --pure-lockfile
             - yarn measure:dependents --s3
-            - mkdir ./bundleSizeArtifacts && find . -name '*-bundle-size.json' -not -path "./node_modules/*" -exec cp {} ./bundleSizeArtifacts \;
-            - echo "[" > merged-file.json; for file in bundleSizeArtifacts/*; do sed 's/^/\t/;$s/$/,/' "$file" >> merged-file.json; done; sed -i '$s/,/\n]/' merged-file.json
-            - node build/ci-scripts/upload.build.artefact.for.commit.js merged-file.json
+            - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize/
+            - node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged-file.json
           artifacts:
-              - bundleSizeArtifacts/**  
+            # Remove this adding for debugging 
+            - .currentBundleSize/**  
           caches:
             - node        
     

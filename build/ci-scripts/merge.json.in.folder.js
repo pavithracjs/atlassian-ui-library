@@ -2,28 +2,36 @@ const fs = require('fs');
 const path = require('path');
 const exec = require('child_process').execSync;
 const input = path.join(process.cwd(), process.argv[2]);
-const readFiles = () => {
-  const files = fs.readdirSync(input);
+
+const mergeJSONFiles = () => {
   const output = path.join(input, 'merged.json');
-
-  const jsonFiles = files
-    .filter(filename => {
-      return filename.includes('.json');
-    })
-    .map(file => {
-      const content = fs.readFileSync(path.join(input, file));
-      console.log(content);
-      return content;
-    });
-
-  if (fs.existsSync(output)) {
+  if (exists(output)) {
+    console.log('remove file if exist', output);
     try {
-      console.log('deleting merged file');
       exec(`rm -rf ${output}`);
     } catch (e) {}
   }
 
-  fs.writeFileSync(output, jsonFiles, 'utf-8');
+  const files = fs.readdirSync(input);
+
+  const jsonFiles = files.reduce((acc, filename) => {
+    if (filename.includes('.json')) {
+      const content = JSON.parse(fs.readFileSync(path.join(input, filename)));
+      acc.push(...content);
+    }
+    return acc;
+  }, []);
+
+  fs.writeFileSync(output, JSON.stringify(jsonFiles), 'utf-8');
 };
 
-(() => readFiles())();
+function exists(filePath) {
+  try {
+    fs.accessSync(filePath);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+(() => mergeJSONFiles())();
