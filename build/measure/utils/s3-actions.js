@@ -34,7 +34,7 @@ function isAWSAccessible() {
   return true;
 }
 
-function downloadFromS3(pathToFolder, branch) {
+function downloadFromS3(downloadToFolder, branch) {
   if (!isAWSAccessible()) {
     process.exit(1);
   }
@@ -60,7 +60,7 @@ function downloadFromS3(pathToFolder, branch) {
       const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
 
       npmRun.sync(
-        `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${pathToFolder}/${ratchetFile}`,
+        `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
       );
     });
   })();

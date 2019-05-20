@@ -17,4 +17,12 @@ function fExists(filePath) {
   }
 }
 
-module.exports = { fStats, fExists };
+function fDelete(dir) {
+  if (fExists(dir)) {
+    try {
+      exec(`rm -rf ${dir}`);
+    } catch (e) {}
+  }
+}
+
+module.exports = { fStats, fExists, fDelete };
