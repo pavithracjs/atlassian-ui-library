@@ -314,7 +314,7 @@ const getPostQueryResults = (sessionId: string, product: QuickSearchContext) =>
     ? getJiraPostQueryResults()
     : getConfluencePostQueryResults();
 
-const getPreqQueryResults = (sessionId: string, product: QuickSearchContext) =>
+const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
   product === 'jira'
     ? getJiraPreqQueryResults(sessionId)
     : getConfluencePreQueryResults(sessionId);
@@ -402,7 +402,7 @@ const getPreqQueryResults = (sessionId: string, product: QuickSearchContext) =>
         const preQueryGroups = getPreQueryGroups();
 
         expect(preQueryGroups).toMatchObject(
-          getPreqQueryResults(sessionId, product),
+          getPreQueryResults(sessionId, product),
         );
       });
 
