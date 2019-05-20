@@ -6,11 +6,11 @@ const chalk = require('chalk').default;
 const masterStatsFolder = createDir('./.masterBundleSize');
 const currentStatsFolder = createDir('./.currentBundleSize');
 
-// const BITBUCKET_COMMIT = process.env.BITBUCKET_COMMIT;
-// const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-// const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-// const BUCKET_NAME = 'atlaskit-artefacts';
-// const BUCKET_REGION = 'ap-southeast-2';
+const BITBUCKET_COMMIT = process.env.BITBUCKET_COMMIT;
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+const BUCKET_NAME = 'atlaskit-artefacts';
+const BUCKET_REGION = 'ap-southeast-2';
 
 function createDir(dir) {
   if (!fs.existsSync(dir)) {
