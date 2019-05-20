@@ -42,6 +42,10 @@ async function navigateToUrl(
   // Disable Webpack's HMR, as it negatively impacts usage of the 'networkidle0' setting.
   await page.setRequestInterception(true);
   page.on('request', request => {
+    if (request._interceptionHandled) {
+      return;
+    }
+
     if (request.url().includes('xhr_streaming')) {
       console.log('Aborted connection request to webpack xhr_streaming');
       request.abort();
