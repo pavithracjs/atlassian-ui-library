@@ -11,6 +11,7 @@ function themedVariants(variantProp: string, variants?: VariantModes) {
   return (props?: ThemeProps & VariantModes) => {
     const theme = getTheme(props); // returns Theme
     if (props && props.variantProp && variants) {
+      // @ts-ignore
       const modes = variants[props[variantProp]];
       if (modes) {
         return modes[theme.mode];
@@ -25,6 +26,7 @@ export default function themed(
   variantModes?: VariantModes,
 ): ThemedValue {
   if (typeof modesOrVariant === 'string') {
+    // @ts-ignore
     return themedVariants(modesOrVariant, variantModes);
   }
   const modes = modesOrVariant;

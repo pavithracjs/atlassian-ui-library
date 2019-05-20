@@ -3,10 +3,6 @@ import styled, { css } from 'styled-components';
 import * as colors from '../colors';
 import { createTheme, ThemeProp } from '../utils/createTheme';
 
-type LooseObject = {
-  [key: string]: any;
-};
-
 export type ResetThemeProps = any;
 export type ResetThemeTokens = {
   backgroundColor: string;
@@ -18,13 +14,14 @@ export type ResetThemeTokens = {
   headingColor?: string;
   subtleHeadingColor?: string;
   subtleTextColor?: string;
-} & LooseObject;
+  [key: string]: any;
+};
 
 // TODO: TS no index signature for ResetThemeTokens
 // TODO: TS style components types
 const orTextColor = (preferred: string) => (p: ResetThemeTokens) =>
   p[preferred] || p.textColor;
-const Div = styled.div`
+const Div = styled.div<{ backgroundColor: string; textColor: string }>`
   ${p => css`
     background-color: ${p.backgroundColor};
     color: ${p.textColor};
@@ -78,7 +75,7 @@ export function Reset(props: {
   return (
     <ResetTheme.Provider value={props.theme}>
       <ResetTheme.Consumer>
-        {(tokens: { [key: string]: string }) => {
+        {(tokens: ResetThemeTokens) => {
           return (
             <Div {...{ ...tokens, mode: undefined }} {...props}>
               {props.children}
