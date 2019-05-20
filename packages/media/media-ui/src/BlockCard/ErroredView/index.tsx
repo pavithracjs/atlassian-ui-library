@@ -5,6 +5,8 @@ import { colors } from '@atlaskit/theme';
 import { CollapsedFrame } from '../CollapsedFrame';
 import { minWidth, maxWidth } from '../dimensions';
 import { CollapsedIconTitleDescriptionLayout } from '../CollapsedIconTitleDescriptionLayout';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
 
 export interface BlockCardErroredViewProps {
   /** The url to display */
@@ -58,7 +60,7 @@ export class BlockCardErroredView extends React.Component<
                   spacing="none"
                   onClick={this.handleRetry}
                 >
-                  Try again
+                  <FormattedMessage {...messages.try_again} />
                 </Button>
               )}
             </>
