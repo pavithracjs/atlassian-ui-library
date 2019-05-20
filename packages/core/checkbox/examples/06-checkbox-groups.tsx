@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Checkbox } from '../src';
 
@@ -7,7 +7,7 @@ const GroupDiv = styled.div`
   flex-direction: ${(prop: { flexDirection: string }) => prop.flexDirection};
 `;
 
-export default class CheckboxGroups extends React.Component<
+export default class CheckboxGroups extends Component<
   void,
   { flexDirection?: string }
 > {

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { Checkbox } from '../src';
 
-export default class ControlledExample extends React.Component<void> {
+export default class ControlledExample extends Component<void> {
   render() {
     return (
       <div>

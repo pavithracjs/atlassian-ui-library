@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export type ChildrenType = React.ReactChild;
 export type ComponentType = React.Component<{}, {}>;

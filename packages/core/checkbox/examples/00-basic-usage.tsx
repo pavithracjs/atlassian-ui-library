@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import { Checkbox } from '../src';
 
 interface State {
   onChangeResult: string;
 }
 
-const BasicUsageExample = class extends React.PureComponent<void, State> {
+const BasicUsageExample = class extends PureComponent<void, State> {
   state = {
     onChangeResult: 'Check & Uncheck to trigger onChange',
   };

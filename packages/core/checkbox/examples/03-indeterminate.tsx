@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import { Checkbox } from '../src';
 
 interface CheckedItems {
@@ -25,10 +25,7 @@ const getIsParentIndeterminate = (checkedItems: CheckedItems) => {
   return checkedChildrenCount > 0 && checkedChildrenCount < 2;
 };
 
-export default class IndeterminateExample extends React.PureComponent<
-  void,
-  State
-> {
+export default class IndeterminateExample extends PureComponent<void, State> {
   state = {
     checkedItems: {
       [PARENT_ID]: false,

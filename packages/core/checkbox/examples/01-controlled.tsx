@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import { Checkbox } from '../src';
 
 interface State {
@@ -6,10 +6,7 @@ interface State {
   onChangeResult: string;
 }
 
-export default class ControlledExample extends React.PureComponent<
-  void,
-  State
-> {
+export default class ControlledExample extends PureComponent<void, State> {
   state = {
     isChecked: false,
     onChangeResult: 'Check & Uncheck to trigger onChange',

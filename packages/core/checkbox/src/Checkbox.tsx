@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -27,7 +27,7 @@ interface State {
 
 const emptyTheme = {};
 
-class Checkbox extends React.Component<CheckboxProps, State> {
+class Checkbox extends Component<CheckboxProps, State> {
   static defaultProps = {
     isDisabled: false,
     isInvalid: false,

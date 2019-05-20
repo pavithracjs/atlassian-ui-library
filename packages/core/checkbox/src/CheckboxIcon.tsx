@@ -1,13 +1,10 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import Icon from '@atlaskit/icon/glyph/checkbox';
 import CheckboxIndeterminateIcon from '@atlaskit/icon/glyph/checkbox-indeterminate';
 import { IconWrapper } from './styled/Checkbox';
 import { CheckboxIconProps } from './types';
 
-export default class CheckboxIcon extends React.Component<
-  CheckboxIconProps,
-  {}
-> {
+export default class CheckboxIcon extends Component<CheckboxIconProps, {}> {
   static defaultProps = {
     primaryColor: 'inherit',
     secondaryColor: 'inherit',
