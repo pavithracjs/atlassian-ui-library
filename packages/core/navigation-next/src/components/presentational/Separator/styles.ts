@@ -1,7 +1,5 @@
-// @flow
-
 import { colors, gridSize } from '@atlaskit/theme';
-import type { ModeColors } from '../../../theme/types';
+import { ModeColors } from '../../../theme/ts-types';
 
 const dividerLineHeight = 2;
 const dividerTotalHeight = gridSize() * 5;

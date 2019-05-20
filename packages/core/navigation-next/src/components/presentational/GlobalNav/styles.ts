@@ -1,8 +1,6 @@
-// @flow
-
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
 import { GLOBAL_NAV_WIDTH } from '../../../common/constants';
-import type { ModeColors } from '../../../theme/types';
+import { ModeColors } from '../../../theme/ts-types';
 
 const gridSize = gridSizeFn();
 
@@ -21,16 +19,12 @@ const baseStyles = {
 };
 
 export default ({ product }: ModeColors) => (
-  {
-    topOffset,
-  }: {
-    topOffset: string,
-  } = {
-    topOffset: '0',
-  },
+  args: {
+    topOffset: string;
+  } | void,
 ) => ({
   ...baseStyles,
-  height: `calc(100vh - ${topOffset}px)`,
+  height: `calc(100vh - ${(args && args.topOffset) || 0}px)`,
   backgroundColor: product.background.default,
   color: product.text.default,
   fill: product.background.default,

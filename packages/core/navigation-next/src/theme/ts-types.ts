@@ -15,7 +15,7 @@ type GlobalItemPresentationProps = {
 };
 
 // Fixme - move to global types
-type GlobalNavigationComponentTheme<
+export type GlobalNavigationComponentTheme<
   Props extends {} | void,
   Styles extends {}
 > = (props: Props) => Styles;
@@ -69,7 +69,7 @@ type ContentNavigationComponentTheme<Props extends {} | void> = (
 export type Mode = {
   // Allow GlobalItemPresentationProps to be optional, need to spread it into an
   // object type since $Shape allows void/undefined instead of always enforcing an object
-  gloablItem: GlobalNavigationComponentTheme<
+  globalItem: GlobalNavigationComponentTheme<
     Partial<GlobalItemPresentationProps>,
     GlobalItemStyles
   >;
@@ -97,4 +97,43 @@ export type Theme = GlobalTheme | ProductTheme | void;
 
 export type WithThemeProps = {
   theme: Theme;
+};
+
+export type StyleReducer = (
+  Styles: ObjectType,
+  State?: ObjectType,
+  Theme?: ProductTheme,
+) => ObjectType;
+
+export type ContextColors = {
+  background: {
+    /**
+     * Color provided to the mode generator */
+    default: string;
+    /**
+     * Generated color, usually brighter
+     * Used as nav item hover background */
+    hint: string;
+    /**
+     * Generated color, gentle variation over default
+     * Used as nav item active background */
+    interact: string;
+    /**
+     * Generated color, either lighter or darker of default
+     * Used as nav item selected background, separator background, ... */
+    static: string;
+  };
+  text: {
+    /**
+     * Color provided to the mode generator */
+    default: string;
+    /**
+     * Generated color, slighly faded out
+     * Used as nav item sub text color and group headings color */
+    subtle: string;
+  };
+};
+
+export type ModeColors = {
+  product: ContextColors;
 };

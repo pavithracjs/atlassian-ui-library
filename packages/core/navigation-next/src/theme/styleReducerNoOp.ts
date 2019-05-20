@@ -1,6 +1,4 @@
-// @flow
-
-import type { StyleReducer } from './types';
+import { StyleReducer } from './ts-types';
 
 const styleReducerNoOp: StyleReducer = styles => styles;
 

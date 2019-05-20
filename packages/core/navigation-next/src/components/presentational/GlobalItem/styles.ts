@@ -1,7 +1,5 @@
-// @flow
-
 import { colors, gridSize } from '@atlaskit/theme';
-import type { Mode, ModeColors } from '../../../theme/types';
+import { Mode, ModeColors } from '../../../theme/ts-types';
 
 const baseStyles = {
   itemBase: {
@@ -59,9 +57,7 @@ const sizeStyles = {
   },
 };
 
-export default ({
-  product,
-}: ModeColors): $PropertyType<Mode, 'globalItem'> => ({
+export default ({ product }: ModeColors): Mode['globalItem'] => ({
   isActive,
   isHover,
   isSelected,

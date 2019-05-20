@@ -1,7 +1,5 @@
-// @flow
-
 import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
-import type { ModeColors } from '../../../theme/types';
+import { ModeColors } from '../../../theme/ts-types';
 
 const gridSize = gridSizeFn();
 const fontSize = 11;
@@ -32,8 +30,8 @@ const baseStyles = {
 };
 
 type GroupHeadingModeColors = {
-  product: any,
-  container: any,
+  product: any;
+  container: any;
 };
 
 export default ({ product }: ModeColors) => (): GroupHeadingModeColors => ({

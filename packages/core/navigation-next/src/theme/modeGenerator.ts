@@ -1,6 +1,6 @@
 // TODO: @atlassian/navigation package is the only other package that uses chromatism (currently).
 // We should update to chromatism@3.0.0 once @atlassian/navigation package is deprecated.
-import chromatism from 'chromatism';
+import chromatism, { ColourModes } from 'chromatism';
 
 import globalItemStyles from '../components/presentational/GlobalItem/styles';
 import globalNavStyles from '../components/presentational/GlobalNav/styles';
@@ -11,16 +11,29 @@ import separatorStyles from '../components/presentational/Separator/styles';
 import sectionStyles from '../components/presentational/Section/styles';
 import skeletonItemStyles from '../components/presentational/SkeletonItem/styles';
 
-import type { Mode, ContextColors } from './types';
+import { Mode, ContextColors } from './ts-types';
+import HSL = ColourModes.HSL;
+import HEX = ColourModes.HEX;
 
-type Args = {
-  product: {
-    background: string,
-    text: string,
-  },
+type Product = {
+  background: string;
+  text: string;
 };
 
-const colorMatrix = [
+type Args = {
+  product: Product;
+};
+
+type Entry = { s: number; l: number };
+
+interface ColorMatrixItem {
+  when: (entry: Entry) => boolean;
+  hint: Entry;
+  interact: Entry;
+  static: Entry;
+}
+
+const colorMatrix: ColorMatrixItem[] = [
   {
     // Dark
     when: ({ l }) => l <= 20,
@@ -58,17 +71,33 @@ const colorMatrix = [
   },
 ];
 
-const getStatesBackground = (parts, modifier) =>
-  ['hint', 'interact', 'static'].reduce((acc, k) => {
-    acc[k] = chromatism.convert({
-      ...parts,
-      s: parts.s + modifier[k].s,
-      l: parts.l + modifier[k].l,
-    }).hex;
-    return acc;
-  }, {});
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-const getContextColors = ({ background, text }): ContextColors => {
+type ColorMatrixItemWithoutWhen = Omit<ColorMatrixItem, 'when'>;
+
+const options: Array<keyof ColorMatrixItemWithoutWhen> = [
+  'hint',
+  'interact',
+  'static',
+];
+
+const getStatesBackground = (
+  parts: HSL,
+  modifier: ColorMatrixItemWithoutWhen,
+) =>
+  options.reduce(
+    (acc, k) => {
+      acc[k] = chromatism.convert({
+        ...parts,
+        s: parts.s + modifier[k].s,
+        l: parts.l + modifier[k].l,
+      }).hex;
+      return acc;
+    },
+    {} as { [key: string]: HEX },
+  );
+
+const getContextColors = ({ background, text }: Product): ContextColors => {
   const bgParts = chromatism.convert(background).hsl;
   const vs = bgParts.l < 30 && bgParts.s < 50 ? -1 : 1;
   const textSubtle = chromatism.brightness(
@@ -84,7 +113,11 @@ const getContextColors = ({ background, text }): ContextColors => {
   return {
     background: {
       default: background,
-      ...getStatesBackground(bgParts, colorMod),
+      ...(getStatesBackground(bgParts, colorMod) as {
+        hint: string;
+        interact: string;
+        static: string;
+      }),
     },
     text: { default: text, subtle: textSubtle },
   };

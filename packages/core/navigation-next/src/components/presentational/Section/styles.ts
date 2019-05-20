@@ -1,9 +1,7 @@
-// @flow
-
 import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
 
-import type { ModeColors } from '../../../theme/types';
-import type { SectionPresentationProps } from './types';
+import { ModeColors } from '../../../theme/ts-types';
+import { SectionPresentationProps } from './types';
 
 const gridSize = gridSizeFn();
 
