@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.2.9
+- [patch] [be2df0f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/be2df0f8e7):
+
+  - ED-6833: improve columns scaling by preventing table from going to overflow state
+
 ## 112.2.8
 - [patch] [ab278c83e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab278c83e1):
 
