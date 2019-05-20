@@ -22,6 +22,7 @@ import {
   macroPlugin,
   maxContentSizePlugin,
   mediaPlugin,
+  mediaEditorPlugin,
   mentionsPlugin,
   panelPlugin,
   pastePlugin,
@@ -116,6 +117,10 @@ export default function createPluginsList(
 
   if (props.media || props.mediaProvider) {
     plugins.push(mediaPlugin(props.media, props.appearance));
+  }
+
+  if (props.media && props.media.allowAnnotation) {
+    plugins.push(mediaEditorPlugin);
   }
 
   if (props.allowCodeBlocks) {
