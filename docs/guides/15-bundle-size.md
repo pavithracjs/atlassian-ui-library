@@ -25,7 +25,7 @@ There are couple of tools that measure the bundle size:
 
 In Atlaskit, we use a tool measure that uses Webpack-bundle-analyzer. We use ratchet files to store the relevant output of the measure and we use them to compare between versions.
 
-More about it how does it work, is available in this blog:  .
+More about it how does it work, is available in this [blog](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/01/11/378834980/Atlaskit+now+has+a+bundle+size+ratchet).
 
 ## Usage
 
@@ -96,5 +96,5 @@ Example:
 
 As the current solution is not ideal, we are working on an add-on to display it on PR.
 
-Feel free to read the [blog](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/01/11/378834980/Atlaskit+now+has+a+bundle+size+ratchet) about it.
+Feel free to read the [blog](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/05/16/458923875/Atlaskit+-+Bundle+size+check+add-on) about it.
 
