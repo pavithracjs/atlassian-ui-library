@@ -1,0 +1,1 @@
+- Updated home-circle icon and replaced home-filled icon with new home icon
