@@ -149,8 +149,6 @@ export default class JiraClientImpl implements JiraClient {
       .map(group => this.recentItemGroupToItems(group))
       .reduce((acc, item) => [...acc, ...item], []);
 
-    console.log(recentItems, reduced);
-
     return reduced;
   }
 
