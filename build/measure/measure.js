@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const exec = require('child_process').execSync;
 const chalk = require('chalk').default;
 const ora = require('ora');
 const webpack = require('webpack');
@@ -30,10 +29,7 @@ function fWriteStats(path, stats) {
 }
 
 // function to report bundleSize changes
-function getBundleSizeStatus(filePath, stats) {
-  // TODO: replace after changes to flow are complete
-  const prevStatsPath = path.join(filePath, `bundle-size-ratchet.json`);
-
+function getBundleSizeStatus(prevStatsPath, stats) {
   let prevStats;
   if (fExists(prevStatsPath)) {
     prevStats = JSON.parse(fs.readFileSync(prevStatsPath, 'utf8'));
@@ -222,6 +218,7 @@ module.exports = async function main(
     fDelete(measureOutputPath);
   }
 
+  // TODO: remove this flag or use this instead of process.env.CI after the flow is switched
   if (s3) {
     // Add these path to enable to upload data to S3
     const masterStatsFilePath = path.join(
@@ -251,7 +248,11 @@ module.exports = async function main(
       }
     }
   } else {
-    result = getBundleSizeStatus(filePath, stats);
+    // TODO: remove this loop once the flow is switched
+    result = getBundleSizeStatus(
+      path.join(filePath, `bundle-size-ratchet.json`),
+      stats,
+    );
   }
 
   if (result.passedBundleSizeCheck) {
@@ -264,7 +265,6 @@ module.exports = async function main(
   }
 
   if (isJson) {
-    // Write to file to be uploaded to S3
     return console.log(JSON.stringify(stats, null, 2));
   } else if (!isLint || !result.passedBundleSizeCheck) {
     printHowToReadStats();

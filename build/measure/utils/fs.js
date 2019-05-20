@@ -1,5 +1,6 @@
 const fs = require('fs');
 const gzipSize = require('gzip-size');
+const exec = require('child_process').execSync;
 
 function fStats(filePath) {
   return {

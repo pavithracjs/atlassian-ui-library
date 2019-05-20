@@ -6,11 +6,11 @@ const chalk = require('chalk').default;
 const masterStatsFolder = createDir('./.masterBundleSize');
 const currentStatsFolder = createDir('./.currentBundleSize');
 
-const BITBUCKET_COMMIT = process.env.BITBUCKET_COMMIT;
-const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-const BUCKET_NAME = 'atlaskit-artefacts';
-const BUCKET_REGION = 'ap-southeast-2';
+// const BITBUCKET_COMMIT = process.env.BITBUCKET_COMMIT;
+// const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+// const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+// const BUCKET_NAME = 'atlaskit-artefacts';
+// const BUCKET_REGION = 'ap-southeast-2';
 
 function createDir(dir) {
   if (!fs.existsSync(dir)) {
@@ -39,9 +39,12 @@ function downloadFromS3(downloadToFolder, branch) {
     process.exit(1);
   }
 
+  if (!path.existsSync(downloadToFolder)) {
+    fs.mkdirSync(downloadToFolder, 0744);
+  }
+
   (async () => {
     const workspaces = await bolt.getWorkspaces();
-    // We'll add the relativeDir's to these so we have more information to work from later
     const packages = workspaces
       .filter(ws => ws.dir.includes('/packages/'))
       .map(
@@ -59,9 +62,9 @@ function downloadFromS3(downloadToFolder, branch) {
     packages.forEach(ratchetFile => {
       const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
 
-      npmRun.sync(
-        `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
-      );
+      //   npmRun.sync(
+      //     `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
+      //   );
     });
   })();
 }
@@ -89,8 +92,8 @@ function uploadToS3(pathToFile, branch) {
 }
 
 module.exports = {
-  masterStatsFolder,
   currentStatsFolder,
-  uploadToS3,
   downloadFromS3,
+  masterStatsFolder,
+  uploadToS3,
 };
