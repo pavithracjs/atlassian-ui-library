@@ -7,7 +7,7 @@ description: A guide to document 'all the thing' about the bundle size in Atlask
 
 It is basically analyzing JavaScript collections of files using the source maps. This helps you understand where code bloat is coming from.
 
-# What does it matter?
+# Why does it matter?
 
 When you talk about Apdex, load times or any performance app related, the bundle size is critical.
 
