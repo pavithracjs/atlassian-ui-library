@@ -1,0 +1,1 @@
+- ED-6833: improve columns scaling by preventing table from going to overflow state
