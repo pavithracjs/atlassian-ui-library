@@ -230,7 +230,8 @@ module.exports = async function main(
     );
 
     if (process.env.CI) {
-      await downloadFromS3(masterStatsFolder, 'master');
+      console.log('download from s3');
+      await downloadFromS3(masterStatsFolder, 'master', packageName);
     }
 
     const results = getBundleCheckResult(masterStatsFilePath, stats);
