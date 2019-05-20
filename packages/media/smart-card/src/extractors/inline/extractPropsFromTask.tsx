@@ -36,14 +36,15 @@ export type BuildInlineTaskProps = BuildInlineProps<
 
 const buildInlineTaskIcon: BuildInlineTaskProps = json => {
   // Render Atlaskit icons for all supported Jira issue types.
+  const taskType = json['atlassian:taskType'] || json.taskType;
   if (
     json.generator &&
     json.generator['@id'] === JIRA_GENERATOR_ID &&
-    json.taskType &&
-    json.taskType['@id']
+    taskType &&
+    taskType['@id']
   ) {
-    const taskType = json.taskType['@id'];
-    const taskTypeName = taskType.split('#').pop();
+    const taskTypeId = taskType['@id'];
+    const taskTypeName = taskTypeId.split('#').pop();
     const taskLabel = json.name || '';
     switch (taskTypeName) {
       case JIRA_TASK:
@@ -66,9 +67,12 @@ const buildInlineTaskIcon: BuildInlineTaskProps = json => {
         return { icon: <JiraProblemIcon label={taskLabel} /> };
       case JIRA_CUSTOM_TASK_TYPE:
         return {
-          icon: (json.icon && json.icon.url) || (
-            <DefaultTaskIcon label={json.provider ? json.provider.name : ''} />
-          ),
+          icon: (taskType.icon && taskType.icon.url) ||
+            (json.icon && json.icon.url) || (
+              <DefaultTaskIcon
+                label={json.provider ? json.provider.name : ''}
+              />
+            ),
         };
     }
   }
@@ -90,7 +94,11 @@ const isValidAppearance = (appearance: any): appearance is LozengeColor => {
   return VALID_APPEARANCES.indexOf(appearance) !== -1;
 };
 
-const buildInlineTaskTag: BuildInlineTaskProps = json => {
+const buildInlineTaskLozenge: BuildInlineTaskProps = json => {
+  // The .tag property is used by some consumers
+  // to extract information required for the task lozenge.
+  // We check this property first to privilege this behaviour e.g.
+  // Jira's current implementation of Native Resolving.
   if (json.tag && json.tag.name) {
     const { name, appearance } = json.tag;
     return {
@@ -98,6 +106,17 @@ const buildInlineTaskTag: BuildInlineTaskProps = json => {
         appearance:
           (isValidAppearance(appearance) && appearance) || VALID_APPEARANCES[0],
         text: name,
+      },
+    };
+  }
+  // Per the JSON-LD spec, all other tasks should contain status information inside of
+  // the .taskStatus JSON tree (Asana, Github, Bitbucket).
+  const taskStatus = json['atlassian:taskStatus'];
+  if (taskStatus && taskStatus.name) {
+    return {
+      lozenge: {
+        text: taskStatus.name,
+        appearance: 'success',
       },
     };
   }
@@ -111,7 +130,7 @@ export function extractInlineViewPropsFromTask(
   const props = extractInlineViewPropsFromObject(json);
   return {
     ...props,
-    ...buildInlineTaskTag(json),
+    ...buildInlineTaskLozenge(json),
     ...buildInlineTaskIcon(json),
   };
 }

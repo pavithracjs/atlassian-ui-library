@@ -60,6 +60,7 @@ const transformSmartCharsMentionsAndEmojis = (
     if (node.type === mention || node.type === emoji || node.type === text) {
       return parent.isTextblock;
     }
+    return;
   };
 
   // Traverse through all the nodes within the range and replace them with their plaintext counterpart

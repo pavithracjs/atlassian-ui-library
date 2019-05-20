@@ -51,10 +51,7 @@ export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
     : config;
 };
 
-const tablesPlugin = (
-  options?: PluginConfig | boolean,
-  disableBreakoutUI?: boolean,
-): EditorPlugin => ({
+const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
   nodes() {
     return [
       { name: 'table', node: table },
@@ -68,27 +65,22 @@ const tablesPlugin = (
     return [
       {
         name: 'table',
-        plugin: ({
-          props,
-          prevProps,
-          eventDispatcher,
-          dispatch,
-          portalProviderAPI,
-        }) => {
+        plugin: ({ props, prevProps, dispatch, portalProviderAPI }) => {
           const { allowTables, appearance, allowDynamicTextSizing } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = appearance === 'full-page';
           const wasBreakoutEnabled =
             prevProps && prevProps.appearance !== 'full-width';
+          const isFullWidthModeEnabled = appearance === 'full-width';
           return createPlugin(
             dispatch,
             portalProviderAPI,
-            eventDispatcher,
             pluginConfig(allowTables),
             isContextMenuEnabled,
             isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
             wasBreakoutEnabled,
+            isFullWidthModeEnabled,
           );
         },
       },

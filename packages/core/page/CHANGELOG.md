@@ -1,5 +1,15 @@
 # @atlaskit/page
 
+## 10.0.1
+- [patch] [7a68e88827](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a68e88827):
+
+  - Fixed aria-hidden attribute for banner container
+
+## 10.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 9.0.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

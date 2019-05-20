@@ -1,0 +1,40 @@
+{
+  "name": "@atlaskit/help-article",
+  "version": "0.4.1",
+  "description": "A cross-product help-article component",
+  "license": "Apache-2.0",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
+  "sideEffects": false,
+  "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Mauro Alvarez"
+  ],
+  "atlaskit": {
+    "name": "Help Article"
+  },
+  "repository": "bitbucket:atlaskit/atlaskit-mk-2",
+  "dependencies": {
+    "@atlaskit/section-message": "^3.0.0",
+    "@atlaskit/theme": "^9.0.0",
+    "exenv": "^1.2.2",
+    "@emotion/core": "^10.0.9",
+    "@emotion/styled": "^10.0.7"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "devDependencies": {
+    "@atlaskit/docs": "^8.0.0",
+    "enzyme": "^3.7.0",
+    "react-test-renderer": "^16.3.0"
+  },
+  "keywords": [
+    "atlaskit",
+    "react",
+    "ui",
+    "help"
+  ]
+}

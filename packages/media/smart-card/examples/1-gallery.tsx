@@ -1,12 +1,19 @@
 import * as React from 'react';
-import Page, { Grid, GridColumn } from '@atlaskit/page';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import { Provider, Card, Client } from '../src';
+import TableTree, {
+  Headers,
+  Header,
+  Rows,
+  Row,
+  Cell,
+} from '@atlaskit/table-tree';
+import { Provider, Card, Client, CardAppearance } from '../src';
 import urlsJSON from '../examples-helpers/example-urls.json';
 import styled from 'styled-components';
-import lorem from 'lorem-ipsum';
-import { colors } from '@atlaskit/theme';
 import { IntlProvider } from 'react-intl';
+
+type EnvironmentsKeys = 'prod' | 'stg' | 'dev';
+const environments = ['prod', 'stg', 'dev'];
 
 enum GroupingModes {
   none = 'none',
@@ -14,6 +21,13 @@ enum GroupingModes {
   type = 'type',
   visibility = 'visibility',
 }
+
+export type CardExample = {
+  title: string;
+  idx: number;
+  example?: any;
+  children?: CardExample[];
+};
 
 type GroupingMode = keyof typeof GroupingModes;
 
@@ -25,40 +39,23 @@ type ExampleUrlData = {
   description?: string;
 };
 
+type WithTitle = {
+  title: String;
+};
+
 const exampleUrls: ExampleUrlData[] = urlsJSON;
-type GroupedExampleUrls = { [title: string]: Array<ExampleUrlData> };
+type GroupedExampleUrls = {
+  [title: string]: Array<ExampleUrlData & WithTitle>;
+};
 
 type ExampleState = {
-  mode: GroupingMode;
+  groupingMode: GroupingMode;
+  appearanceMode: CardAppearance;
+  environment: EnvironmentsKeys;
 };
 
 const DivWithMargin = styled.div`
   margin: 10px 0;
-`;
-
-const Heading = styled.a`
-  margin: 10px 0;
-  color: ${colors.N60};
-  display: block;
-  text-decoration: none;
-
-  &:visited {
-    color: ${colors.N60};
-  }
-
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-`;
-
-// Same as Fabric Editor.
-const LoremText = styled.p`
-  font-size: 1em;
-  line-height: 1.714;
-  font-weight: normal;
-  margin-bottom: 0px;
-  letter-spacing: -0.005em;
 `;
 
 const ucFirst = (text: string): string =>
@@ -66,22 +63,45 @@ const ucFirst = (text: string): string =>
 
 class Example extends React.Component<{}, ExampleState> {
   state: ExampleState = {
-    mode: 'none',
+    groupingMode: 'none',
+    appearanceMode: 'inline',
+    environment: 'prod',
   };
 
-  handleGroupClick = (mode: GroupingMode) => {
-    this.setState({ mode });
+  handleGroupClick = (groupingMode: GroupingMode) => {
+    this.setState({ groupingMode });
   };
 
-  getGroupedUrls(grouping: GroupingMode): GroupedExampleUrls {
-    if (grouping === 'none') {
-      return { '': exampleUrls };
+  handleAppearanceClick = (appearanceMode: CardAppearance) => {
+    this.setState({ appearanceMode });
+  };
+
+  handleEnvClick = (environment: EnvironmentsKeys) => {
+    this.setState({ environment });
+  };
+
+  getGroupedUrls(mode: GroupingMode): GroupedExampleUrls {
+    // Normalize descriptions for each example
+    const urlsWithTitles = exampleUrls.map(example => ({
+      ...example,
+      title: this.getTitle(mode, example),
+    }));
+
+    const exampleSortCmp = (
+      a: ExampleUrlData & WithTitle,
+      b: ExampleUrlData & WithTitle,
+    ) => (a.title > b.title ? 1 : -1);
+
+    if (mode === 'none') {
+      return { '': urlsWithTitles.sort(exampleSortCmp) };
     } else {
-      return exampleUrls.reduce(
+      return urlsWithTitles.reduce(
         (grouped, example) => ({
           ...grouped,
-          [example[grouping]]: [
-            ...(grouped[example[grouping]] ? grouped[example[grouping]] : []),
+          [example[mode]]: [
+            ...(grouped[example[mode]]
+              ? grouped[example[mode]].sort(exampleSortCmp)
+              : []),
             example,
           ],
         }),
@@ -90,137 +110,154 @@ class Example extends React.Component<{}, ExampleState> {
     }
   }
 
-  renderTitle(mode: GroupingMode, data: ExampleUrlData) {
+  getTitle(mode: GroupingMode, data: ExampleUrlData) {
+    if (data.description) {
+      return data.description;
+    }
+
     switch (mode) {
       case 'none':
-        return (
-          <Heading href={data.url} target="_blank">
-            {data.provider} {data.visibility} {data.type}
-            <br />
-            <sub>{data.description}</sub>
-          </Heading>
-        );
+        return `${data.provider} ${data.visibility} ${data.type}`;
 
       case 'provider':
-        return (
-          <Heading href={data.url} target="_blank">
-            {ucFirst(data.visibility)} {data.type}
-            <br />
-            <sub>{data.description}</sub>
-          </Heading>
-        );
+        return `${ucFirst(data.visibility)} ${data.type}`;
 
       case 'type':
-        return (
-          <Heading href={data.url} target="_blank">
-            {data.provider} {data.visibility}
-            <br />
-            <sub>{data.description}</sub>
-          </Heading>
-        );
+        return `${data.provider} ${data.visibility}`;
 
       case 'visibility':
-        return (
-          <Heading href={data.url} target="_blank">
-            {data.provider} {data.type}
-            <br />
-            <sub>{data.description}</sub>
-          </Heading>
-        );
+        return `${data.provider} ${data.type}`;
     }
   }
 
-  renderByGroup(mode: GroupingMode) {
-    let result: Array<React.ReactNode> = [];
+  renderGroups(
+    mode: GroupingMode,
+    appearanceMode: CardAppearance,
+    environment: EnvironmentsKeys,
+  ) {
     const grouped = this.getGroupedUrls(mode);
-    const loremText = () =>
-      lorem({
-        format: 'plain',
-        count: 1,
-        units: 'sentences',
-        suffix: '&nbsp;',
-      });
 
-    for (let title in grouped) {
-      if (title) {
-        result.push(<h3 key={title}>{ucFirst(title)}</h3>);
-      }
+    // Sort the sections for easier browsing
+    const sortedTitles = [] as Array<string>;
+    sortedTitles.push.apply(sortedTitles, Object.keys(grouped));
+    sortedTitles.sort();
 
-      result.push.apply(
-        result,
-        grouped[title].map((example, idx) => (
-          <DivWithMargin key={`${idx}-${title}`}>
-            {this.renderTitle(mode, example)}
-            <Grid>
-              <GridColumn medium={6}>
-                <Card
-                  url={example.url}
-                  client={new Client(undefined, 'staging')}
-                  appearance="block"
-                />
-              </GridColumn>
-              <GridColumn medium={6}>
-                <LoremText>
-                  {loremText()}{' '}
-                  <Card
-                    client={new Client(undefined, 'staging')}
-                    url={example.url}
-                    appearance="inline"
-                  />{' '}
-                  {loremText()}
-                </LoremText>
-              </GridColumn>
-            </Grid>
-          </DivWithMargin>
-        )),
-      );
+    let tree;
+    if (mode !== 'none') {
+      tree = sortedTitles.map((title, idx) => ({
+        idx,
+        title,
+        children: (grouped[title] || []).map((example, idx) => ({
+          idx,
+          example,
+          title: this.getTitle(mode, example),
+        })),
+      }));
+    } else {
+      tree = (grouped[''] || []).map((example, idx) => ({
+        idx,
+        example,
+        title: this.getTitle(mode, example),
+      }));
     }
 
-    return result;
+    return (
+      <TableTree>
+        <Headers>
+          <Header width={'30%'}>
+            {mode.substring(0, 1).toUpperCase() + mode.substring(1)}
+          </Header>
+          <Header width={'70%'}>&nbsp;</Header>
+        </Headers>
+        <Rows
+          items={tree}
+          render={({ title, idx, example, children }: CardExample) => (
+            <Row
+              itemId={`${idx}-${title}`}
+              items={children}
+              hasChildren={children && children.length > 0}
+            >
+              <Cell singleLine>{title}</Cell>
+              <Cell>
+                {!example ? (
+                  ''
+                ) : (
+                  <Card
+                    client={new Client(undefined, environment)}
+                    url={example.url}
+                    appearance={appearanceMode}
+                  />
+                )}
+              </Cell>
+            </Row>
+          )}
+        />
+      </TableTree>
+    );
   }
 
-  renderButtons(currentMode: GroupingMode) {
-    let result: Array<React.ReactNode> = [];
-
-    for (let mode in GroupingModes) {
-      result.push(
+  renderButtons(
+    currentGroupingMode: GroupingMode,
+    currentAppearanceMode: CardAppearance,
+    currentEnv: EnvironmentsKeys,
+  ) {
+    return (
+      <ButtonGroup>
+        <Button isDisabled appearance="link">
+          Group by:
+        </Button>
+        {Object.keys(GroupingModes).map(mode => (
+          <Button
+            key={mode}
+            isSelected={mode === currentGroupingMode}
+            onClick={() => this.handleGroupClick(mode as GroupingMode)}
+          >
+            {mode}
+          </Button>
+        ))}
+        <Button isDisabled appearance="link">
+          Render as:
+        </Button>
         <Button
-          key={mode}
-          isSelected={mode === currentMode}
-          onClick={() => this.handleGroupClick(mode as GroupingMode)}
+          key={'render-mode-inline'}
+          isSelected={currentAppearanceMode === 'inline'}
+          onClick={() => this.handleAppearanceClick('inline')}
         >
-          {mode}
-        </Button>,
-      );
-    }
-
-    return result;
+          inline card
+        </Button>
+        <Button
+          key={'render-mode-block'}
+          isSelected={currentAppearanceMode === 'block'}
+          onClick={() => this.handleAppearanceClick('block')}
+        >
+          block card
+        </Button>
+        <Button isDisabled appearance="link">
+          Environment:
+        </Button>
+        {environments.map(env => (
+          <Button
+            key={env}
+            isSelected={env === currentEnv}
+            onClick={() => this.handleEnvClick(env as EnvironmentsKeys)}
+          >
+            {env}
+          </Button>
+        ))}
+      </ButtonGroup>
+    );
   }
 
   render() {
-    const { mode } = this.state;
+    const { groupingMode, appearanceMode, environment } = this.state;
 
     return (
       <IntlProvider locale="en">
         <Provider>
-          <Page>
-            <Grid>
-              <GridColumn>
-                <Grid>
-                  <GridColumn medium={8}>
-                    <ButtonGroup>
-                      <Button isDisabled appearance="link">
-                        Group by:
-                      </Button>
-                      {this.renderButtons(mode)}
-                    </ButtonGroup>
-                  </GridColumn>
-                </Grid>
-
-                {this.renderByGroup(mode)}
-              </GridColumn>
-            </Grid>
-          </Page>
+          <DivWithMargin>
+            {this.renderButtons(groupingMode, appearanceMode, environment)}
+            {this.renderGroups(groupingMode, appearanceMode, environment)}
+          </DivWithMargin>
         </Provider>
       </IntlProvider>
     );

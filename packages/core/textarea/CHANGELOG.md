@@ -1,5 +1,20 @@
 # @atlaskit/textarea
 
+## 2.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 1.0.0
+- [major] [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
+## 0.4.6
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 0.4.5
 - [patch] [cd67ae87f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cd67ae87f8):
 

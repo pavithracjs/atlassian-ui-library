@@ -7,10 +7,15 @@ import {
 } from 'prosemirror-state';
 import { DecorationSet, Decoration } from 'prosemirror-view';
 import { keydownHandler } from 'prosemirror-keymap';
-import { findParentNodeOfType, ContentNodeWithPos } from 'prosemirror-utils';
+import { findParentNodeOfType } from 'prosemirror-utils';
 import { filter } from '../../../utils/commands';
 import { Command } from '../../../types';
-import { fixColumnSizes, PresetLayout, getPresetLayout } from '../actions';
+import {
+  fixColumnSizes,
+  PresetLayout,
+  getSelectedLayout,
+  fixColumnStructure,
+} from '../actions';
 
 export type LayoutState = {
   pos: number | null;
@@ -20,6 +25,8 @@ export type LayoutState = {
 };
 
 type Change = { from: number; to: number; slice: Slice };
+
+export const DEFAULT_LAYOUT = 'two_equal';
 
 const isWholeSelectionInsideLayoutColumn = (state: EditorState): boolean => {
   // Since findParentNodeOfType doesn't check if selection.to shares the parent, we do this check ourselves
@@ -60,20 +67,6 @@ const getNodeDecoration = (pos: number, node: Node) => [
   Decoration.node(pos, pos + node.nodeSize, { class: 'selected' }),
 ];
 
-const getSelectedLayout = (
-  maybeLayoutSection: ContentNodeWithPos | undefined,
-  current: PresetLayout | undefined,
-): PresetLayout | undefined => {
-  if (
-    maybeLayoutSection &&
-    maybeLayoutSection.node &&
-    getPresetLayout(maybeLayoutSection.node)
-  ) {
-    return getPresetLayout(maybeLayoutSection.node);
-  }
-  return current;
-};
-
 const getInitialPluginState = (
   pluginConfig:
     | { allowBreakout?: boolean; UNSAFE_addSidebarLayouts?: boolean }
@@ -92,7 +85,10 @@ const getInitialPluginState = (
       ? !!pluginConfig.UNSAFE_addSidebarLayouts
       : false;
   const pos = maybeLayoutSection ? maybeLayoutSection.pos : null;
-  const selectedLayout = getSelectedLayout(maybeLayoutSection, undefined);
+  const selectedLayout = getSelectedLayout(
+    maybeLayoutSection && maybeLayoutSection.node,
+    DEFAULT_LAYOUT,
+  );
   return { pos, allowBreakout, addSidebarLayouts, selectedLayout };
 };
 
@@ -119,7 +115,7 @@ export default (
             ...pluginState,
             pos: maybeLayoutSection ? maybeLayoutSection.pos : null,
             selectedLayout: getSelectedLayout(
-              maybeLayoutSection,
+              maybeLayoutSection && maybeLayoutSection.node,
               pluginState.selectedLayout,
             ),
           };
@@ -145,7 +141,7 @@ export default (
         Tab: filter(isWholeSelectionInsideLayoutColumn, moveCursorToNextColumn),
       }),
     },
-    appendTransaction: (transactions, oldState, newState) => {
+    appendTransaction: (transactions, _oldState, newState) => {
       let changes: Change[] = [];
       transactions.forEach(prevTr => {
         // remap change segments across the transaction set
@@ -162,23 +158,23 @@ export default (
           return;
         }
 
-        const change = fixColumnSizes(
-          prevTr,
-          newState,
-          pluginKey.getState(newState).selectedLayout,
-        );
+        const change = fixColumnSizes(prevTr, newState);
         if (change) {
           changes.push(change);
         }
       });
 
       if (changes.length) {
-        const tr = newState.tr;
+        let tr = newState.tr;
         const selection = newState.selection;
 
         changes.forEach(change => {
           tr.replaceRange(change.from, change.to, change.slice);
         });
+
+        // selecting and deleting across columns in 3 col layouts can remove
+        // a layoutColumn so we fix the structure here
+        tr = fixColumnStructure(newState) || tr;
 
         if (tr.docChanged) {
           tr.setSelection(selection);
@@ -186,5 +182,7 @@ export default (
           return tr;
         }
       }
+
+      return;
     },
   });

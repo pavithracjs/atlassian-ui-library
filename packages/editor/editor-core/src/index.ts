@@ -1,5 +1,6 @@
 // Used in products integration code
 export { name, version } from './version-wrapper';
+export { clearEditorContent } from './commands';
 export { default as Editor } from './editor';
 export { default as EditorContext } from './ui/EditorContext';
 export { default as WithEditorActions } from './ui/WithEditorActions';
@@ -8,9 +9,15 @@ export { default as CollapsedEditor } from './ui/CollapsedEditor';
 export { default as ToolbarHelp } from './ui/ToolbarHelp';
 export { default as ToolbarFeedback } from './ui/ToolbarFeedback';
 export { EmojiResource } from '@atlaskit/emoji';
-export { MediaProvider, CustomMediaPicker } from './plugins/media';
+export {
+  default as mediaPlugin,
+  insertMediaSingleNode,
+  MediaOptions,
+  MediaProvider,
+  MediaState,
+  CustomMediaPicker,
+} from './plugins/media';
 export { CollabEditProvider } from './plugins/collab-edit';
-export { MediaOptions } from './plugins/media';
 export {
   AbstractMentionResource,
   MentionProvider,
@@ -59,7 +66,7 @@ export {
   toggleStrong,
 } from './plugins/text-formatting/commands/text-formatting';
 export { insertBlockType, setBlockType } from './plugins/block-type/commands';
-export { createTable } from './plugins/table/actions';
+export { createTable } from './plugins/table/commands';
 export { insertTaskDecision } from './plugins/tasks-and-decisions/commands';
 export { EventDispatcher } from './event-dispatcher';
 export {

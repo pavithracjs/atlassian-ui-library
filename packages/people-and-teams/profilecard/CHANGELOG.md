@@ -1,5 +1,41 @@
 # @atlaskit/profilecard
 
+## 10.2.1
+- Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+  - @atlaskit/icon@17.0.1
+  - @atlaskit/dynamic-table@13.0.0
+
+## 10.2.0
+- [minor] [e7d7fe8252](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7d7fe8252):
+
+  - Make full name and public name in the same line. Remove `@` symbol in front of public name. Remove mention icon
+
+## 10.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 10.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 9.0.5
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 9.0.4
+- Updated dependencies [5b6b4d6a0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b6b4d6a0f):
+- Updated dependencies [8b5f052003](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b5f052003):
+  - @atlaskit/portal@1.0.0
+  - @atlaskit/popper@1.0.0
+
+## 9.0.3
+- [patch] [50e8c82ec4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50e8c82ec4):
+
+  - index.ts is now ignored when published to npm to avoid ambiguity between ts and js files
+
 ## 9.0.2
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

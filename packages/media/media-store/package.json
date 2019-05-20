@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-store",
-  "version": "11.0.7",
+  "version": "12.0.1",
   "description": "Media Store API Web Client Library",
   "license": "Apache-2.0",
   "types": "index.d.ts",
@@ -11,8 +11,13 @@
   "maintainers": [
     "Jimmy Luong"
   ],
+  "atlaskit": {
+    "name": "Media Store",
+    "team": "media"
+  },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
+    "@atlaskit/media-client": "^1.1.3",
     "@types/query-string": "^4.3.1",
     "chunkinator": "^2.0.4",
     "query-string": "^4.3.2",
@@ -21,17 +26,20 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.1.0",
-    "@atlaskit/button": "^12.0.0",
-    "@atlaskit/docs": "^7.0.2",
-    "@atlaskit/media-card": "^60.0.1",
-    "@atlaskit/media-test-helpers": "^21.2.2",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/media-card": "^63.0.2",
+    "@atlaskit/media-core": "^30.0.1",
+    "@atlaskit/media-test-helpers": "^23.0.0",
+    "@atlaskit/ssr": "^0.1.0",
     "@types/fetch-mock": "^6.0.3",
     "fetch-mock": "^6.5.2",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "whatwg-fetch": "^2.0.3"
   },
   "peerDependencies": {
+    "@atlaskit/media-core": "^30.0.1",
     "styled-components": "^3.2.6"
   }
 }

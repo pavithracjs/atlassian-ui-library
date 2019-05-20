@@ -13,7 +13,7 @@ export interface InlineCardErroredViewProps {
   /** The error message to display */
   message: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** What to do when a user clicks "Try again" button */
   onRetry?: () => void;
   /** A flag that determines whether the card is selected in edit mode. */
@@ -46,11 +46,8 @@ export class InlineCardErroredView extends React.Component<
               />
             </AKIconWrapper>
           }
-          title={
-            <span style={{ color: colors.R300 }}>
-              {truncateUrlForErrorView(url) + ' - ' + message.trim()}
-            </span>
-          }
+          title={truncateUrlForErrorView(url) + ' - ' + message.trim()}
+          titleColor={colors.R300}
         />{' '}
         {onRetry && (
           <Button spacing="none" appearance="link" onClick={this.handleRetry}>

@@ -7,7 +7,8 @@ export type SelectedResultId = ResultId | null;
 export type CancelableEvent =
   | KeyboardEvent
   | MouseEvent
-  | React.KeyboardEvent<HTMLInputElement>;
+  | React.KeyboardEvent<HTMLInputElement>
+  | React.MouseEvent<HTMLElement>;
 
 export type ResultData = {
   resultId: ResultId;

@@ -1,5 +1,148 @@
 # @atlaskit/media-picker
 
+## 43.0.0
+- [major] [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
+
+  -
+
+  - MediaPicker Clipboard component is now a React Component
+
+  These changes provide a new React api for Clipboard component. First one to be delivered, coming next we are going to ship Browser, Dropzone and Popup.
+
+  Previous plain javascript API usage:
+
+  ```typescript
+  // instanciate MediaPicker clipboard
+  const clipboardMediaPicker = await new MediaPicker(
+    'clipboard'
+    context,
+    config,
+  );
+
+  // usage
+  clipboardMediaPicker.on('uploads-start', onUploadsStart);
+  clipboardMediaPicker.on('upload-preview-update', onUploadPreviewUpdate);
+  clipboardMediaPicker.on('upload-status-update', onUploadStatusUpdate);
+  clipboardMediaPicker.on('upload-processing', onUploadProcessing);
+  clipboardMediaPicker.on('upload-end', onUploadEnd);
+  clipboardMediaPicker.on('upload-error', onUploadError);
+
+  // activation / deactivation programatically
+  clipboardMediaPicker.activate();
+  clipboardMediaPicker.deactivate();
+  ```
+
+  With the new React API we benefit from:
+  * No need to programatically activate/deactivate. We will just render the Clipboard component or not.
+  * Event handlers are provided by react props
+  * We don't need to use a MediaPicker constructor and specifiy which flavour we want (in this case 'clipboard'). We can basically `import { Clipboard } from '@atlaskit/media-picker'` directly and use it right away.
+
+  Example of new API:
+
+  ```typescript
+  import { Clipboard } from '@atlaskit/media-picker';
+
+  <Clipboard
+    context={context}
+    config={config}
+    onError={handleUploadError}
+    onPreviewUpdate={handleUploadPreviewUpdate}
+    onProcessing={handleReady}
+  />
+  ```
+
+  This is the first component we migrate fully and integrates seamlessly with the Editor. Follow up on this ticket to see what will be the next steps on this new API:
+  https://product-fabric.atlassian.net/browse/MS-1942
+
+## 42.0.2
+- [patch] [168df43047](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/168df43047):
+
+  - Fix clipboard component deactivation logic when used in multiple contexts.
+
+## 42.0.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-editor@35.0.1
+  - @atlaskit/media-store@12.0.1
+  - @atlaskit/media-ui@11.1.1
+  - @atlaskit/media-viewer@43.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 42.0.0
+- [major] [59cce82fd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59cce82fd1):
+
+  - Remove Binary component from MediaPicker
+
+  If you want to upload a file (string or blob) to media, you should instead use **context.file.upload** from **@atlaskit/media-core**
+
+  ```typescript
+  import {ContextFactory} from '@atlaskit/media-core'
+
+  const mediaContext = ContextFactory.create()
+
+  mediaContext.file.upload({
+    content: 'some-external-url',
+    name: 'some-file-name.png',
+    collection: 'destination-collection'
+  })
+  ```
+
+  For more info check `atlaskit-mk-2/packages/media/media-client/src/client/file-fetcher.ts`
+
+## 41.0.1
+- [patch] [5cfa2ddf93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5cfa2ddf93):
+
+  - add clipboard support to MediaPicker
+
+## 41.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/analytics-gas-types@4.0.4
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/media-editor@35.0.0
+  - @atlaskit/media-viewer@43.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/analytics-next@5.0.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/dropdown-menu@8.0.0
+  - @atlaskit/field-text@9.0.0
+  - @atlaskit/flag@11.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/modal-dialog@9.0.0
+  - @atlaskit/select@9.0.0
+  - @atlaskit/spinner@11.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/toggle@7.0.0
+  - @atlaskit/analytics-listeners@6.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-store@12.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+  - @atlaskit/media-ui@11.0.0
+
+## 40.0.0
+- [patch] [6ffa3eaae9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ffa3eaae9):
+
+  - Emit file-added events in the tenant context
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-editor@34.0.0
+  - @atlaskit/media-viewer@42.0.0
+  - @atlaskit/media-store@11.1.1
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 39.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-editor@33.0.0
+  - @atlaskit/media-viewer@41.0.0
+  - @atlaskit/media-store@11.1.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
 ## 38.1.6
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

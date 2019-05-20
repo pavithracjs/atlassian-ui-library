@@ -8,9 +8,12 @@ import EditorContext from '../src/ui/EditorContext';
 import { DevTools } from '../example-helpers/DevTools';
 import WithEditorActions from '../src/ui/WithEditorActions';
 import { EditorActions } from '../src';
-
-const FULL_WIDTH_MODE = 'full-width';
-const DEFAULT_MODE = 'default';
+import Toggle from '@atlaskit/toggle';
+import {
+  LOCALSTORAGE_defaultMode,
+  DEFAULT_MODE,
+  FULL_WIDTH_MODE,
+} from '../example-helpers/example-constants';
 
 export const Textarea = styled.textarea`
   box-sizing: border-box;
@@ -20,8 +23,6 @@ export const Textarea = styled.textarea`
   width: 100%;
   height: 250px;
 `;
-
-export const LOCALSTORAGE_defaultMode = 'fabric.editor.example.default-mode';
 
 export interface State {
   inputValue?: string;
@@ -106,16 +107,19 @@ export default class Example extends React.Component<any, State> {
                   >
                     Convert ADF to Query String
                   </button>
-                  <label htmlFor="fullWidthMode">
-                    <input
-                      id="fullWidthMode"
-                      name="fullWidthMode"
-                      type="checkbox"
-                      checked={this.state.fullWidthMode}
-                      onClick={() => this.toggleFullWidthMode()}
+                  <div
+                    style={{
+                      minWidth: '200px',
+                      display: 'inline-block',
+                    }}
+                  >
+                    <Toggle
+                      isChecked={this.state.fullWidthMode}
+                      onChange={this.toggleFullWidthMode}
+                      label="Full Width Mode"
                     />
-                    Full width mode
-                  </label>
+                    <span>Full Width Mode</span>
+                  </div>
                   <FullPageEditor
                     appearance={
                       this.state.fullWidthMode ? 'full-width' : 'full-page'
@@ -205,7 +209,7 @@ function b64EncodeUnicode(str: string) {
   // then we convert the percent encodings into raw bytes which can be fed into btoa.
   return btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(
-      match,
+      _match,
       p1,
     ) {
       return String.fromCharCode(Number.parseInt('0x' + p1));

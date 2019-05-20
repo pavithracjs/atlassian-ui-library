@@ -1,5 +1,38 @@
 # @atlaskit/refinement-bar
 
+## 0.4.1
+- [patch] [da4644083b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da4644083b):
+
+  - Remove files key in package.json
+
+## 0.4.0
+- [minor] [3dab4a0906](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3dab4a0906):
+
+  - add license and npmignore
+
+## 0.3.0
+- [minor] [00a1cd96c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00a1cd96c3):
+
+  - use verbose export syntax and remove root index.js
+
+## 0.2.0
+- [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 0.1.6
+- Updated dependencies [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+  - @atlaskit/docs@7.0.4
+  - @atlaskit/button@12.0.5
+
+## 0.1.5
+- Updated dependencies [2020ab9db1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2020ab9db1):
+  - @atlaskit/section-message@2.0.4
+
+## 0.1.4
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/textfield@1.0.0
+
 ## 0.1.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

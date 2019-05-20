@@ -21,5 +21,8 @@
     "p-wait-for": "^1.0.0",
     "s3-cli": "^0.13.0",
     "spawndamnit": "^1.0.0"
+  },
+  "devDependencies": {
+    "js-yaml": "^3.13.1"
   }
 }

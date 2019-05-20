@@ -236,7 +236,7 @@ const whitespaceRegex = /^\s*$/;
  * Detects whether a fragment contains a single paragraph node
  * whose content satisfies the condition for an emoji block
  */
-export const isEmojiDoc = (doc: Fragment, props: any = {}): boolean => {
+export const isEmojiDoc = (doc: Fragment): boolean => {
   if (doc.childCount !== 1) {
     return false;
   }

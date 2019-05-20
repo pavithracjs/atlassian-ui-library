@@ -1,5 +1,27 @@
 # @atlaskit/inline-edit
 
+## 10.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 9.0.5
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/textfield@1.0.0
+
+## 9.0.4
+- [patch] [458331c958](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/458331c958):
+
+  - Added index.ts to .npmignore to prevent jest tests resolving that instead of index.js
+
+## 9.0.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 9.0.2
 - [patch] [074c382946](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/074c382946):
 

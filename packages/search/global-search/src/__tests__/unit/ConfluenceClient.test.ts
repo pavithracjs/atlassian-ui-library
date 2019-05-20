@@ -13,7 +13,6 @@ import {
 import {
   BLOG_CLASSNAME,
   buildMockPage,
-  DUMMY_CLOUD_ID,
   DUMMY_CONFLUENCE_HOST,
   mockQuickNavResult,
   mockQuickNavSearch,
@@ -29,10 +28,7 @@ describe('ConfluenceClient', () => {
   let confluenceClient: ConfluenceClient;
 
   beforeEach(() => {
-    confluenceClient = new ConfluenceClient(
-      DUMMY_CONFLUENCE_HOST,
-      DUMMY_CLOUD_ID,
-    );
+    confluenceClient = new ConfluenceClient(DUMMY_CONFLUENCE_HOST);
   });
 
   afterEach(() => {
@@ -52,7 +48,7 @@ describe('ConfluenceClient', () => {
 
       expect(result).toEqual([
         {
-          resultId: pages[0].id,
+          resultId: pages[0].id + '',
           name: pages[0].title,
           href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}?search_id=search_id`,
           containerName: pages[0].space,
@@ -61,9 +57,10 @@ describe('ConfluenceClient', () => {
           contentType: ContentType.ConfluencePage,
           containerId: 'abc',
           iconClass: 'iconClass',
+          isRecentResult: true,
         },
         {
-          resultId: pages[1].id,
+          resultId: pages[1].id + '',
           name: pages[1].title,
           href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}?search_id=search_id`,
           containerName: pages[1].space,
@@ -72,6 +69,7 @@ describe('ConfluenceClient', () => {
           contentType: ContentType.ConfluenceBlogpost,
           containerId: 'abc',
           iconClass: 'iconClass',
+          isRecentResult: true,
         },
       ]);
     });

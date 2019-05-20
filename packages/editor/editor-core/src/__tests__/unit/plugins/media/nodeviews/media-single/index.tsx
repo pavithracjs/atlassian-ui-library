@@ -20,6 +20,7 @@ import Media from '../../../../../../plugins/media/nodeviews/media';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { EventDispatcher } from '../../../../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../../../../ui/PortalProvider';
+import { stateKey as SelectionChangePluginKey } from '../../../../../../plugins/base/pm-plugins/react-nodeview';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
@@ -45,7 +46,14 @@ describe('nodeviews/mediaSingle', () => {
     url: 'http://image.jpg',
   })();
 
-  const view = {} as EditorView;
+  const view = {
+    state: {
+      selection: {
+        from: 0,
+        to: 0,
+      },
+    },
+  } as EditorView;
   const eventDispatcher = {} as EventDispatcher;
   const getPos = jest.fn();
   const portalProviderAPI: PortalProviderAPI = {
@@ -60,8 +68,8 @@ describe('nodeviews/mediaSingle', () => {
     const mediaProvider = getFreshMediaProvider();
     const providerFactory = ProviderFactory.create({ mediaProvider });
     pluginState = ({
-      getMediaNodeStateStatus: (id: string) => 'ready',
-      getMediaNodeState: (id: string) => {
+      getMediaNodeStateStatus: () => 'ready',
+      getMediaNodeState: () => {
         return ({ state: 'ready' } as any) as MediaState;
       },
       options: {
@@ -71,6 +79,7 @@ describe('nodeviews/mediaSingle', () => {
       handleMediaNodeMount: () => {},
       updateElement: jest.fn(),
       updateMediaNodeAttrs: jest.fn(),
+      isMobileUploadCompleted: () => undefined,
     } as any) as MediaPluginState;
 
     getDimensions = (wrapper: ReactWrapper) => (): Promise<any> => {
@@ -85,6 +94,10 @@ describe('nodeviews/mediaSingle', () => {
     };
 
     jest.spyOn(mediaStateKey, 'getState').mockImplementation(() => pluginState);
+    jest.spyOn(SelectionChangePluginKey, 'getState').mockImplementation(() => ({
+      subscribe: jest.fn(),
+      unsubscribe: jest.fn(),
+    }));
   });
 
   it('sets "onExternalImageLoaded" for external images', () => {

@@ -32,6 +32,7 @@ import {
   isLinkAtPos,
   setLinkHref,
   setLinkText,
+  clearEditorContent,
 } from '@atlaskit/editor-core';
 import { EditorView } from 'prosemirror-view';
 import { EditorState, Selection } from 'prosemirror-state';
@@ -43,6 +44,8 @@ import WebBridge from '../../web-bridge';
 import { ProseMirrorDOMChange } from '../../types';
 import { hasValue } from '../../utils';
 import { rejectPromise, resolvePromise } from '../../cross-platform-promise';
+
+import { version as packageVersion } from '../../version.json';
 
 export default class WebBridgeImpl extends WebBridge
   implements NativeToWebBridge {
@@ -56,6 +59,10 @@ export default class WebBridgeImpl extends WebBridge
   editorActions: EditorActions = new EditorActions();
   mediaPicker: CustomMediaPicker | undefined;
   mediaMap: Map<string, Function> = new Map();
+
+  currentVersion(): string {
+    return packageVersion;
+  }
 
   onBoldClicked() {
     if (this.textFormatBridgeState && this.editorView) {
@@ -99,9 +106,9 @@ export default class WebBridgeImpl extends WebBridge
     }
   }
 
-  onMentionSelect(mention: string) {}
+  onMentionSelect(_mention: string) {}
 
-  onMentionPickerResult(result: string) {}
+  onMentionPickerResult(_result: string) {}
 
   onMentionPickerDismissed() {}
 
@@ -155,6 +162,13 @@ export default class WebBridgeImpl extends WebBridge
       tr.replaceWith(0, state.doc.nodeSize - 2, parsedContent);
       tr.setSelection(Selection.atStart(tr.doc));
       dispatch(tr);
+    }
+  }
+
+  clearContent() {
+    if (this.editorView) {
+      const { state, dispatch } = this.editorView;
+      clearEditorContent(state, dispatch);
     }
   }
 
@@ -363,6 +377,14 @@ export default class WebBridgeImpl extends WebBridge
 
     this.editorView.focus();
     return true;
+  }
+
+  scrollToSelection(): void {
+    if (!this.editorView) {
+      return;
+    }
+
+    this.editorView.dispatch(this.editorView.state.tr.scrollIntoView());
   }
 
   flushDOM() {

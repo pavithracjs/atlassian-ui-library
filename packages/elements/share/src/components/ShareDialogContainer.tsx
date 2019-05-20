@@ -15,6 +15,7 @@ import {
   MetaData,
   OriginTracing,
   OriginTracingFactory,
+  RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareResponse,
 } from '../types';
@@ -35,33 +36,37 @@ export type Props = {
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
-  /** Product ID of the share
-   * confluence
-   * jira-core
-   * jira-servicedesk
-   * jira-software
-   */
+  /** Product ID (Canonical ID) in ARI of the share request */
+  /** bitbucket */
+  /** confluence */
+  /** jira-core */
+  /** jira-servicedesk */
+  /** jira-software */
+  /** trello */
   productId: string;
+  /** Render function for a custom Share Dialog Trigger Button*/
+  renderCustomTriggerButton?: RenderCustomTriggerButton;
   /** Atlassian Resource Identifier of a Site resource to be shared */
   shareAri: string;
-  /** Content Type of the resource to be shared
-   * board
-   * calendar
-   * draft
-   * filter
-   * issue
-   * media
-   * page
-   * project
-   * pullrequest
-   * question
-   * report
-   * repository
-   * request
-   * roadmap
-   * site
-   * space
-   */
+  /** Content Type of the resource to be shared. It will also affect on the successful share message in the flag. A pre-defined list as follows:*/
+  /** blogpost */
+  /** board */
+  /** calendar */
+  /** draft */
+  /** filter */
+  /** issue */
+  /** media */
+  /** page */
+  /** project */
+  /** pullrequest */
+  /** question */
+  /** report */
+  /** repository */
+  /** request */
+  /** roadmap */
+  /** site */
+  /** space */
+  /** Any other unlisted type will have a default message of "Link shared"*/
   shareContentType: string;
   /** Link of the resource to be shared */
   shareLink: string;
@@ -103,6 +108,11 @@ const memoizedFormatCopyLink: (
 const getDefaultShareLink: () => string = () =>
   window ? window.location!.href : '';
 
+export const defaultConfig: ConfigResponse = {
+  mode: 'EXISTING_USERS_ONLY',
+  allowComment: false,
+};
+
 /**
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
@@ -130,6 +140,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       prevShareLink: null,
       shareActionCount: 0,
       shareOrigin: null,
+      config: defaultConfig,
     };
   }
 
@@ -178,6 +189,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       })
       .catch(() => {
         // TODO: Send analytics event
+        this.setState({ config: defaultConfig });
       });
 
     this.setState(
@@ -234,6 +246,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       dialogPlacement,
       formatCopyLink,
       loadUserOptions,
+      renderCustomTriggerButton,
       shareContentType,
       shareFormTitle,
       shareLink,
@@ -254,6 +267,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
           onShareSubmit={this.handleSubmitShare}
+          renderCustomTriggerButton={renderCustomTriggerButton}
           shareContentType={shareContentType}
           shareFormTitle={shareFormTitle}
           shareOrigin={shareOrigin}

@@ -13,6 +13,12 @@ const auth = Buffer.from(
 
 const sleep = util.promisify(setTimeout);
 
+const getNumberOfBuildsRunning = data => {
+  // Currently, there is a browserstack issue with Karma builds running but the duration is null.
+  // See: https://product-fabric.atlassian.net/browse/BUILDTOOLS-137
+  return data.filter(build => build.automation_build.duration !== null).length;
+};
+
 function checkBSBuildQueues() {
   return axios
     .get('https://api.browserstack.com/automate/builds.json?status=running', {
@@ -21,12 +27,11 @@ function checkBSBuildQueues() {
       },
     })
     .then(response => {
-      if (response.data.length > numberOfBuildsAllowed) {
+      const runningBuilds = getNumberOfBuildsRunning(response.data);
+      if (runningBuilds > numberOfBuildsAllowed) {
         return Promise.reject(
           new Error(
-            `Browserstack is currently running with ${
-              response.data.length
-            } builds concurrently, please try again later`,
+            `Browserstack is currently running with ${runningBuilds} builds concurrently, please try again later`,
           ),
         );
       }

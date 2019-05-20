@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'ユーザー',
   'fabric.atlassianSwitcher.administration': '管理',
   'fabric.atlassianSwitcher.discoverMore': 'もっと見る',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'エラーが発生しました',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'エラーの追跡は常に実行されていますが、更新しても問題が修正されない場合はお気軽にお問い合わせください。',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    '人事を尽くして問題の修正に当たっています。',
+  'fabric.atlassianSwitcher.expand': '展開する',
 };

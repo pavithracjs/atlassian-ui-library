@@ -52,6 +52,12 @@ describe('Snapshot Test: table insert/delete', () => {
     await insertRow(page, 1);
   });
 
+  it(`inserts multiple rows in succession`, async () => {
+    await insertRow(page, 1);
+    await insertRow(page, 1);
+    await insertRow(page, 1);
+  });
+
   // TODO: move this to integration tests in future
   it(`should be able to insert column`, async () => {
     await insertColumn(page, 1);

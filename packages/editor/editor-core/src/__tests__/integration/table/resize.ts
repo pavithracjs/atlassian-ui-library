@@ -18,6 +18,7 @@ import {
   twoColFullWidthTableWithContent,
   tableWithDynamicLayoutSizing,
   tableInsideColumns,
+  resizedTableWithStackedColumns,
 } from './__fixtures__/resize-documents';
 import { tableWithMinWidthColumnsDocument } from './__fixtures__/table-with-min-width-columns-document';
 
@@ -228,6 +229,48 @@ BrowserTestCase(
 
     // InlineAsyncExtension changes the width of the extension after 2s
     await sleep(3000);
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Should stack columns to the left when widths of some of the columns equal minWidth',
+  { skip: ['ie'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(resizedTableWithStackedColumns),
+      allowTables: {
+        advanced: true,
+      },
+    });
+
+    await resizeColumn(page, { cellHandlePos: 14, resizeWidth: -200 });
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Should stack columns to the right and go to overflow',
+  { skip: ['ie'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(resizedTableWithStackedColumns),
+      allowTables: {
+        advanced: true,
+      },
+    });
+
+    await resizeColumn(page, { cellHandlePos: 2, resizeWidth: 420 });
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

@@ -10,7 +10,7 @@ import ResultGroupsComponent, {
 import { ResultType, AnalyticsType } from '../../../model/Result';
 
 const defaultProps = {
-  query: '',
+  isPreQuery: true,
   isError: false,
   isLoading: false,
   retrySearch: () => {},
@@ -58,7 +58,7 @@ it('should render search error when there is an error', () => {
 
 it('should render nothing on initial load', () => {
   const props: Partial<Props> = {
-    query: '',
+    isPreQuery: true,
     isLoading: true,
   };
 
@@ -69,7 +69,7 @@ it('should render nothing on initial load', () => {
 it('should render pre query state when there is no query entered', () => {
   const mockFn = jest.fn(() => mockResultsGroup);
   const props: Partial<Props> = {
-    query: '',
+    isPreQuery: true,
     isLoading: false,
     getPreQueryGroups: mockFn,
   };
@@ -80,7 +80,6 @@ it('should render pre query state when there is no query entered', () => {
   const preQueryState = wrapper.find(PreQueryState);
   expect(preQueryState.length).toBe(1);
   expect(preQueryState.props()).toMatchObject({
-    query: '',
     renderNoRecentActivity: defaultProps.renderNoRecentActivity,
     searchSessionId: defaultProps.searchSessionId,
     renderAdvancedSearchGroup: defaultProps.renderAdvancedSearchGroup,
@@ -91,7 +90,7 @@ it('should render pre query state when there is no query entered', () => {
 it('should render pre query state while its loading and it should keep the previous state', () => {
   const mockFn = jest.fn();
   const props: Partial<Props> = {
-    query: 'davo',
+    isPreQuery: false,
     isLoading: true,
     keepPreQueryState: true,
     getPreQueryGroups: mockFn,
@@ -108,7 +107,7 @@ it('should render before pre query state when provided', () => {
   const BeforePreQuery = () => <span className="before" />;
 
   const props: Partial<Props> = {
-    query: '',
+    isPreQuery: true,
     isLoading: false,
     renderBeforePreQueryState: () => <BeforePreQuery />,
   };
@@ -119,7 +118,7 @@ it('should render before pre query state when provided', () => {
 
 it('should render no results state when there are no results and a query is entered', () => {
   const props: Partial<Props> = {
-    query: 'foo',
+    isPreQuery: false,
     isLoading: false,
     keepPreQueryState: false,
     getPostQueryGroups: jest.fn(() => [{ items: [] }]),
@@ -139,7 +138,7 @@ it('should render no results state when there are no results and a query is ente
 
 it('should render search results when there are results', () => {
   const props: Partial<Props> = {
-    query: 'foo',
+    isPreQuery: false,
     isLoading: false,
     getPostQueryGroups: jest.fn(() => mockResultsGroup),
   };

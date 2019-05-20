@@ -78,10 +78,9 @@ describe('hyperlink', () => {
           const { editorView } = editor(doc(p('para{<>}graph')));
 
           editorView.dispatch(
-            editorView.state.tr.setMeta(
-              hyperlinkStateKey,
-              LinkAction.SHOW_INSERT_TOOLBAR,
-            ),
+            editorView.state.tr.setMeta(hyperlinkStateKey, {
+              type: LinkAction.SHOW_INSERT_TOOLBAR,
+            }),
           );
           const pluginState = hyperlinkStateKey.getState(editorView.state);
           expect(pluginState).toEqual(
@@ -99,19 +98,17 @@ describe('hyperlink', () => {
           const { editorView } = editor(doc(p('para{<>}graph')));
 
           editorView.dispatch(
-            editorView.state.tr.setMeta(
-              hyperlinkStateKey,
-              LinkAction.SHOW_INSERT_TOOLBAR,
-            ),
+            editorView.state.tr.setMeta(hyperlinkStateKey, {
+              type: LinkAction.SHOW_INSERT_TOOLBAR,
+            }),
           );
           let pluginState = hyperlinkStateKey.getState(editorView.state);
           expect(pluginState.activeLinkMark).toBeDefined();
 
           editorView.dispatch(
-            editorView.state.tr.setMeta(
-              hyperlinkStateKey,
-              LinkAction.HIDE_TOOLBAR,
-            ),
+            editorView.state.tr.setMeta(hyperlinkStateKey, {
+              type: LinkAction.HIDE_TOOLBAR,
+            }),
           );
           pluginState = hyperlinkStateKey.getState(editorView.state);
           expect(pluginState.activeLinkMark).toBeUndefined();
@@ -124,10 +121,9 @@ describe('hyperlink', () => {
             );
 
             editorView.dispatch(
-              editorView.state.tr.setMeta(
-                hyperlinkStateKey,
-                LinkAction.SHOW_INSERT_TOOLBAR,
-              ),
+              editorView.state.tr.setMeta(hyperlinkStateKey, {
+                type: LinkAction.SHOW_INSERT_TOOLBAR,
+              }),
             );
             const pluginState = hyperlinkStateKey.getState(editorView.state);
             expect(pluginState).toEqual(
@@ -149,10 +145,9 @@ describe('hyperlink', () => {
             expect(pluginState.activeLinkMark).toBeDefined();
 
             editorView.dispatch(
-              editorView.state.tr.setMeta(
-                hyperlinkStateKey,
-                LinkAction.HIDE_TOOLBAR,
-              ),
+              editorView.state.tr.setMeta(hyperlinkStateKey, {
+                type: LinkAction.HIDE_TOOLBAR,
+              }),
             );
             pluginState = hyperlinkStateKey.getState(editorView.state);
             expect(pluginState.activeLinkMark).toBeUndefined();

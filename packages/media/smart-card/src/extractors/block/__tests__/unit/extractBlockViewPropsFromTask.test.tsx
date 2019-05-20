@@ -213,13 +213,13 @@ describe('extractPropsFromTask()', () => {
 
     it('should build a lozenge', () => {
       const mock = {
-        taskStatus: {
+        'atlassian:taskStatus': {
           name: 'abc',
         },
       };
       expect(buildTaskDetailsLozenge(mock)).toEqual({
         lozenge: {
-          text: mock.taskStatus.name,
+          text: mock['atlassian:taskStatus'].name,
           appearance: 'success',
         },
       });

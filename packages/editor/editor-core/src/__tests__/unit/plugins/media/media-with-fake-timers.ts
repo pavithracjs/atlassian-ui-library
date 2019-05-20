@@ -28,11 +28,7 @@ describe('Media plugin', async () => {
   const mediaProvider = getFreshMediaProvider();
   const providerFactory = ProviderFactory.create({ mediaProvider });
 
-  const editor = (
-    doc: any,
-    editorProps = {},
-    dropzoneContainer: HTMLElement = document.body,
-  ) =>
+  const editor = (doc: any, editorProps = {}) =>
     createEditor({
       doc,
       editorPlugins: [mediaPlugin({ provider: mediaProvider })],

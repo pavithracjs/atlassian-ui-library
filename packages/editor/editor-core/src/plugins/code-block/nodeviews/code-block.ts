@@ -1,5 +1,4 @@
 import rafSchedule from 'raf-schd';
-import { EditorView } from 'prosemirror-view';
 import { Node, DOMSerializer, DOMOutputSpec } from 'prosemirror-model';
 import { browser } from '@atlaskit/editor-common';
 
@@ -32,7 +31,7 @@ export class CodeBlockView {
   contentDOM: HTMLElement;
   lineNumberGutter: HTMLElement;
 
-  constructor(node: Node, view: EditorView, getPos: () => number) {
+  constructor(node: Node) {
     const { dom, contentDOM } = DOMSerializer.renderSpec(document, toDOM(node));
     this.node = node;
     this.dom = dom as HTMLElement;
@@ -87,5 +86,4 @@ export class CodeBlockView {
   }
 }
 
-export default (node: Node, view: EditorView, getPos: () => number) =>
-  new CodeBlockView(node, view, getPos);
+export default (node: Node) => new CodeBlockView(node);

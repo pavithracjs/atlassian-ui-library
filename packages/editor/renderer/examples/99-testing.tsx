@@ -6,6 +6,7 @@ import { Provider } from '@atlaskit/smart-card';
 import {
   storyMediaProviderFactory,
   storyContextIdentifierProviderFactory,
+  extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
 import { default as Renderer } from '../src/ui/Renderer';
 import { document as doc } from './helper/story-data';
@@ -52,6 +53,7 @@ function createRendererWindowBindings(win: Window) {
             <Renderer
               dataProviders={providerFactory}
               document={doc}
+              extensionHandlers={extensionHandlers}
               {...reactProps}
               {...additionalRendererProps}
             />

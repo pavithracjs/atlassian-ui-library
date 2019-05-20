@@ -158,7 +158,7 @@ export default class ResizableMediaSingle extends React.Component<
       : 0;
   };
 
-  wrapper: HTMLElement | null;
+  wrapper?: HTMLElement;
   calcSnapPoints() {
     const { offsetLeft } = this.state;
 
@@ -264,7 +264,7 @@ export default class ResizableMediaSingle extends React.Component<
       pxWidth = wideWidth > containerWidth ? lineLength : wideWidth;
     } else if (layout === 'full-width') {
       pxWidth = containerWidth - akEditorBreakoutPadding;
-    } else if (pctWidth && origWidth && origHeight && pctWidth < 100) {
+    } else if (pctWidth && origWidth && origHeight) {
       pxWidth = Math.ceil(
         calcPxFromPct(pctWidth / 100, lineLength || containerWidth),
       );

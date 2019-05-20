@@ -6,12 +6,12 @@ import {
   INPUT_METHOD,
 } from './enums';
 
-export const enum INDENT_DIR {
+export enum INDENT_DIR {
   INDENT = 'indent',
   OUTDENT = 'outdent',
 }
 
-export const enum INDENT_TYPE {
+export enum INDENT_TYPE {
   PARAGRAPH = 'paragraph',
   LIST = 'list',
   HEADING = 'heading',

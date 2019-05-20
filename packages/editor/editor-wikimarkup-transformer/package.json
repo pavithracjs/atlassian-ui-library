@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-wikimarkup-transformer",
-  "version": "4.0.6",
+  "version": "4.2.0",
   "description": "Wiki markup transformer for JIRA and Confluence",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -14,22 +14,26 @@
     "Oscar W",
     "Tong L"
   ],
+  "atlaskit": {
+    "name": "Editor Wikimarkup Transformer",
+    "team": "editor"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/adf-schema": "^2.4.1",
-    "@atlaskit/editor-common": "^36.1.12",
-    "@atlaskit/editor-json-transformer": "^5.0.2",
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/adf-schema": "^2.5.5",
+    "@atlaskit/editor-common": "^39.3.0",
+    "@atlaskit/editor-json-transformer": "^6.1.0",
+    "@atlaskit/theme": "^9.0.0",
     "prosemirror-model": "^1.7.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/editor-core": "^107.13.4",
-    "@atlaskit/editor-test-helpers": "^8.0.4",
-    "@atlaskit/profilecard": "^9.0.2",
-    "@atlaskit/renderer": "^45.6.1",
-    "@atlaskit/theme": "^8.1.7",
-    "@atlaskit/util-data-test": "^11.1.5",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/editor-core": "^112.2.0",
+    "@atlaskit/editor-test-helpers": "^9.3.0",
+    "@atlaskit/profilecard": "^10.1.0",
+    "@atlaskit/renderer": "^48.3.0",
+    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/util-data-test": "^12.0.0",
     "@types/prosemirror-model": "^1.5.0",
     "@types/puppeteer": "^1.12.1",
     "cookie": "^0.3.1",

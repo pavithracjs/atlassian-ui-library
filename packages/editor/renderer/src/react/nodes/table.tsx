@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
 import { TableLayout } from '@atlaskit/adf-schema';
 import {
   calcTableWidth,
@@ -14,6 +13,8 @@ import {
   tableCellMinWidth,
   overflowShadow,
   OverflowShadowProps,
+  getBreakpoint,
+  mapBreakpointToLayoutMaxWidth,
 } from '@atlaskit/editor-common';
 
 import TableHeader from './tableHeader';
@@ -24,13 +25,30 @@ export interface TableProps {
   columnWidths?: Array<number>;
   layout: TableLayout;
   isNumberColumnEnabled: boolean;
-  children: ReactNode;
+  children: React.ReactElement<any> | Array<React.ReactElement<any>>;
   renderWidth: number;
   rendererAppearance?: RendererAppearance;
+  allowDynamicTextSizing?: boolean;
+}
+
+export interface ScaleOptions {
+  renderWidth: number;
+  tableWidth: number;
+  maxScale: number;
 }
 
 // we allow scaling down column widths by no more than 15%
 const MAX_SCALING_PERCENT = 0.15;
+
+export const calcScalePercent = ({
+  renderWidth,
+  tableWidth,
+  maxScale,
+}: ScaleOptions) => {
+  const diffPercent = 1 - renderWidth / tableWidth;
+
+  return diffPercent < maxScale ? diffPercent : maxScale;
+};
 
 const isHeaderRowEnabled = (rows: React.ReactChild[]) => {
   if (!rows.length) {
@@ -43,7 +61,7 @@ const isHeaderRowEnabled = (rows: React.ReactChild[]) => {
   return children[0].type === TableHeader;
 };
 
-const addNumberColumnIndexes = (rows: React.ReactChild[]) => {
+const addNumberColumnIndexes = (rows: React.ReactElement<any>[]) => {
   const headerRowEnabled = isHeaderRowEnabled(rows);
   return React.Children.map(rows, (row, index) => {
     return React.cloneElement(React.Children.only(row), {
@@ -53,13 +71,23 @@ const addNumberColumnIndexes = (rows: React.ReactChild[]) => {
   });
 };
 
-const getTableLayoutWidth = (layout: TableLayout) => {
+interface TableWidthOptions {
+  isDynamicTextSizingEnabled?: boolean;
+  containerWidth?: number;
+}
+
+const getTableLayoutWidth = (layout: TableLayout, opts?: TableWidthOptions) => {
   switch (layout) {
     case 'full-width':
       return akEditorFullWidthLayoutWidth;
     case 'wide':
       return akEditorWideLayoutWidth;
     default:
+      if (opts && opts.isDynamicTextSizingEnabled && opts.containerWidth) {
+        return mapBreakpointToLayoutMaxWidth(
+          getBreakpoint(opts.containerWidth),
+        );
+      }
       return akEditorDefaultLayoutWidth;
   }
 };
@@ -71,8 +99,8 @@ const isTableResized = (columnWidths: Array<number>) => {
 
 const fixColumnWidth = (
   columnWidth: number,
-  tableWidth: number,
-  layoutWidth: number,
+  _tableWidth: number,
+  _layoutWidth: number,
   zeroWidthColumnsCount: number,
   scaleDownPercent: number,
 ): number => {
@@ -111,7 +139,9 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
             {this.renderColgroup()}
             <tbody>
               {isNumberColumnEnabled
-                ? addNumberColumnIndexes(React.Children.toArray(children))
+                ? addNumberColumnIndexes(
+                    React.Children.toArray<React.ReactElement>(children),
+                  )
                 : children}
             </tbody>
           </table>
@@ -121,19 +151,30 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
   }
 
   private renderColgroup = () => {
-    const {
+    let {
       columnWidths,
       layout,
       isNumberColumnEnabled,
       renderWidth,
+      allowDynamicTextSizing,
     } = this.props;
     if (!columnWidths || !isTableResized(columnWidths)) {
       return null;
     }
 
     // @see ED-6056
-    const layoutWidth = getTableLayoutWidth(layout);
+    const layoutWidth = getTableLayoutWidth(layout, {
+      isDynamicTextSizingEnabled: allowDynamicTextSizing,
+      containerWidth: renderWidth,
+    });
     const maxTableWidth = renderWidth < layoutWidth ? renderWidth : layoutWidth;
+
+    // If table has a layout of default, it is confined by the defined column width.
+    // renderWidth is better used for breakout tables.
+    // @see ED-6737
+    if (layout === 'default') {
+      renderWidth = Math.min(renderWidth, layoutWidth);
+    }
 
     let tableWidth = isNumberColumnEnabled ? akEditorTableNumberColumnWidth : 0;
     let minTableWidth = tableWidth;
@@ -163,9 +204,11 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
     }
     // scaling down
     else if (renderWidth < tableWidth) {
-      const diffPercent = 1 - renderWidth / tableWidth;
-      scaleDownPercent =
-        diffPercent < MAX_SCALING_PERCENT ? diffPercent : MAX_SCALING_PERCENT;
+      scaleDownPercent = calcScalePercent({
+        renderWidth,
+        tableWidth,
+        maxScale: MAX_SCALING_PERCENT,
+      });
     }
 
     return (
@@ -193,7 +236,6 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
 
 const TableWithShadows = overflowShadow(Table, {
   overflowSelector: `.${TableSharedCssClassName.TABLE_NODE_WRAPPER}`,
-  scrollableSelector: 'table',
 });
 
 const TableWithWidth = (props: TableProps) => (

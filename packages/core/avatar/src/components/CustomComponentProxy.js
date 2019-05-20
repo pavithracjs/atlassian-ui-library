@@ -4,7 +4,6 @@ import type { AvatarPropTypes } from '../types';
 
 /**
  * innerRef is passed by Avatar component
- * TODO: Check if other props are needed?
  */
 type CustomComponentProxyPropType = AvatarPropTypes & {
   avatar?: mixed,

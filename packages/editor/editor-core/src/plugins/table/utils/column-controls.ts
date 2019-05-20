@@ -1,4 +1,3 @@
-import { EditorView } from 'prosemirror-view';
 import {
   findTable,
   findDomRefAtPos,
@@ -6,10 +5,10 @@ import {
   isColumnSelected,
   isTableSelected,
 } from 'prosemirror-utils';
-import { Selection } from 'prosemirror-state';
+import { EditorState, Selection } from 'prosemirror-state';
 import { TableMap, CellSelection } from 'prosemirror-tables';
 import { tableDeleteButtonSize } from '../ui/styles';
-import { hasTableBeenResized } from './colgroup';
+import { hasTableBeenResized } from '../pm-plugins/table-resizing/utils';
 
 export interface ColumnParams {
   startIndex: number;
@@ -23,13 +22,15 @@ const getNodeWidth = (ref: HTMLElement): number => {
 };
 
 // calculates the width of each column control button
-export const getColumnsWidths = (view: EditorView): number[] => {
-  const { selection, doc } = view.state;
+export const getColumnsWidths = (
+  state: EditorState,
+  domAtPos: (pos: number) => { node: Node; offset: number },
+): number[] => {
+  const { selection, doc } = state;
   const widths: number[] = [];
   const table = findTable(selection);
   if (table) {
     const map = TableMap.get(table.node);
-    const domAtPos = view.domAtPos.bind(view);
     const tableRef = findDomRefAtPos(table.pos, domAtPos) as HTMLElement;
     const tableWidth = getNodeWidth(tableRef);
     const averageColWidth = tableWidth / map.width;

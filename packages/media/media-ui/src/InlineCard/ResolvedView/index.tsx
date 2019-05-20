@@ -17,7 +17,7 @@ export interface InlineCardResolvedViewProps {
   /** The optional url */
   link?: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
 }
 
 export class InlineCardResolvedView extends React.Component<

@@ -22,6 +22,8 @@ import * as extensions from '../../__fixtures__/extensions.adf.json';
 import * as date from '../../__fixtures__/date.adf.json';
 import * as mediaSingle from '../../__fixtures__/media-single.adf.json';
 import * as mediaGroup from '../../__fixtures__/media-group.adf.json';
+import * as lists from '../../__fixtures__/lists.adf.json';
+import * as text from '../../__fixtures__/text.adf.json';
 
 import * as image from '../../__fixtures__/image.adf.json';
 import * as placeholder from '../../__fixtures__/placeholder.adf.json';
@@ -144,6 +146,11 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  it('should render text and does not interpret HTML', () => {
+    const output = render(text);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should render status correctly', () => {
     const output = render(status);
     expect(output).toMatchSnapshot();
@@ -164,8 +171,14 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  // Snapshot was updated as it was blocking master. See https://product-fabric.atlassian.net/browse/ED-6769
   it('should render dates in normal text and task lists', () => {
     const output = render(date);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render lists', () => {
+    const output = render(lists);
     expect(output).toMatchSnapshot();
   });
 });

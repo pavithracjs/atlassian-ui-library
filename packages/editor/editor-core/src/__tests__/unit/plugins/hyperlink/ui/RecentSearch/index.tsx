@@ -8,11 +8,21 @@ import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 const timeout = () => new Promise(resolve => window.setTimeout(resolve, 1));
 
 function pressDownArrowInputField(recentSearch: ReactWrapper<any, any>) {
-  recentSearch.find('input').simulate('keydown', { keyCode: 40 });
+  recentSearch
+    .find('input')
+    .first()
+    .simulate('keydown', {
+      keyCode: 40,
+    });
 }
 
 function pressReturnInputField(recentSearch: ReactWrapper<any, any>) {
-  recentSearch.find('input').simulate('keydown', { keyCode: 13 });
+  recentSearch
+    .find('input')
+    .first()
+    .simulate('keydown', {
+      keyCode: 13,
+    });
 }
 
 describe('@atlaskit/editor-core/ui/RecentSearch', () => {
@@ -63,7 +73,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
       .simulate('mousedown');
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('recent2-url.com', 'recent item 2');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'recent2-url.com',
+      'recent item 2',
+      'typeAhead',
+    );
   });
 
   it('should submit with selected activity item when enter is pressed', async () => {
@@ -72,7 +86,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     pressReturnInputField(wrapper);
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('recent1-url.com', 'recent item 1');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'recent1-url.com',
+      'recent item 1',
+      'typeAhead',
+    );
   });
 
   it('should submit with selected activity item when navigated to via keyboard and enter pressed', () => {
@@ -81,7 +99,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     pressReturnInputField(wrapper);
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('recent2-url.com', 'recent item 2');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'recent2-url.com',
+      'recent item 2',
+      'typeAhead',
+    );
   });
 
   it('should submit arbitrary link', async () => {
@@ -90,7 +112,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     await timeout();
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('example.com');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'example.com',
+      'example.com',
+      'manual',
+    );
   });
 
   describe('analytics v3', () => {
@@ -104,7 +130,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
           action: 'inserted',
           actionSubject: 'document',
           actionSubjectId: 'link',
-          attributes: { inputMethod: 'typeAhead' },
+          attributes: {
+            inputMethod: 'typeAhead',
+          },
           eventType: 'track',
         });
       });
@@ -119,7 +147,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
           action: 'inserted',
           actionSubject: 'document',
           actionSubjectId: 'link',
-          attributes: { inputMethod: 'typeAhead' },
+          attributes: {
+            inputMethod: 'typeAhead',
+          },
           eventType: 'track',
         });
       });
@@ -134,7 +164,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
         action: 'inserted',
         actionSubject: 'document',
         actionSubjectId: 'link',
-        attributes: { inputMethod: 'manual' },
+        attributes: {
+          inputMethod: 'manual',
+        },
         eventType: 'track',
       });
     });

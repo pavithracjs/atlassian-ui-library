@@ -9,6 +9,8 @@ import {
   EditorCardProvider,
 } from '@atlaskit/smart-card';
 
+import Toggle from '@atlaskit/toggle';
+
 import { default as FullPageExample } from './5-full-page';
 
 const confluenceUrlMatch = /https?\:\/\/[a-zA-Z0-9\-]+\.atlassian\.net\/wiki\//i;
@@ -84,6 +86,59 @@ export class ConfluenceCardClient extends Client {
   }
 }
 
+export type Props = {
+  doc: string | Object;
+};
+
+class FullPageWithFF extends React.Component<
+  Props,
+  {
+    isFFOn: string[];
+    reloadEditor: boolean;
+  }
+> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      isFFOn: [],
+      reloadEditor: false,
+    };
+  }
+
+  toggleFF = () => {
+    const isFFOn = this.state.isFFOn.length ? [] : ['dumbMacro'];
+    this.setState({ isFFOn, reloadEditor: true }, () => {
+      this.setState({ reloadEditor: false });
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <div>
+          <Toggle
+            isChecked={this.state.isFFOn}
+            onChange={this.toggleFF}
+            label="Resolve smartlinks first"
+          />
+          Priortise Smart links resolution
+        </div>
+        {!this.state.reloadEditor && (
+          <FullPageExample
+            defaultValue={this.props.doc}
+            UNSAFE_cards={{
+              // This is how we pass in the provider for smart cards
+              provider: Promise.resolve(cardProvider),
+              resolveBeforeMacros: this.state.isFFOn,
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+}
+
 const cardClient = new ConfluenceCardClient(undefined, 'staging');
 const cardProvider = new ConfluenceCardProvider('staging');
 
@@ -108,13 +163,7 @@ export function Example(doc: string | Object) {
             </a>
           </p>
         </SectionMessage>
-        <FullPageExample
-          defaultValue={doc}
-          UNSAFE_cards={{
-            // This is how we pass in the provider for smart cards
-            provider: Promise.resolve(cardProvider),
-          }}
-        />
+        <FullPageWithFF doc={doc} />
       </div>
     </SmartCardProvider>
   );

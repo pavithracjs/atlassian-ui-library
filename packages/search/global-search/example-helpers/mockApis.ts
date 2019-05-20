@@ -28,6 +28,7 @@ export type MocksConfig = {
   jiraRecentDelay: number;
   peopleSearchDelay: number;
   canSearchUsers: boolean;
+  abTestExperimentId: string;
 };
 
 export const ZERO_DELAY_CONFIG: MocksConfig = {
@@ -36,6 +37,7 @@ export const ZERO_DELAY_CONFIG: MocksConfig = {
   jiraRecentDelay: 0,
   peopleSearchDelay: 0,
   canSearchUsers: true,
+  abTestExperimentId: 'default',
 };
 
 export const DEFAULT_MOCKS_CONFIG: MocksConfig = {
@@ -44,6 +46,7 @@ export const DEFAULT_MOCKS_CONFIG: MocksConfig = {
   jiraRecentDelay: 500,
   peopleSearchDelay: 500,
   canSearchUsers: true,
+  abTestExperimentId: 'default',
 };
 
 function delay<T>(millis: number, value?: T): Promise<T> {
@@ -53,7 +56,7 @@ function delay<T>(millis: number, value?: T): Promise<T> {
 }
 
 function mockRecentApi(recentResponse: any) {
-  fetchMock.get(new RegExp('/api/client/recent\\?'), recentResponse);
+  fetchMock.get(new RegExp('/api/client/recent'), recentResponse);
 }
 
 function mockConfluenceRecentApi({
@@ -61,11 +64,11 @@ function mockConfluenceRecentApi({
   confluenceRecentSpacesResponse,
 }: any) {
   fetchMock.get(
-    new RegExp('/wiki/rest/recentlyviewed/1.0/recent/spaces\\?'),
+    new RegExp('/wiki/rest/recentlyviewed/1.0/recent/spaces'),
     confluenceRecentSpacesResponse,
   );
   fetchMock.get(
-    new RegExp('/wiki/rest/recentlyviewed/1.0/recent\\?'),
+    new RegExp('/wiki/rest/recentlyviewed/1.0/recent'),
     confluenceRecentPagesResponse,
   );
 }
@@ -138,13 +141,17 @@ function mockAnalyticsApi() {
   fetchMock.mock('https://analytics.atlassian.com/analytics/events', 200);
 }
 
-export function setupMocks(config: MocksConfig = DEFAULT_MOCKS_CONFIG) {
+export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
+  const config = { ...DEFAULT_MOCKS_CONFIG, ...configOverrides };
+
   seedrandom('random seed', { global: true });
   const recentResponse = recentData();
   const confluenceRecentPagesResponse = makeConfluenceRecentPagesData();
   const confluenceRecentSpacesResponse = makeConfluenceRecentSpacesData();
   const queryMockSearch = makeCrossProductSearchData();
-  const queryMockExperiments = makeCrossProductExperimentData();
+  const queryMockExperiments = makeCrossProductExperimentData(
+    config.abTestExperimentId,
+  );
   const queryMockQuickNav = makeQuickNavSearchData();
   const queryPeopleSearch = makePeopleSearchData();
 

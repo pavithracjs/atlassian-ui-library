@@ -20,7 +20,7 @@ export const quoteMacro: TokenParser = ({
 };
 
 export const rawContentProcessor = (
-  rawAttrs: string,
+  _rawAttrs: string,
   rawContent: string,
   length: number,
   schema: Schema,

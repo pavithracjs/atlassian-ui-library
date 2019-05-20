@@ -9,7 +9,7 @@ export function insertText(
   view: EditorView,
   text: string,
   from?: number,
-  to?: number,
+  _to?: number,
 ) {
   let pos = typeof from === 'number' ? from : view.state.selection.from;
 

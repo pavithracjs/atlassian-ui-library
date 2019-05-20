@@ -1,12 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Editor from './../src/editor/mobile-editor-element';
+import CopyIcon from '@atlaskit/icon/glyph/copy';
+import TextArea from '@atlaskit/textarea';
+import { colors } from '@atlaskit/theme';
+
 import {
   cardProvider,
   storyMediaProviderFactory,
 } from '@atlaskit/editor-test-helpers';
-import MediaServicesScaleLargeIcon from '@atlaskit/icon/glyph/media-services/scale-large';
-import CopyIcon from '@atlaskit/icon/glyph/copy';
+
+import Editor from './../src/editor/mobile-editor-element';
 
 export const Wrapper: any = styled.div`
   position: absolute;
@@ -20,8 +23,15 @@ export const Wrapper: any = styled.div`
 `;
 
 export const Toolbar: any = styled.div`
-  padding: 10px 0;
-  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.08);
+  border-bottom: 1px dashed ${colors.N50};
+  padding: 1em;
+`;
+
+export const ClipboardZone: any = styled.div`
+  max-width: 500px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 `;
 
 Wrapper.displayName = 'Wrapper';
@@ -29,31 +39,14 @@ Wrapper.displayName = 'Wrapper';
 // @ts-ignore
 window.logBridge = window.logBridge || [];
 
-function insertMedia() {
-  window.bridge.onMediaPicked(
-    'upload-preview-update',
-    `{"file":{"id":"0c20ce69-bf0e-43d9-913f-46432e977b36","name":"Screen Shot 2019-03-12 at 11.13.06 am.png","type":"image/png","dimensions":{"width":2206,"height":770}}}`,
-  );
-  window.setTimeout(() => {
-    window.bridge.onMediaPicked(
-      'upload-end',
-      `{"file":{"id":"0c20ce69-bf0e-43d9-913f-46432e977b36","name":"Screen Shot 2019-03-12 at 11.13.06 am.png","type":"image/png","publicId":"0c20ce69-bf0e-43d9-913f-46432e977b36","collectionName":"TestCollection"}}`,
-    );
-  }, 2000);
-}
-
-export const mediaProvider = storyMediaProviderFactory({
-  collectionName: 'TestCollection',
-  includeUserAuthProvider: true,
-});
-
 export default class Example extends React.Component {
-  private el: HTMLTextAreaElement | null;
-  copyAs = () => {
-    if (!this.el) {
+  private textAreaRef?: HTMLTextAreaElement | null;
+
+  copyToClipboard = () => {
+    if (!this.textAreaRef) {
       return;
     }
-    this.el.select();
+    this.textAreaRef.select();
     document.execCommand('copy');
   };
 
@@ -61,16 +54,25 @@ export default class Example extends React.Component {
     return (
       <Wrapper>
         <Toolbar>
-          <MediaServicesScaleLargeIcon
-            label="insert media"
-            onClick={insertMedia}
-          />
-          <textarea id="input" ref={el => (this.el = el)} />
-          <CopyIcon label="copy" onClick={this.copyAs} />
+          <ClipboardZone>
+            <p>Copy to clipboard:</p>
+            <TextArea
+              data-id="clipboardInput"
+              isCompact
+              resize="smart"
+              forwardedRef={(ref: HTMLTextAreaElement | null) =>
+                (this.textAreaRef = ref)
+              }
+            />
+            <CopyIcon label="copy" onClick={this.copyToClipboard} />
+          </ClipboardZone>
         </Toolbar>
         <Editor
           cardProvider={Promise.resolve(cardProvider)}
-          mediaProvider={mediaProvider}
+          mediaProvider={storyMediaProviderFactory({
+            collectionName: 'InitialCollectionForTesting',
+            includeUserAuthProvider: true,
+          })}
         />
       </Wrapper>
     );

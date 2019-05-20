@@ -87,7 +87,7 @@ const providerFactory = ProviderFactory.create({
 });
 
 const extensionHandlers: ExtensionHandlers = {
-  'com.atlassian.fabric': (ext, doc) => {
+  'com.atlassian.fabric': ext => {
     const { extensionKey } = ext;
 
     switch (extensionKey) {
@@ -190,7 +190,7 @@ export default class RendererDemo extends React.Component<
   textSerializer = new TextSerializer(defaultSchema);
   emailSerializer = new EmailSerializer();
   emailRef?: HTMLIFrameElement;
-  inputBox: HTMLTextAreaElement | null;
+  inputBox?: HTMLTextAreaElement | null;
   emailTextareaRef?: any;
 
   constructor(props: DemoRendererProps) {
@@ -300,7 +300,7 @@ export default class RendererDemo extends React.Component<
     }
   }
 
-  private toggleTruncated(e: React.MouseEvent<HTMLElement>) {
+  private toggleTruncated() {
     this.setState(prevState => ({
       truncated: !prevState.truncated,
     }));
@@ -349,9 +349,7 @@ export default class RendererDemo extends React.Component<
           <Button
             appearance={'link'}
             spacing={'none'}
-            onClick={(e: React.MouseEvent<HTMLElement>) =>
-              this.toggleTruncated(e)
-            }
+            onClick={this.toggleTruncated}
           >
             {this.state.truncated ? 'Expand text' : 'Collapse text'}
           </Button>

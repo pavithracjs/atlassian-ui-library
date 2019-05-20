@@ -12,7 +12,7 @@ import commonMessages from '../../../../messages';
 import ToolbarButton from '../../../../ui/ToolbarButton';
 import { TableCssClassName as ClassName } from '../../types';
 import { layoutButtonSize } from '../styles';
-import { toggleTableLayoutWithAnalytics } from '../../actions-with-analytics';
+import { toggleTableLayoutWithAnalytics } from '../../commands-with-analytics';
 
 export interface Props {
   editorView: EditorView;

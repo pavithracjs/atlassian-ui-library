@@ -1,5 +1,57 @@
 # @atlaskit/smart-card
 
+## 11.0.5
+- [patch] [27f666ed85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27f666ed85):
+
+  - Fixed example.
+
+## 11.0.4
+- [patch] [94ffb3b638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94ffb3b638):
+
+  - check for taskType icon in the json payload
+
+## 11.0.3
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 11.0.2
+- [patch] [7e18a6398b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e18a6398b):
+
+  - improve type safety when defining smart-card environment
+
+## 11.0.1
+- [patch] [b7687b9981](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7687b9981):
+
+  - Changed smart link functionality so that it will open in the same tab if clicked.
+
+## 11.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 10.5.0
+- [minor] [593404cba8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/593404cba8):
+
+  - add status lozenge to source code issue references.
+
+## 10.4.2
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/textfield@1.0.0
+
+## 10.4.1
+- [patch] [3e4c4d7e2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e4c4d7e2d):
+
+  - fix: send 'Origin' header in resolve requests
+
+## 10.4.0
+- [minor] [da5a7f3390](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da5a7f3390):
+
+  - fix third-party link extractors to resolve URLs more accurately.
+
 ## 10.3.1
 - Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
   - @atlaskit/form@5.2.9

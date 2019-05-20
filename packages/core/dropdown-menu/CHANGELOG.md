@@ -1,5 +1,19 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.1
+- [patch] [ee788e6434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee788e6434):
+
+  - Fix analytics for the toggle dropdownMenu event
+
+## 8.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 7.0.7
+- Updated dependencies [73a5c6f3dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/73a5c6f3dc):
+  - @atlaskit/lozenge@7.0.3
+
 ## 7.0.6
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

@@ -93,11 +93,11 @@ class Example extends Component<ExampleProps, ExampleState> {
     output: '',
   };
 
-  refs: {
+  refs!: {
     input: HTMLTextAreaElement;
   };
 
-  shouldComponentUpdate(nextProps: ExampleProps, nextState: ExampleState) {
+  shouldComponentUpdate(_nextProps: ExampleProps, nextState: ExampleState) {
     return (
       nextState.input !== this.state.input ||
       nextState.output !== this.state.output
@@ -168,7 +168,7 @@ class Example extends Component<ExampleProps, ExampleState> {
                   }
                   placeholder="Write something..."
                   shouldFocus={false}
-                  onChange={editorView => this.props.onChange(actions)}
+                  onChange={() => this.props.onChange(actions)}
                   defaultValue={this.state.input}
                   key={this.state.input}
                   contentComponents={

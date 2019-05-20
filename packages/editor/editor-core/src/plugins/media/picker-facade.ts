@@ -5,15 +5,13 @@ import {
   MediaFile,
   ComponentConfigs,
   UploadPreviewUpdateEventPayload,
-  UploadEndEventPayload,
   UploadParams,
   UploadErrorEventPayload,
   isDropzone,
-  isClipboard,
   isPopup,
-  isBinaryUploader,
   isBrowser,
   isImagePreview,
+  UploadProcessingEventPayload,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 
@@ -47,7 +45,7 @@ export type NewMediaEvent = (
 ) => void;
 
 export default class PickerFacade {
-  private picker: MediaPickerComponent | CustomMediaPicker;
+  private picker?: MediaPickerComponent | CustomMediaPicker;
   private onDragListeners: Array<Function> = [];
   private errorReporter: ErrorReportingHandler;
   private pickerType: PickerType;
@@ -89,7 +87,7 @@ export default class PickerFacade {
       (picker as any).on('drag-leave', this.handleDragLeave);
     }
 
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isDropzone(picker)) {
       picker.activate();
     }
 
@@ -124,7 +122,7 @@ export default class PickerFacade {
     this.onDragListeners = [];
 
     try {
-      if (isDropzone(picker) || isClipboard(picker)) {
+      if (isDropzone(picker)) {
         picker.deactivate();
       }
 
@@ -137,7 +135,9 @@ export default class PickerFacade {
   }
 
   setUploadParams(params: UploadParams): void {
-    this.picker.setUploadParams(params);
+    if (this.picker) {
+      this.picker.setUploadParams(params);
+    }
   }
 
   onClose(cb: () => void): () => void {
@@ -153,14 +153,14 @@ export default class PickerFacade {
 
   activate() {
     const { picker } = this;
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isDropzone(picker)) {
       picker.activate();
     }
   }
 
   deactivate() {
     const { picker } = this;
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isDropzone(picker)) {
       picker.deactivate();
     }
   }
@@ -183,12 +183,6 @@ export default class PickerFacade {
     }
   }
 
-  upload(url: string, fileName: string): void {
-    if (isBinaryUploader(this.picker)) {
-      this.picker.upload(url, fileName);
-    }
-  }
-
   onNewMedia(cb: NewMediaEvent) {
     this.onStartListeners.push(cb);
   }
@@ -197,14 +191,15 @@ export default class PickerFacade {
     this.onDragListeners.push(cb);
   }
 
-  private handleUploadPreviewUpdate = (
+  public handleUploadPreviewUpdate = (
     event: UploadPreviewUpdateEventPayload,
   ) => {
-    let { file, preview } = event;
+    const { file, preview } = event;
     const { dimensions, scaleFactor } = isImagePreview(preview)
       ? preview
       : { dimensions: undefined, scaleFactor: undefined };
-    const state: MediaState = {
+
+    const state = {
       id: file.id,
       fileName: file.name,
       fileSize: file.size,
@@ -231,7 +226,7 @@ export default class PickerFacade {
     subscribers.push(onStateChanged);
   };
 
-  private handleUploadError = ({ error }: UploadErrorEventPayload) => {
+  public handleUploadError = ({ error }: UploadErrorEventPayload) => {
     if (!error || !error.fileId) {
       const err = new Error(
         `Media: unknown upload-error received from Media Picker: ${error &&
@@ -258,7 +253,7 @@ export default class PickerFacade {
     delete this.eventListeners[error.fileId];
   };
 
-  private handleMobileUploadEnd = (event: MobileUploadEndEventPayload) => {
+  public handleMobileUploadEnd = (event: MobileUploadEndEventPayload) => {
     const { file } = event;
 
     const listeners = this.eventListeners[file.id];
@@ -277,7 +272,7 @@ export default class PickerFacade {
     );
   };
 
-  private handleReady = (event: UploadEndEventPayload) => {
+  public handleReady = (event: UploadProcessingEventPayload) => {
     const { file } = event;
 
     const listeners = this.eventListeners[file.id];

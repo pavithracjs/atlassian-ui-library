@@ -1,13 +1,30 @@
 import { Selection, NodeSelection, Transaction } from 'prosemirror-state';
 import { StatusType } from './plugin';
+import { Node as PMNode } from 'prosemirror-model';
 
-export const mayGetStatusNodeAt = (selection: Selection): StatusType | null => {
+export const mayGetStatusAtSelection = (
+  selection: Selection,
+): StatusType | null => {
   if (selection && selection instanceof NodeSelection) {
     const nodeSelection = selection as NodeSelection;
     if (nodeSelection.node.type.name === 'status') {
       return (selection.node.attrs as StatusType) || null;
     }
   }
+  return null;
+};
+
+export const mayGetStatusAtPos = (
+  pos: number | null,
+  doc: PMNode,
+): StatusType | null => {
+  if (pos) {
+    const node = doc.nodeAt(pos);
+    if (node && node.type.name === 'status') {
+      return node.attrs as StatusType;
+    }
+  }
+
   return null;
 };
 

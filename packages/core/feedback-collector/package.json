@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/feedback-collector",
-  "version": "3.0.5",
+  "version": "4.0.0",
   "config": {
     "access": "public"
   },
@@ -9,33 +9,32 @@
   "atlaskit:src": "src/index.js",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/button": "^12.0.3",
-    "@atlaskit/checkbox": "^6.0.4",
-    "@atlaskit/flag": "^10.0.6",
-    "@atlaskit/form": "^5.2.7",
-    "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/modal-dialog": "^8.0.7",
-    "@atlaskit/select": "^8.1.1",
-    "@atlaskit/textarea": "^0.4.4",
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/checkbox": "^7.0.0",
+    "@atlaskit/flag": "^11.0.0",
+    "@atlaskit/form": "^6.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/modal-dialog": "^9.0.0",
+    "@atlaskit/select": "^9.0.0",
+    "@atlaskit/textarea": "^2.0.0",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "lodash.truncate": "^4.4.2"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.1",
-    "@atlaskit/button": "^12.0.3",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/global-navigation": "^6.2.9",
-    "@atlaskit/logo": "^10.0.4",
-    "@atlaskit/navigation-next": "^5.1.5",
-    "@atlaskit/section-message": "^2.0.3",
-    "@atlaskit/ssr": "^0.0.1",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/global-navigation": "^7.0.0",
+    "@atlaskit/logo": "^11.0.0",
+    "@atlaskit/navigation-next": "^6.0.0",
+    "@atlaskit/ssr": "^0.1.0",
     "axios": "^0.18.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "author": "Atlassian Pty. Ltd",
@@ -46,7 +45,8 @@
     "Ajay M"
   ],
   "atlaskit": {
-    "name": "Feedback Collector"
+    "name": "Feedback Collector",
+    "team": "core"
   },
   "license": "Apache-2.0",
   "repository": {

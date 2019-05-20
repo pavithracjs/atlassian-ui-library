@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CardLoading } from '../../utils/lightCards';
+import { CardLoading } from '../../utils/lightCards/cardLoading';
 import { Card as CardType } from './index';
 import { CardProps } from '../..';
 
@@ -18,7 +18,7 @@ export default class Card extends React.PureComponent<
     Card: Card.Card,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.state.Card) {
       import(/* webpackChunkName:"@atlaskit-internal_Card" */
       './index').then(module => {

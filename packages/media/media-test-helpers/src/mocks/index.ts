@@ -1,1 +1,6 @@
-export * from './media-mock';
+export {
+  generateFilesFromTestData,
+  MediaMock,
+  MockCollections,
+  mediaMock,
+} from './media-mock';

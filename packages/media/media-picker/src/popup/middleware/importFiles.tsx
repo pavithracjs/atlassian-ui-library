@@ -4,7 +4,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import {
   TouchFileDescriptor,
   FileState,
-  fileStreamsCache,
+  getFileStreamsCache,
   getMediaTypeFromMimeType,
   FilePreview,
   isPreviewableType,
@@ -112,7 +112,7 @@ const getPreviewByService = (
       };
     }
   } else if (serviceName === 'upload') {
-    const observable = fileStreamsCache.get(fileId);
+    const observable = getFileStreamsCache().get(fileId);
     if (observable) {
       return new Promise<FilePreview>(resolve => {
         const subscription = observable.subscribe({
@@ -166,7 +166,7 @@ export const touchSelectedFiles = (
         selectedFile.id,
       );
 
-      const state: FileState = {
+      const fileState: FileState = {
         id,
         status: 'processing',
         mediaType,
@@ -176,9 +176,11 @@ export const touchSelectedFiles = (
         preview,
         representations: {},
       };
+
+      tenantContext.emit('file-added', fileState);
       const subject = new ReplaySubject<FileState>(1);
-      subject.next(state);
-      fileStreamsCache.set(id, subject);
+      subject.next(fileState);
+      getFileStreamsCache().set(id, subject);
     },
   );
 

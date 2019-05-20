@@ -8,6 +8,7 @@ import {
 import {
   EditorState,
   NodeSelection,
+  Selection,
   TextSelection,
   Transaction,
 } from 'prosemirror-state';
@@ -25,7 +26,7 @@ import {
 import { AlignmentState } from '../plugins/alignment/pm-plugins/main';
 
 export function preventDefault(): Command {
-  return function(state, dispatch) {
+  return function() {
     return true;
   };
 }
@@ -228,7 +229,7 @@ export const changeImageAlignment = (align?: AlignmentState): Command => (
 
   const tr = state.tr;
 
-  state.doc.nodesBetween(from, to, (node, pos, parent) => {
+  state.doc.nodesBetween(from, to, (node, pos) => {
     if (node.type === state.schema.nodes.mediaSingle) {
       tr.setNodeMarkup(pos, undefined, {
         ...node.attrs,
@@ -298,6 +299,7 @@ export const toggleBlockMark = <T = object>(
           markApplied = true;
         }
       }
+      return;
     });
   };
 
@@ -314,6 +316,19 @@ export const toggleBlockMark = <T = object>(
     if (dispatch) {
       dispatch(tr.scrollIntoView());
     }
+    return true;
+  }
+
+  return false;
+};
+
+export const clearEditorContent: Command = (state, dispatch) => {
+  const tr = state.tr;
+  tr.replace(0, state.doc.nodeSize - 2);
+  tr.setSelection(Selection.atStart(tr.doc));
+
+  if (dispatch) {
+    dispatch(tr);
     return true;
   }
 

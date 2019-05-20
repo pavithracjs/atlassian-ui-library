@@ -50,7 +50,7 @@ export class CollabProvider implements CollabEditProvider {
   /**
    * Send steps from transaction to other participants
    */
-  send(tr: Transaction, oldState: EditorState, newState: EditorState) {
+  send(tr: Transaction, _oldState: EditorState, newState: EditorState) {
     // Ignore transactions without steps
     if (!tr.steps || !tr.steps.length) {
       return;
@@ -273,6 +273,14 @@ export class CollabProvider implements CollabEditProvider {
    */
   off(evt: CollabEvent, handler: (...args: any) => void) {
     this.eventEmitter.off(evt, handler);
+    return this;
+  }
+
+  /**
+   * Unsubscribe from all events emitted by this provider.
+   */
+  unsubscribeAll(evt: CollabEvent) {
+    this.eventEmitter.removeAllListeners(evt);
     return this;
   }
 }

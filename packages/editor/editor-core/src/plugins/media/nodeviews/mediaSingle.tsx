@@ -16,12 +16,15 @@ import {
 } from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
-import { stateKey, MediaPluginState } from '../pm-plugins/main';
-import ReactNodeView from '../../../nodeviews/ReactNodeView';
+import {
+  stateKey as mediaStateKey,
+  MediaPluginState,
+} from '../pm-plugins/main';
+import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
+import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import MediaItem from './media';
 import WithPluginState from '../../../ui/WithPluginState';
 import { pluginKey as widthPluginKey } from '../../width';
-import { stateKey as reactNodeViewStateKey } from '../../../plugins/base/pm-plugins/react-nodeview';
 import { setNodeSelection } from '../../../utils';
 import ResizableMediaSingle from '../ui/ResizableMediaSingle';
 import { createDisplayGrid } from '../../../plugins/grid';
@@ -30,15 +33,15 @@ import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
 import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { GapCursorSelection } from '../../gap-cursor';
+import { NodeSelection } from 'prosemirror-state';
 
 export interface MediaSingleNodeProps {
-  node: PMNode;
-  eventDispatcher: EventDispatcher;
   view: EditorView;
+  node: PMNode;
+  getPos: ProsemirrorGetPosHandler;
+  eventDispatcher: EventDispatcher;
   width: number;
   selected: Function;
-  getPos: () => number;
   lineLength: number;
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
@@ -58,14 +61,14 @@ export default class MediaSingleNode extends Component<
   private mediaPluginState: MediaPluginState;
 
   state = {
-    height: undefined,
     width: undefined,
+    height: undefined,
     viewContext: undefined,
   };
 
   constructor(props: MediaSingleNodeProps) {
     super(props);
-    this.mediaPluginState = stateKey.getState(
+    this.mediaPluginState = mediaStateKey.getState(
       this.props.view.state,
     ) as MediaPluginState;
   }
@@ -234,10 +237,14 @@ export default class MediaSingleNode extends Component<
       pctWidth: mediaSingleWidth,
     };
 
+    const uploadComplete = this.mediaPluginState.isMobileUploadCompleted(
+      childNode.attrs.id,
+    );
+
     const MediaChild = (
       <MediaItem
-        node={childNode}
         view={this.props.view}
+        node={childNode}
         getPos={this.props.getPos}
         cardDimensions={cardDimensions}
         viewContext={this.state.viewContext}
@@ -245,6 +252,7 @@ export default class MediaSingleNode extends Component<
         onClick={this.selectMediaSingle}
         onExternalImageLoaded={this.onExternalImageLoaded}
         editorAppearance={editorAppearance}
+        uploadComplete={uploadComplete}
       />
     );
 
@@ -270,8 +278,9 @@ export default class MediaSingleNode extends Component<
   }
 }
 
-class MediaSingleNodeView extends ReactNodeView {
+class MediaSingleNodeView extends SelectionBasedNodeView {
   lastOffsetLeft = 0;
+  forceViewUpdate = false;
 
   createDomRef(): HTMLElement {
     const domRef = document.createElement('div');
@@ -283,16 +292,17 @@ class MediaSingleNodeView extends ReactNodeView {
     return domRef;
   }
 
-  isSelected(position: number) {
-    const pos = this.getPos();
-    const range = [pos, pos + this.node.nodeSize - 1];
-
-    // If is gap selection, media is not selected
-    if (this.view.state.selection instanceof GapCursorSelection) {
-      return false;
+  viewShouldUpdate(nextNode: PMNode) {
+    if (this.forceViewUpdate) {
+      this.forceViewUpdate = false;
+      return true;
     }
-    // If the current position is in range, then is selected,
-    return position >= range[0] && position <= range[1];
+
+    if (this.node.attrs !== nextNode.attrs) {
+      return true;
+    }
+
+    return super.viewShouldUpdate(nextNode);
   }
 
   getNodeMediaId(node: PMNode): string | undefined {
@@ -320,7 +330,7 @@ class MediaSingleNodeView extends ReactNodeView {
       editorAppearance,
       fullWidthMode,
     } = this.reactComponentProps;
-    const mediaPluginState = stateKey.getState(
+    const mediaPluginState = mediaStateKey.getState(
       this.view.state,
     ) as MediaPluginState;
 
@@ -334,9 +344,14 @@ class MediaSingleNodeView extends ReactNodeView {
               editorView={this.view}
               plugins={{
                 width: widthPluginKey,
-                reactNodeViewState: reactNodeViewStateKey,
               }}
-              render={({ width, reactNodeViewState }) => {
+              render={({ width }) => {
+                const { selection } = this.view.state;
+                const isSelected = () =>
+                  this.isSelectionInsideNode(selection.from, selection.to) ||
+                  (selection instanceof NodeSelection &&
+                    selection.from === this.getPos());
+
                 return (
                   <MediaSingleNode
                     width={width.width}
@@ -346,7 +361,7 @@ class MediaSingleNodeView extends ReactNodeView {
                     mediaProvider={mediaProvider}
                     view={this.view}
                     fullWidthMode={fullWidthMode}
-                    selected={() => this.isSelected(reactNodeViewState)}
+                    selected={isSelected}
                     eventDispatcher={eventDispatcher}
                     editorAppearance={editorAppearance}
                   />
@@ -360,11 +375,14 @@ class MediaSingleNodeView extends ReactNodeView {
   }
 
   ignoreMutation() {
+    // DOM has changed; recalculate if we need to re-render
     if (this.dom) {
       const offsetLeft = this.dom.offsetLeft;
 
       if (offsetLeft !== this.lastOffsetLeft) {
         this.lastOffsetLeft = offsetLeft;
+        this.forceViewUpdate = true;
+
         this.update(this.node, [], () => true);
       }
     }

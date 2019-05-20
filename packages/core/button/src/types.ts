@@ -28,7 +28,7 @@ export type OnlyButtonProps = {
   /** A custom component to use instead of the default button */
   component?: React.ComponentType<React.AllHTMLAttributes<HTMLElement>>;
   /** Internal use only. Please use `ref` to forward refs */
-  consumerRef?: ConsumerRef;
+  consumerRef?: React.Ref<HTMLElement>;
   /** Provides a url for buttons being used as a link */
   href?: string;
   /** Places an icon within the button, after the button's text */
@@ -72,12 +72,6 @@ export type OnlyButtonProps = {
 };
 
 export type ButtonProps = HtmlAttributes & OnlyButtonProps;
-
-export type ConsumerRef =
-  | string
-  | ((instance: HTMLElement | null) => any)
-  | React.RefObject<HTMLElement>
-  | undefined;
 
 export type Spacing = 'compact' | 'default' | 'none';
 
