@@ -39,10 +39,6 @@ function downloadFromS3(downloadToFolder, branch) {
     process.exit(1);
   }
 
-  if (!path.existsSync(downloadToFolder)) {
-    fs.mkdirSync(downloadToFolder, 0744);
-  }
-
   (async () => {
     const workspaces = await bolt.getWorkspaces();
     const packages = workspaces
