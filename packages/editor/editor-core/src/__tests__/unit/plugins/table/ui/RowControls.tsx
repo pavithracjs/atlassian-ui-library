@@ -24,6 +24,7 @@ import { hoverRows } from '../../../../../plugins/table/commands';
 import { tablesPlugin } from '../../../../../plugins';
 import { setTextSelection } from '../../../../../index';
 
+const ControlsButton = `.${ClassName.CONTROLS_BUTTON}`;
 const RowControlsButtonWrap = `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}`;
 const DeleteRowButton = `.${ClassName.CONTROLS_DELETE_BUTTON_WRAP}`;
 const InsertRowButton = `.${ClassName.CONTROLS_INSERT_BUTTON_WRAP}`;
@@ -393,16 +394,9 @@ describe('RowControls', () => {
     });
   });
 
-  describe('rows shift selection', () => {
-    const createEvent = (target: Element) => ({
-      stopPropagation: () => {},
-      preventDefault: () => {},
-      shiftKey: true,
-      target,
-    });
-
-    it('should shift select rows below the currently selected row', () => {
-      const { editorView, plugin } = editor(
+  describe('row shift selection', () => {
+    it('should shift select rows after the currently selected row', () => {
+      const { editorView } = editor(
         doc(
           table()(
             tr(thEmpty, thEmpty, thEmpty),
@@ -414,17 +408,30 @@ describe('RowControls', () => {
       );
 
       selectRows([0])(editorView.state, editorView.dispatch);
-      const target = document.querySelectorAll(
-        `.${ClassName.ROW_CONTROLS} .${ClassName.CONTROLS_BUTTON}`,
-      )[2];
+      const floatingControls = mountWithIntl(
+        <RowControls
+          tableRef={document.querySelector('table')!}
+          editorView={editorView}
+          hoverRows={(rows, danger) => {
+            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
+          }}
+          selectRow={(row, expand) => {
+            editorView.dispatch(selectRow(row, expand)(editorView.state.tr));
+          }}
+        />,
+      );
 
-      plugin.props.handleDOMEvents.mousedown(editorView, createEvent(target));
+      floatingControls
+        .find(ControlsButton)
+        .at(2)
+        .simulate('click', { shiftKey: true });
+
       const rect = getSelectionRect(editorView.state.selection);
       expect(rect).toEqual({ left: 0, top: 0, right: 3, bottom: 3 });
     });
 
-    it('should shift select rows above the currently selected row', () => {
-      const { editorView, plugin } = editor(
+    it('should shift select row before the currently selected row', () => {
+      const { editorView } = editor(
         doc(
           table()(
             tr(thEmpty, thEmpty, thEmpty),
@@ -436,11 +443,24 @@ describe('RowControls', () => {
       );
 
       selectRows([2])(editorView.state, editorView.dispatch);
-      const target = document.querySelectorAll(
-        `.${ClassName.ROW_CONTROLS} .${ClassName.CONTROLS_BUTTON}`,
-      )[0];
+      const floatingControls = mountWithIntl(
+        <RowControls
+          tableRef={document.querySelector('table')!}
+          editorView={editorView}
+          hoverRows={(rows, danger) => {
+            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
+          }}
+          selectRow={(row, expand) => {
+            editorView.dispatch(selectRow(row, expand)(editorView.state.tr));
+          }}
+        />,
+      );
 
-      plugin.props.handleDOMEvents.mousedown(editorView, createEvent(target));
+      floatingControls
+        .find(ControlsButton)
+        .first()
+        .simulate('click', { shiftKey: true });
+
       const rect = getSelectionRect(editorView.state.selection);
       expect(rect).toEqual({ left: 0, top: 0, right: 3, bottom: 3 });
     });

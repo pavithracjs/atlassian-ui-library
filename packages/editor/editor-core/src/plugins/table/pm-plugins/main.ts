@@ -20,7 +20,6 @@ import {
 import { PluginConfig } from '../types';
 import { handleDocOrSelectionChanged } from '../handlers';
 import {
-  handleMouseDown,
   handleMouseOver,
   handleMouseLeave,
   handleBlur,
@@ -185,7 +184,15 @@ export const createPlugin = (
       handleDOMEvents: {
         blur: handleBlur,
         focus: handleFocus,
-        mousedown: handleMouseDown,
+        // Ignore any `mousedown` `event` from control and numbered column buttons
+        // PM end up changing selection during shift selection if not prevented
+        mousedown: (_, event: Event) =>
+          !!(
+            event.target &&
+            event.target instanceof HTMLElement &&
+            (event.target.classList.contains(ClassName.CONTROLS_BUTTON) ||
+              event.target.classList.contains(ClassName.NUMBERED_COLUMN_BUTTON))
+          ),
         mouseover: handleMouseOver,
         mouseleave: handleMouseLeave,
         click: handleClick,
