@@ -388,3 +388,20 @@ if (process.env.VISUAL_REGRESSION) {
 
   expect.extend({ toMatchProdImageSnapshot });
 }
+
+// Removes errors from JSDOM virtual console on CustomMediaPlayer tests
+// Trick taken from https://github.com/jsdom/jsdom/issues/2155
+if (HTMLMediaElement) {
+  const HTMLMediaElement_play = HTMLMediaElement.prototype.play;
+  const HTMLMediaElement_pause = HTMLMediaElement.prototype.pause;
+
+  beforeAll(() => {
+    HTMLMediaElement.prototype.play = () => Promise.resolve();
+    HTMLMediaElement.prototype.pause = () => Promise.resolve();
+  });
+
+  afterAll(() => {
+    HTMLMediaElement.prototype.play = HTMLMediaElement_play;
+    HTMLMediaElement.prototype.pause = HTMLMediaElement_pause;
+  });
+}

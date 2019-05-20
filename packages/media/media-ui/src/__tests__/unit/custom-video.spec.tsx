@@ -20,21 +20,6 @@ import simultaneousPlayManager, {
 } from '../../customMediaPlayer/simultaneousPlayManager';
 
 describe('<CustomMediaPlayer />', () => {
-  const HTMLMediaElement_play = HTMLMediaElement.prototype.play;
-  const HTMLMediaElement_pause = HTMLMediaElement.prototype.pause;
-
-  beforeAll(() => {
-    // Removes errors from JSDOM virtual console
-    // Trick taken from https://github.com/jsdom/jsdom/issues/2155
-    HTMLMediaElement.prototype.play = () => Promise.resolve();
-    HTMLMediaElement.prototype.pause = () => Promise.resolve();
-  });
-
-  afterAll(() => {
-    HTMLMediaElement.prototype.play = HTMLMediaElement_play;
-    HTMLMediaElement.prototype.pause = HTMLMediaElement_pause;
-  });
-
   const setup = (props?: Partial<CustomMediaPlayerProps>) => {
     const onChange = jest.fn();
     const component = mount(
