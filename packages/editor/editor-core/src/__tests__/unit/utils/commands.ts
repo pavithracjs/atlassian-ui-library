@@ -19,6 +19,8 @@ import {
   strong,
   em,
   subsup,
+  insertText,
+  sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
 import { tablesPlugin, listsPlugin } from '../../../plugins';
 import { Command } from '../../../types';
@@ -467,6 +469,88 @@ describe('utils -> commands', () => {
       );
     });
 
+    it('can toggle a mark with different attributes', () => {
+      const { editorView } = editor(doc(p('{<}text here{>}')));
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sub' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p(subsup({ type: 'sub' })('text here'))),
+      );
+    });
+
+    it('toggles only marks of same type and attributes', () => {
+      const { editorView } = editor(
+        doc(
+          p(
+            'This is the first normal {<}text ',
+            subsup({ type: 'sup' })('This text is sup'),
+            ' Spacer words ',
+            subsup({ type: 'sub' })('This text is sub'),
+            ' Words at{>} the end',
+          ),
+        ),
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          p(
+            'This is the first normal text This text is sup Spacer words ',
+            subsup({ type: 'sub' })('This text is sub'),
+            ' Words at the end',
+          ),
+        ),
+      );
+    });
+
+    it('can apply two different marks at different points', () => {
+      const { editorView } = editor(
+        doc(p('This is the first normal text {<>}')),
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      insertText(editorView, 'This text is sup');
+      sendKeyToPm(editorView, 'Enter');
+      insertText(editorView, 'This is the second normal text ');
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sub' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      insertText(editorView, 'This is sub');
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          p(
+            'This is the first normal text ',
+            subsup({ type: 'sup' })('This text is sup'),
+          ),
+          p(
+            'This is the second normal text ',
+            subsup({ type: 'sub' })('This is sub'),
+          ),
+        ),
+      );
+    });
+
     it('can apply a mark half way through a selection', () => {
       const { editorView } = editor(doc(p('te{<}xt{>}')));
 
@@ -510,6 +594,21 @@ describe('utils -> commands', () => {
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(subsup({ type: 'sup' })('text here'))),
+      );
+    });
+
+    it('can toggle marks with only differing attributes', () => {
+      const { editorView } = editor(
+        doc(p('text here', subsup({ type: 'sub' })('{<>}'))),
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('text here', subsup({ type: 'sup' })(''))),
       );
     });
   });
