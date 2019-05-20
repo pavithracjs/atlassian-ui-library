@@ -7,11 +7,11 @@ const JIRA_SEARCH_SESSION_ID_PARAM_NAME = 'searchSessionId';
 
 /**
  * Apply the given function to every result in the supplied ResultMap, but not people
- * @param fn function to map results
+ * @param resultMapperFn function to map results
  * @param results the GenericResultMap to apply fn to
  */
 const mapObjectsAndContainers = (
-  fn: (r: Result) => Result,
+  resultMapperFn: (r: Result) => Result,
   results: GenericResultMap,
 ): GenericResultMap => {
   return Object.keys(results)
@@ -19,7 +19,7 @@ const mapObjectsAndContainers = (
     .reduce(
       (accum, resultType) => ({
         ...accum,
-        [resultType]: results[resultType].map(fn),
+        [resultType]: results[resultType].map(resultMapperFn),
       }),
       {
         people: results.people,
