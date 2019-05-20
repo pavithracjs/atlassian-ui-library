@@ -15,7 +15,7 @@ export {
 } from './withTheme';
 
 // Types
-export { GlobalTheme, ProductTheme } from './types';
+export { GlobalTheme, ProductTheme } from './ts-types';
 
 // Theme context provider
 export { ThemeProvider } from 'emotion-theming';
