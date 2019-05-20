@@ -500,7 +500,7 @@ pipelines:
             - bolt install --pure-lockfile
             - yarn measure:dependents --s3
             - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize 
-            - [ -f .currentBundleSize/merged.json ] && (node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json) || echo "File does not exist"
+            - '[ ! -f .currentBundleSize/merged.json ] || node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json'
           artifacts:
             # Remove this adding for debugging 
             - .currentBundleSize/**  
