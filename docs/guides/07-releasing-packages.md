@@ -2,7 +2,7 @@
 
 Related reading:
 
-* [Versioning](./versioning)
+- [Versioning](./versioning)
 
 ## Committing your code
 
@@ -55,7 +55,7 @@ the changeset object and confirm if you wish to commit it.
 
 Hotfix releases are possible but should be avoided where **at all possible**. They introduce lots of room for mistakes and create a manual maintenance problem that we'd like to avoid.
 
-> **All hotfixes must be approved by either the build team or that Atlaskit architect**
+> **All hotfixes must be approved by either the build team or an Atlaskit architect**
 
 **Process**
 
@@ -81,6 +81,8 @@ bolt install
 4. Apply manual changes and test **thoroughly**. It is extremely important that this is done correcly. How you test will depend on exactly what you are fixing, but in general building the package you are changing and `yarn link`'ing it will be useful.
 
 5. Once you are completely satisfied that the change is correct, manually change its version. It's best to give it a very descriptive version that is easy to verify and know that it is a hotfix. It is common to add a number to the end in case you need to do more fixes (it is bad, but this is a very error-prone operation).
+
+   **Note:** If a consumer who requires the hotfix will not be able to pin the patched version, you may choose to release a patch with a normal, numeric, semver version instead (e.g. 1.1.1). Please ensure that this version has not already been used in a release.
 
 ```
 "name": "@atlaskit/avatar"
