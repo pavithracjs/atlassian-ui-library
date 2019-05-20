@@ -47,7 +47,7 @@ import {
   DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 import { isFullPage } from '../../../utils/is-full-page';
-import { findMediaNode, findMediaSingleNode } from '../commands/helpers';
+import * as helpers from '../commands/helpers';
 import { updateMediaNodeAttrs } from '../commands';
 export { MediaState, MediaProvider, MediaStateStatus };
 
@@ -480,7 +480,7 @@ export class MediaPluginState {
   }
 
   findMediaNode = (id: string): MediaNodeWithPosHandler | null => {
-    return findMediaSingleNode(this, id);
+    return helpers.findMediaSingleNode(this, id);
   };
 
   private destroyPickers = () => {
@@ -665,14 +665,11 @@ export class MediaPluginState {
   };
 
   isMobileUploadCompleted = (mediaId: string) =>
-    this.editorAppearance === 'mobile' &&
-    typeof this.mobileUploadComplete[mediaId] === 'boolean'
-      ? this.mobileUploadComplete[mediaId]
-      : undefined;
+    helpers.isMobileUploadCompleted(this, mediaId);
 
   removeNodeById = (state: MediaState) => {
     const { id } = state;
-    const mediaNodeWithPos = findMediaNode(
+    const mediaNodeWithPos = helpers.findMediaNode(
       this,
       id,
       isImage(state.fileMimeType),

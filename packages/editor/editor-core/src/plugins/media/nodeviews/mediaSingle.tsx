@@ -33,7 +33,11 @@ import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { NodeSelection } from 'prosemirror-state';
 import { MediaOptions } from '../';
 import { updateMediaNodeAttrs } from '../commands';
-
+import {
+  stateKey as mediaPluginKey,
+  MediaPluginState,
+} from '../pm-plugins/main';
+import { isMobileUploadCompleted } from '../commands/helpers';
 export interface MediaSingleNodeProps {
   view: EditorView;
   node: PMNode;
@@ -46,6 +50,7 @@ export interface MediaSingleNodeProps {
   mediaOptions: MediaOptions;
   mediaProvider?: Promise<MediaProvider>;
   fullWidthMode?: boolean;
+  mediaPluginState: MediaPluginState;
 }
 
 export interface MediaSingleNodeState {
@@ -232,7 +237,8 @@ export default class MediaSingleNode extends Component<
       pctWidth: mediaSingleWidth,
     };
 
-    const uploadComplete = this.mediaPluginState.isMobileUploadCompleted(
+    const uploadComplete = isMobileUploadCompleted(
+      this.props.mediaPluginState,
       childNode.attrs.id,
     );
 
@@ -338,8 +344,9 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
               editorView={this.view}
               plugins={{
                 width: widthPluginKey,
+                mediaPluginState: mediaPluginKey,
               }}
-              render={({ width }) => {
+              render={({ width, mediaPluginState }) => {
                 const { selection } = this.view.state;
                 const isSelected = () =>
                   this.isSelectionInsideNode(selection.from, selection.to) ||
@@ -359,6 +366,7 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
                     selected={isSelected}
                     eventDispatcher={eventDispatcher}
                     editorAppearance={editorAppearance}
+                    mediaPluginState={mediaPluginState}
                   />
                 );
               }}

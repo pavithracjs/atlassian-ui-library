@@ -123,6 +123,7 @@ describe('nodeviews/mediaSingle', () => {
         editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
       />,
     );
 
@@ -143,6 +144,7 @@ describe('nodeviews/mediaSingle', () => {
         editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
       />,
     );
 
@@ -226,6 +228,7 @@ describe('nodeviews/mediaSingle', () => {
           editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
+          mediaPluginState={pluginState}
         />,
       );
 
@@ -270,6 +273,7 @@ describe('nodeviews/mediaSingle', () => {
           editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
+          mediaPluginState={pluginState}
         />,
       );
 
