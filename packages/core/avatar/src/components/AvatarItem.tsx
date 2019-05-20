@@ -1,10 +1,5 @@
 import GlobalTheme, { ThemeProp } from '@atlaskit/theme';
-import React, {
-  cloneElement,
-  Component,
-  Element,
-  ComponentType,
-} from 'react';
+import React, { cloneElement, Component, Element, ComponentType } from 'react';
 import { propsOmittedFromClickData } from './constants';
 import { omit } from '../utils';
 import {
@@ -20,35 +15,35 @@ import { AvatarClickType } from '../types';
 
 /* eslint-disable react/no-unused-prop-types */
 type Props = {
-  avatar: Element<any>,
+  avatar: Element<any>;
   /** Change background color */
-  backgroundColor?: string,
+  backgroundColor?: string;
   /** A custom component to use instead of the default span. */
-  component?: ComponentType<any>,
+  component?: ComponentType<any>;
   /** Provides a url for avatars being used as a link. */
-  href?: string,
+  href?: string;
   /** Change the style to indicate the item is active. */
-  isActive?: boolean,
+  isActive?: boolean;
   /** Change the style to indicate the item is disabled. */
-  isDisabled?: boolean,
+  isDisabled?: boolean;
   /** Change the style to indicate the item is focused. */
-  isFocus?: boolean,
+  isFocus?: boolean;
   /** Change the style to indicate the item is hovered. */
-  isHover?: boolean,
+  isHover?: boolean;
   /** Change the style to indicate the item is selected. */
-  isSelected?: boolean,
+  isSelected?: boolean;
   /** Handler to be called on click. */
-  onClick?: AvatarClickType,
+  onClick?: AvatarClickType;
   /** PrimaryText text */
-  primaryText?: string,
+  primaryText?: string;
   /** SecondaryText text */
-  secondaryText?: string,
+  secondaryText?: string;
   /** Pass target down to the anchor, if href is provided. */
-  target?: '_blank' | '_self' | '_top' | '_parent',
+  target?: '_blank' | '_self' | '_top' | '_parent';
   /** The item's theme. */
-  theme?: ThemeProp<ThemeItemTokens>,
+  theme?: ThemeProp<ThemeItemTokens>;
   /** Whether or not overflowing primary and secondary text is truncated */
-  enableTextTruncate?: boolean,
+  enableTextTruncate?: boolean;
 };
 
 class AvatarItem extends Component<Props> {
