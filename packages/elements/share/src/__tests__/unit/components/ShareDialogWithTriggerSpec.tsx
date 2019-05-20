@@ -379,7 +379,7 @@ describe('ShareDialogWithTrigger', () => {
     });
   });
 
-  describe('handleKeyDown', () => {
+  describe.only('handleKeyDown', () => {
     it('should clear the state if an escape key is pressed down if event.preventDefault is false', () => {
       const escapeKeyDownEvent: Partial<KeyboardEvent> = {
         target: document,
