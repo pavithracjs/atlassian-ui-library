@@ -94,6 +94,10 @@ export class CustomMediaPlayer extends Component<
       vendorify('fullscreenchange', false),
       this.onFullScreenChange,
     );
+
+    if (this.props.isAutoPlay) {
+      this.simultaneousPlay.onPlay();
+    }
   }
 
   componentWillUnmount() {
@@ -245,10 +249,6 @@ export class CustomMediaPlayer extends Component<
       onCanPlay,
       onError,
     } = this.props;
-
-    if (isAutoPlay) {
-      this.simultaneousPlay.onPlay();
-    }
 
     return (
       <CustomVideoWrapper innerRef={this.saveVideoWrapperRef}>
