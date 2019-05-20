@@ -1,16 +1,11 @@
-import { from } from 'rxjs/observable/from';
 import { of } from 'rxjs/observable/of';
 
 import { MediaApiConfig, MediaClientConfig } from '@atlaskit/media-core';
-import { FileState, MediaClient, MediaStore } from '@atlaskit/media-client';
+import { MediaClient, MediaStore } from '@atlaskit/media-client';
 
 import { asMock } from './jestHelpers';
 
-export interface FakeMediaClientConfig extends MediaClientConfig {
-  mockFileStates: FileState[];
-}
-
-export const getDefaultMediaClientConfig = (): FakeMediaClientConfig => ({
+export const getDefaultMediaClientConfig = (): MediaClientConfig => ({
   authProvider: jest.fn().mockReturnValue(() =>
     Promise.resolve({
       clientId: 'some-client-id',
@@ -18,11 +13,10 @@ export const getDefaultMediaClientConfig = (): FakeMediaClientConfig => ({
       baseUrl: 'some-service-host',
     }),
   ),
-  mockFileStates: [],
 });
 
 export const fakeMediaClient = (
-  config: FakeMediaClientConfig = getDefaultMediaClientConfig(),
+  config: MediaClientConfig = getDefaultMediaClientConfig(),
 ): MediaClient => {
   if (jest && jest.genMockFromModule) {
     const {
@@ -46,9 +40,6 @@ export const fakeMediaClient = (
     asMock(mediaClient.getImageUrl).mockResolvedValue('some-image-url');
     asMock(mediaClient.getImage).mockImplementation(mockMediaStore.getImage);
     asMock(mediaClient.collection.getItems).mockReturnValue(of([]));
-    asMock(mediaClient.file.getFileState).mockReturnValue(
-      from(config.mockFileStates),
-    );
     return mediaClient;
   } else {
     return new MediaClient(config);

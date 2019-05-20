@@ -2,17 +2,17 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-
+import {
+  ImageLoaderProps,
+  ProviderFactory,
+  withImageLoader,
+} from '@atlaskit/editor-common';
 import {
   MediaPluginState,
   stateKey as mediaStateKey,
   MediaProvider,
 } from '../pm-plugins/main';
-import {
-  MediaClient,
-  ImageResizeMode,
-  Identifier,
-} from '@atlaskit/media-client';
+import { MediaClient, Identifier } from '@atlaskit/media-client';
 import {
   Card,
   CardDimensions,

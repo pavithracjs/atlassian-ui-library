@@ -19,32 +19,12 @@ import {
   sleep,
 } from '@atlaskit/editor-test-helpers';
 
-import { Auth, AuthProvider, ProcessedFileState } from '@atlaskit/media-core';
-import { fakeMediaClient } from '@atlaskit/media-test-helpers';
+import { Auth, AuthProvider } from '@atlaskit/media-core';
 import uuid from 'uuid/v4';
 
-const testFileId = uuid();
+let testFileId: string;
 
-const testMediaAuth: Auth = {
-  clientId: `media-plugin-mock-clientId-${randomId()}`,
-  token:
-    // doesn't matter what's inside the JWT, just to show a valid one here
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNTE2MjM5MDIyfQ.L8i6g3PfcHlioHCCPURC9pmXT7gdJpx3kOoyAfNUwCc',
-  baseUrl: '/',
-};
-
-const testFileState: ProcessedFileState = {
-  status: 'processed',
-  id: testFileId,
-  name: 'image.jpeg',
-  size: 100,
-  artifacts: {},
-  mediaType: 'image',
-  mimeType: 'image/jpeg',
-  representations: {
-    image: {},
-  },
-};
+let testMediaAuth: Auth;
 
 const createMediaState = (
   collection: string,
@@ -69,29 +49,35 @@ const createMedia = (collection: string, width = 256, height = 128) =>
 describe('Mobile MediaProvider', async () => {
   const createEditor = createEditorFactory();
 
-  const mockAuthProvider = jest.fn<AuthProvider>(() => async () =>
-    testMediaAuth,
-  );
+  let mockMediaProvider: Promise<MediaProvider>;
+  let mockAuthProvider: AuthProvider;
+  let providerFactory: ProviderFactory;
 
-  const mockMediaProvider = (async () => {
-    const mockMediaContext = Promise.resolve(
-      fakeMediaClient({
-        authProvider: mockAuthProvider,
-        mockFileStates: [testFileState],
-      }),
-    );
+  beforeEach(() => {
+    testFileId = uuid();
+    testMediaAuth = {
+      clientId: `media-plugin-mock-clientId-${randomId()}`,
+      token: 'some-token',
+      baseUrl: '/',
+    };
 
-    return {
-      viewContext: mockMediaContext,
-      uploadContext: mockMediaContext,
+    mockAuthProvider = jest.fn<AuthProvider>(() => async () => testMediaAuth);
+
+    const mockMediaClientConfig = Promise.resolve({
+      authProvider: mockAuthProvider,
+    });
+
+    mockMediaProvider = Promise.resolve({
+      viewMediaClientConfig: mockMediaClientConfig,
+      uploadMediaClientConfig: mockMediaClientConfig,
       uploadParams: {
         collection: '',
       },
-    } as MediaProvider;
-  })();
+    });
 
-  const providerFactory = ProviderFactory.create({
-    mediaProvider: mockMediaProvider,
+    providerFactory = ProviderFactory.create({
+      mediaProvider: mockMediaProvider,
+    });
   });
 
   const editor = (doc: any, mediaOptions: MediaOptions) =>
@@ -104,10 +90,6 @@ describe('Mobile MediaProvider', async () => {
       pluginKey: mediaPluginKey,
       providerFactory,
     });
-
-  beforeEach(() => {
-    mockAuthProvider.mockClear();
-  });
 
   afterAll(() => {
     providerFactory.destroy();
@@ -124,7 +106,7 @@ describe('Mobile MediaProvider', async () => {
         const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
         const provider = await mockMediaProvider;
-        await provider.viewContext;
+        await provider.viewMediaClientConfig;
 
         insertMediaSingleNode(
           editorView,
@@ -161,7 +143,7 @@ describe('Mobile MediaProvider', async () => {
         const emptyCollectionName = '';
 
         const provider = await mockMediaProvider;
-        await provider.viewContext;
+        await provider.viewMediaClientConfig;
 
         insertMediaSingleNode(
           editorView,
@@ -182,8 +164,10 @@ describe('Mobile MediaProvider', async () => {
         // flushes promise resolution queue so that the async media API calls mockAuthProvider
         await sleep(0);
 
+        // Due to logic in packages/media/media-client/src/client/file-fetcher.ts:122-143 empty collection name
+        // is batched together with all the other "falsy" values and later transformed into undefined.
         expect(mockAuthProvider).toHaveBeenCalledWith({
-          collectionName: emptyCollectionName,
+          collectionName: undefined,
         });
       });
     });
