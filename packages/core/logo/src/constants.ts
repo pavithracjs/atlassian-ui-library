@@ -14,12 +14,12 @@ export type Props = {
   label?: string;
 };
 
-export const DefaultProps = {
+export const DefaultProps: Partial<Props> = {
   iconColor: 'inherit',
   textColor: 'currentColor',
   iconGradientStart: 'inherit',
   iconGradientStop: 'inherit',
-  size: 'medium' as Props['size'],
+  size: 'medium',
   label: '',
 };
 
