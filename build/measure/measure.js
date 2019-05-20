@@ -2,10 +2,11 @@
 
 const fs = require('fs');
 const path = require('path');
+const exec = require('child_process').execSync;
 const chalk = require('chalk').default;
 const ora = require('ora');
 const webpack = require('webpack');
-const { fExists, fDelete } = require('./utils/fs');
+const { fExists, fDeleteIfExist } = require('./utils/fs');
 const {
   buildStats,
   createAtlaskitStatsGroups,
@@ -23,21 +24,20 @@ const {
   downloadFromS3,
 } = require('./utils/s3-actions');
 
-// move to common functions since its called in multiple places
-function fWriteStats(path, stats) {
-  fs.writeFileSync(path, JSON.stringify(clearStats(stats), null, 2), 'utf8');
+function fWriteStats(path, content) {
+  fs.writeFileSync(path, JSON.stringify(clearStats(content), null, 2), 'utf8');
 }
 
-// function to report bundleSize changes
-function getBundleSizeStatus(prevStatsPath, stats) {
+function getBundleCheckResult(path, stats) {
   let prevStats;
-  if (fExists(prevStatsPath)) {
-    prevStats = JSON.parse(fs.readFileSync(prevStatsPath, 'utf8'));
+  if (fExists(path)) {
+    prevStats = JSON.parse(fs.readFileSync(path, 'utf8'));
   }
 
   const statsWithDiff = prevStats ? diff(prevStats, stats) : stats;
   const statsExceededSizeLimit = statsWithDiff.filter(stat => stat.isTooBig);
   const passedBundleSizeCheck = !statsExceededSizeLimit.length;
+
   return { passedBundleSizeCheck, statsWithDiff, statsExceededSizeLimit };
 }
 
@@ -66,10 +66,6 @@ module.exports = async function main(
   s3,
 ) {
   const measureOutputPath = path.join(filePath, '.measure-output');
-  const atlaskitPackagesDir = path.join(__dirname, '..', '..', 'packages');
-
-  fDelete(measureOutputPath);
-
   const sanitizedFilePath = filePath.replace('/', '__');
   const measureCompiledOutputPath = path.join(
     measureOutputPath,
@@ -77,6 +73,11 @@ module.exports = async function main(
   );
   const dirs = filePath.split(path.sep);
   const packageName = dirs[dirs.length - 1];
+
+  const atlaskitPackagesDir = path.join(__dirname, '..', '..', 'packages');
+
+  fDeleteIfExist(measureOutputPath);
+
   const spinner = ora(chalk.cyan(`Compiling "${packageName}"`)).start();
 
   if (!fExists(filePath)) {
@@ -176,9 +177,9 @@ module.exports = async function main(
 
   /**
    * Main config for detailed breakdown of dependencies, includes:
-   * – main bundle: which is src of provided package
-   * – node_modules bundle: includes all external dependencies
-   * – package groups bundles: e.g. core, media, editor, etc...
+   * â€“ main bundle: which is src of provided package
+   * â€“ node_modules bundle: includes all external dependencies
+   * â€“ package groups bundles: e.g. core, media, editor, etc...
    */
   const mainConfig = await createWebpackConfig({
     outputDir: measureCompiledOutputPath,
@@ -212,13 +213,11 @@ module.exports = async function main(
 
   const joinedStatsGroups = [...mainStatsGroups, ...combinedStatsGroups];
   const stats = buildStats(measureCompiledOutputPath, joinedStatsGroups);
-  let result;
   // Cleanup measure output directory
   if (!isAnalyze) {
-    fDelete(measureOutputPath);
+    fDeleteIfExist(measureOutputPath);
   }
 
-  // TODO: remove this flag or use this instead of process.env.CI after the flow is switched
   if (s3) {
     // Add these path to enable to upload data to S3
     const masterStatsFilePath = path.join(
@@ -229,16 +228,15 @@ module.exports = async function main(
       currentStatsFolder,
       `${packageName}-bundle-size.json`,
     );
-    // adding this to download data from S3 if CI
+
     if (process.env.CI) {
-      downloadFromS3(`${masterStatsFolder}`, 'master');
-    } else {
-      console.error(chalk.red(`File ${masterStatsFilePath} is not found`));
+      await downloadFromS3(masterStatsFolder, 'master');
     }
 
-    result = getBundleSizeStatus(masterStatsFilePath, stats);
-    chalk.cyan(`Writing current build stats to "${currentStatsFilePath}"`),
-      fWriteStats(currentStatsFilePath, result.statsWithDiff);
+    const results = getBundleCheckResult(masterStatsFilePath, stats);
+    chalk.cyan(`Writing current build stats to "${currentStatsFilePath}"`);
+    fWriteStats(currentStatsFilePath, results.statsWithDiff);
+
     if (updateSnapshot) {
       // Store file into folder for S3
       fWriteStats(masterStatsFilePath, stats);
@@ -247,36 +245,33 @@ module.exports = async function main(
         uploadToS3(masterStatsFilePath, 'master');
       }
     }
-  } else {
-    // TODO: remove this loop once the flow is switched
-    result = getBundleSizeStatus(
-      path.join(filePath, `bundle-size-ratchet.json`),
-      stats,
-    );
   }
 
-  if (result.passedBundleSizeCheck) {
-    const message = chalk.cyan(
-      `Module "${packageName}" passed bundle size check`,
+  // TODO: replace after changes to flow are complete
+  const prevStatsPath = path.join(filePath, `bundle-size-ratchet.json`);
+  const results = getBundleCheckResult(prevStatsPath, stats);
+
+  if (results.passedBundleSizeCheck) {
+    spinner.succeed(
+      chalk.cyan(`Module "${packageName}" passed bundle size check`),
     );
-    spinner.succeed(message);
   } else {
     spinner.fail(chalk.red(`Module "${packageName}" has exceeded size limit!`));
   }
 
   if (isJson) {
     return console.log(JSON.stringify(stats, null, 2));
-  } else if (!isLint || !result.passedBundleSizeCheck) {
+  } else if (!isLint || !results.passedBundleSizeCheck) {
     printHowToReadStats();
-    printReport(prepareForPrint(joinedStatsGroups, result.statsWithDiff));
+    printReport(prepareForPrint(joinedStatsGroups, results.statsWithDiff));
   }
 
   if (updateSnapshot) {
     // TODO: remove this write once the flow is switched
     fWriteStats(prevStatsPath, stats);
-  } else if (result.statsExceededSizeLimit.length && isLint) {
-    throw new Error(`✖ Module "${packageName}" has exceeded size limit!`);
+  } else if (results.statsExceededSizeLimit.length && isLint) {
+    throw new Error(`âœ– Module "${packageName}" has exceeded size limit!`);
   }
 
-  return result.passedBundleSizeCheck ? 1 : 0;
+  return results.passedBundleSizeCheck ? 1 : 0;
 };

@@ -497,7 +497,6 @@ pipelines:
           name: Bundle size check step upload commit to S3
           script:
             - source ./build-setup.sh
-            - git merge master --no-edit
             - bolt install --pure-lockfile
             - yarn measure:dependents --s3
             - mkdir ./bundleSizeArtifacts && find . -name '*-bundle-size.json' -not -path "./node_modules/*" -exec cp {} ./bundleSizeArtifacts \;

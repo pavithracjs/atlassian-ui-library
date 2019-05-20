@@ -62,9 +62,9 @@ function downloadFromS3(downloadToFolder, branch) {
     packages.forEach(ratchetFile => {
       const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
 
-      //   npmRun.sync(
-      //     `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
-      //   );
+      npmRun.sync(
+        `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
+      );
     });
   })();
 }
