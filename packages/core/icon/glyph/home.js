@@ -13,12 +13,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-var HomeFilledIcon = function HomeFilledIcon(props) {
+var HomeIcon = function HomeIcon(props) {
   return _react.default.createElement(_Icon.default, _extends({
-    dangerouslySetGlyph: "<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" focusable=\"false\" role=\"presentation\"><path d=\"M18 12v8.004c0 .55-.456.996-1.002.996H7.002A.998.998 0 0 1 6 20.004V12H3.993c-.548 0-.673-.32-.287-.706l7.941-7.941a.497.497 0 0 1 .706 0l7.94 7.94c.39.39.262.707-.286.707H18zm-8 4.998V21h4v-4.002a2 2 0 0 0-4 0z\" fill=\"currentColor\" fill-rule=\"evenodd\"/></svg>"
+    dangerouslySetGlyph: "<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" focusable=\"false\" role=\"presentation\"><path d=\"M10 19v-4.5a2 2 0 1 1 4 0V19h4a1 1 0 0 0 1-1v-7.831l-6.293-6.296a1 1 0 0 0-1.414 0L5 10.169V18a1 1 0 0 0 1 1h4zm11-6.83V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-5.83l-.04.04c-.39.39-1.03.39-1.42 0-.39-.39-.39-1.03 0-1.42l8.339-8.331a3 3 0 0 1 4.242 0l8.339 8.331c.39.39.39 1.03 0 1.42-.39.39-1.03.39-1.42 0l-.04-.04z\" fill=\"currentColor\"/></svg>"
   }, props));
 };
 
-HomeFilledIcon.displayName = 'HomeFilledIcon';
-var _default = HomeFilledIcon;
+HomeIcon.displayName = 'HomeIcon';
+var _default = HomeIcon;
 exports.default = _default;
