@@ -1,0 +1,1 @@
+- ED-6741 Add 'appearance' to all editor analytics events

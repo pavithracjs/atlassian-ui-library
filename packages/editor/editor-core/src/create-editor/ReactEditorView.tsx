@@ -195,7 +195,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     if (appearance === 'full-width') {
       return FULL_WIDTH_MODE.FULL_WIDTH;
     }
-    return FULL_WIDTH_MODE.DEFAULT;
+    return FULL_WIDTH_MODE.FIXED_WIDTH;
   };
 
   reconfigureState = (props: EditorViewProps) => {
