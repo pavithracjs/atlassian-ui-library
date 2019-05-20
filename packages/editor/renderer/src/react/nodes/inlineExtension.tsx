@@ -21,7 +21,6 @@ const InlineExtension: React.StatelessComponent<Props> = ({
   extensionKey,
   parameters,
   text,
-  children,
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {

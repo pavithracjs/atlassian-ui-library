@@ -1,5 +1,10 @@
 # @atlaskit/help-article
 
+## 0.4.1
+- [patch] [7ad5551b05](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ad5551b05):
+
+  - Updated/fix CSS styles
+
 ## 0.4.0
 - [minor] [05460c129b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/05460c129b):
 

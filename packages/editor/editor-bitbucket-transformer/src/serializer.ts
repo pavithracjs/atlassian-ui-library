@@ -32,7 +32,7 @@ export class MarkdownSerializerState extends PMMarkdownSerializerState {
   context = { insideTable: false };
 
   renderContent(parent: PMNode): void {
-    parent.forEach((child: PMNode, offset: number, index: number) => {
+    parent.forEach((child: PMNode, _offset: number, index: number) => {
       if (
         // If child is an empty Textblock we need to insert a zwnj-character in order to preserve that line in markdown
         child.isTextblock &&
@@ -175,7 +175,7 @@ export class MarkdownSerializerState extends PMMarkdownSerializerState {
       }
     };
 
-    parent.forEach((child: PMNode, offset: number, index: number) => {
+    parent.forEach((child: PMNode, _offset: number, index: number) => {
       progress(child, parent, index);
     });
 
@@ -197,20 +197,10 @@ export class MarkdownSerializer extends PMMarkdownSerializer {
 }
 
 const editorNodes = {
-  blockquote(
-    state: MarkdownSerializerState,
-    node: PMNode,
-    parent: PMNode,
-    index: number,
-  ) {
+  blockquote(state: MarkdownSerializerState, node: PMNode) {
     state.wrapBlock('> ', undefined, node, () => state.renderContent(node));
   },
-  codeBlock(
-    state: MarkdownSerializerState,
-    node: PMNode,
-    parent: PMNode,
-    index: number,
-  ) {
+  codeBlock(state: MarkdownSerializerState, node: PMNode) {
     const backticks = generateOuterBacktickChain(node.textContent, 3);
     state.write(backticks + (node.attrs.language || '') + '\n');
     state.text(node.textContent ? node.textContent : '\u200c', false);
@@ -218,12 +208,7 @@ const editorNodes = {
     state.write(backticks);
     state.closeBlock(node);
   },
-  heading(
-    state: MarkdownSerializerState,
-    node: PMNode,
-    parent: PMNode,
-    index: number,
-  ) {
+  heading(state: MarkdownSerializerState, node: PMNode) {
     state.write(state.repeat('#', node.attrs.level) + ' ');
     state.renderInline(node);
     state.closeBlock(node);
@@ -232,23 +217,13 @@ const editorNodes = {
     state.write(node.attrs.markup || '---');
     state.closeBlock(node);
   },
-  bulletList(
-    state: MarkdownSerializerState,
-    node: PMNode,
-    parent: PMNode,
-    index: number,
-  ) {
+  bulletList(state: MarkdownSerializerState, node: PMNode) {
     for (let i = 0; i < node.childCount; i++) {
       const child = node.child(i);
       state.render(child, node, i);
     }
   },
-  orderedList(
-    state: MarkdownSerializerState,
-    node: PMNode,
-    parent: PMNode,
-    index: number,
-  ) {
+  orderedList(state: MarkdownSerializerState, node: PMNode) {
     for (let i = 0; i < node.childCount; i++) {
       const child = node.child(i);
       state.render(child, node, i);
@@ -285,12 +260,7 @@ const editorNodes = {
       state.write('\n');
     }
   },
-  paragraph(
-    state: MarkdownSerializerState,
-    node: PMNode,
-    parent: PMNode,
-    index: number,
-  ) {
+  paragraph(state: MarkdownSerializerState, node: PMNode) {
     state.renderInline(node);
     state.closeBlock(node);
   },
@@ -384,12 +354,7 @@ const editorNodes = {
 
     state.write(`@${node.attrs.id}${delimiter}`);
   },
-  emoji(
-    state: MarkdownSerializerState,
-    node: PMNode,
-    parent: PMNode,
-    index: number,
-  ) {
+  emoji(state: MarkdownSerializerState, node: PMNode) {
     state.write(node.attrs.shortName);
   },
 };
@@ -412,7 +377,7 @@ export const marks = {
   },
   link: {
     open: '[',
-    close(state: MarkdownSerializerState, mark: any) {
+    close(_state: MarkdownSerializerState, mark: any) {
       return '](' + mark.attrs['href'] + ')';
     },
   },

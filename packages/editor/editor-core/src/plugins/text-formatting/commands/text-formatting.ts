@@ -1,5 +1,4 @@
 import { TextSelection, Selection } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
 import { hasCode } from '../utils';
 import { markActive } from '../utils';
 import { transformToCodeAction } from './transform-to-code';
@@ -66,9 +65,7 @@ export const moveRight = (): Command => {
   };
 };
 
-export const moveLeft = (
-  view: EditorView & { cursorWrapper?: any },
-): Command => {
+export const moveLeft = (): Command => {
   return (state, dispatch) => {
     const { code } = state.schema.marks;
     const { empty, $cursor } = state.selection as TextSelection;

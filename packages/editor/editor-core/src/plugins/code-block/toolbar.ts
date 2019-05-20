@@ -81,4 +81,5 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       items: [languageSelect, separator, deleteButton],
     };
   }
+  return;
 };

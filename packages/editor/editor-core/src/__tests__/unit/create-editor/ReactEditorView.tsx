@@ -499,7 +499,7 @@ describe(name, () => {
             action: 'changedFullWidthMode',
             actionSubject: 'editor',
             attributes: {
-              previousMode: 'default',
+              previousMode: 'fixedWidth',
               newMode: 'fullWidth',
             },
             eventType: 'track',
@@ -517,7 +517,7 @@ describe(name, () => {
             actionSubject: 'editor',
             attributes: {
               previousMode: 'fullWidth',
-              newMode: 'default',
+              newMode: 'fixedWidth',
             },
             eventType: 'track',
           },
@@ -551,12 +551,7 @@ describe(name, () => {
             {...requiredProps()}
             {...analyticsProps()}
             allowAnalyticsGASV3={allowAnalyticsGASV3}
-            render={({
-              editor,
-              config,
-              eventDispatcher,
-              dispatchAnalyticsEvent,
-            }) => {
+            render={({ dispatchAnalyticsEvent }) => {
               dispatch = dispatchAnalyticsEvent;
               return <p>Component</p>;
             }}

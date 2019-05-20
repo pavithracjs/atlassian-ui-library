@@ -99,8 +99,8 @@ const isTableResized = (columnWidths: Array<number>) => {
 
 const fixColumnWidth = (
   columnWidth: number,
-  tableWidth: number,
-  layoutWidth: number,
+  _tableWidth: number,
+  _layoutWidth: number,
   zeroWidthColumnsCount: number,
   scaleDownPercent: number,
 ): number => {

@@ -39,7 +39,7 @@ describe('@atlaskit/editor-core slice utils', () => {
 
     it('should allow replacing one node with multiple nodes', () => {
       const content = fragment(p('content'));
-      const replaceMultiple = (i: Node) =>
+      const replaceMultiple = () =>
         [p('start'), p('end')].map(i => clean(i)(defaultSchema)) as Node[];
       expect(mapFragment(content, replaceMultiple)).toEqual(
         fragment(p('start'), p('end')),

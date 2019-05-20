@@ -13,7 +13,7 @@ export enum PLATFORMS {
 }
 
 export enum FULL_WIDTH_MODE {
-  DEFAULT = 'default',
+  FIXED_WIDTH = 'fixedWidth',
   FULL_WIDTH = 'fullWidth',
 }
 

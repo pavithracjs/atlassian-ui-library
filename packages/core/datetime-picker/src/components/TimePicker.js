@@ -315,7 +315,6 @@ class TimePicker extends Component<Props, State> {
 }
 
 export { TimePicker as TimePickerWithoutAnalytics };
-const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
   componentName: 'timePicker',
@@ -323,7 +322,7 @@ export default withAnalyticsContext({
   packageVersion,
 })(
   withAnalyticsEvents({
-    onChange: createAndFireEventOnAtlaskit({
+    onChange: createAndFireEvent('atlaskit')({
       action: 'selectedTime',
       actionSubject: 'timePicker',
 

@@ -32,7 +32,7 @@ import PickerFacade, {
   MediaStateEventSubscriber,
 } from '../picker-facade';
 import { MediaState, MediaProvider, MediaStateStatus } from '../types';
-import { insertMediaSingleNode } from '../utils/media-single';
+import { insertMediaSingleNode, isMediaSingle } from '../utils/media-single';
 
 import { findDomRefAtPos } from 'prosemirror-utils';
 import {
@@ -68,6 +68,7 @@ export class MediaPluginState {
   public layout: MediaSingleLayout = 'center';
   public mediaNodes: MediaNodeWithPosHandler[] = [];
   public mediaGroupNodes: Record<string, any> = {};
+  public mobileUploadComplete: Record<string, boolean> = {};
   private pendingTask = Promise.resolve<MediaState | null>(null);
   public options: MediaPluginOptions;
   private view!: EditorView;
@@ -77,8 +78,6 @@ export class MediaPluginState {
 
   public pickers: PickerFacade[] = [];
   private popupPicker?: PickerFacade;
-  // @ts-ignore
-  private clipboardPicker?: PickerFacade;
   private dropzonePicker?: PickerFacade;
   // @ts-ignore
   private customPicker?: PickerFacade;
@@ -115,7 +114,7 @@ export class MediaPluginState {
 
     options.providerFactory.subscribe(
       'mediaProvider',
-      (name, provider?: Promise<MediaProvider>) =>
+      (_name, provider?: Promise<MediaProvider>) =>
         this.setMediaProvider(provider),
     );
 
@@ -232,6 +231,7 @@ export class MediaPluginState {
       const target = (node as HTMLElement).querySelector('.wrapper') || node;
       return target;
     }
+    return;
   }
 
   /**
@@ -243,15 +243,18 @@ export class MediaPluginState {
     mediaState: MediaState,
     onMediaStateChanged: MediaStateEventSubscriber,
   ) => {
-    const { mediaSingle } = this.view.state.schema.nodes;
     const collection = this.collectionFromProvider();
     if (collection === undefined) {
       return;
     }
 
+    if (this.editorAppearance === 'mobile') {
+      this.mobileUploadComplete[mediaState.id] = false;
+    }
+
     this.allUploadsFinished = false;
 
-    if (mediaSingle && isImage(mediaState.fileMimeType)) {
+    if (isMediaSingle(this.view.state.schema, mediaState.fileMimeType)) {
       insertMediaSingleNode(this.view, mediaState, collection);
     } else {
       insertMediaGroupNode(this.view, [mediaState], collection);
@@ -340,7 +343,7 @@ export class MediaPluginState {
     }
 
     let rejectTimeout: number;
-    const timeoutPromise = new Promise((resolve, reject) => {
+    const timeoutPromise = new Promise((_resolve, reject) => {
       rejectTimeout = window.setTimeout(
         () =>
           reject(new Error(`Media operations did not finish in ${timeout} ms`)),
@@ -460,68 +463,6 @@ export class MediaPluginState {
     dispatch(tr.setMeta('addToHistory', false));
   };
 
-  align = (layout: MediaSingleLayout, gridSize: number = 12): boolean => {
-    const { mediaSingle } = this.view.state.schema.nodes;
-
-    const mediaSingleNode = this.selectedMediaContainerNode();
-    if (!mediaSingleNode || mediaSingleNode.type !== mediaSingle) {
-      return false;
-    }
-
-    const {
-      selection: { from },
-      tr,
-      schema,
-    } = this.view.state;
-
-    let width = mediaSingleNode.attrs.width;
-    const oldLayout: MediaSingleLayout = mediaSingleNode.attrs.layout;
-    const wrappedLayouts: MediaSingleLayout[] = ['wrap-left', 'wrap-right'];
-
-    if (width) {
-      const cols = Math.round((width / 100) * gridSize);
-      let targetCols = cols;
-
-      const nonWrappedLayouts: MediaSingleLayout[] = [
-        'center',
-        'wide',
-        'full-width',
-      ];
-
-      if (
-        wrappedLayouts.indexOf(oldLayout) > -1 &&
-        nonWrappedLayouts.indexOf(layout) > -1
-      ) {
-        // wrap -> center needs to align to even grid
-        targetCols = Math.floor(targetCols / 2) * 2;
-      } else if (
-        nonWrappedLayouts.indexOf(oldLayout) > -1 &&
-        wrappedLayouts.indexOf(layout) > -1
-      ) {
-        // cannot resize to full column width, and cannot resize to 1 column
-
-        if (cols <= 1) {
-          targetCols = 2;
-        } else if (cols >= gridSize) {
-          targetCols = 10;
-        }
-      }
-
-      if (targetCols !== cols) {
-        width = (targetCols / gridSize) * 100;
-      }
-    }
-
-    this.view.dispatch(
-      tr.setNodeMarkup(from, schema.nodes.mediaSingle, {
-        ...mediaSingleNode.attrs,
-        layout,
-        width,
-      }),
-    );
-    return true;
-  };
-
   destroy() {
     if (this.destroyed) {
       return;
@@ -567,7 +508,6 @@ export class MediaPluginState {
     pickers.splice(0, pickers.length);
 
     this.popupPicker = undefined;
-    this.clipboardPicker = undefined;
     this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
@@ -605,15 +545,9 @@ export class MediaPluginState {
         pickers.push(
           (this.popupPicker = await new Picker(
             // Fallback to browser picker for unauthenticated users
-            context.config.userAuthProvider ? 'popup' : 'browser',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init()),
-        );
-
-        pickers.push(
-          (this.clipboardPicker = await new Picker(
-            'clipboard',
+            context.config && context.config.userAuthProvider
+              ? 'popup'
+              : 'browser',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),
@@ -647,7 +581,7 @@ export class MediaPluginState {
     pickers.forEach(picker => picker.setUploadParams(uploadParams));
   }
 
-  private trackNewMediaEvent(pickerType: string) {
+  public trackNewMediaEvent(pickerType: string) {
     return (mediaState: MediaState) => {
       analyticsService.trackEvent(
         `atlassian.editor.media.file.${pickerType}`,
@@ -689,6 +623,7 @@ export class MediaPluginState {
       case 'dropzone':
         return INPUT_METHOD.DRAG_AND_DROP;
     }
+    return;
   };
 
   updateMediaNodeAttrs = (
@@ -734,11 +669,7 @@ export class MediaPluginState {
         break;
 
       case 'mobile-upload-end':
-        const isMediaSingle =
-          isImage(state.fileMimeType) &&
-          !!this.view.state.schema.nodes.mediaSingle;
-
-        let attrs: { id?: string; collection?: string } = {
+        const attrs: { id: string; collection?: string } = {
           id: state.publicId || state.id,
         };
 
@@ -746,11 +677,25 @@ export class MediaPluginState {
           attrs.collection = state.collection;
         }
 
-        this.updateMediaNodeAttrs(state.id, attrs, isMediaSingle);
+        this.updateMediaNodeAttrs(
+          state.id,
+          attrs,
+          isMediaSingle(this.view.state.schema, state.fileMimeType),
+        );
+
+        // mark mobile upload as complete
+        this.mobileUploadComplete[attrs.id] = true;
+
         delete this.mediaGroupNodes[state.id];
         break;
     }
   };
+
+  isMobileUploadCompleted = (mediaId: string) =>
+    this.editorAppearance === 'mobile' &&
+    typeof this.mobileUploadComplete[mediaId] === 'boolean'
+      ? this.mobileUploadComplete[mediaId]
+      : undefined;
 
   removeNodeById = (state: MediaState) => {
     const { id } = state;
@@ -788,6 +733,7 @@ export class MediaPluginState {
     ) {
       return selection.node;
     }
+    return;
   };
 
   private handleDrag = (dragState: 'enter' | 'leave') => {
@@ -823,7 +769,7 @@ export const getMediaPluginState = (state: EditorState) =>
   stateKey.getState(state) as MediaPluginState;
 
 export const createPlugin = (
-  schema: Schema,
+  _schema: Schema,
   options: MediaPluginOptions,
   reactContext: () => {},
   dispatch?: Dispatch,
@@ -834,7 +780,7 @@ export const createPlugin = (
 
   return new Plugin({
     state: {
-      init(config, state) {
+      init(_config, state) {
         return new MediaPluginState(
           state,
           options,
@@ -843,7 +789,7 @@ export const createPlugin = (
           dispatchAnalyticsEvent,
         );
       },
-      apply(tr, pluginState: MediaPluginState, oldState, newState) {
+      apply(tr, pluginState: MediaPluginState) {
         // remap editing media single position if we're in collab
         if (typeof pluginState.editingMediaSinglePos === 'number') {
           pluginState.editingMediaSinglePos = tr.mapping.map(

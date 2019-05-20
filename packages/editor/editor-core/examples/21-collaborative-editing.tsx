@@ -131,6 +131,7 @@ export default class Example extends React.Component<Props, State> {
         </div>
       );
     }
+    return;
   }
 
   renderDocumentId() {

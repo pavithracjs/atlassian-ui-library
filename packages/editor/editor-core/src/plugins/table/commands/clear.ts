@@ -19,7 +19,7 @@ export const clearMultipleCells = (targetCellPosition?: number): Command => (
 
   if (isCellSelection(tr.selection)) {
     const selection = (tr.selection as any) as CellSelection;
-    selection.forEachCell((node, pos) => {
+    selection.forEachCell((_node, pos) => {
       const $pos = tr.doc.resolve(tr.mapping.map(pos + 1));
       tr = emptyCell(findCellClosestToPos($pos)!, state.schema)(tr);
     });

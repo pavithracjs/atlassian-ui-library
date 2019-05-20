@@ -126,4 +126,5 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       ],
     };
   }
+  return;
 };

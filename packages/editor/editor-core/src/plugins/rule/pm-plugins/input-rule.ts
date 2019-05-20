@@ -76,7 +76,7 @@ export function inputRulePlugin(schema: Schema): Plugin | undefined {
       // -1, so that it also replaces the container paragraph
       createInputRule(
         /^(\-\-\-|\*\*\*)$/,
-        (state, match, start, end) =>
+        (state, _match, start, end) =>
           createHorizontalRuleAutoformat(state, start - 1, end),
         true,
       ),
@@ -86,7 +86,7 @@ export function inputRulePlugin(schema: Schema): Plugin | undefined {
     rules.push(
       createInputRule(
         new RegExp(`${leafNodeReplacementCharacter}(\\-\\-\\-|\\*\\*\\*)`),
-        (state, match, start, end) => {
+        (state, _match, start, end) => {
           const { hardBreak } = state.schema.nodes;
           if (state.doc.resolve(start).nodeAfter!.type !== hardBreak) {
             return null;
@@ -101,6 +101,8 @@ export function inputRulePlugin(schema: Schema): Plugin | undefined {
   if (rules.length !== 0) {
     return inputRules({ rules });
   }
+
+  return;
 }
 
 export default inputRulePlugin;

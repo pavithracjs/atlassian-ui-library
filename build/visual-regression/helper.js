@@ -8,6 +8,70 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+function trackers(page /*:any*/) {
+  let requests = new Set();
+  const onStarted = request => requests.add(request);
+  const onFinished = request => requests.delete(request);
+  page.on('request', onStarted);
+  page.on('requestfinished', onFinished);
+  page.on('requestfailed', onFinished);
+
+  return {
+    dispose() {
+      page.removeListener('request', onStarted);
+      page.removeListener('requestfinished', onFinished);
+      page.removeListener('requestfailed', onFinished);
+    },
+
+    inflightRequests() {
+      return Array.from(requests);
+    },
+  };
+}
+
+async function navigateToUrl(
+  page /*:any*/,
+  url /*:string*/,
+  reuseExistingSession /*:boolean*/ = true,
+  failHandler /*:?(error: Error) => void*/ = undefined,
+) {
+  if (reuseExistingSession && page.url() === url) {
+    return;
+  }
+
+  // Disable Webpack's HMR, as it negatively impacts usage of the 'networkidle0' setting.
+  await page.setRequestInterception(true);
+  page.on('request', request => {
+    if (request._interceptionHandled) {
+      return;
+    }
+
+    if (request.url().includes('xhr_streaming')) {
+      console.log('Aborted connection request to webpack xhr_streaming');
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
+
+  const tracker = trackers(page);
+  if (!failHandler) {
+    failHandler = error => {
+      console.warn('Navigation failed: ' + error.message);
+      console.warn('Trying to navigate to: ' + url);
+      const inflight = tracker.inflightRequests();
+      console.warn(
+        'Waiting on requests:\n' +
+          inflight.map(requests => '  ' + requests.url()).join('\n'),
+      );
+    };
+  }
+
+  // Track requests and log any hanging connections
+  await page.goto(url, { waitUntil: 'networkidle0' }).catch(failHandler);
+  tracker.dispose();
+}
+
 async function disableAllSideEffects(
   page /*: any */,
   allowSideEffects /*: Object */ = {},
@@ -170,7 +234,7 @@ async function waitForLoadedBackgroundImages(
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url);
   await disableAllAnimations(page);
   await disableAllTransitions(page);
   await disableCaretCursor(page);
@@ -195,11 +259,7 @@ async function loadExampleUrl(
   url /*:string*/,
   reuseExistingSession /*:boolean*/ = true,
 ) {
-  if (reuseExistingSession) {
-    const currentUrl /*:string*/ = await page.url();
-    if (currentUrl === url) return;
-  }
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url, reuseExistingSession);
   const errorMessage = await validateExampleLoaded(page);
 
   if (errorMessage) {
@@ -268,6 +328,7 @@ module.exports = {
   takeElementScreenShot,
   getExampleUrl,
   loadExampleUrl,
+  navigateToUrl,
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,

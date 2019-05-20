@@ -25,17 +25,17 @@ export class TaskDecisionProviderImpl implements TaskDecisionProvider {
     this._handleToggleTask = toggleTask;
     this._handlers = new Map();
   }
-  getDecisions(query: Query): Promise<DecisionResponse> {
+  getDecisions(_query: Query): Promise<DecisionResponse> {
     return Promise.resolve({ decisions: [] });
   }
-  getTasks(query: Query): Promise<TaskResponse> {
+  getTasks(_query: Query): Promise<TaskResponse> {
     return Promise.resolve({ tasks: [] });
   }
-  getItems(query: Query): Promise<ItemResponse> {
+  getItems(_query: Query): Promise<ItemResponse> {
     return Promise.resolve({ items: [] });
   }
-  unsubscribeRecentUpdates(id: RecentUpdatesId) {}
-  notifyRecentUpdates(updateContext?: RecentUpdateContext) {}
+  unsubscribeRecentUpdates(_id: RecentUpdatesId) {}
+  notifyRecentUpdates(_updateContext?: RecentUpdateContext) {}
   toggleTask(key: ObjectKey, state: TaskState): Promise<TaskState> {
     if (this._handleToggleTask) {
       this._handleToggleTask(key, state);
@@ -48,7 +48,7 @@ export class TaskDecisionProviderImpl implements TaskDecisionProvider {
   subscribe(key: ObjectKey, handler: Handler) {
     this._handlers.set(objectKeyToString(key), handler);
   }
-  unsubscribe(key: ObjectKey, handler: Handler) {
+  unsubscribe(key: ObjectKey) {
     this._handlers.delete(objectKeyToString(key));
   }
 

@@ -49,7 +49,7 @@ describe('card', () => {
 
       beforeEach(() => {
         provider = new class implements CardProvider {
-          resolve(url: string): Promise<any> {
+          resolve(): Promise<any> {
             const promise = new Promise(resolve => resolve(cardAdf));
             promises.push(promise);
             return promise;

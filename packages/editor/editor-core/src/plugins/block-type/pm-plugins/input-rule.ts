@@ -97,7 +97,7 @@ function getHeadingRules(schema: Schema): InputRuleWithHandler[] {
 
   // New analytics handler
   const ruleWithHeadingAnalytics = ruleWithAnalytics(
-    (state, match: string[]) => ({
+    (_state, match: string[]) => ({
       action: ACTION.FORMATTED,
       actionSubject: ACTION_SUBJECT.TEXT,
       eventType: EVENT_TYPE.TRACK,
@@ -135,7 +135,7 @@ function getBlockQuoteRules(schema: Schema): InputRuleWithHandler[] {
 
   const leftNodeReplacementGreatherRule = createInputRule(
     new RegExp(`${leafNodeReplacementCharacter}\\s*>\\s$`),
-    (state, match, start, end) => {
+    (state, _match, start, end) => {
       return insertBlock(
         state,
         schema.nodes.blockquote,
@@ -249,6 +249,7 @@ export function inputRulePlugin(schema: Schema): Plugin | undefined {
   if (rules.length !== 0) {
     return inputRules({ rules });
   }
+  return;
 }
 
 export default inputRulePlugin;

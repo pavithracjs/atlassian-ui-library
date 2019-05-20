@@ -29,7 +29,7 @@ export function createPlugin(placeholderText?: string): Plugin | undefined {
     key: pluginKey,
     state: {
       init: (_, state) => isEmptyDocument(state.doc),
-      apply: (tr, _oldPluginState, oldEditorState, newEditorState) => {
+      apply: (tr, _oldPluginState, _oldEditorState, newEditorState) => {
         const meta = tr.getMeta(pluginKey);
 
         if (meta) {
@@ -58,6 +58,7 @@ export function createPlugin(placeholderText?: string): Plugin | undefined {
         if (havePlaceholder) {
           return createPlaceholderDecoration(editorState.doc, placeholderText);
         }
+        return;
       },
       // Workaround for ED-4063: On Mobile / Android, a user can start typing but it won't trigger
       // an Editor state update so the placeholder will still be shown. We hook into the compositionstart
@@ -98,7 +99,7 @@ const placeholderPlugin: EditorPlugin = {
     return [
       {
         name: 'placeholder',
-        plugin: ({ schema, props }) => createPlugin(props.placeholder),
+        plugin: ({ props }) => createPlugin(props.placeholder),
       },
     ];
   },

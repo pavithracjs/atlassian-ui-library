@@ -48,7 +48,7 @@ export default (
           allowBreakout,
         };
       },
-      apply(tr, state: ExtensionState, prevState, nextState) {
+      apply(tr, state: ExtensionState) {
         const nextPluginState = tr.getMeta(pluginKey);
         if (nextPluginState) {
           dispatch(pluginKey, nextPluginState);

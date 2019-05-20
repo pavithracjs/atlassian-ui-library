@@ -7,11 +7,11 @@ export type Props = {
   data: {};
 };
 
-const createNamespaceContext = (
+const createNamespaceContext = <T extends Props>(
   namespace: string,
   displayName = 'NamespacedContext',
-): StatelessComponent<Props> => {
-  const Component: StatelessComponent<Props> = (props: Props) => {
+) => {
+  const Component: StatelessComponent<T> = (props: T) => {
     const newData = {
       [namespace]: props.data,
     };
