@@ -1,5 +1,6 @@
-// @flow
 import { getExampleUrl } from '@atlaskit/visual-regression/helper';
+
+declare var global: any;
 
 const examples = '#examples';
 const tooltipBtn = 'button';
@@ -15,7 +16,6 @@ describe('Snapshot Test', () => {
     // The tooltip is visible after 300 ms
     await page.waitFor(1000);
     const image = await page.screenshot();
-    //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
 });

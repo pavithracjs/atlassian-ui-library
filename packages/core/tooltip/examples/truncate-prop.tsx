@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import Tooltip from '../src';
 
@@ -10,13 +8,12 @@ function getUEID() {
     .slice(2);
 }
 
-const Checkbox = ({
-  children,
-  onChange,
-}: {
-  children: string,
-  onChange: Event => void,
-}) => {
+interface ICheckboxProps {
+  children: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Checkbox = ({ children, onChange }: ICheckboxProps) => {
   const id = getUEID();
 
   return (

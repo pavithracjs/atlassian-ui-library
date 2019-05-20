@@ -1,13 +1,11 @@
-// @flow
 /* eslint-disable react/require-default-props */
 
 import React, {
   Children,
   Component,
   Fragment,
-  type Node,
-  type Element,
-  type ComponentType,
+  ReactNode,
+  MouseEvent as ReactMouseEvent,
 } from 'react';
 import NodeResolver from 'react-node-resolver';
 import flushable from 'flushable';
@@ -25,19 +23,23 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-import type {
-  PositionType,
-  PositionTypeBase,
-  FakeMouseElement,
-} from '../types';
+import { PositionType, PositionTypeBase, FakeMouseElement } from '../types';
 import { Tooltip as StyledTooltip } from '../styled';
 import Animation from './Animation';
 
 import { hoveredPayload, unhoveredPayload } from './utils/analytics-payloads';
+import { StyledComponentClass } from 'styled-components';
 
 const SCROLL_OPTIONS = { capture: true, passive: true };
 
-function getMousePosition(mouseCoordinates) {
+interface IFakeMouseCoordinates {
+  top: number;
+  left: number;
+}
+
+function getMousePosition(
+  mouseCoordinates: IFakeMouseCoordinates,
+): FakeMouseElement {
   const safeMouse = mouseCoordinates || { top: 0, left: 0 };
   const getBoundingClientRect = () => {
     return {
@@ -56,66 +58,67 @@ function getMousePosition(mouseCoordinates) {
   };
 }
 
-type Props = {
-  /** A single element, either Component or DOM node */
-  children: Element<*>,
+interface IProps {
   /** The content of the tooltip */
-  content: Node,
+  content: ReactNode;
   /** Extend `TooltipPrimitive` to create your own tooptip and pass it as component */
-  component: ComponentType<{ innerRef: HTMLElement => void }>,
+  component?: StyledComponentClass<{ truncate?: boolean; style?: any }, any>;
   /** Time in milliseconds to wait before showing and hiding the tooltip. Defaults to 300. */
-  delay: number,
+  delay?: number;
   /**
     Hide the tooltip when the click event is triggered. This should be
     used when tooltip should be hiden if `onClick` react synthetic event
     is triggered, which happens after `onMouseDown` event
   */
-  hideTooltipOnClick?: boolean,
+  hideTooltipOnClick?: boolean;
   /**
     Hide the tooltip when the mousedown event is triggered. This should be
     used when tooltip should be hiden if `onMouseDown` react synthetic event
     is triggered, which happens before `onClick` event
   */
-  hideTooltipOnMouseDown?: boolean,
+  hideTooltipOnMouseDown?: boolean;
   /**
     Where the tooltip should appear relative to the mouse. Only used when the
     `position` prop is set to 'mouse'
   */
-  mousePosition: PositionTypeBase,
+  mousePosition?: PositionTypeBase;
   /**
     Function to be called when the tooltip will be shown. It is called when the
     tooltip begins to animate in.
   */
-  onShow?: () => void,
+  onShow?: () => void;
   /**
     Function to be called when the tooltip will be hidden. It is called after the
     delay, when the tooltip begins to animate out.
   */
-  onHide?: () => void,
+  onHide?: () => void;
   /**
     Where the tooltip should appear relative to its target. If set to 'mouse',
     tooltip will display next to the mouse instead.
   */
-  position: PositionType,
+  position?: PositionType;
   /**
     Replace the wrapping element. This accepts the name of a html tag which will
     be used to wrap the element.
   */
-  tag: string,
+  tag?: string;
   /** Show only one line of text, and truncate when too long */
-  truncate?: boolean,
-};
+  truncate?: boolean;
+}
 
-type State = {
-  immediatelyHide: boolean,
-  immediatelyShow: boolean,
-  isVisible: boolean,
-  renderTooltip: boolean,
-};
+interface IState {
+  immediatelyHide: boolean;
+  immediatelyShow: boolean;
+  isVisible: boolean;
+  renderTooltip: boolean;
+}
 
-let pendingHide;
+let pendingHide: flushable.FlushableOperation;
 
-const showTooltip = (fn: boolean => void, defaultDelay: number) => {
+const showTooltip = (
+  fn: (isHidePending: boolean) => void,
+  defaultDelay: number,
+) => {
   const isHidePending = pendingHide && pendingHide.pending();
   if (isHidePending) {
     pendingHide.flush();
@@ -127,13 +130,16 @@ const showTooltip = (fn: boolean => void, defaultDelay: number) => {
   return pendingShow.cancel;
 };
 
-const hideTooltip = (fn: boolean => void, defaultDelay: number) => {
+const hideTooltip = (fn: (flushed: boolean) => void, defaultDelay: number) => {
   pendingHide = flushable(flushed => fn(flushed), defaultDelay);
   return pendingHide.cancel;
 };
 
-class Tooltip extends Component<Props, State> {
-  static defaultProps = {
+class Tooltip extends Component<IProps, IState> {
+  static defaultProps: Pick<
+    IProps,
+    'component' | 'delay' | 'mousePosition' | 'position' | 'tag'
+  > = {
     component: StyledTooltip,
     delay: 300,
     mousePosition: 'bottom',
@@ -141,11 +147,12 @@ class Tooltip extends Component<Props, State> {
     tag: 'div',
   };
 
-  wrapperRef: HTMLElement | null;
+  // TODO: why null? can it be changed to `undefined`?
+  wrapperRef: HTMLElement | null = null;
 
-  targetRef: HTMLElement | null;
+  targetRef: HTMLElement | null = null;
 
-  fakeMouseElement: FakeMouseElement | null;
+  fakeMouseElement: FakeMouseElement | null = null;
 
   cancelPendingSetState = () => {};
 
@@ -162,7 +169,7 @@ class Tooltip extends Component<Props, State> {
     this.removeScrollListener();
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(prevProps: IProps, prevState: IState) {
     if (!prevState.isVisible && this.state.isVisible) {
       if (this.props.onShow) this.props.onShow();
 
@@ -206,7 +213,7 @@ class Tooltip extends Component<Props, State> {
     }
   };
 
-  handleMouseOver = (e: SyntheticMouseEvent<>) => {
+  handleMouseOver = (e: ReactMouseEvent) => {
     if (e.target === this.wrapperRef) return;
     // In the case where a tooltip is newly rendered but immediately becomes hovered,
     // we need to set the coordinates in the mouseOver event.
@@ -223,17 +230,17 @@ class Tooltip extends Component<Props, State> {
           renderTooltip: true,
           immediatelyShow,
         });
-      }, this.props.delay);
+      }, this.props.delay || 0);
     }
   };
 
-  handleMouseLeave = (e: SyntheticMouseEvent<>) => {
+  handleMouseLeave = (e: ReactMouseEvent) => {
     if (e.target === this.wrapperRef) return;
     this.cancelPendingSetState();
     if (this.state.isVisible) {
       this.cancelPendingSetState = hideTooltip(immediatelyHide => {
         this.setState({ isVisible: false, immediatelyHide });
-      }, this.props.delay);
+      }, this.props.delay || 0);
     }
   };
 
@@ -259,8 +266,9 @@ class Tooltip extends Component<Props, State> {
       mousePosition,
       truncate,
       component: TooltipContainer,
-      tag: TargetContainer,
+      tag,
     } = this.props;
+
     const {
       isVisible,
       renderTooltip,
@@ -270,24 +278,29 @@ class Tooltip extends Component<Props, State> {
     return (
       /* eslint-disable jsx-a11y/mouse-events-have-key-events */
       <Fragment>
-        <TargetContainer
-          onClick={this.handleMouseClick}
-          onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseLeave}
-          onMouseMove={this.handleMouseMove}
-          onMouseDown={this.handleMouseDown}
-          ref={wrapperRef => {
-            this.wrapperRef = wrapperRef;
-          }}
-        >
-          <NodeResolver
-            innerRef={targetRef => {
-              this.targetRef = targetRef;
-            }}
-          >
-            {Children.only(children)}
-          </NodeResolver>
-        </TargetContainer>
+        {/* TODO: Is there a better way to create a dynamic element that doesn't complain with TS? */}
+        {tag &&
+          React.createElement(
+            tag,
+            {
+              onClick: this.handleMouseClick,
+              onMouseOver: this.handleMouseOver,
+              onMouseOut: this.handleMouseLeave,
+              onMouseMove: this.handleMouseMove,
+              onMouseDown: this.handleMouseDown,
+              ref: (wrapperRef: HTMLElement) => {
+                this.wrapperRef = wrapperRef;
+              },
+            },
+            <NodeResolver
+              innerRef={(targetRef: HTMLElement) => {
+                this.targetRef = targetRef;
+              }}
+            >
+              {Children.only(children)}
+            </NodeResolver>,
+          )}
+
         {renderTooltip && this.targetRef && this.fakeMouseElement ? (
           <Portal zIndex={layers.tooltip()}>
             <Popper
@@ -295,32 +308,41 @@ class Tooltip extends Component<Props, State> {
                 // https://github.com/FezVrasta/react-popper#usage-without-a-reference-htmlelement
                 // We are using a popper technique to pass in a faked element when we use mouse.
                 // This is fine.
-                // $FlowFixMe
                 position === 'mouse' ? this.fakeMouseElement : this.targetRef
               }
               placement={position === 'mouse' ? mousePosition : position}
             >
-              {({ ref, style, placement }) => (
-                <Animation
-                  immediatelyShow={immediatelyShow}
-                  immediatelyHide={immediatelyHide}
-                  onExited={() => this.setState({ renderTooltip: false })}
-                  in={isVisible}
-                >
-                  {getAnimationStyles => (
-                    <TooltipContainer
-                      innerRef={ref}
-                      style={{
-                        ...getAnimationStyles(placement),
-                        ...style,
-                      }}
-                      truncate={truncate}
-                    >
-                      {content}
-                    </TooltipContainer>
-                  )}
-                </Animation>
-              )}
+              {({
+                ref,
+                style,
+                placement,
+              }: {
+                ref: (elm: HTMLElement) => void;
+                style: Object;
+                placement: PositionTypeBase;
+              }) =>
+                TooltipContainer && (
+                  <Animation
+                    immediatelyShow={immediatelyShow}
+                    immediatelyHide={immediatelyHide}
+                    onExited={() => this.setState({ renderTooltip: false })}
+                    in={isVisible}
+                  >
+                    {getAnimationStyles => (
+                      <TooltipContainer
+                        innerRef={ref}
+                        style={{
+                          ...getAnimationStyles(placement),
+                          ...style,
+                        }}
+                        truncate={truncate || false}
+                      >
+                        {content}
+                      </TooltipContainer>
+                    )}
+                  </Animation>
+                )
+              }
             </Popper>
           </Portal>
         ) : null}

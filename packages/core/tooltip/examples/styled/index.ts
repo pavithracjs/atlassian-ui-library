@@ -1,8 +1,7 @@
-// @flow
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 
-const color = {
+const color: { [key: string]: string } = {
   blue: colors.B300,
   green: colors.G300,
   neutral: colors.N100,
@@ -21,7 +20,13 @@ export type Color =
   | 'teal'
   | 'yellow';
 
-export const Center = styled.div`
+interface IStyledProps {
+  pad?: string;
+  position?: string;
+  color: Color | string;
+}
+
+export const Center = styled.div<IStyledProps>`
   box-sizing: border-box;
   align-items: center;
   display: flex;
@@ -29,12 +34,12 @@ export const Center = styled.div`
   justify-content: center;
   padding: ${p => (p.pad ? '40px' : '0px')};
 `;
-export const Container = styled.div`
+export const Container = styled.div<IStyledProps>`
   margin: 0 auto;
   max-width: 600px;
   padding: ${p => (p.pad ? '40px' : '0px')};
 `;
-export const Box = styled.div`
+export const Box = styled.div<IStyledProps>`
   background-color: ${colors.N30};
   height: 140px;
   position: ${p => p.position || 'relative'};
@@ -43,7 +48,7 @@ export const Box = styled.div`
 export const Spacer = styled.div`
   margin-bottom: 4em;
 `;
-export const Target = styled.div`
+export const Target = styled.div<IStyledProps>`
   background-color: ${p => color[p.color] || colors.primary};
   border-radius: 3px;
   color: white;
@@ -56,7 +61,7 @@ export const Target = styled.div`
   user-select: none;
 `;
 
-export const BigTarget = styled.div`
+export const BigTarget = styled.div<IStyledProps>`
   background-color: ${p => color[p.color] || colors.primary};
   border-radius: 3px;
   color: white;

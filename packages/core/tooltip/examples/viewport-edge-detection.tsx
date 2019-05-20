@@ -1,13 +1,12 @@
-// @flow
-
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import { BigTarget } from './styled';
-import type { Color } from './styled';
+import { Color } from './styled';
 import Tooltip from '../src';
+import { PositionTypeBase } from '../src/types';
 
-const VALID_POSITIONS = ['top', 'right', 'bottom', 'left'];
+const VALID_POSITIONS: PositionTypeBase[] = ['top', 'right', 'bottom', 'left'];
 
 const targetHeight = 100;
 const targetWidth = 178;
@@ -46,15 +45,20 @@ const ButtonDiv = styled.p`
   text-align: center;
 `;
 
-type Props = { color: Color };
-type State = {
-  position: number,
-  positionType: 'standard' | 'mouse',
-  viewportPosition: number,
-  tooltipContent: number,
-};
+interface Props {
+  color: Color;
+}
 
-function getTooltipContent(position, index) {
+type PositionType = 'standard' | 'mouse';
+
+interface State {
+  position: number;
+  positionType: PositionType;
+  viewportPosition: number;
+  tooltipContent: number;
+}
+
+function getTooltipContent(position: PositionTypeBase, index: number) {
   const contentArray = [
     `The position of the tooltip is ${position}.`,
     `The position of the tooltip is ${position}.
@@ -76,7 +80,7 @@ export default class PositionExample extends Component<Props, State> {
   // just to simplify the `changeDirection` logic
   state = {
     position: 0,
-    positionType: 'standard',
+    positionType: 'standard' as PositionType,
     viewportPosition: 0,
     tooltipContent: 0,
   };

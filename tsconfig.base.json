@@ -69,6 +69,7 @@
     "./typings/querystring.d.ts",
     "./typings/raf-schd.d.ts",
     "./typings/raf-stub.d.ts",
+    "./typings/react-node-resolver.d.ts",
     "./typings/rusha.d.ts",
     "./typings/scrollparent.d.ts",
     "./typings/snake-case.d.ts",

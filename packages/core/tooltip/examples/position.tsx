@@ -1,14 +1,23 @@
-// @flow
-
 import React, { Component } from 'react';
 import { Target } from './styled';
-import type { Color } from './styled';
+import { Color } from './styled';
 import Tooltip from '../src';
+import { PositionType } from '../src/types';
 
-const VALID_POSITIONS = ['mouse', 'top', 'right', 'bottom', 'left'];
+const VALID_POSITIONS: PositionType[] = [
+  'mouse',
+  'top',
+  'right',
+  'bottom',
+  'left',
+];
 
-type Props = { color: Color };
-type State = { position: number };
+interface Props {
+  color: Color;
+}
+interface State {
+  position: number;
+}
 
 export default class PositionExample extends Component<Props, State> {
   // store the direction as an index and pull it from the list above,

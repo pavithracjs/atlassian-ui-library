@@ -1,17 +1,17 @@
-// @flow
 import React, { Component, Fragment } from 'react';
 import { Target } from './styled';
 import Tooltip from '../src';
+import { PositionType } from '../src/types';
 
 const colors = ['teal', 'blue', 'purple'];
 
-type S = {
-  position: 'bottom' | 'mouse',
-};
+interface IState {
+  position: PositionType;
+}
 
-export default class HoverIntent extends Component<{}, S> {
+export default class HoverIntent extends Component<{}, IState> {
   state = {
-    position: 'bottom',
+    position: 'bottom' as PositionType,
   };
 
   handleClick = () => {
