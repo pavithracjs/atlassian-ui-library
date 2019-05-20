@@ -1,5 +1,4 @@
-// @flow
-import { type ComponentType } from 'react';
+import { ComponentType } from 'react';
 import { withTheme } from '@atlaskit/theme';
 import styled from 'styled-components';
 import CustomComponentProxy from '../components/CustomComponentProxy';
@@ -33,10 +32,10 @@ export default (styles: Function) => {
     href,
     onClick,
   }: {
-    component?: ComponentType<*>,
-    href?: string,
-    onClick?: Function,
-    theme?: Function,
+    component?: ComponentType<any>;
+    href?: string;
+    onClick?: Function;
+    theme?: Function;
   }) {
     let Ret = StyledSpan;
 

@@ -1,11 +1,9 @@
-// @flow
-
-import GlobalTheme, { type ThemeProp } from '@atlaskit/theme';
+import GlobalTheme, { ThemeProp } from '@atlaskit/theme';
 import React, {
   cloneElement,
   Component,
-  type Element,
-  type ComponentType,
+  Element,
+  ComponentType,
 } from 'react';
 import { propsOmittedFromClickData } from './constants';
 import { omit } from '../utils';
@@ -17,16 +15,16 @@ import {
 } from '../styled/AvatarItem';
 import { getProps, getStyledAvatarItem } from '../helpers';
 import { withPseudoState } from '../hoc';
-import { ThemeItem, type ThemeItemTokens } from '../theme/item';
-import type { AvatarClickType } from '../types';
+import { ThemeItem, ThemeItemTokens } from '../theme/item';
+import { AvatarClickType } from '../types';
 
 /* eslint-disable react/no-unused-prop-types */
 type Props = {
-  avatar: Element<*>,
+  avatar: Element<any>,
   /** Change background color */
   backgroundColor?: string,
   /** A custom component to use instead of the default span. */
-  component?: ComponentType<*>,
+  component?: ComponentType<any>,
   /** Provides a url for avatars being used as a link. */
   href?: string,
   /** Change the style to indicate the item is active. */
@@ -54,7 +52,8 @@ type Props = {
 };
 
 class AvatarItem extends Component<Props> {
-  node: ?HTMLElement;
+  // TODO: is this right?
+  node: React.ReactChild;
 
   static defaultProps = {
     enableTextTruncate: true,
@@ -80,7 +79,7 @@ class AvatarItem extends Component<Props> {
     onClick({ item, event });
   };
 
-  setNode = (ref: ?HTMLElement) => {
+  setNode = (ref: HTMLElement | void) => {
     this.node = ref;
   };
 

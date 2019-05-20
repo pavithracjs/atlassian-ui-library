@@ -1,9 +1,7 @@
-// @flow
-
 import GlobalTheme from '@atlaskit/theme';
 import React, { PureComponent } from 'react';
 import { Slot, ShapeGroup, Svg } from '../styled/AvatarImage';
-import type { AppearanceType, SizeType } from '../types';
+import { AppearanceType, SizeType } from '../types';
 
 export function DefaultImage({
   appearance,
@@ -11,10 +9,10 @@ export function DefaultImage({
   title,
   isLoading,
 }: {
-  appearance: AppearanceType,
-  size: SizeType,
-  title?: string,
-  isLoading: boolean,
+  appearance: AppearanceType;
+  size: SizeType;
+  title?: string;
+  isLoading: boolean;
 }) {
   const rectBounds = 128;
 
@@ -58,16 +56,16 @@ export function DefaultImage({
 }
 
 type Props = {
-  appearance: AppearanceType,
-  size: SizeType,
-  alt?: string,
-  src?: string,
+  appearance: AppearanceType;
+  size: SizeType;
+  alt?: string;
+  src?: string;
 };
 
-type State = {|
-  hasError: boolean,
-  isLoading: boolean,
-|};
+type State = {
+  hasError: boolean;
+  isLoading: boolean;
+};
 
 export default class AvatarImage extends PureComponent<Props, State> {
   state: State = {
@@ -109,7 +107,7 @@ export default class AvatarImage extends PureComponent<Props, State> {
     const { alt, src, appearance, size } = this.props;
     const { hasError, isLoading } = this.state;
     const showDefault = !isLoading && (!src || hasError);
-    const imageUrl: ?string = src && !isLoading ? src : null;
+    const imageUrl: string | undefined = src && !isLoading ? src : undefined;
     return showDefault ? (
       <DefaultImage
         appearance={appearance}

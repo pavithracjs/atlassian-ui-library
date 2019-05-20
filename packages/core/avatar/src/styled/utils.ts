@@ -1,5 +1,3 @@
-// @flow
-
 import { css } from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
 import {
@@ -8,7 +6,7 @@ import {
   BORDER_WIDTH,
   TRANSITION_DURATION,
 } from './constants';
-import type { AvatarPropTypes, AppearanceType, SizeType } from '../types';
+import { AvatarPropTypes, AppearanceType, SizeType } from '../types';
 
 const backgroundColorFocus = colors.B200;
 const overlayColorDefault = 'transparent';
@@ -21,7 +19,7 @@ const overlayColorDisabled = themed({
 
 // "square" avatars are explicit
 export function getBorderRadius(
-  props: { appearance: AppearanceType, size: SizeType },
+  props: { appearance: AppearanceType; size: SizeType },
   config: { includeBorderWidth: boolean } = { includeBorderWidth: false },
 ) {
   const borderWidth: number = config.includeBorderWidth
@@ -36,8 +34,8 @@ export const getSize = (props: { size: SizeType }) => AVATAR_SIZES[props.size]; 
 export function getAvatarDimensions(
   props: { size: SizeType },
   config: {
-    includeBorderWidth: boolean,
-    sizeOnly: boolean,
+    includeBorderWidth: boolean;
+    sizeOnly: boolean;
   } = {
     includeBorderWidth: false,
     sizeOnly: false,

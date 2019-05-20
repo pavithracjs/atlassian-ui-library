@@ -1,6 +1,9 @@
 import { ComponentType } from 'react';
 
-export function omit(obj: {}, ...keysToOmit: Array<string>) {
+export function omit<Obj extends { [key: string]: any }, Key extends keyof Obj>(
+  obj: Obj,
+  ...keysToOmit: Array<Key>
+) {
   const newObj = { ...obj };
 
   for (const key of keysToOmit) {

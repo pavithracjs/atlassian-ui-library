@@ -1,21 +1,20 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { Inner, Outer } from '../styled/Icon';
 import getPresenceSVG from '../helpers/getPresenceSVG';
-import type { PresenceType, SizeType } from '../types';
+import { PresenceType, SizeType } from '../types';
 
 type Props = {
   /** Used to override the default border color of the presence indicator.
    Accepts any color argument that the border-color CSS property accepts. */
-  borderColor?: string | (() => mixed),
+  borderColor?: string | (() => any);
   /** Content to use as a custom presence indicator (usually not required if
    consuming Presence separate to Avatar). */
-  children?: Node,
+  children?: ReactNode;
   /** Content to use as a custom presence indicator (usually not required if
    consuming Presence separate to Avatar). */
-  presence?: PresenceType,
+  presence?: PresenceType;
   /** Defines the size of the presence. */
-  size?: SizeType,
+  size?: SizeType;
 };
 
 export default class Presence extends Component<Props> {

@@ -1,22 +1,22 @@
-// @flow
-import React, { Component, type ComponentType, type ElementRef } from 'react';
+// TODO: Replace with hooks
+import React, { Component, ComponentType, ElementRef } from 'react';
 import { omit, getDisplayName } from '../utils';
 
 type Props = {
-  href?: string,
-  isActive?: boolean,
-  isFocus?: boolean,
-  isHover?: boolean,
-  isInteractive?: boolean,
-  onBlur?: () => mixed,
-  onClick?: () => mixed,
-  onFocus?: () => mixed,
-  onKeyDown?: () => mixed,
-  onKeyUp?: () => mixed,
-  onMouseDown?: () => mixed,
-  onMouseEnter?: () => mixed,
-  onMouseLeave?: () => mixed,
-  onMouseUp?: () => mixed,
+  href?: string;
+  isActive?: boolean;
+  isFocus?: boolean;
+  isHover?: boolean;
+  isInteractive?: boolean;
+  onBlur?: React.MouseEvent;
+  onClick?: React.MouseEvent;
+  onFocus?: React.MouseEvent;
+  onKeyDown?: React.MouseEvent;
+  onKeyUp?: React.MouseEvent;
+  onMouseDown?: React.MouseEvent;
+  onMouseEnter?: React.MouseEvent;
+  onMouseLeave?: React.MouseEvent;
+  onMouseUp?: React.MouseEvent;
 };
 
 const INTERNAL_HANDLERS = [
@@ -31,23 +31,23 @@ const INTERNAL_HANDLERS = [
 ];
 
 type State = {
-  isActive: boolean,
-  isFocus: boolean,
-  isHover: boolean,
-  isInteractive: boolean,
+  isActive: boolean;
+  isFocus: boolean;
+  isHover: boolean;
+  isInteractive: boolean;
 };
 
-export default function withPseudoState<InnerProps: {}>(
+export default function withPseudoState<InnerProps = {}>(
   WrappedComponent: ComponentType<InnerProps>,
 ) {
-  type CombinedProps = { ...$Exact<InnerProps>, ...$Exact<Props> };
+  type CombinedProps = InnerProps & Props;
   return class ComponentWithPseudoState extends Component<
     CombinedProps,
-    State,
+    State
   > {
     static displayName = getDisplayName('withPseudoState', WrappedComponent);
 
-    component: ElementRef<*>;
+    component: ElementRef<any>;
 
     actionKeys: Array<string>;
 
@@ -77,7 +77,7 @@ export default function withPseudoState<InnerProps: {}>(
       if (this.component && this.component.focus) this.component.focus();
     };
 
-    setComponent = (component: ElementRef<*>) => {
+    setComponent = (component: ElementRef<any>) => {
       this.component = component;
     };
 

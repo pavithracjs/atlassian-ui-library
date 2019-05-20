@@ -1,6 +1,35 @@
-// @flow
+import * as React from 'react';
 
-const getAppearanceProps = props => {
+interface AppearanceProps extends React.CSSProperties {
+  appearance: any;
+  backgroundColor: string;
+  borderColor: string;
+  groupAppearance: any;
+  isActive: boolean;
+  isDisabled: boolean;
+  isFocus: boolean;
+  isHover: boolean;
+  isInteractive: boolean;
+  isSelected: boolean;
+  size: React.HTMLAttributes<HTMLElement>;
+  stackIndex: string | number;
+}
+interface InteractionProps extends React.EventHandler<any> {
+  onBlur: React.EventHandler<any>;
+  onClick: React.EventHandler<any>;
+  onFocus: React.EventHandler<any>;
+  onKeyDown: React.KeyboardEvent;
+  onKeyUp: React.KeyboardEvent;
+  onMouseDown: React.MouseEvent;
+  onMouseEnter: React.MouseEvent;
+  onMouseLeave: React.MouseEvent;
+  onMouseUp: React.MouseEvent;
+  tabIndex: string | number;
+}
+
+type GetProps<P> = (props: P) => Partial<P>;
+
+const getAppearanceProps: GetProps<AppearanceProps> = props => {
   const {
     appearance,
     backgroundColor,
@@ -32,7 +61,7 @@ const getAppearanceProps = props => {
   };
 };
 
-const getInteractionProps = props => {
+const getInteractionProps: GetProps<InteractionProps> = props => {
   const {
     onBlur,
     onClick,
@@ -60,7 +89,7 @@ const getInteractionProps = props => {
   };
 };
 
-const getLinkElementProps = props => {
+const getLinkElementProps: GetProps<HTMLLinkElement> = props => {
   const { href, target } = props;
 
   // handle security issue for consumer
@@ -70,13 +99,17 @@ const getLinkElementProps = props => {
   return { href, rel, target };
 };
 
-const getButtonElementProps = props => {
+const getButtonElementProps: GetProps<
+  { isDisabled: boolean } & HTMLButtonElement
+> = props => {
   const { id, isDisabled } = props;
 
   return { id, type: 'button', disabled: isDisabled };
 };
 
-export default function getProps(component: Object) {
+export default function getProps(
+  component: React.ReactNode & { props: InteractionProps | AppearanceProps },
+) {
   const { props } = component;
 
   const defaultProps = {

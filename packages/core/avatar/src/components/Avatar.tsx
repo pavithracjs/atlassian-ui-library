@@ -1,7 +1,5 @@
-// @flow
-
 import React, { Component } from 'react';
-import type { Node } from 'react';
+import { ReactNode } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -21,7 +19,7 @@ import { omit } from '../utils';
 import { getProps, getStyledAvatar } from '../helpers';
 import { mapProps, withPseudoState } from '../hoc';
 import { Theme } from '../theme';
-import type { AvatarPropTypes, SupportedSizeWithAnIcon } from '../types';
+import { AvatarPropTypes, SupportedSizeWithAnIcon } from '../types';
 
 const warn = (message: string) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -30,7 +28,7 @@ const warn = (message: string) => {
 };
 
 class Avatar extends Component<AvatarPropTypes> {
-  ref: ?HTMLElement;
+  ref?: HTMLElement;
 
   static defaultProps = {
     appearance: 'circle',
@@ -83,7 +81,7 @@ class Avatar extends Component<AvatarPropTypes> {
 
   // enforce status / presence rules
   /* eslint-disable no-console */
-  renderIcon = (): ?Node => {
+  renderIcon = (): ReactNode | void => {
     const { appearance, borderColor, presence, status } = this.props;
     const showPresence = Boolean(presence);
     const showStatus = Boolean(status);

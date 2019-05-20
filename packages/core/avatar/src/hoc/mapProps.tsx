@@ -1,17 +1,16 @@
+// TODO: Replace with hooks
 // @flow
 import React, {
   Component,
-  type ComponentType,
-  type ElementConfig,
-  type ElementRef,
+  ComponentType,
 } from 'react';
 import { getDisplayName } from '../utils';
 
-export default function mapProps(mapping: { [string]: any }) {
-  return <Props: {}, WrappedComponent: ComponentType<Props>>(
-    DecoratedComponent: WrappedComponent,
+export default function mapProps(mapping: { [key: string]: any }) {
+  return <Props:object, WrappedComponent : ComponentType<Props>>(
+    DecoratedComponent: WrappedComponent
   ): ComponentType<ElementConfig<WrappedComponent>> =>
-    class MapProps extends Component<*> {
+    class MapProps extends Component<any> {
       static displayName: string | void | null = getDisplayName(
         'mapProps',
         DecoratedComponent,
@@ -19,7 +18,7 @@ export default function mapProps(mapping: { [string]: any }) {
 
       static DecoratedComponent = DecoratedComponent;
 
-      component: ?ElementRef<*>;
+      component?: React.Element;
 
       // expose blur/focus to consumers via ref
       blur = () => {

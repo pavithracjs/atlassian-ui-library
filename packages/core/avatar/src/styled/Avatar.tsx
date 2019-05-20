@@ -1,13 +1,10 @@
-// @flow
-
-import React from 'react';
-import type { Node } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { withTheme } from '@atlaskit/theme';
 import { Theme } from '../theme';
 import { getInnerStyles } from './utils';
 
-export default (props: { children: Node, stackIndex: ?number }) => (
+export default (props: { children: Node; stackIndex?: number }) => (
   <Theme.Consumer {...props} includeBorderWidth>
     {({ dimensions }) => {
       return (
@@ -32,7 +29,7 @@ export const Inner = withTheme(styled.div`
   ${getInnerStyles};
 `);
 
-export const PresenceWrapper = (props: { children: Node }) => (
+export const PresenceWrapper = (props: { children: ReactNode }) => (
   <Theme.Consumer {...props} includeBorderWidth>
     {({ presence }) => {
       return (
@@ -50,7 +47,7 @@ export const PresenceWrapper = (props: { children: Node }) => (
   </Theme.Consumer>
 );
 
-export const StatusWrapper = (props: { children: Node }) => (
+export const StatusWrapper = (props: { children: ReactNode }) => (
   <Theme.Consumer {...props} includeBorderWidth>
     {({ status }) => {
       return (

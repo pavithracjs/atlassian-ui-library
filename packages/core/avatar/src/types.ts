@@ -12,16 +12,25 @@ export type PresenceType =
   | ('online' | 'busy' | 'focus' | 'offline')
   | ReactNode;
 
-export enum SizeType {
-  XSMALL = 'xsmall',
-  SMALL = 'small',
-  MEDIUM = 'medium',
-  LARGE = 'large',
-  XLARGE = 'xlarge',
-  XXLARGE = 'xxlarge',
-}
+export type Size =
+  | 'xsmall'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'xlarge'
+  | 'xxlarge';
 
-export type SupportedSizeWithAnIcon = 'small' | 'medium' | 'large' | 'xlarge';
+export type SizeType = { [key in Size]: number };
+
+// NOTE: sizes xsmall & xxlarge DO NOT support
+// - groups
+// - presence
+// - status
+
+export type SupportedSizeWithAnIcon = Pick<
+  SizeType,
+  Exclude<keyof SizeType, 'xsmall' | 'xxlarge'>
+>;
 
 export type StatusType = ('approved' | 'declined' | 'locked') | ReactNode;
 export type StyledComponentType = 'custom' | 'button' | 'link' | 'span';
@@ -41,7 +50,7 @@ export type AvatarPropTypesBase = {
   enableTooltip: boolean;
   /** Used to override the default border color of the presence indicator.
    Accepts any color argument that the border-color CSS property accepts. */
-  borderColor?: string | (() => unknown);
+  borderColor?: string | (() => any);
   /** A custom component to use instead of the default span.
    * A `className` prop is passed to the component which has classNames for all the default styles for the avatar.
    * */
@@ -90,4 +99,15 @@ export type AvatarPropTypesBase = {
 export type AvatarPropTypes = AvatarPropTypesBase & {
   /** Handler to be called on click. */
   onClick?: AvatarClickType;
+};
+
+export type SkeletonProps = {
+  /* Incidcates the shape of the skeleton */
+  appearance: AppearanceType;
+  /* Sets the color of the skeleton. By default it will inherit the current text color. */
+  color?: string;
+  /* Defines the size of the skeleton */
+  size: Size;
+  /* Determines the opacity of the skeleton */
+  weight: 'normal' | 'strong';
 };

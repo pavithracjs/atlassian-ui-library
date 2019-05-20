@@ -1,5 +1,3 @@
-// @flow
-
 import styled, { css } from 'styled-components';
 import {
   borderRadius,
@@ -9,20 +7,20 @@ import {
   themed,
   withTheme,
 } from '@atlaskit/theme';
-import type { AvatarClickType } from '../types';
+import { AvatarClickType } from '../types';
 
 const focusBorderColor = themed({ light: colors.B200, dark: colors.B75 });
 const textColors = themed({ light: colors.N900, dark: colors.DN600 });
 const subtleTextColors = themed({ light: colors.N200, dark: colors.DN300 });
 
 type getBackgroundColorType = {
-  backgroundColor?: string,
-  href?: string,
-  isActive?: boolean,
-  isHover?: boolean,
-  isSelected?: boolean,
-  mode: 'dark' | 'light',
-  onClick?: AvatarClickType,
+  backgroundColor?: string;
+  href?: string;
+  isActive?: boolean;
+  isHover?: boolean;
+  isSelected?: boolean;
+  mode: 'dark' | 'light';
+  onClick?: AvatarClickType;
 };
 
 export function getBackgroundColor({
@@ -50,14 +48,14 @@ export function getBackgroundColor({
   return themedBackgroundColor;
 }
 
-type getStylesType = {|
-  href?: string,
-  isActive?: boolean,
-  isDisabled?: boolean,
-  isFocus?: boolean,
-  mode: 'dark' | 'light',
-  onClick?: AvatarClickType,
-|};
+type getStylesType = {
+  href?: string;
+  isActive?: boolean;
+  isDisabled?: boolean;
+  isFocus?: boolean;
+  mode: 'dark' | 'light';
+  onClick?: AvatarClickType;
+};
 
 export function getStyles({
   href,
@@ -115,14 +113,16 @@ export function getStyles({
   `;
 }
 
-const truncateText = p =>
+const truncateText = (p: React.CSSProperties & { truncate: boolean }) =>
   p.truncate &&
   css`
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   `;
-const truncateTextFlexParent = p =>
+const truncateTextFlexParent = (
+  p: React.CSSProperties & { truncate: boolean },
+) =>
   p.truncate &&
   css`
     max-width: 100%;

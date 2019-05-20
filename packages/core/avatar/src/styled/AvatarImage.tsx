@@ -1,10 +1,8 @@
-// @flow
-
-import React, { type Node } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { colors, themed, withTheme } from '@atlaskit/theme';
 import { Theme } from '../theme';
-import type { AppearanceType, SizeType } from '../types';
+import { AppearanceType, SizeType } from '../types';
 
 export const ShapeGroup = withTheme(styled.g`
   & circle,
@@ -16,14 +14,14 @@ export const ShapeGroup = withTheme(styled.g`
   }
 `);
 
-type SlotProps = {|
-  appearance: AppearanceType,
-  isLoading: boolean,
-  size: SizeType,
-  role: string,
-  label: ?string,
-  backgroundImage: ?string,
-|};
+type SlotProps = {
+  appearance: AppearanceType;
+  isLoading: boolean;
+  size: SizeType;
+  role: string;
+  label?: string;
+  backgroundImage?: string;
+};
 
 export const Slot = ({
   isLoading,
@@ -39,7 +37,9 @@ export const Slot = ({
         <span
           style={{
             backgroundColor,
-            backgroundImage: backgroundImage ? `url(${backgroundImage})` : null,
+            backgroundImage: backgroundImage
+              ? `url(${backgroundImage})`
+              : undefined,
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
@@ -58,10 +58,10 @@ export const Slot = ({
 );
 
 type SvgProps = {
-  appearance: AppearanceType,
-  isLoading: boolean,
-  size: SizeType,
-  children: Node,
+  appearance: AppearanceType;
+  isLoading: boolean;
+  size: SizeType;
+  children: ReactNode;
 };
 
 export const Svg = ({

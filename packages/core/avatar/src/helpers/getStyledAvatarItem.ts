@@ -1,5 +1,3 @@
-// @flow
-
 import styledCache from './styledCache';
 import { getStyles } from '../styled/AvatarItem';
 

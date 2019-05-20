@@ -1,22 +1,20 @@
-// @flow
-
-import React, { Component, type Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { Inner, Outer } from '../styled/Icon';
 import getStatusSVG from '../helpers/getStatusSVG';
-import type { StatusType, SizeType } from '../types';
+import { StatusType, SizeType } from '../types';
 
 type Props = {
   /** Used to override the default border color of the status indicator.
    Accepts any color argument that the border-color CSS property accepts. */
-  borderColor?: string | (() => mixed),
+  borderColor?: string | (() => any);
   /** Content to use as a custom status indicator (usually not required if
    consuming Status separate to Avatar). */
-  children?: Node,
+  children?: ReactNode;
   /** Content to use as a custom status indicator (usually not required if
    consuming Status separate to Avatar). */
-  status?: StatusType,
+  status?: StatusType;
   /** Defines the size of the status. */
-  size?: SizeType,
+  size?: SizeType;
 };
 
 export default class Status extends Component<Props> {

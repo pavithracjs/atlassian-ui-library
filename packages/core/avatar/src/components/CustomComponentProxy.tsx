@@ -1,16 +1,15 @@
-// @flow
 import React, { Component } from 'react';
-import type { AvatarPropTypes } from '../types';
+import { AvatarPropTypes } from '../types';
 
 /**
  * innerRef is passed by Avatar component
  */
 type CustomComponentProxyPropType = AvatarPropTypes & {
-  avatar?: mixed,
-  groupAppearance?: mixed,
-  innerRef?: () => void,
-  primaryText?: mixed,
-  secondaryText?: mixed,
+  avatar?: any;
+  groupAppearance?: any;
+  innerRef?: () => void;
+  primaryText?: any;
+  secondaryText?: any;
 };
 
 /**
@@ -23,7 +22,9 @@ type CustomComponentProxyPropType = AvatarPropTypes & {
  * component.
  */
 
-export default class CustomComponentProxy extends Component<CustomComponentProxyPropType> {
+export default class CustomComponentProxy extends Component<
+  CustomComponentProxyPropType
+> {
   render() {
     const {
       appearance,
