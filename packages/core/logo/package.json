@@ -4,7 +4,7 @@
   "description": "A React component that highlights status for quick recognition",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/logos-in-product",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
@@ -20,9 +20,8 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "prop-types": "^15.5.10",
-    "react-uid": "^2.2.0"
+    "react-uid": "^2.2.0",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
