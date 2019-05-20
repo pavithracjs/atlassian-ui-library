@@ -1,5 +1,3 @@
-// @flow
-
 // In-built theme modes
 export { dark, light, settings } from './modes';
 

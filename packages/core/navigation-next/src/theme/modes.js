@@ -1,5 +1,3 @@
-// @flow
-
 import { colors } from '@atlaskit/theme';
 
 import modeGenerator from './modeGenerator';

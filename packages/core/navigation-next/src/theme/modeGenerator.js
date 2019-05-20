@@ -1,5 +1,3 @@
-// @flow
-
 // TODO: @atlassian/navigation package is the only other package that uses chromatism (currently).
 // We should update to chromatism@3.0.0 once @atlassian/navigation package is deprecated.
 import chromatism from 'chromatism';
