@@ -43,4 +43,13 @@ describe('Simultaneous Play Manager', () => {
     expect(videoTwo.pause).not.toBeCalled();
     expect(videoThree.pause).toBeCalledTimes(1);
   });
+
+  it.only('should subscribe players only once', () => {
+    const videoOne = new DummyVideo(); // Subscribes
+    videoOne.subscription = simultaneousPlayManager.subscribe(videoOne.pause); // tries to subscribe again
+
+    // TEST
+    simultaneousPlayManager.subscribe(() => {}).onPlay();
+    expect(videoOne.pause).toBeCalledTimes(1);
+  });
 });
