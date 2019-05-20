@@ -91,14 +91,20 @@ export const mapRecentResultsToUIGroups = (
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
+  searchSessionId: string,
   appPermission?: JiraApplicationPermission,
   query?: string,
 ): ResultsGroup[] => {
+  const withSessionId =
+    searchResultsObjects !== null
+      ? attachJiraContextIdentifiers(searchSessionId, searchResultsObjects)
+      : searchResultsObjects;
+
   const {
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(searchResultsObjects);
+  } = sliceResults(withSessionId);
   return [
     {
       items: objectsToDisplay,

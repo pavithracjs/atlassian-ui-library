@@ -185,7 +185,6 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getPreQueryDisplayedResults = (
     recentItems: GenericResultMap | null,
-    _: ABTest,
     searchSessionId: string,
   ) =>
     mapRecentResultsToUIGroups(
@@ -197,9 +196,11 @@ export class JiraQuickSearchContainer extends React.Component<
   getPostQueryDisplayedResults = (
     searchResults: GenericResultMap | null,
     query: string,
+    searchSessionId: string,
   ) =>
     mapSearchResultsToUIGroups(
       searchResults as JiraResultsMap,
+      searchSessionId,
       this.props.appPermission,
       query,
     );
@@ -288,10 +289,14 @@ export class JiraQuickSearchContainer extends React.Component<
           </BeforePreQueryStateContainer>
         )}
         getPreQueryGroups={() =>
-          this.getPreQueryDisplayedResults(recentItems, abTest, searchSessionId)
+          this.getPreQueryDisplayedResults(recentItems, searchSessionId)
         }
         getPostQueryGroups={() =>
-          this.getPostQueryDisplayedResults(searchResults, query)
+          this.getPostQueryDisplayedResults(
+            searchResults,
+            query,
+            searchSessionId,
+          )
         }
         renderNoResult={() => (
           <NoResultsState
@@ -534,8 +539,24 @@ export class JiraQuickSearchContainer extends React.Component<
           messages.jira_search_placeholder,
         )}
         linkComponent={linkComponent}
-        getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
-        getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
+        getPreQueryDisplayedResults={(recentItems, _abTest, searchSessionId) =>
+          this.getPreQueryDisplayedResults(recentItems, searchSessionId)
+        }
+        getPostQueryDisplayedResults={(
+          searchResults,
+          query,
+          _recentItems,
+          _abTest,
+          _isLoading,
+          _inFasterSearchExperiment,
+          searchSessionId,
+        ) =>
+          this.getPostQueryDisplayedResults(
+            searchResults,
+            query,
+            searchSessionId,
+          )
+        }
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}

@@ -39,19 +39,24 @@ import JiraAdvancedSearchGroup from '../../../components/jira/JiraAdvancedSearch
 import StickyFooter from '../../../components/common/StickyFooter';
 import { QuickSearchContext } from '../../../api/types';
 
-const issues = [
+const getIssues = (searchSessionId: string) => [
   makeJiraObjectResult({
     contentType: ContentType.JiraIssue,
+    href: `href?searchSessionId=${searchSessionId}&searchContentType=issue&searchObjectId=resultId`,
   }),
   makeJiraObjectResult({
     contentType: ContentType.JiraIssue,
+    href: `href?searchSessionId=${searchSessionId}&searchContentType=issue&searchObjectId=resultId`,
   }),
 ];
-const boards = [
+
+const getBoards = (searchSessionId: string) => [
   makeJiraObjectResult({
     contentType: ContentType.JiraBoard,
+    href: `href?searchSessionId=${searchSessionId}&searchContentType=board&searchObjectId=resultId`,
   }),
 ];
+
 const spaceResults = [makeConfluenceContainerResult()];
 
 const getRecentlyInteractedPeople = (
@@ -198,8 +203,8 @@ const getSearchAndRecentItems = (
       ...commonProps,
       ...extraProps,
       searchResults: {
-        objects: issues,
-        containers: boards,
+        objects: getIssues(sessionId),
+        containers: getBoards(sessionId),
       },
       recentItems: {
         objects: [],
@@ -260,9 +265,9 @@ const getConfluencePreQueryResults = (sessionId: string) => [
   },
 ];
 
-const getJiraPostQueryResults = () => [
+const getJiraPostQueryResults = (sessionId: string) => [
   {
-    items: issues,
+    items: getIssues(sessionId),
     key: 'issues',
     title: messages.jira_search_result_issues_heading,
   },
@@ -281,7 +286,7 @@ const getJiraPostQueryResults = () => [
     title: undefined,
   },
   {
-    items: boards,
+    items: getBoards(sessionId),
     key: 'containers',
     title: messages.jira_search_result_containers_heading,
   },
@@ -311,7 +316,7 @@ const getConfluencePostQueryResults = () => [
 
 const getPostQueryResults = (sessionId: string, product: QuickSearchContext) =>
   product === 'jira'
-    ? getJiraPostQueryResults()
+    ? getJiraPostQueryResults(sessionId)
     : getConfluencePostQueryResults();
 
 const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
