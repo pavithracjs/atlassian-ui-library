@@ -46,11 +46,10 @@ export const getConfluencePrefetchedData = (
         confluenceUrl,
       }
     : {};
-  const {
-    confluenceClient,
-    crossProductSearchClient,
-    peopleSearchClient,
-  } = configureSearchClients(cloudId, config);
+  const { confluenceClient, crossProductSearchClient } = configureSearchClients(
+    cloudId,
+    config,
+  );
   return {
     confluenceRecentItemsPromise: prefetchConfluence(confluenceClient),
     abTestPromise: {
@@ -58,6 +57,11 @@ export const getConfluencePrefetchedData = (
         Scope.ConfluencePageBlogAttachment,
       ),
     },
-    recentPeoplePromise: peopleSearchClient.getRecentPeople(),
+    recentPeoplePromise: crossProductSearchClient
+      .getPeople('', PREFETCH_SEARCH_SESSION_ID, 'confluence')
+      .then(
+        xProductResult =>
+          xProductResult.results.get(Scope.UserConfluence) || [],
+      ),
   };
 };

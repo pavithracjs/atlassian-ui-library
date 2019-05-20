@@ -84,6 +84,7 @@ const renderComponent = (product: QuickSearchContext) => {
     useAggregatorForConfluenceObjects: false,
     useCPUSForPeopleResults: false,
     fasterSearchFFEnabled: false,
+    useUrsForBootstrapping: false,
   };
   return product === 'jira'
     ? renderJiraQuickSearchContainer(props)
