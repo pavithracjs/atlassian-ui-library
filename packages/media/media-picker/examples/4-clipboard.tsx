@@ -9,7 +9,14 @@ import {
 import Button from '@atlaskit/button';
 import Toggle from '@atlaskit/toggle';
 import Spinner from '@atlaskit/spinner';
-import { MediaPicker, Clipboard, ImagePreview } from '../src';
+import {
+  Clipboard,
+  ImagePreview,
+  UploadPreviewUpdateEventPayload,
+  UploadEndEventPayload,
+  UploadsStartEventPayload,
+  UploadErrorEventPayload,
+} from '../src';
 import {
   PopupHeader,
   PopupContainer,
@@ -36,7 +43,6 @@ export interface ClipboardWrapperState {
 }
 
 class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
-  clipboard?: Clipboard;
   dropzoneContainer?: HTMLDivElement;
 
   state: ClipboardWrapperState = {
@@ -82,7 +88,6 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
     window.addEventListener('focus', this.onFocus);
     window.addEventListener('blur', this.onBlur);
 
-    await this.createClipboard();
     this.fetchLastItems();
   }
 
@@ -91,77 +96,14 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
     window.removeEventListener('blur', this.onBlur);
   }
 
-  async createClipboard() {
-    const { isConnectedToUsersCollection, isActive } = this.state;
-    const context = ContextFactory.create({
-      authProvider: defaultMediaPickerAuthProvider,
-      userAuthProvider: isConnectedToUsersCollection
-        ? userAuthProvider
-        : undefined,
-    });
-    const clipboard = await MediaPicker('clipboard', context, {
-      uploadParams: {
-        collection: defaultMediaPickerCollectionName,
-      },
-    });
-
-    this.clipboard = clipboard;
-
-    clipboard.on('uploads-start', data => {
-      console.log('uploads started');
-      console.log('uploads-start:', data);
-      this.setState({
-        isLoading: true,
-      });
-    });
-
-    clipboard.on('upload-end', data => {
-      console.log('upload finished');
-      console.log('upload-end:', data);
-    });
-
-    clipboard.on('upload-error', mpError => {
-      console.log('upload-error:', mpError);
-    });
-
-    clipboard.on('upload-preview-update', async data => {
-      console.log('upload-preview-update:', data);
-      if (data.preview.file && data.preview.file.type.indexOf('image/') === 0) {
-        const src = await fileToDataURI(data.preview.file);
-        const imgPreview = data.preview as ImagePreview;
-        const scaleFactor = imgPreview.scaleFactor;
-        const width = imgPreview.dimensions.width;
-        const height = imgPreview.dimensions.height;
-        this.setState({
-          pastedImgSrc: src,
-          isLoading: false,
-          pastedImgScaleFactor: scaleFactor,
-          pastedImgWidth: width,
-          pastedImgHeight: height,
-        });
-      }
-    });
-
-    isActive ? clipboard.activate() : clipboard.deactivate();
-  }
-
   onConnectionChange = () => {
     const isConnectedToUsersCollection = !this.state
       .isConnectedToUsersCollection;
-    this.setState({ isConnectedToUsersCollection }, () => {
-      this.createClipboard();
-    });
+    this.setState({ isConnectedToUsersCollection });
   };
 
   onActiveChange = () => {
-    const { clipboard } = this;
-    if (!clipboard) {
-      return;
-    }
-    this.setState({ isActive: !this.state.isActive }, () => {
-      const { isActive } = this.state;
-      isActive ? clipboard.activate() : clipboard.deactivate();
-    });
+    this.setState({ isActive: !this.state.isActive });
   };
 
   renderLastItems = () => {
@@ -240,8 +182,72 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
           </DropzoneItemsInfo>
         </DropzoneContentWrapper>
         {this.renderPastedImage()}
+        {this.renderClipboard()}
       </PopupContainer>
     );
+  }
+
+  private renderClipboard() {
+    const { isConnectedToUsersCollection, isActive } = this.state;
+    const context = ContextFactory.create({
+      authProvider: defaultMediaPickerAuthProvider,
+      userAuthProvider: isConnectedToUsersCollection
+        ? userAuthProvider
+        : undefined,
+    });
+    const config = {
+      uploadParams: {
+        collection: defaultMediaPickerCollectionName,
+      },
+    };
+
+    const onUploadsStart = (data: UploadsStartEventPayload) => {
+      console.log('uploads started');
+      console.log('uploads-start:', data);
+      this.setState({
+        isLoading: true,
+      });
+    };
+
+    const onUploadEnd = (data: UploadEndEventPayload) => {
+      console.log('upload finished');
+      console.log('upload-end:', data);
+    };
+
+    const onUploadError = (mpError: UploadErrorEventPayload) => {
+      console.log('upload-error:', mpError);
+    };
+
+    const onUploadPreviewUpdate = async (
+      data: UploadPreviewUpdateEventPayload,
+    ) => {
+      console.log('upload-preview-update:', data);
+      if (data.preview.file && data.preview.file.type.indexOf('image/') === 0) {
+        const src = await fileToDataURI(data.preview.file);
+        const imgPreview = data.preview as ImagePreview;
+        const scaleFactor = imgPreview.scaleFactor;
+        const width = imgPreview.dimensions.width;
+        const height = imgPreview.dimensions.height;
+        this.setState({
+          pastedImgSrc: src,
+          isLoading: false,
+          pastedImgScaleFactor: scaleFactor,
+          pastedImgWidth: width,
+          pastedImgHeight: height,
+        });
+      }
+    };
+
+    return isActive ? (
+      <Clipboard
+        context={context}
+        config={config}
+        onUploadsStart={onUploadsStart}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
+        onPreviewUpdate={onUploadPreviewUpdate}
+      />
+    ) : null;
   }
 
   private renderPastedImage() {

@@ -1,10 +1,15 @@
-import { Context } from '@atlaskit/media-core';
+import {
+  LocalUploadComponentReact,
+  LocalUploadComponentBaseProps,
+} from '../localUploadReact';
 
-import { LocalUploadComponent } from './localUpload';
-import { whenDomReady } from '../util/documentReady';
-import { appendTimestamp } from '../util/appendTimestamp';
-import { LocalFileSource, LocalFileWithSource } from '../service/types';
-import { Clipboard, ClipboardConfig } from './types';
+import { appendTimestamp } from '../../util/appendTimestamp';
+import {
+  LocalFileSource,
+  LocalFileWithSource,
+  UploadService,
+} from '../../service/types';
+import { ClipboardConfig } from '../types';
 
 export const getFilesFromClipboard = (files: FileList) => {
   return Array.from(files).map(file => {
@@ -19,23 +24,27 @@ export const getFilesFromClipboard = (files: FileList) => {
   });
 };
 
-export class ClipboardImpl extends LocalUploadComponent implements Clipboard {
-  static instances: ClipboardImpl[] = [];
+export interface ClipboardOwnProps {
+  config: ClipboardConfig;
+}
 
-  constructor(
-    context: Context,
-    config: ClipboardConfig = { uploadParams: {} },
-  ) {
-    super(context, config);
+export type ClipboardProps = ClipboardOwnProps & LocalUploadComponentBaseProps;
+
+const defaultConfig: ClipboardConfig = { uploadParams: {} };
+
+class ClipboardImpl {
+  static instances: ClipboardImpl[] = [];
+  uploadService: UploadService;
+
+  constructor(uploadService: UploadService) {
+    this.uploadService = uploadService;
   }
 
   static get latestInstance(): ClipboardImpl | undefined {
     return ClipboardImpl.instances[ClipboardImpl.instances.length - 1];
   }
 
-  public async activate(): Promise<void> {
-    await whenDomReady;
-
+  public activate(): void {
     this.deactivate();
     document.addEventListener('paste', ClipboardImpl.handleEvent);
     ClipboardImpl.instances.push(this);
@@ -82,4 +91,23 @@ export class ClipboardImpl extends LocalUploadComponent implements Clipboard {
       }
     }
   };
+}
+
+export class Clipboard extends LocalUploadComponentReact<ClipboardProps> {
+  clipboard: ClipboardImpl = new ClipboardImpl(this.uploadService);
+  static defaultProps = {
+    config: defaultConfig,
+  };
+
+  componentDidMount() {
+    this.clipboard.activate();
+  }
+
+  componentWillUnmount() {
+    this.clipboard.deactivate();
+  }
+
+  render() {
+    return null;
+  }
 }
