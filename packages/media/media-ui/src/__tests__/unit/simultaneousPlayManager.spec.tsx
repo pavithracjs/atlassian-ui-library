@@ -52,4 +52,15 @@ describe('Simultaneous Play Manager', () => {
     simultaneousPlayManager.subscribe(() => {}).onPlay();
     expect(videoOne.pause).toBeCalledTimes(1);
   });
+
+  it('should tell whether the current player was the last played or not', () => {
+    const videoOne = new DummyVideo();
+    const videoTwo = new DummyVideo();
+
+    videoOne.play();
+    videoTwo.play();
+
+    expect(videoOne.subscription.isLastPlayed()).toBe(false);
+    expect(videoTwo.subscription.isLastPlayed()).toBe(true);
+  });
 });
