@@ -110,7 +110,7 @@ export class CustomMediaPlayer extends Component<
 
   onFullScreenChange = () => {
     const { isFullScreenEnabled: currentFullScreenMode } = this.state;
-    const isFullScreenEnabled = getFullscreenElement() ? true : false;
+    const isFullScreenEnabled = getFullscreenElement() === this.videoWrapperRef;
 
     if (currentFullScreenMode !== isFullScreenEnabled) {
       this.setState({
@@ -130,7 +130,13 @@ export class CustomMediaPlayer extends Component<
   shortcutHandler = (toggleButtonAction: ToggleButtonAction) => () => {
     const { showControls } = this.props;
 
-    toggleButtonAction();
+    // Will only play by shortcut if it was the last played.
+    if (
+      toggleButtonAction !== this.play ||
+      this.simultaneousPlay.isLastPlayed()
+    ) {
+      toggleButtonAction();
+    }
 
     if (showControls) {
       showControls();
