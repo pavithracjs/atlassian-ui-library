@@ -4,9 +4,7 @@ export {
 } from './components/types';
 
 import {
-  Browser,
   BrowserConfig,
-  BrowserConstructor,
   ClipboardConfig,
   Popup,
   PopupConfig,
@@ -18,8 +16,6 @@ import {
 
 import { Context } from '@atlaskit/media-core';
 
-export const isBrowser = (component: any): component is Browser =>
-  component && 'browse' in component && 'teardown' in component;
 export const isDropzone = (component: any): component is Dropzone =>
   component && 'activate' in component && 'deactivate' in component;
 export const isPopup = (component: any): component is Popup =>
@@ -47,16 +43,14 @@ export { ImagePreview, Preview, NonImagePreview } from './domain/preview';
 
 // Constructor public API and types
 export interface MediaPickerConstructors {
-  browser: BrowserConstructor;
   dropzone: DropzoneConstructor;
   popup: PopupConstructor;
 }
 
-export { Browser, Dropzone, Popup };
-export type MediaPickerComponent = Browser | Dropzone | Popup;
+export { Dropzone, Popup };
+export type MediaPickerComponent = Dropzone | Popup;
 
 export interface MediaPickerComponents {
-  browser: Browser;
   dropzone: Dropzone;
   popup: Popup;
 }
@@ -70,7 +64,7 @@ export interface ComponentConfigs {
   popup: PopupConfig;
 }
 
-export { BrowserConstructor, DropzoneConstructor, PopupConstructor };
+export { DropzoneConstructor, PopupConstructor };
 
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
@@ -78,13 +72,6 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
   pickerConfig?: ComponentConfigs[K],
 ): Promise<MediaPickerComponents[K]> {
   switch (componentName) {
-    case 'browser':
-      const {
-        BrowserImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
-      return new BrowserImpl(context, pickerConfig as
-        | BrowserConfig
-        | undefined);
     case 'dropzone':
       const {
         DropzoneImpl,
@@ -105,3 +92,4 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 // REACT COMPONENTS
 
 export { ClipboardLoader as Clipboard } from './components/clipboard';
+export { Browser } from './components/browserReact';

@@ -1,6 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import { IntlProvider } from 'react-intl';
 import * as React from 'react';
+import { RefObject } from 'react';
 import { Provider } from 'react-redux';
 import Spinner from '@atlaskit/spinner';
 import { FlagGroup } from '@atlaskit/flag';
@@ -46,14 +47,16 @@ import { Dropzone } from '../../dropzone';
 
 import { SpinnerWrapper, Wrapper } from '../../styled';
 import { LocalBrowserButton } from '../../../../views/upload/uploadButton';
-import { BrowserImpl } from '../../../../../../components/browser';
 import { menuDelete } from '../../../editor/phrases';
 import { LocalUploadFileMetadata } from '../../../../../domain/local-upload';
+import { Browser } from '../../../../../../components/browserReact';
 
-// TODO: Fix this
 const ConnectedUploadViewWithStore = getComponentClassWithStore(
   ConnectedUploadView,
-) as any;
+);
+const createBrowserRef = (context: Context): RefObject<Browser> => ({
+  current: new Browser({ config: {} as any, context }),
+});
 
 const createConnectedComponent = (
   state: State,
@@ -66,7 +69,7 @@ const createConnectedComponent = (
     <IntlProvider locale="en">
       <Provider store={store}>
         <ConnectedUploadViewWithStore
-          mpBrowser={new BrowserImpl(context) as any}
+          browserRef={createBrowserRef(context)}
           context={context}
           recentsCollection="some-collection-name"
         />
@@ -126,7 +129,7 @@ describe('<StatelessUploadView />', () => {
     return (
       <Provider store={store}>
         <StatelessUploadView
-          mpBrowser={{} as any}
+          browserRef={createBrowserRef(context)}
           context={context}
           recentsCollection="some-collection-name"
           isLoading={isLoading}
@@ -541,7 +544,6 @@ describe('<UploadView />', () => {
 
   it('should fire an analytics event when given a react context', () => {
     const aHandler = jest.fn();
-
     const { component } = createConnectedComponent(state, {
       getAtlaskitAnalyticsEventHandlers: () => [aHandler],
     });

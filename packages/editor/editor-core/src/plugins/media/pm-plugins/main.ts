@@ -542,16 +542,15 @@ export class MediaPluginState {
           ).init()),
         );
       } else {
-        pickers.push(
-          (this.popupPicker = await new Picker(
-            // Fallback to browser picker for unauthenticated users
-            context.config && context.config.userAuthProvider
-              ? 'popup'
-              : 'browser',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init()),
-        );
+        if (context.config && context.config.userAuthProvider) {
+          pickers.push(
+            (this.popupPicker = await new Picker(
+              'popup',
+              pickerFacadeConfig,
+              defaultPickerConfig,
+            ).init()),
+          );
+        }
 
         pickers.push(
           (this.dropzonePicker = await new Picker(
@@ -566,9 +565,11 @@ export class MediaPluginState {
         );
 
         this.dropzonePicker.onDrag(this.handleDrag);
-        this.removeOnCloseListener = this.popupPicker.onClose(
-          this.onPopupPickerClose,
-        );
+        if (this.popupPicker) {
+          this.removeOnCloseListener = this.popupPicker.onClose(
+            this.onPopupPickerClose,
+          );
+        }
       }
 
       pickers.forEach(picker => {

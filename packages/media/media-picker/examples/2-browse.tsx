@@ -2,37 +2,36 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  mediaPickerAuthProvider,
   defaultCollectionName,
   defaultMediaPickerCollectionName,
+  mediaPickerAuthProvider,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
-import { MediaPicker, Browser, UploadParams, BrowserConfig } from '../src';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
-import { ContextFactory, FileState } from '@atlaskit/media-core';
+import { FileState, ContextFactory, Context } from '@atlaskit/media-core';
+import { UploadParams, BrowserConfig } from '../src';
+import { Browser } from '../src/components/browserReact';
 
 export interface BrowserWrapperState {
   collectionName: string;
   authEnvironment: AuthEnvironment;
-  fileBrowser?: Browser;
+  context?: Context;
+  browseConfig?: BrowserConfig;
 }
 
 class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   dropzoneContainer?: HTMLDivElement;
+  private browserRef = React.createRef<Browser>();
 
   state: BrowserWrapperState = {
     authEnvironment: 'client',
     collectionName: defaultMediaPickerCollectionName,
   };
 
-  async componentWillMount() {
-    await this.createBrowse();
-  }
-
-  async createBrowse() {
+  componentDidMount() {
     const context = ContextFactory.create({
       authProvider: mediaPickerAuthProvider(),
     });
@@ -44,14 +43,12 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
       fileExtensions: ['image/jpeg', 'image/png', 'video/mp4'],
       uploadParams,
     };
-    if (this.state.fileBrowser) {
-      this.state.fileBrowser.teardown();
-    }
-    const fileBrowser = await MediaPicker('browser', context, browseConfig);
 
     context.on('file-added', this.onFileAdded);
+
     this.setState({
-      fileBrowser,
+      context,
+      browseConfig,
     });
   }
 
@@ -60,23 +57,28 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   };
 
   onOpen = () => {
-    const { fileBrowser } = this.state;
-    if (fileBrowser) {
-      fileBrowser.browse();
+    if (this.browserRef && this.browserRef.current) {
+      this.browserRef.current.browse();
     }
   };
 
   onCollectionChange = (e: React.SyntheticEvent<HTMLElement>) => {
     const { innerText: collectionName } = e.currentTarget;
-    const { fileBrowser } = this.state;
-    if (!fileBrowser) {
+    const { browseConfig } = this.state;
+    if (!browseConfig) {
       return;
     }
 
-    this.setState({ collectionName }, () => {
-      fileBrowser.setUploadParams({
-        collection: collectionName,
-      });
+    const uploadParams: UploadParams = {
+      collection: collectionName,
+    };
+
+    this.setState({
+      collectionName,
+      browseConfig: {
+        ...browseConfig,
+        uploadParams,
+      },
     });
   };
 
@@ -87,7 +89,15 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   };
 
   render() {
-    const { collectionName, authEnvironment, fileBrowser } = this.state;
+    const {
+      collectionName,
+      authEnvironment,
+      context,
+      browseConfig,
+    } = this.state;
+    if (!browseConfig || !context) {
+      return null;
+    }
 
     return (
       <PopupContainer>
@@ -108,7 +118,18 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
             <DropdownItem onClick={this.onAuthTypeChange}>asap</DropdownItem>
           </DropdownMenu>
         </PopupHeader>
-        {fileBrowser ? <UploadPreviews picker={fileBrowser} /> : null}
+        <UploadPreviews>
+          {({ onUploadsStart, onError, onPreviewUpdate }) => (
+            <Browser
+              ref={this.browserRef}
+              context={context}
+              config={browseConfig}
+              onUploadsStart={onUploadsStart}
+              onError={onError}
+              onPreviewUpdate={onPreviewUpdate}
+            />
+          )}
+        </UploadPreviews>
       </PopupContainer>
     );
   }

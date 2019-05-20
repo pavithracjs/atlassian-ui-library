@@ -23,7 +23,6 @@ import EditorInfoIcon from '@atlaskit/icon/glyph/error';
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import { messages, InfiniteScroll } from '@atlaskit/media-ui';
-import { Browser } from '../../../../components/types';
 import { isWebGLAvailable } from '../../../tools/webgl';
 import { Dropzone } from './dropzone';
 import { fileClick } from '../../../actions/fileClick';
@@ -52,6 +51,7 @@ import {
 } from './styled';
 import { RECENTS_COLLECTION } from '../../../config';
 import { removeFileFromRecents } from '../../../actions/removeFileFromRecents';
+import { Browser } from '../../../../components/browserReact';
 
 const createEditCardAction = (
   handler: CardEventHandler,
@@ -75,7 +75,7 @@ const createDeleteCardAction = (handler: CardEventHandler): CardAction => {
 const cardDimension = { width: 162, height: 108 };
 
 export interface UploadViewOwnProps {
-  readonly mpBrowser: Browser;
+  readonly browserRef: React.RefObject<Browser>;
   readonly context: Context;
   readonly recentsCollection: string;
 }
@@ -138,7 +138,7 @@ export class StatelessUploadView extends Component<
   };
 
   render() {
-    const { isLoading, mpBrowser } = this.props;
+    const { isLoading, browserRef } = this.props;
     const cards = this.renderCards();
     const isEmpty = !isLoading && cards.length === 0;
 
@@ -156,7 +156,7 @@ export class StatelessUploadView extends Component<
         onThresholdReached={this.onThresholdReachedListener}
       >
         <Wrapper>
-          <Dropzone isEmpty={isEmpty} mpBrowser={mpBrowser} />
+          <Dropzone isEmpty={isEmpty} browserRef={browserRef} />
           {contentPart}
           {confirmationDialog}
         </Wrapper>
