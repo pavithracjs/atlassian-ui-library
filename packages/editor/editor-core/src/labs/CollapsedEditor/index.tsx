@@ -3,7 +3,7 @@ import ChromeCollapsed from '../../ui/ChromeCollapsed';
 import * as EditorImports from '../../';
 
 export type EditorModule = {
-  // Subset of most common imports expected to be used.
+  // Subset of most common imports expected to be used
   EditorContext: typeof EditorImports.EditorContext;
   WithEditorActions: typeof EditorImports.WithEditorActions;
 } & { [x: string]: any };
