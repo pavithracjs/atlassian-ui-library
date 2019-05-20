@@ -24,7 +24,6 @@ describe('Clipboard', () => {
   };
 
   beforeEach(() => {
-    document.dispatchEvent(new Event('DOMContentLoaded'));
     eventsMap = {};
     jest.spyOn(document, 'addEventListener').mockImplementation((event, cb) => {
       eventsMap[event] = cb;
