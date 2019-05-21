@@ -70,7 +70,7 @@ export default class ModalDemo extends React.Component<
           {isOpen === 'autoFocus' && (
             <StubDialog heading="input has autoFocus">
               <p>The textbox should be focused</p>
-              <input autoFocus interface="text" />
+              <input autoFocus type="text" />
             </StubDialog>
           )}
         </ModalTransition>

@@ -26,7 +26,7 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
     const footer = (props: FooterProps) => (
       <ModalFooter showKeyline={props.showKeyline}>
         <span />
-        <Button appearance="primary" interface="submit">
+        <Button appearance="primary" type="submit">
           Submit to Console
         </Button>
       </ModalFooter>
