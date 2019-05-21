@@ -15,8 +15,7 @@
     "name": "Help Article"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
-  "dependencies": {
-    "@atlaskit/section-message": "^3.0.0",
+  "dependencies": {    
     "@atlaskit/theme": "^9.0.0",
     "exenv": "^1.2.2",
     "@emotion/core": "^10.0.9",
@@ -27,6 +26,7 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
+    "@atlaskit/section-message": "^3.0.0",
     "@atlaskit/docs": "^8.0.0",
     "enzyme": "^3.7.0",
     "react-test-renderer": "^16.3.0"
