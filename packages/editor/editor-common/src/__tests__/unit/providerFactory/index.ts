@@ -1,5 +1,6 @@
 import ProviderFactory from '../../../providerFactory';
 
+// adding command for testing
 describe('ProviderFactory', () => {
   const provider = Promise.resolve('Hello');
   const providerName1 = 'greetingProvider';
