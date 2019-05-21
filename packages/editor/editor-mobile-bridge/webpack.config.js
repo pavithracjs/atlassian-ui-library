@@ -22,7 +22,8 @@ const cli = meow({
   },
 });
 
-const isProduction = cli.flags.p;
+const isProduction = cli.flags.production;
+const mode = isProduction ? 'production' : 'development';
 
 if (isProduction) {
   envPlugins.push(
@@ -46,7 +47,7 @@ if (isProduction) {
 
 module.exports = async function createWebpackConfig() {
   return {
-    mode: isProduction ? 'production' : 'development',
+    mode,
     entry: {
       editor: './src/editor/index.tsx',
       renderer: './src/renderer/index.tsx',
@@ -92,9 +93,7 @@ module.exports = async function createWebpackConfig() {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(
-          isProduction ? 'production' : 'development',
-        ),
+        'process.env.NODE_ENV': mode,
       }),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, 'public/editor.html.ejs'),
