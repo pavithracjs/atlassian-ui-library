@@ -1,1 +1,0 @@
-- ED-5782 Replace text-color button with more easily identifiable A icon with colored bar.

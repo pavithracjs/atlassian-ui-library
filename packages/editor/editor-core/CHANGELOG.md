@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.5.0
+- [minor] [9be684e931](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9be684e931):
+
+  - ED-5782 Replace text-color button with more easily identifiable A icon with colored bar.
+
 ## 112.4.0
 - [minor] [d9f8b4d43d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9f8b4d43d):
 
