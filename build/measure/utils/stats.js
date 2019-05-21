@@ -50,6 +50,8 @@ function buildStats(outputPath, statsGroups) {
 function createAtlaskitStatsGroups(packagesDir, packagePath) {
   const packageVersion = require(`${packagesDir}/${packagePath}/package.json`)
     .version;
+  const packageName = require(`${packagePath}/package.json`).name;
+
   return fs
     .readdirSync(packagesDir)
     .filter(gr => !gr.startsWith('.'))
@@ -68,7 +70,7 @@ function createAtlaskitStatsGroups(packagesDir, packagePath) {
         stats: [
           {
             team: name,
-            package: packagePath.split('/')[1], // replacing 'core/button' by button
+            package: packageName, // replacing 'core/button' by button
             version: packageVersion,
             id: `atlaskit.${name}.main`,
             name: 'main',
@@ -83,7 +85,7 @@ function createAtlaskitStatsGroups(packagesDir, packagePath) {
           },
           {
             team: name,
-            package: packagePath,
+            package: packageName,
             id: `atlaskit.${name}.async`,
             name: 'async',
             fileName: `${chunkName}-async.js`,

@@ -1,3 +1,9 @@
+/* 
+Util function to merge json files under folder provided as input
+Usage:
+node <path_to_this_file>/merge.json.in.folder.js .folderWithJsonFiles
+*/
+
 const fs = require('fs');
 const path = require('path');
 const exec = require('child_process').execSync;

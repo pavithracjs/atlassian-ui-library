@@ -177,9 +177,9 @@ module.exports = async function main(
 
   /**
    * Main config for detailed breakdown of dependencies, includes:
-   * â€“ main bundle: which is src of provided package
-   * â€“ node_modules bundle: includes all external dependencies
-   * â€“ package groups bundles: e.g. core, media, editor, etc...
+   * - main bundle: which is src of provided package
+   * - node_modules bundle: includes all external dependencies
+   * - package groups bundles: e.g. core, media, editor, etc...
    */
   const mainConfig = await createWebpackConfig({
     outputDir: measureCompiledOutputPath,
@@ -218,6 +218,7 @@ module.exports = async function main(
     fDeleteIfExist(measureOutputPath);
   }
 
+  // All the things for S3 flow is under this condition
   if (s3) {
     // Add these path to enable to upload data to S3
     const masterStatsFilePath = path.join(
@@ -246,7 +247,7 @@ module.exports = async function main(
         uploadToS3(masterStatsFilePath, 'master');
       }
     }
-  }
+  } // closing s3
 
   // TODO: replace after changes to flow are complete
   const prevStatsPath = path.join(filePath, `bundle-size-ratchet.json`);
@@ -274,5 +275,6 @@ module.exports = async function main(
     throw new Error(`âœ– Module "${packageName}" has exceeded size limit!`);
   }
 
+  // TODO: return success always after switching the flow
   return results.passedBundleSizeCheck ? 1 : 0;
 };
