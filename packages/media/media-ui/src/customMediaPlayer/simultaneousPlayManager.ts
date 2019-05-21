@@ -1,17 +1,15 @@
-type voidfn = () => void;
-
 export type SimultaneousPlaySubscription = {
-  onPlay: voidfn;
-  unsubscribe: voidfn;
+  onPlay: () => void;
+  unsubscribe: () => void;
   isLastPlayed: () => boolean;
 };
 
 export default class SimultaneousPlayManager {
-  private static playersPause = new Map<voidfn, voidfn>();
+  private static playersPause = new Map<() => void, () => void>();
 
-  private static lastPlayed: voidfn;
+  private static lastPlayed: () => void;
 
-  static subscribe = (pause: voidfn): SimultaneousPlaySubscription => {
+  static subscribe = (pause: () => void): SimultaneousPlaySubscription => {
     if (!SimultaneousPlayManager.playersPause.get(pause)) {
       SimultaneousPlayManager.playersPause.set(pause, pause);
     }
@@ -26,11 +24,11 @@ export default class SimultaneousPlayManager {
     };
   };
 
-  private static unsubscribe = (pause: voidfn) => {
+  private static unsubscribe = (pause: () => void) => {
     SimultaneousPlayManager.playersPause.delete(pause);
   };
 
-  private static onPlay = (pause: voidfn): void => {
+  private static onPlay = (pause: () => void): void => {
     SimultaneousPlayManager.lastPlayed = pause;
 
     SimultaneousPlayManager.playersPause.forEach(playerPause => {

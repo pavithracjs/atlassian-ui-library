@@ -229,7 +229,7 @@ export class CustomMediaPlayer extends Component<
     </SpinnerWrapper>
   );
 
-  private setActions(actions: VideoActions): void {
+  private setActions(actions: VideoActions) {
     // Actions are being sent constantly while the video is playing,
     // though play and pause functions are always the same objects
     if (!this.actions) {
@@ -238,13 +238,13 @@ export class CustomMediaPlayer extends Component<
     }
   }
 
-  private pause = (): void => {
+  private pause = () => {
     if (this.actions) {
       this.actions.pause();
     }
   };
 
-  private play = (): void => {
+  private play = () => {
     if (this.actions) {
       this.actions.play();
     }

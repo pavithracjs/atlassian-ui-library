@@ -6,7 +6,7 @@ import VidPlayIcon from '@atlaskit/icon/glyph/vid-play';
 import VidHdCircleIcon from '@atlaskit/icon/glyph/vid-hd-circle';
 import Button from '@atlaskit/button';
 import Spinner from '@atlaskit/spinner';
-import { fakeIntl } from '@atlaskit/media-test-helpers';
+import { fakeIntl, asMock } from '@atlaskit/media-test-helpers';
 import {
   CustomMediaPlayer,
   CustomMediaPlayerProps,
@@ -253,7 +253,7 @@ describe('<CustomMediaPlayer />', () => {
     });
 
     afterAll(() => {
-      (simultaneousPlayManager.subscribe as jest.Mock).mockRestore();
+      asMock(simultaneousPlayManager.subscribe).mockRestore();
     });
 
     it('should subscribe to Simultaneous Play Manager', () => {

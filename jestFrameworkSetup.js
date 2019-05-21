@@ -391,7 +391,7 @@ if (process.env.VISUAL_REGRESSION) {
 
 // Removes errors from JSDOM virtual console on CustomMediaPlayer tests
 // Trick taken from https://github.com/jsdom/jsdom/issues/2155
-if (HTMLMediaElement) {
+if (global.HTMLMediaElement) {
   const HTMLMediaElement_play = HTMLMediaElement.prototype.play;
   const HTMLMediaElement_pause = HTMLMediaElement.prototype.pause;
 
