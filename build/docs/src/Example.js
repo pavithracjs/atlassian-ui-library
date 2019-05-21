@@ -101,10 +101,12 @@ const toggleColor = themed('mode', {
 const Wrapper = styled.div`
   background-color: ${p => exampleBackgroundColor[p.mode]};
   border-radius: 5px;
+  box-sizing: border-box;
   color: ${toggleColor};
   margin-top: 20px;
   padding: 0 ${gridSize}px ${gridSize}px;
   transition: background-color ${TRANSITION_DURATION};
+  max-width: calc(100vw - 4rem);
 `;
 
 export const Toggle = styled.div`
@@ -127,6 +129,7 @@ const Showcase = styled.div`
   border-radius: 3px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   padding: ${gridSize}px;
+  overflow: auto;
 `;
 
 const CodeWrapper = styled.div`

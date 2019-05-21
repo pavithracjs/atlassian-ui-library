@@ -12,7 +12,7 @@ import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left';
 
 import * as fs from '../../utils/fs';
 import { Directory } from '../../types';
-import { AtlaskitIcon } from './index';
+import { AtlaskitIcon } from '../../components/AtlaskitIcon';
 
 export type LinkComponentProps = LinkProps & {
   href: string | Record<string, string | Location>;
