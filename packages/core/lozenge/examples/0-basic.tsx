@@ -3,15 +3,11 @@ import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import Lozenge, { ThemeAppearance } from '../src';
 
-interface ChildrenNode {
-  children: ReactNode;
-}
-
-const Row = ({ children }: ChildrenNode) => (
+const Row: React.FunctionComponent<ReactNode> = ({ children }) => (
   <div css={{ display: 'flex' }}>{children}</div>
 );
 
-const Col = ({ children }: ChildrenNode) => (
+const Col: React.FunctionComponent<ReactNode> = ({ children }) => (
   <div css={{ flex: '1 1 auto' }}>{children}</div>
 );
 
