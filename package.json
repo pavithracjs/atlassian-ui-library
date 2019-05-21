@@ -332,7 +332,7 @@
     "abortcontroller-polyfill": "^1.1.9",
     "adf-builder": "^3.2.0",
     "ajv": "^4.11.3",
-    "algoliasearch": "^3.32.1",
+    "algoliasearch": "^3.33.0",
     "apply-ref": "^0.2.0",
     "array-find": "^1.0.0",
     "axios": "^0.18.0",
