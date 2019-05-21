@@ -26,7 +26,7 @@ export const getColumnStateFromDOM = (
 
   return {
     index,
-    width,
+    width: width < minWidth ? tableNewColumnMinWidth : width,
     minWidth: minColumnWidth,
   };
 };

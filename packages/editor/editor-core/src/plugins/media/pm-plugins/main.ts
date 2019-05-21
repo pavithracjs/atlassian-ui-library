@@ -78,8 +78,6 @@ export class MediaPluginState {
 
   public pickers: PickerFacade[] = [];
   private popupPicker?: PickerFacade;
-  // @ts-ignore
-  private clipboardPicker?: PickerFacade;
   private dropzonePicker?: PickerFacade;
   // @ts-ignore
   private customPicker?: PickerFacade;
@@ -510,7 +508,6 @@ export class MediaPluginState {
     pickers.splice(0, pickers.length);
 
     this.popupPicker = undefined;
-    this.clipboardPicker = undefined;
     this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
@@ -557,14 +554,6 @@ export class MediaPluginState {
         );
 
         pickers.push(
-          (this.clipboardPicker = await new Picker(
-            'clipboard',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init()),
-        );
-
-        pickers.push(
           (this.dropzonePicker = await new Picker(
             'dropzone',
             pickerFacadeConfig,
@@ -592,7 +581,7 @@ export class MediaPluginState {
     pickers.forEach(picker => picker.setUploadParams(uploadParams));
   }
 
-  private trackNewMediaEvent(pickerType: string) {
+  public trackNewMediaEvent(pickerType: string) {
     return (mediaState: MediaState) => {
       analyticsService.trackEvent(
         `atlassian.editor.media.file.${pickerType}`,

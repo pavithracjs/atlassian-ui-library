@@ -41,3 +41,6 @@ export const validateNodes = (nodes: PMNode[]): boolean =>
     }
     return true;
   });
+
+export const isNodeTypeParagraph = (node: PMNode | undefined | null): boolean =>
+  Boolean(node && node.type && node.type.name === 'paragraph');

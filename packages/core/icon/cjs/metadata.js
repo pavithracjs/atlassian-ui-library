@@ -992,10 +992,10 @@ var _default = {
     componentName: 'HomeCircleIcon',
     package: '@atlaskit/icon/glyph/home-circle'
   },
-  'home-filled': {
-    keywords: ['home-filled', 'homefilled', 'icon', 'core'],
-    componentName: 'HomeFilledIcon',
-    package: '@atlaskit/icon/glyph/home-filled'
+  home: {
+    keywords: ['home', 'icon', 'core'],
+    componentName: 'HomeIcon',
+    package: '@atlaskit/icon/glyph/home'
   },
   'image-border': {
     keywords: ['image-border', 'imageborder', 'marquee', 'box', 'icon', 'core'],
@@ -1388,7 +1388,7 @@ var _default = {
     package: '@atlaskit/icon/glyph/preferences'
   },
   premium: {
-    keywords: ['crown', 'premium', 'icon', 'core'],
+    keywords: ['premium', 'crown', 'icon', 'core'],
     componentName: 'PremiumIcon',
     package: '@atlaskit/icon/glyph/premium'
   },

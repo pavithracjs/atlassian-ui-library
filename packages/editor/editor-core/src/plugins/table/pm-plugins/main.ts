@@ -1,5 +1,8 @@
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
-import { findParentDomRefOfType } from 'prosemirror-utils';
+import {
+  findParentDomRefOfType,
+  findParentNodeOfType,
+} from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
 
 import { browser } from '@atlaskit/editor-common';
@@ -9,7 +12,11 @@ import { pluginFactory } from '../../../utils/plugin-state-factory';
 
 import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
-import { setTableRef, clearHoverSelection } from '../commands';
+import {
+  setTableRef,
+  clearHoverSelection,
+  addBoldInEmptyHeaderCells,
+} from '../commands';
 import { PluginConfig } from '../types';
 import { handleDocOrSelectionChanged } from '../handlers';
 import {
@@ -123,6 +130,16 @@ export const createPlugin = (
           }
           if (pluginState.tableRef !== tableRef) {
             setTableRef(tableRef)(state, dispatch);
+          }
+
+          if (pluginState.editorHasFocus && pluginState.tableRef) {
+            const tableCellHeader = findParentNodeOfType(
+              state.schema.nodes.tableHeader,
+            )(state.selection);
+
+            if (tableCellHeader) {
+              addBoldInEmptyHeaderCells(tableCellHeader)(state, dispatch);
+            }
           }
         },
       };

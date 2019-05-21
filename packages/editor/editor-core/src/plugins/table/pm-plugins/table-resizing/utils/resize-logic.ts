@@ -54,30 +54,30 @@ export function reduceSpace(
 
   // keep trying to resolve resize request until we run out of free space,
   // or nothing to resize
-  while (remaining) {
+  while (remaining > 0) {
     // filter candidates only with free space
     const candidates = state.cols.filter(column => {
       return getFreeSpace(column) && ignoreCols.indexOf(column.index) === -1;
     });
-
     if (candidates.length === 0) {
       break;
     }
-
-    const requestedResize = Math.ceil(remaining / candidates.length);
+    const requestedResize = Math.floor(remaining / candidates.length);
     if (requestedResize === 0) {
       break;
     }
 
     candidates.forEach(candidate => {
       let newWidth = candidate.width - requestedResize;
-      let remainder = 0;
       if (newWidth < candidate.minWidth) {
         // If the new requested width is less than our min
         // Calc what width we didn't use, we'll try extract that
         // from other cols.
-        remainder = candidate.minWidth - newWidth;
+        const remainder = candidate.minWidth - newWidth;
         newWidth = candidate.minWidth;
+        remaining = remaining - requestedResize + remainder;
+      } else {
+        remaining -= requestedResize;
       }
 
       state = {
@@ -88,8 +88,6 @@ export function reduceSpace(
           ...state.cols.slice(candidate.index + 1),
         ],
       };
-
-      remaining -= requestedResize + remainder;
     });
   }
 
