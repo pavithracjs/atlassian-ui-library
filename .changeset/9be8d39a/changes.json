@@ -1,0 +1,15 @@
+{
+  "releases": [{ "name": "@atlaskit/css-reset", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/reduced-ui-pack",
+      "type": "major",
+      "dependencies": ["@atlaskit/css-reset"]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": ["@atlaskit/css-reset"]
+    }
+  ]
+}
