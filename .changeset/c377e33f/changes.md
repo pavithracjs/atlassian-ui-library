@@ -1,0 +1,1 @@
+- Change process.env check to process.env.NODE_ENV check
