@@ -143,7 +143,9 @@ export default class ModalDemo extends React.Component<{}, State> {
             .map(name => (
               <ModalDialog
                 key={name}
-                actions={name in ['footer', 'both'] ? actions : undefined}
+                actions={
+                  ['footer', 'both'].includes(name) ? actions : undefined
+                }
                 components={{
                   Header: name === 'custom header' ? Header : undefined,
                   Body: name === 'custom body' ? Body : undefined,
@@ -151,7 +153,9 @@ export default class ModalDemo extends React.Component<{}, State> {
                   Container: 'div',
                 }}
                 heading={
-                  name in ['header', 'both'] ? `Modal: ${name}` : undefined
+                  ['header', 'both'].includes(name)
+                    ? `Modal: ${name}`
+                    : undefined
                 }
                 onClose={this.close}
                 width={name === 'custom header' ? 300 : undefined}

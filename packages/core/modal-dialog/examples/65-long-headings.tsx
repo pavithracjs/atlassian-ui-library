@@ -34,7 +34,7 @@ const variantToHeading = (variant: string) => {
 };
 
 const variantToMultiline = (variant: string) =>
-  variant in [oneLineBreakableString, oneLineNonBreakableString];
+  [oneLineBreakableString, oneLineNonBreakableString].includes(variant);
 
 const H4 = styled.h4`
   margin-bottom: 0.66em;

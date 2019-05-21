@@ -126,7 +126,7 @@ interface State {
 }
 
 class ModalWrapper extends React.Component<WrapperProps, State> {
-  static defaultProps: Partial<WrapperProps> = {
+  static defaultProps = {
     autoFocus: true,
     scrollBehavior: 'inside',
     shouldCloseOnEscapePress: true,

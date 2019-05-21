@@ -60,7 +60,7 @@ interface State {
 }
 
 class Modal extends React.Component<Props, State> {
-  static defaultProps: Partial<Props> = {
+  static defaultProps = {
     autoFocus: true,
     scrollBehavior: 'inside',
     shouldCloseOnEscapePress: true,

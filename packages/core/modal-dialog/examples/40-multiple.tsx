@@ -8,7 +8,7 @@ interface State {
   isOpen: string[];
 }
 export default class NestedDemo extends React.Component<{}, State> {
-  state: { isOpen: string[] } = { isOpen: [] };
+  state: State = { isOpen: [] };
 
   open = (isOpen: string) => {
     const openModals = this.state.isOpen.slice(0);
@@ -65,7 +65,7 @@ export default class NestedDemo extends React.Component<{}, State> {
 
           return (
             <ModalTransition key={name}>
-              {name in isOpen && (
+              {isOpen.includes(name) && (
                 <Modal
                   actions={actions}
                   autoFocus

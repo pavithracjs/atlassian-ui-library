@@ -13,8 +13,7 @@ export const WIDTH_ENUM: WidthEnumType = {
 export type WidthNames = 'small' | 'medium' | 'large' | 'x-large';
 export interface WidthEnumType {
   values: string[];
-  // widths: { small: number; medium: number; large: number; 'x-large': number };
-  widths: { [index: string]: number };
+  widths: { [index in WidthNames]: number };
   defaultValue: string;
 }
 
