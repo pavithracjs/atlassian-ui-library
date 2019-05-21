@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 11.2.1
+- [patch] [1c9586e1a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c9586e1a0):
+
+  - Reverted strings to the original format
+
 ## 11.2.0
 - [minor] [061eb57bab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/061eb57bab):
 

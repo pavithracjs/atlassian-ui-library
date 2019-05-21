@@ -1,1 +1,0 @@
-- Reverted strings to the original format
