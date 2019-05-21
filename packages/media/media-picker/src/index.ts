@@ -7,9 +7,7 @@ import {
   Browser,
   BrowserConfig,
   BrowserConstructor,
-  ClipboardConstructor,
   ClipboardConfig,
-  Clipboard,
   Popup,
   PopupConfig,
   PopupConstructor,
@@ -22,8 +20,6 @@ import { MediaClient } from '@atlaskit/media-client';
 
 export const isBrowser = (component: any): component is Browser =>
   component && 'browse' in component && 'teardown' in component;
-export const isClipboard = (component: any): component is Clipboard =>
-  component && 'activate' in component && 'deactivate' in component;
 export const isDropzone = (component: any): component is Dropzone =>
   component && 'activate' in component && 'deactivate' in component;
 export const isPopup = (component: any): component is Popup =>
@@ -52,17 +48,15 @@ export { ImagePreview, Preview, NonImagePreview } from './domain/preview';
 // Constructor public API and types
 export interface MediaPickerConstructors {
   browser: BrowserConstructor;
-  clipboard: ClipboardConstructor;
   dropzone: DropzoneConstructor;
   popup: PopupConstructor;
 }
 
-export { Browser, Clipboard, Dropzone, Popup };
-export type MediaPickerComponent = Browser | Clipboard | Dropzone | Popup;
+export { Browser, Dropzone, Popup };
+export type MediaPickerComponent = Browser | Dropzone | Popup;
 
 export interface MediaPickerComponents {
   browser: Browser;
-  clipboard: Clipboard;
   dropzone: Dropzone;
   popup: Popup;
 }
@@ -72,17 +66,11 @@ export { UploadParams } from './domain/config';
 export { BrowserConfig, DropzoneConfig, PopupConfig, ClipboardConfig };
 export interface ComponentConfigs {
   browser: BrowserConfig;
-  clipboard: ClipboardConfig;
   dropzone: DropzoneConfig;
   popup: PopupConfig;
 }
 
-export {
-  BrowserConstructor,
-  ClipboardConstructor,
-  DropzoneConstructor,
-  PopupConstructor,
-};
+export { BrowserConstructor, DropzoneConstructor, PopupConstructor };
 
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
@@ -96,13 +84,6 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
       return new BrowserImpl(mediaClient, pickerConfig as
         | BrowserConfig
-        | undefined);
-    case 'clipboard':
-      const {
-        ClipboardImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-clipboard" */ './components/clipboard');
-      return new ClipboardImpl(mediaClient, pickerConfig as
-        | ClipboardConfig
         | undefined);
     case 'dropzone':
       const {
@@ -120,3 +101,7 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       throw new Error(`The component ${componentName} does not exist`);
   }
 }
+
+// REACT COMPONENTS
+
+export { ClipboardLoader as Clipboard } from './components/clipboard';

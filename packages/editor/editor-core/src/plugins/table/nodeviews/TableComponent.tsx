@@ -31,16 +31,9 @@ import {
   checkIfHeaderRowEnabled,
   tablesHaveDifferentColumnWidths,
   tablesHaveDifferentNoOfColumns,
-  getTableWidth,
 } from '../utils';
 import { autoSizeTable } from '../commands';
 import { WidthPluginState } from '../../width';
-
-/**
- * The sum of column widths usually never equal the layout width (off by up to 5, depending on amount of cols),
- * 20 is a safe number to determine they belong to a layout, but big enough to tell the difference between layouts.
- */
-const TABLE_LAYOUT_DIFF_BUFFER = 20;
 
 export interface ComponentProps extends Props {
   view: EditorView;
@@ -260,9 +253,8 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     this.setState({ scroll: this.wrapper.scrollLeft });
   };
 
-  private handleTableResizing = (prevProps: ComponentProps) => {
-    const { pluginState: prevPluginState } = prevProps;
-    const { node, pluginState, containerWidth } = this.props;
+  private handleTableResizing = () => {
+    const { node, containerWidth } = this.props;
     const prevWidth = this.containerWidth!.width;
     const prevNode = this.node!;
     const prevAttrs = prevNode.attrs;
@@ -278,18 +270,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 
     const currentLayoutSize = this.tableNodeLayoutSize(node);
     const prevLayoutSize = this.tableNodeLayoutSize(prevNode, prevWidth);
-    const tableColWidths = getTableWidth(node);
-
-    /**
-     * When we focus the table, we may need to scale the table
-     * We only want to scale if the size of table doesn't match
-     * the current layout of the table, this is generally due to
-     * dynamic text sizing (once unshipped we can delete these lines :) ).
-     */
-    const shouldScaleForDynamicTextSizing =
-      pluginState.tableRef === this.table &&
-      prevPluginState.tableRef !== this.table &&
-      currentLayoutSize % tableColWidths > TABLE_LAYOUT_DIFF_BUFFER;
 
     if (
       // Breakout mode/layout changed
@@ -301,14 +281,11 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       prevAttrs.isNumberColumnEnabled !== node.attrs.isNumberColumnEnabled ||
       // Adding or removing columns from the table, should snap the remaining / new columns to the layout width.
       tablesHaveDifferentNoOfColumns(node, prevNode) ||
-      // Controls read from col widths, when the table is focused we want to ensure that current layout
-      // matches with the current dynamically sized layout. Shouldn't trigger often.
-      shouldScaleForDynamicTextSizing ||
       // This last check is also to cater for dynamic text sizing changing the 'default' layout width
       // Usually happens on window resize.
       currentLayoutSize !== prevLayoutSize
     ) {
-      this.scaleTable(parentWidth);
+      this.scaleTable({ parentWidth, layoutChanged });
       this.updateParentWidth(parentWidth);
     }
 
@@ -317,7 +294,10 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     this.containerWidth = containerWidth;
   };
 
-  private scaleTable = (parentWidth?: number) => {
+  private scaleTable = (scaleOptions: {
+    layoutChanged: boolean;
+    parentWidth?: number;
+  }) => {
     const { view, node, getPos, containerWidth, options } = this.props;
     const { state, dispatch } = view;
     const domAtPos = view.domAtPos.bind(view);
@@ -330,9 +310,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     scaleTable(
       this.table,
       {
+        ...scaleOptions,
         node,
         prevNode: this.node || node,
-        parentWidth,
         start: getPos() + 1,
         containerWidth: width,
         previousContainerWidth: this.containerWidth!.width || width,

@@ -14,7 +14,6 @@ import { ServiceName, State } from '../domain';
 
 import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
-import { ClipboardImpl as MpClipboard } from '../../components/clipboard';
 import { UploadParams, PopupConfig } from '../..';
 
 /* Components */
@@ -54,7 +53,10 @@ import { MediaPickerPopupWrapper, SidebarWrapper, ViewWrapper } from './styled';
 import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
+  ClipboardConfig,
 } from '../../components/types';
+
+import { Clipboard } from '../../components/clipboard/clipboard';
 import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {
@@ -104,8 +106,8 @@ export interface AppState {
 export class App extends Component<AppProps, AppState> {
   private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
-  private readonly mpClipboard: MpClipboard;
   private readonly localUploader: LocalUploadComponent;
+  private readonly componentContext: Context;
 
   constructor(props: AppProps) {
     super(props);
@@ -134,6 +136,8 @@ export class App extends Component<AppProps, AppState> {
       userAuthProvider: userMediaClient.config.authProvider,
       cacheSize: tenantMediaClient.config.cacheSize,
     });
+
+    this.componentContext = context;
 
     this.localUploader = new LocalUploadComponent(mediaClient, {
       uploadParams: tenantUploadParams,
@@ -174,18 +178,6 @@ export class App extends Component<AppProps, AppState> {
     this.mpDropzone.on('upload-end', onUploadEnd);
     this.mpDropzone.on('upload-error', onUploadError);
 
-    this.mpClipboard = new MpClipboard(mediaClient, {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-    });
-
-    this.mpClipboard.on('uploads-start', onUploadsStart);
-    this.mpClipboard.on('upload-preview-update', onUploadPreviewUpdate);
-    this.mpClipboard.on('upload-status-update', onUploadStatusUpdate);
-    this.mpClipboard.on('upload-processing', onUploadProcessing);
-    this.mpClipboard.on('upload-end', onUploadEnd);
-    this.mpClipboard.on('upload-error', onUploadError);
-
     onStartApp({
       onCancelUpload: uploadId => {
         this.mpBrowser.cancel(uploadId);
@@ -217,10 +209,8 @@ export class App extends Component<AppProps, AppState> {
     if (isVisible !== this.props.isVisible) {
       if (isVisible) {
         this.mpDropzone.activate();
-        this.mpClipboard.activate();
       } else {
         this.mpDropzone.deactivate();
-        this.mpClipboard.deactivate();
       }
     }
   }
@@ -257,6 +247,7 @@ export class App extends Component<AppProps, AppState> {
                   <Dropzone isActive={isDropzoneActive} />
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
+                {this.renderClipboard()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -287,6 +278,35 @@ export class App extends Component<AppProps, AppState> {
     this.setState({
       isDropzoneActive,
     });
+  };
+
+  private renderClipboard = () => {
+    const {
+      onUploadPreviewUpdate,
+      onUploadStatusUpdate,
+      onUploadProcessing,
+      onUploadEnd,
+      onUploadError,
+      tenantUploadParams,
+    } = this.props;
+
+    const config: ClipboardConfig = {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+    };
+
+    return (
+      <Clipboard
+        context={this.componentContext}
+        config={config}
+        onUploadsStart={this.onDrop}
+        onPreviewUpdate={onUploadPreviewUpdate}
+        onStatusUpdate={onUploadStatusUpdate}
+        onProcessing={onUploadProcessing}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
+      />
+    );
   };
 }
 

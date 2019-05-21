@@ -192,23 +192,22 @@ export const insertRowOrColumn = async (
 };
 
 export const deleteRow = async (page: any, atIndex: number) => {
-  await deleteRowOrColumn(page, tableSelectors.rowControls, atIndex);
+  const controlSelector = `.${tableSelectors.rowControls} .${
+    ClassName.ROW_CONTROLS_BUTTON_WRAP
+  }:nth-child(${atIndex}) .${ClassName.CONTROLS_BUTTON}`;
+  await deleteRowOrColumn(page, controlSelector);
 };
 
 export const deleteColumn = async (page: any, atIndex: number) => {
-  await deleteRowOrColumn(page, tableSelectors.columnControls, atIndex);
+  const controlSelector = `.${tableSelectors.columnControls} .${
+    ClassName.COLUMN_CONTROLS_BUTTON_WRAP
+  }:nth-child(${atIndex}) .${ClassName.CONTROLS_BUTTON}`;
+  await deleteRowOrColumn(page, controlSelector);
 };
 
-export const deleteRowOrColumn = async (
-  page: any,
-  typeWrapperSelector: string,
-  atIndex: number,
-) => {
-  const controlSelector = `.${typeWrapperSelector} .${
-    ClassName.CONTROLS_BUTTON
-  }:nth-child(${atIndex})`;
-
+export const deleteRowOrColumn = async (page: any, controlSelector: string) => {
   await clickFirstCell(page);
+  await page.waitForSelector(controlSelector);
   await page.click(controlSelector);
   await page.hover(tableSelectors.deleteButtonSelector);
   await page.waitForSelector(tableSelectors.deleteButtonSelector);

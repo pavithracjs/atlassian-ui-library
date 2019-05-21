@@ -59,12 +59,6 @@ describe('Media PickerFacade', () => {
       browse: jest.fn(),
       addFiles: jest.fn(),
     },
-    clipboard: {
-      ...commonSpies,
-      activate: jest.fn(),
-      deactivate: jest.fn(),
-      addFiles: jest.fn(),
-    },
     dropzone: {
       ...commonSpies,
       activate: jest.fn(),
@@ -80,12 +74,7 @@ describe('Media PickerFacade', () => {
     },
   };
 
-  const pickerTypes: Array<PickerType> = [
-    'popup',
-    'clipboard',
-    'dropzone',
-    'browser',
-  ];
+  const pickerTypes: Array<PickerType> = ['popup', 'dropzone', 'browser'];
 
   pickerTypes.forEach(pickerType => {
     describe(`Picker: ${pickerType}`, () => {
@@ -125,7 +114,7 @@ describe('Media PickerFacade', () => {
       it(`listens to picker events`, () => {
         const fn = jasmine.any(Function);
         expect(spies.on).toHaveBeenCalledTimes(
-          pickerType === 'dropzone' || pickerType === 'clipboard' ? 6 : 4,
+          pickerType === 'dropzone' ? 6 : 4,
         );
         expect(spies.on).toHaveBeenCalledWith('upload-preview-update', fn);
         expect(spies.on).toHaveBeenCalledWith('upload-processing', fn);
@@ -139,7 +128,7 @@ describe('Media PickerFacade', () => {
       it('removes listeners on destruction', () => {
         facade.destroy();
         expect(spies.removeAllListeners).toHaveBeenCalledTimes(
-          pickerType === 'dropzone' || pickerType === 'clipboard' ? 5 : 3,
+          pickerType === 'dropzone' ? 5 : 3,
         );
         expect(spies.removeAllListeners).toHaveBeenCalledWith(
           'upload-preview-update',
@@ -154,7 +143,7 @@ describe('Media PickerFacade', () => {
       });
 
       // Picker Specific Tests
-      if (pickerType === 'clipboard' || pickerType === 'dropzone') {
+      if (pickerType === 'dropzone') {
         it(`should call picker's activate() during initialization`, () => {
           expect(spies.activate).toHaveBeenCalledTimes(1);
         });
@@ -165,7 +154,7 @@ describe('Media PickerFacade', () => {
           facade.destroy();
           expect(spies.teardown).toHaveBeenCalledTimes(1);
         });
-      } else if (pickerType === 'clipboard' || pickerType === 'dropzone') {
+      } else if (pickerType === 'dropzone') {
         it(`should call picker's deactivate() on destruction`, () => {
           facade.destroy();
           expect(spies.deactivate).toHaveBeenCalledTimes(1);
@@ -202,7 +191,7 @@ describe('Media PickerFacade', () => {
         });
       }
 
-      if (pickerType === 'dropzone' || pickerType === 'clipboard') {
+      if (pickerType === 'dropzone') {
         it(`should call picker.activate when activate is called`, () => {
           spies.activate.mockClear();
           facade.activate();
@@ -210,7 +199,7 @@ describe('Media PickerFacade', () => {
         });
       }
 
-      if (pickerType === 'dropzone' || pickerType === 'clipboard') {
+      if (pickerType === 'dropzone') {
         it(`should call picker.deactivate when deactivate is called`, () => {
           spies.deactivate.mockClear();
           facade.deactivate();

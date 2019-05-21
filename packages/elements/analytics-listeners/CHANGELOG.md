@@ -1,5 +1,10 @@
 # @atlaskit/analytics-listeners
 
+## 6.1.0
+- [minor] [f53003a5ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f53003a5ed):
+
+  - ED-6741 Add 'appearance' to all editor analytics events
+
 ## 6.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

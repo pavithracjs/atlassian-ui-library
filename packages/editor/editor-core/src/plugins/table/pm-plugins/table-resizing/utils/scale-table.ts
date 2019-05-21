@@ -20,6 +20,7 @@ export interface ScaleOptions {
   containerWidth?: number;
   previousContainerWidth?: number;
   parentWidth?: number;
+  layoutChanged?: boolean;
   dynamicTextSizing?: boolean;
   isBreakoutEnabled?: boolean;
   isFullWidthModeEnabled?: boolean;
@@ -45,6 +46,7 @@ export const scale = (
     prevNode,
     start,
     isBreakoutEnabled,
+    layoutChanged,
   } = options;
 
   const maxSize = getLayoutSize(node.attrs.layout, containerWidth, {
@@ -63,8 +65,8 @@ export const scale = (
 
   let newWidth = maxSize;
 
-  // Determine if table was overflow
-  if (prevTableWidth > previousMaxSize) {
+  // adjust table width if layout is updated
+  if (layoutChanged && prevTableWidth > previousMaxSize) {
     const overflowScale = prevTableWidth / previousMaxSize;
     newWidth = Math.floor(newWidth * overflowScale);
   }
@@ -108,29 +110,52 @@ export const scaleWithParent = (
   return scaleTableTo(resizeState, Math.floor(parentWidth));
 };
 
-// Scales the table to a given size and updates its colgroup DOM node
-function scaleTableTo(state: ResizeState, newWidth: number): ResizeState {
-  const scaleFactor = newWidth / getTotalWidth(state);
+// adjust columns to take up the total width
+// difference in total columns widths vs table width happens due to the "Math.floor"
+export const adjustColumnsWidths = (
+  resizeState: ResizeState,
+  maxSize: number,
+): ResizeState => {
+  const totalWidth = getTotalWidth(resizeState);
+  const diff = maxSize - totalWidth;
+  if (diff > 0 || (diff < 0 && Math.abs(diff) < tableCellMinWidth)) {
+    let updated = false;
+    return {
+      ...resizeState,
+      cols: resizeState.cols.map(col => {
+        if (!updated && col.width + diff > col.minWidth) {
+          updated = true;
+          return { ...col, width: col.width + diff };
+        }
+        return col;
+      }),
+    };
+  }
 
-  const newState = {
+  return resizeState;
+};
+
+// Scales the table to a given size and updates its colgroup DOM node
+function scaleTableTo(state: ResizeState, maxSize: number): ResizeState {
+  const scaleFactor = maxSize / getTotalWidth(state);
+
+  let newState = {
     ...state,
-    maxSize: newWidth,
+    maxSize,
     cols: state.cols.map(col => {
       const { minWidth, width } = col;
       let newColWidth = Math.floor(width * scaleFactor);
-
-      // enforce min width
       if (newColWidth < minWidth) {
         newColWidth = minWidth;
       }
-
       return { ...col, width: newColWidth };
     }),
   };
 
-  if (getTotalWidth(newState) > newWidth) {
-    return reduceSpace(newState, getTotalWidth(newState) - newWidth);
+  let newTotalWidth = getTotalWidth(newState);
+  if (newTotalWidth > maxSize) {
+    newState = reduceSpace(newState, newTotalWidth - maxSize);
   }
 
-  return newState;
+  return adjustColumnsWidths(newState, maxSize);
 }

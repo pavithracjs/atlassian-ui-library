@@ -39,6 +39,7 @@ import {
   MediaPluginState,
 } from '../../../../plugins/media/pm-plugins/main';
 import mediaPlugin from '../../../../plugins/media';
+import { waitForAllPickersInitialised } from './_utils';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
@@ -47,12 +48,6 @@ const getFreshMediaProvider = () =>
     collectionName: testCollectionName,
     includeUserAuthProvider: true,
   });
-
-const waitForAllPickersInitialised = async (pluginState: MediaPluginState) => {
-  while (pluginState.pickers.length < 3) {
-    await new Promise(resolve => resolve());
-  }
-};
 
 describe('Media with mock facade', () => {
   const createEditor = createEditorFactory<MediaPluginState>();

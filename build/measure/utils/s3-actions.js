@@ -13,10 +13,16 @@ const BUCKET_NAME = 'atlaskit-artefacts';
 const BUCKET_REGION = 'ap-southeast-2';
 
 function createDir(dir) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    return dir;
+  } catch (err) {
+    console.error(chalk.red(err));
+    // TODO: to fix in BUILDTOOLS-124 & BUILDTOOLS-125
+    process.exit(0);
   }
-  return dir;
 }
 
 function isAWSAccessible() {
@@ -79,7 +85,6 @@ function uploadToS3(pathToFile, branch) {
 
   const fileName = path.basename(pathToFile);
   const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${fileName}`;
-  console.log(`${BUCKET_REGION} put ${pathToFile} ${bucketPath}`);
 
   npmRun.sync(
     `s3-cli --region="${BUCKET_REGION}" put ${pathToFile} ${bucketPath}`,
