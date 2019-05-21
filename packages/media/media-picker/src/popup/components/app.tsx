@@ -107,7 +107,7 @@ export class App extends Component<AppProps, AppState> {
   private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
   private readonly localUploader: LocalUploadComponent;
-  private readonly componentContext: Context;
+  private readonly componentMediaClient: MediaClient;
 
   constructor(props: AppProps) {
     super(props);
@@ -137,7 +137,7 @@ export class App extends Component<AppProps, AppState> {
       cacheSize: tenantMediaClient.config.cacheSize,
     });
 
-    this.componentContext = context;
+    this.componentMediaClient = mediaClient;
 
     this.localUploader = new LocalUploadComponent(mediaClient, {
       uploadParams: tenantUploadParams,
@@ -297,7 +297,7 @@ export class App extends Component<AppProps, AppState> {
 
     return (
       <Clipboard
-        context={this.componentContext}
+        mediaClient={this.componentMediaClient}
         config={config}
         onUploadsStart={this.onDrop}
         onPreviewUpdate={onUploadPreviewUpdate}

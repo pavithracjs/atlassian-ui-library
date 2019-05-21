@@ -189,7 +189,7 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
 
   private renderClipboard() {
     const { isConnectedToUsersCollection, isActive } = this.state;
-    const context = ContextFactory.create({
+    const mediaClient = new MediaClient({
       authProvider: defaultMediaPickerAuthProvider,
       userAuthProvider: isConnectedToUsersCollection
         ? userAuthProvider
@@ -240,7 +240,7 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
 
     return isActive ? (
       <Clipboard
-        context={context}
+        mediaClient={mediaClient}
         config={config}
         onUploadsStart={onUploadsStart}
         onEnd={onUploadEnd}

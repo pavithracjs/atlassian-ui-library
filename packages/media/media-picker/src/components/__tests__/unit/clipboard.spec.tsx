@@ -2,8 +2,7 @@ import * as React from 'react';
 
 jest.mock('../../../service/newUploadServiceImpl');
 
-import { ContextFactory } from '@atlaskit/media-core';
-import { MockFile } from '@atlaskit/media-test-helpers';
+import { fakeMediaClient, MockFile } from '@atlaskit/media-test-helpers';
 import { LocalFileSource } from '../../../service/types';
 import { Clipboard as ClipboardComponent } from '../../clipboard/clipboard';
 import { Clipboard } from '../../types';
@@ -15,9 +14,7 @@ describe('Clipboard', () => {
   let clipboardInstance: ClipboardComponent;
   let eventsMap: any;
 
-  const context = ContextFactory.create({
-    authProvider: {} as any,
-  });
+  const mediaClient = fakeMediaClient();
 
   const config = {
     uploadParams: {},
@@ -29,7 +26,9 @@ describe('Clipboard', () => {
       eventsMap[event] = cb;
     });
 
-    clipboard = mount(<ClipboardComponent context={context} config={config} />);
+    clipboard = mount(
+      <ClipboardComponent mediaClient={mediaClient} config={config} />,
+    );
 
     clipboardInstance = clipboard.instance() as ClipboardComponent;
     addFilesWithSourceSpy = jest.spyOn(
@@ -127,7 +126,7 @@ describe('Clipboard', () => {
     };
 
     const anotherClipboard = mount(
-      <ClipboardComponent context={context} config={config} />,
+      <ClipboardComponent mediaClient={mediaClient} config={config} />,
     );
     clipboardInstance = anotherClipboard.instance() as ClipboardComponent;
     const anotherAddFilesWithSourceSpy = jest.spyOn(
