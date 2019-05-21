@@ -3,6 +3,9 @@ import {
   loadKitchenSinkWithAdf,
   snapshotAndCompare,
 } from './_wysiwyg-utils';
+import { traverse } from '@atlaskit/adf-utils/traverse';
+
+type FragmentNodeLookup = { node: string; waitForSelector?: string };
 
 describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
   let page: any;
@@ -19,7 +22,7 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
    * Because these tests need to be deterministic, if a node requires additional time to load
    * a resource you can add a `waitForSelector` value to defer the screenshot until it's available.
    */
-  const nodes: { node: string; waitForSelector?: string }[] = [
+  const contentNodes: FragmentNodeLookup[] = [
     { node: 'actions' },
     { node: 'blockquote' },
     { node: 'bullet list' },
@@ -35,15 +38,59 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
     { node: 'status' },
   ];
 
+  const containerNodes: FragmentNodeLookup[] = [
+    { node: 'table' },
+    { node: 'columns' },
+    { node: 'panel' },
+  ];
+
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
     await page.setViewport({ width: 2000, height: 1000 });
   });
 
-  it.each(nodes)('%o', async ({ node, waitForSelector }) => {
-    const adf = createDocumentADF(node);
-    await loadKitchenSinkWithAdf(page, adf);
-    await snapshotAndCompare(page, node, waitForSelector);
+  describe('Standalone content', () => {
+    // Here we filter out nodes that don't render anything in their initial state
+    const standaloneNodes = contentNodes.concat(
+      containerNodes.filter(
+        (node: FragmentNodeLookup) => node.node !== 'columns',
+      ),
+    );
+
+    it.each(standaloneNodes)('%o', async ({ node, waitForSelector }) => {
+      const adf = createDocumentADF(node);
+      await loadKitchenSinkWithAdf(page, adf);
+      await snapshotAndCompare(page, node, waitForSelector);
+    });
   });
+
+  describe.each(containerNodes)(
+    'Nested content: %o',
+    async ({ node: containerNode }: FragmentNodeLookup) => {
+      const containerAdf = createDocumentADF(containerNode, true);
+      // Nested nodes
+      it.each(contentNodes)(
+        `%o inside ${containerNode}`,
+        async ({ node: contentNode, waitForSelector }: FragmentNodeLookup) => {
+          const contentAdf = createDocumentADF(contentNode).content;
+          const adf = traverse(containerAdf, {
+            any: (node: any) => {
+              if (node.content && node.content.length === 0) {
+                // Insert nested content
+                node.content = contentAdf;
+              }
+              return node;
+            },
+          });
+          await loadKitchenSinkWithAdf(page, adf);
+          await snapshotAndCompare(
+            page,
+            `${contentNode} inside ${containerNode}`,
+            waitForSelector,
+          );
+        },
+      );
+    },
+  );
 });

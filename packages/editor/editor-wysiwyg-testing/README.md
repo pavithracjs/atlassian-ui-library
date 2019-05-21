@@ -8,7 +8,7 @@ If the changes result in improved visual consistency then the updated percentage
 
 Tests will fail if the visual divergence widens.
 
-If tests fail, the composite image is written to disk to be reviewed by a developer.
+If tests fail, the composite image, and text figures are written to disk to be reviewed by a developer.
 
 To run:
 
@@ -18,7 +18,9 @@ yarn vr:test editor-wysiwyg-testing
 
 If the consistency of a content node worsens after up-merging master, you can set the latest values as the new baseline using the `-u` or `--updateSnapshot` flag.
 
-Using the `--debug` flag will also write the composite image and values to disk to aid in debugging.
+Using the `--debug` flag will also write the composite image to disk to aid in debugging.
+
+> Note: Report updating won't occur during debug builds because their diff won't be pixel perfect against those generated within the Docker container.
 
 If changes result in an improvement you can see them in the generated text file:
 

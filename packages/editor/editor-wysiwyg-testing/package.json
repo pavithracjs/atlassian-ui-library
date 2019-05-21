@@ -12,6 +12,7 @@
   ],
   "main": "index.js",
   "devDependencies": {
+    "@atlaskit/adf-utils": "^6.0.5",
     "@atlaskit/analytics-reporting": "0.1.0",
     "@atlaskit/editor-common": "^39.2.0",
     "@atlaskit/editor-core": "^111.0.0",

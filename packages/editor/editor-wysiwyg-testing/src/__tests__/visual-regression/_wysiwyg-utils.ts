@@ -13,30 +13,40 @@ import path from 'path';
  * @param nodeName The name of the node fragment you wish to insert
  * @param containerNodeName Optional container node fragment to nest within.
  */
-export function createDocumentADF(
-  nodeName: string,
-  containerNodeName?: string,
-) {
+export function createDocumentADF(nodeName: string, isContainer = false) {
   const doc: any = {
     version: 1,
     type: 'doc',
     content: [],
   };
 
-  const fragment = loadFragmentADF(nodeName);
+  const fragment = loadFragmentADF(nodeName, isContainer);
 
-  // Insert fragment three times because content nodes may style the first and last instance differently from other instances.
-  const fragmentContent = [fragment, fragment, fragment];
-
-  if (containerNodeName) {
-    const containerFragment = loadFragmentADF(containerNodeName, true);
-    // TODO: Iterate recursively down the tree, finding each empty content array and inserting `fragmentContent` inside it
-    doc.content = [containerFragment];
+  if (isContainer) {
+    // Insert fragment once to serve as a placeholder, for later content injection.
+    doc.content = [fragment];
   } else {
-    doc.content = fragmentContent;
+    // Insert fragment three times because content nodes may style the first and last instance differently from other instances.
+    doc.content = [fragment, fragment, fragment];
   }
 
   return doc;
+}
+
+/**
+ * Some content nodes deliberately appear differently in editor versus renderer.
+ *
+ * These styles attempt to normalize the appearance of the deselected node in
+ * order to get the closest representation for comparison.
+ */
+async function normalizeStyles(page: any) {
+  const css = `
+    .ProseMirror [data-layout-section] > * {
+      /* Disable layout column borders within editor */
+      border: none !important;
+    }
+  `;
+  await page.addStyleTag({ content: css });
 }
 
 function loadFragmentADF(nodeName: string, isContainer = false) {
@@ -71,6 +81,8 @@ const editorSelectedNode = '.ProseMirror-selectednode';
 export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
   const url = getExampleUrl('editor', 'editor-core', 'kitchen-sink');
   await loadExampleUrl(page, url);
+
+  await normalizeStyles(page);
 
   // Load the ADF into the editor & renderer.
   await page.waitForSelector(adfToggleSelector);
@@ -279,10 +291,11 @@ export async function snapshotAndCompare(
   const debugging = process.env.DEBUG === 'true';
 
   // Improved consistency, or explicitly updating snapshot
-  if (divergence < divergenceBaseline || updateSnapshot) {
+  if ((divergence < divergenceBaseline && !debugging) || updateSnapshot) {
     // Update the report to relect this as the new baseline.
     reportNode.consistency = clampPercentage(1 - divergence) + '%';
     reportNode.divergence = divergence;
+    // Updated reports need to be committed by a developer to remain tracked.
     fs.writeFileSync(consistencyReportPath, JSON.stringify(report, null, 2));
 
     if (updateSnapshot) divergenceBaseline = divergence;

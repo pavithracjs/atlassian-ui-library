@@ -6,14 +6,24 @@
       "attrs": {
         "width": 66.66
       },
-      "content": []
+      "content": [
+        {
+          "type": "paragraph",
+          "content": []
+        }
+      ]
     },
     {
       "type": "layoutColumn",
       "attrs": {
         "width": 33.33
       },
-      "content": []
+      "content": [
+        {
+          "type": "paragraph",
+          "content": []
+        }
+      ]
     }
   ]
 }

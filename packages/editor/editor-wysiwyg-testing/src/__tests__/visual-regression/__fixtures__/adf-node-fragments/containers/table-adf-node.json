@@ -11,12 +11,7 @@
         {
           "type": "tableHeader",
           "attrs": {},
-          "content": [
-            {
-              "type": "paragraph",
-              "content": []
-            }
-          ]
+          "content": []
         }
       ]
     },
@@ -26,12 +21,7 @@
         {
           "type": "tableCell",
           "attrs": {},
-          "content": [
-            {
-              "type": "paragraph",
-              "content": []
-            }
-          ]
+          "content": []
         }
       ]
     }
