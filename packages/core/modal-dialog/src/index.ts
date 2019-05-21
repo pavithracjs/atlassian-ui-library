@@ -6,4 +6,3 @@ export {
   Footer as ModalFooter,
   Title as ModalTitle,
 } from './styled/Content';
-export { KeyboardOrMouseEvent } from './types';

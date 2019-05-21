@@ -10,10 +10,7 @@ import CloseIcon from '@atlaskit/icon/glyph/cross';
 import Button from '@atlaskit/button';
 import { gridSize, math } from '@atlaskit/theme';
 import { FieldTextStateless as Input } from '@atlaskit/field-text';
-import Modal, {
-  ModalHeader as OgModalHeader,
-  KeyboardOrMouseEvent,
-} from '@atlaskit/modal-dialog';
+import Modal, { ModalHeader as OgModalHeader } from '@atlaskit/modal-dialog';
 
 import * as fs from '../../utils/fs';
 import { File } from '../../types';
@@ -138,7 +135,7 @@ export default class ExamplesModal extends React.Component<Props, State> {
     this.setState({ isInvalid, range });
   };
 
-  close = (event?: KeyboardOrMouseEvent) => {
+  close = (event?: React.MouseEvent<any> | React.KeyboardEvent<any>) => {
     if (event) event.stopPropagation();
 
     const { groupId, pkgId } = this.props.match.params;

@@ -19,7 +19,6 @@ import Modal, {
   ModalBody as Body,
   ModalHeader as OgModalHeader,
   ModalTitle,
-  KeyboardOrMouseEvent,
 } from '@atlaskit/modal-dialog';
 import { colors, elevation, gridSize } from '@atlaskit/theme';
 
@@ -348,7 +347,7 @@ export default class ExamplesModal extends React.Component<Props, State> {
   onCodeToggle = () =>
     this.setState(state => ({ displayCode: !state.displayCode }));
 
-  close = (event?: KeyboardOrMouseEvent) => {
+  close = (event?: React.MouseEvent<any> | React.KeyboardEvent<any>) => {
     if (event) event.stopPropagation();
 
     const { params } = this.props.match;
