@@ -1,0 +1,55 @@
+{
+  "releases": [{ "name": "@atlaskit/page", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/panel",
+      "type": "patch",
+      "dependencies": ["@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/navigation",
+      "type": "patch",
+      "dependencies": ["@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/page-header",
+      "type": "patch",
+      "dependencies": ["@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/progress-tracker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/help-panel",
+      "type": "patch",
+      "dependencies": ["@atlaskit/navigation", "@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/media-avatar-picker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/media-ui", "@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/media-ui",
+      "type": "patch",
+      "dependencies": ["@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/smart-card",
+      "type": "patch",
+      "dependencies": ["@atlaskit/media-ui", "@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/global-search",
+      "type": "patch",
+      "dependencies": ["@atlaskit/navigation", "@atlaskit/page"]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": ["@atlaskit/navigation", "@atlaskit/page"]
+    }
+  ]
+}
