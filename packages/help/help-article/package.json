@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/help-article",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A cross-product help-article component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -15,7 +15,7 @@
     "name": "Help Article"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
-  "dependencies": {    
+  "dependencies": {
     "@atlaskit/theme": "^9.0.0",
     "exenv": "^1.2.2",
     "@emotion/core": "^10.0.9",
