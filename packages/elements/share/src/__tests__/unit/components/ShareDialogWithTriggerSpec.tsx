@@ -383,7 +383,7 @@ describe('ShareDialogWithTrigger', () => {
     const mockTarget = document.createElement('div');
 
     beforeEach(() => {
-      wrapper.instance().containerRef = { current: mockTarget };
+      (wrapper.instance() as any).containerRef = { current: mockTarget };
       wrapper.instance().forceUpdate();
     });
 
