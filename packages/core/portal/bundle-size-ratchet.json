@@ -11,16 +11,16 @@
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 2635,
-      "gzipSize": 980
+      "size": 2594,
+      "gzipSize": 958
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 5303,
-      "gzipSize": 1936
+      "size": 5262,
+      "gzipSize": 1908
     }
   }
 ]
