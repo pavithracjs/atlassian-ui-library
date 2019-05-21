@@ -48,7 +48,6 @@ describe('Simultaneous Play Manager', () => {
     const videoOne = new DummyVideo(); // Subscribes
     videoOne.subscription = simultaneousPlayManager.subscribe(videoOne.pause); // tries to subscribe again
 
-    // TEST
     simultaneousPlayManager.subscribe(() => {}).onPlay();
     expect(videoOne.pause).toBeCalledTimes(1);
   });
