@@ -51,21 +51,19 @@ export const ComponentContainer = styled.div`
 `;
 export const CodeBox = styled.div`
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
   height: calc(100% - ${NAVBAR_HEIGHT});
   justify-content: flex-end;
-  overflow-x: auto;
+  overflow: auto;
   position: fixed;
   right: 0;
-  top: ${NAVBAR_HEIGHT};
   transform: translate3d(
     ${(p: { status: string }) => transitionDistance[p.status]},
     0,
     0
   );
   transition: opacity ${transitionDuration}ms, transform ${transitionDuration}ms;
-  width: 640px;
+  width: 100%;
+  max-width: 640px;
   z-index: 3;
 
   > pre {
@@ -103,18 +101,23 @@ export const CodeContainer = ({
 export const Nav = styled.nav`
   align-items: center;
   box-shadow: 0 1px 0 ${colors.N30A};
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  height: ${NAVBAR_HEIGHT};
   justify-content: space-between;
+  padding: 4px;
   top: 0;
   width: 100%;
-  z-index: 2;
+  z-index: 4;
 `;
 
 export const NavSection = styled.div`
   align-items: center;
   display: flex;
+  @media (max-width: 786px) {
+    flex-wrap: wrap;
+    width: 100%;
+  }
 `;
 
 const navButtonStyles = css`
@@ -147,6 +150,10 @@ const navButtonStyles = css`
 export const NavButton = styled.button`
   ${navButtonStyles};
 `;
+export const RightNavButtonContainer = styled.div`
+  padding: 4px;
+`;
+
 export const NavLink = (styled(Link)`
   ${navButtonStyles};
 ` as any) as typeof Link;
@@ -156,8 +163,11 @@ export const NavLink = (styled(Link)`
 
 export const Control = styled.div`
   display: flex;
-  width: 300px;
   margin-right: 2px;
+  @media (max-width: 786px) {
+    padding: 4px;
+    width: 100%;
+  }
 `;
 
 export const ErrorMessage = styled.div`

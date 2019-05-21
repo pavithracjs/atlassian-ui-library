@@ -324,8 +324,8 @@ export default class Page {
   }
 
   // Window
-  setViewPort(size, type) {
-    return this.browser.setViewPort(size, type);
+  setWindowSize(width, height) {
+    return this.browser.setWindowSize(width, height);
   }
 
   chooseFile(selector, localPath) {
