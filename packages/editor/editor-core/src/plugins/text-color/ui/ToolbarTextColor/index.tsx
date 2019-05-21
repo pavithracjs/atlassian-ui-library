@@ -27,11 +27,11 @@ export const messages = defineMessages({
   },
 });
 
-const EditorColorIconWrapper = styled.div`
+const TextColorIconWrapper = styled.div`
   position: relative;
 `;
 
-const EditorTextColorIconBar = styled.div`
+const TextColorIconBar = styled.div`
   position: absolute;
   left: 0;
   right: 0;
@@ -45,26 +45,30 @@ const EditorTextColorIconBar = styled.div`
     gradientColors,
     selectedColor,
   }: {
-    gradientColors: string[];
+    gradientColors: string;
     selectedColor?: string | false | null;
   }) => {
     if (selectedColor) {
       return `background: ${selectedColor}`;
     }
+    return `background: ${gradientColors}`;
+  }};
+`;
 
-    return `
-    background: linear-gradient(
+const createSteppedRainbow = (colors: string[]) => {
+  return `
+    linear-gradient(
       to right,
-      ${gradientColors
+      ${colors
         .map((color, i) => {
-          const inc = 100 / gradientColors.length;
+          const inc = 100 / colors.length;
           const pos = i + 1;
 
           if (i === 0) {
             return `${color} ${pos * inc}%,`;
           }
 
-          if (i === gradientColors.length - 1) {
+          if (i === colors.length - 1) {
             return `${color} ${(pos - 1) * inc}%`;
           }
 
@@ -75,28 +79,21 @@ const EditorTextColorIconBar = styled.div`
         })
         .join('\n')}
     );
-    
-    background: linear-gradient(
-      to right,
-      ${gradientColors
-        .map((color, i) => {
-          const inc = 100 / gradientColors.length;
-          const pos = i + 1;
+    `;
+};
 
-          if (i === 0) {
-            return `${color} ${pos * inc}%,`;
-          }
-
-          if (i === gradientColors.length - 1) {
-            return `${color} ${(pos - 1) * inc}%,`;
-          }
-
-          return `${color} ${(pos - 1) * inc}% ${pos * inc}%,`;
-        })
-        .join('\n')}
-    );`;
-  }};
-`;
+const rainbow = createSteppedRainbow([
+  colors.P300,
+  colors.T300,
+  colors.Y400,
+  colors.R400,
+]);
+const disabledRainbow = createSteppedRainbow([
+  colors.N80,
+  colors.N60,
+  colors.N40,
+  colors.N60,
+]);
 
 export interface State {
   isOpen: boolean;
@@ -157,20 +154,18 @@ class ToolbarTextColor extends React.Component<
               onClick={this.toggleOpen}
               iconBefore={
                 <TriggerWrapper>
-                  <EditorColorIconWrapper>
+                  <TextColorIconWrapper>
                     <EditorTextColorIcon />
-                    <EditorTextColorIconBar
+                    <TextColorIconBar
                       selectedColor={
                         pluginState.color !== pluginState.defaultColor &&
                         pluginState.color
                       }
                       gradientColors={
-                        pluginState.disabled
-                          ? [colors.N80, colors.N60, colors.N40, colors.N60]
-                          : [colors.P300, colors.T300, colors.Y400, colors.R400]
+                        pluginState.disabled ? disabledRainbow : rainbow
                       }
                     />
-                  </EditorColorIconWrapper>
+                  </TextColorIconWrapper>
                   <ExpandIconWrapper>
                     <ExpandIcon label={labelTextColor} />
                   </ExpandIconWrapper>
