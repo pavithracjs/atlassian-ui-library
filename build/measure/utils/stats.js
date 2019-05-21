@@ -50,7 +50,8 @@ function buildStats(outputPath, statsGroups) {
 function createAtlaskitStatsGroups(packagesDir, packagePath) {
   const packageVersion = require(`${packagesDir}/${packagePath}/package.json`)
     .version;
-  const packageName = require(`${packagePath}/package.json`).name;
+  const packageName = require(`${packagesDir}/${packagePath}/package.json`)
+    .name;
 
   return fs
     .readdirSync(packagesDir)
