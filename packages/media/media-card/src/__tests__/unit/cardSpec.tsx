@@ -1,4 +1,4 @@
-jest.mock('../../../src/utils/getDataURIFromFileState');
+jest.mock('../../utils/getDataURIFromFileState');
 import { Observable, ReplaySubject } from 'rxjs';
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
@@ -6,6 +6,7 @@ import {
   fakeMediaClient,
   nextTick,
   asMockReturnValue,
+  asMock,
 } from '@atlaskit/media-test-helpers';
 import {
   MediaClient,
@@ -38,7 +39,7 @@ describe('Card', () => {
     occurrenceKey: 'some-occurrence-key',
   };
   const setup = (
-    mediaClient: MediaClient = fakeMediaClient(),
+    mediaClient: MediaClient = createMediaClientWithGetFile(),
     props?: Partial<CardProps>,
     filePreview: FilePreview = { src: 'some-data-uri', orientation: 6 },
   ) => {
@@ -109,9 +110,8 @@ describe('Card', () => {
       ...initialDimensions,
       width: 1000,
     };
-    const mediaClient = createMediaClientWithGetFile();
-    const { component } = setup(
-      mediaClient,
+    const { component, mediaClient } = setup(
+      undefined,
       {
         identifier,
         dimensions: initialDimensions,
@@ -140,9 +140,8 @@ describe('Card', () => {
       ...initialDimensions,
       height: 2000,
     };
-    const mediaClient = createMediaClientWithGetFile();
-    const { component } = setup(
-      mediaClient,
+    const { component, mediaClient } = setup(
+      undefined,
       {
         identifier,
         dimensions: initialDimensions,
@@ -198,9 +197,8 @@ describe('Card', () => {
       ...initialDimensions,
       height: 20,
     };
-    const mediaClient = createMediaClientWithGetFile();
-    const { component } = setup(
-      mediaClient,
+    const { component, mediaClient } = setup(
+      undefined,
       {
         identifier,
         dimensions: initialDimensions,
@@ -472,8 +470,7 @@ describe('Card', () => {
   });
 
   it('should set right state when file is processed', async () => {
-    const mediaClient = createMediaClientWithGetFile();
-    const { component } = setup(mediaClient, undefined, {
+    const { component } = setup(undefined, undefined, {
       src: undefined,
       orientation: 6,
     });
@@ -602,7 +599,7 @@ describe('Card', () => {
       status: 'processed',
       artifacts: {} as any,
     });
-    (getDataURIFromFileState as any).mockReturnValue({
+    asMock(getDataURIFromFileState).mockReturnValue({
       src: 'fooo',
       orientation: 6,
     });
@@ -617,9 +614,8 @@ describe('Card', () => {
   });
 
   it('should pass resize mode down to getImage call', async () => {
-    const mediaClient = createMediaClientWithGetFile();
-    setup(
-      mediaClient,
+    const { mediaClient } = setup(
+      undefined,
       {
         resizeMode: 'full-fit',
       },
@@ -639,9 +635,8 @@ describe('Card', () => {
   });
 
   it('should change mode from stretchy-fit to full-fit while passing down to getImage call', async () => {
-    const mediaClient = createMediaClientWithGetFile();
-    setup(
-      mediaClient,
+    const { mediaClient } = setup(
+      undefined,
       {
         resizeMode: 'stretchy-fit',
       },
@@ -661,9 +656,8 @@ describe('Card', () => {
   });
 
   it('should render CardView with expected props', async () => {
-    const mediaClient = createMediaClientWithGetFile();
     const { component } = setup(
-      mediaClient,
+      undefined,
       {
         dimensions: { width: 10, height: 20 },
         selectable: true,

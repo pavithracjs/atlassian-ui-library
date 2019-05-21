@@ -1,7 +1,7 @@
 import { of } from 'rxjs/observable/of';
 
 import { MediaApiConfig, MediaClientConfig } from '@atlaskit/media-core';
-import { MediaClient, MediaStore } from '@atlaskit/media-client';
+import { MediaClient } from '@atlaskit/media-client';
 
 import { asMock } from './jestHelpers';
 
@@ -23,12 +23,13 @@ export const fakeMediaClient = (
       MediaClient: MockMediaClient,
       FileFetcherImpl,
       CollectionFetcher,
+      MediaStore: MockMediaStore,
     } = jest.genMockFromModule('@atlaskit/media-client');
     const mediaClient = new MockMediaClient();
 
     const fileFetcher = new FileFetcherImpl();
     const collectionFetcher = new CollectionFetcher();
-    const mockMediaStore = new MediaStore({
+    const mockMediaStore = new MockMediaStore({
       authProvider: config.authProvider,
     } as MediaApiConfig);
     mediaClient.file = fileFetcher;
