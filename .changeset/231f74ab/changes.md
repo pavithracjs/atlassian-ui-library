@@ -1,1 +1,0 @@
-- Remove jira session id feature flags & fix bug where session ids are not attached to pre-fetched results
