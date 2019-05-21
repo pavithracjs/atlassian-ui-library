@@ -17,9 +17,9 @@ Analyzing it enables to optimize your dependencies and improve your app.
 
 There are couple of tools that measure the bundle size:
 
-* Bundlephobia
+* [Bundlephobia](https://bundlephobia.com)
 
-* Webpack-bundle-analyzer
+* [Webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer)
 
 # How do we currently measure the bundle size in Atlaskit?
 
