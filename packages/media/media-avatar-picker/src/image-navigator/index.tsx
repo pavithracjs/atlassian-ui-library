@@ -45,16 +45,6 @@ export const CONTAINER_PADDING = (CONTAINER_SIZE - CONTAINER_INNER_SIZE) / 2;
 
 export const CONTAINER_RECT = new Rectangle(CONTAINER_SIZE, CONTAINER_SIZE);
 
-// helper singleton to help expose viewport for examples/testing
-export interface ViewportInfo {
-  instance: Viewport;
-  setImage?: (image: HTMLImageElement) => void;
-}
-
-export const viewportInfo: ViewportInfo = {
-  instance: new Viewport(CONTAINER_SIZE, CONTAINER_SIZE, CONTAINER_PADDING),
-};
-
 export interface CropProperties {
   x: number;
   y: number;
@@ -66,7 +56,7 @@ export interface Props {
   errorMessage?: string;
   onImageLoaded: (file: File, crop: CropProperties) => void;
   onLoad?: OnLoadHandler;
-  onCropChanged: (x: number, y: number, size: number) => void;
+  onCropChanged?: (x: number, y: number, size: number) => void;
   onRemoveImage: () => void;
   onImageUploaded: (file: File) => void;
   onImageError: (errorMessage: string) => void;
@@ -93,7 +83,7 @@ const defaultState = {
   fileImageSource: undefined,
   isDroppingFile: false,
   imageOrientation: 1,
-  viewport: viewportInfo.instance,
+  viewport: new Viewport(CONTAINER_SIZE, CONTAINER_SIZE, CONTAINER_PADDING),
 };
 
 export class ImageNavigator extends Component<
@@ -167,7 +157,10 @@ export class ImageNavigator extends Component<
 
     const defaultZoomedOutScale = 0;
     const { imageFile, imagePos, viewport } = this.state;
-    viewport.setItemSize(width, height).setScale(defaultZoomedOutScale);
+    viewport
+      .setItemSize(width, height)
+      .setScale(defaultZoomedOutScale)
+      .setItem(image);
     // imageFile will not exist if imageSource passed through props.
     // therefore we have to create a File, as one needs to be raised by dialog parent component when Save clicked.
     const file = imageFile || (this.dataURI && dataURItoFile(this.dataURI));
@@ -187,7 +180,6 @@ export class ImageNavigator extends Component<
       onLoad({
         export: this.exportCroppedImage,
       });
-    viewportInfo.setImage && viewportInfo.setImage(image);
     this.exportCrop();
   };
 
@@ -205,13 +197,17 @@ export class ImageNavigator extends Component<
   exportCrop(): void {
     const { viewport } = this.state;
     if (viewport.hasValidItemSize) {
-      const origin = viewport.visibleSourceRect.origin;
-      const visibleSourceRect = viewport.visibleSourceRect.rect;
-      this.props.onCropChanged(
-        Math.round(origin.x),
-        Math.round(origin.y),
-        Math.round(Math.min(visibleSourceRect.width, visibleSourceRect.height)),
-      );
+      const { onCropChanged } = this.props;
+      const origin = viewport.visibleSourceBounds.origin;
+      const visibleSourceRect = viewport.visibleSourceBounds.rect;
+      onCropChanged &&
+        onCropChanged(
+          Math.round(origin.x),
+          Math.round(origin.y),
+          Math.round(
+            Math.min(visibleSourceRect.width, visibleSourceRect.height),
+          ),
+        );
     }
   }
 

@@ -76,14 +76,6 @@ export class AvatarPickerDialog extends PureComponent<
     });
   };
 
-  onCropChanged = (x: number, y: number, size: number) => {
-    const { onCropChanged } = this.props;
-    const crop = { x, y, size };
-    this.setState({ crop });
-    //onCropChanged && onCropChanged(crop);
-    onCropChanged && onCropChanged({ x: 0, y: 0, size: CONTAINER_INNER_SIZE });
-  };
-
   onImageNavigatorLoad = (loadParams: LoadParameters) => {
     this.exportCroppedImage = loadParams.export;
   };
@@ -272,7 +264,6 @@ export class AvatarPickerDialog extends PureComponent<
               errorMessage={errorMessage}
               onImageLoaded={this.setSelectedImageState}
               onLoad={this.onImageNavigatorLoad}
-              onCropChanged={this.onCropChanged}
               onRemoveImage={this.onRemoveImage}
               onImageUploaded={this.onImageUploaded}
               onImageError={this.onImageError}

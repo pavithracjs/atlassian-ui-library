@@ -1,4 +1,4 @@
 {
-  "releases": [{ "name": "@atlaskit/media-avatar-picker", "type": "major" }],
+  "releases": [{ "name": "@atlaskit/media-avatar-picker", "type": "minor" }],
   "dependents": []
 }

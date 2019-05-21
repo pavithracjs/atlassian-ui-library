@@ -23,14 +23,14 @@ export class Slider extends Component<SliderProps, {}> {
     return (
       <SliderWrapper>
         <Button
-          className="zoom_button"
+          className="zoom_button zoom_button_small"
           iconAfter={<ScaleSmallIcon label="scale-small-icon" />}
           onClick={() => onChange(0)}
           tabIndex={2}
         />
         <FieldRange value={value} onChange={onChange} tabIndex={1} />
         <Button
-          className="zoom_button"
+          className="zoom_button zoom_button_large"
           iconAfter={<ScaleLargeIcon label="scale-large-icon" />}
           onClick={() => onChange(100)}
           tabIndex={3}

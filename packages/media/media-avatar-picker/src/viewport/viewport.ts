@@ -1,6 +1,11 @@
 import { Rectangle, Bounds, Vector2 } from '@atlaskit/media-ui';
 
 export const MAX_SCALE = 4;
+export const DEFAULT_WIDTH = 100;
+export const DEFAULT_HEIGHT = 100;
+export const DEFAULT_MARGIN = 10;
+export const DEFAULT_INNER_WIDTH = DEFAULT_WIDTH - DEFAULT_MARGIN * 2;
+export const DEFAULT_INNER_HEIGHT = DEFAULT_HEIGHT - DEFAULT_MARGIN * 2;
 
 /**
  * This class abstracts viewing an item within a container.
@@ -11,23 +16,34 @@ export const MAX_SCALE = 4;
  * The viewport can work with drag events, but will constrain the item bounds to never be smaller than the minimum container side length.
  * The viewport can work with zoom events, but will constrain the item bounds to never be smaller than the minimum container side length.
  * The viewport can map coordinates from the inner bounds, to the image local coordinates.
+ *
+ * use cases:
+ *  - load image: this.setItemSize(w, h)
+ *  - change scale: this.setScale(0 - 100);
+ *  - pan image: this.startDrag().dragMove(deltaX, deltaY)
+ *  - map view coord to image source: this.viewToLocalPoint(viewX, viewY)
  */
 
 export class Viewport {
+  // expose for viewport-debugger, used for testing and examples
+  static instance: Viewport;
+
   private itemSourceRect: Rectangle = new Rectangle(0, 0);
   private dragStartPos: Vector2 = new Vector2(0, 0);
   itemBounds: Bounds = new Bounds(0, 0, 0, 0);
   orientation: number = 1;
-  onChange?: () => void;
-  onMouseMove?: (x: number, y: number) => void;
+  item?: any;
+  onChange?: () => void; // listen when the view is changed
+  onMouseMove?: (x: number, y: number) => void; // listen when the mouse hovers
 
   constructor(
-    readonly width: number,
-    readonly height: number,
-    readonly margin: number = 0,
+    readonly width: number = DEFAULT_WIDTH,
+    readonly height: number = DEFAULT_HEIGHT,
+    readonly margin: number = DEFAULT_MARGIN,
   ) {
     // it's assumed we won't have an item size yet as it is something that requires async loading.
     // when ready, call setItemSize(w, h) to "load/init" the item for the viewport
+    Viewport.instance = this;
   }
 
   private onChanged() {
@@ -36,127 +52,13 @@ export class Viewport {
     }
   }
 
-  get innerBounds() {
-    const { margin, width, height } = this;
-    return new Bounds(margin, margin, width - margin * 2, height - margin * 2);
-  }
-
-  get outerBounds() {
-    return new Bounds(0, 0, this.width, this.height);
-  }
-
-  get visibleSourceRect() {
-    const { innerBounds } = this;
-    const origin = this.viewToLocalPoint(0, 0);
-    const corner = this.viewToLocalPoint(innerBounds.width, innerBounds.height);
-    return new Bounds(
-      origin.x,
-      origin.y,
-      corner.x - origin.x,
-      corner.y - origin.y,
-    );
-  }
-
-  get itemSourceBounds() {
-    const { itemSourceRect } = this;
-    return new Bounds(0, 0, itemSourceRect.width, itemSourceRect.height);
-  }
-
-  get fittedItemBounds() {
-    const { margin, itemSourceRect, innerBounds } = this;
-    const ratio = itemSourceRect.scaleToFitSmallestSide(innerBounds.rect);
-    const width = itemSourceRect.width * ratio;
-    const height = itemSourceRect.height * ratio;
-    const x = margin + (innerBounds.width - width) * 0.5;
-    const y = margin + (innerBounds.height - height) * 0.5;
-    return new Bounds(x, y, width, height);
-  }
-
-  get hasValidItemSize() {
-    return this.itemSourceRect.width > 0 && this.itemSourceRect.height > 0;
-  }
-
-  setItemSize(width: number, height: number) {
-    this.itemSourceRect = new Rectangle(width, height);
-    this.zoomToFit();
-    return this;
-  }
-
-  setScale(scale: number) {
-    const { fittedItemBounds, itemBounds, innerBounds } = this;
-    if (scale <= 1) {
-      this.itemBounds = fittedItemBounds;
-    } else {
-      const scaleFromMax = MAX_SCALE * (scale / 100);
-      const maxWidth = fittedItemBounds.width * MAX_SCALE;
-      const maxHeight = fittedItemBounds.height * MAX_SCALE;
-      const width =
-        fittedItemBounds.width +
-        (maxWidth - fittedItemBounds.width) * scaleFromMax;
-      const height =
-        fittedItemBounds.height +
-        (maxHeight - fittedItemBounds.height) * scaleFromMax;
-      const scaledBounds = new Bounds(
-        itemBounds.x,
-        itemBounds.y,
-        width,
-        height,
-      );
-      const localCenterBefore = this.viewToLocalPoint(
-        innerBounds.width * 0.5,
-        innerBounds.height * 0.5,
-      );
-      const center = itemBounds.center;
-      const left = center.x - scaledBounds.width * 0.5;
-      const top = center.y - scaledBounds.height * 0.5;
-      this.itemBounds = new Bounds(
-        left,
-        top,
-        scaledBounds.width,
-        scaledBounds.height,
-      );
-      const localCenterAfter = this.viewToLocalPoint(
-        innerBounds.width * 0.5,
-        innerBounds.height * 0.5,
-      );
-      this.itemBounds = this.itemBounds.translated(
-        localCenterAfter.x - localCenterBefore.x,
-        localCenterAfter.y - localCenterBefore.y,
-      );
-      this.applyConstraints();
-    }
-    this.onChanged();
-    return this;
-  }
-
-  zoomToFit() {
+  private zoomToFit() {
     this.itemBounds = this.fittedItemBounds;
     this.onChanged();
     return this;
   }
 
-  startDrag() {
-    this.dragStartPos = this.itemBounds.origin;
-    return this;
-  }
-
-  dragMove(xDelta: number, yDelta: number) {
-    const { dragStartPos, itemBounds } = this;
-    const x = dragStartPos.x + xDelta;
-    const y = dragStartPos.y + yDelta;
-    this.itemBounds = new Bounds(x, y, itemBounds.width, itemBounds.height);
-    this.applyConstraints();
-    this.onChanged();
-    return this;
-  }
-
-  mouseMove(viewX: number, viewY: number) {
-    if (this.onMouseMove) {
-      this.onMouseMove(viewX, viewY);
-    }
-  }
-
-  applyConstraints() {
+  private applyConstraints() {
     const { innerBounds, itemBounds } = this;
     const deltaLeft = innerBounds.left - itemBounds.left;
     const deltaTop = innerBounds.top - itemBounds.top;
@@ -192,6 +94,137 @@ export class Viewport {
     }
 
     this.itemBounds = new Bounds(x, y, itemBounds.width, itemBounds.height);
+  }
+
+  get innerBounds() {
+    const { margin, width, height } = this;
+    return new Bounds(margin, margin, width - margin * 2, height - margin * 2);
+  }
+
+  get outerBounds() {
+    return new Bounds(0, 0, this.width, this.height);
+  }
+
+  get visibleSourceBounds() {
+    const { innerBounds } = this;
+    const origin = this.viewToLocalPoint(0, 0);
+    const corner = this.viewToLocalPoint(innerBounds.width, innerBounds.height);
+    return new Bounds(
+      origin.x,
+      origin.y,
+      corner.x - origin.x,
+      corner.y - origin.y,
+    );
+  }
+
+  get itemSourceBounds() {
+    const { itemSourceRect } = this;
+    return new Bounds(0, 0, itemSourceRect.width, itemSourceRect.height);
+  }
+
+  get fittedItemBounds() {
+    const { margin, itemSourceRect, innerBounds } = this;
+    const ratio = itemSourceRect.scaleToFitSmallestSide(innerBounds.rect);
+    const width = itemSourceRect.width * ratio;
+    const height = itemSourceRect.height * ratio;
+    const x = margin + (innerBounds.width - width) * 0.5;
+    const y = margin + (innerBounds.height - height) * 0.5;
+    return new Bounds(x, y, width, height);
+  }
+
+  get hasValidItemSize() {
+    return this.itemSourceRect.width > 0 && this.itemSourceRect.height > 0;
+  }
+
+  get maxItemViewRect() {
+    const { fittedItemBounds } = this;
+    const maxWidth = fittedItemBounds.width * MAX_SCALE;
+    const maxHeight = fittedItemBounds.height * MAX_SCALE;
+    return new Rectangle(maxWidth, maxHeight);
+  }
+
+  setItemSize(width: number, height: number) {
+    this.itemSourceRect = new Rectangle(width, height);
+    this.zoomToFit();
+    return this;
+  }
+
+  setItem(item: any) {
+    this.item = item;
+    this.onChanged();
+    return this;
+  }
+
+  setScale(scale: number) {
+    // number between 0 - 100
+    const { fittedItemBounds, maxItemViewRect, itemBounds, innerBounds } = this;
+    if (scale <= 1) {
+      this.itemBounds = fittedItemBounds;
+    } else {
+      const clampedScale = Math.min(100, scale);
+      const floatingScale = clampedScale / 100;
+      const width =
+        fittedItemBounds.width +
+        (maxItemViewRect.width - fittedItemBounds.width) * floatingScale;
+      const height =
+        fittedItemBounds.height +
+        (maxItemViewRect.height - fittedItemBounds.height) * floatingScale;
+      const scaledBounds = new Bounds(
+        itemBounds.x,
+        itemBounds.y,
+        width,
+        height,
+      );
+      const localCenterBefore = this.viewToLocalPoint(
+        innerBounds.width * 0.5,
+        innerBounds.height * 0.5,
+      );
+      const center = itemBounds.center;
+      const left = center.x - scaledBounds.width * 0.5;
+      const top = center.y - scaledBounds.height * 0.5;
+      this.itemBounds = new Bounds(
+        left,
+        top,
+        scaledBounds.width,
+        scaledBounds.height,
+      );
+      const localCenterAfter = this.viewToLocalPoint(
+        innerBounds.width * 0.5,
+        innerBounds.height * 0.5,
+      );
+      this.itemBounds = this.itemBounds.translated(
+        localCenterAfter.x - localCenterBefore.x,
+        localCenterAfter.y - localCenterBefore.y,
+      );
+      this.applyConstraints();
+    }
+    this.onChanged();
+    return this;
+  }
+
+  startDrag() {
+    this.dragStartPos = this.itemBounds.origin;
+    return this;
+  }
+
+  dragBy(xDelta: number, yDelta: number) {
+    return this.startDrag().dragMove(xDelta, yDelta);
+  }
+
+  dragMove(xDelta: number, yDelta: number) {
+    const { dragStartPos, itemBounds } = this;
+    const x = dragStartPos.x + xDelta;
+    const y = dragStartPos.y + yDelta;
+    this.itemBounds = new Bounds(x, y, itemBounds.width, itemBounds.height);
+    this.applyConstraints();
+    this.onChanged();
+    return this;
+  }
+
+  mouseMove(viewX: number, viewY: number) {
+    if (this.onMouseMove) {
+      this.onMouseMove(viewX, viewY);
+    }
   }
 
   viewToLocalPoint(viewX: number, viewY: number): Vector2 {
