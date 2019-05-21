@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 
 import {
   createAndFireEvent,
@@ -12,14 +11,14 @@ import { name as packageName, version as packageVersion } from './version.json';
 import RadioIcon from './RadioIcon';
 import { RadioInputWrapper, HiddenInput } from './styled/RadioInput';
 import { Label, LabelText } from './styled/Radio';
-import type { RadioProps } from './types';
+import { RadioProps } from './types';
 
-type State = {
-  isHovered: boolean,
-  isFocused: boolean,
-  isActive: boolean,
-  isMouseDown: boolean,
-};
+interface State {
+  isHovered: boolean;
+  isFocused: boolean;
+  isActive: boolean;
+  isMouseDown: boolean;
+}
 
 class Radio extends Component<RadioProps, State> {
   static defaultProps = {
@@ -35,7 +34,7 @@ class Radio extends Component<RadioProps, State> {
     isMouseDown: false,
   };
 
-  onBlur = (event: SyntheticInputEvent<*>) => {
+  onBlur = (event: SyntheticEvent<any>) => {
     this.setState({
       // onBlur is called after onMouseDown if the checkbox was focused, however
       // in this case on blur is called immediately after, and we need to check
@@ -48,35 +47,35 @@ class Radio extends Component<RadioProps, State> {
     }
   };
 
-  onFocus = (event: SyntheticInputEvent<*>) => {
+  onFocus = (event: SyntheticEvent<any>) => {
     this.setState({ isFocused: true });
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
-  onMouseLeave = (event: SyntheticInputEvent<*>) => {
+  onMouseLeave = (event: SyntheticEvent<any>) => {
     this.setState({ isActive: false, isHovered: false });
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
 
-  onMouseEnter = (event: SyntheticInputEvent<*>) => {
+  onMouseEnter = (event: SyntheticEvent<any>) => {
     this.setState({ isHovered: true });
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
   };
 
-  onMouseUp = (event: SyntheticInputEvent<*>) => {
+  onMouseUp = (event: SyntheticEvent<any>) => {
     this.setState({ isActive: false, isMouseDown: false });
     if (this.props.onMouseUp) {
       this.props.onMouseUp(event);
     }
   };
 
-  onMouseDown = (event: SyntheticInputEvent<*>) => {
+  onMouseDown = (event: SyntheticEvent<any>) => {
     this.setState({ isActive: true, isMouseDown: true });
     if (this.props.onMouseDown) {
       this.props.onMouseDown(event);

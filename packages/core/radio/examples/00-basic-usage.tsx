@@ -1,8 +1,7 @@
-// @flow
-import React, { PureComponent } from 'react';
+import React, { PureComponent, SyntheticEvent } from 'react';
 import { Checkbox } from '@atlaskit/checkbox';
 import { RadioGroup } from '../src';
-import type { OptionsPropType } from '../src/types';
+import { OptionsPropType } from '../src/types';
 
 const options: OptionsPropType = [
   { name: 'color', value: 'red', label: 'Red' },
@@ -12,13 +11,13 @@ const options: OptionsPropType = [
   { name: 'color', value: 'black', label: 'Black' },
 ];
 
-type State = {
-  currentValue: string | null,
-  isDisabled?: boolean,
-  onChangeResult: string,
-};
+interface State {
+  currentValue: string | null;
+  isDisabled?: boolean;
+  onChangeResult: string;
+}
 
-export default class BasicExample extends PureComponent<void, State> {
+export default class BasicExample extends PureComponent<{}, State> {
   state = {
     currentValue: null,
     isDisabled: undefined,
@@ -35,7 +34,7 @@ export default class BasicExample extends PureComponent<void, State> {
 
   toggleCheckbox = (event: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      [event.currentTarget.value]: event.currentTarget.checked,
+      isDisabled: event.currentTarget.checked,
     });
   };
 

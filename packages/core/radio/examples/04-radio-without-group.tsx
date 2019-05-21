@@ -1,31 +1,30 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import { Radio } from '../src';
 
-const Tr = styled.tr`
+const Tr = styled.tr<{ isChecked?: boolean }>`
   background-color: ${p => (p.isChecked ? colors.B50 : 'transparent')};
   transition: background-color 200ms ease-in-out;
 `;
 
-type State = {
-  items: Array<*>,
-  isActive: boolean,
-  isChecked: boolean,
-  isFocused: boolean,
-  isMouseDown: boolean,
-  value: string,
-};
+interface State {
+  items: Array<any>;
+  isActive: boolean;
+  isChecked: boolean;
+  isFocused: boolean;
+  isMouseDown: boolean;
+  value: string;
+}
 
 const items: Array<{
-  id: number,
-  value: string,
-  name: string,
-  description: string,
-  commit: string,
-  updated: string,
-  isChecked?: boolean,
+  id: number;
+  value: string;
+  name: string;
+  description: string;
+  commit: string;
+  updated: string;
+  isChecked?: boolean;
 }> = [
   {
     id: 1,
@@ -62,9 +61,9 @@ const items: Array<{
   },
 ];
 
-export default class RadioInputExample extends Component<*, State> {
+export default class RadioInputExample extends Component<any, State> {
   state = {
-    items: (items.slice(): Array<*>),
+    items: items.slice(),
     value: '1',
     isActive: false,
     isChecked: false,
@@ -85,7 +84,7 @@ export default class RadioInputExample extends Component<*, State> {
     });
   };
 
-  onChange = ({ currentTarget: { value } }: SyntheticEvent<*>) => {
+  onChange = ({ currentTarget: { value } }: SyntheticEvent<any>) => {
     this.setChecked(value);
   };
 

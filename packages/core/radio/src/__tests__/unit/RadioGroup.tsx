@@ -1,11 +1,10 @@
-// @flow
 import React, { Component } from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount, shallow, ShallowWrapper } from 'enzyme';
 
 import { RadioWithoutAnalytics as Radio } from '../../Radio';
 import RadioGroup from '../../RadioGroup';
 import { name } from '../../version.json';
-import type { OptionPropType } from '../../types';
+import { OptionPropType } from '../../types';
 
 describe(name, () => {
   describe('RadioGroup', () => {
@@ -31,7 +30,9 @@ describe(name, () => {
 
     describe('construction', () => {
       it('should be able to create a component', () => {
-        const wrapper = shallow(<RadioGroup onChange={() => {}} />);
+        const wrapper = shallow(
+          <RadioGroup options={sampleOptions} onChange={() => {}} />,
+        );
         expect(wrapper).not.toBe(undefined);
         expect(wrapper.instance()).toBeInstanceOf(Component);
       });
@@ -76,9 +77,7 @@ describe(name, () => {
           );
           wrapper
             .find(Radio)
-            .forEach(radio =>
-              expect(radio.prop('isDisabled', isDisabled)).toBe(true),
-            );
+            .forEach(radio => expect(radio.prop('isDisabled')).toBe(true));
         });
         it('if set, overrides isDisabled values set on each option', () => {
           const isDisabled = true;
@@ -255,14 +254,14 @@ describe(name, () => {
     });
 
     describe('selection', () => {
-      function expectRadioChecked(wrapper, index) {
+      function expectRadioChecked(wrapper: ShallowWrapper, index: number) {
         const radios = wrapper.find(Radio);
         for (let i = 0; i < radios.length; i++) {
           expect(radios.at(i).prop('isChecked')).toBe(index === i);
         }
       }
 
-      function expectNoRadioChecked(wrapper) {
+      function expectNoRadioChecked(wrapper: ShallowWrapper) {
         return expectRadioChecked(wrapper, -1);
       }
 

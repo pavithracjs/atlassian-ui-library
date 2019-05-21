@@ -36,3 +36,7 @@ declare module '@atlaskit/inline-edit' {
 declare module '@atlaskit/dynamic-table' {
   declare module.exports: any;
 }
+
+declare module '@atlaskit/radio' {
+  declare module.exports: any;
+}

@@ -1,8 +1,7 @@
-// @flow
 import React, { Component } from 'react';
 import Icon from '@atlaskit/icon/glyph/radio';
 import { IconWrapper } from './styled/Radio';
-import type { RadioIconProps } from './types';
+import { RadioIconProps } from './types';
 
 export default class RadioIcon extends Component<RadioIconProps> {
   render() {
@@ -23,13 +22,7 @@ export default class RadioIcon extends Component<RadioIconProps> {
         isHovered={isHovered}
         isInvalid={isInvalid}
       >
-        <Icon
-          isActive={isActive}
-          isHovered={isHovered}
-          label=""
-          primaryColor="inherit"
-          secondaryColor="inherit"
-        />
+        <Icon label="" primaryColor="inherit" secondaryColor="inherit" />
       </IconWrapper>
     );
   }
