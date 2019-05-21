@@ -159,6 +159,66 @@ describe('nodeviews/mediaSingle', () => {
     );
   });
 
+  it('propagates mobile upload progress to Media component', async () => {
+    pluginState.editorAppearance = 'mobile';
+    pluginState.mobileUploadComplete = { foo: false };
+
+    const mediaSingleNode = mediaSingle()(mediaNode);
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNode(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="mobile"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+      wrapper,
+    );
+
+    await (wrapper.instance() as MediaSingle).componentDidMount();
+    const { uploadComplete } = wrapper.find(Media).props();
+    expect(uploadComplete).toBe(false);
+  });
+
+  it('propagates mobile upload complete to Media component', async () => {
+    pluginState.editorAppearance = 'mobile';
+    pluginState.mobileUploadComplete = { foo: true };
+
+    const mediaSingleNode = mediaSingle()(mediaNode);
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNode(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="mobile"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+      wrapper,
+    );
+
+    await (wrapper.instance() as MediaSingle).componentDidMount();
+    const { uploadComplete } = wrapper.find(Media).props();
+    expect(uploadComplete).toBe(true);
+  });
+
   describe('re-rendering based on offsetLeft', () => {
     const node = mediaSingle()(mediaNode)(defaultSchema);
 
