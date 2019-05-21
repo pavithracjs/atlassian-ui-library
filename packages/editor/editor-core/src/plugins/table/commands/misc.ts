@@ -20,6 +20,7 @@ import {
   getSelectionRect,
   selectColumn as selectColumnTransform,
   selectRow as selectRowTransform,
+  ContentNodeWithPos,
 } from 'prosemirror-utils';
 import { createCommand } from '../pm-plugins/main';
 import { checkIfHeaderRowEnabled, isIsolating } from '../utils';
@@ -27,7 +28,11 @@ import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
 import { outdentList } from '../../lists/commands';
 import { mapSlice } from '../../../utils/slice';
-import { closestElement } from '../../../utils';
+import {
+  closestElement,
+  isTextSelection,
+  isNodeTypeParagraph,
+} from '../../../utils';
 import { fixAutoSizedTable } from '../transforms';
 import { INPUT_METHOD } from '../../analytics';
 import { insertRowWithAnalytics } from '../commands-with-analytics';
@@ -378,5 +383,35 @@ export const autoSizeTable = (
 ) => {
   view.dispatch(fixAutoSizedTable(view, node, table, basePos, opts));
   return true;
+};
+
+export const addBoldInEmptyHeaderCells = (
+  tableCellHeader: ContentNodeWithPos,
+): Command => (state, dispatch): boolean => {
+  const { tr } = state;
+  if (
+    // Avoid infinite loop when the current selection is not a TextSelection
+    isTextSelection(tr.selection) &&
+    // When storedMark is null that means this is the initial state
+    // if the user press to remove the mark storedMark will be an empty array
+    // and we shouldn't apply the strong mark
+    tr.storedMarks == null &&
+    // Check if the current node is a direct child from paragraph
+    tr.selection.$from.depth === tableCellHeader.depth + 1 &&
+    // this logic is applied only for empty paragraph
+    tableCellHeader.node.nodeSize === 4 &&
+    isNodeTypeParagraph(tableCellHeader.node.firstChild)
+  ) {
+    const { strong } = state.schema.marks;
+    tr.setStoredMarks([strong.create()]).setMeta('addToHistory', false);
+
+    if (dispatch) {
+      dispatch(tr);
+    }
+
+    return true;
+  }
+
+  return false;
 };
 // #endregion

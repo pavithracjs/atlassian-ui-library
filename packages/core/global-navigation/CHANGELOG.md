@@ -1,5 +1,10 @@
 # @atlaskit/global-navigation
 
+## 7.2.0
+- [minor] [9925939ae5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9925939ae5):
+
+  - Add support for Global Invite button and drawer
+
 ## 7.1.1
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2

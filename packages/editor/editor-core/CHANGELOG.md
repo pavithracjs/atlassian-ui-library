@@ -1,5 +1,20 @@
 # @atlaskit/editor-core
 
+## 112.5.1
+- [patch] [a511611473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a511611473):
+
+  - ED-6808: Fix issue where toggling the same mark but different attributes would just remove the mark.
+
+## 112.5.0
+- [minor] [9be684e931](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9be684e931):
+
+  - ED-5782 Replace text-color button with more easily identifiable A icon with colored bar.
+
+## 112.4.0
+- [minor] [d9f8b4d43d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9f8b4d43d):
+
+  - [ED-5505] Apply strong mark by default on table headers
+
 ## 112.3.1
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2

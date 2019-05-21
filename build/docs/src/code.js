@@ -24,5 +24,8 @@ export default function code(
 }
 
 const CodeWrapper = styled.div`
+  display: block;
   margin-top: 8px;
+  overflow: auto;
+  max-width: calc(100vw - 4rem);
 `;
