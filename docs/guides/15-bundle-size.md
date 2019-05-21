@@ -23,7 +23,7 @@ There are couple of tools that measure the bundle size:
 
 # How do we currently measure the bundle size in Atlaskit?
 
-In Atlaskit, we use a tool measure that uses Webpack-bundle-analyzer. We use ratchet files to store the relevant output of the measure and we use them to compare between versions.
+In Atlaskit, we use a tool *measure* that uses Webpack-bundle-analyzer. We use ratchet files to store the relevant output of the measure and we use them to compare between versions.
 
 More about it how does it work, is available in this [blog](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/01/11/378834980/Atlaskit+now+has+a+bundle+size+ratchet).
 
@@ -32,7 +32,7 @@ More about it how does it work, is available in this [blog](https://hello.atlass
 If you are unsure about what to do locally , please run: bolt measure --help
  ```
   Usage
-        $ measure <[paths]>
+        $ measure <[paths]|[pkgs]>
 
       Options
         --analyze               Opens bundle analyzer report
@@ -62,7 +62,7 @@ As a developer, the output of the measure tool / file gives you a list of differ
 
 * Combined size – since gzip can show different results depending on how many content the resulting bundle has, it makes sense to combine all chunks together and see how well they are compressed. Also split in main and async sub-chunks.
 
-Example:
+Output example:
 ```
 # Editor-core
   Source code:
@@ -92,9 +92,9 @@ Example:
     – main: 2.54 MB (857 B)
 ```
 
-# How we will display the bundle size in Atlaskit in the future?
+# What changes to expect about the bundle size in Atlaskit in the future?
 
-As the current solution is not ideal, we are working on an add-on to display it on PR.
+As the current solution is not ideal, we are working on a bitbucket add-on to display it on PR.
 
 Feel free to read the [blog](https://hello.atlassian.net/wiki/spaces/AtlasKit/blog/2019/05/16/458923875/Atlaskit+-+Bundle+size+check+add-on) about it.
 
