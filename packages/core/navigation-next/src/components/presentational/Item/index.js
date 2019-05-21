@@ -35,3 +35,4 @@ class Item extends PureComponent<ItemProps> {
 export { Item as ItemBase };
 
 export default navigationItemClicked(Item, 'item');
+// export default Item;

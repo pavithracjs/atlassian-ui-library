@@ -41,7 +41,7 @@ const getItems = (): NavigationRendererItemType<{
         type: 'InlineComponent',
         component: LinkItem,
         id: 'dashboards',
-        text: 'Dashboards',
+        text: 'Dashboardsss',
         before: DashboardIcon,
         to: '/',
       },

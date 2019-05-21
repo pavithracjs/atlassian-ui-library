@@ -7,6 +7,8 @@ import React, {
   type ElementConfig,
 } from 'react';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash.isequal';
+import memoize from 'lodash.memoize';
 
 import UIAnalyticsEvent from './UIAnalyticsEvent';
 import type { AnalyticsEventPayload } from './types';
@@ -68,21 +70,24 @@ class AnalyticsContextConsumer extends Component<{
 }
 
 // patch the callback so it provides analytics information.
-const modifyCallbackProp = <T: {}>(
-  propName: string,
-  eventMapEntry: AnalyticsEventPayload | AnalyticsEventCreator<T>,
-  props: T,
-  createAnalyticsEvent: CreateUIAnalyticsEvent,
-) => (...args) => {
-  const event =
-    typeof eventMapEntry === 'function'
-      ? eventMapEntry(createAnalyticsEvent, props)
-      : createAnalyticsEvent(eventMapEntry);
-  const providedCallback = props[propName];
-  if (providedCallback) {
-    providedCallback(...args, event);
-  }
-};
+const modifyCallbackProp = memoize(
+  <T: {}>(
+    propName: string,
+    eventMapEntry: AnalyticsEventPayload | AnalyticsEventCreator<T>,
+    props: T,
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
+  ) => (...args) => {
+    const event =
+      typeof eventMapEntry === 'function'
+        ? eventMapEntry(createAnalyticsEvent, props)
+        : createAnalyticsEvent(eventMapEntry);
+    const providedCallback = props[propName];
+    if (providedCallback) {
+      providedCallback(...args, event);
+    }
+  },
+  isEqual,
+);
 
 type Obj<T> = { [string]: T };
 // helper that provides an easy way to map an object's values

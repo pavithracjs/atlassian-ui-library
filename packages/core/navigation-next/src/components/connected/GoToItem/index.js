@@ -10,13 +10,20 @@ import ConnectedItem from '../ConnectedItem';
 import type { GoToItemProps } from './types';
 import type { ItemPresentationProps } from '../../presentational/Item/types';
 
-const generateAfterProp = ({
-  goTo,
+type AfterComponentProps = {
+  incomingView: {},
+  spinnerDelay: number,
+  afterGoTo: {},
+};
+const After = ({
+  afterGoTo,
   spinnerDelay,
-  navigationViewController,
-}) => ({ isActive, isHover, isFocused }: ItemPresentationProps) => {
-  const { incomingView } = navigationViewController.state;
-  if (incomingView && incomingView.id === goTo) {
+  incomingView,
+  isActive,
+  isHover,
+  isFocused,
+}: ItemPresentationProps & AfterComponentProps) => {
+  if (incomingView && incomingView.id === afterGoTo) {
     return <Spinner delay={spinnerDelay} invertColor size="small" />;
   }
   if (isActive || isHover || isFocused) {
@@ -55,12 +62,21 @@ class GoToItem extends Component<GoToItemProps> {
       spinnerDelay,
       ...rest
     } = this.props;
-    const after =
-      typeof afterProp === 'undefined'
-        ? generateAfterProp({ goTo, spinnerDelay, navigationViewController })
-        : afterProp;
+
+    const propsForAfterComp = {
+      afterGoTo: goTo || null,
+      spinnerDelay,
+      incomingView: navigationViewController.state.incomingView,
+    };
+    const after = typeof afterProp === 'undefined' ? After : afterProp;
     const props = { ...rest, after };
-    return <ConnectedItem onClick={this.handleClick} {...props} />;
+    return (
+      <ConnectedItem
+        onClick={this.handleClick}
+        {...props}
+        {...propsForAfterComp}
+      />
+    );
   }
 }
 

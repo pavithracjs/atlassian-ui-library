@@ -2,6 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 
 import React, { Fragment, PureComponent } from 'react';
+import memoize from 'lodash.memoize';
 import { withRouter, Link, Route } from 'react-router-dom';
 import Avatar from '@atlaskit/avatar';
 import Drawer from '@atlaskit/drawer';
@@ -172,35 +173,33 @@ class ProjectSwitcherBase extends PureComponent<*, *> {
   }
 }
 export const ProjectSwitcher = withRouter(ProjectSwitcherBase);
+const After = () => <LinkIcon size="small" />;
+const getLink = memoize(
+  to => ({ children, className, innerRef, dataset, draggableProps }) => (
+    <Link
+      className={className}
+      to={to}
+      innerRef={innerRef}
+      {...dataset}
+      {...draggableProps}
+    >
+      {children}
+    </Link>
+  ),
+);
 
 export const LinkItem = ({
   itemComponent: Component = ConnectedItem,
   to,
+  onClick,
   ...props
 }: *) => {
   return (
     <Route
       render={({ location: { pathname } }) => (
         <Component
-          after={() => <LinkIcon size="small" />}
-          component={({
-            children,
-            className,
-            innerRef,
-            dataset,
-            draggableProps,
-          }) => (
-            <Link
-              className={className}
-              to={to}
-              onClick={props.onClick}
-              innerRef={innerRef}
-              {...dataset}
-              {...draggableProps}
-            >
-              {children}
-            </Link>
-          )}
+          after={After}
+          component={getLink(to)}
           isSelected={pathname === to}
           {...props}
         />

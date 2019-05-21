@@ -3,6 +3,8 @@
 import React, { Component, type ElementType, type Ref } from 'react';
 
 import isEqual from 'lodash.isequal';
+import transform from 'lodash.transform';
+import isObject from 'lodash.isobject';
 import type { Dataset, ItemPrimitiveProps } from './types';
 import { styleReducerNoOp, withContentTheme } from '../../../theme';
 
@@ -34,18 +36,36 @@ const ComponentSwitch = ({
 };
 
 const getItemComponentProps = (props: ItemPrimitiveProps) => {
-  const {
-    isActive,
-    isHover,
-    isSelected,
-    isFocused,
-    isDragging,
-    theme,
-    ...componentProps
-  } = props;
+  const nonComponentKeys = [
+    'isActive',
+    'isHover',
+    'isSelected',
+    'isFocused',
+    'isDragging',
+    'theme',
+  ];
+  const componentProps = {};
+  Object.keys(props).forEach(prop => {
+    if (!nonComponentKeys.includes(prop)) {
+      componentProps[prop] = props[prop];
+    }
+  });
 
   return componentProps;
 };
+function difference(object, base) {
+  function changes(object, base) {
+    return transform(object, function(result, value, key) {
+      if (!isEqual(value, base[key])) {
+        result[key] =
+          isObject(value) && isObject(base[key])
+            ? changes(value, base[key])
+            : value;
+      }
+    });
+  }
+  return changes(object, base);
+}
 
 class ItemPrimitive extends Component<ItemPrimitiveProps> {
   static defaultProps = {
@@ -64,6 +84,7 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
 
   shouldComponentUpdate(nextProps: ItemPrimitiveProps) {
     const shouldRender = !isEqual(this.props, nextProps);
+    console.log(difference(this.props, nextProps));
     return shouldRender;
   }
 
@@ -105,6 +126,13 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
     let itemComponent = 'div';
     let itemProps = { draggableProps, innerRef, dataset };
 
+    const { afterGoTo, spinnerDelay, incomingView } = this.props;
+    const propsForAfterComp = {
+      afterGoTo,
+      spinnerDelay,
+      incomingView,
+    };
+
     if (CustomComponent) {
       itemComponent = CustomComponent;
       itemProps = getItemComponentProps(this.props);
@@ -140,7 +168,7 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
         </div>
         {!!After && (
           <div css={styles.afterWrapper}>
-            <After {...presentationProps} />
+            <After {...presentationProps} {...propsForAfterComp} />
           </div>
         )}
       </ComponentSwitch>

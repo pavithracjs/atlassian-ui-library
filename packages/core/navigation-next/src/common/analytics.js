@@ -41,6 +41,40 @@ const getDisplayName = component =>
 const kebabToCamelCase = (str: string) =>
   `${str}`.replace(/-([a-z])/gi, g => g[1].toUpperCase());
 
+const onClickWithAnalytics = (useActionSubjectId, componentName) => (
+  createAnalyticsEvent,
+  props,
+) => {
+  const id = kebabToCamelCase(props.id);
+  const basePayload = {
+    action: 'clicked',
+    actionSubject: 'navigationItem',
+    attributes: {
+      componentName,
+      iconSource: getDisplayName(props.icon) || getDisplayName(props.before),
+      navigationItemIndex: props.index,
+    },
+  };
+
+  let payload: ContainerItemClicked | GlobalItemClicked;
+  if (useActionSubjectId) {
+    payload = ({
+      ...basePayload,
+      actionSubjectId: id,
+    }: GlobalItemClicked);
+  } else {
+    const { attributes, ...basePayloadSansAttributes } = basePayload;
+    payload = {
+      ...basePayloadSansAttributes,
+      attributes: { ...attributes, itemId: id },
+    };
+  }
+  const event = createAnalyticsEvent(payload);
+
+  event.fire(navigationChannel);
+
+  return null;
+};
 export const navigationItemClicked = <P: {}, C: ComponentType<P>>(
   Component: C,
   componentName: string,
@@ -50,38 +84,7 @@ export const navigationItemClicked = <P: {}, C: ComponentType<P>>(
     componentName,
   })(
     withAnalyticsEvents({
-      onClick: (createAnalyticsEvent, props) => {
-        const id = kebabToCamelCase(props.id);
-        const basePayload = {
-          action: 'clicked',
-          actionSubject: 'navigationItem',
-          attributes: {
-            componentName,
-            iconSource:
-              getDisplayName(props.icon) || getDisplayName(props.before),
-            navigationItemIndex: props.index,
-          },
-        };
-
-        let payload: ContainerItemClicked | GlobalItemClicked;
-        if (useActionSubjectId) {
-          payload = ({
-            ...basePayload,
-            actionSubjectId: id,
-          }: GlobalItemClicked);
-        } else {
-          const { attributes, ...basePayloadSansAttributes } = basePayload;
-          payload = {
-            ...basePayloadSansAttributes,
-            attributes: { ...attributes, itemId: id },
-          };
-        }
-        const event = createAnalyticsEvent(payload);
-
-        event.fire(navigationChannel);
-
-        return null;
-      },
+      onClick: onClickWithAnalytics(useActionSubjectId, componentName),
     })(Component),
   );
 };
