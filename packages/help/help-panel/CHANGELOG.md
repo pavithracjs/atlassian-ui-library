@@ -1,5 +1,10 @@
 ## 0.1.0
 
+## 0.5.2
+- [patch] [d1854796ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d1854796ae):
+
+  - Updated dependencies
+
 ## 0.5.1
 - [patch] [ccacfe8570](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ccacfe8570):
 
