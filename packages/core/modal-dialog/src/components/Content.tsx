@@ -8,11 +8,7 @@ import ScrollLock from 'react-scrolllock';
 import Footer from './Footer';
 import Header from './Header';
 
-import {
-  AppearanceType,
-  KeyboardOrMouseEvent,
-  CustomComponentType,
-} from '../types';
+import { AppearanceType, KeyboardOrMouseEvent } from '../types';
 import {
   keylineHeight,
   Body as DefaultBody,
@@ -43,7 +39,7 @@ interface Props {
   /**
     Deprecated, use components prop: Component to render the body of the modal.
   */
-  body?: CustomComponentType;
+  body?: React.ElementType;
   /**
     Content of the modal
   */
@@ -52,19 +48,19 @@ interface Props {
     Object describing internal components. Use this to swap out the default components.
   */
   components: {
-    Header?: CustomComponentType;
-    Body?: CustomComponentType;
-    Footer?: CustomComponentType;
-    Container?: CustomComponentType;
+    Header?: React.ElementType;
+    Body?: React.ElementType;
+    Footer?: React.ElementType;
+    Container?: React.ElementType;
   };
   /**
     Deprecated, use components prop: Component to render the header of the modal.
   */
-  header?: CustomComponentType;
+  header?: React.ElementType;
   /**
     Deprecated, use components prop: Component to render the footer of the moda.l
   */
-  footer?: CustomComponentType;
+  footer?: React.ElementType;
   /**
     Function that will be called to initiate the exit transition.
   */

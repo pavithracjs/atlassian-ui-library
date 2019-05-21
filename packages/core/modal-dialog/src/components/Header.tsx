@@ -5,7 +5,7 @@ import * as React from 'react';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 
-import { AppearanceType, CustomComponentType } from '../types';
+import { AppearanceType } from '../types';
 import {
   Header,
   Title,
@@ -34,7 +34,7 @@ export interface HeaderProps {
     Providing a function should return the element you want to focus
   */
   /** Component to render the header of the modal. */
-  component?: CustomComponentType;
+  component?: React.ElementType;
   /** The modal heading */
   heading?: string;
   /** Function to close the dialog */

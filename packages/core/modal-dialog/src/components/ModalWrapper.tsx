@@ -4,11 +4,7 @@ import Portal from '@atlaskit/portal';
 import { ModalTransitionConsumer } from './ModalTransition';
 import StackConsumer from './StackConsumer';
 
-import {
-  AppearanceType,
-  KeyboardOrMouseEvent,
-  CustomComponentType,
-} from '../types';
+import { AppearanceType, KeyboardOrMouseEvent } from '../types';
 
 import Modal from './Modal';
 import { WidthNames } from '../shared-variables';
@@ -41,23 +37,23 @@ export interface WrapperProps {
     - Container: wrapper around Header, Body and Footer components.
   */
   components?: {
-    Header?: CustomComponentType;
-    Footer?: CustomComponentType;
-    Body?: CustomComponentType;
-    Container?: CustomComponentType;
+    Header?: React.ElementType;
+    Footer?: React.ElementType;
+    Body?: React.ElementType;
+    Container?: React.ElementType;
   };
   /**
     Deprecated, use components prop: Component to render the body of the modal, replaces the internal implementation.
   */
-  body?: CustomComponentType;
+  body?: React.ElementType;
   /**
     Deprecated, use components prop: Component to render the footer of the modal, replaces internal implementation.
   */
-  footer?: CustomComponentType;
+  footer?: React.ElementType;
   /**
     Deprecated, use components prop: Component to render the header of the modal, replaces internal implementation.
   */
-  header?: CustomComponentType;
+  header?: React.ElementType;
   /**
     The modal title; rendered in the header.
   */
