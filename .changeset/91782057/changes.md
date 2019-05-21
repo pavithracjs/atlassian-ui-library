@@ -1,1 +1,0 @@
-- ED-6808: Fix issue where toggling the same mark but different attributes would just remove the mark.

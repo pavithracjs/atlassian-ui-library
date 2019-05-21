@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.5.1
+- [patch] [a511611473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a511611473):
+
+  - ED-6808: Fix issue where toggling the same mark but different attributes would just remove the mark.
+
 ## 112.5.0
 - [minor] [9be684e931](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9be684e931):
 
