@@ -240,12 +240,12 @@ describe('<CustomMediaPlayer />', () => {
 
   describe('simultaneous play', () => {
     let subscription: SimultaneousPlaySubscription;
-    const origSubscribe = simultaneousPlayManager.subscribe;
 
     beforeEach(() => {
       subscription = {
         onPlay: jest.fn(),
         unsubscribe: jest.fn(),
+        isLastPlayed: () => true,
       };
       simultaneousPlayManager.subscribe = jest
         .fn()
@@ -253,7 +253,7 @@ describe('<CustomMediaPlayer />', () => {
     });
 
     afterAll(() => {
-      simultaneousPlayManager.subscribe = origSubscribe;
+      (simultaneousPlayManager.subscribe as jest.Mock).mockRestore();
     });
 
     it('should subscribe to Simultaneous Play Manager', () => {
