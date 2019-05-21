@@ -6,23 +6,29 @@ const CONFLUENCE_SEARCH_SESSION_ID_PARAM_NAME = 'search_id';
 const JIRA_SEARCH_SESSION_ID_PARAM_NAME = 'searchSessionId';
 
 /**
- * Apply the given function to every result in the supplied ResultMap, but not people
+ * Apply the given function to the specified keys in the supplied ResultMap
  * @param resultMapperFn function to map results
- * @param results the GenericResultMap to apply fn to
+ * @param keysToMap the keys of the given ResultType to map over
+ * @param results the GenericResultMap to apply resultMapperFn to
  */
-const mapObjectsAndContainers = (
+const mapGenericResultMap = (
   resultMapperFn: (r: Result) => Result,
+  keysToMap: string[],
   results: GenericResultMap,
 ): GenericResultMap => {
+  const nonMapped = Object.keys(results)
+    .filter(key => !keysToMap.includes(key))
+    .reduce((accum, key) => ({ ...accum, [key]: results[key] }), {});
+
   return Object.keys(results)
-    .filter(key => key !== 'people')
+    .filter(key => keysToMap.includes(key))
     .reduce(
       (accum, resultType) => ({
         ...accum,
         [resultType]: results[resultType].map(resultMapperFn),
       }),
       {
-        people: results.people,
+        ...nonMapped,
       },
     );
 };
@@ -44,11 +50,12 @@ export const attachConfluenceContextIdentifiers = (
   searchSessionId: string,
   results: GenericResultMap,
 ): GenericResultMap => {
-  return mapObjectsAndContainers(
+  return mapGenericResultMap(
     attachSearchSessionIdToResult(
       searchSessionId,
       CONFLUENCE_SEARCH_SESSION_ID_PARAM_NAME,
     ),
+    ['objects', 'spaces'],
     results,
   );
 };
@@ -79,8 +86,9 @@ export const attachJiraContextIdentifiers = (
     };
   };
 
-  return mapObjectsAndContainers(
+  return mapGenericResultMap(
     r => attachJiraContext(attachSearchSessionId(r)),
+    ['objects', 'containers'],
     results,
   );
 };
