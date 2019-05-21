@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Lorem from 'react-lorem-component';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import Modal, { ModalTransition, ModalAppearances } from '../src';
+import Modal, { ModalTransition } from '../src';
+import { AppearanceType } from '../src/types';
 
-const appearances: ModalAppearances[] = ['warning', 'danger'];
+const appearances: AppearanceType[] = ['warning', 'danger'];
 
 export default class ExampleAppearance extends React.PureComponent<
   {},
