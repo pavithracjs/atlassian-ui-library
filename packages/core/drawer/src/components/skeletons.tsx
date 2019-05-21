@@ -1,31 +1,31 @@
-// @flow
-import React from 'react';
+import React, { FC } from 'react';
+import '@emotion/core';
 import { Skeleton as SkeletonAvatar } from '@atlaskit/avatar';
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
 
 type WrapperProps = {
-  isAvatarHidden?: boolean,
-  isHeader?: boolean,
+  isAvatarHidden?: boolean;
+  isHeader?: boolean;
 };
 type DrawerSkeletonItemProps = {
-  isCollapsed?: boolean,
-  itemTextWidth?: string,
-  isAvatarHidden?: boolean,
+  isCollapsed?: boolean;
+  itemTextWidth?: string;
+  isAvatarHidden?: boolean;
 };
 type DrawerSkeletonHeaderProps = {
-  isCollapsed?: boolean,
-  isAvatarHidden?: boolean,
+  isCollapsed?: boolean;
+  isAvatarHidden?: boolean;
 };
 type SkeletonTextProps = {
-  isHeader?: boolean,
-  itemTextWidth?: string,
-  isAvatarHidden?: boolean,
+  isHeader?: boolean;
+  itemTextWidth?: string;
+  isAvatarHidden?: boolean;
 };
 
 const gridSize = gridSizeFn();
 
 /* Primitives */
-const Wrapper = ({ isAvatarHidden, isHeader, ...props }: WrapperProps) => (
+const Wrapper: FC<WrapperProps> = ({ isAvatarHidden, isHeader, ...props }) => (
   <div
     css={{
       display: 'flex',
@@ -39,7 +39,7 @@ const Wrapper = ({ isAvatarHidden, isHeader, ...props }: WrapperProps) => (
   />
 );
 
-const headerStylesOverride = isAvatarHidden => ({
+const headerStylesOverride = (isAvatarHidden?: boolean) => ({
   ...(!isAvatarHidden ? { marginLeft: `${gridSize * 2}px` } : null),
   width: `${gridSize * 18}px`,
   opacity: 0.3,

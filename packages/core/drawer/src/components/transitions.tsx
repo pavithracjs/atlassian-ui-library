@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component, type ComponentType } from 'react';
+import React, { Component, ComponentType } from 'react';
 import { Transition } from 'react-transition-group';
 import { layers } from '@atlaskit/theme';
 
@@ -9,7 +7,7 @@ import { transitionDurationMs, transitionTimingFunction } from '../constants';
 // Transitions
 // ------------------------------
 
-type Styles = { [string]: string | number | null };
+type Styles = { [key: string]: string | number | null };
 
 type TransitionProps = {
   children?: Node,
@@ -64,7 +62,7 @@ class TransitionHandler extends Component<TransitionProps & HandlerProps> {
         timeout={timeout}
         {...transitionProps}
       >
-        {state => {
+        {(state: keyof HandlerProps["transitionStyles"]) => {
           const style = {
             ...defaultStyles,
             ...transitionStyles[state],
