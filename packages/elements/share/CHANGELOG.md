@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.4.5
+- [patch] [03957e8674](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/03957e8674):
+
+  - deferred fetchConfig call until share dialog is triggered open
+
 ## 0.4.4
 - [patch] [c27888ddff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c27888ddff):
 
