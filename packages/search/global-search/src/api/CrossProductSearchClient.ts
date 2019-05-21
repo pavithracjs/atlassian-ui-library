@@ -86,7 +86,6 @@ export default class CachingCrossProductSearchClientImpl
   implements CrossProductSearchClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  private addSessionIdToJiraResult?: boolean;
   private abTestDataCache: { [scope: string]: Promise<ABTest> };
 
   // result limit per scope
@@ -95,12 +94,10 @@ export default class CachingCrossProductSearchClientImpl
   constructor(
     url: string,
     cloudId: string,
-    addSessionIdToJiraResult?: boolean,
     prefetchedAbTestResult?: { [scope: string]: Promise<ABTest> },
   ) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
-    this.addSessionIdToJiraResult = addSessionIdToJiraResult;
     this.abTestDataCache = prefetchedAbTestResult || {};
   }
 
@@ -220,7 +217,6 @@ export default class CachingCrossProductSearchClientImpl
               result,
               searchSessionId,
               scopeResult.abTest && scopeResult.abTest!.experimentId,
-              this.addSessionIdToJiraResult,
             ),
           ),
         );

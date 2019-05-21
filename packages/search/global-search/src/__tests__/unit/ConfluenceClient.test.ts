@@ -50,7 +50,7 @@ describe('ConfluenceClient', () => {
         {
           resultId: pages[0].id + '',
           name: pages[0].title,
-          href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}?search_id=search_id`,
+          href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}`,
           containerName: pages[0].space,
           analyticsType: AnalyticsType.RecentConfluence,
           resultType: ResultType.ConfluenceObjectResult,
@@ -62,7 +62,7 @@ describe('ConfluenceClient', () => {
         {
           resultId: pages[1].id + '',
           name: pages[1].title,
-          href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}?search_id=search_id`,
+          href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}`,
           containerName: pages[1].space,
           analyticsType: AnalyticsType.RecentConfluence,
           resultType: ResultType.ConfluenceObjectResult,
@@ -93,9 +93,7 @@ describe('ConfluenceClient', () => {
         {
           resultId: MOCK_SPACE.id,
           name: MOCK_SPACE.name,
-          href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-            MOCK_SPACE.key
-          }/overview?search_id=search_id`,
+          href: `${DUMMY_CONFLUENCE_HOST}/spaces/${MOCK_SPACE.key}/overview`,
           avatarUrl: MOCK_SPACE.icon,
           analyticsType: AnalyticsType.RecentConfluence,
           resultType: ResultType.GenericContainerResult,
@@ -104,9 +102,7 @@ describe('ConfluenceClient', () => {
         {
           resultId: MOCK_SPACE.id,
           name: MOCK_SPACE.name,
-          href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-            MOCK_SPACE.key
-          }/overview?search_id=search_id`,
+          href: `${DUMMY_CONFLUENCE_HOST}/spaces/${MOCK_SPACE.key}/overview`,
           avatarUrl: MOCK_SPACE.icon,
           analyticsType: AnalyticsType.RecentConfluence,
           resultType: ResultType.GenericContainerResult,
@@ -145,7 +141,7 @@ describe('ConfluenceClient', () => {
         {
           resultId: '123',
           name: 'name',
-          href: `/href?search_id=123`,
+          href: `/href`,
           analyticsType: AnalyticsType.ResultPerson,
           resultType: ResultType.PersonResult,
           contentType: ContentType.Person,
@@ -191,7 +187,7 @@ describe('ConfluenceClient', () => {
         '123',
       );
 
-      expect(results[0].href).toEqual('/href?test=abc&search_id=123');
+      expect(results[0].href).toEqual('/href?test=abc');
     });
 
     // quick nav's API sends pre-escaped content, different to what we normally expect

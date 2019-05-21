@@ -87,7 +87,6 @@ export interface PersonItem {
 }
 
 export interface JiraResultQueryParams {
-  searchSessionId: string;
   searchContainerId?: string;
   searchObjectId?: string;
   searchContentType?: 'issue' | 'board' | 'project' | 'filter';

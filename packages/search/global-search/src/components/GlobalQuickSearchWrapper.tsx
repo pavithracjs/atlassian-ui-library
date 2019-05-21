@@ -113,11 +113,6 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
-   * Indicates whether to add sessionId to jira result query param
-   */
-  addSessionIdToJiraResult?: boolean;
-
-  /**
    * Indicates whether to disable Jira people search on the pre-query screen
    */
   disableJiraPreQueryPeopleSearch?: boolean;
@@ -170,7 +165,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       searchAggregatorServiceUrl,
       directoryServiceUrl,
       confluenceUrl,
-      addSessionIdToJiraResult,
     } = this.props;
 
     if (activityServiceUrl) {
@@ -188,8 +182,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     if (confluenceUrl) {
       config.confluenceUrl = confluenceUrl;
     }
-
-    config.addSessionIdToJiraResult = addSessionIdToJiraResult;
 
     return config;
   }
