@@ -187,6 +187,15 @@ describe('paste plugins', () => {
         dispatchPasteEvent(editorView, { plain: 'plain text' });
         expect(editorView.state.doc).toEqualDocument(doc(p('plain text')));
       });
+
+      it('should scroll cursor into view after pasting in code-block', () => {
+        const { editorView } = editor(doc(code_block()('{<>}')));
+        const dispatchSpy = jest.spyOn(editorView, 'dispatch');
+        dispatchPasteEvent(editorView, { plain: 'plain text' });
+
+        const tr = dispatchSpy.mock.calls[0][0];
+        expect(tr.scrolledIntoView).toBe(true);
+      });
     });
 
     describe('paste inline text', () => {
@@ -447,6 +456,18 @@ describe('paste plugins', () => {
             ),
           ),
         );
+      });
+
+      it('should scroll cursor into view after pasting', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        const dispatchSpy = jest.spyOn(editorView, 'dispatch');
+
+        dispatchPasteEvent(editorView, {
+          html: `<meta charset='utf-8'><p data-pm-slice="1 1 []">Some rich text to paste</p>`,
+        });
+
+        const tr = dispatchSpy.mock.calls[0][0];
+        expect(tr.scrolledIntoView).toBe(true);
       });
     });
 

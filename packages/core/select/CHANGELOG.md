@@ -1,5 +1,11 @@
 # @atlaskit/select
 
+## 9.1.1
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/logo@12.0.0
+
 ## 9.1.0
 - [minor] [3d5ab16856](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d5ab16856):
 

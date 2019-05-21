@@ -63,6 +63,7 @@ describe('Snapshot Test: Nested table inside layouts', () => {
   describe('breakout modes', () => {
     beforeEach(async () => {
       await initEditor();
+      await clickFirstCell(page);
     });
     ['wide', 'full-width'].forEach((breakout, idx) => {
       it(`should display correctly for layout in ${breakout} breakout mode`, async () => {

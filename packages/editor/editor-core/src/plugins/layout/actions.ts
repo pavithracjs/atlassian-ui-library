@@ -1,7 +1,7 @@
 import { safeInsert } from 'prosemirror-utils';
 import { Node, Fragment, Slice, Schema } from 'prosemirror-model';
 import { Command } from '../../types';
-import { pluginKey, LayoutState, DEFAULT_LAYOUT } from './pm-plugins/main';
+import { pluginKey, LayoutState } from './pm-plugins/main';
 import { EditorState, Transaction, TextSelection } from 'prosemirror-state';
 import { mapChildren, flatmap } from '../../utils/slice';
 import { isEmptyDocument, getStepRange } from '../../utils';
@@ -227,25 +227,20 @@ export const setPresetLayout = (layout: PresetLayout): Command => (
 };
 
 export const fixColumnSizes = (changedTr: Transaction, state: EditorState) => {
-  const pos = pluginKey.getState(state).pos;
   const { layoutSection } = state.schema.nodes;
   let change;
   const range = getStepRange(changedTr);
-  if (!range || typeof pos !== 'number') {
+  if (!range) {
     return undefined;
   }
 
-  const currentNodeAtPos = state.doc.nodeAt(pos);
-  if (!currentNodeAtPos || currentNodeAtPos.type !== layoutSection) {
-    return undefined;
-  }
-
-  const presetLayout = getSelectedLayout(currentNodeAtPos, DEFAULT_LAYOUT);
   changedTr.doc.nodesBetween(range.from, range.to, (node, pos) => {
     if (node.type === layoutSection) {
-      if (presetLayout === getPresetLayout(node)) {
+      if (getPresetLayout(node)) {
         return false;
       }
+
+      const presetLayout = node.childCount === 2 ? 'two_equal' : 'three_equal';
 
       const fixedColumns = columnWidth(
         node,

@@ -499,7 +499,7 @@ describe(name, () => {
             action: 'changedFullWidthMode',
             actionSubject: 'editor',
             attributes: {
-              previousMode: 'default',
+              previousMode: 'fixedWidth',
               newMode: 'fullWidth',
             },
             eventType: 'track',
@@ -517,7 +517,7 @@ describe(name, () => {
             actionSubject: 'editor',
             attributes: {
               previousMode: 'fullWidth',
-              newMode: 'default',
+              newMode: 'fixedWidth',
             },
             eventType: 'track',
           },

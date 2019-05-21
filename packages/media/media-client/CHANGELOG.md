@@ -1,5 +1,10 @@
 # @atlaskit/media-client
 
+## 1.1.5
+- [patch] [af1cbd4ce4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af1cbd4ce4):
+
+  - Removing unnecessary deps and dev deps in media-core and media-client
+
 ## 1.1.4
 - [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
 
