@@ -356,7 +356,8 @@ export default class Comment extends React.Component<Props, State> {
       portal,
     } = this.props;
     const { isEditing } = this.state;
-    const isAuthor = user && user.id === comment.createdBy.id;
+    const { createdBy } = comment;
+    const isAuthor = user && createdBy && user.id === createdBy.id;
 
     if (comment.deleted) {
       return <DeletedMessage isAuthor={isAuthor} />;
@@ -442,8 +443,14 @@ export default class Comment extends React.Component<Props, State> {
     );
   }
 
-  private getActions(canModerateComment?: boolean) {
-    const { comment, user, dataProviders, objectId } = this.props;
+  private getActions() {
+    const {
+      comment,
+      user,
+      dataProviders,
+      objectId,
+      canModerateComment,
+    } = this.props;
     const { isEditing } = this.state;
     const canReply = !!user && !isEditing && !comment.deleted;
 
@@ -527,12 +534,7 @@ export default class Comment extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      comment,
-      isHighlighted,
-      disableScrollTo,
-      canModerateComment,
-    } = this.props;
+    const { comment, isHighlighted, disableScrollTo } = this.props;
     const { createdBy, state: commentState, error } = comment;
     const errorProps: {
       actions?: any[];
@@ -589,7 +591,7 @@ export default class Comment extends React.Component<Props, State> {
             })}
           </CommentTime>
         }
-        actions={this.getActions(canModerateComment)}
+        actions={this.getActions()}
         content={this.getContent()}
         isSaving={commentState === 'SAVING'}
         isError={commentState === 'ERROR'}
