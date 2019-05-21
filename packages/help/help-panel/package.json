@@ -27,7 +27,7 @@
     "@atlaskit/radio": "^2.0.0",
     "@atlaskit/textarea": "^2.0.0",
     "@atlaskit/theme": "^9.0.0",
-    "@atlaskit/help-article": "^0.4.2",
+    "@atlaskit/help-article": "^0.4.3",
     "exenv": "^1.2.2",
     "lodash.debounce": "^4.0.8",
     "react-transition-group": "^2.2.1",
