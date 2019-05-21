@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const npmRun = require('npm-run');
 const chalk = require('chalk').default;
+const { fExists } = require('./fs');
 
 const masterStatsFolder = createDir('./.masterBundleSize');
 const currentStatsFolder = createDir('./.currentBundleSize');
@@ -13,16 +14,10 @@ const BUCKET_NAME = 'atlaskit-artefacts';
 const BUCKET_REGION = 'ap-southeast-2';
 
 function createDir(dir) {
-  try {
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-    return dir;
-  } catch (err) {
-    console.error(chalk.red(err));
-    // TODO: to fix in BUILDTOOLS-124 & BUILDTOOLS-125
-    process.exit(0);
+  if (!fExists(dir)) {
+    fs.mkdirSync(dir);
   }
+  return dir;
 }
 
 function isAWSAccessible() {
