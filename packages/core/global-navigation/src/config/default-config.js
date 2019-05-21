@@ -53,13 +53,13 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       tooltip: 'Create',
       id: 'create',
     },
-    globalInvite: {
+    invite: {
       icon: InviteTeamIcon,
-      label: 'Global Invite',
+      label: 'Invite',
       rank: 6,
       section: 'primary',
-      tooltip: 'Global Invite',
-      id: 'globalInviteIcon',
+      tooltip: 'Invite',
+      id: 'inviteIcon',
     },
     // ==============  secondary section  ==============
     notification: {

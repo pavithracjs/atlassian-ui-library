@@ -37,8 +37,8 @@ describe('Analytics', () => {
           drawerName: 'create',
         },
         {
-          name: 'globalInviteDrawer',
-          drawerName: 'globalInvite',
+          name: 'inviteDrawer',
+          drawerName: 'invite',
         },
         {
           name: 'starDrawer',

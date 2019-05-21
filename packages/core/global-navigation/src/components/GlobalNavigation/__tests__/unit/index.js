@@ -120,8 +120,8 @@ describe('GlobalNavigation', () => {
       },
       {
         akIcon: InviteTeamIcon,
-        capitalisedName: 'GlobalInvite',
-        name: 'globalInvite',
+        capitalisedName: 'Invite',
+        name: 'invite',
       },
     ];
 
@@ -1109,8 +1109,8 @@ describe('GlobalNavigation', () => {
         analyticsId: 'createDrawer',
       },
       {
-        drawerName: 'globalInvite',
-        analyticsId: 'globalInviteDrawer',
+        drawerName: 'invite',
+        analyticsId: 'inviteDrawer',
       },
       {
         drawerName: 'notification',

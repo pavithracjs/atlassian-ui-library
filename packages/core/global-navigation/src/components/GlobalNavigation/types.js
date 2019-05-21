@@ -63,22 +63,22 @@ export type GlobalNavDrawerProps = {
 
   /** A prop to take control over the opening and closing of the Global Invite drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
-  isGlobalInviteDrawerOpen?: boolean,
+  isInviteDrawerOpen?: boolean,
   /** The contents of the global invite drawer. */
-  globalInviteDrawerContents?: ComponentType<*>,
+  inviteDrawerContents?: ComponentType<*>,
   /** The width of the global invite drawer. This is "wide" by default. */
-  globalInviteDrawerWidth?: DrawerWidth,
+  inviteDrawerWidth?: DrawerWidth,
   /** A callback function which will be called when the global invite drawer is
    * opened. */
-  onGlobalInviteDrawerOpen?: () => void,
+  onInviteDrawerOpen?: () => void,
   /** A callback function which will be called when the global invite drawer is
    * closed. */
-  onGlobalInviteDrawerClose?: () => void,
+  onInviteDrawerClose?: () => void,
   /** A callback function which will be fired when the global invite drawer has finished its close transition. **/
-  onGlobalInviteDrawerCloseComplete?: (node: HTMLElement) => void,
+  onInviteDrawerCloseComplete?: (node: HTMLElement) => void,
   /** A prop to decide if the contents of the drawer should unmount on drawer
    * close. It is true by default. */
-  shouldGlobalInviteDrawerUnmountOnExit?: boolean,
+  shouldInviteDrawerUnmountOnExit?: boolean,
 
   /** A prop to take control over the opening and closing of drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
@@ -208,11 +208,11 @@ export type GlobalNavigationProps = {
 
   /** A callback function which will be called when the global invite item is clicked.
    * */
-  onGlobalInviteClick?: ?() => void,
+  onInviteClick?: ?() => void,
   /** The text to display in the tooltip for the global invite drawer item. */
-  globalInviteTooltip?: string,
+  inviteTooltip?: string,
   /** A function to get ref of the global invite icon */
-  getGlobalInviteRef?: (node: NonStringRef<'div'>) => void,
+  getInviteRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
@@ -321,7 +321,7 @@ export type DrawerName =
   | 'help'
   | 'settings'
   | 'recent'
-  | 'globalInvite'
+  | 'invite'
   | 'atlassianSwitcher';
 
 export type { DrawerWidth };
