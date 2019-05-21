@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/help-panel",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A cross-product help-panel component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -23,7 +23,7 @@
     "@atlaskit/form": "^6.0.0",
     "@atlaskit/icon": "^17.0.0",
     "@atlaskit/item": "^10.0.0",
-    "@atlaskit/quick-search": "^7.3.0",
+    "@atlaskit/quick-search": "^7.2.0",
     "@atlaskit/radio": "^2.0.0",
     "@atlaskit/textarea": "^2.0.0",
     "@atlaskit/theme": "^9.0.0",
@@ -37,10 +37,10 @@
   "peerDependencies": {
     "react": "^16.8.0",
     "react-intl": "^2.6.0",
-    "react-dom": "^16.8.0",
-    "algoliasearch": "^3.33.0"
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
+    "algoliasearch": "^3.33.0",
     "@atlaskit/section-message": "^3.0.0",
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/i18n-tools": "^0.5.0",

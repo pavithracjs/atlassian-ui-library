@@ -271,7 +271,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   getPreQueryDisplayedResults = (
     recentItems: ConfluenceResultsMap,
     abTest: ABTest,
-  ) => mapRecentResultsToUIGroups(recentItems, abTest);
+    searchSessionId: string,
+  ) => mapRecentResultsToUIGroups(recentItems, abTest, searchSessionId);
 
   getPostQueryDisplayedResults = (
     searchResults: ConfluenceResultsMap,
@@ -359,6 +360,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           this.getPreQueryDisplayedResults(
             recentItems as ConfluenceResultsMap,
             abTest,
+            searchSessionId,
           )
         }
         getPostQueryGroups={() =>

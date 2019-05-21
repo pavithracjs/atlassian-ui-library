@@ -14,6 +14,7 @@ import {
 } from '../SearchResultsUtil';
 import { messages } from '../../messages';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
+import { attachJiraContextIdentifiers } from '../common/contextIdentifiersHelper';
 
 const MAX_OBJECTS = 8;
 const MAX_CONTAINERS = 6;
@@ -51,14 +52,20 @@ export const sliceResults = (resultsMap: GenericResultMap | null) => {
 };
 
 export const mapRecentResultsToUIGroups = (
-  recentlyViewedObjects: JiraResultsMap | null,
+  recentlyViewedObjects: GenericResultMap | null,
+  searchSessionId: string,
   appPermission?: JiraApplicationPermission,
 ): ResultsGroup[] => {
+  const withSessionId =
+    recentlyViewedObjects !== null
+      ? attachJiraContextIdentifiers(searchSessionId, recentlyViewedObjects)
+      : recentlyViewedObjects;
+
   const {
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(recentlyViewedObjects);
+  } = sliceResults(withSessionId);
 
   return [
     {
@@ -84,14 +91,20 @@ export const mapRecentResultsToUIGroups = (
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
+  searchSessionId: string,
   appPermission?: JiraApplicationPermission,
   query?: string,
 ): ResultsGroup[] => {
+  const withSessionId =
+    searchResultsObjects !== null
+      ? attachJiraContextIdentifiers(searchSessionId, searchResultsObjects)
+      : searchResultsObjects;
+
   const {
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(searchResultsObjects);
+  } = sliceResults(withSessionId);
   return [
     {
       items: objectsToDisplay,

@@ -493,7 +493,23 @@ pipelines:
           caches:
             - node
     
-    # This is to upload ratchet files to S3 on a scheduled basis        
+    bundle-size-check-upload-to-s3:
+      - step:
+          name: Bundle size check step upload commit to S3
+          script:
+            - source ./build-setup.sh
+            - bolt install --pure-lockfile
+            - yarn measure:dependents --s3
+            - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize 
+            - if [ -e ".currentBundleSize/merged.json" ]; then node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json; fi
+          artifacts:
+            # Remove this adding for debugging 
+            - .currentBundleSize/**  
+          caches:
+            - node        
+    
+    # This is a custom build step to upload ratchet files to S3 on a scheduled basis
+    # broken to multiple steps to gain speed and avoid OOM issues        
     push-bundle-size-to-s3:
       - parallel:
           - step:
@@ -502,7 +518,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - node build/ci-scripts/get.pkgs.in.team.js editor-part-1| xargs -n1 -P2 yarn measure --updateSnapshot
+                - node build/ci-scripts/get.pkgs.in.team.js editor-part-1| xargs -n1 -P2 yarn measure --updateSnapshot --s3
           # required to debug, may be we can remove this later  
               artifacts:
                 - .masterBundleSize/**
@@ -514,7 +530,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - node build/ci-scripts/get.pkgs.in.team.js editor-part-2| xargs -n1 -P2 yarn measure --updateSnapshot
+                - node build/ci-scripts/get.pkgs.in.team.js editor-part-2| xargs -n1 -P2 yarn measure --updateSnapshot --s3
           # required to debug, may be we can remove this later  
               artifacts:
                 - .masterBundleSize/**
@@ -526,7 +542,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - node build/ci-scripts/get.pkgs.in.team.js core| xargs -n1 -P2 yarn measure --updateSnapshot
+                - node build/ci-scripts/get.pkgs.in.team.js core| xargs -n1 -P2 yarn measure --updateSnapshot --s3
           # required to debug, may be we can remove this later  
               artifacts:
                 - .masterBundleSize/**
@@ -538,7 +554,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - node build/ci-scripts/get.pkgs.in.team.js media| xargs -n1 -P2 yarn measure --updateSnapshot
+                - node build/ci-scripts/get.pkgs.in.team.js media| xargs -n1 -P2 yarn measure --updateSnapshot --s3
           # required to debug, may be we can remove this later  
               artifacts:
                 - .masterBundleSize/**
@@ -551,7 +567,7 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem
-                - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot
+                - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot --s3
            # required to debug, may be we can remove this later  
               artifacts:
                 - .masterBundleSize/**

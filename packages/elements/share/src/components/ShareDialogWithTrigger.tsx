@@ -47,9 +47,12 @@ export type State = DialogState;
 
 export type Props = {
   config?: ConfigResponse;
+  children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: DialogPlacement;
+  fetchConfig: Function;
   isDisabled?: boolean;
+  isFetchingConfig?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
@@ -189,9 +192,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
         if (isDialogOpen) {
           this.start = Date.now();
           this.createAndFireEvent(screenEvent());
-        }
-        if (this.containerRef.current) {
-          this.containerRef.current.focus();
+
+          if (this.containerRef.current) {
+            this.containerRef.current.focus();
+          }
+
+          // always refetch the config when modal is re-opened
+          this.props.fetchConfig();
         }
       },
     );
@@ -244,6 +251,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       copyLink,
       dialogPlacement,
       isDisabled,
+      isFetchingConfig,
       loadUserOptions,
       shareFormTitle,
       config,
@@ -274,6 +282,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
                   defaultValue={defaultValue}
                   config={config}
                   onLinkCopy={this.handleCopyLink}
+                  isFetchingConfig={isFetchingConfig}
                 />
               </InlineDialogFormWrapper>
             </AnalyticsContext>
