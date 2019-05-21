@@ -222,6 +222,8 @@ function clampPercentage(value: number): number {
   return parseFloat(((Math.round(value * 10000) / 10000) * 100).toFixed(2));
 }
 
+type AsyncAwaitFunction = (page: any) => Promise<void>;
+
 /**
  * Compare snapshots of the editor & renderer to validate the WYSIWYG result.
  *
@@ -243,12 +245,16 @@ function clampPercentage(value: number): number {
 export async function snapshotAndCompare(
   page: any,
   testName: string,
-  waitForSelector?: string,
+  waitFor?: AsyncAwaitFunction[],
 ) {
   const editor = await page.$(editorContentSelector);
   const renderer = await page.$(rendererContentSelector);
 
-  if (waitForSelector) await page.waitForSelector(waitForSelector);
+  if (waitFor && waitFor.length) {
+    await Promise.all(
+      waitFor.map(async (wait: AsyncAwaitFunction) => await wait(page)),
+    );
+  }
 
   const snapshotsPath = path.join(__dirname, '__image_snapshots__');
   if (!fs.existsSync(snapshotsPath)) fs.mkdirSync(snapshotsPath);

@@ -144,8 +144,8 @@
     },
     {
       "name": "emoji",
-      "divergence": 0.02760910815939279,
-      "consistency": "97.24%"
+      "divergence": 0.01318785578747628,
+      "consistency": "98.68%"
     },
     {
       "name": "emoji inside columns",
@@ -199,8 +199,8 @@
     },
     {
       "name": "mention inside table",
-      "divergence": 0.04538638985005767,
-      "consistency": "95.46%"
+      "divergence": 0.045317185697808536,
+      "consistency": "95.47%"
     },
     {
       "name": "ordered list",

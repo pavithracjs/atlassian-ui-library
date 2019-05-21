@@ -3,9 +3,11 @@ import {
   loadKitchenSinkWithAdf,
   snapshotAndCompare,
 } from './_wysiwyg-utils';
+import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 import { traverse } from '@atlaskit/adf-utils/traverse';
 
-type FragmentNodeLookup = { node: string; waitForSelector?: string };
+type AsyncAwaitFunction = (page: any) => Promise<void>;
+type FragmentNodeLookup = { node: string; waitFor?: AsyncAwaitFunction[] };
 
 describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
   let page: any;
@@ -30,7 +32,16 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
     { node: 'date' },
     { node: 'decisions' },
     { node: 'divider' },
-    { node: 'emoji', waitForSelector: '.emoji-common-emoji-sprite' },
+    {
+      node: 'emoji',
+      waitFor: [
+        async (page: any): Promise<void> => {
+          const emojiSelector = '.emoji-common-emoji-sprite';
+          await page.waitForSelector(emojiSelector);
+          await waitForLoadedBackgroundImages(page, emojiSelector);
+        },
+      ],
+    },
     { node: 'heading' },
     { node: 'mention' },
     { node: 'ordered list' },
@@ -58,26 +69,26 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
       ),
     );
 
-    it.each(standaloneNodes)('%o', async ({ node, waitForSelector }) => {
+    it.each(standaloneNodes)('%p', async ({ node, waitFor }) => {
       const adf = createDocumentADF(node);
       await loadKitchenSinkWithAdf(page, adf);
-      await snapshotAndCompare(page, node, waitForSelector);
+      await snapshotAndCompare(page, node, waitFor);
     });
   });
 
   describe.each(containerNodes)(
-    'Nested content: %o',
+    'Nested content: %p',
     async ({ node: containerNode }: FragmentNodeLookup) => {
       const containerAdf = createDocumentADF(containerNode, true);
       // Nested nodes
       it.each(contentNodes)(
-        `%o inside ${containerNode}`,
-        async ({ node: contentNode, waitForSelector }: FragmentNodeLookup) => {
+        `%p inside ${containerNode}`,
+        async ({ node: contentNode, waitFor }: FragmentNodeLookup) => {
           const contentAdf = createDocumentADF(contentNode).content;
           const adf = traverse(containerAdf, {
             any: (node: any) => {
               if (node.content && node.content.length === 0) {
-                // Insert nested content
+                // Insert nested content into container
                 node.content = contentAdf;
               }
               return node;
@@ -87,7 +98,7 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
           await snapshotAndCompare(
             page,
             `${contentNode} inside ${containerNode}`,
-            waitForSelector,
+            waitFor,
           );
         },
       );
