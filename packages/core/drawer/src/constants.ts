@@ -1,4 +1,3 @@
-// @flow
 import { gridSize as akGridSize } from '@atlaskit/theme';
 
 export const transitionDuration = '0.22s';

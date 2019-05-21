@@ -1,13 +1,7 @@
-// @flow
 import { itemThemeNamespace } from '@atlaskit/item';
 import { colors, themed } from '@atlaskit/theme';
-import chromatism from 'chromatism';
-import {
-  type DrawerTheme,
-  type Background,
-  type ItemTheme,
-  type ScrollBarTheme,
-} from './types';
+import chromatism, { ColourModes } from 'chromatism';
+import { DrawerTheme, Background, ItemTheme, ScrollBarTheme } from './types';
 import {
   gridSize,
   darkDrawerItemHoverBackground,
@@ -21,7 +15,7 @@ const focus = {
   outline: themed({ light: colors.B100, dark: colors.B75 }),
 };
 
-function lightenColor(color, alpha) {
+function lightenColor(color: ColourModes.Any, alpha: number) {
   const { r: red, g: green, b: blue } = chromatism.convert(color).rgb;
   return `rgba(${red}, ${green}, ${blue}, 0.${alpha})`;
 }
