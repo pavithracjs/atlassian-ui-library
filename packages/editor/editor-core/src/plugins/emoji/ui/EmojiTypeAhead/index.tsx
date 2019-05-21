@@ -3,13 +3,13 @@ import { PureComponent } from 'react';
 import { PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Popup, akEditorFloatingDialogZIndex } from '@atlaskit/editor-common';
+import { EmojiTypeAhead as AkEmojiTypeAhead } from '@atlaskit/emoji/typeahead';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import {
-  EmojiTypeAhead as AkEmojiTypeAhead,
   EmojiDescription,
   OptionalEmojiDescription,
-  EmojiProvider,
   EmojiId,
-} from '@atlaskit/emoji';
+} from '@atlaskit/emoji/types';
 import { analyticsService } from '../../../../analytics';
 import {
   getInsertTypeForKey,
