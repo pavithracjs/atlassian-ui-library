@@ -117,7 +117,9 @@ export class CustomMediaPlayer extends Component<
         isFullScreenEnabled,
       });
     }
-    if (isFullScreenEnabled) this.simultaneousPlay.onPlay();
+    if (isFullScreenEnabled) {
+      this.simultaneousPlay.onPlay();
+    }
   };
 
   onTimeChange = (navigate: NavigateFunction) => (value: number) => {
@@ -237,11 +239,15 @@ export class CustomMediaPlayer extends Component<
   }
 
   private pause = (): void => {
-    if (this.actions) this.actions.pause();
+    if (this.actions) {
+      this.actions.pause();
+    }
   };
 
   private play = (): void => {
-    if (this.actions) this.actions.play();
+    if (this.actions) {
+      this.actions.play();
+    }
     this.simultaneousPlay.onPlay();
   };
 

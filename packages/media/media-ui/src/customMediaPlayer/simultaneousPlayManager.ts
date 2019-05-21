@@ -34,7 +34,9 @@ export default class SimultaneousPlayManager {
     SimultaneousPlayManager.lastPlayed = pause;
 
     SimultaneousPlayManager.playersPause.forEach(playerPause => {
-      if (playerPause !== pause) playerPause();
+      if (playerPause !== pause) {
+        playerPause();
+      }
     });
   };
 
