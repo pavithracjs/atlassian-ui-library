@@ -19,10 +19,10 @@ const scrollBehaviors = [
   { name: 'scrollBehavior', value: 'outside', label: 'outside' },
 ];
 
-type State = {
+interface State {
   isOpen: boolean;
   scrollBehavior: 'inside' | 'outside';
-};
+}
 export default class ExampleScroll extends React.PureComponent<{}, State> {
   bottomRef: any;
 

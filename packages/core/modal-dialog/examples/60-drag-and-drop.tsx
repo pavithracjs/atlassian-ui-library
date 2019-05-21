@@ -51,12 +51,12 @@ const Card = styled.div`
 
 const isMiddleClick = (event: React.MouseEvent) => event.button === 1;
 
-type Item = {
+interface Item {
   id: string;
   message: string;
-};
+}
 
-type ItemLineCardProps = {
+interface ItemLineCardProps {
   item: Item;
   index: number;
   isReorderEnabled: boolean;
@@ -67,13 +67,13 @@ type ItemLineCardProps = {
     item: Item,
   ) => React.ReactNode;
   onClick: (item: Item, e?: any) => void;
-};
+}
 
-type ItemLineCardState = {
+interface ItemLineCardState {
   isHovering: boolean;
   isActive: boolean;
   isFocused: boolean;
-};
+}
 
 class ItemLineCard extends React.Component<
   ItemLineCardProps,
@@ -171,7 +171,7 @@ class ItemLineCard extends React.Component<
   }
 }
 
-type ItemLineCardGroupProps = {
+interface ItemLineCardGroupProps {
   groupId: string;
   items: Item[];
   isReorderEnabled?: boolean;
@@ -188,7 +188,7 @@ type ItemLineCardGroupProps = {
     destIndex: number,
   ) => void;
   onClick: () => void;
-};
+}
 
 class ItemLineCardGroup extends React.Component<ItemLineCardGroupProps> {
   static defaultProps = {
@@ -261,9 +261,9 @@ const items = [...new Array(5).keys()].map(item => ({
   message: `Line item card ${item}: `,
 }));
 
-type WrapperState = {
+interface WrapperState {
   items: Item[];
-};
+}
 
 class Wrapper extends React.Component<any, WrapperState> {
   state = {
@@ -303,9 +303,9 @@ class Wrapper extends React.Component<any, WrapperState> {
   }
 }
 
-type State = {
+interface State {
   isOpen: boolean;
-};
+}
 export default class extends React.PureComponent<{}, State> {
   state: State = { isOpen: false };
 

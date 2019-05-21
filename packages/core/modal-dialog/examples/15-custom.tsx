@@ -64,13 +64,13 @@ const Body = React.forwardRef((props: { children?: Node }, ref: any) => {
   );
 });
 
-type FooterProps = {
+interface FooterProps {
   onClose: () => void;
   showKeyline: boolean;
-};
-type FooterState = {
+}
+interface FooterState {
   isOpen: boolean;
-};
+}
 
 // eslint-disable-next-line react/no-multi-comp
 class Footer extends React.Component<FooterProps, FooterState> {
@@ -104,7 +104,9 @@ class Footer extends React.Component<FooterProps, FooterState> {
   }
 }
 
-type State = { isOpen: string | null };
+interface State {
+  isOpen: string | null;
+}
 // eslint-disable-next-line react/no-multi-comp
 export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };

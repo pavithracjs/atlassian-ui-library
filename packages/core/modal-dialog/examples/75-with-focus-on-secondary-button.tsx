@@ -3,9 +3,9 @@ import Lorem from 'react-lorem-component';
 import Button from '@atlaskit/button';
 import Modal, { ModalTransition } from '../src';
 
-type State = {
+interface State {
   isOpen: boolean;
-};
+}
 export default class ExampleBasic extends React.PureComponent<{}, State> {
   state: State = { isOpen: false };
 

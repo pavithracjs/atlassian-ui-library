@@ -4,7 +4,9 @@ import Lorem from 'react-lorem-component';
 import Modal, { ModalTransition } from '../src';
 
 const sizes = ['large', 'medium', 'small'];
-type State = { isOpen: string[] };
+interface State {
+  isOpen: string[];
+}
 export default class NestedDemo extends React.Component<{}, State> {
   state: { isOpen: string[] } = { isOpen: [] };
 

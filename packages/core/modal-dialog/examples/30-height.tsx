@@ -9,7 +9,9 @@ const H4 = styled.h4`
   margin-bottom: 0.66em;
 `;
 
-type State = { isOpen: any };
+interface State {
+  isOpen: any;
+}
 
 export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };

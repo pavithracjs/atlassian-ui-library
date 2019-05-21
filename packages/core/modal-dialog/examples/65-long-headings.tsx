@@ -40,7 +40,9 @@ const H4 = styled.h4`
   margin-bottom: 0.66em;
 `;
 
-type State = { isOpen: string | null };
+interface State {
+  isOpen: string | null;
+}
 // eslint-disable-next-line react/no-multi-comp
 export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };

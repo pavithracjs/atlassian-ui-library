@@ -9,7 +9,9 @@ import RadioGroup, { AkRadio } from '@atlaskit/field-radio-group';
 import ModalDialog, { ModalFooter, ModalTransition } from '../src';
 import { FooterProps } from '../src/components/Footer';
 
-type State = { isOpen: boolean };
+interface State {
+  isOpen: boolean;
+}
 export default class AtlaskitFormDemo extends React.Component<{}, State> {
   state = { isOpen: false };
 
@@ -24,7 +26,7 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
     const footer = (props: FooterProps) => (
       <ModalFooter showKeyline={props.showKeyline}>
         <span />
-        <Button appearance="primary" type="submit">
+        <Button appearance="primary" interface="submit">
           Submit to Console
         </Button>
       </ModalFooter>

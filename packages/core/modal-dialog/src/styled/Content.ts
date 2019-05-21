@@ -24,7 +24,9 @@ export const wrapperStyles = css`
 
 // Header
 // ==============================
-type HeaderProps = { showKeyline?: boolean };
+interface HeaderProps {
+  showKeyline?: boolean;
+}
 export const Header = styled.header`
   align-items: center;
   display: flex;
@@ -51,7 +53,9 @@ export const Title = styled.h4`
   min-width: 0;
 `;
 
-type TitleTextProps = { isHeadingMultiline?: boolean };
+interface TitleTextProps {
+  isHeadingMultiline?: boolean;
+}
 export const TitleText = styled.span`
   flex: 1 1 auto;
   min-width: 0;
@@ -104,14 +108,18 @@ export const bodyStyles = (shouldScroll?: boolean) => css`
   }
 `;
 
-type BodyProps = { shouldScroll?: boolean };
+interface BodyProps {
+  shouldScroll?: boolean;
+}
 export const Body = styled.div`
   ${(props: BodyProps) => bodyStyles(props.shouldScroll)}
 `;
 
 // Footer
 // ==============================
-type FooterProps = { showKeyline?: boolean };
+interface FooterProps {
+  showKeyline?: boolean;
+}
 export const Footer = styled.footer`
   align-items: center;
   display: flex;

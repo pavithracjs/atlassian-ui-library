@@ -58,7 +58,9 @@ export const dialogHeight = ({
   overflow-y
   - only active when popper.js children envoked below the dialog
 */
-type FillScreenProps = { scrollDistance: number };
+interface FillScreenProps {
+  scrollDistance: number;
+}
 export const FillScreen = styled.div`
   height: 100vh;
   left: 0;
@@ -112,10 +114,10 @@ export const PositionerRelative = styled.div`
   }
 `;
 
-type DialogProps = {
+interface DialogProps {
   isChromeless?: boolean;
   heightValue?: string | number;
-};
+}
 export const Dialog = styled.div`
   ${(props: DialogProps) =>
     props.isChromeless

@@ -7,11 +7,11 @@ const H4 = styled.h4`
   margin-bottom: 0.66em;
 `;
 
-type stubDialogProps = {
+interface stubDialogProps {
   children: React.ReactNode;
   heading?: string;
   autoFocus?: boolean;
-};
+}
 
 /* eslint-disable jsx-a11y/no-autofocus */
 export default class ModalDemo extends React.Component<
@@ -70,7 +70,7 @@ export default class ModalDemo extends React.Component<
           {isOpen === 'autoFocus' && (
             <StubDialog heading="input has autoFocus">
               <p>The textbox should be focused</p>
-              <input autoFocus type="text" />
+              <input autoFocus interface="text" />
             </StubDialog>
           )}
         </ModalTransition>
