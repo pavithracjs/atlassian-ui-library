@@ -28,7 +28,7 @@
     "memoize-one": "^3.0.1",
     "react-uid": "^2.2.0",
     "shallow-equal": "^1.0.0",
-    "tiny-invariant": "1.0.4"
+    "tiny-invariant": "^0.0.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
