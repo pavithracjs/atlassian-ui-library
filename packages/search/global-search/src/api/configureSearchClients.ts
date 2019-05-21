@@ -45,7 +45,7 @@ const defaultConfig: Config = {
   directoryServiceUrl: '/gateway/api/directory',
   confluenceUrl: '/wiki',
   jiraUrl: '',
-  autocompleteUrl: '/gateway/api/xpsearch-autocomplete',
+  autocompleteUrl: '/gateway/api/ccsearch-autocomplete',
   addSessionIdToJiraResult: false,
 };
 
