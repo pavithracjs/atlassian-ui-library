@@ -1,0 +1,1 @@
+- deferred fetchConfig call until share dialog is triggered open
