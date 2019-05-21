@@ -1,4 +1,3 @@
-// @flow
 // This file is used to create flow definitions for core packages that
 // have been converted to typescript. This is a temporary solution
 // while we are converting all core packages to typescript.
