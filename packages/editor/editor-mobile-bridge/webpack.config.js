@@ -7,8 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
 
-const mode = process.env.NODE_ENV || 'development';
-
 const envPlugins = [];
 
 const cli = meow({
@@ -17,14 +15,20 @@ const cli = meow({
       type: 'boolean',
       alias: 's',
     },
+    production: {
+      type: 'boolean',
+      alias: 'p',
+    },
   },
 });
 
-if (mode === 'production') {
+const isProduction = cli.flags.p;
+
+if (isProduction) {
   envPlugins.push(
     new UglifyJsPlugin({
       test: /\.js($|\?)/i,
-      sourceMap: true,
+      sourceMap: cli.flags.sourceMap,
       uglifyOptions: {
         mangle: {
           keep_fnames: true,
@@ -42,7 +46,7 @@ if (mode === 'production') {
 
 module.exports = async function createWebpackConfig() {
   return {
-    mode,
+    mode: isProduction ? 'production' : 'development',
     entry: {
       editor: './src/editor/index.tsx',
       renderer: './src/renderer/index.tsx',
@@ -55,8 +59,7 @@ module.exports = async function createWebpackConfig() {
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist/bundle'),
     },
-    devtool:
-      mode === 'development' || cli.flags.sourceMap ? 'source-map' : false,
+    devtool: !isProduction || cli.flags.sourceMap ? 'source-map' : false,
     resolve: {
       mainFields: ['atlaskit:src', 'module', 'browser', 'main'],
       extensions: ['.js', '.json', '.ts', '.tsx'],
@@ -90,7 +93,7 @@ module.exports = async function createWebpackConfig() {
     plugins: [
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(
-          mode === 'production' ? 'production' : 'development',
+          isProduction ? 'production' : 'development',
         ),
       }),
       new HtmlWebpackPlugin({
