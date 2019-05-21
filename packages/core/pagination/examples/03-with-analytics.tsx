@@ -1,13 +1,12 @@
-//@flow
 import React, { Component } from 'react';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Pagination from '../src';
 
 type State = {
-  analyticEventContext: Object,
-  analyticEventPayload: Object,
-  items: Array<{ value: number }>,
-  selected: number,
+  analyticEventContext: Object;
+  analyticEventPayload: Object;
+  items: Array<{ value: number }>;
+  selected: number;
 };
 
 export default class extends Component<{}, State> {
@@ -36,7 +35,7 @@ export default class extends Component<{}, State> {
     });
   };
 
-  sendAnalytics = (analyticEvent: Object) => {
+  sendAnalytics = (analyticEvent: { context: any; payload: any }) => {
     this.setState({
       analyticEventContext: analyticEvent.context,
       analyticEventPayload: analyticEvent.payload,
@@ -48,7 +47,9 @@ export default class extends Component<{}, State> {
     return (
       <AnalyticsListener channel="atlaskit" onEvent={this.sendAnalytics}>
         <Pagination
-          getPageLabel={page => (typeof page === 'object' ? page.value : page)}
+          getPageLabel={(page: any) =>
+            typeof page === 'object' ? page.value : page
+          }
           pages={items}
         />
         <h2>Analytics event context received</h2>

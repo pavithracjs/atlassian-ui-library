@@ -1,4 +1,3 @@
-//@flow
 import React, { Component, Fragment } from 'react';
 import Button from '@atlaskit/button';
 import SectionMessage from '@atlaskit/section-message';
@@ -24,7 +23,7 @@ export default class extends Component<{}, { max: number }> {
           </SectionMessage>
         </div>
         <Pagination
-          renderEllipsis={({ key }) => (
+          renderEllipsis={({ key }: { key: string }) => (
             <Button
               onClick={() => this.handleEllipsisCLick()}
               appearance="subtle"

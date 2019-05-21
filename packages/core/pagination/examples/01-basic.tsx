@@ -1,11 +1,10 @@
-//@flow
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, SyntheticEvent } from 'react';
 import Pagination from '../src';
 
 const Pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 type StateType = {
-  onChangeEvent: any,
+  onChangeEvent: any;
 };
 
 export default class extends Component<{}, StateType> {
@@ -13,7 +12,7 @@ export default class extends Component<{}, StateType> {
     onChangeEvent: 1,
   };
 
-  handleChange = (event: SyntheticEvent<>, newPage: any) =>
+  handleChange = (event: SyntheticEvent, newPage: any) =>
     this.setState({ onChangeEvent: newPage });
 
   render() {

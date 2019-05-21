@@ -1,4 +1,3 @@
-//@flow
 import React, { Component } from 'react';
 import { gridSize } from '@atlaskit/theme';
 import { HashRouter, Link, Route, Switch } from 'react-router-dom';
@@ -38,8 +37,12 @@ const Contact = () => (
   </div>
 );
 
+type Props = any & {
+  style: object;
+};
+
 function renderLink(pageType: string) {
-  return class extends Component<*> {
+  return class extends Component<Props> {
     render() {
       const { disabled, page, pages, selectedIndex, ...rest } = this.props;
       let href;
@@ -53,13 +56,18 @@ function renderLink(pageType: string) {
           selectedIndex < pages.length - 1 ? pages[selectedIndex + 1].href : '';
       }
       // We need this styling on the navigator since when using icons as children we need extra padding
-      if (pageType !== 'page') {
-        rest.style = {
-          paddingLeft: `${gridSize() / 2}px`,
-          paddingRight: `${gridSize() / 2}px`,
-        };
-      }
-      return disabled ? <div {...rest} /> : <Link {...rest} to={href} />;
+      const style =
+        pageType === 'page'
+          ? undefined
+          : {
+              paddingLeft: `${gridSize() / 2}px`,
+              paddingRight: `${gridSize() / 2}px`,
+            };
+      return disabled ? (
+        <div {...rest} style={style} />
+      ) : (
+        <Link {...rest} style={style} to={href} />
+      );
     }
   };
 }
@@ -67,12 +75,14 @@ function renderLink(pageType: string) {
 const PaginationWithSelectPage = ({
   pageSelected,
 }: {
-  pageSelected: number,
+  pageSelected: number;
 }) => (
   <div style={{ marginTop: `${gridSize() * 3} px` }}>
     <Pagination
       innerStyles={{ marginTop: '24px' }}
-      getPageLabel={page => (typeof page === 'object' ? page.label : page)}
+      getPageLabel={(page: any) =>
+        typeof page === 'object' ? page.label : page
+      }
       selectedIndex={pageSelected}
       pages={PAGES}
       components={{

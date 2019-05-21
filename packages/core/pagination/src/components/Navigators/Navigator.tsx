@@ -1,24 +1,24 @@
-//@flow
-import React from 'react';
+import React, { FC, SyntheticEvent, ComponentType } from 'react';
 import Button, { ButtonProps } from '@atlaskit/button';
 import { gridSize } from '@atlaskit/theme';
 
 export type NavigatorPropsType = {
   /** This will be passed in as aria-label to button. This is what screen reader will read */
-  'aria-label'?: string,
+  'aria-label'?: string;
   /** React node to render in the button, pass the text you want use to view on pagination button */
-  children?: any,
+  children?: any;
   /** Is the navigator disabled */
-  isDisabled?: boolean,
+  isDisabled?: boolean;
   /** This function is called with the when user clicks on navigator */
-  onClick?: Function,
+  onClick?: (event: SyntheticEvent) => void;
   /** Add the padding styles to the navigator
    * This can we used to add padding when displaying a icon
    */
-  styles?: Object,
+  styles?: Object;
+  component?: ComponentType<any>;
 };
 
-export default (props: ButtonProps) => (
+const Navigator: FC<ButtonProps> = props => (
   <Button
     {...props}
     appearance="subtle"
@@ -40,3 +40,5 @@ export default (props: ButtonProps) => (
     }}
   />
 );
+
+export default Navigator;

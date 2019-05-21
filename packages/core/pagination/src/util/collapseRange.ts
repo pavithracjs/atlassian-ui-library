@@ -1,17 +1,14 @@
-// @flow
-import type { Node } from 'react';
-
-export default function collapseRange(
-  pages: Array<Node>,
+export default function collapseRange<T>(
+  pages: Array<T>,
   current: number,
   {
     max,
     ellipsis,
   }: {
-    max: number,
-    ellipsis: ({ key: string }) => Node,
+    max: number;
+    ellipsis: (arg: { key: string }) => T;
   },
-): Array<Node> {
+): Array<T> {
   const total = pages.length;
   // only need ellipsis if we have more pages than we can display
   const needEllipsis = total > max;

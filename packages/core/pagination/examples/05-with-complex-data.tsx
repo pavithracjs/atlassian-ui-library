@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, SyntheticEvent } from 'react';
 import Pagination from '../src';
 
 const PAGES = [...Array(10)].map((_, i) => ({
@@ -9,9 +8,9 @@ const PAGES = [...Array(10)].map((_, i) => ({
 
 type StateType = {
   onChangeEvent: {
-    label: number,
-    href: string,
-  },
+    label: number;
+    href: string;
+  };
 };
 
 export default class extends Component<{}, StateType> {
@@ -22,7 +21,7 @@ export default class extends Component<{}, StateType> {
     },
   };
 
-  handleChange = (event: SyntheticEvent<>, newPage: any) =>
+  handleChange = (event: SyntheticEvent, newPage: any) =>
     this.setState({ onChangeEvent: newPage });
 
   getLabel = ({ label }: any) => label;
