@@ -199,8 +199,8 @@
     },
     {
       "name": "mention inside table",
-      "divergence": 0.045317185697808536,
-      "consistency": "95.47%"
+      "divergence": 0.04538638985005767,
+      "consistency": "95.46%"
     },
     {
       "name": "ordered list",
