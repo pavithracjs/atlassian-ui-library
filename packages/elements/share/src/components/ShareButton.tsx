@@ -7,7 +7,6 @@ export type Props = {
   isLoading?: boolean;
   isSelected?: boolean;
   isDisabled?: boolean;
-  isLoading?: boolean;
   onClick: (e: React.MouseEvent<HTMLElement>) => void;
   text?: React.ReactNode;
 };

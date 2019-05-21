@@ -23,6 +23,11 @@ import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
+export const defaultConfig: ConfigResponse = {
+  mode: 'EXISTING_USERS_ONLY',
+  allowComment: false,
+};
+
 export type Props = {
   /** Share service client implementation that gets share configs and performs share */
   client?: ShareClient;
@@ -108,11 +113,6 @@ const memoizedFormatCopyLink: (
 const getDefaultShareLink: () => string = () =>
   window ? window.location!.href : '';
 
-export const defaultConfig: ConfigResponse = {
-  mode: 'EXISTING_USERS_ONLY',
-  allowComment: false,
-};
-
 /**
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
@@ -141,6 +141,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       shareActionCount: 0,
       shareOrigin: null,
       config: defaultConfig,
+      isFetchingConfig: false,
     };
   }
 
@@ -176,30 +177,33 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   }
 
   fetchConfig = () => {
-    const fetchConfigPromise = this.client
-      .getConfig(this.props.productId, this.props.cloudId)
-      .then((config: ConfigResponse) => {
-        if (this._isMounted) {
-          // TODO: Send analytics event
-          this.setState({
-            config,
-            isFetchingConfig: false,
-          });
-        }
-      })
-      .catch(() => {
-        // TODO: Send analytics event
-        this.setState({ config: defaultConfig });
-      });
-
     this.setState(
       {
         isFetchingConfig: true,
       },
-      () => fetchConfigPromise,
+      () => {
+        this.client
+          .getConfig(this.props.productId, this.props.cloudId)
+          .then((config: ConfigResponse) => {
+            if (this._isMounted) {
+              // TODO: Send analytics event
+              this.setState({
+                config,
+                isFetchingConfig: false,
+              });
+            }
+          })
+          .catch(() => {
+            if (this._isMounted) {
+              // TODO: Send analytics event
+              this.setState({
+                config: defaultConfig,
+                isFetchingConfig: false,
+              });
+            }
+          });
+      },
     );
-
-    return fetchConfigPromise;
   };
 
   handleSubmitShare = ({

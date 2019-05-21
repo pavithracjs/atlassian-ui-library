@@ -122,8 +122,8 @@ describe('ShareDialogContainer', () => {
       wrapper.state().config,
     );
     expect(mockOriginTracingFactory).toHaveBeenCalledTimes(2);
-    expect(mockClient.getConfig).toHaveBeenCalledTimes(1);
-    expect(wrapper.state().config).toEqual(mockConfig);
+    expect(mockClient.getConfig).toHaveBeenCalledTimes(0);
+    expect(wrapper.state().config).toEqual(defaultConfig);
   });
 
   it('should call props.originTracingFactory if shareLink prop is updated', () => {
@@ -161,12 +161,41 @@ describe('ShareDialogContainer', () => {
     expect(client.share).toEqual(mockShare);
   });
 
+  describe('isFetchingConfig state', () => {
+    it('should be false by default', () => {
+      expect((wrapper.state() as State).isFetchingConfig).toBe(false);
+    });
+
+    it('should be passed into isFetchingConfig prop in ShareDialogWithTrigger', () => {
+      let { isFetchingConfig }: Partial<State> = wrapper.state();
+      expect(isFetchingConfig).toEqual(false);
+      expect(
+        wrapper.find(ShareDialogWithTrigger).prop('isFetchingConfig'),
+      ).toEqual(isFetchingConfig);
+
+      (wrapper as any).setState({ isFetchingConfig: !isFetchingConfig });
+
+      expect(
+        wrapper.find(ShareDialogWithTrigger).prop('isFetchingConfig'),
+      ).toEqual(!isFetchingConfig);
+    });
+
+    it('should be set to true when fetchConfig is called, and set back to false when the network request is finished', async () => {
+      wrapper.instance().fetchConfig();
+      expect(wrapper.state().isFetchingConfig).toBe(true);
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(wrapper.state().isFetchingConfig).toBe(false);
+    });
+  });
+
   it('should reset the state.config to default config if client.getConfig failed', async () => {
     mockGetConfig.mockRejectedValueOnce(new Error('error'));
     wrapper.setState({ config: mockConfig });
     wrapper.instance().fetchConfig();
+    expect(wrapper.state().isFetchingConfig).toBe(true);
     await new Promise(resolve => setTimeout(resolve, 0));
     expect(wrapper.state().config).toMatchObject(defaultConfig);
+    expect(wrapper.state().isFetchingConfig).toBe(false);
   });
 
   describe('handleSubmitShare', () => {
