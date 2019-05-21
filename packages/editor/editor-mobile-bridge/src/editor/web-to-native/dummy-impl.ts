@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
-import { Color as StatusColor } from '@atlaskit/status';
+// tslint:disable:no-console
+import { Color as StatusColor } from '@atlaskit/status/element';
 import { EditorBridges, EditorPluginBridges } from './index';
 import NativeBridge from './bridge';
 import { sendToBridge } from '../../bridge-utils';
