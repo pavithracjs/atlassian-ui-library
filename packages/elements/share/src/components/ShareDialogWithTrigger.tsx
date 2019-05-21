@@ -161,9 +161,10 @@ class ShareDialogWithTriggerInternal extends React.Component<
         case 'Escape':
           // react-select will always capture the event via onKeyDown
           // and trigger event.preventDefault()
-          const isKeyPressedOnContainer =
+          const isKeyPressedOnContainer = !!(
             this.containerRef.current &&
-            this.containerRef.current == event.target;
+            this.containerRef.current == event.target
+          );
 
           // we DO NOT expect any prevent default behavior on the container itself
           // the defaultPrevented check will happen only if the key press occurs on the container's children

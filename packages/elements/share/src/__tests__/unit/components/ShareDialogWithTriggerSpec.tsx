@@ -380,12 +380,20 @@ describe('ShareDialogWithTrigger', () => {
   });
 
   describe('handleKeyDown', () => {
+    const mockTarget = document.createElement('div');
+
+    beforeEach(() => {
+      wrapper.instance().containerRef = { current: mockTarget };
+      wrapper.instance().forceUpdate();
+    });
+
     it('should clear the state if an escape key is pressed down if event.preventDefault is false', () => {
       const escapeKeyDownEvent: Partial<KeyboardEvent> = {
-        target: document,
+        target: document.createElement('div'),
         type: 'keydown',
         key: 'Escape',
         stopPropagation: jest.fn(),
+        defaultPrevented: false,
       };
       const mockShareData: ShareData = {
         users: [
@@ -415,7 +423,7 @@ describe('ShareDialogWithTrigger', () => {
 
     it('should not clear the state if an escape key is pressed if event.preventDefault is true', () => {
       const escapeKeyDownEvent: Partial<KeyboardEvent> = {
-        target: document,
+        target: document.createElement('div'),
         type: 'keydown',
         key: 'Escape',
         stopPropagation: jest.fn(),
@@ -441,6 +449,40 @@ describe('ShareDialogWithTrigger', () => {
       wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
       expect(escapeKeyDownEvent.stopPropagation).not.toHaveBeenCalled();
       expect(wrapper.state() as State).toMatchObject(state);
+    });
+
+    it('should clear the state if an escape key is pressed down on the container regardless of the event.preventDefault value', () => {
+      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
+        target: mockTarget,
+        type: 'keydown',
+        key: 'Escape',
+        stopPropagation: jest.fn(),
+        defaultPrevented: true,
+      };
+      const mockShareData: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      wrapper.setState({
+        isDialogOpen: true,
+        ignoreIntermediateState: false,
+        defaultValue: mockShareData,
+        shareError: new Error('unable to share'),
+      });
+      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
+      expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
+      expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
+      expect((wrapper.state() as State).defaultValue).toEqual(
+        defaultShareContentState,
+      );
+      expect((wrapper.state() as State).shareError).toBeUndefined();
     });
   });
 
