@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import {
   getSelectorForTableCell,
@@ -20,7 +21,7 @@ describe('Floating toolbars:', () => {
 
   afterEach(async () => {
     // currently set high need to revisit
-    await snapshot(page, 0.02);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('should render the table toolbar', async () => {
