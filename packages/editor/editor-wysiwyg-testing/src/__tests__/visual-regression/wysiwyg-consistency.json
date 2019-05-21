@@ -19,8 +19,8 @@
     },
     {
       "name": "actions inside table",
-      "divergence": 0.04683312743514207,
-      "consistency": "95.32%"
+      "divergence": 0.04666682504989072,
+      "consistency": "95.33%"
     },
     {
       "name": "blockquote",
@@ -39,8 +39,8 @@
     },
     {
       "name": "blockquote inside table",
-      "divergence": 0.21487427031881454,
-      "consistency": "78.51%"
+      "divergence": 0.21479194731327644,
+      "consistency": "78.52%"
     },
     {
       "name": "bullet list",
@@ -59,8 +59,8 @@
     },
     {
       "name": "bullet list inside table",
-      "divergence": 0.016552310824756646,
-      "consistency": "98.34%"
+      "divergence": 0.016536970406939445,
+      "consistency": "98.35%"
     },
     {
       "name": "codeblock",
@@ -79,7 +79,7 @@
     },
     {
       "name": "codeblock inside table",
-      "divergence": 0.028946190348285432,
+      "divergence": 0.028896946906616528,
       "consistency": "97.11%"
     },
     {
@@ -99,8 +99,8 @@
     },
     {
       "name": "date inside table",
-      "divergence": 0.050063437139561705,
-      "consistency": "94.99%"
+      "divergence": 0.049936562860438294,
+      "consistency": "95.01%"
     },
     {
       "name": "decisions",
@@ -119,7 +119,7 @@
     },
     {
       "name": "decisions inside table",
-      "divergence": 0.04832984890240426,
+      "divergence": 0.048277582438468115,
       "consistency": "95.17%"
     },
     {
@@ -139,13 +139,13 @@
     },
     {
       "name": "divider inside table",
-      "divergence": 0.0222473604826546,
-      "consistency": "97.78%"
+      "divergence": 0.022128851540616248,
+      "consistency": "97.79%"
     },
     {
       "name": "emoji",
-      "divergence": 0.01318785578747628,
-      "consistency": "98.68%"
+      "divergence": 0.02760910815939279,
+      "consistency": "97.24%"
     },
     {
       "name": "emoji inside columns",
@@ -159,8 +159,8 @@
     },
     {
       "name": "emoji inside table",
-      "divergence": 0.06347750865051903,
-      "consistency": "93.65%"
+      "divergence": 0.06085928489042676,
+      "consistency": "93.91%"
     },
     {
       "name": "heading",
@@ -179,8 +179,8 @@
     },
     {
       "name": "heading inside table",
-      "divergence": 0.054513314277117496,
-      "consistency": "94.55%"
+      "divergence": 0.057698961937716266,
+      "consistency": "94.23%"
     },
     {
       "name": "mention",
@@ -199,7 +199,7 @@
     },
     {
       "name": "mention inside table",
-      "divergence": 0.04544405997693195,
+      "divergence": 0.04538638985005767,
       "consistency": "95.46%"
     },
     {
@@ -219,7 +219,7 @@
     },
     {
       "name": "ordered list inside table",
-      "divergence": 0.018096114690541936,
+      "divergence": 0.018080774272724736,
       "consistency": "98.19%"
     },
     {
@@ -244,8 +244,8 @@
     },
     {
       "name": "paragraph inside table",
-      "divergence": 0.2267474928902859,
-      "consistency": "77.33%"
+      "divergence": 0.20741281245322557,
+      "consistency": "79.26%"
     },
     {
       "name": "status",
@@ -264,12 +264,12 @@
     },
     {
       "name": "status inside table",
-      "divergence": 0.05376585928489043,
-      "consistency": "94.62%"
+      "divergence": 0.055351787773933105,
+      "consistency": "94.46%"
     },
     {
       "name": "table",
-      "divergence": 0.0508262424466642,
+      "divergence": 0.05075841657417684,
       "consistency": "94.92%"
     }
   ]

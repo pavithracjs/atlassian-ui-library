@@ -12,11 +12,11 @@
   ],
   "main": "index.js",
   "devDependencies": {
-    "@atlaskit/adf-utils": "^6.0.5",
+    "@atlaskit/adf-utils": "^6.1.0",
     "@atlaskit/analytics-reporting": "0.1.0",
-    "@atlaskit/editor-common": "^39.2.0",
-    "@atlaskit/editor-core": "^111.0.0",
-    "@atlaskit/renderer": "^48.1.0",
+    "@atlaskit/editor-common": "^39.4.0",
+    "@atlaskit/editor-core": "^112.2.7",
+    "@atlaskit/renderer": "^48.3.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "pixelmatch": "^4.0.2",
     "pngjs": "^3.4.0"
