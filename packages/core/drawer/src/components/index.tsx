@@ -1,6 +1,10 @@
-// @flow
-
-import React, { Children, Component, Fragment, type Node } from 'react';
+import React, {
+  Children,
+  Component,
+  Fragment,
+  FC,
+  SyntheticEvent,
+} from 'react';
 import { canUseDOM } from 'exenv';
 import Portal from '@atlaskit/portal';
 import { ThemeProvider } from 'styled-components';
@@ -9,7 +13,7 @@ import {
   createAndFireEvent,
   withAnalyticsEvents,
   withAnalyticsContext,
-  type WithAnalyticsEventsProps,
+  WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
 import Blanket from '@atlaskit/blanket';
 import {
@@ -19,17 +23,15 @@ import {
 import drawerItemTheme from '../theme/drawer-item-theme';
 import DrawerPrimitive from './primitives';
 import { Fade } from './transitions';
-import type { CloseTrigger, DrawerProps } from './types';
+import { CloseTrigger, DrawerProps } from './types';
 
-const OnlyChild = ({ children }) => Children.toArray(children)[0] || null;
+const OnlyChild: FC<any> = ({ children }) =>
+  Children.toArray(children)[0] || null;
 
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 const createAndFireOnClick = (
-  createAnalyticsEvent: $PropertyType<
-    WithAnalyticsEventsProps,
-    'createAnalyticsEvent',
-  >,
+  createAnalyticsEvent: WithAnalyticsEventProps['createAnalyticsEvent'],
   trigger: CloseTrigger,
 ) =>
   createAndFireEventOnAtlaskit({
@@ -54,7 +56,8 @@ export class DrawerBase extends Component<DrawerProps> {
     const { isOpen } = this.props;
 
     if (isOpen) {
-      window.addEventListener('keydown', this.handleKeyDown);
+      window.addEventListener('keydown', this
+        .handleKeyDown as EventListenerOrEventListenerObject);
     }
   }
 
@@ -73,18 +76,15 @@ export class DrawerBase extends Component<DrawerProps> {
     }
   }
 
-  handleBlanketClick = (event: SyntheticMouseEvent<*>) => {
+  private handleBlanketClick = (event: SyntheticEvent) => {
     this.handleClose(event, 'blanket');
   };
 
-  handleBackButtonClick = (event: SyntheticMouseEvent<*>) => {
+  private handleBackButtonClick = (event: SyntheticEvent) => {
     this.handleClose(event, 'backButton');
   };
 
-  handleClose = (
-    event: SyntheticKeyboardEvent<*> | SyntheticMouseEvent<*>,
-    trigger: CloseTrigger,
-  ) => {
+  private handleClose = (event: SyntheticEvent, trigger: CloseTrigger) => {
     const { createAnalyticsEvent, onClose } = this.props;
 
     const analyticsEvent = createAndFireOnClick(createAnalyticsEvent, trigger);
@@ -94,14 +94,14 @@ export class DrawerBase extends Component<DrawerProps> {
     }
   };
 
-  handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
+  handleKeyDown = (event: KeyboardEvent) => {
     const { isOpen, onKeyDown } = this.props;
 
     if (event.key === 'Escape' && isOpen) {
-      this.handleClose(event, 'escKey');
+      this.handleClose((event as unknown) as React.KeyboardEvent, 'escKey');
     }
     if (onKeyDown) {
-      onKeyDown(event);
+      onKeyDown((event as unknown) as React.KeyboardEvent);
     }
   };
 

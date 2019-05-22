@@ -1,17 +1,16 @@
-// @flow
-
-import React, { type Node } from 'react';
+import React, { ReactChildren } from 'react';
 import { ItemGroup } from '@atlaskit/item';
-import { fontSizeSmall, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme';
+import { fontSizeSmall } from '@atlaskit/theme/constants';
 
 type Props = {
   /** React Elements to be displayed within the group. This should generally be
    a collection of NavigationItems. */
-  children?: Node,
+  children?: ReactChildren;
   /** Set whether the text should be compacted. */
-  isCompact?: boolean,
+  isCompact?: boolean;
   /** Text to appear as heading above group. Will be auto-capitalised. */
-  title?: string,
+  title?: string;
 };
 
 const groupTitleFontSize = fontSizeSmall();

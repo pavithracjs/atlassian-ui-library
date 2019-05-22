@@ -1,5 +1,8 @@
 import { ComponentType, SyntheticEvent } from 'react';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import {
+  WithAnalyticsEventProps,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
 export type Widths = {
   full: string;
@@ -32,7 +35,10 @@ export type DrawerProps = BaseProps &
     /**
       Callback function to be called when the drawer will be closed.
     */
-    onClose?: (event: SyntheticEvent) => void;
+    onClose?: (
+      event: SyntheticEvent,
+      analyticsEvent?: UIAnalyticsEvent,
+    ) => void;
     /** A callback function that will be called when the drawer has finished its close transition. */
     onCloseComplete?: (node: HTMLElement) => void;
     /**

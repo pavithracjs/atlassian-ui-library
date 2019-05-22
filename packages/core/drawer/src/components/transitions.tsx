@@ -76,7 +76,7 @@ class TransitionHandler extends Component<TransitionProps & HandlerProps> {
   }
 }
 
-export const Fade = ({ ...props }: TransitionProps) => (
+export const Fade: FC<TransitionProps> = ({ ...props }) => (
   <TransitionHandler
     defaultStyles={{
       transition: `opacity ${transitionDurationMs}ms ${transitionTimingFunction}`,
