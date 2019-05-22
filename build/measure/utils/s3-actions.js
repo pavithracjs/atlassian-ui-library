@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const npmRun = require('npm-run');
 const chalk = require('chalk').default;
+const { fExists } = require('./fs');
 
 const masterStatsFolder = createDir('./.masterBundleSize');
 const currentStatsFolder = createDir('./.currentBundleSize');
@@ -13,7 +14,7 @@ const BUCKET_NAME = 'atlaskit-artefacts';
 const BUCKET_REGION = 'ap-southeast-2';
 
 function createDir(dir) {
-  if (!fs.existsSync(dir)) {
+  if (!fExists(dir)) {
     fs.mkdirSync(dir);
   }
   return dir;
@@ -34,36 +35,19 @@ function isAWSAccessible() {
   return true;
 }
 
-function downloadFromS3(pathToFolder, branch) {
+function downloadFromS3(downloadToFolder, branch, package) {
   if (!isAWSAccessible()) {
     process.exit(1);
   }
 
-  (async () => {
-    const workspaces = await bolt.getWorkspaces();
-    // We'll add the relativeDir's to these so we have more information to work from later
-    const packages = workspaces
-      .filter(ws => ws.dir.includes('/packages/'))
-      .map(
-        pkg => `${pkg.name.replace('@atlaskit/', '')}-bundle-size-ratchet.json`,
-      );
+  const ratchetFile = `${package}-bundle-size-ratchet.json`;
+  const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
 
-    // TODO: Changes pkgs is not returning all changed pkgs
-    // console.log(process.env.CHANGED_PACKAGES);
-    // const changedPkg = process.env.CHANGED_PACKAGES
-    //   ? JSON.parse(process.env.CHANGED_PACKAGES).map(
-    //       pkg => `${pkg.split('/').reverse()[0]}-bundle-size-ratchet.json`,
-    //     )
-    //   : packages;
+  console.log('bucket', bucketPath);
 
-    packages.forEach(ratchetFile => {
-      const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
-
-      npmRun.sync(
-        `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${pathToFolder}/${ratchetFile}`,
-      );
-    });
-  })();
+  npmRun.sync(
+    `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
+  );
 }
 
 function uploadToS3(pathToFile, branch) {
@@ -79,7 +63,6 @@ function uploadToS3(pathToFile, branch) {
 
   const fileName = path.basename(pathToFile);
   const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${fileName}`;
-  console.log(`${BUCKET_REGION} put ${pathToFile} ${bucketPath}`);
 
   npmRun.sync(
     `s3-cli --region="${BUCKET_REGION}" put ${pathToFile} ${bucketPath}`,
@@ -90,8 +73,8 @@ function uploadToS3(pathToFile, branch) {
 }
 
 module.exports = {
-  masterStatsFolder,
   currentStatsFolder,
-  uploadToS3,
   downloadFromS3,
+  masterStatsFolder,
+  uploadToS3,
 };

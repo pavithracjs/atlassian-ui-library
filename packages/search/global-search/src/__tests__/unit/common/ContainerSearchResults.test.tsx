@@ -42,21 +42,41 @@ import JiraAdvancedSearchGroup from '../../../components/jira/JiraAdvancedSearch
 import StickyFooter from '../../../components/common/StickyFooter';
 import { QuickSearchContext } from '../../../api/types';
 
-const issues = [
+const getIssues = (searchSessionId: string) => [
   makeJiraObjectResult({
     contentType: ContentType.JiraIssue,
+    href: `href?searchSessionId=${searchSessionId}&searchContentType=issue&searchObjectId=resultId`,
   }),
   makeJiraObjectResult({
     contentType: ContentType.JiraIssue,
+    href: `href?searchSessionId=${searchSessionId}&searchContentType=issue&searchObjectId=resultId`,
   }),
 ];
-const boards = [
+
+const getBoards = (searchSessionId: string) => [
   makeJiraObjectResult({
     contentType: ContentType.JiraBoard,
+    href: `href?searchSessionId=${searchSessionId}&searchContentType=board&searchObjectId=resultId`,
   }),
 ];
+
 const spaceResults = [makeConfluenceContainerResult()];
-const recentlyInteractedPeople = [makePersonResult()];
+
+const getRecentlyInteractedPeople = (
+  searchSessionId: string,
+  product: QuickSearchContext,
+) => {
+  const href =
+    product === 'jira'
+      ? `href?searchSessionId=${searchSessionId}`
+      : `href?search_id=${searchSessionId}`;
+  return [
+    makePersonResult({
+      resultId: 'resultId',
+      href,
+    }),
+  ];
+};
 
 const abTest = {
   experimentId: 'test-experiement-id',
@@ -88,6 +108,7 @@ const renderComponent = (product: QuickSearchContext) => {
     useAggregatorForConfluenceObjects: false,
     useCPUSForPeopleResults: false,
     fasterSearchFFEnabled: false,
+    useUrsForBootstrapping: false,
   };
   return product === 'jira'
     ? renderJiraQuickSearchContainer(props)
@@ -187,13 +208,13 @@ const getSearchAndRecentItems = (
       ...commonProps,
       ...extraProps,
       searchResults: {
-        objects: issues,
-        containers: boards,
+        objects: getIssues(sessionId),
+        containers: getBoards(sessionId),
       },
       recentItems: {
         objects: [],
         containers: [],
-        people: recentlyInteractedPeople,
+        people: getRecentlyInteractedPeople(sessionId, product),
       },
       abTest,
     };
@@ -208,13 +229,13 @@ const getSearchAndRecentItems = (
     recentItems: {
       objects: [],
       spaces: [],
-      people: recentlyInteractedPeople,
+      people: getRecentlyInteractedPeople(sessionId, product),
     },
     abTest,
   };
 };
 
-const getJiraPreqQueryResults = () => [
+const getJiraPreqQueryResults = (sessionId: string) => [
   {
     items: [],
     key: 'issues',
@@ -226,12 +247,12 @@ const getJiraPreqQueryResults = () => [
     title: messages.jira_recent_containers,
   },
   {
-    items: recentlyInteractedPeople,
+    items: getRecentlyInteractedPeople(sessionId, 'jira'),
     title: messages.jira_recent_people_heading,
     key: 'people',
   },
 ];
-const getConfluencePreQueryResults = () => [
+const getConfluencePreQueryResults = (sessionId: string) => [
   {
     items: [],
     key: 'objects',
@@ -243,15 +264,15 @@ const getConfluencePreQueryResults = () => [
     title: messages.confluence_recent_spaces_heading,
   },
   {
-    items: recentlyInteractedPeople,
+    items: getRecentlyInteractedPeople(sessionId, 'confluence'),
     title: messages.people_recent_people_heading,
     key: 'people',
   },
 ];
 
-const getJiraPostQueryResults = () => [
+const getJiraPostQueryResults = (sessionId: string) => [
   {
-    items: issues,
+    items: getIssues(sessionId),
     key: 'issues',
     title: messages.jira_search_result_issues_heading,
   },
@@ -270,7 +291,7 @@ const getJiraPostQueryResults = () => [
     title: undefined,
   },
   {
-    items: boards,
+    items: getBoards(sessionId),
     key: 'containers',
     title: messages.jira_search_result_containers_heading,
   },
@@ -298,15 +319,15 @@ const getConfluencePostQueryResults = () => [
   },
 ];
 
-const getPostQueryResults = (product: QuickSearchContext) =>
+const getPostQueryResults = (sessionId: string, product: QuickSearchContext) =>
   product === 'jira'
-    ? getJiraPostQueryResults()
+    ? getJiraPostQueryResults(sessionId)
     : getConfluencePostQueryResults();
 
-const getPreqQueryResults = (product: QuickSearchContext) =>
+const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
   product === 'jira'
-    ? getJiraPreqQueryResults()
-    : getConfluencePreQueryResults();
+    ? getJiraPreqQueryResults(sessionId)
+    : getConfluencePreQueryResults(sessionId);
 
 (['confluence', 'jira'] as Array<QuickSearchContext>).forEach(
   (product: QuickSearchContext) => {
@@ -390,14 +411,18 @@ const getPreqQueryResults = (product: QuickSearchContext) =>
         const { getPreQueryGroups } = getProps();
         const preQueryGroups = getPreQueryGroups();
 
-        expect(preQueryGroups).toMatchObject(getPreqQueryResults(product));
+        expect(preQueryGroups).toMatchObject(
+          getPreQueryResults(sessionId, product),
+        );
       });
 
       it('should return postQueryGroups', () => {
         getAdvancedSearchUrlSpy.mockReturnValue('jiraUrl');
         const { getPostQueryGroups } = getProps();
         const postQueryGroups = getPostQueryGroups();
-        expect(postQueryGroups).toMatchObject(getPostQueryResults(product));
+        expect(postQueryGroups).toMatchObject(
+          getPostQueryResults(sessionId, product),
+        );
       });
     });
   },

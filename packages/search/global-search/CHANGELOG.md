@@ -1,5 +1,19 @@
 # @atlaskit/global-search
 
+## 8.7.0
+- [minor] [a0940ca7ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0940ca7ca):
+
+  - Remove jira session id feature flags & fix bug where session ids are not attached to pre-fetched results
+
+## 8.6.2
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/feedback-collector@4.0.1
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/navigation@35.1.1
+  - @atlaskit/page@10.0.2
+  - @atlaskit/logo@12.0.0
+
 ## 8.6.1
 - [patch] [71f75b2699](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71f75b2699):
 

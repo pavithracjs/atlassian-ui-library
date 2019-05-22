@@ -144,7 +144,12 @@ export default class Example extends React.Component<{}, State> {
 
   key: number = 0;
 
-  getConfig = () => Promise.resolve(this.state);
+  getConfig = (product: string, cloudId: string): Promise<ConfigResponse> =>
+    new Promise(resolve => {
+      setTimeout(() => {
+        resolve(this.state);
+      }, 1000);
+    });
 
   share = (
     _content: Content,

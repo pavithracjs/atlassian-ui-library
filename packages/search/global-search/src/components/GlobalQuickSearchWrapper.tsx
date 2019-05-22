@@ -123,11 +123,6 @@ export interface Props {
   isAutocompleteEnabled?: boolean;
 
   /**
-   * Indicates whether to add sessionId to jira result query param
-   */
-  addSessionIdToJiraResult?: boolean;
-
-  /**
    * Indicates whether to disable Jira people search on the pre-query screen
    */
   disableJiraPreQueryPeopleSearch?: boolean;
@@ -163,6 +158,11 @@ export interface Props {
    * This is used for Confluence only.
    */
   fasterSearchFFEnabled?: boolean;
+
+  /**
+   * Determine whether to enable urs for bootstrapping people search.
+   */
+  useUrsForBootstrapping?: boolean;
 }
 
 /**
@@ -180,7 +180,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       searchAggregatorServiceUrl,
       directoryServiceUrl,
       confluenceUrl,
-      addSessionIdToJiraResult,
       autocompleteUrl,
     } = this.props;
 
@@ -203,8 +202,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     if (autocompleteUrl) {
       config.autocompleteUrl = autocompleteUrl;
     }
-
-    config.addSessionIdToJiraResult = addSessionIdToJiraResult;
 
     return config;
   }
@@ -276,6 +273,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               appPermission,
               fasterSearchFFEnabled,
               isAutocompleteEnabled,
+              useUrsForBootstrapping,
             } = this.props;
 
             return (
@@ -293,6 +291,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 appPermission={appPermission}
                 fasterSearchFFEnabled={fasterSearchFFEnabled}
                 isAutocompleteEnabled={isAutocompleteEnabled}
+                useUrsForBootstrapping={useUrsForBootstrapping}
               />
             );
           }}

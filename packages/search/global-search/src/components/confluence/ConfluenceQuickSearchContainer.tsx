@@ -62,6 +62,7 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
   logger: Logger;
   fasterSearchFFEnabled: boolean;
+  useUrsForBootstrapping: boolean;
   onAdvancedSearch?: (
     e: CancelableEvent,
     entity: string,
@@ -237,13 +238,32 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
+  getRecentPeople = (sessionId: string): Promise<Result[]> => {
+    const {
+      peopleSearchClient,
+      crossProductSearchClient,
+      useUrsForBootstrapping,
+    } = this.props;
+
+    // We want to be consistent with the search results when prefetching is enabled so we will use URS (via aggregator) to get the
+    // bootstrapped people results, see prefetchResults.ts.
+    return !useUrsForBootstrapping
+      ? peopleSearchClient.getRecentPeople()
+      : crossProductSearchClient
+          .getPeople('', sessionId, 'confluence', 3)
+          .then(
+            xProductResult =>
+              xProductResult.results.get(Scope.UserConfluence) || [],
+          );
+  };
+
   getRecentItems = (sessionId: string): Promise<ResultsWithTiming> => {
-    const { confluenceClient, peopleSearchClient } = this.props;
+    const { confluenceClient } = this.props;
 
     const recentActivityPromisesMap = {
       'recent-confluence-items': confluenceClient.getRecentItems(sessionId),
       'recent-confluence-spaces': confluenceClient.getRecentSpaces(sessionId),
-      'recent-people': peopleSearchClient.getRecentPeople(),
+      'recent-people': this.getRecentPeople(sessionId),
     };
 
     const recentActivityPromises: Promise<Result[]>[] = (Object.keys(
@@ -286,7 +306,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   getPreQueryDisplayedResults = (
     recentItems: ConfluenceResultsMap,
     abTest: ABTest,
-  ) => mapRecentResultsToUIGroups(recentItems, abTest);
+    searchSessionId: string,
+  ) => mapRecentResultsToUIGroups(recentItems, abTest, searchSessionId);
 
   getPostQueryDisplayedResults = (
     searchResults: ConfluenceResultsMap,
@@ -374,6 +395,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           this.getPreQueryDisplayedResults(
             recentItems as ConfluenceResultsMap,
             abTest,
+            searchSessionId,
           )
         }
         getPostQueryGroups={() =>

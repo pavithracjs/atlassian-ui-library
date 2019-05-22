@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.3.2
+- [patch] [ec1d1861bc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec1d1861bc):
+
+  - ED-6910: disabled sourcemaps in production
+
 ## 8.3.1
 - [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
 

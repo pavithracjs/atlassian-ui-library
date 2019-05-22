@@ -76,11 +76,11 @@ const tableSharedStyle = css`
       }
       th td {
         background-color: white;
-        font-weight: normal;
       }
       th,
       td {
         min-width: ${tableCellMinWidth}px;
+        font-weight: normal;
         vertical-align: top;
         border: 1px solid ${themed({
           light: akEditorTableBorder,
@@ -103,12 +103,6 @@ const tableSharedStyle = css`
           dark: akEditorTableToolbarDark,
         })};
         text-align: left;
-        & *:not(strong) {
-          font-weight: normal;
-        }
-        & .${TableSharedCssClassName.TABLE_CELL_NODEVIEW_CONTENT_DOM} > p {
-          font-weight: bold;
-        }
 
         .code-block {
           /*

@@ -5,6 +5,15 @@ import Editor from '../../editor';
 import { EditorView } from 'prosemirror-view';
 import Button from '@atlaskit/button';
 import { insertText, sendKeyToPm } from '@atlaskit/editor-test-helpers';
+import FabricAnalyticsListeners, {
+  AnalyticsWebClient,
+} from '@atlaskit/analytics-listeners';
+import {
+  GasPurePayload,
+  GasPureScreenEventPayload,
+} from '@atlaskit/analytics-gas-types/index';
+import { EDITOR_APPEARANCE_CONTEXT } from '@atlaskit/analytics-namespaced-context/index';
+import { EditorAppearance } from '../../types';
 
 describe(name, () => {
   describe('Editor', () => {
@@ -77,6 +86,81 @@ describe(name, () => {
 
         sendKeyToPm(editorView, 'Mod-Enter');
         expect(handleSave).toHaveBeenCalled();
+      });
+    });
+
+    describe('analytics', () => {
+      const mockAnalyticsClient = (
+        analyticsAppearance: EDITOR_APPEARANCE_CONTEXT,
+        done: jest.DoneCallback,
+      ): AnalyticsWebClient => {
+        const analyticsEventHandler = (
+          event: GasPurePayload | GasPureScreenEventPayload,
+        ) => {
+          expect(event.attributes).toMatchObject({
+            appearance: analyticsAppearance,
+          });
+          done();
+        };
+
+        return {
+          sendUIEvent: analyticsEventHandler,
+          sendOperationalEvent: analyticsEventHandler,
+          sendTrackEvent: analyticsEventHandler,
+          sendScreenEvent: analyticsEventHandler,
+        };
+      };
+
+      const appearances: {
+        appearance: EditorAppearance;
+        analyticsAppearance: EDITOR_APPEARANCE_CONTEXT;
+      }[] = [
+        {
+          appearance: 'full-page',
+          analyticsAppearance: EDITOR_APPEARANCE_CONTEXT.FIXED_WIDTH,
+        },
+        {
+          appearance: 'comment',
+          analyticsAppearance: EDITOR_APPEARANCE_CONTEXT.COMMENT,
+        },
+        {
+          appearance: 'full-width',
+          analyticsAppearance: EDITOR_APPEARANCE_CONTEXT.FULL_WIDTH,
+        },
+      ];
+      appearances.forEach(appearance => {
+        it(`adds appearance analytics context to all editor events for ${
+          appearance.appearance
+        } editor`, done => {
+          // editor fires an editor started event that should trigger the listener from
+          // just mounting the component
+          mount(
+            <FabricAnalyticsListeners
+              client={mockAnalyticsClient(appearance.analyticsAppearance, done)}
+            >
+              <Editor appearance={appearance.appearance} allowAnalyticsGASV3 />
+            </FabricAnalyticsListeners>,
+          );
+        });
+      });
+
+      it('should update appearance used in events when change appearance prop', done => {
+        const wrapper = mount(
+          <FabricAnalyticsListeners
+            client={mockAnalyticsClient(
+              EDITOR_APPEARANCE_CONTEXT.FULL_WIDTH,
+              done,
+            )}
+          >
+            <Editor appearance="full-page" allowAnalyticsGASV3 />
+          </FabricAnalyticsListeners>,
+        );
+
+        // toggling full-width mode triggers a changedFullWidthMode analytics event
+        // which should have the new appearance
+        wrapper.setProps({
+          children: <Editor appearance="full-width" allowAnalyticsGASV3 />,
+        });
       });
     });
   });

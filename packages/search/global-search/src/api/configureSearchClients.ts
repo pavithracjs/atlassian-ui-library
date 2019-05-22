@@ -36,7 +36,6 @@ export interface Config {
   confluenceUrl: string;
   jiraUrl: string;
   autocompleteUrl: string;
-  addSessionIdToJiraResult?: boolean;
 }
 
 const defaultConfig: Config = {
@@ -46,7 +45,6 @@ const defaultConfig: Config = {
   confluenceUrl: '/wiki',
   jiraUrl: '',
   autocompleteUrl: '/gateway/api/ccsearch-autocomplete',
-  addSessionIdToJiraResult: false,
 };
 
 function configureSearchClients(
@@ -75,7 +73,6 @@ function configureSearchClients(
     crossProductSearchClient: new CachingCrossProductSearchClientImpl(
       config.searchAggregatorServiceUrl,
       cloudId,
-      config.addSessionIdToJiraResult,
       prefetchedResults ? prefetchedResults.abTestPromise : undefined,
     ),
     peopleSearchClient: new CachingPeopleSearchClient(
@@ -87,15 +84,11 @@ function configureSearchClients(
       config.confluenceUrl,
       confluencePrefetchedResults,
     ),
-    jiraClient: new JiraClientImpl(
-      config.jiraUrl,
-      cloudId,
-      config.addSessionIdToJiraResult,
-    ),
     autocompleteClient: new AutoCompleteClientImpl(
       config.autocompleteUrl,
       cloudId,
     ),
+    jiraClient: new JiraClientImpl(config.jiraUrl, cloudId),
   };
 }
 

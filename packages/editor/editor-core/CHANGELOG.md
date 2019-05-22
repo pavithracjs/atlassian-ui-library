@@ -1,5 +1,91 @@
 # @atlaskit/editor-core
 
+## 112.5.1
+- [patch] [a511611473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a511611473):
+
+  - ED-6808: Fix issue where toggling the same mark but different attributes would just remove the mark.
+
+## 112.5.0
+- [minor] [9be684e931](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9be684e931):
+
+  - ED-5782 Replace text-color button with more easily identifiable A icon with colored bar.
+
+## 112.4.0
+- [minor] [d9f8b4d43d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9f8b4d43d):
+
+  - [ED-5505] Apply strong mark by default on table headers
+
+## 112.3.1
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/select@9.1.1
+  - @atlaskit/logo@12.0.0
+
+## 112.3.0
+- [minor] [f53003a5ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f53003a5ed):
+
+  - ED-6741 Add 'appearance' to all editor analytics events
+
+## 112.2.10
+- [patch] [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
+
+  -
+
+  - MediaPicker Clipboard component is now a React Component
+
+  These changes provide a new React api for Clipboard component. First one to be delivered, coming next we are going to ship Browser, Dropzone and Popup.
+
+  Previous plain javascript API usage:
+
+  ```typescript
+  // instanciate MediaPicker clipboard
+  const clipboardMediaPicker = await new MediaPicker(
+    'clipboard'
+    context,
+    config,
+  );
+
+  // usage
+  clipboardMediaPicker.on('uploads-start', onUploadsStart);
+  clipboardMediaPicker.on('upload-preview-update', onUploadPreviewUpdate);
+  clipboardMediaPicker.on('upload-status-update', onUploadStatusUpdate);
+  clipboardMediaPicker.on('upload-processing', onUploadProcessing);
+  clipboardMediaPicker.on('upload-end', onUploadEnd);
+  clipboardMediaPicker.on('upload-error', onUploadError);
+
+  // activation / deactivation programatically
+  clipboardMediaPicker.activate();
+  clipboardMediaPicker.deactivate();
+  ```
+
+  With the new React API we benefit from:
+  * No need to programatically activate/deactivate. We will just render the Clipboard component or not.
+  * Event handlers are provided by react props
+  * We don't need to use a MediaPicker constructor and specifiy which flavour we want (in this case 'clipboard'). We can basically `import { Clipboard } from '@atlaskit/media-picker'` directly and use it right away.
+
+  Example of new API:
+
+  ```typescript
+  import { Clipboard } from '@atlaskit/media-picker';
+
+  <Clipboard
+    context={context}
+    config={config}
+    onError={handleUploadError}
+    onPreviewUpdate={handleUploadPreviewUpdate}
+    onProcessing={handleReady}
+  />
+  ```
+
+  This is the first component we migrate fully and integrates seamlessly with the Editor. Follow up on this ticket to see what will be the next steps on this new API:
+  https://product-fabric.atlassian.net/browse/MS-1942
+
+## 112.2.9
+- [patch] [be2df0f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/be2df0f8e7):
+
+  - ED-6833: improve columns scaling by preventing table from going to overflow state
+
 ## 112.2.8
 - [patch] [ab278c83e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab278c83e1):
 

@@ -1,5 +1,15 @@
 # @atlaskit/media-ui
 
+## 11.2.1
+- [patch] [1c9586e1a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c9586e1a0):
+
+  - Reverted strings to the original format
+
+## 11.2.0
+- [minor] [061eb57bab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/061eb57bab):
+
+  - Added partial i18n support to media-ui
+
 ## 11.1.2
 - [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
 

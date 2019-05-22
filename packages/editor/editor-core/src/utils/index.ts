@@ -46,6 +46,7 @@ export {
 export * from './action';
 export * from './step';
 export * from './mark';
+export { isNodeTypeParagraph } from './nodes';
 
 export { JSONDocNode, JSONNode };
 
