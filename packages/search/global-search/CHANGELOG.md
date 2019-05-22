@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.8.0
+- [minor] [ef46265bcf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef46265bcf):
+
+  - Added support to make bootstrapping calls through URS instead of directory
+
 ## 8.7.0
 - [minor] [a0940ca7ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0940ca7ca):
 
