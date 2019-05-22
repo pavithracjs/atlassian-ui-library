@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import Lorem from 'react-lorem-component';
 import styled from 'styled-components';
@@ -6,7 +6,9 @@ import { elevation, borderRadius } from '@atlaskit/theme';
 
 import { Manager, Reference, Popper } from '../src';
 
-type PopupProps = { outOfBoundaries: boolean | null };
+interface PopupProps {
+  outOfBoundaries: boolean | null;
+}
 const Popup = styled.div`
   background: white;
   border: 2px solid red;
