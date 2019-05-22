@@ -1,7 +1,7 @@
-// @flow
-
 import { getExampleUrl } from '@atlaskit/visual-regression/helper';
 import { widths } from '../../../constants';
+
+declare var global: any;
 
 describe('Snapshot Test', () => {
   widths.forEach(async width => {

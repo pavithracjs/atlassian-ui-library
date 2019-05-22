@@ -1,19 +1,21 @@
-// @flow
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 
 import { Fade, Slide } from '../../transitions';
+import { TransitionProps } from 'react-transition-group/Transition';
 
 describe('Drawer Transitions', () => {
   describe('Slide', () => {
-    let wrapper;
+    let wrapper: ReactWrapper;
 
     beforeEach(() => {
       wrapper = mount(<Slide in test="some-test-data" />);
     });
 
     it('should use the default styles to start the animation', () => {
-      const { defaultStyles } = wrapper.find('TransitionHandler').props();
+      const { defaultStyles } = wrapper
+        .find('TransitionHandler')
+        .props() as TransitionProps;
 
       expect(defaultStyles).toMatchObject({
         transition:
@@ -28,7 +30,9 @@ describe('Drawer Transitions', () => {
     });
 
     it('should use the transition styles', () => {
-      const { transitionStyles } = wrapper.find('TransitionHandler').props();
+      const { transitionStyles } = wrapper
+        .find('TransitionHandler')
+        .props() as TransitionProps;
 
       expect(transitionStyles).toMatchObject({
         entered: { transform: null },
@@ -37,13 +41,17 @@ describe('Drawer Transitions', () => {
     });
 
     it('should set "unmountOnExit" to true as default', () => {
-      const { unmountOnExit } = wrapper.find('Transition').props();
+      const { unmountOnExit } = wrapper
+        .find('Transition')
+        .props() as TransitionProps;
 
       expect(unmountOnExit).toBeTruthy();
     });
 
     it('should update "unmountOnExit"', () => {
-      const { unmountOnExit } = mount(<Slide in shouldUnmountOnExit={false} />);
+      const { unmountOnExit } = mount(
+        <Slide in shouldUnmountOnExit={false} />,
+      ) as any;
 
       expect(unmountOnExit).toBeFalsy();
     });
@@ -57,14 +65,16 @@ describe('Drawer Transitions', () => {
   });
 
   describe('Fade', () => {
-    let wrapper;
+    let wrapper: ReactWrapper;
 
     beforeEach(() => {
       wrapper = mount(<Fade in test="some-test-data" />);
     });
 
     it('should use the default styles to start the animation', () => {
-      const { defaultStyles } = wrapper.find('TransitionHandler').props();
+      const { defaultStyles } = wrapper
+        .find('TransitionHandler')
+        .props() as TransitionProps;
 
       expect(defaultStyles).toMatchObject({
         opacity: 0,
@@ -79,7 +89,9 @@ describe('Drawer Transitions', () => {
     });
 
     it('should use the transition styles', () => {
-      const { transitionStyles } = wrapper.find('TransitionHandler').props();
+      const { transitionStyles } = wrapper
+        .find('TransitionHandler')
+        .props() as TransitionProps;
 
       expect(transitionStyles).toMatchObject({
         entering: { opacity: 0 },
@@ -88,7 +100,9 @@ describe('Drawer Transitions', () => {
     });
 
     it('should set "unmountOnExit" to true as default', () => {
-      const { unmountOnExit } = wrapper.find('Transition').props();
+      const { unmountOnExit } = wrapper
+        .find('Transition')
+        .props() as TransitionProps;
 
       expect(unmountOnExit).toBeTruthy();
     });

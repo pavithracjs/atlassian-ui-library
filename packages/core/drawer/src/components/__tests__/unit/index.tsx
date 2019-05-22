@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import { mount } from 'enzyme';
 import Blanket from '@atlaskit/blanket';
@@ -8,13 +6,15 @@ import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Drawer from '../../index';
 import DrawerPrimitive from '../../primitives';
 
-const findKeydownListenerCall = listenerFn =>
-  listenerFn.mock.calls.find(e => e[0] === 'keydown');
+declare var global: any;
+
+const findKeydownListenerCall = (listenerFn: any) =>
+  listenerFn.mock.calls.find((e: any) => e[0] === 'keydown');
 
 const escKeyDown = () => {
-  const event = document.createEvent('Events');
+  const event = document.createEvent('Events') as any;
   event.initEvent('keydown', true, true);
-  // $FlowFixMe
+
   event.key = 'Escape';
   global.window.dispatchEvent(event);
 };
@@ -153,7 +153,7 @@ describe('Drawer Transitions', () => {
   it('should call onClose when custom back button is clicked', () => {
     const onClose = jest.fn();
     const wrapper = mount(
-      <Drawer isOpen icon={EmojiIcon} onClose={onClose} width="wide">
+      <Drawer isOpen icon={EmojiIcon as any} onClose={onClose} width="wide">
         <code>Drawer contents</code>
       </Drawer>,
     );
@@ -172,11 +172,9 @@ describe('Drawer Transitions', () => {
     );
 
     const node = 'div';
-    const callsBeforeOnCloseComplete = [].concat(onCloseComplete.mock.calls);
-    wrapper
-      .find(DrawerPrimitive)
-      .props()
-      .onCloseComplete(node);
+    const callsBeforeOnCloseComplete = [].concat(onCloseComplete.mock
+      .calls as any);
+    (wrapper.find(DrawerPrimitive).props().onCloseComplete as any)(node);
     const callsAfterOnCloseComplete = onCloseComplete.mock.calls;
 
     expect({ callsBeforeOnCloseComplete, callsAfterOnCloseComplete }).toEqual({
@@ -228,10 +226,10 @@ describe('Drawer Transitions', () => {
     );
 
     expect(
-      wrapper
+      (wrapper
         .find('Slide')
         .find('Transition')
-        .props().unmountOnExit,
+        .props() as any).unmountOnExit,
     ).toBeTruthy();
   });
 
@@ -243,10 +241,10 @@ describe('Drawer Transitions', () => {
     );
 
     expect(
-      wrapper
+      (wrapper
         .find('Slide')
         .find('Transition')
-        .props().unmountOnExit,
+        .props() as any).unmountOnExit,
     ).toBeFalsy();
   });
 });

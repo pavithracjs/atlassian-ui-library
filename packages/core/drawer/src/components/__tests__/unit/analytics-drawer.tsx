@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { mount } from 'enzyme';
 import {
@@ -15,6 +14,8 @@ import {
 } from '../../../version.json';
 import { DrawerBase } from '../../index';
 
+declare var global: any;
+
 // This is a global mock for this file that will mock all components wrapped with analytics
 // and replace them with an empty SFC that returns null. This includes components imported
 // directly in this file and others imported as dependencies of those imports.
@@ -27,9 +28,9 @@ jest.mock('@atlaskit/analytics-next', () => ({
 }));
 
 const escKeyDown = () => {
-  const event = document.createEvent('Events');
+  const event = document.createEvent('Events') as any;
   event.initEvent('keydown', true, true);
-  // $FlowFixMe
+
   event.key = 'Escape';
   global.window.dispatchEvent(event);
 };

@@ -1,17 +1,16 @@
-// @flow
-
-import React from 'react';
+import React, { FC } from 'react';
 import { mount, shallow } from 'enzyme';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
 
 import DrawerPrimitive from '../../primitives';
 import { Slide } from '../../transitions';
+import { DrawerWidth, IconProps } from 'src/components/types';
 
-const DrawerContent = () => <code>Drawer contents</code>;
+const DrawerContent: FC<any> = () => <code>Drawer contents</code>;
 
 describe('Drawer primitive', () => {
   const commonProps = {
-    width: 'wide',
+    width: 'wide' as DrawerWidth,
     in: true,
     shouldUnmountOnExit: false,
   };
@@ -31,7 +30,7 @@ describe('Drawer primitive', () => {
         <DrawerContent />
       </DrawerPrimitive>,
     );
-    expect(wrapper.find(props.icon).props().size).toBe('large');
+    expect((wrapper.find(props.icon).props() as IconProps).size).toBe('large');
   });
 
   it('should render arrow left if icon prop does NOT exist', () => {
@@ -78,7 +77,7 @@ describe('Drawer primitive', () => {
   });
 
   it('should render with medium width', () => {
-    const props = { ...commonProps, width: 'medium' };
+    const props = { ...commonProps, width: 'medium' as DrawerWidth };
     const wrapper = mount(
       <DrawerPrimitive {...props}>
         <DrawerContent />
@@ -97,8 +96,8 @@ describe('Drawer primitive', () => {
     );
 
     const event = { target: 'button' };
-    const callsBeforeIconClick = [].concat(onClose.mock.calls);
-    wrapper.find('IconWrapper').prop('onClick')(event);
+    const callsBeforeIconClick: any[] = [].concat(onClose.mock.calls as any);
+    (wrapper.find('IconWrapper').prop('onClick') as (args: any) => void)(event);
     const callsAfterIconClick = onClose.mock.calls;
 
     expect({ callsBeforeIconClick, callsAfterIconClick }).toEqual({
@@ -117,7 +116,7 @@ describe('Drawer primitive', () => {
     );
 
     const node = 'div';
-    const callsBeforeExited = [].concat(onCloseComplete.mock.calls);
+    const callsBeforeExited = [].concat(onCloseComplete.mock.calls as any);
     wrapper
       .find(Slide)
       .props()

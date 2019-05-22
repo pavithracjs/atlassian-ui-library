@@ -14,6 +14,7 @@ type TransitionProps = {
   onExited?: (node: HTMLElement) => void;
   shouldUnmountOnExit?: boolean;
   in: boolean;
+  test?: string;
 };
 
 type HandlerProps = {
@@ -92,10 +93,9 @@ export const Fade: FC<TransitionProps> = ({ ...props }) => (
   />
 );
 
-export const Slide: FC<{ shouldUnmountOnExit?: boolean } & TransitionProps> = ({
-  shouldUnmountOnExit = true,
-  ...props
-}: TransitionProps) => (
+export const Slide: FC<
+  { shouldUnmountOnExit?: boolean; test?: string } & TransitionProps
+> = ({ shouldUnmountOnExit = true, ...props }: TransitionProps) => (
   <TransitionHandler
     defaultStyles={{
       transition:
