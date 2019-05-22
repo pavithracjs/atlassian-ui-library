@@ -7,6 +7,7 @@ type BaseCardProps = {
   isSelected?: boolean;
   onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   importer?: (target: any) => void;
+  container?: HTMLElement;
 };
 
 export type CardWithData = BaseCardProps & {
