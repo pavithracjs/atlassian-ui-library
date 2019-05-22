@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.9.1
+- [patch] [56356b17a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56356b17a3):
+
+  - ED-6880: added even column widths on resize handle double-click and bulk resizing of columns
+
 ## 112.9.0
 - [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
 
