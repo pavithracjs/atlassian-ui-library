@@ -12,7 +12,7 @@ import TableFloatingControls from '../ui/TableFloatingControls';
 import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 
 import { getPluginState } from '../pm-plugins/main';
-import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
+import { scaleTable } from '../pm-plugins/table-resizing';
 import {
   getParentNodeWidth,
   getLayoutSize,
@@ -20,7 +20,11 @@ import {
   updateControls,
 } from '../pm-plugins/table-resizing/utils';
 
-import { TablePluginState, TableCssClassName as ClassName } from '../types';
+import {
+  TablePluginState,
+  ColumnResizingPluginState,
+  TableCssClassName as ClassName,
+} from '../types';
 import classnames from 'classnames';
 const isIE11 = browser.ie_version === 11;
 
@@ -43,7 +47,7 @@ export interface ComponentProps extends Props {
 
   containerWidth: WidthPluginState;
   pluginState: TablePluginState;
-  tableResizingPluginState?: ResizeState;
+  tableResizingPluginState?: ColumnResizingPluginState;
   width: number;
 }
 

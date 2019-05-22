@@ -1,10 +1,11 @@
 import { ColumnState, getFreeSpace } from './column-state';
-import { ResizeState, getTotalWidth } from './resize-state';
+import { ResizeState, getTotalWidth, bulkColumnsResize } from './resize-state';
 
 export const growColumn = (
   state: ResizeState,
   colIndex: number,
   amount: number,
+  selectedColumns?: number[],
 ): ResizeState => {
   // can't grow the last column
   if (!state.cols[colIndex + 1]) {
@@ -12,10 +13,13 @@ export const growColumn = (
   }
   const res = moveSpaceFrom(state, colIndex + 1, colIndex, amount);
   const remaining = amount - res.amount;
-  const newState = res.state;
+  let newState = res.state;
 
   if (remaining > 0) {
-    return stackSpace(newState, colIndex, remaining).state;
+    newState = stackSpace(newState, colIndex, remaining).state;
+  }
+  if (selectedColumns) {
+    return bulkColumnsResize(newState, selectedColumns, colIndex);
   }
 
   return newState;
@@ -25,10 +29,11 @@ export const shrinkColumn = (
   state: ResizeState,
   colIndex: number,
   amount: number,
+  selectedColumns?: number[],
 ): ResizeState => {
   // try to shrink dragging column by giving from the column to the right first
   const res = moveSpaceFrom(state, colIndex, colIndex + 1, -amount);
-  const newState = res.state;
+  let newState = res.state;
 
   const isOverflownTable = getTotalWidth(newState) > newState.maxSize;
   const isLastColumn = !newState.cols[colIndex + 1];
@@ -39,7 +44,10 @@ export const shrinkColumn = (
 
   const remaining = amount + res.amount;
   if (remaining < 0) {
-    return stackSpace(newState, colIndex + 1, remaining).state;
+    newState = stackSpace(newState, colIndex + 1, remaining).state;
+  }
+  if (selectedColumns) {
+    return bulkColumnsResize(newState, selectedColumns, colIndex);
   }
 
   return newState;

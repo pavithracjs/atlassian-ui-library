@@ -119,7 +119,14 @@ export const handleMouseOver = (
   if (isInsertRowButton(target)) {
     return showInsertRowButton(getIndex(target))(state, dispatch);
   }
-  if (hideInsertColumnOrRowButton()(state, dispatch)) {
+  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
+    state,
+  );
+  if (
+    (typeof insertColumnButtonIndex !== 'undefined' ||
+      typeof insertRowButtonIndex !== 'undefined') &&
+    hideInsertColumnOrRowButton()(state, dispatch)
+  ) {
     return true;
   }
   return false;
@@ -127,7 +134,14 @@ export const handleMouseOver = (
 
 export const handleMouseLeave = (view: EditorView): boolean => {
   const { state, dispatch } = view;
-  if (hideInsertColumnOrRowButton()(state, dispatch)) {
+  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
+    state,
+  );
+  if (
+    (typeof insertColumnButtonIndex !== 'undefined' ||
+      typeof insertRowButtonIndex !== 'undefined') &&
+    hideInsertColumnOrRowButton()(state, dispatch)
+  ) {
     return true;
   }
   return false;

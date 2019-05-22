@@ -1,0 +1,1 @@
+- ED-6880: added even column widths on resize handle double-click and bulk resizing of columns

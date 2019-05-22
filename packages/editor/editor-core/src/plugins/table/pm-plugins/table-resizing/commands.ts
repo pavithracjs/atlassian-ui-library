@@ -1,9 +1,10 @@
 import { TableMap } from 'prosemirror-tables';
 import { Node as PMNode } from 'prosemirror-model';
+import { isTableSelected } from 'prosemirror-utils';
 import { tableCellMinWidth } from '@atlaskit/editor-common';
 import { Command, DomAtPos } from '../../../../types';
 import { updateColumnWidths } from '../../transforms';
-
+import { createCommand, getPluginState } from './plugin';
 import {
   addContainerLeftRightPadding,
   resizeColumn,
@@ -13,7 +14,11 @@ import {
   ScaleOptions,
   scaleWithParent,
   scale,
+  ResizeState,
+  isClickNear,
+  evenAllColumnsWidths,
 } from './utils';
+import { Transaction } from 'prosemirror-state';
 
 export const handleBreakoutContent = (
   tableRef: HTMLTableElement,
@@ -97,3 +102,80 @@ export const scaleTable = (
 
   return false;
 };
+
+export const evenColumns = ({
+  resizeState,
+  table,
+  start,
+  event,
+}: {
+  resizeState: ResizeState;
+  table: PMNode;
+  start: number;
+  event: MouseEvent;
+}): Command => (state, dispatch) => {
+  if (!isTableSelected(state.selection)) {
+    return false;
+  }
+
+  // double click detection logic
+  // Note: ProseMirror's handleDoubleClick doesn't quite work with DOM mousedown event handler
+  const { lastClick } = getPluginState(state);
+  const now = Date.now();
+  if (
+    lastClick &&
+    now - lastClick.time < 500 &&
+    isClickNear(event, lastClick)
+  ) {
+    const newState = evenAllColumnsWidths(resizeState);
+    setLastClick(null, tr => updateColumnWidths(newState, table, start)(tr))(
+      state,
+      dispatch,
+    );
+
+    return true;
+  }
+
+  setLastClick({ x: event.clientX, y: event.clientY, time: now })(
+    state,
+    dispatch,
+  );
+
+  return false;
+};
+
+export const setResizeHandlePos = (resizeHandlePos: number | null) =>
+  createCommand({
+    type: 'SET_RESIZE_HANDLE_POSITION',
+    data: {
+      resizeHandlePos,
+    },
+  });
+
+export const setDragging = (
+  dragging: { startX: number; startWidth: number } | null,
+  tr?: Transaction,
+) =>
+  createCommand(
+    {
+      type: 'SET_DRAGGING',
+      data: {
+        dragging,
+      },
+    },
+    originalTr => tr || originalTr,
+  );
+
+export const setLastClick = (
+  lastClick: { x: number; y: number; time: number } | null,
+  transform?: (tr: Transaction) => Transaction,
+) =>
+  createCommand(
+    {
+      type: 'SET_LAST_CLICK',
+      data: {
+        lastClick,
+      },
+    },
+    transform,
+  );
