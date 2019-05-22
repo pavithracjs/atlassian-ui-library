@@ -1,0 +1,1 @@
+- Add GASv3 analytics to Emoji TypeAhead.
