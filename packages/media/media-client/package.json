@@ -18,6 +18,7 @@
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
+    "@atlaskit/type-helpers": "^4.0.0",
     "chunkinator": "^2.0.4",
     "dataloader": "^1.4.0",
     "deep-equal": "^1.0.1",

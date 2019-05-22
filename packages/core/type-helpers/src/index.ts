@@ -73,6 +73,7 @@ export type PropsPasser<Extra extends object = {}> = <
 /**
  * This type is used for HOC's that inject props into the provided component in
  * such a way that the resultant component does not accept those props any more
+ *
  */
 export type PropsInjector<InjectedProps extends object> = <
   C extends React.ComponentType<any>
@@ -80,6 +81,15 @@ export type PropsInjector<InjectedProps extends object> = <
   Component: C,
 ) => React.ComponentType<
   Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
+>;
+
+export type PropsInjectorAndPasser<
+  InjectedProps extends object,
+  Extra extends object = {}
+> = <C extends React.ComponentType<any>>(
+  Component: C,
+) => React.ComponentType<
+  Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>> & Extra
 >;
 
 /**
@@ -104,3 +114,8 @@ export type SumPropsInjector<InjectedProps extends object> = <
 >(
   Component: C,
 ) => React.ComponentClass<PropsOf<C> & InjectedProps>;
+
+export type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+export type XOR<T, U> = (T | U) extends object
+  ? (Without<T, U> & U) | (Without<U, T> & T)
+  : T | U;

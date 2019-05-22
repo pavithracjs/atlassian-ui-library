@@ -37,8 +37,9 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
+import { withMediaClient } from '@atlaskit/media-client';
 
-export class Card extends Component<CardProps, CardState> {
+class CardWithMedia extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
   private onClickPayload?: {
     result: CardEvent;
@@ -479,3 +480,5 @@ export class Card extends Component<CardProps, CardState> {
     });
   };
 }
+
+export const Card = withMediaClient(CardWithMedia);
