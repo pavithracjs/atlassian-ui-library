@@ -6,6 +6,8 @@
   "license": "SEE LICENSE IN LICENSE",
   "main": "cjs/index.js",
   "module": "index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
