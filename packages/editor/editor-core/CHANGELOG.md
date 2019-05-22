@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.5.2
+- [patch] [6a65053272](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a65053272):
+
+  - ED-6929: avoid having a negative rowspan after merging cells
+
 ## 112.5.1
 - [patch] [a511611473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a511611473):
 

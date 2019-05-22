@@ -1,1 +1,0 @@
-- ED-6929: avoid having a negative rowspan after merging cells
