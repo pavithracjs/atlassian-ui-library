@@ -13,7 +13,7 @@ import {
   createAndFireEvent,
   withAnalyticsEvents,
   withAnalyticsContext,
-  WithAnalyticsEventProps,
+  CreateUIAnalyticsEventSignature,
 } from '@atlaskit/analytics-next';
 import Blanket from '@atlaskit/blanket';
 import {
@@ -31,7 +31,7 @@ const OnlyChild: FC<any> = ({ children }) =>
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 const createAndFireOnClick = (
-  createAnalyticsEvent: WithAnalyticsEventProps['createAnalyticsEvent'],
+  createAnalyticsEvent: CreateUIAnalyticsEventSignature,
   trigger: CloseTrigger,
 ) =>
   createAndFireEventOnAtlaskit({
@@ -87,10 +87,15 @@ export class DrawerBase extends Component<DrawerProps> {
   private handleClose = (event: SyntheticEvent, trigger: CloseTrigger) => {
     const { createAnalyticsEvent, onClose } = this.props;
 
-    const analyticsEvent = createAndFireOnClick(createAnalyticsEvent, trigger);
+    if (createAnalyticsEvent) {
+      const analyticsEvent = createAndFireOnClick(
+        createAnalyticsEvent,
+        trigger,
+      );
 
-    if (onClose) {
-      onClose(event, analyticsEvent);
+      if (onClose) {
+        onClose(event, analyticsEvent);
+      }
     }
   };
 
