@@ -20,7 +20,7 @@
   },
   "scripts": {
     "update": "node ./build/index.js && yarn build:babel:cjs",
-    "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel src -d cjs --root-mode=\"upward\""
+    "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel --presets @babel/preset-typescript build/js-to-css.ts src -d cjs --root-mode=\"upward\""
   },
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",

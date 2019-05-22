@@ -1,4 +1,3 @@
-// @flow
 const path = require('path');
 const buildIcons = require('@atlaskit/icon-build-process');
 const pkgDir = require('pkg-dir');
