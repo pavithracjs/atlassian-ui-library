@@ -1,0 +1,1 @@
+- ED-6918: fix deleting table rows inside bodied extensions
