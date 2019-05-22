@@ -147,7 +147,7 @@ function mockAnalyticsApi() {
 
 function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
   fetchMock.get(
-    new RegExp('gateway/api/xpsearch-autocomplete'),
+    new RegExp('gateway/api/ccsearch-autocomplete'),
     (request: Request) => {
       const query = request.split('query=')[1];
       const tokens = query.split('+');

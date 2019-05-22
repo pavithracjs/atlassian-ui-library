@@ -297,7 +297,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const autocompletePromise = handlePromiseError(
       autocompleteClient.getAutocomplete(query),
       [query],
-      this.handleSearchErrorAnalyticsThunk('xpsearch-autocomplete'),
+      this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
     );
 
     return autocompletePromise;
