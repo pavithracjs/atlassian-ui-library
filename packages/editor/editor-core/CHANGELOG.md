@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.7.0
+- [minor] [f120090dfe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f120090dfe):
+
+  - Add GASv3 analytics to Emoji TypeAhead.
+
 ## 112.6.0
 - [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
 
