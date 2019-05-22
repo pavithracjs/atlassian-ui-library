@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import Tooltip from '../src';
 
 // unique enough id
@@ -29,7 +29,7 @@ const Checkbox = ({ children, onChange }: ICheckboxProps) => {
   );
 };
 
-export default class Image extends Component<{}, { truncate: boolean }> {
+export default class Image extends React.Component<{}, { truncate: boolean }> {
   state = { truncate: false };
 
   toggle = () => this.setState(state => ({ truncate: !state.truncate }));

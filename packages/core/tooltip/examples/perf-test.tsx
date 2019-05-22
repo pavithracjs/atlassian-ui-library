@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import Tooltip from '../src';
 
@@ -20,7 +20,7 @@ interface State {
   time: number;
 }
 
-export default class PerfTest extends Component<Props, State> {
+export default class PerfTest extends React.Component<Props, State> {
   state = getInitialState();
 
   startTest = () => {

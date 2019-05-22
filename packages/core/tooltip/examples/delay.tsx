@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 
 import Tooltip from '../src';

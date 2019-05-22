@@ -1,12 +1,6 @@
 /* eslint-disable react/require-default-props */
 
-import React, {
-  Children,
-  Component,
-  Fragment,
-  ReactNode,
-  MouseEvent as ReactMouseEvent,
-} from 'react';
+import * as React from 'react';
 import NodeResolver from 'react-node-resolver';
 import flushable from 'flushable';
 import { Popper } from '@atlaskit/popper';
@@ -60,7 +54,7 @@ function getMousePosition(
 
 interface IProps {
   /** The content of the tooltip */
-  content: ReactNode;
+  content: React.ReactNode;
   /** Extend `TooltipPrimitive` to create your own tooptip and pass it as component */
   component?: StyledComponentClass<{ truncate?: boolean; style?: any }, any>;
   /** Time in milliseconds to wait before showing and hiding the tooltip. Defaults to 300. */
@@ -135,7 +129,7 @@ const hideTooltip = (fn: (flushed: boolean) => void, defaultDelay: number) => {
   return pendingHide.cancel;
 };
 
-class Tooltip extends Component<IProps, IState> {
+class Tooltip extends React.Component<IProps, IState> {
   static defaultProps: Pick<
     IProps,
     'component' | 'delay' | 'mousePosition' | 'position' | 'tag'
@@ -213,7 +207,7 @@ class Tooltip extends Component<IProps, IState> {
     }
   };
 
-  handleMouseOver = (e: ReactMouseEvent) => {
+  handleMouseOver = (e: React.MouseEvent) => {
     if (e.target === this.wrapperRef) return;
     // In the case where a tooltip is newly rendered but immediately becomes hovered,
     // we need to set the coordinates in the mouseOver event.
@@ -234,7 +228,7 @@ class Tooltip extends Component<IProps, IState> {
     }
   };
 
-  handleMouseLeave = (e: ReactMouseEvent) => {
+  handleMouseLeave = (e: React.MouseEvent) => {
     if (e.target === this.wrapperRef) return;
     this.cancelPendingSetState();
     if (this.state.isVisible) {
@@ -277,7 +271,7 @@ class Tooltip extends Component<IProps, IState> {
     } = this.state;
     return (
       /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-      <Fragment>
+      <React.Fragment>
         {/* TODO: Is there a better way to create a dynamic element that doesn't complain with TS? */}
         {tag &&
           React.createElement(
@@ -297,7 +291,7 @@ class Tooltip extends Component<IProps, IState> {
                 this.targetRef = targetRef;
               }}
             >
-              {Children.only(children)}
+              {React.Children.only(children)}
             </NodeResolver>,
           )}
 
@@ -346,7 +340,7 @@ class Tooltip extends Component<IProps, IState> {
             </Popper>
           </Portal>
         ) : null}
-      </Fragment>
+      </React.Fragment>
       /* eslint-enable */
     );
   }

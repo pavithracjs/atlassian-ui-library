@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import { Target } from './styled';
 import Tooltip from '../src';
 import { PositionType } from '../src/types';
@@ -9,7 +9,7 @@ interface IState {
   position: PositionType;
 }
 
-export default class HoverIntent extends Component<{}, IState> {
+export default class HoverIntent extends React.Component<{}, IState> {
   state = {
     position: 'bottom' as PositionType,
   };
@@ -23,7 +23,7 @@ export default class HoverIntent extends Component<{}, IState> {
   render() {
     const { position } = this.state;
     return (
-      <Fragment>
+      <React.Fragment>
         <p>
           Click a target to toggle the position of the tooltips between{' '}
           {`'bottom'`} and {`'mouse'`}.
@@ -41,7 +41,7 @@ export default class HoverIntent extends Component<{}, IState> {
             </Tooltip>
           ))}
         </div>
-      </Fragment>
+      </React.Fragment>
     );
   }
 }

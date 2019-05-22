@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import Tooltip from '../src';
@@ -58,7 +58,7 @@ interface State {
   top: number;
 }
 
-export default class PositionExample extends Component<Props, State> {
+export default class PositionExample extends React.Component<Props, State> {
   panel?: HTMLElement;
 
   state = { pinned: false, top: 0 };

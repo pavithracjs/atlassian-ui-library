@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import { BigTarget } from './styled';
@@ -75,7 +75,7 @@ function getTooltipContent(position: PositionTypeBase, index: number) {
 
 const tooltipSize = ['small', 'medium', 'large', 'long words'];
 
-export default class PositionExample extends Component<Props, State> {
+export default class PositionExample extends React.Component<Props, State> {
   // store the direction as an index and pull it from the list above,
   // just to simplify the `changeDirection` logic
   state = {

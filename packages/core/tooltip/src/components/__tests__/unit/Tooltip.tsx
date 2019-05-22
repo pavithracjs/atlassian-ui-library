@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import * as React from 'react';
 import { mount } from 'enzyme';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Portal from '@atlaskit/portal';
@@ -24,7 +24,9 @@ beforeEach(() => {
   jest.useFakeTimers();
 });
 
-const Target = ({ children }: { children: ReactNode }) => <div>{children}</div>;
+const Target = ({ children }: { children: React.ReactNode }) => (
+  <div>{children}</div>
+);
 
 test('tooltip should not be shown by default', () => {
   wrapper = mount(
