@@ -65,7 +65,7 @@ const getToolbarButton = (
 ): ReactWrapper =>
   toolbarOption
     .find(ToolbarButton)
-    .filterWhere(n => (n.prop('title')! as string).indexOf(title) > -1)
+    .filterWhere(n => n.prop('title')!.indexOf(title) > -1)
     .find(Button);
 
 const getInsertMenuButton = (

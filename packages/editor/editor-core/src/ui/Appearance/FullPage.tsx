@@ -257,7 +257,9 @@ export default class Editor extends React.Component<
             <Avatars
               editorView={editorView}
               eventDispatcher={eventDispatcher}
-              inviteToEditButton={collabEdit && collabEdit.inviteToEditButton}
+              inviteToEditComponent={
+                collabEdit && collabEdit.inviteToEditComponent
+              }
               inviteToEditHandler={collabEdit && collabEdit.inviteToEditHandler}
               isInviteToEditButtonSelected={
                 collabEdit && collabEdit.isInviteToEditButtonSelected

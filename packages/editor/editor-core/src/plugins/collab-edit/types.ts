@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 import { EditorState } from 'prosemirror-state';
 import { CollabEditProvider } from './provider';
 
@@ -44,12 +44,24 @@ export interface SendableSelection {
   head: number;
 }
 
-export interface CollabEditOptions {
-  provider?: Promise<CollabEditProvider>;
-  inviteToEditButton?: ReactNode;
+export type InviteToEditComponentProps = {
+  children: ReactElement<InviteToEditButtonProps>;
+};
+
+export type InviteToEditButtonProps = {
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+  selected: boolean;
+};
+
+export interface CollabInviteToEditProps {
   inviteToEditHandler?: (event: React.MouseEvent<HTMLElement>) => void;
   isInviteToEditButtonSelected?: boolean;
+  inviteToEditComponent?: React.ComponentType<InviteToEditComponentProps>;
+}
+
+export type CollabEditOptions = {
+  provider?: Promise<CollabEditProvider>;
   userId?: string;
   useNativePlugin?: boolean;
   allowUnsupportedContent?: boolean;
-}
+} & CollabInviteToEditProps;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import styled, { keyframes } from 'styled-components';
 import { EditorView } from 'prosemirror-view';
 import Avatar from '@atlaskit/avatar';
@@ -14,14 +14,12 @@ import { pluginKey as collabEditPluginKey, PluginState } from '../plugin';
 import { getAvatarColor } from '../utils';
 import ToolbarButton from '../../../ui/ToolbarButton';
 import messages from '../../../messages';
+import { CollabInviteToEditProps } from '../types';
 
-export interface Props {
-  inviteToEditButton?: React.ReactNode;
-  inviteToEditHandler?: (event: React.MouseEvent<HTMLElement>) => void;
-  isInviteToEditButtonSelected?: boolean;
+export type Props = {
   editorView?: EditorView;
   eventDispatcher?: EventDispatcher;
-}
+} & CollabInviteToEditProps;
 
 const AvatarContainer = styled.div`
   margin-right: ${gridSize()}px;
@@ -125,42 +123,42 @@ function Item(props: any) {
     </AvatarItem>
   );
 }
-export default class Avatars extends React.Component<Props, any> {
-  componentDidMount() {
-    const { inviteToEditButton, inviteToEditHandler } = this.props;
-
-    if (inviteToEditButton && inviteToEditHandler) {
-      console.warn(
-        '`inviteToEditButton` prop and `inviteToEditHandler` prop are both given but exclusive. `inviteToEditHandler` will be ignored.',
-      );
-    }
-  }
+class Avatars extends React.Component<Props & InjectedIntlProps, any> {
   private onAvatarClick = () => {};
   private renderInviteToEditButton = () => {
     const {
-      inviteToEditButton,
+      inviteToEditComponent: InviteToEditComponent,
       inviteToEditHandler,
       isInviteToEditButtonSelected,
+      intl: { formatMessage },
     } = this.props;
 
-    if (inviteToEditButton) {
-      return <InviteTeamWrapper>{inviteToEditButton}</InviteTeamWrapper>;
+    const button = (
+      <ToolbarButton
+        className="invite-to-edit"
+        onClick={inviteToEditHandler}
+        selected={isInviteToEditButtonSelected}
+        title={formatMessage(messages.inviteToEditButtonTitle)}
+        titlePosition="bottom"
+        iconBefore={
+          <InviteTeamIcon
+            label={formatMessage(messages.inviteToEditButtonTitle)}
+          />
+        }
+      />
+    );
+
+    if (InviteToEditComponent) {
+      return (
+        <InviteTeamWrapper>
+          <InviteToEditComponent>{button}</InviteToEditComponent>
+        </InviteTeamWrapper>
+      );
+    } else if (inviteToEditHandler) {
+      return <InviteTeamWrapper>{button}</InviteTeamWrapper>;
     }
 
-    return (
-      inviteToEditHandler && (
-        <InviteTeamWrapper>
-          <ToolbarButton
-            className="invite-to-edit"
-            onClick={inviteToEditHandler}
-            selected={isInviteToEditButtonSelected}
-            title={<FormattedMessage {...messages.inviteToEditButtonTitle} />}
-            titlePosition="bottom"
-            iconBefore={<InviteTeamIcon label="Invite to edit" />}
-          />
-        </InviteTeamWrapper>
-      )
-    );
+    return null;
   };
   private renderAvatars = (state: { data?: PluginState }) => {
     if (!state.data) {
@@ -207,3 +205,5 @@ export default class Avatars extends React.Component<Props, any> {
     );
   }
 }
+
+export default injectIntl(Avatars);

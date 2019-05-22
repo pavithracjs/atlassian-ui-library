@@ -1,8 +1,12 @@
-import { mount } from 'enzyme';
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { doc, p, createEditorFactory } from '@atlaskit/editor-test-helpers';
+import {
+  doc,
+  p,
+  createEditorFactory,
+  mountWithIntl,
+} from '@atlaskit/editor-test-helpers';
 
 import {
   PluginState,
@@ -56,10 +60,10 @@ describe('collab-edit | Avatars', () => {
       const { editorView } = editor(doc(p('text')));
       setPresence(editorView);
 
-      const node = mount(
+      const node = mountWithIntl(
         <Avatars
           editorView={editorView}
-          inviteToEditButton={<CustomButton />}
+          inviteToEditComponent={CustomButton}
         />,
       );
 
@@ -72,7 +76,7 @@ describe('collab-edit | Avatars', () => {
     describe('when inviteToEditHandler is undefined', () => {
       it('should not render inviteToEdit button', () => {
         const { editorView } = editor(doc(p('text')));
-        const node = mount(<Avatars editorView={editorView} />);
+        const node = mountWithIntl(<Avatars editorView={editorView} />);
         expect(node.find(ToolbarButton).length).toEqual(0);
         node.unmount();
       });
@@ -83,7 +87,7 @@ describe('collab-edit | Avatars', () => {
         const { editorView } = editor(doc(p('text')));
         setPresence(editorView);
 
-        const node = mount(
+        const node = mountWithIntl(
           <Avatars editorView={editorView} inviteToEditHandler={() => {}} />,
         );
 
@@ -96,7 +100,7 @@ describe('collab-edit | Avatars', () => {
           const { editorView } = editor(doc(p('text')));
           setPresence(editorView);
           const inviteToEditHandler = jest.fn();
-          const node = mount(
+          const node = mountWithIntl(
             <Avatars
               editorView={editorView}
               inviteToEditHandler={inviteToEditHandler}
@@ -117,7 +121,7 @@ describe('collab-edit | Avatars', () => {
           const { editorView } = editor(doc(p('text')));
           setPresence(editorView);
           const inviteToEditHandler = () => {};
-          const node = mount(
+          const node = mountWithIntl(
             <Avatars
               editorView={editorView}
               inviteToEditHandler={inviteToEditHandler}

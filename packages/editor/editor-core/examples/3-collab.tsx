@@ -28,8 +28,7 @@ import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions, MediaProvider } from '../src';
 
-import InviteTeamIcon from '@atlaskit/icon/glyph/editor/add';
-import ToolbarButton from '../src/ui/ToolbarButton';
+import { InviteToEditComponentProps } from '../src/plugins/collab-edit/types';
 
 export const Content = styled.div`
   padding: 0 20px;
@@ -110,30 +109,28 @@ const mockOriginTracing = {
   }),
 };
 
-const InviteToEditButton = (
-  <ShareDialogContainer
-    cloudId="cloudId"
-    client={shareClient}
-    loadUserOptions={() => []}
-    originTracingFactory={() => mockOriginTracing}
-    productId="confluence"
-    renderCustomTriggerButton={({ isSelected, onClick }: any): any => (
-      <ToolbarButton
-        className="invite-to-edit"
-        onClick={onClick}
-        selected={isSelected}
-        title="Invite to edit"
-        titlePosition="bottom"
-        iconBefore={<InviteTeamIcon label="Invite to edit" />}
-      />
-    )}
-    shareAri="ari"
-    shareContentType="draft"
-    shareLink={window && window.location.href}
-    shareTitle="title"
-    showFlags={() => {}}
-  />
-);
+const InviteToEditButton = (props: InviteToEditComponentProps) => {
+  return (
+    <ShareDialogContainer
+      cloudId="cloudId"
+      client={shareClient}
+      loadUserOptions={() => []}
+      originTracingFactory={() => mockOriginTracing}
+      productId="confluence"
+      renderCustomTriggerButton={({ isSelected, onClick }: any): any =>
+        React.cloneElement(props.children, {
+          onClick,
+          selected: isSelected,
+        })
+      }
+      shareAri="ari"
+      shareContentType="draft"
+      shareLink={window && window.location.href}
+      shareTitle="title"
+      showFlags={() => {}}
+    />
+  );
+};
 
 interface DropzoneEditorWrapperProps {
   children: (container: HTMLElement) => React.ReactNode;
@@ -168,14 +165,16 @@ export type Props = {};
 interface PropOptions {
   sessionId: string;
   mediaProvider: Promise<MediaProvider>;
-  inviteHandler: any;
+  inviteHandler?: (event: React.MouseEvent<HTMLElement>) => void;
   parentContainer: any;
+  inviteToEditComponent?: React.ComponentType<InviteToEditComponentProps>;
 }
 
 const editorProps = ({
   sessionId,
   mediaProvider,
   inviteHandler,
+  inviteToEditComponent,
   parentContainer,
 }: PropOptions): EditorProps => ({
   appearance: 'full-page',
@@ -209,6 +208,7 @@ const editorProps = ({
   collabEdit: {
     provider: collabEditProvider(sessionId),
     inviteToEditHandler: inviteHandler,
+    inviteToEditComponent,
   },
   placeholder: 'Write something...',
   shouldFocus: false,
@@ -238,7 +238,7 @@ export default class Example extends React.Component<Props> {
                       sessionId: 'rick',
                       mediaProvider: mediaProvider1,
                       parentContainer,
-                      inviteToEditButton: InviteToEditButton,
+                      inviteToEditComponent: InviteToEditButton,
                     })}
                   />
                 </EditorContext>
@@ -254,7 +254,7 @@ export default class Example extends React.Component<Props> {
                       sessionId: 'morty',
                       mediaProvider: mediaProvider2,
                       parentContainer,
-                      inviteToEditButton: InviteToEditButton,
+                      inviteToEditComponent: InviteToEditButton,
                     })}
                   />
                 </EditorContext>
