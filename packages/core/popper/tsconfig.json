@@ -12,8 +12,5 @@
   ],
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "react-lorem-component": ["typings/react-lorem-component"],
-    }
   }
 }

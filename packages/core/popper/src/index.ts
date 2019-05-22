@@ -1,2 +1,2 @@
-export { Manager, Reference, Popper, Props as PopperProps } from './Popper';
+export { Manager, Reference, Popper } from './Popper';
 export { Placement } from './types';
