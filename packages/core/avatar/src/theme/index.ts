@@ -1,4 +1,4 @@
-import { colors, createTheme, gridSize, themed } from '@atlaskit/theme';
+import { colors, createTheme, gridSize } from '@atlaskit/theme';
 import { AppearanceType, PresenceType, SizeType } from '../types';
 
 type Dimensions = {
@@ -19,18 +19,18 @@ type Layout = {
   width: string;
 };
 
-type Sizes = {
-  xsmall: number;
-  small: number;
-  medium: number;
-  large: number;
-  xlarge: number;
-  xxlarge: number;
-};
-
 enum ThemeMode {
   LIGHT = 'light',
   DARK = 'dark',
+}
+
+enum Sizes {
+  XSMALL = 'xsmall',
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  LARGE = 'large',
+  XLARGE = 'xlarge',
+  XXLARGE = 'xxlarge',
 }
 
 export type ThemeProps = {
@@ -52,7 +52,7 @@ export type ThemeTokens = {
 
 const gridSizeValue: number = gridSize();
 
-const AVATAR_SIZES: Sizes = {
+const AVATAR_SIZES: SizeType = {
   xsmall: gridSizeValue * 2,
   small: gridSizeValue * 3,
   medium: gridSizeValue * 4,
@@ -62,7 +62,7 @@ const AVATAR_SIZES: Sizes = {
 };
 
 // border radius only applies to "square" avatars
-const AVATAR_RADIUS: Sizes = {
+const AVATAR_RADIUS: SizeType = {
   xsmall: 2,
   small: 2,
   medium: 3,
@@ -71,7 +71,7 @@ const AVATAR_RADIUS: Sizes = {
   xxlarge: 12,
 };
 
-const BORDER_WIDTH: Sizes = {
+const BORDER_WIDTH: SizeType = {
   xsmall: 2,
   small: 2,
   medium: 2,
@@ -80,7 +80,7 @@ const BORDER_WIDTH: Sizes = {
   xxlarge: 2,
 };
 
-const ICON_SIZES: Sizes = {
+const ICON_SIZES: SizeType = {
   xsmall: 0,
   small: 12,
   medium: 14,
@@ -89,7 +89,7 @@ const ICON_SIZES: Sizes = {
   xxlarge: 0,
 };
 
-const ICON_OFFSET: Sizes = {
+const ICON_OFFSET: SizeType = {
   xsmall: 0,
   small: 0,
   medium: 0,
@@ -98,7 +98,7 @@ const ICON_OFFSET: Sizes = {
   xxlarge: 0,
 };
 
-const SQUARE_ICON_OFFSET: Sizes = {
+const SQUARE_ICON_OFFSET: SizeType = {
   xsmall: 0,
   small: 0,
   medium: 0,
@@ -121,7 +121,7 @@ function getBackgroundColor(props: {
 function getBorderRadius(props: {
   appearance: AppearanceType;
   includeBorderWidth: boolean;
-  size: SizeType;
+  size: keyof SizeType;
 }): string {
   const borderWidth = props.includeBorderWidth ? BORDER_WIDTH[props.size] : 0;
   const borderRadius =
@@ -133,7 +133,7 @@ function getBorderRadius(props: {
 
 function getDimensions(props: {
   includeBorderWidth: boolean;
-  size: SizeType;
+  size: keyof SizeType;
 }): Dimensions {
   const borderWidth: number = props.includeBorderWidth
     ? BORDER_WIDTH[props.size] * 2
@@ -146,7 +146,7 @@ function getDimensions(props: {
 
 const getPresenceLayout = (props: {
   appearance: AppearanceType;
-  size: SizeType;
+  size: keyof SizeType;
 }): Layout => {
   const presencePosition =
     props.appearance === AppearanceType.SQUARE
@@ -164,7 +164,7 @@ const getPresenceLayout = (props: {
 
 const getStatusLayout = (props: {
   appearance: AppearanceType;
-  size: SizeType;
+  size: keyof SizeType;
 }): Layout => {
   const statusPosition =
     props.appearance === AppearanceType.SQUARE
@@ -186,7 +186,7 @@ const propsDefaults = {
   isLoading: false,
   mode: ThemeMode.LIGHT,
   presence: 'offline',
-  size: SizeType.XSMALL,
+  size: Sizes.XSMALL,
 };
 
 export const Theme = createTheme<ThemeTokens, ThemeProps>(props => {

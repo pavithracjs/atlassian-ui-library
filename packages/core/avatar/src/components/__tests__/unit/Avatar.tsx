@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node } from 'react';
+import * as React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import Tooltip from '@atlaskit/tooltip';
 import Avatar from '../../Avatar';
@@ -37,7 +37,7 @@ describe('Avatar', () => {
 
   describe('with component prop', () => {
     it('should not throw error when a custom component is used', () => {
-      function CustomComponent({ children }: { children: Node }) {
+      function CustomComponent({ children }: { children: React.ReactNode }) {
         return <span>{children}</span>;
       }
 

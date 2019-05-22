@@ -1,5 +1,4 @@
 // TODO: Replace with hooks
-// @flow
 import React, {
   Component,
   ComponentType,
@@ -29,7 +28,7 @@ export default function mapProps(mapping: { [key: string]: any }) {
         if (this.component && this.component.focus) this.component.focus();
       };
 
-      setComponent = (component: ?ElementRef<*>) => {
+      setComponent = (component: ElementRef<any>) => {
         this.component = component;
       };
 
