@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.8.1
+- [patch] [5973916c23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5973916c23):
+
+  - [ED-6344] Remove scrollbar overlap from the last table row
+
 ## 112.8.0
 - [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
 
