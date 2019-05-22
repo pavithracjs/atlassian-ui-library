@@ -10,7 +10,7 @@ import { ExperimentConsumer } from '../ExperimentContext';
 configure({ adapter: new Adapter() });
 
 describe('ExperimentController', () => {
-  it('should provide context to a consumer', () => {
+  it('should provide context to a consumer', async () => {
     const mockExperimentDetails = {
       cohort: 'variation',
       isEligible: true,
@@ -60,16 +60,15 @@ describe('ExperimentController', () => {
     expect(mockExperimentResolver.mock.calls).toHaveLength(1);
 
     // once resolved async-ily
-    return resolverPromise.then(() => {
-      // third call has decided enrollment and has experiment details
-      expect(mockContextReceiver.mock.calls).toHaveLength(2);
-      expect(
-        getExperimentValueForReceiverCall(1).isEnrollmentDecided,
-      ).toBeTruthy();
-      expect(getExperimentValueForReceiverCall(1).enrollmentDetails).toEqual(
-        mockExperimentDetails,
-      );
-    });
+    await resolverPromise;
+    // third call has decided enrollment and has experiment details
+    expect(mockContextReceiver.mock.calls).toHaveLength(2);
+    expect(
+      getExperimentValueForReceiverCall(1).isEnrollmentDecided,
+    ).toBeTruthy();
+    expect(getExperimentValueForReceiverCall(1).enrollmentDetails).toEqual(
+      mockExperimentDetails,
+    );
   });
 
   it('should provide context with options to a consumer if present', () => {

@@ -65,7 +65,9 @@ class ExperimentController extends Component<Props, State> {
     // updates context after resolving
     const enrollmentOptions =
       options instanceof Function ? options(experimentKey) : options;
-    const enrollmentPromise = enrollmentResolver(enrollmentOptions);
+    const enrollmentPromise = Promise.resolve(
+      enrollmentResolver(enrollmentOptions),
+    );
 
     enrollmentPromise.then((enrollmentDetails: EnrollmentDetails) => {
       this.setState({

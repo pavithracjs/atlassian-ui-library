@@ -158,7 +158,7 @@ export default class extends Component<{}, State> {
               <td>
                 <ExperimentController
                   experimentEnrollmentConfig={{
-                    myExperimentKey: () => Promise.resolve(resolvesTo),
+                    myExperimentKey: () => resolvesTo,
                   }}
                 >
                   <ExperimentWrapped title="Component" />

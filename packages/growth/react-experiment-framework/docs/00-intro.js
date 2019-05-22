@@ -30,8 +30,9 @@ export default md`
   ## Usage
 
   The ExperimentController is passed a configuration object via the experimentEnrollmentConfig prop. 
-  It's a map of experiment resolvers -- async functions that decide which variant should be rendered for each experiment.
+  It's a map of experiment resolvers -- functions that decide which variant should be rendered for each experiment.
   If additional data needs to be passed to the resolvers (e.g. from a Redux store), the experimentEnrollmentOptions prop can be used.
+  The resolvers can be asynchronous, and usually will.
   
   This resolver based approach allows the rendering of targeted components to be blocked until the resolver is completed, and the
   appropriate experience is only then shown to the user; thus preventing a swapping of experience. 
