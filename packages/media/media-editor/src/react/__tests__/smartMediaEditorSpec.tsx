@@ -239,6 +239,23 @@ describe('Smart Media Editor', () => {
           },
         ]);
       });
+
+      it('should call onFinish after context.file.copyFile', async () => {
+        resultingFileStateObservable.next({
+          status: 'processing',
+          id: 'uuid1',
+          mediaType: 'image',
+          mimeType: 'image/gif',
+          name: 'some-name',
+          size: 42,
+          representations: {},
+        });
+
+        expect(onFinish).toHaveBeenCalledTimes(0);
+        await new Promise(resolve => setTimeout(resolve, 0));
+        expect(context.file.copyFile).toHaveBeenCalledTimes(1);
+        expect(onFinish).toHaveBeenCalledTimes(1);
+      });
     });
 
     describe('when EditorView calls onSave without userAuthProvider', () => {
@@ -309,15 +326,6 @@ describe('Smart Media Editor', () => {
             representations: {},
           });
           await new Promise(resolve => setTimeout(resolve, 0));
-          resultingFileStateObservable.next({
-            status: 'processing',
-            id: 'uuid1',
-            mediaType: 'image',
-            mimeType: 'image/gif',
-            name: 'some-name',
-            size: 42,
-            representations: {},
-          });
           expect(onFinish).toHaveBeenCalledTimes(1);
         });
       });

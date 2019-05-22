@@ -22,7 +22,7 @@ import {
   closeMediaEditor,
   uploadAnnotation,
 } from '../../../../plugins/media-editor/commands';
-import { ProviderFactory } from '../../../../../../editor-common';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
 describe('media editor', () => {
   const createEditor = createEditorFactory<MediaEditorState>();
