@@ -148,6 +148,11 @@ export interface Props {
    * This is used for Confluence only.
    */
   fasterSearchFFEnabled?: boolean;
+
+  /**
+   * Determine whether to enable urs for bootstrapping people search.
+   */
+  useUrsForBootstrapping?: boolean;
 }
 
 /**
@@ -252,6 +257,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               inputControls,
               appPermission,
               fasterSearchFFEnabled,
+              useUrsForBootstrapping,
             } = this.props;
 
             return (
@@ -268,6 +274,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 inputControls={inputControls}
                 appPermission={appPermission}
                 fasterSearchFFEnabled={fasterSearchFFEnabled}
+                useUrsForBootstrapping={useUrsForBootstrapping}
               />
             );
           }}

@@ -79,6 +79,12 @@ export interface CrossProductSearchClient {
     resultLimit?: number | null,
     referralContextIdentifiers?: ReferralContextIdentifiers,
   ): Promise<CrossProductSearchResults>;
+  getPeople(
+    query: string,
+    sessionId: string,
+    currentQuickSearchContext: QuickSearchContext,
+    resultLimit?: number,
+  ): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
 }
 
@@ -87,6 +93,9 @@ export default class CachingCrossProductSearchClientImpl
   private serviceConfig: ServiceConfig;
   private cloudId: string;
   private abTestDataCache: { [scope: string]: Promise<ABTest> };
+  private bootstrapPeopleCache: {
+    [quickSearchContext: string]: Promise<CrossProductSearchResults>;
+  };
 
   // result limit per scope
   private readonly RESULT_LIMIT = 10;
@@ -99,6 +108,50 @@ export default class CachingCrossProductSearchClientImpl
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.abTestDataCache = prefetchedAbTestResult || {};
+    this.bootstrapPeopleCache = {};
+  }
+
+  public async getPeople(
+    query: string,
+    sessionId: string,
+    currentQuickSearchContext: QuickSearchContext,
+    resultLimit: number = 3,
+  ): Promise<CrossProductSearchResults> {
+    const isBootstrapQuery = !query;
+
+    // We will use the bootstrap people cache if the query is a bootstrap query and there is a result cached
+    if (
+      isBootstrapQuery &&
+      this.bootstrapPeopleCache[currentQuickSearchContext]
+    ) {
+      return this.bootstrapPeopleCache[currentQuickSearchContext];
+    }
+
+    const scope: Scope.UserConfluence | Scope.UserJira | null =
+      currentQuickSearchContext === 'confluence'
+        ? Scope.UserConfluence
+        : currentQuickSearchContext === 'jira'
+        ? Scope.UserJira
+        : null;
+
+    if (scope) {
+      const searchPromise = this.search(
+        query,
+        sessionId,
+        [scope],
+        currentQuickSearchContext,
+        null,
+        resultLimit,
+      );
+
+      if (isBootstrapQuery) {
+        this.bootstrapPeopleCache[currentQuickSearchContext] = searchPromise;
+      }
+    }
+
+    return {
+      results: {} as Map<Scope, Result[]>,
+    };
   }
 
   public async search(
