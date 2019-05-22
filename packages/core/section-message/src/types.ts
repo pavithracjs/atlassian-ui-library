@@ -1,4 +1,3 @@
-// @flow
 export type Appearance =
   | 'info'
   | 'warning'

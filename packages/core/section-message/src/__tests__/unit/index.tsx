@@ -1,5 +1,4 @@
-// @flow
-import React, { type Node } from 'react';
+import React from 'react';
 import { shallow, mount } from 'enzyme';
 import cases from 'jest-in-case';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
@@ -12,7 +11,7 @@ import styled from 'styled-components';
 import toJson from 'enzyme-to-json';
 
 import SectionMessage from '../..';
-import { type Appearance } from '../../types';
+import { Appearance } from '../../types';
 import { Title, Action } from '../../components/styled';
 
 // We added a property `type` because `name` was clashing with `name` from jest-in-case
@@ -135,7 +134,7 @@ describe('SectionMessage', () => {
 
   cases(
     'appearances',
-    ({ type, icon }: { type: Appearance, icon: Node }) => {
+    ({ type, icon }: { type: Appearance; icon: string }) => {
       const wrapper = shallow(
         <SectionMessage appearance={type}>boo</SectionMessage>,
       );

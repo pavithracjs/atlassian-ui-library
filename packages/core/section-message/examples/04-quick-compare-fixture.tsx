@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import SectionMessage from '../src';
 
@@ -7,9 +6,9 @@ const SomeParts = ({
   title,
   actions,
 }: {
-  body?: boolean,
-  title?: boolean,
-  actions?: boolean,
+  body?: boolean;
+  title?: boolean;
+  actions?: boolean;
 }) => (
   <div style={{ padding: '10px' }}>
     <SectionMessage

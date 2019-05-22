@@ -1,8 +1,7 @@
-// @flow
-import React, { Component, type Node, type ElementType } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import { baseAppearanceObj } from '../theme';
-import type { Appearance } from '../types';
+import { Appearance } from '../types';
 
 import {
   Container,
@@ -14,37 +13,37 @@ import {
   IconWrapper,
 } from './styled';
 
-type ActionType = {
-  text: Node,
-  onClick?: () => void,
-  href?: string,
-  key: string,
-};
+interface ActionType {
+  text: React.ReactNode;
+  onClick?: () => void;
+  href?: string;
+  key: string;
+}
 
-type Props = {
+interface Props {
   /* The appearance styling to use for the section message. */
-  appearance: Appearance,
+  appearance?: Appearance;
   /*
     The main content of the section message. This accepts a react node, although
     we recommend that this should be a paragraph.
   */
-  children: Node,
+  children: React.ReactNode;
   /*
     The heading of the section message.
   */
-  title?: string,
+  title?: string;
   /*
     Actions to be taken from the section message. These accept an object which
     are applied to @atlaskit/button components. Middots are automatically added
     between the items. We generally recommend using no more than two actions.
   */
-  actions?: Array<ActionType>,
+  actions?: Array<ActionType>;
   /*
     An Icon component to be rendered instead of the default icon for the component.
     This should only be an `@atlaskit/icon` icon. You can check out [this example](/packages/core/section-message/example/custom-icon)
     to see how to provide this icon.
   */
-  icon?: ElementType,
+  icon?: React.ElementType;
   /*
     A custom link component. This prop is designed to allow a custom link
     component to be passed to the link button being rendered by actions. The
@@ -55,15 +54,18 @@ type Props = {
 
     All actions provided will automatically have the linkcomponent passed to them.
   */
-  linkComponent?: ElementType,
-};
+  linkComponent?: React.ComponentType<any>;
+}
 
-export default class SectionMessage extends Component<Props, *> {
+export default class SectionMessage extends React.Component<Props, any> {
   static defaultProps = {
     appearance: 'info',
   };
 
-  renderAction = (action: ActionType, linkComponent?: ElementType) => {
+  renderAction = (
+    action: ActionType,
+    linkComponent?: React.ComponentType<any>,
+  ) => {
     const { href, key, onClick, text } = action;
 
     return (
@@ -94,8 +96,9 @@ export default class SectionMessage extends Component<Props, *> {
       icon,
       linkComponent,
     } = this.props;
+    //needs typecasting because TS is not recognising default props :(
     const appearanceObj =
-      baseAppearanceObj[appearance] || baseAppearanceObj.info;
+      baseAppearanceObj[appearance as Appearance] || baseAppearanceObj.info;
     const Icon = icon || appearanceObj.Icon;
 
     return (

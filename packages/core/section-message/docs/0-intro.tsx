@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
 
@@ -21,8 +20,8 @@ export default md`
     <Example
       packageName="@atlaskit/section-message"
       title="Basic"
-      Component={require('../examples/0-basic-example').default}
-      source={require('!!raw-loader!../examples/0-basic-example')}
+      Component={require('../examples/00-basic-example').default}
+      source={require('!!raw-loader!../examples/00-basic-example')}
     />
   )}
 
@@ -32,8 +31,8 @@ export default md`
     <Example
       packageName="@atlaskit/section-message"
       title="Appearance Variations"
-      Component={require('../examples/appearance-variations').default}
-      source={require('!!raw-loader!../examples/appearance-variations')}
+      Component={require('../examples/01-appearance-variations').default}
+      source={require('!!raw-loader!../examples/01-appearance-variations')}
     />
   )}
 

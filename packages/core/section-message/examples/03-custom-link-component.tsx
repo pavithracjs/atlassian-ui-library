@@ -1,10 +1,16 @@
-// @flow
 import React from 'react';
+import styled from 'styled-components';
+import { colors } from '@atlaskit/theme';
 import SectionMessage from '../src';
+
+const CustomLink = styled.button`
+  background-color: ${colors.P100} !important;
+`;
 
 const Example = () => (
   <SectionMessage
     title="The Modern Prometheus"
+    linkComponent={CustomLink}
     actions={[
       {
         key: 'mary',
@@ -19,10 +25,8 @@ const Example = () => (
     ]}
   >
     <p>
-      You will rejoice to hear that no disaster has accompanied the commencement
-      of an enterprise which you have regarded with such evil forebodings. I
-      arrived here yesterday, and my first task is to assure my dear sister of
-      my welfare and increasing confidence in the success of my undertaking.
+      The main use for passing a custom link component is to pass in a
+      react-router-link component.
     </p>
   </SectionMessage>
 );

@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import SectionMessage from '../src';
@@ -10,7 +9,7 @@ const Padding = styled.div`
 const Example = () => (
   <Fragment>
     <Padding>
-      <SectionMessage apperance="authentication" title="More">
+      <SectionMessage appearance="info" title="More">
         <p>I count the steps from one end of my island to the other</p>
         <p>It{"'"}s a hundred steps from where I sleep to the sea</p>
       </SectionMessage>

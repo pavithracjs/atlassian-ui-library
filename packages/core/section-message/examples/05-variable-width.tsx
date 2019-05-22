@@ -1,10 +1,9 @@
-// @flow
-import React, { Component } from 'react';
+import React from 'react';
 import { AkCodeBlock } from '@atlaskit/code';
 import FieldRange from '@atlaskit/field-range';
 import SectionMessage from '../src';
 
-class Example extends Component<*, *> {
+class Example extends React.Component<any, any> {
   state = { width: 800 };
 
   updateWidth = (width: number) => {
