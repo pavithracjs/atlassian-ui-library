@@ -17,8 +17,6 @@ export type ResetThemeTokens = {
   [key: string]: any;
 };
 
-// TODO: TS no index signature for ResetThemeTokens
-// TODO: TS style components types
 const orTextColor = (preferred: string) => (p: ResetThemeTokens) =>
   p[preferred] || p.textColor;
 const Div = styled.div<{ backgroundColor: string; textColor: string }>`
