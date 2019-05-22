@@ -32,4 +32,24 @@ describe('User mention description', () => {
     });
     expect(component.text()).toContain('Nickname');
   });
+
+  it('should show if name and nickname have non-matching case', () => {
+    const component = shallowRender({
+      id: '12345',
+      avatarUrl: 'www.example.com/image.png',
+      name: 'Nickname',
+      nickname: 'nickname',
+    });
+    expect(component.text()).toContain('nickname');
+  });
+
+  it('should show if name and nickname vary in whitespace', () => {
+    const component = shallowRender({
+      id: '12345',
+      avatarUrl: 'www.example.com/image.png',
+      name: 'Nick name',
+      nickname: 'Nickname',
+    });
+    expect(component.text()).toContain('Nickname');
+  });
 });
