@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 48.4.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
 ## 48.3.0
 - [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 

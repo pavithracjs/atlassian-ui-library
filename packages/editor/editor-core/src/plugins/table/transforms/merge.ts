@@ -3,7 +3,7 @@ import { Transaction, Selection } from 'prosemirror-state';
 import { Node as PMNode, Fragment } from 'prosemirror-model';
 import { getSelectionRect, findTable } from 'prosemirror-utils';
 import { CellAttributes } from '@atlaskit/adf-schema';
-import { fireAnalytics } from './fix-tables';
+import { setMeta } from './metadata';
 
 // re-creates table node with merged cells
 export function mergeCells(tr: Transaction): Transaction {
@@ -50,11 +50,17 @@ export function mergeCells(tr: Transaction): Transaction {
             }
           }
         }
+        const rowspan = rect.bottom - rect.top;
+        if (rowspan < 1) {
+          return setMeta({ type: 'MERGE_CELLS', problem: 'NEGATIVE_ROWSPAN' })(
+            tr,
+          );
+        }
         // update colspan and rowspan of the merged cell to span the selection
         const attrs = addColSpan(
           {
             ...cell.attrs,
-            rowspan: rect.bottom - rect.top,
+            rowspan,
           },
           cell.attrs.colspan,
           rect.right - rect.left - cell.attrs.colspan,
@@ -82,13 +88,20 @@ export function mergeCells(tr: Transaction): Transaction {
 
         for (let j = 0; j < prevRow.childCount; j++) {
           const cell = prevRow.child(j);
-          if (cell.attrs.rowspan + i - 1 >= rows.length) {
+          const { rowspan } = cell.attrs;
+          if (rowspan && rowspan + i - 1 >= rows.length) {
             rowChanged = true;
+            if (rowspan < 2) {
+              return setMeta({
+                type: 'MERGE_CELLS',
+                problem: 'NEGATIVE_ROWSPAN',
+              })(tr);
+            }
             cells.push(
               cell.type.createChecked(
                 {
                   ...cell.attrs,
-                  rowspan: cell.attrs.rowspan - 1,
+                  rowspan: rowspan - 1,
                 },
                 cell.content,
                 cell.marks,
@@ -107,9 +120,7 @@ export function mergeCells(tr: Transaction): Transaction {
 
   // empty tables? cancel merging like nothing happened
   if (!rows.length) {
-    // using the same message to check if the problem disappears
-    fireAnalytics({ message: 'removeEmptyRows', method: 'mergeCells' });
-    return tr;
+    return setMeta({ type: 'MERGE_CELLS', problem: 'EMPTY_TABLE' })(tr);
   }
 
   const newTable = table.node.type.createChecked(
@@ -117,16 +128,20 @@ export function mergeCells(tr: Transaction): Transaction {
     rows,
     table.node.marks,
   );
-
-  return tr
-    .replaceWith(
-      table.pos,
-      table.pos + table.node.nodeSize,
-      removeEmptyColumns(newTable),
-    )
-    .setSelection(
-      Selection.near(tr.doc.resolve((mergedCellPos || 0) + table.start)),
+  const fixedTable = removeEmptyColumns(newTable);
+  if (fixedTable === null) {
+    return setMeta({ type: 'MERGE_CELLS', problem: 'REMOVE_EMPTY_COLUMNS' })(
+      tr,
     );
+  }
+
+  return setMeta({ type: 'MERGE_CELLS' })(
+    tr
+      .replaceWith(table.pos, table.pos + table.node.nodeSize, fixedTable)
+      .setSelection(
+        Selection.near(tr.doc.resolve((mergedCellPos || 0) + table.start)),
+      ),
+  );
 }
 
 export function canMergeCells(tr: Transaction): boolean {
@@ -239,7 +254,7 @@ function getMinColSpans(table: PMNode): number[] {
   return minColspans;
 }
 
-export function removeEmptyColumns(table: PMNode): PMNode {
+export function removeEmptyColumns(table: PMNode): PMNode | null {
   const map = TableMap.get(table);
   const minColSpans = getMinColSpans(table);
   if (!minColSpans.some(colspan => colspan > 1)) {
@@ -248,31 +263,34 @@ export function removeEmptyColumns(table: PMNode): PMNode {
   const rows: PMNode[] = [];
   for (let rowIndex = 0; rowIndex < map.height; rowIndex++) {
     const cellsByCols: Record<string, PMNode> = {};
-    Object.keys(minColSpans)
-      .map(Number)
-      .forEach(colIndex => {
-        const cellPos = map.map[colIndex + rowIndex * map.width];
-        const rect = map.findCell(cellPos);
-        const cell = cellsByCols[rect.left] || table.nodeAt(cellPos);
-        if (cell && rect.top === rowIndex) {
-          if (minColSpans[colIndex] > 1) {
-            const colspan = cell.attrs.colspan - minColSpans[colIndex] + 1;
-            const { colwidth } = cell.attrs;
-            const newCell = cell.type.createChecked(
-              {
-                ...cell.attrs,
-                colspan,
-                colwidth: colwidth ? colwidth.slice(0, colspan) : null,
-              },
-              cell.content,
-              cell.marks,
-            );
-            cellsByCols[rect.left] = newCell;
-          } else {
-            cellsByCols[rect.left] = cell;
+    const cols = Object.keys(minColSpans).map(Number);
+    for (let idx in cols) {
+      const colIndex = cols[idx];
+      const cellPos = map.map[colIndex + rowIndex * map.width];
+      const rect = map.findCell(cellPos);
+      const cell = cellsByCols[rect.left] || table.nodeAt(cellPos);
+      if (cell && rect.top === rowIndex) {
+        if (minColSpans[colIndex] > 1) {
+          const colspan = cell.attrs.colspan - minColSpans[colIndex] + 1;
+          if (colspan < 1) {
+            return null;
           }
+          const { colwidth } = cell.attrs;
+          const newCell = cell.type.createChecked(
+            {
+              ...cell.attrs,
+              colspan,
+              colwidth: colwidth ? colwidth.slice(0, colspan) : null,
+            },
+            cell.content,
+            cell.marks,
+          );
+          cellsByCols[rect.left] = newCell;
+        } else {
+          cellsByCols[rect.left] = cell;
         }
-      });
+      }
+    }
 
     const rowCells: PMNode[] = Object.keys(cellsByCols).map(
       col => cellsByCols[col],
@@ -284,7 +302,7 @@ export function removeEmptyColumns(table: PMNode): PMNode {
   }
 
   if (!rows.length) {
-    return table;
+    return null;
   }
 
   return table.type.createChecked(table.attrs, rows, table.marks);

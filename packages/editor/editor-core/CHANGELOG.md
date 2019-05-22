@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 112.6.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
+## 112.5.2
+- [patch] [6a65053272](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a65053272):
+
+  - ED-6929: avoid having a negative rowspan after merging cells
+
 ## 112.5.1
 - [patch] [a511611473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a511611473):
 
