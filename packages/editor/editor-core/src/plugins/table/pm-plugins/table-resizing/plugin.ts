@@ -206,12 +206,23 @@ function createResizeHandle(tableRef: HTMLTableElement): HTMLDivElement | null {
   const resizeHandleRef = document.createElement('div');
   resizeHandleRef.className = ClassName.COLUMN_RESIZE_HANDLE;
   tableRef.parentNode!.appendChild(resizeHandleRef);
+
   const tableActive = closestElement(tableRef, `.${ClassName.WITH_CONTROLS}`);
-  resizeHandleRef.style.height = `${
-    tableActive
-      ? tableRef.offsetHeight + akEditorTableToolbarSize
-      : tableRef.offsetHeight
-  }px`;
+  const style = {
+    height: `${
+      tableActive
+        ? tableRef.offsetHeight + akEditorTableToolbarSize
+        : tableRef.offsetHeight
+    }px`,
+    top: `${
+      tableActive
+        ? tableRef.offsetTop - akEditorTableToolbarSize
+        : tableRef.offsetTop
+    }px`,
+  };
+
+  resizeHandleRef.style.top = style.top;
+  resizeHandleRef.style.height = style.height;
 
   return resizeHandleRef;
 }

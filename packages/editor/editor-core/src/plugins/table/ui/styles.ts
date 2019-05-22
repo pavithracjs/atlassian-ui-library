@@ -4,6 +4,7 @@ import { borderRadius, colors, fontSize } from '@atlaskit/theme';
 import {
   browser,
   tableMarginTop,
+  tableMarginBottom,
   tableSharedStyle,
   akEditorTableToolbarSize,
   akEditorUnitZIndex,
@@ -54,6 +55,7 @@ export const contextualMenuDropdownWidth = 180;
 export const layoutButtonSize = 32;
 export const tableInsertColumnButtonLeftOffset = 22;
 export const tableInsertColumnButtonTopOffset = 22;
+export const tableScrollbarOffset = 15;
 
 const isIE11 = browser.ie_version === 11;
 
@@ -521,7 +523,7 @@ export const tableStyles = css`
           rgba(99, 114, 130, 0) 0,
           ${N40A} 100%
         );
-        height: calc(100% - ${tableMarginTop + 8}px);
+        height: calc(100% - ${tableMarginTop + tableMarginBottom - 2}px);
         left: calc(100% + 2px);
         top: ${tableMarginTop - 1}px;
       }
@@ -549,6 +551,7 @@ export const tableStyles = css`
 
     /* Table */
     .${ClassName.TABLE_NODE_WRAPPER} > table {
+      overflow: hidden;
       table-layout: fixed;
 
       .${ClassName.CELL_NODEVIEW_WRAPPER} {
@@ -605,6 +608,8 @@ export const tableStyles = css`
       margin-right: -${tableInsertColumnButtonSize / 2}px;
       padding-top: ${tableInsertColumnButtonSize / 2}px;
       margin-top: -${tableInsertColumnButtonSize / 2}px;
+      padding-bottom: ${tableScrollbarOffset}px;
+      margin-bottom: -${tableScrollbarOffset}px;
       z-index: ${akEditorUnitZIndex - 1};
       /* fixes gap cursor height */
       overflow: ${isIE11 ? 'none' : 'auto'};
@@ -613,7 +618,7 @@ export const tableStyles = css`
     /* =============== TABLE COLUMN RESIZING ================== */
     .${ClassName.COLUMN_RESIZE_HANDLE} {
       position: absolute;
-      bottom: 0;
+      top: 0;
       width: 2px;
       pointer-events: none;
       background-color: ${tableBorderSelectedColor};

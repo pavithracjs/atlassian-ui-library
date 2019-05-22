@@ -146,7 +146,7 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                     mountPoint={popupsMountPoint}
                     boundariesElement={popupsBoundariesElement}
                     scrollableElement={popupsScrollableElement}
-                    targetRef={pluginState.tableFloatingToolbarTarget}
+                    targetRef={pluginState.tableWrapperTarget!}
                     isResizing={
                       !!tableResizingPluginState &&
                       !!tableResizingPluginState.dragging
