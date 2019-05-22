@@ -382,7 +382,7 @@ export class JiraQuickSearchContainer extends React.Component<
         SCOPES,
         'jira',
         null,
-        abTest
+        !!abTest
           ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
           : JIRA_RESULT_LIMIT,
         this.props.referralContextIdentifiers,
@@ -461,7 +461,7 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
     startTime: number,
     queryVersion: number,
-    abTest: ABTest,
+    abTest?: ABTest,
   ): Promise<ResultsWithTiming> => {
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
       query,
@@ -469,7 +469,9 @@ export class JiraQuickSearchContainer extends React.Component<
       SCOPES,
       'jira',
       queryVersion,
-      getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT),
+      !!abTest
+        ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
+        : JIRA_RESULT_LIMIT,
       this.props.referralContextIdentifiers,
     );
 

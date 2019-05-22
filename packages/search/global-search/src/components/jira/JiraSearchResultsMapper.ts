@@ -15,7 +15,7 @@ import {
 import { messages } from '../../messages';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 import { attachJiraContextIdentifiers } from '../common/contextIdentifiersHelper';
-import { ABTest } from 'src/api/CrossProductSearchClient';
+import { ABTest } from '../../api/CrossProductSearchClient';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
 
 const DEFAULT_MAX_OBJECTS = 8;
