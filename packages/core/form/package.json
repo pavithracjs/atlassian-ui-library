@@ -23,7 +23,7 @@
     "@atlaskit/icon": "^17.0.0",
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
-    "final-form": "^4.10.0",
+    "final-form": "^4.13.0",
     "final-form-focus": "^1.1.0",
     "memoize-one": "^3.0.1",
     "react-uid": "^2.2.0",
