@@ -216,14 +216,22 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private handleShareSubmit = (data: DialogContentState) => {
-    const { onShareSubmit, shareOrigin, showFlags, config } = this.props;
+    const {
+      onShareSubmit,
+      shareContentType,
+      shareOrigin,
+      showFlags,
+      config,
+    } = this.props;
     if (!onShareSubmit) {
       return;
     }
 
     this.setState({ isSharing: true });
 
-    this.createAndFireEvent(submitShare(this.start, data, shareOrigin, config));
+    this.createAndFireEvent(
+      submitShare(this.start, data, shareContentType, shareOrigin, config),
+    );
 
     onShareSubmit(data)
       .then(() => {

@@ -126,7 +126,7 @@ describe('share analytics', () => {
         value: 'Some comment',
       },
     };
-    it('should create event payload without origin id', () => {
+    it('should create event payload without share content type and origin id', () => {
       expect(submitShare(100, data)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
@@ -147,14 +147,37 @@ describe('share analytics', () => {
       });
     });
 
-    it('should create event payload with origin id', () => {
-      const shareOrigin: OriginTracing = mockShareOrigin();
-      expect(submitShare(100, data, shareOrigin)).toMatchObject({
+    it('should create event payload without origin id', () => {
+      expect(submitShare(100, data, 'issue')).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
         actionSubjectId: 'submitShare',
         attributes: expect.objectContaining({
+          contentType: 'issue',
+          duration: expect.any(Number),
+          teamCount: 1,
+          userCount: 1,
+          emailCount: 1,
+          users: ['abc-123'],
+          teams: ['123-abc'],
+          packageVersion: expect.any(String),
+          packageName: '@atlaskit/share',
+          isMessageEnabled: false,
+          messageLength: 0,
+        }),
+      });
+    });
+
+    it('should create event payload with origin id', () => {
+      const shareOrigin: OriginTracing = mockShareOrigin();
+      expect(submitShare(100, data, 'issue', shareOrigin)).toMatchObject({
+        eventType: 'ui',
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: 'submitShare',
+        attributes: expect.objectContaining({
+          contentType: 'issue',
           duration: expect.any(Number),
           teamCount: 1,
           userCount: 1,
@@ -181,12 +204,15 @@ describe('share analytics', () => {
         mode: 'ANYONE',
         allowComment: true,
       };
-      expect(submitShare(100, data, shareOrigin, config)).toMatchObject({
+      expect(
+        submitShare(100, data, 'issue', shareOrigin, config),
+      ).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
         actionSubjectId: 'submitShare',
         attributes: expect.objectContaining({
+          contentType: 'issue',
           duration: expect.any(Number),
           teamCount: 1,
           userCount: 1,
