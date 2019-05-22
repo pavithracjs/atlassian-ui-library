@@ -573,7 +573,12 @@ describe('CrossProductSearchClient', () => {
     // @ts-ignore
     const body = JSON.parse(call[1].body);
 
-    expect(body.modelParams).toBeUndefined();
+    expect(body.modelParams).toEqual([
+      {
+        '@type': 'currentSpace',
+        projectId: '123',
+      },
+    ]);
   });
 
   it('should send the right body with project id and query version', async () => {

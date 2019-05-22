@@ -28,6 +28,13 @@ export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   controlId: 'default',
 });
 
+type ContainerIdModelParamMap = { [key in 'jira' | 'confluence']: string };
+
+const CONTAINER_ID_MODEL_PARAMS: ContainerIdModelParamMap = {
+  jira: 'currentProject',
+  confluence: 'currentSpace',
+};
+
 export type CrossProductSearchResults = {
   results: Map<Scope, Result[]>;
   abTest?: ABTest;
@@ -177,14 +184,20 @@ export default class CachingCrossProductSearchClientImpl
       });
     }
 
-    if (currentQuickSearchContext === 'jira') {
+    if (
+      currentQuickSearchContext === 'jira' ||
+      currentQuickSearchContext === 'confluence'
+    ) {
       const containerId =
         referralContextIdentifiers &&
         referralContextIdentifiers.currentContainerId;
 
       if (containerId !== undefined && containerId !== null) {
+        const containerIdParamName =
+          CONTAINER_ID_MODEL_PARAMS[currentQuickSearchContext];
+
         modelParams.push({
-          '@type': 'currentProject',
+          '@type': containerIdParamName,
           projectId: containerId,
         });
       }
