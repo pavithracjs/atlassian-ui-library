@@ -29,9 +29,13 @@ export default md`
 
   ## Usage
 
-  The ExperimentController is passed a configuration object - an map of experimentKey: string to enrollmentResolver: () => Promise\\\<EnrollmentDetails\\\>.
-  This resolver based approach allows the rendering of targeted components to be blocked until the resolver, an async method is completed, and the
-  appropriate experience is only then shown to the user; thus preventing a swapping of experience. A loading component can be provided, to show while the enrollment is being processed.
+  The ExperimentController is passed a configuration object via the experimentEnrollmentConfig prop. 
+  It's a map of experiment resolvers -- async functions that decide which variant should be rendered for each experiment.
+  If additional data needs to be passed to the resolvers (e.g. from a Redux store), the experimentEnrollmentOptions prop can be used.
+  
+  This resolver based approach allows the rendering of targeted components to be blocked until the resolver is completed, and the
+  appropriate experience is only then shown to the user; thus preventing a swapping of experience. 
+  A loading component can be provided, to show while the enrollment is being processed.
 
   ${code`import { 
     asExperiment, 

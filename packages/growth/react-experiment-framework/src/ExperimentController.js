@@ -12,8 +12,13 @@ import type {
 } from './types';
 
 type Props = {
+  // A map of experiment resolvers.
   experimentEnrollmentConfig: ExperimentEnrollmentConfig,
+
+  // A map of experiment options (passed to their respective resolver).
   experimentEnrollmentOptions?: ExperimentEnrollmentOptions,
+
+  // Children to render inside the Experiment Controller.
   children?: Element<any>,
 };
 
