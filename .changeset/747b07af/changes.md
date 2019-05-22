@@ -1,0 +1,1 @@
+- ED-6765: fixed mediaSingle deletion issue on Android (no workaround)
