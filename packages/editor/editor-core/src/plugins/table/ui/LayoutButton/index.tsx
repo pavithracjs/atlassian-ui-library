@@ -23,9 +23,7 @@ export interface Props {
 }
 
 const POPUP_OFFSET = [
-  // -15 pixels after the table wrapper container
-  // to give some space to the button after the table
-  -15,
+  0,
   // -22 pixels to align y position with
   // the columns controls
   -22,
