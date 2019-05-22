@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.4.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
 ## 8.3.2
 - [patch] [ec1d1861bc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec1d1861bc):
 
