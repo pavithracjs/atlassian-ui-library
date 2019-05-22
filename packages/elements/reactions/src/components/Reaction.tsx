@@ -2,7 +2,8 @@ import {
   withAnalyticsEvents,
   WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
-import { EmojiProvider, ResourcedEmoji } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { ResourcedEmoji } from '@atlaskit/emoji/element';
 import { borderRadius, colors } from '@atlaskit/theme';
 import cx from 'classnames';
 import * as React from 'react';

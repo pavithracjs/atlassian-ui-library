@@ -11,7 +11,7 @@ import {
 } from '@atlaskit/editor-common';
 import { ActivityProvider } from '@atlaskit/activity';
 import { MentionProvider } from '@atlaskit/mention/resource';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { TaskDecisionProvider } from '@atlaskit/task-decision';
 
 import { PluginConfig as TablesPluginConfig } from '../plugins/table/types';
