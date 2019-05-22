@@ -1,1 +1,0 @@
-- Don't display nickname in mention list if it is the same as name.
