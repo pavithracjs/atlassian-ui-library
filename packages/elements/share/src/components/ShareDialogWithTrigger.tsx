@@ -163,7 +163,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
           // and trigger event.preventDefault()
           const isKeyPressedOnContainer = !!(
             this.containerRef.current &&
-            this.containerRef.current == event.target
+            this.containerRef.current === event.target
           );
 
           // we DO NOT expect any prevent default behavior on the container itself
