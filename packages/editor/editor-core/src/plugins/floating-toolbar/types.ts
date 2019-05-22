@@ -103,6 +103,7 @@ export interface FloatingToolbarConfig {
   className?: string;
   height?: number;
   width?: number;
+  offset?: [number, number];
 }
 
 export type FloatingToolbarHandler = (

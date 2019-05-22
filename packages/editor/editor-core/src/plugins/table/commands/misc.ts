@@ -55,14 +55,17 @@ export const setTableRef = (ref?: HTMLElement | null) =>
   createCommand(
     state => {
       const tableRef = ref || undefined;
-      const tableFloatingToolbarTarget =
+      const tableNode = ref ? findTable(state.selection)!.node : undefined;
+      const tableWrapperTarget =
         closestElement(tableRef, `.${ClassName.TABLE_NODE_WRAPPER}`) ||
         undefined;
-      const tableNode = ref ? findTable(state.selection)!.node : undefined;
-
       return {
         type: 'SET_TABLE_REF',
-        data: { tableRef, tableFloatingToolbarTarget, tableNode },
+        data: {
+          tableRef,
+          tableNode,
+          tableWrapperTarget,
+        },
       };
     },
     tr => tr.setMeta('addToHistory', false),
