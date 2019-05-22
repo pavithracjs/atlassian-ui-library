@@ -18,14 +18,17 @@ describe(name, () => {
     );
   describe('console errors', () => {
     beforeEach(async () => {
+      // @ts-ignore
       jest.spyOn(global.console, 'error');
     });
 
     afterEach(() => {
-      (global.console.error as any).mockRestore();
+      // @ts-ignore
+      global.console.error.mockRestore();
     });
     it('should not log console error on mount', () => {
       mountCheckbox({});
+      // @ts-ignore
       expect(global.console.error).not.toHaveBeenCalled();
     });
   });
@@ -109,12 +112,16 @@ describe(name, () => {
 
 describe('CheckboxWithAnalytics', () => {
   beforeEach(() => {
+    // @ts-ignore
     jest.spyOn(global.console, 'warn');
+    // @ts-ignore
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    (global.console.warn as any).mockRestore();
-    (global.console.error as any).mockRestore();
+    // @ts-ignore
+    global.console.warn.mockRestore();
+    // @ts-ignore
+    global.console.error.mockRestore();
   });
 
   it('should mount without errors', () => {

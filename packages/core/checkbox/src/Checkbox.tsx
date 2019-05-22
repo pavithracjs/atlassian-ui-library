@@ -165,7 +165,7 @@ class Checkbox extends Component<CheckboxProps, State> {
               type="checkbox"
               value={value}
               name={name}
-              innerRef={r => (this.checkbox = r)} // tslint:disable-line
+              innerRef={r => (this.checkbox = r)} // eslint-disable-line
               required={isRequired}
               {...rest}
             />
