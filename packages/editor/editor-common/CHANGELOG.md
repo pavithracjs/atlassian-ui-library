@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 39.7.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
 ## 39.6.1
 - [patch] [56356b17a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56356b17a3):
 

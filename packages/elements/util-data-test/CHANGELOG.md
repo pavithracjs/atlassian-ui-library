@@ -1,5 +1,10 @@
 # @atlaskit/util-data-test
 
+## 12.2.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
 ## 12.1.0
 - [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
 

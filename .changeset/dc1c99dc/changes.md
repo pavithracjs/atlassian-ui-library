@@ -1,1 +1,0 @@
-- consume emoji new entrypoints in AK
