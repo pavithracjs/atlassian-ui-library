@@ -27,12 +27,6 @@ export default () => (
       <h1>Local small image</h1>
       <ImageNavigator
         imageSource={smallImage}
-        onPositionChanged={(x, y) => {
-          console.log('onPositionChanged', x, y);
-        }}
-        onSizeChanged={size => {
-          console.log('onSizeChanged', size);
-        }}
         onLoad={onLoad}
         onRemoveImage={() => console.log('onRemoveImage')}
         onImageError={errorMessage => console.log('onImageError', errorMessage)}

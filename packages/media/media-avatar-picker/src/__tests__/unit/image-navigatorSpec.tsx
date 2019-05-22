@@ -4,12 +4,11 @@ const fileSizeMbSpy = jest.spyOn(util, 'fileSizeMb');
 import * as React from 'react';
 import Spinner from '@atlaskit/spinner';
 import Button from '@atlaskit/button';
-import { Ellipsify, Camera, Rectangle } from '@atlaskit/media-ui';
+import { Ellipsify } from '@atlaskit/media-ui';
 import * as MediaUI from '@atlaskit/media-ui';
 import ImageNavigator, {
   ImageNavigator as ImageNavigatorView,
   CONTAINER_INNER_SIZE,
-  CONTAINER_RECT,
   Props as ImageNavigatorProps,
 } from '../../image-navigator';
 import { MAX_SIZE_MB } from '../../avatar-picker-dialog';
@@ -21,7 +20,7 @@ import {
   PaddedBreak,
 } from '../../image-navigator/styled';
 import { ImageCropper } from '../../image-cropper';
-import Slider from '@atlaskit/field-range';
+import { Slider } from '../../image-navigator/slider';
 import {
   createMouseEvent,
   smallImage,
@@ -33,8 +32,6 @@ import { ReactWrapper } from 'enzyme';
 describe('Image navigator', () => {
   let component: any;
   let onImageLoaded: () => void;
-  let onPositionChanged: () => void;
-  let onSizeChanged: () => void;
   let onRemoveImage: () => void;
   let onImageError: () => void;
   let onImageUploaded: () => void;
@@ -47,8 +44,6 @@ describe('Image navigator', () => {
       <ImageNavigatorView
         imageSource={smallImage}
         onImageLoaded={onImageLoaded}
-        onPositionChanged={onPositionChanged}
-        onSizeChanged={onSizeChanged}
         onRemoveImage={onRemoveImage}
         onImageError={onImageError}
         onImageUploaded={onImageUploaded}
@@ -63,8 +58,6 @@ describe('Image navigator', () => {
     getOrientation = jest.spyOn(MediaUI, 'getOrientation');
     fileToDataURI = jest.spyOn(MediaUI, 'fileToDataURI');
     onImageLoaded = jest.fn();
-    onPositionChanged = jest.fn();
-    onSizeChanged = jest.fn();
     onRemoveImage = jest.fn();
     onImageError = jest.fn();
     onImageUploaded = jest.fn();
@@ -78,6 +71,7 @@ describe('Image navigator', () => {
   describe('with an imageSource', () => {
     let imageCropper: any;
     let slider: any;
+
     beforeEach(() => {
       component = setup();
       imageCropper = () => component.find(ImageCropper);
@@ -92,78 +86,13 @@ describe('Image navigator', () => {
       expect(slider().length).toBe(1);
     });
 
-    describe('when landscape image is loaded', () => {
-      const imageHeight = CONTAINER_INNER_SIZE * 2;
-      const imageWidth = CONTAINER_INNER_SIZE * 4;
-
-      beforeEach(() => {
-        imageCropper()
-          .props()
-          .onImageSize(imageWidth, imageHeight);
-        component.update();
-      });
-
-      it('should have image width set', () => {
-        expect(imageCropper().props().imageWidth).toBe(imageWidth);
-      });
-
-      it('should have slider value set', () => {
-        expect(slider().props().value).toBe(50);
-      });
-
-      it('should have image scale set', () => {
-        expect(imageCropper().props().scale).toBe(0.5);
-      });
-
-      it('should have min scale set to minimum allowed', () => {
-        const expectedMinScale = Math.max(
-          CONTAINER_INNER_SIZE / imageWidth,
-          CONTAINER_INNER_SIZE / imageHeight,
-        );
-        expect(slider().props().min).toBe(expectedMinScale * 100);
-      });
-    });
-
-    describe('when portrait image is loaded', () => {
-      const imageHeight = CONTAINER_INNER_SIZE * 4;
-      const imageWidth = CONTAINER_INNER_SIZE * 2;
-      beforeEach(() => {
-        imageCropper()
-          .props()
-          .onImageSize(imageWidth, imageHeight);
-        component.update();
-      });
-
-      it('should have image scale set', () => {
-        expect(imageCropper().props().scale).toBe(0.5);
-      });
-    });
-
-    describe('when image is smaller then container', () => {
-      const imageHeight = CONTAINER_INNER_SIZE / 2;
-      const imageWidth = CONTAINER_INNER_SIZE / 2;
-
-      beforeEach(() => {
-        imageCropper()
-          .props()
-          .onImageSize(imageWidth, imageHeight);
-        component.update();
-      });
-
-      it('should have image scale maxed to fit CONTAINER_SIZE', () => {
-        expect(imageCropper().props().scale).toBe(2);
-      });
-    });
-
     it('should change scale in state when slider is moved', () => {
-      const camera = new Camera(CONTAINER_RECT, new Rectangle(10000, 10000));
-      component.setState({ camera });
       slider()
         .props()
         .onChange(20);
 
       component.update();
-      expect(component.state().scale).toBe(0.2);
+      expect(component.state().scale).toBe(20);
     });
 
     it('should mark state as is dragging when mouse pressed down', () => {
@@ -192,74 +121,10 @@ describe('Image navigator', () => {
         slider()
           .props()
           .onChange(100);
-        onPositionChanged = jest.fn();
-        component.setProps({ onPositionChanged });
-      });
-
-      it('should change state during drag', () => {
-        imageCropper()
-          .props()
-          .onDragStarted(0, 0);
-        document.dispatchEvent(
-          createMouseEvent('mousemove', { screenX: 10, screenY: 10 }),
-        );
-        expect(component.state().cursorPos).toEqual({ x: 10, y: 10 });
-        expect(component.state().imagePos).toEqual({ x: -62, y: -62 });
-
-        document.dispatchEvent(
-          createMouseEvent('mousemove', { screenX: -20, screenY: -30 }),
-        );
-        expect(component.state().cursorPos).toEqual({ x: -20, y: -30 });
-        expect(component.state().imagePos).toEqual({ x: -92, y: -102 });
-
-        document.dispatchEvent(createMouseEvent('mouseup'));
-        expect(component.state().imagePos).toEqual({ x: -92, y: -102 });
-      });
-      it('should call onPositionChanged on drop', () => {
-        imageCropper()
-          .props()
-          .onDragStarted(0, 0);
-        document.dispatchEvent(
-          createMouseEvent('mousemove', { screenX: 0, screenY: 0 }),
-        );
-        expect(onPositionChanged).not.toHaveBeenCalled();
-
-        document.dispatchEvent(
-          createMouseEvent('mousemove', { screenX: -20, screenY: -30 }),
-        );
-        expect(onPositionChanged).not.toHaveBeenCalled();
-
-        document.dispatchEvent(createMouseEvent('mouseup'));
-        expect(onPositionChanged).toHaveBeenCalledWith(120, 130);
       });
     });
+
     describe('when image is scaled', () => {
-      it('should call onSizeChanged with new size', () => {
-        const imageWidth = 20;
-        const camera = new Camera(CONTAINER_RECT, new Rectangle(imageWidth, 1));
-        component.setState({ camera });
-        const { value } = slider().props();
-        // decrease the slider by 5%
-        slider()
-          .props()
-          .onChange(value * 0.95);
-
-        // this need to be more specific
-        expect(onSizeChanged).toHaveBeenCalled();
-      });
-      it('should call onPositionChanged with new coordinates', () => {
-        const imageWidth = 20;
-        const camera = new Camera(CONTAINER_RECT, new Rectangle(imageWidth, 1));
-        component.setState({ camera });
-        const { value } = slider().props();
-        // decrease the slider by 5%
-        slider()
-          .props()
-          .onChange(value * 0.95);
-
-        // this need to be more specific
-        expect(onPositionChanged).toHaveBeenCalled();
-      });
       it('should render loading state when "isLoading" is true', () => {
         const component = setup({ isLoading: true });
 
@@ -281,8 +146,6 @@ describe('Image navigator', () => {
       component = mountWithIntlContext(
         <ImageNavigator
           onImageLoaded={onImageLoaded}
-          onPositionChanged={onPositionChanged}
-          onSizeChanged={onSizeChanged}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
           onImageUploaded={onImageUploaded}
@@ -291,8 +154,6 @@ describe('Image navigator', () => {
       viewComponent = mountWithIntlContext(
         <ImageNavigatorView
           onImageLoaded={onImageLoaded}
-          onPositionChanged={onPositionChanged}
-          onSizeChanged={onSizeChanged}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
           onImageUploaded={onImageUploaded}
@@ -347,7 +208,7 @@ describe('Image navigator', () => {
 
         const { onDrop } = viewComponent.find(DragZone).props();
 
-        onDrop(mockDropEvent(droppedImage));
+        onDrop!(mockDropEvent(droppedImage));
         await orientationPromise;
         await fileToDataURIPromise;
         expect(viewComponent.state('imageFile')).toBe(droppedImage);
@@ -386,8 +247,6 @@ describe('Image navigator', () => {
         <ImageNavigatorView
           imageSource={smallImage}
           onImageLoaded={onImageLoaded}
-          onPositionChanged={onPositionChanged}
-          onSizeChanged={onSizeChanged}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
           onImageUploaded={onImageUploaded}
@@ -411,8 +270,6 @@ describe('Image navigator', () => {
         <ImageNavigator
           imageSource={smallImage}
           onImageLoaded={onImageLoaded}
-          onPositionChanged={onPositionChanged}
-          onSizeChanged={onSizeChanged}
           onRemoveImage={onRemoveImage}
           errorMessage={errorMessage}
           onImageError={onImageError}

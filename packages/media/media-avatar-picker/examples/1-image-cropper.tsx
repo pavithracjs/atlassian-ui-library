@@ -6,11 +6,13 @@ import { tallImage } from '@atlaskit/media-test-helpers';
 
 const naturalWidth = 5360;
 
-const onImageSize = (width: number, height: number) =>
-  console.log('onImageSize', width, height);
+const onImageLoaded = (img: HTMLImageElement) =>
+  console.log('onImageLoaded', img.naturalWidth, img.naturalHeight);
 const onRemoveImage = () => console.log('onRemoveImage');
 const onImageError = (errorMessage: string) =>
   console.log('onImageError', errorMessage);
+const onViewportMouseMove = (x: number, y: number) =>
+  console.log('onViewportMouseMove');
 
 export default () => (
   <IntlProvider locale="en">
@@ -21,13 +23,13 @@ export default () => (
           imageOrientation={1}
           imageSource={tallImage}
           imageWidth={naturalWidth}
-          scale={0.08}
           top={-80}
           left={-80}
           onDragStarted={() => console.log('DragStarted')}
-          onImageSize={onImageSize}
+          onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
+          onViewportMouseMove={onViewportMouseMove}
         />
       </div>
       <div>
@@ -35,12 +37,12 @@ export default () => (
         <ImageCropper
           imageOrientation={1}
           imageSource={tallImage}
-          scale={0.14}
           top={-50}
           left={-115}
-          onImageSize={onImageSize}
+          onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
+          onViewportMouseMove={onViewportMouseMove}
         />
       </div>
       <div>
@@ -49,11 +51,11 @@ export default () => (
           imageOrientation={1}
           imageSource={tallImage}
           imageWidth={naturalWidth}
-          scale={0.14}
+          onImageLoaded={onImageLoaded}
           top={-50}
           left={-115}
           containerSize={400}
-          onImageSize={onImageSize}
+          onViewportMouseMove={onViewportMouseMove}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
         />
@@ -64,13 +66,13 @@ export default () => (
           imageOrientation={1}
           imageSource={tallImage}
           imageWidth={naturalWidth}
-          scale={0.08}
           top={-70}
           left={-90}
           isCircularMask={true}
-          onImageSize={onImageSize}
+          onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
+          onViewportMouseMove={onViewportMouseMove}
         />
       </div>
     </div>

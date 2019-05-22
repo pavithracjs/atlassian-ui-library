@@ -5,10 +5,7 @@ import Button from '@atlaskit/button';
 import { FormattedMessage, intlShape, IntlProvider } from 'react-intl';
 import { fileToDataURI, dataURItoFile, messages } from '@atlaskit/media-ui';
 import { Avatar } from '../avatar-list';
-import ImageNavigator, {
-  CropProperties,
-  CONTAINER_INNER_SIZE,
-} from '../image-navigator';
+import ImageNavigator, { CropProperties } from '../image-navigator';
 import { PredefinedAvatarList } from '../predefined-avatar-list';
 import {
   AvatarPickerViewWrapper,

@@ -8,8 +8,6 @@ import {
   MAX_SCALE,
 } from '../../viewport';
 
-const debug = (obj: any) => expect('').toEqual(JSON.stringify(obj, null, 4));
-
 // test constants
 const DEFAULT_ITEM_WIDTH = DEFAULT_WIDTH * 2;
 const DEFAULT_ITEM_HEIGHT = DEFAULT_HEIGHT * 2;

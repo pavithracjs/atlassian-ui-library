@@ -27,8 +27,6 @@ export default () => (
       <ImageNavigator
         imageSource={remoteImage}
         onImageLoaded={(file, crop) => console.log('onImageLoaded', file, crop)}
-        onPositionChanged={(x, y) => console.log('onPositionChanged', x, y)}
-        onSizeChanged={size => console.log('onSizeChanged', size)}
         onRemoveImage={() => console.log('onRemoveImage')}
         onImageError={errorMessage => console.log('onImageError', errorMessage)}
         onLoad={onLoad}

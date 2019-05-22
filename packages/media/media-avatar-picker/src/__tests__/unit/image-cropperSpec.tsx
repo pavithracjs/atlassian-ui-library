@@ -1,8 +1,5 @@
 import * as React from 'react';
-import ImageCropper, {
-  ImageCropperProp,
-  State as ImageCropperState,
-} from '../../image-cropper';
+import ImageCropper, { ImageCropperProp } from '../../image-cropper';
 import { ERROR } from '../../avatar-picker-dialog';
 import {
   Container,
@@ -19,31 +16,30 @@ const imageSource = smallImage;
 const top = 10;
 const left = 20;
 const containerSize = 400;
-const scale = 0.8;
 
 describe('Image cropper', () => {
   const createComponent = (props = {}) => {
     const onDragStartedSpy = jest.fn();
-    const onImageSizeSpy = jest.fn();
+    const onImageLoadedSpy = jest.fn();
     const onLoadSpy = jest.fn();
     const onRemoveImageSpy = jest.fn();
     const onImageErrorSpy = jest.fn();
+    const onViewportMouseMoveSpy = jest.fn();
 
     const allProps: ImageCropperProp = {
       imageSource,
-      scale,
       containerSize,
       top,
       left,
       onDragStarted: onDragStartedSpy,
-      onImageSize: onImageSizeSpy,
-      onLoad: onLoadSpy,
+      onImageLoaded: onImageLoadedSpy,
       onRemoveImage: onRemoveImageSpy,
       onImageError: onImageErrorSpy,
+      onViewportMouseMove: onViewportMouseMoveSpy,
       imageOrientation: 1,
       ...props,
     };
-    const component = mountWithIntlContext<ImageCropperProp, ImageCropperState>(
+    const component = mountWithIntlContext<ImageCropperProp, {}>(
       <ImageCropper {...allProps} />,
     );
     const img = component.find('img');
@@ -54,7 +50,7 @@ describe('Image cropper', () => {
 
     return {
       onDragStartedSpy,
-      onImageSizeSpy,
+      onImageLoadedSpy,
       onLoadSpy,
       onRemoveImageSpy,
       onImageErrorSpy,
@@ -88,26 +84,6 @@ describe('Image cropper', () => {
           transform: 'translate(-50%, -50%)',
         });
       });
-
-      it('should have scaled width', () => {
-        const { imgContainer } = createComponent({ imageWidth });
-
-        expect(imgContainer.props().style).toMatchObject({
-          width: `${imageWidth * scale}px`,
-        });
-      });
-
-      it('should have defined size', () => {
-        const { imgContainer } = createComponent({ imageWidth });
-
-        expect(imgContainer.props().style).toEqual({
-          display: 'block',
-          height: 'auto',
-          left: `${left}px`,
-          top: `${top}px`,
-          width: `${imageWidth * scale}px`,
-        });
-      });
     });
 
     describe('container', () => {
@@ -130,15 +106,16 @@ describe('Image cropper', () => {
   });
 
   describe('without image width', () => {
-    it('should call onImageSize when image is loaded', () => {
-      const { component, onImageSizeSpy } = createComponent({ imageWidth });
-
-      component.find(MediaImage).props().onImageLoad!({
+    it('should call onImageLoaded when image is loaded', () => {
+      const { component, onImageLoadedSpy } = createComponent({ imageWidth });
+      const img = {
         naturalWidth: imageWidth,
         naturalHeight: imageHeight,
-      } as any);
-      expect(onImageSizeSpy).toHaveBeenCalledTimes(1);
-      expect(onImageSizeSpy).toHaveBeenCalledWith(imageWidth, imageHeight);
+      } as any;
+
+      component.find(MediaImage).props().onImageLoad!(img);
+      expect(onImageLoadedSpy).toHaveBeenCalledTimes(1);
+      expect(onImageLoadedSpy).toHaveBeenCalledWith(img);
     });
   });
 
