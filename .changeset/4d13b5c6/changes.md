@@ -1,1 +1,0 @@
-- fix lazy rendering bugs in Smart Links.

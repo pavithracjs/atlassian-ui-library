@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.9.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
 ## 112.8.1
 - [patch] [5973916c23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5973916c23):
 
