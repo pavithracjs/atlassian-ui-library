@@ -10,7 +10,7 @@ import {
   ErrorReportingHandler,
 } from '@atlaskit/editor-common';
 import { ActivityProvider } from '@atlaskit/activity';
-import { MentionProvider } from '@atlaskit/mention';
+import { MentionProvider } from '@atlaskit/mention/resource';
 import { EmojiProvider } from '@atlaskit/emoji';
 import { TaskDecisionProvider } from '@atlaskit/task-decision';
 

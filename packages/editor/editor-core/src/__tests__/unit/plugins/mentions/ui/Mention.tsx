@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { ResourcedMention } from '@atlaskit/mention';
+import { ResourcedMention } from '@atlaskit/mention/element';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import Mention from '../../../../../plugins/mentions/ui/Mention';
 // avoid polluting test logs with error message in console

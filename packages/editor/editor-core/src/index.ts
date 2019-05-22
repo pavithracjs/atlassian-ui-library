@@ -22,10 +22,10 @@ export {
   AbstractMentionResource,
   MentionProvider,
   MentionResource,
-  TeamMentionResource,
   PresenceProvider,
   PresenceResource,
-} from '@atlaskit/mention';
+} from '@atlaskit/mention/resource';
+export { TeamMentionResource } from '@atlaskit/mention/team-resource';
 export {
   QuickInsertProvider,
   QuickInsertItem,
