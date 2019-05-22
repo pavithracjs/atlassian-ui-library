@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Context, MediaClientConfig } from '@atlaskit/media-core';
 import { MediaClient } from '..';
-import { XOR } from '@atlaskit/type-helpers';
+import { Omit, XOR } from '@atlaskit/type-helpers';
 
 export interface WithContext {
   context: Context;
@@ -39,10 +39,12 @@ const getMediaClient = (props: WithContextOrMediaClientConfig) => {
   }
 };
 
-export const withMediaClient = <P extends {}>(
-  Component: React.ComponentType<P & WithMediaClient>,
+export const withMediaClient = <P extends WithMediaClient>(
+  Component: React.ComponentType<P>,
 ) => {
-  return class extends React.Component<P & WithContextOrMediaClientConfig> {
+  return class extends React.Component<
+    Omit<P, 'mediaClient'> & WithContextOrMediaClientConfig
+  > {
     render() {
       const props = this.props;
       return <Component {...props} mediaClient={getMediaClient(this.props)} />;

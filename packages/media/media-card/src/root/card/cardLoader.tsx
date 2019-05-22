@@ -1,28 +1,27 @@
 import * as React from 'react';
 import { CardLoading } from '../../utils/lightCards/cardLoading';
-import { Card as CardType } from './index';
-import { CardProps } from '../..';
+import { Card, CardProps } from './index';
 
 interface AsyncCardProps {
-  Card?: typeof CardType;
+  Card?: typeof Card;
 }
 
-export default class Card extends React.PureComponent<
+export default class CardLoader extends React.PureComponent<
   CardProps & AsyncCardProps,
   AsyncCardProps
 > {
   static displayName = 'AsyncCard';
-  static Card?: typeof CardType;
+  static Card?: typeof Card;
 
   state = {
-    Card: Card.Card,
+    Card: CardLoader.Card,
   };
 
   componentDidMount() {
     if (!this.state.Card) {
       import(/* webpackChunkName:"@atlaskit-internal_Card" */
       './index').then(module => {
-        Card.Card = module.Card;
+        CardLoader.Card = module.Card;
         this.setState({ Card: module.Card });
       });
     }

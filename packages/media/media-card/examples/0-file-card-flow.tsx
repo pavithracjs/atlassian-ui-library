@@ -22,6 +22,7 @@ import {
   UploadController,
   FileIdentifier,
   FileState,
+  MediaClientConfig,
 } from '@atlaskit/media-core';
 import { Observable } from 'rxjs/Observable';
 import {
@@ -73,7 +74,7 @@ class Example extends Component<ComponentProps, ComponentState> {
         <CardWrapper key={id}>
           <div>
             <Card
-              context={context}
+              mediaClientConfig={{} as MediaClientConfig}
               identifier={identifier}
               onLoadingChange={this.updateCardState(id)}
             />
