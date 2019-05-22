@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, type ElementRef } from 'react';
+import React, { Component, Ref, ComponentType } from 'react';
 import styled from 'styled-components';
 
 import { FieldTextStateless } from '@atlaskit/field-text';
@@ -39,32 +38,28 @@ const Divider = styled.h4`
 `;
 
 type Props = {
-  keywords: string[],
-  component: Class<Component<*>>,
-  componentName: string,
-  package: string,
-  divider?: boolean,
+  keywords: string[];
+  component: ComponentType<any>;
+  componentName: string;
+  package: string;
+  divider?: boolean;
 };
 
 class IconExplorerCell extends Component<Props, { isModalOpen: boolean }> {
-  props: Props;
-
   state = {
     isModalOpen: false,
   };
 
-  ref: ?ElementRef<typeof FieldTextStateless>;
+  ref: Ref<typeof FieldTextStateless> | null = null;
 
-  input: ?HTMLInputElement;
+  input: HTMLInputElement | null = null;
 
-  importCodeField: ?HTMLElement;
+  importCodeField: HTMLElement | null = null;
 
-  setInputRef = (ref: ?ElementRef<typeof FieldTextStateless>) => {
+  setInputRef = (ref: FieldTextStateless) => {
     const isSet = Boolean(this.ref);
 
-    console.log(ref);
-    // $FlowFixMe
-    this.input = ref ? ref.input : null;
+    this.input = ref ? (ref as any).input : null;
 
     if (this.input && !isSet) {
       this.input.select();

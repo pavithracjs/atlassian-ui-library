@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, ComponentType } from 'react';
 import styled from 'styled-components';
 
 import Button from '@atlaskit/button';
@@ -19,26 +18,26 @@ import logoIcons from '../utils/logoIcons';
 // them correctly
 
 const iconIconInfo = Promise.all(
-  Object.keys(metadata).map(async (name: $Keys<typeof metadata>) => {
-    // $ExpectError - we are fine with this being dynamic
+  Object.keys(metadata).map(async (name: string) => {
     const icon = await import(`../glyph/${name}.js`);
     return { name, icon: icon.default };
   }),
 ).then(newData =>
   newData
     .map(icon => ({
-      [icon.name]: { ...metadata[icon.name], component: icon.icon },
+      [icon.name]: {
+        ...(metadata as { [key: string]: any })[icon.name],
+        component: icon.icon,
+      },
     }))
     .reduce((acc, b) => ({ ...acc, ...b })),
 );
 const objectIconInfo = Promise.all(
-  Object.keys(objectIconMetadata).map(
-    async (name: $Keys<typeof objectIconMetadata>) => {
-      // $ExpectError - we are fine with this being dynamic
-      const icon = await import(`@atlaskit/icon-object/glyph/${name}.js`);
-      return { name, icon: icon.default };
-    },
-  ),
+  Object.keys(objectIconMetadata).map(async (name: string) => {
+    // $ExpectError - we are fine with this being dynamic
+    const icon = await import(`@atlaskit/icon-object/glyph/${name}.js`);
+    return { name, icon: icon.default };
+  }),
 ).then(newData =>
   newData
     .map(icon => ({
@@ -47,13 +46,11 @@ const objectIconInfo = Promise.all(
     .reduce((acc, b) => ({ ...acc, ...b })),
 );
 const fileTypeIconInfo = Promise.all(
-  Object.keys(fileTypeIconMetadata).map(
-    async (name: $Keys<typeof fileTypeIconMetadata>) => {
-      // $ExpectError - we are fine with this being dynamic
-      const icon = await import(`@atlaskit/icon-file-type/glyph/${name}.js`);
-      return { name, icon: icon.default };
-    },
-  ),
+  Object.keys(fileTypeIconMetadata).map(async (name: string) => {
+    // $ExpectError - we are fine with this being dynamic
+    const icon = await import(`@atlaskit/icon-file-type/glyph/${name}.js`);
+    return { name, icon: icon.default };
+  }),
 ).then(newData =>
   newData
     .map(icon => ({
@@ -63,13 +60,11 @@ const fileTypeIconInfo = Promise.all(
 );
 
 const priorityIconInfo = Promise.all(
-  Object.keys(priorityIconMetadata).map(
-    async (name: $Keys<typeof priorityIconMetadata>) => {
-      // $ExpectError - we are fine with this being dynamic
-      const icon = await import(`@atlaskit/icon-priority/glyph/${name}.js`);
-      return { name, icon: icon.default };
-    },
-  ),
+  Object.keys(priorityIconMetadata).map(async (name: string) => {
+    // $ExpectError - we are fine with this being dynamic
+    const icon = await import(`@atlaskit/icon-priority/glyph/${name}.js`);
+    return { name, icon: icon.default };
+  }),
 ).then(newData =>
   newData
     .map(icon => ({
@@ -123,9 +118,10 @@ const getAllIcons = async () => {
 };
 const allIconsPromise = getAllIcons();
 
-const getKeywords = logoMap =>
+type LogoMap = { [key: string]: { keywords: string[] } };
+const getKeywords = (logoMap: LogoMap) =>
   Object.values(logoMap).reduce(
-    (existingKeywords, { keywords } /*:any*/) => [
+    (existingKeywords: string[], { keywords }) => [
       ...existingKeywords,
       ...keywords,
     ],
@@ -150,28 +146,28 @@ const NoIcons = styled.div`
 `;
 
 type iconType = {
-  keywords: string[],
-  component: Class<Component<*>>,
-  componentName: string,
-  package: string,
-  divider?: boolean,
+  keywords: string[];
+  component: ComponentType<any>;
+  componentName: string;
+  package: string;
+  divider?: boolean;
 };
 
-const filterIcons = (icons, query) => {
+const filterIcons = (icons: { [key: string]: any }, query: string) => {
   const regex = new RegExp(query);
   return Object.keys(icons)
     .map(index => icons[index])
     .filter(icon =>
       icon.keywords
-        .map(keyword => (regex.test(keyword) ? 1 : 0))
-        .reduce((allMatches, match) => allMatches + match, 0),
+        .map((keyword: string) => (regex.test(keyword) ? 1 : 0))
+        .reduce((allMatches: number, match: number) => allMatches + match, 0),
     );
 };
 
 type State = {
-  query: string,
-  showIcons: boolean,
-  allIcons?: { [string]: iconType },
+  query: string;
+  showIcons: boolean;
+  allIcons?: { [key: string]: iconType };
 };
 
 class IconAllExample extends Component<{}, State> {
@@ -181,7 +177,9 @@ class IconAllExample extends Component<{}, State> {
   };
 
   componentDidMount() {
-    allIconsPromise.then(allIcons => this.setState({ allIcons }));
+    allIconsPromise.then((allIcons: { [key: string]: iconType }) =>
+      this.setState({ allIcons }),
+    );
   }
 
   updateQuery = (query: string) => this.setState({ query, showIcons: true });
