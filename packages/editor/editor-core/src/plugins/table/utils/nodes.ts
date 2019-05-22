@@ -49,20 +49,6 @@ export const containsHeaderRow = (
   return true;
 };
 
-export function filterNearSelection<T, U>(
-  state: EditorState,
-  findNode: (selection: Selection) => { pos: number; node: PmNode } | undefined,
-  predicate: (state: EditorState, node: PmNode, pos?: number) => T,
-  defaultValue: U,
-): T | U {
-  const found = findNode(state.selection);
-  if (!found) {
-    return defaultValue;
-  }
-
-  return predicate(state, found.node, found.pos);
-}
-
 export const checkIfHeaderColumnEnabled = (state: EditorState): boolean =>
   filterNearSelection(state, findTable, containsHeaderColumn, false);
 
@@ -89,22 +75,6 @@ export const isLayoutSupported = (state: EditorState): boolean => {
         permittedLayouts.indexOf('wide') > -1 &&
         permittedLayouts.indexOf('full-page') > -1))
   );
-};
-
-export const getTableWidths = (node: PmNode) => {
-  if (!node.content.firstChild) {
-    return [];
-  }
-
-  let tableWidths: Array<number> = [];
-  node.content.firstChild.content.forEach(cell => {
-    if (Array.isArray(cell.attrs.colwidth)) {
-      const colspan = cell.attrs.colspan || 1;
-      tableWidths.push(...cell.attrs.colwidth.slice(0, colspan));
-    }
-  });
-
-  return tableWidths;
 };
 
 export const getTableWidth = (node: PmNode) => {
@@ -136,3 +106,33 @@ export const tablesHaveDifferentNoOfColumns = (
 
   return prevMap.width !== currentMap.width;
 };
+
+function filterNearSelection<T, U>(
+  state: EditorState,
+  findNode: (selection: Selection) => { pos: number; node: PmNode } | undefined,
+  predicate: (state: EditorState, node: PmNode, pos?: number) => T,
+  defaultValue: U,
+): T | U {
+  const found = findNode(state.selection);
+  if (!found) {
+    return defaultValue;
+  }
+
+  return predicate(state, found.node, found.pos);
+}
+
+function getTableWidths(node: PmNode): number[] {
+  if (!node.content.firstChild) {
+    return [];
+  }
+
+  let tableWidths: Array<number> = [];
+  node.content.firstChild.content.forEach(cell => {
+    if (Array.isArray(cell.attrs.colwidth)) {
+      const colspan = cell.attrs.colspan || 1;
+      tableWidths.push(...cell.attrs.colwidth.slice(0, colspan));
+    }
+  });
+
+  return tableWidths;
+}

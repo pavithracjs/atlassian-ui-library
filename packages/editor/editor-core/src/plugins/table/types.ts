@@ -22,6 +22,14 @@ export interface PluginConfig {
   allowControls?: boolean;
 }
 
+export interface ColumnResizingPluginState {
+  resizeHandlePos: number | null;
+  dragging: { startX: number; startWidth: number } | null;
+  lastClick: { x: number; y: number; time: number } | null;
+  lastColumnResizable?: boolean;
+  dynamicTextSizing?: boolean;
+}
+
 export interface TablePluginState {
   decorationSet: DecorationSet;
   editorHasFocus?: boolean;
@@ -89,12 +97,19 @@ export type TablePluginAction =
     }
   | { type: 'TOGGLE_CONTEXTUAL_MENU' };
 
-export interface ColumnResizingPlugin {
-  handleWidth?: number;
-  cellMinWidth?: number;
-  lastColumnResizable?: boolean;
-  dynamicTextSizing?: boolean;
-}
+export type ColumnResizingPluginAction =
+  | {
+      type: 'SET_RESIZE_HANDLE_POSITION';
+      data: { resizeHandlePos: number | null };
+    }
+  | {
+      type: 'SET_DRAGGING';
+      data: { dragging: { startX: number; startWidth: number } | null };
+    }
+  | {
+      type: 'SET_LAST_CLICK';
+      data: { lastClick: { x: number; y: number; time: number } | null };
+    };
 
 export const TableDecorations = {
   CONTROLS_HOVER: 'CONTROLS_HOVER',
