@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/inline-message", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/smart-card",
+      "type": "patch",
+      "dependencies": ["@atlaskit/inline-message"]
+    }
+  ]
+}
