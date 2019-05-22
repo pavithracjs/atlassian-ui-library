@@ -1,12 +1,9 @@
-import React, { ReactChildren } from 'react';
+import React, { FC } from 'react';
 import { ItemGroup } from '@atlaskit/item';
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
 import { fontSizeSmall } from '@atlaskit/theme/constants';
 
 type Props = {
-  /** React Elements to be displayed within the group. This should generally be
-   a collection of NavigationItems. */
-  children?: ReactChildren;
   /** Set whether the text should be compacted. */
   isCompact?: boolean;
   /** Text to appear as heading above group. Will be auto-capitalised. */
@@ -34,7 +31,7 @@ const ItemGroupWrapper = ({ ...props }) => (
   <div css={{ paddingRight: `${gridSize * 4}px` }} {...props} />
 );
 
-export const DrawerItemGroup = ({ title, isCompact, children }: Props) => {
+export const DrawerItemGroup: FC<Props> = ({ title, isCompact, children }) => {
   const wrappedTitle = title ? (
     <SkeletonGroupTitle>{title}</SkeletonGroupTitle>
   ) : null;

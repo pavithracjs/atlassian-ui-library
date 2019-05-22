@@ -142,7 +142,7 @@ export class DrawerBase extends Component<DrawerProps> {
   }
 }
 
-export const DrawerItemTheme = (props: { children: Node }) => (
+export const DrawerItemTheme: FC = props => (
   <ThemeProvider theme={drawerItemTheme}>{props.children}</ThemeProvider>
 );
 
