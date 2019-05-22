@@ -1,11 +1,9 @@
-// @flow
-
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import Button from '@atlaskit/button';
 import Drawer from '../src';
 
 type State = {
-  isDrawerOpen: boolean,
+  isDrawerOpen: boolean;
 };
 export default class DrawersExample extends Component<{}, State> {
   state = {
@@ -17,9 +15,7 @@ export default class DrawersExample extends Component<{}, State> {
       isDrawerOpen: true,
     });
 
-  onClose = (
-    ...args: [SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>, any]
-  ) => {
+  onClose = (...args: [SyntheticEvent, any]) => {
     console.log('onClose', args);
     this.setState({
       isDrawerOpen: false,

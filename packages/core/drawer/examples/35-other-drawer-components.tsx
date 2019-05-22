@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import Item from '@atlaskit/item';
@@ -10,7 +8,7 @@ import Drawer, {
 } from '../src';
 
 type State = {
-  isSkeletonVisible: boolean,
+  isSkeletonVisible: boolean;
 };
 
 export default class DrawersExample extends Component<{}, State> {

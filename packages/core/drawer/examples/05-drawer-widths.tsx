@@ -1,18 +1,16 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import Drawer from '../src';
-import type { DrawerWidth } from '../src/components/types';
+import { DrawerWidth } from '../src/components/types';
 import { widths } from '../src/constants';
 
 type State = {
-  isDrawerOpen: boolean,
-  width: DrawerWidth,
+  isDrawerOpen: boolean;
+  width: DrawerWidth;
 };
 
 export default class DrawersExample extends Component<{}, State> {
-  state = {
+  state: State = {
     isDrawerOpen: false,
     width: 'narrow',
   };
@@ -44,7 +42,7 @@ export default class DrawersExample extends Component<{}, State> {
         </Drawer>
         {widths.map(width => (
           <Button
-            onClick={this.openDrawer(width)}
+            onClick={this.openDrawer(width as DrawerWidth)}
             type="button"
             key={width}
             id={`open-${width}-drawer`}

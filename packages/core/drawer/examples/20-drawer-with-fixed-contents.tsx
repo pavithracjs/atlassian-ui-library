@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import DropdownMenu, {
@@ -9,7 +7,7 @@ import DropdownMenu, {
 import Drawer from '../src';
 
 type State = {
-  isDrawerOpen: boolean,
+  isDrawerOpen: boolean;
 };
 
 export default class DrawersExample extends Component<{}, State> {

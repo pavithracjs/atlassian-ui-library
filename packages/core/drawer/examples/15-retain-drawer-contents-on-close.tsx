@@ -1,12 +1,10 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
-import Drawer from '../src';
+import Drawer, { DrawerWidth } from '../src';
 
 type State = {
-  isDrawerOpen: boolean,
-  shouldUnmountOnExit: boolean,
+  isDrawerOpen: boolean;
+  shouldUnmountOnExit: boolean;
 };
 export default class DrawersExample extends Component<{}, State> {
   state = {
@@ -36,19 +34,13 @@ export default class DrawersExample extends Component<{}, State> {
         <Drawer
           onClose={this.closeDrawer}
           isOpen={this.state.isDrawerOpen}
-          width="wide"
+          width={'wide' as DrawerWidth}
           shouldUnmountOnExit={this.state.shouldUnmountOnExit}
         >
           <label htmlFor="textbox" css={{ display: 'block' }}>
             Type something in the textarea below and see if it is retained
           </label>
-          <textarea
-            input="textbox"
-            type="text"
-            id="textbox"
-            rows="50"
-            cols="50"
-          />
+          <textarea id="textbox" rows={50} cols={50} />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
           Open drawer
@@ -58,7 +50,7 @@ export default class DrawersExample extends Component<{}, State> {
             <input
               id="checkbox"
               type="checkbox"
-              value={this.state.shouldUnmountOnExit}
+              value={this.state.shouldUnmountOnExit.toString()}
               onChange={this.toggleUnmountBehaviour}
             />
             Toggle remounting of drawer contents on exit

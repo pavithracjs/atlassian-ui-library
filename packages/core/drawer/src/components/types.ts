@@ -1,4 +1,4 @@
-import { ComponentType, SyntheticEvent, ReactChild } from 'react';
+import { ComponentType, SyntheticEvent } from 'react';
 import {
   WithAnalyticsEventProps,
   UIAnalyticsEvent,
@@ -17,8 +17,6 @@ export type DrawerWidth = keyof Widths;
 export type IconProps = { size: string };
 
 export type BaseProps = {
-  /** The content of the drawer */
-  children: ReactChild;
   /** Icon to be rendered in your drawer as a component, if available */
   icon?: ComponentType<IconProps>;
   /** Available drawer sizes */

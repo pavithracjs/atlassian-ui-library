@@ -1,22 +1,21 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
-import Drawer, { type DrawerWidth } from '../src';
+import Drawer, { DrawerWidth } from '../src';
 import { widths } from '../src/constants';
 
 type State = {
-  width: DrawerWidth,
+  width: DrawerWidth;
 };
 
 export default class DrawersExample extends Component<{}, State> {
-  state = {
-    width: widths[0],
+  state: State = {
+    width: widths[0] as DrawerWidth,
   };
 
   onNextClick = () => {
-    const width =
-      widths[(widths.indexOf(this.state.width) + 1) % widths.length];
+    const width = widths[
+      (widths.indexOf(this.state.width) + 1) % widths.length
+    ] as DrawerWidth;
     this.setState({
       width,
     });

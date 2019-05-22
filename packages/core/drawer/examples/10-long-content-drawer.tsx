@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import Lorem from 'react-lorem-component';
@@ -7,7 +5,7 @@ import Lorem from 'react-lorem-component';
 import Drawer from '../src';
 
 type State = {
-  isDrawerOpen: boolean,
+  isDrawerOpen: boolean;
 };
 export default class DrawersExample extends Component<{}, State> {
   state = {

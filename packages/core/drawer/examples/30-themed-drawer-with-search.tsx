@@ -1,7 +1,5 @@
-// @flow
 import * as React from 'react';
 import Button from '@atlaskit/button';
-// $FlowFixMe: cannot resolve TS module
 import { ResultItemGroup, ObjectResult } from '@atlaskit/quick-search';
 import Drawer, { DrawerItemTheme } from '../src';
 
@@ -11,7 +9,7 @@ const exampleJiraIconUrl =
   'https://product-fabric.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype';
 
 type State = {
-  isDrawerOpen: boolean,
+  isDrawerOpen: boolean;
 };
 
 export default class DrawersExample extends React.Component<{}, State> {
