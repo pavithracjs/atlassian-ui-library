@@ -1,6 +1,6 @@
 import { Transaction } from 'prosemirror-state';
 import { filterChildrenBetween } from '../../../utils';
-import { Node } from 'prosemirror-model';
+import { Node, Schema } from 'prosemirror-model';
 
 const SMART_TO_ASCII = {
   '…': '...',
@@ -41,30 +41,43 @@ const replaceSmartCharsToAscii = (
 
   while ((match = FIND_SMART_CHAR.exec(textExtracted))) {
     const { 0: smartChar, index: offset } = match;
-    const replacePos = tr.mapping.map(position + offset);
+    const replacePos = position + offset;
     const replacementText = schema.text(
       SMART_TO_ASCII[smartChar as keyof typeof SMART_TO_ASCII],
     );
-    tr.replaceWith(replacePos, replacePos + smartChar.length, replacementText);
+    tr.replaceWith(
+      tr.mapping.map(replacePos),
+      tr.mapping.map(replacePos + smartChar.length),
+      replacementText,
+    );
   }
 };
 
-const transformSmartCharsMentionsAndEmojis = (
+const isNodeTextBlock = (schema: Schema) => {
+  const { mention, text, emoji } = schema.nodes;
+
+  return (node: Node, _: any, parent: Node) => {
+    if (node.type === mention || node.type === emoji || node.type === text) {
+      return parent.isTextblock;
+    }
+    return;
+  };
+};
+
+export const transformSmartCharsMentionsAndEmojis = (
   from: number,
   to: number,
   tr: Transaction,
 ): void => {
   const { schema } = tr.doc.type;
   const { mention, text, emoji } = schema.nodes;
-  const isNodeTextBlock = (node: Node, _: any, parent: Node) => {
-    if (node.type === mention || node.type === emoji || node.type === text) {
-      return parent.isTextblock;
-    }
-    return;
-  };
-
   // Traverse through all the nodes within the range and replace them with their plaintext counterpart
-  const children = filterChildrenBetween(tr.doc, from, to, isNodeTextBlock);
+  const children = filterChildrenBetween(
+    tr.doc,
+    from,
+    to,
+    isNodeTextBlock(schema),
+  );
 
   children.forEach(({ node, pos }) => {
     if (node.type === mention || node.type === emoji) {

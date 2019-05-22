@@ -1,6 +1,13 @@
-import { EditorState, TextSelection } from 'prosemirror-state';
+import { transformSmartCharsMentionsAndEmojis } from '../plugins/text-formatting/commands/transform-to-code';
+import { EditorState, TextSelection, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { ResolvedPos, MarkType } from 'prosemirror-model';
+import { CellSelection } from 'prosemirror-tables';
+import {
+  ResolvedPos,
+  MarkType,
+  Mark,
+  Node as ProsemirrorNode,
+} from 'prosemirror-model';
 import { GapCursorSelection } from '../plugins/gap-cursor';
 import { Command } from '../types';
 
@@ -83,6 +90,96 @@ function findCutBefore($pos: ResolvedPos): ResolvedPos | null {
   return null;
 }
 
+const applyMarkOnRange = (
+  rangeSelectionFrom: number,
+  rangeSelectionTo: number,
+  removeMark: boolean,
+  mark: Mark,
+  tr: Transaction,
+) => {
+  const { schema } = tr.doc.type;
+  const { code } = schema.marks;
+  if (mark.type === code) {
+    transformSmartCharsMentionsAndEmojis(
+      rangeSelectionFrom,
+      rangeSelectionTo,
+      tr,
+    );
+  }
+
+  tr.doc.nodesBetween(
+    tr.mapping.map(rangeSelectionFrom),
+    tr.mapping.map(rangeSelectionTo),
+    (node, pos) => {
+      if (!node.isText) {
+        return true;
+      }
+
+      // This is an issue when the user selects some text.
+      // We need to check if the current node position is less than the range selection from.
+      // If it’s true, that means we should apply the mark using the range selection,
+      // not the current node position.
+      const nodeBetweenFrom = Math.max(pos, tr.mapping.map(rangeSelectionFrom));
+      const nodeBetweenTo = Math.min(
+        pos + node.nodeSize,
+        tr.mapping.map(rangeSelectionTo),
+      );
+
+      if (removeMark) {
+        tr.removeMark(nodeBetweenFrom, nodeBetweenTo, mark);
+      } else {
+        tr.addMark(nodeBetweenFrom, nodeBetweenTo, mark);
+      }
+
+      return true;
+    },
+  );
+};
+
+const toggleMarkInRange = (mark: Mark): Command => (state, dispatch) => {
+  const tr = state.tr;
+  if (state.selection instanceof CellSelection) {
+    let markInRange = false;
+    const cells: { node: ProsemirrorNode; pos: number }[] = [];
+    state.selection.forEachCell((cell, cellPos) => {
+      cells.push({ node: cell, pos: cellPos });
+      const from = cellPos;
+      const to = cellPos + cell.nodeSize;
+      if (!markInRange) {
+        // @ts-ignore
+        markInRange = state.doc.rangeHasMark(from, to, mark);
+      }
+    });
+
+    for (let i = cells.length - 1; i >= 0; i--) {
+      const cell = cells[i];
+      const from = tr.mapping.map(cell.pos);
+      const to = tr.mapping.map(from + cell.node.nodeSize);
+
+      applyMarkOnRange(from, to, markInRange, mark, tr);
+    }
+  } else {
+    const { $from, $to } = state.selection;
+    // @ts-ignore The type for `rangeHasMark` only accepts a `MarkType` as a third param,
+    // Yet the internals use a method that exists on both MarkType and Mark (one checks attributes the other doesnt)
+    // For example, with our subsup mark: We use the same mark with different attributes to convery
+    // different formatting but when using `MarkType.isInSet(marks)` it returns true for both.
+    // Calling `Mark.isInSet(marks)` compares attributes as well.
+    const markInRange = state.doc.rangeHasMark($from.pos, $to.pos, mark);
+
+    applyMarkOnRange($from.pos, $to.pos, markInRange, mark, tr);
+  }
+
+  if (tr.docChanged) {
+    if (dispatch) {
+      dispatch(tr);
+    }
+    return true;
+  }
+
+  return false;
+};
+
 /**
  * A wrapper over the default toggleMark, except when we have a selection
  * we only toggle marks on text nodes rather than inline nodes.
@@ -93,15 +190,15 @@ const toggleMark = (
   markType: MarkType,
   attrs?: { [key: string]: any },
 ): Command => (state, dispatch) => {
-  let tr = state.tr;
   const mark = markType.create(attrs);
 
   // For cursor selections we can use the default behaviour.
   if (state.selection instanceof TextSelection && state.selection.$cursor) {
+    const tr = state.tr;
     if (mark.isInSet(state.storedMarks || state.selection.$cursor.marks())) {
-      tr = tr.removeStoredMark(mark);
+      tr.removeStoredMark(mark);
     } else {
-      tr = tr.addStoredMark(mark);
+      tr.addStoredMark(mark);
     }
 
     if (dispatch) {
@@ -112,37 +209,7 @@ const toggleMark = (
     return false;
   }
 
-  const { $from, $to } = state.selection;
-  // @ts-ignore The type for `rangeHasMark` only accepts a `MarkType` as a third param,
-  // Yet the internals use a method that exists on both MarkType and Mark (one checks attributes the other doesnt)
-  // For example, with our subsup mark: We use the same mark with different attributes to convery
-  // different formatting but when using `MarkType.isInSet(marks)` it returns true for both.
-  // Calling `Mark.isInSet(marks)` compares attributes as well.
-  const markInRange = state.doc.rangeHasMark($from.pos, $to.pos, mark);
-
-  state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
-    if (!node.isText) {
-      return true;
-    }
-
-    const from = Math.max(pos, $from.pos);
-    const to = Math.min(pos + node.nodeSize, $to.pos);
-
-    if (markInRange) {
-      tr = tr.removeMark(from, to, mark);
-      return true;
-    }
-
-    tr = tr.addMark(from, to, mark);
-    return true;
-  });
-
-  if (dispatch && tr.docChanged) {
-    dispatch(tr);
-    return true;
-  }
-
-  return false;
+  return toggleMarkInRange(mark)(state, dispatch);
 };
 
 export {
