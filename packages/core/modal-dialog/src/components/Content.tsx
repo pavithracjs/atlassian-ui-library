@@ -267,20 +267,14 @@ export default class Content extends React.Component<Props, State> {
               showKeyline={showHeaderKeyline}
             />
             {/* Backwards compatibility for styled-components innerRefs */}
-            {!Body.hasOwnProperty('styledComponentId') ? (
-              <Body
-                css={bodyStyles(shouldScroll)}
-                ref={this.getScrollContainer}
-              >
-                {children}
-              </Body>
-            ) : (
-              <Body
-                css={bodyStyles(shouldScroll)}
-                innerRef={this.getScrollContainer}
-              >
-                {children}
-              </Body>
+            <Body
+              css={bodyStyles(shouldScroll)}
+              {...(!Body.hasOwnProperty('styledComponentId')
+                ? { ref: this.getScrollContainer }
+                : { innerRef: this.getScrollContainer })}
+            >
+              {children}
+            </Body>
             )}
             <Footer
               actions={actions}
