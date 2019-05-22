@@ -154,7 +154,7 @@ describe('share analytics', () => {
         actionSubject: 'button',
         actionSubjectId: 'submitShare',
         attributes: expect.objectContaining({
-          shareContentType: 'issue',
+          contentType: 'issue',
           duration: expect.any(Number),
           teamCount: 1,
           userCount: 1,
@@ -177,7 +177,7 @@ describe('share analytics', () => {
         actionSubject: 'button',
         actionSubjectId: 'submitShare',
         attributes: expect.objectContaining({
-          shareContentType: 'issue',
+          contentType: 'issue',
           duration: expect.any(Number),
           teamCount: 1,
           userCount: 1,
@@ -212,7 +212,7 @@ describe('share analytics', () => {
         actionSubject: 'button',
         actionSubjectId: 'submitShare',
         attributes: expect.objectContaining({
-          shareContentType: 'issue',
+          contentType: 'issue',
           duration: expect.any(Number),
           teamCount: 1,
           userCount: 1,

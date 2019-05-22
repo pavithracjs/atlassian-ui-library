@@ -72,7 +72,7 @@ export const submitShare = (
   const emails = extractIdsByType(data, isEmail);
   return createEvent('ui', 'clicked', 'button', 'submitShare', {
     ...handleShareOrigin(shareOrigin),
-    shareContentType,
+    contentType: shareContentType,
     duration: duration(start),
     emailCount: emails.length,
     teamCount: teams.length,
