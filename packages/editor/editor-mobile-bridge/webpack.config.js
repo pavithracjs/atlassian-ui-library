@@ -93,7 +93,7 @@ module.exports = async function createWebpackConfig() {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': mode,
+        'process.env.NODE_ENV': JSON.stringify(mode),
       }),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, 'public/editor.html.ejs'),
