@@ -56,13 +56,15 @@ const bodyStyles: React.CSSProperties = {
   overflowX: 'hidden',
 };
 
-const Body = React.forwardRef((props: { children?: Node }, ref: any) => {
-  return (
-    <div ref={ref} style={bodyStyles}>
-      {props.children}
-    </div>
-  );
-});
+const Body = React.forwardRef(
+  (props: { children?: React.ReactNode }, ref: any) => {
+    return (
+      <div ref={ref} style={bodyStyles}>
+        {props.children}
+      </div>
+    );
+  },
+);
 
 interface FooterProps {
   onClose: () => void;
