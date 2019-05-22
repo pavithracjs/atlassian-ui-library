@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.4.7
+- [patch] [cfc3d669d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3d669d8):
+
+  - added share content type to submit share analytics event
+
 ## 0.4.6
 - [patch] [2a64153b7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a64153b7a):
 
