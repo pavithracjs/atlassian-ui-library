@@ -129,9 +129,9 @@ class HelpContextProviderImplementation extends React.Component<
   }
 
   async componentDidUpdate(prevProps: Props) {
-    const { articleId } = this.props;
+    const { articleId, isOpen } = this.props;
 
-    if (this.props.isOpen && this.props.isOpen !== prevProps.isOpen) {
+    if (isOpen && isOpen !== prevProps.isOpen) {
       createAndFire({
         action: 'help-panel-open',
       })(this.props.createAnalyticsEvent);
@@ -139,8 +139,8 @@ class HelpContextProviderImplementation extends React.Component<
     // When the drawer goes from close to open
     // and the articleId is defined, get the content of that article
     if (
-      (this.props.isOpen !== prevProps.isOpen && articleId) ||
-      (articleId !== prevProps.articleId && articleId)
+      (isOpen !== prevProps.isOpen || articleId !== prevProps.articleId) &&
+      articleId
     ) {
       const article = await this.getArticle(articleId);
       this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
