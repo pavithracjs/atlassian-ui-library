@@ -24,7 +24,6 @@ describe('Image cropper', () => {
     const onLoadSpy = jest.fn();
     const onRemoveImageSpy = jest.fn();
     const onImageErrorSpy = jest.fn();
-    const onViewportMouseMoveSpy = jest.fn();
 
     const allProps: ImageCropperProp = {
       imageSource,
@@ -35,7 +34,6 @@ describe('Image cropper', () => {
       onImageLoaded: onImageLoadedSpy,
       onRemoveImage: onRemoveImageSpy,
       onImageError: onImageErrorSpy,
-      onViewportMouseMove: onViewportMouseMoveSpy,
       imageOrientation: 1,
       ...props,
     };

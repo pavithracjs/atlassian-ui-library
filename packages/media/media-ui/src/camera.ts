@@ -207,6 +207,15 @@ export class Bounds extends Rectangle {
       this.height,
     );
   }
+
+  equals(bounds: Bounds) {
+    return (
+      this.x === bounds.x &&
+      this.y === bounds.y &&
+      this.width === bounds.width &&
+      this.height === bounds.height
+    );
+  }
 }
 
 export class Camera {

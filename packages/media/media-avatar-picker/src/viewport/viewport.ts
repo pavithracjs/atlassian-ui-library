@@ -25,16 +25,11 @@ export const DEFAULT_INNER_HEIGHT = DEFAULT_HEIGHT - DEFAULT_MARGIN * 2;
  */
 
 export class Viewport {
-  // expose for viewport-debugger, used for testing and examples
-  static instance: Viewport;
-
   private itemSourceRect: Rectangle = new Rectangle(0, 0);
   private dragStartPos: Vector2 = new Vector2(0, 0);
   itemBounds: Bounds = new Bounds(0, 0, 0, 0);
   orientation: number = 1;
   item?: any;
-  onChange?: () => void; // listen when the view is changed
-  onMouseMove?: (x: number, y: number) => void; // listen when the mouse hovers
 
   constructor(
     readonly width: number = DEFAULT_WIDTH,
@@ -43,18 +38,10 @@ export class Viewport {
   ) {
     // it's assumed we won't have an item size yet as it is something that requires async loading.
     // when ready, call setItemSize(w, h) to "load/init" the item for the viewport
-    Viewport.instance = this;
-  }
-
-  private onChanged() {
-    if (this.onChange) {
-      this.onChange();
-    }
   }
 
   private zoomToFit() {
     this.itemBounds = this.fittedItemBounds;
-    this.onChanged();
     return this;
   }
 
@@ -132,8 +119,8 @@ export class Viewport {
     return new Bounds(x, y, width, height);
   }
 
-  get hasValidItemSize() {
-    return this.itemSourceRect.width > 0 && this.itemSourceRect.height > 0;
+  get isEmpty() {
+    return this.itemSourceRect.width <= 0 && this.itemSourceRect.height <= 0;
   }
 
   get maxItemViewRect() {
@@ -141,6 +128,12 @@ export class Viewport {
     const maxWidth = fittedItemBounds.width * MAX_SCALE;
     const maxHeight = fittedItemBounds.height * MAX_SCALE;
     return new Rectangle(maxWidth, maxHeight);
+  }
+
+  clear() {
+    this.itemBounds = new Bounds(0, 0, 0, 0);
+    this.itemSourceRect = new Rectangle(0, 0);
+    delete this.item;
   }
 
   setItemSize(width: number, height: number) {
@@ -151,7 +144,6 @@ export class Viewport {
 
   setItem(item: any) {
     this.item = item;
-    this.onChanged();
     return this;
   }
 
@@ -198,7 +190,6 @@ export class Viewport {
       );
       this.applyConstraints();
     }
-    this.onChanged();
     return this;
   }
 
@@ -217,14 +208,7 @@ export class Viewport {
     const y = dragStartPos.y + yDelta;
     this.itemBounds = new Bounds(x, y, itemBounds.width, itemBounds.height);
     this.applyConstraints();
-    this.onChanged();
     return this;
-  }
-
-  mouseMove(viewX: number, viewY: number) {
-    if (this.onMouseMove) {
-      this.onMouseMove(viewX, viewY);
-    }
   }
 
   viewToLocalPoint(viewX: number, viewY: number): Vector2 {

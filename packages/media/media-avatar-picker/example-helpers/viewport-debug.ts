@@ -1,5 +1,7 @@
 import { Viewport } from '../src/viewport/viewport';
 import { renderViewport } from '../src/viewport/viewport-render';
+import { viewport as instance } from '../src/image-navigator';
+import { Bounds } from '../../media-ui';
 
 /**
  * This is a helper class to render debug info for a viewport.
@@ -15,53 +17,23 @@ interface Pos {
 }
 
 export class ViewportDebugger {
+  private viewport: Viewport;
   private navigationCanvas: HTMLCanvasElement = document.createElement(
     'canvas',
   );
   private previewCanvas: HTMLCanvasElement = document.createElement('canvas');
+  private previousItemBounds: Bounds = new Bounds(0, 0, 0, 0);
   public imageElement?: HTMLImageElement;
 
   constructor(
-    private readonly viewport: Viewport,
     private readonly navigationCanvasPos: Pos,
     private readonly previewCanvasPos: Pos,
   ) {
-    viewport.onChange = this.onChange;
-    viewport.onMouseMove = this.onMouseMove;
+    this.viewport = instance;
     this.initCanvas();
     this.render();
+    this.pollForViewportChanges();
   }
-
-  onChange = () => {
-    const { viewport } = this;
-    if (viewport.item) {
-      this.imageElement = viewport.item as HTMLImageElement;
-    }
-    this.render();
-  };
-
-  onMouseMove = (viewX: number, viewY: number) => {
-    const { navigationCanvas, viewport } = this;
-    const { x: localX, y: localY } = viewport.viewToLocalPoint(viewX, viewY);
-    this.renderNavigation();
-    const ctx = navigationCanvas.getContext('2d');
-    if (ctx) {
-      const fontSize = 12;
-      const fontYOffset = viewport.margin + fontSize;
-      ctx.fillStyle = 'blue';
-      ctx.font = `${fontSize}px courier`;
-      ctx.fillText(
-        `  view: ${Math.round(viewX)} x ${Math.round(viewY)}`,
-        viewport.margin,
-        fontYOffset,
-      );
-      ctx.fillText(
-        `source: ${Math.floor(localX)} x ${Math.floor(localY)}`,
-        viewport.margin,
-        fontYOffset + fontSize,
-      );
-    }
-  };
 
   initCanvas() {
     const {
@@ -92,6 +64,25 @@ export class ViewportDebugger {
     `;
     document.body.appendChild(this.previewCanvas);
   }
+
+  pollForViewportChanges = () => {
+    const viewport = this.viewport;
+    if (viewport.isEmpty) {
+      delete this.imageElement;
+      this.render();
+    } else {
+      if (!this.imageElement && viewport.item) {
+        this.imageElement = viewport.item as HTMLImageElement;
+        this.render();
+      }
+      const itemBounds = viewport.itemBounds;
+      if (!itemBounds.equals(this.previousItemBounds)) {
+        this.render();
+      }
+      this.previousItemBounds = itemBounds;
+    }
+    requestAnimationFrame(this.pollForViewportChanges);
+  };
 
   render() {
     this.renderNavigation();

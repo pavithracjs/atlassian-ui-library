@@ -20,6 +20,11 @@ export const ModalHeader: ComponentClass<HTMLAttributes<{}>> = styled.div`
 
 export const CroppingWrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   display: inline-block;
+  user-select: none;
+
+  * {
+    user-select: none;
+  }
 `;
 
 export const ModalFooterButtons: ComponentClass<

@@ -45,6 +45,12 @@ export const CONTAINER_PADDING = (CONTAINER_SIZE - CONTAINER_INNER_SIZE) / 2;
 
 export const CONTAINER_RECT = new Rectangle(CONTAINER_SIZE, CONTAINER_SIZE);
 
+export const viewport = new Viewport(
+  CONTAINER_SIZE,
+  CONTAINER_SIZE,
+  CONTAINER_PADDING,
+);
+
 export interface CropProperties {
   x: number;
   y: number;
@@ -83,7 +89,7 @@ const defaultState = {
   fileImageSource: undefined,
   isDroppingFile: false,
   imageOrientation: 1,
-  viewport: new Viewport(CONTAINER_SIZE, CONTAINER_SIZE, CONTAINER_PADDING),
+  viewport,
 };
 
 export class ImageNavigator extends Component<
@@ -196,7 +202,7 @@ export class ImageNavigator extends Component<
 
   exportCrop(): void {
     const { viewport } = this.state;
-    if (viewport.hasValidItemSize) {
+    if (!viewport.isEmpty) {
       const { onCropChanged } = this.props;
       const origin = viewport.visibleSourceBounds.origin;
       const visibleSourceRect = viewport.visibleSourceBounds.rect;
@@ -370,23 +376,15 @@ export class ImageNavigator extends Component<
   }
 
   onRemoveImage = () => {
+    this.state.viewport.clear();
     this.setState(defaultState);
     this.props.onRemoveImage();
-  };
-
-  onViewportMouseMove = (x: number, y: number) => {
-    this.state.viewport.mouseMove(x, y);
   };
 
   renderImageCropper(dataURI: string) {
     const { scale, isDragging, imageOrientation, viewport } = this.state;
     const { onImageError } = this.props;
-    const {
-      onDragStarted,
-      onImageLoaded,
-      onRemoveImage,
-      onViewportMouseMove,
-    } = this;
+    const { onDragStarted, onImageLoaded, onRemoveImage } = this;
     const { itemBounds } = viewport;
 
     return (
@@ -405,7 +403,6 @@ export class ImageNavigator extends Component<
           onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
-          onViewportMouseMove={onViewportMouseMove}
         />
         <SliderContainer>
           <Slider value={scale} onChange={this.onScaleChange} />

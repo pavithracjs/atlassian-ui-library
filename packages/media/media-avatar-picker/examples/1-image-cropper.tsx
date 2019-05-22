@@ -11,8 +11,6 @@ const onImageLoaded = (img: HTMLImageElement) =>
 const onRemoveImage = () => console.log('onRemoveImage');
 const onImageError = (errorMessage: string) =>
   console.log('onImageError', errorMessage);
-const onViewportMouseMove = (x: number, y: number) =>
-  console.log('onViewportMouseMove');
 
 export default () => (
   <IntlProvider locale="en">
@@ -29,7 +27,6 @@ export default () => (
           onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
-          onViewportMouseMove={onViewportMouseMove}
         />
       </div>
       <div>
@@ -42,7 +39,6 @@ export default () => (
           onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
-          onViewportMouseMove={onViewportMouseMove}
         />
       </div>
       <div>
@@ -55,7 +51,6 @@ export default () => (
           top={-50}
           left={-115}
           containerSize={400}
-          onViewportMouseMove={onViewportMouseMove}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
         />
@@ -72,7 +67,6 @@ export default () => (
           onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
-          onViewportMouseMove={onViewportMouseMove}
         />
       </div>
     </div>

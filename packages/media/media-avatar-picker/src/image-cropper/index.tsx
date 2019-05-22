@@ -14,7 +14,7 @@ import {
   ImageContainer,
 } from './styled';
 import { ERROR } from '../avatar-picker-dialog';
-import { CONTAINER_INNER_SIZE, CONTAINER_PADDING } from '../image-navigator';
+import { CONTAINER_INNER_SIZE } from '../image-navigator';
 
 export interface ImageCropperProp {
   imageSource: string;
@@ -29,7 +29,6 @@ export interface ImageCropperProp {
   onImageLoaded: (image: HTMLImageElement) => void;
   onRemoveImage: () => void;
   onImageError: (errorMessage: string) => void;
-  onViewportMouseMove: (x: number, y: number) => void;
 }
 
 export class ImageCropper extends Component<
@@ -70,16 +69,6 @@ export class ImageCropper extends Component<
     onImageError(formatMessage(ERROR.FORMAT));
   };
 
-  onContainerMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const { onViewportMouseMove } = this.props;
-    if (onViewportMouseMove) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left - CONTAINER_PADDING;
-      const y = e.clientY - rect.top - CONTAINER_PADDING;
-      onViewportMouseMove(x, y);
-    }
-  };
-
   render() {
     const {
       isCircularMask,
@@ -117,7 +106,7 @@ export class ImageCropper extends Component<
     }
 
     return (
-      <Container style={containerStyle} onMouseMove={this.onContainerMouseMove}>
+      <Container style={containerStyle}>
         <ImageContainer style={imageContainerStyle}>
           <MediaImage
             crossOrigin={crossOrigin}

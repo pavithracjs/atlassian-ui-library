@@ -22,7 +22,7 @@ const DRAG_DELTA_Y = -20;
 const DRAG_DELTA_X_HUGE = 10000000;
 const DRAG_DELTA_Y_HUGE = 20000000;
 
-describe('Slider', () => {
+describe('Viewport', () => {
   const setup = (
     scale: number = 0, // 0 - 100
     dragX: number = 0,
@@ -30,23 +30,18 @@ describe('Slider', () => {
     itemWidth: number = DEFAULT_ITEM_WIDTH,
     itemHeight: number = DEFAULT_ITEM_HEIGHT,
   ) => {
-    const onChange = jest.fn();
     const viewport = new Viewport();
-    viewport.onChange = onChange;
     viewport
       .setItemSize(itemWidth, itemHeight)
       .setScale(scale)
       .dragBy(dragX, dragY);
-    return {
-      viewport,
-      onChange,
-    };
+    return viewport;
   };
 
   describe('Layout', () => {
     let viewport: Viewport;
 
-    beforeAll(() => ({ viewport } = setup()));
+    beforeAll(() => (viewport = setup()));
 
     it('should calculate correct inner bounds', () => {
       const { innerBounds } = viewport;
@@ -65,20 +60,20 @@ describe('Slider', () => {
     });
 
     it('should calculate correct fitted item bounds', () => {
-      const { viewport } = setup();
+      const viewport = setup();
       const { fittedItemBounds: rect } = viewport;
       expect(rect.width).toEqual(DEFAULT_INNER_WIDTH);
       expect(rect.height).toEqual(DEFAULT_INNER_HEIGHT);
     });
 
-    it('should calculate whether has valid item size', () => {
+    it('should know when no item size set', () => {
       const viewport = new Viewport(0, 0, 0);
-      expect(viewport.hasValidItemSize).toBeFalsy();
+      expect(viewport.isEmpty).toBeTruthy();
     });
 
     describe('visible source bounds', () => {
       it('should give whole image when first positioned', () => {
-        const { viewport } = setup();
+        const viewport = setup();
         const { visibleSourceBounds } = viewport;
         expect(visibleSourceBounds.left).toEqual(0);
         expect(visibleSourceBounds.top).toEqual(0);
@@ -87,7 +82,7 @@ describe('Slider', () => {
       });
 
       it('should give correct portion of total image width when half zoomed in', () => {
-        const { viewport } = setup(ZOOMED_HALF);
+        const viewport = setup(ZOOMED_HALF);
         const { visibleSourceBounds } = viewport;
         expect(visibleSourceBounds.left).toEqual(
           DEFAULT_ITEM_WIDTH * 0.25 + DEFAULT_MARGIN,
@@ -100,7 +95,7 @@ describe('Slider', () => {
       });
 
       it('should give quarter of total image size when fully zoomed in', () => {
-        const { viewport } = setup(
+        const viewport = setup(
           ZOOMED_IN,
           DEFAULT_MAX_ITEM_VIEW_WIDTH / 4,
           DEFAULT_MAX_ITEM_VIEW_HEIGHT / 4,
@@ -116,14 +111,14 @@ describe('Slider', () => {
 
   describe('Zooming', () => {
     it('should fit whole image within inner view aread when fully zoomed out', () => {
-      const { viewport } = setup(ZOOMED_OUT);
+      const viewport = setup(ZOOMED_OUT);
       const { itemBounds } = viewport;
       expect(itemBounds.width).toEqual(DEFAULT_INNER_WIDTH);
       expect(itemBounds.height).toEqual(DEFAULT_INNER_HEIGHT);
     });
 
     it('should zoom image to max scale when fully zoomed in', () => {
-      const { viewport } = setup(ZOOMED_IN);
+      const viewport = setup(ZOOMED_IN);
       const { itemBounds, maxItemViewRect } = viewport;
       expect(itemBounds.width).toEqual(maxItemViewRect.width);
       expect(itemBounds.height).toEqual(maxItemViewRect.height);
@@ -132,7 +127,7 @@ describe('Slider', () => {
 
   describe('Dragging (panning)', () => {
     it('should update itemBounds when dragged', () => {
-      const { viewport } = setup(ZOOMED_IN);
+      const viewport = setup(ZOOMED_IN);
       const { itemBounds: beforeDragItemBounds } = viewport;
       viewport.dragBy(DRAG_DELTA_X, DRAG_DELTA_Y);
       const { itemBounds: afterDragItemBounds } = viewport;
@@ -147,14 +142,14 @@ describe('Slider', () => {
 
   describe('Constraints', () => {
     it('should constrain itemBounds size when over scaled', () => {
-      const { viewport } = setup(ZOOMED_EXCESSIVE);
+      const viewport = setup(ZOOMED_EXCESSIVE);
       const { itemBounds, maxItemViewRect } = viewport;
       expect(itemBounds.width).toEqual(maxItemViewRect.width);
       expect(itemBounds.height).toEqual(maxItemViewRect.height);
     });
 
     it('should constrain edges when dragged and zoomed in', () => {
-      const { viewport } = setup(ZOOMED_IN);
+      const viewport = setup(ZOOMED_IN);
       viewport.dragBy(DRAG_DELTA_X_HUGE, DRAG_DELTA_Y_HUGE);
       const { itemBounds } = viewport;
       expect(itemBounds.left).toEqual(DEFAULT_MARGIN);
@@ -162,12 +157,29 @@ describe('Slider', () => {
     });
 
     it('should constrain edges when dragged and zoomed out', () => {
-      const { viewport } = setup(ZOOMED_OUT);
+      const viewport = setup(ZOOMED_OUT);
       const { itemBounds: beforeDragItemBounds } = viewport;
       viewport.dragBy(DRAG_DELTA_X_HUGE, DRAG_DELTA_Y_HUGE);
       const { itemBounds: afterDragItemBounds } = viewport;
       expect(afterDragItemBounds.left).toEqual(beforeDragItemBounds.left);
       expect(afterDragItemBounds.top).toEqual(beforeDragItemBounds.top);
+    });
+  });
+
+  describe('Coordinate transformations', () => {
+    it('should map between view coords and image local coords with no dragging', () => {
+      const viewport = setup(ZOOMED_IN);
+      const p = viewport.viewToLocalPoint(0, 0);
+      expect(p.x).toEqual(75);
+      expect(p.y).toEqual(75);
+    });
+
+    it('should map between view coords and image local coords with dragging', () => {
+      const viewport = setup(ZOOMED_IN);
+      viewport.dragBy(DRAG_DELTA_X_HUGE, DRAG_DELTA_Y_HUGE);
+      const p = viewport.viewToLocalPoint(0, 0);
+      expect(p.x).toEqual(0);
+      expect(p.y).toEqual(0);
     });
   });
 });
