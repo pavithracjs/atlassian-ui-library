@@ -63,6 +63,7 @@ export const screenEvent = () => createScreenEvent('shareModal');
 export const submitShare = (
   start: number,
   data: DialogContentState,
+  shareContentType?: string,
   shareOrigin?: OriginTracing | null,
   config?: ConfigResponse,
 ) => {
@@ -71,6 +72,7 @@ export const submitShare = (
   const emails = extractIdsByType(data, isEmail);
   return createEvent('ui', 'clicked', 'button', 'submitShare', {
     ...handleShareOrigin(shareOrigin),
+    shareContentType,
     duration: duration(start),
     emailCount: emails.length,
     teamCount: teams.length,
