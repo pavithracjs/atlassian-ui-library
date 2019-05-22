@@ -149,7 +149,7 @@ pipelines:
               - yarn run test:vr:changed
             after-script:
               # Extract all the diff images and store them into a folder for download.
-              - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+              - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' -or -name '*-erd.png' -or -name '*-fig.txt' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
               - yarn send:stepFailureEvents
             # If a failure occurs, you can download the image snapshot of the differences.
             artifacts:
@@ -264,7 +264,7 @@ pipelines:
             - yarn run test:vr
           after-script:
             # Extract all the diff images and store them into a folder for download.
-            - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+            - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' -or -name '*-erd.png' -or -name '*-fig.txt' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
             - yarn send:buildEvents
           # If a failure occurs, you can download the image snapshot of the differences.
           artifacts:
@@ -329,7 +329,7 @@ pipelines:
                 - yarn test:vr
               after-script:
                 # Extract all the diff images and store them into a folder for download.
-                - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+                - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' -or -name '*-erd.png' -or -name '*-fig.txt' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
                 - yarn send:stepFailureEvents
               # If a failure occurs, you can download the image snapshot of the differences.
               artifacts:
@@ -446,7 +446,7 @@ pipelines:
                 - yarn test:vr
               after-script:
                 # Extract all the diff images and store them into a folder for download.
-                - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+                - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' -or -name '*-erd.png' -or -name '*-fig.txt' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
                 - yarn send:stepFailureEvents
               # If a failure occurs, you can download the image snapshot of the differences.
               artifacts:
