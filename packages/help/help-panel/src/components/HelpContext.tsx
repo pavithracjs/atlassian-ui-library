@@ -138,7 +138,10 @@ class HelpContextProviderImplementation extends React.Component<
     }
     // When the drawer goes from close to open
     // and the articleId is defined, get the content of that article
-    if (this.props.isOpen !== prevProps.isOpen && articleId) {
+    if (
+      (this.props.isOpen !== prevProps.isOpen && articleId) ||
+      (articleId !== prevProps.articleId && articleId)
+    ) {
       const article = await this.getArticle(articleId);
       this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
     }
