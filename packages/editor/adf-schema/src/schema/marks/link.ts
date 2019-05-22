@@ -33,7 +33,7 @@ export interface LinkDefinition {
 }
 
 export const link: MarkSpec = {
-  excludes: COLOR,
+  excludes: `${LINK} ${COLOR}`, // ED-5844 No multiple links in media node
   group: LINK,
   attrs: {
     href: {},

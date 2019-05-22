@@ -1,51 +1,32 @@
 import * as React from 'react';
+import { ActivityItem, ActivityProvider } from '@atlaskit/activity';
+import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
+import EditorAlignLeftIcon from '@atlaskit/icon/glyph/editor/align-left';
+import LinkIcon from '@atlaskit/icon/glyph/link';
+import { colors } from '@atlaskit/theme';
+import Tooltip from '@atlaskit/tooltip';
 import { KeyboardEvent, PureComponent } from 'react';
-import styled, { css } from 'styled-components';
-import { ActivityProvider, ActivityItem } from '@atlaskit/activity';
-import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
+import { defineMessages, InjectedIntlProps, injectIntl } from 'react-intl';
+import styled from 'styled-components';
 import { analyticsService } from '../../../../analytics';
+import { linkToolbarMessages as linkToolbarCommonMessages } from '../../../../messages';
 import PanelTextInput from '../../../../ui/PanelTextInput';
-import RecentList from './RecentList';
+import RecentList from '../../../../ui/RecentSearch/RecentList';
+import {
+  Container,
+  InputWrapper,
+  UrlInputWrapper,
+} from '../../../../ui/RecentSearch/ToolbarComponents';
 import {
   ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
-  INPUT_METHOD,
-  EVENT_TYPE,
   AnalyticsEventPayload,
   DispatchAnalyticsEvent,
+  EVENT_TYPE,
+  INPUT_METHOD,
 } from '../../../analytics';
-import EditorAlignLeftIcon from '@atlaskit/icon/glyph/editor/align-left';
-import LinkIcon from '@atlaskit/icon/glyph/link';
-import { colors } from '@atlaskit/theme';
 import { normalizeUrl } from '../../utils';
-import Tooltip from '@atlaskit/tooltip';
-import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
-
-const Container = styled.div`
-  width: 420px;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  padding: 0;
-
-  ${({ provider }: { provider: boolean }) =>
-    css`
-      width: ${provider ? '420x' : '360'}px;
-    `};
-  line-height: 2;
-`;
-
-const InputWrapper = `
-  display: flex;
-  line-height: 0;
-  padding: 5px 0;
-  align-items: center;
-
-  svg {
-    max-width: 18px;
-  }
-`;
 
 const ClearText = styled.span`
   cursor: pointer;
@@ -55,11 +36,7 @@ const ClearText = styled.span`
 
 const TextInputWrapper = styled.div`
   ${InputWrapper}
-  border-top: 1px solid ${colors.N30}
-`;
-
-const UrlInputWrapper = styled.div`
-  ${InputWrapper}
+  border-top: 1px solid ${colors.N30};
 `;
 
 const IconWrapper = styled.span`
@@ -70,21 +47,6 @@ const IconWrapper = styled.span`
 `;
 
 export const messages = defineMessages({
-  placeholder: {
-    id: 'fabric.editor.hyperlinkToolbarPlaceholder',
-    defaultMessage: 'Paste link or search recently viewed',
-    description: 'Paste link or search recently viewed',
-  },
-  linkPlaceholder: {
-    id: 'fabric.editor.linkPlaceholder',
-    defaultMessage: 'Paste link',
-    description: 'Create a new link by pasting a URL.',
-  },
-  linkAddress: {
-    id: 'fabric.editor.linkAddress',
-    defaultMessage: 'Link address',
-    description: 'Insert the address of the link',
-  },
   displayText: {
     id: 'fabric.editor.displayText',
     defaultMessage: 'Text to display',
@@ -129,7 +91,7 @@ export interface State {
   displayText: string;
 }
 
-class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
+class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
   /* To not fire on-blur on tab-press */
   private isTabPressed: boolean = false;
 
@@ -216,10 +178,14 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       provider,
     } = this.props;
     const placeholder = formatMessage(
-      provider ? messages.placeholder : messages.linkPlaceholder,
+      provider
+        ? linkToolbarCommonMessages.placeholder
+        : linkToolbarCommonMessages.linkPlaceholder,
     );
 
-    const formatLinkAddressText = formatMessage(messages.linkAddress);
+    const formatLinkAddressText = formatMessage(
+      linkToolbarCommonMessages.linkAddress,
+    );
     const formatClearLinkText = formatMessage(messages.clearLink);
     const formatDisplayText = formatMessage(messages.displayText);
 
@@ -249,7 +215,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
                   onClick={this.clearUrl.bind(
                     null,
                     'text',
-                    this.urlInputContainer,
+                    this.urlInputContainer!,
                   )}
                 >
                   <CrossCircleIcon label={formatClearLinkText} />
@@ -285,7 +251,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
                   onClick={this.clearUrl.bind(
                     null,
                     'displayText',
-                    this.displayTextInputContainer,
+                    this.displayTextInputContainer!,
                   )}
                 >
                   <CrossCircleIcon label={formatMessage(messages.clearText)} />
@@ -442,4 +408,4 @@ const limit = (items: Array<ActivityItem>) => {
   return items.slice(0, 5);
 };
 
-export default injectIntl(RecentSearch);
+export default injectIntl(LinkAddToolbar);
