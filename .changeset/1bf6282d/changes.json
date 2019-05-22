@@ -1,0 +1,51 @@
+{
+  "releases": [
+    { "name": "@atlaskit/drawer", "type": "major" },
+    { "name": "@atlaskit/theme", "type": "patch" }
+  ],
+  "dependents": [
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/navigation-next",
+        "@atlaskit/atlassian-switcher",
+        "@atlaskit/drawer",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/global-navigation",
+        "@atlaskit/drawer",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/atlassian-switcher",
+      "type": "patch",
+      "dependencies": ["@atlaskit/drawer", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/focused-task-close-account",
+      "type": "patch",
+      "dependencies": ["@atlaskit/drawer", "@atlaskit/theme"]
+    },
+    {
+      "name": "@atlaskit/global-search",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/quick-search",
+        "@atlaskit/drawer",
+        "@atlaskit/theme"
+      ]
+    },
+    {
+      "name": "@atlaskit/quick-search",
+      "type": "patch",
+      "dependencies": ["@atlaskit/drawer", "@atlaskit/theme"]
+    }
+  ]
+}
