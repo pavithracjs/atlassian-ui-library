@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/share",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "config": {
     "access": "private"
   },

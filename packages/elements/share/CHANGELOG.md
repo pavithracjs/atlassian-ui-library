@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.4.6
+- [patch] [2a64153b7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a64153b7a):
+
+  - fixed escape key press closes share dialog when user picker menu is open
+
 ## 0.4.5
 - [patch] [03957e8674](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/03957e8674):
 

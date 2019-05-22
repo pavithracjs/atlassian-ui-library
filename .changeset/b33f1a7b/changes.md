@@ -1,1 +1,0 @@
-- fixed escape key press closes share dialog when user picker menu is open
