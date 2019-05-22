@@ -22,6 +22,8 @@ export interface Props {
   referenceElement?: HTMLElement;
 }
 
+type Position = 'top' | 'right' | 'bottom' | 'left';
+
 const FlipBehavior: { [index: string]: Position[] } = {
   auto: [],
   top: ['top', 'bottom', 'top'],
@@ -50,7 +52,6 @@ export class Popper extends React.Component<Props, State> {
         },
         hide: {
           enabled: true,
-          boundariesElement: 'scrollParent',
         },
         offset: {
           enabled: true,
