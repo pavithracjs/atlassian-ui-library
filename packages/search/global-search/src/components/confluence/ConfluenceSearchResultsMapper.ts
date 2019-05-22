@@ -1,7 +1,8 @@
-import { ResultsGroup, ConfluenceResultsMap } from '../../model/Result';
-import { take } from '../SearchResultsUtil';
-import { messages } from '../../messages';
 import { ABTest } from '../../api/CrossProductSearchClient';
+import { messages } from '../../messages';
+import { ConfluenceResultsMap, ResultsGroup } from '../../model/Result';
+import { attachConfluenceContextIdentifiers } from '../common/contextIdentifiersHelper';
+import { take } from '../SearchResultsUtil';
 
 export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
@@ -49,10 +50,13 @@ export const sliceResults = (
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: ConfluenceResultsMap | null,
   abTest: ABTest,
+  searchSessionId: string,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(
-    recentlyViewedObjects,
-    abTest,
+  const sliced = sliceResults(recentlyViewedObjects, abTest);
+
+  const { people, objects, spaces } = attachConfluenceContextIdentifiers(
+    searchSessionId,
+    sliced,
   );
 
   return [

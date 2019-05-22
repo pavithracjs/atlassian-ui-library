@@ -400,6 +400,18 @@ export function makeCrossProductSearchData(
           abTest,
           results: filteredPeopleResults,
         },
+        {
+          id: Scope.UserConfluence,
+          experimentId: 'experiment-1',
+          abTest,
+          results: filteredPeopleResults,
+        },
+        {
+          id: Scope.UserJira,
+          experimentId: 'experiment-1',
+          abTest,
+          results: filteredPeopleResults,
+        },
       ],
     };
   };

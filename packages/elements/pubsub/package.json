@@ -4,6 +4,10 @@
   "config": {
     "access": "public"
   },
+  "atlaskit": {
+    "name": "pubsub",
+    "team": "elements"
+  },
   "description": "Interacts with Atlassian Frontend PubSub service to receive pubsub events.",
   "atlaskit:src": "src/index.ts",
   "module": "index.js",

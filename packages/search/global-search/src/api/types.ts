@@ -8,6 +8,8 @@ export enum Scope {
   JiraFilter = 'jira.filter',
   JiraBoardProjectFilter = 'jira.board,project,filter',
   People = 'cpus.user',
+  UserJira = 'usr.user-jira',
+  UserConfluence = 'usr.user-confluence',
 }
 
 export type QuickSearchContext = 'jira' | 'confluence' | 'home';
@@ -87,7 +89,6 @@ export interface PersonItem {
 }
 
 export interface JiraResultQueryParams {
-  searchSessionId: string;
   searchContainerId?: string;
   searchObjectId?: string;
   searchContentType?: 'issue' | 'board' | 'project' | 'filter';

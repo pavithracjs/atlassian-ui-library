@@ -30,7 +30,6 @@ export interface Config {
   directoryServiceUrl: string;
   confluenceUrl: string;
   jiraUrl: string;
-  addSessionIdToJiraResult?: boolean;
 }
 
 const defaultConfig: Config = {
@@ -39,7 +38,6 @@ const defaultConfig: Config = {
   directoryServiceUrl: '/gateway/api/directory',
   confluenceUrl: '/wiki',
   jiraUrl: '',
-  addSessionIdToJiraResult: false,
 };
 
 function configureSearchClients(
@@ -68,7 +66,6 @@ function configureSearchClients(
     crossProductSearchClient: new CachingCrossProductSearchClientImpl(
       config.searchAggregatorServiceUrl,
       cloudId,
-      config.addSessionIdToJiraResult,
       prefetchedResults ? prefetchedResults.abTestPromise : undefined,
     ),
     peopleSearchClient: new CachingPeopleSearchClient(
@@ -80,11 +77,7 @@ function configureSearchClients(
       config.confluenceUrl,
       confluencePrefetchedResults,
     ),
-    jiraClient: new JiraClientImpl(
-      config.jiraUrl,
-      cloudId,
-      config.addSessionIdToJiraResult,
-    ),
+    jiraClient: new JiraClientImpl(config.jiraUrl, cloudId),
   };
 }
 
