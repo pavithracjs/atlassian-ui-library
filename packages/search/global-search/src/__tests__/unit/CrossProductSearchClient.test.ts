@@ -576,7 +576,7 @@ describe('CrossProductSearchClient', () => {
     expect(body.modelParams).toEqual([
       {
         '@type': 'currentSpace',
-        projectId: '123',
+        spaceKey: '123',
       },
     ]);
   });
