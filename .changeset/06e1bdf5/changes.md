@@ -1,1 +1,0 @@
-- fix articles loading when the articleId changes
