@@ -284,7 +284,10 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
 
   createDomRef(): HTMLElement {
     const domRef = document.createElement('div');
-    if (browser.chrome) {
+    if (
+      browser.chrome &&
+      this.reactComponentProps.editorAppearance !== 'mobile'
+    ) {
       // workaround Chrome bug in https://product-fabric.atlassian.net/browse/ED-5379
       // see also: https://github.com/ProseMirror/prosemirror/issues/884
       domRef.contentEditable = 'true';
