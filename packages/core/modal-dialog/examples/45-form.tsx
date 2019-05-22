@@ -43,6 +43,10 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
       className?: string;
     }
 
+    interface FieldProps {
+      fieldProps: any;
+    }
+
     return (
       <div>
         <Button onClick={this.open}>Open Modal</Button>
@@ -67,12 +71,10 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
             >
               <p>Enter some text then submit the form to see the response.</p>
               <Field label="Name" name="my-name" defaultValue="">
-                {({ fieldProps }: { fieldProps: any }) => (
-                  <Textfield {...fieldProps} />
-                )}
+                {({ fieldProps }: FieldProps) => <Textfield {...fieldProps} />}
               </Field>
               <Field label="Email" name="my-email" defaultValue="">
-                {({ fieldProps }: { fieldProps: any }) => (
+                {({ fieldProps }: FieldProps) => (
                   <Textfield
                     autoComplete="off"
                     placeholder="gbelson@hooli.com"
@@ -82,7 +84,7 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
               </Field>
 
               <CheckboxField name="checkbox" defaultIsChecked>
-                {({ fieldProps }: { fieldProps: any }) => (
+                {({ fieldProps }: FieldProps) => (
                   <Checkbox {...fieldProps} value="example" label="Checkbox" />
                 )}
               </CheckboxField>
