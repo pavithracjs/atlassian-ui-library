@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 39.5.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
 ## 39.4.0
 - [minor] [d9f8b4d43d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9f8b4d43d):
 

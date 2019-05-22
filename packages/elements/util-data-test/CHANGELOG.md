@@ -1,5 +1,10 @@
 # @atlaskit/util-data-test
 
+## 12.1.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
 ## 12.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

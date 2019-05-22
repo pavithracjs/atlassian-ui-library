@@ -1,1 +1,0 @@
-- consume the new mention entrypoints

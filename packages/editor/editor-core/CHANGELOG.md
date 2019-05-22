@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.8.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
 ## 112.7.0
 - [minor] [f120090dfe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f120090dfe):
 
