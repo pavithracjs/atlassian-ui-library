@@ -47,6 +47,7 @@ export interface Props {
     sessionId: string,
     startTime: number,
     queryVersion: number,
+    abTest?: ABTest,
   ): Promise<ResultsWithTiming>;
   getAbTestData(sessionId: string): Promise<ABTest>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
@@ -165,6 +166,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         this.state.searchSessionId,
         startTime,
         queryVersion,
+        this.state.abTest,
       );
 
       if (this.unmounted) {
