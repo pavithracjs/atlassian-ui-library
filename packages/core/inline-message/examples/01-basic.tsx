@@ -1,6 +1,4 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import InlineMessage from '../src';
 
 export default () => (
@@ -20,7 +18,7 @@ export default () => (
       <p>Secondary text only dialog</p>
     </InlineMessage>
     <br />
-    <InlineMessage title="Display Message Beside Text" position="right top">
+    <InlineMessage title="Display Message Beside Text" placement="right-end">
       <p>Dialog beside text</p>
     </InlineMessage>
   </div>

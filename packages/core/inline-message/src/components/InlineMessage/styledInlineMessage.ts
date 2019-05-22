@@ -1,4 +1,3 @@
-// @flow
 import styled, { css } from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
 import { itemSpacing } from '../../constants';
@@ -11,7 +10,7 @@ const getFocusColor = themed('appearance', {
   error: { light: colors.R500, dark: colors.R500 },
 });
 
-export const Root = styled.div`
+export const Root = styled.div<{ appearance: string }>`
   display: inline-block;
   max-width: 100%;
   &:focus {
@@ -19,7 +18,11 @@ export const Root = styled.div`
   }
 `;
 
-export const ButtonContents = styled.div`
+interface StyledProps {
+  isHovered?: boolean;
+}
+
+export const ButtonContents = styled.div<StyledProps>`
   align-items: center;
   display: flex;
   text-decoration: none;
@@ -34,13 +37,13 @@ export const ButtonContents = styled.div`
 const getTitleColor = themed({ light: colors.N600, dark: colors.DN600 });
 const getTextColor = themed({ light: colors.N300, dark: colors.DN100 });
 
-export const Title = styled.span`
+export const Title = styled.span<StyledProps>`
   color: ${getTitleColor};
   font-weight: 500;
   padding: 0 ${itemSpacing}px;
 `;
 
-export const Text = styled.span`
+export const Text = styled.span<StyledProps>`
   color: ${getTextColor};
   padding: 0 ${itemSpacing}px;
   overflow: hidden;

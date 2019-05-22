@@ -1,18 +1,16 @@
-// @flow
 import styled from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
 import { itemSpacing } from '../../constants';
-import type { IconType } from '../../types';
+import { IconType } from '../../types';
 
 type Props = {
-  appearance: IconType,
-  isHovered: ?boolean,
-  isOpen: ?boolean,
+  appearance: IconType;
+  isHovered?: boolean;
+  isOpen?: boolean;
 };
 
-type themedType = (appearance: Props) => (string: string) => string;
+type themedType = (appearance: Props) => string;
 
-// $FlowFixMe - theme is not found in props
 const getBaseColor: themedType = themed('appearance', {
   connectivity: { light: colors.B400, dark: colors.B100 },
   confirmation: { light: colors.G300, dark: colors.G300 },
