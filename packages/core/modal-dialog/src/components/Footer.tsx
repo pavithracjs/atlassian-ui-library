@@ -9,7 +9,7 @@ const JustifyShim = (props: any) => <span {...props} />;
 export interface FooterProps {
   /** Buttons to render in the footer */
   actions?: Array<{
-    onClick?: any;
+    onClick?: () => void;
     text?: string;
   }>;
   /** Appearance of the primary button. Also adds an icon to the heading, if provided. */
