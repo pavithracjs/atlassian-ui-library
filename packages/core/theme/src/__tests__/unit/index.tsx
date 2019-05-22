@@ -1,7 +1,5 @@
-// @flow
-
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 
 import {
   AtlaskitThemeProvider,
@@ -12,21 +10,22 @@ import {
   fontSize,
 } from '../..';
 import { colorPalette } from '../../colors';
+import { ThemedValue } from 'src/types';
 
 describe('AtlaskitThemeProvider', () => {
   it('should mount', () => {
     expect(
       mount(
-        <AtlaskitThemeProvider theme="light">
+        <AtlaskitThemeProvider mode="light">
           <div />
         </AtlaskitThemeProvider>,
-      ).prop('theme'),
+      ).prop('mode'),
     ).toBe('light');
   });
 });
 
 describe('themed', () => {
-  const blackOrWhite = themed({ light: 'white', dark: 'black' });
+  const blackOrWhite: ThemedValue = themed({ light: 'white', dark: 'black' });
   it('should return a function', () => {
     expect(typeof blackOrWhite).toBe('function');
   });

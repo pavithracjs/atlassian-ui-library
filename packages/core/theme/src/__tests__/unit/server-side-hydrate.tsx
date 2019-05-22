@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
@@ -20,9 +20,10 @@ test('should ssr then hydrate theme correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   // ignore warnings caused by emotion's server-side rendering approach
+  // @ts-ignore - no mock on error prop
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
-    ([f, s]) =>
+    ([f, s]: [string, string]) =>
       !(
         f ===
           'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
