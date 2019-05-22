@@ -1,15 +1,14 @@
-
-import React, { Component } from 'react';
+import React, { Component, FC, MouseEvent, ReactChildren } from 'react';
 import { colors, layers, gridSize } from '@atlaskit/theme';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
 
 import { Slide } from './transitions';
-import { DrawerPrimitiveProps, DrawerWidth } from './types';
+import { DrawerPrimitiveProps, DrawerWidth, Widths } from './types';
 
 // Misc.
 // ------------------------------
 
-const widths: { [key: DrawerWidth]: string | number } = {
+const widths: Widths = {
   full: '100vw',
   extended: '95vw',
   narrow: 45 * gridSize(),
@@ -25,9 +24,9 @@ const Wrapper = ({
   shouldUnmountOnExit,
   ...props
 }: {
-  children?: Node,
-  shouldUnmountOnExit?: boolean,
-  width: DrawerWidth,
+  children?: ReactChildren;
+  shouldUnmountOnExit?: boolean;
+  width: DrawerWidth;
 }) => {
   return (
     <div
@@ -50,7 +49,7 @@ const Wrapper = ({
 // Content
 // ------------------------------
 
-const Content = props => (
+const Content: FC = props => (
   <div
     css={{ flex: 1, marginTop: 3 * gridSize(), overflow: 'auto' }}
     {...props}
@@ -60,7 +59,7 @@ const Content = props => (
 // Sidebar / Icons etc.
 // ------------------------------
 
-const Sidebar = props => {
+const Sidebar: FC = props => {
   return (
     <div
       css={{
@@ -80,8 +79,8 @@ const Sidebar = props => {
   );
 };
 
-type IconWrapperProps = { onClick?: (SyntheticMouseEvent<*>) => void };
-const IconWrapper = (props: IconWrapperProps) => (
+type IconWrapperProps = { onClick?: (event: MouseEvent) => void };
+const IconWrapper: FC<IconWrapperProps> = props => (
   <button
     type="button"
     css={{
@@ -90,7 +89,7 @@ const IconWrapper = (props: IconWrapperProps) => (
       border: 0,
       borderRadius: '50%',
       color: 'inherit',
-      cursor: props.onClick ? 'pointer' : null,
+      cursor: props.onClick ? 'pointer' : undefined,
       display: 'flex',
       fontSize: 'inherit',
       height: 5 * gridSize(),
@@ -101,10 +100,10 @@ const IconWrapper = (props: IconWrapperProps) => (
       width: 5 * gridSize(),
 
       '&:hover': {
-        backgroundColor: props.onClick ? colors.N30A : null,
+        backgroundColor: props.onClick ? colors.N30A : undefined,
       },
       '&:active': {
-        backgroundColor: props.onClick ? colors.B50 : null,
+        backgroundColor: props.onClick ? colors.B50 : undefined,
         outline: 0,
       },
     }}
@@ -129,7 +128,7 @@ export default class DrawerPrimitive extends Component<DrawerPrimitiveProps> {
             onClick={onClose}
             data-test-selector="DrawerPrimitiveSidebarCloseButton"
           >
-            {Icon ? <Icon size="large" /> : <ArrowLeft />}
+            {Icon ? <Icon size="large" /> : <ArrowLeft label="" />}
           </IconWrapper>
         </Sidebar>
         <Content>{children}</Content>

@@ -1,13 +1,21 @@
 import { ComponentType, SyntheticEvent } from 'react';
 import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 
-export type DrawerWidth = 'narrow' | 'medium' | 'wide' | 'extended' | 'full';
+export type Widths = {
+  full: string;
+  extended: string;
+  narrow: number;
+  medium: number;
+  wide: number;
+};
+
+export type DrawerWidth = keyof Widths;
 
 export type BaseProps = {
   /** The content of the drawer */
   children: Node;
   /** Icon to be rendered in your drawer as a component, if available */
-  icon?: ComponentType;
+  icon?: ComponentType<{ size: string }>;
   /** Available drawer sizes */
   width: DrawerWidth;
 };

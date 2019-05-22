@@ -1,4 +1,4 @@
-import React, { Component, ComponentType, ReactChild } from 'react';
+import React, { Component, ComponentType, FC } from 'react';
 import { Transition } from 'react-transition-group';
 import { layers } from '@atlaskit/theme';
 
@@ -10,8 +10,7 @@ import { transitionDurationMs, transitionTimingFunction } from '../constants';
 type Styles = { [key: string]: string | number | null };
 
 type TransitionProps = {
-  children?: Node;
-  component?: ComponentType | string;
+  component?: ComponentType<any> | string;
   onExited?: (node: HTMLElement) => void;
   shouldUnmountOnExit?: boolean;
   in: boolean;
@@ -93,7 +92,7 @@ export const Fade = ({ ...props }: TransitionProps) => (
   />
 );
 
-export const Slide = ({
+export const Slide: FC<{ shouldUnmountOnExit?: boolean } & TransitionProps> = ({
   shouldUnmountOnExit = true,
   ...props
 }: TransitionProps) => (
