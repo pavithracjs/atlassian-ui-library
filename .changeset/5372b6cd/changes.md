@@ -1,0 +1,1 @@
+- Fix typo in URS scopes
