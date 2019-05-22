@@ -373,6 +373,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getRecentItemsFromXpsearch = (
     sessionId: string,
+    abTest?: ABTest,
   ): Promise<GenericResultMap> => {
     return this.props.crossProductSearchClient
       .search(
@@ -381,7 +382,9 @@ export class JiraQuickSearchContainer extends React.Component<
         SCOPES,
         'jira',
         null,
-        JIRA_RESULT_LIMIT,
+        abTest
+          ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
+          : JIRA_RESULT_LIMIT,
         this.props.referralContextIdentifiers,
       )
       .then(xpRecentResults => ({
@@ -391,9 +394,12 @@ export class JiraQuickSearchContainer extends React.Component<
       }));
   };
 
-  getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
+  getJiraRecentItems = (
+    sessionId: string,
+    abTest: ABTest,
+  ): Promise<GenericResultMap> => {
     const recentItemsPromise = this.props.enablePreQueryFromAggregator
-      ? this.getRecentItemsFromXpsearch(sessionId)
+      ? this.getRecentItemsFromXpsearch(sessionId, abTest)
       : this.getRecentItemsFromJira(sessionId);
     return handlePromiseError(
       recentItemsPromise,
@@ -435,9 +441,12 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   };
 
-  getRecentItems = (sessionId: string): Promise<ResultsWithTiming> => {
+  getRecentItems = (
+    sessionId: string,
+    abTest: ABTest,
+  ): Promise<ResultsWithTiming> => {
     return Promise.all([
-      this.getJiraRecentItems(sessionId),
+      this.getJiraRecentItems(sessionId, abTest),
       this.getRecentlyInteractedPeople(),
       this.canSearchUsers(),
     ])

@@ -15,8 +15,10 @@ export const isInFasterSearchExperiment = (
   abTest.experimentId === FASTER_SEARCH_EXPERIMENT ||
   (abTest.abTestId === DEFAULT && fasterSearchFFEnabled);
 
-export const getJiraMaxObjects = (abTest: ABTest, defaultMaxObjects: number) =>
-  getMaxObjects(abTest, JIRA_GRAPE_EXPERIMENT, defaultMaxObjects);
+export const getJiraMaxObjects = (
+  abTest: ABTest | null,
+  defaultMaxObjects: number,
+) => getMaxObjects(abTest, JIRA_GRAPE_EXPERIMENT, defaultMaxObjects);
 
 export const getConfluenceMaxObjects = (
   abTest: ABTest,

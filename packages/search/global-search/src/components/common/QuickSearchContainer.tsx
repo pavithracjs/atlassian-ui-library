@@ -41,7 +41,10 @@ export interface Props {
   logger: Logger;
   linkComponent?: LinkComponent;
   getSearchResultsComponent(state: SearchResultProps): React.ReactNode;
-  getRecentItems(sessionId: string): Promise<ResultsWithTiming>;
+  getRecentItems(
+    sessionId: string,
+    abTest?: ABTest,
+  ): Promise<ResultsWithTiming>;
   getSearchResults(
     query: string,
     sessionId: string,
@@ -411,6 +414,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     try {
       const { results } = await this.props.getRecentItems(
         this.state.searchSessionId,
+        this.state.abTest,
       );
       const renderStartTime = performanceNow();
       if (this.unmounted) {
