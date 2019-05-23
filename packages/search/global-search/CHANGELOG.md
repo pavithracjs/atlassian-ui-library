@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.8.2
+- [patch] [409dbf30b4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/409dbf30b4):
+
+  - add support for grape in jira
+
 ## 8.8.1
 - [patch] [26501fa352](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26501fa352):
 
