@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.10.3
+- [patch] [f823890888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f823890888):
+
+  - ED-6970: Fix backspacing inside a layout removing all content.
+
 ## 112.10.2
 - [patch] [54b40d9757](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/54b40d9757):
 
