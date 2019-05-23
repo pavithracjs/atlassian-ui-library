@@ -118,7 +118,7 @@ async function getStepsEvents(buildId /*: string*/) {
           // We need to do a computation if the step.duration_in_seconds is not yet available.
           const step_duration = step.duration_in_seconds
             ? step.duration_in_seconds
-            : computeStepTimes(step.started_on);
+            : computeStepTimes(step.pipeline.started_on);
           return {
             step_duration,
             step_name: step.name || 'master', // on Master, there is no step name.
@@ -210,7 +210,7 @@ async function getStepEvents(buildId /*: string*/) {
       // We need to do a computation if the step.duration_in_seconds is not yet available.
       const step_duration = stepObject.duration_in_seconds
         ? stepObject.duration_in_seconds
-        : computeStepTimes(stepObject.started_on);
+        : computeStepTimes(stepObject.pipeline.started_on);
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
