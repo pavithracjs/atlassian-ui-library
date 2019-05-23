@@ -35,10 +35,7 @@ const hasNoResults = (
   containers: Array<Result> = [],
 ): boolean => isEmpty(objects) && isEmpty(poeple) && isEmpty(containers);
 
-export const sliceResults = (
-  resultsMap: GenericResultMap | null,
-  abTest: ABTest,
-) => {
+const sliceResults = (resultsMap: GenericResultMap | null, abTest: ABTest) => {
   const { objects, containers, people } = resultsMap
     ? resultsMap
     : DEFAULT_JIRA_RESULTS_MAP;

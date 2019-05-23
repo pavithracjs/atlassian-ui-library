@@ -16,7 +16,7 @@ const EMPTY_CONFLUENCE_RESULT = {
   spaces: [],
 };
 
-export const sliceResults = (
+const sliceResults = (
   resultsMap: ConfluenceResultsMap | null,
   abTest: ABTest,
 ): ConfluenceResultsMap => {
