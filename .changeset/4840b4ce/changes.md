@@ -1,1 +1,0 @@
-- Hide public name when it matches the full name
