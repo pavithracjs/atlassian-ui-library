@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { colors } from '@atlaskit/theme';
 import HomeCircleIcon from '../glyph/home-circle';

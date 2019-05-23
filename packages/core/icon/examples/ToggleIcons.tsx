@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { colors } from '@atlaskit/theme';
 import Button from '@atlaskit/button';
@@ -23,9 +22,9 @@ const styles = {
 };
 
 type State = {
-  toggleColor: boolean,
-  toggleFill: boolean,
-  icons: any,
+  toggleColor: boolean;
+  toggleFill: boolean;
+  icons: any;
 };
 
 export default class ToggleIcons extends Component<{}, State> {
@@ -55,10 +54,10 @@ export default class ToggleIcons extends Component<{}, State> {
               onClick={() =>
                 this.setState({ toggleColor: !this.state.toggleColor })
               }
-              key={id}
+              key={id as string}
             >
               <Icon
-                key={id}
+                key={id as string}
                 label="Icon which checks and unchecks itself"
                 secondaryColor="inherit"
               />
@@ -75,10 +74,10 @@ export default class ToggleIcons extends Component<{}, State> {
               onClick={() =>
                 this.setState({ toggleFill: !this.state.toggleFill })
               }
-              key={id}
+              key={id as string}
             >
               <Icon
-                key={id}
+                key={id as string}
                 label="Icon which checks and unchecks itself"
                 primaryColor={
                   this.state.toggleFill

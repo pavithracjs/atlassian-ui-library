@@ -1,10 +1,13 @@
-// @flow
 import React from 'react';
 import { md, code } from '@atlaskit/docs';
 
 import { DynamicTableStateless } from '@atlaskit/dynamic-table';
 
-const Table = ({ changedValues }: { changedValues: { [string]: string } }) => (
+const Table = ({
+  changedValues,
+}: {
+  changedValues: { [key: string]: string };
+}) => (
   <DynamicTableStateless
     isFixedSize
     head={{
