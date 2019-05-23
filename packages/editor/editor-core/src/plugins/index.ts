@@ -23,7 +23,6 @@ export { default as listsPlugin } from './lists';
 export { default as macroPlugin } from './macro';
 export { default as maxContentSizePlugin } from './max-content-size';
 export { default as mediaPlugin } from './media';
-export { default as mediaEditorPlugin } from './media-editor';
 export { default as mentionsPlugin } from './mentions';
 export { default as panelPlugin } from './panel';
 export { default as pastePlugin } from './paste';

@@ -5,7 +5,7 @@ import { FileIdentifier } from '@atlaskit/media-core';
 import { Dimensions, SmartMediaEditor } from '@atlaskit/media-editor';
 
 import { MediaEditorState } from '../types';
-import { uploadAnnotation, closeMediaEditor } from '../commands';
+import { uploadAnnotation, closeMediaEditor } from '../commands/media-editor';
 
 type Props = {
   mediaEditorState: MediaEditorState;

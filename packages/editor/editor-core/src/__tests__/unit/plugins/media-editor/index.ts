@@ -10,18 +10,18 @@ import {
 } from '@atlaskit/editor-test-helpers';
 
 import { getFreshMediaProvider } from '../media/_utils';
-import { mediaPlugin, mediaEditorPlugin } from '../../../../plugins';
+import { mediaPlugin } from '../../../../plugins';
 import {
   pluginKey as mediaEditorPluginKey,
   getPluginState,
-} from '../../../../plugins/media-editor/plugin';
+} from '../../../../plugins/media/pm-plugins/media-editor';
 
-import { MediaEditorState } from '../../../../plugins/media-editor/types';
+import { MediaEditorState } from '../../../../plugins/media/types';
 import {
   openMediaEditor,
   closeMediaEditor,
   uploadAnnotation,
-} from '../../../../plugins/media-editor/commands';
+} from '../../../../plugins/media/commands/media-editor';
 import { ProviderFactory } from '@atlaskit/editor-common';
 
 describe('media editor', () => {
@@ -39,8 +39,6 @@ describe('media editor', () => {
           allowMediaSingle: true,
           allowAnnotation: true,
         }),
-
-        mediaEditorPlugin,
       ],
       pluginKey: mediaEditorPluginKey,
     });

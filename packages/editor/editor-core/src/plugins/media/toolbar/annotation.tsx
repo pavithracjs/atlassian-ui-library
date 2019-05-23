@@ -9,7 +9,7 @@ import Button from '../../floating-toolbar/ui/Button';
 import Separator from '../../floating-toolbar/ui/Separator';
 
 import { MediaPluginState, stateKey } from '../pm-plugins/main';
-import { openMediaEditor } from '../../../plugins/media-editor/commands';
+import { openMediaEditor } from '../commands/media-editor';
 
 import {
   withAnalytics,

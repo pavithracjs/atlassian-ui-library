@@ -1,7 +1,7 @@
 const mockCloseMediaEditorCommand = jest.fn();
 const mockUploadAnnotationCommand = jest.fn();
 
-jest.mock('../../../../plugins/media-editor/commands', () => ({
+jest.mock('../../../../plugins/media/commands/media-editor', () => ({
   closeMediaEditor: jest.fn(() => mockCloseMediaEditorCommand),
   uploadAnnotation: jest.fn(() => mockUploadAnnotationCommand),
 }));
@@ -13,9 +13,9 @@ import { Context, FileIdentifier } from '@atlaskit/media-core';
 import { SmartMediaEditor } from '@atlaskit/media-editor';
 
 import { EditorView } from 'prosemirror-view';
-import { MediaEditor } from '../../../../plugins/media-editor/components';
-import { MediaEditorState } from '../../../../plugins/media-editor/types';
-import { uploadAnnotation } from '../../../../plugins/media-editor/commands';
+import MediaEditor from '../../../../plugins/media/ui/MediaEditor';
+import { MediaEditorState } from '../../../../plugins/media/types';
+import { uploadAnnotation } from '../../../../plugins/media/commands/media-editor';
 
 describe('media editor', () => {
   const mockContext = jest.fn<Context>(() => ({

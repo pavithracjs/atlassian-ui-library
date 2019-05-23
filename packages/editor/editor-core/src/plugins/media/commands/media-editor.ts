@@ -1,4 +1,4 @@
-import { createCommand, getPluginState } from './plugin';
+import { createCommand, getPluginState } from '../pm-plugins/media-editor';
 import { FileIdentifier, Context } from '@atlaskit/media-core';
 import { MediaBaseAttributes } from '@atlaskit/adf-schema';
 import { Dimensions } from '@atlaskit/media-editor';

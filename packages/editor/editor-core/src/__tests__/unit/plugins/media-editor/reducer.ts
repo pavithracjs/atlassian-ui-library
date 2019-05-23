@@ -1,6 +1,6 @@
 import { Context, FileIdentifier } from '@atlaskit/media-core';
-import { reducer } from '../../../../plugins/media-editor/plugin';
-import { MediaEditorState } from '../../../../plugins/media-editor/types';
+import { reducer } from '../../../../plugins/media/pm-plugins/media-editor';
+import { MediaEditorState } from '../../../../plugins/media/types';
 
 describe('media editor', () => {
   const mockContext = jest.fn<Context>(() => ({
