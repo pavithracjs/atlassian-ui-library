@@ -276,7 +276,7 @@ describe('<CustomMediaPlayer />', () => {
       expect(simultaneousPlayManager.unsubscribe).toBeCalledTimes(1);
     });
 
-    it('should trigger Simultaneous Play pauseOthers when click play button', () => {
+    it('should pause other players when click play button', () => {
       const { component } = setup({ isAutoPlay: false });
 
       component
@@ -286,7 +286,7 @@ describe('<CustomMediaPlayer />', () => {
       expect(simultaneousPlayManager.pauseOthers).toHaveBeenCalledTimes(1);
     });
 
-    it('should trigger Simultaneous Play onClick if autoplay is ON', () => {
+    it('should pause other players if autoplay is ON', () => {
       setup({ isAutoPlay: true });
       expect(simultaneousPlayManager.pauseOthers).toHaveBeenCalledTimes(1);
     });
