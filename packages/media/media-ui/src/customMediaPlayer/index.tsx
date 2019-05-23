@@ -81,10 +81,6 @@ export class CustomMediaPlayer extends Component<
     isFullScreenEnabled: false,
   };
 
-  constructor(props: CustomMediaPlayerPropsInternal) {
-    super(props);
-  }
-
   componentDidMount() {
     document.addEventListener(
       vendorify('fullscreenchange', false),
