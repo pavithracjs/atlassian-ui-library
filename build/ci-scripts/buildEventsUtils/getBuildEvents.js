@@ -69,9 +69,9 @@ async function getPipelinesBuildEvents(
       : build.state.result.name;
     if (stepsData) {
       const build_time =
-        build.duration_in_seconds === 0 && stepsData.length > 1
-          ? computeBuildTimes(stepsData)
-          : build.duration_in_seconds;
+        build.duration_in_seconds > 0 && stepsData.length > 1
+          ? build.duration_in_seconds
+          : computeBuildTimes(stepsData);
       payload = {
         build_number: buildId,
         build_status: buildStatus,
