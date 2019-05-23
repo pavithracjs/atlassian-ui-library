@@ -120,7 +120,6 @@ async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
           const step_duration = step.duration_in_seconds
             ? step.duration_in_seconds
             : computeStepTimes(step.started_on);
-          console.log('step_duration:', step_duration);
           return {
             step_duration,
             step_name: step.name || buildType, // on Master, there is no step name.
