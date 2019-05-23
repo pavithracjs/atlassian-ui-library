@@ -4,7 +4,7 @@ import * as colors from '../colors';
 import { createTheme, ThemeProp } from '../utils/createTheme';
 
 export type ResetThemeProps = any;
-export type ResetThemeTokens = {
+export interface ResetThemeTokens {
   backgroundColor: string;
   textColor: string;
   linkColor?: string;
@@ -15,7 +15,7 @@ export type ResetThemeTokens = {
   subtleHeadingColor?: string;
   subtleTextColor?: string;
   [key: string]: any;
-};
+}
 
 const orTextColor = (preferred: string) => (p: ResetThemeTokens) =>
   p[preferred] || p.textColor;
