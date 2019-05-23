@@ -3,6 +3,7 @@ import { messages } from '../../messages';
 import { ConfluenceResultsMap, ResultsGroup } from '../../model/Result';
 import { attachConfluenceContextIdentifiers } from '../common/contextIdentifiersHelper';
 import { take } from '../SearchResultsUtil';
+import { getConfluenceMaxObjects } from '../../util/experiment-utils';
 
 export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
@@ -15,24 +16,7 @@ const EMPTY_CONFLUENCE_RESULT = {
   spaces: [],
 };
 
-/**
- * Grape is an experiment to increase the number of search results shown to the user
- */
-const GRAPE_EXPERIMENT = 'grape';
-
-const getMaxObjects = (abTest: ABTest) => {
-  if (abTest.experimentId.startsWith(GRAPE_EXPERIMENT)) {
-    const parsedMaxObjects = Number.parseInt(
-      abTest.experimentId.split('-')[1],
-      10,
-    );
-
-    return parsedMaxObjects || DEFAULT_MAX_OBJECTS;
-  }
-  return DEFAULT_MAX_OBJECTS;
-};
-
-export const sliceResults = (
+const sliceResults = (
   resultsMap: ConfluenceResultsMap | null,
   abTest: ABTest,
 ): ConfluenceResultsMap => {
@@ -41,7 +25,10 @@ export const sliceResults = (
   }
   const { people, objects, spaces } = resultsMap;
   return {
-    objects: take(objects, getMaxObjects(abTest)),
+    objects: take(
+      objects,
+      getConfluenceMaxObjects(abTest, DEFAULT_MAX_OBJECTS),
+    ),
     spaces: take(spaces, MAX_SPACES),
     people: take(people, MAX_PEOPLE),
   };
