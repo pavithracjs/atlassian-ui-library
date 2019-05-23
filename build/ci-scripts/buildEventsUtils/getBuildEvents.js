@@ -35,13 +35,16 @@ async function getPipelinesBuildEvents(
   try {
     const res = await axios.get(apiEndpoint);
     const build = res.data;
-    const stepsData = await getStepsEvents(buildId);
+    let stepsData = await getStepsEvents(buildId);
     const buildStatus = process.env.BITBUCKET_EXIT_CODE
       ? process.env.BITBUCKET_EXIT_CODE === '0'
         ? 'SUCCESSFUL'
         : 'FAILED'
       : build.state.result.name;
     if (stepsData) {
+      // In case of build with 1 step, we need to return an empty array.
+      stepsData = stepsData.length === 1 ? [] : stepsData;
+      console.log('debugging-build', build);
       payload = {
         build_number: buildId,
         build_status: buildStatus,
