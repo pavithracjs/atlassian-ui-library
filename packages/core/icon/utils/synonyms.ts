@@ -5,7 +5,7 @@
  *   icon: ['synonym one', 'synonym two']
  */
 
-module.exports = {
+export default {
   activity: ['window'],
   'add-circle': ['plus', 'create', 'new'],
   'add-item': ['plus', 'create', 'new'],
