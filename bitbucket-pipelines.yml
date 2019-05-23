@@ -510,7 +510,7 @@ pipelines:
             - node        
     
     # This is a custom build step that merges master branch then upload ratchet files to S3 on a scheduled basis.
-    # It is broken to multiple steps to gain speed and avoid OOM issues.       
+    # It is broken to multiple steps to gain speed and avoid OOM issues.
     push-bundle-size-to-s3:
       - parallel:
           - step:

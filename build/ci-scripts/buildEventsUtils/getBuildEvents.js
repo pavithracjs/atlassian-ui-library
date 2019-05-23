@@ -57,7 +57,7 @@ async function getPipelinesBuildEvents(
         : 'FAILED'
       : build.state.result.name;
     if (stepsData) {
-      let build_time =
+      const build_time =
         build.duration_in_seconds === 0
           ? computeBuildTimes(stepsData)
           : build.duration_in_seconds;
