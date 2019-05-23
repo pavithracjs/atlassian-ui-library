@@ -1,0 +1,1 @@
+- ED-6959: Patch transformer to cater for a paragraph node that contains mixed text and media nodes.
