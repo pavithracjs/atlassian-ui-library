@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.10.1
+- [patch] [f3334a7083](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f3334a7083):
+
+  - ED-6918: fix deleting table rows inside bodied extensions
+
 ## 112.10.0
 - [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
 
