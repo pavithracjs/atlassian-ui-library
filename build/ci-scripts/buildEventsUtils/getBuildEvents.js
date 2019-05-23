@@ -41,6 +41,11 @@ function computeBuildTimes(
   );
 }
 
+function computeStepTimes(stepStartTime /*: number */) /*: number */ {
+  const currentTime = new Date.now();
+  // It returns the time in ms, we want in seconds.
+  return (currentTime - stepStartTime) / 1000;
+}
 /* This function returns the payload for the build / pipelines.*/
 async function getPipelinesBuildEvents(
   buildId /*: string */,
@@ -98,17 +103,21 @@ async function getStepsEvents(buildId /*: string*/) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
     const resp = await axios.get(url);
-    console.log(resp.data.values);
     return Promise.all(
       resp.data.values.map(async step => {
         // We don't have control of the last step, it is a edge case.
         // In the after_script, the last step is still 'IN-PROGRESS' but the result of the last step does not matter.
         // We use the process.env.BITBUCKET_EXIT_CODE to determine the status of the pipeline.
         if (step && step.state.result) {
-          const stepStatus =
-            step.state.result.name === 'IN-PROGRESS'
+          const stepStatus = process.env.BITBUCKET_EXIT_CODE
+            ? process.env.BITBUCKET_EXIT_CODE === '0'
               ? 'SUCCESSFUL'
-              : step.state.result.name;
+              : 'FAILED'
+            : step.state.result.name;
+          // We need to do a computation if the step.duration_in_seconds is not yet available.
+          const step_duration = step.duration_in_seconds
+            ? step.duration_in_seconds
+            : computeStepTimes(step.started_on);
           return {
             step_duration: step.duration_in_seconds,
             step_name: step.name || 'master', // on Master, there is no step name.
@@ -197,13 +206,17 @@ async function getStepEvents(buildId /*: string*/) {
       )[0];
       const buildStatus =
         process.env.BITBUCKET_EXIT_CODE === '0' ? 'SUCCESSFUL' : 'FAILED';
+      // We need to do a computation if the step.duration_in_seconds is not yet available.
+      const step_duration = stepObject.duration_in_seconds
+        ? stepObject.duration_in_seconds
+        : computeStepTimes(stepObject.started_on);
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
         build_type: stepPayload.build_type,
         build_steps: [
           {
-            step_duration: stepObject.duration_in_seconds,
+            step_duration,
             step_status: buildStatus,
             step_name: stepObject.name || 'master', // on Master, there is no step name,
           },
