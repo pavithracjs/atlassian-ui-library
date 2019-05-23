@@ -103,7 +103,7 @@ async function getStepsEvents(buildId /*: string*/) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
     const resp = await axios.get(url);
-    console.log(resp, resp.data);
+    console.log(resp.data.values);
     return Promise.all(
       resp.data.values.map(async step => {
         // We don't have control of the last step, it is a edge case.
@@ -120,7 +120,7 @@ async function getStepsEvents(buildId /*: string*/) {
             ? step.duration_in_seconds
             : computeStepTimes(step.started_on);
           return {
-            step_duration: step.duration_in_seconds,
+            step_duration,
             step_name: step.name || 'master', // on Master, there is no step name.
             step_status: step.state.result.name,
           };

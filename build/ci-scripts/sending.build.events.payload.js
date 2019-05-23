@@ -12,8 +12,8 @@ const sendBuildEventsPayload = require('./buildEventsUtils/sendBuildEventsPayloa
   try {
     const buildId = process.env.BITBUCKET_BUILD_NUMBER;
     const buildEvents = await getPipelinesBuildEvents(buildId);
-    console.log(buildEvents);
-    await sendBuildEventsPayload(buildEvents);
+    console.log('Ready to send the build:', buildEvents);
+    // await sendBuildEventsPayload(buildEvents);
   } catch (err) {
     console.error(`You face some issues while sending data: ${err.message}`);
     // It is not required to fail the step.
