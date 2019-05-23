@@ -68,6 +68,12 @@ async function getPipelinesBuildEvents(
         : 'FAILED'
       : build.state.result.name;
     if (stepsData) {
+      console.log(
+        build.duration_in_seconds,
+        'build time',
+        'step',
+        stepsData.length,
+      );
       const build_time =
         (build.duration_in_seconds > 0 || build.duration_in_second) &&
         stepsData.length > 1
@@ -121,6 +127,12 @@ async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
               : 'FAILED'
             : step.state.result.name;
           // We need to do a computation if the step.duration_in_seconds is not yet available and it a 1 step build.
+          console.log(
+            'step_duration',
+            step.duration_in_seconds,
+            'number of steps',
+            resp.data.values.length,
+          );
           const step_duration =
             step.duration_in_seconds && resp.data.values.length > 1
               ? step.duration_in_seconds
