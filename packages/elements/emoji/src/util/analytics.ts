@@ -62,7 +62,7 @@ const skinTones = [
   { id: '-1f3ff', skinToneModifier: 'dark' },
 ];
 
-const getSkintone = (emojiId?: string) => {
+const getSkinTone = (emojiId?: string) => {
   if (!emojiId) {
     return {};
   }
@@ -81,7 +81,7 @@ export const pickerClickedEvent = (
   emojiPickerEvent(
     'clicked',
     {
-      ...getSkintone(attributes.emojiId),
+      ...getSkinTone(attributes.emojiId),
       ...attributes,
     },
     'emoji',
@@ -207,10 +207,10 @@ export const typeaheadSelectedEvent = (
     'emojiTypeahead',
     undefined,
     {
-      baseEmojiId: emoji.id,
       duration,
       position: getPosition(emojiList, emoji),
       ...extractCommonAttributes(query, emojiList),
+      ...getSkinTone(emoji.id),
       emojiType: emoji.type,
       exactMatch: exactMatch || false,
     },
