@@ -1,0 +1,1 @@
+- ED-6970: Fix backspacing inside a layout removing all content.
