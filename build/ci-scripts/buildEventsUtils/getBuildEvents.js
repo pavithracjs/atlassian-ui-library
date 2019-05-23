@@ -103,21 +103,12 @@ async function getStepsEvents(buildId /*: string*/) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
     const resp = await axios.get(url);
-    console.log(resp.data.values);
     return Promise.all(
       resp.data.values.map(async step => {
         // We don't have control of the last step, it is a edge case.
         // In the after_script, the last step is still 'IN-PROGRESS' but the result of the last step does not matter.
         // We use the process.env.BITBUCKET_EXIT_CODE to determine the status of the pipeline.
-        console.log(
-          'step',
-          step,
-          'step_state:',
-          step.state,
-          'step_pipeline',
-          step.started_on,
-        );
-        if (step && step.state.result) {
+        if (step && step.state) {
           const stepStatus = process.env.BITBUCKET_EXIT_CODE
             ? process.env.BITBUCKET_EXIT_CODE === '0'
               ? 'SUCCESSFUL'
@@ -131,7 +122,7 @@ async function getStepsEvents(buildId /*: string*/) {
           return {
             step_duration,
             step_name: step.name || 'master', // on Master, there is no step name.
-            step_status: step.state.result.name,
+            step_status: stepStatus,
           };
         }
       }),
