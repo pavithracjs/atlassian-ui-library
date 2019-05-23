@@ -41,7 +41,7 @@ type Props = {
   keywords: string[];
   component: ComponentType<any>;
   componentName: string;
-  package: string;
+  package?: string;
   divider?: boolean;
 };
 

@@ -1,4 +1,4 @@
-import React, { Component, ComponentType } from 'react';
+import React, { Component, SyntheticEvent, ComponentType } from 'react';
 import styled from 'styled-components';
 
 import Button from '@atlaskit/button';
@@ -73,7 +73,7 @@ const priorityIconInfo = Promise.all(
     .reduce((acc, b) => ({ ...acc, ...b })),
 );
 
-const getAllIcons = async () => {
+const getAllIcons = async (): Promise<{ [key: string]: iconType }> => {
   const iconData = await iconIconInfo;
   const objectData = await objectIconInfo;
   const filetypeData = await fileTypeIconInfo;
@@ -81,35 +81,46 @@ const getAllIcons = async () => {
   return {
     first: {
       componentName: 'divider-icons',
-      component: () => 'exported from @atlaskit/icon',
+      component: ((() =>
+        'exported from @atlaskit/icon') as unknown) as ComponentType<any>,
       keywords: getKeywords(metadata),
       divider: true,
     },
     ...iconData,
     firstTwo: {
       componentName: 'divider-product',
-      component: () => 'exported from @atlaskit/logo',
+      component: ((() =>
+        'exported from @atlaskit/logo') as unknown) as ComponentType<any>,
       keywords: getKeywords(logoIcons),
       divider: true,
     },
     ...logoIcons,
     second: {
       componentName: 'divider-object-icons',
-      component: () => 'exported from @atlaskit/icon-object',
+      component: ((() =>
+        'exported from @atlaskit/icon-object') as unknown) as ComponentType<
+        any
+      >,
       keywords: getKeywords(objectIconMetadata),
       divider: true,
     },
     ...objectData,
     third: {
       componentName: 'divider-file-type-icons',
-      component: () => 'exported from @atlaskit/icon-file-type',
+      component: ((() =>
+        'exported from @atlaskit/icon-file-type') as unknown) as ComponentType<
+        any
+      >,
       keywords: getKeywords(fileTypeIconMetadata),
       divider: true,
     },
     ...filetypeData,
     forth: {
       componentName: 'divider-priority-icons',
-      component: () => 'exported from @atlaskit/icon-priority',
+      component: ((() =>
+        'exported from @atlaskit/icon-priority') as unknown) as ComponentType<
+        any
+      >,
       keywords: getKeywords(priorityIconMetadata),
       divider: true,
     },
@@ -149,7 +160,7 @@ type iconType = {
   keywords: string[];
   component: ComponentType<any>;
   componentName: string;
-  package: string;
+  package?: string;
   divider?: boolean;
 };
 
@@ -171,7 +182,7 @@ type State = {
 };
 
 class IconAllExample extends Component<{}, State> {
-  state = {
+  state: State = {
     query: '',
     showIcons: false,
   };
