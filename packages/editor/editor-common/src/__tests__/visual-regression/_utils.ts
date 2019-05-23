@@ -4,8 +4,8 @@ import {
   loadExampleUrl,
 } from '@atlaskit/visual-regression/helper';
 
-export const adfInputSelector = '#adf-input';
-export const importAdfBtnSelector = '#import-adf';
+const adfInputSelector = '#adf-input';
+const importAdfBtnSelector = '#import-adf';
 
 export const loadFullPageEditorWithAdf = async (page: any, adf: any) => {
   const url = getExampleUrl(
