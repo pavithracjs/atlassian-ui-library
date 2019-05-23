@@ -18,10 +18,10 @@ const Table = (props: React.HTMLProps<HTMLDivElement>) => (
   <div css={{ display: 'table' }} {...props} />
 );
 const Row = (props: React.HTMLProps<HTMLDivElement>) => (
-  <div css={{ display: 'table-row' }} {...props} />
+  <div css={{ display: 'flex', flexWrap: 'wrap' }} {...props} />
 );
 const Cell = (props: React.HTMLProps<HTMLDivElement>) => (
-  <div css={{ display: 'table-cell', padding: 4 }} {...props} />
+  <div css={{ width: '90px', padding: '4px 0' }} {...props} />
 );
 
 function capitalize(str: string) {
