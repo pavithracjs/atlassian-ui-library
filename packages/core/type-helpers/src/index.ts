@@ -73,7 +73,6 @@ export type PropsPasser<Extra extends object = {}> = <
 /**
  * This type is used for HOC's that inject props into the provided component in
  * such a way that the resultant component does not accept those props any more
- *
  */
 export type PropsInjector<InjectedProps extends object> = <
   C extends React.ComponentType<any>
@@ -81,15 +80,6 @@ export type PropsInjector<InjectedProps extends object> = <
   Component: C,
 ) => React.ComponentType<
   Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
->;
-
-export type PropsInjectorAndPasser<
-  InjectedProps extends object,
-  Extra extends object = {}
-> = <C extends React.ComponentType<any>>(
-  Component: C,
-) => React.ComponentType<
-  Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>> & Extra
 >;
 
 /**
@@ -115,7 +105,57 @@ export type SumPropsInjector<InjectedProps extends object> = <
   Component: C,
 ) => React.ComponentClass<PropsOf<C> & InjectedProps>;
 
+/**
+ * Returns a type with keys that are not in T and U set to never.
+ * For example:
+ * ```
+ * interface T {
+ *    foo: string;
+ * }
+ * interface U {
+ *    foo: string;
+ *    bar: string;
+ * }
+ * type Result = Without<T, U>;
+ * // Result === { bar?: never };
+ * ```
+ */
 export type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+
+/**
+ * Returns type that accepts either one of two provided types.
+ * For example:
+ * ```
+ * interface T{
+ *   foo: string;
+ * }
+ * interface U{
+ *   bar: string;
+ * }
+ * type OneOfTwo = XOR<T, U>
+ *
+ * const one: OneOfTwo = {foo: "hello"};
+ * const two: OneOfTwo = {bar: "hello"};
+ *
+ * const error: OneOfTwo = {foo: "hello", bar: "hello"}; // Throws an error
+ *
+ * console.log(one.foo); // OK
+ * console.log(one.bar); // ERROR
+ * console.log(two.bar); // OK
+ * console.log(two.foo); // ERROR
+ * ```
+ *
+ * But! There is a catch.
+ * ```
+ * function(oneOrTwo: OneOrTwo) {
+ *   console.log(oneOrTwo.foo); // OK
+ *   console.log(oneOrTwo.bar); // OK
+ * }
+ * ```
+ * This is somewhat buggy in that context, so you should be careful reading values checking them
+ * manually first.
+ *
+ */
 export type XOR<T, U> = (T | U) extends object
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
