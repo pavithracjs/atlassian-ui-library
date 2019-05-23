@@ -62,16 +62,13 @@ export interface CustomMediaPlayerState {
 
 export type ToggleButtonAction = () => void;
 
-type CustomMediaPlayerPropsInternal = CustomMediaPlayerProps &
-  InjectedIntlProps;
-
 export type CustomMediaPlayerActions = {
   play: () => void;
   pause: () => void;
 };
 
 export class CustomMediaPlayer extends Component<
-  CustomMediaPlayerPropsInternal,
+  CustomMediaPlayerProps & InjectedIntlProps,
   CustomMediaPlayerState
 > {
   videoWrapperRef?: HTMLElement;
