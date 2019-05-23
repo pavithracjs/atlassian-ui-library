@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, type Element } from 'react';
+import React, { Component, FC } from 'react';
 import styled from 'styled-components';
 import Btn, { ButtonGroup } from '@atlaskit/button';
 
@@ -41,24 +40,24 @@ const demoIcons = [
   ArrowUpIcon,
 ];
 
-const Button = props => (
+const Button: FC<any> = props => (
   <div style={{ marginRight: 4 }}>
     <Btn {...props} />
   </div>
 );
 
-const sizes = ['small', 'medium', 'large', 'xlarge'];
-
 type sizeOpts = 'small' | 'medium' | 'large' | 'xlarge';
+
+const sizes: sizeOpts[] = ['small', 'medium', 'large', 'xlarge'];
 
 class IconSizeExample extends Component<{}, { size: sizeOpts }> {
   state = {
-    size: 'medium',
+    size: 'medium' as sizeOpts,
   };
 
   updateSize = (s: sizeOpts) => this.setState({ size: s });
 
-  renderButtons = (): Array<Element<typeof Button>> =>
+  renderButtons = (): Array<ReturnType<typeof Button>> =>
     sizes.map(s => (
       <Button
         isSelected={s === this.state.size}
