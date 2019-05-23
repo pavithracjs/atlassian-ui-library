@@ -20,8 +20,9 @@ BrowserTestCase(
     await formTest.goto(urlSubmitForm);
     await formTest.waitForSelector(submitForm);
     await formTest.type(submitFormTextfield, 'Jane Chan');
+    await formTest.waitForSelector(submitFormTextarea);
     await formTest.click(submitFormTextarea);
-    await formTest.keys(['Control', 'Enter']);
+    await formTest.keys('\uE009\uE007');
     await formTest.waitForSelector(submitFormSubmitted);
     expect(await formTest.getText(submitFormSubmitted)).toBe(
       'You have successfully submitted!',
