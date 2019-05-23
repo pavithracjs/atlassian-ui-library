@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.8.1
+- [patch] [26501fa352](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26501fa352):
+
+  - Fix typo in URS scopes
+
 ## 8.8.0
 - [minor] [ef46265bcf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef46265bcf):
 
