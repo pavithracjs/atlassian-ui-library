@@ -1,1 +1,0 @@
-- ED-6832 Refactor ReactMediaSingleNodeView to remove usage of media plugin state private methods.

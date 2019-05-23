@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.10.2
+- [patch] [54b40d9757](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/54b40d9757):
+
+  - ED-6832 Refactor ReactMediaSingleNodeView to remove usage of media plugin state private methods.
+
 ## 112.10.1
 - [patch] [f3334a7083](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f3334a7083):
 
