@@ -1371,7 +1371,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [129],
+                colwidth: [119],
               },
               content: [
                 {
@@ -1383,7 +1383,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [242],
+                colwidth: [110],
               },
               content: [
                 {
@@ -1395,7 +1395,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [334],
+                colwidth: [403],
               },
               content: [
                 {
@@ -1407,7 +1407,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [55],
+                colwidth: [48],
               },
               content: [
                 {
@@ -1424,7 +1424,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [129],
+                colwidth: [119],
               },
               content: [
                 {
@@ -1436,7 +1436,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [242],
+                colwidth: [110],
               },
               content: [
                 {
@@ -1448,7 +1448,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [334],
+                colwidth: [403],
               },
               content: [
                 {
@@ -1460,7 +1460,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [55],
+                colwidth: [48],
               },
               content: [
                 {
@@ -1477,7 +1477,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [129],
+                colwidth: [119],
               },
               content: [
                 {
@@ -1489,7 +1489,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [242],
+                colwidth: [110],
               },
               content: [
                 {
@@ -1501,7 +1501,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [334],
+                colwidth: [403],
               },
               content: [
                 {
@@ -1513,7 +1513,7 @@ export const tableForBulkResize3Cols = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [55],
+                colwidth: [48],
               },
               content: [
                 {
@@ -1525,6 +1525,185 @@ export const tableForBulkResize3Cols = {
           ],
         },
       ],
+    },
+  ],
+};
+
+export const tableForBulkResizeWithNumberCol = {
+  version: 1,
+  type: 'doc',
+  content: [
+    {
+      type: 'table',
+      attrs: {
+        isNumberColumnEnabled: true,
+        layout: 'default',
+      },
+      content: [
+        {
+          type: 'tableRow',
+          content: [
+            {
+              type: 'tableHeader',
+              attrs: {
+                colwidth: [134],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableHeader',
+              attrs: {
+                colwidth: [519],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableHeader',
+              attrs: {
+                colwidth: [48],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableHeader',
+              attrs: {
+                colwidth: [48],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'tableRow',
+          content: [
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [134],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [519],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [48],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [48],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'tableRow',
+          content: [
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [134],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [519],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [48],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+            {
+              type: 'tableCell',
+              attrs: {
+                colwidth: [48],
+              },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [],
     },
   ],
 };
