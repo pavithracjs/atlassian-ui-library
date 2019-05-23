@@ -26,6 +26,13 @@ type IStepsDataType = {
 }
 */
 
+/* This function compute build time if build time is 0. */
+function computeBuildTimes(
+  stepsData /*: Array<IStepsDataType> */,
+) /*: number */ {
+  return stepsData.reduce((a, b) => +a + +b.step_duration, 0);
+}
+
 /* This function returns the payload for the build / pipelines.*/
 async function getPipelinesBuildEvents(
   buildId /*: string */,
@@ -44,7 +51,10 @@ async function getPipelinesBuildEvents(
     if (stepsData) {
       // In case of build with 1 step, we need to return an empty array.
       stepsData = stepsData.length === 1 ? [] : stepsData;
-      console.log('debugging-build', build);
+      let build_time =
+        build.duration_in_seconds === 0
+          ? computeBuildTimes(stepsData)
+          : build.duration_in_seconds;
       payload = {
         build_number: buildId,
         build_status: buildStatus,
