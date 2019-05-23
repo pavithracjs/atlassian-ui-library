@@ -126,6 +126,9 @@ export class DrawerBase extends Component<
       onCloseComplete,
     } = this.props;
 
+    // We do not want to render FocusLock if drawer is not open
+    const FocusLockWrapper = isOpen ? FocusLock : Fragment;
+
     return (
       <Transition
         in={isOpen}
@@ -140,7 +143,7 @@ export class DrawerBase extends Component<
               <Fade in={isOpen}>
                 <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
               </Fade>
-              <FocusLock>
+              <FocusLockWrapper>
                 <DrawerPrimitive
                   icon={icon}
                   in={isOpen}
@@ -151,7 +154,7 @@ export class DrawerBase extends Component<
                 >
                   {children}
                 </DrawerPrimitive>
-              </FocusLock>
+              </FocusLockWrapper>
             </Fragment>
           </TransitionGroup>
         </Portal>
