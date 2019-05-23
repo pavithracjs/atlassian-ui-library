@@ -41,9 +41,7 @@ import {
 } from './fullscreen';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../messages';
-import simultaneousPlayManager, {
-  SimultaneousPlaySubscription,
-} from './simultaneousPlayManager';
+import simultaneousPlayManager from './simultaneousPlayManager';
 
 export interface CustomMediaPlayerProps {
   readonly type: 'audio' | 'video';
@@ -78,7 +76,6 @@ export class CustomMediaPlayer extends Component<
 > {
   videoWrapperRef?: HTMLElement;
   private actions?: CustomMediaPlayerActions;
-  private simultaneousPlay: SimultaneousPlaySubscription;
 
   state: CustomMediaPlayerState = {
     isFullScreenEnabled: false,
@@ -86,7 +83,6 @@ export class CustomMediaPlayer extends Component<
 
   constructor(props: CustomMediaPlayerPropsInternal) {
     super(props);
-    this.simultaneousPlay = simultaneousPlayManager.subscribe(this.pause);
   }
 
   componentDidMount() {
@@ -95,8 +91,10 @@ export class CustomMediaPlayer extends Component<
       this.onFullScreenChange,
     );
 
+    simultaneousPlayManager.subscribe(this);
+
     if (this.props.isAutoPlay) {
-      this.simultaneousPlay.onPlay();
+      simultaneousPlayManager.pauseOthers(this);
     }
   }
 
@@ -105,20 +103,17 @@ export class CustomMediaPlayer extends Component<
       vendorify('fullscreenchange', false),
       this.onFullScreenChange,
     );
-    this.simultaneousPlay.unsubscribe();
+    simultaneousPlayManager.unsubscribe(this);
   }
 
   onFullScreenChange = () => {
     const { isFullScreenEnabled: currentFullScreenMode } = this.state;
-    const isFullScreenEnabled = getFullscreenElement() === this.videoWrapperRef;
+    const isFullScreenEnabled = getFullscreenElement() ? true : false;
 
     if (currentFullScreenMode !== isFullScreenEnabled) {
       this.setState({
         isFullScreenEnabled,
       });
-    }
-    if (isFullScreenEnabled) {
-      this.simultaneousPlay.onPlay();
     }
   };
 
@@ -132,13 +127,7 @@ export class CustomMediaPlayer extends Component<
   shortcutHandler = (toggleButtonAction: ToggleButtonAction) => () => {
     const { showControls } = this.props;
 
-    // Will only play by shortcut if it was the last played.
-    if (
-      toggleButtonAction !== this.play ||
-      this.simultaneousPlay.isLastPlayed()
-    ) {
-      toggleButtonAction();
-    }
+    toggleButtonAction();
 
     if (showControls) {
       showControls();
@@ -238,7 +227,7 @@ export class CustomMediaPlayer extends Component<
     }
   }
 
-  private pause = () => {
+  public pause = () => {
     if (this.actions) {
       this.actions.pause();
     }
@@ -248,7 +237,7 @@ export class CustomMediaPlayer extends Component<
     if (this.actions) {
       this.actions.play();
     }
-    this.simultaneousPlay.onPlay();
+    simultaneousPlayManager.pauseOthers(this);
   };
 
   render() {

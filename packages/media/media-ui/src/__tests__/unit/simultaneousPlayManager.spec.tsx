@@ -1,20 +1,17 @@
-import simultaneousPlayManager, {
-  SimultaneousPlaySubscription,
-} from '../../customMediaPlayer/simultaneousPlayManager';
+import simultaneousPlayManager from '../../customMediaPlayer/simultaneousPlayManager';
 
 class DummyVideo {
-  pause: () => void;
-  subscription: SimultaneousPlaySubscription;
+  pause = jest.fn();
 
   constructor() {
     this.pause = jest.fn();
-    this.subscription = simultaneousPlayManager.subscribe(this.pause);
+    simultaneousPlayManager.subscribe(this);
   }
   play() {
-    this.subscription.onPlay();
+    simultaneousPlayManager.pauseOthers(this);
   }
   unsubscribe() {
-    this.subscription.unsubscribe();
+    simultaneousPlayManager.unsubscribe(this);
   }
 }
 
@@ -46,20 +43,9 @@ describe('Simultaneous Play Manager', () => {
 
   it('should subscribe players only once', () => {
     const videoOne = new DummyVideo(); // Subscribes
-    videoOne.subscription = simultaneousPlayManager.subscribe(videoOne.pause); // tries to subscribe again
+    simultaneousPlayManager.subscribe(videoOne); // tries to subscribe again
 
-    simultaneousPlayManager.subscribe(() => {}).onPlay();
+    simultaneousPlayManager.pauseOthers({ pause: () => {} });
     expect(videoOne.pause).toBeCalledTimes(1);
-  });
-
-  it('should tell whether the current player was the last played or not', () => {
-    const videoOne = new DummyVideo();
-    const videoTwo = new DummyVideo();
-
-    videoOne.play();
-    videoTwo.play();
-
-    expect(videoOne.subscription.isLastPlayed()).toBe(false);
-    expect(videoTwo.subscription.isLastPlayed()).toBe(true);
   });
 });

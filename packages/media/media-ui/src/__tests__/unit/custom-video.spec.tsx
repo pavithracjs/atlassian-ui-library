@@ -15,9 +15,8 @@ import { toggleFullscreen } from '../../customMediaPlayer/fullscreen';
 import { TimeRange, TimeRangeProps } from '../../customMediaPlayer/timeRange';
 import { CurrentTime } from '../../customMediaPlayer/styled';
 import { Shortcut } from '../../';
-import simultaneousPlayManager, {
-  SimultaneousPlaySubscription,
-} from '../../customMediaPlayer/simultaneousPlayManager';
+jest.mock('../../customMediaPlayer/simultaneousPlayManager');
+import simultaneousPlayManager from '../../customMediaPlayer/simultaneousPlayManager';
 
 describe('<CustomMediaPlayer />', () => {
   const setup = (props?: Partial<CustomMediaPlayerProps>) => {
@@ -238,22 +237,9 @@ describe('<CustomMediaPlayer />', () => {
     });
   });
 
-  describe('simultaneous play', () => {
-    let subscription: SimultaneousPlaySubscription;
-
-    beforeEach(() => {
-      subscription = {
-        onPlay: jest.fn(),
-        unsubscribe: jest.fn(),
-        isLastPlayed: () => true,
-      };
-      simultaneousPlayManager.subscribe = jest
-        .fn()
-        .mockReturnValue(subscription);
-    });
-
-    afterAll(() => {
-      asMock(simultaneousPlayManager.subscribe).mockRestore();
+  describe.only('simultaneous play', () => {
+    afterEach(() => {
+      asMock(simultaneousPlayManager.pauseOthers).mockClear();
     });
 
     it('should subscribe to Simultaneous Play Manager', () => {
@@ -264,33 +250,22 @@ describe('<CustomMediaPlayer />', () => {
     it('should unsubscribe from Simultaneous Play Manager on unmount', () => {
       const { component } = setup();
       component.unmount();
-      expect(subscription.unsubscribe).toBeCalledTimes(1);
+      expect(simultaneousPlayManager.unsubscribe).toBeCalledTimes(1);
     });
 
-    it('should trigger Simultaneous Play onClick when click play button', () => {
+    it('should trigger Simultaneous Play pauseOthers when click play button', () => {
       const { component } = setup({ isAutoPlay: false });
 
       component
         .find(Button)
         .at(0)
         .simulate('click');
-      expect(subscription.onPlay).toHaveBeenCalledTimes(1);
+      expect(simultaneousPlayManager.pauseOthers).toHaveBeenCalledTimes(1);
     });
 
     it('should trigger Simultaneous Play onClick if autoplay is ON', () => {
       setup({ isAutoPlay: true });
-      expect(subscription.onPlay).toHaveBeenCalledTimes(1);
-    });
-
-    it('should trigger Simultaneous Play onClick after requesting full screen', () => {
-      const { component } = setup({ isAutoPlay: true });
-
-      component
-        .find(Button)
-        .last()
-        .simulate('click');
-
-      expect(subscription.onPlay).toHaveBeenCalledTimes(1);
+      expect(simultaneousPlayManager.pauseOthers).toHaveBeenCalledTimes(1);
     });
   });
 });

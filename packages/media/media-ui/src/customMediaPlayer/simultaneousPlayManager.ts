@@ -1,42 +1,32 @@
-export type SimultaneousPlaySubscription = {
-  onPlay: () => void;
-  unsubscribe: () => void;
-  isLastPlayed: () => boolean;
+export interface Pausable {
+  pause: () => any;
+}
+
+let players: Pausable[] = [];
+
+const findPlayer = (player: Pausable) =>
+  players.find(somePlayer => somePlayer === player);
+
+const addPlayer = (player: Pausable) => players.push(player);
+
+const removePlayer = (player: Pausable) => {
+  players = players.filter(somePlayer => somePlayer !== player);
 };
 
-export default class SimultaneousPlayManager {
-  private static playersPause = new Map<() => void, () => void>();
-
-  private static lastPlayed: () => void;
-
-  static subscribe = (pause: () => void): SimultaneousPlaySubscription => {
-    if (!SimultaneousPlayManager.playersPause.get(pause)) {
-      SimultaneousPlayManager.playersPause.set(pause, pause);
-    }
-    return {
-      onPlay: () => {
-        SimultaneousPlayManager.onPlay(pause);
-      },
-      unsubscribe: () => {
-        SimultaneousPlayManager.unsubscribe(pause);
-      },
-      isLastPlayed: () => SimultaneousPlayManager.lastPlayed === pause,
-    };
-  };
-
-  private static unsubscribe = (pause: () => void) => {
-    SimultaneousPlayManager.playersPause.delete(pause);
-  };
-
-  private static onPlay = (pause: () => void): void => {
-    SimultaneousPlayManager.lastPlayed = pause;
-
-    SimultaneousPlayManager.playersPause.forEach(playerPause => {
-      if (playerPause !== pause) {
-        playerPause();
+export default {
+  pauseOthers: (player: Pausable) => {
+    players.forEach(otherPlayer => {
+      if (otherPlayer !== player) {
+        otherPlayer.pause();
       }
     });
-  };
-
-  private constructor() {}
-}
+  },
+  subscribe: (player: Pausable) => {
+    if (!findPlayer(player)) {
+      addPlayer(player);
+    }
+  },
+  unsubscribe: (player: Pausable) => {
+    removePlayer(player);
+  },
+};
