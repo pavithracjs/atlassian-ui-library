@@ -42,7 +42,7 @@ function computeBuildTimes(
 }
 
 function computeStepTimes(stepStartTime /*: number */) /*: number */ {
-  const currentTime = new Date.now();
+  const currentTime = Date.now();
   // It returns the time in ms, we want in seconds.
   return (parseInt(currentTime) - stepStartTime) / 1000;
 }
