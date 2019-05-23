@@ -187,15 +187,15 @@ pipelines:
       - step:
           script:
             - source ./build-setup.sh
-            - bolt install --pure-lockfile
-            - cd website
-            - WEBSITE_ENV=staging yarn build:no-minimize
-            - yarn build:copy
-            - set -o pipefail
-            - yarn deploy:staging | tee deploy-log.txt
-            - cat deploy-log.txt | grep "URL:" | sed "s/Live Draft Url..//gi" > netlify-link.txt
-            - echo "Uploading netlify build link to s3 so that we can fetch at the end..."
-            - node ../build/ci-scripts/upload.build.artefact.for.commit.js netlify-link.txt
+          #   - bolt install --pure-lockfile
+          #   - cd website
+          #   - WEBSITE_ENV=staging yarn build:no-minimize
+          #   - yarn build:copy
+          #   - set -o pipefail
+          #   - yarn deploy:staging | tee deploy-log.txt
+          #   - cat deploy-log.txt | grep "URL:" | sed "s/Live Draft Url..//gi" > netlify-link.txt
+          #   - echo "Uploading netlify build link to s3 so that we can fetch at the end..."
+          #   - node ../build/ci-scripts/upload.build.artefact.for.commit.js netlify-link.txt
           after-script:
             - yarn send:buildEvents
           caches:
