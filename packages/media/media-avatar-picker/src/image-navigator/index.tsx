@@ -72,7 +72,7 @@ export interface Props {
 export interface State {
   imagePos: Vector2;
   dragStartPoint: Vector2;
-  scale: number;
+  scale: number; // 0 - 100, which is what the underlying @atlaskit/range uses - state kept here, Slider is dumb component
   isDragging: boolean;
   fileImageSource?: string;
   imageFile?: File;

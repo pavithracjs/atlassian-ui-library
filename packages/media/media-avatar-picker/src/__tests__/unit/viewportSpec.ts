@@ -83,15 +83,13 @@ describe('Viewport', () => {
 
       it('should give correct portion of total image width when half zoomed in', () => {
         const viewport = setup(ZOOMED_HALF);
-        const { visibleSourceBounds } = viewport;
-        expect(visibleSourceBounds.left).toEqual(
-          DEFAULT_ITEM_WIDTH * 0.25 + DEFAULT_MARGIN,
+        const visibleSourceBounds = viewport.visibleSourceBounds.map(
+          Math.round,
         );
-        expect(visibleSourceBounds.top).toEqual(
-          DEFAULT_ITEM_HEIGHT * 0.25 + DEFAULT_MARGIN,
-        );
-        expect(visibleSourceBounds.width).toEqual(DEFAULT_ITEM_WIDTH * 0.4);
-        expect(visibleSourceBounds.height).toEqual(DEFAULT_ITEM_HEIGHT * 0.4);
+        expect(visibleSourceBounds.left).toEqual(58);
+        expect(visibleSourceBounds.top).toEqual(58);
+        expect(visibleSourceBounds.width).toEqual(84);
+        expect(visibleSourceBounds.height).toEqual(84);
       });
 
       it('should give quarter of total image size when fully zoomed in', () => {
@@ -100,11 +98,31 @@ describe('Viewport', () => {
           DEFAULT_MAX_ITEM_VIEW_WIDTH / 4,
           DEFAULT_MAX_ITEM_VIEW_HEIGHT / 4,
         );
-        const { visibleSourceBounds } = viewport;
-        expect(visibleSourceBounds.left).toEqual(DEFAULT_ITEM_WIDTH / 8);
-        expect(visibleSourceBounds.top).toEqual(DEFAULT_ITEM_HEIGHT / 8);
-        expect(visibleSourceBounds.width).toEqual(DEFAULT_ITEM_WIDTH * 0.25);
-        expect(visibleSourceBounds.height).toEqual(DEFAULT_ITEM_HEIGHT * 0.25);
+        const visibleSourceBounds = viewport.visibleSourceBounds.map(
+          Math.round,
+        );
+        expect(visibleSourceBounds.left).toEqual(53);
+        expect(visibleSourceBounds.top).toEqual(53);
+        expect(visibleSourceBounds.width).toEqual(53);
+        expect(visibleSourceBounds.height).toEqual(53);
+      });
+
+      it('should calculate correct max scale for itemBounds when image smaller than view', () => {
+        const viewport = setup();
+        viewport.setItemSize(
+          DEFAULT_MAX_ITEM_VIEW_WIDTH / 2,
+          DEFAULT_MAX_ITEM_VIEW_HEIGHT / 2,
+        );
+        const { maxScale } = viewport;
+        expect(maxScale).toEqual(MAX_SCALE);
+      });
+
+      it('should calculate correct max scale for itemBounds when image larger than view', () => {
+        const viewport = setup();
+        const itemSize = DEFAULT_MAX_ITEM_VIEW_WIDTH * 2;
+        viewport.setItemSize(itemSize, itemSize);
+        const { maxScale } = viewport;
+        expect(maxScale).toEqual((itemSize * MAX_SCALE) / DEFAULT_INNER_WIDTH);
       });
     });
   });
@@ -169,9 +187,9 @@ describe('Viewport', () => {
   describe('Coordinate transformations', () => {
     it('should map between view coords and image local coords with no dragging', () => {
       const viewport = setup(ZOOMED_IN);
-      const p = viewport.viewToLocalPoint(0, 0);
-      expect(p.x).toEqual(75);
-      expect(p.y).toEqual(75);
+      const p = viewport.viewToLocalPoint(0, 0).rounded();
+      expect(p.x).toEqual(73);
+      expect(p.y).toEqual(73);
     });
 
     it('should map between view coords and image local coords with dragging', () => {

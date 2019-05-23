@@ -1,6 +1,11 @@
 import { Rectangle, Bounds, Vector2 } from '@atlaskit/media-ui';
 
-export const MAX_SCALE = 4;
+/**
+ * maximum amount to allow scaling up from "100%"
+ * - when the image is smaller than the view size, "100%" is the view size
+ * - when the image is larger than the view size, "100%" is the images natural size
+ */
+export const MAX_SCALE = 1.5;
 export const DEFAULT_WIDTH = 100;
 export const DEFAULT_HEIGHT = 100;
 export const DEFAULT_MARGIN = 10;
@@ -123,10 +128,20 @@ export class Viewport {
     return this.itemSourceRect.width <= 0 && this.itemSourceRect.height <= 0;
   }
 
+  get maxScale() {
+    const { itemSourceBounds, innerBounds } = this;
+    const minSize = Math.min(itemSourceBounds.width, itemSourceBounds.height);
+    if (minSize <= innerBounds.width) {
+      return MAX_SCALE;
+    } else {
+      return (minSize * MAX_SCALE) / innerBounds.width;
+    }
+  }
+
   get maxItemViewRect() {
-    const { fittedItemBounds } = this;
-    const maxWidth = fittedItemBounds.width * MAX_SCALE;
-    const maxHeight = fittedItemBounds.height * MAX_SCALE;
+    const { fittedItemBounds, maxScale } = this;
+    const maxWidth = fittedItemBounds.width * maxScale;
+    const maxHeight = fittedItemBounds.height * maxScale;
     return new Rectangle(maxWidth, maxHeight);
   }
 

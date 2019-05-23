@@ -1,7 +1,7 @@
+import { Bounds } from '@atlaskit/media-ui';
 import { Viewport } from '../src/viewport/viewport';
 import { renderViewport } from '../src/viewport/viewport-render';
 import { viewport as instance } from '../src/image-navigator';
-import { Bounds } from '../../media-ui';
 
 /**
  * This is a helper class to render debug info for a viewport.
@@ -69,6 +69,7 @@ export class ViewportDebugger {
     const viewport = this.viewport;
     if (viewport.isEmpty) {
       delete this.imageElement;
+      delete viewport.item;
       this.render();
     } else {
       if (!this.imageElement && viewport.item) {
