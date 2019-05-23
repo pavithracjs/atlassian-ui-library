@@ -1,0 +1,1 @@
+- Allow issue links to be surrounded by ()
