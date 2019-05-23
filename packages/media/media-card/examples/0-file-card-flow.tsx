@@ -14,7 +14,7 @@ import {
   errorFileId,
   gifFileId,
   noMetadataFileId,
-  createUploadContext,
+  createUploadMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
 import { Card, OnLoadingChangeState } from '../src';
@@ -22,8 +22,8 @@ import {
   UploadController,
   FileIdentifier,
   FileState,
-  MediaClientConfig,
-} from '@atlaskit/media-core';
+  MediaClient,
+} from '@atlaskit/media-client';
 import { Observable } from 'rxjs/Observable';
 import {
   CardWrapper,
@@ -32,7 +32,8 @@ import {
   CardState,
 } from '../example-helpers/styled';
 
-const context = createUploadContext();
+const mediaClientConfig = createUploadMediaClientConfig();
+const mediaClient = new MediaClient(mediaClientConfig);
 
 export interface ComponentProps {}
 export interface ComponentState {
@@ -74,7 +75,7 @@ class Example extends Component<ComponentProps, ComponentState> {
         <CardWrapper key={id}>
           <div>
             <Card
-              mediaClientConfig={{} as MediaClientConfig}
+              mediaClientConfig={mediaClientConfig}
               identifier={identifier}
               onLoadingChange={this.updateCardState(id)}
             />
@@ -128,7 +129,7 @@ class Example extends Component<ComponentProps, ComponentState> {
       collection: defaultCollectionName,
     };
     const uploadController = new UploadController();
-    const stream = context.file.upload(uplodableFile, uploadController);
+    const stream = mediaClient.file.upload(uplodableFile, uploadController);
 
     this.uploadController = uploadController;
     this.addStream(stream);

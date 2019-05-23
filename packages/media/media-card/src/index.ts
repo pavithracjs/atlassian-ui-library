@@ -3,6 +3,7 @@ import {
   FileDetails,
   MediaType,
   FileProcessingStatus,
+  MediaClient,
   Identifier,
   ImageResizeMode,
 } from '@atlaskit/media-client';
@@ -10,7 +11,6 @@ import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 import { CardAction } from './actions';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
-import { MediaClient } from '@atlaskit/media-client';
 
 export { default as Card } from './root/card/cardLoader';
 

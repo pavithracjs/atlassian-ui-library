@@ -9,7 +9,7 @@ import EditIcon from '@atlaskit/icon/glyph/edit';
 import { CardAction, CardStatus, CardEvent } from '../src';
 import { MediaType } from '@atlaskit/media-store';
 import { CardView } from '../src/root/cardView';
-import { FileDetails } from '@atlaskit/media-core';
+import { FileDetails } from '@atlaskit/media-client';
 
 const CardWrapper = styled.div`
   width: 150px;

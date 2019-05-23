@@ -39,12 +39,22 @@ const getMediaClient = (props: WithContextOrMediaClientConfig) => {
   }
 };
 
-export const withMediaClient = <P extends WithMediaClient>(
+export type WithMediaClientProps<P extends WithMediaClient> = Omit<
+  P,
+  'mediaClient'
+> &
+  WithContextOrMediaClientConfig;
+
+export type WithMediaClientFunction = <P extends WithMediaClient>(
+  Component: React.ComponentType<P>,
+) => React.ComponentType<WithMediaClientProps<P>>;
+
+export const withMediaClient: WithMediaClientFunction = <
+  P extends WithMediaClient
+>(
   Component: React.ComponentType<P>,
 ) => {
-  return class extends React.Component<
-    Omit<P, 'mediaClient'> & WithContextOrMediaClientConfig
-  > {
+  return class extends React.Component<WithMediaClientProps<P>> {
     render() {
       const props = this.props;
       return <Component {...props} mediaClient={getMediaClient(this.props)} />;

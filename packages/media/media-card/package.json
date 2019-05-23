@@ -27,6 +27,7 @@
     "@atlaskit/analytics-next": "^5.0.0",
     "@atlaskit/dropdown-menu": "^8.0.0",
     "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/media-client": "^1.1.5",
     "@atlaskit/media-ui": "^11.1.1",
     "@atlaskit/media-viewer": "^43.0.1",
     "@atlaskit/spinner": "^11.0.0",
@@ -40,7 +41,6 @@
     "video-snapshot": "^1.0.3"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^30.0.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-intl": "^2.6.0",

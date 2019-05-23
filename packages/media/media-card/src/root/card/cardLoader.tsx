@@ -1,17 +1,23 @@
 import * as React from 'react';
 import { CardLoading } from '../../utils/lightCards/cardLoading';
-import { Card, CardProps } from './index';
+import { withMediaClient, WithMediaClientProps } from '@atlaskit/media-client';
+import { CardProps } from '../../index';
+
+type CardWithMediaClientConfigProps = WithMediaClientProps<CardProps>;
+type CardWithMediaClientConfigComponent = React.ComponentType<
+  CardWithMediaClientConfigProps
+>;
 
 interface AsyncCardProps {
-  Card?: typeof Card;
+  Card?: CardWithMediaClientConfigComponent;
 }
 
 export default class CardLoader extends React.PureComponent<
-  CardProps & AsyncCardProps,
+  CardWithMediaClientConfigProps & AsyncCardProps,
   AsyncCardProps
 > {
   static displayName = 'AsyncCard';
-  static Card?: typeof Card;
+  static Card?: CardWithMediaClientConfigComponent;
 
   state = {
     Card: CardLoader.Card,
@@ -21,8 +27,8 @@ export default class CardLoader extends React.PureComponent<
     if (!this.state.Card) {
       import(/* webpackChunkName:"@atlaskit-internal_Card" */
       './index').then(module => {
-        CardLoader.Card = module.Card;
-        this.setState({ Card: module.Card });
+        CardLoader.Card = withMediaClient(module.Card);
+        this.setState({ Card: CardLoader.Card });
       });
     }
   }

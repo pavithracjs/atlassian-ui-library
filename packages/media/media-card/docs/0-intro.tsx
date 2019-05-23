@@ -13,16 +13,16 @@ This component provides 2 exports:
   We recommend the use of [babel-preset-env](https://babeljs.io/docs/plugins/preset-env/) & [babel-polyfill](https://babeljs.io/docs/usage/polyfill/)
 
   ## Usage
-
+packages/editor/editor-mobile-bridge/src/__tests__/unit/providers/media-provider-test.ts:80:9
   ### Card
 
   ${code`
   import { Card } from '@atlaskit/media-card';
-  import { ContextFactory } from '@atlaskit/media-core';
+  import { MediaClientConfig } from '@atlaskit/media-core';
 
-  const context = ContextFactory.create({
-    tokenProvider,
-  });
+  const mediaClientConfig = {
+    authProvider,
+  };
 
   // url preview
   const urlPreviewId = {
@@ -30,7 +30,7 @@ This component provides 2 exports:
     url: 'https://atlassian.com',
   };
 
-  <Card context={context} identifier={urlPreviewId} />;
+  <Card mediaClientConfig={mediaClientConfig} identifier={urlPreviewId} />;
 
   // stored link
   const linkId = {
@@ -39,7 +39,7 @@ This component provides 2 exports:
     collectionName: 'some-collection-name',
   };
 
-  <Card context={context} identifier={linkId} />;
+  <Card mediaClientConfig={mediaClientConfig} identifier={linkId} />;
 
   // stored file
   const fileId = {
@@ -48,7 +48,7 @@ This component provides 2 exports:
     collectionName: 'some-collection-name',
   };
 
-  <Card context={context} identifier={fileId} />;
+  <Card mediaClientConfig={mediaClientConfig} identifier={fileId} />;
 `}
 
 ### Card View
