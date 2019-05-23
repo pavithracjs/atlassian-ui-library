@@ -49,7 +49,7 @@ export default class ModalDemo extends React.Component<{}, State> {
 
   open = (isOpen: string) => this.setState({ isOpen });
 
-  close = (isOpen: string) => this.setState({ isOpen });
+  close = () => this.setState({ isOpen: null });
 
   secondaryAction = ({ target }: { [index: string]: any }) =>
     console.log(target.innerText);
@@ -80,7 +80,7 @@ export default class ModalDemo extends React.Component<{}, State> {
                 appearance="warning"
                 actions={actions}
                 heading={variantToHeading(name)}
-                onClose={() => this.close(name)}
+                onClose={this.close}
                 isHeadingMultiline={variantToMultiline(name)}
                 width="medium"
                 {...this.props}

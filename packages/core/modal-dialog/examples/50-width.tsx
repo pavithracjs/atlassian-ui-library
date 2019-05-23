@@ -14,12 +14,16 @@ const H4 = styled.h4`
   margin-bottom: 0.66em;
 `;
 
-export default class ModalDemo extends React.Component<{}, { isOpen: any }> {
+interface State {
+  isOpen: any;
+}
+
+export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };
 
   open = (isOpen: any) => this.setState({ isOpen });
 
-  close = (isOpen: any) => this.setState({ isOpen });
+  close = () => this.setState({ isOpen: null });
 
   secondaryAction = ({ target }: any) => console.log(target.innerText);
 

@@ -13,11 +13,12 @@ interface StubDialogProps {
   autoFocus?: boolean;
 }
 
+interface State {
+  isOpen: string | null;
+}
+
 /* eslint-disable jsx-a11y/no-autofocus */
-export default class ModalDemo extends React.Component<
-  {},
-  { isOpen: string | null }
-> {
+export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };
 
   open = (isOpen: string) => this.setState({ isOpen });

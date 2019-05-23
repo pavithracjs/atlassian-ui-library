@@ -6,10 +6,11 @@ import { AppearanceType } from '../src/types';
 
 const appearances: AppearanceType[] = ['warning', 'danger'];
 
-export default class ExampleAppearance extends React.PureComponent<
-  {},
-  { isOpen: string | null }
-> {
+interface State {
+  isOpen: string | null;
+}
+
+export default class ExampleAppearance extends React.PureComponent<{}, State> {
   state = { isOpen: null };
 
   open = (isOpen: string) => this.setState({ isOpen });

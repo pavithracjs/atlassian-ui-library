@@ -113,9 +113,9 @@ interface State {
 export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };
 
-  close = (isOpen: any) => this.setState({ isOpen });
-
   open = (isOpen: string) => this.setState({ isOpen });
+
+  close = () => this.setState({ isOpen: null });
 
   secondaryAction = ({ target }: any) => console.log(target.innerText);
 

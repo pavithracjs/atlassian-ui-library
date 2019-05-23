@@ -4,6 +4,7 @@ import { jsx } from '@emotion/core';
 import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import ScrollLock from 'react-scrolllock';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import Footer from './Footer';
 import Header from './Header';
@@ -29,7 +30,10 @@ interface Props {
     Buttons to render in the footer
   */
   actions?: Array<{
-    onClick?: Function;
+    onClick?: (
+      e: React.MouseEvent<HTMLElement>,
+      analyticsEvent: UIAnalyticsEvent,
+    ) => void;
     text?: string;
   }>;
   /**
@@ -275,7 +279,6 @@ export default class Content extends React.Component<Props, State> {
             >
               {children}
             </Body>
-            )}
             <Footer
               actions={actions}
               appearance={appearance}
