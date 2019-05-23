@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.10.4
+- [patch] [ca1f019d62](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca1f019d62):
+
+  - ED-6976: fix recovering from overflow when table has number column and all columns are selected
+
 ## 112.10.3
 - [patch] [f823890888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f823890888):
 

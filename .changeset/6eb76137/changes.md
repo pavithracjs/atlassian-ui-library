@@ -1,1 +1,0 @@
-- ED-6976: fix recovering from overflow when table has number column and all columns are selected
