@@ -14031,9 +14031,9 @@ prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transfor
   dependencies:
     prosemirror-model "^1.0.0"
 
-prosemirror-utils@0.7.6:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.7.6.tgz#c462ddfbf2452e56e4b25d1f02b34caccddb0f33"
+prosemirror-utils@0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.8.3.tgz#ef8a9a7d2ed854200d13ff551da860ea0efdfcc5"
 
 prosemirror-view@^1.0.0, prosemirror-view@^1.8.3:
   version "1.8.3"
