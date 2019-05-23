@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 jest.mock('../../../service/newUploadServiceImpl');
 
 import { ContextFactory } from '@atlaskit/media-core';
-import { Browser } from '../../browserReact';
+import { Browser } from '../../browser/browser';
 
 describe('Browser', () => {
   const setup = () => {

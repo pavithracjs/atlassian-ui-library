@@ -13,7 +13,7 @@ import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
 import { FileState, ContextFactory, Context } from '@atlaskit/media-core';
 import { UploadParams, BrowserConfig } from '../src';
-import { Browser } from '../src/components/browserReact';
+import { Browser } from '../src/components/browser/browser';
 
 export interface BrowserWrapperState {
   collectionName: string;

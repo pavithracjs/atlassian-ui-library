@@ -13,7 +13,7 @@ import {
   DropzoneContentWrapper,
   TextWrapper,
 } from './styled';
-import { Browser } from '../../../../components/browserReact';
+import { Browser } from '../../../../components/browser/browser';
 
 export interface DropzoneProps {
   readonly isEmpty?: boolean;

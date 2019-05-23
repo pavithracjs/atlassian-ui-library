@@ -56,7 +56,7 @@ import {
 } from '../../components/types';
 
 import { Clipboard } from '../../components/clipboard/clipboard';
-import { Browser as BrowserComponent } from '../../components/browserReact';
+import { Browser as BrowserComponent } from '../../components/browser/browser';
 import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {

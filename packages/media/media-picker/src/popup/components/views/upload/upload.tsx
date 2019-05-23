@@ -51,7 +51,7 @@ import {
 } from './styled';
 import { RECENTS_COLLECTION } from '../../../config';
 import { removeFileFromRecents } from '../../../actions/removeFileFromRecents';
-import { Browser } from '../../../../components/browserReact';
+import { Browser } from '../../../../components/browser/browser';
 
 const createEditCardAction = (
   handler: CardEventHandler,

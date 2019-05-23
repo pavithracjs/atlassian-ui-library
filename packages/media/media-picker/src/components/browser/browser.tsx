@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
-import { BrowserConfig } from './types';
+import { BrowserConfig } from '../types';
 import {
   LocalUploadComponentReact,
   LocalUploadComponentBaseProps,
-} from './localUploadReact';
+} from '../localUploadReact';
 
 export type RenderBrowserFunc = () => ReactNode;
 export interface BrowserOwnProps {
