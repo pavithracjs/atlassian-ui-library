@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, ComponentType } from 'react';
 import { colors } from '@atlaskit/theme';
 import styled from 'styled-components';
 import Tooltip from '@atlaskit/tooltip';
@@ -10,7 +9,11 @@ import ArrowDownIcon from '../glyph/arrow-down';
 import ArrowLeftIcon from '../glyph/arrow-left';
 import ArrowRightIcon from '../glyph/arrow-right';
 
-const ColorDiv = styled.div`
+type WithFlippedProp = {
+  isColorFlipped: boolean;
+};
+
+const ColorDiv = styled.div<WithFlippedProp>`
   align-items: center;
   background-color: ${props => (props.isColorFlipped ? 'white' : colors.B500)};
   display: flex;
@@ -20,17 +23,16 @@ const ColorDiv = styled.div`
   transition: color 0.2s, background-color 0.2s;
 `;
 
-const Paragraph = styled.p`
+const Paragraph = styled.p<WithFlippedProp>`
   flex-basis: 100%;
   text-align: center;
   color: ${props => (props.isColorFlipped ? 'inherit' : 'white')};
 `;
 
-export default class ChangingColorWithProps extends Component<
-  {},
-  { isColorFlipped: boolean, icons: [Class<Component<*>>, string][] },
-> {
-  state = {
+type State = WithFlippedProp & { icons: Array<[ComponentType<any>, string]> };
+
+export default class ChangingColorWithProps extends Component<{}, State> {
+  state: State = {
     isColorFlipped: true,
     icons: [
       [BookIcon, 'BookIcon'],
