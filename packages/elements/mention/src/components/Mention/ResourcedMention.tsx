@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MentionProvider } from '../../api/MentionResource';
-import { MentionEventHandler } from '../../types';
+import { MentionEventHandler, isPromise } from '../../types';
 import Mention from './';
 
 export interface Props {
@@ -15,6 +15,7 @@ export interface Props {
 
 export interface State {
   isHighlighted: boolean;
+  mentionName?: string;
 }
 
 export default class ResourcedMention extends React.PureComponent<
@@ -44,13 +45,26 @@ export default class ResourcedMention extends React.PureComponent<
   }
 
   private handleMentionProvider = (props: Props) => {
-    const { id, mentionProvider } = props;
+    const { id, mentionProvider, text } = props;
     if (mentionProvider) {
       mentionProvider
         .then(provider => {
-          this.setState({
+          const newState: State = {
             isHighlighted: provider.shouldHighlightMention({ id }),
-          });
+          };
+          if (!text && provider.resolveMentionName) {
+            const mentionName = provider.resolveMentionName(id);
+            if (isPromise(mentionName)) {
+              mentionName.then(text => {
+                this.setState({
+                  mentionName: text,
+                });
+              });
+            } else {
+              newState.mentionName = mentionName;
+            }
+          }
+          this.setState(newState);
         })
         .catch(() => {
           this.setState({
@@ -70,7 +84,7 @@ export default class ResourcedMention extends React.PureComponent<
     return (
       <Mention
         id={props.id}
-        text={props.text}
+        text={state.mentionName || props.text}
         isHighlighted={state.isHighlighted}
         accessLevel={props.accessLevel}
         onClick={props.onClick}

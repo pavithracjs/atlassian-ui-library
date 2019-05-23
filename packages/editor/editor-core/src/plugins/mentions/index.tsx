@@ -1,7 +1,13 @@
 import * as React from 'react';
 import uuid from 'uuid';
 import { Schema, Node, Fragment } from 'prosemirror-model';
-import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
+import {
+  EditorState,
+  Plugin,
+  PluginKey,
+  StateField,
+  Transaction,
+} from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
@@ -9,6 +15,7 @@ import {
 import {
   MentionProvider,
   isSpecialMention,
+  isHydratingMentionProvider,
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
@@ -205,6 +212,15 @@ const mentionsPlugin = (
 
           const pluginState = getMentionPluginState(state);
           const { mentionProvider } = pluginState;
+          console.log(
+            'hydr',
+            isHydratingMentionProvider(mentionProvider),
+            isHydratingMentionProvider(mentionProvider) &&
+              mentionProvider.supportsHydration(),
+          );
+          const supportsHydration =
+            isHydratingMentionProvider(mentionProvider) &&
+            mentionProvider.supportsHydration();
           const { id, name, nickname, accessLevel, userType } = item.mention;
           const renderName = nickname ? nickname : name;
           const typeAheadPluginState = typeAheadPluginKey.getState(
@@ -255,12 +271,28 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
-            return insert(buildNodesForTeamMention(schema, item.mention));
+            return insert(
+              buildNodesForTeamMention(
+                schema,
+                item.mention,
+                supportsHydration,
+                mentionProvider,
+              ),
+            );
+          }
+
+          const text = supportsHydration ? '' : `@${renderName}`;
+
+          if (
+            supportsHydration &&
+            isHydratingMentionProvider(mentionProvider)
+          ) {
+            mentionProvider.cacheMentionName(id, text);
           }
 
           return insert(
             schema.nodes.mention.createChecked({
-              text: `@${renderName}`,
+              text,
               id,
               accessLevel,
               userType: userType === 'DEFAULT' ? null : userType,
@@ -397,6 +429,13 @@ function mentionPluginFactory(
               mentionProvider: params.provider,
             };
             dispatch(mentionPluginKey, newPluginState);
+
+            // TODO
+            console.log(
+              'setprovider, isHydrating?',
+              isHydratingMentionProvider(params.provider),
+            );
+
             return newPluginState;
 
           case ACTIONS.SET_RESULTS:
@@ -545,6 +584,8 @@ function mentionPluginFactory(
 function buildNodesForTeamMention(
   schema: Schema,
   selectedMention: MentionDescription,
+  supportsHydration: boolean,
+  mentionProvider: MentionProvider,
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
@@ -560,7 +601,13 @@ function buildNodesForTeamMention(
   const members: TeamMember[] =
     context && context.members ? context.members : [];
   members.forEach((member: TeamMember, index) => {
-    const text = `@${member.name}`;
+    const { name, id } = member;
+    const mentionName = `@${name}`;
+    const text = supportsHydration ? '' : mentionName;
+    if (supportsHydration && isHydratingMentionProvider(mentionProvider)) {
+      mentionProvider.cacheMentionName(id, mentionName);
+    }
+    console.log('team member text', text, supportsHydration);
     const userMentionNode = nodes.mention.createChecked({
       text,
       id: member.id,

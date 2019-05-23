@@ -4,9 +4,12 @@ import {
   MentionDescription,
   MentionsResult,
   AbstractMentionResource,
+  MentionNameResolver,
+  HydratingMentionProvider,
 } from '@atlaskit/mention/resource';
 import debug from '../logger';
 import { mentionResult } from './mention-data';
+import { MockMentionNameClient } from './MockMentionNameClient';
 import { HttpError } from './utils';
 
 const search = new Search('id');
@@ -21,15 +24,20 @@ export interface MockMentionConfig {
   maxWait?: number;
 }
 
-export class MockMentionResource extends AbstractMentionResource {
+export class MockMentionResource extends AbstractMentionResource
+  implements HydratingMentionProvider {
   private config: MockMentionConfig;
   private lastReturnedSearch: number;
+  private mentionNameResolver?: MentionNameResolver;
 
   constructor(config: MockMentionConfig) {
     super();
 
     this.config = config;
     this.lastReturnedSearch = 0;
+    this.mentionNameResolver = new MentionNameResolver(
+      new MockMentionNameClient(),
+    );
   }
 
   filter(query: string): void {
@@ -82,5 +90,28 @@ export class MockMentionResource extends AbstractMentionResource {
   // eslint-disable-next-line class-methods-use-this
   recordMentionSelection(mention: MentionDescription): void {
     debug(`Record mention selection ${mention.id}`);
+  }
+
+  resolveMentionName(id: string): Promise<string> | string {
+    debug('(mock)resolveMentionName', id);
+    if (!this.mentionNameResolver) {
+      return '';
+    }
+    return this.mentionNameResolver.lookupName(id);
+  }
+
+  cacheMentionName(id: string, name: string) {
+    debug('(mock)cacheMentionName', id, name);
+    if (this.mentionNameResolver) {
+      this.mentionNameResolver.cacheName(id, name);
+    }
+  }
+
+  supportsHydration() {
+    return !!this.mentionNameResolver;
+  }
+
+  shouldHighlightMention(mention: MentionDescription): boolean {
+    return mention.id === 'oscar';
   }
 }

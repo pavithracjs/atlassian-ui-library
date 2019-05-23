@@ -2,8 +2,10 @@ import MentionResource, {
   AbstractMentionResource,
   MentionContextIdentifier,
   MentionProvider,
+  HydratingMentionProvider,
   MentionStats,
   MentionResourceConfig,
+  isHydratingMentionProvider,
 } from './api/MentionResource';
 import TeamMentionResource from './api/TeamMentionResource';
 import PresenceResource, {
@@ -34,6 +36,7 @@ export {
   AbstractMentionResource,
   AbstractPresenceResource,
   // Interfaces
+  HydratingMentionProvider,
   MentionProvider,
   PresenceProvider,
   MentionDescription,
@@ -52,6 +55,7 @@ export {
   ResourcedMention,
   // Functions
   isSpecialMention,
+  isHydratingMentionProvider,
   // Constants
   ELEMENTS_CHANNEL,
 };
