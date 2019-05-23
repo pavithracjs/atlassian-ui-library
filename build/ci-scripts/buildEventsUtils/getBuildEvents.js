@@ -109,6 +109,14 @@ async function getStepsEvents(buildId /*: string*/) {
         // We don't have control of the last step, it is a edge case.
         // In the after_script, the last step is still 'IN-PROGRESS' but the result of the last step does not matter.
         // We use the process.env.BITBUCKET_EXIT_CODE to determine the status of the pipeline.
+        console.log(
+          'step',
+          step,
+          'step_state:',
+          step.state,
+          'step_pipeline',
+          step.pipeline.started_on,
+        );
         if (step && step.state.result) {
           const stepStatus = process.env.BITBUCKET_EXIT_CODE
             ? process.env.BITBUCKET_EXIT_CODE === '0'
@@ -119,6 +127,7 @@ async function getStepsEvents(buildId /*: string*/) {
           const step_duration = step.duration_in_seconds
             ? step.duration_in_seconds
             : computeStepTimes(step.pipeline.started_on);
+          console.log('step_duration:', step_duration);
           return {
             step_duration,
             step_name: step.name || 'master', // on Master, there is no step name.
