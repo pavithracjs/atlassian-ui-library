@@ -41,10 +41,10 @@ function computeBuildTimes(
   );
 }
 
-function computeStepTimes(stepStartTime /*: number */) /*: number */ {
+function computeStepTimes(stepStartTime /*: string */) /*: number */ {
   const currentTime = Date.now();
   // It returns the time in ms, we want in seconds.
-  return (parseInt(currentTime) - stepStartTime) / 1000;
+  return (parseInt(currentTime) - Date.parse(stepStartTime)) / 1000;
 }
 /* This function returns the payload for the build / pipelines.*/
 async function getPipelinesBuildEvents(
@@ -55,8 +55,10 @@ async function getPipelinesBuildEvents(
   try {
     const res = await axios.get(apiEndpoint);
     const build = res.data;
-    const stepsData = await getStepsEvents(buildId);
-    console.log('stepsData', stepsData);
+    const stepsData = await getStepsEvents(
+      buildId,
+      build.target.selector.pattern || build.target.selector.type,
+    );
     const buildStatus = process.env.BITBUCKET_EXIT_CODE
       ? process.env.BITBUCKET_EXIT_CODE === '0'
         ? 'SUCCESSFUL'
@@ -99,7 +101,7 @@ async function getPipelinesBuildEvents(
 }
 
 /* This function returns the payload for the build steps.*/
-async function getStepsEvents(buildId /*: string*/) {
+async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
     const resp = await axios.get(url);
@@ -121,7 +123,7 @@ async function getStepsEvents(buildId /*: string*/) {
           console.log('step_duration:', step_duration);
           return {
             step_duration,
-            step_name: step.name || 'master', // on Master, there is no step name.
+            step_name: step.name || buildType, // on Master, there is no step name.
             step_status: stepStatus,
           };
         }
@@ -219,7 +221,7 @@ async function getStepEvents(buildId /*: string*/) {
           {
             step_duration,
             step_status: buildStatus,
-            step_name: stepObject.name || 'master', // on Master, there is no step name,
+            step_name: stepObject.name || stepPayload.build_type, // if there is one step and no step name, we can refer to the build type.
           },
         ],
       };
