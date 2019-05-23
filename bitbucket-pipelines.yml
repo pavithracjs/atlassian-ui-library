@@ -185,7 +185,6 @@ pipelines:
     # This can be called to deploy staging website from any branches.
     build-website-staging:
       - step:
-          name: Building website
           script:
             - source ./build-setup.sh
             - bolt install --pure-lockfile

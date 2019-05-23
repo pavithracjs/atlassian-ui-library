@@ -26,11 +26,19 @@ type IStepsDataType = {
 }
 */
 
-/* This function compute build time if build time is 0. */
+/* This function compute build time if build.duration_in_seconds returns 0.
+ * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
+ */
 function computeBuildTimes(
-  stepsData /*: Array<IStepsDataType> */,
+  stepsData /*: Array<IStepsDataType>*/,
 ) /*: number */ {
-  return stepsData.reduce((a, b) => +a + +b.step_duration, 0);
+  const stepDurationArray = stepsData
+    .filter(step => step.step_duration)
+    .map(step => step.step_duration);
+  return (
+    Math.max.apply(null, stepDurationArray) +
+    Math.min.apply(null, stepDurationArray)
+  );
 }
 
 /* This function returns the payload for the build / pipelines.*/
@@ -42,15 +50,13 @@ async function getPipelinesBuildEvents(
   try {
     const res = await axios.get(apiEndpoint);
     const build = res.data;
-    let stepsData = await getStepsEvents(buildId);
+    const stepsData = await getStepsEvents(buildId);
     const buildStatus = process.env.BITBUCKET_EXIT_CODE
       ? process.env.BITBUCKET_EXIT_CODE === '0'
         ? 'SUCCESSFUL'
         : 'FAILED'
       : build.state.result.name;
     if (stepsData) {
-      // In case of build with 1 step, we need to return an empty array.
-      stepsData = stepsData.length === 1 ? [] : stepsData;
       let build_time =
         build.duration_in_seconds === 0
           ? computeBuildTimes(stepsData)
@@ -58,7 +64,7 @@ async function getPipelinesBuildEvents(
       payload = {
         build_number: buildId,
         build_status: buildStatus,
-        build_time: build.duration_in_seconds,
+        build_time,
         // build_type categorises the type of the build that runs:
         // - default
         // - master
