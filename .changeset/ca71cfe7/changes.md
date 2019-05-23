@@ -1,1 +1,0 @@
-- ED-6910: fixed a regression in webpack configuration

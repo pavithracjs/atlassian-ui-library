@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.6.1
+- [patch] [7936e9a2a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7936e9a2a9):
+
+  - ED-6910: fixed a regression in webpack configuration
+
 ## 8.6.0
 - [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
 
