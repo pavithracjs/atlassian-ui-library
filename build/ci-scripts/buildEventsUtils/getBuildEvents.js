@@ -44,7 +44,7 @@ function computeBuildTimes(
 function computeStepTimes(stepStartTime /*: number */) /*: number */ {
   const currentTime = new Date.now();
   // It returns the time in ms, we want in seconds.
-  return (currentTime - stepStartTime) / 1000;
+  return (parseInt(currentTime) - stepStartTime) / 1000;
 }
 /* This function returns the payload for the build / pipelines.*/
 async function getPipelinesBuildEvents(
@@ -103,6 +103,7 @@ async function getStepsEvents(buildId /*: string*/) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
     const resp = await axios.get(url);
+    console.log(resp, resp.data);
     return Promise.all(
       resp.data.values.map(async step => {
         // We don't have control of the last step, it is a edge case.
