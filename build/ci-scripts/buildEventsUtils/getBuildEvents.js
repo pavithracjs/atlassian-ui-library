@@ -26,7 +26,7 @@ type IStepsDataType = {
 }
 */
 
-/* This function compute build time if build.duration_in_seconds returns 0.
+/* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
  * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
  */
 function computeBuildTimes(
@@ -40,7 +40,10 @@ function computeBuildTimes(
     Math.min.apply(null, stepDurationArray)
   );
 }
-
+/* This function computes step time if step.duration_in_seconds returns undefined or 0.
+ * The function returns the difference between the current time and when the step started,
+ * It is only applicable for 1 step or 0 step build.
+ */
 function computeStepTimes(stepStartTime /*: string */) /*: number */ {
   const currentTime = Date.now();
   // It returns the time in ms, we want in seconds.
@@ -66,7 +69,7 @@ async function getPipelinesBuildEvents(
       : build.state.result.name;
     if (stepsData) {
       const build_time =
-        build.duration_in_seconds === 0
+        build.duration_in_seconds === 0 && stepsData.length > 1
           ? computeBuildTimes(stepsData)
           : build.duration_in_seconds;
       payload = {
@@ -116,10 +119,11 @@ async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
               ? 'SUCCESSFUL'
               : 'FAILED'
             : step.state.result.name;
-          // We need to do a computation if the step.duration_in_seconds is not yet available.
-          const step_duration = step.duration_in_seconds
-            ? step.duration_in_seconds
-            : computeStepTimes(step.started_on);
+          // We need to do a computation if the step.duration_in_seconds is not yet available and it a 1 step build.
+          const step_duration =
+            step.duration_in_seconds && resp.data.values.length > 1
+              ? step.duration_in_seconds
+              : computeStepTimes(step.started_on);
           return {
             step_duration,
             step_name: step.name || buildType, // on Master, there is no step name.
