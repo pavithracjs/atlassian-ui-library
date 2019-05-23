@@ -115,7 +115,7 @@ async function getStepsEvents(buildId /*: string*/) {
           'step_state:',
           step.state,
           'step_pipeline',
-          step.pipeline.started_on,
+          step.started_on,
         );
         if (step && step.state.result) {
           const stepStatus = process.env.BITBUCKET_EXIT_CODE
@@ -126,7 +126,7 @@ async function getStepsEvents(buildId /*: string*/) {
           // We need to do a computation if the step.duration_in_seconds is not yet available.
           const step_duration = step.duration_in_seconds
             ? step.duration_in_seconds
-            : computeStepTimes(step.pipeline.started_on);
+            : computeStepTimes(step.started_on);
           console.log('step_duration:', step_duration);
           return {
             step_duration,
@@ -219,7 +219,7 @@ async function getStepEvents(buildId /*: string*/) {
       // We need to do a computation if the step.duration_in_seconds is not yet available.
       const step_duration = stepObject.duration_in_seconds
         ? stepObject.duration_in_seconds
-        : computeStepTimes(stepObject.pipeline.started_on);
+        : computeStepTimes(stepObject.started_on);
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
