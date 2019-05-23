@@ -34,7 +34,7 @@ interface IProps {
   /** Provide a custom component to use instead of the default button.
    *  The custom component should accept a className prop so it can be styled
    *  and possibly all action handlers */
-  component?: React.ComponentType;
+  component?: React.ClassType<any, any, any>;
 }
 
 interface IState {
