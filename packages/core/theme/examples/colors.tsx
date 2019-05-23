@@ -1,11 +1,9 @@
-// @flow
-
-import React, { Fragment } from 'react';
+import * as React from 'react';
 import color from 'color';
 import { colors } from '../src';
 
 export default () => (
-  <Fragment>
+  <>
     {Object.keys(colors)
       .filter(c => typeof colors[c] === 'string')
       .map(c => (
@@ -24,5 +22,5 @@ export default () => (
           {c}
         </span>
       ))}
-  </Fragment>
+  </>
 );

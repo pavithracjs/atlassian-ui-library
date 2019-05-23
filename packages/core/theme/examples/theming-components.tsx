@@ -1,14 +1,14 @@
-// @flow
-
-import React, { Component, Fragment, type Node } from 'react';
-import { createTheme, type ThemeProp } from '../src';
+import * as React from 'react';
+import { Component, Fragment, ReactNode } from 'react';
+import { createTheme, ThemeProp } from '../src';
+import { Theme } from 'src/types';
 
 type ThemeProps = {
-  hover: boolean,
+  hover: boolean;
 };
 type ThemeTokens = {
-  backgroundColor: string,
-  textColor: string,
+  backgroundColor: string;
+  textColor: string;
 };
 
 const defaultButtonTheme = props => ({
@@ -30,12 +30,12 @@ const propButtonTheme = (theme, props) => ({
 const Theme = createTheme<ThemeTokens, ThemeProps>(defaultButtonTheme);
 
 type Props = {
-  children?: Node,
-  theme?: ThemeProp<ThemeTokens, ThemeProps>,
+  children?: ReactNode;
+  theme?: ThemeProp<ThemeTokens, ThemeProps>;
 };
 
 type State = {
-  hover: boolean,
+  hover: boolean;
 };
 
 class Button extends Component<Props, State> {

@@ -1,18 +1,16 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import color from 'color';
 import { createTheme } from '../src';
 
-type ThemeProps = *;
+type ThemeProps = any;
 type ThemeTokens = {
-  backgroundColor?: string,
-  textColor?: string,
+  backgroundColor?: string;
+  textColor?: string;
 };
 
 const DisplayThemeColors = () => (
   <Theme.Consumer>
-    {tokens =>
+    {(tokens: ThemeTokens) =>
       Object.keys(tokens).map(k => (
         <div
           key={k}

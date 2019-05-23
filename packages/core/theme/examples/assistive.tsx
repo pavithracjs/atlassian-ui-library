@@ -1,6 +1,4 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import SectionMessage from '@atlaskit/section-message';
 import { assistive } from '../src';
