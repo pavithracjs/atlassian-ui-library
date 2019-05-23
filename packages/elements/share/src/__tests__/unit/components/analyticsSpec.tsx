@@ -264,13 +264,14 @@ describe('share analytics', () => {
         allowComment: true,
       };
       expect(
-        submitShare(100, dataWithMembers, shareOrigin, config),
+        submitShare(100, dataWithMembers, 'issue', shareOrigin, config),
       ).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
         actionSubjectId: 'submitShare',
         attributes: expect.objectContaining({
+          contentType: 'issue',
           duration: expect.any(Number),
           teamCount: 2,
           userCount: 0,
@@ -304,13 +305,14 @@ describe('share analytics', () => {
       };
 
       expect(
-        submitShare(100, dataWithMembers, shareOrigin, config),
+        submitShare(100, dataWithMembers, 'issue', shareOrigin, config),
       ).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
         actionSubjectId: 'submitShare',
         attributes: expect.objectContaining({
+          contentType: 'issue',
           duration: expect.any(Number),
           teamCount: 3,
           userCount: 0,
