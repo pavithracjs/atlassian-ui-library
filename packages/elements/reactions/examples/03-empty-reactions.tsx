@@ -1,4 +1,4 @@
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { emoji } from '@atlaskit/util-data-test';
 import * as React from 'react';
 import { ConnectedReactionsView } from '../src';

@@ -1,5 +1,45 @@
 # @atlaskit/editor-core
 
+## 112.10.2
+- [patch] [54b40d9757](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/54b40d9757):
+
+  - ED-6832 Refactor ReactMediaSingleNodeView to remove usage of media plugin state private methods.
+
+## 112.10.1
+- [patch] [f3334a7083](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f3334a7083):
+
+  - ED-6918: fix deleting table rows inside bodied extensions
+
+## 112.10.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 112.9.1
+- [patch] [56356b17a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56356b17a3):
+
+  - ED-6880: added even column widths on resize handle double-click and bulk resizing of columns
+
+## 112.9.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
+## 112.8.1
+- [patch] [5973916c23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5973916c23):
+
+  - [ED-6344] Remove scrollbar overlap from the last table row
+
+## 112.8.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 112.7.0
+- [minor] [f120090dfe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f120090dfe):
+
+  - Add GASv3 analytics to Emoji TypeAhead.
+
 ## 112.6.0
 - [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
 

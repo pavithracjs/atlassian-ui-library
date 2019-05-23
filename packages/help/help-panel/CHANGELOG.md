@@ -1,5 +1,10 @@
 ## 0.1.0
 
+## 0.5.4
+- [patch] [84b7ee2f8b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84b7ee2f8b):
+
+  - fix articles loading when the articleId changes
+
 ## 0.5.3
 - [patch] [45f063521d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/45f063521d):
 

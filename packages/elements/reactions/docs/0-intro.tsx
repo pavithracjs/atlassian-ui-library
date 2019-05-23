@@ -15,7 +15,7 @@ export default md`
 
   ${code`
   import { ReactionStore, ConnectedReactionsView } from '@atlaskit/reactions';
-  import { EmojiResource } from '@atlaskit/emoji';
+  import { EmojiResource } from '@atlaskit/emoji/resource';
 
   const emojiProvider = new EmojiResource({
     providers: [

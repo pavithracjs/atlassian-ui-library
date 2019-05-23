@@ -72,6 +72,12 @@ export const clickFirstCell = async (page: any) => {
   await page.waitForSelector(tableSelectors.removeTable);
 };
 
+export const selectTable = async (page: any) => {
+  await page.waitForSelector(tableSelectors.cornerButton);
+  await page.click(tableSelectors.cornerButton);
+  await page.waitForSelector(tableSelectors.selectedCell);
+};
+
 // table floating toolbar interactions
 export const clickTableOptions = async (page: any) => {
   await clickElementWithText({

@@ -1,5 +1,10 @@
 # @atlaskit/mention
 
+## 18.2.0
+- [minor] [a0d5982270](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0d5982270):
+
+  - Don't display nickname in mention list if it is the same as name.
+
 ## 18.1.0
 - [minor] [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
 

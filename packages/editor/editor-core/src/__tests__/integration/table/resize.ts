@@ -7,9 +7,13 @@ import {
   fullpage,
   resizeColumn,
   quickInsert,
+  selectColumns,
 } from '../_helpers';
 
-import { insertColumn } from '../../__helpers/page-objects/_table';
+import {
+  insertColumn,
+  clickFirstCell,
+} from '../../__helpers/page-objects/_table';
 
 import {
   tableWithRowSpan,
@@ -19,6 +23,8 @@ import {
   tableWithDynamicLayoutSizing,
   tableInsideColumns,
   resizedTableWithStackedColumns,
+  tableForBulkResize,
+  tableForBulkResize3Cols,
 } from './__fixtures__/resize-documents';
 import { tableWithMinWidthColumnsDocument } from './__fixtures__/table-with-min-width-columns-document';
 
@@ -271,6 +277,52 @@ BrowserTestCase(
     });
 
     await resizeColumn(page, { cellHandlePos: 2, resizeWidth: 420 });
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Should bulk resize 3 columns in 4 columns table',
+  { skip: ['ie', 'firefox', 'safari', 'edge'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(tableForBulkResize3Cols),
+      allowTables: {
+        advanced: true,
+      },
+    });
+
+    await clickFirstCell(page);
+    await selectColumns(page, [1, 2, 3]);
+    await resizeColumn(page, { cellHandlePos: 6, resizeWidth: -20 });
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Should bulk resize selected columns',
+  { skip: ['ie', 'firefox', 'safari', 'edge'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(tableForBulkResize),
+      allowTables: {
+        advanced: true,
+      },
+    });
+
+    await clickFirstCell(page);
+    await selectColumns(page, [1, 2]);
+    await resizeColumn(page, { cellHandlePos: 2, resizeWidth: 52 });
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

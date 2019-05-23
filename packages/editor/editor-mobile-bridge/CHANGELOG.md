@@ -1,5 +1,25 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.6.2
+- [patch] [7d4010d923](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7d4010d923):
+
+  - ED-6765: fixed mediaSingle deletion issue on Android (no workaround)
+
+## 8.6.1
+- [patch] [7936e9a2a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7936e9a2a9):
+
+  - ED-6910: fixed a regression in webpack configuration
+
+## 8.6.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 8.5.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
 ## 8.4.0
 - [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
 

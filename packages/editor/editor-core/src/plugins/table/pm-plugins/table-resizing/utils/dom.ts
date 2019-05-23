@@ -2,17 +2,18 @@ import { EditorState } from 'prosemirror-state';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import { akEditorTableToolbarSize } from '@atlaskit/editor-common';
 import { TableCssClassName as ClassName } from '../../../types';
-import { getPluginState } from '../../main';
+import { getPluginState as getMainPluginState } from '../../main';
 import { getColumnsWidths } from '../../../utils';
 import { closestElement } from '../../../../../utils';
+import { pointsAtCell } from '../utils';
 import { updateRightShadow } from '../../../nodeviews/TableComponent';
-import { pluginKey as resizePluginKey } from '../plugin';
+import { getPluginState } from '../plugin';
 
 export const updateControls = (
   state: EditorState,
   domAtPos: (pos: number) => { node: Node; offset: number },
 ) => {
-  const { tableRef } = getPluginState(state);
+  const { tableRef } = getMainPluginState(state);
   if (!tableRef) {
     return;
   }
@@ -63,16 +64,55 @@ export const updateControls = (
   );
 };
 
+export const isClickNear = (
+  event: MouseEvent,
+  click: { x: number; y: number },
+): boolean => {
+  const dx = click.x - event.clientX,
+    dy = click.y - event.clientY;
+  return dx * dx + dy * dy < 100;
+};
+
+export const createResizeHandle = (
+  tableRef: HTMLTableElement,
+): HTMLDivElement | null => {
+  const resizeHandleRef = document.createElement('div');
+  resizeHandleRef.className = ClassName.COLUMN_RESIZE_HANDLE;
+  tableRef.parentNode!.appendChild(resizeHandleRef);
+
+  const tableActive = closestElement(tableRef, `.${ClassName.WITH_CONTROLS}`);
+  const style = {
+    height: `${
+      tableActive
+        ? tableRef.offsetHeight + akEditorTableToolbarSize
+        : tableRef.offsetHeight
+    }px`,
+    top: `${
+      tableActive
+        ? tableRef.offsetTop - akEditorTableToolbarSize
+        : tableRef.offsetTop
+    }px`,
+  };
+
+  resizeHandleRef.style.top = style.top;
+  resizeHandleRef.style.height = style.height;
+
+  return resizeHandleRef;
+};
+
 export const updateResizeHandle = (
   state: EditorState,
   domAtPos: (pos: number) => { node: Node; offset: number },
 ) => {
-  const { activeHandle } = resizePluginKey.getState(state);
-  if (activeHandle === -1) {
+  const { resizeHandlePos } = getPluginState(state);
+  if (
+    resizeHandlePos === null ||
+    !pointsAtCell(state.doc.resolve(resizeHandlePos))
+  ) {
     return false;
   }
 
-  const $cell = state.doc.resolve(activeHandle);
+  const $cell = state.doc.resolve(resizeHandlePos);
   const tablePos = $cell.start(-1) - 1;
   const tableWrapperRef = findDomRefAtPos(tablePos, domAtPos) as HTMLDivElement;
 
@@ -84,7 +124,7 @@ export const updateResizeHandle = (
 
   if (tableRef && resizeHandleRef) {
     const cellRef = findDomRefAtPos(
-      activeHandle,
+      resizeHandlePos,
       domAtPos,
     ) as HTMLTableCellElement;
     const tableActive = closestElement(tableRef, `.${ClassName.WITH_CONTROLS}`);

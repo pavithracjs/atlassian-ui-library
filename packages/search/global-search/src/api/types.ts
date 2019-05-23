@@ -8,8 +8,8 @@ export enum Scope {
   JiraFilter = 'jira.filter',
   JiraBoardProjectFilter = 'jira.board,project,filter',
   People = 'cpus.user',
-  UserJira = 'usr.user-jira',
-  UserConfluence = 'usr.user-confluence',
+  UserJira = 'urs.user-jira',
+  UserConfluence = 'urs.user-confluence',
 }
 
 export type QuickSearchContext = 'jira' | 'confluence' | 'home';

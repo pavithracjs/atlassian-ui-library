@@ -1,5 +1,10 @@
 # @atlaskit/conversation
 
+## 15.2.0
+- [minor] [455c179e06](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/455c179e06):
+
+  - Allows to set a canModerateComments prop to allow delete comments by users other than the author of the comment
+
 ## 15.1.1
 - [patch] [5d840d3b0a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d840d3b0a):
 

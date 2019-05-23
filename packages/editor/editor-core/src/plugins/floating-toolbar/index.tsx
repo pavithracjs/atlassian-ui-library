@@ -109,6 +109,7 @@ const floatingToolbarPlugin: EditorPlugin = {
               className = '',
               height,
               width,
+              offset = [0, 12],
             } = floatingToolbarConfig;
             const targetRef = getDomRef(editorView);
 
@@ -116,7 +117,7 @@ const floatingToolbarPlugin: EditorPlugin = {
               return (
                 <Popup
                   ariaLabel={title}
-                  offset={[0, 12]}
+                  offset={offset}
                   target={targetRef}
                   alignY="bottom"
                   fitHeight={height}

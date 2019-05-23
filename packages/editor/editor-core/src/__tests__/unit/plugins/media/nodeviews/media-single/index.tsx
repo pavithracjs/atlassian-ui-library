@@ -12,6 +12,7 @@ import {
   stateKey as mediaStateKey,
   MediaPluginState,
   MediaState,
+  MediaProvider,
 } from '../../../../../../plugins/media/pm-plugins/main';
 import MediaSingle, {
   ReactMediaSingleNode,
@@ -21,6 +22,8 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import { EventDispatcher } from '../../../../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../../../../ui/PortalProvider';
 import { stateKey as SelectionChangePluginKey } from '../../../../../../plugins/base/pm-plugins/react-nodeview';
+import { MediaOptions } from '../../../../../../plugins/media';
+import * as mediaCommands from '../../../../../../plugins/media/commands';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
@@ -56,24 +59,30 @@ describe('nodeviews/mediaSingle', () => {
   } as EditorView;
   const eventDispatcher = {} as EventDispatcher;
   const getPos = jest.fn();
+  const mediaOptions: MediaOptions = {
+    allowResizing: false,
+  };
   const portalProviderAPI: PortalProviderAPI = {
     render(component: () => React.ReactChild | null) {
       component();
     },
     remove() {},
   } as any;
+  let mediaProvider: Promise<MediaProvider>;
+  let providerFactory: ProviderFactory;
   let getDimensions: any;
 
   beforeEach(() => {
-    const mediaProvider = getFreshMediaProvider();
-    const providerFactory = ProviderFactory.create({ mediaProvider });
+    mediaProvider = getFreshMediaProvider();
+    providerFactory = ProviderFactory.create({ mediaProvider });
     pluginState = ({
       getMediaNodeStateStatus: () => 'ready',
       getMediaNodeState: () => {
         return ({ state: 'ready' } as any) as MediaState;
       },
+      mediaNodes: [],
       options: {
-        allowResizing: false,
+        ...mediaOptions,
         providerFactory: providerFactory,
       },
       handleMediaNodeMount: () => {},
@@ -112,6 +121,9 @@ describe('nodeviews/mediaSingle', () => {
         width={123}
         selected={() => 1}
         editorAppearance="full-page"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
       />,
     );
 
@@ -130,6 +142,9 @@ describe('nodeviews/mediaSingle', () => {
         width={123}
         selected={() => 1}
         editorAppearance="full-page"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
       />,
     );
 
@@ -144,6 +159,66 @@ describe('nodeviews/mediaSingle', () => {
     );
   });
 
+  it('propagates mobile upload progress to Media component', async () => {
+    pluginState.editorAppearance = 'mobile';
+    pluginState.mobileUploadComplete = { foo: false };
+
+    const mediaSingleNode = mediaSingle()(mediaNode);
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNode(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="mobile"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+      wrapper,
+    );
+
+    await (wrapper.instance() as MediaSingle).componentDidMount();
+    const { uploadComplete } = wrapper.find(Media).props();
+    expect(uploadComplete).toBe(false);
+  });
+
+  it('propagates mobile upload complete to Media component', async () => {
+    pluginState.editorAppearance = 'mobile';
+    pluginState.mobileUploadComplete = { foo: true };
+
+    const mediaSingleNode = mediaSingle()(mediaNode);
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNode(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="mobile"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+      wrapper,
+    );
+
+    await (wrapper.instance() as MediaSingle).componentDidMount();
+    const { uploadComplete } = wrapper.find(Media).props();
+    expect(uploadComplete).toBe(true);
+  });
+
   describe('re-rendering based on offsetLeft', () => {
     const node = mediaSingle()(mediaNode)(defaultSchema);
 
@@ -151,6 +226,8 @@ describe('nodeviews/mediaSingle', () => {
       const nodeView = ReactMediaSingleNode(
         portalProviderAPI,
         eventDispatcher,
+        providerFactory,
+        mediaOptions,
         'full-page',
       )(node, view, getPos);
 
@@ -165,6 +242,8 @@ describe('nodeviews/mediaSingle', () => {
       const nodeView = ReactMediaSingleNode(
         portalProviderAPI,
         eventDispatcher,
+        providerFactory,
+        mediaOptions,
         'full-page',
       )(node, view, getPos);
 
@@ -184,6 +263,10 @@ describe('nodeviews/mediaSingle', () => {
 
   describe('when dimensions are missing on images', () => {
     it('asks media APIs for dimensions when not in ADF and updates it', async () => {
+      const updateMediaNodeAttrsSpy = jest.spyOn(
+        mediaCommands,
+        'updateMediaNodeAttrs',
+      );
       const mediaNodeAttrs = {
         id: 'foo',
         type: 'file',
@@ -203,6 +286,9 @@ describe('nodeviews/mediaSingle', () => {
           width={123}
           selected={() => 1}
           editorAppearance="full-page"
+          mediaOptions={mediaOptions}
+          mediaProvider={mediaProvider}
+          mediaPluginState={pluginState}
         />,
       );
 
@@ -211,7 +297,7 @@ describe('nodeviews/mediaSingle', () => {
       );
 
       await (wrapper.instance() as MediaSingle).componentDidMount();
-      expect(pluginState.updateMediaNodeAttrs).toHaveBeenCalledWith(
+      expect(updateMediaNodeAttrsSpy).toHaveBeenCalledWith(
         'foo',
         {
           height: 100,
@@ -222,6 +308,10 @@ describe('nodeviews/mediaSingle', () => {
     });
 
     it('does not ask media for dimensions when the image type is external', async () => {
+      const updateMediaNodeAttrsSpy = jest.spyOn(
+        mediaCommands,
+        'updateMediaNodeAttrs',
+      );
       const mediaNodeAttrs = {
         id: 'foo',
         type: 'external',
@@ -241,6 +331,9 @@ describe('nodeviews/mediaSingle', () => {
           width={123}
           selected={() => 1}
           editorAppearance="full-page"
+          mediaOptions={mediaOptions}
+          mediaProvider={mediaProvider}
+          mediaPluginState={pluginState}
         />,
       );
 
@@ -249,7 +342,7 @@ describe('nodeviews/mediaSingle', () => {
       );
 
       await (wrapper.instance() as MediaSingle).componentDidMount();
-      expect(pluginState.updateMediaNodeAttrs).toHaveBeenCalledTimes(0);
+      expect(updateMediaNodeAttrsSpy).toHaveBeenCalledTimes(0);
     });
   });
   afterEach(() => {

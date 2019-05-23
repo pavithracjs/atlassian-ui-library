@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import {
   clickToolbarMenu,
@@ -28,7 +29,7 @@ describe('z-indexes:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, 0.03); // update theshold since emoji is failing
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('should always position table trash icon below dropdowns from main menu', async () => {
