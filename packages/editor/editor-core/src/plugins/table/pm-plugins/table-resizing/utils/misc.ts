@@ -82,7 +82,7 @@ export function edgeCell(
   event: MouseEvent,
   side: string,
   handleWidth: number,
-): number {
+): number | null {
   const buffer = side === 'right' ? -handleWidth : handleWidth; // Fixes finicky bug where posAtCoords could return wrong pos.
   let posResult = view.posAtCoords({
     left: event.clientX + buffer,
@@ -90,12 +90,12 @@ export function edgeCell(
   });
 
   if (!posResult || !posResult.pos) {
-    return -1;
+    return null;
   }
 
   let $cell = cellAround(view.state.doc.resolve(posResult.pos));
   if (!$cell) {
-    return -1;
+    return null;
   }
   if (side === 'right') {
     return $cell.pos;
@@ -105,7 +105,7 @@ export function edgeCell(
   let start = $cell.start(-1);
   let index = map.map.indexOf($cell.pos - start);
 
-  return index % map.width === 0 ? -1 : start + map.map[index - 1];
+  return index % map.width === 0 ? null : start + map.map[index - 1];
 }
 
 // Get the current col width, handles colspan.

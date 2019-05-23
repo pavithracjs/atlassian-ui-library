@@ -1,24 +1,23 @@
 import * as React from 'react';
+import Media from 'react-media';
 import { match, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
-import Loadable from '../../components/WrappedLoader';
 import { Helmet } from 'react-helmet';
-import { gridSize, colors, math } from '@atlaskit/theme';
 import Button from '@atlaskit/button';
-import ExamplesIcon from '@atlaskit/icon/glyph/screen';
 import { AtlassianIcon } from '@atlaskit/logo';
-
-import Loading from '../../components/Loading';
-import Page from '../../components/Page';
-import FourOhFour from '../FourOhFour';
+import ExamplesIcon from '@atlaskit/icon/glyph/screen';
+import { gridSize, colors, math } from '@atlaskit/theme';
 
 import MetaData from './MetaData';
-import LatestChangelog from './LatestChangelog';
-
 import * as fs from '../../utils/fs';
+import FourOhFour from '../FourOhFour';
+import Page from '../../components/Page';
 import { File, Directory } from '../../types';
-
+import Loading from '../../components/Loading';
+import LatestChangelog from './LatestChangelog';
 import { Log } from '../../components/ChangeLog';
+import Loadable from '../../components/WrappedLoader';
+import { DESKTOP_BREAKPOINT_MIN } from '../../constants';
 import fetchPackageData, {
   PackageData,
   PackageJson,
@@ -151,45 +150,51 @@ class Package extends React.Component<Props> {
     const title = fs.titleize(pkgId);
 
     return (
-      <Page>
-        {urlIsExactMatch && (
-          <Helmet>
-            <title>{`${title} package - ${BASE_TITLE}`}</title>
-          </Helmet>
-        )}
-        <Title>
-          <h1>{title}</h1>
-          {examplePath && exampleModalPath && (
-            <ButtonGroup>
-              <LinkButton
-                iconBefore={<ExamplesIcon label="Examples Icon" />}
-                to={examplePath}
-              />
-              <LinkButton to={exampleModalPath}>Examples</LinkButton>
-              {pkg && pkg['atlaskit:designLink'] && (
-                <Button
-                  iconBefore={<AtlassianIcon size="small" />}
-                  href={pkg['atlaskit:designLink'] as string}
-                >
-                  Design docs
-                </Button>
+      <Media query={`(min-width: ${DESKTOP_BREAKPOINT_MIN}px)`}>
+        {(isDesktop: boolean) => (
+          <Page>
+            {urlIsExactMatch && (
+              <Helmet>
+                <title>{`${title} package - ${BASE_TITLE}`}</title>
+              </Helmet>
+            )}
+            <Title>
+              <h1>{title}</h1>
+              {examplePath && exampleModalPath && (
+                <ButtonGroup>
+                  <LinkButton
+                    iconBefore={<ExamplesIcon label="Examples Icon" />}
+                    to={examplePath}
+                  />
+                  {isDesktop && (
+                    <LinkButton to={exampleModalPath}>Examples</LinkButton>
+                  )}
+                  {pkg && pkg['atlaskit:designLink'] && (
+                    <Button
+                      iconBefore={<AtlassianIcon size="small" />}
+                      href={pkg['atlaskit:designLink'] as string}
+                    >
+                      Design docs
+                    </Button>
+                  )}
+                </ButtonGroup>
               )}
-            </ButtonGroup>
-          )}
-        </Title>
-        <Intro>{pkg.description}</Intro>
-        <MetaData
-          packageName={pkg.name as string}
-          packageSrc={`https://bitbucket.org/atlassian/atlaskit-mk-2/src/master/packages/${groupId}/${pkgId}`}
-        />
-        <LatestChangelog
-          changelog={changelog}
-          pkgId={pkgId}
-          groupId={groupId}
-        />
-        <Sep />
-        {doc || <NoDocs name={pkgId} />}
-      </Page>
+            </Title>
+            <Intro>{pkg.description}</Intro>
+            <MetaData
+              packageName={pkg.name as string}
+              packageSrc={`https://bitbucket.org/atlassian/atlaskit-mk-2/src/master/packages/${groupId}/${pkgId}`}
+            />
+            <LatestChangelog
+              changelog={changelog}
+              pkgId={pkgId}
+              groupId={groupId}
+            />
+            <Sep />
+            {doc || <NoDocs name={pkgId} />}
+          </Page>
+        )}
+      </Media>
     );
   }
 }

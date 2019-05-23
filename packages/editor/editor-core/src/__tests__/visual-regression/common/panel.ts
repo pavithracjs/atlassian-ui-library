@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import {
   initFullPageEditorWithAdf,
   initCommentEditorWithAdf,
@@ -17,8 +18,7 @@ describe.skip('Panel overflow:', () => {
   });
 
   afterEach(async () => {
-    const threshold = 0.055;
-    await snapshot(page, threshold);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('looks correct for laptopMDPI', async () => {

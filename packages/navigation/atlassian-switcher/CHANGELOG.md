@@ -1,5 +1,12 @@
 # @atlaskit/atlassian-switcher
 
+## 2.0.0
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/navigation@35.1.1
+  - @atlaskit/logo@12.0.0
+
 ## 1.1.1
 - [patch] [d216253463](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d216253463):
 

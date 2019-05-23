@@ -1,7 +1,6 @@
 import { EditorState, TextSelection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { ResolvedPos, MarkType } from 'prosemirror-model';
-import { toggleMark as defaultToggleMark } from 'prosemirror-commands';
 import { GapCursorSelection } from '../plugins/gap-cursor';
 import { Command } from '../types';
 
@@ -94,15 +93,32 @@ const toggleMark = (
   markType: MarkType,
   attrs?: { [key: string]: any },
 ): Command => (state, dispatch) => {
+  let tr = state.tr;
+  const mark = markType.create(attrs);
+
   // For cursor selections we can use the default behaviour.
   if (state.selection instanceof TextSelection && state.selection.$cursor) {
-    return defaultToggleMark(markType)(state, dispatch);
+    if (mark.isInSet(state.storedMarks || state.selection.$cursor.marks())) {
+      tr = tr.removeStoredMark(mark);
+    } else {
+      tr = tr.addStoredMark(mark);
+    }
+
+    if (dispatch) {
+      dispatch(tr);
+      return true;
+    }
+
+    return false;
   }
 
-  let tr = state.tr;
   const { $from, $to } = state.selection;
-  const markInRange = state.doc.rangeHasMark($from.pos, $to.pos, markType);
-  const mark = markType.create(attrs);
+  // @ts-ignore The type for `rangeHasMark` only accepts a `MarkType` as a third param,
+  // Yet the internals use a method that exists on both MarkType and Mark (one checks attributes the other doesnt)
+  // For example, with our subsup mark: We use the same mark with different attributes to convery
+  // different formatting but when using `MarkType.isInSet(marks)` it returns true for both.
+  // Calling `Mark.isInSet(marks)` compares attributes as well.
+  const markInRange = state.doc.rangeHasMark($from.pos, $to.pos, mark);
 
   state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
     if (!node.isText) {
@@ -113,7 +129,7 @@ const toggleMark = (
     const to = Math.min(pos + node.nodeSize, $to.pos);
 
     if (markInRange) {
-      tr = tr.removeMark(from, to, markType);
+      tr = tr.removeMark(from, to, mark);
       return true;
     }
 

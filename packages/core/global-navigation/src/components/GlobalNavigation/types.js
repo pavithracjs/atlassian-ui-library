@@ -61,6 +61,25 @@ export type GlobalNavDrawerProps = {
    * close. It is true by default. */
   shouldRecentDrawerUnmountOnExit?: boolean,
 
+  /** A prop to take control over the opening and closing of the Global Invite drawer. NOTE:
+   * GlobalNavigation controls the drawer behaviour by default. */
+  isInviteDrawerOpen?: boolean,
+  /** The contents of the global invite drawer. */
+  inviteDrawerContents?: ComponentType<*>,
+  /** The width of the global invite drawer. This is "wide" by default. */
+  inviteDrawerWidth?: DrawerWidth,
+  /** A callback function which will be called when the global invite drawer is
+   * opened. */
+  onInviteDrawerOpen?: () => void,
+  /** A callback function which will be called when the global invite drawer is
+   * closed. */
+  onInviteDrawerClose?: () => void,
+  /** A callback function which will be fired when the global invite drawer has finished its close transition. **/
+  onInviteDrawerCloseComplete?: (node: HTMLElement) => void,
+  /** A prop to decide if the contents of the drawer should unmount on drawer
+   * close. It is true by default. */
+  shouldInviteDrawerUnmountOnExit?: boolean,
+
   /** A prop to take control over the opening and closing of drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isSearchDrawerOpen?: boolean,
@@ -187,6 +206,14 @@ export type GlobalNavigationProps = {
   /** A function to get ref of the recent icon */
   getRecentRef?: (node: NonStringRef<'div'>) => void,
 
+  /** A callback function which will be called when the global invite item is clicked.
+   * */
+  onInviteClick?: ?() => void,
+  /** The text to display in the tooltip for the global invite drawer item. */
+  inviteTooltip?: string,
+  /** A function to get ref of the global invite icon */
+  getInviteRef?: (node: NonStringRef<'div'>) => void,
+
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
   onCreateClick?: ?() => void,
@@ -294,6 +321,7 @@ export type DrawerName =
   | 'help'
   | 'settings'
   | 'recent'
+  | 'invite'
   | 'atlassianSwitcher';
 
 export type { DrawerWidth };

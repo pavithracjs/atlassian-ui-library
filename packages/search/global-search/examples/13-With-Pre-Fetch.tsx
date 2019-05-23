@@ -18,7 +18,7 @@ export default class GlobalQuickSearchExample extends React.Component {
   render() {
     return (
       <PrefetchedResultsProvider context="confluence" cloudId="123">
-        <GlobalQuickSearchWrapper />
+        <GlobalQuickSearchWrapper useUrsForBootstrapping />
       </PrefetchedResultsProvider>
     );
   }

@@ -30,6 +30,7 @@ import {
 import WithPluginState from '../../ui/WithPluginState';
 import { IconImages } from '../quick-insert/assets';
 import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
+import ClipboardMediaPickerWrapper from './ui/ClipboardMediaPickerWrapper';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 export { insertMediaSingleNode } from './utils/media-single';
@@ -100,6 +101,8 @@ const mediaPlugin = (
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,
                   eventDispatcher,
+                  providerFactory,
+                  options,
                   props.appearance,
                   props.appearance === 'full-width',
                 ),
@@ -139,7 +142,10 @@ const mediaPlugin = (
           mediaState: pluginKey,
         }}
         render={({ mediaState }) => (
-          <CustomSmartMediaEditor mediaState={mediaState} />
+          <>
+            <CustomSmartMediaEditor mediaState={mediaState} />
+            <ClipboardMediaPickerWrapper mediaState={mediaState} />
+          </>
         )}
       />
     );

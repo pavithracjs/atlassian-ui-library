@@ -1,5 +1,10 @@
 # @atlaskit/smart-card
 
+## 11.1.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
 ## 11.0.5
 - [patch] [27f666ed85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27f666ed85):
 

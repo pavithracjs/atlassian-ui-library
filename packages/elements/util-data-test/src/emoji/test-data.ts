@@ -1,9 +1,9 @@
+import { EmojiRepository } from '@atlaskit/emoji/resource';
+import { EmojiDescription } from '@atlaskit/emoji/types';
 import {
-  EmojiRepository,
   denormaliseEmojiServiceResponse,
-  EmojiDescription,
   UsageFrequencyTracker,
-} from '@atlaskit/emoji';
+} from '@atlaskit/emoji/utils';
 import { customCategory, customType } from './utils';
 import {
   mockNonUploadingEmojiResourceFactory,

@@ -1,5 +1,151 @@
 # @atlaskit/editor-core
 
+## 112.10.5
+- [patch] [7ce86bae14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ce86bae14):
+
+  - Shift selection for rows and columns
+
+## 112.10.4
+- [patch] [ca1f019d62](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca1f019d62):
+
+  - ED-6976: fix recovering from overflow when table has number column and all columns are selected
+
+## 112.10.3
+- [patch] [f823890888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f823890888):
+
+  - ED-6970: Fix backspacing inside a layout removing all content.
+
+## 112.10.2
+- [patch] [54b40d9757](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/54b40d9757):
+
+  - ED-6832 Refactor ReactMediaSingleNodeView to remove usage of media plugin state private methods.
+
+## 112.10.1
+- [patch] [f3334a7083](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f3334a7083):
+
+  - ED-6918: fix deleting table rows inside bodied extensions
+
+## 112.10.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 112.9.1
+- [patch] [56356b17a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56356b17a3):
+
+  - ED-6880: added even column widths on resize handle double-click and bulk resizing of columns
+
+## 112.9.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
+## 112.8.1
+- [patch] [5973916c23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5973916c23):
+
+  - [ED-6344] Remove scrollbar overlap from the last table row
+
+## 112.8.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 112.7.0
+- [minor] [f120090dfe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f120090dfe):
+
+  - Add GASv3 analytics to Emoji TypeAhead.
+
+## 112.6.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
+## 112.5.2
+- [patch] [6a65053272](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a65053272):
+
+  - ED-6929: avoid having a negative rowspan after merging cells
+
+## 112.5.1
+- [patch] [a511611473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a511611473):
+
+  - ED-6808: Fix issue where toggling the same mark but different attributes would just remove the mark.
+
+## 112.5.0
+- [minor] [9be684e931](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9be684e931):
+
+  - ED-5782 Replace text-color button with more easily identifiable A icon with colored bar.
+
+## 112.4.0
+- [minor] [d9f8b4d43d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9f8b4d43d):
+
+  - [ED-5505] Apply strong mark by default on table headers
+
+## 112.3.1
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/select@9.1.1
+  - @atlaskit/logo@12.0.0
+
+## 112.3.0
+- [minor] [f53003a5ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f53003a5ed):
+
+  - ED-6741 Add 'appearance' to all editor analytics events
+
+## 112.2.10
+- [patch] [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
+
+  -
+
+  - MediaPicker Clipboard component is now a React Component
+
+  These changes provide a new React api for Clipboard component. First one to be delivered, coming next we are going to ship Browser, Dropzone and Popup.
+
+  Previous plain javascript API usage:
+
+  ```typescript
+  // instanciate MediaPicker clipboard
+  const clipboardMediaPicker = await new MediaPicker(
+    'clipboard'
+    context,
+    config,
+  );
+
+  // usage
+  clipboardMediaPicker.on('uploads-start', onUploadsStart);
+  clipboardMediaPicker.on('upload-preview-update', onUploadPreviewUpdate);
+  clipboardMediaPicker.on('upload-status-update', onUploadStatusUpdate);
+  clipboardMediaPicker.on('upload-processing', onUploadProcessing);
+  clipboardMediaPicker.on('upload-end', onUploadEnd);
+  clipboardMediaPicker.on('upload-error', onUploadError);
+
+  // activation / deactivation programatically
+  clipboardMediaPicker.activate();
+  clipboardMediaPicker.deactivate();
+  ```
+
+  With the new React API we benefit from:
+  * No need to programatically activate/deactivate. We will just render the Clipboard component or not.
+  * Event handlers are provided by react props
+  * We don't need to use a MediaPicker constructor and specifiy which flavour we want (in this case 'clipboard'). We can basically `import { Clipboard } from '@atlaskit/media-picker'` directly and use it right away.
+
+  Example of new API:
+
+  ```typescript
+  import { Clipboard } from '@atlaskit/media-picker';
+
+  <Clipboard
+    context={context}
+    config={config}
+    onError={handleUploadError}
+    onPreviewUpdate={handleUploadPreviewUpdate}
+    onProcessing={handleReady}
+  />
+  ```
+
+  This is the first component we migrate fully and integrates seamlessly with the Editor. Follow up on this ticket to see what will be the next steps on this new API:
+  https://product-fabric.atlassian.net/browse/MS-1942
+
 ## 112.2.9
 - [patch] [be2df0f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/be2df0f8e7):
 

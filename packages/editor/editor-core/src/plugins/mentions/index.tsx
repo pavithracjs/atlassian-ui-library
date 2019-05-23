@@ -8,12 +8,12 @@ import {
 } from '@atlaskit/analytics-next';
 import {
   MentionProvider,
-  MentionItem,
   isSpecialMention,
   MentionDescription,
   ELEMENTS_CHANNEL,
-  TeamMember,
-} from '@atlaskit/mention';
+} from '@atlaskit/mention/resource';
+import { MentionItem } from '@atlaskit/mention/item';
+import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';
 import {
   ProviderFactory,

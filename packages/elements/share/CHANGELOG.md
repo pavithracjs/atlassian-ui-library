@@ -1,5 +1,20 @@
 # @atlaskit/share
 
+## 0.4.7
+- [patch] [cfc3d669d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3d669d8):
+
+  - added share content type to submit share analytics event
+
+## 0.4.6
+- [patch] [2a64153b7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a64153b7a):
+
+  - fixed escape key press closes share dialog when user picker menu is open
+
+## 0.4.5
+- [patch] [03957e8674](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/03957e8674):
+
+  - deferred fetchConfig call until share dialog is triggered open
+
 ## 0.4.4
 - [patch] [c27888ddff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c27888ddff):
 

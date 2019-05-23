@@ -22,11 +22,9 @@ import StatusIcon from '@atlaskit/icon/glyph/status';
 import PlaceholderTextIcon from '@atlaskit/icon/glyph/media-services/text';
 import LayoutTwoEqualIcon from '@atlaskit/icon/glyph/editor/layout-two-equal';
 import HorizontalRuleIcon from '@atlaskit/icon/glyph/editor/horizontal-rule';
-import {
-  EmojiId,
-  EmojiPicker as AkEmojiPicker,
-  EmojiProvider,
-} from '@atlaskit/emoji';
+import { EmojiPicker as AkEmojiPicker } from '@atlaskit/emoji/picker';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { EmojiId } from '@atlaskit/emoji/types';
 import { Popup, akEditorMenuZIndex } from '@atlaskit/editor-common';
 import EditorActions from '../../../../actions';
 import {

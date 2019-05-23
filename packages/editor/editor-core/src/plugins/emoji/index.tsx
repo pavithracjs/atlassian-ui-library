@@ -3,6 +3,7 @@ import { emoji, emojiQuery } from '@atlaskit/adf-schema';
 import { WithProviders, Providers } from '@atlaskit/editor-common';
 
 import { EditorPlugin } from '../../types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { createPlugin, emojiPluginKey } from './pm-plugins/main';
 import inputRulePlugin from './pm-plugins/input-rules';
@@ -20,7 +21,9 @@ import {
 } from '../analytics';
 import { IconEmoji } from '../quick-insert/assets';
 
-const emojiPlugin: EditorPlugin = {
+const emojiPlugin = (
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+): EditorPlugin => ({
   nodes() {
     return [{ name: 'emoji', node: emoji }];
   },
@@ -65,6 +68,7 @@ const emojiPlugin: EditorPlugin = {
           popupsMountPoint={popupsMountPoint}
           popupsBoundariesElement={popupsBoundariesElement}
           dispatchAnalyticsEvent={dispatchAnalyticsEvent}
+          createAnalyticsEvent={createAnalyticsEvent}
         />
       );
     };
@@ -134,6 +138,6 @@ const emojiPlugin: EditorPlugin = {
       },
     ],
   },
-};
+});
 
 export default emojiPlugin;

@@ -1,15 +1,10 @@
 import styled from 'styled-components';
 import { gridSize, math } from '@atlaskit/theme';
 
-const containerWidth = {
-  small: '480px',
-  medium: '640px',
-  large: '980px',
-};
-
 const PageContainer = styled.main`
-  max-width: ${(p: { width?: keyof typeof containerWidth }) =>
-    p.width ? containerWidth[p.width] : containerWidth.medium};
+  width: 100vw;
+  max-width: calc(640px + 4rem);
+  box-sizing: border-box;
   margin: 2rem auto;
   padding: 0 2rem;
 `;

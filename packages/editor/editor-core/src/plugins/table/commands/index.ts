@@ -31,4 +31,5 @@ export {
   showInsertRowButton,
   transformSliceToAddTableHeaders,
   triggerUnlessTableHeader,
+  addBoldInEmptyHeaderCells,
 } from './misc';

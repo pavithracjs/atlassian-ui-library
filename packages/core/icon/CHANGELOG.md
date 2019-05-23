@@ -1,5 +1,15 @@
 # @atlaskit/icon
 
+## 17.1.0
+- [minor] [8f4f5d914a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f4f5d914a):
+
+  - Updated home-circle icon and replaced home-filled icon with new home icon
+
+## 17.0.2
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/logo@12.0.0
+
 ## 17.0.1
 - Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
   - @atlaskit/dynamic-table@13.0.0

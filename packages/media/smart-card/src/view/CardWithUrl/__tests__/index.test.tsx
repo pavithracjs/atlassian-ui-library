@@ -1,4 +1,4 @@
-jest.mock('react-lazily-render', () => {
+jest.mock('react-lazily-render-scroll-parent', () => {
   return (data: any) => data.content;
 });
 

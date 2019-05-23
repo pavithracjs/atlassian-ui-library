@@ -1,4 +1,5 @@
-import { EmojiProvider, EmojiDescription } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { EmojiDescription } from '@atlaskit/emoji/types';
 import { inputRules } from 'prosemirror-inputrules';
 import { Schema, Node } from 'prosemirror-model';
 import { EditorState, Transaction, Plugin, PluginKey } from 'prosemirror-state';

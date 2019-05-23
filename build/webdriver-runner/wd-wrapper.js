@@ -117,12 +117,10 @@ export default class Page {
     }
   }
 
-  keys(value) {
-    return this.browser.keys(value);
-  }
+  async keys(values) {
+    const keys = Array.isArray(values) ? values : [values];
 
-  async pressKey(key, x = 1) {
-    for (let i = 0; i < x; i++) {
+    for (let key of keys) {
       await this.browser.keys(key);
     }
   }
@@ -326,8 +324,8 @@ export default class Page {
   }
 
   // Window
-  setViewPort(size, type) {
-    return this.browser.setViewPort(size, type);
+  setWindowSize(width, height) {
+    return this.browser.setWindowSize(width, height);
   }
 
   chooseFile(selector, localPath) {
