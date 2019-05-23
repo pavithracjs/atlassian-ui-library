@@ -259,6 +259,12 @@ describe('<CustomMediaPlayer />', () => {
       asMock(simultaneousPlayManager.unsubscribe).mockClear();
     });
 
+    afterAll(() => {
+      asMock(simultaneousPlayManager.subscribe).mockRestore();
+      asMock(simultaneousPlayManager.pauseOthers).mockRestore();
+      asMock(simultaneousPlayManager.unsubscribe).mockRestore();
+    });
+
     it('should subscribe to Simultaneous Play Manager', () => {
       setup();
       expect(simultaneousPlayManager.subscribe).toBeCalledTimes(1);
