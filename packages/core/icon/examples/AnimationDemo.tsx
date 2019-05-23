@@ -1,7 +1,5 @@
-// @flow
-
 import sample from 'lodash.sample';
-import React, { Component } from 'react';
+import React, { Component, ComponentType, ChangeEvent } from 'react';
 import BookIcon from '../glyph/book';
 import ArrowUpIcon from '../glyph/arrow-up';
 import ArrowDownIcon from '../glyph/arrow-down';
@@ -9,13 +7,13 @@ import ArrowLeftIcon from '../glyph/arrow-left';
 import ArrowRightIcon from '../glyph/arrow-right';
 
 type State = {
-  components: Component<*>[],
+  components: ComponentType<any>[];
 };
 
 class AnimationDemo extends Component<{}, State> {
-  checkbox: ?HTMLInputElement;
+  checkbox?: HTMLInputElement;
 
-  timer: ?IntervalID;
+  timer?: number;
 
   state = {
     components: [
@@ -26,6 +24,7 @@ class AnimationDemo extends Component<{}, State> {
       BookIcon,
     ],
   };
+  static displayName: string;
 
   componentDidMount() {
     this.startAnimating();
@@ -42,7 +41,7 @@ class AnimationDemo extends Component<{}, State> {
   };
 
   startAnimating = () => {
-    this.timer = setInterval(() => this.forceUpdate(), 300);
+    this.timer = window.setInterval(() => this.forceUpdate(), 300);
   };
 
   stopAnimating = () => {
@@ -51,8 +50,7 @@ class AnimationDemo extends Component<{}, State> {
     }
   };
 
-  toggleAnimation = (e: Event) => {
-    // $FlowFixMe - checked is missing in e.target
+  toggleAnimation = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       this.startAnimating();
     } else {
@@ -67,7 +65,7 @@ class AnimationDemo extends Component<{}, State> {
           type="checkbox"
           id="animate"
           onChange={this.toggleAnimation}
-          ref={(elem: ?HTMLInputElement) => {
+          ref={(elem: HTMLInputElement) => {
             this.checkbox = elem;
           }}
         />{' '}
@@ -87,6 +85,7 @@ class AnimationDemo extends Component<{}, State> {
     );
   }
 }
+
 AnimationDemo.displayName = 'AnimationDemo';
 
 export default AnimationDemo;
