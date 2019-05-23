@@ -433,7 +433,7 @@ pipelines:
                 - git merge master --no-edit
                 - git lfs pull
                 - bolt install --pure-lockfile
-                - yarn test:vr:dependents
+                - yarn test:vr
               after-script:
                 # Extract all the diff images and store them into a folder for download.
                 - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
