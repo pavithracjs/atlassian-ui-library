@@ -51,6 +51,7 @@ async function getPipelinesBuildEvents(
     const res = await axios.get(apiEndpoint);
     const build = res.data;
     const stepsData = await getStepsEvents(buildId);
+    console.log('stepsData', stepsData);
     const buildStatus = process.env.BITBUCKET_EXIT_CODE
       ? process.env.BITBUCKET_EXIT_CODE === '0'
         ? 'SUCCESSFUL'
