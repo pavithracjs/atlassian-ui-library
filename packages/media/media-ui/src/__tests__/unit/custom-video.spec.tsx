@@ -18,6 +18,21 @@ import { Shortcut } from '../../';
 jest.mock('../../customMediaPlayer/simultaneousPlayManager');
 import simultaneousPlayManager from '../../customMediaPlayer/simultaneousPlayManager';
 
+// Removes errors from JSDOM virtual console on CustomMediaPlayer tests
+// Trick taken from https://github.com/jsdom/jsdom/issues/2155
+const HTMLMediaElement_play = HTMLMediaElement.prototype.play;
+const HTMLMediaElement_pause = HTMLMediaElement.prototype.pause;
+
+beforeAll(() => {
+  HTMLMediaElement.prototype.play = () => Promise.resolve();
+  HTMLMediaElement.prototype.pause = () => Promise.resolve();
+});
+
+afterAll(() => {
+  HTMLMediaElement.prototype.play = HTMLMediaElement_play;
+  HTMLMediaElement.prototype.pause = HTMLMediaElement_pause;
+});
+
 describe('<CustomMediaPlayer />', () => {
   const setup = (props?: Partial<CustomMediaPlayerProps>) => {
     const onChange = jest.fn();
@@ -237,9 +252,11 @@ describe('<CustomMediaPlayer />', () => {
     });
   });
 
-  describe.only('simultaneous play', () => {
-    afterEach(() => {
+  describe('simultaneous play', () => {
+    beforeEach(() => {
+      asMock(simultaneousPlayManager.subscribe).mockClear();
       asMock(simultaneousPlayManager.pauseOthers).mockClear();
+      asMock(simultaneousPlayManager.unsubscribe).mockClear();
     });
 
     it('should subscribe to Simultaneous Play Manager', () => {
