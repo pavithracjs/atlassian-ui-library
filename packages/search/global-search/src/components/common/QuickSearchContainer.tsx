@@ -412,9 +412,10 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     );
 
     try {
+      const abTest = await abTestPromise.then(({ abTest }) => abTest);
       const { results } = await this.props.getRecentItems(
         this.state.searchSessionId,
-        this.state.abTest,
+        abTest,
       );
       const renderStartTime = performanceNow();
       if (this.unmounted) {
