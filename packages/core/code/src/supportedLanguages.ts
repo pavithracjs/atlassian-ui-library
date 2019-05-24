@@ -1,4 +1,3 @@
-// @flow
 /* eslint import/no-dynamic-require: 0, global-require: 0 */
 import memoizeOne from 'memoize-one';
 

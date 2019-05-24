@@ -1846,9 +1846,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-syntax-highlighter@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-0.0.3.tgz#c15aeac29eb193d11ac3a70e3d489f8539e6ee1a"
+"@types/react-syntax-highlighter@^10.2.0":
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-10.2.0.tgz#c50cb61a98a34b49ec570151509f8590adaa2eb0"
+  integrity sha512-2SoIispTGKWs2wDXV19nAo3lDPvEEjRPM4OQ9MZ5u2GfrUX7sR1bSoGWSU2REEW2cBYidCzvdyMXiFhO+4REJA==
   dependencies:
     "@types/react" "*"
 
