@@ -1,5 +1,10 @@
 # @atlaskit/form
 
+## 6.0.1
+- [patch] [19bbcb44ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19bbcb44ed):
+
+  - Upgrade final-form dependency. No behavioural or API changes.
+
 ## 6.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
