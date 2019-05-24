@@ -20,7 +20,7 @@ import {
   QuickSearchContext,
   UrsPersonItem,
 } from './types';
-import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
+import { ModelParam } from 'src/util/model-parameters';
 
 export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   experimentId: 'default',
@@ -75,10 +75,8 @@ export interface CrossProductSearchClient {
     query: string,
     sessionId: string,
     scopes: Scope[],
-    currentQuickSearchContext: QuickSearchContext,
-    queryVersion?: number | null,
+    modelParams: ModelParam[],
     resultLimit?: number | null,
-    referralContextIdentifiers?: ReferralContextIdentifiers,
   ): Promise<CrossProductSearchResults>;
   getPeople(
     query: string,
@@ -140,8 +138,7 @@ export default class CachingCrossProductSearchClientImpl
         query,
         sessionId,
         [scope],
-        currentQuickSearchContext,
-        null,
+        [],
         resultLimit,
       );
 
@@ -161,45 +158,17 @@ export default class CachingCrossProductSearchClientImpl
     query: string,
     sessionId: string,
     scopes: Scope[],
-    currentQuickSearchContext: QuickSearchContext,
-    queryVersion?: number | null,
+    modelParams: ModelParam[],
     resultLimit?: number | null,
-    referralContextIdentifiers?: ReferralContextIdentifiers,
   ): Promise<CrossProductSearchResults> {
     const path = 'quicksearch/v1';
-
-    const modelParams = [];
-
-    if (queryVersion !== undefined && queryVersion !== null) {
-      modelParams.push({
-        '@type': 'queryParams',
-        queryVersion,
-      });
-    }
-
-    const containerId =
-      referralContextIdentifiers &&
-      referralContextIdentifiers.currentContainerId;
-
-    if (containerId !== undefined && containerId !== null) {
-      if (currentQuickSearchContext === 'jira') {
-        modelParams.push({
-          '@type': 'currentProject',
-          projectId: containerId,
-        });
-      } else if (currentQuickSearchContext === 'confluence')
-        modelParams.push({
-          '@type': 'currentSpace',
-          spaceKey: containerId,
-        });
-    }
 
     const body = {
       query: query,
       cloudId: this.cloudId,
       limit: resultLimit || this.RESULT_LIMIT,
       scopes: scopes,
-      ...(modelParams.length > 0 ? { modelParams: modelParams } : {}),
+      ...(modelParams.length > 0 ? { modelParams } : {}),
     };
 
     const response = await this.makeRequest<CrossProductSearchResponse>(

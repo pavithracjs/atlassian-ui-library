@@ -60,6 +60,7 @@ import {
 } from '../../util/analytics-event-helper';
 import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
+import { jiraModelParams } from '../../util/model-parameters';
 
 const JIRA_RESULT_LIMIT = 6;
 const JIRA_PREQUERY_RESULT_LIMIT = 10;
@@ -381,12 +382,10 @@ export class JiraQuickSearchContainer extends React.Component<
         '',
         sessionId,
         SCOPES,
-        'jira',
-        null,
+        [],
         !!abTest
           ? getJiraMaxObjects(abTest, JIRA_PREQUERY_RESULT_LIMIT)
           : JIRA_PREQUERY_RESULT_LIMIT,
-        this.props.referralContextIdentifiers,
       )
       .then(xpRecentResults => ({
         objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
@@ -468,12 +467,10 @@ export class JiraQuickSearchContainer extends React.Component<
       query,
       sessionId,
       SCOPES,
-      'jira',
-      queryVersion,
+      jiraModelParams(this.props.referralContextIdentifiers, queryVersion),
       !!abTest
         ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
         : JIRA_RESULT_LIMIT,
-      this.props.referralContextIdentifiers,
     );
 
     const searchPeoplePromise = Promise.resolve([] as Result[]);

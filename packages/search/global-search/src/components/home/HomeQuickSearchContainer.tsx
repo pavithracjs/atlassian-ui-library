@@ -91,6 +91,7 @@ export class HomeQuickSearchContainer extends React.Component<Props, State> {
       this.state.searchSessionId,
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
       'home',
+      [],
     );
 
     if (this.state.latestSearchQuery === query) {

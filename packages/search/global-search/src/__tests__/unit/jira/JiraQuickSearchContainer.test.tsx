@@ -225,6 +225,17 @@ describe('Jira Quick Search Container', () => {
       const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
       const dummyQueryVersion = 123;
 
+      const modelParams = [
+        {
+          '@type': 'queryParams',
+          queryVersion: dummyQueryVersion,
+        },
+        {
+          '@type': 'currentProject',
+          projectId: '123-container',
+        },
+      ];
+
       const getSearchResults = getQuickSearchProperty(
         renderComponent({
           crossProductSearchClient: noResultsCrossProductSearchClient,
@@ -239,9 +250,9 @@ describe('Jira Quick Search Container', () => {
         sessionId,
         expect.any(Array),
         'jira',
+        modelParams,
         dummyQueryVersion,
         expect.any(Number),
-        referralContextIdentifiers,
       );
 
       searchSpy.mockRestore();

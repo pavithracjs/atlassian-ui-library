@@ -27,6 +27,7 @@ import {
   generateRandomJiraFilter,
   generateRandomJiraProject,
 } from '../../../example-helpers/mockJira';
+import { jiraModelParams, confluenceModelParams } from '../../util/model-parameters';
 
 const DEFAULT_XPSEARCH_OPTS = {
   method: 'post',
@@ -88,8 +89,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         [Scope.ConfluencePageBlog],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(1);
 
@@ -138,8 +138,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         [Scope.ConfluenceSpace],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.ConfluenceSpace)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
@@ -185,8 +184,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         [Scope.JiraIssue],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
@@ -227,8 +225,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         jiraScopes,
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(0);
       expect(result.results.get(Scope.JiraBoardProjectFilter)).toHaveLength(3);
@@ -258,8 +255,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'sessionId',
         [Scope.People],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.People)).toHaveLength(1);
 
@@ -294,8 +290,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'sessionId',
         [Scope.People],
-        'confluence',
-        0,
+        [],
       );
 
       const item = result.results.get(Scope.People)![0] as PersonResult;
@@ -469,8 +464,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.ConfluenceSpace],
-      'confluence',
-      0,
+      [],
     );
 
     expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
@@ -486,13 +480,12 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
-      0,
-      undefined,
-      {
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-      },
+      [
+        {
+          '@type': 'queryParams',
+          queryVersion: 0,
+        },
+      ],
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -522,14 +515,11 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
-      undefined,
-      undefined,
-      {
+      jiraModelParams({
         searchReferrerId: 'some referrer id',
         currentContentId: '321',
         currentContainerId: '123',
-      },
+      }),
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -559,14 +549,9 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'confluence',
-      undefined,
-      undefined,
-      {
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-        currentContainerId: '123',
-      },
+      confluenceModelParams({
+        spaceKey: '123'
+      }),
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -590,14 +575,14 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
-      1,
-      undefined,
-      {
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-        currentContainerId: '123',
-      },
+      jiraModelParams(
+        {
+          searchReferrerId: 'some referrer id',
+          currentContentId: '321',
+          currentContainerId: '123',
+        },
+        1,
+      ),
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -622,6 +607,7 @@ describe('CrossProductSearchClient', () => {
     ]);
   });
 
+  // TODO: Maybe just delete this test?
   it('should omit model params if queryVersion and project id is not provided', async () => {
     apiWillReturn({
       scopes: [],
@@ -631,7 +617,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test-uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
+      [],
     );
     const call = fetchMock.calls('xpsearch')[0];
     // @ts-ignore
