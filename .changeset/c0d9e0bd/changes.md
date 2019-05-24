@@ -1,1 +1,0 @@
-- Fix an infinite loop in typeahead plugin
