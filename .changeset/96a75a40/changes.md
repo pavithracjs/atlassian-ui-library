@@ -1,0 +1,1 @@
+- ED-6965: bump prosemirror-utils to allow safeInsert replacing selected nodes when it conforms to schema
