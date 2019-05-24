@@ -18,6 +18,7 @@ import {
   JiraItem,
   PersonItem,
   QuickSearchContext,
+  UrsPersonItem,
 } from './types';
 import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
 
@@ -44,7 +45,7 @@ export interface CrossProductExperimentResponse {
   scopes: Experiment[];
 }
 
-export type SearchItem = ConfluenceItem | JiraItem | PersonItem;
+export type SearchItem = ConfluenceItem | JiraItem | PersonItem | UrsPersonItem;
 
 export interface ABTest {
   abTestId: string;
@@ -147,6 +148,8 @@ export default class CachingCrossProductSearchClientImpl
       if (isBootstrapQuery) {
         this.bootstrapPeopleCache[currentQuickSearchContext] = searchPromise;
       }
+
+      return searchPromise;
     }
 
     return {
@@ -300,6 +303,20 @@ function mapPersonItemToResult(item: PersonItem): PersonResult {
   };
 }
 
+function mapUrsResultItemToResult(item: UrsPersonItem): PersonResult {
+  return {
+    resultType: ResultType.PersonResult,
+    resultId: 'people-' + item.id,
+    name: item.name,
+    href: '/people/' + item.id,
+    avatarUrl: item.avatarUrl,
+    contentType: ContentType.Person,
+    analyticsType: AnalyticsType.ResultPerson,
+    mentionName: item.nickname,
+    presenceMessage: '',
+  };
+}
+
 function mapItemToResult(
   scope: Scope,
   item: SearchItem,
@@ -325,6 +342,10 @@ function mapItemToResult(
 
   if (scope === Scope.People) {
     return mapPersonItemToResult(item as PersonItem);
+  }
+
+  if (scope === Scope.UserConfluence || scope === Scope.UserJira) {
+    return mapUrsResultItemToResult(item as UrsPersonItem);
   }
 
   throw new Error(`Non-exhaustive match for scope: ${scope}`);

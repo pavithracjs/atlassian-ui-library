@@ -5,7 +5,12 @@ import CrossProductSearchClient, {
   CrossProductExperimentResponse,
   DEFAULT_AB_TEST,
 } from '../../api/CrossProductSearchClient';
-import { Scope, ConfluenceItem, PersonItem } from '../../api/types';
+import {
+  Scope,
+  ConfluenceItem,
+  PersonItem,
+  UrsPersonItem,
+} from '../../api/types';
 
 import fetchMock from 'fetch-mock';
 import {
@@ -296,6 +301,139 @@ describe('CrossProductSearchClient', () => {
       const item = result.results.get(Scope.People)![0] as PersonResult;
       expect(item.mentionName).toEqual('name');
       expect(item.presenceMessage).toEqual('');
+    });
+
+    it('should return people results from urs confluence', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-confluence' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'confluence',
+        3,
+      );
+      expect(result.results.get(Scope.UserConfluence)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserConfluence)![0] as PersonResult;
+      expect(item.resultId).toEqual('people-account_id');
+      expect(item.name).toEqual('name');
+      expect(item.href).toEqual('/people/account_id');
+      expect(item.analyticsType).toEqual(AnalyticsType.ResultPerson);
+      expect(item.resultType).toEqual(ResultType.PersonResult);
+      expect(item.avatarUrl).toEqual('picture');
+      expect(item.mentionName).toEqual(undefined);
+    });
+
+    it('should return people results from urs jira with nickname', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-confluence' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+                nickname: 'nickname',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'confluence',
+        3,
+      );
+
+      expect(result.results.get(Scope.UserConfluence)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserConfluence)![0] as PersonResult;
+      expect(item.mentionName).toEqual('nickname');
+    });
+
+    it('should return people results from urs jira', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-jira' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'jira',
+        3,
+      );
+
+      expect(result.results.get(Scope.UserJira)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserJira)![0] as PersonResult;
+      expect(item.resultId).toEqual('people-account_id');
+      expect(item.name).toEqual('name');
+      expect(item.href).toEqual('/people/account_id');
+      expect(item.analyticsType).toEqual(AnalyticsType.ResultPerson);
+      expect(item.resultType).toEqual(ResultType.PersonResult);
+      expect(item.avatarUrl).toEqual('picture');
+      expect(item.mentionName).toEqual(undefined);
+    });
+
+    it('should return people results from urs jira with nickname', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-jira' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+                nickname: 'nickname',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'jira',
+        3,
+      );
+
+      expect(result.results.get(Scope.UserJira)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserJira)![0] as PersonResult;
+      expect(item.mentionName).toEqual('nickname');
     });
   });
 
