@@ -40,6 +40,7 @@ export default class FormExample extends Component<void, void> {
             borderStyle: 'dashed',
             borderWidth: '1px',
             borderColor: '#ccc',
+            boxSizing: 'border-box',
             padding: '0.5em',
             color: '#ccc',
             margin: '0.5em',
