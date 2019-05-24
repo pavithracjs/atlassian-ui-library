@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import memoizeOne from 'memoize-one';
-import isEqual from 'lodash.isequal';
+import deepEqual from 'deep-equal';
 
 import UIAnalyticsEvent from './UIAnalyticsEvent';
 import type { AnalyticsEventPayload } from './types';
@@ -109,7 +109,7 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
             providedCallback(...args, event);
           }
         },
-        isEqual,
+        deepEqual,
       );
 
       render() {
