@@ -2,6 +2,7 @@
 
 import React, {
   Component,
+  forwardRef,
   type Node,
   type ComponentType,
   type ElementConfig,
@@ -91,7 +92,7 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
   createEventMap: EventMap<AnalyticsEventsWrappedProps<C>> = {},
 ): C => AnalyticsEventsWrappedComp<C> {
   return WrappedComponent => {
-    class WithAnalyticsEvents extends Component<{}, {}> {
+    class WithAnalyticsEvents extends Component<*> {
       // patch the callback so it provides analytics information.
       modifyCallbackProp = memoizeOne(
         <T: {}>(
@@ -113,8 +114,8 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
       );
 
       render() {
-        const { props } = this;
-        const { forwardRef } = props;
+        const { forwardedRef, ...rest } = this.props;
+
         return (
           <AnalyticsContextConsumer>
             {createAnalyticsEvent => {
@@ -122,16 +123,16 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
                 return this.modifyCallbackProp(
                   propName,
                   entry,
-                  props,
+                  rest,
                   createAnalyticsEvent,
                 );
               });
               return (
                 <WrappedComponent
-                  {...props}
+                  {...rest}
                   {...modifiedProps}
                   createAnalyticsEvent={createAnalyticsEvent}
-                  ref={forwardRef}
+                  ref={forwardedRef}
                 />
               );
             }}
@@ -140,9 +141,13 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
       }
     }
 
-    return React.forwardRef((props, ref) => {
-      return <WithAnalyticsEvents {...props} forwardRef={ref} />;
-    });
+    const WithAnalyticsEventsAndRef = forwardRef((props, ref) => (
+      <WithAnalyticsEvents {...props} forwardedRef={ref} />
+    ));
+    WithAnalyticsEventsAndRef.displayName = `WithAnalyticsEvents(${WrappedComponent.displayName ||
+      WrappedComponent.name})`;
+
+    return WithAnalyticsEventsAndRef;
   };
 }
 

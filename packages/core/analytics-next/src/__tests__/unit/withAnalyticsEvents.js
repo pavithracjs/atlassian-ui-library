@@ -52,9 +52,12 @@ it('should pass a createAnalyticsEvent function prop to the inner component', ()
     <ButtonWithAnalytics>Hello</ButtonWithAnalytics>,
   ).dive();
 
-  expect(typeof wrapper.find(Button).prop('createAnalyticsEvent')).toBe(
-    'function',
-  );
+  expect(
+    typeof wrapper
+      .dive()
+      .find(Button)
+      .prop('createAnalyticsEvent'),
+  ).toBe('function');
 });
 
 describe('createAnalyticsEvent function prop', () => {
