@@ -3,6 +3,7 @@ import { gridSize, math } from '@atlaskit/theme';
 
 import { DEFAULT_APPEARANCE } from '../Flag';
 import { flagTextColor } from '../../theme';
+import { AppearanceTypes } from '../../types';
 
 // Outputs the styles for actions separator: mid-dot for non-bold flags, or space for bold flags.
 const getDivider = ({
@@ -21,7 +22,7 @@ export default styled.div`
   display: flex;
   flex-wrap: wrap;
   padding-top: ${gridSize}px;
-  transform: ${({ appearance }: { appearance: string }) =>
+  transform: ${({ appearance }: { appearance: AppearanceTypes }) =>
     appearance === DEFAULT_APPEARANCE ? `translateX(-${gridSize() / 2}px)` : 0};
 `;
 
