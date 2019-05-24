@@ -388,7 +388,7 @@
     "extract-react-types-loader": "^0.3.0",
     "fbjs": "^1.0.0",
     "filesize": "^3.2.1",
-    "final-form": "^4.10.0",
+    "final-form": "^4.13.0",
     "final-form-focus": "^1.1.0",
     "flow": "^0.2.3",
     "flushable": "^1.0.0",
