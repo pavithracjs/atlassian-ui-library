@@ -30,7 +30,7 @@ export default () => (
         onLoad={onLoad}
         onRemoveImage={() => console.log('onRemoveImage')}
         onImageError={errorMessage => console.log('onImageError', errorMessage)}
-        onImageLoaded={(file, crop) => console.log('onImageLoaded', file, crop)}
+        onImageLoaded={file => console.log('onImageLoaded', file)}
         onImageUploaded={file => console.log('onImageLoaded', file)}
       />
       <button onClick={exportImage}>Export</button>

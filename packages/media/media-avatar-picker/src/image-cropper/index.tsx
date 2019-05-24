@@ -14,7 +14,7 @@ import {
   ImageContainer,
 } from './styled';
 import { ERROR } from '../avatar-picker-dialog';
-import { CONTAINER_INNER_SIZE } from '../image-navigator';
+import { CONTAINER_INNER_SIZE } from '../avatar-picker-dialog/layout-const';
 
 export interface ImageCropperProp {
   imageSource: string;

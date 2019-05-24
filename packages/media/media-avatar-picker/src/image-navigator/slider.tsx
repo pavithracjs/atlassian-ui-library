@@ -26,14 +26,12 @@ export class Slider extends Component<SliderProps, {}> {
           className="zoom_button zoom_button_small"
           iconAfter={<ScaleSmallIcon label="scale-small-icon" />}
           onClick={() => onChange(0)}
-          tabIndex={2}
         />
-        <FieldRange value={value} onChange={onChange} tabIndex={1} />
+        <FieldRange value={value} onChange={onChange} />
         <Button
           className="zoom_button zoom_button_large"
           iconAfter={<ScaleLargeIcon label="scale-large-icon" />}
           onClick={() => onChange(100)}
-          tabIndex={3}
         />
       </SliderWrapper>
     );

@@ -14,10 +14,14 @@ import {
   ModalFooterButtons,
 } from './styled';
 import { PredefinedAvatarView } from '../predefined-avatar-view';
-import { CONTAINER_SIZE, LoadParameters } from '../image-navigator/index';
+import { LoadParameters } from '../image-navigator/index';
 
 import { DEFAULT_VISIBLE_PREDEFINED_AVATARS } from './layout-const';
-import { AVATAR_DIALOG_WIDTH, AVATAR_DIALOG_HEIGHT } from './layout-const';
+import {
+  AVATAR_DIALOG_WIDTH,
+  AVATAR_DIALOG_HEIGHT,
+  CONTAINER_INNER_SIZE,
+} from './layout-const';
 import {
   AvatarPickerDialogProps,
   AvatarPickerDialogState,
@@ -34,6 +38,12 @@ export const ERROR = {
 
 export const ACCEPT = ['image/gif', 'image/jpeg', 'image/png'];
 
+export const fixedCrop = {
+  x: 0,
+  y: 0,
+  size: CONTAINER_INNER_SIZE,
+} as CropProperties;
+
 export class AvatarPickerDialog extends PureComponent<
   AvatarPickerDialogProps,
   AvatarPickerDialogState
@@ -44,11 +54,6 @@ export class AvatarPickerDialog extends PureComponent<
 
   state: AvatarPickerDialogState = {
     mode: Mode.Cropping,
-    crop: {
-      x: 0,
-      y: 0,
-      size: CONTAINER_SIZE,
-    },
     selectedAvatar: this.props.defaultSelectedAvatar,
     selectedImageSource: this.props.errorMessage
       ? undefined
@@ -57,11 +62,11 @@ export class AvatarPickerDialog extends PureComponent<
     errorMessage: this.props.errorMessage,
   };
 
-  setSelectedImageState = async (selectedImage: File, crop: CropProperties) => {
+  setSelectedImageState = async (selectedImage: File) => {
     // this is the main method to update the image state,
     // it is bubbled from the ImageCropper component through ImageNavigator when the image is loaded
     try {
-      this.setState({ selectedImage, crop });
+      this.setState({ selectedImage });
       const dataURI = await fileToDataURI(selectedImage);
       this.setState({ selectedImageSource: dataURI });
     } catch (e) {}
@@ -85,16 +90,12 @@ export class AvatarPickerDialog extends PureComponent<
 
   onSaveClick = () => {
     const { onImagePicked, onImagePickedDataURI, onAvatarPicked } = this.props;
-    const { selectedImage, crop, selectedAvatar } = this.state;
+    const { selectedImage, selectedAvatar } = this.state;
 
     if (selectedImage) {
       const exportedCroppedImageURI = this.exportCroppedImage();
       if (onImagePicked) {
-        onImagePicked(dataURItoFile(exportedCroppedImageURI), {
-          x: 0,
-          y: 0,
-          size: crop.size,
-        });
+        onImagePicked(dataURItoFile(exportedCroppedImageURI), fixedCrop);
       }
       if (onImagePickedDataURI) {
         onImagePickedDataURI(exportedCroppedImageURI);

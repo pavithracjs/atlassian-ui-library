@@ -8,10 +8,10 @@ import { Ellipsify } from '@atlaskit/media-ui';
 import * as MediaUI from '@atlaskit/media-ui';
 import ImageNavigator, {
   ImageNavigator as ImageNavigatorView,
-  CONTAINER_INNER_SIZE,
   Props as ImageNavigatorProps,
 } from '../../image-navigator';
 import { MAX_SIZE_MB } from '../../avatar-picker-dialog';
+import { CONTAINER_INNER_SIZE } from '../../avatar-picker-dialog/layout-const';
 import {
   ImageUploader,
   DragZone,

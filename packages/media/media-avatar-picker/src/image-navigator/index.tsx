@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
-import { gridSize } from '@atlaskit/theme';
 import Button from '@atlaskit/button';
 import ImageCropper from '../image-cropper';
 import Spinner from '@atlaskit/spinner';
@@ -11,7 +10,6 @@ import {
   getOrientation,
   isRotated,
   Ellipsify,
-  Rectangle,
   Vector2,
   messages,
 } from '@atlaskit/media-ui';
@@ -33,17 +31,15 @@ import { fileSizeMb } from '../util';
 import { ERROR, MAX_SIZE_MB, ACCEPT } from '../avatar-picker-dialog';
 import { Viewport, renderViewport } from '../viewport';
 import { Slider } from './slider';
+import {
+  CONTAINER_SIZE,
+  CONTAINER_PADDING,
+} from '../avatar-picker-dialog/layout-const';
 
 export interface LoadParameters {
   export: () => string;
 }
 export type OnLoadHandler = (params: LoadParameters) => void;
-
-export const CONTAINER_SIZE = gridSize() * 32;
-export const CONTAINER_INNER_SIZE = gridSize() * 25;
-export const CONTAINER_PADDING = (CONTAINER_SIZE - CONTAINER_INNER_SIZE) / 2;
-
-export const CONTAINER_RECT = new Rectangle(CONTAINER_SIZE, CONTAINER_SIZE);
 
 export const viewport = new Viewport(
   CONTAINER_SIZE,
@@ -60,7 +56,7 @@ export interface CropProperties {
 export interface Props {
   imageSource?: string;
   errorMessage?: string;
-  onImageLoaded: (file: File, crop: CropProperties) => void;
+  onImageLoaded: (file: File) => void;
   onLoad?: OnLoadHandler;
   onCropChanged?: (x: number, y: number, size: number) => void;
   onRemoveImage: () => void;
@@ -162,7 +158,7 @@ export class ImageNavigator extends Component<
     }
 
     const defaultZoomedOutScale = 0;
-    const { imageFile, imagePos, viewport } = this.state;
+    const { imageFile, viewport } = this.state;
     viewport
       .setItemSize(width, height)
       .setScale(defaultZoomedOutScale)
@@ -170,12 +166,8 @@ export class ImageNavigator extends Component<
     // imageFile will not exist if imageSource passed through props.
     // therefore we have to create a File, as one needs to be raised by dialog parent component when Save clicked.
     const file = imageFile || (this.dataURI && dataURItoFile(this.dataURI));
-    const minSize = Math.min(width, height);
     if (file) {
-      this.props.onImageLoaded(file, {
-        ...imagePos,
-        size: minSize,
-      });
+      this.props.onImageLoaded(file);
     }
     this.setState({
       scale: defaultZoomedOutScale,
