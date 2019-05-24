@@ -12,10 +12,11 @@ import type {
 } from './types';
 
 type Props = {
-  // A map of experiment resolvers.
+  // A map of experiment resolvers, keyed by experimentKey.
   experimentEnrollmentConfig: ExperimentEnrollmentConfig,
 
-  // A map of experiment options (passed to their respective resolver).
+  // A map of experiment options, keyed by experimentKey. The value of the option
+  // under a given key is passed to the experiment resolver with the same key.
   experimentEnrollmentOptions?: ExperimentEnrollmentOptions,
 
   // Children to render inside the Experiment Controller.
