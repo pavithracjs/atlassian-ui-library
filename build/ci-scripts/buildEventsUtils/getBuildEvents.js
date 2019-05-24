@@ -35,11 +35,12 @@ const delay = (ms /*: number */) => new Promise(res => setTimeout(res, ms));
  */
 function computeBuildTime(stepsData /*: Array<IStepsDataType>*/) /*: number */ {
   let buildDuration;
+  console.log('stepsData', stepsData);
   const stepDurationArray = stepsData
     .filter(step => step.step_duration)
     .map(step => step.step_duration);
   // When a build has 1 step, we can't apply this function, we take the only available value.
-  if (stepsData.length === 1) {
+  if (stepDurationArray.length === 1) {
     buildDuration = stepDurationArray[0];
   } else {
     // The minimum step duration cannot be 0 and it is in avg 30s in AK.
@@ -57,6 +58,7 @@ function getBuildTime(
   buildTime /*:? number */,
   stepsData /*: Array<IStepsDataType>*/,
 ) {
+  console.log('build time:', buildTime);
   if (buildTime && buildTime > 0 && stepsData.length > 1) {
     return buildTime;
   } else {
