@@ -27,6 +27,8 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
+/* This function helps you to wait for a particular time */
+const delay = (ms /*: number */) => new Promise(res => setTimeout(res, ms));
 
 /* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
  * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
@@ -76,7 +78,6 @@ function getStepTime(
   stepObject /*: IStepsDataType */,
   stepsLength /*: number */,
 ) {
-  console.log('step object', stepObject, 'length', stepsLength);
   let stepDuration;
   if (stepObject && stepObject.duration_in_seconds > 0 && stepsLength > 1) {
     stepDuration = stepObject.duration_in_seconds;
@@ -142,6 +143,8 @@ async function getPipelinesBuildEvents(
 async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
+    // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request.
+    await delay(5000);
     const resp = await axios.get(url);
     return Promise.all(
       resp.data.values.map(async step => {
