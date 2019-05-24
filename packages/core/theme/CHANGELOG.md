@@ -1,5 +1,9 @@
 # @atlaskit/theme
 
+## 9.0.3
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/lozenge@9.0.0
+
 ## 9.0.2
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/section-message@4.0.0

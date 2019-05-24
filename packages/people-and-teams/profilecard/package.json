@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/profilecard",
-  "version": "10.2.2",
+  "version": "10.2.3",
   "config": {
     "access": "public"
   },
@@ -17,11 +17,11 @@
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/icon": "^17.0.1",
     "@atlaskit/layer": "^7.0.0",
-    "@atlaskit/lozenge": "^8.0.0",
+    "@atlaskit/lozenge": "^9.0.0",
     "@atlaskit/popper": "^2.0.0",
     "@atlaskit/portal": "^2.0.0",
     "@atlaskit/spinner": "^11.0.0",
-    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/theme": "^9.0.3",
     "@atlaskit/util-shared-styles": "^2.10.3",
     "@babel/runtime": "^7.0.0",
     "date-fns": "^1.30.1",
