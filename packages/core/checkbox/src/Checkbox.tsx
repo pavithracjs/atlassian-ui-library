@@ -45,7 +45,7 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.props.isChecked
         : this.props.defaultChecked,
   };
-  checkbox: HTMLInputElement | null | undefined;
+  checkbox?: HTMLInputElement;
   actionKeys = [' '];
 
   componentDidMount() {

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
-// @ts-ignore
 jest.spyOn(global.console, 'error');
 
 afterEach(() => {

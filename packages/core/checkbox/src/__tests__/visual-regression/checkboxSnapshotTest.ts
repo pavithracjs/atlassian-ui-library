@@ -9,10 +9,10 @@ describe('Snapshot Test', () => {
       'core',
       'checkbox',
       'basic-usage',
-      // @ts-ignore
+      // @ts-ignore - Property '__BASEURL__' does not exist
       global.__BASEURL__,
     );
-    // @ts-ignore
+    // @ts-ignore - Property 'page' does not exist
     const image = await takeScreenShot(global.page, url);
     expect(image).toMatchProdImageSnapshot();
   });

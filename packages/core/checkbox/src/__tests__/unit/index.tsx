@@ -18,17 +18,15 @@ describe(name, () => {
     );
   describe('console errors', () => {
     beforeEach(async () => {
-      // @ts-ignore
       jest.spyOn(global.console, 'error');
     });
 
     afterEach(() => {
-      // @ts-ignore
+      // @ts-ignore - Property 'mockRestore' does not exist
       global.console.error.mockRestore();
     });
     it('should not log console error on mount', () => {
       mountCheckbox({});
-      // @ts-ignore
       expect(global.console.error).not.toHaveBeenCalled();
     });
   });
@@ -70,7 +68,7 @@ describe(name, () => {
     });
     it('should initially set the indeterminate state on the hidden checkbox', () => {
       const cb = mountCheckbox({ isIndeterminate: true, isChecked: false });
-      // @ts-ignore
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.indeterminate).toBe(true);
     });
@@ -80,7 +78,7 @@ describe(name, () => {
         isIndeterminate: false,
       });
 
-      // @ts-ignore
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.indeterminate).toBe(false);
 
@@ -97,13 +95,13 @@ describe(name, () => {
   describe('<Checkbox defaultChecked/>', () => {
     it('should render defaultChecked', () => {
       const cb = mountCheckbox({ defaultChecked: true });
-      // @ts-ignore
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.checked).toBe(true);
     });
     it('should render defaultChecked={undefined}', () => {
       const cb = mountCheckbox({});
-      // @ts-ignore
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.checked).toBe(false);
     });
@@ -112,15 +110,13 @@ describe(name, () => {
 
 describe('CheckboxWithAnalytics', () => {
   beforeEach(() => {
-    // @ts-ignore
     jest.spyOn(global.console, 'warn');
-    // @ts-ignore
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    // @ts-ignore
+    // @ts-ignore - Property 'mockRestore' does not exist
     global.console.warn.mockRestore();
-    // @ts-ignore
+    // @ts-ignore - Property 'mockRestore' does not exist
     global.console.error.mockRestore();
   });
 
