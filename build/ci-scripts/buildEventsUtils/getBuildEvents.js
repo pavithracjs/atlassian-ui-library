@@ -28,14 +28,15 @@ type IStepsDataType = {
 }
 */
 /* This function helps you to wait for a particular time */
-const delay = (ms /*: number */) => new Promise(res => setTimeout(res, ms));
+// const delay = (ms /*: number */) => new Promise(res => setTimeout(res, ms));
 
 /* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
  * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
  */
-function computeBuildTime(stepsData /*: Array<IStepsDataType>*/) /*: number */ {
+async function computeBuildTime(
+  stepsData /*: Array<IStepsDataType>*/,
+) /*: Promise<number> */ {
   let buildDuration;
-  console.log('stepsData', stepsData);
   const stepDurationArray = stepsData
     .filter(step => step.step_duration)
     .map(step => step.step_duration);
@@ -54,7 +55,7 @@ function computeBuildTime(stepsData /*: Array<IStepsDataType>*/) /*: number */ {
 }
 
 /* This function returns the build duration time. */
-function getBuildTime(
+async function getBuildTime(
   buildTime /*:? number */,
   stepsData /*: Array<IStepsDataType>*/,
 ) {
@@ -70,14 +71,16 @@ function getBuildTime(
  * The function returns the difference between the current time and when the step started,
  * It is only applicable for 1 step or 0 step build.
  */
-function computeStepTimes(stepStartTime /*: string */) /*: number */ {
+async function computeStepTimes(
+  stepStartTime /*: string */,
+) /*: Promise<number> */ {
   const currentTime = Date.now();
   // It returns the time in ms, we want in seconds.
   return (parseInt(currentTime) - Date.parse(stepStartTime)) / 1000;
 }
 
 /* This function returns the step duration time. */
-function getStepTime(
+async function getStepTime(
   stepObject /*: IStepsDataType */,
   stepsLength /*: number */,
 ) {
@@ -98,10 +101,9 @@ async function getPipelinesBuildEvents(
   let payload /*: $Shape<IBuildEventProperties> */ = {};
   const apiEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}`;
   try {
-    // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request, to get all the results.
-    await delay(2000);
     const res = await axios.get(apiEndpoint);
     const build = res.data;
+    console.log('Build data:', build);
     const stepsData = await getStepsEvents(
       buildId,
       build.target.selector.pattern || build.target.selector.type,
@@ -112,7 +114,10 @@ async function getPipelinesBuildEvents(
         : 'FAILED'
       : build.state.result.name;
     if (stepsData) {
-      const buildTime = getBuildTime(build.duration_in_seconds, stepsData);
+      const buildTime = await getBuildTime(
+        build.duration_in_seconds,
+        stepsData,
+      );
       payload = {
         build_number: buildId,
         build_status: buildStatus,
@@ -160,7 +165,7 @@ async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
               ? 'SUCCESSFUL'
               : 'FAILED'
             : step.state.result.name;
-          const stepTime = getStepTime(step, resp.data.values.length);
+          const stepTime = await getStepTime(step, resp.data.values.length);
           return {
             step_duration: stepTime,
             step_name: step.name || buildType, // on Master, there is no step name.
@@ -249,7 +254,7 @@ async function getStepEvents(buildId /*: string*/) {
       )[0];
       const buildStatus =
         process.env.BITBUCKET_EXIT_CODE === '0' ? 'SUCCESSFUL' : 'FAILED';
-      const stepTime = getStepTime(stepObject, stepObject.length);
+      const stepTime = await getStepTime(stepObject, stepObject.length);
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
