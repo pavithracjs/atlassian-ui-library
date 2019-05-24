@@ -62,6 +62,7 @@ import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
 
 const JIRA_RESULT_LIMIT = 6;
+const JIRA_PREQUERY_RESULT_LIMIT = 10;
 
 const NoResultsAdvancedSearchContainer = styled.div`
   margin-top: ${4 * gridSize()}px;
@@ -383,8 +384,8 @@ export class JiraQuickSearchContainer extends React.Component<
         'jira',
         null,
         !!abTest
-          ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
-          : JIRA_RESULT_LIMIT,
+          ? getJiraMaxObjects(abTest, JIRA_PREQUERY_RESULT_LIMIT)
+          : JIRA_PREQUERY_RESULT_LIMIT,
         this.props.referralContextIdentifiers,
       )
       .then(xpRecentResults => ({
