@@ -7,6 +7,7 @@ const axios = require('axios');
 const yaml = require('js-yaml');
 const fs = require('fs');
 
+// started_on and duration_in_seconds are added to the object only for the logic below they are not sent to the service.
 /*::
 type IStepsDataType = {
   step_name: string,
@@ -71,7 +72,7 @@ async function getBuildTime(
 
 /* This function computes step time if step.duration_in_seconds returns undefined or 0.
  * The function returns the difference between the current time and when the step started,
- * It is only applicable for 1 step or 0 step build.
+ * It is more likely applicable for 1 step build.
  */
 async function computeStepTimes(
   stepStartTime /*: string */,
@@ -90,13 +91,13 @@ async function getStepTime(
   if (stepObject && stepObject.duration_in_seconds > 0 && stepsLength > 1) {
     stepDuration = stepObject.duration_in_seconds;
   } else {
-    // We need to do a computation if the step.duration_in_seconds is not yet available and it a 1 step build.
+    // We need to do a computation if the step.duration_in_seconds is not yet available and it is a 1 step build.
     stepDuration = computeStepTimes(stepObject.started_on);
   }
   return stepDuration;
 }
 
-/* This function returns the payload for the build / pipelines.*/
+/* This function returns the payload for the build / pipelines. */
 async function getPipelinesBuildEvents(
   buildId /*: string */,
 ) /*: Promise<IBuildEventProperties> */ {
