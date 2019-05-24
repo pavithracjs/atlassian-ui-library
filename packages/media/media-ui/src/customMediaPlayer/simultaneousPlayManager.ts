@@ -2,15 +2,17 @@ export interface Pausable {
   pause: () => any;
 }
 
-let players: Pausable[] = [];
+const players: Pausable[] = [];
 
-const findPlayer = (player: Pausable) =>
-  players.find(somePlayer => somePlayer === player);
+const isPlayerSubscribed = (player: Pausable) => players.indexOf(player) > -1;
 
 const addPlayer = (player: Pausable) => players.push(player);
 
 const removePlayer = (player: Pausable) => {
-  players = players.filter(somePlayer => somePlayer !== player);
+  if (isPlayerSubscribed) {
+    const playerIndex = players.indexOf(player);
+    players.splice(playerIndex, 1);
+  }
 };
 
 export default {
@@ -22,7 +24,7 @@ export default {
     });
   },
   subscribe: (player: Pausable) => {
-    if (!findPlayer(player)) {
+    if (!isPlayerSubscribed(player)) {
       addPlayer(player);
     }
   },
