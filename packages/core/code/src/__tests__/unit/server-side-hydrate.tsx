@@ -1,8 +1,10 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
+
+declare var global: any;
+declare var console: any;
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
@@ -12,7 +14,7 @@ afterEach(() => {
 
 test('should ssr then hydrate code correctly', async () => {
   const [example] = await getExamplesFor('code');
-  // $StringLitteral
+
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
@@ -22,7 +24,7 @@ test('should ssr then hydrate code correctly', async () => {
   // ignore warnings caused by emotion's server-side rendering approach
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
-    ([f, s]) =>
+    ([f, s]: [any, any]) =>
       !(
         f ===
           'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
