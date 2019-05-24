@@ -43,7 +43,7 @@ export const Content = styled.div`
   fill: ${backgroundColor};
   font-weight: 500;
   justify-content: center;
-  padding: ${math.multiply(gridSize, 2)}px;
+  padding: ${math.multiply(gridSize, 1.5)}px;
   text-align: center;
   ${'' /* transition: color ${TRANSITION_DURATION}; */}
 
@@ -87,7 +87,7 @@ export const Visibility = styled.div`
 
 export const Text = styled.span`
   flex: 0 1 auto;
-  padding-left: ${math.divide(gridSize, 2)}px;
+  padding: ${math.divide(gridSize, 2)}px;
   ${textOverflow};
   overflow: hidden;
 `;
