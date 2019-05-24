@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component, type ComponentType } from 'react';
+import React, { Component, ComponentType } from 'react';
 import { Transition } from 'react-transition-group';
 import { layers } from '@atlaskit/theme';
 
@@ -9,29 +7,29 @@ import { transitionDurationMs, transitionTimingFunction } from '../constants';
 // Transitions
 // ------------------------------
 
-type Styles = { [string]: string | number | null };
+type Styles = { [key: string]: string | number | null };
 
 type TransitionProps = {
-  children?: Node,
-  component?: ComponentType<*> | string,
-  onExited?: (node: HTMLElement) => void,
-  shouldUnmountOnExit?: boolean,
-  in: boolean,
+  children?: Node;
+  component?: ComponentType<any> | string;
+  onExited?: (node: HTMLElement) => void;
+  shouldUnmountOnExit?: boolean;
+  in: boolean;
 };
 
 type HandlerProps = {
-  defaultStyles: Styles,
+  defaultStyles: Styles;
   transitionProps: {
-    appear: boolean,
-    mountOnEnter: boolean,
-    unmountOnExit: boolean,
-  },
+    appear: boolean;
+    mountOnEnter: boolean;
+    unmountOnExit: boolean;
+  };
   transitionStyles: {
-    entering?: Styles,
-    entered?: Styles,
-    exiting?: Styles,
-    exited?: Styles,
-  },
+    entering?: Styles;
+    entered?: Styles;
+    exiting?: Styles;
+    exited?: Styles;
+  };
 };
 
 const defaultTransitionProps = {
@@ -64,7 +62,7 @@ class TransitionHandler extends Component<TransitionProps & HandlerProps> {
         timeout={timeout}
         {...transitionProps}
       >
-        {state => {
+        {(state: keyof HandlerProps['transitionStyles']) => {
           const style = {
             ...defaultStyles,
             ...transitionStyles[state],
