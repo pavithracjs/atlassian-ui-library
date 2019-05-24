@@ -1,5 +1,18 @@
 # @atlaskit/form
 
+## 6.0.2
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/checkbox@7.0.1
+  - @atlaskit/field-radio-group@6.0.1
+  - @atlaskit/field-range@7.0.1
+  - @atlaskit/field-text@9.0.1
+  - @atlaskit/field-text-area@6.0.1
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/multi-select@13.0.2
+  - @atlaskit/single-select@8.0.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
 ## 6.0.1
 - [patch] [19bbcb44ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19bbcb44ed):
 

@@ -1,5 +1,14 @@
 # @atlaskit/share
 
+## 0.4.9
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/field-text-area@6.0.1
+  - @atlaskit/form@6.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/user-picker@4.0.1
+  - @atlaskit/section-message@4.0.0
+
 ## 0.4.8
 - [patch] [466682024f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/466682024f):
 

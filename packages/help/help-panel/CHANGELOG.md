@@ -1,5 +1,14 @@
 ## 0.1.0
 
+## 0.5.5
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/form@6.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/navigation@35.1.2
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/help-article@0.4.4
+  - @atlaskit/section-message@4.0.0
+
 ## 0.5.4
 - [patch] [84b7ee2f8b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84b7ee2f8b):
 
