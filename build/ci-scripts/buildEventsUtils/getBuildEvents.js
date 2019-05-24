@@ -27,8 +27,6 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
-/* This function helps you to wait for a particular time */
-// const delay = (ms /*: number */) => new Promise(res => setTimeout(res, ms));
 
 /* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
  * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
@@ -59,7 +57,6 @@ async function getBuildTime(
   buildTime /*:? number */,
   stepsData /*: Array<IStepsDataType>*/,
 ) {
-  console.log('build time:', buildTime);
   if (buildTime && buildTime > 0 && stepsData.length > 1) {
     return buildTime;
   } else {
