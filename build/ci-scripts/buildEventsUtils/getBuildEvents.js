@@ -44,9 +44,12 @@ function computeBuildTimes(
   if (stepsData.length === 1) {
     buildDuration = stepDurationArray[0];
   } else {
-    buildDuration =
-      Math.max.apply(null, stepDurationArray) +
-      Math.min.apply(null, stepDurationArray);
+    // The minimum step duration cannot be 0 and it is in avg 30s in AK.
+    const minStepDuration =
+      Math.min.apply(null, stepDurationArray) === 0
+        ? 30
+        : Math.min.apply(null, stepDurationArray);
+    buildDuration = Math.max.apply(null, stepDurationArray) + minStepDuration;
   }
   return buildDuration;
 }
@@ -143,7 +146,7 @@ async function getPipelinesBuildEvents(
 async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
-    // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request.
+    // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request, to get all the results.
     await delay(5000);
     const resp = await axios.get(url);
     return Promise.all(
