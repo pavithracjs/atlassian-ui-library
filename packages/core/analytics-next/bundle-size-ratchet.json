@@ -3,24 +3,24 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 6648,
-      "gzipSize": 2178
+      "size": 7119,
+      "gzipSize": 2324
     }
   },
   {
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 3814,
-      "gzipSize": 1255
+      "size": 14615,
+      "gzipSize": 5028
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 9848,
-      "gzipSize": 2900
+      "size": 21120,
+      "gzipSize": 6762
     }
   }
 ]

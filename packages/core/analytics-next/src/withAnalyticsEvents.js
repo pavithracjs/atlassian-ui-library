@@ -2,7 +2,6 @@
 
 import React, {
   Component,
-  forwardRef,
   type Node,
   type ComponentType,
   type ElementConfig,
@@ -141,7 +140,8 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
       }
     }
 
-    const WithAnalyticsEventsAndRef = forwardRef((props, ref) => (
+    // $FlowFixMe - flow 0.67 doesn't know about forwardRef
+    const WithAnalyticsEventsAndRef = React.forwardRef((props, ref) => (
       <WithAnalyticsEvents {...props} forwardedRef={ref} />
     ));
     WithAnalyticsEventsAndRef.displayName = `WithAnalyticsEvents(${WrappedComponent.displayName ||
