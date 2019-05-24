@@ -467,7 +467,11 @@ export class JiraQuickSearchContainer extends React.Component<
       query,
       sessionId,
       SCOPES,
-      buildJiraModelParams(this.props.referralContextIdentifiers, queryVersion),
+      buildJiraModelParams(
+        queryVersion,
+        this.props.referralContextIdentifiers &&
+          this.props.referralContextIdentifiers.currentContainerId,
+      ),
       !!abTest
         ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
         : JIRA_RESULT_LIMIT,

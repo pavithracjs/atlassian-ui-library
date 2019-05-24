@@ -20,7 +20,7 @@ import {
   QuickSearchContext,
   UrsPersonItem,
 } from './types';
-import { ModelParam } from 'src/util/model-parameters';
+import { ModelParam } from '../util/model-parameters';
 
 export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   experimentId: 'default',

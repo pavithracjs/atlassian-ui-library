@@ -5,13 +5,8 @@ import {
 
 describe('model-parameters', () => {
   describe('jira', () => {
-    it('works in the empty case', () => {
-      const params = buildJiraModelParams();
-      expect(params).toEqual([]);
-    });
-
-    it('works with the query version', () => {
-      const params = buildJiraModelParams(undefined, 1);
+    it('works without container Id', () => {
+      const params = buildJiraModelParams(1);
       expect(params).toEqual([
         {
           '@type': 'queryParams',
@@ -21,12 +16,12 @@ describe('model-parameters', () => {
     });
 
     it('works with project id', () => {
-      const params = buildJiraModelParams({
-        searchReferrerId: 'referrerId',
-        currentContentId: 'contentId',
-        currentContainerId: 'containerId',
-      });
+      const params = buildJiraModelParams(1, 'containerId');
       expect(params).toEqual([
+        {
+          '@type': 'queryParams',
+          queryVersion: 1,
+        },
         {
           '@type': 'currentProject',
           projectId: 'containerId',
@@ -36,29 +31,28 @@ describe('model-parameters', () => {
   });
 
   describe('confluence', () => {
-    it('works in the empty case', () => {
-      const params = buildConfluenceModelParams();
-      expect(params).toEqual([]);
-    });
-
-    it('works with the query version', () => {
-      const params = buildConfluenceModelParams(undefined, 1);
+    it('works with space key & query version', () => {
+      const params = buildConfluenceModelParams(1, {
+        spaceKey: 'spaceKey',
+      });
       expect(params).toEqual([
         {
           '@type': 'queryParams',
           queryVersion: 1,
         },
-      ]);
-    });
-
-    it('works with space key', () => {
-      const params = buildConfluenceModelParams({
-        spaceKey: 'spaceKey',
-      });
-      expect(params).toEqual([
         {
           '@type': 'currentSpace',
           spaceKey: 'spaceKey',
+        },
+      ]);
+    });
+
+    it('works with out space key', () => {
+      const params = buildConfluenceModelParams(1, {});
+      expect(params).toEqual([
+        {
+          '@type': 'queryParams',
+          queryVersion: 1,
         },
       ]);
     });

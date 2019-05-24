@@ -210,8 +210,8 @@ describe('ConfluenceQuickSearchContainer', () => {
       confluenceClient: noResultsConfluenceClient,
       crossProductSearchClient: noResultsCrossProductSearchClient,
       modelContext: {
-        spaceKey: dummySpaceKey
-      }
+        spaceKey: dummySpaceKey,
+      },
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
@@ -226,9 +226,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       'query',
       sessionId,
       expect.any(Array),
-      'confluence',
       modelParams,
-      null,
     );
 
     searchSpy.mockRestore();

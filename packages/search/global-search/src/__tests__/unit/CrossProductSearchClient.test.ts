@@ -518,11 +518,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      buildJiraModelParams({
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-        currentContainerId: '123',
-      }),
+      buildJiraModelParams(1, '123'),
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -536,6 +532,10 @@ describe('CrossProductSearchClient', () => {
       expect.arrayContaining(['jira.issue', 'confluence.page,blogpost']),
     );
     expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 1,
+      },
       {
         '@type': 'currentProject',
         projectId: '123',
@@ -552,7 +552,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      buildConfluenceModelParams({
+      buildConfluenceModelParams(1, {
         spaceKey: '123',
       }),
     );
@@ -562,6 +562,10 @@ describe('CrossProductSearchClient', () => {
     const body = JSON.parse(call[1].body);
 
     expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 1,
+      },
       {
         '@type': 'currentSpace',
         spaceKey: '123',
@@ -578,14 +582,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      buildJiraModelParams(
-        {
-          searchReferrerId: 'some referrer id',
-          currentContentId: '321',
-          currentContainerId: '123',
-        },
-        1,
-      ),
+      buildJiraModelParams(1, '123'),
     );
 
     const call = fetchMock.calls('xpsearch')[0];

@@ -1,4 +1,3 @@
-import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
 import { ConfluenceModelContext } from '../api/types';
 
 export interface ModelParam {
@@ -6,31 +5,26 @@ export interface ModelParam {
   [value: string]: string | number;
 }
 
-const buildCommonModelParameters = (queryVersion?: number): ModelParam[] => {
-  return queryVersion
-    ? [
-        {
-          '@type': 'queryParams',
-          queryVersion,
-        },
-      ]
-    : [];
+const buildCommonModelParameters = (queryVersion: number): ModelParam[] => {
+  return [
+    {
+      '@type': 'queryParams',
+      queryVersion,
+    },
+  ];
 };
 
 export const buildJiraModelParams = (
-  referralContextIdentifiers?: ReferralContextIdentifiers,
-  queryVersion?: number,
+  queryVersion: number,
+  currentContainerId?: string,
 ): ModelParam[] => {
-  const containerId =
-    referralContextIdentifiers && referralContextIdentifiers.currentContainerId;
-
   return [
     ...buildCommonModelParameters(queryVersion),
-    ...(containerId
+    ...(currentContainerId
       ? [
           {
             '@type': 'currentProject',
-            projectId: containerId,
+            projectId: currentContainerId,
           },
         ]
       : []),
@@ -38,12 +32,12 @@ export const buildJiraModelParams = (
 };
 
 export const buildConfluenceModelParams = (
-  modelContext?: ConfluenceModelContext,
-  queryVersion?: number,
+  queryVersion: number,
+  modelContext: ConfluenceModelContext,
 ): ModelParam[] => {
   return [
     ...buildCommonModelParameters(queryVersion),
-    ...(modelContext && modelContext.spaceKey
+    ...(modelContext.spaceKey
       ? [
           {
             '@type': 'currentSpace',

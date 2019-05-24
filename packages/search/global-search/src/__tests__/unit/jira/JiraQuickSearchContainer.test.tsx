@@ -249,9 +249,7 @@ describe('Jira Quick Search Container', () => {
         'query',
         sessionId,
         expect.any(Array),
-        'jira',
         modelParams,
-        dummyQueryVersion,
         expect.any(Number),
       );
 

@@ -90,7 +90,6 @@ export class HomeQuickSearchContainer extends React.Component<Props, State> {
       query,
       this.state.searchSessionId,
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'home',
       [],
     );
 

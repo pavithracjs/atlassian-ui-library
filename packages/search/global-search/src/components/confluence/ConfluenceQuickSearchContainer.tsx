@@ -153,15 +153,16 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
     scopes.push(Scope.People);
 
-    const modelParams = buildConfluenceModelParams(modelContext, queryVersion);
+    const modelParams = buildConfluenceModelParams(
+      queryVersion,
+      modelContext || {},
+    );
 
     const results = await crossProductSearchClient.search(
       query,
       sessionId,
       scopes,
-      'confluence',
       modelParams,
-      null,
     );
 
     return results;
