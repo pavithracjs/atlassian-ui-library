@@ -13,6 +13,7 @@ type IStepsDataType = {
   step_status: string,
   step_duration: number,
   started_on: string,
+  duration_in_seconds: number,
 }
 */
 
@@ -77,8 +78,8 @@ function getStepTime(
 ) {
   console.log('step object', stepObject, 'length', stepsLength);
   let stepDuration;
-  if (stepObject && stepObject.step_duration > 0 && stepsLength > 1) {
-    stepDuration = stepObject.step_duration;
+  if (stepObject && stepObject.duration_in_seconds > 0 && stepsLength > 1) {
+    stepDuration = stepObject.duration_in_seconds;
   } else {
     // We need to do a computation if the step.duration_in_seconds is not yet available and it a 1 step build.
     stepDuration = computeStepTimes(stepObject.started_on);
