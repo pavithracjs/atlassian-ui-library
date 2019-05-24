@@ -45,47 +45,95 @@ describe('Snapshot Test: Media', () => {
       await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
     });
 
-    it('should render left side gap cursor ( via 3 arrow left)', async () => {
+    it('should render left side gap cursor (via 3 arrow left)', async () => {
       await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
     });
   });
 
   describe('comment editor', () => {
     let page: any;
-    beforeEach(async () => {
-      // @ts-ignore
-      page = global.page;
+    const editorTestOptions = {
+      appearance: Appearance.comment,
+      device: Device.LaptopHiDPI,
+    };
 
-      await initEditorWithAdf(page, {
-        appearance: Appearance.comment,
-        device: Device.LaptopHiDPI,
+    describe('media group', () => {
+      beforeEach(async () => {
+        // @ts-ignore
+        page = global.page;
+        await initEditorWithAdf(page, editorTestOptions);
+
+        // click into the editor
+        await clickEditableContent(page);
+
+        // insert 3 media items
+        await insertMedia(page, ['one.svg', 'two.svg', 'three.svg']);
       });
 
-      // click into the editor
-      await clickEditableContent(page);
+      it('renders selection ring around last media group item (via up)', async () => {
+        await snapshot(page, MINIMUM_THRESHOLD);
 
-      // insert 3 media items
-      await insertMedia(page, ['one.svg', 'two.svg', 'three.svg']);
+        await pressKey(page, 'ArrowUp');
+        await snapshot(page, MINIMUM_THRESHOLD);
+      });
+
+      it('renders selection ring around media group items', async () => {
+        await snapshot(page, MINIMUM_THRESHOLD);
+
+        await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
+        await snapshot(page, MINIMUM_THRESHOLD);
+
+        await pressKey(page, 'ArrowLeft');
+        await snapshot(page, MINIMUM_THRESHOLD);
+
+        await pressKey(page, 'ArrowLeft');
+        await snapshot(page, MINIMUM_THRESHOLD);
+      });
     });
 
-    it('renders selection ring around last media group item (via up)', async () => {
-      await snapshot(page, MINIMUM_THRESHOLD);
+    describe('media single', () => {
+      beforeEach(async () => {
+        // @ts-ignore
+        page = global.page;
+        await initEditorWithAdf(page, {
+          ...editorTestOptions,
+          editorProps: {
+            media: {
+              allowMediaSingle: true,
+            },
+          },
+        });
 
-      await pressKey(page, 'ArrowUp');
-      await snapshot(page, MINIMUM_THRESHOLD);
-    });
+        // insert single media item
+        await insertMedia(page);
 
-    it('renders selection ring around media group items', async () => {
-      await snapshot(page, MINIMUM_THRESHOLD);
+        // Move mouse out of the page to not create fake cursor
+        await page.mouse.move(-1, -1);
+      });
 
-      await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      it('should renders selection ring around media (via up)', async () => {
+        await pressKey(page, 'ArrowUp');
+        await scrollToMedia(page);
+        await snapshot(page, MINIMUM_THRESHOLD);
+      });
 
-      await pressKey(page, 'ArrowLeft');
-      await snapshot(page, MINIMUM_THRESHOLD);
+      it('should render right side gap cursor (via arrow left)', async () => {
+        await pressKey(page, 'ArrowLeft');
+        await scrollToMedia(page);
+        await snapshot(page, MINIMUM_THRESHOLD);
+      });
 
-      await pressKey(page, 'ArrowLeft');
-      await snapshot(page, MINIMUM_THRESHOLD);
+      it('renders selection ring around media (via 2 arrow left)', async () => {
+        await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
+        await scrollToMedia(page);
+        await snapshot(page, MINIMUM_THRESHOLD);
+      });
+
+      it('should render left side gap cursor (via 3 arrow left)', async () => {
+        await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
+        await scrollToMedia(page);
+        await snapshot(page, MINIMUM_THRESHOLD);
+      });
     });
   });
 });
