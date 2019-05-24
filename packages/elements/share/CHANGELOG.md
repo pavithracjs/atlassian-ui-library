@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.4.8
+- [patch] [466682024f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/466682024f):
+
+  - TEAMS-480: Sending team member counts via share analytics
+
 ## 0.4.7
 - [patch] [cfc3d669d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3d669d8):
 
