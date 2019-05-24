@@ -1,18 +1,26 @@
 [
   {
+    "team": "editor",
+    "package": "@atlaskit/adf-utils",
+    "version": "6.1.0",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 31665,
-      "gzipSize": 6726
+      "size": 31368,
+      "gzipSize": 6696
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/adf-utils",
+    "version": "6.1.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 31665,
-      "gzipSize": 6726
+      "size": 31368,
+      "gzipSize": 6696
     }
   }
 ]
