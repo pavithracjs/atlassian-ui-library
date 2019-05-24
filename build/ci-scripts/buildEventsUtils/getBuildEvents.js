@@ -75,6 +75,7 @@ function getStepTime(
   stepObject /*: IStepsDataType */,
   stepsLength /*: number */,
 ) {
+  console.log('step object', stepObject, 'length', stepsLength);
   let stepDuration;
   if (stepObject && stepObject.step_duration > 0 && stepsLength > 1) {
     stepDuration = stepObject.step_duration;
@@ -152,13 +153,6 @@ async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
               ? 'SUCCESSFUL'
               : 'FAILED'
             : step.state.result.name;
-
-          console.log(
-            'step_duration',
-            step.duration_in_seconds,
-            'number of steps',
-            resp.data.values.length,
-          );
           const stepTime = getStepTime(step, resp.data.values.length);
           return {
             step_duration: stepTime,
