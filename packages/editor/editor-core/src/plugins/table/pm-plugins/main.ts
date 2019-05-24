@@ -1,5 +1,8 @@
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
-import { findParentDomRefOfType } from 'prosemirror-utils';
+import {
+  findParentDomRefOfType,
+  findParentNodeOfType,
+} from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
 
 import { browser } from '@atlaskit/editor-common';
@@ -9,11 +12,14 @@ import { pluginFactory } from '../../../utils/plugin-state-factory';
 
 import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
-import { setTableRef, clearHoverSelection } from '../commands';
+import {
+  setTableRef,
+  clearHoverSelection,
+  addBoldInEmptyHeaderCells,
+} from '../commands';
 import { PluginConfig } from '../types';
 import { handleDocOrSelectionChanged } from '../handlers';
 import {
-  handleMouseDown,
   handleMouseOver,
   handleMouseLeave,
   handleBlur,
@@ -124,6 +130,16 @@ export const createPlugin = (
           if (pluginState.tableRef !== tableRef) {
             setTableRef(tableRef)(state, dispatch);
           }
+
+          if (pluginState.editorHasFocus && pluginState.tableRef) {
+            const tableCellHeader = findParentNodeOfType(
+              state.schema.nodes.tableHeader,
+            )(state.selection);
+
+            if (tableCellHeader) {
+              addBoldInEmptyHeaderCells(tableCellHeader)(state, dispatch);
+            }
+          }
         },
       };
     },
@@ -168,7 +184,15 @@ export const createPlugin = (
       handleDOMEvents: {
         blur: handleBlur,
         focus: handleFocus,
-        mousedown: handleMouseDown,
+        // Ignore any `mousedown` `event` from control and numbered column buttons
+        // PM end up changing selection during shift selection if not prevented
+        mousedown: (_, event: Event) =>
+          !!(
+            event.target &&
+            event.target instanceof HTMLElement &&
+            (event.target.classList.contains(ClassName.CONTROLS_BUTTON) ||
+              event.target.classList.contains(ClassName.NUMBERED_COLUMN_BUTTON))
+          ),
         mouseover: handleMouseOver,
         mouseleave: handleMouseLeave,
         click: handleClick,

@@ -1,5 +1,11 @@
 # @atlaskit/layer-manager
 
+## 7.0.2
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
 ## 7.0.1
 - [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
 

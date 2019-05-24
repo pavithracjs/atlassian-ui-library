@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 13.0.3
+- [patch] [2a2d2060ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a2d2060ae):
+
+  - Fixing invalid style for isLoading button
+
 ## 13.0.2
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/icon@17.0.2
@@ -15,6 +20,12 @@
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 12.0.8
+- [hotfix] fixes style error and changes spinner to a caret version.
+
+## 12.0.7
+- BROKEN RELEASE. DO NOT USE.
 
 ## 12.0.6
 - [patch] [e0e3fabf8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0e3fabf8e):

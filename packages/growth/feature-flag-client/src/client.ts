@@ -33,7 +33,7 @@ export default class FeatureFlagClient {
     }
 
     // @ts-ignore
-    if (process.env !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       validateFlags(flags);
     }
 

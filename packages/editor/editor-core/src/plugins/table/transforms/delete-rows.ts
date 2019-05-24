@@ -4,6 +4,7 @@ import { findTable } from 'prosemirror-utils';
 import { Node as PMNode } from 'prosemirror-model';
 import { CellAttributes } from '@atlaskit/adf-schema';
 import { removeEmptyColumns } from './merge';
+import { setMeta } from './metadata';
 
 export const deleteRows = (
   rect: Rect,
@@ -115,7 +116,7 @@ export const deleteRows = (
   }
 
   if (!rows.length) {
-    return tr;
+    return setMeta({ type: 'DELETE_ROWS', problem: 'EMPTY_TABLE' })(tr);
   }
 
   const newTable = table.node.type.createChecked(
@@ -123,17 +124,19 @@ export const deleteRows = (
     rows,
     table.node.marks,
   );
+  const fixedTable = removeEmptyColumns(newTable);
+  if (fixedTable === null) {
+    return setMeta({ type: 'DELETE_ROWS', problem: 'REMOVE_EMPTY_COLUMNS' })(
+      tr,
+    );
+  }
   const cursorPos = getNextCursorPos(newTable, rowsToDelete);
 
-  return (
+  return setMeta({ type: 'DELETE_ROWS' })(
     tr
-      .replaceWith(
-        table.pos,
-        table.pos + table.node.nodeSize,
-        removeEmptyColumns(newTable),
-      )
+      .replaceWith(table.pos, table.pos + table.node.nodeSize, fixedTable)
       // move cursor before the deleted rows if possible, otherwise - to the first row
-      .setSelection(Selection.near(tr.doc.resolve(table.pos + cursorPos)))
+      .setSelection(Selection.near(tr.doc.resolve(table.pos + cursorPos))),
   );
 };
 

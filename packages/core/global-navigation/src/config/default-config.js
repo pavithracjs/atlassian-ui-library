@@ -8,6 +8,7 @@ import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import AtlassianSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import { SwitchToTooltipText } from '@atlaskit/atlassian-switcher';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
+import InviteTeamIcon from '@atlaskit/icon/glyph/invite-team';
 import RecentIcon from '../components/CustomIcons';
 import type { DefaultConfigShape } from './types';
 
@@ -51,6 +52,14 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       rank: 5,
       tooltip: 'Create',
       id: 'create',
+    },
+    invite: {
+      icon: InviteTeamIcon,
+      label: 'Invite',
+      rank: 6,
+      section: 'primary',
+      tooltip: 'Invite',
+      id: 'inviteIcon',
     },
     // ==============  secondary section  ==============
     notification: {

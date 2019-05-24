@@ -1,5 +1,15 @@
 # @atlaskit/profilecard
 
+## 10.2.3
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 10.2.2
+- [patch] [afd34e36b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/afd34e36b0):
+
+  - Hide public name when it matches the full name
+
 ## 10.2.1
 - Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
   - @atlaskit/icon@17.0.1

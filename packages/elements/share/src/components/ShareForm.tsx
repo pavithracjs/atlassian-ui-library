@@ -85,6 +85,7 @@ export type Props = {
   title?: React.ReactNode;
   onDismiss?: (data: ShareData) => void;
   defaultValue?: DialogContentState;
+  isFetchingConfig?: boolean;
 };
 
 export type InternalFormProps = FormChildrenArgs<ShareData> &
@@ -150,6 +151,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       copyLink,
       defaultValue,
       config,
+      isFetchingConfig,
     } = this.props;
     return (
       <FromWrapper>
@@ -161,6 +163,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
               defaultValue={defaultValue && defaultValue.users}
               capabilitiesInfoMessage={capabilitiesInfoMessage}
               config={config}
+              isLoading={isFetchingConfig}
             />
             {config && config.allowComment && (
               <CommentField

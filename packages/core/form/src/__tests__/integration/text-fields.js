@@ -19,7 +19,8 @@ BrowserTestCase(
     await formTest.goto(urlTextfields);
     await formTest.waitForSelector(textfieldsForm);
     await formTest.click(textfieldsTextarea);
-    await formTest.keys(['Control', 'Enter']);
+    // Use unicode keys for Control & Enter fo FF and Safari
+    await formTest.keys('\uE009\uE007');
     expect(await formTest.hasFocus(textfieldsTextfield)).toBe(true);
     await formTest.checkConsoleErrors();
   },

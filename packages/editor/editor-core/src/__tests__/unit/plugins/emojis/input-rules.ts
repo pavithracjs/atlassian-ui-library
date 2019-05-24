@@ -30,7 +30,7 @@ describe('emojis - input rules', () => {
     return createEditor({
       doc,
       editorProps: { allowAnalyticsGASV3: true },
-      editorPlugins: [emojiPlugin, codeBlockPlugin(), mentionsPlugin()],
+      editorPlugins: [emojiPlugin(), codeBlockPlugin(), mentionsPlugin()],
       providerFactory,
       pluginKey: emojiPluginKey,
       createAnalyticsEvent,

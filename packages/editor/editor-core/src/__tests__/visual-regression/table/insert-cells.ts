@@ -29,13 +29,13 @@ describe('Snapshot Test: table insert/delete', () => {
   it(`should be able insert after first row`, async () => {
     await page.waitForSelector(tableSelectors.firstRowControl);
     await page.hover(tableSelectors.firstRowControl);
-    await page.waitForSelector(tableSelectors.hoverdCell);
+    await page.waitForSelector(tableSelectors.hoveredCell);
   });
 
   it(`should be able insert after last row`, async () => {
     await page.waitForSelector(tableSelectors.firstRowControl);
     await page.hover(tableSelectors.lastRowControl);
-    await page.waitForSelector(tableSelectors.hoverdCell);
+    await page.waitForSelector(tableSelectors.hoveredCell);
   });
 
   // TODO: measure how flaky this is
@@ -44,7 +44,7 @@ describe('Snapshot Test: table insert/delete', () => {
     await animationFrame(page);
     await page.waitForSelector(tableSelectors.firstColumnControl);
     await page.hover(tableSelectors.firstColumnControl);
-    await page.waitForSelector(tableSelectors.hoverdCell);
+    await page.waitForSelector(tableSelectors.hoveredCell);
   });
 
   // TODO: move this to integration tests in future

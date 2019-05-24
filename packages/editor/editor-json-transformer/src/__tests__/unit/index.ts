@@ -69,7 +69,7 @@ describe('JSONTransformer:', () => {
       createEditor({
         doc,
         editorPlugins: [
-          emojiPlugin,
+          emojiPlugin(),
           mentionsPlugin(),
           codeBlockPlugin(),
           mediaPlugin(),
