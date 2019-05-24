@@ -1,5 +1,11 @@
 import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
-import { isEmail, isTeam, isUser, OptionData } from '@atlaskit/user-picker';
+import {
+  isEmail,
+  isTeam,
+  isUser,
+  OptionData,
+  Team,
+} from '@atlaskit/user-picker';
 import {
   ConfigResponse,
   DialogContentState,
@@ -69,6 +75,7 @@ export const submitShare = (
 ) => {
   const users = extractIdsByType(data, isUser);
   const teams = extractIdsByType(data, isTeam);
+  const teamUserCounts = extractMemberCountsFromTeams(data, isTeam);
   const emails = extractIdsByType(data, isEmail);
   return createEvent('ui', 'clicked', 'button', 'submitShare', {
     ...handleShareOrigin(shareOrigin),
@@ -79,6 +86,7 @@ export const submitShare = (
     userCount: users.length,
     users,
     teams,
+    teamUserCounts,
     messageLength:
       config &&
       config.allowComment &&
@@ -101,3 +109,11 @@ const extractIdsByType = <T extends OptionData>(
   data: DialogContentState,
   checker: (option: OptionData) => option is T,
 ): string[] => data.users.filter(checker).map(option => option.id);
+
+const extractMemberCountsFromTeams = (
+  data: DialogContentState,
+  checker: (option: OptionData) => option is Team,
+): number[] =>
+  // teams with zero memberships cannot exist in share, so we use that
+  // as the default value for undefined team member counts
+  data.users.filter(checker).map(option => option.memberCount || 0);
