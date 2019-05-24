@@ -1,0 +1,1 @@
+- Prevents inline videos in Editor/Renderer to be played simulteneously in the same page
