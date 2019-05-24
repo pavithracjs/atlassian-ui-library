@@ -33,9 +33,7 @@ const delay = (ms /*: number */) => new Promise(res => setTimeout(res, ms));
 /* This function computes build time if build.duration_in_seconds returns 0, it is often applicable for 1 step build.
  * The Bitbucket computation is simple, they sum the longest step time with the shortest one.
  */
-function computeBuildTimes(
-  stepsData /*: Array<IStepsDataType>*/,
-) /*: number */ {
+function computeBuildTime(stepsData /*: Array<IStepsDataType>*/) /*: number */ {
   let buildDuration;
   const stepDurationArray = stepsData
     .filter(step => step.step_duration)
@@ -62,7 +60,7 @@ function getBuildTime(
   if (buildTime && buildTime > 0 && stepsData.length > 1) {
     return buildTime;
   } else {
-    return computeBuildTimes(stepsData);
+    return computeBuildTime(stepsData);
   }
 }
 
@@ -98,6 +96,8 @@ async function getPipelinesBuildEvents(
   let payload /*: $Shape<IBuildEventProperties> */ = {};
   const apiEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}`;
   try {
+    // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request, to get all the results.
+    await delay(2000);
     const res = await axios.get(apiEndpoint);
     const build = res.data;
     const stepsData = await getStepsEvents(
@@ -146,8 +146,6 @@ async function getPipelinesBuildEvents(
 async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
-    // // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request, to get all the results.
-    // await delay(2000);
     const resp = await axios.get(url);
     return Promise.all(
       resp.data.values.map(async step => {
