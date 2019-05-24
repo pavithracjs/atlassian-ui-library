@@ -14,7 +14,7 @@
   },
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/avatar": "^16.0.0",

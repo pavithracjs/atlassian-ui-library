@@ -126,7 +126,6 @@ export class DrawerBase extends Component<DrawerProps> {
       <Portal zIndex="unset">
         <TransitionGroup component={OnlyChild}>
           <Fragment>
-            {/* $FlowFixMe the `in` prop is internal */}
             <Fade in={isOpen}>
               <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
             </Fade>
