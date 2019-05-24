@@ -57,10 +57,15 @@ async function getBuildTime(
   buildTime /*:? number */,
   stepsData /*: Array<IStepsDataType>*/,
 ) {
-  if (buildTime && buildTime > 0 && stepsData.length > 1) {
-    return buildTime;
+  const computedBuildTime = await computeBuildTime(stepsData);
+  if (buildTime) {
+    if (computedBuildTime > buildTime) {
+      return computedBuildTime;
+    } else {
+      return buildTime;
+    }
   } else {
-    return computeBuildTime(stepsData);
+    return computedBuildTime;
   }
 }
 
