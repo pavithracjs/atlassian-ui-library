@@ -37,14 +37,14 @@ declare module '@atlaskit/inline-edit' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/lozenge' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/section-message' {
   declare module.exports: any;
 }
 
 declare module '@atlaskit/textarea' {
-  declare module.exports: any;
-}
-
-declare module '@atlaskit/flag' {
   declare module.exports: any;
 }

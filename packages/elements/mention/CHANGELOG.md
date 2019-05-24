@@ -1,5 +1,10 @@
 # @atlaskit/mention
 
+## 18.2.1
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
 ## 18.2.0
 - [minor] [a0d5982270](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0d5982270):
 

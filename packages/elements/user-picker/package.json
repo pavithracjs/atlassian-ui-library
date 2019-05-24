@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/user-picker",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "config": {
     "access": "public"
   },
@@ -14,10 +14,10 @@
     "@atlaskit/avatar": "^16.0.2",
     "@atlaskit/field-base": "^13.0.0",
     "@atlaskit/icon": "^17.1.1",
-    "@atlaskit/lozenge": "^8.0.0",
+    "@atlaskit/lozenge": "^9.0.0",
     "@atlaskit/select": "^9.0.0",
     "@atlaskit/tag": "^8.0.2",
-    "@atlaskit/theme": "^9.0.2",
+    "@atlaskit/theme": "^9.0.3",
     "@atlaskit/tooltip": "^14.0.0",
     "lodash.debounce": "^4.0.8",
     "memoize-one": "^3.0.1",

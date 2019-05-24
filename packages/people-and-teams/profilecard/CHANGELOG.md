@@ -1,5 +1,10 @@
 # @atlaskit/profilecard
 
+## 10.2.3
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
 ## 10.2.2
 - [patch] [afd34e36b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/afd34e36b0):
 
