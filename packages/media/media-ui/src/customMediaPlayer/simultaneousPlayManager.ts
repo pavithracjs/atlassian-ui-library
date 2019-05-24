@@ -4,13 +4,11 @@ export interface Pausable {
 
 const players: Pausable[] = [];
 
-const isPlayerSubscribed = (player: Pausable) => players.indexOf(player) > -1;
-
 const addPlayer = (player: Pausable) => players.push(player);
 
 const removePlayer = (player: Pausable) => {
-  if (isPlayerSubscribed) {
-    const playerIndex = players.indexOf(player);
+  const playerIndex = players.indexOf(player);
+  if (playerIndex > -1) {
     players.splice(playerIndex, 1);
   }
 };
@@ -24,7 +22,7 @@ export default {
     });
   },
   subscribe: (player: Pausable) => {
-    if (!isPlayerSubscribed(player)) {
+    if (players.indexOf(player) === -1) {
       addPlayer(player);
     }
   },
