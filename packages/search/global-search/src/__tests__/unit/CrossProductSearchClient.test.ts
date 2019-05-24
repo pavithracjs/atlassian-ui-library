@@ -27,7 +27,10 @@ import {
   generateRandomJiraFilter,
   generateRandomJiraProject,
 } from '../../../example-helpers/mockJira';
-import { jiraModelParams, confluenceModelParams } from '../../util/model-parameters';
+import {
+  buildJiraModelParams,
+  buildConfluenceModelParams,
+} from '../../util/model-parameters';
 
 const DEFAULT_XPSEARCH_OPTS = {
   method: 'post',
@@ -515,7 +518,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      jiraModelParams({
+      buildJiraModelParams({
         searchReferrerId: 'some referrer id',
         currentContentId: '321',
         currentContainerId: '123',
@@ -549,8 +552,8 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      confluenceModelParams({
-        spaceKey: '123'
+      buildConfluenceModelParams({
+        spaceKey: '123',
       }),
     );
 
@@ -575,7 +578,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      jiraModelParams(
+      buildJiraModelParams(
         {
           searchReferrerId: 'some referrer id',
           currentContentId: '321',

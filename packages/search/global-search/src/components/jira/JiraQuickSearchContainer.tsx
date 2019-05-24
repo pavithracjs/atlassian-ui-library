@@ -60,7 +60,7 @@ import {
 } from '../../util/analytics-event-helper';
 import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
-import { jiraModelParams } from '../../util/model-parameters';
+import { buildJiraModelParams } from '../../util/model-parameters';
 
 const JIRA_RESULT_LIMIT = 6;
 const JIRA_PREQUERY_RESULT_LIMIT = 10;
@@ -467,7 +467,7 @@ export class JiraQuickSearchContainer extends React.Component<
       query,
       sessionId,
       SCOPES,
-      jiraModelParams(this.props.referralContextIdentifiers, queryVersion),
+      buildJiraModelParams(this.props.referralContextIdentifiers, queryVersion),
       !!abTest
         ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
         : JIRA_RESULT_LIMIT,

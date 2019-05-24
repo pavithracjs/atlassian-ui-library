@@ -1,17 +1,17 @@
 import {
-  jiraModelParams,
-  confluenceModelParams,
+  buildJiraModelParams,
+  buildConfluenceModelParams,
 } from '../../../util/model-parameters';
 
 describe('model-parameters', () => {
   describe('jira', () => {
     it('works in the empty case', () => {
-      const params = jiraModelParams();
+      const params = buildJiraModelParams();
       expect(params).toEqual([]);
     });
 
     it('works with the query version', () => {
-      const params = jiraModelParams(undefined, 1);
+      const params = buildJiraModelParams(undefined, 1);
       expect(params).toEqual([
         {
           '@type': 'queryParams',
@@ -21,7 +21,7 @@ describe('model-parameters', () => {
     });
 
     it('works with project id', () => {
-      const params = jiraModelParams({
+      const params = buildJiraModelParams({
         searchReferrerId: 'referrerId',
         currentContentId: 'contentId',
         currentContainerId: 'containerId',
@@ -37,12 +37,12 @@ describe('model-parameters', () => {
 
   describe('confluence', () => {
     it('works in the empty case', () => {
-      const params = confluenceModelParams();
+      const params = buildConfluenceModelParams();
       expect(params).toEqual([]);
     });
 
     it('works with the query version', () => {
-      const params = confluenceModelParams(undefined, 1);
+      const params = buildConfluenceModelParams(undefined, 1);
       expect(params).toEqual([
         {
           '@type': 'queryParams',
@@ -52,7 +52,7 @@ describe('model-parameters', () => {
     });
 
     it('works with space key', () => {
-      const params = confluenceModelParams({
+      const params = buildConfluenceModelParams({
         spaceKey: 'spaceKey',
       });
       expect(params).toEqual([

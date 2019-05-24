@@ -6,7 +6,7 @@ export interface ModelParam {
   [value: string]: string | number;
 }
 
-const commonModelParameters = (queryVersion?: number): ModelParam[] => {
+const buildCommonModelParameters = (queryVersion?: number): ModelParam[] => {
   return queryVersion
     ? [
         {
@@ -17,7 +17,7 @@ const commonModelParameters = (queryVersion?: number): ModelParam[] => {
     : [];
 };
 
-export const jiraModelParams = (
+export const buildJiraModelParams = (
   referralContextIdentifiers?: ReferralContextIdentifiers,
   queryVersion?: number,
 ): ModelParam[] => {
@@ -25,7 +25,7 @@ export const jiraModelParams = (
     referralContextIdentifiers && referralContextIdentifiers.currentContainerId;
 
   return [
-    ...commonModelParameters(queryVersion),
+    ...buildCommonModelParameters(queryVersion),
     ...(containerId
       ? [
           {
@@ -37,12 +37,12 @@ export const jiraModelParams = (
   ];
 };
 
-export const confluenceModelParams = (
+export const buildConfluenceModelParams = (
   modelContext?: ConfluenceModelContext,
   queryVersion?: number,
 ): ModelParam[] => {
   return [
-    ...commonModelParameters(queryVersion),
+    ...buildCommonModelParameters(queryVersion),
     ...(modelContext && modelContext.spaceKey
       ? [
           {

@@ -49,7 +49,7 @@ import {
 } from './ConfluenceSearchResultsMapper';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { isInFasterSearchExperiment } from '../../util/experiment-utils';
-import { confluenceModelParams } from '../../util/model-parameters';
+import { buildConfluenceModelParams } from '../../util/model-parameters';
 
 export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
@@ -153,7 +153,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
     scopes.push(Scope.People);
 
-    const modelParams = confluenceModelParams(modelContext, queryVersion);
+    const modelParams = buildConfluenceModelParams(modelContext, queryVersion);
 
     const results = await crossProductSearchClient.search(
       query,
