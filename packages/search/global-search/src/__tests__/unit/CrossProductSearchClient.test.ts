@@ -335,7 +335,7 @@ describe('CrossProductSearchClient', () => {
       expect(item.analyticsType).toEqual(AnalyticsType.ResultPerson);
       expect(item.resultType).toEqual(ResultType.PersonResult);
       expect(item.avatarUrl).toEqual('picture');
-      expect(item.mentionName).toEqual(undefined);
+      expect(item.mentionName).toEqual('');
     });
 
     it('should return people results from urs jira with nickname', async () => {
@@ -402,7 +402,7 @@ describe('CrossProductSearchClient', () => {
       expect(item.analyticsType).toEqual(AnalyticsType.ResultPerson);
       expect(item.resultType).toEqual(ResultType.PersonResult);
       expect(item.avatarUrl).toEqual('picture');
-      expect(item.mentionName).toEqual(undefined);
+      expect(item.mentionName).toEqual('');
     });
 
     it('should return people results from urs jira with nickname', async () => {

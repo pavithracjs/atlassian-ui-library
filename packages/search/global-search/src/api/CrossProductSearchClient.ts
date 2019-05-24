@@ -312,7 +312,7 @@ function mapUrsResultItemToResult(item: UrsPersonItem): PersonResult {
     avatarUrl: item.avatarUrl,
     contentType: ContentType.Person,
     analyticsType: AnalyticsType.ResultPerson,
-    mentionName: item.nickname,
+    mentionName: item.nickname || '',
     presenceMessage: '',
   };
 }
