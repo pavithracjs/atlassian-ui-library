@@ -21,10 +21,15 @@ describe('extractInlineViewPropsFromSourceCodeCommon', () => {
       const props: any = {
         url: 'https://bitbucket.org/atlassian/pull-requests/190',
         name: 'some branch',
-        'atlassian:internalObjectId': 'fix/AB-1234',
-        'atlassian:repositoryName': 'my-repo',
+        context: {
+          name: 'my-repo',
+        },
       };
-      const nameProps = buildName(extractInlineViewProps(props), props);
+      const nameProps = buildName(
+        extractInlineViewProps(props),
+        props,
+        'fix/AB-1234',
+      );
       expect(nameProps).toEqual({ title: 'my-repo/fix/AB-1234: some branch' });
     });
 
@@ -32,7 +37,9 @@ describe('extractInlineViewPropsFromSourceCodeCommon', () => {
       const props: any = {
         url: 'https://bitbucket.org/atlassian/pull-requests/190',
         name: 'some branch',
-        'atlassian:repositoryName': 'my-repo',
+        context: {
+          name: 'my-repo',
+        },
       };
       const nameProps = buildName(extractInlineViewProps(props), props);
       expect(nameProps).toEqual({ title: 'my-repo: some branch' });
@@ -42,9 +49,12 @@ describe('extractInlineViewPropsFromSourceCodeCommon', () => {
       const props: any = {
         url: 'https://bitbucket.org/atlassian/pull-requests/190',
         name: 'some branch',
-        'atlassian:internalObjectId': 'fix/AB-1234',
       };
-      const nameProps = buildName(extractInlineViewProps(props), props);
+      const nameProps = buildName(
+        extractInlineViewProps(props),
+        props,
+        'fix/AB-1234',
+      );
       expect(nameProps).toEqual({ title: 'fix/AB-1234: some branch' });
     });
   });

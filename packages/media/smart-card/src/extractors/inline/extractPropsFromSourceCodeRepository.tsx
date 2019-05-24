@@ -8,6 +8,6 @@ export const extractInlineViewPropsFromSourceCodeRepository = (
   const props = extractInlineViewPropsFromObject(json);
   return {
     ...props,
-    ...buildName(props, json),
+    ...buildName({ ...props, title: '(branch)' }, json, json.name || ''),
   };
 };

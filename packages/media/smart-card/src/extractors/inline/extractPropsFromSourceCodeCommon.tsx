@@ -1,17 +1,19 @@
 import { InlineCardResolvedViewProps } from '@atlaskit/media-ui';
-import { AlterInlineProps } from './types';
 
-type AlterInlinePropsSourceCodeName = AlterInlineProps<
-  InlineCardResolvedViewProps
->;
+// TODO: change this:
+//  commits no longer have internalId
+//  the # for PRs no longer exists
 
 // Builds the name for Pull Requests, Branches and Commits.
-export const buildName: AlterInlinePropsSourceCodeName = (props, json) => {
+export const buildName = (
+  props: InlineCardResolvedViewProps,
+  json: any,
+  internalId = '',
+) => {
   const nextProps = { ...props };
   const link = nextProps.link || json.url;
   if (link) {
-    const repository = json['atlassian:repositoryName'] || '';
-    const internalId = json['atlassian:internalObjectId'];
+    const repository = (json.context && json.context.name) || '';
 
     // We need to handle some different cases here:
     //  repoName + internalId: `repo-name/internal-id: title`
@@ -25,7 +27,8 @@ export const buildName: AlterInlinePropsSourceCodeName = (props, json) => {
       prefix = `${repository || internalId}: `;
     }
 
-    return { title: prefix + nextProps.title };
+    const title = prefix + nextProps.title;
+    return { title };
   }
 
   return nextProps;

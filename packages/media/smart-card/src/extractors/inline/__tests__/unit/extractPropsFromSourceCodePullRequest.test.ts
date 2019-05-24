@@ -32,8 +32,10 @@ describe('extractInlineViewPropsFromSourceCodePullRequest', () => {
     const props = extractInlineViewPropsFromSourceCodePullRequest({
       url: 'https://bitbucket.org/atlassian/pull-requests/190',
       name: 'some pr',
-      'atlassian:internalObjectId': '#190',
-      'atlassian:repositoryName': 'my-repo',
+      'atlassian:internalId': 190,
+      context: {
+        name: 'my-repo',
+      },
     });
     expect(props).toHaveProperty('title', 'my-repo/#190: some pr');
     expect(props).toHaveProperty('icon');
@@ -47,7 +49,9 @@ describe('extractInlineViewPropsFromSourceCodePullRequest', () => {
     const props = extractInlineViewPropsFromSourceCodePullRequest({
       url: 'https://bitbucket.org/atlassian/pull-requests/190',
       name: 'some pr',
-      'atlassian:repositoryName': 'my-repo',
+      context: {
+        name: 'my-repo',
+      },
     });
     expect(props).toHaveProperty('title', 'my-repo: some pr');
     expect(props).toHaveProperty('icon');
@@ -61,7 +65,7 @@ describe('extractInlineViewPropsFromSourceCodePullRequest', () => {
     const props = extractInlineViewPropsFromSourceCodePullRequest({
       url: 'https://bitbucket.org/atlassian/pull-requests/190',
       name: 'some pr',
-      'atlassian:internalObjectId': '#190',
+      'atlassian:internalId': 190,
     });
     expect(props).toHaveProperty('title', '#190: some pr');
     expect(props).toHaveProperty('icon');

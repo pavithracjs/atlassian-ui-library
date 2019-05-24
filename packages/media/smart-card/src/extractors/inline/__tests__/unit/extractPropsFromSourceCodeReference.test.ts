@@ -32,8 +32,10 @@ describe('extractInlineViewPropsFromSourceCodeReference', () => {
     const props = extractInlineViewPropsFromSourceCodeReference({
       url: 'https://bitbucket.org/atlassian/pull-requests/190',
       name: 'some commit',
-      'atlassian:internalObjectId': 'baadf00d',
-      'atlassian:repositoryName': 'my-repo',
+      '@id': 'sha1:baadf00d',
+      context: {
+        name: 'my-repo',
+      },
     });
     expect(props).toHaveProperty('title', 'my-repo/baadf00d: some commit');
     expect(props).toHaveProperty('icon');
@@ -47,7 +49,9 @@ describe('extractInlineViewPropsFromSourceCodeReference', () => {
     const props = extractInlineViewPropsFromSourceCodeReference({
       url: 'https://bitbucket.org/atlassian/pull-requests/190',
       name: 'some commit',
-      'atlassian:repositoryName': 'my-repo',
+      context: {
+        name: 'my-repo',
+      },
     });
     expect(props).toHaveProperty('title', 'my-repo: some commit');
     expect(props).toHaveProperty('icon');
@@ -61,7 +65,7 @@ describe('extractInlineViewPropsFromSourceCodeReference', () => {
     const props = extractInlineViewPropsFromSourceCodeReference({
       url: 'https://bitbucket.org/atlassian/pull-requests/190',
       name: 'some commit',
-      'atlassian:internalObjectId': 'baadf00d',
+      '@id': 'sha1:baadf00d',
     });
     expect(props).toHaveProperty('title', 'baadf00d: some commit');
     expect(props).toHaveProperty('icon');
