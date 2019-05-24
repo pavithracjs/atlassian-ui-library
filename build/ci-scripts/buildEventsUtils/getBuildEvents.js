@@ -12,6 +12,7 @@ type IStepsDataType = {
   step_name: string,
   step_status: string,
   step_duration: number,
+  started_on: string,
 }
 */
 
@@ -32,14 +33,33 @@ type IStepsDataType = {
 function computeBuildTimes(
   stepsData /*: Array<IStepsDataType>*/,
 ) /*: number */ {
+  let buildDuration;
   const stepDurationArray = stepsData
     .filter(step => step.step_duration)
     .map(step => step.step_duration);
-  return (
-    Math.max.apply(null, stepDurationArray) +
-    Math.min.apply(null, stepDurationArray)
-  );
+  // When a build has 1 step, we can't apply this function, we take the only available value.
+  if (stepsData.length === 1) {
+    buildDuration = stepDurationArray[0];
+  } else {
+    buildDuration =
+      Math.max.apply(null, stepDurationArray) +
+      Math.min.apply(null, stepDurationArray);
+  }
+  return buildDuration;
 }
+
+/* This function returns the build duration time. */
+function getBuildTime(
+  buildTime /*:? number */,
+  stepsData /*: Array<IStepsDataType>*/,
+) {
+  if (buildTime && buildTime > 0 && stepsData.length > 1) {
+    return buildTime;
+  } else {
+    return computeBuildTimes(stepsData);
+  }
+}
+
 /* This function computes step time if step.duration_in_seconds returns undefined or 0.
  * The function returns the difference between the current time and when the step started,
  * It is only applicable for 1 step or 0 step build.
@@ -49,6 +69,22 @@ function computeStepTimes(stepStartTime /*: string */) /*: number */ {
   // It returns the time in ms, we want in seconds.
   return (parseInt(currentTime) - Date.parse(stepStartTime)) / 1000;
 }
+
+/* This function returns the step duration time. */
+function getStepTime(
+  stepObject /*: IStepsDataType */,
+  stepsLength /*: number */,
+) {
+  let stepDuration;
+  if (stepObject && stepObject.step_duration > 0 && stepsLength > 1) {
+    stepDuration = stepObject.step_duration;
+  } else {
+    // We need to do a computation if the step.duration_in_seconds is not yet available and it a 1 step build.
+    stepDuration = computeStepTimes(stepObject.started_on);
+  }
+  return stepDuration;
+}
+
 /* This function returns the payload for the build / pipelines.*/
 async function getPipelinesBuildEvents(
   buildId /*: string */,
@@ -68,21 +104,11 @@ async function getPipelinesBuildEvents(
         : 'FAILED'
       : build.state.result.name;
     if (stepsData) {
-      console.log(
-        build.duration_in_seconds,
-        'build time',
-        'step',
-        stepsData.length,
-      );
-      const build_time =
-        (build.duration_in_seconds > 0 || build.duration_in_second) &&
-        stepsData.length > 1
-          ? build.duration_in_seconds
-          : computeBuildTimes(stepsData);
+      const buildTime = getBuildTime(build.duration_in_seconds, stepsData);
       payload = {
         build_number: buildId,
         build_status: buildStatus,
-        build_time,
+        build_time: buildTime,
         // build_type categorises the type of the build that runs:
         // - default
         // - master
@@ -126,19 +152,16 @@ async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
               ? 'SUCCESSFUL'
               : 'FAILED'
             : step.state.result.name;
-          // We need to do a computation if the step.duration_in_seconds is not yet available and it a 1 step build.
+
           console.log(
             'step_duration',
             step.duration_in_seconds,
             'number of steps',
             resp.data.values.length,
           );
-          const step_duration =
-            step.duration_in_seconds && resp.data.values.length > 1
-              ? step.duration_in_seconds
-              : computeStepTimes(step.started_on);
+          const stepTime = getStepTime(step, resp.data.values.length);
           return {
-            step_duration,
+            step_duration: stepTime,
             step_name: step.name || buildType, // on Master, there is no step name.
             step_status: stepStatus,
           };
@@ -225,17 +248,14 @@ async function getStepEvents(buildId /*: string*/) {
       )[0];
       const buildStatus =
         process.env.BITBUCKET_EXIT_CODE === '0' ? 'SUCCESSFUL' : 'FAILED';
-      // We need to do a computation if the step.duration_in_seconds is not yet available.
-      const step_duration = stepObject.duration_in_seconds
-        ? stepObject.duration_in_seconds
-        : computeStepTimes(stepObject.started_on);
+      const stepTime = getStepTime(stepObject, stepObject.length);
       return {
         build_status: buildStatus,
         build_name: stepPayload.build_name,
         build_type: stepPayload.build_type,
         build_steps: [
           {
-            step_duration,
+            step_duration: stepTime,
             step_status: buildStatus,
             step_name: stepObject.name || stepPayload.build_type, // if there is one step and no step name, we can refer to the build type.
           },
