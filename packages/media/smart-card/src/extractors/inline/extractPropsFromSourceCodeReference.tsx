@@ -3,6 +3,7 @@ import { InlineCardResolvedViewProps } from '@atlaskit/media-ui';
 import BranchIcon from '@atlaskit/icon-object/glyph/branch/16';
 
 import { extractInlineViewPropsFromObject } from './extractPropsFromObject';
+import { buildName } from './extractPropsFromSourceCodeCommon';
 import { BuildInlineProps } from './types';
 
 type BuildInlinePropsSourceCodeReference = BuildInlineProps<
@@ -20,6 +21,7 @@ export const extractInlineViewPropsFromSourceCodeReference = (
   const props = extractInlineViewPropsFromObject(json);
   return {
     ...props,
+    ...buildName(props, json),
     ...buildIcon(json),
   };
 };
