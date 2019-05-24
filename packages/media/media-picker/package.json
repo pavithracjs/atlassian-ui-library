@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-picker",
-  "version": "43.0.0",
+  "version": "43.0.1",
   "description": "Library for handling file uploads",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -24,7 +24,7 @@
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/dropdown-menu": "^8.0.0",
     "@atlaskit/field-text": "^9.0.0",
-    "@atlaskit/flag": "^11.0.0",
+    "@atlaskit/flag": "^12.0.0",
     "@atlaskit/icon": "^17.0.0",
     "@atlaskit/media-card": "^63.0.2",
     "@atlaskit/media-editor": "^35.0.1",

@@ -1,5 +1,9 @@
 # @atlaskit/feedback-collector
 
+## 4.0.2
+- Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+  - @atlaskit/flag@12.0.0
+
 ## 4.0.1
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2

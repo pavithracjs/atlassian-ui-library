@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.8.3
+- Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+  - @atlaskit/feedback-collector@4.0.2
+  - @atlaskit/flag@12.0.0
+
 ## 8.8.2
 - [patch] [409dbf30b4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/409dbf30b4):
 
