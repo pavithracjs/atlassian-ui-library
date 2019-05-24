@@ -1,0 +1,6 @@
+{
+  "releases": [
+    { "name": "@atlaskit/react-experiment-framework", "type": "minor" }
+  ],
+  "dependents": []
+}
