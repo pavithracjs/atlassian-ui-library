@@ -1,0 +1,1 @@
+- Add an optional experimentEnrollmentOptions prop to ExperimentController which allows for passing additional data (e.g. from a Redux store) to the resolvers.
