@@ -1,15 +1,14 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import { gridSize } from '@atlaskit/theme';
-import { type ThemeTokens } from '../theme';
+import { ThemeTokens } from '../theme';
 
 const HORIZONTAL_SPACING = `${gridSize() / 2}px`;
 
-type ThemeTokensWithChildren = ThemeTokens & {
-  children?: Node,
-};
+interface ThemeTokensWithChildren extends ThemeTokens {
+  children?: ReactNode;
+}
 
 export default ({ maxWidth, children }: ThemeTokensWithChildren) => (
   <span

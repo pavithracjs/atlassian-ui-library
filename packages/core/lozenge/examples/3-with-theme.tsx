@@ -1,4 +1,3 @@
-// @flow
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import React from 'react';
 import Lozenge from '../src';

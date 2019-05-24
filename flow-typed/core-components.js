@@ -21,6 +21,10 @@ declare module '@atlaskit/banner' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/lozenge' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }

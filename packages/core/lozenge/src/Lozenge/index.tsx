@@ -1,32 +1,25 @@
-// @flow
-
-import { type ThemeProp } from '@atlaskit/theme';
-import React, { PureComponent, type Node } from 'react';
+import { ThemeProp } from '@atlaskit/theme';
+import React, { PureComponent, ReactNode } from 'react';
 import Container from './Container';
 import Content from './Content';
-import {
-  Theme,
-  type ThemeAppearance,
-  type ThemeProps,
-  type ThemeTokens,
-} from '../theme';
+import { Theme, ThemeAppearance, ThemeProps, ThemeTokens } from '../theme';
 
-type Props = {
+interface Props {
   /** The appearance type. */
-  appearance: ThemeAppearance,
+  appearance: ThemeAppearance;
 
   /** Elements to be rendered inside the lozenge. This should ideally be just a word or two. */
-  children?: Node,
+  children?: ReactNode;
 
   /** Determines whether to apply the bold style or not. */
-  isBold: boolean,
+  isBold: boolean;
 
   /** max-width of lozenge container. Default to 200px. */
-  maxWidth: number | string,
+  maxWidth: number | string;
 
   /** The theme the component should use. */
-  theme?: ThemeProp<ThemeTokens, ThemeProps>,
-};
+  theme?: ThemeProp<ThemeTokens, ThemeProps>;
+}
 
 export default class Lozenge extends PureComponent<Props> {
   static defaultProps = {
