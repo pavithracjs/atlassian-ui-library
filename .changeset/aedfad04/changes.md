@@ -1,1 +1,0 @@
-- Fixing invalid style for isLoading button

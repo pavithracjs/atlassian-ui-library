@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 13.0.3
+- [patch] [2a2d2060ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a2d2060ae):
+
+  - Fixing invalid style for isLoading button
+
 ## 13.0.2
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/icon@17.0.2
