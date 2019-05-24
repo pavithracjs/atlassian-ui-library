@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
@@ -12,6 +11,7 @@ jest.mock('exenv', () => ({
   },
 }));
 
+// @ts-ignore - global usage
 jest.spyOn(global.console, 'error');
 
 afterEach(() => {

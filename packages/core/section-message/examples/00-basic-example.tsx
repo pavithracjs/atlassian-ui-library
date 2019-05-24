@@ -1,6 +1,4 @@
-// @flow
 import React from 'react';
-import JiraLabsIcon from '@atlaskit/icon/glyph/jira/labs';
 import SectionMessage from '../src';
 
 const Example = () => (
@@ -18,7 +16,6 @@ const Example = () => (
         text: 'Villa Diodatti',
       },
     ]}
-    icon={JiraLabsIcon}
   >
     <p>
       You will rejoice to hear that no disaster has accompanied the commencement

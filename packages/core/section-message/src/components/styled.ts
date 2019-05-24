@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 import {
   borderRadius,
@@ -8,7 +7,7 @@ import {
   typography,
 } from '@atlaskit/theme';
 
-export const Container = styled.section`
+export const Container = styled.section<{ backgroundColor: string }>`
   display: flex;
   border-radius: ${borderRadius}px;
   background-color: ${({ backgroundColor }) => backgroundColor};
