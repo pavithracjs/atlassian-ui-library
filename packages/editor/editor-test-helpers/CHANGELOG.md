@@ -1,5 +1,10 @@
 # @atlaskit/editor-test-helpers
 
+## 9.3.3
+- [patch] [7eca61edf0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7eca61edf0):
+
+  - ED-6965: bump prosemirror-utils to allow safeInsert replacing selected nodes when it conforms to schema
+
 ## 9.3.2
 - [patch] [7ce86bae14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ce86bae14):
 
