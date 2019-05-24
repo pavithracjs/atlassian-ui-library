@@ -8,36 +8,35 @@ import {
   MAX_SCALE,
 } from '../../viewport';
 
-// test constants
-const DEFAULT_ITEM_WIDTH = DEFAULT_WIDTH * 2;
-const DEFAULT_ITEM_HEIGHT = DEFAULT_HEIGHT * 2;
-const DEFAULT_MAX_ITEM_VIEW_WIDTH = DEFAULT_INNER_WIDTH * MAX_SCALE;
-const DEFAULT_MAX_ITEM_VIEW_HEIGHT = DEFAULT_INNER_HEIGHT * MAX_SCALE;
-const ZOOMED_OUT = 0;
-const ZOOMED_HALF = 50;
-const ZOOMED_IN = 100;
-const ZOOMED_EXCESSIVE = 200;
-const DRAG_DELTA_X = -10;
-const DRAG_DELTA_Y = -20;
-const DRAG_DELTA_X_HUGE = 10000000;
-const DRAG_DELTA_Y_HUGE = 20000000;
+export const DEFAULT_ITEM_WIDTH = DEFAULT_WIDTH * 2;
+export const DEFAULT_ITEM_HEIGHT = DEFAULT_HEIGHT * 2;
+export const DEFAULT_MAX_ITEM_VIEW_WIDTH = DEFAULT_INNER_WIDTH * MAX_SCALE;
+export const DEFAULT_MAX_ITEM_VIEW_HEIGHT = DEFAULT_INNER_HEIGHT * MAX_SCALE;
+export const ZOOMED_OUT = 0;
+export const ZOOMED_HALF = 50;
+export const ZOOMED_IN = 100;
+export const ZOOMED_EXCESSIVE = 200;
+export const DRAG_DELTA_X = -10;
+export const DRAG_DELTA_Y = -20;
+export const DRAG_DELTA_X_HUGE = 10000000;
+export const DRAG_DELTA_Y_HUGE = 20000000;
+
+export const setup = (
+  scale: number = 0, // 0 - 100
+  dragX: number = 0,
+  dragY: number = 0,
+  itemWidth: number = DEFAULT_ITEM_WIDTH,
+  itemHeight: number = DEFAULT_ITEM_HEIGHT,
+) => {
+  const viewport = new Viewport();
+  viewport
+    .setItemSize(itemWidth, itemHeight)
+    .setScale(scale)
+    .dragBy(dragX, dragY);
+  return viewport;
+};
 
 describe('Viewport', () => {
-  const setup = (
-    scale: number = 0, // 0 - 100
-    dragX: number = 0,
-    dragY: number = 0,
-    itemWidth: number = DEFAULT_ITEM_WIDTH,
-    itemHeight: number = DEFAULT_ITEM_HEIGHT,
-  ) => {
-    const viewport = new Viewport();
-    viewport
-      .setItemSize(itemWidth, itemHeight)
-      .setScale(scale)
-      .dragBy(dragX, dragY);
-    return viewport;
-  };
-
   describe('Layout', () => {
     let viewport: Viewport;
 
