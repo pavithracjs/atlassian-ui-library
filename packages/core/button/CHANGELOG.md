@@ -16,6 +16,12 @@
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
+## 12.0.8
+- [hotfix] fixes style error and changes spinner to a caret version.
+
+## 12.0.7
+- BROKEN RELEASE. DO NOT USE.
+
 ## 12.0.6
 - [patch] [e0e3fabf8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0e3fabf8e):
 
