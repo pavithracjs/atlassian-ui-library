@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.8.4
+- [patch] [24dce138ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/24dce138ce):
+
+  - fix prequery limit with grape
+
 ## 8.8.3
 - Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
   - @atlaskit/feedback-collector@4.0.2
