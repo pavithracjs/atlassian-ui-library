@@ -3,8 +3,6 @@
 import React, { Component, type ElementType, type Ref } from 'react';
 
 import isEqual from 'lodash.isequal';
-import transform from 'lodash.transform';
-import isObject from 'lodash.isobject';
 import type { Dataset, ItemPrimitiveProps } from './types';
 import { styleReducerNoOp, withContentTheme } from '../../../theme';
 
@@ -84,7 +82,6 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
 
   shouldComponentUpdate(nextProps: ItemPrimitiveProps) {
     const shouldRender = !isEqual(this.props, nextProps);
-    console.log(difference(this.props, nextProps));
     return shouldRender;
   }
 
