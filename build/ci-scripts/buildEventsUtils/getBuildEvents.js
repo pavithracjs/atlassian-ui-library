@@ -146,8 +146,8 @@ async function getPipelinesBuildEvents(
 async function getStepsEvents(buildId /*: string*/, buildType /*:? string */) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
-    // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request, to get all the results.
-    await delay(2000);
+    // // Because, there is an issue in pipelines, we need to wait for couple of seconds before doing the request, to get all the results.
+    // await delay(2000);
     const resp = await axios.get(url);
     return Promise.all(
       resp.data.values.map(async step => {
