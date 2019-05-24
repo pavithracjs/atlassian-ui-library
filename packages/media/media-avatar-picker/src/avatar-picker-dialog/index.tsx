@@ -32,7 +32,7 @@ export const ERROR = {
   SIZE: messages.image_size_too_large_error,
 };
 
-export const ACCEPT = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml'];
+export const ACCEPT = ['image/gif', 'image/jpeg', 'image/png'];
 
 export class AvatarPickerDialog extends PureComponent<
   AvatarPickerDialogProps,
