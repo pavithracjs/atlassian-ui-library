@@ -1,13 +1,21 @@
 [
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-confluence-transformer",
+    "version": "7.2.2",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 26592,
-      "gzipSize": 8402
+      "size": 26585,
+      "gzipSize": 8396
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-confluence-transformer",
+    "version": "7.2.2",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -16,14 +24,22 @@
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-confluence-transformer",
+    "version": "7.2.2",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
       "size": 13245,
-      "gzipSize": 3518
+      "gzipSize": 3516
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-confluence-transformer",
+    "version": "7.2.2",
+    "dependent": true,
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
@@ -32,11 +48,15 @@
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-confluence-transformer",
+    "version": "7.2.2",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 100386,
-      "gzipSize": 30356
+      "size": 100379,
+      "gzipSize": 30355
     }
   }
 ]
