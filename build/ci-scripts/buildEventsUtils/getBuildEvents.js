@@ -105,7 +105,6 @@ async function getPipelinesBuildEvents(
   try {
     const res = await axios.get(apiEndpoint);
     const build = res.data;
-    console.log('Build data:', build);
     const stepsData = await getStepsEvents(
       buildId,
       build.target.selector.pattern || build.target.selector.type,
