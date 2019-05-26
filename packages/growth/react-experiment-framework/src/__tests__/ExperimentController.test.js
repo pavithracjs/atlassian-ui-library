@@ -10,7 +10,7 @@ import { ExperimentConsumer } from '../ExperimentContext';
 configure({ adapter: new Adapter() });
 
 describe('ExperimentController', () => {
-  it('should provide context to a consumer', () => {
+  it('should provide context to a consumer', async () => {
     const mockExperimentDetails = {
       cohort: 'variation',
       isEligible: true,
@@ -37,7 +37,7 @@ describe('ExperimentController', () => {
     );
 
     const getExperimentValueForReceiverCall = call =>
-      mockContextReceiver.mock.calls[call][0].myExperimentKey;
+      mockContextReceiver.mock.calls[call][0].experiments.myExperimentKey;
 
     // first call has the initial resolver, and has not decided enrollment
     expect(mockContextReceiver.mock.calls).toHaveLength(1);
@@ -60,15 +60,59 @@ describe('ExperimentController', () => {
     expect(mockExperimentResolver.mock.calls).toHaveLength(1);
 
     // once resolved async-ily
-    return resolverPromise.then(() => {
-      // third call has decided enrollment and has experiment details
-      expect(mockContextReceiver.mock.calls).toHaveLength(2);
-      expect(
-        getExperimentValueForReceiverCall(1).isEnrollmentDecided,
-      ).toBeTruthy();
-      expect(getExperimentValueForReceiverCall(1).enrollmentDetails).toEqual(
-        mockExperimentDetails,
-      );
-    });
+    await resolverPromise;
+    // third call has decided enrollment and has experiment details
+    expect(mockContextReceiver.mock.calls).toHaveLength(2);
+    expect(
+      getExperimentValueForReceiverCall(1).isEnrollmentDecided,
+    ).toBeTruthy();
+    expect(getExperimentValueForReceiverCall(1).enrollmentDetails).toEqual(
+      mockExperimentDetails,
+    );
+  });
+
+  it('should provide context with options to a consumer if present', () => {
+    const mockExperimentDetails = {
+      cohort: 'variation',
+      isEligible: true,
+    };
+    const mockExperimentEnrollmentOptions = {
+      example: 'value',
+    };
+
+    const mockExperimentResolver = jest
+      .fn()
+      .mockReturnValue(Promise.resolve(mockExperimentDetails));
+
+    const mockExperimentEnrollmentConfig = {
+      myExperimentKey: mockExperimentResolver,
+    };
+
+    const mockContextReceiver = jest.fn();
+
+    mount(
+      <ExperimentController
+        experimentEnrollmentConfig={mockExperimentEnrollmentConfig}
+        experimentEnrollmentOptions={mockExperimentEnrollmentOptions}
+      >
+        <ExperimentConsumer>
+          {context => mockContextReceiver(context)}
+        </ExperimentConsumer>
+      </ExperimentController>,
+    );
+
+    const {
+      experiments: receivedExperiments,
+      options: receivedOptions,
+    } = mockContextReceiver.mock.calls[0][0];
+
+    expect(receivedExperiments.myExperimentKey).toHaveProperty(
+      'enrollmentResolver',
+    );
+    expect(receivedExperiments.myExperimentKey).toHaveProperty(
+      'isEnrollmentDecided',
+      false,
+    );
+    expect(receivedOptions).toBe(mockExperimentEnrollmentOptions);
   });
 });

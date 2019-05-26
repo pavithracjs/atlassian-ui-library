@@ -21,7 +21,7 @@ const Row = (props: React.HTMLProps<HTMLDivElement>) => (
   <div css={{ display: 'flex', flexWrap: 'wrap' }} {...props} />
 );
 const Cell = (props: React.HTMLProps<HTMLDivElement>) => (
-  <div css={{ width: '90px', padding: '4px 0' }} {...props} />
+  <div css={{ width: '100px', padding: '4px 0' }} {...props} />
 );
 
 function capitalize(str: string) {

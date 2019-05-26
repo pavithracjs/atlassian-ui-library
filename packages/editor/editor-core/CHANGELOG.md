@@ -1,5 +1,28 @@
 # @atlaskit/editor-core
 
+## 112.10.9
+- [patch] [1a1ea182d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a1ea182d6):
+
+  - Fix an infinite loop in typeahead plugin
+
+## 112.10.8
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/dropdown-menu@8.0.2
+  - @atlaskit/item@10.0.1
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/mention@18.2.1
+  - @atlaskit/pubsub@5.0.1
+  - @atlaskit/status@0.9.1
+  - @atlaskit/lozenge@9.0.0
+
+## 112.10.7
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/emoji@62.1.1
+  - @atlaskit/section-message@4.0.0
+
 ## 112.10.6
 - [patch] [7eca61edf0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7eca61edf0):
 
