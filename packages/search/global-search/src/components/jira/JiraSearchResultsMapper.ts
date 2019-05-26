@@ -14,8 +14,11 @@ import {
 } from '../SearchResultsUtil';
 import { messages } from '../../messages';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
+import { attachJiraContextIdentifiers } from '../common/contextIdentifiersHelper';
+import { ABTest } from '../../api/CrossProductSearchClient';
+import { getJiraMaxObjects } from '../../util/experiment-utils';
 
-const MAX_OBJECTS = 8;
+const DEFAULT_MAX_OBJECTS = 8;
 const MAX_CONTAINERS = 6;
 const MAX_PEOPLE = 3;
 
@@ -32,13 +35,13 @@ const hasNoResults = (
   containers: Array<Result> = [],
 ): boolean => isEmpty(objects) && isEmpty(poeple) && isEmpty(containers);
 
-export const sliceResults = (resultsMap: GenericResultMap | null) => {
+const sliceResults = (resultsMap: GenericResultMap | null, abTest: ABTest) => {
   const { objects, containers, people } = resultsMap
     ? resultsMap
     : DEFAULT_JIRA_RESULTS_MAP;
 
   const [objectsToDisplay, peopleToDisplay, containersToDisplay] = [
-    { items: objects, count: MAX_OBJECTS },
+    { items: objects, count: getJiraMaxObjects(abTest, DEFAULT_MAX_OBJECTS) },
     { items: people, count: MAX_PEOPLE },
     { items: containers, count: MAX_CONTAINERS },
   ].map(({ items, count }) => take(items, count));
@@ -51,14 +54,21 @@ export const sliceResults = (resultsMap: GenericResultMap | null) => {
 };
 
 export const mapRecentResultsToUIGroups = (
-  recentlyViewedObjects: JiraResultsMap | null,
+  recentlyViewedObjects: GenericResultMap | null,
+  searchSessionId: string,
+  abTest: ABTest,
   appPermission?: JiraApplicationPermission,
 ): ResultsGroup[] => {
+  const withSessionId =
+    recentlyViewedObjects !== null
+      ? attachJiraContextIdentifiers(searchSessionId, recentlyViewedObjects)
+      : recentlyViewedObjects;
+
   const {
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(recentlyViewedObjects);
+  } = sliceResults(withSessionId, abTest);
 
   return [
     {
@@ -84,14 +94,21 @@ export const mapRecentResultsToUIGroups = (
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
+  searchSessionId: string,
+  abTest: ABTest,
   appPermission?: JiraApplicationPermission,
   query?: string,
 ): ResultsGroup[] => {
+  const withSessionId =
+    searchResultsObjects !== null
+      ? attachJiraContextIdentifiers(searchSessionId, searchResultsObjects)
+      : searchResultsObjects;
+
   const {
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(searchResultsObjects);
+  } = sliceResults(withSessionId, abTest);
   return [
     {
       items: objectsToDisplay,

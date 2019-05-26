@@ -1,6 +1,6 @@
 import { DecorationSet, Decoration } from 'prosemirror-view';
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
-import { Color as ColorType } from '@atlaskit/status';
+import { Color as ColorType } from '@atlaskit/status/element';
 import statusNodeView from './nodeviews/status';
 import { PMPluginFactory } from '../../types';
 import { ZeroWidthSpace } from '../../utils';

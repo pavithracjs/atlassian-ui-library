@@ -8,6 +8,10 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+// Minimum threshold chosen to be as close to 0 as possible.
+// Small tolerance allowed as comparison library occasionally has false negatives
+const MINIMUM_THRESHOLD = 0.001;
+
 function trackers(page /*:any*/) {
   let requests = new Set();
   const onStarted = request => requests.add(request);
@@ -233,6 +237,18 @@ async function waitForLoadedBackgroundImages(
     });
 }
 
+/** Waits for atlaskit tooltip component to appear and fade in */
+async function waitForTooltip(page /*:any*/) {
+  const tooltipSelector = '[class^="styled__Tooltip"]';
+  await page.waitForFunction(
+    selector =>
+      !!document.querySelector(selector) &&
+      document.querySelector(selector).style.opacity === '1',
+    {},
+    tooltipSelector,
+  );
+}
+
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
   await navigateToUrl(page, url);
   await disableAllAnimations(page);
@@ -321,9 +337,11 @@ const getExampleUrl = (
   `${environment}/examples.html?groupId=${group}&packageId=${packageName}&exampleId=${exampleName}`;
 
 module.exports = {
+  MINIMUM_THRESHOLD,
   getExamplesFor,
   waitForLoadedImageElements,
   waitForLoadedBackgroundImages,
+  waitForTooltip,
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,

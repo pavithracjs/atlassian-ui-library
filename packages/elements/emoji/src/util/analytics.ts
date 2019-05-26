@@ -3,6 +3,7 @@ import {
   AnalyticsEventPayload,
   CreateAndFireEventFunction,
 } from '@atlaskit/analytics-next';
+import { EmojiDescription } from '../types';
 import {
   name as packageName,
   version as packageVersion,
@@ -120,3 +121,79 @@ export const deleteCancelEvent = (attributes: EmojiId) =>
 
 export const selectedFileEvent = () =>
   createEvent('ui', 'clicked', 'emojiUploader', 'selectFile');
+
+interface CommonAttributes {
+  queryLength: number;
+  spaceInQuery: boolean;
+  emojiIds: string[];
+}
+
+const extractCommonAttributes = (
+  query?: string,
+  emojiList?: EmojiDescription[],
+): CommonAttributes => {
+  return {
+    queryLength: query ? query.length : 0,
+    spaceInQuery: query ? query.indexOf(' ') !== -1 : false,
+    emojiIds: emojiList
+      ? emojiList
+          .map(emoji => emoji.id!)
+          .filter(Boolean)
+          .slice(0, 20)
+      : [],
+  };
+};
+
+export const typeaheadCancelledEvent = (
+  duration: number,
+  query?: string,
+  emojiList?: EmojiDescription[],
+) =>
+  createEvent('ui', 'cancelled', 'emojiTypeahead', undefined, {
+    duration,
+    ...extractCommonAttributes(query, emojiList),
+  });
+
+const getPosition = (
+  emojiList: EmojiDescription[] | undefined,
+  selectedEmoji: EmojiDescription,
+): number | undefined => {
+  if (emojiList) {
+    const index = emojiList.findIndex(emoji => emoji.id === selectedEmoji.id);
+    return index === -1 ? undefined : index;
+  }
+  return;
+};
+
+export const typeaheadSelectedEvent = (
+  pressed: boolean,
+  duration: number,
+  emoji: EmojiDescription,
+  emojiList?: EmojiDescription[],
+  query?: string,
+  exactMatch?: boolean,
+) =>
+  createEvent(
+    'ui',
+    pressed ? 'pressed' : 'clicked',
+    'emojiTypeahead',
+    undefined,
+    {
+      baseEmojiId: emoji.id,
+      duration,
+      position: getPosition(emojiList, emoji),
+      ...extractCommonAttributes(query, emojiList),
+      emojiType: emoji.type,
+      exactMatch: exactMatch || false,
+    },
+  );
+
+export const typeaheadRenderedEvent = (
+  duration: number,
+  query?: string,
+  emojiList?: EmojiDescription[],
+) =>
+  createEvent('operational', 'rendered', 'emojiTypeahead', undefined, {
+    duration,
+    ...extractCommonAttributes(query, emojiList),
+  });

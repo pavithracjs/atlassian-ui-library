@@ -25,6 +25,8 @@ const abTest = {
   experimentId: 'experimentId',
 };
 
+const searchSessionId = 'searchSessionId';
+
 [
   { desc: 'mapRecentResultsToUIGroups', mapper: mapRecentResultsToUIGroups },
   { desc: 'mapSearchResultsToUIGroups', mapper: mapSearchResultsToUIGroups },
@@ -77,7 +79,7 @@ const abTest = {
           spacesCount,
         });
 
-        const groups = mapper(recentResultsMap, abTest);
+        const groups = mapper(recentResultsMap, abTest, searchSessionId);
         expect(groups.length).toBe(3);
         expect(groups.map(group => group.key)).toEqual([
           'objects',
@@ -99,7 +101,7 @@ const abTest = {
         peopleCount: MAX_PEOPLE + 2,
         spacesCount: MAX_SPACES + 4,
       });
-      const groups = mapper(recentResultsMap, abTest);
+      const groups = mapper(recentResultsMap, abTest, searchSessionId);
       expect(groups.map(group => group.items.length)).toEqual([
         DEFAULT_MAX_OBJECTS,
         MAX_SPACES,
@@ -129,7 +131,7 @@ const abTest = {
           ...abTest,
           experimentId: 'grape-15',
         };
-        const groups = mapper(recentResultsMap, grapeABTest);
+        const groups = mapper(recentResultsMap, grapeABTest, searchSessionId);
         checkResultCounts(groups, 15);
       });
 
@@ -138,7 +140,7 @@ const abTest = {
           ...abTest,
           experimentId: 'grape-abc',
         };
-        const groups = mapper(recentResultsMap, grapeABTest);
+        const groups = mapper(recentResultsMap, grapeABTest, searchSessionId);
         checkResultCounts(groups, DEFAULT_MAX_OBJECTS);
       });
     });

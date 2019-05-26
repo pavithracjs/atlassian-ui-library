@@ -40,6 +40,7 @@ function render(partialProps?: Partial<Props>) {
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
     fasterSearchFFEnabled: false,
+    useUrsForBootstrapping: false,
     logger,
     referralContextIdentifiers,
     ...partialProps,
@@ -92,6 +93,103 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
   });
 
+  it('should return recent items using the crossproduct search when prefetching is on ', async () => {
+    const wrapper = render({
+      useUrsForBootstrapping: true,
+      crossProductSearchClient: {
+        search(query: string, sessionId: string, scopes: Scope[]) {
+          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getAbTestData(scope: Scope) {
+          return Promise.resolve(DEFAULT_AB_TEST);
+        },
+        getPeople() {
+          const results = new Map<Scope, Result[]>();
+          results.set(Scope.UserConfluence, [makePersonResult()]);
+
+          return Promise.resolve({
+            results: results,
+          });
+        },
+      },
+    });
+
+    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getRecentItems(
+      'session_id',
+    );
+
+    expect(searchResults).toEqual({
+      results: {
+        people: [
+          {
+            mentionName: 'mentionName',
+            presenceMessage: 'presenceMessage',
+            analyticsType: 'result-person',
+            resultType: 'person-result',
+            contentType: 'person',
+            name: 'name',
+            avatarUrl: 'avatarUrl',
+            href: 'href',
+            resultId: expect.any(String),
+          },
+        ],
+        objects: [],
+        spaces: [],
+      },
+    });
+  });
+
+  it('should return recent items using the crossproduct search when prefetching is off', async () => {
+    const wrapper = render({
+      useUrsForBootstrapping: false,
+      peopleSearchClient: {
+        getRecentPeople() {
+          return Promise.resolve([makePersonResult()]);
+        },
+        search() {
+          return Promise.resolve([]);
+        },
+      },
+      crossProductSearchClient: {
+        search(query: string, sessionId: string, scopes: Scope[]) {
+          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getAbTestData(scope: Scope) {
+          return Promise.resolve(DEFAULT_AB_TEST);
+        },
+        getPeople() {
+          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+      },
+    });
+
+    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getRecentItems(
+      'session_id',
+    );
+
+    expect(searchResults).toEqual({
+      results: {
+        people: [
+          {
+            mentionName: 'mentionName',
+            presenceMessage: 'presenceMessage',
+            analyticsType: 'result-person',
+            resultType: 'person-result',
+            contentType: 'person',
+            name: 'name',
+            avatarUrl: 'avatarUrl',
+            href: 'href',
+            resultId: expect.any(String),
+          },
+        ],
+        objects: [],
+        spaces: [],
+      },
+    });
+  });
+
   it('should call cross product search client with correct query version', async () => {
     const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
     const dummyQueryVersion = 123;
@@ -138,6 +236,9 @@ describe('ConfluenceQuickSearchContainer', () => {
         getAbTestData() {
           return Promise.resolve(abTest);
         },
+        getPeople() {
+          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
       },
     });
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
@@ -166,6 +267,14 @@ describe('ConfluenceQuickSearchContainer', () => {
         },
         getAbTestData(scope: Scope) {
           return Promise.resolve(DEFAULT_AB_TEST);
+        },
+        getPeople() {
+          const results = new Map<Scope, Result[]>();
+          results.set(Scope.UserConfluence, [makePersonResult()]);
+
+          return Promise.resolve({
+            results: results,
+          });
         },
       },
     });

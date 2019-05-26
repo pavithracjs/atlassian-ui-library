@@ -209,7 +209,7 @@ export const messages = defineMessages<Messages>({
   },
   invalid_permissions: {
     id: 'fabric.media.invalid_permissions',
-    defaultMessage: "We couldn't resolve this link",
+    defaultMessage: "You don't have permissions to view",
     description:
       'Message shown when a user does not have permissions to view an item',
   },

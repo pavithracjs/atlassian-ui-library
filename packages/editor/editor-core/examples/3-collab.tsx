@@ -22,7 +22,7 @@ import {
 } from '../src/styles';
 
 import { collabEditProvider } from '../example-helpers/mock-collab-provider';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions, MediaProvider } from '../src';

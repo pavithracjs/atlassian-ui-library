@@ -44,6 +44,7 @@ export default class extends Component<{}> {
         style={{
           display: 'flex',
           width: '400px',
+          maxWidth: '100%',
           margin: '0 auto',
           flexDirection: 'column',
         }}

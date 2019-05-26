@@ -1,5 +1,9 @@
 # @atlaskit/media-picker
 
+## 43.0.1
+- Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+  - @atlaskit/flag@12.0.0
+
 ## 43.0.0
 - [major] [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
 

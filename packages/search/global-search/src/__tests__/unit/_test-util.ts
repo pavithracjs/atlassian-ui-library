@@ -10,7 +10,7 @@ import {
 
 function buildMockSearchResultProperties() {
   return {
-    resultId: '' + Math.random(),
+    resultId: 'resultId',
     name: 'name',
     avatarUrl: 'avatarUrl',
     href: 'href',

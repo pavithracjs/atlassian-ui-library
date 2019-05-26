@@ -1,5 +1,10 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.2.1
+- [patch] [78f6d092be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/78f6d092be):
+
+  - Allow issue links to be surrounded by ()
+
 ## 4.2.0
 - [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 

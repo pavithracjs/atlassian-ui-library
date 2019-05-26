@@ -29,7 +29,7 @@ describe('ascii emojis - input rules', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     const editor = createEditor({
       doc,
-      editorPlugins: [emojiPlugin, codeBlockPlugin()],
+      editorPlugins: [emojiPlugin(), codeBlockPlugin()],
       editorProps: { allowAnalyticsGASV3: true },
       providerFactory,
       createAnalyticsEvent,

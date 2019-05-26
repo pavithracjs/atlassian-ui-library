@@ -4,7 +4,11 @@ import React, { Component, type ComponentType, Fragment } from 'react';
 
 import CohortTracker from './CohortTracker';
 import { ExperimentConsumer } from './ExperimentContext';
-import type { Experiments, ExposureDetails } from './types';
+import type {
+  Experiments,
+  ExposureDetails,
+  ExperimentEnrollmentOptions,
+} from './types';
 
 type State = {
   forceFallback: boolean,
@@ -19,36 +23,48 @@ export default function asExperiment(
   experimentComponentMap: ExperimentComponentMap,
   experimentKey: string,
   callbacks: {
-    onError: (error: Error) => void,
-    onExposure: (exposureDetails: ExposureDetails) => void,
+    onError: (error: Error, options?: ExperimentEnrollmentOptions) => void,
+    onExposure: (
+      exposureDetails: ExposureDetails,
+      options?: ExperimentEnrollmentOptions,
+    ) => void,
   },
   LoadingComponent?: ?ComponentType<any>,
 ) {
+  let contextOptions;
+
   return class ExperimentSwitch extends Component<{}, State> {
     static displayName = 'ExperimentSwitch';
 
     state = {
       forceFallback: false,
+      options: undefined,
     };
 
-    onReceiveContext = (context: Experiments) => {
+    onReceiveContext = (
+      experiments: Experiments,
+      options?: ExperimentEnrollmentOptions,
+    ) => {
       const { forceFallback } = this.state;
       const { onExposure } = callbacks;
+
+      contextOptions =
+        options instanceof Function ? options(experimentKey) : options;
 
       if (forceFallback) {
         return this.renderFallback();
       }
 
-      if (!(experimentKey in context)) {
+      if (!(experimentKey in experiments)) {
         throw new Error(
           `Experiment Key ${experimentKey} does not exist in configuration`,
         );
       }
 
-      const experimentDetails = context[experimentKey];
+      const experimentDetails = experiments[experimentKey];
       if (!experimentDetails.isEnrollmentDecided) {
         // kick off the async check of the resolver
-        experimentDetails.enrollmentResolver();
+        experimentDetails.enrollmentResolver(contextOptions);
 
         // still waiting on whether or not to show an experiment
         if (LoadingComponent) {
@@ -88,6 +104,7 @@ export default function asExperiment(
           <View {...this.props} key="experimentView" />
           <CohortTracker
             exposureDetails={exposureDetails}
+            options={contextOptions}
             onExposure={onExposure}
             key="cohortTracker"
           />
@@ -98,7 +115,7 @@ export default function asExperiment(
     componentDidCatch(err: Error) {
       const { onError } = callbacks;
 
-      onError(err);
+      onError(err, contextOptions);
 
       this.setState({
         forceFallback: true,
@@ -113,7 +130,9 @@ export default function asExperiment(
     render() {
       return (
         <ExperimentConsumer>
-          {context => this.onReceiveContext(context)}
+          {({ experiments, options }) =>
+            this.onReceiveContext(experiments, options)
+          }
         </ExperimentConsumer>
       );
     }
