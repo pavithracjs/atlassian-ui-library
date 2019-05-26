@@ -1,0 +1,1 @@
+- Split Jira link into individual product links in Atlassian Switcher
