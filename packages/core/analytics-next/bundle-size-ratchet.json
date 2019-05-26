@@ -1,5 +1,9 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/analytics-next",
+    "version": "5.0.0",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -8,19 +12,27 @@
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/analytics-next",
+    "version": "5.0.0",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 14615,
-      "gzipSize": 5028
+      "size": 5746,
+      "gzipSize": 1873
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/analytics-next",
+    "version": "5.0.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 21120,
-      "gzipSize": 6762
+      "size": 12251,
+      "gzipSize": 3618
     }
   }
 ]

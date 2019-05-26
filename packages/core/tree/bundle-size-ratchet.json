@@ -1,5 +1,9 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/tree",
+    "version": "6.0.0",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -8,6 +12,10 @@
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/tree",
+    "version": "6.0.0",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -16,6 +24,10 @@
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/tree",
+    "version": "6.0.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {

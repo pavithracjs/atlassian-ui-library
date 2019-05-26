@@ -1,34 +1,50 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/calendar",
+    "version": "8.0.0",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 14175,
-      "gzipSize": 4575
+      "size": 14176,
+      "gzipSize": 4577
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/calendar",
+    "version": "8.0.0",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 41038,
-      "gzipSize": 13009
+      "size": 42533,
+      "gzipSize": 13430
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/calendar",
+    "version": "8.0.0",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 46562,
-      "gzipSize": 12420
+      "size": 46059,
+      "gzipSize": 12461
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/calendar",
+    "version": "8.0.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 99944,
-      "gzipSize": 28379
+      "size": 101132,
+      "gzipSize": 28882
     }
   }
 ]
