@@ -1,1 +1,0 @@
-- Remove completely canvas-prebuilt as it does not seem to be used
