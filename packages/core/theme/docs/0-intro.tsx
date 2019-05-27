@@ -1,10 +1,8 @@
-// @flow
-
-import React, { type Node } from 'react';
+import React, { ReactNode } from 'react';
 import { md, Example, Props } from '@atlaskit/docs';
 import Lozenge from '@atlaskit/lozenge';
 
-const Deprecated = ({ children }: { children: Node }) => (
+const Deprecated = ({ children }: { children: ReactNode }) => (
   <h3>
     {children}{' '}
     <Lozenge appearance="removed" isBold>
@@ -13,7 +11,7 @@ const Deprecated = ({ children }: { children: Node }) => (
   </h3>
 );
 
-const Experimental = ({ children }: { children: Node }) => (
+const Experimental = ({ children }: { children: ReactNode }) => (
   <h3>
     {children} <Lozenge appearance="moved">experimental</Lozenge>
   </h3>
@@ -38,7 +36,7 @@ export default md`
   ${<Experimental>Theming components</Experimental>}
 
   Whenever you create a new theme, it provides you a context specific to that theme. When theming a component, you use this context to provide a theme for your component. It is recommended that you, at the very least, export the provider for your theme so consumers can customise the look and feel of your component.
-  
+
   ${(
     <Example
       packageName="@atlaskit/theme"
@@ -51,7 +49,7 @@ export default md`
   ${<Experimental>The global theme</Experimental>}
 
   The global theme is the \`default\` export of the theme package. It is defined by using the \`createTheme\` function, so it will give you both a \`Consumer\` and \`Provider\` for you to use or customise as you see fit.
-    
+
   ${(
     <Example
       packageName="@atlaskit/theme"
