@@ -32,7 +32,7 @@ export interface StatelessProps {
   /** Called when a column is sorted. Provides information about what was sorted and an analytics event. */
   onSort?: (data: any, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
   /** Called before body table render with table props given. */
-  onBodyRender?: (bodyProps: Array<RowType>) => void;
+  onBodyRender?: (pageRows: Array<RowType>) => void;
   /** The current page number */
   page?: number;
   defaultPage?: number;
@@ -59,7 +59,7 @@ export interface StatefulProps {
   rowsPerPage?: number;
   onSetPage?: (page: number, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
   onSort?: (data: any, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
-  onBodyRender?: (bodyProps: Array<RowType>) => void;
+  onBodyRender?: (pageRows: Array<RowType>) => void;
   page?: number;
   defaultPage?: number;
   sortKey?: string;
