@@ -3,7 +3,7 @@
 import React, { Fragment, Component } from 'react';
 import Tooltip from '@atlaskit/tooltip';
 
-import isEqual from 'lodash.isequal';
+import deepEqual from 'deep-equal';
 import { styleReducerNoOp, withGlobalTheme } from '../../../theme';
 import type {
   GlobalItemPresentationProps,
@@ -26,7 +26,7 @@ class GlobalNavigationItemPrimitive extends Component<GlobalItemPrimitiveProps> 
   };
 
   shouldComponentUpdate(nextProps: GlobalItemPrimitiveProps) {
-    return !isEqual(this.props, nextProps);
+    return !deepEqual(this.props, nextProps);
   }
 
   renderIconAndBadge = (badgeWrapper: {}) => {

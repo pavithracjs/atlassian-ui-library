@@ -2,7 +2,7 @@
 
 import React, { Component, type ElementType, type Ref } from 'react';
 
-import isEqual from 'lodash.isequal';
+import deepEqual from 'deep-equal';
 import type { Dataset, ItemPrimitiveProps } from './types';
 import { styleReducerNoOp, withContentTheme } from '../../../theme';
 
@@ -68,7 +68,7 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
   };
 
   shouldComponentUpdate(nextProps: ItemPrimitiveProps) {
-    return !isEqual(this.props, nextProps);
+    return !deepEqual(this.props, nextProps);
   }
 
   render() {
