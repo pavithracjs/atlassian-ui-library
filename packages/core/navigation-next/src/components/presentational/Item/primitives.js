@@ -1,9 +1,10 @@
 // @flow
 
-import React, { PureComponent, type ElementType, type Ref } from 'react';
+import React, { Component, type ElementType, type Ref } from 'react';
 
-import { styleReducerNoOp, withContentTheme } from '../../../theme';
+import isEqual from 'lodash.isequal';
 import type { Dataset, ItemPrimitiveProps } from './types';
+import { styleReducerNoOp, withContentTheme } from '../../../theme';
 
 const isString = x => typeof x === 'string';
 
@@ -33,20 +34,25 @@ const ComponentSwitch = ({
 };
 
 const getItemComponentProps = (props: ItemPrimitiveProps) => {
-  const {
-    isActive,
-    isHover,
-    isSelected,
-    isFocused,
-    isDragging,
-    theme,
-    ...componentProps
-  } = props;
+  const nonComponentKeys = [
+    'isActive',
+    'isHover',
+    'isSelected',
+    'isFocused',
+    'isDragging',
+    'theme',
+  ];
+  const componentProps = {};
+  Object.keys(props).forEach(prop => {
+    if (!nonComponentKeys.includes(prop)) {
+      componentProps[prop] = props[prop];
+    }
+  });
 
   return componentProps;
 };
 
-class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
+class ItemPrimitive extends Component<ItemPrimitiveProps> {
   static defaultProps = {
     dataset: {
       'data-test-id': 'NavigationItem',
@@ -61,6 +67,10 @@ class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
     text: '',
   };
 
+  shouldComponentUpdate(nextProps: ItemPrimitiveProps) {
+    return !isEqual(this.props, nextProps);
+  }
+
   render() {
     const {
       after: After,
@@ -74,8 +84,8 @@ class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
       isDragging,
       isHover,
       isSelected,
-      onClick,
       isFocused,
+      onClick,
       spacing,
       styles: styleReducer,
       subText,
@@ -98,6 +108,13 @@ class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
 
     let itemComponent = 'div';
     let itemProps = { draggableProps, innerRef, dataset };
+
+    const { afterGoTo, spinnerDelay, incomingView } = this.props;
+    const propsForAfterComp = {
+      afterGoTo,
+      spinnerDelay,
+      incomingView,
+    };
 
     if (CustomComponent) {
       itemComponent = CustomComponent;
@@ -134,7 +151,7 @@ class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
         </div>
         {!!After && (
           <div css={styles.afterWrapper}>
-            <After {...presentationProps} />
+            <After {...presentationProps} {...propsForAfterComp} />
           </div>
         )}
       </ComponentSwitch>
