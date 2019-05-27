@@ -1108,10 +1108,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@changesets/cli@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@changesets/cli/-/cli-1.1.1.tgz#2abd1596d3031913a871161bd7c236c33e479ec0"
-  integrity sha512-u5UNOzH71ICrlDhFBT1ltnMAJIoDjQPu/8sn+Z02INjnbHTBS7Bo5Tc9xpo0rzXSg52zkg5iBAD8PP3r37Vs1A==
+"@changesets/cli@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@changesets/cli/-/cli-1.1.3.tgz#69c3d720e6029aa70e97a7061644a137fad6e820"
+  integrity sha512-8Ic8F8yaUKeBaxMG6tRULUE4deaE94DXalFO7K/bU5iDI8C3pAgR5a7+jyyMJ5sH0MI0n1cR3mwjYoNHp3txhg==
   dependencies:
     "@babel/runtime" "^7.4.4"
     bolt "^0.22.1"
@@ -1121,7 +1121,7 @@
     detect-indent "^6.0.0"
     fs-extra "^7.0.1"
     fuzzy "^0.1.3"
-    get-workspaces "^0.1.0"
+    get-workspaces "^0.2.1"
     globby "^9.2.0"
     inquirer "^3.3.0"
     inquirer-checkbox-plus-prompt "^1.0.1"
@@ -8302,10 +8302,10 @@ get-value@^2.0.2, get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
 
-get-workspaces@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/get-workspaces/-/get-workspaces-0.1.1.tgz#c17d57d7ef8cf06e46041ea4f22a41fbcdee3e7b"
-  integrity sha512-ClBj54rZ782YDPLpF5ySeDoMbY49plX1yhU6pfPLXk3dNgmGuvd824W+AzR8Xy5354q2VSGNzkERtr0OODOLJA==
+get-workspaces@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/get-workspaces/-/get-workspaces-0.2.1.tgz#c27aa38cb134e3b990a6798360a96401f19ba6f3"
+  integrity sha512-5vbWXBj40/2w/l/OCw3+WWE6fKkhXkkBGWtwFQdxx5Rb/Jev+vO9J91cAdy3kM44l/DTlgLJUZgq4LaI/VQEEA==
   dependencies:
     fs-extra "^7.0.1"
     globby "^9.2.0"
