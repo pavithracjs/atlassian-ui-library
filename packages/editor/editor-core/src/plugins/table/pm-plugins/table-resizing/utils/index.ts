@@ -23,6 +23,7 @@ export {
   bulkColumnsResize,
   areColumnsEven,
   adjustColumnsWidths,
+  getResizeParams,
 } from './resize-state';
 export {
   tableLayoutToSize,

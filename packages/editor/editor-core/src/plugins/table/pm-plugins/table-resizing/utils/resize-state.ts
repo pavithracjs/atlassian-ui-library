@@ -1,12 +1,16 @@
 import { Node as PMNode } from 'prosemirror-model';
+import { EditorState } from 'prosemirror-state';
+import { getSelectionRect } from 'prosemirror-utils';
 import { tableCellMinWidth } from '@atlaskit/editor-common';
 import { growColumn, shrinkColumn } from './resize-logic';
+import { getSelectedColumnIndexes } from '../../../utils';
 import {
   ColumnState,
   getCellsRefsInColumn,
   getColumnStateFromDOM,
 } from './column-state';
 import { insertColgroupFromNode } from './colgroup';
+import { getPluginState } from '../plugin';
 
 export interface ResizeState {
   cols: ColumnState[];
@@ -111,91 +115,101 @@ export const evenAllColumnsWidths = (resizeState: ResizeState): ResizeState => {
 
 export const bulkColumnsResize = (
   resizeState: ResizeState,
-  columnsIndexes: number[],
+  selectedColumns: number[],
   sourceColumnIndex: number,
+  amount: number,
 ) => {
-  const currentTableWidth = getTotalWidth(resizeState);
-  const colIndex =
-    columnsIndexes.indexOf(sourceColumnIndex) > -1
-      ? sourceColumnIndex
-      : sourceColumnIndex + 1;
-  const sourceCol = resizeState.cols[colIndex];
-  const seenColumns: {
-    [key: number]: { width: number; minWidth: number; index: number };
-  } = {};
-  const widthsDiffs: number[] = [];
   const cols = resizeState.cols.map(col => {
-    if (columnsIndexes.indexOf(col.index) > -1) {
-      const diff = col.width - sourceCol.width;
-      if (diff !== 0) {
-        widthsDiffs.push(diff);
-      }
-      return { ...col, width: sourceCol.width };
+    if (selectedColumns.indexOf(col.index) > -1) {
+      return { ...col, width: col.width + amount };
     }
     return col;
   });
+  return { ...resizeState, cols };
 
-  let newState = {
-    ...resizeState,
-    cols: cols.map(col => {
-      if (
-        columnsIndexes.indexOf(col.index) > -1 ||
-        // take from prev columns only if dragging the first handle to the left
-        (columnsIndexes.indexOf(sourceColumnIndex) > -1 && col.index < colIndex)
-      ) {
-        return col;
-      }
-      while (widthsDiffs.length) {
-        const diff = widthsDiffs.shift() || 0;
-        const column = seenColumns[col.index] || col;
-        const maybeWidth = column.width + diff;
+  // const currentTableWidth = getTotalWidth(resizeState);
+  // const colIndex =
+  //   selectedColumns.indexOf(sourceColumnIndex) > -1
+  //     ? sourceColumnIndex
+  //     : sourceColumnIndex + 1;
+  // const sourceCol = resizeState.cols[colIndex];
+  // const seenColumns: {
+  //   [key: number]: { width: number; minWidth: number; index: number };
+  // } = {};
+  // const widthsDiffs: number[] = [];
+  // const cols = resizeState.cols.map(col => {
+  //   if (selectedColumns.indexOf(col.index) > -1) {
+  //     const diff = col.width - sourceCol.width;
+  //     if (diff !== 0) {
+  //       widthsDiffs.push(diff);
+  //     }
+  //     return { ...col, width: sourceCol.width };
+  //   }
+  //   return col;
+  // });
 
-        if (maybeWidth > column.minWidth) {
-          seenColumns[column.index] = { ...column, width: maybeWidth };
-        } else {
-          widthsDiffs.push(maybeWidth - column.minWidth);
-          seenColumns[column.index] = { ...column, width: column.minWidth };
-          break;
-        }
-      }
-      return seenColumns[col.index] || col;
-    }),
-  };
+  // let newState = {
+  //   ...resizeState,
+  //   cols: cols.map(col => {
+  //     if (
+  //       selectedColumns.indexOf(col.index) > -1 ||
+  //       // take from prev columns only if dragging the first handle to the left
+  //       (selectedColumns.indexOf(sourceColumnIndex) > -1 &&
+  //         col.index < colIndex)
+  //     ) {
+  //       return col;
+  //     }
+  //     while (widthsDiffs.length) {
+  //       const diff = widthsDiffs.shift() || 0;
+  //       const column = seenColumns[col.index] || col;
+  //       const maybeWidth = column.width + diff;
 
-  // minimum possible table widths at the current layout
-  const minTableWidth = resizeState.maxSize;
-  // new table widths after bulk resize
-  const newTotalWidth = getTotalWidth(newState);
-  // when all columns are selected, what do we do when sum of columns widths is lower than min possible table widths?
-  if (
-    columnsIndexes.length === resizeState.cols.length &&
-    newTotalWidth < minTableWidth
-  ) {
-    // table is not in overflow -> normal resize of a single column
-    if (currentTableWidth === minTableWidth) {
-      return resizeState;
-    }
-    // table is in overflow: keep the dragged column at its widths and evenly distribute columns
-    // to recover from overflow state
-    else {
-      const columnWidth = Math.floor(
-        (minTableWidth - sourceCol.width) / (newState.cols.length - 1),
-      );
-      newState = {
-        ...resizeState,
-        cols: newState.cols.map(col => {
-          if (col.index === sourceCol.index) {
-            return col;
-          }
+  //       if (maybeWidth > column.minWidth) {
+  //         seenColumns[column.index] = { ...column, width: maybeWidth };
+  //       } else {
+  //         widthsDiffs.push(maybeWidth - column.minWidth);
+  //         seenColumns[column.index] = { ...column, width: column.minWidth };
+  //         break;
+  //       }
+  //     }
+  //     return seenColumns[col.index] || col;
+  //   }),
+  // };
 
-          return { ...col, width: columnWidth };
-        }),
-      };
-    }
-  }
+  // // minimum possible table widths at the current layout
+  // const minTableWidth = resizeState.maxSize;
+  // // new table widths after bulk resize
+  // const newTotalWidth = getTotalWidth(newState);
+  // // when all columns are selected, what do we do when sum of columns widths is lower than min possible table widths?
+  // if (
+  //   selectedColumns.length === resizeState.cols.length &&
+  //   newTotalWidth < minTableWidth
+  // ) {
+  //   // table is not in overflow -> normal resize of a single column
+  //   if (currentTableWidth === minTableWidth) {
+  //     return resizeState;
+  //   }
+  //   // table is in overflow: keep the dragged column at its widths and evenly distribute columns
+  //   // to recover from overflow state
+  //   else {
+  //     const columnWidth = Math.floor(
+  //       (minTableWidth - sourceCol.width) / (newState.cols.length - 1),
+  //     );
+  //     newState = {
+  //       ...resizeState,
+  //       cols: newState.cols.map(col => {
+  //         if (col.index === sourceCol.index) {
+  //           return col;
+  //         }
+
+  //         return { ...col, width: columnWidth };
+  //       }),
+  //     };
+  //   }
+  // }
 
   // fix total table widths by adding missing pixels to columns widths here and there
-  return adjustColumnsWidths(newState, resizeState.maxSize);
+  // return adjustColumnsWidths(newState, resizeState.maxSize);
 };
 
 export const areColumnsEven = (resizeState: ResizeState): boolean => {
@@ -203,4 +217,28 @@ export const areColumnsEven = (resizeState: ResizeState): boolean => {
   return newResizeState.cols.every(
     (col, i) => col.width === resizeState.cols[i].width,
   );
+};
+
+export const getResizeParams = (
+  state: EditorState,
+  colIndex: number,
+  clientX: number,
+): { amount: number; selectedColumns?: number[] } => {
+  const dragging = getPluginState(state).dragging!;
+  const selectionRect = getSelectionRect(state.selection);
+  let amount = clientX - dragging.startX;
+  if (!selectionRect) {
+    return { amount };
+  }
+  const selectedColumns = getSelectedColumnIndexes(selectionRect);
+  // if resizing non-selected columns
+  if (selectedColumns.indexOf(colIndex) === -1) {
+    return { amount };
+  }
+
+  const cols = selectedColumns.filter(index => index <= colIndex);
+  return {
+    amount: cols.length > 1 ? Math.floor(amount / cols.length) : amount,
+    selectedColumns,
+  };
 };

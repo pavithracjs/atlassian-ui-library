@@ -1,6 +1,5 @@
 import { TableMap } from 'prosemirror-tables';
 import { EditorView } from 'prosemirror-view';
-import { getSelectionRect } from 'prosemirror-utils';
 import {
   tableCellMinWidth,
   tableResizeHandleWidth,
@@ -19,8 +18,8 @@ import {
   getParentNodeWidth,
   pointsAtCell,
   createResizeHandle,
+  getResizeParams,
 } from './utils';
-import { getSelectedColumnIndexes } from '../../utils';
 import { pluginKey as widthPluginKey } from '../../../width';
 import { getPluginState } from './plugin';
 import { setResizeHandlePos, setDragging, evenColumns } from './commands';
@@ -172,8 +171,6 @@ export const handleMouseDown = (
 
     let { tr } = state;
     if (dragging) {
-      const { startX } = dragging;
-
       // If the table has changed (via collab for example) don't apply column widths
       // For example, if a table col is deleted we won't be able to reliably remap the new widths
       // There may be a more elegant solution to this, to avoid a jarring experience.
@@ -183,19 +180,17 @@ export const handleMouseDown = (
           map.colCount($cell.pos - start) +
           ($cell.nodeAfter ? $cell.nodeAfter.attrs.colspan : 1) -
           1;
-        const selectionRect = getSelectionRect(state.selection);
-        const selectedColumns = selectionRect
-          ? getSelectedColumnIndexes(selectionRect)
-          : [];
-        // only selected (or selected - 1) columns should be distributed
-        const resizingSelectedColumns =
-          selectedColumns.indexOf(colIndex) > -1 ||
-          selectedColumns.indexOf(colIndex + 1) > -1;
+
+        const { amount, selectedColumns } = getResizeParams(
+          state,
+          colIndex,
+          clientX,
+        );
         const newResizeState = resizeColumn(
           resizeState,
           colIndex,
-          clientX - startX,
-          resizingSelectedColumns ? selectedColumns : undefined,
+          amount,
+          selectedColumns,
         );
         tr = updateColumnWidths(newResizeState, table, start)(tr);
       }
@@ -225,7 +220,12 @@ export const handleMouseDown = (
       $cell.nodeAfter!.attrs.colspan -
       1;
 
-    resizeColumn(resizeState, colIndex, clientX - dragging.startX);
+    const { amount, selectedColumns } = getResizeParams(
+      state,
+      colIndex,
+      clientX,
+    );
+    resizeColumn(resizeState, colIndex, amount, selectedColumns);
   }
 
   window.addEventListener('mouseup', finish);
