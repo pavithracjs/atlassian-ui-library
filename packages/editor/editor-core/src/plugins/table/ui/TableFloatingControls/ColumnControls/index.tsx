@@ -89,10 +89,7 @@ export default class ColumnControls extends Component<Props, any> {
     }
 
     const { selection } = editorView.state;
-    const columnsWidths = getColumnsWidths(
-      editorView.state,
-      editorView.domAtPos.bind(editorView),
-    );
+    const columnsWidths = getColumnsWidths(editorView);
     const columnsParams = getColumnsParams(columnsWidths);
     const deleteBtnParams = getColumnDeleteButtonParams(
       columnsWidths,

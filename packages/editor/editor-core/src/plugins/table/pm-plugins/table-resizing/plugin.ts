@@ -53,7 +53,7 @@ export function createPlugin(
           const { state } = view;
           if (getPluginState(state).dragging) {
             const domAtPos = view.domAtPos.bind(view);
-            updateControls(state, domAtPos);
+            updateControls(state);
             updateResizeHandle(state, domAtPos);
           }
           return false;
@@ -63,7 +63,7 @@ export function createPlugin(
           const { resizeHandlePos, dragging } = getPluginState(state);
           if (resizeHandlePos !== null && !dragging) {
             setResizeHandlePos(null)(state, dispatch);
-            updateControls(state, view.domAtPos.bind(view));
+            updateControls(state);
           }
 
           return true;
