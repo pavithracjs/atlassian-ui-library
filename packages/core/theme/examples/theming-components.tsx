@@ -1,37 +1,41 @@
 import * as React from 'react';
 import { Component, Fragment, ReactNode } from 'react';
 import { createTheme, ThemeProp } from '../src';
-import { Theme } from '../src/types';
+import { Theme, ThemeProps, ThemedValue } from '../src/types';
 
-type ThemeProps = {
+interface LocalThemeProps extends ThemeProps {
   hover: boolean;
-};
-type ThemeTokens = {
+}
+
+interface ThemeTokens {
   backgroundColor: string;
   textColor: string;
-};
+}
 
-const defaultButtonTheme = props => ({
+const defaultButtonTheme = (props: LocalThemeProps) => ({
   backgroundColor: props.hover ? '#ddd' : '#eee',
   textColor: '#333',
 });
 
-const contextButtonTheme = (theme, props) => ({
-  ...theme(props),
-  backgroundColor: props.hover ? 'rebeccapurple' : 'palevioletred',
-  textColor: props.hover ? '#fff' : 'papayawhip',
-});
+const contextButtonTheme = (theme: ThemedValue, props: LocalThemeProps) => {
+  return {
+    // @ts-ignore
+    ...theme(props),
+    backgroundColor: props.hover ? 'rebeccapurple' : 'palevioletred',
+    textColor: props.hover ? '#fff' : 'papayawhip',
+  };
+};
 
 const propButtonTheme = (theme, props) => ({
   ...theme(props),
   backgroundColor: props.hover ? 'palevioletred' : 'rebeccapurple',
 });
 
-const Theme = createTheme<ThemeTokens, ThemeProps>(defaultButtonTheme);
+const Theme = createTheme<ThemeTokens, LocalThemeProps>(defaultButtonTheme);
 
 type Props = {
   children?: ReactNode;
-  theme?: ThemeProp<ThemeTokens, ThemeProps>;
+  theme?: ThemeProp<ThemeTokens, LocalThemeProps>;
 };
 
 type State = {

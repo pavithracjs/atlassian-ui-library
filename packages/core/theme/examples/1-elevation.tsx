@@ -6,7 +6,7 @@ import {
   elevation as AkElevations,
   themed,
 } from '../src';
-import { Elevation } from 'src/types';
+import { Elevation } from '../src/types';
 
 const elevations = { ...AkElevations };
 
