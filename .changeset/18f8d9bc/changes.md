@@ -1,1 +1,0 @@
-- ED-6178 Fix media wrapper having a transparent background for images
