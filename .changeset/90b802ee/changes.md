@@ -1,0 +1,1 @@
+- Added property `topOffset` to handle cases such as when we need to display banner above the mobile header
