@@ -8,11 +8,14 @@ import { HeadType } from '../types';
 interface Props extends WithSortedPageRowsProps {
   head?: HeadType;
   isFixedSize: boolean;
+  onBodyRender?: Function;
 }
 
 class Body extends React.Component<Props, {}> {
   render() {
-    const { pageRows, head, isFixedSize } = this.props;
+    const { pageRows, head, isFixedSize, onBodyRender } = this.props;
+
+    onBodyRender && onBodyRender(this.props);
 
     return (
       <tbody>

@@ -22,6 +22,7 @@ export default class DynamicTable extends React.Component<
     isRankable: false,
     onSetPage: () => {},
     onSort: () => {},
+    onBodyRender: () => {},
     rowsPerPage: Infinity,
   };
 
@@ -96,6 +97,7 @@ export default class DynamicTable extends React.Component<
       rowsPerPage,
       paginationi18n,
       onRankStart,
+      onBodyRender,
     } = this.props;
 
     return (
@@ -118,6 +120,7 @@ export default class DynamicTable extends React.Component<
         isRankingDisabled={isRankingDisabled}
         onRankEnd={this.onRankEnd}
         onRankStart={onRankStart}
+        onBodyRender={onBodyRender}
       />
     );
   }
