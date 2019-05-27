@@ -1,1 +1,0 @@
-- Revert [ED-5734] to reduce memory leak caused by getBoundingClientRect 
