@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.9.0
+- [minor] [2e2e0cf0c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e2e0cf0c4):
+
+  - Actually made URS work
+
 ## 8.8.4
 - [patch] [24dce138ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/24dce138ce):
 
