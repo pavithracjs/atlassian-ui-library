@@ -276,6 +276,7 @@
     "@types/bricks.js": "^1.8.0",
     "@types/bytes": "^2.4.33",
     "@types/chalk": "^2.2.0",
+    "@types/color": "^3.0.0",
     "@types/commonmark": "^0.27.1",
     "@types/date-fns": "^2.6.0",
     "@types/dateformat": "^1.0.1",

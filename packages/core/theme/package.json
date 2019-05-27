@@ -37,6 +37,7 @@
     "@atlaskit/section-message": "^3.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
+    "@types/color": "^3.0.0",
     "color": "^3.0.0",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"
