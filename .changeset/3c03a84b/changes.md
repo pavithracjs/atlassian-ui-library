@@ -1,1 +1,0 @@
-- remove unnessary dependencies and bring back es5 to wikimarkup
