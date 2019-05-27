@@ -14,6 +14,7 @@ type MobileHeaderProps = {
   pageHeading: Node,
   menuIconLabel: string,
   customMenu?: Node,
+  topOffset?: number,
 };
 
 type MobileHeaderState = {
@@ -63,7 +64,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
 
   render() {
     const { isAnimatingNavigation, isAnimatingSidebar } = this.state;
-    const { drawerState, menuIconLabel, customMenu } = this.props;
+    const { drawerState, menuIconLabel, customMenu, topOffset } = this.props;
     const isNavigationOpen = drawerState === 'navigation';
     const isSidebarOpen = drawerState === 'sidebar';
 
@@ -78,7 +79,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
     return (
       <Fragment>
         <styles.MobilePageHeader>
-          <styles.MobilePageHeaderContent>
+          <styles.MobilePageHeaderContent topOffset={topOffset}>
             {menu}
             <styles.PageHeading>{this.props.pageHeading}</styles.PageHeading>
             {this.props.secondaryContent}

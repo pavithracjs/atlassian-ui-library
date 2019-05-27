@@ -55,7 +55,7 @@ export const MobilePageHeaderContent = styled.div`
   height: ${mobileHeaderHeight}px;
   padding: ${gridSize}px;
   position: fixed;
-  top: 0;
+  top: ${props => props.topOffset || 0}px;
   width: 100%;
   z-index: ${layers.header};
 `;
