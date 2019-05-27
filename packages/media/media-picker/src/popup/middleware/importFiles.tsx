@@ -157,7 +157,9 @@ export const touchSelectedFiles = (
   selectedUploadFiles.forEach(
     ({ file: selectedFile, serviceName, touchFileDescriptor }) => {
       const id = touchFileDescriptor.fileId;
+      const selectedFileId = selectedFile.id;
 
+      // TODO: check if we want this for all serviceName, or only recents
       const mediaType = getMediaTypeFromMimeType(selectedFile.type);
       const preview = getPreviewByService(
         store,
@@ -178,9 +180,15 @@ export const touchSelectedFiles = (
       };
 
       tenantContext.emit('file-added', fileState);
-      const subject = new ReplaySubject<FileState>(1);
-      subject.next(fileState);
-      getFileStreamsCache().set(id, subject);
+
+      const existingFileState = getFileStreamsCache().get(selectedFileId);
+      if (existingFileState) {
+        getFileStreamsCache().set(id, existingFileState);
+      } else {
+        const subject = new ReplaySubject<FileState>(1);
+        subject.next(fileState);
+        getFileStreamsCache().set(id, subject);
+      }
     },
   );
 
