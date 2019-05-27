@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component, Fragment, ReactNode } from 'react';
 import { createTheme, ThemeProp } from '../src';
-import { Theme } from 'src/types';
+import { Theme } from '../src/types';
 
 type ThemeProps = {
   hover: boolean;

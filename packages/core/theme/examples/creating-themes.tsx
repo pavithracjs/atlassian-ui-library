@@ -38,7 +38,9 @@ const Theme = createTheme<ThemeTokens, ThemeProps>(() => ({
 export default () => (
   <React.Fragment>
     <DisplayThemeColors />
-    <Theme.Provider value={t => ({ ...t(), backgroundColor: 'palevioletred' })}>
+    <Theme.Provider
+      value={t => ({ ...t({}), backgroundColor: 'palevioletred' })}
+    >
       <DisplayThemeColors />
     </Theme.Provider>
   </React.Fragment>
