@@ -21,13 +21,12 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/adf-schema": "^2.5.5",
-    "@atlaskit/editor-common": "^39.3.0",
     "@atlaskit/editor-json-transformer": "^6.1.0",
-    "@atlaskit/theme": "^9.0.0",
     "prosemirror-model": "^1.7.0"
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/editor-common": "^39.3.0",
     "@atlaskit/editor-core": "^112.2.0",
     "@atlaskit/editor-test-helpers": "^9.3.0",
     "@atlaskit/profilecard": "^10.1.0",
