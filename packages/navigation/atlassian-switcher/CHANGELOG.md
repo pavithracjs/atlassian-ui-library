@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 2.1.0
+- [minor] [caa9ae9dbf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/caa9ae9dbf):
+
+  - Split Jira link into individual product links in Atlassian Switcher
+
 ## 2.0.1
 - Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
   - @atlaskit/item@10.0.1
