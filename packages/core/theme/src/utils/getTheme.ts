@@ -4,22 +4,18 @@ import { Theme, ThemeProps } from '../types';
 type CustomTheme = { theme: Theme };
 type GetThemeFuncParams = ThemeProps | CustomTheme;
 
-function isThemeProps(props: GetThemeFuncParams): props is ThemeProps {
-  return (props as ThemeProps).theme.__ATLASKIT_THEME__ !== undefined;
-}
-
-function isTheme(props: GetThemeFuncParams): props is CustomTheme {
-  return (props as CustomTheme).theme !== undefined;
-}
-
-export default function getTheme(props: GetThemeFuncParams | undefined): Theme {
-  if (props) {
-    if (isThemeProps(props)) {
-      return props.theme.__ATLASKIT_THEME__;
-    }
-    if (isTheme(props)) {
-      return props.theme;
-    }
+export default function getTheme(props?: GetThemeFuncParams): Theme {
+  if (
+    props &&
+    props.theme &&
+    props.theme.hasOwnProperty('__ATLASKIT_THEME__')
+  ) {
+    return (props as ThemeProps).theme.__ATLASKIT_THEME__;
   }
+
+  if (props && props.theme) {
+    return (props as CustomTheme).theme;
+  }
+
   return { mode: DEFAULT_THEME_MODE };
 }
