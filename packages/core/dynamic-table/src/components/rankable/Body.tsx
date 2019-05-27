@@ -24,7 +24,7 @@ export interface Props extends WithSortedPageRowsProps {
   isRanking: boolean;
   isRankingDisabled: boolean;
   head?: HeadType;
-  onBodyRender?: Function;
+  onBodyRender?: (pageRows: Array<RowType>) => void;
 }
 
 // computes destination of ranking
@@ -98,7 +98,7 @@ export class RankableBody extends React.Component<Props, {}> {
       onBodyRender,
     } = this.props;
 
-    onBodyRender && onBodyRender(this.props);
+    onBodyRender && onBodyRender(pageRows);
 
     return (
       <DragDropContext

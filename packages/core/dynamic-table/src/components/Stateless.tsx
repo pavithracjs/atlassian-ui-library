@@ -66,7 +66,6 @@ class DynamicTable extends React.Component<Props, State> {
     rowsPerPage: Infinity,
     onSetPage: () => {},
     onSort: () => {},
-    onBodyRender: () => {},
     page: 1,
     isRankable: false,
     isRankingDisabled: false,

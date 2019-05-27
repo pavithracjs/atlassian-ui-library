@@ -22,7 +22,6 @@ export default class DynamicTable extends React.Component<
     isRankable: false,
     onSetPage: () => {},
     onSort: () => {},
-    onBodyRender: () => {},
     rowsPerPage: Infinity,
   };
 
