@@ -29,9 +29,14 @@ export default md`
 
   ## Usage
 
-  The ExperimentController is passed a configuration object - an map of experimentKey: string to enrollmentResolver: () => Promise\\\<EnrollmentDetails\\\>.
-  This resolver based approach allows the rendering of targeted components to be blocked until the resolver, an async method is completed, and the
-  appropriate experience is only then shown to the user; thus preventing a swapping of experience. A loading component can be provided, to show while the enrollment is being processed.
+  The ExperimentController is passed a configuration object via the experimentEnrollmentConfig prop. 
+  It's a map of experiment resolvers -- functions that decide which variant should be rendered for each experiment.
+  If additional data needs to be passed to the resolvers (e.g. from a Redux store), the experimentEnrollmentOptions prop can be used.
+  The resolvers can be asynchronous, and usually will.
+  
+  This resolver based approach allows the rendering of targeted components to be blocked until the resolver is completed, and the
+  appropriate experience is only then shown to the user; thus preventing a swapping of experience. 
+  A loading component can be provided, to show while the enrollment is being processed.
 
   ${code`import { 
     asExperiment, 
@@ -42,8 +47,8 @@ export default md`
 
   In some cases the enrollmentResolver will just be a sync call to featureFlag client, to lookup the cohort that a given user is in. However, sometimes it might be required to
   additionally do REST calls, or other adhoc checks to see whether your user should get an experience, e.g., a message that should only show once to a customer could require
-   a feature flag check plus a check to a store service to lookup whether or not the user has seen that message previously. In the case that async is not needed, just return a resolved
-   promise with the enrollment details.
+  a feature flag check plus a check to a store service to lookup whether or not the user has seen that message previously. In the case that async is not needed, just return a resolved
+  promise with the enrollment details.
 
   In addition to returning the cohort in the enrollment details, there is an isEligible property. A user may have been randomly assigned to the variation, but not be eligible to see the experience.
   E.g., eligiblilty might require the user to have a locale where English is the dominant language. In these cases where isEligible is set to false,  the user is shown the fallback experience, i.e., the control component.

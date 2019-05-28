@@ -47,6 +47,30 @@ test('should not be dirty after mount', () => {
   expect(wrapper.find(HelperMessage).text()).toBe('Field is pristine');
 });
 
+test('defaultValue should be correctly set by final-form', () => {
+  const spy = jest.fn();
+  const wrapper = mount(
+    <Form onSubmit={spy}>
+      {({ formProps }) => (
+        <form {...formProps}>
+          <Field name="username" defaultValue="Joe Bloggs">
+            {({ fieldProps }) => <FieldText {...fieldProps} />}
+          </Field>
+          <Button type="submit" onClick={formProps.onSubmit}>
+            Submit
+          </Button>
+        </form>
+      )}
+    </Form>,
+  );
+  wrapper.find(Button).simulate('click');
+  expect(spy).toHaveBeenCalledWith(
+    { username: 'Joe Bloggs' },
+    expect.anything(),
+    expect.anything(),
+  );
+});
+
 test('untouched field should not show validation error', () => {
   const wrapper = mount(
     <Form onSubmit={jest.fn()}>
@@ -192,6 +216,7 @@ test('change in name should reset form field', done => {
   setTimeout(() => {
     expect(submitFn).toHaveBeenCalledWith(
       { username: 'joe bloggs' },
+      expect.anything(),
       expect.anything(),
     );
     done();

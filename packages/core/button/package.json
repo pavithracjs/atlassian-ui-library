@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/button",
-  "version": "13.0.2",
+  "version": "13.0.3",
   "description": "A React component that is a base button.",
   "license": "Apache-2.0",
   "module": "index.js",

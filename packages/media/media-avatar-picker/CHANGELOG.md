@@ -1,5 +1,10 @@
 # @atlaskit/media-avatar-picker
 
+## 21.0.3
+- [patch] [76ebbc0130](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76ebbc0130):
+
+  - Fix panning and zooming with avatar picker using new viewport.
+
 ## 21.0.2
 - [patch] [6f712416f4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f712416f4):
 

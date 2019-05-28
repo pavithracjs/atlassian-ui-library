@@ -88,6 +88,14 @@ export interface PersonItem {
   picture: string;
 }
 
+export interface UrsPersonItem {
+  avatarUrl: string;
+  entityType: string;
+  id: string;
+  name: string;
+  nickname?: string;
+}
+
 export interface JiraResultQueryParams {
   searchContainerId?: string;
   searchObjectId?: string;

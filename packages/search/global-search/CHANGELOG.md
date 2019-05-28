@@ -1,5 +1,25 @@
 # @atlaskit/global-search
 
+## 8.9.0
+- [minor] [2e2e0cf0c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e2e0cf0c4):
+
+  - Actually made URS work
+
+## 8.8.4
+- [patch] [24dce138ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/24dce138ce):
+
+  - fix prequery limit with grape
+
+## 8.8.3
+- Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+  - @atlaskit/feedback-collector@4.0.2
+  - @atlaskit/flag@12.0.0
+
+## 8.8.2
+- [patch] [409dbf30b4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/409dbf30b4):
+
+  - add support for grape in jira
+
 ## 8.8.1
 - [patch] [26501fa352](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26501fa352):
 

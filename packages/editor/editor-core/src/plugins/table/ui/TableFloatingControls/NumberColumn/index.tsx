@@ -11,7 +11,7 @@ export interface Props {
   tableActive?: boolean;
   hoverRows: (rows: number[], danger?: boolean) => void;
   hoveredRows?: number[];
-  selectRow: (row: number) => void;
+  selectRow: (row: number, expand: boolean) => void;
   hasHeaderRow?: boolean;
   isInDanger?: boolean;
   isResizing?: boolean;
@@ -35,7 +35,7 @@ export default class NumberColumn extends Component<Props, any> {
             style={{
               height: (rows[index] as HTMLElement).offsetHeight + 1,
             }}
-            onClick={() => this.selectRow(index)}
+            onClick={event => this.selectRow(index, event.shiftKey)}
             onMouseOver={() => this.hoverRows(index)}
             onMouseOut={this.clearHoverSelection}
           >
@@ -49,8 +49,8 @@ export default class NumberColumn extends Component<Props, any> {
   private hoverRows = (index: number) =>
     this.props.tableActive ? this.props.hoverRows([index]) : null;
 
-  private selectRow = (index: number) =>
-    this.props.tableActive ? this.props.selectRow(index) : null;
+  private selectRow = (index: number, expand: boolean) =>
+    this.props.tableActive ? this.props.selectRow(index, expand) : null;
 
   private clearHoverSelection = () => {
     const { tableActive, editorView } = this.props;
