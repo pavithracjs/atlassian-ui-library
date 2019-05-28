@@ -1,0 +1,1 @@
+- ED-6995 Scale down tables created in full-width mode correctly
