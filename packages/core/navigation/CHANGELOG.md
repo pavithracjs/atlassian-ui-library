@@ -1,5 +1,9 @@
 # @atlaskit/navigation
 
+## 35.1.3
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/page@11.0.0
+
 ## 35.1.2
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/avatar@16.0.2

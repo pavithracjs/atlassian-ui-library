@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.10.1
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/navigation@35.1.3
+  - @atlaskit/page@11.0.0
+
 ## 8.10.0
 - [minor] [eb4f4fadff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4f4fadff):
 

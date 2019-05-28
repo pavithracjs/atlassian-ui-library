@@ -1,5 +1,9 @@
 # @atlaskit/panel
 
+## 0.2.1
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/page@11.0.0
+
 ## 0.2.0
 - [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
