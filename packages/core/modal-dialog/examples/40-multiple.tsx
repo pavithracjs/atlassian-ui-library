@@ -5,21 +5,21 @@ import Modal, { ModalTransition } from '../src';
 
 const sizes = ['large', 'medium', 'small'];
 interface State {
-  isOpen: string[];
+  openDialogs: string[];
 }
 export default class NestedDemo extends React.Component<{}, State> {
-  state: State = { isOpen: [] };
+  state: State = { openDialogs: [] };
 
-  open = (isOpen: string) => {
-    const openModals = this.state.isOpen.slice(0);
-    openModals.push(isOpen);
-    this.setState({ isOpen: openModals });
+  open = (openDialogs: string) => {
+    const openModals = this.state.openDialogs.slice(0);
+    openModals.push(openDialogs);
+    this.setState({ openDialogs: openModals });
   };
 
   close = () => {
-    const openModals = this.state.isOpen.slice(0);
+    const openModals = this.state.openDialogs.slice(0);
     openModals.pop();
-    this.setState({ isOpen: openModals });
+    this.setState({ openDialogs: openModals });
   };
 
   handleStackChange = (idx: number, name: string) => {
@@ -34,7 +34,7 @@ export default class NestedDemo extends React.Component<{}, State> {
   };
 
   render() {
-    const { isOpen } = this.state;
+    const { openDialogs } = this.state;
 
     return (
       <div style={{ maxWidth: 400, padding: 16 }}>
@@ -62,7 +62,7 @@ export default class NestedDemo extends React.Component<{}, State> {
 
           return (
             <ModalTransition key={name}>
-              {isOpen.includes(name) && (
+              {openDialogs.includes(name) && (
                 <Modal
                   actions={actions}
                   autoFocus
