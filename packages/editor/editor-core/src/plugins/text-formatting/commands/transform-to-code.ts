@@ -41,15 +41,11 @@ const replaceSmartCharsToAscii = (
 
   while ((match = FIND_SMART_CHAR.exec(textExtracted))) {
     const { 0: smartChar, index: offset } = match;
-    const replacePos = position + offset;
+    const replacePos = tr.mapping.map(position + offset);
     const replacementText = schema.text(
       SMART_TO_ASCII[smartChar as keyof typeof SMART_TO_ASCII],
     );
-    tr.replaceWith(
-      tr.mapping.map(replacePos),
-      tr.mapping.map(replacePos + smartChar.length),
-      replacementText,
-    );
+    tr.replaceWith(replacePos, replacePos + smartChar.length, replacementText);
   }
 };
 

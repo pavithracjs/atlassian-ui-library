@@ -1,13 +1,8 @@
-import { transformSmartCharsMentionsAndEmojis } from '../plugins/text-formatting/commands/transform-to-code';
 import { EditorState, TextSelection, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { CellSelection } from 'prosemirror-tables';
-import {
-  ResolvedPos,
-  MarkType,
-  Mark,
-  Node as ProsemirrorNode,
-} from 'prosemirror-model';
+import { ResolvedPos, MarkType, Mark, Node as PmNode } from 'prosemirror-model';
+import { transformSmartCharsMentionsAndEmojis } from '../plugins/text-formatting/commands/transform-to-code';
 import { GapCursorSelection } from '../plugins/gap-cursor';
 import { Command } from '../types';
 
@@ -91,8 +86,8 @@ function findCutBefore($pos: ResolvedPos): ResolvedPos | null {
 }
 
 const applyMarkOnRange = (
-  rangeSelectionFrom: number,
-  rangeSelectionTo: number,
+  from: number,
+  to: number,
   removeMark: boolean,
   mark: Mark,
   tr: Transaction,
@@ -100,47 +95,36 @@ const applyMarkOnRange = (
   const { schema } = tr.doc.type;
   const { code } = schema.marks;
   if (mark.type === code) {
-    transformSmartCharsMentionsAndEmojis(
-      rangeSelectionFrom,
-      rangeSelectionTo,
-      tr,
-    );
+    transformSmartCharsMentionsAndEmojis(from, to, tr);
   }
 
-  tr.doc.nodesBetween(
-    tr.mapping.map(rangeSelectionFrom),
-    tr.mapping.map(rangeSelectionTo),
-    (node, pos) => {
-      if (!node.isText) {
-        return true;
-      }
-
-      // This is an issue when the user selects some text.
-      // We need to check if the current node position is less than the range selection from.
-      // If it’s true, that means we should apply the mark using the range selection,
-      // not the current node position.
-      const nodeBetweenFrom = Math.max(pos, tr.mapping.map(rangeSelectionFrom));
-      const nodeBetweenTo = Math.min(
-        pos + node.nodeSize,
-        tr.mapping.map(rangeSelectionTo),
-      );
-
-      if (removeMark) {
-        tr.removeMark(nodeBetweenFrom, nodeBetweenTo, mark);
-      } else {
-        tr.addMark(nodeBetweenFrom, nodeBetweenTo, mark);
-      }
-
+  tr.doc.nodesBetween(tr.mapping.map(from), tr.mapping.map(to), (node, pos) => {
+    if (!node.isText) {
       return true;
-    },
-  );
+    }
+
+    // This is an issue when the user selects some text.
+    // We need to check if the current node position is less than the range selection from.
+    // If it’s true, that means we should apply the mark using the range selection,
+    // not the current node position.
+    const nodeBetweenFrom = Math.max(pos, tr.mapping.map(from));
+    const nodeBetweenTo = Math.min(pos + node.nodeSize, tr.mapping.map(to));
+
+    if (removeMark) {
+      tr.removeMark(nodeBetweenFrom, nodeBetweenTo, mark);
+    } else {
+      tr.addMark(nodeBetweenFrom, nodeBetweenTo, mark);
+    }
+
+    return true;
+  });
 };
 
 const toggleMarkInRange = (mark: Mark): Command => (state, dispatch) => {
   const tr = state.tr;
   if (state.selection instanceof CellSelection) {
     let markInRange = false;
-    const cells: { node: ProsemirrorNode; pos: number }[] = [];
+    const cells: { node: PmNode; pos: number }[] = [];
     state.selection.forEachCell((cell, cellPos) => {
       cells.push({ node: cell, pos: cellPos });
       const from = cellPos;
@@ -153,8 +137,8 @@ const toggleMarkInRange = (mark: Mark): Command => (state, dispatch) => {
 
     for (let i = cells.length - 1; i >= 0; i--) {
       const cell = cells[i];
-      const from = tr.mapping.map(cell.pos);
-      const to = tr.mapping.map(from + cell.node.nodeSize);
+      const from = cell.pos;
+      const to = from + cell.node.nodeSize;
 
       applyMarkOnRange(from, to, markInRange, mark, tr);
     }
