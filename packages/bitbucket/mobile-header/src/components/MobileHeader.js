@@ -28,6 +28,10 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
     isAnimatingSidebar: false,
   };
 
+  static defaultProps = {
+    topOffset: 0,
+  };
+
   componentWillReceiveProps(nextProps: MobileHeaderProps) {
     if (nextProps.drawerState === 'none') {
       if (this.props.drawerState === 'navigation') {
@@ -51,12 +55,14 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
     isAnimating: boolean,
     renderFn?: (isOpen: boolean) => Node,
     onTransitionEnd: Function,
+    topOffset: number,
     side: string = 'left',
   ) => (
     <styles.MobileNavSlider
       isOpen={isOpen}
       onTransitionEnd={onTransitionEnd}
       side={side}
+      topOffset={topOffset}
     >
       {(isOpen || isAnimating) && renderFn && renderFn(isOpen)}
     </styles.MobileNavSlider>
@@ -91,6 +97,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
           isAnimatingNavigation,
           this.props.navigation,
           this.handleNavSlideFinish,
+          topOffset,
         )}
 
         {this.renderSlider(
@@ -98,6 +105,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
           isAnimatingSidebar,
           this.props.sidebar,
           this.handleSidebarSlideFinish,
+          topOffset,
           'right',
         )}
 
