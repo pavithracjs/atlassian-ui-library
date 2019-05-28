@@ -6,7 +6,11 @@ import JiraQuickSearchContainer from './jira/JiraQuickSearchContainer';
 import configureSearchClients, { Config } from '../api/configureSearchClients';
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { GlobalSearchPreFetchContext } from './PrefetchedResultsProvider';
-import { QuickSearchContext } from '../api/types';
+import {
+  QuickSearchContext,
+  ConfluenceModelContext,
+  JiraModelContext,
+} from '../api/types';
 
 const DEFAULT_NOOP_LOGGER: Logger = {
   safeInfo() {},
@@ -153,6 +157,11 @@ export interface Props {
    * Determine whether to enable urs for bootstrapping people search.
    */
   useUrsForBootstrapping?: boolean;
+
+  /**
+   * Additional context paramters used to evaluate search models
+   */
+  modelContext?: ConfluenceModelContext | JiraModelContext;
 }
 
 /**
@@ -258,6 +267,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               appPermission,
               fasterSearchFFEnabled,
               useUrsForBootstrapping,
+              modelContext,
             } = this.props;
 
             return (
@@ -275,6 +285,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 appPermission={appPermission}
                 fasterSearchFFEnabled={fasterSearchFFEnabled}
                 useUrsForBootstrapping={useUrsForBootstrapping}
+                modelContext={modelContext}
               />
             );
           }}

@@ -1,9 +1,14 @@
-// @flow
 import styled from 'styled-components';
 
 import { spacing } from './vars';
+import { GridColumnProps, ThemeProps } from '../types';
 
-const getColumnRatio = props => {
+interface Props {
+  medium?: number;
+  theme: ThemeProps;
+}
+
+const getColumnRatio = (props: Props) => {
   if (props.medium === props.theme.columns) {
     return '100%';
   }
@@ -13,13 +18,13 @@ const getColumnWidth = (props: any) =>
   props.medium > 0
     ? `calc(${getColumnRatio(props)} - ${spacing[props.theme.spacing]}px)`
     : 'auto';
-const availableColumns = props => props.theme.columns;
-const specifiedColumns = props =>
+const availableColumns = (props: Props) => props.theme.columns;
+const specifiedColumns = (props: Props) =>
   props.medium ? props.medium : availableColumns(props);
-const columns = props =>
+const columns = (props: Props) =>
   Math.min(availableColumns(props), specifiedColumns(props));
-const gridSpacing = props => spacing[props.theme.spacing];
-const getMaxWidthColumnRatio = props => {
+const gridSpacing = (props: Props) => spacing[props.theme.spacing];
+const getMaxWidthColumnRatio = (props: Props) => {
   if (columns(props) >= availableColumns(props)) {
     return '100%';
   }
@@ -30,7 +35,7 @@ const getMaxWidthColumnRatio = props => {
 // handle them correctly for IE11.
 // Also IE11 and Edge both have rounding issues for flexbox which is why a width of
 // 99.9999% is used. Using 100% here causes columns to wrap prematurely.
-const GridColumn = styled.div`
+const GridColumn = styled.div<GridColumnProps>`
   flex-grow: 1;
   flex-shrink: 0;
   flex-basis: ${getColumnWidth};

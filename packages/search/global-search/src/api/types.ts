@@ -101,3 +101,9 @@ export interface JiraResultQueryParams {
   searchObjectId?: string;
   searchContentType?: 'issue' | 'board' | 'project' | 'filter';
 }
+
+export interface ConfluenceModelContext {
+  spaceKey?: string;
+}
+
+export interface JiraModelContext {}

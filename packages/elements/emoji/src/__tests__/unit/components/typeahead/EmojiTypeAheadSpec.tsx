@@ -585,15 +585,65 @@ describe('EmojiTypeAhead', () => {
     emojiProvider.then(provider => provider.setSelectedTone(1));
 
     return setupTypeAhead({
-      emojiProvider: emojiProvider,
+      emojiProvider,
       query: 'raised_hand',
-    } as Props).then(component =>
+    }).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         expect(itemsVisibleCount(component) === 1).toEqual(true);
         const typeaheadEmoji = getSelectedEmojiTypeAheadItem(component).prop(
           'emoji',
         );
         expect(typeaheadEmoji.shortName).toEqual(':raised_hand::skin-tone-2:');
+      }),
+    );
+  });
+
+  it('should include skin tone details for analytics', () => {
+    let choseEmoji: OptionalEmojiDescription;
+    const emojiProvider = getEmojiResourcePromise();
+    emojiProvider.then(provider => provider.setSelectedTone(5));
+    const fireEventSpy = jest.fn();
+
+    return setupTypeAhead({
+      emojiProvider,
+      query: 'raised_hand',
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
+      onSelection: (_emojiId, emoji) => {
+        choseEmoji = emoji;
+      },
+    }).then(component =>
+      waitUntil(() => doneLoading(component)).then(() => {
+        expect(itemsVisibleCount(component) === 1).toEqual(true);
+        const typeaheadEmoji = getSelectedEmojiTypeAheadItem(component).prop(
+          'emoji',
+        );
+        expect(typeaheadEmoji.shortName).toEqual(':raised_hand::skin-tone-6:');
+        const item = getEmojiTypeAheadItemById(component, '270b-1f3ff');
+        item.simulate('mousedown', leftClick);
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining(
+            withEmojiIds(
+              withSessionId(
+                typeaheadSelectedEvent(
+                  false,
+                  expect.any(Number),
+                  choseEmoji!,
+                  [choseEmoji!],
+                  'raised_hand',
+                  false,
+                ),
+              ),
+            ),
+          ),
+        );
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            attributes: expect.objectContaining({
+              skinToneModifier: 'dark',
+              baseEmojiId: '270b',
+            }),
+          }),
+        );
       }),
     );
   });

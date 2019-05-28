@@ -45,6 +45,10 @@ declare module '@atlaskit/modal-dialog' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/page' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/section-message' {
   declare module.exports: any;
 }
