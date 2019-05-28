@@ -27,6 +27,10 @@ import {
   generateRandomJiraFilter,
   generateRandomJiraProject,
 } from '../../../example-helpers/mockJira';
+import {
+  buildJiraModelParams,
+  buildConfluenceModelParams,
+} from '../../util/model-parameters';
 
 const DEFAULT_XPSEARCH_OPTS = {
   method: 'post',
@@ -88,8 +92,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         [Scope.ConfluencePageBlog],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(1);
 
@@ -138,8 +141,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         [Scope.ConfluenceSpace],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.ConfluenceSpace)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
@@ -185,8 +187,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         [Scope.JiraIssue],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
@@ -227,8 +228,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'test_uuid',
         jiraScopes,
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(0);
       expect(result.results.get(Scope.JiraBoardProjectFilter)).toHaveLength(3);
@@ -258,8 +258,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'sessionId',
         [Scope.People],
-        'confluence',
-        0,
+        [],
       );
       expect(result.results.get(Scope.People)).toHaveLength(1);
 
@@ -294,8 +293,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         'sessionId',
         [Scope.People],
-        'confluence',
-        0,
+        [],
       );
 
       const item = result.results.get(Scope.People)![0] as PersonResult;
@@ -469,8 +467,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.ConfluenceSpace],
-      'confluence',
-      0,
+      [],
     );
 
     expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
@@ -486,13 +483,12 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
-      0,
-      undefined,
-      {
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-      },
+      [
+        {
+          '@type': 'queryParams',
+          queryVersion: 0,
+        },
+      ],
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -522,77 +518,7 @@ describe('CrossProductSearchClient', () => {
       'query',
       'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
-      undefined,
-      undefined,
-      {
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-        currentContainerId: '123',
-      },
-    );
-
-    const call = fetchMock.calls('xpsearch')[0];
-    // @ts-ignore
-    const body = JSON.parse(call[1].body);
-
-    expect(body.query).toEqual('query');
-    expect(body.cloudId).toEqual('123');
-    expect(body.limit).toEqual(10);
-    expect(body.scopes).toEqual(
-      expect.arrayContaining(['jira.issue', 'confluence.page,blogpost']),
-    );
-    expect(body.modelParams).toEqual([
-      {
-        '@type': 'currentProject',
-        projectId: '123',
-      },
-    ]);
-  });
-
-  it('should send the right body with container id in confluence', async () => {
-    apiWillReturn({
-      scopes: [],
-    });
-
-    await searchClient.search(
-      'query',
-      'test_uuid',
-      [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'confluence',
-      undefined,
-      undefined,
-      {
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-        currentContainerId: '123',
-      },
-    );
-
-    const call = fetchMock.calls('xpsearch')[0];
-    // @ts-ignore
-    const body = JSON.parse(call[1].body);
-
-    expect(body.modelParams).toBeUndefined();
-  });
-
-  it('should send the right body with project id and query version', async () => {
-    apiWillReturn({
-      scopes: [],
-    });
-
-    await searchClient.search(
-      'query',
-      'test_uuid',
-      [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
-      1,
-      undefined,
-      {
-        searchReferrerId: 'some referrer id',
-        currentContentId: '321',
-        currentContainerId: '123',
-      },
+      buildJiraModelParams(1, '123'),
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -617,22 +543,68 @@ describe('CrossProductSearchClient', () => {
     ]);
   });
 
-  it('should omit model params if queryVersion and project id is not provided', async () => {
+  it('should send the right body with container id in confluence', async () => {
     apiWillReturn({
       scopes: [],
     });
 
     await searchClient.search(
       'query',
-      'test-uuid',
+      'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'jira',
+      buildConfluenceModelParams(1, {
+        spaceKey: '123',
+      }),
     );
+
     const call = fetchMock.calls('xpsearch')[0];
     // @ts-ignore
     const body = JSON.parse(call[1].body);
 
-    expect(body.modelParams).toBeUndefined();
+    expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 1,
+      },
+      {
+        '@type': 'currentSpace',
+        spaceKey: '123',
+      },
+    ]);
+  });
+
+  it('should send the right body with project id and query version', async () => {
+    apiWillReturn({
+      scopes: [],
+    });
+
+    await searchClient.search(
+      'query',
+      'test_uuid',
+      [Scope.ConfluencePageBlog, Scope.JiraIssue],
+      buildJiraModelParams(1, '123'),
+    );
+
+    const call = fetchMock.calls('xpsearch')[0];
+    // @ts-ignore
+    const body = JSON.parse(call[1].body);
+
+    expect(body.query).toEqual('query');
+    expect(body.cloudId).toEqual('123');
+    expect(body.limit).toEqual(10);
+    expect(body.scopes).toEqual(
+      expect.arrayContaining(['jira.issue', 'confluence.page,blogpost']),
+    );
+    expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 1,
+      },
+      {
+        '@type': 'currentProject',
+        projectId: '123',
+      },
+    ]);
   });
 
   describe('ABTest', () => {
