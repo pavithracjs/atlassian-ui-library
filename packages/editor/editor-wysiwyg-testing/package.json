@@ -4,7 +4,9 @@
   "description": "Compare VR snapshots of the editor & renderer to validate the WYSIWYG result",
   "private": true,
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Editor WYSIWYG Testing",
+    "team": "editor"
   },
   "author": "Atlassian Pty Ltd",
   "maintainers": [
