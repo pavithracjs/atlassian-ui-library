@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.10.2
+- [patch] [4b4ee6dc9f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b4ee6dc9f):
+
+  - Fix containerId, renaming it to searchContainerId
+
 ## 8.10.1
 - Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
   - @atlaskit/navigation@35.1.3
