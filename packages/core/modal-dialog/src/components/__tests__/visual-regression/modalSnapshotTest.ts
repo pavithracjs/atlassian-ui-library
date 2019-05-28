@@ -3,6 +3,8 @@ import {
   takeElementScreenShot,
 } from '@atlaskit/visual-regression/helper';
 
+declare var global: any;
+
 const openModalBtn = "[type='button']";
 const modalDialog = "[role='dialog']";
 
@@ -12,10 +14,8 @@ describe('Snapshot Test', () => {
       'core',
       'modal-dialog',
       'basic',
-      // @ts-ignore custom properties on global are untyped
       global.__BASEURL__,
     );
-    // @ts-ignore custom properties on global are untyped
     const { page } = global;
 
     await page.goto(url);
