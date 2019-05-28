@@ -11,9 +11,43 @@ if (!process.env.BITBUCKET_BRANCH && process.env.USER) {
   process.env.BITBUCKET_BRANCH = process.env.USER + '_local_run';
 }
 
+const WAITFORXXX_DEFAULT_TIMEOUT = 5e3; // 5s
+const WAITFORXXX_MOBILE_TIMEOUT = 30e3; // 30s
+
+function toBrowserStackClients(
+  launchers /*: Object */ = {},
+) /*: Array<?Object>*/ {
+  return Object.keys(launchers).map(launchKey => ({
+    browserName: launchers[launchKey].browserName,
+    options: {
+      capabilities: {
+        os: launchers[launchKey].os,
+        os_version: launchers[launchKey].os_version,
+        browserName: launchers[launchKey].browserName,
+        browserVersion: launchers[launchKey].browser_version,
+        device: launchers[launchKey].device,
+        realMobile: launchers[launchKey].realMobile,
+        project: 'Atlaskit Webdriver Tests',
+        build: process.env.BITBUCKET_BRANCH,
+        'browserstack.local': true,
+        'browserstack.debug': true,
+        'browserstack.idleTimeout': 300,
+        'browserstack.localIdentifier': commit,
+        resolution: launchers[launchKey].resolution,
+        acceptSslCerts: true,
+      },
+      logLevel: 'error',
+      user: process.env.BROWSERSTACK_USERNAME,
+      key: process.env.BROWSERSTACK_KEY,
+      waitforTimeout:
+        launchers[launchKey].waitforTimeout || WAITFORXXX_DEFAULT_TIMEOUT,
+    },
+  }));
+}
+
 function setBrowserStackClients() /*: Array<?Object>*/ {
   const RESOLUTION = '1920x1080';
-  let launchers = {
+  const launchers = {
     chrome: {
       os: 'Windows',
       os_version: '10',
@@ -58,35 +92,31 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
     // delete launchers.edge;
     process.env.BITBUCKET_BRANCH = 'Landkid';
   }
-  const launchKeys = Object.keys(launchers);
-  const clients = launchKeys.map(launchKey => {
-    const options = {
-      capabilities: {
-        os: launchers[launchKey].os,
-        os_version: launchers[launchKey].os_version,
-        browserName: launchers[launchKey].browserName,
-        browserVersion: launchers[launchKey].browser_version,
-        project: 'Atlaskit Webdriver Tests',
-        build: process.env.BITBUCKET_BRANCH,
-        'browserstack.local': true,
-        'browserstack.debug': true,
-        'browserstack.idleTimeout': 300,
-        'browserstack.localIdentifier': commit,
-        resolution: launchers[launchKey].resolution,
-        acceptSslCerts: true,
-      },
-      logLevel: 'error',
-      user: process.env.BROWSERSTACK_USERNAME,
-      key: process.env.BROWSERSTACK_KEY,
-      waitforTimeout: 3000,
-    };
-    return {
-      browserName: launchers[launchKey].browserName,
-      options,
-    };
-  });
 
-  return clients;
+  return toBrowserStackClients(launchers);
+}
+
+function setBrowserStackMobileClients() /*: Array<?Object>*/ {
+  const launchers = {
+    iphone: {
+      os_version: '9',
+      browserName: 'iphone',
+      device: 'iPhone 6S',
+      resolution: '1334*750',
+      realMobile: false,
+      waitforTimeout: WAITFORXXX_MOBILE_TIMEOUT,
+    },
+    android: {
+      os_version: '5.0',
+      browserName: 'android',
+      device: 'Google Nexus 5',
+      resolution: '1080*1920',
+      realMobile: false,
+      waitforTimeout: WAITFORXXX_MOBILE_TIMEOUT,
+    },
+  };
+
+  return toBrowserStackClients(launchers);
 }
 
 function setLocalClients() /*: Array<?Object>*/ {
@@ -109,4 +139,8 @@ function setLocalClients() /*: Array<?Object>*/ {
   return [{ browserName: 'chrome', options }];
 }
 
-module.exports = { setLocalClients, setBrowserStackClients };
+module.exports = {
+  setLocalClients,
+  setBrowserStackClients,
+  setBrowserStackMobileClients,
+};

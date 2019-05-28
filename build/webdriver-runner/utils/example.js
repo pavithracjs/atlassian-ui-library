@@ -10,11 +10,12 @@
 const baseUrl = 'http://127.0.0.1:9000';
 
 const getExampleUrl = (
-  group: string,
-  packageName: string,
-  exampleName: string = '',
+  group /*: string */,
+  packageName /*: string */,
+  exampleName /*: string */ = '',
+  environment /*: string */ = baseUrl,
 ) =>
-  `${baseUrl}/examples.html?groupId=${group}&packageId=${packageName}&exampleId=${exampleName}`;
+  `${environment}/examples.html?groupId=${group}&packageId=${packageName}&exampleId=${exampleName}`;
 
 module.exports = {
   baseUrl,

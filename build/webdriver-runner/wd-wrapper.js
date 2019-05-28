@@ -4,7 +4,7 @@ const assert = require('assert').strict;
  * wrapper on top of webdriver-io apis to give a feel of puppeeteer api
  */
 
-const WAIT_TIMEOUT = 5000;
+const WAIT_UNTIL_TIMEOUT = 5000;
 
 export class JSHandle {
   constructor(client, selector) {
@@ -305,13 +305,12 @@ export default class Page {
   // Wait
   async waitForSelector(selector, options = {}, reverse = false) {
     const elem = await this.browser.$(selector);
-    return elem.waitForExist(options.timeout || WAIT_TIMEOUT, reverse);
+    return elem.waitForExist(options.timeout, reverse);
   }
 
   async waitForVisible(selector, options = {}) {
     const elem = await this.browser.$(selector);
-
-    return elem.waitForDisplayed(options.timeout || WAIT_TIMEOUT);
+    return elem.waitForDisplayed(options.timeout);
   }
 
   async waitUntilContainsText(selector, text) {
@@ -326,7 +325,7 @@ export default class Page {
   }
 
   waitUntil(predicate) {
-    return this.browser.waitUntil(predicate, WAIT_TIMEOUT);
+    return this.browser.waitUntil(predicate, WAIT_UNTIL_TIMEOUT);
   }
 
   // Window

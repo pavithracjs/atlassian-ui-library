@@ -26,6 +26,11 @@ if (isBrowserStack) {
   clients = setupClients.setLocalClients();
 }
 
+const clientsFilter = skip => client =>
+  client &&
+  client.browserName &&
+  !skip.includes(client.browserName.toLowerCase());
+
 const launchClient = client => {
   if (client && client.driver && client.driver.sessionId) {
     return client.driver;
@@ -65,7 +70,7 @@ afterAll(async function() {
 */
 function BrowserTestCase(
   testCase /*: string */,
-  options /*: {skip?: string[]} */,
+  options /*: {skip?: string[], mobile?: boolean} */,
   tester /*: Tester<Object> */,
 ) {
   let skip = [];
@@ -73,9 +78,15 @@ function BrowserTestCase(
     skip = Array.isArray(options.skip) ? options.skip : [];
   }
 
-  const execClients = clients.filter(
-    c => c && c.browserName && !skip.includes(c.browserName.toLowerCase()),
-  );
+  const execClients = clients.filter(clientsFilter(skip));
+
+  if (isBrowserStack && options && options.mobile) {
+    execClients.push(
+      ...setupClients
+        .setBrowserStackMobileClients()
+        .filter(clientsFilter(skip)),
+    );
+  }
 
   describe(filename, () => {
     if (!execClients.length) {
