@@ -26,3 +26,4 @@ export * from './components/Reset';
 export { default } from './components/Theme';
 export * from './hoc';
 export * from './utils/createTheme';
+export * from './types';
