@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node } from 'react';
+import React, { type Node, createRef } from 'react';
 import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import { FocusLock } from '../../..';
@@ -84,36 +84,38 @@ it('should focus last enabled lock', () => {
 });
 
 it('should focus on inner lock', () => {
+  const outer = createRef();
+  const inner = createRef();
   mount(
     <FocusLock enabled>
-      <button>Button 1</button>
+      <button ref={outer}>Button 1</button>
       <FocusLock enabled>
-        <button>Button 2</button>
+        <button ref={inner}>Button 2</button>
       </FocusLock>
     </FocusLock>,
   );
-  const { activeElement } = document;
-  expect(activeElement && activeElement.tabIndex).toBe(1);
+  expect(inner.current).toBe(document.activeElement);
 });
 
 it('should focus on last enabled inner lock', () => {
+  const outer = createRef();
+  const inner = createRef();
   mount(
     <FocusLock enabled>
       <div>
-        <button>Button 1</button>
+        <button ref={outer}>Button 1</button>
         <FocusLock enabled>
           <div>
-            <button>Button 2</button>
+            <button ref={inner}>Button 2</button>
             <FocusLock enabled={false}>
-              <button>Button 3</button>
+              <button ref={inner}>Button 3</button>
             </FocusLock>
           </div>
         </FocusLock>
       </div>
     </FocusLock>,
   );
-  const { activeElement } = document;
-  expect(activeElement && activeElement.tabIndex).toBe(1);
+  expect(inner.current).toBe(document.activeElement);
 });
 
 it('should work through Portals', () => {
@@ -180,12 +182,14 @@ class FocusLockWithState extends React.Component<
 }
 
 it('should stay focused in inner lock when disabled', () => {
+  const outer = createRef();
+  const inner = createRef();
   const wrapper = mount(
     <FocusLock enabled>
-      <button>Button 1</button>
+      <button ref={outer}>Button 1</button>
       <FocusLockWithState defaultEnabled>
         {(enabled, toggle) => (
-          <button id="button-2" onClick={toggle}>
+          <button id="button-2" onClick={toggle} ref={inner}>
             {`Button 2 ${enabled ? 'locked' : 'unlocked'}`}
           </button>
         )}
@@ -195,9 +199,7 @@ it('should stay focused in inner lock when disabled', () => {
   wrapper.find('#button-2').simulate('click');
   return nextTick(() => {
     const { activeElement } = document;
-    expect(textContent(activeElement && activeElement.nextElementSibling)).toBe(
-      'Button 2 unlocked',
-    );
+    expect(textContent(activeElement)).toBe('Button 2 unlocked');
   });
 });
 
