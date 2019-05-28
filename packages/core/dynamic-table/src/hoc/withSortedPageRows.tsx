@@ -109,19 +109,9 @@ export default function withSortedPageRows<
     Omit<WrappedComponentProps & Props, 'pageRows'>,
     { pageRows: Array<RowType> }
   > {
-    componentWillMount() {
-      validateSortKey(this.props.sortKey, this.props.head);
-    }
-
-    componentWillReceiveProps(
-      nextProps: Omit<WrappedComponentProps & Props, 'pageRows'>,
-    ) {
-      if (
-        this.props.sortKey !== nextProps.sortKey ||
-        this.props.head !== nextProps.head
-      ) {
-        validateSortKey(nextProps.sortKey, nextProps.head);
-      }
+    constructor(props: Omit<WrappedComponentProps & Props, 'pageRows'>) {
+      super(props);
+      this.state = { pageRows: [] };
     }
 
     static getDerivedStateFromProps(
@@ -137,9 +127,12 @@ export default function withSortedPageRows<
         rowsPerPage,
         onPageRowsUpdate,
       } = props;
+
+      validateSortKey(sortKey, head);
       const sortedRows = getSortedRows(head, rows, sortKey, sortOrder) || [];
       const pageRows = getPageRows(sortedRows, page, rowsPerPage);
       onPageRowsUpdate && onPageRowsUpdate(pageRows);
+
       return { ...state, pageRows };
     }
 
