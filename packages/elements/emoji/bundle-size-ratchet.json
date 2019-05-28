@@ -11,8 +11,8 @@
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 43495,
-      "gzipSize": 11786
+      "size": 42297,
+      "gzipSize": 11473
     }
   },
   {
@@ -36,7 +36,7 @@
     "name": "main",
     "stats": {
       "size": 68527,
-      "gzipSize": 17824
+      "gzipSize": 17823
     }
   },
   {
@@ -76,15 +76,15 @@
     "name": "main",
     "stats": {
       "size": 459962,
-      "gzipSize": 125520
+      "gzipSize": 125514
     }
   },
   {
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 117814,
-      "gzipSize": 29055
+      "size": 116616,
+      "gzipSize": 28715
     }
   }
 ]

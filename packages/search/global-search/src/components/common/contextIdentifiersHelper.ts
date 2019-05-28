@@ -72,7 +72,7 @@ export const attachJiraContextIdentifiers = (
   const attachJiraContext = (result: Result) => {
     const href = new URI(result.href);
     if (result.containerId) {
-      href.addQuery('containerId', result.containerId);
+      href.addQuery('searchContainerId', result.containerId);
     }
     href.addQuery('searchContentType', result.contentType.replace(
       'jira-',

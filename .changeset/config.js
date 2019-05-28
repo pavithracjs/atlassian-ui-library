@@ -7,9 +7,7 @@ const getReleaseLine = async (changeset, versionType) => {
     .map(l => `  ${l}`.trimRight())
     .join('\n');
 
-  return `- [${versionType}] ${getLinkMD(
-    changeset.commit,
-  )}:\n\n${indentedSummary}`;
+  return `- ${getLinkMD(changeset.commit)}:\n\n${indentedSummary}`;
 };
 
 const getDependencyReleaseLine = async (changesets, dependenciesUpdated) => {

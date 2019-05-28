@@ -1,28 +1,19 @@
-// @flow
-import React, { Component, type Node } from 'react';
-import {
-  ThemeProvider,
-  withTheme,
-  type ThemeProviderProps,
-} from 'styled-components';
+import React, { Component } from 'react';
+import { ThemeProvider, withTheme } from 'styled-components';
 
 import { defaultGridColumns } from './internal/vars';
 import GridColumn from './internal/GridColumnElement';
+import { GridColumnProps } from './types';
 
 const defaultSpacing = 'cosy';
 
-type Props = {
-  medium?: number,
-  children?: Node,
-} & ThemeProviderProps;
-
 export default withTheme(
-  class AkGridColumn extends Component<Props, void> {
+  class AkGridColumn extends Component<GridColumnProps> {
     static defaultProps = {
       medium: 0,
     };
 
-    getTheme = props => ({
+    getTheme = (props: GridColumnProps) => ({
       columns:
         props.theme && props.theme.columns
           ? props.theme.columns
@@ -34,7 +25,7 @@ export default withTheme(
       isNestedGrid: false,
     });
 
-    getNestedTheme = props => ({
+    getNestedTheme = (props: GridColumnProps) => ({
       columns: props.medium,
       spacing:
         props.theme && props.theme.spacing

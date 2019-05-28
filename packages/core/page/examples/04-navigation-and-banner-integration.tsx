@@ -1,4 +1,3 @@
-// @flow
 import React, { Component, Fragment } from 'react';
 import Navigation, { AkNavigationItem } from '@atlaskit/navigation';
 import Banner from '@atlaskit/banner';
@@ -6,21 +5,21 @@ import Button from '@atlaskit/button';
 import { AtlassianIcon } from '@atlaskit/logo';
 import Page, { Grid } from '../src';
 
-type State = {
-  isErrorBannerOpen: boolean,
-  isAnnouncementBannerOpen: boolean,
-  navigationWidth?: number,
-  isNavigationOpen?: boolean,
-};
+interface State {
+  isErrorBannerOpen: boolean;
+  isAnnouncementBannerOpen: boolean;
+  navigationWidth?: number;
+  isNavigationOpen?: boolean;
+}
 
-const Wrapper = props => (
+const Wrapper = (props: any) => (
   <div style={{ padding: '4px', display: 'block' }} {...props} />
 );
 
 export default class NavigationExample extends Component<void, State> {
-  errorBannerRef: ?HTMLElement;
+  errorBannerRef?: HTMLElement;
 
-  announcementBannerRef: ?HTMLElement;
+  announcementBannerRef?: HTMLElement;
 
   state = {
     isErrorBannerOpen: false,
@@ -70,7 +69,7 @@ export default class NavigationExample extends Component<void, State> {
               <Banner
                 appearance="error"
                 isOpen={isErrorBannerOpen}
-                innerRef={ref => {
+                innerRef={(ref: HTMLElement) => {
                   this.errorBannerRef = ref;
                 }}
               >
@@ -79,7 +78,7 @@ export default class NavigationExample extends Component<void, State> {
               <Banner
                 appearance="announcement"
                 isOpen={isAnnouncementBannerOpen}
-                innerRef={ref => {
+                innerRef={(ref: HTMLElement) => {
                   this.announcementBannerRef = ref;
                 }}
               >

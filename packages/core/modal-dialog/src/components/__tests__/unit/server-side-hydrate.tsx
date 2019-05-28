@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
+declare var global: any;
+
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
 afterEach(() => {
@@ -22,7 +24,7 @@ test('should ssr then hydrate modal-dialog correctly', async () => {
   // @ts-ignore
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
-    ([f, s]: [any, any]) =>
+    ([f, s]: [string, string]) =>
       !(
         f ===
           'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
