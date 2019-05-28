@@ -43,8 +43,23 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
       className?: string;
     }
 
+    interface FormProps {
+      onSubmit: (e: React.FormEvent | any) => void;
+      ref: React.RefObject<HTMLFormElement>;
+      onKeyDown: (e: React.KeyboardEvent) => void;
+    }
+
     interface FieldProps {
-      fieldProps: any;
+      id: string;
+      isRequired: boolean;
+      isDisabled: boolean;
+      isInvalid: boolean;
+      onChange: (e: any) => any;
+      onBlur: () => any;
+      onFocus: () => any;
+      value: any;
+      'aria-invalid': 'true' | 'false';
+      'aria-labelledby': string;
     }
 
     return (
@@ -59,7 +74,7 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
               components={{
                 Container: ({ children, className }: ContainerProps) => (
                   <Form onSubmit={this.onFormSubmit}>
-                    {({ formProps }: { formProps: any }) => (
+                    {({ formProps }: { formProps: FormProps }) => (
                       <form {...formProps} className={className}>
                         {children}
                       </form>
@@ -71,10 +86,12 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
             >
               <p>Enter some text then submit the form to see the response.</p>
               <Field label="Name" name="my-name" defaultValue="">
-                {({ fieldProps }: FieldProps) => <Textfield {...fieldProps} />}
+                {({ fieldProps }: { fieldProps: FieldProps }) => (
+                  <Textfield {...fieldProps} />
+                )}
               </Field>
               <Field label="Email" name="my-email" defaultValue="">
-                {({ fieldProps }: FieldProps) => (
+                {({ fieldProps }: { fieldProps: FieldProps }) => (
                   <Textfield
                     autoComplete="off"
                     placeholder="gbelson@hooli.com"
@@ -84,7 +101,7 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
               </Field>
 
               <CheckboxField name="checkbox" defaultIsChecked>
-                {({ fieldProps }: FieldProps) => (
+                {({ fieldProps }: { fieldProps: FieldProps }) => (
                   <Checkbox {...fieldProps} value="example" label="Checkbox" />
                 )}
               </CheckboxField>
@@ -93,7 +110,7 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
                 {({
                   fieldProps: { value, ...others },
                 }: {
-                  fieldProps: any;
+                  fieldProps: FieldProps;
                 }) => (
                   <RadioGroup
                     items={radioItems}
