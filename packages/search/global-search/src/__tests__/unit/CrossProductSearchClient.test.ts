@@ -56,7 +56,7 @@ describe('CrossProductSearchClient', () => {
   let searchClient: CrossProductSearchClient;
 
   beforeEach(() => {
-    searchClient = new CrossProductSearchClient('localhost', '123');
+    searchClient = new CrossProductSearchClient('localhost', '123', undefined);
   });
 
   afterEach(fetchMock.restore);

@@ -44,18 +44,6 @@ describe('CachingPeopleSearchClient', () => {
   });
 
   describe('getRecentItems', () => {
-    it('should return the pre fetched results if present', async () => {
-      searchClient = new CachingPeopleSearchClient(
-        'localhost',
-        '123',
-        Promise.resolve(expectedResults),
-      );
-      const items = await searchClient.getRecentPeople();
-
-      expect(fetchMock.called()).toBeFalsy();
-      expect(items).toEqual(expectedResults);
-    });
-
     it('should do an actual search if the pre-fetching isnt available', async () => {
       const items = await searchClient.getRecentPeople();
 

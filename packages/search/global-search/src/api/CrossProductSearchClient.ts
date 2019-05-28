@@ -21,6 +21,7 @@ import {
   UrsPersonItem,
 } from './types';
 import { ModelParam } from '../util/model-parameters';
+import { GlobalSearchPrefetchedResults } from './prefetchResults';
 
 export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   experimentId: 'default',
@@ -92,9 +93,7 @@ export default class CachingCrossProductSearchClientImpl
   private serviceConfig: ServiceConfig;
   private cloudId: string;
   private abTestDataCache: { [scope: string]: Promise<ABTest> };
-  private bootstrapPeopleCache: {
-    [quickSearchContext: string]: Promise<CrossProductSearchResults>;
-  };
+  private bootstrapPeopleCache: Promise<CrossProductSearchResults> | undefined;
 
   // result limit per scope
   private readonly RESULT_LIMIT = 10;
@@ -102,12 +101,13 @@ export default class CachingCrossProductSearchClientImpl
   constructor(
     url: string,
     cloudId: string,
-    prefetchedAbTestResult?: { [scope: string]: Promise<ABTest> },
+    prefetchResults: GlobalSearchPrefetchedResults | undefined,
   ) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
-    this.abTestDataCache = prefetchedAbTestResult || {};
-    this.bootstrapPeopleCache = {};
+    this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
+    this.bootstrapPeopleCache =
+      prefetchResults && prefetchResults.recentPeoplePromise;
   }
 
   public async getPeople(
@@ -119,11 +119,8 @@ export default class CachingCrossProductSearchClientImpl
     const isBootstrapQuery = !query;
 
     // We will use the bootstrap people cache if the query is a bootstrap query and there is a result cached
-    if (
-      isBootstrapQuery &&
-      this.bootstrapPeopleCache[currentQuickSearchContext]
-    ) {
-      return this.bootstrapPeopleCache[currentQuickSearchContext];
+    if (isBootstrapQuery && this.bootstrapPeopleCache) {
+      return this.bootstrapPeopleCache;
     }
 
     const scope: Scope.UserConfluence | Scope.UserJira | null =
@@ -143,7 +140,7 @@ export default class CachingCrossProductSearchClientImpl
       );
 
       if (isBootstrapQuery) {
-        this.bootstrapPeopleCache[currentQuickSearchContext] = searchPromise;
+        this.bootstrapPeopleCache = searchPromise;
       }
 
       return searchPromise;
