@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { layers } from '@atlaskit/theme';
 import Portal from '@atlaskit/portal';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { ModalTransitionConsumer } from './ModalTransition';
 import StackConsumer from './StackConsumer';
 
-import { AppearanceType, KeyboardOrMouseEvent } from '../types';
+import { AppearanceType, KeyboardOrMouseEvent, ButtonOnClick } from '../types';
 
 import Modal from './Modal';
 import { WidthNames } from '../shared-variables';
@@ -15,10 +14,7 @@ export interface WrapperProps {
     Buttons to render in the footer
   */
   actions?: Array<{
-    onClick?: (
-      e: React.MouseEvent<HTMLElement>,
-      analyticsEvent: UIAnalyticsEvent,
-    ) => void;
+    onClick?: ButtonOnClick;
     text?: string;
   }>;
   /**

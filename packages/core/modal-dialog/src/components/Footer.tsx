@@ -1,19 +1,15 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
 
-import { AppearanceType } from '../types';
+import { AppearanceType, ButtonOnClick } from '../types';
 import { Actions, ActionItem, Footer } from '../styled/Content';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 const JustifyShim = (props: any) => <span {...props} />;
 
 export interface FooterProps {
   /** Buttons to render in the footer */
   actions?: Array<{
-    onClick?: (
-      e: React.MouseEvent<HTMLElement>,
-      analyticsEvent: UIAnalyticsEvent,
-    ) => void;
+    onClick?: ButtonOnClick;
     text?: string;
   }>;
   /** Appearance of the primary button. Also adds an icon to the heading, if provided. */

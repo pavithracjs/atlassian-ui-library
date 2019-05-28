@@ -4,12 +4,11 @@ import { jsx } from '@emotion/core';
 import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import ScrollLock from 'react-scrolllock';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import Footer from './Footer';
 import Header from './Header';
 
-import { AppearanceType, KeyboardOrMouseEvent } from '../types';
+import { AppearanceType, KeyboardOrMouseEvent, ButtonOnClick } from '../types';
 import {
   keylineHeight,
   Body as DefaultBody,
@@ -30,10 +29,7 @@ interface Props {
     Buttons to render in the footer
   */
   actions?: Array<{
-    onClick?: (
-      e: React.MouseEvent<HTMLElement>,
-      analyticsEvent: UIAnalyticsEvent,
-    ) => void;
+    onClick?: ButtonOnClick;
     text?: string;
   }>;
   /**
