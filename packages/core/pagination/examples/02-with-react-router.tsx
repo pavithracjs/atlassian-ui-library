@@ -37,9 +37,13 @@ const Contact = () => (
   </div>
 );
 
-type Props = any & {
+interface Props {
+  disabled: boolean;
+  page: any;
+  pages: any[];
+  selectedIndex: number;
   style: object;
-};
+}
 
 function renderLink(pageType: string) {
   return class extends Component<Props> {

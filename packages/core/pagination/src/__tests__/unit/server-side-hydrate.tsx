@@ -24,7 +24,7 @@ test('should ssr then hydrate pagination correctly', async () => {
   // ignore warnings caused by emotion's server-side rendering approach
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
-    ([f, s]: [any, any]) =>
+    ([f, s]: [string, string]) =>
       !(
         f ===
           'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
