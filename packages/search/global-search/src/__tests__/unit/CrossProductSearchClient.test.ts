@@ -607,25 +607,6 @@ describe('CrossProductSearchClient', () => {
     ]);
   });
 
-  // TODO: Maybe just delete this test?
-  it('should omit model params if queryVersion and project id is not provided', async () => {
-    apiWillReturn({
-      scopes: [],
-    });
-
-    await searchClient.search(
-      'query',
-      'test-uuid',
-      [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      [],
-    );
-    const call = fetchMock.calls('xpsearch')[0];
-    // @ts-ignore
-    const body = JSON.parse(call[1].body);
-
-    expect(body.modelParams).toBeUndefined();
-  });
-
   describe('ABTest', () => {
     it('should get the ab test data', async () => {
       const abTest = {
