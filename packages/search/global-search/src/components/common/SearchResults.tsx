@@ -201,7 +201,7 @@ export default class SearchResults extends React.Component<Props> {
       case SearchResultsState.PostQueryResults:
         return this.renderSearchResultsState();
       default:
-        throw new Error('unhandled state') as never;
+        throw new Error('unhandled state');
     }
   }
 }
