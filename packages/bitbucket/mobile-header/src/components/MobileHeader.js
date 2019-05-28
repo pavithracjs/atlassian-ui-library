@@ -55,7 +55,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
     isAnimating: boolean,
     renderFn?: (isOpen: boolean) => Node,
     onTransitionEnd: Function,
-    topOffset: number,
+    topOffset?: number,
     side: string = 'left',
   ) => (
     <styles.MobileNavSlider
