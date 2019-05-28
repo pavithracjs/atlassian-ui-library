@@ -1,1 +1,0 @@
-- Detect emoji gender and skintone correctly on selection
