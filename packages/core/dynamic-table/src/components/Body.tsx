@@ -3,19 +3,16 @@ import TableRow from './TableRow';
 import withSortedPageRows, {
   WithSortedPageRowsProps,
 } from '../hoc/withSortedPageRows';
-import { HeadType, RowType } from '../types';
+import { HeadType } from '../types';
 
 interface Props extends WithSortedPageRowsProps {
   head?: HeadType;
   isFixedSize: boolean;
-  onBodyRender?: (pageRows: Array<RowType>) => void;
 }
 
 class Body extends React.Component<Props, {}> {
   render() {
-    const { pageRows, head, isFixedSize, onBodyRender } = this.props;
-
-    onBodyRender && onBodyRender(pageRows);
+    const { pageRows, head, isFixedSize } = this.props;
 
     return (
       <tbody>
