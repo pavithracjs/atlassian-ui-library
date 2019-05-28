@@ -187,11 +187,9 @@ describe('Mobile MediaProvider', async () => {
         // flushes promise resolution queue so that the async media API calls mockAuthProvider
         await sleep(0);
 
-        // Due to logic in packages/media/media-client/src/client/file-fetcher.ts:122-143 empty collection name
-        // is batched together with all the other "falsy" values and later transformed into undefined.
         expectFunctionToHaveBeenCalledWith(mediaClient.file.getFileState, [
           testFileId,
-          { collectionName: '', occurrenceKey: undefined },
+          { collectionName: emptyCollectionName, occurrenceKey: undefined },
         ]);
       });
     });

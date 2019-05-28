@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { MediaClientConfig } from '@atlaskit/media-core';
 import { Identifier } from '@atlaskit/media-client';
 import { Card, OnSelectChangeFunc } from '../src';
 
 export interface SelectableCardProps {
-  mediaClientConfig: MediaClientConfig;
+  mediaClientConfig: Card['props']['mediaClientConfig'];
   identifier: Identifier;
   onSelectChange: OnSelectChangeFunc;
 }
@@ -22,6 +21,10 @@ export class SelectableCard extends Component<
   render() {
     const { mediaClientConfig, identifier, onSelectChange } = this.props;
     const { selected } = this.state;
+
+    if (!mediaClientConfig) {
+      return null;
+    }
 
     return (
       <Card
