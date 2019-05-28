@@ -673,5 +673,61 @@ describe('importFiles middleware', () => {
         },
       });
     });
+
+    it('should set value of public file id to be existing file state if there is one', done => {
+      const subject = new ReplaySubject<Partial<FileState>>(1);
+      subject.next({
+        id: 'public-file-id-1',
+        status: 'processing',
+      });
+      getFileStreamsCache().set('public-file-id', subject as Observable<
+        FileState
+      >);
+      const selectedFiles: SelectedUploadFile[] = [
+        {
+          file,
+          serviceName: 'upload',
+          touchFileDescriptor: {
+            fileId: 'public-file-id-1',
+          },
+        },
+      ];
+      const store = mockStore();
+      touchSelectedFiles(selectedFiles, store);
+      const observable = getFileStreamsCache().get('public-file-id-1');
+
+      observable!.subscribe({
+        async next(state) {
+          if (state.status !== 'error') {
+            expect(await state.id).toEqual('public-file-id-1');
+            done();
+          }
+        },
+      });
+    });
+
+    it('should set value of public file id to be a new replay subject if there is no file state', done => {
+      const selectedFiles: SelectedUploadFile[] = [
+        {
+          file,
+          serviceName: 'upload',
+          touchFileDescriptor: {
+            fileId: 'public-file-id-1',
+          },
+        },
+      ];
+      const store = mockStore();
+      touchSelectedFiles(selectedFiles, store);
+      const observable = getFileStreamsCache().get('public-file-id-1');
+
+      observable!.subscribe({
+        async next(state) {
+          if (state.status !== 'error') {
+            expect(await state.id).toEqual('public-file-id-1');
+            done();
+          }
+        },
+      });
+    });
   });
 });
