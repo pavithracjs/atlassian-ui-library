@@ -1,13 +1,9 @@
 // TODO: TS no index signature for Props['theme']
 
-type LooseObject = {
-  [key: string]: any;
-};
-
 type Props = {
   children: Function;
-  props: LooseObject | string;
-  theme: LooseObject;
+  props: Record<string, any> | string;
+  theme: Record<string, any>;
 };
 
 export default ({ children, props, theme }: Props) => {
