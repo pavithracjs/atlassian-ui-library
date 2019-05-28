@@ -3,6 +3,7 @@ import { Transaction } from 'prosemirror-state';
 import { Node as PMNode } from 'prosemirror-model';
 import { CellAttributes } from '@atlaskit/adf-schema';
 import { ResizeState } from '../pm-plugins/table-resizing/utils';
+import { setMeta } from './metadata';
 
 export const updateColumnWidths = (
   resizeState: ResizeState,
@@ -22,22 +23,39 @@ export const updateColumnWidths = (
       const attrs = updatedCellsAttrs[cellPos] || {
         ...table.nodeAt(cellPos)!.attrs,
       };
+      const colspan = attrs.colspan || 1;
+      if (attrs.colwidth && attrs.colwidth.length > colspan) {
+        tr = setMeta({
+          type: 'UPDATE_COLUMN_WIDTHS',
+          problem: 'COLWIDTHS_BEFORE_UPDATE',
+          data: { colwidths: attrs.colwidth, colspan },
+        })(tr);
+        attrs.colwidth = attrs.colwidth.slice(0, colspan);
+      }
 
       // Rowspanning cell that has already been handled
       if (rowIndex && map.map[mapIndex] === map.map[mapIndex - map.width]) {
         continue;
       }
       const colspanIndex =
-        attrs.colspan === 1 ? 0 : columnIndex - map.colCount(cellPos);
+        colspan === 1 ? 0 : columnIndex - map.colCount(cellPos);
       if (attrs.colwidth && attrs.colwidth[colspanIndex] === width) {
         continue;
       }
 
-      const colwidth = attrs.colwidth
+      let colwidth = attrs.colwidth
         ? attrs.colwidth.slice()
-        : Array.from({ length: attrs.colspan || 1 }, _ => 0);
+        : Array.from({ length: colspan }, _ => 0);
 
       colwidth[colspanIndex] = width;
+      if (colwidth.length > colspan) {
+        tr = setMeta({
+          type: 'UPDATE_COLUMN_WIDTHS',
+          problem: 'COLWIDTHS_AFTER_UPDATE',
+          data: { colwidths: colwidth, colspan },
+        })(tr);
+        colwidth = colwidth.slice(0, colspan);
+      }
       updatedCellsAttrs[cellPos] = { ...attrs, colwidth };
     }
   }

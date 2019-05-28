@@ -1,4 +1,6 @@
-import { EmojiPicker, EmojiProvider, EmojiId } from '@atlaskit/emoji';
+import { EmojiId } from '@atlaskit/emoji/types';
+import { EmojiPicker } from '@atlaskit/emoji/picker';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import Layer from '@atlaskit/layer';
 import { borderRadius, colors } from '@atlaskit/theme';
 import cx from 'classnames';

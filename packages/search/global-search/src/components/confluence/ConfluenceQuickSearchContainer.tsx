@@ -13,7 +13,7 @@ import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   ABTest,
 } from '../../api/CrossProductSearchClient';
-import { Scope } from '../../api/types';
+import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
   Result,
   ResultsWithTiming,
@@ -49,6 +49,7 @@ import {
 } from './ConfluenceSearchResultsMapper';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { isInFasterSearchExperiment } from '../../util/experiment-utils';
+import { buildConfluenceModelParams } from '../../util/model-parameters';
 
 export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
@@ -60,6 +61,8 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
   logger: Logger;
   fasterSearchFFEnabled: boolean;
+  useUrsForBootstrapping: boolean;
+  modelContext?: ConfluenceModelContext;
   onAdvancedSearch?: (
     e: CancelableEvent,
     entity: string,
@@ -144,20 +147,22 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     sessionId: string,
     queryVersion: number,
   ): Promise<CrossProductSearchResults> {
-    const { crossProductSearchClient, referralContextIdentifiers } = this.props;
+    const { crossProductSearchClient, modelContext } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
 
     scopes.push(Scope.People);
 
+    const modelParams = buildConfluenceModelParams(
+      queryVersion,
+      modelContext || {},
+    );
+
     const results = await crossProductSearchClient.search(
       query,
       sessionId,
       scopes,
-      'confluence',
-      queryVersion,
-      null,
-      referralContextIdentifiers,
+      modelParams,
     );
 
     return results;
@@ -234,13 +239,32 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
+  getRecentPeople = (sessionId: string): Promise<Result[]> => {
+    const {
+      peopleSearchClient,
+      crossProductSearchClient,
+      useUrsForBootstrapping,
+    } = this.props;
+
+    // We want to be consistent with the search results when prefetching is enabled so we will use URS (via aggregator) to get the
+    // bootstrapped people results, see prefetchResults.ts.
+    return !useUrsForBootstrapping
+      ? peopleSearchClient.getRecentPeople()
+      : crossProductSearchClient
+          .getPeople('', sessionId, 'confluence', 3)
+          .then(
+            xProductResult =>
+              xProductResult.results.get(Scope.UserConfluence) || [],
+          );
+  };
+
   getRecentItems = (sessionId: string): Promise<ResultsWithTiming> => {
-    const { confluenceClient, peopleSearchClient } = this.props;
+    const { confluenceClient } = this.props;
 
     const recentActivityPromisesMap = {
       'recent-confluence-items': confluenceClient.getRecentItems(sessionId),
       'recent-confluence-spaces': confluenceClient.getRecentSpaces(sessionId),
-      'recent-people': peopleSearchClient.getRecentPeople(),
+      'recent-people': this.getRecentPeople(sessionId),
     };
 
     const recentActivityPromises: Promise<Result[]>[] = (Object.keys(

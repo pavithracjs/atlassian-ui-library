@@ -1,5 +1,10 @@
 # @atlaskit/reactions
 
+## 17.1.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
 ## 17.0.1
 - [patch] [5e00c40c32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e00c40c32):
 

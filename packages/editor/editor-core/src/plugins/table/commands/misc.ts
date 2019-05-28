@@ -55,14 +55,17 @@ export const setTableRef = (ref?: HTMLElement | null) =>
   createCommand(
     state => {
       const tableRef = ref || undefined;
-      const tableFloatingToolbarTarget =
+      const tableNode = ref ? findTable(state.selection)!.node : undefined;
+      const tableWrapperTarget =
         closestElement(tableRef, `.${ClassName.TABLE_NODE_WRAPPER}`) ||
         undefined;
-      const tableNode = ref ? findTable(state.selection)!.node : undefined;
-
       return {
         type: 'SET_TABLE_REF',
-        data: { tableRef, tableFloatingToolbarTarget, tableNode },
+        data: {
+          tableRef,
+          tableNode,
+          tableWrapperTarget,
+        },
       };
     },
     tr => tr.setMeta('addToHistory', false),
@@ -314,7 +317,7 @@ export const setMultipleCellAttrs = (
   return false;
 };
 
-export const selectColumn = (column: number) =>
+export const selectColumn = (column: number, expand?: boolean) =>
   createCommand(
     state => {
       let targetCellPosition;
@@ -325,10 +328,11 @@ export const selectColumn = (column: number) =>
 
       return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
     },
-    tr => selectColumnTransform(column)(tr).setMeta('addToHistory', false),
+    tr =>
+      selectColumnTransform(column, expand)(tr).setMeta('addToHistory', false),
   );
 
-export const selectRow = (row: number) =>
+export const selectRow = (row: number, expand?: boolean) =>
   createCommand(
     state => {
       let targetCellPosition;
@@ -339,7 +343,7 @@ export const selectRow = (row: number) =>
 
       return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
     },
-    tr => selectRowTransform(row)(tr).setMeta('addToHistory', false),
+    tr => selectRowTransform(row, expand)(tr).setMeta('addToHistory', false),
   );
 
 export const showInsertColumnButton = (columnIndex: number) =>

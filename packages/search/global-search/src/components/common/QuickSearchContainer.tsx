@@ -41,12 +41,16 @@ export interface Props {
   logger: Logger;
   linkComponent?: LinkComponent;
   getSearchResultsComponent(state: SearchResultProps): React.ReactNode;
-  getRecentItems(sessionId: string): Promise<ResultsWithTiming>;
+  getRecentItems(
+    sessionId: string,
+    abTest?: ABTest,
+  ): Promise<ResultsWithTiming>;
   getSearchResults(
     query: string,
     sessionId: string,
     startTime: number,
     queryVersion: number,
+    abTest?: ABTest,
   ): Promise<ResultsWithTiming>;
   getAbTestData(sessionId: string): Promise<ABTest>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
@@ -165,6 +169,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         this.state.searchSessionId,
         startTime,
         queryVersion,
+        this.state.abTest,
       );
 
       if (this.unmounted) {
@@ -409,6 +414,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     try {
       const { results } = await this.props.getRecentItems(
         this.state.searchSessionId,
+        this.state.abTest,
       );
       const renderStartTime = performanceNow();
       if (this.unmounted) {

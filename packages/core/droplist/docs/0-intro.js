@@ -33,7 +33,7 @@ import DropList, {
     <Example
       packageName="@atlaskit/droplist"
       Component={require('../examples/01-bound-example').default}
-      title="With Label"
+      title="Bound Example"
       source={require('!!raw-loader!../examples/01-bound-example')}
     />
   )}

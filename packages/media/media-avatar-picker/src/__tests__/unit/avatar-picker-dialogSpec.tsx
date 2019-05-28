@@ -9,10 +9,13 @@ import {
 } from '@atlaskit/media-test-helpers';
 import * as MediaUI from '@atlaskit/media-ui';
 import { Avatar } from '../../avatar-list';
-import { ImageNavigator, CONTAINER_SIZE } from '../../image-navigator';
+import { ImageNavigator } from '../../image-navigator';
 import { PredefinedAvatarList } from '../../predefined-avatar-list';
-import { AvatarPickerDialog } from '../../avatar-picker-dialog';
-import { DEFAULT_VISIBLE_PREDEFINED_AVATARS } from '../../avatar-picker-dialog/layout-const';
+import { AvatarPickerDialog, fixedCrop } from '../../avatar-picker-dialog';
+import {
+  DEFAULT_VISIBLE_PREDEFINED_AVATARS,
+  CONTAINER_SIZE,
+} from '../../avatar-picker-dialog/layout-const';
 import { PredefinedAvatarView } from '../../predefined-avatar-view';
 import {
   Mode,
@@ -72,16 +75,22 @@ describe('Avatar Picker Dialog', () => {
   it('when save button is clicked onImagePicked should be called', () => {
     const onImagePicked = jest.fn();
 
-    renderSaveButton({
+    const component: any = renderWithProps({
       onImagePicked,
       imageSource: smallImage,
-    }).simulate('click');
-
-    expect(onImagePicked).toBeCalledWith(fileFromDataURI, {
-      x: 0,
-      y: 0,
-      size: CONTAINER_SIZE,
     });
+
+    // Stub internal function to facilitate shallow testing of `onImagePickedDataURI`
+    const croppedImgDataURI = 'data:image/meme;based64:w0w';
+    component.instance()['exportCroppedImage'] = () => croppedImgDataURI;
+
+    component
+      .find(ModalFooter)
+      .find(Button)
+      .first()
+      .simulate('click');
+
+    expect(onImagePicked.mock.calls[0][1]).toEqual(fixedCrop);
   });
 
   it('when save button is clicked onImagePickedDataURI should be called', () => {
@@ -295,4 +304,6 @@ describe('Avatar Picker Dialog', () => {
       component.find(PredefinedAvatarView).prop('predefinedAvatarsText'),
     ).toEqual('some text');
   });
+
+  it('should return fixed crop when exporting', () => {});
 });

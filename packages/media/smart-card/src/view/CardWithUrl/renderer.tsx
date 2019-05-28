@@ -34,6 +34,7 @@ export class CardWithURLRenderer extends React.PureComponent<
       isSelected,
       onClick,
       createAnalyticsEvent,
+      container,
     } = this.props;
 
     if (!url) {
@@ -49,6 +50,7 @@ export class CardWithURLRenderer extends React.PureComponent<
         isSelected={isSelected}
         createAnalyticsEvent={createAnalyticsEvent}
         authFn={auth}
+        container={container}
       />
     ) : (
       <CardLinkView key={'chunk-placeholder'} link={url} />

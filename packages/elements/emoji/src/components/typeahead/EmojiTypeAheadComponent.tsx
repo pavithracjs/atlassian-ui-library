@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
+import uuid from 'uuid';
 import { PureComponent } from 'react';
 import { EmojiProvider, OnEmojiProviderChange } from '../../api/EmojiResource';
 import { defaultListLimit } from '../../util/constants';
@@ -14,10 +15,19 @@ import {
   ToneSelection,
 } from '../../types';
 import debug from '../../util/logger';
+import {
+  typeaheadCancelledEvent,
+  typeaheadSelectedEvent,
+  typeaheadRenderedEvent,
+} from '../../util/analytics';
 import { EmojiContext } from '../common/internal-types';
 import { createRecordSelectionDefault } from '../common/RecordSelectionDefault';
 import EmojiList from './EmojiTypeAheadList';
 import * as styles from './styles';
+import {
+  AnalyticsEventPayload,
+  CreateUIAnalyticsEventSignature,
+} from '@atlaskit/analytics-next';
 
 export interface OnLifecycle {
   (): void;
@@ -30,6 +40,7 @@ export interface EmojiTypeAheadBaseProps {
 
   onOpen?: OnLifecycle;
   onClose?: OnLifecycle;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
 export interface Props extends EmojiTypeAheadBaseProps {
@@ -40,7 +51,6 @@ export interface State {
   visible: boolean;
   emojis: EmojiDescription[];
   loading: boolean;
-  selectedTone?: ToneSelection;
 }
 
 const isFullShortName = (query?: string) =>
@@ -90,17 +100,29 @@ export default class EmojiTypeAheadComponent extends PureComponent<
 
   private emojiListRef: EmojiList | null = null;
 
+  private openTime: number = 0;
+  private renderStartTime: number = 0;
+  private selectedTone: ToneSelection;
+  private pressed: boolean;
+  private sessionId: string;
+  private selected: boolean;
+
   constructor(props: Props) {
     super(props);
     this.state = {
       visible: true,
       emojis: [],
       loading: true,
-      selectedTone: props.emojiProvider.getSelectedTone(),
     };
     if (this.props.onOpen) {
       this.props.onOpen();
     }
+    this.openTime = Date.now();
+    this.renderStartTime = this.openTime;
+    this.selectedTone = props.emojiProvider.getSelectedTone();
+    this.pressed = false;
+    this.sessionId = uuid();
+    this.selected = false;
   }
 
   getChildContext(): EmojiContext {
@@ -118,8 +140,16 @@ export default class EmojiTypeAheadComponent extends PureComponent<
   }
 
   componentWillUnmount() {
-    const { emojiProvider } = this.props;
+    const { emojiProvider, query } = this.props;
+    const { emojis } = this.state;
     emojiProvider.unsubscribe(this.onProviderChange);
+    if (!this.selected) {
+      this.fireAnalyticsEvent(
+        typeaheadCancelledEvent(Date.now() - this.openTime, query, emojis),
+      );
+    }
+    this.sessionId = uuid();
+    this.selected = false;
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -147,6 +177,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
   };
 
   chooseCurrentSelection = () => {
+    this.pressed = true;
     if (this.emojiListRef) {
       this.emojiListRef.chooseCurrentSelection();
     }
@@ -157,11 +188,30 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     return (emojis && emojis.length) || 0;
   };
 
+  getTone = (tone?: number): string | undefined => {
+    return typeof tone === 'undefined'
+      ? undefined
+      : tone >= 0 && tone <= 5
+      ? ['default', 'light', 'mediumLight', 'medium', 'mediumDark', 'dark'][
+          tone
+        ]
+      : undefined;
+  };
+
+  private fireAnalyticsEvent(payload: AnalyticsEventPayload) {
+    if (!this.props.createAnalyticsEvent) {
+      return;
+    }
+    payload.attributes.sessionId = this.sessionId;
+
+    this.props.createAnalyticsEvent(payload).fire('fabric-elements');
+  }
+
   private onSearch(query?: string) {
     const { emojiProvider, listLimit } = this.props;
     const options: SearchOptions = {
       limit: listLimit || defaultListLimit,
-      skinTone: this.state.selectedTone,
+      skinTone: this.selectedTone,
     };
 
     if (query && query.replace(':', '').length > 0) {
@@ -171,6 +221,8 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       options.sort = SearchSort.UsageFrequency;
     }
 
+    this.renderStartTime = Date.now();
+
     emojiProvider.filter(query, options);
   }
 
@@ -178,6 +230,9 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojis, query } = result;
     const wasVisible = this.state.visible;
     const visible = emojis.length > 0;
+    this.fireAnalyticsEvent(
+      typeaheadRenderedEvent(Date.now() - this.renderStartTime, query, emojis),
+    );
     debug(
       'emoji-typeahead.applyPropChanges',
       emojis.length,
@@ -199,6 +254,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
           this.props.emojiProvider,
           this.props.onSelection,
         );
+        this.fireSelectionEvent(result.emojis[matchIndex], true);
         onSelect(
           toEmojiId(result.emojis[matchIndex]),
           result.emojis[matchIndex],
@@ -219,6 +275,24 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     }
   };
 
+  private fireSelectionEvent(emoji: EmojiDescription, exactMatch?: boolean) {
+    const { query } = this.props;
+    const { emojis } = this.state;
+
+    this.selected = true;
+
+    this.fireAnalyticsEvent(
+      typeaheadSelectedEvent(
+        exactMatch || this.pressed,
+        Date.now() - this.openTime,
+        emoji,
+        emojis,
+        query,
+        exactMatch,
+      ),
+    );
+  }
+
   private onProviderChange: OnEmojiProviderChange = {
     result: this.onSearchResult,
   };
@@ -231,7 +305,10 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojiProvider, onSelection } = this.props;
     const recordUsageOnSelection = createRecordSelectionDefault(
       emojiProvider,
-      onSelection,
+      (emojiId, emoji, event) => {
+        this.fireSelectionEvent(emoji as EmojiDescription);
+        if (onSelection) onSelection(emojiId, emoji, event);
+      },
     );
 
     const { visible, emojis, loading } = this.state;

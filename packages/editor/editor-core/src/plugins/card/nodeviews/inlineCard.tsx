@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { EventHandler, MouseEvent, KeyboardEvent } from 'react';
 import * as PropTypes from 'prop-types';
 import { Node as PMNode } from 'prosemirror-model';
 import { Card } from '@atlaskit/smart-card';
+import { findOverflowScrollParent } from '@atlaskit/editor-common';
 
 import { EditorView } from 'prosemirror-view';
 import wrapComponentWithClickArea from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
@@ -16,14 +18,19 @@ export interface Props {
   selected?: boolean;
 }
 
-class InlineCardNode extends React.PureComponent<Props, {}> {
-  onClick: React.EventHandler<
-    React.MouseEvent | React.KeyboardEvent
-  > = () => {};
+export class InlineCardNode extends React.PureComponent<Props> {
+  private scrollContainer?: HTMLElement;
+  private onClick: EventHandler<MouseEvent | KeyboardEvent> = () => {};
 
   static contextTypes = {
     contextAdapter: PropTypes.object,
   };
+
+  componentWillMount() {
+    const { view } = this.props;
+    const scrollContainer = findOverflowScrollParent(view.dom as HTMLElement);
+    this.scrollContainer = scrollContainer || undefined;
+  }
 
   render() {
     const { node, selected } = this.props;
@@ -43,6 +50,7 @@ class InlineCardNode extends React.PureComponent<Props, {}> {
             appearance="inline"
             isSelected={selected}
             onClick={this.onClick}
+            container={this.scrollContainer}
           />
         </span>
       </span>

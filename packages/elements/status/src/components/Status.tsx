@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
-import Lozenge from '@atlaskit/lozenge';
+import Lozenge, { ThemeAppearance } from '@atlaskit/lozenge';
 import {
   WithAnalyticsEventProps,
   CreateUIAnalyticsEventSignature,
@@ -13,7 +13,7 @@ import { ANALYTICS_HOVER_DELAY } from './constants';
 export type Color = 'neutral' | 'purple' | 'blue' | 'red' | 'yellow' | 'green';
 export type StatusStyle = 'bold' | 'subtle';
 
-const colorToLozengeAppearanceMap: { [K in Color]: string } = {
+const colorToLozengeAppearanceMap: { [K in Color]: ThemeAppearance } = {
   neutral: 'default',
   purple: 'new',
   blue: 'inprogress',

@@ -128,7 +128,7 @@ pipelines:
               - yarn run test:vr:changed
             after-script:
               # Extract all the diff images and store them into a folder for download.
-              - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+              - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
               - yarn send:stepFailureEvents
             # If a failure occurs, you can download the image snapshot of the differences.
             artifacts: 
@@ -185,7 +185,6 @@ pipelines:
     # This can be called to deploy staging website from any branches.
     build-website-staging:
       - step:
-          name: Building website
           script:
             - source ./build-setup.sh
             - bolt install --pure-lockfile
@@ -256,7 +255,7 @@ pipelines:
             - yarn run test:vr
           after-script:
               # Extract all the diff images and store them into a folder for download.
-              - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+              - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
               - yarn send:buildEvents
           # If a failure occurs, you can download the image snapshot of the differences.
           artifacts: 
@@ -321,7 +320,7 @@ pipelines:
               - yarn test:vr
             after-script:
             # Extract all the diff images and store them into a folder for download.
-              - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+              - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
               - yarn send:stepFailureEvents
             # If a failure occurs, you can download the image snapshot of the differences.
             artifacts: 
@@ -433,10 +432,10 @@ pipelines:
                 - git merge master --no-edit
                 - git lfs pull
                 - bolt install --pure-lockfile
-                - yarn test:vr:dependents
+                - yarn test:vr
               after-script:
                 # Extract all the diff images and store them into a folder for download.
-                - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+                - mkdir ./imageSnapshotFailures && find . \( -name '*-diff.png' -or -name '*-error.png' \) -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
                 - yarn send:stepFailureEvents
               # If a failure occurs, you can download the image snapshot of the differences.
               artifacts: 
@@ -492,7 +491,9 @@ pipelines:
             - for file in dists/*; do node build/ci-scripts/upload.build.artefact.for.commit.js $file dists/; done
           caches:
             - node
-    
+
+
+    # This is a custom build step that upload ratchet files to S3 on commit.
     bundle-size-check-upload-to-s3:
       - step:
           name: Bundle size check step upload commit to S3
@@ -508,8 +509,8 @@ pipelines:
           caches:
             - node        
     
-    # This is a custom build step to upload ratchet files to S3 on a scheduled basis
-    # broken to multiple steps to gain speed and avoid OOM issues        
+    # This is a custom build step that merges master branch then upload ratchet files to S3 on a scheduled basis.
+    # It is broken to multiple steps to gain speed and avoid OOM issues.
     push-bundle-size-to-s3:
       - parallel:
           - step:

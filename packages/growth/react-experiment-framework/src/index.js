@@ -10,5 +10,7 @@ export type {
   ExperimentDetails,
   Experiments,
   ExperimentEnrollmentConfig,
+  ExperimentEnrollmentOptions,
+  ExperimentContext,
   ExposureDetails,
 } from './types';

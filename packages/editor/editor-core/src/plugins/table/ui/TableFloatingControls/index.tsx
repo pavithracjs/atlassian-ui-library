@@ -7,7 +7,7 @@ import CornerControls from './CornerControls';
 import RowControls from './RowControls';
 import NumberColumn from './NumberColumn';
 import { isSelectionUpdated } from '../../utils';
-import { clearHoverSelection, hoverRows, selectRow } from '../../commands';
+import { hoverRows, selectRow } from '../../commands';
 
 export interface Props {
   editorView: EditorView;
@@ -118,15 +118,14 @@ export default class TableFloatingControls extends Component<Props> {
     );
   }
 
-  private selectRow = (row: number) => {
+  private selectRow = (row: number, expand: boolean) => {
     const { editorView } = this.props;
     const { state, dispatch } = editorView;
     // fix for issue ED-4665
     if (browser.ie_version === 11) {
       (editorView.dom as HTMLElement).blur();
     }
-    selectRow(row)(state, dispatch);
-    clearHoverSelection()(editorView.state, dispatch);
+    selectRow(row, expand)(state, dispatch);
   };
 
   private hoverRows = (rows: Array<number>, danger?: boolean) => {

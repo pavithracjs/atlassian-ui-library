@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
 import { traverse } from '@atlaskit/adf-utils/traverse';
 import smartLinksAdf from './__fixtures__/smart-link-nested-in-list.adf.json';
@@ -18,6 +19,7 @@ import {
   waitForStatusToolbar,
   clickOnStatus,
 } from '../../__helpers/page-objects/_status';
+import { Page } from '../../__helpers/page-objects/_types';
 import {
   waitForDatePicker,
   clickOnDate,
@@ -26,9 +28,16 @@ import { animationFrame } from '../../__helpers/page-objects/_editor';
 import { EditorTestCardProvider } from '../../../../../editor-test-helpers';
 
 describe('Lists', () => {
-  let page: any;
+  let page: Page;
   const cardProvider = new EditorTestCardProvider();
-  const threshold = 0.01;
+
+  const initEditor = async (page: Page, adf: any, editorProps = {}) =>
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf,
+      device: Device.LaptopMDPI,
+      editorProps,
+    });
 
   beforeAll(async () => {
     // @ts-ignore
@@ -37,30 +46,19 @@ describe('Lists', () => {
 
   afterEach(async () => {
     await animationFrame(page);
-    await snapshot(page, threshold);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('should render card toolbar on click when its nested inside lists', async () => {
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      adf: smartLinksAdf,
-      device: Device.LaptopMDPI,
-      editorProps: {
-        UNSAFE_cards: { provider: Promise.resolve(cardProvider) },
-      },
+    await initEditor(page, smartLinksAdf, {
+      UNSAFE_cards: { provider: Promise.resolve(cardProvider) },
     });
-
     await clickOnCard(page);
     await waitForCardToolbar(page);
   });
 
   it('should render extension toolbar on click when its nested inside lists', async () => {
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      adf: extensionAdf,
-      device: Device.LaptopMDPI,
-    });
-
+    await initEditor(page, extensionAdf);
     await clickOnExtension(
       page,
       'com.atlassian.confluence.macro.core',
@@ -70,30 +68,28 @@ describe('Lists', () => {
   });
 
   it('should render status toolbar on click when its nested inside lists', async () => {
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      adf: statusAdf,
-      device: Device.LaptopMDPI,
-    });
-
+    await initEditor(page, statusAdf);
     await clickOnStatus(page);
     await waitForStatusToolbar(page);
   });
 
   it('should render date picker on click when its nested inside lists', async () => {
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      adf: dateAdf,
-      device: Device.LaptopMDPI,
-    });
-
+    await initEditor(page, dateAdf);
     await clickOnDate(page);
     await waitForDatePicker(page);
   });
 });
 
 describe('Lists adjacent floated media', () => {
-  let page: any;
+  let page: Page;
+
+  const initEditor = async (page: Page, adf: any) =>
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      adf,
+      device: Device.LaptopMDPI,
+      viewport: { width: 900, height: 1100 },
+    });
 
   beforeAll(async () => {
     // @ts-ignore
@@ -102,17 +98,12 @@ describe('Lists adjacent floated media', () => {
 
   afterEach(async () => {
     await animationFrame(page);
-    await snapshot(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('action & decision lists should clear image', async () => {
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      adf: floatsAdf2,
-      device: Device.LaptopMDPI,
-    });
+    await initEditor(page, floatsAdf2);
     await visualiseListItemBoundingBoxes(page);
-    await page.setViewport({ width: 900, height: 1100 });
   });
 
   /**
@@ -124,13 +115,8 @@ describe('Lists adjacent floated media', () => {
    */
   it('ordered list should not overlap image', async () => {
     const orderedListFloatsAdf = floatsAdf;
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      adf: orderedListFloatsAdf,
-      device: Device.LaptopMDPI,
-    });
+    await initEditor(page, orderedListFloatsAdf);
     await visualiseListItemBoundingBoxes(page);
-    await page.setViewport({ width: 900, height: 1100 });
   });
 
   it('bullet list should not overlap image', async () => {
@@ -141,13 +127,8 @@ describe('Lists adjacent floated media', () => {
         return node;
       },
     });
-    await initEditorWithAdf(page, {
-      appearance: Appearance.fullPage,
-      adf: bulletListFloatsAdf,
-      device: Device.LaptopMDPI,
-    });
+    await initEditor(page, bulletListFloatsAdf);
     await visualiseListItemBoundingBoxes(page);
-    await page.setViewport({ width: 900, height: 1100 });
   });
 });
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
-import { EmojiId, ResourcedEmoji } from '@atlaskit/emoji';
+import { EmojiId } from '@atlaskit/emoji/types';
+import { ResourcedEmoji } from '@atlaskit/emoji/element';
 import ProviderFactory, { WithProviders } from '../../providerFactory';
 
 export interface EmojiProps extends EmojiId {

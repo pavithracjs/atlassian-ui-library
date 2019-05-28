@@ -3,8 +3,8 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 191063,
-      "gzipSize": 44300
+      "size": 191351,
+      "gzipSize": 44012
     }
   },
   {
@@ -12,7 +12,7 @@
     "name": "node_modules [main]",
     "stats": {
       "size": 149255,
-      "gzipSize": 42698
+      "gzipSize": 43317
     }
   },
   {
@@ -28,15 +28,15 @@
     "name": "main",
     "stats": {
       "size": 150029,
-      "gzipSize": 37854
+      "gzipSize": 37831
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 487811,
-      "gzipSize": 125096
+      "size": 488097,
+      "gzipSize": 125172
     }
   },
   {

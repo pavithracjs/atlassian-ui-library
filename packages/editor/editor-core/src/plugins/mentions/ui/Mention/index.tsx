@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
-import { MentionProvider, ResourcedMention } from '@atlaskit/mention';
+import { MentionProvider } from '@atlaskit/mention/resource';
+import { ResourcedMention } from '@atlaskit/mention/element';
 import {
   MentionEventHandlers,
   ProviderFactory,
