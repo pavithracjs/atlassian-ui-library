@@ -5,11 +5,7 @@
 // If you are importing a typescript package into a flow package,
 // you will have to add a definition here.
 
-declare module '@atlaskit/blanket' {
-  declare module.exports: any;
-}
-
-declare module '@atlaskit/button' {
+declare module '@atlaskit/atlassian-switcher' {
   declare module.exports: any;
 }
 
@@ -21,11 +17,15 @@ declare module '@atlaskit/banner' {
   declare module.exports: any;
 }
 
-declare module '@atlaskit/textarea' {
+declare module '@atlaskit/blanket' {
   declare module.exports: any;
 }
 
-declare module '@atlaskit/atlassian-switcher' {
+declare module '@atlaskit/button' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/dynamic-table' {
   declare module.exports: any;
 }
 
@@ -33,6 +33,10 @@ declare module '@atlaskit/inline-edit' {
   declare module.exports: any;
 }
 
-declare module '@atlaskit/dynamic-table' {
+declare module '@atlaskit/pagination' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
