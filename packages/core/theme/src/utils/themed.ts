@@ -9,7 +9,7 @@ type VariantModes = { [key: string]: Modes };
 
 function themedVariants(variantProp: string, variants?: VariantModes) {
   return (props?: ThemeProps & VariantModes) => {
-    const theme = getTheme(props); // returns Theme
+    const theme = getTheme(props);
     if (props && props.variantProp && variants) {
       // @ts-ignore
       const modes = variants[props[variantProp]];
