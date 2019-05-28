@@ -51,8 +51,8 @@ export default class ModalDemo extends React.Component<{}, State> {
 
   close = () => this.setState({ isOpen: null });
 
-  secondaryAction = ({ target }: { [index: string]: any }) =>
-    console.log(target.innerText);
+  secondaryAction = ({ currentTarget }: React.MouseEvent<HTMLElement>) =>
+    console.log(currentTarget.innerText);
 
   render() {
     const { isOpen } = this.state;
