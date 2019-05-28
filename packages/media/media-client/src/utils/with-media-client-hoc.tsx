@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Context, MediaClientConfig } from '@atlaskit/media-core';
-import { MediaClient } from '..';
+import { MediaClient } from '../client/media-client';
 import { Omit, XOR } from '@atlaskit/type-helpers';
 
 export interface WithContext {
@@ -22,39 +22,38 @@ export type WithContextOrMediaClientConfig = XOR<
 
 const mediaClientsMap = new Map<MediaClientConfig, MediaClient>();
 
-const getMediaClient = (props: WithContextOrMediaClientConfig) => {
+const getMediaClient = (props: WithContextOrMediaClientConfig): MediaClient => {
   const { mediaClientConfig } = props;
   if (mediaClientConfig) {
-    let mediaClient: MediaClient | undefined;
+    let mediaClient: MediaClient | undefined = mediaClientsMap.get(
+      mediaClientConfig,
+    );
 
-    mediaClient = mediaClientsMap.get(mediaClientConfig);
     if (!mediaClient) {
       mediaClient = new MediaClient(mediaClientConfig);
       mediaClientsMap.set(mediaClientConfig, mediaClient);
     }
     return mediaClient;
-  } else {
-    // Context is only created in ContextFactory. And value of it is MediaClient.
-    return props.context as MediaClient;
   }
+
+  // Context is only created in ContextFactory. And value of it is MediaClient.
+  return props.context as MediaClient;
 };
 
-export type WithMediaClientProps<P extends WithMediaClient> = Omit<
-  P,
-  'mediaClient'
-> &
-  WithContextOrMediaClientConfig;
+export type WithContextOrMediaClientConfigProps<
+  P extends WithMediaClient
+> = Omit<P, 'mediaClient'> & WithContextOrMediaClientConfig;
 
 export type WithMediaClientFunction = <P extends WithMediaClient>(
   Component: React.ComponentType<P>,
-) => React.ComponentType<WithMediaClientProps<P>>;
+) => React.ComponentType<WithContextOrMediaClientConfigProps<P>>;
 
 export const withMediaClient: WithMediaClientFunction = <
   P extends WithMediaClient
 >(
   Component: React.ComponentType<P>,
 ) => {
-  return class extends React.Component<WithMediaClientProps<P>> {
+  return class extends React.Component<WithContextOrMediaClientConfigProps<P>> {
     render() {
       const props = this.props;
       return <Component {...props} mediaClient={getMediaClient(this.props)} />;
