@@ -23,7 +23,7 @@ test('component as a provider (uses composition)', done => {
   mount(
     <Theme.Provider
       value={theme => ({
-        ...theme((undefined as unknown) as object),
+        ...theme({}),
         test2: true,
       })}
     >
