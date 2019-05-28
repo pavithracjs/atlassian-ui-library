@@ -1,28 +1,25 @@
-// @flow
-import React, { Component } from 'react';
-import {
-  ThemeProvider,
-  withTheme,
-  type ThemeProviderProps,
-} from 'styled-components';
+import React, { Component, ReactNode } from 'react';
+import { ThemeProvider, withTheme } from 'styled-components';
 
 import { defaultGridColumns } from './internal/vars';
 import Grid from './internal/GridElement';
+import { ThemeProps } from './types';
 
-type Props = {
-  children?: any,
-  spacing?: 'cosy' | 'comfortable' | 'compact',
-  layout?: 'fixed' | 'fluid',
-} & ThemeProviderProps;
+interface Props {
+  children?: ReactNode;
+  spacing?: 'cosy' | 'comfortable' | 'compact';
+  layout?: 'fixed' | 'fluid';
+  theme?: ThemeProps;
+}
 
 export default withTheme(
-  class AkGrid extends Component<Props, void> {
-    static defaultProps = {
+  class AkGrid extends Component<Props> {
+    static defaultProps: Props = {
       spacing: 'cosy',
       layout: 'fixed',
     };
 
-    getTheme = props => ({
+    getTheme = (props: Props) => ({
       columns:
         props.theme && props.theme.columns
           ? props.theme.columns

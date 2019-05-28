@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 const Wrapper = styled.div`
@@ -14,7 +13,12 @@ const NavigationAndContent = styled.div`
   flex: 1 1 auto;
 `;
 
-const BannerContainer = styled.div`
+interface BannerContainerProps {
+  isBannerOpen?: boolean;
+  bannerHeight: number;
+}
+
+const BannerContainer = styled.div<BannerContainerProps>`
   flex: 1 0 auto;
   transition: height 0.25s ease-in-out;
   height: ${props => (props.isBannerOpen ? props.bannerHeight : 0)}px;
@@ -42,7 +46,7 @@ const PageContent = styled.div`
 
 const emptyTheme = {};
 
-type Props = {
+interface Props {
   /*
     If you provide the banner or banners you are to use, page will help you
     coordinate the showing and hiding of them in conjunction with `isBannerOpen`.
@@ -52,22 +56,22 @@ type Props = {
     The only time that two banners should be rendered are when an announcement
     banner is loaded alongside an error or warning banner.
   */
-  banner?: Node,
+  banner?: ReactNode;
   /*
     Takes our [navigation component](/packages/core/navigation) and helps
     position it with consideration to rendered banners.
   */
-  navigation?: Node,
+  navigation?: ReactNode;
   /*
     The contents of the page, to be rendered next to navigation. It will be
     correctly position with relation to both any banner, as well as navigation.
   */
-  children?: Node,
+  children?: ReactNode;
   /*
     Sets whether to show or hide the banner. This is responsible for moving the
     page contents down, as well as whether to render the banner component.
   */
-  isBannerOpen?: boolean,
+  isBannerOpen?: boolean;
   /*
     52 is line height (20) + 4*grid. This is the height of all banners aside
     from the dynamically heighted announcement banner.
@@ -81,10 +85,10 @@ type Props = {
     is an example that implements displaying both an announcement banner and a
     warning banner on a page, while matching the height of each.
   */
-  bannerHeight: number,
-};
+  bannerHeight: number;
+}
 
-export default class Page extends Component<Props, void> {
+export default class Page extends Component<Props> {
   static displayName = 'AkPage';
 
   static defaultProps = {

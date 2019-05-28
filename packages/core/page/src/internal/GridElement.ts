@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 
 import { defaultGridColumnWidth, spacing } from './vars';

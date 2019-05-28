@@ -1,4 +1,3 @@
-// @flow
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Page, { Grid, GridColumn } from '../src';
