@@ -9,14 +9,6 @@ declare module '@atlaskit/atlassian-switcher' {
   declare module.exports: any;
 }
 
-declare module '@atlaskit/blanket' {
-  declare module.exports: any;
-}
-
-declare module '@atlaskit/button' {
-  declare module.exports: any;
-}
-
 declare module '@atlaskit/badge' {
   declare module.exports: any;
 }
@@ -25,7 +17,19 @@ declare module '@atlaskit/banner' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/blanket' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/button' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/dynamic-table' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/flag' {
   declare module.exports: any;
 }
 
