@@ -1,9 +1,10 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import exenv from 'exenv';
 import Pagination from '../..';
+
+declare var global: any;
 
 jest.mock('exenv', () => ({
   get canUseDOM() {

@@ -1,5 +1,9 @@
-//@flow
-import React, { Component, Fragment } from 'react';
+import React, {
+  Component,
+  Fragment,
+  SyntheticEvent,
+  ComponentType,
+} from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -13,10 +17,10 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../version.json';
-import { type PaginationPropTypes } from '../types';
+import { PaginationPropTypes } from '../types';
 
 type StateType = {
-  selectedIndex: number,
+  selectedIndex: number;
 };
 
 class Pagination extends Component<PaginationPropTypes, StateType> {
@@ -38,7 +42,7 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
     selectedIndex: this.props.defaultSelectedIndex,
   };
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props: PaginationPropTypes) {
     // selectedIndex is controlled
     if (props.selectedIndex != null) {
       return {
@@ -68,7 +72,7 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
     return undefined;
   };
 
-  onChange = (event: SyntheticEvent<>, newSelectedPage: number) => {
+  onChange = (event: SyntheticEvent<any>, newSelectedPage: number) => {
     if (this.props.selectedIndex === undefined) {
       this.setState({
         selectedIndex: newSelectedPage,
@@ -168,4 +172,4 @@ export default withAnalyticsContext({
   componentName: 'pagination',
   packageName,
   packageVersion,
-})(withAnalyticsEvents()(Pagination));
+})(withAnalyticsEvents()((Pagination as unknown) as ComponentType<any>));

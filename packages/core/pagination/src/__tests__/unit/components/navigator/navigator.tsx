@@ -1,4 +1,3 @@
-//@flow
 import React from 'react';
 import { mount } from 'enzyme';
 import Button from '@atlaskit/button';
@@ -7,7 +6,7 @@ import Navigator from '../../../../components/Navigators/Navigator';
 
 const createAnalyticsEventMock = jest.fn();
 
-function NavigatorWithAnalytics(props) {
+function NavigatorWithAnalytics(props: any) {
   return (
     <Navigator createAnalyticsEvent={createAnalyticsEventMock} {...props} />
   );
