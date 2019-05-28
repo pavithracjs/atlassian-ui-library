@@ -57,18 +57,19 @@ const bodyStyles: React.CSSProperties = {
   overflowX: 'hidden',
 };
 
-const Body = React.forwardRef(
-  (props: { children?: React.ReactNode }, ref: any) => {
-    return (
-      <div ref={ref} style={bodyStyles}>
-        {props.children}
-      </div>
-    );
-  },
-);
+const Body = React.forwardRef<
+  HTMLDivElement,
+  React.AllHTMLAttributes<HTMLDivElement>
+>((props, ref) => {
+  return (
+    <div ref={ref} style={bodyStyles}>
+      {props.children}
+    </div>
+  );
+});
 
 interface FooterProps {
-  onClose: () => void;
+  onClose: ButtonOnClick;
   showKeyline: boolean;
 }
 interface FooterState {
@@ -118,7 +119,8 @@ export default class ModalDemo extends React.Component<{}, State> {
 
   close = () => this.setState({ isOpen: null });
 
-  secondaryAction = ({ target }: any) => console.log(target.innerText);
+  secondaryAction = ({ currentTarget }: React.MouseEvent<HTMLElement>) =>
+    console.log(currentTarget.innerText);
 
   render() {
     const { isOpen } = this.state;
