@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import Lorem from 'react-lorem-component';
 import Modal, { ModalTransition } from '../src';

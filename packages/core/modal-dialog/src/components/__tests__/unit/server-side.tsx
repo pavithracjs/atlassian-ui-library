@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import * as React from 'react';
+import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 import Modal from '../../..';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ModalDialog, { ModalTransition } from '../src';

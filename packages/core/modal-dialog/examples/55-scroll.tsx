@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 import Button from '@atlaskit/button';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import invariant from 'tiny-invariant';
 import ReactFocusLock from 'react-focus-lock';
 
