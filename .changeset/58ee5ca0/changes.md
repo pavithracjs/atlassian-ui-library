@@ -1,0 +1,1 @@
+- Remove @atlaskit/analytics dependency.
