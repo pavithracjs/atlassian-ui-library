@@ -1,4 +1,4 @@
-import React, { Component, AnimationEvent } from 'react';
+import React, { Component } from 'react';
 import { Transition } from 'react-transition-group';
 import styled from 'styled-components';
 
