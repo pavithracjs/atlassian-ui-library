@@ -221,6 +221,13 @@ class GlobalNavWithDrawers extends Component<Props, State> {
     />
   );
 
+  renderInviteDrawerContents = () => (
+    <DrawerContent
+      drawerTitle="Invite drawer"
+      drawerBody="Can be controlled by passing the onInviteClick prop"
+    />
+  );
+
   render() {
     const actions = [
       { text: 'Close', onClick: this.closeCreateModal },
@@ -284,6 +291,10 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           recentDrawerContents={this.renderRecentDrawerContents}
           onRecentDrawerCloseComplete={this.onCloseComplete}
           shouldRecentDrawerUnmountOnExit={unmountOnExit}
+          // Invite drawer
+          inviteDrawerContents={this.renderInviteDrawerContents}
+          onInviteDrawerCloseComplete={this.onCloseComplete}
+          shouldInviteDrawerUnmountOnExit={unmountOnExit}
         />
         <ModalTransition>
           {this.state.isCreateModalOpen && (

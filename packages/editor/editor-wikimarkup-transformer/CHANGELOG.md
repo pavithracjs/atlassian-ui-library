@@ -1,5 +1,15 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.2.2
+- [patch] [3e9995b40d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e9995b40d):
+
+  - remove unnessary dependencies and bring back es5 to wikimarkup
+
+## 4.2.1
+- [patch] [78f6d092be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/78f6d092be):
+
+  - Allow issue links to be surrounded by ()
+
 ## 4.2.0
 - [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 

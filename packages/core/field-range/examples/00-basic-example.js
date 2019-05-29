@@ -5,6 +5,7 @@ import FieldRange from '../src';
 
 const Container = styled.div`
   width: 500px;
+  max-width: 100%;
 `;
 
 const CustomValueInput = styled.input`

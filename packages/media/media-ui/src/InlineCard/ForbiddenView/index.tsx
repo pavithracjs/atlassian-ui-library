@@ -51,7 +51,7 @@ export class InlineCardForbiddenView extends React.Component<
             <ForbiddenWrapper>
               {` - `}
               <FormattedMessage {...messages.invalid_permissions} />
-              {` - `}
+              {` `}
             </ForbiddenWrapper>
             <Button spacing="none" appearance="link" onClick={this.handleRetry}>
               <FormattedMessage {...messages.try_another_account} />

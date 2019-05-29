@@ -1,5 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Profilecard ProfileCard fullName property should match snapshot when fullName and nickName are equal 1`] = `
+<MockMessagesIntlProvider>
+  <styled.div
+    customElevation="e200"
+  >
+    <styled.div
+      isDisabledUser={false}
+    >
+      <styled.div>
+        <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
+          borderColor="#FFFFFF"
+          size="xlarge"
+        />
+      </styled.div>
+      <styled.div>
+        <styled.div>
+          <styled.span
+            noMeta={true}
+          >
+            Same Same
+          </styled.span>
+          <IconLabel
+            icon="email"
+          />
+          <IconLabel
+            icon="time"
+          />
+          <IconLabel
+            icon="companyName"
+          >
+            Atlassian
+          </IconLabel>
+          <IconLabel
+            icon="location"
+          />
+        </styled.div>
+      </styled.div>
+    </styled.div>
+  </styled.div>
+</MockMessagesIntlProvider>
+`;
+
 exports[`Profilecard ProfileCard fullName property should match snapshot when fullName and nickName are set 1`] = `
 <MockMessagesIntlProvider>
   <styled.div

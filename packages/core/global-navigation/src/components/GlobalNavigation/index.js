@@ -36,6 +36,7 @@ type GlobalNavigationState = {
   isStarredDrawerOpen: boolean,
   isHelpDrawerOpen: boolean,
   isRecentDrawerOpen: boolean,
+  isInviteDrawerOpen: boolean,
   isSettingsDrawerOpen: boolean,
   isAtlassianSwitcherDrawerOpen: boolean,
   notificationCount: number,
@@ -73,6 +74,9 @@ export default class GlobalNavigation extends Component<
     recent: {
       isControlled: false,
     },
+    invite: {
+      isControlled: false,
+    },
     atlassianSwitcher: {
       isControlled: false,
     },
@@ -91,6 +95,7 @@ export default class GlobalNavigation extends Component<
     helpDrawerWidth: 'wide',
     settingsDrawerWidth: 'wide',
     recentDrawerWidth: 'wide',
+    inviteDrawerWidth: 'wide',
   };
 
   constructor(props: GlobalNavigationProps) {
@@ -104,6 +109,7 @@ export default class GlobalNavigation extends Component<
       isHelpDrawerOpen: false,
       isSettingsDrawerOpen: false,
       isRecentDrawerOpen: false,
+      isInviteDrawerOpen: false,
       isAtlassianSwitcherDrawerOpen: false,
       notificationCount: 0,
     };
@@ -412,7 +418,6 @@ export default class GlobalNavigation extends Component<
       product,
       cloudId,
       /* eslint-disable camelcase */
-      experimental_enableSplitJira,
       experimental_enableExpandLink,
       /* eslint-enable camelcase */
     } = this.props;
@@ -422,7 +427,6 @@ export default class GlobalNavigation extends Component<
         product={product}
         triggerXFlow={this.triggerXFlow}
         /* eslint-disable camelcase */
-        enableSplitJira={experimental_enableSplitJira}
         enableExpandLink={experimental_enableExpandLink}
         /* eslint-enable camelcase */
       />

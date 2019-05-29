@@ -8,7 +8,10 @@ import { MockMentionResource } from '@atlaskit/util-data-test';
 import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
 import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { MentionProvider, MentionDescription } from '@atlaskit/mention';
+import {
+  MentionProvider,
+  MentionDescription,
+} from '@atlaskit/mention/resource';
 import { EditorView } from 'prosemirror-view';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 

@@ -39,7 +39,6 @@ export default class extends React.Component {
           <DrawerItemTheme>
             <LocaleIntlProvider locale={'en'}>
               <GlobalQuickSearch
-                addSessionIdToJiraResult={true}
                 cloudId="cloudId"
                 context={'jira'}
                 referralContextIdentifiers={{

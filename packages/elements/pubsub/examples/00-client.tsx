@@ -132,9 +132,7 @@ class PubSubEventComponent extends Component<{}, State> {
         <ButtonGroup>
           <Button onClick={this.onJoin}>Join</Button>
           <Button onClick={this.onLeave}>Leave</Button>
-          <Lozenge id="status" appearance="success">
-            {this.state.status}
-          </Lozenge>
+          <Lozenge appearance="success">{this.state.status}</Lozenge>
         </ButtonGroup>
 
         <FieldText

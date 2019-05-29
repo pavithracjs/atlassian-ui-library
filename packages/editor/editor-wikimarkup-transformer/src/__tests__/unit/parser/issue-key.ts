@@ -49,6 +49,7 @@ describe('JIRA wiki markup - Issue key (smart card)', () => {
       'should not parse issues inside a code macro',
       'this {code:java}ABC-10{code} is not a smart card',
     ],
+    ['should parse issues inside parentheses', 'this (ABC-10) is a smart card'],
   ];
 
   const context: Context = {

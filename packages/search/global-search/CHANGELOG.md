@@ -1,5 +1,55 @@
 # @atlaskit/global-search
 
+## 8.10.2
+- [patch] [4b4ee6dc9f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b4ee6dc9f):
+
+  - Fix containerId, renaming it to searchContainerId
+
+## 8.10.1
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/navigation@35.1.3
+  - @atlaskit/page@11.0.0
+
+## 8.10.0
+- [minor] [eb4f4fadff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4f4fadff):
+
+  - Support new ModelContext API
+
+## 8.9.0
+- [minor] [2e2e0cf0c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e2e0cf0c4):
+
+  - Actually made URS work
+
+## 8.8.4
+- [patch] [24dce138ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/24dce138ce):
+
+  - fix prequery limit with grape
+
+## 8.8.3
+- Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+  - @atlaskit/feedback-collector@4.0.2
+  - @atlaskit/flag@12.0.0
+
+## 8.8.2
+- [patch] [409dbf30b4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/409dbf30b4):
+
+  - add support for grape in jira
+
+## 8.8.1
+- [patch] [26501fa352](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26501fa352):
+
+  - Fix typo in URS scopes
+
+## 8.8.0
+- [minor] [ef46265bcf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef46265bcf):
+
+  - Added support to make bootstrapping calls through URS instead of directory
+
+## 8.7.0
+- [minor] [a0940ca7ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0940ca7ca):
+
+  - Remove jira session id feature flags & fix bug where session ids are not attached to pre-fetched results
+
 ## 8.6.2
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2
