@@ -130,6 +130,27 @@ describe('nodeviews/mediaSingle', () => {
     expect(wrapper.find(Media).props().onExternalImageLoaded).toBeDefined();
   });
 
+  it('passes url prop for external images', () => {
+    const mediaSingleNode = mediaSingle()(externalMediaNode);
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNode(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="full-page"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+
+    expect(wrapper.find(Media).props().url).toEqual('http://image.jpg');
+  });
+
   it('passes the editor width down as cardDimensions', () => {
     const mediaSingleNode = mediaSingle()(mediaNode);
     const wrapper = mount(
