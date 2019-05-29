@@ -3,7 +3,11 @@ import { mount } from 'enzyme';
 import { Context, MediaClientConfig } from '@atlaskit/media-core';
 import { withMediaClient, WithMediaClient } from '../../with-media-client-hoc';
 
-const DummyComponent = (props: WithMediaClient) => null;
+class DummyComponent extends React.Component<WithMediaClient, {}> {
+  render() {
+    return null;
+  }
+}
 
 describe('withMediaClient', () => {
   it('should set context as mediaClient prop', () => {

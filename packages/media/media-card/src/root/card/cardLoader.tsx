@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { WithMediaClientProps } from '@atlaskit/media-client';
-import { CardLoading } from '../../utils/lightCards/cardLoading';
-import { CardProps } from '../../index';
+import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
+import { CardProps, CardLoading } from '../..';
 
-type CardWithMediaClientConfigProps = WithMediaClientProps<CardProps>;
+type CardWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+  CardProps
+>;
 type CardWithMediaClientConfigComponent = React.ComponentType<
   CardWithMediaClientConfigProps
 >;
