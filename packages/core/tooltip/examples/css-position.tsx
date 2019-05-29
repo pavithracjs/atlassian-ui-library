@@ -82,9 +82,8 @@ export default class PositionExample extends React.Component<Props, State> {
     const { pinned, top } = this.state;
     const fixedPos = pinned ? 'fixed' : 'relative';
     const fixedStyle = pinned ? { boxShadow, top } : { top: 92 };
-    // TODO: any idea why TS is complaining about position being a String and not "absolute" type?
-    const buttonStyle = {
-      position: 'absolute' as 'absolute',
+    const buttonStyle: React.CSSProperties = {
+      position: 'absolute',
       right: 8,
       top: 8,
     };
