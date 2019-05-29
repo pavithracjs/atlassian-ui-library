@@ -8,7 +8,11 @@ import {
   InjectedIntlProps,
 } from 'react-intl';
 
-import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
+import {
+  MediaClient,
+  UploadableFile,
+  FileIdentifier,
+} from '@atlaskit/media-client';
 import { messages, Shortcut } from '@atlaskit/media-ui';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
@@ -36,7 +40,7 @@ export const convertFileNameToPng = (fileName?: string) => {
 
 export interface SmartMediaEditorProps {
   identifier: FileIdentifier;
-  context: Context;
+  mediaClient: MediaClient;
   onUploadStart: (identifier: FileIdentifier, dimensions: Dimensions) => void;
   onFinish: () => void;
 }
@@ -72,10 +76,10 @@ export class SmartMediaEditor extends React.Component<
   }
 
   componentWillReceiveProps(nextProps: Readonly<SmartMediaEditorProps>) {
-    const { identifier, context } = this.props;
+    const { identifier, mediaClient } = this.props;
     if (
       nextProps.identifier.id !== identifier.id ||
-      nextProps.context !== context
+      nextProps.mediaClient !== mediaClient
     ) {
       this.getFile(nextProps.identifier);
     }
@@ -92,10 +96,10 @@ export class SmartMediaEditor extends React.Component<
   }
 
   getFile = async (identifier: FileIdentifier) => {
-    const { context } = this.props;
+    const { mediaClient } = this.props;
     const { collectionName, occurrenceKey } = identifier;
     const id = await identifier.id;
-    const getFileSubscription = context.file
+    const getFileSubscription = mediaClient.file
       .getFileState(id, { collectionName, occurrenceKey })
       .subscribe({
         next: async state => {
@@ -135,9 +139,9 @@ export class SmartMediaEditor extends React.Component<
   };
 
   setRemoteImageUrl = async (identifier: FileIdentifier) => {
-    const { context } = this.props;
+    const { mediaClient } = this.props;
     const id = await identifier.id;
-    const imageUrl = await context.getImageUrl(id, {
+    const imageUrl = await mediaClient.getImageUrl(id, {
       collection: identifier.collectionName,
       mode: 'full-fit',
     });
@@ -148,7 +152,7 @@ export class SmartMediaEditor extends React.Component<
 
   copyFileToUserCollection = async (fileId: string) => {
     const {
-      context: {
+      mediaClient: {
         config: { userAuthProvider, authProvider },
         file,
       },
@@ -173,7 +177,7 @@ export class SmartMediaEditor extends React.Component<
   private onSave = (imageData: string, dimensions: Dimensions) => {
     const { fileName } = this;
     const {
-      context,
+      mediaClient,
       identifier,
       onUploadStart,
       onFinish,
@@ -188,7 +192,7 @@ export class SmartMediaEditor extends React.Component<
     };
     const id = uuidV4();
     const occurrenceKey = uuidV4();
-    const touchedFiles = context.file.touchFiles(
+    const touchedFiles = mediaClient.file.touchFiles(
       [
         {
           fileId: id,
@@ -207,7 +211,7 @@ export class SmartMediaEditor extends React.Component<
       occurrenceKey,
     };
 
-    const uploadingFileState = context.file.upload(
+    const uploadingFileState = mediaClient.file.upload(
       uploadableFile,
       undefined,
       uploadableFileUpfrontIds,
