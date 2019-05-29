@@ -44,11 +44,11 @@ export default defineMessages({
   visit: {
     id: 'fabric.editor.visit',
     defaultMessage: 'Open link in a new window',
-    description: '',
+    description: 'Open the link in a new window',
   },
   inviteToEditButtonTitle: {
     id: 'fabric.editor.editMode.inviteToEditButton.title',
     defaultMessage: 'Invite to edit',
-    description: '',
+    description: 'Invite another user to edit the current document',
   },
 });

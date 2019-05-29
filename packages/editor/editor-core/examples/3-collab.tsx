@@ -6,6 +6,16 @@ import Button, { ButtonGroup } from '@atlaskit/button';
 import { borderRadius } from '@atlaskit/theme';
 import { ShareDialogContainer } from '@atlaskit/share';
 
+import {
+  mention,
+  emoji,
+  taskDecision,
+  userPickerData,
+} from '@atlaskit/util-data-test';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { OptionData, User } from '@atlaskit/user-picker';
+import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
+
 import Editor, { EditorProps } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
 import WithEditorActions from './../src/ui/WithEditorActions';
@@ -14,7 +24,6 @@ import {
   storyContextIdentifierProviderFactory,
   extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
-import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 
 import {
   akEditorCodeBackground,
@@ -23,11 +32,8 @@ import {
 } from '../src/styles';
 
 import { collabEditProvider } from '../example-helpers/mock-collab-provider';
-import { EmojiProvider } from '@atlaskit/emoji/resource';
-import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions, MediaProvider } from '../src';
-
 import { InviteToEditComponentProps } from '../src/plugins/collab-edit/types';
 
 export const Content = styled.div`
@@ -100,6 +106,30 @@ const shareClient = {
     }),
 };
 
+const userPropertiesToSearch: (keyof Pick<
+  User,
+  'id' | 'name' | 'publicName'
+>)[] = ['id', 'name', 'publicName'];
+
+const loadUserOptions = (searchText?: string): OptionData[] => {
+  if (!searchText) {
+    return userPickerData;
+  }
+
+  return userPickerData
+    .map((user: User) => ({
+      ...user,
+      type: user.type || 'user',
+    }))
+    .filter((user: User) => {
+      const searchTextInLowerCase = searchText.toLowerCase();
+      return userPropertiesToSearch.some(property => {
+        const value = property && user[property];
+        return !!(value && value.toLowerCase().includes(searchTextInLowerCase));
+      });
+    });
+};
+
 const mockOriginTracing = {
   id: 'id',
   addToUrl: (l: string) => `${l}&atlOrigin=mockAtlOrigin`,
@@ -114,7 +144,7 @@ const InviteToEditButton = (props: InviteToEditComponentProps) => {
     <ShareDialogContainer
       cloudId="cloudId"
       client={shareClient}
-      loadUserOptions={() => []}
+      loadUserOptions={loadUserOptions}
       originTracingFactory={() => mockOriginTracing}
       productId="confluence"
       renderCustomTriggerButton={({ isSelected, onClick }: any): any =>
