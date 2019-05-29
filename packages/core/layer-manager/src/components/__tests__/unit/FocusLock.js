@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import { FocusLock } from '../../..';
 
+// TODO: Couple of tests have been already tracked in react-focus-lock no need to repeat them.
+// https://github.com/theKashey/react-focus-lock/commit/72deb577d43b86af2ae374e3d861c330b3a52be4
+
 const textContent = elem => (elem ? elem.textContent : '');
 
 const documentBody = fn => {
@@ -97,27 +100,6 @@ it('should focus on inner lock', () => {
   expect(inner.current).toBe(document.activeElement);
 });
 
-it('should focus on last enabled inner lock', () => {
-  const outer = createRef();
-  const inner = createRef();
-  mount(
-    <FocusLock enabled>
-      <div>
-        <button ref={outer}>Button 1</button>
-        <FocusLock enabled>
-          <div>
-            <button ref={inner}>Button 2</button>
-            <FocusLock enabled={false}>
-              <button ref={inner}>Button 3</button>
-            </FocusLock>
-          </div>
-        </FocusLock>
-      </div>
-    </FocusLock>,
-  );
-  expect(inner.current).toBe(document.activeElement);
-});
-
 it('should work through Portals', () => {
   class Portal extends React.Component<{ children: Node }> {
     domNode = document.createElement('div');
@@ -180,28 +162,6 @@ class FocusLockWithState extends React.Component<
     );
   }
 }
-
-it('should stay focused in inner lock when disabled', () => {
-  const outer = createRef();
-  const inner = createRef();
-  const wrapper = mount(
-    <FocusLock enabled>
-      <button ref={outer}>Button 1</button>
-      <FocusLockWithState defaultEnabled>
-        {(enabled, toggle) => (
-          <button id="button-2" onClick={toggle} ref={inner}>
-            {`Button 2 ${enabled ? 'locked' : 'unlocked'}`}
-          </button>
-        )}
-      </FocusLockWithState>
-    </FocusLock>,
-  );
-  wrapper.find('#button-2').simulate('click');
-  return nextTick(() => {
-    const { activeElement } = document;
-    expect(textContent(activeElement)).toBe('Button 2 unlocked');
-  });
-});
 
 it('should focus on previous lock after state change', () => {
   const ref = React.createRef();
