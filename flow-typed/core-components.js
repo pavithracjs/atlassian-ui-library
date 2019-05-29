@@ -64,3 +64,7 @@ declare module '@atlaskit/textarea' {
 declare module '@atlaskit/radio' {
   declare module.exports: any;
 }
+
+declare module '@atlaskit/portal' {
+  declare module.exports: any;
+}

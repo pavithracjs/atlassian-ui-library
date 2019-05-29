@@ -1,6 +1,5 @@
-// @flow
 /* eslint-disable react/no-multi-comp */
-import React, { type Node } from 'react';
+import React, { ReactNode } from 'react';
 import Button from '@atlaskit/button';
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Flag, { FlagGroup } from '@atlaskit/flag';
@@ -18,8 +17,8 @@ const TooltipButton = ({
   children,
   onClick,
 }: {
-  children: Node,
-  onClick: Function,
+  children: ReactNode;
+  onClick: () => void;
 }) => (
   <div style={{ backgroundColor: 'white' }}>
     <Tooltip content="Click me">
@@ -29,16 +28,16 @@ const TooltipButton = ({
 );
 
 type SpotlightProps = {
-  stepOne: Node,
-  stepTwo: Node,
-  stepThree: Node,
-  open: boolean,
-  onFinish: () => void,
+  stepOne: ReactNode;
+  stepTwo: ReactNode;
+  stepThree: ReactNode;
+  open: boolean;
+  onFinish: () => void;
 };
 
 class ThreeStepSpotlight extends React.Component<
   SpotlightProps,
-  { step: number },
+  { step: number }
 > {
   state = {
     step: 1,
@@ -88,14 +87,14 @@ class ThreeStepSpotlight extends React.Component<
 }
 
 type ModalState = {
-  onboardingOpen: boolean,
-  inlineOpen: boolean,
-  flags: number[],
+  onboardingOpen: boolean;
+  inlineOpen: boolean;
+  flags: number[];
 };
 
 type ModalProps = {
-  onOpen: () => void,
-  onClose: () => void,
+  onOpen: () => void;
+  onClose: () => void;
 };
 
 class Modal extends React.Component<ModalProps, ModalState> {
@@ -154,12 +153,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
             }
           />
         </ModalDialog>
-        <FlagGroup onDismissed={name => this.removeFlag(name)}>
+        <FlagGroup onDismissed={(id: number) => this.removeFlag(id)}>
           {flags.map(id => (
             <Flag
               id={id}
               key={`${id}`}
-              icon={<EmojiIcon />}
+              icon={<EmojiIcon label="Smiley face" />}
               title={`${id + 1}: Whoa a new flag!`}
             />
           ))}
@@ -170,7 +169,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 }
 
 type State = {
-  modals: number[],
+  modals: number[];
 };
 
 class App extends React.Component<{}, State> {
