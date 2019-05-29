@@ -3,11 +3,11 @@ import { colors, themed } from '@atlaskit/theme';
 import { itemSpacing } from '../../constants';
 import { IconType } from '../../types';
 
-type Props = {
+interface Props {
   appearance: IconType;
   isHovered?: boolean;
   isOpen?: boolean;
-};
+}
 
 type themedType = (appearance: Props) => string;
 
