@@ -1,4 +1,3 @@
-import { AnalyticsListener } from '@atlaskit/analytics';
 import { AnalyticsListener as AnalyticsListenerNext } from '@atlaskit/analytics-next';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import Tooltip from '@atlaskit/tooltip';
@@ -103,8 +102,8 @@ describe('<Mention />', () => {
       const spy = jest.fn();
       const mention = mountWithIntl(<Mention {...mentionData} onClick={spy} />);
       mention.find(MentionStyle).simulate('click');
-      expect(spy).toBeCalled();
-      expect(spy).toHaveBeenCalledWith(
+      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenLastCalledWith(
         mentionData.id,
         mentionData.text,
         expect.anything(),
@@ -113,25 +112,18 @@ describe('<Mention />', () => {
     });
 
     it('should dispatch lozenge.select analytics onClick-event', () => {
-      const analyticsSpy = jest.fn();
       const analyticsNextHandlerSpy = jest.fn();
       const mention = mountWithIntl(
         <AnalyticsListenerNext
           onEvent={analyticsNextHandlerSpy}
           channel={ELEMENTS_CHANNEL}
         >
-          <AnalyticsListener onEvent={analyticsSpy} matchPrivate={true}>
-            <Mention {...mentionData} accessLevel={'CONTAINER'} />
-          </AnalyticsListener>
+          <Mention {...mentionData} accessLevel={'CONTAINER'} />
         </AnalyticsListenerNext>,
       );
       mention.find(MentionStyle).simulate('click');
-      expect(analyticsSpy).toBeCalled();
-      expect(analyticsSpy).toHaveBeenCalledWith(
-        'atlassian.fabric.mention.lozenge.select',
-        { accessLevel: 'CONTAINER', isSpecial: false },
-      );
 
+      expect(analyticsNextHandlerSpy).toHaveBeenCalled();
       expect(analyticsNextHandlerSpy).toHaveBeenCalledWith(
         expect.objectContaining(createPayload('mention', 'selected')),
         ELEMENTS_CHANNEL,
@@ -167,26 +159,17 @@ describe('<Mention />', () => {
     });
 
     it('should dispatch lozenge.hover analytics event if hover delay is greater than the threshold', () => {
-      const analyticsSpy = jest.fn();
       const analyticsNextHandlerSpy = jest.fn();
       const mention = mountWithIntl(
         <AnalyticsListenerNext
           onEvent={analyticsNextHandlerSpy}
           channel={ELEMENTS_CHANNEL}
         >
-          <AnalyticsListener onEvent={analyticsSpy} matchPrivate={true}>
-            <Mention {...mentionData} accessLevel={'CONTAINER'} />
-          </AnalyticsListener>
+          <Mention {...mentionData} accessLevel={'CONTAINER'} />
         </AnalyticsListenerNext>,
       );
       mention.find(MentionStyle).simulate('mouseenter');
       jest.runTimersToTime(ANALYTICS_HOVER_DELAY);
-
-      expect(analyticsSpy).toBeCalled();
-      expect(analyticsSpy).toHaveBeenCalledWith(
-        'atlassian.fabric.mention.lozenge.hover',
-        { accessLevel: 'CONTAINER', isSpecial: false },
-      );
 
       expect(analyticsNextHandlerSpy).toHaveBeenCalledWith(
         expect.objectContaining(createPayload('mention', 'hovered')),
@@ -195,16 +178,13 @@ describe('<Mention />', () => {
     });
 
     it('should not dispatch lozenge.hover analytics event for a hover delay bellow the threshold', () => {
-      const analyticsSpy = jest.fn();
       const analyticsNextHandlerSpy = jest.fn();
       const mention = mountWithIntl(
         <AnalyticsListenerNext
           onEvent={analyticsNextHandlerSpy}
           channel={ELEMENTS_CHANNEL}
         >
-          <AnalyticsListener onEvent={analyticsSpy} matchPrivate={true}>
-            <Mention {...mentionData} accessLevel={'CONTAINER'} />
-          </AnalyticsListener>
+          <Mention {...mentionData} accessLevel={'CONTAINER'} />
         </AnalyticsListenerNext>,
       );
       mention.find(MentionStyle).simulate('mouseenter');
@@ -214,7 +194,6 @@ describe('<Mention />', () => {
       // to make sure the clearTimeout removed the scheduled task
       jest.runTimersToTime(ANALYTICS_HOVER_DELAY);
 
-      expect(analyticsSpy).not.toBeCalled();
       expect(analyticsNextHandlerSpy).not.toBeCalled();
     });
 
