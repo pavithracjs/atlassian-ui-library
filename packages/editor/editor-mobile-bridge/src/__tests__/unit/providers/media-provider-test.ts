@@ -24,7 +24,7 @@ import {
   asMock,
   expectFunctionToHaveBeenCalledWith,
   fakeMediaClient,
-} from '@atlaskit/media-test-helpers/index';
+} from '@atlaskit/media-test-helpers';
 import { of } from 'rxjs/observable/of';
 import { MediaClient } from '@atlaskit/media-client';
 
