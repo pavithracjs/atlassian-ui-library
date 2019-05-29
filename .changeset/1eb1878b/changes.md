@@ -1,0 +1,1 @@
+- Added onPageRowUpdate function prop to dynamic table to be passed the currently shown table items
