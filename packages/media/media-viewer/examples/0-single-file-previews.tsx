@@ -4,7 +4,7 @@ import {
   externalImageIdentifier,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 import { ButtonList, Container, Group } from '../example-helpers/styled';
 import {
   archiveItem,
@@ -49,7 +49,11 @@ export default class Example extends React.Component<{}, State> {
     return (
       <div>
         <h4>{title}</h4>
-        <Card identifier={identifier} context={context} onClick={onClick} />
+        <Card
+          identifier={identifier}
+          mediaClient={mediaClient}
+          onClick={onClick}
+        />
       </div>
     );
   };
@@ -115,7 +119,7 @@ export default class Example extends React.Component<{}, State> {
           {selectedIdentifier && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
-                context={context}
+                mediaClient={mediaClient}
                 selectedItem={selectedIdentifier}
                 dataSource={{ list: [selectedIdentifier] }}
                 collectionName={defaultCollectionName}

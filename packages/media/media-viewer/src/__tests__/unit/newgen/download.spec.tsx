@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import { ErrorFileState, ProcessingFailedState } from '@atlaskit/media-core';
+import { ErrorFileState, ProcessingFailedState } from '@atlaskit/media-client';
 import {
   createItemDownloader,
   ToolbarDownloadButton,
@@ -70,7 +70,7 @@ describe('download', () => {
 
   describe('ErrorViewDownloadButton', () => {
     it('should trigger an analytics event in the media channel', () => {
-      const context = createContext({});
+      const mediaClient = createContext({});
       const spy = jest.fn();
       const err = new MediaViewerError('metadataFailed');
       const component = mount(
@@ -78,7 +78,7 @@ describe('download', () => {
           <ErrorViewDownloadButton
             state={processingFailedState}
             err={err}
-            context={context}
+            mediaClient={mediaClient}
           />
         </AnalyticsListener>,
       );
@@ -108,7 +108,7 @@ describe('download', () => {
 
   describe('ToolbarDownloadButton', () => {
     it('should download binary when toolbar button is clicked', () => {
-      const context = createContext({});
+      const mediaClient = createContext({});
       const component = mount(
         <ToolbarDownloadButton
           state={processingFailedState}
@@ -118,11 +118,11 @@ describe('download', () => {
             occurrenceKey: 'my-occurrenceKey',
             collectionName: 'some-collection-name',
           }}
-          context={context}
+          mediaClient={mediaClient}
         />,
       );
       component.find(DownloadButton).simulate('click');
-      expect(context.file.downloadBinary).toHaveBeenCalledWith(
+      expect(mediaClient.file.downloadBinary).toHaveBeenCalledWith(
         'some-id',
         'some-name',
         'some-collection-name',
@@ -131,7 +131,7 @@ describe('download', () => {
   });
 
   it('should trigger an analytics event in the media channel', () => {
-    const context = createContext({});
+    const mediaClient = createContext({});
     const spy = jest.fn();
     const component = mount(
       <AnalyticsListener channel="media" onEvent={spy}>
@@ -143,7 +143,7 @@ describe('download', () => {
             occurrenceKey: 'my-occurrenceKey',
             collectionName: 'some-collection-name',
           }}
-          context={context}
+          mediaClient={mediaClient}
         />
       </AnalyticsListener>,
     );

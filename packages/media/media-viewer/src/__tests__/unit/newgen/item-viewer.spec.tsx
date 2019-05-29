@@ -19,7 +19,7 @@ import {
   FileIdentifier,
   FileState,
   Identifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
   ItemViewer,
@@ -65,7 +65,11 @@ const makeFakeContext = (observable: Observable<any>) =>
 
 function mountComponent(context: Context, identifier: Identifier) {
   const el = mountWithIntlContext(
-    <ItemViewer previewCount={0} context={context} identifier={identifier} />,
+    <ItemViewer
+      previewCount={0}
+      mediaClient={mediaClient}
+      identifier={identifier}
+    />,
   );
   const instance = el.find(ItemViewerBase).instance() as any;
   return { el, instance };
@@ -85,7 +89,7 @@ function mountBaseComponent(
     <ItemViewerBase
       createAnalyticsEvent={createAnalyticsEventSpy}
       previewCount={0}
-      context={context}
+      mediaClient={mediaClient}
       identifier={identifier}
       {...props}
     />,
@@ -155,7 +159,11 @@ describe('<ItemViewer />', () => {
       }),
     );
     const el = mountWithIntlContext(
-      <ItemViewer previewCount={0} context={context} identifier={identifier} />,
+      <ItemViewer
+        previewCount={0}
+        mediaClient={mediaClient}
+        identifier={identifier}
+      />,
     );
     el.update();
     const errorMessage = el.find(ErrorMessage);
@@ -175,7 +183,11 @@ describe('<ItemViewer />', () => {
       }),
     );
     const el = mountWithIntlContext(
-      <ItemViewer previewCount={0} context={context} identifier={identifier} />,
+      <ItemViewer
+        previewCount={0}
+        mediaClient={mediaClient}
+        identifier={identifier}
+      />,
     );
     el.update();
     const errorMessage = el.find(ErrorMessage);

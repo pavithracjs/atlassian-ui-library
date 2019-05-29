@@ -1,4 +1,4 @@
-import { FileState } from '@atlaskit/media-core';
+import { FileState } from '@atlaskit/media-client';
 
 export const getObjectUrlFromFileState = async (
   state: FileState,

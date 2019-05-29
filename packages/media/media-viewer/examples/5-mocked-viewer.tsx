@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { canUseDOM } from 'exenv';
 
-import { FileIdentifier, ContextFactory } from '@atlaskit/media-core';
+import { FileIdentifier, ContextFactory } from '@atlaskit/media-client';
 import { MediaFile } from '@atlaskit/media-store';
 import {
   MediaMock,
@@ -51,7 +51,7 @@ if (canUseDOM) {
   mediaMock.enable();
 }
 
-const context = ContextFactory.create({
+const mediaClient = ContextFactory.create({
   authProvider: () =>
     Promise.resolve({
       clientId: '',
@@ -82,7 +82,7 @@ export default class Example extends React.Component<{}, {}> {
           mediaItemType: 'file',
         }}
         collectionName={defaultCollectionName}
-        context={context}
+        mediaClient={mediaClient}
       />
     );
   }

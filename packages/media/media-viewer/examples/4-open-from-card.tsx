@@ -25,21 +25,21 @@ export default () => (
     <h1>Datasource with current identifier</h1>
     <Card
       shouldOpenMediaViewer
-      context={context}
+      mediaClient={mediaClient}
       identifier={externalImageIdentifier}
       mediaViewerDataSource={{ list: listWithCurrentIdentifier }}
     />
     <h1>Datasource without current identifier</h1>
     <Card
       shouldOpenMediaViewer
-      context={context}
+      mediaClient={mediaClient}
       identifier={externalImageIdentifier}
       mediaViewerDataSource={{ list: listWithoutCurrentIdentifier }}
     />
     <h1>With collection data source</h1>
     <Card
       shouldOpenMediaViewer
-      context={context}
+      mediaClient={mediaClient}
       identifier={externalImageIdentifier}
       mediaViewerDataSource={{ collectionName: defaultCollectionName }}
     />

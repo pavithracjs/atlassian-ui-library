@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { ProcessedFileState, Context, FileState } from '@atlaskit/media-core';
+import {
+  ProcessedFileState,
+  MediaClient,
+  FileState,
+} from '@atlaskit/media-client';
 import AudioIcon from '@atlaskit/icon/glyph/media-services/audio';
 import { constructAuthTokenUrl } from '../utils';
 import { Outcome, MediaViewerFeatureFlags } from '../domain';
@@ -20,7 +24,7 @@ import { getObjectUrlFromFileState } from '../utils/getObjectUrlFromFileState';
 
 export type Props = Readonly<{
   item: FileState;
-  context: Context;
+  mediaClient: MediaClient;
   collectionName?: string;
   previewCount: number;
   featureFlags?: MediaViewerFeatureFlags;
@@ -41,7 +45,7 @@ const defaultCover = (
 
 const getCoverUrl = (
   item: ProcessedFileState,
-  context: Context,
+  context: MediaClient,
   collectionName?: string,
 ): Promise<string> =>
   constructAuthTokenUrl(`/file/${item.id}/image`, context, collectionName);
@@ -119,12 +123,12 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
   };
 
   private setCoverUrl = async () => {
-    const { context, item, collectionName } = this.props;
+    const { mediaClient, item, collectionName } = this.props;
 
     if (item.status !== 'processed') {
       return;
     }
-    const coverUrl = await getCoverUrl(item, context, collectionName);
+    const coverUrl = await getCoverUrl(item, mediaClient, collectionName);
 
     try {
       await this.loadCover(coverUrl);
@@ -133,7 +137,7 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
   };
 
   protected async init() {
-    const { context, item, collectionName } = this.props;
+    const { mediaClient, item, collectionName } = this.props;
 
     try {
       let audioUrl: string | undefined;
@@ -145,7 +149,7 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
         }
         audioUrl = await constructAuthTokenUrl(
           artifactUrl,
-          context,
+          mediaClient,
           collectionName,
         );
         if (!audioUrl) {

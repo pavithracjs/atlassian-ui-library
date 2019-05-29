@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ProcessedFileState } from '@atlaskit/media-core';
+import { ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
@@ -34,7 +34,7 @@ function createFixture(response: Promise<Blob>, item = imageItem) {
   const onLoaded = jest.fn();
   const el = mountWithIntlContext<ImageViewerProps, BaseState<Content>>(
     <ImageViewer
-      context={context}
+      mediaClient={mediaClient}
       item={item}
       collectionName={collectionName}
       onClose={onClose}

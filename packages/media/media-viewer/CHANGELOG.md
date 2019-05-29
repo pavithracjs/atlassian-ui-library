@@ -3,7 +3,7 @@
 ## 43.0.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-card@63.0.2
-  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-client@30.0.1
   - @atlaskit/media-store@12.0.1
   - @atlaskit/media-ui@11.1.1
   - @atlaskit/media-test-helpers@23.0.0
@@ -23,7 +23,7 @@
   - @atlaskit/modal-dialog@9.0.0
   - @atlaskit/spinner@11.0.0
   - @atlaskit/theme@9.0.0
-  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-client@30.0.0
   - @atlaskit/media-store@12.0.0
   - @atlaskit/media-test-helpers@22.0.0
   - @atlaskit/media-ui@11.0.0
@@ -33,14 +33,14 @@
   - @atlaskit/media-card@62.0.0
   - @atlaskit/media-store@11.1.1
   - @atlaskit/media-test-helpers@21.4.0
-  - @atlaskit/media-core@29.3.0
+  - @atlaskit/media-client@29.3.0
 
 ## 41.0.0
 - Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
   - @atlaskit/media-card@61.0.0
   - @atlaskit/media-store@11.1.0
   - @atlaskit/media-test-helpers@21.3.0
-  - @atlaskit/media-core@29.2.0
+  - @atlaskit/media-client@29.2.0
 
 ## 40.1.11
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
@@ -88,7 +88,7 @@
   - @atlaskit/spinner@10.0.5
   - @atlaskit/theme@8.1.6
   - @atlaskit/media-card@60.0.1
-  - @atlaskit/media-core@29.1.4
+  - @atlaskit/media-client@29.1.4
   - @atlaskit/media-store@11.0.7
   - @atlaskit/media-ui@10.1.3
   - @atlaskit/field-range@6.0.3
@@ -106,7 +106,7 @@
 
 ## 40.1.2
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
-  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-client@29.1.2
   - @atlaskit/media-store@11.0.5
   - @atlaskit/media-test-helpers@21.2.2
   - @atlaskit/media-card@60.0.0
@@ -126,11 +126,11 @@
   - @atlaskit/media-card@59.0.0
   - @atlaskit/media-store@11.0.3
   - @atlaskit/media-test-helpers@21.1.0
-  - @atlaskit/media-core@29.1.0
+  - @atlaskit/media-client@29.1.0
 
 ## 39.0.2
 - Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
-  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-client@29.0.2
   - @atlaskit/media-store@11.0.2
   - @atlaskit/media-test-helpers@21.0.3
   - @atlaskit/media-card@58.0.0
@@ -156,7 +156,7 @@
   - @atlaskit/button@11.0.0
   - @atlaskit/analytics-gas-types@4.0.0
   - @atlaskit/analytics-next-types@4.0.0
-  - @atlaskit/media-core@29.0.0
+  - @atlaskit/media-client@29.0.0
   - @atlaskit/media-store@11.0.0
   - @atlaskit/media-test-helpers@21.0.0
   - @atlaskit/media-ui@10.0.0
@@ -165,7 +165,7 @@
 - Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
   - @atlaskit/media-card@56.0.0
   - @atlaskit/media-test-helpers@20.1.8
-  - @atlaskit/media-core@28.0.0
+  - @atlaskit/media-client@28.0.0
   - @atlaskit/media-store@10.0.0
 
 ## 37.0.1
@@ -174,7 +174,7 @@
   - @atlaskit/icon@16.0.4
   - @atlaskit/analytics-gas-types@3.2.5
   - @atlaskit/media-card@55.0.2
-  - @atlaskit/media-core@27.2.3
+  - @atlaskit/media-client@27.2.3
   - @atlaskit/media-store@9.2.1
   - @atlaskit/media-ui@9.2.1
   - @atlaskit/media-test-helpers@20.1.7
@@ -192,7 +192,7 @@
 - Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
   - @atlaskit/media-card@55.0.0
   - @atlaskit/media-test-helpers@20.1.6
-  - @atlaskit/media-core@27.2.0
+  - @atlaskit/media-client@27.2.0
   - @atlaskit/media-store@9.2.0
 
 ## 36.1.0
@@ -209,11 +209,11 @@
   - @atlaskit/media-card@54.0.0
   - @atlaskit/media-store@9.1.7
   - @atlaskit/media-test-helpers@20.1.5
-  - @atlaskit/media-core@27.1.0
+  - @atlaskit/media-client@27.1.0
 
 ## 35.2.1
 - Updated dependencies [46dfcfbeca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46dfcfbeca):
-  - @atlaskit/media-core@27.0.2
+  - @atlaskit/media-client@27.0.2
   - @atlaskit/media-store@9.1.6
   - @atlaskit/media-test-helpers@20.1.4
   - @atlaskit/media-card@53.0.0
@@ -247,12 +247,12 @@
   - @atlaskit/media-card@52.0.0
   - @atlaskit/media-test-helpers@20.1.0
   - @atlaskit/media-store@9.1.5
-  - @atlaskit/media-core@27.0.0
+  - @atlaskit/media-client@27.0.0
 
 ## 34.0.2
 - Updated dependencies [07a187bb30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07a187bb30):
   - @atlaskit/media-card@51.0.2
-  - @atlaskit/media-core@26.2.1
+  - @atlaskit/media-client@26.2.1
   - @atlaskit/media-store@9.1.4
   - @atlaskit/media-ui@8.2.6
   - @atlaskit/media-test-helpers@20.0.0
@@ -273,7 +273,7 @@
   - @atlaskit/media-card@51.0.0
   - @atlaskit/media-store@9.1.3
   - @atlaskit/media-test-helpers@19.1.0
-  - @atlaskit/media-core@26.2.0
+  - @atlaskit/media-client@26.2.0
 
 ## 33.0.0
 - Updated dependencies [dadef80](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dadef80):
@@ -281,7 +281,7 @@
   - @atlaskit/media-card@50.0.0
   - @atlaskit/media-store@9.1.2
   - @atlaskit/media-test-helpers@19.0.0
-  - @atlaskit/media-core@26.1.0
+  - @atlaskit/media-client@26.1.0
   - @atlaskit/media-ui@8.2.4
 
 ## 32.1.0
@@ -304,7 +304,7 @@
   - @atlaskit/media-card@49.0.0
   - @atlaskit/media-test-helpers@18.9.1
   - @atlaskit/media-store@9.1.1
-  - @atlaskit/media-core@26.0.0
+  - @atlaskit/media-client@26.0.0
 
 ## 30.0.0
 - [patch] [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
@@ -318,7 +318,7 @@
   - Make context.getImage cancelable
 - Updated dependencies [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
   - @atlaskit/media-card@48.0.0
-  - @atlaskit/media-core@25.0.0
+  - @atlaskit/media-client@25.0.0
   - @atlaskit/media-store@9.1.0
   - @atlaskit/media-test-helpers@18.9.0
 
@@ -334,7 +334,7 @@
 
 ## 29.0.2
 - Updated dependencies [135ed00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/135ed00):
-  - @atlaskit/media-core@24.7.2
+  - @atlaskit/media-client@24.7.2
   - @atlaskit/media-store@9.0.2
   - @atlaskit/media-test-helpers@18.7.2
   - @atlaskit/media-card@47.0.0
@@ -350,14 +350,14 @@
   - @atlaskit/media-card@46.0.0
   - @atlaskit/media-store@9.0.0
   - @atlaskit/media-test-helpers@18.7.0
-  - @atlaskit/media-core@24.7.0
+  - @atlaskit/media-client@24.7.0
 
 ## 28.0.0
 - Updated dependencies [80f765b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80f765b):
   - @atlaskit/media-card@45.0.0
   - @atlaskit/media-store@8.5.1
   - @atlaskit/media-test-helpers@18.6.2
-  - @atlaskit/media-core@24.6.0
+  - @atlaskit/media-client@24.6.0
 
 ## 27.1.1
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
@@ -370,7 +370,7 @@
   - @atlaskit/theme@7.0.1
   - @atlaskit/analytics-gas-types@3.2.3
   - @atlaskit/media-card@44.1.3
-  - @atlaskit/media-core@24.5.2
+  - @atlaskit/media-client@24.5.2
   - @atlaskit/media-ui@8.1.2
   - @atlaskit/docs@6.0.0
 
@@ -424,7 +424,7 @@
   - @atlaskit/spinner@9.0.11
   - @atlaskit/theme@6.2.1
   - @atlaskit/media-card@44.0.1
-  - @atlaskit/media-core@24.5.1
+  - @atlaskit/media-client@24.5.1
   - @atlaskit/media-ui@7.6.1
   - @atlaskit/field-range@5.0.9
   - @atlaskit/button@10.0.0
@@ -434,7 +434,7 @@
 - Updated dependencies [7e8b4b9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e8b4b9):
   - @atlaskit/media-card@44.0.0
   - @atlaskit/media-test-helpers@18.3.0
-  - @atlaskit/media-core@24.5.0
+  - @atlaskit/media-client@24.5.0
 
 ## 26.0.1
 - [patch] [8584c5a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8584c5a):
@@ -445,12 +445,12 @@
 - Updated dependencies [2c21466](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2c21466):
   - @atlaskit/media-card@43.0.0
   - @atlaskit/media-test-helpers@18.2.12
-  - @atlaskit/media-core@24.4.0
+  - @atlaskit/media-client@24.4.0
   - @atlaskit/media-store@8.3.0
 
 ## 25.0.3
 - Updated dependencies [04c7192](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/04c7192):
-  - @atlaskit/media-core@24.3.1
+  - @atlaskit/media-client@24.3.1
   - @atlaskit/media-test-helpers@18.2.11
   - @atlaskit/media-card@42.0.0
 
@@ -526,13 +526,13 @@ d):
 ## 24.0.0
 - [major] Updated dependencies [b1ce691](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b1ce691)
   - @atlaskit/media-card@41.0.0
-  - @atlaskit/media-core@24.3.0
+  - @atlaskit/media-client@24.3.0
   - @atlaskit/media-store@8.2.0
   - @atlaskit/media-test-helpers@18.2.8
 
 ## 23.0.2
 - [patch] Updated dependencies [6e510d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6e510d8)
-  - @atlaskit/media-core@24.2.2
+  - @atlaskit/media-client@24.2.2
   - @atlaskit/media-test-helpers@18.2.7
   - @atlaskit/media-card@40.0.0
 
@@ -544,7 +544,7 @@ d):
 - [major] Updated dependencies [2afa60d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2afa60d)
   - @atlaskit/media-card@39.0.0
   - @atlaskit/media-test-helpers@18.2.5
-  - @atlaskit/media-core@24.2.0
+  - @atlaskit/media-client@24.2.0
   - @atlaskit/media-store@8.1.0
 
 ## 22.0.0
@@ -553,7 +553,7 @@ d):
 - [major] Updated dependencies [8b2c4d3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b2c4d3)
 - [major] Updated dependencies [3302d51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3302d51)
   - @atlaskit/media-card@38.0.0
-  - @atlaskit/media-core@24.1.0
+  - @atlaskit/media-client@24.1.0
   - @atlaskit/media-store@8.0.0
   - @atlaskit/media-test-helpers@18.2.3
 
@@ -574,7 +574,7 @@ d):
 
 ## 21.0.2
 - [patch] Updated dependencies [dae7792](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dae7792)
-  - @atlaskit/media-core@24.0.2
+  - @atlaskit/media-client@24.0.2
   - @atlaskit/media-test-helpers@18.2.0
   - @atlaskit/media-ui@6.0.0
 
@@ -584,19 +584,19 @@ d):
 ## 21.0.0
 - [major] Update RXJS dependency to ^5.5.0 [927ae63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/927ae63)
 - [major] Updated dependencies [927ae63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/927ae63)
-  - @atlaskit/media-core@24.0.0
+  - @atlaskit/media-client@24.0.0
   - @atlaskit/media-test-helpers@18.0.0
 
 ## 20.0.0
 - [major] Updated dependencies [6e1d642](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6e1d642)
-  - @atlaskit/media-core@23.2.0
+  - @atlaskit/media-client@23.2.0
   - @atlaskit/media-test-helpers@17.1.0
 
 ## 19.0.1
 - [patch] Update TS to 3.0 [f68d367](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f68d367)
 - [none] Updated dependencies [f68d367](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f68d367)
   - @atlaskit/media-test-helpers@17.0.2
-  - @atlaskit/media-core@23.1.1
+  - @atlaskit/media-client@23.1.1
 
 ## 19.0.0
 - [major] remove jquery dep and mediaviewer classic support [02dee16](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dee16)
@@ -611,12 +611,12 @@ d):
 
 ## 18.0.0
 - [major] Updated dependencies [7545979](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7545979)
-  - @atlaskit/media-core@23.1.0
+  - @atlaskit/media-client@23.1.0
 
 ## 17.0.8
 - [patch] Updated dependencies [911a570](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/911a570)
   - @atlaskit/media-test-helpers@17.0.0
-  - @atlaskit/media-core@23.0.2
+  - @atlaskit/media-client@23.0.2
 
 ## 17.0.7
 - [patch] List datasource takes priority to be consistent with the old behaviour MS-410 [31fafe6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/31fafe6)
@@ -655,7 +655,7 @@ d):
 - [minor] Synchronous property "serviceHost" as part of many Interfaces in media components (like MediaApiConfig) is removed and replaced with asynchronous "baseUrl" as part of Auth object. [d02746f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d02746f)
 - [minor] Updated dependencies [d02746f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d02746f)
   - @atlaskit/media-test-helpers@16.0.0
-  - @atlaskit/media-core@23.0.0
+  - @atlaskit/media-client@23.0.0
 
 ## 16.1.4
 - [patch] Fixes MSW-767 and MSW-895 [8102852](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8102852)
@@ -669,7 +669,7 @@ d):
   - @atlaskit/media-ui@5.0.2
   - @atlaskit/icon@13.2.2
   - @atlaskit/button@9.0.4
-  - @atlaskit/media-core@22.2.1
+  - @atlaskit/media-client@22.2.1
   - @atlaskit/media-test-helpers@15.2.1
   - @atlaskit/theme@5.1.2
   - @atlaskit/field-range@5.0.2
@@ -727,7 +727,7 @@ d):
 - [major] Updated dependencies [563a7eb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/563a7eb)
   - @atlaskit/button@9.0.0
   - @atlaskit/media-ui@4.0.0
-  - @atlaskit/media-core@22.0.0
+  - @atlaskit/media-client@22.0.0
   - @atlaskit/media-test-helpers@15.0.0
   - @atlaskit/theme@5.0.0
   - @atlaskit/field-range@5.0.0
@@ -737,7 +737,7 @@ d):
 - [major] Updated dependencies [7edb866](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7edb866)
   - @atlaskit/media-ui@4.0.0
   - @atlaskit/media-test-helpers@15.0.0
-  - @atlaskit/media-core@22.0.0
+  - @atlaskit/media-client@22.0.0
   - @atlaskit/button@9.0.0
   - @atlaskit/theme@5.0.0
   - @atlaskit/field-range@5.0.0
@@ -758,7 +758,7 @@ d):
 - [patch] Use media.tsconfig in MediaViewer [42ee1ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/42ee1ea)
 - [patch] Updated dependencies [42ee1ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/42ee1ea)
   - @atlaskit/media-test-helpers@14.0.6
-  - @atlaskit/media-core@21.0.0
+  - @atlaskit/media-client@21.0.0
 
 ## 15.1.11
 - [patch] Fix passing feature flags down the List component [ae107ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ae107ed)
@@ -775,7 +775,7 @@ d):
 ## 15.1.8
 - [patch] Updated dependencies [c57e9c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c57e9c1)
   - @atlaskit/media-test-helpers@14.0.4
-  - @atlaskit/media-core@20.0.0
+  - @atlaskit/media-client@20.0.0
 
 ## 15.1.7
 - [patch] MSW-776: allow selection of top and bottom of documents [d62c079](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d62c079)
@@ -799,7 +799,7 @@ d):
 - [none] Updated dependencies [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
   - @atlaskit/media-ui@3.1.2
   - @atlaskit/media-test-helpers@14.0.3
-  - @atlaskit/media-core@19.1.3
+  - @atlaskit/media-client@19.1.3
   - @atlaskit/button@8.1.2
   - @atlaskit/theme@4.0.4
   - @atlaskit/spinner@7.0.2
@@ -810,7 +810,7 @@ d):
 - [none] Updated dependencies [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
   - @atlaskit/media-ui@3.1.1
   - @atlaskit/media-test-helpers@14.0.2
-  - @atlaskit/media-core@19.1.2
+  - @atlaskit/media-client@19.1.2
   - @atlaskit/theme@4.0.3
   - @atlaskit/spinner@7.0.1
   - @atlaskit/icon@12.1.1
@@ -823,7 +823,7 @@ d):
   - @atlaskit/icon@12.1.0
   - @atlaskit/media-ui@3.1.0
   - @atlaskit/docs@4.1.0
-  - @atlaskit/media-core@19.1.1
+  - @atlaskit/media-client@19.1.1
   - @atlaskit/media-test-helpers@14.0.1
   - @atlaskit/theme@4.0.2
   - @atlaskit/button@8.1.0
@@ -863,7 +863,7 @@ d):
 - [patch] Updated dependencies [1e80619](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e80619)
   - @atlaskit/media-ui@3.0.0
   - @atlaskit/media-test-helpers@14.0.0
-  - @atlaskit/media-core@19.0.0
+  - @atlaskit/media-client@19.0.0
   - @atlaskit/icon@12.0.0
   - @atlaskit/button@8.0.0
   - @atlaskit/theme@4.0.0
@@ -877,7 +877,7 @@ d):
 
 ## 14.6.1
 - [patch] Updated dependencies [5ee48c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ee48c4)
-  - @atlaskit/media-core@18.1.2
+  - @atlaskit/media-client@18.1.2
 
 ## 14.6.0
 - [minor] improve VideoViewer experience [50475df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50475df)
@@ -917,16 +917,16 @@ d):
 
 ## 14.0.1
 - [patch] Updated dependencies [bd26d3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bd26d3c)
-  - @atlaskit/media-core@18.1.1
+  - @atlaskit/media-client@18.1.1
   - @atlaskit/media-test-helpers@13.0.1
 
 ## 14.0.0
 - [major] Updated dependencies [84f6f91](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84f6f91)
   - @atlaskit/media-test-helpers@13.0.0
-  - @atlaskit/media-core@18.1.0
+  - @atlaskit/media-client@18.1.0
 - [patch] Updated dependencies [9041d71](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9041d71)
   - @atlaskit/media-test-helpers@13.0.0
-  - @atlaskit/media-core@18.1.0
+  - @atlaskit/media-client@18.1.0
 
 ## 13.8.4
 - [patch] Adjust default audio cover [2f37539](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f37539)
@@ -941,7 +941,7 @@ d):
 - [patch] Updated dependencies [d662caa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d662caa)
   - @atlaskit/icon@11.3.0
   - @atlaskit/media-test-helpers@12.0.4
-  - @atlaskit/media-core@18.0.3
+  - @atlaskit/media-client@18.0.3
   - @atlaskit/button@7.2.5
   - @atlaskit/theme@3.2.2
   - @atlaskit/spinner@5.0.2

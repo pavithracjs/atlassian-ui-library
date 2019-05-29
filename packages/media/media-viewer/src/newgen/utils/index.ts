@@ -1,18 +1,17 @@
 import {
-  Context,
-  isClientBasedAuth,
+  MediaClient,
   FileIdentifier,
   Identifier,
   isFileIdentifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { stringify } from 'query-string';
-import { MediaCollectionItem } from '@atlaskit/media-store';
+import { MediaCollectionItem, isClientBasedAuth } from '@atlaskit/media-store';
 
 // We want to remove constructAuthTokenUrl and use mediaStore instead
 // https://product-fabric.atlassian.net/browse/MSW-869
 export async function constructAuthTokenUrl(
   url: string,
-  context: Context,
+  context: MediaClient,
   collectionName?: string,
 ): Promise<string> {
   const auth = await context.config.authProvider({ collectionName });

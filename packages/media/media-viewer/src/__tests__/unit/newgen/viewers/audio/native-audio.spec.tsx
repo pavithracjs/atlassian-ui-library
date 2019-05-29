@@ -7,7 +7,7 @@ const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 
 import * as React from 'react';
 import { createContext } from '../../../_stubs';
-import { Auth, ProcessedFileState } from '@atlaskit/media-core';
+import { Auth, ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
@@ -52,7 +52,7 @@ function createFixture(
   const context = createContext({ authPromise });
   const el = mountWithIntlContext(
     <AudioViewer
-      context={context}
+      mediaClient={mediaClient}
       item={item || audioItem}
       collectionName={collectionName}
       previewCount={0}
@@ -176,7 +176,7 @@ describe('Audio viewer', () => {
         const context = createContext({ authPromise });
         const el = mountWithIntlContext(
           <AudioViewer
-            context={context}
+            mediaClient={mediaClient}
             item={audioItem}
             collectionName="collectionName"
             previewCount={previewCount}

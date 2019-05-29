@@ -4,7 +4,7 @@ const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 import * as React from 'react';
 import { Observable } from 'rxjs';
 import { ReactWrapper, mount } from 'enzyme';
-import { MediaType, FileState, Identifier } from '@atlaskit/media-core';
+import { MediaType, FileState, Identifier } from '@atlaskit/media-client';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import { fakeIntl } from '@atlaskit/media-test-helpers';
 import { createContext } from '../_stubs';
@@ -55,7 +55,11 @@ describe('<Header />', () => {
       getFileState: () => Observable.empty(),
     });
     const el = mount(
-      <Header intl={fakeIntl} context={context} identifier={identifier} />,
+      <Header
+        intl={fakeIntl}
+        mediaClient={mediaClient}
+        identifier={identifier}
+      />,
     );
     const metadata = el.find(LeftHeader);
     expect(metadata.text()).toEqual('');
@@ -66,7 +70,11 @@ describe('<Header />', () => {
       getFileState: () => Observable.of(processedImageState),
     });
     const el = mount(
-      <Header intl={fakeIntl} context={context} identifier={identifier} />,
+      <Header
+        intl={fakeIntl}
+        mediaClient={mediaClient}
+        identifier={identifier}
+      />,
     );
     el.update();
     expect(el.find(MetadataFileName).text()).toEqual('my image');
@@ -81,7 +89,11 @@ describe('<Header />', () => {
       getFileState: () => Observable.of(processedImageState),
     });
     const el = mount<{}, HeaderState>(
-      <Header intl={fakeIntl} context={context} identifier={identifier} />,
+      <Header
+        intl={fakeIntl}
+        mediaClient={mediaClient}
+        identifier={identifier}
+      />,
     );
 
     expect(el.state().item.status).toEqual('SUCCESSFUL');
@@ -100,7 +112,11 @@ describe('<Header />', () => {
       getFileState: () => Observable.of(processedImageState),
     });
     const el = mount<{}, HeaderState>(
-      <Header intl={fakeIntl} context={context} identifier={identifier} />,
+      <Header
+        intl={fakeIntl}
+        mediaClient={mediaClient}
+        identifier={identifier}
+      />,
     );
     expect(el.state().item.status).toEqual('SUCCESSFUL');
 
@@ -148,7 +164,11 @@ describe('<Header />', () => {
           getFileState: () => Observable.of(processedImageState),
         });
         const el = mount(
-          <Header intl={fakeIntl} context={context} identifier={identifier} />,
+          <Header
+            intl={fakeIntl}
+            mediaClient={mediaClient}
+            identifier={identifier}
+          />,
         );
         el.update();
         expect(el.find(MetadataFileName).text()).toEqual('my image');
@@ -163,7 +183,11 @@ describe('<Header />', () => {
           getFileState: () => Observable.of(unNamedImage),
         });
         const el = mount(
-          <Header intl={fakeIntl} context={context} identifier={identifier} />,
+          <Header
+            intl={fakeIntl}
+            mediaClient={mediaClient}
+            identifier={identifier}
+          />,
         );
         el.update();
         expect(el.find(MetadataFileName).text()).toEqual('unknown');
@@ -191,7 +215,11 @@ describe('<Header />', () => {
           getFileState: () => Observable.of(testItem),
         });
         const el = mount(
-          <Header intl={fakeIntl} context={context} identifier={identifier} />,
+          <Header
+            intl={fakeIntl}
+            mediaClient={mediaClient}
+            identifier={identifier}
+          />,
         );
         el.update();
         expect(el.find(MetadataSubText).text()).toEqual(
@@ -216,7 +244,11 @@ describe('<Header />', () => {
           getFileState: () => Observable.of(noSizeImage),
         });
         const el = mount(
-          <Header intl={fakeIntl} context={context} identifier={identifier} />,
+          <Header
+            intl={fakeIntl}
+            mediaClient={mediaClient}
+            identifier={identifier}
+          />,
         );
         el.update();
         expect(el.find(MetadataSubText).text()).toEqual('image');
@@ -232,7 +264,11 @@ describe('<Header />', () => {
           getFileState: () => Observable.of(noMediaTypeElement),
         });
         const el = mount(
-          <Header intl={fakeIntl} context={context} identifier={identifier} />,
+          <Header
+            intl={fakeIntl}
+            mediaClient={mediaClient}
+            identifier={identifier}
+          />,
         );
         el.update();
         expect(el.find(MetadataSubText).text()).toEqual('unknown · 22.2 MB');
@@ -244,7 +280,11 @@ describe('<Header />', () => {
         getFileState: () => Observable.throw('something bad happened!'),
       });
       const el = mount(
-        <Header intl={fakeIntl} context={context} identifier={identifier} />,
+        <Header
+          intl={fakeIntl}
+          mediaClient={mediaClient}
+          identifier={identifier}
+        />,
       );
       const metadata = el.find(LeftHeader);
       expect(metadata.text()).toEqual('');
@@ -259,7 +299,7 @@ describe('<Header />', () => {
       const el = mount(
         <Header
           intl={fakeIntl}
-          context={context}
+          mediaClient={mediaClient}
           identifier={identifierWithCollection}
         />,
       );
@@ -278,7 +318,7 @@ describe('<Header />', () => {
       const el = mount(
         <Header
           intl={fakeIntl}
-          context={context}
+          mediaClient={mediaClient}
           identifier={identifierWithCollection}
         />,
       );
@@ -304,7 +344,11 @@ describe('<Header />', () => {
         getFileState: () => Observable.empty(),
       });
       const el = mount(
-        <Header intl={fakeIntl} context={context} identifier={identifier} />,
+        <Header
+          intl={fakeIntl}
+          mediaClient={mediaClient}
+          identifier={identifier}
+        />,
       );
       el.update();
       assertDownloadButton(el, false);
@@ -315,7 +359,11 @@ describe('<Header />', () => {
         getFileState: () => Observable.of(processedImageState),
       });
       const el = mount(
-        <Header intl={fakeIntl} context={context} identifier={identifier} />,
+        <Header
+          intl={fakeIntl}
+          mediaClient={mediaClient}
+          identifier={identifier}
+        />,
       );
       el.update();
       assertDownloadButton(el, true);
@@ -326,7 +374,11 @@ describe('<Header />', () => {
         getFileState: () => Observable.throw('something bad happened!'),
       });
       const el = mount(
-        <Header intl={fakeIntl} context={context} identifier={identifier} />,
+        <Header
+          intl={fakeIntl}
+          mediaClient={mediaClient}
+          identifier={identifier}
+        />,
       );
       el.update();
       assertDownloadButton(el, false);

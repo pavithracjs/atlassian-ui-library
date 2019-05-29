@@ -2,12 +2,12 @@ import * as events from 'events';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs';
 import {
-  Context,
+  MediaClient,
   ContextConfig,
   FileItem,
-  Auth,
   FileState,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
+import { Auth } from '@atlaskit/media-core';
 
 export class Stubs {
   static mediaViewer(overrides: any) {
@@ -86,5 +86,5 @@ export const createContext = (options?: CreateContextOptions) => {
   const contextConfig: ContextConfig = {
     authProvider,
   };
-  return Stubs.context(config || contextConfig, getFileState) as Context;
+  return Stubs.context(config || contextConfig, getFileState);
 };

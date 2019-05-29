@@ -31,7 +31,7 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
   export default () => (
     <MediaViewer
       pageSize={pageSize}
-      context={context}
+      mediaClient={mediaClient}
       selectedItem={selectedItem}
       dataSource={dataSource}
       collectionName={defaultCollectionName}
@@ -76,7 +76,7 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
 
   export default () => (
     <MediaViewer
-      context={context}
+      mediaClient={mediaClient}
       selectedItem={selectedItem}
       dataSource={dataSource}
       collectionName={defaultCollectionName}

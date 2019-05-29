@@ -12,7 +12,7 @@ jest.mock(
 );
 
 import * as React from 'react';
-import { ProcessedFileState } from '@atlaskit/media-core';
+import { ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
@@ -41,7 +41,7 @@ export function createFixture(response: Promise<Blob>) {
   const onLoaded = jest.fn();
   const el = mountWithIntlContext(
     <ImageViewer
-      context={context}
+      mediaClient={mediaClient}
       item={imageItem}
       collectionName={collectionName}
       onClose={onClose}

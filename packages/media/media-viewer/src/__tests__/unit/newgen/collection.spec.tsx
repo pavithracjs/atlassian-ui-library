@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import { MediaClient, FileIdentifier } from '@atlaskit/media-client';
 import {
   mountWithIntlContext,
   fakeContext,
@@ -58,7 +58,7 @@ const mediaCollectionItems: MediaCollectionItem[] = [
 ];
 
 function createFixture(
-  context: Context,
+  mediaClient: MediaClient,
   identifier: FileIdentifier,
   onClose?: () => {},
 ) {
@@ -66,7 +66,7 @@ function createFixture(
     <Collection
       defaultSelectedItem={identifier}
       collectionName={collectionName}
-      context={context}
+      mediaClient={mediaClient}
       onClose={onClose}
       pageSize={999}
     />,
@@ -118,7 +118,7 @@ describe('<Collection />', () => {
     expect(context.collection.getItems).toHaveBeenCalledTimes(1);
 
     const context2 = createContext();
-    el.setProps({ context: context2 });
+    el.setProps({ mediaClient: context2 });
 
     expect(context.collection.getItems).toHaveBeenCalledTimes(1);
     expect(context2.collection.getItems).toHaveBeenCalledTimes(1);

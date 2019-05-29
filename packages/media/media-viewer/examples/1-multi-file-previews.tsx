@@ -29,7 +29,7 @@ import {
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
-import { Identifier, FileIdentifier } from '@atlaskit/media-core';
+import { Identifier, FileIdentifier } from '@atlaskit/media-client';
 import { Card } from '@atlaskit/media-card';
 
 const context = createStorybookContext();
@@ -230,7 +230,7 @@ export default class Example extends React.Component<{}, State> {
               <li>
                 {this.state.firstCollectionItem ? (
                   <Card
-                    context={context}
+                    mediaClient={mediaClient}
                     identifier={{
                       collectionName: defaultCollectionName,
                       id: (this.state.firstCollectionItem as FileIdentifier).id,
@@ -270,7 +270,7 @@ export default class Example extends React.Component<{}, State> {
           {this.state.selected && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
-                context={context}
+                mediaClient={mediaClient}
                 selectedItem={this.state.selected.identifier}
                 dataSource={this.state.selected.dataSource}
                 collectionName={defaultCollectionName}

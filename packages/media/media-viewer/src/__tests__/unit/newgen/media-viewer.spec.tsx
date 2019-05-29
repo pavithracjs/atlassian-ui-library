@@ -13,7 +13,7 @@ import { mount } from 'enzyme';
 import { Subject } from 'rxjs/Subject';
 import Button from '@atlaskit/button';
 import { Shortcut } from '@atlaskit/media-ui';
-import { FileItem, Identifier } from '@atlaskit/media-core';
+import { FileItem, Identifier } from '@atlaskit/media-client';
 import { KeyboardEventWithKeyCode } from '@atlaskit/media-test-helpers';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { createContext } from '../_stubs';
@@ -37,7 +37,7 @@ function createFixture(items: Identifier[], identifier: Identifier) {
       <MediaViewer
         selectedItem={identifier}
         itemSource={itemSource}
-        context={context}
+        mediaClient={mediaClient}
         onClose={onClose}
       />
     </AnalyticsListener>,

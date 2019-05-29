@@ -10,7 +10,7 @@ export default class Example extends React.Component<{}, {}> {
   render() {
     return (
       <MediaViewer
-        context={context}
+        mediaClient={mediaClient}
         selectedItem={selectedItem}
         dataSource={{
           list: [selectedItem],

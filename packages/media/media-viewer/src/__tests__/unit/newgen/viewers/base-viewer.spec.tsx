@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
-import { ProcessedFileState } from '@atlaskit/media-core';
+import { ProcessedFileState } from '@atlaskit/media-client';
 import { BaseProps, BaseViewer } from '../../../../newgen/viewers/base-viewer';
 import { createContext } from '../../_stubs';
 import { Outcome } from '../../../../newgen/domain';

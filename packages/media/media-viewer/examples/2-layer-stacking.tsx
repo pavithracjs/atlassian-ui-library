@@ -7,7 +7,7 @@ import {
 } from '@atlaskit/media-test-helpers';
 import { imageItem } from '../example-helpers';
 import { MediaViewer } from '..';
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 
 const context = createStorybookContext();
 
@@ -32,7 +32,7 @@ export default class Example extends React.Component<{}, State> {
 
         {this.state.selectedItem && (
           <MediaViewer
-            context={context}
+            mediaClient={mediaClient}
             selectedItem={this.state.selectedItem}
             dataSource={{ list: [this.state.selectedItem] }}
             collectionName={defaultCollectionName}
