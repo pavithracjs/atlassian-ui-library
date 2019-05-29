@@ -41,6 +41,10 @@ declare module '@atlaskit/lozenge' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/modal-dialog' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/page' {
   declare module.exports: any;
 }
