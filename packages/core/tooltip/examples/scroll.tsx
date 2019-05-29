@@ -10,11 +10,11 @@ const direction: { [key: string]: string } = {
   nested: 'overflow',
 };
 
-interface IStyledProps {
+interface StyledProps {
   scroll: string;
 }
 
-const Parent = styled.div<IStyledProps>`
+const Parent = styled.div<StyledProps>`
   background-color: ${colors.N20};
   border-radius: 5px;
   margin-bottom: 8px;
@@ -26,7 +26,7 @@ const Parent = styled.div<IStyledProps>`
     margin-bottom: 0;
   }
 `;
-const Shim = styled.div<IStyledProps>`
+const Shim = styled.div<StyledProps>`
   display: flex;
   justify-content: space-between;
   ${p =>

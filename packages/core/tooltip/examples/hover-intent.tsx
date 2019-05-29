@@ -5,13 +5,13 @@ import { PositionType } from '../src/types';
 
 const colors = ['teal', 'blue', 'purple'];
 
-interface IState {
+interface State {
   position: PositionType;
 }
 
-export default class HoverIntent extends React.Component<{}, IState> {
-  state = {
-    position: 'bottom' as PositionType,
+export default class HoverIntent extends React.Component<{}, State> {
+  state: State = {
+    position: 'bottom',
   };
 
   handleClick = () => {
