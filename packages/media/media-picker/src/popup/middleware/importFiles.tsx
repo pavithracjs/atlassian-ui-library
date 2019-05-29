@@ -183,6 +183,8 @@ export const touchSelectedFiles = (
       tenantContext.emit('file-added', fileState);
 
       const existingFileState = getFileStreamsCache().get(selectedFileId);
+
+      // if we already have a fileState in the cache, we re use it for the new id, otherwise we create a new one
       if (existingFileState) {
         // We assign the tenant id to the observable to not emit user id instead
         const tenantFile = existingFileState.pipe(
