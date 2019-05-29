@@ -26,7 +26,6 @@ import {
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import { ABTest, DEFAULT_AB_TEST } from '../../api/CrossProductSearchClient';
-import { isInFasterSearchExperiment } from '../../util/experiment-utils';
 import deepEqual from 'deep-equal';
 
 const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
@@ -79,7 +78,6 @@ export interface Props {
     recentItems: GenericResultMap,
     abTest: ABTest,
     isLoading: boolean,
-    inFasterSearchExperiment: boolean,
     searchSessionId: string,
   ): ResultsGroup[];
 
@@ -93,7 +91,6 @@ export interface Props {
   onSelectedResultIdChanged?: (id: string | null | number) => void;
   enablePreQueryFromAggregator?: boolean;
   inputControls?: JSX.Element;
-  fasterSearchFFEnabled?: boolean;
 }
 
 export interface State {
@@ -197,7 +194,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
                 this.state.latestSearchQuery,
                 this.state.abTest,
                 this.state.isLoading,
-                !!this.props.fasterSearchFFEnabled,
               );
             }
           },
@@ -317,7 +313,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     latestSearchQuery: string,
     abTest: ABTest,
     isLoading: boolean,
-    fasterSearchFFEnabled: boolean,
   ) => {
     const performanceTiming: PerformanceTiming = {
       startTime,
@@ -338,7 +333,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           recentItems,
           abTest,
           isLoading,
-          isInFasterSearchExperiment(abTest, fasterSearchFFEnabled),
           searchSessionId,
         ),
       );

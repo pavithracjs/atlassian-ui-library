@@ -4,6 +4,7 @@ import {
   // @ts-ignore (additional export from mocked version)
   confluenceRecentItemsPromise,
 } from '../../api/prefetchResults';
+
 import { ConfluenceQuickSearchContainer } from '../../components/confluence/ConfluenceQuickSearchContainer';
 import GlobalQuickSearch from '../../components/GlobalQuickSearchWrapper';
 import { HomeQuickSearchContainer } from '../../components/home/HomeQuickSearchContainer';
@@ -14,6 +15,9 @@ import { QuickSearchContext } from '../../api/types';
 
 jest.mock('../../api/prefetchResults');
 jest.mock('../../api/CachingConfluenceClient');
+jest.mock('../../components/AbTestProvider', () => ({
+  ABTestProvider: ({ children }: any) => children({}),
+}));
 
 it('should render the home container with context home', () => {
   const wrapper = mountWithIntl(
