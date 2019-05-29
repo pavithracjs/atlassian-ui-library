@@ -18,8 +18,9 @@ import {
   JiraItem,
   PersonItem,
   QuickSearchContext,
+  UrsPersonItem,
 } from './types';
-import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
+import { ModelParam } from '../util/model-parameters';
 
 export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   experimentId: 'default',
@@ -44,7 +45,7 @@ export interface CrossProductExperimentResponse {
   scopes: Experiment[];
 }
 
-export type SearchItem = ConfluenceItem | JiraItem | PersonItem;
+export type SearchItem = ConfluenceItem | JiraItem | PersonItem | UrsPersonItem;
 
 export interface ABTest {
   abTestId: string;
@@ -74,10 +75,8 @@ export interface CrossProductSearchClient {
     query: string,
     sessionId: string,
     scopes: Scope[],
-    currentQuickSearchContext: QuickSearchContext,
-    queryVersion?: number | null,
+    modelParams: ModelParam[],
     resultLimit?: number | null,
-    referralContextIdentifiers?: ReferralContextIdentifiers,
   ): Promise<CrossProductSearchResults>;
   getPeople(
     query: string,
@@ -139,14 +138,15 @@ export default class CachingCrossProductSearchClientImpl
         query,
         sessionId,
         [scope],
-        currentQuickSearchContext,
-        null,
+        [],
         resultLimit,
       );
 
       if (isBootstrapQuery) {
         this.bootstrapPeopleCache[currentQuickSearchContext] = searchPromise;
       }
+
+      return searchPromise;
     }
 
     return {
@@ -158,41 +158,17 @@ export default class CachingCrossProductSearchClientImpl
     query: string,
     sessionId: string,
     scopes: Scope[],
-    currentQuickSearchContext: QuickSearchContext,
-    queryVersion?: number | null,
+    modelParams: ModelParam[],
     resultLimit?: number | null,
-    referralContextIdentifiers?: ReferralContextIdentifiers,
   ): Promise<CrossProductSearchResults> {
     const path = 'quicksearch/v1';
-
-    const modelParams = [];
-
-    if (queryVersion !== undefined && queryVersion !== null) {
-      modelParams.push({
-        '@type': 'queryParams',
-        queryVersion,
-      });
-    }
-
-    if (currentQuickSearchContext === 'jira') {
-      const containerId =
-        referralContextIdentifiers &&
-        referralContextIdentifiers.currentContainerId;
-
-      if (containerId !== undefined && containerId !== null) {
-        modelParams.push({
-          '@type': 'currentProject',
-          projectId: containerId,
-        });
-      }
-    }
 
     const body = {
       query: query,
       cloudId: this.cloudId,
       limit: resultLimit || this.RESULT_LIMIT,
       scopes: scopes,
-      ...(modelParams.length > 0 ? { modelParams: modelParams } : {}),
+      ...(modelParams.length > 0 ? { modelParams } : {}),
     };
 
     const response = await this.makeRequest<CrossProductSearchResponse>(
@@ -300,6 +276,20 @@ function mapPersonItemToResult(item: PersonItem): PersonResult {
   };
 }
 
+function mapUrsResultItemToResult(item: UrsPersonItem): PersonResult {
+  return {
+    resultType: ResultType.PersonResult,
+    resultId: 'people-' + item.id,
+    name: item.name,
+    href: '/people/' + item.id,
+    avatarUrl: item.avatarUrl,
+    contentType: ContentType.Person,
+    analyticsType: AnalyticsType.ResultPerson,
+    mentionName: item.nickname || '',
+    presenceMessage: '',
+  };
+}
+
 function mapItemToResult(
   scope: Scope,
   item: SearchItem,
@@ -325,6 +315,10 @@ function mapItemToResult(
 
   if (scope === Scope.People) {
     return mapPersonItemToResult(item as PersonItem);
+  }
+
+  if (scope === Scope.UserConfluence || scope === Scope.UserJira) {
+    return mapUrsResultItemToResult(item as UrsPersonItem);
   }
 
   throw new Error(`Non-exhaustive match for scope: ${scope}`);

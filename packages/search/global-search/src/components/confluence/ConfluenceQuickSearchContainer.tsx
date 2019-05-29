@@ -13,7 +13,7 @@ import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   ABTest,
 } from '../../api/CrossProductSearchClient';
-import { Scope } from '../../api/types';
+import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
   Result,
   ResultsWithTiming,
@@ -49,6 +49,7 @@ import {
 } from './ConfluenceSearchResultsMapper';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { isInFasterSearchExperiment } from '../../util/experiment-utils';
+import { buildConfluenceModelParams } from '../../util/model-parameters';
 
 export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
@@ -61,6 +62,7 @@ export interface Props {
   logger: Logger;
   fasterSearchFFEnabled: boolean;
   useUrsForBootstrapping: boolean;
+  modelContext?: ConfluenceModelContext;
   onAdvancedSearch?: (
     e: CancelableEvent,
     entity: string,
@@ -145,20 +147,22 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     sessionId: string,
     queryVersion: number,
   ): Promise<CrossProductSearchResults> {
-    const { crossProductSearchClient, referralContextIdentifiers } = this.props;
+    const { crossProductSearchClient, modelContext } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
 
     scopes.push(Scope.People);
 
+    const modelParams = buildConfluenceModelParams(
+      queryVersion,
+      modelContext || {},
+    );
+
     const results = await crossProductSearchClient.search(
       query,
       sessionId,
       scopes,
-      'confluence',
-      queryVersion,
-      null,
-      referralContextIdentifiers,
+      modelParams,
     );
 
     return results;

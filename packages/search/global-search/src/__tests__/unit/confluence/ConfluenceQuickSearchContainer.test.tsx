@@ -193,10 +193,25 @@ describe('ConfluenceQuickSearchContainer', () => {
   it('should call cross product search client with correct query version', async () => {
     const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
     const dummyQueryVersion = 123;
+    const dummySpaceKey = 'abc123';
+
+    const modelParams = [
+      {
+        '@type': 'queryParams',
+        queryVersion: dummyQueryVersion,
+      },
+      {
+        '@type': 'currentSpace',
+        spaceKey: dummySpaceKey,
+      },
+    ];
 
     const wrapper = render({
       confluenceClient: noResultsConfluenceClient,
       crossProductSearchClient: noResultsCrossProductSearchClient,
+      modelContext: {
+        spaceKey: dummySpaceKey,
+      },
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
@@ -211,10 +226,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       'query',
       sessionId,
       expect.any(Array),
-      'confluence',
-      dummyQueryVersion,
-      null,
-      referralContextIdentifiers,
+      modelParams,
     );
 
     searchSpy.mockRestore();

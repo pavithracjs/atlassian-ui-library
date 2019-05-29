@@ -254,8 +254,11 @@ async function getStepEvents(buildId /*: string*/) {
       const stepObject = res.data.values.filter(
         step => step.name === stepPayload.step_name,
       )[0];
-      const buildStatus =
-        process.env.BITBUCKET_EXIT_CODE === '0' ? 'SUCCESSFUL' : 'FAILED';
+      const buildStatus = process.env.BITBUCKET_EXIT_CODE
+        ? process.env.BITBUCKET_EXIT_CODE === '0'
+          ? 'SUCCESSFUL'
+          : 'FAILED'
+        : stepObject.state.result.name;
       const stepTime = await getStepTime(stepObject, stepObject.length);
       return {
         build_status: buildStatus,

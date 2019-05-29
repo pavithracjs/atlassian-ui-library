@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
 import {
   insertMedia,
@@ -27,34 +28,30 @@ describe('Snapshot Test: Media', () => {
       await page.mouse.move(-1, -1);
     });
 
+    afterEach(async () => {
+      await scrollToMedia(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
+    });
+
     it('should renders selection ring around media (via up)', async () => {
       await pressKey(page, 'ArrowUp');
-      await scrollToMedia(page);
-      await snapshot(page);
     });
 
     it('should render right side gap cursor (via arrow left)', async () => {
       await pressKey(page, 'ArrowLeft');
-      await scrollToMedia(page);
-      await snapshot(page);
     });
 
     it('renders selection ring around media (via 2 arrow left)', async () => {
       await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
-      await scrollToMedia(page);
-      await snapshot(page);
     });
 
     it('should render left side gap cursor ( via 3 arrow left)', async () => {
       await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
-      await scrollToMedia(page);
-      await snapshot(page);
     });
   });
 
   describe('comment editor', () => {
     let page: any;
-    const threshold = 0.02;
     beforeEach(async () => {
       // @ts-ignore
       page = global.page;
@@ -72,23 +69,23 @@ describe('Snapshot Test: Media', () => {
     });
 
     it('renders selection ring around last media group item (via up)', async () => {
-      await snapshot(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
 
       await pressKey(page, 'ArrowUp');
-      await snapshot(page, threshold);
+      await snapshot(page, MINIMUM_THRESHOLD);
     });
 
     it('renders selection ring around media group items', async () => {
-      await snapshot(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
 
       await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
-      await snapshot(page, threshold);
+      await snapshot(page, MINIMUM_THRESHOLD);
 
       await pressKey(page, 'ArrowLeft');
-      await snapshot(page, threshold);
+      await snapshot(page, MINIMUM_THRESHOLD);
 
       await pressKey(page, 'ArrowLeft');
-      await snapshot(page, threshold);
+      await snapshot(page, MINIMUM_THRESHOLD);
     });
   });
 });

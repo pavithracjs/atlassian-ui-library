@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/help-panel",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "A cross-product help-panel component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -42,8 +42,8 @@
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/i18n-tools": "^0.5.0",
-    "@atlaskit/navigation": "^35.1.2",
-    "@atlaskit/page": "^10.0.0",
+    "@atlaskit/navigation": "^35.1.3",
+    "@atlaskit/page": "^11.0.0",
     "@atlaskit/section-message": "^4.0.0",
     "algoliasearch": "^3.33.0",
     "enzyme": "^3.7.0",

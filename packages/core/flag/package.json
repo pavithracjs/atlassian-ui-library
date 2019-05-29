@@ -1,9 +1,9 @@
 {
   "name": "@atlaskit/flag",
-  "version": "12.0.0",
+  "version": "12.0.1",
   "description": "Flags are used for confirmations, alerts, and acknowledgments that require minimal user interaction.",
   "license": "Apache-2.0",
-  "types": "types.d.ts",
+  "types": "index.d.ts",
   "module": "index.js",
   "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/flag-messages",
