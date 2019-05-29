@@ -1,3 +1,4 @@
+// @flow
 // This file is used to create flow definitions for core packages that
 // have been converted to typescript. This is a temporary solution
 // while we are converting all core packages to typescript.
@@ -34,5 +35,9 @@ declare module '@atlaskit/inline-edit' {
 }
 
 declare module '@atlaskit/dynamic-table' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/theme' {
   declare module.exports: any;
 }
