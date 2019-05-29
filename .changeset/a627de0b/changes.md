@@ -1,0 +1,1 @@
+ED-6986: put cursor after smart link insertion if skipping macro
