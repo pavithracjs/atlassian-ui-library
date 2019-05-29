@@ -1,0 +1,1 @@
+- Fix prefetching logic in global search and improved faster search experience

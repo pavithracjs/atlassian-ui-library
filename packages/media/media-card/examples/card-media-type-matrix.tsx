@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   Matrix,
-  createStorybookContext,
+  createStorybookMediaClientConfig,
   videoFileId,
   audioFileId,
   imageFileId,
@@ -11,13 +11,23 @@ import {
 
 import { Card } from '../src';
 
-const context = createStorybookContext();
+const mediaClientConfig = createStorybookMediaClientConfig();
 // file cards
-const videoFileCard = <Card context={context} identifier={videoFileId} />;
-const imageFileCard = <Card context={context} identifier={imageFileId} />;
-const audioFileCard = <Card context={context} identifier={audioFileId} />;
-const docFileCard = <Card context={context} identifier={docFileId} />;
-const unknownFileCard = <Card context={context} identifier={unknownFileId} />;
+const videoFileCard = (
+  <Card mediaClientConfig={mediaClientConfig} identifier={videoFileId} />
+);
+const imageFileCard = (
+  <Card mediaClientConfig={mediaClientConfig} identifier={imageFileId} />
+);
+const audioFileCard = (
+  <Card mediaClientConfig={mediaClientConfig} identifier={audioFileId} />
+);
+const docFileCard = (
+  <Card mediaClientConfig={mediaClientConfig} identifier={docFileId} />
+);
+const unknownFileCard = (
+  <Card mediaClientConfig={mediaClientConfig} identifier={unknownFileId} />
+);
 
 export default () => (
   <div style={{ margin: '40px' }}>

@@ -1,30 +1,38 @@
 import * as React from 'react';
-import { CardLoading } from '../../utils/lightCards/cardLoading';
-import { Card as CardType } from './index';
-import { CardProps } from '../..';
+import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
+import { CardProps, CardLoading } from '../..';
+
+type CardWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+  CardProps
+>;
+type CardWithMediaClientConfigComponent = React.ComponentType<
+  CardWithMediaClientConfigProps
+>;
 
 interface AsyncCardProps {
-  Card?: typeof CardType;
+  Card?: CardWithMediaClientConfigComponent;
 }
 
-export default class Card extends React.PureComponent<
-  CardProps & AsyncCardProps,
+export default class CardLoader extends React.PureComponent<
+  CardWithMediaClientConfigProps & AsyncCardProps,
   AsyncCardProps
 > {
   static displayName = 'AsyncCard';
-  static Card?: typeof CardType;
+  static Card?: CardWithMediaClientConfigComponent;
 
   state = {
-    Card: Card.Card,
+    Card: CardLoader.Card,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.state.Card) {
-      import(/* webpackChunkName:"@atlaskit-internal_Card" */
-      './index').then(module => {
-        Card.Card = module.Card;
-        this.setState({ Card: module.Card });
-      });
+      const [mediaClient, cardModule] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+        import(/* webpackChunkName:"@atlaskit-internal_Card" */ './index'),
+      ]);
+
+      CardLoader.Card = mediaClient.withMediaClient(cardModule.Card);
+      this.setState({ Card: CardLoader.Card });
     }
   }
 

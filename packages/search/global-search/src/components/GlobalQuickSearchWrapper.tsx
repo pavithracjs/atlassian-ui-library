@@ -250,7 +250,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     return (
       <MessagesIntlProvider>
         <GlobalSearchPreFetchContext.Consumer>
-          {({ prefetchedResults }) => {
+          {prefetchedResults => {
             const searchClients = configureSearchClients(
               this.props.cloudId,
               this.makeConfig(),
