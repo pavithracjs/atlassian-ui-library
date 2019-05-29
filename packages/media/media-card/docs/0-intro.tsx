@@ -13,7 +13,6 @@ This component provides 2 exports:
   We recommend the use of [babel-preset-env](https://babeljs.io/docs/plugins/preset-env/) & [babel-polyfill](https://babeljs.io/docs/usage/polyfill/)
 
   ## Usage
-packages/editor/editor-mobile-bridge/src/__tests__/unit/providers/media-provider-test.ts:80:9
   ### Card
 
   ${code`
