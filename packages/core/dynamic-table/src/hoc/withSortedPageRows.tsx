@@ -116,24 +116,32 @@ export default function withSortedPageRows<
 
     static getDerivedStateFromProps(
       props: Omit<WrappedComponentProps & Props, 'pageRows'>,
-      state: any,
+      state: { pageRows: Array<RowType> },
     ) {
-      const {
-        rows,
-        head,
-        sortKey,
-        sortOrder,
-        page,
-        rowsPerPage,
-        onPageRowsUpdate,
-      } = props;
+      const { rows, head, sortKey, sortOrder, page, rowsPerPage } = props;
 
       validateSortKey(sortKey, head);
       const sortedRows = getSortedRows(head, rows, sortKey, sortOrder) || [];
       const pageRows = getPageRows(sortedRows, page, rowsPerPage);
-      onPageRowsUpdate && onPageRowsUpdate(pageRows);
 
       return { ...state, pageRows };
+    }
+
+    componentDidMount() {
+      this.props.onPageRowsUpdate &&
+        this.props.onPageRowsUpdate(this.state.pageRows);
+    }
+
+    componentDidUpdate(
+      _prevProps: Omit<WrappedComponentProps & Props, 'pageRows'>,
+      prevState: { pageRows: Array<RowType> },
+    ) {
+      if (
+        this.props.onPageRowsUpdate &&
+        this.state.pageRows !== prevState.pageRows
+      ) {
+        this.props.onPageRowsUpdate(this.state.pageRows);
+      }
     }
 
     render() {
