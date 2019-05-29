@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/section-message": "^4.0.0",
     "enzyme": "^3.7.0"
   },
   "peerDependencies": {

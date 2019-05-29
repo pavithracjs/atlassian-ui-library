@@ -1,7 +1,21 @@
 import * as React from 'react';
 import { md, Example, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: This component is designed for internal Atlassian development.
+      </strong>
+    </p>
+    <p>
+      External contributors will be able to use this component but will not be
+      able to submit issues.
+    </p>
+  </SectionMessage>
+)}
 
 This package provides a transformer for ProseMirror Node <-> Wikimarkup conversion.
   ## Usage

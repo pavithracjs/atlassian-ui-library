@@ -16,7 +16,6 @@
     "@atlaskit/drawer": "^4.1.1",
     "@atlaskit/icon": "^17.1.1",
     "@atlaskit/inline-dialog": "^11.0.0",
-    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/theme": "^9.0.2",
     "enzyme": "^3.7.0"
   },
@@ -24,6 +23,7 @@
     "@atlaskit/checkbox": "^7.0.1",
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/i18n-tools": "^0.5.0",
+    "@atlaskit/section-message": "^4.0.0",
     "react-intl": "^2.6.0"
   },
   "author": "Atlassian Pty. Ltd",

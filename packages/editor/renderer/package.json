@@ -27,6 +27,7 @@
     "@atlaskit/media-card": "^63.0.2",
     "@atlaskit/media-filmstrip": "^34.1.1",
     "@atlaskit/mention": "^18.0.0",
+    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/smart-card": "^11.0.0",
     "@atlaskit/status": "^0.9.0",
     "@atlaskit/task-decision": "^15.0.0",

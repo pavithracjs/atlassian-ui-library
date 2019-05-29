@@ -8,6 +8,19 @@ import popup from './popup.png';
 const CreateImage = (filename: string) => <img src={filename} />;
 
 export default md`
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: This component is designed for internal Atlassian development.
+      </strong>
+    </p>
+    <p>
+      External contributors will be able to use this component but will not be
+      able to submit issues.
+    </p>
+  </SectionMessage>
+)}
   # Documentation
 
   ## Table of contents

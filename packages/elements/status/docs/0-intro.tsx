@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 import StatusExample from '../examples/00-simple-status';
 const StatusSource = require('!!raw-loader!../examples/00-simple-status');
 import StatusPickerExample from '../examples/01-status-picker';
@@ -8,6 +9,19 @@ const StatusPickerSource = require('!!raw-loader!../examples/01-status-picker');
 const StatusPickerProps = require('!!extract-react-types-loader!../src/components/StatusPicker');
 
 export default md`
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: This component is designed for internal Atlassian development.
+      </strong>
+    </p>
+    <p>
+      External contributors will be able to use this component but will not be
+      able to submit issues.
+    </p>
+  </SectionMessage>
+)}
 This component is the implementation of the Status element in React.
 
 ## Usage

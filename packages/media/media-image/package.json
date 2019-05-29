@@ -29,6 +29,7 @@
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/media-test-helpers": "^23.0.0",
+    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/select": "^9.0.0",
     "@atlaskit/spinner": "^11.0.0",
     "@atlaskit/theme": "^9.0.0",

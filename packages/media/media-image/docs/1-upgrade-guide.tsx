@@ -1,6 +1,19 @@
 import { code, md } from '@atlaskit/docs';
 
 export default md`
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: This component is designed for internal Atlassian development.
+      </strong>
+    </p>
+    <p>
+      External contributors will be able to use this component but will not be
+      able to submit issues.
+    </p>
+  </SectionMessage>
+)}
   # 7.x - 8.x
 
   ## API Changes

@@ -1,11 +1,25 @@
 import * as React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 import TaskDecisionExample from '../examples/00-decision-item';
 const TaskDecisionSource = require('!!raw-loader!../examples/00-decision-item');
 
 const TaskDecisionProps = require('!!extract-react-types-loader!../src/components/DecisionItem');
 
 export default md`
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: This component is designed for internal Atlassian development.
+      </strong>
+    </p>
+    <p>
+      External contributors will be able to use this component but will not be
+      able to submit issues.
+    </p>
+  </SectionMessage>
+)}
   This component provides components for rendering tasks and decisions.
 
   ## Usage

@@ -35,6 +35,7 @@
     "@atlaskit/media-card": "^63.0.2",
     "@atlaskit/media-core": "^30.0.2",
     "@atlaskit/media-test-helpers": "^23.1.0",
+    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@types/fetch-mock": "^6.0.3",
     "@types/query-string": "^4.3.1",

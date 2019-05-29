@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 import ReactionsExample from '../examples/00-picker-and-reactions';
 
 const ReactionsSource = require('!!raw-loader!../examples/00-picker-and-reactions');
@@ -7,6 +8,19 @@ const ReactionsSource = require('!!raw-loader!../examples/00-picker-and-reaction
 const ReactionsProps = require('!!extract-react-types-loader!../examples/examples-util/ReactionsExampleWrapper');
 
 export default md`
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: This component is designed for internal Atlassian development.
+      </strong>
+    </p>
+    <p>
+      External contributors will be able to use this component but will not be
+      able to submit issues.
+    </p>
+  </SectionMessage>
+)}
   The main purpose of the Reactions component is to provide users the ability to react to pieces of content.
 
   ## Usage

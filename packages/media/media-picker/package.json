@@ -65,6 +65,7 @@
     "@atlaskit/media-core": "^30.0.1",
     "@atlaskit/media-test-helpers": "^23.1.1",
     "@atlaskit/media-viewer": "^43.0.1",
+    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/select": "^9.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/toggle": "^7.0.0",

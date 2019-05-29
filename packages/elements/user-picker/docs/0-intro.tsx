@@ -2,6 +2,19 @@ import { code, Example, md, Props } from '@atlaskit/docs';
 import * as React from 'react';
 
 export default md`
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: This component is designed for internal Atlassian development.
+      </strong>
+    </p>
+    <p>
+      External contributors will be able to use this component but will not be
+      able to submit issues.
+    </p>
+  </SectionMessage>
+)}
   This is the platform field for selecting users. On top of that you can also select [Teams](https://developer.atlassian.com/platform/teams/overview/what-are-teams/).
   This package provides two different modes of selection: single and multi user/team picker.
 

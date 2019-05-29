@@ -43,6 +43,7 @@
     "@atlaskit/inline-message": "^9.0.0",
     "@atlaskit/page": "^11.0.0",
     "@atlaskit/radio": "^2.0.0",
+    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/table-tree": "^7.0.0",
     "@atlaskit/textarea": "^2.0.0",
     "@atlaskit/textfield": "^2.0.0",

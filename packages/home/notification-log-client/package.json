@@ -23,6 +23,7 @@
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/notification-indicator": "^7.0.0",
+    "@atlaskit/section-message": "^4.0.0",
     "fetch-mock": "^6.5.2",
     "whatwg-fetch": "^2.0.3"
   }
