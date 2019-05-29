@@ -158,7 +158,6 @@ export class Card extends Component<CardProps, CardState> {
             dataURI,
             previewOrientation = 1,
           } = this.state;
-          console.log(resolvedId, fileState.id);
           const metadata = extendMetadata(fileState, this.state.metadata);
 
           if (!dataURI) {
