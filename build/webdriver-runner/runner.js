@@ -13,6 +13,7 @@
 // increase this time out to handle queuing on browserstack
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200e3;
 const isBrowserStack = process.env.TEST_ENV === 'browserstack';
+const isBrowserStackMobile = isBrowserStack && process.env.MOBILE === 'true';
 const setupClients = require('./utils/setupClients');
 const path = require('path');
 const Queue = require('promise-queue');
@@ -20,7 +21,9 @@ const webdriverio = require('webdriverio');
 
 let clients /*: Array<?Object>*/ = [];
 
-if (isBrowserStack) {
+if (isBrowserStackMobile) {
+  clients = setupClients.setBrowserStackMobileClients();
+} else if (isBrowserStack) {
   clients = setupClients.setBrowserStackClients();
 } else {
   clients = setupClients.setLocalClients();
@@ -73,20 +76,8 @@ function BrowserTestCase(
   options /*: {skip?: string[], mobile?: boolean} */,
   tester /*: Tester<Object> */,
 ) {
-  let skip = [];
-  if (options && options.skip) {
-    skip = Array.isArray(options.skip) ? options.skip : [];
-  }
-
+  const skip = options && Array.isArray(options.skip) ? options.skip : [];
   const execClients = clients.filter(clientsFilter(skip));
-
-  if (isBrowserStack && options && options.mobile) {
-    execClients.push(
-      ...setupClients
-        .setBrowserStackMobileClients()
-        .filter(clientsFilter(skip)),
-    );
-  }
 
   describe(filename, () => {
     if (!execClients.length) {

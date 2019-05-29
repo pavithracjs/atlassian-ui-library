@@ -4,7 +4,7 @@ const assert = require('assert').strict;
  * wrapper on top of webdriver-io apis to give a feel of puppeeteer api
  */
 
-const WAIT_UNTIL_TIMEOUT = 5000;
+const WAIT_UNTIL_TIMEOUT = 10e3; // 10s
 
 export class JSHandle {
   constructor(client, selector) {

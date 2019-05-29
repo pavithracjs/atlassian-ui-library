@@ -6,8 +6,8 @@ declare global {
   }
 }
 
-// FIXME Ideally these would be mobile browsers
-// Safari & Chrome should suffice for now.
+// defaults to testing with Desktop Browser Safari & Chrome desktop
+// to opt-in for mobile browser => pass "mobile: true" in your test options
 export const skipBrowsers: any = ['ie', 'firefox', 'edge'];
 
 export const navigateOrClear = async (browser: any, path: string) => {

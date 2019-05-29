@@ -11,6 +11,7 @@ declare module '@atlaskit/webdriver-runner/runner' {
 
   type BrowserTestCaseOptions = {
     readonly skip: Browser[];
+    readonly mobile?: boolean;
   };
 
   type Tester = (client: any, testName: string) => void;

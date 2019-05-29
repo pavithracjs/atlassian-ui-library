@@ -85,6 +85,7 @@
     "./typings/utf8-string-bytes.d.ts",
     "./typings/uuid.d.ts",
     "./typings/webpack.d.ts",
-    "./typings/yarn-deduplicate.d.ts"
+    "./typings/yarn-deduplicate.d.ts",
+    "./typings/webdriver-runner.d.ts"
   ]
 }

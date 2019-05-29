@@ -11,11 +11,11 @@ if (!process.env.BITBUCKET_BRANCH && process.env.USER) {
   process.env.BITBUCKET_BRANCH = process.env.USER + '_local_run';
 }
 
-const WAITFORXXX_DEFAULT_TIMEOUT = 5e3; // 5s
-const WAITFORXXX_MOBILE_TIMEOUT = 30e3; // 30s
+const WAITFORXXX_DEFAULT_TIMEOUT = 10e3; // 10s
 
 function toBrowserStackClients(
   launchers /*: Object */ = {},
+  options /*: {user?: string | null, key?: string | null} */ = {},
 ) /*: Array<?Object>*/ {
   return Object.keys(launchers).map(launchKey => ({
     browserName: launchers[launchKey].browserName,
@@ -37,8 +37,8 @@ function toBrowserStackClients(
         acceptSslCerts: true,
       },
       logLevel: 'error',
-      user: process.env.BROWSERSTACK_USERNAME,
-      key: process.env.BROWSERSTACK_KEY,
+      user: options.user || process.env.BROWSERSTACK_USERNAME,
+      key: options.key || process.env.BROWSERSTACK_KEY,
       waitforTimeout:
         launchers[launchKey].waitforTimeout || WAITFORXXX_DEFAULT_TIMEOUT,
     },
@@ -98,25 +98,68 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
 
 function setBrowserStackMobileClients() /*: Array<?Object>*/ {
   const launchers = {
-    iphone: {
-      os_version: '9',
-      browserName: 'iphone',
-      device: 'iPhone 6S',
-      resolution: '1334*750',
-      realMobile: false,
-      waitforTimeout: WAITFORXXX_MOBILE_TIMEOUT,
-    },
-    android: {
-      os_version: '5.0',
+    pixel3: {
+      os_version: '9.0', // Android 28
       browserName: 'android',
-      device: 'Google Nexus 5',
-      resolution: '1080*1920',
-      realMobile: false,
-      waitforTimeout: WAITFORXXX_MOBILE_TIMEOUT,
+      device: 'Google Pixel 3',
+      resolution: '1080*2160',
+      realMobile: true,
+    },
+    pixel2: {
+      os_version: '8.0', // Android 27
+      browserName: 'android',
+      device: 'Google Pixel 2',
+      resolution: '1920*1080',
+      realMobile: true,
+    },
+    nexus6: {
+      os_version: '6.0', // Android 23
+      browserName: 'android',
+      device: 'Google Nexus 6',
+      resolution: '2560*1440',
+      realMobile: true,
+    },
+    galaxyTab: {
+      os_version: '8.0', // Android 27
+      browserName: 'android',
+      device: 'Galaxy Tab S4',
+      resolution: '2560*1600',
+      realMobile: true,
+    },
+    iPhone8: {
+      os_version: '12.0', // iOS 12
+      browserName: 'iphone',
+      device: 'iPhone 8',
+      resolution: '1920*1080',
+      realMobile: true,
+    },
+    iPhone7: {
+      os_version: '10.0', // iOS 10
+      browserName: 'iphone',
+      device: 'iPhone 7',
+      resolution: '1334*750',
+      realMobile: true,
+    },
+    iPhone6: {
+      os_version: '8.0', // iOS 8
+      browserName: 'iphone',
+      device: 'iPhone 6',
+      resolution: '1334*750',
+      realMobile: true,
+    },
+    iPad: {
+      os_version: '11.0', // iOS 11
+      browserName: 'ipad',
+      device: 'iPad 6th',
+      resolution: '2048*1536',
+      realMobile: true,
     },
   };
 
-  return toBrowserStackClients(launchers);
+  return toBrowserStackClients(launchers, {
+    user: process.env.BROWSERSTACK_MOBILE_USERNAME,
+    key: process.env.BROWSERSTACK_MOBILE_KEY,
+  });
 }
 
 function setLocalClients() /*: Array<?Object>*/ {
