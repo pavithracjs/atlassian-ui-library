@@ -38,7 +38,7 @@ const {
     .map(pkg => pkg.relativeDir);
 
   console.log(
-    `packages/elements/{status,}`,
+    `packages/elements/{mention,}`,
     // relativePaths.length > 1 ? `{${relativePaths.join()}}` : relativePaths[0],
   );
 })();
