@@ -41,6 +41,6 @@ export class CardWithDataRenderer extends React.PureComponent<
         />
       );
     }
-    return <div card-with-data />;
+    return <div data-card-with-data />;
   }
 }
