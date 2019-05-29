@@ -40,6 +40,10 @@ export type DrawerProps = BaseProps & {
   isOpen: boolean,
   /** Boolean that controls if drawer should be retained/discarded */
   shouldUnmountOnExit?: boolean,
+
+  /** Controls the zIndex of a drawer. Do not use unless it is absolutely necessary, as it
+   * interferes with the stacking context of other components. */
+  zIndex: number | string,
 };
 
 /**

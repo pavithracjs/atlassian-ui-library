@@ -46,6 +46,7 @@ const createAndFireOnClick = (
 export class DrawerBase extends Component<DrawerProps> {
   static defaultProps = {
     width: 'narrow',
+    zIndex: 'unset',
   };
 
   body = canUseDOM ? document.querySelector('body') : undefined;
@@ -118,7 +119,7 @@ export class DrawerBase extends Component<DrawerProps> {
       onCloseComplete,
     } = this.props;
     return (
-      <Portal zIndex="unset">
+      <Portal zIndex={this.props.zIndex}>
         <TransitionGroup component={OnlyChild}>
           <Fragment>
             {/* $FlowFixMe the `in` prop is internal */}

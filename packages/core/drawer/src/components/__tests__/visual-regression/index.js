@@ -46,4 +46,28 @@ describe('Snapshot Test', () => {
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
+
+  it('should match drawer on drawer screenshot', async () => {
+    const url = getExampleUrl(
+      'core',
+      'drawer',
+      'drawer-on-drawer',
+      global.__BASEURL__,
+    );
+    const { page } = global;
+    const button = '#open-drawer';
+    const secondButton = '#open-second-drawer';
+    await page.goto(url);
+    await page.waitForSelector(button);
+
+    await page.click(button);
+    await page.waitFor(300);
+
+    await page.click(secondButton);
+    await page.waitFor(300);
+
+    const image = await page.screenshot();
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
+  });
 });
