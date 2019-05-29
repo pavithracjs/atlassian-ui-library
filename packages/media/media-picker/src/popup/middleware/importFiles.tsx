@@ -1,6 +1,7 @@
 import uuid from 'uuid/v4';
 import { Store, Dispatch, Middleware } from 'redux';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { map } from 'rxjs/operators/map';
 import {
   TouchFileDescriptor,
   FileState,
@@ -183,7 +184,14 @@ export const touchSelectedFiles = (
 
       const existingFileState = getFileStreamsCache().get(selectedFileId);
       if (existingFileState) {
-        getFileStreamsCache().set(id, existingFileState);
+        // We assign the tenant id to the observable to not emit user id instead
+        const tenantFile = existingFileState.pipe(
+          map(file => ({
+            ...file,
+            id,
+          })),
+        );
+        getFileStreamsCache().set(id, tenantFile);
       } else {
         const subject = new ReplaySubject<FileState>(1);
         subject.next(fileState);
