@@ -22,45 +22,53 @@ describe('UsageFrequencyTracker', () => {
       expect(() => new Gateway(0)).toThrow(RangeError);
     });
 
-    it('should allow work when none in-flight', done => {
+    it('should allow work when none in-flight', async done => {
       const gateway = new Gateway(1);
       expect(
-        gateway.submit(() => {
-          done();
+        gateway.submit(async () => {
+          // Gateway internally invokes the submit callback via a setTimeout which runs on the next tick in the event loop.
+          // To avoid an Invariation Violation in React we use async/await to ensure the test suit hasn't dismounted
+          // before the callback is triggered.
+          await done();
         }),
       ).toEqual(true);
     });
 
-    it('should prevent work when too much in flight', done => {
+    it('should prevent work when too much in flight', async done => {
       const queueSize = 2;
       let doneCounter = 0;
-      const doneCollector = () => {
+      const doneCollector = async () => {
         doneCounter++;
         if (doneCounter >= queueSize) {
-          done();
+          // Gateway internally invokes the submit callback via a setTimeout which runs on the next tick in the event loop.
+          // To avoid an Invariation Violation in React we use async/await to ensure the test suit hasn't dismounted
+          // before the callback is triggered.
+          await done();
+        } else {
+          await Promise.resolve();
         }
       };
 
       const gateway = new Gateway(queueSize);
       expect(
-        gateway.submit(() => {
-          doneCollector();
+        gateway.submit(async () => {
+          await doneCollector();
         }),
       ).toEqual(true);
       expect(
-        gateway.submit(() => {
-          doneCollector();
+        gateway.submit(async () => {
+          await doneCollector();
         }),
       ).toEqual(true);
 
       expect(
-        gateway.submit(() => {
-          doneCollector();
+        gateway.submit(async () => {
+          await doneCollector();
         }),
       ).toEqual(false);
     });
 
-    it('should allow more work once in-flight work completes', done => {
+    it('should allow more work once in-flight work completes', async done => {
       const queueSize = 2;
       let completedCounter = 0;
 
@@ -88,17 +96,22 @@ describe('UsageFrequencyTracker', () => {
 
       // now delay, and periodically check if the queued work has had a chance to complete before asserting
       // that more can be queued.
-      const intervalId = window.setInterval(() => {
-        if (completedCounter > 0) {
-          clearInterval(intervalId);
-          expect(
-            gateway.submit(() => {
-              completeCollector();
-            }),
-          ).toEqual(true);
-          done();
-        }
-      }, 50);
+      await new Promise(resolve => {
+        const intervalId = window.setInterval(() => {
+          if (completedCounter > 0) {
+            clearInterval(intervalId);
+            expect(
+              gateway.submit(() => {
+                completeCollector();
+              }),
+            ).toEqual(true);
+            resolve();
+          }
+        }, 50);
+        // Gateway internally invokes the submit callback via a setTimeout which runs on the next tick in the event loop.
+        // To avoid an Invariation Violation in React we use async/await to ensure the test suit hasn't dismounted
+        // before the callback is triggered.
+      }).then(async () => await done());
     });
   });
 
