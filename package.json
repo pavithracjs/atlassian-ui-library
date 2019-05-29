@@ -484,7 +484,7 @@
     "react-deprecate": "^0.1.0",
     "react-dom": "^16.8.0",
     "react-fast-compare": "^2.0.1",
-    "react-focus-lock": "^1.11.3",
+    "react-focus-lock": "^1.19.1",
     "react-focus-within": "^2.0.1",
     "react-ga": "^2.3.5",
     "react-helmet": "^5.2.0",
