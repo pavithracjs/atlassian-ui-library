@@ -136,7 +136,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       ) {
         const { view } = this.props;
         recreateResizeColsByNode(this.table, this.props.node);
-        updateControls(view.state, view.domAtPos.bind(view));
+        updateControls(view.state);
       }
 
       this.frameId = this.handleTableResizingDebounced(prevProps);

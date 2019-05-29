@@ -377,7 +377,7 @@ describe('Smart Media Editor', () => {
   });
 
   describe('when changes has been made and cancel is pressed', () => {
-    let modalDialog: ShallowWrapper;
+    let modalDialog: ShallowWrapper<React.ComponentProps<typeof ModalDialog>>;
 
     beforeEach(async () => {
       await forFileToBeProcessed();

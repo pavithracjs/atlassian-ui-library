@@ -15,7 +15,7 @@ import {
   wideImage,
   wideTransparentImage,
 } from '@atlaskit/media-test-helpers';
-import { ImageResizeMode, MediaItemType } from '@atlaskit/media-core';
+import { ImageResizeMode, MediaItemType } from '@atlaskit/media-client';
 import Toggle from '@atlaskit/toggle';
 import Slider from '@atlaskit/field-range';
 import * as exenv from 'exenv';

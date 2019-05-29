@@ -28,9 +28,7 @@ const mergeJSONFiles = () => {
     return acc;
   }, []);
 
-  if (jsonFiles.length > 0) {
-    fs.writeFileSync(output, JSON.stringify(jsonFiles), 'utf-8');
-  }
+  fs.writeFileSync(output, JSON.stringify(jsonFiles), 'utf-8');
 };
 
 function exists(filePath) {

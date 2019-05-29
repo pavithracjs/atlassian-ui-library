@@ -6,11 +6,12 @@ import {
   mediaPickerAuthProvider,
   defaultCollectionName,
 } from '@atlaskit/media-test-helpers';
-import { ContextFactory, FileIdentifier } from '@atlaskit/media-core';
+import { FileIdentifier, MediaClient } from '@atlaskit/media-client';
 
-const context = ContextFactory.create({
+const mediaClientConfig = {
   authProvider: mediaPickerAuthProvider('asap'),
-});
+};
+const mediaClient = new MediaClient(mediaClientConfig);
 const collection = defaultCollectionName;
 
 interface State {
@@ -33,13 +34,13 @@ class Example extends React.Component<{}, State> {
       return;
     }
     const fileId = uuid();
-    const touchedFiles = context.file.touchFiles([
+    const touchedFiles = mediaClient.file.touchFiles([
       {
         fileId,
         collection,
       },
     ]);
-    context.file.upload(
+    mediaClient.file.upload(
       {
         content: file,
         name: file.name,
@@ -79,7 +80,7 @@ class Example extends React.Component<{}, State> {
             <td>
               <Card
                 resizeMode="fit"
-                context={context}
+                mediaClientConfig={mediaClientConfig}
                 identifier={identifier}
                 dimensions={{
                   width: 200,
@@ -90,7 +91,7 @@ class Example extends React.Component<{}, State> {
             <td>
               <Card
                 resizeMode="fit"
-                context={context}
+                mediaClientConfig={mediaClientConfig}
                 identifier={identifier}
                 dimensions={{
                   width: 100,
@@ -104,7 +105,7 @@ class Example extends React.Component<{}, State> {
             <td>
               <Card
                 resizeMode="crop"
-                context={context}
+                mediaClientConfig={mediaClientConfig}
                 identifier={identifier}
                 dimensions={{
                   width: 200,
@@ -115,7 +116,7 @@ class Example extends React.Component<{}, State> {
             <td>
               <Card
                 resizeMode="crop"
-                context={context}
+                mediaClientConfig={mediaClientConfig}
                 identifier={identifier}
                 dimensions={{
                   width: 100,

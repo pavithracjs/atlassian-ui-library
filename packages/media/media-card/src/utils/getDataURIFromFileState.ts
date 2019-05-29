@@ -1,5 +1,5 @@
 import VideoSnapshot from 'video-snapshot';
-import { FileState, getMediaTypeFromMimeType } from '@atlaskit/media-core';
+import { FileState, getMediaTypeFromMimeType } from '@atlaskit/media-client';
 import { getOrientation } from '@atlaskit/media-ui';
 
 export interface FilePreview {

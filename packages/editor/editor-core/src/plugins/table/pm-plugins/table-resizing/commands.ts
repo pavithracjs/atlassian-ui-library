@@ -29,7 +29,8 @@ export const handleBreakoutContent = (
   domAtPos: DomAtPos,
 ): Command => (state, dispatch) => {
   const map = TableMap.get(table);
-  const rect = map.findCell(cellPos - start);
+  // Investigate Math.max fallback for tests using JSDOM: https://product-fabric.atlassian.net/browse/ED-7000
+  const rect = map.findCell(Math.max(cellPos - start, 1));
   const cellStyle = getComputedStyle(tableRef);
   const amount = addContainerLeftRightPadding(
     minWidth - tableRef.offsetWidth,

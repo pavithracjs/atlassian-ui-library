@@ -1,0 +1,4 @@
+{
+  "releases": [{ "name": "@atlaskit/type-helpers", "type": "minor" }],
+  "dependents": []
+}
