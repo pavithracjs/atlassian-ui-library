@@ -1,4 +1,4 @@
-import React, { Component, SyntheticEvent } from 'react';
+import React, { Component } from 'react';
 
 import {
   createAndFireEvent,
@@ -34,7 +34,7 @@ class Radio extends Component<RadioProps, State> {
     isMouseDown: false,
   };
 
-  onBlur = (event: SyntheticEvent<any>) => {
+  onBlur: React.FocusEventHandler<HTMLInputElement> = event => {
     this.setState({
       // onBlur is called after onMouseDown if the checkbox was focused, however
       // in this case on blur is called immediately after, and we need to check
@@ -47,35 +47,35 @@ class Radio extends Component<RadioProps, State> {
     }
   };
 
-  onFocus = (event: SyntheticEvent<any>) => {
+  onFocus: React.FocusEventHandler<HTMLInputElement> = event => {
     this.setState({ isFocused: true });
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
-  onMouseLeave = (event: SyntheticEvent<any>) => {
+  onMouseLeave: React.MouseEventHandler = event => {
     this.setState({ isActive: false, isHovered: false });
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
 
-  onMouseEnter = (event: SyntheticEvent<any>) => {
+  onMouseEnter: React.MouseEventHandler = event => {
     this.setState({ isHovered: true });
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
   };
 
-  onMouseUp = (event: SyntheticEvent<any>) => {
+  onMouseUp: React.MouseEventHandler = event => {
     this.setState({ isActive: false, isMouseDown: false });
     if (this.props.onMouseUp) {
       this.props.onMouseUp(event);
     }
   };
 
-  onMouseDown = (event: SyntheticEvent<any>) => {
+  onMouseDown: React.MouseEventHandler = event => {
     this.setState({ isActive: true, isMouseDown: true });
     if (this.props.onMouseDown) {
       this.props.onMouseDown(event);

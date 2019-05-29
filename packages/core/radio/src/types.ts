@@ -36,11 +36,11 @@ export type RadioInputProps = RadioIconProps & {
   /* Optional onError callback */
   onError?: (e: SyntheticEvent<any>) => void;
   /* onChange event handler */
-  onChange: (e: SyntheticEvent<any>) => void;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
   /* onBlur event handler */
-  onBlur: (e: SyntheticEvent<any>) => void;
+  onBlur: React.ChangeEventHandler<HTMLInputElement>;
   /* onFocus event handler */
-  onFocus: (e: SyntheticEvent<any>) => void;
+  onFocus: React.ChangeEventHandler<HTMLInputElement>;
   /* onInvalid event handler, to hook into native validation */
   onInvalid?: (e: SyntheticEvent<any>) => void;
   /* Field value */
@@ -63,13 +63,13 @@ export type RadioProps = {
   /** Field name */
   name?: string;
   /** onChange event handler, passed into the props of each Radio Component instantiated within RadioGroup */
-  onChange: (e: SyntheticEvent<any>) => void;
-  onBlur?: (e: SyntheticEvent<any>) => void;
-  onFocus?: (e: SyntheticEvent<any>) => void;
-  onMouseDown?: (e: SyntheticEvent<any>) => void;
-  onMouseUp?: (e: SyntheticEvent<any>) => void;
-  onMouseEnter?: (e: SyntheticEvent<any>) => void;
-  onMouseLeave?: (e: SyntheticEvent<any>) => void;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onMouseDown?: React.MouseEventHandler;
+  onMouseUp?: React.MouseEventHandler;
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
   /** onInvalid event handler, passed into the props of each Radio Component instantiated within RadioGroup */
   onInvalid?: (e: SyntheticEvent<any>) => void;
   /** Field value */
