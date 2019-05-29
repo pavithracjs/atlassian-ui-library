@@ -10,11 +10,11 @@ export default {
     return [
       {
         name: 'gapCursorKeymap',
-        plugin: ({ schema, props }) => keymapPlugin(),
+        plugin: () => keymapPlugin(),
       },
       {
         name: 'gapCursor',
-        plugin: ({ schema, props }) => plugin,
+        plugin: () => plugin,
       },
     ];
   },

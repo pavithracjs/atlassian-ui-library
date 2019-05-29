@@ -17,11 +17,11 @@ export const anchorMacro: TokenParser = ({
 };
 
 const rawContentProcessor = (
-  rawAttrs: string,
-  rawContent: string,
+  _rawAttrs: string,
+  _rawContent: string,
   length: number,
-  schema: Schema,
-  context: Context,
+  _schema: Schema,
+  _context: Context,
 ): Token => {
   return {
     type: 'text',

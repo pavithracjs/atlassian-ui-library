@@ -11,8 +11,9 @@ import { Provider, Card, Client, CardAppearance } from '../src';
 import urlsJSON from '../examples-helpers/example-urls.json';
 import styled from 'styled-components';
 import { IntlProvider } from 'react-intl';
-import { EnvironmentsKeys } from '../src/client/types';
-import environments from '../src/utils/environments';
+
+type EnvironmentsKeys = 'prod' | 'stg' | 'dev';
+const environments = ['prod', 'stg', 'dev'];
 
 enum GroupingModes {
   none = 'none',
@@ -234,7 +235,7 @@ class Example extends React.Component<{}, ExampleState> {
         <Button isDisabled appearance="link">
           Environment:
         </Button>
-        {Object.keys(environments).map(env => (
+        {environments.map(env => (
           <Button
             key={env}
             isSelected={env === currentEnv}

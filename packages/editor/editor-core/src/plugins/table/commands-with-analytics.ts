@@ -131,6 +131,7 @@ export const splitCellWithAnalytics = () =>
         eventType: EVENT_TYPE.TRACK,
       };
     }
+    return;
   })(withV2Analytics('atlassian.editor.format.table.split.button', splitCell));
 
 export const setColorWithAnalytics = (
@@ -399,5 +400,6 @@ export const toggleTableLayoutWithAnalytics = () =>
         eventType: EVENT_TYPE.TRACK,
       };
     }
+    return;
   })(toggleTableLayout);
 // #endregion

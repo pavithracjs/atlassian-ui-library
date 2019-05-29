@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { ResourcedMention } from '@atlaskit/mention';
+import { ResourcedMention } from '@atlaskit/mention/element';
 import MentionNode from '../../../../react/nodes/mention';
 import {
   Mention,
@@ -8,7 +8,7 @@ import {
   MentionEventHandler,
 } from '@atlaskit/editor-common';
 
-const mentionHandler: MentionEventHandler = (mentionId, text, event?) => {};
+const mentionHandler: MentionEventHandler = (_mentionId, _text, _event?) => {};
 
 describe('Renderer - React/Nodes/Mention', () => {
   it('should render UI mention component', () => {

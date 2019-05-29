@@ -23,9 +23,7 @@ export const setSelectionAndPickerAt = (pos: number) => (
   return editorView.state;
 };
 
-export const validateSelection = (pos: number, text: string, color: string) => (
-  state: EditorState,
-) => {
+export const validateSelection = (pos: number) => (state: EditorState) => {
   let statusState = pluginKey.getState(state);
 
   expect(state.tr.selection).toBeInstanceOf(NodeSelection);
@@ -121,7 +119,7 @@ describe('status plugin: plugin', () => {
 
       // select the first status (empty text)
       let state = setSelectionAndPickerAt(cursorPos)(editorView);
-      validateSelection(cursorPos, '', 'blue')(state);
+      validateSelection(cursorPos)(state);
       getStatusesInDocument(state, 2); // ensure there are two status nodes in the document
 
       // simulate the scenario where user selects another status
@@ -153,7 +151,7 @@ describe('status plugin: plugin', () => {
 
       // select the first status (empty text)
       let state = setSelectionAndPickerAt(cursorPos)(editorView);
-      validateSelection(cursorPos, '', 'blue')(state);
+      validateSelection(cursorPos)(state);
       getStatusesInDocument(state, 1);
 
       // simulate the scenario where user selects a text node

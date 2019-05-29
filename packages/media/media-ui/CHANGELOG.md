@@ -1,5 +1,30 @@
 # @atlaskit/media-ui
 
+## 11.2.4
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/page@11.0.0
+
+## 11.2.3
+- [patch] [391c93daf7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/391c93daf7):
+
+  - Prevents inline videos in Editor/Renderer to be played simulteneously in the same page
+
+## 11.2.2
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/dropdown-menu@8.0.2
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 11.2.1
+- [patch] [1c9586e1a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c9586e1a0):
+
+  - Reverted strings to the original format
+
+## 11.2.0
+- [minor] [061eb57bab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/061eb57bab):
+
+  - Added partial i18n support to media-ui
+
 ## 11.1.2
 - [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
 

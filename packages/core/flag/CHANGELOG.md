@@ -1,5 +1,20 @@
 # @atlaskit/flag
 
+## 12.0.1
+- [patch] [cdba81d4f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cdba81d4f2):
+
+  - export the correct types so typescript usage works correctly
+
+## 12.0.0
+- [major] [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+
+  - @atlaskit/flag has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
+## 11.0.1
+- [patch] [dccab11ef4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dccab11ef4):
+
+  - Fixed incorrect flag appearing after dismiss a previous one
+
 ## 11.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

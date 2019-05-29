@@ -6,6 +6,10 @@ import { Serializer } from '../serializer';
 import { nodeSerializers } from './serializers';
 import styles from './styles';
 import juice from 'juice';
+import { escapeHtmlString } from './util';
+import flow from 'lodash.flow';
+import property from 'lodash.property';
+import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 const serializeNode = (
   node: PMNode,
@@ -57,7 +61,7 @@ const getAttrsFromParent = (
 
 const traverseTree = (fragment: Fragment, parent?: PMNode): string => {
   let output = '';
-  fragment.forEach((childNode, offset, idx) => {
+  fragment.forEach((childNode, _offset, idx) => {
     if (childNode.isLeaf) {
       output += serializeNode(childNode, idx, parent);
     } else {
@@ -76,15 +80,23 @@ export const commonStyle = {
   'line-height': '24px',
 };
 
-export default class EmailSerializer implements Serializer<string> {
-  serializeFragment(fragment: Fragment): string {
-    const innerHTML = traverseTree(fragment);
-    return juice(
-      `<style>${styles}</style><div class="wrapper">${innerHTML}</div>`,
-    );
-  }
+const juicify = (html: string): string =>
+  juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
 
-  static fromSchema(schema: Schema): EmailSerializer {
+export default class EmailSerializer implements Serializer<string> {
+  serializeFragment: (fragment: Fragment) => string = flow(
+    (fragment: Fragment) => fragment.toJSON(),
+    JSON.stringify,
+    escapeHtmlString,
+    JSON.parse,
+    content => ({ version: 1, type: 'doc', content }),
+    schema.nodeFromJSON,
+    property('content'),
+    traverseTree,
+    juicify,
+  );
+
+  static fromSchema(_schema: Schema): EmailSerializer {
     return new EmailSerializer();
   }
 }

@@ -1,5 +1,25 @@
 # @atlaskit/smart-card
 
+## 11.1.1
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/media-ui@11.2.4
+  - @atlaskit/page@11.0.0
+
+## 11.1.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
+## 11.0.5
+- [patch] [27f666ed85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27f666ed85):
+
+  - Fixed example.
+
+## 11.0.4
+- [patch] [94ffb3b638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94ffb3b638):
+
+  - check for taskType icon in the json payload
+
 ## 11.0.3
 - [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
 

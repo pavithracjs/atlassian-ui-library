@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
 import adf from './__fixtures__/columns.adf.json';
 import {
@@ -18,7 +19,7 @@ describe('Columns:', () => {
     const columnNumber = 1;
     await clickOnColumn(page, columnNumber);
 
-    await snapshot(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('should place breakout at the start/end of the scroll', async () => {
@@ -28,6 +29,6 @@ describe('Columns:', () => {
     await clickOnColumn(page, columnNumber);
     await scrollToColumn(page, columnNumber, offset);
 
-    await snapshot(page, 0.02);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 });

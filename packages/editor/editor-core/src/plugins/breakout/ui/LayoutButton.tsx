@@ -125,7 +125,7 @@ class LayoutButton extends React.Component<Props & InjectedIntlProps, {}> {
       <Popup
         ariaLabel={title}
         target={element}
-        offset={[-5, 0]}
+        offset={[5, 0]}
         alignY="start"
         alignX="end"
         mountTo={mountPoint}

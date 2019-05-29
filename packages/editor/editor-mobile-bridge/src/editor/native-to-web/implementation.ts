@@ -37,7 +37,7 @@ import {
 import { EditorView } from 'prosemirror-view';
 import { EditorState, Selection } from 'prosemirror-state';
 import { JSONTransformer } from '@atlaskit/editor-json-transformer';
-import { Color as StatusColor } from '@atlaskit/status';
+import { Color as StatusColor } from '@atlaskit/status/element';
 
 import NativeToWebBridge from './bridge';
 import WebBridge from '../../web-bridge';
@@ -106,9 +106,9 @@ export default class WebBridgeImpl extends WebBridge
     }
   }
 
-  onMentionSelect(mention: string) {}
+  onMentionSelect(_mention: string) {}
 
-  onMentionPickerResult(result: string) {}
+  onMentionPickerResult(_result: string) {}
 
   onMentionPickerDismissed() {}
 

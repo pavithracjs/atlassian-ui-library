@@ -1,5 +1,45 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.6.2
+- [patch] [7d4010d923](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7d4010d923):
+
+  - ED-6765: fixed mediaSingle deletion issue on Android (no workaround)
+
+## 8.6.1
+- [patch] [7936e9a2a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7936e9a2a9):
+
+  - ED-6910: fixed a regression in webpack configuration
+
+## 8.6.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 8.5.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 8.4.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
+## 8.3.2
+- [patch] [ec1d1861bc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec1d1861bc):
+
+  - ED-6910: disabled sourcemaps in production
+
+## 8.3.1
+- [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
+## 8.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
 ## 8.2.4
 - [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
 

@@ -24,8 +24,7 @@ async function globalTeardown() {
       browserWSEndpoint: wsEndpoint,
       ignoreHTTPSErrors: true,
     });
-
-    dockerBrowser.close();
+    await dockerBrowser.close();
 
     // Stop docker execution
     await docker.stopDocker();

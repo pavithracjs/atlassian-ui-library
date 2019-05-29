@@ -74,14 +74,14 @@ export class Channel {
     this.pubSubClient
       .on(
         'avi:pf-collab-service:steps:created',
-        (event: string, payload: any) => {
+        (_event: string, payload: any) => {
           logger('Received FPS-payload', { payload });
           this.emit('data', payload);
         },
       )
       .on(
         'avi:pf-collab-service:telepointer:updated',
-        (event: string, payload: any) => {
+        (_event: string, payload: any) => {
           logger('Received telepointer-payload', { payload });
           this.emit('telepointer', payload);
         },

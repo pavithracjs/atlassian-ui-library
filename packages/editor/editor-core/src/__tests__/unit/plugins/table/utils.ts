@@ -48,10 +48,7 @@ describe('table plugin: utils', () => {
             ),
           ),
         );
-        const columnsWidths = getColumnsWidths(
-          editorView.state,
-          editorView.domAtPos.bind(editorView),
-        );
+        const columnsWidths = getColumnsWidths(editorView);
         columnsWidths.forEach(width => {
           expect(typeof width).toEqual('number');
           expect(width > 0).toBe(true);
@@ -71,10 +68,7 @@ describe('table plugin: utils', () => {
               ),
             ),
           );
-          const columnsWidths = getColumnsWidths(
-            editorView.state,
-            editorView.domAtPos.bind(editorView),
-          );
+          const columnsWidths = getColumnsWidths(editorView);
           columnsWidths.forEach(width => {
             expect(typeof width).toEqual('number');
             expect(width > 0).toBe(true);

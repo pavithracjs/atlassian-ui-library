@@ -1,8 +1,12 @@
 {
   "name": "@atlaskit/pubsub",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "config": {
     "access": "public"
+  },
+  "atlaskit": {
+    "name": "pubsub",
+    "team": "elements"
   },
   "description": "Interacts with Atlassian Frontend PubSub service to receive pubsub events.",
   "atlaskit:src": "src/index.ts",
@@ -28,8 +32,8 @@
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/field-text": "^9.0.0",
-    "@atlaskit/lozenge": "^8.0.0",
-    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/lozenge": "^9.0.0",
+    "@atlaskit/theme": "^9.0.3",
     "@types/fetch-mock": "^6.0.3",
     "es6-promise": "^4.0.5",
     "fetch-mock": "^6.5.2",

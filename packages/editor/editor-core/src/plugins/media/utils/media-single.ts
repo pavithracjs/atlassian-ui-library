@@ -1,6 +1,8 @@
 import { Node as PMNode, Schema, Fragment, Slice } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 
+import { MediaSingleLayout, MediaSingleAttributes } from '@atlaskit/adf-schema';
+
 import {
   isImage,
   atTheBeginningOfBlock,
@@ -45,6 +47,9 @@ function insertNodesWithOptionalParagraph(nodes: PMNode[]): Command {
     return true;
   };
 }
+
+export const isMediaSingle = (schema: Schema, fileMimeType?: string) =>
+  !!schema.nodes.mediaSingle && isImage(fileMimeType);
 
 export const insertMediaAsMediaSingle = (
   view: EditorView,
@@ -149,3 +154,72 @@ export function transformSliceForMedia(slice: Slice, schema: Schema) {
     return slice;
   };
 }
+
+export const alignAttributes = (
+  layout: MediaSingleLayout,
+  oldAttrs: MediaSingleAttributes,
+  gridSize: number = 12,
+): MediaSingleAttributes => {
+  let width = oldAttrs.width;
+  const oldLayout: MediaSingleLayout = oldAttrs.layout;
+  const wrappedLayouts: MediaSingleLayout[] = [
+    'wrap-left',
+    'wrap-right',
+    'align-end',
+    'align-start',
+  ];
+
+  if (
+    (!width || width === 100) &&
+    ['align-start', 'align-end', 'wrap-left', 'wrap-right'].indexOf(
+      oldLayout,
+    ) === -1 &&
+    ['align-start', 'align-end', 'wrap-left', 'wrap-right'].indexOf(layout) > -1
+  ) {
+    width = 50;
+  } else if (
+    layout !== oldLayout &&
+    ['full-width', 'wide'].indexOf(oldLayout) > -1
+  ) {
+    // unset width
+    width = undefined;
+  } else if (width) {
+    const cols = Math.round((width / 100) * gridSize);
+    let targetCols = cols;
+
+    const nonWrappedLayouts: MediaSingleLayout[] = [
+      'center',
+      'wide',
+      'full-width',
+    ];
+
+    if (
+      wrappedLayouts.indexOf(oldLayout) > -1 &&
+      nonWrappedLayouts.indexOf(layout) > -1
+    ) {
+      // wrap -> center needs to align to even grid
+      targetCols = Math.floor(targetCols / 2) * 2;
+    } else if (
+      nonWrappedLayouts.indexOf(oldLayout) > -1 &&
+      wrappedLayouts.indexOf(layout) > -1
+    ) {
+      // cannot resize to full column width, and cannot resize to 1 column
+
+      if (cols <= 1) {
+        targetCols = 2;
+      } else if (cols >= gridSize) {
+        targetCols = 10;
+      }
+    }
+
+    if (targetCols !== cols) {
+      width = (targetCols / gridSize) * 100;
+    }
+  }
+
+  return {
+    ...oldAttrs,
+    layout,
+    width,
+  };
+};

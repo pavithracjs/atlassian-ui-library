@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import {
   initFullPageEditorWithAdf,
   snapshot,
@@ -48,10 +49,10 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
   const toggleFullWidthMode = async () => {
     // go from default -> full-width
     await toggleFullWidthProp();
-    await snapshot(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
     // then from full-width -> default
     await toggleFullWidthProp();
-    await snapshot(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
   };
 
   beforeEach(() => {
@@ -78,7 +79,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       await page.click(panelContentSelector);
       await pressKey(page, ['ArrowRight']);
       await toggleFullWidthProp();
-      await snapshot(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
     });
   });
 
@@ -100,24 +101,24 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       await initEditor(resizedTableInLayout);
       await toggleFullWidthProp();
       await clickFirstCell(page);
-      await snapshot(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
 
       await toggleFullWidthProp();
       await page.click(editorSelector);
       await clickFirstCell(page);
-      await snapshot(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
     });
 
     it('scales table inside extension correctly', async () => {
       await initEditor(resizedTableInExt);
       await toggleFullWidthProp();
       await clickFirstCell(page);
-      await snapshot(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
 
       await toggleFullWidthProp();
       await page.click(editorSelector);
       await clickFirstCell(page);
-      await snapshot(page);
+      await snapshot(page, MINIMUM_THRESHOLD);
     });
 
     describe('breakout modes', () => {

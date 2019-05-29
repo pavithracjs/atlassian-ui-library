@@ -1,7 +1,6 @@
 import { Mark } from 'prosemirror-model';
 import { Style } from './interfaces';
 import { markSerializers } from './serializers';
-
 export * from './table-util';
 
 export const createTag = (
@@ -18,7 +17,9 @@ export const createTag = (
       return;
     }
 
-    attrsList.push(`${key}="${String(value).replace(/"/g, "'")}"`);
+    const attrValue = escapeHtmlString(String(value)).replace(/"/g, "'");
+
+    attrsList.push(`${key}="${attrValue}"`);
   });
 
   const attrsSerialized = attrsList.length ? ` ${attrsList.join(' ')}` : '';
@@ -49,4 +50,23 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   }
 
   return output;
+};
+
+export const buildOutlookConditional = (
+  ifOutlook: string,
+  ifNotOutlook: string,
+) =>
+  `<!--[if mso]>${ifOutlook}<![endif]--><!--[if !mso]><!-- -->${ifNotOutlook}<!--<![endif]-->`;
+
+export const escapeHtmlString = (content: string | undefined | null) => {
+  if (!content) return '';
+
+  // We need to first replace with temp placeholders to avoid recursion, as buildOutlookConditional() returns html, too!
+  const escapedContent = content
+    .replace(/</g, '$TMP_LT$')
+    .replace(/>/g, '$TMP_GT$')
+    .replace(/\$TMP_LT\$/g, buildOutlookConditional('≺', '&lt;'))
+    .replace(/\$TMP_GT\$/g, buildOutlookConditional('≻', '&gt;'));
+
+  return escapedContent;
 };

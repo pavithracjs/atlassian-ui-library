@@ -130,37 +130,32 @@ describe('mapJiraItemToResult', () => {
     it('should add session attributes to jira url', () => {
       const url = 'https://product-fabric.atlassian.net/browse/ETH-671';
       const href = addJiraResultQueryParams(url, {
-        searchSessionId: sessionId,
         searchContainerId: 'containerId',
         searchObjectId: 'objectId',
         searchContentType: 'issue',
       });
       expect(href).toBe(
-        'https://product-fabric.atlassian.net/browse/ETH-671?searchSessionId=sessionId&searchContainerId=containerId&searchObjectId=objectId&searchContentType=issue',
+        'https://product-fabric.atlassian.net/browse/ETH-671?searchContainerId=containerId&searchObjectId=objectId&searchContentType=issue',
       );
     });
 
     it('should not add falsy session attributes', () => {
       const url = 'https://product-fabric.atlassian.net/browse/ETH-671';
       const href = addJiraResultQueryParams(url, {
-        searchSessionId: sessionId,
         searchContainerId: undefined,
         searchObjectId: '',
       });
-      expect(href).toBe(
-        'https://product-fabric.atlassian.net/browse/ETH-671?searchSessionId=sessionId',
-      );
+      expect(href).toBe('https://product-fabric.atlassian.net/browse/ETH-671');
     });
 
     it('should not affect existing query params', () => {
       const url =
         'https://product-fabric.atlassian.net/browse/ETH-671?q=existing';
       const href = addJiraResultQueryParams(url, {
-        searchSessionId: sessionId,
         searchContainerId: 'container',
       });
       expect(href).toBe(
-        'https://product-fabric.atlassian.net/browse/ETH-671?q=existing&searchSessionId=sessionId&searchContainerId=container',
+        'https://product-fabric.atlassian.net/browse/ETH-671?q=existing&searchContainerId=container',
       );
     });
   });

@@ -31,5 +31,5 @@ export default class MobileMediaPicker implements CustomMediaPicker {
     this.listeners = {};
   }
 
-  setUploadParams(uploadParams: any) {}
+  setUploadParams(_uploadParams: any) {}
 }

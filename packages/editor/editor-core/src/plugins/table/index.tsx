@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { tableEditing } from 'prosemirror-tables';
 import { createTable } from 'prosemirror-utils';
-import { tableCellMinWidth } from '@atlaskit/editor-common';
 import { table, tableCell, tableHeader, tableRow } from '@atlaskit/adf-schema';
 
 import LayoutButton from './ui/LayoutButton';
 import { EditorPlugin } from '../../types';
 import WithPluginState from '../../ui/WithPluginState';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
-import { PluginConfig, PermittedLayoutsDescriptor } from './types';
+import {
+  PluginConfig,
+  PermittedLayoutsDescriptor,
+  ColumnResizingPluginState,
+} from './types';
 import { createPlugin, pluginKey } from './pm-plugins/main';
 import { keymapPlugin } from './pm-plugins/keymap';
 import {
@@ -16,7 +19,6 @@ import {
   pluginKey as tableResizingPluginKey,
 } from './pm-plugins/table-resizing';
 import { getToolbarConfig } from './toolbar';
-import { ColumnResizingPlugin } from './types';
 import FloatingContextualMenu from './ui/FloatingContextualMenu';
 import { isLayoutSupported } from './utils';
 import {
@@ -29,8 +31,6 @@ import {
 } from '../analytics';
 import { tooltip, toggleTable } from '../../keymaps';
 import { IconTable } from '../quick-insert/assets';
-
-export const HANDLE_WIDTH = 6;
 
 export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
   const config =
@@ -51,10 +51,7 @@ export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
     : config;
 };
 
-const tablesPlugin = (
-  options?: PluginConfig | boolean,
-  disableBreakoutUI?: boolean,
-): EditorPlugin => ({
+const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
   nodes() {
     return [
       { name: 'table', node: table },
@@ -68,13 +65,7 @@ const tablesPlugin = (
     return [
       {
         name: 'table',
-        plugin: ({
-          props,
-          prevProps,
-          eventDispatcher,
-          dispatch,
-          portalProviderAPI,
-        }) => {
+        plugin: ({ props, prevProps, dispatch, portalProviderAPI }) => {
           const { allowTables, appearance, allowDynamicTextSizing } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = appearance === 'full-page';
@@ -84,7 +75,6 @@ const tablesPlugin = (
           return createPlugin(
             dispatch,
             portalProviderAPI,
-            eventDispatcher,
             pluginConfig(allowTables),
             isContextMenuEnabled,
             isBreakoutEnabled && allowDynamicTextSizing,
@@ -103,12 +93,10 @@ const tablesPlugin = (
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing
             ? createFlexiResizingPlugin(dispatch, {
-                handleWidth: HANDLE_WIDTH,
-                cellMinWidth: tableCellMinWidth,
                 dynamicTextSizing:
                   allowDynamicTextSizing && appearance !== 'full-width',
                 lastColumnResizable: appearance !== 'full-width',
-              } as ColumnResizingPlugin)
+              } as ColumnResizingPluginState)
             : undefined;
         },
       },
@@ -156,7 +144,7 @@ const tablesPlugin = (
                     mountPoint={popupsMountPoint}
                     boundariesElement={popupsBoundariesElement}
                     scrollableElement={popupsScrollableElement}
-                    targetRef={pluginState.tableFloatingToolbarTarget}
+                    targetRef={pluginState.tableWrapperTarget!}
                     isResizing={
                       !!tableResizingPluginState &&
                       !!tableResizingPluginState.dragging

@@ -15,7 +15,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 
 import {
@@ -242,6 +242,7 @@ class ExampleEditorComponent extends React.Component<
       actions.focus();
       return false;
     }
+    return;
   };
 
   private handleTitleChange = (e: KeyboardEvent) => {

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
-import { MentionProvider, ResourcedMention } from '@atlaskit/mention';
+import { MentionProvider } from '@atlaskit/mention/resource';
+import { ResourcedMention } from '@atlaskit/mention/element';
 import { MentionUserType as UserType } from '@atlaskit/adf-schema';
 
 import { MentionEventHandlers } from '../EventHandlers';
@@ -48,7 +49,7 @@ export default class MentionWithProviders extends PureComponent<Props, State> {
         .then(profilecardProvider => {
           this.setState({ profilecardProvider });
         })
-        .catch(err => {
+        .catch(() => {
           this.setState({ profilecardProvider: null });
         });
     } else {

@@ -1,9 +1,7 @@
-import * as sinon from 'sinon';
 import { expect } from 'chai';
 import { mount, ReactWrapper } from 'enzyme';
 
 import { mountEditor } from './utils';
-import { toNativeBridge } from '../../../src/editor/web-to-native';
 import mobileEditor from '../../../src/editor/mobile-editor-element';
 
 declare var bridge: any;
@@ -57,68 +55,6 @@ describe('NativeToWebBridge', () => {
     expect(JSON.parse(content)).to.be.deep.equal(withHeading);
   });
 });
-
-//TODO: ED-6534 Unskip
-describe.skip('insert media', () => {
-  let wrapper: ReactWrapper;
-  beforeEach(async () => {
-    wrapper = await mountEditor();
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
-  const contentWithMedia = {
-    version: 1,
-    type: 'doc',
-    content: [
-      {
-        type: 'mediaGroup',
-        content: [
-          {
-            type: 'media',
-            attrs: {
-              id: 'e94c3f67-5ac3-42b2-bf6a-ce35bb787894',
-              collection: 'MediaServicesSample',
-              type: 'file',
-            },
-          },
-        ],
-      },
-      {
-        type: 'paragraph',
-        content: [],
-      },
-    ],
-  };
-  it('should dispatch media picker events', async () => {
-    sendSampleMediaEvents();
-    const content = bridge.getContent();
-    expect(JSON.parse(content)).to.be.deep.equal(contentWithMedia);
-  });
-
-  it('should update content on native side', async () => {
-    const mock = sinon.mock(toNativeBridge);
-    mock
-      .expects('updateText')
-      .atLeast(1)
-      .calledWith(JSON.stringify(contentWithMedia));
-    sendSampleMediaEvents();
-    mock.verify();
-  });
-});
-
-function sendSampleMediaEvents() {
-  bridge.onMediaPicked(
-    'upload-preview-update',
-    '{"file":{"id":"116ba70f-9e28-41a1-ac81-6cdaef0665a0","name":"IMG_20180406_001117.jpg","type":"file"},"public":{}}',
-  );
-  bridge.onMediaPicked(
-    'upload-end',
-    '{"file":{"id":"116ba70f-9e28-41a1-ac81-6cdaef0665a0","name":"IMG_20180406_001117.jpg","type":"file","publicId":"e94c3f67-5ac3-42b2-bf6a-ce35bb787894"},"public":{}}',
-  );
-}
 
 describe('set padding', () => {
   let editor: any;

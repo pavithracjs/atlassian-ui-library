@@ -2,6 +2,12 @@ import uuid from 'uuid/v1';
 import { AbstractResource } from '@atlaskit/util-service-support';
 
 import {
+  EmojiProvider,
+  UploadingEmojiProvider,
+  EmojiRepository,
+} from '@atlaskit/emoji/resource';
+
+import {
   EmojiDescription,
   EmojiId,
   EmojiSearchResult,
@@ -11,11 +17,8 @@ import {
   ToneSelection,
   User,
   OptionalUser,
-  EmojiProvider,
-  UploadingEmojiProvider,
-  EmojiRepository,
   CategoryId,
-} from '@atlaskit/emoji';
+} from '@atlaskit/emoji/types';
 
 import {
   PromiseBuilder,

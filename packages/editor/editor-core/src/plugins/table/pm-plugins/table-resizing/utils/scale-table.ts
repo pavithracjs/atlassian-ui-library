@@ -11,6 +11,7 @@ import {
   getResizeStateFromDOM,
   getTotalWidth,
   reduceSpace,
+  adjustColumnsWidths,
 } from '../utils';
 
 export interface ScaleOptions {
@@ -20,6 +21,7 @@ export interface ScaleOptions {
   containerWidth?: number;
   previousContainerWidth?: number;
   parentWidth?: number;
+  layoutChanged?: boolean;
   dynamicTextSizing?: boolean;
   isBreakoutEnabled?: boolean;
   isFullWidthModeEnabled?: boolean;
@@ -45,6 +47,7 @@ export const scale = (
     prevNode,
     start,
     isBreakoutEnabled,
+    layoutChanged,
   } = options;
 
   const maxSize = getLayoutSize(node.attrs.layout, containerWidth, {
@@ -63,8 +66,8 @@ export const scale = (
 
   let newWidth = maxSize;
 
-  // Determine if table was overflow
-  if (prevTableWidth > previousMaxSize) {
+  // adjust table width if layout is updated
+  if (layoutChanged && prevTableWidth > previousMaxSize) {
     const overflowScale = prevTableWidth / previousMaxSize;
     newWidth = Math.floor(newWidth * overflowScale);
   }
@@ -109,28 +112,26 @@ export const scaleWithParent = (
 };
 
 // Scales the table to a given size and updates its colgroup DOM node
-function scaleTableTo(state: ResizeState, newWidth: number): ResizeState {
-  const scaleFactor = newWidth / getTotalWidth(state);
+function scaleTableTo(state: ResizeState, maxSize: number): ResizeState {
+  const scaleFactor = maxSize / getTotalWidth(state);
 
-  const newState = {
+  let newState = {
     ...state,
-    maxSize: newWidth,
+    maxSize,
     cols: state.cols.map(col => {
       const { minWidth, width } = col;
       let newColWidth = Math.floor(width * scaleFactor);
-
-      // enforce min width
       if (newColWidth < minWidth) {
         newColWidth = minWidth;
       }
-
       return { ...col, width: newColWidth };
     }),
   };
 
-  if (getTotalWidth(newState) > newWidth) {
-    return reduceSpace(newState, getTotalWidth(newState) - newWidth);
+  let newTotalWidth = getTotalWidth(newState);
+  if (newTotalWidth > maxSize) {
+    newState = reduceSpace(newState, newTotalWidth - maxSize);
   }
 
-  return newState;
+  return adjustColumnsWidths(newState, maxSize);
 }

@@ -8,7 +8,7 @@ import getAttrsWithChangesRecorder from '../../../utils/getAttrsWithChangesRecor
 
 const MAX_INDENTATION_LEVEL = 6;
 
-const isIndentationAllowed = (schema: Schema, node: PmNode, parent: PmNode) => {
+const isIndentationAllowed = (schema: Schema, node: PmNode) => {
   const {
     nodes: { paragraph, heading },
     marks: { alignment },

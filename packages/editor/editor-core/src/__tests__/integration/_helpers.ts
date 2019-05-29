@@ -4,6 +4,8 @@ import { ToolbarFeatures } from '../../../example-helpers/ToolsDrawer';
 import { EditorAppearance } from '../../types';
 import { pluginKey as tableResizingPluginKey } from '../../plugins/table/pm-plugins/table-resizing';
 import messages from '../../messages';
+import { tableSelectors } from '../__helpers/page-objects/_table';
+import { TableCssClassName } from '../../plugins/table/types';
 
 /**
  * This function will in browser context. Make sure you call `toJSON` otherwise you will get:
@@ -376,7 +378,7 @@ export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
     (
       tableResizingPluginKey: any,
       resizeWidth: any,
-      cellHandlePos: any,
+      resizeHandlePos: any,
       startX: any,
     ) => {
       const view = (window as any).__editorView;
@@ -387,7 +389,10 @@ export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
 
       view.dispatch(
         view.state.tr.setMeta(tableResizingPluginKey, {
-          setHandle: cellHandlePos,
+          type: 'SET_RESIZE_HANDLE_POSITION',
+          data: {
+            resizeHandlePos,
+          },
         }),
       );
 
@@ -420,4 +425,49 @@ export const animationFrame = async (page: any) => {
   await page.browser.executeAsync((done: (time: number) => void) => {
     window.requestAnimationFrame(done);
   });
+};
+
+export const doubleClickResizeHandle = async (
+  page: any,
+  resizeHandlePos: number,
+) => {
+  await page.browser.execute(
+    (tableResizingPluginKey: any, resizeHandlePos: any) => {
+      const view = (window as any).__editorView;
+      if (!view) {
+        return;
+      }
+      const startX = 600;
+
+      view.dispatch(
+        view.state.tr.setMeta(tableResizingPluginKey, {
+          type: 'SET_RESIZE_HANDLE_POSITION',
+          data: {
+            resizeHandlePos,
+          },
+        }),
+      );
+
+      view.dom.dispatchEvent(new MouseEvent('mousedown', { clientX: startX }));
+      window.dispatchEvent(new MouseEvent('mouseup', { clientX: startX }));
+      view.dom.dispatchEvent(new MouseEvent('mousedown', { clientX: startX }));
+      window.dispatchEvent(new MouseEvent('mouseup', { clientX: startX }));
+    },
+    tableResizingPluginKey,
+    resizeHandlePos,
+  );
+};
+
+export const selectColumns = async (page: any, indexes: number[]) => {
+  for (let i = 0, count = indexes.length; i < count; i++) {
+    const controlSelector = `.${tableSelectors.columnControls} .${
+      TableCssClassName.COLUMN_CONTROLS_BUTTON_WRAP
+    }:nth-child(${indexes[i]}) .${TableCssClassName.CONTROLS_BUTTON}`;
+    await page.waitForSelector(controlSelector);
+    if (i > 0) {
+      await page.browser.keys(['Shift']);
+    }
+    await page.click(controlSelector);
+    await page.waitForSelector(tableSelectors.selectedCell);
+  }
 };

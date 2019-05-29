@@ -39,8 +39,8 @@ export const issueKey: TokenParser = ({ input, position, schema, context }) => {
   const charBefore = input.charAt(position - 1);
   const charAfter = input.charAt(position + issue.key.length);
   if (
-    (isNotBlank(charBefore) && isNotSpace(charBefore)) ||
-    (isNotBlank(charAfter) && isNotSpace(charAfter))
+    (isNotBlank(charBefore) && isNotSpaceAndParenthese(charBefore)) ||
+    (isNotBlank(charAfter) && isNotSpaceAndParenthese(charAfter))
   ) {
     return fallback(input, position);
   }
@@ -76,7 +76,8 @@ const withInlineCardFromTextStamp = (issue: Issue): string =>
     ? issue.url
     : `${issue.url}#icft=${issue.key}`;
 
-const isNotSpace = (char: string): boolean => !/\s/.test(char);
+const isNotSpaceAndParenthese = (char: string): boolean =>
+  !/\s|\(|\)/.test(char);
 
 export const buildIssueKeyRegex = (
   inlineCardConversion?: InlineCardConversion,
@@ -87,5 +88,8 @@ export const buildIssueKeyRegex = (
 
   const pattern: string = Object.keys(inlineCardConversion).join('|');
 
+  if (!pattern) {
+    return undefined;
+  }
   return new RegExp(`^(${pattern})`);
 };

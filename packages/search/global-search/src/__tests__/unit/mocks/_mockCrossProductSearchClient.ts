@@ -25,6 +25,9 @@ export const noResultsCrossProductSearchClient: CrossProductSearchClient = {
   getAbTestData(scope: Scope) {
     return Promise.resolve(DEFAULT_AB_TEST);
   },
+  getPeople() {
+    return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+  },
 };
 
 export const errorCrossProductSearchClient: CrossProductSearchClient = {
@@ -32,6 +35,9 @@ export const errorCrossProductSearchClient: CrossProductSearchClient = {
     return Promise.reject('error');
   },
   getAbTestData(scope: Scope) {
+    return Promise.reject('error');
+  },
+  getPeople() {
     return Promise.reject('error');
   },
 };
@@ -45,6 +51,9 @@ export function singleResultCrossProductSearchClient(
     },
     getAbTestData(scope: Scope) {
       return Promise.resolve(DEFAULT_AB_TEST);
+    },
+    getPeople() {
+      return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
     },
   };
 }
@@ -62,5 +71,8 @@ export const mockCrossProductSearchClient = (
   },
   getAbTestData(scope: Scope): Promise<ABTest> {
     return Promise.resolve(abTest);
+  },
+  getPeople() {
+    return Promise.resolve(data);
   },
 });

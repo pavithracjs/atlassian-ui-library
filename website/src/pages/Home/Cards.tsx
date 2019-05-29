@@ -18,7 +18,7 @@ import {
   MOBILE_BREAKPOINT_MAX,
   TABLET_BREAKPOINT_MIN,
   TABLET_BREAKPOINT_MAX,
-} from './config';
+} from '../../constants';
 
 const CardIcon = styled.span`
   align-items: center;
@@ -52,6 +52,7 @@ export const CardsWrapper = styled.div`
   display: flex;
   max-width: 980px;
   justify-content: center;
+  margin: 0 auto;
   box-sizing: border-box;
 
   @media (max-width: ${MOBILE_BREAKPOINT_MAX}px) {

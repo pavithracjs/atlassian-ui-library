@@ -1,5 +1,68 @@
 # @atlaskit/media-picker
 
+## 43.0.1
+- Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+  - @atlaskit/flag@12.0.0
+
+## 43.0.0
+- [major] [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
+
+  -
+
+  - MediaPicker Clipboard component is now a React Component
+
+  These changes provide a new React api for Clipboard component. First one to be delivered, coming next we are going to ship Browser, Dropzone and Popup.
+
+  Previous plain javascript API usage:
+
+  ```typescript
+  // instanciate MediaPicker clipboard
+  const clipboardMediaPicker = await new MediaPicker(
+    'clipboard'
+    context,
+    config,
+  );
+
+  // usage
+  clipboardMediaPicker.on('uploads-start', onUploadsStart);
+  clipboardMediaPicker.on('upload-preview-update', onUploadPreviewUpdate);
+  clipboardMediaPicker.on('upload-status-update', onUploadStatusUpdate);
+  clipboardMediaPicker.on('upload-processing', onUploadProcessing);
+  clipboardMediaPicker.on('upload-end', onUploadEnd);
+  clipboardMediaPicker.on('upload-error', onUploadError);
+
+  // activation / deactivation programatically
+  clipboardMediaPicker.activate();
+  clipboardMediaPicker.deactivate();
+  ```
+
+  With the new React API we benefit from:
+  * No need to programatically activate/deactivate. We will just render the Clipboard component or not.
+  * Event handlers are provided by react props
+  * We don't need to use a MediaPicker constructor and specifiy which flavour we want (in this case 'clipboard'). We can basically `import { Clipboard } from '@atlaskit/media-picker'` directly and use it right away.
+
+  Example of new API:
+
+  ```typescript
+  import { Clipboard } from '@atlaskit/media-picker';
+
+  <Clipboard
+    context={context}
+    config={config}
+    onError={handleUploadError}
+    onPreviewUpdate={handleUploadPreviewUpdate}
+    onProcessing={handleReady}
+  />
+  ```
+
+  This is the first component we migrate fully and integrates seamlessly with the Editor. Follow up on this ticket to see what will be the next steps on this new API:
+  https://product-fabric.atlassian.net/browse/MS-1942
+
+## 42.0.2
+- [patch] [168df43047](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/168df43047):
+
+  - Fix clipboard component deactivation logic when used in multiple contexts.
+
 ## 42.0.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-card@63.0.2

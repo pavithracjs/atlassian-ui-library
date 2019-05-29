@@ -47,9 +47,12 @@ export type State = DialogState;
 
 export type Props = {
   config?: ConfigResponse;
+  children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: DialogPlacement;
+  fetchConfig: Function;
   isDisabled?: boolean;
+  isFetchingConfig?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
@@ -161,7 +164,14 @@ class ShareDialogWithTriggerInternal extends React.Component<
         case 'Escape':
           // react-select will always capture the event via onKeyDown
           // and trigger event.preventDefault()
-          if (event.defaultPrevented) {
+          const isKeyPressedOnContainer = !!(
+            this.containerRef.current &&
+            this.containerRef.current === event.target
+          );
+
+          // we DO NOT expect any prevent default behavior on the container itself
+          // the defaultPrevented check will happen only if the key press occurs on the container's children
+          if (!isKeyPressedOnContainer && event.defaultPrevented) {
             // put the focus back onto the share dialog so that
             // the user can press the escape key again to close the dialog
             if (this.containerRef.current) {
@@ -189,9 +199,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
         if (isDialogOpen) {
           this.start = Date.now();
           this.createAndFireEvent(screenEvent());
-        }
-        if (this.containerRef.current) {
-          this.containerRef.current.focus();
+
+          if (this.containerRef.current) {
+            this.containerRef.current.focus();
+          }
+
+          // always refetch the config when modal is re-opened
+          this.props.fetchConfig();
         }
       },
     );
@@ -202,14 +216,22 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private handleShareSubmit = (data: DialogContentState) => {
-    const { onShareSubmit, shareOrigin, showFlags, config } = this.props;
+    const {
+      onShareSubmit,
+      shareContentType,
+      shareOrigin,
+      showFlags,
+      config,
+    } = this.props;
     if (!onShareSubmit) {
       return;
     }
 
     this.setState({ isSharing: true });
 
-    this.createAndFireEvent(submitShare(this.start, data, shareOrigin, config));
+    this.createAndFireEvent(
+      submitShare(this.start, data, shareContentType, shareOrigin, config),
+    );
 
     onShareSubmit(data)
       .then(() => {
@@ -244,6 +266,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       copyLink,
       dialogPlacement,
       isDisabled,
+      isFetchingConfig,
       loadUserOptions,
       shareFormTitle,
       config,
@@ -274,6 +297,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
                   defaultValue={defaultValue}
                   config={config}
                   onLinkCopy={this.handleCopyLink}
+                  isFetchingConfig={isFetchingConfig}
                 />
               </InlineDialogFormWrapper>
             </AnalyticsContext>

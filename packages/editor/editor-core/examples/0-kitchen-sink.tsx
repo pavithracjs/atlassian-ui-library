@@ -233,7 +233,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
   private inputRef?: HTMLTextAreaElement | null;
   private popupMountPoint?: HTMLElement | null;
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(_prevProps: Props, prevState: State) {
     if (prevState.theme !== this.state.theme) {
       window.sessionStorage.setItem('theme', this.state.theme);
     }

@@ -12,6 +12,6 @@ const css = serializeStyle({
   'font-family': codeFontFamily(),
 });
 
-export default function code({ mark, text }: MarkSerializerOpts) {
+export default function code({ text }: MarkSerializerOpts) {
   return createTag('code', { style: css }, text);
 }

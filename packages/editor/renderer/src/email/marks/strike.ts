@@ -5,6 +5,6 @@ const css = serializeStyle({
   'text-decoration': 'line-through',
 });
 
-export default function strike({ mark, text }: MarkSerializerOpts) {
+export default function strike({ text }: MarkSerializerOpts) {
   return createTag('span', { style: css }, text);
 }

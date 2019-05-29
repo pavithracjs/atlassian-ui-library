@@ -1,5 +1,6 @@
 import { EditorState } from 'prosemirror-state';
 import { Mark as PMMark, MarkType } from 'prosemirror-model';
+import { CellSelection } from 'prosemirror-tables';
 import {
   FORMATTING_MARK_TYPES,
   FORMATTING_NODE_TYPES,
@@ -28,6 +29,7 @@ export const domIndex = function(node: Node | null): number | undefined {
       }
     }
   }
+  return;
 };
 
 export const shallowEqual = (obj1: any, obj2: any) => {
@@ -79,13 +81,27 @@ export const anyMarkActive = (
   if (empty) {
     return !!markType.isInSet(state.storedMarks || $from.marks());
   }
-  return state.doc.rangeHasMark(from, to, markType);
+
+  let rangeHasMark = false;
+  if (state.selection instanceof CellSelection) {
+    state.selection.forEachCell((cell, cellPos) => {
+      const from = cellPos;
+      const to = cellPos + cell.nodeSize;
+      if (!rangeHasMark) {
+        rangeHasMark = state.doc.rangeHasMark(from, to, markType);
+      }
+    });
+  } else {
+    rangeHasMark = state.doc.rangeHasMark(from, to, markType);
+  }
+
+  return rangeHasMark;
 };
 
 const blockStylingIsPresent = (state: EditorState): boolean => {
   let { from, to } = state.selection;
   let isBlockStyling = false;
-  state.doc.nodesBetween(from, to, (node, pos) => {
+  state.doc.nodesBetween(from, to, node => {
     if (FORMATTING_NODE_TYPES.indexOf(node.type.name) !== -1) {
       isBlockStyling = true;
       return false;
@@ -102,9 +118,6 @@ const marksArePresent = (state: EditorState) => {
       const { marks } = state.schema;
       if (empty) {
         return !!marks[mark].isInSet(state.storedMarks || $from.marks());
-      }
-      if (marks.code && mark === marks.code.name) {
-        return markActive(state, marks.code.create());
       }
       return anyMarkActive(state, marks[mark]);
     }

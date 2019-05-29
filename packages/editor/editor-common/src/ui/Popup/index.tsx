@@ -102,7 +102,7 @@ export default class Popup extends React.Component<Props, State> {
 
     this.setState({
       position,
-      validPosition: validatePosition(position, target),
+      validPosition: validatePosition(target),
     });
   }
 
@@ -226,3 +226,5 @@ export default class Popup extends React.Component<Props, State> {
     return this.renderPopup();
   }
 }
+
+export { findOverflowScrollParent } from './utils';
