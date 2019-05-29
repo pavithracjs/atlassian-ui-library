@@ -4,6 +4,7 @@ import Code from './components/Code';
 
 const CodeWithTheme = withTheme(Code);
 const emptyTheme = {};
+
 export default function(props: PropsWithChildren<any>) {
   return (
     <ThemeProvider theme={emptyTheme}>
