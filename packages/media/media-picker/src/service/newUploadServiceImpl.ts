@@ -230,7 +230,6 @@ export class NewUploadServiceImpl implements UploadService {
         this.cancellableFilesUploads[id] = cancellableFileUpload;
         // Save observable in the cache
         // We want to save the observable without collection too, due consumers using cards without collection.
-        console.log('newUploadService 1-->', id);
         getFileStreamsCache().set(id, observable);
         upfrontId.then(id => {
           // We assign the tenant id to the observable to not emit user id instead
@@ -240,7 +239,6 @@ export class NewUploadServiceImpl implements UploadService {
               id,
             })),
           );
-          console.log('newUploadService 2-->', id);
           getFileStreamsCache().set(id, tenantObservable);
         });
 
