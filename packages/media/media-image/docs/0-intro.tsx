@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { md, code, Example, Props } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 import { Hr } from './shared';
 

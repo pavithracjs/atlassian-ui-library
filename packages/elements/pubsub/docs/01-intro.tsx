@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { md, Example, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 import PubSubExample from '../examples/00-client';
 
 const PubSubdSource = require('!!raw-loader!../examples/00-client');

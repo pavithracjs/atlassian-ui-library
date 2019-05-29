@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { md, code, Example } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 import dropzone from './dropzone.png';
 import browser from './browser.png';
