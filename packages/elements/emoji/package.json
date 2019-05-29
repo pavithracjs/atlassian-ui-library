@@ -10,7 +10,6 @@
   "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/analytics": "^6.0.0",
     "@atlaskit/analytics-next": "^5.0.0",
     "@atlaskit/button": "^13.0.5",
     "@atlaskit/field-base": "^13.0.2",
