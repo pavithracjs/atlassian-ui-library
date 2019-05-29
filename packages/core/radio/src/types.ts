@@ -1,80 +1,77 @@
-// @flow
-import type { Node } from 'react';
+import { ReactNode, SyntheticEvent } from 'react';
 
 // Used by RadioGroupStateless
 export type OptionPropType = {
-  isDisabled?: boolean,
-  isChecked?: boolean,
-  label?: Node,
-  name?: string,
-  value?: string | number,
+  isDisabled?: boolean;
+  isChecked?: boolean;
+  label?: ReactNode;
+  name?: string;
+  value?: string | number;
 };
 
 export type OptionsPropType = Array<OptionPropType>;
 
 export type RadioIconProps = {
   /* Boolean for field active state */
-  isActive?: boolean,
+  isActive?: boolean;
   /* Field checked state */
-  isChecked?: boolean,
+  isChecked?: boolean;
   /* Field disabled state */
-  isDisabled?: boolean,
+  isDisabled?: boolean;
   /* Field focused state */
-  isFocused?: boolean,
+  isFocused?: boolean;
   /* Field hovered state */
-  isHovered?: boolean,
+  isHovered?: boolean;
   /* Field invalid state */
-  isInvalid?: boolean,
+  isInvalid?: boolean;
 };
 
 export type RadioInputProps = RadioIconProps & {
   /* Field required state */
-  isRequired?: boolean,
+  isRequired?: boolean;
   /* Aria-label for the hidden input */
-  label?: string,
+  label?: string;
   /* Field name */
-  name?: string,
+  name?: string;
   /* Optional onError callback */
-  onError?: (SyntheticEvent<*>) => void,
+  onError?: (e: SyntheticEvent<any>) => void;
   /* onChange event handler */
-  onChange: (SyntheticEvent<*>) => void,
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
   /* onBlur event handler */
-  onBlur: (SyntheticEvent<*>) => void,
+  onBlur: React.ChangeEventHandler<HTMLInputElement>;
   /* onFocus event handler */
-  onFocus: (SyntheticEvent<*>) => void,
+  onFocus: React.ChangeEventHandler<HTMLInputElement>;
   /* onInvalid event handler, to hook into native validation */
-  onInvalid?: (SyntheticEvent<*>) => void,
+  onInvalid?: (e: SyntheticEvent<any>) => void;
   /* Field value */
-  value?: string,
+  value?: string;
 };
 
 export type RadioProps = {
   /** the aria-label attribute associated with the radio element */
-  ariaLabel?: string,
+  ariaLabel?: string;
   /** Field disabled */
-  isDisabled?: boolean,
-  /** Field invalid */
-  isInvalid: boolean,
+  isDisabled?: boolean;
   /** Marks this as a required field */
-  isRequired?: boolean,
+  isRequired?: boolean;
   /** Field is invalid */
-  isInvalid?: boolean,
+  isInvalid?: boolean;
   /** Set the field as checked */
-  isChecked?: boolean,
+  isChecked?: boolean;
   /** The label value for the input rendered to the dom */
-  label?: Node,
+  label?: ReactNode;
   /** Field name */
-  name?: string,
+  name?: string;
   /** onChange event handler, passed into the props of each Radio Component instantiated within RadioGroup */
-  onChange: (SyntheticEvent<*>) => void,
-  onBlur?: (SyntheticInputEvent<*>) => void,
-  onFocus?: (SyntheticInputEvent<*>) => void,
-  onMouseDown?: (SyntheticInputEvent<*>) => void,
-  onMouseUp?: (SyntheticInputEvent<*>) => void,
-  onMouseEnter?: (SyntheticInputEvent<*>) => void,
-  onMouseLeave?: (SyntheticInputEvent<*>) => void,
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onMouseDown?: React.MouseEventHandler;
+  onMouseUp?: React.MouseEventHandler;
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
   /** onInvalid event handler, passed into the props of each Radio Component instantiated within RadioGroup */
-  onInvalid?: (SyntheticEvent<*>) => void,
+  onInvalid?: (e: SyntheticEvent<any>) => void;
   /** Field value */
-  value?: string | number,
+  value?: string | number;
 };

@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 
 export const RadioInputWrapper = styled.div`
@@ -7,7 +6,7 @@ export const RadioInputWrapper = styled.div`
   position: relative;
 `;
 
-export const HiddenInput = styled.input`
+export const HiddenInput = styled.input<{ onChange: React.ChangeEventHandler }>`
   position: absolute;
   top: 50%;
   left: 50%;

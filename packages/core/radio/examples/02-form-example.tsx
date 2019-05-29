@@ -1,9 +1,8 @@
-// @flow
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import Form, { CheckboxField, Field, FormFooter } from '@atlaskit/form';
 import { Radio, RadioGroup } from '../src';
-import type { OptionsPropType } from '../src/types';
+import { OptionsPropType } from '../src/types';
 
 const colorItems: OptionsPropType = [
   { name: 'color', value: 'red', label: 'Red' },
@@ -18,20 +17,21 @@ const fruitItems: OptionsPropType = [
   { name: 'fruit', value: 'pair', label: 'Pair' },
 ];
 
-export default class FormExample extends Component<
-  void,
-  { isChecked: boolean },
-> {
+export default class FormExample extends Component<{}, { isChecked: boolean }> {
   render() {
     return (
       <div>
-        <Form onSubmit={data => console.log('form data', data)}>
-          {({ formProps }) => {
+        <Form onSubmit={(data: object) => console.log('form data', data)}>
+          {({ formProps }: { formProps: object }) => {
             return (
               <form {...formProps} name="form-example">
                 <CheckboxField name="standalone" value="single-radio">
-                  {({ fieldProps }) => (
-                    <Radio {...fieldProps} label="standalone radio" />
+                  {({ fieldProps }: { fieldProps: object }) => (
+                    <Radio
+                      {...fieldProps}
+                      onChange={() => {}}
+                      label="standalone radio"
+                    />
                   )}
                 </CheckboxField>
                 <Field
@@ -40,8 +40,12 @@ export default class FormExample extends Component<
                   defaultValue="blue"
                   isRequired
                 >
-                  {({ fieldProps }) => (
-                    <RadioGroup {...fieldProps} options={colorItems} />
+                  {({ fieldProps }: { fieldProps: object }) => (
+                    <RadioGroup
+                      {...fieldProps}
+                      onChange={() => {}}
+                      options={colorItems}
+                    />
                   )}
                 </Field>
                 <Field
@@ -49,8 +53,12 @@ export default class FormExample extends Component<
                   name="fruit"
                   defaultValue="peach"
                 >
-                  {({ fieldProps }) => (
-                    <RadioGroup {...fieldProps} options={fruitItems} />
+                  {({ fieldProps }: { fieldProps: object }) => (
+                    <RadioGroup
+                      {...fieldProps}
+                      onChange={() => {}}
+                      options={fruitItems}
+                    />
                   )}
                 </Field>
                 <FormFooter>

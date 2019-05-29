@@ -56,3 +56,7 @@ declare module '@atlaskit/section-message' {
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
+
+declare module '@atlaskit/radio' {
+  declare module.exports: any;
+}

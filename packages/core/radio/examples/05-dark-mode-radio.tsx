@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import { RadioGroup } from '../src';
 
@@ -8,15 +7,16 @@ const options = [
   { value: 'dark', name: 'numbers', label: 'Dark Mode' },
 ];
 
+type ThemeType = 'light' | 'dark';
 export default class ThemedRadio extends Component<
-  *,
-  { themeMode: 'light' | 'dark' },
+  any,
+  { themeMode: ThemeType }
 > {
   state = {
-    themeMode: 'dark',
+    themeMode: 'dark' as ThemeType,
   };
 
-  switchTheme = ({ currentTarget: { value } }: SyntheticEvent<*>) => {
+  switchTheme = ({ currentTarget: { value } }: SyntheticEvent<any>) => {
     this.setState({
       themeMode: value,
     });

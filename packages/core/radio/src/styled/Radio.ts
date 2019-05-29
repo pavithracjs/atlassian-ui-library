@@ -1,19 +1,19 @@
-// @flow
 import styled, { css } from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
 
 const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
 
-type LabelProps = {
-  isDisabled: boolean,
-  isFullWidth: boolean,
-};
+interface LabelProps {
+  isDisabled?: boolean;
+  isFullWidth?: boolean;
+}
 
-export const Label = styled.label`
+export const Label = styled.label<LabelProps>`
   align-items: flex-start;
-  color: ${(props: LabelProps): string =>
-    // $FlowFixMe - theme is not found in props
-    props.isDisabled ? disabledColor(props) : colors.text(props)};
+  color: ${(props): string =>
+    props.isDisabled
+      ? disabledColor(props)
+      : ((colors.text as unknown) as (props?: {}) => number | string)(props)};
   ${({ isDisabled }: LabelProps) =>
     isDisabled
       ? css`
@@ -23,13 +23,13 @@ export const Label = styled.label`
   display: flex;
 `;
 
-type IconWrapperProps = {
-  isActive: boolean,
-  isChecked: boolean,
-  isDisabled: boolean,
-  isFocused: boolean,
-  isInvalid: boolean,
-};
+interface IconWrapperProps {
+  isActive?: boolean;
+  isChecked?: boolean;
+  isDisabled?: boolean;
+  isFocused?: boolean;
+  isInvalid?: boolean;
+}
 
 const borderColor = themed({ light: colors.N40, dark: colors.DN80 });
 const focusBorder = css`
@@ -48,7 +48,7 @@ const checkedBorder = css`
   stroke: currentColor;
   stroke-width: 2px;
 `;
-const border = css`
+const border = css<{ isHovered?: boolean }>`
   stroke: ${({ isHovered, ...rest }) =>
     isHovered
       ? themed({ light: colors.N40, dark: colors.DN200 })(rest)
@@ -65,7 +65,16 @@ const getBorderColor = (props: IconWrapperProps) => {
   return border;
 };
 
-const getDotColor = props => {
+interface ColorProps {
+  isChecked?: boolean;
+  isDisabled?: boolean;
+  isActive?: boolean;
+  isHovered?: boolean;
+  isInvalid?: boolean;
+  isFocused?: boolean;
+}
+
+const getDotColor = (props: Partial<ColorProps>) => {
   const { isChecked, isDisabled, isActive, ...rest } = props;
 
   let color = themed({ light: colors.N10, dark: colors.DN10 });
@@ -80,7 +89,7 @@ const getDotColor = props => {
   return color(rest);
 };
 
-const getCircleColor = props => {
+const getCircleColor = (props: Partial<ColorProps>) => {
   const {
     isChecked,
     isDisabled,
@@ -114,7 +123,7 @@ export const LabelText = styled.div`
   padding: 2px 4px;
 `;
 
-export const IconWrapper = styled.span`
+export const IconWrapper = styled.span<ColorProps>`
   line-height: 0;
   flex-shrink: 0;
   color: ${getCircleColor};

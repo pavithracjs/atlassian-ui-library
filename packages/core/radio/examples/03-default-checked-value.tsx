@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import { RadioGroup } from '../src';
 
 const radioValues = [
@@ -9,11 +8,11 @@ const radioValues = [
 ];
 
 type State = {
-  value: string,
+  value: string;
 };
 
-export default class ControlledRadioGroup extends Component<*, State> {
-  onChange = (event: SyntheticEvent<*>) => {
+export default class ControlledRadioGroup extends Component<any, State> {
+  onChange = (event: SyntheticEvent<any>) => {
     console.log('onChange called with value: ', event.currentTarget.value);
   };
 

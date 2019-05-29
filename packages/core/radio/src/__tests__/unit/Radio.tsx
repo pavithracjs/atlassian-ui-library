@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { mount, shallow } from 'enzyme';
 import { RadioWithoutAnalytics as Radio } from '../../Radio';
@@ -9,7 +8,7 @@ describe(name, () => {
     describe('exports', () => {
       it('the Radio component', () => {
         expect(Radio).not.toBe(undefined);
-        expect(new Radio()).toBeInstanceOf(Component);
+        expect(new Radio({ onChange: () => {} })).toBeInstanceOf(Component);
       });
     });
 
@@ -36,9 +35,13 @@ describe(name, () => {
     });
 
     describe('props', () => {
-      function expectPropReflectedToInput(prop, inputProp, val) {
+      function expectPropReflectedToInput(
+        prop: string,
+        inputProp: string,
+        val: any,
+      ) {
         it('should be reflected to the input', () => {
-          const props = ({ [prop]: val }: { [string]: any });
+          const props = { [prop]: val };
           const wrapper = mount(<Radio onChange={() => {}} {...props} />);
           expect(wrapper.find('input').prop(inputProp)).toBe(val);
         });

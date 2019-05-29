@@ -1,29 +1,38 @@
-// @flow
-import React, { Component, Fragment, type Element } from 'react';
+import React, {
+  Component,
+  Fragment,
+  ReactComponentElement,
+  SyntheticEvent,
+} from 'react';
 import Radio from './Radio';
-import type { OptionsPropType, OptionPropType } from './types';
+import { OptionsPropType, OptionPropType } from './types';
+
 /* eslint-disable react/no-array-index-key */
 
-export type RadioGroupProps = {
+export interface RadioGroupProps {
   /** Once set, controls the selected value on the Radio Group */
-  value?: string | number | null,
+  value?: string | number | null;
   /** Sets the initial selected value on the Radio Group */
-  defaultValue?: string | number | null,
+  defaultValue?: string | number | null;
   /** Sets the disabled state of all Radio elements in the group */
-  isDisabled?: boolean,
+  isDisabled?: boolean;
   /** Sets the required state of all Radio elements in the group */
-  isRequired?: boolean,
+  isRequired?: boolean;
   /** An array of objects, each object is mapped onto a Radio element within the group */
-  options: OptionsPropType,
+  options: OptionsPropType;
   /** Function that gets fired after each invalid event */
-  onInvalid?: (event: SyntheticEvent<*>) => void,
+  onInvalid?: (event: SyntheticEvent<any>) => void;
   /** Function that gets after each change event */
-  onChange: (event: SyntheticEvent<*>) => void,
-};
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  [key: string]: any;
+}
 
-type RadioElementArray = Array<Element<typeof Radio>>;
+type RadioElementArray = Array<ReactComponentElement<typeof Radio>>;
 
-type State = { value?: string | number | null };
+interface State {
+  value?: string | number | null;
+  [key: string]: string | number | null | undefined;
+}
 
 export default class RadioGroup extends Component<RadioGroupProps, State> {
   static defaultProps = {
@@ -45,7 +54,7 @@ export default class RadioGroup extends Component<RadioGroupProps, State> {
     return this.props[key] ? this.props[key] : this.state[key];
   };
 
-  onChange = (event: SyntheticEvent<*>) => {
+  onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     this.setState({
       value: event.currentTarget.value,
     });
@@ -54,12 +63,12 @@ export default class RadioGroup extends Component<RadioGroupProps, State> {
     }
   };
 
-  buildOptions = () => {
+  buildOptions = (): RadioElementArray => {
     const { options, isDisabled, isRequired, onInvalid } = this.props;
     const value = this.getProp('value');
-    if (!options.length) return null;
+    if (!options.length) return [];
 
-    return (options.map((option: OptionPropType, index: number) => {
+    return options.map((option: OptionPropType, index: number) => {
       const optionProps = { ...option };
       if (typeof isDisabled !== 'undefined') {
         optionProps.isDisabled = isDisabled;
@@ -76,7 +85,7 @@ export default class RadioGroup extends Component<RadioGroupProps, State> {
           isRequired={isRequired}
         />
       );
-    }): RadioElementArray);
+    });
   };
 
   render() {
