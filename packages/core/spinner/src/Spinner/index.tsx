@@ -49,7 +49,7 @@ export default class Spinner extends Component<SpinnerProps, SpinnerState> {
   };
 
   endListener = (node: HTMLElement, done: () => void) => {
-    const executeCallback = (event: AnimationEvent): void => {
+    const executeCallback = (event: Event): void => {
       // ignore animation events on the glyph
 
       if ((event.target as SVGElement).tagName === 'svg') {
@@ -61,26 +61,14 @@ export default class Spinner extends Component<SpinnerProps, SpinnerState> {
       } else {
         done();
       }
-      return (
-        node &&
-        node.removeEventListener(
-          'animationend',
-          (executeCallback as unknown) as EventListener,
-        )
-      );
+      return node && node.removeEventListener('animationend', executeCallback);
     };
 
     // FIX - jest-emotion doesn't recognise the DOM node so it can't add
     // the eventListener in the @atlaskit/button tests.
     // Should be fixed when we move to emotion@10
     if (node && node.addEventListener) {
-      return (
-        node &&
-        node.addEventListener(
-          'animationend',
-          (executeCallback as unknown) as EventListener,
-        )
-      );
+      return node.addEventListener('animationend', executeCallback);
     }
     return done();
   };
