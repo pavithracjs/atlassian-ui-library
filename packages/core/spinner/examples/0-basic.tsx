@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import * as colors from '@atlaskit/theme/colors';
 import Spinner from '../src';

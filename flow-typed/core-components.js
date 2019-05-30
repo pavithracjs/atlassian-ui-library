@@ -57,6 +57,10 @@ declare module '@atlaskit/section-message' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/spinner' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }

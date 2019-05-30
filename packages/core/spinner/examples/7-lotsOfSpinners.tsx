@@ -1,14 +1,12 @@
-// @flow
-
 import React from 'react';
 import styled from 'styled-components';
 
 import Spinner from '../src';
 
 type State = {
-  spinners: number[],
-  showSpinners: boolean,
-  size: number,
+  spinners: number[];
+  showSpinners: boolean;
+  size: number;
 };
 
 const Container = styled.div`
@@ -31,7 +29,7 @@ export default class App extends React.Component<{}, State> {
     size: 20,
   };
 
-  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       size: +e.target.value,
     });

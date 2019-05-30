@@ -1,13 +1,11 @@
-// @flow
-
 import React from 'react';
 
 import Button from '@atlaskit/button';
 import Spinner from '../src';
 
 type State = {
-  isLoading: boolean,
-  showSpinner: boolean,
+  isLoading: boolean;
+  showSpinner: boolean;
 };
 
 class SpinnerButton extends React.PureComponent<{}, State> {
