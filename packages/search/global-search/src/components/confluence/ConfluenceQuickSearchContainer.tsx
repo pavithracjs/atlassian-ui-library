@@ -305,6 +305,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     abTest: ABTest,
     isLoading: boolean,
     inFasterSearchExperiment: boolean,
+    searchSessionId: string,
   ) => {
     if (inFasterSearchExperiment) {
       const currentSearchResults: ConfluenceResultsMap = isLoading
@@ -320,11 +321,16 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         recentResults,
       );
 
-      return mapSearchResultsToUIGroups(mergedRecentSearchResults, abTest);
+      return mapSearchResultsToUIGroups(
+        mergedRecentSearchResults,
+        abTest,
+        searchSessionId,
+      );
     } else {
       return mapSearchResultsToUIGroups(
         searchResults as ConfluenceResultsMap,
         abTest,
+        searchSessionId,
       );
     }
   };
@@ -393,6 +399,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
             abTest,
             isLoading,
             inFasterSearchExperiment,
+            searchSessionId,
           )
         }
         renderNoResult={() => (
