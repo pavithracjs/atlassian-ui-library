@@ -118,7 +118,7 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
-   * Indicates whether or not autocompletion features is acti
+   * Indicates whether or not autocompletion features is enabled
    */
   isAutocompleteEnabled?: boolean;
 

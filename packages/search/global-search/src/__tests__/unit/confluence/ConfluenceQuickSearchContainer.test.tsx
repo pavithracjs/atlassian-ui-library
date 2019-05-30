@@ -384,12 +384,12 @@ describe('ConfluenceQuickSearchContainer', () => {
   });
 
   describe('Autocomplete', () => {
-    it('should not pass down getAutocomplete if isAutocompleteEnabled', () => {
+    it('should not pass down getAutocomplete if isAutocompleteEnabled is false', () => {
       const wrapper = render();
       const quickSearchContainer = wrapper.find(QuickSearchContainer);
 
       const props = quickSearchContainer.props();
-      expect(props.getAutocomplete).toBeUndefined();
+      expect(props.getAutocompleteSuggestions).toBeUndefined();
     });
 
     it('should pass down getAutocomplete if isAutocompleteEnabled', () => {
@@ -397,7 +397,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       const quickSearchContainer = wrapper.find(QuickSearchContainer);
 
       const props = quickSearchContainer.props();
-      expect(props.getAutocomplete).not.toBeUndefined();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
     });
   });
 });

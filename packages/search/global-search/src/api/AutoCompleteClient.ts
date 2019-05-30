@@ -4,11 +4,11 @@ import {
   utils,
 } from '@atlaskit/util-service-support';
 
-export interface AutoCompleteClient {
-  getAutocomplete(query: string): Promise<string[]>;
+export interface AutocompleteClient {
+  getAutocompleteSuggestions(query: string): Promise<string[]>;
 }
 
-export class AutoCompleteClientImpl implements AutoCompleteClient {
+export class AutocompleteClientImpl implements AutocompleteClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
   /* Indicates the number of character difference for auto-correction */
@@ -33,7 +33,7 @@ export class AutoCompleteClientImpl implements AutoCompleteClient {
     return utils.requestService(this.serviceConfig, options);
   }
 
-  async getAutocomplete(query: string): Promise<string[]> {
+  async getAutocompleteSuggestions(query: string): Promise<string[]> {
     return this.createAutocompleteRequestPromise(query);
   }
 }

@@ -21,6 +21,7 @@ const Radio = styled.input`
 
 export interface Config {
   hideLocale?: boolean;
+  context?: 'home' | 'jira' | 'confluence';
   message?: JSX.Element;
 }
 
@@ -44,25 +45,33 @@ export default function withNavigation<P extends Props>(
   WrappedComponent: ComponentType<P>,
   props?: Config,
 ): ComponentType<Partial<P>> {
-  return class WithNavigation extends React.Component<Partial<P>> {
+  return class WithNavigation extends React.Component<Partial<P>, State> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        context: props.context || 'jira',
+        locale: 'en',
+      };
+    }
     handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({
-        context: e.target.value,
-      });
+      if (
+        'home' === e.target.value ||
+        'jira' === e.target.value ||
+        'confluence' === e.target.value
+      ) {
+        this.setState({
+          context: e.target.value,
+        });
+      }
     };
 
     handleLocaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         locale: e.target.value,
       });
-    };
-
-    state: State = {
-      context: 'jira',
-      locale: 'en',
     };
 
     renderLocaleRadioGroup() {
@@ -158,7 +167,6 @@ export default function withNavigation<P extends Props>(
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
                   cloudId="cloudId"
-                  context={context}
                   referralContextIdentifiers={{
                     currentContentId: '123',
                     currentContainerId: '456',
@@ -166,6 +174,7 @@ export default function withNavigation<P extends Props>(
                   }}
                   logger={DEVELOPMENT_LOGGER}
                   {...this.props}
+                  context={context}
                 />
               </LocaleIntlProvider>
             }

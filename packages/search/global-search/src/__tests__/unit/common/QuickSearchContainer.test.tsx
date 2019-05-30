@@ -50,7 +50,7 @@ const defaultProps = {
   getAbTestData: jest.fn((sesionId: string) =>
     Promise.resolve(defaultABTestData),
   ),
-  getAutocomplete: jest.fn((query: string) =>
+  getAutocompleteSuggestions: jest.fn((query: string) =>
     Promise.resolve(defaultAutocompleteData),
   ),
   createAnalyticsEvent: jest.fn(),
@@ -438,7 +438,9 @@ describe('QuickSearchContainer', () => {
       const globalQuickSearch = wrapper.find(GlobalQuickSearch);
       const onAutocomplete = globalQuickSearch.props().onAutocomplete;
       onAutocomplete && (await onAutocomplete(query));
-      expect(defaultProps.getAutocomplete).toHaveBeenCalledWith(query);
+      expect(defaultProps.getAutocompleteSuggestions).toHaveBeenCalledWith(
+        query,
+      );
     });
 
     it('should pass down the results of getAutocomplete to GlobalQuickSearch', async () => {
@@ -450,7 +452,7 @@ describe('QuickSearchContainer', () => {
       onAutocomplete && (await onAutocomplete(query));
       wrapper.update();
       globalQuickSearch = wrapper.find(GlobalQuickSearch);
-      expect(globalQuickSearch.prop('autocomplete')).toBe(
+      expect(globalQuickSearch.prop('autocompleteSuggestions')).toBe(
         defaultAutocompleteData,
       );
     });
@@ -458,7 +460,7 @@ describe('QuickSearchContainer', () => {
     it('should handle error', async () => {
       const query = 'auto';
       const wrapper = await mountQuickSearchContainerWaitingForRender({
-        getAutocomplete: () =>
+        getAutocompleteSuggestions: () =>
           Promise.reject(new Error('everything is broken')),
       });
 

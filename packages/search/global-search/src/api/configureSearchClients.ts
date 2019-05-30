@@ -14,9 +14,9 @@ import RecentSearchClientImpl, {
   RecentSearchClient,
 } from './RecentSearchClient';
 import {
-  AutoCompleteClientImpl,
-  AutoCompleteClient,
-} from './AutoCompleteClient';
+  AutocompleteClientImpl,
+  AutocompleteClient,
+} from './AutocompleteClient';
 import memoizeOne from 'memoize-one';
 import deepEqual from 'deep-equal';
 
@@ -26,7 +26,7 @@ export interface SearchClients {
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
   jiraClient: JiraClient;
-  autocompleteClient: AutoCompleteClient;
+  autocompleteClient: AutocompleteClient;
 }
 
 export interface Config {
@@ -84,7 +84,7 @@ function configureSearchClients(
       config.confluenceUrl,
       confluencePrefetchedResults,
     ),
-    autocompleteClient: new AutoCompleteClientImpl(
+    autocompleteClient: new AutocompleteClientImpl(
       config.autocompleteUrl,
       cloudId,
     ),

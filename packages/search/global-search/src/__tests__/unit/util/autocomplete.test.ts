@@ -1,8 +1,8 @@
-import { getAutocomplete } from '../../../util/autocomplete';
+import { getAutocompleteText } from '../../../util/autocomplete';
 
 describe('Autocomplete-util', () => {
   it('should not provide autocomplete if not typed anything', () => {
-    expect(getAutocomplete('', ['auto', 'car'])).toBeUndefined();
+    expect(getAutocompleteText('', ['auto', 'car'])).toBeUndefined();
   });
 
   const testData = [
@@ -16,7 +16,7 @@ describe('Autocomplete-util', () => {
   test.each(testData)(
     'should autocomplete "au" based on %j to %s',
     (autocompleteArray, expected) => {
-      expect(getAutocomplete('au', autocompleteArray)).toBe(expected);
+      expect(getAutocompleteText('au', autocompleteArray)).toBe(expected);
     },
   );
 });

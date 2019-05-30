@@ -1,8 +1,8 @@
 import memoizeOne from 'memoize-one';
 
-export const getAutocomplete = memoizeOne(
+export const getAutocompleteText = memoizeOne(
   (query: string, autocompleteSuggestions?: string[]) => {
-    if (!autocompleteSuggestions || !query || query.length === 0) {
+    if (!autocompleteSuggestions || query.length === 0) {
       return undefined;
     }
     if (autocompleteSuggestions.length === 0) {
@@ -13,7 +13,7 @@ export const getAutocomplete = memoizeOne(
       suggestion.toLowerCase().startsWith(lowerCaseQuery),
     );
     if (!match) {
-      return;
+      return query;
     }
     return `${query}${match.slice(query.length)}`;
   },

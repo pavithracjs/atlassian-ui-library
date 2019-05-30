@@ -1,20 +1,20 @@
 import { utils } from '@atlaskit/util-service-support';
 
 import {
-  AutoCompleteClient,
-  AutoCompleteClientImpl,
-} from '../../../api/AutoCompleteClient';
+  AutocompleteClient,
+  AutocompleteClientImpl,
+} from '../../../api/AutocompleteClient';
 
 const url = 'https://pug.jira-dev.com/';
 const cloudId = 'cloudId';
 
 describe('AutoCompleteClient', () => {
   let requestSpy: jest.SpyInstance;
-  let autoCompleteClient: AutoCompleteClient;
+  let autoCompleteClient: AutocompleteClient;
 
   beforeEach(() => {
     requestSpy = jest.spyOn(utils, 'requestService');
-    autoCompleteClient = new AutoCompleteClientImpl(url, cloudId);
+    autoCompleteClient = new AutocompleteClientImpl(url, cloudId);
   });
 
   afterEach(() => {
@@ -22,7 +22,7 @@ describe('AutoCompleteClient', () => {
   });
 
   it('requests autocomplete suggestion with query', () => {
-    autoCompleteClient.getAutocomplete('auto');
+    autoCompleteClient.getAutocompleteSuggestions('auto');
 
     expect(requestSpy).toHaveBeenCalledTimes(1);
 
@@ -41,7 +41,7 @@ describe('AutoCompleteClient', () => {
     const expectedResult = ['autocomplete', 'automock', 'automation'];
     requestSpy.mockReturnValue(Promise.resolve(expectedResult));
 
-    const result = await autoCompleteClient.getAutocomplete('auto');
+    const result = await autoCompleteClient.getAutocompleteSuggestions('auto');
 
     expect(result).toEqual(expectedResult);
   });

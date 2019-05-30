@@ -47,7 +47,7 @@ import {
   mapSearchResultsToUIGroups,
   MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
-import { AutoCompleteClient } from '../../api/AutoCompleteClient';
+import { AutocompleteClient } from '../../api/AutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { isInFasterSearchExperiment } from '../../util/experiment-utils';
 
@@ -55,7 +55,7 @@ export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
-  autocompleteClient: AutoCompleteClient;
+  autocompleteClient: AutocompleteClient;
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   linkComponent?: LinkComponent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
@@ -291,11 +291,11 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
-  getAutocomplete = (query: string): Promise<string[]> => {
+  getAutocompleteSuggestions = (query: string): Promise<string[]> => {
     const { autocompleteClient } = this.props;
 
     const autocompletePromise = handlePromiseError(
-      autocompleteClient.getAutocomplete(query),
+      autocompleteClient.getAutocompleteSuggestions(query),
       [query],
       this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
     );
@@ -444,8 +444,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         getAbTestData={this.getAbTestData}
-        getAutocomplete={
-          isAutocompleteEnabled ? this.getAutocomplete : undefined
+        getAutocompleteSuggestions={
+          isAutocompleteEnabled ? this.getAutocompleteSuggestions : undefined
         }
         handleSearchSubmit={this.handleSearchSubmit}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}

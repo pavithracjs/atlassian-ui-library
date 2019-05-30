@@ -1,5 +1,5 @@
 import { ConfluenceClient } from '../../../api/ConfluenceClient';
-import { AutoCompleteClient } from '../../../api/AutoCompleteClient';
+import { AutocompleteClient } from '../../../api/AutocompleteClient';
 import { makeConfluenceObjectResult, makePersonResult } from '../_test-util';
 import { Result } from '../../../model/Result';
 
@@ -42,6 +42,6 @@ export const errorConfluenceQuickNavSearch: ConfluenceClient = makeConfluenceCli
   },
 );
 
-export const mockAutocompleteClient: AutoCompleteClient = {
-  getAutocomplete: EMPTY_PROMISE,
+export const mockAutocompleteClient: AutocompleteClient = {
+  getAutocompleteSuggestions: EMPTY_PROMISE,
 };

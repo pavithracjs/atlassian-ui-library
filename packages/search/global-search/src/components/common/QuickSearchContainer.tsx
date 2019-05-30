@@ -49,7 +49,7 @@ export interface Props {
     queryVersion: number,
   ): Promise<ResultsWithTiming>;
   getAbTestData(sessionId: string): Promise<ABTest>;
-  getAutocomplete?(query: string): Promise<string[]>;
+  getAutocompleteSuggestions?(query: string): Promise<string[]>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
@@ -102,7 +102,7 @@ export interface State {
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
   abTest?: ABTest;
-  autocomplete?: string[];
+  autocompleteSuggestions?: string[];
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -452,19 +452,19 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   }
 
   handleAutocomplete = async (query: string) => {
-    const { getAutocomplete } = this.props;
-    if (!getAutocomplete) {
+    const { getAutocompleteSuggestions } = this.props;
+    if (!getAutocompleteSuggestions) {
       return;
     }
     try {
-      const results = await getAutocomplete(query);
+      const results = await getAutocompleteSuggestions(query);
 
       if (this.unmounted) {
         return;
       }
 
       this.setState({
-        autocomplete: results,
+        autocompleteSuggestions: results,
       });
     } catch (e) {
       this.props.logger.safeError(
@@ -500,7 +500,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       recentItems,
       keepPreQueryState,
       abTest,
-      autocomplete,
+      autocompleteSuggestions,
     } = this.state;
 
     if (!abTest) {
@@ -519,7 +519,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
         inputControls={inputControls}
-        autocomplete={autocomplete}
+        autocompleteSuggestions={autocompleteSuggestions}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,

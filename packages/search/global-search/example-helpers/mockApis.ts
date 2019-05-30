@@ -48,7 +48,7 @@ export const DEFAULT_MOCKS_CONFIG: MocksConfig = {
   quickNavDelay: 500,
   jiraRecentDelay: 500,
   peopleSearchDelay: 500,
-  autocompleteDelay: 500,
+  autocompleteDelay: 200,
   canSearchUsers: true,
   abTestExperimentId: 'default',
 };

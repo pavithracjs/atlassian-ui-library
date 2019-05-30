@@ -27,7 +27,7 @@ import {
   isAdvancedSearchResult,
   ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
 } from './SearchResultsUtil';
-import { getAutocomplete } from '../util/autocomplete';
+import { getAutocompleteText } from '../util/autocomplete';
 
 const ATLASKIT_QUICKSEARCH_NS = 'atlaskit.navigation.quick-search';
 const QS_ANALYTICS_EV_KB_CTRLS_USED = `${ATLASKIT_QUICKSEARCH_NS}.keyboard-controls-used`;
@@ -48,7 +48,7 @@ export interface Props {
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | number | null) => void;
   inputControls?: JSX.Element;
-  autocomplete?: string[];
+  autocompleteSuggestions?: string[];
   referralContextIdentifiers?: ReferralContextIdentifiers;
 }
 
@@ -96,7 +96,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
     this.queryVersion++;
   }
 
-  debouncedAutocomplete = debounce(this.doAutocomplete, 200);
+  debouncedAutocomplete = debounce(this.doAutocomplete, 100);
 
   doAutocomplete(query: string) {
     const { onAutocomplete } = this.props;
@@ -182,11 +182,14 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       selectedResultId,
       onSelectedResultIdChanged,
       inputControls,
-      autocomplete,
+      autocompleteSuggestions,
     } = this.props;
     const { query } = this.state;
 
-    const autocompleteText = getAutocomplete(query, autocomplete);
+    const autocompleteText = getAutocompleteText(
+      query,
+      autocompleteSuggestions,
+    );
 
     return (
       <AnalyticsContext data={{ searchSessionId: this.props.searchSessionId }}>
