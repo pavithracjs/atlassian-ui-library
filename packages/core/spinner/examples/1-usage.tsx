@@ -1,11 +1,9 @@
-// @flow
-
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import Spinner from '../src';
 
 type State = {
-  isCompleting: boolean,
+  isCompleting: boolean;
 };
 
 class StatefulSpinnerExample extends Component<{}, State> {

@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
 
@@ -23,7 +22,7 @@ export default md`
       source={require('!!raw-loader!../examples/0-basic')}
     />
   )}
-  
+
   ${(
     <Example
       packageName="@atlaskit/spinner"
@@ -32,7 +31,7 @@ export default md`
       source={require('!!raw-loader!../examples/1-usage')}
     />
   )}
- 
+
   ${(
     <Props
       heading="Spinner Props"

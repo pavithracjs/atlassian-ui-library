@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import { mount } from 'enzyme';
 import * as colors from '@atlaskit/theme/colors';
@@ -14,6 +12,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  // @ts-ignore
   console.error.restore(); // eslint-disable-line no-console
 });
 
@@ -54,7 +53,7 @@ describe('Spinner', () => {
       const animation = getContainerAnimation(container.props());
       expect(Array.isArray(animation)).toBeTruthy();
       expect(animation.length).toBeGreaterThan(0);
-      const animationDelay = parseFloat(animation[1]) * 1000;
+      const animationDelay = parseFloat(animation[1] as string) * 1000;
       expect(animationDelay).toBe(delayProp);
     });
   });
@@ -149,12 +148,14 @@ describe('Spinner', () => {
   });
 
   describe('svg', () => {
-    let styles;
+    let styles: string;
 
     beforeEach(() => {
       const svg = mount(<Spinner />).find(Svg);
-      const svgInterpolatedStyles: Object => Array<string> = (svgStyles[1]: any);
-      styles = svgInterpolatedStyles(svg.props()).join('');
+      const [, svgInterpolatedStyles] = svgStyles;
+      styles = (svgInterpolatedStyles as (props: object) => string[])(
+        svg.props(),
+      ).join('');
     });
 
     it('should have expected svg stroke keys', () => {

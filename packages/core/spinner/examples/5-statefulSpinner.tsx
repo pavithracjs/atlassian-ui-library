@@ -1,16 +1,16 @@
-// @flow
-
 import React, { PureComponent } from 'react';
 import Spinner from '../src';
 
+interface Props {}
+
 type State = {
-  active: boolean,
-  delay: number,
-  state: 'spinning' | 'removing' | 'completed',
+  active: boolean;
+  delay: number;
+  state: 'spinning' | 'removing' | 'completed';
 };
 
-class StatefulSpinner extends PureComponent<{}, State> {
-  constructor(props) {
+class StatefulSpinner extends PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       active: true,
@@ -30,7 +30,7 @@ class StatefulSpinner extends PureComponent<{}, State> {
     this.setState({ state: 'completed' });
   };
 
-  handleInputChange = e => {
+  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ delay: Number.parseInt(e.target.value, 10) });
   };
 
