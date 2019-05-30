@@ -22,10 +22,10 @@ import {
 
 export default md`
   TODO: If your component is designed for internal Atlassian development
-  ${<AtlassianInternalWarning />}
+  ${(<AtlassianInternalWarning />)}
 
   TODO: If your component is in developer preview
-  ${<DevPreviewWarning />}
+  ${(<DevPreviewWarning />)}
 
   TODO: If your component is both for internal Atlassian development and in developer preview
   ${(
