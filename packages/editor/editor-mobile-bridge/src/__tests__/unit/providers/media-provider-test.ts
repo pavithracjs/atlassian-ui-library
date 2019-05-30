@@ -1,5 +1,4 @@
 import { ProviderFactory } from '@atlaskit/editor-common';
-
 import {
   insertMediaSingleNode,
   mediaPlugin,
@@ -20,31 +19,18 @@ import {
 } from '@atlaskit/editor-test-helpers';
 
 import { Auth, AuthProvider, ProcessedFileState } from '@atlaskit/media-core';
-import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 import uuid from 'uuid/v4';
+import {
+  asMock,
+  expectFunctionToHaveBeenCalledWith,
+  fakeMediaClient,
+} from '@atlaskit/media-test-helpers';
+import { of } from 'rxjs/observable/of';
+import { MediaClient } from '@atlaskit/media-client';
 
-const testFileId = uuid();
+let testFileId: string;
 
-const testMediaAuth: Auth = {
-  clientId: `media-plugin-mock-clientId-${randomId()}`,
-  token:
-    // doesn't matter what's inside the JWT, just to show a valid one here
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNTE2MjM5MDIyfQ.L8i6g3PfcHlioHCCPURC9pmXT7gdJpx3kOoyAfNUwCc',
-  baseUrl: '/',
-};
-
-const testFileState: ProcessedFileState = {
-  status: 'processed',
-  id: testFileId,
-  name: 'image.jpeg',
-  size: 100,
-  artifacts: {},
-  mediaType: 'image',
-  mimeType: 'image/jpeg',
-  representations: {
-    image: {},
-  },
-};
+let testMediaAuth: Auth;
 
 const createMediaState = (
   collection: string,
@@ -69,29 +55,51 @@ const createMedia = (collection: string, width = 256, height = 128) =>
 describe('Mobile MediaProvider', async () => {
   const createEditor = createEditorFactory();
 
-  const mockAuthProvider = jest.fn<AuthProvider>(() => async () =>
-    testMediaAuth,
-  );
+  let promisedMediaProvider: Promise<MediaProvider>;
+  let mockAuthProvider: AuthProvider;
+  let providerFactory: ProviderFactory;
+  let testFileState: ProcessedFileState;
+  let mediaClient: MediaClient;
 
-  const mockMediaProvider = (async () => {
-    const mockMediaContext = Promise.resolve(
-      fakeMediaClient({
-        authProvider: mockAuthProvider,
-        mockFileStates: [testFileState],
-      }),
-    );
+  beforeEach(() => {
+    testFileState = {
+      status: 'processed',
+      id: testFileId,
+      name: 'image.jpeg',
+      size: 100,
+      artifacts: {},
+      mediaType: 'image',
+      mimeType: 'image/jpeg',
+      representations: {
+        image: {},
+      },
+    };
 
-    return {
-      viewContext: mockMediaContext,
-      uploadContext: mockMediaContext,
+    testFileId = uuid();
+    testMediaAuth = {
+      clientId: `media-plugin-mock-clientId-${randomId()}`,
+      token: 'some-token',
+      baseUrl: '/',
+    };
+
+    mockAuthProvider = jest.fn<AuthProvider>(() => async () => testMediaAuth);
+    mediaClient = fakeMediaClient({
+      authProvider: mockAuthProvider,
+    });
+    asMock(mediaClient.file.getFileState).mockReturnValue(of(testFileState));
+    const promisedMediaClient = Promise.resolve(mediaClient);
+
+    promisedMediaProvider = Promise.resolve({
+      viewContext: promisedMediaClient,
+      uploadContext: promisedMediaClient,
       uploadParams: {
         collection: '',
       },
-    } as MediaProvider;
-  })();
+    });
 
-  const providerFactory = ProviderFactory.create({
-    mediaProvider: mockMediaProvider,
+    providerFactory = ProviderFactory.create({
+      mediaProvider: promisedMediaProvider,
+    });
   });
 
   const editor = (doc: any, mediaOptions: MediaOptions) =>
@@ -105,10 +113,6 @@ describe('Mobile MediaProvider', async () => {
       providerFactory,
     });
 
-  beforeEach(() => {
-    mockAuthProvider.mockClear();
-  });
-
   afterAll(() => {
     providerFactory.destroy();
   });
@@ -118,12 +122,12 @@ describe('Mobile MediaProvider', async () => {
       it("should call media's AuthProvider", async () => {
         const { editorView } = editor(doc(p('text{<>}')), {
           allowMediaSingle: true,
-          provider: mockMediaProvider,
+          provider: promisedMediaProvider,
         });
 
         const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
-        const provider = await mockMediaProvider;
+        const provider = await promisedMediaProvider;
         await provider.viewContext;
 
         insertMediaSingleNode(
@@ -145,9 +149,10 @@ describe('Mobile MediaProvider', async () => {
         // flushes promise resolution queue so that the async media API calls mockAuthProvider
         await sleep(0);
 
-        expect(mockAuthProvider).toHaveBeenCalledWith({
-          collectionName: testCollectionName,
-        });
+        expectFunctionToHaveBeenCalledWith(mediaClient.file.getFileState, [
+          testFileId,
+          { collectionName: testCollectionName, occurrenceKey: undefined },
+        ]);
       });
     });
 
@@ -155,12 +160,12 @@ describe('Mobile MediaProvider', async () => {
       it("should call media's AuthProvider", async () => {
         const { editorView } = editor(doc(p('text{<>}')), {
           allowMediaSingle: true,
-          provider: mockMediaProvider,
+          provider: promisedMediaProvider,
         });
 
         const emptyCollectionName = '';
 
-        const provider = await mockMediaProvider;
+        const provider = await promisedMediaProvider;
         await provider.viewContext;
 
         insertMediaSingleNode(
@@ -182,9 +187,10 @@ describe('Mobile MediaProvider', async () => {
         // flushes promise resolution queue so that the async media API calls mockAuthProvider
         await sleep(0);
 
-        expect(mockAuthProvider).toHaveBeenCalledWith({
-          collectionName: emptyCollectionName,
-        });
+        expectFunctionToHaveBeenCalledWith(mediaClient.file.getFileState, [
+          testFileId,
+          { collectionName: emptyCollectionName, occurrenceKey: undefined },
+        ]);
       });
     });
   });

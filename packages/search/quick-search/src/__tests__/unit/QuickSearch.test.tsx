@@ -218,11 +218,14 @@ describe('<QuickSearch />', () => {
   });
 
   describe('Keyboard controls', () => {
-    let originalWindowAssign: { (url: string): void };
+    let originalWindowLocation = window.location;
     let locationAssignSpy: jest.Mock<{}>;
 
     beforeAll(() => {
-      originalWindowAssign = window.location.assign;
+      delete window.location;
+      window.location = Object.assign({}, window.location, {
+        assign: jest.fn(),
+      });
     });
 
     beforeEach(() => {
@@ -231,7 +234,7 @@ describe('<QuickSearch />', () => {
     });
 
     afterAll(() => {
-      window.location.assign = originalWindowAssign;
+      window.location = originalWindowLocation;
     });
     it('should select the first result on first DOWN keystroke', () => {
       wrapper

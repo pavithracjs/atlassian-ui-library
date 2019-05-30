@@ -6,7 +6,7 @@
   "module": "index.js",
   "atlaskit:src": "src/index.js",
   "sideEffects": false,
-  "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/single-select",
+  "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/select",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",

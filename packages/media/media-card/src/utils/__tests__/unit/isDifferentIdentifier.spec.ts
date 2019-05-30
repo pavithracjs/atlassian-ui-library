@@ -2,7 +2,7 @@ import {
   FileIdentifier,
   ExternalImageIdentifier,
   isDifferentIdentifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 
 describe('isDifferentIdentifier()', () => {
   describe('file identifier', () => {
