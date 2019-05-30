@@ -1,4 +1,3 @@
-// @flow
 import { mount, shallow } from 'enzyme';
 import React from 'react';
 import ThemedCode from '../../ThemedCode';

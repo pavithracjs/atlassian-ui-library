@@ -1,8 +1,7 @@
-// @flow
 import { colors, themed } from '@atlaskit/theme';
 import memoizeOne from 'memoize-one';
 
-import type { Theme } from './themeBuilder';
+import { Theme } from './themeBuilder';
 
 export const defaultColors = memoizeOne(
   (theme: any): Theme => {
