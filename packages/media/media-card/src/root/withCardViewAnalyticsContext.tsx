@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FileDetails, MediaItemType } from '@atlaskit/media-core';
+import { FileDetails, MediaItemType } from '@atlaskit/media-client';
 
 import { AnalyticsContext } from '@atlaskit/analytics-next';
 

@@ -1,12 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
-import { gridSize } from '@atlaskit/theme';
 import Button from '@atlaskit/button';
-import ScaleLargeIcon from '@atlaskit/icon/glyph/media-services/scale-large';
-import ScaleSmallIcon from '@atlaskit/icon/glyph/media-services/scale-small';
-import ImageCropper, { OnLoadHandler } from '../image-cropper';
-import Slider from '@atlaskit/field-range';
+import ImageCropper from '../image-cropper';
 import Spinner from '@atlaskit/spinner';
 import {
   fileToDataURI,
@@ -14,8 +10,6 @@ import {
   getOrientation,
   isRotated,
   Ellipsify,
-  Camera,
-  Rectangle,
   Vector2,
   messages,
 } from '@atlaskit/media-ui';
@@ -33,27 +27,23 @@ import {
   ImageBg,
 } from './styled';
 import { uploadPlaceholder, errorIcon } from './images';
-import {
-  constrainPos,
-  constrainScale,
-  constrainEdges,
-} from '../constraint-util';
 import { fileSizeMb } from '../util';
 import { ERROR, MAX_SIZE_MB, ACCEPT } from '../avatar-picker-dialog';
-
-export const CONTAINER_SIZE = gridSize() * 32;
-export const CONTAINER_INNER_SIZE = gridSize() * 25;
-export const CONTAINER_PADDING = (CONTAINER_SIZE - CONTAINER_INNER_SIZE) / 2;
-
-// Large images (a side > CONTAINER_SIZE) will have a scale between 0 - 1.0
-// Small images (a side < CONTAINER_SIZE) will have scales greater than 1.0
-// Therefore the context of the slider range min-max depends on the size of the image.
-// This constant is used for the max value for smaller images, as the (scale * 100) will be greater than 100.
-export const MAX_SMALL_IMAGE_SCALE = 2500;
-
-export const containerRect = new Rectangle(CONTAINER_SIZE, CONTAINER_SIZE);
-export const containerPadding = new Vector2(
+import { Viewport, renderViewport } from '../viewport';
+import { Slider } from './slider';
+import {
+  CONTAINER_SIZE,
   CONTAINER_PADDING,
+} from '../avatar-picker-dialog/layout-const';
+
+export interface LoadParameters {
+  export: () => string;
+}
+export type OnLoadHandler = (params: LoadParameters) => void;
+
+export const viewport = new Viewport(
+  CONTAINER_SIZE,
+  CONTAINER_SIZE,
   CONTAINER_PADDING,
 );
 
@@ -66,10 +56,9 @@ export interface CropProperties {
 export interface Props {
   imageSource?: string;
   errorMessage?: string;
-  onImageLoaded: (file: File, crop: CropProperties) => void;
+  onImageLoaded: (file: File) => void;
   onLoad?: OnLoadHandler;
-  onPositionChanged: (x: number, y: number) => void;
-  onSizeChanged: (size: number) => void;
+  onCropChanged?: (x: number, y: number, size: number) => void;
   onRemoveImage: () => void;
   onImageUploaded: (file: File) => void;
   onImageError: (errorMessage: string) => void;
@@ -77,28 +66,26 @@ export interface Props {
 }
 
 export interface State {
-  camera: Camera;
   imagePos: Vector2;
-  cursorPos: Vector2;
-  scale: number;
+  dragStartPoint: Vector2;
+  scale: number; // 0 - 100, which is what the underlying @atlaskit/range uses - state kept here, Slider is dumb component
   isDragging: boolean;
-  minScale: number;
   fileImageSource?: string;
   imageFile?: File;
   isDroppingFile: boolean;
   imageOrientation: number;
+  viewport: Viewport;
 }
 
 const defaultState = {
-  camera: new Camera(containerRect, new Rectangle(0, 0)),
-  imagePos: containerPadding,
-  cursorPos: new Vector2(0, 0),
-  minScale: 1,
-  scale: 1,
+  imagePos: new Vector2(CONTAINER_PADDING, CONTAINER_PADDING),
+  dragStartPoint: new Vector2(0, 0),
+  scale: 0,
   isDragging: false,
   fileImageSource: undefined,
   isDroppingFile: false,
   imageOrientation: 1,
+  viewport,
 };
 
 export class ImageNavigator extends Component<
@@ -106,6 +93,7 @@ export class ImageNavigator extends Component<
   State
 > {
   state: State = defaultState;
+  imageElement?: HTMLImageElement;
 
   componentWillMount() {
     if (!exenv.canUseDOM) {
@@ -121,67 +109,39 @@ export class ImageNavigator extends Component<
   }
 
   onDragStarted = (x: number, y: number) => {
+    this.state.viewport.startDrag();
     this.setState({
       isDragging: true,
-      cursorPos: new Vector2(x, y),
+      dragStartPoint: new Vector2(x, y),
     });
   };
 
   onMouseMove = (e: MouseEvent) => {
     if (this.state.isDragging) {
-      const { scale, camera, imagePos, cursorPos } = this.state;
-      const newCursorPos = new Vector2(e.screenX, e.screenY);
-      const cursorDelta = newCursorPos.sub(cursorPos);
-      const newImagePos = constrainPos(
-        imagePos.add(cursorDelta),
-        camera.scaledImg(scale),
-      );
-      this.setState({
-        cursorPos: newCursorPos,
-        imagePos: newImagePos,
-      });
+      const { dragStartPoint, viewport } = this.state;
+      const currentMousePoint = new Vector2(e.screenX, e.screenY);
+      const dragDelta = currentMousePoint.sub(dragStartPoint);
+      viewport.dragMove(dragDelta.x, dragDelta.y);
+      this.setState({ viewport });
     }
   };
 
   onMouseUp = () => {
-    const { imagePos, scale } = this.state;
     this.setState({
       isDragging: false,
     });
-    this.exportImagePos(imagePos.scaled(scale).map(Math.round));
+    this.exportCrop();
   };
 
   /**
    * When newScale change we want to zoom in/out relative to the center of the frame.
    * @param newScale New scale in 0-100 format.
    */
-  onScaleChange = (newScale: number) => {
-    const { camera, minScale, scale, imagePos } = this.state;
-
-    const constrainedScale = constrainScale(
-      newScale / 100,
-      minScale,
-      camera.originalImg,
-    );
-
-    const newPos = camera
-      .scaledOffset(imagePos.scaled(-1), scale, constrainedScale)
-      .scaled(-1);
-    const constrainedPos = constrainEdges(
-      newPos,
-      camera.scaledImg(constrainedScale),
-    );
-
-    this.setState({
-      scale: constrainedScale,
-      imagePos: constrainedPos,
-    });
-
-    const haveRenderedImage = !!camera.originalImg.width;
-    if (haveRenderedImage) {
-      this.exportImagePos(constrainedPos.scaled(1 / constrainedScale));
-      this.exportSize(constrainedScale);
-    }
+  onScaleChange = (scale: number) => {
+    const { viewport } = this.state;
+    viewport.setScale(scale);
+    this.setState({ scale, viewport });
+    this.exportCrop();
   };
 
   /**
@@ -190,57 +150,63 @@ export class ImageNavigator extends Component<
    * @param width the width of the image
    * @param height the height of the image
    */
-  onImageSize = (width: number, height: number) => {
+  onImageLoaded = (image: HTMLImageElement) => {
+    this.imageElement = image;
+    let { naturalWidth: width, naturalHeight: height } = image;
     if (isRotated(this.state.imageOrientation)) {
       [width, height] = [height, width];
     }
 
-    const { imageFile, imagePos } = this.state;
-    const scale = this.calculateMinScale(width, height);
+    const defaultZoomedOutScale = 0;
+    const { imageFile, viewport } = this.state;
+    viewport
+      .setItemSize(width, height)
+      .setScale(defaultZoomedOutScale)
+      .setItem(image);
     // imageFile will not exist if imageSource passed through props.
     // therefore we have to create a File, as one needs to be raised by dialog parent component when Save clicked.
     const file = imageFile || (this.dataURI && dataURItoFile(this.dataURI));
-    const minSize = Math.min(width, height);
     if (file) {
-      this.props.onImageLoaded(file, {
-        ...imagePos,
-        size: minSize,
-      });
+      this.props.onImageLoaded(file);
     }
     this.setState({
-      camera: new Camera(containerRect, new Rectangle(width, height)),
-      minScale: scale,
-      scale,
+      scale: defaultZoomedOutScale,
     });
+
+    const { onLoad } = this.props;
+    onLoad &&
+      onLoad({
+        export: this.exportCroppedImage,
+      });
+    this.exportCrop();
   };
 
-  calculateMinScale(width: number, height: number): number {
-    return Math.max(
-      CONTAINER_INNER_SIZE / width,
-      CONTAINER_INNER_SIZE / height,
-    );
-  }
+  exportCroppedImage = () => {
+    const { imageElement } = this;
+    if (imageElement) {
+      const canvas = renderViewport(this.state.viewport, imageElement);
+      if (canvas) {
+        return canvas.toDataURL();
+      }
+    }
+    return '';
+  };
 
-  exportSize(newScale: number): void {
-    const { width, height } = this.state.camera.originalImg;
-    // adjust cropped properties by scale value
-    const minSize = Math.min(width, height);
-    const size =
-      minSize < CONTAINER_SIZE
-        ? minSize
-        : Math.round(CONTAINER_INNER_SIZE / newScale);
-    this.props.onSizeChanged(size);
-  }
-
-  exportImagePos(pos: Vector2): void {
-    const { scale } = this.state;
-    const exported = pos
-      .scaled(scale)
-      .sub(containerPadding)
-      .scaled(1.0 / scale)
-      .map(Math.abs)
-      .map(Math.round);
-    this.props.onPositionChanged(exported.x, exported.y);
+  exportCrop(): void {
+    const { viewport } = this.state;
+    if (!viewport.isEmpty) {
+      const { onCropChanged } = this.props;
+      const origin = viewport.visibleSourceBounds.origin;
+      const visibleSourceRect = viewport.visibleSourceBounds.rect;
+      onCropChanged &&
+        onCropChanged(
+          Math.round(origin.x),
+          Math.round(origin.y),
+          Math.round(
+            Math.min(visibleSourceRect.width, visibleSourceRect.height),
+          ),
+        );
+    }
   }
 
   validateFile(imageFile: File): string | null {
@@ -269,6 +235,8 @@ export class ImageNavigator extends Component<
     if (onImageUploaded) {
       onImageUploaded(imageFile);
     }
+
+    this.state.viewport.orientation = imageOrientation;
 
     this.setState({
       fileImageSource: fileImageSource as string,
@@ -400,49 +368,36 @@ export class ImageNavigator extends Component<
   }
 
   onRemoveImage = () => {
+    this.state.viewport.clear();
     this.setState(defaultState);
     this.props.onRemoveImage();
   };
 
   renderImageCropper(dataURI: string) {
-    const {
-      camera,
-      imagePos,
-      scale,
-      isDragging,
-      minScale,
-      imageOrientation,
-    } = this.state;
-    const { onLoad, onImageError } = this.props;
-    const { onDragStarted, onImageSize, onRemoveImage } = this;
+    const { scale, isDragging, imageOrientation, viewport } = this.state;
+    const { onImageError } = this.props;
+    const { onDragStarted, onImageLoaded, onRemoveImage } = this;
+    const { itemBounds } = viewport;
 
     return (
       <div>
         <ImageBg />
         <ImageCropper
-          scale={scale}
           imageSource={dataURI}
-          imageWidth={camera.originalImg.width}
           imageOrientation={imageOrientation}
           containerSize={CONTAINER_SIZE}
           isCircularMask={false}
-          top={imagePos.y}
-          left={imagePos.x}
+          top={itemBounds.top}
+          left={itemBounds.left}
+          imageWidth={itemBounds.width}
+          imageHeight={itemBounds.height}
           onDragStarted={onDragStarted}
-          onImageSize={onImageSize}
-          onLoad={onLoad}
+          onImageLoaded={onImageLoaded}
           onRemoveImage={onRemoveImage}
           onImageError={onImageError}
         />
         <SliderContainer>
-          <ScaleSmallIcon label="scale-small-icon" />
-          <Slider
-            value={scale * 100}
-            min={minScale * 100}
-            max={minScale > 1 ? MAX_SMALL_IMAGE_SCALE : 100}
-            onChange={this.onScaleChange}
-          />
-          <ScaleLargeIcon label="scale-large-icon" />
+          <Slider value={scale} onChange={this.onScaleChange} />
         </SliderContainer>
         {isDragging ? <SelectionBlocker /> : null}
       </div>

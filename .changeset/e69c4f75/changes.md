@@ -1,0 +1,1 @@
+- `withMediaClient` and associated Props are introduced to make possible soft transition from Context based media components to Media Client Config ones.

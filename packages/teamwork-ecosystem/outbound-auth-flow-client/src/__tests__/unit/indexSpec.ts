@@ -1,15 +1,14 @@
 import { auth } from '../..';
 
-// jsdom Window requires options
-declare var Window: {
-  new (options?: {}): Window;
-};
-
 let authWindow: Window;
+
+// https://github.com/jsdom/jsdom/blob/master/lib/api.js#L199
+const windowOptions = { resourceLoader: {} };
 
 describe('auth()', () => {
   beforeEach(() => {
-    authWindow = new Window({});
+    // @ts-ignore Window Options exist in JSDOM but not in browser DOM.
+    authWindow = new Window(windowOptions);
     window.open = () => {
       return authWindow;
     };
@@ -17,7 +16,8 @@ describe('auth()', () => {
 
   it('should reject when the window is closed', () => {
     window.open = () => {
-      const win = new Window({});
+      // @ts-ignore Window Options exist in JSDOM but not in browser DOM.
+      const win = new Window(windowOptions);
       Object.defineProperty(win, 'closed', { value: true });
       Object.defineProperty(win, 'close', { value: jest.fn() });
       return win;
@@ -56,7 +56,8 @@ describe('auth()', () => {
         data: {
           type: 'outbound-auth:success',
         },
-        source: new Window({}),
+        // @ts-ignore Window Options exist in JSDOM but not in browser DOM.
+        source: new Window(windowOptions),
       }),
     );
 
@@ -74,7 +75,8 @@ describe('auth()', () => {
           type: 'outbound-auth:failure',
           message: 'Uh oh.',
         },
-        source: new Window({}),
+        // @ts-ignore Window Options exist in JSDOM but not in browser DOM.
+        source: new Window(windowOptions),
       }),
     );
 

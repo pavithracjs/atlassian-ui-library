@@ -5,15 +5,9 @@ import {
 } from '../api/prefetchResults';
 import { QuickSearchContext } from '../api/types';
 
-interface PrefetchContext {
-  prefetchedResults?: GlobalSearchPrefetchedResults;
-}
-
-export const GlobalSearchPreFetchContext = React.createContext<PrefetchContext>(
-  {
-    prefetchedResults: undefined,
-  },
-);
+export const GlobalSearchPreFetchContext = React.createContext<
+  GlobalSearchPrefetchedResults | undefined
+>(undefined);
 
 interface Props {
   context: QuickSearchContext;
@@ -23,7 +17,7 @@ interface Props {
 }
 
 interface State {
-  prefetchedResults?: GlobalSearchPrefetchedResults;
+  prefetchedResults: GlobalSearchPrefetchedResults | undefined;
 }
 
 export default class PrefetchedResultsProvider extends React.Component<
@@ -77,7 +71,7 @@ export default class PrefetchedResultsProvider extends React.Component<
     const { children } = this.props;
     const { prefetchedResults } = this.state;
     return (
-      <GlobalSearchPreFetchContext.Provider value={{ prefetchedResults }}>
+      <GlobalSearchPreFetchContext.Provider value={prefetchedResults}>
         {children}
       </GlobalSearchPreFetchContext.Provider>
     );

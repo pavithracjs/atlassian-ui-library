@@ -135,7 +135,7 @@ export default class ExamplesModal extends React.Component<Props, State> {
     this.setState({ isInvalid, range });
   };
 
-  close = (event?: Event) => {
+  close = (event?: React.MouseEvent<any> | React.KeyboardEvent<any>) => {
     if (event) event.stopPropagation();
 
     const { groupId, pkgId } = this.props.match.params;

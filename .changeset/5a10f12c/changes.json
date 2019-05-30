@@ -1,0 +1,176 @@
+{
+  "releases": [{ "name": "@atlaskit/modal-dialog", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/datetime-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/select",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/feedback-collector",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/form",
+        "@atlaskit/global-navigation",
+        "@atlaskit/icon",
+        "@atlaskit/navigation-next",
+        "@atlaskit/select",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/form",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/datetime-picker",
+        "@atlaskit/icon",
+        "@atlaskit/select",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/navigation-next",
+        "@atlaskit/onboarding",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/icon",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon-file-type",
+        "@atlaskit/icon-object",
+        "@atlaskit/icon-priority",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/icon-file-type",
+      "type": "patch",
+      "dependencies": ["@atlaskit/modal-dialog"]
+    },
+    {
+      "name": "@atlaskit/icon-object",
+      "type": "patch",
+      "dependencies": ["@atlaskit/modal-dialog"]
+    },
+    {
+      "name": "@atlaskit/icon-priority",
+      "type": "patch",
+      "dependencies": ["@atlaskit/modal-dialog"]
+    },
+    {
+      "name": "@atlaskit/layer-manager",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/onboarding",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/global-navigation",
+        "@atlaskit/icon",
+        "@atlaskit/onboarding",
+        "@atlaskit/select",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/onboarding",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/portal",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/portal",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/onboarding",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/select",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/form",
+        "@atlaskit/icon",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/select",
+        "@atlaskit/media-editor",
+        "@atlaskit/media-picker",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-avatar-picker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/icon", "@atlaskit/modal-dialog"]
+    },
+    {
+      "name": "@atlaskit/media-editor",
+      "type": "patch",
+      "dependencies": ["@atlaskit/icon", "@atlaskit/modal-dialog"]
+    },
+    {
+      "name": "@atlaskit/media-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/select",
+        "@atlaskit/media-editor",
+        "@atlaskit/media-viewer",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-viewer",
+      "type": "patch",
+      "dependencies": ["@atlaskit/icon", "@atlaskit/modal-dialog"]
+    },
+    {
+      "name": "@atlaskit/global-search",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/feedback-collector",
+        "@atlaskit/icon",
+        "@atlaskit/icon-file-type",
+        "@atlaskit/icon-object",
+        "@atlaskit/modal-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/icon",
+        "@atlaskit/icon-object",
+        "@atlaskit/select",
+        "@atlaskit/modal-dialog"
+      ]
+    }
+  ]
+}

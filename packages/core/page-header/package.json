@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/page-header",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "A React component that represents Header of an application page",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -34,7 +34,7 @@
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/inline-edit": "^10.0.0",
-    "@atlaskit/page": "^10.0.0",
+    "@atlaskit/page": "^11.0.0",
     "@atlaskit/select": "^9.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/textfield": "^2.0.0",
