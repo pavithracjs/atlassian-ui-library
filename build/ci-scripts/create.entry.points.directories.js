@@ -1,97 +1,57 @@
-// Look into the packages
-// at the source, we need to grab the file names
-// at the root we create a folder with a file name + package.json
-
+/* This script creates the folder per entry point and add a package.json that maps the path to the entry point .*/
 const bolt = require('bolt');
 const path = require('path');
 const fs = require('fs');
 const fsExtra = require('fs-extra');
 
 const regexTS = /\.ts$/;
-const regexJS = /\.js$/;
-const regexd = /\.d.ts$/;
-const regexMap = /\.js.map$/;
+// const regexJS = /\.js$/; // will add for js package
 
-const test = [
-  {
-    dir: '/Users/rbellebon/atlaskit-mk-2/packages/core/tree',
-    name: '@atlaskit/tree',
-    config: {
-      name: '@atlaskit/tree',
-      version: '6.0.0',
-      description:
-        'A React Component for displaying expandable and sortable tree hierarchies',
-      license: 'Apache-2.0',
-      module: 'index.js',
-      'atlaskit:src': 'src/index.js',
-      sideEffects: false,
-      author: 'Atlassian Pty Ltd',
-      repository: 'https://bitbucket.org/atlassian/atlaskit-mk-2',
-      maintainers: [Array],
-      atlaskit: [Object],
-      dependencies: [Object],
-      peerDependencies: [Object],
-      devDependencies: [Object],
-      keywords: [Array],
-    },
-  },
-  {
-    dir: '/Users/rbellebon/atlaskit-mk-2/packages/core/type-helpers',
-    name: '@atlaskit/type-helpers',
-    config: {
-      name: '@atlaskit/type-helpers',
-      version: '4.0.0',
-      description: 'Some helpers for Typescript typing of Atlaskit',
-      license: 'Apache-2.0',
-      module: 'index.js',
-      'atlaskit:src': 'index.ts',
-      types: 'index.d.ts',
-      sideEffects: false,
-      author: 'Atlassian Pty Ltd',
-      repository: 'https://bitbucket.org/atlassian/atlaskit-mk-2',
-      dependencies: [Object],
-      peerDependencies: [Object],
-      atlaskit: [Object],
-      devDependencies: {},
-      keywords: [Array],
-    },
-  },
-];
-
-// create a function that moves the file .d.ts, .js, .js.map//
-function moveToEntryPointFolder(pathToFiles, pathToEntryPoint) {
-  const filesToMove = identifyFilesToMove();
-  filesToMove.forEach(pathToFile => {
-    fsExtra.move(pathToFile, pathToEntryPoint, function(err) {
-      if (err) return console.error(err);
-      console.log(`fully moved the file there ${pathToEntryPoint}`);
-    });
-  });
-}
+// TODO: to remove later, used to test our build script -re move packages line 21 by `test`.
+// const test = [
+//   {
+//     dir: '/Users/rbellebon/atlaskit-mk-2/packages/elements/mention',
+//     name: '@atlaskit/mention',
+//   },
+// ];
 
 (async () => {
   const project = await bolt.getProject();
   const packages = await bolt.getWorkspaces();
-  const pkgContents = test
+  const pkgContents = packages
     .filter(pkg => pkg.dir.includes('/packages'))
     .map(pkg => {
       return {
+        name: pkg.name,
         pkgDirPath: pkg.dir,
         files: fs
           .readdirSync(path.join(pkg.dir, 'src'))
           .filter(file => file.match(regexTS)),
       };
     });
-  console.log(pkgContents);
   pkgContents.forEach(pkg => {
-    for (let file of pkg.files) {
-      // copy the actual file and append package.json
-      const entryPointDirName = path.join(
-        pkg.pkgDirPath,
-        file.replace('.ts', ''),
+    for (let pkgFile of pkg.files) {
+      pkgFile = pkgFile.replace('.ts', '');
+      const entryPointDirName = path.join(pkg.pkgDirPath, pkgFile);
+      // Create the entrypoint directory
+      if (!fs.existsSync(entryPointDirName)) {
+        fs.mkdirSync(entryPointDirName);
+      }
+      // Add a package.json
+      const entryPointJson = {
+        name: `${pkg.name}/${pkgFile}`,
+        main: `../${pkgFile}.js`,
+        modules: `../${pkgFile}.js`,
+        types: `../${pkgFile}.d.ts`,
+      };
+      fs.writeFile(
+        `${entryPointDirName}/package.json`,
+        JSON.stringify(entryPointJson),
+        'utf8',
+        err => {
+          if (err) throw console.error(err);
+        },
       );
-      fs.mkdirSync(entryPointDirName);
-      fs.copyFileSync(file);
     }
   });
 })();
