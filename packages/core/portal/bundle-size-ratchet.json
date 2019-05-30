@@ -7,8 +7,8 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 3332,
-      "gzipSize": 1441
+      "size": 3072,
+      "gzipSize": 1281
     }
   },
   {
@@ -19,8 +19,8 @@
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 2594,
-      "gzipSize": 958
+      "size": 763,
+      "gzipSize": 402
     }
   },
   {
@@ -31,8 +31,8 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 5262,
-      "gzipSize": 1908
+      "size": 3175,
+      "gzipSize": 1245
     }
   }
 ]
