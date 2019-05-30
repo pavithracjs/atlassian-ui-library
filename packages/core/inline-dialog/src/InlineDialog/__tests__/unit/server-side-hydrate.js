@@ -6,6 +6,21 @@ import { ssr } from '@atlaskit/ssr';
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+jest.mock('popper.js', () => {
+  const PopperJS = jest.requireActual('popper.js');
+
+  return class Popper {
+    static placements = PopperJS.placements;
+
+    constructor() {
+      return {
+        destroy: () => {},
+        scheduleUpdate: () => {},
+      };
+    }
+  };
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });

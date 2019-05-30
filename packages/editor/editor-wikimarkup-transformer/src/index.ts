@@ -1,10 +1,14 @@
 import { defaultSchema } from '@atlaskit/adf-schema';
-import { Transformer } from '@atlaskit/editor-common';
 import { Node as PMNode, Schema } from 'prosemirror-model';
 import { encode } from './encoder';
 import AbstractTree from './parser/abstract-tree';
 import { Context } from './parser/tokenize';
 import { buildIssueKeyRegex } from './parser/tokenize/issue-key';
+
+interface Transformer<T> {
+  encode(node: PMNode): T;
+  parse(content: T): PMNode;
+}
 
 export class WikiMarkupTransformer implements Transformer<string> {
   private schema: Schema;

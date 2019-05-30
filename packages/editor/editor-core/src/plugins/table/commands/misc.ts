@@ -20,6 +20,7 @@ import {
   getSelectionRect,
   selectColumn as selectColumnTransform,
   selectRow as selectRowTransform,
+  ContentNodeWithPos,
 } from 'prosemirror-utils';
 import { createCommand } from '../pm-plugins/main';
 import { checkIfHeaderRowEnabled, isIsolating } from '../utils';
@@ -27,7 +28,11 @@ import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
 import { outdentList } from '../../lists/commands';
 import { mapSlice } from '../../../utils/slice';
-import { closestElement } from '../../../utils';
+import {
+  closestElement,
+  isTextSelection,
+  isNodeTypeParagraph,
+} from '../../../utils';
 import { fixAutoSizedTable } from '../transforms';
 import { INPUT_METHOD } from '../../analytics';
 import { insertRowWithAnalytics } from '../commands-with-analytics';
@@ -50,14 +55,17 @@ export const setTableRef = (ref?: HTMLElement | null) =>
   createCommand(
     state => {
       const tableRef = ref || undefined;
-      const tableFloatingToolbarTarget =
+      const tableNode = ref ? findTable(state.selection)!.node : undefined;
+      const tableWrapperTarget =
         closestElement(tableRef, `.${ClassName.TABLE_NODE_WRAPPER}`) ||
         undefined;
-      const tableNode = ref ? findTable(state.selection)!.node : undefined;
-
       return {
         type: 'SET_TABLE_REF',
-        data: { tableRef, tableFloatingToolbarTarget, tableNode },
+        data: {
+          tableRef,
+          tableNode,
+          tableWrapperTarget,
+        },
       };
     },
     tr => tr.setMeta('addToHistory', false),
@@ -309,7 +317,7 @@ export const setMultipleCellAttrs = (
   return false;
 };
 
-export const selectColumn = (column: number) =>
+export const selectColumn = (column: number, expand?: boolean) =>
   createCommand(
     state => {
       let targetCellPosition;
@@ -320,10 +328,11 @@ export const selectColumn = (column: number) =>
 
       return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
     },
-    tr => selectColumnTransform(column)(tr).setMeta('addToHistory', false),
+    tr =>
+      selectColumnTransform(column, expand)(tr).setMeta('addToHistory', false),
   );
 
-export const selectRow = (row: number) =>
+export const selectRow = (row: number, expand?: boolean) =>
   createCommand(
     state => {
       let targetCellPosition;
@@ -334,7 +343,7 @@ export const selectRow = (row: number) =>
 
       return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
     },
-    tr => selectRowTransform(row)(tr).setMeta('addToHistory', false),
+    tr => selectRowTransform(row, expand)(tr).setMeta('addToHistory', false),
   );
 
 export const showInsertColumnButton = (columnIndex: number) =>
@@ -378,5 +387,35 @@ export const autoSizeTable = (
 ) => {
   view.dispatch(fixAutoSizedTable(view, node, table, basePos, opts));
   return true;
+};
+
+export const addBoldInEmptyHeaderCells = (
+  tableCellHeader: ContentNodeWithPos,
+): Command => (state, dispatch): boolean => {
+  const { tr } = state;
+  if (
+    // Avoid infinite loop when the current selection is not a TextSelection
+    isTextSelection(tr.selection) &&
+    // When storedMark is null that means this is the initial state
+    // if the user press to remove the mark storedMark will be an empty array
+    // and we shouldn't apply the strong mark
+    tr.storedMarks == null &&
+    // Check if the current node is a direct child from paragraph
+    tr.selection.$from.depth === tableCellHeader.depth + 1 &&
+    // this logic is applied only for empty paragraph
+    tableCellHeader.node.nodeSize === 4 &&
+    isNodeTypeParagraph(tableCellHeader.node.firstChild)
+  ) {
+    const { strong } = state.schema.marks;
+    tr.setStoredMarks([strong.create()]).setMeta('addToHistory', false);
+
+    if (dispatch) {
+      dispatch(tr);
+    }
+
+    return true;
+  }
+
+  return false;
 };
 // #endregion

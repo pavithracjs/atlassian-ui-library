@@ -63,8 +63,9 @@ if (typeof document !== 'undefined') {
   }
 }
 
-if (typeof window !== 'undefined' && typeof window.InputEvent === 'undefined') {
-  class InputEvent {
+if (typeof window !== 'undefined') {
+  // Replace the native InputEvent which ships with JSDOM 12+
+  window.InputEvent = class InputEvent {
     constructor(typeArg, inputEventInit) {
       const uiEvent = new UIEvent(typeArg, inputEventInit);
 
@@ -74,7 +75,5 @@ if (typeof window !== 'undefined' && typeof window.InputEvent === 'undefined') {
       uiEvent.data = (inputEventInit && inputEventInit.data) || null;
       return uiEvent;
     }
-  }
-
-  window.InputEvent = InputEvent;
+  };
 }

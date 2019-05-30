@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Card } from '../src';
 import {
-  createStorybookContext,
+  createStorybookMediaClientConfig,
   imageFileId,
   gifFileId,
   videoFileId,
@@ -14,7 +14,7 @@ import {
   MediaViewerExampleColumn,
 } from '../example-helpers/styled';
 
-const context = createStorybookContext();
+const mediaClientConfig = createStorybookMediaClientConfig();
 const mediaViewerDataSource: MediaViewerDataSource = {
   list: [imageFileId, gifFileId, largeImageFileId, videoFileId],
 };
@@ -36,19 +36,19 @@ class Example extends Component<{}, {}> {
         <MediaViewerExampleColumn>
           <h3>shouldOpenMediaViewer + mediaViewerDataSource</h3>
           <Card
-            context={context}
+            mediaClientConfig={mediaClientConfig}
             identifier={imageFileId}
             shouldOpenMediaViewer={shouldOpenMediaViewer}
             mediaViewerDataSource={mediaViewerDataSource}
           />
           <Card
-            context={context}
+            mediaClientConfig={mediaClientConfig}
             identifier={gifFileId}
             shouldOpenMediaViewer={shouldOpenMediaViewer}
             mediaViewerDataSource={mediaViewerDataSource}
           />
           <Card
-            context={context}
+            mediaClientConfig={mediaClientConfig}
             identifier={videoFileId}
             shouldOpenMediaViewer={shouldOpenMediaViewer}
             mediaViewerDataSource={mediaViewerDataSource}
@@ -57,7 +57,7 @@ class Example extends Component<{}, {}> {
         <MediaViewerExampleColumn>
           <h3>shouldOpenMediaViewer + list without card identifier</h3>
           <Card
-            context={context}
+            mediaClientConfig={mediaClientConfig}
             identifier={imageFileId}
             shouldOpenMediaViewer={shouldOpenMediaViewer}
             mediaViewerDataSource={{ list: [gifFileId] }}
@@ -66,7 +66,7 @@ class Example extends Component<{}, {}> {
         <MediaViewerExampleColumn>
           <h3>useInlinePlayer=true</h3>
           <Card
-            context={context}
+            mediaClientConfig={mediaClientConfig}
             identifier={videoFileId}
             shouldOpenMediaViewer={shouldOpenMediaViewer}
             mediaViewerDataSource={mediaViewerDataSource}
@@ -76,7 +76,7 @@ class Example extends Component<{}, {}> {
         <MediaViewerExampleColumn>
           <h3>mediaViewerDataSource=undefined</h3>
           <Card
-            context={context}
+            mediaClientConfig={mediaClientConfig}
             identifier={largeImageFileId}
             shouldOpenMediaViewer={shouldOpenMediaViewer}
           />

@@ -89,10 +89,7 @@ export default class ColumnControls extends Component<Props, any> {
     }
 
     const { selection } = editorView.state;
-    const columnsWidths = getColumnsWidths(
-      editorView.state,
-      editorView.domAtPos.bind(editorView),
-    );
+    const columnsWidths = getColumnsWidths(editorView);
     const columnsParams = getColumnsParams(columnsWidths);
     const deleteBtnParams = getColumnDeleteButtonParams(
       columnsWidths,
@@ -122,7 +119,9 @@ export default class ColumnControls extends Component<Props, any> {
                   <button
                     type="button"
                     className={ClassName.CONTROLS_BUTTON}
-                    onMouseDown={() => this.selectColumn(startIndex)}
+                    onClick={event =>
+                      this.selectColumn(startIndex, event.shiftKey)
+                    }
                     onMouseOver={() => this.hoverColumns([startIndex])}
                     onMouseOut={this.clearHoverSelection}
                   >
@@ -183,14 +182,14 @@ export default class ColumnControls extends Component<Props, any> {
     this.clearHoverSelection();
   };
 
-  private selectColumn = (column: number) => {
+  private selectColumn = (column: number, expand: boolean) => {
     const { editorView } = this.props;
     const { state, dispatch } = editorView;
     // fix for issue ED-4665
     if (browser.ie_version === 11) {
       (editorView.dom as HTMLElement).blur();
     }
-    selectColumn(column)(state, dispatch);
+    selectColumn(column, expand)(state, dispatch);
   };
 
   private hoverColumns = (columns: number[], danger?: boolean) => {

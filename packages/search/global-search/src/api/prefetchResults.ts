@@ -1,12 +1,12 @@
-import { ConfluenceRecentsMap, JiraResultsMap, Result } from '../model/Result';
+import { ConfluenceRecentsMap, JiraResultsMap } from '../model/Result';
 import configureSearchClients from './configureSearchClients';
 import { ConfluenceClient } from './ConfluenceClient';
-import { ABTest } from './CrossProductSearchClient';
+import { ABTest, CrossProductSearchResults } from './CrossProductSearchClient';
 import { Scope } from './types';
 
 interface CommonPrefetchedResults {
   abTestPromise: { [scope: string]: Promise<ABTest> };
-  recentPeoplePromise: Promise<Result[]>;
+  recentPeoplePromise: Promise<CrossProductSearchResults>;
 }
 
 export interface ConfluencePrefetchedResults extends CommonPrefetchedResults {
@@ -46,11 +46,13 @@ export const getConfluencePrefetchedData = (
         confluenceUrl,
       }
     : {};
-  const {
-    confluenceClient,
-    crossProductSearchClient,
-    peopleSearchClient,
-  } = configureSearchClients(cloudId, config);
+  const { confluenceClient, crossProductSearchClient } = configureSearchClients(
+    cloudId,
+    config,
+  );
+
+  // Pre-call the relevant endpoints to cache the results
+
   return {
     confluenceRecentItemsPromise: prefetchConfluence(confluenceClient),
     abTestPromise: {
@@ -58,6 +60,10 @@ export const getConfluencePrefetchedData = (
         Scope.ConfluencePageBlogAttachment,
       ),
     },
-    recentPeoplePromise: peopleSearchClient.getRecentPeople(),
+    recentPeoplePromise: crossProductSearchClient.getPeople(
+      '',
+      PREFETCH_SEARCH_SESSION_ID,
+      'confluence',
+    ),
   };
 };

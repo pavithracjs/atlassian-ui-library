@@ -1,3 +1,4 @@
+import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   filter,
   isNthParentOfType,
@@ -19,7 +20,15 @@ import {
   strong,
   em,
   subsup,
+  insertText,
+  sendKeyToPm,
+  tdEmpty,
+  code,
+  emoji,
+  mention,
 } from '@atlaskit/editor-test-helpers';
+import emojiPlugin from '../../../plugins/emoji';
+import mentionsPlugin from '../../../plugins/mentions';
 import { tablesPlugin, listsPlugin } from '../../../plugins';
 import { Command } from '../../../types';
 
@@ -397,11 +406,161 @@ describe('utils -> commands', () => {
   });
 
   describe('toggleMark', () => {
+    const helgaMention = mention({ id: '1234', text: '@helga' });
+    const grinningEmoji = emoji({ shortName: ':grinning:', text: '😀' });
     const editor = (doc: any) => {
       return createEditor({
         doc,
+        editorProps: {
+          mentionProvider: new Promise(() => {}),
+          emojiProvider: new Promise(() => {}),
+        },
+        providerFactory: ProviderFactory.create({
+          emojiProvider: new Promise(() => {}),
+        }),
+        editorPlugins: [mentionsPlugin(), emojiPlugin(), tablesPlugin()],
       });
     };
+
+    describe('on mentions and emojis', () => {
+      it('enables code mark', () => {
+        const { editorView } = editor(
+          doc(
+            p('{<}hey', helgaMention(), grinningEmoji()),
+            p(helgaMention(), grinningEmoji()),
+            p('hey', grinningEmoji(), '{>}'),
+          ),
+        );
+
+        toggleMark(editorView.state.schema.marks.code)(
+          editorView.state,
+          editorView.dispatch,
+        );
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(p(code('hey@helga😀')), p(code('@helga😀')), p(code('hey😀'))),
+        );
+      });
+    });
+
+    describe('in cell selection', () => {
+      describe('with mentions and emojis', () => {
+        it('enables code mark', () => {
+          const { editorView } = editor(
+            doc(
+              table()(
+                tr(td()(p('{<cell}hey', grinningEmoji())), tdEmpty, tdEmpty),
+                tr(td()(p('hey', helgaMention())), tdEmpty, tdEmpty),
+                tr(
+                  td()(p('{cell>}', helgaMention(), grinningEmoji())),
+                  tdEmpty,
+                  tdEmpty,
+                ),
+              ),
+            ),
+          );
+
+          toggleMark(editorView.state.schema.marks.code)(
+            editorView.state,
+            editorView.dispatch,
+          );
+
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table()(
+                tr(td()(p(code('hey😀'))), tdEmpty, tdEmpty),
+                tr(td()(p(code('hey@helga'))), tdEmpty, tdEmpty),
+                tr(td()(p(code('@helga😀'))), tdEmpty, tdEmpty),
+              ),
+            ),
+          );
+        });
+      });
+
+      it('enables code mark', () => {
+        const { editorView } = createEditor({
+          doc: doc(
+            table()(
+              tr(td()(p('{<cell}hey')), tdEmpty, tdEmpty),
+              tr(td()(p('hey')), tdEmpty, tdEmpty),
+              tr(td()(p('{cell>}hey')), tdEmpty, tdEmpty),
+            ),
+          ),
+          editorPlugins: [tablesPlugin()],
+        });
+
+        toggleMark(editorView.state.schema.marks.code)(
+          editorView.state,
+          editorView.dispatch,
+        );
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            table()(
+              tr(td()(p(code('hey'))), tdEmpty, tdEmpty),
+              tr(td()(p(code('hey'))), tdEmpty, tdEmpty),
+              tr(td()(p(code('hey'))), tdEmpty, tdEmpty),
+            ),
+          ),
+        );
+      });
+
+      it('enables the bold mark', () => {
+        const { editorView } = createEditor({
+          doc: doc(
+            table()(
+              tr(td()(p('{<cell}hey')), tdEmpty, tdEmpty),
+              tr(td()(p('hey')), tdEmpty, tdEmpty),
+              tr(td()(p('{cell>}hey')), tdEmpty, tdEmpty),
+            ),
+          ),
+          editorPlugins: [tablesPlugin()],
+        });
+
+        toggleMark(editorView.state.schema.marks.strong)(
+          editorView.state,
+          editorView.dispatch,
+        );
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            table()(
+              tr(td()(p(strong('hey'))), tdEmpty, tdEmpty),
+              tr(td()(p(strong('hey'))), tdEmpty, tdEmpty),
+              tr(td()(p(strong('hey'))), tdEmpty, tdEmpty),
+            ),
+          ),
+        );
+      });
+
+      it('removes the bold mark when only part of the selection has the mark', () => {
+        const { editorView } = createEditor({
+          doc: doc(
+            table()(
+              tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
+              tr(tdEmpty, tdEmpty, td({})(p(strong('{cell>}b3')))),
+              tr(tdEmpty, tdEmpty, tdEmpty),
+            ),
+          ),
+          editorPlugins: [tablesPlugin()],
+        });
+
+        toggleMark(editorView.state.schema.marks.strong)(
+          editorView.state,
+          editorView.dispatch,
+        );
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            table()(
+              tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
+              tr(tdEmpty, tdEmpty, td({})(p('b3{cell>}'))),
+              tr(tdEmpty, tdEmpty, tdEmpty),
+            ),
+          ),
+        );
+      });
+    });
 
     it('enables the bold mark', () => {
       const { editorView } = editor(doc(p('{<}text', hardBreak(), 'here{>}')));
@@ -467,6 +626,88 @@ describe('utils -> commands', () => {
       );
     });
 
+    it('can toggle a mark with different attributes', () => {
+      const { editorView } = editor(doc(p('{<}text here{>}')));
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sub' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p(subsup({ type: 'sub' })('text here'))),
+      );
+    });
+
+    it('toggles only marks of same type and attributes', () => {
+      const { editorView } = editor(
+        doc(
+          p(
+            'This is the first normal {<}text ',
+            subsup({ type: 'sup' })('This text is sup'),
+            ' Spacer words ',
+            subsup({ type: 'sub' })('This text is sub'),
+            ' Words at{>} the end',
+          ),
+        ),
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          p(
+            'This is the first normal text This text is sup Spacer words ',
+            subsup({ type: 'sub' })('This text is sub'),
+            ' Words at the end',
+          ),
+        ),
+      );
+    });
+
+    it('can apply two different marks at different points', () => {
+      const { editorView } = editor(
+        doc(p('This is the first normal text {<>}')),
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      insertText(editorView, 'This text is sup');
+      sendKeyToPm(editorView, 'Enter');
+      insertText(editorView, 'This is the second normal text ');
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sub' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      insertText(editorView, 'This is sub');
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          p(
+            'This is the first normal text ',
+            subsup({ type: 'sup' })('This text is sup'),
+          ),
+          p(
+            'This is the second normal text ',
+            subsup({ type: 'sub' })('This is sub'),
+          ),
+        ),
+      );
+    });
+
     it('can apply a mark half way through a selection', () => {
       const { editorView } = editor(doc(p('te{<}xt{>}')));
 
@@ -510,6 +751,21 @@ describe('utils -> commands', () => {
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(subsup({ type: 'sup' })('text here'))),
+      );
+    });
+
+    it('can toggle marks with only differing attributes', () => {
+      const { editorView } = editor(
+        doc(p('text here', subsup({ type: 'sub' })('{<>}'))),
+      );
+
+      toggleMark(editorView.state.schema.marks.subsup, { type: 'sup' })(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('text here', subsup({ type: 'sup' })(''))),
       );
     });
   });

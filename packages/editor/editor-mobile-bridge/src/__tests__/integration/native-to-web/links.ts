@@ -20,6 +20,7 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
+    await browser.type(editable, '');
     await callNativeBridge(
       browser,
       'onLinkUpdate',
@@ -43,7 +44,7 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'This is a text');
-    await browser.type(editable, [...times(4, constant('ArrowLeft'))]);
+    await browser.keys([...times(4, constant('ArrowLeft'))]);
 
     await callNativeBridge(
       browser,
@@ -68,9 +69,11 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'This is a link with trailing text');
-    await browser.type(editable, [
+    await browser.keys([
       ...times(23, constant('ArrowLeft')),
-      ...times(4, constant(['Shift', 'ArrowRight'])),
+      'Shift',
+      ...times(4, constant('ArrowRight')),
+      'Shift',
     ]);
 
     await callNativeBridge(
@@ -95,6 +98,7 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
+    await browser.type(editable, '');
     await callNativeBridge(
       browser,
       'onLinkUpdate',
@@ -102,7 +106,7 @@ BrowserTestCase(
       'https://www.google.com',
     );
 
-    await browser.type(editable, [...times(4, constant('ArrowLeft'))]);
+    await browser.keys([...times(4, constant('ArrowLeft'))]);
 
     await callNativeBridge(
       browser,
@@ -126,6 +130,7 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
+    await browser.type(editable, '');
     await callNativeBridge(
       browser,
       'onLinkUpdate',
@@ -133,13 +138,13 @@ BrowserTestCase(
       'https://www.google.com',
     );
 
-    await browser.type(editable, [...times(4, constant('ArrowLeft'))]);
+    await browser.keys([...times(4, constant('ArrowLeft'))]);
 
     await callNativeBridge(
       browser,
       'onLinkUpdate',
       'Google',
-      'https://www.google.com',
+      'https://www.google2.com',
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
@@ -158,9 +163,11 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'This is a link');
-    await browser.type(editable, [
+    await browser.keys([
       ...times(4, constant('ArrowLeft')),
-      ...times(4, constant(['Shift', 'ArrowRight'])),
+      'Shift',
+      ...times(4, constant('ArrowRight')),
+      'Shift',
     ]);
 
     await callNativeBridge(
@@ -170,9 +177,11 @@ BrowserTestCase(
       'https://www.google.com',
     );
 
-    await browser.type(editable, [
+    await browser.keys([
       'ArrowLeft',
-      ...times(4, constant(['Shift', 'ArrowRight'])),
+      'Shift',
+      ...times(4, constant('ArrowRight')),
+      'Shift',
     ]);
 
     await callNativeBridge(browser, 'onLinkUpdate', 'text', '');

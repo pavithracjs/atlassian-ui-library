@@ -29,7 +29,7 @@ const getBackgroundColor = (props: WrapperProps) => {
 export const Wrapper = styled(Root)`
   ${getShadowAttribute}
   ${borderRadius}
-  background: ${themed({ light: '#FFF', dark: colors.DN50 })};
+  ${getBackgroundColor}
 
   line-height: normal;
   position: relative;
@@ -38,7 +38,6 @@ export const Wrapper = styled(Root)`
 
   ${size()} .wrapper {
     ${borderRadius};
-    ${getBackgroundColor};
     display: block;
     height: inherit;
     position: relative;

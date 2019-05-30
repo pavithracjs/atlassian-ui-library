@@ -16,6 +16,7 @@ let c = meow(
         --json                  Outputs measure stats as json
         --lint                  Lint mode fails build if size has been increased beyond threshold
         --updateSnapshot        Update measure snapshots
+        --s3                    Run S3 flow
 
       Examples
         $ measure editor-core editor-common
@@ -37,6 +38,10 @@ let c = meow(
         default: false,
       },
       updateSnapshot: {
+        type: 'boolean',
+        default: false,
+      },
+      s3: {
         type: 'boolean',
         default: false,
       },
@@ -77,6 +82,7 @@ async function executeMeasure(paths, c, errors = [], results = []) {
       c.flags.json,
       c.flags.lint,
       c.flags.updateSnapshot,
+      c.flags.s3,
     );
     results.push(result);
   } catch (error) {

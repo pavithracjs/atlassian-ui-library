@@ -9,6 +9,8 @@ import {
   toggleBreakout,
 } from '../_helpers';
 
+import { clickFirstCell } from '../../__helpers/page-objects/_table';
+
 import {
   defaultTableInOverflow,
   defaultTableResizedTable,
@@ -20,15 +22,7 @@ import {
   mountEditor,
 } from '../../__helpers/testing-example-helpers';
 
-import { TableCssClassName } from '../../../plugins/table/types';
-
 import messages from '../../../messages';
-
-const clickFirstCell = async (page: any) => {
-  await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
-  await page.click(TableCssClassName.TOP_LEFT_CELL);
-  await animationFrame(page);
-};
 
 BrowserTestCase(
   'Remains in overflow on table scale to wide',

@@ -8,7 +8,9 @@ const GlobalQuickSearchWrapper = withNavigation(GlobalQuickSearch);
 
 export default class GlobalQuickSearchExample extends React.Component {
   componentWillMount() {
-    setupMocks();
+    setupMocks({
+      crossProductSearchDelay: 2000,
+    });
   }
 
   componentWillUnmount() {
@@ -18,7 +20,7 @@ export default class GlobalQuickSearchExample extends React.Component {
   render() {
     return (
       <PrefetchedResultsProvider context="confluence" cloudId="123">
-        <GlobalQuickSearchWrapper />
+        <GlobalQuickSearchWrapper useUrsForBootstrapping />
       </PrefetchedResultsProvider>
     );
   }

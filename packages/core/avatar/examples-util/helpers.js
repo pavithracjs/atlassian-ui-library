@@ -12,6 +12,7 @@ const ChildrenWrapper = styled.div`
   align-items: baseline;
   color: ${colors.text};
   display: flex;
+  flex-wrap: wrap;
 
   > * {
     margin-right: ${gridSize}px;

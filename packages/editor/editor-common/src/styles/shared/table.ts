@@ -19,6 +19,8 @@ export const tableMarginSides = 8;
 export const tableCellMinWidth = 48;
 export const tableNewColumnMinWidth = 140;
 export const tableCellBorderWidth = 1;
+export const tableCellPadding = 8;
+export const tableResizeHandleWidth = 6;
 
 const clPrefix = 'pm-table-';
 
@@ -76,11 +78,11 @@ const tableSharedStyle = css`
       }
       th td {
         background-color: white;
-        font-weight: normal;
       }
       th,
       td {
         min-width: ${tableCellMinWidth}px;
+        font-weight: normal;
         vertical-align: top;
         border: 1px solid ${themed({
           light: akEditorTableBorder,
@@ -88,7 +90,7 @@ const tableSharedStyle = css`
         })};
         border-right-width: 0;
         border-bottom-width: 0;
-        padding: 8px;
+        padding: ${tableCellPadding}px;
         /* https://stackoverflow.com/questions/7517127/borders-not-shown-in-firefox-with-border-collapse-on-table-position-relative-o */
         background-clip: padding-box;
 
@@ -103,12 +105,6 @@ const tableSharedStyle = css`
           dark: akEditorTableToolbarDark,
         })};
         text-align: left;
-        & *:not(strong) {
-          font-weight: normal;
-        }
-        & .${TableSharedCssClassName.TABLE_CELL_NODEVIEW_CONTENT_DOM} > p {
-          font-weight: bold;
-        }
 
         .code-block {
           /*

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { ResourcedMention } from '@atlaskit/mention';
+import { ResourcedMention } from '@atlaskit/mention/element';
 import MentionNode from '../../../../react/nodes/mention';
 import {
   Mention,

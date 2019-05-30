@@ -44,6 +44,5 @@ export interface AvatarPickerDialogState {
   selectedAvatar?: Avatar;
   selectedImage?: File;
   selectedImageSource?: string;
-  crop: CropProperties;
   errorMessage?: string;
 }
