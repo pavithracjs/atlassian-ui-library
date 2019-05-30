@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.10.10
+- [patch] [7318619da7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7318619da7):
+
+  - Revert [ED-5734] to reduce memory leak caused by getBoundingClientRect
+
 ## 112.10.9
 - [patch] [1a1ea182d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a1ea182d6):
 

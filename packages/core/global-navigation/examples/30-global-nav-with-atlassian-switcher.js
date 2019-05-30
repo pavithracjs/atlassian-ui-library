@@ -89,7 +89,6 @@ const AppSwitcherComponent = itemProps => (
 
 const getGlobalNavigation = (
   enableAtlassianSwitcher,
-  enableSplitJira,
   enableExpandLink,
 ) => () => (
   <AnalyticsListener
@@ -111,7 +110,6 @@ const getGlobalNavigation = (
       appSwitcherComponent={AppSwitcherComponent}
       appSwitcherTooltip="Switch to ..."
       enableAtlassianSwitcher={enableAtlassianSwitcher}
-      experimental_enableSplitJira={enableSplitJira}
       experimental_enableExpandLink={enableExpandLink}
       triggerXFlow={(...props) => {
         console.log('TRIGGERING XFLOW', props);
@@ -122,14 +120,12 @@ const getGlobalNavigation = (
 
 type State = {
   enableAtlassianSwitcher: boolean,
-  enableSplitJira: boolean,
   enableExpandLink: boolean,
 };
 
 export default class extends Component<{}, State> {
   state = {
     enableAtlassianSwitcher: true,
-    enableSplitJira: false,
     enableExpandLink: false,
   };
 
@@ -145,18 +141,13 @@ export default class extends Component<{}, State> {
   };
 
   render() {
-    const {
-      enableAtlassianSwitcher,
-      enableSplitJira,
-      enableExpandLink,
-    } = this.state;
+    const { enableAtlassianSwitcher, enableExpandLink } = this.state;
     return (
       <IntlProvider>
         <NavigationProvider>
           <LayoutManager
             globalNavigation={getGlobalNavigation(
               enableAtlassianSwitcher,
-              enableSplitJira,
               enableExpandLink,
             )}
             productNavigation={() => null}
@@ -167,13 +158,6 @@ export default class extends Component<{}, State> {
               <ToggleStateless
                 isChecked={enableAtlassianSwitcher}
                 onChange={this.toggleStateValue('enableAtlassianSwitcher')}
-              />
-            </div>
-            <div css={{ padding: '10px 40px 0px' }}>
-              Using enableJiraSplit:
-              <ToggleStateless
-                isChecked={enableSplitJira}
-                onChange={this.toggleStateValue('enableSplitJira')}
               />
             </div>
             <div css={{ padding: '10px 40px' }}>

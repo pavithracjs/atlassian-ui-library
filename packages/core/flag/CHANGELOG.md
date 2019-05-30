@@ -1,5 +1,10 @@
 # @atlaskit/flag
 
+## 12.0.1
+- [patch] [cdba81d4f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cdba81d4f2):
+
+  - export the correct types so typescript usage works correctly
+
 ## 12.0.0
 - [major] [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
 

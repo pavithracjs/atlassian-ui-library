@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
 import {
   createEditorFactory,
   doc,
   p,
   extension,
+  mountWithIntl,
 } from '@atlaskit/editor-test-helpers';
 
 import FullPage from '../../../ui/Appearance/FullPage';
@@ -18,7 +18,7 @@ describe('full page editor', () => {
     });
   it('should create empty terminal empty paragraph when clicked outside editor', () => {
     const { editorView } = editor(doc(p('Hello world'), p('Hello world')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <FullPage
         editorView={editorView}
         providerFactory={{} as any}
@@ -40,7 +40,7 @@ describe('full page editor', () => {
         extension({ extensionKey: '123', extensionType: 'BLOCK' })(),
       ),
     );
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <FullPage
         editorView={editorView}
         providerFactory={{} as any}
@@ -61,7 +61,7 @@ describe('full page editor', () => {
 
   it('should not create empty terminal empty paragraph if it is already present at end', () => {
     const { editorView } = editor(doc(p('Hello world'), p('')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <FullPage
         editorView={editorView}
         providerFactory={{} as any}
@@ -77,7 +77,7 @@ describe('full page editor', () => {
 
   it('should not create empty terminal paragraph when clicked inside editor', () => {
     const { editorView } = editor(doc(p('Hello world')));
-    mount(
+    mountWithIntl(
       <FullPage
         editorView={editorView}
         providerFactory={{} as any}
@@ -90,7 +90,7 @@ describe('full page editor', () => {
 
   it('should set selection to end of editor content if paragraph is inserted', () => {
     const { editorView, sel } = editor(doc(p('Hello {<>}')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <FullPage
         editorView={editorView}
         providerFactory={{} as any}
@@ -107,7 +107,7 @@ describe('full page editor', () => {
 
   it('should set selection to end of editor content event if is already present at end', () => {
     const { editorView, sel } = editor(doc(p('Hello {<>}'), p('')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <FullPage
         editorView={editorView}
         providerFactory={{} as any}
@@ -124,7 +124,7 @@ describe('full page editor', () => {
 
   it('should create paragraph correctly when clicked outside and then inside the editor in sequence', () => {
     const { editorView } = editor(doc(p('Hello world'), p('Hello world')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <FullPage
         editorView={editorView}
         providerFactory={{} as any}

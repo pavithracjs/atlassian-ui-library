@@ -123,10 +123,16 @@ export default class StatefulAvatarPickerDialog extends React.Component<
         </Button>
         {this.renderPicker()}
         {imagePreviewSourceViaDataURIAPI !== '' ? (
-          <img src={imagePreviewSourceViaDataURIAPI} />
+          <>
+            <p>onImagePickedDataURI(dataUri: string)</p>
+            <img src={imagePreviewSourceViaDataURIAPI} />
+          </>
         ) : null}
         {imagePreviewSourceViaFileAPI !== '' ? (
-          <img src={imagePreviewSourceViaFileAPI} />
+          <>
+            <p>onImagePicked(selectedImage: File, crop: CropProperties)</p>
+            <img src={imagePreviewSourceViaFileAPI} />
+          </>
         ) : null}
       </Layout>
     );

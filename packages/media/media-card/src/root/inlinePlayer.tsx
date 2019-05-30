@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  Context,
+  MediaClient,
   FileIdentifier,
   FileState,
   MediaFileArtifacts,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { InlinePlayerWrapper } from './styled';
@@ -14,7 +14,7 @@ import { CardLoading } from '../utils/lightCards/cardLoading';
 
 export interface InlinePlayerProps {
   identifier: FileIdentifier;
-  context: Context;
+  mediaClient: MediaClient;
   dimensions: CardDimensions;
   selected?: boolean;
   onError?: (error: Error) => void;
@@ -56,12 +56,12 @@ export class InlinePlayer extends Component<
   };
 
   async componentDidMount() {
-    const { context, identifier } = this.props;
+    const { mediaClient, identifier } = this.props;
     const { id, collectionName } = identifier;
 
     this.revoke();
     this.unsubscribe();
-    this.subscription = context.file
+    this.subscription = mediaClient.file
       .getFileState(await id, { collectionName })
       .subscribe({
         next: async state => {
@@ -84,7 +84,7 @@ export class InlinePlayer extends Component<
             }
 
             try {
-              const fileSrc = await context.file.getArtifactURL(
+              const fileSrc = await mediaClient.file.getArtifactURL(
                 artifacts,
                 artifactName,
                 collectionName,
