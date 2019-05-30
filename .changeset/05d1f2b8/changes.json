@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/docs", "type": "minor" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/refinement-bar",
+      "type": "patch",
+      "dependencies": ["@atlaskit/docs"]
+    }
+  ]
+}

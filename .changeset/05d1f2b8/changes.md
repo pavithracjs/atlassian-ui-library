@@ -1,0 +1,1 @@
+Currrently on the Atlaskit website, we are using section messages for developer preview at several places. In addition, as we recently removed couple of components from teh Atlaskit service desk, we need to indicate if the component is intended for Atlassian first. Hence, We added another section message that will warn about the usage.
