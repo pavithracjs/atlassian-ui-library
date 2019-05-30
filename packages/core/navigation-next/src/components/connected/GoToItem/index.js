@@ -7,14 +7,9 @@ import Spinner from '@atlaskit/spinner';
 import { withNavigationViewController } from '../../../view-controller';
 import ConnectedItem from '../ConnectedItem';
 
-import type { GoToItemProps } from './types';
+import type { GoToItemProps, AfterComponentProps } from './types';
 import type { ItemPresentationProps } from '../../presentational/Item/types';
 
-type AfterComponentProps = {
-  incomingView: {},
-  spinnerDelay: number,
-  afterGoTo: {},
-};
 const After = ({
   afterGoTo,
   spinnerDelay,
@@ -22,7 +17,10 @@ const After = ({
   isActive,
   isHover,
   isFocused,
-}: ItemPresentationProps & AfterComponentProps) => {
+}: {
+  ...ItemPresentationProps,
+  ...AfterComponentProps,
+}) => {
   if (incomingView && incomingView.id === afterGoTo) {
     return <Spinner delay={spinnerDelay} invertColor size="small" />;
   }

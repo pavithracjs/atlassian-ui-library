@@ -109,6 +109,7 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
     let itemComponent = 'div';
     let itemProps = { draggableProps, innerRef, dataset };
 
+    // $FlowFixMe Will revisit on the TS re-write
     const { afterGoTo, spinnerDelay, incomingView } = this.props;
     const propsForAfterComp = {
       afterGoTo,

@@ -10,7 +10,7 @@ import type {
 const TestComponent = (props: ItemRenderComponentProps) => (
   <div>Test Component {props.className}</div>
 );
-const BeforeOrAfterComponent = (props: ItemPresentationProps) => (
+const BeforeOrAfterComponent = (props: *) => (
   <div>Before/After Component {props.spacing}</div>
 );
 
@@ -164,11 +164,12 @@ describe('ItemPrimitiveBase', () => {
   });
 
   it('should render After with expected props if present', () => {
+    const AfterComponent = () => <div>after</div>;
     const wrapper = mount(
-      <ItemPrimitiveBase {...defaultProps} after={BeforeOrAfterComponent} />,
+      <ItemPrimitiveBase {...defaultProps} after={AfterComponent} />,
     );
 
-    expect(wrapper.find(BeforeOrAfterComponent).props()).toEqual({
+    expect(wrapper.find(AfterComponent).props()).toEqual({
       isActive: false,
       isHover: false,
       isSelected: false,
@@ -180,7 +181,7 @@ describe('ItemPrimitiveBase', () => {
 
   it('should render Before, text and After components in right order', () => {
     const BeforeComponent = (props: ItemPresentationProps) => props.spacing;
-    const AfterComponent = (props: ItemPresentationProps) => props.spacing;
+    const AfterComponent = () => <div>after</div>;
 
     const wrapper = shallow(
       <ItemPrimitiveBase
@@ -216,6 +217,7 @@ describe('ItemPrimitiveBase', () => {
         color: 'afterWrapper-fake-color',
       },
     });
+    const AfterComponent = () => <div>after</div>;
 
     const wrapper = mount(
       <ItemPrimitiveBase
@@ -223,7 +225,7 @@ describe('ItemPrimitiveBase', () => {
         styles={styles}
         subText="subtext"
         before={BeforeOrAfterComponent}
-        after={BeforeOrAfterComponent}
+        after={AfterComponent}
       />,
     );
 
