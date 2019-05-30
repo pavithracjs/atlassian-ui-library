@@ -1,50 +1,34 @@
 [
   {
-    "team": "core",
-    "package": "@atlaskit/radio",
-    "version": "2.0.0",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 8334,
-      "gzipSize": 2854
+      "size": 8780,
+      "gzipSize": 2710
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/radio",
-    "version": "2.0.0",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 8677,
-      "gzipSize": 2962
+      "size": 6745,
+      "gzipSize": 2378
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/radio",
-    "version": "2.0.0",
-    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 27835,
-      "gzipSize": 7579
+      "size": 27350,
+      "gzipSize": 7424
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/radio",
-    "version": "2.0.0",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 43557,
-      "gzipSize": 12026
+      "size": 41822,
+      "gzipSize": 11463
     }
   }
 ]
