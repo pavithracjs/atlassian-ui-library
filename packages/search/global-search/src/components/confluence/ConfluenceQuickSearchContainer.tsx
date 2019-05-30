@@ -11,7 +11,6 @@ import {
   CrossProductSearchClient,
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  ABTest,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
@@ -240,12 +239,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     }));
   };
 
-  getAbTestData = (sessionId: string): Promise<ABTest> => {
-    return this.props.crossProductSearchClient.getAbTestData(
-      Scope.ConfluencePageBlogAttachment,
-    );
-  };
-
   getRecentPeople = (sessionId: string): Promise<Result[]> => {
     const {
       peopleSearchClient,
@@ -301,15 +294,17 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   getPreQueryDisplayedResults = (
     recentItems: ConfluenceResultsMap,
-    abTest: ABTest,
     searchSessionId: string,
-  ) => mapRecentResultsToUIGroups(recentItems, abTest, searchSessionId);
+  ) => {
+    const { features } = this.props;
+
+    return mapRecentResultsToUIGroups(recentItems, features, searchSessionId);
+  };
 
   getPostQueryDisplayedResults = (
     searchResults: ConfluenceResultsMap,
     latestSearchQuery: string,
     recentItems: ConfluenceResultsMap,
-    abTest: ABTest,
     isLoading: boolean,
     searchSessionId: string,
   ) => {
@@ -330,13 +325,13 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
       return mapSearchResultsToUIGroups(
         mergedRecentSearchResults,
-        abTest,
+        features,
         searchSessionId,
       );
     } else {
       return mapSearchResultsToUIGroups(
         searchResults as ConfluenceResultsMap,
-        abTest,
+        features,
         searchSessionId,
       );
     }
@@ -351,7 +346,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-    abTest,
   }: SearchResultProps) => {
     const { onAdvancedSearch = () => {}, features } = this.props;
 
@@ -391,7 +385,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getPreQueryGroups={() =>
           this.getPreQueryDisplayedResults(
             recentItems as ConfluenceResultsMap,
-            abTest,
             searchSessionId,
           )
         }
@@ -400,7 +393,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
             searchResults as ConfluenceResultsMap,
             latestSearchQuery,
             recentItems as ConfluenceResultsMap,
-            abTest,
             isLoading,
             searchSessionId,
           )
@@ -423,7 +415,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   };
 
   render() {
-    const { linkComponent, logger, inputControls } = this.props;
+    const { linkComponent, logger, inputControls, features } = this.props;
 
     return (
       <QuickSearchContainer
@@ -434,12 +426,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
-        getAbTestData={this.getAbTestData}
         handleSearchSubmit={this.handleSearchSubmit}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
         getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         logger={logger}
         inputControls={inputControls}
+        features={features}
       />
     );
   }

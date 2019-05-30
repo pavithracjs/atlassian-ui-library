@@ -230,7 +230,6 @@ const getSearchAndRecentItems = (
         containers: [],
         people: getRecentlyInteractedPeople(sessionId, product),
       },
-      abTest,
     };
   }
   return {
@@ -245,7 +244,6 @@ const getSearchAndRecentItems = (
       spaces: [],
       people: getRecentlyInteractedPeople(sessionId, product),
     },
-    abTest,
   };
 };
 
