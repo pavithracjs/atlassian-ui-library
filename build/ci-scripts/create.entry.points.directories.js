@@ -2,10 +2,6 @@
 const bolt = require('bolt');
 const path = require('path');
 const fs = require('fs');
-const fsExtra = require('fs-extra');
-
-const regexTS = /\.ts$/;
-// const regexJS = /\.js$/; // will add for js package
 
 // TODO: to remove later, used to test our build script -re move packages line 21 by `test`.
 // const test = [
@@ -19,19 +15,26 @@ const regexTS = /\.ts$/;
   const project = await bolt.getProject();
   const packages = await bolt.getWorkspaces();
   const pkgContents = packages
-    .filter(pkg => pkg.dir.includes('/packages'))
+    .filter(
+      pkg => pkg.dir.includes('/packages') && !pkg.config.atlaskit.internal,
+    )
     .map(pkg => {
       return {
         name: pkg.name,
         pkgDirPath: pkg.dir,
         files: fs
           .readdirSync(path.join(pkg.dir, 'src'))
-          .filter(file => file.match(regexTS)),
+          .filter(
+            file =>
+              file.includes('.') &&
+              path.parse(file).name &&
+              !file.includes('.d.ts'),
+          ),
       };
     });
   pkgContents.forEach(pkg => {
     for (let pkgFile of pkg.files) {
-      pkgFile = pkgFile.replace('.ts', '');
+      pkgFile = path.parse(pkgFile).name;
       const entryPointDirName = path.join(pkg.pkgDirPath, pkgFile);
       // Create the entrypoint directory
       if (!fs.existsSync(entryPointDirName)) {
