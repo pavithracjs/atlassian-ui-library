@@ -93,6 +93,8 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
   return WrappedComponent => {
     class WithAnalyticsEvents extends Component<*> {
       // patch the callback so it provides analytics information.
+      // TODO: Consider refractoring this according to the conversation in
+      // the PR -> https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5823/memoize-the-function-that-modifies-the/diff
       modifyCallbackProp = memoizeOne(
         <T: {}>(
           propName: string,
