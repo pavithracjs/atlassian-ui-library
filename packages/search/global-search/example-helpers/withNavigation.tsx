@@ -49,7 +49,7 @@ export default function withNavigation<P extends Props>(
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
-    constructor(props) {
+    constructor(props: Partial<P>) {
       super(props);
       this.state = {
         context: props.context || 'jira',
