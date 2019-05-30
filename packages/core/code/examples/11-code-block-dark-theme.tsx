@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { AtlasKitThemeProvider } from '@atlaskit/theme';
 import { AkCodeBlock } from '../src';
