@@ -111,28 +111,25 @@ describe('Snapshot Test: Media', () => {
         await page.mouse.move(-1, -1);
       });
 
-      it('should renders selection ring around media (via up)', async () => {
-        await pressKey(page, 'ArrowUp');
+      afterEach(async () => {
         await scrollToMedia(page);
         await snapshot(page, MINIMUM_THRESHOLD);
+      });
+
+      it('should renders selection ring around media (via up)', async () => {
+        await pressKey(page, 'ArrowUp');
       });
 
       it('should render right side gap cursor (via arrow left)', async () => {
         await pressKey(page, 'ArrowLeft');
-        await scrollToMedia(page);
-        await snapshot(page, MINIMUM_THRESHOLD);
       });
 
       it('renders selection ring around media (via 2 arrow left)', async () => {
         await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
-        await scrollToMedia(page);
-        await snapshot(page, MINIMUM_THRESHOLD);
       });
 
       it('should render left side gap cursor (via 3 arrow left)', async () => {
         await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
-        await scrollToMedia(page);
-        await snapshot(page, MINIMUM_THRESHOLD);
       });
     });
   });
