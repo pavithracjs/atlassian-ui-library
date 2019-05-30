@@ -10,12 +10,11 @@ import {
   Plugin,
   PluginKey,
 } from 'prosemirror-state';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import { Context } from '@atlaskit/media-core';
 import { UploadParams } from '@atlaskit/media-picker';
-import { MediaSingleLayout, MediaBaseAttributes } from '@atlaskit/adf-schema';
+import { MediaSingleLayout } from '@atlaskit/adf-schema';
 
 import { ErrorReporter } from '@atlaskit/editor-common';
-import { Dimensions } from '@atlaskit/media-editor';
 
 import analyticsService from '../../../analytics/service';
 import { isImage } from '../../../utils';
@@ -36,7 +35,6 @@ import { insertMediaSingleNode, isMediaSingle } from '../utils/media-single';
 
 import { findDomRefAtPos } from 'prosemirror-utils';
 import {
-  withAnalytics,
   ACTION_SUBJECT_ID,
   ACTION_SUBJECT,
   ACTION,
@@ -390,79 +388,6 @@ export class MediaPluginState {
    */
   handleMediaNodeUnmount = (oldNode: PMNode) => {
     this.mediaNodes = this.mediaNodes.filter(({ node }) => oldNode !== node);
-  };
-
-  openMediaEditor = () => {
-    const { state, dispatch } = this.view;
-    const { mediaSingle } = state.schema.nodes;
-
-    if (
-      !(state.selection instanceof NodeSelection) ||
-      state.selection.node.type !== mediaSingle
-    ) {
-      return;
-    }
-
-    this.editingMediaSinglePos = state.selection.from;
-    this.showEditingDialog = true;
-
-    return withAnalytics({
-      action: ACTION.CLICKED,
-      actionSubject: ACTION_SUBJECT.MEDIA,
-      actionSubjectId: ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
-      eventType: EVENT_TYPE.UI,
-    })((state, dispatch) => {
-      if (dispatch) {
-        dispatch(state.tr.setMeta(stateKey, 'edit'));
-        return true;
-      }
-
-      return false;
-    })(state, dispatch);
-  };
-
-  closeMediaEditor = () => {
-    this.showEditingDialog = false;
-    this.view.dispatch(this.view.state.tr.setMeta(stateKey, 'close-edit'));
-  };
-
-  replaceEditingMedia = (
-    fileIdentifier: FileIdentifier,
-    dimensions: Dimensions,
-  ) => {
-    if (typeof this.editingMediaSinglePos !== 'number') {
-      return;
-    }
-
-    const { state, dispatch } = this.view;
-    const { doc, schema } = state;
-
-    const mediaPos = this.editingMediaSinglePos + 1;
-    const oldMediaNode = doc.nodeAt(mediaPos);
-    if (!oldMediaNode) {
-      return;
-    }
-
-    const newMediaNodeAttrs: MediaBaseAttributes = {
-      ...oldMediaNode.attrs,
-
-      id: fileIdentifier.id as string,
-      collection:
-        fileIdentifier.collectionName || oldMediaNode.attrs.collection,
-      occurrenceKey: fileIdentifier.occurrenceKey,
-
-      width: dimensions.width,
-      height: dimensions.height,
-    };
-
-    const tr = state.tr.replaceWith(
-      mediaPos,
-      mediaPos + oldMediaNode.nodeSize,
-      schema.nodes.media!.createChecked(newMediaNodeAttrs),
-    );
-
-    this.editingMediaSinglePos = undefined;
-    dispatch(tr.setMeta('addToHistory', false));
   };
 
   destroy() {
