@@ -1,5 +1,5 @@
 import React from 'react';
-import { AtlasKitThemeProvider } from '@atlaskit/theme';
+import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import { AkCodeBlock } from '../src';
 
 const exampleCodeBlock = `  // React component
@@ -21,8 +21,8 @@ const exampleCodeBlock = `  // React component
 
 export default function Component() {
   return (
-    <AtlasKitThemeProvider mode="dark">
+    <AtlaskitThemeProvider mode="dark">
       <AkCodeBlock language="java" text={exampleCodeBlock} />
-    </AtlasKitThemeProvider>
+    </AtlaskitThemeProvider>
   );
 }
