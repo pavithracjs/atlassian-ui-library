@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { md, Example, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
   @atlaskit/checkbox 5.x is part of an ongoing body of work to normalise atlaskit form components.
