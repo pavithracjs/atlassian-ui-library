@@ -3,20 +3,15 @@ import {
   constructAuthTokenUrl,
   getSelectedIndex,
 } from '../../../../newgen/utils';
-import { createContext } from '../../_stubs';
-
-const token = 'some-token';
-const baseUrl = 'some-base-url';
+import { fakeMediaClient } from '../../../../../../media-test-helpers';
 
 describe('utils', () => {
   describe('constructAuthTokenUrl', () => {
     it('should add auth token and client query parameters to the url when auth is client based', async () => {
-      const clientId = 'some-client-id';
-      const authPromise = Promise.resolve({ token, clientId, baseUrl });
-      const context = createContext({ authPromise });
+      const mediaClient = fakeMediaClient();
       const url = await constructAuthTokenUrl(
         '/file/3333-4444-5555',
-        context,
+        mediaClient,
         'mycollection',
       );
       expect(url).toEqual(
@@ -25,12 +20,10 @@ describe('utils', () => {
     });
 
     it('should work with urls with params', async () => {
-      const clientId = 'some-client-id';
-      const authPromise = Promise.resolve({ token, clientId, baseUrl });
-      const context = createContext({ authPromise });
+      const mediaClient = fakeMediaClient();
       const url = await constructAuthTokenUrl(
         '/file/3333-4444-5555?version=1',
-        context,
+        mediaClient,
         'mycollection',
       );
       expect(url).toEqual(
@@ -39,16 +32,10 @@ describe('utils', () => {
     });
 
     it('should add the auth token to the url when auth type is ASAP', async () => {
-      const issuer = 'some-issuer'; // issuer gets send through the headers, so it shouldn't show up in the url
-      const authPromise = Promise.resolve({
-        token,
-        asapIssuer: issuer,
-        baseUrl,
-      });
-      const context = createContext({ authPromise });
+      const mediaClient = fakeMediaClient();
       const url = await constructAuthTokenUrl(
         '/file/3333-4444-5555',
-        context,
+        mediaClient,
         'mycollection',
       );
       expect(url).toEqual(

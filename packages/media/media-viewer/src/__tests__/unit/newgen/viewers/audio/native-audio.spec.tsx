@@ -6,12 +6,12 @@ import * as util from '../../../../../newgen/utils';
 const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 
 import * as React from 'react';
-import { createContext } from '../../../_stubs';
 import { ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
   nextTick,
+  fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { AudioViewer } from '../../../../../newgen/viewers/audio';
 import Spinner from '@atlaskit/spinner';
@@ -50,16 +50,18 @@ function createFixture(
   collectionName?: string,
   item?: ProcessedFileState,
 ) {
-  const context = createContext({ authPromise });
+  const mediaClient = fakeMediaClient({
+    authProvider: () => authPromise,
+  });
   const el = mountWithIntlContext(
     <AudioViewer
-      mediaClient={context}
+      mediaClient={mediaClient}
       item={item || audioItem}
       collectionName={collectionName}
       previewCount={0}
     />,
   );
-  return { context, el };
+  return { mediaClient, el };
 }
 
 describe('Audio viewer', () => {
@@ -173,8 +175,7 @@ describe('Audio viewer', () => {
 
     describe('AutoPlay', () => {
       async function createAutoPlayFixture(previewCount: number) {
-        const authPromise = Promise.resolve({ token, clientId, baseUrl });
-        const mediaClient = createContext({ authPromise });
+        const mediaClient = fakeMediaClient();
         const el = mountWithIntlContext(
           <AudioViewer
             mediaClient={mediaClient}

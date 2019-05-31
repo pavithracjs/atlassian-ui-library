@@ -32,7 +32,7 @@ export default class Example extends React.Component<{}, State> {
 
         {this.state.selectedItem && (
           <MediaViewer
-            mediaClient={mediaClient}
+            mediaClientConfig={mediaClient.config}
             selectedItem={this.state.selectedItem}
             dataSource={{ list: [this.state.selectedItem] }}
             collectionName={defaultCollectionName}

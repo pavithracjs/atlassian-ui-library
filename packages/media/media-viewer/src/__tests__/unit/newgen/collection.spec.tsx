@@ -80,20 +80,23 @@ describe('<Collection />', () => {
   });
 
   it('should fetch collection items', () => {
-    const context = fakeMediaClient();
-    createFixture(context, identifier);
-    expect(context.collection.getItems).toHaveBeenCalledTimes(1);
-    expect(context.collection.getItems).toHaveBeenCalledWith('my-collection', {
-      limit: 999,
-    });
+    const mediaClient = fakeMediaClient();
+    createFixture(mediaClient, identifier);
+    expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
+    expect(mediaClient.collection.getItems).toHaveBeenCalledWith(
+      'my-collection',
+      {
+        limit: 999,
+      },
+    );
   });
 
   it('should show an error if items failed to be fetched', () => {
-    const context = fakeMediaClient();
-    (context.collection as any).getItems = new Observable(observer =>
+    const mediaClient = fakeMediaClient();
+    (mediaClient.collection as any).getItems = new Observable(observer =>
       observer.error(),
     );
-    const el = createFixture(context, identifier);
+    const el = createFixture(mediaClient, identifier);
     el.update();
     const errorMessage = el.find(ErrorMessage);
     expect(errorMessage).toHaveLength(1);
@@ -103,30 +106,30 @@ describe('<Collection />', () => {
   });
 
   it('should reset the component when the collection prop changes', () => {
-    const context = fakeMediaClient();
-    const el = createFixture(context, identifier);
-    expect(context.collection.getItems).toHaveBeenCalledTimes(1);
+    const mediaClient = fakeMediaClient();
+    const el = createFixture(mediaClient, identifier);
+    expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
     el.setProps({ collectionName: 'other-collection' });
-    expect(context.collection.getItems).toHaveBeenCalledTimes(2);
+    expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(2);
   });
 
   it('should reset the component when the context prop changes', () => {
-    const context = fakeMediaClient();
-    const el = createFixture(context, identifier);
-    expect(context.collection.getItems).toHaveBeenCalledTimes(1);
+    const mediaClient = fakeMediaClient();
+    const el = createFixture(mediaClient, identifier);
+    expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
 
     const context2 = fakeMediaClient();
     el.setProps({ mediaClient: context2 });
 
-    expect(context.collection.getItems).toHaveBeenCalledTimes(1);
+    expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
     expect(context2.collection.getItems).toHaveBeenCalledTimes(1);
   });
 
   it('should restore PENDING state when component resets', () => {
     const subject = new Subject();
-    const context = fakeMediaClient();
-    context.collection.getItems = subject;
-    const el = createFixture(context, identifier);
+    const mediaClient = fakeMediaClient();
+    (mediaClient as any).collection.getItems = subject;
+    const el = createFixture(mediaClient, identifier);
     expect(el.state().items.status).toEqual('PENDING');
     subject.next(mediaCollectionItems);
     expect(el.state().items.status).toEqual('SUCCESSFUL');
@@ -137,12 +140,12 @@ describe('<Collection />', () => {
 
   it('MSW-720: adds the collectionName to all identifiers passed to the List component', () => {
     const subject = new Subject();
-    const context = fakeMediaClient();
-    context.collection = {
+    const mediaClient = fakeMediaClient();
+    (mediaClient as any).collection = {
       getItems: subject,
       loadNextPage: jest.fn(),
     };
-    const el = createFixture(context, identifier);
+    const el = createFixture(mediaClient, identifier);
     subject.next(mediaCollectionItems);
     el.update();
     const listProps: any = el.find(List).props();
@@ -157,38 +160,38 @@ describe('<Collection />', () => {
   describe('Next page', () => {
     it('should load next page if we instantiate the component with the last item of the page as selectedItem', () => {
       const subject = new Subject();
-      const context = fakeMediaClient();
-      context.collection = {
+      const mediaClient = fakeMediaClient();
+      (mediaClient as any).collection = {
         getItems: subject,
         loadNextPage: jest.fn(),
       };
-      createFixture(context, identifier2);
+      createFixture(mediaClient, identifier2);
       subject.next(mediaCollectionItems);
-      expect(context.collection.getItems).toHaveBeenCalledTimes(1);
-      expect(context.collection.loadNextPage).toHaveBeenCalled();
+      expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
+      expect(mediaClient.collection.loadNextPage).toHaveBeenCalled();
     });
 
     it('should NOT load next page if we instantiate the component normally', () => {
-      const context = fakeMediaClient();
-      createFixture(context, identifier);
-      expect(context.collection.getItems).toHaveBeenCalledTimes(1);
-      expect(context.collection.loadNextPage).not.toHaveBeenCalled();
+      const mediaClient = fakeMediaClient();
+      createFixture(mediaClient, identifier);
+      expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
+      expect(mediaClient.collection.loadNextPage).not.toHaveBeenCalled();
     });
 
     it('should load next page if we navigate to the last item of the list', () => {
       const subject = new Subject();
-      const context = fakeMediaClient();
-      context.collection = {
+      const mediaClient = fakeMediaClient();
+      (mediaClient as any).collection = {
         getItems: subject,
         loadNextPage: jest.fn(),
       };
-      const el = createFixture(context, identifier);
+      const el = createFixture(mediaClient, identifier);
       subject.next(mediaCollectionItems);
       el.update();
 
-      expect(context.collection.loadNextPage).not.toHaveBeenCalled();
+      expect(mediaClient.collection.loadNextPage).not.toHaveBeenCalled();
       el.find(ArrowRightCircleIcon).simulate('click');
-      expect(context.collection.loadNextPage).toHaveBeenCalled();
+      expect(mediaClient.collection.loadNextPage).toHaveBeenCalled();
     });
   });
 });

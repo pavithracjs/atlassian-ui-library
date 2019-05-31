@@ -51,7 +51,7 @@ export default class Example extends React.Component<{}, State> {
         <h4>{title}</h4>
         <Card
           identifier={identifier}
-          mediaClient={mediaClient}
+          mediaClientConfig={mediaClient.config}
           onClick={onClick}
         />
       </div>
@@ -119,7 +119,7 @@ export default class Example extends React.Component<{}, State> {
           {selectedIdentifier && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
-                mediaClient={mediaClient}
+                mediaClientConfig={mediaClient.config}
                 selectedItem={selectedIdentifier}
                 dataSource={{ list: [selectedIdentifier] }}
                 collectionName={defaultCollectionName}

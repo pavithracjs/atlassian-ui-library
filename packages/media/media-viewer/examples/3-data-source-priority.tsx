@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { createStorybookContext } from '@atlaskit/media-test-helpers';
+import { createStorybookMediaClient } from '@atlaskit/media-test-helpers';
 import { imageItem, defaultCollectionName } from '../example-helpers';
 import { MediaViewer } from '../src';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 const selectedItem = imageItem;
 
 export default class Example extends React.Component<{}, {}> {
   render() {
     return (
       <MediaViewer
-        mediaClient={mediaClient}
+        mediaClientConfig={mediaClient.config}
         selectedItem={selectedItem}
         dataSource={{
           list: [selectedItem],

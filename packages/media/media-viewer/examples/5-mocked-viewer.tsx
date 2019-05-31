@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { canUseDOM } from 'exenv';
 
-import { FileIdentifier, ContextFactory } from '@atlaskit/media-client';
+import { FileIdentifier } from '@atlaskit/media-client';
 import { MediaFile } from '@atlaskit/media-store';
 import {
   MediaMock,
@@ -10,6 +10,7 @@ import {
   tallImage,
   defaultBaseUrl,
   generateFilesFromTestData,
+  createStorybookMediaClient,
 } from '@atlaskit/media-test-helpers';
 
 import { wideImage } from '../example-helpers/assets/wide-image';
@@ -50,15 +51,13 @@ if (canUseDOM) {
   });
   mediaMock.enable();
 }
-
-const mediaClient = ContextFactory.create({
-  authProvider: () =>
-    Promise.resolve({
-      clientId: '',
-      token: '',
-      baseUrl: defaultBaseUrl,
-    }),
-});
+const mediaClient = createStorybookMediaClient();
+(mediaClient.config as any).authProvider = () =>
+  Promise.resolve({
+    clientId: '',
+    token: '',
+    baseUrl: defaultBaseUrl,
+  });
 export default class Example extends React.Component<{}, {}> {
   render() {
     if (files.length === 0) {

@@ -10,7 +10,6 @@ import {
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
-import { createContext } from '../../../_stubs';
 import { VideoViewer, Props } from '../../../../../newgen/viewers/video';
 import { ErrorMessage } from '../../../../../newgen/error';
 import { Auth } from '@atlaskit/media-store';
@@ -64,16 +63,18 @@ function createFixture(
   props?: Partial<Props>,
   item?: ProcessedFileState,
 ) {
-  const context = fakeMediaClient({ authPromise });
+  const mediaClient = fakeMediaClient({
+    authProvider: () => authPromise,
+  });
   const el = mountWithIntlContext(
     <VideoViewer
-      mediaClient={context}
+      mediaClient={mediaClient}
       item={item || videoItem}
       {...props}
       previewCount={0}
     />,
   );
-  return { context, el };
+  return { mediaClient, el };
 }
 
 describe('Video viewer', () => {
@@ -217,7 +218,7 @@ describe('Video viewer', () => {
   describe('AutoPlay', () => {
     async function createAutoPlayFixture(previewCount: number) {
       const authPromise = Promise.resolve({ token, clientId, baseUrl });
-      const mediaClient = fakeMediaClient({ authPromise });
+      const { mediaClient } = createFixture(authPromise);
       const el = mountWithIntlContext(
         <VideoViewer
           mediaClient={mediaClient}
