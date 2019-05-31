@@ -7,7 +7,7 @@ import {
 import { getArtifactUrl } from '@atlaskit/media-store';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { constructAuthTokenUrl } from '../utils';
-import { Outcome, MediaViewerFeatureFlags } from '../domain';
+import { Outcome } from '../domain';
 import { Video, CustomVideoPlayerWrapper } from '../styled';
 import { isIE } from '../utils/isIE';
 import { createError, MediaViewerError } from '../error';
@@ -18,7 +18,6 @@ export type Props = Readonly<{
   item: FileState;
   mediaClient: MediaClient;
   collectionName?: string;
-  featureFlags?: MediaViewerFeatureFlags;
   showControls?: () => void;
   previewCount: number;
   onCanPlay?: () => void;

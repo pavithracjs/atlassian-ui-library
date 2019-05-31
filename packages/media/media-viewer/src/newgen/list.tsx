@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { MediaClient, Identifier } from '@atlaskit/media-client';
 import { ItemViewer } from './item-viewer';
-import { MediaViewerFeatureFlags } from './domain';
 import { HeaderWrapper, hideControlsClassName, ListWrapper } from './styled';
 import { Navigation } from './navigation';
 import Header from './header';
@@ -10,7 +9,6 @@ export type Props = Readonly<{
   onClose?: () => void;
   onNavigationChange?: (selectedItem: Identifier) => void;
   showControls?: () => void;
-  featureFlags?: MediaViewerFeatureFlags;
   defaultSelectedItem: Identifier;
   items: Identifier[];
   mediaClient: MediaClient;
@@ -34,7 +32,7 @@ export class List extends React.Component<Props, State> {
   }
 
   renderContent(items: Identifier[]) {
-    const { mediaClient, onClose, featureFlags, showControls } = this.props;
+    const { mediaClient, onClose, showControls } = this.props;
     const { selectedItem } = this.state;
 
     return (
@@ -47,7 +45,6 @@ export class List extends React.Component<Props, State> {
           />
         </HeaderWrapper>
         <ItemViewer
-          featureFlags={featureFlags}
           mediaClient={mediaClient}
           identifier={selectedItem}
           showControls={showControls}

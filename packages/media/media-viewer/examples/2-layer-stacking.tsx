@@ -9,7 +9,7 @@ import { imageItem } from '../example-helpers';
 import { MediaViewer } from '..';
 import { Identifier } from '@atlaskit/media-client';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookContext();
 
 export type State = {
   selectedItem?: Identifier;

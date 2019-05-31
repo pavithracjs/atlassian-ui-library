@@ -22,7 +22,7 @@ function createFixture(
   const el = mountWithIntlContext<Props, BaseState<Content>>(
     <DocViewer
       item={item}
-      mediaClient={mediaClient}
+      mediaClient={context}
       collectionName={collectionName}
     />,
   );

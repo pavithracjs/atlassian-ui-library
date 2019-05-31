@@ -14,11 +14,11 @@ import { Observable } from 'rxjs';
 import Spinner from '@atlaskit/spinner';
 import Button from '@atlaskit/button';
 import {
-  Context,
   ProcessedFileState,
   FileIdentifier,
   FileState,
   Identifier,
+  MediaClient,
 } from '@atlaskit/media-client';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
@@ -63,7 +63,7 @@ const makeFakeContext = (observable: Observable<any>) =>
     },
   } as any);
 
-function mountComponent(context: Context, identifier: Identifier) {
+function mountComponent(mediaClient: MediaClient, identifier: Identifier) {
   const el = mountWithIntlContext(
     <ItemViewer
       previewCount={0}
@@ -76,7 +76,7 @@ function mountComponent(context: Context, identifier: Identifier) {
 }
 
 function mountBaseComponent(
-  context: Context,
+  mediaClient: MediaClient,
   identifier: FileIdentifier,
   props?: Partial<AudioViewerProps | VideoViewerProps>,
 ) {
@@ -151,7 +151,7 @@ describe('<ItemViewer />', () => {
   });
 
   it('should should error and download button if file is processing failed', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeContext(
       Observable.of({
         id: '123',
         mediaType: 'video',
@@ -175,7 +175,7 @@ describe('<ItemViewer />', () => {
   });
 
   it('should should error and download button if file is in error state', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeContext(
       Observable.of({
         id: '123',
         mediaType: 'image',
@@ -361,14 +361,14 @@ describe('<ItemViewer />', () => {
     });
 
     it('should return to PENDING state when resets', () => {
-      const context = makeFakeContext(
+      const mediaClient = makeFakeContext(
         Observable.of({
           id: '123',
           mediaType: 'unknown',
           status: 'processed',
         }),
       );
-      const { el, instance } = mountBaseComponent(context, identifier);
+      const { el, instance } = mountBaseComponent(mediaClient, identifier);
       expect(instance.state.item.status).toEqual('SUCCESSFUL');
 
       const identifier2 = {
@@ -379,8 +379,8 @@ describe('<ItemViewer />', () => {
       // since the test is executed synchronously
       // let's prevent the second call to getFile from immediately resolving and
       // updating the state to SUCCESSFUL before we run the assertion.
-      context.file.getFileState = () => Observable.never();
-      el.setProps({ context, identifier: identifier2 });
+      mediaClient.file.getFileState = () => Observable.never();
+      el.setProps({ mediaClient, identifier: identifier2 });
       el.update();
 
       expect(instance.state.item.status).toEqual('PENDING');

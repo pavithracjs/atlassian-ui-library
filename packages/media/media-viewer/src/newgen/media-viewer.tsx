@@ -92,13 +92,7 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
   }
 
   private renderContent() {
-    const {
-      selectedItem,
-      mediaClient,
-      onClose,
-      itemSource,
-      featureFlags,
-    } = this.props;
+    const { selectedItem, mediaClient, onClose, itemSource } = this.props;
     const defaultSelectedItem = selectedItem;
 
     if (itemSource.kind === 'COLLECTION') {
@@ -109,7 +103,6 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
           collectionName={itemSource.collectionName}
           mediaClient={mediaClient}
           onClose={onClose}
-          featureFlags={featureFlags}
         />
       );
     } else if (itemSource.kind === 'ARRAY') {
@@ -122,7 +115,6 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
           items={items}
           mediaClient={mediaClient}
           onClose={onClose}
-          featureFlags={featureFlags}
         />
       );
     } else {

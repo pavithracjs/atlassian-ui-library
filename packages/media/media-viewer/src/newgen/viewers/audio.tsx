@@ -6,7 +6,7 @@ import {
 } from '@atlaskit/media-client';
 import AudioIcon from '@atlaskit/icon/glyph/media-services/audio';
 import { constructAuthTokenUrl } from '../utils';
-import { Outcome, MediaViewerFeatureFlags } from '../domain';
+import { Outcome } from '../domain';
 import {
   AudioPlayer,
   AudioCover,
@@ -27,7 +27,6 @@ export type Props = Readonly<{
   mediaClient: MediaClient;
   collectionName?: string;
   previewCount: number;
-  featureFlags?: MediaViewerFeatureFlags;
   showControls?: () => void;
   onCanPlay?: () => void;
   onError?: () => void;

@@ -1,13 +1,8 @@
 import * as events from 'events';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs';
-import {
-  MediaClient,
-  ContextConfig,
-  FileItem,
-  FileState,
-} from '@atlaskit/media-client';
-import { Auth } from '@atlaskit/media-core';
+import { MediaClient, FileItem, FileState } from '@atlaskit/media-client';
+import { Auth, MediaClientConfig } from '@atlaskit/media-store';
 
 export class Stubs {
   static mediaViewer(overrides: any) {
@@ -47,9 +42,9 @@ export class Stubs {
   }
 
   static context(
-    config: ContextConfig,
+    config: MediaClientConfig,
     getFileState?: () => Observable<FileState>,
-  ): Partial<Context> {
+  ): Partial<MediaClient> {
     return {
       config,
       file: {
@@ -68,7 +63,7 @@ export class Stubs {
 export interface CreateContextOptions {
   authPromise?: Promise<Auth>;
   getFileState?: () => Observable<FileState>;
-  config?: ContextConfig;
+  config?: MediaClientConfig;
 }
 
 export const createContext = (options?: CreateContextOptions) => {
@@ -83,7 +78,7 @@ export const createContext = (options?: CreateContextOptions) => {
   };
   const { authPromise, getFileState, config } = options || defaultOptions;
   const authProvider = jest.fn(() => authPromise);
-  const contextConfig: ContextConfig = {
+  const contextConfig: MediaClientConfig = {
     authProvider,
   };
   return Stubs.context(config || contextConfig, getFileState);

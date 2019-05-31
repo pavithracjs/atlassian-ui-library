@@ -5,7 +5,7 @@ import {
   Identifier,
   isExternalImageIdentifier,
 } from '@atlaskit/media-client';
-import { Outcome, MediaViewerFeatureFlags } from './domain';
+import { Outcome } from './domain';
 import ErrorMessage, { createError, MediaViewerError } from './error';
 import { List } from './list';
 import { Subscription } from 'rxjs/Subscription';
@@ -17,7 +17,6 @@ export type Props = Readonly<{
   onClose?: () => void;
   defaultSelectedItem?: Identifier;
   showControls?: () => void;
-  featureFlags?: MediaViewerFeatureFlags;
   collectionName: string;
   mediaClient: MediaClient;
   pageSize: number;

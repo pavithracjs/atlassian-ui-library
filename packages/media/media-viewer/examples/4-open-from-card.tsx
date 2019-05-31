@@ -8,9 +8,10 @@ import {
   docFileId,
   animatedFileId,
   defaultCollectionName,
+  createStorybookMediaClient,
 } from '@atlaskit/media-test-helpers';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 const defaultList = [
   animatedFileId,
   imageFileId,

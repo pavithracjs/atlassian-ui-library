@@ -2,19 +2,18 @@ import * as React from 'react';
 import { colors } from '@atlaskit/theme';
 import { ModalSpinner } from '@atlaskit/media-ui';
 import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
-import { MediaViewer } from './media-viewer';
 import { MediaViewerProps } from './types';
 
 type MediaViewerWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
   MediaViewerProps
 >;
 
-type CardWithMediaClientConfigComponent = React.ComponentType<
+type MediaViewerWithMediaClientConfigComponent = React.ComponentType<
   MediaViewerWithMediaClientConfigProps
 >;
 
 interface AsyncMediaViewerState {
-  MediaViewer?: CardWithMediaClientConfigComponent;
+  MediaViewer?: MediaViewerWithMediaClientConfigComponent;
 }
 
 export default class AsyncMediaViewer extends React.PureComponent<
@@ -22,7 +21,7 @@ export default class AsyncMediaViewer extends React.PureComponent<
   AsyncMediaViewerState
 > {
   static displayName = 'AsyncMediaViewer';
-  static MediaViewer?: CardWithMediaClientConfigComponent;
+  static MediaViewer?: MediaViewerWithMediaClientConfigComponent;
 
   state: AsyncMediaViewerState = {
     // Set state value to equal to current static value of this class.
@@ -36,10 +35,11 @@ export default class AsyncMediaViewer extends React.PureComponent<
         import(/* webpackChunkName:"@atlaskit-internal_media-viewer" */ './media-viewer'),
       ]);
 
-      AsyncMediaViewer.MediaViewer = mediaClient.withMediaClient(
+      const MediaViewerWithClient = mediaClient.withMediaClient(
         mediaViewerModule.MediaViewer,
       );
-      this.setState({ MediaViewer: mediaViewerModule.MediaViewer });
+      AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
+      this.setState({ MediaViewer: MediaViewerWithClient });
     }
   }
 

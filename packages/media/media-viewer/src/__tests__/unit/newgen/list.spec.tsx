@@ -13,7 +13,7 @@ function createFixture(props: Partial<Props>) {
     occurrenceKey: '',
     mediaItemType: 'file',
   };
-  const context = {
+  const mediaClient = {
     file: {
       getFileState: () =>
         Observable.of({

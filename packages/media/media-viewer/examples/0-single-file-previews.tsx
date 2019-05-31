@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
-  createStorybookContext,
   externalImageIdentifier,
+  createStorybookMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { Identifier } from '@atlaskit/media-client';
@@ -26,7 +26,7 @@ import {
 import { MediaViewer } from '../src';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 const handleEvent = (/*analyticsEvent: UIAnalyticsEventInterface*/) => {
   // instrument here...

@@ -8,7 +8,7 @@ import {
 } from '@atlaskit/media-client';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
-import { Outcome, MediaViewerFeatureFlags } from './domain';
+import { Outcome } from './domain';
 import { ImageViewer } from './viewers/image';
 import { VideoViewer } from './viewers/video';
 import { DocViewer } from './viewers/doc';
@@ -42,7 +42,6 @@ import { InteractiveImg } from './viewers/image/interactive-img';
 export type Props = Readonly<{
   identifier: Identifier;
   mediaClient: MediaClient;
-  featureFlags?: MediaViewerFeatureFlags;
   showControls?: () => void;
   onClose?: () => void;
   previewCount: number;
@@ -129,7 +128,6 @@ export class ItemViewerBase extends React.Component<Props, State> {
     const {
       mediaClient,
       identifier,
-      featureFlags,
       showControls,
       onClose,
       previewCount,
@@ -152,7 +150,6 @@ export class ItemViewerBase extends React.Component<Props, State> {
         return (
           <AudioViewer
             showControls={showControls}
-            featureFlags={featureFlags}
             onCanPlay={this.onCanPlay(item)}
             onError={this.onError(item)}
             {...viewerProps}
@@ -162,7 +159,6 @@ export class ItemViewerBase extends React.Component<Props, State> {
         return (
           <VideoViewer
             showControls={showControls}
-            featureFlags={featureFlags}
             onCanPlay={this.onCanPlay(item)}
             onError={this.onError(item)}
             {...viewerProps}

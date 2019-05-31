@@ -34,7 +34,7 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
     const {
       featureFlags,
       onClose,
-      context,
+      mediaClient,
       selectedItem,
       collectionName,
       dataSource,

@@ -3,7 +3,7 @@ const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 
 import * as React from 'react';
 import { createContext } from '../../../_stubs';
-import { Auth, ProcessedFileState } from '@atlaskit/media-client';
+import { ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
@@ -15,6 +15,7 @@ import { DefaultCoverWrapper, AudioCover } from '../../../../../newgen/styled';
 import { ErrorMessage } from '../../../../../newgen/error';
 import Button from '@atlaskit/button';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
+import { Auth } from '@atlaskit/media-store';
 
 const token = 'some-token';
 const clientId = 'some-client-id';
@@ -49,7 +50,7 @@ function createFixture(
   const context = createContext({ authPromise });
   const el = mountWithIntlContext(
     <AudioViewer
-      mediaClient={mediaClient}
+      mediaClient={context}
       item={item || audioItem}
       collectionName={collectionName}
       previewCount={0}
@@ -171,7 +172,7 @@ describe('Audio viewer', () => {
     describe('AutoPlay', () => {
       async function createAutoPlayFixture(previewCount: number) {
         const authPromise = Promise.resolve({ token, clientId, baseUrl });
-        const context = createContext({ authPromise });
+        const mediaClient = createContext({ authPromise });
         const el = mountWithIntlContext(
           <AudioViewer
             mediaClient={mediaClient}

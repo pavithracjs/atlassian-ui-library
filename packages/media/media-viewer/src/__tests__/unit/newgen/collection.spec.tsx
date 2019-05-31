@@ -4,12 +4,11 @@ import { Observable } from 'rxjs';
 import { MediaClient, FileIdentifier } from '@atlaskit/media-client';
 import {
   mountWithIntlContext,
-  fakeContext,
+  fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { MediaCollectionItem } from '@atlaskit/media-store';
 import Spinner from '@atlaskit/spinner';
 import ArrowRightCircleIcon from '@atlaskit/icon/glyph/chevron-right-circle';
-import { createContext } from '../_stubs';
 import { Collection, Props, State } from '../../../newgen/collection';
 import { ErrorMessage } from '../../../newgen/error';
 import { List } from '../../../newgen/list';
@@ -76,12 +75,12 @@ function createFixture(
 
 describe('<Collection />', () => {
   it('should show a spinner while requesting items', () => {
-    const el = createFixture(createContext(), identifier);
+    const el = createFixture(fakeMediaClient(), identifier);
     expect(el.find(Spinner)).toHaveLength(1);
   });
 
   it('should fetch collection items', () => {
-    const context = createContext();
+    const context = fakeMediaClient();
     createFixture(context, identifier);
     expect(context.collection.getItems).toHaveBeenCalledTimes(1);
     expect(context.collection.getItems).toHaveBeenCalledWith('my-collection', {
@@ -90,11 +89,10 @@ describe('<Collection />', () => {
   });
 
   it('should show an error if items failed to be fetched', () => {
-    const context = fakeContext({
-      collection: {
-        getItems: new Observable(observer => observer.error()),
-      },
-    });
+    const context = fakeMediaClient();
+    (context.collection as any).getItems = new Observable(observer =>
+      observer.error(),
+    );
     const el = createFixture(context, identifier);
     el.update();
     const errorMessage = el.find(ErrorMessage);
@@ -105,7 +103,7 @@ describe('<Collection />', () => {
   });
 
   it('should reset the component when the collection prop changes', () => {
-    const context = createContext();
+    const context = fakeMediaClient();
     const el = createFixture(context, identifier);
     expect(context.collection.getItems).toHaveBeenCalledTimes(1);
     el.setProps({ collectionName: 'other-collection' });
@@ -113,11 +111,11 @@ describe('<Collection />', () => {
   });
 
   it('should reset the component when the context prop changes', () => {
-    const context = createContext();
+    const context = fakeMediaClient();
     const el = createFixture(context, identifier);
     expect(context.collection.getItems).toHaveBeenCalledTimes(1);
 
-    const context2 = createContext();
+    const context2 = fakeMediaClient();
     el.setProps({ mediaClient: context2 });
 
     expect(context.collection.getItems).toHaveBeenCalledTimes(1);
@@ -126,11 +124,8 @@ describe('<Collection />', () => {
 
   it('should restore PENDING state when component resets', () => {
     const subject = new Subject();
-    const context = fakeContext({
-      collection: {
-        getItems: subject,
-      },
-    });
+    const context = fakeMediaClient();
+    context.collection.getItems = subject;
     const el = createFixture(context, identifier);
     expect(el.state().items.status).toEqual('PENDING');
     subject.next(mediaCollectionItems);
@@ -142,12 +137,11 @@ describe('<Collection />', () => {
 
   it('MSW-720: adds the collectionName to all identifiers passed to the List component', () => {
     const subject = new Subject();
-    const context = fakeContext({
-      collection: {
-        getItems: subject,
-        loadNextPage: jest.fn(),
-      },
-    });
+    const context = fakeMediaClient();
+    context.collection = {
+      getItems: subject,
+      loadNextPage: jest.fn(),
+    };
     const el = createFixture(context, identifier);
     subject.next(mediaCollectionItems);
     el.update();
@@ -163,12 +157,11 @@ describe('<Collection />', () => {
   describe('Next page', () => {
     it('should load next page if we instantiate the component with the last item of the page as selectedItem', () => {
       const subject = new Subject();
-      const context = fakeContext({
-        collection: {
-          getItems: subject,
-          loadNextPage: jest.fn(),
-        },
-      });
+      const context = fakeMediaClient();
+      context.collection = {
+        getItems: subject,
+        loadNextPage: jest.fn(),
+      };
       createFixture(context, identifier2);
       subject.next(mediaCollectionItems);
       expect(context.collection.getItems).toHaveBeenCalledTimes(1);
@@ -176,7 +169,7 @@ describe('<Collection />', () => {
     });
 
     it('should NOT load next page if we instantiate the component normally', () => {
-      const context = createContext();
+      const context = fakeMediaClient();
       createFixture(context, identifier);
       expect(context.collection.getItems).toHaveBeenCalledTimes(1);
       expect(context.collection.loadNextPage).not.toHaveBeenCalled();
@@ -184,12 +177,11 @@ describe('<Collection />', () => {
 
     it('should load next page if we navigate to the last item of the list', () => {
       const subject = new Subject();
-      const context = fakeContext({
-        collection: {
-          getItems: subject,
-          loadNextPage: jest.fn(),
-        },
-      });
+      const context = fakeMediaClient();
+      context.collection = {
+        getItems: subject,
+        loadNextPage: jest.fn(),
+      };
       const el = createFixture(context, identifier);
       subject.next(mediaCollectionItems);
       el.update();

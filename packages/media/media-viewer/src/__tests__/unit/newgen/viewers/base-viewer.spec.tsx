@@ -10,7 +10,10 @@ import {
   MediaViewerError,
 } from '../../../../newgen/error';
 import { Spinner } from '../../../../newgen/loading';
-import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import {
+  mountWithIntlContext,
+  fakeMediaClient,
+} from '@atlaskit/media-test-helpers';
 
 function createItem(): ProcessedFileState {
   return {
@@ -27,9 +30,9 @@ function createItem(): ProcessedFileState {
 
 function createProps(): BaseProps {
   const item = createItem();
-  const context = createContext();
+  const mediaClient = fakeMediaClient();
   const collectionName = 'test-collection';
-  return { item, context, collectionName };
+  return { item, mediaClient, collectionName };
 }
 
 function createInitialState() {

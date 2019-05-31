@@ -2,13 +2,18 @@ import * as util from '../../../../../newgen/utils';
 const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 import * as React from 'react';
 import Button from '@atlaskit/button';
-import { Auth, ProcessedFileState } from '@atlaskit/media-client';
+import { ProcessedFileState } from '@atlaskit/media-client';
 import Spinner from '@atlaskit/spinner';
-import { awaitError, mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import {
+  awaitError,
+  mountWithIntlContext,
+  fakeMediaClient,
+} from '@atlaskit/media-test-helpers';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { createContext } from '../../../_stubs';
 import { VideoViewer, Props } from '../../../../../newgen/viewers/video';
 import { ErrorMessage } from '../../../../../newgen/error';
+import { Auth } from '@atlaskit/media-store';
 
 const token = 'some-token';
 const clientId = 'some-client-id';
@@ -59,10 +64,10 @@ function createFixture(
   props?: Partial<Props>,
   item?: ProcessedFileState,
 ) {
-  const context = createContext({ authPromise });
+  const context = fakeMediaClient({ authPromise });
   const el = mountWithIntlContext(
     <VideoViewer
-      mediaClient={mediaClient}
+      mediaClient={context}
       item={item || videoItem}
       {...props}
       previewCount={0}
@@ -212,7 +217,7 @@ describe('Video viewer', () => {
   describe('AutoPlay', () => {
     async function createAutoPlayFixture(previewCount: number) {
       const authPromise = Promise.resolve({ token, clientId, baseUrl });
-      const context = createContext({ authPromise });
+      const mediaClient = fakeMediaClient({ authPromise });
       const el = mountWithIntlContext(
         <VideoViewer
           mediaClient={mediaClient}
