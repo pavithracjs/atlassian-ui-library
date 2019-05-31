@@ -20,7 +20,34 @@ const outerStyle = serializeStyle({
   '-moz-border-radius': '3px',
 });
 
+const imageWrapperStyle = serializeStyle({
+  margin: '24px auto',
+  'text-align': 'center',
+});
+
 export default function media({ attrs }: NodeSerializerOpts) {
+  let src;
+  if (attrs.id) {
+    // ID is defined, render image using CID:
+    src = `cid:${attrs.id}`;
+  } else if (attrs.url) {
+    // url defined, user direct link image
+    src = attrs.url;
+  }
+  if (src) {
+    const style: any = {
+      'max-width': '100%',
+    };
+    if (attrs.width) {
+      style.width = attrs.width;
+    }
+    if (attrs.height) {
+      style.height = attrs.height;
+    }
+    const img = createTag('img', { style: serializeStyle(style), src });
+    return createTag('div', { style: imageWrapperStyle }, img);
+  }
+  // no id or url found, fall back to placeholder
   const inner = createTag(
     'div',
     { style: innerStyle },

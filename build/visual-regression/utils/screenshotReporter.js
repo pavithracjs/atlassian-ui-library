@@ -1,7 +1,7 @@
 const mkdirp = require('mkdirp');
 
 const formatFileName = path => {
-  return path.toLowerCase().replace(/[\s\.:]/g, '-');
+  return path.toLowerCase().replace(/[\s\.:\/\\]/g, '-');
 };
 
 const hasSnapshotDiffFail = failedExpectations => {

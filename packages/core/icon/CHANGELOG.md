@@ -1,5 +1,17 @@
 # @atlaskit/icon
 
+## 17.1.3
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 17.1.2
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/icon-file-type@4.0.1
+  - @atlaskit/icon-object@4.0.1
+  - @atlaskit/icon-priority@4.0.1
+  - @atlaskit/modal-dialog@10.0.0
+
 ## 17.1.1
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/field-text@9.0.1

@@ -4,7 +4,18 @@ import { StoryBookAuthProvider } from './authProvider';
 import { collectionNames } from './collectionNames';
 import { mediaPickerAuthProvider } from './mediaPickerAuthProvider';
 import { userAuthProvider } from './userAuthProvider';
-import { AuthParameter } from './contextProvider';
+
+export const defaultBaseUrl = 'https://dt-api.dev.atl-paas.net';
+
+export const defaultParams = {
+  clientId: '5a9812fc-d029-4a39-8a46-d3cc36eed7ab',
+  asapIssuer: 'micros/media-playground',
+  baseUrl: defaultBaseUrl,
+};
+
+interface AuthParameter {
+  authType: 'client' | 'asap';
+}
 
 const defaultAuthParameter: AuthParameter = {
   authType: 'client',

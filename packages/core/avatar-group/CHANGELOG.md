@@ -1,5 +1,10 @@
 # @atlaskit/avatar-group
 
+## 4.0.2
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/code@11.0.0
+
 ## 4.0.1
 - [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
 

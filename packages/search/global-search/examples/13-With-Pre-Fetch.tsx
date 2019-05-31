@@ -8,7 +8,9 @@ const GlobalQuickSearchWrapper = withNavigation(GlobalQuickSearch);
 
 export default class GlobalQuickSearchExample extends React.Component {
   componentWillMount() {
-    setupMocks();
+    setupMocks({
+      crossProductSearchDelay: 2000,
+    });
   }
 
   componentWillUnmount() {
