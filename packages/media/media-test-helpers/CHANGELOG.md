@@ -1,5 +1,10 @@
 # @atlaskit/media-test-helpers
 
+## 24.0.0
+- [major] [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+
+  - `createUserContext` was removed, with no alternatives to replace it. `asMockReturnValue` jest helper function was added to make it possible to be type safe.
+
 ## 23.1.1
 - Updated dependencies [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
   - @atlaskit/media-picker@43.0.0

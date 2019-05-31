@@ -1,12 +1,13 @@
 {
   "name": "@atlaskit/code",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "config": {
     "access": "public"
   },
   "description": "Renders inline code snippets and code blocks",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
@@ -16,7 +17,7 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",

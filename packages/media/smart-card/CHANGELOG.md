@@ -1,5 +1,12 @@
 # @atlaskit/smart-card
 
+## 11.1.2
+- Updated dependencies [66af32c013](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66af32c013):
+- Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
+  - @atlaskit/inline-message@10.0.0
+  - @atlaskit/form@6.0.3
+  - @atlaskit/radio@3.0.0
+
 ## 11.1.1
 - Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
   - @atlaskit/media-ui@11.2.4

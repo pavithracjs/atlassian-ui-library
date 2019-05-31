@@ -1,5 +1,9 @@
 # @atlaskit/icon-priority
 
+## 4.0.1
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/modal-dialog@10.0.0
+
 ## 4.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

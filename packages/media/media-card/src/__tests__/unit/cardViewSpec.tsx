@@ -9,7 +9,7 @@ jest.mock('../../../src/utils/shouldDisplayImageThumbnail', () => ({
 import * as React from 'react';
 
 import { shallow, mount } from 'enzyme';
-import { FileDetails } from '@atlaskit/media-core';
+import { FileDetails } from '@atlaskit/media-client';
 
 import {
   AnalyticsListener,

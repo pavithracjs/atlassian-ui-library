@@ -1,5 +1,10 @@
 # @atlaskit/field-range
 
+## 7.0.2
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/section-message@4.0.1
+
 ## 7.0.1
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/theme@9.0.2

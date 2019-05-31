@@ -1,5 +1,12 @@
 # @atlaskit/media-store
 
+## 12.0.2
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/media-card@63.1.0
+  - @atlaskit/media-client@1.2.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-test-helpers@24.0.0
+
 ## 12.0.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-card@63.0.2

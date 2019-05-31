@@ -1,5 +1,14 @@
 # @atlaskit/select
 
+## 9.1.2
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/form@6.0.3
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/modal-dialog@10.0.0
+
 ## 9.1.1
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2

@@ -1,5 +1,10 @@
 # @atlaskit/empty-state
 
+## 5.0.1
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/spinner@12.0.0
+
 ## 5.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -1,4 +1,4 @@
-import { MediaType } from '@atlaskit/media-core';
+import { MediaType } from '@atlaskit/media-client';
 
 export const shouldDisplayImageThumbnail = (
   dataURI?: string,

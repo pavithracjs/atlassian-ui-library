@@ -1,5 +1,14 @@
 # @atlaskit/media-image
 
+## 14.0.2
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/select@9.1.2
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-store@12.0.2
+  - @atlaskit/media-test-helpers@24.0.0
+
 ## 14.0.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-core@30.0.1

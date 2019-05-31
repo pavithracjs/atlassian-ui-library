@@ -1,5 +1,11 @@
 # @atlaskit/emoji
 
+## 62.1.4
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/field-base@13.0.1
+  - @atlaskit/spinner@12.0.0
+
 ## 62.1.3
 - [patch] [ee970b5526](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee970b5526):
 

@@ -1,5 +1,22 @@
 # @atlaskit/global-search
 
+## 8.11.0
+- [patch] [7c572538d3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c572538d3):
+
+  Always attach searchSessionId in post query
+- [minor] [f5ffb0a08a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f5ffb0a08a):
+
+  - Fix prefetching logic in global search and improved faster search experience
+- [patch] [92381960e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92381960e9):
+
+  - Updated types to support modal-dialog typescript conversion
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/feedback-collector@4.0.3
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/icon-file-type@4.0.1
+  - @atlaskit/icon-object@4.0.1
+  - @atlaskit/modal-dialog@10.0.0
+
 ## 8.10.2
 - [patch] [4b4ee6dc9f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b4ee6dc9f):
 

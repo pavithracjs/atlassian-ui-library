@@ -1,9 +1,18 @@
 // @flow
 
 import React from 'react';
-import { code, md, Example, Props } from '@atlaskit/docs';
+import {
+  code,
+  md,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+  DevPreviewWarning,
+} from '@atlaskit/docs';
 
-// The core parts of the intro page for your examples documentation are:
+// The core parts of the intro page for your examples documentation are:\
+// 0. If your component is in developer preview and/or is designed for internal Atlassian development,
+//    you can add a section message indicating it.
 // 1. A summary description
 // 2. An example of how to import the component as a codeblock, showing sub-components as well
 // 3. An example pulled from the examples folder which shows the most basic implementation
@@ -12,6 +21,23 @@ import { code, md, Example, Props } from '@atlaskit/docs';
 //    each, or use separate pages in docs to document each exported component.
 
 export default md`
+  TODO: If your component is designed for internal Atlassian development
+  ${<AtlassianInternalWarning />}
+
+  TODO: If your component is in developer preview
+  ${<DevPreviewWarning />}
+
+  TODO: If your component is both for internal Atlassian development and in developer preview
+  ${(
+    <>
+      <div style={{ marginBottom: '0.5rem' }}>
+        <AtlassianInternalWarning />
+      </div>
+      <div style={{ marginTop: '0.5rem' }}>
+        <DevPreviewWarning />
+      </div>
+    </>
+  )}
 
   TODO: Summary of what the component is/is for
 
