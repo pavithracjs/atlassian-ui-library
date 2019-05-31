@@ -1,5 +1,6 @@
 import { Page } from './_types';
 import { selectors } from './_editor';
+import messages from '../../../messages';
 
 const columnsSelector = 'div[data-layout-column]';
 const columnSelectedSelector = 'div[data-layout-section].selected';
@@ -8,7 +9,7 @@ function getColumnElementXPath(column: number, paragraph: number) {
   return `(//div[@data-layout-column])[${column}]//p[${paragraph}]`;
 }
 
-export const clickOnColumn = async (
+export const clickOnLayoutColumn = async (
   page: Page,
   column: number = 1,
   paragraph: number = 1,
@@ -22,7 +23,7 @@ export const clickOnColumn = async (
   await page.waitForSelector(columnSelectedSelector);
 };
 
-export const scrollToColumn = async (
+export const scrollToLayoutColumn = async (
   page: Page,
   column: number = 0,
   offset: number = 0,
@@ -87,4 +88,25 @@ export const scrollToColumn = async (
     selectors.scrollContainer,
     offset,
   );
+};
+
+export const waitForLayoutToolbar = async (page: any) => {
+  await page.waitForSelector('[aria-label="Layout floating controls"]');
+};
+
+export const toggleBreakout = async (page: any, times: number) => {
+  const timesArray = Array.from({ length: times });
+
+  const breakoutSelector = [
+    messages.layoutFixedWidth.defaultMessage,
+    messages.layoutWide.defaultMessage,
+    messages.layoutFullWidth.defaultMessage,
+  ]
+    .map(label => `[aria-label="${label}"]`)
+    .join();
+
+  for (let _iter of timesArray) {
+    await page.waitForSelector(breakoutSelector);
+    await page.click(breakoutSelector);
+  }
 };
