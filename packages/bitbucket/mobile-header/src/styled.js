@@ -33,7 +33,7 @@ const xPositioning = ({ side, isOpen }) =>
       `;
 
 export const MobileNavSlider = styled.div`
-  height: 100vh;
+  height: ${props => `calc(100vh - ${props.topOffset}px)`};
   position: fixed;
   top: ${props => props.topOffset}px;
   transition: transform 0.2s ease-out;
