@@ -1,5 +1,10 @@
 # @atlaskit/docs
 
+## 8.1.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 8.1.0
 - [minor] [35405c3362](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/35405c3362):
 
