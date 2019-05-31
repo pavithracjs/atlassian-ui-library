@@ -726,6 +726,9 @@ describe('importFiles middleware', () => {
         status: 'uploading',
         name: 'some_file_name',
         progress: 0.5,
+        preview: {
+          value: 'some-existing-preview',
+        },
       });
       getFileStreamsCache().set('user-id', subject as Observable<FileState>);
 
@@ -737,8 +740,11 @@ describe('importFiles middleware', () => {
         async next(state) {
           const fileState = state as UploadingFileState;
           // we want to make sure that existing file properties are present
-          expect(await fileState.name).toEqual('some_file_name');
-          expect(await fileState.progress).toEqual(0.5);
+          expect(fileState.name).toEqual('some_file_name');
+          expect(fileState.progress).toEqual(0.5);
+          expect(await fileState.preview).toEqual({
+            value: 'some-existing-preview',
+          });
           done();
         },
       });

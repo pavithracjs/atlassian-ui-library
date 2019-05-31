@@ -190,6 +190,7 @@ export const touchSelectedFiles = (
           map(file => ({
             ...file,
             id,
+            preview: fileState.preview,
           })),
         );
         getFileStreamsCache().set(id, tenantFile);
