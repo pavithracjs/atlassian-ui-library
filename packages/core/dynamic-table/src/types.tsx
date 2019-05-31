@@ -31,7 +31,7 @@ export interface StatelessProps {
   onSetPage?: (page: number, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
   /** Called when a column is sorted. Provides information about what was sorted and an analytics event. */
   onSort?: (data: any, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
-  /** Called before body table render when visible table rows change with table rows given. */
+  /** Called after body table render when visible table rows change with table rows given. */
   onPageRowsUpdate?: (pageRows: Array<RowType>) => void;
   /** The current page number */
   page?: number;

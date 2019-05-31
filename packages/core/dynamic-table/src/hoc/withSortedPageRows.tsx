@@ -109,10 +109,7 @@ export default function withSortedPageRows<
     Omit<WrappedComponentProps & Props, 'pageRows'>,
     { pageRows: Array<RowType> }
   > {
-    constructor(props: Omit<WrappedComponentProps & Props, 'pageRows'>) {
-      super(props);
-      this.state = { pageRows: [] };
-    }
+    state = { pageRows: [] };
 
     static getDerivedStateFromProps(
       props: Omit<WrappedComponentProps & Props, 'pageRows'>,
