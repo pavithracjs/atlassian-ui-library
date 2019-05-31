@@ -1,5 +1,14 @@
 # @atlaskit/editor-core
 
+## 112.11.2
+- [patch] [d7aa377982](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7aa377982):
+
+  - ED-6958: fix navigating using arrow keys around images in comment editors
+
+  Specifically, the "gap cursor" on the right hand side of images in the comment editor would appear floating oddly on the left hand side.
+
+  This patch puts it correctly on the right hand side.
+
 ## 112.11.1
 - [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
 
