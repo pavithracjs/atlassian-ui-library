@@ -1,21 +1,9 @@
 import * as React from 'react';
-import { md, Example, code } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import { md, Example, code, AtlassianInternalWarning } from '@atlaskit/docs';
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
+${<AtlassianInternalWarning />}
+
 This transformer allows encoding ProseMirror Node in JSON format.
 
   ## Usage

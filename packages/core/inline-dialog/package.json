@@ -34,7 +34,7 @@
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/datetime-picker": "^8.0.1",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/icon": "^17.0.0",
     "@atlaskit/select": "^9.0.1",
     "@atlaskit/single-select": "^8.0.0",

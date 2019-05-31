@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { md, Props } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
 
 export default md`
   ${(

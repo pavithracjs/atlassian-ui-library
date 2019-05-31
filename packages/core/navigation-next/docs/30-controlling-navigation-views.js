@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { code, md } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
 
 import { Contents, ContentsProvider, IframeExample, H } from './shared';
 

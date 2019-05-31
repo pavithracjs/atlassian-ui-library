@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { md, code, Example } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import { md, code, Example, AtlassianInternalWarning } from '@atlaskit/docs';
 
 import dropzone from './dropzone.png';
 import browser from './browser.png';
@@ -9,19 +8,8 @@ import popup from './popup.png';
 const CreateImage = (filename: string) => <img src={filename} />;
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
+  ${<AtlassianInternalWarning />}
+  
   # Documentation
 
   ## Table of contents

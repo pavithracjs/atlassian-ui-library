@@ -48,12 +48,11 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^13.0.2",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-text": "^9.0.1",
     "@atlaskit/logo": "^12.0.0",
     "@atlaskit/page": "^11.0.0",
     "@atlaskit/quick-search": "^7.0.0",
-    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/single-select": "^8.0.1",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/toggle": "^7.0.0",

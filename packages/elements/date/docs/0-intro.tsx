@@ -1,6 +1,12 @@
 import * as React from 'react';
-import { md, Example, Props, code } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  md,
+  Example,
+  Props,
+  code,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
+
 import DateStyledExample from '../examples/01-date-with-style';
 import CustomColorExample from '../examples/00-custom-colors';
 import CustomFormatExample from '../examples/02-custom-format';
@@ -12,19 +18,7 @@ const CustomFormatSource = require('!!raw-loader!../examples/02-custom-format');
 const DateProps = require('!!extract-react-types-loader!../src/components/Date');
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
+${<AtlassianInternalWarning />}
 This component is the implementation of the Date element in React.
 
 ## Usage

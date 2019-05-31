@@ -1,22 +1,16 @@
 // @flow
 import React from 'react';
-import { code, md, Example, Props } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  code,
+  md,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
+${<AtlassianInternalWarning />}
+
 This panel component is designed hold content and expand and collapse with user interaction. It animates its opening and closing.
 
 ## Usage

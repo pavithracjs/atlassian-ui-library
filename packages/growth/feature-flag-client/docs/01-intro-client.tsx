@@ -1,21 +1,8 @@
 import React from 'react';
 import { code, md, Example } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
+${<AtlassianInternalWarning />}
   This client makes it easy to work with feature flags and dark features.
   By using it, exposure events will be fired automatically allowing analysis of important metrics out of the box.
 

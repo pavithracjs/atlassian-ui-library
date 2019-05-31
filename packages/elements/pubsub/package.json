@@ -30,10 +30,9 @@
   },
   "devDependencies": {
     "@atlaskit/button": "^13.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/lozenge": "^9.0.0",
-    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/theme": "^9.0.3",
     "@types/fetch-mock": "^6.0.3",
     "es6-promise": "^4.0.5",

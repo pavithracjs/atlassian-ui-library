@@ -1,21 +1,15 @@
 import React from 'react';
-import { md, Example, Props, code } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  md,
+  Example,
+  Props,
+  code,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
+  ${<AtlassianInternalWarning />}
+  
   The progress bar is used to display progress of some process.
 
   Apart from default version it also has Success Progress Bar (gets green when value is 1) and Transparent Progress Bar to use on non-white backgrounds.

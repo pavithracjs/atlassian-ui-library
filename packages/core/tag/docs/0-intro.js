@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
 
 export default md`
   Tags are designed to be displayed within a [Tag Group](/components/tag-group).

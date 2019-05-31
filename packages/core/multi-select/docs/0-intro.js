@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { md, Example, Props } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
 
 export default md`
   React component which allows selection of multiple items from a dropdown list. Substitute for the native multiple select element

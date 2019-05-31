@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { code, md, Props, Example } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  code,
+  md,
+  Props,
+  Example,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 const newConversationSource = `import { Conversation, ConversationResource } from '@atlaskit/conversation';
 
@@ -315,19 +320,7 @@ const props = {
 };
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
+  ${<AtlassianInternalWarning />}
 
   The Conversation component is a drop-in component for adding conversations in any context. It is the front-end part of the \`Conversation Service\` and together they make up \`Conversations as a Service\`.
 

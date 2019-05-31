@@ -1,35 +1,24 @@
 // @flow
 import React from 'react';
-import { md, Example, code, Props } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  md,
+  Example,
+  code,
+  Props,
+  AtlassianInternalWarning,
+  DevPreviewWarning,
+} from '@atlaskit/docs';
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: This component is designed for internal Atlassian development.
-      </strong>
-    </p>
-    <p>
-      External contributors will be able to use this component but will not be
-      able to submit issues.
-    </p>
-  </SectionMessage>
-)}
   ${(
-    <SectionMessage appearance="warning">
-      <p>
-        <strong>
-          Note: @atlaskit/react-experiment-framework is currently in developer
-          preview.
-        </strong>
-      </p>
-      <p>
-        Please experiment with and test this package but be aware that the API
-        may & probably will change with future releases.
-      </p>
-    </SectionMessage>
+    <>
+      <div style={{ marginBottom: '0.5rem' }}>
+        <AtlassianInternalWarning />
+      </div>
+      <div style={{ marginTop: '0.5rem' }}>
+        <DevPreviewWarning />
+      </div>
+    </>
   )}
 
   The React experiment framework is a set of React component that facilitate easier product experimentation.

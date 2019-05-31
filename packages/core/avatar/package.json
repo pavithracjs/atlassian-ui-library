@@ -32,10 +32,9 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^13.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-base": "^13.0.0",
     "@atlaskit/icon": "^17.1.1",
-    "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/toggle": "^7.0.0",
     "@atlaskit/visual-regression": "^0.1.0",
