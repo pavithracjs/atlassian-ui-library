@@ -1,5 +1,15 @@
 # @atlaskit/pagination
 
+## 12.0.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 12.0.0
+- [major] [8c65f23d32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c65f23d32):
+
+  - @atlaskit/pagination has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 11.0.2
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/icon@17.1.1

@@ -4,7 +4,7 @@ import {
   MediaItemType,
   FileDetails,
   ImageResizeMode,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import {
   withAnalyticsEvents,
   createAndFireEvent,

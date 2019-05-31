@@ -1,5 +1,25 @@
 # @atlaskit/media-avatar-picker
 
+## 21.0.6
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 21.0.5
+- [patch] [92381960e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92381960e9):
+
+  - Updated types to support modal-dialog typescript conversion
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/media-ui@11.2.5
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/modal-dialog@10.0.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-test-helpers@24.0.0
+
 ## 21.0.4
 - Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
   - @atlaskit/media-ui@11.2.4

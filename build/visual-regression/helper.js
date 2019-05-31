@@ -249,6 +249,16 @@ async function waitForTooltip(page /*:any*/) {
   );
 }
 
+/** Waits for atlaskit tooltip component to disappear */
+async function waitForNoTooltip(page /*:any*/) {
+  const tooltipSelector = '[class^="styled__Tooltip"]';
+  await page.waitForFunction(
+    selector => !document.querySelector(selector),
+    {},
+    tooltipSelector,
+  );
+}
+
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
   await navigateToUrl(page, url);
   await disableAllAnimations(page);
@@ -342,6 +352,7 @@ module.exports = {
   waitForLoadedImageElements,
   waitForLoadedBackgroundImages,
   waitForTooltip,
+  waitForNoTooltip,
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,

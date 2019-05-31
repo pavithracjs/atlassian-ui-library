@@ -325,10 +325,13 @@ describe('ConfluenceQuickSearchContainer', () => {
 
   describe('Advanced Search callback', () => {
     let redirectSpy: jest.SpyInstance<(query?: string) => void>;
-    let originalWindowAssign = window.location.assign;
+    let originalWindowLocation = window.location;
 
     beforeEach(() => {
-      window.location.assign = jest.fn();
+      delete window.location;
+      window.location = Object.assign({}, window.location, {
+        assign: jest.fn(),
+      });
       redirectSpy = jest.spyOn(
         SearchUtils,
         'redirectToConfluenceAdvancedSearch',
@@ -338,7 +341,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     afterEach(() => {
       redirectSpy.mockReset();
       redirectSpy.mockRestore();
-      window.location.assign = originalWindowAssign;
+      window.location = originalWindowLocation;
     });
 
     const mountComponent = (spy: jest.Mock<{}>) => {
