@@ -238,12 +238,7 @@ export default class CachingCrossProductSearchClientImpl
         resultsMap.set(
           scopeResult.id,
           scopeResult.results.map(result =>
-            mapItemToResult(
-              scopeResult.id as Scope,
-              result,
-              searchSessionId,
-              scopeResult.abTest && scopeResult.abTest!.experimentId,
-            ),
+            mapItemToResult(scopeResult.id as Scope, result),
           ),
         );
 
@@ -287,27 +282,12 @@ function mapUrsResultItemToResult(item: UrsPersonItem): PersonResult {
   };
 }
 
-function mapItemToResult(
-  scope: Scope,
-  item: SearchItem,
-  searchSessionId: string,
-  experimentId?: string,
-  addSessionIdToJiraResult?: boolean,
-): Result {
+function mapItemToResult(scope: Scope, item: SearchItem): Result {
   if (scope.startsWith('confluence')) {
-    return mapConfluenceItemToResult(
-      scope,
-      item as ConfluenceItem,
-      searchSessionId,
-      experimentId,
-    );
+    return mapConfluenceItemToResult(scope, item as ConfluenceItem);
   }
   if (scope.startsWith('jira')) {
-    return mapJiraItemToResult(
-      item as JiraItem,
-      searchSessionId,
-      addSessionIdToJiraResult,
-    );
+    return mapJiraItemToResult(item as JiraItem);
   }
 
   if (scope === Scope.People) {
