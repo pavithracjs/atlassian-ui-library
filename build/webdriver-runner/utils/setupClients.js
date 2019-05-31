@@ -98,6 +98,7 @@ function setLocalClients() /*: Array<?Object>*/ {
   const options = {
     port,
     logLevel: 'error',
+    hostname: 'localhost',
     capabilities: {
       browserName: 'chrome',
       chromeOptions: isHeadless
