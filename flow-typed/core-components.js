@@ -25,6 +25,10 @@ declare module '@atlaskit/button' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/checkbox' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/code' {
   declare module.exports: any;
 }
@@ -54,6 +58,10 @@ declare module '@atlaskit/modal-dialog' {
 }
 
 declare module '@atlaskit/page' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/page-header' {
   declare module.exports: any;
 }
 

@@ -1594,7 +1594,6 @@
   version "3.2.15"
   resolved "https://registry.yarnpkg.com/@types/filesize/-/filesize-3.2.15.tgz#a97325f27a5ff7974c7cbd7afa244b8a7affe668"
 
-<<<<<<< HEAD
 "@types/flushable@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/flushable/-/flushable-1.0.1.tgz#7ef22f21ee52ba6602758661cc1c1845e72c9735"
@@ -1609,8 +1608,6 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-=======
->>>>>>> master
 "@types/history@*":
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.2.tgz#0e670ea254d559241b6eeb3894f8754991e73220"
