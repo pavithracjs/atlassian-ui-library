@@ -6,6 +6,7 @@ import {
   media,
   randomId,
   storyMediaProviderFactory,
+  Image,
 } from '@atlaskit/editor-test-helpers';
 import { defaultSchema, MediaAttributes } from '@atlaskit/adf-schema';
 import {
@@ -27,7 +28,6 @@ import { PortalProviderAPI } from '../../../../../../ui/PortalProvider';
 import { stateKey as SelectionChangePluginKey } from '../../../../../../plugins/base/pm-plugins/react-nodeview';
 import { MediaOptions } from '../../../../../../plugins/media';
 import * as mediaCommands from '../../../../../../plugins/media/commands';
-import Image from './__mocks__/MockImage';
 import ResizableMediaSingle from '../../../../../../plugins/media/ui/ResizableMediaSingle';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
