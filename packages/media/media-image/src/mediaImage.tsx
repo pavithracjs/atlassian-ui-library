@@ -1,12 +1,14 @@
 import { Component, ReactNode } from 'react';
 import {
-  Context,
+  MediaClient,
   FileState,
   FileIdentifier,
   isDifferentIdentifier,
-} from '@atlaskit/media-core';
+  withMediaClient,
+} from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 import { MediaStoreGetFileImageParams } from '@atlaskit/media-store';
+import { WithContextOrMediaClientConfig } from '@atlaskit/media-client/src/utils/with-media-client-hoc';
 
 export interface MediaImageChildrenProps {
   /** Boolean with value to check if component is loading image source from API */
@@ -16,11 +18,11 @@ export interface MediaImageChildrenProps {
   /** Data structure with image data, if media API returned with success */
   data: MediaImageState | undefined;
 }
-export interface MediaImageProps {
+export interface MediaImageInternalProps {
   /** Instance of file identifier */
   identifier: FileIdentifier;
-  /** Instance of Media Context */
-  context: Context;
+  /** Instance of Media MediaClient */
+  mediaClient: MediaClient;
   /** Media API Configuration object */
   apiConfig?: MediaStoreGetFileImageParams;
   /** Render props returning `MediaImageChildrenProps` data structure */
@@ -34,7 +36,10 @@ export interface MediaImageState {
   src?: string;
 }
 
-export class MediaImage extends Component<MediaImageProps, MediaImageState> {
+export class MediaImageInternal extends Component<
+  MediaImageInternalProps,
+  MediaImageState
+> {
   subscription?: Subscription;
   state: MediaImageState = {
     status: 'loading',
@@ -52,8 +57,8 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     apiConfig: newApiConfig = {},
     identifier: newIdentifier,
     ...otherNewProps
-  }: MediaImageProps) {
-    const { apiConfig = {}, identifier, context } = this.props;
+  }: MediaImageInternalProps) {
+    const { apiConfig = {}, identifier, mediaClient } = this.props;
     const isWidthBigger =
       newApiConfig.width &&
       apiConfig.width &&
@@ -68,7 +73,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     if (
       (!!newIdentifier && isDifferentIdentifier(newIdentifier, identifier)) ||
       isNewDimensionsBigger ||
-      otherNewProps.context !== context
+      otherNewProps.mediaClient !== mediaClient
     ) {
       this.subscribe({
         identifier: newIdentifier,
@@ -90,9 +95,9 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     }
   };
 
-  private async subscribe(props: MediaImageProps) {
+  private async subscribe(props: MediaImageInternalProps) {
     const {
-      context,
+      mediaClient,
       identifier: { id, collectionName },
       apiConfig,
     } = props;
@@ -101,7 +106,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
 
     const fileId = await id;
 
-    this.subscription = context.file
+    this.subscription = mediaClient.file
       .getFileState(fileId, { collectionName })
       .subscribe({
         next: async (fileState: FileState) => {
@@ -126,7 +131,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
           }
 
           if (fileState.status === 'processed') {
-            const blob = await context.getImage(fileId, {
+            const blob = await mediaClient.getImage(fileId, {
               collection: collectionName,
               ...apiConfig,
             });
@@ -163,4 +168,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
   }
 }
 
-export default MediaImage;
+export type MediaImageProps = MediaImageInternalProps &
+  WithContextOrMediaClientConfig;
+export const MediaImage = withMediaClient(MediaImageInternal);
+export type MediaImage = typeof MediaImage;
