@@ -10,15 +10,14 @@ import {
   Plugin,
   PluginKey,
 } from 'prosemirror-state';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import { Context } from '@atlaskit/media-core';
 import { UploadParams } from '@atlaskit/media-picker';
-import { MediaSingleLayout, MediaBaseAttributes } from '@atlaskit/adf-schema';
+import { MediaSingleLayout } from '@atlaskit/adf-schema';
 
 import { ErrorReporter } from '@atlaskit/editor-common';
-import { Dimensions } from '@atlaskit/media-editor';
 
 import analyticsService from '../../../analytics/service';
-import { isImage, SetAttrsStep } from '../../../utils';
+import { isImage } from '../../../utils';
 import { Dispatch } from '../../../event-dispatcher';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import { EditorAppearance } from '../../../types/editor-props';
@@ -36,7 +35,6 @@ import { insertMediaSingleNode, isMediaSingle } from '../utils/media-single';
 
 import { findDomRefAtPos } from 'prosemirror-utils';
 import {
-  withAnalytics,
   ACTION_SUBJECT_ID,
   ACTION_SUBJECT,
   ACTION,
@@ -47,6 +45,8 @@ import {
   DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 import { isFullPage } from '../../../utils/is-full-page';
+import * as helpers from '../commands/helpers';
+import { updateMediaNodeAttrs } from '../commands';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -390,79 +390,6 @@ export class MediaPluginState {
     this.mediaNodes = this.mediaNodes.filter(({ node }) => oldNode !== node);
   };
 
-  openMediaEditor = () => {
-    const { state, dispatch } = this.view;
-    const { mediaSingle } = state.schema.nodes;
-
-    if (
-      !(state.selection instanceof NodeSelection) ||
-      state.selection.node.type !== mediaSingle
-    ) {
-      return;
-    }
-
-    this.editingMediaSinglePos = state.selection.from;
-    this.showEditingDialog = true;
-
-    return withAnalytics({
-      action: ACTION.CLICKED,
-      actionSubject: ACTION_SUBJECT.MEDIA,
-      actionSubjectId: ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
-      eventType: EVENT_TYPE.UI,
-    })((state, dispatch) => {
-      if (dispatch) {
-        dispatch(state.tr.setMeta(stateKey, 'edit'));
-        return true;
-      }
-
-      return false;
-    })(state, dispatch);
-  };
-
-  closeMediaEditor = () => {
-    this.showEditingDialog = false;
-    this.view.dispatch(this.view.state.tr.setMeta(stateKey, 'close-edit'));
-  };
-
-  replaceEditingMedia = (
-    fileIdentifier: FileIdentifier,
-    dimensions: Dimensions,
-  ) => {
-    if (typeof this.editingMediaSinglePos !== 'number') {
-      return;
-    }
-
-    const { state, dispatch } = this.view;
-    const { doc, schema } = state;
-
-    const mediaPos = this.editingMediaSinglePos + 1;
-    const oldMediaNode = doc.nodeAt(mediaPos);
-    if (!oldMediaNode) {
-      return;
-    }
-
-    const newMediaNodeAttrs: MediaBaseAttributes = {
-      ...oldMediaNode.attrs,
-
-      id: fileIdentifier.id as string,
-      collection:
-        fileIdentifier.collectionName || oldMediaNode.attrs.collection,
-      occurrenceKey: fileIdentifier.occurrenceKey,
-
-      width: dimensions.width,
-      height: dimensions.height,
-    };
-
-    const tr = state.tr.replaceWith(
-      mediaPos,
-      mediaPos + oldMediaNode.nodeSize,
-      schema.nodes.media!.createChecked(newMediaNodeAttrs),
-    );
-
-    this.editingMediaSinglePos = undefined;
-    dispatch(tr.setMeta('addToHistory', false));
-  };
-
   destroy() {
     if (this.destroyed) {
       return;
@@ -478,27 +405,7 @@ export class MediaPluginState {
   }
 
   findMediaNode = (id: string): MediaNodeWithPosHandler | null => {
-    const { mediaNodes } = this;
-
-    // Array#find... no IE support
-    return mediaNodes.reduce(
-      (
-        memo: MediaNodeWithPosHandler | null,
-        nodeWithPos: MediaNodeWithPosHandler,
-      ) => {
-        if (memo) {
-          return memo;
-        }
-
-        const { node } = nodeWithPos;
-        if (node.attrs.id === id) {
-          return nodeWithPos;
-        }
-
-        return memo;
-      },
-      null,
-    );
+    return helpers.findMediaSingleNode(this, id);
   };
 
   private destroyPickers = () => {
@@ -636,18 +543,9 @@ export class MediaPluginState {
       return;
     }
 
-    const mediaNodeWithPos = isMediaSingle
-      ? this.findMediaNode(id)
-      : this.mediaGroupNodes[id];
-
-    if (!mediaNodeWithPos) {
-      return;
-    }
-
-    view.dispatch(
-      view.state.tr
-        .step(new SetAttrsStep(mediaNodeWithPos.getPos(), attrs))
-        .setMeta('addToHistory', false),
+    return updateMediaNodeAttrs(id, attrs, isMediaSingle)(
+      view.state,
+      view.dispatch,
     );
   };
 
@@ -692,16 +590,16 @@ export class MediaPluginState {
   };
 
   isMobileUploadCompleted = (mediaId: string) =>
-    this.editorAppearance === 'mobile' &&
-    typeof this.mobileUploadComplete[mediaId] === 'boolean'
-      ? this.mobileUploadComplete[mediaId]
-      : undefined;
+    helpers.isMobileUploadCompleted(this, mediaId);
 
   removeNodeById = (state: MediaState) => {
     const { id } = state;
-    const mediaNodeWithPos = isImage(state.fileMimeType)
-      ? this.findMediaNode(id)
-      : this.mediaGroupNodes[id];
+    const mediaNodeWithPos = helpers.findMediaNode(
+      this,
+      id,
+      isImage(state.fileMimeType),
+    );
+
     if (mediaNodeWithPos) {
       removeMediaNode(
         this.view,

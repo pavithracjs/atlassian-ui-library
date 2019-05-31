@@ -7,7 +7,11 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import { ExperimentProvider } from '../ExperimentContext';
 import asExperiment from '../asExperiment';
-import type { ExperimentEnrollmentResolver, Experiments } from '../types';
+import type {
+  ExperimentEnrollmentResolver,
+  Experiments,
+  ExperimentEnrollmentOptions,
+} from '../types';
 import CohortTracker from '../CohortTracker';
 
 const createDumbComponent = (componentName: string) => {
@@ -30,7 +34,11 @@ configure({ adapter: new Adapter() });
 
 describe('asExperiment', () => {
   let enrollmentResolver: ExperimentEnrollmentResolver;
-  let experiments: Experiments;
+  let enrollmentOptions;
+  let experiments: {
+    experiments: Experiments,
+    options?: ExperimentEnrollmentOptions,
+  };
   let componentMap;
   let callbacks;
   let onError;
@@ -41,12 +49,16 @@ describe('asExperiment', () => {
 
   beforeEach(() => {
     enrollmentResolver = jest.fn();
+    enrollmentOptions = {};
 
     experiments = {
-      myExperimentKey: {
-        isEnrollmentDecided: false,
-        enrollmentResolver,
+      experiments: {
+        myExperimentKey: {
+          isEnrollmentDecided: false,
+          enrollmentResolver,
+        },
       },
+      options: enrollmentOptions,
     };
 
     ControlComponent = createDumbComponent('control');
@@ -107,19 +119,67 @@ describe('asExperiment', () => {
       // should make the call to resolve enrollment
       expect(enrollmentResolver).toBeCalled();
     });
+
+    it('should call enrollment resolver with options object if set', () => {
+      const WrappedComponent = asExperiment(
+        componentMap,
+        'myExperimentKey',
+        callbacks,
+      );
+
+      mount(
+        <ExperimentProvider value={experiments}>
+          <WrappedComponent />
+        </ExperimentProvider>,
+      );
+
+      expect(enrollmentResolver).toBeCalledWith(enrollmentOptions);
+    });
+
+    it('should call enrollment resolver with options function object if set', () => {
+      const WrappedComponent = asExperiment(
+        componentMap,
+        'myExperimentKey',
+        callbacks,
+      );
+      const mockOptions = {
+        example: 'value',
+      };
+      const mockOptionsResolver = experimentKey => {
+        return {
+          myExperimentKey: mockOptions,
+          differentExperiment: 'this should not get returned',
+        }[experimentKey];
+      };
+      const mockExperiments = {
+        ...experiments,
+        options: mockOptionsResolver,
+      };
+
+      mount(
+        <ExperimentProvider value={mockExperiments}>
+          <WrappedComponent />
+        </ExperimentProvider>,
+      );
+
+      expect(enrollmentResolver).toBeCalledWith(mockOptions);
+    });
   });
 
   describe('Control & eligible', () => {
     beforeEach(() => {
       experiments = {
-        myExperimentKey: {
-          isEnrollmentDecided: true,
-          enrollmentResolver,
-          enrollmentDetails: {
-            cohort: 'control',
-            isEligible: true,
+        experiments: {
+          myExperimentKey: {
+            isEnrollmentDecided: true,
+            enrollmentResolver,
+            enrollmentDetails: {
+              cohort: 'control',
+              isEligible: true,
+            },
           },
         },
+        options: enrollmentOptions,
       };
     });
 
@@ -170,14 +230,17 @@ describe('asExperiment', () => {
   describe('Variant & eligible', () => {
     beforeEach(() => {
       experiments = {
-        myExperimentKey: {
-          isEnrollmentDecided: true,
-          enrollmentResolver,
-          enrollmentDetails: {
-            cohort: 'variant',
-            isEligible: true,
+        experiments: {
+          myExperimentKey: {
+            isEnrollmentDecided: true,
+            enrollmentResolver,
+            enrollmentDetails: {
+              cohort: 'variant',
+              isEligible: true,
+            },
           },
         },
+        options: enrollmentOptions,
       };
     });
 
@@ -228,15 +291,18 @@ describe('asExperiment', () => {
   describe('Variant & ineligible', () => {
     beforeEach(() => {
       experiments = {
-        myExperimentKey: {
-          isEnrollmentDecided: true,
-          enrollmentResolver,
-          enrollmentDetails: {
-            cohort: 'variant',
-            isEligible: false,
-            ineligibilityReasons: ['no-permission'],
+        experiments: {
+          myExperimentKey: {
+            isEnrollmentDecided: true,
+            enrollmentResolver,
+            enrollmentDetails: {
+              cohort: 'variant',
+              isEligible: false,
+              ineligibilityReasons: ['no-permission'],
+            },
           },
         },
+        options: enrollmentOptions,
       };
     });
 
@@ -296,14 +362,17 @@ describe('asExperiment', () => {
 
       beforeEach(() => {
         experiments = {
-          myExperimentKey: {
-            isEnrollmentDecided: true,
-            enrollmentResolver,
-            enrollmentDetails: {
-              cohort: 'variant',
-              isEligible: true,
+          experiments: {
+            myExperimentKey: {
+              isEnrollmentDecided: true,
+              enrollmentResolver,
+              enrollmentDetails: {
+                cohort: 'variant',
+                isEligible: true,
+              },
             },
           },
+          options: enrollmentOptions,
         };
 
         componentMap = {
@@ -347,7 +416,10 @@ describe('asExperiment', () => {
           </ExperimentProvider>,
         );
 
-        expect(onError).toBeCalledWith(new Error('Exploded'));
+        expect(onError).toBeCalledWith(
+          new Error('Exploded'),
+          experiments.options,
+        );
       });
 
       it('should not mount the cohort tracker', () => {
@@ -403,6 +475,7 @@ describe('asExperiment', () => {
           new Error(
             'Experiment Key nonExistentKey does not exist in configuration',
           ),
+          experiments.options,
         );
       });
 
@@ -427,10 +500,13 @@ describe('asExperiment', () => {
     describe('Missing enrollment details after resolving enrollment', () => {
       beforeEach(() => {
         experiments = {
-          myExperimentKey: {
-            isEnrollmentDecided: true,
-            enrollmentResolver,
+          experiments: {
+            myExperimentKey: {
+              isEnrollmentDecided: true,
+              enrollmentResolver,
+            },
           },
+          options: enrollmentOptions,
         };
       });
 
@@ -468,6 +544,7 @@ describe('asExperiment', () => {
           new Error(
             'Experiment myExperimentKey has missing enrollment details',
           ),
+          experiments.options,
         );
       });
 
@@ -492,12 +569,14 @@ describe('asExperiment', () => {
     describe('Enrollment resolved to a cohort without a mapping to a component', () => {
       beforeEach(() => {
         experiments = {
-          myExperimentKey: {
-            isEnrollmentDecided: true,
-            enrollmentResolver,
-            enrollmentDetails: {
-              cohort: 'nonExistentCohort',
-              isEligible: true,
+          experiments: {
+            myExperimentKey: {
+              isEnrollmentDecided: true,
+              enrollmentResolver,
+              enrollmentDetails: {
+                cohort: 'nonExistentCohort',
+                isEligible: true,
+              },
             },
           },
         };
@@ -537,6 +616,7 @@ describe('asExperiment', () => {
           new Error(
             'Cohort nonExistentCohort does not exist for experiment myExperimentKey',
           ),
+          undefined,
         );
       });
 

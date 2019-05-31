@@ -10,6 +10,8 @@ export {
   tableCellBorderWidth,
   calcTableWidth,
   TableSharedCssClassName,
+  tableResizeHandleWidth,
+  tableCellPadding,
 } from './shared/table';
 
 export { columnLayoutSharedStyle } from './shared/column-layout';

@@ -11,6 +11,7 @@ import {
   getResizeStateFromDOM,
   getTotalWidth,
   reduceSpace,
+  adjustColumnsWidths,
 } from '../utils';
 
 export interface ScaleOptions {
@@ -108,31 +109,6 @@ export const scaleWithParent = (
   }
 
   return scaleTableTo(resizeState, Math.floor(parentWidth));
-};
-
-// adjust columns to take up the total width
-// difference in total columns widths vs table width happens due to the "Math.floor"
-export const adjustColumnsWidths = (
-  resizeState: ResizeState,
-  maxSize: number,
-): ResizeState => {
-  const totalWidth = getTotalWidth(resizeState);
-  const diff = maxSize - totalWidth;
-  if (diff > 0 || (diff < 0 && Math.abs(diff) < tableCellMinWidth)) {
-    let updated = false;
-    return {
-      ...resizeState,
-      cols: resizeState.cols.map(col => {
-        if (!updated && col.width + diff > col.minWidth) {
-          updated = true;
-          return { ...col, width: col.width + diff };
-        }
-        return col;
-      }),
-    };
-  }
-
-  return resizeState;
 };
 
 // Scales the table to a given size and updates its colgroup DOM node

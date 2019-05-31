@@ -7,6 +7,7 @@ export type NavGroupItem = {
   iconSelected?: boolean;
   icon?: React.ReactNode;
   items?: Array<NavGroup>;
+  onClick?: () => void;
 };
 
 export type NavGroup = {

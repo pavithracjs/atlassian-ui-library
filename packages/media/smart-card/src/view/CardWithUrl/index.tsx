@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LazyRender from 'react-lazily-render';
+import LazyRender from 'react-lazily-render-scroll-parent';
 import { CardLinkView } from '@atlaskit/media-ui';
 import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 
@@ -28,6 +28,7 @@ export type CardWithUrlContentProps = {
   onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   isSelected?: boolean;
   authFn: (startUrl: string) => Promise<void>;
+  container?: HTMLElement;
 } & WithAnalyticsEventProps;
 
 export function CardWithUrlContent(props: CardWithUrlContentProps) {
@@ -39,6 +40,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
     appearance,
     createAnalyticsEvent,
     authFn,
+    container,
   } = props;
   return (
     <LazyRender
@@ -51,6 +53,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
           link={url}
         />
       }
+      scrollContainer={container}
       content={
         <CardContainer
           client={client}

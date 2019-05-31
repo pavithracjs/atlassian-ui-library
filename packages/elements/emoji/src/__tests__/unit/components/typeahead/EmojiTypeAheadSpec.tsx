@@ -2,11 +2,16 @@ import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import * as sinon from 'sinon';
 import { waitUntil } from '@atlaskit/util-common-test';
+import {
+  AnalyticsEventPayload,
+  CreateUIAnalyticsEventSignature,
+} from '@atlaskit/analytics-next';
 
 import {
   atlassianBoomEmoji,
   blackFlagEmoji,
   getEmojiResourcePromise,
+  grinEmoji,
   newEmojiRepository,
   openMouthEmoji,
   standardBoomEmoji,
@@ -29,6 +34,11 @@ import { OptionalEmojiDescription, OnEmojiEvent } from '../../../../types';
 import { toEmojiId } from '../../../../util/type-helpers';
 import { Props as TypeAheadProps } from '../../../../components/typeahead/EmojiTypeAhead';
 import { State as TypeAheadState } from '../../../../components/typeahead/EmojiTypeAheadComponent';
+import {
+  typeaheadCancelledEvent,
+  typeaheadRenderedEvent,
+  typeaheadSelectedEvent,
+} from '../../../../util/analytics';
 
 function setupTypeAhead(props?: Props): Promise<ReactWrapper<any, any>> {
   const component = mount(
@@ -47,6 +57,37 @@ function setupTypeAhead(props?: Props): Promise<ReactWrapper<any, any>> {
     () => component,
   );
 }
+
+const getCreateAnalyticsSpy = (
+  spy: (payload: AnalyticsEventPayload) => void,
+): CreateUIAnalyticsEventSignature => {
+  const wrapper: CreateUIAnalyticsEventSignature = ((
+    payload: AnalyticsEventPayload,
+  ) => {
+    spy(payload);
+    return {
+      fire: (_: string) => {},
+    };
+  }) as any;
+
+  return wrapper;
+};
+
+const withSessionId = ({ attributes, ...rest }: AnalyticsEventPayload) => ({
+  attributes: {
+    sessionId: expect.any(String),
+    ...attributes,
+  },
+  ...rest,
+});
+
+const withEmojiIds = ({ attributes, ...rest }: AnalyticsEventPayload) => ({
+  attributes: {
+    ...attributes,
+    emojiIds: expect.any(Array),
+  },
+  ...rest,
+});
 
 const allEmojis = newEmojiRepository().all().emojis;
 
@@ -152,11 +193,13 @@ describe('EmojiTypeAhead', () => {
 
   it('should choose clicked selection when item clicked', () => {
     let choseEmoji: OptionalEmojiDescription;
+    const fireEventSpy: (payload: AnalyticsEventPayload) => void = jest.fn();
 
     return setupTypeAhead({
       onSelection: (_emojiId, emoji) => {
         choseEmoji = emoji;
       },
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         const defaultEmojiShown = () =>
@@ -168,6 +211,20 @@ describe('EmojiTypeAhead', () => {
         const item = getEmojiTypeAheadItemById(component, allEmojis[2].id);
         item.simulate('mousedown', leftClick);
         expect(chooseThirdItem()).toEqual(true);
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining(
+            withEmojiIds(
+              withSessionId(
+                typeaheadSelectedEvent(
+                  false,
+                  expect.any(Number),
+                  choseEmoji!,
+                  allEmojis,
+                ),
+              ),
+            ),
+          ),
+        );
       }),
     );
   });
@@ -301,6 +358,28 @@ describe('EmojiTypeAhead', () => {
     );
   });
 
+  it('should fire cancelled analytic when unmounted', () => {
+    const fireEventSpy: (payload: AnalyticsEventPayload) => void = jest.fn();
+
+    return setupTypeAhead({
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
+    } as Props).then(component =>
+      waitUntil(() => doneLoading(component)).then(() => {
+        expect(fireEventSpy).toHaveBeenCalledWith(
+          withEmojiIds(
+            withSessionId(typeaheadRenderedEvent(expect.any(Number))),
+          ),
+        );
+        component.unmount();
+        expect(fireEventSpy).toHaveBeenCalledWith(
+          withEmojiIds(
+            withSessionId(typeaheadCancelledEvent(expect.any(Number))),
+          ),
+        );
+      }),
+    );
+  });
+
   it('should find two matches when querying "boom"', () =>
     // Confirm initial state for later conflicting shortName tests
     setupTypeAhead({
@@ -399,13 +478,31 @@ describe('EmojiTypeAhead', () => {
 
   it('should fire onSelection if a query ends in a colon and has an exact match with one emoji shortName', () => {
     const onSelection = sinon.spy();
+    const fireEventSpy: (payload: AnalyticsEventPayload) => void = jest.fn();
 
     return setupTypeAhead({
       onSelection: onSelection as OnEmojiEvent,
       query: ':grin:',
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         expect(onSelection.callCount).toEqual(1);
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining(
+            withEmojiIds(
+              withSessionId(
+                typeaheadSelectedEvent(
+                  true,
+                  expect.any(Number),
+                  grinEmoji,
+                  [grinEmoji],
+                  ':grin:',
+                  true,
+                ),
+              ),
+            ),
+          ),
+        );
       }),
     );
   });
@@ -488,15 +585,65 @@ describe('EmojiTypeAhead', () => {
     emojiProvider.then(provider => provider.setSelectedTone(1));
 
     return setupTypeAhead({
-      emojiProvider: emojiProvider,
+      emojiProvider,
       query: 'raised_hand',
-    } as Props).then(component =>
+    }).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         expect(itemsVisibleCount(component) === 1).toEqual(true);
         const typeaheadEmoji = getSelectedEmojiTypeAheadItem(component).prop(
           'emoji',
         );
         expect(typeaheadEmoji.shortName).toEqual(':raised_hand::skin-tone-2:');
+      }),
+    );
+  });
+
+  it('should include skin tone details for analytics', () => {
+    let choseEmoji: OptionalEmojiDescription;
+    const emojiProvider = getEmojiResourcePromise();
+    emojiProvider.then(provider => provider.setSelectedTone(5));
+    const fireEventSpy = jest.fn();
+
+    return setupTypeAhead({
+      emojiProvider,
+      query: 'raised_hand',
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
+      onSelection: (_emojiId, emoji) => {
+        choseEmoji = emoji;
+      },
+    }).then(component =>
+      waitUntil(() => doneLoading(component)).then(() => {
+        expect(itemsVisibleCount(component) === 1).toEqual(true);
+        const typeaheadEmoji = getSelectedEmojiTypeAheadItem(component).prop(
+          'emoji',
+        );
+        expect(typeaheadEmoji.shortName).toEqual(':raised_hand::skin-tone-6:');
+        const item = getEmojiTypeAheadItemById(component, '270b-1f3ff');
+        item.simulate('mousedown', leftClick);
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining(
+            withEmojiIds(
+              withSessionId(
+                typeaheadSelectedEvent(
+                  false,
+                  expect.any(Number),
+                  choseEmoji!,
+                  [choseEmoji!],
+                  'raised_hand',
+                  false,
+                ),
+              ),
+            ),
+          ),
+        );
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            attributes: expect.objectContaining({
+              skinToneModifier: 'dark',
+              baseEmojiId: '270b',
+            }),
+          }),
+        );
       }),
     );
   });

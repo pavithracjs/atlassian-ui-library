@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-import { ResourcedMention } from '@atlaskit/mention';
+import { ResourcedMention } from '@atlaskit/mention/element';
 import ProviderFactory from '../../../providerFactory';
 import Mention from '../../../ui/Mention';
 // avoid polluting test logs with error message in console

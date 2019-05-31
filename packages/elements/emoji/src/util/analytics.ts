@@ -3,6 +3,7 @@ import {
   AnalyticsEventPayload,
   CreateAndFireEventFunction,
 } from '@atlaskit/analytics-next';
+import { EmojiDescription } from '../types';
 import {
   name as packageName,
   version as packageVersion,
@@ -49,14 +50,42 @@ interface EmojiAttributes {
   emojiId: string;
   baseEmojiId?: string; // mobile only
   skinToneModifier?: string;
-  gender?: string;
   category: string;
   type: string;
 }
 
+const skinTones = [
+  { id: '-1f3fb', skinToneModifier: 'light' },
+  { id: '-1f3fc', skinToneModifier: 'mediumLight' },
+  { id: '-1f3fd', skinToneModifier: 'medium' },
+  { id: '-1f3fe', skinToneModifier: 'mediumDark' },
+  { id: '-1f3ff', skinToneModifier: 'dark' },
+];
+
+const getSkinTone = (emojiId?: string) => {
+  if (!emojiId) {
+    return {};
+  }
+  for (const { id, skinToneModifier } of skinTones) {
+    if (emojiId.indexOf(id) !== -1) {
+      return { skinToneModifier, baseEmojiId: emojiId.replace(id, '') };
+    }
+  }
+
+  return {};
+};
+
 export const pickerClickedEvent = (
   attributes: { queryLength: number } & EmojiAttributes & Duration,
-) => emojiPickerEvent('clicked', attributes, 'emoji');
+) =>
+  emojiPickerEvent(
+    'clicked',
+    {
+      ...getSkinTone(attributes.emojiId),
+      ...attributes,
+    },
+    'emoji',
+  );
 
 export const categoryClickedEvent = (attributes: { category: string }) =>
   emojiPickerEvent('clicked', attributes, 'category');
@@ -120,3 +149,79 @@ export const deleteCancelEvent = (attributes: EmojiId) =>
 
 export const selectedFileEvent = () =>
   createEvent('ui', 'clicked', 'emojiUploader', 'selectFile');
+
+interface CommonAttributes {
+  queryLength: number;
+  spaceInQuery: boolean;
+  emojiIds: string[];
+}
+
+const extractCommonAttributes = (
+  query?: string,
+  emojiList?: EmojiDescription[],
+): CommonAttributes => {
+  return {
+    queryLength: query ? query.length : 0,
+    spaceInQuery: query ? query.indexOf(' ') !== -1 : false,
+    emojiIds: emojiList
+      ? emojiList
+          .map(emoji => emoji.id!)
+          .filter(Boolean)
+          .slice(0, 20)
+      : [],
+  };
+};
+
+export const typeaheadCancelledEvent = (
+  duration: number,
+  query?: string,
+  emojiList?: EmojiDescription[],
+) =>
+  createEvent('ui', 'cancelled', 'emojiTypeahead', undefined, {
+    duration,
+    ...extractCommonAttributes(query, emojiList),
+  });
+
+const getPosition = (
+  emojiList: EmojiDescription[] | undefined,
+  selectedEmoji: EmojiDescription,
+): number | undefined => {
+  if (emojiList) {
+    const index = emojiList.findIndex(emoji => emoji.id === selectedEmoji.id);
+    return index === -1 ? undefined : index;
+  }
+  return;
+};
+
+export const typeaheadSelectedEvent = (
+  pressed: boolean,
+  duration: number,
+  emoji: EmojiDescription,
+  emojiList?: EmojiDescription[],
+  query?: string,
+  exactMatch?: boolean,
+) =>
+  createEvent(
+    'ui',
+    pressed ? 'pressed' : 'clicked',
+    'emojiTypeahead',
+    undefined,
+    {
+      duration,
+      position: getPosition(emojiList, emoji),
+      ...extractCommonAttributes(query, emojiList),
+      ...getSkinTone(emoji.id),
+      emojiType: emoji.type,
+      exactMatch: exactMatch || false,
+    },
+  );
+
+export const typeaheadRenderedEvent = (
+  duration: number,
+  query?: string,
+  emojiList?: EmojiDescription[],
+) =>
+  createEvent('operational', 'rendered', 'emojiTypeahead', undefined, {
+    duration,
+    ...extractCommonAttributes(query, emojiList),
+  });

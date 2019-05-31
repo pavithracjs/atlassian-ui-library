@@ -1,0 +1,9 @@
+{
+  "releases": [
+    { "name": "@atlaskit/media-editor", "type": "patch" },
+    { "name": "@atlaskit/global-search", "type": "patch" },
+    { "name": "@atlaskit/media-avatar-picker", "type": "patch" },
+    { "name": "@atlaskit/website", "type": "patch" }
+  ],
+  "dependents": []
+}

@@ -8,7 +8,7 @@ import { createCollection } from './collection';
 import { CollectionItem, createCollectionItem } from './collection-item';
 import { createUpload, Upload } from './upload';
 import { Chunk } from './chunk';
-import { defaultBaseUrl } from '../../contextProvider';
+import { defaultBaseUrl } from '../../mediaClientProvider';
 import { MockCollections } from '../media-mock';
 import { defaultCollectionName } from '../../collectionNames';
 

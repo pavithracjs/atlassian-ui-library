@@ -1,0 +1,1 @@
+- Email renderer now renders media node

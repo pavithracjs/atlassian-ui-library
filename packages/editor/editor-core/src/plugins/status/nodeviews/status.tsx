@@ -3,7 +3,7 @@ import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView, NodeView } from 'prosemirror-view';
-import { Color, Status, StatusStyle } from '@atlaskit/status';
+import { Color, Status, StatusStyle } from '@atlaskit/status/element';
 import { borderRadius, colors } from '@atlaskit/theme';
 import { pluginKey } from '../plugin';
 import { ReactNodeView, getPosHandler } from '../../../nodeviews';

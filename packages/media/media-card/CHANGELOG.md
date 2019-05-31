@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 63.0.4
+- [patch] [b91590107b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b91590107b):
+
+  - ED-6178 Fix media wrapper having a transparent background for images
+
 ## 63.0.3
 - [patch] [a6f27f106a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6f27f106a):
 

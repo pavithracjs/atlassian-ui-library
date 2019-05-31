@@ -12,12 +12,13 @@ import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import ToolbarButton from '../../../ui/ToolbarButton';
 import messages from '../ui/messages';
 import { pluginKey } from '../pm-plugins/main';
-import {
-  pluginKey as tableResizingPluginKey,
-  ResizeState,
-} from '../pm-plugins/table-resizing';
+import { pluginKey as tableResizingPluginKey } from '../pm-plugins/table-resizing';
 import { toggleContextualMenu } from '../commands';
-import { TableCssClassName as ClassName, TablePluginState } from '../types';
+import {
+  TableCssClassName as ClassName,
+  TablePluginState,
+  ColumnResizingPluginState,
+} from '../types';
 import { closestElement } from '../../../utils';
 import {
   EditorDisabledPluginState,
@@ -116,7 +117,7 @@ class CellView extends SelectionBasedNodeView {
 
   viewShouldUpdate(nextNode: PmNode) {
     const tableState: TablePluginState = pluginKey.getState(this.view.state);
-    const tableResizingState: ResizeState = tableResizingPluginKey.getState(
+    const tableResizingState: ColumnResizingPluginState = tableResizingPluginKey.getState(
       this.view.state,
     );
     const disabledState: EditorDisabledPluginState = editorDisabledPluginKey.getState(
@@ -146,7 +147,7 @@ class CellView extends SelectionBasedNodeView {
 
   render(props: CellViewProps, forwardRef: ForwardRef) {
     const tableState: TablePluginState = pluginKey.getState(this.view.state);
-    const tableResizingState: ResizeState = tableResizingPluginKey.getState(
+    const tableResizingState: ColumnResizingPluginState = tableResizingPluginKey.getState(
       this.view.state,
     );
     const disabledState: EditorDisabledPluginState = editorDisabledPluginKey.getState(

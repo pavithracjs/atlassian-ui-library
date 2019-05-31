@@ -73,6 +73,14 @@ describe('Profilecard', () => {
         expect(card.find(ProfileCard).children()).toHaveLength(0);
       });
 
+      it('should match snapshot when fullName and nickName are equal', () => {
+        const wrapper = renderShallow({
+          fullName: 'Same Same',
+          nickname: 'Same Same',
+        });
+        expect(wrapper).toMatchSnapshot();
+      });
+
       it('should match snapshot when fullName and nickName are set', () => {
         const wrapper = renderShallow();
         expect(wrapper).toMatchSnapshot();

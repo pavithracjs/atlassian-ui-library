@@ -1,7 +1,7 @@
 /**
  * Mocking out emojis for the editor, so they easily fall back to text.
  */
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 
 class EmojiProviderImpl implements EmojiProvider {
   findByShortName() {

@@ -1,5 +1,118 @@
 # @atlaskit/editor-core
 
+## 112.10.10
+- [patch] [7318619da7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7318619da7):
+
+  - Revert [ED-5734] to reduce memory leak caused by getBoundingClientRect
+
+## 112.10.9
+- [patch] [1a1ea182d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a1ea182d6):
+
+  - Fix an infinite loop in typeahead plugin
+
+## 112.10.8
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/dropdown-menu@8.0.2
+  - @atlaskit/item@10.0.1
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/mention@18.2.1
+  - @atlaskit/pubsub@5.0.1
+  - @atlaskit/status@0.9.1
+  - @atlaskit/lozenge@9.0.0
+
+## 112.10.7
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/emoji@62.1.1
+  - @atlaskit/section-message@4.0.0
+
+## 112.10.6
+- [patch] [7eca61edf0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7eca61edf0):
+
+  - ED-6965: bump prosemirror-utils to allow safeInsert replacing selected nodes when it conforms to schema
+
+## 112.10.5
+- [patch] [7ce86bae14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ce86bae14):
+
+  - Shift selection for rows and columns
+
+## 112.10.4
+- [patch] [ca1f019d62](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca1f019d62):
+
+  - ED-6976: fix recovering from overflow when table has number column and all columns are selected
+
+## 112.10.3
+- [patch] [f823890888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f823890888):
+
+  - ED-6970: Fix backspacing inside a layout removing all content.
+
+## 112.10.2
+- [patch] [54b40d9757](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/54b40d9757):
+
+  - ED-6832 Refactor ReactMediaSingleNodeView to remove usage of media plugin state private methods.
+
+## 112.10.1
+- [patch] [f3334a7083](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f3334a7083):
+
+  - ED-6918: fix deleting table rows inside bodied extensions
+
+## 112.10.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 112.9.1
+- [patch] [56356b17a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56356b17a3):
+
+  - ED-6880: added even column widths on resize handle double-click and bulk resizing of columns
+
+## 112.9.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
+## 112.8.1
+- [patch] [5973916c23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5973916c23):
+
+  - [ED-6344] Remove scrollbar overlap from the last table row
+
+## 112.8.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 112.7.0
+- [minor] [f120090dfe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f120090dfe):
+
+  - Add GASv3 analytics to Emoji TypeAhead.
+
+## 112.6.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
+## 112.5.2
+- [patch] [6a65053272](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a65053272):
+
+  - ED-6929: avoid having a negative rowspan after merging cells
+
+## 112.5.1
+- [patch] [a511611473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a511611473):
+
+  - ED-6808: Fix issue where toggling the same mark but different attributes would just remove the mark.
+
+## 112.5.0
+- [minor] [9be684e931](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9be684e931):
+
+  - ED-5782 Replace text-color button with more easily identifiable A icon with colored bar.
+
+## 112.4.0
+- [minor] [d9f8b4d43d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9f8b4d43d):
+
+  - [ED-5505] Apply strong mark by default on table headers
+
 ## 112.3.1
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2

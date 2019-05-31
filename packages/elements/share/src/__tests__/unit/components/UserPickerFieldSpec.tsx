@@ -38,8 +38,9 @@ describe('UserPickerField', () => {
       value: [],
     };
     const loadOptions = jest.fn();
+    const mockIsLoading = true;
     const field = renderUserPicker(
-      { loadOptions },
+      { loadOptions, isLoading: mockIsLoading },
       { fieldProps, meta: { valid: true } },
     );
 
@@ -66,6 +67,7 @@ describe('UserPickerField', () => {
         <FormattedMessage {...messages.userPickerGenericPlaceholder} />
       ),
       loadOptions: expect.any(Function),
+      isLoading: mockIsLoading,
     });
   });
 

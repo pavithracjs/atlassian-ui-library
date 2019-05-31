@@ -19,6 +19,10 @@ export {
   resizeColumn,
   updateColgroup,
   getTotalWidth,
+  evenAllColumnsWidths,
+  bulkColumnsResize,
+  areColumnsEven,
+  adjustColumnsWidths,
 } from './resize-state';
 export {
   tableLayoutToSize,
@@ -30,5 +34,10 @@ export {
   domCellAround,
   getParentNodeWidth,
 } from './misc';
-export { updateControls, updateResizeHandle } from './update-ui';
+export {
+  updateControls,
+  isClickNear,
+  updateResizeHandle,
+  createResizeHandle,
+} from './dom';
 export { ScaleOptions, scale, scaleWithParent } from './scale-table';

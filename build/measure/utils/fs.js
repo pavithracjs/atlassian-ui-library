@@ -1,5 +1,6 @@
 const fs = require('fs');
 const gzipSize = require('gzip-size');
+const exec = require('child_process').execSync;
 
 function fStats(filePath) {
   return {
@@ -17,4 +18,12 @@ function fExists(filePath) {
   }
 }
 
-module.exports = { fStats, fExists };
+function fDeleteIfExist(dir) {
+  if (fExists(dir)) {
+    try {
+      exec(`rm -rf ${dir}`);
+    } catch (e) {}
+  }
+}
+
+module.exports = { fStats, fExists, fDeleteIfExist };

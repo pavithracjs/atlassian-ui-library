@@ -14,7 +14,7 @@ import {
 } from '../../../../plugins/table/types';
 
 import { pluginKey as tablePluginKey } from '../../../../plugins/table/pm-plugins/main';
-import { pluginKey as tableResizePluginKey } from '../../../../plugins/table/pm-plugins/table-resizing/plugin';
+import { setResizeHandlePos } from '../../../../plugins/table/pm-plugins/table-resizing/commands';
 import tablesPlugin from '../../../../plugins/table';
 
 describe('Tables with Collab editing', () => {
@@ -50,9 +50,7 @@ describe('Tables with Collab editing', () => {
     );
 
     // Trigger table resizing mouse down handlers.
-    view.dispatch(
-      view.state.tr.setMeta(tableResizePluginKey, { setHandle: 2 }),
-    );
+    setResizeHandlePos(2)(view.state, view.dispatch);
     const mousedownEvent = new MouseEvent('mousedown', { clientX: 50 });
     view.dom.dispatchEvent(mousedownEvent);
 

@@ -333,7 +333,7 @@ describe('table keymap', () => {
     });
 
     describe('when table is selected', () => {
-      it('should empty table cells and move cursor to the last selected cell', () => {
+      it('should empty table cells and move cursor to the first selected cell', () => {
         const { editorView } = editor(
           doc(
             table()(
@@ -358,14 +358,14 @@ describe('table keymap', () => {
         expect(trackEvent).toHaveBeenCalledWith(
           'atlassian.editor.format.table.delete_content.keyboard',
         );
-        expect(editorView.state.selection.$from.pos).toEqual(12);
+        expect(editorView.state.selection.$from.pos).toEqual(4);
       });
     });
 
     [0, 1, 2].forEach(index => {
       describe(`when row ${index + 1} is selected`, () => {
         it(`should empty cells in the row ${index +
-          1} and move cursor to the last selected cell`, () => {
+          1} and move cursor to the first selected cell`, () => {
           const { editorView } = editor(
             doc(
               table()(
@@ -396,7 +396,7 @@ describe('table keymap', () => {
             'atlassian.editor.format.table.delete_content.keyboard',
           );
           expect(editorView.state.selection.$from.pos).toEqual(
-            [8, 19, 30][index],
+            [4, 15, 26][index],
           );
         });
       });
@@ -436,7 +436,7 @@ describe('table keymap', () => {
             'atlassian.editor.format.table.delete_content.keyboard',
           );
           expect(editorView.state.selection.$from.pos).toEqual(
-            [18, 23, 28][index],
+            [4, 8, 12][index],
           );
         });
       });
