@@ -1,0 +1,65 @@
+{
+  "releases": [{ "name": "@atlaskit/code", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/docs",
+      "type": "patch",
+      "dependencies": ["@atlaskit/code"]
+    },
+    {
+      "name": "@atlaskit/avatar-group",
+      "type": "patch",
+      "dependencies": ["@atlaskit/docs", "@atlaskit/code"]
+    },
+    {
+      "name": "@atlaskit/logo",
+      "type": "patch",
+      "dependencies": ["@atlaskit/docs", "@atlaskit/code"]
+    },
+    {
+      "name": "@atlaskit/section-message",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/docs",
+        "@atlaskit/field-range",
+        "@atlaskit/code"
+      ]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/docs",
+        "@atlaskit/avatar-group",
+        "@atlaskit/logo",
+        "@atlaskit/section-message",
+        "@atlaskit/renderer",
+        "@atlaskit/code"
+      ]
+    },
+    {
+      "name": "@atlaskit/renderer",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/docs",
+        "@atlaskit/field-range",
+        "@atlaskit/code"
+      ]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": ["@atlaskit/docs", "@atlaskit/logo", "@atlaskit/code"]
+    },
+    {
+      "name": "@atlaskit/refinement-bar",
+      "type": "patch",
+      "dependencies": ["@atlaskit/docs", "@atlaskit/section-message"]
+    },
+    {
+      "name": "@atlaskit/field-range",
+      "type": "patch",
+      "dependencies": ["@atlaskit/docs", "@atlaskit/section-message"]
+    }
+  ]
+}

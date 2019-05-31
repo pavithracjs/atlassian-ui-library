@@ -25,6 +25,10 @@ declare module '@atlaskit/button' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/code' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/dynamic-table' {
   declare module.exports: any;
 }
@@ -34,6 +38,10 @@ declare module '@atlaskit/flag' {
 }
 
 declare module '@atlaskit/inline-edit' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/inline-message' {
   declare module.exports: any;
 }
 
@@ -62,6 +70,10 @@ declare module '@atlaskit/radio' {
 }
 
 declare module '@atlaskit/section-message' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/spinner' {
   declare module.exports: any;
 }
 
