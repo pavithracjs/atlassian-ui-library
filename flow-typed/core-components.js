@@ -76,3 +76,7 @@ declare module '@atlaskit/radio' {
 declare module '@atlaskit/portal' {
   declare module.exports: any;
 }
+
+declare module '@atlaskit/inline-message' {
+  declare module.exports: any;
+}

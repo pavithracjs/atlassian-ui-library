@@ -1,6 +1,4 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import InlineMessage from '../src';
 
 const MessageContent = (
@@ -16,14 +14,14 @@ const MessageContent = (
 export default () => (
   <div>
     <InlineMessage
-      type="warning"
+      type="confirmation"
       title="JIRA Service Desk"
       secondaryText="Authenticate to see more information"
     >
       {MessageContent}
     </InlineMessage>
     <InlineMessage
-      type="warning"
+      type="confirmation"
       secondaryText="Authenticate to see more information"
     >
       {MessageContent}

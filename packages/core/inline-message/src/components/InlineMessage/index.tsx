@@ -1,33 +1,31 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
-import type { Placement } from '@atlaskit/inline-dialog';
 import IconForType from '../IconForType';
-import type { IconType } from '../../types';
+import { IconType, InlineDialogPlacement } from '../../types';
 import { Root, ButtonContents, Text, Title } from './styledInlineMessage';
 
-type Props = {
+interface Props {
   /** The elements to be displayed by the inline dialog. */
-  children: Node,
+  children: React.ReactNode;
   /** The placement to be passed to the inline dialog. Determines where around
    the text the dialog is displayed. */
-  placement: Placement,
+  placement: InlineDialogPlacement;
   /** Text to display second. */
-  secondaryText: string,
+  secondaryText: string;
   /** Text to display first, bolded for emphasis. */
-  title: string,
+  title: string;
   /** Set the icon to be used before the title. Options are: connectivity,
    confirmation, info, warning, and error. */
-  type: IconType,
-};
+  type: IconType;
+}
 
-type State = {
-  isOpen: boolean,
-  isHovered: boolean,
-};
+interface State {
+  isOpen: boolean;
+  isHovered: boolean;
+}
 
-export default class InlineMessage extends Component<Props, State> {
+export default class InlineMessage extends React.Component<Props, State> {
   static defaultProps = {
     children: null,
     placement: 'bottom-start',

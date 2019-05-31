@@ -1,5 +1,4 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import InlineMessage from '../src';
 
 export default () => (
