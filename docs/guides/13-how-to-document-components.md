@@ -33,6 +33,8 @@ We expect the main page to contain:
 - A simple example of how to use the component
 - The props documentation.
 
+*Note*: It is recommended to add a section message at the top of the description if your component is designed for internal Atlassian development and / or if the component is in developer preview. Please refer to the documentation [template](https://bitbucket.org/atlassian/atlaskit-mk-2/src/master/docs/templates/0-intro-template.js).
+
 Some components are either too complicated to explain all their concepts on a single docs page, or export enough components that each should be given their own page.
 
 See information on the `docs/` folder below for information on how to create these.
@@ -88,7 +90,7 @@ An average intro file may look something like this:
 
 ```
 import { md, Props, Example } from '@atlaskit/docs'
-import SpecialCustomThing from '../somwhere'
+import SpecialCustomThing from '../somewhere'
 
 export default md`
 # Hello

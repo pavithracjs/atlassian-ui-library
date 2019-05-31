@@ -5,3 +5,4 @@ export { default as Example } from './Example';
 export { default as Props } from './Props';
 export { default as replaceSrc } from './replaceSrc';
 export { Prop } from 'pretty-proptypes';
+export { AtlassianInternalWarning, DevPreviewWarning } from './SectionMessages';

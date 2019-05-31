@@ -25,8 +25,8 @@ const getIssueAvatar = (issueType: string) =>
   `https://product-fabric.atlassian.net/images/icons/issuetypes/${issueType}.svg`;
 const getIssueUrl = (key: string) =>
   `https://product-fabric.atlassian.net/browse/${key}`;
-const getProjectUrl = (porjectKey: string) =>
-  `https://product-fabric.atlassian.net/browse/${porjectKey}`;
+const getProjectUrl = (projectKey: string) =>
+  `https://product-fabric.atlassian.net/browse/${projectKey}`;
 const getFilterUrl = () =>
   `https://product-fabric.atlassian.net/browse/filter=${Math.floor(
     (Math.random() * -10) % 5,

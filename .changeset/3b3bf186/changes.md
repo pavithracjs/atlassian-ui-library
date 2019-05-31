@@ -1,1 +1,0 @@
-- Now you can provide `MediaClientConfig` as `mediaClientConfig` prop to a Card as an alternative to Context. This is preferential, since Context prop will be dropped very soon.

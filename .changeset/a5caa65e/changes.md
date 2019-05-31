@@ -1,1 +1,0 @@
-- XOR<T, U> type was added
