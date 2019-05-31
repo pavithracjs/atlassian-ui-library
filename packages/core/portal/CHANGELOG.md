@@ -1,5 +1,14 @@
 # @atlaskit/portal
 
+## 3.0.0
+- [major] [dacfb81ca1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dacfb81ca1):
+
+  - @atlaskit/portal has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/onboarding@8.0.2
+  - @atlaskit/modal-dialog@10.0.0
+
 ## 2.0.1
 - Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
   - @atlaskit/flag@12.0.0

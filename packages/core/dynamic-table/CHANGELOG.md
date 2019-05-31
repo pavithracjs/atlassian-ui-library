@@ -1,5 +1,12 @@
 # @atlaskit/dynamic-table
 
+## 13.0.1
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [8c65f23d32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c65f23d32):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/pagination@12.0.0
+
 ## 13.0.0
 - [major] [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
 

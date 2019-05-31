@@ -1,5 +1,10 @@
 # @atlaskit/spinner
 
+## 12.0.0
+- [major] [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+
+  - @atlaskit/spinner has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 11.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

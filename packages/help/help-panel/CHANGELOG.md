@@ -1,5 +1,10 @@
 ## 0.1.0
 
+## 0.5.7
+- Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
+  - @atlaskit/form@6.0.3
+  - @atlaskit/radio@3.0.0
+
 ## 0.5.6
 - Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
   - @atlaskit/navigation@35.1.3

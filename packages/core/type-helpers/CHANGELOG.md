@@ -1,5 +1,10 @@
 # @atlaskit/type-helpers
 
+## 4.1.0
+- [minor] [04b70fd86b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/04b70fd86b):
+
+  - XOR<T, U> type was added
+
 ## 4.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

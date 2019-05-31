@@ -1,5 +1,10 @@
 # @atlaskit/logo
 
+## 12.0.1
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/code@11.0.0
+
 ## 12.0.0
 - [major] [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
 

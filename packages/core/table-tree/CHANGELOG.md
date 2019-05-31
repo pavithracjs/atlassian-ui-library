@@ -1,5 +1,12 @@
 # @atlaskit/table-tree
 
+## 7.0.2
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/empty-state@5.0.1
+  - @atlaskit/select@9.1.2
+  - @atlaskit/spinner@12.0.0
+
 ## 7.0.1
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/icon@17.1.1

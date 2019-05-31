@@ -1,5 +1,9 @@
 # @atlaskit/tooltip
 
+## 14.0.1
+- Updated dependencies [dacfb81ca1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dacfb81ca1):
+  - @atlaskit/portal@3.0.0
+
 ## 14.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -1,5 +1,31 @@
 # @atlaskit/website
 
+## 5.1.7
+- [patch] [92381960e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92381960e9):
+
+  - Updated types to support modal-dialog typescript conversion
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+- Updated dependencies [bfb006f65a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfb006f65a):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/dynamic-table@13.0.1
+  - @atlaskit/flag@12.0.2
+  - @atlaskit/select@9.1.2
+  - @atlaskit/media-card@63.1.0
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/icon-object@4.0.1
+  - @atlaskit/modal-dialog@10.0.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-filmstrip@34.1.2
+  - @atlaskit/media-test-helpers@24.0.0
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/logo@12.0.1
+  - @atlaskit/code@11.0.0
+  - @atlaskit/css-reset@5.0.0
+
 ## 5.1.6
 - Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
   - @atlaskit/navigation@35.1.3
