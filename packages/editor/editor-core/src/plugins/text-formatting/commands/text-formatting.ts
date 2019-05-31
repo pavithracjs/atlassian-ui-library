@@ -1,7 +1,6 @@
 import { TextSelection, Selection } from 'prosemirror-state';
 import { hasCode } from '../utils';
 import { markActive } from '../utils';
-import { transformToCodeAction } from './transform-to-code';
 import { analyticsService } from '../../../analytics';
 import { Command } from '../../../types';
 import { toggleMark } from '../../../utils/commands';
@@ -13,6 +12,7 @@ import {
   EVENT_TYPE,
   INPUT_METHOD,
 } from '../../analytics';
+import { transformToCodeAction } from './transform-to-code';
 
 export const moveRight = (): Command => {
   return (state, dispatch) => {
@@ -298,16 +298,10 @@ export const toggleSubscriptWithAnalytics = (): Command =>
 export const toggleCode = (): Command => {
   return (state, dispatch) => {
     const { code } = state.schema.marks;
-    const { from, to } = state.selection;
     if (code) {
-      if (!markActive(state, code.create())) {
-        if (dispatch) {
-          dispatch(transformToCodeAction(from, to, state.tr));
-        }
-        return true;
-      }
       return toggleMark(code)(state, dispatch);
     }
+
     return false;
   };
 };

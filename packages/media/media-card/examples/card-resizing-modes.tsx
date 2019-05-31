@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   StoryList,
-  createStorybookContext,
+  createStorybookMediaClientConfig,
   smallImageFileId,
   wideImageFileId,
   largeImageFileId,
@@ -9,38 +9,65 @@ import {
 
 import { Card } from '../src';
 
-const context = createStorybookContext();
+const mediaClientConfig = createStorybookMediaClientConfig();
 const defaultCards = [
   {
     title: 'Small',
-    content: <Card identifier={smallImageFileId} context={context} />,
+    content: (
+      <Card
+        identifier={smallImageFileId}
+        mediaClientConfig={mediaClientConfig}
+      />
+    ),
   },
   {
     title: 'Wide',
-    content: <Card identifier={wideImageFileId} context={context} />,
+    content: (
+      <Card
+        identifier={wideImageFileId}
+        mediaClientConfig={mediaClientConfig}
+      />
+    ),
   },
   {
     title: 'Large',
-    content: <Card identifier={largeImageFileId} context={context} />,
+    content: (
+      <Card
+        identifier={largeImageFileId}
+        mediaClientConfig={mediaClientConfig}
+      />
+    ),
   },
 ];
 const croppedCards = [
   {
     title: 'Small',
     content: (
-      <Card identifier={smallImageFileId} context={context} resizeMode="crop" />
+      <Card
+        identifier={smallImageFileId}
+        mediaClientConfig={mediaClientConfig}
+        resizeMode="crop"
+      />
     ),
   },
   {
     title: 'Wide',
     content: (
-      <Card identifier={wideImageFileId} context={context} resizeMode="crop" />
+      <Card
+        identifier={wideImageFileId}
+        mediaClientConfig={mediaClientConfig}
+        resizeMode="crop"
+      />
     ),
   },
   {
     title: 'Large',
     content: (
-      <Card identifier={largeImageFileId} context={context} resizeMode="crop" />
+      <Card
+        identifier={largeImageFileId}
+        mediaClientConfig={mediaClientConfig}
+        resizeMode="crop"
+      />
     ),
   },
 ];
@@ -48,19 +75,31 @@ const fitCards = [
   {
     title: 'Small',
     content: (
-      <Card identifier={smallImageFileId} context={context} resizeMode="fit" />
+      <Card
+        identifier={smallImageFileId}
+        mediaClientConfig={mediaClientConfig}
+        resizeMode="fit"
+      />
     ),
   },
   {
     title: 'Wide',
     content: (
-      <Card identifier={wideImageFileId} context={context} resizeMode="fit" />
+      <Card
+        identifier={wideImageFileId}
+        mediaClientConfig={mediaClientConfig}
+        resizeMode="fit"
+      />
     ),
   },
   {
     title: 'Large',
     content: (
-      <Card identifier={largeImageFileId} context={context} resizeMode="fit" />
+      <Card
+        identifier={largeImageFileId}
+        mediaClientConfig={mediaClientConfig}
+        resizeMode="fit"
+      />
     ),
   },
 ];
@@ -70,7 +109,7 @@ const fullFitCards = [
     content: (
       <Card
         identifier={smallImageFileId}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         resizeMode="full-fit"
       />
     ),
@@ -80,7 +119,7 @@ const fullFitCards = [
     content: (
       <Card
         identifier={wideImageFileId}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         resizeMode="full-fit"
       />
     ),
@@ -90,7 +129,7 @@ const fullFitCards = [
     content: (
       <Card
         identifier={largeImageFileId}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         resizeMode="full-fit"
       />
     ),

@@ -10,6 +10,7 @@ import {
   DialogContentState,
   OriginTracing,
 } from '../../../types';
+import { Team } from '@atlaskit/user-picker';
 
 describe('share analytics', () => {
   const mockShareOrigin = (): OriginTracing => ({
@@ -219,6 +220,105 @@ describe('share analytics', () => {
           emailCount: 1,
           users: ['abc-123'],
           teams: ['123-abc'],
+          packageVersion: expect.any(String),
+          packageName: '@atlaskit/share',
+          isMessageEnabled: true,
+          messageLength: 12,
+          originIdGenerated: 'abc-123',
+          originProduct: 'jest',
+        }),
+      });
+      expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledTimes(1);
+      expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledWith({
+        hasGeneratedId: true,
+      });
+    });
+
+    // team analytics related
+    const teams: Team[] = [
+      {
+        type: 'team',
+        id: 'abc-123',
+        name: 'some team 1',
+        memberCount: 2,
+      },
+      {
+        type: 'team',
+        id: 'abc-1234',
+        name: 'some team 2',
+        memberCount: 5,
+      },
+    ];
+
+    const dataWithMembers: DialogContentState = {
+      users: teams,
+      comment: {
+        format: 'plain_text',
+        value: 'Some comment',
+      },
+    };
+    it('should create event payload with team member counts', () => {
+      const shareOrigin: OriginTracing = mockShareOrigin();
+      const config: ConfigResponse = {
+        mode: 'ANYONE',
+        allowComment: true,
+      };
+      expect(
+        submitShare(100, dataWithMembers, 'issue', shareOrigin, config),
+      ).toMatchObject({
+        eventType: 'ui',
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: 'submitShare',
+        attributes: expect.objectContaining({
+          contentType: 'issue',
+          duration: expect.any(Number),
+          teamCount: 2,
+          userCount: 0,
+          emailCount: 0,
+          teams: ['abc-123', 'abc-1234'],
+          teamUserCounts: [2, 5],
+          packageVersion: expect.any(String),
+          packageName: '@atlaskit/share',
+          isMessageEnabled: true,
+          messageLength: 12,
+          originIdGenerated: 'abc-123',
+          originProduct: 'jest',
+        }),
+      });
+      expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledTimes(1);
+      expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledWith({
+        hasGeneratedId: true,
+      });
+    });
+
+    it('should create event payload with team member counts when some ember counts are undefined', () => {
+      teams.push({
+        type: 'team',
+        id: 'abc-1235',
+        name: 'some team 2',
+      });
+      const shareOrigin: OriginTracing = mockShareOrigin();
+      const config: ConfigResponse = {
+        mode: 'ANYONE',
+        allowComment: true,
+      };
+
+      expect(
+        submitShare(100, dataWithMembers, 'issue', shareOrigin, config),
+      ).toMatchObject({
+        eventType: 'ui',
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: 'submitShare',
+        attributes: expect.objectContaining({
+          contentType: 'issue',
+          duration: expect.any(Number),
+          teamCount: 3,
+          userCount: 0,
+          emailCount: 0,
+          teams: ['abc-123', 'abc-1234', 'abc-1235'],
+          teamUserCounts: [2, 5, 0],
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
           isMessageEnabled: true,

@@ -6,7 +6,8 @@
   },
   "description": "Renders inline code snippets and code blocks",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",

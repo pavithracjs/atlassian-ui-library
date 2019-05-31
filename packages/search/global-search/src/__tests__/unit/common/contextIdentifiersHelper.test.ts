@@ -108,10 +108,10 @@ describe('searchSessionUtils', () => {
     );
 
     expect(objects.map(o => o.href)).toEqual([
-      'http://localhost/?searchSessionId=searchSessionId&containerId=containerId&searchContentType=issue&searchObjectId=resultId',
+      'http://localhost/?searchSessionId=searchSessionId&searchContainerId=containerId&searchContentType=issue&searchObjectId=resultId',
     ]);
     expect(containers.map(o => o.href)).toEqual([
-      'http://localhost/?searchSessionId=searchSessionId&containerId=containerId&searchContentType=project&searchObjectId=resultId',
+      'http://localhost/?searchSessionId=searchSessionId&searchContainerId=containerId&searchContentType=project&searchObjectId=resultId',
     ]);
     expect(people.map(o => o.href)).toEqual(['http://localhost/']);
   });

@@ -27,7 +27,7 @@ import DeleteButton from '../DeleteButton';
 export interface Props {
   editorView: EditorView;
   tableRef: HTMLTableElement;
-  selectRow: (row: number) => void;
+  selectRow: (row: number, expand: boolean) => void;
   hoverRows: (rows: number[], danger?: boolean) => void;
   hoveredRows?: number[];
   isInDanger?: boolean;
@@ -73,7 +73,9 @@ export default class RowControls extends Component<Props, any> {
               <button
                 type="button"
                 className={ClassName.CONTROLS_BUTTON}
-                onClick={() => this.props.selectRow(startIndex)}
+                onClick={event =>
+                  this.props.selectRow(startIndex, event.shiftKey)
+                }
                 onMouseOver={() => this.props.hoverRows([startIndex])}
                 onMouseMove={e => e.preventDefault()}
                 onMouseOut={this.clearHoverSelection}

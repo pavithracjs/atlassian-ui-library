@@ -1,5 +1,53 @@
 # @atlaskit/editor-core
 
+## 112.10.10
+- [patch] [7318619da7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7318619da7):
+
+  - Revert [ED-5734] to reduce memory leak caused by getBoundingClientRect
+
+## 112.10.9
+- [patch] [1a1ea182d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a1ea182d6):
+
+  - Fix an infinite loop in typeahead plugin
+
+## 112.10.8
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/dropdown-menu@8.0.2
+  - @atlaskit/item@10.0.1
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/mention@18.2.1
+  - @atlaskit/pubsub@5.0.1
+  - @atlaskit/status@0.9.1
+  - @atlaskit/lozenge@9.0.0
+
+## 112.10.7
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/emoji@62.1.1
+  - @atlaskit/section-message@4.0.0
+
+## 112.10.6
+- [patch] [7eca61edf0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7eca61edf0):
+
+  - ED-6965: bump prosemirror-utils to allow safeInsert replacing selected nodes when it conforms to schema
+
+## 112.10.5
+- [patch] [7ce86bae14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ce86bae14):
+
+  - Shift selection for rows and columns
+
+## 112.10.4
+- [patch] [ca1f019d62](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca1f019d62):
+
+  - ED-6976: fix recovering from overflow when table has number column and all columns are selected
+
+## 112.10.3
+- [patch] [f823890888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f823890888):
+
+  - ED-6970: Fix backspacing inside a layout removing all content.
+
 ## 112.10.2
 - [patch] [54b40d9757](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/54b40d9757):
 
