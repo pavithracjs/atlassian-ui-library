@@ -1,1 +1,0 @@
-replace no-results png with svg

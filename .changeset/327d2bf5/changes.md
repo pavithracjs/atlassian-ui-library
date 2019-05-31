@@ -1,1 +1,0 @@
-ED-6293: Fixes copy pasting a media group file card into the Editor
