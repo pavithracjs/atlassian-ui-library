@@ -22,7 +22,7 @@ const QUICK_NAV_PATH: string = 'rest/quicknav/1/search';
 const QUICKNAV_CLASSNAME_PERSON = 'content-type-userinfo';
 
 export interface ConfluenceClient {
-  getRecentItems(searchSessionId: string): Promise<Result[]>;
+  getRecentItems(searchSessionId: string): Promise<ConfluenceObjectResult[]>;
   getRecentSpaces(searchSessionId: string): Promise<Result[]>;
   searchPeopleInQuickNav(
     query: string,
@@ -74,7 +74,7 @@ export default class ConfluenceClientImpl implements ConfluenceClient {
   public async searchPeopleInQuickNav(
     query: string,
     searchSessionId: string,
-  ): Promise<Result[]> {
+  ): Promise<PersonResult[]> {
     const quickNavResponse = await this.createQuickNavRequestPromise(query);
 
     return quickNavResultsToResults(
@@ -83,7 +83,9 @@ export default class ConfluenceClientImpl implements ConfluenceClient {
     );
   }
 
-  public async getRecentItems(searchSessionId: string): Promise<Result[]> {
+  public async getRecentItems(
+    searchSessionId: string,
+  ): Promise<ConfluenceObjectResult[]> {
     const recentPages = await this.createRecentRequestPromise<RecentPage>(
       RECENT_PAGES_PATH,
     );
@@ -131,7 +133,7 @@ function recentPageToResult(
   recentPage: RecentPage,
   baseUrl: string,
   searchSessionId: string,
-): Result {
+): ConfluenceObjectResult {
   const href = new URI(`${baseUrl}${recentPage.url}`);
 
   return {
@@ -145,7 +147,7 @@ function recentPageToResult(
     iconClass: recentPage.iconClass,
     containerId: recentPage.spaceKey,
     isRecentResult: true,
-  } as ConfluenceObjectResult;
+  };
 }
 
 function recentSpaceToResult(
@@ -184,7 +186,7 @@ function quickNavResultToObjectResult(
 function quickNavResultsToResults(
   quickNavResultGroups: QuickNavResult[][],
   searchSessionId: string,
-): Result[] {
+): PersonResult[] {
   // flatten the array as the response comes back as 2d array, then
   const flattenedResults: QuickNavResult[] = ([] as QuickNavResult[]).concat(
     ...quickNavResultGroups,
