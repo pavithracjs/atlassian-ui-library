@@ -1,4 +1,3 @@
-// @flow
 import {
   getExampleUrl,
   takeScreenShot,
@@ -10,10 +9,11 @@ describe('Snapshot Test', () => {
       'core',
       'inline-message',
       'basic',
+      // @ts-ignore - global usage
       global.__BASEURL__,
     );
+    // @ts-ignore - global usage
     const image = await takeScreenShot(global.page, url);
-    //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
   it('Inline message different-types should match production example', async () => {
@@ -21,10 +21,11 @@ describe('Snapshot Test', () => {
       'core',
       'inline-message',
       'different-types',
+      // @ts-ignore - global usage
       global.__BASEURL__,
     );
+    // @ts-ignore - global usage
     const image = await takeScreenShot(global.page, url);
-    //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
 });

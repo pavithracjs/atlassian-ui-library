@@ -1,16 +1,15 @@
-// @flow
-import React, { Component } from 'react';
-import type { IconType } from '../../types';
+import * as React from 'react';
+import { IconType } from '../../types';
 import IconWrapper from './styledIconForType';
 import { typesMapping } from '../../constants';
 
-type Props = {
-  isHovered: boolean,
-  isOpen: boolean,
-  type: IconType,
-};
+interface Props {
+  isHovered: boolean;
+  isOpen: boolean;
+  type: IconType;
+}
 
-export default class SelectedIconForType extends Component<Props, {}> {
+export default class SelectedIconForType extends React.Component<Props, {}> {
   render() {
     const { type, isHovered, isOpen } = this.props;
     const {
