@@ -66,6 +66,7 @@ div + .c1 {
         onExit={[Function]}
         onExited={[Function]}
         onExiting={[Function]}
+        timeout={0}
         unmountOnExit={true}
       >
         <SpinnerContainer
