@@ -1,5 +1,10 @@
 # @atlaskit/media-picker
 
+## 43.0.4
+- [patch] [e5c40a4a52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5c40a4a52):
+
+  - use existing file state for tenant file if there is one
+
 ## 43.0.3
 - [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
 
