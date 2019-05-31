@@ -33,6 +33,7 @@
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/lozenge": "^9.0.0",
+    "@atlaskit/section-message": "^4.0.1",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "color": "^3.0.0",

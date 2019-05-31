@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { md, Example, code, AtlassianInternalWarning } from '@atlaskit/docs';
-
+import SectionMessage from '@atlaskit/section-message';
 import SimpleEmojiExample from '../examples/00-simple-emoji';
 
 const SimpleEmojiSource = require('!!raw-loader!../examples/00-simple-emoji');
