@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
@@ -27,7 +26,6 @@ afterEach(() => {
 
 test('should ssr then hydrate inline-dialog correctly', async () => {
   const [example] = await getExamplesFor('inline-dialog');
-  // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');

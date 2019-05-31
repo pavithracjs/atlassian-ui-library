@@ -1,5 +1,4 @@
-// @flow
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 
 export type Placement =
   | 'auto-start'
@@ -18,22 +17,22 @@ export type Placement =
   | 'left'
   | 'left-start';
 
-export type Props = {
+export interface Props {
   /** The elements that the InlineDialog will be positioned relative to. */
-  children: Node,
+  children: ReactNode;
   /** The elements to be displayed within the InlineDialog. */
-  content: Node,
+  content: ReactNode;
   /** Sets whether to show or hide the dialog. */
-  isOpen: boolean,
+  isOpen?: boolean;
   /** Function called when you lose focus on the object. */
-  onContentBlur: () => void,
+  onContentBlur?: () => void;
   /** Function called when you click on the open dialog. */
-  onContentClick: () => void,
+  onContentClick?: () => void;
   /** Function called when you focus on the open dialog. */
-  onContentFocus: () => void,
+  onContentFocus?: () => void;
   /** Function called when the dialog is open and a click occurs anywhere outside
    the dialog. */
-  onClose: ({ isOpen: false, event: any }) => void,
+  onClose?: (obj: { isOpen: boolean; event: Event }) => void;
   /** Where the dialog should appear, relative to the contents of the children. */
-  placement: Placement,
-};
+  placement?: Placement;
+}

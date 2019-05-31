@@ -1,14 +1,13 @@
-// @flow
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import InlineDialog from '../src';
 import { Placements } from './utils';
 
-type State = {
-  placementIndex: number,
-};
+interface State {
+  placementIndex: number;
+}
 
-const styles = {
+const styles: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   display: 'flex',

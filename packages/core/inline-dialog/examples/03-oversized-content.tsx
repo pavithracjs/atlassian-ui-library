@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { colors } from '@atlaskit/theme';
 import InlineDialog from '../src';

@@ -37,6 +37,10 @@ declare module '@atlaskit/flag' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/inline-dialog' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/inline-edit' {
   declare module.exports: any;
 }
