@@ -29,10 +29,10 @@ BrowserTestCase(
 
     await inlineEditTest.waitForSelector(editButton);
     await inlineEditTest.safariCompatibleTab();
-    await inlineEditTest.keys('\uE009\uE007');
+    await inlineEditTest.keys('\uE007');
 
     await inlineEditTest.waitForSelector(input);
-    await inlineEditTest.keys('\uE009\uE007');
+    await inlineEditTest.keys('\uE007');
 
     await inlineEditTest.waitForSelector(editButton);
     expect(await inlineEditTest.hasFocus(editButton)).toBe(true);
@@ -50,7 +50,7 @@ BrowserTestCase(
     await inlineEditTest.waitForSelector(editButton);
     await inlineEditTest.click(label);
     await inlineEditTest.safariCompatibleTab();
-    await inlineEditTest.keys('\uE009\uE007');
+    await inlineEditTest.keys('\uE007');
 
     await inlineEditTest.waitForSelector(confirmButton);
     await inlineEditTest.click(confirmButton);
@@ -72,7 +72,7 @@ BrowserTestCase(
     await inlineEditTest.click(readViewContentWrapper);
 
     await inlineEditTest.waitForSelector(input);
-    await inlineEditTest.keys('\uE009\uE007');
+    await inlineEditTest.keys('\uE007');
 
     await inlineEditTest.waitForSelector(editButton);
     expect(await inlineEditTest.hasFocus(editButton)).toBe(false);
