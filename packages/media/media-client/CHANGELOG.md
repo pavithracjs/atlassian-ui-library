@@ -1,5 +1,35 @@
 # @atlaskit/media-client
 
+## 1.2.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 1.2.0
+- [minor] [dcda79d48c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dcda79d48c):
+
+  - `withMediaClient` and associated Props are introduced to make possible soft transition from Context based media components to Media Client Config ones.
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/media-card@63.1.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-test-helpers@24.0.0
+
+## 1.1.5
+- [patch] [af1cbd4ce4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af1cbd4ce4):
+
+  - Removing unnecessary deps and dev deps in media-core and media-client
+
+## 1.1.4
+- [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
+## 1.1.3
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
 ## 1.1.2
 - [patch] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -4,12 +4,12 @@ import { EditorView } from 'prosemirror-view';
 import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
 
 import { INPUT_METHOD } from '../../../../analytics';
-import { clearHoverSelection } from '../../../actions';
+import { clearHoverSelection } from '../../../commands';
 import { getPluginState } from '../../../pm-plugins/main';
 import {
   insertRowWithAnalytics,
   deleteRowsWithAnalytics,
-} from '../../../actions-with-analytics';
+} from '../../../commands-with-analytics';
 import { TableCssClassName as ClassName } from '../../../types';
 import {
   RowParams,
@@ -27,7 +27,7 @@ import DeleteButton from '../DeleteButton';
 export interface Props {
   editorView: EditorView;
   tableRef: HTMLTableElement;
-  selectRow: (row: number) => void;
+  selectRow: (row: number, expand: boolean) => void;
   hoverRows: (rows: number[], danger?: boolean) => void;
   hoveredRows?: number[];
   isInDanger?: boolean;
@@ -73,7 +73,9 @@ export default class RowControls extends Component<Props, any> {
               <button
                 type="button"
                 className={ClassName.CONTROLS_BUTTON}
-                onClick={() => this.props.selectRow(startIndex)}
+                onClick={event =>
+                  this.props.selectRow(startIndex, event.shiftKey)
+                }
                 onMouseOver={() => this.props.hoverRows([startIndex])}
                 onMouseMove={e => e.preventDefault()}
                 onMouseOut={this.clearHoverSelection}
@@ -123,7 +125,7 @@ export default class RowControls extends Component<Props, any> {
 
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;
-    clearHoverSelection(state, dispatch);
+    clearHoverSelection()(state, dispatch);
   };
 
   private insertRow = (row: number) => {
@@ -139,7 +141,7 @@ export default class RowControls extends Component<Props, any> {
 
     const rect = getSelectionRect(state.selection);
     if (rect) {
-      deleteRowsWithAnalytics(INPUT_METHOD.BUTTON, rect, isHeaderRowRequired)(
+      deleteRowsWithAnalytics(INPUT_METHOD.BUTTON, rect, !!isHeaderRowRequired)(
         state,
         dispatch,
       );

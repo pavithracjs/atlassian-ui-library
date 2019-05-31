@@ -84,7 +84,9 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
 
     return (
       <ErrorMessage>
-        {fs.titleize(packageId)} does not have examples
+        {`${fs.titleize(packageId)} does not have an example built for '${
+          this.state.exampleId
+        }'`}
       </ErrorMessage>
     );
   }

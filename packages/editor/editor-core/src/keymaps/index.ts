@@ -114,6 +114,7 @@ export function tooltip(
     shortcut = keys.join(browser.mac ? '' : '+');
     return description ? `${description} ${shortcut}` : shortcut;
   }
+  return;
 }
 
 export function findKeymapByDescription(
@@ -132,6 +133,7 @@ export function findShortcutByDescription(
   if (keymap) {
     return findShortcutByKeymap(keymap);
   }
+  return;
 }
 
 export function findShortcutByKeymap(keymap: Keymap): string | undefined {
@@ -215,6 +217,7 @@ export function findKeyMapForBrowser(kayMap: Keymap): string | undefined {
 
     return kayMap.windows;
   }
+  return;
 }
 
 export const LEFT = 37;

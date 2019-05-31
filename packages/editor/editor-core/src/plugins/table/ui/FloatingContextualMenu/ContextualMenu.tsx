@@ -15,7 +15,7 @@ import {
   hoverRows,
   clearHoverSelection,
   toggleContextualMenu,
-} from '../../actions';
+} from '../../commands';
 import { TableCssClassName as ClassName } from '../../types';
 import { contextualMenuDropdownWidth } from '../styles';
 import { Shortcut } from '../../../../ui/styles';
@@ -32,8 +32,9 @@ import {
   splitCellWithAnalytics,
   emptyMultipleCellsWithAnalytics,
   insertColumnWithAnalytics,
-} from '../../actions-with-analytics';
+} from '../../commands-with-analytics';
 import { closestElement } from '../../../../utils';
+import { getSelectedColumnIndexes, getSelectedRowIndexes } from '../../utils';
 
 export const messages = defineMessages({
   cellBackground: {
@@ -275,7 +276,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
         deleteRowsWithAnalytics(
           INPUT_METHOD.CONTEXT_MENU,
           selectionRect,
-          isHeaderRowRequired,
+          !!isHeaderRowRequired,
         )(state, dispatch);
         this.toggleOpen();
         break;
@@ -287,7 +288,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       isOpen,
       editorView: { state, dispatch },
     } = this.props;
-    toggleContextualMenu(state, dispatch);
+    toggleContextualMenu()(state, dispatch);
     if (!isOpen) {
       this.setState({
         isSubmenuOpen: false,
@@ -299,7 +300,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     const {
       editorView: { state, dispatch },
     } = this.props;
-    toggleContextualMenu(state, dispatch);
+    toggleContextualMenu()(state, dispatch);
     this.setState({ isSubmenuOpen: false });
   };
 
@@ -335,7 +336,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       item.value.name === 'delete_column' ||
       item.value.name === 'delete_row'
     ) {
-      clearHoverSelection(state, dispatch);
+      clearHoverSelection()(state, dispatch);
     }
   };
 
@@ -352,21 +353,5 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     this.toggleOpen();
   };
 }
-
-export const getSelectedColumnIndexes = (selectionRect: Rect): number[] => {
-  const columnIndexes: number[] = [];
-  for (let i = selectionRect.left; i < selectionRect.right; i++) {
-    columnIndexes.push(i);
-  }
-  return columnIndexes;
-};
-
-export const getSelectedRowIndexes = (selectionRect: Rect): number[] => {
-  const rowIndexes: number[] = [];
-  for (let i = selectionRect.top; i < selectionRect.bottom; i++) {
-    rowIndexes.push(i);
-  }
-  return rowIndexes;
-};
 
 export default injectIntl(ContextualMenu);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LazyRender from 'react-lazily-render';
+import LazyRender from 'react-lazily-render-scroll-parent';
 import { CardLinkView } from '@atlaskit/media-ui';
 import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 
@@ -25,9 +25,10 @@ export type CardWithUrlContentProps = {
   client: Client;
   url: string;
   appearance: CardAppearance;
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   isSelected?: boolean;
   authFn: (startUrl: string) => Promise<void>;
+  container?: HTMLElement;
 } & WithAnalyticsEventProps;
 
 export function CardWithUrlContent(props: CardWithUrlContentProps) {
@@ -39,6 +40,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
     appearance,
     createAnalyticsEvent,
     authFn,
+    container,
   } = props;
   return (
     <LazyRender
@@ -51,6 +53,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
           link={url}
         />
       }
+      scrollContainer={container}
       content={
         <CardContainer
           client={client}
@@ -124,7 +127,9 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
               );
             };
 
-            const defaultOnClick = () => {
+            const defaultOnClick: React.EventHandler<
+              React.MouseEvent | React.KeyboardEvent
+            > = event => {
               if (state.status === 'resolved') {
                 fireSmartLinkEvent(
                   uiCardClickedEvent(definitionId, appearance),
@@ -132,9 +137,14 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
                 );
               }
               if (onClick) {
-                onClick();
+                onClick(event);
               } else {
-                window.open(url);
+                const isSpecialKey = event.ctrlKey || event.metaKey;
+                if (event.isDefaultPrevented() && isSpecialKey) {
+                  window.open(url, '_blank');
+                } else {
+                  window.open(url, '_self');
+                }
               }
             };
 
@@ -143,7 +153,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
                 url,
                 state,
                 firstAuthService ? handleAuthorise : undefined,
-                () => defaultOnClick(),
+                event => defaultOnClick(event),
                 isSelected,
               );
             }
@@ -153,7 +163,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
               state,
               firstAuthService ? handleAuthorise : undefined,
               reload,
-              () => defaultOnClick(),
+              event => defaultOnClick(event),
               isSelected,
             );
           }}

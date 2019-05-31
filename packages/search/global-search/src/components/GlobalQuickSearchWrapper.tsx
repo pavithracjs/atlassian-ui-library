@@ -6,7 +6,11 @@ import JiraQuickSearchContainer from './jira/JiraQuickSearchContainer';
 import configureSearchClients, { Config } from '../api/configureSearchClients';
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { GlobalSearchPreFetchContext } from './PrefetchedResultsProvider';
-import { QuickSearchContext } from '../api/types';
+import {
+  QuickSearchContext,
+  ConfluenceModelContext,
+  JiraModelContext,
+} from '../api/types';
 
 const DEFAULT_NOOP_LOGGER: Logger = {
   safeInfo() {},
@@ -113,26 +117,6 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
-   * Indicates if search terms should be send in analytic events when a search is performed.
-   */
-  isSendSearchTermsEnabled?: boolean;
-
-  /**
-   * Indicates whether or not quick nav should be used for people searches.
-   */
-  useQuickNavForPeopleResults?: boolean;
-
-  /**
-   * Indicates whether or not CPUS should be used for people searches.
-   */
-  useCPUSForPeopleResults?: boolean;
-
-  /**
-   * Indicates whether to add sessionId to jira result query param
-   */
-  addSessionIdToJiraResult?: boolean;
-
-  /**
    * Indicates whether to disable Jira people search on the pre-query screen
    */
   disableJiraPreQueryPeopleSearch?: boolean;
@@ -168,6 +152,16 @@ export interface Props {
    * This is used for Confluence only.
    */
   fasterSearchFFEnabled?: boolean;
+
+  /**
+   * Determine whether to enable urs for bootstrapping people search.
+   */
+  useUrsForBootstrapping?: boolean;
+
+  /**
+   * Additional context paramters used to evaluate search models
+   */
+  modelContext?: ConfluenceModelContext | JiraModelContext;
 }
 
 /**
@@ -185,7 +179,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       searchAggregatorServiceUrl,
       directoryServiceUrl,
       confluenceUrl,
-      addSessionIdToJiraResult,
     } = this.props;
 
     if (activityServiceUrl) {
@@ -203,8 +196,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     if (confluenceUrl) {
       config.confluenceUrl = confluenceUrl;
     }
-
-    config.addSessionIdToJiraResult = addSessionIdToJiraResult;
 
     return config;
   }
@@ -259,7 +250,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     return (
       <MessagesIntlProvider>
         <GlobalSearchPreFetchContext.Consumer>
-          {({ prefetchedResults }) => {
+          {prefetchedResults => {
             const searchClients = configureSearchClients(
               this.props.cloudId,
               this.makeConfig(),
@@ -268,26 +259,22 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
             const {
               linkComponent,
-              isSendSearchTermsEnabled,
-              useQuickNavForPeopleResults,
               referralContextIdentifiers,
-              useCPUSForPeopleResults,
               logger,
               disableJiraPreQueryPeopleSearch,
               enablePreQueryFromAggregator,
               inputControls,
               appPermission,
               fasterSearchFFEnabled,
+              useUrsForBootstrapping,
+              modelContext,
             } = this.props;
 
             return (
               <ContainerComponent
                 {...searchClients}
                 linkComponent={linkComponent}
-                isSendSearchTermsEnabled={isSendSearchTermsEnabled}
-                useQuickNavForPeopleResults={useQuickNavForPeopleResults}
                 referralContextIdentifiers={referralContextIdentifiers}
-                useCPUSForPeopleResults={useCPUSForPeopleResults}
                 disableJiraPreQueryPeopleSearch={
                   disableJiraPreQueryPeopleSearch
                 }
@@ -297,6 +284,8 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 inputControls={inputControls}
                 appPermission={appPermission}
                 fasterSearchFFEnabled={fasterSearchFFEnabled}
+                useUrsForBootstrapping={useUrsForBootstrapping}
+                modelContext={modelContext}
               />
             );
           }}

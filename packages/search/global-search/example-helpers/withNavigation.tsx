@@ -157,7 +157,6 @@ export default function withNavigation<P extends Props>(
             searchDrawerContent={
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
-                  addSessionIdToJiraResult
                   cloudId="cloudId"
                   context={context}
                   referralContextIdentifiers={{

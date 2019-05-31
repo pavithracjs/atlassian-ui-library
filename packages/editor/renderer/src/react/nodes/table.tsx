@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
 import { TableLayout } from '@atlaskit/adf-schema';
 import {
   calcTableWidth,
@@ -26,7 +25,7 @@ export interface TableProps {
   columnWidths?: Array<number>;
   layout: TableLayout;
   isNumberColumnEnabled: boolean;
-  children: ReactNode;
+  children: React.ReactElement<any> | Array<React.ReactElement<any>>;
   renderWidth: number;
   rendererAppearance?: RendererAppearance;
   allowDynamicTextSizing?: boolean;
@@ -62,7 +61,7 @@ const isHeaderRowEnabled = (rows: React.ReactChild[]) => {
   return children[0].type === TableHeader;
 };
 
-const addNumberColumnIndexes = (rows: React.ReactChild[]) => {
+const addNumberColumnIndexes = (rows: React.ReactElement<any>[]) => {
   const headerRowEnabled = isHeaderRowEnabled(rows);
   return React.Children.map(rows, (row, index) => {
     return React.cloneElement(React.Children.only(row), {
@@ -100,8 +99,8 @@ const isTableResized = (columnWidths: Array<number>) => {
 
 const fixColumnWidth = (
   columnWidth: number,
-  tableWidth: number,
-  layoutWidth: number,
+  _tableWidth: number,
+  _layoutWidth: number,
   zeroWidthColumnsCount: number,
   scaleDownPercent: number,
 ): number => {
@@ -140,7 +139,9 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
             {this.renderColgroup()}
             <tbody>
               {isNumberColumnEnabled
-                ? addNumberColumnIndexes(React.Children.toArray(children))
+                ? addNumberColumnIndexes(
+                    React.Children.toArray<React.ReactElement>(children),
+                  )
                 : children}
             </tbody>
           </table>

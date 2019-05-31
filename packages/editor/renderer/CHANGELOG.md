@@ -1,5 +1,73 @@
 # @atlaskit/renderer
 
+## 48.7.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 48.7.0
+- [minor] [372235caca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/372235caca):
+
+  - Email renderer now renders media node
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/editor-test-helpers@9.3.4
+  - @atlaskit/media-card@63.1.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-filmstrip@34.1.2
+  - @atlaskit/media-test-helpers@24.0.0
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/field-range@7.0.2
+  - @atlaskit/code@11.0.0
+
+## 48.6.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 48.5.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 48.4.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
+## 48.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 48.2.0
+- [minor] [8555107bfd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8555107bfd):
+
+  - ensure that arbitary HTML does not get evaluated by email clients
+
+## 48.1.4
+- [patch] [dfc7aaa563](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc7aaa563):
+
+  - ED-6863: Fix the rendering of extensions in the renderer when they have breakout layouts.
+
+## 48.1.3
+- [patch] [1ec6367e00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ec6367e00):
+
+  - ED-6551 - Lists should correctly wrap adjacent floated content without overlapping
+
+## 48.1.2
+- [patch] [5539fc187f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5539fc187f):
+
+  - Email renderer - single-line codeBlock still has rounded corners
+
+## 48.1.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/editor-test-helpers@9.1.3
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-filmstrip@34.1.1
+  - @atlaskit/media-test-helpers@23.0.0
+
 ## 48.1.0
 - [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 

@@ -2,24 +2,28 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { ProviderFactory, ImageLoaderProps } from '@atlaskit/editor-common';
-import { ProsemirrorGetPosHandler, ReactNodeProps } from '../../../nodeviews';
+
+import {
+  ProviderFactory,
+  ImageLoaderProps,
+  withImageLoader,
+} from '@atlaskit/editor-common';
+
+import {
+  Card,
+  CardDimensions,
+  CardLoading,
+  CardOnClickCallback,
+} from '@atlaskit/media-card';
+import { Context, Identifier } from '@atlaskit/media-core';
+
 import {
   MediaPluginState,
   stateKey as mediaStateKey,
   MediaProvider,
 } from '../pm-plugins/main';
-import { Context, ImageResizeMode, Identifier } from '@atlaskit/media-core';
-import {
-  Card,
-  CardDimensions,
-  CardLoading,
-  CardEventHandler,
-  CardOnClickCallback,
-} from '@atlaskit/media-card';
-import { MediaType, MediaBaseAttributes } from '@atlaskit/adf-schema';
-import { withImageLoader, ImageStatus } from '@atlaskit/editor-common';
 
+import { ProsemirrorGetPosHandler, ReactNodeProps } from '../../../nodeviews';
 import { EditorAppearance } from '../../../types';
 
 // This is being used by DropPlaceholder now
@@ -29,9 +33,9 @@ export const FILE_WIDTH = 156;
 export type Appearance = 'small' | 'image' | 'horizontal' | 'square';
 
 export interface MediaNodeProps extends ReactNodeProps, ImageLoaderProps {
-  getPos: ProsemirrorGetPosHandler;
   view: EditorView;
   node: PMNode;
+  getPos: ProsemirrorGetPosHandler;
   providerFactory?: ProviderFactory;
   cardDimensions: CardDimensions;
   isMediaSingle?: boolean;
@@ -42,44 +46,23 @@ export interface MediaNodeProps extends ReactNodeProps, ImageLoaderProps {
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
   viewContext?: Context;
+  uploadComplete?: boolean;
 }
 
-export interface Props extends Partial<MediaBaseAttributes> {
-  type: MediaType;
-  cardDimensions?: CardDimensions;
-  onClick?: CardOnClickCallback;
-  onDelete?: CardEventHandler;
-  resizeMode?: ImageResizeMode;
-  appearance?: Appearance;
-  selected?: boolean;
-  url?: string;
-  imageStatus?: ImageStatus;
-  context: Context;
-  disableOverlay?: boolean;
-  mediaProvider?: Promise<MediaProvider>;
-  viewContext?: Context;
-}
-
-export interface MediaNodeState {
-  viewContext?: Context;
-}
-
-class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
-  private pluginState: MediaPluginState;
+class MediaNode extends Component<MediaNodeProps> {
+  private mediaPluginState: MediaPluginState;
 
   constructor(props: MediaNodeProps) {
     super(props);
     const { view } = this.props;
-    this.pluginState = mediaStateKey.getState(view.state);
+    this.mediaPluginState = mediaStateKey.getState(view.state);
   }
 
-  shouldComponentUpdate(
-    nextProps: MediaNodeProps & ImageLoaderProps,
-    nextState: MediaNodeState,
-  ) {
+  shouldComponentUpdate(nextProps: MediaNodeProps & ImageLoaderProps) {
     if (
       this.props.selected !== nextProps.selected ||
       this.props.viewContext !== nextProps.viewContext ||
+      this.props.uploadComplete !== nextProps.uploadComplete ||
       this.props.node.attrs.id !== nextProps.node.attrs.id ||
       this.props.node.attrs.collection !== nextProps.node.attrs.collection ||
       this.props.cardDimensions.height !== nextProps.cardDimensions.height ||
@@ -96,15 +79,15 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
 
   componentWillUnmount() {
     const { node } = this.props;
-    this.pluginState.handleMediaNodeUnmount(node);
+    this.mediaPluginState.handleMediaNodeUnmount(node);
   }
 
   componentDidUpdate(prevProps: Readonly<MediaNodeProps & ImageLoaderProps>) {
     if (prevProps.node.attrs.id !== this.props.node.attrs.id) {
-      this.pluginState.handleMediaNodeUnmount(prevProps.node);
+      this.mediaPluginState.handleMediaNodeUnmount(prevProps.node);
       this.handleNewNode(this.props);
     }
-    this.pluginState.updateElement();
+    this.mediaPluginState.updateElement();
   }
 
   render() {
@@ -114,20 +97,17 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
       cardDimensions,
       onClick,
       editorAppearance,
+      viewContext,
+      uploadComplete,
     } = this.props;
-    const { id, type, collection, url } = node.attrs;
-    const { viewContext } = this.props;
-    /**
-     * On mobile we don't receive a collectionName until the `upload-end` event.
-     * We don't want to render a proper card until we have a valid collection.
-     * Render loading until we do.
-     */
-    const isMobile = editorAppearance === 'mobile';
-    let isMobileReady = isMobile
-      ? typeof collection === 'string' && collection.length > 0
-      : true;
 
-    if (type !== 'external' && (!viewContext || !isMobileReady)) {
+    const { id, type, collection, url } = node.attrs;
+    const isMobile = editorAppearance === 'mobile';
+
+    if (
+      type !== 'external' &&
+      (!viewContext || (typeof uploadComplete === 'boolean' && !uploadComplete))
+    ) {
       return <CardLoading dimensions={cardDimensions} />;
     }
 
@@ -164,7 +144,10 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
     const { node } = props;
 
     // +1 indicates the media node inside the mediaSingle nodeview
-    this.pluginState.handleMediaNodeMount(node, () => this.props.getPos() + 1);
+    this.mediaPluginState.handleMediaNodeMount(
+      node,
+      () => this.props.getPos() + 1,
+    );
   };
 }
 

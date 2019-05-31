@@ -105,34 +105,45 @@ class HelpContextProviderImplementation extends React.Component<
     this.state = initialiseHelpData(defaultValues);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const { articleId, isOpen } = this.props;
+
     window.history.pushState = function(
       this: HelpContextProviderImplementation,
     ) {
       PUSH_STATE.apply(window.history, arguments);
-      this.onUrlChange(window.location);
-    }.bind(this);
+    };
+
+    // if the initial value of isOpen is true, fire analytics event and
+    // request the article
+    if (isOpen) {
+      createAndFire({
+        action: 'help-panel-open',
+      })(this.props.createAnalyticsEvent);
+
+      if (articleId) {
+        const article = await this.getArticle(articleId);
+        this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
+      }
+    }
   }
 
   async componentDidUpdate(prevProps: Props) {
-    const { articleId } = this.props;
+    const { articleId, isOpen } = this.props;
 
-    if (this.props.isOpen && this.props.isOpen !== prevProps.isOpen) {
+    if (isOpen && isOpen !== prevProps.isOpen) {
       createAndFire({
         action: 'help-panel-open',
       })(this.props.createAnalyticsEvent);
     }
     // When the drawer goes from close to open
     // and the articleId is defined, get the content of that article
-    if (this.props.isOpen !== prevProps.isOpen && articleId) {
+    if (
+      (isOpen !== prevProps.isOpen || articleId !== prevProps.articleId) &&
+      articleId
+    ) {
       const article = await this.getArticle(articleId);
       this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
-    }
-  }
-
-  onUrlChange(newLocation: Location) {
-    if (!this.props.isOpen) {
-      // TODO: Milestome 2 - get article when url changes
     }
   }
 
@@ -183,6 +194,8 @@ class HelpContextProviderImplementation extends React.Component<
         this.setState({ articleState: REQUEST_STATE.error });
       }
     }
+
+    return null;
   };
 
   navigateBack = async () => {
@@ -260,6 +273,7 @@ class HelpContextProviderImplementation extends React.Component<
             getCurrentArticle: this.getCurrentArticle,
             onBtnCloseClick: this.props.onBtnCloseClick,
             onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
+            defaultContent: this.props.defaultContent,
           },
         }}
         children={this.props.children}

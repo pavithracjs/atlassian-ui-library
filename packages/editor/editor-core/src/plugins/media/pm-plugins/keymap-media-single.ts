@@ -7,7 +7,7 @@ import {
   atTheEndOfDoc,
   isSelectionInsideLastNodeInDocument,
 } from '../../../utils';
-import { Command, CommandDispatch } from '../../../types';
+import { Command, CommandDispatch, EditorAppearance } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import { selectNodeBackward } from 'prosemirror-commands';
 
@@ -49,7 +49,7 @@ function getSibling(
   const index = $from.index($from.depth - 1);
   const grandParent = $from.node($from.depth - 1); // Get GrandParent
 
-  return grandParent.maybeChild(index + sibling);
+  return grandParent ? grandParent.maybeChild(index + sibling) : null;
 }
 
 /**
@@ -199,7 +199,10 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
   };
 };
 
-export function keymapPlugin(schema: Schema): Plugin {
+export default function keymapPlugin(
+  schema: Schema,
+  appearance?: EditorAppearance,
+): Plugin {
   const list = {};
   const removeMediaSingleCommand = maybeRemoveMediaSingleNode(schema);
 
@@ -211,5 +214,3 @@ export function keymapPlugin(schema: Schema): Plugin {
 
   return keymap(list);
 }
-
-export default keymapPlugin;

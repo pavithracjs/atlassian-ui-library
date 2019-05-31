@@ -4,6 +4,8 @@ import { CollapsedFrame } from '../CollapsedFrame';
 import { minWidth, maxWidth } from '../dimensions';
 import { CollapsedIconTitleDescriptionLayout } from '../CollapsedIconTitleDescriptionLayout';
 import { ImageIcon } from '../ImageIcon';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
 
 export interface BlockCardUnauthorisedViewProps {
   /** The icon of the service (e.g. Dropbox/Asana/Google/etc) to display */
@@ -11,7 +13,7 @@ export interface BlockCardUnauthorisedViewProps {
   /** The url to display */
   url: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** The optional handler for "Connect" button */
   onAuthorise?: () => void;
   /** A flag that determines whether the card is selected in edit mode. */
@@ -42,7 +44,7 @@ export class BlockCardUnauthorisedView extends React.Component<
         <CollapsedIconTitleDescriptionLayout
           icon={<ImageIcon src={icon} size={24} />}
           title={url}
-          description="Connect your account to see a link preview"
+          description={<FormattedMessage {...messages.connect_link_account} />}
           other={
             onAuthorise && (
               <Button

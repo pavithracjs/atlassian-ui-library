@@ -7,13 +7,7 @@ import {
 } from 'prosemirror-state';
 import { Node as PmNode } from 'prosemirror-model';
 import { TableMap, cellAround, CellSelection } from 'prosemirror-tables';
-import {
-  findTable,
-  getCellsInRow,
-  getCellsInColumn,
-  getSelectionRect,
-  removeTable,
-} from 'prosemirror-utils';
+import { findTable, getSelectionRect, removeTable } from 'prosemirror-utils';
 import { browser } from '@atlaskit/editor-common';
 
 import { analyticsService } from '../../analytics';
@@ -23,7 +17,6 @@ import {
   ACTION_SUBJECT,
   EVENT_TYPE,
 } from '../analytics';
-import { Command } from '../../types';
 import {
   isElementInTableCell,
   setNodeSelection,
@@ -36,11 +29,10 @@ import {
   showInsertColumnButton,
   showInsertRowButton,
   hideInsertColumnOrRowButton,
-} from './actions';
+} from './commands';
 import { getPluginState } from './pm-plugins/main';
 import { getSelectedCellInfo } from './utils';
 import { deleteColumns, deleteRows } from './transforms';
-import { TableCssClassName as ClassName } from './types';
 
 export const handleBlur = (view: EditorView, event: Event): boolean => {
   const { state, dispatch } = view;
@@ -119,7 +111,14 @@ export const handleMouseOver = (
   if (isInsertRowButton(target)) {
     return showInsertRowButton(getIndex(target))(state, dispatch);
   }
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
+  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
+    state,
+  );
+  if (
+    (typeof insertColumnButtonIndex !== 'undefined' ||
+      typeof insertRowButtonIndex !== 'undefined') &&
+    hideInsertColumnOrRowButton()(state, dispatch)
+  ) {
     return true;
   }
   return false;
@@ -127,7 +126,14 @@ export const handleMouseOver = (
 
 export const handleMouseLeave = (view: EditorView): boolean => {
   const { state, dispatch } = view;
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
+  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
+    state,
+  );
+  if (
+    (typeof insertColumnButtonIndex !== 'undefined' ||
+      typeof insertRowButtonIndex !== 'undefined') &&
+    hideInsertColumnOrRowButton()(state, dispatch)
+  ) {
     return true;
   }
   return false;
@@ -158,17 +164,6 @@ export function handleTripleClick(view: EditorView, pos: number) {
 
   return false;
 }
-export const handleMouseDown = (view: EditorView, event: Event): boolean => {
-  const { state, dispatch } = view;
-
-  // shift-selecting table rows/columns
-  if (handleShiftSelection(event as MouseEvent)(state, dispatch)) {
-    return true;
-  }
-
-  return false;
-};
-
 export const handleCut = (
   oldTr: Transaction,
   oldState: EditorState,
@@ -240,53 +235,4 @@ export const handleCut = (
   }
 
   return tr;
-};
-
-export const handleShiftSelection = (event: MouseEvent): Command => (
-  state,
-  dispatch,
-) => {
-  if (!(state.selection instanceof CellSelection) || !event.shiftKey) {
-    return false;
-  }
-  const { selection } = state;
-  if (selection.isRowSelection() || selection.isColSelection()) {
-    const selector = selection.isRowSelection()
-      ? `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}`
-      : `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}`;
-    const button = closestElement(event.target as HTMLElement, selector);
-    if (!button) {
-      return false;
-    }
-
-    const buttons = document.querySelectorAll(selector);
-    const index = Array.from(buttons).indexOf(button);
-    const rect = getSelectionRect(selection)!;
-    const startCells = selection.isRowSelection()
-      ? getCellsInRow(index >= rect.bottom ? rect.top : rect.bottom - 1)(
-          selection,
-        )
-      : getCellsInColumn(index >= rect.right ? rect.left : rect.right - 1)(
-          selection,
-        );
-    const endCells = selection.isRowSelection()
-      ? getCellsInRow(index)(selection)
-      : getCellsInColumn(index)(selection);
-    if (startCells && endCells) {
-      event.stopPropagation();
-      event.preventDefault();
-
-      if (dispatch) {
-        dispatch(
-          state.tr.setSelection(new CellSelection(
-            state.doc.resolve(startCells[startCells.length - 1].pos),
-            state.doc.resolve(endCells[0].pos),
-          ) as any),
-        );
-      }
-      return true;
-    }
-  }
-
-  return false;
 };

@@ -1,5 +1,33 @@
 # @atlaskit/atlassian-switcher
 
+## 2.1.0
+- [minor] [caa9ae9dbf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/caa9ae9dbf):
+
+  - Split Jira link into individual product links in Atlassian Switcher
+
+## 2.0.1
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/item@10.0.1
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 2.0.0
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/navigation@35.1.1
+  - @atlaskit/logo@12.0.0
+
+## 1.1.1
+- [patch] [d216253463](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d216253463):
+
+  - Fix trigger xflow invoked with incorrect arguments
+
+## 1.1.0
+- [minor] [b3381f5c07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3381f5c07):
+
+  - Add domain to analytics
+
 ## 1.0.0
 - [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -1,5 +1,20 @@
 # @atlaskit/adf-schema
 
+## 2.5.9
+- [patch] [f823890888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f823890888):
+
+  - ED-6970: Fix backspacing inside a layout removing all content.
+
+## 2.5.8
+- [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
+
+  - [ED-6860] Revert prosemirror-view 1.8.9 bumps, this version was making the cursor typing slowly. this version is recreating all plugins when we use `EditorView.setProps`
+
+## 2.5.7
+- [patch] [1ec6367e00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ec6367e00):
+
+  - ED-6551 - Lists should correctly wrap adjacent floated content without overlapping
+
 ## 2.5.6
 - [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
 

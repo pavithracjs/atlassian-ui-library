@@ -23,6 +23,11 @@ import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
+export const defaultConfig: ConfigResponse = {
+  mode: 'EXISTING_USERS_ONLY',
+  allowComment: false,
+};
+
 export type Props = {
   /** Share service client implementation that gets share configs and performs share */
   client?: ShareClient;
@@ -36,35 +41,37 @@ export type Props = {
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
-  /** Product ID of the share
-   * confluence
-   * jira-core
-   * jira-servicedesk
-   * jira-software
-   */
+  /** Product ID (Canonical ID) in ARI of the share request */
+  /** bitbucket */
+  /** confluence */
+  /** jira-core */
+  /** jira-servicedesk */
+  /** jira-software */
+  /** trello */
   productId: string;
   /** Render function for a custom Share Dialog Trigger Button*/
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   /** Atlassian Resource Identifier of a Site resource to be shared */
   shareAri: string;
-  /** Content Type of the resource to be shared
-   * board
-   * calendar
-   * draft
-   * filter
-   * issue
-   * media
-   * page
-   * project
-   * pullrequest
-   * question
-   * report
-   * repository
-   * request
-   * roadmap
-   * site
-   * space
-   */
+  /** Content Type of the resource to be shared. It will also affect on the successful share message in the flag. A pre-defined list as follows:*/
+  /** blogpost */
+  /** board */
+  /** calendar */
+  /** draft */
+  /** filter */
+  /** issue */
+  /** media */
+  /** page */
+  /** project */
+  /** pullrequest */
+  /** question */
+  /** report */
+  /** repository */
+  /** request */
+  /** roadmap */
+  /** site */
+  /** space */
+  /** Any other unlisted type will have a default message of "Link shared"*/
   shareContentType: string;
   /** Link of the resource to be shared */
   shareLink: string;
@@ -88,6 +95,7 @@ export type Props = {
 export type State = {
   config?: ConfigResponse;
   copyLinkOrigin: OriginTracing | null;
+  isFetchingConfig: boolean;
   prevShareLink: string | null;
   shareActionCount: number;
   shareOrigin: OriginTracing | null;
@@ -104,11 +112,6 @@ const memoizedFormatCopyLink: (
 // https://github.com/atlassian/extract-react-types/issues/59
 const getDefaultShareLink: () => string = () =>
   window ? window.location!.href : '';
-
-export const defaultConfig: ConfigResponse = {
-  mode: 'EXISTING_USERS_ONLY',
-  allowComment: false,
-};
 
 /**
  * This component serves as a Provider to provide customizable implementations
@@ -138,6 +141,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       shareActionCount: 0,
       shareOrigin: null,
       config: defaultConfig,
+      isFetchingConfig: false,
     };
   }
 
@@ -166,8 +170,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this._isMounted = true;
-
-    this.fetchConfig();
   }
 
   componentWillUnmount() {
@@ -175,18 +177,33 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   }
 
   fetchConfig = () => {
-    this.client
-      .getConfig(this.props.productId, this.props.cloudId)
-      .then((config: ConfigResponse) => {
-        if (this._isMounted) {
-          // TODO: Send analytics event
-          this.setState({ config });
-        }
-      })
-      .catch(() => {
-        // TODO: Send analytics event
-        this.setState({ config: defaultConfig });
-      });
+    this.setState(
+      {
+        isFetchingConfig: true,
+      },
+      () => {
+        this.client
+          .getConfig(this.props.productId, this.props.cloudId)
+          .then((config: ConfigResponse) => {
+            if (this._isMounted) {
+              // TODO: Send analytics event
+              this.setState({
+                config,
+                isFetchingConfig: false,
+              });
+            }
+          })
+          .catch(() => {
+            if (this._isMounted) {
+              // TODO: Send analytics event
+              this.setState({
+                config: defaultConfig,
+                isFetchingConfig: false,
+              });
+            }
+          });
+      },
+    );
   };
 
   handleSubmitShare = ({
@@ -242,7 +259,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
-    const { shareOrigin } = this.state;
+    const { isFetchingConfig, shareOrigin } = this.state;
     const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
       <MessagesIntlProvider>
@@ -250,6 +267,8 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           config={this.state.config}
           copyLink={copyLink}
           dialogPlacement={dialogPlacement}
+          fetchConfig={this.fetchConfig}
+          isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
           onShareSubmit={this.handleSubmitShare}
           renderCustomTriggerButton={renderCustomTriggerButton}

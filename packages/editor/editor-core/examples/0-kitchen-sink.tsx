@@ -10,6 +10,7 @@ import { colors } from '@atlaskit/theme';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import Toggle from '@atlaskit/toggle';
+import { extensionHandlers } from '@atlaskit/editor-test-helpers';
 
 import enMessages from '../src/i18n/en';
 import languages from '../src/i18n/languages';
@@ -25,7 +26,6 @@ import EditorContext from './../src/ui/EditorContext';
 import { EditorAppearance } from '../src/types';
 import { EditorActions } from '../src';
 
-import { extensionHandlers } from '../example-helpers/extension-handlers';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import ErrorReport, { Error } from '../example-helpers/ErrorReport';
 import KitchenSinkEditor from '../example-helpers/KitchenSinkEditor';
@@ -233,7 +233,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
   private inputRef?: HTMLTextAreaElement | null;
   private popupMountPoint?: HTMLElement | null;
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(_prevProps: Props, prevState: State) {
     if (prevState.theme !== this.state.theme) {
       window.sessionStorage.setItem('theme', this.state.theme);
     }

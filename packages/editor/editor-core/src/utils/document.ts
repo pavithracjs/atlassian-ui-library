@@ -48,7 +48,7 @@ export function hasVisibleContent(node: Node): boolean {
 /**
  * Checks if a node has any content. Ignores node that only contain empty block nodes.
  */
-export function isEmptyNode(node?: Node): boolean {
+export function isNodeEmpty(node?: Node): boolean {
   if (node && node.textContent) {
     return false;
   }
@@ -282,3 +282,21 @@ export const findFarthestParentNode = (predicate: (node: Node) => boolean) => (
 export const isSelectionEndOfParagraph = (state: EditorState): boolean =>
   state.selection.$to.parent.type === state.schema.nodes.paragraph &&
   state.selection.$to.pos === state.doc.resolve(state.selection.$to.pos).end();
+
+export function nodesBetweenChanged(
+  tr: Transaction,
+  f: (
+    node: Node<any>,
+    pos: number,
+    parent: Node<any>,
+    index: number,
+  ) => boolean | null | undefined | void,
+  startPos?: number,
+) {
+  const stepRange = getStepRange(tr);
+  if (!stepRange) {
+    return;
+  }
+
+  tr.doc.nodesBetween(stepRange.from, stepRange.to, f, startPos);
+}

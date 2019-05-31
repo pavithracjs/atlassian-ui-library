@@ -1,5 +1,52 @@
 # @atlaskit/media-editor
 
+## 36.0.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 36.0.0
+- [patch] [92381960e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92381960e9):
+
+  - Updated types to support modal-dialog typescript conversion
+- [major] [9cbd059bfa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cbd059bfa):
+
+  - Put `media-editor` into separate editor plugin, update `@atlaskit/media-editor` API
+
+  ### Breaking change for `@atlaskit/media-editor`
+
+  * Make `onUploadStart`, `onFinish` optional
+  * Add new `onClose` callback for when the user closes the dialog (escape, cancel, error)
+  * `onFinish` now only called when the upload itself finishes, not overloaded for other purposes
+
+    * now also passes the `FileIdentifier` of the completed upload
+
+  ### Editor changes
+
+  Adds a new `media-editor` plugin that is enabled if the media plugin is enabled and `allowAnnotation` is enabled on the `media` prop.
+
+  This replaces the implementation inside the existing `media` plugin. The new `media-editor` plugin is *not* dependent on the `media` plugin.
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/media-card@63.1.0
+  - @atlaskit/media-ui@11.2.5
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/modal-dialog@10.0.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-store@12.0.2
+  - @atlaskit/media-test-helpers@24.0.0
+
+## 35.0.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-store@12.0.1
+  - @atlaskit/media-ui@11.1.1
+  - @atlaskit/media-test-helpers@23.0.0
+
 ## 35.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

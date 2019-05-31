@@ -1,5 +1,15 @@
 # @atlaskit/editor-bitbucket-transformer
 
+## 6.1.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 6.0.2
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-test-helpers@9.1.4
+  - @atlaskit/editor-core@112.0.0
+
 ## 6.0.1
 - Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
   - @atlaskit/editor-test-helpers@9.1.2

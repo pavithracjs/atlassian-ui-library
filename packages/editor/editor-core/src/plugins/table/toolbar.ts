@@ -3,13 +3,10 @@ import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
 
 import commonMessages from '../../messages';
 import { FloatingToolbarHandler } from '../floating-toolbar/types';
-import { TablePluginState } from './types';
+import { TablePluginState, ColumnResizingPluginState } from './types';
 import { pluginKey } from './pm-plugins/main';
-import {
-  pluginKey as tableResizingPluginKey,
-  ResizeState,
-} from './pm-plugins/table-resizing/index';
-import { hoverTable, clearHoverSelection } from './actions';
+import { pluginKey as tableResizingPluginKey } from './pm-plugins/table-resizing/index';
+import { hoverTable, clearHoverSelection } from './commands';
 import {
   checkIfHeaderRowEnabled,
   checkIfHeaderColumnEnabled,
@@ -20,7 +17,7 @@ import {
   toggleHeaderColumnWithAnalytics,
   toggleNumberColumnWithAnalytics,
   deleteTableWithAnalytics,
-} from './actions-with-analytics';
+} from './commands-with-analytics';
 
 export const messages = defineMessages({
   tableOptions: {
@@ -50,20 +47,16 @@ export const getToolbarConfig: FloatingToolbarHandler = (
   { formatMessage },
 ) => {
   const tableState: TablePluginState | undefined = pluginKey.getState(state);
-  const resizeState: ResizeState | undefined = tableResizingPluginKey.getState(
-    state,
-  );
-  if (
-    tableState &&
-    tableState.tableRef &&
-    tableState.tableNode &&
-    tableState.pluginConfig
-  ) {
+  const resizeState:
+    | ColumnResizingPluginState
+    | undefined = tableResizingPluginKey.getState(state);
+  if (tableState && tableState.tableRef && tableState.pluginConfig) {
     const { pluginConfig } = tableState;
     return {
       title: 'Table floating controls',
-      getDomRef: () => tableState.tableFloatingToolbarTarget!,
+      getDomRef: () => tableState.tableWrapperTarget!,
       nodeType: state.schema.nodes.table,
+      offset: [0, 3],
       items: [
         {
           type: 'dropdown',
@@ -108,10 +101,11 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           onClick: deleteTableWithAnalytics(),
           disabled: !!resizeState && !!resizeState.dragging,
           onMouseEnter: hoverTable(true),
-          onMouseLeave: clearHoverSelection,
+          onMouseLeave: clearHoverSelection(),
           title: formatMessage(commonMessages.remove),
         },
       ],
     };
   }
+  return;
 };

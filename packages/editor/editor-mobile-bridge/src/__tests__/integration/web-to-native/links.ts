@@ -21,7 +21,7 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'Normal Text');
-    await browser.type(editable, ['ArrowLeft']);
+    await browser.keys('ArrowLeft');
 
     const currentSelection = await getBridgeOutput(
       browser,
@@ -42,10 +42,11 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'Normal Text');
-
-    await browser.type(editable, [
+    await browser.keys([
       ...times(4, constant('ArrowLeft')),
-      ...times(4, constant(['Shift', 'ArrowRight'])),
+      'Shift',
+      ...times(4, constant('ArrowRight')),
+      'Shift',
     ]);
 
     const currentSelection = await getBridgeOutput(
@@ -66,13 +67,14 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
+    await browser.type(editable, '');
     await callNativeBridge(
       browser,
       'onLinkUpdate',
       'Atlassian',
       'https://www.google.com',
     );
-    await browser.type(editable, ['ArrowLeft']);
+    await browser.keys('ArrowLeft');
 
     const currentSelection = await getBridgeOutput(
       browser,
@@ -92,6 +94,7 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
+    await browser.type(editable, '');
     await callNativeBridge(
       browser,
       'onLinkUpdate',
@@ -99,9 +102,11 @@ BrowserTestCase(
       'https://www.google.com',
     );
 
-    await browser.type(editable, [
+    await browser.keys([
       ...times(9, constant('ArrowLeft')),
-      ...times(9, constant(['Shift', 'ArrowRight'])),
+      'Shift',
+      ...times(9, constant('ArrowRight')),
+      'Shift',
     ]);
 
     const currentSelection = await getBridgeOutput(
@@ -123,7 +128,6 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'This is a ');
-
     await callNativeBridge(
       browser,
       'onLinkUpdate',
@@ -131,9 +135,11 @@ BrowserTestCase(
       'https://www.google.com',
     );
 
-    await browser.type(editable, [
+    await browser.keys([
       ...times(10, constant('ArrowLeft')),
-      ...times(10, constant(['Shift', 'ArrowRight'])),
+      'Shift',
+      ...times(10, constant('ArrowRight')),
+      'Shift',
     ]);
 
     const currentSelection = await getBridgeOutput(
@@ -141,6 +147,7 @@ BrowserTestCase(
       'linkBridge',
       'currentSelection',
     );
+
     expect(currentSelection).toMatchCustomSnapshot(testName);
   },
 );

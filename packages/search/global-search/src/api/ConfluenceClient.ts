@@ -35,7 +35,7 @@ export type ConfluenceContentType = 'blogpost' | 'page';
 export interface RecentPage {
   available: boolean;
   contentType: ConfluenceContentType;
-  id: string;
+  id: number;
   lastSeen: number;
   space: string;
   spaceKey: string;
@@ -132,12 +132,10 @@ function recentPageToResult(
   baseUrl: string,
   searchSessionId: string,
 ): Result {
-  // add searchSessionId safely
   const href = new URI(`${baseUrl}${recentPage.url}`);
-  href.addQuery('search_id', searchSessionId);
 
   return {
-    resultId: recentPage.id,
+    resultId: String(recentPage.id),
     name: recentPage.title,
     href: href.toString(),
     containerName: recentPage.space,
@@ -158,9 +156,7 @@ function recentSpaceToResult(
   return {
     resultId: recentSpace.id,
     name: recentSpace.name,
-    href: `${baseUrl}/spaces/${
-      recentSpace.key
-    }/overview?search_id=${searchSessionId}`,
+    href: `${baseUrl}/spaces/${recentSpace.key}/overview`,
     avatarUrl: recentSpace.icon,
     analyticsType: AnalyticsType.RecentConfluence,
     resultType: ResultType.GenericContainerResult,
@@ -172,14 +168,10 @@ function quickNavResultToObjectResult(
   quickNavResult: QuickNavResult,
   searchSessionId: string,
 ): PersonResult {
-  // add searchSessionId
-  const href = new URI(quickNavResult.href);
-  href.addQuery('search_id', searchSessionId);
-
   return {
     resultId: quickNavResult.id,
     name: unescapeHtml(quickNavResult.name),
-    href: href.toString(),
+    href: quickNavResult.href,
     avatarUrl: quickNavResult.icon,
     resultType: ResultType.PersonResult,
     contentType: ContentType.Person,

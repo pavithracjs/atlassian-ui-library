@@ -42,7 +42,6 @@ const textColorPlugin: EditorPlugin = {
     popupsMountPoint,
     popupsBoundariesElement,
     popupsScrollableElement,
-    disabled,
     isToolbarReducedSpacing,
   }) {
     return (

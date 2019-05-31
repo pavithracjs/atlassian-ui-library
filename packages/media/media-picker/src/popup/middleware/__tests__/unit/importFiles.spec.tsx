@@ -37,7 +37,11 @@ import {
   SendUploadEventActionPayload,
 } from '../../../actions/sendUploadEvent';
 import { SCALE_FACTOR_DEFAULT } from '../../../../util/getPreviewFromImage';
-import { getFileStreamsCache, FileState } from '@atlaskit/media-core';
+import {
+  getFileStreamsCache,
+  FileState,
+  UploadingFileState,
+} from '@atlaskit/media-core';
 import { ReplaySubject, Observable } from 'rxjs';
 
 describe('importFiles middleware', () => {
@@ -670,6 +674,78 @@ describe('importFiles middleware', () => {
             });
             done();
           }
+        },
+      });
+    });
+    it('should set value of public file id to be new file state', done => {
+      const selectedFiles: SelectedUploadFile[] = [
+        {
+          file,
+          serviceName: 'upload',
+          touchFileDescriptor: {
+            fileId: 'id-foo-1',
+          },
+        },
+      ];
+      const store = mockStore();
+      touchSelectedFiles(selectedFiles, store);
+      const observable = getFileStreamsCache().get('id-foo-1');
+
+      observable!.subscribe({
+        async next(state) {
+          if (state.status !== 'error') {
+            expect(await state.id).toEqual('id-foo-1');
+            done();
+          }
+        },
+      });
+    });
+
+    it('should reuse existing user file state for tenant id', done => {
+      const userFile: MediaFile = {
+        id: 'user-id',
+        creationDate: 1,
+        name: 'some_file_name',
+        size: 1,
+        type: 'image/png',
+        upfrontId: Promise.resolve(''),
+      };
+      const selectedFiles: SelectedUploadFile[] = [
+        {
+          file: userFile,
+          serviceName: 'upload',
+          touchFileDescriptor: {
+            fileId: 'tenant-upfront-id',
+          },
+        },
+      ];
+
+      const subject = new ReplaySubject<Partial<FileState>>(1);
+      subject.next({
+        id: 'user-id',
+        status: 'uploading',
+        name: 'some_file_name',
+        progress: 0.5,
+        preview: {
+          value: 'some-existing-preview',
+        },
+      });
+      getFileStreamsCache().set('user-id', subject as Observable<FileState>);
+
+      const store = mockStore();
+      touchSelectedFiles(selectedFiles, store);
+      const observable = getFileStreamsCache().get('tenant-upfront-id');
+
+      observable!.subscribe({
+        async next(state) {
+          const fileState = state as UploadingFileState;
+          // we want to make sure that existing file properties are present
+          expect(fileState.name).toEqual('some_file_name');
+          expect(fileState.progress).toEqual(0.5);
+          expect(await fileState.preview).toEqual({
+            value: 'some-existing-preview',
+          });
+          done();
         },
       });
     });

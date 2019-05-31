@@ -30,6 +30,7 @@ export type Props = {
   defaultValue?: OptionData[];
   config?: ConfigResponse;
   capabilitiesInfoMessage?: React.ReactNode;
+  isLoading?: boolean;
 };
 
 type GetPlaceHolderMessageDescriptor = (
@@ -109,7 +110,12 @@ export class UserPickerField extends React.Component<Props> {
   };
 
   render() {
-    const { defaultValue, config, capabilitiesInfoMessage } = this.props;
+    const {
+      defaultValue,
+      config,
+      capabilitiesInfoMessage,
+      isLoading,
+    } = this.props;
     const configMode = (config && config!.mode) || '';
     return (
       <Field name="users" validate={validate} defaultValue={defaultValue}>
@@ -132,6 +138,7 @@ export class UserPickerField extends React.Component<Props> {
                   allowEmail={allowEmails(config)}
                   isValidEmail={isValidEmailUsingConfig(config)}
                   noOptionsMessage={getNoOptionsMessage(config)}
+                  isLoading={isLoading}
                 />
               )}
             </FormattedMessage>

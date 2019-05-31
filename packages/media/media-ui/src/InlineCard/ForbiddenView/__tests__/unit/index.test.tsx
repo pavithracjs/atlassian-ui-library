@@ -2,6 +2,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import { truncateUrlForErrorView } from '../../../utils';
 import { InlineCardForbiddenView } from '../..';
+import { IntlProvider } from 'react-intl';
 
 const URL =
   'http://product.example.com/lorem/ipsum/dolor/sit/amet/consectetur/adipiscing/volutpat/';
@@ -10,7 +11,9 @@ const trunkatedURL = truncateUrlForErrorView(URL);
 describe('Unauth view', () => {
   it('should render the trancated url', () => {
     const element = mount(
-      <InlineCardForbiddenView url={URL} onAuthorise={() => {}} />,
+      <IntlProvider locale={'en'}>
+        <InlineCardForbiddenView url={URL} onAuthorise={() => {}} />
+      </IntlProvider>,
     );
     expect(element.text()).toContain(trunkatedURL);
   });
@@ -18,7 +21,9 @@ describe('Unauth view', () => {
   it('should do click if try again clicked', () => {
     const onRetrySpy = jest.fn();
     const element = mount(
-      <InlineCardForbiddenView url={URL} onAuthorise={onRetrySpy} />,
+      <IntlProvider locale={'en'}>
+        <InlineCardForbiddenView url={URL} onAuthorise={onRetrySpy} />
+      </IntlProvider>,
     );
     element.find('button').simulate('click');
     expect(onRetrySpy).toHaveBeenCalledTimes(1);
@@ -28,11 +33,13 @@ describe('Unauth view', () => {
     const onClickSpy = jest.fn();
     const onRetrySpy = jest.fn();
     const element = mount(
-      <InlineCardForbiddenView
-        url={URL}
-        onAuthorise={onRetrySpy}
-        onClick={onClickSpy}
-      />,
+      <IntlProvider locale={'en'}>
+        <InlineCardForbiddenView
+          url={URL}
+          onAuthorise={onRetrySpy}
+          onClick={onClickSpy}
+        />
+      </IntlProvider>,
     );
     element.find('button').simulate('click');
     expect(onRetrySpy).toHaveBeenCalledTimes(1);

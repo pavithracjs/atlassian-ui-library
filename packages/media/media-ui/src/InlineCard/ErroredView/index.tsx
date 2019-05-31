@@ -6,6 +6,8 @@ import { truncateUrlForErrorView } from '../utils';
 import { Frame } from '../Frame';
 import { IconAndTitleLayout } from '../IconAndTitleLayout';
 import { AKIconWrapper } from '../Icon';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
 
 export interface InlineCardErroredViewProps {
   /** The url to display */
@@ -13,7 +15,7 @@ export interface InlineCardErroredViewProps {
   /** The error message to display */
   message: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** What to do when a user clicks "Try again" button */
   onRetry?: () => void;
   /** A flag that determines whether the card is selected in edit mode. */
@@ -51,7 +53,7 @@ export class InlineCardErroredView extends React.Component<
         />{' '}
         {onRetry && (
           <Button spacing="none" appearance="link" onClick={this.handleRetry}>
-            Try again
+            <FormattedMessage {...messages.try_again} />
           </Button>
         )}
       </Frame>

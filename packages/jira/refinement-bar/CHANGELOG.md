@@ -1,5 +1,44 @@
 # @atlaskit/refinement-bar
 
+## 0.4.4
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 0.4.3
+- [patch] [48e4f8c91d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/48e4f8c91d):
+
+  replace no-results png with svg
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/select@9.1.2
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/section-message@4.0.1
+
+## 0.4.2
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
+## 0.4.1
+- [patch] [da4644083b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da4644083b):
+
+  - Remove files key in package.json
+
+## 0.4.0
+- [minor] [3dab4a0906](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3dab4a0906):
+
+  - add license and npmignore
+
+## 0.3.0
+- [minor] [00a1cd96c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00a1cd96c3):
+
+  - use verbose export syntax and remove root index.js
+
 ## 0.2.0
 - [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -128,6 +128,28 @@ describe('ShareForm', () => {
     });
   });
 
+  describe('isFetchingConfig prop', () => {
+    it('should set isLoading prop to true to the UserPickerField', () => {
+      const mockLink = 'link';
+      const loadOptions = jest.fn();
+      const wrapper = shallow(
+        <ShareForm
+          copyLink={mockLink}
+          loadOptions={loadOptions}
+          isFetchingConfig
+        />,
+      );
+
+      const akForm = wrapper.find<any>(Form);
+      const form = renderProp(akForm, 'children', { formProps: {} })
+        .dive()
+        .dive()
+        .find('form');
+      const userPickerField = form.find(UserPickerField);
+      expect(userPickerField.prop('isLoading')).toBeTruthy();
+    });
+  });
+
   describe('shareError prop', () => {
     it('should render Retry button with an ErrorIcon and Tooltip', () => {
       const mockShareError: ShareError = { message: 'error' };

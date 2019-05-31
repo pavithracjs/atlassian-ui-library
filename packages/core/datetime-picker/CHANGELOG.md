@@ -1,5 +1,16 @@
 # @atlaskit/datetime-picker
 
+## 8.0.3
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/select@9.1.2
+  - @atlaskit/modal-dialog@10.0.0
+
+## 8.0.2
+- [patch] [06819642ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06819642ba):
+
+  - Internal refactor and clean up
+
 ## 8.0.1
 - [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
 

@@ -13,9 +13,26 @@ function buildStats(outputPath, statsGroups) {
       if (!stat.fileName) return acc;
 
       const filePath = path.resolve(outputPath, stat.fileName);
+      const pathToPkg = outputPath.split('/.')[0];
+      const packageVersion = require(`${pathToPkg}/package.json`).version;
+      const packageName = require(`${pathToPkg}/package.json`).name;
+      const packageTeam = require(`${pathToPkg}/package.json`).atlaskit.team;
+      // CHANGED_PACKAGES return only the packages that have changed since master
+      // and do not include the dependents if the flag --dependent='direct' is set.
+      // The goal of this code below is to check if the tool runs against the main changed packages or the dependents.
+      const changedPkg = process.env.CHANGED_PACKAGES
+        ? JSON.parse(process.env.CHANGED_PACKAGES).filter(pkg =>
+            pathToPkg.includes(pkg),
+          ).length > 0
+        : false;
+
       if (!fExists(filePath)) return acc;
 
       acc.push({
+        team: packageTeam,
+        package: packageName,
+        version: packageVersion,
+        dependent: !changedPkg,
         id: stat.id,
         name: stat.name,
         threshold: stat.threshold,
@@ -31,6 +48,11 @@ function buildStats(outputPath, statsGroups) {
  * and cacheGroups for them.
  */
 function createAtlaskitStatsGroups(packagesDir, packagePath) {
+  const packageVersion = require(`${packagesDir}/${packagePath}/package.json`)
+    .version;
+  const packageName = require(`${packagesDir}/${packagePath}/package.json`)
+    .name;
+
   return fs
     .readdirSync(packagesDir)
     .filter(gr => !gr.startsWith('.'))
@@ -48,6 +70,9 @@ function createAtlaskitStatsGroups(packagesDir, packagePath) {
         group: true,
         stats: [
           {
+            team: name,
+            package: packageName, // replacing 'core/button' by button
+            version: packageVersion,
             id: `atlaskit.${name}.main`,
             name: 'main',
             fileName: `${chunkName}.js`,
@@ -60,6 +85,8 @@ function createAtlaskitStatsGroups(packagesDir, packagePath) {
             },
           },
           {
+            team: name,
+            package: packageName,
             id: `atlaskit.${name}.async`,
             name: 'async',
             fileName: `${chunkName}-async.js`,
@@ -100,7 +127,11 @@ function diff(origOldStats, origNewStats) {
         isTooBig,
         stats: {
           ...match.stats,
+          originalSize: old.stats.size,
+          newSize: match.stats.size,
           sizeDiff: match.stats.size - old.stats.size,
+          gzipOriginalSize: old.stats.gzipSize,
+          gzipSize: match.stats.gzipSize,
           gzipSizeDiff,
         },
       });

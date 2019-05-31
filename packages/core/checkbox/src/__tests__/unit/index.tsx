@@ -5,6 +5,8 @@ import CheckboxIndeterminateIcon from '@atlaskit/icon/glyph/checkbox-indetermina
 import Checkbox, { CheckboxWithoutAnalytics } from '../../Checkbox';
 import { name } from '../../version.json';
 
+declare var global: any;
+
 describe(name, () => {
   const mountCheckbox = (overridingProps: any) =>
     mount(
@@ -114,9 +116,7 @@ describe('CheckboxWithAnalytics', () => {
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    // @ts-ignore - Property 'mockRestore' does not exist
     global.console.warn.mockRestore();
-    // @ts-ignore - Property 'mockRestore' does not exist
     global.console.error.mockRestore();
   });
 

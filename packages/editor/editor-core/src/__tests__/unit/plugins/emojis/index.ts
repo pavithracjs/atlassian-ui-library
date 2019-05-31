@@ -54,7 +54,7 @@ describe('emojis', () => {
     return createEditor({
       doc,
       editorProps: { allowAnalyticsGASV3: true },
-      editorPlugins: [emojiPlugin, listPlugin, ...extraPlugins],
+      editorPlugins: [emojiPlugin(), listPlugin, ...extraPlugins],
       providerFactory,
       pluginKey: emojiPluginKey,
       createAnalyticsEvent,

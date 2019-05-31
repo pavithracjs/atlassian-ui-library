@@ -10,7 +10,7 @@ import { placeholder } from '@atlaskit/adf-schema';
 import { EditorPlugin } from '../../types/editor-plugin';
 import WithPluginState from '../../ui/WithPluginState';
 import { Dispatch } from '../../event-dispatcher';
-import { isEmptyNode } from '../../utils/document';
+import { isNodeEmpty } from '../../utils';
 import { FakeTextCursorSelection } from '../fake-text-cursor/cursor';
 import PlaceholderTextNodeView from './nodeviews/placeholder-text';
 import PlaceholderFloatingToolbar from './ui/PlaceholderFloatingToolbar';
@@ -87,7 +87,7 @@ export function createPlugin(
           // Check that cursor has moved forward in the document **and** that there is content before the cursor
           const wasContentAdded =
             oldState.selection.$head.pos < newState.selection.$head.pos &&
-            !isEmptyNode(newState.selection.$head.nodeBefore!);
+            !isNodeEmpty(newState.selection.$head.nodeBefore!);
           if (wasContentAdded) {
             const { $from, $to } = NodeSelection.create(
               newState.doc,
@@ -117,6 +117,7 @@ export function createPlugin(
           );
         }
       }
+      return;
     },
   });
 }
@@ -132,8 +133,7 @@ const placeholderTextPlugin = (
     return [
       {
         name: 'placeholderText',
-        plugin: ({ schema, props, dispatch }) =>
-          createPlugin(dispatch, options),
+        plugin: ({ dispatch }) => createPlugin(dispatch, options),
       },
     ];
   },

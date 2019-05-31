@@ -1,12 +1,12 @@
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import {
   EmojiId,
-  EmojiProvider,
   EmojiSearchResult,
   EmojiDescription,
-} from '@atlaskit/emoji';
+} from '@atlaskit/emoji/types';
 import {
   isMarkTypeAllowedInCurrentSelection,
   isChromeWithSelectionBug,
@@ -104,12 +104,14 @@ export class EmojiState {
       return;
     }
 
-    const newAnchorElement = this.view.dom.querySelector(
-      '[data-emoji-query]',
-    ) as HTMLElement;
-    if (newAnchorElement !== this.anchorElement) {
-      dirty = true;
-      this.anchorElement = newAnchorElement;
+    if (this.queryActive) {
+      const newAnchorElement = this.view.dom.querySelector(
+        'span[data-emoji-query]',
+      ) as HTMLElement;
+      if (newAnchorElement !== this.anchorElement) {
+        dirty = true;
+        this.anchorElement = newAnchorElement;
+      }
     }
 
     if (dirty) {
@@ -134,6 +136,7 @@ export class EmojiState {
           .removeStoredMark(markType),
       );
     }
+    this.notifySubscribers();
     this.onDismiss();
     return true;
   }

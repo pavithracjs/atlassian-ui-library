@@ -1,5 +1,52 @@
 # @atlaskit/smart-card
 
+## 11.1.3
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 11.1.2
+- Updated dependencies [66af32c013](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66af32c013):
+- Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
+  - @atlaskit/inline-message@10.0.0
+  - @atlaskit/form@6.0.3
+  - @atlaskit/radio@3.0.0
+
+## 11.1.1
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/media-ui@11.2.4
+  - @atlaskit/page@11.0.0
+
+## 11.1.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
+## 11.0.5
+- [patch] [27f666ed85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27f666ed85):
+
+  - Fixed example.
+
+## 11.0.4
+- [patch] [94ffb3b638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94ffb3b638):
+
+  - check for taskType icon in the json payload
+
+## 11.0.3
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 11.0.2
+- [patch] [7e18a6398b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e18a6398b):
+
+  - improve type safety when defining smart-card environment
+
+## 11.0.1
+- [patch] [b7687b9981](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7687b9981):
+
+  - Changed smart link functionality so that it will open in the same tab if clicked.
+
 ## 11.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

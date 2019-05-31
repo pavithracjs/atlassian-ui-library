@@ -29,11 +29,24 @@ import {
 import { FakeTextCursorSelection } from '../plugins/fake-text-cursor/cursor';
 import { hasParentNodeOfType } from 'prosemirror-utils';
 import { GapCursorSelection, Side } from '../plugins/gap-cursor/selection';
+import { isNodeEmpty } from './document';
 
-export * from './document';
+export {
+  isEmptyParagraph,
+  hasVisibleContent,
+  isNodeEmpty,
+  isEmptyDocument,
+  processRawValue,
+  getStepRange,
+  findFarthestParentNode,
+  isSelectionEndOfParagraph,
+  nodesBetweenChanged,
+} from './document';
+
 export * from './action';
 export * from './step';
 export * from './mark';
+export { isNodeTypeParagraph } from './nodes';
 
 export { JSONDocNode, JSONNode };
 
@@ -41,7 +54,7 @@ export { filterContentByType } from './filter';
 
 export const ZeroWidthSpace = '\u200b';
 
-function validateNode(node: Node): boolean {
+function validateNode(_node: Node): boolean {
   return false;
 }
 
@@ -669,7 +682,7 @@ function getSelectedWrapperNodes(state: EditorState): NodeType[] {
       listItem,
       codeBlock,
     } = state.schema.nodes;
-    state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
+    state.doc.nodesBetween($from.pos, $to.pos, node => {
       if (
         (node.isBlock &&
           [blockquote, panel, orderedList, bulletList, listItem].indexOf(
@@ -757,7 +770,7 @@ export const isEmptyNode = (schema: Schema) => {
         });
         return isEmpty;
       default:
-        throw new Error(`${node.type.name} node is not implemented`);
+        return isNodeEmpty(node);
     }
   };
   return innerIsEmptyNode;

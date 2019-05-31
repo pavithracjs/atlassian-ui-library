@@ -9,10 +9,10 @@ import {
   CardAppearance,
   EditorCardProvider,
 } from '@atlaskit/smart-card';
+import { extensionHandlers } from '@atlaskit/editor-test-helpers';
 
 import Editor from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
-import { extensionHandlers } from '../example-helpers/extension-handlers';
 
 const jiraUrlMatch = /https?\:\/\/[a-zA-Z0-9]+\.atlassian\.net\/browse\//i;
 

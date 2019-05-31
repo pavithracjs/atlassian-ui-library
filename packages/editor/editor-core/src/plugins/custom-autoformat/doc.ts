@@ -7,7 +7,7 @@ import { InputRuleHander } from './input-rules';
 import { autoformatAction } from './utils';
 
 export const buildHandler = (
-  regex: string,
+  _regex: string,
   handler: AutoformatHandler,
 ): InputRuleHander => {
   return async (view, match, start, end) => {

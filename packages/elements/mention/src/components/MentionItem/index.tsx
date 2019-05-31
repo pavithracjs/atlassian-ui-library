@@ -42,7 +42,9 @@ function renderTime(time?: string) {
 export interface Props {
   mention: MentionDescription;
   selected?: boolean;
+  // TODO: Remove onMouseMove -> https://product-fabric.atlassian.net/browse/FS-3897
   onMouseMove?: OnMentionEvent;
+  onMouseEnter?: OnMentionEvent;
   onSelection?: OnMentionEvent;
 }
 
@@ -58,6 +60,12 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
   private onMentionMenuItemMouseMove = (event: React.MouseEvent<any>) => {
     if (this.props.onMouseMove) {
       this.props.onMouseMove(this.props.mention, event);
+    }
+  };
+
+  private onMentionMenuItemMouseEnter = (event: React.MouseEvent<any>) => {
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(this.props.mention, event);
     }
   };
 
@@ -85,6 +93,7 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
         selected={selected}
         onMouseDown={this.onMentionSelected}
         onMouseMove={this.onMentionMenuItemMouseMove}
+        onMouseEnter={this.onMentionMenuItemMouseEnter}
         data-mention-id={id}
         data-mention-name={mentionName}
       >

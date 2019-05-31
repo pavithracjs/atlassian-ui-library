@@ -117,8 +117,12 @@ export default class Page {
     }
   }
 
-  keys(value) {
-    return this.browser.keys(value);
+  async keys(values) {
+    const keys = Array.isArray(values) ? values : [values];
+
+    for (let key of keys) {
+      await this.browser.keys(key);
+    }
   }
 
   debug() {
@@ -304,6 +308,13 @@ export default class Page {
     return elem.waitForDisplayed(options.timeout || WAIT_TIMEOUT);
   }
 
+  async waitUntilContainsText(selector, text) {
+    await this.waitUntil(async () => {
+      const content = await this.getText(selector);
+      return content.indexOf(text) !== -1;
+    });
+  }
+
   waitFor(selector, ms, reverse) {
     return this.waitForSelector(selector, { timeout: ms }, reverse);
   }
@@ -313,8 +324,8 @@ export default class Page {
   }
 
   // Window
-  setViewPort(size, type) {
-    return this.browser.setViewPort(size, type);
+  setWindowSize(width, height) {
+    return this.browser.setWindowSize(width, height);
   }
 
   chooseFile(selector, localPath) {

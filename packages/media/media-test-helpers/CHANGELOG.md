@@ -1,5 +1,29 @@
 # @atlaskit/media-test-helpers
 
+## 24.0.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 24.0.0
+- [major] [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+
+  - `createUserContext` was removed, with no alternatives to replace it. `asMockReturnValue` jest helper function was added to make it possible to be type safe.
+
+## 23.1.1
+- Updated dependencies [051800806c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/051800806c):
+  - @atlaskit/media-picker@43.0.0
+
+## 23.1.0
+- [minor] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
+## 23.0.0
+- [major] [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+
+  - Changes to `MediaMock` signature: `MediaMock` constructor now takes an object where destination collection name is the key and the value is a list of `<MediaFile & {blob: Blob}>` objects that will be loaded directly into a database for the corresponding collections. MediaMock now also exports `generateFilesFromTestData` helper function which simplifies test data generation.
+
 ## 22.0.1
 - Updated dependencies [59cce82fd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59cce82fd1):
   - @atlaskit/media-picker@42.0.0

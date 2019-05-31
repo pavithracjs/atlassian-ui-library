@@ -128,13 +128,11 @@ export default function createPluginsList(
   }
 
   if (props.emojiProvider) {
-    plugins.push(emojiPlugin);
+    plugins.push(emojiPlugin(createAnalyticsEvent));
   }
 
   if (props.allowTables) {
-    plugins.push(
-      tablesPlugin(props.allowTables, props.appearance === 'full-width'),
-    );
+    plugins.push(tablesPlugin(props.appearance === 'full-width'));
   }
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {

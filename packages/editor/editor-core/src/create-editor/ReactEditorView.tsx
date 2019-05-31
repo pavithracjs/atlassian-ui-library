@@ -28,6 +28,7 @@ import {
   FULL_WIDTH_MODE,
   PLATFORMS,
   AnalyticsEventPayloadWithChannel,
+  analyticsPluginKey,
 } from '../plugins/analytics';
 import {
   EditorProps,
@@ -48,7 +49,6 @@ import {
   createPMPlugins,
   initAnalytics,
 } from './create-editor';
-import { analyticsPluginKey } from '../plugins/analytics/plugin';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -195,7 +195,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     if (appearance === 'full-width') {
       return FULL_WIDTH_MODE.FULL_WIDTH;
     }
-    return FULL_WIDTH_MODE.DEFAULT;
+    return FULL_WIDTH_MODE.FIXED_WIDTH;
   };
 
   reconfigureState = (props: EditorViewProps) => {
@@ -221,6 +221,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
       portalProviderAPI: props.portalProviderAPI,
       reactContext: () => this.context,
       dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
+      oldState: state,
     });
 
     const newState = EditorState.create({

@@ -21,23 +21,25 @@ export const fakeMediaClient = (
   if (jest && jest.genMockFromModule) {
     const {
       MediaClient: MockMediaClient,
-      MediaStore,
       FileFetcherImpl,
       CollectionFetcher,
+      MediaStore: MockMediaStore,
     } = jest.genMockFromModule('@atlaskit/media-client');
     const mediaClient = new MockMediaClient();
 
     const fileFetcher = new FileFetcherImpl();
     const collectionFetcher = new CollectionFetcher();
-    const mediaStore = new MediaStore({} as MediaApiConfig);
+    const mockMediaStore = new MockMediaStore({
+      authProvider: config.authProvider,
+    } as MediaApiConfig);
     mediaClient.file = fileFetcher;
     mediaClient.collection = collectionFetcher;
-    mediaClient.mediaClientConfig = config;
-    mediaClient.mediaStore = mediaStore;
+    mediaClient.config = config;
+    mediaClient.mediaStore = mockMediaStore;
 
     asMock(mediaClient.getImageUrl).mockResolvedValue('some-image-url');
+    asMock(mediaClient.getImage).mockImplementation(mockMediaStore.getImage);
     asMock(mediaClient.collection.getItems).mockReturnValue(of([]));
-    asMock(mediaClient.file.getFileState).mockReturnValue(of({}));
     return mediaClient;
   } else {
     return new MediaClient(config);

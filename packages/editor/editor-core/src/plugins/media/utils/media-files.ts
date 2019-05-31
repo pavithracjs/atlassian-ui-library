@@ -147,7 +147,7 @@ export const insertMediaGroupNode = (
       );
     }
     dispatch(tr);
-    setSelectionAfterMediaInsertion(view, mediaInsertPos);
+    setSelectionAfterMediaInsertion(view);
     return;
   }
 
@@ -227,6 +227,7 @@ export const getPosInList = (state: EditorState): number | undefined => {
       return pos;
     }
   }
+  return;
 };
 
 /**
@@ -291,10 +292,7 @@ const range = (start: number, end: number = start) => {
   return { start, end };
 };
 
-const setSelectionAfterMediaInsertion = (
-  view: EditorView,
-  insertPos: number,
-): void => {
+const setSelectionAfterMediaInsertion = (view: EditorView): void => {
   const { state } = view;
   const { doc } = state;
   const mediaPos = posOfMediaGroupNearby(state);

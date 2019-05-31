@@ -259,26 +259,38 @@ export function convert(
       case 'HR':
         return schema.nodes.rule.createChecked();
       case 'P':
-        if (node.firstChild && isMedia(node.firstChild)) {
+        if (node.firstElementChild && isMedia(node.firstElementChild)) {
           // Filter out whitespace text nodes
-          const mediaContent: Array<PMNode> = [];
+
+          const { mediaSingle, mediaGroup, paragraph } = schema.nodes;
+
+          const mediaArray: Array<PMNode> = [];
+          const contentArray: Array<PMNode> = [];
+          const fragmentArray: Array<PMNode> = [];
           let hasNonMediaChildren = false;
           content.forEach(child => {
             if (child.type === schema.nodes.media) {
-              mediaContent.push(child);
+              mediaArray.push(child);
+              return;
             } else if (!(child.isText && /^\s*$/.test(child.text || ''))) {
               hasNonMediaChildren = true;
             }
+            contentArray.push(child);
           });
-          if (hasNonMediaChildren) {
-            return schema.nodes.paragraph.createChecked({}, content);
+
+          if (hasNonMediaChildren && contentArray.length) {
+            fragmentArray.push(paragraph.createChecked({}, contentArray));
           }
 
-          if (isSchemaWithMedia(schema)) {
-            const nodeType = isMediaSingle(node.firstChild)
-              ? schema.nodes.mediaSingle
-              : schema.nodes.mediaGroup;
-            return nodeType.createChecked({}, Fragment.fromArray(mediaContent));
+          if (isSchemaWithMedia(schema) && mediaArray.length) {
+            const mediaNodeType = isMediaSingle(node.firstElementChild)
+              ? mediaSingle
+              : mediaGroup;
+            fragmentArray.push(mediaNodeType.createChecked({}, mediaArray));
+          }
+
+          if (fragmentArray.length) {
+            return Fragment.fromArray(fragmentArray);
           }
 
           return null;
@@ -366,6 +378,7 @@ export function convert(
       }
     }
   }
+  return;
 }
 
 /*

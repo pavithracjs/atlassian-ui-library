@@ -61,5 +61,6 @@ export default new Plugin({
       });
       return tr.docChanged ? tr : undefined;
     }
+    return;
   },
 });

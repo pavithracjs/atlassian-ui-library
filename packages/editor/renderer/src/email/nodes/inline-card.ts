@@ -26,7 +26,7 @@ const linkStyle = serializeStyle({
   'text-decoration': 'none',
 });
 
-export default function inlineCard({ attrs, text }: NodeSerializerOpts) {
+export default function inlineCard({ attrs }: NodeSerializerOpts) {
   let scAttrs: SmartCardWithDataAttributes | SmartCardWithUrlAttributes;
   let textContent: string;
   let href: string;

@@ -4,6 +4,8 @@ import Button from '@atlaskit/button';
 import { truncateUrlForErrorView } from '../utils';
 import { Frame } from '../Frame';
 import { colors } from '@atlaskit/theme';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
 
 export interface InlineCardUnauthorizedViewProps {
   /** The url to display */
@@ -11,7 +13,7 @@ export interface InlineCardUnauthorizedViewProps {
   /** The icon of the service (e.g. Dropbox/Asana/Google/etc) to display */
   icon?: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** What to do when a user hit "Try another account" button */
   onAuthorise?: () => void;
   /** A flag that determines whether the card is selected in edit mode. */
@@ -51,7 +53,7 @@ export class InlineCardUnauthorizedView extends React.Component<
               appearance="link"
               onClick={this.handleConnectAccount}
             >
-              Connect your account to preview links
+              <FormattedMessage {...messages.connect_link_account} />
             </Button>
           </>
         )}

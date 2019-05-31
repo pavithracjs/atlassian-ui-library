@@ -1,5 +1,71 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.6.4
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 8.6.3
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/editor-core@112.11.0
+  - @atlaskit/editor-test-helpers@9.3.4
+  - @atlaskit/renderer@48.7.0
+  - @atlaskit/media-client@1.2.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-test-helpers@24.0.0
+
+## 8.6.2
+- [patch] [7d4010d923](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7d4010d923):
+
+  - ED-6765: fixed mediaSingle deletion issue on Android (no workaround)
+
+## 8.6.1
+- [patch] [7936e9a2a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7936e9a2a9):
+
+  - ED-6910: fixed a regression in webpack configuration
+
+## 8.6.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 8.5.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 8.4.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
+## 8.3.2
+- [patch] [ec1d1861bc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec1d1861bc):
+
+  - ED-6910: disabled sourcemaps in production
+
+## 8.3.1
+- [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
+## 8.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 8.2.4
+- [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
+
+  - [ED-6860] Revert prosemirror-view 1.8.9 bumps, this version was making the cursor typing slowly. this version is recreating all plugins when we use `EditorView.setProps`
+
+## 8.2.3
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-json-transformer@6.0.2
+  - @atlaskit/editor-test-helpers@9.1.4
+  - @atlaskit/mention@18.1.0
+  - @atlaskit/editor-core@112.0.0
+
 ## 8.2.2
 - Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
   - @atlaskit/editor-json-transformer@6.0.1

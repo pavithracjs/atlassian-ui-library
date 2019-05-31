@@ -20,6 +20,7 @@ type Props = {
   ) => void,
   onResize: (resizeDelta: number) => void,
   navigationWidth: number,
+  resizerButtonLabel?: string,
   showResizeButton: boolean,
   theme: {},
 };
@@ -168,11 +169,13 @@ class Resizer extends PureComponent<Props, State> {
   };
 
   render() {
-    const resizerButton = this.props.showResizeButton ? (
+    const { showResizeButton, resizerButtonLabel } = this.props;
+    const resizerButton = showResizeButton ? (
       <ResizerButton
         isVisible={this.state.isHovering}
         isPointingRight={this.isPointingRight()}
         onClick={this.resizeButtonHandler}
+        resizerButtonLabel={resizerButtonLabel}
       />
     ) : null;
 

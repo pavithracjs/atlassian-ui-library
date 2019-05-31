@@ -59,8 +59,11 @@ import {
   AdvancedSearchSelectedEvent,
 } from '../../util/analytics-event-helper';
 import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
+import { getJiraMaxObjects } from '../../util/experiment-utils';
+import { buildJiraModelParams } from '../../util/model-parameters';
 
 const JIRA_RESULT_LIMIT = 6;
+const JIRA_PREQUERY_RESULT_LIMIT = 10;
 
 const NoResultsAdvancedSearchContainer = styled.div`
   margin-top: ${4 * gridSize()}px;
@@ -79,7 +82,6 @@ export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   disableJiraPreQueryPeopleSearch?: boolean;
   logger: Logger;
-  isSendSearchTermsEnabled?: boolean;
   enablePreQueryFromAggregator?: boolean;
   onAdvancedSearch?: (
     e: CancelableEvent,
@@ -184,18 +186,28 @@ export class JiraQuickSearchContainer extends React.Component<
     onAdvancedSearch(event, entity, query, searchSessionId);
   };
 
-  getPreQueryDisplayedResults = (recentItems: GenericResultMap | null) =>
+  getPreQueryDisplayedResults = (
+    recentItems: GenericResultMap | null,
+    searchSessionId: string,
+    abTest: ABTest,
+  ) =>
     mapRecentResultsToUIGroups(
       recentItems as JiraResultsMap,
+      searchSessionId,
+      abTest,
       this.props.appPermission,
     );
 
   getPostQueryDisplayedResults = (
     searchResults: GenericResultMap | null,
     query: string,
+    searchSessionId: string,
+    abTestId: ABTest,
   ) =>
     mapSearchResultsToUIGroups(
       searchResults as JiraResultsMap,
+      searchSessionId,
+      abTestId,
       this.props.appPermission,
       query,
     );
@@ -209,6 +221,7 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
+    abTest,
   }: SearchResultProps) => {
     const query = latestSearchQuery;
     const {
@@ -282,9 +295,16 @@ export class JiraQuickSearchContainer extends React.Component<
             />
           </BeforePreQueryStateContainer>
         )}
-        getPreQueryGroups={() => this.getPreQueryDisplayedResults(recentItems)}
+        getPreQueryGroups={() =>
+          this.getPreQueryDisplayedResults(recentItems, searchSessionId, abTest)
+        }
         getPostQueryGroups={() =>
-          this.getPostQueryDisplayedResults(searchResults, query)
+          this.getPostQueryDisplayedResults(
+            searchResults,
+            query,
+            searchSessionId,
+            abTest,
+          )
         }
         renderNoResult={() => (
           <NoResultsState
@@ -355,9 +375,18 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getRecentItemsFromXpsearch = (
     sessionId: string,
+    abTest?: ABTest,
   ): Promise<GenericResultMap> => {
     return this.props.crossProductSearchClient
-      .search('', { sessionId }, SCOPES)
+      .search(
+        '',
+        sessionId,
+        SCOPES,
+        [],
+        !!abTest
+          ? getJiraMaxObjects(abTest, JIRA_PREQUERY_RESULT_LIMIT)
+          : JIRA_PREQUERY_RESULT_LIMIT,
+      )
       .then(xpRecentResults => ({
         objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
         containers:
@@ -365,9 +394,12 @@ export class JiraQuickSearchContainer extends React.Component<
       }));
   };
 
-  getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
+  getJiraRecentItems = (
+    sessionId: string,
+    abTest: ABTest,
+  ): Promise<GenericResultMap> => {
     const recentItemsPromise = this.props.enablePreQueryFromAggregator
-      ? this.getRecentItemsFromXpsearch(sessionId)
+      ? this.getRecentItemsFromXpsearch(sessionId, abTest)
       : this.getRecentItemsFromJira(sessionId);
     return handlePromiseError(
       recentItemsPromise,
@@ -409,9 +441,12 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   };
 
-  getRecentItems = (sessionId: string): Promise<ResultsWithTiming> => {
+  getRecentItems = (
+    sessionId: string,
+    abTest: ABTest,
+  ): Promise<ResultsWithTiming> => {
     return Promise.all([
-      this.getJiraRecentItems(sessionId),
+      this.getJiraRecentItems(sessionId, abTest),
       this.getRecentlyInteractedPeople(),
       this.canSearchUsers(),
     ])
@@ -426,16 +461,20 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
     startTime: number,
     queryVersion: number,
+    abTest?: ABTest,
   ): Promise<ResultsWithTiming> => {
-    const referrerId =
-      this.props.referralContextIdentifiers &&
-      this.props.referralContextIdentifiers.searchReferrerId;
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
       query,
-      { sessionId, referrerId },
+      sessionId,
       SCOPES,
-      queryVersion,
-      JIRA_RESULT_LIMIT,
+      buildJiraModelParams(
+        queryVersion,
+        this.props.referralContextIdentifiers &&
+          this.props.referralContextIdentifiers.currentContainerId,
+      ),
+      !!abTest
+        ? getJiraMaxObjects(abTest, JIRA_RESULT_LIMIT)
+        : JIRA_RESULT_LIMIT,
     );
 
     const searchPeoplePromise = Promise.resolve([] as Result[]);
@@ -508,7 +547,6 @@ export class JiraQuickSearchContainer extends React.Component<
     const {
       linkComponent,
       createAnalyticsEvent,
-      isSendSearchTermsEnabled,
       logger,
       enablePreQueryFromAggregator,
       referralContextIdentifiers,
@@ -521,8 +559,29 @@ export class JiraQuickSearchContainer extends React.Component<
           messages.jira_search_placeholder,
         )}
         linkComponent={linkComponent}
-        getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
-        getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
+        getPreQueryDisplayedResults={(recentItems, _abTest, searchSessionId) =>
+          this.getPreQueryDisplayedResults(
+            recentItems,
+            searchSessionId,
+            _abTest,
+          )
+        }
+        getPostQueryDisplayedResults={(
+          searchResults,
+          query,
+          _recentItems,
+          _abTest,
+          _isLoading,
+          _inFasterSearchExperiment,
+          searchSessionId,
+        ) =>
+          this.getPostQueryDisplayedResults(
+            searchResults,
+            query,
+            searchSessionId,
+            _abTest,
+          )
+        }
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
@@ -534,7 +593,6 @@ export class JiraQuickSearchContainer extends React.Component<
         onSelectedResultIdChanged={(newId: any) =>
           this.handleSelectedResultIdChanged(newId)
         }
-        isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         enablePreQueryFromAggregator={enablePreQueryFromAggregator}
         referralContextIdentifiers={referralContextIdentifiers}
       />

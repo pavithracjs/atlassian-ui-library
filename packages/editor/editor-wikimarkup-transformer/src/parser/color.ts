@@ -1,4 +1,4 @@
-import { normalizeHexColor } from '@atlaskit/editor-common';
+import { normalizeHexColor } from '@atlaskit/adf-schema';
 
 export function getEditorColor(attrs: {
   [key: string]: string;

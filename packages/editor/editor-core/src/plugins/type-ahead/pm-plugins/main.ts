@@ -86,7 +86,7 @@ export function createPlugin(
         return createInitialPluginState();
       },
 
-      apply(tr, pluginState, oldState, state) {
+      apply(tr, pluginState, _oldState, state) {
         const meta = tr.getMeta(pluginKey) || {};
         const { action, params } = meta;
 
@@ -468,7 +468,6 @@ export function itemsListUpdatedActionHandler({
 
 export function selectCurrentActionHandler({
   dispatch,
-  pluginState,
 }: ActionHandlerParams): PluginState {
   const newPluginState = createInitialPluginState(false);
   dispatch(pluginKey, newPluginState);

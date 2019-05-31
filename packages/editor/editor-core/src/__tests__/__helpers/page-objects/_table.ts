@@ -13,8 +13,12 @@ import {
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 
 export const tableSelectors = {
-  contextalMenu: `.${ClassName.CONTEXTUAL_MENU_BUTTON}`,
-  hoverdCell: `.ProseMirror table .${ClassName.HOVERED_CELL}`,
+  contextualMenu: `.${ClassName.CONTEXTUAL_MENU_BUTTON}`,
+  hoveredCell: `.ProseMirror table .${ClassName.HOVERED_CELL}`,
+  nthRowControl: (n: number) =>
+    `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
+  nthColumnControl: (n: number) =>
+    `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
   firstRowControl: `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(1) button`,
   firstColumnControl: `.${
     ClassName.COLUMN_CONTROLS_BUTTON_WRAP
@@ -44,9 +48,9 @@ export const tableSelectors = {
   selectedCell: `.ProseMirror table .${ClassName.SELECTED_CELL}`,
   topLeftCell: `table > tbody > tr:nth-child(2) > td:nth-child(1)`,
   wideState: `.ProseMirror table[data-layout="wide"]`,
-  fullwidthState: `.ProseMirror table[data-layout="full-width"]`,
+  fullWidthState: `.ProseMirror table[data-layout="full-width"]`,
   defaultState: `.ProseMirror table[data-layout="center"]`,
-  fullwidthSelector: `div[aria-label="${
+  fullWidthSelector: `div[aria-label="${
     messages.layoutFullWidth.defaultMessage
   }"]`,
   wideSelector: `div[aria-label="${messages.layoutWide.defaultMessage}"]`,
@@ -72,6 +76,12 @@ export const clickFirstCell = async (page: any) => {
   await page.waitForSelector(tableSelectors.removeTable);
 };
 
+export const selectTable = async (page: any) => {
+  await page.waitForSelector(tableSelectors.cornerButton);
+  await page.click(tableSelectors.cornerButton);
+  await page.waitForSelector(tableSelectors.selectedCell);
+};
+
 // table floating toolbar interactions
 export const clickTableOptions = async (page: any) => {
   await clickElementWithText({
@@ -82,13 +92,13 @@ export const clickTableOptions = async (page: any) => {
 };
 
 export const clickCellOptions = async (page: any) => {
-  await page.waitForSelector(tableSelectors.contextalMenu);
-  await page.click(tableSelectors.contextalMenu);
+  await page.waitForSelector(tableSelectors.contextualMenu);
+  await page.click(tableSelectors.contextualMenu);
 };
 
 export const selectCellOption = async (page: any, option: string) => {
-  await page.waitForSelector(tableSelectors.contextalMenu);
-  await page.click(tableSelectors.contextalMenu);
+  await page.waitForSelector(tableSelectors.contextualMenu);
+  await page.click(tableSelectors.contextualMenu);
   await clickElementWithText({ page, tag: 'span', text: option });
 };
 
@@ -141,8 +151,8 @@ export const setTableLayoutWide = async (page: any) => {
 
 export const setTableLayoutFullWidth = async (page: any) => {
   await setTableLayoutWide(page);
-  await page.click(tableSelectors.fullwidthSelector);
-  await page.waitForSelector(tableSelectors.fullwidthState);
+  await page.click(tableSelectors.fullWidthSelector);
+  await page.waitForSelector(tableSelectors.fullWidthState);
 };
 
 export const resetTableLayoutDefault = async (page: any) => {
@@ -192,23 +202,22 @@ export const insertRowOrColumn = async (
 };
 
 export const deleteRow = async (page: any, atIndex: number) => {
-  await deleteRowOrColumn(page, tableSelectors.rowControls, atIndex);
+  const controlSelector = `.${tableSelectors.rowControls} .${
+    ClassName.ROW_CONTROLS_BUTTON_WRAP
+  }:nth-child(${atIndex}) .${ClassName.CONTROLS_BUTTON}`;
+  await deleteRowOrColumn(page, controlSelector);
 };
 
 export const deleteColumn = async (page: any, atIndex: number) => {
-  await deleteRowOrColumn(page, tableSelectors.columnControls, atIndex);
+  const controlSelector = `.${tableSelectors.columnControls} .${
+    ClassName.COLUMN_CONTROLS_BUTTON_WRAP
+  }:nth-child(${atIndex}) .${ClassName.CONTROLS_BUTTON}`;
+  await deleteRowOrColumn(page, controlSelector);
 };
 
-export const deleteRowOrColumn = async (
-  page: any,
-  typeWrapperSelector: string,
-  atIndex: number,
-) => {
-  const controlSelector = `.${typeWrapperSelector} .${
-    ClassName.CONTROLS_BUTTON
-  }:nth-child(${atIndex})`;
-
+export const deleteRowOrColumn = async (page: any, controlSelector: string) => {
   await clickFirstCell(page);
+  await page.waitForSelector(controlSelector);
   await page.click(controlSelector);
   await page.hover(tableSelectors.deleteButtonSelector);
   await page.waitForSelector(tableSelectors.deleteButtonSelector);
@@ -319,3 +328,34 @@ export const toggleBreakout = async (page: any, times: number) => {
 export const scrollToTable = async (page: any) => {
   await scrollToElement(page, tableSelectors.tableTd, 50);
 };
+
+const select = (type: 'row' | 'column') => async (
+  n: number,
+  isShiftPressed: boolean = false,
+) => {
+  // @ts-ignore
+  const page = global.page;
+  const selector =
+    type === 'row'
+      ? tableSelectors.nthRowControl(n + 1)
+      : tableSelectors.nthColumnControl(n + 1);
+  await page.waitForSelector(selector);
+
+  if (isShiftPressed) {
+    await page.keyboard.down('Shift');
+    await page.click(selector);
+    await page.keyboard.up('Shift');
+  } else {
+    await page.click(selector);
+  }
+  await page.waitForSelector(tableSelectors.selectedCell);
+};
+
+/**
+ * @param n This has `0` based index.
+ */
+export const selectRow = select('row');
+/**
+ * @param n This has `0` based index.
+ */
+export const selectColumn = select('column');

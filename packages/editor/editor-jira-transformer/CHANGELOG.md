@@ -1,5 +1,21 @@
 # @atlaskit/editor-jira-transformer
 
+## 7.2.1
+- [patch] [e9a4cde674](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9a4cde674):
+
+  - ED-6959: Patch transformer to cater for a paragraph node that contains mixed text and media nodes.
+
+## 7.2.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 7.1.2
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-json-transformer@6.0.2
+  - @atlaskit/editor-test-helpers@9.1.4
+  - @atlaskit/editor-core@112.0.0
+
 ## 7.1.1
 - Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
   - @atlaskit/editor-json-transformer@6.0.1

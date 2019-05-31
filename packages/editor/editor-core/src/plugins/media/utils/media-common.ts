@@ -69,6 +69,7 @@ const posOfMediaGroupAbove = (
   if (adjacentNode && adjacentNode.type === state.schema.nodes.mediaGroup) {
     return adjacentPos - adjacentNode.nodeSize + 1;
   }
+  return;
 };
 
 /**
@@ -106,6 +107,7 @@ export const posOfMediaGroupBelow = (
   if (adjacentNode && adjacentNode.type === state.schema.nodes.mediaGroup) {
     return prepend ? adjacentPos + 1 : adjacentPos + adjacentNode.nodeSize - 1;
   }
+  return;
 };
 
 export const posOfParentMediaGroup = (
@@ -121,6 +123,7 @@ export const posOfParentMediaGroup = (
       ? startPositionOfParent($pos)
       : endPositionOfParent($pos) - 1;
   }
+  return;
 };
 
 /**

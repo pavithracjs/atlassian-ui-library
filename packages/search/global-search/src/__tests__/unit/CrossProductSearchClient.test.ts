@@ -1,12 +1,16 @@
 import CrossProductSearchClient, {
   CrossProductSearchResponse,
-  SearchSession,
   ScopeResult,
   ABTest,
   CrossProductExperimentResponse,
   DEFAULT_AB_TEST,
 } from '../../api/CrossProductSearchClient';
-import { Scope, ConfluenceItem, PersonItem } from '../../api/types';
+import {
+  Scope,
+  ConfluenceItem,
+  PersonItem,
+  UrsPersonItem,
+} from '../../api/types';
 
 import fetchMock from 'fetch-mock';
 import {
@@ -23,6 +27,10 @@ import {
   generateRandomJiraFilter,
   generateRandomJiraProject,
 } from '../../../example-helpers/mockJira';
+import {
+  buildJiraModelParams,
+  buildConfluenceModelParams,
+} from '../../util/model-parameters';
 
 const DEFAULT_XPSEARCH_OPTS = {
   method: 'post',
@@ -44,16 +52,11 @@ const abTest: ABTest = {
   experimentId: 'experimentId',
 };
 
-const searchSession: SearchSession = {
-  referrerId: 'referal-id',
-  sessionId: 'test_uuid',
-};
-
 describe('CrossProductSearchClient', () => {
   let searchClient: CrossProductSearchClient;
 
   beforeEach(() => {
-    searchClient = new CrossProductSearchClient('localhost', '123');
+    searchClient = new CrossProductSearchClient('localhost', '123', undefined);
   });
 
   afterEach(fetchMock.restore);
@@ -87,9 +90,9 @@ describe('CrossProductSearchClient', () => {
 
       const result = await searchClient.search(
         'query',
-        searchSession,
+        'test_uuid',
         [Scope.ConfluencePageBlog],
-        0,
+        [],
       );
       expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(1);
 
@@ -98,7 +101,7 @@ describe('CrossProductSearchClient', () => {
       )![0] as ConfluenceObjectResult;
       expect(item.resultId).toEqual('123');
       expect(item.name).toEqual('page name');
-      expect(item.href).toEqual('/wiki/url?search_id=test_uuid');
+      expect(item.href).toEqual('http://baseUrl/wiki/url');
       expect(item.containerName).toEqual('containerTitle');
       expect(item.containerId).toEqual('123');
       expect(item.analyticsType).toEqual(AnalyticsType.ResultConfluence);
@@ -136,9 +139,9 @@ describe('CrossProductSearchClient', () => {
 
       const result = await searchClient.search(
         'query',
-        searchSession,
+        'test_uuid',
         [Scope.ConfluenceSpace],
-        0,
+        [],
       );
       expect(result.results.get(Scope.ConfluenceSpace)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
@@ -149,7 +152,7 @@ describe('CrossProductSearchClient', () => {
       expect(item.resultId).toEqual('space-key');
       expect(item.avatarUrl).toEqual('https://baseUrl/wiki/spaceIconPath');
       expect(item.name).toEqual('containerTitle');
-      expect(item.href).toEqual('/wiki/displayUrl?search_id=test_uuid');
+      expect(item.href).toEqual('https://baseUrl/wiki/displayUrl');
       expect(item.analyticsType).toEqual(AnalyticsType.ResultConfluence);
       expect(item.resultType).toEqual(ResultType.GenericContainerResult);
     });
@@ -182,9 +185,9 @@ describe('CrossProductSearchClient', () => {
 
       const result = await searchClient.search(
         'query',
-        searchSession,
+        'test_uuid',
         [Scope.JiraIssue],
-        0,
+        [],
       );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
@@ -223,9 +226,9 @@ describe('CrossProductSearchClient', () => {
 
       const result = await searchClient.search(
         'query',
-        searchSession,
+        'test_uuid',
         jiraScopes,
-        0,
+        [],
       );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(0);
       expect(result.results.get(Scope.JiraBoardProjectFilter)).toHaveLength(3);
@@ -253,9 +256,9 @@ describe('CrossProductSearchClient', () => {
 
       const result = await searchClient.search(
         'query',
-        { sessionId: 'sessionId' },
+        'sessionId',
         [Scope.People],
-        0,
+        [],
       );
       expect(result.results.get(Scope.People)).toHaveLength(1);
 
@@ -288,14 +291,147 @@ describe('CrossProductSearchClient', () => {
 
       const result = await searchClient.search(
         'query',
-        { sessionId: 'sessionId' },
+        'sessionId',
         [Scope.People],
-        0,
+        [],
       );
 
       const item = result.results.get(Scope.People)![0] as PersonResult;
       expect(item.mentionName).toEqual('name');
       expect(item.presenceMessage).toEqual('');
+    });
+
+    it('should return people results from urs confluence', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-confluence' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'confluence',
+        3,
+      );
+      expect(result.results.get(Scope.UserConfluence)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserConfluence)![0] as PersonResult;
+      expect(item.resultId).toEqual('people-account_id');
+      expect(item.name).toEqual('name');
+      expect(item.href).toEqual('/people/account_id');
+      expect(item.analyticsType).toEqual(AnalyticsType.ResultPerson);
+      expect(item.resultType).toEqual(ResultType.PersonResult);
+      expect(item.avatarUrl).toEqual('picture');
+      expect(item.mentionName).toEqual('');
+    });
+
+    it('should return people results from urs jira with nickname', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-confluence' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+                nickname: 'nickname',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'confluence',
+        3,
+      );
+
+      expect(result.results.get(Scope.UserConfluence)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserConfluence)![0] as PersonResult;
+      expect(item.mentionName).toEqual('nickname');
+    });
+
+    it('should return people results from urs jira', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-jira' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'jira',
+        3,
+      );
+
+      expect(result.results.get(Scope.UserJira)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserJira)![0] as PersonResult;
+      expect(item.resultId).toEqual('people-account_id');
+      expect(item.name).toEqual('name');
+      expect(item.href).toEqual('/people/account_id');
+      expect(item.analyticsType).toEqual(AnalyticsType.ResultPerson);
+      expect(item.resultType).toEqual(ResultType.PersonResult);
+      expect(item.avatarUrl).toEqual('picture');
+      expect(item.mentionName).toEqual('');
+    });
+
+    it('should return people results from urs jira with nickname', async () => {
+      apiWillReturn({
+        scopes: [
+          {
+            id: 'urs.user-jira' as Scope,
+            results: [
+              {
+                avatarUrl: 'picture',
+                entityType: 'USER',
+                id: 'account_id',
+                name: 'name',
+                nickname: 'nickname',
+              } as UrsPersonItem,
+            ],
+          },
+        ],
+      });
+
+      const result = await searchClient.getPeople(
+        'query',
+        'sessionId',
+        'jira',
+        3,
+      );
+
+      expect(result.results.get(Scope.UserJira)).toHaveLength(1);
+
+      const item = result.results.get(Scope.UserJira)![0] as PersonResult;
+      expect(item.mentionName).toEqual('nickname');
     });
   });
 
@@ -329,25 +465,30 @@ describe('CrossProductSearchClient', () => {
 
     const result = await searchClient.search(
       'query',
-      searchSession,
+      'test_uuid',
       [Scope.ConfluencePageBlog, Scope.ConfluenceSpace],
-      0,
+      [],
     );
 
     expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
     expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(0);
   });
 
-  it('should send the right body', async () => {
+  it('should send the right body with query version', async () => {
     apiWillReturn({
       scopes: [],
     });
 
     await searchClient.search(
       'query',
-      searchSession,
+      'test_uuid',
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      0,
+      [
+        {
+          '@type': 'queryParams',
+          queryVersion: 0,
+        },
+      ],
     );
 
     const call = fetchMock.calls('xpsearch')[0];
@@ -368,20 +509,102 @@ describe('CrossProductSearchClient', () => {
     ]);
   });
 
-  it('should omit model params if queryVersion is not provided', async () => {
+  it('should send the right body with container id in jira', async () => {
     apiWillReturn({
       scopes: [],
     });
 
-    await searchClient.search('query', searchSession, [
-      Scope.ConfluencePageBlog,
-      Scope.JiraIssue,
-    ]);
+    await searchClient.search(
+      'query',
+      'test_uuid',
+      [Scope.ConfluencePageBlog, Scope.JiraIssue],
+      buildJiraModelParams(1, '123'),
+    );
+
     const call = fetchMock.calls('xpsearch')[0];
     // @ts-ignore
     const body = JSON.parse(call[1].body);
 
-    expect(body.modelParams).toBeUndefined();
+    expect(body.query).toEqual('query');
+    expect(body.cloudId).toEqual('123');
+    expect(body.limit).toEqual(10);
+    expect(body.scopes).toEqual(
+      expect.arrayContaining(['jira.issue', 'confluence.page,blogpost']),
+    );
+    expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 1,
+      },
+      {
+        '@type': 'currentProject',
+        projectId: '123',
+      },
+    ]);
+  });
+
+  it('should send the right body with container id in confluence', async () => {
+    apiWillReturn({
+      scopes: [],
+    });
+
+    await searchClient.search(
+      'query',
+      'test_uuid',
+      [Scope.ConfluencePageBlog, Scope.JiraIssue],
+      buildConfluenceModelParams(1, {
+        spaceKey: '123',
+      }),
+    );
+
+    const call = fetchMock.calls('xpsearch')[0];
+    // @ts-ignore
+    const body = JSON.parse(call[1].body);
+
+    expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 1,
+      },
+      {
+        '@type': 'currentSpace',
+        spaceKey: '123',
+      },
+    ]);
+  });
+
+  it('should send the right body with project id and query version', async () => {
+    apiWillReturn({
+      scopes: [],
+    });
+
+    await searchClient.search(
+      'query',
+      'test_uuid',
+      [Scope.ConfluencePageBlog, Scope.JiraIssue],
+      buildJiraModelParams(1, '123'),
+    );
+
+    const call = fetchMock.calls('xpsearch')[0];
+    // @ts-ignore
+    const body = JSON.parse(call[1].body);
+
+    expect(body.query).toEqual('query');
+    expect(body.cloudId).toEqual('123');
+    expect(body.limit).toEqual(10);
+    expect(body.scopes).toEqual(
+      expect.arrayContaining(['jira.issue', 'confluence.page,blogpost']),
+    );
+    expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 1,
+      },
+      {
+        '@type': 'currentProject',
+        projectId: '123',
+      },
+    ]);
   });
 
   describe('ABTest', () => {

@@ -115,7 +115,7 @@ export default (chai: any) => {
     const negate: boolean = util.flag(this, 'negate');
 
     let matched = false;
-    obj.descendants((node: Node, pos: number) => {
+    obj.descendants((node: Node) => {
       if (node.isText && node.text === text) {
         if (Mark.sameSet(node.marks, marks)) {
           matched = true;

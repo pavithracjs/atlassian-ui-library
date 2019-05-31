@@ -1,43 +1,25 @@
 import { ColumnState, getFreeSpace } from './column-state';
-import { ResizeState, getTotalWidth } from './resize-state';
+import { ResizeState, getTotalWidth, bulkColumnsResize } from './resize-state';
 
 export const growColumn = (
   state: ResizeState,
   colIndex: number,
   amount: number,
+  selectedColumns?: number[],
 ): ResizeState => {
-  // if last column
+  // can't grow the last column
   if (!state.cols[colIndex + 1]) {
     return state;
   }
+  const res = moveSpaceFrom(state, colIndex + 1, colIndex, amount);
+  const remaining = amount - res.amount;
+  let newState = res.state;
 
-  let newState = { ...state };
-
-  if (amount && state.cols[colIndex + 1]) {
-    // if we couldn't naturally resize and we're growing this one,
-    // directly shrink the adjacent one with the remaining width
-    const res = moveSpaceFrom(state, colIndex + 1, colIndex, amount, false);
-
-    newState = res.state;
-    amount -= res.amount;
+  if (remaining > 0) {
+    newState = stackSpace(newState, colIndex, remaining).state;
   }
-
-  if (amount) {
-    // if we still have remaining space, directly resize the column
-    const oldCol = newState.cols[colIndex];
-
-    if (amount < 0 && oldCol.width + amount < oldCol.minWidth) {
-      amount = -(oldCol.width - oldCol.minWidth);
-    }
-
-    return {
-      ...newState,
-      cols: [
-        ...newState.cols.slice(0, colIndex),
-        { ...oldCol, width: oldCol.width + amount },
-        ...newState.cols.slice(colIndex + 1),
-      ],
-    };
+  if (selectedColumns) {
+    return bulkColumnsResize(newState, selectedColumns, colIndex);
   }
 
   return newState;
@@ -47,70 +29,25 @@ export const shrinkColumn = (
   state: ResizeState,
   colIndex: number,
   amount: number,
+  selectedColumns?: number[],
 ): ResizeState => {
-  let canRedistribute =
-    state.cols[colIndex + 1] || getTotalWidth(state) > state.maxSize;
-
-  if (!canRedistribute) {
-    return state;
-  }
-
-  // try to shrink this one by giving from the column to the right first
+  // try to shrink dragging column by giving from the column to the right first
   const res = moveSpaceFrom(state, colIndex, colIndex + 1, -amount);
-
-  let remaining = amount + res.amount;
   let newState = res.state;
 
-  if (remaining < 0) {
-    const stackResult = stackSpace(newState, colIndex, remaining);
-
-    remaining += stackResult.remaining;
-    newState = stackResult.state;
+  const isOverflownTable = getTotalWidth(newState) > newState.maxSize;
+  const isLastColumn = !newState.cols[colIndex + 1];
+  // stop resizing the last column once table is not overflown
+  if (isLastColumn && !isOverflownTable) {
+    return newState;
   }
 
-  canRedistribute =
-    newState.cols[colIndex + 1] || getTotalWidth(newState) > newState.maxSize;
-
-  if (remaining && canRedistribute) {
-    // direct resize
-    const oldCol = newState.cols[colIndex];
-    const oldNextCol = newState.cols[colIndex + 1];
-
-    if (oldCol.width + remaining < oldCol.minWidth) {
-      remaining = -(oldCol.width - oldCol.minWidth);
-    }
-
-    if (!oldNextCol) {
-      const newSum = getTotalWidth(newState) + remaining;
-      if (newSum < newState.maxSize) {
-        remaining = newState.maxSize - getTotalWidth(newState) - 1;
-      }
-    }
-
-    const newCol = { ...oldCol, width: oldCol.width + remaining };
-
-    if (oldNextCol) {
-      const nextCol = { ...oldNextCol, width: oldNextCol.width - remaining };
-
-      return {
-        ...newState,
-        cols: [
-          ...newState.cols.slice(0, colIndex),
-          newCol,
-          nextCol,
-          ...newState.cols.slice(colIndex + 2),
-        ],
-      };
-    }
-
-    return {
-      ...newState,
-      cols: [
-        ...newState.cols.slice(0, colIndex),
-        newCol,
-        ...newState.cols.slice(colIndex + 1),
-      ],
-    };
+  const remaining = amount + res.amount;
+  if (remaining < 0) {
+    newState = stackSpace(newState, colIndex + 1, remaining).state;
+  }
+  if (selectedColumns) {
+    return bulkColumnsResize(newState, selectedColumns, colIndex);
   }
 
   return newState;
@@ -125,30 +62,30 @@ export function reduceSpace(
 
   // keep trying to resolve resize request until we run out of free space,
   // or nothing to resize
-  while (remaining) {
+  while (remaining > 0) {
     // filter candidates only with free space
     const candidates = state.cols.filter(column => {
       return getFreeSpace(column) && ignoreCols.indexOf(column.index) === -1;
     });
-
     if (candidates.length === 0) {
       break;
     }
-
-    const requestedResize = Math.ceil(remaining / candidates.length);
+    const requestedResize = Math.floor(remaining / candidates.length);
     if (requestedResize === 0) {
       break;
     }
 
     candidates.forEach(candidate => {
       let newWidth = candidate.width - requestedResize;
-      let remainder = 0;
       if (newWidth < candidate.minWidth) {
         // If the new requested width is less than our min
         // Calc what width we didn't use, we'll try extract that
         // from other cols.
-        remainder = candidate.minWidth - newWidth;
+        const remainder = candidate.minWidth - newWidth;
         newWidth = candidate.minWidth;
+        remaining = remaining - requestedResize + remainder;
+      } else {
+        remaining -= requestedResize;
       }
 
       state = {
@@ -159,8 +96,6 @@ export function reduceSpace(
           ...state.cols.slice(candidate.index + 1),
         ],
       };
-
-      remaining -= requestedResize + remainder;
     });
   }
 
@@ -236,18 +171,36 @@ function stackSpace(
   destIdx: number,
   amount: number,
 ): { state: ResizeState; remaining: number } {
-  const candidates = getCandidates(state, destIdx, amount);
+  let candidates = getCandidates(state, destIdx, amount);
 
   while (candidates.length && amount) {
     // search for most (or least) free space in candidates
-    const candidateIdx = findNextFreeColumn(candidates, amount);
+    let candidateIdx = findNextFreeColumn(candidates, amount);
     if (candidateIdx === -1) {
-      // no free space remains
+      // stack to the right -> growing the dragging column and go overflow
+      if (amount > 0) {
+        return {
+          state: {
+            ...state,
+            cols: [
+              ...state.cols.slice(0, destIdx),
+              {
+                ...state.cols[destIdx],
+                width: state.cols[destIdx].width + amount,
+              },
+              ...state.cols.slice(destIdx + 1),
+            ],
+          },
+          remaining: amount,
+        };
+      }
+
+      // stacking to the left, if no free space remains
       break;
     }
 
-    const column = candidates.splice(candidateIdx, 1)[0];
-    if (getFreeSpace(column) <= 0) {
+    const column = candidates.find(col => col.index === candidateIdx);
+    if (!column || getFreeSpace(column) <= 0) {
       // no more columns with free space remain
       break;
     }
@@ -255,6 +208,8 @@ function stackSpace(
     const res = moveSpaceFrom(state, column.index, destIdx, amount);
     state = res.state;
     amount -= res.amount;
+
+    candidates = candidates.filter(col => col.index !== candidateIdx);
   }
 
   return {

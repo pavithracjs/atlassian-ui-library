@@ -4,10 +4,7 @@ import { handlePaste as handlePasteTable } from 'prosemirror-tables';
 import { Schema, Slice, Node, Fragment } from 'prosemirror-model';
 import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
 import { MarkdownTransformer } from '@atlaskit/editor-markdown-transformer';
-
 import * as clipboard from '../../../utils/clipboard';
-import { EditorAppearance } from '../../../types';
-
 import { transformSliceForMedia } from '../../media/utils/media-single';
 import linkify from '../linkify-md-plugin';
 import { escapeLinks } from '../util';
@@ -16,7 +13,7 @@ import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
 import { linkifyContent } from '../../hyperlink/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
 import { transformSliceToRemoveOpenTable } from '../../table/utils';
-import { transformSliceToAddTableHeaders } from '../../table/actions';
+import { transformSliceToAddTableHeaders } from '../../table/commands';
 import { handleMacroAutoConvert } from '../handlers';
 import {
   transformSliceToJoinAdjacentCodeBlocks,
@@ -58,11 +55,7 @@ function isHeaderRowRequired(state: EditorState) {
   return tableState && tableState.pluginConfig.isHeaderRowRequired;
 }
 
-export function createPlugin(
-  schema: Schema,
-  editorAppearance?: EditorAppearance,
-  cardOptions?: CardOptions,
-) {
+export function createPlugin(schema: Schema, cardOptions?: CardOptions) {
   const atlassianMarkDownParser = new MarkdownTransformer(schema, md);
 
   function getMarkdownSlice(
@@ -74,6 +67,7 @@ export function createPlugin(
     if (doc && doc.content) {
       return new Slice(doc.content, openStart, openEnd);
     }
+    return;
   }
 
   return new Plugin({

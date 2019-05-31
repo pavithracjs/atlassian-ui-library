@@ -5,26 +5,26 @@ import {
   Transaction,
 } from 'prosemirror-state';
 import { Dispatch } from '../event-dispatcher';
+import { Command } from '../types';
 
 /**
  * Creates a ProseMirror plugin's state and handles UI updates.
  *
- * Here're a few things to keep in mind:
+ * Here's a few things to keep in mind:
  * - plugin's state is stored as a single object
- * - `Reducer` specifies how plugin's state changes in response to actions sent from ProseMirror commands: (previousState, action) => newState
- * - `Action` describes only what happen, but not how state changes
+ * - `Reducer` specifies how plugin's state changes in response to commands
+ * - `Command` describes only what happen, but not how state changes
  * - `mapping` could be used to map ProseMirror positions stored in plugin's state
  *
  * Example:
- *  const { createPluginState, createAction, getPluginState } = pluginFactory<TablePluginState, TableAction>({
+ *  const { createPluginState, createCommand, getPluginState } = pluginFactory(
  *    reducer,
- *    dispatch,
  *    pluginKey
- *  });
+ *  );
  *
- *  export const createPlugin = (dispatch: Dispatch) =>
+ *  export const createPlugin = (dispatch: Dispatch, initialState) =>
  *    new Plugin({
- *      state: createPluginState(dispatch),
+ *      state: createPluginState(dispatch, initialState),
  *      key: pluginKey
  *    });
  *
@@ -35,85 +35,103 @@ import { Dispatch } from '../event-dispatcher';
  *    action: TableAction,
  *  ): TablePluginState => {
  *    switch (action.type) {
- *      case TableActionTypes.TOGGLE_CONTEXTUAL_MENU:
+ *      case 'TOGGLE_CONTEXTUAL_MENU':
  *      return {
  *        ...state,
  *        isContextualMenuOpen: !state.isContextualMenuOpen,
  *      };
  *    default:
- *      break;
+ *      return state;
  *    }
- *    return state;
  *  };
  *
  *
- * Example of an action:
+ * Example of a command:
  *
- *  export const toggleContextualMenu: Command = (state, dispatch) => {
- *    if (dispatch) {
- *      dispatch(
- *        createAction(state.tr, {
- *          type: TableActionTypes.TOGGLE_CONTEXTUAL_MENU,
- *        })
- *        .setMeta('addToHistory', false),
- *      );
- *    }
- *    return true;
- *  };
+ * export const toggleContextualMenu = createCommand({
+ *   type: 'TOGGLE_CONTEXTUAL_MENU',
+ * }, tr => tr.setMeta('addToHistory', false));
  *
  */
 
-export type Reducer<State, Action> = (state: State, action: Action) => State;
+function isFunction(x: any): x is Function {
+  return typeof x === 'function';
+}
 
-export function pluginFactory<State, Action>(props: {
-  pluginKey: PluginKey;
-  reducer: Reducer<State, Action>;
-  initialState?: State;
-  mapping?: (tr: Transaction, state: State) => State;
-  onDocChanged?: (state: State) => State;
-  onSelectionChanged?: (state: State) => State;
-}): {
-  createPluginState: (dispatch: Dispatch) => StateField<State>;
-  createAction: (tr: Transaction, action: Action) => Transaction;
-  getPluginState: (editorState: EditorState) => State;
+export type Reducer<PluginState, Action> = (
+  state: PluginState,
+  action: Action,
+) => PluginState;
+
+type MapState<PluginState> = (
+  tr: Transaction,
+  pluginState: PluginState,
+) => PluginState;
+
+export function pluginFactory<
+  PluginState,
+  Action,
+  InitialState extends PluginState
+>(
+  pluginKey: PluginKey,
+  reducer: Reducer<PluginState, Action>,
+  options: {
+    mapping?: MapState<PluginState>;
+    onDocChanged?: MapState<PluginState>;
+    onSelectionChanged?: MapState<PluginState>;
+  } = {},
+): {
+  createPluginState: (
+    dispatch: Dispatch,
+    initialState: InitialState,
+  ) => StateField<PluginState>;
+  createCommand: (
+    action: Action | ((state: Readonly<EditorState>) => Action | false),
+    transform?: (tr: Transaction, state: EditorState) => Transaction,
+  ) => Command;
+  getPluginState: (state: EditorState) => PluginState;
 } {
-  const {
-    pluginKey,
-    reducer,
-    mapping,
-    initialState,
-    onDocChanged,
-    onSelectionChanged,
-  } = props;
+  const { mapping, onDocChanged, onSelectionChanged } = options;
 
   return {
-    createPluginState: dispatch => ({
-      init: () => initialState || ({} as State),
+    createPluginState: (dispatch, initialState) => ({
+      init: () => initialState,
 
       apply(tr, _pluginState) {
-        const pluginState = mapping ? mapping(tr, _pluginState) : _pluginState;
+        const oldState = mapping ? mapping(tr, _pluginState) : _pluginState;
+        let newState = oldState;
 
         const meta = tr.getMeta(pluginKey);
         if (meta) {
-          const newState = reducer(pluginState, meta);
-          if (newState !== pluginState) {
-            dispatch(pluginKey, newState);
-            return newState;
-          }
-        }
-        if (onDocChanged && tr.docChanged) {
-          return onDocChanged(pluginState);
-        }
-        if (onSelectionChanged && tr.selectionSet) {
-          return onSelectionChanged(pluginState);
+          newState = reducer(oldState, meta);
         }
 
-        return pluginState;
+        if (onDocChanged && tr.docChanged) {
+          newState = onDocChanged(tr, newState);
+        } else if (onSelectionChanged && tr.selectionSet) {
+          newState = onSelectionChanged(tr, newState);
+        }
+
+        if (newState !== oldState) {
+          dispatch(pluginKey, newState);
+        }
+        return newState;
       },
     }),
 
-    createAction: (tr, action) => tr.setMeta(pluginKey, action),
+    createCommand: (action, transform) => (state, dispatch) => {
+      if (dispatch) {
+        const tr = transform ? transform(state.tr, state) : state.tr;
+        const resolvedAction = isFunction(action) ? action(state) : action;
+        if (tr && resolvedAction) {
+          dispatch(tr.setMeta(pluginKey, resolvedAction));
+        } else {
+          return false;
+        }
+      }
+      return true;
+    },
 
-    getPluginState: editorState => pluginKey.getState(editorState),
+    getPluginState: state => pluginKey.getState(state),
   };
 }

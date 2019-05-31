@@ -106,7 +106,7 @@ const getRecentItems = (product: string) =>
     const updateSpy = spyOnComponentDidUpdate();
     const onEventSpy = jest.fn();
     let wrapper: ReactWrapper;
-    let originalWindowAssign = window.location.assign;
+    let originalWindowLocation = window.location;
 
     const keyPress = (key: 'ArrowUp' | 'ArrowDown' | 'Enter') => {
       const input = wrapper.find('input');
@@ -118,12 +118,15 @@ const getRecentItems = (product: string) =>
     };
 
     beforeAll(() => {
-      window.location.assign = jest.fn();
+      delete window.location;
+      window.location = Object.assign({}, window.location, {
+        assign: jest.fn(),
+      });
       setupMocks(ZERO_DELAY_CONFIG);
     });
 
     afterAll(() => {
-      window.location.assign = originalWindowAssign;
+      window.location = originalWindowLocation;
       teardownMocks();
     });
 
@@ -468,7 +471,6 @@ const getRecentItems = (product: string) =>
               ? {
                   confSearchElapsedMs: expect.any(Number),
                   postQueryRequestDurationMs: expect.any(Number),
-                  peopleElapsedMs: expect.any(Number),
                 }
               : {
                   postQueryRequestDurationMs: expect.any(Number),
