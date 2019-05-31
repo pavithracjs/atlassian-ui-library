@@ -20,6 +20,7 @@ const createProps: () => StatelessProps = () => ({
   sortKey,
   sortOrder: 'ASC',
   onSort: jest.fn(),
+  onPageRowsUpdate: jest.fn(),
 });
 
 test('onSort should change to ASC from DESC if table is not rankable', () => {
@@ -85,6 +86,23 @@ test('onSort should change to ASC if table is rankable and was sorted using on d
     item,
     sortOrder: 'ASC',
   });
+});
+
+test('onPageRowsUpdate should be called on mount', () => {
+  const props = createProps();
+  mount(<StatelessDynamicTable {...props} />);
+
+  expect(props.onPageRowsUpdate).toHaveBeenCalledTimes(1);
+});
+
+test('Mount should throw errors if the sortKey is invalid', () => {
+  const props = { ...createProps(), sortKey: 'InvalidSortKey' };
+  mount(<StatelessDynamicTable {...props} />);
+
+  expect(console.error).toHaveBeenCalled();
+  expect(console.error).toBeCalledWith(
+    Error(`Cell with InvalidSortKey key not found in head.`),
+  );
 });
 
 describe('DynamicTableWithAnalytics', () => {
