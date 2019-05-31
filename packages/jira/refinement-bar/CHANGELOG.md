@@ -1,5 +1,10 @@
 # @atlaskit/refinement-bar
 
+## 0.4.5
+- [patch] [97d57d896b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97d57d896b):
+
+  use a "version.json" shim to fix import path in prod
+
 ## 0.4.4
 - [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
 
