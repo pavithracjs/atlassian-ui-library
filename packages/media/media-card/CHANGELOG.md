@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 63.1.2
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/button@13.0.6
+  - @atlaskit/media-ui@11.2.7
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
 ## 63.1.1
 - [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
 

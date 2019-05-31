@@ -1,5 +1,15 @@
 # @atlaskit/form
 
+## 6.0.4
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/button@13.0.6
+  - @atlaskit/modal-dialog@10.0.2
+  - @atlaskit/radio@3.0.2
+  - @atlaskit/select@9.1.4
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
 ## 6.0.3
 - Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
 - Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
