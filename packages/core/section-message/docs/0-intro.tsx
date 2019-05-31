@@ -14,7 +14,7 @@ export default md`
 
   ## Usage
 
-  ${code``}
+  ${code`import SectionMessage from '@atlaskit/section-message';`}
 
   ${(
     <Example
