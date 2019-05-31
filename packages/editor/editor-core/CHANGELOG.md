@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.11.3
+- [patch] [b567c44b93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b567c44b93):
+
+  ED-6986: put cursor after smart link insertion if skipping macro
+
 ## 112.11.2
 - [patch] [d7aa377982](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7aa377982):
 
