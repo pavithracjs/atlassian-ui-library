@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { AtlassianIcon } from '@atlaskit/logo';
 import { BreadcrumbsStateless, BreadcrumbsItem } from '../src';
 

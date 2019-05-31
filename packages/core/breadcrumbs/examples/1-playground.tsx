@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@atlaskit/button';
 import Select from '@atlaskit/select';
 import { BreadcrumbsStateless, BreadcrumbsItem } from '../src';

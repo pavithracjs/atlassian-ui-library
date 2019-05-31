@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   withAnalyticsEvents,
@@ -128,6 +128,7 @@ class BreadcrumbsItem extends React.Component<IProps, IState> {
           this.button = el;
         }}
         component={component}
+        // @ts-ignore - 31052019 VBZ - this shouldn't exist right?
         analyticsContext={{
           componentName: 'breadcrumbsItem',
           packageName,

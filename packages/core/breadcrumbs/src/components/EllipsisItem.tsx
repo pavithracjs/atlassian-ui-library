@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '../styled/Button';
 import ItemWrapper from '../styled/BreadcrumbsItem';
 import Separator from '../styled/Separator';

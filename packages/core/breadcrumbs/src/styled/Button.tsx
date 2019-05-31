@@ -8,6 +8,7 @@ interface Props extends ButtonProps {
 export default React.forwardRef(({ truncationWidth, ...props }: Props, ref) => (
   <Button
     {...props}
+    // @ts-ignore - 31052019 VBZ - sort of refs in Button
     ref={ref}
     theme={(currentTheme, themeProps) => {
       const { buttonStyles, ...rest } = currentTheme(themeProps);
