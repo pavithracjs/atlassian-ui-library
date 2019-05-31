@@ -43,9 +43,9 @@ const fs = require('fs');
       // Add a package.json
       const entryPointJson = {
         name: `${pkg.name}/${pkgFile}`,
-        main: `../${pkgFile}.js`,
-        modules: `../${pkgFile}.js`,
-        types: `../${pkgFile}.d.ts`,
+        main: `../dist/cjs/${pkgFile}.js`,
+        module: `../dist/esm/${pkgFile}.js`,
+        types: `../dist/esm/${pkgFile}.d.ts`,
       };
       fs.writeFile(
         `${entryPointDirName}/package.json`,
