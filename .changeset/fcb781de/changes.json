@@ -1,0 +1,59 @@
+{
+  "releases": [{ "name": "@atlaskit/inline-dialog", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/field-base",
+      "type": "patch",
+      "dependencies": ["@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/inline-edit",
+      "type": "patch",
+      "dependencies": ["@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/inline-message",
+      "type": "patch",
+      "dependencies": ["@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/modal-dialog",
+      "type": "patch",
+      "dependencies": ["@atlaskit/portal", "@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/field-base",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/inline-dialog"
+      ]
+    },
+    {
+      "name": "@atlaskit/portal",
+      "type": "patch",
+      "dependencies": ["@atlaskit/modal-dialog", "@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/share",
+      "type": "patch",
+      "dependencies": ["@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/media-editor",
+      "type": "patch",
+      "dependencies": ["@atlaskit/modal-dialog", "@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/focused-task-close-account",
+      "type": "patch",
+      "dependencies": ["@atlaskit/inline-dialog"]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": ["@atlaskit/modal-dialog", "@atlaskit/inline-dialog"]
+    }
+  ]
+}
