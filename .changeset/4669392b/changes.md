@@ -1,0 +1,1 @@
+- [ED-7012] Move header column/row state to pluginState to avoid duplicate logic and increase performance
