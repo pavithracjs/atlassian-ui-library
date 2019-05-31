@@ -1,5 +1,10 @@
 # @atlaskit/dynamic-table
 
+## 13.0.2
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 13.0.1
 - Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
 - Updated dependencies [8c65f23d32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c65f23d32):

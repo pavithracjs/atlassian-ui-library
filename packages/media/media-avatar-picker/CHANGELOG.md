@@ -1,5 +1,10 @@
 # @atlaskit/media-avatar-picker
 
+## 21.0.6
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 21.0.5
 - [patch] [92381960e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92381960e9):
 

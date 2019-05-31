@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 48.7.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 48.7.0
 - [minor] [372235caca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/372235caca):
 

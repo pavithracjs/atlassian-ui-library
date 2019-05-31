@@ -1,5 +1,10 @@
 # @atlaskit/layer-manager
 
+## 7.0.4
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 7.0.3
 - [patch] [c3ab82ed42](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3ab82ed42):
 

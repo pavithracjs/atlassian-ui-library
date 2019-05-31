@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.6.4
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 8.6.3
 - Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
   - @atlaskit/editor-core@112.11.0

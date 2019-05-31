@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.11.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 112.11.0
 - [patch] [a67181ef07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a67181ef07):
 

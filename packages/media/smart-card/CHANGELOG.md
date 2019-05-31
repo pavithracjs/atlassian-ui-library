@@ -1,5 +1,10 @@
 # @atlaskit/smart-card
 
+## 11.1.3
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
 ## 11.1.2
 - Updated dependencies [66af32c013](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66af32c013):
 - Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
