@@ -88,11 +88,13 @@ test('onSort should change to ASC if table is rankable and was sorted using on d
   });
 });
 
-test('onPageRowsUpdate should be called on mount', () => {
+test('onPageRowsUpdate should be called on mount and on sorting change', () => {
   const props = createProps();
-  mount(<StatelessDynamicTable {...props} />);
+  const wrapper = mount(<StatelessDynamicTable {...props} />);
 
   expect(props.onPageRowsUpdate).toHaveBeenCalledTimes(1);
+  wrapper.setProps({ sortOrder: 'DESC' });
+  expect(props.onPageRowsUpdate).toHaveBeenCalledTimes(2);
 });
 
 test('Mount should throw errors if the sortKey is invalid', () => {

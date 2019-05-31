@@ -1,1 +1,1 @@
-- Added onPageRowUpdate function prop to dynamic table to be passed the currently shown table items
+- Added onPageRowUpdate function prop to dynamic table to be passed the currently shown table items and moved validateSortKey from the deprecated componentWillMount and componentWillRecieveProps to getDerivedStateFromProps
