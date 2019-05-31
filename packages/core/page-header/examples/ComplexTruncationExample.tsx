@@ -1,10 +1,8 @@
-// @flow
 import React from 'react';
 import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import TextField from '@atlaskit/textfield';
 import Select from '@atlaskit/select';
-import Page from '@atlaskit/page';
 
 import PageHeader from '../src';
 
@@ -37,13 +35,13 @@ const barContent = (
 );
 
 export default () => (
-  <Page>
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      actions={actionsContent}
-      bottomBar={barContent}
-    >
-      Title for a Page Header within a page
-    </PageHeader>
-  </Page>
+  <PageHeader
+    breadcrumbs={breadcrumbs}
+    actions={actionsContent}
+    bottomBar={barContent}
+    truncateTitle
+  >
+    Title describing what the content should be, along with the context for
+    which it applies — maybe also with some catchy words to draw attention
+  </PageHeader>
 );

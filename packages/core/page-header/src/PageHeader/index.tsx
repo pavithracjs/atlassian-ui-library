@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, type Element, type Node } from 'react';
+import React, { Component, ReactElement, ReactNode } from 'react';
 
 import {
   Outer,
@@ -12,21 +11,21 @@ import {
 
 type Props = {
   /** Page breadcrumbs to be rendered above the title. */
-  breadcrumbs?: Element<any>,
+  breadcrumbs?: ReactElement;
   /** Contents of the action bar to be rendered next to the page title. */
-  actions?: Element<any>,
+  actions?: ReactElement;
   /** Contents of the header bar to be rendered below the page title. */
-  bottomBar?: Element<any>,
+  bottomBar?: ReactElement;
   /** Content of the page title. The text would be trimmed if it doesn't fit the
    header width and end with an ellipsis */
-  children?: Node,
+  children?: ReactNode;
   /** Disable default styles for page title */
-  disableTitleStyles?: boolean,
+  disableTitleStyles?: boolean;
   /** Prevent the title from wrapping across lines */
-  truncateTitle?: boolean,
+  truncateTitle?: boolean;
 };
 export default class PageHeader extends Component<Props> {
-  static defaultProps: $Shape<Props> = {
+  static defaultProps: Partial<Props> = {
     disableTitleStyles: false,
     truncateTitle: false,
   };

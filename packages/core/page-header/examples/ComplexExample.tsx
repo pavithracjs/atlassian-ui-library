@@ -1,13 +1,8 @@
-// @flow
 import React from 'react';
-import styled from 'styled-components';
-
 import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import TextField from '@atlaskit/textfield';
 import Select from '@atlaskit/select';
-import InlineEdit from '@atlaskit/inline-edit';
-import { colors } from '@atlaskit/theme';
 
 import PageHeader from '../src';
 
@@ -39,49 +34,13 @@ const barContent = (
   </div>
 );
 
-const ReadView = styled.div`
-  font-size: 24px;
-  font-weight: 500;
-  display: flex;
-  max-width: 100%;
-  overflow: hidden;
-  padding: 8px 6px;
-`;
-
-const EditView = styled.input`
-  font-size: 24px;
-  font-weight: 500;
-  box-sizing: border-box;
-  cursor: inherit;
-  outline: none;
-  padding: 6px 6px;
-  width: 100%;
-  border: 2px solid ${colors.N40};
-  border-radius: 3px;
-
-  :focus {
-    border: 2px solid ${colors.B100};
-  }
-`;
-
-const CustomTitleComponent = () => {
-  return (
-    <InlineEdit
-      readView={() => <ReadView>Editable title</ReadView>}
-      editView={({ ref, ...rest }) => <EditView {...rest} innerRef={ref} />}
-      defaultValue="Editable title"
-      onConfirm={() => {}}
-    />
-  );
-};
-
 export default () => (
   <PageHeader
     breadcrumbs={breadcrumbs}
-    bottomBar={barContent}
     actions={actionsContent}
-    disableTitleStyles
+    bottomBar={barContent}
   >
-    <CustomTitleComponent />
+    Title describing what the content should be, along with the context for
+    which it applies — maybe also with some catchy words to draw attention
   </PageHeader>
 );
