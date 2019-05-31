@@ -1,0 +1,1 @@
+use a "version.json" shim to fix import path in prod
