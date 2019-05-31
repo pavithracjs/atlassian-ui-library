@@ -1,1 +1,0 @@
-ED-6748: add inviteToEditComponent to allow custom React components in collab share
