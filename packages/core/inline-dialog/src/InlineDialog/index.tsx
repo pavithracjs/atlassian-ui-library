@@ -73,7 +73,7 @@ class InlineDialog extends Component<Props, {}> {
 
     // call onClose if the click originated from outside the dialog
     if (isOpen && container && !container.contains(target)) {
-      onClose({ isOpen: false, event });
+      onClose && onClose({ isOpen: false, event });
     }
   };
 
