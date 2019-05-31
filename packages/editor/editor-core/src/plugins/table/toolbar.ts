@@ -7,11 +7,7 @@ import { TablePluginState, ColumnResizingPluginState } from './types';
 import { pluginKey } from './pm-plugins/main';
 import { pluginKey as tableResizingPluginKey } from './pm-plugins/table-resizing/index';
 import { hoverTable, clearHoverSelection } from './commands';
-import {
-  checkIfHeaderRowEnabled,
-  checkIfHeaderColumnEnabled,
-  checkIfNumberColumnEnabled,
-} from './utils';
+import { checkIfNumberColumnEnabled } from './utils';
 import {
   toggleHeaderRowWithAnalytics,
   toggleHeaderColumnWithAnalytics,
@@ -67,14 +63,18 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           options: [
             {
               title: formatMessage(messages.headerRow),
-              onClick: toggleHeaderRowWithAnalytics(),
-              selected: checkIfHeaderRowEnabled(state),
+              onClick: toggleHeaderRowWithAnalytics(
+                tableState.isHeaderRowEnabled,
+              ),
+              selected: tableState.isHeaderRowEnabled,
               hidden: !pluginConfig.allowHeaderRow,
             },
             {
               title: formatMessage(messages.headerColumn),
-              onClick: toggleHeaderColumnWithAnalytics(),
-              selected: checkIfHeaderColumnEnabled(state),
+              onClick: toggleHeaderColumnWithAnalytics(
+                tableState.isHeaderColumnEnabled,
+              ),
+              selected: tableState.isHeaderColumnEnabled,
               hidden: !pluginConfig.allowHeaderColumn,
             },
             {

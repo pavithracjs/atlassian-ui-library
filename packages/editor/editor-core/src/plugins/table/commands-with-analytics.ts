@@ -29,8 +29,6 @@ import {
 import {
   getSelectedCellInfo,
   getSelectedTableInfo,
-  checkIfHeaderRowEnabled,
-  checkIfHeaderColumnEnabled,
   checkIfNumberColumnEnabled,
 } from './utils';
 import { mergeCells, deleteColumns, deleteRows } from './transforms';
@@ -310,7 +308,7 @@ export const deleteTableWithAnalytics = () =>
     withV2Analytics('atlassian.editor.format.table.delete.button', deleteTable),
   );
 
-export const toggleHeaderRowWithAnalytics = () =>
+export const toggleHeaderRowWithAnalytics = (isHeaderRowEnabled: boolean) =>
   withAnalytics(state => {
     const { totalRowCount, totalColumnCount } = getSelectedTableInfo(
       state.selection,
@@ -320,7 +318,7 @@ export const toggleHeaderRowWithAnalytics = () =>
       actionSubject: ACTION_SUBJECT.TABLE,
       actionSubjectId: null,
       attributes: {
-        newState: !checkIfHeaderRowEnabled(state),
+        newState: !isHeaderRowEnabled,
         totalRowCount,
         totalColumnCount,
       },
@@ -333,7 +331,9 @@ export const toggleHeaderRowWithAnalytics = () =>
     ),
   );
 
-export const toggleHeaderColumnWithAnalytics = () =>
+export const toggleHeaderColumnWithAnalytics = (
+  isHeaderColumnEnabled: boolean,
+) =>
   withAnalytics(state => {
     const { totalRowCount, totalColumnCount } = getSelectedTableInfo(
       state.selection,
@@ -343,7 +343,7 @@ export const toggleHeaderColumnWithAnalytics = () =>
       actionSubject: ACTION_SUBJECT.TABLE,
       actionSubjectId: null,
       attributes: {
-        newState: !checkIfHeaderColumnEnabled(state),
+        newState: !isHeaderColumnEnabled,
         totalRowCount,
         totalColumnCount,
       },

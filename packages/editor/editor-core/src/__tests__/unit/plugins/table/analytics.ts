@@ -340,7 +340,7 @@ describe('Table analytic events', () => {
   describe('header row toggled', () => {
     beforeEach(() => {
       const { editorView } = editor(defaultTable);
-      toggleHeaderRowWithAnalytics()(editorView.state, editorView.dispatch);
+      toggleHeaderRowWithAnalytics(true)(editorView.state, editorView.dispatch);
     });
 
     it('should fire v2 analytics', () => {
@@ -367,7 +367,10 @@ describe('Table analytic events', () => {
   describe('header column toggled', () => {
     beforeEach(() => {
       const { editorView } = editor(defaultTable);
-      toggleHeaderColumnWithAnalytics()(editorView.state, editorView.dispatch);
+      toggleHeaderColumnWithAnalytics(false)(
+        editorView.state,
+        editorView.dispatch,
+      );
     });
 
     it('should fire v2 analytics', () => {

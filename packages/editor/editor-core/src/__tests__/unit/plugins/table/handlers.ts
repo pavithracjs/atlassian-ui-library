@@ -31,6 +31,8 @@ describe('table action handlers', () => {
     decorationSet: DecorationSet.empty,
     pluginConfig: {},
     editorHasFocus: true,
+    isHeaderColumnEnabled: false,
+    isHeaderRowEnabled: true,
   };
 
   describe('#handleDocOrSelectionChanged', () => {
