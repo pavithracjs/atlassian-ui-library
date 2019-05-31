@@ -1,4 +1,3 @@
-//@flow
 import cssResetStyles from '../..';
 
 describe('@ataskit/css-reset - styleSheet', () => {

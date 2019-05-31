@@ -3,8 +3,10 @@
   "version": "4.0.1",
   "description": "Base stylesheet for ADG",
   "license": "Apache-2.0",
+  "module": "index.js",
+  "types": "index.d.ts",
   "main": "dist/bundle.css",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/overview",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -19,7 +21,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
-    "build": "babel-node --ignore WE_WILL_NOT_IGNORE_ANYTHING build/js-to-css.js --config-file=../../../babel.config.js --env-name=production:cjs"
+    "build": "babel --ignore WE_WILL_NOT_IGNORE_ANYTHING --presets @babel/preset-typescript build/js-to-css.ts --config-file=../../../babel.config.js --env-name=production:cjs"
   },
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",

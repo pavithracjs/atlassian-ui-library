@@ -1,4 +1,3 @@
-//@flow
 import evaluateInner from '../../../utils/evaluate-inner';
 
 describe('css-reset evaluateInner', () => {

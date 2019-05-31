@@ -1,4 +1,3 @@
-// @flow
 import baseStyles from './base';
 import browserFixesStyles from './browser-fixes';
 import resetStyles from './reset';

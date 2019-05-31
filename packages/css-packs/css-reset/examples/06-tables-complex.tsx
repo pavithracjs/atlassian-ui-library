@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 
 /**
@@ -10,6 +9,7 @@ import React from 'react';
 export default () => (
   <div>
     <table>
+      <caption>Table captions are like headings for tabular data</caption>
       <thead>
         <tr>
           <th>Item</th>
@@ -17,6 +17,13 @@ export default () => (
           <th>Price</th>
         </tr>
       </thead>
+      <tfoot>
+        <tr>
+          <th>Total</th>
+          <td>21</td>
+          <td>$13.81</td>
+        </tr>
+      </tfoot>
       <tbody>
         <tr>
           <td>Apple</td>
