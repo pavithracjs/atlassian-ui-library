@@ -1,10 +1,9 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { Checkbox } from '../src';
 
-type State = {
-  onChangeResult: string,
-};
+interface State {
+  onChangeResult: string;
+}
 
 const BasicUsageExample = class extends PureComponent<void, State> {
   state = {

@@ -1,11 +1,11 @@
-// @flow
-
 import React from 'react';
 import { mount } from 'enzyme';
 import CheckboxIcon from '@atlaskit/icon/glyph/checkbox';
 import CheckboxIndeterminateIcon from '@atlaskit/icon/glyph/checkbox-indeterminate';
 import Checkbox, { CheckboxWithoutAnalytics } from '../../Checkbox';
 import { name } from '../../version.json';
+
+declare var global: any;
 
 describe(name, () => {
   const mountCheckbox = (overridingProps: any) =>
@@ -24,6 +24,7 @@ describe(name, () => {
     });
 
     afterEach(() => {
+      // @ts-ignore - Property 'mockRestore' does not exist
       global.console.error.mockRestore();
     });
     it('should not log console error on mount', () => {
@@ -69,6 +70,7 @@ describe(name, () => {
     });
     it('should initially set the indeterminate state on the hidden checkbox', () => {
       const cb = mountCheckbox({ isIndeterminate: true, isChecked: false });
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.indeterminate).toBe(true);
     });
@@ -78,6 +80,7 @@ describe(name, () => {
         isIndeterminate: false,
       });
 
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.indeterminate).toBe(false);
 
@@ -94,11 +97,13 @@ describe(name, () => {
   describe('<Checkbox defaultChecked/>', () => {
     it('should render defaultChecked', () => {
       const cb = mountCheckbox({ defaultChecked: true });
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.checked).toBe(true);
     });
     it('should render defaultChecked={undefined}', () => {
-      const cb = mountCheckbox();
+      const cb = mountCheckbox({});
+      // @ts-ignore - Property 'checkbox' does not exist
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.checked).toBe(false);
     });

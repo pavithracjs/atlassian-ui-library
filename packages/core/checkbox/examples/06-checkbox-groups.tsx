@@ -1,22 +1,20 @@
-// @flow
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Checkbox } from '../src';
 
 const GroupDiv = styled.div`
   display: flex;
-  flex-direction: ${prop => prop.flexDirection};
+  flex-direction: ${(prop: { flexDirection: string }) => prop.flexDirection};
 `;
 
 export default class CheckboxGroups extends Component<
   void,
-  { flexDirection: string },
+  { flexDirection?: string }
 > {
   state = {
     flexDirection: 'column',
   };
-
-  onChange = (event: SyntheticEvent<*>) => {
+  onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     switch (event.currentTarget.value) {
       case 'column':
         this.setState({

@@ -1,21 +1,21 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { Checkbox } from '../src';
 
-type State = {
-  onChangeResult: string,
-};
+interface State {
+  isChecked: boolean;
+  onChangeResult: string;
+}
 
-export default class UncontrolledExample extends PureComponent<void, State> {
+export default class ControlledExample extends PureComponent<void, State> {
   state = {
+    isChecked: false,
     onChangeResult: 'Check & Uncheck to trigger onChange',
   };
 
-  onChange = (event: SyntheticEvent<*>) => {
+  onChange = (event: any) => {
     this.setState({
-      onChangeResult: `this.state.isChecked: ${String(
-        event.currentTarget.checked,
-      )}`,
+      isChecked: !this.state.isChecked,
+      onChangeResult: `this.props.isChecked: ${event.target.checked}`,
     });
   };
 
@@ -23,10 +23,11 @@ export default class UncontrolledExample extends PureComponent<void, State> {
     return (
       <div>
         <Checkbox
+          isChecked={this.state.isChecked}
           onChange={this.onChange}
-          label="Uncontrolled Checkbox"
-          value="Uncontrolled Checkbox"
-          name="uncontrolled-checkbox"
+          label="Controlled Checkbox"
+          value="Controlled Checkbox"
+          name="controlled-checkbox"
         />
 
         <div

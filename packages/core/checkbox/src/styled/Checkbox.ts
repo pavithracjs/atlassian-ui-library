@@ -1,4 +1,3 @@
-// @flow
 import styled, { css } from 'styled-components';
 import { colors, themed, math, gridSize } from '@atlaskit/theme';
 
@@ -14,32 +13,28 @@ export const HiddenCheckbox = styled.input`
 
 const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
 
-type LabelProps = {
-  isDisabled: boolean,
-  isFullWidth: boolean,
-};
+interface Props {
+  isActive?: boolean;
+  isChecked?: boolean | unknown;
+  isDisabled?: boolean;
+  isFocused?: boolean;
+  isInvalid?: boolean;
+  isHovered?: boolean;
+  rest?: any;
+}
 
 export const Label = styled.label`
   align-items: flex-start;
   display: flex;
-  color: ${(props: LabelProps): string =>
-    // $FlowFixMe - theme is not found in props
+  color: ${(props: Props) =>
     props.isDisabled ? disabledColor(props) : colors.text(props)};
-  ${({ isDisabled }: LabelProps) =>
+  ${({ isDisabled }: Props) =>
     isDisabled
       ? css`
           cursor: not-allowed;
         `
       : ''};
 `;
-
-type IconWrapperProps = {
-  isActive: boolean,
-  isChecked: boolean,
-  isDisabled: boolean,
-  isFocused: boolean,
-  isInvalid: boolean,
-};
 
 const borderColor = themed({ light: colors.N40, dark: colors.DN80 });
 const focusBorder = css`
@@ -59,23 +54,33 @@ const checkedBorder = css`
   stroke-width: 2px;
 `;
 const border = css`
-  stroke: ${({ isHovered, ...rest }) =>
+  stroke: ${({ isHovered, ...rest }: Props) =>
     isHovered
       ? themed({ light: colors.N40, dark: colors.DN200 })(rest)
       : borderColor(rest)};
   stroke-width: 2px;
 `;
 
-const getBorderColor = (props: IconWrapperProps) => {
-  if (props.isDisabled) return '';
-  if (props.isFocused) return focusBorder;
-  if (props.isActive) return activeBorder;
-  if (props.isInvalid) return invalidBorder;
-  if (props.isChecked) return checkedBorder;
+const getBorderColor = (props: Props) => {
+  if (props.isDisabled) {
+    return '';
+  }
+  if (props.isFocused) {
+    return focusBorder;
+  }
+  if (props.isActive) {
+    return activeBorder;
+  }
+  if (props.isInvalid) {
+    return invalidBorder;
+  }
+  if (props.isChecked) {
+    return checkedBorder;
+  }
   return border;
 };
 
-const getTickColor = props => {
+const getTickColor = (props: Props) => {
   const { isChecked, isDisabled, isActive, ...rest } = props;
 
   let color = themed({ light: colors.N10, dark: colors.DN10 });
@@ -90,7 +95,7 @@ const getTickColor = props => {
   return color(rest);
 };
 
-const getBoxColor = props => {
+const getBoxColor = (props: Props) => {
   const { isChecked, isDisabled, isActive, isHovered, ...rest } = props;
   // set the default
   let color = themed({ light: colors.N10, dark: colors.DN10 });

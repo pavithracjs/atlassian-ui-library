@@ -1,11 +1,12 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { Checkbox } from '../src';
 
-type CheckedItems = { [value: string]: boolean };
-type State = {
-  checkedItems: CheckedItems,
-};
+interface CheckedItems {
+  [value: string]: boolean;
+}
+interface State {
+  checkedItems: Record<string, boolean>;
+}
 
 const PARENT_ID: string = 'PARENT';
 const CHILD_1_ID: string = 'CHILD1';

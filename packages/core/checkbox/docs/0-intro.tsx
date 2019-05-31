@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
 
@@ -15,7 +14,7 @@ import {
 `}
 
   The Checkbox export provides for controlled & uncontrolled usage and includes the label, input & icon.
-  
+
   ${(
     <Example
       packageName="@atlaskit/checkbox"

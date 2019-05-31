@@ -4,7 +4,8 @@
   "description": "Checkbox component for use in forms",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "src/index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/checkboxes",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
@@ -24,7 +25,7 @@
     "@atlaskit/icon": "^17.1.1",
     "@atlaskit/theme": "^9.0.2",
     "@babel/runtime": "^7.0.0",
-    "prop-types": "^15.5.10"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",

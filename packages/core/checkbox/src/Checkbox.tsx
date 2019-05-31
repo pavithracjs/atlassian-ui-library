@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import {
   withAnalyticsEvents,
@@ -17,15 +15,15 @@ import {
   CheckboxWrapper,
   RequiredIndicator,
 } from './styled/Checkbox';
-import { type CheckboxProps } from './types';
+import { CheckboxProps } from './types';
 
-type State = {|
-  isActive: boolean,
-  isChecked: boolean,
-  isFocused: boolean,
-  isHovered: boolean,
-  isMouseDown: boolean,
-|};
+interface State {
+  isActive: boolean;
+  isChecked?: boolean;
+  isFocused: boolean;
+  isHovered: boolean;
+  isMouseDown: boolean;
+}
 
 const emptyTheme = {};
 
@@ -47,9 +45,7 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.props.isChecked
         : this.props.defaultChecked,
   };
-
-  checkbox: ?HTMLInputElement;
-
+  checkbox?: HTMLInputElement;
   actionKeys = [' '];
 
   componentDidMount() {
@@ -72,12 +68,10 @@ class Checkbox extends Component<CheckboxProps, State> {
     }
   }
 
-  getProp = (key: string) => {
-    return key in this.props ? this.props[key] : this.state[key];
-  };
-
-  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    if (this.props.isDisabled) return null;
+  onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+    if (this.props.isDisabled) {
+      return null;
+    }
     event.persist();
     if (event.target.checked !== undefined) {
       this.setState({ isChecked: event.target.checked });
@@ -90,11 +84,15 @@ class Checkbox extends Component<CheckboxProps, State> {
 
   // expose blur/focus to consumers via ref
   blur = () => {
-    if (this.checkbox && this.checkbox.blur) this.checkbox.blur();
+    if (this.checkbox && this.checkbox.blur) {
+      this.checkbox.blur();
+    }
   };
 
   focus = () => {
-    if (this.checkbox && this.checkbox.focus) this.checkbox.focus();
+    if (this.checkbox && this.checkbox.focus) {
+      this.checkbox.focus();
+    }
   };
 
   onBlur = () =>
@@ -116,14 +114,13 @@ class Checkbox extends Component<CheckboxProps, State> {
 
   onMouseDown = () => this.setState({ isActive: true, isMouseDown: true });
 
-  onKeyDown = (event: KeyboardEvent) => {
-    if (this.actionKeys.includes(event.key)) {
+  onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key in this.actionKeys) {
       this.setState({ isActive: true });
     }
   };
-
-  onKeyUp = (event: KeyboardEvent) => {
-    if (this.actionKeys.includes(event.key)) {
+  onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key in this.actionKeys) {
       this.setState({ isActive: false });
     }
   };
@@ -141,7 +138,10 @@ class Checkbox extends Component<CheckboxProps, State> {
       defaultChecked,
       ...rest
     } = this.props;
-    const isChecked = this.getProp('isChecked');
+    const isChecked =
+      this.props.isChecked === undefined
+        ? this.state.isChecked
+        : this.props.isChecked;
     const { isFocused, isActive, isHovered } = this.state;
 
     return (
