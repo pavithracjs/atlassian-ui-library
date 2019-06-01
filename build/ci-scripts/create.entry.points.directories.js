@@ -4,11 +4,23 @@ const bolt = require('bolt');
 const path = require('path');
 const fs = require('fs');
 
+// TODO: to remove later, used to test our build script remove packages line 21 by `test`.
+// const test = [
+//   {
+//     dir: '/Users/rbellebon/atlaskit-mk-2/packages/elements/mention',
+//     name: '@atlaskit/mention',
+//     config:{ atlaskit : {}}
+//   },
+// ];
+
 (async () => {
   const packages = await bolt.getWorkspaces();
   const pkgContents = packages
     .filter(
-      pkg => pkg.dir.includes('/packages') && !pkg.config.atlaskit.internal,
+      pkg =>
+        pkg.dir.includes('/packages') &&
+        pkg.config.atlaskit &&
+        !pkg.config.atlaskit.internal,
     )
     .map(pkg => {
       return {
