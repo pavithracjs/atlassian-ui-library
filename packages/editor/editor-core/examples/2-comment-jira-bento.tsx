@@ -6,7 +6,7 @@ import CollapsedEditor from '../src/ui/CollapsedEditor';
 import { mention, emoji } from '@atlaskit/util-data-test';
 import { mediaProvider } from './5-full-page';
 import { EmojiProvider } from '../../../elements/emoji';
-import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
+import { MockActivityResource } from '@atlaskit/activity/dist/cjs/support';
 
 export type Props = {
   editorProps?: EditorProps;

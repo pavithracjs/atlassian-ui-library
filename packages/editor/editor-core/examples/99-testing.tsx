@@ -12,7 +12,7 @@ import {
   customInsertMenuItems,
   extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
-import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
+import { MockActivityResource } from '@atlaskit/activity/dist/cjs/support';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { Editor, EditorProps, EventDispatcher } from './../src';
 import ClipboardHelper from './1-clipboard-helper';

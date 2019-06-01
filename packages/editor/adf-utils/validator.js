@@ -1,2 +1,2 @@
 /* eslint flowtype/require-valid-file-annotation: 0 */
-module.exports = require('./dist/es5/validator');
+module.exports = require('./dist/cjs/validator');
