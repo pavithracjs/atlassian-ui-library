@@ -38,6 +38,7 @@ const fs = require('fs');
     });
   pkgContents.forEach(pkg => {
     for (let pkgFile of pkg.files) {
+      const isTs = pkgFile.includes('.ts') ? true : false;
       pkgFile = path.parse(pkgFile).name;
       const entryPointDirName = path.join(pkg.pkgDirPath, pkgFile);
       // Create the entrypoint directory
@@ -45,11 +46,12 @@ const fs = require('fs');
         fs.mkdirSync(entryPointDirName);
       }
       // Add a package.json
+      const types = isTs ? `../dist/esm/${pkgFile}.d.ts` : undefined;
       const entryPointJson = {
         name: `${pkg.name}/${pkgFile}`,
         main: `../dist/cjs/${pkgFile}.js`,
         module: `../dist/esm/${pkgFile}.js`,
-        types: `../dist/esm/${pkgFile}.d.ts`,
+        types,
       };
       fs.writeFile(
         `${entryPointDirName}/package.json`,
