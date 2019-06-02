@@ -1,7 +1,12 @@
 import { Node as PmNode } from 'prosemirror-model';
 import { Transaction } from 'prosemirror-state';
 import { DecorationSet } from 'prosemirror-view';
-import { TableLayout } from '@atlaskit/adf-schema';
+import {
+  TableLayout,
+  tableCellSelector,
+  tableHeaderSelector,
+  tableCellContentWrapperSelector,
+} from '@atlaskit/adf-schema';
 import { TableSharedCssClassName } from '@atlaskit/editor-common';
 
 export type PermittedLayoutsDescriptor = TableLayout[] | 'all';
@@ -162,16 +167,16 @@ export const TableCssClassName = {
   CONTEXTUAL_MENU_BUTTON: `${clPrefix}contextual-menu-button`,
   CONTEXTUAL_MENU_ICON: `${clPrefix}contextual-submenu-icon`,
 
-  CELL_NODEVIEW_WRAPPER: `${clPrefix}cell-nodeview-wrapper`,
-
   // come from prosemirror-table
   COLUMN_RESIZE_HANDLE: 'column-resize-handle',
   SELECTED_CELL: 'selectedCell',
 
   // defined in ReactNodeView based on PM node name
   NODEVIEW_WRAPPER: 'tableView-content-wrap',
-  TABLE_HEADER_NODE_WRAPPER: 'tableHeaderView-content-wrap',
-  TABLE_CELL_NODE_WRAPPER: 'tableCellView-content-wrap',
+
+  TABLE_CELL_NODE_WRAPPER: tableCellSelector,
+  TABLE_HEADER_NODE_WRAPPER: tableHeaderSelector,
+  CELL_NODEVIEW_WRAPPER: tableCellContentWrapperSelector,
 
   TOP_LEFT_CELL: 'table > tbody > tr:nth-child(2) > td:nth-child(1)',
 };

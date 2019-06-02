@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { TableLayout } from '@atlaskit/adf-schema';
+import { TableLayout, tableCellContentDomSelector } from '@atlaskit/adf-schema';
 import { fontSize, themed, colors } from '@atlaskit/theme';
 import {
   akEditorTableBorder,
@@ -29,7 +29,7 @@ export const TableSharedCssClassName = {
   TABLE_NODE_WRAPPER: `${clPrefix}wrapper`,
   TABLE_LEFT_SHADOW: `${clPrefix}with-left-shadow`,
   TABLE_RIGHT_SHADOW: `${clPrefix}with-right-shadow`,
-  TABLE_CELL_NODEVIEW_CONTENT_DOM: `${clPrefix}cell-nodeview-content-dom`,
+  TABLE_CELL_NODEVIEW_CONTENT_DOM: tableCellContentDomSelector,
 };
 
 const tableSharedStyle = css`

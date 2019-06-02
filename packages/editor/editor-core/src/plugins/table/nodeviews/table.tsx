@@ -142,13 +142,12 @@ export default class TableView extends ReactNodeView {
 
   private resizeForBreakoutContent = (target: HTMLElement) => {
     const { view } = this;
-    const elemOrWrapper =
-      closestElement(
-        target,
-        `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
-          ClassName.TABLE_CELL_NODE_WRAPPER
-        }`,
-      ) || target;
+    const elemOrWrapper = closestElement(
+      target,
+      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
+        ClassName.TABLE_CELL_NODE_WRAPPER
+      }`,
+    );
     const { minWidth } = contentWidth(target, target);
 
     // This can also trigger for a non-resized table.

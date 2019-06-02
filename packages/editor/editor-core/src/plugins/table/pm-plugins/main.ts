@@ -11,7 +11,6 @@ import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { pluginFactory } from '../../../utils/plugin-state-factory';
 
 import { createTableView } from '../nodeviews/table';
-import { createCellView } from '../nodeviews/cell';
 import {
   setTableRef,
   clearHoverSelection,
@@ -71,7 +70,6 @@ export const createPlugin = (
   dispatch: Dispatch,
   portalProviderAPI: PortalProviderAPI,
   pluginConfig: PluginConfig,
-  isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
   breakoutEnabled?: boolean,
   previousBreakoutEnabled?: boolean,
@@ -177,8 +175,6 @@ export const createPlugin = (
             dynamicTextSizing: isDynamicTextSizingEnabled,
             isFullWidthModeEnabled,
           }),
-        tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
-        tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),
       },
 
       handleDOMEvents: {

@@ -83,6 +83,10 @@ export {
   TableHeader as TableHeaderDefinition,
   TableRow as TableRowDefinition,
   setCellAttrs,
+  tableCellSelector,
+  tableHeaderSelector,
+  tableCellContentWrapperSelector,
+  tableCellContentDomSelector,
 } from './tableNodes';
 export {
   applicationCard,

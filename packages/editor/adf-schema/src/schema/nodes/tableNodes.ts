@@ -20,6 +20,11 @@ import {
 } from '../../utils/colors';
 import { TableCellContent } from './doc';
 
+export const tableCellSelector = 'tableCellView-content-wrap';
+export const tableHeaderSelector = 'tableHeaderView-content-wrap';
+export const tableCellContentWrapperSelector = 'pm-table-cell-nodeview-wrapper';
+export const tableCellContentDomSelector = 'pm-table-cell-nodeview-content-dom';
+
 const akEditorTableNumberColumnWidth = 42;
 const DEFAULT_TABLE_HEADER_CELL_BACKGROUND = N20.toLocaleLowerCase();
 
@@ -52,7 +57,9 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
     rowspan?: number;
     style?: string;
     'data-colwidth'?: string;
+    class?: string;
   } = {};
+  const nodeType = node.type.name;
   const colspan = cell ? parseInt(cell.getAttribute('colspan') || '1', 10) : 1;
   const rowspan = cell ? parseInt(cell.getAttribute('rowspan') || '1', 10) : 1;
 
@@ -68,7 +75,6 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
   }
   if (node.attrs.background) {
     const { background } = node.attrs;
-    const nodeType = node.type.name;
 
     // to ensure that we don't overwrite product's style:
     // - it clears background color for <th> if its set to gray
@@ -86,6 +92,12 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
 
       attrs.style = `${attrs.style || ''}background-color: ${color};`;
     }
+  }
+
+  if (nodeType === 'tableHeader') {
+    attrs.class = tableHeaderSelector;
+  } else {
+    attrs.class = tableCellSelector;
   }
 
   return attrs;
@@ -260,6 +272,12 @@ const cellAttrs = {
   background: { default: null },
 };
 
+const cellDomNodeStructure = [
+  'div',
+  { class: tableCellContentWrapperSelector },
+  ['div', { class: tableCellContentDomSelector }, 0],
+];
+
 export const tableCell = {
   content:
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock |  mediaGroup | mediaSingle | applicationCard | decisionList | taskList | blockCard | extension | unsupportedBlock)+',
@@ -279,7 +297,7 @@ export const tableCell = {
     },
   ],
   toDOM(node: PmNode) {
-    return ['td', setCellAttrs(node), 0];
+    return ['td', setCellAttrs(node), cellDomNodeStructure];
   },
 };
 
@@ -310,7 +328,7 @@ export const tableHeader = {
     },
   ],
   toDOM(node: PmNode) {
-    return ['th', setCellAttrs(node), 0];
+    return ['th', setCellAttrs(node), cellDomNodeStructure];
   },
 };
 
