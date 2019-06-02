@@ -7,8 +7,8 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 3609,
-      "gzipSize": 1502
+      "size": 3803,
+      "gzipSize": 1426
     }
   },
   {
@@ -19,8 +19,8 @@
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 3427,
-      "gzipSize": 1238
+      "size": 3426,
+      "gzipSize": 1236
     }
   },
   {
@@ -32,7 +32,7 @@
     "name": "main",
     "stats": {
       "size": 8034,
-      "gzipSize": 2223
+      "gzipSize": 2222
     }
   },
   {
@@ -43,8 +43,8 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 12470,
-      "gzipSize": 3883
+      "size": 12781,
+      "gzipSize": 3937
     }
   }
 ]

@@ -1,5 +1,77 @@
 # @atlaskit/editor-core
 
+## 112.11.3
+- [patch] [b567c44b93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b567c44b93):
+
+  ED-6986: put cursor after smart link insertion if skipping macro
+
+## 112.11.2
+- [patch] [d7aa377982](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7aa377982):
+
+  - ED-6958: fix navigating using arrow keys around images in comment editors
+
+  Specifically, the "gap cursor" on the right hand side of images in the comment editor would appear floating oddly on the left hand side.
+
+  This patch puts it correctly on the right hand side.
+
+## 112.11.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 112.11.0
+- [patch] [a67181ef07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a67181ef07):
+
+  ED-6293: Fixes copy pasting a media group file card into the Editor
+- [minor] [08d79c58e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08d79c58e7):
+
+  ED-6748: add inviteToEditComponent to allow custom React components in collab share
+- [minor] [9cbd059bfa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cbd059bfa):
+
+  - Put `media-editor` into separate editor plugin, update `@atlaskit/media-editor` API
+
+  ### Breaking change for `@atlaskit/media-editor`
+
+  * Make `onUploadStart`, `onFinish` optional
+  * Add new `onClose` callback for when the user closes the dialog (escape, cancel, error)
+  * `onFinish` now only called when the upload itself finishes, not overloaded for other purposes
+
+    * now also passes the `FileIdentifier` of the completed upload
+
+  ### Editor changes
+
+  Adds a new `media-editor` plugin that is enabled if the media plugin is enabled and `allowAnnotation` is enabled on the `media` prop.
+
+  This replaces the implementation inside the existing `media` plugin. The new `media-editor` plugin is *not* dependent on the `media` plugin.
+- [minor] [58e3a9a2e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58e3a9a2e1):
+
+  - [ED-6305] Adds mass formatting on selected cells in a table
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/droplist@9.0.2
+  - @atlaskit/select@9.1.2
+  - @atlaskit/emoji@62.1.4
+  - @atlaskit/task-decision@15.0.1
+  - @atlaskit/media-card@63.1.0
+  - @atlaskit/media-editor@36.0.0
+  - @atlaskit/media-picker@43.0.2
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/modal-dialog@10.0.0
+  - @atlaskit/editor-test-helpers@9.3.4
+  - @atlaskit/renderer@48.7.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-filmstrip@34.1.2
+  - @atlaskit/media-test-helpers@24.0.0
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/avatar-group@4.0.2
+  - @atlaskit/logo@12.0.1
+  - @atlaskit/section-message@4.0.1
+  - @atlaskit/code@11.0.0
+
 ## 112.10.10
 - [patch] [7318619da7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7318619da7):
 

@@ -1,5 +1,38 @@
 # @atlaskit/editor-test-helpers
 
+## 9.3.6
+- [patch] [b567c44b93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b567c44b93):
+
+  ED-6986: put cursor after smart link insertion if skipping macro
+
+## 9.3.5
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 9.3.4
+- [patch] [9cbd059bfa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cbd059bfa):
+
+  - Put `media-editor` into separate editor plugin, update `@atlaskit/media-editor` API
+
+  ### Breaking change for `@atlaskit/media-editor`
+
+  * Make `onUploadStart`, `onFinish` optional
+  * Add new `onClose` callback for when the user closes the dialog (escape, cancel, error)
+  * `onFinish` now only called when the upload itself finishes, not overloaded for other purposes
+
+    * now also passes the `FileIdentifier` of the completed upload
+
+  ### Editor changes
+
+  Adds a new `media-editor` plugin that is enabled if the media plugin is enabled and `allowAnnotation` is enabled on the `media` prop.
+
+  This replaces the implementation inside the existing `media` plugin. The new `media-editor` plugin is *not* dependent on the `media` plugin.
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/editor-core@112.11.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-test-helpers@24.0.0
+
 ## 9.3.3
 - [patch] [7eca61edf0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7eca61edf0):
 

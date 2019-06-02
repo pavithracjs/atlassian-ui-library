@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
 import adf from './__fixtures__/complex-table-with-merged-cells.adf.json';
 import adf2 from './__fixtures__/last-column-merged-table.adf.json';
@@ -16,7 +17,7 @@ describe('Snapshot Test: Table selection', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   describe('Rows & Columns', () => {
