@@ -101,10 +101,12 @@ test('Mount should throw errors if the sortKey is invalid', () => {
   const props = { ...createProps(), sortKey: 'InvalidSortKey' };
   mount(<StatelessDynamicTable {...props} />);
 
+  /* eslint-disable no-console */
   expect(console.error).toHaveBeenCalled();
   expect(console.error).toBeCalledWith(
     Error(`Cell with InvalidSortKey key not found in head.`),
   );
+  /* eslint-enable no-console */
 });
 
 describe('DynamicTableWithAnalytics', () => {
