@@ -1,1 +1,0 @@
-ED-6349: fix external images (often via copy paste) not having correct dimensions

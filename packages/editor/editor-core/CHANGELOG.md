@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.11.4
+- [patch] [c59bd5d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c59bd5d01e):
+
+  ED-6349: fix external images (often via copy paste) not having correct dimensions
+
 ## 112.11.3
 - [patch] [b567c44b93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b567c44b93):
 
