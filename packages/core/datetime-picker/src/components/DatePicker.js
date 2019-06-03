@@ -9,7 +9,7 @@ import {
   withAnalyticsContext,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import { format, isValid, parse, getDaysInMonth } from 'date-fns';
+import { format, isValid, parse, lastDayOfMonth } from 'date-fns';
 import pick from 'lodash.pick';
 import React, { Component, type Node, type ElementRef } from 'react';
 import styled from 'styled-components';
@@ -192,9 +192,7 @@ class DatePicker extends Component<Props, State> {
     const [year, month, date] = iso.split('-');
     let newIso = iso;
 
-    const lastDayInMonth = getDaysInMonth(
-      new Date(parseInt(year, 10), parseInt(month, 10) - 1),
-    );
+    const lastDayInMonth = lastDayOfMonth(new Date(iso));
 
     if (parseInt(lastDayInMonth, 10) < parseInt(date, 10)) {
       newIso = `${year}-${month}-${lastDayInMonth}`;
