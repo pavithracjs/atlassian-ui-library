@@ -142,7 +142,7 @@ export const createPlugin = (
             collabEditProvider
               .on('init', data => {
                 isReady = true;
-                handleInit(data, view, options);
+                handleInit(data, view, options, providerFactory);
               })
               .on('connected', data => handleConnection(data, view))
               .on('data', data => applyRemoteData(data, view, options))

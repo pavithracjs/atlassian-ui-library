@@ -26,9 +26,8 @@ export interface MockMentionConfig {
   mentionNameResolver?: MentionNameResolver;
 }
 
-export const MockMentionNameResolver = new DefaultMentionNameResolver(
-  new MockMentionNameClient(),
-);
+export const createMockMentionNameResolver = () =>
+  new DefaultMentionNameResolver(new MockMentionNameClient());
 
 export class MockMentionResource extends AbstractMentionResource
   implements ResolvingMentionProvider {
@@ -110,6 +109,11 @@ export class MockMentionResource extends AbstractMentionResource
   }
 
   supportsMentionNameResolving() {
+    console.log(
+      'supportsMentionNameResolving',
+      !!this.config.mentionNameResolver,
+      this.config,
+    );
     return !!this.config.mentionNameResolver;
   }
 

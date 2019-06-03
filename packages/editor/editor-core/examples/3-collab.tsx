@@ -33,7 +33,7 @@ import {
 
 import { collabEditProvider } from '../example-helpers/mock-collab-provider';
 import { TitleInput } from '../example-helpers/PageElements';
-import { EditorActions, MediaProvider } from '../src';
+import { EditorActions, MediaProvider, MentionProvider } from '../src';
 import { InviteToEditComponentProps } from '../src/plugins/collab-edit/types';
 
 export const Content = styled.div`
@@ -70,9 +70,7 @@ const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
     <Button
       appearance="primary"
       onClick={() =>
-        props.editorActions
-          .getValue()
-          .then(value => console.log(value.toJSON()))
+        props.editorActions.getValue().then(value => console.log(value))
       }
     >
       Publish
@@ -190,11 +188,13 @@ class DropzoneEditorWrapper extends React.Component<
 
 const mediaProvider1 = storyMediaProviderFactory();
 const mediaProvider2 = storyMediaProviderFactory();
+const mentionProvider2 = mention.storyData.resourceProviderWithResolver2;
 export type Props = {};
 
 interface PropOptions {
   sessionId: string;
   mediaProvider: Promise<MediaProvider>;
+  mentionProvider?: Promise<MentionProvider>;
   inviteHandler?: (event: React.MouseEvent<HTMLElement>) => void;
   parentContainer: any;
   inviteToEditComponent?: React.ComponentType<InviteToEditComponentProps>;
@@ -203,6 +203,7 @@ interface PropOptions {
 const editorProps = ({
   sessionId,
   mediaProvider,
+  mentionProvider,
   inviteHandler,
   inviteToEditComponent,
   parentContainer,
@@ -229,7 +230,9 @@ const editorProps = ({
     customDropzoneContainer: parentContainer,
   },
   emojiProvider: emoji.storyData.getEmojiResource() as Promise<EmojiProvider>,
-  mentionProvider: Promise.resolve(mention.storyData.resourceProvider),
+  mentionProvider: Promise.resolve(
+    mentionProvider || mention.storyData.resourceProviderWithResolver,
+  ),
 
   taskDecisionProvider: Promise.resolve(
     taskDecision.getMockTaskDecisionResource(),
@@ -239,6 +242,7 @@ const editorProps = ({
     provider: collabEditProvider(sessionId),
     inviteToEditHandler: inviteHandler,
     inviteToEditComponent,
+    sanitizePrivateContent: true,
   },
   placeholder: 'Write something...',
   shouldFocus: false,
@@ -283,6 +287,7 @@ export default class Example extends React.Component<Props> {
                     {...editorProps({
                       sessionId: 'morty',
                       mediaProvider: mediaProvider2,
+                      mentionProvider: mentionProvider2,
                       parentContainer,
                       inviteToEditComponent: InviteToEditButton,
                     })}

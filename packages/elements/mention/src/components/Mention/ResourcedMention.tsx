@@ -64,7 +64,7 @@ export default class ResourcedMention extends React.PureComponent<
                 });
               });
             } else {
-              newState.mentionName = mentionName;
+              newState.mentionName = `@${mentionName}`;
             }
           }
           this.setState(newState);

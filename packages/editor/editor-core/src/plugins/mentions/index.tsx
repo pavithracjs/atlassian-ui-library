@@ -1,13 +1,7 @@
 import * as React from 'react';
 import uuid from 'uuid';
 import { Schema, Node, Fragment } from 'prosemirror-model';
-import {
-  EditorState,
-  Plugin,
-  PluginKey,
-  StateField,
-  Transaction,
-} from 'prosemirror-state';
+import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
@@ -15,7 +9,7 @@ import {
 import {
   MentionProvider,
   isSpecialMention,
-  isHydratingMentionProvider,
+  isResolvingMentionProvider,
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
@@ -59,6 +53,7 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
+import { CollabEditOptions } from '../collab-edit';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -68,6 +63,7 @@ export interface TeamInfoAttrAnalytics {
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  collabEditOptions?: CollabEditOptions,
 ): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
@@ -213,14 +209,13 @@ const mentionsPlugin = (
           const pluginState = getMentionPluginState(state);
           const { mentionProvider } = pluginState;
           console.log(
-            'hydr',
-            isHydratingMentionProvider(mentionProvider),
-            isHydratingMentionProvider(mentionProvider) &&
-              mentionProvider.supportsHydration(),
+            'resolve mention',
+            isResolvingMentionProvider(mentionProvider),
+            collabEditOptions,
           );
-          const supportsHydration =
-            isHydratingMentionProvider(mentionProvider) &&
-            mentionProvider.supportsHydration();
+          const sanitizePrivateContent = !!(
+            collabEditOptions && collabEditOptions.sanitizePrivateContent
+          );
           const { id, name, nickname, accessLevel, userType } = item.mention;
           const renderName = nickname ? nickname : name;
           const typeAheadPluginState = typeAheadPluginKey.getState(
@@ -275,19 +270,21 @@ const mentionsPlugin = (
               buildNodesForTeamMention(
                 schema,
                 item.mention,
-                supportsHydration,
+                sanitizePrivateContent,
                 mentionProvider,
               ),
             );
           }
 
-          const text = supportsHydration ? '' : `@${renderName}`;
+          // Don't insert into document if document data is sanitized.
+          const text = sanitizePrivateContent ? '' : `@${renderName}`;
 
           if (
-            supportsHydration &&
-            isHydratingMentionProvider(mentionProvider)
+            sanitizePrivateContent &&
+            isResolvingMentionProvider(mentionProvider)
           ) {
-            mentionProvider.cacheMentionName(id, text);
+            // Cache (locally) for later rendering
+            mentionProvider.cacheMentionName(id, renderName);
           }
 
           return insert(
@@ -433,7 +430,7 @@ function mentionPluginFactory(
             // TODO
             console.log(
               'setprovider, isHydrating?',
-              isHydratingMentionProvider(params.provider),
+              isResolvingMentionProvider(params.provider),
             );
 
             return newPluginState;
@@ -584,7 +581,7 @@ function mentionPluginFactory(
 function buildNodesForTeamMention(
   schema: Schema,
   selectedMention: MentionDescription,
-  supportsHydration: boolean,
+  sanitizePrivateContent: boolean,
   mentionProvider: MentionProvider,
 ): Fragment {
   const { nodes, marks } = schema;
@@ -603,11 +600,11 @@ function buildNodesForTeamMention(
   members.forEach((member: TeamMember, index) => {
     const { name, id } = member;
     const mentionName = `@${name}`;
-    const text = supportsHydration ? '' : mentionName;
-    if (supportsHydration && isHydratingMentionProvider(mentionProvider)) {
-      mentionProvider.cacheMentionName(id, mentionName);
+    const text = sanitizePrivateContent ? '' : mentionName;
+    if (sanitizePrivateContent && isResolvingMentionProvider(mentionProvider)) {
+      mentionProvider.cacheMentionName(id, name);
     }
-    console.log('team member text', text, supportsHydration);
+    console.log('team member text', text, sanitizePrivateContent);
     const userMentionNode = nodes.mention.createChecked({
       text,
       id: member.id,

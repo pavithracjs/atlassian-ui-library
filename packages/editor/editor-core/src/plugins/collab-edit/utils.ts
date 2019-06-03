@@ -3,7 +3,7 @@ import { Decoration, DecorationSet } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { colors as themeColors } from '@atlaskit/theme';
 
-import { hexToRgba } from '@atlaskit/editor-common';
+import { hexToRgba, ProviderFactory } from '@atlaskit/editor-common';
 
 import { CollabEditOptions } from './types';
 import { processRawValue, ZeroWidthSpace, JSONDocNode } from '../../utils';
@@ -110,6 +110,7 @@ export const replaceDocument = (
   state: EditorState,
   version?: number,
   options?: CollabEditOptions,
+  providerFactory?: ProviderFactory,
 ) => {
   const { schema, tr } = state;
 
@@ -124,7 +125,7 @@ export const replaceDocument = (
     if (content && options && options.sanitizePrivateContent) {
       doc = PMNode.fromJSON(
         schema,
-        sanitizeNodeForPrivacy(doc.toJSON() as JSONDocNode),
+        sanitizeNodeForPrivacy(doc.toJSON() as JSONDocNode, providerFactory),
       );
     }
 

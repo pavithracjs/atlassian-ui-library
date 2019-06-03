@@ -360,7 +360,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
     if (doc && collabEdit && collabEdit.sanitizePrivateContent) {
       doc = PMNode.fromJSON(
         schema,
-        sanitizeNodeForPrivacy(doc.toJSON() as JSONDocNode),
+        sanitizeNodeForPrivacy(
+          doc.toJSON() as JSONDocNode,
+          options.props.providerFactory,
+        ),
       );
     }
 
