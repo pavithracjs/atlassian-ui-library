@@ -112,5 +112,4 @@ export function isSpecialMentionText(mentionText: string) {
   return mentionText && (mentionText === '@all' || mentionText === '@here');
 }
 
-export const isPromise = <T>(p: any): p is Promise<T> =>
-  !!(p && (<Promise<T>>p).then);
+export const isPromise = <T>(p: any): p is Promise<T> => !!(p && p.then);
