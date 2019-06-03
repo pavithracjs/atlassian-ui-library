@@ -121,6 +121,22 @@ export default class MobileRenderer extends React.Component<
                   this.onLinkClick(url);
                 },
               },
+              media: {
+                onClick: (result: any, analyticsEvent?: any) => {
+                  const { mediaItemDetails } = result;
+                  // Media details only exist once resolved. Not available during loading/pending state.
+                  if (mediaItemDetails) {
+                    const mediaId = mediaItemDetails.id;
+                    // We don't have access to the occurrence key at this point so native will default to the first instance for now.
+                    // https://product-fabric.atlassian.net/browse/FM-1984
+                    const occurrenceKey: string | null = null;
+                    toNativeBridge.call('mediaBridge', 'onMediaClick', {
+                      mediaId,
+                      occurrenceKey,
+                    });
+                  }
+                },
+              },
               smartCard: {
                 onClick: this.onLinkClick,
               },
