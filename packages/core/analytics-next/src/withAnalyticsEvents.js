@@ -69,6 +69,26 @@ class AnalyticsContextConsumer extends Component<{
   }
 }
 
+// patch the callback so it provides analytics information.
+const modifyCallbackProp = memoizeOne(
+  <T: {}>(
+    propName: string,
+    eventMapEntry: AnalyticsEventPayload | AnalyticsEventCreator<T>,
+    props: T,
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
+  ) => (...args) => {
+    const event =
+      typeof eventMapEntry === 'function'
+        ? eventMapEntry(createAnalyticsEvent, props)
+        : createAnalyticsEvent(eventMapEntry);
+    const providedCallback = props[propName];
+    if (providedCallback) {
+      providedCallback(...args, event);
+    }
+  },
+  deepEqual,
+);
+
 type Obj<T> = { [string]: T };
 // helper that provides an easy way to map an object's values
 // ({ string: A }, (string, A) => B) => { string: B }
@@ -91,65 +111,31 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
   createEventMap: EventMap<AnalyticsEventsWrappedProps<C>> = {},
 ): C => AnalyticsEventsWrappedComp<C> {
   return WrappedComponent => {
-    class WithAnalyticsEvents extends Component<*> {
-      // patch the callback so it provides analytics information.
-      // TODO: Consider refractoring this according to the conversation in
-      // the PR -> https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5823/memoize-the-function-that-modifies-the/diff
-      modifyCallbackProp = memoizeOne(
-        <T: {}>(
-          propName: string,
-          eventMapEntry: AnalyticsEventPayload | AnalyticsEventCreator<T>,
-          props: T,
-          createAnalyticsEvent: CreateUIAnalyticsEvent,
-        ) => (...args) => {
-          const event =
-            typeof eventMapEntry === 'function'
-              ? eventMapEntry(createAnalyticsEvent, props)
-              : createAnalyticsEvent(eventMapEntry);
-          const providedCallback = props[propName];
-          if (providedCallback) {
-            providedCallback(...args, event);
-          }
-        },
-        deepEqual,
-      );
-
-      render() {
-        const { forwardedRef, ...rest } = this.props;
-
-        return (
-          <AnalyticsContextConsumer>
-            {createAnalyticsEvent => {
-              const modifiedProps = vmap(createEventMap, (propName, entry) => {
-                return this.modifyCallbackProp(
-                  propName,
-                  entry,
-                  rest,
-                  createAnalyticsEvent,
-                );
-              });
-              return (
-                <WrappedComponent
-                  {...rest}
-                  {...modifiedProps}
-                  createAnalyticsEvent={createAnalyticsEvent}
-                  ref={forwardedRef}
-                />
-              );
-            }}
-          </AnalyticsContextConsumer>
-        );
-      }
-    }
-
     // $FlowFixMe - flow 0.67 doesn't know about forwardRef
-    const WithAnalyticsEventsAndRef = React.forwardRef((props, ref) => (
-      <WithAnalyticsEvents {...props} forwardedRef={ref} />
-    ));
-    WithAnalyticsEventsAndRef.displayName = `WithAnalyticsEvents(${WrappedComponent.displayName ||
+    const WithAnalyticsEvents = React.forwardRef((props, ref) => {
+      return (
+        <AnalyticsContextConsumer>
+          {createAnalyticsEvent => {
+            const modifiedProps = vmap(createEventMap, (propName, entry) =>
+              modifyCallbackProp(propName, entry, props, createAnalyticsEvent),
+            );
+            return (
+              <WrappedComponent
+                {...props}
+                {...modifiedProps}
+                createAnalyticsEvent={createAnalyticsEvent}
+                ref={ref}
+              />
+            );
+          }}
+        </AnalyticsContextConsumer>
+      );
+    });
+
+    WithAnalyticsEvents.displayName = `WithAnalyticsEvents(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
-    return WithAnalyticsEventsAndRef;
+    return WithAnalyticsEvents;
   };
 }
 
