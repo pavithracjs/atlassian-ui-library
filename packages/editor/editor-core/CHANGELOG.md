@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.6
+
+### Patch Changes
+
+- [patch][28cd9ab082](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/28cd9ab082):
+
+  - ED-7019 Fix Scroll Gutter Plugin to only be added in full-page appearance
+
 ## 112.11.5
 
 ### Patch Changes

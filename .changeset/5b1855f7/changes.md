@@ -1,1 +1,0 @@
-- ED-7019 Fix Scroll Gutter Plugin to only be added in full-page appearance
