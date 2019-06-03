@@ -235,7 +235,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     // using the latest plugins
     this.view.updateState(newState);
 
-    return this.view.update(this.getDirectEditorProps(newState));
+    return this.view.update({ ...this.view.props, state: newState });
   };
 
   /**

@@ -1,0 +1,1 @@
+- ED-6996: Memoise calling initialise on the collab plugin, this will prevent race conditions when toggling between full width mode and full page quickly.
