@@ -230,10 +230,10 @@ module.exports = async function main(
       `${packageName}-bundle-size.json`,
     );
 
-    if (process.env.CI) {
-      console.log('download from s3');
-      await downloadFromS3(masterStatsFolder, 'master', packageName);
-    }
+    // if (process.env.CI) {
+    console.log('download from s3');
+    await downloadFromS3(masterStatsFolder, 'master', packageName);
+    // }
 
     const results = getBundleCheckResult(masterStatsFilePath, stats);
     chalk.cyan(`Writing current build stats to "${currentStatsFilePath}"`);
