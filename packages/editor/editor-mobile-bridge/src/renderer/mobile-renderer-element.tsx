@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import * as React from 'react';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import { MediaProvider as MediaProviderType } from '@atlaskit/editor-core';
 import { ReactRenderer } from '@atlaskit/renderer';
 
 import RendererBridgeImpl from './native-to-web/implementation';
@@ -18,6 +19,7 @@ import { ObjectKey, TaskState } from '@atlaskit/task-decision';
 
 export interface MobileRendererProps {
   document?: string;
+  mediaProvider?: Promise<MediaProviderType>;
 }
 
 export interface MobileRendererState {
@@ -46,7 +48,7 @@ export default class MobileRenderer extends React.Component<
     const taskDecisionProvider = TaskDecisionProvider(this.handleToggleTask);
 
     this.providerFactory = ProviderFactory.create({
-      mediaProvider: MediaProvider,
+      mediaProvider: props.mediaProvider || MediaProvider,
       mentionProvider: Promise.resolve(MentionProvider),
       taskDecisionProvider: Promise.resolve(taskDecisionProvider),
       emojiProvider: Promise.resolve(EmojiProvider),
