@@ -35,7 +35,7 @@ const imageItem: ProcessedFileState = {
   },
 };
 
-export function createFixture(response: Promise<Blob>) {
+function createFixture(response: Promise<Blob>) {
   const mediaClient = fakeMediaClient();
   asMock(mediaClient.getImage).mockReturnValue(response);
   const onClose = jest.fn();

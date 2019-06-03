@@ -6,7 +6,11 @@ import { Observable } from 'rxjs';
 import { ReactWrapper, mount } from 'enzyme';
 import { MediaType, FileState, Identifier } from '@atlaskit/media-client';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
-import { fakeIntl, fakeMediaClient } from '@atlaskit/media-test-helpers';
+import {
+  fakeIntl,
+  fakeMediaClient,
+  asMock,
+} from '@atlaskit/media-test-helpers';
 import { Header, State as HeaderState } from '../../../newgen/header';
 import { MetadataFileName, MetadataSubText } from '../../../newgen/styled';
 import { LeftHeader } from '../../../newgen/styled';
@@ -101,7 +105,7 @@ describe('<Header />', () => {
     // since the test is executed synchronously
     // let's prevent the second call to getFile from immediately resolving and
     // updating the state to SUCCESSFUL before we run the assertion.
-    mediaClient.file.getFileState = () => Observable.never();
+    asMock(mediaClient.file.getFileState).mockReturnValue(Observable.never());
 
     el.setProps({ identifier: identifier2 });
     expect(el.state().item.status).toEqual('PENDING');
@@ -182,7 +186,9 @@ describe('<Header />', () => {
           name: '',
         };
         const mediaClient = fakeMediaClient();
-        mediaClient.file.getFileState = () => Observable.of(unNamedImage);
+        asMock(mediaClient.file.getFileState).mockReturnValue(
+          Observable.of(unNamedImage),
+        );
         const el = mount(
           <Header
             intl={fakeIntl}
