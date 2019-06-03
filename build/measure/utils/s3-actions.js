@@ -39,14 +39,13 @@ function isAWSAccessible() {
 async function downloadFromS3(downloadToFolder, branch, package) {
   const ratchetFile = `${package}-bundle-size-ratchet.json`;
   const output = `${downloadToFolder}/${ratchetFile}`;
-  const masterRachetFile = `http://${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
-  console.log(masterRachetFile);
+  const masterRachetFile = `http://s3-${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
+  // TODO: remove console logs
+  console.log(`downloading: ${masterRachetFile}`);
   const response = await axios({
     url: masterRachetFile,
     method: 'get',
   });
-  console.log('here');
-  console.log(response.data);
   fs.writeFileSync(output, JSON.stringify(response.data), 'utf-8');
 }
 
