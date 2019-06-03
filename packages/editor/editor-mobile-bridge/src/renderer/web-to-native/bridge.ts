@@ -8,6 +8,10 @@ export interface LinkBridge {
   onLinkClick(url: string): void;
 }
 
+export interface MediaBridge {
+  onMediaClick(mediaId: string, occurrenceKey?: string | null): void;
+}
+
 export interface RenderBridge {
   onContentRendered(): void;
 }
@@ -15,11 +19,13 @@ export interface RenderBridge {
 export default interface WebBridge
   extends LinkBridge,
     TaskDecisionBridge,
+    MediaBridge,
     RenderBridge {}
 
 export interface RendererBridges {
   linkBridge?: LinkBridge;
   taskDecisionBridge?: TaskDecisionBridge;
+  mediaBridge?: MediaBridge;
   renderBridge?: RenderBridge;
 }
 
