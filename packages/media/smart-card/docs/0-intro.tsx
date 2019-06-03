@@ -9,6 +9,7 @@ import {
 
 export default md`
   ${<AtlassianInternalWarning />}
+  
   Turns a URL into a card with metadata sourced from either:
 
   - a vendor or...
