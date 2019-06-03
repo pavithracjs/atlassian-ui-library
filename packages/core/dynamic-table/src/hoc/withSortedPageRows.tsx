@@ -94,6 +94,7 @@ export interface Props {
   rowsPerPage?: number;
   sortKey?: string;
   sortOrder?: SortOrderType;
+  onPageRowsUpdate?: (pageRows: Array<RowType>) => void;
 }
 
 export interface WithSortedPageRowsProps {
@@ -105,20 +106,38 @@ export default function withSortedPageRows<
   WrappedComponentProps extends WithSortedPageRowsProps & Props
 >(WrappedComponent: React.ComponentType<WrappedComponentProps>) {
   return class WithSortedPageRows extends React.Component<
-    Omit<WrappedComponentProps & Props, 'pageRows'>
+    Omit<WrappedComponentProps & Props, 'pageRows'>,
+    { pageRows: Array<RowType> }
   > {
-    componentWillMount() {
-      validateSortKey(this.props.sortKey, this.props.head);
+    state = { pageRows: [] };
+
+    static getDerivedStateFromProps(
+      props: Omit<WrappedComponentProps & Props, 'pageRows'>,
+      state: { pageRows: Array<RowType> },
+    ) {
+      const { rows, head, sortKey, sortOrder, page, rowsPerPage } = props;
+
+      validateSortKey(sortKey, head);
+      const sortedRows = getSortedRows(head, rows, sortKey, sortOrder) || [];
+      const pageRows = getPageRows(sortedRows, page, rowsPerPage);
+
+      return { ...state, pageRows };
     }
 
-    componentWillReceiveProps(
-      nextProps: Omit<WrappedComponentProps & Props, 'pageRows'>,
+    componentDidMount() {
+      this.props.onPageRowsUpdate &&
+        this.props.onPageRowsUpdate(this.state.pageRows);
+    }
+
+    componentDidUpdate(
+      _prevProps: Omit<WrappedComponentProps & Props, 'pageRows'>,
+      prevState: { pageRows: Array<RowType> },
     ) {
       if (
-        this.props.sortKey !== nextProps.sortKey ||
-        this.props.head !== nextProps.head
+        this.props.onPageRowsUpdate &&
+        this.state.pageRows !== prevState.pageRows
       ) {
-        validateSortKey(nextProps.sortKey, nextProps.head);
+        this.props.onPageRowsUpdate(this.state.pageRows);
       }
     }
 
@@ -134,11 +153,12 @@ export default function withSortedPageRows<
         ...restProps
       } = this.props;
 
-      const sortedRows = getSortedRows(head, rows, sortKey, sortOrder) || [];
-      const pageRows = getPageRows(sortedRows, page, rowsPerPage);
-
       return (
-        <WrappedComponent pageRows={pageRows} head={head} {...restProps} />
+        <WrappedComponent
+          pageRows={this.state.pageRows}
+          head={head}
+          {...restProps}
+        />
       );
     }
   };
