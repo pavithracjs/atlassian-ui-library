@@ -8,7 +8,12 @@ interface Callback {
   (value?: string): void;
 }
 
-export class MentionNameResolver {
+export interface MentionNameResolver {
+  lookupName(id: string): Promise<string> | string;
+  cacheName(id: string, name: string): void;
+}
+
+export class DefaultMentionNameResolver implements MentionNameResolver {
   private static waitForBatch = 100; // ms
   private client: MentionNameClient;
   private nameCache: Map<string, MentionNameDetails> = new Map();
@@ -38,7 +43,7 @@ export class MentionNameResolver {
       if (!this.debounce) {
         this.debounce = window.setTimeout(
           this.processQueue,
-          MentionNameResolver.waitForBatch,
+          DefaultMentionNameResolver.waitForBatch,
         );
       }
 
@@ -115,7 +120,7 @@ export class MentionNameResolver {
     if (this.nameQueue.size > 0) {
       this.debounce = window.setTimeout(
         this.processQueue,
-        MentionNameResolver.waitForBatch,
+        DefaultMentionNameResolver.waitForBatch,
       );
     }
   };

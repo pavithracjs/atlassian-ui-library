@@ -6,7 +6,8 @@ import { colors as themeColors } from '@atlaskit/theme';
 import { hexToRgba } from '@atlaskit/editor-common';
 
 import { CollabEditOptions } from './types';
-import { processRawValue, ZeroWidthSpace } from '../../utils';
+import { processRawValue, ZeroWidthSpace, JSONDocNode } from '../../utils';
+import { sanitizeNodeForPrivacy } from '../../utils/filter/privacy-filter';
 
 export interface Color {
   solid: string;
@@ -119,6 +120,14 @@ export const replaceDocument = (
     // Process the value coming in, this allows us to wrap blocks unknown to us.
     // Instead of throwing an error at this point.
     content = processRawValue(state.schema, doc);
+
+    if (content && options && options.sanitizePrivateContent) {
+      doc = PMNode.fromJSON(
+        schema,
+        sanitizeNodeForPrivacy(doc.toJSON() as JSONDocNode),
+      );
+    }
+
     hasContent = !!content;
   } else {
     content = (doc.content || []).map((child: any) =>

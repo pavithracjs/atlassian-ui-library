@@ -5,7 +5,8 @@ import {
   MentionsResult,
   AbstractMentionResource,
   MentionNameResolver,
-  HydratingMentionProvider,
+  DefaultMentionNameResolver,
+  ResolvingMentionProvider,
 } from '@atlaskit/mention/resource';
 import debug from '../logger';
 import { mentionResult } from './mention-data';
@@ -22,22 +23,23 @@ search.addDocuments(mentionResult);
 export interface MockMentionConfig {
   minWait?: number;
   maxWait?: number;
+  mentionNameResolver?: MentionNameResolver;
 }
 
+export const MockMentionNameResolver = new DefaultMentionNameResolver(
+  new MockMentionNameClient(),
+);
+
 export class MockMentionResource extends AbstractMentionResource
-  implements HydratingMentionProvider {
+  implements ResolvingMentionProvider {
   private config: MockMentionConfig;
   private lastReturnedSearch: number;
-  private mentionNameResolver?: MentionNameResolver;
 
   constructor(config: MockMentionConfig) {
     super();
 
     this.config = config;
     this.lastReturnedSearch = 0;
-    this.mentionNameResolver = new MentionNameResolver(
-      new MockMentionNameClient(),
-    );
   }
 
   filter(query: string): void {
@@ -94,21 +96,21 @@ export class MockMentionResource extends AbstractMentionResource
 
   resolveMentionName(id: string): Promise<string> | string {
     debug('(mock)resolveMentionName', id);
-    if (!this.mentionNameResolver) {
+    if (!this.config.mentionNameResolver) {
       return '';
     }
-    return this.mentionNameResolver.lookupName(id);
+    return this.config.mentionNameResolver.lookupName(id);
   }
 
   cacheMentionName(id: string, name: string) {
     debug('(mock)cacheMentionName', id, name);
-    if (this.mentionNameResolver) {
-      this.mentionNameResolver.cacheName(id, name);
+    if (this.config.mentionNameResolver) {
+      this.config.mentionNameResolver.cacheName(id, name);
     }
   }
 
-  supportsHydration() {
-    return !!this.mentionNameResolver;
+  supportsMentionNameResolving() {
+    return !!this.config.mentionNameResolver;
   }
 
   shouldHighlightMention(mention: MentionDescription): boolean {

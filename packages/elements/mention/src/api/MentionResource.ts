@@ -4,8 +4,6 @@ import {
   utils as serviceUtils,
 } from '@atlaskit/util-service-support';
 
-import { MentionNameClient } from './MentionNameClient';
-
 import {
   MentionDescription,
   isAppMention,
@@ -36,7 +34,7 @@ export interface MentionResourceConfig extends ServiceConfig {
   containerId?: string;
   productId?: string;
   shouldHighlightMention?: (mention: MentionDescription) => boolean;
-  mentionNameClient?: MentionNameClient;
+  mentionNameResolver?: MentionNameResolver;
 }
 
 export interface ResourceProvider<Result> {
@@ -85,10 +83,10 @@ export interface MentionProvider
 /**
  * Support
  */
-export interface HydratingMentionProvider extends MentionProvider {
+export interface ResolvingMentionProvider extends MentionProvider {
   resolveMentionName(id: string): Promise<string> | string;
   cacheMentionName(id: string, mentionName: string): void;
-  supportsHydration(): boolean;
+  supportsMentionNameResolving(): boolean;
 }
 
 const emptySecurityProvider = () => {
@@ -239,11 +237,10 @@ class AbstractMentionResource extends AbstractResource<MentionDescription[]>
  * Provides a Javascript API
  */
 export class MentionResource extends AbstractMentionResource
-  implements HydratingMentionProvider {
+  implements ResolvingMentionProvider {
   private config: MentionResourceConfig;
   private lastReturnedSearch: number;
   private activeSearches: Set<string>;
-  private mentionNameResolver?: MentionNameResolver;
 
   constructor(config: MentionResourceConfig) {
     super();
@@ -253,11 +250,6 @@ export class MentionResource extends AbstractMentionResource
     this.config = config;
     this.lastReturnedSearch = 0;
     this.activeSearches = new Set();
-    if (config.mentionNameClient) {
-      this.mentionNameResolver = new MentionNameResolver(
-        config.mentionNameClient,
-      );
-    }
   }
 
   shouldHighlightMention(mention: MentionDescription) {
@@ -325,21 +317,21 @@ export class MentionResource extends AbstractMentionResource
   }
 
   resolveMentionName(id: string): Promise<string> | string {
-    if (!this.mentionNameResolver) {
+    if (!this.config.mentionNameResolver) {
       return '';
     }
-    return this.mentionNameResolver.lookupName(id);
+    return this.config.mentionNameResolver.lookupName(id);
   }
 
   cacheMentionName(id: string, mentionName: string): void {
-    if (!this.mentionNameResolver) {
+    if (!this.config.mentionNameResolver) {
       return;
     }
-    this.mentionNameResolver.cacheName(id, mentionName);
+    this.config.mentionNameResolver.cacheName(id, mentionName);
   }
 
-  supportsHydration(): boolean {
-    return !!this.mentionNameResolver;
+  supportsMentionNameResolving(): boolean {
+    return !!this.config.mentionNameResolver;
   }
 
   protected updateActiveSearches(query: string): void {
@@ -478,13 +470,13 @@ export class HttpError implements Error {
   }
 }
 
-export const isHydratingMentionProvider = (
+export const isResolvingMentionProvider = (
   p: any,
-): p is HydratingMentionProvider =>
+): p is ResolvingMentionProvider =>
   !!(
     p &&
-    (<HydratingMentionProvider>p).supportsHydration &&
-    p.supportsHydration()
+    (<ResolvingMentionProvider>p).supportsMentionNameResolving &&
+    p.supportsMentionNameResolving()
   );
 
 export { AbstractResource, AbstractMentionResource };

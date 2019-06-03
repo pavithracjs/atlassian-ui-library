@@ -2,16 +2,25 @@ import MentionResource, {
   AbstractMentionResource,
   MentionContextIdentifier,
   MentionProvider,
-  HydratingMentionProvider,
+  ResolvingMentionProvider,
   MentionStats,
   MentionResourceConfig,
-  isHydratingMentionProvider,
+  isResolvingMentionProvider,
 } from './api/MentionResource';
 import TeamMentionResource from './api/TeamMentionResource';
 import PresenceResource, {
   PresenceProvider,
   AbstractPresenceResource,
 } from './api/PresenceResource';
+import {
+  DefaultMentionNameResolver,
+  MentionNameResolver,
+} from './api/MentionNameResolver';
+import {
+  MentionNameClient,
+  MentionNameResult,
+  MentionNameDetails,
+} from './api/MentionNameClient';
 import MentionItem from './components/MentionItem';
 import MentionList from './components/MentionList';
 import ResourcedMentionList from './components/ResourcedMentionList';
@@ -33,14 +42,19 @@ export {
   MentionResource,
   TeamMentionResource,
   PresenceResource,
+  DefaultMentionNameResolver,
   AbstractMentionResource,
   AbstractPresenceResource,
   // Interfaces
-  HydratingMentionProvider,
+  ResolvingMentionProvider,
   MentionProvider,
   PresenceProvider,
   MentionDescription,
   MentionsResult,
+  MentionNameResolver,
+  MentionNameClient,
+  MentionNameResult,
+  MentionNameDetails,
   // types
   MentionContextIdentifier,
   MentionStats,
@@ -55,7 +69,7 @@ export {
   ResourcedMention,
   // Functions
   isSpecialMention,
-  isHydratingMentionProvider,
+  isResolvingMentionProvider,
   // Constants
   ELEMENTS_CHANNEL,
 };
