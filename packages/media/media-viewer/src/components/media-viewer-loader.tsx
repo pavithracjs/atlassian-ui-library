@@ -4,12 +4,12 @@ import { ModalSpinner } from '@atlaskit/media-ui';
 import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
 import { MediaViewerProps } from './types';
 
-type MediaViewerWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+type MediaViewerWithContextMediaClientConfigProps = WithContextOrMediaClientConfigProps<
   MediaViewerProps
 >;
 
 type MediaViewerWithMediaClientConfigComponent = React.ComponentType<
-  MediaViewerWithMediaClientConfigProps
+  MediaViewerWithContextMediaClientConfigProps
 >;
 
 interface AsyncMediaViewerState {
@@ -17,7 +17,7 @@ interface AsyncMediaViewerState {
 }
 
 export default class AsyncMediaViewer extends React.PureComponent<
-  MediaViewerWithMediaClientConfigProps & AsyncMediaViewerState,
+  MediaViewerWithContextMediaClientConfigProps & AsyncMediaViewerState,
   AsyncMediaViewerState
 > {
   static displayName = 'AsyncMediaViewer';

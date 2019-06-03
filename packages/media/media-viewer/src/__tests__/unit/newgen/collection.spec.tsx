@@ -5,6 +5,7 @@ import { MediaClient, FileIdentifier } from '@atlaskit/media-client';
 import {
   mountWithIntlContext,
   fakeMediaClient,
+  asMock,
 } from '@atlaskit/media-test-helpers';
 import { MediaCollectionItem } from '@atlaskit/media-store';
 import Spinner from '@atlaskit/spinner';
@@ -93,8 +94,9 @@ describe('<Collection />', () => {
 
   it('should show an error if items failed to be fetched', () => {
     const mediaClient = fakeMediaClient();
-    (mediaClient.collection as any).getItems = () =>
-      new Observable(observer => observer.error());
+    asMock(mediaClient.collection.getItems).mockReturnValue(
+      new Observable(observer => observer.error()),
+    );
     const el = createFixture(mediaClient, identifier);
     el.update();
     const errorMessage = el.find(ErrorMessage);
@@ -127,7 +129,7 @@ describe('<Collection />', () => {
   it('should restore PENDING state when component resets', () => {
     const subject = new Subject();
     const mediaClient = fakeMediaClient();
-    (mediaClient as any).collection.getItems = () => subject;
+    asMock(mediaClient.collection.getItems).mockReturnValue(subject);
     const el = createFixture(mediaClient, identifier);
     expect(el.state().items.status).toEqual('PENDING');
     subject.next(mediaCollectionItems);
@@ -140,10 +142,7 @@ describe('<Collection />', () => {
   it('MSW-720: adds the collectionName to all identifiers passed to the List component', () => {
     const subject = new Subject();
     const mediaClient = fakeMediaClient();
-    (mediaClient as any).collection = {
-      getItems: () => subject,
-      loadNextPage: jest.fn(),
-    };
+    asMock(mediaClient.collection.getItems).mockReturnValue(subject);
     const el = createFixture(mediaClient, identifier);
     subject.next(mediaCollectionItems);
     el.update();
@@ -160,10 +159,7 @@ describe('<Collection />', () => {
     it('should load next page if we instantiate the component with the last item of the page as selectedItem', () => {
       const subject = new Subject();
       const mediaClient = fakeMediaClient();
-      (mediaClient as any).collection = {
-        getItems: jest.fn().mockReturnValue(subject),
-        loadNextPage: jest.fn(),
-      };
+      asMock(mediaClient.collection.getItems).mockReturnValue(subject);
       createFixture(mediaClient, identifier2);
       subject.next(mediaCollectionItems);
       expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
@@ -180,10 +176,7 @@ describe('<Collection />', () => {
     it('should load next page if we navigate to the last item of the list', () => {
       const subject = new Subject();
       const mediaClient = fakeMediaClient();
-      (mediaClient as any).collection = {
-        getItems: () => subject,
-        loadNextPage: jest.fn(),
-      };
+      asMock(mediaClient.collection.getItems).mockReturnValue(subject);
       const el = createFixture(mediaClient, identifier);
       subject.next(mediaCollectionItems);
       el.update();

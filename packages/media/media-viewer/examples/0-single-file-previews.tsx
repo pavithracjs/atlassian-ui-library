@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   externalImageIdentifier,
-  createStorybookMediaClient,
+  createStorybookMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { Identifier } from '@atlaskit/media-client';
@@ -26,7 +26,7 @@ import {
 import { MediaViewer } from '../src';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
-const mediaClient = createStorybookMediaClient();
+const mediaClientConfig = createStorybookMediaClientConfig();
 
 const handleEvent = (/*analyticsEvent: UIAnalyticsEventInterface*/) => {
   // instrument here...
@@ -51,7 +51,7 @@ export default class Example extends React.Component<{}, State> {
         <h4>{title}</h4>
         <Card
           identifier={identifier}
-          mediaClientConfig={mediaClient.config}
+          mediaClientConfig={mediaClientConfig}
           onClick={onClick}
         />
       </div>
@@ -119,7 +119,7 @@ export default class Example extends React.Component<{}, State> {
           {selectedIdentifier && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
-                mediaClientConfig={mediaClient.config}
+                mediaClientConfig={mediaClientConfig}
                 selectedItem={selectedIdentifier}
                 dataSource={{ list: [selectedIdentifier] }}
                 collectionName={defaultCollectionName}

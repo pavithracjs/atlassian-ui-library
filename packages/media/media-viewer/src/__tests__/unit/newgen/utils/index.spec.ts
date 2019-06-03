@@ -3,7 +3,7 @@ import {
   constructAuthTokenUrl,
   getSelectedIndex,
 } from '../../../../newgen/utils';
-import { fakeMediaClient } from '../../../../../../media-test-helpers';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 describe('utils', () => {
   describe('constructAuthTokenUrl', () => {

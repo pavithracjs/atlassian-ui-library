@@ -20,7 +20,11 @@ import {
   Identifier,
   MediaClient,
 } from '@atlaskit/media-client';
-import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import {
+  mountWithIntlContext,
+  fakeMediaClient,
+  asMock,
+} from '@atlaskit/media-test-helpers';
 import {
   ItemViewer,
   ItemViewerBase,
@@ -56,12 +60,12 @@ const externalImageIdentifier: Identifier = {
   name: 'some-name',
 };
 
-const makeFakeMediaClient = (observable: Observable<any>) =>
-  ({
-    file: {
-      getFileState: jest.fn(() => observable),
-    },
-  } as any);
+const makeFakeMediaClient = (observable: Observable<any>) => {
+  const mediaClient = fakeMediaClient();
+
+  asMock(mediaClient.file.getFileState).mockReturnValue(observable);
+  return mediaClient;
+};
 
 function mountComponent(mediaClient: MediaClient, identifier: Identifier) {
   const el = mountWithIntlContext(

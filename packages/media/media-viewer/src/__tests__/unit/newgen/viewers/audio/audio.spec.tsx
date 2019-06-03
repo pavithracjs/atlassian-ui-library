@@ -50,9 +50,6 @@ function createFixture(
   const mediaClient = fakeMediaClient({
     authProvider: () => authPromise,
   });
-  // if (authPromise) {
-  //   (mediaClient.config as any).authProvider = () => authPromise;
-  // }
   const el = mountWithIntlContext(
     <AudioViewer
       mediaClient={mediaClient}

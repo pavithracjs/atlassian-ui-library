@@ -13,7 +13,7 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../../version.json';
-import { fakeMediaClient } from '../../../../../media-test-helpers';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 describe('download', () => {
   const processingFailedState: ProcessingFailedState = {
