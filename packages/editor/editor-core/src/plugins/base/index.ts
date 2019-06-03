@@ -47,7 +47,7 @@ const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
       },
     ];
 
-    if (isFullPage('full-page')) {
+    if (isFullPage(appearance)) {
       plugins.push({
         name: 'scrollGutterPlugin',
         plugin: () => scrollGutter(),
