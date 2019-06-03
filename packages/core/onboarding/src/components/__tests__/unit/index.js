@@ -28,6 +28,12 @@ test('should spotlight different targets', () => {
       target: 'target-one',
     };
 
+    changeTarget = () => {
+      this.setState({
+        target: 'target-one',
+      });
+    };
+
     render() {
       return (
         <SpotlightManager>
@@ -38,7 +44,7 @@ test('should spotlight different targets', () => {
             <div ref={ref}>target</div>
           </SpotlightTarget>
           <Spotlight target={this.state.target}>Check this out</Spotlight>
-          <NextButton onClick={() => this.setState({ target: 'target-two' })} />
+          <NextButton onClick={this.changeTarget} />
         </SpotlightManager>
       );
     }

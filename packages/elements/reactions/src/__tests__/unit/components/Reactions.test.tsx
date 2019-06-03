@@ -33,6 +33,7 @@ describe('@atlaskit/reactions/reactions', () => {
       />,
     )
       .dive()
+      .dive()
       .dive();
 
   it('should trigger "onReactionClick" when Reaction is clicked', () => {
