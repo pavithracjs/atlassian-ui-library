@@ -1,1 +1,0 @@
-- fix pull request, branch and commit name formatting
