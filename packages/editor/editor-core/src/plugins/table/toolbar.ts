@@ -63,17 +63,13 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           options: [
             {
               title: formatMessage(messages.headerRow),
-              onClick: toggleHeaderRowWithAnalytics(
-                tableState.isHeaderRowEnabled,
-              ),
+              onClick: toggleHeaderRowWithAnalytics(),
               selected: tableState.isHeaderRowEnabled,
               hidden: !pluginConfig.allowHeaderRow,
             },
             {
               title: formatMessage(messages.headerColumn),
-              onClick: toggleHeaderColumnWithAnalytics(
-                tableState.isHeaderColumnEnabled,
-              ),
+              onClick: toggleHeaderColumnWithAnalytics(),
               selected: tableState.isHeaderColumnEnabled,
               hidden: !pluginConfig.allowHeaderColumn,
             },
