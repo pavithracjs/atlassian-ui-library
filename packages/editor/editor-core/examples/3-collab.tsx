@@ -188,7 +188,9 @@ class DropzoneEditorWrapper extends React.Component<
 
 const mediaProvider1 = storyMediaProviderFactory();
 const mediaProvider2 = storyMediaProviderFactory();
-const mentionProvider2 = mention.storyData.resourceProviderWithResolver2;
+const mentionProvider2 = Promise.resolve(
+  mention.storyData.resourceProviderWithResolver2,
+) as Promise<MentionProvider>;
 export type Props = {};
 
 interface PropOptions {
