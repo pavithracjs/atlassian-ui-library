@@ -1,0 +1,1 @@
+- Remove media-core dependency and allow to pass mediaClientConfig as part of public api
