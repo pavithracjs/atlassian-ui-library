@@ -36,6 +36,8 @@ export interface TablePluginState {
   hoveredColumns: number[];
   hoveredRows: number[];
   pluginConfig: PluginConfig;
+  isHeaderColumnEnabled: boolean;
+  isHeaderRowEnabled: boolean;
   // position of a cell PM node that has cursor
   targetCellPosition?: number;
   // controls need to be re-rendered when table content changes
@@ -52,6 +54,8 @@ export interface TablePluginState {
 
 export type TablePluginAction =
   | { type: 'SET_EDITOR_FOCUS'; data: { editorHasFocus: boolean } }
+  | { type: 'TOGGLE_HEADER_ROW' }
+  | { type: 'TOGGLE_HEADER_COLUMN' }
   | {
       type: 'SET_TABLE_REF';
       data: {

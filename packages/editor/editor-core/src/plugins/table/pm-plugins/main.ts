@@ -88,6 +88,8 @@ export const createPlugin = (
     insertRowButtonIndex: undefined,
     decorationSet: DecorationSet.empty,
     isFullWidthModeEnabled,
+    isHeaderRowEnabled: true,
+    isHeaderColumnEnabled: false,
     ...defaultTableSelection,
   });
 
