@@ -1,7 +1,14 @@
 import * as React from 'react';
-import { code, md, Example, Props } from '@atlaskit/docs';
+import {
+  code,
+  md,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+  ${<AtlassianInternalWarning />}
   Turns a URL into a card with metadata sourced from either:
 
   - a vendor or...

@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
+import {
+  md,
+  code,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+  ${<AtlassianInternalWarning />}
+
   \`\`\`NotificationIndicator\`\`\` is a React component that wraps an existing @atlaskit/badge component with
   additional functionalities:
   
