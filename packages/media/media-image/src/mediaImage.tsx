@@ -171,4 +171,3 @@ export class MediaImageInternal extends Component<
 export type MediaImageProps = MediaImageInternalProps &
   WithContextOrMediaClientConfig;
 export const MediaImage = withMediaClient(MediaImageInternal);
-export type MediaImage = typeof MediaImage;

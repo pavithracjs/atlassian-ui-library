@@ -4,7 +4,7 @@ import { Filmstrip, FilmstripView, FilmstripProps, FilmstripItem } from '../..';
 import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers';
 import { Card, CardLoading } from '@atlaskit/media-card';
 import { Identifier } from '@atlaskit/media-client';
-import { MediaClientConfig } from '@atlaskit/media-core/index';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 describe('<Filmstrip />', () => {
   const firstIdenfier: Identifier = {

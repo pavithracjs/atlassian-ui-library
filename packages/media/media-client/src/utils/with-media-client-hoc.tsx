@@ -46,7 +46,7 @@ export type WithContextOrMediaClientConfigProps<
 
 export type WithMediaClientFunction = <P extends WithMediaClient>(
   Component: React.ComponentType<P>,
-) => React.ComponentClass<WithContextOrMediaClientConfigProps<P>>;
+) => React.ComponentType<WithContextOrMediaClientConfigProps<P>>;
 
 export const withMediaClient: WithMediaClientFunction = <
   P extends WithMediaClient
