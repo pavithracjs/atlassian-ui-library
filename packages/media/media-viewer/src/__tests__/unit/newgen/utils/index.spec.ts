@@ -15,7 +15,7 @@ describe('utils', () => {
         'mycollection',
       );
       expect(url).toEqual(
-        'some-base-url/file/3333-4444-5555?client=some-client-id&collection=mycollection&token=some-token',
+        'some-service-host/file/3333-4444-5555?client=some-client-id&collection=mycollection&token=some-token',
       );
     });
 
@@ -27,12 +27,20 @@ describe('utils', () => {
         'mycollection',
       );
       expect(url).toEqual(
-        'some-base-url/file/3333-4444-5555?version=1&client=some-client-id&collection=mycollection&token=some-token',
+        'some-service-host/file/3333-4444-5555?version=1&client=some-client-id&collection=mycollection&token=some-token',
       );
     });
 
     it('should add the auth token to the url when auth type is ASAP', async () => {
-      const mediaClient = fakeMediaClient();
+      const issuer = 'some-issuer'; // issuer gets send through the headers, so it shouldn't show up in the url
+      const authPromise = Promise.resolve({
+        token: 'some-token',
+        asapIssuer: issuer,
+        baseUrl: 'some-base-url',
+      });
+      const mediaClient = fakeMediaClient({
+        authProvider: () => authPromise,
+      });
       const url = await constructAuthTokenUrl(
         '/file/3333-4444-5555',
         mediaClient,

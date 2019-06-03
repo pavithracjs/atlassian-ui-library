@@ -93,9 +93,8 @@ describe('<Collection />', () => {
 
   it('should show an error if items failed to be fetched', () => {
     const mediaClient = fakeMediaClient();
-    (mediaClient.collection as any).getItems = new Observable(observer =>
-      observer.error(),
-    );
+    (mediaClient.collection as any).getItems = () =>
+      new Observable(observer => observer.error());
     const el = createFixture(mediaClient, identifier);
     el.update();
     const errorMessage = el.find(ErrorMessage);
@@ -128,7 +127,7 @@ describe('<Collection />', () => {
   it('should restore PENDING state when component resets', () => {
     const subject = new Subject();
     const mediaClient = fakeMediaClient();
-    (mediaClient as any).collection.getItems = subject;
+    (mediaClient as any).collection.getItems = () => subject;
     const el = createFixture(mediaClient, identifier);
     expect(el.state().items.status).toEqual('PENDING');
     subject.next(mediaCollectionItems);
@@ -142,7 +141,7 @@ describe('<Collection />', () => {
     const subject = new Subject();
     const mediaClient = fakeMediaClient();
     (mediaClient as any).collection = {
-      getItems: subject,
+      getItems: () => subject,
       loadNextPage: jest.fn(),
     };
     const el = createFixture(mediaClient, identifier);
@@ -162,7 +161,7 @@ describe('<Collection />', () => {
       const subject = new Subject();
       const mediaClient = fakeMediaClient();
       (mediaClient as any).collection = {
-        getItems: subject,
+        getItems: jest.fn().mockReturnValue(subject),
         loadNextPage: jest.fn(),
       };
       createFixture(mediaClient, identifier2);
@@ -182,7 +181,7 @@ describe('<Collection />', () => {
       const subject = new Subject();
       const mediaClient = fakeMediaClient();
       (mediaClient as any).collection = {
-        getItems: subject,
+        getItems: () => subject,
         loadNextPage: jest.fn(),
       };
       const el = createFixture(mediaClient, identifier);

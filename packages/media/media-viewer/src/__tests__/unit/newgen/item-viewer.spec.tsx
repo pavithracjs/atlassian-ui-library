@@ -56,7 +56,7 @@ const externalImageIdentifier: Identifier = {
   name: 'some-name',
 };
 
-const makeFakeContext = (observable: Observable<any>) =>
+const makeFakeMediaClient = (observable: Observable<any>) =>
   ({
     file: {
       getFileState: jest.fn(() => observable),
@@ -104,16 +104,16 @@ describe('<ItemViewer />', () => {
   });
 
   it('shows an indicator while loading', () => {
-    const context = makeFakeContext(Observable.empty());
-    const { el } = mountComponent(context, identifier);
+    const mediaClient = makeFakeMediaClient(Observable.empty());
+    const { el } = mountComponent(mediaClient, identifier);
     expect(el.find(Spinner)).toHaveLength(1);
   });
 
   it('shows a generic error on unkown error', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.throw('something bad happened!'),
     );
-    const { el } = mountComponent(context, identifier);
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
     const errorMessage = el.find(ErrorMessage);
     expect(errorMessage).toHaveLength(1);
@@ -122,14 +122,14 @@ describe('<ItemViewer />', () => {
   });
 
   it('should show the image viewer if media type is image', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.of({
         id: identifier.id,
         mediaType: 'image',
         status: 'processed',
       }),
     );
-    const { el } = mountComponent(context, identifier);
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
     expect(el.find(ImageViewer)).toHaveLength(1);
     // MSW:720 - passes the collectionName along
@@ -139,8 +139,8 @@ describe('<ItemViewer />', () => {
   });
 
   it('should should error and download button if processing Status failed', () => {
-    const context = makeFakeContext(Observable.of({ status: 'error' }));
-    const { el } = mountComponent(context, identifier);
+    const mediaClient = makeFakeMediaClient(Observable.of({ status: 'error' }));
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
     const errorMessage = el.find(ErrorMessage);
     expect(errorMessage).toHaveLength(1);
@@ -151,7 +151,7 @@ describe('<ItemViewer />', () => {
   });
 
   it('should should error and download button if file is processing failed', () => {
-    const mediaClient = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.of({
         id: '123',
         mediaType: 'video',
@@ -175,7 +175,7 @@ describe('<ItemViewer />', () => {
   });
 
   it('should should error and download button if file is in error state', () => {
-    const mediaClient = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.of({
         id: '123',
         mediaType: 'image',
@@ -209,8 +209,8 @@ describe('<ItemViewer />', () => {
       artifacts: {},
       representations: {},
     };
-    const context = makeFakeContext(Observable.of(state));
-    const { el } = mountComponent(context, identifier);
+    const mediaClient = makeFakeMediaClient(Observable.of(state));
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
     expect(el.find(VideoViewer)).toHaveLength(1);
     // MSW:720 - passes the collectionName along
@@ -220,14 +220,14 @@ describe('<ItemViewer />', () => {
   });
 
   it('should show the audio viewer if media type is audio', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.of({
         id: identifier.id,
         mediaType: 'audio',
         status: 'processed',
       }),
     );
-    const { el } = mountComponent(context, identifier);
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
     expect(el.find(AudioViewer)).toHaveLength(1);
     // MSW:720 - passes the collectionName along
@@ -247,8 +247,8 @@ describe('<ItemViewer />', () => {
       mimeType: '',
       representations: { image: {} },
     };
-    const context = makeFakeContext(Observable.of(state));
-    const { el } = mountComponent(context, identifier);
+    const mediaClient = makeFakeMediaClient(Observable.of(state));
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
     expect(el.find(DocViewer)).toHaveLength(1);
     // MSW:720 - passes the collectionName along
@@ -258,14 +258,14 @@ describe('<ItemViewer />', () => {
   });
 
   it('should should error and download button if file is unsupported', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.of({
         id: identifier.id,
         mediaType: 'unknown',
         status: 'processed',
       }),
     );
-    const { el } = mountComponent(context, identifier);
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
     const errorMessage = el.find(ErrorMessage);
     expect(errorMessage).toHaveLength(1);
@@ -276,29 +276,29 @@ describe('<ItemViewer />', () => {
   });
 
   it('MSW-720: passes the collectionName to getFileState', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.of({
         id: identifier.id,
         mediaType: 'image',
         status: 'processed',
       }),
     );
-    const { el } = mountComponent(context, identifier);
+    const { el } = mountComponent(mediaClient, identifier);
     el.update();
-    expect(context.file.getFileState).toHaveBeenCalledWith('some-id', {
+    expect(mediaClient.file.getFileState).toHaveBeenCalledWith('some-id', {
       collectionName: 'some-collection',
     });
   });
 
   it('should render InteractiveImg for external image identifier', () => {
-    const context = makeFakeContext(
+    const mediaClient = makeFakeMediaClient(
       Observable.of({
         id: identifier.id,
         mediaType: 'image',
         status: 'processed',
       }),
     );
-    const { el } = mountComponent(context, externalImageIdentifier);
+    const { el } = mountComponent(mediaClient, externalImageIdentifier);
     el.update();
 
     expect(el.find(InteractiveImg)).toHaveLength(1);
@@ -308,14 +308,14 @@ describe('<ItemViewer />', () => {
   describe('Subscription', () => {
     it('unsubscribes from the provider when unmounted', () => {
       const release = jest.fn();
-      const context = makeFakeContext(
+      const mediaClient = makeFakeMediaClient(
         Observable.of({
           id: '123',
           mediaType: 'unknown',
           status: 'processed',
         }),
       );
-      const { el, instance } = mountComponent(context, identifier);
+      const { el, instance } = mountComponent(mediaClient, identifier);
       instance.release = release;
       expect(instance.release).toHaveBeenCalledTimes(0);
       el.unmount();
@@ -324,30 +324,30 @@ describe('<ItemViewer />', () => {
 
     it('resubscribes to the provider when the data property value is changed', () => {
       const identifierCopy = { ...identifier };
-      const context = makeFakeContext(
+      const mediaClient = makeFakeMediaClient(
         Observable.of({
           id: '123',
           mediaType: 'unknown',
           status: 'processed',
         }),
       );
-      const { el } = mountComponent(context, identifier);
-      expect(context.file.getFileState).toHaveBeenCalledTimes(1);
+      const { el } = mountComponent(mediaClient, identifier);
+      expect(mediaClient.file.getFileState).toHaveBeenCalledTimes(1);
 
       // if the values stay the same, we will not resubscribe
-      el.setProps({ context, identifier: identifierCopy });
-      expect(context.file.getFileState).toHaveBeenCalledTimes(1);
+      el.setProps({ mediaClient, identifier: identifierCopy });
+      expect(mediaClient.file.getFileState).toHaveBeenCalledTimes(1);
 
       // ... but if the identifier change we will resubscribe
       const identifier2 = {
         ...identifier,
         id: 'some-other-id',
       };
-      el.setProps({ context, identifier: identifier2 });
-      expect(context.file.getFileState).toHaveBeenCalledTimes(2);
+      el.setProps({ mediaClient, identifier: identifier2 });
+      expect(mediaClient.file.getFileState).toHaveBeenCalledTimes(2);
 
-      // if the context changes, we will also resubscribe
-      const newContext = makeFakeContext(
+      // if the mediaClient changes, we will also resubscribe
+      const newMediaClient = makeFakeMediaClient(
         Observable.of({
           id: '123',
           mediaType: 'unknown',
@@ -355,13 +355,13 @@ describe('<ItemViewer />', () => {
         }),
       );
 
-      el.setProps({ context: newContext, identifier: identifier2 });
-      expect(context.file.getFileState).toHaveBeenCalledTimes(2);
-      expect(newContext.file.getFileState).toHaveBeenCalledTimes(1);
+      el.setProps({ mediaClient: newMediaClient, identifier: identifier2 });
+      expect(mediaClient.file.getFileState).toHaveBeenCalledTimes(2);
+      expect(newMediaClient.file.getFileState).toHaveBeenCalledTimes(1);
     });
 
     it('should return to PENDING state when resets', () => {
-      const mediaClient = makeFakeContext(
+      const mediaClient = makeFakeMediaClient(
         Observable.of({
           id: '123',
           mediaType: 'unknown',
@@ -395,7 +395,7 @@ describe('<ItemViewer />', () => {
     };
 
     it('should trigger analytics when the preview commences', () => {
-      const context = makeFakeContext(
+      const mediaClient = makeFakeMediaClient(
         Observable.of({
           id: identifier.id,
           mediaType: 'unknown',
@@ -403,7 +403,7 @@ describe('<ItemViewer />', () => {
         }),
       );
       const { createAnalyticsEventSpy } = mountBaseComponent(
-        context,
+        mediaClient,
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
@@ -419,11 +419,11 @@ describe('<ItemViewer />', () => {
     });
 
     it('should trigger analytics when metadata fetching ended with an error', () => {
-      const context = makeFakeContext(
+      const mediaClient = makeFakeMediaClient(
         Observable.throw('something bad happened!'),
       );
       const { createAnalyticsEventSpy } = mountBaseComponent(
-        context,
+        mediaClient,
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledTimes(2);
@@ -456,7 +456,7 @@ describe('<ItemViewer />', () => {
         status: 'error',
         errorMessage: 'Image viewer failed :(',
       });
-      const context = makeFakeContext(
+      const mediaClient = makeFakeMediaClient(
         Observable.of({
           id: identifier.id,
           mediaType: 'image',
@@ -464,7 +464,7 @@ describe('<ItemViewer />', () => {
         }),
       );
       const { createAnalyticsEventSpy } = mountBaseComponent(
-        context,
+        mediaClient,
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
@@ -484,7 +484,7 @@ describe('<ItemViewer />', () => {
     });
 
     it('should trigger analytics when viewer is successful', () => {
-      const context = makeFakeContext(
+      const mediaClient = makeFakeMediaClient(
         Observable.of({
           id: identifier.id,
           mediaType: 'image',
@@ -492,7 +492,7 @@ describe('<ItemViewer />', () => {
         }),
       );
       const { createAnalyticsEventSpy } = mountBaseComponent(
-        context,
+        mediaClient,
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
@@ -523,10 +523,10 @@ describe('<ItemViewer />', () => {
           artifacts: {},
           representations: {},
         };
-        const context = makeFakeContext(Observable.of(state));
+        const mediaClient = makeFakeMediaClient(Observable.of(state));
         const onCanPlaySpy = jest.fn();
         const { el, createAnalyticsEventSpy } = mountBaseComponent(
-          context,
+          mediaClient,
           identifier,
           { onCanPlay: onCanPlaySpy },
         );
@@ -563,10 +563,10 @@ describe('<ItemViewer />', () => {
           artifacts: {},
           representations: {},
         };
-        const context = makeFakeContext(Observable.of(state));
+        const mediaClient = makeFakeMediaClient(Observable.of(state));
         const onErrorSpy = jest.fn();
         const { el, createAnalyticsEventSpy } = mountBaseComponent(
-          context,
+          mediaClient,
           identifier,
           { onError: onErrorSpy },
         );
