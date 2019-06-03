@@ -35,6 +35,7 @@ import { collabEditProvider } from '../example-helpers/mock-collab-provider';
 import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions, MediaProvider, MentionProvider } from '../src';
 import { InviteToEditComponentProps } from '../src/plugins/collab-edit/types';
+import { ResolvingMentionProvider } from '@atlaskit/mention/resource';
 
 export const Content = styled.div`
   padding: 0 20px;
@@ -188,9 +189,9 @@ class DropzoneEditorWrapper extends React.Component<
 
 const mediaProvider1 = storyMediaProviderFactory();
 const mediaProvider2 = storyMediaProviderFactory();
-const mentionProvider2 = Promise.resolve(
+const mentionProvider2 = Promise.resolve<ResolvingMentionProvider>(
   mention.storyData.resourceProviderWithResolver2,
-) as Promise<MentionProvider>;
+);
 export type Props = {};
 
 interface PropOptions {
