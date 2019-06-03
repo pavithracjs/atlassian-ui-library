@@ -35,7 +35,11 @@ function isAWSAccessible() {
   }
   return true;
 }
-
+/**
+ * This function is to download files from S3 and create ratchet file into a given download location.
+ * This does not use S3 commands instead uses http get to fetch ratchet file from S3.
+ * This is designed to enable local dev loop without AWS credentials to access data on S3.
+ **/
 async function downloadFromS3(downloadToFolder, branch, package) {
   const ratchetFile = `${package}-bundle-size-ratchet.json`;
   const output = `${downloadToFolder}/${ratchetFile}`;
