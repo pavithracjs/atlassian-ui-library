@@ -1,7 +1,7 @@
 import { getExampleUrl } from '@atlaskit/webdriver-runner/utils/example';
 import { messages as insertBlockMessages } from '../../plugins/insert-block/ui/ToolbarInsertBlock';
 import { ToolbarFeatures } from '../../../example-helpers/ToolsDrawer';
-import { EditorAppearance } from '../../types';
+import { EditorAppearance, EditorProps } from '../../types';
 import { pluginKey as tableResizingPluginKey } from '../../plugins/table/pm-plugins/table-resizing';
 import messages from '../../messages';
 import { tableSelectors } from '../__helpers/page-objects/_table';
@@ -372,6 +372,35 @@ interface ResizeOptions {
   resizeWidth: number;
   startX?: number;
 }
+
+export const updateEditorProps = async (
+  page: any,
+  newProps: Partial<EditorProps>,
+) => {
+  await page.browser.execute((props: EditorProps) => {
+    (window as any).__updateEditorProps(props);
+  }, newProps);
+};
+
+export const setProseMirrorTextSelection = async (
+  page: any,
+  pos: { anchor: number; head?: number },
+) => {
+  await page.browser.execute(
+    (anchor: number, head: number) => {
+      var view = (window as any).__editorView;
+      view.dispatch(
+        view.state.tr.setSelection(
+          // Re-use the current selection (presumed TextSelection) to use our new positions.
+          view.state.selection.constructor.create(view.state.doc, anchor, head),
+        ),
+      );
+      view.focus();
+    },
+    pos.anchor,
+    pos.head || pos.anchor,
+  );
+};
 
 export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
   await page.browser.execute(

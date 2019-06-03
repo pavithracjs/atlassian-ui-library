@@ -29,6 +29,8 @@ export interface Props {
 }
 
 export default class PluginSlot extends React.Component<Props, any> {
+  transitionEvent = whichTransitionEvent<'transitionend'>();
+
   shouldComponentUpdate(nextProps: Props) {
     const {
       editorView,
@@ -63,30 +65,40 @@ export default class PluginSlot extends React.Component<Props, any> {
 
   componentWillReceiveProps(nextProps: Props) {
     if (this.props.contentArea !== nextProps.contentArea) {
+      this.removeModeChangeListener(this.props.contentArea);
       this.addModeChangeListener(nextProps.contentArea);
     }
   }
 
   componentWillUnmount() {
-    const { contentArea } = this.props;
-    if (contentArea) {
+    this.removeModeChangeListener(this.props.contentArea);
+  }
+
+  forceComponentUpdate = (event: TransitionEvent): void => {
+    // Only trigger an update if the transition is on a property containing `width`
+    // This will cater for media and the content area itself currently.
+    if (event.propertyName.includes('width')) {
+      this.forceUpdate();
+    }
+  };
+
+  removeModeChangeListener = (contentArea?: HTMLElement) => {
+    if (contentArea && this.transitionEvent) {
       contentArea.removeEventListener(
-        whichTransitionEvent(),
+        this.transitionEvent,
         this.forceComponentUpdate,
       );
     }
-  }
-
-  forceComponentUpdate = (): void => this.forceUpdate();
+  };
 
   addModeChangeListener = (contentArea?: HTMLElement) => {
-    if (contentArea) {
+    if (contentArea && this.transitionEvent) {
       /**
        * Update the plugin components once the transition
        * to full width / default mode completes
        */
       contentArea.addEventListener(
-        whichTransitionEvent(),
+        this.transitionEvent,
         this.forceComponentUpdate,
       );
     }
