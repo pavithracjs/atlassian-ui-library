@@ -5,10 +5,10 @@ import {
   FileIdentifier,
   isDifferentIdentifier,
   withMediaClient,
+  WithContextOrMediaClientConfig,
 } from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 import { MediaStoreGetFileImageParams } from '@atlaskit/media-store';
-import { WithContextOrMediaClientConfig } from '@atlaskit/media-client/src/utils/with-media-client-hoc';
 
 export interface MediaImageChildrenProps {
   /** Boolean with value to check if component is loading image source from API */
