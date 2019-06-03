@@ -1,5 +1,32 @@
 # @atlaskit/media-card
 
+## 63.1.2
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/button@13.0.6
+  - @atlaskit/media-ui@11.2.7
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
+## 63.1.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 63.1.0
+- [minor] [a02cbd46c0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a02cbd46c0):
+
+  - Now you can provide `MediaClientConfig` as `mediaClientConfig` prop to a Card as an alternative to Context. This is preferential, since Context prop will be dropped very soon.
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/media-ui@11.2.5
+  - @atlaskit/media-viewer@43.0.2
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/media-client@1.2.0
+  - @atlaskit/media-store@12.0.2
+  - @atlaskit/media-test-helpers@24.0.0
+
 ## 63.0.4
 - [patch] [b91590107b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b91590107b):
 

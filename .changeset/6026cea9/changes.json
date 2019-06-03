@@ -1,8 +1,0 @@
-{
-  "releases": [
-    { "name": "@atlaskit/layer-manager", "type": "patch" },
-    { "name": "@atlaskit/modal-dialog", "type": "patch" },
-    { "name": "@atlaskit/onboarding", "type": "patch" }
-  ],
-  "dependents": []
-}

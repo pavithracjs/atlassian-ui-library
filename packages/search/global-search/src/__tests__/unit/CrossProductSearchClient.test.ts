@@ -101,7 +101,7 @@ describe('CrossProductSearchClient', () => {
       )![0] as ConfluenceObjectResult;
       expect(item.resultId).toEqual('123');
       expect(item.name).toEqual('page name');
-      expect(item.href).toEqual('/wiki/url?search_id=test_uuid');
+      expect(item.href).toEqual('http://baseUrl/wiki/url');
       expect(item.containerName).toEqual('containerTitle');
       expect(item.containerId).toEqual('123');
       expect(item.analyticsType).toEqual(AnalyticsType.ResultConfluence);
@@ -152,7 +152,7 @@ describe('CrossProductSearchClient', () => {
       expect(item.resultId).toEqual('space-key');
       expect(item.avatarUrl).toEqual('https://baseUrl/wiki/spaceIconPath');
       expect(item.name).toEqual('containerTitle');
-      expect(item.href).toEqual('/wiki/displayUrl?search_id=test_uuid');
+      expect(item.href).toEqual('https://baseUrl/wiki/displayUrl');
       expect(item.analyticsType).toEqual(AnalyticsType.ResultConfluence);
       expect(item.resultType).toEqual(ResultType.GenericContainerResult);
     });

@@ -1,5 +1,10 @@
 # @atlaskit/page-header
 
+## 9.0.0
+- [major] [afb88684ad](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/afb88684ad):
+
+  - @atlaskit/page-header has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 8.0.1
 - Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
   - @atlaskit/page@11.0.0

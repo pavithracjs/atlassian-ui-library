@@ -370,9 +370,9 @@ export default class Page {
 
   async safariCompatibleTab() {
     if (this.isBrowser('Safari')) {
-      await this.keys(['Alt', 'Tab']);
+      await this.keys('\ue00A\ue004');
     } else {
-      await this.keys(['Tab']);
+      await this.keys('\ue004');
     }
   }
 }

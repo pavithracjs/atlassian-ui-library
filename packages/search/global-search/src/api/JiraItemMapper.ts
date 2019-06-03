@@ -1,4 +1,3 @@
-import URI from 'urijs';
 import uuid from 'uuid';
 
 import {
@@ -9,42 +8,12 @@ import {
   JiraProjectType,
 } from '../model/Result';
 
-import {
-  JiraItem,
-  JiraItemV1,
-  JiraItemV2,
-  JiraItemAttributes,
-  JiraResultQueryParams,
-} from './types';
+import { JiraItem, JiraItemV1, JiraItemV2, JiraItemAttributes } from './types';
 
-export const mapJiraItemToResult = (
-  item: JiraItem,
-  searchSessionId: string,
-  addSessionIdToJiraResult?: boolean,
-): JiraResult =>
+export const mapJiraItemToResult = (item: JiraItem): JiraResult =>
   (<JiraItemV2>item).attributes && (<JiraItemV2>item).attributes['@type']
-    ? mapJiraItemToResultV2(
-        item as JiraItemV2,
-        searchSessionId,
-        addSessionIdToJiraResult,
-      )
+    ? mapJiraItemToResultV2(item as JiraItemV2)
     : mapJiraItemToResultV1(item as JiraItemV1);
-
-/**
- * add search session id, object id, container id and result type to query params
- */
-export const addJiraResultQueryParams = (
-  url: string,
-  queryParams: JiraResultQueryParams,
-) => {
-  const href = new URI(url);
-  (Object.keys(queryParams) as Array<keyof JiraResultQueryParams>)
-    .filter(key => !!queryParams[key])
-    .forEach(key => {
-      href.addQuery(key, queryParams[key]);
-    });
-  return href.toString();
-};
 
 const extractSpecificAttributes = (
   attributes: JiraItemAttributes,
@@ -90,23 +59,9 @@ const JIRA_TYPE_TO_CONTENT_TYPE = {
   project: ContentType.JiraProject,
 };
 
-const mapJiraItemToResultV2 = (
-  item: JiraItemV2,
-  searchSessionId: string,
-  addSessionIdToJiraResult?: boolean,
-): JiraResult => {
+const mapJiraItemToResultV2 = (item: JiraItemV2): JiraResult => {
   const { id, name, url, attributes } = item;
   const contentType = JIRA_TYPE_TO_CONTENT_TYPE[attributes['@type']];
-  const queryParams = {
-    searchSessionId,
-    searchContainerId: attributes.containerId,
-    searchObjectId: id,
-    searchContentType: attributes['@type'],
-  };
-
-  const href = addSessionIdToJiraResult
-    ? addJiraResultQueryParams(url, queryParams)
-    : url;
 
   const resultType =
     contentType === ContentType.JiraProject
@@ -117,7 +72,7 @@ const mapJiraItemToResultV2 = (
     resultId: id,
     key: uuid(),
     name: name,
-    href,
+    href: url,
     resultType: resultType,
     containerId: attributes.containerId,
     analyticsType: AnalyticsType.ResultJira,
