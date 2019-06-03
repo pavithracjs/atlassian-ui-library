@@ -86,8 +86,8 @@ export function pluginFactory<
     initialState: InitialState,
   ) => StateField<PluginState>;
   createCommand: (
-    action: Action | ((state: EditorState) => Action | false),
-    transform?: (tr: Transaction) => Transaction,
+    action: Action | ((state: Readonly<EditorState>) => Action | false),
+    transform?: (tr: Transaction, state: EditorState) => Transaction,
   ) => Command;
   getPluginState: (state: EditorState) => PluginState;
 } {
@@ -121,7 +121,7 @@ export function pluginFactory<
 
     createCommand: (action, transform) => (state, dispatch) => {
       if (dispatch) {
-        const tr = transform ? transform(state.tr) : state.tr;
+        const tr = transform ? transform(state.tr, state) : state.tr;
         const resolvedAction = isFunction(action) ? action(state) : action;
         if (tr && resolvedAction) {
           dispatch(tr.setMeta(pluginKey, resolvedAction));

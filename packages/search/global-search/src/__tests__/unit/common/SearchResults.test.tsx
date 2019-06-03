@@ -89,6 +89,7 @@ it('should render pre query state when there is no query entered', () => {
 
 it('should render pre query state while its loading and it should keep the previous state', () => {
   const mockFn = jest.fn();
+  mockFn.mockReturnValue([]);
   const props: Partial<Props> = {
     isPreQuery: false,
     isLoading: true,

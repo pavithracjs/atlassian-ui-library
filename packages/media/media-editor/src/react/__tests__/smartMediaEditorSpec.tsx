@@ -41,6 +41,7 @@ describe('Smart Media Editor', () => {
   let fileIdentifier: FileIdentifier;
   let onFinish: SmartMediaEditorProps['onFinish'];
   let onUploadStart: SmartMediaEditorProps['onUploadStart'];
+  let onClose: SmartMediaEditorProps['onClose'];
   let mediaClient: MediaClient;
   let component: ShallowWrapper<SmartMediaEditorProps, SmartMediaEditorState>;
   let givenFileStateObservable: ReplaySubject<FileState>;
@@ -60,6 +61,7 @@ describe('Smart Media Editor', () => {
       occurrenceKey: 'some-occurrence-key',
     };
     onFinish = jest.fn();
+    onClose = jest.fn();
     onUploadStart = jest.fn();
     mediaClient = fakeMediaClient();
     givenFileStateObservable = new ReplaySubject<FileState>(1);
@@ -72,6 +74,7 @@ describe('Smart Media Editor', () => {
         mediaClient={mediaClient}
         identifier={fileIdentifier}
         onFinish={onFinish}
+        onClose={onClose}
         onUploadStart={onUploadStart}
         intl={fakeIntl}
       />,
@@ -89,12 +92,12 @@ describe('Smart Media Editor', () => {
     jest.restoreAllMocks();
   });
 
-  it('should call onFinish when escape pressed', () => {
+  it('should call onClose when escape pressed', () => {
     const shortcut = component.find(Shortcut);
     const { keyCode, handler } = shortcut.props();
     expectToEqual(keyCode, 27);
     handler();
-    expect(onFinish).toHaveBeenCalled();
+    expect(onClose).toHaveBeenCalled();
   });
 
   it('should display spinner on initial render', () => {
@@ -239,6 +242,23 @@ describe('Smart Media Editor', () => {
           },
         ]);
       });
+
+      it('should call onFinish after context.file.copyFile', async () => {
+        resultingFileStateObservable.next({
+          status: 'processing',
+          id: 'uuid1',
+          mediaType: 'image',
+          mimeType: 'image/gif',
+          name: 'some-name',
+          size: 42,
+          representations: {},
+        });
+
+        expect(onFinish).toHaveBeenCalledTimes(0);
+        await new Promise(resolve => setTimeout(resolve, 0));
+        expect(context.file.copyFile).toHaveBeenCalledTimes(1);
+        expect(onFinish).toHaveBeenCalledTimes(1);
+      });
     });
 
     describe('when EditorView calls onSave without userAuthProvider', () => {
@@ -283,7 +303,7 @@ describe('Smart Media Editor', () => {
         expectToEqual(actualUploadId, 'some-upload-id');
 
         // In the end we exit synchronously with new identifier
-        expectFunctionToHaveBeenCalledWith(onUploadStart, [
+        expectFunctionToHaveBeenCalledWith(onUploadStart!, [
           {
             mediaItemType: 'file',
             id: 'uuid1',
@@ -309,15 +329,6 @@ describe('Smart Media Editor', () => {
             representations: {},
           });
           await new Promise(resolve => setTimeout(resolve, 0));
-          resultingFileStateObservable.next({
-            status: 'processing',
-            id: 'uuid1',
-            mediaType: 'image',
-            mimeType: 'image/gif',
-            name: 'some-name',
-            size: 42,
-            representations: {},
-          });
           expect(onFinish).toHaveBeenCalledTimes(1);
         });
       });
@@ -374,7 +385,7 @@ describe('Smart Media Editor', () => {
           .find<ErrorViewProps>(ErrorView)
           .props();
         errorViewProps.onCancel();
-        expect(onFinish).toHaveBeenCalled();
+        expect(onClose).toHaveBeenCalled();
       });
     });
   });
@@ -396,18 +407,18 @@ describe('Smart Media Editor', () => {
       expect(modalDialog.prop('heading')).toEqual('Unsaved changes');
     });
 
-    it('should call onFinish when first action is chosen', () => {
+    it('should call onClose when first action is chosen', () => {
       const firstAction = (modalDialog.prop('actions') as any)[0];
       expect(firstAction.text).toEqual('Close anyway');
       firstAction.onClick();
-      expect(onFinish).toHaveBeenCalled();
+      expect(onClose).toHaveBeenCalled();
     });
 
-    it('should just close confirmation dialog and not call onFinish when second action is chosen', () => {
+    it('should just close confirmation dialog and not call onClose when second action is chosen', () => {
       const secondAction = (modalDialog.prop('actions') as any)[1];
       expect(secondAction.text).toEqual('Cancel');
       secondAction.onClick();
-      expect(onFinish).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
       modalDialog = component.find(ModalDialog);
       expect(modalDialog).toHaveLength(0);
     });

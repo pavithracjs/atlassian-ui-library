@@ -41,8 +41,9 @@ export const convertFileNameToPng = (fileName?: string) => {
 export interface SmartMediaEditorProps {
   identifier: FileIdentifier;
   mediaClient: MediaClient;
-  onUploadStart: (identifier: FileIdentifier, dimensions: Dimensions) => void;
-  onFinish: () => void;
+  onUploadStart?: (identifier: FileIdentifier, dimensions: Dimensions) => void;
+  onFinish?: (identifier: FileIdentifier) => void;
+  onClose?: () => void;
 }
 
 export interface SmartMediaEditorState {
@@ -216,12 +217,21 @@ export class SmartMediaEditor extends React.Component<
       undefined,
       uploadableFileUpfrontIds,
     );
+    const newFileIdentifier: FileIdentifier = {
+      id,
+      collectionName,
+      mediaItemType: 'file',
+      occurrenceKey,
+    };
     const uploadingFileStateSubscription = uploadingFileState.subscribe({
       next: fileState => {
         if (fileState.status === 'processing') {
-          onFinish();
-          this.copyFileToUserCollection(fileState.id);
-          setTimeout(() => uploadingFileStateSubscription.unsubscribe(), 0);
+          this.copyFileToUserCollection(fileState.id).then(() => {
+            if (onFinish) {
+              onFinish(newFileIdentifier);
+            }
+            setTimeout(() => uploadingFileStateSubscription.unsubscribe(), 0);
+          });
         } else if (
           fileState.status === 'failed-processing' ||
           fileState.status === 'error'
@@ -231,13 +241,9 @@ export class SmartMediaEditor extends React.Component<
         }
       },
     });
-    const newFileIdentifier: FileIdentifier = {
-      id,
-      collectionName,
-      mediaItemType: 'file',
-      occurrenceKey,
-    };
-    onUploadStart(newFileIdentifier, dimensions);
+    if (onUploadStart) {
+      onUploadStart(newFileIdentifier, dimensions);
+    }
   };
 
   private onAnyEdit = () => {
@@ -252,9 +258,11 @@ export class SmartMediaEditor extends React.Component<
   };
 
   private closeAnyway = () => {
-    const { onFinish } = this.props;
-    onFinish();
+    const { onClose } = this.props;
     this.closeConfirmationDialog();
+    if (onClose) {
+      onClose();
+    }
   };
 
   private renderDeleteConfirmation = () => {
@@ -293,11 +301,11 @@ export class SmartMediaEditor extends React.Component<
 
   onCancel = () => {
     const { hasBeenEdited } = this.state;
+    const { onClose } = this.props;
     if (hasBeenEdited) {
       this.setState({ closeIntent: true });
-    } else {
-      const { onFinish } = this.props;
-      onFinish();
+    } else if (onClose) {
+      onClose();
     }
   };
 
@@ -335,11 +343,11 @@ export class SmartMediaEditor extends React.Component<
   };
 
   renderError = (error: any) => {
-    const { onFinish } = this.props;
+    const { onClose } = this.props;
     if (error instanceof Error) {
       error = error.message;
     }
-    return <ErrorView message={error} onCancel={onFinish} />;
+    return <ErrorView message={error} onCancel={onClose || (() => {})} />;
   };
 
   render() {

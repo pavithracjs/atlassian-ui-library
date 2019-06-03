@@ -9,7 +9,7 @@ import {
   extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
 import { default as Renderer } from '../src/ui/Renderer';
-import { document as doc } from './helper/story-data';
+import { document as defaultDoc } from './helper/story-data';
 import Sidebar from './helper/NavigationNext';
 
 const mediaProvider = storyMediaProviderFactory();
@@ -36,7 +36,10 @@ function createRendererWindowBindings(win: Window) {
     return;
   }
 
-  (window as any)['__mountRenderer'] = (props: { showSidebar?: boolean }) => {
+  (window as any)['__mountRenderer'] = (
+    props: { showSidebar?: boolean },
+    adf: any = defaultDoc,
+  ) => {
     const target = document.getElementById('renderer-container');
 
     if (!target) {
@@ -52,7 +55,7 @@ function createRendererWindowBindings(win: Window) {
           {(additionalRendererProps: any) => (
             <Renderer
               dataProviders={providerFactory}
-              document={doc}
+              document={adf}
               extensionHandlers={extensionHandlers}
               {...reactProps}
               {...additionalRendererProps}

@@ -1,26 +1,35 @@
-import { snapshot, mountRenderer, goToRendererTestingExample } from './_utils';
-import { document } from './__fixtures__/document-without-media';
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
+import { snapshot, initRendererWithADF } from './_utils';
+import * as document from '../__fixtures__/document-without-media.adf.json';
 import { Page } from 'puppeteer';
+
+const initRenderer = async (
+  page: Page,
+  viewport: { width: number; height: number },
+) => {
+  await initRendererWithADF(page, {
+    appearance: 'full-width',
+    viewport,
+    rendererProps: { allowDynamicTextSizing: true },
+    adf: document,
+  });
+};
 
 describe('Snapshot Test: Full Width', () => {
   let page: Page;
-  beforeAll(async () => {
+  beforeAll(() => {
     // @ts-ignore
     page = global.page;
-    await goToRendererTestingExample(page);
+  });
+
+  afterEach(async () => {
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   [{ width: 2000, height: 2700 }, { width: 1420, height: 2500 }].forEach(
-    size => {
-      it(`should correctly render ${size.width}`, async () => {
-        await page.setViewport(size);
-        await page.waitFor(100);
-        await mountRenderer(page, {
-          appearance: 'full-width',
-          allowDynamicTextSizing: true,
-          document,
-        });
-        await snapshot(page, 0.01);
+    viewport => {
+      it(`should correctly render ${viewport.width}`, async () => {
+        await initRenderer(page, viewport);
       });
     },
   );

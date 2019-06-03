@@ -68,11 +68,15 @@ export const mapRecentResultsToUIGroups = (
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: ConfluenceResultsMap | null,
   abTest: ABTest,
+  searchSessionId: string,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(
-    searchResultsObjects,
-    abTest,
+  const sliced = sliceResults(searchResultsObjects, abTest);
+
+  const { people, objects, spaces } = attachConfluenceContextIdentifiers(
+    searchSessionId,
+    sliced,
   );
+
   return [
     {
       items: objects,
