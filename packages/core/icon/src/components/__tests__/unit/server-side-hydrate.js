@@ -10,7 +10,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate icon correctly', async () => {
+test('should ssr then hydrate icon correctly', async done => {
   const [example] = await getExamplesFor('icon');
   // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
@@ -31,4 +31,5 @@ test('should ssr then hydrate icon correctly', async () => {
   );
 
   expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+  done();
 });
