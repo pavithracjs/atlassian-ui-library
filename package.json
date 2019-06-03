@@ -253,7 +253,8 @@
     "webpack-bundle-analyzer": "^2.13.0",
     "webpack-dev-server": "^3.1.4",
     "whatwg-fetch": "^2.0.3",
-    "xhr-mock": "^2.4.0"
+    "xhr-mock": "^2.4.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "dependencies": {
     "@atlaskit/activity": "^1.0.1",

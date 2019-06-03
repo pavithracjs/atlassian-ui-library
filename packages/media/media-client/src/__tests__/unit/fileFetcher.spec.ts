@@ -154,8 +154,7 @@ describe('FileFetcher', () => {
         done();
       });
     });
-    // TODO: Investigate why this test is failing in CI:https://product-fabric.atlassian.net/browse/MS-2003
-    it.skip('should group ids without collection in the same call to /items', done => {
+    it('should group ids without collection in the same call to /items', done => {
       const { fileFetcher, mediaStore, items } = setup();
 
       fileFetcher.getFileState(items[0].id).subscribe();
