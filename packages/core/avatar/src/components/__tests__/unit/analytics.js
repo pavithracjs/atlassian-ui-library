@@ -5,7 +5,6 @@ import { mount } from 'enzyme';
 
 import Avatar from '../../Avatar';
 
-// some testing
 describe('Avatar', () => {
   it('should call onClick analytics event when onClick is not provided', () => {
     const mockFn = jest.fn();
