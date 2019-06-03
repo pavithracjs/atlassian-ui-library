@@ -3,6 +3,7 @@ const path = require('path');
 const npmRun = require('npm-run');
 const chalk = require('chalk').default;
 const { fExists } = require('./fs');
+const axios = require('axios');
 
 const masterStatsFolder = createDir('./.masterBundleSize');
 const currentStatsFolder = createDir('./.currentBundleSize');
@@ -35,19 +36,18 @@ function isAWSAccessible() {
   return true;
 }
 
-function downloadFromS3(downloadToFolder, branch, package) {
-  if (!isAWSAccessible()) {
-    process.exit(1);
-  }
-
+async function downloadFromS3(downloadToFolder, branch, package) {
   const ratchetFile = `${package}-bundle-size-ratchet.json`;
-  const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
-
-  console.log('bucket', bucketPath);
-
-  npmRun.sync(
-    `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
-  );
+  const output = `${downloadToFolder}/${ratchetFile}`;
+  const masterRachetFile = `http://${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
+  console.log(masterRachetFile);
+  const response = await axios({
+    url: masterRachetFile,
+    method: 'get',
+  });
+  console.log('here');
+  console.log(response.data);
+  fs.writeFileSync(output, JSON.stringify(response.data), 'utf-8');
 }
 
 function uploadToS3(pathToFile, branch) {
