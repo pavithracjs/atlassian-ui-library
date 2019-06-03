@@ -35,22 +35,36 @@ function isAWSAccessible() {
   }
   return true;
 }
+
 /**
- * This function is to download files from S3 and create ratchet file into a given download location.
+ * This function downloads files from S3 and create ratchet file into a given download location.
  * This does not use S3 commands instead uses http get to fetch ratchet file from S3.
  * This is designed to enable local dev loop without AWS credentials to access data on S3.
  **/
-async function downloadFromS3(downloadToFolder, branch, package) {
+async function downloadFromS3ForLocal(downloadToFolder, branch, package) {
   const ratchetFile = `${package}-bundle-size-ratchet.json`;
   const output = `${downloadToFolder}/${ratchetFile}`;
-  const masterRachetFile = `http://s3-${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
-  // TODO: remove console logs
-  console.log(`downloading: ${masterRachetFile}`);
+  const rachetFileUrl = `http://s3-${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
   const response = await axios({
-    url: masterRachetFile,
+    url: rachetFileUrl,
     method: 'get',
   });
   fs.writeFileSync(output, JSON.stringify(response.data), 'utf-8');
+}
+
+function downloadFromS3(downloadToFolder, branch, package) {
+  if (!isAWSAccessible()) {
+    process.exit(1);
+  }
+
+  const ratchetFile = `${package}-bundle-size-ratchet.json`;
+  const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
+
+  console.log('bucket', bucketPath);
+
+  npmRun.sync(
+    `s3-cli --region="${BUCKET_REGION}" get ${bucketPath} ${downloadToFolder}/${ratchetFile}`,
+  );
 }
 
 function uploadToS3(pathToFile, branch) {
@@ -78,6 +92,7 @@ function uploadToS3(pathToFile, branch) {
 module.exports = {
   currentStatsFolder,
   downloadFromS3,
+  downloadFromS3ForLocal,
   masterStatsFolder,
   uploadToS3,
 };
