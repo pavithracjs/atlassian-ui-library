@@ -213,6 +213,7 @@ export default class Example extends React.Component<Props, State> {
                   inviteToEditHandler: this.inviteToEditHandler,
                   isInviteToEditButtonSelected: this.state
                     .isInviteToEditButtonSelected,
+                  sanitizePrivateContent: true,
                   userId,
                 }}
                 placeholder="Write something..."

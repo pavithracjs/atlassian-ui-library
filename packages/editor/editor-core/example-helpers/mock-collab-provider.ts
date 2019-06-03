@@ -123,7 +123,7 @@ export class MockCollabEditProvider implements CollabEditProvider {
               type: 'mention',
               attrs: {
                 id: '1',
-                text: '', // Sanitized
+                text: '',
               },
             },
           ],
