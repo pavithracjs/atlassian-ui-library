@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
+import {
+  md,
+  code,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+${<AtlassianInternalWarning />}
+
 MediaViewer is Atlassian's powerful solution for viewing files on the web. It's both powerful and extendable yet easy-to-integrate
 
   ## Usage

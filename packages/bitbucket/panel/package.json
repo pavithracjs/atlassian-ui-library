@@ -28,7 +28,7 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/page": "^11.0.0",
     "enzyme": "^3.7.0"
   }

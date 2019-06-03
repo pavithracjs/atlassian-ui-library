@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@atlaskit/button": "^13.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/lozenge": "^9.0.0",
     "@atlaskit/theme": "^9.0.3",

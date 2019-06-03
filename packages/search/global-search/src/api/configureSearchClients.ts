@@ -66,12 +66,11 @@ function configureSearchClients(
     crossProductSearchClient: new CachingCrossProductSearchClientImpl(
       config.searchAggregatorServiceUrl,
       cloudId,
-      prefetchedResults ? prefetchedResults.abTestPromise : undefined,
+      prefetchedResults,
     ),
     peopleSearchClient: new CachingPeopleSearchClient(
       config.directoryServiceUrl,
       cloudId,
-      prefetchedResults ? prefetchedResults.recentPeoplePromise : undefined,
     ),
     confluenceClient: new CachingConfluenceClient(
       config.confluenceUrl,

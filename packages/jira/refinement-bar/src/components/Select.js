@@ -5,10 +5,9 @@ import React, { type Node } from 'react';
 import { jsx } from '@emotion/core';
 import Select, { CheckboxOption } from '@atlaskit/select';
 import SearchIcon from '@atlaskit/icon/glyph/editor/search';
+import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import { colors, gridSize } from '@atlaskit/theme';
 import Spinner from '@atlaskit/spinner';
-
-import noResultsIcon from '../assets/no-results-icon.png';
 
 // ==============================
 // React-Select Replacements
@@ -70,12 +69,7 @@ const Text = (props: *) => (
 );
 const noOptionsMessage = () => (
   <Box>
-    <img
-      alt="magnifying glass with question marks"
-      height="75"
-      src={noResultsIcon}
-      width="82"
-    />
+    <QuestionCircleIcon primaryColor={colors.N100} size="xlarge" />
     <Text>No matches found</Text>
   </Box>
 );

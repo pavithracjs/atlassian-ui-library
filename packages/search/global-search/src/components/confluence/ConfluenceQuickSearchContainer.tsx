@@ -84,7 +84,7 @@ const getRecentItemMatches = (
 };
 
 const mergeSearchResultsWithRecentItems = (
-  searchResults: ConfluenceResultsMap | undefined,
+  searchResults: ConfluenceResultsMap,
   recentItems: Result[],
 ): ConfluenceResultsMap => {
   const defaultSearchResults = {
@@ -305,13 +305,11 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     abTest: ABTest,
     isLoading: boolean,
     inFasterSearchExperiment: boolean,
+    searchSessionId: string,
   ) => {
     if (inFasterSearchExperiment) {
       const currentSearchResults: ConfluenceResultsMap = isLoading
-        ? ({
-            ...searchResults,
-            objects: [] as Result[],
-          } as ConfluenceResultsMap)
+        ? ({} as ConfluenceResultsMap)
         : (searchResults as ConfluenceResultsMap);
 
       const recentResults = getRecentItemMatches(
@@ -322,11 +320,17 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         currentSearchResults,
         recentResults,
       );
-      return mapSearchResultsToUIGroups(mergedRecentSearchResults, abTest);
+
+      return mapSearchResultsToUIGroups(
+        mergedRecentSearchResults,
+        abTest,
+        searchSessionId,
+      );
     } else {
       return mapSearchResultsToUIGroups(
         searchResults as ConfluenceResultsMap,
         abTest,
+        searchSessionId,
       );
     }
   };
@@ -395,6 +399,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
             abTest,
             isLoading,
             inFasterSearchExperiment,
+            searchSessionId,
           )
         }
         renderNoResult={() => (
