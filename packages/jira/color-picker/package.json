@@ -3,7 +3,7 @@
   "version": "0.5.3",
   "description": "Jira Color Picker Component",
   "modules": "index.js",
-  "types": "dist/es5/types.d.ts",
+  "types": "dist/cjs/types.d.ts",
   "atlaskit:src": "src/index.ts",
   "atlaskit": {
     "internal": true,

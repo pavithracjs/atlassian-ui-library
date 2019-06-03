@@ -5,9 +5,9 @@
     "access": "public"
   },
   "description": "Fabric Status React Components",
-  "main": "dist/es5/index.js",
+  "main": "dist/cjs/index.js",
   "modules": "dist/es2015/index.js",
-  "types": "dist/es5/types.d.ts",
+  "types": "dist/cjs/types.d.ts",
   "atlaskit:src": "src/index.ts",
   "repository": {
     "type": "git",
