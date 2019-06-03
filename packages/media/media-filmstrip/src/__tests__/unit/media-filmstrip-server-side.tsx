@@ -5,7 +5,7 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 
-test('media-filmstrip server side rendering', async () => {
+test('media-filmstrip server side rendering', async done => {
   (await getExamplesFor('media-filmstrip')).forEach(
     (examples: { filePath: string }) => {
       const Example = require(examples.filePath).default;
@@ -15,4 +15,5 @@ test('media-filmstrip server side rendering', async () => {
       ).not.toThrowError();
     },
   );
+  done();
 });

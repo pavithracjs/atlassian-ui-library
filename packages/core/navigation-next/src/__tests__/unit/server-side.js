@@ -22,7 +22,7 @@ const exampleName = (file: string) =>
     .reverse()[0]
     .replace('.js', '');
 
-test('navigation-next server side rendering', async () => {
+test('navigation-next server side rendering', async done => {
   // $StringLitteral
   (await getExamplesFor('navigation-next')).forEach(examples => {
     if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {
@@ -33,4 +33,5 @@ test('navigation-next server side rendering', async () => {
       ).not.toThrowError();
     }
   });
+  done();
 });

@@ -7,7 +7,7 @@ import ReactDOMServer from 'react-dom/server';
 
 type Example = { filePath: string };
 
-test('Pavigation server side rendering', async () => {
+test('Pavigation server side rendering', async done => {
   (await getExamplesFor('pagination')).forEach((example: Example) => {
     // $StringLitteral
     if (!example.filePath.includes('react-router')) {
@@ -19,4 +19,5 @@ test('Pavigation server side rendering', async () => {
       ).not.toThrowError();
     }
   });
+  done();
 });

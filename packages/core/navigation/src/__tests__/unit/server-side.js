@@ -6,7 +6,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Navigation server side rendering', async () => {
+test('Navigation server side rendering', async done => {
   (await getExamplesFor('navigation')).forEach(examples => {
     // $StringLitteral
     if (!examples.filePath.includes('react-router')) {
@@ -18,4 +18,5 @@ test('Navigation server side rendering', async () => {
       ).not.toThrowError();
     }
   });
+  done();
 });

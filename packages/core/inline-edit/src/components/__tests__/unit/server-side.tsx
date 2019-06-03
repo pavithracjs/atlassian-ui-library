@@ -5,7 +5,7 @@ import * as React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import * as ReactDOMServer from 'react-dom/server';
 
-test('Inline edit server side rendering', async () => {
+test('Inline edit server side rendering', async done => {
   (await getExamplesFor('inline-edit')).forEach(
     (examples: { filePath: string }) => {
       const Example = require(examples.filePath).default;
@@ -14,4 +14,5 @@ test('Inline edit server side rendering', async () => {
       ).not.toThrowError();
     },
   );
+  done();
 });

@@ -6,7 +6,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Item server side rendering', async () => {
+test('Item server side rendering', async done => {
   (await getExamplesFor('item')).forEach(examples => {
     // $StringLitteral
     if (!examples.filePath.includes('item-story')) {
@@ -18,4 +18,5 @@ test('Item server side rendering', async () => {
       ).not.toThrowError();
     }
   });
+  done();
 });
