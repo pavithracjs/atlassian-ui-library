@@ -85,9 +85,20 @@ describe('Card', () => {
 
   const emptyPreview: FilePreview = { src: undefined };
 
+  beforeEach(() => {
+    asMock(getDataURIFromFileState).mockReturnValue({
+      src: 'some-data-uri',
+      orientation: 6,
+    });
+  });
+
+  afterEach(() => {
+    (getDataURIFromFileState as any).mockReset();
+  });
+
   it('should use the new mediaClient to create the subscription when mediaClient prop changes', async () => {
-    const firstMediaClient = fakeMediaClient();
-    const secondMediaClient = fakeMediaClient();
+    const firstMediaClient = createMediaClientWithGetFile();
+    const secondMediaClient = createMediaClientWithGetFile();
     const { component } = setup(firstMediaClient);
     component.setProps({ mediaClient: secondMediaClient, identifier });
 
@@ -260,7 +271,7 @@ describe('Card', () => {
   });
 
   it('should not use lazy load when "isLazy" is false', () => {
-    const mediaClient = fakeMediaClient() as any;
+    const mediaClient = createMediaClientWithGetFile();
     const hoverHandler = () => {};
     const card = shallow(
       <Card
@@ -291,7 +302,7 @@ describe('Card', () => {
   });
 
   it('should create a card placeholder with the right props', () => {
-    const mediaClient = fakeMediaClient() as any;
+    const mediaClient = createMediaClientWithGetFile();
     const fileCard = shallow(
       <Card
         mediaClient={mediaClient}
@@ -308,7 +319,7 @@ describe('Card', () => {
   });
 
   it('should use "crop" as default resizeMode', () => {
-    const mediaClient = fakeMediaClient();
+    const mediaClient = createMediaClientWithGetFile();
     const card = mount(
       <Card mediaClient={mediaClient} identifier={identifier} isLazy={false} />,
     );
@@ -317,7 +328,8 @@ describe('Card', () => {
   });
 
   it('should pass right resizeMode down', () => {
-    const mediaClient = fakeMediaClient();
+    const mediaClient = createMediaClientWithGetFile();
+
     const card = mount(
       <Card
         mediaClient={mediaClient}
@@ -332,7 +344,8 @@ describe('Card', () => {
 
   it('should contain analytics mediaClient with identifier info', () => {
     const analyticsEventHandler = jest.fn();
-    const mediaClient = fakeMediaClient();
+    const mediaClient = createMediaClientWithGetFile();
+
     const card = mount(
       <AnalyticsListener channel="media" onEvent={analyticsEventHandler}>
         <Card
