@@ -9,7 +9,7 @@ import {
 } from '../../model/Result';
 import {
   take,
-  getJiraAdvancedSearchUrl,
+  getJiraAllIssuesUrl,
   JiraEntityTypes,
 } from '../SearchResultsUtil';
 import { messages } from '../../messages';
@@ -123,7 +123,7 @@ export const mapSearchResultsToUIGroups = (
                 resultType: ResultType.JiraIssueAdvancedSearch,
                 resultId: 'search-jira',
                 name: 'jira',
-                href: getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, query),
+                href: getJiraAllIssuesUrl(JiraEntityTypes.Issues, query),
                 analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
                 contentType: ContentType.JiraIssue,
               },
