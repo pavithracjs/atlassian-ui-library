@@ -1,7 +1,7 @@
-// @flow
 /* eslint-disable no-mixed-operators */
 import styled, { css } from 'styled-components';
 import { elevation } from '@atlaskit/theme';
+import { ThemeTokensTrack, ThemeTokens } from './theme';
 
 const sliderThumbSize = 16;
 const sliderThumbBorderThickness = 2;
@@ -9,7 +9,14 @@ const sliderLineThickness = 4;
 const transitionDuration = '0.2s';
 export const overallHeight = 40;
 
-const getBackgroundGradient = ({ lower, upper }, percent) =>
+interface TrackProps extends ThemeTokens {
+  valuePercent: number;
+}
+
+const getBackgroundGradient = (
+  { lower, upper }: ThemeTokensTrack,
+  percent: number,
+) =>
   css`
     background: linear-gradient(${lower}, ${lower}) 0 / ${percent}% 100%
       no-repeat ${upper};
@@ -19,7 +26,7 @@ const getBackgroundGradient = ({ lower, upper }, percent) =>
   `;
 
 const sliderThumbStyle = css`
-  background: ${({ thumb }) => thumb.default.background};
+  background: ${({ thumb }: ThemeTokens) => thumb.default.background};
   border: ${sliderThumbBorderThickness}px solid transparent;
   border-radius: 50%;
   height: ${sliderThumbSize}px;
@@ -29,19 +36,19 @@ const sliderThumbStyle = css`
 `;
 
 const sliderThumbFocusedStyle = css`
-  border-color: ${({ thumb }) => thumb.focus.border};
+  border-color: ${({ thumb }: ThemeTokens) => thumb.focus.border};
 `;
 
 const sliderThumbDisabledStyle = css`
   cursor: not-allowed;
-  box-shadow: 0 0 1px ${({ thumb }) => thumb.disabled.boxShadow};
+  box-shadow: 0 0 1px ${({ thumb }: ThemeTokens) => thumb.disabled.boxShadow};
 `;
 
-const sliderDefaultBackground = props =>
+const sliderDefaultBackground = (props: TrackProps) =>
   getBackgroundGradient(props.track.default, props.valuePercent);
 
 const sliderTrackStyle = css`
-  background: ${({ track }) => track.background};
+  background: ${({ track }: ThemeTokens) => track.background};
   border-radius: ${sliderLineThickness / 2}px;
   border: 0;
   cursor: pointer;
@@ -51,7 +58,7 @@ const sliderTrackStyle = css`
 `;
 
 const sliderTrackDisabledStyle = css`
-  ${props =>
+  ${(props: TrackProps) =>
     getBackgroundGradient(
       props.track.disabled,
       props.valuePercent,
@@ -59,7 +66,7 @@ const sliderTrackDisabledStyle = css`
   cursor: not-allowed;
 `;
 
-const sliderTrackFocusedStyle = props =>
+const sliderTrackFocusedStyle = (props: TrackProps) =>
   getBackgroundGradient(props.track.hover, props.valuePercent);
 
 const chromeRangeInputStyle = css`

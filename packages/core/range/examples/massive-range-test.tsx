@@ -1,4 +1,3 @@
-// @flow
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Range from '../src';
@@ -7,13 +6,13 @@ const Container = styled.div`
   width: 500px;
 `;
 
-type State = {
-  onChangeResult: string,
-};
+interface State {
+  onChangeResult: string;
+}
 
 const max = 100000;
 
-export default class BasicExample extends PureComponent<void, State> {
+export default class BasicExample extends PureComponent<{}, State> {
   state = {
     onChangeResult: 'Check & Uncheck to trigger onChange',
   };

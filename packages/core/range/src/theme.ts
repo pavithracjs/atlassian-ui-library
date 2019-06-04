@@ -1,30 +1,28 @@
-// @flow
-
 import { colors, createTheme } from '@atlaskit/theme';
 
-type ThemeTokensThumb = {
-  background: string,
-  border: string,
-};
+export interface ThemeTokensThumb {
+  background: string;
+  border: string;
+}
 
-type ThemeTokensTrack = {
-  lower: string,
-  upper: string,
-};
+export interface ThemeTokensTrack {
+  lower: string;
+  upper: string;
+}
 
-export type ThemeTokens = {
+export interface ThemeTokens {
   thumb: {
-    default: ThemeTokensThumb,
-    disabled: { boxShadow: string },
-    focus: ThemeTokensThumb,
-  },
+    default: ThemeTokensThumb;
+    disabled: { boxShadow: string };
+    focus: ThemeTokensThumb;
+  };
   track: {
-    background: string,
-    default: ThemeTokensTrack,
-    disabled: ThemeTokensTrack,
-    hover: ThemeTokensTrack,
-  },
-};
+    background: string;
+    default: ThemeTokensTrack;
+    disabled: ThemeTokensTrack;
+    hover: ThemeTokensTrack;
+  };
+}
 
 export const thumb = {
   default: {
@@ -58,7 +56,7 @@ export const track = {
   },
 };
 
-export const Theme = createTheme<ThemeTokens, *>(() => ({
+export const Theme = createTheme<ThemeTokens, any>(() => ({
   thumb,
   track,
 }));
