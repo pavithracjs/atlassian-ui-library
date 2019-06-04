@@ -1,5 +1,15 @@
 # @atlaskit/editor-test-helpers
 
+## 9.3.7
+- [patch] [c59bd5d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c59bd5d01e):
+
+  ED-6349: fix external images (often via copy paste) not having correct dimensions
+
+## 9.3.6
+- [patch] [b567c44b93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b567c44b93):
+
+  ED-6986: put cursor after smart link insertion if skipping macro
+
 ## 9.3.5
 - [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
 

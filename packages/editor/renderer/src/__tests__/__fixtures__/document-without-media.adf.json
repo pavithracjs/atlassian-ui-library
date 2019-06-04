@@ -908,27 +908,6 @@
       "type": "rule"
     },
     {
-      "type": "paragraph",
-      "content": [
-        {
-          "type": "text",
-          "text": "Do not use this image node; it may be removed at any time without notice."
-        },
-        {
-          "type": "image",
-          "attrs": {
-            "src": "https://www.google.com.au/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-            "alt": "Google Logo",
-            "title": "Google!"
-          }
-        },
-        {
-          "type": "text",
-          "text": "Do not use this image node; it may be removed at any time without notice."
-        }
-      ]
-    },
-    {
       "type": "decisionList",
       "attrs": {
         "localId": "empty-list-should-not-render"

@@ -23,7 +23,11 @@ import {
   ContentNodeWithPos,
 } from 'prosemirror-utils';
 import { createCommand } from '../pm-plugins/main';
-import { checkIfHeaderRowEnabled, isIsolating } from '../utils';
+import {
+  checkIfHeaderRowEnabled,
+  checkIfHeaderColumnEnabled,
+  isIsolating,
+} from '../utils';
 import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
 import { outdentList } from '../../lists/commands';
@@ -65,6 +69,8 @@ export const setTableRef = (ref?: HTMLElement | null) =>
           tableRef,
           tableNode,
           tableWrapperTarget,
+          isHeaderRowEnabled: checkIfHeaderRowEnabled(state),
+          isHeaderColumnEnabled: checkIfHeaderColumnEnabled(state),
         },
       };
     },

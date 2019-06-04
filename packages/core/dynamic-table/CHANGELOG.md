@@ -1,5 +1,10 @@
 # @atlaskit/dynamic-table
 
+## 13.1.0
+- [minor] [647118a5ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/647118a5ce):
+
+  - Added onPageRowUpdate function prop to dynamic table to be passed the currently shown table items and moved validateSortKey from the deprecated componentWillMount and componentWillRecieveProps to getDerivedStateFromProps
+
 ## 13.0.2
 - [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
 

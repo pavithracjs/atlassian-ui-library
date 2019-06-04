@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-core",
-  "version": "112.11.1",
+  "version": "112.11.7",
   "description": "A package contains Atlassian editor core functionality",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -107,7 +107,7 @@
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/dropdown-menu": "^8.0.2",
     "@atlaskit/editor-bitbucket-transformer": "^6.1.0",
-    "@atlaskit/editor-test-helpers": "^9.3.5",
+    "@atlaskit/editor-test-helpers": "^9.3.7",
     "@atlaskit/i18n-tools": "^0.5.0",
     "@atlaskit/lozenge": "^9.0.0",
     "@atlaskit/media-core": "^30.0.4",

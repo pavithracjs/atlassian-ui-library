@@ -1,19 +1,11 @@
 import {
   getExampleUrl,
   navigateToUrl,
+  disableAllSideEffects,
 } from '@atlaskit/visual-regression/helper';
-import { Props } from '../../ui/Renderer';
 import { Page } from 'puppeteer';
-
-const renderValueInput = '#renderer-value-input';
-
-export async function renderDocument(page: Page, doc: any) {
-  await page.$eval(renderValueInput, (el: Element) => {
-    (el as HTMLInputElement).value = '';
-  });
-  await page.click(renderValueInput);
-  await page.keyboard.type(JSON.stringify(doc));
-}
+import { Props } from '../../ui/Renderer';
+import { RendererAppearance } from '../../ui/Renderer/types';
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 600;
@@ -35,6 +27,83 @@ export const deviceViewPorts = {
   [Device.iPad]: { width: 768, height: 1024 },
   [Device.iPhonePlus]: { width: 414, height: 736 },
 };
+
+export async function goToRendererTestingExample(page: Page) {
+  const url = getExampleUrl(
+    'editor',
+    'renderer',
+    'testing',
+    // @ts-ignore
+    global.__BASEURL__,
+  );
+
+  await navigateToUrl(page, url);
+}
+
+export type RendererPropsOverrides = { [T in keyof Props]?: Props[T] } & {
+  showSidebar?: boolean;
+};
+export async function mountRenderer(
+  page: Page,
+  props?: RendererPropsOverrides,
+  adf?: Object,
+) {
+  await page.$eval(
+    '#renderer-container',
+    (_e, props, adf) => {
+      (window as Window & {
+        __mountRenderer: (props?: RendererPropsOverrides, adf?: Object) => void;
+      }).__mountRenderer(props, adf);
+    },
+    props,
+    adf,
+  );
+}
+
+type SideEffectsOption = {
+  cursor?: boolean;
+  animation?: boolean;
+  transition?: boolean;
+  scroll?: boolean;
+};
+
+type InitRendererWithADFOptions = {
+  appearance: RendererAppearance;
+  adf?: Object;
+  device?: Device;
+  viewport?: { width: number; height: number };
+  rendererProps?: RendererPropsOverrides;
+  allowSideEffects?: SideEffectsOption;
+};
+
+export async function initRendererWithADF(
+  page: Page,
+  {
+    adf,
+    appearance,
+    device = Device.Default,
+    viewport,
+    rendererProps,
+    allowSideEffects,
+  }: InitRendererWithADFOptions,
+) {
+  await goToRendererTestingExample(page);
+
+  // Set the viewport to the right one
+  if (viewport) {
+    await page.setViewport(viewport);
+  } else {
+    await page.setViewport(deviceViewPorts[device]);
+  }
+
+  // Mount the renderer with the right attributes
+  await mountRenderer(page, { appearance, ...rendererProps }, adf);
+
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  // You can override this disabling if you are sure that you need it in your test
+  await disableAllSideEffects(page, allowSideEffects);
+}
 
 export async function snapshot(
   page: Page,
@@ -62,33 +131,6 @@ export async function snapshot(
   }
   // @ts-ignore
   expect(image).toMatchProdImageSnapshot();
-}
-
-export type RendererPropsOverrides = { [T in keyof Props]?: Props[T] } & {
-  showSidebar?: boolean;
-};
-export async function mountRenderer(page: Page, props: RendererPropsOverrides) {
-  await page.$eval(
-    '#renderer-container',
-    (_e, props) => {
-      (window as Window & {
-        __mountRenderer: (props: RendererPropsOverrides) => void;
-      }).__mountRenderer(props);
-    },
-    props,
-  );
-}
-
-export async function goToRendererTestingExample(page: Page) {
-  const url = getExampleUrl(
-    'editor',
-    'renderer',
-    'testing',
-    // @ts-ignore
-    global.__BASEURL__,
-  );
-
-  await navigateToUrl(page, url);
 }
 
 export async function animationFrame(page: Page) {
