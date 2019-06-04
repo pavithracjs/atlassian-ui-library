@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.13.0
+
+### Minor Changes
+
+- [minor][ad12f5342d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad12f5342d):
+
+  Internal refactor
+
 ## 8.12.0
 
 ### Minor Changes
