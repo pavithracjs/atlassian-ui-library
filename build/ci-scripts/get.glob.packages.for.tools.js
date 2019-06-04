@@ -38,6 +38,7 @@ const {
     .map(pkg => pkg.relativeDir);
 
   console.log(
-    relativePaths.length > 1 ? `{${relativePaths.join()}}` : relativePaths[0],
+    `packages/core/{badge,}`,
+    // relativePaths.length > 1 ? `{${relativePaths.join()}}` : relativePaths[0],
   );
 })();

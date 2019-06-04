@@ -6,7 +6,7 @@
   },
   "description": "Fabric Status React Components",
   "main": "dist/cjs/index.js",
-  "modules": "dist/es2015/index.js",
+  "modules": "dist/esm/index.js",
   "types": "dist/cjs/types.d.ts",
   "atlaskit:src": "src/index.ts",
   "repository": {
