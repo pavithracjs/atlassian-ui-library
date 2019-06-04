@@ -8,7 +8,6 @@ import ReactDOMServer from 'react-dom/server';
 
 test('Item server side rendering', async done => {
   (await getExamplesFor('item')).forEach(async (examples: any) => {
-    // $StringLitteral
     if (!examples.filePath.includes('item-story')) {
       /* item story example contains import on react-router-dom */
       // $StringLitteral

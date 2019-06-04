@@ -23,7 +23,6 @@ const exampleName = (file: string) =>
     .replace('.js', '');
 
 test('navigation-next server side rendering', async done => {
-  // $StringLitteral
   (await getExamplesFor('navigation-next')).forEach(async (examples: any) => {
     if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {
       // $StringLitteral
