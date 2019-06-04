@@ -123,7 +123,7 @@ export const mapSearchResultsToUIGroups = (
                 resultType: ResultType.JiraIssueAdvancedSearch,
                 resultId: 'search-jira',
                 name: 'jira',
-                href: getJiraAllIssuesUrl(JiraEntityTypes.Issues, query),
+                href: getJiraAllIssuesUrl(),
                 analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
                 contentType: ContentType.JiraIssue,
               },
