@@ -18,7 +18,6 @@ import { Scope } from '../../../api/types';
 import { Result } from '../../../model/Result';
 import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  ABTest,
   DEFAULT_AB_TEST,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
@@ -248,38 +247,6 @@ describe('ConfluenceQuickSearchContainer', () => {
     );
 
     searchSpy.mockRestore();
-  });
-
-  it('should return ab test data', async () => {
-    const abTest: ABTest = {
-      abTestId: 'abTestId',
-      experimentId: 'experimentId',
-      controlId: 'controlId',
-    };
-
-    const wrapper = render({
-      confluenceClient: noResultsConfluenceClient,
-      crossProductSearchClient: {
-        search(query: string) {
-          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
-        },
-        getAbTestDataForProduct() {
-          return Promise.resolve(abTest);
-        },
-        getAbTestData() {
-          return Promise.resolve(abTest);
-        },
-        getPeople() {
-          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
-        },
-      },
-    });
-    const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const receivedAbTest = await (quickSearchContainer.props() as QuickSearchContainerProps).getAbTestData(
-      sessionId,
-    );
-
-    expect(receivedAbTest).toMatchObject(abTest);
   });
 
   it('should return search result', async () => {

@@ -17,6 +17,7 @@ import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 import { attachJiraContextIdentifiers } from '../common/contextIdentifiersHelper';
 import { ABTest } from '../../api/CrossProductSearchClient';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
+import { JiraFeatures } from '../../util/features';
 
 const DEFAULT_MAX_OBJECTS = 8;
 const MAX_CONTAINERS = 6;
@@ -56,7 +57,7 @@ const sliceResults = (resultsMap: GenericResultMap | null, abTest: ABTest) => {
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: GenericResultMap | null,
   searchSessionId: string,
-  abTest: ABTest,
+  features: JiraFeatures,
   appPermission?: JiraApplicationPermission,
 ): ResultsGroup[] => {
   const withSessionId =
@@ -68,7 +69,7 @@ export const mapRecentResultsToUIGroups = (
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(withSessionId, abTest);
+  } = sliceResults(withSessionId, features.abTest);
 
   return [
     {
@@ -95,7 +96,7 @@ export const mapRecentResultsToUIGroups = (
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
   searchSessionId: string,
-  abTest: ABTest,
+  features: JiraFeatures,
   appPermission?: JiraApplicationPermission,
   query?: string,
 ): ResultsGroup[] => {
@@ -108,7 +109,7 @@ export const mapSearchResultsToUIGroups = (
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(withSessionId, abTest);
+  } = sliceResults(withSessionId, features.abTest);
   return [
     {
       items: objectsToDisplay,
