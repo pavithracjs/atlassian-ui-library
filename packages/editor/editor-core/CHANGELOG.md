@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.8
+
+### Patch Changes
+
+- [patch][7ac7d494de](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ac7d494de):
+
+  - ED-6995 Scale down tables created in full-width mode correctly
+
 ## 112.11.7
 
 ### Patch Changes
