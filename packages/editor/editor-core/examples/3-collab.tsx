@@ -219,6 +219,7 @@ const editorProps = ({
     allowBreakout: true,
     UNSAFE_addSidebarLayouts: true,
   },
+  allowStatus: true,
   allowLists: true,
   allowTextColor: true,
   allowDate: true,

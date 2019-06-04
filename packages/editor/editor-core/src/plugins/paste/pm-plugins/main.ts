@@ -14,7 +14,7 @@ import { linkifyContent } from '../../hyperlink/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
 import { transformSliceToRemoveOpenTable } from '../../table/utils';
 import { transformSliceToAddTableHeaders } from '../../table/commands';
-import { handleMacroAutoConvert } from '../handlers';
+import { handleMacroAutoConvert, handleMention } from '../handlers';
 import {
   transformSliceToJoinAdjacentCodeBlocks,
   transformSingleLineCodeBlockToCodeMark,
@@ -32,7 +32,7 @@ import {
 import { PasteTypes } from '../../analytics';
 import { insideTable } from '../../../utils';
 import { CardOptions } from '../../card';
-
+import { CollabEditOptions } from 'src/plugins/collab-edit/types';
 export const stateKey = new PluginKey('pastePlugin');
 
 export const md = MarkdownIt('zero', { html: false });
@@ -55,7 +55,11 @@ function isHeaderRowRequired(state: EditorState) {
   return tableState && tableState.pluginConfig.isHeaderRowRequired;
 }
 
-export function createPlugin(schema: Schema, cardOptions?: CardOptions) {
+export function createPlugin(
+  schema: Schema,
+  cardOptions?: CardOptions,
+  collabEdit?: CollabEditOptions,
+) {
   const atlassianMarkDownParser = new MarkdownTransformer(schema, md);
 
   function getMarkdownSlice(
@@ -246,6 +250,10 @@ export function createPlugin(schema: Schema, cardOptions?: CardOptions) {
         return false;
       },
       transformPasted(slice) {
+        if (collabEdit && collabEdit.sanitizePrivateContent) {
+          slice = handleMention(slice, schema);
+        }
+
         /** If a partial paste of table, paste only table's content */
         slice = transformSliceToRemoveOpenTable(slice, schema);
 

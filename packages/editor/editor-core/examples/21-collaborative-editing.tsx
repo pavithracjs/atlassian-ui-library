@@ -160,6 +160,7 @@ export default class Example extends React.Component<Props, State> {
               <Editor
                 appearance="full-page"
                 analyticsHandler={analyticsHandler}
+                allowStatus={true}
                 allowAnalyticsGASV3={true}
                 allowCodeBlocks={true}
                 allowLayouts={true}

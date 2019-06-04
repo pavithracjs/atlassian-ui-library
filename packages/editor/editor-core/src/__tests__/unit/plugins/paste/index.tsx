@@ -7,6 +7,7 @@ import {
   p,
   h1,
   code,
+  mention,
   mediaGroup,
   media,
   mediaSingle,
@@ -37,6 +38,7 @@ import {
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
 import { TextSelection } from 'prosemirror-state';
+import mentionsPlugin from '../../../../plugins/mentions';
 import mediaPlugin from '../../../../plugins/media';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import extensionPlugin from '../../../../plugins/extension';
@@ -72,6 +74,7 @@ describe('paste plugins', () => {
         ...props,
       },
       editorPlugins: [
+        mentionsPlugin(createAnalyticsEvent as any, props.collabEdit),
         mediaPlugin({ allowMediaSingle: true }),
         macroPlugin,
         codeBlockPlugin(),
@@ -99,6 +102,51 @@ describe('paste plugins', () => {
       data-file-mime-type="${fileMimeType}"></div>`;
 
     describe('editor', () => {
+      describe('paste mention', () => {
+        const mentionsHtml =
+          "<meta charset='utf-8'><p data-pm-slice='1 1 []'><span data-mention-id='2' data-access-level='' contenteditable='false'>@Verdie Carrales</span> test</p>";
+
+        it('should remove mention text when property CollabEditOptions.sanitizePrivateContent is enabled', () => {
+          const { editorView } = editor(doc(p('this is {<>}')), {
+            collabEdit: { sanitizePrivateContent: true },
+          });
+          dispatchPasteEvent(editorView, {
+            html: mentionsHtml,
+          });
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              p(
+                'this is ',
+                mention({ id: '2', text: '', accessLevel: '' })(),
+                ' test',
+              ),
+            ),
+          );
+        });
+
+        it('should keep mention text when property CollabEditOptions.sanitizePrivateContent is disabled', () => {
+          const { editorView } = editor(doc(p('this is {<>}')), {
+            collabEdit: { sanitizePrivateContent: false },
+          });
+          dispatchPasteEvent(editorView, {
+            html: mentionsHtml,
+          });
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              p(
+                'this is ',
+                mention({
+                  id: '2',
+                  text: '@Verdie Carrales',
+                  accessLevel: '',
+                })(),
+                ' test',
+              ),
+            ),
+          );
+        });
+      });
+
       describe('when message is a media image node', () => {
         it('paste as mediaSingle', () => {
           const { editorView } = editor(doc(p('{<>}')));
