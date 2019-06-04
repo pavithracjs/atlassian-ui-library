@@ -7,7 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Progress tracker server side rendering', async done => {
-  (await getExamplesFor('progress-tracker')).forEach(examples => {
+  (await getExamplesFor('progress-tracker')).forEach(async (examples: any) => {
     // $StringLitteral
     if (!examples.filePath.includes('custom')) {
       /* custom example contains import on react-router-dom */

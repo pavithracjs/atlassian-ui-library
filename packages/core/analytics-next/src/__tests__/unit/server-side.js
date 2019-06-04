@@ -7,10 +7,12 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Analytics-next server side rendering', async done => {
-  (await getExamplesFor('analytics-next')).forEach(examples => {
+  (await getExamplesFor('analytics-next')).forEach(async (examples: any) => {
     // $StringLitteral
     const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+    expect(async () =>
+      ReactDOMServer.renderToString(<Example />),
+    ).not.toThrowError();
   });
   done();
 });

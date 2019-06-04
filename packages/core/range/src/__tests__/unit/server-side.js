@@ -7,10 +7,12 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Field range server side rendering', async done => {
-  (await getExamplesFor('field-range')).forEach(examples => {
+  (await getExamplesFor('field-range')).forEach(async (examples: any) => {
     // $StringLitteral
     const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+    expect(async () =>
+      ReactDOMServer.renderToString(<Example />),
+    ).not.toThrowError();
   });
   done();
 });

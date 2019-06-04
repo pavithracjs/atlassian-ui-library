@@ -7,10 +7,12 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Tree server side rendering', async done => {
-  (await getExamplesFor('tree')).forEach(examples => {
+  (await getExamplesFor('tree')).forEach(async (examples: any) => {
     // $StringLitteral
     const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+    expect(async () =>
+      ReactDOMServer.renderToString(<Example />),
+    ).not.toThrowError();
   });
   done();
 });

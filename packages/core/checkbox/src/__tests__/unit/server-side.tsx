@@ -8,7 +8,9 @@ import ReactDOMServer from 'react-dom/server';
 test('Checkbox server side rendering', async done => {
   (await getExamplesFor('checkbox')).forEach((examples: any) => {
     const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+    expect(async () =>
+      ReactDOMServer.renderToString(<Example />),
+    ).not.toThrowError();
   });
   done();
 });

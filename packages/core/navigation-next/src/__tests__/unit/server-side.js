@@ -24,7 +24,7 @@ const exampleName = (file: string) =>
 
 test('navigation-next server side rendering', async done => {
   // $StringLitteral
-  (await getExamplesFor('navigation-next')).forEach(examples => {
+  (await getExamplesFor('navigation-next')).forEach(async (examples: any) => {
     if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {
       // $StringLitteral
       const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require

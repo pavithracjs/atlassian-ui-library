@@ -9,7 +9,9 @@ test('media-viewer server side rendering', async done => {
   (await getExamplesFor('media-viewer')).forEach((examples: any) => {
     const Example = require(examples.filePath).default;
 
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+    expect(async () =>
+      ReactDOMServer.renderToString(<Example />),
+    ).not.toThrowError();
   });
   done();
 });

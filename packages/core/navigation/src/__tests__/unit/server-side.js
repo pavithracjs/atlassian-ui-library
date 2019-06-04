@@ -7,7 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Navigation server side rendering', async done => {
-  (await getExamplesFor('navigation')).forEach(examples => {
+  (await getExamplesFor('navigation')).forEach(async (examples: any) => {
     // $StringLitteral
     if (!examples.filePath.includes('react-router')) {
       /* react router example contains import on react-router-dom */

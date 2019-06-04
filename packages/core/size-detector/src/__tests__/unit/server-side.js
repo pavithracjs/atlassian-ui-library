@@ -8,10 +8,12 @@ import ReactDOMServer from 'react-dom/server';
 import SizeDetector from '../..';
 
 test('SizeDetector server side rendering', async done => {
-  (await getExamplesFor('size-detector')).forEach(examples => {
+  (await getExamplesFor('size-detector')).forEach(async (examples: any) => {
     // $StringLitteral
     const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+    expect(async () =>
+      ReactDOMServer.renderToString(<Example />),
+    ).not.toThrowError();
   });
   done();
 });

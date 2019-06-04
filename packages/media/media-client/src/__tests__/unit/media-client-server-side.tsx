@@ -39,5 +39,7 @@ test('media-client server side rendering of project examples', async () => {
 });
 
 test('media-client server side rendering of simple component', () => {
-  expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  expect(async () =>
+    ReactDOMServer.renderToString(<Example />),
+  ).not.toThrowError();
 });

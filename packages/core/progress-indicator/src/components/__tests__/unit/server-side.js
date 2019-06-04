@@ -7,10 +7,14 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Progress indicator server side rendering', async done => {
-  (await getExamplesFor('progress-indicator')).forEach(examples => {
-    // $StringLitteral
-    const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
-  });
+  (await getExamplesFor('progress-indicator')).forEach(
+    async (examples: any) => {
+      // $StringLitteral
+      const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+      expect(async () =>
+        ReactDOMServer.renderToString(<Example />),
+      ).not.toThrowError();
+    },
+  );
   done();
 });
