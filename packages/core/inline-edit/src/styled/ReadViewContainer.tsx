@@ -12,7 +12,7 @@ const ReadViewContainer = styled.div<Props>`
   padding: ${props => (props.isCompact ? gridSize() / 2 : gridSize())}px
     ${gridSize() - 2}px;
   font-size: ${fontSize()}px;
-  height: ${(gridSize() * 2.5) / fontSize()}em;
+  min-height: ${(gridSize() * 2.5) / fontSize()}em;
   line-height: ${(gridSize() * 2.5) / fontSize()};
 `;
 
