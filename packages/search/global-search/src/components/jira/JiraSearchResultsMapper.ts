@@ -7,11 +7,7 @@ import {
   AnalyticsType,
   ContentType,
 } from '../../model/Result';
-import {
-  take,
-  getJiraAllIssuesUrl,
-  JiraEntityTypes,
-} from '../SearchResultsUtil';
+import { take, getJiraAllIssuesUrl } from '../SearchResultsUtil';
 import { messages } from '../../messages';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 import { attachJiraContextIdentifiers } from '../common/contextIdentifiersHelper';
