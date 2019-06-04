@@ -69,9 +69,9 @@ describe('<Header />', () => {
 
   it('resubscribes to the provider when the data property value is changed', () => {
     const mediaClient = fakeMediaClient();
-    mediaClient.file.getFileState = jest
-      .fn()
-      .mockReturnValue(Observable.of(processedImageState));
+    asMock(mediaClient.file.getFileState).mockReturnValue(
+      Observable.of(processedImageState),
+    );
     const el = mount(
       <Header
         intl={fakeIntl}
@@ -89,9 +89,9 @@ describe('<Header />', () => {
 
   it('component resets initial state when new identifier is passed', () => {
     const mediaClient = fakeMediaClient();
-    mediaClient.file.getFileState = jest
-      .fn()
-      .mockReturnValue(Observable.of(processedImageState));
+    asMock(mediaClient.file.getFileState).mockReturnValue(
+      Observable.of(processedImageState),
+    );
     const el = mount<{}, HeaderState>(
       <Header
         intl={fakeIntl}
@@ -113,9 +113,9 @@ describe('<Header />', () => {
 
   it('component resets initial state when new mediaClient is passed', () => {
     const mediaClient = fakeMediaClient();
-    mediaClient.file.getFileState = jest
-      .fn()
-      .mockReturnValue(Observable.of(processedImageState));
+    asMock(mediaClient.file.getFileState).mockReturnValue(
+      Observable.of(processedImageState),
+    );
     const el = mount<{}, HeaderState>(
       <Header
         intl={fakeIntl}
@@ -129,9 +129,7 @@ describe('<Header />', () => {
     // let's prevent the second call to getFile from immediately resolving and
     // updating the state to SUCCESSFUL before we run the assertion.
     const newMediaClient = fakeMediaClient();
-    mediaClient.file.getFileState = jest
-      .fn()
-      .mockReturnValue(Observable.never());
+    asMock(mediaClient.file.getFileState).mockReturnValue(Observable.never());
     el.setProps({ mediaClient: newMediaClient });
     expect(el.state().item.status).toEqual('PENDING');
   });
@@ -297,9 +295,9 @@ describe('<Header />', () => {
     it('MSW-720: passes the collectionName to getFile', () => {
       const collectionName = 'some-collection';
       const mediaClient = fakeMediaClient();
-      mediaClient.file.getFileState = jest
-        .fn()
-        .mockReturnValue(Observable.of(processedImageState));
+      asMock(mediaClient.file.getFileState).mockReturnValue(
+        Observable.of(processedImageState),
+      );
       const identifierWithCollection = { ...identifier, collectionName };
       const el = mount(
         <Header
@@ -317,9 +315,9 @@ describe('<Header />', () => {
     it('MSW-720: passes the collectionName to mediaClient.file.downloadBinary', () => {
       const collectionName = 'some-collection';
       const mediaClient = fakeMediaClient();
-      mediaClient.file.getFileState = jest
-        .fn()
-        .mockReturnValue(Observable.of(processedImageState));
+      asMock(mediaClient.file.getFileState).mockReturnValue(
+        Observable.of(processedImageState),
+      );
       const identifierWithCollection = { ...identifier, collectionName };
       const el = mount(
         <Header

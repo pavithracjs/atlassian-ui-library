@@ -1,5 +1,4 @@
-import { Identifier } from '@atlaskit/media-client';
-import { MediaClient } from '@atlaskit/media-client';
+import { Identifier, MediaClient } from '@atlaskit/media-client';
 import { MediaViewerFeatureFlags } from '../newgen/domain';
 
 export interface MediaViewerDataSource {
