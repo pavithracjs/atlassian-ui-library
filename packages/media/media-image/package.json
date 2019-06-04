@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-image",
-  "version": "14.0.3",
+  "version": "14.1.0",
   "description": "Atlassian Editor component for JIRA",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",

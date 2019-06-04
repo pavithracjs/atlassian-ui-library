@@ -1,1 +1,0 @@
-- You can supply mediaClientConfig instead of Context to SmartMediaEditor component. Soon Context input will be deprecated and removed.
