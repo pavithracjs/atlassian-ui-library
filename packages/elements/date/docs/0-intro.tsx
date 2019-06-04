@@ -19,6 +19,7 @@ const DateProps = require('!!extract-react-types-loader!../src/components/Date')
 
 export default md`
 ${<AtlassianInternalWarning />}
+
 This component is the implementation of the Date element in React.
 
 ## Usage

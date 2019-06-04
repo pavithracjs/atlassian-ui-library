@@ -23,6 +23,13 @@ import { pluginConfig as getPluginConfig } from '../index';
 import { TableCssClassName as ClassName } from '../types';
 import { closestElement } from '../../../utils';
 
+export type TableOptions = {
+  dynamicTextSizing?: boolean;
+  isBreakoutEnabled?: boolean;
+  isFullWidthModeEnabled?: boolean;
+  wasFullWidthModeEnabled?: boolean;
+};
+
 export interface Props {
   node: PmNode;
   view: EditorView;
@@ -30,11 +37,7 @@ export interface Props {
   cellMinWidth?: number;
   portalProviderAPI: PortalProviderAPI;
   getPos: () => number;
-  options?: {
-    dynamicTextSizing?: boolean;
-    isBreakoutEnabled?: boolean;
-    isFullWidthModeEnabled?: boolean;
-  };
+  options?: TableOptions;
 }
 
 const tableAttributes = (node: PmNode) => {
@@ -228,12 +231,7 @@ export const createTableView = (
   view: EditorView,
   getPos: getPosHandler,
   portalProviderAPI: PortalProviderAPI,
-  options: {
-    isBreakoutEnabled?: boolean;
-    wasBreakoutEnabled?: boolean;
-    dynamicTextSizing?: boolean;
-    isFullWidthModeEnabled?: boolean;
-  },
+  options: TableOptions,
 ): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
   const { allowColumnResizing } = getPluginConfig(pluginConfig);

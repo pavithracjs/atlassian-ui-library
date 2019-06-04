@@ -61,6 +61,7 @@ import {
 import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
 import { buildJiraModelParams } from '../../util/model-parameters';
+import { JiraFeatures } from '../../util/features';
 
 const JIRA_RESULT_LIMIT = 6;
 const JIRA_PREQUERY_RESULT_LIMIT = 10;
@@ -73,23 +74,30 @@ const BeforePreQueryStateContainer = styled.div`
   margin-top: ${gridSize()}px;
 `;
 
+/**
+ * NOTE: This component is only consumed internally as such avoid using optional props
+ * i.e. instead of "propX?: something" use "propX: something | undefined"
+ *
+ * This improves type safety and prevent us from accidentally forgetting a parameter.
+ */
 export interface Props {
-  createAnalyticsEvent?: CreateAnalyticsEventFn;
-  linkComponent?: LinkComponent;
-  referralContextIdentifiers?: ReferralContextIdentifiers;
+  createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
+  linkComponent: LinkComponent | undefined;
+  referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   jiraClient: JiraClient;
   peopleSearchClient: PeopleSearchClient;
   crossProductSearchClient: CrossProductSearchClient;
-  disableJiraPreQueryPeopleSearch?: boolean;
   logger: Logger;
-  enablePreQueryFromAggregator?: boolean;
-  onAdvancedSearch?: (
-    e: CancelableEvent,
-    entity: string,
-    query: string,
-    searchSessionId: string,
-  ) => void;
-  appPermission?: JiraApplicationPermission;
+  onAdvancedSearch:
+    | undefined
+    | ((
+        e: CancelableEvent,
+        entity: string,
+        query: string,
+        searchSessionId: string,
+      ) => void);
+  appPermission: JiraApplicationPermission | undefined;
+  features: JiraFeatures;
 }
 
 const contentTypeToSection = {
@@ -330,7 +338,7 @@ export class JiraQuickSearchContainer extends React.Component<
       the following code is temporarily feature flagged for performance reasons and will be shortly reinstated.
       https://product-fabric.atlassian.net/browse/QS-459
     */
-    if (this.props.disableJiraPreQueryPeopleSearch) {
+    if (this.props.features.disableJiraPreQueryPeopleSearch) {
       return Promise.resolve([]);
     } else {
       const peoplePromise: Promise<
@@ -398,7 +406,7 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
     abTest: ABTest,
   ): Promise<GenericResultMap> => {
-    const recentItemsPromise = this.props.enablePreQueryFromAggregator
+    const recentItemsPromise = this.props.features.enablePreQueryFromAggregator
       ? this.getRecentItemsFromXpsearch(sessionId, abTest)
       : this.getRecentItemsFromJira(sessionId);
     return handlePromiseError(
@@ -425,7 +433,7 @@ export class JiraQuickSearchContainer extends React.Component<
       the following code is temporarily feature flagged for performance reasons and will be shortly reinstated.
       https://product-fabric.atlassian.net/browse/QS-459
     */
-    if (this.props.disableJiraPreQueryPeopleSearch) {
+    if (this.props.features.disableJiraPreQueryPeopleSearch) {
       return Promise.resolve(false);
     } else {
       return handlePromiseError(
@@ -548,7 +556,7 @@ export class JiraQuickSearchContainer extends React.Component<
       linkComponent,
       createAnalyticsEvent,
       logger,
-      enablePreQueryFromAggregator,
+      features,
       referralContextIdentifiers,
     } = this.props;
     const { selectedResultId } = this.state;
@@ -572,7 +580,6 @@ export class JiraQuickSearchContainer extends React.Component<
           _recentItems,
           _abTest,
           _isLoading,
-          _inFasterSearchExperiment,
           searchSessionId,
         ) =>
           this.getPostQueryDisplayedResults(
@@ -593,7 +600,7 @@ export class JiraQuickSearchContainer extends React.Component<
         onSelectedResultIdChanged={(newId: any) =>
           this.handleSelectedResultIdChanged(newId)
         }
-        enablePreQueryFromAggregator={enablePreQueryFromAggregator}
+        enablePreQueryFromAggregator={features.enablePreQueryFromAggregator}
         referralContextIdentifiers={referralContextIdentifiers}
       />
     );

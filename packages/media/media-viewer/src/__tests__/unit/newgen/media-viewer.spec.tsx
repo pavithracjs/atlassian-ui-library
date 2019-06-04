@@ -13,10 +13,12 @@ import { mount } from 'enzyme';
 import { Subject } from 'rxjs/Subject';
 import Button from '@atlaskit/button';
 import { Shortcut } from '@atlaskit/media-ui';
-import { FileItem, Identifier } from '@atlaskit/media-core';
-import { KeyboardEventWithKeyCode } from '@atlaskit/media-test-helpers';
+import { FileItem, Identifier } from '@atlaskit/media-client';
+import {
+  KeyboardEventWithKeyCode,
+  fakeMediaClient,
+} from '@atlaskit/media-test-helpers';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
-import { createContext } from '../_stubs';
 import { Content } from '../../../newgen/content';
 import { MediaViewer } from '../../../newgen/media-viewer';
 import { CloseButtonWrapper } from '../../../newgen/styled';
@@ -25,7 +27,7 @@ import { ItemSource } from '../../../newgen/domain';
 
 function createFixture(items: Identifier[], identifier: Identifier) {
   const subject = new Subject<FileItem>();
-  const context = createContext();
+  const mediaClient = fakeMediaClient();
   const onClose = jest.fn();
   const itemSource: ItemSource = {
     kind: 'ARRAY',
@@ -37,7 +39,7 @@ function createFixture(items: Identifier[], identifier: Identifier) {
       <MediaViewer
         selectedItem={identifier}
         itemSource={itemSource}
-        context={context}
+        mediaClient={mediaClient}
         onClose={onClose}
       />
     </AnalyticsListener>,

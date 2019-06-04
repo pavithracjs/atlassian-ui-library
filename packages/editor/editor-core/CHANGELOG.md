@@ -1,5 +1,23 @@
 # @atlaskit/editor-core
 
+## 112.11.8
+
+### Patch Changes
+
+- [patch][7ac7d494de](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ac7d494de):
+
+  - ED-6995 Scale down tables created in full-width mode correctly
+
+## 112.11.7
+
+### Patch Changes
+
+- [patch][9631b66aa0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9631b66aa0):
+
+  - ED-6997: When transitioning between modes (Full Width -> Full Page) while having a selection over React nodes, ProseMirror will try to re-apply the selection during the view update to detached nodes that are no longer rendered.
+
+  Now before we apply an update we remove focus from the editor to avoid ProseMirror trying to apply any sort of selection.
+
 ## 112.11.6
 
 ### Patch Changes

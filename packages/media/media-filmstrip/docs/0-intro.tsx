@@ -9,6 +9,7 @@ import {
 
 export default md`
 ${<AtlassianInternalWarning />}
+
   This component displays multiple media cards horizontally. Allows to navigate through the stored cards.
 
   ## Usage
