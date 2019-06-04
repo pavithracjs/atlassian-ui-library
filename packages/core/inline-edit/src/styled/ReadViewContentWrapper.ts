@@ -13,6 +13,7 @@ const ReadViewContentWrapper = styled.div<Props>`
   &:hover {
     background: ${colors.N30};
   }
+  max-width: 100%;
   width: ${({ readViewFitContainerWidth }) =>
     readViewFitContainerWidth ? '100%' : 'auto'};
   transition: background 0.2s;

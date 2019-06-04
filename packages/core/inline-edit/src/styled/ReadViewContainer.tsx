@@ -14,6 +14,7 @@ const ReadViewContainer = styled.div<Props>`
   font-size: ${fontSize()}px;
   min-height: ${(gridSize() * 2.5) / fontSize()}em;
   line-height: ${(gridSize() * 2.5) / fontSize()};
+  word-break: break-word;
 `;
 
 ReadViewContainer.displayName = 'ReadViewContainer';

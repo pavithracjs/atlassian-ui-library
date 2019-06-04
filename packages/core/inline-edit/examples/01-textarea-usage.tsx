@@ -10,8 +10,9 @@ const textAreaLineHeightFactor = 2.5;
 const ReadViewContainer = styled.div`
   white-space: pre-wrap;
   padding: ${gridSize() - 2}px ${gridSize() - 2}px;
-  line-height: ${(gridSize() * textAreaLineHeightFactor) / fontSize()}
-  min-height: ${gridSize() * textAreaLineHeightFactor * minRows}px
+  line-height: ${(gridSize() * textAreaLineHeightFactor) / fontSize()};
+  min-height: ${gridSize() * textAreaLineHeightFactor * minRows}px;
+  word-break: break-word;
 `;
 
 interface State {

@@ -11,8 +11,9 @@ const ReadViewContainer = styled.div`
   overflow: hidden;
   padding: ${gridSize()}px ${gridSize() - 2}px;
   font-size: ${fontSize()}px;
-  height: ${(gridSize() * 2.5) / fontSize()}em;
+  min-height: ${(gridSize() * 2.5) / fontSize()}em;
   line-height: ${(gridSize() * 2.5) / fontSize()};
+  word-break: break-word;
 `;
 
 interface State {
