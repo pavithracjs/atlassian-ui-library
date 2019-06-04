@@ -37,13 +37,13 @@ const Divider = styled.h4`
   text-align: center;
 `;
 
-type Props = {
+interface Props {
   keywords: string[];
   component: ComponentType<any>;
   componentName: string;
   package?: string;
   divider?: boolean;
-};
+}
 
 class IconExplorerCell extends Component<Props, { isModalOpen: boolean }> {
   state = {

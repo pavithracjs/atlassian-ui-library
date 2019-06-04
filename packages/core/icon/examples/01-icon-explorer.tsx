@@ -129,7 +129,9 @@ const getAllIcons = async (): Promise<{ [key: string]: iconType }> => {
 };
 const allIconsPromise = getAllIcons();
 
-type LogoMap = { [key: string]: { keywords: string[] } };
+interface LogoMap {
+  [key: string]: { keywords: string[] };
+}
 const getKeywords = (logoMap: LogoMap) =>
   Object.values(logoMap).reduce(
     (existingKeywords: string[], { keywords }) => [
@@ -156,13 +158,13 @@ const NoIcons = styled.div`
   padding: 10px;
 `;
 
-type iconType = {
+interface iconType {
   keywords: string[];
   component: ComponentType<any>;
   componentName: string;
   package?: string;
   divider?: boolean;
-};
+}
 
 const filterIcons = (icons: { [key: string]: any }, query: string) => {
   const regex = new RegExp(query);
@@ -175,11 +177,11 @@ const filterIcons = (icons: { [key: string]: any }, query: string) => {
     );
 };
 
-type State = {
+interface State {
   query: string;
   showIcons: boolean;
   allIcons?: { [key: string]: iconType };
-};
+}
 
 class IconAllExample extends Component<{}, State> {
   state: State = {

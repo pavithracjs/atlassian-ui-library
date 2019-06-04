@@ -6,9 +6,9 @@ import ArrowDownIcon from '../glyph/arrow-down';
 import ArrowLeftIcon from '../glyph/arrow-left';
 import ArrowRightIcon from '../glyph/arrow-right';
 
-type State = {
+interface State {
   components: ComponentType<any>[];
-};
+}
 
 class AnimationDemo extends Component<{}, State> {
   checkbox?: HTMLInputElement;

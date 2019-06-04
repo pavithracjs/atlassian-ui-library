@@ -8,9 +8,9 @@ import ArrowDownIcon from '../glyph/arrow-down';
 import ArrowLeftIcon from '../glyph/arrow-left';
 import ArrowRightIcon from '../glyph/arrow-right';
 
-type WithFlippedProp = {
+interface WithFlippedProp {
   isColorFlipped: boolean;
-};
+}
 
 const ColorDiv = styled.div<WithFlippedProp>`
   align-items: center;

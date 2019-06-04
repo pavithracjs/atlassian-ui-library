@@ -21,11 +21,11 @@ const styles = {
   },
 };
 
-type State = {
+interface State {
   toggleColor: boolean;
   toggleFill: boolean;
   icons: any;
-};
+}
 
 export default class ToggleIcons extends Component<{}, State> {
   state = {
