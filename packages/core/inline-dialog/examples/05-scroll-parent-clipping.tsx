@@ -1,13 +1,12 @@
-// @flow
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import Lorem from 'react-lorem-component';
 
 import InlineDialog from '../src';
 
-type State = {
-  dialogOpen: boolean,
-};
+interface State {
+  dialogOpen: boolean;
+}
 
 const content = (
   <div>

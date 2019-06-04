@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import {
   withAnalyticsEvents,
@@ -8,12 +6,18 @@ import {
 } from '@atlaskit/analytics-next';
 import NodeResolver from 'react-node-resolver';
 import { Manager, Reference, Popper } from '@atlaskit/popper';
-import type { Props } from '../types';
+import { Props } from '../types';
 import {
   name as packageName,
   version as packageVersion,
 } from '../version.json';
 import { Container } from './styled';
+
+interface PopperProps {
+  ref: (node: HTMLElement | null) => void;
+  style: React.CSSProperties;
+  outOfBoundaries: boolean | null;
+}
 
 class InlineDialog extends Component<Props, {}> {
   static defaultProps = {
@@ -27,9 +31,9 @@ class InlineDialog extends Component<Props, {}> {
     placement: 'bottom-start',
   };
 
-  containerRef: ?HTMLElement = null;
+  containerRef?: HTMLElement;
 
-  triggerRef: ?HTMLElement = null;
+  triggerRef?: HTMLElement;
 
   componentDidUpdate(prevProps: Props) {
     if (typeof window === 'undefined') return;
@@ -60,8 +64,8 @@ class InlineDialog extends Component<Props, {}> {
 
     if (event.defaultPrevented) return;
 
-    const container: ?HTMLElement = this.containerRef;
-    const trigger: ?HTMLElement = this.triggerRef;
+    const container = this.containerRef;
+    const trigger = this.triggerRef;
     const { target } = event;
 
     // exit if we click outside but on the trigger — it can handle the clicks itself
@@ -69,7 +73,7 @@ class InlineDialog extends Component<Props, {}> {
 
     // call onClose if the click originated from outside the dialog
     if (isOpen && container && !container.contains(target)) {
-      onClose({ isOpen: false, event });
+      onClose && onClose({ isOpen: false, event });
     }
   };
 
@@ -86,12 +90,11 @@ class InlineDialog extends Component<Props, {}> {
 
     const popper = isOpen ? (
       <Popper placement={placement}>
-        {({ ref, style, outOfBoundaries }) => (
+        {({ ref, style }: PopperProps) => (
           <Container
             onBlur={onContentBlur}
             onFocus={onContentFocus}
             onClick={onContentClick}
-            outOfBoundaries={outOfBoundaries}
             innerRef={node => {
               this.containerRef = node;
               ref(node);
@@ -107,9 +110,9 @@ class InlineDialog extends Component<Props, {}> {
     return (
       <Manager>
         <Reference>
-          {({ ref }) => (
+          {({ ref }: PopperProps) => (
             <NodeResolver
-              innerRef={node => {
+              innerRef={(node: HTMLElement) => {
                 this.triggerRef = node;
                 ref(node);
               }}

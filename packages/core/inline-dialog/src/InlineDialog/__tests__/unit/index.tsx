@@ -1,13 +1,14 @@
-// @flow
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { Popper as PopperComponent } from '@atlaskit/popper';
-
 import InlineDialogWithAnalytics from '../../..';
 import { InlineDialogWithoutAnalytics as InlineDialog } from '../..';
 import { Container } from '../../styled';
 
+declare var global: any;
+
 jest.mock('popper.js', () => {
+  // @ts-ignore requireActual property is missing from jest
   const PopperJS = jest.requireActual('popper.js');
 
   return class Popper {
@@ -127,6 +128,7 @@ describe('inline-dialog', () => {
         defaultPrevented: true,
       };
 
+      // @ts-ignore - handleClickOutside DOES exist on the instance.
       wrapper.instance().handleClickOutside(event);
 
       expect(spy).not.toHaveBeenCalled();
@@ -139,6 +141,7 @@ describe('inline-dialog', () => {
         target: document.createElement('div'),
       };
 
+      // @ts-ignore - handleClickOutside DOES exist on the instance.
       wrapper.instance().handleClickOutside(event);
 
       expect(spy).toHaveBeenCalledTimes(1);
@@ -152,6 +155,7 @@ describe('inline-dialog', () => {
         target: document.createElement('div'),
       };
 
+      // @ts-ignore - handleClickOutside DOES exist on the instance.
       wrapper.instance().handleClickOutside(event);
 
       expect(spy).not.toHaveBeenCalled();
@@ -170,7 +174,7 @@ describe('InlineDialogWithAnalytics', () => {
   });
 
   it('should mount without errors', () => {
-    mount(<InlineDialogWithAnalytics />);
+    mount(<InlineDialogWithAnalytics children={''} content={''} />);
     /* eslint-disable no-console */
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
