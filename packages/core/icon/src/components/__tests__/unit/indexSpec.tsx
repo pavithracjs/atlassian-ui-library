@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import path from 'path';
 import fs from 'fs';
 import { name } from '../../../version.json';
-import { size } from '../../Icon';
+import { sizeObject } from '../../Icon';
 import BookIcon from '../../../../glyph/book';
 import DefaultIcon, { metadata, size as defaultSize } from '../../..';
 
@@ -416,7 +416,7 @@ describe(name, () => {
     });
 
     describe('bundle', () => {
-      it('has size export', () => expect(defaultSize).toEqual(size));
+      it('has size export', () => expect(defaultSize).toEqual(sizeObject));
 
       it('exports the Icon component', () => {
         expect(new DefaultIcon({ label: 'My icon' })).toBeInstanceOf(Component);
