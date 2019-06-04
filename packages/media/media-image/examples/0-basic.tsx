@@ -8,7 +8,7 @@ import {
   imageFileId,
   docFileId,
   errorFileId,
-  getDefaultMediaClientConfig,
+  createStorybookMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import Spinner from '@atlaskit/spinner';
 import Select from '@atlaskit/select';
@@ -27,7 +27,7 @@ export interface ExampleState {
   height: number;
 }
 
-const mediaClientConfig = getDefaultMediaClientConfig();
+const mediaClientConfig = createStorybookMediaClientConfig();
 const imageIds: MediaImageId[] = [
   { label: 'Generic', value: genericFileId },
   { label: 'Gif', value: gifFileId },
@@ -93,6 +93,7 @@ class Example extends Component<ExampleProps, ExampleState> {
               }
 
               if (error) {
+                console.error(error);
                 return <div>Error :(</div>;
               }
 
