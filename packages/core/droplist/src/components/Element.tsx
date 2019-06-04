@@ -1,5 +1,4 @@
-// @flow
-import React, { PureComponent, type Node } from 'react';
+import React, { PureComponent, Node } from 'react';
 import { Anchor, Span } from '../styled/Item';
 
 export const supportsVoiceOver = () => /Mac OS X/.test(navigator.userAgent);
@@ -15,7 +14,7 @@ export const baseTypes = {
   values: ['link', 'radio', 'checkbox', 'option'],
 };
 
-type Props = {
+interface Props {
   children?: Node,
   handleClick?: any => mixed,
   handleKeyPress?: any => mixed,
@@ -34,7 +33,7 @@ type Props = {
   target?: ?string,
   title?: ?string,
   /** Expects 'link' | 'radio' | 'checkbox' | 'option' */
-  type?: string,
+  interface?: string,
 };
 
 export default class Element extends PureComponent<Props, void> {
@@ -82,7 +81,7 @@ export default class Element extends PureComponent<Props, void> {
       onMouseOut: props.handleMouseOut,
       onMouseOver: props.handleMouseOver,
       onMouseUp: props.handleMouseUp,
-      role: ariaRoles[type],
+      role: ariaRoles[interface],
       title: props.title,
       tabIndex: props.type === 'option' ? null : 0,
     };

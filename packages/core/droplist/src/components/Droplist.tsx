@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component, type Node } from 'react';
+import React, { Component, Node } from 'react';
 import PropTypes from 'prop-types';
 import {
   withAnalyticsEvents,
@@ -25,7 +23,7 @@ import itemTheme from '../theme/item-theme';
 const halfFocusRing = 1;
 const dropOffset = `0, ${gridSize()}px`;
 
-type Props = {
+interface Props {
   /**
    * Controls the appearance of the menu.
    * Default menu has scroll after its height exceeds the pre-defined amount.
@@ -136,7 +134,6 @@ class Droplist extends Component<Props, void> {
 
   handleClickOutside = (event: Event): void => {
     if (this.props.isOpen) {
-      // $FlowFixMe - flow is lost and if not an instance of Node
       if (event.target instanceof Node) {
         // Rather than check for the target within the entire Droplist, we specify the trigger/content.
         // This aids with future effort in scroll-locking Droplist when isMenuFixed is enabled; the scroll
@@ -218,7 +215,6 @@ class Droplist extends Component<Props, void> {
           boundariesElement={boundariesElement}
           content={layerContent}
           offset={dropOffset}
-          // $FlowFixMe - Cannot create `Layer` element because in property `position
           position={position}
           isAlwaysFixed={isOpen && isMenuFixed}
           onPositioned={onPositioned}

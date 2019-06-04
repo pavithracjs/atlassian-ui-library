@@ -1,4 +1,3 @@
-// @flow
 import { itemThemeNamespace } from '@atlaskit/item';
 import { colors, gridSize, math, themed } from '@atlaskit/theme';
 

@@ -1,5 +1,3 @@
-// @flow
-
 type Color = string;
 type Background = Color;
 type Text = Color;

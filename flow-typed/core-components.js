@@ -41,6 +41,10 @@ declare module '@atlaskit/drawer' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/droplist' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/dynamic-table' {
   declare module.exports: any;
 }

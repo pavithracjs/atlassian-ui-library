@@ -1,14 +1,13 @@
-// @flow
-import React, { PureComponent, type Node } from 'react';
+import React, { PureComponent, Node } from 'react';
 import Group, { Heading, HeadingText, HeadingAfter } from '../styled/Group';
 
-type Props = {
+interface Props {
   children?: any,
   elemAfter?: Node | string,
   heading?: string,
 };
 
-type State = {
+interface State {
   ariaLabel?: string,
 };
 

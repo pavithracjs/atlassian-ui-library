@@ -1,5 +1,4 @@
-// @flow
-import React, { PureComponent, type Node } from 'react';
+import React, { PureComponent, Node } from 'react';
 import PropTypes from 'prop-types';
 import {
   withAnalyticsEvents,
@@ -29,7 +28,7 @@ import Element from './Element';
 
 const inputTypes = { checkbox: Checkbox, radio: Radio };
 
-type Props = {
+interface Props {
   appearance: 'default' | 'primary',
   children?: Node,
   description?: string,
@@ -47,11 +46,11 @@ type Props = {
   title?: ?string,
   tooltipDescription?: ?string,
   tooltipPosition?: 'top' | 'bottom' | 'left' | 'right',
-  type?: string,
+  interface?: string,
   itemContext?: string,
 };
 
-type State = {
+interface State {
   isHovered: boolean,
   isPressed: boolean,
 };
@@ -76,7 +75,7 @@ class Item extends PureComponent<Props, State> {
     title: null,
     tooltipDescription: null,
     tooltipPosition: 'right',
-    type: 'link',
+    interface: 'link',
   };
 
   state = {
@@ -128,7 +127,7 @@ class Item extends PureComponent<Props, State> {
       isActive:
         (props.type === 'link' && props.isActive) ||
         (props.type === 'option' && props.isSelected),
-      isChecked: ['checkbox', 'radio'].indexOf(type) > -1 && props.isChecked,
+      isChecked: ['checkbox', 'radio'].indexOf(interface) > -1 && props.isChecked,
       isDisabled: props.isDisabled,
       isFocused: props.isFocused,
       isHidden: props.isHidden,
@@ -150,7 +149,7 @@ class Item extends PureComponent<Props, State> {
         href={props.href}
         target={props.target}
         title={props.title}
-        type={props.type}
+        interface={props.interface}
       >
         {hasInput && (
           <InputWrapper {...appearanceProps}>

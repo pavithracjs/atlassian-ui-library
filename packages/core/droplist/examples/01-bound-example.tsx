@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import Item, { ItemGroup } from '@atlaskit/item';
 import DropList from '../src';

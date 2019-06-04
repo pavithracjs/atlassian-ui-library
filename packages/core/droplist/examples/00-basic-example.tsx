@@ -1,4 +1,3 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { Label } from '@atlaskit/field-base';
 import Button from '@atlaskit/button';
