@@ -129,11 +129,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    if (props.client) {
-      this.client = props.client;
-    } else {
-      this.client = new ShareServiceClient();
-    }
+    this.client = props.client || new ShareServiceClient();
 
     this.state = {
       copyLinkOrigin: null,
