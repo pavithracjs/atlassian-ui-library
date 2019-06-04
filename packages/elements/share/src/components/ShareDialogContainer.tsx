@@ -73,7 +73,7 @@ export type Props = {
   /** space */
   /** Any other unlisted type will have a default message of "Link shared"*/
   shareContentType: string;
-  /** Link of the resource to be shared */
+  /** Link of the resource to be shared (should NOT includes origin tracing) */
   shareLink: string;
   /** Title of the resource to be shared that will be sent in notifications */
   shareTitle: string;
@@ -147,7 +147,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   ): Partial<State> | null {
     // Whenever there is change in share link, new origins should be created
     // ***
-    // memorization is recommended on React doc, but here the Origin Tracing does not reply on shareLink
+    // memoization is recommended on React doc, but here the Origin Tracing does not rely on shareLink
     // in getDerivedStateFormProps it makes shareLink as determinant of renewal to stand out better
     // ***
     if (
