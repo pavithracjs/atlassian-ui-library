@@ -25,7 +25,8 @@ const { readFile, readdir } = require('./fs');
 Does your package have a path that shouldn't be distributed?
 Cool just add it to the exception list
  */
-const exceptionList = ['__tests__', '@types'];
+// TODO: Marco: we may add another check to see if the components folder is generated.
+const exceptionList = ['__tests__', '@types', 'components'];
 
 const main = async () => {
   const [src, root, packageJSON] = await Promise.all([
@@ -42,7 +43,6 @@ const main = async () => {
   if (packageJSON.module !== 'index.js' || packageJSON.private) {
     return;
   }
-  // TODO: Discuss with Marco about doing ther proper check.
   const missing = src
     .filter(fileName => !exceptionList.includes(fileName))
     .map(fileName => fileName)

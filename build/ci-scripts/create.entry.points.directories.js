@@ -7,8 +7,8 @@ const fs = require('fs');
 // TODO: to remove later, used to test our build script remove packages line 21 by `test`.
 // const test = [
 //   {
-//     dir: '/Users/rbellebon/atlaskit-mk-2/packages/elements/mention',
-//     name: '@atlaskit/mention',
+//     dir: '/Users/rbellebon/atlaskit-mk-2/packages/core/badge',
+//     name: '@atlaskit/badge',
 //     config:{ atlaskit : {}}
 //   },
 // ];
@@ -32,7 +32,8 @@ const fs = require('fs');
             file =>
               file.includes('.') &&
               path.parse(file).name &&
-              !file.includes('.d.ts'),
+              !file.includes('.d.ts') &&
+              !file.includes('version.json'),
           ),
       };
     });
