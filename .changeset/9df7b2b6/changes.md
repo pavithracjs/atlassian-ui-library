@@ -1,1 +1,0 @@
-Lots of internal factoring. No changes to external API yet.
