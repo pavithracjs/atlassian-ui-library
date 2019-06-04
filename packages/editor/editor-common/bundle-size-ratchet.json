@@ -1,82 +1,122 @@
 [
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 77987,
-      "gzipSize": 18804
+      "size": 78259,
+      "gzipSize": 18942
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 211848,
-      "gzipSize": 64328
+      "size": 211820,
+      "gzipSize": 64284
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
       "size": 16063,
-      "gzipSize": 6385
+      "gzipSize": 6383
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 89993,
-      "gzipSize": 24118
+      "size": 91654,
+      "gzipSize": 24156
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 45446,
-      "gzipSize": 10664
+      "size": 45453,
+      "gzipSize": 10747
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 20537,
-      "gzipSize": 5812
+      "size": 41718,
+      "gzipSize": 9753
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
       "size": 7767,
-      "gzipSize": 2896
+      "gzipSize": 2897
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "atlaskit.people-and-teams.main",
     "name": "main",
     "stats": {
-      "size": 71623,
-      "gzipSize": 12724
+      "size": 71654,
+      "gzipSize": 12731
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 507900,
-      "gzipSize": 134402
+      "size": 531238,
+      "gzipSize": 139151
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-common",
+    "version": "39.7.0",
+    "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 23768,
-      "gzipSize": 9046
+      "size": 23765,
+      "gzipSize": 9042
     }
   }
 ]

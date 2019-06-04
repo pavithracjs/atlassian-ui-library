@@ -1,0 +1,1 @@
+Fix i18n issue in @atlaskit/mention. Loading messages from i18n folder
