@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/icon-file-type",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "description": "A React package that contains file-type icons",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
@@ -33,13 +33,13 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^13.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/button": "^13.0.5",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/icon-build-process": "^0.1.0",
-    "@atlaskit/modal-dialog": "^9.0.0",
+    "@atlaskit/modal-dialog": "^10.0.1",
     "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/tooltip": "^14.0.0",
+    "@atlaskit/tooltip": "^14.0.2",
     "enzyme": "^3.7.0",
     "fs-extra": "^4.0.2",
     "react-dom": "^16.8.0"

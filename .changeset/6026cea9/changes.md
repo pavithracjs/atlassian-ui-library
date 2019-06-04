@@ -1,1 +1,0 @@
-- Bump react-focus-lock to latest 1.19.1, it will fix a bug with document.activeElement

@@ -29,6 +29,10 @@ declare module '@atlaskit/button' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/checkbox' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/code' {
   declare module.exports: any;
 }
@@ -45,6 +49,10 @@ declare module '@atlaskit/inline-edit' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/inline-message' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/lozenge' {
   declare module.exports: any;
 }
@@ -54,6 +62,10 @@ declare module '@atlaskit/modal-dialog' {
 }
 
 declare module '@atlaskit/page' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/page-header' {
   declare module.exports: any;
 }
 
@@ -78,9 +90,5 @@ declare module '@atlaskit/radio' {
 }
 
 declare module '@atlaskit/portal' {
-  declare module.exports: any;
-}
-
-declare module '@atlaskit/inline-message' {
   declare module.exports: any;
 }

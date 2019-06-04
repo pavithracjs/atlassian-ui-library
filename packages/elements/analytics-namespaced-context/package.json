@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@atlaskit/analytics-listeners": "^6.1.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "react": "^16.8.0"

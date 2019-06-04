@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { md, Example, Props, code } from '@atlaskit/docs';
+import {
+  md,
+  Example,
+  Props,
+  code,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
+
 import ReactionsExample from '../examples/00-picker-and-reactions';
 
 const ReactionsSource = require('!!raw-loader!../examples/00-picker-and-reactions');
@@ -7,6 +14,8 @@ const ReactionsSource = require('!!raw-loader!../examples/00-picker-and-reaction
 const ReactionsProps = require('!!extract-react-types-loader!../examples/examples-util/ReactionsExampleWrapper');
 
 export default md`
+  ${<AtlassianInternalWarning />}
+
   The main purpose of the Reactions component is to provide users the ability to react to pieces of content.
 
   ## Usage

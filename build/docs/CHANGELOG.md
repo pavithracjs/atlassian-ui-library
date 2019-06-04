@@ -1,5 +1,41 @@
 # @atlaskit/docs
 
+## 8.1.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 8.1.0
+- [minor] [35405c3362](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/35405c3362):
+
+  Currently on the Atlaskit website, we are using section messages for developer preview at several places. In addition, as we recently removed couple of components from the Atlaskit service desk, we need to indicate if the component is intended for Atlassian first. Hence, We added another section message that will warn about the usage.
+
+  Now, in your docs, you can directly import those section messages to inform your customers.
+
+  ## Usage:
+
+  - <AtlassianInternalWarning /> is the section message that warns about Atlassian usage.
+  - <DevPreviewWarning> is the section message that warns about the componenent readiness.
+
+  - If you add the two section messages, meaning the component is Atlassian only and in dev preview:
+  `import { AtlassianInternalWarning, DevPreviewWarning } from '@atlaskit/docs/src/SectionMessages';`
+
+  ```${(
+      <>
+      <div style={{ marginBottom: '0.5rem'}}>
+      <AtlassianInternalWarning />
+      </div>
+      <div style={{ marginTop: '0.5rem'}}>
+        <DevPreviewWarning />
+      </div>
+      </>
+    )}```
+
+  - If you need one component, just import the requested one: `${( <AtlassianInternalWarning />)}`
+
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/code@11.0.0
+
 ## 8.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

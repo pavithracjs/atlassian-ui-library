@@ -13,7 +13,7 @@ export {
 } from './create-analytics-event-mock';
 export { default as fixtures } from './fixtures';
 export { default as simulatePlatform, Platforms } from './simulatePlatform';
-export { default as patchEditorViewForJSDOM } from './jsdom-fixtures';
+export { default as patchEditorViewForJSDOM, Image } from './jsdom-fixtures';
 export * from './transactions';
 export {
   doc,
