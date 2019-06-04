@@ -3,9 +3,9 @@ import { Subscription } from 'rxjs/Subscription';
 import Button from '@atlaskit/button';
 import AkSpinner from '@atlaskit/spinner';
 import {
-  createStorybookContext,
   externalImageIdentifier,
   externalSmallImageIdentifier,
+  createStorybookMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { ButtonList, Container, Group } from '../example-helpers/styled';
 import {
@@ -29,10 +29,10 @@ import {
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
-import { Identifier, FileIdentifier } from '@atlaskit/media-core';
+import { Identifier, FileIdentifier } from '@atlaskit/media-client';
 import { Card } from '@atlaskit/media-card';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 const handleEvent = (analyticsEvent: UIAnalyticsEventInterface) => {
   const { payload } = analyticsEvent;
@@ -52,7 +52,7 @@ export default class Example extends React.Component<{}, State> {
   private subscription?: Subscription;
 
   componentDidMount() {
-    this.subscription = context.collection
+    this.subscription = mediaClient.collection
       .getItems(defaultCollectionName, { limit: 1 })
       .subscribe({
         next: items => {
@@ -230,7 +230,7 @@ export default class Example extends React.Component<{}, State> {
               <li>
                 {this.state.firstCollectionItem ? (
                   <Card
-                    context={context}
+                    mediaClientConfig={mediaClient.config}
                     identifier={{
                       collectionName: defaultCollectionName,
                       id: (this.state.firstCollectionItem as FileIdentifier).id,
@@ -270,7 +270,7 @@ export default class Example extends React.Component<{}, State> {
           {this.state.selected && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
-                context={context}
+                mediaClientConfig={mediaClient.config}
                 selectedItem={this.state.selected.identifier}
                 dataSource={this.state.selected.dataSource}
                 collectionName={defaultCollectionName}
