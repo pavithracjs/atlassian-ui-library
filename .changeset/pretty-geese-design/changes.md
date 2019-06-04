@@ -1,0 +1,1 @@
+Change ReadViewContainer height to min-height to allow multiple lines in read view"
