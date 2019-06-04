@@ -12,8 +12,10 @@ export default {
   'fabric.mention.error.defaultAction': '几秒钟后再试一次',
   'fabric.mention.error.loginAgain': '尝试再次退出',
   'fabric.mention.error.differentText': '尝试输入不同的文本',
-  'fabric.elements.mentions.team.member.count':
-    '{0, plural, other{{count}成员{includes, select, true {, including you}其他 {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ 成员{includes, select, true {, including you}其他 {}}',
+  'fabric.elements.mentions.team.member.count': '{0, plural, other{1 member}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, other{1 member, including you}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ members, including you',
 };

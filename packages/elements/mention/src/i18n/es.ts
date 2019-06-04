@@ -14,7 +14,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Prueba a cerrar y abrir sesión de nuevo',
   'fabric.mention.error.differentText': 'Prueba a escribir otro texto',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} miembro{includes, select, true {, incluyéndote a ti} other {}}} other{{count} miembros{includes, select, true {, incluyéndote a ti} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '+50 miembros{includes, select, true {, incluyéndote a ti} other {}}',
+    '{0, plural, one{1 member} other{{0} members}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ members, including you',
 };

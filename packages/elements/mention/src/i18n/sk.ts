@@ -14,7 +14,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Skúste sa odhlásiť a následne prihlásiť',
   'fabric.mention.error.differentText': 'Skúste zadať iný text',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} člen{includes, select, true {, including you} other {}}} few{{count} členovia{includes, select, true {, including you} other {}}} many{{count} členov{includes, select, true {, including you} other {}}} other{{count} členov{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    'Viac ako 50 členov{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 member} few{{0} members} many{{0} members} other{{0} members}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{1 member, including you} few{{0} members, including you} many{{0} members, including you} other{{0} members, including you}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ members, including you',
 };

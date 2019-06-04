@@ -13,8 +13,10 @@ export default {
   'fabric.mention.error.defaultAction': '몇 초 후에 다시 시도하십시오.',
   'fabric.mention.error.loginAgain': '로그아웃한 다음 다시 로그인해 보십시오.',
   'fabric.mention.error.differentText': '다른 텍스트를 입력해 보십시오.',
-  'fabric.elements.mentions.team.member.count':
-    '{0, plural, other{{count}명 구성원{includes, select, true {, 사용자 포함} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50명 이상 구성원{includes, select, true {, 사용자 포함} other {}}',
+  'fabric.elements.mentions.team.member.count': '{0, plural, other{1 member}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, other{1 member, including you}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ members, including you',
 };

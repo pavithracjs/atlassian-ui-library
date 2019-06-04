@@ -16,7 +16,10 @@ export default {
     'Tente terminar sessão e, em seguida, iniciar sessão novamente',
   'fabric.mention.error.differentText': 'Tente introduzir um texto diferente',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} membro{includes, select, true {, including you} other {}}} other{{count} membros{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    'Mais de 50 membros {includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 member} other{{0} members}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ members, including you',
 };

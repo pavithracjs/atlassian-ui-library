@@ -6,6 +6,7 @@ import MentionItem from '../MentionItem';
 import MentionListError from '../MentionListError';
 import Scrollable from '../Scrollable';
 import { MentionListStyle } from './styles';
+import { MentionIntlProvider } from '../i18n';
 
 function wrapIndex(mentions: MentionDescription[], index: number): number {
   const len = mentions.length;
@@ -204,31 +205,33 @@ export default class MentionList extends React.PureComponent<Props, State> {
       this.items = {};
 
       return (
-        <div>
-          {mentions.map((mention, idx) => {
-            const key = mention.id;
-            const item = (
-              <MentionItem
-                mention={mention}
-                selected={this.isSelectedMention(mention, idx)}
-                key={key}
-                onMouseMove={this.selectIndexOnHover}
-                /* Cannot use onclick, as onblur will close the element, and prevent
-                 * onClick from firing.
-                 */
-                onSelection={this.itemSelected}
-                ref={ref => {
-                  if (ref) {
-                    this.items[key] = ref;
-                  } else {
-                    delete this.items[key];
-                  }
-                }}
-              />
-            );
-            return item;
-          })}
-        </div>
+        <MentionIntlProvider>
+          <div>
+            {mentions.map((mention, idx) => {
+              const key = mention.id;
+              const item = (
+                <MentionItem
+                  mention={mention}
+                  selected={this.isSelectedMention(mention, idx)}
+                  key={key}
+                  onMouseMove={this.selectIndexOnHover}
+                  /* Cannot use onclick, as onblur will close the element, and prevent
+                   * onClick from firing.
+                   */
+                  onSelection={this.itemSelected}
+                  ref={ref => {
+                    if (ref) {
+                      this.items[key] = ref;
+                    } else {
+                      delete this.items[key];
+                    }
+                  }}
+                />
+              );
+              return item;
+            })}
+          </div>
+        </MentionIntlProvider>
       );
     }
     return null;
