@@ -12,11 +12,11 @@ const getSize = (props: { size?: sizeOpts }) => {
   return null;
 };
 
-type ColorProps = {
+interface ColorProps {
   primaryColor?: string;
   secondaryColor?: string;
   size?: sizeOpts;
-};
+}
 
 export const IconWrapper = styled.span<ColorProps>`
   ${getSize} 
@@ -43,7 +43,7 @@ export const IconWrapper = styled.span<ColorProps>`
   }
 `;
 
-type Props = {
+interface Props {
   /** Glyph to show by Icon component (not required when you import a glyph directly) */
   glyph?: (props: { role: string }) => ReactElement;
   /** More performant than the glyph prop, but potentially dangerous if the SVG string hasn't
@@ -57,7 +57,7 @@ type Props = {
   secondaryColor?: string;
   /** Control the size of the icon */
   size?: sizeOpts;
-};
+}
 
 export default class Icon extends Component<Props, {}> {
   /* Icons need unique gradient IDs across instances for different gradient definitions to work
