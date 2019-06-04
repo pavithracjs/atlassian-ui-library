@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/range", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/media-avatar-picker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/range"]
+    }
+  ]
+}
