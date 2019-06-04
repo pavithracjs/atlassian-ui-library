@@ -5,14 +5,15 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 
-test('media-editor server side rendering', async () => {
+test('media-editor server side rendering', async done => {
   (await getExamplesFor('media-editor')).forEach(
-    (examples: { filePath: string }) => {
-      const Example = require(examples.filePath).default;
+    async (examples: { filePath: string }) => {
+      const Example = await require(examples.filePath).default;
 
       expect(() =>
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();
     },
   );
+  done();
 });
