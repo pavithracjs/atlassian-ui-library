@@ -1,0 +1,1 @@
+In this PR, we are re-introducing dist build folders, adding back cjs,  replacing es5 by cjs and es2015 by esm, creating folders at the root for entry-points and removing the generation of the entry-points from the root.
