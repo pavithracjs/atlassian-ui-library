@@ -12,9 +12,13 @@ const getSize = (props: { size?: sizeOpts }) => {
   return null;
 };
 
-type IconWrapperProps = Partial<Props>;
+type ColorProps = {
+  primaryColor?: string;
+  secondaryColor?: string;
+  size?: sizeOpts;
+};
 
-export const IconWrapper = styled.span<IconWrapperProps>`
+export const IconWrapper = styled.span<ColorProps>`
   ${getSize} 
   color: ${(p: { primaryColor?: string }) => p.primaryColor || 'currentColor'};
   display: inline-block;
