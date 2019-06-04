@@ -2,9 +2,9 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/cjs",
+    "outDir": "../../dist/esm",
     "target": "es5",
-    "module": "commonjs",
+    "module": "esnext",
     "paths": {}
   },
   "include": [
