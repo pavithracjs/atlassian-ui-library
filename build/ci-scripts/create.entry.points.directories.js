@@ -4,11 +4,11 @@ const bolt = require('bolt');
 const path = require('path');
 const fs = require('fs');
 
-// TODO: to remove later, used to test our build script remove packages line 21 by `test`.
+// TODO: to remove later, used to test/investigate the build script replace `packages` line 21 by `test`.
 // const test = [
 //   {
-//     dir: '/Users/rbellebon/atlaskit-mk-2/packages/core/badge',
-//     name: '@atlaskit/badge',
+//     dir: '/Users/rbellebon/atlaskit-mk-2/packages/core/type-helpers',
+//     name: '@atlaskit/type-helpers',
 //     config:{ atlaskit : {}}
 //   },
 // ];

@@ -26,7 +26,13 @@ Does your package have a path that shouldn't be distributed?
 Cool just add it to the exception list
  */
 // TODO: Marco: we may add another check to see if the components folder is generated.
-const exceptionList = ['__tests__', '@types', 'components'];
+const exceptionList = [
+  '__tests__',
+  '@types',
+  'components',
+  'themes',
+  'Lozenge',
+];
 
 const main = async () => {
   const [src, root, packageJSON] = await Promise.all([
