@@ -6,17 +6,18 @@ interface Props {
 }
 
 const ReadViewContentWrapper = styled.div<Props>`
-  display: inline-block;
   box-sizing: border-box;
   border: 2px solid transparent;
   border-radius: ${borderRadius()}px;
+  display: inline-block;
+  max-width: 100%;
+  transition: background 0.2s;
+  width: ${({ readViewFitContainerWidth }) =>
+    readViewFitContainerWidth ? '100%' : 'auto'};
+
   &:hover {
     background: ${colors.N30};
   }
-  max-width: 100%;
-  width: ${({ readViewFitContainerWidth }) =>
-    readViewFitContainerWidth ? '100%' : 'auto'};
-  transition: background 0.2s;
 `;
 
 ReadViewContentWrapper.displayName = 'ReadViewContentWrapper';

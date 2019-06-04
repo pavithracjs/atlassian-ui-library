@@ -7,13 +7,13 @@ interface Props {
 
 const ReadViewContainer = styled.div<Props>`
   display: flex;
+  font-size: ${fontSize()}px;
+  line-height: ${(gridSize() * 2.5) / fontSize()};
   max-width: 100%;
+  min-height: ${(gridSize() * 2.5) / fontSize()}em;
   overflow: hidden;
   padding: ${props => (props.isCompact ? gridSize() / 2 : gridSize())}px
     ${gridSize() - 2}px;
-  font-size: ${fontSize()}px;
-  min-height: ${(gridSize() * 2.5) / fontSize()}em;
-  line-height: ${(gridSize() * 2.5) / fontSize()};
   word-break: break-word;
 `;
 

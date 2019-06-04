@@ -7,12 +7,12 @@ import InlineEdit from '../src';
 
 const ReadViewContainer = styled.div`
   display: flex;
+  font-size: ${fontSize()}px;
+  line-height: ${(gridSize() * 2.5) / fontSize()};
   max-width: 100%;
+  min-height: ${(gridSize() * 2.5) / fontSize()}em;
   overflow: hidden;
   padding: ${gridSize()}px ${gridSize() - 2}px;
-  font-size: ${fontSize()}px;
-  min-height: ${(gridSize() * 2.5) / fontSize()}em;
-  line-height: ${(gridSize() * 2.5) / fontSize()};
   word-break: break-word;
 `;
 
