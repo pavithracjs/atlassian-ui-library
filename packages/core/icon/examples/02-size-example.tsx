@@ -1,6 +1,7 @@
 import React, { Component, FC } from 'react';
 import styled from 'styled-components';
 import Btn, { ButtonGroup } from '@atlaskit/button';
+import { sizeOpts } from '../src/types';
 
 import ActivityIcon from '../glyph/activity';
 import AddCircleIcon from '../glyph/add-circle';
@@ -46,8 +47,6 @@ const Button: FC<any> = props => (
   </div>
 );
 
-type sizeOpts = 'small' | 'medium' | 'large' | 'xlarge';
-
 const sizes: sizeOpts[] = ['small', 'medium', 'large', 'xlarge'];
 
 class IconSizeExample extends Component<{}, { size: sizeOpts }> {
@@ -58,7 +57,7 @@ class IconSizeExample extends Component<{}, { size: sizeOpts }> {
   updateSize = (s: sizeOpts) => this.setState({ size: s });
 
   renderButtons = (): Array<ReturnType<typeof Button>> =>
-    sizes.map(s => (
+    sizes.map((s: sizeOpts) => (
       <Button
         isSelected={s === this.state.size}
         key={s}

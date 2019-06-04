@@ -12,13 +12,7 @@ const getSize = (props: { size?: sizeOpts }) => {
   return null;
 };
 
-interface ColorProps {
-  primaryColor?: string;
-  secondaryColor?: string;
-  size?: sizeOpts;
-}
-
-export const IconWrapper = styled.span<ColorProps>`
+export const IconWrapper = styled.span<Partial<Props>>`
   ${getSize} 
   color: ${(p: { primaryColor?: string }) => p.primaryColor || 'currentColor'};
   display: inline-block;
@@ -118,7 +112,7 @@ export default class Icon extends Component<Props, {}> {
   }
 }
 
-export const size = Object.keys(sizes).reduce(
+export const sizeObject = Object.keys(sizes).reduce(
   (result, next) => ({ ...result, [next]: next }),
   {},
 );

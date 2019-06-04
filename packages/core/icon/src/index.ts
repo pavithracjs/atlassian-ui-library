@@ -1,6 +1,6 @@
-import Icon, { size } from './components/Icon';
+import Icon, { sizeObject } from './components/Icon';
 
 export default Icon;
-export { size };
+export { sizeObject as size };
 export { default as Skeleton } from './components/Skeleton';
 export { default as metadata } from './metadata';
