@@ -203,6 +203,13 @@ export default class ReactEditorView<T = {}> extends React.Component<
       return;
     }
 
+    // We cannot currently guarentee when all the portals will have re-rendered during a reconfigure
+    // so we blur here to stop ProseMirror from trying to apply selection to detached nodes or
+    // nodes that haven't been re-rendered to the document yet.
+    if (this.view.dom instanceof HTMLElement && this.view.hasFocus()) {
+      this.view.dom.blur();
+    }
+
     this.config = processPluginsList(
       this.getPlugins(props.editorProps, props.createAnalyticsEvent),
       props.editorProps,

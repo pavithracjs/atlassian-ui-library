@@ -218,10 +218,11 @@ export const fixCursorAlignment = (view: EditorView) => {
     const isTargetNodeNodeViewWrapper = isNodeViewWrapper(targetNodeRef);
     const firstChild = targetNodeRef.firstChild as HTMLElement;
     const css = window.getComputedStyle(
-      isTargetNodeMediaSingle || isTargetNodeNodeViewWrapper
+      isTargetNodeNodeViewWrapper && !isTargetNodeMediaSingle
         ? firstChild || targetNodeRef
         : targetNodeRef,
     );
+
     const isInTableCell = /td|th/i.test(targetNodeRef.parentNode!.nodeName);
 
     height = parseInt(css.height!, 10);

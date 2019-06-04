@@ -57,7 +57,11 @@ const getBoards = (searchSessionId: string) => [
   }),
 ];
 
-const spaceResults = [makeConfluenceContainerResult()];
+const getSpaceResults = (searchSessionId: string) => [
+  makeConfluenceContainerResult({
+    href: `href?search_id=${searchSessionId}`,
+  }),
+];
 
 const getRecentlyInteractedPeople = (
   searchSessionId: string,
@@ -220,7 +224,7 @@ const getSearchAndRecentItems = (
     ...extraProps,
     searchResults: {
       objects: [],
-      spaces: spaceResults,
+      spaces: getSpaceResults(sessionId),
     },
     recentItems: {
       objects: [],
@@ -297,14 +301,14 @@ const getJiraPostQueryResults = (sessionId: string) => [
     key: 'people',
   },
 ];
-const getConfluencePostQueryResults = () => [
+const getConfluencePostQueryResults = (sessionId: string) => [
   {
     items: [],
     key: 'objects',
     title: messages.confluence_confluence_objects_heading,
   },
   {
-    items: spaceResults,
+    items: getSpaceResults(sessionId),
     key: 'spaces',
     title: messages.confluence_spaces_heading,
   },
@@ -318,7 +322,7 @@ const getConfluencePostQueryResults = () => [
 const getPostQueryResults = (sessionId: string, product: QuickSearchContext) =>
   product === 'jira'
     ? getJiraPostQueryResults(sessionId)
-    : getConfluencePostQueryResults();
+    : getConfluencePostQueryResults(sessionId);
 
 const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
   product === 'jira'

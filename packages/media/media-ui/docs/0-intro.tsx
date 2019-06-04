@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
+import {
+  md,
+  code,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+  ${<AtlassianInternalWarning />}
+
   This package includes common components and utilities used by other media packages.
 
   It exports two componets:

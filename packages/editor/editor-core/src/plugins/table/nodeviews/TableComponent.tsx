@@ -31,8 +31,6 @@ const isIE11 = browser.ie_version === 11;
 import { Props } from './table';
 import {
   containsHeaderRow,
-  checkIfHeaderColumnEnabled,
-  checkIfHeaderRowEnabled,
   tablesHaveDifferentColumnWidths,
   tablesHaveDifferentNoOfColumns,
 } from '../utils';
@@ -186,8 +184,8 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           isInDanger={isInDanger}
           isResizing={isResizing}
           isNumberColumnEnabled={node.attrs.isNumberColumnEnabled}
-          isHeaderColumnEnabled={checkIfHeaderColumnEnabled(view.state)}
-          isHeaderRowEnabled={checkIfHeaderRowEnabled(view.state)}
+          isHeaderColumnEnabled={pluginState.isHeaderColumnEnabled}
+          isHeaderRowEnabled={pluginState.isHeaderRowEnabled}
           hasHeaderRow={containsHeaderRow(view.state, node)}
           // pass `selection` and `tableHeight` to control re-render
           selection={view.state.selection}

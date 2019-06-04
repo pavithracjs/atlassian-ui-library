@@ -1,8 +1,16 @@
 // @flow
 import React from 'react';
-import { code, md, Example, Props } from '@atlaskit/docs';
+import {
+  code,
+  md,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+  ${<AtlassianInternalWarning />}
+  
   The Mobile Header is a way to render a header that hides the Navigation and Sidebar
   from smaller screens and allows the user to view them by tapping/clicking icons.
 
