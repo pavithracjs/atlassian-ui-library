@@ -1,0 +1,1 @@
+Added support for showing a lozenge next to the search result groups
