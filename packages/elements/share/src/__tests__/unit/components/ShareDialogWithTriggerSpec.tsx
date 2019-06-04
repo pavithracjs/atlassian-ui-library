@@ -1,5 +1,6 @@
 import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import InlineDialog from '@atlaskit/inline-dialog';
+import ShareIcon from '@atlaskit/icon/glyph/share';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
@@ -12,7 +13,9 @@ import {
   ShareDialogWithTrigger,
   State,
 } from '../../../components/ShareDialogWithTrigger';
+import { defaultConfig } from '../../../components/ShareDialogContainer';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
+import { ConfigResponse } from '../../../clients/ShareServiceClient';
 import { messages } from '../../../i18n';
 import { DialogPlacement, ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
 import mockPopper from '../_mockPopper';
@@ -22,11 +25,13 @@ let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
 let mockOnShareSubmit: jest.Mock;
 const mockLoadOptions = () => [];
 const mockShowFlags: jest.Mock = jest.fn();
+const mockFetchConfig: jest.Mock = jest.fn().mockResolvedValue(defaultConfig);
 
 beforeEach(() => {
   wrapper = shallowWithIntl<Props>(
     <ShareDialogWithTrigger
       copyLink="copyLink"
+      fetchConfig={mockFetchConfig}
       loadUserOptions={mockLoadOptions}
       onShareSubmit={mockOnShareSubmit}
       shareContentType="page"
@@ -40,6 +45,10 @@ beforeEach(() => {
 
 beforeAll(() => {
   mockOnShareSubmit = jest.fn();
+});
+
+beforeEach(() => {
+  mockFetchConfig.mockReset();
 });
 
 describe('ShareDialogWithTrigger', () => {
@@ -89,6 +98,7 @@ describe('ShareDialogWithTrigger', () => {
       > = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
@@ -117,13 +127,14 @@ describe('ShareDialogWithTrigger', () => {
   });
 
   describe('triggerButtonStyle prop', () => {
-    it('should render no text in the share button if the value is "icon-only"', () => {
+    it('should render only ShareIcon without text in the share button if the value is "icon-only"', () => {
       const newWrapper: ShallowWrapper<
         Props & InjectedIntlProps
       > = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           triggerButtonStyle="icon-only"
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
@@ -140,6 +151,12 @@ describe('ShareDialogWithTrigger', () => {
           .find(ShareButton)
           .prop('text'),
       ).toBeNull();
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('iconBefore'),
+      ).toEqual(<ShareIcon label="Share icon" />);
     });
 
     it('should render text in the share button if the value is "icon-with-text"', () => {
@@ -149,6 +166,7 @@ describe('ShareDialogWithTrigger', () => {
         <ShareDialogWithTrigger
           triggerButtonStyle="icon-with-text"
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
@@ -165,39 +183,44 @@ describe('ShareDialogWithTrigger', () => {
           .find(ShareButton)
           .prop('text'),
       ).toEqual(<FormattedMessage {...messages.shareTriggerButtonText} />);
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('iconBefore'),
+      ).toEqual(<ShareIcon label="Share icon" />);
     });
-  });
 
-  describe('children prop', () => {
-    it('should render a ShareButton if children prop is not given', () => {
-      expect(wrapper.find(ShareButton).length).toBe(1);
-    });
-
-    it('should be called with the this.handleOpenDialog function as argument if given', () => {
-      const spiedRenderer: jest.Mock = jest.fn();
-      wrapper = shallowWithIntl<Props>(
+    it('should render only text without ShareIcon in the share button if the value is "text-only"', () => {
+      const newWrapper: ShallowWrapper<
+        Props & InjectedIntlProps
+      > = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
+          triggerButtonStyle="text-only"
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
           showFlags={mockShowFlags}
-        >
-          {spiedRenderer}
-        </ShareDialogWithTrigger>,
+        />,
       )
         .dive()
         .dive()
         .dive();
-      const wrapperState: State = wrapper.state() as State;
-      expect(spiedRenderer).toHaveBeenCalledTimes(1);
-      expect(spiedRenderer).toHaveBeenCalledWith(
-        expect.objectContaining({
-          onClick: expect.any(Function),
-          loading: wrapperState.isSharing,
-          error: wrapperState.shareError,
-        }),
-      );
+      newWrapper.setState({ isDialogOpen: true });
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('text'),
+      ).toEqual(<FormattedMessage {...messages.shareTriggerButtonText} />);
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('iconBefore'),
+      ).toBeUndefined();
     });
   });
 
@@ -207,6 +230,7 @@ describe('ShareDialogWithTrigger', () => {
       wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
@@ -233,6 +257,7 @@ describe('ShareDialogWithTrigger', () => {
       wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           isDisabled={isDisabled}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
@@ -255,6 +280,43 @@ describe('ShareDialogWithTrigger', () => {
     });
   });
 
+  describe('renderCustomTriggerButton prop', () => {
+    it('should render a ShareButton if children prop is not given', () => {
+      expect(wrapper.find(ShareButton).length).toBe(1);
+    });
+
+    it('should call renderCustomTriggerButton prop if it is given', () => {
+      const mockRenderCustomTriggerButton: jest.Mock = jest.fn(() => (
+        <button />
+      ));
+      const wrapper: ShallowWrapper<
+        Props & InjectedIntlProps
+      > = shallowWithIntl<Props>(
+        <ShareDialogWithTrigger
+          copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
+          loadUserOptions={mockLoadOptions}
+          onShareSubmit={mockOnShareSubmit}
+          renderCustomTriggerButton={mockRenderCustomTriggerButton}
+          shareContentType="page"
+          shareFormTitle="Share this page"
+          showFlags={mockShowFlags}
+        />,
+      )
+        .dive()
+        .dive()
+        .dive();
+      expect(mockRenderCustomTriggerButton).toHaveBeenCalledTimes(1);
+      expect(mockRenderCustomTriggerButton).toHaveBeenCalledWith({
+        error: (wrapper.state() as State).shareError,
+        isSelected: (wrapper.state() as State).isDialogOpen,
+        onClick: (wrapper.instance() as any).onTriggerClick,
+      });
+      expect(wrapper.find('button').length).toBe(1);
+      expect(wrapper.find(ShareButton).length).toBe(0);
+    });
+  });
+
   describe('shareFormTitle prop', () => {
     it('should be passed to the ShareForm', () => {
       const wrapper: ShallowWrapper<
@@ -262,6 +324,7 @@ describe('ShareDialogWithTrigger', () => {
       > = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
@@ -298,6 +361,7 @@ describe('ShareDialogWithTrigger', () => {
       wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
@@ -332,12 +396,84 @@ describe('ShareDialogWithTrigger', () => {
   });
 
   describe('handleKeyDown', () => {
-    it('should clear the state if an escape key is pressed down', () => {
+    const mockTarget = document.createElement('div');
+
+    beforeEach(() => {
+      (wrapper.instance() as any).containerRef = { current: mockTarget };
+      wrapper.instance().forceUpdate();
+    });
+
+    it('should clear the state if an escape key is pressed down if event.preventDefault is false', () => {
       const escapeKeyDownEvent: Partial<KeyboardEvent> = {
-        target: document,
+        target: document.createElement('div'),
         type: 'keydown',
         key: 'Escape',
         stopPropagation: jest.fn(),
+        defaultPrevented: false,
+      };
+      const mockShareData: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      wrapper.setState({
+        isDialogOpen: true,
+        ignoreIntermediateState: false,
+        defaultValue: mockShareData,
+        shareError: new Error('unable to share'),
+      });
+      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
+      expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
+      expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
+      expect((wrapper.state() as State).defaultValue).toEqual(
+        defaultShareContentState,
+      );
+      expect((wrapper.state() as State).shareError).toBeUndefined();
+    });
+
+    it('should not clear the state if an escape key is pressed if event.preventDefault is true', () => {
+      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
+        target: document.createElement('div'),
+        type: 'keydown',
+        key: 'Escape',
+        stopPropagation: jest.fn(),
+        defaultPrevented: true,
+      };
+      const mockShareData: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      const state = {
+        isDialogOpen: true,
+        ignoreIntermediateState: false,
+        defaultValue: mockShareData,
+        shareError: new Error('unable to share'),
+      };
+      wrapper.setState(state);
+      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      expect(escapeKeyDownEvent.stopPropagation).not.toHaveBeenCalled();
+      expect(wrapper.state() as State).toMatchObject(state);
+    });
+
+    it('should clear the state if an escape key is pressed down on the container regardless of the event.preventDefault value', () => {
+      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
+        target: mockTarget,
+        type: 'keydown',
+        key: 'Escape',
+        stopPropagation: jest.fn(),
+        defaultPrevented: true,
       };
       const mockShareData: ShareData = {
         users: [
@@ -366,6 +502,18 @@ describe('ShareDialogWithTrigger', () => {
     });
   });
 
+  describe('onTriggerClick', () => {
+    it('should call props.fetchConfig only when isDialogOpen is set to be true', () => {
+      wrapper.find(ShareButton).simulate('click');
+      expect(mockFetchConfig).toHaveBeenCalledTimes(1);
+      expect((wrapper.state() as State).isDialogOpen).toBe(true);
+
+      wrapper.find(ShareButton).simulate('click');
+      expect(mockFetchConfig).toHaveBeenCalledTimes(1);
+      expect((wrapper.state() as State).isDialogOpen).toBe(false);
+    });
+  });
+
   describe('handleShareSubmit', () => {
     it('should call onSubmit props with an object of users and comment as an argument', () => {
       const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
@@ -388,6 +536,7 @@ describe('ShareDialogWithTrigger', () => {
       wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
           shareContentType="page"
@@ -408,10 +557,15 @@ describe('ShareDialogWithTrigger', () => {
 
     it('should close inline dialog and reset the state and call props.showFlags when onSubmit resolves a value', async () => {
       const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
+      const mockConfig: ConfigResponse = {
+        allowComment: false,
+        allowedDomains: [],
+        mode: 'DOMAIN_BASED_INVITE' as 'DOMAIN_BASED_INVITE',
+      };
       const values: ShareData = {
         users: [
           { type: 'user', id: 'id', name: 'name' },
-          { type: 'email', id: 'email', name: 'email' },
+          { type: 'email', id: 'email@atlassian.com', name: 'email' },
         ],
         comment: {
           format: 'plain_text',
@@ -427,7 +581,9 @@ describe('ShareDialogWithTrigger', () => {
       };
       wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
+          config={mockConfig}
           copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
           shareContentType="page"
@@ -459,6 +615,14 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockShowFlags).toHaveBeenCalledWith([
         {
           appearance: 'success',
+          title: {
+            ...messages.adminNotifiedMessage,
+            defaultMessage: expect.any(String),
+          },
+          type: ADMIN_NOTIFIED,
+        },
+        {
+          appearance: 'success',
           title: expect.objectContaining({
             ...messages.shareSuccessMessage,
             defaultMessage: expect.any(String),
@@ -470,7 +634,7 @@ describe('ShareDialogWithTrigger', () => {
       wrapper.setProps({
         config: {
           allowComment: false,
-          mode: 'INVITE_NEEDS_APPROVAL' as 'INVITE_NEEDS_APPROVAL',
+          mode: 'ANYONE' as 'ANYONE',
         },
       });
 
@@ -484,14 +648,6 @@ describe('ShareDialogWithTrigger', () => {
 
       expect(mockShowFlags).toHaveBeenCalledTimes(1);
       expect(mockShowFlags).toHaveBeenCalledWith([
-        {
-          appearance: 'success',
-          title: {
-            ...messages.adminNotifiedMessage,
-            defaultMessage: expect.any(String),
-          },
-          type: ADMIN_NOTIFIED,
-        },
         {
           appearance: 'success',
           title: {

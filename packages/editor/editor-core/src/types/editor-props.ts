@@ -10,8 +10,8 @@ import {
   ErrorReportingHandler,
 } from '@atlaskit/editor-common';
 import { ActivityProvider } from '@atlaskit/activity';
-import { MentionProvider } from '@atlaskit/mention';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { MentionProvider } from '@atlaskit/mention/resource';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { TaskDecisionProvider } from '@atlaskit/task-decision';
 
 import { PluginConfig as TablesPluginConfig } from '../plugins/table/types';
@@ -34,6 +34,7 @@ import { AutoformattingProvider } from '../plugins/custom-autoformat/types';
 export type EditorAppearance =
   | 'comment'
   | 'full-page'
+  | 'full-width'
   | 'chromeless'
   | 'mobile';
 
@@ -247,8 +248,4 @@ export interface EditorProps {
 
   // Set to provide your extensions handlers.
   extensionHandlers?: ExtensionHandlers;
-
-  // Set to enable a left aligned mode with a max width of 1800px
-  // This only takes effect on the 'full-page' appearance.
-  UNSAFE_fullWidthMode?: boolean;
 }

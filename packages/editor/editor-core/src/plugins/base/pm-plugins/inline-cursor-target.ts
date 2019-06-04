@@ -7,7 +7,7 @@ export const inlineCursorTargetStateKey = new PluginKey(
   'inlineCursorTargetPlugin',
 );
 
-export const SPECIAL_NODES = ['mention', 'emoji', 'inlineCard'];
+export const SPECIAL_NODES = ['mention', 'emoji'];
 
 export const isSpecial = (node: Node | null | undefined) => {
   return node && SPECIAL_NODES.indexOf(node.type.name) !== -1;
@@ -27,6 +27,7 @@ export const findSpecialNodeAfter = ($pos: ResolvedPos, tr: Transaction) => {
       return $pos.pos + 2;
     }
   }
+  return;
 };
 
 export const findSpecialNodeBefore = ($pos: ResolvedPos, tr: Transaction) => {
@@ -46,6 +47,7 @@ export const findSpecialNodeBefore = ($pos: ResolvedPos, tr: Transaction) => {
       return $pos.pos - 2;
     }
   }
+  return;
 };
 
 export default () => {

@@ -44,7 +44,7 @@ export default {
       {
         title: formatMessage(messages.columns),
         description: formatMessage(messages.columnsDescription),
-        keywords: ['layout', 'section'],
+        keywords: ['layout', 'section', 'column'],
         priority: 1100,
         icon: () => <IconLayout label={formatMessage(messages.columns)} />,
         action(insert, state) {

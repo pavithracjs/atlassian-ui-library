@@ -20,7 +20,7 @@ BrowserTestCase(
       appearance: fullpage.appearance,
     });
     await page.click(fullpage.placeholder);
-    await page.paste(editorSelector);
+    await page.paste();
 
     await page.waitForSelector('p');
     const doc = await page.$eval(editorSelector, getDocFromElement);
@@ -43,7 +43,9 @@ BrowserTestCase(
       appearance: fullpage.appearance,
       allowTextColor: true,
     });
-    await page.paste(editorSelector);
+
+    await page.click(fullpage.placeholder);
+    await page.paste();
     await page.waitForSelector('strong');
     const doc = await page.$eval(editorSelector, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -65,7 +67,8 @@ BrowserTestCase(
       allowLists: true,
     });
 
-    await page.paste(editorSelector);
+    await page.click(fullpage.placeholder);
+    await page.paste();
 
     await page.waitForSelector('ul');
     const doc = await page.$eval(editorSelector, getDocFromElement);
@@ -88,7 +91,8 @@ BrowserTestCase(
       allowLists: true,
     });
 
-    await page.paste(editorSelector);
+    await page.click(fullpage.placeholder);
+    await page.paste();
 
     await page.waitForSelector('p');
     const doc = await page.$eval(editorSelector, getDocFromElement);

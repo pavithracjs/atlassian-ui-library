@@ -3,7 +3,6 @@ import {
   CrossProductSearchClient,
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  SearchSession,
   DEFAULT_AB_TEST,
 } from '../../../api/CrossProductSearchClient';
 import { Scope } from '../../../api/types';
@@ -23,8 +22,14 @@ export const noResultsCrossProductSearchClient: CrossProductSearchClient = {
   search(query: string) {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
   },
-  getAbTestData(scope: Scope, searchSession: SearchSession) {
+  getAbTestDataForProduct() {
     return Promise.resolve(DEFAULT_AB_TEST);
+  },
+  getAbTestData(scope: Scope) {
+    return Promise.resolve(DEFAULT_AB_TEST);
+  },
+  getPeople() {
+    return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
   },
 };
 
@@ -32,7 +37,13 @@ export const errorCrossProductSearchClient: CrossProductSearchClient = {
   search(query: string) {
     return Promise.reject('error');
   },
-  getAbTestData(scope: Scope, searchSession: SearchSession) {
+  getAbTestDataForProduct() {
+    return Promise.reject('error');
+  },
+  getAbTestData(scope: Scope) {
+    return Promise.reject('error');
+  },
+  getPeople() {
     return Promise.reject('error');
   },
 };
@@ -44,8 +55,14 @@ export function singleResultCrossProductSearchClient(
     search(query: string) {
       return Promise.resolve(makeSingleResultCrossProductSearchResponse(scope));
     },
-    getAbTestData(scope: Scope, searchSession: SearchSession) {
+    getAbTestDataForProduct() {
+      return Promise.reject(DEFAULT_AB_TEST);
+    },
+    getAbTestData(scope: Scope) {
       return Promise.resolve(DEFAULT_AB_TEST);
+    },
+    getPeople() {
+      return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
     },
   };
 }
@@ -56,12 +73,18 @@ export const mockCrossProductSearchClient = (
 ): CrossProductSearchClient => ({
   search(
     query: string,
-    searchSession: SearchSession,
+    sessionId: string,
     scopes: Scope[],
   ): Promise<CrossProductSearchResults> {
     return Promise.resolve(data);
   },
-  getAbTestData(scope: Scope, searchSession: SearchSession): Promise<ABTest> {
+  getAbTestDataForProduct() {
+    return Promise.reject(abTest);
+  },
+  getAbTestData(scope: Scope): Promise<ABTest> {
     return Promise.resolve(abTest);
+  },
+  getPeople() {
+    return Promise.resolve(data);
   },
 });

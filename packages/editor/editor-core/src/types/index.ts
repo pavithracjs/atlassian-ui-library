@@ -5,3 +5,4 @@ export * from './editor-props';
 export * from './editor-appearance-component';
 export * from './command';
 export * from './i18n';
+export { DomAtPos } from './dom-at-pos';

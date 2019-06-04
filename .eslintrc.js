@@ -6,7 +6,7 @@ const prettierTsRules = require('eslint-config-prettier/@typescript-eslint')
 module.exports = {
   extends: ['airbnb', 'prettier', 'prettier/react'],
   parser: 'babel-eslint',
-  plugins: ['flowtype', 'jest', 'prettier'],
+  plugins: ['flowtype', 'jest', 'prettier', 'react-hooks'],
   rules: {
     'import/no-extraneous-dependencies': [
       'error',
@@ -70,6 +70,9 @@ module.exports = {
       },
     ],
     'react/prop-types': ['error', { ignore: ['children'] }],
+
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'error',
 
     eqeqeq: ['error', 'always', { null: 'ignore' }],
     'no-console': 'error',

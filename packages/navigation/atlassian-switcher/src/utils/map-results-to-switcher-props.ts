@@ -35,14 +35,13 @@ function getExpandLink(
 function collectProductLinks(
   cloudId: string,
   licenseInformation: ProviderResults['licenseInformation'],
-  enableSplitJira: boolean,
 ) {
   if (isError(licenseInformation)) {
     return [];
   }
 
   if (isComplete(licenseInformation)) {
-    return getLicensedProductLinks(licenseInformation.data, enableSplitJira);
+    return getLicensedProductLinks(licenseInformation.data);
   }
 }
 
@@ -131,7 +130,6 @@ interface ProviderResults {
 
 interface SwitcherFeatures {
   xflow: boolean;
-  enableSplitJira: boolean;
   enableExpandLink: boolean;
 }
 
@@ -160,11 +158,7 @@ export function mapResultsToSwitcherProps(
       ? getExpandLink(licenseInformation)
       : '',
     licensedProductLinks: collect(
-      collectProductLinks(
-        cloudId,
-        licenseInformation,
-        features.enableSplitJira,
-      ),
+      collectProductLinks(cloudId, licenseInformation),
       [],
     ),
     suggestedProductLinks: features.xflow

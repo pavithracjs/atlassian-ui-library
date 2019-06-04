@@ -1,5 +1,59 @@
 # @atlaskit/mention
 
+## 18.2.1
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 18.2.0
+- [minor] [a0d5982270](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0d5982270):
+
+  - Don't display nickname in mention list if it is the same as name.
+
+## 18.1.0
+- [minor] [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+
+  - Fix typeahead re-rendering when moving mouse
+
+  Breaking change -> TypeAheadItem:
+
+  ```ts
+  export type TypeAheadItemRenderProps = {
+    onClick: () => void;
+
+    // BREAKING CHANGE
+    // onMouseMove -> onHover
+    onHover: () => void;
+
+    isSelected: boolean;
+  };
+
+  export type TypeAheadItem = {
+    /*...*/
+    render?: (
+      props: TypeAheadItemRenderProps,
+    ) => React.ReactElement<TypeAheadItemRenderProps> | null;
+    /*...*/
+  };
+  ```
+
+  Items returned from `QuickInsertProvider#getItems` method that have custom `render` function will now get `onHover` instead of `onMouseMove`.
+
+## 18.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 17.6.9
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 17.6.8
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 17.6.7
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

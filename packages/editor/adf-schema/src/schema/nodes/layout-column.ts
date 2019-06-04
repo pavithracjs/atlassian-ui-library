@@ -56,6 +56,12 @@ export const layoutColumn: NodeSpec = {
       attrs['data-column-width'] = width;
     }
 
-    return ['div', attrs, 0];
+    // We need to apply a attribute to the inner most child to help
+    // ProseMirror identify its boundaries better.
+    const contentAttrs: Record<string, string> = {
+      'data-layout-content': 'true',
+    };
+
+    return ['div', attrs, ['div', contentAttrs, 0]];
   },
 };

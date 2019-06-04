@@ -1,5 +1,30 @@
 # @atlaskit/datetime-picker
 
+## 8.0.3
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/select@9.1.2
+  - @atlaskit/modal-dialog@10.0.0
+
+## 8.0.2
+- [patch] [06819642ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06819642ba):
+
+  - Internal refactor and clean up
+
+## 8.0.1
+- [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
+
+  - Clean couple of TODO's that were already done
+
+## 8.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 7.0.5
+- Updated dependencies [8b5f052003](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b5f052003):
+  - @atlaskit/popper@1.0.0
+
 ## 7.0.4
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

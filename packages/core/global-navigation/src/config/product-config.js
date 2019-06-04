@@ -180,6 +180,16 @@ export default function generateProductConfig(
     productHref,
     getProductRef,
 
+    onRecentClick,
+    recentTooltip,
+    recentDrawerContents,
+    getRecentRef,
+
+    onInviteClick,
+    inviteTooltip,
+    inviteDrawerContents,
+    getInviteRef,
+
     onCreateClick,
     createTooltip,
     createDrawerContents,
@@ -207,8 +217,11 @@ export default function generateProductConfig(
     appSwitcherTooltip,
     getAppSwitcherRef,
 
+    enableHelpDrawer,
     helpItems,
+    onHelpClick,
     helpTooltip,
+    helpDrawerContents,
     getHelpRef,
 
     onSettingsClick,
@@ -239,6 +252,16 @@ export default function generateProductConfig(
       href: productHref,
       getRef: getProductRef,
     }),
+    recent: configFactory(
+      onRecentClick || (recentDrawerContents && openDrawer('recent')),
+      recentTooltip,
+      { getRef: getRecentRef },
+    ),
+    invite: configFactory(
+      onInviteClick || (inviteDrawerContents && openDrawer('invite')),
+      inviteTooltip,
+      { getRef: getInviteRef },
+    ),
     create: configFactory(
       onCreateClick || (createDrawerContents && openDrawer('create')),
       createTooltip,
@@ -254,6 +277,13 @@ export default function generateProductConfig(
       starredTooltip,
       { getRef: getStarredRef },
     ),
+    help: enableHelpDrawer
+      ? configFactory(
+          onHelpClick || (helpDrawerContents && openDrawer('help')),
+          helpTooltip,
+          { getRef: getHelpRef },
+        )
+      : helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     settings: configFactory(
       onSettingsClick || (settingsDrawerContents && openDrawer('settings')),
       settingsTooltip,
@@ -274,7 +304,6 @@ export default function generateProductConfig(
       openDrawer('notification'),
       getNotificationRef,
     ),
-    help: helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     profile: profileConfigFactory(
       profileItems,
       profileTooltip,

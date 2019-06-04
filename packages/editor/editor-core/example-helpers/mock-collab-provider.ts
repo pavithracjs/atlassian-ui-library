@@ -4,7 +4,7 @@ import {
   CollabEditProvider,
   CollabEvent,
 } from '../src/plugins/collab-edit/provider';
-import { Transaction, EditorState } from 'prosemirror-state';
+import { Transaction } from 'prosemirror-state';
 
 interface Participant {
   sid: string;
@@ -81,7 +81,7 @@ const mediator = new Mediator();
 
 export class MockCollabEditProvider implements CollabEditProvider {
   protected getState = () => {};
-  protected createStep = (json: object) => {};
+  protected createStep = (_: object) => {};
   protected sid?: string;
   protected eventBus: any;
 
@@ -119,7 +119,7 @@ export class MockCollabEditProvider implements CollabEditProvider {
     return this;
   }
 
-  send(tr: Transaction, oldState: EditorState, newState: EditorState) {
+  send(tr: Transaction) {
     const { sid } = this;
     if (tr.steps && tr.steps.length) {
       const json = tr.steps.map(step => step.toJSON());
@@ -134,6 +134,16 @@ export class MockCollabEditProvider implements CollabEditProvider {
     } else {
       this.eventBus.on(evt, handler);
     }
+    return this;
+  }
+
+  off(evt: CollabEvent, handler: (args: any) => void) {
+    this.eventBus.off(evt, handler);
+    return this;
+  }
+
+  unsubscribeAll(evt: CollabEvent) {
+    this.eventBus.removeAllListeners(evt);
     return this;
   }
 
@@ -154,7 +164,7 @@ export class MockCollabEditProvider implements CollabEditProvider {
   }
 }
 
-const getCollabEditProviderFor = <T>(participants: T) => (sid?: string) =>
+const getCollabEditProviderFor = <T>(_participants: T) => (sid?: string) =>
   Promise.resolve(new MockCollabEditProvider(mediator, sid));
 
 export const collabEditProvider = getCollabEditProviderFor(participants);

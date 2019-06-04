@@ -13,6 +13,7 @@ export type MessageKey =
   | 'cant_retrieve_gifs'
   | 'check_your_network'
   | 'try_again'
+  | 'try_another_account'
   | 'no_gifs_found'
   | 'no_gifs_found_suggestion'
   | 'load_more_gifs'
@@ -21,7 +22,10 @@ export type MessageKey =
   | 'upload_file_from'
   | 'connect_to'
   | 'connect_account_description'
+  | 'connect_link_account'
+  | 'invalid_permissions'
   | 'upload_an_avatar'
+  | 'loading'
   | 'save'
   | 'or'
   | 'upload_photo'
@@ -147,6 +151,12 @@ export const messages = defineMessages<Messages>({
     defaultMessage: 'Try again',
     description: 'Allow the user to try an action again',
   },
+  try_another_account: {
+    id: 'fabric.media.try_another_account',
+    defaultMessage: 'Try another account',
+    description:
+      'Allows the user to try an action again with a different account',
+  },
   no_gifs_found: {
     id: 'fabric.media.no_gifs_found',
     defaultMessage: "Hello? Was it me you're looking for?",
@@ -191,10 +201,27 @@ export const messages = defineMessages<Messages>({
     description:
       'Explains what will happen when the users connects to a new account',
   },
+  connect_link_account: {
+    id: 'fabric.media.connect_link_account',
+    defaultMessage: 'Connect your account to preview links',
+    description:
+      'Shown when a user does not have access to a link, but can connect their external account to view the link.',
+  },
+  invalid_permissions: {
+    id: 'fabric.media.invalid_permissions',
+    defaultMessage: "You don't have permissions to view",
+    description:
+      'Message shown when a user does not have permissions to view an item',
+  },
   upload_an_avatar: {
     id: 'fabric.media.upload_an_avatar',
     defaultMessage: 'Upload an avatar',
     description: 'Indicates that the user can upload a new avatar',
+  },
+  loading: {
+    id: 'fabric.media.loading',
+    defaultMessage: 'Loading...',
+    description: 'Indicates an element on a page is loading.',
   },
   save: {
     id: 'fabric.media.save',

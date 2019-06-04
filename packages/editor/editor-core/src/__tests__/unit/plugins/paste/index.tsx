@@ -34,6 +34,7 @@ import {
   MockMacroProvider,
   createAnalyticsEventMock,
   RefsNode,
+  inlineCard,
 } from '@atlaskit/editor-test-helpers';
 import { TextSelection } from 'prosemirror-state';
 import mediaPlugin from '../../../../plugins/media';
@@ -41,10 +42,13 @@ import codeBlockPlugin from '../../../../plugins/code-block';
 import extensionPlugin from '../../../../plugins/extension';
 import listPlugin from '../../../../plugins/lists';
 import tablesPlugin from '../../../../plugins/table';
-import macroPlugin, { setMacroProvider } from '../../../../plugins/macro';
+import macroPlugin, {
+  setMacroProvider,
+  MacroAttributes,
+} from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import { panelPlugin } from '../../../../plugins';
+import { panelPlugin, cardPlugin } from '../../../../plugins';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import {
@@ -52,17 +56,20 @@ import {
   ACTION_SUBJECT_ID,
 } from '../../../../plugins/analytics';
 import { Schema } from 'prosemirror-model';
+import { CardProvider } from '../../../../plugins/card';
+import { EditorProps } from '../../../..';
 
 describe('paste plugins', () => {
   const createEditor = createEditorFactory();
   let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
-  const editor = (doc: any) => {
+  const editor = (doc: any, props: Partial<EditorProps> = {}) => {
     createAnalyticsEvent = createAnalyticsEventMock();
     const wrapper = createEditor({
       doc,
       createAnalyticsEvent: createAnalyticsEvent as any,
       editorProps: {
         allowAnalyticsGASV3: true,
+        ...props,
       },
       editorPlugins: [
         mediaPlugin({ allowMediaSingle: true }),
@@ -73,6 +80,7 @@ describe('paste plugins', () => {
         panelPlugin,
         tasksAndDecisionsPlugin,
         tablesPlugin(),
+        cardPlugin,
       ],
     });
 
@@ -177,6 +185,15 @@ describe('paste plugins', () => {
         const { editorView } = editor(doc(p('{<>}')));
         dispatchPasteEvent(editorView, { plain: 'plain text' });
         expect(editorView.state.doc).toEqualDocument(doc(p('plain text')));
+      });
+
+      it('should scroll cursor into view after pasting in code-block', () => {
+        const { editorView } = editor(doc(code_block()('{<>}')));
+        const dispatchSpy = jest.spyOn(editorView, 'dispatch');
+        dispatchPasteEvent(editorView, { plain: 'plain text' });
+
+        const tr = dispatchSpy.mock.calls[0][0];
+        expect(tr.scrolledIntoView).toBe(true);
       });
     });
 
@@ -438,6 +455,18 @@ describe('paste plugins', () => {
             ),
           ),
         );
+      });
+
+      it('should scroll cursor into view after pasting', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        const dispatchSpy = jest.spyOn(editorView, 'dispatch');
+
+        dispatchPasteEvent(editorView, {
+          html: `<meta charset='utf-8'><p data-pm-slice="1 1 []">Some rich text to paste</p>`,
+        });
+
+        const tr = dispatchSpy.mock.calls[0][0];
+        expect(tr.scrolledIntoView).toBe(true);
       });
     });
 
@@ -717,6 +746,30 @@ describe('paste plugins', () => {
       },
     };
 
+    const cardProvider = Promise.resolve({
+      resolve: () =>
+        Promise.resolve({
+          type: 'inlineCard',
+          attrs: { url: 'https://jdog.jira-dev.com/browse/BENTO-3677' },
+        }),
+    } as CardProvider);
+
+    const extensionProps = (cardOptions = {}): Partial<EditorProps> => {
+      return {
+        macroProvider: Promise.resolve({
+          config: {},
+          openMacroBrowser: () => Promise.resolve({} as MacroAttributes),
+          autoConvert: () => {
+            return null;
+          },
+        }),
+        UNSAFE_cards: {
+          provider: cardProvider,
+          ...cardOptions,
+        },
+      };
+    };
+
     describe('should convert pasted content to inlineExtension (confluence macro)', () => {
       it('from plain text url', async () => {
         const macroProvider = Promise.resolve(new MockMacroProvider({}));
@@ -728,6 +781,76 @@ describe('paste plugins', () => {
         });
         expect(editorView.state.doc).toEqualDocument(
           doc(p(inlineExtension(attrs)())),
+        );
+      });
+
+      it('inserts inline card when FF for resolving links over extensions is enabled', async () => {
+        const macroProvider = Promise.resolve(new MockMacroProvider({}));
+        const { editorView } = editor(
+          doc(p('{<>}')),
+          extensionProps({ resolveBeforeMacros: ['jira'] }),
+        );
+
+        await setMacroProvider(macroProvider)(editorView);
+
+        await dispatchPasteEvent(editorView, {
+          plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+        });
+
+        // let the card resolve
+        const resolvedProvider = await cardProvider;
+        await resolvedProvider.resolve(
+          'https://jdog.jira-dev.com/browse/BENTO-3677',
+          'inline',
+        );
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              inlineCard({
+                url: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+              })(),
+              ' ',
+            ),
+          ),
+        );
+      });
+
+      it('inserts inlineExtension when FF for resolving links over extensions is disabled', async () => {
+        const macroProvider = Promise.resolve(new MockMacroProvider({}));
+        const { editorView } = editor(doc(p('{<>}')), extensionProps());
+
+        await setMacroProvider(macroProvider)(editorView);
+
+        await dispatchPasteEvent(editorView, {
+          plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+        });
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              inlineExtension({
+                extensionType: 'com.atlassian.confluence.macro.core',
+                extensionKey: 'jira',
+                parameters: {
+                  macroParams: {
+                    paramA: {
+                      value: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+                    },
+                  },
+                  macroMetadata: {
+                    macroId: { value: 12345 },
+                    placeholder: [
+                      {
+                        data: { url: '' },
+                        type: 'icon',
+                      },
+                    ],
+                  },
+                },
+              })(),
+            ),
+          ),
         );
       });
 

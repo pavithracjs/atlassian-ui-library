@@ -29,11 +29,24 @@ import {
 import { FakeTextCursorSelection } from '../plugins/fake-text-cursor/cursor';
 import { hasParentNodeOfType } from 'prosemirror-utils';
 import { GapCursorSelection, Side } from '../plugins/gap-cursor/selection';
+import { isNodeEmpty } from './document';
 
-export * from './document';
+export {
+  isEmptyParagraph,
+  hasVisibleContent,
+  isNodeEmpty,
+  isEmptyDocument,
+  processRawValue,
+  getStepRange,
+  findFarthestParentNode,
+  isSelectionEndOfParagraph,
+  nodesBetweenChanged,
+} from './document';
+
 export * from './action';
 export * from './step';
 export * from './mark';
+export { isNodeTypeParagraph } from './nodes';
 
 export { JSONDocNode, JSONNode };
 
@@ -41,7 +54,7 @@ export { filterContentByType } from './filter';
 
 export const ZeroWidthSpace = '\u200b';
 
-function validateNode(node: Node): boolean {
+function validateNode(_node: Node): boolean {
   return false;
 }
 
@@ -627,21 +640,26 @@ export function closestElement(
  * From Modernizr
  * Returns the kind of transitionevent available for the element
  */
-export function whichTransitionEvent() {
+export function whichTransitionEvent<TransitionEventName extends string>() {
   const el = document.createElement('fakeelement');
-  const transitions = {
+  const transitions: Record<string, string> = {
     transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
+    OTransition: 'oTransitionEnd',
     WebkitTransition: 'webkitTransitionEnd',
-  } as any;
+  };
 
-  let t: any;
-  for (t in transitions) {
-    if (el.style[t] !== undefined) {
-      return transitions[t];
+  for (const t in transitions) {
+    if (el.style[t as keyof CSSStyleDeclaration] !== undefined) {
+      // Use a generic as the return type because TypeScript doesnt know
+      // about cross browser features, so we cast here to align to the
+      // standard Event spec and propagate the type properly to the callbacks
+      // of `addEventListener` and `removeEventListener`.
+      return transitions[t] as TransitionEventName;
     }
   }
+
+  return;
 }
 
 export function moveLeft(view: EditorView) {
@@ -669,7 +687,7 @@ function getSelectedWrapperNodes(state: EditorState): NodeType[] {
       listItem,
       codeBlock,
     } = state.schema.nodes;
-    state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
+    state.doc.nodesBetween($from.pos, $to.pos, node => {
       if (
         (node.isBlock &&
           [blockquote, panel, orderedList, bulletList, listItem].indexOf(
@@ -757,7 +775,7 @@ export const isEmptyNode = (schema: Schema) => {
         });
         return isEmpty;
       default:
-        throw new Error(`${node.type.name} node is not implemented`);
+        return isNodeEmpty(node);
     }
   };
   return innerIsEmptyNode;

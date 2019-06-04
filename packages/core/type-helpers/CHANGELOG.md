@@ -1,5 +1,20 @@
 # @atlaskit/type-helpers
 
+## 4.1.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 4.1.0
+- [minor] [04b70fd86b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/04b70fd86b):
+
+  - XOR<T, U> type was added
+
+## 4.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 3.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

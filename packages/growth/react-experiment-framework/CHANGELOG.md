@@ -1,5 +1,19 @@
 # @atlaskit/react-experiment-framework
 
+## 0.5.0
+- [minor] [0109fa7973](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0109fa7973):
+
+  - Add an optional experimentEnrollmentOptions prop to ExperimentController which allows for passing additional data (e.g. from a Redux store) to the resolvers.
+
+## 0.4.1
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/section-message@4.0.0
+
+## 0.4.0
+- [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 0.3.1
 - [patch] [d5a1fbfdef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5a1fbfdef):
 

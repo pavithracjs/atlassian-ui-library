@@ -17,6 +17,7 @@ const sharedColorContainerStyles = css`
   box-sizing: border-box;
   border-radius: ${borderRadius() * 2}px;
   transition: border-color 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  background-color: transparent;
   border-color: transparent;
   padding: 0;
   cursor: pointer;

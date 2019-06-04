@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/notification-log-client",
-  "version": "4.0.2",
+  "version": "4.0.4",
   "description": "Client APIs for notification-log service",
   "atlaskit:src": "src/index.ts",
   "module": "index.js",
@@ -11,14 +11,18 @@
     "Leonard Osang",
     "Kim Damevin"
   ],
+  "atlaskit": {
+    "name": "Notification Log Client",
+    "team": "home"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/util-service-support": "^4.0.1",
-    "tslib": "^1.8.0"
+    "@atlaskit/util-service-support": "^4.0.3",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/notification-indicator": "^6.0.0",
+    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/notification-indicator": "^7.0.0",
     "fetch-mock": "^6.5.2",
     "whatwg-fetch": "^2.0.3"
   }

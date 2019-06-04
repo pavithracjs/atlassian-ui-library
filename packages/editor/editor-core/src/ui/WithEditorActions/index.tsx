@@ -14,7 +14,7 @@ export default class WithEditorActions extends React.Component<
     editorActions: PropTypes.object.isRequired,
   };
 
-  context: {
+  context!: {
     editorActions: EditorActions;
   };
 

@@ -9,14 +9,18 @@ import { EditorView } from 'prosemirror-view';
 import { runMacroAutoConvert } from '../macro';
 import { closeHistory } from 'prosemirror-history';
 import { applyTextMarksToSlice, hasOnlyNodesOfType } from './util';
-import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
+import { queueCardsFromChangedTr, insertCard } from '../card/pm-plugins/doc';
 import {
   pluginKey as textFormattingPluginKey,
   TextFormattingState,
 } from '../text-formatting/pm-plugins/main';
-import { compose } from '../../utils';
+import { compose, processRawValue } from '../../utils';
 import { CommandDispatch, Command } from '../../types';
 import { insertMediaAsMediaSingle } from '../media/utils/media-single';
+import { INPUT_METHOD } from '../analytics';
+import { CardOptions } from '../card';
+import { CardAppearance } from '@atlaskit/smart-card';
+import { Node as ProsemirrorNode } from 'prosemirror-model';
 
 export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
   return (state: EditorState, dispatch?: CommandDispatch): boolean => {
@@ -77,7 +81,7 @@ export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
       .replaceSelection(transformedSlice)
       .scrollIntoView();
 
-    queueCardsFromChangedTr(state, tr);
+    queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
     if (dispatch) {
       dispatch(tr);
     }
@@ -87,7 +91,7 @@ export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
 
 export function handlePasteAsPlainText(
   slice: Slice,
-  event: ClipboardEvent,
+  _event: ClipboardEvent,
 ): Command {
   return (state: EditorState, dispatch?, view?: EditorView): boolean => {
     // In case of SHIFT+CMD+V ("Paste and Match Style") we don't want to run the usual
@@ -173,7 +177,7 @@ export function handlePastePreservingMarks(slice: Slice): Command {
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       if (dispatch) {
         dispatch(tr);
       }
@@ -202,7 +206,7 @@ export function handlePastePreservingMarks(slice: Slice): Command {
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       if (dispatch) {
         dispatch(tr);
       }
@@ -213,40 +217,99 @@ export function handlePastePreservingMarks(slice: Slice): Command {
   };
 }
 
-export function handleMacroAutoConvert(text: string, slice: Slice): Command {
+async function isLinkSmart(
+  text: string,
+  type: CardAppearance,
+  cardOptions: CardOptions,
+): Promise<boolean> {
+  if (!cardOptions.provider) {
+    return false;
+  }
+  const provider = await cardOptions.provider;
+  return await provider.resolve(text, type);
+}
+
+function insertAutoMacro(
+  slice: Slice,
+  macro: ProsemirrorNode,
+  view?: EditorView,
+): boolean {
+  if (view) {
+    // insert the text or linkified/md-converted clipboard data
+    const selection = view.state.tr.selection;
+
+    const tr = view.state.tr.replaceSelection(slice);
+    const before = tr.mapping.map(selection.from, -1);
+    view.dispatch(tr);
+
+    // replace the text with the macro as a separate transaction
+    // so the autoconversion generates 2 undo steps
+    view.dispatch(
+      closeHistory(view.state.tr)
+        .replaceRangeWith(before, before + slice.size, macro)
+        .scrollIntoView(),
+    );
+    return true;
+  }
+  return false;
+}
+
+export function handleMacroAutoConvert(
+  text: string,
+  slice: Slice,
+  cardsOptions?: CardOptions,
+): Command {
   return (
     state: EditorState,
-    dispatch?: CommandDispatch,
+    _dispatch?: CommandDispatch,
     view?: EditorView,
   ) => {
     const macro = runMacroAutoConvert(state, text);
     if (macro) {
-      const selection = state.tr.selection;
-      const tr = state.tr.replaceSelection(slice);
-      const before = tr.mapping.map(selection.from, -1);
+      /**
+       * if FF enabled, run through smart links and check for result
+       */
+      if (
+        cardsOptions &&
+        cardsOptions.resolveBeforeMacros &&
+        cardsOptions.resolveBeforeMacros.length
+      ) {
+        if (
+          cardsOptions.resolveBeforeMacros.indexOf(macro.attrs.extensionKey) < 0
+        ) {
+          return insertAutoMacro(slice, macro, view);
+        }
 
-      if (dispatch && view) {
-        // insert the text or linkified/md-converted clipboard data
-        dispatch(tr);
+        isLinkSmart(text, 'inline', cardsOptions)
+          .then((cardData: any) => {
+            if (!view) {
+              throw new Error('Missing view');
+            }
 
-        // replace the text with the macro as a separate transaction
-        // so the autoconversion generates 2 undo steps
-        dispatch(
-          closeHistory(view.state.tr)
-            .replaceRangeWith(before, before + slice.size, macro)
-            .scrollIntoView(),
-        );
+            const { schema, tr } = view.state;
+            const cardAdf = processRawValue(schema, cardData);
+
+            if (!cardAdf) {
+              throw new Error('Received invalid ADF from CardProvider');
+            }
+
+            view.dispatch(insertCard(tr, cardAdf, schema));
+          })
+          .catch(() => insertAutoMacro(slice, macro, view));
+        return true;
       }
+      return insertAutoMacro(slice, macro, view);
     }
     return !!macro;
   };
 }
 
 export function handleCodeBlock(text: string): Command {
-  return (state, dispatch, view) => {
+  return (state, dispatch) => {
     const { codeBlock } = state.schema.nodes;
     if (text && hasParentNodeOfType(codeBlock)(state.selection)) {
       const tr = closeHistory(state.tr);
+      tr.scrollIntoView();
       if (dispatch) {
         dispatch(tr.insertText(text));
       }
@@ -264,7 +327,7 @@ function isOnlyMedia(state: EditorState, slice: Slice) {
 }
 
 export function handleMediaSingle(slice: Slice): Command {
-  return (state, dispatch, view) => {
+  return (state, _dispatch, view) => {
     if (view && isOnlyMedia(state, slice)) {
       return insertMediaAsMediaSingle(view, slice.content.firstChild!);
     }
@@ -277,7 +340,7 @@ export function handleMarkdown(markdownSlice: Slice): Command {
     const tr = closeHistory(state.tr);
     tr.replaceSelection(markdownSlice);
 
-    queueCardsFromChangedTr(state, tr);
+    queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
     if (dispatch) {
       dispatch(tr.scrollIntoView());
     }
@@ -320,10 +383,11 @@ export function handleRichText(slice: Slice): Command {
     if (tr.selection.empty && tr.selection.$from.parent.type === codeBlock) {
       tr.setSelection(TextSelection.near(tr.selection.$from, 1) as Selection);
     }
+    tr.scrollIntoView();
 
     // queue link cards, ignoring any errors
     if (dispatch) {
-      dispatch(queueCardsFromChangedTr(state, tr));
+      dispatch(queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD));
     }
     return true;
   };

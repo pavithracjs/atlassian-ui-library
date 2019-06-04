@@ -1,8 +1,10 @@
 import { ErrorMessage, Field, HelperMessage } from '@atlaskit/form';
 import UserPicker, {
+  EmailValidationResponse,
   LoadOptions,
   OptionData,
   Value,
+  isValidEmail,
 } from '@atlaskit/user-picker';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -28,34 +30,71 @@ export type Props = {
   defaultValue?: OptionData[];
   config?: ConfigResponse;
   capabilitiesInfoMessage?: React.ReactNode;
+  isLoading?: boolean;
 };
 
-type GetMessageDescriptorByConfigMode = (
+type GetPlaceHolderMessageDescriptor = (
   mode: ConfigResponseMode | '',
+) => MessageDescriptor;
+
+type GetNoOptionMessageDescriptor = (
+  mode: ConfigResponseMode | '',
+  emailValidity: EmailValidationResponse,
 ) => MessageDescriptor;
 
 type GetNoOptionMessage = (
   { inputValue }: { inputValue: string },
 ) => any | null;
 
-const noOptionsMessageProps: GetMessageDescriptorByConfigMode = mode =>
-  mode === 'EXISTING_USERS_ONLY'
-    ? messages.userPickerExistingUserOnlyNoOptionsMessage
-    : messages.userPickerGenericNoOptionsMessage;
-
-const getNoOptionsMessageByConfigMode = (
+const getNoOptionsMessageDescriptor: GetNoOptionMessageDescriptor = (
   mode: ConfigResponseMode | '',
-): GetNoOptionMessage => ({ inputValue }): GetNoOptionMessage =>
+  emailValidity: EmailValidationResponse,
+) => {
+  switch (mode) {
+    case 'EXISTING_USERS_ONLY':
+      return messages.userPickerExistingUserOnlyNoOptionsMessage;
+
+    case 'ONLY_DOMAIN_BASED_INVITE':
+      if (emailValidity !== 'INVALID') {
+        return messages.userPickerDomainBasedUserOnlyNoOptionsMessage;
+      } else {
+        return messages.userPickerGenericNoOptionsMessage;
+      }
+
+    default:
+      return messages.userPickerGenericNoOptionsMessage;
+  }
+};
+
+const getNoOptionsMessage = (
+  config: ConfigResponse | undefined,
+): GetNoOptionMessage => ({
+  inputValue,
+}: {
+  inputValue: string;
+}): GetNoOptionMessage =>
   inputValue && inputValue.trim().length > 0
     ? ((
         <FormattedMessage
-          {...noOptionsMessageProps(mode)}
-          values={{ inputValue }}
+          {...getNoOptionsMessageDescriptor(
+            (config && config!.mode) || '',
+            isValidEmail(inputValue),
+          )}
+          values={{
+            inputValue,
+            domains: (
+              <strong>
+                {((config && config!.allowedDomains) || []).join(', ')}
+              </strong>
+            ),
+          }}
         />
       ) as any)
     : null;
 
-const getPlaceHolderMessage: GetMessageDescriptorByConfigMode = mode =>
+const getPlaceHolderMessageDescriptor: GetPlaceHolderMessageDescriptor = (
+  mode: ConfigResponseMode | '',
+) =>
   mode === 'EXISTING_USERS_ONLY'
     ? messages.userPickerExistingUserOnlyPlaceholder
     : messages.userPickerGenericPlaceholder;
@@ -71,7 +110,12 @@ export class UserPickerField extends React.Component<Props> {
   };
 
   render() {
-    const { defaultValue, config, capabilitiesInfoMessage } = this.props;
+    const {
+      defaultValue,
+      config,
+      capabilitiesInfoMessage,
+      isLoading,
+    } = this.props;
     const configMode = (config && config!.mode) || '';
     return (
       <Field name="users" validate={validate} defaultValue={defaultValue}>
@@ -86,12 +130,15 @@ export class UserPickerField extends React.Component<Props> {
                   isMulti
                   width="100%"
                   placeholder={
-                    <FormattedMessage {...getPlaceHolderMessage(configMode)} />
+                    <FormattedMessage
+                      {...getPlaceHolderMessageDescriptor(configMode)}
+                    />
                   }
                   addMoreMessage={addMore as string}
                   allowEmail={allowEmails(config)}
                   isValidEmail={isValidEmailUsingConfig(config)}
-                  noOptionsMessage={getNoOptionsMessageByConfigMode(configMode)}
+                  noOptionsMessage={getNoOptionsMessage(config)}
+                  isLoading={isLoading}
                 />
               )}
             </FormattedMessage>

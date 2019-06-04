@@ -28,7 +28,7 @@ import { Store } from '../store';
 import { CardCache } from '../store/cache';
 import { F1 } from '../store/utils';
 import { resolvedEvent, unresolvedEvent } from '../utils/analytics';
-import Environments from '../utils/environments';
+import { getEnvironment } from '../utils/environments';
 
 // TODO: add some form of caching so that urls not currently loaded will still be fast
 
@@ -120,9 +120,7 @@ export class Client implements ClientInterface {
   env: ClientEnvironment;
 
   constructor(config?: ClientConfig, envKey: EnvironmentsKeys = 'prod') {
-    this.env = Environments[envKey]
-      ? Environments[envKey]
-      : Environments['prod'];
+    this.env = getEnvironment(envKey);
 
     this.cacheLifespan =
       (config && config.cacheLifespan) || DEFAULT_CACHE_LIFESPAN;
@@ -134,7 +132,7 @@ export class Client implements ClientInterface {
   }
 
   fetchData(objectUrl: string): Promise<ResolveResponse> {
-    return fetch$<ResolveResponse>('post', `${this.env.resolverURL}/resolve`, {
+    return fetch$<ResolveResponse>('post', `${this.env.resolverUrl}/resolve`, {
       resourceUrl: encodeURI(objectUrl),
     }).toPromise();
   }

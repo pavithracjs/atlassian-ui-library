@@ -6,7 +6,7 @@ const paste: EditorPlugin = {
     return [
       {
         name: 'paste',
-        plugin: ({ schema, props }) => createPlugin(schema, props.appearance),
+        plugin: ({ schema, props }) => createPlugin(schema, props.UNSAFE_cards),
       },
     ];
   },

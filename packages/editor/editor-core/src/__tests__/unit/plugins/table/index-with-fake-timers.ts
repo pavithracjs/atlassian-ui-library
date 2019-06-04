@@ -34,7 +34,7 @@ describe('TableView', () => {
       doc,
       editorPlugins: [
         listPlugin,
-        tablesPlugin(tableOptions),
+        tablesPlugin(),
         codeBlockPlugin(),
         mediaPlugin({ allowMediaSingle: true }),
       ],

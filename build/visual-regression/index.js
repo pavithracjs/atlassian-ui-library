@@ -6,11 +6,15 @@ const isReachable = require('is-reachable');
 const jest = require('jest');
 const meow = require('meow');
 const chalk = require('chalk');
+const fs = require('fs');
+const glob = require('glob');
+const rimraf = require('rimraf');
 const webpack = require('../../build/webdriver-runner/utils/webpack');
 const reporting = require('./reporting');
 
-const LONG_RUNNING_TESTS_THRESHOLD_SECS = 10;
+const LONG_RUNNING_TESTS_THRESHOLD_SECS = 30;
 let startServer = true;
+let ignoringUpdateSnapshots = false;
 
 /*
  * function main() to
@@ -55,8 +59,23 @@ const cli = meow(
 );
 
 if (cli.flags.debug) {
+  // Add an env debug flag for access outside of this file
   process.env.DEBUG = 'true';
-  process.env.CI = 'true';
+
+  if (cli.flags.updateSnapshot) {
+    /**
+     * Prevent image snapshot updating when in local debug mode.
+     *
+     * There are unavoidable rendering differences cross platform, as well as between
+     * headless and watch modes on a single OS (e.g. fonts, text selection & scrollbars).
+     *
+     * Snapshots must be generated from the Docker image to remain consistent.
+     *
+     * Debug mode diffs won't be pixel perfect, but may be useful for debugging purposes.
+     */
+    cli.flags.updateSnapshot = false;
+    ignoringUpdateSnapshots = true;
+  }
 }
 
 if (cli.flags.debug || cli.flags.watch) {
@@ -75,11 +94,32 @@ async function runJest(testPaths) {
       updateSnapshot: cli.flags.updateSnapshot,
       debug: cli.flags.debug,
       watch: cli.flags.watch,
+      // https://product-fabric.atlassian.net/browse/BUILDTOOLS-108
+      // ci: process.env.CI,
     },
     [process.cwd()],
   );
 
   return status.results;
+}
+
+/**
+ * Copy screenshots generated from first run into a different directory so we still
+ * have access to these as artifacts when CI build is finished
+ * Also prefix them with "first-run__" so user can differentiate them from the fails
+ * when they download
+ */
+function moveScreenshotsFromFirstRun() {
+  glob.sync('**/+(__diff_output__|__errors__)').forEach(dirPath => {
+    const newDirPath = `${dirPath}{first-run}`;
+    rimraf.sync(newDirPath);
+    fs.renameSync(dirPath, newDirPath);
+    glob.sync(`${newDirPath}/*.png`).forEach(file => {
+      const dir = file.substring(0, file.lastIndexOf('/'));
+      const fileName = file.substring(file.lastIndexOf('/') + 1);
+      fs.renameSync(file, `${dir}/first-run__${fileName}`);
+    });
+  });
 }
 
 async function rerunFailedTests(result) {
@@ -102,6 +142,8 @@ async function rerunFailedTests(result) {
       result.numFailedTestSuites
     } test suites.\n${failingTestPaths.join('\n')}`,
   );
+
+  moveScreenshotsFromFirstRun();
 
   // We don't want to clobber the original results
   // Now we'll upload two test result files.
@@ -149,24 +191,14 @@ function runTestsWithRetry() {
         results = await rerunFailedTests(results);
 
         code = getExitCode(results);
-
-        console.log('results after rerun', results);
-        console.log('rerunTestExitStatus', code);
         /**
          * If the re-run succeeds,
          * log the previously failed tests to indicate flakiness
          */
         if (code === 0) {
-          console.log('reporting test as flaky');
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.vr_test.flakiness',
-          );
+          await reporting.reportInconsistency(results);
         } else {
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.vr_test.testfailure',
-          );
+          await reporting.reportFailure(results, 'atlaskit.qa.vr_test.failure');
         }
       }
     } catch (err) {
@@ -200,6 +232,13 @@ async function main() {
 
   const code = await runTestsWithRetry();
   console.log(`Exiting tests with exit code: ${+code}`);
+  if (ignoringUpdateSnapshots) {
+    console.log(
+      chalk.yellow(
+        'Note: the `--updateSnapshots` flag was ignored because the `--debug` flag was used.',
+      ),
+    );
+  }
   startServer ? await webpack.stopDevServer() : console.log('test completed');
   process.exit(code);
 }

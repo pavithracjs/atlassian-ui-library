@@ -1,4 +1,4 @@
-import { EmojiUpload, EmojiDescription } from '@atlaskit/emoji';
+import { EmojiUpload, EmojiDescription } from '@atlaskit/emoji/types';
 
 export interface PromiseBuilder<R> {
   (result: R, context: string): Promise<R>;

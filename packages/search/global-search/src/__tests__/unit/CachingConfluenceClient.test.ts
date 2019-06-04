@@ -14,7 +14,6 @@ import {
 } from '../../model/Result';
 import {
   buildMockPage,
-  DUMMY_CLOUD_ID,
   DUMMY_CONFLUENCE_HOST,
   mockRecentlyViewedPages,
   MOCK_SPACE,
@@ -33,22 +32,21 @@ describe('CachingConfluenceClient', () => {
 
   const prefetchedResults: ConfluenceRecentsMap = {
     objects: pages.map(page => ({
-      resultId: page.id,
+      resultId: page.id + '',
       name: page.title,
-      href: `${DUMMY_CONFLUENCE_HOST}${page.url}?search_id=search_id`,
+      href: `${DUMMY_CONFLUENCE_HOST}${page.url}`,
       containerName: page.space,
       analyticsType: AnalyticsType.RecentConfluence,
       resultType: ResultType.ConfluenceObjectResult,
       contentType: `confluence-${page.contentType}` as ContentType,
       containerId: 'abc',
       iconClass: 'iconClass',
+      isRecentResult: true,
     })),
     spaces: spaces.map(space => ({
       resultId: space.id,
       name: space.name,
-      href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-        space.key
-      }/overview?search_id=search_id`,
+      href: `${DUMMY_CONFLUENCE_HOST}/spaces/${space.key}/overview`,
       avatarUrl: space.icon,
       analyticsType: AnalyticsType.RecentConfluence,
       resultType: ResultType.GenericContainerResult,
@@ -57,10 +55,7 @@ describe('CachingConfluenceClient', () => {
   };
 
   beforeEach(() => {
-    confluenceClient = new CachingConfluenceClient(
-      DUMMY_CONFLUENCE_HOST,
-      DUMMY_CLOUD_ID,
-    );
+    confluenceClient = new CachingConfluenceClient(DUMMY_CONFLUENCE_HOST);
   });
 
   afterEach(() => {
@@ -70,33 +65,34 @@ describe('CachingConfluenceClient', () => {
   describe('getRecentItems', () => {
     const expectedResults = [
       {
-        resultId: pages[0].id,
+        resultId: pages[0].id + '',
         name: pages[0].title,
-        href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}`,
         containerName: pages[0].space,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.ConfluenceObjectResult,
         contentType: ContentType.ConfluencePage,
         containerId: 'abc',
         iconClass: 'iconClass',
+        isRecentResult: true,
       },
       {
-        resultId: pages[1].id,
+        resultId: pages[1].id + '',
         name: pages[1].title,
-        href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}`,
         containerName: pages[1].space,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.ConfluenceObjectResult,
         contentType: ContentType.ConfluenceBlogpost,
         containerId: 'abc',
         iconClass: 'iconClass',
+        isRecentResult: true,
       },
     ];
 
     it('should return the pre fetched results if present', async () => {
       confluenceClient = new CachingConfluenceClient(
         DUMMY_CONFLUENCE_HOST,
-        DUMMY_CLOUD_ID,
         Promise.resolve(prefetchedResults),
       );
 
@@ -119,9 +115,7 @@ describe('CachingConfluenceClient', () => {
       {
         resultId: MOCK_SPACE.id,
         name: MOCK_SPACE.name,
-        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-          MOCK_SPACE.key
-        }/overview?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${MOCK_SPACE.key}/overview`,
         avatarUrl: MOCK_SPACE.icon,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.GenericContainerResult,
@@ -130,9 +124,7 @@ describe('CachingConfluenceClient', () => {
       {
         resultId: MOCK_SPACE.id,
         name: MOCK_SPACE.name,
-        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-          MOCK_SPACE.key
-        }/overview?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${MOCK_SPACE.key}/overview`,
         avatarUrl: MOCK_SPACE.icon,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.GenericContainerResult,
@@ -143,7 +135,6 @@ describe('CachingConfluenceClient', () => {
     it('should return the pre fetched results if present', async () => {
       confluenceClient = new CachingConfluenceClient(
         DUMMY_CONFLUENCE_HOST,
-        DUMMY_CLOUD_ID,
         Promise.resolve(prefetchedResults),
       );
 

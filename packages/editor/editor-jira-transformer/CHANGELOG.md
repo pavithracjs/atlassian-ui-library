@@ -1,5 +1,53 @@
 # @atlaskit/editor-jira-transformer
 
+## 7.2.1
+- [patch] [e9a4cde674](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9a4cde674):
+
+  - ED-6959: Patch transformer to cater for a paragraph node that contains mixed text and media nodes.
+
+## 7.2.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 7.1.2
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-json-transformer@6.0.2
+  - @atlaskit/editor-test-helpers@9.1.4
+  - @atlaskit/editor-core@112.0.0
+
+## 7.1.1
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-json-transformer@6.0.1
+  - @atlaskit/editor-test-helpers@9.1.2
+  - @atlaskit/editor-core@111.0.0
+
+## 7.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 7.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 6.0.5
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/util-data-test@11.1.9
+
+## 6.0.4
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/util-data-test@11.1.8
+
 ## 6.0.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

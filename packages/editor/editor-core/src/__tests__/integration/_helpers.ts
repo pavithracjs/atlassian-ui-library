@@ -1,9 +1,11 @@
 import { getExampleUrl } from '@atlaskit/webdriver-runner/utils/example';
 import { messages as insertBlockMessages } from '../../plugins/insert-block/ui/ToolbarInsertBlock';
 import { ToolbarFeatures } from '../../../example-helpers/ToolsDrawer';
-import { EditorAppearance } from '../../types';
+import { EditorAppearance, EditorProps } from '../../types';
 import { pluginKey as tableResizingPluginKey } from '../../plugins/table/pm-plugins/table-resizing';
 import messages from '../../messages';
+import { tableSelectors } from '../__helpers/page-objects/_table';
+import { TableCssClassName } from '../../plugins/table/types';
 
 /**
  * This function will in browser context. Make sure you call `toJSON` otherwise you will get:
@@ -22,7 +24,7 @@ export const insertMention = async (browser: any, query: string) => {
   await browser.type(editable, '@');
   await browser.waitForSelector(typeAheadPicker);
   await browser.type(editable, query);
-  await browser.type(editable, 'Return');
+  await browser.keys(['Return']);
 };
 
 export const gotoEditor = async (browser: any) => {
@@ -94,6 +96,22 @@ export const clipboardInput = 'textarea';
 export const copyAsPlaintextButton = '.copy-as-plaintext';
 export const copyAsHTMLButton = '.copy-as-html';
 
+/**
+ * Copies plain text or HTML to clipboard for tests that need to paste
+ */
+export const copyToClipboard = async (
+  browser: any,
+  text: string,
+  copyAs: 'plain' | 'html' = 'plain',
+) => {
+  await browser.goto(clipboardHelper);
+  await browser.isVisible(clipboardInput);
+  await browser.type(clipboardInput, text);
+  await browser.click(
+    copyAs === 'html' ? copyAsHTMLButton : copyAsPlaintextButton,
+  );
+};
+
 export const mediaInsertDelay = 1000;
 
 const mediaPickerMock = '.mediaPickerMock';
@@ -159,6 +177,8 @@ export const insertMedia = async (
 
   const existingMediaCards = await browser.$$(mediaCardSelector);
 
+  // wait for media button in toolbar and click it
+  await browser.waitForSelector(openMediaPopup);
   await browser.click(openMediaPopup);
 
   // wait for media item, and select it
@@ -182,7 +202,7 @@ export const insertMedia = async (
   const mediaCardCount = get$$Length(existingMediaCards) + filenames.length;
 
   // Workaround - we need to use different wait methods depending on where we are running.
-  if (browser.browser.desiredCapabilities) {
+  if (browser.browser.capabilities) {
     await browser.browser.waitUntil(async () => {
       const mediaCards = await browser.$$(mediaCardSelector);
 
@@ -195,7 +215,7 @@ export const insertMedia = async (
       );
     });
   } else {
-    await browser.evaluate(() => {
+    browser.evaluate(() => {
       window.scrollBy(0, window.innerHeight);
     });
     await browser.waitFor(
@@ -277,6 +297,7 @@ export const toggleBreakout = async (page: any, times: number) => {
   for (let _iter of timesArray) {
     await page.waitForSelector(breakoutSelector);
     await page.click(breakoutSelector);
+    await animationFrame(page);
   }
 };
 
@@ -306,7 +327,7 @@ export const insertMenuItem = async (browser: any, title: string) => {
 };
 
 export const currentSelectedEmoji = '.emoji-typeahead-selected';
-export const typeahead = '.ak-emoji-typeahead';
+export const typeahead = '.ak-emoji-typeahead-list';
 
 export const insertEmoji = async (browser: any, query: string) => {
   await browser.type(editable, ':');
@@ -324,7 +345,7 @@ export const insertEmojiBySelect = async (browser: any, select: string) => {
 };
 
 export const currentSelectedEmojiShortName = async (browser: any) => {
-  return await browser.$(currentSelectedEmoji).getProperty('data-emoji-id');
+  return await browser.getProperty(currentSelectedEmoji, 'data-emoji-id');
 };
 
 export const highlightEmojiInTypeahead = async (
@@ -337,12 +358,12 @@ export const highlightEmojiInTypeahead = async (
     if (selectedEmojiShortName === `:${emojiShortName}:`) {
       break;
     }
-    await browser.type(editable, 'ArrowDown');
+    await browser.keys(['ArrowDown']);
   }
 };
 
 export const emojiItem = (emojiShortName: string): string => {
-  return `span[data-emoji-short-name=":${emojiShortName}:"]`;
+  return `span[shortname=":${emojiShortName}:"]`;
 };
 
 interface ResizeOptions {
@@ -352,12 +373,41 @@ interface ResizeOptions {
   startX?: number;
 }
 
+export const updateEditorProps = async (
+  page: any,
+  newProps: Partial<EditorProps>,
+) => {
+  await page.browser.execute((props: EditorProps) => {
+    (window as any).__updateEditorProps(props);
+  }, newProps);
+};
+
+export const setProseMirrorTextSelection = async (
+  page: any,
+  pos: { anchor: number; head?: number },
+) => {
+  await page.browser.execute(
+    (anchor: number, head: number) => {
+      var view = (window as any).__editorView;
+      view.dispatch(
+        view.state.tr.setSelection(
+          // Re-use the current selection (presumed TextSelection) to use our new positions.
+          view.state.selection.constructor.create(view.state.doc, anchor, head),
+        ),
+      );
+      view.focus();
+    },
+    pos.anchor,
+    pos.head || pos.anchor,
+  );
+};
+
 export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
   await page.browser.execute(
     (
       tableResizingPluginKey: any,
       resizeWidth: any,
-      cellHandlePos: any,
+      resizeHandlePos: any,
       startX: any,
     ) => {
       const view = (window as any).__editorView;
@@ -368,7 +418,10 @@ export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
 
       view.dispatch(
         view.state.tr.setMeta(tableResizingPluginKey, {
-          setHandle: cellHandlePos,
+          type: 'SET_RESIZE_HANDLE_POSITION',
+          data: {
+            resizeHandlePos,
+          },
         }),
       );
 
@@ -401,4 +454,49 @@ export const animationFrame = async (page: any) => {
   await page.browser.executeAsync((done: (time: number) => void) => {
     window.requestAnimationFrame(done);
   });
+};
+
+export const doubleClickResizeHandle = async (
+  page: any,
+  resizeHandlePos: number,
+) => {
+  await page.browser.execute(
+    (tableResizingPluginKey: any, resizeHandlePos: any) => {
+      const view = (window as any).__editorView;
+      if (!view) {
+        return;
+      }
+      const startX = 600;
+
+      view.dispatch(
+        view.state.tr.setMeta(tableResizingPluginKey, {
+          type: 'SET_RESIZE_HANDLE_POSITION',
+          data: {
+            resizeHandlePos,
+          },
+        }),
+      );
+
+      view.dom.dispatchEvent(new MouseEvent('mousedown', { clientX: startX }));
+      window.dispatchEvent(new MouseEvent('mouseup', { clientX: startX }));
+      view.dom.dispatchEvent(new MouseEvent('mousedown', { clientX: startX }));
+      window.dispatchEvent(new MouseEvent('mouseup', { clientX: startX }));
+    },
+    tableResizingPluginKey,
+    resizeHandlePos,
+  );
+};
+
+export const selectColumns = async (page: any, indexes: number[]) => {
+  for (let i = 0, count = indexes.length; i < count; i++) {
+    const controlSelector = `.${tableSelectors.columnControls} .${
+      TableCssClassName.COLUMN_CONTROLS_BUTTON_WRAP
+    }:nth-child(${indexes[i]}) .${TableCssClassName.CONTROLS_BUTTON}`;
+    await page.waitForSelector(controlSelector);
+    if (i > 0) {
+      await page.browser.keys(['Shift']);
+    }
+    await page.click(controlSelector);
+    await page.waitForSelector(tableSelectors.selectedCell);
+  }
 };

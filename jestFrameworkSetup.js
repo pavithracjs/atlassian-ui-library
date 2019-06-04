@@ -1,10 +1,15 @@
 /* eslint-disable */
 import 'whatwg-fetch';
+import { XMLHttpRequest } from 'xmlhttprequest';
 import 'jest-styled-components';
 import { toMatchSnapshot } from 'jest-snapshot';
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot';
 import { createSerializer } from 'jest-emotion';
 import 'jest-localstorage-mock';
+import ScreenshotReporter from './build/visual-regression/utils/screenshotReporter';
+
+// https://product-fabric.atlassian.net/browse/BUILDTOOLS-176
+global.XMLHttpRequest = XMLHttpRequest;
 
 let consoleError;
 let consoleWarn;
@@ -368,11 +373,16 @@ expect.addSnapshotSerializer(createSerializer());
 if (process.env.VISUAL_REGRESSION) {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
 
+  const screenshotReporter = new ScreenshotReporter(global.page);
+  jasmine.getEnv().addReporter(screenshotReporter);
+
   beforeAll(async () => {
     global.page = await global.browser.newPage();
+    screenshotReporter.reset(global.page);
   }, jasmine.DEFAULT_TIMEOUT_INTERVAL);
 
   afterAll(async () => {
+    await screenshotReporter.waitForPendingScreenshots();
     await global.page.close();
     await global.browser.disconnect();
   });

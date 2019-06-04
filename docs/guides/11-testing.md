@@ -52,13 +52,18 @@ We encourage adding tests to all components on **Atlaskit**.
 For further details or a test template, please consult this [link](https://hello.atlassian.net/wiki/spaces/Atlaskit/pages/136112313/How+to+add+webdriver+browser+tests+for+components+in+Atlaskit).
 
 ### Visual regression tests
+
+Visual regression tests are used to identify visual differences on **UI components** with or without **user interactions**.
+
+> Due to inconsistencies between platforms _(e.g. font rendering, text selection, scrollbars)_ VR snapshots should always be generated from the Docker image.
+
 #### Prerequisite for Visual regression tests
-- install docker as it is used to run tests locally
+- install docker as it is used to run tests both locally and in CI
 - install git lfs through `brew install git-lfs`,
 - once latest master is checkout, run `yarn run enable:lfs`
 - run `git lfs pull` to pull lfs assets
+- **troubleshooting:** If you get the error `Skipping object checkout, Git LFS is not installed.` try running `git lfs install` and then `git lfs update --force` to recreate your hooks.
 
-- visual regression tests are used to identify visual differences on **UI components** with or without **user interactions**.
 - use **Jest runner** for running the visual regression tests.
 - *visual regression tests* for packages should be structured under `<pkg>/src/__tests__/visual-regression`.
 - *visual regression tests* run using docker, jest-image-snapshot, puppeteer and chromium both on local and CI.
@@ -71,11 +76,19 @@ For further details or a test template, please consult this [link](https://hello
     - you will need to start the server in another terminal with this command `VISUAL_REGRESSION=true yarn start <pkg>`.
     - `yarn test:vr <path_to_file> --watch` will run watch mode headlessly.
     - `yarn test:vr <path_to_file> --debug` will run watch mode only on Chrome browser.
+- to update all images snapshots for the entire repository `yarn test:vr -u` or `yarn test:vr --updateSnapshot`
 - to update all image snapshots for the package `yarn test:vr <pkg> --update-snapshot` or `yarn test:vr <pkg> -u`
 - to update image snapshots for a single test `yarn test:vr <path_to_file> --update-snapshot` or `yarn test:vr <path_to_file> -u` will update the snapshot if there is a change.  
-**Note:** you can still use the `--watch` and `--debug` flags with `<pkg>`, `<path_to_directory>` and for all tests but it is not recommended.
+
+**Notes:**
+
+- you can still use the `--watch` and `--debug` flags with `<pkg>`, `<path_to_directory>` and for all tests but it is not recommended.
+- Updating image snapshots isn't possible when the `--debug` flag is used. This ensures committed snapshot images are deterministic when run in CI.
+
 
 For further details or a test template, please consult this [link](https://hello.atlassian.net/wiki/spaces/Atlaskit/pages/136113035/How+to+add+visual+regression+tests+in+Atlaskit).
+
+
 
 ### Flow tests
 - flow tests can be used to explicitly verify that components are being typed correctly from the consumers perspective.

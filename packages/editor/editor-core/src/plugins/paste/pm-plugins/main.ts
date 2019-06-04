@@ -4,10 +4,7 @@ import { handlePaste as handlePasteTable } from 'prosemirror-tables';
 import { Schema, Slice, Node, Fragment } from 'prosemirror-model';
 import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
 import { MarkdownTransformer } from '@atlaskit/editor-markdown-transformer';
-
 import * as clipboard from '../../../utils/clipboard';
-import { EditorAppearance } from '../../../types';
-
 import { transformSliceForMedia } from '../../media/utils/media-single';
 import linkify from '../linkify-md-plugin';
 import { escapeLinks } from '../util';
@@ -16,7 +13,7 @@ import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
 import { linkifyContent } from '../../hyperlink/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
 import { transformSliceToRemoveOpenTable } from '../../table/utils';
-import { transformSliceToAddTableHeaders } from '../../table/actions';
+import { transformSliceToAddTableHeaders } from '../../table/commands';
 import { handleMacroAutoConvert } from '../handlers';
 import {
   transformSliceToJoinAdjacentCodeBlocks,
@@ -34,6 +31,7 @@ import {
 } from './analytics';
 import { PasteTypes } from '../../analytics';
 import { insideTable } from '../../../utils';
+import { CardOptions } from '../../card';
 
 export const stateKey = new PluginKey('pastePlugin');
 
@@ -57,10 +55,7 @@ function isHeaderRowRequired(state: EditorState) {
   return tableState && tableState.pluginConfig.isHeaderRowRequired;
 }
 
-export function createPlugin(
-  schema: Schema,
-  editorAppearance?: EditorAppearance,
-) {
+export function createPlugin(schema: Schema, cardOptions?: CardOptions) {
   const atlassianMarkDownParser = new MarkdownTransformer(schema, md);
 
   function getMarkdownSlice(
@@ -72,6 +67,7 @@ export function createPlugin(
     if (doc && doc.content) {
       return new Slice(doc.content, openStart, openEnd);
     }
+    return;
   }
 
   return new Plugin({
@@ -128,7 +124,11 @@ export function createPlugin(
           // run macro autoconvert prior to other conversions
           if (
             markdownSlice &&
-            handleMacroAutoConvert(text, markdownSlice)(state, dispatch, view)
+            handleMacroAutoConvert(text, markdownSlice, cardOptions)(
+              state,
+              dispatch,
+              view,
+            )
           ) {
             // TODO: handleMacroAutoConvert dispatch twice, so we can't use the helper
             sendPasteAnalyticsEvent(view, event, markdownSlice, {
@@ -195,7 +195,13 @@ export function createPlugin(
           slice = linkifyContent(state.schema)(slice);
 
           // run macro autoconvert prior to other conversions
-          if (handleMacroAutoConvert(text, slice)(state, dispatch, view)) {
+          if (
+            handleMacroAutoConvert(text, slice, cardOptions)(
+              state,
+              dispatch,
+              view,
+            )
+          ) {
             // TODO: handleMacroAutoConvert dispatch twice, so we can't use the helper
             sendPasteAnalyticsEvent(view, event, slice, {
               type: PasteTypes.richText,

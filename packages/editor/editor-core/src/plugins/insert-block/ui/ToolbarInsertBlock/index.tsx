@@ -22,11 +22,9 @@ import StatusIcon from '@atlaskit/icon/glyph/status';
 import PlaceholderTextIcon from '@atlaskit/icon/glyph/media-services/text';
 import LayoutTwoEqualIcon from '@atlaskit/icon/glyph/editor/layout-two-equal';
 import HorizontalRuleIcon from '@atlaskit/icon/glyph/editor/horizontal-rule';
-import {
-  EmojiId,
-  EmojiPicker as AkEmojiPicker,
-  EmojiProvider,
-} from '@atlaskit/emoji';
+import { EmojiPicker as AkEmojiPicker } from '@atlaskit/emoji/picker';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { EmojiId } from '@atlaskit/emoji/types';
 import { Popup, akEditorMenuZIndex } from '@atlaskit/editor-common';
 import EditorActions from '../../../../actions';
 import {
@@ -50,7 +48,7 @@ import {
 } from '../../../../ui/styles';
 import { BlockType } from '../../../block-type/types';
 import { MacroProvider } from '../../../macro/types';
-import { createTable } from '../../../table/actions';
+import { createTable } from '../../../table/commands';
 import { insertDate, openDatePicker } from '../../../date/actions';
 import { showPlaceholderFloatingToolbar } from '../../../placeholder-text/actions';
 import { createHorizontalRule } from '../../../rule/pm-plugins/input-rule';
@@ -177,7 +175,7 @@ export const messages = defineMessages({
   },
   columns: {
     id: 'fabric.editor.columns',
-    defaultMessage: 'Columns',
+    defaultMessage: 'Layouts',
     description: 'Create a multi column section or layout',
   },
   columnsDescription: {
@@ -691,7 +689,7 @@ class ToolbarInsertBlock extends React.PureComponent<
     },
   );
 
-  private createTable = withAnalytics(
+  private insertTable = withAnalytics(
     'atlassian.editor.format.table.button',
     (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
@@ -882,7 +880,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         this.toggleLinkPanel(inputMethod);
         break;
       case 'table':
-        this.createTable(inputMethod);
+        this.insertTable(inputMethod);
         break;
       case 'image upload':
         if (handleImageUpload) {

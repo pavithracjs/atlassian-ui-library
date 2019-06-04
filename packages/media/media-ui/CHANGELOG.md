@@ -1,5 +1,98 @@
 # @atlaskit/media-ui
 
+## 11.2.7
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/button@13.0.6
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
+## 11.2.6
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 11.2.5
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/media-test-helpers@24.0.0
+
+## 11.2.4
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/page@11.0.0
+
+## 11.2.3
+- [patch] [391c93daf7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/391c93daf7):
+
+  - Prevents inline videos in Editor/Renderer to be played simulteneously in the same page
+
+## 11.2.2
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/dropdown-menu@8.0.2
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 11.2.1
+- [patch] [1c9586e1a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c9586e1a0):
+
+  - Reverted strings to the original format
+
+## 11.2.0
+- [minor] [061eb57bab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/061eb57bab):
+
+  - Added partial i18n support to media-ui
+
+## 11.1.2
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 11.1.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 11.1.0
+- [minor] [121c945cc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/121c945cc6):
+
+  - fix padding, hover, icon for Inline Links.
+
+## 11.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 10.1.11
+- [patch] [682279973f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/682279973f):
+
+  - Changed Unauthorized and Errored inline view for smart cards to be text only and added color theming for smart link titles
+
+## 10.1.10
+- [patch] [1a18876567](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a18876567):
+
+  - Changed behaviour so that icon and first 8 characters of a smart link no longer break when wrapping.
+
+## 10.1.9
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 10.1.8
+- [patch] [687f535a12](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/687f535a12):
+
+  - Changed smart link selection in editor mode to not include text selection, but retain it in renderer mode
+
+## 10.1.7
+- [patch] [cfec2f0b70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfec2f0b70):
+
+  - Fixed a text selection bug for inline smart links
+
+## 10.1.6
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 10.1.5
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

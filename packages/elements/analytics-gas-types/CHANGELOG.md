@@ -1,5 +1,15 @@
 # @atlaskit/analytics-gas-types
 
+## 4.0.4
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/analytics-next@5.0.0
+
+## 4.0.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 4.0.2
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 

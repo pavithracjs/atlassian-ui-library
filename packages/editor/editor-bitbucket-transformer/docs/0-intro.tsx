@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { md, Example, code } from '@atlaskit/docs';
+import { md, Example, code, AtlassianInternalWarning } from '@atlaskit/docs';
 
 export default md`
+${<AtlassianInternalWarning />}
+
 This transformer allows encoding ProseMirror Node to markdown or converting Bitbucket HTML to  ProseMirror Node.
 
   ## Usage

@@ -10,6 +10,7 @@ import {
   setProvider,
   queueCards,
 } from '../../../../plugins/card/pm-plugins/actions';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
@@ -48,7 +49,7 @@ describe('card', () => {
 
       beforeEach(() => {
         provider = new class implements CardProvider {
-          resolve(url: string): Promise<any> {
+          resolve(): Promise<any> {
             const promise = new Promise(resolve => resolve(cardAdf));
             promises.push(promise);
             return promise;
@@ -80,6 +81,7 @@ describe('card', () => {
                 pos: editorView.state.selection.from,
                 appearance: 'inline',
                 compareLinkText: true,
+                source: INPUT_METHOD.CLIPBOARD,
               },
             ])(editorView.state.tr),
           );

@@ -38,8 +38,8 @@ export class Converter {
 
   convert(
     files: File[],
-    fn = (base64src: string) => {},
-    errFn = (file: File) => {},
+    fn = (_base64src: string) => {},
+    errFn = (_file: File) => {},
   ) {
     if (files && files[0]) {
       files.forEach((file: File) => {
@@ -54,7 +54,7 @@ export class Converter {
         }
 
         const reader = new FileReader();
-        reader.onerror = (e: Event) => {
+        reader.onerror = () => {
           errFn(file);
         };
 

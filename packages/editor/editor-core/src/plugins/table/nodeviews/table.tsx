@@ -10,18 +10,25 @@ import ReactNodeView, {
   getPosHandler,
 } from '../../../nodeviews/ReactNodeView';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { generateColgroup } from '../utils';
+import { generateColgroup } from '../pm-plugins/table-resizing/utils';
 import TableComponent from './TableComponent';
 
 import WithPluginState from '../../../ui/WithPluginState';
 import { pluginKey as widthPluginKey } from '../../width';
 import { pluginKey, getPluginState } from '../pm-plugins/main';
 import { pluginKey as tableResizingPluginKey } from '../pm-plugins/table-resizing/index';
-import { contentWidth } from '../pm-plugins/table-resizing/resizer/contentWidth';
-import { handleBreakoutContent } from '../pm-plugins/table-resizing/actions';
+import { contentWidth } from '../pm-plugins/table-resizing/utils';
+import { handleBreakoutContent } from '../pm-plugins/table-resizing/commands';
 import { pluginConfig as getPluginConfig } from '../index';
 import { TableCssClassName as ClassName } from '../types';
 import { closestElement } from '../../../utils';
+
+export type TableOptions = {
+  dynamicTextSizing?: boolean;
+  isBreakoutEnabled?: boolean;
+  isFullWidthModeEnabled?: boolean;
+  wasFullWidthModeEnabled?: boolean;
+};
 
 export interface Props {
   node: PmNode;
@@ -30,10 +37,7 @@ export interface Props {
   cellMinWidth?: number;
   portalProviderAPI: PortalProviderAPI;
   getPos: () => number;
-  options?: {
-    dynamicTextSizing?: boolean;
-    isBreakoutEnabled?: boolean;
-  };
+  options?: TableOptions;
 }
 
 const tableAttributes = (node: PmNode) => {
@@ -140,6 +144,7 @@ export default class TableView extends ReactNodeView {
   }
 
   private resizeForBreakoutContent = (target: HTMLElement) => {
+    const { view } = this;
     const elemOrWrapper =
       closestElement(
         target,
@@ -147,58 +152,58 @@ export default class TableView extends ReactNodeView {
           ClassName.TABLE_CELL_NODE_WRAPPER
         }`,
       ) || target;
-
     const { minWidth } = contentWidth(target, target);
 
     // This can also trigger for a non-resized table.
     if (this.node && elemOrWrapper && elemOrWrapper.offsetWidth < minWidth) {
-      const cellPos = this.view.posAtDOM(elemOrWrapper, 0);
+      const cellPos = view.posAtDOM(elemOrWrapper, 0);
+      const domAtPos = view.domAtPos.bind(view);
+      const { state, dispatch } = view;
       handleBreakoutContent(
-        this.view,
-        elemOrWrapper,
+        elemOrWrapper as HTMLTableElement,
         cellPos - 1,
         this.getPos() + 1,
         minWidth,
         this.node,
-      );
+        domAtPos,
+      )(state, dispatch);
     }
   };
 
-  private resizeForExtensionContent = (target: HTMLElement) => {
+  private resizeForExtensionContent = (target: HTMLTableElement) => {
     if (!this.node) {
       return;
     }
-
+    const { view } = this;
     const elemOrWrapper = closestElement(
       target,
       '.inlineExtensionView-content-wrap, .extensionView-content-wrap',
     );
-
     if (!elemOrWrapper) {
       return;
     }
-
     const container = closestElement(
       target,
       `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
         ClassName.TABLE_CELL_NODE_WRAPPER
       }`,
-    );
-
+    ) as HTMLTableElement;
     if (!container) {
       return;
     }
 
     if (container.offsetWidth < elemOrWrapper.offsetWidth) {
-      const cellPos = this.view.posAtDOM(container, 0);
+      const domAtPos = view.domAtPos.bind(view);
+      const cellPos = view.posAtDOM(container, 0);
+      const { state, dispatch } = view;
       handleBreakoutContent(
-        this.view,
         container,
         cellPos - 1,
         this.getPos() + 1,
         elemOrWrapper.offsetWidth,
         this.node,
-      );
+        domAtPos,
+      )(state, dispatch);
     }
   };
 
@@ -209,7 +214,7 @@ export default class TableView extends ReactNodeView {
 
     const uniqueTargets: Set<HTMLElement> = new Set();
     records.forEach(record => {
-      const target = record.target as HTMLElement;
+      const target = record.target as HTMLTableElement;
       // If we've seen this target already in this set of targets
       // We dont need to reprocess.
       if (!uniqueTargets.has(target)) {
@@ -226,11 +231,7 @@ export const createTableView = (
   view: EditorView,
   getPos: getPosHandler,
   portalProviderAPI: PortalProviderAPI,
-  options: {
-    isBreakoutEnabled?: boolean;
-    wasBreakoutEnabled?: boolean;
-    dynamicTextSizing?: boolean;
-  },
+  options: TableOptions,
 ): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
   const { allowColumnResizing } = getPluginConfig(pluginConfig);

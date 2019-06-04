@@ -1,5 +1,6 @@
 import * as exenv from 'exenv';
-import { ClientBasedAuth, Context, ContextFactory } from '@atlaskit/media-core';
+import { ClientBasedAuth } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 export const userAuthProviderBaseURL = 'https://dt-api.dev.atl-paas.net';
 
@@ -30,8 +31,8 @@ export const userAuthProvider = (): Promise<ClientBasedAuth> => {
   return userAuthProviderPromiseCache;
 };
 
-export const createUserContext = (): Context => {
-  return ContextFactory.create({
+export const createUserMediaClient = (): MediaClient => {
+  return new MediaClient({
     authProvider: userAuthProvider,
   });
 };

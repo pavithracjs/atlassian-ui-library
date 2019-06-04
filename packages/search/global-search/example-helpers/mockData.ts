@@ -12,6 +12,7 @@ import {
   JiraItemV1,
   JiraItemV2,
   PersonItem,
+  UrsPersonItem,
 } from '../src/api/types';
 import {
   generateRandomJiraIssue,
@@ -218,6 +219,7 @@ export function makeCrossProductSearchData(
   const jiraObjects: JiraItem[] = [];
   const jiraContainers: JiraItem[] = [];
   const peopleData: PersonItem[] = [];
+  const ursPeopleData: UrsPersonItem[] = [];
 
   for (let i = 0; i < n; i++) {
     const url = getMockUrl();
@@ -325,6 +327,18 @@ export function makeCrossProductSearchData(
     });
   }
 
+  for (let i = 0; i < n; i++) {
+    const ursPeopleEntry = {
+      id: uuid(),
+      name: getMockName(),
+      avatarUrl: getMockAvatarUrl(),
+      entityType: 'USER',
+      nickname: i % 2 === 0 ? getMockLastName() : undefined,
+    };
+
+    ursPeopleData.push(ursPeopleEntry);
+  }
+
   return (term: string) => {
     term = term.toLowerCase();
 
@@ -354,6 +368,10 @@ export function makeCrossProductSearchData(
     );
 
     const filteredPeopleResults = peopleData.filter(
+      item => item.name.toLowerCase().indexOf(term) > -1,
+    );
+
+    const filteredUrsPeopleResults = ursPeopleData.filter(
       item => item.name.toLowerCase().indexOf(term) > -1,
     );
 
@@ -400,18 +418,30 @@ export function makeCrossProductSearchData(
           abTest,
           results: filteredPeopleResults,
         },
+        {
+          id: Scope.UserConfluence,
+          experimentId: 'experiment-1',
+          abTest,
+          results: filteredUrsPeopleResults,
+        },
+        {
+          id: Scope.UserJira,
+          experimentId: 'experiment-1',
+          abTest,
+          results: filteredUrsPeopleResults,
+        },
       ],
     };
   };
 }
 
-export function makeCrossProductExperimentData(): (
-  scopeNames: string[],
-) => CrossProductExperimentResponse {
+export function makeCrossProductExperimentData(
+  experimentId: string,
+): (scopeNames: string[]) => CrossProductExperimentResponse {
   const abTest = {
-    experimentId: 'experiment-1',
+    experimentId,
     controlId: 'control-id',
-    abTestId: 'abtest-id',
+    abTestId: `abTest_${experimentId}`,
   };
 
   const allScopes = [

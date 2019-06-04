@@ -15,6 +15,7 @@ import {
   KeysOfType,
   MetaData,
   OriginTracing,
+  RenderCustomTriggerButton,
   ShareClient,
   ShareResponse,
   User,
@@ -111,9 +112,11 @@ const triggerButtonAppearanceOptions = [
 const triggerButtonStyleOptions = [
   { label: 'icon-only', value: 'icon-only' },
   { label: 'icon-with-text', value: 'icon-with-text' },
+  { label: 'text-only', value: 'text-only' },
 ];
 
 type ExampleState = {
+  customButton: boolean;
   customTitle: boolean;
   dialogPlacement: string;
   escapeOnKeyPress: boolean;
@@ -121,10 +124,15 @@ type ExampleState = {
 
 type State = ConfigResponse & Partial<ShareDialogContainerProps> & ExampleState;
 
+const renderCustomTriggerButton: RenderCustomTriggerButton = ({ onClick }) => (
+  <button onClick={onClick}>Custom Button</button>
+);
+
 export default class Example extends React.Component<{}, State> {
   state: State = {
     allowComment: true,
     allowedDomains: ['atlassian.com'],
+    customButton: false,
     customTitle: false,
     dialogPlacement: dialogPlacementOptions[0].value as 'bottom-end',
     escapeOnKeyPress: true,
@@ -136,7 +144,12 @@ export default class Example extends React.Component<{}, State> {
 
   key: number = 0;
 
-  getConfig = () => Promise.resolve(this.state);
+  getConfig = (product: string, cloudId: string): Promise<ConfigResponse> =>
+    new Promise(resolve => {
+      setTimeout(() => {
+        resolve(this.state);
+      }, 1000);
+    });
 
   share = (
     _content: Content,
@@ -163,6 +176,7 @@ export default class Example extends React.Component<{}, State> {
     const {
       allowComment,
       allowedDomains,
+      customButton,
       customTitle,
       dialogPlacement,
       escapeOnKeyPress,
@@ -187,6 +201,9 @@ export default class Example extends React.Component<{}, State> {
                   loadUserOptions={loadUserOptions}
                   originTracingFactory={() => mockOriginTracing}
                   productId="confluence"
+                  renderCustomTriggerButton={
+                    customButton ? renderCustomTriggerButton : undefined
+                  }
                   shareAri="ari"
                   shareContentType="issue"
                   shareFormTitle={customTitle ? 'Custom Title' : undefined}
@@ -218,6 +235,15 @@ export default class Example extends React.Component<{}, State> {
                     isChecked={escapeOnKeyPress}
                     onChange={() =>
                       this.setState({ escapeOnKeyPress: !escapeOnKeyPress })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Custom Share Dialog Trigger Button
+                  <Toggle
+                    isChecked={customButton}
+                    onChange={() =>
+                      this.setState({ customButton: !customButton })
                     }
                   />
                 </WrapperWithMarginTop>

@@ -49,7 +49,7 @@ export default class WithPluginState extends React.Component<Props, State> {
   };
 
   state = {};
-  context: Context;
+  context!: Context;
 
   constructor(props: Props, context: Context) {
     super(props);
@@ -96,21 +96,22 @@ export default class WithPluginState extends React.Component<Props, State> {
   /**
    * Debounces setState calls in order to reduce number of re-renders caused by several plugin state changes.
    */
-  private updateState(stateSubset: State) {
+  private updateState = (stateSubset: State) => {
     this.notAppliedState = { ...this.notAppliedState, ...stateSubset };
 
     if (this.debounce) {
-      clearTimeout(this.debounce);
+      window.clearTimeout(this.debounce);
     }
 
     this.debounce = window.setTimeout(() => {
       if (this.hasBeenMounted) {
         this.setState(this.notAppliedState);
       }
+
       this.debounce = null;
       this.notAppliedState = {};
-    }, 10);
-  }
+    }, 0);
+  };
 
   private getPluginsStates(
     plugins: { [name: string]: PluginKey },

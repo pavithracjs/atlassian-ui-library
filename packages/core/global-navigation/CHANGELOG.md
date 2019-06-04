@@ -1,5 +1,75 @@
 # @atlaskit/global-navigation
 
+## 7.2.3
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 7.2.2
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/field-base@13.0.1
+  - @atlaskit/navigation-next@6.0.5
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/onboarding@8.0.2
+  - @atlaskit/modal-dialog@10.0.0
+
+## 7.2.1
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/drawer@4.1.1
+  - @atlaskit/field-radio-group@6.0.1
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/navigation-next@6.0.3
+  - @atlaskit/tag@8.0.2
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
+## 7.2.0
+- [minor] [9925939ae5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9925939ae5):
+
+  - Add support for Global Invite button and drawer
+
+## 7.1.1
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/navigation-next@6.0.2
+  - @atlaskit/atlassian-switcher@2.0.0
+  - @atlaskit/logo@12.0.0
+
+## 7.1.0
+- [minor] [75c3e9cb69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c3e9cb69):
+
+  - Adds support for recent drawer in global navigation
+
+## 7.0.1
+- [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
+
+  - Clean couple of TODO's that were already done
+
+## 7.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 6.3.2
+- Updated dependencies [59024ff4c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59024ff4c5):
+  - @atlaskit/atlassian-switcher@0.5.0
+
+## 6.3.1
+- Updated dependencies [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
+  - @atlaskit/drawer@3.0.9
+  - @atlaskit/modal-dialog@8.0.8
+  - @atlaskit/blanket@9.0.0
+
+## 6.3.0
+- [minor] [a618e6d372](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a618e6d372):
+
+  - Updated help button actions, if enableHelpDrawer is true, a drawer will be displayed otherwise a menu will be displayed
+
 ## 6.2.9
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

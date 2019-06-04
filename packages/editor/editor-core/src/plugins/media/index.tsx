@@ -5,20 +5,21 @@ import {
   EditorAppearance,
   PMPluginFactoryParams,
 } from '../../types';
-import { SmartMediaEditor, Dimensions } from '@atlaskit/media-editor';
-import { FileIdentifier } from '@atlaskit/media-core';
 import {
   stateKey as pluginKey,
   createPlugin,
   MediaState,
-  MediaPluginState,
 } from './pm-plugins/main';
+import {
+  createPlugin as createMediaEditorPlugin,
+  pluginKey as mediaEditorPluginKey,
+} from './pm-plugins/media-editor';
 import keymapMediaSinglePlugin from './pm-plugins/keymap-media-single';
 import keymapPlugin from './pm-plugins/keymap';
 import ToolbarMedia from './ui/ToolbarMedia';
 import { ReactMediaGroupNode } from './nodeviews/mediaGroup';
 import { ReactMediaSingleNode } from './nodeviews/mediaSingle';
-import { CustomMediaPicker, MediaProvider } from './types';
+import { CustomMediaPicker, MediaProvider, MediaEditorState } from './types';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { floatingToolbar } from './toolbar';
 
@@ -30,10 +31,13 @@ import {
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
 } from '../analytics';
-import WithPluginState from '../../ui/WithPluginState';
 import { IconImages } from '../quick-insert/assets';
+import ClipboardMediaPickerWrapper from './ui/ClipboardMediaPickerWrapper';
+import WithPluginState from '../../ui/WithPluginState';
+import MediaEditor from './ui/MediaEditor';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
+export { insertMediaSingleNode } from './utils/media-single';
 
 export interface MediaOptions {
   provider?: Promise<MediaProvider>;
@@ -48,43 +52,6 @@ export interface MediaOptions {
 export interface MediaSingleOptions {
   disableLayout?: boolean;
 }
-
-export const renderSmartMediaEditor = (mediaState: MediaPluginState) => {
-  if (!mediaState) {
-    return null;
-  }
-
-  const node = mediaState.selectedMediaContainerNode();
-  if (!node) {
-    return null;
-  }
-  const { id } = node.firstChild!.attrs;
-
-  if (mediaState.uploadContext && mediaState.showEditingDialog) {
-    const identifier: FileIdentifier = {
-      id,
-      mediaItemType: 'file',
-      collectionName: node.firstChild!.attrs.collection,
-    };
-
-    return (
-      <SmartMediaEditor
-        identifier={identifier}
-        context={mediaState.uploadContext}
-        onUploadStart={(
-          newFileIdentifier: FileIdentifier,
-          dimensions: Dimensions,
-        ) => {
-          mediaState.closeMediaEditor();
-          mediaState.replaceEditingMedia(newFileIdentifier, dimensions);
-        }}
-        onFinish={mediaState.closeMediaEditor}
-      />
-    );
-  }
-
-  return null;
-};
 
 const mediaPlugin = (
   options?: MediaOptions,
@@ -138,8 +105,10 @@ const mediaPlugin = (
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,
                   eventDispatcher,
+                  providerFactory,
+                  options,
                   props.appearance,
-                  props.UNSAFE_fullWidthMode,
+                  props.appearance === 'full-width',
                 ),
               },
               errorReporter,
@@ -162,21 +131,54 @@ const mediaPlugin = (
       options && options.allowMediaSingle
         ? {
             name: 'mediaSingleKeymap',
-            plugin: ({ schema }) => keymapMediaSinglePlugin(schema),
+            plugin: ({ schema, props }) =>
+              keymapMediaSinglePlugin(schema, props.appearance),
           }
+        : [],
+      options && options.allowAnnotation
+        ? { name: 'mediaEditor', plugin: createMediaEditorPlugin }
         : [],
     );
   },
 
-  contentComponent({ editorView }) {
+  contentComponent({ editorView, eventDispatcher }) {
+    // render MediaEditor separately because it doesn't depend on media plugin state
+    // so we can utilise EventDispatcher-based rerendering
+    const mediaEditor =
+      options && options.allowAnnotation ? (
+        <WithPluginState
+          editorView={editorView}
+          plugins={{ mediaEditorState: mediaEditorPluginKey }}
+          eventDispatcher={eventDispatcher}
+          render={({
+            mediaEditorState,
+          }: {
+            mediaEditorState: MediaEditorState;
+          }) => (
+            <MediaEditor
+              mediaEditorState={mediaEditorState}
+              view={editorView}
+            />
+          )}
+        />
+      ) : null;
+
     return (
-      <WithPluginState
-        editorView={editorView}
-        plugins={{
-          mediaState: pluginKey,
-        }}
-        render={({ mediaState }) => renderSmartMediaEditor(mediaState)}
-      />
+      <>
+        <WithPluginState
+          editorView={editorView}
+          plugins={{
+            mediaState: pluginKey,
+          }}
+          render={({ mediaState }) => (
+            <>
+              <ClipboardMediaPickerWrapper mediaState={mediaState} />
+            </>
+          )}
+        />
+
+        {mediaEditor}
+      </>
     );
   },
 
@@ -198,7 +200,7 @@ const mediaPlugin = (
         title: formatMessage(messages.filesAndImages),
         description: formatMessage(messages.filesAndImagesDescription),
         priority: 400,
-        keywords: ['media'],
+        keywords: ['media', 'attachment'],
         icon: () => (
           <IconImages label={formatMessage(messages.filesAndImages)} />
         ),

@@ -11,8 +11,8 @@ export const Icon: ComponentClass<ImgHTMLAttributes<{}>> = styled.img`
   height: 14px;
   width: 14px;
   margin-right: 4px;
-  margin-left: 2px;
   border-radius: 2px;
+  user-select: none;
 `;
 
 // Used for 'untrue' icons which claim to be 16x16 but

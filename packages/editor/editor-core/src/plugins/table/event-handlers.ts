@@ -1,10 +1,22 @@
 import { EditorView } from 'prosemirror-view';
-import { findTable } from 'prosemirror-utils';
-import { TextSelection, Selection } from 'prosemirror-state';
-import { TableMap, cellAround } from 'prosemirror-tables';
+import {
+  EditorState,
+  Transaction,
+  TextSelection,
+  Selection,
+} from 'prosemirror-state';
 import { Node as PmNode } from 'prosemirror-model';
+import { TableMap, cellAround, CellSelection } from 'prosemirror-tables';
+import { findTable, getSelectionRect, removeTable } from 'prosemirror-utils';
 import { browser } from '@atlaskit/editor-common';
 
+import { analyticsService } from '../../analytics';
+import {
+  addAnalytics,
+  TABLE_ACTION,
+  ACTION_SUBJECT,
+  EVENT_TYPE,
+} from '../analytics';
 import {
   isElementInTableCell,
   setNodeSelection,
@@ -16,9 +28,11 @@ import {
   setEditorFocus,
   showInsertColumnButton,
   showInsertRowButton,
-  handleShiftSelection,
   hideInsertColumnOrRowButton,
-} from './actions';
+} from './commands';
+import { getPluginState } from './pm-plugins/main';
+import { getSelectedCellInfo } from './utils';
+import { deleteColumns, deleteRows } from './transforms';
 
 export const handleBlur = (view: EditorView, event: Event): boolean => {
   const { state, dispatch } = view;
@@ -97,7 +111,14 @@ export const handleMouseOver = (
   if (isInsertRowButton(target)) {
     return showInsertRowButton(getIndex(target))(state, dispatch);
   }
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
+  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
+    state,
+  );
+  if (
+    (typeof insertColumnButtonIndex !== 'undefined' ||
+      typeof insertRowButtonIndex !== 'undefined') &&
+    hideInsertColumnOrRowButton()(state, dispatch)
+  ) {
     return true;
   }
   return false;
@@ -105,7 +126,14 @@ export const handleMouseOver = (
 
 export const handleMouseLeave = (view: EditorView): boolean => {
   const { state, dispatch } = view;
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
+  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
+    state,
+  );
+  if (
+    (typeof insertColumnButtonIndex !== 'undefined' ||
+      typeof insertRowButtonIndex !== 'undefined') &&
+    hideInsertColumnOrRowButton()(state, dispatch)
+  ) {
     return true;
   }
   return false;
@@ -136,13 +164,75 @@ export function handleTripleClick(view: EditorView, pos: number) {
 
   return false;
 }
-export const handleMouseDown = (view: EditorView, event: Event): boolean => {
-  const { state, dispatch } = view;
+export const handleCut = (
+  oldTr: Transaction,
+  oldState: EditorState,
+  newState: EditorState,
+): Transaction => {
+  const oldSelection = oldState.tr.selection;
+  let { tr } = newState;
+  if (oldSelection instanceof CellSelection) {
+    const $anchorCell = oldTr.doc.resolve(
+      oldTr.mapping.map(oldSelection.$anchorCell.pos),
+    );
+    const $headCell = oldTr.doc.resolve(
+      oldTr.mapping.map(oldSelection.$headCell.pos),
+    );
 
-  // shift-selecting table rows/columns
-  if (handleShiftSelection(event as MouseEvent)(state, dispatch)) {
-    return true;
+    // We need to fix the type of CellSelection in `prosemirror-tables'
+    const cellSelection = new CellSelection($anchorCell, $headCell) as any;
+    tr.setSelection(cellSelection);
+
+    if (tr.selection instanceof CellSelection) {
+      const rect = getSelectionRect(cellSelection);
+      if (rect) {
+        const {
+          verticalCells,
+          horizontalCells,
+          totalCells,
+          totalRowCount,
+          totalColumnCount,
+        } = getSelectedCellInfo(tr.selection);
+
+        // Reassigning to make it more obvious and consistent
+        tr = addAnalytics(tr, {
+          action: TABLE_ACTION.CUT,
+          actionSubject: ACTION_SUBJECT.TABLE,
+          actionSubjectId: null,
+          attributes: {
+            verticalCells,
+            horizontalCells,
+            totalCells,
+            totalRowCount,
+            totalColumnCount,
+          },
+          eventType: EVENT_TYPE.TRACK,
+        });
+
+        // Need this check again since we are overriding the tr in previous statement
+        if (tr.selection instanceof CellSelection) {
+          const isTableSelected =
+            tr.selection.isRowSelection() && tr.selection.isColSelection();
+          if (isTableSelected) {
+            tr = removeTable(tr);
+          } else if (tr.selection.isRowSelection()) {
+            const {
+              pluginConfig: { isHeaderRowRequired },
+            } = getPluginState(newState);
+            tr = deleteRows(rect, isHeaderRowRequired)(tr);
+            analyticsService.trackEvent(
+              'atlassian.editor.format.table.delete_row.button',
+            );
+          } else if (tr.selection.isColSelection()) {
+            analyticsService.trackEvent(
+              'atlassian.editor.format.table.delete_column.button',
+            );
+            tr = deleteColumns(rect)(tr);
+          }
+        }
+      }
+    }
   }
 
-  return false;
+  return tr;
 };

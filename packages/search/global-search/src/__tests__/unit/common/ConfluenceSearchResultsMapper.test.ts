@@ -4,13 +4,14 @@ import {
   makeConfluenceContainerResult,
 } from '../_test-util';
 import {
-  MAX_PAGES,
+  DEFAULT_MAX_OBJECTS,
   MAX_PEOPLE,
   MAX_SPACES,
   mapRecentResultsToUIGroups,
   mapSearchResultsToUIGroups,
 } from '../../../components/confluence/ConfluenceSearchResultsMapper';
-import { ConfluenceResultsMap } from '../../../model/Result';
+import { ConfluenceResultsMap, ResultsGroup } from '../../../model/Result';
+import { ConfluenceFeatures } from '../../../util/features';
 
 type TestParam = {
   desc: string;
@@ -18,6 +19,20 @@ type TestParam = {
   spacesCount: number | undefined;
   peopleCount: number | undefined;
 };
+
+const abTest = {
+  abTestId: 'abTestId',
+  controlId: 'controlId',
+  experimentId: 'experimentId',
+};
+
+const features: ConfluenceFeatures = {
+  abTest,
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
+};
+
+const searchSessionId = 'searchSessionId';
 
 [
   { desc: 'mapRecentResultsToUIGroups', mapper: mapRecentResultsToUIGroups },
@@ -71,7 +86,7 @@ type TestParam = {
           spacesCount,
         });
 
-        const groups = mapper(recentResultsMap);
+        const groups = mapper(recentResultsMap, features, searchSessionId);
         expect(groups.length).toBe(3);
         expect(groups.map(group => group.key)).toEqual([
           'objects',
@@ -89,16 +104,60 @@ type TestParam = {
 
     it('should display max results if passed results are more than max', () => {
       const recentResultsMap = generateResult({
-        objectsCount: MAX_PAGES + 1,
+        objectsCount: DEFAULT_MAX_OBJECTS + 1,
         peopleCount: MAX_PEOPLE + 2,
         spacesCount: MAX_SPACES + 4,
       });
-      const groups = mapper(recentResultsMap);
+      const groups = mapper(recentResultsMap, features, searchSessionId);
       expect(groups.map(group => group.items.length)).toEqual([
-        MAX_PAGES,
+        DEFAULT_MAX_OBJECTS,
         MAX_SPACES,
         MAX_PEOPLE,
       ]);
+    });
+
+    describe('grape experiment', () => {
+      let grapeABTest;
+
+      const recentResultsMap = generateResult({
+        objectsCount: 20,
+        peopleCount: MAX_PEOPLE + 2,
+        spacesCount: MAX_SPACES + 4,
+      });
+
+      const checkResultCounts = (groups: ResultsGroup[], expected: number) => {
+        expect(groups.map(group => group.items.length)).toEqual([
+          expected,
+          MAX_SPACES,
+          MAX_PEOPLE,
+        ]);
+      };
+
+      it('should display more results if in the grape experiment', () => {
+        grapeABTest = {
+          ...abTest,
+          experimentId: 'grape-15',
+        };
+        const groups = mapper(
+          recentResultsMap,
+          { ...features, abTest: grapeABTest },
+          searchSessionId,
+        );
+        checkResultCounts(groups, 15);
+      });
+
+      it('should still work if a bad ab test is supplied', () => {
+        grapeABTest = {
+          ...abTest,
+          experimentId: 'grape-abc',
+        };
+        const groups = mapper(
+          recentResultsMap,
+          { ...features, abTest: grapeABTest },
+          searchSessionId,
+        );
+        checkResultCounts(groups, DEFAULT_MAX_OBJECTS);
+      });
     });
   });
 });

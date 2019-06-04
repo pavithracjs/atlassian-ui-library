@@ -7,9 +7,9 @@ const pendingPromises: Map<string, Holder<any>> = new Map<
 export let counter: number = 0;
 
 class Holder<T> {
-  promise: Promise<T>;
-  resolve: (value: T) => void;
-  reject: () => void;
+  promise?: Promise<T>;
+  resolve?: (value: T) => void;
+  reject?: () => void;
 }
 
 export interface SubmitPromiseToNative<T> {
@@ -26,8 +26,8 @@ export function createPromise<T>(
   return {
     submit(): Promise<T> {
       toNativeBridge.submitPromise(name, uuid, args);
-      return holder.promise
-        .then(data => {
+      return holder
+        .promise!.then(data => {
           pendingPromises.delete(uuid);
           return data;
         })
@@ -51,14 +51,14 @@ function createHolder<T>() {
 export function resolvePromise<T>(uuid: string, resolution: T) {
   let holder: Holder<T> | undefined = pendingPromises.get(uuid);
   if (holder) {
-    holder.resolve(resolution);
+    holder.resolve!(resolution);
   }
 }
 
 export function rejectPromise<T>(uuid: string) {
   let holder: Holder<T> | undefined = pendingPromises.get(uuid);
   if (holder) {
-    holder.reject();
+    holder.reject!();
   }
 }
 

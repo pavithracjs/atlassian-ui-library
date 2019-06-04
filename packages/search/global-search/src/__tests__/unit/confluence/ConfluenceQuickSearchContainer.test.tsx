@@ -8,7 +8,6 @@ import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
 import {
   noResultsConfluenceClient,
   makeConfluenceClient,
-  singleResultQuickNav,
 } from '../mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
 import QuickSearchContainer, {
@@ -19,24 +18,42 @@ import { Scope } from '../../../api/types';
 import { Result } from '../../../model/Result';
 import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  SearchSession,
-  ABTest,
   DEFAULT_AB_TEST,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
 import { mockLogger } from '../mocks/_mockLogger';
+import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
+import { ConfluenceFeatures } from '../../../util/features';
 
 const sessionId = 'sessionId';
+const referralContextIdentifiers: ReferralContextIdentifiers = {
+  currentContainerId: '123-container',
+  currentContentId: '123-content',
+  searchReferrerId: '123-search-referrer',
+};
+
+const DEFAULT_FEATURES: ConfluenceFeatures = {
+  abTest: DEFAULT_AB_TEST,
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
+};
+
 function render(partialProps?: Partial<Props>) {
   const logger = mockLogger();
   const props: Props = {
     confluenceClient: noResultsConfluenceClient,
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
-    useQuickNavForPeopleResults: false,
-    useCPUSForPeopleResults: false,
     logger,
+    referralContextIdentifiers,
+    features: DEFAULT_FEATURES,
+    firePrivateAnalyticsEvent: undefined,
+    createAnalyticsEvent: undefined,
+    inputControls: undefined,
+    onAdvancedSearch: undefined,
+    linkComponent: undefined,
+    modelContext: undefined,
     ...partialProps,
   };
 
@@ -87,80 +104,155 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
   });
 
-  it('should return ab test data', async () => {
-    const abTest: ABTest = {
-      abTestId: 'abTestId',
-      experimentId: 'experimentId',
-      controlId: 'controlId',
-    };
-
+  it('should return recent items using the crossproduct search when prefetching is on ', async () => {
     const wrapper = render({
-      confluenceClient: noResultsConfluenceClient,
+      features: { ...DEFAULT_FEATURES, useUrsForBootstrapping: true },
       crossProductSearchClient: {
-        search(query: string) {
+        search(query: string, sessionId: string, scopes: Scope[]) {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
-        getAbTestData() {
-          return Promise.resolve(abTest);
+        getAbTestDataForProduct() {
+          return Promise.resolve(DEFAULT_AB_TEST);
         },
-      },
-    });
-    const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const receivedAbTest = await (quickSearchContainer.props() as QuickSearchContainerProps).getAbTestData(
-      sessionId,
-    );
-
-    expect(receivedAbTest).toMatchObject(abTest);
-  });
-
-  it('should return search result', async () => {
-    const wrapper = render({
-      peopleSearchClient: {
-        search() {
-          return Promise.resolve([makePersonResult()]);
+        getAbTestData(scope: Scope) {
+          return Promise.resolve(DEFAULT_AB_TEST);
         },
-        getRecentPeople() {
-          return Promise.resolve([]);
+        getPeople() {
+          const results = new Map<Scope, Result[]>();
+          results.set(Scope.UserConfluence, [makePersonResult()]);
+
+          return Promise.resolve({
+            results: results,
+          });
         },
       },
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResults(
-      'query',
-      sessionId,
-      100,
+    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getRecentItems(
+      'session_id',
     );
 
-    expect(searchResults).toMatchObject({
+    expect(searchResults).toEqual({
       results: {
-        objects: [],
-        spaces: [],
         people: [
           {
             mentionName: 'mentionName',
             presenceMessage: 'presenceMessage',
             analyticsType: 'result-person',
             resultType: 'person-result',
+            contentType: 'person',
             name: 'name',
             avatarUrl: 'avatarUrl',
             href: 'href',
+            resultId: expect.any(String),
           },
         ],
-      },
-      // assert search performance timings
-      timings: {
-        confSearchElapsedMs: expect.any(Number),
-        peopleElapsedMs: expect.any(Number),
+        objects: [],
+        spaces: [],
       },
     });
   });
 
-  it('should use CPUs for people results when enabled', async () => {
+  it('should return recent items using the crossproduct search when prefetching is off', async () => {
     const wrapper = render({
-      useCPUSForPeopleResults: true,
+      features: { ...DEFAULT_FEATURES, useUrsForBootstrapping: false },
+      peopleSearchClient: {
+        getRecentPeople() {
+          return Promise.resolve([makePersonResult()]);
+        },
+        search() {
+          return Promise.resolve([]);
+        },
+      },
       crossProductSearchClient: {
-        search(query: string, searchSession: SearchSession, scopes: Scope[]) {
+        search(query: string, sessionId: string, scopes: Scope[]) {
+          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getAbTestDataForProduct() {
+          return Promise.resolve(DEFAULT_AB_TEST);
+        },
+        getAbTestData(scope: Scope) {
+          return Promise.resolve(DEFAULT_AB_TEST);
+        },
+        getPeople() {
+          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+      },
+    });
+
+    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getRecentItems(
+      'session_id',
+    );
+
+    expect(searchResults).toEqual({
+      results: {
+        people: [
+          {
+            mentionName: 'mentionName',
+            presenceMessage: 'presenceMessage',
+            analyticsType: 'result-person',
+            resultType: 'person-result',
+            contentType: 'person',
+            name: 'name',
+            avatarUrl: 'avatarUrl',
+            href: 'href',
+            resultId: expect.any(String),
+          },
+        ],
+        objects: [],
+        spaces: [],
+      },
+    });
+  });
+
+  it('should call cross product search client with correct query version', async () => {
+    const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
+    const dummyQueryVersion = 123;
+    const dummySpaceKey = 'abc123';
+
+    const modelParams = [
+      {
+        '@type': 'queryParams',
+        queryVersion: dummyQueryVersion,
+      },
+      {
+        '@type': 'currentSpace',
+        spaceKey: dummySpaceKey,
+      },
+    ];
+
+    const wrapper = render({
+      confluenceClient: noResultsConfluenceClient,
+      crossProductSearchClient: noResultsCrossProductSearchClient,
+      modelContext: {
+        spaceKey: dummySpaceKey,
+      },
+    });
+
+    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+    (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResults(
+      'query',
+      sessionId,
+      100,
+      dummyQueryVersion,
+    );
+
+    expect(searchSpy).toHaveBeenCalledWith(
+      'query',
+      sessionId,
+      expect.any(Array),
+      modelParams,
+    );
+
+    searchSpy.mockRestore();
+  });
+
+  it('should return search result', async () => {
+    const wrapper = render({
+      crossProductSearchClient: {
+        search(query: string, sessionId: string, scopes: Scope[]) {
           // only return items when People scope is set
           if (scopes.find(s => s === Scope.People)) {
             const results = new Map<Scope, Result[]>();
@@ -173,8 +265,19 @@ describe('ConfluenceQuickSearchContainer', () => {
 
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
-        getAbTestData(scope: Scope, searchSession: SearchSession) {
+        getAbTestDataForProduct() {
           return Promise.resolve(DEFAULT_AB_TEST);
+        },
+        getAbTestData(scope: Scope) {
+          return Promise.resolve(DEFAULT_AB_TEST);
+        },
+        getPeople() {
+          const results = new Map<Scope, Result[]>();
+          results.set(Scope.UserConfluence, [makePersonResult()]);
+
+          return Promise.resolve({
+            results: results,
+          });
         },
       },
     });
@@ -184,56 +287,42 @@ describe('ConfluenceQuickSearchContainer', () => {
       'query',
       sessionId,
       100,
+      0,
     );
 
-    expect(searchResults.results.people).toEqual([
-      expect.objectContaining({
-        mentionName: 'mentionName',
-        presenceMessage: 'presenceMessage',
-        analyticsType: 'result-person',
-        resultType: 'person-result',
-        name: 'name',
-        avatarUrl: 'avatarUrl',
-        href: 'href',
-        resultId: expect.any(String),
-      }),
-    ]);
-  });
-
-  it('should use quick nav for people results when enabled', async () => {
-    const wrapper = render({
-      useQuickNavForPeopleResults: true,
-      crossProductSearchClient: noResultsCrossProductSearchClient,
-      confluenceClient: singleResultQuickNav(),
+    expect(searchResults).toEqual({
+      results: {
+        people: [
+          {
+            mentionName: 'mentionName',
+            presenceMessage: 'presenceMessage',
+            analyticsType: 'result-person',
+            resultType: 'person-result',
+            contentType: 'person',
+            name: 'name',
+            avatarUrl: 'avatarUrl',
+            href: 'href',
+            resultId: expect.any(String),
+          },
+        ],
+        objects: [],
+        spaces: [],
+      },
+      timings: {
+        confSearchElapsedMs: expect.any(Number),
+      },
     });
-
-    const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResults(
-      'query',
-      sessionId,
-      100,
-    );
-
-    expect(searchResults.results.people).toEqual([
-      expect.objectContaining({
-        mentionName: 'mentionName',
-        presenceMessage: 'presenceMessage',
-        analyticsType: 'result-person',
-        resultType: 'person-result',
-        name: 'name',
-        avatarUrl: 'avatarUrl',
-        href: 'href',
-        resultId: expect.any(String),
-      }),
-    ]);
   });
 
   describe('Advanced Search callback', () => {
     let redirectSpy: jest.SpyInstance<(query?: string) => void>;
-    let originalWindowAssign = window.location.assign;
+    let originalWindowLocation = window.location;
 
     beforeEach(() => {
-      window.location.assign = jest.fn();
+      delete window.location;
+      window.location = Object.assign({}, window.location, {
+        assign: jest.fn(),
+      });
       redirectSpy = jest.spyOn(
         SearchUtils,
         'redirectToConfluenceAdvancedSearch',
@@ -243,7 +332,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     afterEach(() => {
       redirectSpy.mockReset();
       redirectSpy.mockRestore();
-      window.location.assign = originalWindowAssign;
+      window.location = originalWindowLocation;
     });
 
     const mountComponent = (spy: jest.Mock<{}>) => {

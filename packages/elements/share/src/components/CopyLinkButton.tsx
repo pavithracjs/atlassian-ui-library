@@ -21,12 +21,11 @@ const MessageSpan = styled.span`
 `;
 
 type InputProps = {
-  ref?: React.RefObject<HTMLInputElement>;
   text: string;
 };
 
-export const HiddenInput: React.ComponentType<InputProps> = React.forwardRef(
-  (props: { text: string }, ref?: React.Ref<HTMLInputElement>) => (
+export const HiddenInput = React.forwardRef<HTMLInputElement, InputProps>(
+  (props, ref) => (
     <input
       style={{ position: 'absolute', left: '-9999px' }}
       ref={ref}

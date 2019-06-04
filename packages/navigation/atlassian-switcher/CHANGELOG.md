@@ -1,5 +1,72 @@
 # @atlaskit/atlassian-switcher
 
+## 2.1.0
+- [minor] [caa9ae9dbf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/caa9ae9dbf):
+
+  - Split Jira link into individual product links in Atlassian Switcher
+
+## 2.0.1
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/item@10.0.1
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 2.0.0
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/navigation@35.1.1
+  - @atlaskit/logo@12.0.0
+
+## 1.1.1
+- [patch] [d216253463](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d216253463):
+
+  - Fix trigger xflow invoked with incorrect arguments
+
+## 1.1.0
+- [minor] [b3381f5c07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3381f5c07):
+
+  - Add domain to analytics
+
+## 1.0.0
+- [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/analytics-gas-types@4.0.4
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/analytics-next@5.0.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/drawer@4.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/item@10.0.0
+  - @atlaskit/logo@11.0.0
+  - @atlaskit/lozenge@8.0.0
+  - @atlaskit/navigation@35.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/type-helpers@4.0.0
+  - @atlaskit/analytics-namespaced-context@4.0.0
+
+## 0.5.0
+- [minor] [59024ff4c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59024ff4c5):
+
+  - Always include Jira Service Desk cross sell link if the instance does not have Jira Service Desk license.
+
+## 0.4.8
+- [patch] [7f9fd0ddfc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7f9fd0ddfc):
+
+  - Improve error messages and analytics
+
+## 0.4.7
+- [patch] [3eeb2ccf51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3eeb2ccf51):
+
+  - Update translations
+
+## 0.4.6
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 0.4.5
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

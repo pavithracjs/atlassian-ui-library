@@ -1,9 +1,16 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
+import {
+  md,
+  code,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 import { Hr } from './shared';
 
 export default md`
+  ${<AtlassianInternalWarning />}
 
   ### 🛠 [Upgrade guide](/packages/media/media-image/docs/upgrade-guide)
 

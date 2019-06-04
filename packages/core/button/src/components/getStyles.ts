@@ -1,4 +1,4 @@
-import { borderRadius, fontSize, gridSize } from '@atlaskit/theme';
+import { borderRadius, fontSize, gridSize } from '@atlaskit/theme/constants';
 import { applyPropertyStyle, baseTheme } from '../theme';
 import { ThemeProps } from '../types';
 
@@ -117,7 +117,7 @@ export const getButtonStyles = (props: ThemeProps) => ({
   '&:hover': {
     textDecoration: getTextDecoration(props),
   },
-  ...(props.isLoading && { 'pointer-events': 'none' }),
+  ...(props.isLoading && { pointerEvents: 'none' }),
 });
 
 /**

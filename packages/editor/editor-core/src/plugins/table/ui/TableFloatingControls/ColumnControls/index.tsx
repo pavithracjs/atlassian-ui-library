@@ -10,11 +10,11 @@ import {
   hoverColumns,
   selectColumn,
   clearHoverSelection,
-} from '../../../actions';
+} from '../../../commands';
 import {
   insertColumnWithAnalytics,
   deleteColumnsWithAnalytics,
-} from '../../../actions-with-analytics';
+} from '../../../commands-with-analytics';
 import { TableCssClassName as ClassName } from '../../../types';
 import {
   isSelectionUpdated,
@@ -119,7 +119,9 @@ export default class ColumnControls extends Component<Props, any> {
                   <button
                     type="button"
                     className={ClassName.CONTROLS_BUTTON}
-                    onMouseDown={() => this.selectColumn(startIndex)}
+                    onClick={event =>
+                      this.selectColumn(startIndex, event.shiftKey)
+                    }
                     onMouseOver={() => this.hoverColumns([startIndex])}
                     onMouseOut={this.clearHoverSelection}
                   >
@@ -180,14 +182,14 @@ export default class ColumnControls extends Component<Props, any> {
     this.clearHoverSelection();
   };
 
-  private selectColumn = (column: number) => {
+  private selectColumn = (column: number, expand: boolean) => {
     const { editorView } = this.props;
     const { state, dispatch } = editorView;
     // fix for issue ED-4665
     if (browser.ie_version === 11) {
       (editorView.dom as HTMLElement).blur();
     }
-    selectColumn(column)(state, dispatch);
+    selectColumn(column, expand)(state, dispatch);
   };
 
   private hoverColumns = (columns: number[], danger?: boolean) => {
@@ -197,7 +199,7 @@ export default class ColumnControls extends Component<Props, any> {
 
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;
-    clearHoverSelection(state, dispatch);
+    clearHoverSelection()(state, dispatch);
   };
 
   private insertColumn = (column: number) => {

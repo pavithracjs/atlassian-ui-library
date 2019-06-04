@@ -62,6 +62,7 @@ describe('Profilecard', () => {
     describe('fullName property', () => {
       const fullName = 'This is an avatar!';
       const card = shallow(<ProfileCard fullName={fullName} />);
+
       it('should show the full name on the card if property is set', () => {
         const el = card.find(FullNameLabel).dive();
         expect(el.text()).toBe(fullName);
@@ -70,6 +71,24 @@ describe('Profilecard', () => {
       it('should not render a card if full name is not set', () => {
         card.setProps({ fullName: undefined });
         expect(card.find(ProfileCard).children()).toHaveLength(0);
+      });
+
+      it('should match snapshot when fullName and nickName are equal', () => {
+        const wrapper = renderShallow({
+          fullName: 'Same Same',
+          nickname: 'Same Same',
+        });
+        expect(wrapper).toMatchSnapshot();
+      });
+
+      it('should match snapshot when fullName and nickName are set', () => {
+        const wrapper = renderShallow();
+        expect(wrapper).toMatchSnapshot();
+      });
+
+      it('should match snapshot when nickName is missing', () => {
+        const wrapper = renderShallow({ nickname: undefined });
+        expect(wrapper).toMatchSnapshot();
       });
     });
 

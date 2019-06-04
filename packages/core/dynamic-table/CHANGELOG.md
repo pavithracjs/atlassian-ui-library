@@ -1,5 +1,36 @@
 # @atlaskit/dynamic-table
 
+## 13.1.0
+- [minor] [647118a5ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/647118a5ce):
+
+  - Added onPageRowUpdate function prop to dynamic table to be passed the currently shown table items and moved validateSortKey from the deprecated componentWillMount and componentWillRecieveProps to getDerivedStateFromProps
+
+## 13.0.2
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 13.0.1
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [8c65f23d32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c65f23d32):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/pagination@12.0.0
+
+## 13.0.0
+- [major] [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+
+  - Dynamic table has been internally converted to TypeScript.
+  - Drops Flow support.
+  - TypeScript consumers will get static type safety.
+  - No longer falls back to cell.content for ordering when cell.key is not provided. When cell.key is not provided, it will now preserve original ordering, while still respecting sort order (i.e. ASC and DESC).
+  - No other API or behavioural changes.
+
+## 12.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 11.0.4
 - [patch] [08321f585d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08321f585d):
 

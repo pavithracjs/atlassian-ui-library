@@ -55,6 +55,7 @@ export interface Props extends SharedProps {
   createAnalyticsEvent: createAnalyticsEvent;
 
   portal?: HTMLElement;
+  canModerateComments?: boolean;
 }
 
 export interface State {
@@ -105,7 +106,6 @@ export default class Conversation extends React.PureComponent<Props, State> {
       onUpdateComment,
       onDeleteComment,
       onRevertComment,
-      onHighlightComment,
       onUserClick,
       onCancel,
       user,
@@ -117,6 +117,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
       disableScrollTo,
       allowFeedbackAndHelpButtons,
       portal,
+      canModerateComments,
     } = this.props;
 
     if (!conversation) {
@@ -138,12 +139,14 @@ export default class Conversation extends React.PureComponent<Props, State> {
         onEditorOpen={this.onEditorOpen}
         onEditorClose={this.onEditorClose}
         onEditorChange={this.handleEditorChange}
-        onHighlightComment={onHighlightComment}
+        onHighlightComment={this.onHighlightComment}
         onRetry={this.onRetry(comment.document)}
         onCancel={onCancel}
         onUserClick={onUserClick}
         dataProviders={dataProviders}
-        renderComment={props => <Comment {...props} />}
+        renderComment={props => (
+          <Comment {...props} canModerateComment={canModerateComments} />
+        )}
         renderEditor={renderEditor}
         objectId={objectId}
         containerId={containerId}
@@ -200,6 +203,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
         />
       );
     }
+    return;
   }
 
   private onRetry = (document: any) => (commentLocalId?: string) => {
@@ -288,6 +292,18 @@ export default class Conversation extends React.PureComponent<Props, State> {
 
     if (typeof this.props.onEditorOpen === 'function') {
       this.props.onEditorOpen();
+    }
+  };
+
+  private onHighlightComment = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) => {
+    if (typeof this.props.onHighlightComment === 'function') {
+      this.props.onHighlightComment(event, commentId);
+      if (typeof this.props.onCommentPermalinkClick === 'function') {
+        this.props.onCommentPermalinkClick(event, commentId);
+      }
     }
   };
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { md, code, Example } from '@atlaskit/docs';
+import { md, code, Example, AtlassianInternalWarning } from '@atlaskit/docs';
 
 import dropzone from './dropzone.png';
 import browser from './browser.png';
@@ -8,6 +8,8 @@ import popup from './popup.png';
 const CreateImage = (filename: string) => <img src={filename} />;
 
 export default md`
+  ${<AtlassianInternalWarning />}
+  
   # Documentation
 
   ## Table of contents
@@ -21,7 +23,6 @@ export default md`
     - [Dropzone](#dropzone)
     - [Clipboard](#clipboard)
     - [Browser](#browser)
-    - [Binary](#binary)
     - [Popup](#popup)
 
   <a name="working-with-the-library"></a>
@@ -67,7 +68,6 @@ export default md`
 
   First argument is a <_string_>. It defined what kind of picker will be created:
 
-  - **binary**: allows you to upload object of type File
   - **browser**: will open browser default file dialog for user to choose file from
   - **clipboard**: allows user to paste a file from clipboard
   - **dropzone**: allows user to drag and drop a file
@@ -293,31 +293,6 @@ export default md`
   **browse()** — Open a dialog with the files on the local drive. Allows multiple file uploads.
 
   ---
-  <a name="binary"></a>
-  ### Binary
-
-  Allows client app to upload a file without user interaction.
-
-  #### Usage
-
-  ${code`const context = ContextFactory.create({
-    authProvider: () =>
-      Promise.resolve({
-        clientId: 'your-app-client-id',
-        token: 'your-generated-token',
-        baseUrl: ''https://media-api.atlassian.io'
-      }),
-  });
-
-  const binary = MediaPicker('binary', context);
-  binary.on('upload-end', payload => {
-    console.log(payload.public);
-  });
-  binary.upload(
-    'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
-    'screen-capture.gif',
-  );
-  `}
 
   #### Methods
 

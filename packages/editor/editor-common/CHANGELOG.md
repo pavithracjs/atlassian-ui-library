@@ -1,5 +1,113 @@
 # @atlaskit/editor-common
 
+## 39.7.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 39.6.1
+- [patch] [56356b17a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56356b17a3):
+
+  - ED-6880: added even column widths on resize handle double-click and bulk resizing of columns
+
+## 39.6.0
+- [minor] [4969df0716](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4969df0716):
+
+  - fix lazy rendering bugs in Smart Links.
+
+## 39.5.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 39.4.0
+- [minor] [d9f8b4d43d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9f8b4d43d):
+
+  - [ED-5505] Apply strong mark by default on table headers
+
+## 39.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 39.2.3
+- [patch] [dfc7aaa563](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc7aaa563):
+
+  - ED-6863: Fix the rendering of extensions in the renderer when they have breakout layouts.
+
+## 39.2.2
+- [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
+
+  - [ED-6860] Revert prosemirror-view 1.8.9 bumps, this version was making the cursor typing slowly. this version is recreating all plugins when we use `EditorView.setProps`
+
+## 39.2.1
+- [patch] [1ec6367e00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ec6367e00):
+
+  - ED-6551 - Lists should correctly wrap adjacent floated content without overlapping
+
+## 39.2.0
+- [minor] [a8e3fc91ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8e3fc91ae):
+
+  - Remove react from panel node view
+
+## 39.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 39.0.1
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
+## 39.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/emoji@62.0.0
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/width-detector@2.0.0
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/mention@18.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/profilecard@10.0.0
+
+## 38.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/emoji@61.0.0
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/media-core@29.3.0
+
+## 37.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/emoji@60.0.0
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/media-core@29.2.0
+
+## 36.2.3
+- [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 36.2.2
+- [patch] [0d23e11834](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d23e11834):
+
+  - ED-6736 Prevent extensions with specified width from overflowing between layout cols.
+
+## 36.2.1
+- Updated dependencies [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
+  - @atlaskit/width-detector@1.0.0
+
 ## 36.2.0
 - [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
 

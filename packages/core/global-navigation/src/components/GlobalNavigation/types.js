@@ -42,6 +42,44 @@ export type GlobalNavDrawerProps = {
    * close. It is true by default. */
   shouldCreateDrawerUnmountOnExit?: boolean,
 
+  /** A prop to take control over the opening and closing of the recent drawer. NOTE:
+   * GlobalNavigation controls the drawer behaviour by default. */
+  isRecentDrawerOpen?: boolean,
+  /** The contents of the recent drawer. */
+  recentDrawerContents?: ComponentType<*>,
+  /** The width of the recent drawer. This is "wide" by default. */
+  recentDrawerWidth?: DrawerWidth,
+  /** A callback function which will be called when the recent drawer is
+   * opened. */
+  onRecentDrawerOpen?: () => void,
+  /** A callback function which will be called when the recent drawer is
+   * closed. */
+  onRecentDrawerClose?: () => void,
+  /** A callback function which will be fired when the recent drawer has finished its close transition. **/
+  onRecentDrawerCloseComplete?: (node: HTMLElement) => void,
+  /** A prop to decide if the contents of the drawer should unmount on drawer
+   * close. It is true by default. */
+  shouldRecentDrawerUnmountOnExit?: boolean,
+
+  /** A prop to take control over the opening and closing of the Global Invite drawer. NOTE:
+   * GlobalNavigation controls the drawer behaviour by default. */
+  isInviteDrawerOpen?: boolean,
+  /** The contents of the global invite drawer. */
+  inviteDrawerContents?: ComponentType<*>,
+  /** The width of the global invite drawer. This is "wide" by default. */
+  inviteDrawerWidth?: DrawerWidth,
+  /** A callback function which will be called when the global invite drawer is
+   * opened. */
+  onInviteDrawerOpen?: () => void,
+  /** A callback function which will be called when the global invite drawer is
+   * closed. */
+  onInviteDrawerClose?: () => void,
+  /** A callback function which will be fired when the global invite drawer has finished its close transition. **/
+  onInviteDrawerCloseComplete?: (node: HTMLElement) => void,
+  /** A prop to decide if the contents of the drawer should unmount on drawer
+   * close. It is true by default. */
+  shouldInviteDrawerUnmountOnExit?: boolean,
+
   /** A prop to take control over the opening and closing of drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isSearchDrawerOpen?: boolean,
@@ -126,6 +164,25 @@ export type GlobalNavDrawerProps = {
   /** A prop to decide if the contents of the drawer should unmount on drawer
    * close. It is true by default. */
   shouldSettingsDrawerUnmountOnExit?: boolean,
+
+  /** A prop to take control over the opening and closing of the help drawer. NOTE:
+   * GlobalNavigation controls the drawer behaviour by default. */
+  isHelpDrawerOpen?: boolean,
+  /** The contents of the help drawer. */
+  helpDrawerContents?: ComponentType<*>,
+  /** The width of the help drawer. This is "wide" by default. */
+  HelpDrawerWidth?: DrawerWidth,
+  /** A callback function which will be called when the help drawer is
+   * opened. */
+  onHelpDrawerOpen?: () => void,
+  /** A callback function which will be called when the help drawer is
+   * closed. */
+  onHelpDrawerClose?: () => void,
+  /** A callback function which will be fired when the help drawer has finished its close transition. **/
+  onHelpDrawerCloseComplete?: (node: HTMLElement) => void,
+  /** A prop to decide if the contents of the drawer should unmount on drawer
+   * close. It is true by default. */
+  shouldHelpDrawerUnmountOnExit?: boolean,
 };
 
 export type GlobalNavigationProps = {
@@ -140,6 +197,22 @@ export type GlobalNavigationProps = {
   productHref?: string,
   /** A function to get ref of the product icon */
   getProductRef?: (node: NonStringRef<'div'>) => void,
+
+  /** A callback function which will be called when the recent item is clicked.
+   * */
+  onRecentClick?: ?() => void,
+  /** The text to display in the tooltip for the recent drawer item. */
+  recentTooltip?: string,
+  /** A function to get ref of the recent icon */
+  getRecentRef?: (node: NonStringRef<'div'>) => void,
+
+  /** A callback function which will be called when the global invite item is clicked.
+   * */
+  onInviteClick?: ?() => void,
+  /** The text to display in the tooltip for the global invite drawer item. */
+  inviteTooltip?: string,
+  /** A function to get ref of the global invite icon */
+  getInviteRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
@@ -177,12 +250,18 @@ export type GlobalNavigationProps = {
   /** A callback used to trigger the product implementation of XFlow */
   triggerXFlow?: ?(productKey: string, sourceComponent: string) => void,
 
-  /** The text to display in the tooltip for the help item. */
+  /** A callback function which will be called when the help item is clicked.
+   * */
+  onHelpClick?: ?() => void,
+  /** The text to display in the tooltip for the help drawer item. */
   helpTooltip?: string,
-  /** A component to render into the help menu dropdown. */
-  helpItems?: ComponentType<{}>,
   /** A function to get ref of the help icon */
   getHelpRef?: (node: NonStringRef<'div'>) => void,
+
+  /** The boolean that controls whether to display a drawer instead of a menu dropdown. */
+  enableHelpDrawer?: boolean,
+  /** A component to render into the help menu dropdown. */
+  helpItems?: ComponentType<{}>,
 
   /** The text to display in the tooltip for the profile item. */
   profileTooltip?: string,
@@ -216,15 +295,6 @@ export type GlobalNavigationProps = {
   /**
     NOTE: This property is experimental and may be removed in a minor release.
 
-    Feature flag for Atlassian Switcher, whether to enable multiple link of
-    each jira products in atlassian switcher
-    e.g. instead of showing only Jira link, shows Jira Software and Jira Service Desk links
-  */
-  experimental_enableSplitJira?: boolean,
-
-  /**
-    NOTE: This property is experimental and may be removed in a minor release.
-
     Feature flag for Atlassian Switcher, whether to enable the new link redirecting
     the user to start.atlassian.com
     e.g. instead of showing only Jira link, shows Jira Software and Jira Service Desk links
@@ -239,7 +309,10 @@ export type DrawerName =
   | 'notification'
   | 'starred'
   | 'create'
+  | 'help'
   | 'settings'
+  | 'recent'
+  | 'invite'
   | 'atlassianSwitcher';
 
 export type { DrawerWidth };

@@ -112,7 +112,7 @@ export const isValidEmailUsingConfig = memoizeOne(
         checkDomain &&
         !matchAllowedDomains(extractDomain(inputText), config)
       ) {
-        return 'POTENTIAL';
+        return 'INVALID';
       }
       return result;
     };

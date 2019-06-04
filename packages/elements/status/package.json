@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/status",
-  "version": "0.8.3",
+  "version": "0.9.1",
   "config": {
     "access": "public"
   },
@@ -21,27 +21,31 @@
     "fabric",
     "elements"
   ],
+  "atlaskit": {
+    "name": "Status",
+    "team": "elements"
+  },
   "dependencies": {
-    "@atlaskit/analytics-gas-types": "^4.0.2",
-    "@atlaskit/analytics-next": "^4.0.5",
-    "@atlaskit/field-text": "^8.0.3",
-    "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/lozenge": "^7.0.2",
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/analytics-gas-types": "^4.0.4",
+    "@atlaskit/analytics-next": "^5.0.0",
+    "@atlaskit/field-text": "^9.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/lozenge": "^9.0.0",
+    "@atlaskit/theme": "^9.0.3",
     "styled-components": "^3.2.6"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "react-intl": "^2.6.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/editor-test-helpers": "^8.0.5",
-    "@atlaskit/elements-test-helpers": "^0.5.0",
+    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/editor-test-helpers": "^9.0.0",
+    "@atlaskit/elements-test-helpers": "^0.6.0",
     "@atlaskit/i18n-tools": "^0.5.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "react-intl": "^2.6.0"
   },
   "scripts": {

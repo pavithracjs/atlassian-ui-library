@@ -15,11 +15,13 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 
-import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
-import { extensionHandlers } from '../example-helpers/extension-handlers';
+import {
+  customInsertMenuItems,
+  extensionHandlers,
+} from '@atlaskit/editor-test-helpers';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
 import { TitleInput } from '../example-helpers/PageElements';
@@ -38,7 +40,6 @@ import withSentry from '../example-helpers/withSentry';
  */
 export const Wrapper: any = styled.div`
   box-sizing: border-box;
-  padding: 2px;
   height: calc(100vh - 32px);
 `;
 Wrapper.displayName = 'Wrapper';
@@ -241,6 +242,7 @@ class ExampleEditorComponent extends React.Component<
       actions.focus();
       return false;
     }
+    return;
   };
 
   private handleTitleChange = (e: KeyboardEvent) => {

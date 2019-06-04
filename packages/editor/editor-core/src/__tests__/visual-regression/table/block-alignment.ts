@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import {
   Device,
   snapshot,
@@ -9,7 +10,11 @@ import {
   setTableLayout,
   getSelectorForTableCell,
 } from '../../__helpers/page-objects/_table';
-import { waitForEmojis } from '../../__helpers/page-objects/_emoji';
+import {
+  waitForEmojis,
+  emojiReadySelector,
+} from '../../__helpers/page-objects/_emoji';
+import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 
 describe('Table with block looks correct for fullpage:', () => {
   let page: any;
@@ -21,7 +26,8 @@ describe('Table with block looks correct for fullpage:', () => {
 
   afterEach(async () => {
     await waitForEmojis(page);
-    await snapshot(page, 0.01);
+    await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('default layout ', async () => {
@@ -65,7 +71,7 @@ describe('Table with block looks correct for comment:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, 0.01);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('default layout ', async () => {

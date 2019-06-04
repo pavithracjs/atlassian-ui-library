@@ -1,5 +1,121 @@
 # @atlaskit/editor-test-helpers
 
+## 9.3.7
+- [patch] [c59bd5d01e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c59bd5d01e):
+
+  ED-6349: fix external images (often via copy paste) not having correct dimensions
+
+## 9.3.6
+- [patch] [b567c44b93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b567c44b93):
+
+  ED-6986: put cursor after smart link insertion if skipping macro
+
+## 9.3.5
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 9.3.4
+- [patch] [9cbd059bfa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cbd059bfa):
+
+  - Put `media-editor` into separate editor plugin, update `@atlaskit/media-editor` API
+
+  ### Breaking change for `@atlaskit/media-editor`
+
+  * Make `onUploadStart`, `onFinish` optional
+  * Add new `onClose` callback for when the user closes the dialog (escape, cancel, error)
+  * `onFinish` now only called when the upload itself finishes, not overloaded for other purposes
+
+    * now also passes the `FileIdentifier` of the completed upload
+
+  ### Editor changes
+
+  Adds a new `media-editor` plugin that is enabled if the media plugin is enabled and `allowAnnotation` is enabled on the `media` prop.
+
+  This replaces the implementation inside the existing `media` plugin. The new `media-editor` plugin is *not* dependent on the `media` plugin.
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+  - @atlaskit/editor-core@112.11.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-test-helpers@24.0.0
+
+## 9.3.3
+- [patch] [7eca61edf0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7eca61edf0):
+
+  - ED-6965: bump prosemirror-utils to allow safeInsert replacing selected nodes when it conforms to schema
+
+## 9.3.2
+- [patch] [7ce86bae14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ce86bae14):
+
+  - Shift selection for rows and columns
+
+## 9.3.1
+- [patch] [ed02efdb94](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed02efdb94):
+
+  - [ED-6817] Extract the current toggleHeader logic to prosemirror-table 0.8.0
+
+## 9.3.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 9.2.0
+- [minor] [dfc7aaa563](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc7aaa563):
+
+  - ED-6863: Fix the rendering of extensions in the renderer when they have breakout layouts.
+
+## 9.1.5
+- [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
+
+  - [ED-6860] Revert prosemirror-view 1.8.9 bumps, this version was making the cursor typing slowly. this version is recreating all plugins when we use `EditorView.setProps`
+
+## 9.1.4
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-core@112.0.0
+
+## 9.1.3
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/editor-core@111.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 9.1.2
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-core@111.0.0
+
+## 9.1.1
+- [patch] [652ef1e6be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/652ef1e6be):
+
+  - ED-6774: Adds a FF to priortize smart links resolution over Jira Issue Macro
+
+## 9.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 9.0.1
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
+## 9.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 8.0.8
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 8.0.7
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
 ## 8.0.6
 - [patch] [5d9455978b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d9455978b):
 

@@ -8,7 +8,7 @@ import { ExtensionHandlers } from '@atlaskit/editor-common';
 
 describe('Renderer - React/Nodes/InlineExtension', () => {
   const extensionHandlers: ExtensionHandlers = {
-    'com.atlassian.fabric': (param: any, doc: any) => {
+    'com.atlassian.fabric': (param: any) => {
       switch (param.extensionKey) {
         case 'react':
           return <span>This is a react element</span>;

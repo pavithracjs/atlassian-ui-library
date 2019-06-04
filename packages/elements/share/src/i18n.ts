@@ -44,6 +44,12 @@ export const messages = defineMessages({
     description:
       'Required error message for the user picker field in Share form.',
   },
+  userPickerDomainBasedUserOnlyNoOptionsMessage: {
+    id: 'fabric.elements.share.form.user-picker.no-options.domainBasedUserOnly',
+    defaultMessage: `You can only invite people with {domains} email addresses. Contact your site admin to invite other people.`,
+    description:
+      'Domain based user only no options message displayed when the search for users returns empty.',
+  },
   userPickerExistingUserOnlyNoOptionsMessage: {
     id: 'fabric.elements.share.form.user-picker.no-options.existingUserOnly',
     defaultMessage: `We couldn’t find any results for "{inputValue}".`,
@@ -108,6 +114,7 @@ export const messages = defineMessages({
     id: 'fabric.elements.share.success.message',
     defaultMessage:
       '{object, select,' +
+      'blogpost {Blog post shared}' +
       'board {Board shared}' +
       'calendar {Calendar shared}' +
       'draft {Draft shared}' + // this is a placeholder for Invite to edit in Confluence

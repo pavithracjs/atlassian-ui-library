@@ -15,7 +15,7 @@ const mock: CreateUIAnalyticsEventSignature = (
     return null;
   },
   fire() {},
-  update(updater: AnalyticsEventUpdater): UIAnalyticsEventInterface {
+  update(_updater: AnalyticsEventUpdater): UIAnalyticsEventInterface {
     return mock(payload);
   },
 });

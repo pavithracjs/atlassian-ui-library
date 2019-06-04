@@ -1,7 +1,8 @@
 {
   "name": "@atlaskit/range",
-  "version": "0.2.2",
+  "version": "2.0.1",
   "description": "A styled version of the native input[range] element.",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
@@ -13,24 +14,27 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Range",
+    "team": "core"
+  },
   "dependencies": {
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/theme": "^9.1.0",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/checkbox": "^6.0.4",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/tooltip": "^13.0.4",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/checkbox": "^8.0.0",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/tooltip": "^14.0.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",

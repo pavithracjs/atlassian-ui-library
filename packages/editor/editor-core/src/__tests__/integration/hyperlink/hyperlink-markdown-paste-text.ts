@@ -5,9 +5,7 @@ import {
   comment,
   fullpage,
   editable,
-  clipboardHelper,
-  copyAsPlaintextButton,
-  clipboardInput,
+  copyToClipboard,
 } from '../_helpers';
 
 [comment, fullpage].forEach(editor => {
@@ -20,10 +18,7 @@ import {
     },
     async (client: any, testName: string) => {
       const sample = new Page(client);
-      await sample.goto(clipboardHelper);
-      await sample.isVisible(clipboardInput);
-      await sample.type(clipboardInput, 'https://hello.com');
-      await sample.click(copyAsPlaintextButton);
+      await copyToClipboard(sample, 'https://hello.com');
 
       await sample.goto(editor.path);
       await sample.waitForSelector(editor.placeholder);
@@ -31,7 +26,7 @@ import {
       await sample.waitForSelector(editable);
 
       await sample.type(editable, ['[link1](']);
-      await sample.paste(editable);
+      await sample.paste();
       await sample.type(editable, [')']);
 
       const doc = await sample.$eval(editable, getDocFromElement);

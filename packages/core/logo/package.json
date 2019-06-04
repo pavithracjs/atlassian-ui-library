@@ -1,10 +1,10 @@
 {
   "name": "@atlaskit/logo",
-  "version": "10.0.4",
+  "version": "12.0.2",
   "description": "A React component that highlights status for quick recognition",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/logos-in-product",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
@@ -14,27 +14,30 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Logo",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "prop-types": "^15.5.10",
-    "react-uid": "^2.2.0"
+    "react-uid": "^2.2.0",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^12.0.3",
-    "@atlaskit/code": "^9.0.1",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/field-radio-group": "^5.0.3",
-    "@atlaskit/select": "^8.1.1",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/theme": "^8.1.7",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/button": "^13.0.5",
+    "@atlaskit/code": "^11.0.1",
+    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/field-radio-group": "^6.0.0",
+    "@atlaskit/select": "^9.1.3",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   }
 }

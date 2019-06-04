@@ -1,5 +1,38 @@
 # @atlaskit/user-picker
 
+## 4.0.2
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 4.0.1
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/tag@8.0.2
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
+## 4.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 3.5.5
+- [patch] [87c47cd667](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87c47cd667):
+
+  - Getting updated styles from tag
+
+## 3.5.4
+- [patch] [b8bc454675](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8bc454675):
+
+  - Add inputId prop to allow label to open the user picker
+
+## 3.5.3
+- [patch] [171feaa473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/171feaa473):
+
+  - FS-3792 clear results after selection
+
 ## 3.5.2
 - [patch] [7cb36f2603](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7cb36f2603):
 

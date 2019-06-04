@@ -1,5 +1,54 @@
 # @atlaskit/form
 
+## 6.0.4
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/button@13.0.6
+  - @atlaskit/modal-dialog@10.0.2
+  - @atlaskit/radio@3.0.2
+  - @atlaskit/select@9.1.4
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
+## 6.0.3
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+- Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
+  - @atlaskit/datetime-picker@8.0.3
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/select@9.1.2
+  - @atlaskit/modal-dialog@10.0.0
+  - @atlaskit/radio@3.0.0
+
+## 6.0.2
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/checkbox@7.0.1
+  - @atlaskit/field-radio-group@6.0.1
+  - @atlaskit/field-range@7.0.1
+  - @atlaskit/field-text@9.0.1
+  - @atlaskit/field-text-area@6.0.1
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/multi-select@13.0.2
+  - @atlaskit/single-select@8.0.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
+## 6.0.1
+- [patch] [19bbcb44ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19bbcb44ed):
+
+  - Upgrade final-form dependency. No behavioural or API changes.
+
+## 6.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 5.2.10
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/modal-dialog@8.0.9
+  - @atlaskit/textfield@1.0.0
+
 ## 5.2.9
 - Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
   - @atlaskit/radio@1.0.0

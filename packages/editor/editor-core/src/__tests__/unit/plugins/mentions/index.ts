@@ -8,7 +8,10 @@ import { MockMentionResource } from '@atlaskit/util-data-test';
 import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
 import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { MentionProvider, MentionDescription } from '@atlaskit/mention';
+import {
+  MentionProvider,
+  MentionDescription,
+} from '@atlaskit/mention/resource';
 import { EditorView } from 'prosemirror-view';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
@@ -347,7 +350,7 @@ describe('mentionTypeahead', () => {
 
     it(
       'should trigger `mentionTypeahead` and `teamMentionTypeahead` analytics event',
-      withMentionQuery('team', ({ event, createAnalyticsEvent }) => {
+      withMentionQuery('team', ({ createAnalyticsEvent }) => {
         const commonAttrsTypeAhead = {
           componentName: 'mention',
           packageName: '@atlaskit/editor-core',
@@ -451,7 +454,7 @@ describe('mentionTypeahead', () => {
     describe('when selecting a team', () => {
       it(
         'should expand members when selecting a team mention ',
-        withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
+        withMentionQuery('Team Beta', ({ editorView }) => {
           // select Team Beta team
           selectCurrentItem()(editorView.state, editorView.dispatch);
           // should expand 2 members

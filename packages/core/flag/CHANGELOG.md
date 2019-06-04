@@ -1,5 +1,41 @@
 # @atlaskit/flag
 
+## 12.0.3
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 12.0.2
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [dacfb81ca1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dacfb81ca1):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/portal@3.0.0
+
+## 12.0.1
+- [patch] [cdba81d4f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cdba81d4f2):
+
+  - export the correct types so typescript usage works correctly
+
+## 12.0.0
+- [major] [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+
+  - @atlaskit/flag has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
+## 11.0.1
+- [patch] [dccab11ef4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dccab11ef4):
+
+  - Fixed incorrect flag appearing after dismiss a previous one
+
+## 11.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 10.0.7
+- Updated dependencies [5b6b4d6a0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b6b4d6a0f):
+  - @atlaskit/portal@1.0.0
+
 ## 10.0.6
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

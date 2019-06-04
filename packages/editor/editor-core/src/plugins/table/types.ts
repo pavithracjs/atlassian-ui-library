@@ -22,31 +22,98 @@ export interface PluginConfig {
   allowControls?: boolean;
 }
 
+export interface ColumnResizingPluginState {
+  resizeHandlePos: number | null;
+  dragging: { startX: number; startWidth: number } | null;
+  lastClick: { x: number; y: number; time: number } | null;
+  lastColumnResizable?: boolean;
+  dynamicTextSizing?: boolean;
+}
+
 export interface TablePluginState {
   decorationSet: DecorationSet;
   editorHasFocus?: boolean;
   hoveredColumns: number[];
   hoveredRows: number[];
   pluginConfig: PluginConfig;
+  isHeaderColumnEnabled: boolean;
+  isHeaderRowEnabled: boolean;
   // position of a cell PM node that has cursor
   targetCellPosition?: number;
   // controls need to be re-rendered when table content changes
   // e.g. when pressing enter inside of a cell, it creates a new p and we need to update row controls
   tableNode?: PmNode;
   tableRef?: HTMLElement;
-  tableFloatingToolbarTarget?: HTMLElement;
+  tableWrapperTarget?: HTMLElement;
   isContextualMenuOpen?: boolean;
   isInDanger?: boolean;
   insertColumnButtonIndex?: number;
   insertRowButtonIndex?: number;
+  isFullWidthModeEnabled?: boolean;
 }
 
-export interface ColumnResizingPlugin {
-  handleWidth?: number;
-  cellMinWidth?: number;
-  lastColumnResizable?: boolean;
-  dynamicTextSizing?: boolean;
-}
+export type TablePluginAction =
+  | { type: 'SET_EDITOR_FOCUS'; data: { editorHasFocus: boolean } }
+  | { type: 'TOGGLE_HEADER_ROW' }
+  | { type: 'TOGGLE_HEADER_COLUMN' }
+  | {
+      type: 'SET_TABLE_REF';
+      data: {
+        tableRef?: HTMLElement;
+        tableNode?: PmNode;
+        tableWrapperTarget?: HTMLElement;
+      };
+    }
+  | {
+      type: 'HOVER_ROWS';
+      data: {
+        decorationSet: DecorationSet;
+        hoveredRows: number[];
+        isInDanger?: boolean;
+      };
+    }
+  | {
+      type: 'HOVER_COLUMNS';
+      data: {
+        decorationSet: DecorationSet;
+        hoveredColumns: number[];
+        isInDanger?: boolean;
+      };
+    }
+  | {
+      type: 'HOVER_TABLE';
+      data: {
+        decorationSet: DecorationSet;
+        hoveredRows: number[];
+        hoveredColumns: number[];
+        isInDanger?: boolean;
+      };
+    }
+  | { type: 'CLEAR_HOVER_SELECTION'; data: { decorationSet: DecorationSet } }
+  | { type: 'SET_TARGET_CELL_POSITION'; data: { targetCellPosition?: number } }
+  | { type: 'SHOW_INSERT_ROW_BUTTON'; data: { insertRowButtonIndex: number } }
+  | {
+      type: 'SHOW_INSERT_COLUMN_BUTTON';
+      data: { insertColumnButtonIndex: number };
+    }
+  | {
+      type: 'HIDE_INSERT_COLUMN_OR_ROW_BUTTON';
+    }
+  | { type: 'TOGGLE_CONTEXTUAL_MENU' };
+
+export type ColumnResizingPluginAction =
+  | {
+      type: 'SET_RESIZE_HANDLE_POSITION';
+      data: { resizeHandlePos: number | null };
+    }
+  | {
+      type: 'SET_DRAGGING';
+      data: { dragging: { startX: number; startWidth: number } | null };
+    }
+  | {
+      type: 'SET_LAST_CLICK';
+      data: { lastClick: { x: number; y: number; time: number } | null };
+    };
 
 export const TableDecorations = {
   CONTROLS_HOVER: 'CONTROLS_HOVER',

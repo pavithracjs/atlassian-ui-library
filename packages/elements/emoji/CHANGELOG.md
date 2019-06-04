@@ -1,5 +1,82 @@
 # @atlaskit/emoji
 
+## 62.1.5
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 62.1.4
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/field-base@13.0.1
+  - @atlaskit/spinner@12.0.0
+
+## 62.1.3
+- [patch] [ee970b5526](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee970b5526):
+
+  - Detect emoji gender and skintone correctly on selection
+
+## 62.1.2
+- [patch] [9eb495b1e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9eb495b1e0):
+
+  - Remove completely canvas-prebuilt as it does not seem to be used
+
+## 62.1.1
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
+## 62.1.0
+- [minor] [f120090dfe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f120090dfe):
+
+  - Add GASv3 analytics to Emoji TypeAhead.
+
+## 62.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/util-service-support@4.0.3
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/analytics-next@5.0.0
+  - @atlaskit/analytics@6.0.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/field-base@13.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/layer@7.0.0
+  - @atlaskit/section-message@3.0.0
+  - @atlaskit/spinner@11.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/tooltip@14.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/elements-test-helpers@0.6.0
+  - @atlaskit/util-data-test@12.0.0
+  - @atlaskit/media-core@30.0.0
+
+## 61.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/util-data-test@11.1.9
+  - @atlaskit/media-core@29.3.0
+
+## 60.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/util-data-test@11.1.8
+  - @atlaskit/media-core@29.2.0
+
+## 59.2.5
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 59.2.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 59.2.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

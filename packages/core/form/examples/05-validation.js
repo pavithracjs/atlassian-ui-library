@@ -11,23 +11,31 @@ import Form, {
 } from '../src';
 
 export default class extends Component<{}> {
-  textValue = '';
+  validateValue = '';
 
-  getUser = (value: string): Promise<?string> =>
+  serverValidate = (
+    value: string,
+  ): Promise<?{ value: string, error: string }> =>
     new Promise(resolve => {
       setTimeout(() => {
-        if (value === this.textValue) {
-          resolve(['jill', 'joe', 'jillian', 'jack'].find(v => v === value));
+        if (value.length <= 2) {
+          resolve({ value, error: 'TOO_SHORT' });
         }
-      }, 1000);
+        if (['jill', 'joe', 'jillian', 'jack'].find(v => v === value)) {
+          resolve({ value, error: 'IN_USE' });
+        }
+        resolve(undefined);
+      }, 500);
     });
 
   validate = (value: string) => {
-    this.textValue = value;
-    if (value.length < 3) {
-      return 'TOO_SHORT';
-    }
-    return this.getUser(value).then(user => (user ? 'IN_USE' : undefined));
+    this.validateValue = value;
+    return this.serverValidate(value).then(validateObject => {
+      if (validateObject && validateObject.value === this.validateValue) {
+        return validateObject.error;
+      }
+      return undefined;
+    });
   };
 
   render() {
@@ -36,6 +44,7 @@ export default class extends Component<{}> {
         style={{
           display: 'flex',
           width: '400px',
+          maxWidth: '100%',
           margin: '0 auto',
           flexDirection: 'column',
         }}

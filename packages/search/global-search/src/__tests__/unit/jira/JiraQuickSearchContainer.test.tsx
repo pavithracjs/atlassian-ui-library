@@ -31,6 +31,7 @@ import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
 import { CancelableEvent } from '../../../../../quick-search';
 import { DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
+import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 
 const issues = [
   makeJiraObjectResult({
@@ -46,6 +47,11 @@ const boards = [
   }),
 ];
 const people = [makePersonResult(), makePersonResult(), makePersonResult()];
+const referralContextIdentifiers: ReferralContextIdentifiers = {
+  currentContainerId: '123-container',
+  currentContentId: '123-content',
+  searchReferrerId: '123-search-referrer',
+};
 
 describe('Jira Quick Search Container', () => {
   let createAnalyticsEventSpy: jest.Mock;
@@ -58,6 +64,15 @@ describe('Jira Quick Search Container', () => {
       jiraClient: mockNoResultJiraClient(),
       logger,
       createAnalyticsEvent: createAnalyticsEventSpy,
+      referralContextIdentifiers,
+      linkComponent: undefined,
+      onAdvancedSearch: undefined,
+      appPermission: undefined,
+      features: {
+        abTest: DEFAULT_AB_TEST,
+        disableJiraPreQueryPeopleSearch: false,
+        enablePreQueryFromAggregator: false,
+      },
       ...partialProps,
     };
 
@@ -89,7 +104,8 @@ describe('Jira Quick Search Container', () => {
     const quickSearch = wrapper.find(QuickSearchContainer);
     expect(quickSearch.props()).toMatchObject({
       placeholder: 'Search Jira',
-      getDisplayedResults: expect.any(Function),
+      getPreQueryDisplayedResults: expect.any(Function),
+      getPostQueryDisplayedResults: expect.any(Function),
       getSearchResultsComponent: expect.any(Function),
       getRecentItems: expect.any(Function),
       getSearchResults: expect.any(Function),
@@ -206,11 +222,46 @@ describe('Jira Quick Search Container', () => {
       );
 
       try {
-        await getSearchResults('query', sessionId, 100);
+        await getSearchResults('query', sessionId, 100, 0);
         expect(true).toBe(false);
       } catch (e) {
         expect(e).toBeDefined();
       }
+    });
+
+    it('should call cross product search client with correct query version', async () => {
+      const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
+      const dummyQueryVersion = 123;
+
+      const modelParams = [
+        {
+          '@type': 'queryParams',
+          queryVersion: dummyQueryVersion,
+        },
+        {
+          '@type': 'currentProject',
+          projectId: '123-container',
+        },
+      ];
+
+      const getSearchResults = getQuickSearchProperty(
+        renderComponent({
+          crossProductSearchClient: noResultsCrossProductSearchClient,
+        }),
+        'getSearchResults',
+      );
+
+      getSearchResults('query', sessionId, 100, dummyQueryVersion);
+
+      expect(searchSpy).toHaveBeenCalledWith(
+        'query',
+        sessionId,
+        expect.any(Array),
+        modelParams,
+        expect.any(Number),
+      );
+
+      searchSpy.mockRestore();
     });
 
     it('should return search results', async () => {
@@ -232,7 +283,7 @@ describe('Jira Quick Search Container', () => {
         renderComponent({ peopleSearchClient, crossProductSearchClient }),
         'getSearchResults',
       );
-      const searchResults = await getSearchResults('query', sessionId, 100);
+      const searchResults = await getSearchResults('query', sessionId, 100, 0);
       expect(searchResults).toMatchObject({
         results: {
           objects: issues,
@@ -270,7 +321,7 @@ describe('Jira Quick Search Container', () => {
         }),
         'getSearchResults',
       );
-      const searchResults = await getSearchResults('query', sessionId, 100);
+      const searchResults = await getSearchResults('query', sessionId, 100, 0);
       expect(searchResults).toMatchObject({
         results: {
           objects: issues,
@@ -289,15 +340,18 @@ describe('Jira Quick Search Container', () => {
       let redirectSpy: jest.SpyInstance<
         (entityType: SearchUtils.JiraEntityTypes, query?: string) => void
       >;
-      let originalWindowAssign = window.location.assign;
+      let originalWindowLocation = window.location;
 
       beforeEach(() => {
-        window.location.assign = jest.fn();
+        delete window.location;
+        window.location = Object.assign({}, window.location, {
+          assign: jest.fn(),
+        });
         redirectSpy = jest.spyOn(SearchUtils, 'redirectToJiraAdvancedSearch');
       });
 
       afterEach(() => {
-        window.location.assign = originalWindowAssign;
+        window.location = originalWindowLocation;
         redirectSpy.mockReset();
         redirectSpy.mockRestore();
       });

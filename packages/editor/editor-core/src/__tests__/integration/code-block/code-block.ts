@@ -27,7 +27,8 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
 
       await page.click(`[aria-label="${messages.codeblock.defaultMessage}"]`);
       await page.waitForSelector(selectQuery);
-      await page.type(selectQuery, ['javascript', 'Return']);
+      await page.type(selectQuery, ['javascript']);
+      await page.keys('Return');
 
       const doc = await page.$eval(editable, getDocFromElement);
       expect(doc).toMatchCustomDocSnapshot(testName);
@@ -37,7 +38,7 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
   BrowserTestCase(
     `code-block: code block language is preserved after floating toolbar loses and gains focus for ${editor}`,
     { skip: ['ie', 'safari'] },
-    async (client: any, testName: string) => {
+    async (client: any) => {
       const page = await goToEditorTestingExample(client);
 
       await mountEditor(page, {
@@ -49,10 +50,11 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
       await page.click(`[aria-label="${messages.codeblock.defaultMessage}"]`);
       await page.waitForSelector(selectQuery);
       // Change code block language
-      await page.type(selectQuery, ['javascript', 'Return']);
+      await page.type(selectQuery, ['javascript']);
+      await page.keys('Return');
       await page.click(editable);
       // Unfocus code block (so floating toolbar hides)
-      await page.type(editable, ['ArrowRight', 'ArrowRight']);
+      await page.keys(['ArrowRight', 'ArrowRight']);
       await page.type(editable, 'test paragraph');
       // Focus code block again
       await page.click('pre');
@@ -66,7 +68,7 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
   BrowserTestCase(
     `code-block: code block selected language correctly changes when moving selection directly from one code block to another for ${editor}`,
     { skip: ['ie', 'safari', 'edge'] },
-    async (client: any, testName: string) => {
+    async (client: any) => {
       const page = await goToEditorTestingExample(client);
 
       await mountEditor(page, {
@@ -79,10 +81,12 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
       await page.waitForSelector(selectQuery);
 
       // Change code block language
-      await page.type(selectQuery, ['javascript', 'Return']);
+      await page.type(selectQuery, ['javascript']);
+      await page.keys('Return');
       await page.click(editable);
       // Move out of code block
-      await page.type(editable, ['ArrowRight', 'Return']);
+      await page.keys('ArrowRight');
+      await page.keys('Return');
       // Insert a second code block
       await page.click(`[aria-label="${messages.codeblock.defaultMessage}"]`);
 
@@ -93,7 +97,8 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
       );
       expect(secondCodeblockInitialLanguage.trim()).toEqual('Select language');
       // Set a language on the second code block
-      await page.type(selectQuery, ['Arduino', 'Return']);
+      await page.type(selectQuery, ['Arduino']);
+      await page.keys('Return');
 
       // Check that the language on the first code block is still the same
       await page.click('code[data-language="javascript"]');

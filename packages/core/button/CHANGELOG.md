@@ -1,5 +1,64 @@
 # @atlaskit/button
 
+## 13.0.6
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/select@9.1.4
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
+## 13.0.5
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 13.0.4
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+  - @atlaskit/select@9.1.2
+  - @atlaskit/spinner@12.0.0
+
+## 13.0.3
+- [patch] [2a2d2060ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a2d2060ae):
+
+  - Fixing invalid style for isLoading button
+
+## 13.0.2
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/select@9.1.1
+  - @atlaskit/logo@12.0.0
+
+## 13.0.1
+- [patch] [754f83b6f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/754f83b6f0):
+
+  - Makes dependency on @atlaskit/spinner a caret version. No API or behaviour changes.
+
+## 13.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 12.0.8
+- [hotfix] fixes style error and changes spinner to a caret version.
+
+## 12.0.7
+- BROKEN RELEASE. DO NOT USE.
+
+## 12.0.6
+- [patch] [e0e3fabf8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0e3fabf8e):
+
+  - Change button to use theme's multiple entry points. This should reduce the bundle size of button
+
+## 12.0.5
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 12.0.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 12.0.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
@@ -21,7 +80,7 @@
 ## 12.0.0
 - [major] [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
 
-  ###️ Highlights
+  **Highlights**
 
   - **New theming API** - Button now supports the new Atlaskit theming API, which allows for powerful custom theming of Buttons and
     its internal components.
@@ -30,14 +89,14 @@
   - **Emotion support** - Button is now built using Emotion 10! This is part of a wider push
     for Emotion across all Atlaskit components.
 
-  ### Breaking Changes:
+  **Breaking Changes:**
 
   - The old theming API is no longer supported.
   - Styling a Button using Styled Components is no longer supported.
   - Button exports a Theme to use as context instead of using Styled Components' ThemeProvider.
   - Camel-case ARIA props have been renamed (**ariaExpanded**, **ariaHaspopup** and **ariaLabel**).
 
-  See the [upgrade guide](atlaskit.atlassian.com/packages/core/button/docs/upgrade-guide) for more details
+  See the [upgrade guide](https://atlaskit.atlassian.com/packages/core/button/docs/upgrade-guide) for more details
 
 ## 11.0.11
 - [patch] [f8d92ffc5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f8d92ffc5e):

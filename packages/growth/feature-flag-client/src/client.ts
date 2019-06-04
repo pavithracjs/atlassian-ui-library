@@ -13,7 +13,7 @@ import UntrackedFlag from './untracked-flag';
 export default class FeatureFlagClient {
   flags: Readonly<Flags> = {};
   trackedFlags: { [flagKey: string]: boolean } = {};
-  analyticsHandler: AnalyticsHandler;
+  analyticsHandler?: AnalyticsHandler;
 
   constructor(options: {
     flags?: Flags;
@@ -33,7 +33,7 @@ export default class FeatureFlagClient {
     }
 
     // @ts-ignore
-    if (process.env !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       validateFlags(flags);
     }
 

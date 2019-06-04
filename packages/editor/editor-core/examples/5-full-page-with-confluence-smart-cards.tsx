@@ -9,6 +9,8 @@ import {
   EditorCardProvider,
 } from '@atlaskit/smart-card';
 
+import { ToggleStateless } from '@atlaskit/toggle';
+
 import { default as FullPageExample } from './5-full-page';
 
 const confluenceUrlMatch = /https?\:\/\/[a-zA-Z0-9\-]+\.atlassian\.net\/wiki\//i;
@@ -84,10 +86,72 @@ export class ConfluenceCardClient extends Client {
   }
 }
 
+export type Props = {
+  doc?: string | Object;
+};
+
+const RESOLVE_BEFORE_MACROS = ['jira'];
+
+class FullPageWithFF extends React.Component<
+  Props,
+  {
+    resolveBeforeMacros: string[];
+    reloadEditor: boolean;
+  }
+> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      resolveBeforeMacros: RESOLVE_BEFORE_MACROS,
+      reloadEditor: false,
+    };
+  }
+
+  toggleFF = () => {
+    const resolveBeforeMacros = this.state.resolveBeforeMacros.length
+      ? []
+      : RESOLVE_BEFORE_MACROS;
+    this.setState({ resolveBeforeMacros, reloadEditor: true }, () => {
+      this.setState({ reloadEditor: false });
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <div>
+          <ToggleStateless
+            isChecked={this.state.resolveBeforeMacros.length}
+            onChange={this.toggleFF}
+            label={`Resolve ${RESOLVE_BEFORE_MACROS.join(
+              ',',
+            )} smart links first`}
+          />
+          Priortise smart links over {RESOLVE_BEFORE_MACROS.join(',')} macros
+        </div>
+        {!this.state.reloadEditor && (
+          <FullPageExample
+            defaultValue={this.props.doc}
+            UNSAFE_cards={{
+              // This is how we pass in the provider for smart cards
+              provider: Promise.resolve(cardProvider),
+              resolveBeforeMacros: this.state.resolveBeforeMacros,
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+}
+
 const cardClient = new ConfluenceCardClient(undefined, 'staging');
 const cardProvider = new ConfluenceCardProvider('staging');
 
-export function Example(doc: string | Object) {
+// put into separate constant because prettier can't handle // in JSX
+const jdogURL = 'https://jdog.jira-dev.com/browse/BENTO-3922';
+
+export function Example(doc?: string | Object) {
   return (
     // We must wrap the <Editor> with a provider, passing cardClient via prop
     <SmartCardProvider client={cardClient}>
@@ -107,14 +171,12 @@ export function Example(doc: string | Object) {
               can be found here
             </a>
           </p>
+          <p>
+            The mock macro provider will replace any JDOG issue link (e.g.
+            <a href={jdogURL}>{jdogURL}</a>) with a "jira" macro.
+          </p>
         </SectionMessage>
-        <FullPageExample
-          defaultValue={doc}
-          UNSAFE_cards={{
-            // This is how we pass in the provider for smart cards
-            provider: Promise.resolve(cardProvider),
-          }}
-        />
+        <FullPageWithFF doc={doc} />
       </div>
     </SmartCardProvider>
   );

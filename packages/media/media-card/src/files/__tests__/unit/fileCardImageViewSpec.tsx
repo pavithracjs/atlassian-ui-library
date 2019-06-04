@@ -11,7 +11,7 @@ import {
   PlayIconWrapper,
   ProgressBarWrapper,
 } from '../../cardImageView/styled';
-import { CardLoading } from '../../../utils';
+import { CardLoading } from '../../../utils/lightCards/cardLoading';
 import { ProgressBar } from '../../../utils/progressBar';
 import CardActions from '../../../utils/cardActions';
 

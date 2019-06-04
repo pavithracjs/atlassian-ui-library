@@ -4,6 +4,7 @@ import {
   editorFontSize,
   whitespaceSharedStyles,
   paragraphSharedStyles,
+  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   shadowSharedStyle,
@@ -51,6 +52,7 @@ const ContentStyles: ComponentClass<
 
     ${whitespaceSharedStyles};
     ${paragraphSharedStyles};
+    ${listsSharedStyles};
     ${indentationSharedStyles};
     ${shadowSharedStyle};
     ${inlineNodeSharedStyle};
@@ -73,12 +75,14 @@ const ContentStyles: ComponentClass<
   }
 
   .inlineCardView-content-wrap {
-    /* cursor disappears left hand side in ff */
-    padding-left: 1px;
-
     max-width: calc(100% - 20px);
     vertical-align: top;
     word-break: break-all;
+  }
+
+  .inlineCardView-content-wrap .card {
+    padding-left: 2px;
+    padding-right: 2px;
   }
 
   .blockCardView-content-wrap {
@@ -160,6 +164,18 @@ const ContentStyles: ComponentClass<
 
   .hyperlink-floating-toolbar {
     padding: 0;
+  }
+
+  /* Link icon in the Atlaskit package 
+     is bigger than the others
+  */
+  .hyperlink-open-link {
+    svg {
+      max-width: 18px;
+    }
+    &[href] {
+      padding: 0 4px;
+    }
   }
 
 `;

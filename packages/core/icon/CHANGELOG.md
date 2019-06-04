@@ -1,5 +1,47 @@
 # @atlaskit/icon
 
+## 17.2.0
+- [minor] [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+
+  - Checkbox has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
+## 17.1.3
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 17.1.2
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/icon-file-type@4.0.1
+  - @atlaskit/icon-object@4.0.1
+  - @atlaskit/icon-priority@4.0.1
+  - @atlaskit/modal-dialog@10.0.0
+
+## 17.1.1
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/field-text@9.0.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
+## 17.1.0
+- [minor] [8f4f5d914a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f4f5d914a):
+
+  - Updated home-circle icon and replaced home-filled icon with new home icon
+
+## 17.0.2
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/logo@12.0.0
+
+## 17.0.1
+- Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+  - @atlaskit/dynamic-table@13.0.0
+
+## 17.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 16.0.9
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

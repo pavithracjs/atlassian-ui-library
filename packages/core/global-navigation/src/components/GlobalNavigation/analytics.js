@@ -9,7 +9,9 @@ export const analyticsIdMap: { [drawerName: DrawerName]: string } = {
   notification: 'notificationsDrawer',
   create: 'createDrawer',
   starred: 'starDrawer',
+  help: 'helpDrawer',
   settings: 'settingsDrawer',
+  invite: 'inviteDrawer',
   atlassianSwitcher: 'atlassianSwitcherDrawer',
 };
 

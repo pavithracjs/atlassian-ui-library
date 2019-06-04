@@ -10,6 +10,8 @@ export {
   tableCellBorderWidth,
   calcTableWidth,
   TableSharedCssClassName,
+  tableResizeHandleWidth,
+  tableCellPadding,
 } from './shared/table';
 
 export { columnLayoutSharedStyle } from './shared/column-layout';
@@ -22,6 +24,7 @@ export { whitespaceSharedStyles } from './shared/whitespace';
 export { paragraphSharedStyles } from './shared/paragraph';
 export { inlineNodeSharedStyle } from './shared/inline-nodes';
 export { linkSharedStyle } from './shared/link';
+export { listsSharedStyles } from './shared/lists';
 export { indentationSharedStyles } from './shared/indentation';
 export { blockMarksSharedStyles } from './shared/block-marks';
 export { codeMarkSharedStyles } from './shared/code-mark';

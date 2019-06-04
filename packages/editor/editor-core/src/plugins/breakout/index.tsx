@@ -73,10 +73,11 @@ function createPlugin({
           tr.selection,
         );
 
-        if (!breakoutNode || breakoutNode.node !== pluginState.breakoutNode) {
+        const node = breakoutNode ? breakoutNode.node : null;
+        if (node !== pluginState.breakoutNode) {
           const nextPluginState = {
             ...pluginState,
-            breakoutNode: breakoutNode ? breakoutNode.node : null,
+            breakoutNode: node,
           };
           dispatch(pluginKey, nextPluginState);
           return nextPluginState;
@@ -98,9 +99,7 @@ function createPlugin({
   });
 }
 
-const breakoutPlugin = ({
-  disableBreakoutUI,
-}: { disableBreakoutUI?: boolean } = {}): EditorPlugin => ({
+const breakoutPlugin: EditorPlugin = {
   pmPlugins() {
     return [{ name: 'breakout', plugin: createPlugin }];
   },
@@ -115,10 +114,6 @@ const breakoutPlugin = ({
     popupsBoundariesElement,
     popupsScrollableElement,
   }) {
-    if (disableBreakoutUI) {
-      return null;
-    }
-
     return (
       <WithPluginState
         plugins={{
@@ -140,6 +135,6 @@ const breakoutPlugin = ({
       />
     );
   },
-});
+};
 
 export default breakoutPlugin;

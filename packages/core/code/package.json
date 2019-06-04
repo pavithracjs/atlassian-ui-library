@@ -1,29 +1,30 @@
 {
   "name": "@atlaskit/code",
-  "version": "9.0.1",
+  "version": "11.0.1",
   "config": {
     "access": "public"
   },
   "description": "Renders inline code snippets and code blocks",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "memoize-one": "^3.0.1",
     "react-syntax-highlighter": "^10.0.1"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "author": "Atlassian Pty. Ltd",
@@ -35,7 +36,8 @@
     "Kang C"
   ],
   "atlaskit": {
-    "name": "Code"
+    "name": "Code",
+    "team": "core"
   },
   "license": "Apache-2.0",
   "repository": {

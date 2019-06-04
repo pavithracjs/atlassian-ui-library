@@ -83,6 +83,8 @@ export type ConnectedLayoutManagerProps = {
   ...$Exact<ExperimentalFeatureFlags>,
   /** The top offset value to be used in navigation */
   topOffset?: number,
+  /** Internal prop which decides which view is active */
+  view?: Object | null,
 };
 
 export type LayoutManagerProps = {

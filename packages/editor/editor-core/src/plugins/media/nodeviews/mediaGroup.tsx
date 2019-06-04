@@ -52,6 +52,7 @@ export default class MediaGroup extends React.Component<
 
   constructor(props: MediaGroupProps) {
     super(props);
+    this.mediaNodes = [];
     this.mediaPluginState = mediaStateKey.getState(props.view.state);
     this.setMediaItems(props);
   }
@@ -173,11 +174,6 @@ class MediaGroupNodeView extends ReactNodeView {
         }}
       />
     );
-  }
-
-  stopEvent(event: Event) {
-    event.preventDefault();
-    return true;
   }
 }
 

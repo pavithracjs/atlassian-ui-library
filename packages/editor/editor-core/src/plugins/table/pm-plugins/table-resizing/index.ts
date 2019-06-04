@@ -1,2 +1,2 @@
-export { createPlugin, pluginKey, ResizeState } from './plugin';
-export { scaleTable } from './actions';
+export { createPlugin, pluginKey } from './plugin';
+export { scaleTable } from './commands';

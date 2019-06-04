@@ -1,23 +1,22 @@
 import { EditorView } from '@atlaskit/media-editor';
-import { deselectItem } from '../../../actions/deselectItem';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-
-import { BinaryUploader } from '../../../../components/types';
+import { deselectItem } from '../../../actions/deselectItem';
 import { State, EditorData, EditorError, FileReference } from '../../../domain';
 import ErrorView from './errorView/errorView';
 import { SpinnerView } from './spinnerView/spinnerView';
 import { Selection, editorClose } from '../../../actions/editorClose';
 import { editorShowError } from '../../../actions/editorShowError';
 import { CenterView } from './styles';
+import { LocalUploadComponent } from '../../../../components/localUpload';
 
 export interface MainEditorViewStateProps {
   readonly editorData?: EditorData;
 }
 
 export interface MainEditorViewOwnProps {
-  readonly binaryUploader: BinaryUploader;
+  readonly localUploader: LocalUploadComponent;
 }
 
 export interface MainEditorViewDispatchProps {
@@ -81,9 +80,11 @@ export class MainEditorView extends Component<MainEditorViewProps> {
   private onEditorSave = (originalFile: FileReference) => (
     image: string,
   ): void => {
-    const { binaryUploader, onDeselectFile, onCloseEditor } = this.props;
+    const { localUploader, onDeselectFile, onCloseEditor } = this.props;
+    const filename = originalFile.name;
+    const file = this.urltoFile(image, filename);
+    localUploader.addFiles([file]);
 
-    binaryUploader.upload(image, originalFile.name);
     onDeselectFile(originalFile.id);
     onCloseEditor('Save');
   };
@@ -91,10 +92,32 @@ export class MainEditorView extends Component<MainEditorViewProps> {
   private onCancel = (): void => {
     this.props.onCloseEditor('Close');
   };
+
+  private urltoFile = (dataurl: string, filename: string): File => {
+    const arr = dataurl.split(',');
+    const matches = arr[0].match(/:(.*?);/);
+
+    if (!matches || matches.length < 2) {
+      throw new Error('Failed to retrieve file from data URL');
+    }
+
+    const mime = matches[1];
+    const bstr = atob(arr[1]);
+
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    const file = new Blob([u8arr], { type: mime }) as any;
+    file.name = filename;
+    return file;
+  };
 }
 
 export default connect<
-  {},
+  MainEditorViewStateProps,
   MainEditorViewDispatchProps,
   MainEditorViewOwnProps,
   State

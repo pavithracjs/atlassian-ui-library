@@ -1,7 +1,8 @@
 {
   "name": "@atlaskit/icon-file-type",
-  "version": "3.0.8",
+  "version": "4.0.2",
   "description": "A React package that contains file-type icons",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -13,32 +14,35 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Icon File Type",
+    "team": "core"
+  },
   "scripts": {
     "update": "node ./build/index.js && yarn build:babel:cjs",
     "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel src -d cjs --root-mode=\"upward\""
   },
   "dependencies": {
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "uuid": "^3.1.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^12.0.3",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/field-text": "^8.0.3",
+    "@atlaskit/button": "^13.0.5",
+    "@atlaskit/docs": "^8.1.1",
+    "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/icon-build-process": "^0.1.0",
-    "@atlaskit/modal-dialog": "^8.0.7",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/tooltip": "^13.0.4",
+    "@atlaskit/modal-dialog": "^10.0.1",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/tooltip": "^14.0.2",
     "enzyme": "^3.7.0",
     "fs-extra": "^4.0.2",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",

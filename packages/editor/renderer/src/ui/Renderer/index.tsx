@@ -42,7 +42,7 @@ export interface Props {
 
 export default class Renderer extends PureComponent<Props, {}> {
   private providerFactory: ProviderFactory;
-  private serializer: ReactSerializer;
+  private serializer?: ReactSerializer;
 
   constructor(props: Props) {
     super(props);
@@ -51,7 +51,10 @@ export default class Renderer extends PureComponent<Props, {}> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.portal !== this.props.portal) {
+    if (
+      nextProps.portal !== this.props.portal ||
+      nextProps.appearance !== this.props.appearance
+    ) {
       this.updateSerializer(nextProps);
     }
   }
@@ -100,7 +103,7 @@ export default class Renderer extends PureComponent<Props, {}> {
     try {
       const { result, stat } = renderDocument(
         document,
-        this.serializer,
+        this.serializer!,
         schema || defaultSchema,
         adfStage,
       );

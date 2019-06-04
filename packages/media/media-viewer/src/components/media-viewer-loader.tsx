@@ -1,32 +1,45 @@
 import * as React from 'react';
-
 import { colors } from '@atlaskit/theme';
 import { ModalSpinner } from '@atlaskit/media-ui';
-import { MediaViewer } from './media-viewer';
+import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
 import { MediaViewerProps } from './types';
 
+type MediaViewerWithContextMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+  MediaViewerProps
+>;
+
+type MediaViewerWithMediaClientConfigComponent = React.ComponentType<
+  MediaViewerWithContextMediaClientConfigProps
+>;
+
 interface AsyncMediaViewerState {
-  MediaViewer?: typeof MediaViewer;
+  MediaViewer?: MediaViewerWithMediaClientConfigComponent;
 }
 
 export default class AsyncMediaViewer extends React.PureComponent<
-  MediaViewerProps & AsyncMediaViewerState,
+  MediaViewerWithContextMediaClientConfigProps & AsyncMediaViewerState,
   AsyncMediaViewerState
 > {
   static displayName = 'AsyncMediaViewer';
-  static MediaViewer?: typeof MediaViewer;
+  static MediaViewer?: MediaViewerWithMediaClientConfigComponent;
 
-  state = {
+  state: AsyncMediaViewerState = {
     // Set state value to equal to current static value of this class.
     MediaViewer: AsyncMediaViewer.MediaViewer,
   };
 
   async componentWillMount() {
     if (!this.state.MediaViewer) {
-      const module = await import(/* webpackChunkName:"@atlaskit-internal_media-viewer" */
-      './media-viewer');
-      AsyncMediaViewer.MediaViewer = module.MediaViewer;
-      this.setState({ MediaViewer: module.MediaViewer });
+      const [mediaClient, mediaViewerModule] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+        import(/* webpackChunkName:"@atlaskit-internal_media-viewer" */ './media-viewer'),
+      ]);
+
+      const MediaViewerWithClient = mediaClient.withMediaClient(
+        mediaViewerModule.MediaViewer,
+      );
+      AsyncMediaViewer.MediaViewer = MediaViewerWithClient;
+      this.setState({ MediaViewer: MediaViewerWithClient });
     }
   }
 

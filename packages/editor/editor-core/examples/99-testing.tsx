@@ -2,17 +2,17 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { EditorView } from 'prosemirror-view';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import {
   cardProvider,
   storyMediaProviderFactory,
   storyContextIdentifierProviderFactory,
   macroProvider,
   customInsertMenuItems,
+  extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
-import { extensionHandlers } from '../example-helpers/extension-handlers';
 import { Editor, EditorProps, EventDispatcher } from './../src';
 import ClipboardHelper from './1-clipboard-helper';
 import { SaveAndCancelButtons } from './5-full-page';

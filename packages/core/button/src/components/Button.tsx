@@ -11,7 +11,7 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../version.json';
-import GlobalTheme from '@atlaskit/theme';
+import GlobalTheme from '@atlaskit/theme/components';
 import { Theme } from '../theme';
 import { mapAttributesToState, filterProps, composeRefs } from './utils';
 import Content from './Content';

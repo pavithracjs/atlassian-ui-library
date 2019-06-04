@@ -19,16 +19,18 @@ export type AlignType = 'left' | 'center' | 'right';
 export type FloatingToolbarButton<T> = {
   type: 'button';
   title: string;
+  showTitle?: boolean;
   onClick: T;
   onMouseEnter?: T;
   onMouseLeave?: T;
-  icon: Icon;
+  icon?: Icon;
   selected?: boolean;
   disabled?: boolean;
   hidden?: boolean;
   appearance?: ButtonAppearance;
   href?: string;
   target?: string;
+  className?: string;
 };
 
 export type FloatingToolbarInput<T> = {
@@ -40,7 +42,7 @@ export type FloatingToolbarInput<T> = {
   hidden?: boolean;
 };
 
-export type FloatingToolbarCustom<T> = {
+export type FloatingToolbarCustom = {
   type: 'custom';
   // No superset of all these types yet
   render: (
@@ -80,7 +82,7 @@ export type FloatingToolbarItem<T> =
   | FloatingToolbarDropdown<T>
   | FloatingToolbarSelect<T>
   | FloatingToolbarInput<T>
-  | FloatingToolbarCustom<T>
+  | FloatingToolbarCustom
   | FloatingToolbarSeparator;
 
 export interface FloatingToolbarConfig {
@@ -101,6 +103,7 @@ export interface FloatingToolbarConfig {
   className?: string;
   height?: number;
   width?: number;
+  offset?: [number, number];
 }
 
 export type FloatingToolbarHandler = (
