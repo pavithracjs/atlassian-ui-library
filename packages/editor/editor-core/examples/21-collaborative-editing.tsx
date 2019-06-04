@@ -185,7 +185,7 @@ export default class Example extends React.Component<Props, State> {
                   emoji.storyData.getEmojiResource() as Promise<EmojiProvider>
                 }
                 mentionProvider={Promise.resolve(
-                  mention.storyData.resourceProvider,
+                  mention.storyData.resourceProviderWithResolver,
                 )}
                 taskDecisionProvider={Promise.resolve(
                   taskDecision.getMockTaskDecisionResource(),
@@ -213,6 +213,7 @@ export default class Example extends React.Component<Props, State> {
                   inviteToEditHandler: this.inviteToEditHandler,
                   isInviteToEditButtonSelected: this.state
                     .isInviteToEditButtonSelected,
+                  sanitizePrivateContent: true,
                   userId,
                 }}
                 placeholder="Write something..."

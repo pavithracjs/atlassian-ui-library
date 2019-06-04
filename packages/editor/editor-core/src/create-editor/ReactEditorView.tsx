@@ -51,6 +51,8 @@ import {
 } from './create-editor';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
+import { JSONDocNode } from '../utils';
+import { sanitizeNodeForPrivacy } from '../utils/filter/privacy-filter';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
@@ -323,6 +325,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     const {
       contentTransformerProvider,
       defaultValue,
+      collabEdit,
     } = options.props.editorProps;
 
     const plugins = createPMPlugins({
@@ -360,6 +363,16 @@ export default class ReactEditorView<T = {}> extends React.Component<
     const patchedSelection = selection
       ? Selection.findFrom(selection.$head, -1, true) || undefined
       : undefined;
+
+    if (doc && collabEdit && collabEdit.sanitizePrivateContent) {
+      doc = PMNode.fromJSON(
+        schema,
+        sanitizeNodeForPrivacy(
+          doc.toJSON() as JSONDocNode,
+          options.props.providerFactory,
+        ),
+      );
+    }
 
     return EditorState.create({
       schema,

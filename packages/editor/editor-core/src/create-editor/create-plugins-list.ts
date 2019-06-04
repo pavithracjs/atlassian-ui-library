@@ -124,7 +124,7 @@ export default function createPluginsList(
   }
 
   if (props.mentionProvider) {
-    plugins.push(mentionsPlugin(createAnalyticsEvent));
+    plugins.push(mentionsPlugin(createAnalyticsEvent, props.collabEdit));
   }
 
   if (props.emojiProvider) {

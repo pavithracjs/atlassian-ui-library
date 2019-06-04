@@ -4,11 +4,18 @@ import {
   p,
   unsupportedInline,
 } from '@atlaskit/editor-test-helpers';
+import { mention as mentionData } from '@atlaskit/util-data-test';
+import { MentionProvider } from '@atlaskit/mention/resource';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
 import collabPlugin from '../../../../plugins/collab-edit';
+import mentionPlugin from '../../../../plugins/mentions';
 
 import { handleInit } from '../../../../plugins/collab-edit/actions';
-import { InitData } from '../../../../plugins/collab-edit/types';
+import {
+  InitData,
+  CollabEditOptions,
+} from '../../../../plugins/collab-edit/types';
 
 const unknownNodesDoc = {
   type: 'doc',
@@ -41,16 +48,48 @@ const unknownNodesDoc = {
   version: 1,
 };
 
+// const privateContentNodesDoc = {
+//   type: 'doc',
+//   content: [
+//     {
+//       type: 'paragraph',
+//       content: [
+//         {
+//           text: 'Bacon ',
+//           type: 'text',
+//         },
+//         {
+//           text: '@cheese',
+//           id: '123',
+//           type: 'mention',
+//         },
+//         {
+//           text: ' ham',
+//           type: 'text',
+//         },
+//       ],
+//     },
+//   ],
+//   version: 1,
+// };
+
 describe('collab-edit: actions', () => {
   const createEditor = createEditorFactory();
+  const mentionProvider: Promise<MentionProvider> = Promise.resolve(
+    mentionData.storyData.resourceProvider,
+  );
+  const providerFactory = ProviderFactory.create({ mentionProvider });
 
-  const editor = (doc: any) => {
+  const editor = (doc: any, collabEdit?: CollabEditOptions) => {
     return createEditor({
       doc,
-      editorPlugins: [collabPlugin],
+      editorPlugins: [collabPlugin, mentionPlugin(undefined, collabEdit)],
       editorProps: {
         allowUnsupportedContent: true,
+        mentionProvider,
+        collabEdit,
       },
+      providerFactory,
     });
   };
 
@@ -79,5 +118,22 @@ describe('collab-edit: actions', () => {
         ),
       );
     });
+
+    // it('should sanitize private content when the sanitizePrivateContent option is enabled.', () => {
+    //   const collabEdit = { allowUnsupportedContent: true, sanitizePrivateContent: true };
+    //   const { editorView } = editor(doc(p('')), collabEdit);
+
+    //   const initData: InitData = {
+    //     doc: privateContentNodesDoc,
+    //   };
+
+    //   handleInit(initData, editorView, collabEdit, providerFactory);
+
+    //   expect(editorView.state.doc.toJSON()).toEqual(
+    //     doc(
+    //       p('Bacon ', mention({ id: '123' })(), ' ham'),
+    //     )(defaultSchema).toJSON(),
+    //   );
+    // });
   });
 });

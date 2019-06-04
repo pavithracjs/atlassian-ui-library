@@ -106,7 +106,25 @@ export class MockCollabEditProvider implements CollabEditProvider {
           content: [
             {
               type: 'text',
-              text: 'Hello World',
+              text: 'Hello World ',
+            },
+            {
+              type: 'mention',
+              attrs: {
+                id: '0',
+                text: '',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+            {
+              type: 'mention',
+              attrs: {
+                id: '1',
+                text: '',
+              },
             },
           ],
         },

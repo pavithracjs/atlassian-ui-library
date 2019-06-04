@@ -8,9 +8,12 @@ import {
   p,
   mediaGroup,
   media,
+  mention,
   defaultSchema,
   storyMediaProviderFactory,
 } from '@atlaskit/editor-test-helpers';
+import { mention as mentionData } from '@atlaskit/util-data-test';
+import { MentionProvider } from '@atlaskit/mention/resource';
 import ReactEditorView from '../../../create-editor/ReactEditorView';
 import { toJSON } from '../../../utils';
 import {
@@ -581,6 +584,76 @@ describe(name, () => {
         dispatch(payload);
         expect(eventDispatcher.emit).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('sanitize private content', () => {
+    const document = doc(
+      p('hello', mention({ id: '1', text: '@cheese' })(), '{endPos}'),
+    )(defaultSchema);
+
+    const mentionProvider: Promise<MentionProvider> = Promise.resolve(
+      mentionData.storyData.resourceProvider,
+    );
+
+    it('mentions should be sanitized when collabEdit.sanitizePrivateContent true', () => {
+      const wrapper = shallow(
+        <ReactEditorView
+          {...requiredProps()}
+          editorProps={{
+            defaultValue: toJSON(document),
+            collabEdit: { sanitizePrivateContent: true },
+            mentionProvider,
+          }}
+          providerFactory={ProviderFactory.create({ mentionProvider })}
+        />,
+      );
+      const { editorState } = wrapper.instance() as ReactEditorView;
+      // Expect document changed with mention text attr empty
+      expect(editorState.doc.toJSON()).toEqual(
+        doc(p('hello', mention({ id: '1' })(), '{endPos}'))(
+          defaultSchema,
+        ).toJSON(),
+      );
+
+      wrapper.unmount();
+    });
+
+    it('mentions should not be sanitized when collabEdit.sanitizePrivateContent false', () => {
+      const wrapper = shallow(
+        <ReactEditorView
+          {...requiredProps()}
+          editorProps={{
+            defaultValue: toJSON(document),
+            collabEdit: { sanitizePrivateContent: false },
+            mentionProvider,
+          }}
+          providerFactory={ProviderFactory.create({ mentionProvider })}
+        />,
+      );
+      const { editorState } = wrapper.instance() as ReactEditorView;
+      // Expect document unchanged
+      expect(editorState.doc.toJSON()).toEqual(document.toJSON());
+
+      wrapper.unmount();
+    });
+
+    it('mentions should not be sanitized when no collabEdit options', () => {
+      const wrapper = shallow(
+        <ReactEditorView
+          {...requiredProps()}
+          editorProps={{
+            defaultValue: toJSON(document),
+            mentionProvider,
+          }}
+          providerFactory={ProviderFactory.create({ mentionProvider })}
+        />,
+      );
+      const { editorState } = wrapper.instance() as ReactEditorView;
+      // Expect document unchanged
+      expect(editorState.doc.toJSON()).toEqual(document.toJSON());
+
+      wrapper.unmount();
     });
   });
 });

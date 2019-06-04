@@ -9,6 +9,7 @@ import {
 import {
   MentionProvider,
   isSpecialMention,
+  isResolvingMentionProvider,
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
@@ -52,6 +53,7 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
+import { CollabEditOptions } from '../collab-edit';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -61,6 +63,7 @@ export interface TeamInfoAttrAnalytics {
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  collabEditOptions?: CollabEditOptions,
 ): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
@@ -205,6 +208,9 @@ const mentionsPlugin = (
 
           const pluginState = getMentionPluginState(state);
           const { mentionProvider } = pluginState;
+          const sanitizePrivateContent = !!(
+            collabEditOptions && collabEditOptions.sanitizePrivateContent
+          );
           const { id, name, nickname, accessLevel, userType } = item.mention;
           const renderName = nickname ? nickname : name;
           const typeAheadPluginState = typeAheadPluginKey.getState(
@@ -255,12 +261,30 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
-            return insert(buildNodesForTeamMention(schema, item.mention));
+            return insert(
+              buildNodesForTeamMention(
+                schema,
+                item.mention,
+                sanitizePrivateContent,
+                mentionProvider,
+              ),
+            );
+          }
+
+          // Don't insert into document if document data is sanitized.
+          const text = sanitizePrivateContent ? '' : `@${renderName}`;
+
+          if (
+            sanitizePrivateContent &&
+            isResolvingMentionProvider(mentionProvider)
+          ) {
+            // Cache (locally) for later rendering
+            mentionProvider.cacheMentionName(id, renderName);
           }
 
           return insert(
             schema.nodes.mention.createChecked({
-              text: `@${renderName}`,
+              text,
               id,
               accessLevel,
               userType: userType === 'DEFAULT' ? null : userType,
@@ -397,6 +421,7 @@ function mentionPluginFactory(
               mentionProvider: params.provider,
             };
             dispatch(mentionPluginKey, newPluginState);
+
             return newPluginState;
 
           case ACTIONS.SET_RESULTS:
@@ -545,6 +570,8 @@ function mentionPluginFactory(
 function buildNodesForTeamMention(
   schema: Schema,
   selectedMention: MentionDescription,
+  sanitizePrivateContent: boolean,
+  mentionProvider: MentionProvider,
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
@@ -560,7 +587,12 @@ function buildNodesForTeamMention(
   const members: TeamMember[] =
     context && context.members ? context.members : [];
   members.forEach((member: TeamMember, index) => {
-    const text = `@${member.name}`;
+    const { name, id } = member;
+    const mentionName = `@${name}`;
+    const text = sanitizePrivateContent ? '' : mentionName;
+    if (sanitizePrivateContent && isResolvingMentionProvider(mentionProvider)) {
+      mentionProvider.cacheMentionName(id, name);
+    }
     const userMentionNode = nodes.mention.createChecked({
       text,
       id: member.id,
