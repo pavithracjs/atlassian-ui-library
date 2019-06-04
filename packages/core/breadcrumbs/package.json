@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/breadcrumbs",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "description": "A component used for navigation, with each item acting as a link",
   "license": "Apache-2.0",
   "module": "index.js",
