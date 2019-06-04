@@ -70,8 +70,7 @@ export class InlinePlayer extends Component<
 
             if (value instanceof Blob && value.type.indexOf('video/') === 0) {
               const fileSrc = URL.createObjectURL(value);
-              this.setState({ fileSrc });
-              window.setTimeout(this.unsubscribe, 0);
+              this.setFileSrc(fileSrc);
               return;
             }
           }
@@ -80,6 +79,7 @@ export class InlinePlayer extends Component<
             const artifactName = getPreferredVideoArtifact(state);
             const { artifacts } = state;
             if (!artifactName || !artifacts) {
+              this.setBinaryURL();
               return;
             }
 
@@ -90,8 +90,7 @@ export class InlinePlayer extends Component<
                 collectionName,
               );
 
-              this.setState({ fileSrc });
-              window.setTimeout(this.unsubscribe, 0);
+              this.setFileSrc(fileSrc);
             } catch (error) {
               const { onError } = this.props;
 
@@ -99,19 +98,36 @@ export class InlinePlayer extends Component<
                 onError(error);
               }
             }
-          } else {
-            try {
-              const fileSrc = await context.file.getFileBinaryURL(
-                state.id,
-                collectionName,
-              );
-
-              this.setState({ fileSrc });
-            } catch (e) {}
           }
+          // TODO: do we need this?
+          // else {
+          //   this.setBinaryURL();
+          // }
         },
       });
   }
+
+  setFileSrc = (fileSrc: string) => {
+    this.setState({ fileSrc });
+    window.setTimeout(this.unsubscribe, 0);
+  };
+
+  // Tries to use the binary artifact to provide something to play while the video is still processing
+  setBinaryURL = async () => {
+    const { mediaClient, identifier } = this.props;
+    const { id, collectionName } = identifier;
+    const resolvedId = await id;
+    try {
+      const fileSrc = await mediaClient.file.getFileBinaryURL(
+        resolvedId,
+        collectionName,
+      );
+
+      this.setFileSrc(fileSrc);
+    } catch (e) {
+      console.log('error while trying to access video url', resolvedId, e);
+    }
+  };
 
   unsubscribe = () => {
     if (this.subscription) {
