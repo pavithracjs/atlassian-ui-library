@@ -1,0 +1,1 @@
+Added tooltip and hover state to close button. Updated panel width
