@@ -7,6 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Field range server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('field-range')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

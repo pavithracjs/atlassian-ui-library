@@ -7,6 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Analytics-next server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('analytics-next')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

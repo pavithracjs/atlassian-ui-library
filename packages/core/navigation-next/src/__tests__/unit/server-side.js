@@ -23,6 +23,7 @@ const exampleName = (file: string) =>
     .replace('.js', '');
 
 test('navigation-next server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('navigation-next')).forEach(
     async (examples: { filePath: string }) => {
       if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {

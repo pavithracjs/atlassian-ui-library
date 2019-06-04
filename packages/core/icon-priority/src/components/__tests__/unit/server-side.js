@@ -7,6 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Icon priority server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('icon-priority')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

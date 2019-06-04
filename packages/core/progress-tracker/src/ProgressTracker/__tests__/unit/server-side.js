@@ -7,6 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Progress tracker server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('progress-tracker')).forEach(
     async (examples: { filePath: string }) => {
       if (!examples.filePath.includes('custom')) {

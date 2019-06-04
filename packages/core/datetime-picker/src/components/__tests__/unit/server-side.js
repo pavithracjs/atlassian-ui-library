@@ -7,6 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Datetime picker server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('datetime-picker')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

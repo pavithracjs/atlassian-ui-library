@@ -7,6 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Inline dialog server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('inline-dialog')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

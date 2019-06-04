@@ -7,6 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Navigation server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('navigation')).forEach(
     async (examples: { filePath: string }) => {
       if (!examples.filePath.includes('react-router')) {

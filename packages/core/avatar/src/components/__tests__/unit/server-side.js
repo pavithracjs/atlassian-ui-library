@@ -8,6 +8,7 @@ import ReactDOMServer from 'react-dom/server';
 import Avatar from '../../../index';
 
 test('Avatar server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('avatar')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

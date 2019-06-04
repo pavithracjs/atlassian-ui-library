@@ -8,6 +8,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Dropdown menu server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('dropdown-menu')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

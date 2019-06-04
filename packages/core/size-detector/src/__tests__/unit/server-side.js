@@ -8,6 +8,7 @@ import ReactDOMServer from 'react-dom/server';
 import SizeDetector from '../..';
 
 test('SizeDetector server side rendering', async done => {
+  // $FlowFixMe
   (await getExamplesFor('size-detector')).forEach(
     async (examples: { filePath: string }) => {
       // $StringLitteral

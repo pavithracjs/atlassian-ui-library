@@ -11,6 +11,7 @@ afterEach(() => {
 });
 
 test('should ssr then hydrate datetime-picker correctly', async done => {
+  // $FlowFixMe
   const [example] = await getExamplesFor('datetime-picker');
   // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
