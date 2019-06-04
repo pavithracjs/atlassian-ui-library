@@ -7,8 +7,8 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 
 test('media-filmstrip server side rendering', async done => {
   (await getExamplesFor('media-filmstrip')).forEach(
-    (examples: { filePath: string }) => {
-      const Example = require(examples.filePath).default;
+    async (examples: { filePath: string }) => {
+      const Example = await require(examples.filePath).default;
 
       expect(() =>
         ReactDOMServer.renderToString(<Example />),

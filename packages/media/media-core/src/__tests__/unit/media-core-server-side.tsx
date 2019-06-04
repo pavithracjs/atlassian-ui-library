@@ -27,7 +27,5 @@ class Example extends Component {
 }
 
 test('media-core context server side rendering', async () => {
-  expect(async () =>
-    ReactDOMServer.renderToString(<Example />),
-  ).not.toThrowError();
+  expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
 });

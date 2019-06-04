@@ -7,12 +7,14 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Layer manager server side rendering', async done => {
-  (await getExamplesFor('layer-manager')).forEach(async (examples: any) => {
-    // $StringLitteral
-    const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(async () =>
-      ReactDOMServer.renderToString(<Example />),
-    ).not.toThrowError();
-  });
+  (await getExamplesFor('layer-manager')).forEach(
+    async (examples: { filePath: string }) => {
+      // $StringLitteral
+      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+      expect(() =>
+        ReactDOMServer.renderToString(<Example />),
+      ).not.toThrowError();
+    },
+  );
   done();
 });

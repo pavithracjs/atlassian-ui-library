@@ -6,7 +6,5 @@ import * as ReactDOMServer from 'react-dom/server';
 import Example from '../../../examples/4-avatar-picker-with-predefined-avatar';
 
 test('media-avatar-picker server side rendering', async () => {
-  expect(async () =>
-    ReactDOMServer.renderToString(<Example />),
-  ).not.toThrowError();
+  expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
 });

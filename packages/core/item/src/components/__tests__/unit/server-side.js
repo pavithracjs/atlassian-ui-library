@@ -7,15 +7,17 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Item server side rendering', async done => {
-  (await getExamplesFor('item')).forEach(async (examples: any) => {
-    if (!examples.filePath.includes('item-story')) {
-      /* item story example contains import on react-router-dom */
-      // $StringLitteral
-      const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    }
-  });
+  (await getExamplesFor('item')).forEach(
+    async (examples: { filePath: string }) => {
+      if (!examples.filePath.includes('item-story')) {
+        /* item story example contains import on react-router-dom */
+        // $StringLitteral
+        const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+        expect(() =>
+          ReactDOMServer.renderToString(<Example />),
+        ).not.toThrowError();
+      }
+    },
+  );
   done();
 });

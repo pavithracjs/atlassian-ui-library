@@ -23,14 +23,16 @@ const exampleName = (file: string) =>
     .replace('.js', '');
 
 test('navigation-next server side rendering', async done => {
-  (await getExamplesFor('navigation-next')).forEach(async (examples: any) => {
-    if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {
-      // $StringLitteral
-      const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    }
-  });
+  (await getExamplesFor('navigation-next')).forEach(
+    async (examples: { filePath: string }) => {
+      if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {
+        // $StringLitteral
+        const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+        expect(() =>
+          ReactDOMServer.renderToString(<Example />),
+        ).not.toThrowError();
+      }
+    },
+  );
   done();
 });

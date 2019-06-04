@@ -8,10 +8,10 @@ import ReactDOMServer from 'react-dom/server';
 
 test('Field text server side rendering', async done => {
   (await getExamplesFor('@atlaskit/textfield')).forEach(
-    async (examples: any) => {
+    async (examples: { filePath: string }) => {
       // $StringLitteral
-      const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(async () =>
+      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+      expect(() =>
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();
     },

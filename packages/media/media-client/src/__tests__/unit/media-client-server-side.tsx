@@ -28,8 +28,8 @@ class Example extends React.Component {
 
 test('media-client server side rendering of project examples', async () => {
   (await getExamplesFor('media-client')).forEach(
-    (examples: { filePath: string }) => {
-      const Example = require(examples.filePath).default;
+    async (examples: { filePath: string }) => {
+      const Example = await require(examples.filePath).default;
 
       expect(() =>
         ReactDOMServer.renderToString(<Example />),
@@ -39,7 +39,5 @@ test('media-client server side rendering of project examples', async () => {
 });
 
 test('media-client server side rendering of simple component', () => {
-  expect(async () =>
-    ReactDOMServer.renderToString(<Example />),
-  ).not.toThrowError();
+  expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
 });
