@@ -1,1 +1,0 @@
-ED-5671 Expose media tapping via renderer bridge so that iOS/Android apps can display the selected item in their native media viewers
