@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.10
+
+### Patch Changes
+
+- [patch][349c4354c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/349c4354c6):
+
+  ED-6999 Fix issues where horizontal scroll bar could appear on page in full-width mode when using tables or code blocks
+
 ## 112.11.9
 
 ### Patch Changes

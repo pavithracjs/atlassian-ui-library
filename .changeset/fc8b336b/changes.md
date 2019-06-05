@@ -1,1 +1,0 @@
-ED-6999 Fix issues where horizontal scroll bar could appear on page in full-width mode when using tables or code blocks
