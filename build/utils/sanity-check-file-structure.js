@@ -25,13 +25,14 @@ const { readFile, readdir } = require('./fs');
 Does your package have a path that shouldn't be distributed?
 Cool just add it to the exception list
  */
-// TODO: Marco: we may add another check to see if the components folder is generated.
+// TODO: Marco: Do we need to add another check to see if the components folder is generated.
 const exceptionList = [
   '__tests__',
   '@types',
   'components',
   'themes',
   'Lozenge',
+  'Spinner',
 ];
 
 const main = async () => {
@@ -52,7 +53,11 @@ const main = async () => {
   const missing = src
     .filter(fileName => !exceptionList.includes(fileName))
     .map(fileName => fileName)
-    .filter(fileName => !root.includes(fileName.replace(/\.tsx?/, '')));
+    .filter(
+      fileName =>
+        !fileName.includes('version.json') &&
+        !root.includes(fileName.replace(/\.tsx?/, '')),
+    );
 
   if (missing.length > 0) {
     throw new Error(

@@ -16,12 +16,7 @@ const fs = require('fs');
 (async () => {
   const packages = await bolt.getWorkspaces();
   const pkgContents = packages
-    .filter(
-      pkg =>
-        pkg.dir.includes('/packages') &&
-        pkg.config.atlaskit &&
-        !pkg.config.atlaskit.internal,
-    )
+    .filter(pkg => pkg.dir.includes('/packages'))
     .map(pkg => {
       return {
         name: pkg.name,
