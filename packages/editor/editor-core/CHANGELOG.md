@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.11
+
+### Patch Changes
+
+- [patch][9886f4afa1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9886f4afa1):
+
+  - [ED-7017] Improve table performance removing cellView from table
+
 ## 112.11.10
 
 ### Patch Changes
