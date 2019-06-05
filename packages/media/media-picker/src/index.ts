@@ -16,8 +16,8 @@ import {
   Dropzone,
 } from './components/types';
 
+import { Context, MediaClientConfig } from '@atlaskit/media-core';
 import { getMediaClient } from '@atlaskit/media-client';
-import { Context } from '@atlaskit/media-core';
 
 export const isBrowser = (component: any): component is Browser =>
   component && 'browse' in component && 'teardown' in component;
@@ -73,34 +73,41 @@ export interface ComponentConfigs {
 
 export { BrowserConstructor, DropzoneConstructor, PopupConstructor };
 
+function isContext(
+  thisOrThat: Context | MediaClientConfig,
+): thisOrThat is Context {
+  return !!(thisOrThat as Context).collection;
+}
+
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
-  context: Context,
+  contextOrMediaClientConfig: Context | MediaClientConfig,
   pickerConfig?: ComponentConfigs[K],
 ): Promise<MediaPickerComponents[K]> {
+  const contextOrMediaClientConfigObject = isContext(contextOrMediaClientConfig)
+    ? { context: contextOrMediaClientConfig }
+    : { mediaClientConfig: contextOrMediaClientConfig };
+  const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
   switch (componentName) {
     case 'browser':
       const {
         BrowserImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
-      return new BrowserImpl(getMediaClient({ context }), pickerConfig as
+      return new BrowserImpl(mediaClient, pickerConfig as
         | BrowserConfig
         | undefined);
     case 'dropzone':
       const {
         DropzoneImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone');
-      return new DropzoneImpl(getMediaClient({ context }), pickerConfig as
+      return new DropzoneImpl(mediaClient, pickerConfig as
         | DropzoneConfig
         | undefined);
     case 'popup':
       const {
         PopupImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-popup" */ './components/popup');
-      return new PopupImpl(
-        getMediaClient({ context }),
-        pickerConfig as PopupConfig,
-      );
+      return new PopupImpl(mediaClient, pickerConfig as PopupConfig);
     default:
       throw new Error(`The component ${componentName} does not exist`);
   }

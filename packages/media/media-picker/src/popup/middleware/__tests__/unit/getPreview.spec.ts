@@ -33,7 +33,7 @@ describe('getPreviewMiddleware', () => {
   };
 
   const defaultFileState: FileState = {
-    status: 'processed',
+    status: 'processing',
     id: '123',
     name: 'file-name',
     size: 10,
@@ -61,10 +61,7 @@ describe('getPreviewMiddleware', () => {
     );
     asMockReturnValue(
       userMediaClient.file.getFileState,
-      Observable.of({
-        ...defaultFileState,
-        status: 'processing',
-      }),
+      Observable.of(defaultFileState),
     );
     asMockReturnValue(
       userMediaClient.getImageMetadata,
