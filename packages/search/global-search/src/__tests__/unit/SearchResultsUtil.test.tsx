@@ -58,6 +58,11 @@ describe('JiraIssueAdvancedSearchUrl for issue', () => {
     expect(issueUrl).toBe('/secure/QuickSearch.jspa?searchString=');
   });
 
+  it('should return quick search url', () => {
+    const issueUrl = getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, 'abc');
+    expect(issueUrl).toBe('/secure/QuickSearch.jspa?searchString=abc');
+  });
+
   ['12', ' 33 '].forEach(query => {
     it('should return GIN url with numeric queries', () => {
       const issueUrl = getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, query);
