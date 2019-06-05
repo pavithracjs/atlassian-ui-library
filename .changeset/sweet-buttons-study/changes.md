@@ -1,0 +1,1 @@
+Move @types/react-router-dom to devDependencies
