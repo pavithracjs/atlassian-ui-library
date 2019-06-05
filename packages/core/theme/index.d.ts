@@ -5,7 +5,7 @@ declare module '@atlaskit/theme' {
   export const codeFontFamily: () => string;
   export const noFocusRing: () => string;
   export const focusRing: (color: string, outlineWidth: number) => string;
-  export const colors: Record<string, string>;
+  export const colors: Record<string, any>;
   export const elevation: any;
   export const fontFamily: any;
   export const fontSize: any;

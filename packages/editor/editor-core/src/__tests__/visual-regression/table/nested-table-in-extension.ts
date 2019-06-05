@@ -1,6 +1,7 @@
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import tableInExtAdf from './__fixtures__/nested-table-inside-bodied-ext.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
 import messages from '../../../messages';
 
@@ -33,7 +34,7 @@ describe('Snapshot Test: Nested table inside bodied extension', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   describe('resizing table when changing breakout mode', () => {

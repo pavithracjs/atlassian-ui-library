@@ -12,7 +12,7 @@ import { appearanceForNodeType } from '../utils';
 
 import { Command } from '../../../types';
 import { processRawValue, nodesBetweenChanged } from '../../../utils';
-import { Schema, Node } from 'prosemirror-model';
+import { Schema, Node, Fragment } from 'prosemirror-model';
 import { md } from '../../paste/pm-plugins/main';
 import { closeHistory } from 'prosemirror-history';
 import {
@@ -23,6 +23,19 @@ import {
   EVENT_TYPE,
 } from '../../../plugins/analytics';
 import { SmartLinkNodeContext } from '../../analytics/types/smart-links';
+import { safeInsert } from 'prosemirror-utils';
+
+export function insertCard(tr: Transaction, cardAdf: Node, schema: Schema) {
+  const { inlineCard } = schema.nodes;
+
+  // ED-5638: add an extra space after inline cards to avoid re-rendering them
+  const nodes = [cardAdf];
+  if (cardAdf.type === inlineCard) {
+    nodes.push(schema.text(' '));
+  }
+
+  return safeInsert(Fragment.fromArray(nodes))(tr);
+}
 
 /**
  * Attempt to replace the link into the respective card.
