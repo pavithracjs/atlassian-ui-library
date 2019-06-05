@@ -20,6 +20,13 @@ import {
 } from '../../utils/colors';
 import { TableCellContent } from './doc';
 
+export const tablePrefixSelector = 'pm-table';
+
+export const tableCellSelector = `${tablePrefixSelector}-cell-content-wrap`;
+export const tableHeaderSelector = `${tablePrefixSelector}-header-content-wrap`;
+export const tableCellContentWrapperSelector = `${tablePrefixSelector}-cell-nodeview-wrapper`;
+export const tableCellContentDomSelector = `${tablePrefixSelector}-cell-nodeview-content-dom`;
+
 const akEditorTableNumberColumnWidth = 42;
 const DEFAULT_TABLE_HEADER_CELL_BACKGROUND = N20.toLocaleLowerCase();
 
@@ -52,7 +59,9 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
     rowspan?: number;
     style?: string;
     'data-colwidth'?: string;
+    class?: string;
   } = {};
+  const nodeType = node.type.name;
   const colspan = cell ? parseInt(cell.getAttribute('colspan') || '1', 10) : 1;
   const rowspan = cell ? parseInt(cell.getAttribute('rowspan') || '1', 10) : 1;
 
@@ -68,7 +77,6 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
   }
   if (node.attrs.background) {
     const { background } = node.attrs;
-    const nodeType = node.type.name;
 
     // to ensure that we don't overwrite product's style:
     // - it clears background color for <th> if its set to gray
@@ -86,6 +94,12 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
 
       attrs.style = `${attrs.style || ''}background-color: ${color};`;
     }
+  }
+
+  if (nodeType === 'tableHeader') {
+    attrs.class = tableHeaderSelector;
+  } else {
+    attrs.class = tableCellSelector;
   }
 
   return attrs;
@@ -260,6 +274,16 @@ const cellAttrs = {
   background: { default: null },
 };
 
+const createCellDOM = (cellHtmlTagType: 'th' | 'td', node: PmNode) => {
+  const cellContentDOMStructure = [
+    'div',
+    { class: tableCellContentWrapperSelector },
+    ['div', { class: tableCellContentDomSelector }, 0],
+  ];
+
+  return [cellHtmlTagType, setCellAttrs(node), cellContentDOMStructure];
+};
+
 export const tableCell = {
   content:
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock |  mediaGroup | mediaSingle | applicationCard | decisionList | taskList | blockCard | extension | unsupportedBlock)+',
@@ -278,9 +302,7 @@ export const tableCell = {
       getAttrs: (dom: HTMLElement) => getCellAttrs(dom),
     },
   ],
-  toDOM(node: PmNode) {
-    return ['td', setCellAttrs(node), 0];
-  },
+  toDOM: (node: PmNode) => createCellDOM('td', node),
 };
 
 export const toJSONTableCell = (node: PmNode) => ({
@@ -309,9 +331,8 @@ export const tableHeader = {
         getCellAttrs(dom, { background: DEFAULT_TABLE_HEADER_CELL_BACKGROUND }),
     },
   ],
-  toDOM(node: PmNode) {
-    return ['th', setCellAttrs(node), 0];
-  },
+
+  toDOM: (node: PmNode) => createCellDOM('th', node),
 };
 
 export const toJSONTableHeader = toJSONTableCell;

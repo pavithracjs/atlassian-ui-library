@@ -1,0 +1,1 @@
+- [ED-7017] Improve table performance removing cellView from table
