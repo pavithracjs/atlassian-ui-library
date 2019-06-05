@@ -52,7 +52,7 @@ function getMousePosition(
   };
 }
 
-interface IProps {
+interface Props {
   /** The content of the tooltip */
   content: React.ReactNode;
   /** Extend `TooltipPrimitive` to create your own tooptip and pass it as component */
@@ -103,7 +103,7 @@ interface IProps {
   truncate?: boolean;
 }
 
-interface IState {
+interface State {
   immediatelyHide: boolean;
   immediatelyShow: boolean;
   isVisible: boolean;
@@ -132,9 +132,9 @@ const hideTooltip = (fn: (flushed: boolean) => void, defaultDelay: number) => {
   return pendingHide.cancel;
 };
 
-class Tooltip extends React.Component<IProps, IState> {
+class Tooltip extends React.Component<Props, State> {
   static defaultProps: Pick<
-    IProps,
+    Props,
     'component' | 'delay' | 'mousePosition' | 'position' | 'tag'
   > = {
     component: StyledTooltip,
@@ -144,12 +144,11 @@ class Tooltip extends React.Component<IProps, IState> {
     tag: 'div',
   };
 
-  // TODO: why null? can it be changed to `undefined`?
-  wrapperRef: HTMLElement | null = null;
+  wrapperRef?: HTMLElement;
 
-  targetRef: HTMLElement | null = null;
+  targetRef?: HTMLElement;
 
-  fakeMouseElement: FakeMouseElement | null = null;
+  fakeMouseElement?: FakeMouseElement;
 
   cancelPendingSetState = () => {};
 
@@ -166,7 +165,7 @@ class Tooltip extends React.Component<IProps, IState> {
     this.removeScrollListener();
   }
 
-  componentDidUpdate(prevProps: IProps, prevState: IState) {
+  componentDidUpdate(_prevProps: Props, prevState: State) {
     if (!prevState.isVisible && this.state.isVisible) {
       if (this.props.onShow) this.props.onShow();
 
