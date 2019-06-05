@@ -16,15 +16,20 @@ const Table = ({
         { key: 'new location', content: 'New location' },
       ],
     }}
-    rows={Object.entries(changedValues).map(([oldLocation, newLocation]) => ({
-      // $FlowFixMe
-      key: oldLocation + newLocation,
-      cells: [
-        { key: oldLocation, content: <code>{oldLocation}</code> },
-        // $FlowFixMe
-        { key: newLocation, content: <code>{newLocation}</code> },
-      ],
-    }))}
+    // Previously used Object.entries and extractcted out key/value as oldLocation, newLocation
+    // Current ts compiler does not have "es2017.object"
+    rows={Object.keys(changedValues).map(oldLocation => {
+      return {
+        key: oldLocation + changedValues[oldLocation],
+        cells: [
+          { key: oldLocation, content: <code>{oldLocation}</code> },
+          {
+            key: changedValues[oldLocation],
+            content: <code>{changedValues[oldLocation]}</code>,
+          },
+        ],
+      };
+    })}
   />
 );
 
