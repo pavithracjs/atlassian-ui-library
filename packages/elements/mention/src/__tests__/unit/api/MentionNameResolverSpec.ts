@@ -39,7 +39,7 @@ describe('MentionNameResolver', () => {
       name: 'bacon',
       status: MentionNameStatus.OK,
     });
-    expect(mentionNameClientMock.lookupMentionNames).toHaveBeenCalledTimes(0);
+    expect(lookupMentionNames).toHaveBeenCalledTimes(0);
   });
 
   it('lookup when not cached, and found in client', done => {
@@ -53,28 +53,27 @@ describe('MentionNameResolver', () => {
       ]),
     );
     const namePromise = mentionNameResolver.lookupName('cheese');
+    jest.runAllTimers();
     if (isPromise(namePromise)) {
-      namePromise.then(name => {
-        expect(name).toEqual({
-          id: 'cheese',
-          name: 'bacon',
-          status: MentionNameStatus.OK,
-        });
-        expect(mentionNameClientMock.lookupMentionNames).toHaveBeenCalledTimes(
-          1,
-        );
-        // Ensure cached
-        const name2 = mentionNameResolver.lookupName('cheese');
-        expect(name2).toEqual({
-          id: 'cheese',
-          name: 'bacon',
-          status: MentionNameStatus.OK,
-        });
-        expect(mentionNameClientMock.lookupMentionNames).toHaveBeenCalledTimes(
-          1,
-        );
-        done();
-      });
+      namePromise
+        .then(name => {
+          expect(name).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          // Ensure cached
+          const name2 = mentionNameResolver.lookupName('cheese');
+          expect(name2).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          done();
+        })
+        .catch(err => fail(`Promise was rejected ${err}`));
     } else {
       fail(
         `Return type of lookupName is not a Promise, but a ${typeof namePromise}`,
@@ -92,17 +91,18 @@ describe('MentionNameResolver', () => {
       ]),
     );
     const namePromise = mentionNameResolver.lookupName('cheese');
+    jest.runAllTimers();
     if (isPromise(namePromise)) {
-      namePromise.then(name => {
-        expect(name).toEqual({
-          id: 'cheese',
-          status: MentionNameStatus.UNKNOWN,
-        });
-        expect(mentionNameClientMock.lookupMentionNames).toHaveBeenCalledTimes(
-          1,
-        );
-        done();
-      });
+      namePromise
+        .then(name => {
+          expect(name).toEqual({
+            id: 'cheese',
+            status: MentionNameStatus.UNKNOWN,
+          });
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          done();
+        })
+        .catch(err => fail(`Promise was rejected ${err}`));
     } else {
       fail(
         `Return type of lookupName is not a Promise, but a ${typeof namePromise}`,
@@ -120,17 +120,18 @@ describe('MentionNameResolver', () => {
       ]),
     );
     const namePromise = mentionNameResolver.lookupName('cheese');
+    jest.runAllTimers();
     if (isPromise(namePromise)) {
-      namePromise.then(name => {
-        expect(name).toEqual({
-          id: 'cheese',
-          status: MentionNameStatus.SERVICE_ERROR,
-        });
-        expect(mentionNameClientMock.lookupMentionNames).toHaveBeenCalledTimes(
-          1,
-        );
-        done();
-      });
+      namePromise
+        .then(name => {
+          expect(name).toEqual({
+            id: 'cheese',
+            status: MentionNameStatus.SERVICE_ERROR,
+          });
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          done();
+        })
+        .catch(err => fail(`Promise was rejected ${err}`));
     } else {
       fail(
         `Return type of lookupName is not a Promise, but a ${typeof namePromise}`,
@@ -141,17 +142,18 @@ describe('MentionNameResolver', () => {
   it('lookup when not cached, and error in client', done => {
     lookupMentionNames.mockReturnValue(Promise.reject('bad times'));
     const namePromise = mentionNameResolver.lookupName('cheese');
+    jest.runAllTimers();
     if (isPromise(namePromise)) {
-      namePromise.then(name => {
-        expect(name).toEqual({
-          id: 'cheese',
-          status: MentionNameStatus.SERVICE_ERROR,
-        });
-        expect(mentionNameClientMock.lookupMentionNames).toHaveBeenCalledTimes(
-          1,
-        );
-        done();
-      });
+      namePromise
+        .then(name => {
+          expect(name).toEqual({
+            id: 'cheese',
+            status: MentionNameStatus.SERVICE_ERROR,
+          });
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          done();
+        })
+        .catch(err => fail(`Promise was rejected ${err}`));
     } else {
       fail(
         `Return type of lookupName is not a Promise, but a ${typeof namePromise}`,
@@ -160,14 +162,222 @@ describe('MentionNameResolver', () => {
   });
 
   it('lookup when not cached, exceed batch size', done => {
+    lookupMentionNames.mockReturnValueOnce(
+      Promise.resolve([
+        {
+          id: 'cheese',
+          name: 'bacon',
+          status: MentionNameStatus.OK,
+        },
+        {
+          id: 'ham',
+          name: 'mustard',
+          status: MentionNameStatus.OK,
+        },
+      ]),
+    );
+    lookupMentionNames.mockReturnValueOnce(
+      Promise.resolve([
+        {
+          id: 'mighty',
+          name: 'mouse',
+          status: MentionNameStatus.OK,
+        },
+      ]),
+    );
+    lookupMentionNames.mockRejectedValue('unexpected call');
+    const promises = [
+      mentionNameResolver.lookupName('cheese'),
+      mentionNameResolver.lookupName('ham'),
+      mentionNameResolver.lookupName('mighty'),
+    ];
+
+    jest.runAllTimers();
+
+    if (promises.every(p => isPromise(p))) {
+      Promise.all(promises)
+        .then(names => {
+          expect(lookupMentionNames).toHaveBeenCalledTimes(2);
+          expect(lookupMentionNames).toHaveBeenNthCalledWith(1, [
+            'cheese',
+            'ham',
+          ]);
+          expect(lookupMentionNames).toHaveBeenNthCalledWith(2, ['mighty']);
+          expect(names[0]).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(names[1]).toEqual({
+            id: 'ham',
+            name: 'mustard',
+            status: MentionNameStatus.OK,
+          });
+          expect(names[2]).toEqual({
+            id: 'mighty',
+            name: 'mouse',
+            status: MentionNameStatus.OK,
+          });
+          // Ensure all cached (return value not promise)
+          let cachedName = mentionNameResolver.lookupName('cheese');
+          expect(cachedName).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          cachedName = mentionNameResolver.lookupName('ham');
+          expect(cachedName).toEqual({
+            id: 'ham',
+            name: 'mustard',
+            status: MentionNameStatus.OK,
+          });
+          cachedName = mentionNameResolver.lookupName('mighty');
+          expect(cachedName).toEqual({
+            id: 'mighty',
+            name: 'mouse',
+            status: MentionNameStatus.OK,
+          });
+          done();
+        })
+        .catch(err => {
+          fail(`Promises were rejected ${err}`);
+        });
+    } else {
+      fail(
+        `Return type of lookupName is not a Promise, but a ${promises.map(
+          p => typeof p,
+        )}`,
+      );
+    }
     done();
   });
 
   it('lookup twice when not cached, only one call to client, but both callbacks', done => {
+    lookupMentionNames.mockReturnValue(
+      Promise.resolve([
+        {
+          id: 'cheese',
+          name: 'bacon',
+          status: MentionNameStatus.OK,
+        },
+      ]),
+    );
+    const promises = [
+      mentionNameResolver.lookupName('cheese'),
+      mentionNameResolver.lookupName('cheese'),
+    ];
+
+    jest.runAllTimers();
+
+    if (promises.every(p => isPromise(p))) {
+      Promise.all(promises)
+        .then(names => {
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          expect(lookupMentionNames).toHaveBeenNthCalledWith(1, ['cheese']);
+          expect(names[0]).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(names[1]).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          // Ensure all cached (return value not promise)
+          let cachedName = mentionNameResolver.lookupName('cheese');
+          expect(cachedName).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          cachedName = mentionNameResolver.lookupName('cheese');
+          expect(cachedName).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          done();
+        })
+        .catch(err => {
+          fail(`Promises were rejected ${err}`);
+        });
+    } else {
+      fail(
+        `Return type of lookupName is not a Promise, but a ${promises.map(
+          p => typeof p,
+        )}`,
+      );
+    }
     done();
   });
 
   it("processes queue if it's reached the queue limit", done => {
+    lookupMentionNames.mockReturnValueOnce(
+      Promise.resolve([
+        {
+          id: 'cheese',
+          name: 'bacon',
+          status: MentionNameStatus.OK,
+        },
+        {
+          id: 'ham',
+          name: 'mustard',
+          status: MentionNameStatus.OK,
+        },
+      ]),
+    );
+    lookupMentionNames.mockRejectedValue('unexpected call');
+    const promises = [
+      mentionNameResolver.lookupName('cheese'),
+      mentionNameResolver.lookupName('ham'),
+    ];
+
+    // No need to run timers - should occur immediately
+
+    if (promises.every(p => isPromise(p))) {
+      Promise.all(promises)
+        .then(names => {
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          expect(lookupMentionNames).toHaveBeenNthCalledWith(1, [
+            'cheese',
+            'ham',
+          ]);
+          expect(names[0]).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(names[1]).toEqual({
+            id: 'ham',
+            name: 'mustard',
+            status: MentionNameStatus.OK,
+          });
+          // Ensure all cached (return value not promise)
+          let cachedName = mentionNameResolver.lookupName('cheese');
+          expect(cachedName).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          cachedName = mentionNameResolver.lookupName('ham');
+          expect(cachedName).toEqual({
+            id: 'ham',
+            name: 'mustard',
+            status: MentionNameStatus.OK,
+          });
+          done();
+        })
+        .catch(err => {
+          fail(`Promises were rejected ${err}`);
+        });
+    } else {
+      fail(
+        `Return type of lookupName is not a Promise, but a ${promises.map(
+          p => typeof p,
+        )}`,
+      );
+    }
     done();
   });
 });

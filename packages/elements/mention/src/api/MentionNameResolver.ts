@@ -59,7 +59,7 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
   }
 
   private isQueueAtLimit() {
-    return this.client.getLookupLimit() >= this.nameCache.size;
+    return this.nameQueue.size >= this.client.getLookupLimit();
   }
 
   private splitQueueAtLimit() {
