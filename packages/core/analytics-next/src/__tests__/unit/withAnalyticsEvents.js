@@ -48,9 +48,7 @@ it('should have descriptive displayName', () => {
 
 it('should pass a createAnalyticsEvent function prop to the inner component', () => {
   const ButtonWithAnalytics = withAnalyticsEvents()(Button);
-  const wrapper = shallow(
-    <ButtonWithAnalytics>Hello</ButtonWithAnalytics>,
-  ).dive();
+  const wrapper = shallow(<ButtonWithAnalytics>Hello</ButtonWithAnalytics>);
 
   expect(
     typeof wrapper
