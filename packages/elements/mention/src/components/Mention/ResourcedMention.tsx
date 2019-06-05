@@ -23,7 +23,7 @@ export interface Props {
 
 export interface State {
   isHighlighted: boolean;
-  mentionName?: string;
+  resolvedMentionName?: string;
 }
 
 export default class ResourcedMention extends React.PureComponent<
@@ -84,11 +84,11 @@ export default class ResourcedMention extends React.PureComponent<
             if (isPromise(nameDetail)) {
               nameDetail.then(nameDetailResult => {
                 this.setState({
-                  mentionName: this.processName(nameDetailResult),
+                  resolvedMentionName: this.processName(nameDetailResult),
                 });
               });
             } else {
-              newState.mentionName = this.processName(nameDetail);
+              newState.resolvedMentionName = this.processName(nameDetail);
             }
           }
           this.setState(newState);
@@ -111,7 +111,7 @@ export default class ResourcedMention extends React.PureComponent<
     return (
       <Mention
         id={props.id}
-        text={state.mentionName || props.text}
+        text={state.resolvedMentionName || props.text}
         isHighlighted={state.isHighlighted}
         accessLevel={props.accessLevel}
         onClick={props.onClick}

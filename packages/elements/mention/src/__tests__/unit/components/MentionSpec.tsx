@@ -272,7 +272,7 @@ describe('<Mention />', () => {
       ).toEqual(mentionData.text);
     });
 
-    it('should render a mention and use supplied mention name even is resolving provider', () => {
+    it('should render a mention and use supplied mention name even if resolving provider', () => {
       const mention = mountWithIntl(
         <ResourcedMention
           {...mentionData}
@@ -286,60 +286,6 @@ describe('<Mention />', () => {
           .text(),
       ).toEqual(mentionData.text);
       expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(0);
-    });
-
-    it('should render a mention and use the resolving provider to lookup the name (string result)', done => {
-      const mention = mountWithIntl(
-        <ResourcedMention
-          {...mentionData}
-          text=""
-          mentionProvider={resolvingMentionProvider}
-        />,
-      );
-      ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
-        {
-          id: '123',
-          name: 'cheese',
-          status: MentionNameStatus.OK,
-        },
-      );
-      setImmediate(() => {
-        expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
-        expect(
-          mention
-            .find(Mention)
-            .first()
-            .text(),
-        ).toEqual('@cheese');
-        done();
-      });
-    });
-
-    it('should render a mention and use the resolving provider to lookup the name (Promise result)', done => {
-      const mention = mountWithIntl(
-        <ResourcedMention
-          {...mentionData}
-          text=""
-          mentionProvider={resolvingMentionProvider}
-        />,
-      );
-      ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
-        Promise.resolve({
-          ud: '456',
-          name: 'bacon',
-          status: MentionNameStatus.OK,
-        }),
-      );
-      setImmediate(() => {
-        expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
-        expect(
-          mention
-            .find(Mention)
-            .first()
-            .text(),
-        ).toEqual('@bacon');
-        done();
-      });
     });
 
     it('should render a highlighted stateless mention component if mentionProvider.shouldHighlightMention returns true', async () => {
@@ -428,6 +374,166 @@ describe('<Mention />', () => {
         mentionData.text,
         expect.anything(),
       );
+    });
+
+    describe('resolving mention name', () => {
+      it('should render a mention and use the resolving provider to lookup the name (string result)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          {
+            id: '123',
+            name: 'cheese',
+            status: MentionNameStatus.OK,
+          },
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@cheese');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (string result, unknown)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          {
+            id: '123',
+            status: MentionNameStatus.UNKNOWN,
+          },
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Unknown');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (string result, service error)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          {
+            id: '123',
+            status: MentionNameStatus.SERVICE_ERROR,
+          },
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Error loading name');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (Promise result)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          Promise.resolve({
+            ud: '456',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          }),
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@bacon');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (Promise result, unknown)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          Promise.resolve({
+            ud: '456',
+            status: MentionNameStatus.UNKNOWN,
+          }),
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Unknown');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (Promise result, service error)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          Promise.resolve({
+            ud: '456',
+            status: MentionNameStatus.SERVICE_ERROR,
+          }),
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Error loading name');
+          done();
+        });
+      });
     });
   });
 });

@@ -11,7 +11,7 @@ export interface MentionNameResolver {
 }
 
 export class DefaultMentionNameResolver implements MentionNameResolver {
-  private static waitForBatch = 100; // ms
+  public static waitForBatch = 100; // ms
   private client: MentionNameClient;
   private nameCache: Map<string, MentionNameDetails> = new Map();
   private nameQueue: Map<string, Callback[]> = new Map();
@@ -37,12 +37,7 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
       const queuedItems = this.nameQueue.get(id) || [];
       this.nameQueue.set(id, [...queuedItems, resolve]);
 
-      if (!this.debounce) {
-        this.debounce = window.setTimeout(
-          this.processQueue,
-          DefaultMentionNameResolver.waitForBatch,
-        );
-      }
+      this.scheduleProcessQueue();
 
       if (this.isQueueAtLimit()) {
         this.processQueue();
@@ -56,6 +51,15 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
       name,
       status: MentionNameStatus.OK,
     });
+  }
+
+  private scheduleProcessQueue() {
+    if (!this.debounce) {
+      this.debounce = window.setTimeout(
+        this.processQueue,
+        DefaultMentionNameResolver.waitForBatch,
+      );
+    }
   }
 
   private isQueueAtLimit() {
@@ -103,6 +107,13 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
           queue.delete(id);
           this.resolveQueueItem(mentionDetail);
         });
+        queue.forEach((_callback, id) => {
+          // No response from client for these ids treat as unknown
+          this.resolveQueueItem({
+            id,
+            status: MentionNameStatus.UNKNOWN,
+          });
+        });
       })
       .catch(() => {
         // Service completely failed, reject all items in the queue
@@ -116,10 +127,7 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
 
     // Make sure anything left in the queue gets processed.
     if (this.nameQueue.size > 0) {
-      this.debounce = window.setTimeout(
-        this.processQueue,
-        DefaultMentionNameResolver.waitForBatch,
-      );
+      this.scheduleProcessQueue();
     }
   };
 }

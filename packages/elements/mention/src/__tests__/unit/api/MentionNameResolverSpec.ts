@@ -249,7 +249,6 @@ describe('MentionNameResolver', () => {
         )}`,
       );
     }
-    done();
   });
 
   it('lookup twice when not cached, only one call to client, but both callbacks', done => {
@@ -303,7 +302,6 @@ describe('MentionNameResolver', () => {
         )}`,
       );
     }
-    done();
   });
 
   it('lookup twice when not cached, but first request is "processing"', done => {
@@ -367,7 +365,6 @@ describe('MentionNameResolver', () => {
         )}`,
       );
     }
-    done();
   });
 
   it("processes queue if it's reached the queue limit", done => {
@@ -436,6 +433,109 @@ describe('MentionNameResolver', () => {
         )}`,
       );
     }
-    done();
+  });
+
+  it('ensure debouncing of request to MentionNameClient', done => {
+    lookupMentionNames.mockReturnValue(
+      Promise.resolve([
+        {
+          id: 'cheese',
+          name: 'bacon',
+          status: MentionNameStatus.OK,
+        },
+      ]),
+    );
+    const namePromise = mentionNameResolver.lookupName('cheese');
+    jest.runTimersToTime(DefaultMentionNameResolver.waitForBatch - 1);
+    expect(lookupMentionNames).toHaveBeenCalledTimes(0);
+    jest.runTimersToTime(2);
+    expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+
+    if (isPromise(namePromise)) {
+      namePromise
+        .then(name => {
+          expect(name).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          // Ensure cached
+          const name2 = mentionNameResolver.lookupName('cheese');
+          expect(name2).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          done();
+        })
+        .catch(err => fail(`Promise was rejected ${err}`));
+    } else {
+      fail(
+        `Return type of lookupName is not a Promise, but a ${typeof namePromise}`,
+      );
+    }
+  });
+
+  it('lookup when not cached, missing id treated as Unknown', done => {
+    lookupMentionNames.mockReturnValueOnce(
+      Promise.resolve([
+        {
+          id: 'cheese',
+          name: 'bacon',
+          status: MentionNameStatus.OK,
+        },
+      ]),
+    );
+    lookupMentionNames.mockRejectedValue('unexpected call');
+    const promises = [
+      mentionNameResolver.lookupName('cheese'),
+      mentionNameResolver.lookupName('ham'),
+    ];
+
+    jest.runAllTimers();
+
+    if (promises.every(p => isPromise(p))) {
+      Promise.all(promises)
+        .then(names => {
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          expect(lookupMentionNames).toHaveBeenNthCalledWith(1, [
+            'cheese',
+            'ham',
+          ]);
+          expect(names[0]).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(names[1]).toEqual({
+            id: 'ham',
+            status: MentionNameStatus.UNKNOWN,
+          });
+          // Ensure all cached (return value not promise)
+          let cachedName = mentionNameResolver.lookupName('cheese');
+          expect(cachedName).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          cachedName = mentionNameResolver.lookupName('ham');
+          expect(cachedName).toEqual({
+            id: 'ham',
+            status: MentionNameStatus.UNKNOWN,
+          });
+          done();
+        })
+        .catch(err => {
+          fail(`Promises were rejected ${err}`);
+        });
+    } else {
+      fail(
+        `Return type of lookupName is not a Promise, but a ${promises.map(
+          p => typeof p,
+        )}`,
+      );
+    }
   });
 });

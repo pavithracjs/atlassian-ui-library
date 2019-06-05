@@ -94,7 +94,6 @@ export enum MentionNameStatus {
   UNKNOWN,
   SERVICE_ERROR,
   OK,
-  LOADING,
 }
 
 export interface MentionNameDetails {
