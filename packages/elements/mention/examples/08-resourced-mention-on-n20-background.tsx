@@ -6,14 +6,9 @@ import {
 import { colors } from '@atlaskit/theme';
 import debug from '../src/util/logger';
 import { onMentionEvent } from '../example-helpers/index';
-
+import { mockMentionData as mentionData } from '../src/__tests__/unit/_test-helpers';
 import { MockMentionResource } from '@atlaskit/util-data-test';
-import {
-  mockMentionData as mentionData,
-  mockMentionProvider as mentionProvider,
-} from '../src/__tests__/unit/_test-helpers';
 import { ELEMENTS_CHANNEL } from '../src/_constants';
-
 import ResourcedMention from '../src/components/Mention/ResourcedMention';
 import { IntlProvider } from 'react-intl';
 
