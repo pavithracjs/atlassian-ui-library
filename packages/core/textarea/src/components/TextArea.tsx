@@ -37,7 +37,7 @@ export type Props = {
   maxHeight: string;
   /** The value of the text-area. */
   value?: string;
-  /** The default value of the text-area */
+  /** The default value of the textarea */
   defaultValue?: string;
   /** The placeholder within the textarea */
   placeholder?: string;
