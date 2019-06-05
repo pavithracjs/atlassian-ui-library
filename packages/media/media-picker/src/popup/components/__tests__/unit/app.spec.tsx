@@ -3,7 +3,6 @@ import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { createStore, applyMiddleware, Middleware } from 'redux';
 import { Store } from 'react-redux';
 import { waitUntil } from '@atlaskit/media-test-helpers';
-import { AuthProvider } from '@atlaskit/media-core';
 import {
   getComponentClassWithStore,
   mockStore,
@@ -26,7 +25,7 @@ const tenantUploadParams: UploadParams = {};
 const baseUrl = 'some-api-url';
 const clientId = 'some-client-id';
 const token = 'some-token';
-const userAuthProvider: AuthProvider = () =>
+const userAuthProvider = () =>
   Promise.resolve({
     clientId,
     token,

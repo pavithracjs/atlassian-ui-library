@@ -5,7 +5,6 @@ jest.mock('uuid/v4', () => ({
 
 import uuidV4 from 'uuid/v4';
 import Postis from 'postis';
-import { AuthProvider } from '@atlaskit/media-core';
 import { CloudService } from '../../cloud-service';
 
 interface FakePostis {
@@ -21,7 +20,7 @@ interface FakePostis {
 }
 
 describe('CloudAuthService', () => {
-  const userAuthProvider: AuthProvider = () =>
+  const userAuthProvider = () =>
     Promise.resolve({
       clientId: 'some-client-id',
       token: 'some-token',

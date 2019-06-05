@@ -12,7 +12,7 @@ import {
   getFileStreamsCache,
   FileState,
 } from '@atlaskit/media-client';
-import { TouchedFiles } from '@atlaskit/media-store';
+import { TouchedFiles } from '@atlaskit/media-client';
 import uuidV4 from 'uuid/v4';
 import { asMock, fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { Observable } from 'rxjs/Observable';
@@ -42,16 +42,16 @@ describe('UploadService', () => {
     subscribe() {},
     pipe() {},
   };
-  const authPromise = Promise.resolve({
-    clientId: usersClientId,
-    token: usersToken,
-    baseUrl,
-  });
 
   const getMediaClient = (options = {}) =>
     fakeMediaClient({
       ...options,
-      authProvider: () => authPromise,
+      authProvider: () =>
+        Promise.resolve({
+          clientId: usersClientId,
+          token: usersToken,
+          baseUrl,
+        }),
     });
   const file = { size: 100, name: 'some-filename', type: 'video/mp4' } as File;
   const setup = (
@@ -570,7 +570,12 @@ describe('UploadService', () => {
         sourceFileId,
         sourceFileCollection,
       } = setup({
-        userAuthProvider: () => authPromise,
+        userAuthProvider: () =>
+          Promise.resolve({
+            clientId: usersClientId,
+            token: usersToken,
+            baseUrl,
+          }),
         copyFileWithTokenSpy,
       });
 
@@ -589,7 +594,12 @@ describe('UploadService', () => {
         .mockReturnValue(Promise.resolve('some-MediaApi-response'));
 
       const { uploadService, sourceFileId } = setup({
-        userAuthProvider: () => authPromise,
+        userAuthProvider: () =>
+          Promise.resolve({
+            clientId: usersClientId,
+            token: usersToken,
+            baseUrl,
+          }),
         copyFileWithTokenSpy,
       });
 
@@ -607,7 +617,12 @@ describe('UploadService', () => {
         .mockReturnValue(Promise.reject(copyFileToCollectionRejection));
 
       const { uploadService, sourceFileId } = setup({
-        userAuthProvider: () => authPromise,
+        userAuthProvider: () =>
+          Promise.resolve({
+            clientId: usersClientId,
+            token: usersToken,
+            baseUrl,
+          }),
         copyFileWithTokenSpy,
       });
 
@@ -670,7 +685,12 @@ describe('UploadService', () => {
 
     it('should use userContext mediaClient to upload file when shouldCopyFileToRecents=false', () => {
       const mediaClient = getMediaClient({
-        userAuthProvider: () => authPromise,
+        userAuthProvider: () =>
+          Promise.resolve({
+            clientId: usersClientId,
+            token: usersToken,
+            baseUrl,
+          }),
       });
       const { uploadService, userMediaClient } = setup(mediaClient, {}, false);
 
