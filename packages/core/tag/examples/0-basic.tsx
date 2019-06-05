@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import Avatar from '@atlaskit/avatar';
 import Tag from '../src';

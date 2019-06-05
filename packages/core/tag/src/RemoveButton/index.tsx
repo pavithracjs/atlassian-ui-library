@@ -1,17 +1,16 @@
-// @flow
 import React, { PureComponent } from 'react';
 import TagCrossIcon from './TagCrossIcon';
 import { Button } from './styled';
 
-type Props = {
-  removeText: string,
-  isRounded?: boolean,
-  onHoverChange?: (hovering: boolean) => mixed,
-  onRemoveAction?: () => mixed,
-};
+export interface Props {
+  removeText?: string;
+  isRounded: boolean;
+  onHoverChange?: (hovering: boolean) => void;
+  onRemoveAction?: () => void;
+}
 
 export default class RemoveButton extends PureComponent<Props> {
-  onKeyPress = (e: KeyboardEvent) => {
+  onKeyPress = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     const spacebarOrEnter = e.key === ' ' || e.key === 'Enter';
 
     if (spacebarOrEnter) {
@@ -49,7 +48,6 @@ export default class RemoveButton extends PureComponent<Props> {
         onBlur={this.onBlur}
         onFocus={this.onFocus}
         type="button"
-        spacing="none"
       >
         <TagCrossIcon />
       </Button>

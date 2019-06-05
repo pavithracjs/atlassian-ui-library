@@ -1,4 +1,3 @@
-// @flow
 import styled, { css } from 'styled-components';
 import { gridSize, fontSize, colors, math } from '@atlaskit/theme';
 import {
@@ -6,6 +5,7 @@ import {
   maxTextWidth,
   maxTextWidthUnitless,
 } from '../constants';
+import { StyledProps } from './index';
 
 // Common styles for Text & Link
 const COMMON_STYLES = css`
@@ -15,7 +15,7 @@ const COMMON_STYLES = css`
   margin-left: ${math.divide(gridSize, 2)}px;
   margin-right: ${math.divide(gridSize, 2)}px;
   padding: 2px 0;
-  max-width: ${({ isRemovable }) =>
+  max-width: ${({ isRemovable }: StyledProps) =>
     isRemovable
       ? `${maxTextWidthUnitless - buttonWidthUnitless}px`
       : maxTextWidth};
@@ -30,7 +30,7 @@ export const Text = styled.span`
 
 // Styles exclusive to Link
 
-const getFocusedStyles = ({ isFocused, color, ...rest }) => {
+const getFocusedStyles = ({ isFocused, color, ...rest }: StyledProps) => {
   if (color !== 'standard')
     return css`
       color: inherit;
@@ -43,12 +43,13 @@ const getFocusedStyles = ({ isFocused, color, ...rest }) => {
 };
 
 export const linkStyles = css`
-  ${COMMON_STYLES} ${getFocusedStyles} text-decoration: ${({ color }) =>
-  color === 'standard' ? 'none' : 'underline'};
+  ${COMMON_STYLES} ${getFocusedStyles} text-decoration: ${({
+  color,
+}: StyledProps) => (color === 'standard' ? 'none' : 'underline')};
 
   &:hover {
     color: ${colors.linkHover};
-    ${({ color }) =>
+    ${({ color }: StyledProps) =>
       color === 'standard'
         ? ''
         : css`

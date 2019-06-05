@@ -1,6 +1,10 @@
-// @flow
 import styled, { keyframes } from 'styled-components';
 import { maxWidth, maxWidthUnitless } from '../constants';
+
+interface RemoveProps {
+  isRemoved: boolean;
+  isRemoving: boolean;
+}
 
 const removeAnimation = keyframes`
   0% {
@@ -14,14 +18,14 @@ const removeAnimation = keyframes`
   100% { max-width: 0; }
 `;
 
-function getRemovedStyles({ isRemoved }) {
+function getRemovedStyles({ isRemoved }: RemoveProps) {
   let styles;
   if (isRemoved) styles = 'width: 0; visibility: hidden;';
 
   return styles;
 }
 
-function getRemovingStyles({ isRemoving }) {
+function getRemovingStyles({ isRemoving }: RemoveProps) {
   let styles;
   if (isRemoving)
     styles = `animation: ${removeAnimation} 250ms forwards; will-change: width;`;

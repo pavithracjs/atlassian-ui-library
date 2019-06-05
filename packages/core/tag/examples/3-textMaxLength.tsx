@@ -1,5 +1,4 @@
-// @flow
-import React, { type Node } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import Tag from '../src';
 
@@ -10,10 +9,10 @@ const TableHeading = styled.th`
   font-weight: bold;
 `;
 
-type RowProps = {
-  name: string,
-  children: Node,
-};
+interface RowProps {
+  name: string;
+  children: ReactNode;
+}
 
 function Row(props: RowProps) {
   return (

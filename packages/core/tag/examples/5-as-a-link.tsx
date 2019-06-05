@@ -1,25 +1,21 @@
-// @flow
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import Tag from '../src';
 
 const A = styled.a``;
 
-const StyledExample = props => {
+const StyledExample = (props: any) => {
   return <A {...props} target="_blank" />;
 };
 
-const SpreadExample = ({
-  children,
-  className,
-  href,
-  tabIndex,
-}: {
-  children: string,
-  className: string,
-  href: string,
-  tabIndex: '-1',
-}) => {
+interface Props {
+  children: string;
+  className: string;
+  href: string;
+  tabIndex?: number;
+}
+
+const SpreadExample = ({ children, className, href, tabIndex = -1 }: Props) => {
   const props = { className, href, tabIndex };
   return (
     <a {...props} target="_blank">

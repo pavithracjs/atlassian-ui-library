@@ -1,4 +1,3 @@
-// @flow
 import { gridSize, themed, colors } from '@atlaskit/theme';
 
 export const focusRingColor = themed({ light: colors.B100, dark: colors.B75 });

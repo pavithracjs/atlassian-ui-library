@@ -1,18 +1,19 @@
-// @flow
-import React, { Component, type Node, type ComponentType } from 'react';
+import React, { Component, ReactNode, ComponentType } from 'react';
 import styled from 'styled-components';
 import { Link, Text, linkStyles } from './styled';
-import type { TagColor } from '../types';
+import { TagColor } from '../types';
 
-type Props = {
-  children: Node,
-  href?: string,
-  isFocused?: boolean,
-  isRemovable?: boolean,
-  markedForRemoval?: boolean,
-  color: TagColor,
-  linkComponent?: ComponentType<*>,
-};
+export interface Props {
+  children: ReactNode;
+  href?: string;
+  isFocused?: boolean;
+  isRemovable?: boolean;
+  markedForRemoval?: boolean;
+  color: TagColor;
+  linkComponent?: ComponentType<any>;
+}
+
+export type StyledProps = Partial<Props>;
 
 export default class Content extends Component<Props> {
   getLinkComponent = () => {
@@ -36,7 +37,13 @@ export default class Content extends Component<Props> {
       markedForRemoval,
       color,
     } = this.props;
-    const styledProps = { isFocused, isRemovable, markedForRemoval, color };
+
+    const styledProps: StyledProps = {
+      isFocused,
+      isRemovable,
+      markedForRemoval,
+      color,
+    };
 
     const LinkComponent = this.getLinkComponent();
 

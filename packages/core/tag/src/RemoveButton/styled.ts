@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 import { colors, borderRadius, themed } from '@atlaskit/theme';
 import { buttonWidthUnitless, focusRingColor } from '../constants';
@@ -14,7 +13,7 @@ export const Button = styled.button`
   appearance: none;
   background: none;
   border: none;
-  border-radius: ${({ isRounded }) =>
+  border-radius: ${({ isRounded }: { isRounded: boolean }) =>
     isRounded ? `${buttonWidthUnitless / 2}px` : `${borderRadius()}px`};
   color: ${colors.N500};
   display: flex;

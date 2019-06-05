@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, type Node, type ComponentType } from 'react';
+import React, { Component, ReactNode, ComponentType } from 'react';
 
 import {
   withAnalyticsEvents,
@@ -18,9 +17,9 @@ import RemoveButton from '../RemoveButton';
 import Before from './styledBefore';
 import Container from './styledContainer';
 
-import type { AppearanceType, TagColor } from '../types';
+import { AppearanceType, TagColor } from '../types';
 
-const colorList = [
+const colorList: TagColor[] = [
   'standard',
   'green',
   'blue',
@@ -38,42 +37,42 @@ const colorList = [
   'yellowLight',
 ];
 
-type Props = {
+interface Props {
   /** Set whether tags should be rounded. */
-  appearance?: AppearanceType,
+  appearance?: AppearanceType;
   /** The color theme to apply, setting both background and text color. */
-  color?: TagColor,
+  color?: TagColor;
   /** Component to be rendered before the Tag. */
-  elemBefore?: Node,
+  elemBefore?: ReactNode;
   /** Text to be displayed in the tag. */
-  text: string,
+  text: string;
   /** uri or path. If provided, the tag will be a link.  */
-  href?: string,
+  href?: string;
   /** Text display as the aria-label for remove text. Setting this makes the
    tag removable. */
-  removeButtonText?: string,
+  removeButtonText?: string;
   /** Handler to be called before the tag is removed. If it does not return a
    truthy value, the tag will not be removed. */
-  onBeforeRemoveAction?: () => boolean,
+  onBeforeRemoveAction?: () => boolean;
   /** Handler to be called after tag is removed. Called with the string 'Post
    Removal Hook'. */
-  onAfterRemoveAction?: (text: string) => mixed,
+  onAfterRemoveAction?: (text: string) => void;
   /* A link component to be used instead of our standard anchor. The styling of
   our link item will be applied to the link that is passed in. */
-  linkComponent?: ComponentType<*>,
-};
+  linkComponent?: ComponentType<any>;
+}
 
-type State = {
-  isRemoving: boolean,
-  isRemoved: boolean,
-  markedForRemoval: boolean,
-  isFocused: boolean,
-};
+interface State {
+  isRemoving: boolean;
+  isRemoved: boolean;
+  markedForRemoval: boolean;
+  isFocused: boolean;
+}
 
 class Tag extends Component<Props, State> {
   static defaultProps = {
-    color: 'standard',
-    appearance: 'default',
+    color: 'standard' as TagColor,
+    appearance: 'default' as AppearanceType,
     elemBefore: null,
     onAfterRemoveAction: () => {},
     onBeforeRemoveAction: () => true,
@@ -162,12 +161,12 @@ class Tag extends Component<Props, State> {
 export { Tag as TagWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'tag',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onAfterRemoveAction: createAndFireEventOnAtlaskit({
       action: 'removed',
       actionSubject: 'tag',

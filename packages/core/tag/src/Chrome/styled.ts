@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 import { colors, themed, gridSize, borderRadius } from '@atlaskit/theme';
 import { buttonWidthUnitless, tagHeight, focusRingColor } from '../constants';
@@ -8,6 +7,7 @@ import {
   textColor,
   textColorHover,
 } from '../theme';
+import { SpanProps } from './index';
 
 const gridSizeUnitless = gridSize();
 
@@ -21,7 +21,7 @@ export const Span = styled.span`
     outline: none;
   }
 
-  background-color: ${p =>
+  background-color: ${(p: SpanProps) =>
     p.markedForRemoval ? backgroundColorRemoval(p) : backgroundColor(p)};
   color: ${p => (p.markedForRemoval ? colorRemoval(p) : textColor(p))};
   border-radius: ${({ isRounded }) =>
@@ -32,12 +32,12 @@ export const Span = styled.span`
   line-height: 1;
   margin: ${gridSizeUnitless / 2}px;
   padding: 0;
-  overflow: ${({ isRemoved, isRemoving }) =>
+  overflow: ${({ isRemoved, isRemoving }: SpanProps) =>
     isRemoved || isRemoving ? 'hidden' : 'initial'};
 
   &:hover {
     box-shadow: none;
-    background-color: ${p =>
+    background-color: ${(p: SpanProps) =>
       p.markedForRemoval ? backgroundColorRemoval(p) : backgroundColorHover(p)};
     color: ${p =>
       p.markedForRemoval ? colorRemovalHover(p) : textColorHover(p)};

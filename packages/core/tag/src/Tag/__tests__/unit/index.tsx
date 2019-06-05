@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 
@@ -9,6 +8,8 @@ import TagWithAnalytics, { TagWithoutAnalytics as Tag } from '../..';
 
 import Before from '../../styledBefore';
 import Container from '../../styledContainer';
+
+declare var global: any;
 
 describe('Tag component', () => {
   const atlassianHref = 'https://www.atlassian.com';
@@ -239,9 +240,7 @@ describe('Tag component', () => {
     });
 
     it('should render the standard color option if missing color option is provided', () => {
-      const wrapper = mount(
-        <Tag text="gibberish" color={('gibberish': any)} />,
-      );
+      const wrapper = mount(<Tag text="gibberish" />);
       expect(wrapper.find(Chrome).props().color).toBe('standard');
     });
   });

@@ -1,4 +1,3 @@
-// @flow
 export type TagColor =
   | 'standard'
   | 'green'
@@ -14,6 +13,7 @@ export type TagColor =
   | 'purpleLight'
   | 'greyLight'
   | 'tealLight'
-  | 'yellowLight';
+  | 'yellowLight'
+  | undefined;
 
 export type AppearanceType = 'default' | 'rounded';
