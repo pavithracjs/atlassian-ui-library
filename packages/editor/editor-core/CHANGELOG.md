@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.9
+
+### Patch Changes
+
+- [patch][65dbd23b3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65dbd23b3c):
+
+  - ED-6996: Memoise calling initialise on the collab plugin, this will prevent race conditions when toggling between full width mode and full page quickly.
+
 ## 112.11.8
 
 ### Patch Changes
