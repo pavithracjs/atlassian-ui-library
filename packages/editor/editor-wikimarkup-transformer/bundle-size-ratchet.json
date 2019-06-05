@@ -1,21 +1,13 @@
 [
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-wikimarkup-transformer",
-    "version": "4.2.1",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 79187,
-      "gzipSize": 23629
+      "size": 79182,
+      "gzipSize": 23646
     }
   },
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-wikimarkup-transformer",
-    "version": "4.2.1",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -24,27 +16,19 @@
     }
   },
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-wikimarkup-transformer",
-    "version": "4.2.1",
-    "dependent": true,
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 37093,
-      "gzipSize": 9536
+      "size": 37266,
+      "gzipSize": 9604
     }
   },
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-wikimarkup-transformer",
-    "version": "4.2.1",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 175038,
-      "gzipSize": 51052
+      "size": 175209,
+      "gzipSize": 51142
     }
   }
 ]

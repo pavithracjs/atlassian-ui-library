@@ -1,9 +1,5 @@
 [
   {
-    "team": "elements",
-    "package": "@atlaskit/analytics-gas-types",
-    "version": "4.0.4",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -12,10 +8,6 @@
     }
   },
   {
-    "team": "elements",
-    "package": "@atlaskit/analytics-gas-types",
-    "version": "4.0.4",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {

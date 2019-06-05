@@ -1,21 +1,13 @@
 [
   {
-    "team": "core",
-    "package": "@atlaskit/width-detector",
-    "version": "2.0.0",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 3076,
-      "gzipSize": 1343
+      "size": 3059,
+      "gzipSize": 1341
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/width-detector",
-    "version": "2.0.0",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -24,15 +16,11 @@
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/width-detector",
-    "version": "2.0.0",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 2991,
-      "gzipSize": 1239
+      "size": 2974,
+      "gzipSize": 1237
     }
   }
 ]
