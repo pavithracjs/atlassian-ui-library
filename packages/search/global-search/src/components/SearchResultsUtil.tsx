@@ -15,17 +15,6 @@ export enum ConfluenceAdvancedSearchTypes {
   People = 'people',
 }
 
-const JIRA_ADVANCED_SEARCH_URLS = {
-  [JiraEntityTypes.Issues]: (query: string) =>
-    `/secure/QuickSearch.jspa?searchString=${query}`,
-  [JiraEntityTypes.Boards]: (query: string) =>
-    `/secure/ManageRapidViews.jspa?contains=${query}`,
-  [JiraEntityTypes.Filters]: (query: string) =>
-    `/secure/ManageFilters.jspa?Search=Search&filterView=search&name=${query}`,
-  [JiraEntityTypes.Projects]: (query: string) => `/projects?contains=${query}`,
-  [JiraEntityTypes.People]: (query: string) => `/people/search?q=${query}`,
-};
-
 export const isAdvancedSearchResult = (resultId: string) =>
   [
     ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
