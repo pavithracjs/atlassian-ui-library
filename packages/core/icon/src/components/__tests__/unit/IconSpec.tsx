@@ -107,7 +107,6 @@ describe(name, () => {
         }): ReactElement => <div>{props.label}</div>;
         const labelContent = 'label content';
         const wrapper = mount(
-          // $FlowFixMe - LabelWriter function signature interpreted incorrectly
           <Icon glyph={LabelWriter} label={labelContent} />,
         );
         expect(wrapper.find('span').is(`[aria-label="${labelContent}"]`)).toBe(

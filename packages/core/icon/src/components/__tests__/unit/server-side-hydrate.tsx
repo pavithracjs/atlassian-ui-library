@@ -10,9 +10,7 @@ afterEach(() => {
 });
 
 test('should ssr then hydrate icon correctly', async done => {
-  // $FlowFixMe
   const [example] = await getExamplesFor('icon');
-  // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
