@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.13.2
+
+### Patch Changes
+
+- [patch][265fc0afdd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/265fc0afdd):
+
+  fix view all issues link
+
 ## 8.13.1
 
 ### Patch Changes
