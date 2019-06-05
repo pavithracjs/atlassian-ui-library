@@ -1,0 +1,1 @@
+Use video binary artifact while video is processing
