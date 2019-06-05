@@ -3,9 +3,12 @@
   "compilerOptions": {
     "declaration": true,
     "outDir": "../../dist/cjs",
+    "lib": [
+      "dom",
+      "es6"
+    ],
     "target": "es5",
-    "module": "commonjs",
-    "paths": {}
+    "module": "commonjs"
   },
   "include": [
     "../../src/**/*.ts",
