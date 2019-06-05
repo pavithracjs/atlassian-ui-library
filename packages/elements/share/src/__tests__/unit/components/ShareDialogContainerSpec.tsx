@@ -126,11 +126,43 @@ describe('ShareDialogContainer', () => {
     expect(wrapper.state().config).toEqual(defaultConfig);
   });
 
-  it('should call props.originTracingFactory if shareLink prop is updated', () => {
+  it('should call props.originTracingFactory only once when nothing change', () => {
     mockOriginTracingFactory.mockReset();
+
+    const previousCopyOrigin = wrapper.instance().getCopyLinkOriginTracing();
+    const previousMailShareOrigin = wrapper
+      .instance()
+      .getFormShareOriginTracing();
+
+    expect(mockOriginTracingFactory).toHaveBeenCalledTimes(0); // because was memoized
+
+    expect(wrapper.instance().getCopyLinkOriginTracing()).toBe(
+      previousCopyOrigin,
+    );
+    expect(wrapper.instance().getFormShareOriginTracing()).toBe(
+      previousMailShareOrigin,
+    );
+
+    expect(mockOriginTracingFactory).toHaveBeenCalledTimes(0); // still memoized
+  });
+
+  it('should call props.originTracingFactory again if shareLink prop is updated', () => {
+    mockOriginTracingFactory.mockReset();
+
+    const previousCopyOrigin = wrapper.instance().getCopyLinkOriginTracing();
+    const previousMailShareOrigin = wrapper
+      .instance()
+      .getFormShareOriginTracing();
+
     wrapper.setProps({ shareLink: 'new-share-link' });
-    expect(wrapper.state().prevShareLink).toEqual('new-share-link');
+
     expect(mockOriginTracingFactory).toHaveBeenCalledTimes(2);
+    expect(wrapper.instance().getCopyLinkOriginTracing()).not.toBe(
+      previousCopyOrigin,
+    );
+    expect(wrapper.instance().getFormShareOriginTracing()).not.toBe(
+      previousMailShareOrigin,
+    );
   });
 
   it('should have default this.client if props.client is not given', () => {
@@ -217,15 +249,13 @@ describe('ShareDialogContainer', () => {
         [{ type: 'user', id: 'id' }, { type: 'user', email: 'mock@email.com' }],
         {
           productId: mockProductId,
-          atlOriginId: wrapper.state().shareOrigin!.id,
+          atlOriginId: wrapper.instance().getFormShareOriginTracing().id,
         },
         mockComment,
       );
     });
 
-    it('should update shareActionCount and Origin Ids from the state if share is successful', async () => {
-      mockOriginTracingFactory.mockReset();
-
+    it('should update shareActionCount from the state if share is successful', async () => {
       const mockShareResponse = {};
       mockShare.mockResolvedValueOnce(mockShareResponse);
       const mockDialogContentState = {
@@ -234,9 +264,33 @@ describe('ShareDialogContainer', () => {
       };
       const result = await wrapper
         .instance()
-        .handleSubmitShare(mockDialogContentState as any);
-      expect(mockOriginTracingFactory).toHaveBeenCalledTimes(1);
+        .handleSubmitShare(mockDialogContentState);
       expect(result).toEqual(mockShareResponse);
+    });
+
+    it('should update the mail Origin Ids if share is successful', async () => {
+      mockOriginTracingFactory.mockReset();
+
+      const previousCopyOrigin = wrapper.instance().getCopyLinkOriginTracing();
+      const previousMailShareOrigin = wrapper
+        .instance()
+        .getFormShareOriginTracing();
+
+      expect(mockOriginTracingFactory).toHaveBeenCalledTimes(0); // because was memoized
+
+      const mockDialogContentState = {
+        users: mockUsers,
+        comment: mockComment,
+      };
+      await wrapper.instance().handleSubmitShare(mockDialogContentState);
+
+      expect(wrapper.instance().getCopyLinkOriginTracing()).toBe(
+        previousCopyOrigin,
+      ); // no change
+      expect(wrapper.instance().getFormShareOriginTracing()).not.toBe(
+        previousMailShareOrigin,
+      ); // change
+      expect(mockOriginTracingFactory).toHaveBeenCalledTimes(1); // only once for mail
     });
 
     it('should return a Promise Rejection if share is failed', async () => {

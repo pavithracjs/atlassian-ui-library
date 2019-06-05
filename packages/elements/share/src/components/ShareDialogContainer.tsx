@@ -94,11 +94,8 @@ export type Props = {
 
 export type State = {
   config?: ConfigResponse;
-  copyLinkOrigin: OriginTracing | null;
   isFetchingConfig: boolean;
-  prevShareLink: string | null;
   shareActionCount: number;
-  shareOrigin: OriginTracing | null;
 };
 
 const memoizedFormatCopyLink: (
@@ -132,36 +129,10 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     this.client = props.client || new ShareServiceClient();
 
     this.state = {
-      copyLinkOrigin: null,
-      prevShareLink: null,
       shareActionCount: 0,
-      shareOrigin: null,
       config: defaultConfig,
       isFetchingConfig: false,
     };
-  }
-
-  static getDerivedStateFromProps(
-    nextProps: Props,
-    prevState: State,
-  ): Partial<State> | null {
-    // Whenever there is change in share link, new origins should be created
-    // ***
-    // memoization is recommended on React doc, but here the Origin Tracing does not rely on shareLink
-    // in getDerivedStateFormProps it makes shareLink as determinant of renewal to stand out better
-    // ***
-    if (
-      prevState.prevShareLink ||
-      prevState.prevShareLink !== nextProps.shareLink
-    ) {
-      return {
-        copyLinkOrigin: nextProps.originTracingFactory(),
-        prevShareLink: nextProps.shareLink,
-        shareOrigin: nextProps.originTracingFactory(),
-      };
-    }
-
-    return null;
   }
 
   componentDidMount() {
@@ -207,13 +178,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     comment,
   }: DialogContentState): Promise<ShareResponse> => {
     const shareLink = this.getFormShareLink();
-    const {
-      originTracingFactory,
-      productId,
-      shareAri,
-      shareContentType,
-      shareTitle,
-    } = this.props;
+    const { productId, shareAri, shareContentType, shareTitle } = this.props;
     const content: Content = {
       ari: shareAri,
       link: shareLink,
@@ -222,33 +187,70 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     };
     const metaData: MetaData = {
       productId,
-      atlOriginId: this.state.shareOrigin!.id,
+      atlOriginId: this.getFormShareOriginTracing().id,
     };
 
     return this.client
       .share(content, optionDataToUsers(users), metaData, comment)
       .then((response: ShareResponse) => {
-        const newShareCount = this.state.shareActionCount + 1;
         // renew Origin Tracing Id per share action succeeded
-        this.setState({
-          shareActionCount: newShareCount,
-          shareOrigin: originTracingFactory(),
-        });
+        this.setState(state => ({
+          shareActionCount: state.shareActionCount + 1,
+        }));
 
         return response;
       })
       .catch((err: Error) => Promise.reject(err));
   };
 
+  // ensure origin is re-generated if the link or the factory changes
+  // separate memoization is needed since copy != form
+  getUniqueCopyLinkOriginTracing = memoizeOne(
+    (
+      link: string,
+      originTracingFactory: OriginTracingFactory,
+    ): OriginTracing => {
+      return originTracingFactory();
+    },
+  );
+  // form origin must furthermore be regenerated after each form share
+  getUniqueFormShareOriginTracing = memoizeOne(
+    (
+      link: string,
+      originTracingFactory: OriginTracingFactory,
+      shareCount: number,
+    ): OriginTracing => {
+      return originTracingFactory();
+    },
+  );
+
   getRawLink(): string {
     const { shareLink } = this.props;
     return shareLink;
   }
 
+  getCopyLinkOriginTracing(): OriginTracing {
+    const { originTracingFactory } = this.props;
+    const shareLink = this.getRawLink();
+    return this.getUniqueCopyLinkOriginTracing(shareLink, originTracingFactory);
+  }
+
+  getFormShareOriginTracing(): OriginTracing {
+    const { originTracingFactory } = this.props;
+    const { shareActionCount } = this.state;
+    const shareLink = this.getRawLink();
+    return this.getUniqueFormShareOriginTracing(
+      shareLink,
+      originTracingFactory,
+      shareActionCount,
+    );
+  }
+
   getCopyLink = (): string => {
     const { formatCopyLink } = this.props;
     const shareLink = this.getRawLink();
-    return formatCopyLink(this.state.copyLinkOrigin!, shareLink);
+    const copyLinkOrigin = this.getCopyLinkOriginTracing();
+    return formatCopyLink(copyLinkOrigin, shareLink);
   };
 
   getFormShareLink = (): string => {
@@ -268,7 +270,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
-    const { isFetchingConfig, shareOrigin, copyLinkOrigin } = this.state;
+    const { isFetchingConfig } = this.state;
     return (
       <MessagesIntlProvider>
         <ShareDialogWithTrigger
@@ -282,8 +284,8 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           renderCustomTriggerButton={renderCustomTriggerButton}
           shareContentType={shareContentType}
           shareFormTitle={shareFormTitle}
-          copyLinkOrigin={copyLinkOrigin}
-          formShareOrigin={shareOrigin}
+          copyLinkOrigin={this.getCopyLinkOriginTracing()}
+          formShareOrigin={this.getFormShareOriginTracing()}
           shouldCloseOnEscapePress={shouldCloseOnEscapePress}
           showFlags={showFlags}
           triggerButtonAppearance={triggerButtonAppearance}
