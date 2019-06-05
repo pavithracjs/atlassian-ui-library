@@ -15,8 +15,6 @@ export const selectors = {
   codeContent: '.code-content',
 };
 
-export const MINIMUM_ACCEPTABLE_TOLERANCE = 0.02;
-
 export async function clickEditableContent(page: Page) {
   await page.waitForSelector(selectors.editor);
   await page.click(selectors.editor);

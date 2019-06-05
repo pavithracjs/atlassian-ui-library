@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
 import adf from './__fixtures__/blank-adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
@@ -18,6 +17,6 @@ describe('Quick Insert:', () => {
     await page.waitForSelector('.fabric-editor-typeahead');
     await waitForMenuIconsToLoad(page);
 
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 });
