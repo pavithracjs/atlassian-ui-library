@@ -1,19 +1,19 @@
 jest.mock('../../../service/newUploadServiceImpl');
 
-import { Context, ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { Browser, BrowserConfig } from '../../types';
 import { BrowserImpl } from '../../browser';
 
 describe('Browser', () => {
   let browser: Browser | undefined;
-  let context: Context;
+  let mediaClient: MediaClient;
   let browseConfig: BrowserConfig;
   const createElement = document.createElement;
 
   beforeEach(() => {
     document.createElement = createElement;
 
-    context = ContextFactory.create({
+    mediaClient = new MediaClient({
       authProvider: {} as any,
     });
     browseConfig = {
@@ -28,13 +28,13 @@ describe('Browser', () => {
 
   it('should append the input to the body', () => {
     const inputsBefore = document.querySelectorAll('input[type=file]');
-    browser = new BrowserImpl(context, browseConfig);
+    browser = new BrowserImpl(mediaClient, browseConfig);
     const inputsAfter = document.querySelectorAll('input[type=file]');
     expect(inputsAfter.length).toBeGreaterThan(inputsBefore.length);
   });
 
   it('should remove the input from the body', () => {
-    browser = new BrowserImpl(context, browseConfig);
+    browser = new BrowserImpl(mediaClient, browseConfig);
     const inputsBefore = document.querySelectorAll('input[type=file]');
     browser.teardown();
     const inputsAfter = document.querySelectorAll('input[type=file]');
@@ -49,7 +49,7 @@ describe('Browser', () => {
     input.addEventListener = addEventListener;
     input.removeEventListener = removeEventListener;
     document.createElement = jest.fn().mockReturnValue(input);
-    browser = new BrowserImpl(context, browseConfig);
+    browser = new BrowserImpl(mediaClient, browseConfig);
     expect(addEventListener).toHaveBeenCalledTimes(1);
     expect(addEventListener.mock.calls[0][0]).toEqual('change');
 
@@ -61,7 +61,7 @@ describe('Browser', () => {
   it('should add upload files when user picks some', () => {
     const input = document.createElement('input');
     document.createElement = jest.fn().mockReturnValue(input);
-    browser = new BrowserImpl(context, browseConfig);
+    browser = new BrowserImpl(mediaClient, browseConfig);
 
     const spy = jest.spyOn(browser['uploadService'], 'addFiles');
     input.dispatchEvent(new Event('change'));

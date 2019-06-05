@@ -1,11 +1,10 @@
 jest.mock('@atlaskit/media-store');
 import { MediaStore } from '@atlaskit/media-store';
 import {
-  ContextFactory,
   getFileStreamsCache,
   FileState,
-  Auth,
-} from '@atlaskit/media-core';
+  MediaClient,
+} from '@atlaskit/media-client';
 import {
   mockStore,
   mockFetcher,
@@ -22,7 +21,7 @@ import { State } from '../../../domain';
 import { ReplaySubject, Observable } from 'rxjs';
 
 describe('finalizeUploadMiddleware', () => {
-  const auth: Auth = {
+  const auth = {
     clientId: 'some-client-id',
     token: 'some-token',
     baseUrl: 'some-base-url',
@@ -48,8 +47,8 @@ describe('finalizeUploadMiddleware', () => {
   };
   const setup = (state: Partial<State> = {}) => {
     const store = mockStore(state);
-    const { userContext } = store.getState();
-    (userContext.config.authProvider as jest.Mock<any>).mockReturnValue(
+    const { userMediaClient } = store.getState();
+    (userMediaClient.config.authProvider as jest.Mock<any>).mockReturnValue(
       Promise.resolve(auth),
     );
 
@@ -169,12 +168,12 @@ describe('finalizeUploadMiddleware', () => {
   });
 
   it('should call copyFileWithToken with the right params', async () => {
-    const tenantContext = ContextFactory.create({
+    const tenantMediaClient = new MediaClient({
       authProvider: jest.fn().mockImplementation(() => Promise.resolve({})),
     });
     const { fetcher, store, action } = setup({
       config: { uploadParams: { collection: 'some-tenant-collection' } },
-      tenantContext,
+      tenantMediaClient,
     });
 
     const copyFileWithToken = jest.fn().mockResolvedValue({
@@ -206,7 +205,7 @@ describe('finalizeUploadMiddleware', () => {
         replaceFileId: undefined,
       },
     ]);
-    expect(tenantContext.config.authProvider).toBeCalledWith({
+    expect(tenantMediaClient.config.authProvider).toBeCalledWith({
       collectionName: 'some-tenant-collection',
     });
   });

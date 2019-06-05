@@ -10,7 +10,7 @@ import {
 import Button from '@atlaskit/button';
 import Toggle from '@atlaskit/toggle';
 import Spinner from '@atlaskit/spinner';
-import { ContextFactory, FileState } from '@atlaskit/media-core';
+import { FileState, MediaClient } from '@atlaskit/media-client';
 import { MediaPicker, Dropzone } from '../src';
 import {
   DropzoneContainer,
@@ -30,7 +30,7 @@ export interface DropzoneWrapperState {
   dropzone?: Dropzone;
 }
 const context = createUploadContext();
-const nonUserContext = ContextFactory.create({
+const nonUserContext = new MediaClient({
   authProvider: mediaPickerAuthProvider('asap'),
 });
 

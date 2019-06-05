@@ -12,7 +12,7 @@ import { MediaPicker, Browser, UploadParams, BrowserConfig } from '../src';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
-import { ContextFactory, FileState } from '@atlaskit/media-core';
+import { FileState, MediaClient } from '@atlaskit/media-client';
 
 export interface BrowserWrapperState {
   collectionName: string;
@@ -33,7 +33,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   }
 
   async createBrowse() {
-    const context = ContextFactory.create({
+    const context = new MediaClient({
       authProvider: mediaPickerAuthProvider(),
     });
     const uploadParams: UploadParams = {

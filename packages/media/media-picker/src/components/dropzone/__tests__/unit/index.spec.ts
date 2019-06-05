@@ -1,11 +1,11 @@
 import { EventEmitter2 } from 'eventemitter2';
 import { defaultBaseUrl } from '@atlaskit/media-test-helpers';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { DropzoneConfig, MediaPicker } from '../../../../index';
 import { Dropzone, DropzoneDragEnterEventPayload } from '../../../types';
 import * as uploadService from '../../../../service/newUploadServiceImpl';
 
-const context = ContextFactory.create({
+const context = new MediaClient({
   authProvider: () =>
     Promise.resolve({
       clientId: '603c5433-35c4-4346-9a18-2acd3e8df980',

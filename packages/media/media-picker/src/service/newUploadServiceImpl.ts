@@ -1,12 +1,11 @@
 import uuidV4 from 'uuid/v4';
 import {
-  Context,
   UploadableFile,
   MediaType,
   getMediaTypeFromMimeType,
-  ContextFactory,
   getFileStreamsCache,
-} from '@atlaskit/media-core';
+  MediaClient,
+} from '@atlaskit/media-client';
 import {
   MediaStore,
   MediaStoreCopyFileWithTokenBody,
@@ -45,12 +44,12 @@ export interface CancellableFileUpload {
 export class NewUploadServiceImpl implements UploadService {
   private readonly userMediaStore?: MediaStore;
   private readonly tenantMediaStore: MediaStore;
-  private readonly userContext?: Context;
+  private readonly userMediaClient?: MediaClient;
   private readonly emitter: EventEmitter2;
   private cancellableFilesUploads: { [key: string]: CancellableFileUpload };
 
   constructor(
-    private readonly tenantContext: Context,
+    private readonly tenantMediaClient: MediaClient,
     private tenantUploadParams: UploadParams,
     private readonly shouldCopyFileToRecents: boolean,
   ) {
@@ -59,7 +58,7 @@ export class NewUploadServiceImpl implements UploadService {
     const {
       authProvider: tenantAuthProvider,
       userAuthProvider,
-    } = tenantContext.config;
+    } = tenantMediaClient.config;
     // We need a non user auth store, since we want to create the empty file in the public collection
     this.tenantMediaStore = new MediaStore({
       authProvider: tenantAuthProvider,
@@ -71,7 +70,7 @@ export class NewUploadServiceImpl implements UploadService {
       });
 
       // We need to use the userAuth to upload this file (recents)
-      this.userContext = ContextFactory.create({
+      this.userMediaClient = new MediaClient({
         userAuthProvider,
         authProvider: userAuthProvider,
       });
@@ -103,8 +102,14 @@ export class NewUploadServiceImpl implements UploadService {
 
     const creationDate = Date.now();
 
-    const { userContext, tenantContext, shouldCopyFileToRecents } = this;
-    const context = shouldCopyFileToRecents ? tenantContext : userContext;
+    const {
+      userMediaClient,
+      tenantMediaClient,
+      shouldCopyFileToRecents,
+    } = this;
+    const context = shouldCopyFileToRecents
+      ? tenantMediaClient
+      : userMediaClient;
     const collection = shouldCopyFileToRecents
       ? this.tenantUploadParams.collection
       : RECENTS_COLLECTION;
@@ -409,7 +414,7 @@ export class NewUploadServiceImpl implements UploadService {
       return Promise.resolve();
     }
     const { collection: sourceCollection } = tenantUploadParams;
-    const { authProvider: tenantAuthProvider } = this.tenantContext.config;
+    const { authProvider: tenantAuthProvider } = this.tenantMediaClient.config;
     return tenantAuthProvider({ collectionName: sourceCollection }).then(
       auth => {
         const body: MediaStoreCopyFileWithTokenBody = {

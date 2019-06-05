@@ -19,13 +19,13 @@ export const getFilesInRecents = () => (store: Store<State>) => (
 };
 
 export const requestRecentFiles = (store: Store<State>): void => {
-  const { userContext, collectionItemsSubscription } = store.getState();
+  const { userMediaClient, collectionItemsSubscription } = store.getState();
 
   if (collectionItemsSubscription) {
     collectionItemsSubscription.unsubscribe();
   }
 
-  const subscription = userContext.collection
+  const subscription = userMediaClient.collection
     .getItems(RECENTS_COLLECTION)
     .subscribe({
       next(items) {

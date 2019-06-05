@@ -16,6 +16,7 @@ import {
   Dropzone,
 } from './components/types';
 
+import { getMediaClient } from '@atlaskit/media-client';
 import { Context } from '@atlaskit/media-core';
 
 export const isBrowser = (component: any): component is Browser =>
@@ -82,21 +83,24 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       const {
         BrowserImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
-      return new BrowserImpl(context, pickerConfig as
+      return new BrowserImpl(getMediaClient({ context }), pickerConfig as
         | BrowserConfig
         | undefined);
     case 'dropzone':
       const {
         DropzoneImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone');
-      return new DropzoneImpl(context, pickerConfig as
+      return new DropzoneImpl(getMediaClient({ context }), pickerConfig as
         | DropzoneConfig
         | undefined);
     case 'popup':
       const {
         PopupImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-popup" */ './components/popup');
-      return new PopupImpl(context, pickerConfig as PopupConfig);
+      return new PopupImpl(
+        getMediaClient({ context }),
+        pickerConfig as PopupConfig,
+      );
     default:
       throw new Error(`The component ${componentName} does not exist`);
   }

@@ -7,14 +7,14 @@ import {
 import * as React from 'react';
 import { Component } from 'react';
 import Button from '@atlaskit/button';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 import { MediaPicker } from '../src';
 import { Popup } from '../index';
 
 mediaMock.enable();
 
-const context = ContextFactory.create({
+const context = new MediaClient({
   authProvider: defaultMediaPickerAuthProvider,
   userAuthProvider,
 });

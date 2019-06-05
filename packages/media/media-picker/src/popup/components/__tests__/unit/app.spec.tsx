@@ -2,8 +2,8 @@ import * as React from 'react';
 import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { createStore, applyMiddleware, Middleware } from 'redux';
 import { Store } from 'react-redux';
-import { AuthProvider, ContextFactory } from '@atlaskit/media-core';
 import { waitUntil } from '@atlaskit/media-test-helpers';
+import { AuthProvider } from '@atlaskit/media-core';
 import {
   getComponentClassWithStore,
   mockStore,
@@ -20,6 +20,7 @@ import { Dropzone } from '../../../components/dropzone/dropzone';
 import { MediaFile } from '../../../../domain/file';
 import { showPopup } from '../../../actions/showPopup';
 import reducers from '../../../reducers/reducers';
+import { MediaClient } from '@atlaskit/media-client';
 
 const tenantUploadParams: UploadParams = {};
 const baseUrl = 'some-api-url';
@@ -110,11 +111,11 @@ const waitForDropzoneToRender = () =>
  */
 describe('App', () => {
   const setup = () => {
-    const context = ContextFactory.create({
+    const mediaClient = new MediaClient({
       authProvider: userAuthProvider,
       userAuthProvider,
     });
-    const userContext = ContextFactory.create({
+    const userMediaClient = new MediaClient({
       authProvider: userAuthProvider,
     });
     return {
@@ -131,22 +132,22 @@ describe('App', () => {
         onDropzoneDragOut: jest.fn(),
         onDropzoneDropIn: jest.fn(),
       } as AppDispatchProps,
-      context,
-      userContext,
+      mediaClient,
+      userMediaClient,
       store: mockStore(),
       userAuthProvider,
     };
   };
 
   it('should render UploadView given selectedServiceName is "upload"', () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const app = shallow(
       <App
         store={store}
         selectedServiceName="upload"
         isVisible={true}
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
       />,
@@ -156,13 +157,13 @@ describe('App', () => {
   });
 
   it('should render Browser given selectedServiceName is "google"', () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const app = shallow(
       <App
         store={store}
         selectedServiceName="google"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={true}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -173,13 +174,13 @@ describe('App', () => {
   });
 
   it('should call onStartApp', () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     shallow(
       <App
         store={store}
         selectedServiceName="upload"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={true}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -190,13 +191,13 @@ describe('App', () => {
   });
 
   it('should activate dropzone when visible', () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const element = (
       <App
         store={store}
         selectedServiceName="google"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={false}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -212,13 +213,13 @@ describe('App', () => {
   });
 
   it('should deactivate dropzone when not visible', () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const element = (
       <App
         store={store}
         selectedServiceName="google"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={true}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -234,13 +235,13 @@ describe('App', () => {
   });
 
   it('should deactivate dropzone when unmounted', () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const element = (
       <App
         store={store}
         selectedServiceName="google"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={true}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -256,13 +257,13 @@ describe('App', () => {
   });
 
   it.skip('should activate both dropzones on onDragEnter call and deactivate on onDragLeave and onDrop', async () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const element = (
       <App
         store={store}
         selectedServiceName="upload"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={false}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -282,13 +283,13 @@ describe('App', () => {
   });
 
   it('should call dispatch props for onDragEnter, onDragLeave and onDrop', async () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const element = (
       <App
         store={store}
         selectedServiceName="upload"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={true}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -309,13 +310,13 @@ describe('App', () => {
   });
 
   it('should render media-editor view with localUploader', () => {
-    const { handlers, store, context, userContext } = setup();
+    const { handlers, store, mediaClient, userMediaClient } = setup();
     const element = (
       <App
         store={store}
         selectedServiceName="upload"
-        tenantContext={context}
-        userContext={userContext}
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
         isVisible={true}
         tenantUploadParams={tenantUploadParams}
         {...handlers}
@@ -381,7 +382,7 @@ describe('Connected App', () => {
     );
   });
 
-  it('should fire an analytics events when provided with a react context via a store', () => {
+  it('should fire an analytics events when provided with a react mediaClient via a store', () => {
     const handler = jest.fn();
     const store: Store<State> = createStore<State>(
       state => state,

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import Button from '@atlaskit/button';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
 import AKListeners from '@atlaskit/analytics-listeners';
@@ -95,7 +95,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
       popup.teardown();
     }
 
-    const context = ContextFactory.create({
+    const context = new MediaClient({
       authProvider: mediaPickerAuthProvider(this.state.authEnvironment),
       userAuthProvider,
     });

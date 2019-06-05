@@ -36,7 +36,7 @@ describe('getFilesInRecents middleware', () => {
           Observable.create((observer: Observer<any>) => observer.error('')),
         );
       const store = mockStore({
-        userContext: {
+        userMediaClient: {
           collection: {
             getItems,
           },
@@ -53,7 +53,7 @@ describe('getFilesInRecents middleware', () => {
     it('should dispatch GET_FILES_IN_RECENTS_SUCCESS when requests succeed', async () => {
       const getItems = jest.fn().mockReturnValue(of([]));
       const store = mockStore({
-        userContext: {
+        userMediaClient: {
           collection: {
             getItems,
           },

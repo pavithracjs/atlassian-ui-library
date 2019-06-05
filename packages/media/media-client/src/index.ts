@@ -125,4 +125,5 @@ export { EventPayloadListener, UploadEventPayloadMap } from './client/events';
 export {
   withMediaClient,
   WithContextOrMediaClientConfigProps,
+  getMediaClient,
 } from './utils/with-media-client-hoc';
