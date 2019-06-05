@@ -12,7 +12,7 @@ export function findQueryMark(
     if (queryMark.start === -1 && mark.isInSet(node.marks)) {
       queryMark = {
         start: pos,
-        end: pos + node.textContent.length,
+        end: pos + Math.max(node.textContent.length, 1),
       };
     }
   });

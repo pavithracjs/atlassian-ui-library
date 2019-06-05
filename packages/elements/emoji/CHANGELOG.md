@@ -1,5 +1,32 @@
 # @atlaskit/emoji
 
+## 62.1.5
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 62.1.4
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/field-base@13.0.1
+  - @atlaskit/spinner@12.0.0
+
+## 62.1.3
+- [patch] [ee970b5526](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee970b5526):
+
+  - Detect emoji gender and skintone correctly on selection
+
+## 62.1.2
+- [patch] [9eb495b1e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9eb495b1e0):
+
+  - Remove completely canvas-prebuilt as it does not seem to be used
+
+## 62.1.1
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
 ## 62.1.0
 - [minor] [f120090dfe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f120090dfe):
 

@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { md, Example, Props, code } from '@atlaskit/docs';
+import {
+  md,
+  Example,
+  Props,
+  code,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+  ${<AtlassianInternalWarning />}
+
   This is a barebones quick-search component that can render different types of search results.
   
   ## Usage

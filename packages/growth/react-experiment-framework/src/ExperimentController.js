@@ -7,11 +7,19 @@ import type {
   EnrollmentDetails,
   Experiments,
   ExperimentEnrollmentConfig,
+  ExperimentEnrollmentOptions,
   ResolverPromises,
 } from './types';
 
 type Props = {
+  // A map of experiment resolvers, keyed by experimentKey.
   experimentEnrollmentConfig: ExperimentEnrollmentConfig,
+
+  // A map of experiment options, keyed by experimentKey. The value of the option
+  // under a given key is passed to the experiment resolver with the same key.
+  experimentEnrollmentOptions?: ExperimentEnrollmentOptions,
+
+  // Children to render inside the Experiment Controller.
   children?: Element<any>,
 };
 
@@ -48,12 +56,19 @@ class ExperimentController extends Component<Props, State> {
   }
 
   resolveEnrollmentForExperiment(experimentKey: ExperimentKey) {
-    const { experimentEnrollmentConfig } = this.props;
+    const {
+      experimentEnrollmentConfig,
+      experimentEnrollmentOptions: options,
+    } = this.props;
 
     const enrollmentResolver = experimentEnrollmentConfig[experimentKey];
 
     // updates context after resolving
-    const enrollmentPromise = enrollmentResolver();
+    const enrollmentOptions =
+      options instanceof Function ? options(experimentKey) : options;
+    const enrollmentPromise = Promise.resolve(
+      enrollmentResolver(enrollmentOptions),
+    );
 
     enrollmentPromise.then((enrollmentDetails: EnrollmentDetails) => {
       this.setState({
@@ -74,10 +89,17 @@ class ExperimentController extends Component<Props, State> {
 
   render() {
     const { experiments } = this.state;
-    const { children } = this.props;
+    const { children, experimentEnrollmentOptions } = this.props;
 
     return (
-      <ExperimentProvider value={experiments}>{children}</ExperimentProvider>
+      <ExperimentProvider
+        value={{
+          experiments,
+          options: experimentEnrollmentOptions,
+        }}
+      >
+        {children}
+      </ExperimentProvider>
     );
   }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { md, code, Example } from '@atlaskit/docs';
+import { md, code, Example, AtlassianInternalWarning } from '@atlaskit/docs';
 
 import dropzone from './dropzone.png';
 import browser from './browser.png';
@@ -8,6 +8,8 @@ import popup from './popup.png';
 const CreateImage = (filename: string) => <img src={filename} />;
 
 export default md`
+  ${<AtlassianInternalWarning />}
+  
   # Documentation
 
   ## Table of contents

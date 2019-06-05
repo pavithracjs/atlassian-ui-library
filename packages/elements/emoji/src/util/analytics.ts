@@ -50,14 +50,42 @@ interface EmojiAttributes {
   emojiId: string;
   baseEmojiId?: string; // mobile only
   skinToneModifier?: string;
-  gender?: string;
   category: string;
   type: string;
 }
 
+const skinTones = [
+  { id: '-1f3fb', skinToneModifier: 'light' },
+  { id: '-1f3fc', skinToneModifier: 'mediumLight' },
+  { id: '-1f3fd', skinToneModifier: 'medium' },
+  { id: '-1f3fe', skinToneModifier: 'mediumDark' },
+  { id: '-1f3ff', skinToneModifier: 'dark' },
+];
+
+const getSkinTone = (emojiId?: string) => {
+  if (!emojiId) {
+    return {};
+  }
+  for (const { id, skinToneModifier } of skinTones) {
+    if (emojiId.indexOf(id) !== -1) {
+      return { skinToneModifier, baseEmojiId: emojiId.replace(id, '') };
+    }
+  }
+
+  return {};
+};
+
 export const pickerClickedEvent = (
   attributes: { queryLength: number } & EmojiAttributes & Duration,
-) => emojiPickerEvent('clicked', attributes, 'emoji');
+) =>
+  emojiPickerEvent(
+    'clicked',
+    {
+      ...getSkinTone(attributes.emojiId),
+      ...attributes,
+    },
+    'emoji',
+  );
 
 export const categoryClickedEvent = (attributes: { category: string }) =>
   emojiPickerEvent('clicked', attributes, 'category');
@@ -179,10 +207,10 @@ export const typeaheadSelectedEvent = (
     'emojiTypeahead',
     undefined,
     {
-      baseEmojiId: emoji.id,
       duration,
       position: getPosition(emojiList, emoji),
       ...extractCommonAttributes(query, emojiList),
+      ...getSkinTone(emoji.id),
       emojiType: emoji.type,
       exactMatch: exactMatch || false,
     },

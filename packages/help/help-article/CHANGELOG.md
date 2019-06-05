@@ -1,5 +1,15 @@
 # @atlaskit/help-article
 
+## 0.4.5
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 0.4.4
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
 ## 0.4.3
 - [patch] [75efe3ab05](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75efe3ab05):
 

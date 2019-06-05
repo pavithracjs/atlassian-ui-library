@@ -65,6 +65,14 @@ describe('Jira Quick Search Container', () => {
       logger,
       createAnalyticsEvent: createAnalyticsEventSpy,
       referralContextIdentifiers,
+      linkComponent: undefined,
+      onAdvancedSearch: undefined,
+      appPermission: undefined,
+      features: {
+        abTest: DEFAULT_AB_TEST,
+        disableJiraPreQueryPeopleSearch: false,
+        enablePreQueryFromAggregator: false,
+      },
       ...partialProps,
     };
 
@@ -225,6 +233,17 @@ describe('Jira Quick Search Container', () => {
       const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
       const dummyQueryVersion = 123;
 
+      const modelParams = [
+        {
+          '@type': 'queryParams',
+          queryVersion: dummyQueryVersion,
+        },
+        {
+          '@type': 'currentProject',
+          projectId: '123-container',
+        },
+      ];
+
       const getSearchResults = getQuickSearchProperty(
         renderComponent({
           crossProductSearchClient: noResultsCrossProductSearchClient,
@@ -238,10 +257,8 @@ describe('Jira Quick Search Container', () => {
         'query',
         sessionId,
         expect.any(Array),
-        'jira',
-        dummyQueryVersion,
+        modelParams,
         expect.any(Number),
-        referralContextIdentifiers,
       );
 
       searchSpy.mockRestore();
@@ -323,15 +340,18 @@ describe('Jira Quick Search Container', () => {
       let redirectSpy: jest.SpyInstance<
         (entityType: SearchUtils.JiraEntityTypes, query?: string) => void
       >;
-      let originalWindowAssign = window.location.assign;
+      let originalWindowLocation = window.location;
 
       beforeEach(() => {
-        window.location.assign = jest.fn();
+        delete window.location;
+        window.location = Object.assign({}, window.location, {
+          assign: jest.fn(),
+        });
         redirectSpy = jest.spyOn(SearchUtils, 'redirectToJiraAdvancedSearch');
       });
 
       afterEach(() => {
-        window.location.assign = originalWindowAssign;
+        window.location = originalWindowLocation;
         redirectSpy.mockReset();
         redirectSpy.mockRestore();
       });

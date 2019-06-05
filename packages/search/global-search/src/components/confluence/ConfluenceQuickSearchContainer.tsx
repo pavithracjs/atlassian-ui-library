@@ -11,9 +11,8 @@ import {
   CrossProductSearchClient,
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  ABTest,
 } from '../../api/CrossProductSearchClient';
-import { Scope } from '../../api/types';
+import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
   Result,
   ResultsWithTiming,
@@ -48,26 +47,35 @@ import {
   MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
-import { isInFasterSearchExperiment } from '../../util/experiment-utils';
+import { buildConfluenceModelParams } from '../../util/model-parameters';
+import { ConfluenceFeatures } from '../../util/features';
 
+/**
+ * NOTE: This component is only consumed internally as such avoid using optional props
+ * i.e. instead of "propX?: something" use "propX: something | undefined"
+ *
+ * This improves type safety and prevent us from accidentally forgetting a parameter.
+ */
 export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
-  linkComponent?: LinkComponent;
-  createAnalyticsEvent?: CreateAnalyticsEventFn;
-  referralContextIdentifiers?: ReferralContextIdentifiers;
+  firePrivateAnalyticsEvent: FireAnalyticsEvent | undefined;
+  linkComponent: LinkComponent | undefined;
+  createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
+  referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   logger: Logger;
-  fasterSearchFFEnabled: boolean;
-  useUrsForBootstrapping: boolean;
-  onAdvancedSearch?: (
-    e: CancelableEvent,
-    entity: string,
-    query: string,
-    searchSessionId: string,
-  ) => void;
-  inputControls?: JSX.Element;
+  modelContext: ConfluenceModelContext | undefined;
+  onAdvancedSearch:
+    | undefined
+    | ((
+        e: CancelableEvent,
+        entity: string,
+        query: string,
+        searchSessionId: string,
+      ) => void);
+  inputControls: JSX.Element | undefined;
+  features: ConfluenceFeatures;
 }
 
 const getRecentItemMatches = (
@@ -82,7 +90,7 @@ const getRecentItemMatches = (
 };
 
 const mergeSearchResultsWithRecentItems = (
-  searchResults: ConfluenceResultsMap | undefined,
+  searchResults: ConfluenceResultsMap,
   recentItems: Result[],
 ): ConfluenceResultsMap => {
   const defaultSearchResults = {
@@ -145,20 +153,22 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     sessionId: string,
     queryVersion: number,
   ): Promise<CrossProductSearchResults> {
-    const { crossProductSearchClient, referralContextIdentifiers } = this.props;
+    const { crossProductSearchClient, modelContext } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
 
     scopes.push(Scope.People);
 
+    const modelParams = buildConfluenceModelParams(
+      queryVersion,
+      modelContext || {},
+    );
+
     const results = await crossProductSearchClient.search(
       query,
       sessionId,
       scopes,
-      'confluence',
-      queryVersion,
-      null,
-      referralContextIdentifiers,
+      modelParams,
     );
 
     return results;
@@ -229,22 +239,16 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     }));
   };
 
-  getAbTestData = (sessionId: string): Promise<ABTest> => {
-    return this.props.crossProductSearchClient.getAbTestData(
-      Scope.ConfluencePageBlogAttachment,
-    );
-  };
-
   getRecentPeople = (sessionId: string): Promise<Result[]> => {
     const {
       peopleSearchClient,
       crossProductSearchClient,
-      useUrsForBootstrapping,
+      features,
     } = this.props;
 
     // We want to be consistent with the search results when prefetching is enabled so we will use URS (via aggregator) to get the
     // bootstrapped people results, see prefetchResults.ts.
-    return !useUrsForBootstrapping
+    return !features.useUrsForBootstrapping
       ? peopleSearchClient.getRecentPeople()
       : crossProductSearchClient
           .getPeople('', sessionId, 'confluence', 3)
@@ -290,24 +294,24 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   getPreQueryDisplayedResults = (
     recentItems: ConfluenceResultsMap,
-    abTest: ABTest,
     searchSessionId: string,
-  ) => mapRecentResultsToUIGroups(recentItems, abTest, searchSessionId);
+  ) => {
+    const { features } = this.props;
+
+    return mapRecentResultsToUIGroups(recentItems, features, searchSessionId);
+  };
 
   getPostQueryDisplayedResults = (
     searchResults: ConfluenceResultsMap,
     latestSearchQuery: string,
     recentItems: ConfluenceResultsMap,
-    abTest: ABTest,
     isLoading: boolean,
-    inFasterSearchExperiment: boolean,
+    searchSessionId: string,
   ) => {
-    if (inFasterSearchExperiment) {
+    const { features } = this.props;
+    if (features.isInFasterSearchExperiment) {
       const currentSearchResults: ConfluenceResultsMap = isLoading
-        ? ({
-            ...searchResults,
-            objects: [] as Result[],
-          } as ConfluenceResultsMap)
+        ? ({} as ConfluenceResultsMap)
         : (searchResults as ConfluenceResultsMap);
 
       const recentResults = getRecentItemMatches(
@@ -318,11 +322,17 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         currentSearchResults,
         recentResults,
       );
-      return mapSearchResultsToUIGroups(mergedRecentSearchResults, abTest);
+
+      return mapSearchResultsToUIGroups(
+        mergedRecentSearchResults,
+        features,
+        searchSessionId,
+      );
     } else {
       return mapSearchResultsToUIGroups(
         searchResults as ConfluenceResultsMap,
-        abTest,
+        features,
+        searchSessionId,
       );
     }
   };
@@ -336,14 +346,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-    abTest,
   }: SearchResultProps) => {
-    const { onAdvancedSearch = () => {}, fasterSearchFFEnabled } = this.props;
-
-    const inFasterSearchExperiment = isInFasterSearchExperiment(
-      abTest,
-      fasterSearchFFEnabled,
-    );
+    const { onAdvancedSearch = () => {}, features } = this.props;
 
     return (
       <SearchResultsComponent
@@ -351,7 +355,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}
-        keepPreQueryState={inFasterSearchExperiment ? false : keepPreQueryState}
+        keepPreQueryState={
+          features.isInFasterSearchExperiment ? false : keepPreQueryState
+        }
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
@@ -379,7 +385,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getPreQueryGroups={() =>
           this.getPreQueryDisplayedResults(
             recentItems as ConfluenceResultsMap,
-            abTest,
             searchSessionId,
           )
         }
@@ -388,9 +393,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
             searchResults as ConfluenceResultsMap,
             latestSearchQuery,
             recentItems as ConfluenceResultsMap,
-            abTest,
             isLoading,
-            inFasterSearchExperiment,
+            searchSessionId,
           )
         }
         renderNoResult={() => (
@@ -411,12 +415,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   };
 
   render() {
-    const {
-      linkComponent,
-      logger,
-      inputControls,
-      fasterSearchFFEnabled,
-    } = this.props;
+    const { linkComponent, logger, inputControls, features } = this.props;
 
     return (
       <QuickSearchContainer
@@ -427,13 +426,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
-        getAbTestData={this.getAbTestData}
         handleSearchSubmit={this.handleSearchSubmit}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
         getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         logger={logger}
         inputControls={inputControls}
-        fasterSearchFFEnabled={fasterSearchFFEnabled}
+        features={features}
       />
     );
   }

@@ -1,5 +1,5 @@
 import { GasPayload } from '@atlaskit/analytics-gas-types';
-import { ProcessedFileState, FileState } from '@atlaskit/media-core';
+import { ProcessedFileState, FileState } from '@atlaskit/media-client';
 import { packageAttributes, fileStateToFileGasPayload } from './index';
 
 export type ViewerLoadPayload = {

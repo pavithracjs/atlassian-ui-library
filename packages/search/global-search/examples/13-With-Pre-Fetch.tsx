@@ -4,11 +4,18 @@ import withNavigation from '../example-helpers/withNavigation';
 import { GlobalQuickSearch } from '../src';
 import PrefetchedResultsProvider from '../src/components/PrefetchedResultsProvider';
 
-const GlobalQuickSearchWrapper = withNavigation(GlobalQuickSearch);
+const GlobalQuickSearchWrapper = withNavigation(
+  GlobalQuickSearch,
+  {},
+  ['confluence'],
+  false,
+);
 
 export default class GlobalQuickSearchExample extends React.Component {
   componentWillMount() {
-    setupMocks();
+    setupMocks({
+      crossProductSearchDelay: 2000,
+    });
   }
 
   componentWillUnmount() {

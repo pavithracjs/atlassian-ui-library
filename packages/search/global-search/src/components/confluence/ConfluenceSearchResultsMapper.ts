@@ -1,8 +1,9 @@
-import { ABTest } from '../../api/CrossProductSearchClient';
 import { messages } from '../../messages';
 import { ConfluenceResultsMap, ResultsGroup } from '../../model/Result';
 import { attachConfluenceContextIdentifiers } from '../common/contextIdentifiersHelper';
 import { take } from '../SearchResultsUtil';
+import { getConfluenceMaxObjects } from '../../util/experiment-utils';
+import { ConfluenceFeatures } from '../../util/features';
 
 export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
@@ -15,33 +16,19 @@ const EMPTY_CONFLUENCE_RESULT = {
   spaces: [],
 };
 
-/**
- * Grape is an experiment to increase the number of search results shown to the user
- */
-const GRAPE_EXPERIMENT = 'grape';
-
-const getMaxObjects = (abTest: ABTest) => {
-  if (abTest.experimentId.startsWith(GRAPE_EXPERIMENT)) {
-    const parsedMaxObjects = Number.parseInt(
-      abTest.experimentId.split('-')[1],
-      10,
-    );
-
-    return parsedMaxObjects || DEFAULT_MAX_OBJECTS;
-  }
-  return DEFAULT_MAX_OBJECTS;
-};
-
-export const sliceResults = (
+const sliceResults = (
   resultsMap: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
 ): ConfluenceResultsMap => {
   if (!resultsMap) {
     return EMPTY_CONFLUENCE_RESULT;
   }
   const { people, objects, spaces } = resultsMap;
   return {
-    objects: take(objects, getMaxObjects(abTest)),
+    objects: take(
+      objects,
+      getConfluenceMaxObjects(features.abTest, DEFAULT_MAX_OBJECTS),
+    ),
     spaces: take(spaces, MAX_SPACES),
     people: take(people, MAX_PEOPLE),
   };
@@ -49,10 +36,10 @@ export const sliceResults = (
 
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
   searchSessionId: string,
 ): ResultsGroup[] => {
-  const sliced = sliceResults(recentlyViewedObjects, abTest);
+  const sliced = sliceResults(recentlyViewedObjects, features);
 
   const { people, objects, spaces } = attachConfluenceContextIdentifiers(
     searchSessionId,
@@ -80,12 +67,16 @@ export const mapRecentResultsToUIGroups = (
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
+  searchSessionId: string,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(
-    searchResultsObjects,
-    abTest,
+  const sliced = sliceResults(searchResultsObjects, features);
+
+  const { people, objects, spaces } = attachConfluenceContextIdentifiers(
+    searchSessionId,
+    sliced,
   );
+
   return [
     {
       items: objects,

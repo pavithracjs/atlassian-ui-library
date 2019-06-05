@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
 import adf from './__fixtures__/column3-adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
@@ -15,10 +16,11 @@ describe.skip('Columns:', () => {
     page = global.page;
     await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
   });
+
   it('should render prosemirror selected node state', async () => {
     await typeInEditorAtEndOfDocument(page, '#');
     await pressKey(page, ['ArrowLeft', 'Backspace']);
     await page.waitForSelector(selectors.selectedNode);
-    await snapshot(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 });

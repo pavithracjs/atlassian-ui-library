@@ -8,8 +8,8 @@ export enum Scope {
   JiraFilter = 'jira.filter',
   JiraBoardProjectFilter = 'jira.board,project,filter',
   People = 'cpus.user',
-  UserJira = 'usr.user-jira',
-  UserConfluence = 'usr.user-confluence',
+  UserJira = 'urs.user-jira',
+  UserConfluence = 'urs.user-confluence',
 }
 
 export type QuickSearchContext = 'jira' | 'confluence' | 'home';
@@ -88,8 +88,22 @@ export interface PersonItem {
   picture: string;
 }
 
+export interface UrsPersonItem {
+  avatarUrl: string;
+  entityType: string;
+  id: string;
+  name: string;
+  nickname?: string;
+}
+
 export interface JiraResultQueryParams {
   searchContainerId?: string;
   searchObjectId?: string;
   searchContentType?: 'issue' | 'board' | 'project' | 'filter';
 }
+
+export interface ConfluenceModelContext {
+  spaceKey?: string;
+}
+
+export interface JiraModelContext {}

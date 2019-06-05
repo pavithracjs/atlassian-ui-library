@@ -48,7 +48,6 @@ export enum Product {
 }
 
 export enum Feature {
-  enableSplitJira = 'enableSplitJira',
   enableExpandLink = 'enableExpandLink',
 }
 

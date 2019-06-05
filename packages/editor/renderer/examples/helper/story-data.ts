@@ -1,5 +1,8 @@
 import { emoji } from '@atlaskit/util-data-test';
-import { videoLargeFileId } from '@atlaskit/media-test-helpers';
+import {
+  videoLargeFileId,
+  videoSquareFileId,
+} from '@atlaskit/media-test-helpers';
 
 const emojiTestData = emoji.testData;
 const emojiStoryData = emoji.storyData;
@@ -903,6 +906,22 @@ System.out.println("There are " + count + " values >= 5");`,
           attrs: {
             type: 'file',
             id: videoLargeFileId.id,
+            collection: 'MediaServicesSample',
+            height: 200,
+            width: 400,
+          },
+        },
+      ],
+    },
+    {
+      type: 'mediaSingle',
+      attrs: {},
+      content: [
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: videoSquareFileId.id,
             collection: 'MediaServicesSample',
             height: 200,
             width: 400,

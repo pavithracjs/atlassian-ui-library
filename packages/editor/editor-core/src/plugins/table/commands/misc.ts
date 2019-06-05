@@ -23,7 +23,11 @@ import {
   ContentNodeWithPos,
 } from 'prosemirror-utils';
 import { createCommand } from '../pm-plugins/main';
-import { checkIfHeaderRowEnabled, isIsolating } from '../utils';
+import {
+  checkIfHeaderRowEnabled,
+  checkIfHeaderColumnEnabled,
+  isIsolating,
+} from '../utils';
 import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
 import { outdentList } from '../../lists/commands';
@@ -65,6 +69,8 @@ export const setTableRef = (ref?: HTMLElement | null) =>
           tableRef,
           tableNode,
           tableWrapperTarget,
+          isHeaderRowEnabled: checkIfHeaderRowEnabled(state),
+          isHeaderColumnEnabled: checkIfHeaderColumnEnabled(state),
         },
       };
     },
@@ -317,7 +323,7 @@ export const setMultipleCellAttrs = (
   return false;
 };
 
-export const selectColumn = (column: number) =>
+export const selectColumn = (column: number, expand?: boolean) =>
   createCommand(
     state => {
       let targetCellPosition;
@@ -328,10 +334,11 @@ export const selectColumn = (column: number) =>
 
       return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
     },
-    tr => selectColumnTransform(column)(tr).setMeta('addToHistory', false),
+    tr =>
+      selectColumnTransform(column, expand)(tr).setMeta('addToHistory', false),
   );
 
-export const selectRow = (row: number) =>
+export const selectRow = (row: number, expand?: boolean) =>
   createCommand(
     state => {
       let targetCellPosition;
@@ -342,7 +349,7 @@ export const selectRow = (row: number) =>
 
       return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
     },
-    tr => selectRowTransform(row)(tr).setMeta('addToHistory', false),
+    tr => selectRowTransform(row, expand)(tr).setMeta('addToHistory', false),
   );
 
 export const showInsertColumnButton = (columnIndex: number) =>

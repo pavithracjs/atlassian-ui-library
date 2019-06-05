@@ -1,4 +1,4 @@
-import { Context } from '@atlaskit/media-core';
+import { Context, FileIdentifier } from '@atlaskit/media-core';
 import { MediaFile, UploadParams } from '@atlaskit/media-picker';
 
 export type MediaStateStatus =
@@ -69,3 +69,37 @@ export type MobileUploadEndEventPayload = {
     readonly publicId?: string;
   };
 };
+
+export type MediaEditorState = {
+  context?: Context;
+  editor?: {
+    pos: number;
+    identifier: FileIdentifier;
+  };
+};
+
+export type OpenMediaEditor = {
+  type: 'open';
+  pos: number;
+  identifier: FileIdentifier;
+};
+
+export type UploadAnnotation = {
+  type: 'upload';
+  newIdentifier: FileIdentifier;
+};
+
+export type CloseMediaEditor = {
+  type: 'close';
+};
+
+export type SetMediaContext = {
+  type: 'setContext';
+  context?: Context;
+};
+
+export type MediaEditorAction =
+  | OpenMediaEditor
+  | CloseMediaEditor
+  | UploadAnnotation
+  | SetMediaContext;

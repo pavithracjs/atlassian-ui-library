@@ -4,6 +4,7 @@ import { getSelectionRect } from 'prosemirror-utils';
 import {
   tableCellMinWidth,
   tableResizeHandleWidth,
+  akEditorTableNumberColumnWidth,
 } from '@atlaskit/editor-common';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
 import { pluginKey as editorDisabledPluginKey } from '../../../editor-disabled';
@@ -98,17 +99,24 @@ export const handleMouseDown = (
 
   const containerWidth = widthPluginKey.getState(state);
   const parentWidth = getParentNodeWidth(start, state, containerWidth);
+
+  let maxSize =
+    parentWidth ||
+    getLayoutSize(
+      dom.getAttribute('data-layout') as TableLayout,
+      containerWidth.width,
+      {
+        dynamicTextSizing,
+      },
+    );
+
+  if (originalTable.attrs.isNumberColumnEnabled) {
+    maxSize -= akEditorTableNumberColumnWidth;
+  }
+
   const resizeState = getResizeStateFromDOM({
     minWidth: tableCellMinWidth,
-    maxSize:
-      parentWidth ||
-      getLayoutSize(
-        dom.getAttribute('data-layout') as TableLayout,
-        containerWidth.width,
-        {
-          dynamicTextSizing,
-        },
-      ),
+    maxSize,
     table: originalTable,
     tableRef: dom,
     start,

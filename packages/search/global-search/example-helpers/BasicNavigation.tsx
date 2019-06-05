@@ -12,6 +12,7 @@ import Avatar from '@atlaskit/avatar';
 
 export interface Props {
   searchDrawerContent: JSX.Element;
+  drawerIsOpen?: boolean;
 }
 
 export interface State {
@@ -19,10 +20,14 @@ export interface State {
 }
 
 export default class BasicNavigation extends React.Component<Props, State> {
+  static defaultProps = {
+    drawerIsOpen: true,
+  };
+
   constructor(props: Props) {
     super(props);
     this.state = {
-      openDrawer: 'search',
+      openDrawer: props.drawerIsOpen ? 'search' : null,
     };
   }
 

@@ -69,9 +69,9 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
           const { allowTables, appearance, allowDynamicTextSizing } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = appearance === 'full-page';
-          const wasBreakoutEnabled =
-            prevProps && prevProps.appearance !== 'full-width';
           const isFullWidthModeEnabled = appearance === 'full-width';
+          const wasFullWidthModeEnabled =
+            prevProps && prevProps.appearance === 'full-width';
           return createPlugin(
             dispatch,
             portalProviderAPI,
@@ -79,8 +79,8 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
             isContextMenuEnabled,
             isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
-            wasBreakoutEnabled,
             isFullWidthModeEnabled,
+            wasFullWidthModeEnabled,
           );
         },
       },

@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.5.9
+- [patch] [f823890888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f823890888):
+
+  - ED-6970: Fix backspacing inside a layout removing all content.
+
 ## 2.5.8
 - [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
 

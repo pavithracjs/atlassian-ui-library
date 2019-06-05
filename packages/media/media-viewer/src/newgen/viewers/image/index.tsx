@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {
-  Context,
+  MediaClient,
   FileItem,
   FileState,
   isImageRepresentationReady,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { getOrientation } from '@atlaskit/media-ui';
 import { Outcome } from '../../domain';
 import { createError, MediaViewerError } from '../../error';
@@ -16,7 +16,7 @@ export type ObjectUrl = string;
 export const REQUEST_CANCELLED = 'request_cancelled';
 
 export type ImageViewerProps = AnalyticViewerProps & {
-  context: Context;
+  mediaClient: MediaClient;
   item: FileState;
   collectionName?: string;
   onClose?: () => void;
@@ -54,7 +54,7 @@ export class ImageViewer extends BaseViewer<
   }
 
   protected async init() {
-    const { item: file, context, collectionName } = this.props;
+    const { item: file, mediaClient, collectionName } = this.props;
     if (file.status === 'error') {
       return;
     }
@@ -69,7 +69,7 @@ export class ImageViewer extends BaseViewer<
           typeof AbortController !== 'undefined'
             ? new AbortController()
             : undefined;
-        const response = context.getImage(
+        const response = mediaClient.getImage(
           item.details.id,
           {
             width: 1920,

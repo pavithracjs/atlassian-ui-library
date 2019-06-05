@@ -21,6 +21,7 @@ import {
   LAYOUT_SECTION_MARGIN,
 } from '../../../../layout/styles';
 import { WidthPluginState } from '../../../../width';
+import { TableOptions } from '../../../nodeviews/table';
 
 export const tableLayoutToSize: Record<string, number> = {
   default: akEditorDefaultLayoutWidth,
@@ -32,14 +33,11 @@ export const tableLayoutToSize: Record<string, number> = {
 export function getLayoutSize(
   tableLayout: TableLayout,
   containerWidth: number = 0,
-  options: {
-    dynamicTextSizing?: boolean;
-    isBreakoutEnabled?: boolean;
-  },
+  options: TableOptions,
 ): number {
-  const { dynamicTextSizing, isBreakoutEnabled } = options;
+  const { dynamicTextSizing, isFullWidthModeEnabled } = options;
 
-  if (isBreakoutEnabled === false) {
+  if (isFullWidthModeEnabled) {
     return containerWidth
       ? Math.min(
           containerWidth - akEditorGutterPadding * 2,

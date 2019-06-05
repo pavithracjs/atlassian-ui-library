@@ -1,5 +1,29 @@
 ## 0.1.0
 
+## 0.5.8
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 0.5.7
+- Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
+  - @atlaskit/form@6.0.3
+  - @atlaskit/radio@3.0.0
+
+## 0.5.6
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/navigation@35.1.3
+  - @atlaskit/page@11.0.0
+
+## 0.5.5
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/form@6.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/navigation@35.1.2
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/help-article@0.4.4
+  - @atlaskit/section-message@4.0.0
+
 ## 0.5.4
 - [patch] [84b7ee2f8b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84b7ee2f8b):
 

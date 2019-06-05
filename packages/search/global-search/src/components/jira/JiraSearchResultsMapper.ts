@@ -15,8 +15,11 @@ import {
 import { messages } from '../../messages';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 import { attachJiraContextIdentifiers } from '../common/contextIdentifiersHelper';
+import { ABTest } from '../../api/CrossProductSearchClient';
+import { getJiraMaxObjects } from '../../util/experiment-utils';
+import { JiraFeatures } from '../../util/features';
 
-const MAX_OBJECTS = 8;
+const DEFAULT_MAX_OBJECTS = 8;
 const MAX_CONTAINERS = 6;
 const MAX_PEOPLE = 3;
 
@@ -33,13 +36,13 @@ const hasNoResults = (
   containers: Array<Result> = [],
 ): boolean => isEmpty(objects) && isEmpty(poeple) && isEmpty(containers);
 
-export const sliceResults = (resultsMap: GenericResultMap | null) => {
+const sliceResults = (resultsMap: GenericResultMap | null, abTest: ABTest) => {
   const { objects, containers, people } = resultsMap
     ? resultsMap
     : DEFAULT_JIRA_RESULTS_MAP;
 
   const [objectsToDisplay, peopleToDisplay, containersToDisplay] = [
-    { items: objects, count: MAX_OBJECTS },
+    { items: objects, count: getJiraMaxObjects(abTest, DEFAULT_MAX_OBJECTS) },
     { items: people, count: MAX_PEOPLE },
     { items: containers, count: MAX_CONTAINERS },
   ].map(({ items, count }) => take(items, count));
@@ -54,6 +57,7 @@ export const sliceResults = (resultsMap: GenericResultMap | null) => {
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: GenericResultMap | null,
   searchSessionId: string,
+  features: JiraFeatures,
   appPermission?: JiraApplicationPermission,
 ): ResultsGroup[] => {
   const withSessionId =
@@ -65,7 +69,7 @@ export const mapRecentResultsToUIGroups = (
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(withSessionId);
+  } = sliceResults(withSessionId, features.abTest);
 
   return [
     {
@@ -92,6 +96,7 @@ export const mapRecentResultsToUIGroups = (
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
   searchSessionId: string,
+  features: JiraFeatures,
   appPermission?: JiraApplicationPermission,
   query?: string,
 ): ResultsGroup[] => {
@@ -104,7 +109,7 @@ export const mapSearchResultsToUIGroups = (
     objectsToDisplay,
     peopleToDisplay,
     containersToDisplay,
-  } = sliceResults(withSessionId);
+  } = sliceResults(withSessionId, features.abTest);
   return [
     {
       items: objectsToDisplay,
