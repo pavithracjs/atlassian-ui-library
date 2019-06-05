@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@atlaskit/analytics-listeners": "^6.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/single-select": "^8.0.0",
     "@atlaskit/util-data-test": "^12.0.0",
     "enzyme": "^3.7.0"

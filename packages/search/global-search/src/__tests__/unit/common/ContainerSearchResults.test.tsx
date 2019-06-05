@@ -38,6 +38,7 @@ import ConfluenceAdvancedSearchGroup from '../../../components/confluence/Advanc
 import JiraAdvancedSearchGroup from '../../../components/jira/JiraAdvancedSearch';
 import StickyFooter from '../../../components/common/StickyFooter';
 import { QuickSearchContext } from '../../../api/types';
+import { JiraFeatures, ConfluenceFeatures } from '../../../util/features';
 
 const getIssues = (searchSessionId: string) => [
   makeJiraObjectResult({
@@ -97,19 +98,32 @@ const renderConfluenceQuickSearchContainer = (props: ConfluenceProps) => {
   return shallowWithIntl(<ConfluenceQuickSearchContainer {...props} />);
 };
 
+const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
+  abTest,
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
+  disableJiraPreQueryPeopleSearch: false,
+  enablePreQueryFromAggregator: false,
+};
+
 const renderComponent = (product: QuickSearchContext) => {
-  const props = {
+  const props: ConfluenceProps & JiraProps = {
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
     jiraClient: mockNoResultJiraClient(),
     logger,
     createAnalyticsEvent: createAnalyticsEventSpy,
     confluenceClient: noResultsConfluenceClient,
-    useAggregatorForConfluenceObjects: false,
-    useCPUSForPeopleResults: false,
-    fasterSearchFFEnabled: false,
-    useUrsForBootstrapping: false,
+    features: DEFAULT_FEATURES,
+    firePrivateAnalyticsEvent: undefined,
+    onAdvancedSearch: undefined,
+    linkComponent: undefined,
+    referralContextIdentifiers: undefined,
+    modelContext: undefined,
+    inputControls: undefined,
+    appPermission: undefined,
   };
+
   return product === 'jira'
     ? renderJiraQuickSearchContainer(props)
     : renderConfluenceQuickSearchContainer(props);
@@ -216,7 +230,6 @@ const getSearchAndRecentItems = (
         containers: [],
         people: getRecentlyInteractedPeople(sessionId, product),
       },
-      abTest,
     };
   }
   return {
@@ -231,7 +244,6 @@ const getSearchAndRecentItems = (
       spaces: [],
       people: getRecentlyInteractedPeople(sessionId, product),
     },
-    abTest,
   };
 };
 
@@ -355,7 +367,10 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
           SearchResultUtils,
           'getJiraAdvancedSearchUrl',
         );
-        getAdvancedSearchUrlSpy.mockReturnValue('confUrl');
+
+        getAdvancedSearchUrlSpy.mockReturnValue(
+          product === 'jira' ? 'jiraUrl' : 'confUrl',
+        );
         const quickSearchContainer = wrapper.find(QuickSearchContainer);
         searchResultsComponent = (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResultsComponent(
           getSearchAndRecentItems(product, sessionId),
@@ -417,7 +432,6 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
       });
 
       it('should return postQueryGroups', () => {
-        getAdvancedSearchUrlSpy.mockReturnValue('jiraUrl');
         const { getPostQueryGroups } = getProps();
         const postQueryGroups = getPostQueryGroups();
         expect(postQueryGroups).toMatchObject(

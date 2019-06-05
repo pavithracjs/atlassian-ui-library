@@ -1,4 +1,4 @@
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 import { createNavigationEvent } from '../../../../newgen/analytics/navigation';
 import {
   version as packageVersion,

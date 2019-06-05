@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/dynamic-table",
-  "version": "13.0.2",
+  "version": "13.1.0",
   "description": "Table component with pagination and sorting functionality",
   "license": "Apache-2.0",
   "module": "index.js",

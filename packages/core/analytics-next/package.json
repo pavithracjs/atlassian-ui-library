@@ -29,7 +29,7 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^13.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/type-helpers": "^4.0.0",

@@ -23,6 +23,13 @@ import { pluginConfig as getPluginConfig } from '../index';
 import { TableCssClassName as ClassName } from '../types';
 import { closestElement } from '../../../utils';
 
+export type TableOptions = {
+  dynamicTextSizing?: boolean;
+  isBreakoutEnabled?: boolean;
+  isFullWidthModeEnabled?: boolean;
+  wasFullWidthModeEnabled?: boolean;
+};
+
 export interface Props {
   node: PmNode;
   view: EditorView;
@@ -30,11 +37,7 @@ export interface Props {
   cellMinWidth?: number;
   portalProviderAPI: PortalProviderAPI;
   getPos: () => number;
-  options?: {
-    dynamicTextSizing?: boolean;
-    isBreakoutEnabled?: boolean;
-    isFullWidthModeEnabled?: boolean;
-  };
+  options?: TableOptions;
 }
 
 const tableAttributes = (node: PmNode) => {
@@ -142,13 +145,12 @@ export default class TableView extends ReactNodeView {
 
   private resizeForBreakoutContent = (target: HTMLElement) => {
     const { view } = this;
-    const elemOrWrapper =
-      closestElement(
-        target,
-        `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
-          ClassName.TABLE_CELL_NODE_WRAPPER
-        }`,
-      ) || target;
+    const elemOrWrapper = closestElement(
+      target,
+      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
+        ClassName.TABLE_CELL_NODE_WRAPPER
+      }`,
+    );
     const { minWidth } = contentWidth(target, target);
 
     // This can also trigger for a non-resized table.
@@ -228,12 +230,7 @@ export const createTableView = (
   view: EditorView,
   getPos: getPosHandler,
   portalProviderAPI: PortalProviderAPI,
-  options: {
-    isBreakoutEnabled?: boolean;
-    wasBreakoutEnabled?: boolean;
-    dynamicTextSizing?: boolean;
-    isFullWidthModeEnabled?: boolean;
-  },
+  options: TableOptions,
 ): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
   const { allowColumnResizing } = getPluginConfig(pluginConfig);

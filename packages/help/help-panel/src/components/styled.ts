@@ -14,11 +14,14 @@ export const truncate = (width: string = '100%') => css`
 export const CloseButton = styled.button`
   color: ${colors.N100};
   cursor: pointer;
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
+  width: 28px;
+  height: 28px;
   border: none;
   padding: 0;
+
+  &:hover {
+    background-color: ${colors.N30A};
+  }
 `;
 
 export const HelpPanelHeader = styled.div`
@@ -39,8 +42,8 @@ export const HelpPanelHeader = styled.div`
 export const HelpPanelHeaderText = styled.div`
   color: ${colors.N100};
   font-weight: bold;
-  height: 24px;
-  line-height: 24px;
+  height: 28px;
+  line-height: 28px;
   width: 100%;
 `;
 
@@ -52,15 +55,15 @@ export const BackButton = styled.button`
   cursor: pointer;
   display: flex;
   font-size: inherit;
-  height: 24px;
+  height: 28px;
   justify-content: left;
-  line-height: 24px;
+  line-height: 28px;
   padding: 0;
   font-weight: bold;
 `;
 
 export const BackButtonText = styled.span`
-  height: 26px;
+  height: 28px;
 `;
 
 export const HelpPanelBody = styled.div`
@@ -70,7 +73,7 @@ export const HelpPanelBody = styled.div`
   padding: ${gridSize() * 2}px ${gridSize() * 3}px ${gridSize() * 2}px
     ${gridSize() * 3}px;
   overflow-y: auto;
-  height: calc(100vh - 58px - ${gridSize() * 2}px);
+  height: calc(100vh - 60px - ${gridSize() * 2}px);
 `;
 
 const ItemGroupTitleSize = 11;

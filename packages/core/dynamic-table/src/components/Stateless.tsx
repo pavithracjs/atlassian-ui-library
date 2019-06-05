@@ -177,6 +177,7 @@ class DynamicTable extends React.Component<Props, State> {
       isRankable,
       isRankingDisabled,
       paginationi18n,
+      onPageRowsUpdate,
     } = this.props;
 
     const rowsLength = rows && rows.length;
@@ -188,6 +189,7 @@ class DynamicTable extends React.Component<Props, State> {
       rowsPerPage,
       page,
       isFixedSize: isFixedSize || false,
+      onPageRowsUpdate,
       ref: (el: any) => {
         this.tableBody = el;
       },

@@ -71,6 +71,7 @@
     "./typings/raf-schd.d.ts",
     "./typings/raf-stub.d.ts",
     "./typings/react-lorem-component.d.ts",
+    "./typings/react-node-resolver.d.ts",
     "./typings/react-scrolllock.d.ts",
     "./typings/rusha.d.ts",
     "./typings/scrollparent.d.ts",

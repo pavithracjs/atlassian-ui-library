@@ -254,6 +254,7 @@ export default class MediaSingleNode extends Component<
         onExternalImageLoaded={this.onExternalImageLoaded}
         editorAppearance={editorAppearance}
         uploadComplete={uploadComplete}
+        url={childNode.attrs.url}
       />
     );
 

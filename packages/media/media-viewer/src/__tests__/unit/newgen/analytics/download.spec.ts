@@ -7,7 +7,7 @@ import {
   fileWithError,
 } from './index.spec';
 import { version as packageVersion } from '../../../../version.json';
-import { ProcessedFileState } from '@atlaskit/media-core';
+import { ProcessedFileState } from '@atlaskit/media-client';
 
 const unsupportedFile: ProcessedFileState = {
   ...processedFile,

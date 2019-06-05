@@ -1,5 +1,9 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/type-helpers",
+    "version": "4.1.1",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -8,6 +12,10 @@
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/type-helpers",
+    "version": "4.1.1",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
