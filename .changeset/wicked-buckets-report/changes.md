@@ -1,0 +1,1 @@
+fix view all issues link
