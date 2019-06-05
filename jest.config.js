@@ -9,6 +9,8 @@ const { VISUAL_REGRESSION } = process.env;
 const { PARALLELIZE_TESTS } = process.env;
 const { PARALLELIZE_TESTS_FILE } = process.env;
 const { TEST_ONLY_PATTERN } = process.env;
+const { TEST_EXCLUDE_PATTERN } = process.env;
+const { USER_AGENT } = process.env;
 
 // These are set by Pipelines if you are running in a parallel steps
 const STEP_IDX = Number(process.env.STEP_IDX);
@@ -41,8 +43,8 @@ const config = {
   testPathIgnorePatterns: [
     // ignore files that are under a directory starting with "_" at the root of __tests__
     '/__tests__\\/_.*?',
-    // ignore files under __tests__ that start with an underscore
-    '/__tests__\\/.*?\\/_.*?',
+    // ignore files under __tests__ that start with "one" underscore
+    '/__tests__\\/.*?\\/_[^_].*?',
     // ignore tests under __tests__/flow
     '/__tests__\\/flow/',
     // ignore tests under __tests__/integration (we override this if the INTEGRATION_TESTS flag is set)
@@ -80,18 +82,24 @@ const config = {
   setupFiles: ['./build/jest-config/setup.js'],
   setupTestFrameworkScriptFile: `${__dirname}/jestFrameworkSetup.js`,
   testResultsProcessor: 'jest-junit',
-  testEnvironmentOptions: {
-    // Need this to have jsdom loading images.
-    resources: 'usable',
-  },
   coverageReporters: ['lcov', 'html', 'text-summary'],
   collectCoverage: false,
   collectCoverageFrom: [],
   coverageThreshold: {},
   globalSetup: undefined,
   globalTeardown: undefined,
-  // Jest's default test environment 'jsdom' uses JSDOM 11 to support Node 6. Here we upgrade to JSDOM 14, which supports Node >= 8
-  testEnvironment: 'jest-environment-jsdom-fourteen',
+  // Jest's default test environment 'jsdom' uses JSDOM 11 to support Node 6. Here we upgrade to JSDOM 14, which supports Node >= 8.
+  // This script allows "resourceLoaderOptions" object (passed into "testEnvironmentOptions") to initialize a JSDOM's ResourceLoader.
+  testEnvironment: `${__dirname}/build/jest-config/setup-jsdom-environment.js`,
+  testEnvironmentOptions: {
+    // Using JSDOM's ResourceLoader:
+    // - to load images (https://github.com/jsdom/jsdom/issues/2345)
+    // - to inject a custom user-agent
+    // - created using "resourceLoaderOptions" to solve a classloading problem (similar to https://github.com/facebook/jest/issues/2549)
+    resourceLoaderOptions: {
+      userAgent: USER_AGENT,
+    },
+  },
 };
 
 // If the CHANGED_PACKAGES variable is set, we parse it to get an array of changed packages and only
@@ -157,6 +165,14 @@ if (TEST_ONLY_PATTERN) {
   }
 
   config.testPathIgnorePatterns.push(newIgnore);
+}
+
+// Exclude fixtures files by default
+config.testPathIgnorePatterns.push('__fixtures__');
+
+// The TEST_EXCLUDE_PATTERN is added to exclude paths that match a given pattern
+if (TEST_EXCLUDE_PATTERN) {
+  config.testPathIgnorePatterns.push(TEST_EXCLUDE_PATTERN);
 }
 
 /**

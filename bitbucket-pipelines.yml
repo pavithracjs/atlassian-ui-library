@@ -87,7 +87,9 @@ pipelines:
               # Run the non-editor tests, --passWithNoTests has been added in case of no tests found to avoid failure in CI.
               - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
               # Run the editor tests (runInBand is required or it fails in CI)
-              - TEST_ONLY_PATTERN='packages/editor' yarn test:changed --runInBand --passWithNoTests
+              - TEST_ONLY_PATTERN='packages/editor' TEST_EXCLUDE_PATTERN='__android__|__ios__' yarn test:changed --runInBand --passWithNoTests
+              # Run Android specific tests of the editor bridge
+              - TEST_ONLY_PATTERN='packages/editor/editor-mobile-bridge' TEST_EXCLUDE_PATTERN=__ios__ USER_AGENT='Android 8.0' yarn test:changed --passWithNoTests
               # This script acts like a unit test to check changes to @atlaskit/adf-schema.
               - node build/ci-scripts/run.if.package.changed.js @atlaskit/adf-schema -- yarn build:adf-schema:checkuptodate
             after-script:
@@ -292,7 +294,9 @@ pipelines:
                 # Run the non-editor tests.
                 - TEST_ONLY_PATTERN='!packages/editor' yarn test:CI
                 # Run the editor tests (runInBand is required or it fails in CI)
-                - TEST_ONLY_PATTERN='packages/editor' yarn test:CI --runInBand
+                - TEST_ONLY_PATTERN='packages/editor' TEST_EXCLUDE_PATTERN='__android__|__ios__'  yarn test:CI --runInBand
+                # Run Android specific tests of the editor bridge
+                - TEST_ONLY_PATTERN='packages/editor/editor-mobile-bridge' TEST_EXCLUDE_PATTERN=__ios__ USER_AGENT='Android 8.0' yarn test:changed --passWithNoTests
               after-script:
                 - yarn send:stepFailureEvents
           - step:
@@ -392,7 +396,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' TEST_EXCLUDE_PATTERN='__android__|__ios__'  yarn --silent jest --listTests --json > $TMPFILE
                 - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
                 # This script acts like a unit test to check changes to @atlaskit/adf-schema.
                 - node build/ci-scripts/run.if.package.changed.js @atlaskit/adf-schema -- yarn build:adf-schema:checkuptodate
@@ -404,8 +408,9 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' TEST_EXCLUDE_PATTERN='__android__|__ios__'  yarn --silent jest --listTests --json > $TMPFILE
                 - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - TEST_ONLY_PATTERN='packages/editor/editor-mobile-bridge' TEST_EXCLUDE_PATTERN=__ios__ USER_AGENT='Android 8.0' yarn test:CI --passWithNoTests
               after-script:
                 - yarn send:stepFailureEvents
           - step:

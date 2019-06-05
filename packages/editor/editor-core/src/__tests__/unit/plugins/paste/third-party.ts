@@ -1,16 +1,16 @@
-import appleTextHTML from './__third-party__/apple-pages/text/html';
-import appleTextPlain from './__third-party__/apple-pages/text/plain';
-import confluenceTextHTML from './__third-party__/atlassian-confluence/text/html';
-import confluenceTextPlain from './__third-party__/atlassian-confluence/text/plain';
-import dropboxTextHTML from './__third-party__/dropbox-paper/text/html';
-import dropboxTextPlain from './__third-party__/dropbox-paper/text/plain';
-import googleTextHTML from './__third-party__/google-docs/text/html';
-import googleTextPlain from './__third-party__/google-docs/text/plain';
-import msWordTextHTML from './__third-party__/microsoft-word/text/html';
-import msWordTextPlain from './__third-party__/microsoft-word/text/plain';
-import reactSyntaxHighlighterHTML from './__third-party__/react-syntax-highlighter/text/html';
-import vsCodeMultiLine from './__third-party__/vs-code/multi-line/html';
-import vsCodeSingleLine from './__third-party__/vs-code/single-line/html';
+import appleTextHTML from './__fixtures__/apple-pages/text/html';
+import appleTextPlain from './__fixtures__/apple-pages/text/plain';
+import confluenceTextHTML from './__fixtures__/atlassian-confluence/text/html';
+import confluenceTextPlain from './__fixtures__/atlassian-confluence/text/plain';
+import dropboxTextHTML from './__fixtures__/dropbox-paper/text/html';
+import dropboxTextPlain from './__fixtures__/dropbox-paper/text/plain';
+import googleTextHTML from './__fixtures__/google-docs/text/html';
+import googleTextPlain from './__fixtures__/google-docs/text/plain';
+import msWordTextHTML from './__fixtures__/microsoft-word/text/html';
+import msWordTextPlain from './__fixtures__/microsoft-word/text/plain';
+import reactSyntaxHighlighterHTML from './__fixtures__/react-syntax-highlighter/text/html';
+import vsCodeMultiLine from './__fixtures__/vs-code/multi-line/html';
+import vsCodeSingleLine from './__fixtures__/vs-code/single-line/html';
 
 import { toJSON } from '../../../../utils';
 import {

@@ -1,12 +1,12 @@
 /* eslint-disable */
 const puppeteer = require('puppeteer');
-const JSDOMEnvironment = require('jest-environment-jsdom-fourteen');
 const request = require('request-promise-native');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 const wsEndpointDir = path.join(DIR, 'wsEndpoint');
+const JSDOMEnvironment = require('../../../jest-config/setup-jsdom-environment');
 
 async function getDockerWsEndpoint() {
   // Retrieve ws endpoint from docker
