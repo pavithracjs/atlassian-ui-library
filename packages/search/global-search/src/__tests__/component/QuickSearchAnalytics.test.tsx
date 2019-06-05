@@ -7,6 +7,7 @@ import {
 } from '../../../example-helpers/mockApis';
 import { GlobalQuickSearch, Props } from '../..';
 import { QuickSearchContainer } from '../../components/common/QuickSearchContainer';
+import { ABTestProvider } from '../../components/AbTestProvider';
 import BasicNavigation from '../../../example-helpers/BasicNavigation';
 import LocaleIntlProvider from '../../../example-helpers/LocaleIntlProvider';
 import { ResultBase } from '@atlaskit/quick-search';
@@ -27,11 +28,32 @@ import {
 } from '../unit/helpers/_events_payloads';
 
 const spyOnComponentDidUpdate = () => {
-  if (QuickSearchContainer.prototype.componentDidUpdate) {
-    return jest.spyOn(QuickSearchContainer.prototype, 'componentDidUpdate');
-  }
+  const componentsToWaitFor = [QuickSearchContainer, ABTestProvider];
+
   const spy = jest.fn();
-  QuickSearchContainer.prototype.componentDidUpdate = spy;
+
+  componentsToWaitFor.forEach(component => {
+    const baseComponentDidUpdateImplementation =
+      component.prototype.componentDidUpdate;
+
+    if (!baseComponentDidUpdateImplementation) {
+      component.prototype.componentDidUpdate = spy;
+    } else {
+      component.prototype.componentDidUpdate = function(
+        prevProps: any,
+        prevState: any,
+        snapshot: any,
+      ) {
+        spy(prevProps, prevState, snapshot);
+        return baseComponentDidUpdateImplementation.apply(this, [
+          prevProps,
+          prevState,
+          snapshot,
+        ]);
+      };
+    }
+  });
+
   return spy;
 };
 
@@ -46,14 +68,17 @@ const findAnalyticEventWithProperties = (
   eventSpy: jest.Mock<{}>,
   analyticProperties: Object,
 ) => {
-  const [event] = [...eventSpy.mock.calls]
+  const foundEvents = [...eventSpy.mock.calls]
     .reverse()
     .find(([event]) =>
       Object.keys(analyticProperties).every(
         key => event.payload[key] === (analyticProperties as any)[key],
       ),
     );
-  return event;
+
+  expect(foundEvents).not.toBeUndefined();
+
+  return foundEvents && foundEvents[0];
 };
 
 const CONFLUENCE_RECENT_ITEMS = [
@@ -136,7 +161,7 @@ const getRecentItems = (product: string) =>
     });
 
     const renderComponent = (onEvent: jest.Mock<{}>) => {
-      return mount(
+      const wrapper = mount(
         <AnalyticsListener onEvent={onEvent} channel="fabric-elements">
           <BasicNavigation
             searchDrawerContent={
@@ -155,6 +180,8 @@ const getRecentItems = (product: string) =>
           />
         </AnalyticsListener>,
       );
+
+      return wrapper;
     };
 
     const checkIfNoMoreUpdates = (

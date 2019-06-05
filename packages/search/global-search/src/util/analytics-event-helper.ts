@@ -50,7 +50,6 @@ export function firePreQueryShownEvent(
   createAnalyticsEvent: CreateAnalyticsEventFn,
   abTest: ABTest,
   referralContextIdentifiers?: ReferralContextIdentifiers,
-  experimentRequestDurationMs?: number,
   retrievedFromAggregator?: boolean,
 ) {
   fireGasEvent(
@@ -61,7 +60,6 @@ export function firePreQueryShownEvent(
     'ui',
     {
       preQueryRequestDurationMs: elapsedMs,
-      experimentRequestDurationMs,
       renderTimeMs,
       searchSessionId: searchSessionId,
       referralContextIdentifiers,

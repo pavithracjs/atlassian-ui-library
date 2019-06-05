@@ -1,4 +1,4 @@
-import { FileState } from '@atlaskit/media-core';
+import { FileState } from '@atlaskit/media-client';
 import { MediaType } from '@atlaskit/media-store';
 import {
   name as packageName,
