@@ -19,7 +19,12 @@ export const LoadingError = ({
 
   return (
     <LoadingErrorMessage>
-      <SomethingWrongImageFile />
+      {/* <SomethingWrongImageFile /> */}
+      <div
+        dangerouslySetInnerHTML={{
+          __html: SomethingWrongImageFile,
+        }}
+      />
       <h2>{formatMessage(messages.help_panel_search_error_loading_title)}</h2>
       <p>{formatMessage(messages.help_panel_search_error_loading_text)}</p>
       <LoadingErrorButtonContainer>
