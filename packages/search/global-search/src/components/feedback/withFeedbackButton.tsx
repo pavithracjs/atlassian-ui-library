@@ -66,7 +66,7 @@ export default function withFeedbackButton<P>(
           abTest: { experimentId, abTestId },
         },
       } = this.props;
-      let feedbackContext = `experimentId: ${experimentId}, abTestId: ${abTestId}`;
+      const feedbackContext = `experimentId: ${experimentId}, abTestId: ${abTestId}`;
 
       return (
         <div>
