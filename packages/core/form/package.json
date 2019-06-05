@@ -40,7 +40,7 @@
     "@atlaskit/calendar": "^8.0.0",
     "@atlaskit/checkbox": "^8.0.0",
     "@atlaskit/datetime-picker": "^8.0.3",
-    "@atlaskit/docs": "^8.1.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/dropdown-menu": "^8.0.0",
     "@atlaskit/droplist": "^9.0.2",
     "@atlaskit/field-radio-group": "^6.0.1",

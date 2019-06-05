@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/button": "^13.0.6",
-    "@atlaskit/docs": "^8.0.0",
     "@atlaskit/form": "^6.0.4",
     "@atlaskit/section-message": "^4.0.0",
     "@atlaskit/ssr": "^0.1.0",

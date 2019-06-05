@@ -39,7 +39,7 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^13.0.4",
-    "@atlaskit/docs": "^8.1.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-range": "^7.0.2",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/modal-dialog": "^10.0.0",

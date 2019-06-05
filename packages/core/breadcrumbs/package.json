@@ -1,10 +1,11 @@
 {
   "name": "@atlaskit/breadcrumbs",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "description": "A component used for navigation, with each item acting as a link",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/breadcrumbs",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
@@ -33,7 +34,7 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/logo": "^12.0.0",
     "@atlaskit/select": "^9.1.1",
     "@atlaskit/ssr": "^0.1.0",

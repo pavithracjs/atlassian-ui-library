@@ -271,9 +271,11 @@ export const fixCursorAlignment = (view: EditorView) => {
 
   // table nodeView margin fix
   if (targetNode.type === schema.nodes.table) {
-    const style = window.getComputedStyle(
-      targetNodeRef.querySelector('table')!,
-    );
+    const tableNode = targetNodeRef.querySelector('table');
+    if (!tableNode) {
+      return;
+    }
+    const style = window.getComputedStyle(tableNode);
     const halfPlusButtonSize = tableInsertColumnButtonSize / 2;
     marginTop = parseInt(style.marginTop!, 10);
     paddingLeft =

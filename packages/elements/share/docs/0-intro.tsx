@@ -1,16 +1,24 @@
-import { code, Example, md, Props } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  code,
+  Example,
+  md,
+  Props,
+  AtlassianInternalWarning,
+  DevPreviewWarning,
+} from '@atlaskit/docs';
+
 import * as React from 'react';
 
 export default md`
   ${(
-    <SectionMessage appearance="warning">
-      <p>
-        This package requires to be wrapped by IntlProvider Component from
-        react-intl or your application will break when this comoponent is
-        rendered.
-      </p>
-    </SectionMessage>
+    <>
+      <div style={{ marginBottom: '0.5rem' }}>
+        <AtlassianInternalWarning />
+      </div>
+      <div style={{ marginTop: '0.5rem' }}>
+        <DevPreviewWarning />
+      </div>
+    </>
   )}
 
   This package provides the view components allowing users to share a resource by

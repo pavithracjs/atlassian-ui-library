@@ -43,7 +43,7 @@ async function getPackagesInfo(cwd /*: string */) {
 
       let isBabel = srcExists && !isTypeScript && !isWebsitePackage;
       let isFlow = isBabel || isWebsitePackage;
-      let isESLint = isBabel || isWebsitePackage;
+      let isESLint = srcExists || isWebsitePackage || !isBrowserPackage;
 
       let isKarma = testBrowserExists || hasKarmaDep;
       let isBrowserStack = isKarma;

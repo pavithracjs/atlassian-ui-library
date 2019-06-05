@@ -156,8 +156,8 @@ export default class Page {
     // Console errors can only be checked in Chrome
     if (this.isBrowser('chrome')) {
       const logs = await this.browser.getLogs('browser');
-      if (logs.value) {
-        logs.value.forEach(val => {
+      if (logs.length) {
+        logs.forEach(val => {
           assert.notStrictEqual(val.level, 'SEVERE', `Error : ${val.message}`);
         });
       }

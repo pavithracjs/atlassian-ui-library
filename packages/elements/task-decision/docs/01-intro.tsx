@@ -1,11 +1,20 @@
 import * as React from 'react';
-import { md, Example, Props, code } from '@atlaskit/docs';
+import {
+  md,
+  Example,
+  Props,
+  code,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
+
 import TaskDecisionExample from '../examples/00-decision-item';
 const TaskDecisionSource = require('!!raw-loader!../examples/00-decision-item');
 
 const TaskDecisionProps = require('!!extract-react-types-loader!../src/components/DecisionItem');
 
 export default md`
+  ${<AtlassianInternalWarning />}
+
   This component provides components for rendering tasks and decisions.
 
   ## Usage

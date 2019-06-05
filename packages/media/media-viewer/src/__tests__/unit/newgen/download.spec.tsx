@@ -1,12 +1,11 @@
 import { mount } from 'enzyme';
-import { ErrorFileState, ProcessingFailedState } from '@atlaskit/media-core';
+import { ErrorFileState, ProcessingFailedState } from '@atlaskit/media-client';
 import {
   createItemDownloader,
   ToolbarDownloadButton,
   ErrorViewDownloadButton,
   DownloadButton,
 } from '../../../newgen/download';
-import { createContext } from '../_stubs';
 import * as React from 'react';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { MediaViewerError } from '../../../newgen/error';
@@ -14,6 +13,7 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../../version.json';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 describe('download', () => {
   const processingFailedState: ProcessingFailedState = {
@@ -34,9 +34,9 @@ describe('download', () => {
 
   describe('createItemDownloader', () => {
     it('should take name from file provided', () => {
-      const context = createContext({});
-      createItemDownloader(processingFailedState, context)();
-      expect(context.file.downloadBinary).toHaveBeenCalledWith(
+      const mediaClient = fakeMediaClient();
+      createItemDownloader(processingFailedState, mediaClient)();
+      expect(mediaClient.file.downloadBinary).toHaveBeenCalledWith(
         'some-id',
         'some-name',
         undefined,
@@ -44,9 +44,9 @@ describe('download', () => {
     });
 
     it('should not try to take name from errored file provided', () => {
-      const context = createContext({});
-      createItemDownloader(errorState, context)();
-      expect(context.file.downloadBinary).toHaveBeenCalledWith(
+      const mediaClient = fakeMediaClient();
+      createItemDownloader(errorState, mediaClient)();
+      expect(mediaClient.file.downloadBinary).toHaveBeenCalledWith(
         'some-id',
         undefined,
         undefined,
@@ -54,13 +54,13 @@ describe('download', () => {
     });
 
     it('should pass collection name', () => {
-      const context = createContext({});
+      const mediaClient = fakeMediaClient();
       createItemDownloader(
         processingFailedState,
-        context,
+        mediaClient,
         'some-collection-name',
       )();
-      expect(context.file.downloadBinary).toHaveBeenCalledWith(
+      expect(mediaClient.file.downloadBinary).toHaveBeenCalledWith(
         'some-id',
         'some-name',
         'some-collection-name',
@@ -70,7 +70,7 @@ describe('download', () => {
 
   describe('ErrorViewDownloadButton', () => {
     it('should trigger an analytics event in the media channel', () => {
-      const context = createContext({});
+      const mediaClient = fakeMediaClient();
       const spy = jest.fn();
       const err = new MediaViewerError('metadataFailed');
       const component = mount(
@@ -78,7 +78,7 @@ describe('download', () => {
           <ErrorViewDownloadButton
             state={processingFailedState}
             err={err}
-            context={context}
+            mediaClient={mediaClient}
           />
         </AnalyticsListener>,
       );
@@ -108,7 +108,7 @@ describe('download', () => {
 
   describe('ToolbarDownloadButton', () => {
     it('should download binary when toolbar button is clicked', () => {
-      const context = createContext({});
+      const mediaClient = fakeMediaClient();
       const component = mount(
         <ToolbarDownloadButton
           state={processingFailedState}
@@ -118,11 +118,11 @@ describe('download', () => {
             occurrenceKey: 'my-occurrenceKey',
             collectionName: 'some-collection-name',
           }}
-          context={context}
+          mediaClient={mediaClient}
         />,
       );
       component.find(DownloadButton).simulate('click');
-      expect(context.file.downloadBinary).toHaveBeenCalledWith(
+      expect(mediaClient.file.downloadBinary).toHaveBeenCalledWith(
         'some-id',
         'some-name',
         'some-collection-name',
@@ -131,7 +131,7 @@ describe('download', () => {
   });
 
   it('should trigger an analytics event in the media channel', () => {
-    const context = createContext({});
+    const mediaClient = fakeMediaClient();
     const spy = jest.fn();
     const component = mount(
       <AnalyticsListener channel="media" onEvent={spy}>
@@ -143,7 +143,7 @@ describe('download', () => {
             occurrenceKey: 'my-occurrenceKey',
             collectionName: 'some-collection-name',
           }}
-          context={context}
+          mediaClient={mediaClient}
         />
       </AnalyticsListener>,
     );
