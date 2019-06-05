@@ -9,15 +9,12 @@ import Avatar from '../../../index';
 
 test('Avatar server side rendering', async done => {
   // $FlowFixMe
-  (await getExamplesFor('avatar')).forEach(
-    async (examples: { filePath: string }) => {
-      // $StringLitteral
-      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+  const examples = await getExamplesFor('avatar');
+  for (const example of examples) {
+    // $StringLitteral
+    const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });
 

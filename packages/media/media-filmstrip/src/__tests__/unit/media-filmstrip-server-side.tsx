@@ -6,14 +6,11 @@ import * as ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 
 test('media-filmstrip server side rendering', async done => {
-  (await getExamplesFor('media-filmstrip')).forEach(
-    async (examples: { filePath: string }) => {
-      const Example = await require(examples.filePath).default;
+  const examples = await getExamplesFor('media-filmstrip');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default;
 
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });

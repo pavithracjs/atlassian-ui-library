@@ -7,14 +7,11 @@ import ReactDOMServer from 'react-dom/server';
 import Modal from '../../..';
 
 test('Modal dialog server side rendering', async done => {
-  (await getExamplesFor('modal-dialog')).forEach(
-    async (examples: { filePath: string }) => {
-      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+  const examples = await getExamplesFor('modal-dialog');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });
 
