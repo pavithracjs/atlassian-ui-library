@@ -1,38 +1,26 @@
 [
   {
-    "team": "core",
-    "package": "@atlaskit/portal",
-    "version": "2.0.1",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 3072,
-      "gzipSize": 1281
+      "size": 3332,
+      "gzipSize": 1441
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/portal",
-    "version": "2.0.1",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 763,
-      "gzipSize": 402
+      "size": 2594,
+      "gzipSize": 958
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/portal",
-    "version": "2.0.1",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 3175,
-      "gzipSize": 1245
+      "size": 5262,
+      "gzipSize": 1908
     }
   }
 ]

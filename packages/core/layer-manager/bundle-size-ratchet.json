@@ -1,9 +1,5 @@
 [
   {
-    "team": "core",
-    "package": "@atlaskit/layer-manager",
-    "version": "7.0.2",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -12,10 +8,6 @@
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/layer-manager",
-    "version": "7.0.2",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -24,10 +16,6 @@
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/layer-manager",
-    "version": "7.0.2",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {

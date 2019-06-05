@@ -1,50 +1,34 @@
 [
   {
-    "team": "core",
-    "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 9991,
-      "gzipSize": 2760
+      "size": 12142,
+      "gzipSize": 3024
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 17376,
-      "gzipSize": 4573
+      "size": 17780,
+      "gzipSize": 4636
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
-    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 15901,
-      "gzipSize": 4100
+      "size": 26003,
+      "gzipSize": 6598
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 40952,
-      "gzipSize": 10102
+      "size": 55173,
+      "gzipSize": 12998
     }
   }
 ]

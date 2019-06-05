@@ -1,50 +1,34 @@
 [
   {
-    "team": "core",
-    "package": "@atlaskit/navigation",
-    "version": "35.1.3",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
       "size": 77440,
-      "gzipSize": 18224
+      "gzipSize": 18218
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/navigation",
-    "version": "35.1.3",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 124150,
-      "gzipSize": 37815
+      "size": 122656,
+      "gzipSize": 37402
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/navigation",
-    "version": "35.1.3",
-    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 171517,
-      "gzipSize": 37336
+      "size": 168936,
+      "gzipSize": 36860
     }
   },
   {
-    "team": "core",
-    "package": "@atlaskit/navigation",
-    "version": "35.1.3",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 368301,
-      "gzipSize": 90650
+      "size": 364236,
+      "gzipSize": 89768
     }
   }
 ]

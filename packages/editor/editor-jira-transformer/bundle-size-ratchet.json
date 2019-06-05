@@ -1,21 +1,13 @@
 [
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-jira-transformer",
-    "version": "7.2.1",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 19115,
-      "gzipSize": 6049
+      "size": 18999,
+      "gzipSize": 5979
     }
   },
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-jira-transformer",
-    "version": "7.2.1",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -24,27 +16,19 @@
     }
   },
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-jira-transformer",
-    "version": "7.2.1",
-    "dependent": true,
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 8700,
-      "gzipSize": 2871
+      "size": 9997,
+      "gzipSize": 3296
     }
   },
   {
-    "team": "editor",
-    "package": "@atlaskit/editor-jira-transformer",
-    "version": "7.2.1",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 88606,
-      "gzipSize": 27178
+      "size": 89798,
+      "gzipSize": 27497
     }
   }
 ]

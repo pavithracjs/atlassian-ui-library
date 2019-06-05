@@ -1,9 +1,5 @@
 [
   {
-    "team": "elements",
-    "package": "@atlaskit/analytics-viewer",
-    "version": "0.3.0",
-    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -12,10 +8,6 @@
     }
   },
   {
-    "team": "elements",
-    "package": "@atlaskit/analytics-viewer",
-    "version": "0.3.0",
-    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -24,10 +16,6 @@
     }
   },
   {
-    "team": "elements",
-    "package": "@atlaskit/analytics-viewer",
-    "version": "0.3.0",
-    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
@@ -36,10 +24,6 @@
     }
   },
   {
-    "team": "elements",
-    "package": "@atlaskit/analytics-viewer",
-    "version": "0.3.0",
-    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
