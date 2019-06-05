@@ -285,13 +285,71 @@ describe('MentionNameResolver', () => {
             status: MentionNameStatus.OK,
           });
           // Ensure all cached (return value not promise)
-          let cachedName = mentionNameResolver.lookupName('cheese');
+          const cachedName = mentionNameResolver.lookupName('cheese');
           expect(cachedName).toEqual({
             id: 'cheese',
             name: 'bacon',
             status: MentionNameStatus.OK,
           });
-          cachedName = mentionNameResolver.lookupName('cheese');
+          done();
+        })
+        .catch(err => {
+          fail(`Promises were rejected ${err}`);
+        });
+    } else {
+      fail(
+        `Return type of lookupName is not a Promise, but a ${promises.map(
+          p => typeof p,
+        )}`,
+      );
+    }
+    done();
+  });
+
+  it('lookup twice when not cached, but first request is "processing"', done => {
+    let delayedResolve: any;
+    const delayedPromise = new Promise(resolve => {
+      delayedResolve = resolve;
+    });
+    lookupMentionNames.mockReturnValueOnce(delayedPromise);
+    lookupMentionNames.mockReturnValue(
+      Promise.reject('only one call expected'),
+    );
+
+    const promise1 = mentionNameResolver.lookupName('cheese');
+    jest.runAllTimers();
+
+    expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+
+    // Second request after first request sent to service, but not returned
+    const promise2 = mentionNameResolver.lookupName('cheese');
+
+    const promises = [promise1, promise2];
+
+    delayedResolve([
+      {
+        id: 'cheese',
+        name: 'bacon',
+        status: MentionNameStatus.OK,
+      },
+    ]);
+
+    if (promises.every(p => isPromise(p))) {
+      Promise.all(promises)
+        .then(names => {
+          expect(lookupMentionNames).toHaveBeenCalledTimes(1);
+          expect(names[0]).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          expect(names[1]).toEqual({
+            id: 'cheese',
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          });
+          // Ensure all cached (return value not promise)
+          const cachedName = mentionNameResolver.lookupName('cheese');
           expect(cachedName).toEqual({
             id: 'cheese',
             name: 'bacon',
