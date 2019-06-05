@@ -56,7 +56,10 @@ interface IProps {
   /** The content of the tooltip */
   content: React.ReactNode;
   /** Extend `TooltipPrimitive` to create your own tooptip and pass it as component */
-  component?: StyledComponentClass<{ truncate?: boolean; style?: any }, any>;
+  component?: StyledComponentClass<
+    { truncate?: boolean; style?: any; className?: any },
+    any
+  >;
   /** Time in milliseconds to wait before showing and hiding the tooltip. Defaults to 300. */
   delay?: number;
   /**
@@ -325,6 +328,7 @@ class Tooltip extends React.Component<IProps, IState> {
                     {getAnimationStyles => (
                       <TooltipContainer
                         innerRef={ref}
+                        className="Tooltip"
                         style={{
                           ...getAnimationStyles(placement),
                           ...style,
