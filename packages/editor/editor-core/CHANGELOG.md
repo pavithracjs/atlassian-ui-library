@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.11.11
+
+### Patch Changes
+
+- [patch][9886f4afa1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9886f4afa1):
+
+  - [ED-7017] Improve table performance removing cellView from table
+
+## 112.11.10
+
+### Patch Changes
+
+- [patch][349c4354c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/349c4354c6):
+
+  ED-6999 Fix issues where horizontal scroll bar could appear on page in full-width mode when using tables or code blocks
+
+## 112.11.9
+
+### Patch Changes
+
+- [patch][65dbd23b3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65dbd23b3c):
+
+  - ED-6996: Memoise calling initialise on the collab plugin, this will prevent race conditions when toggling between full width mode and full page quickly.
+
 ## 112.11.8
 
 ### Patch Changes
