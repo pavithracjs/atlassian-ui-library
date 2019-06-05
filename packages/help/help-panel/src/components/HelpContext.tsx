@@ -50,7 +50,7 @@ export interface HelpContextInterface {
   help: {
     view: VIEW;
     isOpen: boolean;
-    isSearchVisible(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
+    isSearchVisible(): boolean;
     loadArticle(): void;
     isArticleVisible(): boolean;
     getCurrentArticle(): Article | null;
@@ -107,7 +107,7 @@ class HelpContextProviderImplementation extends React.Component<
   }
 
   async componentDidMount() {
-    const { articleId, isOpen } = this.props;
+    const { isOpen } = this.props;
 
     window.history.pushState = function(
       this: HelpContextProviderImplementation,
