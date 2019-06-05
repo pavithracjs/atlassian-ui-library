@@ -1,5 +1,9 @@
 import { css } from 'styled-components';
-import { TableLayout, tableCellContentDomSelector } from '@atlaskit/adf-schema';
+import {
+  TableLayout,
+  tableCellContentDomSelector,
+  tablePrefixSelector,
+} from '@atlaskit/adf-schema';
 import { fontSize, themed, colors } from '@atlaskit/theme';
 import {
   akEditorTableBorder,
@@ -22,13 +26,11 @@ export const tableCellBorderWidth = 1;
 export const tableCellPadding = 8;
 export const tableResizeHandleWidth = 6;
 
-const clPrefix = 'pm-table-';
-
 export const TableSharedCssClassName = {
-  TABLE_CONTAINER: `${clPrefix}container`,
-  TABLE_NODE_WRAPPER: `${clPrefix}wrapper`,
-  TABLE_LEFT_SHADOW: `${clPrefix}with-left-shadow`,
-  TABLE_RIGHT_SHADOW: `${clPrefix}with-right-shadow`,
+  TABLE_CONTAINER: `${tablePrefixSelector}-container`,
+  TABLE_NODE_WRAPPER: `${tablePrefixSelector}-wrapper`,
+  TABLE_LEFT_SHADOW: `${tablePrefixSelector}-with-left-shadow`,
+  TABLE_RIGHT_SHADOW: `${tablePrefixSelector}-with-right-shadow`,
   TABLE_CELL_NODEVIEW_CONTENT_DOM: tableCellContentDomSelector,
 };
 

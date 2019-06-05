@@ -3,6 +3,7 @@ import { Transaction } from 'prosemirror-state';
 import { DecorationSet } from 'prosemirror-view';
 import {
   TableLayout,
+  tablePrefixSelector,
   tableCellSelector,
   tableHeaderSelector,
   tableCellContentWrapperSelector,
@@ -119,53 +120,52 @@ export type ColumnResizingPluginAction =
 export const TableDecorations = {
   CONTROLS_HOVER: 'CONTROLS_HOVER',
 };
-const clPrefix = 'pm-table-';
 
 export const TableCssClassName = {
   ...TableSharedCssClassName,
 
-  COLUMN_CONTROLS_WRAPPER: `${clPrefix}column-controls-wrapper`,
-  COLUMN_CONTROLS: `${clPrefix}column-controls`,
-  COLUMN_CONTROLS_INNER: `${clPrefix}column-controls__inner`,
-  COLUMN_CONTROLS_BUTTON_WRAP: `${clPrefix}column-controls__button-wrap`,
+  COLUMN_CONTROLS_WRAPPER: `${tablePrefixSelector}-column-controls-wrapper`,
+  COLUMN_CONTROLS: `${tablePrefixSelector}-column-controls`,
+  COLUMN_CONTROLS_INNER: `${tablePrefixSelector}-column-controls__inner`,
+  COLUMN_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-column-controls__button-wrap`,
 
-  ROW_CONTROLS_WRAPPER: `${clPrefix}row-controls-wrapper`,
-  ROW_CONTROLS: `${clPrefix}row-controls`,
-  ROW_CONTROLS_INNER: `${clPrefix}row-controls__inner`,
-  ROW_CONTROLS_BUTTON_WRAP: `${clPrefix}row-controls__button-wrap`,
+  ROW_CONTROLS_WRAPPER: `${tablePrefixSelector}-row-controls-wrapper`,
+  ROW_CONTROLS: `${tablePrefixSelector}-row-controls`,
+  ROW_CONTROLS_INNER: `${tablePrefixSelector}-row-controls__inner`,
+  ROW_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-row-controls__button-wrap`,
 
-  CONTROLS_BUTTON: `${clPrefix}controls__button`,
-  CONTROLS_BUTTON_ICON: `${clPrefix}controls__button-icon`,
+  CONTROLS_BUTTON: `${tablePrefixSelector}-controls__button`,
+  CONTROLS_BUTTON_ICON: `${tablePrefixSelector}-controls__button-icon`,
 
-  CONTROLS_INSERT_BUTTON: `${clPrefix}controls__insert-button`,
-  CONTROLS_INSERT_BUTTON_INNER: `${clPrefix}controls__insert-button-inner`,
-  CONTROLS_INSERT_BUTTON_WRAP: `${clPrefix}controls__insert-button-wrap`,
-  CONTROLS_INSERT_LINE: `${clPrefix}controls__insert-line`,
-  CONTROLS_BUTTON_OVERLAY: `${clPrefix}controls__button-overlay`,
-  LAYOUT_BUTTON: `${clPrefix}layout-button`,
+  CONTROLS_INSERT_BUTTON: `${tablePrefixSelector}-controls__insert-button`,
+  CONTROLS_INSERT_BUTTON_INNER: `${tablePrefixSelector}-controls__insert-button-inner`,
+  CONTROLS_INSERT_BUTTON_WRAP: `${tablePrefixSelector}-controls__insert-button-wrap`,
+  CONTROLS_INSERT_LINE: `${tablePrefixSelector}-controls__insert-line`,
+  CONTROLS_BUTTON_OVERLAY: `${tablePrefixSelector}-controls__button-overlay`,
+  LAYOUT_BUTTON: `${tablePrefixSelector}-layout-button`,
 
-  CONTROLS_INSERT_MARKER: `${clPrefix}controls__insert-marker`,
-  CONTROLS_INSERT_COLUMN: `${clPrefix}controls__insert-column`,
-  CONTROLS_INSERT_ROW: `${clPrefix}controls__insert-row`,
-  CONTROLS_DELETE_BUTTON_WRAP: `${clPrefix}controls__delete-button-wrap`,
-  CONTROLS_DELETE_BUTTON: `${clPrefix}controls__delete-button`,
+  CONTROLS_INSERT_MARKER: `${tablePrefixSelector}-controls__insert-marker`,
+  CONTROLS_INSERT_COLUMN: `${tablePrefixSelector}-controls__insert-column`,
+  CONTROLS_INSERT_ROW: `${tablePrefixSelector}-controls__insert-row`,
+  CONTROLS_DELETE_BUTTON_WRAP: `${tablePrefixSelector}-controls__delete-button-wrap`,
+  CONTROLS_DELETE_BUTTON: `${tablePrefixSelector}-controls__delete-button`,
 
-  CORNER_CONTROLS: `${clPrefix}corner-controls`,
-  CONTROLS_CORNER_BUTTON: `${clPrefix}corner-button`,
+  CORNER_CONTROLS: `${tablePrefixSelector}-corner-controls`,
+  CONTROLS_CORNER_BUTTON: `${tablePrefixSelector}-corner-button`,
 
-  NUMBERED_COLUMN: `${clPrefix}numbered-column`,
-  NUMBERED_COLUMN_BUTTON: `${clPrefix}numbered-column__button`,
+  NUMBERED_COLUMN: `${tablePrefixSelector}-numbered-column`,
+  NUMBERED_COLUMN_BUTTON: `${tablePrefixSelector}-numbered-column__button`,
 
-  HOVERED_CELL: `${clPrefix}hovered-cell`,
-  WITH_CONTROLS: `${clPrefix}with-controls`,
-  RESIZING_PLUGIN: `${clPrefix}resizing-plugin`,
-  RESIZE_CURSOR: `${clPrefix}resize-cursor`,
-  IS_RESIZING: `${clPrefix}is-resizing`,
+  HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
+  WITH_CONTROLS: `${tablePrefixSelector}-with-controls`,
+  RESIZING_PLUGIN: `${tablePrefixSelector}-resizing-plugin`,
+  RESIZE_CURSOR: `${tablePrefixSelector}-resize-cursor`,
+  IS_RESIZING: `${tablePrefixSelector}-is-resizing`,
 
-  CONTEXTUAL_SUBMENU: `${clPrefix}contextual-submenu`,
-  CONTEXTUAL_MENU_BUTTON_WRAP: `${clPrefix}contextual-menu-button-wrap`,
-  CONTEXTUAL_MENU_BUTTON: `${clPrefix}contextual-menu-button`,
-  CONTEXTUAL_MENU_ICON: `${clPrefix}contextual-submenu-icon`,
+  CONTEXTUAL_SUBMENU: `${tablePrefixSelector}-contextual-submenu`,
+  CONTEXTUAL_MENU_BUTTON_WRAP: `${tablePrefixSelector}-contextual-menu-button-wrap`,
+  CONTEXTUAL_MENU_BUTTON: `${tablePrefixSelector}-contextual-menu-button`,
+  CONTEXTUAL_MENU_ICON: `${tablePrefixSelector}-contextual-submenu-icon`,
 
   // come from prosemirror-table
   COLUMN_RESIZE_HANDLE: 'column-resize-handle',

@@ -25,52 +25,61 @@ const ButtonWrapper = styled.div`
   ${tableFloatingCellButtonStyles}
 `;
 
-const FloatingContextualButton = ({
-  mountPoint,
-  scrollableElement,
-  editorView,
-  targetCellPosition,
-  isContextualMenuOpen,
-  intl: { formatMessage },
-}: Props & InjectedIntlProps) => {
-  const { state, dispatch } = editorView;
-  const domAtPos = editorView.domAtPos.bind(editorView);
-  const targetCellRef = findDomRefAtPos(targetCellPosition, domAtPos);
-  if (!targetCellRef || !(targetCellRef instanceof HTMLElement)) {
-    return null;
+class FloatingContextualButton extends React.Component<
+  Props & InjectedIntlProps,
+  any
+> {
+  render() {
+    const {
+      mountPoint,
+      scrollableElement,
+      editorView,
+      targetCellPosition,
+      isContextualMenuOpen,
+      intl: { formatMessage },
+    } = this.props; //  : Props & InjectedIntlProps
+
+    const domAtPos = editorView.domAtPos.bind(editorView);
+    const targetCellRef = findDomRefAtPos(targetCellPosition, domAtPos);
+    if (!targetCellRef || !(targetCellRef instanceof HTMLElement)) {
+      return null;
+    }
+
+    const tableWrapper = closestElement(
+      targetCellRef,
+      `.${ClassName.TABLE_NODE_WRAPPER}`,
+    );
+
+    const labelCellOptions = formatMessage(messages.cellOptions);
+    return (
+      <Popup
+        alignX="right"
+        alignY="start"
+        target={targetCellRef}
+        mountTo={tableWrapper || mountPoint}
+        boundariesElement={targetCellRef}
+        scrollableElement={scrollableElement}
+        forcePlacement={true}
+        offset={[3, -3]}
+      >
+        <ButtonWrapper>
+          <ToolbarButton
+            className={ClassName.CONTEXTUAL_MENU_BUTTON}
+            selected={isContextualMenuOpen}
+            title={labelCellOptions}
+            onClick={this.handleClick}
+            iconBefore={<ExpandIcon label={labelCellOptions} />}
+          />
+        </ButtonWrapper>
+      </Popup>
+    );
   }
 
-  const handleClick = () => {
+  handleClick = () => {
+    const { state, dispatch } = this.props.editorView;
+
     toggleContextualMenu()(state, dispatch);
   };
-  const tableWrapper = closestElement(
-    targetCellRef,
-    `.${ClassName.TABLE_NODE_WRAPPER}`,
-  );
-
-  const labelCellOptions = formatMessage(messages.cellOptions);
-  return (
-    <Popup
-      alignX="right"
-      alignY="start"
-      target={targetCellRef}
-      mountTo={tableWrapper || mountPoint}
-      boundariesElement={targetCellRef}
-      scrollableElement={scrollableElement}
-      forcePlacement={true}
-      offset={[3, -3]}
-    >
-      <ButtonWrapper>
-        <ToolbarButton
-          className={ClassName.CONTEXTUAL_MENU_BUTTON}
-          selected={isContextualMenuOpen}
-          title={labelCellOptions}
-          onClick={handleClick}
-          iconBefore={<ExpandIcon label={labelCellOptions} />}
-        />
-      </ButtonWrapper>
-    </Popup>
-  );
-};
+}
 
 export default injectIntl(FloatingContextualButton);

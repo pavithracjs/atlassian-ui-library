@@ -20,10 +20,12 @@ import {
 } from '../../utils/colors';
 import { TableCellContent } from './doc';
 
-export const tableCellSelector = 'tableCellView-content-wrap';
-export const tableHeaderSelector = 'tableHeaderView-content-wrap';
-export const tableCellContentWrapperSelector = 'pm-table-cell-nodeview-wrapper';
-export const tableCellContentDomSelector = 'pm-table-cell-nodeview-content-dom';
+export const tablePrefixSelector = 'pm-table';
+
+export const tableCellSelector = `${tablePrefixSelector}-cell-content-wrap`;
+export const tableHeaderSelector = `${tablePrefixSelector}-header-content-wrap`;
+export const tableCellContentWrapperSelector = `${tablePrefixSelector}-cell-nodeview-wrapper`;
+export const tableCellContentDomSelector = `${tablePrefixSelector}-cell-nodeview-content-dom`;
 
 const akEditorTableNumberColumnWidth = 42;
 const DEFAULT_TABLE_HEADER_CELL_BACKGROUND = N20.toLocaleLowerCase();
@@ -272,11 +274,15 @@ const cellAttrs = {
   background: { default: null },
 };
 
-const cellDomNodeStructure = [
-  'div',
-  { class: tableCellContentWrapperSelector },
-  ['div', { class: tableCellContentDomSelector }, 0],
-];
+const createCellDOM = (cellHtmlTagType: 'th' | 'td', node: PmNode) => {
+  const cellContentDOMStructure = [
+    'div',
+    { class: tableCellContentWrapperSelector },
+    ['div', { class: tableCellContentDomSelector }, 0],
+  ];
+
+  return [cellHtmlTagType, setCellAttrs(node), cellContentDOMStructure];
+};
 
 export const tableCell = {
   content:
@@ -296,9 +302,7 @@ export const tableCell = {
       getAttrs: (dom: HTMLElement) => getCellAttrs(dom),
     },
   ],
-  toDOM(node: PmNode) {
-    return ['td', setCellAttrs(node), cellDomNodeStructure];
-  },
+  toDOM: (node: PmNode) => createCellDOM('td', node),
 };
 
 export const toJSONTableCell = (node: PmNode) => ({
@@ -327,9 +331,8 @@ export const tableHeader = {
         getCellAttrs(dom, { background: DEFAULT_TABLE_HEADER_CELL_BACKGROUND }),
     },
   ],
-  toDOM(node: PmNode) {
-    return ['th', setCellAttrs(node), cellDomNodeStructure];
-  },
+
+  toDOM: (node: PmNode) => createCellDOM('th', node),
 };
 
 export const toJSONTableHeader = toJSONTableCell;
