@@ -13,6 +13,7 @@ import {
   FileState,
 } from '@atlaskit/media-client';
 import { TouchedFiles } from '@atlaskit/media-client';
+import { AuthProvider, Auth } from '@atlaskit/media-core';
 import uuidV4 from 'uuid/v4';
 import { asMock, fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { Observable } from 'rxjs/Observable';
@@ -34,7 +35,7 @@ describe('UploadService', () => {
   const clientId = 'some-client-id';
   const token = 'some-token';
   const upfrontId = Promise.resolve('1');
-  let authProvider: () => Promise<any>;
+  let authProvider: AuthProvider;
   const usersClientId = 'some-users-collection-client-id';
   const usersToken = 'some-users-collection-client-id';
   const previewObject: Preview = { someImagePreview: true } as any;
@@ -79,8 +80,8 @@ describe('UploadService', () => {
         },
       ],
     };
-    jest.spyOn(mediaClient.file, 'touchFiles').mockResolvedValue(touchedFiles);
-    jest.spyOn(mediaClient.file, 'upload').mockReturnValue(defaultUploadMock);
+    asMock(mediaClient.file.touchFiles).mockResolvedValue(touchedFiles);
+    asMock(mediaClient.file.upload).mockReturnValue(defaultUploadMock);
 
     (getPreviewFromImage.getPreviewFromImage as any).mockReturnValue(
       Promise.resolve(previewObject),
@@ -121,7 +122,7 @@ describe('UploadService', () => {
 
   beforeEach(() => {
     authProvider = jest.fn(() =>
-      Promise.resolve<any>({ clientId, token, baseUrl }),
+      Promise.resolve<Auth>({ clientId, token, baseUrl }),
     );
     fileStreamCacheSpy.mockReset();
     (getPreviewModule.getPreviewFromBlob as any).mockReset();
@@ -358,7 +359,7 @@ describe('UploadService', () => {
       });
     });
 
-    it.skip('should call emit "file-uploading" when it receives an onProgress event from Context.file#upload()', () => {
+    it.skip('should call emit "file-uploading" when it receives an onProgress event from MediaClient.file#upload()', () => {
       const mediaClient = getMediaClient();
       const { uploadService } = setup(mediaClient, {
         collection: 'some-collection',
@@ -519,7 +520,7 @@ describe('UploadService', () => {
     const setup = (config: {
       uploadParams?: UploadParams;
       progress?: number;
-      userAuthProvider?: () => Promise<any>;
+      userAuthProvider?: () => Promise<Auth>;
       copyFileWithTokenSpy: Function;
     }) => {
       const mediaClient = fakeMediaClient({
@@ -676,14 +677,14 @@ describe('UploadService', () => {
   });
 
   describe('upfront id', () => {
-    it('should use tenantContext mediaClient to upload file when shouldCopyFileToRecents=true', () => {
+    it('should use tenantMediaClient to upload file when shouldCopyFileToRecents=true', () => {
       const { uploadService, mediaClient } = setup(undefined, undefined, true);
 
       uploadService.addFiles([file]);
       expect(mediaClient.file.upload).toHaveBeenCalledTimes(1);
     });
 
-    it('should use userContext mediaClient to upload file when shouldCopyFileToRecents=false', () => {
+    it('should use userMediaClient to upload file when shouldCopyFileToRecents=false', () => {
       const mediaClient = getMediaClient({
         userAuthProvider: () =>
           Promise.resolve({

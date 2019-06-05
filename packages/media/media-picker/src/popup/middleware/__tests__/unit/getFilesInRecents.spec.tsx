@@ -74,7 +74,7 @@ describe('getFilesInRecents middleware', () => {
       const collectionItemsSubscription = { unsubscribe: jest.fn() };
       const getItems = jest.fn().mockReturnValue(of([]));
       const store = mockStore({
-        userContext: {
+        userMediaClient: {
           collection: {
             getItems,
           },

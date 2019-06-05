@@ -1,5 +1,9 @@
 import { couldNotLoadImage } from '../../../components/views/editor/phrases';
-import { mockStore } from '@atlaskit/media-test-helpers';
+import {
+  mockStore,
+  asMock,
+  asMockReturnValue,
+} from '@atlaskit/media-test-helpers';
 
 import { editRemoteImage } from '../../editRemoteImage';
 import { editorShowImage } from '../../../actions/editorShowImage';
@@ -17,7 +21,7 @@ describe('editRemoteImage', () => {
     name: 'some-file-name',
   };
   const collectionName = 'some-collection';
-  const auth = { clientId: 'some-client-id', token: 'some-token' };
+  const auth = { clientId: 'some-client-id', token: 'some-token', baseUrl: '' };
 
   const setup = () => {
     const store = mockStore({
@@ -26,9 +30,10 @@ describe('editRemoteImage', () => {
       },
     });
     const { userMediaClient } = store.getState();
-    const getImageUrl = jest.spyOn(userMediaClient, 'getImageUrl');
+    const getImageUrl = asMock(userMediaClient.getImageUrl);
 
-    (userMediaClient.config.authProvider as jest.Mock<any>).mockReturnValue(
+    asMockReturnValue(
+      userMediaClient.config.authProvider,
       Promise.resolve(auth),
     );
 

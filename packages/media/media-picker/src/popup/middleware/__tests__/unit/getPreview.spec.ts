@@ -1,14 +1,17 @@
-import { mockStore } from '@atlaskit/media-test-helpers';
+import { mockStore, asMockReturnValue } from '@atlaskit/media-test-helpers';
 import getPreviewMiddleware, { getPreview } from '../../getPreview';
 import { sendUploadEvent } from '../../../actions/sendUploadEvent';
 import { GetPreviewAction } from '../../../actions/getPreview';
 import { Observable } from 'rxjs';
 import { Preview } from '../../../../domain/preview';
+import { FileState, ImageMetadata } from '@atlaskit/media-client';
+import { Auth } from '@atlaskit/media-core';
 
 describe('getPreviewMiddleware', () => {
-  const auth = {
+  const auth: Auth = {
     clientId: 'some-client-id',
     token: 'some-token',
+    baseUrl: '',
   };
   const upfrontId = Promise.resolve('1');
   const file = {
@@ -28,25 +31,45 @@ describe('getPreviewMiddleware', () => {
     },
     scaleFactor: 1,
   };
+
+  const defaultFileState: FileState = {
+    status: 'processed',
+    id: '123',
+    name: 'file-name',
+    size: 10,
+    artifacts: {},
+    mediaType: 'image',
+    mimeType: 'image/png',
+    representations: { image: {} },
+  };
+
+  const defaultImageMetadata: ImageMetadata = {
+    original: {
+      url: 'some-preview-src',
+      width: 10,
+      height: 10,
+    },
+    pending: false,
+  };
+
   const setup = () => {
     const store = mockStore();
     const { userMediaClient } = store.getState();
-    (userMediaClient.config.authProvider as jest.Mock<any>).mockReturnValue(
+    asMockReturnValue(
+      userMediaClient.config.authProvider,
       Promise.resolve(auth),
     );
-    (userMediaClient.file.getFileState as any) = jest.fn().mockReturnValue(
+    asMockReturnValue(
+      userMediaClient.file.getFileState,
       Observable.of({
+        ...defaultFileState,
         status: 'processing',
-        mediaType: 'image',
       }),
     );
-    (userMediaClient.getImageMetadata as any) = jest.fn().mockReturnValue({
-      original: {
-        url: 'some-preview-src',
-        width: 10,
-        height: 10,
-      },
-    });
+    asMockReturnValue(
+      userMediaClient.getImageMetadata,
+      Promise.resolve(defaultImageMetadata),
+    );
 
     return {
       store,

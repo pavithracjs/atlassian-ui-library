@@ -3,10 +3,10 @@ import { PreviewImageWrapper, InfoWrapper } from './styled';
 import { PreviewData } from './types';
 import { Card } from '@atlaskit/media-card';
 import { FileIdentifier } from '@atlaskit/media-client';
-import { createUploadContext } from '@atlaskit/media-test-helpers';
+import { createUploadMediaClientConfig } from '@atlaskit/media-test-helpers';
 import { Preview, ImagePreview } from '../src/domain/preview';
 
-const context = createUploadContext();
+const mediaClientConfig = createUploadMediaClientConfig();
 
 export class UploadPreview extends React.Component<PreviewData> {
   getPreviewInfo(preview: Preview): string | null {
@@ -34,7 +34,7 @@ export class UploadPreview extends React.Component<PreviewData> {
 
     return (
       <PreviewImageWrapper>
-        <Card identifier={identifier} context={context} />
+        <Card identifier={identifier} mediaClientConfig={mediaClientConfig} />
         {preview ? (
           <InfoWrapper>{this.getPreviewInfo(preview)}</InfoWrapper>
         ) : null}

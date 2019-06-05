@@ -517,7 +517,7 @@ describe('importFiles middleware', () => {
       });
     });
 
-    it('should emit file-added in the tenant context', done => {
+    it('should emit file-added in the tenant mediaClient', done => {
       const { eventEmitter, mockWsProvider, store, nextDispatch } = setup();
 
       importFilesMiddleware(eventEmitter, mockWsProvider)(store)(nextDispatch)(

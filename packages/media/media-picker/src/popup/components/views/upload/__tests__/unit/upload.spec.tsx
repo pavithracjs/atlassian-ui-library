@@ -15,6 +15,7 @@ import {
 import ModalDialog from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import { InfiniteScroll } from '@atlaskit/media-ui';
+import { MediaClient } from '@atlaskit/media-client';
 import {
   State,
   SelectedItem,
@@ -48,7 +49,6 @@ import { LocalBrowserButton } from '../../../../views/upload/uploadButton';
 import { BrowserImpl } from '../../../../../../components/browser';
 import { menuDelete } from '../../../editor/phrases';
 import { LocalUploadFileMetadata } from '../../../../../domain/local-upload';
-import { MediaClient } from '@atlaskit/media-client';
 
 // TODO: Fix this
 const ConnectedUploadViewWithStore = getComponentClassWithStore(

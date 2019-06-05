@@ -4,6 +4,7 @@ import { Dispatch, Store } from 'redux';
 import { connect, Provider } from 'react-redux';
 import { IntlShape } from 'react-intl';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
+import { MediaClient } from '@atlaskit/media-client';
 import {
   UIAnalyticsEventHandlerSignature,
   ObjectType,
@@ -57,7 +58,6 @@ import {
 
 import { Clipboard } from '../../components/clipboard/clipboard';
 import { LocalUploadComponent } from '../../components/localUpload';
-import { MediaClient } from '@atlaskit/media-client';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
