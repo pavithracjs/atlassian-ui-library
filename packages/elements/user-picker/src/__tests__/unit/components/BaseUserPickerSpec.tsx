@@ -34,7 +34,6 @@ describe('BaseUserPicker', () => {
   const shallowUserPicker = (props: Partial<UserPickerProps> = {}) =>
     shallowWithIntl(getBasePicker(props))
       .dive()
-      .dive()
       .dive();
 
   const options: User[] = [

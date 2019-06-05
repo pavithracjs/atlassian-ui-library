@@ -5,18 +5,12 @@ exports[`ScreenTracker should render correctly 1`] = `
   isVisible={false}
   name="test"
 >
-  <WithAnalyticsEvents
-    forwardedRef={null}
-    isVisible={false}
-    name="test"
-  >
-    <AnalyticsContextConsumer>
-      <ScreenTrackerBase
-        createAnalyticsEvent={[Function]}
-        isVisible={false}
-        name="test"
-      />
-    </AnalyticsContextConsumer>
-  </WithAnalyticsEvents>
+  <AnalyticsContextConsumer>
+    <ScreenTrackerBase
+      createAnalyticsEvent={[Function]}
+      isVisible={false}
+      name="test"
+    />
+  </AnalyticsContextConsumer>
 </WithAnalyticsEvents(ScreenTrackerBase)>
 `;

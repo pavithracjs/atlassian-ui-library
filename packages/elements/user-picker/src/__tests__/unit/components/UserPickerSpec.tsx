@@ -24,7 +24,6 @@ describe('UserPicker', () => {
     shallowWithIntl(<UserPicker fieldId="test" {...props} />)
       .dive()
       .dive()
-      .dive()
       .dive();
 
   const options: User[] = [

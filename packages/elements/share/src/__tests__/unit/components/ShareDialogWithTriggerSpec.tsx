@@ -40,7 +40,6 @@ beforeEach(() => {
   )
     .dive()
     .dive()
-    .dive()
     .dive();
 });
 
@@ -108,7 +107,6 @@ describe('ShareDialogWithTrigger', () => {
       )
         .dive()
         .dive()
-        .dive()
         .dive();
       expect(
         newWrapper
@@ -145,7 +143,6 @@ describe('ShareDialogWithTrigger', () => {
       )
         .dive()
         .dive()
-        .dive()
         .dive();
       newWrapper.setState({ isDialogOpen: true });
       expect(
@@ -176,7 +173,6 @@ describe('ShareDialogWithTrigger', () => {
           showFlags={mockShowFlags}
         />,
       )
-        .dive()
         .dive()
         .dive()
         .dive();
@@ -211,7 +207,6 @@ describe('ShareDialogWithTrigger', () => {
       )
         .dive()
         .dive()
-        .dive()
         .dive();
       newWrapper.setState({ isDialogOpen: true });
       expect(
@@ -244,7 +239,6 @@ describe('ShareDialogWithTrigger', () => {
       )
         .dive()
         .dive()
-        .dive()
         .dive();
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
         defaultPlacement,
@@ -271,7 +265,6 @@ describe('ShareDialogWithTrigger', () => {
           showFlags={mockShowFlags}
         />,
       )
-        .dive()
         .dive()
         .dive()
         .dive();
@@ -312,7 +305,6 @@ describe('ShareDialogWithTrigger', () => {
       )
         .dive()
         .dive()
-        .dive()
         .dive();
       expect(mockRenderCustomTriggerButton).toHaveBeenCalledTimes(1);
       expect(mockRenderCustomTriggerButton).toHaveBeenCalledWith({
@@ -340,7 +332,6 @@ describe('ShareDialogWithTrigger', () => {
           showFlags={mockShowFlags}
         />,
       )
-        .dive()
         .dive()
         .dive()
         .dive();
@@ -377,7 +368,6 @@ describe('ShareDialogWithTrigger', () => {
           showFlags={mockShowFlags}
         />,
       )
-        .dive()
         .dive()
         .dive()
         .dive();
@@ -555,7 +545,6 @@ describe('ShareDialogWithTrigger', () => {
       )
         .dive()
         .dive()
-        .dive()
         .dive();
       wrapper.setState(mockState);
 
@@ -601,7 +590,6 @@ describe('ShareDialogWithTrigger', () => {
           showFlags={mockShowFlags}
         />,
       )
-        .dive()
         .dive()
         .dive()
         .dive();

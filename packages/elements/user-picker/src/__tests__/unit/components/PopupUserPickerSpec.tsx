@@ -17,7 +17,6 @@ describe('PopupUserPicker', () => {
       <PopupUserPicker fieldId="test" target={jest.fn()} {...props} />,
     )
       .dive()
-      .dive()
       .dive();
 
   describe('PopupUserPicker', () => {
