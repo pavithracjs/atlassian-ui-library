@@ -62,6 +62,7 @@
     "start:ecosystem": "                     yarn run website:start **/packages/ecosystem/**",
     "start:editor": "                        yarn run website:start **/packages/editor/**",
     "start:elements": "                      yarn run website:start **/packages/elements/**",
+    "start:engagement-platform": "           yarn run website:start **/packages/engagement-platform/**",
     "start:growth": "                        yarn run website:start **/packages/growth/**",
     "start:home": "                          yarn run website:start **/packages/home/**",
     "start:identity": "                      yarn run website:start **/packages/identity/**",
