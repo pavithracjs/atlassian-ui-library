@@ -1,0 +1,1 @@
+ED-7029 Reduce number of re-renders in floating toolbar
