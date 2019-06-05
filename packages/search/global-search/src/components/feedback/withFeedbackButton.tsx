@@ -3,7 +3,7 @@ import { ComponentType } from 'react';
 import FeedbackButton from './FeedbackButton';
 import FeedbackCollector, { FeedbackFlag } from '@atlaskit/feedback-collector';
 import { FlagGroup } from '@atlaskit/flag';
-import { CommonFeatures } from 'src/util/features';
+import { CommonFeatures } from '../../util/features';
 
 const EMBEDDABLE_KEY = '85dc6027-c074-4800-ba54-4ecb844b29f8';
 const REQUEST_TYPE_ID = '182';
@@ -19,7 +19,7 @@ export interface InjectedInputControlProps {
 }
 
 export interface FeatureProps {
-  features?: CommonFeatures;
+  features: CommonFeatures;
 }
 
 interface State {
@@ -59,8 +59,14 @@ export default function withFeedbackButton<P>(
     render() {
       const { isOpen, displayFlag } = this.state;
 
-      const { name, email, features } = this.props;
-      const abTest = features ? features.abTest : { experimentId: 'none' };
+      const {
+        name,
+        email,
+        features: {
+          abTest: { experimentId, abTestId },
+        },
+      } = this.props;
+      let feedbackContext = `experimentId: ${experimentId}, abTestId: ${abTestId}`;
 
       return (
         <div>
@@ -79,7 +85,7 @@ export default function withFeedbackButton<P>(
               additionalFields={[
                 {
                   id: FEEDBACK_CONTEXT_CF,
-                  value: `experimentId : ${abTest.experimentId}`,
+                  value: feedbackContext,
                 },
               ]}
             />
