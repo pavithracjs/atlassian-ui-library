@@ -1,0 +1,1 @@
+FS-3244 - Add support for resolving mention names client-side
