@@ -21,7 +21,7 @@ export default class SearchPeopleItem extends React.Component<Props> {
       <AdvancedSearchResult
         href={`/people/search?q=${encodeURIComponent(query)}`}
         icon={icon}
-        key="search_people"
+        key={`search_people_${Date.now()}`}
         analyticsData={analyticsData}
         resultId={ADVANCED_PEOPLE_SEARCH_RESULT_ID}
         text={text}
