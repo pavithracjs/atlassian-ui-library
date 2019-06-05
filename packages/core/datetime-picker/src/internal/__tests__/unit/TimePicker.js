@@ -8,7 +8,7 @@ import { TimePickerWithoutAnalytics as TimePicker } from '../../../components/Ti
 test('TimePicker, custom parseInputValue', () => {
   const parseInputValue = () => new Date('1970-01-02 01:15:00');
   const onChangeSpy = jest.fn();
-  const expectedResult = '01:15am';
+  const expectedResult = '01:15';
   const timePickerWrapper = mount(
     <TimePicker
       timeIsEditable
@@ -36,7 +36,7 @@ test('TimePicker, custom formatDisplayLabel', () => {
 
 test('TimePicker default parseInputValue', () => {
   const onChangeSpy = jest.fn();
-  const expectedResult = '01:30am';
+  const expectedResult = '01:30';
   const timePickerWrapper = mount(
     <TimePicker timeIsEditable onChange={onChangeSpy} />,
   );
