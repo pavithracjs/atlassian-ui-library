@@ -1,1 +1,0 @@
-ED-6049: Fix regression in tables when resizing is off

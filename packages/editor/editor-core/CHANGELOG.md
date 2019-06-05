@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.12
+
+### Patch Changes
+
+- [patch][a726d9fff4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a726d9fff4):
+
+  ED-6049: Fix regression in tables when resizing is off
+
 ## 112.11.11
 
 ### Patch Changes
