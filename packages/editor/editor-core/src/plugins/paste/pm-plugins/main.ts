@@ -32,7 +32,7 @@ import {
 import { PasteTypes } from '../../analytics';
 import { insideTable } from '../../../utils';
 import { CardOptions } from '../../card';
-import { CollabEditOptions } from 'src/plugins/collab-edit/types';
+import { CollabEditOptions } from '../../collab-edit/types';
 export const stateKey = new PluginKey('pastePlugin');
 
 export const md = MarkdownIt('zero', { html: false });
