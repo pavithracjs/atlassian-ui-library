@@ -33,6 +33,7 @@ const exceptionList = [
   'themes',
   'Lozenge',
   'Spinner',
+  'styled',
 ];
 
 const main = async () => {
