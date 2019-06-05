@@ -10,6 +10,7 @@ import {
   fakeIntl,
   fakeMediaClient,
   asMock,
+  mountWithIntlContext,
 } from '@atlaskit/media-test-helpers';
 import { Header, State as HeaderState } from '../../../newgen/header';
 import { MetadataFileName, MetadataSubText } from '../../../newgen/styled';
@@ -56,7 +57,7 @@ describe('<Header />', () => {
   it('shows an empty header while loading', () => {
     const mediaClient = fakeMediaClient();
     mediaClient.file.getFileState = () => Observable.empty();
-    const el = mount(
+    const el = mountWithIntlContext(
       <Header
         intl={fakeIntl}
         mediaClient={mediaClient}
@@ -72,7 +73,7 @@ describe('<Header />', () => {
     asMock(mediaClient.file.getFileState).mockReturnValue(
       Observable.of(processedImageState),
     );
-    const el = mount(
+    const el = mountWithIntlContext(
       <Header
         intl={fakeIntl}
         mediaClient={mediaClient}
@@ -92,7 +93,7 @@ describe('<Header />', () => {
     asMock(mediaClient.file.getFileState).mockReturnValue(
       Observable.of(processedImageState),
     );
-    const el = mount<{}, HeaderState>(
+    const el = mountWithIntlContext<{}, HeaderState>(
       <Header
         intl={fakeIntl}
         mediaClient={mediaClient}
@@ -116,7 +117,7 @@ describe('<Header />', () => {
     asMock(mediaClient.file.getFileState).mockReturnValue(
       Observable.of(processedImageState),
     );
-    const el = mount<{}, HeaderState>(
+    const el = mountWithIntlContext<{}, HeaderState>(
       <Header
         intl={fakeIntl}
         mediaClient={mediaClient}
@@ -129,14 +130,16 @@ describe('<Header />', () => {
     // let's prevent the second call to getFile from immediately resolving and
     // updating the state to SUCCESSFUL before we run the assertion.
     const newMediaClient = fakeMediaClient();
-    asMock(mediaClient.file.getFileState).mockReturnValue(Observable.never());
+    asMock(newMediaClient.file.getFileState).mockReturnValue(
+      Observable.never(),
+    );
     el.setProps({ mediaClient: newMediaClient });
     expect(el.state().item.status).toEqual('PENDING');
   });
 
   describe('Metadata', () => {
     it('should work with external image identifier', () => {
-      const element = mount(
+      const element = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={{} as any}
@@ -149,7 +152,7 @@ describe('<Header />', () => {
     });
 
     it('should default to dataURI as name when no name is passed in a external image identifier', () => {
-      const element = mount(
+      const element = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={{} as any}
@@ -167,7 +170,7 @@ describe('<Header />', () => {
         const mediaClient = fakeMediaClient();
         mediaClient.file.getFileState = () =>
           Observable.of(processedImageState);
-        const el = mount(
+        const el = mountWithIntlContext(
           <Header
             intl={fakeIntl}
             mediaClient={mediaClient}
@@ -187,7 +190,7 @@ describe('<Header />', () => {
         asMock(mediaClient.file.getFileState).mockReturnValue(
           Observable.of(unNamedImage),
         );
-        const el = mount(
+        const el = mountWithIntlContext(
           <Header
             intl={fakeIntl}
             mediaClient={mediaClient}
@@ -218,7 +221,7 @@ describe('<Header />', () => {
         };
         const mediaClient = fakeMediaClient();
         mediaClient.file.getFileState = () => Observable.of(testItem);
-        const el = mount(
+        const el = mountWithIntlContext(
           <Header
             intl={fakeIntl}
             mediaClient={mediaClient}
@@ -246,7 +249,7 @@ describe('<Header />', () => {
         };
         const mediaClient = fakeMediaClient();
         mediaClient.file.getFileState = () => Observable.of(noSizeImage);
-        const el = mount(
+        const el = mountWithIntlContext(
           <Header
             intl={fakeIntl}
             mediaClient={mediaClient}
@@ -265,7 +268,7 @@ describe('<Header />', () => {
         };
         const mediaClient = fakeMediaClient();
         mediaClient.file.getFileState = () => Observable.of(noMediaTypeElement);
-        const el = mount(
+        const el = mountWithIntlContext(
           <Header
             intl={fakeIntl}
             mediaClient={mediaClient}
@@ -281,7 +284,7 @@ describe('<Header />', () => {
       const mediaClient = fakeMediaClient();
       mediaClient.file.getFileState = () =>
         Observable.throw('something bad happened!');
-      const el = mount(
+      const el = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={mediaClient}
@@ -299,7 +302,7 @@ describe('<Header />', () => {
         Observable.of(processedImageState),
       );
       const identifierWithCollection = { ...identifier, collectionName };
-      const el = mount(
+      const el = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={mediaClient}
@@ -319,7 +322,7 @@ describe('<Header />', () => {
         Observable.of(processedImageState),
       );
       const identifierWithCollection = { ...identifier, collectionName };
-      const el = mount(
+      const el = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={mediaClient}
@@ -346,7 +349,7 @@ describe('<Header />', () => {
     it('should show the download button disabled while the item metadata is loading', () => {
       const mediaClient = fakeMediaClient();
       mediaClient.file.getFileState = () => Observable.empty();
-      const el = mount(
+      const el = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={mediaClient}
@@ -360,7 +363,7 @@ describe('<Header />', () => {
     it('should show the download button enabled when the item is loaded', () => {
       const mediaClient = fakeMediaClient();
       mediaClient.file.getFileState = () => Observable.of(processedImageState);
-      const el = mount(
+      const el = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={mediaClient}
@@ -375,7 +378,7 @@ describe('<Header />', () => {
       const mediaClient = fakeMediaClient();
       mediaClient.file.getFileState = () =>
         Observable.throw('something bad happened!');
-      const el = mount(
+      const el = mountWithIntlContext(
         <Header
           intl={fakeIntl}
           mediaClient={mediaClient}
