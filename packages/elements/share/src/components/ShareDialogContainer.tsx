@@ -206,17 +206,16 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     users,
     comment,
   }: DialogContentState): Promise<ShareResponse> => {
+    const shareLink = this.getFormShareLink();
     const {
       originTracingFactory,
       productId,
       shareAri,
       shareContentType,
-      shareLink,
       shareTitle,
     } = this.props;
     const content: Content = {
       ari: shareAri,
-      // original share link is used here
       link: shareLink,
       title: shareTitle,
       type: shareContentType,
@@ -241,27 +240,40 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       .catch((err: Error) => Promise.reject(err));
   };
 
+  getRawLink(): string {
+    const { shareLink } = this.props;
+    return shareLink;
+  }
+
+  getCopyLink = (): string => {
+    const { formatCopyLink } = this.props;
+    const shareLink = this.getRawLink();
+    return formatCopyLink(this.state.copyLinkOrigin!, shareLink);
+  };
+
+  getFormShareLink = (): string => {
+    // original share link is used here
+    return this.getRawLink();
+  };
+
   render() {
     const {
       dialogPlacement,
-      formatCopyLink,
       loadUserOptions,
       renderCustomTriggerButton,
       shareContentType,
       shareFormTitle,
-      shareLink,
       shouldCloseOnEscapePress,
       showFlags,
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
     const { isFetchingConfig, shareOrigin, copyLinkOrigin } = this.state;
-    const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
       <MessagesIntlProvider>
         <ShareDialogWithTrigger
           config={this.state.config}
-          copyLink={copyLink}
+          copyLink={this.getCopyLink()}
           dialogPlacement={dialogPlacement}
           fetchConfig={this.fetchConfig}
           isFetchingConfig={isFetchingConfig}
