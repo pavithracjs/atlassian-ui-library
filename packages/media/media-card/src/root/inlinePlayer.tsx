@@ -114,7 +114,7 @@ export class InlinePlayer extends Component<
 
   // Tries to use the binary artifact to provide something to play while the video is still processing
   setBinaryURL = async () => {
-    const { mediaClient, identifier } = this.props;
+    const { mediaClient, identifier, onError } = this.props;
     const { id, collectionName } = identifier;
     const resolvedId = await id;
     try {
@@ -124,8 +124,10 @@ export class InlinePlayer extends Component<
       );
 
       this.setFileSrc(fileSrc);
-    } catch (e) {
-      console.log('error while trying to access video url', resolvedId, e);
+    } catch (error) {
+      if (onError) {
+        onError(error);
+      }
     }
   };
 
