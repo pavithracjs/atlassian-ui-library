@@ -71,6 +71,7 @@ export const createPlugin = (
 ) => {
   let collabEditProvider: CollabEditProvider | null;
   let isReady = false;
+  const isInitialLoad = !oldState;
 
   return new Plugin({
     key: pluginKey,
@@ -144,7 +145,11 @@ export const createPlugin = (
         ) => {
           if (providerPromise) {
             collabEditProvider = await providerPromise;
-            unsubscribeAllEvents(collabEditProvider);
+
+            if (!isInitialLoad) {
+              isReady = true;
+              unsubscribeAllEvents(collabEditProvider);
+            }
 
             // Initialize provider
             collabEditProvider

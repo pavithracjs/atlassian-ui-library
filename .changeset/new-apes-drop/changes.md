@@ -1,0 +1,1 @@
+ED-6996: Fix regression in collab provider plugin with event listeners
