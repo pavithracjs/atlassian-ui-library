@@ -1,1 +1,1 @@
-Fix i18n issue in @atlaskit/mention. Loading messages from i18n folder
+- Some messages are never pushed to Transifex so we need to run `yarn i18n:push && yarn i18n:pull` again

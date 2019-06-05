@@ -1,12 +1,4 @@
-import * as React from 'react';
-import {
-  defineMessages,
-  IntlProvider,
-  injectIntl,
-  InjectedIntlProps,
-} from 'react-intl';
-
-import * as untypedI18n from '../i18n';
+import { defineMessages } from 'react-intl';
 
 export const messages = defineMessages({
   noAccessWarning: {
@@ -68,28 +60,3 @@ export const messages = defineMessages({
       'Byline to show the number of members in the team when the number exceeds 50 and also includes the current user',
   },
 });
-
-const i18n: { [index: string]: Object | undefined } = untypedI18n;
-
-const getCodesFromLocale = (locale: string) => {
-  const [, language, country] = /([a-z]*)[_-]?([A-Z]*)/i.exec(locale || '');
-  return [language.toLowerCase(), country.toUpperCase()];
-};
-
-interface ComponentProps {
-  children: React.ReactElement<any>;
-}
-
-export const MentionIntlProvider = injectIntl<ComponentProps>(
-  (props: ComponentProps & InjectedIntlProps) => {
-    const { children, intl } = props;
-    const [language] = getCodesFromLocale(intl.locale.toString());
-    const messagesByLocale = i18n[language] || i18n.en;
-
-    return (
-      <IntlProvider messages={messagesByLocale} locale={language}>
-        {children}
-      </IntlProvider>
-    );
-  },
-);
