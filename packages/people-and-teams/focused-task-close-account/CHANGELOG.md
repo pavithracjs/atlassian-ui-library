@@ -1,6 +1,12 @@
 # @atlaskit/focused-task-close-account
 
+## 0.11.3
+
+- Updated dependencies [181209d135](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/181209d135):
+  - @atlaskit/inline-dialog@12.0.0
+
 ## 0.11.2
+
 - Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
   - @atlaskit/button@13.0.6
   - @atlaskit/checkbox@8.0.0
@@ -8,6 +14,7 @@
   - @atlaskit/theme@9.1.0
 
 ## 0.11.1
+
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/avatar@16.0.2
   - @atlaskit/checkbox@7.0.1
@@ -17,16 +24,19 @@
   - @atlaskit/section-message@4.0.0
 
 ## 0.11.0
-- [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+- [minor][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 ## 0.10.0
-- [minor] [7cf935a323](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7cf935a323):
+
+- [minor][7cf935a323](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7cf935a323):
 
   - DeleteUserContentPreviewScreen changes which include similar design to select if the user prefers nickname or former user but as a survey
 
 ## 0.9.2
+
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
   - @atlaskit/avatar@15.0.4
@@ -39,6 +49,7 @@
   - @atlaskit/theme@8.1.7
 
 ## 0.9.1
+
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
   - @atlaskit/avatar@15.0.3
@@ -51,16 +62,19 @@
   - @atlaskit/button@12.0.0
 
 ## 0.9.0
-- [minor] [524a6d207e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/524a6d207e):
+
+- [minor][524a6d207e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/524a6d207e):
 
   - Enable noImplicitAny for @atlaskit/focused-task-close-account
 
 ## 0.8.4
-- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+- [patch][1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
   - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
 
 ## 0.8.3
+
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1
   - @atlaskit/avatar@15.0.1
@@ -74,6 +88,7 @@
   - @atlaskit/button@11.0.0
 
 ## 0.8.2
+
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/button@10.1.3
   - @atlaskit/icon@16.0.4
@@ -86,6 +101,7 @@
   - @atlaskit/theme@8.0.0
 
 ## 0.8.1
+
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1
   - @atlaskit/avatar@14.1.8
@@ -97,31 +113,37 @@
   - @atlaskit/icon@16.0.0
 
 ## 0.8.0
-- [minor] [d89857a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d89857a):
+
+- [minor][d89857a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d89857a):
 
   - Deactivation flow added which is a single screen flow in the focused task component
 
 ## 0.7.0
-- [minor] [91f6abc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/91f6abc):
+
+- [minor][91f6abc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/91f6abc):
 
   - Bug fix in the basic drawer assembly example
 
 ## 0.6.0
-- [minor] [52c6b63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52c6b63):
+
+- [minor][52c6b63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52c6b63):
 
   - i18n support added for focused task component
 
 ## 0.5.0
-- [minor] [49bd44d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/49bd44d):
+
+- [minor][49bd44d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/49bd44d):
 
   - Section message updated when the user is alreaady deactivated
 
 ## 0.4.0
-- [minor] [81299f6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81299f6):
+
+- [minor][81299f6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81299f6):
 
   - Copy changes along with addition on new prop, isUserDeactivated
 
 ## 0.3.4
+
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/avatar@14.1.7
   - @atlaskit/button@10.1.1
@@ -134,6 +156,7 @@
   - @atlaskit/docs@6.0.0
 
 ## 0.3.3
+
 - Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
   - @atlaskit/docs@5.2.3
   - @atlaskit/button@10.0.4
@@ -146,6 +169,7 @@
   - @atlaskit/avatar@14.1.6
 
 ## 0.3.2
+
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2
   - @atlaskit/avatar@14.1.5
@@ -157,6 +181,7 @@
   - @atlaskit/icon@15.0.0
 
 ## 0.3.1
+
 - Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
   - @atlaskit/docs@5.2.1
   - @atlaskit/avatar@14.1.4
@@ -169,14 +194,17 @@
   - @atlaskit/button@10.0.0
 
 ## 0.3.0
-- [minor] [75772f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75772f8):
+
+- [minor][75772f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75772f8):
 
   - Content updated and added drop down list support as per the latest design.
 
 ## 0.2.0
-- [minor] [c8ea304](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c8ea304):
+
+- [minor][c8ea304](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c8ea304):
 
   - Bug fix - index.ts file moved to src folder. The component couldn’t be imported as the index file was not in the correct directory. Minor changes - ‘Learn more link’ now a part of the FocusedTask props as different links could be sent from unified-profile and id-org manager flow. accessibleSites prop is now an array of string instead of the AccessibleSitesResponse. If accessibleSites data is empty or null, the text displayed will be different. Added deactivateUserHandler prop to DeleteUserOverviewScreen, so that if it's not passed, the warning section is not displayed.
 
 ## 0.1.0
+
 - [minor] initial release of the focused task close account component [b0bfb38](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0bfb38)

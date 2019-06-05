@@ -38,6 +38,10 @@ export function getConfluenceAdvancedSearchLink(query?: string) {
   return `/wiki/dosearchsite.action${queryString}`;
 }
 
+export function getJiraAllIssuesUrl() {
+  return '/issues';
+}
+
 export function getJiraAdvancedSearchUrl(
   entityType: JiraEntityTypes,
   query?: string,

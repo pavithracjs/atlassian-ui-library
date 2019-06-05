@@ -18,13 +18,13 @@ import { Scope } from '../../../api/types';
 import { Result } from '../../../model/Result';
 import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  ABTest,
   DEFAULT_AB_TEST,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
 import { mockLogger } from '../mocks/_mockLogger';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
+import { ConfluenceFeatures } from '../../../util/features';
 
 const sessionId = 'sessionId';
 const referralContextIdentifiers: ReferralContextIdentifiers = {
@@ -33,16 +33,27 @@ const referralContextIdentifiers: ReferralContextIdentifiers = {
   searchReferrerId: '123-search-referrer',
 };
 
+const DEFAULT_FEATURES: ConfluenceFeatures = {
+  abTest: DEFAULT_AB_TEST,
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
+};
+
 function render(partialProps?: Partial<Props>) {
   const logger = mockLogger();
   const props: Props = {
     confluenceClient: noResultsConfluenceClient,
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
-    fasterSearchFFEnabled: false,
-    useUrsForBootstrapping: false,
     logger,
     referralContextIdentifiers,
+    features: DEFAULT_FEATURES,
+    firePrivateAnalyticsEvent: undefined,
+    createAnalyticsEvent: undefined,
+    inputControls: undefined,
+    onAdvancedSearch: undefined,
+    linkComponent: undefined,
+    modelContext: undefined,
     ...partialProps,
   };
 
@@ -95,10 +106,13 @@ describe('ConfluenceQuickSearchContainer', () => {
 
   it('should return recent items using the crossproduct search when prefetching is on ', async () => {
     const wrapper = render({
-      useUrsForBootstrapping: true,
+      features: { ...DEFAULT_FEATURES, useUrsForBootstrapping: true },
       crossProductSearchClient: {
         search(query: string, sessionId: string, scopes: Scope[]) {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getAbTestDataForProduct() {
+          return Promise.resolve(DEFAULT_AB_TEST);
         },
         getAbTestData(scope: Scope) {
           return Promise.resolve(DEFAULT_AB_TEST);
@@ -142,7 +156,7 @@ describe('ConfluenceQuickSearchContainer', () => {
 
   it('should return recent items using the crossproduct search when prefetching is off', async () => {
     const wrapper = render({
-      useUrsForBootstrapping: false,
+      features: { ...DEFAULT_FEATURES, useUrsForBootstrapping: false },
       peopleSearchClient: {
         getRecentPeople() {
           return Promise.resolve([makePersonResult()]);
@@ -154,6 +168,9 @@ describe('ConfluenceQuickSearchContainer', () => {
       crossProductSearchClient: {
         search(query: string, sessionId: string, scopes: Scope[]) {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getAbTestDataForProduct() {
+          return Promise.resolve(DEFAULT_AB_TEST);
         },
         getAbTestData(scope: Scope) {
           return Promise.resolve(DEFAULT_AB_TEST);
@@ -232,35 +249,6 @@ describe('ConfluenceQuickSearchContainer', () => {
     searchSpy.mockRestore();
   });
 
-  it('should return ab test data', async () => {
-    const abTest: ABTest = {
-      abTestId: 'abTestId',
-      experimentId: 'experimentId',
-      controlId: 'controlId',
-    };
-
-    const wrapper = render({
-      confluenceClient: noResultsConfluenceClient,
-      crossProductSearchClient: {
-        search(query: string) {
-          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
-        },
-        getAbTestData() {
-          return Promise.resolve(abTest);
-        },
-        getPeople() {
-          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
-        },
-      },
-    });
-    const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const receivedAbTest = await (quickSearchContainer.props() as QuickSearchContainerProps).getAbTestData(
-      sessionId,
-    );
-
-    expect(receivedAbTest).toMatchObject(abTest);
-  });
-
   it('should return search result', async () => {
     const wrapper = render({
       crossProductSearchClient: {
@@ -276,6 +264,9 @@ describe('ConfluenceQuickSearchContainer', () => {
           }
 
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getAbTestDataForProduct() {
+          return Promise.resolve(DEFAULT_AB_TEST);
         },
         getAbTestData(scope: Scope) {
           return Promise.resolve(DEFAULT_AB_TEST);

@@ -1,10 +1,11 @@
 {
   "name": "@atlaskit/inline-dialog",
-  "version": "11.0.1",
+  "version": "12.0.0",
   "description": "An inline dialog React component for secondary content and controls that are displayed on user request",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/inline-dialog",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",

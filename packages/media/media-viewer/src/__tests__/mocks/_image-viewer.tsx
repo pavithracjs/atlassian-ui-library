@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Context, ProcessedFileState } from '@atlaskit/media-core';
+import { MediaClient, ProcessedFileState } from '@atlaskit/media-client';
 import {
   AnalyticViewerProps,
   ViewerLoadPayload,
@@ -11,7 +11,7 @@ export const setViewerPayload = (payload: ViewerLoadPayload) => {
 };
 
 export type ImageViewerProps = AnalyticViewerProps & {
-  context: Context;
+  mediaClient: MediaClient;
   item: ProcessedFileState;
   collectionName?: string;
   onClose?: () => void;
