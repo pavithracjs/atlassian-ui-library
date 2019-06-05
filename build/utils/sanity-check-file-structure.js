@@ -51,8 +51,10 @@ const main = async () => {
   if (packageJSON.module !== 'index.js' || packageJSON.private) {
     return;
   }
+  const fileRegex = /\.(js|tsx?)$/;
   const missing = src
     .filter(fileName => !exceptionList.includes(fileName))
+    .filter(fileName => fileName.match(fileRegex))
     .map(fileName => fileName)
     .filter(
       fileName =>

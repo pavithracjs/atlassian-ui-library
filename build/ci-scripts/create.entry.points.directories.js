@@ -51,8 +51,7 @@ const fs = require('fs');
       };
       fs.writeFile(
         `${entryPointDirName}/package.json`,
-        JSON.stringify(entryPointJson),
-        'utf8',
+        JSON.stringify(entryPointJson, null, 4),
         err => {
           if (err) throw console.error(err);
         },
