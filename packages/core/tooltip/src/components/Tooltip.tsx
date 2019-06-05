@@ -98,7 +98,7 @@ interface IProps {
     Replace the wrapping element. This accepts the name of a html tag which will
     be used to wrap the element.
   */
-  tag?: string;
+  tag?: React.ElementType;
   /** Show only one line of text, and truncate when too long */
   truncate?: boolean;
 }
@@ -263,7 +263,7 @@ class Tooltip extends React.Component<IProps, IState> {
       mousePosition,
       truncate,
       component: TooltipContainer,
-      tag,
+      tag: TargetContainer,
     } = this.props;
 
     const {
@@ -275,28 +275,26 @@ class Tooltip extends React.Component<IProps, IState> {
     return (
       /* eslint-disable jsx-a11y/mouse-events-have-key-events */
       <React.Fragment>
-        {/* TODO: Is there a better way to create a dynamic element that doesn't complain with TS? */}
-        {tag &&
-          React.createElement(
-            tag,
-            {
-              onClick: this.handleMouseClick,
-              onMouseOver: this.handleMouseOver,
-              onMouseOut: this.handleMouseLeave,
-              onMouseMove: this.handleMouseMove,
-              onMouseDown: this.handleMouseDown,
-              ref: (wrapperRef: HTMLElement) => {
-                this.wrapperRef = wrapperRef;
-              },
-            },
+        {TargetContainer && (
+          <TargetContainer
+            onClick={this.handleMouseClick}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseLeave}
+            onMouseMove={this.handleMouseMove}
+            onMouseDown={this.handleMouseDown}
+            ref={(wrapperRef: HTMLElement) => {
+              this.wrapperRef = wrapperRef;
+            }}
+          >
             <NodeResolver
               innerRef={(targetRef: HTMLElement) => {
                 this.targetRef = targetRef;
               }}
             >
               {React.Children.only(children)}
-            </NodeResolver>,
-          )}
+            </NodeResolver>
+          </TargetContainer>
+        )}
 
         {renderTooltip && this.targetRef && this.fakeMouseElement ? (
           <Portal zIndex={layers.tooltip()}>
