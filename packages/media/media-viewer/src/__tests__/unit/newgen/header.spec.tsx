@@ -3,7 +3,7 @@ const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 
 import * as React from 'react';
 import { Observable } from 'rxjs';
-import { ReactWrapper, mount } from 'enzyme';
+import { ReactWrapper } from 'enzyme';
 import { MediaType, FileState, Identifier } from '@atlaskit/media-client';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import {

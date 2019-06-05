@@ -135,6 +135,8 @@ describe('<Collection />', () => {
     const subject = new Subject();
     const mediaClient = fakeMediaClient();
     asMock(mediaClient.collection.getItems).mockReturnValue(subject);
+    asMock(mediaClient.file.getFileState).mockReturnValue(subject);
+
     const el = createFixture(mediaClient, identifier);
     expect(el.state().items.status).toEqual('PENDING');
     subject.next(mediaCollectionItems);
@@ -148,6 +150,7 @@ describe('<Collection />', () => {
     const subject = new Subject();
     const mediaClient = fakeMediaClient();
     asMock(mediaClient.collection.getItems).mockReturnValue(subject);
+    asMock(mediaClient.file.getFileState).mockReturnValue(subject);
     const el = createFixture(mediaClient, identifier);
     subject.next(mediaCollectionItems);
     el.update();
@@ -165,6 +168,7 @@ describe('<Collection />', () => {
       const subject = new Subject();
       const mediaClient = fakeMediaClient();
       asMock(mediaClient.collection.getItems).mockReturnValue(subject);
+      asMock(mediaClient.file.getFileState).mockReturnValue(subject);
       createFixture(mediaClient, identifier2);
       subject.next(mediaCollectionItems);
       expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
@@ -183,6 +187,7 @@ describe('<Collection />', () => {
       const subject = new Subject();
       const mediaClient = fakeMediaClient();
       asMock(mediaClient.collection.getItems).mockReturnValue(subject);
+      asMock(mediaClient.file.getFileState).mockReturnValue(subject);
       const el = createFixture(mediaClient, identifier);
       subject.next(mediaCollectionItems);
       el.update();
