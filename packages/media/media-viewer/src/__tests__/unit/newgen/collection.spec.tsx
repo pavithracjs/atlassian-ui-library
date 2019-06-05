@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MediaClient, FileIdentifier } from '@atlaskit/media-client';
 import {
   mountWithIntlContext,
@@ -76,12 +75,15 @@ function createFixture(
 
 describe('<Collection />', () => {
   it('should show a spinner while requesting items', () => {
-    const el = createFixture(fakeMediaClient(), identifier);
+    const mediaClient = fakeMediaClient();
+    asMock(mediaClient.collection.getItems).mockReturnValue(new Subject());
+    const el = createFixture(mediaClient, identifier);
     expect(el.find(Spinner)).toHaveLength(1);
   });
 
   it('should fetch collection items', () => {
     const mediaClient = fakeMediaClient();
+    asMock(mediaClient.collection.getItems).mockReturnValue(new Subject());
     createFixture(mediaClient, identifier);
     expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
     expect(mediaClient.collection.getItems).toHaveBeenCalledWith(
@@ -108,6 +110,7 @@ describe('<Collection />', () => {
 
   it('should reset the component when the collection prop changes', () => {
     const mediaClient = fakeMediaClient();
+    asMock(mediaClient.collection.getItems).mockReturnValue(new Subject());
     const el = createFixture(mediaClient, identifier);
     expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
     el.setProps({ collectionName: 'other-collection' });
@@ -116,10 +119,12 @@ describe('<Collection />', () => {
 
   it('should reset the component when the context prop changes', () => {
     const mediaClient = fakeMediaClient();
+    asMock(mediaClient.collection.getItems).mockReturnValue(new Subject());
     const el = createFixture(mediaClient, identifier);
     expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
 
     const context2 = fakeMediaClient();
+    asMock(context2.collection.getItems).mockReturnValue(new Subject());
     el.setProps({ mediaClient: context2 });
 
     expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
@@ -168,6 +173,7 @@ describe('<Collection />', () => {
 
     it('should NOT load next page if we instantiate the component normally', () => {
       const mediaClient = fakeMediaClient();
+      asMock(mediaClient.collection.getItems).mockReturnValue(new Subject());
       createFixture(mediaClient, identifier);
       expect(mediaClient.collection.getItems).toHaveBeenCalledTimes(1);
       expect(mediaClient.collection.loadNextPage).not.toHaveBeenCalled();
