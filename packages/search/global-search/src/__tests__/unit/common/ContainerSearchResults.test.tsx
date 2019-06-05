@@ -351,7 +351,6 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
           query?: string | undefined,
         ) => string
       >;
-      let getJiraAllIssuesUrlSpy: jest.SpyInstance<() => string>;
       const wrapper = renderComponent(product);
       const getProps = (): SearchResultsComponentProps => {
         const { props = {} as SearchResultsComponentProps } =
@@ -369,12 +368,9 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
           'getJiraAdvancedSearchUrl',
         );
 
-        getJiraAllIssuesUrlSpy = jest.spyOn(
-          SearchResultUtils,
-          'getJiraAllIssuesUrl',
+        getAdvancedSearchUrlSpy.mockReturnValue(
+          product === 'jira' ? 'jiraUrl' : 'confUrl',
         );
-
-        getAdvancedSearchUrlSpy.mockReturnValue('confUrl');
         const quickSearchContainer = wrapper.find(QuickSearchContainer);
         searchResultsComponent = (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResultsComponent(
           getSearchAndRecentItems(product, sessionId),
@@ -436,7 +432,6 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
       });
 
       it('should return postQueryGroups', () => {
-        getJiraAllIssuesUrlSpy.mockReturnValue('jiraUrl');
         const { getPostQueryGroups } = getProps();
         const postQueryGroups = getPostQueryGroups();
         expect(postQueryGroups).toMatchObject(
