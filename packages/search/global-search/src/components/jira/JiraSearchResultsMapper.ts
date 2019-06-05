@@ -7,11 +7,7 @@ import {
   AnalyticsType,
   ContentType,
 } from '../../model/Result';
-import {
-  take,
-  getJiraAdvancedSearchUrl,
-  JiraEntityTypes,
-} from '../SearchResultsUtil';
+import { take, getJiraAllIssuesUrl } from '../SearchResultsUtil';
 import { messages } from '../../messages';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 import { attachJiraContextIdentifiers } from '../common/contextIdentifiersHelper';
@@ -124,7 +120,7 @@ export const mapSearchResultsToUIGroups = (
                 resultType: ResultType.JiraIssueAdvancedSearch,
                 resultId: 'search-jira',
                 name: 'jira',
-                href: getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, query),
+                href: getJiraAllIssuesUrl(),
                 analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
                 contentType: ContentType.JiraIssue,
               },
