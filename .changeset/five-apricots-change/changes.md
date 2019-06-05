@@ -1,1 +1,0 @@
-Expose getFileBinaryURL method in mediaClient.file.getFileBinaryURL

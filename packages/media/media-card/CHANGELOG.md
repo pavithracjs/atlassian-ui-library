@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 63.1.4
+
+### Patch Changes
+
+- [patch][b37dd8dc38](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b37dd8dc38):
+
+  Use video binary artifact while video is processing
+
 ## 63.1.3
 
 ### Patch Changes
