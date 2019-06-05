@@ -19,7 +19,6 @@ export const LoadingError = ({
 
   return (
     <LoadingErrorMessage>
-      {/* <SomethingWrongImageFile /> */}
       <div
         dangerouslySetInnerHTML={{
           __html: SomethingWrongImageFile,
