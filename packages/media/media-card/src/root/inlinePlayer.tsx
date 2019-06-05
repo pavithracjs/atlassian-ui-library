@@ -99,10 +99,6 @@ export class InlinePlayer extends Component<
               }
             }
           }
-          // TODO: do we need this?
-          // else {
-          //   this.setBinaryURL();
-          // }
         },
       });
   }
