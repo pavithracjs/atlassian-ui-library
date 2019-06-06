@@ -1,5 +1,6 @@
 jest.mock('@atlaskit/media-store');
 import { MediaStore } from '@atlaskit/media-store';
+import { Auth } from '@atlaskit/media-core';
 import { getFileStreamsCache, FileState } from '@atlaskit/media-client';
 import {
   mockStore,
@@ -18,7 +19,7 @@ import { State } from '../../../domain';
 import { ReplaySubject, Observable } from 'rxjs';
 
 describe('finalizeUploadMiddleware', () => {
-  const auth = {
+  const auth: Auth = {
     clientId: 'some-client-id',
     token: 'some-token',
     baseUrl: 'some-base-url',

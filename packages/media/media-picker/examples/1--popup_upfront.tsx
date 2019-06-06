@@ -7,7 +7,7 @@ import { Component } from 'react';
 import Button from '@atlaskit/button';
 import {
   defaultMediaPickerCollectionName,
-  createUploadMediaClient,
+  createUploadMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaPicker, Popup } from '../src';
@@ -23,7 +23,7 @@ import {
   UploadPreviewUpdateEventPayload,
 } from '../src/domain/uploadEvent';
 
-const mediaClient = createUploadMediaClient();
+const mediaClientConfig = createUploadMediaClientConfig();
 
 export interface PopupWrapperState {
   files: Promise<string>[];
@@ -38,7 +38,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', mediaClient, {
+    const popup = await MediaPicker('popup', mediaClientConfig, {
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },
@@ -106,7 +106,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
       return (
         <CardItemWrapper key={key}>
           <Card
-            mediaClientConfig={mediaClient.config}
+            mediaClientConfig={mediaClientConfig}
             isLazy={false}
             identifier={{
               id: upfrontId,
