@@ -107,6 +107,7 @@ type ComposedGlobalNavigationProps = {
   datasets?: Object,
   globalNavigation: ComponentType<{}>,
   topOffset?: number,
+  shouldHideGlobalNavShadow?: boolean,
   experimental_alternateFlyoutBehaviour: boolean,
   closeFlyout: () => void,
   view?: Object | null,
@@ -128,6 +129,7 @@ export class ComposedGlobalNavigation extends Component<ComposedGlobalNavigation
       datasets,
       globalNavigation: GlobalNavigation,
       topOffset,
+      shouldHideGlobalNavShadow,
       // eslint-disable-next-line camelcase
       experimental_alternateFlyoutBehaviour: EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR,
       closeFlyout,
@@ -171,11 +173,13 @@ export class ComposedGlobalNavigation extends Component<ComposedGlobalNavigation
             })}
           >
             <Fragment>
-              <Shadow
-                isBold={!!containerNavigation}
-                isOverDarkBg
-                style={{ marginLeft: GLOBAL_NAV_WIDTH }}
-              />
+              {!shouldHideGlobalNavShadow && (
+                <Shadow
+                  isBold={!!containerNavigation}
+                  isOverDarkBg
+                  style={{ marginLeft: GLOBAL_NAV_WIDTH }}
+                />
+              )}
               <GlobalNavigation />
             </Fragment>
           </ThemeProvider>
