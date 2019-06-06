@@ -269,7 +269,7 @@ export default class LayoutManager extends Component<
                     ]}
                     navigation={navigationUIController}
                   >
-                    {({ width }) => {
+                    {({ width, mouseIsOverGrabArea, mouseIsDown }) => {
                       return (
                         <ContainerNavigationMask
                           disableInteraction={itemIsDragging}
@@ -292,6 +292,14 @@ export default class LayoutManager extends Component<
                                 EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR
                               }
                               closeFlyout={this.closeFlyout}
+                              mouseIsOverGrabArea={mouseIsOverGrabArea}
+                              mouseIsOverNavigation={mouseIsOverNavigation}
+                              width={width}
+                              transitionState={transitionState}
+                              isResizing={isResizing}
+                              isCollapsed={isCollapsed}
+                              mouseIsDown={mouseIsDown}
+                              flyoutIsOpen={flyoutIsOpen}
                               view={view}
                             />
 
