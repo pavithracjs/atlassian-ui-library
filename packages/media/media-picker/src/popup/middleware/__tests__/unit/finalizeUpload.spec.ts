@@ -1,15 +1,12 @@
 jest.mock('@atlaskit/media-store');
 import { MediaStore } from '@atlaskit/media-store';
-import {
-  getFileStreamsCache,
-  FileState,
-  MediaClient,
-} from '@atlaskit/media-client';
+import { getFileStreamsCache, FileState } from '@atlaskit/media-client';
 import {
   mockStore,
   mockFetcher,
   expectFunctionToHaveBeenCalledWith,
   asMock,
+  fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { sendUploadEvent } from '../../../actions/sendUploadEvent';
 import finalizeUploadMiddleware, { finalizeUpload } from '../../finalizeUpload';
@@ -168,9 +165,7 @@ describe('finalizeUploadMiddleware', () => {
   });
 
   it('should call copyFileWithToken with the right params', async () => {
-    const tenantMediaClient = new MediaClient({
-      authProvider: jest.fn().mockImplementation(() => Promise.resolve({})),
-    });
+    const tenantMediaClient = fakeMediaClient();
     const { fetcher, store, action } = setup({
       config: { uploadParams: { collection: 'some-tenant-collection' } },
       tenantMediaClient,

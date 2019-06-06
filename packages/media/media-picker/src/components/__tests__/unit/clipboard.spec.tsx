@@ -2,8 +2,7 @@ import * as React from 'react';
 
 jest.mock('../../../service/newUploadServiceImpl');
 
-import { MediaClient } from '@atlaskit/media-client';
-import { MockFile } from '@atlaskit/media-test-helpers';
+import { MockFile, fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { LocalFileSource } from '../../../service/types';
 import { Clipboard as ClipboardComponent } from '../../clipboard/clipboard';
 import { Clipboard } from '../../types';
@@ -15,9 +14,7 @@ describe('Clipboard', () => {
   let clipboardInstance: ClipboardComponent;
   let eventsMap: any;
 
-  const mediaClient = new MediaClient({
-    authProvider: {} as any,
-  });
+  const mediaClient = fakeMediaClient();
 
   const config = {
     uploadParams: {},

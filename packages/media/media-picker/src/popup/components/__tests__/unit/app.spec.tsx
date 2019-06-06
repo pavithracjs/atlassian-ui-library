@@ -2,7 +2,7 @@ import * as React from 'react';
 import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { createStore, applyMiddleware, Middleware } from 'redux';
 import { Store } from 'react-redux';
-import { waitUntil } from '@atlaskit/media-test-helpers';
+import { waitUntil, fakeMediaClient } from '@atlaskit/media-test-helpers';
 import {
   getComponentClassWithStore,
   mockStore,
@@ -19,7 +19,6 @@ import { Dropzone } from '../../../components/dropzone/dropzone';
 import { MediaFile } from '../../../../domain/file';
 import { showPopup } from '../../../actions/showPopup';
 import reducers from '../../../reducers/reducers';
-import { MediaClient } from '@atlaskit/media-client';
 
 const tenantUploadParams: UploadParams = {};
 const baseUrl = 'some-api-url';
@@ -110,11 +109,11 @@ const waitForDropzoneToRender = () =>
  */
 describe('App', () => {
   const setup = () => {
-    const mediaClient = new MediaClient({
+    const mediaClient = fakeMediaClient({
       authProvider: userAuthProvider,
       userAuthProvider,
     });
-    const userMediaClient = new MediaClient({
+    const userMediaClient = fakeMediaClient({
       authProvider: userAuthProvider,
     });
     return {

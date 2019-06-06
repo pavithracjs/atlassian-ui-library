@@ -6,14 +6,13 @@ import {
 } from '@atlaskit/media-test-helpers';
 import * as React from 'react';
 import { Component } from 'react';
-import { MediaClient } from '@atlaskit/media-client';
 import { MediaPicker, Popup } from '../src';
 import { intlShape } from 'react-intl';
 
-const mediaContext = new MediaClient({
+const mediaClientConfig = {
   authProvider: defaultMediaPickerAuthProvider,
   userAuthProvider,
-});
+};
 
 interface ExampleChildrenProps {}
 
@@ -38,7 +37,7 @@ class ExampleChildren extends Component<ExampleChildrenProps, {}> {
   }
 
   async createMediaPicker(reactContext: any) {
-    this.popup = await MediaPicker('popup', mediaContext, {
+    this.popup = await MediaPicker('popup', mediaClientConfig, {
       container: document.body,
       uploadParams: {
         collection: defaultCollectionName,

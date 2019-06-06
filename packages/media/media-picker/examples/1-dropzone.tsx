@@ -3,9 +3,9 @@ import * as React from 'react';
 import { Component } from 'react';
 import {
   userAuthProvider,
-  createUploadContext,
-  mediaPickerAuthProvider,
   defaultMediaPickerCollectionName,
+  createUploadMediaClientConfig,
+  createStorybookMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
 import Toggle from '@atlaskit/toggle';
@@ -29,9 +29,9 @@ export interface DropzoneWrapperState {
   inflightUploads: string[];
   dropzone?: Dropzone;
 }
-const context = createUploadContext();
-const nonUserContext = new MediaClient({
-  authProvider: mediaPickerAuthProvider('asap'),
+const mediaClientConfig = createUploadMediaClientConfig();
+const nonUserMediaClientConfig = createStorybookMediaClientConfig({
+  authType: 'asap',
 });
 
 class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
@@ -66,21 +66,22 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
 
   async createDropzone() {
     const { isConnectedToUsersCollection } = this.state;
-    const dropzoneContext = isConnectedToUsersCollection
-      ? context
-      : nonUserContext;
+    const dropzoneMediaClientConfig = isConnectedToUsersCollection
+      ? mediaClientConfig
+      : nonUserMediaClientConfig;
 
     if (this.state.dropzone) {
       this.state.dropzone.deactivate();
     }
-    const dropzone = await MediaPicker('dropzone', dropzoneContext, {
+    const dropzone = await MediaPicker('dropzone', dropzoneMediaClientConfig, {
       container: this.dropzoneContainer,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },
     });
 
-    dropzoneContext.on('file-added', this.onFileUploaded);
+    const dropzoneMediaClient = new MediaClient(dropzoneMediaClientConfig);
+    dropzoneMediaClient.on('file-added', this.onFileUploaded);
 
     dropzone.activate();
 

@@ -1,12 +1,12 @@
 jest.mock('react-dom');
-import { MediaClient } from '@atlaskit/media-client';
 import { render } from 'react-dom';
 import { PopupConfig } from '../../types';
 import { PopupImpl } from '../../popup';
 import { UploadParams } from '../../..';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 describe('MediaPickerPopup', () => {
-  const mediaClient = new MediaClient({
+  const mediaClient = fakeMediaClient({
     authProvider: () =>
       Promise.resolve({
         clientId: '',

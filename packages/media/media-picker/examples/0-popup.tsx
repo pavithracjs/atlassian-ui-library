@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as PropTypes from 'prop-types';
-import { MediaClient } from '@atlaskit/media-client';
 import Button from '@atlaskit/button';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
 import AKListeners from '@atlaskit/analytics-listeners';
@@ -11,7 +10,6 @@ import {
   mediaPickerAuthProvider,
   defaultCollectionName,
   defaultMediaPickerCollectionName,
-  createStorybookContext,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import Toggle from '@atlaskit/toggle';
@@ -36,8 +34,7 @@ import {
 } from '../src/domain/uploadEvent';
 import { PopupUploadEventPayloadMap } from '../src/components/types';
 import { AuthEnvironment } from '../example-helpers/types';
-
-const context = createStorybookContext();
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 export type PublicFile = {
   publicId: string;
@@ -49,6 +46,7 @@ export interface Event<K extends keyof PopupUploadEventPayloadMap> {
 export type Events = Event<keyof PopupUploadEventPayloadMap>[];
 export interface PopupWrapperState {
   collectionName: string;
+  mediaClientConfig?: MediaClientConfig;
   closedTimes: number;
   events: Events;
   authEnvironment: AuthEnvironment;
@@ -95,12 +93,12 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
       popup.teardown();
     }
 
-    const context = new MediaClient({
+    const mediaClientConfig: MediaClientConfig = {
       authProvider: mediaPickerAuthProvider(this.state.authEnvironment),
       userAuthProvider,
-    });
+    };
 
-    const newPopup = await MediaPicker('popup', context, {
+    const newPopup = await MediaPicker('popup', mediaClientConfig, {
       container: document.body,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
@@ -119,6 +117,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
 
     this.setState({
       popup: newPopup,
+      mediaClientConfig,
       singleSelect,
     });
   }
@@ -343,19 +342,19 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   renderCards = () => {
-    const { publicFiles } = this.state;
+    const { publicFiles, mediaClientConfig } = this.state;
     const publicIds = Object.keys(publicFiles)
       .map(id => publicFiles[id].publicId)
       .filter(id => !!id);
 
-    if (!publicIds.length) {
+    if (!publicIds.length || !mediaClientConfig) {
       return;
     }
 
     const cards = publicIds.map((id, key) => (
       <CardItemWrapper key={key}>
         <Card
-          context={context}
+          mediaClientConfig={mediaClientConfig}
           isLazy={false}
           identifier={{
             mediaItemType: 'file',

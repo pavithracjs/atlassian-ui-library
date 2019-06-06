@@ -18,9 +18,9 @@ import {
 jest.mock('../../../service/newUploadServiceImpl');
 jest.mock('../../component');
 
-import { MediaClient } from '@atlaskit/media-client';
 import { SCALE_FACTOR_DEFAULT } from '../../../util/getPreviewFromImage';
 import { UploadComponent } from '../../component';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 const imageFile: MediaFile = {
   id: 'some-id',
@@ -50,9 +50,7 @@ describe('LocalUploadReact', () => {
   const onError = jest.fn();
   let uploadComponent: UploadComponent<UploadEventPayloadMap>;
 
-  const mediaClient = new MediaClient({
-    authProvider: {} as any,
-  });
+  const mediaClient = fakeMediaClient();
 
   const config = {
     uploadParams: {},

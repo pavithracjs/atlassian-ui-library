@@ -1,18 +1,10 @@
 import { EventEmitter2 } from 'eventemitter2';
-import { defaultBaseUrl } from '@atlaskit/media-test-helpers';
-import { MediaClient } from '@atlaskit/media-client';
+import { createUploadMediaClientConfig } from '@atlaskit/media-test-helpers';
 import { DropzoneConfig, MediaPicker } from '../../../../index';
 import { Dropzone, DropzoneDragEnterEventPayload } from '../../../types';
 import * as uploadService from '../../../../service/newUploadServiceImpl';
 
-const context = new MediaClient({
-  authProvider: () =>
-    Promise.resolve({
-      clientId: '603c5433-35c4-4346-9a18-2acd3e8df980',
-      token: 'some-token',
-      baseUrl: defaultBaseUrl,
-    }),
-});
+const mediaClientConfig = createUploadMediaClientConfig();
 
 interface FakeUploadService extends EventEmitter2 {
   addDropzone?: () => void;
@@ -66,7 +58,7 @@ describe('Dropzone', () => {
 
   describe('activate', () => {
     it('injects drop zone into supplied container', async () => {
-      const dropzone = await MediaPicker('dropzone', context, config);
+      const dropzone = await MediaPicker('dropzone', mediaClientConfig, config);
 
       await dropzone.activate();
       expect(container.querySelectorAll('.mediaPickerDropzone').length).toEqual(
@@ -75,7 +67,7 @@ describe('Dropzone', () => {
     });
 
     it('injects drop zone into document.body if no container is supplied to constructor', async () => {
-      const dropzone = await MediaPicker('dropzone', context);
+      const dropzone = await MediaPicker('dropzone', mediaClientConfig);
       await dropzone.activate();
       expect(
         document.body.querySelectorAll('.mediaPickerDropzone').length,
@@ -85,7 +77,7 @@ describe('Dropzone', () => {
     it('add "drop" event to container', async () => {
       let addEventListenerSpy: jest.SpyInstance<any>;
       addEventListenerSpy = jest.spyOn(container, 'addEventListener');
-      const dropzone = await MediaPicker('dropzone', context, config);
+      const dropzone = await MediaPicker('dropzone', mediaClientConfig, config);
       await dropzone.activate();
       const events = addEventListenerSpy.mock.calls.map(args => args[0]);
       expect(events).toContain('dragover');
@@ -96,7 +88,11 @@ describe('Dropzone', () => {
     describe('displays dropzone UI', () => {
       it('should append "active" class to .mediaPickerDropzone on "dragover"', async () => {
         const dragOver = createDragOverEvent();
-        const dropzone = await MediaPicker('dropzone', context, config);
+        const dropzone = await MediaPicker(
+          'dropzone',
+          mediaClientConfig,
+          config,
+        );
 
         await dropzone.activate();
         expect(
@@ -116,7 +112,11 @@ describe('Dropzone', () => {
       it('should remove "active" class to .mediaPickerDropzone on "dragover"', async () => {
         const dragOver = createDragOverEvent();
         const dragLeave = createDragLeaveEvent();
-        const dropzone = await MediaPicker('dropzone', context, config);
+        const dropzone = await MediaPicker(
+          'dropzone',
+          mediaClientConfig,
+          config,
+        );
 
         await dropzone.activate();
         container.dispatchEvent(dragOver);
@@ -142,7 +142,7 @@ describe('Dropzone', () => {
 
     beforeEach(async () => {
       removeEventListenerSpy = jest.spyOn(container, 'removeEventListener');
-      dropzone = await MediaPicker('dropzone', context, {
+      dropzone = await MediaPicker('dropzone', mediaClientConfig, {
         ...config,
         headless: true,
       });
@@ -176,7 +176,7 @@ describe('Dropzone', () => {
       someFakeUploadService.addFiles = () => {};
       stubUploadService(someFakeUploadService);
 
-      dropzone = await MediaPicker('dropzone', context, config);
+      dropzone = await MediaPicker('dropzone', mediaClientConfig, config);
     });
 
     afterEach(() => {
@@ -185,7 +185,7 @@ describe('Dropzone', () => {
     });
 
     it('should emit drag-enter for drag over with type "Files" and contain files length', async done => {
-      const dropzone = await MediaPicker('dropzone', context, {
+      const dropzone = await MediaPicker('dropzone', mediaClientConfig, {
         ...config,
         headless: true,
       });
@@ -200,7 +200,7 @@ describe('Dropzone', () => {
     });
 
     it('should not emit drag-enter for drag over with type "Not Files"', async done => {
-      const dropzone = await MediaPicker('dropzone', context, {
+      const dropzone = await MediaPicker('dropzone', mediaClientConfig, {
         ...config,
         headless: true,
       });
@@ -233,7 +233,7 @@ describe('Dropzone', () => {
     });
 
     it('should upload files when files are dropped', async () => {
-      const dropzone = await MediaPicker('dropzone', context, config);
+      const dropzone = await MediaPicker('dropzone', mediaClientConfig, config);
       const spy = jest.spyOn(dropzone['uploadService'], 'addFiles');
       await dropzone.activate();
 

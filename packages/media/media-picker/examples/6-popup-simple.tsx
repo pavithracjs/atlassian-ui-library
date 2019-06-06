@@ -7,17 +7,17 @@ import {
 import * as React from 'react';
 import { Component } from 'react';
 import Button from '@atlaskit/button';
-import { MediaClient } from '@atlaskit/media-client';
 
 import { MediaPicker } from '../src';
 import { Popup } from '../index';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 mediaMock.enable();
 
-const context = new MediaClient({
+const mediaClientConfig: MediaClientConfig = {
   authProvider: defaultMediaPickerAuthProvider,
   userAuthProvider,
-});
+};
 
 export type Event = {
   readonly name: string;
@@ -37,7 +37,7 @@ export default class Example extends Component<Props, State> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', context, {
+    const popup = await MediaPicker('popup', mediaClientConfig, {
       uploadParams: {
         collection: defaultCollectionName,
       },

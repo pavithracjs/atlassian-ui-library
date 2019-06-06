@@ -3,6 +3,7 @@ jest.mock('../../../service/newUploadServiceImpl');
 import { MediaClient } from '@atlaskit/media-client';
 import { Browser, BrowserConfig } from '../../types';
 import { BrowserImpl } from '../../browser';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 describe('Browser', () => {
   let browser: Browser | undefined;
@@ -13,9 +14,7 @@ describe('Browser', () => {
   beforeEach(() => {
     document.createElement = createElement;
 
-    mediaClient = new MediaClient({
-      authProvider: {} as any,
-    });
+    mediaClient = fakeMediaClient();
     browseConfig = {
       uploadParams: {},
     };
