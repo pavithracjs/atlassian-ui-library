@@ -2,6 +2,7 @@ import {
   createEditorFactory,
   doc,
   p,
+  mention,
   unsupportedInline,
 } from '@atlaskit/editor-test-helpers';
 import { mention as mentionData } from '@atlaskit/util-data-test';
@@ -48,30 +49,32 @@ const unknownNodesDoc = {
   version: 1,
 };
 
-// const privateContentNodesDoc = {
-//   type: 'doc',
-//   content: [
-//     {
-//       type: 'paragraph',
-//       content: [
-//         {
-//           text: 'Bacon ',
-//           type: 'text',
-//         },
-//         {
-//           text: '@cheese',
-//           id: '123',
-//           type: 'mention',
-//         },
-//         {
-//           text: ' ham',
-//           type: 'text',
-//         },
-//       ],
-//     },
-//   ],
-//   version: 1,
-// };
+const privateContentNodesDoc = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+        {
+          text: 'Bacon ',
+          type: 'text',
+        },
+        {
+          attrs: {
+            id: '123',
+            text: '@cheese',
+          },
+          type: 'mention',
+        },
+        {
+          text: ' ham',
+          type: 'text',
+        },
+      ],
+    },
+  ],
+  version: 1,
+};
 
 describe('collab-edit: actions', () => {
   const createEditor = createEditorFactory();
@@ -119,21 +122,22 @@ describe('collab-edit: actions', () => {
       );
     });
 
-    // it('should sanitize private content when the sanitizePrivateContent option is enabled.', () => {
-    //   const collabEdit = { allowUnsupportedContent: true, sanitizePrivateContent: true };
-    //   const { editorView } = editor(doc(p('')), collabEdit);
+    it('should sanitize private content when the sanitizePrivateContent option is enabled.', () => {
+      const collabEdit = {
+        allowUnsupportedContent: true,
+        sanitizePrivateContent: true,
+      };
+      const { editorView } = editor(doc(p('')), collabEdit);
 
-    //   const initData: InitData = {
-    //     doc: privateContentNodesDoc,
-    //   };
+      const initData: InitData = {
+        doc: privateContentNodesDoc,
+      };
 
-    //   handleInit(initData, editorView, collabEdit, providerFactory);
+      handleInit(initData, editorView, collabEdit, providerFactory);
 
-    //   expect(editorView.state.doc.toJSON()).toEqual(
-    //     doc(
-    //       p('Bacon ', mention({ id: '123' })(), ' ham'),
-    //     )(defaultSchema).toJSON(),
-    //   );
-    // });
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('Bacon ', mention({ id: '123' })(), ' ham')),
+      );
+    });
   });
 });
