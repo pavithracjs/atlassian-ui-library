@@ -6,7 +6,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Comment server side rendering', async done => {
+test.skip('Comment server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('comment');
   for (const example of examples) {

@@ -6,7 +6,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Droplist server side rendering', async done => {
+test.skip('Droplist server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('Droplist');
   for (const example of examples) {

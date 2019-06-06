@@ -6,7 +6,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Tag group server side rendering', async done => {
+test.skip('Tag group server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('tag-group');
   for (const example of examples) {

@@ -5,7 +5,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Spinner server side rendering', async done => {
+test.skip('Spinner server side rendering', async done => {
   const examples = await getExamplesFor('spinner');
   for (const example of examples) {
     // $StringLitteral
