@@ -1,0 +1,1 @@
+getMediaClient is now exposed

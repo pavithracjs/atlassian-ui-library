@@ -1,12 +1,11 @@
 import uuidV4 from 'uuid/v4';
 import {
-  Context,
   UploadableFile,
   MediaType,
   getMediaTypeFromMimeType,
-  ContextFactory,
   getFileStreamsCache,
-} from '@atlaskit/media-core';
+  MediaClient,
+} from '@atlaskit/media-client';
 import {
   MediaStore,
   MediaStoreCopyFileWithTokenBody,
@@ -45,12 +44,12 @@ export interface CancellableFileUpload {
 export class NewUploadServiceImpl implements UploadService {
   private readonly userMediaStore?: MediaStore;
   private readonly tenantMediaStore: MediaStore;
-  private readonly userContext?: Context;
+  private readonly userMediaClient?: MediaClient;
   private readonly emitter: EventEmitter2;
   private cancellableFilesUploads: { [key: string]: CancellableFileUpload };
 
   constructor(
-    private readonly tenantContext: Context,
+    private readonly tenantMediaClient: MediaClient,
     private tenantUploadParams: UploadParams,
     private readonly shouldCopyFileToRecents: boolean,
   ) {
@@ -59,7 +58,7 @@ export class NewUploadServiceImpl implements UploadService {
     const {
       authProvider: tenantAuthProvider,
       userAuthProvider,
-    } = tenantContext.config;
+    } = tenantMediaClient.config;
     // We need a non user auth store, since we want to create the empty file in the public collection
     this.tenantMediaStore = new MediaStore({
       authProvider: tenantAuthProvider,
@@ -71,7 +70,7 @@ export class NewUploadServiceImpl implements UploadService {
       });
 
       // We need to use the userAuth to upload this file (recents)
-      this.userContext = ContextFactory.create({
+      this.userMediaClient = new MediaClient({
         userAuthProvider,
         authProvider: userAuthProvider,
       });
@@ -103,13 +102,19 @@ export class NewUploadServiceImpl implements UploadService {
 
     const creationDate = Date.now();
 
-    const { userContext, tenantContext, shouldCopyFileToRecents } = this;
-    const context = shouldCopyFileToRecents ? tenantContext : userContext;
+    const {
+      userMediaClient,
+      tenantMediaClient,
+      shouldCopyFileToRecents,
+    } = this;
+    const mediaClient = shouldCopyFileToRecents
+      ? tenantMediaClient
+      : userMediaClient;
     const collection = shouldCopyFileToRecents
       ? this.tenantUploadParams.collection
       : RECENTS_COLLECTION;
 
-    if (!context) {
+    if (!mediaClient) {
       return;
     }
 
@@ -124,7 +129,7 @@ export class NewUploadServiceImpl implements UploadService {
       });
     }
 
-    const promisedTouchFiles = context.file.touchFiles(
+    const promisedTouchFiles = mediaClient.file.touchFiles(
       touchFileDescriptors,
       collection,
     );
@@ -160,7 +165,7 @@ export class NewUploadServiceImpl implements UploadService {
         };
 
         const controller = this.createUploadController();
-        const observable = context.file.upload(
+        const observable = mediaClient.file.upload(
           uploadableFile,
           controller,
           uploadableUpfrontIds,
@@ -178,7 +183,7 @@ export class NewUploadServiceImpl implements UploadService {
             occurrenceKey: tenantOccurrenceKey,
           };
           // We want to create an empty file in the tenant collection
-          // TODO [MS-1355]: using context.file.touchFiles instead of createFile will speed up things
+          // TODO [MS-1355]: using mediaClient.file.touchFiles instead of createFile will speed up things
           // since we can lookup the id in the cache without wait for this to finish
           upfrontId = this.tenantMediaStore
             .createFile(options)
@@ -203,7 +208,7 @@ export class NewUploadServiceImpl implements UploadService {
           file,
           source,
           cancel: () => {
-            // we can't do "cancellableFileUpload.cancel = controller.abort" because will change the "this" context
+            // we can't do "cancellableFileUpload.cancel = controller.abort" because will change the "this" mediaClient
             controller.abort();
           },
         };
@@ -217,7 +222,7 @@ export class NewUploadServiceImpl implements UploadService {
             if (state.status === 'processing') {
               subscription.unsubscribe();
               if (shouldCopyFileToRecents) {
-                context.emit('file-added', state);
+                mediaClient.emit('file-added', state);
               }
               this.onFileSuccess(cancellableFileUpload, id);
             }
@@ -409,7 +414,7 @@ export class NewUploadServiceImpl implements UploadService {
       return Promise.resolve();
     }
     const { collection: sourceCollection } = tenantUploadParams;
-    const { authProvider: tenantAuthProvider } = this.tenantContext.config;
+    const { authProvider: tenantAuthProvider } = this.tenantMediaClient.config;
     return tenantAuthProvider({ collectionName: sourceCollection }).then(
       auth => {
         const body: MediaStoreCopyFileWithTokenBody = {
