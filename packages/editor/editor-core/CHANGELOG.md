@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.16
+
+### Patch Changes
+
+- [patch][8d54773dea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d54773dea):
+
+  Remove meridian time in parseInputValue in TimePicker
+
 ## 112.11.15
 
 ### Patch Changes
