@@ -1,13 +1,6 @@
 // @flow
-import React, {
-  Component,
-  PureComponent,
-  Fragment,
-  type ComponentType,
-} from 'react';
+import React, { Component, Fragment, type ComponentType } from 'react';
 import isEqual from 'lodash.isequal';
-import transform from 'lodash.transform';
-import isObject from 'lodash.isobject';
 import { colors } from '@atlaskit/theme';
 
 import RenderBlocker from '../../common/RenderBlocker';
@@ -107,20 +100,6 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
       </ContentNavigationWrapper>
     );
   }
-}
-
-function difference(object, base) {
-  function changes(object, base) {
-    return transform(object, function(result, value, key) {
-      if (!isEqual(value, base[key])) {
-        result[key] =
-          isObject(value) && isObject(base[key])
-            ? changes(value, base[key])
-            : value;
-      }
-    });
-  }
-  return changes(object, base);
 }
 
 type ComposedGlobalNavigationProps = {
