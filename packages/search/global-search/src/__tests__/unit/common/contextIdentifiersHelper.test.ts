@@ -14,36 +14,49 @@ import {
 const searchSessionId = 'searchSessionId';
 
 const confluenceBaseResults: ConfluenceResultsMap = {
-  objects: [
-    {
-      resultId: 'resultId',
-      name: 'name',
-      href: 'http://localhost/',
-      analyticsType: AnalyticsType.RecentConfluence,
-      resultType: ResultType.ConfluenceObjectResult,
-      contentType: ContentType.ConfluencePage,
-    },
-  ],
-  spaces: [
-    {
-      resultId: 'resultId',
-      name: 'name',
-      href: 'http://localhost/',
-      analyticsType: AnalyticsType.RecentConfluence,
-      resultType: ResultType.GenericContainerResult,
-      contentType: ContentType.ConfluenceSpace,
-    },
-  ],
-  people: [
-    {
-      resultId: 'resultId',
-      name: 'name',
-      href: 'http://localhost/',
-      analyticsType: AnalyticsType.RecentPerson,
-      resultType: ResultType.PersonResult,
-      contentType: ContentType.Person,
-    },
-  ],
+  objects: {
+    items: [
+      {
+        resultId: 'resultId',
+        name: 'name',
+        href: 'http://localhost/',
+        analyticsType: AnalyticsType.RecentConfluence,
+        resultType: ResultType.ConfluenceObjectResult,
+        contentType: ContentType.ConfluencePage,
+        containerName: 'space',
+        containerId: 'space-id',
+      },
+    ],
+    totalSize: 1,
+  },
+  spaces: {
+    items: [
+      {
+        resultId: 'resultId',
+        name: 'name',
+        href: 'http://localhost/',
+        analyticsType: AnalyticsType.RecentConfluence,
+        resultType: ResultType.GenericContainerResult,
+        contentType: ContentType.ConfluenceSpace,
+      },
+    ],
+    totalSize: 1,
+  },
+  people: {
+    items: [
+      {
+        resultId: 'resultId',
+        name: 'name',
+        href: 'http://localhost/',
+        analyticsType: AnalyticsType.RecentPerson,
+        resultType: ResultType.PersonResult,
+        contentType: ContentType.Person,
+        mentionName: 'mentionName',
+        presenceMessage: 'prescenceMessage',
+      },
+    ],
+    totalSize: 1,
+  },
 };
 
 const getJiraBaseResults = (result?: Partial<Result>): GenericResultMap => ({
@@ -92,13 +105,13 @@ describe('searchSessionUtils', () => {
       confluenceBaseResults,
     );
 
-    expect(objects.map(o => o.href)).toEqual([
+    expect(objects.items.map(o => o.href)).toEqual([
       'http://localhost/?search_id=searchSessionId',
     ]);
-    expect(spaces.map(o => o.href)).toEqual([
+    expect(spaces.items.map(o => o.href)).toEqual([
       'http://localhost/?search_id=searchSessionId',
     ]);
-    expect(people.map(o => o.href)).toEqual(['http://localhost/']);
+    expect(people.items.map(o => o.href)).toEqual(['http://localhost/']);
   });
 
   it('attaches the search session id and others in jira', () => {
