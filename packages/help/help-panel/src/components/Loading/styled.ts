@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/core';
+import { gridSize } from '@atlaskit/theme/constants';
 import * as colors from '@atlaskit/theme/colors';
 
 type LoadingRectangleProps = {
@@ -22,7 +23,7 @@ export const LoadingRectangle = styled.div<LoadingRectangleProps>`
   position: relative;
   height: ${props => (props.contentHeight ? props.contentHeight : '1rem')};
   margin-top: ${props =>
-    props.marginTop ? props.marginTop : '0.42857142857143rem'};
+    props.marginTop ? props.marginTop : gridSize() + 'px'};
   width: ${props => (props.contentWidth ? props.contentWidth : '100%')};
   border-radius: 2px;
   animation-duration: 1.2s;
