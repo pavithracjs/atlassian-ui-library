@@ -5,7 +5,8 @@
     "access": "public"
   },
   "description": "Fabric emoji React components",
-  "module": "index.js",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
   "types": "index.d.ts",
   "atlaskit:src": "src/index.ts",
   "sideEffects": false,
