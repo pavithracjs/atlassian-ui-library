@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.14.0
+
+### Minor Changes
+
+- [minor][4499ffab87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4499ffab87):
+
+  Added support for showing a lozenge next to the search result groups
+
 ## 8.13.2
 
 ### Patch Changes
