@@ -61,6 +61,7 @@ const initCollab = (
 };
 
 const initCollabMemo = memoizeOne(initCollab);
+let isReady = false;
 
 export const createPlugin = (
   dispatch: Dispatch,
@@ -70,7 +71,6 @@ export const createPlugin = (
   oldState?: EditorState,
 ) => {
   let collabEditProvider: CollabEditProvider | null;
-  let isReady = false;
 
   return new Plugin({
     key: pluginKey,
@@ -144,7 +144,10 @@ export const createPlugin = (
         ) => {
           if (providerPromise) {
             collabEditProvider = await providerPromise;
-            unsubscribeAllEvents(collabEditProvider);
+
+            if (isReady) {
+              unsubscribeAllEvents(collabEditProvider);
+            }
 
             // Initialize provider
             collabEditProvider
@@ -189,6 +192,7 @@ export const createPlugin = (
             unsubscribeAllEvents(collabEditProvider);
           }
           collabEditProvider = null;
+          isReady = false;
         },
       };
     },
