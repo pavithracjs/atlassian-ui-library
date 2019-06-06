@@ -1,0 +1,1 @@
+The portal rendered by a drawer no longer renders if the drawer is not open
