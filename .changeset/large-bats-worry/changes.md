@@ -1,0 +1,1 @@
+Adds  prop `shouldHideGlobalNavShadow` to control the shadow on global navigation. Fixes an issue where GlobalNavigation didn't pass through props correctly.
