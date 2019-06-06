@@ -43,6 +43,6 @@
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/section-message": "^4.0.1",
     "enzyme": "^3.7.0",
-    "react-test-renderer": "^16.3.0"
+    "react-test-renderer": "^16.8.0"
   }
 }
