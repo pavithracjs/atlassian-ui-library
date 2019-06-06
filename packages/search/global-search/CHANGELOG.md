@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.15.0
+
+### Minor Changes
+
+- [minor][1dc1136437](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1dc1136437):
+
+  Include experiment data in feedback collector info
+
 ## 8.14.0
 
 ### Minor Changes
