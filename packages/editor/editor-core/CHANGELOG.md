@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.13
+
+### Patch Changes
+
+- [patch][9503b9d220](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9503b9d220):
+
+  Bump prosemirror table to latest version where performance improvement applies, related to celsInRect helper
+
 ## 112.11.12
 
 ### Patch Changes

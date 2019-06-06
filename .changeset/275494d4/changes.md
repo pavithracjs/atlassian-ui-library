@@ -1,1 +1,0 @@
-Bump prosemirror table to latest version where performance improvement applies, related to celsInRect helper
