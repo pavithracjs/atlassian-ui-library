@@ -26,7 +26,7 @@ class Example extends React.Component {
   }
 }
 
-test('media-client server side rendering of project examples', async () => {
+test.skip('media-client server side rendering of project examples', async () => {
   const examples = await getExamplesFor('media-client');
   for (const example of examples) {
     const Example = await require(example.filePath).default;
@@ -35,6 +35,6 @@ test('media-client server side rendering of project examples', async () => {
   }
 });
 
-test('media-client server side rendering of simple component', () => {
+test.skip('media-client server side rendering of simple component', () => {
   expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
 });
