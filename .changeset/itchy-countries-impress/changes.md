@@ -1,0 +1,1 @@
+Remove index.ts from built module
