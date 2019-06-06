@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.15.1
+
+### Patch Changes
+
+- [patch][76c559f29e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76c559f29e):
+
+  fix keyboard nav for confluence
+
 ## 8.15.0
 
 ### Minor Changes
