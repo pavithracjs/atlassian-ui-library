@@ -75,7 +75,10 @@ const loadUserOptions = (searchText?: string): OptionData[] => {
     });
 };
 
-const dialogPlacementOptions = [
+const dialogPlacementOptions: Array<{
+  label: string;
+  value: State['dialogPlacement'];
+}> = [
   { label: 'bottom-end', value: 'bottom-end' },
   { label: 'bottom', value: 'bottom' },
   { label: 'bottom-start', value: 'bottom-start' },
@@ -90,7 +93,7 @@ const dialogPlacementOptions = [
   { label: 'left-end', value: 'left-end' },
 ];
 
-const modeOptions = [
+const modeOptions: Array<{ label: string; value: ConfigResponseMode }> = [
   { label: 'Existing users only', value: 'EXISTING_USERS_ONLY' },
   { label: 'Invite needs approval', value: 'INVITE_NEEDS_APPROVAL' },
   { label: 'Only domain based invite', value: 'ONLY_DOMAIN_BASED_INVITE' },
@@ -98,7 +101,10 @@ const modeOptions = [
   { label: 'Anyone', value: 'ANYONE' },
 ];
 
-const triggerButtonAppearanceOptions = [
+const triggerButtonAppearanceOptions: Array<{
+  label: string;
+  value: State['triggerButtonAppearance'];
+}> = [
   { label: 'default', value: 'default' },
   { label: 'danger', value: 'danger' },
   { label: 'link', value: 'link' },
@@ -106,10 +112,12 @@ const triggerButtonAppearanceOptions = [
   { label: 'subtle', value: 'subtle' },
   { label: 'subtle-link', value: 'subtle-link' },
   { label: 'warning', value: 'warning' },
-  { label: 'help', value: 'help' },
 ];
 
-const triggerButtonStyleOptions = [
+const triggerButtonStyleOptions: Array<{
+  label: string;
+  value: State['triggerButtonStyle'];
+}> = [
   { label: 'icon-only', value: 'icon-only' },
   { label: 'icon-with-text', value: 'icon-with-text' },
   { label: 'text-only', value: 'text-only' },
@@ -118,7 +126,6 @@ const triggerButtonStyleOptions = [
 type ExampleState = {
   customButton: boolean;
   customTitle: boolean;
-  dialogPlacement: string;
   escapeOnKeyPress: boolean;
 };
 
@@ -134,12 +141,11 @@ export default class Example extends React.Component<{}, State> {
     allowedDomains: ['atlassian.com'],
     customButton: false,
     customTitle: false,
-    dialogPlacement: dialogPlacementOptions[0].value as 'bottom-end',
+    dialogPlacement: dialogPlacementOptions[2].value,
     escapeOnKeyPress: true,
-    mode: modeOptions[0].value as ConfigResponseMode,
-    triggerButtonAppearance: triggerButtonAppearanceOptions[0]
-      .value as 'subtle',
-    triggerButtonStyle: triggerButtonStyleOptions[0].value as 'icon-only',
+    mode: modeOptions[0].value,
+    triggerButtonAppearance: triggerButtonAppearanceOptions[0].value,
+    triggerButtonStyle: triggerButtonStyleOptions[0].value,
   };
 
   key: number = 0;

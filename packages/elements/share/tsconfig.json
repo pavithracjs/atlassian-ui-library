@@ -10,7 +10,6 @@
   ],
   "compilerOptions": {
     "noImplicitAny": true,
-    "baseUrl": "./",
-    
+    "baseUrl": "./"
   }
 }
