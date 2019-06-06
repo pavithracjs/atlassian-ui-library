@@ -132,31 +132,26 @@ export class DrawerBase extends Component<
         mountOnEnter
         unmountOnExit
       >
-        {() => (
-          <Portal zIndex="unset">
-            <TransitionGroup component={OnlyChild}>
-              <Fragment>
-                {/* $FlowFixMe the `in` prop is internal */}
-                <Fade in={isOpen}>
-                  <Blanket
-                    isTinted
-                    onBlanketClicked={this.handleBlanketClick}
-                  />
-                </Fade>
-                <DrawerPrimitive
-                  icon={icon}
-                  in={isOpen}
-                  onClose={this.handleBackButtonClick}
-                  onCloseComplete={onCloseComplete}
-                  width={width}
-                  shouldUnmountOnExit={shouldUnmountOnExit}
-                >
-                  {children}
-                </DrawerPrimitive>
-              </Fragment>
-            </TransitionGroup>
-          </Portal>
-        )}
+        <Portal zIndex="unset">
+          <TransitionGroup component={OnlyChild}>
+            <Fragment>
+              {/* $FlowFixMe the `in` prop is internal */}
+              <Fade in={isOpen}>
+                <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
+              </Fade>
+              <DrawerPrimitive
+                icon={icon}
+                in={isOpen}
+                onClose={this.handleBackButtonClick}
+                onCloseComplete={onCloseComplete}
+                width={width}
+                shouldUnmountOnExit={shouldUnmountOnExit}
+              >
+                {children}
+              </DrawerPrimitive>
+            </Fragment>
+          </TransitionGroup>
+        </Portal>
       </Transition>
     );
   }
