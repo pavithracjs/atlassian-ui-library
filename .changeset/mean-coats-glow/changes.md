@@ -1,1 +1,0 @@
-MediaPicker constuctro suports mediaClientConfig as second argument
