@@ -1,1 +1,0 @@
-Fixed a scrollbar bug with checkboxes
