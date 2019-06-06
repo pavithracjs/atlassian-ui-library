@@ -21,7 +21,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
-    "build": "babel --ignore WE_WILL_NOT_IGNORE_ANYTHING --presets @babel/preset-typescript build/js-to-css.ts --config-file=../../../babel.config.js --env-name=production:cjs"
+    "build": "ts-node --compiler-options='{ \"module\": \"CommonJS\" }' build/js-to-css.ts"
   },
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.1",
-    "@babel/node": "^7.0.0",
-    "less": "^2.7.1"
+    "less": "^2.7.1",
+    "ts-node": "^6.1.1"
   },
   "keywords": [
     "atlaskit",
