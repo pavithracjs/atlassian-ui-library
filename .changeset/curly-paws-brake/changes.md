@@ -1,0 +1,1 @@
+Update private npm property to be public.Reasoning, it is breaking other components that depend on iton codesandbox.
