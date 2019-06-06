@@ -8,18 +8,24 @@ export { default as WithHelpTrigger } from './ui/WithHelpTrigger';
 export { default as CollapsedEditor } from './ui/CollapsedEditor';
 export { default as ToolbarHelp } from './ui/ToolbarHelp';
 export { default as ToolbarFeedback } from './ui/ToolbarFeedback';
-export { EmojiResource } from '@atlaskit/emoji';
-export { MediaProvider, CustomMediaPicker } from './plugins/media';
+export { EmojiResource } from '@atlaskit/emoji/resource';
+export {
+  default as mediaPlugin,
+  insertMediaSingleNode,
+  MediaOptions,
+  MediaProvider,
+  MediaState,
+  CustomMediaPicker,
+} from './plugins/media';
 export { CollabEditProvider } from './plugins/collab-edit';
-export { MediaOptions } from './plugins/media';
 export {
   AbstractMentionResource,
   MentionProvider,
   MentionResource,
-  TeamMentionResource,
   PresenceProvider,
   PresenceResource,
-} from '@atlaskit/mention';
+} from '@atlaskit/mention/resource';
+export { TeamMentionResource } from '@atlaskit/mention/team-resource';
 export {
   QuickInsertProvider,
   QuickInsertItem,

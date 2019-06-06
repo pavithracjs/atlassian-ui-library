@@ -15,7 +15,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 
 import {
@@ -27,6 +27,7 @@ import { DevTools } from '../example-helpers/DevTools';
 import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions } from './../src';
 import withSentry from '../example-helpers/withSentry';
+import FullWidthToggle from '../example-helpers/full-width-toggle';
 
 /**
  * +-------------------------------+
@@ -101,7 +102,11 @@ export const SaveAndCancelButtons = (props: {
   </ButtonGroup>
 );
 
-export type State = { disabled: boolean; title: string };
+export type State = {
+  disabled: boolean;
+  title: string;
+  fullWidthMode: boolean;
+};
 
 export const providers: any = {
   emojiProvider: emoji.storyData.getEmojiResource({
@@ -137,6 +142,7 @@ class ExampleEditorComponent extends React.Component<
   state: State = {
     disabled: true,
     title: localStorage.getItem(LOCALSTORAGE_defaultTitleKey) || '',
+    fullWidthMode: false,
   };
 
   componentDidMount() {
@@ -154,7 +160,7 @@ class ExampleEditorComponent extends React.Component<
         <Content>
           <SmartCardProvider>
             <Editor
-              appearance="full-page"
+              appearance={this.state.fullWidthMode ? 'full-width' : 'full-page'}
               analyticsHandler={analyticsHandler}
               allowAnalyticsGASV3={true}
               quickInsert={{ provider: Promise.resolve(quickInsertProvider) }}
@@ -216,13 +222,18 @@ class ExampleEditorComponent extends React.Component<
                   )}
                 />
               }
-              primaryToolbarComponents={
+              primaryToolbarComponents={[
+                <FullWidthToggle
+                  key={0}
+                  onFullWidthChange={this.setFullWidthMode}
+                />,
                 <WithEditorActions
+                  key={1}
                   render={actions => (
                     <SaveAndCancelButtons editorActions={actions} />
                   )}
-                />
-              }
+                />,
+              ]}
               onSave={SAVE_ACTION}
               insertMenuItems={customInsertMenuItems}
               extensionHandlers={extensionHandlers}
@@ -242,6 +253,7 @@ class ExampleEditorComponent extends React.Component<
       actions.focus();
       return false;
     }
+    return;
   };
 
   private handleTitleChange = (e: KeyboardEvent) => {
@@ -261,6 +273,10 @@ class ExampleEditorComponent extends React.Component<
     if (ref) {
       ref.focus();
     }
+  };
+
+  private setFullWidthMode = (fullWidthMode: boolean) => {
+    this.setState({ fullWidthMode });
   };
 }
 

@@ -1,6 +1,7 @@
 import {
   getExampleUrl,
   disableAllSideEffects,
+  navigateToUrl,
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
@@ -34,7 +35,7 @@ export const initEditor = async (page: any, appearance: string) => {
     // @ts-ignore
     global.__BASEURL__,
   );
-  await page.goto(url);
+  await navigateToUrl(page, url);
   if (appearance === 'comment') {
     const placeholder = 'input[placeholder="What do you want to say?"]';
     await page.waitForSelector(placeholder);
@@ -184,13 +185,7 @@ export const initEditorWithAdf = async (
   }: InitEditorWithADFOptions,
 ) => {
   const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
-
-  const currentUrl = page.url();
-
-  if (currentUrl !== url) {
-    // We don't have to load the already existing page
-    await page.goto(url, { waitUntil: 'networkidle0' });
-  }
+  await navigateToUrl(page, url);
 
   // Set the viewport to the right one
   if (viewport) {

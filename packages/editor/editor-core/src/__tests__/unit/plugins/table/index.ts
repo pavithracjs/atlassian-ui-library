@@ -67,7 +67,7 @@ describe('table plugin', () => {
       doc,
       editorPlugins: [
         listPlugin,
-        tablesPlugin(tableOptions),
+        tablesPlugin(),
         codeBlockPlugin(),
         mediaPlugin({ allowMediaSingle: true }),
         quickInsertPlugin,

@@ -1,5 +1,38 @@
 # @atlaskit/navigation
 
+## 35.1.4
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/button@13.0.6
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
+## 35.1.3
+- Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+  - @atlaskit/page@11.0.0
+
+## 35.1.2
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/checkbox@7.0.1
+  - @atlaskit/field-text@9.0.1
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/single-select@8.0.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
+## 35.1.1
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/icon@17.0.2
+  - @atlaskit/page@10.0.2
+  - @atlaskit/logo@12.0.0
+
+## 35.1.0
+- [minor] [182db00870](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/182db00870):
+
+  - added aria-label for resizer button for better a11y
+
 ## 35.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

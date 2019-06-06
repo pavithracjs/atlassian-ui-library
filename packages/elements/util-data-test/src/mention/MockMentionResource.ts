@@ -4,9 +4,15 @@ import {
   MentionDescription,
   MentionsResult,
   AbstractMentionResource,
-} from '@atlaskit/mention';
+  MentionNameResolver,
+  DefaultMentionNameResolver,
+  ResolvingMentionProvider,
+  MentionNameDetails,
+  MentionNameStatus,
+} from '@atlaskit/mention/resource';
 import debug from '../logger';
 import { mentionResult } from './mention-data';
+import { MockMentionNameClient } from './MockMentionNameClient';
 import { HttpError } from './utils';
 
 const search = new Search('id');
@@ -19,9 +25,14 @@ search.addDocuments(mentionResult);
 export interface MockMentionConfig {
   minWait?: number;
   maxWait?: number;
+  mentionNameResolver?: MentionNameResolver;
 }
 
-export class MockMentionResource extends AbstractMentionResource {
+export const createMockMentionNameResolver = () =>
+  new DefaultMentionNameResolver(new MockMentionNameClient());
+
+export class MockMentionResource extends AbstractMentionResource
+  implements ResolvingMentionProvider {
   private config: MockMentionConfig;
   private lastReturnedSearch: number;
 
@@ -82,5 +93,36 @@ export class MockMentionResource extends AbstractMentionResource {
   // eslint-disable-next-line class-methods-use-this
   recordMentionSelection(mention: MentionDescription): void {
     debug(`Record mention selection ${mention.id}`);
+  }
+
+  resolveMentionName(
+    id: string,
+  ): Promise<MentionNameDetails> | MentionNameDetails {
+    debug('(mock)resolveMentionName', id);
+    if (!this.config.mentionNameResolver) {
+      return {
+        id,
+        name: '',
+        status: MentionNameStatus.UNKNOWN,
+      };
+    }
+    return this.config.mentionNameResolver.lookupName(id);
+  }
+
+  cacheMentionName(id: string, name: string) {
+    debug('(mock)cacheMentionName', id, name);
+    if (this.config.mentionNameResolver) {
+      this.config.mentionNameResolver.cacheName(id, name);
+    }
+  }
+
+  supportsMentionNameResolving() {
+    const supported = !!this.config.mentionNameResolver;
+    debug('supportsMentionNameResolving', supported);
+    return supported;
+  }
+
+  shouldHighlightMention(mention: MentionDescription): boolean {
+    return mention.id === 'oscar';
   }
 }

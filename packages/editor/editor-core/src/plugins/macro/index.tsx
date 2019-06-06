@@ -41,7 +41,7 @@ export const createPlugin = (
       if (view.dom.parentNode) {
         providerFactory.subscribe(
           'macroProvider',
-          (name, provider?: Promise<MacroProvider>) =>
+          (_name, provider?: Promise<MacroProvider>) =>
             provider && setMacroProvider(provider)(view),
         );
       }

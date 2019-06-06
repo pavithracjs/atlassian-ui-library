@@ -1,7 +1,14 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
+import {
+  md,
+  code,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+${<AtlassianInternalWarning />}
 
   This component provides a component to select, drag and resize image avatars. It also provides a default list of predefined avatars.
 

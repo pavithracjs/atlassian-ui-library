@@ -1,5 +1,18 @@
 # @atlaskit/theme
 
+## 9.1.0
+- [minor] [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+
+  - Checkbox has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
+## 9.0.3
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/lozenge@9.0.0
+
+## 9.0.2
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/section-message@4.0.0
+
 ## 9.0.1
 - [patch] [d5f0e7d767](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5f0e7d767):
 

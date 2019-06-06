@@ -36,7 +36,7 @@ const hyperlinkPlugin: EditorPlugin = {
       },
       {
         name: 'hyperlinkKeymap',
-        plugin: ({ schema, props }) => createKeymapPlugin(schema, props),
+        plugin: () => createKeymapPlugin(),
       },
     ];
   },
@@ -50,7 +50,7 @@ const hyperlinkPlugin: EditorPlugin = {
         priority: 1200,
         keyshortcut: tooltip(addLink),
         icon: () => <IconLink label={formatMessage(messages.link)} />,
-        action(insert, state) {
+        action(_insert, state) {
           const pos = state.selection.from;
           const { nodeBefore } = state.selection.$from;
           if (!nodeBefore) {

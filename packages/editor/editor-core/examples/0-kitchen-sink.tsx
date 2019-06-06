@@ -6,10 +6,8 @@ import Button from '@atlaskit/button';
 
 import { IntlProvider, addLocaleData } from 'react-intl';
 import { ReactRenderer } from '@atlaskit/renderer';
-import { colors } from '@atlaskit/theme';
+import { colors, AtlaskitThemeProvider } from '@atlaskit/theme';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { AtlaskitThemeProvider } from '@atlaskit/theme';
-import Toggle from '@atlaskit/toggle';
 import { extensionHandlers } from '@atlaskit/editor-test-helpers';
 
 import enMessages from '../src/i18n/en';
@@ -30,11 +28,7 @@ import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import ErrorReport, { Error } from '../example-helpers/ErrorReport';
 import KitchenSinkEditor from '../example-helpers/KitchenSinkEditor';
 import withSentry from '../example-helpers/withSentry';
-import {
-  LOCALSTORAGE_defaultMode,
-  DEFAULT_MODE,
-  FULL_WIDTH_MODE,
-} from '../example-helpers/example-constants';
+import FullWidthToggle from '../example-helpers/full-width-toggle';
 
 const Container = styled.div`
   display: flex;
@@ -179,7 +173,6 @@ export type State = {
   showErrors: boolean;
   waitingToValidate: boolean;
   theme: Theme;
-  fullWidthMode: boolean;
 };
 
 function getInitialTheme(): Theme {
@@ -221,8 +214,6 @@ class FullPageRendererExample extends React.Component<Props, State> {
     showErrors: false,
     waitingToValidate: false,
     theme: getInitialTheme(),
-    fullWidthMode:
-      localStorage.getItem(LOCALSTORAGE_defaultMode) === FULL_WIDTH_MODE,
   };
 
   private dataProviders = ProviderFactory.create({
@@ -233,7 +224,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
   private inputRef?: HTMLTextAreaElement | null;
   private popupMountPoint?: HTMLElement | null;
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(_prevProps: Props, prevState: State) {
     if (prevState.theme !== this.state.theme) {
       window.sessionStorage.setItem('theme', this.state.theme);
     }
@@ -273,19 +264,10 @@ class FullPageRendererExample extends React.Component<Props, State> {
     },
   });
 
-  private toggleFullWidthMode = () => {
-    this.setState(
-      prevState => ({
-        appearance:
-          prevState.appearance === 'full-width' ? 'full-page' : 'full-width',
-      }),
-      () => {
-        localStorage.setItem(
-          LOCALSTORAGE_defaultMode,
-          this.state.fullWidthMode ? FULL_WIDTH_MODE : DEFAULT_MODE,
-        );
-      },
-    );
+  private toggleFullWidthMode = (fullWidthMode: boolean) => {
+    this.setState({
+      appearance: fullWidthMode ? 'full-width' : 'full-page',
+    });
   };
 
   render() {
@@ -327,22 +309,9 @@ class FullPageRendererExample extends React.Component<Props, State> {
                       display: 'flex',
                     }}
                   >
-                    <div
-                      style={{
-                        minWidth: '200px',
-                        padding: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Toggle
-                        size="large"
-                        isChecked={this.state.appearance === 'full-width'}
-                        onChange={this.toggleFullWidthMode}
-                        label="Full Width Mode"
-                      />
-                      <span>Full Width Mode</span>
-                    </div>
+                    <FullWidthToggle
+                      onFullWidthChange={this.toggleFullWidthMode}
+                    />
 
                     <Select
                       formatOptionLabel={formatAppearanceOption}

@@ -1,7 +1,9 @@
-import { ResultsGroup, ConfluenceResultsMap } from '../../model/Result';
-import { take } from '../SearchResultsUtil';
 import { messages } from '../../messages';
-import { ABTest } from '../../api/CrossProductSearchClient';
+import { ConfluenceResultsMap, ResultsGroup } from '../../model/Result';
+import { attachConfluenceContextIdentifiers } from '../common/contextIdentifiersHelper';
+import { take } from '../SearchResultsUtil';
+import { getConfluenceMaxObjects } from '../../util/experiment-utils';
+import { ConfluenceFeatures } from '../../util/features';
 
 export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
@@ -9,94 +11,117 @@ export const MAX_PEOPLE = 3;
 export const MAX_RECENT_RESULTS_TO_SHOW = 3;
 
 const EMPTY_CONFLUENCE_RESULT = {
-  people: [],
-  objects: [],
-  spaces: [],
+  people: {
+    items: [],
+    totalSize: 0,
+  },
+  objects: {
+    items: [],
+    totalSize: 0,
+  },
+  spaces: {
+    items: [],
+    totalSize: 0,
+  },
 };
 
-/**
- * Grape is an experiment to increase the number of search results shown to the user
- */
-const GRAPE_EXPERIMENT = 'grape';
-
-const getMaxObjects = (abTest: ABTest) => {
-  if (abTest.experimentId.startsWith(GRAPE_EXPERIMENT)) {
-    const parsedMaxObjects = Number.parseInt(
-      abTest.experimentId.split('-')[1],
-      10,
-    );
-
-    return parsedMaxObjects || DEFAULT_MAX_OBJECTS;
-  }
-  return DEFAULT_MAX_OBJECTS;
-};
-
-export const sliceResults = (
+const sliceResults = (
   resultsMap: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
 ): ConfluenceResultsMap => {
   if (!resultsMap) {
     return EMPTY_CONFLUENCE_RESULT;
   }
   const { people, objects, spaces } = resultsMap;
   return {
-    objects: take(objects, getMaxObjects(abTest)),
-    spaces: take(spaces, MAX_SPACES),
-    people: take(people, MAX_PEOPLE),
+    objects: {
+      ...objects,
+      items: take(
+        objects.items,
+        getConfluenceMaxObjects(features.abTest, DEFAULT_MAX_OBJECTS),
+      ),
+    },
+    spaces: {
+      ...spaces,
+      items: take(spaces.items, MAX_SPACES),
+    },
+    people: {
+      ...people,
+      items: take(people.items, MAX_PEOPLE),
+    },
   };
 };
 
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
+  searchSessionId: string,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(
-    recentlyViewedObjects,
-    abTest,
+  const sliced = sliceResults(recentlyViewedObjects, features);
+
+  const { people, objects, spaces } = attachConfluenceContextIdentifiers(
+    searchSessionId,
+    sliced,
   );
 
   return [
     {
-      items: objects,
+      items: objects.items,
       key: 'objects',
       title: messages.confluence_recent_pages_heading,
+      totalSize: objects.totalSize,
+      showTotalSize: false,
     },
     {
-      items: spaces,
+      items: spaces.items,
       key: 'spaces',
       title: messages.confluence_recent_spaces_heading,
+      totalSize: spaces.totalSize,
+      showTotalSize: false,
     },
     {
-      items: people,
+      items: people.items,
       key: 'people',
       title: messages.people_recent_people_heading,
+      totalSize: people.totalSize,
+      showTotalSize: false,
     },
   ];
 };
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
+  searchSessionId: string,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(
-    searchResultsObjects,
-    abTest,
+  const sliced = sliceResults(searchResultsObjects, features);
+
+  const { people, objects, spaces } = attachConfluenceContextIdentifiers(
+    searchSessionId,
+    sliced,
   );
+
   return [
     {
-      items: objects,
+      items: objects.items,
       key: 'objects',
       title: messages.confluence_confluence_objects_heading,
+      totalSize: objects.totalSize,
+      showTotalSize: features.searchExtensionsEnabled,
     },
     {
-      items: spaces,
+      items: spaces.items,
       key: 'spaces',
       title: messages.confluence_spaces_heading,
+      totalSize: spaces.totalSize,
+      showTotalSize: false,
     },
     {
-      items: people,
+      items: people.items,
       key: 'people',
       title: messages.people_people_heading,
+      totalSize: people.totalSize,
+      showTotalSize: false,
     },
   ];
 };

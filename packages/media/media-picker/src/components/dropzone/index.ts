@@ -1,4 +1,4 @@
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { IntlProvider } from 'react-intl';
 import { LocalUploadComponent } from '../localUpload';
 import { whenDomReady } from '../../util/documentReady';
@@ -23,8 +23,11 @@ export class DropzoneImpl
   private uiActive: boolean;
   private proxyReactContext?: DropzoneReactContext;
 
-  constructor(context: Context, config: DropzoneConfig = { uploadParams: {} }) {
-    super(context, config);
+  constructor(
+    mediaClient: MediaClient,
+    config: DropzoneConfig = { uploadParams: {} },
+  ) {
+    super(mediaClient, config);
     const { container, headless, proxyReactContext } = config;
     this.container = container || document.body;
     this.headless = headless || false;

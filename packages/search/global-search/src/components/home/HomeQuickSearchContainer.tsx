@@ -3,7 +3,10 @@ import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
 import uuid from 'uuid/v4';
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import { RecentSearchClient } from '../../api/RecentSearchClient';
-import { CrossProductSearchClient } from '../../api/CrossProductSearchClient';
+import {
+  CrossProductSearchClient,
+  SearchResultsMap,
+} from '../../api/CrossProductSearchClient';
 import { Scope } from '../../api/types';
 import { Result } from '../../model/Result';
 import { PeopleSearchClient } from '../../api/PeopleSearchClient';
@@ -85,18 +88,21 @@ export class HomeQuickSearchContainer extends React.Component<Props, State> {
     return results;
   }
 
-  async searchCrossProduct(query: string): Promise<Map<Scope, Result[]>> {
+  async searchCrossProduct(query: string): Promise<SearchResultsMap> {
     const results = await this.props.crossProductSearchClient.search(
       query,
       this.state.searchSessionId,
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
-      'home',
+      [],
     );
+
+    const jiraResults = results.results[Scope.JiraIssue];
+    const confluenceResults = results.results[Scope.ConfluencePageBlog];
 
     if (this.state.latestSearchQuery === query) {
       this.setState({
-        jiraResults: results.results.get(Scope.JiraIssue) || [],
-        confluenceResults: results.results.get(Scope.ConfluencePageBlog) || [],
+        jiraResults: jiraResults ? jiraResults.items : [],
+        confluenceResults: confluenceResults ? confluenceResults.items : [],
       });
     }
 

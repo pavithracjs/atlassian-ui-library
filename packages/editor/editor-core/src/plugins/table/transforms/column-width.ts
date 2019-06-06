@@ -1,7 +1,9 @@
 import { TableMap } from 'prosemirror-tables';
 import { Transaction } from 'prosemirror-state';
 import { Node as PMNode } from 'prosemirror-model';
+import { CellAttributes } from '@atlaskit/adf-schema';
 import { ResizeState } from '../pm-plugins/table-resizing/utils';
+import { setMeta } from './metadata';
 
 export const updateColumnWidths = (
   resizeState: ResizeState,
@@ -9,37 +11,89 @@ export const updateColumnWidths = (
   start: number,
 ) => (tr: Transaction): Transaction => {
   const map = TableMap.get(table);
+  const updatedCellsAttrs: { [key: number]: CellAttributes } = {};
+  const { selection } = tr;
 
-  for (let i = 0; i < resizeState.cols.length; i++) {
-    const width = resizeState.cols[i].width;
-    // we need to recalculate table node to pick up attributes from the previous loop iteration
-    table = tr.doc.nodeAt(start - 1) as PMNode;
-    if (!table) {
-      return tr;
-    }
+  // calculating new attributes for each cell
+  for (let columnIndex = 0; columnIndex < map.width; columnIndex++) {
+    for (let rowIndex = 0; rowIndex < map.height; rowIndex++) {
+      const { width } = resizeState.cols[columnIndex];
+      const mapIndex = rowIndex * map.width + columnIndex;
+      const cellPos = map.map[mapIndex];
+      const attrs = updatedCellsAttrs[cellPos] || {
+        ...table.nodeAt(cellPos)!.attrs,
+      };
+      const colspan = attrs.colspan || 1;
+      if (attrs.colwidth && attrs.colwidth.length > colspan) {
+        tr = setMeta({
+          type: 'UPDATE_COLUMN_WIDTHS',
+          problem: 'COLWIDTHS_BEFORE_UPDATE',
+          data: { colwidths: attrs.colwidth, colspan },
+        })(tr);
+        attrs.colwidth = attrs.colwidth.slice(0, colspan);
+      }
 
-    for (let row = 0; row < map.height; row++) {
-      let mapIndex = row * map.width + i;
       // Rowspanning cell that has already been handled
-      if (row && map.map[mapIndex] === map.map[mapIndex - map.width]) {
+      if (rowIndex && map.map[mapIndex] === map.map[mapIndex - map.width]) {
         continue;
       }
-      const pos = map.map[mapIndex];
-      const { attrs } = table.nodeAt(pos) || { attrs: {} };
-      const index = attrs.colspan === 1 ? 0 : i - map.colCount(pos);
-
-      if (attrs.colwidth && attrs.colwidth[index] === width) {
+      const colspanIndex =
+        colspan === 1 ? 0 : columnIndex - map.colCount(cellPos);
+      if (attrs.colwidth && attrs.colwidth[colspanIndex] === width) {
         continue;
       }
 
-      const colwidth = attrs.colwidth
+      let colwidth = attrs.colwidth
         ? attrs.colwidth.slice()
-        : Array.from({ length: attrs.colspan }, _ => 0);
+        : Array.from({ length: colspan }, _ => 0);
 
-      colwidth[index] = width;
-      tr.setNodeMarkup(start + pos, undefined, { ...attrs, colwidth });
+      colwidth[colspanIndex] = width;
+      if (colwidth.length > colspan) {
+        tr = setMeta({
+          type: 'UPDATE_COLUMN_WIDTHS',
+          problem: 'COLWIDTHS_AFTER_UPDATE',
+          data: { colwidths: colwidth, colspan },
+        })(tr);
+        colwidth = colwidth.slice(0, colspan);
+      }
+      updatedCellsAttrs[cellPos] = { ...attrs, colwidth };
     }
   }
 
-  return tr;
+  // updating all cells with new attributes
+  const rows: PMNode[] = [];
+  const seen: { [key: number]: boolean } = {};
+  for (let rowIndex = 0; rowIndex < map.height; rowIndex++) {
+    const row = table.child(rowIndex);
+    const cells: PMNode[] = [];
+
+    for (let columnIndex = 0; columnIndex < map.width; columnIndex++) {
+      const mapIndex = rowIndex * map.width + columnIndex;
+      const pos = map.map[mapIndex];
+      const cell = table.nodeAt(pos);
+      if (!seen[pos] && cell) {
+        cells.push(
+          cell.type.createChecked(
+            updatedCellsAttrs[pos] || cell.attrs,
+            cell.content,
+            cell.marks,
+          ),
+        );
+        seen[pos] = true;
+      }
+    }
+    rows.push(row.type.createChecked(row.attrs, cells, row.marks));
+  }
+
+  const tablePos = start - 1;
+  return (
+    tr
+      .replaceWith(
+        tablePos,
+        tablePos + table.nodeSize,
+        table.type.createChecked(table.attrs, rows, table.marks),
+      )
+      // restore selection after replacing the table
+      .setSelection(selection)
+  );
 };

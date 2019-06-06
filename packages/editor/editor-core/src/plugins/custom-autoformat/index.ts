@@ -14,11 +14,7 @@ import { triggerInputRule, InputRule } from './input-rules';
 import { completeReplacements, buildHandler } from './doc';
 import { getPluginState, pluginKey } from './utils';
 
-export const createPMPlugin = ({
-  portalProviderAPI,
-  dispatch,
-  providerFactory,
-}: PMPluginFactoryParams) => {
+export const createPMPlugin = ({ providerFactory }: PMPluginFactoryParams) => {
   const rules: Array<InputRule> = [];
 
   return new PMPlugin({

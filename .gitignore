@@ -11,7 +11,10 @@ junit.xml
 test-reports/
 browserstack.err
 **/__image_snapshots__/__diff_output__/
+**/__image_snapshots__/__errors__/
 .measure-output/
+.masterBundleSize/
+.currentBundleSize/
 imageSnapshotFailures/
 
 # created by build-stats tool

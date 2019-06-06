@@ -5,9 +5,11 @@ import {
   Selection,
   EditorState,
 } from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { Step, ReplaceStep } from 'prosemirror-transform';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import memoizeOne from 'memoize-one';
+
 import { Dispatch } from '../../event-dispatcher';
 import {
   getSendableSelection,
@@ -48,6 +50,19 @@ const unsubscribeAllEvents = (provider: CollabEditProvider) => {
   });
 };
 
+const initCollab = (
+  collabEditProvider: CollabEditProvider,
+  view: EditorView,
+) => {
+  collabEditProvider.initialize(
+    () => view.state,
+    json => Step.fromJSON(view.state.schema, json),
+  );
+};
+
+const initCollabMemo = memoizeOne(initCollab);
+let isReady = false;
+
 export const createPlugin = (
   dispatch: Dispatch,
   providerFactory: ProviderFactory,
@@ -55,9 +70,7 @@ export const createPlugin = (
   // This will only be populated when the editor is reloaded/reconfigured
   oldState?: EditorState,
 ) => {
-  const isInitialLoad = !oldState;
   let collabEditProvider: CollabEditProvider | null;
-  let isReady = false;
 
   return new Plugin({
     key: pluginKey,
@@ -113,7 +126,7 @@ export const createPlugin = (
         return this.getState(state).decorations;
       },
     },
-    filterTransaction(tr, state) {
+    filterTransaction(tr) {
       // Don't allow transactions that modifies the document before
       // collab-plugin is ready.
       if (!isReady && tr.docChanged) {
@@ -125,13 +138,14 @@ export const createPlugin = (
     view(view) {
       providerFactory.subscribe(
         'collabEditProvider',
-        async (name: string, providerPromise?: Promise<CollabEditProvider>) => {
+        async (
+          _name: string,
+          providerPromise?: Promise<CollabEditProvider>,
+        ) => {
           if (providerPromise) {
             collabEditProvider = await providerPromise;
 
-            if (!isInitialLoad) {
-              // We set `isReady = true` here as our init handler won't be fired again.
-              isReady = true;
+            if (isReady) {
               unsubscribeAllEvents(collabEditProvider);
             }
 
@@ -155,7 +169,7 @@ export const createPlugin = (
                 const newState = state.apply(tr);
                 view.updateState(newState);
               })
-              .on('error', err => {
+              .on('error', () => {
                 // TODO: Handle errors property (ED-2580)
               });
 
@@ -163,12 +177,7 @@ export const createPlugin = (
              * We only want to initialise once, if we reload/reconfigure this plugin
              * We dont want to re-init collab, it would break existing sessions
              */
-            if (isInitialLoad) {
-              collabEditProvider.initialize(
-                () => view.state,
-                json => Step.fromJSON(view.state.schema, json),
-              );
-            }
+            initCollabMemo(collabEditProvider, view);
           } else {
             collabEditProvider = null;
             isReady = false;
@@ -183,6 +192,7 @@ export const createPlugin = (
             unsubscribeAllEvents(collabEditProvider);
           }
           collabEditProvider = null;
+          isReady = false;
         },
       };
     },

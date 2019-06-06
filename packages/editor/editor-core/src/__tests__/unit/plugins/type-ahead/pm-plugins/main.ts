@@ -26,7 +26,7 @@ describe('typeAhead main plugin', () => {
 
   it('should handle inserting typeAheadQuery from type ahead', () => {
     const plugin = createTypeAheadPlugin({
-      selectItem(state, item, insert) {
+      selectItem(state, _item, insert) {
         const mark = state.schema.mark('typeAheadQuery', {
           trigger: '@',
         });

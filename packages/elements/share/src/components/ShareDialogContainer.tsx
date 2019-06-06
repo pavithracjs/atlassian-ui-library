@@ -23,6 +23,11 @@ import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
+export const defaultConfig: ConfigResponse = {
+  mode: 'EXISTING_USERS_ONLY',
+  allowComment: false,
+};
+
 export type Props = {
   /** Share service client implementation that gets share configs and performs share */
   client?: ShareClient;
@@ -68,7 +73,7 @@ export type Props = {
   /** space */
   /** Any other unlisted type will have a default message of "Link shared"*/
   shareContentType: string;
-  /** Link of the resource to be shared */
+  /** Link of the resource to be shared (should NOT includes origin tracing) */
   shareLink: string;
   /** Title of the resource to be shared that will be sent in notifications */
   shareTitle: string;
@@ -90,6 +95,7 @@ export type Props = {
 export type State = {
   config?: ConfigResponse;
   copyLinkOrigin: OriginTracing | null;
+  isFetchingConfig: boolean;
   prevShareLink: string | null;
   shareActionCount: number;
   shareOrigin: OriginTracing | null;
@@ -107,11 +113,6 @@ const memoizedFormatCopyLink: (
 const getDefaultShareLink: () => string = () =>
   window ? window.location!.href : '';
 
-export const defaultConfig: ConfigResponse = {
-  mode: 'EXISTING_USERS_ONLY',
-  allowComment: false,
-};
-
 /**
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
@@ -128,11 +129,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    if (props.client) {
-      this.client = props.client;
-    } else {
-      this.client = new ShareServiceClient();
-    }
+    this.client = props.client || new ShareServiceClient();
 
     this.state = {
       copyLinkOrigin: null,
@@ -140,6 +137,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       shareActionCount: 0,
       shareOrigin: null,
       config: defaultConfig,
+      isFetchingConfig: false,
     };
   }
 
@@ -149,7 +147,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   ): Partial<State> | null {
     // Whenever there is change in share link, new origins should be created
     // ***
-    // memorization is recommended on React doc, but here the Origin Tracing does not reply on shareLink
+    // memoization is recommended on React doc, but here the Origin Tracing does not rely on shareLink
     // in getDerivedStateFormProps it makes shareLink as determinant of renewal to stand out better
     // ***
     if (
@@ -168,8 +166,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this._isMounted = true;
-
-    this.fetchConfig();
   }
 
   componentWillUnmount() {
@@ -177,18 +173,33 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   }
 
   fetchConfig = () => {
-    this.client
-      .getConfig(this.props.productId, this.props.cloudId)
-      .then((config: ConfigResponse) => {
-        if (this._isMounted) {
-          // TODO: Send analytics event
-          this.setState({ config });
-        }
-      })
-      .catch(() => {
-        // TODO: Send analytics event
-        this.setState({ config: defaultConfig });
-      });
+    this.setState(
+      {
+        isFetchingConfig: true,
+      },
+      () => {
+        this.client
+          .getConfig(this.props.productId, this.props.cloudId)
+          .then((config: ConfigResponse) => {
+            if (this._isMounted) {
+              // TODO: Send analytics event
+              this.setState({
+                config,
+                isFetchingConfig: false,
+              });
+            }
+          })
+          .catch(() => {
+            if (this._isMounted) {
+              // TODO: Send analytics event
+              this.setState({
+                config: defaultConfig,
+                isFetchingConfig: false,
+              });
+            }
+          });
+      },
+    );
   };
 
   handleSubmitShare = ({
@@ -244,7 +255,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
-    const { shareOrigin } = this.state;
+    const { isFetchingConfig, shareOrigin, copyLinkOrigin } = this.state;
     const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
       <MessagesIntlProvider>
@@ -252,12 +263,15 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           config={this.state.config}
           copyLink={copyLink}
           dialogPlacement={dialogPlacement}
+          fetchConfig={this.fetchConfig}
+          isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
           onShareSubmit={this.handleSubmitShare}
           renderCustomTriggerButton={renderCustomTriggerButton}
           shareContentType={shareContentType}
           shareFormTitle={shareFormTitle}
-          shareOrigin={shareOrigin}
+          copyLinkOrigin={copyLinkOrigin}
+          formShareOrigin={shareOrigin}
           shouldCloseOnEscapePress={shouldCloseOnEscapePress}
           showFlags={showFlags}
           triggerButtonAppearance={triggerButtonAppearance}

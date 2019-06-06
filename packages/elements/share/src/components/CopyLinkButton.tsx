@@ -25,6 +25,7 @@ type InputProps = {
 };
 
 export const HiddenInput = React.forwardRef<HTMLInputElement, InputProps>(
+  // we need a hidden input to reliably copy to clipboard across all browsers.
   (props, ref) => (
     <input
       style={{ position: 'absolute', left: '-9999px' }}

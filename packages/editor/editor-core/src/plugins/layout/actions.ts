@@ -59,6 +59,17 @@ export const getPresetLayout = (section: Node): PresetLayout | undefined => {
     case '66.66,33.33':
       return 'two_right_sidebar';
   }
+  return;
+};
+
+export const getSelectedLayout = (
+  maybeLayoutSection: Node | undefined,
+  current: PresetLayout,
+): PresetLayout => {
+  if (maybeLayoutSection && getPresetLayout(maybeLayoutSection)) {
+    return getPresetLayout(maybeLayoutSection) || current;
+  }
+  return current;
 };
 
 export const createDefaultLayoutSection = (state: EditorState) => {
@@ -215,11 +226,7 @@ export const setPresetLayout = (layout: PresetLayout): Command => (
   return false;
 };
 
-export const fixColumnSizes = (
-  changedTr: Transaction,
-  state: EditorState,
-  presetLayout: PresetLayout,
-) => {
+export const fixColumnSizes = (changedTr: Transaction, state: EditorState) => {
   const { layoutSection } = state.schema.nodes;
   let change;
   const range = getStepRange(changedTr);
@@ -229,9 +236,11 @@ export const fixColumnSizes = (
 
   changedTr.doc.nodesBetween(range.from, range.to, (node, pos) => {
     if (node.type === layoutSection) {
-      if (presetLayout === getPresetLayout(node)) {
+      if (getPresetLayout(node)) {
         return false;
       }
+
+      const presetLayout = node.childCount === 2 ? 'two_equal' : 'three_equal';
 
       const fixedColumns = columnWidth(
         node,
@@ -261,6 +270,7 @@ export const fixColumnStructure = (state: EditorState) => {
       return forceSectionToPresetLayout(state, node, pos, selectedLayout);
     }
   }
+  return;
 };
 
 export const deleteActiveLayoutNode: Command = (state, dispatch) => {

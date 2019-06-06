@@ -1,4 +1,4 @@
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { UploadService } from '../service/types';
 import {
   UploadEndEventPayload,
@@ -18,19 +18,19 @@ export class LocalUploadComponent<
   M extends UploadEventPayloadMap = UploadEventPayloadMap
 > extends UploadComponent<M> implements LocalUploadComponent {
   protected readonly uploadService: UploadService;
-  protected readonly context: Context;
+  protected readonly mediaClient: MediaClient;
   protected config: LocalUploadConfig;
 
-  constructor(context: Context, config: LocalUploadConfig) {
+  constructor(mediaClient: MediaClient, config: LocalUploadConfig) {
     super();
     const tenantUploadParams = config.uploadParams;
 
-    this.context = context;
+    this.mediaClient = mediaClient;
 
     const { shouldCopyFileToRecents = true } = config;
 
     this.uploadService = new NewUploadServiceImpl(
-      this.context,
+      this.mediaClient,
       tenantUploadParams,
       shouldCopyFileToRecents,
     );

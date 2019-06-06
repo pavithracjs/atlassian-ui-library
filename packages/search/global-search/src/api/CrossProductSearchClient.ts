@@ -4,6 +4,9 @@ import {
   ResultType,
   AnalyticsType,
   ContentType,
+  Results,
+  PeopleResults,
+  ConfluenceObjectResults,
 } from '../model/Result';
 import { mapJiraItemToResult } from './JiraItemMapper';
 import { mapConfluenceItemToResult } from './ConfluenceItemMapper';
@@ -18,8 +21,10 @@ import {
   JiraItem,
   PersonItem,
   QuickSearchContext,
+  UrsPersonItem,
 } from './types';
-import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
+import { ModelParam } from '../util/model-parameters';
+import { GlobalSearchPrefetchedResults } from './prefetchResults';
 
 export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   experimentId: 'default',
@@ -27,13 +32,58 @@ export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   controlId: 'default',
 });
 
+type PeopleScopes = Scope.People | Scope.UserConfluence | Scope.UserJira;
+type ConfluenceObjectScopes =
+  | Scope.ConfluencePageBlogAttachment
+  | Scope.ConfluencePageBlog;
+type ConfluenceContainerResults = Scope.ConfluenceSpace;
+
+/**
+ * Eventually we want all the scopes to be typed in some way
+ */
+export type TypePeopleResults = {
+  [S in PeopleScopes]: PeopleResults | undefined
+};
+
+export type TypeConfluenceObjectResults = {
+  [S in ConfluenceObjectScopes]: ConfluenceObjectResults | undefined
+};
+
+export type TypeConfluenceContainerResults = {
+  [S in ConfluenceContainerResults]: Results | undefined
+};
+
+/**
+ * Temporary type as we start typing all our results
+ */
+export type GenericResults = {
+  [S in Exclude<Scope, PeopleScopes>]: Results | undefined
+};
+
+/**
+ * Note that this type ONLY provides types when retrieving objects given a key.
+ * It does NOT have much type safety when it comes to assigning the values to a key.
+ *
+ * e.g.
+ * typeof results[Scope.People] == PeopleResults (i.e provides type safety)
+ *
+ * but the following will also not throw any typescript warnings.
+ *
+ * const scope: Scope = Scope.People;
+ * results[scope] = new Result()
+ */
+export type SearchResultsMap = GenericResults &
+  TypePeopleResults &
+  TypeConfluenceObjectResults &
+  TypeConfluenceContainerResults;
+
 export type CrossProductSearchResults = {
-  results: Map<Scope, Result[]>;
+  results: SearchResultsMap;
   abTest?: ABTest;
 };
 
 export const EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE: CrossProductSearchResults = {
-  results: new Map(),
+  results: {} as SearchResultsMap,
 };
 
 export interface CrossProductSearchResponse {
@@ -44,7 +94,7 @@ export interface CrossProductExperimentResponse {
   scopes: Experiment[];
 }
 
-export type SearchItem = ConfluenceItem | JiraItem | PersonItem;
+export type SearchItem = ConfluenceItem | JiraItem | PersonItem | UrsPersonItem;
 
 export interface ABTest {
   abTestId: string;
@@ -57,6 +107,7 @@ export interface ScopeResult {
   error?: string;
   results: SearchItem[];
   abTest?: ABTest; // in case of an error abTest will be undefined
+  size?: number;
 }
 
 export interface Experiment {
@@ -74,20 +125,25 @@ export interface CrossProductSearchClient {
     query: string,
     sessionId: string,
     scopes: Scope[],
-    currentQuickSearchContext: QuickSearchContext,
-    queryVersion?: number | null,
+    modelParams: ModelParam[],
     resultLimit?: number | null,
-    referralContextIdentifiers?: ReferralContextIdentifiers,
+  ): Promise<CrossProductSearchResults>;
+  getPeople(
+    query: string,
+    sessionId: string,
+    currentQuickSearchContext: QuickSearchContext,
+    resultLimit?: number,
   ): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
+  getAbTestDataForProduct(product: QuickSearchContext): Promise<ABTest>;
 }
 
 export default class CachingCrossProductSearchClientImpl
   implements CrossProductSearchClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  private addSessionIdToJiraResult?: boolean;
   private abTestDataCache: { [scope: string]: Promise<ABTest> };
+  private bootstrapPeopleCache: Promise<CrossProductSearchResults> | undefined;
 
   // result limit per scope
   private readonly RESULT_LIMIT = 10;
@@ -95,63 +151,103 @@ export default class CachingCrossProductSearchClientImpl
   constructor(
     url: string,
     cloudId: string,
-    addSessionIdToJiraResult?: boolean,
-    prefetchedAbTestResult?: { [scope: string]: Promise<ABTest> },
+    prefetchResults: GlobalSearchPrefetchedResults | undefined,
   ) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
-    this.addSessionIdToJiraResult = addSessionIdToJiraResult;
-    this.abTestDataCache = prefetchedAbTestResult || {};
+    this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
+    this.bootstrapPeopleCache =
+      prefetchResults && prefetchResults.recentPeoplePromise;
+  }
+
+  public async getPeople(
+    query: string,
+    sessionId: string,
+    currentQuickSearchContext: QuickSearchContext,
+    resultLimit: number = 3,
+  ): Promise<CrossProductSearchResults> {
+    const isBootstrapQuery = !query;
+
+    // We will use the bootstrap people cache if the query is a bootstrap query and there is a result cached
+    if (isBootstrapQuery && this.bootstrapPeopleCache) {
+      return this.bootstrapPeopleCache;
+    }
+
+    const scope: Scope.UserConfluence | Scope.UserJira | null =
+      currentQuickSearchContext === 'confluence'
+        ? Scope.UserConfluence
+        : currentQuickSearchContext === 'jira'
+        ? Scope.UserJira
+        : null;
+
+    if (scope) {
+      const searchPromise = this.search(
+        query,
+        sessionId,
+        [scope],
+        [],
+        resultLimit,
+      );
+
+      if (isBootstrapQuery) {
+        this.bootstrapPeopleCache = searchPromise;
+      }
+
+      return searchPromise;
+    }
+
+    return {
+      results: {} as SearchResultsMap,
+    };
   }
 
   public async search(
     query: string,
     sessionId: string,
     scopes: Scope[],
-    currentQuickSearchContext: QuickSearchContext,
-    queryVersion?: number | null,
+    modelParams: ModelParam[],
     resultLimit?: number | null,
-    referralContextIdentifiers?: ReferralContextIdentifiers,
   ): Promise<CrossProductSearchResults> {
     const path = 'quicksearch/v1';
-
-    const modelParams = [];
-
-    if (queryVersion !== undefined && queryVersion !== null) {
-      modelParams.push({
-        '@type': 'queryParams',
-        queryVersion,
-      });
-    }
-
-    if (currentQuickSearchContext === 'jira') {
-      const containerId =
-        referralContextIdentifiers &&
-        referralContextIdentifiers.currentContainerId;
-
-      if (containerId !== undefined && containerId !== null) {
-        modelParams.push({
-          '@type': 'currentProject',
-          projectId: containerId,
-        });
-      }
-    }
 
     const body = {
       query: query,
       cloudId: this.cloudId,
       limit: resultLimit || this.RESULT_LIMIT,
       scopes: scopes,
-      ...(modelParams.length > 0 ? { modelParams: modelParams } : {}),
+      ...(modelParams.length > 0 ? { modelParams } : {}),
     };
 
     const response = await this.makeRequest<CrossProductSearchResponse>(
       path,
       body,
     );
-    return this.parseResponse(response, sessionId);
+    return this.parseResponse(response);
   }
 
+  public async getAbTestDataForProduct(product: QuickSearchContext) {
+    let scope: Scope;
+
+    switch (product) {
+      case 'confluence':
+        scope = Scope.ConfluencePageBlogAttachment;
+        break;
+      case 'jira':
+        scope = Scope.JiraIssue;
+        break;
+      default:
+        throw new Error('Invalid product for abtest');
+    }
+
+    return await this.getAbTestData(scope);
+  }
+
+  /**
+   * @deprecated use {getAbTestDataForProduct} instead. Using manually defined scopes here can
+   * break caching behaviour.
+   *
+   * This will be moved into private scope in the near future.
+   */
   public async getAbTestData(scope: Scope): Promise<ABTest> {
     if (this.abTestDataCache[scope]) {
       return this.abTestDataCache[scope];
@@ -206,30 +302,29 @@ export default class CachingCrossProductSearchClientImpl
    */
   private parseResponse(
     response: CrossProductSearchResponse,
-    searchSessionId: string,
   ): CrossProductSearchResults {
     let abTest: ABTest | undefined;
-    const results: Map<Scope, Result[]> = response.scopes
+    const results: SearchResultsMap = response.scopes
       .filter(scope => scope.results)
-      .reduce((resultsMap, scopeResult) => {
-        resultsMap.set(
-          scopeResult.id,
-          scopeResult.results.map(result =>
-            mapItemToResult(
-              scopeResult.id as Scope,
-              result,
-              searchSessionId,
-              scopeResult.abTest && scopeResult.abTest!.experimentId,
-              this.addSessionIdToJiraResult,
-            ),
-          ),
-        );
+      .reduce(
+        (resultsMap, scopeResult) => {
+          const items = scopeResult.results.map(result =>
+            mapItemToResult(scopeResult.id as Scope, result),
+          );
 
-        if (!abTest) {
-          abTest = scopeResult.abTest;
-        }
-        return resultsMap;
-      }, new Map());
+          resultsMap[scopeResult.id] = {
+            items,
+            totalSize:
+              scopeResult.size !== undefined ? scopeResult.size : items.length,
+          };
+
+          if (!abTest) {
+            abTest = scopeResult.abTest;
+          }
+          return resultsMap;
+        },
+        {} as SearchResultsMap,
+      );
 
     return { results, abTest };
   }
@@ -251,31 +346,34 @@ function mapPersonItemToResult(item: PersonItem): PersonResult {
   };
 }
 
-function mapItemToResult(
-  scope: Scope,
-  item: SearchItem,
-  searchSessionId: string,
-  experimentId?: string,
-  addSessionIdToJiraResult?: boolean,
-): Result {
+function mapUrsResultItemToResult(item: UrsPersonItem): PersonResult {
+  return {
+    resultType: ResultType.PersonResult,
+    resultId: 'people-' + item.id,
+    name: item.name,
+    href: '/people/' + item.id,
+    avatarUrl: item.avatarUrl,
+    contentType: ContentType.Person,
+    analyticsType: AnalyticsType.ResultPerson,
+    mentionName: item.nickname || '',
+    presenceMessage: '',
+  };
+}
+
+function mapItemToResult(scope: Scope, item: SearchItem): Result {
   if (scope.startsWith('confluence')) {
-    return mapConfluenceItemToResult(
-      scope,
-      item as ConfluenceItem,
-      searchSessionId,
-      experimentId,
-    );
+    return mapConfluenceItemToResult(scope, item as ConfluenceItem);
   }
   if (scope.startsWith('jira')) {
-    return mapJiraItemToResult(
-      item as JiraItem,
-      searchSessionId,
-      addSessionIdToJiraResult,
-    );
+    return mapJiraItemToResult(item as JiraItem);
   }
 
   if (scope === Scope.People) {
     return mapPersonItemToResult(item as PersonItem);
+  }
+
+  if (scope === Scope.UserConfluence || scope === Scope.UserJira) {
+    return mapUrsResultItemToResult(item as UrsPersonItem);
   }
 
   throw new Error(`Non-exhaustive match for scope: ${scope}`);

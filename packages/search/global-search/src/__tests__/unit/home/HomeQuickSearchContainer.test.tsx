@@ -183,8 +183,10 @@ describe('HomeQuickSearchContainer', () => {
     }
 
     const mockSearchClient = {
+      getAbTestDataForProduct: jest.fn(),
       getAbTestData: jest.fn(),
       search: jest.fn(searchCrossProduct),
+      getPeople: jest.fn(),
     };
 
     const mockRecentSearchClient = {
@@ -240,8 +242,10 @@ describe('HomeQuickSearchContainer', () => {
       .mockImplementationOnce(searchCurrent);
 
     const mockSearchClient = {
+      getAbTestDataForProduct: jest.fn(),
       getAbTestData: jest.fn(),
       search: searchMock,
+      getPeople: jest.fn(),
     };
 
     const wrapper = render({
@@ -308,8 +312,10 @@ describe('HomeQuickSearchContainer', () => {
         );
 
       const mockSearchClient = {
+        getAbTestDataForProduct: jest.fn(),
         getAbTestData: jest.fn(),
         search: searchMock,
+        getPeople: jest.fn(),
       };
 
       const wrapper = render({

@@ -91,7 +91,7 @@ const mapDispatchToProps = (
   },
 
   onHighlightComment(
-    event: React.MouseEvent<HTMLAnchorElement>,
+    _event: React.MouseEvent<HTMLAnchorElement>,
     commentId: string,
   ) {
     dispatch({ type: HIGHLIGHT_COMMENT, payload: { commentId } });

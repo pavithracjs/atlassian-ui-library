@@ -177,15 +177,13 @@ const calculateHorizontalPlacement = ({
         popupClientWidth / 2,
     );
   } else if (placement === 'end') {
-    const right = Math.ceil(
-      targetLeft -
-        popupOffsetParentLeft -
-        popupClientWidth -
+    const left = Math.ceil(
+      targetRight -
+        popupOffsetParentLeft +
         (isPopupParentBody ? 0 : popupOffsetParentScrollLeft) +
         offset[0],
     );
-
-    position.right = Math.max(right, 0);
+    position.left = left;
   } else {
     position.right = Math.ceil(
       popupOffsetParentRight -
@@ -244,7 +242,6 @@ const calculateVerticalStickTop = ({
   popupOffsetParentHeight,
   popupOffsetParent,
 
-  popup,
   offset,
   position,
   placement,
@@ -459,10 +456,7 @@ export function calculatePosition({
   return position;
 }
 
-export function validatePosition(
-  position: Position,
-  popup: HTMLElement,
-): boolean {
+export function validatePosition(popup: HTMLElement): boolean {
   // popup.offsetParent does not exist if the popup element is not mounted
   if (!popup || !popup.offsetParent) {
     return false;

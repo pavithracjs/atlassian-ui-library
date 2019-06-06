@@ -34,7 +34,6 @@ import {
   MockMacroProvider,
   createAnalyticsEventMock,
   RefsNode,
-  sleep,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
 import { TextSelection } from 'prosemirror-state';
@@ -186,6 +185,15 @@ describe('paste plugins', () => {
         const { editorView } = editor(doc(p('{<>}')));
         dispatchPasteEvent(editorView, { plain: 'plain text' });
         expect(editorView.state.doc).toEqualDocument(doc(p('plain text')));
+      });
+
+      it('should scroll cursor into view after pasting in code-block', () => {
+        const { editorView } = editor(doc(code_block()('{<>}')));
+        const dispatchSpy = jest.spyOn(editorView, 'dispatch');
+        dispatchPasteEvent(editorView, { plain: 'plain text' });
+
+        const tr = dispatchSpy.mock.calls[0][0];
+        expect(tr.scrolledIntoView).toBe(true);
       });
     });
 
@@ -447,6 +455,18 @@ describe('paste plugins', () => {
             ),
           ),
         );
+      });
+
+      it('should scroll cursor into view after pasting', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        const dispatchSpy = jest.spyOn(editorView, 'dispatch');
+
+        dispatchPasteEvent(editorView, {
+          html: `<meta charset='utf-8'><p data-pm-slice="1 1 []">Some rich text to paste</p>`,
+        });
+
+        const tr = dispatchSpy.mock.calls[0][0];
+        expect(tr.scrolledIntoView).toBe(true);
       });
     });
 
@@ -726,6 +746,14 @@ describe('paste plugins', () => {
       },
     };
 
+    const cardProvider = Promise.resolve({
+      resolve: () =>
+        Promise.resolve({
+          type: 'inlineCard',
+          attrs: { url: 'https://jdog.jira-dev.com/browse/BENTO-3677' },
+        }),
+    } as CardProvider);
+
     const extensionProps = (cardOptions = {}): Partial<EditorProps> => {
       return {
         macroProvider: Promise.resolve({
@@ -736,13 +764,7 @@ describe('paste plugins', () => {
           },
         }),
         UNSAFE_cards: {
-          provider: Promise.resolve({
-            resolve: () =>
-              Promise.resolve({
-                type: 'inlineCard',
-                attrs: { url: 'https://jdog.jira-dev.com/browse/BENTO-3677' },
-              }),
-          } as CardProvider),
+          provider: cardProvider,
           ...cardOptions,
         },
       };
@@ -766,7 +788,7 @@ describe('paste plugins', () => {
         const macroProvider = Promise.resolve(new MockMacroProvider({}));
         const { editorView } = editor(
           doc(p('{<>}')),
-          extensionProps({ resolveBeforeMacros: ['dumbMacro'] }),
+          extensionProps({ resolveBeforeMacros: ['jira'] }),
         );
 
         await setMacroProvider(macroProvider)(editorView);
@@ -774,13 +796,21 @@ describe('paste plugins', () => {
         await dispatchPasteEvent(editorView, {
           plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
         });
-        await sleep(100);
+
+        // let the card resolve
+        const resolvedProvider = await cardProvider;
+        await resolvedProvider.resolve(
+          'https://jdog.jira-dev.com/browse/BENTO-3677',
+          'inline',
+        );
+
         expect(editorView.state.doc).toEqualDocument(
           doc(
             p(
               inlineCard({
                 url: 'https://jdog.jira-dev.com/browse/BENTO-3677',
               })(),
+              ' ',
             ),
           ),
         );
@@ -795,9 +825,32 @@ describe('paste plugins', () => {
         await dispatchPasteEvent(editorView, {
           plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
         });
-        await sleep(100);
+
         expect(editorView.state.doc).toEqualDocument(
-          doc(p(inlineExtension(attrs)())),
+          doc(
+            p(
+              inlineExtension({
+                extensionType: 'com.atlassian.confluence.macro.core',
+                extensionKey: 'jira',
+                parameters: {
+                  macroParams: {
+                    paramA: {
+                      value: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+                    },
+                  },
+                  macroMetadata: {
+                    macroId: { value: 12345 },
+                    placeholder: [
+                      {
+                        data: { url: '' },
+                        type: 'icon',
+                      },
+                    ],
+                  },
+                },
+              })(),
+            ),
+          ),
         );
       });
 

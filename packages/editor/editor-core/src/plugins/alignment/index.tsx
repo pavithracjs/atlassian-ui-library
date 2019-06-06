@@ -26,7 +26,7 @@ const alignmentPlugin: EditorPlugin = {
     return [
       {
         name: 'alignmentPlugin',
-        plugin: ({ props, dispatch }) => createPlugin(dispatch, defaultConfig),
+        plugin: ({ dispatch }) => createPlugin(dispatch, defaultConfig),
       },
     ];
   },

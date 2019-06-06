@@ -1,5 +1,9 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/field-radio-group",
+    "version": "6.0.1",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -8,27 +12,39 @@
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/field-radio-group",
+    "version": "6.0.1",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
       "size": 69268,
-      "gzipSize": 20908
+      "gzipSize": 20847
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/field-radio-group",
+    "version": "6.0.1",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 46660,
-      "gzipSize": 12431
+      "size": 49174,
+      "gzipSize": 12729
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/field-radio-group",
+    "version": "6.0.1",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 122553,
-      "gzipSize": 34415
+      "size": 125066,
+      "gzipSize": 34752
     }
   }
 ]

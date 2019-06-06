@@ -1,15 +1,28 @@
 import MentionResource, {
   AbstractMentionResource,
+  ResolvingMentionProvider,
   MentionContextIdentifier,
   MentionProvider,
   MentionStats,
   MentionResourceConfig,
+  isResolvingMentionProvider,
 } from './api/MentionResource';
 import PresenceResource, {
   PresenceProvider,
   AbstractPresenceResource,
 } from './api/PresenceResource';
-import { MentionDescription, MentionsResult, isSpecialMention } from './types';
+import {
+  DefaultMentionNameResolver,
+  MentionNameResolver,
+} from './api/MentionNameResolver';
+import { MentionNameClient } from './api/MentionNameClient';
+import {
+  MentionDescription,
+  MentionsResult,
+  isSpecialMention,
+  MentionNameStatus,
+  MentionNameDetails,
+} from './types';
 import { ELEMENTS_CHANNEL } from './_constants';
 import ContextMentionResource from './api/ContextMentionResource';
 
@@ -20,17 +33,24 @@ export {
   PresenceResource,
   AbstractMentionResource,
   AbstractPresenceResource,
+  DefaultMentionNameResolver,
   // Interfaces
+  ResolvingMentionProvider,
   MentionProvider,
   PresenceProvider,
   MentionDescription,
   MentionsResult,
+  MentionNameClient,
+  MentionNameResolver,
   // types
   MentionContextIdentifier,
   MentionStats,
   MentionResourceConfig,
+  MentionNameStatus,
+  MentionNameDetails,
   // Functions
   isSpecialMention,
+  isResolvingMentionProvider,
   // Constants
   ELEMENTS_CHANNEL,
 };

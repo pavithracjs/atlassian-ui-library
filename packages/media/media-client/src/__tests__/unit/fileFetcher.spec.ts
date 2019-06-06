@@ -154,7 +154,6 @@ describe('FileFetcher', () => {
         done();
       });
     });
-
     it('should group ids without collection in the same call to /items', done => {
       const { fileFetcher, mediaStore, items } = setup();
 

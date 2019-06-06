@@ -1,5 +1,28 @@
 # @atlaskit/profilecard
 
+## 10.2.5
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 10.2.4
+- Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
+- Updated dependencies [dacfb81ca1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dacfb81ca1):
+  - @atlaskit/button@13.0.4
+  - @atlaskit/dynamic-table@13.0.1
+  - @atlaskit/spinner@12.0.0
+  - @atlaskit/portal@3.0.0
+
+## 10.2.3
+- Updated dependencies [ed41cac6ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed41cac6ac):
+  - @atlaskit/theme@9.0.3
+  - @atlaskit/lozenge@9.0.0
+
+## 10.2.2
+- [patch] [afd34e36b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/afd34e36b0):
+
+  - Hide public name when it matches the full name
+
 ## 10.2.1
 - Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
   - @atlaskit/icon@17.0.1

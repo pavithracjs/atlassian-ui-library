@@ -39,14 +39,14 @@ export class MockMacroProvider implements MacroProvider {
     this.mockExtensionData = mockExtensionData;
   }
 
-  openMacroBrowser(macroNode?: PmNode): Promise<MacroAttributes> {
+  openMacroBrowser(_macroNode?: PmNode): Promise<MacroAttributes> {
     return Promise.resolve(this.mockExtensionData);
   }
 
   autoConvert(link: String): MacroAttributes | null {
     if (link.match('https://jdog.jira-dev.com/browse')) {
-      return getMacroADFNode('dumbMacro', {
-        paramA: { value: 'CFE' },
+      return getMacroADFNode('jira', {
+        paramA: { value: link },
       });
     }
 

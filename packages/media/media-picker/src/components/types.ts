@@ -1,5 +1,5 @@
 import { LocalUploadComponent } from './localUpload';
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { AppProxyReactContext } from '../popup/components/app';
 import { Dropzone, UploadEventPayloadMap, UploadParams } from '..';
 import { UploadComponent, UploadEventEmitter } from './component';
@@ -24,7 +24,7 @@ export interface BrowserConfig extends LocalUploadConfig {
 }
 
 export interface BrowserConstructor {
-  new (context: Context, browserConfig: BrowserConfig): Browser;
+  new (mediaClient: MediaClient, browserConfig: BrowserConfig): Browser;
 }
 
 export interface Browser extends LocalUploadComponent {
@@ -35,7 +35,7 @@ export interface Browser extends LocalUploadComponent {
 export interface ClipboardConfig extends LocalUploadConfig {}
 
 export interface ClipboardConstructor {
-  new (context: Context, clipboardConfig: ClipboardConfig): Clipboard;
+  new (mediaClient: MediaClient, clipboardConfig: ClipboardConfig): Clipboard;
 }
 export interface Clipboard extends LocalUploadComponent {
   activate(): Promise<void>;
@@ -49,7 +49,7 @@ export interface PopupConfig extends LocalUploadConfig {
 }
 
 export interface PopupConstructor {
-  new (context: Context, config: PopupConfig): Popup;
+  new (mediaClient: MediaClient, config: PopupConfig): Popup;
 }
 
 export type PopupUploadEventPayloadMap = UploadEventPayloadMap & {
@@ -80,7 +80,7 @@ export interface DropzoneConfig extends LocalUploadConfig {
 }
 
 export interface DropzoneConstructor {
-  new (context: Context, dropzoneConfig: DropzoneConfig): Dropzone;
+  new (mediaClient: MediaClient, dropzoneConfig: DropzoneConfig): Dropzone;
 }
 
 export interface DropzoneDragEnterEventPayload {

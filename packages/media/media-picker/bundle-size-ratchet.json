@@ -1,37 +1,57 @@
 [
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 8432,
-      "gzipSize": 2541
+      "size": 9040,
+      "gzipSize": 2804
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 117893,
-      "gzipSize": 30711
+      "size": 120457,
+      "gzipSize": 31137
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 1558865,
-      "gzipSize": 442271
+      "size": 1554713,
+      "gzipSize": 442514
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 206935,
-      "gzipSize": 46353
+      "size": 210505,
+      "gzipSize": 47036
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
@@ -40,27 +60,39 @@
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 867404,
-      "gzipSize": 212530
+      "size": 878086,
+      "gzipSize": 214524
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 8029,
-      "gzipSize": 2424
+      "size": 8580,
+      "gzipSize": 2682
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-picker",
+    "version": "43.0.4",
+    "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2748760,
-      "gzipSize": 736769
+      "size": 2762204,
+      "gzipSize": 739806
     }
   }
 ]

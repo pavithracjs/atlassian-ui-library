@@ -34,7 +34,7 @@ export const isSingleLine = (text: string): boolean => {
 };
 
 export function getPasteSource(event: ClipboardEvent): PasteSource {
-  const html = event.clipboardData.getData('text/html');
+  const html = event.clipboardData!.getData('text/html');
 
   if (isPastedFromDropboxPaper(html)) {
     return 'dropbox-paper';
@@ -135,7 +135,7 @@ export function applyTextMarksToSlice(
 
     const sliceCopy = Slice.fromJSON(schema, slice.toJSON() || {});
 
-    sliceCopy.content.descendants((node, pos, parent) => {
+    sliceCopy.content.descendants((node, _pos, parent) => {
       if (node.isText && parent && parent.isBlock) {
         node.marks = [
           ...((node.marks &&

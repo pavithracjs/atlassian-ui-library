@@ -29,4 +29,5 @@ export const getExtensionLozengeData = ({
 
     return placeholderData;
   }
+  return;
 };

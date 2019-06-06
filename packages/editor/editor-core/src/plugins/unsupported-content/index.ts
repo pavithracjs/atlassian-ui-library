@@ -16,10 +16,10 @@ export const pluginKey = new PluginKey('unsupportedContentPlugin');
 const createPlugin: PMPluginFactory = ({ schema, portalProviderAPI }) => {
   return new Plugin({
     state: {
-      init(config, state: EditorState) {
+      init(_config, state: EditorState) {
         traverseNode(state.doc, schema);
       },
-      apply(tr, pluginState, oldState, newState) {
+      apply(_tr, pluginState) {
         return pluginState;
       },
     },

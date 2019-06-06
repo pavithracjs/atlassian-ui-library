@@ -1,5 +1,16 @@
 # @atlaskit/drawer
 
+## 4.1.2
+- Updated dependencies [dacfb81ca1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dacfb81ca1):
+  - @atlaskit/portal@3.0.0
+
+## 4.1.1
+- Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
+  - @atlaskit/avatar@16.0.2
+  - @atlaskit/icon@17.1.1
+  - @atlaskit/theme@9.0.2
+  - @atlaskit/section-message@4.0.0
+
 ## 4.1.0
 - [minor] [3301793aae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3301793aae):
 

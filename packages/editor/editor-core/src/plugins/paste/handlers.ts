@@ -1,5 +1,5 @@
 import { TextSelection, Selection } from 'prosemirror-state';
-import { hasParentNodeOfType, safeInsert } from 'prosemirror-utils';
+import { hasParentNodeOfType } from 'prosemirror-utils';
 
 import { taskDecisionSliceFilter } from '../../utils/filter';
 import { linkifyContent } from '../hyperlink/utils';
@@ -9,12 +9,12 @@ import { EditorView } from 'prosemirror-view';
 import { runMacroAutoConvert } from '../macro';
 import { closeHistory } from 'prosemirror-history';
 import { applyTextMarksToSlice, hasOnlyNodesOfType } from './util';
-import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
+import { queueCardsFromChangedTr, insertCard } from '../card/pm-plugins/doc';
 import {
   pluginKey as textFormattingPluginKey,
   TextFormattingState,
 } from '../text-formatting/pm-plugins/main';
-import { compose } from '../../utils';
+import { compose, processRawValue } from '../../utils';
 import { CommandDispatch, Command } from '../../types';
 import { insertMediaAsMediaSingle } from '../media/utils/media-single';
 import { INPUT_METHOD } from '../analytics';
@@ -91,7 +91,7 @@ export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
 
 export function handlePasteAsPlainText(
   slice: Slice,
-  event: ClipboardEvent,
+  _event: ClipboardEvent,
 ): Command {
   return (state: EditorState, dispatch?, view?: EditorView): boolean => {
     // In case of SHIFT+CMD+V ("Paste and Match Style") we don't want to run the usual
@@ -261,7 +261,7 @@ export function handleMacroAutoConvert(
 ): Command {
   return (
     state: EditorState,
-    dispatch?: CommandDispatch,
+    _dispatch?: CommandDispatch,
     view?: EditorView,
   ) => {
     const macro = runMacroAutoConvert(state, text);
@@ -281,15 +281,19 @@ export function handleMacroAutoConvert(
         }
 
         isLinkSmart(text, 'inline', cardsOptions)
-          .then((res: any) => {
-            if (!res || !res.attrs || !view) {
-              throw new Error('Smart link could not be inserted on paste');
+          .then((cardData: any) => {
+            if (!view) {
+              throw new Error('Missing view');
             }
-            const node = state.schema.nodes.inlineCard.createChecked(res.attrs);
 
-            view.dispatch(
-              safeInsert(node, view.state.selection.from)(view.state.tr),
-            );
+            const { schema, tr } = view.state;
+            const cardAdf = processRawValue(schema, cardData);
+
+            if (!cardAdf) {
+              throw new Error('Received invalid ADF from CardProvider');
+            }
+
+            view.dispatch(insertCard(tr, cardAdf, schema));
           })
           .catch(() => insertAutoMacro(slice, macro, view));
         return true;
@@ -301,10 +305,11 @@ export function handleMacroAutoConvert(
 }
 
 export function handleCodeBlock(text: string): Command {
-  return (state, dispatch, view) => {
+  return (state, dispatch) => {
     const { codeBlock } = state.schema.nodes;
     if (text && hasParentNodeOfType(codeBlock)(state.selection)) {
       const tr = closeHistory(state.tr);
+      tr.scrollIntoView();
       if (dispatch) {
         dispatch(tr.insertText(text));
       }
@@ -322,7 +327,7 @@ function isOnlyMedia(state: EditorState, slice: Slice) {
 }
 
 export function handleMediaSingle(slice: Slice): Command {
-  return (state, dispatch, view) => {
+  return (state, _dispatch, view) => {
     if (view && isOnlyMedia(state, slice)) {
       return insertMediaAsMediaSingle(view, slice.content.firstChild!);
     }
@@ -378,6 +383,7 @@ export function handleRichText(slice: Slice): Command {
     if (tr.selection.empty && tr.selection.$from.parent.type === codeBlock) {
       tr.setSelection(TextSelection.near(tr.selection.$from, 1) as Selection);
     }
+    tr.scrollIntoView();
 
     // queue link cards, ignoring any errors
     if (dispatch) {

@@ -1,3 +1,4 @@
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
 import dynamicTextExample from './__fixtures__/dynamic-text-adf.json';
 import {
@@ -27,7 +28,7 @@ describe('Dynamic Text Sizing', () => {
       await waitForEmojis(page);
       await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
       await page.waitFor(1000); // waiting for resize to occur :(
-      await snapshot(page, 0.02);
+      await snapshot(page, MINIMUM_THRESHOLD);
     });
   }
 });

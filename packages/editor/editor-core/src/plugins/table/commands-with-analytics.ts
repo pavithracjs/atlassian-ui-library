@@ -29,10 +29,9 @@ import {
 import {
   getSelectedCellInfo,
   getSelectedTableInfo,
-  checkIfHeaderRowEnabled,
-  checkIfHeaderColumnEnabled,
   checkIfNumberColumnEnabled,
 } from './utils';
+import { getPluginState } from './pm-plugins/main';
 import { mergeCells, deleteColumns, deleteRows } from './transforms';
 
 const TABLE_BREAKOUT_NAME_MAPPING = {
@@ -131,6 +130,7 @@ export const splitCellWithAnalytics = () =>
         eventType: EVENT_TYPE.TRACK,
       };
     }
+    return;
   })(withV2Analytics('atlassian.editor.format.table.split.button', splitCell));
 
 export const setColorWithAnalytics = (
@@ -314,12 +314,14 @@ export const toggleHeaderRowWithAnalytics = () =>
     const { totalRowCount, totalColumnCount } = getSelectedTableInfo(
       state.selection,
     );
+    const { isHeaderRowEnabled } = getPluginState(state);
+
     return {
       action: TABLE_ACTION.TOGGLED_HEADER_ROW,
       actionSubject: ACTION_SUBJECT.TABLE,
       actionSubjectId: null,
       attributes: {
-        newState: !checkIfHeaderRowEnabled(state),
+        newState: !isHeaderRowEnabled,
         totalRowCount,
         totalColumnCount,
       },
@@ -337,12 +339,14 @@ export const toggleHeaderColumnWithAnalytics = () =>
     const { totalRowCount, totalColumnCount } = getSelectedTableInfo(
       state.selection,
     );
+    const { isHeaderColumnEnabled } = getPluginState(state);
+
     return {
       action: TABLE_ACTION.TOGGLED_HEADER_COLUMN,
       actionSubject: ACTION_SUBJECT.TABLE,
       actionSubjectId: null,
       attributes: {
-        newState: !checkIfHeaderColumnEnabled(state),
+        newState: !isHeaderColumnEnabled,
         totalRowCount,
         totalColumnCount,
       },
@@ -399,5 +403,6 @@ export const toggleTableLayoutWithAnalytics = () =>
         eventType: EVENT_TYPE.TRACK,
       };
     }
+    return;
   })(toggleTableLayout);
 // #endregion

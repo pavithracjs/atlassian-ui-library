@@ -42,7 +42,7 @@ export type FloatingToolbarInput<T> = {
   hidden?: boolean;
 };
 
-export type FloatingToolbarCustom<T> = {
+export type FloatingToolbarCustom = {
   type: 'custom';
   // No superset of all these types yet
   render: (
@@ -82,7 +82,7 @@ export type FloatingToolbarItem<T> =
   | FloatingToolbarDropdown<T>
   | FloatingToolbarSelect<T>
   | FloatingToolbarInput<T>
-  | FloatingToolbarCustom<T>
+  | FloatingToolbarCustom
   | FloatingToolbarSeparator;
 
 export interface FloatingToolbarConfig {
@@ -103,6 +103,7 @@ export interface FloatingToolbarConfig {
   className?: string;
   height?: number;
   width?: number;
+  offset?: [number, number];
 }
 
 export type FloatingToolbarHandler = (

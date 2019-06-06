@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ComponentClass, SyntheticEvent } from 'react';
-import { Context, Identifier } from '@atlaskit/media-core';
+import { MediaClient, Identifier } from '@atlaskit/media-client';
 import { IntlProvider, intlShape } from 'react-intl';
 import { Shortcut } from '@atlaskit/media-ui';
 import {
@@ -25,7 +25,7 @@ export type Props = {
   onClose?: () => void;
   selectedItem?: Identifier;
   featureFlags?: MediaViewerFeatureFlags;
-  context: Context;
+  mediaClient: MediaClient;
   itemSource: ItemSource;
 } & WithAnalyticsEventProps;
 
@@ -92,13 +92,7 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
   }
 
   private renderContent() {
-    const {
-      selectedItem,
-      context,
-      onClose,
-      itemSource,
-      featureFlags,
-    } = this.props;
+    const { selectedItem, mediaClient, onClose, itemSource } = this.props;
     const defaultSelectedItem = selectedItem;
 
     if (itemSource.kind === 'COLLECTION') {
@@ -107,9 +101,8 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
           pageSize={itemSource.pageSize}
           defaultSelectedItem={defaultSelectedItem}
           collectionName={itemSource.collectionName}
-          context={context}
+          mediaClient={mediaClient}
           onClose={onClose}
-          featureFlags={featureFlags}
         />
       );
     } else if (itemSource.kind === 'ARRAY') {
@@ -120,9 +113,8 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
         <List
           defaultSelectedItem={defaultSelectedItem || firstItem}
           items={items}
-          context={context}
+          mediaClient={mediaClient}
           onClose={onClose}
-          featureFlags={featureFlags}
         />
       );
     } else {

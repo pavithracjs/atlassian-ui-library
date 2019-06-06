@@ -1,8 +1,6 @@
 import { Node as PMNode, ResolvedPos, Schema } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import { findPositionOfNodeBefore, findDomRefAtPos } from 'prosemirror-utils';
-import { tableMarginTop } from '@atlaskit/editor-common';
-
 import { GapCursorSelection, Side } from './selection';
 import { TableCssClassName } from '../table/types';
 import { tableInsertColumnButtonSize } from '../table/ui/styles';
@@ -220,10 +218,11 @@ export const fixCursorAlignment = (view: EditorView) => {
     const isTargetNodeNodeViewWrapper = isNodeViewWrapper(targetNodeRef);
     const firstChild = targetNodeRef.firstChild as HTMLElement;
     const css = window.getComputedStyle(
-      isTargetNodeMediaSingle || isTargetNodeNodeViewWrapper
+      isTargetNodeNodeViewWrapper && !isTargetNodeMediaSingle
         ? firstChild || targetNodeRef
         : targetNodeRef,
     );
+
     const isInTableCell = /td|th/i.test(targetNodeRef.parentNode!.nodeName);
 
     height = parseInt(css.height!, 10);
@@ -251,6 +250,9 @@ export const fixCursorAlignment = (view: EditorView) => {
       breakoutWidth = width;
     }
 
+    if (targetNodeRef.parentElement!.classList.contains('ProseMirror')) {
+      break;
+    }
     targetNodeRef = targetNodeRef.parentNode as HTMLElement;
   } while (targetNodeRef && !targetNodeRef.contains(gapCursorRef));
 
@@ -260,18 +262,31 @@ export const fixCursorAlignment = (view: EditorView) => {
     marginTop -= Math.round(minHeight / 2) - 1;
   }
 
-  // table nodeView margin fix
-  if (targetNode.type === schema.nodes.table) {
-    const tableFullMarginTop = tableMarginTop + tableInsertColumnButtonSize / 2;
-    height -= tableFullMarginTop;
-    marginTop = tableFullMarginTop;
-    gapCursorRef.style.paddingLeft = `${paddingLeft}px`;
-  }
-
   // breakout mode
   const breakoutMode = getBreakoutModeFromTargetNode(targetNode);
-  if (/full-width|wide/i.test(breakoutMode)) {
+  const hasBreakoutEnable = /full-width|wide/i.test(breakoutMode);
+  if (hasBreakoutEnable) {
     gapCursorRef.setAttribute('layout', breakoutMode);
+  }
+
+  // table nodeView margin fix
+  if (targetNode.type === schema.nodes.table) {
+    const tableNode = targetNodeRef.querySelector('table');
+    if (!tableNode) {
+      return;
+    }
+    const style = window.getComputedStyle(tableNode);
+    const halfPlusButtonSize = tableInsertColumnButtonSize / 2;
+    marginTop = parseInt(style.marginTop!, 10);
+    paddingLeft =
+      side === Side.RIGHT
+        ? hasBreakoutEnable
+          ? tableInsertColumnButtonSize
+          : halfPlusButtonSize
+        : 0;
+    height = parseInt(style.height!, 10);
+
+    gapCursorRef.style.paddingLeft = `${paddingLeft}px`;
   }
 
   // mediaSingle with layout="wrap-left" or "wrap-right"

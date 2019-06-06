@@ -144,3 +144,14 @@ export const PaddedBreak: ComponentClass<HTMLAttributes<{}>> = styled.p`
   margin-top: 10px !important;
   margin-bottom: 10px;
 `;
+
+export const SliderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .zoom_button svg {
+    position: relative;
+    left: -2px;
+  }
+`;

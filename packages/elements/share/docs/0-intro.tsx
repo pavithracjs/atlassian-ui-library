@@ -1,16 +1,24 @@
-import { code, Example, md, Props } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  code,
+  Example,
+  md,
+  Props,
+  AtlassianInternalWarning,
+  DevPreviewWarning,
+} from '@atlaskit/docs';
+
 import * as React from 'react';
 
 export default md`
   ${(
-    <SectionMessage appearance="warning">
-      <p>
-        This package requires to be wrapped by IntlProvider Component from
-        react-intl or your application will break when this comoponent is
-        rendered.
-      </p>
-    </SectionMessage>
+    <>
+      <div style={{ marginBottom: '0.5rem' }}>
+        <AtlassianInternalWarning />
+      </div>
+      <div style={{ marginTop: '0.5rem' }}>
+        <DevPreviewWarning />
+      </div>
+    </>
   )}
 
   This package provides the view components allowing users to share a resource by
@@ -39,4 +47,13 @@ export default md`
       props={require('!!extract-react-types-loader!../src/components/ShareDialogContainer')}
     />
   )}
+  
+  ## Notes
+  
+  The share modal will be instantiated immediately but starts hidden.
+  It will **retains the form state** until the user either:
+  - triggers a share = share completed
+  - presses Esc = share cancelled
+
+  A click outside the modal will hide it, **but the form state will be retained** (as long as the share is not cancelled).
 `;

@@ -181,7 +181,7 @@ class TimePicker extends Component<Props, State> {
       const { parseInputValue, timeFormat } = this.props;
       // TODO parseInputValue doesn't accept `timeFormat` as an function arg yet...
       const value =
-        format(parseInputValue(inputValue, timeFormat), 'HH:mma') || '';
+        format(parseInputValue(inputValue, timeFormat), 'HH:mm') || '';
       this.setState({ value });
       this.props.onChange(value);
     } else {
@@ -315,7 +315,6 @@ class TimePicker extends Component<Props, State> {
 }
 
 export { TimePicker as TimePickerWithoutAnalytics };
-const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
   componentName: 'timePicker',
@@ -323,7 +322,7 @@ export default withAnalyticsContext({
   packageVersion,
 })(
   withAnalyticsEvents({
-    onChange: createAndFireEventOnAtlaskit({
+    onChange: createAndFireEvent('atlaskit')({
       action: 'selectedTime',
       actionSubject: 'timePicker',
 
