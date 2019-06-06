@@ -10,15 +10,21 @@ import ResultGroupsComponent, {
 import { ResultsGroup } from '../../model/Result';
 import SearchError from '../SearchError';
 import deepEqual from 'deep-equal';
+import { Scope } from 'src/api/types';
+import { CancelableEvent } from '../../../../quick-search';
 
 export interface Props {
   isPreQuery: boolean;
+  query: string;
   isError: boolean;
   isLoading: boolean;
+  waitingForMoreResults: boolean;
+  errorGettingMoreResults: boolean;
   renderNoResult: () => JSX.Element;
   renderNoRecentActivity: () => JSX.Element;
   renderBeforePreQueryState?: () => JSX.Element;
   retrySearch(): void;
+  searchMore: undefined | ((scope: Scope) => void);
   getPreQueryGroups: () => ResultsGroup[];
   getPostQueryGroups: () => ResultsGroup[];
   renderAdvancedSearchGroup: (analyticsData?: any) => JSX.Element;
@@ -27,6 +33,7 @@ export interface Props {
   preQueryScreenCounter?: ScreenCounter;
   postQueryScreenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
+  onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void
 }
 
 export enum SearchResultsState {
@@ -151,15 +158,26 @@ export default class SearchResults extends React.Component<Props> {
       renderAdvancedSearchGroup,
       getPostQueryGroups,
       postQueryScreenCounter,
+      searchMore,
+      waitingForMoreResults,
+      errorGettingMoreResults,
+      onSearchMoreAdvancedSearchClicked,
+      query,
     } = this.props;
+    
     return (
       <ResultGroupsComponent
+        query={query}
         type={ResultGroupType.PostQuery}
         renderAdvancedSearch={renderAdvancedSearchGroup}
         resultsGroups={getPostQueryGroups()}
         searchSessionId={searchSessionId}
         screenCounter={postQueryScreenCounter}
         referralContextIdentifiers={referralContextIdentifiers}
+        onShowMoreClicked={searchMore || (() => {})}
+        waitingForMoreResults={waitingForMoreResults}
+        errorGettingMoreResults={errorGettingMoreResults}
+        onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
       />
     );
   }

@@ -9,6 +9,8 @@ export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
 export const MAX_PEOPLE = 3;
 export const MAX_RECENT_RESULTS_TO_SHOW = 3;
+export const ITEMS_PER_PAGE = DEFAULT_MAX_OBJECTS;
+export const MAX_PAGE_COUNT = 3;
 
 const EMPTY_CONFLUENCE_RESULT = {
   people: {
@@ -38,16 +40,19 @@ const sliceResults = (
       ...objects,
       items: take(
         objects.items,
-        getConfluenceMaxObjects(features.abTest, DEFAULT_MAX_OBJECTS),
+        getConfluenceMaxObjects(features.abTest, ITEMS_PER_PAGE * (objects.currentPage || 1)),
       ),
+      currentPage: 1,
     },
     spaces: {
       ...spaces,
       items: take(spaces.items, MAX_SPACES),
+      currentPage: 1,
     },
     people: {
       ...people,
       items: take(people.items, MAX_PEOPLE),
+      currentPage: 1,
     },
   };
 };

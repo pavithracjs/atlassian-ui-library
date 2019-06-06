@@ -232,6 +232,9 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
+    waitingForMoreResults,
+    errorGettingMoreResults,
+    searchMore,
   }: SearchResultProps<GenericResultMap>) => {
     const query = latestSearchQuery;
     const {
@@ -242,6 +245,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
+        query={query}
         isPreQuery={!query}
         isError={isError}
         isLoading={isLoading}
@@ -250,6 +254,9 @@ export class JiraQuickSearchContainer extends React.Component<
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={referralContextIdentifiers}
+        waitingForMoreResults={waitingForMoreResults}
+        errorGettingMoreResults={errorGettingMoreResults}
+        searchMore={searchMore}
         renderNoRecentActivity={() => (
           <>
             <FormattedHTMLMessage {...messages.jira_no_recent_activity_body} />
@@ -597,6 +604,7 @@ export class JiraQuickSearchContainer extends React.Component<
         }
         enablePreQueryFromAggregator={features.enablePreQueryFromAggregator}
         referralContextIdentifiers={referralContextIdentifiers}
+        product="jira"
         features={features}
       />
     );

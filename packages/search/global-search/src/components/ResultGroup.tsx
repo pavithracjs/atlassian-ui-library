@@ -1,11 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
-import { ResultItemGroup } from '@atlaskit/quick-search';
+import { ResultItemGroup, CancelableEvent } from '@atlaskit/quick-search';
 import Badge from '@atlaskit/badge';
+import Button from '@atlaskit/button';
+import Spinner from '@atlaskit/spinner';
 
 import { Result } from '../model/Result';
 import ResultList from './ResultList';
+import { ITEMS_PER_PAGE, MAX_PAGE_COUNT } from './confluence/ConfluenceSearchResultsMapper';
+import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
+import { messages } from '../messages';
+import { getConfluenceAdvancedSearchLink } from './SearchResultsUtil';
 
 export interface Props {
   title?: JSX.Element | string;
@@ -14,6 +20,11 @@ export interface Props {
   analyticsData?: {};
   showTotalSize: boolean;
   totalSize: number;
+  showMoreButton: boolean;
+  onShowMoreClicked: () => void;
+  waitingForMoreResults: boolean;
+  showAdvancedSearch: undefined | ((e: CancelableEvent) => void);
+  query: string;
 }
 
 const TitlelessGroupWrapper = styled.div`
@@ -24,7 +35,73 @@ const BadgeContainer = styled.span`
   margin-left: ${gridSize()}px;
 `;
 
-export default class ResultGroup extends React.Component<Props> {
+interface ShowMoreButtonProps {
+  resultLength: number;
+  totalSize: number;
+  isLoading: boolean;
+  onShowMoreClicked: () => void;
+  showAdvancedSearch: undefined | ((e: CancelableEvent) => void);
+  query: string;
+}
+
+class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
+  private containerRef: HTMLSpanElement | undefined | null;
+
+  onRef = (ref: HTMLSpanElement | undefined | null) => {
+    this.containerRef = ref;
+  }
+
+  componentDidUpdate(prevProps: ShowMoreButtonProps) {
+    if (prevProps.resultLength < this.props.resultLength && this.containerRef) {
+      // Scrolls the result list so that the button is visible at the bottom.
+      // TODO the footer section appears on top of the button so it's not very clean
+      this.containerRef.scrollIntoView(false);
+    }
+  }
+
+  renderButton = () => {
+    const { 
+      resultLength, 
+      totalSize, 
+      isLoading, 
+      onShowMoreClicked,
+      showAdvancedSearch,
+      query,
+    } = this.props;
+
+    if (isLoading) {
+      return <Spinner />
+    }
+  
+    if (resultLength < totalSize) {
+      if (resultLength < ITEMS_PER_PAGE * MAX_PAGE_COUNT) {
+        return (
+          <Button appearance="link" onClick={onShowMoreClicked}>
+            <FormattedMessage {...messages.show_more_button_text} values={{
+              itemsPerPage: ITEMS_PER_PAGE,
+            }} />
+          </Button>
+        );
+      } else if (showAdvancedSearch) {
+        return (
+          <Button appearance="link" onClick={showAdvancedSearch} href={getConfluenceAdvancedSearchLink(query)}>
+            <FormattedMessage {...messages.show_more_button_advanced_search} />
+          </Button>
+        );
+      }
+    }
+  
+    return null;
+  }
+
+  render() {    
+    return (
+      <span ref={this.onRef}>{this.renderButton()}</span>
+    );
+  }
+}
+
+export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
   render() {
     const {
       title,
@@ -32,11 +109,28 @@ export default class ResultGroup extends React.Component<Props> {
       sectionIndex,
       showTotalSize,
       totalSize,
+      showMoreButton,
+      waitingForMoreResults,
+      onShowMoreClicked,
+      showAdvancedSearch,
+      query,
     } = this.props;
 
     if (results.length === 0) {
       return null;
     }
+
+    const moreButton = 
+      showMoreButton 
+        ? <ShowMoreButton
+            resultLength={results.length}
+            onShowMoreClicked={onShowMoreClicked}
+            showAdvancedSearch={showAdvancedSearch}
+            totalSize={totalSize}
+            isLoading={waitingForMoreResults}
+            query={query}
+          />
+        : null;
 
     if (!title) {
       return (
@@ -46,6 +140,7 @@ export default class ResultGroup extends React.Component<Props> {
             results={results}
             sectionIndex={sectionIndex}
           />
+          {moreButton}
         </TitlelessGroupWrapper>
       );
     }
@@ -68,7 +163,10 @@ export default class ResultGroup extends React.Component<Props> {
           results={results}
           sectionIndex={sectionIndex}
         />
+        {moreButton}
       </ResultItemGroup>
     );
   }
 }
+
+export default injectIntl(ResultGroup);

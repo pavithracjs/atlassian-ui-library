@@ -13,6 +13,7 @@ import {
   Result,
   ResultsGroup,
   ConfluenceResultsMap,
+  Results,
 } from '../../model/Result';
 import {
   ShownAnalyticsAttributes,
@@ -32,17 +33,20 @@ import {
   ConfluenceFeatures,
   CommonFeatures,
 } from '../../util/features';
+import { Scope, QuickSearchContext } from '../../api/types';
 
 const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
   results.map(result => result.items);
 
 export interface SearchResultProps<T> extends State<T> {
   retrySearch: () => void;
+  searchMore: (scope: Scope) => void;
 }
 
 export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
   logger: Logger;
   linkComponent?: LinkComponent;
+  product: QuickSearchContext;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
   getRecentItems(sessionId: string): Promise<ResultsWithTiming<T>>;
   getSearchResults(
@@ -99,6 +103,8 @@ export interface State<T> {
   keepPreQueryState: boolean;
   searchResults: T | null;
   recentItems: T | null;
+  waitingForMoreResults: boolean;
+  errorGettingMoreResults: boolean;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -122,6 +128,8 @@ export class QuickSearchContainer<
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
+      waitingForMoreResults: false,
+      errorGettingMoreResults: false,
     };
   }
 
@@ -327,6 +335,8 @@ export class QuickSearchContainer<
           isError: false,
           isLoading: false,
           keepPreQueryState: true,
+          waitingForMoreResults: false,
+          errorGettingMoreResults: false,
         },
         () => {
           this.fireShownPreQueryEvent();
@@ -377,6 +387,53 @@ export class QuickSearchContainer<
     }
   }
 
+  getMoreSearchResults = async (scope: Scope) => {
+    const { product } = this.props;
+    if (product === 'confluence') {
+      try {
+        this.setState({
+          waitingForMoreResults: true,
+          errorGettingMoreResults: false,
+        });
+
+        // This is a hack, we assume product = confluence means that this cast is safe. When GenericResultsMap is gone
+        // we probably won't need this cast anymore.
+        const currentResultsByScope = this.state.searchResults as ConfluenceResultsMap;
+
+        // @ts-ignore More hacks as there's no guarantee that the scope is one that is available here
+        const result: Results<Result> = currentResultsByScope[scope];
+
+        if (result) {
+          const currentPage = result.currentPage ? result.currentPage : 1;
+
+          this.setState({
+            searchResults: {
+              ...(this.state.searchResults as any),
+              [scope]: {
+                ...result,
+                currentPage: currentPage + 1,
+              },
+            },
+            waitingForMoreResults: false,
+            errorGettingMoreResults: false,
+          });
+        }
+        
+      } catch (e) {
+        this.props.logger.safeError(
+          LOGGER_NAME,
+          `error while getting mores results for ${scope}`,
+          e,
+        );
+        this.setState({
+          isLoading: false,
+          waitingForMoreResults: false,
+          errorGettingMoreResults: true,
+        });
+      }
+    }
+  }
+
   handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { handleSearchSubmit } = this.props;
     if (handleSearchSubmit) {
@@ -401,6 +458,8 @@ export class QuickSearchContainer<
       searchResults,
       recentItems,
       keepPreQueryState,
+      waitingForMoreResults,
+      errorGettingMoreResults,
     } = this.state;
 
     return (
@@ -424,6 +483,9 @@ export class QuickSearchContainer<
           recentItems,
           keepPreQueryState,
           searchSessionId,
+          searchMore: this.getMoreSearchResults,
+          waitingForMoreResults,
+          errorGettingMoreResults,
         })}
       </GlobalQuickSearch>
     );
