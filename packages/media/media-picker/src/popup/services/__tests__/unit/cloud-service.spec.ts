@@ -2,7 +2,7 @@ jest.mock('uuid/v4', () => ({
   __esModule: true, // this property makes it work
   default: jest.fn().mockReturnValue('some-scope'),
 }));
-
+import { AuthProvider } from '@atlaskit/media-core';
 import uuidV4 from 'uuid/v4';
 import Postis from 'postis';
 import { CloudService } from '../../cloud-service';
@@ -20,7 +20,7 @@ interface FakePostis {
 }
 
 describe('CloudAuthService', () => {
-  const userAuthProvider = () =>
+  const userAuthProvider: AuthProvider = () =>
     Promise.resolve({
       clientId: 'some-client-id',
       token: 'some-token',

@@ -19,12 +19,13 @@ import { Dropzone } from '../../../components/dropzone/dropzone';
 import { MediaFile } from '../../../../domain/file';
 import { showPopup } from '../../../actions/showPopup';
 import reducers from '../../../reducers/reducers';
+import { AuthProvider } from '@atlaskit/media-core';
 
 const tenantUploadParams: UploadParams = {};
 const baseUrl = 'some-api-url';
 const clientId = 'some-client-id';
 const token = 'some-token';
-const userAuthProvider = () =>
+const userAuthProvider: AuthProvider = () =>
   Promise.resolve({
     clientId,
     token,

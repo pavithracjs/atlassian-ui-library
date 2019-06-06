@@ -14,7 +14,7 @@ type State = {
 };
 
 export class ClipboardLoader extends React.PureComponent<
-  ClipboardWithMediaClientConfigProps & State,
+  ClipboardWithMediaClientConfigProps,
   State
 > {
   static displayName = 'AsyncClipboard';

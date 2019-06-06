@@ -53,7 +53,7 @@ import { LocalUploadFileMetadata } from '../../../../../domain/local-upload';
 // TODO: Fix this
 const ConnectedUploadViewWithStore = getComponentClassWithStore(
   ConnectedUploadView,
-) as any;
+);
 
 const createConnectedComponent = (
   state: State,
@@ -66,7 +66,7 @@ const createConnectedComponent = (
     <IntlProvider locale="en">
       <Provider store={store}>
         <ConnectedUploadViewWithStore
-          mpBrowser={new BrowserImpl(mediaClient) as any}
+          mpBrowser={new BrowserImpl(mediaClient)}
           mediaClient={mediaClient}
           recentsCollection="some-collection-name"
         />

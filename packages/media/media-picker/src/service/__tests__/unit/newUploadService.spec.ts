@@ -46,13 +46,13 @@ describe('UploadService', () => {
 
   const getMediaClient = (options = {}) =>
     fakeMediaClient({
-      ...options,
       authProvider: () =>
         Promise.resolve({
           clientId: usersClientId,
           token: usersToken,
           baseUrl,
         }),
+      ...options,
     });
   const file = { size: 100, name: 'some-filename', type: 'video/mp4' } as File;
   const setup = (
@@ -520,7 +520,7 @@ describe('UploadService', () => {
     const setup = (config: {
       uploadParams?: UploadParams;
       progress?: number;
-      userAuthProvider?: () => Promise<Auth>;
+      userAuthProvider?: AuthProvider;
       copyFileWithTokenSpy: Function;
     }) => {
       const mediaClient = fakeMediaClient({
