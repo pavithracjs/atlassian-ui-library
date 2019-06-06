@@ -6,13 +6,10 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import * as ReactDOMServer from 'react-dom/server';
 
 test('TextArea server side rendering', async done => {
-  (await getExamplesFor('textarea')).forEach(
-    async (examples: { filePath: string }) => {
-      const Example = await require(examples.filePath).default;
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+  const examples = await getExamplesFor('textarea');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default;
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });

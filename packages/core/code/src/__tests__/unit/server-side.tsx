@@ -7,13 +7,10 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Code server side rendering', async done => {
-  (await getExamplesFor('code')).forEach(
-    async (examples: { filePath: string }) => {
-      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+  const examples = await getExamplesFor('code');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });

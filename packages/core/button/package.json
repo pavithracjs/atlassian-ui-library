@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/button",
-  "version": "13.0.6",
+  "version": "13.0.7",
   "description": "A React component that is a base button.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -27,7 +27,6 @@
     "@atlaskit/type-helpers": "^4.1.1",
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",
-    "@types/react-router-dom": "^4.3.1",
     "memoize-one": "^3.0.1",
     "tslib": "^1.9.3"
   },
@@ -43,6 +42,7 @@
     "@atlaskit/select": "^9.1.4",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
+    "@types/react-router-dom": "^4.3.1",
     "enzyme": "^3.7.0",
     "jest-emotion": "^10.0.10",
     "jest-in-case": "^1.0.2",

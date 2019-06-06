@@ -8,12 +8,6 @@ import EditorContext from '../src/ui/EditorContext';
 import { DevTools } from '../example-helpers/DevTools';
 import WithEditorActions from '../src/ui/WithEditorActions';
 import { EditorActions } from '../src';
-import Toggle from '@atlaskit/toggle';
-import {
-  LOCALSTORAGE_defaultMode,
-  DEFAULT_MODE,
-  FULL_WIDTH_MODE,
-} from '../example-helpers/example-constants';
 
 export const Textarea = styled.textarea`
   box-sizing: border-box;
@@ -26,20 +20,13 @@ export const Textarea = styled.textarea`
 
 export interface State {
   inputValue?: string;
-  fullWidthMode: boolean;
 }
 
 export default class Example extends React.Component<any, State> {
+  state: State = {};
+
   private inputRef?: HTMLTextAreaElement;
   private editorActions?: EditorActions;
-
-  constructor(props: any) {
-    super(props);
-    const defaultMode = localStorage.getItem(LOCALSTORAGE_defaultMode);
-    this.state = {
-      fullWidthMode: defaultMode === FULL_WIDTH_MODE,
-    };
-  }
 
   componentDidMount() {
     if (this.inputRef && this.editorActions && window.parent) {
@@ -107,24 +94,7 @@ export default class Example extends React.Component<any, State> {
                   >
                     Convert ADF to Query String
                   </button>
-                  <div
-                    style={{
-                      minWidth: '200px',
-                      display: 'inline-block',
-                    }}
-                  >
-                    <Toggle
-                      isChecked={this.state.fullWidthMode}
-                      onChange={this.toggleFullWidthMode}
-                      label="Full Width Mode"
-                    />
-                    <span>Full Width Mode</span>
-                  </div>
-                  <FullPageEditor
-                    appearance={
-                      this.state.fullWidthMode ? 'full-width' : 'full-page'
-                    }
-                  />
+                  <FullPageEditor />
                 </React.Fragment>
               );
             }}
@@ -133,18 +103,6 @@ export default class Example extends React.Component<any, State> {
       </EditorContext>
     );
   }
-
-  private toggleFullWidthMode = () => {
-    this.setState(
-      prevState => ({ fullWidthMode: !prevState.fullWidthMode }),
-      () => {
-        localStorage.setItem(
-          LOCALSTORAGE_defaultMode,
-          this.state.fullWidthMode ? FULL_WIDTH_MODE : DEFAULT_MODE,
-        );
-      },
-    );
-  };
 
   private handleRef = (ref: HTMLTextAreaElement | null) => {
     if (ref) {

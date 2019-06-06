@@ -5,9 +5,11 @@ import {
   Selection,
   EditorState,
 } from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { Step, ReplaceStep } from 'prosemirror-transform';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import memoizeOne from 'memoize-one';
+
 import { Dispatch } from '../../event-dispatcher';
 import {
   getSendableSelection,
@@ -48,6 +50,18 @@ const unsubscribeAllEvents = (provider: CollabEditProvider) => {
   });
 };
 
+const initCollab = (
+  collabEditProvider: CollabEditProvider,
+  view: EditorView,
+) => {
+  collabEditProvider.initialize(
+    () => view.state,
+    json => Step.fromJSON(view.state.schema, json),
+  );
+};
+
+const initCollabMemo = memoizeOne(initCollab);
+
 export const createPlugin = (
   dispatch: Dispatch,
   providerFactory: ProviderFactory,
@@ -55,7 +69,6 @@ export const createPlugin = (
   // This will only be populated when the editor is reloaded/reconfigured
   oldState?: EditorState,
 ) => {
-  const isInitialLoad = !oldState;
   let collabEditProvider: CollabEditProvider | null;
   let isReady = false;
 
@@ -131,12 +144,7 @@ export const createPlugin = (
         ) => {
           if (providerPromise) {
             collabEditProvider = await providerPromise;
-
-            if (!isInitialLoad) {
-              // We set `isReady = true` here as our init handler won't be fired again.
-              isReady = true;
-              unsubscribeAllEvents(collabEditProvider);
-            }
+            unsubscribeAllEvents(collabEditProvider);
 
             // Initialize provider
             collabEditProvider
@@ -166,12 +174,7 @@ export const createPlugin = (
              * We only want to initialise once, if we reload/reconfigure this plugin
              * We dont want to re-init collab, it would break existing sessions
              */
-            if (isInitialLoad) {
-              collabEditProvider.initialize(
-                () => view.state,
-                json => Step.fromJSON(view.state.schema, json),
-              );
-            }
+            initCollabMemo(collabEditProvider, view);
           } else {
             collabEditProvider = null;
             isReady = false;

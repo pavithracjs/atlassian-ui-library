@@ -6,13 +6,10 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Flag server side rendering', async done => {
-  (await getExamplesFor('flag')).forEach(
-    async (examples: { filePath: string }) => {
-      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+  const examples = await getExamplesFor('flag');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });

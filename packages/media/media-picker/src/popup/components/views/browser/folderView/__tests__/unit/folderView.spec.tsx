@@ -3,10 +3,25 @@ import { ShallowWrapper, shallow } from 'enzyme';
 import * as React from 'react';
 
 import { FolderViewer, FolderViewerProps } from '../../folderView';
+import { ServiceFile } from '../../../../../../domain';
+import { FileCreateDate, FileSize } from '../../styled';
 
-describe('<FolderViewr />', () => {
-  const setup = () => {
-    const props: FolderViewerProps = {
+describe('<FolderViewer />', () => {
+  let date: Date;
+  let serviceFileItem: ServiceFile;
+  let props: FolderViewerProps;
+
+  beforeEach(() => {
+    date = new Date(2019, 6, 2);
+    serviceFileItem = {
+      id: 'some-id',
+      mimeType: 'some-mime-type',
+      name: 'some-name',
+      size: 42,
+      upfrontId: Promise.resolve('id1'),
+      date: date.getTime(),
+    };
+    props = {
       path: [],
       service: {
         accountId: 'some-service-account-id',
@@ -20,12 +35,13 @@ describe('<FolderViewr />', () => {
       onLoadMoreClick: jest.fn(),
       setUpfrontIdDeferred: jest.fn(),
     };
+  });
 
-    return { props };
-  };
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   it('should render loading button given folder is loading', () => {
-    const { props } = setup();
     const wrapper = shallow(
       <FolderViewer
         {...props}
@@ -42,7 +58,6 @@ describe('<FolderViewr />', () => {
   });
 
   it('should not call onLoadMoreClick handler given folder is loading', () => {
-    const { props } = setup();
     const wrapper: ShallowWrapper<
       FolderViewerProps,
       {},
@@ -63,7 +78,6 @@ describe('<FolderViewr />', () => {
   });
 
   it('should render load more button given next page cursor', () => {
-    const { props } = setup();
     const wrapper = shallow(
       <FolderViewer {...props} nextCursor="some-next-cursor" />,
     );
@@ -76,7 +90,6 @@ describe('<FolderViewr />', () => {
   });
 
   it('should call onLoadMoreClick handler given next page cursor', () => {
-    const { props } = setup();
     const wrapper: ShallowWrapper<
       FolderViewerProps,
       {},
@@ -88,5 +101,45 @@ describe('<FolderViewr />', () => {
 
     button.simulate('click');
     expect(wrapper.instance().props.onLoadMoreClick).toBeCalled();
+  });
+
+  describe('When it receives a file', () => {
+    it('should render the filesize information', () => {
+      const newProps = {
+        ...props,
+        items: [serviceFileItem],
+      };
+      const wrapper = shallow(
+        <FolderViewer {...newProps} nextCursor="some-next-cursor" />,
+      );
+
+      expect(wrapper.find(FileSize).html()).toContain('42 B');
+    });
+
+    it('should format date the file adding day, month and year if file was created before today', () => {
+      const newProps = {
+        ...props,
+        items: [serviceFileItem],
+      };
+      const wrapper = shallow(
+        <FolderViewer {...newProps} nextCursor="some-next-cursor" />,
+      );
+
+      expect(wrapper.find(FileCreateDate).html()).toContain('2 Jul 2019');
+    });
+
+    it('should format date the file adding hour, minutes and time marker string if file was created today', () => {
+      jest.spyOn(Date.prototype, 'toDateString').mockReturnValue(1);
+
+      const newProps = {
+        ...props,
+        items: [serviceFileItem],
+      };
+      const wrapper = shallow(
+        <FolderViewer {...newProps} nextCursor="some-next-cursor" />,
+      );
+
+      expect(wrapper.find(FileCreateDate).html()).toContain('0:00 AM');
+    });
   });
 });

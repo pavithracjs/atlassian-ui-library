@@ -24,16 +24,15 @@ const exampleName = (file: string) =>
 
 test('navigation-next server side rendering', async done => {
   // $FlowFixMe
-  (await getExamplesFor('navigation-next')).forEach(
-    async (examples: { filePath: string }) => {
-      if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {
-        // $StringLitteral
-        const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-        expect(() =>
-          ReactDOMServer.renderToString(<Example />),
-        ).not.toThrowError();
-      }
-    },
-  );
+  const examples = await getExamplesFor('navigation-next');
+  for (const example of examples) {
+    if (!examplesWithDomOrBrowser.includes(exampleName(example.filePath))) {
+      // $StringLitteral
+      const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+      expect(() =>
+        ReactDOMServer.renderToString(<Example />),
+      ).not.toThrowError();
+    }
+  }
   done();
 });

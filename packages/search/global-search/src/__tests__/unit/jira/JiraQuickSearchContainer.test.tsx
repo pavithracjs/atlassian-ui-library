@@ -25,12 +25,15 @@ import {
   mockNoResultJiraClient,
 } from '../mocks/_mockJiraClient';
 import { makeJiraObjectResult, makePersonResult } from '../_test-util';
-import { ContentType, Result } from '../../../model/Result';
+import { ContentType, GenericResultMap } from '../../../model/Result';
 import { Scope } from '../../../api/types';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
 import { CancelableEvent } from '../../../../../quick-search';
-import { DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
+import {
+  DEFAULT_AB_TEST,
+  SearchResultsMap,
+} from '../../../api/CrossProductSearchClient';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 
 const issues = [
@@ -72,6 +75,7 @@ describe('Jira Quick Search Container', () => {
         abTest: DEFAULT_AB_TEST,
         disableJiraPreQueryPeopleSearch: false,
         enablePreQueryFromAggregator: false,
+        searchExtensionsEnabled: false,
       },
       ...partialProps,
     };
@@ -82,10 +86,12 @@ describe('Jira Quick Search Container', () => {
 
   const getQuickSearchProperty = (
     wrapper: ShallowWrapper,
-    property: keyof QuickSearchContainerProps,
+    property: keyof QuickSearchContainerProps<GenericResultMap>,
   ) => {
     const quickSearch = wrapper.find(QuickSearchContainer);
-    const quickSearchProps = quickSearch.props() as QuickSearchContainerProps;
+    const quickSearchProps = quickSearch.props() as QuickSearchContainerProps<
+      GenericResultMap
+    >;
     return quickSearchProps[property] as any;
   };
 
@@ -270,9 +276,15 @@ describe('Jira Quick Search Container', () => {
         searchResultData: people,
       });
 
-      const resultsMap = new Map<Scope, Result[]>();
-      resultsMap.set(Scope.JiraIssue, issues);
-      resultsMap.set(Scope.JiraBoardProjectFilter, boards);
+      const resultsMap = {} as SearchResultsMap;
+      resultsMap[Scope.JiraIssue] = {
+        items: issues,
+        totalSize: issues.length,
+      };
+      resultsMap[Scope.JiraBoardProjectFilter] = {
+        items: boards,
+        totalSize: boards.length,
+      };
       const crossProductSearchClient = mockCrossProductSearchClient(
         {
           results: resultsMap,
@@ -303,9 +315,16 @@ describe('Jira Quick Search Container', () => {
         searchResultData: people,
       });
 
-      const resultsMap = new Map<Scope, Result[]>();
-      resultsMap.set(Scope.JiraIssue, issues);
-      resultsMap.set(Scope.JiraBoardProjectFilter, boards);
+      const resultsMap = {} as SearchResultsMap;
+      resultsMap[Scope.JiraIssue] = {
+        items: issues,
+        totalSize: issues.length,
+      };
+      resultsMap[Scope.JiraBoardProjectFilter] = {
+        items: boards,
+        totalSize: boards.length,
+      };
+
       const crossProductSearchClient = mockCrossProductSearchClient(
         {
           results: resultsMap,

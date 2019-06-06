@@ -5,10 +5,8 @@ import { createPortal } from 'react-dom';
 import { Transition } from 'react-transition-group';
 
 import { withHelp, HelpContextInterface } from '../HelpContext';
-import { transitionDurationMs } from './constants';
+import { transitionDurationMs, panelWidth } from './constants';
 import { HelpDrawer, HelpDrawerContent } from './styled';
-
-import { gridSize } from '@atlaskit/theme/constants';
 
 export const UNMOUNTED = 'unmounted';
 export const EXITED = 'exited';
@@ -41,7 +39,7 @@ const defaultStyle = {
 };
 
 const transitionStyles: { [id: string]: React.CSSProperties } = {
-  entered: { width: `${60 * gridSize()}px`, flex: `0 0 ${60 * gridSize()}px` },
+  entered: { width: `${panelWidth}px`, flex: `0 0 ${panelWidth}px` },
   exited: { width: 0, flex: `0 0 0` },
 };
 

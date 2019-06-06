@@ -8,14 +8,11 @@ import ReactDOMServer from 'react-dom/server';
 
 test('Tabs server side rendering', async done => {
   // $FlowFixMe
-  (await getExamplesFor('tabs')).forEach(
-    async (examples: { filePath: string }) => {
-      // $StringLitteral
-      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+  const examples = await getExamplesFor('tabs');
+  for (const example of examples) {
+    // $StringLitteral
+    const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });

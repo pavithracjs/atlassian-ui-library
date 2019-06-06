@@ -7,14 +7,11 @@ import * as ReactDOMServer from 'react-dom/server';
 import WidthDetector from '../..';
 
 test('Width detector server side rendering', async done => {
-  (await getExamplesFor('width-detector')).forEach(
-    async (examples: { filePath: string }) => {
-      const Example = await require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+  const examples = await getExamplesFor('width-detector');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
   done();
 });
 
