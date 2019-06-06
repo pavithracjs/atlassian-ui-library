@@ -2,12 +2,12 @@
 
 Related reading:
 
-* [Contribution checklist](./contribution-checklist)
-* [Component design](./component-design)
-* [Directory structure](./directory-structure)
-* [Adding new icons](./adding-new-icons)
-* [Releasing packages](./releasing-packages)
-* [Versioning](./versioning)
+- [Contribution checklist](./contribution-checklist)
+- [Component design](./component-design)
+- [Directory structure](./directory-structure)
+- [Adding new icons](./adding-new-icons)
+- [Releasing packages](./releasing-packages)
+- [Versioning](./versioning)
 
 ## Code of Conduct
 
@@ -15,7 +15,7 @@ This project is bound by a [Code of Conduct][conduct].
 
 ## Introduction
 
-Although it's our job to look after all the components in our repo, we rely heavily on contributions outside of our team to make Atlaskit great. At its core, our contrubution model is very much like contributing to any open source library, but because we get several contributions from within Atlassian from other teams, we have the ability to build on that model to help make inter-team contributions more efficient.
+Although it's our job to look after all the components in our repo, we rely heavily on contributions outside of our team to make Atlaskit great. At its core, our contribution model is very much like contributing to any open source library, but because we get several contributions from within Atlassian from other teams, we have the ability to build on that model to help make inter-team contributions more efficient.
 
 ## Prerequisites
 
@@ -27,14 +27,14 @@ in order to receive these permissions to contribute to the Atlaskit repo.
 
 ## Open source contribution model
 
-We want to keep this model very simple. At its core, we make the assumptions that developers looking to contribute will look at the [`README.md`][readme] and thus, be directed to the [`CONTRIBUTING.md`][contributing]. Even so, both of those files are widely known as convention in an open source project and developers will be able to direct themselves there.
+We want to keep this model very simple. At its core, we make the assumption that developers looking to contribute will look at the [`README.md`][readme] and thus be directed to the [`CONTRIBUTING.md`][contributing]. Both of these files are widely known as convention in open source projects and we think that developers will be able to direct themselves there.
 
 The process consists of:
 
 1.  Raise an issue for discussion. This step may not even be necessary as this could all be done in a PR, depending on if the contributor is willing to lose work if the contribution doesn't get accepted.
 2.  Submit a PR resolving the raised issue.
 
-This is super simple and the PR guidelines can be derived from the rest of our conventions and documentation. It's also compatible with the inter-team model, because, at the very worst, internal teams would still be able to follow this process.
+This is very simple and the PR guidelines can be derived from the rest of our conventions and documentation. This is also compatible with the inter-team model, because, at the very worst, internal teams would still be able to follow this process.
 
 The only real downsides here are that:
 
@@ -49,22 +49,22 @@ Like the open source model, the inter-team contribution model is kept as light a
 
 The different aspects of the inter-team contribution are the following:
 
-* [Introduction](#introduction)
-* [Initial discussion](#initial-discussion)
-* [Regular catch-ups](#regular-catch-ups)
-* [Shepherd involvement](#shepherd-involvement)
-* [Tracking ](#tracking)
-* [Contribution requirements](#contribution-requirements)
-* [Handover and maintenance](#handover-and-maintenance)
+- [Introduction](#introduction)
+- [Initial discussion](#initial-discussion)
+- [Regular catch-ups](#regular-catch-ups)
+- [Shepherd involvement](#shepherd-involvement)
+- [Tracking ](#tracking)
+- [Contribution requirements](#contribution-requirements)
+- [Handover and maintenance](#handover-and-maintenance)
 
 ### Introduction
 
 The contribution may be initially sparked by several methods:
 
-* Water-cooler discussion with a colleague.
-* Issue raised by another team.
-* Atlaskit team member noticing similar implementations in products and raising it.
-* Any sync meetings between teams.
+- Water-cooler discussion with a colleague.
+- Issue raised by another team.
+- Atlaskit team member noticing similar implementations in products and raising it.
+- Any sync meetings between teams.
 
 ### Initial discussion
 
@@ -86,10 +86,10 @@ Since these two components can affect one another, everyone involved should keep
 
 Some examples of this are:
 
-* Daily stand-ups
-* Weekly catch-ups
-* Demos every other day
-* Creating a Stride room for regular communication
+- Daily stand-ups
+- Weekly catch-ups
+- Demos every other day
+- Creating a Stride room for regular communication
 
 The people involved in these catch-ups will vary, as well. For example, it may simply be the contributor and shepherd. It may have a designer present. Other team members may be involved depending on the complexity.
 
@@ -99,9 +99,9 @@ _The key here is that everyone shares knowledge and can hold each other accounta
 
 Every contribution will have a shepherd, but to the extent at which this shepherd will be involved will vary. For example, a shepherd may or may not write code depending on their workload and the needs of the contributor. At minimum, shepherds must:
 
-* Review relevant PRs.
-* Meet with contributors, or involved parties.
-* Plan any follow ups after the final contribution and handover has been made.
+- Review relevant PRs.
+- Meet with contributors, or involved parties.
+- Plan any follow ups after the final contribution and handover has been made.
 
 ### Tracking
 
@@ -111,17 +111,16 @@ The shepherd should raise an issue internally to track the overall process and g
 
 To keep the quality bar high, we should do our best to ensure the contribution closely matches our general component design [guidelines](#component-design) as well as the following:
 
-* [Directory structure](./directory-structure)
-* [Naming props](./naming-props)
-* [Using higher-order components vs render props](./hoc-vs-props)
-* [Using `Component` vs `PureComponent`](./component-vs-pure-component)
+- [Directory structure](./directory-structure)
+- [Naming props](./naming-props)
+- [Using higher-order components vs render props](./hoc-vs-props)
+- [Using `Component` vs `PureComponent`](./component-vs-pure-component)
 
 ### Handover and maintenance
 
 In an ideal world, the contributor would be able to support the component for some time after mergin. This isn't always the case, however. Either way, we should ensure that both the shepherd and contributor - in that order - are mentioned as the `maintainers` in the `package.json`. The first person listed - the shepherd - will be the primary point of contact. The second person listed - the contributor - will be the secondary point of contact, just in case, since they were the ones that contributed it.
 
 Over time, this may evolve and both the contributor and shepherd may be removed in favour of a new maintainer. This is fine and should be considered normal.
-
 
 [conduct]: https://bitbucket.org/atlassian/atlaskit-mk-2/src/HEAD/CODE_OF_CONDUCT.md
 [contributing]: https://bitbucket.org/atlassian/atlaskit-mk-2/src/HEAD/CONTRIBUTING.md

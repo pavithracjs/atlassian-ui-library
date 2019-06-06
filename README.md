@@ -1,6 +1,6 @@
 # Atlaskit
 
-[![node v8.4.0+](https://img.shields.io/badge/node-v8.4.0%2B-brightgreen.svg)](https://nodejs.org/en/) 
+[![node v8.4.0+](https://img.shields.io/badge/node-v8.4.0%2B-brightgreen.svg)](https://nodejs.org/en/)
 [![bolt v0.20.6+](https://img.shields.io/badge/bolt-v0.20.6%2B-brightgreen.svg)](http://boltpkg.com/)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](https://ecosystem.atlassian.net/servicedesk/customer/portal/24)
 
@@ -85,7 +85,7 @@ Here are some quick tips for various contributions:
 
 ### Reporting issues
 
-Our [Contributing guidelines][contributing] include links for where to raise issues to Atlaskit.
+Our [CONTRIBUTING.md][contributing_repo] includes links for where to raise issues to Atlaskit.
 
 ### Contributing code
 
@@ -100,11 +100,10 @@ and for our guidelines around contributions.
 
 Some quick tips for making successful contributions to Atlaskit:
 
-* Do not raise pull requests from forks because our CI builds do not run on forks. Create a pull request from a branch instead.
-* Add tests for new features and bug fixes.
-* Follow the existing style.
-* Separate unrelated changes into multiple pull requests.
-
+- Do not raise pull requests from forks because our CI builds do not run on forks. Create a pull request from a branch instead.
+- Add tests for new features and bug fixes.
+- Follow the existing style.
+- Separate unrelated changes into multiple pull requests.
 
 # License
 
@@ -116,11 +115,11 @@ If you fork this repository you can continue to use those Atlassian Design Guide
 
 Copyright (c) 2018 Atlassian and others.
 
-[adg]: http://atlassian.design/ "Atlassian Design Guidelines"
+[adg]: http://atlassian.design/ 'Atlassian Design Guidelines'
 [adg_license]: https://atlassian.design/guidelines/handy/license
 [contributing_repo]: ./CONTRIBUTING.md
 [contributing_site]: https://atlaskit.atlassian.com/docs/guides/contributing
 [license]: ./LICENSE
-[atlaskitregistry]: https://atlaskit.atlassian.com/ "Atlaskit Registry"
+[atlaskitregistry]: https://atlaskit.atlassian.com/ 'Atlaskit Registry'
 [codeofconduct]: ./CODE_OF_CONDUCT.md
 [monorepo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md

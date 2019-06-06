@@ -45,11 +45,11 @@ Include details about your configuration and environment:
 
 ### Becoming a contributor
 
- You need to be added to the 'atlaskit contributor' team in order to create branches and raise pull requests in the Atlaskit repo. To be added, you should:
+You need to be added to the 'atlaskit contributor' team in order to create branches and raise pull requests in the Atlaskit repo. To be added, you should:
 
 1. [Raise a ticket in our service desk][servicedesk_contributor]. Please include the following details:
-    1. Your Bitbucket username and
-    1. The reason you want to be a contributor - e.g. Reference another issue that you'd like to provide a PR for.
+   1. Your Bitbucket username and
+   1. The reason you want to be a contributor - e.g. Reference another issue that you'd like to provide a PR for.
 1. Have signed or be ready to sign the Contributor License Agreement(CLA). See below.
 
 Atlassian requires contributors to sign a Contributor License Agreement,
@@ -63,16 +63,12 @@ link below to digitally sign the CLA. The Corporate CLA is for those who are
 contributing as a member of an organization and the individual CLA is for
 those contributing as an individual.
 
-* [CLA for corporate contributors](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=e1c17c66-ca4d-4aab-a953-2c231af4a20b)
-* [CLA for individuals](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=3f94fbdc-2fbe-46ac-b14c-5d152700ae5d)
+- [CLA for corporate contributors](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=e1c17c66-ca4d-4aab-a953-2c231af4a20b)
+- [CLA for individuals](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=3f94fbdc-2fbe-46ac-b14c-5d152700ae5d)
 
 # Contributing code to Atlaskit
 
 Welcome to the Atlaskit repo!
-
-A lot of the build tools in use in this repo are still being developed and won't hit 1.0 for a
-little while.  Don't worry though, we're making it easier than ever to work on Atlaskit from
-end to end.
 
 Before you jump in to the repository and start making changes, you will need to sign
 Atlassian's Contributor License Agreement. See [Becoming a contributor][#becoming-a-contributor] section for details.
@@ -90,10 +86,10 @@ With all that being said, let's dive into it!
 
 ### Requirements
 
-* [git](https://git-scm.com/) version 2 or above for version control management.
-* [node](https://nodejs.org/) version should be as listed in .nvmrc (we recommend using [nvm](https://github.com/creationix/nvm)). Run `nvm use` in the root directory to install the correct version of node.
-* [yarn](https://yarnpkg.com/) version 1 or above.
-* [bolt](https://github.com/boltpkg/bolt) version 0.20 or above.
+- [git](https://git-scm.com/) version 2 or above for version control management.
+- [node](https://nodejs.org/) version should be as listed in .nvmrc (we recommend using [nvm](https://github.com/creationix/nvm)). Run `nvm use` in the root directory to install the correct version of node.
+- [yarn](https://yarnpkg.com/) version 1 or above.
+- [bolt](https://github.com/boltpkg/bolt) version 0.20 or above.
 
 ### Setting up the development environment
 
@@ -174,17 +170,20 @@ more information.
 
 Each component or utility lives in its own package under the `packages` directory.
 
-For each package, you can run the examples with `yarn start`. Check `package.json` for more commands to start specific package examples.
-
-Now you can start the development server for a specific component you are working on using
+You can start the development server for a specific component using
 `bolt start <pkg-name>`, for example:
 
 ```sh
 bolt start button
 ```
 
-This will start the dev server with only packages matching "button"
-pattern being served on http://localhost:9000.
+This will start the dev server with only packages matching the "button" pattern, served on http://localhost:9000.
+
+You can start the development server for multiple components by separating the package names by a space, for example:
+
+```sh
+bolt start button modal-dialog
+```
 
 ## Writing new code
 
@@ -450,6 +449,8 @@ Consult our [testing guidelines][testing] for further details.
 
 Ensure your code follows the existing code style and conventions.
 
+Once your pull request has been reviewed and approved by an Atlaskit maintainer, you will need an Atlaskit
+maintainer to merge the change.
 
 [codeofconduct]: ./CODE_OF_CONDUCT.md
 [issuetracker]: https://ecosystem.atlassian.net/issues/?filter=56701
