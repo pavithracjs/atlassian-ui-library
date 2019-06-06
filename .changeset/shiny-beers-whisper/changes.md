@@ -1,1 +1,0 @@
-ED-6996: Ensure listeners for the collab plugin are removed at the correct time, not all the time.

@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.15
+
+### Patch Changes
+
+- [patch][b6428ea8bb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6428ea8bb):
+
+  ED-6996: Ensure listeners for the collab plugin are removed at the correct time, not all the time.
+
 ## 112.11.14
 
 ### Patch Changes
