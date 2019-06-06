@@ -4,13 +4,16 @@ export { default as sendKeyToPm } from './send-key-to-pm';
 export { default as chaiPlugin } from './chai';
 export { default as createEvent } from './create-event';
 export { default as dispatchPasteEvent } from './dispatch-paste-event';
-export { default as createEditorFactory } from './create-editor';
+export {
+  default as createEditorFactory,
+  Options as CreateEditorOptions,
+} from './create-editor';
 export {
   default as createAnalyticsEventMock,
 } from './create-analytics-event-mock';
 export { default as fixtures } from './fixtures';
 export { default as simulatePlatform, Platforms } from './simulatePlatform';
-export { default as patchEditorViewForJSDOM } from './jsdom-fixtures';
+export { default as patchEditorViewForJSDOM, Image } from './jsdom-fixtures';
 export * from './transactions';
 export {
   doc,

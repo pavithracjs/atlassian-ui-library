@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
-import { ProcessedFileState } from '@atlaskit/media-core';
+import { ProcessedFileState } from '@atlaskit/media-client';
 import { BaseProps, BaseViewer } from '../../../../newgen/viewers/base-viewer';
-import { createContext } from '../../_stubs';
 import { Outcome } from '../../../../newgen/domain';
 import {
   createError,
@@ -10,7 +9,10 @@ import {
   MediaViewerError,
 } from '../../../../newgen/error';
 import { Spinner } from '../../../../newgen/loading';
-import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import {
+  mountWithIntlContext,
+  fakeMediaClient,
+} from '@atlaskit/media-test-helpers';
 
 function createItem(): ProcessedFileState {
   return {
@@ -27,9 +29,9 @@ function createItem(): ProcessedFileState {
 
 function createProps(): BaseProps {
   const item = createItem();
-  const context = createContext();
+  const mediaClient = fakeMediaClient();
   const collectionName = 'test-collection';
-  return { item, context, collectionName };
+  return { item, mediaClient, collectionName };
 }
 
 function createInitialState() {
@@ -76,9 +78,9 @@ describe('BaseViewer', () => {
     expect(initSpy).toHaveBeenCalledTimes(2);
   });
 
-  it('calls release(), then init() when context was updated', () => {
+  it('calls release(), then init() when mediaClient was updated', () => {
     const { el, initSpy, releaseSpy } = createTestViewer(createProps());
-    el.setProps({ context: createContext() });
+    el.setProps({ mediaClient: fakeMediaClient() });
     expect(releaseSpy).toHaveBeenCalledTimes(1);
     expect(initSpy).toHaveBeenCalledTimes(2);
   });
@@ -98,7 +100,7 @@ describe('BaseViewer', () => {
   it('resets the component to the initialState when properties were updated', () => {
     const { el } = createTestViewer(createProps());
     el.setState({ content: Outcome.successful('test') });
-    el.setProps({ context: createContext() });
+    el.setProps({ mediaClient: fakeMediaClient() });
     expect(el.state()).toMatchObject(createInitialState());
   });
 

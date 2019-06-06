@@ -9,18 +9,18 @@ type CardWithMediaClientConfigComponent = React.ComponentType<
   CardWithMediaClientConfigProps
 >;
 
-interface AsyncCardProps {
+interface AsyncCardState {
   Card?: CardWithMediaClientConfigComponent;
 }
 
 export default class CardLoader extends React.PureComponent<
-  CardWithMediaClientConfigProps & AsyncCardProps,
-  AsyncCardProps
+  CardWithMediaClientConfigProps & AsyncCardState,
+  AsyncCardState
 > {
   static displayName = 'AsyncCard';
   static Card?: CardWithMediaClientConfigComponent;
 
-  state = {
+  state: AsyncCardState = {
     Card: CardLoader.Card,
   };
 

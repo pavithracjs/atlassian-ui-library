@@ -1,39 +1,36 @@
-import {
-  goToRendererTestingExample,
-  snapshot,
-  mountRenderer,
-  animationFrame,
-} from './_utils';
-import { wideTableResized } from './__fixtures__/document-tables';
-import * as tableWithShadowAdf from './__fixtures__/table-with-shadow.adf.json';
+import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { Page } from 'puppeteer';
+import { snapshot, animationFrame, initRendererWithADF } from './_utils';
+import * as wideTableResized from '../__fixtures__/table-wide-resized.adf.json';
+import * as tableWithShadowAdf from '../__fixtures__/table-with-shadow.adf.json';
+
+const initRenderer = async (page: Page, adf: any) => {
+  await initRendererWithADF(page, {
+    appearance: 'full-page',
+    viewport: { width: 1485, height: 1175 },
+    adf,
+    rendererProps: { showSidebar: true },
+  });
+};
 
 describe('Snapshot Test: Table scaling', () => {
   let page: Page;
-  beforeAll(async () => {
+  beforeAll(() => {
     // @ts-ignore
     page = global.page;
-    await page.setViewport({ width: 1485, height: 1175 });
-    await goToRendererTestingExample(page);
+  });
+
+  afterEach(async () => {
+    await animationFrame(page);
+    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it(`should NOT render a right shadow`, async () => {
-    await mountRenderer(page, {
-      showSidebar: true,
-      appearance: 'full-page',
-      document: wideTableResized,
-    });
-
-    await animationFrame(page);
-    await snapshot(page, 0.002);
+    await initRenderer(page, wideTableResized);
   });
 
   it(`should not overlap inline comments dialog`, async () => {
-    await mountRenderer(page, {
-      showSidebar: true,
-      appearance: 'full-page',
-      document: tableWithShadowAdf,
-    });
+    await initRenderer(page, tableWithShadowAdf);
 
     await page.evaluate(() => {
       let div = document.createElement('div');
@@ -53,8 +50,5 @@ describe('Snapshot Test: Table scaling', () => {
     }
     `;
     await page.addStyleTag({ content: css });
-
-    await animationFrame(page);
-    await snapshot(page, 0.002);
   });
 });

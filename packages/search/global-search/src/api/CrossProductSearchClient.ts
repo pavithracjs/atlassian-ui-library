@@ -86,6 +86,7 @@ export interface CrossProductSearchClient {
     resultLimit?: number,
   ): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
+  getAbTestDataForProduct(product: QuickSearchContext): Promise<ABTest>;
 }
 
 export default class CachingCrossProductSearchClientImpl
@@ -175,6 +176,29 @@ export default class CachingCrossProductSearchClientImpl
     return this.parseResponse(response, sessionId);
   }
 
+  public async getAbTestDataForProduct(product: QuickSearchContext) {
+    let scope: Scope;
+
+    switch (product) {
+      case 'confluence':
+        scope = Scope.ConfluencePageBlogAttachment;
+        break;
+      case 'jira':
+        scope = Scope.JiraIssue;
+        break;
+      default:
+        throw new Error('Invalid product for abtest');
+    }
+
+    return await this.getAbTestData(scope);
+  }
+
+  /**
+   * @deprecated use {getAbTestDataForProduct} instead. Using manually defined scopes here can
+   * break caching behaviour.
+   *
+   * This will be moved into private scope in the near future.
+   */
   public async getAbTestData(scope: Scope): Promise<ABTest> {
     if (this.abTestDataCache[scope]) {
       return this.abTestDataCache[scope];
@@ -238,12 +262,7 @@ export default class CachingCrossProductSearchClientImpl
         resultsMap.set(
           scopeResult.id,
           scopeResult.results.map(result =>
-            mapItemToResult(
-              scopeResult.id as Scope,
-              result,
-              searchSessionId,
-              scopeResult.abTest && scopeResult.abTest!.experimentId,
-            ),
+            mapItemToResult(scopeResult.id as Scope, result),
           ),
         );
 
@@ -287,27 +306,12 @@ function mapUrsResultItemToResult(item: UrsPersonItem): PersonResult {
   };
 }
 
-function mapItemToResult(
-  scope: Scope,
-  item: SearchItem,
-  searchSessionId: string,
-  experimentId?: string,
-  addSessionIdToJiraResult?: boolean,
-): Result {
+function mapItemToResult(scope: Scope, item: SearchItem): Result {
   if (scope.startsWith('confluence')) {
-    return mapConfluenceItemToResult(
-      scope,
-      item as ConfluenceItem,
-      searchSessionId,
-      experimentId,
-    );
+    return mapConfluenceItemToResult(scope, item as ConfluenceItem);
   }
   if (scope.startsWith('jira')) {
-    return mapJiraItemToResult(
-      item as JiraItem,
-      searchSessionId,
-      addSessionIdToJiraResult,
-    );
+    return mapJiraItemToResult(item as JiraItem);
   }
 
   if (scope === Scope.People) {

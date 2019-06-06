@@ -11,6 +11,7 @@ import {
   mapSearchResultsToUIGroups,
 } from '../../../components/confluence/ConfluenceSearchResultsMapper';
 import { ConfluenceResultsMap, ResultsGroup } from '../../../model/Result';
+import { ConfluenceFeatures } from '../../../util/features';
 
 type TestParam = {
   desc: string;
@@ -23,6 +24,12 @@ const abTest = {
   abTestId: 'abTestId',
   controlId: 'controlId',
   experimentId: 'experimentId',
+};
+
+const features: ConfluenceFeatures = {
+  abTest,
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
 };
 
 const searchSessionId = 'searchSessionId';
@@ -79,7 +86,7 @@ const searchSessionId = 'searchSessionId';
           spacesCount,
         });
 
-        const groups = mapper(recentResultsMap, abTest, searchSessionId);
+        const groups = mapper(recentResultsMap, features, searchSessionId);
         expect(groups.length).toBe(3);
         expect(groups.map(group => group.key)).toEqual([
           'objects',
@@ -101,7 +108,7 @@ const searchSessionId = 'searchSessionId';
         peopleCount: MAX_PEOPLE + 2,
         spacesCount: MAX_SPACES + 4,
       });
-      const groups = mapper(recentResultsMap, abTest, searchSessionId);
+      const groups = mapper(recentResultsMap, features, searchSessionId);
       expect(groups.map(group => group.items.length)).toEqual([
         DEFAULT_MAX_OBJECTS,
         MAX_SPACES,
@@ -131,7 +138,11 @@ const searchSessionId = 'searchSessionId';
           ...abTest,
           experimentId: 'grape-15',
         };
-        const groups = mapper(recentResultsMap, grapeABTest, searchSessionId);
+        const groups = mapper(
+          recentResultsMap,
+          { ...features, abTest: grapeABTest },
+          searchSessionId,
+        );
         checkResultCounts(groups, 15);
       });
 
@@ -140,7 +151,11 @@ const searchSessionId = 'searchSessionId';
           ...abTest,
           experimentId: 'grape-abc',
         };
-        const groups = mapper(recentResultsMap, grapeABTest, searchSessionId);
+        const groups = mapper(
+          recentResultsMap,
+          { ...features, abTest: grapeABTest },
+          searchSessionId,
+        );
         checkResultCounts(groups, DEFAULT_MAX_OBJECTS);
       });
     });

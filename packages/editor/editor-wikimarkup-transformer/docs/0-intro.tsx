@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { md, Example, code } from '@atlaskit/docs';
+import { md, Example, code, AtlassianInternalWarning } from '@atlaskit/docs';
 
 export default md`
+${<AtlassianInternalWarning />}
 
 This package provides a transformer for ProseMirror Node <-> Wikimarkup conversion.
   ## Usage

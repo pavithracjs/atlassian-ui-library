@@ -1,11 +1,20 @@
 import * as React from 'react';
-import { md, Props, Example, code } from '@atlaskit/docs';
+import {
+  md,
+  Props,
+  Example,
+  code,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
+
 import SimpleMentionExample from '../examples/00-simple-mention-item';
 const SimpleMentionSource = require('!!raw-loader!../examples/00-simple-mention-item');
 
 const MentionProps = require('!!extract-react-types-loader!../src/components/Mention');
 
 export default md`
+  ${<AtlassianInternalWarning />}
+  
   The main purpose of the mention component is to provide a mention picker for choosing users to mention within a text field or editor.
 
   It includes support for rest based searching and custom search implementations.

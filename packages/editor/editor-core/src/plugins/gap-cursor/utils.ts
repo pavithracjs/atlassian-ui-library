@@ -218,10 +218,11 @@ export const fixCursorAlignment = (view: EditorView) => {
     const isTargetNodeNodeViewWrapper = isNodeViewWrapper(targetNodeRef);
     const firstChild = targetNodeRef.firstChild as HTMLElement;
     const css = window.getComputedStyle(
-      isTargetNodeMediaSingle || isTargetNodeNodeViewWrapper
+      isTargetNodeNodeViewWrapper && !isTargetNodeMediaSingle
         ? firstChild || targetNodeRef
         : targetNodeRef,
     );
+
     const isInTableCell = /td|th/i.test(targetNodeRef.parentNode!.nodeName);
 
     height = parseInt(css.height!, 10);
@@ -270,9 +271,11 @@ export const fixCursorAlignment = (view: EditorView) => {
 
   // table nodeView margin fix
   if (targetNode.type === schema.nodes.table) {
-    const style = window.getComputedStyle(
-      targetNodeRef.querySelector('table')!,
-    );
+    const tableNode = targetNodeRef.querySelector('table');
+    if (!tableNode) {
+      return;
+    }
+    const style = window.getComputedStyle(tableNode);
     const halfPlusButtonSize = tableInsertColumnButtonSize / 2;
     marginTop = parseInt(style.marginTop!, 10);
     paddingLeft =

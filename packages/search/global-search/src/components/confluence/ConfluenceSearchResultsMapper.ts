@@ -1,9 +1,9 @@
-import { ABTest } from '../../api/CrossProductSearchClient';
 import { messages } from '../../messages';
 import { ConfluenceResultsMap, ResultsGroup } from '../../model/Result';
 import { attachConfluenceContextIdentifiers } from '../common/contextIdentifiersHelper';
 import { take } from '../SearchResultsUtil';
 import { getConfluenceMaxObjects } from '../../util/experiment-utils';
+import { ConfluenceFeatures } from '../../util/features';
 
 export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
@@ -18,7 +18,7 @@ const EMPTY_CONFLUENCE_RESULT = {
 
 const sliceResults = (
   resultsMap: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
 ): ConfluenceResultsMap => {
   if (!resultsMap) {
     return EMPTY_CONFLUENCE_RESULT;
@@ -27,7 +27,7 @@ const sliceResults = (
   return {
     objects: take(
       objects,
-      getConfluenceMaxObjects(abTest, DEFAULT_MAX_OBJECTS),
+      getConfluenceMaxObjects(features.abTest, DEFAULT_MAX_OBJECTS),
     ),
     spaces: take(spaces, MAX_SPACES),
     people: take(people, MAX_PEOPLE),
@@ -36,10 +36,10 @@ const sliceResults = (
 
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
   searchSessionId: string,
 ): ResultsGroup[] => {
-  const sliced = sliceResults(recentlyViewedObjects, abTest);
+  const sliced = sliceResults(recentlyViewedObjects, features);
 
   const { people, objects, spaces } = attachConfluenceContextIdentifiers(
     searchSessionId,
@@ -67,12 +67,16 @@ export const mapRecentResultsToUIGroups = (
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: ConfluenceResultsMap | null,
-  abTest: ABTest,
+  features: ConfluenceFeatures,
+  searchSessionId: string,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(
-    searchResultsObjects,
-    abTest,
+  const sliced = sliceResults(searchResultsObjects, features);
+
+  const { people, objects, spaces } = attachConfluenceContextIdentifiers(
+    searchSessionId,
+    sliced,
   );
+
   return [
     {
       items: objects,

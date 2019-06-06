@@ -65,6 +65,14 @@ describe('Jira Quick Search Container', () => {
       logger,
       createAnalyticsEvent: createAnalyticsEventSpy,
       referralContextIdentifiers,
+      linkComponent: undefined,
+      onAdvancedSearch: undefined,
+      appPermission: undefined,
+      features: {
+        abTest: DEFAULT_AB_TEST,
+        disableJiraPreQueryPeopleSearch: false,
+        enablePreQueryFromAggregator: false,
+      },
       ...partialProps,
     };
 

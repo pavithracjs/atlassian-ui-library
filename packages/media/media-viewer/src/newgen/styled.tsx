@@ -3,7 +3,7 @@
 // @ts-ignore: unused variable
 // prettier-ignore
 import styled, { StyledComponentClass } from 'styled-components';
-import { MediaType } from '@atlaskit/media-core';
+import { MediaType } from '@atlaskit/media-client';
 // @ts-ignore: unused variable
 // prettier-ignore
 import { HTMLAttributes, VideoHTMLAttributes, AudioHTMLAttributes, ImgHTMLAttributes, ComponentClass, ClassAttributes } from 'react';

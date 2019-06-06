@@ -1,53 +1,81 @@
 [
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 4451,
-      "gzipSize": 1785
+      "size": 4602,
+      "gzipSize": 1850
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 595468,
-      "gzipSize": 147986
+      "size": 595533,
+      "gzipSize": 147931
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 17367,
-      "gzipSize": 4565
+      "size": 17393,
+      "gzipSize": 4578
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 270217,
-      "gzipSize": 72381
+      "size": 275744,
+      "gzipSize": 74433
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 25617,
-      "gzipSize": 6834
+      "size": 27876,
+      "gzipSize": 7044
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 65617,
-      "gzipSize": 16456
+      "size": 65760,
+      "gzipSize": 16386
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
@@ -56,27 +84,39 @@
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 32562,
-      "gzipSize": 8875
+      "size": 44693,
+      "gzipSize": 11071
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 47657,
-      "gzipSize": 12762
+      "size": 50034,
+      "gzipSize": 13027
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-editor",
+    "version": "36.0.1",
+    "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 962334,
-      "gzipSize": 245368
+      "size": 980471,
+      "gzipSize": 250013
     }
   }
 ]

@@ -1,1 +1,0 @@
-- @atlaskit/portal has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.

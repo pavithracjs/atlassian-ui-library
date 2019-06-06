@@ -1,7 +1,15 @@
-import { code, Example, md, Props } from '@atlaskit/docs';
 import * as React from 'react';
+import {
+  code,
+  Example,
+  md,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+  ${<AtlassianInternalWarning />}
+
   This is the platform field for selecting users. On top of that you can also select [Teams](https://developer.atlassian.com/platform/teams/overview/what-are-teams/).
   This package provides two different modes of selection: single and multi user/team picker.
 
