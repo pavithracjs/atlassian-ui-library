@@ -6,7 +6,11 @@ import Drawer from '../../index';
 
 describe('Drawer portal', () => {
   it('should not be rendered if not open', () => {
-    mount(<Drawer />);
+    mount(
+      <Drawer isOpen={false}>
+        <div />
+      </Drawer>,
+    );
 
     const renderedPortal = document.querySelector(
       'body > .atlaskit-portal-container .atlaskit-portal',
