@@ -11,9 +11,18 @@ export const MAX_PEOPLE = 3;
 export const MAX_RECENT_RESULTS_TO_SHOW = 3;
 
 const EMPTY_CONFLUENCE_RESULT = {
-  people: [],
-  objects: [],
-  spaces: [],
+  people: {
+    items: [],
+    totalSize: 0,
+  },
+  objects: {
+    items: [],
+    totalSize: 0,
+  },
+  spaces: {
+    items: [],
+    totalSize: 0,
+  },
 };
 
 const sliceResults = (
@@ -25,12 +34,21 @@ const sliceResults = (
   }
   const { people, objects, spaces } = resultsMap;
   return {
-    objects: take(
-      objects,
-      getConfluenceMaxObjects(features.abTest, DEFAULT_MAX_OBJECTS),
-    ),
-    spaces: take(spaces, MAX_SPACES),
-    people: take(people, MAX_PEOPLE),
+    objects: {
+      ...objects,
+      items: take(
+        objects.items,
+        getConfluenceMaxObjects(features.abTest, DEFAULT_MAX_OBJECTS),
+      ),
+    },
+    spaces: {
+      ...spaces,
+      items: take(spaces.items, MAX_SPACES),
+    },
+    people: {
+      ...people,
+      items: take(people.items, MAX_PEOPLE),
+    },
   };
 };
 
@@ -48,19 +66,25 @@ export const mapRecentResultsToUIGroups = (
 
   return [
     {
-      items: objects,
+      items: objects.items,
       key: 'objects',
       title: messages.confluence_recent_pages_heading,
+      totalSize: objects.totalSize,
+      showTotalSize: false,
     },
     {
-      items: spaces,
+      items: spaces.items,
       key: 'spaces',
       title: messages.confluence_recent_spaces_heading,
+      totalSize: spaces.totalSize,
+      showTotalSize: false,
     },
     {
-      items: people,
+      items: people.items,
       key: 'people',
       title: messages.people_recent_people_heading,
+      totalSize: people.totalSize,
+      showTotalSize: false,
     },
   ];
 };
@@ -79,19 +103,25 @@ export const mapSearchResultsToUIGroups = (
 
   return [
     {
-      items: objects,
+      items: objects.items,
       key: 'objects',
       title: messages.confluence_confluence_objects_heading,
+      totalSize: objects.totalSize,
+      showTotalSize: features.searchExtensionsEnabled,
     },
     {
-      items: spaces,
+      items: spaces.items,
       key: 'spaces',
       title: messages.confluence_spaces_heading,
+      totalSize: spaces.totalSize,
+      showTotalSize: false,
     },
     {
-      items: people,
+      items: people.items,
       key: 'people',
       title: messages.people_people_heading,
+      totalSize: people.totalSize,
+      showTotalSize: false,
     },
   ];
 };

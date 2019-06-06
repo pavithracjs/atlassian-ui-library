@@ -36,6 +36,8 @@ const mapGroupsToSections = (
         results={group.items}
         sectionIndex={index}
         analyticsData={analyticsData}
+        showTotalSize={group.showTotalSize}
+        totalSize={group.totalSize}
       />
     ));
 };
