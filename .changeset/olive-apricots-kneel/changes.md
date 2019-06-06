@@ -1,1 +1,0 @@
-Email serializer can stub images to pass browser tests
