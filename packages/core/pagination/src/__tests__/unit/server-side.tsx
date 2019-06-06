@@ -8,7 +8,8 @@ import ReactDOMServer from 'react-dom/server';
 type Example = { filePath: string };
 
 test('Pavigation server side rendering', async done => {
-  (await getExamplesFor('pagination')).forEach(async (example: Example) => {
+  const examples: Example[] = await getExamplesFor('pagination');
+  for (const example of examples) {
     if (!example.filePath.includes('react-router')) {
       /* react router example contains import on react-router-dom */
       const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
@@ -16,6 +17,6 @@ test('Pavigation server side rendering', async done => {
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();
     }
-  });
+  }
   done();
 });
