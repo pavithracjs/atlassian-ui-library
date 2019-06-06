@@ -179,6 +179,7 @@ const calculateHorizontalPlacement = ({
   } else if (placement === 'end') {
     const left = Math.ceil(
       targetRight -
+        popupOffsetParentLeft +
         (isPopupParentBody ? 0 : popupOffsetParentScrollLeft) +
         offset[0],
     );

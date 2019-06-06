@@ -20,6 +20,7 @@ import {
 } from './pm-plugins/table-resizing';
 import { getToolbarConfig } from './toolbar';
 import FloatingContextualMenu from './ui/FloatingContextualMenu';
+import FloatingContextualButton from './ui/FloatingContextualButton';
 import { isLayoutSupported } from './utils';
 import {
   addAnalytics,
@@ -67,7 +68,6 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
         name: 'table',
         plugin: ({ props, prevProps, dispatch, portalProviderAPI }) => {
           const { allowTables, appearance, allowDynamicTextSizing } = props;
-          const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = appearance === 'full-page';
           const isFullWidthModeEnabled = appearance === 'full-width';
           const wasFullWidthModeEnabled =
@@ -76,7 +76,6 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
             dispatch,
             portalProviderAPI,
             pluginConfig(allowTables),
-            isContextMenuEnabled,
             isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
             isFullWidthModeEnabled,
@@ -126,8 +125,20 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
           const tableResizingPluginState = tableResizingPluginKey.getState(
             state,
           );
+          const isDragging =
+            tableResizingPluginState && tableResizingPluginState.dragging;
+          const isMobile = appearance === 'mobile';
           return (
             <>
+              {pluginState.targetCellPosition && !isDragging && !isMobile && (
+                <FloatingContextualButton
+                  editorView={editorView}
+                  mountPoint={popupsMountPoint}
+                  targetCellPosition={pluginState.targetCellPosition}
+                  scrollableElement={popupsScrollableElement}
+                  isContextualMenuOpen={pluginState.isContextualMenuOpen}
+                />
+              )}
               <FloatingContextualMenu
                 editorView={editorView}
                 mountPoint={popupsMountPoint}

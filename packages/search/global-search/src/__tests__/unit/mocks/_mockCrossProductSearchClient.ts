@@ -4,17 +4,38 @@ import {
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   DEFAULT_AB_TEST,
+  SearchResultsMap,
 } from '../../../api/CrossProductSearchClient';
 import { Scope } from '../../../api/types';
 import { Result } from '../../../model/Result';
-import { makeJiraObjectResult } from '../_test-util';
+import {
+  makeJiraObjectResult,
+  makeConfluenceObjectResult,
+} from '../_test-util';
 
 export function makeSingleResultCrossProductSearchResponse(
   scope: Scope,
   result?: Result,
 ): CrossProductSearchResults {
-  const response = new Map();
-  response.set(scope, [result || makeJiraObjectResult()]);
+  const response = {} as SearchResultsMap;
+
+  if (result) {
+    response[scope] = {
+      items: [result],
+      totalSize: 1,
+    };
+  } else if (scope.includes('confluence')) {
+    response[scope] = {
+      items: [makeConfluenceObjectResult()],
+      totalSize: 1,
+    };
+  } else if (scope.includes('jira')) {
+    response[scope] = {
+      items: [makeJiraObjectResult()],
+      totalSize: 1,
+    };
+  }
+
   return { results: response };
 }
 

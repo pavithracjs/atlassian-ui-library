@@ -5,9 +5,11 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 
-test('Button server side rendering', async () => {
-  (await getExamplesFor('button')).forEach((examples: any) => {
-    const Example = require(examples.filePath).default;
+test('Button server side rendering', async done => {
+  const examples = await getExamplesFor('button');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default;
     expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
-  });
+  }
+  done();
 });

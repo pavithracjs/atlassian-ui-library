@@ -1,14 +1,14 @@
-import { Result } from '../model/Result';
+import { PersonResult } from '../model/Result';
 import PeopleSearchClientImpl from './PeopleSearchClient';
 
 export class CachingPeopleSearchClient extends PeopleSearchClientImpl {
-  prefetchPeople: Promise<Result[]> | undefined;
+  prefetchPeople: Promise<PersonResult[]> | undefined;
 
   constructor(url: string, cloudId: string) {
     super(url, cloudId);
   }
 
-  async getRecentPeople(): Promise<Result[]> {
+  async getRecentPeople(): Promise<PersonResult[]> {
     if (this.prefetchPeople) {
       return await this.prefetchPeople;
     }
