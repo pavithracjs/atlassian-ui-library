@@ -43,14 +43,14 @@ describe('getPreviewMiddleware', () => {
     representations: { image: {} },
   };
 
-  const defaultImageMetadata: ImageMetadata = {
+  const defaultImageMetadata: Promise<ImageMetadata> = Promise.resolve({
     original: {
       url: 'some-preview-src',
       width: 10,
       height: 10,
     },
     pending: false,
-  };
+  });
 
   const setup = () => {
     const store = mockStore();
@@ -63,10 +63,7 @@ describe('getPreviewMiddleware', () => {
       userMediaClient.file.getFileState,
       Observable.of(defaultFileState),
     );
-    asMockReturnValue(
-      userMediaClient.getImageMetadata,
-      Promise.resolve(defaultImageMetadata),
-    );
+    asMockReturnValue(userMediaClient.getImageMetadata, defaultImageMetadata);
 
     return {
       store,
@@ -92,21 +89,21 @@ describe('getPreviewMiddleware', () => {
     expect(next).toBeCalledWith(action);
   });
 
-  it('should dispatch send upload event action with upload-preview-update event', () => {
+  it('should dispatch send upload event action with upload-preview-update event', async () => {
     const { store, action } = setup();
-    return getPreview(store, action).then(() => {
-      expect(store.dispatch).toBeCalledWith(
-        sendUploadEvent({
-          event: {
-            name: 'upload-preview-update',
-            data: {
-              file,
-              preview,
-            },
+    getPreview(store, action);
+    await defaultImageMetadata;
+    expect(store.dispatch).toBeCalledWith(
+      sendUploadEvent({
+        event: {
+          name: 'upload-preview-update',
+          data: {
+            file,
+            preview,
           },
-          uploadId,
-        }),
-      );
-    });
+        },
+        uploadId,
+      }),
+    );
   });
 });

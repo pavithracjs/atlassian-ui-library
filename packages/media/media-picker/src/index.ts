@@ -17,7 +17,6 @@ import {
 } from './components/types';
 
 import { Context, MediaClientConfig } from '@atlaskit/media-core';
-import { getMediaClient } from '@atlaskit/media-client';
 
 export const isBrowser = (component: any): component is Browser =>
   component && 'browse' in component && 'teardown' in component;
@@ -74,9 +73,9 @@ export interface ComponentConfigs {
 export { BrowserConstructor, DropzoneConstructor, PopupConstructor };
 
 function isContext(
-  thisOrThat: Context | MediaClientConfig,
-): thisOrThat is Context {
-  return !!(thisOrThat as Context).collection;
+  contextOrMediaClientConfig: Context | MediaClientConfig,
+): contextOrMediaClientConfig is Context {
+  return !!(contextOrMediaClientConfig as Context).collection;
 }
 
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
@@ -84,30 +83,58 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
   contextOrMediaClientConfig: Context | MediaClientConfig,
   pickerConfig?: ComponentConfigs[K],
 ): Promise<MediaPickerComponents[K]> {
-  const contextOrMediaClientConfigObject = isContext(contextOrMediaClientConfig)
-    ? { context: contextOrMediaClientConfig }
-    : { mediaClientConfig: contextOrMediaClientConfig };
-  const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
   switch (componentName) {
-    case 'browser':
-      const {
-        BrowserImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
+    case 'browser': {
+      const [{ BrowserImpl }, { getMediaClient }] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser'),
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+      ]);
+
+      const contextOrMediaClientConfigObject = isContext(
+        contextOrMediaClientConfig,
+      )
+        ? { context: contextOrMediaClientConfig }
+        : { mediaClientConfig: contextOrMediaClientConfig };
+      const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
+
       return new BrowserImpl(mediaClient, pickerConfig as
         | BrowserConfig
         | undefined);
-    case 'dropzone':
-      const {
-        DropzoneImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone');
+    }
+    case 'dropzone': {
+      const [{ DropzoneImpl }, { getMediaClient }] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone'),
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+      ]);
+
+      const contextOrMediaClientConfigObject = isContext(
+        contextOrMediaClientConfig,
+      )
+        ? { context: contextOrMediaClientConfig }
+        : { mediaClientConfig: contextOrMediaClientConfig };
+
+      const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
+
       return new DropzoneImpl(mediaClient, pickerConfig as
         | DropzoneConfig
         | undefined);
-    case 'popup':
-      const {
-        PopupImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-popup" */ './components/popup');
+    }
+    case 'popup': {
+      const [{ PopupImpl }, { getMediaClient }] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-internal_media-picker-popup" */ './components/popup'),
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+      ]);
+
+      const contextOrMediaClientConfigObject = isContext(
+        contextOrMediaClientConfig,
+      )
+        ? { context: contextOrMediaClientConfig }
+        : { mediaClientConfig: contextOrMediaClientConfig };
+
+      const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
+
       return new PopupImpl(mediaClient, pickerConfig as PopupConfig);
+    }
     default:
       throw new Error(`The component ${componentName} does not exist`);
   }

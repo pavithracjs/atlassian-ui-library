@@ -36,40 +36,34 @@ const dispatchPreviewUpdate = (
   );
 };
 
-export async function getPreview(
-  store: Store<State>,
-  action: GetPreviewAction,
-) {
+export function getPreview(store: Store<State>, action: GetPreviewAction) {
   const { file, collection } = action;
   const { userMediaClient } = store.getState();
-  return new Promise((resolve, reject) => {
-    const subscription = userMediaClient.file
-      .getFileState(file.id, { collectionName: collection })
-      .subscribe({
-        async next(state) {
-          if (state.status === 'error') {
-            return reject();
-          }
+  const subscription = userMediaClient.file
+    .getFileState(file.id, { collectionName: collection })
+    .subscribe({
+      async next(state) {
+        if (state.status === 'error') {
+          return;
+        }
 
-          const { mediaType } = state;
-          // We need to wait for the next tick since rxjs might call "next" before returning from "subscribe"
-          window.setTimeout(() => subscription.unsubscribe());
+        const { mediaType } = state;
+        // We need to wait for the next tick since rxjs might call "next" before returning from "subscribe"
+        window.setTimeout(() => subscription.unsubscribe());
 
-          if (mediaType === 'image' || mediaType === 'video') {
-            const metadata = await userMediaClient.getImageMetadata(file.id, {
-              collection,
-            });
-            const preview = getPreviewFromMetadata(metadata);
-            dispatchPreviewUpdate(store, action, preview);
-          } else {
-            const blob = state.preview && (await state.preview);
-            const preview: NonImagePreview = {
-              file: state.preview && blob instanceof Blob ? blob : undefined,
-            };
-            dispatchPreviewUpdate(store, action, preview);
-          }
-          resolve();
-        },
-      });
-  });
+        if (mediaType === 'image' || mediaType === 'video') {
+          const metadata = await userMediaClient.getImageMetadata(file.id, {
+            collection,
+          });
+          const preview = getPreviewFromMetadata(metadata);
+          dispatchPreviewUpdate(store, action, preview);
+        } else {
+          const blob = state.preview && (await state.preview);
+          const preview: NonImagePreview = {
+            file: state.preview && blob instanceof Blob ? blob : undefined,
+          };
+          dispatchPreviewUpdate(store, action, preview);
+        }
+      },
+    });
 }

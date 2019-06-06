@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as PropTypes from 'prop-types';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import Button from '@atlaskit/button';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
 import AKListeners from '@atlaskit/analytics-listeners';
@@ -10,6 +11,7 @@ import {
   mediaPickerAuthProvider,
   defaultCollectionName,
   defaultMediaPickerCollectionName,
+  createStorybookMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import Toggle from '@atlaskit/toggle';
@@ -34,7 +36,8 @@ import {
 } from '../src/domain/uploadEvent';
 import { PopupUploadEventPayloadMap } from '../src/components/types';
 import { AuthEnvironment } from '../example-helpers/types';
-import { MediaClientConfig } from '@atlaskit/media-core';
+
+const cardMediaClientConfig = createStorybookMediaClientConfig();
 
 export type PublicFile = {
   publicId: string;
@@ -46,7 +49,6 @@ export interface Event<K extends keyof PopupUploadEventPayloadMap> {
 export type Events = Event<keyof PopupUploadEventPayloadMap>[];
 export interface PopupWrapperState {
   collectionName: string;
-  mediaClientConfig?: MediaClientConfig;
   closedTimes: number;
   events: Events;
   authEnvironment: AuthEnvironment;
@@ -117,7 +119,6 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
 
     this.setState({
       popup: newPopup,
-      mediaClientConfig,
       singleSelect,
     });
   }
@@ -342,19 +343,19 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   renderCards = () => {
-    const { publicFiles, mediaClientConfig } = this.state;
+    const { publicFiles } = this.state;
     const publicIds = Object.keys(publicFiles)
       .map(id => publicFiles[id].publicId)
       .filter(id => !!id);
 
-    if (!publicIds.length || !mediaClientConfig) {
+    if (!publicIds.length) {
       return;
     }
 
     const cards = publicIds.map((id, key) => (
       <CardItemWrapper key={key}>
         <Card
-          mediaClientConfig={mediaClientConfig}
+          mediaClientConfig={cardMediaClientConfig}
           isLazy={false}
           identifier={{
             mediaItemType: 'file',
