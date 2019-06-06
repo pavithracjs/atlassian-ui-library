@@ -1,0 +1,1 @@
+ED-6998: fix inserting emoji after changing between full width mode
