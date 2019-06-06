@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.4.12
+
+### Patch Changes
+
+- [patch][e6c0741a32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6c0741a32):
+
+  fix incorrect origin tracing in analytics + small internal cleanups
+
 ## 0.4.11
 
 - Updated dependencies [181209d135](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/181209d135):
