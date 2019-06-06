@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.14
+
+### Patch Changes
+
+- [patch][e2c4d19e7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e2c4d19e7a):
+
+  ED-6998: fix inserting emoji after changing between full width mode
+
 ## 112.11.13
 
 ### Patch Changes
