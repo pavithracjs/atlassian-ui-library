@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.19
+
+### Patch Changes
+
+- [patch][8cfa40f406](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cfa40f406):
+
+  ED-6990 Fix wrapping of dates nodes in tables, panels and other nodes. Previously they would run-on and overflow from their container.
+
 ## 112.11.18
 
 ### Patch Changes
