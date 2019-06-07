@@ -3,7 +3,6 @@
   "version": "18.0.0",
   "description": "A React package that contains icons",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "src/index.js",
   "module": "index.js",
   "types": "index.d.ts",
   "atlaskit:src": "src/index.ts",
