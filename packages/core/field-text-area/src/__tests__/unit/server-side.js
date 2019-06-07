@@ -6,7 +6,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Field text area server side rendering', async done => {
+test.skip('Field text area server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('field-text-area');
   for (const example of examples) {

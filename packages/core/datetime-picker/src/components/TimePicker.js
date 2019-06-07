@@ -181,7 +181,7 @@ class TimePicker extends Component<Props, State> {
       const { parseInputValue, timeFormat } = this.props;
       // TODO parseInputValue doesn't accept `timeFormat` as an function arg yet...
       const value =
-        format(parseInputValue(inputValue, timeFormat), 'HH:mma') || '';
+        format(parseInputValue(inputValue, timeFormat), 'HH:mm') || '';
       this.setState({ value });
       this.props.onChange(value);
     } else {

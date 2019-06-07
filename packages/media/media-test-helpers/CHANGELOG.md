@@ -1,5 +1,15 @@
 # @atlaskit/media-test-helpers
 
+## 24.0.3
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/dropdown-menu@8.0.4
+  - @atlaskit/select@9.1.5
+  - @atlaskit/media-card@63.1.5
+  - @atlaskit/media-picker@43.1.1
+  - @atlaskit/media-ui@11.2.8
+  - @atlaskit/icon@18.0.0
+
 ## 24.0.2
 
 ### Patch Changes

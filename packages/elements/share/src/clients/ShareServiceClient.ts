@@ -29,12 +29,12 @@ export type ShareResponse = {
 
 export type ConfigResponse = {
   mode: ConfigResponseMode;
-  allowedDomains?: string[];
+  allowedDomains?: string[]; // e-mail domains from DES
   allowComment: boolean;
 };
 
 export type ConfigResponseMode =
-  | 'EXISTING_USERS_ONLY'
+  | 'EXISTING_USERS_ONLY' // can't invite nor request access
   | 'INVITE_NEEDS_APPROVAL'
   | 'ONLY_DOMAIN_BASED_INVITE'
   | 'DOMAIN_BASED_INVITE'

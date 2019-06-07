@@ -1,5 +1,17 @@
 # @atlaskit/focused-task-close-account
 
+## 0.11.4
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/button@13.0.8
+  - @atlaskit/checkbox@8.0.2
+  - @atlaskit/drawer@4.1.3
+  - @atlaskit/inline-dialog@12.0.1
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/icon@18.0.0
+
 ## 0.11.3
 
 - Updated dependencies [181209d135](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/181209d135):

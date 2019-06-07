@@ -1,5 +1,13 @@
 # @atlaskit/media-client
 
+## 1.4.0
+
+### Minor Changes
+
+- [minor][02185fba43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02185fba43):
+
+  getMediaClient is now exposed
+
 ## 1.3.0
 
 ### Minor Changes

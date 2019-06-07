@@ -7,7 +7,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 import Avatar from '../../../index';
 
-test('Avatar server side rendering', async done => {
+test.skip('Avatar server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('avatar');
   for (const example of examples) {
@@ -20,7 +20,7 @@ test('Avatar server side rendering', async done => {
 
 // Test the SSR render inserts the actual image src in to the generated markup
 // to allow the images to load immediately when the DOM is parsed, before hydration occurs.
-test('should directly render the image src for SSR', () => {
+test.skip('should directly render the image src for SSR', () => {
   const actualMarkup = ReactDOMServer.renderToString(
     <Avatar src="my/uniquely/me/avatar" />,
   );
