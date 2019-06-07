@@ -13,6 +13,7 @@ const config = {
   maxWidth: 24,
   maxHeight: 24,
   glob: '**/*.svg',
+  typescript: true,
 };
 
 buildIcons(config).then(icons => {
@@ -22,5 +23,5 @@ buildIcons(config).then(icons => {
     synonyms,
     ['icon', 'core'],
   );
-  return fs.outputFile(path.resolve(root, 'src/metadata.js'), iconDocs);
+  return fs.outputFile(path.resolve(root, 'src/metadata.ts'), iconDocs);
 });

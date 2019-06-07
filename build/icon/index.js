@@ -11,7 +11,8 @@ type Config = {
   glob: string,
   maxWidth: number,
   maxHeight: number,
-  size?: string
+  size?: string,
+  typescript: boolean,
 };
 */
 

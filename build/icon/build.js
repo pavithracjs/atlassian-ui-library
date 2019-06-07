@@ -6,7 +6,8 @@ const path = require('path');
 const getCleanSVGFunction = require('./svgo/clean');
 const customiseSVG = require('./svgo/customise')();
 const glyphTemplate = require('./glyph.template');
-const tsTemplate = require('./typescript.template');
+const glyphTsxTemplate = require('./glyph-tsx.template');
+const tsTemplate = require('./d-ts.template');
 
 /*::
 type Config = {
@@ -16,7 +17,8 @@ type Config = {
   glob: string,
   maxWidth: number,
   maxHeight: number,
-  size?: string
+  size?: string,
+  typescript: boolean,
 };
 */
 
@@ -33,7 +35,9 @@ module.exports = function(config /*: Config */) {
         const wayHome = filepath
           .split('/')
           .map(a => '..')
-          .concat('cjs/components/Icon')
+          .concat(
+            config.typescript ? 'src/components/Icon' : 'cjs/components/Icon',
+          )
           .join('/');
         const fileKey = filepath.replace(/\.svg$/, '');
         const displayName = fileKey
@@ -41,55 +45,67 @@ module.exports = function(config /*: Config */) {
           .map(part => `${part[0].toUpperCase()}${part.slice(1)}`)
           .join('')
           .concat('Icon');
-
         // Read the contents of the SVG file
-        return (
-          fs
-            .readFile(path.join(config.srcDir, filepath))
-            // Optimise the SVG
-            .then(rawSVG => cleanSVG(filepath, rawSVG))
-            .then(({ data: optimisedSVG }) => {
-              // saved the optimised SVGs to disk for reduced-ui-pack
-              return (
-                fs
-                  .outputFile(
-                    path.join(config.processedDir, filepath),
-                    optimisedSVG,
-                  )
-                  // customise the SVG to make it JSX ready
-                  .then(() => customiseSVG(filepath, optimisedSVG))
+        const data = fs
+          .readFile(path.join(config.srcDir, filepath))
+          // Optimise the SVG
+          .then(rawSVG => cleanSVG(filepath, rawSVG))
+          .then(({ data: optimisedSVG }) => {
+            // saved the optimised SVGs to disk for reduced-ui-pack
+            return (
+              fs
+                .outputFile(
+                  path.join(config.processedDir, filepath),
+                  optimisedSVG,
+                )
+                // customise the SVG to make it JSX ready
+                .then(() => customiseSVG(filepath, optimisedSVG))
+            );
+          });
 
-                  // wrap the optimised SVGs in the JS module
-                  .then(({ data: customisedSVG }) =>
-                    glyphTemplate(
-                      customisedSVG,
-                      displayName,
-                      wayHome,
-                      config.size,
-                    ),
-                  )
-              );
-            })
-            // Transpile the component code
-            .then(componentCode =>
-              babel.transform(componentCode, {
-                presets: ['@babel/env', '@babel/react', '@babel/flow'],
-              }),
-            )
-            .then(({ code }) =>
-              fs.outputFile(path.join(config.destDir, `${fileKey}.js`), code),
-            )
-            // Write the TypeScript file
-            .then(() =>
-              fs.outputFile(
-                path.join(config.destDir, `${fileKey}.d.ts`),
-                tsTemplate,
-              ),
-            )
-            // Return the filename and display name
-            .then(() => ({ fileKey, displayName }))
-          // .catch(err => console.error(err))
-        );
+        return config.typescript
+          ? data
+              // wrap the optimised SVGs in the JS module
+              .then(({ data: customisedSVG }) =>
+                glyphTsxTemplate(
+                  customisedSVG,
+                  displayName,
+                  wayHome,
+                  config.size,
+                ),
+              )
+              .then(code =>
+                fs.outputFile(
+                  path.join(config.destDir, `${fileKey}.tsx`),
+                  code,
+                ),
+              )
+              // Return the filename and display name
+              .then(() => ({ fileKey, displayName }))
+          : data
+              // wrap the optimised SVGs in the JS module
+              .then(({ data: customisedSVG }) =>
+                glyphTemplate(customisedSVG, displayName, wayHome, config.size),
+              )
+              // Transpile the component code
+              .then(componentCode =>
+                babel.transform(componentCode, {
+                  presets: ['@babel/env', '@babel/react', '@babel/flow'],
+                }),
+              )
+              .then(({ code }) =>
+                fs.outputFile(path.join(config.destDir, `${fileKey}.js`), code),
+              )
+              // Write the TypeScript file
+              .then(() =>
+                fs.outputFile(
+                  path.join(config.destDir, `${fileKey}.d.ts`),
+                  tsTemplate,
+                ),
+              )
+              // Return the filename and display name
+              .then(() => ({ fileKey, displayName }));
+        // .catch(err => console.error(err))
       }),
     )
       // Generate icon documentation data

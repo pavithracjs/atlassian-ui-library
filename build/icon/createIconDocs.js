@@ -6,10 +6,11 @@ module.exports = (
   packageName /*: string */,
   synonyms /*: { [string]: string[] } */ = {},
   universalSynonyms /*: string[] */ = [],
+  typescript /*: boolean */ = false,
 ) =>
   prettier.format(
     `
-// @flow
+${typescript ? '' : '// @flow'}
 /* eslint-disable global-require */
 /**
  * NOTE:

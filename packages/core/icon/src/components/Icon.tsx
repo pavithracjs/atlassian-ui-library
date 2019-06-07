@@ -37,7 +37,7 @@ export const IconWrapper = styled.span<Partial<Props>>`
   }
 `;
 
-interface Props {
+export interface Props {
   /** Glyph to show by Icon component (not required when you import a glyph directly) */
   glyph?: (props: { role: string }) => ReactElement;
   /** More performant than the glyph prop, but potentially dangerous if the SVG string hasn't
