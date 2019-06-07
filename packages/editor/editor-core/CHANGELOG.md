@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.11.18
+
+### Patch Changes
+
+- [patch][29c90d3e9f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29c90d3e9f):
+
+  ED-7042 Fix issue where table row controls were slightly cut off in full-width mode
+
 ## 112.11.17
 
 ### Patch Changes

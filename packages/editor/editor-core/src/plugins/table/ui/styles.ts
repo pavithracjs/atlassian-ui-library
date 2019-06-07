@@ -56,6 +56,7 @@ export const layoutButtonSize = 32;
 export const tableInsertColumnButtonLeftOffset = 22;
 export const tableInsertColumnButtonTopOffset = 22;
 export const tableScrollbarOffset = 15;
+export const tableMarginFullWidthMode = 2;
 
 const isIE11 = browser.ie_version === 11;
 
