@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Portal from '../..';
 
-test(`Portal renders without exception in node environment`, () => {
+test.skip(`Portal renders without exception in node environment`, () => {
   expect(() =>
     ReactDOMServer.renderToString(
       <Portal>

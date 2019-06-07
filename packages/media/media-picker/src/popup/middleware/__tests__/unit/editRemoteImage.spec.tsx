@@ -1,5 +1,9 @@
 import { couldNotLoadImage } from '../../../components/views/editor/phrases';
-import { mockStore } from '@atlaskit/media-test-helpers';
+import {
+  mockStore,
+  asMock,
+  asMockReturnValue,
+} from '@atlaskit/media-test-helpers';
 
 import { editRemoteImage } from '../../editRemoteImage';
 import { editorShowImage } from '../../../actions/editorShowImage';
@@ -17,7 +21,7 @@ describe('editRemoteImage', () => {
     name: 'some-file-name',
   };
   const collectionName = 'some-collection';
-  const auth = { clientId: 'some-client-id', token: 'some-token' };
+  const auth = { clientId: 'some-client-id', token: 'some-token', baseUrl: '' };
 
   const setup = () => {
     const store = mockStore({
@@ -25,10 +29,11 @@ describe('editRemoteImage', () => {
         originalFile: file,
       },
     });
-    const { userContext } = store.getState();
-    const getImageUrl = jest.spyOn(userContext, 'getImageUrl');
+    const { userMediaClient } = store.getState();
+    const getImageUrl = asMock(userMediaClient.getImageUrl);
 
-    (userContext.config.authProvider as jest.Mock<any>).mockReturnValue(
+    asMockReturnValue(
+      userMediaClient.config.authProvider,
       Promise.resolve(auth),
     );
 
@@ -69,7 +74,7 @@ describe('editRemoteImage', () => {
 
     await editRemoteImage(store, action);
 
-    expect(store.getState().userContext.getImageUrl).toHaveBeenCalledWith(
+    expect(store.getState().userMediaClient.getImageUrl).toHaveBeenCalledWith(
       file.id,
       {
         mode: 'full-fit',

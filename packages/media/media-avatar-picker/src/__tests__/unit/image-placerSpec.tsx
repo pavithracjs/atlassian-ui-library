@@ -616,18 +616,20 @@ describe('Image Placer', () => {
       };
 
       it('orientation 1', async done => {
-        [1, 2, 3, 4].forEach(async orientation => {
+        const orientations = [1, 2, 3, 4];
+        for (const orientation of orientations) {
           const { imageWidth, imageHeight } = await tearUp(orientation);
           expect(imageWidth).toBeLessThan(imageHeight);
-        });
+        }
         done();
       });
 
       it('orientation > 5', async done => {
-        [5, 6, 7, 8].forEach(async orientation => {
+        const orientations = [5, 6, 7, 8];
+        for (const orientation of orientations) {
           const { imageWidth, imageHeight } = await tearUp(orientation);
           expect(imageWidth).toBeGreaterThan(imageHeight);
-        });
+        }
         done();
       });
     });

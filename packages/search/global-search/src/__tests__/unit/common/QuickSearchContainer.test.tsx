@@ -38,7 +38,9 @@ const mockEvent: any = {
 
 const defaultProps = {
   logger: DEVELOPMENT_LOGGER,
-  getSearchResultsComponent: jest.fn((props: SearchResultProps) => null),
+  getSearchResultsComponent: jest.fn(
+    (props: SearchResultProps<GenericResultMap>) => null,
+  ),
   getRecentItems: jest.fn((sessionId: string) =>
     Promise.resolve({ results: {} }),
   ),
@@ -53,10 +55,13 @@ const defaultProps = {
   getPostQueryDisplayedResults: jest.fn(mapToResultGroup),
   features: {
     abTest: DEFAULT_AB_TEST,
+    searchExtensionsEnabled: false,
   },
 };
 
-const mountQuickSearchContainer = (partialProps?: Partial<Props>) => {
+const mountQuickSearchContainer = (
+  partialProps?: Partial<Props<GenericResultMap>>,
+) => {
   const props = {
     ...defaultProps,
     ...partialProps,
@@ -65,7 +70,7 @@ const mountQuickSearchContainer = (partialProps?: Partial<Props>) => {
 };
 
 const mountQuickSearchContainerWaitingForRender = async (
-  partialProps?: Partial<Props>,
+  partialProps?: Partial<Props<GenericResultMap>>,
 ) => {
   const wrapper = mountQuickSearchContainer(partialProps);
   await wrapper.instance().componentDidMount!();
@@ -226,9 +231,9 @@ describe('QuickSearchContainer', () => {
       ],
     };
 
-    const getRecentItems = jest.fn<Promise<ResultsWithTiming>>(() =>
-      Promise.resolve({ results: recentItems }),
-    );
+    const getRecentItems = jest.fn<
+      Promise<ResultsWithTiming<GenericResultMap>>
+    >(() => Promise.resolve({ results: recentItems }));
 
     const wrapper = await mountQuickSearchContainerWaitingForRender({
       getRecentItems,

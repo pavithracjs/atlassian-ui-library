@@ -1,7 +1,7 @@
 import { State } from '@atlaskit/media-picker/src/popup/domain';
 import { Store } from 'react-redux';
 import { Observable } from 'rxjs/Observable';
-import { fakeContext } from './fakeContextProvider';
+import { fakeMediaClient } from './fakeMediaClient';
 
 export const mockState: State = {
   redirectUrl: 'some-redirect-url',
@@ -33,8 +33,8 @@ export const mockState: State = {
     totalResultCount: 100,
   },
   onCancelUpload: jest.fn(),
-  tenantContext: fakeContext(),
-  userContext: fakeContext(),
+  tenantMediaClient: fakeMediaClient(),
+  userMediaClient: fakeMediaClient(),
   config: {},
   deferredIdUpfronts: {},
 };

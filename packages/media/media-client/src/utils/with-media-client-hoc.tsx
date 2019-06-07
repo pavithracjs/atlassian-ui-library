@@ -22,7 +22,9 @@ export type WithContextOrMediaClientConfig = XOR<
 
 const mediaClientsMap = new Map<MediaClientConfig, MediaClient>();
 
-const getMediaClient = (props: WithContextOrMediaClientConfig): MediaClient => {
+export const getMediaClient = (
+  props: WithContextOrMediaClientConfig,
+): MediaClient => {
   const { mediaClientConfig } = props;
   if (mediaClientConfig) {
     let mediaClient: MediaClient | undefined = mediaClientsMap.get(

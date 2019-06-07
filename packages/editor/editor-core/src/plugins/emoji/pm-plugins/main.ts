@@ -43,13 +43,11 @@ export class EmojiState {
   onDismiss = (): void => {};
 
   private changeHandlers: StateChangeHandler[] = [];
-  private state: EditorState;
   private view!: EditorView;
   private queryResult: EmojiDescription[] = [];
 
-  constructor(state: EditorState, providerFactory: ProviderFactory) {
+  constructor(providerFactory: ProviderFactory) {
     this.changeHandlers = [];
-    this.state = state;
     providerFactory.subscribe('emojiProvider', this.handleProvider);
   }
 
@@ -67,8 +65,6 @@ export class EmojiState {
   }
 
   update(state: EditorState) {
-    this.state = state;
-
     if (!this.emojiProvider) {
       return;
     }
@@ -123,7 +119,8 @@ export class EmojiState {
     this.queryActive = false;
     this.query = undefined;
 
-    const { state, view } = this;
+    const { view } = this;
+    const { state } = view;
 
     if (state) {
       const { schema } = state;
@@ -142,13 +139,13 @@ export class EmojiState {
   }
 
   isEnabled() {
-    const { schema } = this.state;
+    const { schema } = this.view.state;
     const { emojiQuery } = schema.marks;
-    return isMarkTypeAllowedInCurrentSelection(emojiQuery, this.state);
+    return isMarkTypeAllowedInCurrentSelection(emojiQuery, this.view.state);
   }
 
   private findEmojiQueryMark() {
-    const { state } = this;
+    const { state } = this.view;
     const { doc, schema, selection } = state;
     const { to, from } = selection;
     const { emojiQuery } = schema.marks;
@@ -181,7 +178,8 @@ export class EmojiState {
   }
 
   insertEmoji = (emojiId?: EmojiId) => {
-    const { state, view } = this;
+    const { view } = this;
+    const { state } = view;
     const { emoji } = state.schema.nodes;
 
     if (emoji && emojiId) {
@@ -281,7 +279,7 @@ export function createPlugin(
   return new Plugin({
     state: {
       init(_config, state) {
-        return new EmojiState(state, providerFactory);
+        return new EmojiState(providerFactory);
       },
       apply(_tr, pluginState, _oldState, _newState) {
         // NOTE: Don't call pluginState.update here.
@@ -314,6 +312,8 @@ export function createPlugin(
 
       return {
         update(view: EditorView, _prevState: EditorState) {
+          const pluginState: EmojiState = emojiPluginKey.getState(view.state);
+          pluginState.setView(view);
           pluginState.update(view.state);
         },
         destroy() {
