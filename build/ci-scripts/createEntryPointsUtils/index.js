@@ -46,7 +46,7 @@ async function createEntryPointsDirWithPkgJson() {
           .filter(
             file =>
               file.includes('.') &&
-              file.includes('index') &&
+              !file.includes('index') &&
               path.parse(file).name &&
               !file.includes('.d.ts') &&
               !file.includes('version.json'),

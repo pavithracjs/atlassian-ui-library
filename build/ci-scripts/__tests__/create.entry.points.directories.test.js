@@ -121,6 +121,7 @@ describe('Entrypoints', () => {
             .filter(
               file =>
                 file.includes('.') &&
+                !file.includes('index') &&
                 path.parse(file).name &&
                 !file.includes('.d.ts') &&
                 !file.includes('version.json'),
