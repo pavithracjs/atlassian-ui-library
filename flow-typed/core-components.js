@@ -96,3 +96,7 @@ declare module '@atlaskit/radio' {
 declare module '@atlaskit/portal' {
   declare module.exports: any;
 }
+
+declare module '@atlaskit/icon' {
+  declare module.exports: any;
+}
