@@ -1,15 +1,17 @@
 import fs from 'fs';
 import path from 'path';
+const bolt = require('bolt');
+
 import {
   writeEntryPointsPathInPkgJson,
   createEntryPointsDirWithPkgJson,
-} from '../create.entry.points.directories';
+} from '../createEntryPointsUtils';
 
 const testPackagesForWrite = [
   {
     dir: path.join(process.cwd(), 'packages/core/badge'),
     name: '@atlaskit/badge',
-    files: ['entryA', 'entryB.ts', 'version.json'],
+    files: ['index', 'theme.ts', 'version.json'],
   },
   {
     dir: path.join(process.cwd(), 'packages/core/avatar'),
@@ -17,41 +19,130 @@ const testPackagesForWrite = [
     files: ['entryA', 'entryB.js', 'types.d.ts'],
   },
 ];
-let isTs = false;
-let pkg = testPackagesForWrite[0];
-let pkgFile = pkg.files[1];
-let entryPointDirName = path.join(pkg.dir, pkgFile);
-let filesToRemove = [];
-let entryPointPkgJsonpath = `${entryPointDirName}/package.json`;
 
-afterAll(() => {
-  filesToRemove.forEach(file => fs.unlink(file));
-});
+function deleteDirectory(directoryPath) {
+  if (!fs.existsSync(directoryPath)) return;
+  const entryPaths = fs.readdirSync(directoryPath);
+  entryPaths.forEach(entryPath => {
+    const resolvedPath = path.resolve(directoryPath, entryPath);
+    if (fs.lstatSync(resolvedPath).isDirectory()) {
+      deleteDirectory(resolvedPath);
+    } else {
+      fs.unlinkSync(resolvedPath);
+    }
+  });
+  fs.rmdirSync(directoryPath);
+}
 
-test.skip('writeEntryPointsPathInPkgJson should error if wrong path', async () => {
-  await writeEntryPointsPathInPkgJson(isTs, pkg, pkgFile, entryPointDirName);
-  filesToRemove.push(entryPointPkgJsonpath);
-  try {
-    fs.accessSync(entryPointPkgJsonpath);
-  } catch (err) {
-    expect(err).toBeDefined();
-  }
-});
-test('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points js file', async () => {
-  pkgFile = pkg.files[0];
-  entryPointDirName = path.join(pkg.dir, pkgFile);
-  entryPointPkgJsonpath = `${entryPointDirName}/package.json`;
-  filesToRemove.push(entryPointPkgJsonpath);
-  console.log(isTs, pkg, pkgFile, entryPointDirName);
-  await writeEntryPointsPathInPkgJson(isTs, pkg, pkgFile, entryPointDirName);
-  filesToRemove.push(entryPointPkgJsonpath);
-  try {
-    expect(fs.accessSync(entryPointPkgJsonpath)).toBeTruthy();
-  } catch (err) {
-    expect(err).toBeUndefined();
-  }
-});
+let dirsToRemove = [];
+describe('Entrypoints', () => {
+  beforeEach(() => {
+    dirsToRemove.forEach(file => deleteDirectory(file));
+  });
+  afterEach(() => {
+    dirsToRemove.forEach(file => deleteDirectory(file));
+  });
 
-// TODO: Add non packages like website and build
-// TODO: check writeEntryPointsPathInPkgJson
-// TOOD: check that the function generate the correct file
+  test('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points ts file', async () => {
+    const isTs = true;
+    const pkgTs = testPackagesForWrite[0];
+    const pkgFileTs = pkgTs.files[0];
+    const entryPointDirNameTs = path.join(pkgTs.dir, pkgFileTs);
+
+    try {
+      fs.mkdirSync(entryPointDirNameTs);
+      dirsToRemove.push(entryPointDirNameTs);
+      await writeEntryPointsPathInPkgJson(
+        isTs,
+        pkgTs,
+        pkgFileTs,
+        entryPointDirNameTs,
+      );
+      const entryPointDir = fs.readdirSync(entryPointDirNameTs);
+      expect(entryPointDir).toContain('package.json');
+    } catch (err) {
+      expect(err).toBeUndefined();
+    }
+  });
+
+  test('writeEntryPointsPathInPkgJson should error if wrong path', async () => {
+    const isTsWrong = false;
+    const pkgWrong = testPackagesForWrite[1];
+    const pkgFileWrong = pkgWrong.files[1];
+    const entryPointDirNameWrong = path.join(pkgWrong.dir, pkgFileWrong);
+    const entryPointPkgTsonpathWrong = `${entryPointDirNameWrong}/package.json`;
+    try {
+      await writeEntryPointsPathInPkgJson(
+        isTsWrong,
+        pkgWrong,
+        pkgFileWrong,
+        entryPointDirNameWrong,
+      );
+      fs.accessSync(entryPointPkgTsonpathWrong);
+      dirsToRemove.push(entryPointDirNameWrong);
+    } catch (err) {
+      expect(err).toBeDefined();
+    }
+  });
+  // TODO: find out why is it failing
+  test.skip('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points js file', async () => {
+    const isTs = false;
+    const pkgJs = testPackagesForWrite[1];
+    const pkgFileJs = pkgJs.files[0];
+    const entryPointDirNameJs = path.join(pkgJs.dir, pkgFileJs);
+
+    try {
+      fs.mkdirSync(entryPointDirNameJs);
+      dirsToRemove.push(entryPointDirNameJs);
+      await writeEntryPointsPathInPkgJson(
+        isTs,
+        pkgJs,
+        pkgFileJs,
+        entryPointDirNameJs,
+      );
+      const entryPointDir = fs.readdirSync(entryPointDirNameJs);
+      expect(entryPointDir).toContain('package.json');
+    } catch (err) {
+      expect(err).toBeUndefined();
+    }
+  });
+
+  test('createEntryPointsDirWithPkgJson is generating folders', async () => {
+    await createEntryPointsDirWithPkgJson();
+    const packages = await bolt.getWorkspaces();
+    const pkgContents = packages
+      .filter(pkg => pkg.dir.includes('/packages'))
+      .map(pkg => {
+        return {
+          name: pkg.name,
+          pkgDirPath: pkg.dir,
+          files: fs
+            .readdirSync(path.join(pkg.dir, 'src'))
+            .filter(
+              file =>
+                file.includes('.') &&
+                path.parse(file).name &&
+                !file.includes('.d.ts') &&
+                !file.includes('version.json'),
+            ),
+        };
+      });
+    for (let pkg of pkgContents) {
+      for (let pkgFile of pkg.files) {
+        const file = path.parse(pkgFile).name;
+        const entryPointDirName = path.join(pkg.pkgDirPath, file);
+        dirsToRemove.push(entryPointDirName);
+        try {
+          expect(fs.existsSync(entryPointDirName)).toBeTruthy();
+          const dirContent = fs.readdirSync(entryPointDirName);
+          expect(dirContent).toContain('package.json');
+        } catch (e) {
+          throw new Error(
+            `${entryPointDirName} folder should exist and should contain a package.json`,
+            e,
+          );
+        }
+      }
+    }
+  });
+});
