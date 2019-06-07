@@ -1,8 +1,7 @@
 import { EDITOR_APPEARANCE_CONTEXT } from '@atlaskit/analytics-namespaced-context';
-import { EditorAppearance } from '../../../types';
 
 export const getAnalyticsAppearance = (
-  appearance?: EditorAppearance,
+  appearance?: string,
 ): EDITOR_APPEARANCE_CONTEXT | undefined => {
   switch (appearance) {
     case 'full-page':
