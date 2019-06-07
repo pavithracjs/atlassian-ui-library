@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig",
+  "extends": "../tsconfig",
   "compilerOptions": {
     "declaration": true,
     "target": "es5",
