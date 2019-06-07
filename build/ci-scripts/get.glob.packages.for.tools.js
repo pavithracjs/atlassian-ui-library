@@ -38,7 +38,6 @@ const {
     .map(pkg => pkg.relativeDir);
 
   console.log(
-    `packages/elements/{util-data-test,}`,
-    // relativePaths.length > 1 ? `{${relativePaths.join()}}` : relativePaths[0],
+    relativePaths.length > 1 ? `{${relativePaths.join()}}` : relativePaths[0],
   );
 })();
