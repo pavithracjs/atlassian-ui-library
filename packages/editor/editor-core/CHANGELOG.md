@@ -1,5 +1,21 @@
 # @atlaskit/editor-core
 
+## 112.11.17
+
+### Patch Changes
+
+- [patch][4541cc112c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4541cc112c):
+
+  Making textarea devDep a caret range
+
+## 112.11.16
+
+### Patch Changes
+
+- [patch][8d54773dea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d54773dea):
+
+  Remove meridian time in parseInputValue in TimePicker
+
 ## 112.11.15
 
 ### Patch Changes

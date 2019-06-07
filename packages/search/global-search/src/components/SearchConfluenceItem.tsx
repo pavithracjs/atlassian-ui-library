@@ -32,10 +32,13 @@ export default class SearchConfluenceItem extends React.Component<Props> {
       isCompact,
     } = this.props;
 
+    // key should change per search to make keyboard nav work
+    const key = `search_confluence_${Date.now()}`;
+
     return (
       <AdvancedSearchResult
         href={getConfluenceAdvancedSearchLink(query)}
-        key="search_confluence"
+        key={key}
         resultId={ADVANCED_CONFLUENCE_SEARCH_RESULT_ID}
         text={text}
         icon={icon}

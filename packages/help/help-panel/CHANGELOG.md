@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.7.0
+
+### Minor Changes
+
+- [minor][91136c9a7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/91136c9a7a):
+
+  Added loading and error state
+
 ## 0.6.0
 
 ### Minor Changes

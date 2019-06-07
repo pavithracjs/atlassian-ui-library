@@ -6,7 +6,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Theme server side rendering', async done => {
+test.skip('Theme server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('theme');
   for (const example of examples) {

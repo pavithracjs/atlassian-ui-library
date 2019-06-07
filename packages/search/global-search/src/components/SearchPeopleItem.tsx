@@ -17,11 +17,14 @@ export default class SearchPeopleItem extends React.Component<Props> {
   render() {
     const { query, icon, text, analyticsData, isCompact } = this.props;
 
+    // key should change per search to make keyboard nav work
+    const key = `search_people_${Date.now()}`;
+
     return (
       <AdvancedSearchResult
         href={`/people/search?q=${encodeURIComponent(query)}`}
         icon={icon}
-        key="search_people"
+        key={key}
         analyticsData={analyticsData}
         resultId={ADVANCED_PEOPLE_SEARCH_RESULT_ID}
         text={text}

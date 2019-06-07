@@ -1,1 +1,0 @@
-getMediaClient is now exposed
