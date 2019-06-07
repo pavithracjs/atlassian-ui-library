@@ -15,7 +15,7 @@ interface Props {
   status?: StatusType;
   /** Defines the size of the status. */
   size?: SizeType;
-};
+}
 
 export default class Status extends Component<Props> {
   render() {

@@ -4,7 +4,7 @@ import { AppearanceType, PresenceType, SizeType } from '../types';
 interface Dimensions {
   height: string;
   width: string;
-};
+}
 
 interface Layout {
   // We have to specify all corners as optional because either bottom or top
@@ -17,7 +17,7 @@ interface Layout {
   // Must be specified every time.
   height: string;
   width: string;
-};
+}
 
 enum ThemeMode {
   LIGHT = 'light',
@@ -40,7 +40,7 @@ export interface ThemeProps {
   presence?: PresenceType;
   size?: SizeType;
   mode?: ThemeMode;
-};
+}
 
 export interface ThemeTokens {
   backgroundColor: string;
@@ -48,7 +48,7 @@ export interface ThemeTokens {
   dimensions: Dimensions;
   presence: Layout;
   status: Layout;
-};
+}
 
 const gridSizeValue: number = gridSize();
 

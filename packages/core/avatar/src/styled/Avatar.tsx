@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { withTheme } from '@atlaskit/theme';
 import { Theme } from '../theme';
@@ -29,7 +29,7 @@ export const Inner = withTheme(styled.div`
   ${getInnerStyles};
 `);
 
-export const PresenceWrapper = (props: { children: ReactNode }) => (
+export const PresenceWrapper = (props: { children: React.ReactNode }) => (
   <Theme.Consumer {...props} includeBorderWidth>
     {({ presence }) => {
       return (
@@ -47,7 +47,7 @@ export const PresenceWrapper = (props: { children: ReactNode }) => (
   </Theme.Consumer>
 );
 
-export const StatusWrapper = (props: { children: ReactNode }) => (
+export const StatusWrapper = (props: { children: React.ReactNode }) => (
   <Theme.Consumer {...props} includeBorderWidth>
     {({ status }) => {
       return (

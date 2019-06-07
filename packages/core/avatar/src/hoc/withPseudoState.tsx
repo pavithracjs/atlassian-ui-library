@@ -17,7 +17,7 @@ interface Props {
   onMouseEnter?: React.MouseEvent;
   onMouseLeave?: React.MouseEvent;
   onMouseUp?: React.MouseEvent;
-};
+}
 
 const INTERNAL_HANDLERS = [
   'onBlur',
@@ -35,7 +35,7 @@ interface State {
   isFocus: boolean;
   isHover: boolean;
   isInteractive: boolean;
-};
+}
 
 export default function withPseudoState<InnerProps = {}>(
   WrappedComponent: ComponentType<InnerProps>,

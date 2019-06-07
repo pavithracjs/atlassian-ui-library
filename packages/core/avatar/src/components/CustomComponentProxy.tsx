@@ -10,7 +10,7 @@ interface CustomComponentProxyPropType extends AvatarPropTypes {
   innerRef?: () => void;
   primaryText?: any;
   secondaryText?: any;
-};
+}
 
 /**
  * Styling a avatar is complicated and there are a number of properties which

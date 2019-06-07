@@ -21,7 +21,7 @@ interface SlotProps {
   role: string;
   label?: string;
   backgroundImage?: string;
-};
+}
 
 export const Slot = ({
   isLoading,
@@ -62,7 +62,7 @@ interface SvgProps {
   isLoading: boolean;
   size: SizeType;
   children: ReactNode;
-};
+}
 
 export const Svg = ({
   appearance,

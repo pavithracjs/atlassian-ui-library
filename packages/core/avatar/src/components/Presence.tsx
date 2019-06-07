@@ -15,7 +15,7 @@ interface Props {
   presence?: PresenceType;
   /** Defines the size of the presence. */
   size?: SizeType;
-};
+}
 
 export default class Presence extends Component<Props> {
   render() {

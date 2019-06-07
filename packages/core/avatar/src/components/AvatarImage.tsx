@@ -60,12 +60,12 @@ interface Props {
   size: SizeType;
   alt?: string;
   src?: string;
-};
+}
 
 interface State {
   hasError: boolean;
   isLoading: boolean;
-};
+}
 
 export default class AvatarImage extends PureComponent<Props, State> {
   state: State = {

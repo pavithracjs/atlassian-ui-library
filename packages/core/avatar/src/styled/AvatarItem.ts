@@ -21,7 +21,7 @@ interface getBackgroundColorType {
   isSelected?: boolean;
   mode: 'dark' | 'light';
   onClick?: AvatarClickType;
-};
+}
 
 export function getBackgroundColor({
   backgroundColor,
@@ -55,7 +55,7 @@ interface getStylesType {
   isFocus?: boolean;
   mode: 'dark' | 'light';
   onClick?: AvatarClickType;
-};
+}
 
 export function getStyles({
   href,

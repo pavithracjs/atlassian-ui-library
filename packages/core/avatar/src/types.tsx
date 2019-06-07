@@ -20,7 +20,9 @@ export type Size =
   | 'xlarge'
   | 'xxlarge';
 
-export interface SizeType { [key in Size]: number };
+export interface SizeType {
+  [key in Size]: number;
+}
 
 // NOTE: sizes xsmall & xxlarge DO NOT support
 // - groups
@@ -94,12 +96,12 @@ export interface AvatarPropTypesBase {
 
   /** The theme that should be applied to the avatar. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>;
-};
+}
 
 export interface AvatarPropTypes extends AvatarPropTypesBase {
   /** Handler to be called on click. */
   onClick?: AvatarClickType;
-};
+}
 
 export interface SkeletonProps {
   /* Incidcates the shape of the skeleton */
@@ -110,4 +112,4 @@ export interface SkeletonProps {
   size: Size;
   /* Determines the opacity of the skeleton */
   weight: 'normal' | 'strong';
-};
+}

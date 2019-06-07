@@ -7,7 +7,7 @@ import { SupportedSizeWithAnIcon } from '../types';
 interface Props {
   bgColor?: string;
   size: keyof SupportedSizeWithAnIcon;
-};
+}
 
 // set fallbacks for border color/width to protect consumers from invalid values
 export const Outer = withTheme(<ComponentType<Props>>styled.span`

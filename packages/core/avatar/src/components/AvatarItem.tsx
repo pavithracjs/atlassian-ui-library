@@ -44,7 +44,7 @@ interface Props {
   theme?: ThemeProp<ThemeItemTokens>;
   /** Whether or not overflowing primary and secondary text is truncated */
   enableTextTruncate?: boolean;
-};
+}
 
 class AvatarItem extends Component<Props> {
   // TODO: is this right?
