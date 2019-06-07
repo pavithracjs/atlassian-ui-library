@@ -4,6 +4,8 @@ import { CollapsedFrame } from '../CollapsedFrame';
 import { minWidth, maxWidth } from '../dimensions';
 import { CollapsedIconTitleDescriptionLayout } from '../CollapsedIconTitleDescriptionLayout';
 import { ImageIcon } from '../ImageIcon';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
 
 export interface BlockCardUnauthorisedViewProps {
   /** The icon of the service (e.g. Dropbox/Asana/Google/etc) to display */
@@ -42,7 +44,7 @@ export class BlockCardUnauthorisedView extends React.Component<
         <CollapsedIconTitleDescriptionLayout
           icon={<ImageIcon src={icon} size={24} />}
           title={url}
-          description="Connect your account to see a link preview"
+          description={<FormattedMessage {...messages.connect_link_account} />}
           other={
             onAuthorise && (
               <Button

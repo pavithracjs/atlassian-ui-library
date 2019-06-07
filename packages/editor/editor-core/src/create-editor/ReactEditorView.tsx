@@ -195,12 +195,19 @@ export default class ReactEditorView<T = {}> extends React.Component<
     if (appearance === 'full-width') {
       return FULL_WIDTH_MODE.FULL_WIDTH;
     }
-    return FULL_WIDTH_MODE.DEFAULT;
+    return FULL_WIDTH_MODE.FIXED_WIDTH;
   };
 
   reconfigureState = (props: EditorViewProps) => {
     if (!this.view) {
       return;
+    }
+
+    // We cannot currently guarentee when all the portals will have re-rendered during a reconfigure
+    // so we blur here to stop ProseMirror from trying to apply selection to detached nodes or
+    // nodes that haven't been re-rendered to the document yet.
+    if (this.view.dom instanceof HTMLElement && this.view.hasFocus()) {
+      this.view.dom.blur();
     }
 
     this.config = processPluginsList(
@@ -235,7 +242,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     // using the latest plugins
     this.view.updateState(newState);
 
-    return this.view.update(this.getDirectEditorProps(newState));
+    return this.view.update({ ...this.view.props, state: newState });
   };
 
   /**

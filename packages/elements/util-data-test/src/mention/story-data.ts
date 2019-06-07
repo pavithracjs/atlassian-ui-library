@@ -1,4 +1,7 @@
-import { MockMentionResource as MentionResource } from './MockMentionResource';
+import {
+  MockMentionResource as MentionResource,
+  createMockMentionNameResolver,
+} from './MockMentionResource';
 import { MockMentionResourceWithInfoHints as MentionResourceWithInfoHints } from './MockMentionResourceWithInfoHints';
 import { enableLogger } from '../logger';
 
@@ -114,6 +117,18 @@ export const slowResourceProvider = new MentionResource({
 export const resourceProvider = new MentionResource({
   minWait: 10,
   maxWait: 25,
+});
+
+export const resourceProviderWithResolver = new MentionResource({
+  minWait: 10,
+  maxWait: 25,
+  mentionNameResolver: createMockMentionNameResolver(),
+});
+
+export const resourceProviderWithResolver2 = new MentionResource({
+  minWait: 10,
+  maxWait: 25,
+  mentionNameResolver: createMockMentionNameResolver(),
 });
 
 export const resourceProviderWithInfoHints = new MentionResourceWithInfoHints({

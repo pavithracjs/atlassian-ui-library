@@ -1,5 +1,16 @@
 # @atlaskit/page
 
+## 11.0.0
+- [major] [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
+
+  - @atlaskit/page has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
+## 10.0.2
+- Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
+  - @atlaskit/button@13.0.2
+  - @atlaskit/navigation@35.1.1
+  - @atlaskit/logo@12.0.0
+
 ## 10.0.1
 - [patch] [7a68e88827](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a68e88827):
 

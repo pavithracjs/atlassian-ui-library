@@ -111,6 +111,7 @@ export default class Search extends React.PureComponent<Props> {
                   spellCheck={false}
                   type="text"
                   value={value}
+                  onChange={() => {}} // Suppresses the console warning, we handle onChange by using onKeyDown instead.
                   onKeyDown={this.onInputKeyDown}
                 />
               </SearchFieldBaseInner>

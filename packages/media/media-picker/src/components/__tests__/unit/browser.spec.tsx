@@ -2,19 +2,18 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 
 jest.mock('../../../service/newUploadServiceImpl');
-
-import { ContextFactory } from '@atlaskit/media-core';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { Browser } from '../../browser/browser';
 
 describe('Browser', () => {
   const setup = () => {
-    const context = ContextFactory.create({
-      authProvider: {} as any,
-    });
+    const mediaClient = fakeMediaClient();
     const browseConfig = {
       uploadParams: {},
     };
-    const browser = mount(<Browser context={context} config={browseConfig} />);
+    const browser = mount(
+      <Browser mediaClient={mediaClient} config={browseConfig} />,
+    );
 
     return {
       browser,

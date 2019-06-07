@@ -4,6 +4,8 @@ import Button from '@atlaskit/button';
 import { truncateUrlForErrorView } from '../utils';
 import { Frame } from '../Frame';
 import { colors } from '@atlaskit/theme';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
 
 export interface InlineCardUnauthorizedViewProps {
   /** The url to display */
@@ -51,7 +53,7 @@ export class InlineCardUnauthorizedView extends React.Component<
               appearance="link"
               onClick={this.handleConnectAccount}
             >
-              Connect your account to preview links
+              <FormattedMessage {...messages.connect_link_account} />
             </Button>
           </>
         )}

@@ -22,15 +22,17 @@ const exampleName = (file: string) =>
     .reverse()[0]
     .replace('.js', '');
 
-test('navigation-next server side rendering', async () => {
-  // $StringLitteral
-  (await getExamplesFor('navigation-next')).forEach(examples => {
-    if (!examplesWithDomOrBrowser.includes(exampleName(examples.filePath))) {
+test('navigation-next server side rendering', async done => {
+  // $FlowFixMe
+  const examples = await getExamplesFor('navigation-next');
+  for (const example of examples) {
+    if (!examplesWithDomOrBrowser.includes(exampleName(example.filePath))) {
       // $StringLitteral
-      const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+      const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
       expect(() =>
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();
     }
-  });
+  }
+  done();
 });

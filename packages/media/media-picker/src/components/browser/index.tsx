@@ -1,26 +1,43 @@
 import * as React from 'react';
-import { Browser as BrowserType, BrowserProps } from './browser';
+import { BrowserProps } from './browser';
+import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
+
+type BrowserWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+  BrowserProps
+>;
+type BrowserWithMediaClientConfigComponent = React.ComponentType<
+  BrowserWithMediaClientConfigProps
+>;
 
 type State = {
-  Browser?: typeof BrowserType;
+  Browser?: BrowserWithMediaClientConfigComponent;
 };
 
-export class BrowserLoader extends React.PureComponent<BrowserProps, State> {
+export class BrowserLoader extends React.PureComponent<
+  BrowserWithMediaClientConfigProps,
+  State
+> {
   static displayName = 'AsyncBrowser';
-  static Browser?: typeof BrowserType;
+  static Browser?: BrowserWithMediaClientConfigComponent;
 
   state = {
     Browser: BrowserLoader.Browser,
   };
 
-  componentWillMount() {
+  async componentWillMount() {
     if (!this.state.Browser) {
-      import(/* webpackChunkName:"@atlaskit-internal_Browser" */ './browser').then(
-        module => {
-          BrowserLoader.Browser = module.Browser;
-          this.setState({ Browser: module.Browser });
-        },
+      const [mediaClient, browserModule] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+        import(/* webpackChunkName:"@atlaskit-internal_Browser" */ './browser'),
+      ]);
+
+      BrowserLoader.Browser = mediaClient.withMediaClient(
+        browserModule.Browser,
       );
+
+      this.setState({
+        Browser: BrowserLoader.Browser,
+      });
     }
   }
 

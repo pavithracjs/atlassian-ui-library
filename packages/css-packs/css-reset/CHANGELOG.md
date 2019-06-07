@@ -1,5 +1,10 @@
 # @atlaskit/css-reset
 
+## 5.0.0
+- [major] [bfb006f65a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfb006f65a):
+
+  - css-reset has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 4.0.1
 - [patch] [52868d4352](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52868d4352):
 

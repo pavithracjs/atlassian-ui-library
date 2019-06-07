@@ -1,5 +1,40 @@
 # @atlaskit/renderer
 
+## 48.7.1
+- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+
+## 48.7.0
+- [minor] [372235caca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/372235caca):
+
+  - Email renderer now renders media node
+- Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
+- Updated dependencies [97bfe81ec8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97bfe81ec8):
+  - @atlaskit/editor-test-helpers@9.3.4
+  - @atlaskit/media-card@63.1.0
+  - @atlaskit/media-core@30.0.3
+  - @atlaskit/media-filmstrip@34.1.2
+  - @atlaskit/media-test-helpers@24.0.0
+  - @atlaskit/docs@8.1.0
+  - @atlaskit/field-range@7.0.2
+  - @atlaskit/code@11.0.0
+
+## 48.6.0
+- [minor] [21f5217343](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21f5217343):
+
+  - consume emoji new entrypoints in AK
+
+## 48.5.0
+- [minor] [7089d49f61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7089d49f61):
+
+  - consume the new mention entrypoints
+
+## 48.4.0
+- [minor] [9a1b2075e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a1b2075e8):
+
+  - consume new Status entrypoints
+
 ## 48.3.0
 - [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 

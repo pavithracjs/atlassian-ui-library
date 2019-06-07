@@ -177,15 +177,13 @@ const calculateHorizontalPlacement = ({
         popupClientWidth / 2,
     );
   } else if (placement === 'end') {
-    const right = Math.ceil(
-      targetLeft -
-        popupOffsetParentLeft -
-        popupClientWidth -
+    const left = Math.ceil(
+      targetRight -
+        popupOffsetParentLeft +
         (isPopupParentBody ? 0 : popupOffsetParentScrollLeft) +
         offset[0],
     );
-
-    position.right = Math.max(right, 0);
+    position.left = left;
   } else {
     position.right = Math.ceil(
       popupOffsetParentRight -

@@ -11,14 +11,15 @@ import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
-import { FileState, ContextFactory, Context } from '@atlaskit/media-core';
 import { UploadParams, BrowserConfig } from '../src';
 import { Browser } from '../src/components/browser/browser';
+import { FileState, MediaClient } from '@atlaskit/media-client';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 export interface BrowserWrapperState {
   collectionName: string;
   authEnvironment: AuthEnvironment;
-  context?: Context;
+  mediaClient?: MediaClient;
   browseConfig?: BrowserConfig;
 }
 
@@ -32,9 +33,9 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   };
 
   componentDidMount() {
-    const context = ContextFactory.create({
+    const mediaClientConfig: MediaClientConfig = {
       authProvider: mediaPickerAuthProvider(),
-    });
+    };
     const uploadParams: UploadParams = {
       collection: defaultMediaPickerCollectionName,
     };
@@ -44,10 +45,11 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
       uploadParams,
     };
 
-    context.on('file-added', this.onFileAdded);
+    const mediaClient = new MediaClient(mediaClientConfig);
+    mediaClient.on('file-added', this.onFileAdded);
 
     this.setState({
-      context,
+      mediaClient,
       browseConfig,
     });
   }
@@ -92,10 +94,10 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     const {
       collectionName,
       authEnvironment,
-      context,
+      mediaClient,
       browseConfig,
     } = this.state;
-    if (!browseConfig || !context) {
+    if (!browseConfig || !mediaClient) {
       return null;
     }
 
@@ -122,7 +124,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
           {({ onUploadsStart, onError, onPreviewUpdate }) => (
             <Browser
               ref={this.browserRef}
-              context={context}
+              mediaClient={mediaClient}
               config={browseConfig}
               onUploadsStart={onUploadsStart}
               onError={onError}

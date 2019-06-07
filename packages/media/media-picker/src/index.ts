@@ -14,7 +14,7 @@ import {
   Dropzone,
 } from './components/types';
 
-import { Context } from '@atlaskit/media-core';
+import { Context, MediaClientConfig } from '@atlaskit/media-core';
 
 export const isDropzone = (component: any): component is Dropzone =>
   component && 'activate' in component && 'deactivate' in component;
@@ -66,24 +66,52 @@ export interface ComponentConfigs {
 
 export { DropzoneConstructor, PopupConstructor };
 
+function isContext(
+  contextOrMediaClientConfig: Context | MediaClientConfig,
+): contextOrMediaClientConfig is Context {
+  return !!(contextOrMediaClientConfig as Context).collection;
+}
+
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
-  context: Context,
+  contextOrMediaClientConfig: Context | MediaClientConfig,
   pickerConfig?: ComponentConfigs[K],
 ): Promise<MediaPickerComponents[K]> {
   switch (componentName) {
-    case 'dropzone':
-      const {
-        DropzoneImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone');
-      return new DropzoneImpl(context, pickerConfig as
+    case 'dropzone': {
+      const [{ DropzoneImpl }, { getMediaClient }] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone'),
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+      ]);
+
+      const contextOrMediaClientConfigObject = isContext(
+        contextOrMediaClientConfig,
+      )
+        ? { context: contextOrMediaClientConfig }
+        : { mediaClientConfig: contextOrMediaClientConfig };
+
+      const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
+
+      return new DropzoneImpl(mediaClient, pickerConfig as
         | DropzoneConfig
         | undefined);
-    case 'popup':
-      const {
-        PopupImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-popup" */ './components/popup');
-      return new PopupImpl(context, pickerConfig as PopupConfig);
+    }
+    case 'popup': {
+      const [{ PopupImpl }, { getMediaClient }] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-internal_media-picker-popup" */ './components/popup'),
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+      ]);
+
+      const contextOrMediaClientConfigObject = isContext(
+        contextOrMediaClientConfig,
+      )
+        ? { context: contextOrMediaClientConfig }
+        : { mediaClientConfig: contextOrMediaClientConfig };
+
+      const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
+
+      return new PopupImpl(mediaClient, pickerConfig as PopupConfig);
+    }
     default:
       throw new Error(`The component ${componentName} does not exist`);
   }

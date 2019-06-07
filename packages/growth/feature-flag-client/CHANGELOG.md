@@ -1,5 +1,10 @@
 # @atlaskit/feature-flag-client
 
+## 3.1.1
+- [patch] [2e25dad67e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e25dad67e):
+
+  - Change process.env check to process.env.NODE_ENV check
+
 ## 3.1.0
 - [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 

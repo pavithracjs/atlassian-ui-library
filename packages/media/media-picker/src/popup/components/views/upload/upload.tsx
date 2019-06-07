@@ -9,12 +9,12 @@ import {
   CardEventHandler,
 } from '@atlaskit/media-card';
 import {
-  Context,
   FileItem,
   FileDetails,
   FileIdentifier,
   getMediaTypeFromMimeType,
-} from '@atlaskit/media-core';
+  MediaClient,
+} from '@atlaskit/media-client';
 import Spinner from '@atlaskit/spinner';
 import Flag, { FlagGroup } from '@atlaskit/flag';
 import AnnotateIcon from '@atlaskit/icon/glyph/media-services/annotate';
@@ -76,7 +76,7 @@ const cardDimension = { width: 162, height: 108 };
 
 export interface UploadViewOwnProps {
   readonly browserRef: React.RefObject<Browser>;
-  readonly context: Context;
+  readonly mediaClient: MediaClient;
   readonly recentsCollection: string;
 }
 
@@ -217,8 +217,8 @@ export class StatelessUploadView extends Component<
 
     this.setState({ isLoadingNextPage: true }, async () => {
       try {
-        const { context } = this.props;
-        await context.collection.loadNextPage(RECENTS_COLLECTION);
+        const { mediaClient } = this.props;
+        await mediaClient.collection.loadNextPage(RECENTS_COLLECTION);
       } finally {
         this.setState({ isLoadingNextPage: false });
       }
@@ -307,7 +307,7 @@ export class StatelessUploadView extends Component<
   }
 
   private uploadingFilesCards(): { key: string; el: JSX.Element }[] {
-    const { uploads, onFileClick, context } = this.props;
+    const { uploads, onFileClick, mediaClient } = this.props;
     const itemsKeys = Object.keys(uploads);
     itemsKeys.sort((a, b) => {
       return uploads[b].index - uploads[a].index;
@@ -363,7 +363,7 @@ export class StatelessUploadView extends Component<
         key: id,
         el: (
           <Card
-            context={context}
+            mediaClientConfig={mediaClient.config}
             identifier={identifier}
             dimensions={cardDimension}
             selectable={true}
@@ -378,7 +378,7 @@ export class StatelessUploadView extends Component<
 
   private recentFilesCards(): { key: string; el: JSX.Element }[] {
     const {
-      context,
+      mediaClient,
       recents,
       recentsCollection,
       selectedItems,
@@ -452,7 +452,7 @@ export class StatelessUploadView extends Component<
         key: `${occurrenceKey}-${id}`,
         el: (
           <Card
-            context={context}
+            mediaClientConfig={mediaClient.config}
             identifier={{
               id,
               mediaItemType: 'file',

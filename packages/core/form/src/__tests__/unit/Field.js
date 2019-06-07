@@ -47,6 +47,28 @@ test('should not be dirty after mount', () => {
   expect(wrapper.find(HelperMessage).text()).toBe('Field is pristine');
 });
 
+test('defaultValue should be correctly set by final-form', () => {
+  const spy = jest.fn();
+  const wrapper = mount(
+    <Form onSubmit={spy}>
+      {({ formProps }) => (
+        <form {...formProps}>
+          <Field name="username" defaultValue="Joe Bloggs">
+            {({ fieldProps }) => <FieldText {...fieldProps} />}
+          </Field>
+          <Button type="submit">Submit</Button>
+        </form>
+      )}
+    </Form>,
+  );
+  wrapper.find(Button).simulate('submit');
+  expect(spy).toHaveBeenCalledWith(
+    { username: 'Joe Bloggs' },
+    expect.anything(),
+    expect.anything(),
+  );
+});
+
 test('untouched field should not show validation error', () => {
   const wrapper = mount(
     <Form onSubmit={jest.fn()}>
@@ -101,8 +123,8 @@ test('touched field should show validation error', () => {
 test('should show errors after submission', () => {
   const wrapper = mount(
     <Form onSubmit={() => Promise.resolve({ username: 'TAKEN_USERNAME' })}>
-      {({ formProps: { onSubmit } }) => (
-        <>
+      {({ formProps }) => (
+        <form {...formProps}>
           <Field name="username" defaultValue="Joe Bloggs">
             {({ fieldProps, error }) => (
               <>
@@ -115,13 +137,13 @@ test('should show errors after submission', () => {
               </>
             )}
           </Field>
-          <Button onClick={onSubmit}>Submit</Button>
-        </>
+          <Button type="submit">Submit</Button>
+        </form>
       )}
     </Form>,
   );
   expect(wrapper.find(ErrorMessage)).toHaveLength(0);
-  wrapper.find(Button).simulate('click');
+  wrapper.find(Button).simulate('submit');
   return Promise.resolve().then(() => {
     wrapper.update();
     expect(wrapper.find(ErrorMessage)).toHaveLength(1);
@@ -174,31 +196,43 @@ test('change in name should reset form field', done => {
       {(name, setName) => (
         <>
           <Form onSubmit={submitFn}>
-            {({ formProps: { onSubmit } }) => (
-              <>
-                <Field name={name} defaultValue="joe bloggs">
+            {({ formProps }) => (
+              <form {...formProps}>
+                <Field name={name} defaultValue="unchanged">
                   {({ fieldProps }) => <FieldText {...fieldProps} />}
                 </Field>
                 <Button onClick={() => setName('username')}>Change</Button>
-                <Button onClick={onSubmit}>Submit</Button>
-              </>
+                <Button type="submit">Submit</Button>
+              </form>
             )}
           </Form>
         </>
       )}
     </WithState>,
   );
-  wrapper.find('button').forEach(b => setTimeout(() => b.simulate('click')));
+  wrapper
+    .find('input')
+    .simulate('change', { target: { value: 'changed_input' } });
+  expect(wrapper.find(FieldText).prop('value')).toBe('changed_input');
+  wrapper
+    .find(Button)
+    .at(0)
+    .simulate('click');
+  wrapper
+    .find(Button)
+    .at(1)
+    .simulate('submit');
   setTimeout(() => {
     expect(submitFn).toHaveBeenCalledWith(
-      { username: 'joe bloggs' },
+      { username: 'unchanged' },
+      expect.anything(),
       expect.anything(),
     );
     done();
   });
 });
 
-test('should assosiate messages with field', () => {
+test('should associate messages with field', () => {
   const wrapper = mount(
     <Form onSubmit={jest.fn()}>
       {() => (
@@ -239,7 +273,7 @@ test('should assosiate messages with field', () => {
   );
 });
 
-test('should assosiate label with field', () => {
+test('should associate label with field', () => {
   const wrapper = mount(
     <Form onSubmit={jest.fn()}>
       {() => (
@@ -264,14 +298,14 @@ test('should indicate whether form is submitting', () => {
   const wrapper = mount(
     <Form onSubmit={() => promise}>
       {({ formProps, submitting }) => (
-        <Button type="submit" onClick={formProps.onSubmit}>
-          {submitting ? 'submitting' : 'submit'}
-        </Button>
+        <form {...formProps}>
+          <Button type="submit">{submitting ? 'submitting' : 'submit'}</Button>
+        </form>
       )}
     </Form>,
   );
   expect(wrapper.find(Button).text()).toBe('submit');
-  wrapper.find(Button).simulate('click');
+  wrapper.find(Button).simulate('submit');
   return Promise.resolve()
     .then(() => {
       wrapper.update();
@@ -293,22 +327,15 @@ test('isDisabled should disable all fields in form', () => {
           <Field name="name" defaultValue="">
             {({ fieldProps }) => <TextField {...fieldProps} />}
           </Field>
-          <Button
-            type="submit"
-            onClick={formProps.onSubmit}
-            isDisabled={disabled}
-          >
+          <Button type="submit" isDisabled={disabled}>
             Submit
           </Button>
         </form>
       )}
     </Form>,
   );
-  expect(wrapper.find(TextField).props()).toMatchObject({ isDisabled: true });
-  wrapper.find(Button).simulate('click');
-  return Promise.resolve().then(() => {
-    expect(spy).not.toHaveBeenCalled();
-  });
+  expect(wrapper.find(TextField).prop('isDisabled')).toBe(true);
+  expect(wrapper.find(Button).prop('isDisabled')).toBe(true);
 });
 
 test('should never render with undefined fieldProp value', () => {

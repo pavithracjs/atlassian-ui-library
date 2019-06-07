@@ -160,7 +160,6 @@ export const getProductIsActive = (
 // on license information and if we're separating the jira products or not
 export const getLicensedProductLinks = (
   licenseInformationData: LicenseInformationResponse,
-  enableSplitJira: boolean,
 ): SwitcherItemType[] => {
   const majorJiraProducts = [
     ProductKey.JIRA_SOFTWARE,
@@ -173,21 +172,7 @@ export const getLicensedProductLinks = (
     getProductIsActive(licenseInformationData, productKey),
   );
 
-  let jiraProducts;
-  if (enableSplitJira) {
-    // If we enable split jira products we'll render whatever comes from license-information
-    jiraProducts = [...majorJiraProducts, ...minorJiraProducts];
-  } else if (majorJiraProducts.length > 1) {
-    // If we have more than one major jira product, we'll render only the Jira family logo
-    jiraProducts = [SINGLE_JIRA_PRODUCT];
-  } else if (majorJiraProducts.length === 1) {
-    // If we have a single jira product we will only show that single product (regardless if the instance has Jira Core or not)
-    jiraProducts = majorJiraProducts;
-  } else {
-    // If no major Jira products are present we render Jira Core if it's present in the license-information
-    jiraProducts = minorJiraProducts;
-  }
-
+  const jiraProducts = [...majorJiraProducts, ...minorJiraProducts];
   const otherProducts = [ProductKey.CONFLUENCE, ProductKey.OPSGENIE].filter(
     productKey => getProductIsActive(licenseInformationData, productKey),
   );

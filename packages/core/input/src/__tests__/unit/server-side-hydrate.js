@@ -13,7 +13,7 @@ afterEach(() => {
 test.skip('should ssr then hydrate input correctly', async () => {
   const [example] = await getExamplesFor('input');
   // $StringLitteral
-  const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+  const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);

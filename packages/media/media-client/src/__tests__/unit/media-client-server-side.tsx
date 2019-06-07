@@ -27,15 +27,12 @@ class Example extends React.Component {
 }
 
 test('media-client server side rendering of project examples', async () => {
-  (await getExamplesFor('media-client')).forEach(
-    (examples: { filePath: string }) => {
-      const Example = require(examples.filePath).default;
+  const examples = await getExamplesFor('media-client');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default;
 
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
 });
 
 test('media-client server side rendering of simple component', () => {

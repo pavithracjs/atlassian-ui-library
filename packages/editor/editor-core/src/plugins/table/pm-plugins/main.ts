@@ -1,5 +1,8 @@
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
-import { findParentDomRefOfType } from 'prosemirror-utils';
+import {
+  findParentDomRefOfType,
+  findParentNodeOfType,
+} from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
 
 import { browser } from '@atlaskit/editor-common';
@@ -8,12 +11,14 @@ import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { pluginFactory } from '../../../utils/plugin-state-factory';
 
 import { createTableView } from '../nodeviews/table';
-import { createCellView } from '../nodeviews/cell';
-import { setTableRef, clearHoverSelection } from '../commands';
+import {
+  setTableRef,
+  clearHoverSelection,
+  addBoldInEmptyHeaderCells,
+} from '../commands';
 import { PluginConfig } from '../types';
 import { handleDocOrSelectionChanged } from '../handlers';
 import {
-  handleMouseDown,
   handleMouseOver,
   handleMouseLeave,
   handleBlur,
@@ -36,9 +41,9 @@ export const defaultTableSelection = {
 };
 
 let isBreakoutEnabled: boolean | undefined;
-let wasBreakoutEnabled: boolean | undefined;
 let isDynamicTextSizingEnabled: boolean | undefined;
 let isFullWidthModeEnabled: boolean | undefined;
+let wasFullWidthModeEnabled: boolean | undefined;
 
 const { createPluginState, createCommand, getPluginState } = pluginFactory(
   pluginKey,
@@ -65,16 +70,15 @@ export const createPlugin = (
   dispatch: Dispatch,
   portalProviderAPI: PortalProviderAPI,
   pluginConfig: PluginConfig,
-  isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
   breakoutEnabled?: boolean,
-  previousBreakoutEnabled?: boolean,
   fullWidthModeEnabled?: boolean,
+  previousFullWidthModeEnabled?: boolean,
 ) => {
-  wasBreakoutEnabled = previousBreakoutEnabled;
   isBreakoutEnabled = breakoutEnabled;
   isDynamicTextSizingEnabled = dynamicTextSizing;
   isFullWidthModeEnabled = fullWidthModeEnabled;
+  wasFullWidthModeEnabled = previousFullWidthModeEnabled;
 
   const state = createPluginState(dispatch, {
     pluginConfig,
@@ -82,6 +86,8 @@ export const createPlugin = (
     insertRowButtonIndex: undefined,
     decorationSet: DecorationSet.empty,
     isFullWidthModeEnabled,
+    isHeaderRowEnabled: true,
+    isHeaderColumnEnabled: false,
     ...defaultTableSelection,
   });
 
@@ -124,6 +130,16 @@ export const createPlugin = (
           if (pluginState.tableRef !== tableRef) {
             setTableRef(tableRef)(state, dispatch);
           }
+
+          if (pluginState.editorHasFocus && pluginState.tableRef) {
+            const tableCellHeader = findParentNodeOfType(
+              state.schema.nodes.tableHeader,
+            )(state.selection);
+
+            if (tableCellHeader) {
+              addBoldInEmptyHeaderCells(tableCellHeader)(state, dispatch);
+            }
+          }
         },
       };
     },
@@ -157,18 +173,24 @@ export const createPlugin = (
         table: (node, view, getPos) =>
           createTableView(node, view, getPos, portalProviderAPI, {
             isBreakoutEnabled,
-            wasBreakoutEnabled,
             dynamicTextSizing: isDynamicTextSizingEnabled,
             isFullWidthModeEnabled,
+            wasFullWidthModeEnabled,
           }),
-        tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
-        tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),
       },
 
       handleDOMEvents: {
         blur: handleBlur,
         focus: handleFocus,
-        mousedown: handleMouseDown,
+        // Ignore any `mousedown` `event` from control and numbered column buttons
+        // PM end up changing selection during shift selection if not prevented
+        mousedown: (_, event: Event) =>
+          !!(
+            event.target &&
+            event.target instanceof HTMLElement &&
+            (event.target.classList.contains(ClassName.CONTROLS_BUTTON) ||
+              event.target.classList.contains(ClassName.NUMBERED_COLUMN_BUTTON))
+          ),
         mouseover: handleMouseOver,
         mouseleave: handleMouseLeave,
         click: handleClick,

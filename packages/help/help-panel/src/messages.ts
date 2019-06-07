@@ -6,6 +6,11 @@ export const messages = defineMessages({
     defaultMessage: 'Help',
     description: '',
   },
+  help_panel_close: {
+    id: 'global_help.close',
+    defaultMessage: 'Close',
+    description: '',
+  },
   help_panel_navigation_back: {
     id: 'global_help.navigation.back',
     defaultMessage: 'Back',

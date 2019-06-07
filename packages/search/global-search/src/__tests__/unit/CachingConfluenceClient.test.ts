@@ -31,29 +31,37 @@ describe('CachingConfluenceClient', () => {
   const spaces: RecentSpace[] = [MOCK_SPACE, MOCK_SPACE];
 
   const prefetchedResults: ConfluenceRecentsMap = {
-    objects: pages.map(page => ({
-      resultId: page.id + '',
-      name: page.title,
-      href: `${DUMMY_CONFLUENCE_HOST}${page.url}?search_id=search_id`,
-      containerName: page.space,
-      analyticsType: AnalyticsType.RecentConfluence,
-      resultType: ResultType.ConfluenceObjectResult,
-      contentType: `confluence-${page.contentType}` as ContentType,
-      containerId: 'abc',
-      iconClass: 'iconClass',
-      isRecentResult: true,
-    })),
-    spaces: spaces.map(space => ({
-      resultId: space.id,
-      name: space.name,
-      href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-        space.key
-      }/overview?search_id=search_id`,
-      avatarUrl: space.icon,
-      analyticsType: AnalyticsType.RecentConfluence,
-      resultType: ResultType.GenericContainerResult,
-      contentType: ContentType.ConfluenceSpace,
-    })),
+    objects: {
+      items: pages.map(page => ({
+        resultId: page.id + '',
+        name: page.title,
+        href: `${DUMMY_CONFLUENCE_HOST}${page.url}`,
+        containerName: page.space,
+        analyticsType: AnalyticsType.RecentConfluence,
+        resultType: ResultType.ConfluenceObjectResult as ResultType.ConfluenceObjectResult,
+        contentType: `confluence-${page.contentType}` as ContentType,
+        containerId: 'abc',
+        iconClass: 'iconClass',
+        isRecentResult: true,
+      })),
+      totalSize: pages.length,
+    },
+    spaces: {
+      items: spaces.map(space => ({
+        resultId: space.id,
+        name: space.name,
+        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${space.key}/overview`,
+        avatarUrl: space.icon,
+        analyticsType: AnalyticsType.RecentConfluence,
+        resultType: ResultType.GenericContainerResult,
+        contentType: ContentType.ConfluenceSpace,
+      })),
+      totalSize: spaces.length,
+    },
+    people: {
+      items: [],
+      totalSize: 0,
+    },
   };
 
   beforeEach(() => {
@@ -69,7 +77,7 @@ describe('CachingConfluenceClient', () => {
       {
         resultId: pages[0].id + '',
         name: pages[0].title,
-        href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}`,
         containerName: pages[0].space,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.ConfluenceObjectResult,
@@ -81,7 +89,7 @@ describe('CachingConfluenceClient', () => {
       {
         resultId: pages[1].id + '',
         name: pages[1].title,
-        href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}`,
         containerName: pages[1].space,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.ConfluenceObjectResult,
@@ -117,9 +125,7 @@ describe('CachingConfluenceClient', () => {
       {
         resultId: MOCK_SPACE.id,
         name: MOCK_SPACE.name,
-        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-          MOCK_SPACE.key
-        }/overview?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${MOCK_SPACE.key}/overview`,
         avatarUrl: MOCK_SPACE.icon,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.GenericContainerResult,
@@ -128,9 +134,7 @@ describe('CachingConfluenceClient', () => {
       {
         resultId: MOCK_SPACE.id,
         name: MOCK_SPACE.name,
-        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${
-          MOCK_SPACE.key
-        }/overview?search_id=search_id`,
+        href: `${DUMMY_CONFLUENCE_HOST}/spaces/${MOCK_SPACE.key}/overview`,
         avatarUrl: MOCK_SPACE.icon,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.GenericContainerResult,

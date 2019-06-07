@@ -1,5 +1,10 @@
 # @atlaskit/banner
 
+## 10.0.1
+- [patch] [c9c5d026b1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c9c5d026b1):
+
+  - Fixed outline around links in banner
+
 ## 10.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

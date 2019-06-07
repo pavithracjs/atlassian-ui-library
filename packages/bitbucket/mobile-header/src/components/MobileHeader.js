@@ -14,6 +14,7 @@ type MobileHeaderProps = {
   pageHeading: Node,
   menuIconLabel: string,
   customMenu?: Node,
+  topOffset?: number,
 };
 
 type MobileHeaderState = {
@@ -25,6 +26,10 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
   state = {
     isAnimatingNavigation: false,
     isAnimatingSidebar: false,
+  };
+
+  static defaultProps = {
+    topOffset: 0,
   };
 
   componentWillReceiveProps(nextProps: MobileHeaderProps) {
@@ -50,12 +55,14 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
     isAnimating: boolean,
     renderFn?: (isOpen: boolean) => Node,
     onTransitionEnd: Function,
+    topOffset?: number,
     side: string = 'left',
   ) => (
     <styles.MobileNavSlider
       isOpen={isOpen}
       onTransitionEnd={onTransitionEnd}
       side={side}
+      topOffset={topOffset}
     >
       {(isOpen || isAnimating) && renderFn && renderFn(isOpen)}
     </styles.MobileNavSlider>
@@ -63,7 +70,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
 
   render() {
     const { isAnimatingNavigation, isAnimatingSidebar } = this.state;
-    const { drawerState, menuIconLabel, customMenu } = this.props;
+    const { drawerState, menuIconLabel, customMenu, topOffset } = this.props;
     const isNavigationOpen = drawerState === 'navigation';
     const isSidebarOpen = drawerState === 'sidebar';
 
@@ -78,7 +85,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
     return (
       <Fragment>
         <styles.MobilePageHeader>
-          <styles.MobilePageHeaderContent>
+          <styles.MobilePageHeaderContent topOffset={topOffset}>
             {menu}
             <styles.PageHeading>{this.props.pageHeading}</styles.PageHeading>
             {this.props.secondaryContent}
@@ -90,6 +97,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
           isAnimatingNavigation,
           this.props.navigation,
           this.handleNavSlideFinish,
+          topOffset,
         )}
 
         {this.renderSlider(
@@ -97,6 +105,7 @@ class MobileHeader extends PureComponent<MobileHeaderProps, MobileHeaderState> {
           isAnimatingSidebar,
           this.props.sidebar,
           this.handleSidebarSlideFinish,
+          topOffset,
           'right',
         )}
 

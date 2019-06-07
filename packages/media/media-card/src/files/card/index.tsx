@@ -6,7 +6,7 @@ import {
   FileDetails,
   ImageResizeMode,
   MediaItemType,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { SharedCardProps, CardStatus } from '../..';
 import { CardAction } from '../../actions';
 import { FileCardImageView } from '../cardImageView';

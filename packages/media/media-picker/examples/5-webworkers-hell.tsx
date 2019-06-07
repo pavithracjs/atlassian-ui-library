@@ -18,16 +18,16 @@ import {
   PreviewsTitle,
 } from '../example-helpers/styled';
 import { UploadPreview } from '../example-helpers/upload-preview';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 export interface BrowserWrapperState {
   previewsData: any[];
   isOpen: boolean;
 }
 
-const context = ContextFactory.create({
+const mediaClientConfig: MediaClientConfig = {
   authProvider: mediaPickerAuthProvider(),
-});
+};
 
 const browseConfig: BrowserConfig = {
   multiple: true,
@@ -51,7 +51,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     return (
       <Browser
         key={key}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         config={browseConfig}
         isOpen={isOpen}
         onClose={this.onClose}

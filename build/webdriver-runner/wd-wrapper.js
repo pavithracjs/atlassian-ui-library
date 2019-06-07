@@ -117,12 +117,10 @@ export default class Page {
     }
   }
 
-  keys(value) {
-    return this.browser.keys(value);
-  }
+  async keys(values) {
+    const keys = Array.isArray(values) ? values : [values];
 
-  async pressKey(key, x = 1) {
-    for (let i = 0; i < x; i++) {
+    for (let key of keys) {
       await this.browser.keys(key);
     }
   }
@@ -158,8 +156,8 @@ export default class Page {
     // Console errors can only be checked in Chrome
     if (this.isBrowser('chrome')) {
       const logs = await this.browser.getLogs('browser');
-      if (logs.value) {
-        logs.value.forEach(val => {
+      if (logs.length) {
+        logs.forEach(val => {
           assert.notStrictEqual(val.level, 'SEVERE', `Error : ${val.message}`);
         });
       }
@@ -326,8 +324,8 @@ export default class Page {
   }
 
   // Window
-  setViewPort(size, type) {
-    return this.browser.setViewPort(size, type);
+  setWindowSize(width, height) {
+    return this.browser.setWindowSize(width, height);
   }
 
   chooseFile(selector, localPath) {
@@ -372,9 +370,9 @@ export default class Page {
 
   async safariCompatibleTab() {
     if (this.isBrowser('Safari')) {
-      await this.keys(['Alt', 'Tab']);
+      await this.keys('\ue00A\ue004');
     } else {
-      await this.keys(['Tab']);
+      await this.keys('\ue004');
     }
   }
 }

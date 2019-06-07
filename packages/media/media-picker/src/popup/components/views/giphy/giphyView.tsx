@@ -8,7 +8,7 @@ import FieldText from '@atlaskit/field-text';
 import Button from '@atlaskit/button';
 import Spinner from '@atlaskit/spinner';
 import { Card } from '@atlaskit/media-card';
-import { ExternalImageIdentifier } from '@atlaskit/media-core';
+import { ExternalImageIdentifier } from '@atlaskit/media-client';
 import { BricksLayout } from './bricksGrid';
 import { fileClick } from '../../../actions/fileClick';
 import { setUpfrontIdDeferred } from '../../../actions/setUpfrontIdDeferred';

@@ -1,21 +1,23 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
+import {
+  md,
+  code,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+  DevPreviewWarning,
+} from '@atlaskit/docs';
 
 export default md`
 ${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>
-        Note: @atlaskit/color-picker is currently a developer preview.
-      </strong>
-    </p>
-    <p>
-      Please experiment with and test this package, but be aware that the API
-      may change at any time. Use at your own risk, preferrably not in
-      production.
-    </p>
-  </SectionMessage>
+  <>
+    <div style={{ marginBottom: '0.5rem' }}>
+      <AtlassianInternalWarning />
+    </div>
+    <div style={{ marginTop: '0.5rem' }}>
+      <DevPreviewWarning />
+    </div>
+  </>
 )}
 
 This component allows to pick colors from color palette.

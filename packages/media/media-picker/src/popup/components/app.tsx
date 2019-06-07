@@ -3,8 +3,8 @@ import { Component } from 'react';
 import { Dispatch, Store } from 'redux';
 import { connect, Provider } from 'react-redux';
 import { IntlShape } from 'react-intl';
-import { Context, ContextFactory } from '@atlaskit/media-core';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
+import { MediaClient } from '@atlaskit/media-client';
 import {
   UIAnalyticsEventHandlerSignature,
   ObjectType,
@@ -62,8 +62,8 @@ import { LocalUploadComponent } from '../../components/localUpload';
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
   readonly isVisible: boolean;
-  readonly tenantContext: Context;
-  readonly userContext: Context;
+  readonly tenantMediaClient: MediaClient;
+  readonly userMediaClient: MediaClient;
   readonly config?: Partial<PopupConfig>;
 }
 
@@ -105,7 +105,7 @@ export interface AppState {
 
 export class App extends Component<AppProps, AppState> {
   private readonly mpDropzone: MpDropzone;
-  private readonly componentContext: Context;
+  private readonly componentMediaClient: MediaClient;
   private browserRef = React.createRef<BrowserComponent>();
   private readonly localUploader: LocalUploadComponent;
 
@@ -119,8 +119,8 @@ export class App extends Component<AppProps, AppState> {
       onUploadProcessing,
       onUploadEnd,
       onUploadError,
-      tenantContext,
-      userContext,
+      tenantMediaClient,
+      userMediaClient,
       tenantUploadParams,
     } = props;
 
@@ -131,15 +131,15 @@ export class App extends Component<AppProps, AppState> {
     // Context that has both auth providers defined explicitly using to provided contexts.
     // Each of the local components using this context will upload first to user's recents
     // and then copy to a tenant's collection.
-    const context = ContextFactory.create({
-      authProvider: tenantContext.config.authProvider,
-      userAuthProvider: userContext.config.authProvider,
-      cacheSize: tenantContext.config.cacheSize,
+    const mediaClient = new MediaClient({
+      authProvider: tenantMediaClient.config.authProvider,
+      userAuthProvider: userMediaClient.config.authProvider,
+      cacheSize: tenantMediaClient.config.cacheSize,
     });
 
-    this.componentContext = context;
+    this.componentMediaClient = mediaClient;
 
-    this.localUploader = new LocalUploadComponent(context, {
+    this.localUploader = new LocalUploadComponent(mediaClient, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
     });
@@ -151,7 +151,7 @@ export class App extends Component<AppProps, AppState> {
     this.localUploader.on('upload-end', onUploadEnd);
     this.localUploader.on('upload-error', onUploadError);
 
-    this.mpDropzone = new MpDropzone(context, {
+    this.mpDropzone = new MpDropzone(mediaClient, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
       headless: true,
@@ -247,11 +247,11 @@ export class App extends Component<AppProps, AppState> {
   private renderCurrentView(selectedServiceName: ServiceName): JSX.Element {
     if (selectedServiceName === 'upload') {
       // We need to create a new context since Cards in recents view need user auth
-      const { userContext } = this.props;
+      const { userMediaClient } = this.props;
       return (
         <UploadView
           browserRef={this.browserRef}
-          context={userContext}
+          mediaClient={userMediaClient}
           recentsCollection={RECENTS_COLLECTION}
         />
       );
@@ -285,7 +285,7 @@ export class App extends Component<AppProps, AppState> {
 
     return (
       <Clipboard
-        context={this.componentContext}
+        mediaClient={this.componentMediaClient}
         config={config}
         onUploadsStart={this.onDrop}
         onPreviewUpdate={onUploadPreviewUpdate}
@@ -316,7 +316,7 @@ export class App extends Component<AppProps, AppState> {
     return (
       <BrowserComponent
         ref={this.browserRef}
-        context={this.componentContext}
+        mediaClient={this.componentMediaClient}
         config={config}
         onUploadsStart={onUploadsStart}
         onPreviewUpdate={onUploadPreviewUpdate}
@@ -331,15 +331,15 @@ export class App extends Component<AppProps, AppState> {
 
 const mapStateToProps = ({
   view,
-  tenantContext,
-  userContext,
+  tenantMediaClient,
+  userMediaClient,
   config,
 }: State): AppStateProps => ({
   selectedServiceName: view.service.name,
   isVisible: view.isVisible,
   config,
-  tenantContext,
-  userContext,
+  tenantMediaClient,
+  userMediaClient,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<State>): AppDispatchProps => ({

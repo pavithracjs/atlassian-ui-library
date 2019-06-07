@@ -26,8 +26,15 @@ export const getNextLayout = (currentLayout: TableLayout): TableLayout => {
 // #endregion
 
 // #region Actions
-export const toggleHeaderRow: Command = toggleHeader('row');
-export const toggleHeaderColumn: Command = toggleHeader('column');
+export const toggleHeaderRow: Command = (state, dispatch): boolean =>
+  toggleHeader('row')(state, tr =>
+    createCommand({ type: 'TOGGLE_HEADER_ROW' }, () => tr)(state, dispatch),
+  );
+
+export const toggleHeaderColumn: Command = (state, dispatch): boolean =>
+  toggleHeader('column')(state, tr =>
+    createCommand({ type: 'TOGGLE_HEADER_COLUMN' }, () => tr)(state, dispatch),
+  );
 
 export const toggleNumberColumn: Command = (state, dispatch) => {
   const { tr } = state;

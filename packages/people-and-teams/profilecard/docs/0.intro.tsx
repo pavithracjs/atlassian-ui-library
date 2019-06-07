@@ -1,7 +1,15 @@
 import React from 'react';
-import { md, Example, code, Props } from '@atlaskit/docs';
+import {
+  md,
+  Example,
+  code,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+  ${<AtlassianInternalWarning />}
+  
   A React component to display a card with user information.
 
   ## Usage

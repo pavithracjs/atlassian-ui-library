@@ -6,6 +6,8 @@ import { CollapsedFrame } from '../CollapsedFrame';
 import { minWidth, maxWidth } from '../dimensions';
 import { CollapsedIconTitleDescriptionLayout } from '../CollapsedIconTitleDescriptionLayout';
 import { IconBackground } from './styled';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
 
 export interface BlockCardForbiddenViewProps {
   /** The url to display */
@@ -52,14 +54,14 @@ export class BlockCardForbiddenView extends React.Component<
           title={url}
           description={
             <>
-              You don't have permission to view this.{' '}
+              <FormattedMessage {...messages.invalid_permissions} />{' '}
               {onAuthorise && (
                 <Button
                   appearance="link"
                   spacing="none"
                   onClick={this.handleAuthorise as () => void}
                 >
-                  Try another account
+                  <FormattedMessage {...messages.try_another_account} />
                 </Button>
               )}
             </>

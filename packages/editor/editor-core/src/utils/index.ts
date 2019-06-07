@@ -46,6 +46,7 @@ export {
 export * from './action';
 export * from './step';
 export * from './mark';
+export { isNodeTypeParagraph } from './nodes';
 
 export { JSONDocNode, JSONNode };
 
@@ -639,21 +640,26 @@ export function closestElement(
  * From Modernizr
  * Returns the kind of transitionevent available for the element
  */
-export function whichTransitionEvent() {
+export function whichTransitionEvent<TransitionEventName extends string>() {
   const el = document.createElement('fakeelement');
-  const transitions = {
+  const transitions: Record<string, string> = {
     transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
+    OTransition: 'oTransitionEnd',
     WebkitTransition: 'webkitTransitionEnd',
-  } as any;
+  };
 
-  let t: any;
-  for (t in transitions) {
-    if (el.style[t] !== undefined) {
-      return transitions[t];
+  for (const t in transitions) {
+    if (el.style[t as keyof CSSStyleDeclaration] !== undefined) {
+      // Use a generic as the return type because TypeScript doesnt know
+      // about cross browser features, so we cast here to align to the
+      // standard Event spec and propagate the type properly to the callbacks
+      // of `addEventListener` and `removeEventListener`.
+      return transitions[t] as TransitionEventName;
     }
   }
+
+  return;
 }
 
 export function moveLeft(view: EditorView) {
