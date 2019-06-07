@@ -21,7 +21,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
-    "build": "ts-node --compiler-options='{ \"module\": \"CommonJS\" }' build/js-to-css.ts"
+    "build": "ts-node --compiler-options='{ \"module\": \"CommonJS\", \"allowJs\": true }' build/js-to-css.ts"
   },
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
