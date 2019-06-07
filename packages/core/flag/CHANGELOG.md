@@ -1,5 +1,13 @@
 # @atlaskit/flag
 
+## 12.0.5
+
+### Patch Changes
+
+- [patch][ff649e1001](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff649e1001):
+
+  Widens type of title prop from string to ReactNode. This gives flexibility to pass i18n components as flag titles.
+
 ## 12.0.4
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
