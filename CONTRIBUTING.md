@@ -373,9 +373,6 @@ How you do this will completely depend on what _exactly_ you are trying to achie
 >
 > bolt build:typescript
 >
-> If your package is written in TS:
-> NODE_ENV=production bolt workspaces exec --only "@atlaskit/pkgName" -- tsc --project ./build/es2015
->
 > **THESE WILL NOT COVER 100% OF USE CASES AND ARE PROVIDED WITHOUT WARRANTY**
 >
 > In certain circumstances you'll need to have a dependency be built, in others you'll need to make sure you've run `build:pkg` to copy the package.json's into `dist/`, in others, you will need to generate certain schema files.
