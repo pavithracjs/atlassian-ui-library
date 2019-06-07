@@ -386,13 +386,13 @@ describe(name, () => {
       ];
 
       const expectedPaths = expected.map(a => {
-        return path.join(__dirname, '../../../../glyph', `${a}.js`);
+        return path.join(__dirname, '../../../../glyph', `${a}.tsx`);
       });
 
       const actual = walkSync(
         path.join(__dirname, '../../../../glyph'),
         [],
-      ).filter(ab => /.*\.js$/.test(ab));
+      ).filter(ab => /.*\.tsx$/.test(ab));
 
       // Additional notes on this check:
       // We are doing an equality check on the sorted versions of the lists as we want to

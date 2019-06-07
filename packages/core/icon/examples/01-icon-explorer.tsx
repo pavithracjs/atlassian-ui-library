@@ -19,7 +19,7 @@ import logoIcons from '../utils/logoIcons';
 
 const iconIconInfo = Promise.all(
   Object.keys(metadata).map(async (name: string) => {
-    const icon = await import(`../glyph/${name}.js`);
+    const icon = await import(`../glyph/${name}`);
     return { name, icon: icon.default };
   }),
 ).then(newData =>
