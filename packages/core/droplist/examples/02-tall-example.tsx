@@ -4,9 +4,9 @@ import Button from '@atlaskit/button';
 import Item, { ItemGroup } from '@atlaskit/item';
 import DropList from '../src';
 
-type State = {|
-  eventResult: string,
-|};
+type State = {
+  eventResult: string;
+};
 export default class TallExample extends PureComponent<void, State> {
   state = {
     eventResult: 'Click into and out of the content to trigger event handlers',
