@@ -1,5 +1,14 @@
 # @atlaskit/editor-test-helpers
 
+## 9.3.9
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/editor-common@39.7.2
+  - @atlaskit/editor-core@112.11.20
+  - @atlaskit/media-test-helpers@24.0.3
+  - @atlaskit/smart-card@11.1.6
+  - @atlaskit/icon@18.0.0
+
 ## 9.3.8
 
 ### Patch Changes

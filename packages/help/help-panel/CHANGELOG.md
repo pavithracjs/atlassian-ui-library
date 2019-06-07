@@ -1,5 +1,17 @@
 ## 0.1.0
 
+## 0.8.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/form@6.0.5
+  - @atlaskit/item@10.0.2
+  - @atlaskit/navigation@35.1.5
+  - @atlaskit/radio@3.0.3
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/quick-search@7.4.1
+  - @atlaskit/icon@18.0.0
+
 ## 0.8.0
 
 ### Minor Changes

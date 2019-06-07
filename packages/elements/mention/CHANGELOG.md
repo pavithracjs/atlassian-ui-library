@@ -1,5 +1,14 @@
 # @atlaskit/mention
 
+## 18.3.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/tooltip@14.0.3
+  - @atlaskit/editor-test-helpers@9.3.9
+  - @atlaskit/icon@18.0.0
+
 ## 18.3.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @atlaskit/media-filmstrip
 
+## 34.2.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/checkbox@8.0.2
+  - @atlaskit/field-radio-group@6.0.2
+  - @atlaskit/media-card@63.1.5
+  - @atlaskit/media-test-helpers@24.0.3
+  - @atlaskit/field-range@7.0.4
+  - @atlaskit/icon@18.0.0
+
 ## 34.2.0
 
 ### Minor Changes

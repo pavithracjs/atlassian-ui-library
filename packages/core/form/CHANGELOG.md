@@ -1,6 +1,30 @@
 # @atlaskit/form
 
+## 6.0.5
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/calendar@8.0.1
+  - @atlaskit/checkbox@8.0.2
+  - @atlaskit/datetime-picker@8.0.5
+  - @atlaskit/dropdown-menu@8.0.4
+  - @atlaskit/droplist@9.0.4
+  - @atlaskit/field-radio-group@6.0.2
+  - @atlaskit/modal-dialog@10.0.4
+  - @atlaskit/multi-select@13.0.5
+  - @atlaskit/radio@3.0.3
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/select@9.1.5
+  - @atlaskit/single-select@8.0.4
+  - @atlaskit/textfield@2.0.1
+  - @atlaskit/toggle@7.0.1
+  - @atlaskit/tooltip@14.0.3
+  - @atlaskit/field-range@7.0.4
+  - @atlaskit/icon@18.0.0
+
 ## 6.0.4
+
 - Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
   - @atlaskit/button@13.0.6
   - @atlaskit/modal-dialog@10.0.2
@@ -11,6 +35,7 @@
   - @atlaskit/theme@9.1.0
 
 ## 6.0.3
+
 - Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
 - Updated dependencies [1da5351f72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da5351f72):
   - @atlaskit/datetime-picker@8.0.3
@@ -20,6 +45,7 @@
   - @atlaskit/radio@3.0.0
 
 ## 6.0.2
+
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/checkbox@7.0.1
   - @atlaskit/field-radio-group@6.0.1
@@ -33,16 +59,19 @@
   - @atlaskit/section-message@4.0.0
 
 ## 6.0.1
-- [patch] [19bbcb44ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19bbcb44ed):
+
+- [patch][19bbcb44ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19bbcb44ed):
 
   - Upgrade final-form dependency. No behavioural or API changes.
 
 ## 6.0.0
-- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+- [major][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 ## 5.2.10
+
 - Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
 - Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
   - @atlaskit/textarea@1.0.0
@@ -50,15 +79,18 @@
   - @atlaskit/textfield@1.0.0
 
 ## 5.2.9
+
 - Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
   - @atlaskit/radio@1.0.0
 
 ## 5.2.8
-- [patch] [cb7ec50eca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb7ec50eca):
+
+- [patch][cb7ec50eca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb7ec50eca):
 
   - Internal changes only. Form is compatible with SSR.
 
 ## 5.2.7
+
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
   - @atlaskit/button@12.0.3
@@ -85,11 +117,13 @@
   - @atlaskit/theme@8.1.7
 
 ## 5.2.6
-- [patch] [9b0bdd73c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0bdd73c2):
+
+- [patch][9b0bdd73c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0bdd73c2):
 
   - Remove unused inline edit dependency from package
 
 ## 5.2.5
+
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
   - @atlaskit/calendar@7.0.21
@@ -117,20 +151,24 @@
   - @atlaskit/button@12.0.0
 
 ## 5.2.4
+
 - Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
   - @atlaskit/textarea@0.4.0
 
 ## 5.2.3
+
 - Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
   - @atlaskit/modal-dialog@8.0.3
   - @atlaskit/textfield@0.4.0
 
 ## 5.2.2
-- [patch] [a1217df379](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1217df379):
+
+- [patch][a1217df379](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1217df379):
 
   - Internal changes only. Form is now compatible with ssr.
 
 ## 5.2.1
+
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1
   - @atlaskit/calendar@7.0.20
@@ -158,12 +196,14 @@
   - @atlaskit/textarea@0.3.0
 
 ## 5.2.0
-- [minor] [fe7683f9d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe7683f9d6):
+
+- [minor][fe7683f9d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe7683f9d6):
 
   - Feature: Submit form on Cmd + Enter on Mac and Ctrl + Enter on Mac and Windows
 
 ## 5.1.8
-- [patch] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+- [patch][76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 
   - Drop ES5 from all the flow modules
 
@@ -184,7 +224,7 @@
   import colors from `@atlaskit/theme/dist/esm/colors`;
   ```
 
-  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't _actually_ supposed to be used. 2. We are unable to do this _internally_ in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
 
   To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
 
@@ -195,33 +235,39 @@
   Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
 
 ## 5.1.7
+
 - Updated dependencies [e9b824bf86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9b824bf86):
   - @atlaskit/modal-dialog@7.2.4
   - @atlaskit/textfield@0.2.0
 
 ## 5.1.6
-- [patch] [887c85ffdc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/887c85ffdc):
+
+- [patch][887c85ffdc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/887c85ffdc):
 
   - Form now provides a `getValues` function to it's child render function. The `getValues` function returns an object containing the current value of all fields.
 
 ## 5.1.5
+
 - Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
   - @atlaskit/datetime-picker@6.5.1
   - @atlaskit/modal-dialog@7.2.3
   - @atlaskit/select@7.0.0
 
 ## 5.1.4
-- [patch] [0c0f20c9cf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c0f20c9cf):
+
+- [patch][0c0f20c9cf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c0f20c9cf):
 
   - Fix typo in Field.js
 
 ## 5.1.3
-- [patch] [a360a3d2b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a360a3d2b6):
+
+- [patch][a360a3d2b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a360a3d2b6):
 
   - Bugfix: field entry in form state gets deleted when Field is unmounted
   - Bugfix: Shallow equal check in Field works correctly across different types
 
 ## 5.1.2
+
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1
   - @atlaskit/button@10.1.2
@@ -244,17 +290,20 @@
   - @atlaskit/icon@16.0.0
 
 ## 5.1.1
-- [patch] [58e7bc1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58e7bc1):
+
+- [patch][58e7bc1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58e7bc1):
 
   - Added example of Form use within a ModalDialog - no changes required
 
 ## 5.1.0
-- [minor] [b36a82f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b36a82f):
+
+- [minor][b36a82f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b36a82f):
 
   - **feature:** Uses context to automatically assosiate a message to field. No upgrade changes required. Can remove fieldId prop on Message components if you are using that prop currently.
 
 ## 5.0.0
-- [major] [647a46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/647a46f):
+
+- [major][647a46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/647a46f):
 
   - **Breaking:** this version is a major overhaul of the package.
     - **Conceptual changes:** The `Form` component must be the source of truth for the form state. This means you keep track of far less state in your application.
@@ -262,6 +311,7 @@
     - **Accessibility:** Creating accessible forms is easier than ever with this release. It is straight forward to link validation messages or helper text with a field. See the examples for details.
 
 ## 4.0.21
+
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/button@10.1.1
   - @atlaskit/calendar@7.0.16
@@ -287,6 +337,7 @@
   - @atlaskit/docs@6.0.0
 
 ## 4.0.20
+
 - Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
   - @atlaskit/docs@5.2.3
   - @atlaskit/button@10.0.4
@@ -312,6 +363,7 @@
   - @atlaskit/theme@7.0.0
 
 ## 4.0.19
+
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2
   - @atlaskit/button@10.0.1
@@ -333,6 +385,7 @@
   - @atlaskit/icon@15.0.0
 
 ## 4.0.18
+
 - Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
   - @atlaskit/docs@5.2.1
   - @atlaskit/calendar@7.0.13
@@ -358,35 +411,42 @@
   - @atlaskit/button@10.0.0
 
 ## 4.0.17
+
 - Updated dependencies [b42680b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b42680b):
   - @atlaskit/radio@0.4.0
 
 ## 4.0.16
+
 - Updated dependencies [8199088](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8199088):
   - @atlaskit/radio@0.3.0
 
 ## 4.0.15
-- [patch] [e6d3f57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6d3f57):
+
+- [patch][e6d3f57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6d3f57):
 
   - Check that content children of FormSection are valid elements before cloning
 
 ## 4.0.14
-- [patch] [c8d935f"
-d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c8d935f"
-d):
+
+- [patch][c8d935f" d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c8d935f"
+  d):
 
   - Fixing form header styles
 
 ## 4.0.13
+
 - [patch] Fixed rendering of FieldGroup legends [af05f8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af05f8e)
 
 ## 4.0.12
+
 - [patch] Adds missing implicit @babel/runtime dependency [b71751b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b71751b)
 
 ## 4.0.11
+
 - [patch] Empty form headings and sections no longer result in extra spacing [ac537db](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ac537db)
 
 ## 4.0.10
+
 - [patch] Updated dependencies [65c6514](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65c6514)
   - @atlaskit/docs@5.0.8
   - @atlaskit/button@9.0.13
@@ -407,20 +467,25 @@ d):
   - @atlaskit/icon@14.0.0
 
 ## 4.0.9
+
 - [patch] Updated dependencies [4194aa4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4194aa4)
   - @atlaskit/datetime-picker@6.3.10
   - @atlaskit/select@6.0.0
 
 ## 4.0.8
+
 - [patch] Pulling the shared styles from @atlaskit/theme and removed dependency on util-shraed-styles [7d51a09](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7d51a09)
 
 ## 4.0.7
+
 - [patch] Deprecates field-radio-group from form components. Adds @atlaskit/radio to field components [dcdb61b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dcdb61b)
 
 ## 4.0.6
+
 - [patch] Fix isRequired applied to all fields [cb73e27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb73e27)
 
 ## 4.0.5
+
 - [patch] Updated dependencies [80e1925](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80e1925)
   - @atlaskit/button@9.0.9
   - @atlaskit/modal-dialog@7.0.1
@@ -428,9 +493,11 @@ d):
   - @atlaskit/checkbox@5.0.0
 
 ## 4.0.4
+
 - [patch] Form validate now correctly returns fieldState & checks isRequired [87cea82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87cea82)
 
 ## 4.0.3
+
 - [patch] Updated dependencies [d5a043a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5a043a)
   - @atlaskit/datetime-picker@6.3.7
   - @atlaskit/icon@13.8.1
@@ -439,21 +506,26 @@ d):
   - @atlaskit/modal-dialog@7.0.0
 
 ## 4.0.2
+
 - [patch] Updated dependencies [9c66d4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c66d4d)
   - @atlaskit/datetime-picker@6.3.6
   - @atlaskit/select@5.0.16
   - @atlaskit/webdriver-runner@0.1.0
 
 ## 4.0.1
+
 - [patch] Adds sideEffects: false to allow proper tree shaking [b5d6d04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b5d6d04)
 
 ## 4.0.0
-- [major] Removed required prop, consolidated the logic into the isRequired prop.  [d8d8107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d8d8107)
+
+- [major] Removed required prop, consolidated the logic into the isRequired prop. [d8d8107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d8d8107)
 
 ## 3.1.8
+
 - [patch] Fix Form submit handlers being called when no onSubmit prop is passed [1086a6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1086a6b)
 
 ## 3.1.6
+
 - [patch] Updated dependencies [df22ad8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/df22ad8)
   - @atlaskit/theme@6.0.0
   - @atlaskit/tooltip@12.0.9
@@ -478,6 +550,7 @@ d):
   - @atlaskit/docs@5.0.6
 
 ## 3.1.5
+
 - [patch] update the dependency of react-dom to 16.4.2 due to vulnerability in previous versions read https://reactjs.org/blog/2018/08/01/react-v-16-4-2.html for details [a4bd557](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4bd557)
 - [none] Updated dependencies [a4bd557](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4bd557)
   - @atlaskit/tooltip@12.0.5
@@ -501,6 +574,7 @@ d):
   - @atlaskit/dropdown-menu@6.1.5
 
 ## 3.1.4
+
 - [patch] Updated dependencies [acd86a1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acd86a1)
   - @atlaskit/select@5.0.7
   - @atlaskit/tooltip@12.0.4
@@ -525,6 +599,7 @@ d):
   - @atlaskit/datetime-picker@6.0.3
 
 ## 3.1.3
+
 - [patch] Add a SSR test for every package, add react-dom and build-utils in devDependencies [7e331b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e331b5)
 - [none] Updated dependencies [7e331b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e331b5)
   - @atlaskit/tooltip@12.0.3
@@ -547,11 +622,13 @@ d):
   - @atlaskit/dropdown-menu@6.1.3
 
 ## 3.1.2
+
 - [patch] Removed incorrect min-height for forms. Fixed select dev dep range for form. [186a2ee](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/186a2ee)
 - [none] Updated dependencies [186a2ee](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/186a2ee)
   - @atlaskit/select@5.0.5
 
 ## 3.1.1
+
 - [patch] Update docs, change dev deps [25d6e48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d6e48)
 - [none] Updated dependencies [25d6e48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d6e48)
   - @atlaskit/single-select@6.0.2
@@ -559,11 +636,13 @@ d):
   - @atlaskit/multi-select@11.0.2
 
 ## 3.1.0
+
 - [minor] Improvements & fixes for Form validation & state management [e33f19d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e33f19d)
 - [minor] Updated dependencies [e33f19d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e33f19d)
   - @atlaskit/select@5.0.3
 
 ## 3.0.1
+
 - [patch] Updated dependencies [e6b1985](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6b1985)
   - @atlaskit/tooltip@12.0.0
   - @atlaskit/select@5.0.1
@@ -618,17 +697,20 @@ d):
   - @atlaskit/dropdown-menu@6.0.0
 
 ## 2.1.5
+
 - [patch] fix styled-components syntax error [60c715f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60c715f)
 - [none] Updated dependencies [60c715f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60c715f)
   - @atlaskit/select@4.3.5
 
 ## 2.1.4
-- [patch] Fix Field validator error on empty strings  [470a1fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/470a1fb)
+
+- [patch] Fix Field validator error on empty strings [470a1fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/470a1fb)
 - [patch] Updated dependencies [470a1fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/470a1fb)
   - @atlaskit/select@4.3.2
 
 ## 2.1.3
-- [patch] Fix $FlowFixMe and release packages [25d0b2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d0b2d)
+
+- [patch] Fix \$FlowFixMe and release packages [25d0b2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d0b2d)
 - [none] Updated dependencies [25d0b2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d0b2d)
   - @atlaskit/tooltip@10.3.1
   - @atlaskit/select@4.3.1
@@ -643,6 +725,7 @@ d):
   - @atlaskit/icon@12.3.1
 
 ## 2.1.2
+
 - [patch] Clean Changelogs - remove duplicates and empty entries [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
 - [none] Updated dependencies [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
   - @atlaskit/tooltip@10.2.1
@@ -666,6 +749,7 @@ d):
   - @atlaskit/dropdown-menu@5.0.4
 
 ## 2.1.1
+
 - [patch] Update changelogs to remove duplicate [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
 - [none] Updated dependencies [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
   - @atlaskit/theme@4.0.3
@@ -684,6 +768,7 @@ d):
   - @atlaskit/docs@4.1.1
 
 ## 2.1.0
+
 - [none] Updated dependencies [9d20f54](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d20f54)
   - @atlaskit/single-select@5.1.0
   - @atlaskit/modal-dialog@5.1.0
@@ -707,6 +792,7 @@ d):
   - @atlaskit/button@8.1.0
 
 ## 2.0.1
+
 - [patch] Update readme's [223cd67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/223cd67)
 - [patch] Updated dependencies [223cd67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/223cd67)
   - @atlaskit/tooltip@10.0.1
@@ -729,6 +815,7 @@ d):
   - @atlaskit/dropdown-menu@5.0.1
 
 ## 2.0.0
+
 - [major] makes styled-components a peer dependency and upgrades version range from 1.4.6 - 3 to ^3.2.6 [1e80619](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e80619)
 - [patch] Updated dependencies [1e80619](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e80619)
   - @atlaskit/tooltip@10.0.0
@@ -753,18 +840,22 @@ d):
   - @atlaskit/dropdown-menu@5.0.0
 
 ## 1.0.4
+
 - [patch] Updated dependencies [6859cf6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6859cf6)
   - @atlaskit/field-text@5.1.0
   - @atlaskit/field-text-area@2.1.0
 
 ## 1.0.3
+
 - [patch] Fix pinned field-text dep [050ad7b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/050ad7b)
 
 ## 1.0.2
+
 - [patch] Updated dependencies [d05b9e5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d05b9e5)
   - @atlaskit/select@3.0.0
   - @atlaskit/datetime-picker@4.0.0
 
 ## 1.0.0
+
 - [patch] Form developer preview [d8b2b03](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d8b2b03)
 - [major] Form package developer preview release [9b28847](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b28847)
