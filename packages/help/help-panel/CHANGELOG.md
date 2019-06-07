@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.8.0
+
+### Minor Changes
+
+- [minor][26759e6bf3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26759e6bf3):
+
+  Updated help-article version
+
 ## 0.7.0
 
 ### Minor Changes
