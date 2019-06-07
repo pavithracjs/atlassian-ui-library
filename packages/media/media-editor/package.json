@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-editor",
-  "version": "36.1.1",
+  "version": "36.1.2",
   "description": "Media component for image annotations",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.tsx",
@@ -21,15 +21,15 @@
   "dependencies": {
     "@atlaskit/button": "^13.0.8",
     "@atlaskit/field-range": "^7.0.4",
-    "@atlaskit/icon": "^18.0.0",
+    "@atlaskit/icon": "^18.0.1",
     "@atlaskit/inline-dialog": "^12.0.1",
     "@atlaskit/media-card": "^63.1.5",
     "@atlaskit/media-client": "^1.1.5",
-    "@atlaskit/media-ui": "^11.2.8",
+    "@atlaskit/media-ui": "^11.2.9",
     "@atlaskit/modal-dialog": "^10.0.4",
     "@atlaskit/spinner": "^12.0.1",
     "@atlaskit/theme": "^9.0.0",
-    "@atlaskit/tooltip": "^14.0.3",
+    "@atlaskit/tooltip": "^15.0.0",
     "@types/uuid": "^3.4.4",
     "tslib": "^1.9.3",
     "uuid": "^3.1.0"

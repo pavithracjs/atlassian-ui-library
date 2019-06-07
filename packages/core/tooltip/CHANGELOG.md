@@ -1,5 +1,13 @@
 # @atlaskit/tooltip
 
+## 15.0.0
+
+### Major Changes
+
+- [major][67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+
+  - @atlaskit/tooltip has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
 ## 14.0.3
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

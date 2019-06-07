@@ -1,5 +1,20 @@
 # @atlaskit/editor-core
 
+## 112.11.21
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/avatar@16.0.4
+  - @atlaskit/avatar-group@4.0.4
+  - @atlaskit/dropdown-menu@8.0.5
+  - @atlaskit/droplist@9.0.5
+  - @atlaskit/icon@18.0.1
+  - @atlaskit/item@10.0.3
+  - @atlaskit/select@9.1.6
+  - @atlaskit/emoji@62.1.7
+  - @atlaskit/mention@18.3.2
+  - @atlaskit/media-editor@36.1.2
+  - @atlaskit/tooltip@15.0.0
+
 ## 112.11.20
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

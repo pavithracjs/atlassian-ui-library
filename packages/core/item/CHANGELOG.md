@@ -1,5 +1,12 @@
 # @atlaskit/item
 
+## 10.0.3
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/avatar@16.0.4
+  - @atlaskit/icon@18.0.1
+  - @atlaskit/tooltip@15.0.0
+
 ## 10.0.2
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

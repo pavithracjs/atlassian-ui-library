@@ -1,1 +1,0 @@
-Fix for dependency on @atlaskit/tooltip

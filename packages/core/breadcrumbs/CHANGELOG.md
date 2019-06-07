@@ -1,5 +1,11 @@
 # @atlaskit/breadcrumbs
 
+## 9.0.1
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/select@9.1.6
+  - @atlaskit/tooltip@15.0.0
+
 ## 9.0.0
 
 ### Major Changes
