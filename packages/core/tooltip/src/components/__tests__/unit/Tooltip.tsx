@@ -1,6 +1,4 @@
-// @flow
-
-import React, { type Node } from 'react';
+import * as React from 'react';
 import { mount } from 'enzyme';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Portal from '@atlaskit/portal';
@@ -9,10 +7,12 @@ import Tooltip from '../../Tooltip';
 import { Tooltip as StyledTooltip } from '../../../styled';
 import { hoveredPayload } from '../../utils/analytics-payloads';
 
+declare var global: any;
+
 // Tooltip makes fairly heavy use of timers so we have to runAllTimers after
 // simulating events. Unfortuantely, these timers cause enzyme's understanding of
 // the component tree to become stale so we call update to refresh that.
-const simulate = (wrapper, query, event) => {
+const simulate = (wrapper: any, query: any, event: any) => {
   wrapper.find(query).simulate(event);
   jest.runAllTimers();
   wrapper.update();
@@ -24,7 +24,9 @@ beforeEach(() => {
   jest.useFakeTimers();
 });
 
-const Target = ({ children }: { children: Node }) => <div>{children}</div>;
+const Target = ({ children }: { children: React.ReactNode }) => (
+  <div>{children}</div>
+);
 
 test('tooltip should not be shown by default', () => {
   wrapper = mount(

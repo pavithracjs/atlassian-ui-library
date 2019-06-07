@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component } from 'react';
+import * as React from 'react';
 import Tooltip from '../src';
 
 // unique enough id
@@ -10,13 +8,12 @@ function getUEID() {
     .slice(2);
 }
 
-const Checkbox = ({
-  children,
-  onChange,
-}: {
-  children: string,
-  onChange: Event => void,
-}) => {
+interface CheckboxProps {
+  children: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Checkbox = ({ children, onChange }: CheckboxProps) => {
   const id = getUEID();
 
   return (
@@ -32,7 +29,7 @@ const Checkbox = ({
   );
 };
 
-export default class Image extends Component<{}, { truncate: boolean }> {
+export default class Image extends React.Component<{}, { truncate: boolean }> {
   state = { truncate: false };
 
   toggle = () => this.setState(state => ({ truncate: !state.truncate }));

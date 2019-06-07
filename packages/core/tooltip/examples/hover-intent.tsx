@@ -1,16 +1,16 @@
-// @flow
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import { Target } from './styled';
 import Tooltip from '../src';
+import { PositionType } from '../src/types';
 
 const colors = ['teal', 'blue', 'purple'];
 
-type S = {
-  position: 'bottom' | 'mouse',
-};
+interface State {
+  position: PositionType;
+}
 
-export default class HoverIntent extends Component<{}, S> {
-  state = {
+export default class HoverIntent extends React.Component<{}, State> {
+  state: State = {
     position: 'bottom',
   };
 
@@ -23,7 +23,7 @@ export default class HoverIntent extends Component<{}, S> {
   render() {
     const { position } = this.state;
     return (
-      <Fragment>
+      <React.Fragment>
         <p>
           Click a target to toggle the position of the tooltips between{' '}
           {`'bottom'`} and {`'mouse'`}.
@@ -41,7 +41,7 @@ export default class HoverIntent extends Component<{}, S> {
             </Tooltip>
           ))}
         </div>
-      </Fragment>
+      </React.Fragment>
     );
   }
 }

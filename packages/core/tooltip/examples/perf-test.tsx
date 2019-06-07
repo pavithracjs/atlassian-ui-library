@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import Tooltip from '../src';
 
@@ -15,19 +13,19 @@ function getInitialState() {
   };
 }
 
-type Props = {};
-type State = {
-  count: number,
-  tests: number,
-  time: number,
-};
+interface Props {}
+interface State {
+  count: number;
+  tests: number;
+  time: number;
+}
 
-export default class PerfTest extends Component<Props, State> {
+export default class PerfTest extends React.Component<Props, State> {
   state = getInitialState();
 
   startTest = () => {
     let runs = 0;
-    let startTime;
+    let startTime: number;
 
     const run = () => {
       if (!runs) {

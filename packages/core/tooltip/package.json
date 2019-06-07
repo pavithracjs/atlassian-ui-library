@@ -4,7 +4,8 @@
   "description": "A React Component for displaying Tooltips",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/tooltips",
   "author": "Atlassian Pty Ltd",
@@ -41,6 +42,7 @@
     "@atlaskit/icon": "^18.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
+    "@types/flushable": "^1.0.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"
   },

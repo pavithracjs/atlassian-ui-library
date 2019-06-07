@@ -1,6 +1,4 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import BoldIcon from '@atlaskit/icon/glyph/editor/bold';
@@ -34,7 +32,7 @@ const Action = styled.div`
   }
 `;
 
-const ACTIONS = {
+const ACTIONS: { [key: string]: React.ReactElement } = {
   Bold: <BoldIcon label="Bold" />,
   Italic: <ItalicIcon label="Italic" />,
   Underline: <UnderlineIcon label="Underline" />,

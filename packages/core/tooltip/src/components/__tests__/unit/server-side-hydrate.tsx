@@ -1,8 +1,9 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
+
+declare var global: any;
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
@@ -12,7 +13,6 @@ afterEach(() => {
 
 test('should ssr then hydrate tooltip correctly', async () => {
   const [example] = await getExamplesFor('tooltip');
-  // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
@@ -21,8 +21,8 @@ test('should ssr then hydrate tooltip correctly', async () => {
   ReactDOM.hydrate(<Example />, elem);
   // ignore warnings caused by emotion's server-side rendering approach
   // eslint-disable-next-line no-console
-  const mockCalls = console.error.mock.calls.filter(
-    ([f, s]) =>
+  const mockCalls = (console.error as any).mock.calls.filter(
+    ([f, s]: [any, any]) =>
       !(
         f ===
           'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&

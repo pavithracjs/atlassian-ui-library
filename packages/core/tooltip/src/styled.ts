@@ -1,5 +1,3 @@
-// @flow
-
 import styled, { css } from 'styled-components';
 import { borderRadius, colors, themed, layers } from '@atlaskit/theme';
 
@@ -12,7 +10,7 @@ const textColor = themed({
   dark: colors.DN600,
 });
 
-const truncate = p =>
+const truncate = (p: { truncate?: boolean }) =>
   p.truncate
     ? css`
         max-width: 420px;

@@ -1,17 +1,20 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import styled, { css } from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import Tooltip from '../src';
 import { Target } from './styled';
 
-const direction = {
+const direction: { [key: string]: string } = {
   horizontal: 'overflow-x',
   vertical: 'overflow-y',
   nested: 'overflow',
 };
 
-const Parent = styled.div`
+interface StyledProps {
+  scroll: string;
+}
+
+const Parent = styled.div<StyledProps>`
   background-color: ${colors.N20};
   border-radius: 5px;
   margin-bottom: 8px;
@@ -23,7 +26,7 @@ const Parent = styled.div`
     margin-bottom: 0;
   }
 `;
-const Shim = styled.div`
+const Shim = styled.div<StyledProps>`
   display: flex;
   justify-content: space-between;
   ${p =>
@@ -31,7 +34,8 @@ const Shim = styled.div`
     css`
       width: 200%;
       flex-direction: row;
-    `} ${p =>
+    `};
+  ${p =>
     p.scroll === 'vertical' &&
     css`
       height: 200%;
