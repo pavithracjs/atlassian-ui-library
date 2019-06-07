@@ -136,6 +136,15 @@ export const IconWrapper = styled.span`
     transition: stroke 0.2s ease-in-out;
     ${getBorderColor};
   }
+
+  /**
+   * Need to set the Icon component wrapper to flex to avoid a scrollbar bug which
+   * happens when checkboxes are flex items in a parent with overflow.
+   * See AK-6321 for more details.
+   **/
+  > span {
+    display: flex;
+  }
 `;
 
 export const RequiredIndicator = styled.span`

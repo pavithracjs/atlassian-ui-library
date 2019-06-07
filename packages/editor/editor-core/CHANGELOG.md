@@ -1,5 +1,85 @@
 # @atlaskit/editor-core
 
+## 112.11.18
+
+### Patch Changes
+
+- [patch][29c90d3e9f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29c90d3e9f):
+
+  ED-7042 Fix issue where table row controls were slightly cut off in full-width mode
+
+## 112.11.17
+
+### Patch Changes
+
+- [patch][4541cc112c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4541cc112c):
+
+  Making textarea devDep a caret range
+
+## 112.11.16
+
+### Patch Changes
+
+- [patch][8d54773dea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d54773dea):
+
+  Remove meridian time in parseInputValue in TimePicker
+
+## 112.11.15
+
+### Patch Changes
+
+- [patch][b6428ea8bb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6428ea8bb):
+
+  ED-6996: Ensure listeners for the collab plugin are removed at the correct time, not all the time.
+
+## 112.11.14
+
+### Patch Changes
+
+- [patch][e2c4d19e7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e2c4d19e7a):
+
+  ED-6998: fix inserting emoji after changing between full width mode
+
+## 112.11.13
+
+### Patch Changes
+
+- [patch][9503b9d220](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9503b9d220):
+
+  Bump prosemirror table to latest version where performance improvement applies, related to celsInRect helper
+
+## 112.11.12
+
+### Patch Changes
+
+- [patch][a726d9fff4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a726d9fff4):
+
+  ED-6049: Fix regression in tables when resizing is off
+
+## 112.11.11
+
+### Patch Changes
+
+- [patch][9886f4afa1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9886f4afa1):
+
+  - [ED-7017] Improve table performance removing cellView from table
+
+## 112.11.10
+
+### Patch Changes
+
+- [patch][349c4354c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/349c4354c6):
+
+  ED-6999 Fix issues where horizontal scroll bar could appear on page in full-width mode when using tables or code blocks
+
+## 112.11.9
+
+### Patch Changes
+
+- [patch][65dbd23b3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65dbd23b3c):
+
+  - ED-6996: Memoise calling initialise on the collab plugin, this will prevent race conditions when toggling between full width mode and full page quickly.
+
 ## 112.11.8
 
 ### Patch Changes

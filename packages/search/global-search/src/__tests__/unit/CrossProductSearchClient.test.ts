@@ -94,11 +94,10 @@ describe('CrossProductSearchClient', () => {
         [Scope.ConfluencePageBlog],
         [],
       );
-      expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(1);
+      expect(result.results[Scope.ConfluencePageBlog]!.items).toHaveLength(1);
 
-      const item = result.results.get(
-        Scope.ConfluencePageBlog,
-      )![0] as ConfluenceObjectResult;
+      const item = result.results[Scope.ConfluencePageBlog]!
+        .items[0] as ConfluenceObjectResult;
       expect(item.resultId).toEqual('123');
       expect(item.name).toEqual('page name');
       expect(item.href).toEqual('http://baseUrl/wiki/url');
@@ -143,12 +142,11 @@ describe('CrossProductSearchClient', () => {
         [Scope.ConfluenceSpace],
         [],
       );
-      expect(result.results.get(Scope.ConfluenceSpace)).toHaveLength(1);
+      expect(result.results[Scope.ConfluenceSpace]!.items).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
 
-      const item = result.results.get(
-        Scope.ConfluenceSpace,
-      )![0] as ContainerResult;
+      const item = result.results[Scope.ConfluenceSpace]!
+        .items[0] as ContainerResult;
       expect(item.resultId).toEqual('space-key');
       expect(item.avatarUrl).toEqual('https://baseUrl/wiki/spaceIconPath');
       expect(item.name).toEqual('containerTitle');
@@ -189,10 +187,10 @@ describe('CrossProductSearchClient', () => {
         [Scope.JiraIssue],
         [],
       );
-      expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
+      expect(result.results[Scope.JiraIssue]!.items).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
 
-      const item = result.results.get(Scope.JiraIssue)![0] as JiraResult;
+      const item = result.results[Scope.JiraIssue]!.items[0] as JiraResult;
       expect(item.name).toEqual('summary');
       expect(item.avatarUrl).toEqual('iconUrl');
       expect(item.href).toEqual('/browse/key-1');
@@ -230,8 +228,10 @@ describe('CrossProductSearchClient', () => {
         jiraScopes,
         [],
       );
-      expect(result.results.get(Scope.JiraIssue)).toHaveLength(0);
-      expect(result.results.get(Scope.JiraBoardProjectFilter)).toHaveLength(3);
+      expect(result.results[Scope.JiraIssue]!.items).toHaveLength(0);
+      expect(result.results[Scope.JiraBoardProjectFilter]!.items).toHaveLength(
+        3,
+      );
     });
   });
 
@@ -260,9 +260,9 @@ describe('CrossProductSearchClient', () => {
         [Scope.People],
         [],
       );
-      expect(result.results.get(Scope.People)).toHaveLength(1);
+      expect(result.results[Scope.People]!.items).toHaveLength(1);
 
-      const item = result.results.get(Scope.People)![0] as PersonResult;
+      const item = result.results[Scope.People]!.items[0] as PersonResult;
       expect(item.resultId).toEqual('people-account_id');
       expect(item.name).toEqual('name');
       expect(item.href).toEqual('/people/account_id');
@@ -296,7 +296,7 @@ describe('CrossProductSearchClient', () => {
         [],
       );
 
-      const item = result.results.get(Scope.People)![0] as PersonResult;
+      const item = result.results[Scope.People]!.items[0] as PersonResult;
       expect(item.mentionName).toEqual('name');
       expect(item.presenceMessage).toEqual('');
     });
@@ -324,9 +324,10 @@ describe('CrossProductSearchClient', () => {
         'confluence',
         3,
       );
-      expect(result.results.get(Scope.UserConfluence)).toHaveLength(1);
+      expect(result.results[Scope.UserConfluence]!.items).toHaveLength(1);
 
-      const item = result.results.get(Scope.UserConfluence)![0] as PersonResult;
+      const item = result.results[Scope.UserConfluence]!
+        .items[0] as PersonResult;
       expect(item.resultId).toEqual('people-account_id');
       expect(item.name).toEqual('name');
       expect(item.href).toEqual('/people/account_id');
@@ -361,9 +362,10 @@ describe('CrossProductSearchClient', () => {
         3,
       );
 
-      expect(result.results.get(Scope.UserConfluence)).toHaveLength(1);
+      expect(result.results[Scope.UserConfluence]!.items).toHaveLength(1);
 
-      const item = result.results.get(Scope.UserConfluence)![0] as PersonResult;
+      const item = result.results[Scope.UserConfluence]!
+        .items[0] as PersonResult;
       expect(item.mentionName).toEqual('nickname');
     });
 
@@ -391,9 +393,9 @@ describe('CrossProductSearchClient', () => {
         3,
       );
 
-      expect(result.results.get(Scope.UserJira)).toHaveLength(1);
+      expect(result.results[Scope.UserJira]!.items).toHaveLength(1);
 
-      const item = result.results.get(Scope.UserJira)![0] as PersonResult;
+      const item = result.results[Scope.UserJira]!.items[0] as PersonResult;
       expect(item.resultId).toEqual('people-account_id');
       expect(item.name).toEqual('name');
       expect(item.href).toEqual('/people/account_id');
@@ -428,9 +430,9 @@ describe('CrossProductSearchClient', () => {
         3,
       );
 
-      expect(result.results.get(Scope.UserJira)).toHaveLength(1);
+      expect(result.results[Scope.UserJira]!.items).toHaveLength(1);
 
-      const item = result.results.get(Scope.UserJira)![0] as PersonResult;
+      const item = result.results[Scope.UserJira]!.items[0] as PersonResult;
       expect(item.mentionName).toEqual('nickname');
     });
   });
@@ -470,8 +472,8 @@ describe('CrossProductSearchClient', () => {
       [],
     );
 
-    expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
-    expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(0);
+    expect(result.results[Scope.JiraIssue]!.items).toHaveLength(1);
+    expect(result.results[Scope.ConfluencePageBlog]!.items).toHaveLength(0);
   });
 
   it('should send the right body with query version', async () => {

@@ -33,9 +33,9 @@ const xPositioning = ({ side, isOpen }) =>
       `;
 
 export const MobileNavSlider = styled.div`
-  height: 100vh;
+  height: ${props => `calc(100vh - ${props.topOffset}px)`};
   position: fixed;
-  top: 0;
+  top: ${props => props.topOffset}px;
   transition: transform 0.2s ease-out;
   z-index: ${layers.slider};
   ${xPositioning};
@@ -55,7 +55,7 @@ export const MobilePageHeaderContent = styled.div`
   height: ${mobileHeaderHeight}px;
   padding: ${gridSize}px;
   position: fixed;
-  top: 0;
+  top: ${props => props.topOffset}px;
   width: 100%;
   z-index: ${layers.header};
 `;

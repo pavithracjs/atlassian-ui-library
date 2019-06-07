@@ -4,6 +4,7 @@ import deepEqual from 'deep-equal';
 
 const FASTER_SEARCH_EXPERIMENT = 'faster-search';
 const DEFAULT = 'default';
+const SEARCH_EXTENSIONS_EXPERIMENT = 'search-extensions-simple';
 
 const isInFasterSearchExperiment = (
   abTest: ABTest,
@@ -15,8 +16,13 @@ const isInFasterSearchExperiment = (
   );
 };
 
+const isInSearchExtensionsExperiment = (abTest: ABTest): boolean => {
+  return abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT;
+};
+
 export interface CommonFeatures {
   abTest: ABTest;
+  searchExtensionsEnabled: boolean;
 }
 
 export interface ConfluenceFeatures extends CommonFeatures {
@@ -56,6 +62,7 @@ export const createFeatures: (
       useUrsForBootstrapping,
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
+      searchExtensionsEnabled: isInSearchExtensionsExperiment(abTest),
     };
   },
   deepEqual,

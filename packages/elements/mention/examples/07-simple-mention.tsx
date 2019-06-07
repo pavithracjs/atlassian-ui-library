@@ -80,6 +80,15 @@ export default function Example() {
             onMouseLeave={onMentionEvent}
           />
         </div>
+        <div style={padding}>
+          <Mention
+            {...mentionData}
+            text=""
+            onClick={onMentionEvent}
+            onMouseEnter={onMentionEvent}
+            onMouseLeave={onMentionEvent}
+          />
+        </div>
       </div>
     </IntlProvider>
   );

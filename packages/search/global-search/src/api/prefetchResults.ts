@@ -32,8 +32,18 @@ const prefetchConfluence = async (
   ]);
 
   return {
-    objects,
-    spaces,
+    objects: {
+      items: objects,
+      totalSize: objects.length,
+    },
+    spaces: {
+      items: spaces,
+      totalSize: spaces.length,
+    },
+    people: {
+      items: [],
+      totalSize: 0,
+    },
   };
 };
 

@@ -47,6 +47,10 @@ describe('<InlinePlayer />', () => {
       mediaClient.file.getArtifactURL,
       Promise.resolve('some-url'),
     );
+    asMockReturnValue(
+      mediaClient.file.getFileBinaryURL,
+      Promise.resolve('binary-url'),
+    );
     const identifier = {
       id: Promise.resolve('some-id'),
       collectionName: 'some-collection',
@@ -173,6 +177,18 @@ describe('<InlinePlayer />', () => {
       'some-collection',
     );
     expect(component.find(CustomMediaPlayer).prop('src')).toEqual('some-url');
+  });
+
+  it('should use binary artifact if file is processing and no other artifact is present', async () => {
+    const { component, mediaClient } = setup(undefined, {});
+
+    await update(component);
+    expect(mediaClient.file.getFileBinaryURL).toBeCalledTimes(1);
+    expect(mediaClient.file.getFileBinaryURL).toBeCalledWith(
+      'some-id',
+      'some-collection',
+    );
+    expect(component.find(CustomMediaPlayer).prop('src')).toEqual('binary-url');
   });
 
   describe('getPreferredVideoArtifact()', () => {

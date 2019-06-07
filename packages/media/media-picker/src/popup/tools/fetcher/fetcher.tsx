@@ -1,5 +1,6 @@
 import * as url from 'url';
-import { Auth, FileDetails } from '@atlaskit/media-core';
+import { FileDetails } from '@atlaskit/media-client';
+import { Auth } from '@atlaskit/media-core';
 import {
   AuthHeaders,
   Service,

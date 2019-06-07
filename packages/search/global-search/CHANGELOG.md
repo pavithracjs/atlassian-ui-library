@@ -1,5 +1,45 @@
 # @atlaskit/global-search
 
+## 8.15.1
+
+### Patch Changes
+
+- [patch][76c559f29e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76c559f29e):
+
+  fix keyboard nav for confluence
+
+## 8.15.0
+
+### Minor Changes
+
+- [minor][1dc1136437](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1dc1136437):
+
+  Include experiment data in feedback collector info
+
+## 8.14.0
+
+### Minor Changes
+
+- [minor][4499ffab87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4499ffab87):
+
+  Added support for showing a lozenge next to the search result groups
+
+## 8.13.2
+
+### Patch Changes
+
+- [patch][265fc0afdd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/265fc0afdd):
+
+  fix view all issues link
+
+## 8.13.1
+
+### Patch Changes
+
+- [patch][772a871c39](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/772a871c39):
+
+  fix all issues link
+
 ## 8.13.0
 
 ### Minor Changes

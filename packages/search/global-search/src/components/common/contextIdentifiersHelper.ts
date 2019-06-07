@@ -1,5 +1,9 @@
 import URI from 'urijs';
-import { GenericResultMap, Result } from '../../model/Result';
+import {
+  GenericResultMap,
+  Result,
+  ConfluenceResultsMap,
+} from '../../model/Result';
 import { JiraResultQueryParams } from '../../api/types';
 
 const CONFLUENCE_SEARCH_SESSION_ID_PARAM_NAME = 'search_id';
@@ -33,6 +37,41 @@ const mapGenericResultMap = (
     );
 };
 
+/**
+ * Same as mapGenericResultMap but for ConfluenceResultMaps. These maps contain more data than
+ * @param resultMapperFn function to map results
+ * @param keysToMap the keys of the given ResultType to map over
+ * @param results the GenericResultMap to apply resultMapperFn to
+ */
+const mapConfluenceResultMap = (
+  resultMapperFn: (r: Result) => Result,
+  keysToMap: (keyof ConfluenceResultsMap)[],
+  results: ConfluenceResultsMap,
+): ConfluenceResultsMap => {
+  const objectKeys = Object.keys(results) as (keyof ConfluenceResultsMap)[];
+
+  return objectKeys
+    .filter(key => keysToMap.includes(key))
+    .reduce(
+      (accum, resultType) => {
+        //It's currently impossible to type this due items being an union of arrays
+        //see https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-3.html#improved-behavior-for-calling-union-types
+        //@ts-ignore
+        const items = results[resultType].items.map(resultMapperFn);
+        return {
+          ...accum,
+          [resultType]: {
+            ...results[resultType],
+            items,
+          },
+        };
+      },
+      {
+        ...results,
+      },
+    );
+};
+
 const attachSearchSessionIdToResult = (
   searchSessionId: string,
   searchSessionIdParamName: string,
@@ -43,14 +82,14 @@ const attachSearchSessionIdToResult = (
   return {
     ...result,
     href: href.toString(),
-  };
+  } as Result;
 };
 
 export const attachConfluenceContextIdentifiers = (
   searchSessionId: string,
-  results: GenericResultMap,
-): GenericResultMap => {
-  return mapGenericResultMap(
+  results: ConfluenceResultsMap,
+): ConfluenceResultsMap => {
+  return mapConfluenceResultMap(
     attachSearchSessionIdToResult(
       searchSessionId,
       CONFLUENCE_SEARCH_SESSION_ID_PARAM_NAME,

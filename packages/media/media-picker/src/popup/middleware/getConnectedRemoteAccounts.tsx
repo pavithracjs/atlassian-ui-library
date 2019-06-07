@@ -18,11 +18,11 @@ export const getConnectedRemoteAccounts = (fetcher: Fetcher) => (
   store: Store<State>,
 ) => (next: Dispatch<Action>) => (action: Action) => {
   if (isGetConnectedRemoteAccountsAction(action)) {
-    const { userContext } = store.getState();
+    const { userMediaClient } = store.getState();
 
     store.dispatch(
       updateServiceList(
-        userContext.config
+        userMediaClient.config
           .authProvider()
           .then(auth => fetcher.getServiceList(auth)),
       ),
