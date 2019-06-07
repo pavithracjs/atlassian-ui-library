@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 48.8.0
+
+### Minor Changes
+
+- [minor][11a8112851](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a8112851):
+
+  ED-6991 Fire analytics event for renderer started
+
+  Set up analytics v3 in renderer
+
 ## 48.7.3
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

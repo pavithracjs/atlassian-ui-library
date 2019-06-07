@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 112.12.0
+
+### Minor Changes
+
+- [minor][11a8112851](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a8112851):
+
+  ED-6991 Fire analytics event for renderer started
+
+  Set up analytics v3 in renderer
+
 ## 112.11.21
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
