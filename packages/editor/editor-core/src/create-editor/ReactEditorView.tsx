@@ -51,8 +51,6 @@ import {
 } from './create-editor';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
-import { JSONDocNode } from '../utils';
-import { sanitizeNodeForPrivacy } from '../utils/filter/privacy-filter';
 
 export interface EditorViewProps {
   editorProps: EditorProps;

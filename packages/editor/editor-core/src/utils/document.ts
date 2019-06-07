@@ -3,7 +3,7 @@ import { Transaction, Selection, EditorState } from 'prosemirror-state';
 import { validator, ADFEntity, ValidationError } from '@atlaskit/adf-utils';
 import { analyticsService } from '../analytics';
 import { ContentNodeWithPos } from 'prosemirror-utils';
-import { CollabEditOptions } from 'src/plugins/collab-edit';
+import { CollabEditOptions } from '../plugins/collab-edit';
 import { sanitizeNodeForPrivacy } from '../utils/filter/privacy-filter';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { JSONDocNode } from '../utils';
