@@ -350,7 +350,12 @@ export default class ReactEditorView<T = {}> extends React.Component<
       doc =
         this.contentTransformer && typeof defaultValue === 'string'
           ? this.contentTransformer.parse(defaultValue)
-          : processRawValue(schema, defaultValue);
+          : processRawValue(
+              schema,
+              defaultValue,
+              options.props.providerFactory,
+              collabEdit,
+            );
     }
     let selection: Selection | undefined;
     if (doc) {
@@ -363,16 +368,6 @@ export default class ReactEditorView<T = {}> extends React.Component<
     const patchedSelection = selection
       ? Selection.findFrom(selection.$head, -1, true) || undefined
       : undefined;
-
-    if (doc && collabEdit && collabEdit.sanitizePrivateContent) {
-      doc = PMNode.fromJSON(
-        schema,
-        sanitizeNodeForPrivacy(
-          doc.toJSON() as JSONDocNode,
-          options.props.providerFactory,
-        ),
-      );
-    }
 
     return EditorState.create({
       schema,

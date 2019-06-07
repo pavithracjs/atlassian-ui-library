@@ -3,6 +3,10 @@ import { Transaction, Selection, EditorState } from 'prosemirror-state';
 import { validator, ADFEntity, ValidationError } from '@atlaskit/adf-utils';
 import { analyticsService } from '../analytics';
 import { ContentNodeWithPos } from 'prosemirror-utils';
+import { CollabEditOptions } from 'src/plugins/collab-edit';
+import { sanitizeNodeForPrivacy } from '../utils/filter/privacy-filter';
+import { ProviderFactory } from '@atlaskit/editor-common';
+import { JSONDocNode } from '../utils';
 
 const FALSE_POSITIVE_MARKS = ['code', 'alignment', 'indentation'];
 
@@ -125,6 +129,8 @@ function fireAnalyticsEvent(
 export function processRawValue(
   schema: Schema,
   value?: string | object,
+  providerFactory?: ProviderFactory,
+  collabEdit?: CollabEditOptions,
 ): Node | undefined {
   if (!value) {
     return;
@@ -153,7 +159,6 @@ export function processRawValue(
     );
     return;
   }
-
   try {
     const nodes = Object.keys(schema.nodes);
     const marks = Object.keys(schema.marks);
@@ -220,10 +225,17 @@ export function processRawValue(
       },
     );
 
-    const parsedDoc = Node.fromJSON(schema, entity);
+    let newEntity = maySanitizePrivateContent(
+      entity as JSONDocNode,
+      providerFactory,
+      collabEdit,
+    );
+
+    let parsedDoc = Node.fromJSON(schema, newEntity);
 
     // throws an error if the document is invalid
     parsedDoc.check();
+
     return parsedDoc;
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -233,6 +245,17 @@ export function processRawValue(
     return;
   }
 }
+
+const maySanitizePrivateContent = (
+  entity: JSONDocNode,
+  providerFactory?: ProviderFactory,
+  collabEdit?: CollabEditOptions,
+): JSONDocNode => {
+  if (collabEdit && collabEdit.sanitizePrivateContent && providerFactory) {
+    return sanitizeNodeForPrivacy(entity, providerFactory);
+  }
+  return entity;
+};
 
 export const getStepRange = (
   transaction: Transaction,

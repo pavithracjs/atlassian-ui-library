@@ -6,9 +6,7 @@ import { colors as themeColors } from '@atlaskit/theme';
 import { hexToRgba, ProviderFactory } from '@atlaskit/editor-common';
 
 import { CollabEditOptions } from './types';
-import { processRawValue, ZeroWidthSpace, JSONDocNode } from '../../utils';
-import { sanitizeNodeForPrivacy } from '../../utils/filter/privacy-filter';
-import { isArray } from 'util';
+import { processRawValue, ZeroWidthSpace } from '../../utils';
 
 export interface Color {
   solid: string;
@@ -121,7 +119,7 @@ export const replaceDocument = (
   if (options && options.allowUnsupportedContent) {
     // Process the value coming in, this allows us to wrap blocks unknown to us.
     // Instead of throwing an error at this point.
-    content = processRawValue(state.schema, doc);
+    content = processRawValue(state.schema, doc, providerFactory, options);
 
     hasContent = !!content;
   } else {
@@ -132,25 +130,6 @@ export const replaceDocument = (
   }
 
   if (hasContent) {
-    if (options && options.sanitizePrivateContent) {
-      if (isArray(content)) {
-        content = content.map(c =>
-          PMNode.fromJSON(
-            schema,
-            sanitizeNodeForPrivacy(c.toJSON() as JSONDocNode, providerFactory),
-          ),
-        );
-      } else {
-        content = PMNode.fromJSON(
-          schema,
-          sanitizeNodeForPrivacy(
-            content!.toJSON() as JSONDocNode,
-            providerFactory,
-          ),
-        );
-      }
-    }
-
     tr.setMeta('addToHistory', false);
     tr.replaceWith(0, state.doc.nodeSize - 2, content!);
     tr.setSelection(Selection.atStart(tr.doc));
