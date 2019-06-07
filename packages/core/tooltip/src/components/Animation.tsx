@@ -20,14 +20,14 @@ const verticalOffset = {
   right: 0,
 };
 
-interface ITimeout {
+interface Timeout {
   enter: number;
   exit: number;
 }
 
 type TransitionStates = 'entering' | 'entered' | 'exiting';
 
-const defaultStyle = (timeout: ITimeout) => ({
+const defaultStyle = (timeout: Timeout) => ({
   transition: `transform ${timeout.enter}ms ${easing}, opacity ${
     timeout.enter
   }ms linear`,
@@ -35,7 +35,7 @@ const defaultStyle = (timeout: ITimeout) => ({
 });
 
 const transitionStyle = (
-  timeout: ITimeout,
+  timeout: Timeout,
   state: TransitionStates,
   position: PositionTypeBase,
 ) => {
@@ -58,7 +58,7 @@ const transitionStyle = (
   return transitions[state];
 };
 
-const getStyle = (timeout: ITimeout, state: TransitionStates) => (
+const getStyle = (timeout: Timeout, state: TransitionStates) => (
   position: PositionTypeBase,
 ) => ({
   ...defaultStyle(timeout),
@@ -67,7 +67,7 @@ const getStyle = (timeout: ITimeout, state: TransitionStates) => (
 
 type GetAnimationStyles = (position: PositionTypeBase) => Object;
 
-interface IAnimationProps {
+interface AnimationProps {
   children: (getAnimationFn: GetAnimationStyles) => React.ReactNode;
   immediatelyHide: boolean;
   immediatelyShow: boolean;
@@ -81,7 +81,7 @@ const Animation = ({
   immediatelyShow,
   onExited,
   in: inProp,
-}: IAnimationProps) => {
+}: AnimationProps) => {
   const timeout = {
     enter: immediatelyShow ? 1 : ENTER_DURATION,
     exit: immediatelyHide ? 1 : EXIT_DURATION,

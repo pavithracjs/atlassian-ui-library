@@ -26,13 +26,13 @@ import { StyledComponentClass } from 'styled-components';
 
 const SCROLL_OPTIONS = { capture: true, passive: true };
 
-interface IFakeMouseCoordinates {
+interface FakeMouseCoordinates {
   top: number;
   left: number;
 }
 
 function getMousePosition(
-  mouseCoordinates: IFakeMouseCoordinates,
+  mouseCoordinates: FakeMouseCoordinates,
 ): FakeMouseElement {
   const safeMouse = mouseCoordinates || { top: 0, left: 0 };
   const getBoundingClientRect = () => {

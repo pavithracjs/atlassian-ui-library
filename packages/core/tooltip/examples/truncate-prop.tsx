@@ -8,12 +8,12 @@ function getUEID() {
     .slice(2);
 }
 
-interface ICheckboxProps {
+interface CheckboxProps {
   children: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Checkbox = ({ children, onChange }: ICheckboxProps) => {
+const Checkbox = ({ children, onChange }: CheckboxProps) => {
   const id = getUEID();
 
   return (

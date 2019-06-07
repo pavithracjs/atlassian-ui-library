@@ -20,13 +20,13 @@ export type Color =
   | 'teal'
   | 'yellow';
 
-interface IStyledProps {
+interface StyledProps {
   pad?: string;
   position?: string;
   color: Color | string;
 }
 
-export const Center = styled.div<IStyledProps>`
+export const Center = styled.div<StyledProps>`
   box-sizing: border-box;
   align-items: center;
   display: flex;
@@ -34,12 +34,12 @@ export const Center = styled.div<IStyledProps>`
   justify-content: center;
   padding: ${p => (p.pad ? '40px' : '0px')};
 `;
-export const Container = styled.div<IStyledProps>`
+export const Container = styled.div<StyledProps>`
   margin: 0 auto;
   max-width: 600px;
   padding: ${p => (p.pad ? '40px' : '0px')};
 `;
-export const Box = styled.div<IStyledProps>`
+export const Box = styled.div<StyledProps>`
   background-color: ${colors.N30};
   height: 140px;
   position: ${p => p.position || 'relative'};
@@ -48,7 +48,7 @@ export const Box = styled.div<IStyledProps>`
 export const Spacer = styled.div`
   margin-bottom: 4em;
 `;
-export const Target = styled.div<IStyledProps>`
+export const Target = styled.div<StyledProps>`
   background-color: ${p => color[p.color] || colors.primary};
   border-radius: 3px;
   color: white;
@@ -61,7 +61,7 @@ export const Target = styled.div<IStyledProps>`
   user-select: none;
 `;
 
-export const BigTarget = styled.div<IStyledProps>`
+export const BigTarget = styled.div<StyledProps>`
   background-color: ${p => color[p.color] || colors.primary};
   border-radius: 3px;
   color: white;
