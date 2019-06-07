@@ -15,7 +15,7 @@ const config = {
   glob: '**/*.svg',
 };
 
-buildIcons(config).then((icons: any) => {
+buildIcons(config).then(icons => {
   const iconDocs = buildIcons.createIconDocs(
     icons,
     '@atlaskit/icon',
