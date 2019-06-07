@@ -1,0 +1,1 @@
+Widens type of title prop from string to ReactNode. This gives flexibility to  pass i18n components as flag titles.
