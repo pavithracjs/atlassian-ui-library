@@ -73,7 +73,7 @@ const priorityIconInfo = Promise.all(
     .reduce((acc, b) => ({ ...acc, ...b })),
 );
 
-const getAllIcons = async (): Promise<{ [key: string]: iconType }> => {
+const getAllIcons = async (): Promise<{ [key: string]: IconType }> => {
   const iconData = await iconIconInfo;
   const objectData = await objectIconInfo;
   const filetypeData = await fileTypeIconInfo;
@@ -133,10 +133,10 @@ interface LogoMap {
   [key: string]: { keywords: string[] };
 }
 const getKeywords = (logoMap: LogoMap) =>
-  Object.values(logoMap).reduce(
-    (existingKeywords: string[], { keywords }) => [
+  Object.keys(logoMap).reduce(
+    (existingKeywords: string[], key) => [
       ...existingKeywords,
-      ...keywords,
+      ...logoMap[key].keywords,
     ],
     [],
   );
@@ -158,7 +158,7 @@ const NoIcons = styled.div`
   padding: 10px;
 `;
 
-interface iconType {
+interface IconType {
   keywords: string[];
   component: ComponentType<any>;
   componentName: string;
@@ -180,7 +180,7 @@ const filterIcons = (icons: { [key: string]: any }, query: string) => {
 interface State {
   query: string;
   showIcons: boolean;
-  allIcons?: { [key: string]: iconType };
+  allIcons?: { [key: string]: IconType };
 }
 
 class IconAllExample extends Component<{}, State> {
@@ -190,7 +190,7 @@ class IconAllExample extends Component<{}, State> {
   };
 
   componentDidMount() {
-    allIconsPromise.then((allIcons: { [key: string]: iconType }) =>
+    allIconsPromise.then((allIcons: { [key: string]: IconType }) =>
       this.setState({ allIcons }),
     );
   }
@@ -203,7 +203,7 @@ class IconAllExample extends Component<{}, State> {
     if (!this.state.allIcons) {
       return <div>Loading Icons...</div>;
     }
-    const icons: iconType[] = filterIcons(
+    const icons: IconType[] = filterIcons(
       this.state.allIcons,
       this.state.query,
     );
