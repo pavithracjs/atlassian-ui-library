@@ -20,8 +20,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
-    "update": "node ./build/index.js && yarn build:babel:cjs",
-    "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel --presets @babel/preset-typescript build/js-to-css.ts src -d cjs --root-mode=\"upward\""
+    "update": "node ./build/index.js"
   },
   "dependencies": {
     "@atlaskit/theme": "^9.1.0",
