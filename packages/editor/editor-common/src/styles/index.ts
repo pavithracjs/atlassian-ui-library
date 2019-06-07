@@ -29,3 +29,4 @@ export { indentationSharedStyles } from './shared/indentation';
 export { blockMarksSharedStyles } from './shared/block-marks';
 export { codeMarkSharedStyles } from './shared/code-mark';
 export { shadowSharedStyle } from './shared/shadow';
+export { dateSharedStyle } from './shared/date';
