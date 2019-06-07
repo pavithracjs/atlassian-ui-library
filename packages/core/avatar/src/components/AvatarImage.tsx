@@ -55,14 +55,14 @@ export function DefaultImage({
   );
 }
 
-type Props = {
+interface Props {
   appearance: AppearanceType;
   size: SizeType;
   alt?: string;
   src?: string;
 };
 
-type State = {
+interface State {
   hasError: boolean;
   isLoading: boolean;
 };

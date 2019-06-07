@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import Tooltip from '@atlaskit/tooltip';

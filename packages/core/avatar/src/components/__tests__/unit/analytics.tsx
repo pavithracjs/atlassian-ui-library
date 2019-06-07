@@ -1,4 +1,3 @@
-// @flow
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import React from 'react';
 import { mount } from 'enzyme';

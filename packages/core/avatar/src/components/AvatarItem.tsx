@@ -14,7 +14,7 @@ import { ThemeItem, ThemeItemTokens } from '../theme/item';
 import { AvatarClickType } from '../types';
 
 /* eslint-disable react/no-unused-prop-types */
-type Props = {
+interface Props {
   avatar: Element<any>;
   /** Change background color */
   backgroundColor?: string;
@@ -89,7 +89,7 @@ class AvatarItem extends Component<Props> {
     // distill props from context, props, and state
     const enhancedProps = getProps(this);
 
-    // provide element type based on props
+    // provide element interface based on props
     const StyledComponent: any = getStyledAvatarItem(this.props);
 
     return (

@@ -3,7 +3,7 @@ import { Inner, Outer } from '../styled/Icon';
 import getStatusSVG from '../helpers/getStatusSVG';
 import { StatusType, SizeType } from '../types';
 
-type Props = {
+interface Props {
   /** Used to override the default border color of the status indicator.
    Accepts any color argument that the border-color CSS property accepts. */
   borderColor?: string | (() => any);

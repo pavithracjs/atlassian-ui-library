@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import AvatarImage, { DefaultImage } from '../../AvatarImage';

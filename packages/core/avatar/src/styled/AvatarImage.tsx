@@ -14,7 +14,7 @@ export const ShapeGroup = withTheme(styled.g`
   }
 `);
 
-type SlotProps = {
+interface SlotProps {
   appearance: AppearanceType;
   isLoading: boolean;
   size: SizeType;
@@ -57,7 +57,7 @@ export const Slot = ({
   </Theme.Consumer>
 );
 
-type SvgProps = {
+interface SvgProps {
   appearance: AppearanceType;
   isLoading: boolean;
   size: SizeType;

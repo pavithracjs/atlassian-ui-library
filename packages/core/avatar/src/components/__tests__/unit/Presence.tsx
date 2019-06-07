@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { shallow } from 'enzyme';
 
@@ -14,7 +13,7 @@ describe('Avatar', () => {
         it('should render content', () => {
           // eslint-disable-next-line chai-expect/missing-assertion
           expect(
-            shallow(<Presence presence={presence} />).type(
+            shallow(<Presence presence={presence} />).interface(
               getPresenceSVG(presence),
             ),
           ).toBeTruthy();

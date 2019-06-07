@@ -1,6 +1,6 @@
 import { createTheme } from '@atlaskit/theme';
 
-export type ThemeItemTokens = {
+export interface ThemeItemTokens {
   backgroundColor: string;
 };
 

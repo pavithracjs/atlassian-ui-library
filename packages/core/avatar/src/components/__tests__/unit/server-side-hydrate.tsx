@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
@@ -12,7 +11,6 @@ afterEach(() => {
 
 test('should ssr then hydrate avatar correctly', async () => {
   const [example] = await getExamplesFor('avatar');
-  // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');

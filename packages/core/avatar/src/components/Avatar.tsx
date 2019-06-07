@@ -166,7 +166,7 @@ class Avatar extends Component<AvatarPropTypes> {
     // distill props from context, props, and state
     const enhancedProps: AvatarPropTypes = (getProps(this): any);
 
-    // provide element type based on props
+    // provide element interface based on props
     const Inner: any = getStyledAvatar(this.props);
 
     Inner.displayName = 'Inner';

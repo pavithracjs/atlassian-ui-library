@@ -13,7 +13,7 @@ const focusBorderColor = themed({ light: colors.B200, dark: colors.B75 });
 const textColors = themed({ light: colors.N900, dark: colors.DN600 });
 const subtleTextColors = themed({ light: colors.N200, dark: colors.DN300 });
 
-type getBackgroundColorType = {
+interface getBackgroundColorType {
   backgroundColor?: string;
   href?: string;
   isActive?: boolean;
@@ -48,7 +48,7 @@ export function getBackgroundColor({
   return themedBackgroundColor;
 }
 
-type getStylesType = {
+interface getStylesType {
   href?: string;
   isActive?: boolean;
   isDisabled?: boolean;

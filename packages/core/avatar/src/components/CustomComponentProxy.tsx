@@ -4,7 +4,7 @@ import { AvatarPropTypes } from '../types';
 /**
  * innerRef is passed by Avatar component
  */
-type CustomComponentProxyPropType = AvatarPropTypes & {
+interface CustomComponentProxyPropType extends AvatarPropTypes {
   avatar?: any;
   groupAppearance?: any;
   innerRef?: () => void;

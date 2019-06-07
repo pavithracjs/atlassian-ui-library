@@ -1,12 +1,12 @@
 import { colors, createTheme, gridSize } from '@atlaskit/theme';
 import { AppearanceType, PresenceType, SizeType } from '../types';
 
-type Dimensions = {
+interface Dimensions {
   height: string;
   width: string;
 };
 
-type Layout = {
+interface Layout {
   // We have to specify all corners as optional because either bottom or top
   // and left or right could be specified.
   bottom?: string;
@@ -33,7 +33,7 @@ enum Sizes {
   XXLARGE = 'xxlarge',
 }
 
-export type ThemeProps = {
+export interface ThemeProps {
   appearance?: AppearanceType;
   includeBorderWidth?: boolean;
   isLoading?: boolean;
@@ -42,7 +42,7 @@ export type ThemeProps = {
   mode?: ThemeMode;
 };
 
-export type ThemeTokens = {
+export interface ThemeTokens {
   backgroundColor: string;
   borderRadius: string;
   dimensions: Dimensions;

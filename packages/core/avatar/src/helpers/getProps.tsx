@@ -104,7 +104,7 @@ const getButtonElementProps: GetProps<
 > = props => {
   const { id, isDisabled } = props;
 
-  return { id, type: 'button', disabled: isDisabled };
+  return { id, interface: 'button', disabled: isDisabled };
 };
 
 export default function getProps(

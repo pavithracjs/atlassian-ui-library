@@ -4,7 +4,7 @@ import { BORDER_WIDTH } from './constants';
 import { ComponentType } from 'react';
 import { SupportedSizeWithAnIcon } from '../types';
 
-type Props = {
+interface Props {
   bgColor?: string;
   size: keyof SupportedSizeWithAnIcon;
 };
