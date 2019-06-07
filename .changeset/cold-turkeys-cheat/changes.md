@@ -1,1 +1,0 @@
-ED-7042 Fix issue where table row controls were slightly cut off in full-width mode
