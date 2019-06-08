@@ -67,11 +67,11 @@ class AnalyticsContextConsumer extends Component<{
   constructor(props) {
     super(props);
     Object.keys(this.props.createEventMap).forEach(p => {
-      this.originalEventProps[p] = props[p];
+      this.originalEventProps[p] = props.wrappedComponentProps[p];
     });
     this.patchedEventProps = this.mapCreateEventsToProps(
       Object.keys(this.props.createEventMap),
-      props,
+      props.wrappedComponentProps,
     );
   }
 
