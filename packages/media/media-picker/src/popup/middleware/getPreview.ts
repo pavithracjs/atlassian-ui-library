@@ -36,13 +36,10 @@ const dispatchPreviewUpdate = (
   );
 };
 
-export async function getPreview(
-  store: Store<State>,
-  action: GetPreviewAction,
-) {
+export function getPreview(store: Store<State>, action: GetPreviewAction) {
   const { file, collection } = action;
-  const { userContext } = store.getState();
-  const subscription = userContext.file
+  const { userMediaClient } = store.getState();
+  const subscription = userMediaClient.file
     .getFileState(file.id, { collectionName: collection })
     .subscribe({
       async next(state) {
@@ -55,7 +52,7 @@ export async function getPreview(
         window.setTimeout(() => subscription.unsubscribe());
 
         if (mediaType === 'image' || mediaType === 'video') {
-          const metadata = await userContext.getImageMetadata(file.id, {
+          const metadata = await userMediaClient.getImageMetadata(file.id, {
             collection,
           });
           const preview = getPreviewFromMetadata(metadata);

@@ -17,6 +17,9 @@ import {
 import { createFeatures } from '../util/features';
 import { ABTest } from '../api/CrossProductSearchClient';
 import { ABTestProvider } from './AbTestProvider';
+import withFeedbackButton, {
+  FeedbackCollectorProps,
+} from './feedback/withFeedbackButton';
 
 const DEFAULT_NOOP_LOGGER: Logger = {
   safeInfo() {},
@@ -168,6 +171,16 @@ export interface Props {
    * Additional context paramters used to evaluate search models
    */
   modelContext?: ConfluenceModelContext | JiraModelContext;
+
+  /**
+   * Determines whether or not to show a feedback collector
+   */
+  showFeedbackCollector?: boolean;
+
+  /**
+   * Props to pass down to the feedback collector
+   */
+  feedbackCollectorProps?: FeedbackCollectorProps;
 }
 
 /**
@@ -249,6 +262,8 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       fasterSearchFFEnabled,
       useUrsForBootstrapping,
       modelContext,
+      showFeedbackCollector,
+      feedbackCollectorProps,
     } = this.props;
 
     const commonProps = {
@@ -267,9 +282,13 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     };
 
     if (this.props.context === 'confluence') {
+      const Container = showFeedbackCollector
+        ? withFeedbackButton(ConfluenceQuickSearchContainer)
+        : ConfluenceQuickSearchContainer;
       return (
-        <ConfluenceQuickSearchContainer
+        <Container
           {...commonProps}
+          {...feedbackCollectorProps}
           modelContext={modelContext}
           firePrivateAnalyticsEvent={undefined}
           createAnalyticsEvent={undefined}

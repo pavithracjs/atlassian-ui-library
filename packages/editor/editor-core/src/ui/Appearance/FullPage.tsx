@@ -14,7 +14,10 @@ import PluginSlot from '../PluginSlot';
 import Toolbar from '../Toolbar';
 import ContentStyles from '../ContentStyles';
 import { ClickAreaBlock } from '../Addon';
-import { tableFullPageEditorStyles } from '../../plugins/table/ui/styles';
+import {
+  tableFullPageEditorStyles,
+  tableMarginFullWidthMode,
+} from '../../plugins/table/ui/styles';
 import { akEditorToolbarKeylineHeight } from '../../styles';
 import rafSchedule from 'raf-schd';
 import { scrollbarStyles } from '../styles';
@@ -109,7 +112,9 @@ const ContentArea = styled.div`
     .code-block,
     .extension-container {
       max-width: ${({ containerWidth }) =>
-        containerWidth ? `${containerWidth - TOTAL_PADDING}px` : 'inherit'};
+        containerWidth
+          ? `${containerWidth - TOTAL_PADDING - tableMarginFullWidthMode * 2}px`
+          : 'inherit'};
     }
   }
 `;

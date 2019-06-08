@@ -9,6 +9,7 @@ import {
   blockMarksSharedStyles,
   shadowSharedStyle,
   inlineNodeSharedStyle,
+  dateSharedStyle,
 } from '@atlaskit/editor-common';
 import { telepointerStyle } from '../../plugins/collab-edit/styles';
 import { gapCursorStyles } from '../../plugins/gap-cursor/styles';
@@ -119,6 +120,7 @@ const ContentStyles: ComponentClass<
   ${gridStyles}
   ${linkStyles}
   ${blockMarksSharedStyles}
+  ${dateSharedStyle}
 
   /** Global selector for extensions, as .danger tag is assigned to root level node which is unaccessible from triggered child node **/
   /* Danger when nested node */

@@ -125,20 +125,20 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
           const tableResizingPluginState = tableResizingPluginKey.getState(
             state,
           );
+          const isDragging =
+            tableResizingPluginState && tableResizingPluginState.dragging;
           const isMobile = appearance === 'mobile';
           return (
             <>
-              {pluginState.targetCellPosition &&
-                !tableResizingPluginState.dragging &&
-                !isMobile && (
-                  <FloatingContextualButton
-                    editorView={editorView}
-                    mountPoint={popupsMountPoint}
-                    targetCellPosition={pluginState.targetCellPosition}
-                    scrollableElement={popupsScrollableElement}
-                    isContextualMenuOpen={pluginState.isContextualMenuOpen}
-                  />
-                )}
+              {pluginState.targetCellPosition && !isDragging && !isMobile && (
+                <FloatingContextualButton
+                  editorView={editorView}
+                  mountPoint={popupsMountPoint}
+                  targetCellPosition={pluginState.targetCellPosition}
+                  scrollableElement={popupsScrollableElement}
+                  isContextualMenuOpen={pluginState.isContextualMenuOpen}
+                />
+              )}
               <FloatingContextualMenu
                 editorView={editorView}
                 mountPoint={popupsMountPoint}

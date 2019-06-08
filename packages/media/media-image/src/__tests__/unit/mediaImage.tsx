@@ -225,7 +225,7 @@ describe('<MediaImage />', () => {
     const wrapper = await shallowRender(props);
     expect(mediaClient.file.getFileState).toHaveBeenCalledTimes(1);
 
-    const dummyMediaClient = fakeMediaClient();
+    const dummyMediaClient = setup();
     wrapper.setProps({ mediaClient: dummyMediaClient });
     await wrapper.update();
 

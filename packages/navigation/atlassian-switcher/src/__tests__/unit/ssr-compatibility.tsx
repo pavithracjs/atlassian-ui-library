@@ -6,7 +6,7 @@
  * could be safely imported in `node` environment
  */
 describe('Atlassian Switcher - SSR', async () => {
-  it('should not break when importing AtlassianSwitcher package', () => {
+  it.skip('should not break when importing AtlassianSwitcher package', () => {
     expect(() => {
       // @ts-ignore
       const AtlassianSwitcher = require('../../components/atlassian-switcher')

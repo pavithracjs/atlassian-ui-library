@@ -12,12 +12,12 @@ export const changeCloudAccountFolderMiddleware = (fetcher: Fetcher) => (
   store: Store<State>,
 ) => (next: Dispatch<State>) => (action: Action) => {
   if (isChangeCloudAccountFolderAction(action)) {
-    const { userContext } = store.getState();
+    const { userMediaClient } = store.getState();
     const { serviceName, accountId, path } = action;
     const lastPath =
       path.length === 0 ? { id: '', name: '' } : path[path.length - 1];
 
-    userContext.config
+    userMediaClient.config
       .authProvider()
       .then(auth =>
         fetcher.fetchCloudAccountFolder(

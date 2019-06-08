@@ -9,6 +9,8 @@ import {
   akEditorDeleteBorder,
   akEditorDeleteBorderSize,
 } from '@atlaskit/editor-common';
+import { TableCssClassName } from '../table/types';
+import { tableMarginFullWidthMode } from '../table/ui/styles';
 
 export const LAYOUT_OFFSET = 13;
 export const LAYOUT_SECTION_MARGIN = gridSize() - 2;
@@ -59,6 +61,14 @@ export const layoutStyles = css`
       &.selected.danger > [data-layout-column] {
         background-color: ${akEditorDeleteBackground};
         border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
+      }
+    }
+  }
+
+  .fabric-editor--full-width-mode .ProseMirror {
+    [data-layout-section] {
+      .${TableCssClassName.TABLE_CONTAINER} {
+        margin: 0 ${tableMarginFullWidthMode}px;
       }
     }
   }
