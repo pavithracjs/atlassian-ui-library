@@ -11,7 +11,6 @@ afterEach(() => {
 });
 
 test('should ssr then hydrate icon-priority correctly', async done => {
-  // $FlowFixMe
   const [example] = await getExamplesFor('icon-priority');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

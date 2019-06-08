@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ResultGroup /> should not render total if showTotalSize is false and there is a title 1`] = `
+<ResultItemGroup
+  title={
+    <span>
+      Some title
+    </span>
+  }
+>
+  <ResultList
+    results={
+      Array [
+        Object {
+          "analyticsType": "result-confluence",
+          "avatarUrl": "avatarUrl",
+          "containerId": "containerId",
+          "containerName": "containerName",
+          "contentType": "confluence-page",
+          "href": "href",
+          "name": "name",
+          "resultId": "resultId",
+          "resultType": "confluence-object-result",
+        },
+      ]
+    }
+    sectionIndex={0}
+  />
+</ResultItemGroup>
+`;
+
+exports[`<ResultGroup /> should not render total if showTotalSize is true but there is no title 1`] = `
+<styled.div>
+  <ResultList
+    results={
+      Array [
+        Object {
+          "analyticsType": "result-confluence",
+          "avatarUrl": "avatarUrl",
+          "containerId": "containerId",
+          "containerName": "containerName",
+          "contentType": "confluence-page",
+          "href": "href",
+          "name": "name",
+          "resultId": "resultId",
+          "resultType": "confluence-object-result",
+        },
+      ]
+    }
+    sectionIndex={0}
+  />
+</styled.div>
+`;
+
+exports[`<ResultGroup /> should render a result list even with no titles 1`] = `
+<styled.div>
+  <ResultList
+    results={
+      Array [
+        Object {
+          "analyticsType": "result-confluence",
+          "avatarUrl": "avatarUrl",
+          "containerId": "containerId",
+          "containerName": "containerName",
+          "contentType": "confluence-page",
+          "href": "href",
+          "name": "name",
+          "resultId": "resultId",
+          "resultType": "confluence-object-result",
+        },
+      ]
+    }
+    sectionIndex={0}
+  />
+</styled.div>
+`;
+
+exports[`<ResultGroup /> should render a result list when there are results 1`] = `
+<ResultItemGroup
+  title={
+    <span>
+      some title
+    </span>
+  }
+>
+  <ResultList
+    results={
+      Array [
+        Object {
+          "analyticsType": "result-confluence",
+          "avatarUrl": "avatarUrl",
+          "containerId": "containerId",
+          "containerName": "containerName",
+          "contentType": "confluence-page",
+          "href": "href",
+          "name": "name",
+          "resultId": "resultId",
+          "resultType": "confluence-object-result",
+        },
+      ]
+    }
+    sectionIndex={0}
+  />
+</ResultItemGroup>
+`;
+
+exports[`<ResultGroup /> should render total if showTotalSize is true and there is a title 1`] = `
+<ResultItemGroup
+  title={
+    <React.Fragment>
+      <span>
+        Some title
+      </span>
+      <styled.span>
+        <Ak.Badge
+          appearance="default"
+          max={99}
+          onValueUpdated={[Function]}
+        >
+          9999
+        </Ak.Badge>
+      </styled.span>
+    </React.Fragment>
+  }
+>
+  <ResultList
+    results={
+      Array [
+        Object {
+          "analyticsType": "result-confluence",
+          "avatarUrl": "avatarUrl",
+          "containerId": "containerId",
+          "containerName": "containerName",
+          "contentType": "confluence-page",
+          "href": "href",
+          "name": "name",
+          "resultId": "resultId",
+          "resultType": "confluence-object-result",
+        },
+      ]
+    }
+    sectionIndex={0}
+  />
+</ResultItemGroup>
+`;

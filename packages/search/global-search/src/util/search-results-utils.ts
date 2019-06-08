@@ -1,8 +1,8 @@
 import { Result } from '../model/Result';
 
-export const appendListWithoutDuplication = (
-  resultsFirst: Result[],
-  resultsSecond: Result[],
+export const appendListWithoutDuplication = <T extends Result>(
+  resultsFirst: T[],
+  resultsSecond: T[],
 ) => {
   return resultsFirst.concat(
     resultsSecond.filter(result => {

@@ -36,7 +36,7 @@ export interface GraphqlError {
 
 export interface PeopleSearchClient {
   search(query: string): Promise<Result[]>;
-  getRecentPeople(): Promise<Result[]>;
+  getRecentPeople(): Promise<PersonResult[]>;
 }
 
 export default class PeopleSearchClientImpl implements PeopleSearchClient {
@@ -119,7 +119,7 @@ export default class PeopleSearchClientImpl implements PeopleSearchClient {
     };
   }
 
-  public async getRecentPeople(): Promise<Result[]> {
+  public async getRecentPeople(): Promise<PersonResult[]> {
     const options = this.buildRequestOptions(this.buildRecentQuery());
 
     const response = await utils.requestService<GraphqlResponse>(

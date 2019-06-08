@@ -84,6 +84,20 @@ export const messages = defineMessages({
   help_panel_search_results_no_results: {
     id: 'global_help.search_results.no_results',
     defaultMessage: `No matching search results`,
+  },
+  help_panel_search_error_loading_title: {
+    id: 'global_help.error_loading.title',
+    defaultMessage: `Something's gone wrong`,
+    description: '',
+  },
+  help_panel_search_error_loading_text: {
+    id: 'global_help.error_loading.text',
+    defaultMessage: `Something prevented the page rom loading. We will try to reconect automatically`,
+    description: '',
+  },
+  help_panel_search_error_loading_button_label: {
+    id: 'global_help.error_loading.button_label',
+    defaultMessage: `Try now`,
     description: '',
   },
 });

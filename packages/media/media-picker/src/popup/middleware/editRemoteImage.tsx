@@ -47,11 +47,11 @@ export function editRemoteImage(
   action: EditRemoteImageAction,
 ): Promise<void> {
   const { item, collectionName } = action;
-  const { userContext } = store.getState();
+  const { userMediaClient } = store.getState();
 
   store.dispatch(editorShowLoading(item));
 
-  return userContext
+  return userMediaClient
     .getImageUrl(item.id, {
       mode: 'full-fit',
       collection: collectionName,
