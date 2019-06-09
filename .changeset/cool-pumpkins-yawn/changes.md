@@ -1,0 +1,1 @@
+ED-7023: removed mouseMove and mouseLeave handlers from columns resizing plugin

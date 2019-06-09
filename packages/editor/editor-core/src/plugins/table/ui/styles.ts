@@ -11,6 +11,7 @@ import {
   akEditorSmallZIndex,
   akEditorTableNumberColumnWidth,
   akEditorTableBorder,
+  tableCellPadding,
 } from '@atlaskit/editor-common';
 import { scrollbarStyles } from '../../../ui/styles';
 import { TableCssClassName as ClassName } from '../types';
@@ -636,6 +637,30 @@ export const tableStyles = css`
 
   .ProseMirror.${ClassName.RESIZE_CURSOR} {
     cursor: col-resize;
+  }
+
+
+  .ProseMirror.${ClassName.RESIZING_PLUGIN} {
+    .${ClassName.CELL_NODEVIEW_WRAPPER}:before,
+    .${ClassName.CELL_NODEVIEW_WRAPPER}:after {
+      content: '';
+      display: block;
+      width: ${tableCellPadding}px;
+      height: calc(100% + ${tableCellPadding * 2}px);
+      cursor: col-resize;
+      position: absolute;
+      top: -${tableCellPadding}px;
+    }
+    .${ClassName.CELL_NODEVIEW_WRAPPER}:before{
+      left: -${tableCellPadding + 1}px;
+    }
+    .${ClassName.CELL_NODEVIEW_WRAPPER}:after{
+      right: -${tableCellPadding + 1}px;
+    }
+    td:first-child .${ClassName.CELL_NODEVIEW_WRAPPER}:before,
+    th:first-child .${ClassName.CELL_NODEVIEW_WRAPPER}:before {
+      width: 0;
+    }
   }
 
 `;
