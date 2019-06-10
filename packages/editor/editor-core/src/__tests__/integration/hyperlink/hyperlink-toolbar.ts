@@ -1,15 +1,15 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import Page from '@atlaskit/webdriver-runner/wd-wrapper';
-import { fullpage, editable, linkToolbar } from '../_helpers';
+import { comment, fullpage, editable, linkToolbar } from '../_helpers';
 import { messages } from '../../../plugins/insert-block/ui/ToolbarInsertBlock';
 
 const linkText1 = 'http://hello.com ';
 
 // https://product-fabric.atlassian.net/browse/ED-4162 - Firefox
 // Floating toolbar is not showin up on IE and edge
-[fullpage].forEach(editor => {
+[comment, fullpage].forEach(editor => {
   BrowserTestCase(
-    `hyperlink-text.ts: Link: Empty text to display when link href is same as text`,
+    `hyperlink-toolbar.ts: Link: Empty text to display when link href is same as text`,
     {
       skip: ['ie', 'edge', 'safari', 'firefox'],
     },
@@ -25,7 +25,6 @@ const linkText1 = 'http://hello.com ';
       await browser.waitForSelector(linkToolbar);
       await browser.waitForSelector('a');
 
-      // unlink
       await browser.type(editable, [
         'Return',
         linkText1,

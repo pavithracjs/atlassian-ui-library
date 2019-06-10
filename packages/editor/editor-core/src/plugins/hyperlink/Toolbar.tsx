@@ -21,6 +21,8 @@ import { EditorView } from 'prosemirror-view';
 import { Mark } from 'prosemirror-model';
 import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
 import OpenIcon from '@atlaskit/icon/glyph/shortcut';
+import { normalizeUrl } from './utils';
+import { EditorState } from 'prosemirror-state';
 
 export const messages = defineMessages({
   openLink: {
@@ -47,6 +49,26 @@ function isEditLink(
   return (linkMark as EditInsertedState).pos !== undefined;
 }
 
+function getLinkText(
+  activeLinkMark: EditInsertedState,
+  state: EditorState,
+): string | undefined | null {
+  if (!activeLinkMark.node) {
+    return undefined;
+  }
+
+  const textToUrl = normalizeUrl(activeLinkMark.node.text);
+  const linkMark = activeLinkMark.node.marks.find(
+    (mark: Mark) => mark.type === state.schema.marks.link,
+  );
+  const linkHref = linkMark && linkMark.attrs.href;
+
+  if (textToUrl === linkHref) {
+    return undefined;
+  }
+  return activeLinkMark.node.text;
+}
+
 const handleBlur = (
   activeLinkMark: EditInsertedState | InsertState,
   view: EditorView,
@@ -68,10 +90,15 @@ const handleBlur = (
     }
     case 'text': {
       if (text && url) {
-        return setLinkText(text, (activeLinkMark as EditInsertedState).pos)(
-          view.state,
-          view.dispatch,
-        );
+        return activeLinkMark.type === 'INSERT'
+          ? insertLink(activeLinkMark.from, activeLinkMark.to, url, text)(
+              view.state,
+              view.dispatch,
+            )
+          : setLinkText(text, (activeLinkMark as EditInsertedState).pos)(
+              view.state,
+              view.dispatch,
+            );
       }
       return hideLinkToolbar()(view.state, view.dispatch);
     }
@@ -193,7 +220,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                     displayUrl={link}
                     displayText={
                       isEditLink(activeLinkMark)
-                        ? activeLinkMark.node && activeLinkMark.node.text
+                        ? getLinkText(activeLinkMark, state)
                         : linkState.activeText
                     }
                     providerFactory={providerFactory}
