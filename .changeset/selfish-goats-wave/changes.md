@@ -1,0 +1,1 @@
+All icons are breaking since the Typescript conversion. Revert PR 5769#
