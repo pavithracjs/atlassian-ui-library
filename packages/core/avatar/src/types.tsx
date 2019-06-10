@@ -20,9 +20,9 @@ export type Size =
   | 'xlarge'
   | 'xxlarge';
 
-export interface SizeType {
-  [key in Size]: number;
-}
+// NOTE: this won't work as an interface
+// NOTE: this only works if key is optional
+export type SizeType = { [key in Size]?: number };
 
 // NOTE: sizes xsmall & xxlarge DO NOT support
 // - groups

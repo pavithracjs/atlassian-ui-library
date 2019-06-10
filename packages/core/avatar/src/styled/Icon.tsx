@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { colors, withTheme } from '@atlaskit/theme';
 import { BORDER_WIDTH } from './constants';
-import { ComponentType } from 'react';
 import { SupportedSizeWithAnIcon } from '../types';
 
 interface Props {
@@ -10,7 +9,7 @@ interface Props {
 }
 
 // set fallbacks for border color/width to protect consumers from invalid values
-export const Outer = withTheme(<ComponentType<Props>>styled.span`
+export const Outer = withTheme(styled.span<Props>`
   align-content: center;
   align-items: center;
   background-color: ${({ bgColor }) => bgColor || colors.background};
@@ -20,7 +19,8 @@ export const Outer = withTheme(<ComponentType<Props>>styled.span`
   height: 100%;
   overflow: hidden;
   padding: ${({ size }) => BORDER_WIDTH[size] || BORDER_WIDTH.medium}px;
-  width: 100%;`);
+  width: 100%;
+`);
 
 export const Inner = styled.span`
   align-items: center;
