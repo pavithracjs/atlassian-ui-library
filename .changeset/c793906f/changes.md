@@ -1,1 +1,0 @@
-- Avoid unnecessary re-renders on components that use withAnalytics
