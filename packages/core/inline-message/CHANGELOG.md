@@ -1,5 +1,13 @@
 # @atlaskit/inline-message
 
+## 10.0.4
+
+### Patch Changes
+
+- [patch][3b13bd0816](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3b13bd0816):
+
+  Both title and secondaryText prop type changed from string to React.ReactNode. This provides more flexibility for consumers to provide i18n components such as FormattedMessage.
+
 ## 10.0.3
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
