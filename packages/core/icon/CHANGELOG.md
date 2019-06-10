@@ -1,5 +1,13 @@
 # @atlaskit/icon
 
+## 18.0.2
+
+### Patch Changes
+
+- [patch][0d7be7e6fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d7be7e6fc):
+
+  All icons are breaking since the Typescript conversion. Revert PR 5769#
+
 ## 18.0.1
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
