@@ -39,6 +39,7 @@ export const MainInformationList = styled.ul`
 
 export const IconHoverWrapper = styled.span`
   color: ${colors.B500};
+  padding-left: ${gridSizeTimes(0.5)}px;
   &:hover {
     color: ${colors.B200};
   }
