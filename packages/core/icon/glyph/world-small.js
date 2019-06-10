@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Icon = _interopRequireDefault(require("../src/components/Icon"));
+var _Icon = _interopRequireDefault(require("../cjs/components/Icon"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
