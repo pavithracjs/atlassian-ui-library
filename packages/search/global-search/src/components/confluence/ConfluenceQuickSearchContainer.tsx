@@ -36,6 +36,7 @@ import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
 import QuickSearchContainer, {
   SearchResultProps,
+  PartiallyLoadedRecentItems,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import NoResultsState from './NoResultsState';
@@ -295,15 +296,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           });
   };
 
-  getRecentItems = async (
+  getRecentItems = (
     sessionId: string,
-  ): Promise<ResultsWithTiming<ConfluenceResultsMap>> => {
+  ): PartiallyLoadedRecentItems<ConfluenceResultsMap> => {
     const { confluenceClient } = this.props;
 
     const recentActivityPromisesMap = {
       'recent-confluence-items': confluenceClient.getRecentItems(sessionId),
       'recent-confluence-spaces': confluenceClient.getRecentSpaces(sessionId),
-      'recent-people': this.getRecentPeople(sessionId),
     };
 
     const recentActivityPromises: Promise<Result[]>[] = (Object.keys(
@@ -320,12 +320,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     // We lose type safety here as typescript assumes there's no guarantee the order in which a map
     // gets converted into promises. Also there is currently no way (and no way in the forseeable future)
     // to get typescript to convert union types into tuple types (https://github.com/Microsoft/TypeScript/issues/13298)
-    return Promise.all(recentActivityPromises).then(
-      ([
-        recentlyViewedPages,
-        recentlyViewedSpaces,
-        recentlyInteractedPeople,
-      ]) => {
+    const required = Promise.all(recentActivityPromises).then(
+      ([recentlyViewedPages, recentlyViewedSpaces]) => {
         recentlyViewedPages;
         return {
           results: {
@@ -338,13 +334,25 @@ export class ConfluenceQuickSearchContainer extends React.Component<
               totalSize: recentlyViewedSpaces.length,
             },
             people: {
-              items: recentlyInteractedPeople as PersonResult[],
-              totalSize: recentlyInteractedPeople.length,
+              items: [],
+              totalSize: 0,
             },
           },
         };
       },
     );
+
+    return {
+      requiredRecentItemsPromise: required,
+      extraRecentItemsPromise: this.getRecentPeople(sessionId).then(
+        recentPeople => ({
+          people: {
+            items: recentPeople,
+            totalSize: recentPeople.length,
+          },
+        }),
+      ),
+    };
   };
 
   getPreQueryDisplayedResults = (

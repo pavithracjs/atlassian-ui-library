@@ -23,6 +23,7 @@ import {
 } from '../GlobalQuickSearchWrapper';
 import QuickSearchContainer, {
   SearchResultProps,
+  PartiallyLoadedRecentItems,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import SearchResultsComponent from '../common/SearchResults';
@@ -450,16 +451,19 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getRecentItems = (
     sessionId: string,
-  ): Promise<ResultsWithTiming<GenericResultMap>> => {
-    return Promise.all([
-      this.getJiraRecentItems(sessionId),
-      this.getRecentlyInteractedPeople(),
-      this.canSearchUsers(),
-    ])
-      .then(([jiraItems, people, canSearchUsers]) => {
-        return { ...jiraItems, people: canSearchUsers ? people : [] };
-      })
-      .then(results => ({ results } as ResultsWithTiming<GenericResultMap>));
+  ): PartiallyLoadedRecentItems<GenericResultMap> => {
+    return {
+      requiredRecentItemsPromise: Promise.all([
+        this.getJiraRecentItems(sessionId),
+        this.getRecentlyInteractedPeople(),
+        this.canSearchUsers(),
+      ])
+        .then(([jiraItems, people, canSearchUsers]) => {
+          return { ...jiraItems, people: canSearchUsers ? people : [] };
+        })
+        .then(results => ({ results } as ResultsWithTiming<GenericResultMap>)),
+      extraRecentItemsPromise: Promise.resolve({}),
+    };
   };
 
   getSearchResults = (

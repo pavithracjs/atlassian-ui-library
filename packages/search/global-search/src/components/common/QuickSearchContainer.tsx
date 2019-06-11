@@ -40,11 +40,18 @@ export interface SearchResultProps<T> extends State<T> {
   retrySearch: () => void;
 }
 
+export interface PartiallyLoadedRecentItems<
+  T extends ConfluenceResultsMap | GenericResultMap
+> {
+  requiredRecentItemsPromise: Promise<ResultsWithTiming<T>>;
+  extraRecentItemsPromise: Promise<Partial<T>>;
+}
+
 export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
   logger: Logger;
   linkComponent?: LinkComponent;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
-  getRecentItems(sessionId: string): Promise<ResultsWithTiming<T>>;
+  getRecentItems(sessionId: string): PartiallyLoadedRecentItems<T>;
   getSearchResults(
     query: string,
     sessionId: string,
@@ -347,17 +354,27 @@ export class QuickSearchContainer<
     this.fireExperimentExposureEvent();
 
     try {
-      const { results } = await this.props.getRecentItems(
-        this.state.searchSessionId,
-      );
+      const {
+        requiredRecentItemsPromise,
+        extraRecentItemsPromise,
+      } = this.props.getRecentItems(this.state.searchSessionId);
+
+      const { results } = await requiredRecentItemsPromise;
+
       const renderStartTime = performanceNow();
       if (this.unmounted) {
         return;
       }
+      this.setState({
+        recentItems: results,
+        isLoading: false,
+      });
+
+      const extraRecentItems = await extraRecentItemsPromise;
+
       this.setState(
         {
-          recentItems: results,
-          isLoading: false,
+          recentItems: Object.assign({}, results, extraRecentItems),
         },
         async () => {
           this.fireShownPreQueryEvent(startTime, renderStartTime);
