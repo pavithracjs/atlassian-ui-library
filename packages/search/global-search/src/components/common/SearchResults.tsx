@@ -10,7 +10,7 @@ import ResultGroupsComponent, {
 import { ResultsGroup } from '../../model/Result';
 import SearchError from '../SearchError';
 import deepEqual from 'deep-equal';
-import { Scope } from 'src/api/types';
+import { Scope } from '../../api/types';
 import { CancelableEvent } from '../../../../quick-search';
 
 export interface Props {
@@ -33,7 +33,7 @@ export interface Props {
   preQueryScreenCounter?: ScreenCounter;
   postQueryScreenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
-  onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void
+  onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void;
 }
 
 export enum SearchResultsState {
@@ -164,7 +164,7 @@ export default class SearchResults extends React.Component<Props> {
       onSearchMoreAdvancedSearchClicked,
       query,
     } = this.props;
-    
+
     return (
       <ResultGroupsComponent
         query={query}

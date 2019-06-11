@@ -21,6 +21,10 @@ const defaultProps = {
   renderAdvancedSearchGroup: () => <div id="advanced-search-group" />,
   getPreQueryGroups: () => [],
   getPostQueryGroups: () => [],
+  query: '',
+  waitingForMoreResults: false,
+  errorGettingMoreResults: false,
+  searchMore: () => {},
 };
 
 const mockResultsGroup = [

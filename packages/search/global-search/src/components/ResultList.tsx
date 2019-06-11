@@ -24,7 +24,6 @@ import { getAvatarForConfluenceObjectResult } from '../util/confluence-avatar-ut
 import { getDefaultAvatar } from '../util/jira-avatar-util';
 import DarkReturn from '../assets/DarkReturn';
 import Return from '../assets/Return';
-import deepEqual from 'deep-equal';
 
 export interface Props {
   results: Result[];

@@ -293,6 +293,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       sessionId,
       expect.any(Array),
       modelParams,
+      null,
     );
 
     searchSpy.mockRestore();
