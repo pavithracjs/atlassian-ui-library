@@ -6,7 +6,7 @@ import { Scope } from './types';
 
 interface CommonPrefetchedResults {
   abTestPromise: { [scope: string]: Promise<ABTest> };
-  recentPeoplePromise: Promise<CrossProductSearchResults>;
+  recentPeoplePromise?: Promise<CrossProductSearchResults>;
 }
 
 export interface ConfluencePrefetchedResults extends CommonPrefetchedResults {
@@ -70,10 +70,5 @@ export const getConfluencePrefetchedData = (
         Scope.ConfluencePageBlogAttachment,
       ),
     },
-    recentPeoplePromise: crossProductSearchClient.getPeople(
-      '',
-      PREFETCH_SEARCH_SESSION_ID,
-      'confluence',
-    ),
   };
 };
