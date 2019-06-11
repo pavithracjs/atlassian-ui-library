@@ -23,7 +23,9 @@ const Radio = styled.input`
 export interface Config {
   hideLocale?: boolean;
   message?: JSX.Element;
-  cloudIds?: object;
+  cloudIds?: {
+    [k: string]: string;
+  };
 }
 
 const MessageContainer = styled.div`

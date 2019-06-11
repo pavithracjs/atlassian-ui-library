@@ -16,6 +16,7 @@ import {
 } from '../../../util/analytics-util';
 import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
+import { QuickSearchContext } from '../../../api/types';
 
 const defaultReferralContext = {
   searchReferrerId: 'referrerId',
@@ -37,6 +38,7 @@ const mockEvent: any = {
 };
 
 const defaultProps = {
+  product: 'confluence' as QuickSearchContext,
   logger: DEVELOPMENT_LOGGER,
   getSearchResultsComponent: jest.fn(
     (props: SearchResultProps<GenericResultMap>) => null,
