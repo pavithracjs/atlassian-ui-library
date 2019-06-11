@@ -61,7 +61,6 @@ const initCollab = (
 };
 
 const initCollabMemo = memoizeOne(initCollab);
-let isReady = false;
 
 export const createPlugin = (
   dispatch: Dispatch,
@@ -126,10 +125,13 @@ export const createPlugin = (
         return this.getState(state).decorations;
       },
     },
-    filterTransaction(tr) {
+    filterTransaction(tr, state) {
+      const pluginState = pluginKey.getState(state);
+      const collabInitialiseTr = tr.getMeta('collabInitialised');
+
       // Don't allow transactions that modifies the document before
       // collab-plugin is ready.
-      if (!isReady && tr.docChanged) {
+      if (!!collabInitialiseTr && !pluginState.isReady && tr.docChanged) {
         return false;
       }
 
@@ -143,16 +145,17 @@ export const createPlugin = (
           providerPromise?: Promise<CollabEditProvider>,
         ) => {
           if (providerPromise) {
+            const pluginState = pluginKey.getState(view.state);
             collabEditProvider = await providerPromise;
 
-            if (isReady) {
+            if (pluginState.isReady) {
               unsubscribeAllEvents(collabEditProvider);
             }
 
             // Initialize provider
             collabEditProvider
               .on('init', data => {
-                isReady = true;
+                view.dispatch(view.state.tr.setMeta('collabInitialised', true));
                 handleInit(data, view, options);
               })
               .on('connected', data => handleConnection(data, view))
@@ -180,7 +183,6 @@ export const createPlugin = (
             initCollabMemo(collabEditProvider, view);
           } else {
             collabEditProvider = null;
-            isReady = false;
           }
         },
       );
@@ -192,7 +194,6 @@ export const createPlugin = (
             unsubscribeAllEvents(collabEditProvider);
           }
           collabEditProvider = null;
-          isReady = false;
         },
       };
     },
@@ -220,6 +221,7 @@ export class PluginState {
   private decorationSet: DecorationSet;
   private participants: Participants;
   private sid?: string;
+  public isReady: boolean;
 
   get decorations() {
     return this.decorationSet;
@@ -237,10 +239,12 @@ export class PluginState {
     decorations: DecorationSet,
     participants: Participants,
     sessionId?: string,
+    collabInitalised: boolean = false,
   ) {
     this.decorationSet = decorations;
     this.participants = participants;
     this.sid = sessionId;
+    this.isReady = collabInitalised;
   }
 
   getInitial(sessionId: string) {
@@ -249,11 +253,16 @@ export class PluginState {
   }
 
   apply(tr: Transaction) {
-    let { decorationSet, participants, sid } = this;
+    let { decorationSet, participants, sid, isReady } = this;
 
     const presenceData = tr.getMeta('presence') as PresenceData;
     const telepointerData = tr.getMeta('telepointer') as TelepointerData;
     const sessionIdData = tr.getMeta('sessionId') as ConnectionData;
+    let collabInitialised = tr.getMeta('collabInitialised');
+
+    if (typeof collabInitialised !== 'boolean') {
+      collabInitialised = isReady;
+    }
 
     if (sessionIdData) {
       sid = sessionIdData.sid;
@@ -393,7 +402,7 @@ export class PluginState {
       decorationSet = decorationSet.add(tr.doc, add);
     }
 
-    return new PluginState(decorationSet, participants, sid);
+    return new PluginState(decorationSet, participants, sid, collabInitialised);
   }
 
   static init(config: any) {
