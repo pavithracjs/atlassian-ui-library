@@ -7,21 +7,16 @@ import Spinner from '@atlaskit/spinner';
 import { withNavigationViewController } from '../../../view-controller';
 import ConnectedItem from '../ConnectedItem';
 
-import type { GoToItemProps, AfterComponentProps } from './types';
+import type { GoToItemProps } from './types';
 import type { ItemPresentationProps } from '../../presentational/Item/types';
 
-const After = ({
-  afterGoTo,
+const generateAfterProp = ({
+  goTo,
   spinnerDelay,
-  incomingView,
-  isActive,
-  isHover,
-  isFocused,
-}: {
-  ...ItemPresentationProps,
-  ...AfterComponentProps,
-}) => {
-  if (incomingView && incomingView.id === afterGoTo) {
+  navigationViewController,
+}) => ({ isActive, isHover, isFocused }: ItemPresentationProps) => {
+  const { incomingView } = navigationViewController.state;
+  if (incomingView && incomingView.id === goTo) {
     return <Spinner delay={spinnerDelay} invertColor size="small" />;
   }
   if (isActive || isHover || isFocused) {
@@ -60,21 +55,12 @@ class GoToItem extends Component<GoToItemProps> {
       spinnerDelay,
       ...rest
     } = this.props;
-
-    const propsForAfterComp = {
-      afterGoTo: goTo || null,
-      spinnerDelay,
-      incomingView: navigationViewController.state.incomingView,
-    };
-    const after = typeof afterProp === 'undefined' ? After : afterProp;
+    const after =
+      typeof afterProp === 'undefined'
+        ? generateAfterProp({ goTo, spinnerDelay, navigationViewController })
+        : afterProp;
     const props = { ...rest, after };
-    return (
-      <ConnectedItem
-        onClick={this.handleClick}
-        {...props}
-        {...propsForAfterComp}
-      />
-    );
+    return <ConnectedItem onClick={this.handleClick} {...props} />;
   }
 }
 

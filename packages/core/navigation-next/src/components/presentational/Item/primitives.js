@@ -1,10 +1,9 @@
 // @flow
 
-import React, { Component, type ElementType, type Ref } from 'react';
+import React, { PureComponent, type ElementType, type Ref } from 'react';
 
-import deepEqual from 'deep-equal';
-import type { Dataset, ItemPrimitiveProps } from './types';
 import { styleReducerNoOp, withContentTheme } from '../../../theme';
+import type { Dataset, ItemPrimitiveProps } from './types';
 
 const isString = x => typeof x === 'string';
 
@@ -34,25 +33,20 @@ const ComponentSwitch = ({
 };
 
 const getItemComponentProps = (props: ItemPrimitiveProps) => {
-  const nonComponentKeys = [
-    'isActive',
-    'isHover',
-    'isSelected',
-    'isFocused',
-    'isDragging',
-    'theme',
-  ];
-  const componentProps = {};
-  Object.keys(props).forEach(prop => {
-    if (!nonComponentKeys.includes(prop)) {
-      componentProps[prop] = props[prop];
-    }
-  });
+  const {
+    isActive,
+    isHover,
+    isSelected,
+    isFocused,
+    isDragging,
+    theme,
+    ...componentProps
+  } = props;
 
   return componentProps;
 };
 
-class ItemPrimitive extends Component<ItemPrimitiveProps> {
+class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
   static defaultProps = {
     dataset: {
       'data-test-id': 'NavigationItem',
@@ -67,10 +61,6 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
     text: '',
   };
 
-  shouldComponentUpdate(nextProps: ItemPrimitiveProps) {
-    return !deepEqual(this.props, nextProps);
-  }
-
   render() {
     const {
       after: After,
@@ -84,8 +74,8 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
       isDragging,
       isHover,
       isSelected,
-      isFocused,
       onClick,
+      isFocused,
       spacing,
       styles: styleReducer,
       subText,
@@ -108,14 +98,6 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
 
     let itemComponent = 'div';
     let itemProps = { draggableProps, innerRef, dataset };
-
-    // $FlowFixMe Will revisit on the TS re-write
-    const { afterGoTo, spinnerDelay, incomingView } = this.props;
-    const propsForAfterComp = {
-      afterGoTo,
-      spinnerDelay,
-      incomingView,
-    };
 
     if (CustomComponent) {
       itemComponent = CustomComponent;
@@ -152,7 +134,7 @@ class ItemPrimitive extends Component<ItemPrimitiveProps> {
         </div>
         {!!After && (
           <div css={styles.afterWrapper}>
-            <After {...presentationProps} {...propsForAfterComp} />
+            <After {...presentationProps} />
           </div>
         )}
       </ComponentSwitch>

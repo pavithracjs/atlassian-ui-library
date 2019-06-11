@@ -5,7 +5,7 @@ import React, {
   Fragment,
   type ComponentType,
 } from 'react';
-import deepEqual from 'deep-equal';
+import isEqual from 'lodash.isequal';
 import { colors } from '@atlaskit/theme';
 
 import { ContentNavigationWrapper } from '../ContentNavigation/primitives';
@@ -34,7 +34,7 @@ type ComposedContainerNavigationProps = {
 export class ComposedContainerNavigation extends Component<ComposedContainerNavigationProps> {
   shouldComponentUpdate(nextProps: ComposedContainerNavigationProps) {
     const { props } = this;
-    return !deepEqual(props, nextProps);
+    return !isEqual(props, nextProps);
   }
 
   render() {
