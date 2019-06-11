@@ -40,7 +40,10 @@ const sliceResults = (
       ...objects,
       items: take(
         objects.items,
-        getConfluenceMaxObjects(features.abTest, ITEMS_PER_PAGE * (objects.currentPage || 1)),
+        getConfluenceMaxObjects(
+          features.abTest,
+          ITEMS_PER_PAGE * (objects.currentPage || 1),
+        ),
       ),
       currentPage: 1,
     },

@@ -188,7 +188,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       modelContext || {},
     );
 
-    const limit = features.searchExtensionsEnabled ? ITEMS_PER_PAGE * MAX_PAGE_COUNT : null;
+    const limit = features.searchExtensionsEnabled
+      ? ITEMS_PER_PAGE * MAX_PAGE_COUNT
+      : null;
 
     const results = await crossProductSearchClient.search(
       query,
@@ -412,15 +414,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     errorGettingMoreResults,
   }: SearchResultProps<ConfluenceResultsMap>) => {
     const { onAdvancedSearch = () => {}, features } = this.props;
-    const onSearchMoreAdvancedSearchClicked = 
-      (event: CancelableEvent) => {
-        onAdvancedSearch(
-          event,
-          ConfluenceAdvancedSearchTypes.Content,
-          latestSearchQuery,
-          searchSessionId,
-        )
-      }
+    const onSearchMoreAdvancedSearchClicked = (event: CancelableEvent) => {
+      onAdvancedSearch(
+        event,
+        ConfluenceAdvancedSearchTypes.Content,
+        latestSearchQuery,
+        searchSessionId,
+      );
+    };
 
     return (
       <SearchResultsComponent

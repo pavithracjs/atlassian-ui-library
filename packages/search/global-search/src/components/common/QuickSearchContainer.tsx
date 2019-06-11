@@ -398,7 +398,8 @@ export class QuickSearchContainer<
 
         // This is a hack, we assume product = confluence means that this cast is safe. When GenericResultsMap is gone
         // we probably won't need this cast anymore.
-        const currentResultsByScope = this.state.searchResults as ConfluenceResultsMap;
+        const currentResultsByScope = this.state
+          .searchResults as ConfluenceResultsMap;
 
         // @ts-ignore More hacks as there's no guarantee that the scope is one that is available here
         const result: Results<Result> = currentResultsByScope[scope];
@@ -418,7 +419,6 @@ export class QuickSearchContainer<
             errorGettingMoreResults: false,
           });
         }
-        
       } catch (e) {
         this.props.logger.safeError(
           LOGGER_NAME,
@@ -432,7 +432,7 @@ export class QuickSearchContainer<
         });
       }
     }
-  }
+  };
 
   handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { handleSearchSubmit } = this.props;

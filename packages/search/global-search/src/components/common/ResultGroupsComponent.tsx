@@ -26,7 +26,7 @@ export interface Props {
   onShowMoreClicked: (scope: Scope) => void;
   waitingForMoreResults: boolean;
   errorGettingMoreResults: boolean;
-  onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void
+  onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void;
   query: string;
 }
 
@@ -35,14 +35,21 @@ export default class ResultGroupsComponent extends React.Component<Props> {
     resultsToShow: ResultsGroup[],
     analyticsData: any,
   ): JSX.Element[] => {
-    const { waitingForMoreResults, onShowMoreClicked, onSearchMoreAdvancedSearchClicked, query } = this.props;
+    const {
+      waitingForMoreResults,
+      onShowMoreClicked,
+      onSearchMoreAdvancedSearchClicked,
+      query,
+    } = this.props;
 
     return resultsToShow
       .filter(({ items }) => items && items.length)
       .map((group, index) => (
         <ResultGroup
           key={`${group.key}-${index}`}
-          title={group.title ? <FormattedMessage {...group.title} /> : undefined}
+          title={
+            group.title ? <FormattedMessage {...group.title} /> : undefined
+          }
           results={group.items}
           sectionIndex={index}
           analyticsData={analyticsData}
