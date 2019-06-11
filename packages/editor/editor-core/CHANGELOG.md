@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.12.3
+
+### Patch Changes
+
+- [patch][45e08e8e11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/45e08e8e11):
+
+  ED-6996: Move initialised state to collab plugin state instead of inline variables
+
 ## 112.12.2
 
 ### Patch Changes

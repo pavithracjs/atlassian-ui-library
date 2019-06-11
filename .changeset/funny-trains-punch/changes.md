@@ -1,1 +1,0 @@
-ED-6996: Move initialised state to collab plugin state instead of inline variables
