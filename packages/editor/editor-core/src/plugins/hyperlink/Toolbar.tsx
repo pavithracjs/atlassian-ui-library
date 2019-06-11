@@ -79,7 +79,7 @@ const handleBlur = (
         return setLinkHref(
           url,
           isEditLink(activeLinkMark) ? activeLinkMark.pos : activeLinkMark.from,
-          undefined,
+          isEditLink(activeLinkMark) ? undefined : activeLinkMark.to,
           isTabPressed,
         )(view.state, view.dispatch);
       }
