@@ -8,7 +8,10 @@ import Spinner from '@atlaskit/spinner';
 
 import { Result } from '../model/Result';
 import ResultList from './ResultList';
-import { ITEMS_PER_PAGE, MAX_PAGE_COUNT } from './confluence/ConfluenceSearchResultsMapper';
+import {
+  ITEMS_PER_PAGE,
+  MAX_PAGE_COUNT,
+} from './confluence/ConfluenceSearchResultsMapper';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import { messages } from '../messages';
 import { getConfluenceAdvancedSearchLink } from './SearchResultsUtil';
@@ -25,6 +28,10 @@ export interface Props {
   waitingForMoreResults: boolean;
   showAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
+}
+
+interface State {
+  scrollIndex?: number;
 }
 
 const TitlelessGroupWrapper = styled.div`
@@ -45,63 +52,61 @@ interface ShowMoreButtonProps {
 }
 
 class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
-  private containerRef: HTMLSpanElement | undefined | null;
-
-  onRef = (ref: HTMLSpanElement | undefined | null) => {
-    this.containerRef = ref;
-  }
-
-  componentDidUpdate(prevProps: ShowMoreButtonProps) {
-    if (prevProps.resultLength < this.props.resultLength && this.containerRef) {
-      // Scrolls the result list so that the button is visible at the bottom.
-      // TODO the footer section appears on top of the button so it's not very clean
-      this.containerRef.scrollIntoView(false);
-    }
-  }
-
   renderButton = () => {
-    const { 
-      resultLength, 
-      totalSize, 
-      isLoading, 
+    const {
+      resultLength,
+      totalSize,
+      isLoading,
       onShowMoreClicked,
       showAdvancedSearch,
       query,
     } = this.props;
 
     if (isLoading) {
-      return <Spinner />
+      return <Spinner />;
     }
-  
+
     if (resultLength < totalSize) {
       if (resultLength < ITEMS_PER_PAGE * MAX_PAGE_COUNT) {
         return (
           <Button appearance="link" onClick={onShowMoreClicked}>
-            <FormattedMessage {...messages.show_more_button_text} values={{
-              itemsPerPage: ITEMS_PER_PAGE,
-            }} />
+            <FormattedMessage
+              {...messages.show_more_button_text}
+              values={{
+                itemsPerPage: ITEMS_PER_PAGE,
+              }}
+            />
           </Button>
         );
       } else if (showAdvancedSearch) {
         return (
-          <Button appearance="link" onClick={showAdvancedSearch} href={getConfluenceAdvancedSearchLink(query)}>
+          <Button
+            appearance="link"
+            onClick={showAdvancedSearch}
+            href={getConfluenceAdvancedSearchLink(query)}
+          >
             <FormattedMessage {...messages.show_more_button_advanced_search} />
           </Button>
         );
       }
     }
-  
-    return null;
-  }
 
-  render() {    
-    return (
-      <span ref={this.onRef}>{this.renderButton()}</span>
-    );
+    return null;
+  };
+
+  render() {
+    return <span>{this.renderButton()}</span>;
   }
 }
 
-export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
+export class ResultGroup extends React.Component<
+  Props & InjectedIntlProps,
+  State
+> {
+  state = {
+    scrollIndex: undefined,
+  };
+
   render() {
     const {
       title,
@@ -120,22 +125,27 @@ export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
       return null;
     }
 
-    const moreButton = 
-      showMoreButton 
-        ? <ShowMoreButton
-            resultLength={results.length}
-            onShowMoreClicked={onShowMoreClicked}
-            showAdvancedSearch={showAdvancedSearch}
-            totalSize={totalSize}
-            isLoading={waitingForMoreResults}
-            query={query}
-          />
-        : null;
+    const moreButton = showMoreButton ? (
+      <ShowMoreButton
+        resultLength={results.length}
+        onShowMoreClicked={() => {
+          this.setState({
+            scrollIndex: results.length - 1,
+          });
+          onShowMoreClicked();
+        }}
+        showAdvancedSearch={showAdvancedSearch}
+        totalSize={totalSize}
+        isLoading={waitingForMoreResults}
+        query={query}
+      />
+    ) : null;
 
     if (!title) {
       return (
         <TitlelessGroupWrapper>
           <ResultList
+            scrollIndex={this.state.scrollIndex}
             analyticsData={this.props.analyticsData}
             results={results}
             sectionIndex={sectionIndex}
@@ -162,6 +172,7 @@ export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
           analyticsData={this.props.analyticsData}
           results={results}
           sectionIndex={sectionIndex}
+          scrollIndex={this.state.scrollIndex}
         />
         {moreButton}
       </ResultItemGroup>

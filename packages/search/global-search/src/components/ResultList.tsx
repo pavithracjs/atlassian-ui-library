@@ -24,12 +24,12 @@ import { getAvatarForConfluenceObjectResult } from '../util/confluence-avatar-ut
 import { getDefaultAvatar } from '../util/jira-avatar-util';
 import DarkReturn from '../assets/DarkReturn';
 import Return from '../assets/Return';
-import deepEqual from 'deep-equal';
 
 export interface Props {
   results: Result[];
   sectionIndex: number;
   analyticsData?: {};
+  scrollIndex?: number;
 }
 
 const extractAvatarData = (jiraResult: JiraResult) =>
@@ -90,8 +90,16 @@ export const getUniqueResultId = (result: Result): string =>
   result.key ? result.key : `${result.contentType}-${result.resultId}`;
 
 export default class ResultList extends React.Component<Props> {
+  private ref: HTMLSpanElement | undefined | null;
+
+  componentDidUpdate() {
+    if (this.props.scrollIndex && this.ref) {
+      this.ref.scrollIntoView(true);
+      this.ref = null;
+    }
+  }
   render() {
-    const { results, sectionIndex } = this.props;
+    const { results, sectionIndex, scrollIndex } = this.props;
 
     return results.map((result, index) => {
       const resultType: ResultType = result.resultType;
@@ -114,17 +122,31 @@ export default class ResultList extends React.Component<Props> {
         case ResultType.ConfluenceObjectResult: {
           const confluenceResult = result as ConfluenceObjectResult;
           return (
-            <ObjectResultComponent
-              key={uniqueKey}
-              resultId={uniqueResultId}
-              name={confluenceResult.name}
-              href={confluenceResult.href}
-              type={confluenceResult.analyticsType}
-              containerName={confluenceResult.containerName}
-              avatar={getAvatarForConfluenceObjectResult(confluenceResult)}
-              analyticsData={analyticsData}
-              selectedIcon={selectedIcon}
-            />
+            <span
+              key={`span_${uniqueKey}`}
+              ref={ref => {
+                if (scrollIndex && index === scrollIndex) {
+                  this.ref = ref;
+                }
+              }}
+            >
+              <ObjectResultComponent
+                key={uniqueKey}
+                resultId={uniqueResultId}
+                name={confluenceResult.name}
+                href={confluenceResult.href}
+                type={confluenceResult.analyticsType}
+                containerName={confluenceResult.containerName}
+                avatar={getAvatarForConfluenceObjectResult(confluenceResult)}
+                analyticsData={analyticsData}
+                selectedIcon={selectedIcon}
+                ref={ref => {
+                  if (scrollIndex && index === scrollIndex) {
+                    this.ref = ref;
+                  }
+                }}
+              />
+            </span>
           );
         }
         case ResultType.JiraProjectResult: {
