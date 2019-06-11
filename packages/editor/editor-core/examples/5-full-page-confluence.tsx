@@ -5,6 +5,8 @@ import { ConfluenceIcon } from '@atlaskit/logo';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import { EditorProps } from './../src/editor';
 import FullPageExample, { ExampleProps } from './5-full-page';
+import { collabEditProvider } from '../example-helpers/mock-collab-provider';
+import { InviteToEditButton } from './3-collab';
 
 const App = styled.div`
   display: flex;
@@ -26,11 +28,15 @@ const EditorWrapper = styled.div`
 
 /**
  * Example designed to be similar to how the editor is within Confluence's Edit mode
- * where it has a 64px sidebar on the left
+ * Has:
+ *  - 64px sidebar on the left
+ *  - collab editing enabled
  */
 export default class ExampleEditorComponent extends React.Component<
   EditorProps & ExampleProps
 > {
+  collabSessionId = 'quokka';
+
   render() {
     return (
       <App>
@@ -39,7 +45,13 @@ export default class ExampleEditorComponent extends React.Component<
           <QuestionCircleIcon label="Help" />
         </Sidebar>
         <EditorWrapper>
-          <FullPageExample {...this.props} />
+          <FullPageExample
+            {...this.props}
+            collabEdit={{
+              provider: collabEditProvider(this.collabSessionId),
+              inviteToEditComponent: InviteToEditButton,
+            }}
+          />
         </EditorWrapper>
       </App>
     );
