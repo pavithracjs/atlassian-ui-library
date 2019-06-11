@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.12.1
+
+### Patch Changes
+
+- [patch][cf6efdbfa8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cf6efdbfa8):
+
+  ED-7023: removed mouseMove and mouseLeave handlers from columns resizing plugin
+
 ## 112.12.0
 
 ### Minor Changes
