@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   defaultCollectionName,
   createUploadContext,
+  createStorybookMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
@@ -17,7 +18,7 @@ import {
 } from '../src';
 
 const context = createUploadContext();
-
+const mediaClient = createStorybookMediaClient();
 const dataSourceOptions = [
   { label: 'List', value: 'list' },
   { label: 'Collection', value: 'collection' },
@@ -45,7 +46,11 @@ export default class Example extends React.Component<{}, State> {
     });
 
     context.on('file-added', file => {
-      console.log('on file-added', file);
+      console.log('context on file-added', file);
+    });
+
+    mediaClient.on('file-added', file => {
+      console.log('mediaClient on file-added', file);
     });
 
     popup.on('uploads-start', (payload: { files: MediaFile[] }) => {
