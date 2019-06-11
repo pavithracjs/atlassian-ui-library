@@ -3,6 +3,7 @@ import { Page } from './_types';
 export const selectors = {
   editor: '.ProseMirror',
   lastEditorElement: '.ProseMirror > *:last-child',
+  firstEditorParagraph: '.ProseMirror > p:first-child',
   lastEditorParagraph: '.ProseMirror > p:last-child',
   selectedNode: '.ProseMirror-selectednode',
   scrollContainer: '.fabric-editor-popup-scroll-parent',
