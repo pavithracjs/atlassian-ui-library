@@ -130,7 +130,7 @@ describe('ShareDialogContainer', () => {
     mockOriginTracingFactory.mockReset();
 
     const previousCopyOrigin = wrapper.instance().getCopyLinkOriginTracing();
-    const previousMailShareOrigin = wrapper
+    const previousFormShareOrigin = wrapper
       .instance()
       .getFormShareOriginTracing();
 
@@ -140,7 +140,7 @@ describe('ShareDialogContainer', () => {
       previousCopyOrigin,
     );
     expect(wrapper.instance().getFormShareOriginTracing()).toBe(
-      previousMailShareOrigin,
+      previousFormShareOrigin,
     );
 
     expect(mockOriginTracingFactory).toHaveBeenCalledTimes(0); // still memoized
@@ -150,7 +150,7 @@ describe('ShareDialogContainer', () => {
     mockOriginTracingFactory.mockReset();
 
     const previousCopyOrigin = wrapper.instance().getCopyLinkOriginTracing();
-    const previousMailShareOrigin = wrapper
+    const previousFormShareOrigin = wrapper
       .instance()
       .getFormShareOriginTracing();
 
@@ -161,7 +161,7 @@ describe('ShareDialogContainer', () => {
       previousCopyOrigin,
     );
     expect(wrapper.instance().getFormShareOriginTracing()).not.toBe(
-      previousMailShareOrigin,
+      previousFormShareOrigin,
     );
   });
 
@@ -272,7 +272,7 @@ describe('ShareDialogContainer', () => {
       mockOriginTracingFactory.mockReset();
 
       const previousCopyOrigin = wrapper.instance().getCopyLinkOriginTracing();
-      const previousMailShareOrigin = wrapper
+      const previousFormShareOrigin = wrapper
         .instance()
         .getFormShareOriginTracing();
 
@@ -288,7 +288,7 @@ describe('ShareDialogContainer', () => {
         previousCopyOrigin,
       ); // no change
       expect(wrapper.instance().getFormShareOriginTracing()).not.toBe(
-        previousMailShareOrigin,
+        previousFormShareOrigin,
       ); // change
       expect(mockOriginTracingFactory).toHaveBeenCalledTimes(1); // only once for mail
     });
