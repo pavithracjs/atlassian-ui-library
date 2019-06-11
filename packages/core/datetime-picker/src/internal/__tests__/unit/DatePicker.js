@@ -31,7 +31,7 @@ test('DatePicker, onCalendarChange if the iso date is greater than the last day 
   const datePickerWrapper = mount(<DatePicker />);
   datePickerWrapper.instance().onCalendarChange({ iso: date });
   datePickerWrapper.update();
-  expect(datePickerWrapper.instance().state.view).toEqual(fallbackDate);
+  expect(datePickerWrapper.instance().state.view).toEqual(fallbakcDate);
 });
 
 test('DatePicker, supplying a custom parseInputValue prop, produces the expected result', () => {
