@@ -87,7 +87,7 @@ export default class Slider extends Component<Props, State> {
     return (
       <Theme.Provider value={theme}>
         <Theme.Consumer>
-          {(computedTheme: any) => (
+          {(computedTheme: ThemeTokens) => (
             <Input
               {...computedTheme}
               type="range"

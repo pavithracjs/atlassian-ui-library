@@ -10,12 +10,12 @@ const transitionDuration = '0.2s';
 export const overallHeight = 40;
 
 interface TrackProps extends ThemeTokens {
-  valuePercent: number;
+  valuePercent: string;
 }
 
 const getBackgroundGradient = (
   { lower, upper }: ThemeTokensTrack,
-  percent: number,
+  percent: string,
 ) =>
   css`
     background: linear-gradient(${lower}, ${lower}) 0 / ${percent}% 100%
@@ -48,7 +48,7 @@ const sliderDefaultBackground = (props: TrackProps) =>
   getBackgroundGradient(props.track.default, props.valuePercent);
 
 const sliderTrackStyle = css`
-  background: ${({ track }: ThemeTokens) => track.background};
+  background: ${({ track }: TrackProps) => track.background};
   border-radius: ${sliderLineThickness / 2}px;
   border: 0;
   cursor: pointer;
@@ -216,7 +216,7 @@ export const rangeInputStyle = css`
   background-position: right;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<TrackProps>`
   ${rangeInputStyle};
 `;
 
