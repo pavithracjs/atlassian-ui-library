@@ -14,10 +14,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Reyndu að skrá þig út og svo inn aftur',
   'fabric.mention.error.differentText': 'Reyndu að slá inn annan texta',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{1 member} other{{0} members}}',
+    '{0, plural, one{Einn meðlimur} other{{0} meðlimir}}',
   'fabric.elements.mentions.team.member.count.including.you':
     '{0, plural, one{1 member, including you} other{{0} members, including you}}',
-  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus': '50+ meðlimir',
   'fabric.elements.mentions.team.member.50plus.including.you':
-    '50+ members, including you',
+    '50+ meðlimir, að þér meðtöldum/meðtalinni',
 };

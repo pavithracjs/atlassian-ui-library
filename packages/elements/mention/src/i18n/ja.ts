@@ -14,10 +14,11 @@ export default {
   'fabric.mention.error.loginAgain':
     '一度ログアウトしてからもう一度ログインしてみてください',
   'fabric.mention.error.differentText': '別のテキストを入力してください',
-  'fabric.elements.mentions.team.member.count': '{0, plural, other{1 member}}',
+  'fabric.elements.mentions.team.member.count':
+    '{0, plural, other{{0} 人のメンバー}}',
   'fabric.elements.mentions.team.member.count.including.you':
     '{0, plural, other{1 member, including you}}',
-  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus': '50 人以上のメンバー',
   'fabric.elements.mentions.team.member.50plus.including.you':
-    '50+ members, including you',
+    '50 人以上のメンバー (あなたを含む)',
 };

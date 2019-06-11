@@ -14,10 +14,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Zkuste se odhlásit a znovu přihlásit',
   'fabric.mention.error.differentText': 'Zkuste zadat jiný text',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{1 member} few{{0} members} many{{0} members} other{{0} members}}',
+    '{0, plural, one{1 člen} few{{0} členové} many{{0} členů} other{{0} členů}}',
   'fabric.elements.mentions.team.member.count.including.you':
     '{0, plural, one{1 member, including you} few{{0} members, including you} many{{0} members, including you} other{{0} members, including you}}',
-  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus': '50+ členů',
   'fabric.elements.mentions.team.member.50plus.including.you':
-    '50+ members, including you',
+    '50+ členů včetně vás',
 };

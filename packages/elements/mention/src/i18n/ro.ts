@@ -14,10 +14,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Deconectați-vă și conectați-vă din nou',
   'fabric.mention.error.differentText': 'Introduceți un text diferit',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{1 member} few{{0} members} other{{0} members}}',
+    '{0, plural, one{1 membru} few{{0} membri} other{{0} de membri}}',
   'fabric.elements.mentions.team.member.count.including.you':
     '{0, plural, one{1 member, including you} few{{0} members, including you} other{{0} members, including you}}',
-  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus': '50+ membri',
   'fabric.elements.mentions.team.member.50plus.including.you':
-    '50+ members, including you',
+    '50+ membri, inclusiv dvs.',
 };
