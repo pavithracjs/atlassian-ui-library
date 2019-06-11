@@ -596,14 +596,14 @@ describe(name, () => {
       mentionData.storyData.resourceProvider,
     );
 
-    it('mentions should be sanitized when collabEdit.sanitizePrivateContent true', () => {
+    it('mentions should be sanitized when sanitizePrivateContent true', () => {
       const wrapper = shallow(
         <ReactEditorView
           {...requiredProps()}
           editorProps={{
             defaultValue: toJSON(document),
-            collabEdit: { sanitizePrivateContent: true },
             mentionProvider,
+            sanitizePrivateContent: true,
           }}
           providerFactory={ProviderFactory.create({ mentionProvider })}
         />,
@@ -619,13 +619,13 @@ describe(name, () => {
       wrapper.unmount();
     });
 
-    it('mentions should not be sanitized when collabEdit.sanitizePrivateContent false', () => {
+    it('mentions should not be sanitized when sanitizePrivateContent false', () => {
       const wrapper = shallow(
         <ReactEditorView
           {...requiredProps()}
           editorProps={{
             defaultValue: toJSON(document),
-            collabEdit: { sanitizePrivateContent: false },
+            sanitizePrivateContent: false,
             mentionProvider,
           }}
           providerFactory={ProviderFactory.create({ mentionProvider })}

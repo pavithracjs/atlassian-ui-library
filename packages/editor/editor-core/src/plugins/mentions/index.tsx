@@ -53,7 +53,6 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
-import { CollabEditOptions } from '../collab-edit';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -63,7 +62,7 @@ export interface TeamInfoAttrAnalytics {
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
-  collabEditOptions?: CollabEditOptions,
+  sanitizePrivateContent?: boolean,
 ): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
@@ -208,9 +207,6 @@ const mentionsPlugin = (
 
           const pluginState = getMentionPluginState(state);
           const { mentionProvider } = pluginState;
-          const sanitizePrivateContent = !!(
-            collabEditOptions && collabEditOptions.sanitizePrivateContent
-          );
           const { id, name, nickname, accessLevel, userType } = item.mention;
           const renderName = nickname ? nickname : name;
           const typeAheadPluginState = typeAheadPluginKey.getState(
@@ -265,8 +261,8 @@ const mentionsPlugin = (
               buildNodesForTeamMention(
                 schema,
                 item.mention,
-                sanitizePrivateContent,
                 mentionProvider,
+                sanitizePrivateContent,
               ),
             );
           }
@@ -570,8 +566,8 @@ function mentionPluginFactory(
 function buildNodesForTeamMention(
   schema: Schema,
   selectedMention: MentionDescription,
-  sanitizePrivateContent: boolean,
   mentionProvider: MentionProvider,
+  sanitizePrivateContent?: boolean,
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;

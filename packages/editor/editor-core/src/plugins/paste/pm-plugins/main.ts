@@ -32,7 +32,6 @@ import {
 import { PasteTypes } from '../../analytics';
 import { insideTable } from '../../../utils';
 import { CardOptions } from '../../card';
-import { CollabEditOptions } from '../../collab-edit/types';
 export const stateKey = new PluginKey('pastePlugin');
 
 export const md = MarkdownIt('zero', { html: false });
@@ -58,7 +57,7 @@ function isHeaderRowRequired(state: EditorState) {
 export function createPlugin(
   schema: Schema,
   cardOptions?: CardOptions,
-  collabEdit?: CollabEditOptions,
+  sanitizePrivateContent?: boolean,
 ) {
   const atlassianMarkDownParser = new MarkdownTransformer(schema, md);
 
@@ -250,7 +249,7 @@ export function createPlugin(
         return false;
       },
       transformPasted(slice) {
-        if (collabEdit && collabEdit.sanitizePrivateContent) {
+        if (sanitizePrivateContent) {
           slice = handleMention(slice, schema);
         }
 

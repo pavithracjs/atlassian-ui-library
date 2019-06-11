@@ -64,5 +64,4 @@ export type CollabEditOptions = {
   userId?: string;
   useNativePlugin?: boolean;
   allowUnsupportedContent?: boolean;
-  sanitizePrivateContent?: boolean;
 } & CollabInviteToEditProps;

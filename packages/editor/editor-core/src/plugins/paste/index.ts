@@ -7,7 +7,11 @@ const paste: EditorPlugin = {
       {
         name: 'paste',
         plugin: ({ schema, props }) =>
-          createPlugin(schema, props.UNSAFE_cards, props.collabEdit),
+          createPlugin(
+            schema,
+            props.UNSAFE_cards,
+            props.sanitizePrivateContent,
+          ),
       },
     ];
   },

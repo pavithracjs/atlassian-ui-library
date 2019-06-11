@@ -74,7 +74,10 @@ describe('paste plugins', () => {
         ...props,
       },
       editorPlugins: [
-        mentionsPlugin(createAnalyticsEvent as any, props.collabEdit),
+        mentionsPlugin(
+          createAnalyticsEvent as any,
+          props.sanitizePrivateContent,
+        ),
         mediaPlugin({ allowMediaSingle: true }),
         macroPlugin,
         codeBlockPlugin(),
@@ -106,9 +109,9 @@ describe('paste plugins', () => {
         const mentionsHtml =
           "<meta charset='utf-8'><p data-pm-slice='1 1 []'><span data-mention-id='2' data-access-level='' contenteditable='false'>@Verdie Carrales</span> test</p>";
 
-        it('should remove mention text when property CollabEditOptions.sanitizePrivateContent is enabled', () => {
+        it('should remove mention text when property sanitizePrivateContent is enabled', () => {
           const { editorView } = editor(doc(p('this is {<>}')), {
-            collabEdit: { sanitizePrivateContent: true },
+            sanitizePrivateContent: true,
           });
           dispatchPasteEvent(editorView, {
             html: mentionsHtml,
@@ -124,9 +127,9 @@ describe('paste plugins', () => {
           );
         });
 
-        it('should keep mention text when property CollabEditOptions.sanitizePrivateContent is disabled', () => {
+        it('should keep mention text when property sanitizePrivateContent is disabled', () => {
           const { editorView } = editor(doc(p('this is {<>}')), {
-            collabEdit: { sanitizePrivateContent: false },
+            sanitizePrivateContent: false,
           });
           dispatchPasteEvent(editorView, {
             html: mentionsHtml,

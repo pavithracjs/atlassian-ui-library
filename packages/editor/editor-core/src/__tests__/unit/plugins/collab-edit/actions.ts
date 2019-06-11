@@ -83,10 +83,17 @@ describe('collab-edit: actions', () => {
   );
   const providerFactory = ProviderFactory.create({ mentionProvider });
 
-  const editor = (doc: any, collabEdit?: CollabEditOptions) => {
+  const editor = (
+    doc: any,
+    collabEdit?: CollabEditOptions,
+    sanitizePrivateContent?: boolean,
+  ) => {
     return createEditor({
       doc,
-      editorPlugins: [collabPlugin, mentionPlugin(undefined, collabEdit)],
+      editorPlugins: [
+        collabPlugin,
+        mentionPlugin(undefined, sanitizePrivateContent),
+      ],
       editorProps: {
         allowUnsupportedContent: true,
         mentionProvider,
@@ -125,18 +132,34 @@ describe('collab-edit: actions', () => {
     it('should sanitize private content when the sanitizePrivateContent option is enabled.', () => {
       const collabEdit = {
         allowUnsupportedContent: true,
-        sanitizePrivateContent: true,
       };
-      const { editorView } = editor(doc(p('')), collabEdit);
+      const { editorView } = editor(doc(p('')), collabEdit, true);
 
       const initData: InitData = {
         doc: privateContentNodesDoc,
       };
 
-      handleInit(initData, editorView, collabEdit, providerFactory);
+      handleInit(initData, editorView, collabEdit, providerFactory, true);
 
       expect(editorView.state.doc).toEqualDocument(
-        doc(p('Bacon ', mention({ id: '123' })(), ' ham')),
+        doc(p('Bacon ', mention({ id: '123', text: '' })(), ' ham')),
+      );
+    });
+
+    it('should not sanitize private content when the sanitizePrivateContent option is disabled.', () => {
+      const collabEdit = {
+        allowUnsupportedContent: true,
+      };
+      const { editorView } = editor(doc(p('')), collabEdit, false);
+
+      const initData: InitData = {
+        doc: privateContentNodesDoc,
+      };
+
+      handleInit(initData, editorView, collabEdit, providerFactory, false);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('Bacon ', mention({ id: '123', text: '@cheese' })(), ' ham')),
       );
     });
   });

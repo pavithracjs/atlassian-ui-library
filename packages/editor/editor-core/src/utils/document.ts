@@ -3,7 +3,6 @@ import { Transaction, Selection, EditorState } from 'prosemirror-state';
 import { validator, ADFEntity, ValidationError } from '@atlaskit/adf-utils';
 import { analyticsService } from '../analytics';
 import { ContentNodeWithPos } from 'prosemirror-utils';
-import { CollabEditOptions } from '../plugins/collab-edit';
 import { sanitizeNodeForPrivacy } from '../utils/filter/privacy-filter';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { JSONDocNode } from '../utils';
@@ -130,7 +129,7 @@ export function processRawValue(
   schema: Schema,
   value?: string | object,
   providerFactory?: ProviderFactory,
-  collabEdit?: CollabEditOptions,
+  sanitizePrivateContent?: boolean,
 ): Node | undefined {
   if (!value) {
     return;
@@ -228,7 +227,7 @@ export function processRawValue(
     let newEntity = maySanitizePrivateContent(
       entity as JSONDocNode,
       providerFactory,
-      collabEdit,
+      sanitizePrivateContent,
     );
 
     let parsedDoc = Node.fromJSON(schema, newEntity);
@@ -249,9 +248,9 @@ export function processRawValue(
 const maySanitizePrivateContent = (
   entity: JSONDocNode,
   providerFactory?: ProviderFactory,
-  collabEdit?: CollabEditOptions,
+  sanitizePrivateContent?: boolean,
 ): JSONDocNode => {
-  if (collabEdit && collabEdit.sanitizePrivateContent && providerFactory) {
+  if (sanitizePrivateContent && providerFactory) {
     return sanitizeNodeForPrivacy(entity, providerFactory);
   }
   return entity;

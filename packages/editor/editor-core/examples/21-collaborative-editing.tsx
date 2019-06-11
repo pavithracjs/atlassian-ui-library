@@ -192,6 +192,7 @@ export default class Example extends React.Component<Props, State> {
                   taskDecision.getMockTaskDecisionResource(),
                 )}
                 contextIdentifierProvider={storyContextIdentifierProviderFactory()}
+                sanitizePrivateContent={true}
                 collabEdit={{
                   useNativePlugin: true,
                   provider: Promise.resolve(
@@ -214,7 +215,6 @@ export default class Example extends React.Component<Props, State> {
                   inviteToEditHandler: this.inviteToEditHandler,
                   isInviteToEditButtonSelected: this.state
                     .isInviteToEditButtonSelected,
-                  sanitizePrivateContent: true,
                   userId,
                 }}
                 placeholder="Write something..."

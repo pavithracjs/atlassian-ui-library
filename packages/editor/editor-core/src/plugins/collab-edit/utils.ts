@@ -110,6 +110,7 @@ export const replaceDocument = (
   version?: number,
   options?: CollabEditOptions,
   providerFactory?: ProviderFactory,
+  sanitizePrivateContent?: boolean,
 ) => {
   const { schema, tr } = state;
 
@@ -119,7 +120,12 @@ export const replaceDocument = (
   if (options && options.allowUnsupportedContent) {
     // Process the value coming in, this allows us to wrap blocks unknown to us.
     // Instead of throwing an error at this point.
-    content = processRawValue(state.schema, doc, providerFactory, options);
+    content = processRawValue(
+      state.schema,
+      doc,
+      providerFactory,
+      sanitizePrivateContent,
+    );
 
     hasContent = !!content;
   } else {

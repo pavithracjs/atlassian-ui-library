@@ -323,7 +323,6 @@ export default class ReactEditorView<T = {}> extends React.Component<
     const {
       contentTransformerProvider,
       defaultValue,
-      collabEdit,
     } = options.props.editorProps;
 
     const plugins = createPMPlugins({
@@ -352,7 +351,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
               schema,
               defaultValue,
               options.props.providerFactory,
-              collabEdit,
+              options.props.editorProps.sanitizePrivateContent,
             );
     }
     let selection: Selection | undefined;
