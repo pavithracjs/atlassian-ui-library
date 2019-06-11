@@ -36,7 +36,7 @@ export interface HeaderProps {
   /** Component to render the header of the modal. */
   component?: React.ElementType;
   /** The modal heading */
-  heading?: string;
+  heading?: React.ReactNode;
   /** Function to close the dialog */
   onClose: Function;
   /** Whether or not to display a line under the header */

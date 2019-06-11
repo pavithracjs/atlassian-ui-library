@@ -88,7 +88,7 @@ interface Props {
   /**
     The modal title; rendered in the header.
   */
-  heading?: string;
+  heading?: React.ReactNode;
   /**
    * Makes heading multiline.
    * If false and heading is longer than one line overflow will be not displayed.

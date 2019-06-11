@@ -17,6 +17,7 @@ import { FileItem, Identifier } from '@atlaskit/media-client';
 import {
   KeyboardEventWithKeyCode,
   fakeMediaClient,
+  asMock,
 } from '@atlaskit/media-test-helpers';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { Content } from '../../../newgen/content';
@@ -24,10 +25,12 @@ import { MediaViewer } from '../../../newgen/media-viewer';
 import { CloseButtonWrapper } from '../../../newgen/styled';
 import Header from '../../../newgen/header';
 import { ItemSource } from '../../../newgen/domain';
+import { Observable } from 'rxjs';
 
 function createFixture(items: Identifier[], identifier: Identifier) {
   const subject = new Subject<FileItem>();
   const mediaClient = fakeMediaClient();
+  asMock(mediaClient.file.getFileState).mockReturnValue(Observable.never());
   const onClose = jest.fn();
   const itemSource: ItemSource = {
     kind: 'ARRAY',

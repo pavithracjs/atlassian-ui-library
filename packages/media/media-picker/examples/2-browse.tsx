@@ -12,7 +12,8 @@ import { MediaPicker, Browser, UploadParams, BrowserConfig } from '../src';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
-import { ContextFactory, FileState } from '@atlaskit/media-core';
+import { FileState, MediaClient } from '@atlaskit/media-client';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 export interface BrowserWrapperState {
   collectionName: string;
@@ -33,9 +34,9 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   }
 
   async createBrowse() {
-    const context = ContextFactory.create({
+    const mediaClientConfig: MediaClientConfig = {
       authProvider: mediaPickerAuthProvider(),
-    });
+    };
     const uploadParams: UploadParams = {
       collection: defaultMediaPickerCollectionName,
     };
@@ -47,9 +48,14 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     if (this.state.fileBrowser) {
       this.state.fileBrowser.teardown();
     }
-    const fileBrowser = await MediaPicker('browser', context, browseConfig);
+    const fileBrowser = await MediaPicker(
+      'browser',
+      mediaClientConfig,
+      browseConfig,
+    );
 
-    context.on('file-added', this.onFileAdded);
+    const mediaClient = new MediaClient(mediaClientConfig);
+    mediaClient.on('file-added', this.onFileAdded);
     this.setState({
       fileBrowser,
     });

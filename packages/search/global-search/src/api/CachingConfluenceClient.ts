@@ -1,4 +1,9 @@
-import { ConfluenceRecentsMap, Result } from '../model/Result';
+import {
+  ConfluenceRecentsMap,
+  Result,
+  ConfluenceObjectResult,
+  PersonResult,
+} from '../model/Result';
 import ConfluenceClientImpl from './ConfluenceClient';
 
 export default class CachingConfluenceClient extends ConfluenceClientImpl {
@@ -9,16 +14,18 @@ export default class CachingConfluenceClient extends ConfluenceClientImpl {
     this.prefetchedResults = prefetchedResults;
   }
 
-  async getRecentItems(searchSessionId: string): Promise<Result[]> {
+  async getRecentItems(
+    searchSessionId: string,
+  ): Promise<ConfluenceObjectResult[]> {
     if (this.prefetchedResults) {
-      return (await this.prefetchedResults).objects;
+      return (await this.prefetchedResults).objects.items;
     }
     return super.getRecentItems(searchSessionId);
   }
 
   async getRecentSpaces(searchSessionId: string): Promise<Result[]> {
     if (this.prefetchedResults) {
-      return (await this.prefetchedResults).spaces;
+      return (await this.prefetchedResults).spaces.items;
     }
     return super.getRecentSpaces(searchSessionId);
   }
@@ -26,9 +33,9 @@ export default class CachingConfluenceClient extends ConfluenceClientImpl {
   async searchPeopleInQuickNav(
     query: string,
     searchSessionId: string,
-  ): Promise<Result[]> {
+  ): Promise<PersonResult[]> {
     if (this.prefetchedResults) {
-      return (await this.prefetchedResults).people;
+      return (await this.prefetchedResults).people.items;
     }
     return super.searchPeopleInQuickNav(query, searchSessionId);
   }

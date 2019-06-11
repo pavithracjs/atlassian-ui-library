@@ -59,7 +59,8 @@ export type Props = {
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
-  shareOrigin?: OriginTracing | null;
+  copyLinkOrigin?: OriginTracing | null;
+  formShareOrigin?: OriginTracing | null;
   shouldCloseOnEscapePress?: boolean;
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
@@ -219,7 +220,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
     const {
       onShareSubmit,
       shareContentType,
-      shareOrigin,
+      formShareOrigin,
       showFlags,
       config,
     } = this.props;
@@ -230,7 +231,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
     this.setState({ isSharing: true });
 
     this.createAndFireEvent(
-      submitShare(this.start, data, shareContentType, shareOrigin, config),
+      submitShare(this.start, data, shareContentType, formShareOrigin, config),
     );
 
     onShareSubmit(data)
@@ -256,7 +257,8 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    this.createAndFireEvent(copyShareLink(this.start, this.props.shareOrigin));
+    const { copyLinkOrigin } = this.props;
+    this.createAndFireEvent(copyShareLink(this.start, copyLinkOrigin));
   };
 
   render() {
@@ -274,7 +276,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       triggerButtonStyle,
     } = this.props;
 
-    // for performance purposes, we may want to have a lodable content i.e. ShareForm
+    // for performance purposes, we may want to have a loadable content i.e. ShareForm
     return (
       <div
         tabIndex={0}

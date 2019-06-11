@@ -1,5 +1,12 @@
 # Contributing to Atlaskit
 
+Thank you for your interest in contributing to Atlaskit!
+
+Want to raise a bug, make a suggestion, or give us feedback?
+You can [add a ticket through our service desk][servicedesk].
+
+Want to contribute, but not sure where to start? Check our [existing issues][issuetracker] for ideas. For bigger changes, make sure you start a discussion first by creating an issue and explaining the intended change.
+
 ## Code of Conduct
 
 This project is bound by a [Code of Conduct][codeofconduct].
@@ -8,11 +15,9 @@ Lots more information about contributing to this project can also be found on ou
 
 ## Reporting Tickets
 
-Our service desk is now open to public, you can access it [here](https://ecosystem.atlassian.net/servicedesk/customer/portal/24).
+The Atlaskit repository has [a service desk for reporting bugs, feature requests, or suggesting improvements][servicedesk].
 
-### Before submitting a ticket
-
-- **Perform a [cursory search][issuetracker]** to see if the problem has already been reported. If it has, add a comment to the existing issue instead of opening a new one.
+Before submitting a ticket, we kindly ask that you [perform a cursory search of existing issues][issuetracker] to see if the problem has already been reported. If it has, add a comment to the existing issue instead of opening a new one.
 
 ### How do I submit a (good) bug report?
 
@@ -29,37 +34,66 @@ Include details about your configuration and environment:
 - **Which version of the component are you using?** You can get this information by running `yarn list --pattern @atlaskit` or `npm list | grep '@atlaskit'` from the command line.
 - **What's the name and version of the browser and OS you're using**?
 
-### Code Contributions
+## Code Contributions
 
-#### Why should I contribute?
+### Why should I contribute?
 
 1. While we strive to look at new tickets as soon as we can, because of the many priorities we juggle and limited resources, tickets raised often don't get looked into soon enough.
 2. We want your contributions. We are always trying to improve our docs, processes and tools to make it easier to submit your own changes.
 3. With the build system and auto-deployment to npm, using Atlaskit components in your projects simplifies your development stack. Treat Atlaskit as part of your codebase and make changes in it.
 4. At Atlassian, "Play, As A Team" is one of our values. We encourage cross team contributions and collaborations.
 
-# Contributing
+### Becoming a contributor
 
-Welcome to the Atlaskit MK2 repo. This repo works a bit differently than the
-previous one as it has an entirely new build with many new tools and workflows.
+You need to be added to the 'atlaskit contributor' team in order to create branches and raise pull requests in the Atlaskit repo. To be added, you should:
 
-A lot of these new build tools are still being developed and won't hit 1.0 for a
-little while. So bear with us for a little while as we work out all the
-problems.
+1. [Raise a ticket in our service desk][servicedesk_contributor]. Please include the following details:
+   1. Your Bitbucket username and
+   1. The reason you want to be a contributor - e.g. Reference another issue that you'd like to provide a PR for.
+1. Have signed or be ready to sign the Contributor License Agreement(CLA). See below.
 
-Don't worry though, we're making it easier than ever to work on Atlaskit from
-end to end. If you have any questions/problems, feel free to contact Luke Batchelor.
+Atlassian requires contributors to sign a Contributor License Agreement,
+known as a CLA. This serves as a record stating that the contributor is
+entitled to contribute the code/documentation/translation to the project
+and is willing to have it used in distributions and derivative works
+(or is willing to transfer ownership).
+
+Prior to accepting your contributions, we ask that you please follow the appropriate
+link below to digitally sign the CLA. The Corporate CLA is for those who are
+contributing as a member of an organization and the individual CLA is for
+those contributing as an individual.
+
+- [CLA for corporate contributors](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=e1c17c66-ca4d-4aab-a953-2c231af4a20b)
+- [CLA for individuals](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=3f94fbdc-2fbe-46ac-b14c-5d152700ae5d)
+
+# Contributing code to Atlaskit
+
+Welcome to the Atlaskit repo!
+
+Before you jump in to the repository and start making changes, you will need to sign
+Atlassian's Contributor License Agreement. See [Becoming a contributor][#becoming-a-contributor] section for details.
 
 A more in-depth view of how we want to work with other teams and open source
-contributions can be found on the
-[website](https://atlaskit.atlassian.com/docs/guides/contributing).
+contributions can be found in the
+[contributing guide on the Atlaskit website](https://atlaskit.atlassian.com/docs/guides/contributing).
 
-That all being said, let's dive into it:
+If you have any questions/problems with the repo or codebase,
+please [raise them through our service desk][servicedesk].
 
-### Getting Started
+With all that being said, let's dive into it!
 
-To clone the repository (you'll need [git](https://git-scm.com/) installed if
-you don't already), open up your terminal and run the following:
+## Development environment
+
+### Requirements
+
+- [git](https://git-scm.com/) version 2 or above for version control management.
+- [node](https://nodejs.org/) version should be as listed in .nvmrc (we recommend using [nvm](https://github.com/creationix/nvm)). Run `nvm use` in the root directory to install the correct version of node.
+- [yarn](https://yarnpkg.com/) version 1 or above.
+- [bolt](https://github.com/boltpkg/bolt) version 0.20 or above.
+
+### Setting up the development environment
+
+To clone the repository, open up your terminal and run the following:
 
 ```sh
 git clone git@bitbucket.org:atlassian/atlaskit-mk-2.git
@@ -67,8 +101,9 @@ cd atlaskit-mk-2
 ```
 
 Then you'll need both [Node.js](https://nodejs.org/) and
-[Yarn](https://yarnpkg.com/) installed. If you're on a Mac and have
-[Homebrew](https://brew.sh/) you can run:
+[Yarn](https://yarnpkg.com/) installed.
+
+If you're on a Mac and have [Homebrew](https://brew.sh/) you can run:
 
 ```sh
 brew install node yarn
@@ -92,15 +127,13 @@ bolt install
 This will take a minute or two the first time, but every subsequent run should
 only take about a second.
 
-Now you can start the development server for a specific component you are working on using
-`bolt start <pkg-name>`, for example:
+Since this is a git-lfs repo, turn on lfs hooks for code push by running:
 
 ```sh
-bolt start button
+bolt enable:lfs
 ```
 
-This will start the dev server with only packages matching "button"
-pattern being served on http://localhost:9000.
+You're now ready to start developing in Atlaskit!
 
 #### Linux / Mac / Windows
 
@@ -132,6 +165,25 @@ IntelliJ and WebStorm don't handle it properly. There are tickets raised in YouT
 
 See the [directory structure docs](https://atlaskit.atlassian.com/docs/guides/directory-structure) for
 more information.
+
+## Getting started with a package
+
+Each component or utility lives in its own package under the `packages` directory.
+
+You can start the development server for a specific component using
+`bolt start <pkg-name>`, for example:
+
+```sh
+bolt start button
+```
+
+This will start the dev server with only packages matching the "button" pattern, served on http://localhost:9000.
+
+You can start the development server for multiple components by separating the package names by a space, for example:
+
+```sh
+bolt start button modal-dialog
+```
 
 ## Writing new code
 
@@ -381,8 +433,29 @@ create the changelog entry for each package being released.
 
 More information about this can be found [here][releasing-packages] and in the [faq][faq]
 
+## Submitting pull requests
+
+When you are ready to submit a change to Atlaskit, you should raise a pull request.
+
+Push your code to a branch on the Atlaskit repository itself.
+Do not raise pull requests from forks because our CI builds do not run on forks.
+
+The smaller your change, the more likely it will be accepted, and the sooner it is likely to be merged.
+
+If you are making multiple unrelated changes to Atlaskit, please submit them in multiple pull requests.
+
+Be sure that your request includes tests for new features and bug fixes.
+Consult our [testing guidelines][testing] for further details.
+
+Ensure your code follows the existing code style and conventions.
+
+Once your pull request has been reviewed and approved by an Atlaskit maintainer, you will need an Atlaskit
+maintainer to merge the change.
+
 [codeofconduct]: ./CODE_OF_CONDUCT.md
 [issuetracker]: https://ecosystem.atlassian.net/issues/?filter=56701
+[servicedesk]: https://ecosystem.atlassian.net/servicedesk/customer/portal/24
+[servicedesk_contributor]: https://ecosystem.atlassian.net/servicedesk/customer/portal/24/group/52/create/306
 [testing]: https://atlaskit.atlassian.com/docs/guides/testing
 [releasing-packages]: https://atlaskit.atlassian.com/docs/guides/releasing-packages
 [getting-started]: https://atlaskit.atlassian.com/docs/getting-started

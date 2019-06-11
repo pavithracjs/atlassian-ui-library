@@ -99,7 +99,7 @@ describe('@atlaskit/editor-common popup utils', () => {
 
       expect(calc).toEqual({
         top: 29,
-        left: 41,
+        left: 38,
       });
     });
 
