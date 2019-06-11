@@ -1,6 +1,12 @@
-import { createEditorFactory, p, doc } from '@atlaskit/editor-test-helpers';
+import {
+  createEditorFactory,
+  p,
+  doc,
+  code,
+  hardBreak,
+} from '@atlaskit/editor-test-helpers';
 
-import { clearEditorContent } from '../../../commands';
+import { clearEditorContent, insertNewLine } from '../../../commands';
 
 describe('commands', () => {
   const createEditor = (doc: any) =>
@@ -13,6 +19,16 @@ describe('commands', () => {
       const { editorView } = createEditor(doc(p('text{<>}')));
       clearEditorContent(editorView.state, editorView.dispatch);
       expect(editorView.state.doc).toEqualDocument(doc(p()));
+    });
+  });
+
+  describe('insertNewLine', () => {
+    it('hardBreak doesnt inherit marks', () => {
+      const { editorView } = createEditor(doc(p(code('te{<>}xt'))));
+      insertNewLine()(editorView.state, editorView.dispatch);
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p(code('te'), hardBreak(), code('xt'))),
+      );
     });
   });
 });
