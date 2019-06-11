@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.12.2
+
+### Patch Changes
+
+- [patch][f75e638261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f75e638261):
+
+  ED-6982: Fix auto conversion of code mark to not apply marks to non text nodes.
+
 ## 112.12.1
 
 ### Patch Changes

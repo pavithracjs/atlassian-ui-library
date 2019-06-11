@@ -1,1 +1,0 @@
-ED-6982: Fix auto conversion of code mark to not apply marks to non text nodes.
