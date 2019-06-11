@@ -1,0 +1,1 @@
+ED-7014: fixed rendered not loading on Android 22/23
