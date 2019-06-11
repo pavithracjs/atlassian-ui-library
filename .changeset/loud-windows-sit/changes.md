@@ -1,0 +1,1 @@
+ Remove bundling i18n messages in profilecard. That means consumers of AK profilecard should load mesasges from @atlaskit/profilecard/i18n
