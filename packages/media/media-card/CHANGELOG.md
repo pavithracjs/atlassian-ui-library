@@ -1,5 +1,28 @@
 # @atlaskit/media-card
 
+## 63.1.5
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/checkbox@8.0.2
+  - @atlaskit/dropdown-menu@8.0.4
+  - @atlaskit/field-radio-group@6.0.2
+  - @atlaskit/toggle@7.0.1
+  - @atlaskit/media-test-helpers@24.0.3
+  - @atlaskit/media-ui@11.2.8
+  - @atlaskit/media-viewer@43.1.1
+  - @atlaskit/field-range@7.0.4
+  - @atlaskit/icon@18.0.0
+
+## 63.1.4
+
+### Patch Changes
+
+- [patch][b37dd8dc38](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b37dd8dc38):
+
+  Use video binary artifact while video is processing
+
 ## 63.1.3
 
 ### Patch Changes

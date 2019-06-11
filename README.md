@@ -1,6 +1,6 @@
 # Atlaskit
 
-[![node v8.4.0+](https://img.shields.io/badge/node-v8.4.0%2B-brightgreen.svg)](https://nodejs.org/en/) 
+[![node v8.4.0+](https://img.shields.io/badge/node-v8.4.0%2B-brightgreen.svg)](https://nodejs.org/en/)
 [![bolt v0.20.6+](https://img.shields.io/badge/bolt-v0.20.6%2B-brightgreen.svg)](http://boltpkg.com/)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](https://ecosystem.atlassian.net/servicedesk/customer/portal/24)
 
@@ -10,7 +10,9 @@ The full list of components can be found in the [Atlaskit Registry][atlaskitregi
 
 **This project is bound by a [Code of Conduct][codeofconduct].**
 
-# Usage
+# Installation and usage
+
+Atlaskit components and utilities are available as discrete npm packages.
 
 #### Pre-requisites
 
@@ -63,48 +65,9 @@ To use:
 
 Check out the [Reduced UI pack](http://go.atlassian.com/reduced-ui-pack) for more examples and details.
 
-#### Upgrades
+#### Upgrading components
 
 When upgrading an Atlaskit component, all changelogs can be found in the [Atlaskit Registry][atlaskitregistry].
-
-# Installation
-
-#### Before you start
-
-* [node](https://nodejs.org/) version should be as listed in .nvmrc (we recommend using [nvm](https://github.com/creationix/nvm)). Run `nvm use` in the root directory to install the correct version of node.
-* [npm](https://www.npmjs.com/) version should be 5 or above (to check `npm --version`)
-* [yarn](https://yarnpkg.com/) should be installed globally (see yarn website for installation instructions)
-
-#### Clone the repo and install
-
-```sh
-git clone git@bitbucket.org:atlassian/atlaskit-mk-2.git
-yarn
-```
-
-You're now ready to start developing in Atlaskit!
-
-Each component/util lives in it's own package under the `packages` directory. We are using [bolt](https://github.com/boltpkg/bolt) to manage our mono-repo, so you are going to need bolt installed globally as well.
-
-```sh
-yarn global add bolt
-```
-
-Next, to install packages, we use bolt, just calling it:
-
-```sh
-bolt
-```
-Since this is a git-lfs repo, turn on lfs hooks for code push by just running: 
-
-```sh
-yarn enable:lfs
-```
-
-Then you can run the examples with `yarn start`. Check `package.json` for more commands to start specific package examples.
-
-
-For contributing back, check out our [contribution guide](http://atlaskit.atlassian.com/docs/guides/contributing)
 
 # Documentation
 
@@ -112,32 +75,19 @@ A comprehensive list of components and detailed usage of each can be found in th
 
 You can also find how each component is meant to be used from a design perspective on the [Atlassian Design Guidelines][adg] website.
 
-# Reporting issues
+# Contributing
 
-We believe in open contributions and the power of a strong development community. Please read our [Contributing guidelines][contributing] on how to contribute back and report issues to Atlaskit.
+We believe in open contributions and the power of a strong development community. Pull requests, bug reports, and comments are welcomed!
 
-# Contributors
+[Read the contribution guide on our website][contributing_site] to get started, and our [CONTRIBUTING.md][contributing_repo] for more details.
 
-Pull requests, issues and comments are welcomed. 
+Here are some quick tips for various contributions:
 
-For pull requests:
+### Reporting issues
 
-* Do not raise pull requests from forks because our CI builds do not run on forks. Create a pull request from a branch instead.
-* Add tests for new features and bug fixes
-* Follow the existing style
-* Separate unrelated changes into multiple pull requests
-* Read [Contributing guidelines][contributing] for more details
+Our [CONTRIBUTING.md][contributing_repo] includes links for where to raise issues to Atlaskit.
 
-See the existing issues for things to start contributing. For bigger changes, make sure you start a discussion first by creating an issue and explaining the intended change.
-
-#### Become a contributor
-
- If this is your _first time_ to raise a pull request, you need to be added to the 'atlaskit contributor' team in order to create branches for your pull requests. To be added, create an [issue](https://ecosystem.atlassian.net/servicedesk/customer/portal/24) and include the following:
-
-1. Issue title - __"Become an Atlaskit contributor"__
-2. Your Bitbucket username and
-3. Reasons you'd want to be a contributor - e.g. Reference another issue that you'd like to provide a PR for.
-4. Have signed or be ready to sign the Contributor License Agreement(CLA). See below.
+### Contributing code
 
 Atlassian requires contributors to sign a Contributor License Agreement,
 known as a CLA. This serves as a record stating that the contributor is
@@ -145,17 +95,19 @@ entitled to contribute the code/documentation/translation to the project
 and is willing to have it used in distributions and derivative works
 (or is willing to transfer ownership).
 
-Prior to accepting your contributions we ask that you please follow the appropriate
-link below to digitally sign the CLA. The Corporate CLA is for those who are
-contributing as a member of an organization and the individual CLA is for
-those contributing as an individual.
+Please read our [CONTRIBUTING.md][contributing_repo] for details on how to become a contributor
+and for our guidelines around contributions.
 
-* [CLA for corporate contributors](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=e1c17c66-ca4d-4aab-a953-2c231af4a20b)
-* [CLA for individuals](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=3f94fbdc-2fbe-46ac-b14c-5d152700ae5d)
+Some quick tips for making successful contributions to Atlaskit:
+
+- Do not raise pull requests from forks because our CI builds do not run on forks. Create a pull request from a branch instead.
+- Add tests for new features and bug fixes.
+- Follow the existing style.
+- Separate unrelated changes into multiple pull requests.
 
 # License
 
-This is a [mono-repo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md), which means that different parts of this repository can have different licenses.
+This is a [mono-repo][monorepo], which means that different parts of this repository can have different licenses.
 
 The base level of the repository is licensed under [Apache 2.0][license]. There are separate license files (`LICENSE`) for each component under `/packages` that specify the license restrictions for each component. While most components are licensed under the Apache 2.0 license, please note packages containing styles, assets & icons are most likely licensed under the [Atlassian Design Guidelines license][adg_license].
 
@@ -163,9 +115,11 @@ If you fork this repository you can continue to use those Atlassian Design Guide
 
 Copyright (c) 2018 Atlassian and others.
 
-[adg]: http://atlassian.design/ "Atlassian Design Guidelines"
+[adg]: http://atlassian.design/ 'Atlassian Design Guidelines'
 [adg_license]: https://atlassian.design/guidelines/handy/license
-[contributing]: ./CONTRIBUTING.md
+[contributing_repo]: ./CONTRIBUTING.md
+[contributing_site]: https://atlaskit.atlassian.com/docs/guides/contributing
 [license]: ./LICENSE
-[atlaskitregistry]: https://atlaskit.atlassian.com/ "Atlaskit Registry"
+[atlaskitregistry]: https://atlaskit.atlassian.com/ 'Atlaskit Registry'
 [codeofconduct]: ./CODE_OF_CONDUCT.md
+[monorepo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md

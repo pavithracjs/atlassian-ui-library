@@ -1,4 +1,4 @@
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { applyMiddleware, createStore, Store, Middleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
@@ -34,11 +34,11 @@ import { removeFileFromRecents } from '../popup/middleware/removeFileFromRecents
 
 export default (
   eventEmitter: PopupUploadEventEmitter,
-  tenantContext: Context,
-  userContext: Context,
+  tenantMediaClient: MediaClient,
+  userMediaClient: MediaClient,
   config: Partial<PopupConfig>,
 ): Store<State> => {
-  const userAuthProvider = userContext.config.authProvider;
+  const userAuthProvider = userMediaClient.config.authProvider;
   const redirectUrl = appConfig.html.redirectUrl;
   const fetcher = new MediaApiFetcher();
   const wsProvider = new WsProvider();
@@ -46,8 +46,8 @@ export default (
   const partialState: State = {
     ...defaultState,
     redirectUrl,
-    tenantContext: tenantContext,
-    userContext: userContext,
+    tenantMediaClient,
+    userMediaClient,
     config,
   };
   return createStore(

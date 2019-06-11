@@ -1,5 +1,34 @@
 # @atlaskit/media-editor
 
+## 36.1.2
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/icon@18.0.1
+  - @atlaskit/media-ui@11.2.9
+  - @atlaskit/tooltip@15.0.0
+
+## 36.1.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/inline-dialog@12.0.1
+  - @atlaskit/modal-dialog@10.0.4
+  - @atlaskit/tooltip@14.0.3
+  - @atlaskit/media-card@63.1.5
+  - @atlaskit/media-test-helpers@24.0.3
+  - @atlaskit/media-ui@11.2.8
+  - @atlaskit/field-range@7.0.4
+  - @atlaskit/icon@18.0.0
+
+## 36.1.0
+
+### Minor Changes
+
+- [minor][18a4cda21f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18a4cda21f):
+
+  - You can supply mediaClientConfig instead of Context to SmartMediaEditor component. Soon Context input will be deprecated and removed.
+
 ## 36.0.2
 
 - Updated dependencies [181209d135](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/181209d135):

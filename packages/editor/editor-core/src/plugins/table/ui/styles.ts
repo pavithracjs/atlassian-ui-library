@@ -56,6 +56,7 @@ export const layoutButtonSize = 32;
 export const tableInsertColumnButtonLeftOffset = 22;
 export const tableInsertColumnButtonTopOffset = 22;
 export const tableScrollbarOffset = 15;
+export const tableMarginFullWidthMode = 2;
 
 const isIE11 = browser.ie_version === 11;
 
@@ -637,29 +638,25 @@ export const tableStyles = css`
     cursor: col-resize;
   }
 
-  /* =============== TABLE CONTEXTUAL MENU ================== */
-  .${ClassName.CONTEXTUAL_MENU_BUTTON_WRAP} {
-    position: absolute;
-    right: -6px;
-    top: -6px;
+`;
 
-    > div {
-      background: ${N20};
-      border-radius: ${borderRadius()}px;
-      border: 2px solid ${N0};
-      display: flex;
-      height: ${contextualMenuTriggerSize + 2}px;
-      flex-direction: column;
-    }
-    button {
-      flex-direction: column;
-      padding: 0;
-      height: 100%;
-      display: flex;
-    }
-    span {
-      pointer-events: none;
-    }
+export const tableFloatingCellButtonStyles = css`
+  > div {
+    background: ${N20};
+    border-radius: ${borderRadius()}px;
+    border: 2px solid ${N0};
+    display: flex;
+    height: ${contextualMenuTriggerSize - 2}px;
+    flex-direction: column;
+  }
+  button {
+    flex-direction: column;
+    padding: 0;
+    height: 100%;
+    display: flex;
+  }
+  span {
+    pointer-events: none;
   }
 `;
 

@@ -100,7 +100,7 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
       >
-        {text}
+        {text || '@...'}
       </MentionStyle>
     );
 

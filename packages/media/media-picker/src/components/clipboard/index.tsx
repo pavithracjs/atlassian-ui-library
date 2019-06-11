@@ -1,29 +1,43 @@
 import * as React from 'react';
-import { Clipboard as ClipboardType, ClipboardProps } from './clipboard';
+import { ClipboardProps } from './clipboard';
+import { WithContextOrMediaClientConfigProps } from '@atlaskit/media-client';
+
+type ClipboardWithMediaClientConfigProps = WithContextOrMediaClientConfigProps<
+  ClipboardProps
+>;
+type ClipboardWithMediaClientConfigComponent = React.ComponentType<
+  ClipboardWithMediaClientConfigProps
+>;
 
 type State = {
-  Clipboard?: typeof ClipboardType;
+  Clipboard?: ClipboardWithMediaClientConfigComponent;
 };
 
 export class ClipboardLoader extends React.PureComponent<
-  ClipboardProps,
+  ClipboardWithMediaClientConfigProps,
   State
 > {
   static displayName = 'AsyncClipboard';
-  static Clipboard?: typeof ClipboardType;
+  static Clipboard?: ClipboardWithMediaClientConfigComponent;
 
   state = {
     Clipboard: ClipboardLoader.Clipboard,
   };
 
-  componentWillMount() {
+  async componentWillMount() {
     if (!this.state.Clipboard) {
-      import(/* webpackChunkName:"@atlaskit-internal_Clipboard" */ './clipboard').then(
-        module => {
-          ClipboardLoader.Clipboard = module.Clipboard;
-          this.setState({ Clipboard: module.Clipboard });
-        },
+      const [mediaClient, clipboardModule] = await Promise.all([
+        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
+        import(/* webpackChunkName:"@atlaskit-internal_Clipboard" */ './clipboard'),
+      ]);
+
+      ClipboardLoader.Clipboard = mediaClient.withMediaClient(
+        clipboardModule.Clipboard,
       );
+
+      this.setState({
+        Clipboard: ClipboardLoader.Clipboard,
+      });
     }
   }
 

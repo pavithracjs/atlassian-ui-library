@@ -421,7 +421,10 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
           SearchResultUtils,
           'getJiraAdvancedSearchUrl',
         );
-        getAdvancedSearchUrlSpy.mockReturnValue('confUrl');
+
+        getAdvancedSearchUrlSpy.mockReturnValue(
+          product === 'jira' ? 'jiraUrl' : 'confUrl',
+        );
         const quickSearchContainer = wrapper.find(QuickSearchContainer);
         searchResultsComponent =
           product === 'jira'
@@ -492,7 +495,6 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
       });
 
       it('should return postQueryGroups', () => {
-        getAdvancedSearchUrlSpy.mockReturnValue('jiraUrl');
         const { getPostQueryGroups } = getProps();
         const postQueryGroups = getPostQueryGroups();
         expect(postQueryGroups).toMatchObject(
