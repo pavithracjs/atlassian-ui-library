@@ -1,4 +1,4 @@
-import React, { Component, Node } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   withAnalyticsEvents,
@@ -29,41 +29,41 @@ interface Props {
    * Default menu has scroll after its height exceeds the pre-defined amount.
    * Tall menu has no scroll until the height exceeds the height of the viewport.
    */
-  appearance?: 'default' | 'tall',
+  appearance?: 'default' | 'tall';
   /** Value passed to the Layer component to determine when to reposition the droplist */
-  boundariesElement?: 'viewport' | 'window' | 'scrollParent',
+  boundariesElement?: 'viewport' | 'window' | 'scrollParent';
   /** Content that will be rendered inside the layer element. Should typically be
    * `ItemGroup` or `Item`, or checkbox / radio variants of those. */
-  children?: Node,
+  children?: React.ReactNode;
   /** If true, a Spinner is rendered instead of the items */
-  isLoading?: boolean,
+  isLoading?: boolean;
   /** Controls the open state of the drop list. */
-  isOpen?: boolean,
-  onClick?: any => mixed,
-  onKeyDown?: any => mixed,
-  onOpenChange?: any => mixed,
+  isOpen?: boolean;
+  onClick?: () => void;
+  onKeyDown?: () => void;
+  onOpenChange?: ({ isOpen, event }: { isOpen: boolean; event: Event }) => void;
   /** Position of the menu. See the documentation of @atlaskit/layer for more details. */
-  position?: string,
+  position?: string;
   /** Value passed to the Layer component to determine if the list will be fixed positioned. Useful for breaking out of overflow scroll/hidden containers. Note that the layer will become detached from the target element when scrolling so scroll lock or close on scroll handling may be necessary. */
-  isMenuFixed: boolean,
+  isMenuFixed: boolean;
   /** Deprecated. Option to display multiline items when content is too long.
    * Instead of ellipsing the overflown text it causes item to flow over multiple lines.
    */
-  shouldAllowMultilineItems?: boolean,
+  shouldAllowMultilineItems?: boolean;
   /** Option to fit dropdown menu width to its parent width */
-  shouldFitContainer?: boolean,
+  shouldFitContainer?: boolean;
   /** Allows the dropdown menu to be placed on the opposite side of its trigger if it does not
    * fit in the viewport. */
-  shouldFlip?: boolean,
+  shouldFlip?: boolean;
   /** Controls the height at which scroll bars will appear on the drop list. */
-  maxHeight?: number,
+  maxHeight?: number;
   /** Content which will trigger the drop list to open and close. */
-  trigger?: Node,
+  trigger?: React.ReactNode;
   /** Callback to know when the list is first correctly positioned within it's Layer */
-  onPositioned?: Function,
-};
+  onPositioned?: Function;
+}
 
-class Droplist extends Component<Props, void> {
+class Droplist extends Component<Props, {}> {
   static defaultProps = {
     appearance: 'default',
     boundariesElement: 'viewport',
@@ -122,9 +122,9 @@ class Droplist extends Component<Props, void> {
     }
   };
 
-  dropContentRef: HTMLElement;
+  dropContentRef?: HTMLElement = undefined;
 
-  triggerRef: HTMLElement;
+  triggerRef?: HTMLElement = undefined;
 
   handleEsc = (event: KeyboardEvent): void => {
     if ((event.key === 'Escape' || event.key === 'Esc') && this.props.isOpen) {
