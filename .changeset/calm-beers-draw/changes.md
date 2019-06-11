@@ -1,1 +1,0 @@
-The after and component props for Item and GlobalItem are passed as new functions in every render. This causes them to re-render the entire component heirarchy under them. This PR fixes the issue by retaining the reference to the props and passing that to prevent unnecessary re-renders.
