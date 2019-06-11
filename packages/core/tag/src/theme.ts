@@ -23,7 +23,8 @@ interface Properties {
   yellowLight: Themes;
 }
 
-const textColors: (p: any) => Properties = themed('color', {
+// TODO: Define the types for props - https://ecosystem.atlassian.net/browse/AK-6340
+const textColors: (props: any) => Properties = themed('color', {
   standard: { light: colors.N700, dark: colors.DN600 },
   green: { light: colors.N800, dark: colors.N800 },
   purple: { light: colors.N800, dark: colors.N800 },
@@ -41,7 +42,7 @@ const textColors: (p: any) => Properties = themed('color', {
   greyLight: { light: colors.N500, dark: colors.N500 },
 });
 
-const backgroundColors: (p: any) => Properties = themed('color', {
+const backgroundColors: (props: any) => Properties = themed('color', {
   standard: { light: colors.N20, dark: colors.DN100A },
   green: { light: colors.G200, dark: colors.G200 },
   purple: { light: colors.P100, dark: colors.P100 },
@@ -62,7 +63,7 @@ const backgroundColors: (p: any) => Properties = themed('color', {
 export const textColor = textColors;
 export const backgroundColor = backgroundColors;
 
-export const textColorHover: (p: any) => Properties = themed('color', {
+export const textColorHover: (props: any) => Properties = themed('color', {
   standard: { light: colors.N700, dark: colors.B75 },
   green: { light: colors.B400, dark: colors.B100 },
   purple: { light: colors.B400, dark: colors.B100 },
@@ -80,20 +81,23 @@ export const textColorHover: (p: any) => Properties = themed('color', {
   greyLight: { light: colors.B400, dark: colors.B100 },
 });
 
-export const backgroundColorHover: (p: any) => Properties = themed('color', {
-  standard: { light: colors.N30, dark: colors.DN60 },
-  green: { light: colors.G100, dark: colors.DN60 },
-  purple: { light: colors.P75, dark: colors.DN60 },
-  red: { light: colors.R75, dark: colors.DN60 },
-  yellow: { light: colors.Y100, dark: colors.DN60 },
-  grey: { light: colors.N50, dark: colors.DN60 },
-  teal: { light: colors.T100, dark: colors.DN60 },
-  blue: { light: colors.B75, dark: colors.DN60 },
-  tealLight: { light: colors.T75, dark: colors.DN60 },
-  blueLight: { light: colors.B50, dark: colors.DN60 },
-  greenLight: { light: colors.G75, dark: colors.DN60 },
-  purpleLight: { light: colors.P50, dark: colors.DN60 },
-  redLight: { light: colors.R50, dark: colors.DN60 },
-  yellowLight: { light: colors.Y75, dark: colors.DN60 },
-  greyLight: { light: colors.N30, dark: colors.DN60 },
-});
+export const backgroundColorHover: (props: any) => Properties = themed(
+  'color',
+  {
+    standard: { light: colors.N30, dark: colors.DN60 },
+    green: { light: colors.G100, dark: colors.DN60 },
+    purple: { light: colors.P75, dark: colors.DN60 },
+    red: { light: colors.R75, dark: colors.DN60 },
+    yellow: { light: colors.Y100, dark: colors.DN60 },
+    grey: { light: colors.N50, dark: colors.DN60 },
+    teal: { light: colors.T100, dark: colors.DN60 },
+    blue: { light: colors.B75, dark: colors.DN60 },
+    tealLight: { light: colors.T75, dark: colors.DN60 },
+    blueLight: { light: colors.B50, dark: colors.DN60 },
+    greenLight: { light: colors.G75, dark: colors.DN60 },
+    purpleLight: { light: colors.P50, dark: colors.DN60 },
+    redLight: { light: colors.R50, dark: colors.DN60 },
+    yellowLight: { light: colors.Y75, dark: colors.DN60 },
+    greyLight: { light: colors.N30, dark: colors.DN60 },
+  },
+);
