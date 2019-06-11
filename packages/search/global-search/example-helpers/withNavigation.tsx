@@ -7,6 +7,8 @@ import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
 import { QuickSearchContext } from '../src/api/types';
 
+const defaultCloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // jdog
+
 const RadioGroup = styled.div`
   position: relative;
   padding: 4px;
@@ -116,11 +118,10 @@ export default function withNavigation<P extends Props>(
       );
     }
 
-    getCloudId(): string {
+    getCloudId(): string | null | undefined {
       return (
-        ((props &&
-          props.cloudIds &&
-          props.cloudIds[this.state.context]) as string) || this.props.cloudId
+        (props && props.cloudIds && props.cloudIds[this.state.context]) ||
+        this.props.cloudId
       );
     }
 
@@ -158,7 +159,7 @@ export default function withNavigation<P extends Props>(
             searchDrawerContent={
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
-                  cloudId={this.getCloudId()}
+                  cloudId={this.getCloudId() || defaultCloudId}
                   context={currentContext}
                   referralContextIdentifiers={{
                     currentContentId: '123',
