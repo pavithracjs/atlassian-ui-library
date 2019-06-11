@@ -4,23 +4,47 @@ import {
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   DEFAULT_AB_TEST,
+  SearchResultsMap,
 } from '../../../api/CrossProductSearchClient';
 import { Scope } from '../../../api/types';
 import { Result } from '../../../model/Result';
-import { makeJiraObjectResult } from '../_test-util';
+import {
+  makeJiraObjectResult,
+  makeConfluenceObjectResult,
+} from '../_test-util';
 
 export function makeSingleResultCrossProductSearchResponse(
   scope: Scope,
   result?: Result,
 ): CrossProductSearchResults {
-  const response = new Map();
-  response.set(scope, [result || makeJiraObjectResult()]);
+  const response = {} as SearchResultsMap;
+
+  if (result) {
+    response[scope] = {
+      items: [result],
+      totalSize: 1,
+    };
+  } else if (scope.includes('confluence')) {
+    response[scope] = {
+      items: [makeConfluenceObjectResult()],
+      totalSize: 1,
+    };
+  } else if (scope.includes('jira')) {
+    response[scope] = {
+      items: [makeJiraObjectResult()],
+      totalSize: 1,
+    };
+  }
+
   return { results: response };
 }
 
 export const noResultsCrossProductSearchClient: CrossProductSearchClient = {
   search(query: string) {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+  },
+  getAbTestDataForProduct() {
+    return Promise.resolve(DEFAULT_AB_TEST);
   },
   getAbTestData(scope: Scope) {
     return Promise.resolve(DEFAULT_AB_TEST);
@@ -32,6 +56,9 @@ export const noResultsCrossProductSearchClient: CrossProductSearchClient = {
 
 export const errorCrossProductSearchClient: CrossProductSearchClient = {
   search(query: string) {
+    return Promise.reject('error');
+  },
+  getAbTestDataForProduct() {
     return Promise.reject('error');
   },
   getAbTestData(scope: Scope) {
@@ -48,6 +75,9 @@ export function singleResultCrossProductSearchClient(
   return {
     search(query: string) {
       return Promise.resolve(makeSingleResultCrossProductSearchResponse(scope));
+    },
+    getAbTestDataForProduct() {
+      return Promise.reject(DEFAULT_AB_TEST);
     },
     getAbTestData(scope: Scope) {
       return Promise.resolve(DEFAULT_AB_TEST);
@@ -68,6 +98,9 @@ export const mockCrossProductSearchClient = (
     scopes: Scope[],
   ): Promise<CrossProductSearchResults> {
     return Promise.resolve(data);
+  },
+  getAbTestDataForProduct() {
+    return Promise.reject(abTest);
   },
   getAbTestData(scope: Scope): Promise<ABTest> {
     return Promise.resolve(abTest);

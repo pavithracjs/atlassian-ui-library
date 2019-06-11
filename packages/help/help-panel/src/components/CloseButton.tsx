@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { createAndFire, withAnalyticsEvents } from '../analytics';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import Tooltip from '@atlaskit/tooltip';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
+import { messages } from '../messages';
 import { Analytics } from '../model/Analytics';
 
 import CrossIcon from '@atlaskit/icon/glyph/cross';
@@ -19,9 +22,12 @@ export interface Props {
  * @param onBtnCloseClick - Function executed when the close btn is clicked
  */
 
-const CloseButton = (props: Props & HelpContextInterface & Analytics) => {
+const CloseButton = (
+  props: Props & HelpContextInterface & Analytics & InjectedIntlProps,
+) => {
   const {
     help: { onBtnCloseClick },
+    intl: { formatMessage },
   } = props;
 
   const handleOnBtnCloseClick = (event: React.MouseEvent<any>) => {
@@ -34,10 +40,12 @@ const CloseButton = (props: Props & HelpContextInterface & Analytics) => {
   };
 
   return onBtnCloseClick ? (
-    <StyledCloseButton onClick={handleOnBtnCloseClick}>
-      <CrossIcon label="" size="medium" />
-    </StyledCloseButton>
+    <Tooltip content={formatMessage(messages.help_panel_close)} position="left">
+      <StyledCloseButton onClick={handleOnBtnCloseClick}>
+        <CrossIcon label="" size="medium" />
+      </StyledCloseButton>
+    </Tooltip>
   ) : null;
 };
 
-export default withAnalyticsEvents()(withHelp(CloseButton));
+export default withAnalyticsEvents()(withHelp(injectIntl(CloseButton)));

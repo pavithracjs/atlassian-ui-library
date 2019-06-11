@@ -13,7 +13,7 @@ afterEach(() => {
 
 test('should ssr then hydrate range correctly', async () => {
   const [example] = await getExamplesFor('range');
-  const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+  const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);

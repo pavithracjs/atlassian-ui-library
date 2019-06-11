@@ -22,6 +22,7 @@ const {
   currentStatsFolder,
   uploadToS3,
   downloadFromS3,
+  downloadFromS3ForLocal,
 } = require('./utils/s3-actions');
 
 function fWriteStats(path, content) {
@@ -231,8 +232,9 @@ module.exports = async function main(
     );
 
     if (process.env.CI) {
-      console.log('download from s3');
       await downloadFromS3(masterStatsFolder, 'master', packageName);
+    } else {
+      await downloadFromS3ForLocal(masterStatsFolder, 'master', packageName);
     }
 
     const results = getBundleCheckResult(masterStatsFilePath, stats);

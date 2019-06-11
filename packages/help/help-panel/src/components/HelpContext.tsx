@@ -51,6 +51,7 @@ export interface HelpContextInterface {
     view: VIEW;
     isOpen: boolean;
     isSearchVisible(): boolean;
+    loadArticle(): void;
     isArticleVisible(): boolean;
     getCurrentArticle(): Article | null;
     onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
@@ -106,7 +107,7 @@ class HelpContextProviderImplementation extends React.Component<
   }
 
   async componentDidMount() {
-    const { articleId, isOpen } = this.props;
+    const { isOpen } = this.props;
 
     window.history.pushState = function(
       this: HelpContextProviderImplementation,
@@ -121,10 +122,7 @@ class HelpContextProviderImplementation extends React.Component<
         action: 'help-panel-open',
       })(this.props.createAnalyticsEvent);
 
-      if (articleId) {
-        const article = await this.getArticle(articleId);
-        this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
-      }
+      this.loadArticle();
     }
   }
 
@@ -138,12 +136,8 @@ class HelpContextProviderImplementation extends React.Component<
     }
     // When the drawer goes from close to open
     // and the articleId is defined, get the content of that article
-    if (
-      (isOpen !== prevProps.isOpen || articleId !== prevProps.articleId) &&
-      articleId
-    ) {
-      const article = await this.getArticle(articleId);
-      this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
+    if (isOpen !== prevProps.isOpen || articleId !== prevProps.articleId) {
+      this.loadArticle();
     }
   }
 
@@ -178,6 +172,14 @@ class HelpContextProviderImplementation extends React.Component<
           searchState: REQUEST_STATE.done,
         });
       }
+    }
+  };
+
+  loadArticle = async () => {
+    const { articleId } = this.props;
+    if (articleId) {
+      const article = await this.getArticle(articleId);
+      this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
     }
   };
 
@@ -265,6 +267,7 @@ class HelpContextProviderImplementation extends React.Component<
           help: {
             ...this.state,
             isOpen: this.props.isOpen,
+            loadArticle: this.loadArticle,
             isSearchVisible: this.isSearchVisible,
             isArticleVisible: this.isArticleVisible,
             navigateBack: this.navigateBack,

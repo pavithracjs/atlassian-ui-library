@@ -57,5 +57,5 @@ export function mapConfluenceItemToResult(
     scope === Scope.ConfluenceSpace
       ? mapConfluenceItemToResultSpace
       : mapConfluenceItemToResultObject;
-  return mapper(item as ConfluenceItem);
+  return mapper(item);
 }

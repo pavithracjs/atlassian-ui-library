@@ -6,7 +6,7 @@ describe('removeFileFromRecents middleware', () => {
   const setup = () => {
     const store = mockStore();
     const collectionRemoveFileMock = jest.fn();
-    store.getState().userContext.collection.removeFile = collectionRemoveFileMock;
+    store.getState().userMediaClient.collection.removeFile = collectionRemoveFileMock;
 
     return { collectionRemoveFileMock, store, next: jest.fn() };
   };
