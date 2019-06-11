@@ -116,7 +116,7 @@ export default function withNavigation<P extends Props>(
 
     getCloudId(): string {
       return (
-        (props.cloudIds && props.cloudIds[this.state.context]) ||
+        (props && props.cloudIds && props.cloudIds[this.state.context]) ||
         this.props.cloudId
       );
     }
