@@ -4,7 +4,6 @@ import type { ComponentType, Node, Ref } from 'react';
 import type { DraggableProps, DragHandleProps } from 'react-beautiful-dnd';
 import type { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
-import type { AfterComponentProps } from '../../connected/GoToItem/types';
 import type { StyleReducerWithState, ProductTheme } from '../../../theme/types';
 import type { InteractionState } from '../InteractionStateManager/types';
 
@@ -30,7 +29,7 @@ export type Dataset = { [name: string]: string | typeof undefined };
 export type ItemBaseProps = {|
   /** A component to render after the text. Typically used to render an icon or
    * a badge. This component will be passed the current UI state of the Item. */
-  after?: ComponentType<{ ...ItemPresentationProps, ...AfterComponentProps }>,
+  after?: ComponentType<ItemPresentationProps>,
   /** A component to render before the text. Typically used to render an icon or
    * an avatar. This component will be passed the current UI state of the Item.
    * */
