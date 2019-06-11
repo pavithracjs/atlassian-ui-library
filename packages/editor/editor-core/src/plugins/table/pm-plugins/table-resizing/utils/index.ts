@@ -39,5 +39,6 @@ export {
   isClickNear,
   updateResizeHandle,
   createResizeHandle,
+  getResizeCellPos,
 } from './dom';
 export { ScaleOptions, scale, scaleWithParent } from './scale-table';

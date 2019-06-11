@@ -15,7 +15,10 @@ export default {
     'Prova att logga ut och sedan logga in igen',
   'fabric.mention.error.differentText': 'Prova att skriva en annan text',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} medlem{includes, select, true {, including you} other {}}} other{{count} medlemmar{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ medlemmar{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 medlem} other{{0} medlemmar}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ medlemmar',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ medlemmar, inklusive du',
 };

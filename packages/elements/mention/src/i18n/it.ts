@@ -15,7 +15,10 @@ export default {
     'Prova a uscire quindi ad accedere di nuovo',
   'fabric.mention.error.differentText': 'Prova a inserire un testo diverso',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} membro{includes, select, true {, including you} other {}}} other{{count} membri{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '+ di 50 membri{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 membro} other{{0} membri}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+  'fabric.elements.mentions.team.member.50plus': 'Più di 50 membri',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    'Più di 50 membri, incluso te',
 };

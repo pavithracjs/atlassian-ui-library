@@ -1,34 +1,50 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/avatar-group",
+    "version": "4.0.2",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
       "size": 6040,
-      "gzipSize": 2472
+      "gzipSize": 2470
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/avatar-group",
+    "version": "4.0.2",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 93865,
-      "gzipSize": 28189
+      "size": 93864,
+      "gzipSize": 28260
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/avatar-group",
+    "version": "4.0.2",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 129784,
-      "gzipSize": 33530
+      "size": 132775,
+      "gzipSize": 33977
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/avatar-group",
+    "version": "4.0.2",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 225547,
-      "gzipSize": 61119
+      "size": 228551,
+      "gzipSize": 61718
     }
   }
 ]

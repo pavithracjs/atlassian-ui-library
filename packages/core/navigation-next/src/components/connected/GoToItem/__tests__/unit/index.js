@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import ArrowRightCircleIcon from '@atlaskit/icon/glyph/arrow-right-circle';
 import Spinner from '@atlaskit/spinner';
 
@@ -88,7 +88,7 @@ describe('GoToItemBase', () => {
       baseProps.navigationViewController.state.incomingView = {
         id: 'another-view',
       };
-      const wrapper = shallow(
+      const wrapper = mount(
         <GoToItemBase
           {...baseProps}
           goTo="another-view"
@@ -97,18 +97,15 @@ describe('GoToItemBase', () => {
         />,
       );
 
-      const AfterComp = wrapper.find(ConnectedItem).prop('after');
-
-      const afterEl = shallow(<AfterComp />);
-      expect(afterEl.find(Spinner)).toHaveLength(1);
-      expect(afterEl).toMatchSnapshot();
+      expect(wrapper.find(Spinner)).toHaveLength(1);
+      expect(wrapper.find(Spinner)).toMatchSnapshot();
     });
 
     it('should set the spinner delay to the spinnerDelay prop if it exists', () => {
       baseProps.navigationViewController.state.incomingView = {
         id: 'another-view',
       };
-      const wrapper = shallow(
+      const wrapper = mount(
         <GoToItemBase
           {...baseProps}
           goTo="another-view"
@@ -118,10 +115,7 @@ describe('GoToItemBase', () => {
         />,
       );
 
-      const AfterComp = wrapper.find(ConnectedItem).prop('after');
-
-      const afterEl = shallow(<AfterComp />);
-      expect(afterEl.find(Spinner).prop('delay')).toBe(500);
+      expect(wrapper.find(Spinner).prop('delay')).toBe(500);
     });
 
     it('should be replaced by after prop of GoToItem if passed in', () => {

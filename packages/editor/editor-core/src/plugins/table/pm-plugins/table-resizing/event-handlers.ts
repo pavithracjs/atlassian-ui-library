@@ -3,7 +3,6 @@ import { EditorView } from 'prosemirror-view';
 import { getSelectionRect } from 'prosemirror-utils';
 import {
   tableCellMinWidth,
-  tableResizeHandleWidth,
   akEditorTableNumberColumnWidth,
 } from '@atlaskit/editor-common';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
@@ -13,65 +12,25 @@ import {
   getResizeStateFromDOM,
   resizeColumn,
   getLayoutSize,
-  edgeCell,
   currentColWidth,
-  domCellAround,
   getParentNodeWidth,
   pointsAtCell,
   createResizeHandle,
+  updateResizeHandle,
+  updateControls,
 } from './utils';
 import { getSelectedColumnIndexes } from '../../utils';
 import { pluginKey as widthPluginKey } from '../../../width';
 import { getPluginState } from './plugin';
-import { setResizeHandlePos, setDragging, evenColumns } from './commands';
-
-export const handleMouseMove = (
-  view: EditorView,
-  event: MouseEvent,
-  lastColumnResizable: boolean,
-) => {
-  const { state, dispatch } = view;
-  const { dragging, resizeHandlePos } = getPluginState(state);
-
-  if (dragging) {
-    return;
-  }
-
-  const target = domCellAround(event.target as HTMLElement | null);
-  let cellPos: number | null = null;
-
-  if (target) {
-    const { left, right } = target.getBoundingClientRect();
-    if (event.clientX - left <= tableResizeHandleWidth) {
-      cellPos = edgeCell(view, event, 'left', tableResizeHandleWidth);
-    } else if (right - event.clientX <= tableResizeHandleWidth) {
-      cellPos = edgeCell(view, event, 'right', tableResizeHandleWidth);
-    }
-  }
-
-  if (cellPos !== resizeHandlePos) {
-    if (!lastColumnResizable && cellPos !== null) {
-      const $cell = state.doc.resolve(cellPos);
-      const map = TableMap.get($cell.node(-1));
-      const start = $cell.start(-1);
-      const columnIndex =
-        map.colCount($cell.pos - start) + $cell.nodeAfter!.attrs.colspan - 1;
-
-      if (columnIndex === map.width - 1) {
-        return;
-      }
-    }
-    setResizeHandlePos(cellPos)(state, dispatch);
-  }
-};
+import { setDragging, evenColumns } from './commands';
 
 export const handleMouseDown = (
   view: EditorView,
   event: MouseEvent,
+  resizeHandlePos: number,
   dynamicTextSizing: boolean,
 ) => {
   const { state, dispatch } = view;
-  const { resizeHandlePos } = getPluginState(state);
   const { editorDisabled } = editorDisabledPluginKey.getState(state);
   const domAtPos = view.domAtPos.bind(view);
 
@@ -151,7 +110,7 @@ export const handleMouseDown = (
 
     const { clientX } = event;
     const { state, dispatch } = view;
-    const { resizeHandlePos, dragging } = getPluginState(state);
+    const { dragging } = getPluginState(state);
     if (
       resizeHandlePos === null ||
       !pointsAtCell(state.doc.resolve(resizeHandlePos))
@@ -207,7 +166,7 @@ export const handleMouseDown = (
   function move(event: MouseEvent) {
     const { clientX, which } = event;
     const { state } = view;
-    const { resizeHandlePos, dragging } = getPluginState(state);
+    const { dragging } = getPluginState(state);
     if (
       !which ||
       !dragging ||
@@ -226,6 +185,9 @@ export const handleMouseDown = (
       1;
 
     resizeColumn(resizeState, colIndex, clientX - dragging.startX);
+
+    updateControls(state);
+    updateResizeHandle(state, domAtPos, resizeHandlePos);
   }
 
   window.addEventListener('mouseup', finish);
