@@ -15,7 +15,7 @@ Naming in the code:
 
 ### SSR
 
-With SSR rendering, \`window\` is not available, hence some \`window\` checks here and there.
+(to be validated) With SSR rendering, \`window\` is not available, hence some \`window\` checks here and there.
 
 To test SSR in JIRA, see \`services/jira-frontend-ssr/README.md\`.
 

@@ -51,7 +51,7 @@ export default md`
   ## Notes
   
   The share modal will be instantiated immediately but starts hidden.
-  It will **retains the form state** until the user either:
+  It will **retain the form state** until the user either:
   - triggers a share = share completed
   - presses Esc = share cancelled
 
