@@ -196,9 +196,8 @@ class DatePicker extends Component<Props, State> {
       new Date(
         parseInt(year, 10),
         parseInt(month, 10) - 1, // This needs to be -1, because the Date constructor expects an index of the given month
-        parseInt(date, 10),
       ),
-    ).getDay();
+    ).getDate();
 
     if (parseInt(lastDayInMonth, 10) < parseInt(date, 10)) {
       newIso = `${year}-${month}-${lastDayInMonth}`;
