@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, ReactWrapper } from 'enzyme';
 import Layer from '@atlaskit/layer';
 import Spinner from '@atlaskit/spinner';
 import Item, { ItemGroup } from '@atlaskit/item';
@@ -11,6 +11,7 @@ import { DroplistWithoutAnalytics as Droplist } from '../../components/Droplist'
 import { Trigger, Content } from '../../styled/Droplist';
 
 jest.mock('popper.js', () => {
+  // @ts-ignore requireActual property is missing from jest
   const PopperJS = jest.requireActual('popper.js');
 
   return class Popper {
@@ -37,7 +38,7 @@ describe(`${name} - core`, () => {
   });
 
   describe('render', () => {
-    let wrapper;
+    let wrapper: ReactWrapper<any, {}, Droplist>;
 
     beforeEach(() => {
       wrapper = mount(

@@ -55,7 +55,6 @@ export default class TallExample extends PureComponent<void, State> {
         <DropList
           appearance="tall"
           position="right top"
-          isTriggerNotTabbable
           onOpenChange={this.onOpenChange}
           onClick={this.onClick}
           isOpen

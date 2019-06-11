@@ -1,4 +1,4 @@
-import React, { PureComponent, Node } from 'react';
+import React, { PureComponent, ReactNode, SyntheticEvent } from 'react';
 import PropTypes from 'prop-types';
 import {
   withAnalyticsEvents,
@@ -23,37 +23,48 @@ import {
   InputWrapper,
 } from '../styled/Item';
 import { getInputBackground, getInputFill } from '../utils';
+import { AriaTypes } from '../types';
 
 import Element from './Element';
 
-const inputTypes = { checkbox: Checkbox, radio: Radio };
+const inputTypes: { [key in AriaTypes]: React.ReactNode } = {
+  checkbox: Checkbox,
+  radio: Radio,
+  link: undefined,
+  option: undefined,
+};
 
 interface Props {
-  appearance: 'default' | 'primary',
-  children?: Node,
-  description?: string,
-  elemAfter?: ?Node,
-  elemBefore?: ?Node,
-  href?: ?string,
-  isActive?: boolean,
-  isChecked?: boolean,
-  isDisabled?: boolean,
-  isFocused?: boolean,
-  isHidden?: boolean,
-  isSelected?: boolean,
-  onActivate?: any => mixed,
-  target?: ?string,
-  title?: ?string,
-  tooltipDescription?: ?string,
-  tooltipPosition?: 'top' | 'bottom' | 'left' | 'right',
-  interface?: string,
-  itemContext?: string,
-};
+  appearance: 'default' | 'primary';
+  children: Node;
+  description: string;
+  elemAfter: ReactNode;
+  elemBefore: ReactNode;
+  href: string | null;
+  isActive: boolean;
+  isChecked: boolean;
+  isDisabled: boolean;
+  isFocused: boolean;
+  isHidden: boolean;
+  isSelected: boolean;
+  onActivate: (
+    {
+      item,
+      event,
+    }: { item: PureComponent; event: SyntheticEvent<HTMLElement> },
+  ) => void;
+  target: string;
+  title: string;
+  tooltipDescription: string | null;
+  tooltipPosition: 'top' | 'bottom' | 'left' | 'right';
+  type: AriaTypes;
+  itemContext?: string;
+}
 
 interface State {
-  isHovered: boolean,
-  isPressed: boolean,
-};
+  isHovered: boolean;
+  isPressed: boolean;
+}
 
 class Item extends PureComponent<Props, State> {
   static defaultProps = {
@@ -75,7 +86,7 @@ class Item extends PureComponent<Props, State> {
     title: null,
     tooltipDescription: null,
     tooltipPosition: 'right',
-    interface: 'link',
+    type: 'link',
   };
 
   state = {
@@ -93,15 +104,16 @@ class Item extends PureComponent<Props, State> {
   componentWillUnmount = () =>
     document.removeEventListener('mouseup', this.handleMouseUp);
 
-  guardedActivate = (event: SyntheticEvent<*>) => {
+  guardedActivate = (event: SyntheticEvent<HTMLElement>) => {
     const { isDisabled, onActivate } = this.props;
 
     if (!isDisabled && onActivate) onActivate({ item: this, event });
   };
 
-  handleClick = (event: SyntheticEvent<*>) => this.guardedActivate(event);
+  handleClick = (event: React.MouseEvent<HTMLElement>) =>
+    this.guardedActivate(event);
 
-  handleKeyPress = (event: SyntheticKeyboardEvent<*>) => {
+  handleKeyPress = (event: React.KeyboardEvent<HTMLElement>) => {
     const keyIsValid = ['Enter', ' '].indexOf(event.key) > -1;
 
     if (keyIsValid) this.guardedActivate(event);
@@ -119,15 +131,15 @@ class Item extends PureComponent<Props, State> {
     const { props } = this;
     const { isHovered, isPressed } = this.state;
 
-    const type: string = props.type || '';
+    const type: AriaTypes | undefined = props.type;
     const hasInput = ['checkbox', 'radio'].indexOf(type) > -1;
-    const Input = inputTypes[type];
+    const Input = hasInput ? inputTypes[type] : undefined;
 
     const appearanceProps = {
       isActive:
         (props.type === 'link' && props.isActive) ||
         (props.type === 'option' && props.isSelected),
-      isChecked: ['checkbox', 'radio'].indexOf(interface) > -1 && props.isChecked,
+      isChecked: hasInput && props.isChecked,
       isDisabled: props.isDisabled,
       isFocused: props.isFocused,
       isHidden: props.isHidden,
@@ -149,7 +161,7 @@ class Item extends PureComponent<Props, State> {
         href={props.href}
         target={props.target}
         title={props.title}
-        interface={props.interface}
+        type={props.type}
       >
         {hasInput && (
           <InputWrapper {...appearanceProps}>

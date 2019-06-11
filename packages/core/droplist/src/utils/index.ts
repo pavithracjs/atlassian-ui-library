@@ -1,11 +1,18 @@
 import { colors } from '@atlaskit/theme';
 
+interface AppearanceProps {
+  isChecked: boolean;
+  isDisabled: boolean;
+  isHovered: boolean;
+  isPressed: boolean;
+}
+
 export function getInputBackground({
   isChecked,
   isDisabled,
   isHovered,
   isPressed,
-}: Object) {
+}: AppearanceProps) {
   let background = colors.N40;
 
   if (isHovered) background = colors.N50;
@@ -17,6 +24,6 @@ export function getInputBackground({
   return background;
 }
 
-export function getInputFill(appearanceProps: Object) {
+export function getInputFill(appearanceProps: AppearanceProps) {
   return appearanceProps.isChecked ? colors.N0 : 'transparent';
 }

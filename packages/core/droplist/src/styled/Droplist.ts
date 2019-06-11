@@ -5,7 +5,13 @@ import { borderRadius, colors, gridSize, math } from '@atlaskit/theme';
  * it should have scroll and cut off half of the 10th item to indicate that there are more
  * items then are seen. This was previously calculated by mapping over children, but with
  * the current composed API it is simpler to just assume 9 items. */
-const getMaxHeight = ({ isTall, maxHeight }) => {
+const getMaxHeight = ({
+  isTall,
+  maxHeight,
+}: {
+  isTall?: boolean;
+  maxHeight?: number;
+}) => {
   if (maxHeight) return `${maxHeight}px`;
 
   const heightWithoutPadding = 17;
@@ -18,7 +24,7 @@ const getMaxHeight = ({ isTall, maxHeight }) => {
 export default styled.div`
   display: inline-flex;
 
-  ${props =>
+  ${(props: { fit?: boolean }) =>
     props.fit &&
     `
     display: block;
@@ -57,7 +63,7 @@ export const Trigger = styled.div`
   transition-duration: 0.2s;
   transition: box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38);
 
-  ${props =>
+  ${(props: { fit?: boolean }) =>
     props.fit &&
     `
     box-sizing: border-box;

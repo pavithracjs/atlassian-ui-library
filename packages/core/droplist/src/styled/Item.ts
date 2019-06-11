@@ -45,7 +45,15 @@ const primaryStyles = css`
   color: ${primaryPrimaryTextColor};
 `;
 
-const sharedStyles = props => css`
+interface sharedStyleProps {
+  isDisabled: boolean;
+  isHidden: boolean;
+  isPrimary: boolean;
+  isFocused: boolean;
+  isActive: boolean;
+}
+
+const sharedStyles = (props: sharedStyleProps) => css`
   align-items: center;
   box-sizing: border-box;
   color: ${
@@ -78,15 +86,16 @@ const sharedStyles = props => css`
     ${focusedStyles};
   }
 
-  ${props.isFocused && focusedStyles} ${props.isActive &&
-  activeStyles} ${props.isPrimary && primaryStyles};
+  ${props.isFocused && focusedStyles}
+  ${props.isActive && activeStyles}
+  ${props.isPrimary && primaryStyles};
 `;
 
 export const Anchor = styled.a`
-  ${props => sharedStyles(props)};
+  ${(props: sharedStyleProps) => sharedStyles(props)};
 `;
 export const Span = styled.span`
-  ${props => sharedStyles(props)};
+  ${(props: sharedStyleProps) => sharedStyles(props)};
 `;
 
 // Checkbox/Radio wrapper -- sits left of the children
@@ -121,7 +130,7 @@ export const Content = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  ${props =>
+  ${(props: { allowMultiline: boolean }) =>
     props.allowMultiline &&
     css`
       white-space: normal;

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Label } from '@atlaskit/field-base';
 import Button from '@atlaskit/button';
 import Item, { ItemGroup } from '@atlaskit/item';
-import DropList from '../src';
+import Droplist from '../src/components/Droplist';
 
 type State = {
   eventResult: string;
@@ -56,10 +56,9 @@ export default class BasicExample extends PureComponent<void, State> {
         >
           {this.state.eventResult}
         </div>
-        <DropList
+        <Droplist
           appearance="default"
           position="right top"
-          isTriggerNotTabbable
           onOpenChange={this.onOpenChange}
           onClick={this.onClick}
           isOpen={this.state.isOpen}
@@ -73,7 +72,7 @@ export default class BasicExample extends PureComponent<void, State> {
             <Item isDisabled>Brisbane</Item>
             <Item onActivated={this.onItemActivated}>Melbourne</Item>
           </ItemGroup>
-        </DropList>
+        </Droplist>
       </div>
     );
   }

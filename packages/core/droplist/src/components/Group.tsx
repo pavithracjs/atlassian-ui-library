@@ -1,20 +1,20 @@
-import React, { PureComponent, Node } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import Group, { Heading, HeadingText, HeadingAfter } from '../styled/Group';
 
 interface Props {
-  children?: any,
-  elemAfter?: Node | string,
-  heading?: string,
-};
+  children?: any;
+  elemAfter?: ReactNode | string;
+  heading?: string;
+}
 
 interface State {
-  ariaLabel?: string,
-};
+  ariaLabel?: string;
+}
 
 class DroplistGroup extends PureComponent<Props, State> {
   state = { ariaLabel: this.props.heading };
 
-  headingElement: HTMLElement;
+  headingElement?: HTMLElement = undefined;
 
   componentDidMount = () => {
     if (this.props.heading || this.props.elemAfter) {
@@ -64,5 +64,4 @@ class DroplistGroup extends PureComponent<Props, State> {
   }
 }
 
-DroplistGroup.displayName = 'Group';
 export default DroplistGroup;
