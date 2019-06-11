@@ -5,43 +5,69 @@ import { mount } from 'enzyme';
 
 import { TimePickerWithoutAnalytics as TimePicker } from '../../../components/TimePicker';
 
-test('TimePicker, custom parseInputValue', () => {
-  const parseInputValue = () => new Date('1970-01-02 01:15:00');
-  const onChangeSpy = jest.fn();
-  const expectedResult = '01:15am';
-  const timePickerWrapper = mount(
-    <TimePicker
-      timeIsEditable
-      onChange={onChangeSpy}
-      parseInputValue={parseInputValue}
-    />,
-  );
+describe('TimePicker', () => {
+  test('custom parseInputValue - AM', () => {
+    const parseInputValue = () => new Date('1970-01-02 01:15:00');
+    const onChangeSpy = jest.fn();
+    const expectedResult = '01:15';
+    const timePickerWrapper = mount(
+      <TimePicker
+        timeIsEditable
+        onChange={onChangeSpy}
+        parseInputValue={parseInputValue}
+      />,
+    );
 
-  timePickerWrapper.instance().onCreateOption('asdf');
+    timePickerWrapper.instance().onCreateOption('asdf');
 
-  expect(onChangeSpy).toBeCalledWith(expectedResult);
-});
+    expect(onChangeSpy).toBeCalledWith(expectedResult);
+  });
 
-test('TimePicker, custom formatDisplayLabel', () => {
-  const timeValue = '12:00';
-  const expectedResult = 'midday';
-  const formatDisplayLabel = time => (time === '12:00' ? 'midday' : time);
-  const timePickerWrapper = mount(
-    <TimePicker formatDisplayLabel={formatDisplayLabel} value={timeValue} />,
-  );
-  const label = timePickerWrapper.text();
+  test('custom formatDisplayLabel', () => {
+    const timeValue = '12:00';
+    const expectedResult = 'midday';
+    const formatDisplayLabel = time => (time === '12:00' ? 'midday' : time);
+    const timePickerWrapper = mount(
+      <TimePicker formatDisplayLabel={formatDisplayLabel} value={timeValue} />,
+    );
+    const label = timePickerWrapper.text();
 
-  expect(label).toEqual(expectedResult);
-});
+    expect(label).toEqual(expectedResult);
+  });
 
-test('TimePicker default parseInputValue', () => {
-  const onChangeSpy = jest.fn();
-  const expectedResult = '01:30am';
-  const timePickerWrapper = mount(
-    <TimePicker timeIsEditable onChange={onChangeSpy} />,
-  );
+  test('default parseInputValue', () => {
+    const onChangeSpy = jest.fn();
+    const expectedResult = '01:30';
+    const timePickerWrapper = mount(
+      <TimePicker timeIsEditable onChange={onChangeSpy} />,
+    );
 
-  timePickerWrapper.instance().onCreateOption('01:30');
+    timePickerWrapper.instance().onCreateOption('01:30');
 
-  expect(onChangeSpy).toBeCalledWith(expectedResult);
+    expect(onChangeSpy).toBeCalledWith(expectedResult);
+  });
+
+  test('default parseInputValue - AM', () => {
+    const onChangeSpy = jest.fn();
+    const expectedResult = '01:44';
+    const timePickerWrapper = mount(
+      <TimePicker timeIsEditable onChange={onChangeSpy} />,
+    );
+
+    timePickerWrapper.instance().onCreateOption('1:44am');
+
+    expect(onChangeSpy).toBeCalledWith(expectedResult);
+  });
+
+  test('default parseInputValue - PM', () => {
+    const onChangeSpy = jest.fn();
+    const expectedResult = '15:32';
+    const timePickerWrapper = mount(
+      <TimePicker timeIsEditable onChange={onChangeSpy} />,
+    );
+
+    timePickerWrapper.instance().onCreateOption('3:32pm');
+
+    expect(onChangeSpy).toBeCalledWith(expectedResult);
+  });
 });

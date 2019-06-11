@@ -1,26 +1,38 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/layer-manager",
+    "version": "7.0.4",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 11804,
-      "gzipSize": 3531
+      "size": 11795,
+      "gzipSize": 3524
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/layer-manager",
+    "version": "7.0.4",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 45472,
-      "gzipSize": 10699
+      "size": 35852,
+      "gzipSize": 9305
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/layer-manager",
+    "version": "7.0.4",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 56662,
-      "gzipSize": 13356
+      "size": 47007,
+      "gzipSize": 11967
     }
   }
 ]

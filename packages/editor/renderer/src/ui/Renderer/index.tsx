@@ -10,12 +10,19 @@ import {
   ExtensionHandlers,
   BaseTheme,
   WidthProvider,
+  getAnalyticsAppearance,
+  WithCreateAnalyticsEvent,
 } from '@atlaskit/editor-common';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { FabricChannel } from '@atlaskit/analytics-listeners';
+import { FabricEditorAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 import { ReactSerializer, renderDocument, RendererContext } from '../../';
 import { RenderOutputStat } from '../../render-document';
 import { Wrapper } from './style';
 import { TruncatedWrapper } from './truncated-wrapper';
 import { RendererAppearance } from './types';
+import { ACTION, ACTION_SUBJECT, EVENT_TYPE } from '../../analytics/enums';
+import { AnalyticsEventPayload, PLATFORM } from '../../analytics/events';
 
 export interface Extension<T> {
   extensionKey: string;
@@ -38,9 +45,10 @@ export interface Props {
   allowDynamicTextSizing?: boolean;
   maxHeight?: number;
   truncated?: boolean;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
-export default class Renderer extends PureComponent<Props, {}> {
+export class Renderer extends PureComponent<Props, {}> {
   private providerFactory: ProviderFactory;
   private serializer?: ReactSerializer;
 
@@ -48,6 +56,15 @@ export default class Renderer extends PureComponent<Props, {}> {
     super(props);
     this.providerFactory = props.dataProviders || new ProviderFactory();
     this.updateSerializer(props);
+  }
+
+  componentDidMount() {
+    this.fireAnalyticsEvent({
+      action: ACTION.STARTED,
+      actionSubject: ACTION_SUBJECT.RENDERER,
+      attributes: { platform: PLATFORM.WEB },
+      eventType: EVENT_TYPE.UI,
+    });
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -86,6 +103,16 @@ export default class Renderer extends PureComponent<Props, {}> {
       disableHeadingIDs,
       allowDynamicTextSizing,
     });
+  }
+
+  private fireAnalyticsEvent(
+    event: AnalyticsEventPayload,
+    channel = FabricChannel.editor,
+  ) {
+    const { createAnalyticsEvent } = this.props;
+    if (createAnalyticsEvent) {
+      createAnalyticsEvent(event).fire(channel);
+    }
   }
 
   render() {
@@ -147,6 +174,20 @@ export default class Renderer extends PureComponent<Props, {}> {
     }
   }
 }
+
+const RendererWithAnalytics = (props: Props) => (
+  <FabricEditorAnalyticsContext
+    data={{ appearance: getAnalyticsAppearance(props.appearance) }}
+  >
+    <WithCreateAnalyticsEvent
+      render={createAnalyticsEvent => (
+        <Renderer {...props} createAnalyticsEvent={createAnalyticsEvent} />
+      )}
+    />
+  </FabricEditorAnalyticsContext>
+);
+
+export default RendererWithAnalytics;
 
 type RendererWrapperProps = {
   appearance: RendererAppearance;

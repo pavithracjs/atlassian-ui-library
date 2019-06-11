@@ -188,7 +188,7 @@ export default class RendererDemo extends React.Component<
   DemoRendererState
 > {
   textSerializer = new TextSerializer(defaultSchema);
-  emailSerializer = new EmailSerializer();
+  emailSerializer = new EmailSerializer(defaultSchema, true);
   emailRef?: HTMLIFrameElement;
   inputBox?: HTMLTextAreaElement | null;
   emailTextareaRef?: any;

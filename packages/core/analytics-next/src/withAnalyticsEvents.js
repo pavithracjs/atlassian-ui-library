@@ -34,17 +34,87 @@ type AnalyticsEventCreator<ProvidedProps: {}> = (
 type EventMap<ProvidedProps: {}> = {
   [string]: AnalyticsEventPayload | AnalyticsEventCreator<ProvidedProps>,
 };
+type WrappedComponentProps = {};
 
 // This component is used to grab the analytics functions off context.
 // It uses legacy context, but provides an API similar to 16.3 context.
 // This makes it easier to use with the forward ref API.
 class AnalyticsContextConsumer extends Component<{
-  children: CreateUIAnalyticsEvent => Node,
+  children: ({
+    createAnalyticsEvent: CreateUIAnalyticsEvent,
+    patchedEventProps: WrappedComponentProps,
+  }) => Node,
+  createEventMap: EventMap<
+    AnalyticsEventsWrappedProps<ComponentType<WrappedComponentProps>>,
+  >,
+  wrappedComponentProps: WrappedComponentProps,
 }> {
   static contextTypes = {
     getAtlaskitAnalyticsEventHandlers: PropTypes.func,
     getAtlaskitAnalyticsContext: PropTypes.func,
   };
+
+  static defaultProps = {
+    createEventMap: {},
+  };
+
+  // Store references to the original and patched event props so we can determine when to update
+  // the patched props
+  originalEventProps: {} = {};
+
+  patchedEventProps: {} = {};
+
+  constructor(props) {
+    super(props);
+    Object.keys(this.props.createEventMap).forEach(p => {
+      this.originalEventProps[p] = props.wrappedComponentProps[p];
+    });
+    this.patchedEventProps = this.mapCreateEventsToProps(
+      Object.keys(this.props.createEventMap),
+      props.wrappedComponentProps,
+    );
+  }
+
+  // Update patched event props only if the original props have changed
+  updatePatchedEventProps = props => {
+    const changedPropCallbacks = Object.keys(this.props.createEventMap).filter(
+      p => this.originalEventProps[p] !== props[p],
+    );
+    if (changedPropCallbacks.length > 0) {
+      this.patchedEventProps = {
+        ...this.patchedEventProps,
+        ...this.mapCreateEventsToProps(changedPropCallbacks, props),
+      };
+      changedPropCallbacks.forEach(p => {
+        this.originalEventProps[p] = props[p];
+      });
+    }
+
+    return this.patchedEventProps;
+  };
+
+  mapCreateEventsToProps = (changedPropNames: string[], props) =>
+    changedPropNames.reduce((modified, propCallbackName) => {
+      const eventCreator = this.props.createEventMap[propCallbackName];
+      const providedCallback = props[propCallbackName];
+      if (!['object', 'function'].includes(typeof eventCreator)) {
+        return modified;
+      }
+      const modifiedCallback = (...args) => {
+        const analyticsEvent =
+          typeof eventCreator === 'function'
+            ? eventCreator(this.createAnalyticsEvent, props)
+            : this.createAnalyticsEvent(eventCreator);
+
+        if (providedCallback) {
+          providedCallback(...args, analyticsEvent);
+        }
+      };
+      return {
+        ...modified,
+        [propCallbackName]: modifiedCallback,
+      };
+    }, {});
 
   createAnalyticsEvent = (payload: AnalyticsEventPayload): UIAnalyticsEvent => {
     const {
@@ -63,37 +133,17 @@ class AnalyticsContextConsumer extends Component<{
   };
 
   render() {
-    return this.props.children(this.createAnalyticsEvent);
+    const patchedEventProps = this.updatePatchedEventProps(
+      this.props.wrappedComponentProps,
+    );
+
+    return this.props.children({
+      createAnalyticsEvent: this.createAnalyticsEvent,
+      patchedEventProps,
+    });
   }
 }
 
-// patch the callback so it provides analytics information.
-const modifyCallbackProp = <T: {}>(
-  propName: string,
-  eventMapEntry: AnalyticsEventPayload | AnalyticsEventCreator<T>,
-  props: T,
-  createAnalyticsEvent: CreateUIAnalyticsEvent,
-) => (...args) => {
-  const event =
-    typeof eventMapEntry === 'function'
-      ? eventMapEntry(createAnalyticsEvent, props)
-      : createAnalyticsEvent(eventMapEntry);
-  const providedCallback = props[propName];
-  if (providedCallback) {
-    providedCallback(...args, event);
-  }
-};
-
-type Obj<T> = { [string]: T };
-// helper that provides an easy way to map an object's values
-// ({ string: A }, (string, A) => B) => { string: B }
-const vmap = <A, B>(obj: Obj<A>, fn: (string, A) => B): Obj<B> =>
-  Object.keys(obj).reduce((curr, k) => ({ ...curr, [k]: fn(k, obj[k]) }), {});
-
-/* This must use $Supertype to work with multiple HOCs - https://github.com/facebook/flow/issues/6057#issuecomment-414157781
- * We also cannot alias this as a generic of withAnalyticsEvents itself as
- * that causes issues with multiple HOCs - https://github.com/facebook/flow/issues/6587
- */
 type AnalyticsEventsWrappedProps<C> = $Diff<
   ElementConfig<$Supertype<C>>,
   AnalyticsEventsProps,
@@ -107,25 +157,23 @@ export default function withAnalyticsEvents<P: {}, C: ComponentType<P>>(
 ): C => AnalyticsEventsWrappedComp<C> {
   return WrappedComponent => {
     // $FlowFixMe - flow 0.67 doesn't know about forwardRef
-    const WithAnalyticsEvents = React.forwardRef((props, ref) => {
-      return (
-        <AnalyticsContextConsumer>
-          {createAnalyticsEvent => {
-            const modifiedProps = vmap(createEventMap, (propName, entry) =>
-              modifyCallbackProp(propName, entry, props, createAnalyticsEvent),
-            );
-            return (
-              <WrappedComponent
-                {...props}
-                {...modifiedProps}
-                createAnalyticsEvent={createAnalyticsEvent}
-                ref={ref}
-              />
-            );
-          }}
-        </AnalyticsContextConsumer>
-      );
-    });
+    const WithAnalyticsEvents = React.forwardRef((props, ref) => (
+      <AnalyticsContextConsumer
+        createEventMap={createEventMap}
+        wrappedComponentProps={props}
+      >
+        {({ createAnalyticsEvent, patchedEventProps }) => {
+          return (
+            <WrappedComponent
+              {...props}
+              {...patchedEventProps}
+              createAnalyticsEvent={createAnalyticsEvent}
+              ref={ref}
+            />
+          );
+        }}
+      </AnalyticsContextConsumer>
+    ));
 
     WithAnalyticsEvents.displayName = `WithAnalyticsEvents(${WrappedComponent.displayName ||
       WrappedComponent.name})`;

@@ -9,7 +9,7 @@ import juice from 'juice';
 import { escapeHtmlString } from './util';
 import flow from 'lodash.flow';
 import property from 'lodash.property';
-import { defaultSchema as schema } from '@atlaskit/adf-schema';
+import { defaultSchema } from '@atlaskit/adf-schema';
 
 const serializeNode = (
   node: PMNode,
@@ -83,20 +83,41 @@ export const commonStyle = {
 const juicify = (html: string): string =>
   juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
 
+// replace all CID image references with a fake image
+const stubImages = (isMockEnabled: boolean) => (content: string) =>
+  isMockEnabled
+    ? content.replace(
+        /src="cid:[\w-]*"/gi,
+        'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="',
+      )
+    : content;
+
 export default class EmailSerializer implements Serializer<string> {
+  /**
+   * Email serializer allows to disable/mock images.
+   * The reason behind this is the default behavior is that in email, images are embedded separately
+   * and refenreced via CID. When however rendered in browser, this does not work and breaks the experience
+   * when rendered in demo page.
+   */
+  constructor(
+    private schema: Schema = defaultSchema,
+    private isImageStubEnabled = false,
+  ) {}
+
   serializeFragment: (fragment: Fragment) => string = flow(
     (fragment: Fragment) => fragment.toJSON(),
     JSON.stringify,
     escapeHtmlString,
     JSON.parse,
     content => ({ version: 1, type: 'doc', content }),
-    schema.nodeFromJSON,
+    this.schema.nodeFromJSON,
     property('content'),
     traverseTree,
     juicify,
+    stubImages(this.isImageStubEnabled),
   );
 
-  static fromSchema(_schema: Schema): EmailSerializer {
-    return new EmailSerializer();
+  static fromSchema(schema: Schema = defaultSchema): EmailSerializer {
+    return new EmailSerializer(schema);
   }
 }

@@ -1,5 +1,117 @@
 # @atlaskit/editor-core
 
+## 112.12.1
+
+### Patch Changes
+
+- [patch][cf6efdbfa8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cf6efdbfa8):
+
+  ED-7023: removed mouseMove and mouseLeave handlers from columns resizing plugin
+
+## 112.12.0
+
+### Minor Changes
+
+- [minor][11a8112851](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a8112851):
+
+  ED-6991 Fire analytics event for renderer started
+
+  Set up analytics v3 in renderer
+
+## 112.11.21
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/avatar@16.0.4
+  - @atlaskit/avatar-group@4.0.4
+  - @atlaskit/dropdown-menu@8.0.5
+  - @atlaskit/droplist@9.0.5
+  - @atlaskit/icon@18.0.1
+  - @atlaskit/item@10.0.3
+  - @atlaskit/select@9.1.6
+  - @atlaskit/emoji@62.1.7
+  - @atlaskit/mention@18.3.2
+  - @atlaskit/media-editor@36.1.2
+  - @atlaskit/tooltip@15.0.0
+
+## 112.11.20
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/avatar-group@4.0.3
+  - @atlaskit/button@13.0.8
+  - @atlaskit/calendar@8.0.1
+  - @atlaskit/dropdown-menu@8.0.4
+  - @atlaskit/droplist@9.0.4
+  - @atlaskit/item@10.0.2
+  - @atlaskit/modal-dialog@10.0.4
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/select@9.1.5
+  - @atlaskit/toggle@7.0.1
+  - @atlaskit/tooltip@14.0.3
+  - @atlaskit/editor-common@39.7.2
+  - @atlaskit/editor-test-helpers@9.3.9
+  - @atlaskit/renderer@48.7.3
+  - @atlaskit/emoji@62.1.6
+  - @atlaskit/mention@18.3.1
+  - @atlaskit/status@0.9.2
+  - @atlaskit/task-decision@15.0.3
+  - @atlaskit/media-card@63.1.5
+  - @atlaskit/media-editor@36.1.1
+  - @atlaskit/media-filmstrip@34.2.1
+  - @atlaskit/media-picker@43.1.1
+  - @atlaskit/media-test-helpers@24.0.3
+  - @atlaskit/smart-card@11.1.6
+  - @atlaskit/icon@18.0.0
+
+## 112.11.19
+
+### Patch Changes
+
+- [patch][8cfa40f406](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cfa40f406):
+
+  ED-6990 Fix wrapping of dates nodes in tables, panels and other nodes. Previously they would run-on and overflow from their container.
+
+## 112.11.18
+
+### Patch Changes
+
+- [patch][29c90d3e9f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29c90d3e9f):
+
+  ED-7042 Fix issue where table row controls were slightly cut off in full-width mode
+
+## 112.11.17
+
+### Patch Changes
+
+- [patch][4541cc112c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4541cc112c):
+
+  Making textarea devDep a caret range
+
+## 112.11.16
+
+### Patch Changes
+
+- [patch][8d54773dea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d54773dea):
+
+  Remove meridian time in parseInputValue in TimePicker
+
+## 112.11.15
+
+### Patch Changes
+
+- [patch][b6428ea8bb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6428ea8bb):
+
+  ED-6996: Ensure listeners for the collab plugin are removed at the correct time, not all the time.
+
+## 112.11.14
+
+### Patch Changes
+
+- [patch][e2c4d19e7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e2c4d19e7a):
+
+  ED-6998: fix inserting emoji after changing between full width mode
+
 ## 112.11.13
 
 ### Patch Changes

@@ -239,7 +239,7 @@ async function waitForLoadedBackgroundImages(
 
 /** Waits for atlaskit tooltip component to appear and fade in */
 async function waitForTooltip(page /*:any*/) {
-  const tooltipSelector = '[class^="styled__Tooltip"]';
+  const tooltipSelector = '[class^="Tooltip"]';
   await page.waitForFunction(
     selector =>
       !!document.querySelector(selector) &&
@@ -251,7 +251,7 @@ async function waitForTooltip(page /*:any*/) {
 
 /** Waits for atlaskit tooltip component to disappear */
 async function waitForNoTooltip(page /*:any*/) {
-  const tooltipSelector = '[class^="styled__Tooltip"]';
+  const tooltipSelector = '[class^="Tooltip"]';
   await page.waitForFunction(
     selector => !document.querySelector(selector),
     {},

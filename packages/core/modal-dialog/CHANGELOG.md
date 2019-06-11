@@ -1,5 +1,28 @@
 # @atlaskit/modal-dialog
 
+## 10.0.5
+
+### Patch Changes
+
+- [patch][02f1f73671](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02f1f73671):
+
+  `heading` prop type changed from string to React.ReactNode. This provides more flexibility for consumers to provide i18n components like FormattedMessage.
+
+## 10.0.4
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/button@13.0.8
+  - @atlaskit/checkbox@8.0.2
+  - @atlaskit/field-radio-group@6.0.2
+  - @atlaskit/form@6.0.5
+  - @atlaskit/inline-dialog@12.0.1
+  - @atlaskit/portal@3.0.3
+  - @atlaskit/select@9.1.5
+  - @atlaskit/textfield@2.0.1
+  - @atlaskit/icon@18.0.0
+
 ## 10.0.3
 
 - Updated dependencies [181209d135](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/181209d135):

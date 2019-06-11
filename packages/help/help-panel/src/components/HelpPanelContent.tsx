@@ -3,12 +3,15 @@ import ArrowleftIcon from '@atlaskit/icon/glyph/arrow-left';
 
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../messages';
+import { REQUEST_STATE } from '../model/Requests';
 
 import CloseButton from './CloseButton';
 import { withHelp, HelpContextInterface } from './HelpContext';
 
 import Search from './Search';
 import ArticleComponent from './Article';
+import Loading from './Loading';
+import LoadingError from './LoadingError';
 import {
   BackButton,
   BackButtonText,
@@ -27,9 +30,52 @@ export const HelpPanelContent = (
     intl: { formatMessage },
   } = props;
 
-  // Display HelpContext.DefaultArticle content if its defined and there isn't any
-  // Article in the HelpContext.history[]
-  if (help.defaultArticle && help.history.length === 0) {
+  if (help.articleState === REQUEST_STATE.done) {
+    // Display HelpContext.DefaultArticle content if its defined and there isn't any
+    // Article in the HelpContext.history[]
+    if (help.defaultArticle && help.history.length === 0) {
+      return (
+        <>
+          <HelpPanelHeader>
+            <HelpPanelHeaderText>
+              {formatMessage(messages.help_panel_header)}
+            </HelpPanelHeaderText>
+            <CloseButton />
+          </HelpPanelHeader>
+          <HelpPanelBody>
+            {help.isSearchVisible() && <Search />}
+            {help.isArticleVisible() && (
+              <ArticleComponent article={help.defaultArticle} />
+            )}
+          </HelpPanelBody>
+        </>
+      );
+    }
+
+    // If there is one or more Articles in HelpContext.history[]
+    // display the last one
+    if (help.history.length > 0) {
+      return (
+        <>
+          <HelpPanelHeader>
+            <HelpPanelHeaderText>
+              <BackButton onClick={help.navigateBack}>
+                <ArrowleftIcon label="back" size="medium" />
+                <BackButtonText>
+                  {formatMessage(messages.help_panel_navigation_back)}
+                </BackButtonText>
+              </BackButton>
+            </HelpPanelHeaderText>
+          </HelpPanelHeader>
+
+          <HelpPanelBody>
+            <ArticleComponent article={help.history[help.history.length - 1]} />
+          </HelpPanelBody>
+        </>
+      );
+    }
+
+    // Display the HelpContext.defaultContent
     return (
       <>
         <HelpPanelHeader>
@@ -40,38 +86,28 @@ export const HelpPanelContent = (
         </HelpPanelHeader>
         <HelpPanelBody>
           {help.isSearchVisible() && <Search />}
-          {help.isArticleVisible() && (
-            <ArticleComponent article={help.defaultArticle} />
-          )}
+          {help.defaultContent}
         </HelpPanelBody>
       </>
     );
   }
 
-  // If there is one or more Articles in HelpContext.history[]
-  // display the last one
-  if (help.history.length > 0) {
+  if (help.articleState === REQUEST_STATE.error) {
     return (
       <>
         <HelpPanelHeader>
           <HelpPanelHeaderText>
-            <BackButton onClick={help.navigateBack}>
-              <ArrowleftIcon label="back" size="medium" />
-              <BackButtonText>
-                {formatMessage(messages.help_panel_navigation_back)}
-              </BackButtonText>
-            </BackButton>
+            {formatMessage(messages.help_panel_header)}
           </HelpPanelHeaderText>
+          <CloseButton />
         </HelpPanelHeader>
-
         <HelpPanelBody>
-          <ArticleComponent article={help.history[help.history.length - 1]} />
+          <LoadingError />
         </HelpPanelBody>
       </>
     );
   }
 
-  // Display the HelpContext.defaultContent
   return (
     <>
       <HelpPanelHeader>
@@ -80,7 +116,10 @@ export const HelpPanelContent = (
         </HelpPanelHeaderText>
         <CloseButton />
       </HelpPanelHeader>
-      <HelpPanelBody>{help.defaultContent}</HelpPanelBody>
+      <HelpPanelBody>
+        {help.isSearchVisible() && <Search />}
+        <Loading />
+      </HelpPanelBody>
     </>
   );
 };

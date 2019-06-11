@@ -83,7 +83,7 @@
     "build:media-editor:copy-binaries": "    cd packages/media/media-editor && cp -r src/engine/core/binaries engine/core",
     "build:navigation-next": "               cd packages/core/navigation-next && yarn build",
     "build:bundle-analysis": "               node ./build/ci-scripts/run.bundle.analysis",
-    "build:css-reset": "                     BABEL_ENV=production:esm bolt w @atlaskit/css-reset run build",
+    "build:css-reset": "                     bolt w @atlaskit/css-reset run build",
     "build:reduced-ui-pack": "               BABEL_ENV=production:esm bolt w @atlaskit/reduced-ui-pack run build",
     "build:adf-schema:checkuptodate": "      cd packages/editor/adf-schema && yarn run generate:json-schema && git diff --exit-code",
     "build:multi-entry-point-tsconfig": "    node ./build/multi-entry-tools/typescript-paths-tsconfig-builder.js > tsconfig.entry-points.json"
@@ -108,6 +108,7 @@
     "@types/debounce": "^1.2.0",
     "@types/enzyme": "^3.1.15",
     "@types/fetch-mock": "^6.0.3",
+    "@types/flushable": "^1.0.1",
     "@types/jest": "^23.3.7",
     "@types/lodash.chunk": "^4.2.3",
     "@types/lorem-ipsum": "^1.0.2",

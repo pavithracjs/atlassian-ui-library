@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, Fragment, type ComponentType } from 'react';
-import isEqual from 'lodash.isequal';
+import deepEqual from 'deep-equal';
 import { colors } from '@atlaskit/theme';
 
 import RenderBlocker from '../../common/RenderBlocker';
@@ -30,7 +30,7 @@ type ComposedContainerNavigationProps = {
 export class ComposedContainerNavigation extends Component<ComposedContainerNavigationProps> {
   shouldComponentUpdate(nextProps: ComposedContainerNavigationProps) {
     const { props } = this;
-    return !isEqual(props, nextProps);
+    return !deepEqual(props, nextProps);
   }
 
   render() {

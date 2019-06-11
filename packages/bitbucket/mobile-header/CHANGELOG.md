@@ -1,5 +1,13 @@
 # @atlaskit/mobile-header
 
+## 3.1.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/navigation@35.1.5
+  - @atlaskit/icon@18.0.0
+
 ## 3.1.0
 
 ### Minor Changes

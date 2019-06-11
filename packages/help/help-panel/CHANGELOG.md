@@ -1,5 +1,41 @@
 ## 0.1.0
 
+## 0.8.2
+
+### Patch Changes
+
+- [patch][4534dc3d51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4534dc3d51):
+
+  Fix for dependency on @atlaskit/tooltip
+
+## 0.8.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/form@6.0.5
+  - @atlaskit/item@10.0.2
+  - @atlaskit/navigation@35.1.5
+  - @atlaskit/radio@3.0.3
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/quick-search@7.4.1
+  - @atlaskit/icon@18.0.0
+
+## 0.8.0
+
+### Minor Changes
+
+- [minor][26759e6bf3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26759e6bf3):
+
+  Updated help-article version
+
+## 0.7.0
+
+### Minor Changes
+
+- [minor][91136c9a7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/91136c9a7a):
+
+  Added loading and error state
+
 ## 0.6.0
 
 ### Minor Changes

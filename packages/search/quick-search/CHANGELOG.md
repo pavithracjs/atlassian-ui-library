@@ -1,5 +1,16 @@
 # @atlaskit/quick-search
 
+## 7.4.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/drawer@4.1.3
+  - @atlaskit/field-base@13.0.4
+  - @atlaskit/item@10.0.2
+  - @atlaskit/navigation@35.1.5
+  - @atlaskit/icon@18.0.0
+
 ## 7.4.0
 
 ### Minor Changes
