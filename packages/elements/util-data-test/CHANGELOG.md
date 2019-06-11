@@ -1,5 +1,13 @@
 # @atlaskit/util-data-test
 
+## 12.3.1
+
+### Patch Changes
+
+- [patch][2c387b14cf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2c387b14cf):
+
+  Update private npm property to be public.Reasoning, it is breaking other components that depend on iton codesandbox.
+
 ## 12.3.0
 
 ### Minor Changes
