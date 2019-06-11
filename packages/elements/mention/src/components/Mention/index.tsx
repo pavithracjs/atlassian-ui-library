@@ -2,9 +2,7 @@ import * as React from 'react';
 import { MentionStyle } from './styles';
 import { NoAccessTooltip } from '../NoAccessTooltip';
 import { isRestricted, MentionType, MentionEventHandler } from '../../types';
-import { fireAnalyticsMentionEvent, fireAnalytics } from '../../util/analytics';
-
-import { FireAnalyticsEvent, withAnalytics } from '@atlaskit/analytics';
+import { fireAnalyticsMentionEvent } from '../../util/analytics';
 
 import {
   withAnalyticsEvents,
@@ -26,12 +24,7 @@ export type OwnProps = {
   onHover?: () => void;
 };
 
-export type OldAnalytics = {
-  fireAnalyticsEvent?: FireAnalyticsEvent;
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
-};
-
-export type Props = OwnProps & OldAnalytics & WithAnalyticsEventProps;
+export type Props = OwnProps & WithAnalyticsEventProps;
 
 export class MentionInternal extends React.PureComponent<Props, {}> {
   private hoverTimeout?: number;
@@ -127,20 +120,13 @@ const MentionWithAnalytics: React.ComponentClass<
     createEvent: CreateUIAnalyticsEventSignature,
     props: Props,
   ): UIAnalyticsEventInterface => {
-    const { id, text, accessLevel, firePrivateAnalyticsEvent } = props;
+    const { id, text, accessLevel } = props;
 
     const event = fireAnalyticsMentionEvent(createEvent)(
       'mention',
       'selected',
       text,
       id,
-      accessLevel,
-    );
-
-    // old analytics
-    fireAnalytics(firePrivateAnalyticsEvent)(
-      'lozenge.select',
-      text,
       accessLevel,
     );
     return event;
@@ -150,7 +136,7 @@ const MentionWithAnalytics: React.ComponentClass<
     createEvent: CreateUIAnalyticsEventSignature,
     props: Props,
   ): UIAnalyticsEventInterface => {
-    const { id, text, accessLevel, firePrivateAnalyticsEvent } = props;
+    const { id, text, accessLevel } = props;
 
     const event = fireAnalyticsMentionEvent(createEvent)(
       'mention',
@@ -159,22 +145,11 @@ const MentionWithAnalytics: React.ComponentClass<
       id,
       accessLevel,
     );
-
-    // old analytics
-    fireAnalytics(firePrivateAnalyticsEvent)(
-      'lozenge.hover',
-      text,
-      accessLevel,
-    );
     return event;
   },
 })(MentionInternal) as React.ComponentClass<OwnProps>;
 
-const Mention = withAnalytics<typeof MentionWithAnalytics>(
-  MentionWithAnalytics,
-  {},
-  {},
-);
+const Mention = MentionWithAnalytics;
 type Mention = MentionInternal;
 
 export default Mention;
