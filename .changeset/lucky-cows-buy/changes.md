@@ -1,1 +1,0 @@
-Update Atlassian Switcher rank
