@@ -16,7 +16,7 @@ const devices = [
 const initRenderer = async (page: Page, adf: any, device: Device) =>
   await initRendererWithADF(page, {
     appearance: 'full-page',
-    rendererProps: { allowDynamicTextSizing: true },
+    rendererProps: { allowDynamicTextSizing: true, disableHeadingIDs: true },
     adf,
     device,
   });

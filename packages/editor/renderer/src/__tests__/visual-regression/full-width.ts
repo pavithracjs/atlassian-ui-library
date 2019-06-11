@@ -11,7 +11,7 @@ const initRenderer = async (
   await initRendererWithADF(page, {
     appearance: 'full-width',
     viewport,
-    rendererProps: { allowDynamicTextSizing: true },
+    rendererProps: { allowDynamicTextSizing: true, disableHeadingIDs: true },
     adf,
   });
 };

@@ -113,7 +113,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     props: any = {},
     target: any = Doc,
     key: string = 'root-0',
-    parentInfo?: { parentIsIncompleteTask: boolean },
+    parentInfo?: { parentIsIncompleteTask: boolean; path: Array<Node> },
   ): JSX.Element | null {
     // This makes sure that we reset internal state on re-render.
     if (key === 'root-0') {
@@ -133,15 +133,21 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
         } else if (node.type.name === 'date') {
           props = this.getDateProps(node, parentInfo);
         } else if (node.type.name === 'heading') {
-          props = this.getHeadingProps(node);
+          props = this.getHeadingProps(node, parentInfo && parentInfo.path);
         } else {
           props = this.getProps(node);
         }
 
-        let pInfo = parentInfo;
-        if (node.type.name === 'taskItem' && node.attrs.state !== 'DONE') {
-          pInfo = { parentIsIncompleteTask: true };
-        }
+        let currentPath = (parentInfo && parentInfo.path) || [];
+        currentPath.push(node);
+
+        const parentIsIncompleteTask =
+          node.type.name === 'taskItem' && node.attrs.state !== 'DONE';
+
+        let pInfo = {
+          parentIsIncompleteTask,
+          path: currentPath,
+        };
 
         const serializedContent = this.serializeFragment(
           node.content,
@@ -253,11 +259,18 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     };
   }
 
-  private getHeadingProps(node: Node) {
+  private isTopLevelHeading(path: Array<Node> = []): boolean {
+    return path.every(
+      node => ['panel', 'layoutSection', 'table'].indexOf(node.type.name) < 0,
+    );
+  }
+
+  private getHeadingProps(node: Node, path: Array<Node> = []) {
     return {
       ...node.attrs,
       content: node.content ? node.content.toJSON() : undefined,
       headingId: this.getHeadingId(node),
+      showAnchorLink: !this.disableHeadingIDs && this.isTopLevelHeading(path),
     };
   }
 

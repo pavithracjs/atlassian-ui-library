@@ -5,6 +5,28 @@ import { typography } from '@atlaskit/theme';
 
 // @see typography spreadsheet: https://docs.google.com/spreadsheets/d/1iYusRGCT4PoPfvxbJ8NrgjtfFgXLm5lpDWXzjua1W2E/edit#gid=93913128
 // text sizing prototype: http://proto/fabricrender/
+
+export const headingSizes: { [key: string]: { [key: string]: number } } = {
+  h1: {
+    lineHeight: 28 / 24,
+  },
+  h2: {
+    lineHeight: 24 / 20,
+  },
+  h3: {
+    lineHeight: 20 / 16,
+  },
+  h4: {
+    lineHeight: 16 / 14,
+  },
+  h5: {
+    lineHeight: 16 / 12,
+  },
+  h6: {
+    lineHeight: 16 / 11,
+  },
+};
+
 export const headingsSharedStyles = css`
   & h1 {
     ${typography.h700};
@@ -39,5 +61,9 @@ export const headingsSharedStyles = css`
     ${typography.h100};
     margin-top: 1.455em;
     text-transform: none;
+  }
+
+  & .headingView-content-wrap {
+    clear: none;
   }
 `;

@@ -16,6 +16,7 @@ import {
   getResponseEndTime,
   startMeasure,
   stopMeasure,
+  CopyTextProvider,
 } from '@atlaskit/editor-common';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { FabricChannel } from '@atlaskit/analytics-listeners';
@@ -167,12 +168,14 @@ export class Renderer extends PureComponent<Props, {}> {
         onComplete(stat);
       }
       const rendererOutput = (
-        <RendererWrapper
-          appearance={appearance}
-          dynamicTextSizing={!!allowDynamicTextSizing}
-        >
-          {result}
-        </RendererWrapper>
+        <CopyTextProvider>
+          <RendererWrapper
+            appearance={appearance}
+            dynamicTextSizing={!!allowDynamicTextSizing}
+          >
+            {result}
+          </RendererWrapper>
+        </CopyTextProvider>
       );
 
       return truncated ? (

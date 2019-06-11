@@ -105,6 +105,9 @@ export interface EditorProps {
   // Enables code blocks. This is different to inline code, it is a block element and support languages.
   allowCodeBlocks?: boolean | CodeBlockOptions;
 
+  // Enable heading link anchor.
+  allowHeadingAnchorLink?: boolean;
+
   // Enables bullet and numbered lists.
   allowLists?: boolean;
 

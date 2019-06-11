@@ -51,6 +51,7 @@ import {
   analyticsPlugin,
   customAutoformatPlugin,
   feedbackDialogPlugin,
+  headingPlugin,
 } from '../plugins';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -105,6 +106,10 @@ export default function createPluginsList(
 
   if (props.allowTextColor) {
     plugins.push(textColorPlugin());
+  }
+
+  if (props.allowHeadingAnchorLink) {
+    plugins.push(headingPlugin());
   }
 
   if (props.allowLists) {

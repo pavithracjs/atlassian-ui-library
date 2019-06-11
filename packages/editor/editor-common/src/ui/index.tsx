@@ -34,7 +34,7 @@ export { BaseTheme, mapBreakpointToLayoutMaxWidth } from './BaseTheme';
 export { default as withOuterListeners } from './with-outer-listeners';
 export * from './EventHandlers';
 export { WidthConsumer, WidthProvider, getBreakpoint } from './WidthProvider';
-
+export { default as HeadingAnchor } from './heading-anchor';
 export {
   default as overflowShadow,
   OverflowShadowOptions,
@@ -43,3 +43,4 @@ export {
 } from './OverflowShadow';
 
 export { WithCreateAnalyticsEvent } from './WithCreateAnalyticsEvent';
+export { CopyTextProvider, CopyTextConsumer } from './CopyTextProvider';
