@@ -1,1 +1,0 @@
-Update the Statuspage icon + logo
