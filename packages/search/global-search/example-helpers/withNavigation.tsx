@@ -23,6 +23,7 @@ const Radio = styled.input`
 export interface Config {
   hideLocale?: boolean;
   message?: JSX.Element;
+  cloudIds?: object;
 }
 
 const MessageContainer = styled.div`
@@ -113,6 +114,13 @@ export default function withNavigation<P extends Props>(
       );
     }
 
+    getCloudId(): string {
+      return (
+        (props.cloudIds && props.cloudIds[this.state.context]) ||
+        this.props.cloudId
+      );
+    }
+
     renderMessage() {
       if (!props || !props.message) {
         return null;
@@ -147,7 +155,7 @@ export default function withNavigation<P extends Props>(
             searchDrawerContent={
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
-                  cloudId="cloudId"
+                  cloudId={this.getCloudId()}
                   context={currentContext}
                   referralContextIdentifiers={{
                     currentContentId: '123',

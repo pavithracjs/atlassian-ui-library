@@ -13,6 +13,14 @@ const message = (
     >
       jdog
     </a>{' '}
+    or{' '}
+    <a
+      href="https://pug.jira-dev.com/"
+      target="_blank"
+      title="DUMMY-a5a01d21-1cc3-4f29-9565-f2bb8cd969f5"
+    >
+      pug
+    </a>{' '}
     please login to{' '}
     <a href="https://id.stg.internal.atlassian.com" target="_blank">
       Staging Identity
@@ -22,6 +30,10 @@ const message = (
 const GlobalQuickSearchInNavigation = withNavigation(GlobalQuickSearch, {
   hideLocale: true,
   message,
+  cloudIds: {
+    jira: '497ea592-beb4-43c3-9137-a6e5fa301088',
+    confluence: 'DUMMY-a5a01d21-1cc3-4f29-9565-f2bb8cd969f5',
+  },
 });
 const config: Partial<Config> = {
   activityServiceUrl: 'https://api-private.stg.atlassian.com/activity',
@@ -30,12 +42,11 @@ const config: Partial<Config> = {
   directoryServiceUrl: 'https://api-private.stg.atlassian.com/directory',
 };
 
-const cloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // JDOG
+// const cloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // JDOG
 export default class extends React.Component<{}, { cloudId: string }> {
   render() {
     return (
       <GlobalQuickSearchInNavigation
-        cloudId={cloudId}
         {...config}
         enablePreQueryFromAggregator={true}
       />
