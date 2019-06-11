@@ -1,4 +1,5 @@
-import { MediaClientConfig, mediaState } from '@atlaskit/media-core';
+import { EventEmitter2 } from 'eventemitter2';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import {
   MediaStore,
   MediaStoreGetFileImageParams,
@@ -12,6 +13,7 @@ export class MediaClient {
   public readonly mediaStore: MediaStore;
   public readonly collection: CollectionFetcher;
   public readonly file: FileFetcher;
+  private readonly eventEmitter: EventEmitter2;
   // Deprecated value introduced for backward compatibility with Context
   public readonly config: MediaClientConfig;
 
@@ -22,6 +24,7 @@ export class MediaClient {
     this.config = mediaClientConfig;
     this.collection = new CollectionFetcher(this.mediaStore);
     this.file = new FileFetcherImpl(this.mediaStore);
+    this.eventEmitter = new EventEmitter2();
   }
 
   public getImage(
@@ -50,27 +53,20 @@ export class MediaClient {
     event: E,
     listener: EventPayloadListener<UploadEventPayloadMap, E>,
   ): void {
-    if (mediaState.eventEmitter) {
-      mediaState.eventEmitter.on(event, listener);
-    }
+    this.eventEmitter.on(event, listener);
   }
 
   off<E extends keyof UploadEventPayloadMap>(
     event: E,
     listener: EventPayloadListener<UploadEventPayloadMap, E>,
   ): void {
-    if (mediaState.eventEmitter) {
-      mediaState.eventEmitter.off(event, listener);
-    }
+    this.eventEmitter.off(event, listener);
   }
 
   emit<E extends keyof UploadEventPayloadMap>(
     event: E,
     payload: UploadEventPayloadMap[E],
-  ): boolean | undefined {
-    if (mediaState.eventEmitter) {
-      return mediaState.eventEmitter.emit(event, payload);
-    }
-    return undefined;
+  ): boolean {
+    return this.eventEmitter.emit(event, payload);
   }
 }

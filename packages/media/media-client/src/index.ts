@@ -128,3 +128,5 @@ export {
   WithContextOrMediaClientConfigProps,
   getMediaClient,
 } from './utils/with-media-client-hoc';
+
+export { globalMediaEventEmitter } from './globalMediaEventEmitter';

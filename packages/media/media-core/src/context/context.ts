@@ -34,7 +34,7 @@ export interface Context {
   emit<E extends keyof UploadEventPayloadMap>(
     event: E,
     payload: UploadEventPayloadMap[E],
-  ): boolean | undefined;
+  ): boolean;
 
   readonly collection: CollectionFetcher;
   readonly file: FileFetcher;

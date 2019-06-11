@@ -6,7 +6,10 @@ import {
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
-import { FileIdentifier } from '@atlaskit/media-client';
+import {
+  FileIdentifier,
+  globalMediaEventEmitter,
+} from '@atlaskit/media-client';
 import Button from '@atlaskit/button';
 import Select from '@atlaskit/select';
 import { SelectWrapper, OptionsWrapper } from '../example-helpers/styled';
@@ -51,6 +54,10 @@ export default class Example extends React.Component<{}, State> {
 
     mediaClient.on('file-added', file => {
       console.log('mediaClient on file-added', file);
+    });
+
+    globalMediaEventEmitter.on('file-added', file => {
+      console.log('globalMediaEventEmitter on file-added', file);
     });
 
     popup.on('uploads-start', (payload: { files: MediaFile[] }) => {
