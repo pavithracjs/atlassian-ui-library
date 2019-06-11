@@ -8,13 +8,19 @@ export enum EVENT_TYPE {
 export enum ACTION {
   STARTED = 'started',
   RENDERED = 'rendered',
+  CLICKED = 'clicked',
+  VIEWED = 'viewed',
 }
 
 export enum ACTION_SUBJECT {
   RENDERER = 'renderer',
+  BUTTON = 'button',
+  ANCHOR_LINK = 'anchorLink',
 }
 
-export enum ACTION_SUBJECT_ID {}
+export enum ACTION_SUBJECT_ID {
+  HEADING_ANCHOR_LINK = 'headingAnchorLink',
+}
 
 export type AEP<
   Action,

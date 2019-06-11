@@ -1,20 +1,67 @@
-import * as React from 'react';
-import Inline from './inline';
+import React from 'react';
+import { getCurrentUrlWithHash } from '@atlaskit/editor-common';
+import {
+  HeadingAnchor,
+  CopyTextConsumer,
+  HeadingLevels,
+  HeadingComponents,
+  HeadingAnchorWrapper,
+} from '@atlaskit/editor-common';
 
-export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+import {
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+} from '../../analytics/enums';
+import AnalyticsContext from '../../analytics/analyticsContext';
 
-export default function Heading(
+function Heading(
   props: {
-    level: HeadingLevel;
+    level: HeadingLevels;
     headingId?: string;
+    showAnchorLink?: boolean;
   } & React.Props<any>,
 ) {
-  const { level, children, headingId } = props;
-  const HX = `h${level}`;
+  const { headingId } = props;
+  const HeadingTag = HeadingComponents[`h${props.level}`];
 
   return (
-    <HX id={headingId}>
-      <Inline>{children}</Inline>
-    </HX>
+    <HeadingTag>
+      <HeadingAnchorWrapper anchorId={headingId}>
+        {!!props.showAnchorLink && (
+          <CopyTextConsumer>
+            {({ copyTextToClipboard }) => {
+              return (
+                headingId && (
+                  <AnalyticsContext.Consumer>
+                    {({ fireAnalyticsEvent }) => (
+                      <HeadingAnchor
+                        onClick={() => {
+                          fireAnalyticsEvent({
+                            action: ACTION.CLICKED,
+                            actionSubject: ACTION_SUBJECT.BUTTON,
+                            actionSubjectId:
+                              ACTION_SUBJECT_ID.HEADING_ANCHOR_LINK,
+                            eventType: EVENT_TYPE.UI,
+                          });
+
+                          return copyTextToClipboard(
+                            getCurrentUrlWithHash(headingId),
+                          );
+                        }}
+                      />
+                    )}
+                  </AnalyticsContext.Consumer>
+                )
+              );
+            }}
+          </CopyTextConsumer>
+        )}
+      </HeadingAnchorWrapper>
+      {props.children}
+    </HeadingTag>
   );
 }
+
+export default Heading;

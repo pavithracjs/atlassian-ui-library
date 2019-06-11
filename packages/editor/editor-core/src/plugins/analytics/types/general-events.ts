@@ -12,10 +12,28 @@ export enum PLATFORMS {
   WEB = 'web',
 }
 
+export enum MODE {
+  RENDERER = 'renderer',
+  EDITOR = 'editor',
+}
+
+export type BraceStyleOptions = 'editor';
+
 export enum FULL_WIDTH_MODE {
   FIXED_WIDTH = 'fixedWidth',
   FULL_WIDTH = 'fullWidth',
 }
+
+type ViewedAnchorLinkAEP = UIAEP<
+  ACTION.VIEWED,
+  ACTION_SUBJECT.ANCHOR_LINK,
+  undefined,
+  {
+    platform: PLATFORMS.NATIVE | PLATFORMS.HYBRID | PLATFORMS.WEB;
+    mode: MODE.EDITOR;
+  },
+  undefined
+>;
 
 type ButtonAEP<ActionSubjectID, Attributes> = UIAEP<
   ACTION.CLICKED,
@@ -134,6 +152,11 @@ type ButtonFeedbackAEP = ButtonAEP<
   undefined
 >;
 
+type HeadingAnchorLinkAEP = ButtonAEP<
+  ACTION_SUBJECT_ID.HEADING_ANCHOR_LINK,
+  undefined
+>;
+
 type PickerEmojiAEP = PickerAEP<
   ACTION_SUBJECT_ID.PICKER_EMOJI,
   { inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.INSERT_MENU }
@@ -201,6 +224,7 @@ export type GeneralEventPayload =
   | PickerEmojiAEP
   | PickerImageAEP
   | FeedbackAEP
+  | HeadingAnchorLinkAEP
   | TypeAheadQuickInsertAEP
   | TypeAheadEmojiAEP
   | TypeAheadLinkAEP
@@ -208,4 +232,5 @@ export type GeneralEventPayload =
   | FullWidthModeAEP
   | EditorPerfAEP
   | BrowserFreezePayload
-  | SlowInputAEP;
+  | SlowInputAEP
+  | ViewedAnchorLinkAEP;

@@ -1,7 +1,7 @@
 import { Node, Schema } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { browser } from '@atlaskit/editor-common';
+import { browser, HeadingLevels } from '@atlaskit/editor-common';
 import {
   NORMAL_TEXT,
   HEADING_1,
@@ -18,7 +18,6 @@ import {
   TEXT_BLOCK_TYPES,
   WRAPPER_BLOCK_TYPES,
   HEADINGS_BY_LEVEL,
-  HeadingLevels,
   HeadingLevelsAndNormalText,
 } from '../types';
 import { areBlockTypesDisabled } from '../../../utils';

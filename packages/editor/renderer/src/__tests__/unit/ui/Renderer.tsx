@@ -150,6 +150,12 @@ describe('@atlaskit/renderer/ui/Renderer', () => {
   describe('Analytics', () => {
     it('should fire analytics event on renderer started', () => {
       const client = analyticsClient();
+      const oldHash = window.location.hash;
+      window.location.hash = '#test';
+      jest
+        .spyOn(document, 'getElementById')
+        .mockImplementation(() => document.createElement('div'));
+
       mount(
         <FabricAnalyticsListeners client={client}>
           <Renderer document={validDoc} />
@@ -163,6 +169,20 @@ describe('@atlaskit/renderer/ui/Renderer', () => {
           attributes: expect.objectContaining({ platform: 'web' }),
         }),
       );
+
+      expect(client.sendUIEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: 'viewed',
+          actionSubject: 'anchorLink',
+          attributes: expect.objectContaining({
+            platform: 'web',
+            mode: 'renderer',
+          }),
+        }),
+      );
+
+      window.location.hash = oldHash;
+      (document.getElementById as jest.Mock).mockRestore();
     });
 
     const appearances: {

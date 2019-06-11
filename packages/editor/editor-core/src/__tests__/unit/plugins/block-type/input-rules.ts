@@ -17,8 +17,8 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
-import { HeadingLevels } from '../../../../plugins/block-type/types';
 import { EditorView } from 'prosemirror-view';
+import { HeadingLevels } from '@atlaskit/editor-common';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();

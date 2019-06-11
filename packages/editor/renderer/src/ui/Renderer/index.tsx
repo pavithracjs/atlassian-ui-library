@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
+import { IntlProvider } from 'react-intl';
 import { Schema } from 'prosemirror-model';
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { reduce } from '@atlaskit/adf-utils';
@@ -16,6 +17,7 @@ import {
   getResponseEndTime,
   startMeasure,
   stopMeasure,
+  CopyTextProvider,
 } from '@atlaskit/editor-common';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { FabricChannel } from '@atlaskit/analytics-listeners';
@@ -26,7 +28,8 @@ import { Wrapper } from './style';
 import { TruncatedWrapper } from './truncated-wrapper';
 import { RendererAppearance } from './types';
 import { ACTION, ACTION_SUBJECT, EVENT_TYPE } from '../../analytics/enums';
-import { AnalyticsEventPayload, PLATFORM } from '../../analytics/events';
+import { AnalyticsEventPayload, PLATFORM, MODE } from '../../analytics/events';
+import AnalyticsContext from '../../analytics/analyticsContext';
 
 export interface Extension<T> {
   extensionKey: string;
@@ -47,6 +50,7 @@ export interface Props {
   adfStage?: ADFStage;
   disableHeadingIDs?: boolean;
   allowDynamicTextSizing?: boolean;
+  allowHeadingAnchorLinks?: boolean;
   maxHeight?: number;
   truncated?: boolean;
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
@@ -64,6 +68,20 @@ export class Renderer extends PureComponent<Props, {}> {
   }
 
   componentDidMount() {
+    const anchorLinkAttributeHit =
+      !this.props.disableHeadingIDs &&
+      window.location.hash &&
+      document.getElementById(window.location.hash.slice(1));
+
+    if (anchorLinkAttributeHit) {
+      this.fireAnalyticsEvent({
+        action: ACTION.VIEWED,
+        actionSubject: ACTION_SUBJECT.ANCHOR_LINK,
+        attributes: { platform: PLATFORM.WEB, mode: MODE.RENDERER },
+        eventType: EVENT_TYPE.UI,
+      });
+    }
+
     this.fireAnalyticsEvent({
       action: ACTION.STARTED,
       actionSubject: ACTION_SUBJECT.RENDERER,
@@ -115,6 +133,7 @@ export class Renderer extends PureComponent<Props, {}> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     } = props;
 
     this.serializer = new ReactSerializer({
@@ -130,6 +149,7 @@ export class Renderer extends PureComponent<Props, {}> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     });
   }
 
@@ -167,12 +187,23 @@ export class Renderer extends PureComponent<Props, {}> {
         onComplete(stat);
       }
       const rendererOutput = (
-        <RendererWrapper
-          appearance={appearance}
-          dynamicTextSizing={!!allowDynamicTextSizing}
-        >
-          {result}
-        </RendererWrapper>
+        <CopyTextProvider>
+          <IntlProvider>
+            <AnalyticsContext.Provider
+              value={{
+                fireAnalyticsEvent: (event: AnalyticsEventPayload) =>
+                  this.fireAnalyticsEvent(event, FabricChannel.editor),
+              }}
+            >
+              <RendererWrapper
+                appearance={appearance}
+                dynamicTextSizing={!!allowDynamicTextSizing}
+              >
+                {result}
+              </RendererWrapper>
+            </AnalyticsContext.Provider>
+          </IntlProvider>
+        </CopyTextProvider>
       );
 
       return truncated ? (

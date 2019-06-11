@@ -1,5 +1,6 @@
 import { Node } from 'prosemirror-model';
 export * from './extension-handler';
+export * from './heading-levels';
 
 export interface Transformer<T> {
   encode(node: Node): T;

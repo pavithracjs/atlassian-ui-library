@@ -2,121 +2,121 @@
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 7458,
-      "gzipSize": 2451
+      "size": 7553,
+      "gzipSize": 2481
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "src.async",
     "name": "async",
     "stats": {
       "size": 52669,
-      "gzipSize": 26209
+      "gzipSize": 26210
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 17367,
-      "gzipSize": 4575
+      "size": 17373,
+      "gzipSize": 4582
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 135604,
-      "gzipSize": 41993
+      "size": 135201,
+      "gzipSize": 41899
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 27869,
-      "gzipSize": 7011
+      "size": 28396,
+      "gzipSize": 7111
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 53595,
-      "gzipSize": 13600
+      "size": 57063,
+      "gzipSize": 13562
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
       "size": 885,
-      "gzipSize": 434
+      "gzipSize": 436
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
       "size": 23540,
-      "gzipSize": 6569
+      "gzipSize": 6567
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 52997,
-      "gzipSize": 13333
+      "size": 53617,
+      "gzipSize": 13479
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-avatar-picker",
-    "version": "21.0.7",
+    "version": "21.1.1",
     "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 262143,
-      "gzipSize": 87465
+      "size": 265410,
+      "gzipSize": 87291
     }
   }
 ]

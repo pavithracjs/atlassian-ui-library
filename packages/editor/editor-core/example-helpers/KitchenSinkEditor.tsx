@@ -79,6 +79,7 @@ export default class KitchenSinkEditor extends React.Component<Props, State> {
           allowExtension={{
             allowBreakout: true,
           }}
+          allowHeadingAnchorLinks={true}
           allowRule={true}
           allowDate={true}
           allowLayouts={{

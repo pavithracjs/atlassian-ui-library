@@ -51,6 +51,7 @@ import {
   analyticsPlugin,
   customAutoformatPlugin,
   feedbackDialogPlugin,
+  headingPlugin,
 } from '../plugins';
 import { isFullPage as fullPageCheck } from '../utils/is-full-page';
 import { EditorView } from 'prosemirror-view';
@@ -133,6 +134,10 @@ export default function createPluginsList(
 
   if (props.allowTextColor) {
     plugins.push(textColorPlugin());
+  }
+
+  if (props.allowHeadingAnchorLinks) {
+    plugins.push(headingPlugin());
   }
 
   if (props.allowLists) {

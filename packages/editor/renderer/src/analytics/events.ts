@@ -1,9 +1,20 @@
-import { ACTION, ACTION_SUBJECT, AEP, EVENT_TYPE } from './enums';
+import {
+  ACTION,
+  ACTION_SUBJECT,
+  AEP,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+} from './enums';
 
 export enum PLATFORM {
   NATIVE = 'mobileNative',
   HYBRID = 'mobileHybrid',
   WEB = 'web',
+}
+
+export enum MODE {
+  RENDERER = 'renderer',
+  EDITOR = 'editor',
 }
 
 type RendererStartAEP = AEP<
@@ -27,4 +38,35 @@ type RendererRenderedAEP = AEP<
   EVENT_TYPE.OPERATIONAL
 >;
 
-export type AnalyticsEventPayload = RendererStartAEP | RendererRenderedAEP;
+type UIAEP<Action, ActionSubject, ActionSubjectID, Attributes> = AEP<
+  Action,
+  ActionSubject,
+  ActionSubjectID,
+  Attributes,
+  EVENT_TYPE.UI
+>;
+
+type ButtonAEP<ActionSubjectID, Attributes> = UIAEP<
+  ACTION.CLICKED,
+  ACTION_SUBJECT.BUTTON,
+  ActionSubjectID,
+  Attributes
+>;
+
+type AnchorLinkAEP = UIAEP<
+  ACTION.VIEWED,
+  ACTION_SUBJECT.ANCHOR_LINK,
+  undefined,
+  { platform: PLATFORM.WEB; mode: MODE.RENDERER }
+>;
+
+type HeadingAnchorLinkButtonAEP = ButtonAEP<
+  ACTION_SUBJECT_ID.HEADING_ANCHOR_LINK,
+  undefined
+>;
+
+export type AnalyticsEventPayload =
+  | RendererStartAEP
+  | RendererRenderedAEP
+  | HeadingAnchorLinkButtonAEP
+  | AnchorLinkAEP;

@@ -9,7 +9,7 @@ const initRenderer = async (
   await initRendererWithADF(page, {
     appearance: 'full-page',
     viewport,
-    rendererProps: { allowDynamicTextSizing: true },
+    rendererProps: { allowDynamicTextSizing: true, disableHeadingIDs: true },
     adf: document,
   });
 };

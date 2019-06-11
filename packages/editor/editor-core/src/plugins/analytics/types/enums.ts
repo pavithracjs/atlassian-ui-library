@@ -28,6 +28,7 @@ export enum ACTION {
   UNDID = 'undid',
   UNLINK = 'unlinked',
   VISITED = 'visited',
+  VIEWED = 'viewed',
   BROWSER_FREEZE = 'browserFreeze',
   SLOW_INPUT = 'slowInput',
 }
@@ -56,6 +57,7 @@ export enum INPUT_METHOD {
 }
 
 export enum ACTION_SUBJECT {
+  ANCHOR_LINK = 'anchorLink',
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
@@ -66,6 +68,7 @@ export enum ACTION_SUBJECT {
   PANEL = 'panel',
   PICKER = 'picker',
   SMART_LINK = 'smartLink',
+  LINK = 'link',
   TEXT = 'text',
   TYPEAHEAD = 'typeAhead',
   TABLE = 'table',
@@ -100,6 +103,7 @@ export enum ACTION_SUBJECT_ID {
   FORMAT_SUPER = 'superscript',
   FORMAT_UNDERLINE = 'underline',
   LAYOUT = 'layout',
+  HEADING_ANCHOR_LINK = 'headingAnchorLink',
   LINE_BREAK = 'lineBreak',
   LINK = 'link',
   MEDIA_LINK = 'mediaLink',

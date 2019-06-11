@@ -9,7 +9,7 @@ import inputRulePlugin from './pm-plugins/input-rule';
 import ToolbarBlockType from './ui/ToolbarBlockType';
 import WithPluginState from '../../ui/WithPluginState';
 import { setBlockTypeWithAnalytics } from './commands';
-import { messages, HeadingLevels } from './types';
+import { messages } from './types';
 import { NodeSpec } from 'prosemirror-model';
 import {
   addAnalytics,
@@ -26,6 +26,7 @@ import {
   QuickInsertActionInsert,
 } from '../quick-insert/types';
 import { EditorState } from 'prosemirror-state';
+import { HeadingLevels } from '@atlaskit/editor-common';
 
 interface BlockTypeNode {
   name: AllowedBlockTypes;

@@ -42,6 +42,7 @@ export interface ConstructorParams {
   appearance?: RendererAppearance;
   disableHeadingIDs?: boolean;
   allowDynamicTextSizing?: boolean;
+  allowHeadingAnchorLinks?: boolean;
 }
 
 type MarkWithContent = Partial<Mark<any>> & {
@@ -83,6 +84,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
   private disableHeadingIDs?: boolean;
   private headingIds: string[] = [];
   private allowDynamicTextSizing?: boolean;
+  private allowHeadingAnchorLinks?: boolean;
 
   constructor({
     providers,
@@ -93,6 +95,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     appearance,
     disableHeadingIDs,
     allowDynamicTextSizing,
+    allowHeadingAnchorLinks,
   }: ConstructorParams) {
     this.providers = providers;
     this.eventHandlers = eventHandlers;
@@ -102,6 +105,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     this.appearance = appearance;
     this.disableHeadingIDs = disableHeadingIDs;
     this.allowDynamicTextSizing = allowDynamicTextSizing;
+    this.allowHeadingAnchorLinks = allowHeadingAnchorLinks;
   }
 
   private resetState() {
@@ -113,7 +117,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     props: any = {},
     target: any = Doc,
     key: string = 'root-0',
-    parentInfo?: { parentIsIncompleteTask: boolean },
+    parentInfo?: { parentIsIncompleteTask: boolean; path: Array<Node> },
   ): JSX.Element | null {
     // This makes sure that we reset internal state on re-render.
     if (key === 'root-0') {
@@ -133,15 +137,21 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
         } else if (node.type.name === 'date') {
           props = this.getDateProps(node, parentInfo);
         } else if (node.type.name === 'heading') {
-          props = this.getHeadingProps(node);
+          props = this.getHeadingProps(node, parentInfo && parentInfo.path);
         } else {
           props = this.getProps(node);
         }
 
-        let pInfo = parentInfo;
-        if (node.type.name === 'taskItem' && node.attrs.state !== 'DONE') {
-          pInfo = { parentIsIncompleteTask: true };
-        }
+        let currentPath = (parentInfo && parentInfo.path) || [];
+        currentPath.push(node);
+
+        const parentIsIncompleteTask =
+          node.type.name === 'taskItem' && node.attrs.state !== 'DONE';
+
+        let pInfo = {
+          parentIsIncompleteTask,
+          path: currentPath,
+        };
 
         const serializedContent = this.serializeFragment(
           node.content,
@@ -248,16 +258,28 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
       serializer: this,
       content: node.content ? node.content.toJSON() : undefined,
       allowDynamicTextSizing: this.allowDynamicTextSizing,
+      allowHeadingAnchorLinks: this.allowHeadingAnchorLinks,
       rendererAppearance: this.appearance,
       ...node.attrs,
     };
   }
 
-  private getHeadingProps(node: Node) {
+  private hasSupportedParent(parent: Node): boolean {
+    return parent.type.name === 'layoutColumn';
+  }
+
+  private getHeadingProps(node: Node, path: Array<Node> = []) {
+    const isTopLevelHeading =
+      path.length === 0 || this.hasSupportedParent(path[path.length - 1]);
+
     return {
       ...node.attrs,
       content: node.content ? node.content.toJSON() : undefined,
       headingId: this.getHeadingId(node),
+      showAnchorLink:
+        this.allowHeadingAnchorLinks &&
+        !this.disableHeadingIDs &&
+        isTopLevelHeading,
     };
   }
 
@@ -347,6 +369,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     }: ConstructorParams,
   ): ReactSerializer {
     // TODO: Do we actually need the schema here?
@@ -357,6 +380,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     });
   }
 }

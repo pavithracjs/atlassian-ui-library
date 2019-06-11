@@ -160,6 +160,21 @@ const ContentStyles: ComponentClass<
     text-align: center;
   }
 
+  .fabric-editor-align-start,
+  .fabric-editor-align-center,
+  .fabric-editor-align-end {
+    & > .headingView-content-wrap {
+      & > h1,
+      & > h2,
+      & > h3,
+      & > h4,
+      & > h5,
+      & > h6 {
+        display: inline-block;
+      }
+    }
+  }
+
   .hyperlink-floating-toolbar {
     padding: 0;
   }

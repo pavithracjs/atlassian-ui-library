@@ -21,3 +21,9 @@ export { getResponseEndTime } from './performance/navigation';
 export { getExtensionRenderer } from './extension-handler';
 
 export { calcTableColumnWidths } from './table';
+export {
+  clipboardApiSupported,
+  copyToClipboard,
+  copyToClipboardLegacy,
+} from './copy-to-clipboard';
+export { getCurrentUrlWithHash } from './urls';

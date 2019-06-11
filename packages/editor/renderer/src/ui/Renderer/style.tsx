@@ -173,6 +173,19 @@ export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
     }
   }
 
+  & .fabric-editor-block-mark[data-align='end'],
+  & .fabric-editor-block-mark[data-align='center'],
+  & .fabric-editor-block-mark[data-align='right'] {
+    & > h1,
+    & > h2,
+    & > h3,
+    & > h4,
+    & > h5,
+    & > h6 {
+      display: inline-block;
+    }
+  }
+
   ${mediaSingleSharedStyle} &
   div[class^='image-wrap-'] + div[class^='image-wrap-'] {
     margin-left: 0;

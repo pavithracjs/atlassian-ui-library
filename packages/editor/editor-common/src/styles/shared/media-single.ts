@@ -1,6 +1,7 @@
 // @ts-ignore: unused variable
 // prettier-ignore
 import { css, Styles, StyledComponentClass } from 'styled-components';
+import { HeadingAnchorWrapperClassName } from '../../ui';
 
 const mediaSingleSharedStyle = css`
   li .media-single {
@@ -17,6 +18,49 @@ const mediaSingleSharedStyle = css`
 
   table .media-single {
     margin: 0;
+  }
+
+  .mediaSingleView-content-wrap {
+    + .headingView-content-wrap {
+      clear: none;
+
+      & > h1,
+      & > h2,
+      & > h3,
+      & > h4,
+      & > h5,
+      & > h6 {
+        margin-top: 8px;
+      }
+    }
+
+    &[layout='wrap-left'] {
+      + .headingView-content-wrap {
+        & > h1,
+        & > h2,
+        & > h3,
+        & > h4,
+        & > h5,
+        & > h6 {
+          .${HeadingAnchorWrapperClassName} {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .media-single.image-wrap-left {
+    & + h1,
+    & + h2,
+    & + h3,
+    & + h4,
+    & + h5,
+    & + h6 {
+      .${HeadingAnchorWrapperClassName} {
+        display: none;
+      }
+    }
   }
 
   .media-single.image-wrap-left + .media-single.image-wrap-right,

@@ -1,56 +1,96 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
 import Heading from '../../../../react/nodes/heading';
-import { HeadingLevel } from '../../../../react/nodes/heading';
+import { mountWithIntl } from '@atlaskit/editor-test-helpers';
+import { CopyTextContext } from '@atlaskit/editor-common';
+import {
+  HeadingLevels,
+  HeadingAnchor,
+  HeadingAnchorWrapperClassName,
+} from '@atlaskit/editor-common';
+import AnalyticsContext from '../../../../analytics/analyticsContext';
 
 describe('<Heading />', () => {
-  let headers: any[] = [];
-  for (let i = 1; i < 7; i++) {
-    const header = shallow(
-      <Heading level={i as HeadingLevel} headingId={`This-is-a-Heading-${i}`}>
-        This is a Heading {i}
-      </Heading>,
-    );
-    headers.push(header);
-  }
+  let heading: any;
+  const copyTextToClipboard = jest.fn();
+  const fireAnalyticsEvent = jest.fn();
 
-  it('should wrap content with <h1>-tag', () => {
-    expect(headers[0].name()).toEqual('h1');
-    expect(headers[0].prop('id')).toEqual('This-is-a-Heading-1');
+  [1, 2, 3, 4, 5, 6].forEach(headingLevel => {
+    it(`should wrap content with <h${headingLevel}>-tag`, () => {
+      heading = mountWithIntl(
+        <Heading
+          level={headingLevel as HeadingLevels}
+          headingId={`This-is-a-Heading-${headingLevel}`}
+          showAnchorLink={true}
+        >
+          This is a Heading {headingLevel}
+        </Heading>,
+      );
+
+      expect(heading.find(`h${headingLevel}`).exists()).toBe(true);
+      expect(
+        heading.find(`.${HeadingAnchorWrapperClassName}`).prop('id'),
+      ).toEqual(`This-is-a-Heading-${headingLevel}`);
+    });
   });
 
-  it('should wrap content with <h2>-tag', () => {
-    expect(headers[1].name()).toEqual('h2');
-    expect(headers[1].prop('id')).toEqual('This-is-a-Heading-2');
+  describe('When showAnchorLink is set to false', () => {
+    beforeEach(() => {
+      heading = mountWithIntl(
+        <Heading
+          level={1}
+          headingId={'This-is-a-Heading-1'}
+          showAnchorLink={false}
+        >
+          This is a Heading 1
+        </Heading>,
+      );
+    });
+
+    it('does not render heading anchor', () => {
+      expect(heading.find(HeadingAnchor).exists()).toBe(false);
+    });
   });
 
-  it('should wrap content with <h3>-tag', () => {
-    expect(headers[2].name()).toEqual('h3');
-    expect(headers[2].prop('id')).toEqual('This-is-a-Heading-3');
-  });
+  describe('When click on copy anchor link button', () => {
+    beforeEach(() => {
+      heading = mountWithIntl(
+        <CopyTextContext.Provider
+          value={{
+            copyTextToClipboard: copyTextToClipboard,
+          }}
+        >
+          <AnalyticsContext.Provider
+            value={{
+              fireAnalyticsEvent: fireAnalyticsEvent,
+            }}
+          >
+            <Heading
+              level={1}
+              headingId="This-is-a-Heading-1"
+              showAnchorLink={true}
+            >
+              This is a Heading 1
+            </Heading>
+          </AnalyticsContext.Provider>
+          ,
+        </CopyTextContext.Provider>,
+      );
+    });
 
-  it('should wrap content with <h4>-tag', () => {
-    expect(headers[3].name()).toEqual('h4');
-    expect(headers[3].prop('id')).toEqual('This-is-a-Heading-4');
-  });
-
-  it('should wrap content with <h5>-tag', () => {
-    expect(headers[4].name()).toEqual('h5');
-    expect(headers[4].prop('id')).toEqual('This-is-a-Heading-5');
-  });
-
-  it('should wrap content with <h6>-tag', () => {
-    expect(headers[5].name()).toEqual('h6');
-    expect(headers[5].prop('id')).toEqual('This-is-a-Heading-6');
-  });
-
-  it('should render with "id"-attribute if headingId-prop is set', () => {
-    const heading = shallow(
-      <Heading level={1} headingId="Heading 1">
-        Heading 1
-      </Heading>,
-    );
-    expect(heading.name()).toEqual('h1');
-    expect(heading.prop('id')).toEqual('Heading 1');
+    it('Should call "copyTextToClipboard" with correct param', () => {
+      heading
+        .find('#This-is-a-Heading-1')
+        .find('button')
+        .simulate('click');
+      expect(copyTextToClipboard).toHaveBeenCalledWith(
+        'http://localhost/#This-is-a-Heading-1',
+      );
+      expect(fireAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: 'headingAnchorLink',
+        eventType: 'ui',
+      });
+    });
   });
 });
