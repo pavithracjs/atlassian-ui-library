@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import isEqual from 'lodash.isequal';
+import deepEqual from 'deep-equal';
 import Transition from 'react-transition-group/Transition';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 
@@ -25,7 +25,7 @@ export default class ContentNavigation extends Component<
 
   shouldComponentUpdate(nextProps: ContentNavigationProps) {
     const { props } = this;
-    return !isEqual(props, nextProps);
+    return !deepEqual(props, nextProps);
   }
 
   static getDerivedStateFromProps(
