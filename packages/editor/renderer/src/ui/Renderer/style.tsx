@@ -118,6 +118,20 @@ export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
   ${shadowSharedStyle};
   ${dateSharedStyle};
 
+  & h1,h2,h3,h4,h5,h6 {
+    :hover {
+      /* text-decoration: underline; */
+
+      .copy-anchor {
+        display: inline-block;
+      }
+    }
+
+    .copy-anchor {
+      display: none;
+    }
+  }
+
   & .UnknownBlock {
     font-family: ${fontFamily()};
     font-size: ${fontSize()};
