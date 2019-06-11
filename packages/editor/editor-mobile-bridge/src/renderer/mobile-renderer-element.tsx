@@ -1,4 +1,8 @@
 /* eslint-disable no-console */
+
+// ED-7014: need to include these polyfills for Android 22/23
+import 'core-js';
+
 import * as React from 'react';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { MediaProvider as MediaProviderType } from '@atlaskit/editor-core';
