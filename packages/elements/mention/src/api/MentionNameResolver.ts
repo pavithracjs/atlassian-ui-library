@@ -83,11 +83,11 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
       this.processingQueue.delete(id);
       this.nameCache.set(id, mentionDetail);
       resolvers.forEach(resolve => {
-        try {
-          resolve(mentionDetail);
-        } catch {
-          // ignore - exception in consumer
-        }
+        // try {
+        resolve(mentionDetail);
+        // } catch {
+        // ignore - exception in consumer
+        // }
       });
     }
   }
