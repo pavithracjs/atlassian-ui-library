@@ -11,9 +11,16 @@ const getExamplePath = (
 ) => `packages/${groupId}/${packageId}/examples/${exampleId}`;
 const repoUrl = 'https://bitbucket.org/atlassian/atlaskit-mk-2';
 
-const baseFiles = (groupId: string, packageId: string, exampleId: string) => ({
-  'index.js': {
-    content: `/**
+const baseFiles = (
+  groupId: string,
+  packageId: string,
+  exampleId: string,
+  isTypeScript: boolean,
+) => {
+  const indexFileName = isTypeScript ? 'index.tsx' : 'index.js';
+  return {
+    [indexFileName]: {
+      content: `/**
   This CodeSandbox has been automatically generated from the contents of ${getExampleUrl(
     groupId,
     packageId,
@@ -33,11 +40,12 @@ import '@atlaskit/css-reset';
 import Example from './example';
 
 ReactDOM.render(
-<Example />,
-document.getElementById('root')
+  <Example />,
+  document.getElementById('root')
 );`,
-  },
-});
+    },
+  };
+};
 
 /*
   The css packs use loaders, which are not needed in prod. This is incredibly not
@@ -88,6 +96,9 @@ export default class CodeSandbox extends React.Component<Props, State> {
       afterDeployError,
     } = this.props;
 
+    const extension = example.id.split('.').pop();
+    const isTypeScript = extension === 'ts' || extension === 'tsx';
+
     const name = example.id
       .split('.')
       .slice(0, -1)
@@ -124,7 +135,7 @@ export default class CodeSandbox extends React.Component<Props, State> {
               : 'latest',
           [pkgJSON.name]: pkgJSON.version,
         }}
-        providedFiles={baseFiles(groupId, packageId, example.id)}
+        providedFiles={baseFiles(groupId, packageId, example.id, isTypeScript)}
       >
         {({ isLoading, error }: { isLoading: boolean; error: Error }) =>
           isLoading ? loadingButton() : deployButton({ error })
