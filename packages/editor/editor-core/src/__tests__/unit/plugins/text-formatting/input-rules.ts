@@ -719,6 +719,15 @@ describe('text-formatting input rules', () => {
         doc(p('here ', code('some{<>}'))),
       );
     });
+
+    it('should not apply code to non text nodes', () => {
+      const { editorView } = editor(doc(p('`here', hardBreak(), 'lies{<>}')));
+      typeText(editorView, '`');
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p(code('here'), hardBreak(), code('lies'))),
+      );
+    });
   });
 
   describe('nested rules', () => {

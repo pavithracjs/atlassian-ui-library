@@ -10,7 +10,10 @@ import {
   Props as ComponentProps,
 } from './EmojiUploadComponent';
 import { EmojiProvider } from '../../api/EmojiResource';
-import { FireAnalyticsEvent, withAnalytics } from '@atlaskit/analytics';
+import {
+  CreateUIAnalyticsEventSignature,
+  withAnalyticsEvents,
+} from '@atlaskit/analytics-next';
 
 const emojiUploadModuleLoader = () =>
   import(/* webpackChunkName:"@atlaskit-internal_emojiUploadComponent" */ './EmojiUploadComponent');
@@ -20,7 +23,7 @@ const emojiUploadLoader: () => Promise<ComponentClass<ComponentProps>> = () =>
 
 export interface Props extends LoadingProps {
   onUploaderRef?: UploadRefHandler;
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
 export class EmojiUploaderInternal extends LoadingEmojiComponent<
@@ -59,11 +62,7 @@ export class EmojiUploaderInternal extends LoadingEmojiComponent<
   }
 }
 
-const EmojiUploader = withAnalytics<typeof EmojiUploaderInternal>(
-  EmojiUploaderInternal,
-  {},
-  {},
-);
 type EmojiUploader = EmojiUploaderInternal;
+const EmojiUploader = withAnalyticsEvents()(EmojiUploaderInternal);
 
 export default EmojiUploader;

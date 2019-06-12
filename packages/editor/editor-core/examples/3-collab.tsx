@@ -139,7 +139,7 @@ const mockOriginTracing = {
   }),
 };
 
-const InviteToEditButton = (props: InviteToEditComponentProps) => {
+export const InviteToEditButton = (props: InviteToEditComponentProps) => {
   return (
     <ShareDialogContainer
       cloudId="cloudId"

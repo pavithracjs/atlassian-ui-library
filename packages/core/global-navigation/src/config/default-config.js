@@ -75,6 +75,14 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       rank: 2,
       id: 'appSwitcher',
     },
+    atlassianSwitcher: {
+      icon: AtlassianSwitcherIcon,
+      label: 'Atlassian Switcher',
+      section: 'secondary',
+      rank: 2,
+      tooltip: SwitchToTooltipText,
+      id: 'atlassianSwitcher',
+    },
     help: {
       icon: QuestionCircleIcon,
       label: 'Help',
@@ -90,14 +98,6 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       rank: 4,
       tooltip: 'Settings',
       id: 'settings',
-    },
-    atlassianSwitcher: {
-      icon: AtlassianSwitcherIcon,
-      label: 'Atlassian Switcher',
-      section: 'secondary',
-      rank: 3,
-      tooltip: SwitchToTooltipText,
-      id: 'atlassianSwitcher',
     },
     profile: {
       label: 'Your profile and Settings',

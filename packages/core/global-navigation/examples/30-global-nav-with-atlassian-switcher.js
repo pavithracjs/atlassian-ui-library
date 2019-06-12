@@ -105,8 +105,18 @@ const getGlobalNavigation = (
   >
     <GlobalNavigation
       product="jira"
+      productHref="#"
       cloudId="some-cloud-id"
       productIcon={EmojiAtlassianIcon}
+      onProductClick={() => console.log('product clicked')}
+      onCreateClick={() => console.log('create clicked')}
+      onSearchClick={() => console.log('search clicked')}
+      onStarredClick={() => console.log('starred clicked')}
+      onHelpClick={() => console.log('help clicked')}
+      helpItems={() => <div />}
+      onNotificationClick={() => console.log('notification clicked')}
+      onSettingsClick={() => console.log('settings clicked')}
+      loginHref="#login"
       appSwitcherComponent={AppSwitcherComponent}
       appSwitcherTooltip="Switch to ..."
       enableAtlassianSwitcher={enableAtlassianSwitcher}
