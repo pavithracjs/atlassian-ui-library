@@ -1,50 +1,50 @@
 [
   {
     "team": "jira",
-    "package": "@atlaskit/color-picker",
-    "version": "0.5.2",
+    "package": "@atlaskit/refinement-bar",
+    "version": "0.4.7",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 7007,
-      "gzipSize": 2489
+      "size": 38206,
+      "gzipSize": 10380
     }
   },
   {
     "team": "jira",
-    "package": "@atlaskit/color-picker",
-    "version": "0.5.2",
+    "package": "@atlaskit/refinement-bar",
+    "version": "0.4.7",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 183436,
-      "gzipSize": 55226
+      "size": 257046,
+      "gzipSize": 72574
     }
   },
   {
     "team": "jira",
-    "package": "@atlaskit/color-picker",
-    "version": "0.5.2",
+    "package": "@atlaskit/refinement-bar",
+    "version": "0.4.7",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 34793,
-      "gzipSize": 9669
+      "size": 117136,
+      "gzipSize": 27637
     }
   },
   {
     "team": "jira",
-    "package": "@atlaskit/color-picker",
-    "version": "0.5.2",
+    "package": "@atlaskit/refinement-bar",
+    "version": "0.4.7",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 223986,
-      "gzipSize": 65464
+      "size": 409049,
+      "gzipSize": 108610
     }
   }
 ]

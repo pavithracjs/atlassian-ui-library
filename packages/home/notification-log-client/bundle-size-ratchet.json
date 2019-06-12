@@ -1,13 +1,21 @@
 [
   {
+    "team": "home",
+    "package": "@atlaskit/notification-log-client",
+    "version": "4.0.4",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 2553,
-      "gzipSize": 1166
+      "size": 2540,
+      "gzipSize": 1165
     }
   },
   {
+    "team": "home",
+    "package": "@atlaskit/notification-log-client",
+    "version": "4.0.4",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -16,19 +24,27 @@
     }
   },
   {
+    "team": "home",
+    "package": "@atlaskit/notification-log-client",
+    "version": "4.0.4",
+    "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 2059,
-      "gzipSize": 915
+      "size": 2073,
+      "gzipSize": 923
     }
   },
   {
+    "team": "home",
+    "package": "@atlaskit/notification-log-client",
+    "version": "4.0.4",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 19974,
-      "gzipSize": 7692
+      "size": 19975,
+      "gzipSize": 7700
     }
   }
 ]

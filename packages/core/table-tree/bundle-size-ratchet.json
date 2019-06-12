@@ -2,7 +2,7 @@
   {
     "team": "core",
     "package": "@atlaskit/table-tree",
-    "version": "7.0.3",
+    "version": "7.0.4",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "core",
     "package": "@atlaskit/table-tree",
-    "version": "7.0.3",
+    "version": "7.0.4",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -26,25 +26,25 @@
   {
     "team": "core",
     "package": "@atlaskit/table-tree",
-    "version": "7.0.3",
+    "version": "7.0.4",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 48600,
-      "gzipSize": 12714
+      "size": 48644,
+      "gzipSize": 12721
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/table-tree",
-    "version": "7.0.3",
+    "version": "7.0.4",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 107108,
-      "gzipSize": 29160
+      "size": 107152,
+      "gzipSize": 29170
     }
   }
 ]
