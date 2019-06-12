@@ -453,7 +453,7 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
   ): PartiallyLoadedRecentItems<GenericResultMap> => {
     return {
-      requiredRecentItemsPromise: Promise.all([
+      eagerRecentItemsPromise: Promise.all([
         this.getJiraRecentItems(sessionId),
         this.getRecentlyInteractedPeople(),
         this.canSearchUsers(),
@@ -462,7 +462,7 @@ export class JiraQuickSearchContainer extends React.Component<
           return { ...jiraItems, people: canSearchUsers ? people : [] };
         })
         .then(results => ({ results } as ResultsWithTiming<GenericResultMap>)),
-      extraRecentItemsPromise: Promise.resolve({}),
+      lazyLoadedRecentItemsPromise: Promise.resolve({}),
     };
   };
 

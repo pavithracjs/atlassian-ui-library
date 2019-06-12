@@ -43,8 +43,10 @@ export interface SearchResultProps<T> extends State<T> {
 export interface PartiallyLoadedRecentItems<
   T extends ConfluenceResultsMap | GenericResultMap
 > {
-  requiredRecentItemsPromise: Promise<ResultsWithTiming<T>>;
-  extraRecentItemsPromise: Promise<Partial<T>>;
+  // Represents recent items that should be present before any UI is shown
+  eagerRecentItemsPromise: Promise<ResultsWithTiming<T>>;
+  // Represents items which can load in after initial UI is shown
+  lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
 }
 
 export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
@@ -355,11 +357,11 @@ export class QuickSearchContainer<
 
     try {
       const {
-        requiredRecentItemsPromise,
-        extraRecentItemsPromise,
+        eagerRecentItemsPromise,
+        lazyLoadedRecentItemsPromise,
       } = this.props.getRecentItems(this.state.searchSessionId);
 
-      const { results } = await requiredRecentItemsPromise;
+      const { results } = await eagerRecentItemsPromise;
 
       const renderStartTime = performanceNow();
       if (this.unmounted) {
@@ -370,11 +372,11 @@ export class QuickSearchContainer<
         isLoading: false,
       });
 
-      const extraRecentItems = await extraRecentItemsPromise;
+      const lazyLoadedRecentItems = await lazyLoadedRecentItemsPromise;
 
       this.setState(
         {
-          recentItems: Object.assign({}, results, extraRecentItems),
+          recentItems: Object.assign({}, results, lazyLoadedRecentItems),
         },
         async () => {
           this.fireShownPreQueryEvent(startTime, renderStartTime);

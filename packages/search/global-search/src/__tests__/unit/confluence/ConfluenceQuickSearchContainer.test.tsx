@@ -117,7 +117,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
     const requiredRecents = await (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
-    >).getRecentItems('session_id').requiredRecentItemsPromise;
+    >).getRecentItems('session_id').eagerRecentItemsPromise;
 
     expect(requiredRecents).toMatchObject({
       results: {
@@ -167,8 +167,8 @@ describe('ConfluenceQuickSearchContainer', () => {
     const recentsPromise = (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
     >).getRecentItems('session_id');
-    const requiredRecents = await recentsPromise.requiredRecentItemsPromise;
-    const peopleRecents = await recentsPromise.extraRecentItemsPromise;
+    const requiredRecents = await recentsPromise.eagerRecentItemsPromise;
+    const peopleRecents = await recentsPromise.lazyLoadedRecentItemsPromise;
 
     expect(requiredRecents).toEqual({
       results: {
@@ -238,8 +238,8 @@ describe('ConfluenceQuickSearchContainer', () => {
     const recentsPromise = (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
     >).getRecentItems('session_id');
-    const requiredRecents = await recentsPromise.requiredRecentItemsPromise;
-    const peopleRecents = await recentsPromise.extraRecentItemsPromise;
+    const requiredRecents = await recentsPromise.eagerRecentItemsPromise;
+    const peopleRecents = await recentsPromise.lazyLoadedRecentItemsPromise;
 
     expect(requiredRecents).toEqual({
       results: {

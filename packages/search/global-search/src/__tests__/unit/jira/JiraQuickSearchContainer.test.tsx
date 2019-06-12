@@ -128,9 +128,9 @@ describe('Jira Quick Search Container', () => {
         renderComponent({ jiraClient }),
         'getRecentItems',
       );
-      const { requiredRecentItemsPromise } = getRecentItems(sessionId);
+      const { eagerRecentItemsPromise } = getRecentItems(sessionId);
       expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
-      expect(await requiredRecentItemsPromise).toMatchObject({
+      expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: [],
           containers: [],
@@ -154,9 +154,9 @@ describe('Jira Quick Search Container', () => {
         }),
         'getRecentItems',
       );
-      const { requiredRecentItemsPromise } = getRecentItems(sessionId);
+      const { eagerRecentItemsPromise } = getRecentItems(sessionId);
       expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
-      expect(await requiredRecentItemsPromise).toMatchObject({
+      expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: [],
           containers: [],
@@ -183,11 +183,11 @@ describe('Jira Quick Search Container', () => {
         'getRecentItems',
       );
       const {
-        requiredRecentItemsPromise,
-        extraRecentItemsPromise,
+        eagerRecentItemsPromise,
+        lazyLoadedRecentItemsPromise,
       } = getRecentItems(sessionId);
       expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
-      expect(await requiredRecentItemsPromise).toMatchObject({
+      expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: issues,
           containers: boards,
@@ -195,7 +195,7 @@ describe('Jira Quick Search Container', () => {
         },
       });
 
-      expect(await extraRecentItemsPromise).toEqual({});
+      expect(await lazyLoadedRecentItemsPromise).toEqual({});
       expect(logger.safeError).toHaveBeenCalledTimes(0);
     });
 
@@ -211,7 +211,7 @@ describe('Jira Quick Search Container', () => {
         'getRecentItems',
       );
       const recentItems = await getRecentItems(sessionId)
-        .requiredRecentItemsPromise;
+        .eagerRecentItemsPromise;
       expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
       expect(recentItems).toMatchObject({
         results: {

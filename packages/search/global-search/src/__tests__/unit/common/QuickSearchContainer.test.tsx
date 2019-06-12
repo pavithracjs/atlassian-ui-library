@@ -43,8 +43,8 @@ const defaultProps = {
     (props: SearchResultProps<GenericResultMap>) => null,
   ),
   getRecentItems: jest.fn((searchSessionId: string) => ({
-    requiredRecentItemsPromise: Promise.resolve({ results: {} }),
-    extraRecentItemsPromise: Promise.resolve({}),
+    eagerRecentItemsPromise: Promise.resolve({ results: {} }),
+    lazyLoadedRecentItemsPromise: Promise.resolve({}),
   })),
   getSearchResults: jest.fn(
     (query: string, sessionId: string, startTime: number) =>
@@ -226,7 +226,7 @@ describe('QuickSearchContainer', () => {
       ],
     };
 
-    const extraRecentItems = {
+    const lazyLoadedRecentItems = {
       recentPeople: [
         {
           id: 'person-1',
@@ -237,8 +237,8 @@ describe('QuickSearchContainer', () => {
     const getRecentItems = jest.fn<
       PartiallyLoadedRecentItems<GenericResultMap>
     >(() => ({
-      requiredRecentItemsPromise: Promise.resolve({ results: recentItems }),
-      extraRecentItemsPromise: Promise.resolve(extraRecentItems),
+      eagerRecentItemsPromise: Promise.resolve({ results: recentItems }),
+      lazyLoadedRecentItemsPromise: Promise.resolve(lazyLoadedRecentItems),
     }));
 
     const wrapper = await mountQuickSearchContainerWaitingForRender({
@@ -247,7 +247,7 @@ describe('QuickSearchContainer', () => {
 
     const expectedRecentItems = {
       ...recentItems,
-      ...extraRecentItems,
+      ...lazyLoadedRecentItems,
     };
 
     // after update

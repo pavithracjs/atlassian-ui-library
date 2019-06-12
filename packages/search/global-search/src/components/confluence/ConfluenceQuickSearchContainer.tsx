@@ -343,8 +343,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
 
     return {
-      requiredRecentItemsPromise: required,
-      extraRecentItemsPromise: this.getRecentPeople(sessionId).then(
+      eagerRecentItemsPromise: required,
+      lazyLoadedRecentItemsPromise: this.getRecentPeople(sessionId).then(
         recentPeople => ({
           people: {
             items: recentPeople,
