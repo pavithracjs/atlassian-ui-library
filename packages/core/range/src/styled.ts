@@ -25,8 +25,8 @@ const getBackgroundGradient = (
     }
   `;
 
-const sliderThumbStyle = css`
-  background: ${({ thumb }: ThemeTokens) => thumb.default.background};
+const sliderThumbStyle = css<TrackProps>`
+  background: ${({ thumb }) => thumb.default.background};
   border: ${sliderThumbBorderThickness}px solid transparent;
   border-radius: 50%;
   height: ${sliderThumbSize}px;
@@ -35,20 +35,20 @@ const sliderThumbStyle = css`
   ${elevation.e200};
 `;
 
-const sliderThumbFocusedStyle = css`
-  border-color: ${({ thumb }: ThemeTokens) => thumb.focus.border};
+const sliderThumbFocusedStyle = css<ThemeTokens>`
+  border-color: ${({ thumb }) => thumb.focus.border};
 `;
 
-const sliderThumbDisabledStyle = css`
+const sliderThumbDisabledStyle = css<ThemeTokens>`
   cursor: not-allowed;
-  box-shadow: 0 0 1px ${({ thumb }: ThemeTokens) => thumb.disabled.boxShadow};
+  box-shadow: 0 0 1px ${({ thumb }) => thumb.disabled.boxShadow};
 `;
 
 const sliderDefaultBackground = (props: TrackProps) =>
   getBackgroundGradient(props.track.default, props.valuePercent);
 
-const sliderTrackStyle = css`
-  background: ${({ track }: TrackProps) => track.background};
+const sliderTrackStyle = css<TrackProps>`
+  background: ${({ track }) => track.background};
   border-radius: ${sliderLineThickness / 2}px;
   border: 0;
   cursor: pointer;
@@ -57,8 +57,8 @@ const sliderTrackStyle = css`
   ${sliderDefaultBackground};
 `;
 
-const sliderTrackDisabledStyle = css`
-  ${(props: TrackProps) =>
+const sliderTrackDisabledStyle = css<TrackProps>`
+  ${props =>
     getBackgroundGradient(
       props.track.disabled,
       props.valuePercent,
@@ -69,7 +69,7 @@ const sliderTrackDisabledStyle = css`
 const sliderTrackFocusedStyle = (props: TrackProps) =>
   getBackgroundGradient(props.track.hover, props.valuePercent);
 
-const chromeRangeInputStyle = css`
+const chromeRangeInputStyle = css<TrackProps>`
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     margin-top: -${sliderThumbSize / 2 - sliderLineThickness / 2}px;
@@ -104,7 +104,7 @@ const chromeRangeInputStyle = css`
   }
 `;
 
-const firefoxRangeInputStyle = css`
+const firefoxRangeInputStyle = css<TrackProps>`
   &::-moz-focus-outer {
     border: 0;
   }
@@ -141,7 +141,7 @@ const firefoxRangeInputStyle = css`
   }
 `;
 
-const IERangeInputStyle = css`
+const IERangeInputStyle = css<TrackProps>`
   &::-ms-thumb {
     margin-top: 0;
     transition: border-color ${transitionDuration} ease-in-out;
@@ -197,7 +197,7 @@ const IERangeInputStyle = css`
   }
 `;
 
-export const rangeInputStyle = css`
+export const rangeInputStyle = css<TrackProps>`
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   background: transparent; /* Otherwise white in Chrome */
   height: ${overallHeight}px; /* Otherwise thumb will collide with previous box element */
