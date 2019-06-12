@@ -23,7 +23,7 @@ var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _styledComponents = _interopRequireDefault(require("styledcomponents"));
+var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 var _theme = require("@atlaskit/theme");
 
@@ -93,4 +93,4 @@ exports.default = Icon;
 var size = Object.keys(sizes).reduce(function (p, c) {
  return Object.assign(p, (0, _defineProperty2.default)({}, c, c));
 }, {});
-xports.size = size;
+exports.size = size;
