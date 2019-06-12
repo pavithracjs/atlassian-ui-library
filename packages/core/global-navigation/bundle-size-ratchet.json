@@ -2,85 +2,85 @@
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.2.3",
+    "version": "7.2.5",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
       "size": 20342,
-      "gzipSize": 6998
+      "gzipSize": 6995
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.2.3",
+    "version": "7.2.5",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 196444,
-      "gzipSize": 59612
+      "size": 197952,
+      "gzipSize": 59484
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.2.3",
+    "version": "7.2.5",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 239540,
-      "gzipSize": 55461
+      "size": 239901,
+      "gzipSize": 55465
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.2.3",
+    "version": "7.2.5",
     "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 2920,
-      "gzipSize": 1237
+      "size": 2919,
+      "gzipSize": 1238
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.2.3",
+    "version": "7.2.5",
     "dependent": true,
     "id": "atlaskit.home.main",
     "name": "main",
     "stats": {
       "size": 3990,
-      "gzipSize": 1472
+      "gzipSize": 1470
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.2.3",
+    "version": "7.2.5",
     "dependent": true,
     "id": "atlaskit.navigation.main",
     "name": "main",
     "stats": {
-      "size": 59132,
+      "size": 59131,
       "gzipSize": 15627
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.2.3",
+    "version": "7.2.5",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 513259,
-      "gzipSize": 136231
+      "size": 515150,
+      "gzipSize": 137266
     }
   }
 ]
