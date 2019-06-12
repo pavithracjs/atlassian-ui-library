@@ -1,6 +1,7 @@
 // @flow
 import React, { Component, type ComponentType, type ElementRef } from 'react';
-import { mergeStyles, makeAnimated } from 'react-select';
+import { mergeStyles } from 'react-select';
+import makeAnimated from 'react-select/animated';
 import memoizeOne from 'memoize-one';
 import isEqual from 'react-fast-compare';
 import { colors, gridSize } from '@atlaskit/theme';

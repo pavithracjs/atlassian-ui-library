@@ -1,5 +1,6 @@
 // @flow
-
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import React, { Component, type Element } from 'react';
 import RadioIcon from '@atlaskit/icon/glyph/radio';
 import CheckboxIcon from '@atlaskit/icon/glyph/checkbox';

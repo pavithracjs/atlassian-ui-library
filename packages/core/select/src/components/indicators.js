@@ -1,6 +1,7 @@
 // @flow
-
+/** @jsx jsx */
 import React from 'react';
+import { jsx } from '@emotion/core';
 import { components } from 'react-select';
 import Spinner from '@atlaskit/spinner';
 import SelectClearIcon from '@atlaskit/icon/glyph/select-clear';
@@ -19,7 +20,7 @@ export const DropdownIndicator = (props: any) => (
 );
 
 export const LoadingIndicator = (props: any) => (
-  <div style={props.getStyles('loadingIndicator', props)} {...props.innerProps}>
+  <div css={props.getStyles('loadingIndicator', props)} {...props.innerProps}>
     <Spinner size="small" />
   </div>
 );
