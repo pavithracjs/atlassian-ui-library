@@ -1,1 +1,0 @@
-Emit event in globalMediaEventListener as well
