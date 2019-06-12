@@ -1,5 +1,37 @@
 # @atlaskit/editor-core
 
+## 112.12.5
+
+### Patch Changes
+
+- [patch][0c438f1b71](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c438f1b71):
+
+  ED-7081: Fixes floating toolbars not displaying when switching to Full Width mode.
+
+## 112.12.4
+
+### Patch Changes
+
+- [patch][d036b887d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d036b887d6):
+
+  ED-7060: Fix console error when adding hyperlink and show empty text in toolbar when hyperlink text is not set
+
+## 112.12.3
+
+### Patch Changes
+
+- [patch][45e08e8e11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/45e08e8e11):
+
+  ED-6996: Move initialised state to collab plugin state instead of inline variables
+
+## 112.12.2
+
+### Patch Changes
+
+- [patch][f75e638261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f75e638261):
+
+  ED-6982: Fix auto conversion of code mark to not apply marks to non text nodes.
+
 ## 112.12.1
 
 ### Patch Changes

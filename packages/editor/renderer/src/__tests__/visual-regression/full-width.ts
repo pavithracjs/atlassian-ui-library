@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initRendererWithADF } from './_utils';
 import * as document from '../__fixtures__/document-without-media.adf.json';
 import { Page } from 'puppeteer';
@@ -23,7 +22,7 @@ describe('Snapshot Test: Full Width', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   [{ width: 2000, height: 2700 }, { width: 1420, height: 2500 }].forEach(

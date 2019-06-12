@@ -57,8 +57,7 @@ const linkText2 = 'FAB-983';
       skip: ['ie', 'edge', 'safari', 'firefox'],
     },
     async (client: any, testName: string) => {
-      const editLinkInput =
-        '[placeholder="Paste link or search recently viewed"]';
+      const textToDisplayInput = '[placeholder="Text to display"]';
       let browser = new Page(client);
       await browser.goto(editor.path);
       await browser.waitForSelector(editor.placeholder);
@@ -70,19 +69,13 @@ const linkText2 = 'FAB-983';
       await browser.type(linkToolbar, [linkText2, 'Return']);
       await browser.waitForSelector('a');
 
-      // unlink
-      await browser.type(editable, [
-        'Return',
-        linkText1,
-        'ArrowLeft',
-        'ArrowLeft',
-      ]);
+      await browser.type(editable, ['ArrowLeft', 'ArrowLeft']);
       await browser.waitForSelector('[aria-label="Edit link"]');
       await browser.click('[aria-label="Edit link"]');
 
-      await browser.waitForSelector(editLinkInput);
-      await browser.type(editLinkInput, 'mmm');
-      await browser.type(editLinkInput, 'Return');
+      await browser.waitForSelector(textToDisplayInput);
+      await browser.type(textToDisplayInput, 'mmm');
+      await browser.type(textToDisplayInput, 'Return');
       const doc = await browser.$eval(editable, getDocFromElement);
       expect(doc).toMatchCustomDocSnapshot(testName);
     },

@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
 import { traverse } from '@atlaskit/adf-utils/traverse';
 import smartLinksAdf from './__fixtures__/smart-link-nested-in-list.adf.json';
@@ -46,7 +45,6 @@ describe('Lists', () => {
 
   afterEach(async () => {
     await animationFrame(page);
-    await snapshot(page, MINIMUM_THRESHOLD);
   });
 
   it('should render card toolbar on click when its nested inside lists', async () => {
@@ -98,7 +96,7 @@ describe('Lists adjacent floated media', () => {
 
   afterEach(async () => {
     await animationFrame(page);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it('action & decision lists should clear image', async () => {

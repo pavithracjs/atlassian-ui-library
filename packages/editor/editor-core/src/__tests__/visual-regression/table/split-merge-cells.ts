@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { Device, initFullPageEditorWithAdf, snapshot } from '../_utils';
 import {
   clickCellOptions,
@@ -26,15 +25,15 @@ describe('Table context menu: merge-split cells', () => {
     await pressKeyUp(page, 'Shift');
     await page.waitForSelector(tableSelectors.selectedCell);
     await clickCellOptions(page);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
     await selectCellOption(page, tableSelectors.mergeCellsText);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
     await page.waitForSelector(firstCell);
     await page.click(firstCell);
     await clickCellOptions(page);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
     await selectCellOption(page, tableSelectors.splitCellText);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   };
 
   beforeAll(async () => {

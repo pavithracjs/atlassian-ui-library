@@ -16,7 +16,7 @@ export default {
   'fabric.elements.mentions.team.member.count':
     '{0, plural, other{구성원 {0}명}}',
   'fabric.elements.mentions.team.member.count.including.you':
-    '{0, plural, other{1 member, including you}}',
+    '{0, plural, other{귀하를 포함 구성원 {0}명}}',
   'fabric.elements.mentions.team.member.50plus': '구성원 50명 이상',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '귀하를 포함 구성원 50명 이상',

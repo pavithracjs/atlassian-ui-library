@@ -5,6 +5,7 @@ import {
   getMediaTypeFromMimeType,
   getFileStreamsCache,
   MediaClient,
+  globalMediaEventEmitter,
 } from '@atlaskit/media-client';
 import {
   MediaStore,
@@ -223,6 +224,7 @@ export class NewUploadServiceImpl implements UploadService {
               subscription.unsubscribe();
               if (shouldCopyFileToRecents) {
                 mediaClient.emit('file-added', state);
+                globalMediaEventEmitter.emit('file-added', state);
               }
               this.onFileSuccess(cancellableFileUpload, id);
             }

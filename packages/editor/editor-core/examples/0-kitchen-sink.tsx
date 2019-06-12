@@ -310,6 +310,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
                     }}
                   >
                     <FullWidthToggle
+                      appearance={this.state.appearance}
                       onFullWidthChange={this.toggleFullWidthMode}
                     />
 

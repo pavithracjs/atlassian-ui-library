@@ -43,7 +43,7 @@ export const messages = defineMessages({
   memberCountWithYou: {
     id: 'fabric.elements.mentions.team.member.count.including.you',
     defaultMessage:
-      '{0, plural, one { 1 member} other {{0} members}}, including you',
+      '{0, plural, one {1 member} other {{0} members}}, including you',
     description:
       'Byline to show the number of members in the team when the current user is also a member of the team',
   },

@@ -90,28 +90,3 @@ export const transformSmartCharsMentionsAndEmojis = (
     }
   });
 };
-
-const applyCodeBlock = (from: number, to: number, tr: Transaction): void => {
-  const { schema } = tr.doc.type;
-
-  if (schema.marks.code) {
-    const codeMark = schema.marks.code.create();
-    tr.addMark(
-      tr.mapping.map(from),
-      tr.mapping.map(to),
-      codeMark,
-    ).setStoredMarks([codeMark]);
-  }
-};
-
-export function transformToCodeAction(
-  from: number,
-  to: number,
-  tr: Transaction,
-): Transaction {
-  transformSmartCharsMentionsAndEmojis(from, to, tr);
-
-  applyCodeBlock(from, to, tr);
-
-  return tr;
-}

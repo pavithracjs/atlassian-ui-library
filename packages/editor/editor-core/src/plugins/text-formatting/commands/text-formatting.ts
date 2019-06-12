@@ -3,7 +3,7 @@ import { hasCode } from '../utils';
 import { markActive } from '../utils';
 import { analyticsService } from '../../../analytics';
 import { Command } from '../../../types';
-import { toggleMark } from '../../../utils/commands';
+import { toggleMark, applyMarkOnRange } from '../../../utils/commands';
 import {
   withAnalytics,
   ACTION,
@@ -12,7 +12,6 @@ import {
   EVENT_TYPE,
   INPUT_METHOD,
 } from '../../analytics';
-import { transformToCodeAction } from './transform-to-code';
 
 export const moveRight = (): Command => {
   return (state, dispatch) => {
@@ -337,20 +336,22 @@ const createInlineCodeFromTextInput = (
         analyticsService.trackEvent(
           `atlassian.editor.format.code.autoformatting`,
         );
-        const tr = state.tr.replaceRangeWith(
+        let tr = state.tr.replaceRangeWith(
           from - 1,
           to + 1,
           state.schema.text(text),
         );
 
         if (dispatch) {
-          dispatch(
-            transformToCodeAction(
-              tr.mapping.map(from - 1),
-              tr.mapping.map(to + 1),
-              tr,
-            ),
-          );
+          const codeMark = state.schema.marks.code.create();
+          tr = applyMarkOnRange(
+            tr.mapping.map(from - 1),
+            tr.mapping.map(to + 1),
+            false,
+            codeMark,
+            tr,
+          ).setStoredMarks([codeMark]);
+          dispatch(tr);
         }
         return true;
       }
