@@ -16,7 +16,7 @@ export default {
   'fabric.elements.mentions.team.member.count':
     '{0, plural, one{1 medlem} other{{0} medlemmer}}',
   'fabric.elements.mentions.team.member.count.including.you':
-    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+    '{0, plural, one{{0} medlemmer, medregnet deg} other{{0} medlemmer, medregnet deg}}',
   'fabric.elements.mentions.team.member.50plus': '50 medlemmer eller mer',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50 medlemmer eller mer, medregnet deg',

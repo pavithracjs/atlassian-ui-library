@@ -16,7 +16,7 @@ export default {
   'fabric.elements.mentions.team.member.count':
     '{0, plural, one{Einn meðlimur} other{{0} meðlimir}}',
   'fabric.elements.mentions.team.member.count.including.you':
-    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+    '{0, plural, one{{0} meðlimir, að þér meðtöldum/meðtalinni} other{{0} meðlimir, að þér meðtöldum/meðtalinni}}',
   'fabric.elements.mentions.team.member.50plus': '50+ meðlimir',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ meðlimir, að þér meðtöldum/meðtalinni',
