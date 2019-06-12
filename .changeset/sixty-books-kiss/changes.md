@@ -1,1 +1,0 @@
-internal refactor: remove getDerivedStateFromProps in favor of memoization
