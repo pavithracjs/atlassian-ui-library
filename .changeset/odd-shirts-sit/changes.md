@@ -1,0 +1,1 @@
+ED-7045: promote mediaSingle width attribute from stage-0 to full schema
