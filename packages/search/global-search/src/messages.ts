@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export const messages = defineMessages({
+  confluence_space_filter: {
+    id: 'global_search.confluence.space_filter',
+    defaultMessage: 'Filter results by space',
+    description: '',
+  },
   confluence_recent_pages_heading: {
     id: 'global_search.confluence.recent_pages_heading',
     defaultMessage: 'Recent pages and blogs',
