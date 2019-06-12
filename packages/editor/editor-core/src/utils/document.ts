@@ -230,7 +230,7 @@ export function processRawValue(
       sanitizePrivateContent,
     );
 
-    let parsedDoc = Node.fromJSON(schema, newEntity);
+    const parsedDoc = Node.fromJSON(schema, newEntity);
 
     // throws an error if the document is invalid
     parsedDoc.check();

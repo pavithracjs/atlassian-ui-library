@@ -7,8 +7,7 @@ import {
 import { ProviderFactory } from '@atlaskit/editor-common';
 
 /**
- * Sanitises a document for a collaborative editing use case
- * where some content should not be in the document (e.g. mention names).
+ * Sanitises a document where some content should not be in the document (e.g. mention names).
  *
  * It is expected that these names we be resolved separately (e.g. when rendering
  * a node view).
