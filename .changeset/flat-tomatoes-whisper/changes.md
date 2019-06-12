@@ -1,1 +1,0 @@
-ED-7060: Fix console error when adding hyperlink and show empty text in toolbar when hyperlink text is not set

@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.12.4
+
+### Patch Changes
+
+- [patch][d036b887d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d036b887d6):
+
+  ED-7060: Fix console error when adding hyperlink and show empty text in toolbar when hyperlink text is not set
+
 ## 112.12.3
 
 ### Patch Changes
