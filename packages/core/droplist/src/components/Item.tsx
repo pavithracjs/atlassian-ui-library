@@ -131,9 +131,9 @@ class Item extends PureComponent<Props, State> {
     const { props } = this;
     const { isHovered, isPressed } = this.state;
 
-    const type: AriaTypes | undefined = props.type;
-    const hasInput = ['checkbox', 'radio'].indexOf(type) > -1;
-    const Input = hasInput ? inputTypes[type] : undefined;
+    const type: AriaTypes = props.type;
+    const hasInput = ['checkbox', 'radio'].includes(type);
+    const Input = hasInput && inputTypes[type];
 
     const appearanceProps = {
       isActive:

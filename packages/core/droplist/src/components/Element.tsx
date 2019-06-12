@@ -19,7 +19,7 @@ export const baseTypes = {
 interface Props {
   children?: ReactNode;
   handleClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  handleKeyPress?: (event?: React.KeyboardEvent<HTMLElement>) => void;
+  handleKeyPress: (event: React.KeyboardEvent<HTMLElement>) => void;
   handleMouseDown: (e?: React.MouseEvent<HTMLElement>) => void;
   handleMouseOut: () => void;
   handleMouseOver: () => void;
