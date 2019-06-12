@@ -1,0 +1,2 @@
+Adds  prop `shouldHideGlobalNavShadow` to control the shadow on global navigation. Fixes an issue where GlobalNavigation didn't pass through props correctly.
+Also includes changes from [this PR](https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5918/harsha-fix-item-rerenders/diff), which prevents unnecessary re-render of `Item` component in navigation to imporve nav performance.
