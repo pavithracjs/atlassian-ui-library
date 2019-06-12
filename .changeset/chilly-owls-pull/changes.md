@@ -1,0 +1,1 @@
+The update to node 10 reveals that unknown type is breaking the extract react types. I had to replace unknown type by any
