@@ -16,7 +16,7 @@ export default {
   'fabric.elements.mentions.team.member.count':
     '{0, plural, one{1 membru} few{{0} membri} other{{0} de membri}}',
   'fabric.elements.mentions.team.member.count.including.you':
-    '{0, plural, one{1 member, including you} few{{0} members, including you} other{{0} members, including you}}',
+    '{0, plural, one{{0} de membri, inclusiv dvs.} few{{0} de membri, inclusiv dvs.} other{{0} de membri, inclusiv dvs.}}',
   'fabric.elements.mentions.team.member.50plus': '50+ membri',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ membri, inclusiv dvs.',
