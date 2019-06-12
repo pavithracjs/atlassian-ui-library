@@ -1,56 +1,12 @@
 import { doc, createEditorFactory, p } from '@atlaskit/editor-test-helpers';
 
+import {
+  androidComposeStart,
+  androidComposeContinue,
+  androidComposeEnd,
+} from '../../_utils';
+
 import { EditorViewWithComposition } from '../../../../types';
-
-const InputEvent = (window as any).InputEvent;
-
-const androidCompose = (view: EditorViewWithComposition, events: Event[]) =>
-  events.forEach(event => view.dom.dispatchEvent(event));
-
-const androidComposeStart = (view: EditorViewWithComposition, data?: string) =>
-  androidCompose(view, [
-    new CompositionEvent('compositionstart'),
-    new InputEvent('beforeinput', {
-      data,
-      isComposing: true,
-      inputType: 'insertCompositionText',
-    }),
-    new CompositionEvent('compositionupdate', {
-      data,
-    }),
-    new InputEvent('input', {
-      data,
-      isComposing: true,
-      inputType: 'insertCompositionText',
-    }),
-  ]);
-
-const androidComposeContinue = (
-  view: EditorViewWithComposition,
-  data: string,
-) =>
-  androidCompose(view, [
-    new InputEvent('beforeinput', {
-      data,
-      isComposing: true,
-      inputType: 'insertCompositionText',
-    }),
-    new CompositionEvent('compositionupdate', {
-      data,
-    }),
-    new InputEvent('input', {
-      data,
-      isComposing: true,
-      inputType: 'insertCompositionText',
-    }),
-  ]);
-
-const androidComposeEnd = (view: EditorViewWithComposition, data: string) =>
-  androidCompose(view, [
-    new CompositionEvent('compositionend', {
-      data,
-    } as CompositionEvent),
-  ]);
 
 describe('composition events on mobile', () => {
   const createEditor = createEditorFactory();
