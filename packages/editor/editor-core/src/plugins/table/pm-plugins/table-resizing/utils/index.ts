@@ -32,7 +32,6 @@ export {
   edgeCell,
   currentColWidth,
   domCellAround,
-  getParentNodeWidth,
 } from './misc';
 export {
   updateControls,
