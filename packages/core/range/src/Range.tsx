@@ -23,7 +23,7 @@ interface Props {
   /** The theme object to be passed down. See
   [@atlaskit/theme](https://atlaskit.atlassian.com/packages/core/theme) for more details on themeing.
   */
-  theme?: ThemeProp<ThemeTokens, any>;
+  theme?: ThemeProp<any, any>;
 }
 
 interface State {
