@@ -1,0 +1,1 @@
+Expose globalMediaEventEmitter to allow consumers to subscribe to global events rather than per context/mediaClient instance
