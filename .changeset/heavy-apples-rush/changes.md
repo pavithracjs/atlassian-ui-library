@@ -1,0 +1,1 @@
+ED-7081: Fixes floating toolbars not displaying when switching to Full Width mode.
