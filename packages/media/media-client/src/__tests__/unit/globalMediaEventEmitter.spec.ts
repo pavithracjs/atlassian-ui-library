@@ -11,7 +11,7 @@ describe('globalMediaEventEmitter', () => {
     size: 1,
   };
 
-  it('Should call event listener when an event is emitted', () => {
+  it('should call event listener when an event is emitted', () => {
     const onFileUploaded = jest.fn();
 
     globalMediaEventEmitter.emit('file-added', fileState);
@@ -22,7 +22,7 @@ describe('globalMediaEventEmitter', () => {
     expect(onFileUploaded).toBeCalledWith(fileState);
   });
 
-  it('Should not call event listener if we unsubscribe', () => {
+  it('should not call event listener if we unsubscribe', () => {
     const onFileUploaded = jest.fn();
 
     globalMediaEventEmitter.on('file-added', onFileUploaded);
