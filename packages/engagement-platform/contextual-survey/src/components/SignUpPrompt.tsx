@@ -48,7 +48,7 @@ export default ({ onYes, onNo }: Props) => {
         `}
       >
         <Button appearance="subtle" onClick={onNo} isDisabled={isLoading}>
-          No. thanks
+          No, thanks
         </Button>
         <Button
           appearance="primary"

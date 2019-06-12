@@ -47,6 +47,7 @@ export default ({
     React.ComponentProps<typeof SurveyForm>['onSubmit']
   >(
     async (formValues, _, callback) => {
+      const userHasSignedUp = getUserHasSignedUp();
       await onSubmit(formValues);
 
       /**
@@ -55,7 +56,7 @@ export default ({
        */
       callback();
 
-      if (await getUserHasSignedUp()) {
+      if (await userHasSignedUp) {
         setCurrentStep('POST_SURVEY_HAS_SIGN_UP');
         return;
       }
@@ -66,7 +67,7 @@ export default ({
         setCurrentStep('POST_SURVEY_NO_CONSENT');
       }
     },
-    [getUserHasSignedUp, onSubmit, setCurrentStep],
+    [getUserHasSignedUp, onSubmit],
   );
 
   const onSignUpYes = useCallback(
