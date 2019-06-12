@@ -31,9 +31,7 @@ async function writeEntryPointsPathInPkgJson(
 }
 
 async function createEntryPointsDirWithPkgJson() {
-  // const packages = await bolt.getWorkspaces();
-  // TODO: why is it a let :) everywhere in the repo
-  let cwd = process.cwd();
+  const cwd = process.cwd();
   const packages = await getPackagesInfo(cwd);
   const pkgContents = packages
     .filter(pkg => pkg.dir.includes('/packages'))

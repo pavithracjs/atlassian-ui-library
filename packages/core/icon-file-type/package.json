@@ -4,7 +4,7 @@
   "description": "A React package that contains file-type icons",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "cjs/index.js",
+  "atlaskit:src": "src/index.js",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "sideEffects": false,
