@@ -1,0 +1,1 @@
+Add optional 'eventEmitter' into cache. This makes existing event emitter system of context compatible with mediaClient

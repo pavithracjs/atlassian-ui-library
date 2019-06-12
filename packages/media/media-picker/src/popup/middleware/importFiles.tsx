@@ -10,6 +10,7 @@ import {
   FilePreview,
   isPreviewableType,
   MediaType,
+  globalMediaEventEmitter,
 } from '@atlaskit/media-client';
 import { State, SelectedItem, LocalUpload, ServiceName } from '../domain';
 import { isStartImportAction } from '../actions/startImport';
@@ -180,6 +181,7 @@ export const touchSelectedFiles = (
       };
 
       tenantMediaClient.emit('file-added', fileState);
+      globalMediaEventEmitter.emit('file-added', fileState);
 
       const existingFileState = getFileStreamsCache().get(selectedFileId);
 
