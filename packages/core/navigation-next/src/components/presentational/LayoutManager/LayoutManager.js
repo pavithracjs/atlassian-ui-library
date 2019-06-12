@@ -73,6 +73,7 @@ export default class LayoutManager extends Component<
       },
     },
     topOffset: 0,
+    shouldHideGlobalNavShadow: false,
     // eslint-disable-next-line camelcase
     experimental_flyoutOnHover: false,
     experimental_alternateFlyoutBehaviour: false,
@@ -180,6 +181,7 @@ export default class LayoutManager extends Component<
       experimental_fullWidthFlyout: EXPERIMENTAL_FULL_WIDTH_FLYOUT,
       collapseToggleTooltipContent,
       topOffset,
+      shouldHideGlobalNavShadow,
       globalNavigation,
       containerNavigation,
       productNavigation,
@@ -269,7 +271,7 @@ export default class LayoutManager extends Component<
                     ]}
                     navigation={navigationUIController}
                   >
-                    {({ width }) => {
+                    {({ width, mouseIsOverGrabArea, mouseIsDown }) => {
                       return (
                         <ContainerNavigationMask
                           disableInteraction={itemIsDragging}
@@ -288,10 +290,21 @@ export default class LayoutManager extends Component<
                               datasets={datasets}
                               globalNavigation={globalNavigation}
                               topOffset={topOffset}
+                              shouldHideGlobalNavShadow={
+                                shouldHideGlobalNavShadow
+                              }
                               experimental_alternateFlyoutBehaviour={
                                 EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR
                               }
                               closeFlyout={this.closeFlyout}
+                              mouseIsOverGrabArea={mouseIsOverGrabArea}
+                              mouseIsOverNavigation={mouseIsOverNavigation}
+                              width={width}
+                              transitionState={transitionState}
+                              isResizing={isResizing}
+                              isCollapsed={isCollapsed}
+                              mouseIsDown={mouseIsDown}
+                              flyoutIsOpen={flyoutIsOpen}
                               view={view}
                             />
 

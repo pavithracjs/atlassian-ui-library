@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import { Page } from '../../__helpers/page-objects/_types';
 import * as col2 from './__fixtures__/column2-adf.json';
@@ -27,7 +26,7 @@ describe('Layouts:', () => {
 
   afterEach(async () => {
     await page.click(layoutColSelector); // click inside column to get toolbar
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   layouts.forEach(layout => {

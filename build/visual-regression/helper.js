@@ -189,6 +189,9 @@ async function waitForLoadedBackgroundImages(
   rootSelector /*:string*/ = '*',
   timeoutMs /*:number*/ = 30000,
 ) {
+  if (rootSelector !== '*') {
+    await page.waitFor(rootSelector);
+  }
   return await page
     .evaluate(
       (selector /*:string*/, raceTimeout /*:number*/) => {
@@ -314,6 +317,43 @@ async function validateExampleLoaded(page /*:any*/) {
   });
 }
 
+declare var fail: (message: string) => void;
+
+declare var expect: {
+  (
+    value: any,
+  ): {
+    toMatchProdImageSnapshot(options: {
+      failureThreshold: string,
+      failureThresholdType: string,
+    }): void,
+  },
+  extend(matchers: { [name: string]: JestMatcher }): void,
+};
+
+async function compareScreenshot(
+  screenshot /*:any*/,
+  tolerance /*:number*/ = MINIMUM_THRESHOLD,
+  screenshotOptions /*:Object*/ = {},
+) {
+  if (tolerance >= 1) {
+    fail(
+      `Snapshot tolerance should be a decimal in the range [0.0, 1.0] and you have attempted to use a tolerance of ${tolerance}`,
+    );
+  } else if (
+    tolerance > MINIMUM_THRESHOLD &&
+    !screenshotOptions.useUnsafeThreshold
+  ) {
+    fail(
+      `Snapshot tolerances greater than minimum threshold (${MINIMUM_THRESHOLD}) are considered unsafe, and you have attempted to use a tolerance of ${tolerance}. To use an unsafe threshold, set 'screenshotOptions.useUnsafeThreshold' to true. This is not advised.`,
+    );
+  }
+  expect(screenshot).toMatchProdImageSnapshot({
+    failureThreshold: `${tolerance}`,
+    failureThresholdType: 'percent',
+  });
+}
+
 // get all examples from the code sync
 function getAllExamplesSync() /*: Array<Object> */ {
   return glob
@@ -355,6 +395,7 @@ module.exports = {
   waitForNoTooltip,
   takeScreenShot,
   takeElementScreenShot,
+  compareScreenshot,
   getExampleUrl,
   loadExampleUrl,
   navigateToUrl,

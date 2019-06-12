@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.4.0
+
+### Minor Changes
+
+- [minor][11cb8d8626](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11cb8d8626):
+
+  - Remove @atlaskit/analytics dependency.
+
 ## 18.3.3
 
 ### Patch Changes

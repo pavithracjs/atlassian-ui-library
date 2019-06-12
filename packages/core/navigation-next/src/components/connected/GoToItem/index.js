@@ -60,7 +60,6 @@ class GoToItem extends Component<GoToItemProps> {
       spinnerDelay,
       ...rest
     } = this.props;
-
     const propsForAfterComp = {
       afterGoTo: goTo || null,
       spinnerDelay,
