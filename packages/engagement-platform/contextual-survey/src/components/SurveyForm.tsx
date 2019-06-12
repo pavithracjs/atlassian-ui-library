@@ -6,7 +6,9 @@ import Textarea from '@atlaskit/textarea';
 import Button from '@atlaskit/button';
 import { Checkbox } from '@atlaskit/checkbox';
 import Form, { Field, FormFooter, CheckboxField } from '@atlaskit/form';
-import RadioPlaceholder from './RadioPlaceholder';
+import { fontSize } from '@atlaskit/theme';
+
+import FeedbackScoreButtons from './FeedbackScoreButtons';
 import { FormValues } from '../types';
 
 interface Props {
@@ -54,41 +56,32 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
   );
 
   return (
-    <section>
+    <section aria-labelledby="contextualSurveyQuestion">
       <h1
         id="contextualSurveyQuestion"
         css={css`
-          font-size: 14px;
-          font-weight: bold;
+          font-size: ${fontSize()}px;
+          font-weight: 600;
         `}
       >
         {question}
       </h1>
-      {statement && (
-        <p
-          css={css`
-            line-height: 24px;
-          `}
-        >
-          {statement}
-        </p>
-      )}
+      {statement && <p id="contextualSurveyStatement">{statement}</p>}
       <Form onSubmit={onSubmit}>
         {({ formProps, submitting }: any) => (
           <form {...formProps}>
             <Field name="feedbackScore" isDisabled={submitting} isRequired>
               {({ fieldProps }: { fieldProps: any }) => (
-                <RadioPlaceholder
+                <FeedbackScoreButtons
                   {...fieldProps}
-                  onValueSelect={(value: number) => {
+                  onChange={(value: number) => {
                     fieldProps.onChange(value);
                     onValueSelect();
                   }}
-                  aria-labelledby="contextualSurveyQuestion"
                 />
               )}
             </Field>
-            <Transition in={expanded} timeout={transitionDuration}>
+            <Transition in={expanded} timeout={transitionDuration} mountOnEnter>
               {(state: TransitionState) => (
                 <div
                   css={css`

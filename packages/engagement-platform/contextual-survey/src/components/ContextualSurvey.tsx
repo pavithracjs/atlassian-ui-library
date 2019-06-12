@@ -70,7 +70,7 @@ export default ({
     [getUserHasSignedUp, onSubmit],
   );
 
-  const onSignUpYes = useCallback(
+  const onSignUpAccept = useCallback(
     async () => {
       await onSignUp();
       setCurrentStep('SIGN_UP_SUCCESS');
@@ -102,7 +102,12 @@ export default ({
       break;
     }
     case 'SIGN_UP_PROMPT': {
-      content = <SignUpPrompt onNo={onDismiss} onYes={onSignUpYes} />;
+      content = (
+        <SignUpPrompt
+          onSignUpDecline={onDismiss}
+          onSignUpAccept={onSignUpAccept}
+        />
+      );
       break;
     }
     case 'SIGN_UP_SUCCESS': {

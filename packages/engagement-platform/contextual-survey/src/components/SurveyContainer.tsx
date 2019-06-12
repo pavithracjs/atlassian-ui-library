@@ -2,7 +2,7 @@
 import { jsx, css } from '@emotion/core';
 import Button from '@atlaskit/button';
 import { layers, elevation, borderRadius } from '@atlaskit/theme';
-import { colors } from '@atlaskit/theme';
+import { colors, gridSize } from '@atlaskit/theme';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 
 interface Props {
@@ -10,8 +10,8 @@ interface Props {
   onDismiss: () => void;
 }
 
-export const surveyWidth = 440;
-export const surveyMargin = 48;
+export const surveyWidth = gridSize() * 55; // 440
+export const surveyMargin = gridSize() * 6; // 48
 
 export default ({ children, onDismiss }: Props) => {
   return (
@@ -24,14 +24,14 @@ export default ({ children, onDismiss }: Props) => {
     z-index: ${layers.flag()};
     ${elevation.e500()}
     border-radius: ${borderRadius()}px;
-    padding: 20px;
+    padding: ${gridSize() * 3}px;
   `}
     >
       <div
         css={css`
-          margin-top: -8px;
-          margin-right: -8px;
-          float: right;
+          position: absolute;
+          top: ${gridSize() * 2}px;
+          right: ${gridSize() * 2}px;
         `}
       >
         <Button

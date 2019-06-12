@@ -2,30 +2,33 @@
 import { useState, useCallback } from 'react';
 import { jsx, css } from '@emotion/core';
 import Button from '@atlaskit/button';
+import { fontSize, gridSize } from '@atlaskit/theme';
+
 import SuccessContainer from './SuccessContainer';
 
 interface Props {
-  onYes: () => Promise<void>;
-  onNo: () => void;
+  onSignUpAccept: () => Promise<void>;
+  onSignUpDecline: () => void;
 }
 
-export default ({ onYes, onNo }: Props) => {
+export default ({ onSignUpAccept, onSignUpDecline }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const onSignUpYes = useCallback(
+  const handleSignUpAcceptClick = useCallback(
     async () => {
       setIsLoading(true);
-      await onYes();
+      await onSignUpAccept();
     },
-    [onYes, setIsLoading],
+    [onSignUpAccept, setIsLoading],
   );
 
   return (
     <SuccessContainer>
       <h1
         css={css`
-          font-size: 14px;
-          font-weight: bold;
+          font-size: ${fontSize()}px;
+          font-weight: 600;
           margin: 0;
+          line-height: ${gridSize() * 3}px;
         `}
       >
         Thanks for your feedback
@@ -38,21 +41,25 @@ export default ({ onYes, onNo }: Props) => {
 
       <div
         css={css`
-          margin-top: 32px;
+          margin-top: ${gridSize() * 4}px;
           display: flex;
           justify-content: flex-end;
 
           & > * + * {
-            margin-left: 8px;
+            margin-left: ${gridSize()}px;
           }
         `}
       >
-        <Button appearance="subtle" onClick={onNo} isDisabled={isLoading}>
+        <Button
+          appearance="subtle"
+          onClick={onSignUpDecline}
+          isDisabled={isLoading}
+        >
           No, thanks
         </Button>
         <Button
           appearance="primary"
-          onClick={onSignUpYes}
+          onClick={handleSignUpAcceptClick}
           isLoading={isLoading}
         >
           Yes, sign me up
