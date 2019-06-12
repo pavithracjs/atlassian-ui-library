@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
 import {
   clickEditableContent,
@@ -60,7 +59,7 @@ describe('Snapshot Test: Media', () => {
 
     it('can be resized in a list in a panel', async () => {
       await resizeMediaInPosition(page, 0, 300);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   });
 });

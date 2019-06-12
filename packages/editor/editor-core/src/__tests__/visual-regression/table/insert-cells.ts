@@ -1,5 +1,4 @@
 import {
-  MINIMUM_THRESHOLD,
   waitForTooltip,
   waitForNoTooltip,
 } from '@atlaskit/visual-regression/helper';
@@ -26,7 +25,7 @@ describe('Snapshot Test: table insert/delete', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it(`should be able insert after first row`, async () => {
