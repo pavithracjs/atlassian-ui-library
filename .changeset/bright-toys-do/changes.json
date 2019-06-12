@@ -1,0 +1,189 @@
+{
+  "releases": [{ "name": "@atlaskit/select", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/breadcrumbs",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/logo", "@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/button",
+      "type": "patch",
+      "dependencies": ["@atlaskit/logo", "@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/datetime-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/feedback-collector",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/logo",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/navigation-next",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/form",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/datetime-picker",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/inline-dialog",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/datetime-picker",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/inline-edit",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/inline-dialog",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/logo",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/modal-dialog",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/inline-dialog",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/inline-dialog",
+        "@atlaskit/logo",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/page-header",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/breadcrumbs",
+        "@atlaskit/button",
+        "@atlaskit/inline-edit",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/table-tree",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/logo",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/share",
+        "@atlaskit/user-picker",
+        "@atlaskit/media-picker",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/editor-mobile-bridge",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/editor-core",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/share",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/inline-dialog",
+        "@atlaskit/user-picker",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/user-picker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/color-picker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/refinement-bar",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/media-image",
+      "type": "patch",
+      "dependencies": ["@atlaskit/media-test-helpers", "@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/media-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/select"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-test-helpers",
+      "type": "patch",
+      "dependencies": ["@atlaskit/media-picker", "@atlaskit/select"]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/inline-dialog",
+        "@atlaskit/logo",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/select"
+      ]
+    }
+  ]
+}
