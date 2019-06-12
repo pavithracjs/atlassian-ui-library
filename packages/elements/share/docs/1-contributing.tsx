@@ -8,9 +8,14 @@ export default md`
 - https://product-fabric.atlassian.net/wiki/spaces/FS/pages/840564849/
 - https://product-fabric.atlassian.net/wiki/spaces/FS/pages/856852513/
 
+Naming in the code:
+
+- "form share" refers to the use of the form: pick users, add message, "share button"
+- "copy link" refers to the use of the "copy" button
+
 ### SSR
 
-With SSR rendering, \`window\` is not available, hence some \`window\` checks here and there.
+(to be validated) With SSR rendering, \`window\` is not available, hence some \`window\` checks here and there.
 
 To test SSR in JIRA, see \`services/jira-frontend-ssr/README.md\`.
 

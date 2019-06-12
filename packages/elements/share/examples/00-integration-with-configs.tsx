@@ -37,14 +37,19 @@ const WrapperWithMarginTop = styled.div`
   margin-top: 10px;
 `;
 
-const mockOriginTracing: OriginTracing = {
-  id: 'id',
-  addToUrl: (l: string) => `${l}&atlOrigin=mockAtlOrigin`,
-  toAnalyticsAttributes: () => ({
-    originIdGenerated: 'id',
-    originProduct: 'product',
-  }),
-};
+let factoryCount = 0;
+function originTracingFactory(): OriginTracing {
+  factoryCount++;
+  const id = `id#${factoryCount}`;
+  return {
+    id,
+    addToUrl: (l: string) => `${l}&atlOrigin=mockAtlOrigin:${id}`,
+    toAnalyticsAttributes: () => ({
+      originIdGenerated: id,
+      originProduct: 'product',
+    }),
+  };
+}
 
 const loadUserOptions = (searchText?: string): OptionData[] => {
   if (!searchText) {
@@ -162,16 +167,24 @@ export default class Example extends React.Component<{}, State> {
     _users: User[],
     _metaData: MetaData,
     _comment?: Comment,
-  ) =>
-    new Promise<ShareResponse>(resolve => {
+  ) => {
+    console.info('Share', {
+      _content,
+      _users,
+      _metaData,
+      _comment,
+    });
+
+    return new Promise<ShareResponse>(resolve => {
       setTimeout(
         () =>
           resolve({
             shareRequestId: 'c41e33e5-e622-4b38-80e9-a623c6e54cdd',
           }),
-        3000,
+        2000,
       );
     });
+  };
 
   client: ShareClient = {
     getConfig: this.getConfig,
@@ -205,7 +218,7 @@ export default class Example extends React.Component<{}, State> {
                   cloudId="12345-12345-12345-12345"
                   dialogPlacement={dialogPlacement}
                   loadUserOptions={loadUserOptions}
-                  originTracingFactory={() => mockOriginTracing}
+                  originTracingFactory={originTracingFactory}
                   productId="confluence"
                   renderCustomTriggerButton={
                     customButton ? renderCustomTriggerButton : undefined
