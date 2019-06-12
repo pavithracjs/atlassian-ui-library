@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, Device, initRendererWithADF } from '../_utils';
 import * as resizeAdf from './__fixtures__/renderer-media.adf.json';
 import * as layoutAdf from '../../../../examples/helper/media-resize-layout.adf.json';
@@ -33,7 +32,7 @@ describe('Snapshot Test: Media', () => {
   afterEach(async () => {
     await page.waitForSelector(mediaSelectors.errorLoading); // In test should show overlay error
     await page.waitForSelector(rendererSelectors.document);
-    await snapshot(page, MINIMUM_THRESHOLD, rendererSelectors.document);
+    await snapshot(page, {}, rendererSelectors.document);
   });
 
   describe('resize', () => {

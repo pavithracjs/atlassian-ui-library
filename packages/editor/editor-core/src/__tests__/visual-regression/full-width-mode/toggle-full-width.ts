@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import {
   initFullPageEditorWithAdf,
   snapshot,
@@ -83,7 +82,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
     const numTimesToToggle = Array(timesToToggle).fill(0);
     for (const _i of numTimesToToggle) {
       await toggleFullWidthProp(opts);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     }
   };
 
@@ -111,7 +110,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       await page.click(panelContentSelector);
       await pressKey(page, ['ArrowRight']);
       await toggleFullWidthProp();
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   });
 

@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
 import adf from './__fixtures__/mixed-content.adf.json';
 import adfWithMedia from './__fixtures__/content-with-media.adf.json';
@@ -27,7 +26,7 @@ widths.forEach(width => {
 
     it('should display content in full-width mode', async () => {
       await scrollToTop(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   });
 
@@ -44,7 +43,7 @@ widths.forEach(width => {
         { appearance: 'full-width' },
       );
       await waitForLoadedImageElements(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   });
 });
@@ -60,6 +59,6 @@ describe('Full-width mode breakout', () => {
       { width: 2000, height: 800 },
       { appearance: 'full-width' },
     );
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 });

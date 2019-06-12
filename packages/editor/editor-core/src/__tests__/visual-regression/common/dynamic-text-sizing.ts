@@ -1,10 +1,6 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
 import dynamicTextExample from './__fixtures__/dynamic-text-adf.json';
-import {
-  waitForEmojis,
-  emojiReadySelector,
-} from '../../__helpers/page-objects/_emoji';
+import { emojiReadySelector } from '../../__helpers/page-objects/_emoji';
 import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 
 describe('Dynamic Text Sizing', () => {
@@ -20,15 +16,14 @@ describe('Dynamic Text Sizing', () => {
     // @ts-ignore
     page = global.page;
     await initFullPageEditorWithAdf(page, dynamicTextExample);
+    await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
   });
 
   for (const viewSize of dynamicTextViewportSizes) {
     it(`should correctly render ${viewSize.width}`, async () => {
       await page.setViewport(viewSize);
-      await waitForEmojis(page);
-      await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
       await page.waitFor(1000); // waiting for resize to occur :(
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   }
 });

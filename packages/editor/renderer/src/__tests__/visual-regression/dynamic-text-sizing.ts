@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initRendererWithADF } from './_utils';
 import * as document from '../__fixtures__/document-without-media.adf.json';
 import { Page } from 'puppeteer';
@@ -24,7 +23,7 @@ describe('Snapshot Test: Dynamic Text Sizing', () => {
 
   afterEach(async () => {
     await page.waitFor(100); // wait for dynamic text sizing to occur
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   [
