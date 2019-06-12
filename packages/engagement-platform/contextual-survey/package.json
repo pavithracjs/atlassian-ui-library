@@ -16,7 +16,7 @@
   ],
   "atlaskit": {
     "name": "Contextual Survey",
-    "team": "engagment-platform"
+    "team": "engagement-platform"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
