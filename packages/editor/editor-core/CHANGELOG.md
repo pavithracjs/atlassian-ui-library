@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.12.5
+
+### Patch Changes
+
+- [patch][0c438f1b71](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c438f1b71):
+
+  ED-7081: Fixes floating toolbars not displaying when switching to Full Width mode.
+
 ## 112.12.4
 
 ### Patch Changes
