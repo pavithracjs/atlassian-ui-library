@@ -136,7 +136,7 @@ function baseStyles(validationState, isCompact) {
         transition: `background-color ${transitionDuration} ease-in-out,
         border-color ${transitionDuration} ease-in-out`,
 
-        '-ms-overflow-style': '-ms-autohiding-scrollbar',
+        msOverflowStyle: '-ms-autohiding-scrollbar',
         '::-webkit-scrollbar': {
           height: gridSize(),
           width: gridSize(),
