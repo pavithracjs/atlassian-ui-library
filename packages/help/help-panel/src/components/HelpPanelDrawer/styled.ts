@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import styled from '@emotion/styled';
 import * as colors from '@atlaskit/theme/colors';
-import { panelWidth, panelBorderWidth } from './constants';
+import { panelWidth } from './constants';
 
 export const HelpDrawer = styled.div`
   background-color: white;
@@ -12,11 +12,12 @@ export const HelpDrawer = styled.div`
 `;
 
 export const HelpDrawerContent = styled.div`
+  box-sizing: border-box;
   flex: 1;
-  border-left: ${panelBorderWidth}px solid ${colors.N30};
+  border-left: 3px solid ${colors.N30};
   overflow: hidden;
   flex-direction: column;
-  width: ${panelWidth - panelBorderWidth}px;
+  width: ${panelWidth}px;
   height: 100%;
   position: fixed;
 `;
