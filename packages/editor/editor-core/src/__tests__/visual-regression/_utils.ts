@@ -285,5 +285,5 @@ export const snapshot = async (
     image = await page.screenshot();
   }
 
-  compareScreenshot(image, tolerance, { useUnsafeThreshold });
+  return compareScreenshot(image, tolerance, { useUnsafeThreshold });
 };
