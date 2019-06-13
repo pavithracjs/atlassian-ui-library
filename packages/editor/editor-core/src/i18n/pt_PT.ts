@@ -6,14 +6,15 @@
  */
 // Portuguese (Portugal)
 export default {
-  'fabric.editor.layoutFixedWidth': 'Centrar',
-  'fabric.editor.layoutWide': 'Horizontal',
-  'fabric.editor.layoutFullWidth': 'Largura completa',
+  'fabric.editor.layoutFixedWidth': 'Voltar ao centro',
+  'fabric.editor.layoutWide': 'Alagar',
+  'fabric.editor.layoutFullWidth': 'Passar para a largura completa',
   'fabric.editor.alignImageRight': 'Alinhar à direita',
   'fabric.editor.alignImageCenter': 'Alinhar ao centro',
   'fabric.editor.alignImageLeft': 'Alinhar à esquerda',
   'fabric.editor.remove': 'Remover',
   'fabric.editor.visit': 'Abrir ligação numa nova janela',
+  'fabric.editor.editMode.inviteToEditButton.title': 'Convidar para editar',
   'fabric.editor.alignment': 'Alinhamento',
   'fabric.editor.normal': 'Texto normal',
   'fabric.editor.heading1': 'Título 1',
@@ -23,12 +24,24 @@ export default {
   'fabric.editor.heading5': 'Título 5',
   'fabric.editor.heading6': 'Título 6',
   'fabric.editor.blockquote': 'Cotação',
+  'fabric.editor.blockquote.description': 'Inserir cotação ou citação',
   'fabric.editor.codeblock': 'Fragmento de código',
-  'fabric.editor.panel': 'Painel',
+  'fabric.editor.codeblock.description':
+    'Apresentar código com realce de sintaxe',
+  'fabric.editor.infoPanel': 'Painel de informações',
+  'fabric.editor.infoPanel.description':
+    'Realçar informações num painel colorido',
   'fabric.editor.notePanel': 'Painel de notas',
+  'fabric.editor.notePanel.description':
+    'Adicionar uma nota num painel colorido',
   'fabric.editor.successPanel': 'Painel de sucesso',
+  'fabric.editor.successPanel.description':
+    'Adicionar dicas num painel colorido',
   'fabric.editor.warningPanel': 'Painel de aviso',
+  'fabric.editor.warningPanel.description':
+    'Adicionar uma nota de advertência a um painel colorido',
   'fabric.editor.errorPanel': 'Painel de erros',
+  'fabric.editor.errorPanel.description': 'Destacar erros num painel colorido',
   'fabric.editor.other': 'Outros...',
   'fabric.editor.textStyles': 'Estilos de texto',
   'fabric.editor.displayBlock': 'Mostrar como cartão',
@@ -47,32 +60,62 @@ export default {
   'fabric.editor.altText': 'Todo o texto',
   'fabric.editor.closeHelpDialog': 'Fechar caixa de diálogo de ajuda',
   'fabric.editor.quickInsert': 'Inserção rápida',
-  'fabric.editor.openLink': 'Abrir ligação',
+  'fabric.editor.openLink': 'Abrir ligação num novo separador',
   'fabric.editor.unlink': 'Remover ligação',
+  'fabric.editor.editLink': 'Editar ligação',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Colar ligação ou pesquisa visualizados recentemente',
   'fabric.editor.linkPlaceholder': 'Colar ligação',
-  'fabric.editor.linkTextPlaceholder': 'Texto a apresentar',
-  'fabric.editor.linkPlaceholderWithSearch':
-    'Colar a ligação ou procurar as páginas visitadas recentemente',
+  'fabric.editor.linkAddress': 'Endereço da ligação',
+  'fabric.editor.displayText': 'Texto a apresentar',
+  'fabric.editor.clearLinkText': 'Limpar texto',
+  'fabric.editor.clearLink': 'Limpar ligação',
   'fabric.editor.action': 'Item de ação',
+  'fabric.editor.action.description':
+    'Registar ações para fazer o trabalho avançar',
   'fabric.editor.link': 'Hiperligação',
+  'fabric.editor.link.description': 'Ligar a uma página interna ou externa',
   'fabric.editor.filesAndImages': 'Ficheiros e imagens',
+  'fabric.editor.filesAndImages.description':
+    'Adicionar imagens e outros ficheiros à sua página',
   'fabric.editor.image': 'Imagem',
   'fabric.editor.mention': 'Mencionar',
+  'fabric.editor.mention.description':
+    'Mencionar alguém enviando-lhes uma notificação',
   'fabric.editor.emoji': 'Emoji',
+  'fabric.editor.emoji.description':
+    'Utilizar emojis para expressar ideais 🎉 e emoções 😄',
   'fabric.editor.table': 'Tabela',
+  'fabric.editor.table.description': 'Inserir uma tabela',
   'fabric.editor.decision': 'Decisão',
+  'fabric.editor.decision.description':
+    'Registar decisões para que estas sejam fáceis de localizar',
   'fabric.editor.horizontalRule': 'Divisor',
+  'fabric.editor.horizontalRule.description':
+    'Separar o conteúdo com uma linha horizontal',
   'fabric.editor.date': 'Data',
+  'fabric.editor.date.description':
+    'Adicionar uma data utilizando um calendário',
   'fabric.editor.placeholderText': 'Texto do marcador de posição',
-  'fabric.editor.columns': 'Colunas',
+  'fabric.editor.columns': 'Esquemas',
+  'fabric.editor.columns.description':
+    'Estruturar a sua página utilizando secções',
   'fabric.editor.status': 'Estado',
+  'fabric.editor.status.description':
+    'Criar um losango colorido com texto no seu interior',
   'fabric.editor.viewMore': 'Ver mais',
   'fabric.editor.insertMenu': 'Inserir',
   'fabric.editor.twoColumns': 'Duas colunas',
   'fabric.editor.threeColumns': 'Três colunas',
+  'fabric.editor.rightSidebar': 'Barra lateral direita',
+  'fabric.editor.leftSidebar': 'Barra lateral esquerda',
+  'fabric.editor.threeColumnsWithSidebars': 'Três colunas com barras laterais',
   'fabric.editor.unorderedList': 'Lista de marcas',
+  'fabric.editor.unorderedList.description': 'Criar uma lista não ordenada',
   'fabric.editor.orderedList': 'Lista numerada',
+  'fabric.editor.orderedList.description': 'Criar uma lista ordenada',
   'fabric.editor.lists': 'Listas',
+  'fabric.editor.annotate': 'Anotar',
   'fabric.editor.wrapLeft': 'Alinhar à esquerda',
   'fabric.editor.wrapRight': 'Alinhar à direita',
   'fabric.editor.info': 'Informação',
