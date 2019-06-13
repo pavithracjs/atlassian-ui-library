@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.13.3
+
+### Patch Changes
+
+- [patch][8ed2b257d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ed2b257d0):
+
+  ED-7085: Fixes duplicate dropzone in full width mode. When the editor is reconfigured ensure that all pickers are destroyed.
+
 ## 112.13.2
 
 ### Patch Changes
