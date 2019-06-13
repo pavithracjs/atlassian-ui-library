@@ -54,11 +54,29 @@ export const clickElementWithText = async ({
 };
 
 export const getBoundingRect = async (page: any, selector: string) => {
-  return await page.evaluate((selector: string) => {
-    const element = document.querySelector(selector)!;
-    const { x, y, width, height } = element.getBoundingClientRect() as DOMRect;
-    return { left: x, top: y, width, height, id: element.id };
-  }, selector);
+  if (page.evaluate) {
+    return await page.evaluate((selector: string) => {
+      const element = document.querySelector(selector)!;
+      const {
+        x,
+        y,
+        width,
+        height,
+      } = element.getBoundingClientRect() as DOMRect;
+      return { left: x, top: y, width, height, id: element.id };
+    }, selector);
+  } else {
+    return await page.$eval(selector, (element: HTMLElement) => {
+      const {
+        x,
+        y,
+        width,
+        height,
+      } = element.getBoundingClientRect() as DOMRect;
+
+      return { left: x, top: y, width, height, id: element.id };
+    });
+  }
 };
 
 // Execute the click using page.evaluate

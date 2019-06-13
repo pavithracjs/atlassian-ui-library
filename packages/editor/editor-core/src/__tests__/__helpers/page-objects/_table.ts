@@ -38,6 +38,7 @@ export const tableSelectors = {
   columnControls: ClassName.COLUMN_CONTROLS_WRAPPER,
   insertColumnButton: `.${ClassName.CONTROLS_INSERT_COLUMN}`,
   insertRowButton: `.${ClassName.CONTROLS_INSERT_ROW}`,
+  insertButton: `.${ClassName.CONTROLS_INSERT_BUTTON}`,
   cornerButton: `.${ClassName.CONTROLS_CORNER_BUTTON}`,
   breakoutButton: `.${ClassName.LAYOUT_BUTTON}`,
   mergeCellsText: `Merge cells`,
@@ -75,7 +76,6 @@ export const insertTable = async (page: any) => {
 export const clickFirstCell = async (page: any) => {
   await page.waitForSelector(tableSelectors.topLeftCell);
   await page.click(tableSelectors.topLeftCell);
-  await page.waitForSelector(tableSelectors.removeTable);
 };
 
 export const selectTable = async (page: any) => {
@@ -172,35 +172,48 @@ export const setTableLayout = async (page: any, layout: string) => {
 };
 
 export const insertRow = async (page: any, atIndex: number) => {
-  await insertRowOrColumn(
+  await clickFirstCell(page);
+  const bounds = await getBoundingRect(
     page,
-    tableSelectors.rowControlSelector,
-    tableSelectors.insertRowButton,
-    atIndex,
+    tableSelectors.nthRowControl(atIndex),
   );
+
+  if (page.moveTo) {
+    // only for webdriver
+    const y = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.height * 0.51);
+    await page.moveTo(tableSelectors.nthColumnControl(atIndex), 1, y);
+  } else {
+    const x = bounds.left;
+    const y = bounds.top + bounds.height - 5;
+
+    await page.mouse.move(x, y);
+  }
+
+  await page.waitForSelector(tableSelectors.insertButton);
+  await page.click(tableSelectors.insertButton);
 };
 
 export const insertColumn = async (page: any, atIndex: number) => {
-  await insertRowOrColumn(
-    page,
-    tableSelectors.columnControlSelector,
-    tableSelectors.insertColumnButton,
-    atIndex,
-  );
-};
-
-export const insertRowOrColumn = async (
-  page: any,
-  buttonWrapSelector: string,
-  insertSelector: string,
-  atIndex: number,
-) => {
   await clickFirstCell(page);
-  const buttonSelector = `.${buttonWrapSelector}:nth-child(${atIndex}) ${insertSelector}`;
-  await page.waitForSelector(buttonSelector);
-  await page.hover(buttonSelector);
-  await page.waitForSelector(buttonSelector);
-  await page.click(buttonSelector);
+
+  const bounds = await getBoundingRect(
+    page,
+    tableSelectors.nthColumnControl(atIndex),
+  );
+
+  if (page.moveTo) {
+    const x = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.width * 0.51);
+    await page.moveTo(tableSelectors.nthColumnControl(atIndex), x, 1);
+  } else {
+    let offset = atIndex % 2 === 0 ? 1 : 1.5;
+
+    const x = bounds.left * offset;
+    const y = bounds.top + bounds.height - 5;
+    await page.mouse.move(x, y);
+  }
+
+  await page.waitForSelector(tableSelectors.insertButton);
+  await page.click(tableSelectors.insertButton);
 };
 
 export const deleteRow = async (page: any, atIndex: number) => {
