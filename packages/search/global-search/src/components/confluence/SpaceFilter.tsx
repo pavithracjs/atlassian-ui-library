@@ -10,7 +10,7 @@ interface Props {
   spaceAvatar: string;
   spaceTitle: string;
   isDisabled?: boolean;
-  onFilter: (isFilterOn: boolean) => any;
+  onFilter(isFilterOn: boolean): void;
 }
 
 export default class ConfluenceSpaceFilter extends React.Component<Props> {
