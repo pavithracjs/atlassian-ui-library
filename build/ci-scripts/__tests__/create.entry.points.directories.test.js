@@ -61,7 +61,7 @@ describe('Entrypoints', () => {
         pkgFileTs,
         entryPointDirNameTs,
       );
-      console.info('Ts > Entry point directory: ', entryPointDirNameTs);
+      console.log('Ts > Entry point directory: ', entryPointDirNameTs);
       const entryPointDirTs = fs.readdirSync(entryPointDirNameTs);
       expect(entryPointDirTs).toContain('package.json');
     } catch (err) {
@@ -88,7 +88,7 @@ describe('Entrypoints', () => {
       expect(err).toBeDefined();
     }
   });
-  test('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points js file', async () => {
+  test.skip('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points js file', async () => {
     const isTs = false;
     const pkgJs = testPackagesForWrite[1];
     const pkgFileJs = pkgJs.files[0];
@@ -103,7 +103,6 @@ describe('Entrypoints', () => {
         pkgFileJs,
         entryPointDirNameJs,
       );
-      console.info('Js > Entry point directory: ', entryPointDirNameJs);
       const entryPointDirJs = fs.readdirSync(entryPointDirNameJs);
       expect(entryPointDirJs).toContain('package.json');
     } catch (err) {
@@ -136,6 +135,7 @@ describe('Entrypoints', () => {
       for (let pkgFile of pkg.files) {
         const file = path.parse(pkgFile).name;
         const entryPointDirName = path.join(pkg.pkgDirPath, file);
+        console.log(entryPointDirName);
         dirsToRemove.push(entryPointDirName);
         try {
           expect(fs.existsSync(entryPointDirName)).toBeTruthy();
