@@ -19,7 +19,10 @@ export interface Serializer<T> {
     key?: string,
   ): T | null;
 
-  serializeFragmentWithAttachments(
+  serializeFragmentWithImages(
     fragment: Fragment,
-  ): serializeFragmentWithAttachmentsResult;
+    props?: any,
+    target?: any,
+    key?: string,
+  ): serializeFragmentWithAttachmentsResult | null;
 }

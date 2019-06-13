@@ -12,9 +12,8 @@ import {
 } from '@atlaskit/adf-schema';
 
 import { NodeSerializerOpts } from '../interfaces';
-import { createTable } from '../util';
+import { createTable, createTag, serializeStyle, TableData } from '../util';
 import { commonStyle, createContentId } from '..';
-import { getNamespace } from 'cls-hooked';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
 
@@ -54,33 +53,68 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
 
   const innerTdCss = {
     ...commonStyle,
-    'border-radius': '3px',
-    '-webkit-border-radius': '3px',
-    '-moz-border-radius': '3px',
     'font-size': '14px',
     width: '100%',
-    padding: '1px 0px 1px 8px',
+    padding: '1px 0px 1px 16px',
     margin: `0px`,
-    background: config[type] && config[type].background,
   };
 
   const outerTdCss = {
     ...commonStyle,
-    'border-radius': '3px',
     padding: '8px 0px 8px 0px',
-    '-webkit-border-radius': '3px',
-    '-moz-border-radius': '3px',
     margin: '0px',
     width: '100%',
   };
 
-  const panelIcon = `<img src="${createContentId(type, 'icon')}" />`;
-  const iconSet: Set<String> = getNamespace('serializerSession').get('icons');
+  const panelIcon = createTag('img', {
+    style: serializeStyle({
+      width: '16px',
+      height: '16px',
+    }),
+    src: createContentId(type, 'icon'),
+  });
 
-  iconSet.add(type);
+  const icon = createTable(
+    [
+      [
+        {
+          text: panelIcon,
+          style: {
+            'text-align': 'center',
+            width: '16px',
+            height: '16px',
+            padding: '8px',
+          },
+        },
+      ],
+    ],
+    {
+      'table-layout': 'fixed',
+      'line-height': '18px',
+    },
+  );
 
-  const innerTable = createTable([
-    [{ style: innerTdCss, text: panelIcon }, { style: innerTdCss, text }],
-  ]);
+  const iconTd: TableData = {
+    text: icon,
+    style: {
+      'vertical-align': 'top',
+      width: '16px',
+      height: '16px',
+    },
+  };
+
+  const textTd: TableData = {
+    text,
+    style: innerTdCss,
+  };
+
+  const innerTable = createTable([[iconTd, textTd]], {
+    background: config[type] && config[type].background,
+    'border-radius': '3px',
+    '-webkit-border-radius': '3px',
+    '-moz-border-radius': '3px',
+    'table-layout': 'fixed',
+    'line-height': '20px',
+  });
   return createTable([[{ style: outerTdCss, text: innerTable }]]);
 }

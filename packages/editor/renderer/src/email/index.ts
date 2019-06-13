@@ -1,6 +1,5 @@
 import { fontFamily, fontSize } from '@atlaskit/theme';
 import { defaultSchema } from '@atlaskit/adf-schema';
-import { createNamespace } from 'cls-hooked';
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 import flow from 'lodash.flow';
 import property from 'lodash.property';
@@ -16,8 +15,7 @@ import juice from 'juice';
 import { escapeHtmlString } from './util';
 
 import * as icons from './static/icons';
-
-const serializerSession = createNamespace('serializerSession');
+import { IconName } from './static/icons';
 
 const serializeNode = (
   node: PMNode,
@@ -93,57 +91,56 @@ const wrapAdf = (content: any[]) => ({ version: 1, type: 'doc', content });
 const juicify = (html: string): string =>
   juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
 
-// replace all CID image references with a fake image
-const stubImages = (isMockEnabled: boolean) => (content: string) => {
-  if (!isMockEnabled) {
-    return content;
-  }
-
-  const imageReplacer = (
-    match: string,
-    imageType: string,
-    imageName: string,
-  ): string => {
-    switch (imageType) {
-      default:
-      case 'icon':
-        return (icons as any)[imageName];
-    }
-  };
-
-  return content
-    .replace(/src="cid:pfcs-generated-([\w]*)-([\w-]*)"/gi, imageReplacer)
-    .replace(
-      /src="cid:[\w-]*"/gi,
-      'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="',
-    );
-};
-
 export const createContentId = (
-  imageName: string,
+  imageName: icons.IconString,
   imageType: string = 'icon',
-) => {
-  return `cid:pfcs-generated-${imageType}-${imageName}`;
-};
+) => `cid:pfcs-generated-${imageType}-${imageName}`;
 
-const includeEmbeddedImages = (
+const processEmbeddedImages = (isMockEnabled: boolean) => (
   result: string,
 ): serializeFragmentWithAttachmentsResult => {
-  const iconSet: Set<string> = serializerSession.get('icons');
+  const iconSet = new Set<icons.IconString>();
+
+  const imageProcessor = (
+    match: string,
+    imageType: string,
+    imageName: icons.IconString,
+  ): string => {
+    iconSet.add(imageName);
+    const imageSource = (icons as any)[imageName];
+    return isMockEnabled ? `src="${imageSource}"` : match;
+  };
+
+  const processedResult = result.replace(
+    /src="cid:pfcs-generated-([\w]*)-([\w-]*)"/gi,
+    imageProcessor,
+  );
+
   const iconMapper = (iconName: string): MediaImageBase64 => ({
-    contentId: createContentId(iconName),
-    contentType: '',
+    contentId: createContentId(IconName[iconName as icons.IconString]),
+    contentType: 'png',
     data: (icons as any)[iconName],
   });
 
-  const embeddedImages: MediaImageBase64[] = [...iconSet].map(iconMapper);
-  return { result, embeddedImages };
+  return {
+    result: processedResult,
+    embeddedImages: [...iconSet].map(iconMapper),
+  };
 };
 
-const createImageSetInContext = (content: Fragment): Fragment => {
-  serializerSession.set('icons', new Set<String>());
-  return content;
-};
+// replace all CID image references with a fake image
+const stubImages = (isMockEnabled: boolean) => (
+  content: serializeFragmentWithAttachmentsResult,
+) =>
+  isMockEnabled
+    ? {
+        result: content.result!.replace(
+          /src="cid:[\w-]*"/gi,
+          'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="',
+        ),
+        embeddedImages: content.embeddedImages,
+      }
+    : content;
 
 export default class EmailSerializer implements Serializer<string> {
   /**
@@ -157,7 +154,7 @@ export default class EmailSerializer implements Serializer<string> {
     private isImageStubEnabled = false,
   ) {}
 
-  serializeFragment = flow(
+  serializeFragmentWithImages = flow(
     (fragment: Fragment) => fragment.toJSON(),
     JSON.stringify,
     escapeHtmlString,
@@ -167,20 +164,14 @@ export default class EmailSerializer implements Serializer<string> {
     property('content'),
     traverseTree,
     juicify,
+    processEmbeddedImages(this.isImageStubEnabled),
     stubImages(this.isImageStubEnabled),
   );
 
-  serializeFragmentWithAttachments = (fragment: Fragment) => {
-    const boundSerializer = serializerSession.bind(
-      flow(
-        createImageSetInContext,
-        this.serializeFragment,
-        includeEmbeddedImages,
-      ),
-    );
-
-    return boundSerializer(fragment);
-  };
+  serializeFragment: (...args: any) => string = flow(
+    this.serializeFragmentWithImages,
+    property('result'),
+  );
 
   static fromSchema(schema: Schema = defaultSchema): EmailSerializer {
     return new EmailSerializer(schema);

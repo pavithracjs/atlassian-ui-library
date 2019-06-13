@@ -35,10 +35,9 @@ const render = (doc: any) => {
   const serializer = EmailSerializer.fromSchema(schema);
   const docFromSchema = schema.nodeFromJSON(doc);
   // return serializer.serializeFragment(docFromSchema.content);
-  const {
-    result,
-    embeddedImages,
-  } = serializer.serializeFragmentWithAttachments(docFromSchema.content);
+  const { result, embeddedImages } = serializer.serializeFragmentWithImages(
+    docFromSchema.content,
+  );
   const node = document.createElement('div');
   node.innerHTML = result!;
   return {
