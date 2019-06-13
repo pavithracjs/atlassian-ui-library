@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/progress-bar",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A React component that is a progress bar",
   "license": "Apache-2.0",
   "module": "index.js",

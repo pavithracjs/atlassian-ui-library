@@ -1,1 +1,0 @@
-Fix invalid "module" field. The package should expose *.js file instead of *.ts
