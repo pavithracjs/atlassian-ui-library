@@ -148,7 +148,7 @@ export default class Example extends React.Component<{}, State> {
     allowedDomains: ['atlassian.com'],
     customButton: false,
     customTitle: false,
-    restrictionMessage: true,
+    restrictionMessage: false,
     dialogPlacement: dialogPlacementOptions[2].value,
     escapeOnKeyPress: true,
     mode: modeOptions[0].value,
