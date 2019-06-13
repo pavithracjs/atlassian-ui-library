@@ -355,6 +355,7 @@ describe('<Mention />', () => {
       );
     });
 
+    // FIXME
     describe('resolving mention name', () => {
       it('should render a mention and use the resolving provider to lookup the name (string result)', done => {
         const mention = mountWithIntl(
@@ -404,7 +405,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Unknown');
+          ).toEqual('@Unknown user 123');
           done();
         });
       });
@@ -430,7 +431,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Error loading name');
+          ).toEqual('@Unknown user 123');
           done();
         });
       });
@@ -472,7 +473,7 @@ describe('<Mention />', () => {
         );
         ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
           Promise.resolve({
-            ud: '456',
+            id: '456',
             status: MentionNameStatus.UNKNOWN,
           }),
         );
@@ -483,7 +484,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Unknown');
+          ).toEqual('@Unknown user 456');
           done();
         });
       });
@@ -509,7 +510,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Error loading name');
+          ).toEqual('@Unknown user ');
           done();
         });
       });

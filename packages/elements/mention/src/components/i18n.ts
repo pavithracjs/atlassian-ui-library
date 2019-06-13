@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export const messages = defineMessages({
+  UnknownUserError: {
+    id: 'fabric.mention.unknow.user.error',
+    defaultMessage: 'Unknown user {id}',
+    description: 'Mention user name could not be found or look up failed',
+  },
   noAccessWarning: {
     id: 'fabric.mention.noAccess.warning',
     defaultMessage: "{name} won't be notified as they have no access",

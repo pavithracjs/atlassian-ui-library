@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { injectIntl } from 'react-intl';
 import {
   MentionProvider,
   isResolvingMentionProvider,
@@ -10,6 +11,7 @@ import {
   MentionNameStatus,
 } from '../../types';
 import Mention from './';
+import { messages } from '../i18n';
 
 export interface Props {
   id: string;
@@ -52,6 +54,11 @@ export default class ResourcedMention extends React.PureComponent<
     }
   }
 
+  private getUnknownUserErrorMessage(mentionId: string): string {
+    const { formatMessage } = this.props.intl;
+    return formatMessage(messages.UnknownUserError, { id: mentionId });
+  }
+
   private processName(name: MentionNameDetails): string {
     let mentionName;
     switch (name.status) {
@@ -59,13 +66,9 @@ export default class ResourcedMention extends React.PureComponent<
         mentionName = name.name || '';
         break;
       case MentionNameStatus.SERVICE_ERROR:
-        // TODO i18n FS-3982
-        mentionName = 'Error loading name';
-        break;
       case MentionNameStatus.UNKNOWN:
       default:
-        // TODO i18n FS-3982
-        mentionName = 'Unknown';
+        mentionName = this.getUnknownUserErrorMessage(name.id);
         break;
     }
     return `@${mentionName}`;
