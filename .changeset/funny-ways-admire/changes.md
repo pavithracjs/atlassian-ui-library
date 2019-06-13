@@ -1,0 +1,1 @@
+FS-3966 add bottomMessage property
