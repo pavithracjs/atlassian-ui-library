@@ -347,7 +347,12 @@ export default class ReactEditorView<T = {}> extends React.Component<
       doc =
         this.contentTransformer && typeof defaultValue === 'string'
           ? this.contentTransformer.parse(defaultValue)
-          : processRawValue(schema, defaultValue);
+          : processRawValue(
+              schema,
+              defaultValue,
+              options.props.providerFactory,
+              options.props.editorProps.sanitizePrivateContent,
+            );
     }
     let selection: Selection | undefined;
     if (doc) {

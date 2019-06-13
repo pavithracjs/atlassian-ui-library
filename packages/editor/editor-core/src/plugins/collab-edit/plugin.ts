@@ -68,6 +68,7 @@ export const createPlugin = (
   options?: CollabEditOptions,
   // This will only be populated when the editor is reloaded/reconfigured
   oldState?: EditorState,
+  sanitizePrivateContent?: boolean,
 ) => {
   let collabEditProvider: CollabEditProvider | null;
 
@@ -156,7 +157,13 @@ export const createPlugin = (
             collabEditProvider
               .on('init', data => {
                 view.dispatch(view.state.tr.setMeta('collabInitialised', true));
-                handleInit(data, view, options);
+                handleInit(
+                  data,
+                  view,
+                  options,
+                  providerFactory,
+                  sanitizePrivateContent,
+                );
               })
               .on('connected', data => handleConnection(data, view))
               .on('data', data => applyRemoteData(data, view, options))
