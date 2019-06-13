@@ -21,37 +21,37 @@ import { ADMIN_NOTIFIED, DialogPlacement, OBJECT_SHARED } from '../../../types';
 import mockPopper from '../_mockPopper';
 mockPopper();
 
-let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
-let mockOnShareSubmit: jest.Mock;
-const mockLoadOptions = () => [];
-const mockShowFlags: jest.Mock = jest.fn();
-const mockFetchConfig: jest.Mock = jest.fn().mockResolvedValue(defaultConfig);
-
-beforeEach(() => {
-  wrapper = shallowWithIntl<Props>(
-    <ShareDialogWithTrigger
-      copyLink="copyLink"
-      fetchConfig={mockFetchConfig}
-      loadUserOptions={mockLoadOptions}
-      onShareSubmit={mockOnShareSubmit}
-      shareContentType="page"
-      showFlags={mockShowFlags}
-    />,
-  )
-    .dive()
-    .dive()
-    .dive();
-});
-
-beforeAll(() => {
-  mockOnShareSubmit = jest.fn();
-});
-
-beforeEach(() => {
-  mockFetchConfig.mockReset();
-});
-
 describe('ShareDialogWithTrigger', () => {
+  let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
+  let mockOnShareSubmit: jest.Mock = jest.fn();
+  const mockLoadOptions = () => [];
+  const mockShowFlags: jest.Mock = jest.fn();
+  const mockOnDialogOpen: jest.Mock = jest.fn();
+  const mockFetchConfig: jest.Mock = jest.fn().mockResolvedValue(defaultConfig);
+
+  beforeEach(() => {
+    wrapper = shallowWithIntl<Props>(
+      <ShareDialogWithTrigger
+        copyLink="copyLink"
+        fetchConfig={mockFetchConfig}
+        loadUserOptions={mockLoadOptions}
+        onDialogOpen={mockOnDialogOpen}
+        onShareSubmit={mockOnShareSubmit}
+        shareContentType="page"
+        showFlags={mockShowFlags}
+      />,
+    )
+      .dive()
+      .dive()
+      .dive();
+  });
+
+  beforeEach(() => {
+    mockOnShareSubmit.mockReset();
+    mockOnDialogOpen.mockReset();
+    mockFetchConfig.mockReset();
+  });
+
   describe('default', () => {
     it('should render', () => {
       expect(wrapper.find(InlineDialog).length).toBe(1);
@@ -351,6 +351,15 @@ describe('ShareDialogWithTrigger', () => {
       expect((wrapper.state() as State).isDialogOpen).toEqual(false);
       wrapper.find(ShareButton).simulate('click');
       expect((wrapper.state() as State).isDialogOpen).toEqual(true);
+    });
+
+    it('should call the onDialogOpen prop if present', () => {
+      expect((wrapper.state() as State).isDialogOpen).toEqual(false);
+      expect(mockOnDialogOpen).not.toHaveBeenCalled();
+
+      wrapper.find(ShareButton).simulate('click');
+      expect((wrapper.state() as State).isDialogOpen).toEqual(true);
+      expect(mockOnDialogOpen).toHaveBeenCalledTimes(1);
     });
 
     it.skip('should send an analytic event', () => {});

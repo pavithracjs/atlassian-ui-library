@@ -205,6 +205,8 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       .catch((err: Error) => Promise.reject(err));
   };
 
+  handleDialogOpen = () => {};
+
   // ensure origin is re-generated if the link or the factory changes
   // separate memoization is needed since copy != form
   getUniqueCopyLinkOriginTracing = memoizeOne(
@@ -283,6 +285,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           fetchConfig={this.fetchConfig}
           isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
+          onDialogOpen={this.handleDialogOpen}
           onShareSubmit={this.handleSubmitShare}
           renderCustomTriggerButton={renderCustomTriggerButton}
           shareContentType={shareContentType}
