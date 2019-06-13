@@ -3,6 +3,8 @@ import {
   takeScreenShot,
 } from '@atlaskit/visual-regression/helper';
 
+declare var global: any;
+
 describe('Snapshot Test', () => {
   it(`Basic example should match prod`, async () => {
     const url = getExampleUrl('core', 'tabs', 'basic', global.__BASEURL__);
