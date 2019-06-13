@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.13.1
+
+### Patch Changes
+
+- [patch][2a7ae6c5c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a7ae6c5c9):
+
+  ED-6968 Clicking numbered columns does nothing if table is not selecte
+
 ## 112.13.0
 
 ### Minor Changes

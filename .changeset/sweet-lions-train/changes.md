@@ -1,1 +1,0 @@
-ED-6968 Clicking numbered columns does nothing if table is not selecte
