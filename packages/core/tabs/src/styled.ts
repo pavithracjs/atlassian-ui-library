@@ -68,7 +68,7 @@ export const NavWrapper = styled.div`
 export const Nav = styled.div`
   display: flex;
   font-weight: 500;
-  list-style-interface: none;
+  list-style-type: none;
   margin: 0;
   padding: 0;
 `;
