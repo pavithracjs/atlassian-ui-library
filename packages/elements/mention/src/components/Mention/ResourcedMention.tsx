@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
 import {
   MentionProvider,
   isResolvingMentionProvider,
@@ -10,8 +9,7 @@ import {
   MentionNameDetails,
   MentionNameStatus,
 } from '../../types';
-import Mention from './';
-import { messages } from '../i18n';
+import Mention, { UNKNOWN_USER_ID } from './';
 
 export interface Props {
   id: string;
@@ -54,11 +52,6 @@ export default class ResourcedMention extends React.PureComponent<
     }
   }
 
-  private getUnknownUserErrorMessage(mentionId: string): string {
-    const { formatMessage } = this.props.intl;
-    return formatMessage(messages.UnknownUserError, { id: mentionId });
-  }
-
   private processName(name: MentionNameDetails): string {
     let mentionName;
     switch (name.status) {
@@ -68,7 +61,7 @@ export default class ResourcedMention extends React.PureComponent<
       case MentionNameStatus.SERVICE_ERROR:
       case MentionNameStatus.UNKNOWN:
       default:
-        mentionName = this.getUnknownUserErrorMessage(name.id);
+        mentionName = UNKNOWN_USER_ID;
         break;
     }
     return `@${mentionName}`;
