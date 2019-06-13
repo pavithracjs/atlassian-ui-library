@@ -9,6 +9,7 @@ import {
 import {
   MentionProvider,
   isSpecialMention,
+  isResolvingMentionProvider,
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
@@ -61,6 +62,7 @@ export interface TeamInfoAttrAnalytics {
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  sanitizePrivateContent?: boolean,
 ): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
@@ -255,12 +257,30 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
-            return insert(buildNodesForTeamMention(schema, item.mention));
+            return insert(
+              buildNodesForTeamMention(
+                schema,
+                item.mention,
+                mentionProvider,
+                sanitizePrivateContent,
+              ),
+            );
+          }
+
+          // Don't insert into document if document data is sanitized.
+          const text = sanitizePrivateContent ? '' : `@${renderName}`;
+
+          if (
+            sanitizePrivateContent &&
+            isResolvingMentionProvider(mentionProvider)
+          ) {
+            // Cache (locally) for later rendering
+            mentionProvider.cacheMentionName(id, renderName);
           }
 
           return insert(
             schema.nodes.mention.createChecked({
-              text: `@${renderName}`,
+              text,
               id,
               accessLevel,
               userType: userType === 'DEFAULT' ? null : userType,
@@ -397,6 +417,7 @@ function mentionPluginFactory(
               mentionProvider: params.provider,
             };
             dispatch(mentionPluginKey, newPluginState);
+
             return newPluginState;
 
           case ACTIONS.SET_RESULTS:
@@ -545,6 +566,8 @@ function mentionPluginFactory(
 function buildNodesForTeamMention(
   schema: Schema,
   selectedMention: MentionDescription,
+  mentionProvider: MentionProvider,
+  sanitizePrivateContent?: boolean,
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
@@ -560,7 +583,12 @@ function buildNodesForTeamMention(
   const members: TeamMember[] =
     context && context.members ? context.members : [];
   members.forEach((member: TeamMember, index) => {
-    const text = `@${member.name}`;
+    const { name, id } = member;
+    const mentionName = `@${name}`;
+    const text = sanitizePrivateContent ? '' : mentionName;
+    if (sanitizePrivateContent && isResolvingMentionProvider(mentionProvider)) {
+      mentionProvider.cacheMentionName(id, name);
+    }
     const userMentionNode = nodes.mention.createChecked({
       text,
       id: member.id,

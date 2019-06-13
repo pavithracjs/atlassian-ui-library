@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.8.3
+
+### Patch Changes
+
+- [patch][e4ecf9b50e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4ecf9b50e):
+
+  Fix CSS issues. Display loading state only 1000ms after the request was made
+
 ## 0.8.2
 
 ### Patch Changes

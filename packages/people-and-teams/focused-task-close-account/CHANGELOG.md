@@ -1,5 +1,13 @@
 # @atlaskit/focused-task-close-account
 
+## 0.12.0
+
+### Minor Changes
+
+- [minor][49f2492645](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/49f2492645):
+
+  Minor style changes.
+
 ## 0.11.4
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

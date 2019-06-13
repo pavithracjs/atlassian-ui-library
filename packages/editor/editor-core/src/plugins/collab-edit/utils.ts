@@ -3,7 +3,7 @@ import { Decoration, DecorationSet } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { colors as themeColors } from '@atlaskit/theme';
 
-import { hexToRgba } from '@atlaskit/editor-common';
+import { hexToRgba, ProviderFactory } from '@atlaskit/editor-common';
 
 import { CollabEditOptions } from './types';
 import { processRawValue, ZeroWidthSpace } from '../../utils';
@@ -109,6 +109,8 @@ export const replaceDocument = (
   state: EditorState,
   version?: number,
   options?: CollabEditOptions,
+  providerFactory?: ProviderFactory,
+  sanitizePrivateContent?: boolean,
 ) => {
   const { schema, tr } = state;
 
@@ -118,7 +120,13 @@ export const replaceDocument = (
   if (options && options.allowUnsupportedContent) {
     // Process the value coming in, this allows us to wrap blocks unknown to us.
     // Instead of throwing an error at this point.
-    content = processRawValue(state.schema, doc);
+    content = processRawValue(
+      state.schema,
+      doc,
+      providerFactory,
+      sanitizePrivateContent,
+    );
+
     hasContent = !!content;
   } else {
     content = (doc.content || []).map((child: any) =>

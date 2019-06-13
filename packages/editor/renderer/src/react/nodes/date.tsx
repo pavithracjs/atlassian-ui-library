@@ -4,8 +4,8 @@ import {
   isPastDate,
   timestampToString,
   timestampToTaskContext,
+  DateSharedCssClassName,
 } from '@atlaskit/editor-common';
-import { DateSharedCssClassName } from '@atlaskit/editor-common/src/styles/shared/date';
 
 export interface Props {
   timestamp: string;
