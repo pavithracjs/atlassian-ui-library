@@ -4,3 +4,4 @@ export enum VIEW {
   ARTICLE,
   ARTICLE_NAVIGATION,
 }
+export const LOADING_TIMEOUT = 1000;

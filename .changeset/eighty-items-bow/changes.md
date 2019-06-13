@@ -1,0 +1,1 @@
+Fix CSS issues. Display loading state only 1000ms after the request was made

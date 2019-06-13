@@ -68,12 +68,12 @@ export const BackButtonText = styled.span`
 
 export const HelpPanelBody = styled.div`
   flex: 1;
-  overflow: auto;
   flex-direction: column;
   padding: ${gridSize() * 2}px ${gridSize() * 3}px ${gridSize() * 2}px
     ${gridSize() * 3}px;
-  overflow-y: auto;
   height: calc(100vh - 60px - ${gridSize() * 2}px);
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const ItemGroupTitleSize = 11;
