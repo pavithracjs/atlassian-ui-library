@@ -1,8 +1,12 @@
-// @flow
 import styled from 'styled-components';
 import { borderRadius, colors, gridSize, math, themed } from '@atlaskit/theme';
+import { TabItemElementProps, Mode } from './types';
 
-function lockSelectedColor(normal) {
+interface NavItem extends TabItemElementProps {
+  status: string;
+}
+
+function lockSelectedColor(normal: Mode) {
   const selected = { light: colors.B400, dark: colors.B100 };
 
   return themed('status', { normal, selected });
@@ -64,12 +68,12 @@ export const NavWrapper = styled.div`
 export const Nav = styled.div`
   display: flex;
   font-weight: 500;
-  list-style-type: none;
+  list-style-interface: none;
   margin: 0;
   padding: 0;
 `;
 
-export const NavLine = styled.span`
+export const NavLine = styled.span<{ status: string }>`
   background-color: ${underlineColor};
   border-radius: ${underlineHeight};
   bottom: 0;
@@ -82,7 +86,7 @@ export const NavLine = styled.span`
   width: inherit;
 `;
 
-export const NavItem = styled.div`
+export const NavItem = styled.div<NavItem>`
   color: ${labelColor};
   cursor: pointer;
   line-height: 1.8;

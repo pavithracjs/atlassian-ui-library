@@ -1,10 +1,8 @@
-// @flow
-
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import Tabs, { TabItem } from '../src';
 import { Content } from './shared';
-import type { TabItemComponentProvided } from '../src/types';
+import { TabItemComponentProvided } from '../src/types';
 
 export const tabs = [
   {
@@ -68,7 +66,7 @@ export default () => (
     <h3>Tabs with tooltips</h3>
     <Tabs
       components={{ Item: TooltipItem }}
-      onSelect={(tab, index) => console.log('Selected Tab', index + 1)}
+      onSelect={(_tab, index) => console.log('Selected Tab', index + 1)}
       tabs={tabs}
     />
     <h3>Tabs as links</h3>

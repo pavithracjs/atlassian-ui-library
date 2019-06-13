@@ -1,8 +1,6 @@
-// @flow
-
 import React, { Component } from 'react';
 import Tabs from '../src';
-import type { TabData } from '../src/types';
+import { TabData, OnSelectCallback } from '../src/types';
 import { Content } from './shared';
 
 export const tabs = [
@@ -36,7 +34,7 @@ class TabsWithCustomIsSelected extends Component<{}, { selected: string }> {
     selected: 'tab-4',
   };
 
-  onSelect = ({ id }) => this.setState({ selected: id });
+  onSelect: OnSelectCallback = ({ id }) => this.setState({ selected: id });
 
   render() {
     return (
