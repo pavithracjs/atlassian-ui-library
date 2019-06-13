@@ -1,1 +1,0 @@
-fix IE11 styles issues

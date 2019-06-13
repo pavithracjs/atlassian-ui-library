@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.8.4
+
+### Patch Changes
+
+- [patch][2870381e09](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2870381e09):
+
+  fix IE11 styles issues
+
 ## 0.8.3
 
 ### Patch Changes
