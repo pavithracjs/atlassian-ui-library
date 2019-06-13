@@ -6,7 +6,7 @@ export type MediaImageBase64 = {
   data: string;
 };
 
-export interface serializeFragmentWithAttachmentsResult {
+export interface SerializeFragmentWithAttachmentsResult {
   result: string | null;
   embeddedImages: MediaImageBase64[];
 }
@@ -24,5 +24,5 @@ export interface Serializer<T> {
     props?: any,
     target?: any,
     key?: string,
-  ): serializeFragmentWithAttachmentsResult | null;
+  ): SerializeFragmentWithAttachmentsResult | null;
 }

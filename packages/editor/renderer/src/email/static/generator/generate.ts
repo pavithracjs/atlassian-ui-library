@@ -52,7 +52,7 @@ const createIcons = () => {
     writeFileSync(resolve(__dirname, `../icons/index.ts`), indexFileContents);
 
     rimraf(tempFolder, err => {
-      console.log('Done!', err);
+      // Done.
     });
   });
 };

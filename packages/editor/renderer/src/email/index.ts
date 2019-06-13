@@ -6,7 +6,7 @@ import property from 'lodash.property';
 
 import {
   Serializer,
-  serializeFragmentWithAttachmentsResult,
+  SerializeFragmentWithAttachmentsResult,
   MediaImageBase64,
 } from '../serializer';
 import { nodeSerializers } from './serializers';
@@ -98,7 +98,7 @@ export const createContentId = (
 
 const processEmbeddedImages = (isMockEnabled: boolean) => (
   result: string,
-): serializeFragmentWithAttachmentsResult => {
+): SerializeFragmentWithAttachmentsResult => {
   const iconSet = new Set<icons.IconString>();
 
   const imageProcessor = (
@@ -130,7 +130,7 @@ const processEmbeddedImages = (isMockEnabled: boolean) => (
 
 // replace all CID image references with a fake image
 const stubImages = (isMockEnabled: boolean) => (
-  content: serializeFragmentWithAttachmentsResult,
+  content: SerializeFragmentWithAttachmentsResult,
 ) =>
   isMockEnabled
     ? {
