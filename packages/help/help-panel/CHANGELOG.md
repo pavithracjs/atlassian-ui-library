@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.8.5
+
+### Patch Changes
+
+- [patch][0f869bb237](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f869bb237):
+
+  fix loading error state
+
 ## 0.8.4
 
 ### Patch Changes
