@@ -7,6 +7,8 @@ import {
   createEntryPointsDirWithPkgJson,
 } from '../createEntryPointsUtils';
 
+jest.spyOn(global.console, 'log').mockImplementation(() => {});
+
 const testPackagesForWrite = [
   {
     dir: path.join(process.cwd(), 'packages/core/badge'),
@@ -40,6 +42,7 @@ describe('Entrypoints', () => {
     dirsToRemove.forEach(file => deleteDirectory(file));
   });
   afterEach(() => {
+    jest.resetAllMocks();
     dirsToRemove.forEach(file => deleteDirectory(file));
   });
 
