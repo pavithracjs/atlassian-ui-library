@@ -2,10 +2,11 @@ import Select from '@atlaskit/select';
 import { ToggleStateless as Toggle } from '@atlaskit/toggle';
 import { OptionData } from '@atlaskit/user-picker';
 import { userPickerData } from '@atlaskit/util-data-test';
-import styled from 'styled-components';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
+import styled from 'styled-components';
 import App from '../example-helpers/AppWithFlag';
+import RestrictionMessage from '../example-helpers/RestrictionMessage';
 import { ShareDialogContainer, ShareDialogContainerProps } from '../src';
 import {
   Comment,
@@ -132,6 +133,7 @@ type ExampleState = {
   customButton: boolean;
   customTitle: boolean;
   escapeOnKeyPress: boolean;
+  restrictionMessage: boolean;
 };
 
 type State = ConfigResponse & Partial<ShareDialogContainerProps> & ExampleState;
@@ -146,6 +148,7 @@ export default class Example extends React.Component<{}, State> {
     allowedDomains: ['atlassian.com'],
     customButton: false,
     customTitle: false,
+    restrictionMessage: false,
     dialogPlacement: dialogPlacementOptions[2].value,
     escapeOnKeyPress: true,
     mode: modeOptions[0].value,
@@ -202,6 +205,7 @@ export default class Example extends React.Component<{}, State> {
       mode,
       triggerButtonAppearance,
       triggerButtonStyle,
+      restrictionMessage,
     } = this.state;
 
     this.key++;
@@ -232,6 +236,9 @@ export default class Example extends React.Component<{}, State> {
                   showFlags={showFlags}
                   triggerButtonAppearance={triggerButtonAppearance}
                   triggerButtonStyle={triggerButtonStyle}
+                  bottomMessage={
+                    restrictionMessage ? <RestrictionMessage /> : null
+                  }
                 />
               </WrapperWithMarginTop>
               <h4>Options</h4>
@@ -272,6 +279,15 @@ export default class Example extends React.Component<{}, State> {
                     isChecked={customTitle}
                     onChange={() =>
                       this.setState({ customTitle: !customTitle })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Show Restriction Message
+                  <Toggle
+                    isChecked={restrictionMessage}
+                    onChange={() =>
+                      this.setState({ restrictionMessage: !restrictionMessage })
                     }
                   />
                 </WrapperWithMarginTop>
