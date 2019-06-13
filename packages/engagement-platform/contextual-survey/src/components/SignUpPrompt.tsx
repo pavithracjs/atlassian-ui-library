@@ -35,8 +35,11 @@ export default ({ onSignUpAccept, onSignUpDecline }: Props) => {
       </h1>
       <p>Are you interested in participating in our research?</p>
       <p>
-        Sign up for the <a href="#">Atlassian Research Group</a> and we may
-        contact you in the future with research opportunities.
+        Sign up for the{' '}
+        <a href="https://www.atlassian.com/research-group">
+          Atlassian Research Group
+        </a>{' '}
+        and we may contact you in the future with research opportunities.
       </p>
 
       <div
