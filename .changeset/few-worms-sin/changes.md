@@ -1,1 +1,0 @@
-Add support to resolving mention names externally for collaborative editing

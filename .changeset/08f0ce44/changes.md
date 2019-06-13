@@ -1,1 +1,0 @@
-- remove mention text if CollabEditOptions.sanitizePrivateContent is true during copy/paste
