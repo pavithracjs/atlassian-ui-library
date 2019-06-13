@@ -35,7 +35,8 @@ export default ({ children, onDismiss }: Props) => {
         `}
       >
         <Button
-          iconBefore={<CrossIcon primaryColor={colors.N50} label="Dismiss" />}
+          iconBefore={<CrossIcon label="" primaryColor={colors.N50} />}
+          aria-label="Dismiss"
           appearance="subtle"
           onClick={onDismiss}
         />

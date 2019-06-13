@@ -30,7 +30,7 @@ type Step =
   | 'POST_SURVEY_NO_CONSENT'
   | 'POST_SURVEY_HAS_SIGN_UP';
 
-const AUTO_DISAPPEAR_DURATION = 3000;
+const AUTO_DISAPPEAR_DURATION = 8000;
 
 export default ({
   question,
