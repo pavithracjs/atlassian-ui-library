@@ -372,16 +372,16 @@ export class QuickSearchContainer<
         isLoading: false,
       });
 
-      const lazyLoadedRecentItems = await lazyLoadedRecentItemsPromise;
-
-      this.setState(
-        {
-          recentItems: Object.assign({}, results, lazyLoadedRecentItems),
-        },
-        async () => {
-          this.fireShownPreQueryEvent(startTime, renderStartTime);
-        },
-      );
+      lazyLoadedRecentItemsPromise.then(lazyLoadedRecentItems => {
+        this.setState(
+          {
+            recentItems: Object.assign({}, results, lazyLoadedRecentItems),
+          },
+          async () => {
+            this.fireShownPreQueryEvent(startTime, renderStartTime);
+          },
+        );
+      });
     } catch (e) {
       this.props.logger.safeError(
         LOGGER_NAME,

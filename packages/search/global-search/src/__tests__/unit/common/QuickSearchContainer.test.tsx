@@ -217,7 +217,21 @@ describe('QuickSearchContainer', () => {
     expect(globalQuickSearch.props().isLoading).toBe(true);
   });
 
-  it('should render recent items after mount', async () => {
+  it('should add searchSessionId to handleSearchSubmit', async () => {
+    const wrapper = await mountQuickSearchContainerWaitingForRender();
+    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+    wrapper.update();
+
+    const { searchSessionId } = wrapper.find(QuickSearchContainer).state();
+    expect(searchSessionId).not.toBeNull();
+
+    expect(defaultProps.handleSearchSubmit).toHaveBeenCalledWith(
+      expect.anything(),
+      searchSessionId,
+    );
+  });
+
+  describe('Recent Items', () => {
     const recentItems = {
       recentPages: [
         {
@@ -234,48 +248,75 @@ describe('QuickSearchContainer', () => {
       ],
     };
 
-    const getRecentItems = jest.fn<
-      PartiallyLoadedRecentItems<GenericResultMap>
-    >(() => ({
-      eagerRecentItemsPromise: Promise.resolve({ results: recentItems }),
-      lazyLoadedRecentItemsPromise: Promise.resolve(lazyLoadedRecentItems),
-    }));
-
-    const wrapper = await mountQuickSearchContainerWaitingForRender({
-      getRecentItems,
-    });
-
     const expectedRecentItems = {
       ...recentItems,
       ...lazyLoadedRecentItems,
     };
 
-    // after update
-    const globalQuickSearch = wrapper.find(GlobalQuickSearch);
-    expect(globalQuickSearch.props().isLoading).toBe(false);
-    expect(getRecentItems).toHaveBeenCalled();
-    assertLastCall(defaultProps.getSearchResultsComponent, {
-      recentItems: expectedRecentItems,
-      isLoading: false,
-      isError: false,
+    it('should render recent items after mount', async () => {
+      const getRecentItems = jest.fn<
+        PartiallyLoadedRecentItems<GenericResultMap>
+      >(() => ({
+        eagerRecentItemsPromise: Promise.resolve({ results: recentItems }),
+        lazyLoadedRecentItemsPromise: Promise.resolve(lazyLoadedRecentItems),
+      }));
+
+      const wrapper = await mountQuickSearchContainerWaitingForRender({
+        getRecentItems,
+      });
+
+      // after update
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.props().isLoading).toBe(false);
+      expect(getRecentItems).toHaveBeenCalled();
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        recentItems: expectedRecentItems,
+        isLoading: false,
+        isError: false,
+      });
+
+      assertPreQueryAnalytics(expectedRecentItems, DEFAULT_AB_TEST);
+      assertExposureEventAnalytics(DEFAULT_AB_TEST);
     });
 
-    assertPreQueryAnalytics(expectedRecentItems, DEFAULT_AB_TEST);
-    assertExposureEventAnalytics(DEFAULT_AB_TEST);
-  });
+    it('should render eager recent items before lazy one', async () => {
+      let eagerResolveFn = () => {};
+      let lazyResolveFn = () => {};
 
-  it('should add searchSessionId to handleSearchSubmit', async () => {
-    const wrapper = await mountQuickSearchContainerWaitingForRender();
-    wrapper.find('input').simulate('keydown', { key: 'Enter' });
-    wrapper.update();
+      const eagerRecentItemsPromise = new Promise(resolve => {
+        eagerResolveFn = () => resolve({ results: recentItems });
+      });
+      const lazyLoadedRecentItemsPromise = new Promise(resolve => {
+        lazyResolveFn = () => resolve(lazyLoadedRecentItems);
+      });
 
-    const { searchSessionId } = wrapper.find(QuickSearchContainer).state();
-    expect(searchSessionId).not.toBeNull();
+      const getRecentItems = jest.fn<
+        PartiallyLoadedRecentItems<GenericResultMap>
+      >(() => ({
+        eagerRecentItemsPromise,
+        lazyLoadedRecentItemsPromise,
+      }));
 
-    expect(defaultProps.handleSearchSubmit).toHaveBeenCalledWith(
-      expect.anything(),
-      searchSessionId,
-    );
+      await eagerResolveFn();
+
+      await mountQuickSearchContainerWaitingForRender({
+        getRecentItems,
+      });
+
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        recentItems,
+        isLoading: false,
+        isError: false,
+      });
+
+      await lazyResolveFn();
+
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        recentItems: expectedRecentItems,
+        isLoading: false,
+        isError: false,
+      });
+    });
   });
 
   describe('Search', () => {

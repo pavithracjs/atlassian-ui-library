@@ -322,7 +322,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     // to get typescript to convert union types into tuple types (https://github.com/Microsoft/TypeScript/issues/13298)
     const required = Promise.all(recentActivityPromises).then(
       ([recentlyViewedPages, recentlyViewedSpaces]) => {
-        recentlyViewedPages;
         return {
           results: {
             objects: {
