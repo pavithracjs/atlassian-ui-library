@@ -77,6 +77,7 @@ export class MediaPluginState {
   private errorReporter: ErrorReporter;
 
   public pickers: PickerFacade[] = [];
+  public pickerPromises: Array<Promise<PickerFacade>> = [];
   private popupPicker?: PickerFacade;
   private dropzonePicker?: PickerFacade;
   // @ts-ignore
@@ -408,11 +409,24 @@ export class MediaPluginState {
     return helpers.findMediaSingleNode(this, id);
   };
 
-  private destroyPickers = () => {
-    const { pickers } = this;
-
+  private destroyAllPickers = (pickers: Array<PickerFacade>) => {
     pickers.forEach(picker => picker.destroy());
-    pickers.splice(0, pickers.length);
+    this.pickers.splice(0, this.pickers.length);
+  };
+
+  private destroyPickers = () => {
+    const { pickers, pickerPromises } = this;
+
+    // If pickerPromises and pickers are the same length
+    // All pickers have resolved and we safely destroy them
+    // Otherwise wait for them to resolve then destroy.
+    if (pickerPromises.length === pickers.length) {
+      this.destroyAllPickers(this.pickers);
+    } else {
+      Promise.all(pickerPromises).then(resolvedPickers =>
+        this.destroyAllPickers(resolvedPickers),
+      );
+    }
 
     this.popupPicker = undefined;
     this.dropzonePicker = undefined;
@@ -428,7 +442,7 @@ export class MediaPluginState {
     if (this.destroyed) {
       return;
     }
-    const { errorReporter, pickers } = this;
+    const { errorReporter, pickers, pickerPromises } = this;
     // create pickers if they don't exist, re-use otherwise
     if (!pickers.length) {
       const pickerFacadeConfig: PickerFacadeConfig = {
@@ -441,35 +455,34 @@ export class MediaPluginState {
       };
 
       if (this.options.customMediaPicker) {
-        pickers.push(
-          (this.customPicker = await new Picker(
-            'customMediaPicker',
-            pickerFacadeConfig,
-            this.options.customMediaPicker,
-          ).init()),
-        );
-      } else {
-        pickers.push(
-          (this.popupPicker = await new Picker(
-            // Fallback to browser picker for unauthenticated users
-            context.config && context.config.userAuthProvider
-              ? 'popup'
-              : 'browser',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init()),
-        );
+        const customPicker = new Picker(
+          'customMediaPicker',
+          pickerFacadeConfig,
+          this.options.customMediaPicker,
+        ).init();
 
+        pickerPromises.push(customPicker);
+        pickers.push((this.customPicker = await customPicker));
+      } else {
+        const popupPicker = new Picker(
+          // Fallback to browser picker for unauthenticated users
+          context.config && context.config.userAuthProvider
+            ? 'popup'
+            : 'browser',
+          pickerFacadeConfig,
+          defaultPickerConfig,
+        ).init();
+
+        const dropzonePicker = new Picker('dropzone', pickerFacadeConfig, {
+          container: this.options.customDropzoneContainer,
+          headless: true,
+          ...defaultPickerConfig,
+        }).init();
+
+        pickerPromises.push(popupPicker, dropzonePicker);
         pickers.push(
-          (this.dropzonePicker = await new Picker(
-            'dropzone',
-            pickerFacadeConfig,
-            {
-              container: this.options.customDropzoneContainer,
-              headless: true,
-              ...defaultPickerConfig,
-            },
-          ).init()),
+          (this.popupPicker = await popupPicker),
+          (this.dropzonePicker = await dropzonePicker),
         );
 
         this.dropzonePicker.onDrag(this.handleDrag);
