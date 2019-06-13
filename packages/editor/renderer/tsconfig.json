@@ -12,6 +12,6 @@
     "./docs/**/*.ts",
     "./docs/**/*.tsx",
     "./examples/**/*.ts",
-    "./examples/**/*.tsx"
+    "./examples/**/*.tsx", "src/email/static/generate.js"
   ]
 }

@@ -1,15 +1,23 @@
 import { fontFamily, fontSize } from '@atlaskit/theme';
-
+import { defaultSchema } from '@atlaskit/adf-schema';
+import { createNamespace } from 'cls-hooked';
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
+import flow from 'lodash.flow';
+import property from 'lodash.property';
 
-import { Serializer } from '../serializer';
+import {
+  Serializer,
+  serializeFragmentWithAttachmentsResult,
+  MediaImageBase64,
+} from '../serializer';
 import { nodeSerializers } from './serializers';
 import styles from './styles';
 import juice from 'juice';
 import { escapeHtmlString } from './util';
-import flow from 'lodash.flow';
-import property from 'lodash.property';
-import { defaultSchema } from '@atlaskit/adf-schema';
+
+import * as icons from './static/icons';
+
+const serializerSession = createNamespace('serializerSession');
 
 const serializeNode = (
   node: PMNode,
@@ -59,7 +67,7 @@ const getAttrsFromParent = (
   return {};
 };
 
-const traverseTree = (fragment: Fragment, parent?: PMNode): string => {
+const traverseTree = (fragment: Fragment, parent?: PMNode): any => {
   let output = '';
   fragment.forEach((childNode, _offset, idx) => {
     if (childNode.isLeaf) {
@@ -80,17 +88,62 @@ export const commonStyle = {
   'line-height': '24px',
 };
 
+const wrapAdf = (content: any[]) => ({ version: 1, type: 'doc', content });
+
 const juicify = (html: string): string =>
   juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
 
 // replace all CID image references with a fake image
-const stubImages = (isMockEnabled: boolean) => (content: string) =>
-  isMockEnabled
-    ? content.replace(
-        /src="cid:[\w-]*"/gi,
-        'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="',
-      )
-    : content;
+const stubImages = (isMockEnabled: boolean) => (content: string) => {
+  if (!isMockEnabled) {
+    return content;
+  }
+
+  const imageReplacer = (
+    match: string,
+    imageType: string,
+    imageName: string,
+  ): string => {
+    switch (imageType) {
+      default:
+      case 'icon':
+        return (icons as any)[imageName];
+    }
+  };
+
+  return content
+    .replace(/src="cid:pfcs-generated-([\w]*)-([\w-]*)"/gi, imageReplacer)
+    .replace(
+      /src="cid:[\w-]*"/gi,
+      'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="',
+    );
+};
+
+export const createContentId = (
+  imageName: string,
+  imageType: string = 'icon',
+) => {
+  return `cid:pfcs-generated-${imageType}-${imageName}`;
+};
+
+const includeEmbeddedImages = (
+  result: string,
+): serializeFragmentWithAttachmentsResult => {
+  const iconSet: Set<string> = serializerSession.get('icons');
+  const iconMapper = (iconName: string): MediaImageBase64 => ({
+    contentId: createContentId(iconName),
+    contentType: '',
+    data: (icons as any)[iconName],
+  });
+
+  const embeddedImages: MediaImageBase64[] = [...iconSet].map(iconMapper);
+  return { result, embeddedImages };
+};
+
+const createImageSetInContext = (content: Fragment): Fragment => {
+  serializerSession.set('icons', new Set<String>());
+  return content;
+};
 
 export default class EmailSerializer implements Serializer<string> {
   /**
@@ -104,18 +157,30 @@ export default class EmailSerializer implements Serializer<string> {
     private isImageStubEnabled = false,
   ) {}
 
-  serializeFragment: (fragment: Fragment) => string = flow(
+  serializeFragment = flow(
     (fragment: Fragment) => fragment.toJSON(),
     JSON.stringify,
     escapeHtmlString,
     JSON.parse,
-    content => ({ version: 1, type: 'doc', content }),
+    wrapAdf,
     this.schema.nodeFromJSON,
     property('content'),
     traverseTree,
     juicify,
     stubImages(this.isImageStubEnabled),
   );
+
+  serializeFragmentWithAttachments = (fragment: Fragment) => {
+    const boundSerializer = serializerSession.bind(
+      flow(
+        createImageSetInContext,
+        this.serializeFragment,
+        includeEmbeddedImages,
+      ),
+    );
+
+    return boundSerializer(fragment);
+  };
 
   static fromSchema(schema: Schema = defaultSchema): EmailSerializer {
     return new EmailSerializer(schema);

@@ -13,7 +13,8 @@ import {
 
 import { NodeSerializerOpts } from '../interfaces';
 import { createTable } from '../util';
-import { commonStyle } from '..';
+import { commonStyle, createContentId } from '..';
+import { getNamespace } from 'cls-hooked';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
 
@@ -73,6 +74,13 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     width: '100%',
   };
 
-  const innerTable = createTable([[{ style: innerTdCss, text }]]);
+  const panelIcon = `<img src="${createContentId(type, 'icon')}" />`;
+  const iconSet: Set<String> = getNamespace('serializerSession').get('icons');
+
+  iconSet.add(type);
+
+  const innerTable = createTable([
+    [{ style: innerTdCss, text: panelIcon }, { style: innerTdCss, text }],
+  ]);
   return createTable([[{ style: outerTdCss, text: innerTable }]]);
 }
