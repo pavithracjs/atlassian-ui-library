@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.4.16
+
+### Patch Changes
+
+- [patch][068e17f712](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/068e17f712):
+
+  FS-3966 add bottomMessage property
+
 ## 0.4.15
 
 ### Patch Changes
