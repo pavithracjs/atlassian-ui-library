@@ -90,6 +90,8 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   /** Style of the share modal trigger button */
   triggerButtonStyle?: ShareButtonStyle;
+  /** Message to be appended to the modal */
+  bottomMessage?: React.ReactNode;
 };
 
 export type State = {
@@ -269,6 +271,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       showFlags,
       triggerButtonAppearance,
       triggerButtonStyle,
+      bottomMessage,
     } = this.props;
     const { isFetchingConfig } = this.state;
     return (
@@ -290,6 +293,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           showFlags={showFlags}
           triggerButtonAppearance={triggerButtonAppearance}
           triggerButtonStyle={triggerButtonStyle}
+          bottomMessage={bottomMessage}
         />
       </MessagesIntlProvider>
     );
