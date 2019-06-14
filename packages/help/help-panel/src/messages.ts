@@ -92,7 +92,7 @@ export const messages = defineMessages({
   },
   help_panel_search_error_loading_text: {
     id: 'global_help.error_loading.text',
-    defaultMessage: `Something prevented the page rom loading. We will try to reconect automatically`,
+    defaultMessage: `Something prevented the page from loading. We will try to reconect automatically`,
     description: '',
   },
   help_panel_search_error_loading_button_label: {
