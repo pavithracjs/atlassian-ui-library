@@ -9,6 +9,18 @@ const JIRA_GRAPE_EXPERIMENT = 'grape';
 export const getJiraMaxObjects = (abTest: ABTest, defaultMaxObjects: number) =>
   getMaxObjects(abTest, JIRA_GRAPE_EXPERIMENT, defaultMaxObjects);
 
+/**
+ * Extension to quick search
+ * Show more results
+ *
+ * Page size i.e. number of items reterieved from server per request
+ */
+export const CONF_OBJECTS_ITEMS_PER_PAGE = 8;
+/**
+ *  Max number of result items otherwise recommend advanced search
+ */
+export const CONF_MAX_DISPLAYED_RESULTS = 24;
+
 export const getConfluenceMaxObjects = (
   abTest: ABTest,
   defaultMaxObjects: number,

@@ -46,9 +46,8 @@ import {
   mapRecentResultsToUIGroups,
   mapSearchResultsToUIGroups,
   MAX_RECENT_RESULTS_TO_SHOW,
-  ITEMS_PER_PAGE,
-  MAX_PAGE_COUNT,
 } from './ConfluenceSearchResultsMapper';
+import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
 import { ConfluenceFeatures } from '../../util/features';
@@ -189,7 +188,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
 
     const limit = features.searchExtensionsEnabled
-      ? ITEMS_PER_PAGE * MAX_PAGE_COUNT
+      ? CONF_MAX_DISPLAYED_RESULTS
       : null;
 
     const results = await crossProductSearchClient.search(

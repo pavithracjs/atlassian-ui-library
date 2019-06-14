@@ -4,17 +4,16 @@ import { gridSize } from '@atlaskit/theme';
 import { ResultItemGroup, CancelableEvent } from '@atlaskit/quick-search';
 import Badge from '@atlaskit/badge';
 import Button from '@atlaskit/button';
-import Spinner from '@atlaskit/spinner';
 
 import { Result } from '../model/Result';
 import ResultList from './ResultList';
-import {
-  ITEMS_PER_PAGE,
-  MAX_PAGE_COUNT,
-} from './confluence/ConfluenceSearchResultsMapper';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import { messages } from '../messages';
 import { getConfluenceAdvancedSearchLink } from './SearchResultsUtil';
+import {
+  CONF_OBJECTS_ITEMS_PER_PAGE,
+  CONF_MAX_DISPLAYED_RESULTS,
+} from '../util/experiment-utils';
 
 export interface Props {
   title?: JSX.Element | string;
@@ -56,14 +55,14 @@ class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
     } = this.props;
 
     if (resultLength < totalSize) {
-      if (resultLength < ITEMS_PER_PAGE * MAX_PAGE_COUNT) {
+      if (resultLength < CONF_MAX_DISPLAYED_RESULTS) {
         return (
           <Button appearance="link" onClick={onShowMoreClicked}>
             <FormattedMessage
               {...messages.show_more_button_text}
               values={{
                 itemsPerPage: Math.min(
-                  ITEMS_PER_PAGE,
+                  CONF_OBJECTS_ITEMS_PER_PAGE,
                   totalSize - resultLength,
                 ),
               }}

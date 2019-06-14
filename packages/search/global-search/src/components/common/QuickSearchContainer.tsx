@@ -34,6 +34,7 @@ import {
   CommonFeatures,
 } from '../../util/features';
 import { Scope, QuickSearchContext } from '../../api/types';
+import { CONF_OBJECTS_ITEMS_PER_PAGE } from '../../util/experiment-utils';
 
 const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
   results.map(result => result.items);
@@ -394,14 +395,15 @@ export class QuickSearchContainer<
         const result: Results<Result> = currentResultsByScope[scope];
 
         if (result) {
-          const currentPage = result.currentPage ? result.currentPage : 1;
+          const currentItems =
+            result.currentItems || CONF_OBJECTS_ITEMS_PER_PAGE;
 
           this.setState({
             searchResults: {
               ...(this.state.searchResults as any),
               [scope]: {
                 ...result,
-                currentPage: currentPage + 1,
+                currentItems: currentItems + CONF_OBJECTS_ITEMS_PER_PAGE,
               },
             },
           });
