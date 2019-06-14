@@ -54,7 +54,7 @@ export default class ResultGroupsComponent extends React.Component<Props> {
           totalSize={group.totalSize}
           showMoreButton={group.showTotalSize}
           onShowMoreClicked={() => onShowMoreClicked(group.key as Scope)}
-          showAdvancedSearch={onSearchMoreAdvancedSearchClicked}
+          onSearchMoreAdvancedSearch={onSearchMoreAdvancedSearchClicked}
           query={query}
         />
       ));

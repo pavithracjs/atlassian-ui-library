@@ -430,7 +430,7 @@ export class QuickSearchContainer<
       } catch (e) {
         this.props.logger.safeError(
           LOGGER_NAME,
-          `error while getting mores results for ${scope}`,
+          `error while getting more results for ${scope}`,
           e,
         );
         this.setState({

@@ -24,7 +24,7 @@ export interface Props {
   totalSize: number;
   showMoreButton: boolean;
   onShowMoreClicked: () => void;
-  showAdvancedSearch: undefined | ((e: CancelableEvent) => void);
+  onSearchMoreAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
 }
 
@@ -40,7 +40,7 @@ interface ShowMoreButtonProps {
   resultLength: number;
   totalSize: number;
   onShowMoreClicked: () => void;
-  showAdvancedSearch: undefined | ((e: CancelableEvent) => void);
+  onSearchMoreAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
 }
 
@@ -50,7 +50,7 @@ class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
       resultLength,
       totalSize,
       onShowMoreClicked,
-      showAdvancedSearch,
+      onSearchMoreAdvancedSearch,
       query,
     } = this.props;
 
@@ -69,11 +69,11 @@ class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
             />
           </Button>
         );
-      } else if (showAdvancedSearch) {
+      } else if (onSearchMoreAdvancedSearch) {
         return (
           <Button
             appearance="link"
-            onClick={showAdvancedSearch}
+            onClick={onSearchMoreAdvancedSearch}
             href={getConfluenceAdvancedSearchLink(query)}
           >
             <FormattedMessage {...messages.show_more_button_advanced_search} />
@@ -96,7 +96,7 @@ export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
       totalSize,
       showMoreButton,
       onShowMoreClicked,
-      showAdvancedSearch,
+      onSearchMoreAdvancedSearch,
       query,
     } = this.props;
 
@@ -108,7 +108,7 @@ export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
       <ShowMoreButton
         resultLength={results.length}
         onShowMoreClicked={onShowMoreClicked}
-        showAdvancedSearch={showAdvancedSearch}
+        onSearchMoreAdvancedSearch={onSearchMoreAdvancedSearch}
         totalSize={totalSize}
         query={query}
       />

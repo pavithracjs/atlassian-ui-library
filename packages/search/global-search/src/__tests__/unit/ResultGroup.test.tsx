@@ -16,7 +16,7 @@ function render(partialProps: Partial<Props>) {
     totalSize: 0,
     showTotalSize: false,
     showMoreButton: false,
-    showAdvancedSearch: undefined,
+    onSearchMoreAdvancedSearch: undefined,
     onShowMoreClicked: () => {},
     query: '',
     ...partialProps,

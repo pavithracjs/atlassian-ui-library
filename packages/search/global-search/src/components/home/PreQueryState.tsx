@@ -25,7 +25,7 @@ export default class PreQueryState extends React.Component<Props> {
         totalSize={recentlyViewedItems.length}
         showMoreButton={false}
         onShowMoreClicked={() => {}}
-        showAdvancedSearch={() => {}}
+        onSearchMoreAdvancedSearch={() => {}}
         query=""
       />
     );
