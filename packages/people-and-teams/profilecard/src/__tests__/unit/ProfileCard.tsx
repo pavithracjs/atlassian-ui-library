@@ -14,15 +14,6 @@ import {
 } from '../../styled/Card';
 import mockGlobalDate from './helper/_mock-global-date';
 
-function MockMessagesIntlProvider(props: any) {
-  return props.children;
-}
-
-jest.mock('../../components/MessagesIntlProvider', () => ({
-  __esModule: true,
-  default: MockMessagesIntlProvider,
-}));
-
 describe('Profilecard', () => {
   const defaultProps: ProfilecardProps = {
     fullName: 'full name test',
