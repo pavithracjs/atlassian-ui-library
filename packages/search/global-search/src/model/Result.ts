@@ -20,7 +20,7 @@ export enum JiraProjectType {
 export interface Results<T = Result> {
   items: T[];
   totalSize: number;
-  currentItems?: number;
+  numberOfCurrentItems?: number;
 }
 
 export type PeopleResults = Results<PersonResult>;

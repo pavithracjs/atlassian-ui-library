@@ -414,15 +414,16 @@ export class QuickSearchContainer<
         const result: Results<Result> = currentResultsByScope[scope];
 
         if (result) {
-          const currentItems =
-            result.currentItems || CONF_OBJECTS_ITEMS_PER_PAGE;
+          const numberOfCurrentItems =
+            result.numberOfCurrentItems || CONF_OBJECTS_ITEMS_PER_PAGE;
 
           this.setState({
             searchResults: {
               ...(this.state.searchResults as any),
               [scope]: {
                 ...result,
-                currentItems: currentItems + CONF_OBJECTS_ITEMS_PER_PAGE,
+                numberOfCurrentItems:
+                  numberOfCurrentItems + CONF_OBJECTS_ITEMS_PER_PAGE,
               },
             },
           });

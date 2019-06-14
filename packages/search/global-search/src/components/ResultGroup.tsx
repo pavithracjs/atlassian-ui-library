@@ -3,17 +3,11 @@ import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
 import { ResultItemGroup, CancelableEvent } from '@atlaskit/quick-search';
 import Badge from '@atlaskit/badge';
-import Button from '@atlaskit/button';
 
 import { Result } from '../model/Result';
 import ResultList from './ResultList';
-import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
-import { messages } from '../messages';
-import { getConfluenceAdvancedSearchLink } from './SearchResultsUtil';
-import {
-  CONF_OBJECTS_ITEMS_PER_PAGE,
-  CONF_MAX_DISPLAYED_RESULTS,
-} from '../util/experiment-utils';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { ShowMoreButton } from './ShowMoreButton';
 
 export interface Props {
   title?: JSX.Element | string;
@@ -36,54 +30,12 @@ const BadgeContainer = styled.span`
   margin-left: ${gridSize()}px;
 `;
 
-interface ShowMoreButtonProps {
+export interface ShowMoreButtonProps {
   resultLength: number;
   totalSize: number;
   onShowMoreClicked: () => void;
   onSearchMoreAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
-}
-
-class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
-  render() {
-    const {
-      resultLength,
-      totalSize,
-      onShowMoreClicked,
-      onSearchMoreAdvancedSearch,
-      query,
-    } = this.props;
-
-    if (resultLength < totalSize) {
-      if (resultLength < CONF_MAX_DISPLAYED_RESULTS) {
-        return (
-          <Button appearance="link" onClick={onShowMoreClicked}>
-            <FormattedMessage
-              {...messages.show_more_button_text}
-              values={{
-                itemsPerPage: Math.min(
-                  CONF_OBJECTS_ITEMS_PER_PAGE,
-                  totalSize - resultLength,
-                ),
-              }}
-            />
-          </Button>
-        );
-      } else if (onSearchMoreAdvancedSearch) {
-        return (
-          <Button
-            appearance="link"
-            onClick={onSearchMoreAdvancedSearch}
-            href={getConfluenceAdvancedSearchLink(query)}
-          >
-            <FormattedMessage {...messages.show_more_button_advanced_search} />
-          </Button>
-        );
-      }
-    }
-
-    return null;
-  }
 }
 
 export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
@@ -111,6 +63,8 @@ export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
         onSearchMoreAdvancedSearch={onSearchMoreAdvancedSearch}
         totalSize={totalSize}
         query={query}
+        // this will force new show more button every click show more to fix scrolling
+        key={`show_more_${results.length}`}
       />
     ) : null;
 
