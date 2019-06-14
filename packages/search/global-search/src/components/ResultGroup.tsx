@@ -25,7 +25,6 @@ export interface Props {
   totalSize: number;
   showMoreButton: boolean;
   onShowMoreClicked: () => void;
-  waitingForMoreResults: boolean;
   showAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
 }
@@ -41,7 +40,6 @@ const BadgeContainer = styled.span`
 interface ShowMoreButtonProps {
   resultLength: number;
   totalSize: number;
-  isLoading: boolean;
   onShowMoreClicked: () => void;
   showAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
@@ -52,15 +50,10 @@ class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
     const {
       resultLength,
       totalSize,
-      isLoading,
       onShowMoreClicked,
       showAdvancedSearch,
       query,
     } = this.props;
-
-    if (isLoading) {
-      return <Spinner />;
-    }
 
     if (resultLength < totalSize) {
       if (resultLength < ITEMS_PER_PAGE * MAX_PAGE_COUNT) {
@@ -100,7 +93,6 @@ export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
       showTotalSize,
       totalSize,
       showMoreButton,
-      waitingForMoreResults,
       onShowMoreClicked,
       showAdvancedSearch,
       query,
@@ -116,7 +108,6 @@ export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
         onShowMoreClicked={onShowMoreClicked}
         showAdvancedSearch={showAdvancedSearch}
         totalSize={totalSize}
-        isLoading={waitingForMoreResults}
         query={query}
       />
     ) : null;

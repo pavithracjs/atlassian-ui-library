@@ -410,7 +410,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     keepPreQueryState,
     searchSessionId,
     searchMore,
-    waitingForMoreResults,
     errorGettingMoreResults,
   }: SearchResultProps<ConfluenceResultsMap>) => {
     const { onAdvancedSearch = () => {}, features } = this.props;
@@ -429,7 +428,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         isPreQuery={!latestSearchQuery}
         isError={isError}
         isLoading={isLoading}
-        waitingForMoreResults={waitingForMoreResults}
         errorGettingMoreResults={errorGettingMoreResults}
         retrySearch={retrySearch}
         searchMore={searchMore}

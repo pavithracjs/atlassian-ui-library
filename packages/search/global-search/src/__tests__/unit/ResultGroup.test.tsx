@@ -18,7 +18,6 @@ function render(partialProps: Partial<Props>) {
     showMoreButton: false,
     showAdvancedSearch: undefined,
     onShowMoreClicked: () => {},
-    waitingForMoreResults: false,
     query: '',
     ...partialProps,
   };

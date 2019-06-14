@@ -26,7 +26,6 @@ export default class PreQueryState extends React.Component<Props> {
         showMoreButton={false}
         onShowMoreClicked={() => {}}
         showAdvancedSearch={() => {}}
-        waitingForMoreResults={false}
         query=""
       />
     );

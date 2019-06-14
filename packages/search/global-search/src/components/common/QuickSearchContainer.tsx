@@ -103,7 +103,6 @@ export interface State<T> {
   keepPreQueryState: boolean;
   searchResults: T | null;
   recentItems: T | null;
-  waitingForMoreResults: boolean;
   errorGettingMoreResults: boolean;
 }
 
@@ -128,7 +127,6 @@ export class QuickSearchContainer<
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
-      waitingForMoreResults: false,
       errorGettingMoreResults: false,
     };
   }
@@ -335,7 +333,6 @@ export class QuickSearchContainer<
           isError: false,
           isLoading: false,
           keepPreQueryState: true,
-          waitingForMoreResults: false,
           errorGettingMoreResults: false,
         },
         () => {
@@ -392,7 +389,6 @@ export class QuickSearchContainer<
     if (product === 'confluence') {
       try {
         this.setState({
-          waitingForMoreResults: true,
           errorGettingMoreResults: false,
         });
 
@@ -415,7 +411,6 @@ export class QuickSearchContainer<
                 currentPage: currentPage + 1,
               },
             },
-            waitingForMoreResults: false,
             errorGettingMoreResults: false,
           });
         }
@@ -427,7 +422,6 @@ export class QuickSearchContainer<
         );
         this.setState({
           isLoading: false,
-          waitingForMoreResults: false,
           errorGettingMoreResults: true,
         });
       }
@@ -458,7 +452,6 @@ export class QuickSearchContainer<
       searchResults,
       recentItems,
       keepPreQueryState,
-      waitingForMoreResults,
       errorGettingMoreResults,
     } = this.state;
 
@@ -484,7 +477,6 @@ export class QuickSearchContainer<
           keepPreQueryState,
           searchSessionId,
           searchMore: this.getMoreSearchResults,
-          waitingForMoreResults,
           errorGettingMoreResults,
         })}
       </GlobalQuickSearch>

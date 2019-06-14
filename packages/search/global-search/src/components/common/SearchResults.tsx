@@ -18,7 +18,6 @@ export interface Props {
   query: string;
   isError: boolean;
   isLoading: boolean;
-  waitingForMoreResults: boolean;
   errorGettingMoreResults: boolean;
   renderNoResult: () => JSX.Element;
   renderNoRecentActivity: () => JSX.Element;
@@ -159,7 +158,6 @@ export default class SearchResults extends React.Component<Props> {
       getPostQueryGroups,
       postQueryScreenCounter,
       searchMore,
-      waitingForMoreResults,
       errorGettingMoreResults,
       onSearchMoreAdvancedSearchClicked,
       query,
@@ -175,7 +173,6 @@ export default class SearchResults extends React.Component<Props> {
         screenCounter={postQueryScreenCounter}
         referralContextIdentifiers={referralContextIdentifiers}
         onShowMoreClicked={searchMore || (() => {})}
-        waitingForMoreResults={waitingForMoreResults}
         errorGettingMoreResults={errorGettingMoreResults}
         onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
       />

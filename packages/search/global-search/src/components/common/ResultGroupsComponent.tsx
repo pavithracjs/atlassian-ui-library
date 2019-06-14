@@ -24,7 +24,6 @@ export interface Props {
   screenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
   onShowMoreClicked: (scope: Scope) => void;
-  waitingForMoreResults: boolean;
   errorGettingMoreResults: boolean;
   onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void;
   query: string;
@@ -36,7 +35,6 @@ export default class ResultGroupsComponent extends React.Component<Props> {
     analyticsData: any,
   ): JSX.Element[] => {
     const {
-      waitingForMoreResults,
       onShowMoreClicked,
       onSearchMoreAdvancedSearchClicked,
       query,
@@ -56,7 +54,6 @@ export default class ResultGroupsComponent extends React.Component<Props> {
           showTotalSize={group.showTotalSize}
           totalSize={group.totalSize}
           showMoreButton={group.showTotalSize}
-          waitingForMoreResults={waitingForMoreResults}
           onShowMoreClicked={() => onShowMoreClicked(group.key as Scope)}
           showAdvancedSearch={onSearchMoreAdvancedSearchClicked}
           query={query}

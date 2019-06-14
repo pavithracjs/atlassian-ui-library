@@ -232,7 +232,6 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-    waitingForMoreResults,
     errorGettingMoreResults,
     searchMore,
   }: SearchResultProps<GenericResultMap>) => {
@@ -254,7 +253,6 @@ export class JiraQuickSearchContainer extends React.Component<
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={referralContextIdentifiers}
-        waitingForMoreResults={waitingForMoreResults}
         errorGettingMoreResults={errorGettingMoreResults}
         searchMore={searchMore}
         renderNoRecentActivity={() => (
