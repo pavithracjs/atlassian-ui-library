@@ -62,7 +62,10 @@ class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
             <FormattedMessage
               {...messages.show_more_button_text}
               values={{
-                itemsPerPage: ITEMS_PER_PAGE,
+                itemsPerPage: Math.min(
+                  ITEMS_PER_PAGE,
+                  totalSize - resultLength,
+                ),
               }}
             />
           </Button>
