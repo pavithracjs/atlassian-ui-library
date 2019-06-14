@@ -1,5 +1,13 @@
 # @atlaskit/css-reset
 
+## 5.0.2
+
+### Patch Changes
+
+- [patch][7cf5934805](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7cf5934805):
+
+  Update pkg.module to be same as pkg.main = dist/bundle.css
+
 ## 5.0.1
 
 ### Patch Changes
