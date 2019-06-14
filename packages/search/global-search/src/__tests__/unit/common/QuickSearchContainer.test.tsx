@@ -1,21 +1,22 @@
-import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
+import * as React from 'react';
+import { ABTest, DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
+import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
 import {
+  PartiallyLoadedRecentItems,
+  Props,
   QuickSearchContainer,
   SearchResultProps,
-  Props,
 } from '../../../components/common/QuickSearchContainer';
 import { GlobalQuickSearch } from '../../../components/GlobalQuickSearch';
-import * as AnalyticsHelper from '../../../util/analytics-event-helper';
-import { DEVELOPMENT_LOGGER } from '../../../../example-helpers/logger';
-import { ResultsWithTiming, GenericResultMap } from '../../../model/Result';
-import { ABTest, DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
-import {
-  ShownAnalyticsAttributes,
-  PerformanceTiming,
-} from '../../../util/analytics-util';
-import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
+import { GenericResultMap } from '../../../model/Result';
+import * as AnalyticsHelper from '../../../util/analytics-event-helper';
+import {
+  PerformanceTiming,
+  ShownAnalyticsAttributes,
+} from '../../../util/analytics-util';
+import { mockLogger } from '../mocks/_mockLogger';
 
 const defaultReferralContext = {
   searchReferrerId: 'referrerId',
@@ -37,13 +38,14 @@ const mockEvent: any = {
 };
 
 const defaultProps = {
-  logger: DEVELOPMENT_LOGGER,
+  logger: mockLogger(),
   getSearchResultsComponent: jest.fn(
     (props: SearchResultProps<GenericResultMap>) => null,
   ),
-  getRecentItems: jest.fn((sessionId: string) =>
-    Promise.resolve({ results: {} }),
-  ),
+  getRecentItems: jest.fn((searchSessionId: string) => ({
+    eagerRecentItemsPromise: Promise.resolve({ results: {} }),
+    lazyLoadedRecentItemsPromise: Promise.resolve({}),
+  })),
   getSearchResults: jest.fn(
     (query: string, sessionId: string, startTime: number) =>
       Promise.resolve({ results: {} }),
@@ -154,7 +156,6 @@ describe('QuickSearchContainer', () => {
     },
   ) => {
     expect(firePostQueryShownEventSpy).toBeCalled();
-    expect(defaultProps.getPreQueryDisplayedResults).not.toBeCalled();
     expect(defaultProps.getPostQueryDisplayedResults).toBeCalled();
 
     const lastCall =
@@ -206,12 +207,6 @@ describe('QuickSearchContainer', () => {
   afterEach(() => {
     // reset mocks of default props
     jest.clearAllMocks();
-    defaultProps.getRecentItems.mockReset();
-    defaultProps.getSearchResults.mockReset();
-    defaultProps.getSearchResultsComponent.mockReset();
-    defaultProps.handleSearchSubmit.mockReset();
-    firePostQueryShownEventSpy.mockReset();
-    firePreQueryShownEventSpy.mockReset();
   });
 
   it('should render GlobalQuickSearch with loading before recent items is retrieved', async () => {
@@ -220,37 +215,6 @@ describe('QuickSearchContainer', () => {
     const globalQuickSearch = wrapper.find(GlobalQuickSearch);
     expect(globalQuickSearch.length).toBe(1);
     expect(globalQuickSearch.props().isLoading).toBe(true);
-  });
-
-  it('should render recent items after mount', async () => {
-    const recentItems = {
-      recentPages: [
-        {
-          id: 'page-1',
-        },
-      ],
-    };
-
-    const getRecentItems = jest.fn<
-      Promise<ResultsWithTiming<GenericResultMap>>
-    >(() => Promise.resolve({ results: recentItems }));
-
-    const wrapper = await mountQuickSearchContainerWaitingForRender({
-      getRecentItems,
-    });
-
-    // after update
-    const globalQuickSearch = wrapper.find(GlobalQuickSearch);
-    expect(globalQuickSearch.props().isLoading).toBe(false);
-    expect(getRecentItems).toHaveBeenCalled();
-    assertLastCall(defaultProps.getSearchResultsComponent, {
-      recentItems,
-      isLoading: false,
-      isError: false,
-    });
-
-    assertPreQueryAnalytics(recentItems, DEFAULT_AB_TEST);
-    assertExposureEventAnalytics(DEFAULT_AB_TEST);
   });
 
   it('should add searchSessionId to handleSearchSubmit', async () => {
@@ -265,6 +229,94 @@ describe('QuickSearchContainer', () => {
       expect.anything(),
       searchSessionId,
     );
+  });
+
+  describe('Recent Items', () => {
+    const recentItems = {
+      recentPages: [
+        {
+          id: 'page-1',
+        },
+      ],
+    };
+
+    const lazyLoadedRecentItems = {
+      recentPeople: [
+        {
+          id: 'person-1',
+        },
+      ],
+    };
+
+    const expectedRecentItems = {
+      ...recentItems,
+      ...lazyLoadedRecentItems,
+    };
+
+    it('should render recent items after mount', async () => {
+      const getRecentItems = jest.fn<
+        PartiallyLoadedRecentItems<GenericResultMap>
+      >(() => ({
+        eagerRecentItemsPromise: Promise.resolve({ results: recentItems }),
+        lazyLoadedRecentItemsPromise: Promise.resolve(lazyLoadedRecentItems),
+      }));
+
+      const wrapper = await mountQuickSearchContainerWaitingForRender({
+        getRecentItems,
+      });
+
+      // after update
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.props().isLoading).toBe(false);
+      expect(getRecentItems).toHaveBeenCalled();
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        recentItems: expectedRecentItems,
+        isLoading: false,
+        isError: false,
+      });
+
+      assertPreQueryAnalytics(expectedRecentItems, DEFAULT_AB_TEST);
+      assertExposureEventAnalytics(DEFAULT_AB_TEST);
+    });
+
+    it('should render eager recent items before lazy one', async () => {
+      let eagerResolveFn = () => {};
+      let lazyResolveFn = () => {};
+
+      const eagerRecentItemsPromise = new Promise(resolve => {
+        eagerResolveFn = () => resolve({ results: recentItems });
+      });
+      const lazyLoadedRecentItemsPromise = new Promise(resolve => {
+        lazyResolveFn = () => resolve(lazyLoadedRecentItems);
+      });
+
+      const getRecentItems = jest.fn<
+        PartiallyLoadedRecentItems<GenericResultMap>
+      >(() => ({
+        eagerRecentItemsPromise,
+        lazyLoadedRecentItemsPromise,
+      }));
+
+      await eagerResolveFn();
+
+      await mountQuickSearchContainerWaitingForRender({
+        getRecentItems,
+      });
+
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        recentItems,
+        isLoading: false,
+        isError: false,
+      });
+
+      await lazyResolveFn();
+
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        recentItems: expectedRecentItems,
+        isLoading: false,
+        isError: false,
+      });
+    });
   });
 
   describe('Search', () => {

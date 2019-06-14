@@ -171,6 +171,7 @@ class HelpContextProviderImplementation extends React.Component<
           clearTimeout(this.requestLoadingTimeout);
         } catch (error) {
           this.setState({ searchState: REQUEST_STATE.error });
+          clearTimeout(this.requestLoadingTimeout);
         }
       }
 
@@ -210,6 +211,7 @@ class HelpContextProviderImplementation extends React.Component<
         return article;
       } catch (error) {
         this.setState({ articleState: REQUEST_STATE.error });
+        clearTimeout(this.requestLoadingTimeout);
       }
     }
 
