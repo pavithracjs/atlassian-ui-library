@@ -1,0 +1,1 @@
+updated help-article version and fix some IE11 CSS issues
