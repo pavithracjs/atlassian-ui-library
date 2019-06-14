@@ -1,0 +1,1 @@
+Profilecard is no longer internally wrapped by a react-intl IntlProvider. Consumers must now ensure to Profilecard is wrapped inside a IntlProvider and provide messages from @atlaskit/profilecard/i18n. See https://hello.atlassian.net/wiki/spaces/AtlasKit/pages/287632890/i18n+API
