@@ -1,0 +1,1 @@
+added show more button and the ability to extend search results
