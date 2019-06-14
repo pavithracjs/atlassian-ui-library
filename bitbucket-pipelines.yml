@@ -295,14 +295,14 @@ pipelines:
                 - TEST_ONLY_PATTERN='packages/editor' yarn test:CI --runInBand
               after-script:
                 - yarn send:stepFailureEvents
-          - step:
-              name: Running All Browser Unit tests
-              script:
-                - source ./build-setup.sh
-                - bolt install --pure-lockfile
-                - yarn test:browser:browserstack
-              after-script:
-                - yarn send:stepFailureEvents
+          # - step:
+          #     name: Running All Browser Unit tests
+          #     script:
+          #       - source ./build-setup.sh
+          #       - bolt install --pure-lockfile
+          #       - yarn test:browser:browserstack
+          #     after-script:
+          #       - yarn send:stepFailureEvents
           - step:
               name: Running All Browser Integration tests
               script:
