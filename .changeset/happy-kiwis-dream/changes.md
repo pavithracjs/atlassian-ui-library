@@ -1,0 +1,1 @@
+ED-7092: Fixes types inside gap cursor that assumed elements always existed, handle these cases better.
