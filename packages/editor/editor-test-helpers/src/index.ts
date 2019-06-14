@@ -88,6 +88,7 @@ export {
   inlineCard,
   blockCard,
   clean,
+  cleanOne,
   status,
   alignment,
   indentation,

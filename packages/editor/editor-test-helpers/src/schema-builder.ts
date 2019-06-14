@@ -287,6 +287,10 @@ export const clean = (content: BuilderContentFn) => (schema: Schema) => {
     : undefined;
 };
 
+export const cleanOne = (content: BuilderContentFn) => (schema: Schema) => {
+  return (clean(content)(schema) as Node[])[0];
+};
+
 //
 // Nodes
 //
