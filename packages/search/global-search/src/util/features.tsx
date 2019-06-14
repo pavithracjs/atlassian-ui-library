@@ -62,7 +62,7 @@ export const createFeatures: (
       useUrsForBootstrapping,
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
-      searchExtensionsEnabled: true || isInSearchExtensionsExperiment(abTest),
+      searchExtensionsEnabled: isInSearchExtensionsExperiment(abTest),
     };
   },
   deepEqual,
