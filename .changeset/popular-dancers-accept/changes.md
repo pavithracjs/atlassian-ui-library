@@ -1,1 +1,0 @@
-Do not pre-fetch users, only confluence content
