@@ -110,7 +110,7 @@ describe('Card', () => {
       expect(wrapper.find(CardLinkView).exists()).toBeTruthy();
     });
 
-    it('should render a link placeholder first, and if data comes within the delay, it should transition to resolved state', () => {
+    it('should render a link placeholder first, and if data comes within the delay, it should transition to resolved state', async () => {
       class CustomClient extends Client {
         fetchData() {
           return Promise.resolve({
