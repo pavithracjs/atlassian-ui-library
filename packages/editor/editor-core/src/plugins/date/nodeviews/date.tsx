@@ -7,8 +7,8 @@ import {
   timestampToString,
   timestampToTaskContext,
   isPastDate,
+  DateSharedCssClassName,
 } from '@atlaskit/editor-common';
-import { DateSharedCssClassName } from '@atlaskit/editor-common/src/styles/shared/date';
 import { Date } from '@atlaskit/date';
 import { setDatePickerAt } from '../actions';
 

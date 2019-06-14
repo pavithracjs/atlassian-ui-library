@@ -1,5 +1,29 @@
 ## 0.1.0
 
+## 0.8.5
+
+### Patch Changes
+
+- [patch][0f869bb237](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f869bb237):
+
+  fix loading error state
+
+## 0.8.4
+
+### Patch Changes
+
+- [patch][2870381e09](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2870381e09):
+
+  fix IE11 styles issues
+
+## 0.8.3
+
+### Patch Changes
+
+- [patch][e4ecf9b50e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4ecf9b50e):
+
+  Fix CSS issues. Display loading state only 1000ms after the request was made
+
 ## 0.8.2
 
 ### Patch Changes

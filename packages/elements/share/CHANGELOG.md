@@ -1,5 +1,21 @@
 # @atlaskit/share
 
+## 0.4.16
+
+### Patch Changes
+
+- [patch][068e17f712](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/068e17f712):
+
+  FS-3966 add bottomMessage property
+
+## 0.4.15
+
+### Patch Changes
+
+- [patch][6fba3189dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fba3189dd):
+
+  internal refactor: remove getDerivedStateFromProps in favor of memoization
+
 ## 0.4.14
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

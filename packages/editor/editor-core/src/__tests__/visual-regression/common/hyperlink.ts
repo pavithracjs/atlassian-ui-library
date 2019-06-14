@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
 import { selectors } from '../../__helpers/page-objects/_editor';
 import adf from './__fixtures__/hyperlink-adf.json';
@@ -13,7 +12,7 @@ describe.skip('Hyperlink:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
     await page.click(`${selectors.editor}`);
   });
 

@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { Page } from 'puppeteer';
 import { snapshot, initRendererWithADF, Device } from './_utils';
 import * as nestedIframe from '../__fixtures__/extension-iframe-nested.adf.json';
@@ -20,7 +19,7 @@ describe('Snapshot Test: Extensions', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it('should correctly stay within their parent layout regardless of specified width', async () => {

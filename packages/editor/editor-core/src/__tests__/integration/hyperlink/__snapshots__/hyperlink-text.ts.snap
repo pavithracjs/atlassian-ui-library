@@ -33,7 +33,7 @@ Object {
               "type": "link",
             },
           ],
-          "text": "http://hello.commmm",
+          "text": "mmm",
           "type": "text",
         },
         Object {
@@ -81,7 +81,7 @@ Object {
               "type": "link",
             },
           ],
-          "text": "http://hello.commmm",
+          "text": "mmm",
           "type": "text",
         },
         Object {
@@ -111,29 +111,7 @@ Object {
               "type": "link",
             },
           ],
-          "text": "FAB-983 P2 Integration plugin: do not cache Cloud ID in Vertigo world",
-          "type": "text",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "content": Array [
-        Object {
-          "marks": Array [
-            Object {
-              "attrs": Object {
-                "__confluenceMetadata": null,
-                "href": "http://hello.commmm",
-              },
-              "type": "link",
-            },
-          ],
-          "text": "http://hello.com",
-          "type": "text",
-        },
-        Object {
-          "text": " ",
+          "text": "FAB-983 P2 Integration plugin: do not cache Cloud ID in Vertigo worldmmm",
           "type": "text",
         },
       ],
@@ -159,29 +137,7 @@ Object {
               "type": "link",
             },
           ],
-          "text": "FAB-983 P2 Integration plugin: do not cache Cloud ID in Vertigo world",
-          "type": "text",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "content": Array [
-        Object {
-          "marks": Array [
-            Object {
-              "attrs": Object {
-                "__confluenceMetadata": null,
-                "href": "http://hello.commmm",
-              },
-              "type": "link",
-            },
-          ],
-          "text": "http://hello.com",
-          "type": "text",
-        },
-        Object {
-          "text": " ",
+          "text": "FAB-983 P2 Integration plugin: do not cache Cloud ID in Vertigo worldmmm",
           "type": "text",
         },
       ],

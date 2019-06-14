@@ -1,7 +1,4 @@
-import {
-  MINIMUM_THRESHOLD,
-  waitForTooltip,
-} from '@atlaskit/visual-regression/helper';
+import { waitForTooltip } from '@atlaskit/visual-regression/helper';
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
 import adf from './__fixtures__/full-width-table.adf.json';
 import {
@@ -27,7 +24,7 @@ describe('Delete in table:', () => {
     });
 
     afterEach(async () => {
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
 
     it('should show danger when hovers on remove for row', async () => {

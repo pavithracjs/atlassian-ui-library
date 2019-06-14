@@ -296,7 +296,7 @@ describe('GlobalNavigation', () => {
             // Cannot assert for the drawer to be absent because it is
             // dismounted by ReactTransitionGroup on animationEnd, which is not
             // being captured by enzyme.
-            expect(wrapper.find('DrawerPrimitive').prop('in')).toBeFalsy();
+            expect(wrapper.find('DrawerPrimitive').exists()).toBe(false);
           });
 
           //  There is no onXOpen callback for controlled drawers. A consumer can

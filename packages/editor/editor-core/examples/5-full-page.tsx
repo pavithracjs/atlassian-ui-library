@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 
-import Editor, { EditorProps } from './../src/editor';
+import Editor, { EditorProps, EditorAppearance } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
 import WithEditorActions from './../src/ui/WithEditorActions';
 import {
@@ -27,7 +27,11 @@ import { DevTools } from '../example-helpers/DevTools';
 import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions } from './../src';
 import withSentry from '../example-helpers/withSentry';
-import FullWidthToggle from '../example-helpers/full-width-toggle';
+import BreadcrumbsMiscActions from '../example-helpers/breadcrumbs-misc-actions';
+import {
+  DEFAULT_MODE,
+  LOCALSTORAGE_defaultMode,
+} from '../example-helpers/example-constants';
 
 /**
  * +-------------------------------+
@@ -95,6 +99,7 @@ export const SaveAndCancelButtons = (props: {
         }
         props.editorActions.clear();
         localStorage.removeItem(LOCALSTORAGE_defaultDocKey);
+        localStorage.removeItem(LOCALSTORAGE_defaultTitleKey);
       }}
     >
       Close
@@ -104,8 +109,8 @@ export const SaveAndCancelButtons = (props: {
 
 export type State = {
   disabled: boolean;
-  title: string;
-  fullWidthMode: boolean;
+  title?: string;
+  appearance: EditorAppearance;
 };
 
 export const providers: any = {
@@ -131,6 +136,13 @@ export const mediaProvider = storyMediaProviderFactory({
 
 export const quickInsertProvider = quickInsertProviderFactory();
 
+export const getAppearance = (): EditorAppearance => {
+  return (localStorage.getItem(LOCALSTORAGE_defaultMode) || DEFAULT_MODE) ===
+    DEFAULT_MODE
+    ? 'full-page'
+    : 'full-width';
+};
+
 export interface ExampleProps {
   onTitleChange?: (title: string) => void;
 }
@@ -142,7 +154,7 @@ class ExampleEditorComponent extends React.Component<
   state: State = {
     disabled: true,
     title: localStorage.getItem(LOCALSTORAGE_defaultTitleKey) || '',
-    fullWidthMode: false,
+    appearance: this.props.appearance || getAppearance(),
   };
 
   componentDidMount() {
@@ -154,13 +166,20 @@ class ExampleEditorComponent extends React.Component<
     `);
   }
 
+  componentDidUpdate(prevProps: EditorProps) {
+    if (prevProps.appearance !== this.props.appearance) {
+      this.setState(() => ({
+        appearance: this.props.appearance || 'full-page',
+      }));
+    }
+  }
+
   render() {
     return (
       <Wrapper>
         <Content>
           <SmartCardProvider>
             <Editor
-              appearance={this.state.fullWidthMode ? 'full-width' : 'full-page'}
               analyticsHandler={analyticsHandler}
               allowAnalyticsGASV3={true}
               quickInsert={{ provider: Promise.resolve(quickInsertProvider) }}
@@ -203,30 +222,32 @@ class ExampleEditorComponent extends React.Component<
               disabled={this.state.disabled}
               defaultValue={
                 (localStorage &&
-                  localStorage.getItem('fabric.editor.example.full-page')) ||
+                  localStorage.getItem(LOCALSTORAGE_defaultDocKey)) ||
                 undefined
               }
               contentComponents={
                 <WithEditorActions
                   render={actions => (
-                    <TitleInput
-                      value={this.state.title}
-                      onChange={this.handleTitleChange}
-                      innerRef={this.handleTitleRef}
-                      onFocus={this.handleTitleOnFocus}
-                      onBlur={this.handleTitleOnBlur}
-                      onKeyDown={(e: KeyboardEvent) => {
-                        this.onKeyPressed(e, actions);
-                      }}
-                    />
+                    <>
+                      <BreadcrumbsMiscActions
+                        appearance={this.state.appearance}
+                        onFullWidthChange={this.setFullWidthMode}
+                      />
+                      <TitleInput
+                        value={this.state.title}
+                        onChange={this.handleTitleChange}
+                        innerRef={this.handleTitleRef}
+                        onFocus={this.handleTitleOnFocus}
+                        onBlur={this.handleTitleOnBlur}
+                        onKeyDown={(e: KeyboardEvent) => {
+                          this.onKeyPressed(e, actions);
+                        }}
+                      />
+                    </>
                   )}
                 />
               }
               primaryToolbarComponents={[
-                <FullWidthToggle
-                  key={0}
-                  onFullWidthChange={this.setFullWidthMode}
-                />,
                 <WithEditorActions
                   key={1}
                   render={actions => (
@@ -238,6 +259,7 @@ class ExampleEditorComponent extends React.Component<
               insertMenuItems={customInsertMenuItems}
               extensionHandlers={extensionHandlers}
               {...this.props}
+              appearance={this.state.appearance}
             />
           </SmartCardProvider>
         </Content>
@@ -276,7 +298,7 @@ class ExampleEditorComponent extends React.Component<
   };
 
   private setFullWidthMode = (fullWidthMode: boolean) => {
-    this.setState({ fullWidthMode });
+    this.setState({ appearance: fullWidthMode ? 'full-width' : 'full-page' });
   };
 }
 

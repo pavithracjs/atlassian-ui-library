@@ -157,6 +157,7 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
       getRefs,
       view,
       topOffset,
+      shouldHideGlobalNavShadow,
     } = this.props;
 
     return (
@@ -191,6 +192,7 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
           onCollapseEnd={onCollapseEnd}
           getRefs={getRefs}
           topOffset={topOffset}
+          shouldHideGlobalNavShadow={shouldHideGlobalNavShadow}
           view={view}
         >
           {children}

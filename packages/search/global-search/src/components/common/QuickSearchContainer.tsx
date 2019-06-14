@@ -40,11 +40,20 @@ export interface SearchResultProps<T> extends State<T> {
   retrySearch: () => void;
 }
 
+export interface PartiallyLoadedRecentItems<
+  T extends ConfluenceResultsMap | GenericResultMap
+> {
+  // Represents recent items that should be present before any UI is shown
+  eagerRecentItemsPromise: Promise<ResultsWithTiming<T>>;
+  // Represents items which can load in after initial UI is shown
+  lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
+}
+
 export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
   logger: Logger;
   linkComponent?: LinkComponent;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
-  getRecentItems(sessionId: string): Promise<ResultsWithTiming<T>>;
+  getRecentItems(sessionId: string): PartiallyLoadedRecentItems<T>;
   getSearchResults(
     query: string,
     sessionId: string,
@@ -347,22 +356,32 @@ export class QuickSearchContainer<
     this.fireExperimentExposureEvent();
 
     try {
-      const { results } = await this.props.getRecentItems(
-        this.state.searchSessionId,
-      );
+      const {
+        eagerRecentItemsPromise,
+        lazyLoadedRecentItemsPromise,
+      } = this.props.getRecentItems(this.state.searchSessionId);
+
+      const { results } = await eagerRecentItemsPromise;
+
       const renderStartTime = performanceNow();
       if (this.unmounted) {
         return;
       }
-      this.setState(
-        {
-          recentItems: results,
-          isLoading: false,
-        },
-        async () => {
-          this.fireShownPreQueryEvent(startTime, renderStartTime);
-        },
-      );
+      this.setState({
+        recentItems: results,
+        isLoading: false,
+      });
+
+      lazyLoadedRecentItemsPromise.then(lazyLoadedRecentItems => {
+        this.setState(
+          {
+            recentItems: Object.assign({}, results, lazyLoadedRecentItems),
+          },
+          async () => {
+            this.fireShownPreQueryEvent(startTime, renderStartTime);
+          },
+        );
+      });
     } catch (e) {
       this.props.logger.safeError(
         LOGGER_NAME,

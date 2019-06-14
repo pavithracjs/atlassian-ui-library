@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.8.1
+
+### Patch Changes
+
+- [patch][ec0197518f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec0197518f):
+
+  Fix incorrect date import path
+
 ## 39.8.0
 
 ### Minor Changes

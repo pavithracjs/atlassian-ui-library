@@ -31,13 +31,6 @@ describe('utils functions', () => {
       allowComment: true,
     });
 
-    /**
-     * `EXISTING_USERS_ONLY` - Emails not allowed.
-     * `INVITE_NEEDS_APPROVAL` - Always show warning message if email options.
-     * `ONLY_DOMAIN_BASED_INVITE` - Only allow emails within the allowed domains. Check allowedDomains property.
-     * `DOMAIN_BASED_INVITE` - Show warning message when it doesn't match allowed domains. Check allowedDomains property.
-     * `ANYONE` - Never show warning message.
-     */
     describe.each`
       mode                          | no Users | no Emails | match Domain | do Not Match Domain
       ${undefined}                  | ${false} | ${false}  | ${false}     | ${false}

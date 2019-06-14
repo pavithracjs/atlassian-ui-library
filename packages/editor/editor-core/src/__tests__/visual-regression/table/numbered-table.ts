@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import {
   snapshot,
   initFullPageEditorWithAdf,
@@ -26,7 +25,7 @@ describe('Snapshot Test: numbered table', () => {
 
   afterEach(async () => {
     await clickFirstCell();
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it(`looks correct at LaptopMDPI for fullpage`, async () => {

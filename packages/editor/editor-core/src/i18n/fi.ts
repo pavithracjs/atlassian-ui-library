@@ -6,14 +6,16 @@
  */
 // Finnish
 export default {
-  'fabric.editor.layoutFixedWidth': 'Keskipiste',
-  'fabric.editor.layoutWide': 'Leveä',
-  'fabric.editor.layoutFullWidth': 'Koko leveys',
+  'fabric.editor.layoutFixedWidth': 'Takaisin keskelle',
+  'fabric.editor.layoutWide': 'Levennä',
+  'fabric.editor.layoutFullWidth': 'Näytä koko leveydellä',
   'fabric.editor.alignImageRight': 'Tasaa oikealle',
   'fabric.editor.alignImageCenter': 'Tasaa keskelle',
   'fabric.editor.alignImageLeft': 'Tasaa vasemmalle',
   'fabric.editor.remove': 'Poista',
   'fabric.editor.visit': 'Avaa linkki uudessa ikkunassa',
+  'fabric.editor.editMode.inviteToEditButton.title':
+    'Kutsu käyttäjä muokkaamaan',
   'fabric.editor.alignment': 'Tasaus',
   'fabric.editor.normal': 'Normaali teksti',
   'fabric.editor.heading1': 'Otsikko 1',
@@ -23,12 +25,25 @@ export default {
   'fabric.editor.heading5': 'Otsikko 5',
   'fabric.editor.heading6': 'Otsikko 6',
   'fabric.editor.blockquote': 'Sitaatti',
+  'fabric.editor.blockquote.description': 'Lisää lainaus tai sitaatti',
   'fabric.editor.codeblock': 'Koodipätkä',
-  'fabric.editor.panel': 'Paneeli',
+  'fabric.editor.codeblock.description':
+    'Näytä koodi syntaksikorostuksen kanssa',
+  'fabric.editor.infoPanel': 'Tietopaneeli',
+  'fabric.editor.infoPanel.description':
+    'Korosta tietoja värillisessä paneelissa',
   'fabric.editor.notePanel': 'Muistiinpanopaneeli',
+  'fabric.editor.notePanel.description':
+    'Lisää huomautus värillisessä paneelissa',
   'fabric.editor.successPanel': 'Onnistumispaneeli',
+  'fabric.editor.successPanel.description':
+    'Lisää vinkkejä värillisessä paneelissa',
   'fabric.editor.warningPanel': 'Varoituspaneeli',
+  'fabric.editor.warningPanel.description':
+    'Lisää varoitus värillisessä paneelissa',
   'fabric.editor.errorPanel': 'Virhepaneeli',
+  'fabric.editor.errorPanel.description':
+    'Paljasta virheet värillisessä paneelissa',
   'fabric.editor.other': 'Muut...',
   'fabric.editor.textStyles': 'Tekstityylit',
   'fabric.editor.displayBlock': 'Näytä korttina',
@@ -47,32 +62,60 @@ export default {
   'fabric.editor.altText': 'Alt-teksti',
   'fabric.editor.closeHelpDialog': 'Sulje apudialogi',
   'fabric.editor.quickInsert': 'Pikalisäys',
-  'fabric.editor.openLink': 'Avaa linkki',
+  'fabric.editor.openLink': 'Avaa linkki uudessa välilehdessä',
   'fabric.editor.unlink': 'Poista linkitys',
+  'fabric.editor.editLink': 'Muokkaa linkkiä',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Liitä linkki tai hae äskettäin katsotuista',
   'fabric.editor.linkPlaceholder': 'Liimaa linkki',
-  'fabric.editor.linkTextPlaceholder': 'Näytettävä teksti',
-  'fabric.editor.linkPlaceholderWithSearch':
-    'Liimaa linkki tai hae äskettäin katsotuista',
+  'fabric.editor.linkAddress': 'Linkitä osoite',
+  'fabric.editor.displayText': 'Näytettävä teksti',
+  'fabric.editor.clearLinkText': 'Tyhjennä teksti',
+  'fabric.editor.clearLink': 'Tyhjennä linkki',
   'fabric.editor.action': 'Tehtävä',
+  'fabric.editor.action.description':
+    'Taltioi toimintoja, jotta voit siirtää töitä eteenpäin',
   'fabric.editor.link': 'Linkki',
+  'fabric.editor.link.description': 'Linkitä sisäiseen tai ulkoiseen sivuun',
   'fabric.editor.filesAndImages': 'Tiedostot & kuvat',
+  'fabric.editor.filesAndImages.description':
+    'Lisää kuvia ja muita tiedostoja sivullesi',
   'fabric.editor.image': 'Kuva',
   'fabric.editor.mention': 'Maininta',
+  'fabric.editor.mention.description':
+    'Merkitse joku henkilö lähettääksesi hänelle ilmoituksen',
   'fabric.editor.emoji': 'Emoji',
+  'fabric.editor.emoji.description':
+    'Ilmaise ideoita 🎉 ja tunteita 😄emojien avulla',
   'fabric.editor.table': 'Taulu',
+  'fabric.editor.table.description': 'Lisää taulukko',
   'fabric.editor.decision': 'Päätös',
+  'fabric.editor.decision.description':
+    'Taltioi päätökset, jotta niitä on helppo seurata',
   'fabric.editor.horizontalRule': 'Jakaja',
+  'fabric.editor.horizontalRule.description': 'Erota sisältö vaakaviivalla',
   'fabric.editor.date': 'Päivämäärä',
+  'fabric.editor.date.description': 'Lisää päivämäärä kalenterin avulla',
   'fabric.editor.placeholderText': 'Paikkamerkin teksti',
-  'fabric.editor.columns': 'Sarakkeet',
+  'fabric.editor.columns': 'Asettelut',
+  'fabric.editor.columns.description': 'Jäsennä sivusi osioiden avulla',
   'fabric.editor.status': 'Tila',
+  'fabric.editor.status.description':
+    'Luo värillinen vinoneliö, jossa on sisällä tekstiä',
   'fabric.editor.viewMore': 'Näytä lisää',
   'fabric.editor.insertMenu': 'Lisää',
   'fabric.editor.twoColumns': 'Kaksi saraketta',
   'fabric.editor.threeColumns': 'Kolme saraketta',
+  'fabric.editor.rightSidebar': 'Oikea sivupalkki',
+  'fabric.editor.leftSidebar': 'Vasen sivupalkki',
+  'fabric.editor.threeColumnsWithSidebars':
+    'Kolme saraketta sivupalkkien kanssa',
   'fabric.editor.unorderedList': 'Pisteluettelo',
+  'fabric.editor.unorderedList.description': 'Luo järjestämätön luettelo',
   'fabric.editor.orderedList': 'Numeroitu luettelo',
+  'fabric.editor.orderedList.description': 'Luo järjestetty luettelo',
   'fabric.editor.lists': 'Luettelot',
+  'fabric.editor.annotate': 'Lisää huomautus',
   'fabric.editor.wrapLeft': 'Rivitä vasemmalle',
   'fabric.editor.wrapRight': 'Rivitä oikealle',
   'fabric.editor.info': 'Tietoja',
