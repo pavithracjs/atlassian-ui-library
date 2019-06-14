@@ -36,7 +36,7 @@ export const snapshot = async (
     tolerance?: number;
     useUnsafeThreshold?: boolean;
   } = {},
-  selector: string = '.akEditor',
+  selector: string = '.ProseMirror',
 ) => {
   const { tolerance, useUnsafeThreshold } = threshold;
   const editor = await page.$(selector);
