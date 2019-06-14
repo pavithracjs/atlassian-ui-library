@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/checkbox", "type": "patch" },
+    { "name": "@atlaskit/flag", "type": "patch" }
+  ],
+  "dependents": []
+}

@@ -9,7 +9,7 @@ import {
 
 export type ChildrenType = any;
 export type ElementType = any;
-export type FunctionType = (...args: Array<any>) => unknown;
+export type FunctionType = (...args: Array<any>) => any;
 export type ActionType = {
   content: ReactNode;
   onClick?: FunctionType;
