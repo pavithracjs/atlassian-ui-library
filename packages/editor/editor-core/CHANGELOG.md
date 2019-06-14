@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.13.5
+
+### Patch Changes
+
+- [patch][1740216342](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1740216342):
+
+  ED-6999 Fix issue where horizontal scroll would appear when large media items were inside layouts in full-width mode
+
 ## 112.13.4
 
 ### Patch Changes

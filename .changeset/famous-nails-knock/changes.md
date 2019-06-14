@@ -1,1 +1,0 @@
-ED-6999 Fix issue where horizontal scroll would appear when large media items were inside layouts in full-width mode
