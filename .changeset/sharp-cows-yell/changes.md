@@ -1,1 +1,0 @@
-Update pkg.module to be same as pkg.main = dist/bundle.css
