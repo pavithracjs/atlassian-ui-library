@@ -8,6 +8,7 @@ import {
   CONF_OBJECTS_ITEMS_PER_PAGE,
   CONF_MAX_DISPLAYED_RESULTS,
 } from '../util/experiment-utils';
+import { UIAnalyticsEvent } from '../../../../core/analytics-next';
 
 export interface ShowMoreButtonProps {
   resultLength: number;
@@ -18,6 +19,28 @@ export interface ShowMoreButtonProps {
 }
 
 export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
+  triggerEnrichedEvent(
+    analyticsEvent: UIAnalyticsEvent,
+    actionSubjectId: String,
+  ) {
+    const { resultLength, totalSize } = this.props;
+    const payload = {
+      ...analyticsEvent.payload,
+      actionSubjectId,
+      attributes: {
+        ...(analyticsEvent.payload.attributes || {}),
+        totalSize,
+        currentSize: resultLength,
+        searchSessionId: (analyticsEvent.context || []).reduce(
+          (acc: object, v: object = {}) => Object.assign({}, acc, v),
+          {},
+        ).searchSessionId,
+      },
+    };
+    const enrichedEvent = Object.assign({}, analyticsEvent, { payload });
+    enrichedEvent.fire();
+  }
+
   render() {
     const {
       resultLength,
@@ -29,7 +52,13 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
     if (resultLength < totalSize) {
       if (resultLength < CONF_MAX_DISPLAYED_RESULTS) {
         return (
-          <Button appearance="link" onClick={onShowMoreClicked}>
+          <Button
+            appearance="link"
+            onClick={(e, analyticsEvent) => {
+              this.triggerEnrichedEvent(analyticsEvent, 'show_more_button');
+              onShowMoreClicked();
+            }}
+          >
             <FormattedMessage
               {...messages.show_more_button_text}
               values={{
@@ -45,7 +74,13 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
         return (
           <Button
             appearance="link"
-            onClick={onSearchMoreAdvancedSearch}
+            onClick={(e, analyticsEvent) => {
+              this.triggerEnrichedEvent(
+                analyticsEvent,
+                'show_more_advanced_search_button',
+              );
+              onSearchMoreAdvancedSearch(e);
+            }}
             href={getConfluenceAdvancedSearchLink(query)}
           >
             <FormattedMessage {...messages.show_more_button_advanced_search} />
