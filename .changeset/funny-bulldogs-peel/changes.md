@@ -1,0 +1,1 @@
+Fix list styling (IE11)
