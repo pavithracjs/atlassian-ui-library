@@ -103,7 +103,6 @@ export interface State<T> {
   keepPreQueryState: boolean;
   searchResults: T | null;
   recentItems: T | null;
-  errorGettingMoreResults: boolean;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -127,7 +126,6 @@ export class QuickSearchContainer<
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
-      errorGettingMoreResults: false,
     };
   }
 
@@ -333,7 +331,6 @@ export class QuickSearchContainer<
           isError: false,
           isLoading: false,
           keepPreQueryState: true,
-          errorGettingMoreResults: false,
         },
         () => {
           this.fireShownPreQueryEvent();
@@ -388,10 +385,6 @@ export class QuickSearchContainer<
     const { product } = this.props;
     if (product === 'confluence') {
       try {
-        this.setState({
-          errorGettingMoreResults: false,
-        });
-
         // This is a hack, we assume product = confluence means that this cast is safe. When GenericResultsMap is gone
         // we probably won't need this cast anymore.
         const currentResultsByScope = this.state
@@ -411,7 +404,6 @@ export class QuickSearchContainer<
                 currentPage: currentPage + 1,
               },
             },
-            errorGettingMoreResults: false,
           });
         }
       } catch (e) {
@@ -422,7 +414,6 @@ export class QuickSearchContainer<
         );
         this.setState({
           isLoading: false,
-          errorGettingMoreResults: true,
         });
       }
     }
@@ -452,7 +443,6 @@ export class QuickSearchContainer<
       searchResults,
       recentItems,
       keepPreQueryState,
-      errorGettingMoreResults,
     } = this.state;
 
     return (
@@ -477,7 +467,6 @@ export class QuickSearchContainer<
           keepPreQueryState,
           searchSessionId,
           searchMore: this.getMoreSearchResults,
-          errorGettingMoreResults,
         })}
       </GlobalQuickSearch>
     );

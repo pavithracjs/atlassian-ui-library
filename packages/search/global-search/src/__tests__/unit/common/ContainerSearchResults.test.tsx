@@ -218,7 +218,6 @@ const commonProps = {
   isError: false,
   isLoading: false,
   keepPreQueryState: false,
-  errorGettingMoreResults: false,
   searchMore: () => {},
 };
 

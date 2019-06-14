@@ -22,7 +22,6 @@ const defaultProps = {
   getPreQueryGroups: () => [],
   getPostQueryGroups: () => [],
   query: '',
-  errorGettingMoreResults: false,
   searchMore: () => {},
 };
 

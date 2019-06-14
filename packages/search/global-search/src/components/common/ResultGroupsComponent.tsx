@@ -24,7 +24,6 @@ export interface Props {
   screenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
   onShowMoreClicked: (scope: Scope) => void;
-  errorGettingMoreResults: boolean;
   onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void;
   query: string;
 }

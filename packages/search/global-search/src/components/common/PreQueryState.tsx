@@ -55,7 +55,6 @@ export default class PreQueryState extends React.Component<Props> {
         screenCounter={screenCounter}
         referralContextIdentifiers={referralContextIdentifiers}
         onShowMoreClicked={() => {}}
-        errorGettingMoreResults={false}
         query=""
       />
     );
