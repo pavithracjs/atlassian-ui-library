@@ -38,11 +38,11 @@ export function insertNewLine(): Command {
     const { hardBreak } = state.schema.nodes;
 
     if (hardBreak) {
-      const hardBreakNode = hardBreak.create();
+      const hardBreakNode = hardBreak.createChecked();
 
       if (parent && parent.type.validContent(Fragment.from(hardBreakNode))) {
         if (dispatch) {
-          dispatch(state.tr.replaceSelectionWith(hardBreakNode));
+          dispatch(state.tr.replaceSelectionWith(hardBreakNode, false));
         }
         return true;
       }

@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.15.3
+
+### Patch Changes
+
+- [patch][da0ae1c7ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da0ae1c7ca):
+
+  Do not pre-fetch users, only confluence content
+
 ## 8.15.2
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

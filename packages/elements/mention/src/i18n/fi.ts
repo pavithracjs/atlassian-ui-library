@@ -16,7 +16,7 @@ export default {
   'fabric.elements.mentions.team.member.count':
     '{0, plural, one{1 jäsen} other{{0} jäsentä}}',
   'fabric.elements.mentions.team.member.count.including.you':
-    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+    '{0, plural, one{{0} jäsentä, mukaan lukien sinut} other{{0} jäsentä, mukaan lukien sinut}}',
   'fabric.elements.mentions.team.member.50plus': '50+ jäsentä',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ jäsentä, mukaan lukien sinut',

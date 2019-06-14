@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { Device, initFullPageEditorWithAdf, snapshot } from '../_utils';
 
 import {
@@ -34,7 +33,7 @@ describe('Table context menu: cells background', () => {
         column: 3,
       },
     });
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
 
     await selectCellBackground({
       page,
@@ -48,7 +47,7 @@ describe('Table context menu: cells background', () => {
         column: 3,
       },
     });
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
 
     await selectCellBackground({
       page,
@@ -62,6 +61,6 @@ describe('Table context menu: cells background', () => {
         column: 3,
       },
     });
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 });

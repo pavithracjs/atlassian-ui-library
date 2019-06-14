@@ -2,10 +2,11 @@ import styled from 'styled-components';
 // @ts-ignore: unused variable
 // prettier-ignore
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
-import { fontSize } from '@atlaskit/theme';
+import { fontSize, gridSize } from '@atlaskit/theme';
 import { colors, borderRadius, themed } from '@atlaskit/theme';
 
-export const padding = 8;
+export const padding = gridSize();
+export const BODIED_EXT_PADDING = padding * 2;
 
 export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   background: ${themed({

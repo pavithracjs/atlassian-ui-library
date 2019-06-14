@@ -3,6 +3,7 @@ import { Page } from './_types';
 export const selectors = {
   editor: '.ProseMirror',
   lastEditorElement: '.ProseMirror > *:last-child',
+  firstEditorParagraph: '.ProseMirror > p:first-child',
   lastEditorParagraph: '.ProseMirror > p:last-child',
   selectedNode: '.ProseMirror-selectednode',
   scrollContainer: '.fabric-editor-popup-scroll-parent',
@@ -14,8 +15,6 @@ export const selectors = {
   panelContent: '.ak-editor-panel__content',
   codeContent: '.code-content',
 };
-
-export const MINIMUM_ACCEPTABLE_TOLERANCE = 0.02;
 
 export async function clickEditableContent(page: Page) {
   await page.waitForSelector(selectors.editor);

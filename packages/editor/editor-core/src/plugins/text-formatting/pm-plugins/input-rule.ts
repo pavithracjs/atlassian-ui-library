@@ -2,7 +2,6 @@ import { InputRule, inputRules } from 'prosemirror-inputrules';
 import { Schema, MarkType } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 import { analyticsService } from '../../../analytics';
-import { transformToCodeAction } from '../commands/transform-to-code';
 import { InputRuleHandler, createInputRule } from '../../../utils/input-rules';
 import {
   ACTION,
@@ -12,6 +11,7 @@ import {
   INPUT_METHOD,
 } from '../../analytics';
 import { ruleWithAnalytics } from '../../analytics/utils';
+import { applyMarkOnRange } from '../../../utils/commands';
 
 const validCombos = {
   '**': ['_', '~~'],
@@ -153,7 +153,9 @@ function addCodeMark(
 
     analyticsService.trackEvent('atlassian.editor.format.code.autoformatting');
     const regexStart = end - match[2].length + 1;
-    return transformToCodeAction(regexStart, end, tr)
+    const codeMark = state.schema.marks.code.create();
+    return applyMarkOnRange(regexStart, end, false, codeMark, tr)
+      .setStoredMarks([codeMark])
       .delete(regexStart, regexStart + specialChar.length)
       .removeStoredMark(markType);
   };

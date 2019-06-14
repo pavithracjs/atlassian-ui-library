@@ -6,14 +6,15 @@
  */
 // French
 export default {
-  'fabric.editor.layoutFixedWidth': 'Centré',
-  'fabric.editor.layoutWide': 'Large',
-  'fabric.editor.layoutFullWidth': 'Pleine largeur',
+  'fabric.editor.layoutFixedWidth': 'Centrer à nouveau',
+  'fabric.editor.layoutWide': 'Passer en mode élargi',
+  'fabric.editor.layoutFullWidth': 'Passer en mode pleine largeur',
   'fabric.editor.alignImageRight': 'Aligner à droite',
   'fabric.editor.alignImageCenter': 'Aligner au centre',
   'fabric.editor.alignImageLeft': 'Aligner à gauche',
   'fabric.editor.remove': 'Supprimer',
   'fabric.editor.visit': 'Ouvrir le lien dans une nouvelle fenêtre',
+  'fabric.editor.editMode.inviteToEditButton.title': 'Inviter à modifier',
   'fabric.editor.alignment': 'Alignement',
   'fabric.editor.normal': 'Texte normal',
   'fabric.editor.heading1': 'En-tête 1',
@@ -23,12 +24,25 @@ export default {
   'fabric.editor.heading5': 'En-tête 5',
   'fabric.editor.heading6': 'En-tête 6',
   'fabric.editor.blockquote': 'Citation',
+  'fabric.editor.blockquote.description': 'Insérer une citation',
   'fabric.editor.codeblock': 'Extrait de code',
-  'fabric.editor.panel': 'Panneau',
+  'fabric.editor.codeblock.description':
+    'Insérer du code avec coloration syntaxique',
+  'fabric.editor.infoPanel': "Volet d'informations",
+  'fabric.editor.infoPanel.description':
+    'Mettre en valeur des informations dans un cadre coloré',
   'fabric.editor.notePanel': 'Panneau de notes',
+  'fabric.editor.notePanel.description':
+    'Ajouter une note dans un cadre coloré',
   'fabric.editor.successPanel': 'Panneau de réussite',
+  'fabric.editor.successPanel.description':
+    'Ajouter des astuces dans un cadre coloré',
   'fabric.editor.warningPanel': "Panneau d'avertissement",
+  'fabric.editor.warningPanel.description':
+    "Ajouter une note d'avertissement dans un cadre coloré",
   'fabric.editor.errorPanel': "Panneau d'erreur",
+  'fabric.editor.errorPanel.description':
+    'Signaler les erreurs dans un cadre coloré',
   'fabric.editor.other': 'Autres…',
   'fabric.editor.textStyles': 'Styles de texte',
   'fabric.editor.displayBlock': 'Afficher sous forme de carte',
@@ -47,32 +61,61 @@ export default {
   'fabric.editor.altText': 'Texte de remplacement',
   'fabric.editor.closeHelpDialog': "Fermer la boîte de dialogue d'aide",
   'fabric.editor.quickInsert': 'Insertion rapide',
-  'fabric.editor.openLink': 'Ouvrir le lien',
+  'fabric.editor.openLink': 'Ouvrir le lien dans un nouvel onglet',
   'fabric.editor.unlink': 'Dissocier',
-  'fabric.editor.linkPlaceholder': 'Coller un lien',
-  'fabric.editor.linkTextPlaceholder': 'Texte à afficher',
-  'fabric.editor.linkPlaceholderWithSearch':
+  'fabric.editor.editLink': 'Modifier le lien',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
     'Coller un lien ou rechercher les pages récemment consultées',
+  'fabric.editor.linkPlaceholder': 'Coller un lien',
+  'fabric.editor.linkAddress': 'Adresse du lien',
+  'fabric.editor.displayText': 'Texte à afficher',
+  'fabric.editor.clearLinkText': 'Effacer le texte',
+  'fabric.editor.clearLink': 'Effacer le lien',
   'fabric.editor.action': 'Tâche',
+  'fabric.editor.action.description':
+    "Enregistrer des actions pour accélérer l'avancement d'un projet",
   'fabric.editor.link': 'Lien',
+  'fabric.editor.link.description': 'Lien vers une page interne ou externe',
   'fabric.editor.filesAndImages': 'Fichiers et images',
+  'fabric.editor.filesAndImages.description':
+    "Ajouter des images et d'autres fichiers à votre page",
   'fabric.editor.image': 'Image',
   'fabric.editor.mention': 'Mention',
+  'fabric.editor.mention.description':
+    'Mentionner une personne pour lui envoyer une notification',
   'fabric.editor.emoji': 'Émoticône',
+  'fabric.editor.emoji.description':
+    'Ajouter des émoticônes pour exprimer vos idées 🎉 et vos émotions 😄',
   'fabric.editor.table': 'Tableau',
+  'fabric.editor.table.description': 'Insérer un tableau',
   'fabric.editor.decision': 'Décision',
+  'fabric.editor.decision.description':
+    'Enregistrer des décisions pour les suivre plus facilement',
   'fabric.editor.horizontalRule': 'Séparateur',
+  'fabric.editor.horizontalRule.description':
+    'Séparer du contenu avec une ligne horizontale',
   'fabric.editor.date': 'Date',
+  'fabric.editor.date.description': 'Ajouter une date depuis un calendrier',
   'fabric.editor.placeholderText': 'Texte fictif',
-  'fabric.editor.columns': 'Colonnes',
+  'fabric.editor.columns': 'Mises en page',
+  'fabric.editor.columns.description': 'Organiser votre page en sections',
   'fabric.editor.status': 'État',
+  'fabric.editor.status.description':
+    "Créer un losange coloré avec du texte à l'intérieur",
   'fabric.editor.viewMore': 'Voir plus',
   'fabric.editor.insertMenu': 'Insertion',
   'fabric.editor.twoColumns': 'Deux colonnes',
   'fabric.editor.threeColumns': 'Trois colonnes',
+  'fabric.editor.rightSidebar': 'Barre latérale de droite',
+  'fabric.editor.leftSidebar': 'Barre latérale de gauche',
+  'fabric.editor.threeColumnsWithSidebars':
+    'Trois colonnes avec barres latérales',
   'fabric.editor.unorderedList': 'Liste à puces',
+  'fabric.editor.unorderedList.description': 'Créer une liste non ordonnée',
   'fabric.editor.orderedList': 'Liste numérotée',
+  'fabric.editor.orderedList.description': 'Créer une liste ordonnée',
   'fabric.editor.lists': 'Listes',
+  'fabric.editor.annotate': 'Annoter',
   'fabric.editor.wrapLeft': 'Ajuster vers la gauche',
   'fabric.editor.wrapRight': 'Ajuster vers la droite',
   'fabric.editor.info': 'Informations',

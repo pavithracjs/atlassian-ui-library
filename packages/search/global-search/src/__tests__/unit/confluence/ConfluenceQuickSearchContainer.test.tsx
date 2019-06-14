@@ -115,10 +115,11 @@ describe('ConfluenceQuickSearchContainer', () => {
       confluenceClient: mockConfluenceClient,
     });
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const recentItems = await (quickSearchContainer.props() as QuickSearchContainerProps<
+    const requiredRecents = await (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
-    >).getRecentItems(sessionId);
-    expect(recentItems).toMatchObject({
+    >).getRecentItems('session_id').eagerRecentItemsPromise;
+
+    expect(requiredRecents).toMatchObject({
       results: {
         objects: {
           items: [
@@ -163,27 +164,17 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps<
+    const recentsPromise = (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
     >).getRecentItems('session_id');
+    const requiredRecents = await recentsPromise.eagerRecentItemsPromise;
+    const peopleRecents = await recentsPromise.lazyLoadedRecentItemsPromise;
 
-    expect(searchResults).toEqual({
+    expect(requiredRecents).toEqual({
       results: {
         people: {
-          items: [
-            {
-              mentionName: 'mentionName',
-              presenceMessage: 'presenceMessage',
-              analyticsType: 'result-person',
-              resultType: 'person-result',
-              contentType: 'person',
-              name: 'name',
-              avatarUrl: 'avatarUrl',
-              href: 'href',
-              resultId: expect.any(String),
-            },
-          ],
-          totalSize: 1,
+          items: [],
+          totalSize: 0,
         },
         objects: {
           items: [],
@@ -195,6 +186,25 @@ describe('ConfluenceQuickSearchContainer', () => {
         },
       },
     } as ResultsWithTiming<ConfluenceResultsMap>);
+
+    expect(peopleRecents).toEqual({
+      people: {
+        items: [
+          {
+            mentionName: 'mentionName',
+            presenceMessage: 'presenceMessage',
+            analyticsType: 'result-person',
+            resultType: 'person-result',
+            contentType: 'person',
+            name: 'name',
+            avatarUrl: 'avatarUrl',
+            href: 'href',
+            resultId: expect.any(String),
+          },
+        ],
+        totalSize: 1,
+      },
+    } as Partial<ConfluenceResultsMap>);
   });
 
   it('should return recent items using the crossproduct search when prefetching is off', async () => {
@@ -225,27 +235,17 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps<
+    const recentsPromise = (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
     >).getRecentItems('session_id');
+    const requiredRecents = await recentsPromise.eagerRecentItemsPromise;
+    const peopleRecents = await recentsPromise.lazyLoadedRecentItemsPromise;
 
-    expect(searchResults).toEqual({
+    expect(requiredRecents).toEqual({
       results: {
         people: {
-          items: [
-            {
-              mentionName: 'mentionName',
-              presenceMessage: 'presenceMessage',
-              analyticsType: 'result-person',
-              resultType: 'person-result',
-              contentType: 'person',
-              name: 'name',
-              avatarUrl: 'avatarUrl',
-              href: 'href',
-              resultId: expect.any(String),
-            },
-          ],
-          totalSize: 1,
+          items: [],
+          totalSize: 0,
         },
         objects: {
           items: [],
@@ -257,6 +257,25 @@ describe('ConfluenceQuickSearchContainer', () => {
         },
       },
     } as ResultsWithTiming<ConfluenceResultsMap>);
+
+    expect(peopleRecents).toEqual({
+      people: {
+        items: [
+          {
+            mentionName: 'mentionName',
+            presenceMessage: 'presenceMessage',
+            analyticsType: 'result-person',
+            resultType: 'person-result',
+            contentType: 'person',
+            name: 'name',
+            avatarUrl: 'avatarUrl',
+            href: 'href',
+            resultId: expect.any(String),
+          },
+        ],
+        totalSize: 1,
+      },
+    } as Partial<ConfluenceResultsMap>);
   });
 
   it('should call cross product search client with correct query version', async () => {
