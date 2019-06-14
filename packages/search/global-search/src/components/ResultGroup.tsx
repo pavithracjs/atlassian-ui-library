@@ -30,14 +30,6 @@ const BadgeContainer = styled.span`
   margin-left: ${gridSize()}px;
 `;
 
-export interface ShowMoreButtonProps {
-  resultLength: number;
-  totalSize: number;
-  onShowMoreClicked: () => void;
-  onSearchMoreAdvancedSearch: undefined | ((e: CancelableEvent) => void);
-  query: string;
-}
-
 export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
   render() {
     const {

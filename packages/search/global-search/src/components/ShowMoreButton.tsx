@@ -8,7 +8,6 @@ import {
   CONF_OBJECTS_ITEMS_PER_PAGE,
   CONF_MAX_DISPLAYED_RESULTS,
 } from '../util/experiment-utils';
-import { ShowMoreButtonProps } from './ResultGroup';
 
 export interface ShowMoreButtonProps {
   resultLength: number;
