@@ -1,11 +1,8 @@
-/**
- * @jest-environment node
- */
 import * as React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Tooltip server side rendering', async done => {
+test('Tooltip server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('tooltip');
   for (const example of examples) {

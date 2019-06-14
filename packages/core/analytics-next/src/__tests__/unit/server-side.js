@@ -1,12 +1,9 @@
-/**
- * @jest-environment node
- */
 // @flow
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Analytics-next server side rendering', async done => {
+test('Analytics-next server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('analytics-next');
   for (const example of examples) {

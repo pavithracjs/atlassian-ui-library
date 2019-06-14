@@ -1,12 +1,9 @@
-/**
- * @jest-environment node
- */
 // @flow
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Datetime picker server side rendering', async done => {
+test('Datetime picker server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('datetime-picker');
   for (const example of examples) {

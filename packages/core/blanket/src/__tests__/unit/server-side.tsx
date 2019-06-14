@@ -1,11 +1,8 @@
-/**
- * @jest-environment node
- */
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 
-test.skip('Blanket server side rendering', async done => {
+test('Blanket server side rendering', async done => {
   const examples = await getExamplesFor('blanket');
   for (const example of examples) {
     const Example = await require(example.filePath).default;

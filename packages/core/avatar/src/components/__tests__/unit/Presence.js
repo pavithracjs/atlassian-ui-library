@@ -10,7 +10,7 @@ const PRESENCE_TYPES = ['busy', 'focus', 'offline', 'online'];
 describe('Avatar', () => {
   describe('Presence', () => {
     PRESENCE_TYPES.forEach(presence =>
-      describe(`when presence is ${presence}`, () =>
+      describe(`when presence is ${presence}`, () => {
         it('should render content', () => {
           // eslint-disable-next-line chai-expect/missing-assertion
           expect(
@@ -18,7 +18,8 @@ describe('Avatar', () => {
               getPresenceSVG(presence),
             ),
           ).toBeTruthy();
-        })),
+        });
+      }),
     );
 
     it('should render children if provided', () => {

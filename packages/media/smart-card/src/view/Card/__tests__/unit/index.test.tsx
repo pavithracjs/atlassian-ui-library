@@ -110,7 +110,7 @@ describe('Card', () => {
       expect(wrapper.find(CardLinkView).exists()).toBeTruthy();
     });
 
-    it('should render a link placeholder first, and if data comes within the delay, it should transition to resolved state', async () => {
+    it('should render a link placeholder first, and if data comes within the delay, it should transition to resolved state', () => {
       class CustomClient extends Client {
         fetchData() {
           return Promise.resolve({
@@ -261,7 +261,7 @@ describe('Card', () => {
     expect(wrapper.find(BlockCardForbiddenView).exists()).toBeTruthy();
   });
 
-  describe('when unauthorized and there is at least 1 auth methods available', async () => {
+  describe('when unauthorized and there is at least 1 auth methods available', () => {
     it('should render the unauthorized view in block card with connect button', async () => {
       const client = createClient([
         {
@@ -309,7 +309,7 @@ describe('Card', () => {
     });
   });
 
-  describe('when unauthorized and there are no auth methods available', async () => {
+  describe('when unauthorized and there are no auth methods available', () => {
     it('should not render the auth prompt in block card ', async () => {
       const client = createClient([
         {
@@ -363,7 +363,7 @@ describe('Card', () => {
     });
   });
 
-  describe('when forbidden and there are no auth methods available', async () => {
+  describe('when forbidden and there are no auth methods available', () => {
     it('should not render the auth prompt in block card ', async () => {
       const client = createClient([
         {

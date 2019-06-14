@@ -1,12 +1,9 @@
-/**
- * @jest-environment node
- */
 // @flow
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Avatar group server side rendering', async done => {
+test('Avatar group server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('avatar-group');
   for (const example of examples) {

@@ -1,12 +1,9 @@
-/**
- * @jest-environment node
- */
 // @flow
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Layer manager server side rendering', async done => {
+test('Layer manager server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('layer-manager');
   for (const example of examples) {
