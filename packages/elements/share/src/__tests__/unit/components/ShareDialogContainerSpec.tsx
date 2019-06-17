@@ -19,7 +19,7 @@ let mockRequestService: jest.Mock;
 let mockShareServiceClient: jest.Mock;
 const mockCloudId = 'cloudId';
 const mockDialogPlacement = 'bottom-start';
-const mockProductId = 'productId';
+const mockProductId = 'trello';
 const mockShareAri = 'ari';
 const mockShareContentType = 'issue';
 const mockShareLink = 'share-link';
@@ -44,7 +44,7 @@ const mockConfig: ShareServiceExports.ConfigResponse = {
 };
 const mockGetConfig = jest.fn().mockResolvedValue(mockConfig);
 const mockShare = jest.fn().mockResolvedValue({});
-const mockClient: ShareServiceExports.ShareClient = {
+const mockShareClient: ShareServiceExports.ShareClient = {
   getConfig: mockGetConfig,
   share: mockShare,
 };
@@ -69,7 +69,7 @@ beforeEach(() => {
     }));
   wrapper = shallow(
     <ShareDialogContainer
-      client={mockClient}
+      shareClient={mockShareClient}
       cloudId={mockCloudId}
       dialogPlacement={mockDialogPlacement}
       loadUserOptions={mockLoadUserOptions}
@@ -122,7 +122,7 @@ describe('ShareDialogContainer', () => {
       wrapper.state().config,
     );
     expect(mockOriginTracingFactory).toHaveBeenCalledTimes(2);
-    expect(mockClient.getConfig).toHaveBeenCalledTimes(0);
+    expect(mockShareClient.getConfig).toHaveBeenCalledTimes(0);
     expect(wrapper.state().config).toEqual(defaultConfig);
   });
 
@@ -186,11 +186,11 @@ describe('ShareDialogContainer', () => {
       />,
     );
 
-    const client: ShareServiceExports.ShareClient =
+    const shareClient: ShareServiceExports.ShareClient =
       // @ts-ignore: accessing private variable for testing purpose
-      newWrapper.instance().client;
-    expect(client.getConfig).toEqual(mockGetConfig);
-    expect(client.share).toEqual(mockShare);
+      newWrapper.instance().shareClient;
+    expect(shareClient.getConfig).toEqual(mockGetConfig);
+    expect(shareClient.share).toEqual(mockShare);
   });
 
   describe('isFetchingConfig state', () => {
@@ -220,7 +220,7 @@ describe('ShareDialogContainer', () => {
     });
   });
 
-  it('should reset the state.config to default config if client.getConfig failed', async () => {
+  it('should reset the state.config to default config if shareClient.getConfig failed', async () => {
     mockGetConfig.mockRejectedValueOnce(new Error('error'));
     wrapper.setState({ config: mockConfig });
     wrapper.instance().fetchConfig();

@@ -1,3 +1,4 @@
+import assert from 'tiny-invariant';
 import { ButtonAppearances } from '@atlaskit/button';
 import { LoadOptions } from '@atlaskit/user-picker';
 import memoizeOne from 'memoize-one';
@@ -18,6 +19,7 @@ import {
   RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareResponse,
+  ProductId,
 } from '../types';
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
@@ -30,8 +32,9 @@ export const defaultConfig: ConfigResponse = {
 
 export type Props = {
   /** Share service client implementation that gets share configs and performs share */
-  client?: ShareClient;
-  /** Cloud ID of the instance */
+  shareClient?: ShareClient;
+  /** Cloud ID of the instance
+   * Note: we assume this props is stable. */
   cloudId: string;
   /** Placement of the modal to the trigger button */
   dialogPlacement?: DialogPlacement;
@@ -41,14 +44,9 @@ export type Props = {
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
-  /** Product ID (Canonical ID) in ARI of the share request */
-  /** bitbucket */
-  /** confluence */
-  /** jira-core */
-  /** jira-servicedesk */
-  /** jira-software */
-  /** trello */
-  productId: string;
+  /** Product ID (Canonical ID) in ARI of the share request
+   * Note: we assume this props is stable. */
+  productId: ProductId;
   /** Render function for a custom Share Dialog Trigger Button*/
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   /** Atlassian Resource Identifier of a Site resource to be shared */
@@ -117,7 +115,7 @@ const getDefaultShareLink: () => string = () =>
  * to ShareDialogTrigger component
  */
 export class ShareDialogContainer extends React.Component<Props, State> {
-  private client: ShareClient;
+  private shareClient: ShareClient;
   private _isMounted = false;
 
   static defaultProps = {
@@ -128,7 +126,12 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.client = props.client || new ShareServiceClient();
+    // v0.4 -> v0.5 .client -> .shareClient
+    assert(
+      !(props as any).client,
+      'elements/share: Breaking change, please update your props!',
+    );
+    this.shareClient = props.shareClient || new ShareServiceClient();
 
     this.state = {
       shareActionCount: 0,
@@ -151,7 +154,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
         isFetchingConfig: true,
       },
       () => {
-        this.client
+        this.shareClient
           .getConfig(this.props.productId, this.props.cloudId)
           .then((config: ConfigResponse) => {
             if (this._isMounted) {
@@ -192,7 +195,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       atlOriginId: this.getFormShareOriginTracing().id,
     };
 
-    return this.client
+    return this.shareClient
       .share(content, optionDataToUsers(users), metaData, comment)
       .then((response: ShareResponse) => {
         // renew Origin Tracing Id per share action succeeded

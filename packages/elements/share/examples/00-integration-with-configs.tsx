@@ -189,7 +189,7 @@ export default class Example extends React.Component<{}, State> {
     });
   };
 
-  client: ShareClient = {
+  shareClient: ShareClient = {
     getConfig: this.getConfig,
     share: this.share,
   };
@@ -218,7 +218,7 @@ export default class Example extends React.Component<{}, State> {
               <WrapperWithMarginTop>
                 <ShareDialogContainer
                   key={`key-${this.key}`}
-                  client={this.client}
+                  shareClient={this.shareClient}
                   cloudId="12345-12345-12345-12345"
                   dialogPlacement={dialogPlacement}
                   loadUserOptions={loadUserOptions}
