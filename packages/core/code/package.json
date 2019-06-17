@@ -13,7 +13,8 @@
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "memoize-one": "^3.0.1",
-    "react-syntax-highlighter": "^10.0.1"
+    "react-syntax-highlighter": "^10.0.1",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",

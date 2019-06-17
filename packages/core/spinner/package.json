@@ -24,7 +24,8 @@
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
-    "react-transition-group": "^2.2.1"
+    "react-transition-group": "^2.2.1",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",

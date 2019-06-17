@@ -28,7 +28,8 @@
     "@babel/runtime": "^7.0.0",
     "flushable": "^1.0.0",
     "react-node-resolver": "^1.0.1",
-    "react-transition-group": "^2.2.1"
+    "react-transition-group": "^2.2.1",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",

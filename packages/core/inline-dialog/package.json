@@ -25,7 +25,8 @@
     "@atlaskit/popper": "^2.0.0",
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
-    "react-node-resolver": "^1.0.1"
+    "react-node-resolver": "^1.0.1",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
