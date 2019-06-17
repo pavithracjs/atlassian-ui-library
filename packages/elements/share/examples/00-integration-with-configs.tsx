@@ -21,6 +21,10 @@ import {
   ShareResponse,
   User,
 } from '../src/types';
+import {
+  ShortenResponse,
+  UrlShortenerClient,
+} from '../src/clients/AtlassianUrlShortenerClient';
 
 type UserData = {
   avatarUrl?: string;
@@ -134,6 +138,7 @@ type ExampleState = {
   customTitle: boolean;
   escapeOnKeyPress: boolean;
   restrictionMessage: boolean;
+  useUrlShortener: boolean;
 };
 
 type State = ConfigResponse & Partial<ShareDialogContainerProps> & ExampleState;
@@ -142,6 +147,25 @@ const renderCustomTriggerButton: RenderCustomTriggerButton = ({ onClick }) => (
   <button onClick={onClick}>Custom Button</button>
 );
 
+class MockUrlShortenerClient implements UrlShortenerClient {
+  count = 0;
+
+  public isSupportedProduct(): boolean {
+    return true;
+  }
+
+  public shorten(): Promise<ShortenResponse> {
+    return new Promise<ShortenResponse>(resolve => {
+      this.count++;
+      setTimeout(() => {
+        resolve({
+          shortLink: `https://foo.atlassian.net/short#${this.count}`,
+        });
+      }, 350);
+    });
+  }
+}
+
 export default class Example extends React.Component<{}, State> {
   state: State = {
     allowComment: true,
@@ -149,6 +173,7 @@ export default class Example extends React.Component<{}, State> {
     customButton: false,
     customTitle: false,
     restrictionMessage: false,
+    useUrlShortener: false,
     dialogPlacement: dialogPlacementOptions[2].value,
     escapeOnKeyPress: true,
     mode: modeOptions[0].value,
@@ -194,6 +219,8 @@ export default class Example extends React.Component<{}, State> {
     share: this.share,
   };
 
+  urlShortenerClient: UrlShortenerClient = new MockUrlShortenerClient();
+
   render() {
     const {
       allowComment,
@@ -206,6 +233,7 @@ export default class Example extends React.Component<{}, State> {
       triggerButtonAppearance,
       triggerButtonStyle,
       restrictionMessage,
+      useUrlShortener,
     } = this.state;
 
     this.key++;
@@ -219,6 +247,7 @@ export default class Example extends React.Component<{}, State> {
                 <ShareDialogContainer
                   key={`key-${this.key}`}
                   shareClient={this.shareClient}
+                  urlShortenerClient={this.urlShortenerClient}
                   cloudId="12345-12345-12345-12345"
                   dialogPlacement={dialogPlacement}
                   loadUserOptions={loadUserOptions}
@@ -239,6 +268,7 @@ export default class Example extends React.Component<{}, State> {
                   bottomMessage={
                     restrictionMessage ? <RestrictionMessage /> : null
                   }
+                  useUrlShortener={useUrlShortener}
                 />
               </WrapperWithMarginTop>
               <h4>Options</h4>
@@ -288,6 +318,15 @@ export default class Example extends React.Component<{}, State> {
                     isChecked={restrictionMessage}
                     onChange={() =>
                       this.setState({ restrictionMessage: !restrictionMessage })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Use an URL shortener
+                  <Toggle
+                    isChecked={useUrlShortener}
+                    onChange={() =>
+                      this.setState({ useUrlShortener: !useUrlShortener })
                     }
                   />
                 </WrapperWithMarginTop>
