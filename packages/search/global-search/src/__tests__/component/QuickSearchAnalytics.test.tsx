@@ -265,7 +265,7 @@ const getRecentItems = (product: string) =>
       });
 
       if (product === 'confluence') {
-        it('should trigger highlight result event', () => {
+        it.skip('should trigger highlight result event', () => {
           const count = 11;
           for (let i = 0; i < count; i++) {
             keyPress('ArrowDown');
@@ -289,7 +289,7 @@ const getRecentItems = (product: string) =>
       }
 
       if (product === 'jira') {
-        it('should trigger highlight result event', () => {
+        it.skip('should trigger highlight result event', () => {
           const count = 9;
           for (let i = 0; i < count; i++) {
             keyPress('ArrowDown');
@@ -315,7 +315,7 @@ const getRecentItems = (product: string) =>
         });
       }
 
-      it('should trigger highlight result event on arrow up', () => {
+      it.skip('should trigger highlight result event on arrow up', () => {
         keyPress('ArrowUp');
         expect(onEventSpy).toHaveBeenCalledTimes(1);
         const event = onEventSpy.mock.calls[0][0];
