@@ -776,6 +776,56 @@ export default {
     componentName: 'EmailIcon',
     package: '@atlaskit/icon/glyph/email',
   },
+  'email/action-default': {
+    keywords: ['email/action-default', 'emailactiondefault', 'icon', 'core'],
+    componentName: 'EmailActionDefaultIcon',
+    package: '@atlaskit/icon/glyph/email/action-default',
+  },
+  'email/action-selected': {
+    keywords: ['email/action-selected', 'emailactionselected', 'icon', 'core'],
+    componentName: 'EmailActionSelectedIcon',
+    package: '@atlaskit/icon/glyph/email/action-selected',
+  },
+  'email/decision': {
+    keywords: ['email/decision', 'emaildecision', 'icon', 'core'],
+    componentName: 'EmailDecisionIcon',
+    package: '@atlaskit/icon/glyph/email/decision',
+  },
+  'email/error': {
+    keywords: ['email/error', 'emailerror', 'icon', 'core'],
+    componentName: 'EmailErrorIcon',
+    package: '@atlaskit/icon/glyph/email/error',
+  },
+  'email/info': {
+    keywords: ['email/info', 'emailinfo', 'icon', 'core'],
+    componentName: 'EmailInfoIcon',
+    package: '@atlaskit/icon/glyph/email/info',
+  },
+  'email/note': {
+    keywords: ['email/note', 'emailnote', 'icon', 'core'],
+    componentName: 'EmailNoteIcon',
+    package: '@atlaskit/icon/glyph/email/note',
+  },
+  'email/question': {
+    keywords: ['email/question', 'emailquestion', 'icon', 'core'],
+    componentName: 'EmailQuestionIcon',
+    package: '@atlaskit/icon/glyph/email/question',
+  },
+  'email/success': {
+    keywords: ['email/success', 'emailsuccess', 'icon', 'core'],
+    componentName: 'EmailSuccessIcon',
+    package: '@atlaskit/icon/glyph/email/success',
+  },
+  'email/tip': {
+    keywords: ['email/tip', 'emailtip', 'icon', 'core'],
+    componentName: 'EmailTipIcon',
+    package: '@atlaskit/icon/glyph/email/tip',
+  },
+  'email/warning': {
+    keywords: ['email/warning', 'emailwarning', 'icon', 'core'],
+    componentName: 'EmailWarningIcon',
+    package: '@atlaskit/icon/glyph/email/warning',
+  },
   'emoji-add': {
     keywords: ['emoji-add', 'emojiadd', 'icon', 'core'],
     componentName: 'EmojiAddIcon',

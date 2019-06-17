@@ -83,13 +83,15 @@ describe('Renderer - EmailSerializer', () => {
   });
 
   it('should render decision list correctly', () => {
-    const { result } = render(decisionList);
+    const { result, embeddedImages } = render(decisionList);
     expect(result).toMatchSnapshot();
+    expect(embeddedImages).toMatchSnapshot();
   });
 
   it('should render task list correctly', () => {
-    const { result } = render(taskList);
+    const { result, embeddedImages } = render(taskList);
     expect(result).toMatchSnapshot();
+    expect(embeddedImages).toMatchSnapshot();
   });
 
   it('should render block cards correctly', () => {
