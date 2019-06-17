@@ -20,6 +20,10 @@
   "dependencies": {
     "@atlaskit/adf-schema": "^2.5.10",
     "@atlaskit/editor-common": "^39.8.1",
+    "@atlaskit/theme": "^9.1.0",
+    "juice": "^5.2.0",
+    "lodash.flow": "^3.5.0",
+    "lodash.property": "^4.4.2",
     "prosemirror-model": "^1.7.0"
   },
   "devDependencies": {
