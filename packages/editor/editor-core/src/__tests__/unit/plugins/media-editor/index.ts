@@ -8,6 +8,7 @@ import {
   insertText,
   CreateEditorOptions,
 } from '@atlaskit/editor-test-helpers';
+import { nextTick } from '@atlaskit/media-test-helpers';
 
 import { getFreshMediaProvider } from '../media/_utils';
 import { mediaPlugin } from '../../../../plugins';
@@ -172,7 +173,9 @@ describe('media editor', () => {
       providerFactory.setProvider('mediaProvider', mediaProvider);
 
       const resolvedProvider = await mediaProvider;
-      const resolvedMediaClientConfig = await resolvedProvider.viewMediaClientConfig;
+      const resolvedMediaClientConfig = resolvedProvider.viewMediaClientConfig;
+
+      await nextTick();
 
       expect(getPluginState(editorView.state)).toEqual({
         mediaClientConfig: resolvedMediaClientConfig,
