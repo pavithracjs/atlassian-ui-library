@@ -13,6 +13,7 @@ import {
   Result,
   ResultsGroup,
   ConfluenceResultsMap,
+  Results,
 } from '../../model/Result';
 import {
   ShownAnalyticsAttributes,
@@ -32,12 +33,15 @@ import {
   ConfluenceFeatures,
   CommonFeatures,
 } from '../../util/features';
+import { Scope, QuickSearchContext } from '../../api/types';
+import { CONF_OBJECTS_ITEMS_PER_PAGE } from '../../util/experiment-utils';
 
 const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
   results.map(result => result.items);
 
 export interface SearchResultProps<T> extends State<T> {
   retrySearch: () => void;
+  searchMore: (scope: Scope) => void;
 }
 
 export interface PartiallyLoadedRecentItems<
@@ -52,6 +56,7 @@ export interface PartiallyLoadedRecentItems<
 export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
   logger: Logger;
   linkComponent?: LinkComponent;
+  product: QuickSearchContext;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
   getRecentItems(sessionId: string): PartiallyLoadedRecentItems<T>;
   getSearchResults(
@@ -396,6 +401,46 @@ export class QuickSearchContainer<
     }
   }
 
+  getMoreSearchResults = async (scope: Scope) => {
+    const { product } = this.props;
+    if (product === 'confluence') {
+      try {
+        // This is a hack, we assume product = confluence means that this cast is safe. When GenericResultsMap is gone
+        // we probably won't need this cast anymore.
+        const currentResultsByScope = this.state
+          .searchResults as ConfluenceResultsMap;
+
+        // @ts-ignore More hacks as there's no guarantee that the scope is one that is available here
+        const result: Results<Result> = currentResultsByScope[scope];
+
+        if (result) {
+          const numberOfCurrentItems =
+            result.numberOfCurrentItems || CONF_OBJECTS_ITEMS_PER_PAGE;
+
+          this.setState({
+            searchResults: {
+              ...(this.state.searchResults as any),
+              [scope]: {
+                ...result,
+                numberOfCurrentItems:
+                  numberOfCurrentItems + CONF_OBJECTS_ITEMS_PER_PAGE,
+              },
+            },
+          });
+        }
+      } catch (e) {
+        this.props.logger.safeError(
+          LOGGER_NAME,
+          `error while getting more results for ${scope}`,
+          e,
+        );
+        this.setState({
+          isLoading: false,
+        });
+      }
+    }
+  };
+
   handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { handleSearchSubmit } = this.props;
     if (handleSearchSubmit) {
@@ -443,6 +488,7 @@ export class QuickSearchContainer<
           recentItems,
           keepPreQueryState,
           searchSessionId,
+          searchMore: this.getMoreSearchResults,
         })}
       </GlobalQuickSearch>
     );

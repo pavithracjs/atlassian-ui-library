@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.15.4
+
+### Patch Changes
+
+- [patch][9aa576a05d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9aa576a05d):
+
+  added show more button and the ability to extend search results
+
 ## 8.15.3
 
 ### Patch Changes

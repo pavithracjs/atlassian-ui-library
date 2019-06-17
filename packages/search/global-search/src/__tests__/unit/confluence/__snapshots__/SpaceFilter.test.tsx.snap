@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfluenceSpaceFilter should render space filter correctly 1`] = `
+<Item
+  autoFocus={false}
+  description=""
+  elemBefore={
+    <React.Fragment>
+      <ForwardRef
+        isChecked={false}
+      />
+      <ForwardRef
+        appearance="square"
+        borderColor="transparent"
+        size="small"
+        src="test.png"
+      />
+    </React.Fragment>
+  }
+  isCompact={true}
+  isDisabled={false}
+  isHidden={false}
+  onClick={[Function]}
+  role="button"
+  shouldAllowMultiline={false}
+>
+  Test space
+</Item>
+`;
