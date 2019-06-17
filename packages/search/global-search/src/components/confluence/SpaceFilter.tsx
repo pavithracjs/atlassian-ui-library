@@ -3,7 +3,7 @@ import Checkbox from '@atlaskit/checkbox/Checkbox';
 import Avatar from '@atlaskit/avatar/index';
 import Item from '@atlaskit/item';
 
-interface Props {
+export interface Props {
   spaceAvatar: string;
   spaceTitle: string;
   isDisabled?: boolean;
