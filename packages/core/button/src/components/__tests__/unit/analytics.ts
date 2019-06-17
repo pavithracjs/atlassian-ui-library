@@ -7,7 +7,6 @@ jest.mock('@atlaskit/analytics-next', () => ({
   createAndFireEvent: jest.fn(() => jest.fn(args => args)),
 }));
 
-//test
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
