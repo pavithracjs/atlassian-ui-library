@@ -29,8 +29,8 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
     analyticsEvent: UIAnalyticsEvent,
     actionSubjectId: string,
   ) {
-    const { resultLength, totalSize } = this.props;
-    const searchSessionId = (analyticsEvent.context || []).reduce(
+    const { resultLength, totalSize, createAnalyticsEvent } = this.props;
+    const searchSessionId = ((analyticsEvent || {}).context || []).reduce(
       (acc: object, v: object = {}) => Object.assign({}, acc, v),
       {},
     ).searchSessionId;
@@ -40,7 +40,7 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
       resultLength,
       totalSize,
       actionSubjectId,
-      this.props.createAnalyticsEvent,
+      createAnalyticsEvent,
     );
   }
 
