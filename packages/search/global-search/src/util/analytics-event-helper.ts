@@ -310,6 +310,7 @@ export function fireShowMoreButtonClickEvent(
   currentSize: number,
   totalResultSize: number,
   buttonIdentifier: string,
+  pageSize: number,
   createAnalyticsEvent?: CreateAnalyticsEventFn,
 ) {
   fireGasEvent(
@@ -322,6 +323,7 @@ export function fireShowMoreButtonClickEvent(
       searchSessionId,
       currentSize,
       totalResultSize,
+      pageSize,
     },
   );
 }

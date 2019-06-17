@@ -40,6 +40,7 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
       resultLength,
       totalSize,
       actionSubjectId,
+      CONF_OBJECTS_ITEMS_PER_PAGE,
       createAnalyticsEvent,
     );
   }
