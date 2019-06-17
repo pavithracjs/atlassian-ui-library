@@ -5,17 +5,14 @@ import flow from 'lodash.flow';
 import property from 'lodash.property';
 
 import {
-  Serializer,
   SerializeFragmentWithAttachmentsResult,
-  MediaImageBase64,
+  SerializerWithImages,
 } from '../serializer';
 import { nodeSerializers } from './serializers';
 import styles from './styles';
 import juice from 'juice';
 import { escapeHtmlString } from './util';
-
-import * as icons from './static/icons';
-import { IconName } from './static/icons';
+import { processEmbeddedImages } from './static';
 
 const serializeNode = (
   node: PMNode,
@@ -91,43 +88,6 @@ const wrapAdf = (content: any[]) => ({ version: 1, type: 'doc', content });
 const juicify = (html: string): string =>
   juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
 
-export const createContentId = (
-  imageName: icons.IconString,
-  imageType: string = 'icon',
-) => `cid:pfcs-generated-${imageType}-${imageName}`;
-
-const processEmbeddedImages = (isMockEnabled: boolean) => (
-  result: string,
-): SerializeFragmentWithAttachmentsResult => {
-  const iconSet = new Set<icons.IconString>();
-
-  const imageProcessor = (
-    match: string,
-    imageType: string,
-    imageName: icons.IconString,
-  ): string => {
-    iconSet.add(imageName);
-    const imageSource = (icons as any)[imageName];
-    return isMockEnabled ? `src="${imageSource}"` : match;
-  };
-
-  const processedResult = result.replace(
-    /src="cid:pfcs-generated-([\w]*)-([\w-]*)"/gi,
-    imageProcessor,
-  );
-
-  const iconMapper = (iconName: string): MediaImageBase64 => ({
-    contentId: createContentId(IconName[iconName as icons.IconString]),
-    contentType: 'png',
-    data: (icons as any)[iconName],
-  });
-
-  return {
-    result: processedResult,
-    embeddedImages: [...iconSet].map(iconMapper),
-  };
-};
-
 // replace all CID image references with a fake image
 const stubImages = (isMockEnabled: boolean) => (
   content: SerializeFragmentWithAttachmentsResult,
@@ -142,7 +102,7 @@ const stubImages = (isMockEnabled: boolean) => (
       }
     : content;
 
-export default class EmailSerializer implements Serializer<string> {
+export default class EmailSerializer implements SerializerWithImages<string> {
   /**
    * Email serializer allows to disable/mock images.
    * The reason behind this is the default behavior is that in email, images are embedded separately

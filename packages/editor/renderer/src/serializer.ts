@@ -20,8 +20,8 @@ export interface SerializeFragmentWithAttachmentsResult {
   embeddedImages: MediaImageBase64[];
 }
 
-export interface EmailSerializer<T> extends Serializer<T> {
-  serializeFragmentWithImages?(
+export interface SerializerWithImages<T> extends Serializer<T> {
+  serializeFragmentWithImages(
     fragment: Fragment,
     props?: any,
     target?: any,

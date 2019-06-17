@@ -13,7 +13,8 @@ import {
 
 import { NodeSerializerOpts } from '../interfaces';
 import { createTable, createTag, serializeStyle, TableData } from '../util';
-import { commonStyle, createContentId } from '..';
+import { commonStyle } from '..';
+import { createContentId } from '../static';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
 
@@ -55,7 +56,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     ...commonStyle,
     'font-size': '14px',
     width: '100%',
-    padding: '1px 0px 1px 16px',
+    padding: '1px 8px 1px 0',
     margin: `0px`,
   };
 
@@ -74,32 +75,13 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     src: createContentId(type, 'icon'),
   });
 
-  const icon = createTable(
-    [
-      [
-        {
-          text: panelIcon,
-          style: {
-            'text-align': 'center',
-            width: '16px',
-            height: '16px',
-            padding: '8px',
-          },
-        },
-      ],
-    ],
-    {
-      'table-layout': 'fixed',
-      'line-height': '18px',
-    },
-  );
-
   const iconTd: TableData = {
-    text: icon,
+    text: panelIcon,
     style: {
       'vertical-align': 'top',
-      width: '16px',
-      height: '16px',
+      width: '24px',
+      height: '24px',
+      padding: '12px 0px 12px 8px',
     },
   };
 
