@@ -304,3 +304,24 @@ export function fireHighlightedSearchResult(
     },
   );
 }
+
+export function fireShowMoreButtonClickEvent(
+  searchSessionId: string,
+  currentSize: number,
+  totalResultSize: number,
+  buttonIdentifier: string,
+  createAnalyticsEvent?: CreateAnalyticsEventFn,
+) {
+  fireGasEvent(
+    createAnalyticsEvent,
+    'click',
+    'button',
+    buttonIdentifier,
+    'ui',
+    {
+      searchSessionId,
+      currentSize,
+      totalResultSize,
+    },
+  );
+}

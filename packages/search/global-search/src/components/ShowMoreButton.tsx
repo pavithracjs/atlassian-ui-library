@@ -1,6 +1,10 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
 import { CancelableEvent } from '@atlaskit/quick-search';
+import {
+  withAnalyticsEvents,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '../messages';
 import { getConfluenceAdvancedSearchLink } from './SearchResultsUtil';
@@ -8,7 +12,8 @@ import {
   CONF_OBJECTS_ITEMS_PER_PAGE,
   CONF_MAX_DISPLAYED_RESULTS,
 } from '../util/experiment-utils';
-import { UIAnalyticsEvent } from '../../../../core/analytics-next';
+import { fireShowMoreButtonClickEvent } from '../util/analytics-event-helper';
+import { CreateAnalyticsEventFn } from '../components/analytics/types';
 
 export interface ShowMoreButtonProps {
   resultLength: number;
@@ -16,29 +21,27 @@ export interface ShowMoreButtonProps {
   onShowMoreClicked: () => void;
   onSearchMoreAdvancedSearch: undefined | ((e: CancelableEvent) => void);
   query: string;
+  createAnalyticsEvent?: CreateAnalyticsEventFn;
 }
 
 export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
   triggerEnrichedEvent(
     analyticsEvent: UIAnalyticsEvent,
-    actionSubjectId: String,
+    actionSubjectId: string,
   ) {
     const { resultLength, totalSize } = this.props;
-    const payload = {
-      ...analyticsEvent.payload,
+    const searchSessionId = (analyticsEvent.context || []).reduce(
+      (acc: object, v: object = {}) => Object.assign({}, acc, v),
+      {},
+    ).searchSessionId;
+
+    fireShowMoreButtonClickEvent(
+      searchSessionId,
+      resultLength,
+      totalSize,
       actionSubjectId,
-      attributes: {
-        ...(analyticsEvent.payload.attributes || {}),
-        totalSize,
-        currentSize: resultLength,
-        searchSessionId: (analyticsEvent.context || []).reduce(
-          (acc: object, v: object = {}) => Object.assign({}, acc, v),
-          {},
-        ).searchSessionId,
-      },
-    };
-    const enrichedEvent = Object.assign({}, analyticsEvent, { payload });
-    enrichedEvent.fire();
+      this.props.createAnalyticsEvent,
+    );
   }
 
   render() {
@@ -91,3 +94,5 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
     return null;
   }
 }
+
+export default withAnalyticsEvents()(ShowMoreButton) as typeof ShowMoreButton;
