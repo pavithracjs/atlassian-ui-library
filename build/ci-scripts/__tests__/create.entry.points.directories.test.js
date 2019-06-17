@@ -42,8 +42,8 @@ describe('Entrypoints', () => {
     dirsToRemove.forEach(file => deleteDirectory(file));
   });
   afterEach(() => {
-    jest.resetAllMocks();
     dirsToRemove.forEach(file => deleteDirectory(file));
+    jest.resetAllMocks();
   });
 
   test('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points ts file', async () => {
