@@ -14,7 +14,8 @@
   ],
   "atlaskit": {
     "name": "Email renderer",
-    "team": "Content Services"
+    "team": "Content Services",
+    "internal": true
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
