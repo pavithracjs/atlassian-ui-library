@@ -1,10 +1,12 @@
 import * as React from 'react';
 
 import { shallow } from 'enzyme';
-import ResultGroup, { Props } from '../../components/ResultGroup';
+import { ResultGroup, Props } from '../../components/ResultGroup';
 import { makeConfluenceObjectResult } from './_test-util';
 import ResultList from '../../components/ResultList';
 import { ResultItemGroup } from '@atlaskit/quick-search';
+
+const mockedIntl: ReactIntl.InjectedIntl = {} as ReactIntl.InjectedIntl;
 
 function render(partialProps: Partial<Props>) {
   const props: Props = {
@@ -13,10 +15,14 @@ function render(partialProps: Partial<Props>) {
     sectionIndex: 0,
     totalSize: 0,
     showTotalSize: false,
+    showMoreButton: false,
+    onSearchMoreAdvancedSearch: undefined,
+    onShowMoreClicked: () => {},
+    query: '',
     ...partialProps,
   };
 
-  return shallow(<ResultGroup {...props} />);
+  return shallow(<ResultGroup {...props} intl={mockedIntl} />);
 }
 
 describe('<ResultGroup />', () => {

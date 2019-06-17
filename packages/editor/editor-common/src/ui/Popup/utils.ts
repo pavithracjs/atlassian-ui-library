@@ -141,6 +141,7 @@ const calculateHorizontalPlacement = ({
   popupOffsetParentLeft,
   popupOffsetParentRight,
   popupOffsetParentScrollLeft,
+  popupOffsetParentClientWidth,
 
   popupClientWidth,
   offset,
@@ -154,6 +155,7 @@ const calculateHorizontalPlacement = ({
   popupOffsetParentLeft: number;
   popupOffsetParentRight: number;
   popupOffsetParentScrollLeft: number;
+  popupOffsetParentClientWidth: number;
 
   popupClientWidth: number;
   offset: Array<number>;
@@ -193,7 +195,36 @@ const calculateHorizontalPlacement = ({
     );
   }
 
+  if (position.left !== undefined) {
+    position.left = getPopupXInsideParent(
+      position.left,
+      popupClientWidth,
+      popupOffsetParentClientWidth,
+    );
+  }
+  if (position.right !== undefined) {
+    position.right = getPopupXInsideParent(
+      position.right,
+      popupClientWidth,
+      popupOffsetParentClientWidth,
+    );
+  }
   return position;
+};
+
+const getPopupXInsideParent = (
+  x: number,
+  popupClientWidth: number,
+  popupOffsetParentClientWidth: number,
+): number => {
+  // minimum distance the popup can be from the edge of its parent
+  const minPopupMargin = 1;
+  // prevent going too far right
+  if (popupOffsetParentClientWidth < x + popupClientWidth) {
+    x = popupOffsetParentClientWidth - popupClientWidth - minPopupMargin;
+  }
+  // prevent going too far left
+  return Math.max(minPopupMargin, x);
 };
 
 const calculateVerticalStickBottom = ({
@@ -447,6 +478,7 @@ export function calculatePosition({
     popupOffsetParentLeft,
     popupOffsetParentRight,
     popupOffsetParentScrollLeft: popupOffsetParent.scrollLeft || 0,
+    popupOffsetParentClientWidth: popup.offsetParent.clientWidth,
     popupClientWidth: popup.clientWidth || 0,
     offset,
   });

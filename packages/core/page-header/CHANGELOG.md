@@ -1,5 +1,13 @@
 # @atlaskit/page-header
 
+## 9.0.2
+
+### Patch Changes
+
+- [patch][3ce8deb182](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ce8deb182):
+
+  Page-header now supports a flex parent around the actions
+
 ## 9.0.1
 
 - Updated dependencies [52b15f57d3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52b15f57d3):
