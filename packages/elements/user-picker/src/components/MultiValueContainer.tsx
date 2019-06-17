@@ -55,7 +55,7 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
     }
   }
 
-  private scrollToBottom = () => {
+  scrollToBottom = () => {
     this.timeoutId = window.setTimeout(() => {
       if (this.containerRef) {
         const { current } = this.containerRef;
