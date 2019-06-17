@@ -4,7 +4,7 @@ module.exports = {
   'packages/core/navigation-next/src': {
     statements: 66,
     branches: 69,
-    functions: 78,
+    functions: 69,
     lines: 66,
   },
   'packages/core/global-navigation/src': {
