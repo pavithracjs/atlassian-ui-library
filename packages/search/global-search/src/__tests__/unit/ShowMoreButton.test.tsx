@@ -8,15 +8,17 @@ import { AnalyticsNextEvent } from '../../components/analytics/types';
 import * as Utils from '../../components/SearchResultsUtil';
 import { shallow } from 'enzyme';
 
-const mockedEvent = ({
-  payload: {},
-  update: jest.fn(),
-  fire: jest.fn(),
-} as {}) as AnalyticsNextEvent;
-
 const createAnalyticsEventSpy = jest.fn();
 const showMoreClickSpy = jest.fn();
 const onSearchMoreAdvancedSearchSpy = jest.fn();
+const updateEventMock = jest.fn();
+const fireEventMock = jest.fn();
+
+const mockedEvent = ({
+  payload: {},
+  update: updateEventMock,
+  fire: fireEventMock,
+} as {}) as AnalyticsNextEvent;
 
 const render = (changedProps: Partial<ShowMoreButtonProps>) => {
   const props = ({
@@ -41,7 +43,7 @@ describe('Show more button', () => {
     );
     getConfluenceAdvancedSearchLinkSpy.mockReturnValue(advancedLink);
     createAnalyticsEventSpy.mockReturnValue(mockedEvent);
-    mockedEvent.update.mockReturnValue(mockedEvent);
+    updateEventMock.mockReturnValue(mockedEvent);
   });
 
   afterEach(() => {
@@ -89,8 +91,8 @@ describe('Show more button', () => {
     expect(showMoreClickSpy).toBeCalledTimes(1);
     expect(onSearchMoreAdvancedSearchSpy).not.toBeCalled();
 
-    expect(mockedEvent.update).toBeCalledTimes(1);
-    expect(mockedEvent.update.mock.calls[0][0]).toMatchObject({
+    expect(updateEventMock).toBeCalledTimes(1);
+    expect(updateEventMock.mock.calls[0][0]).toMatchObject({
       action: 'click',
       actionSubject: 'button',
       actionSubjectId: 'show_more_button',
@@ -105,8 +107,8 @@ describe('Show more button', () => {
         componentName: 'GlobalQuickSearch',
       },
     });
-    expect(mockedEvent.fire).toBeCalledTimes(1);
-    expect(mockedEvent.fire.mock.calls[0][0]).toBe('fabric-elements');
+    expect(fireEventMock).toBeCalledTimes(1);
+    expect(fireEventMock.mock.calls[0][0]).toBe('fabric-elements');
   });
 
   it('should trigger advanced link analytic event', () => {
@@ -118,8 +120,8 @@ describe('Show more button', () => {
     expect(showMoreClickSpy).toBeCalledTimes(0);
     expect(onSearchMoreAdvancedSearchSpy).toBeCalledTimes(1);
 
-    expect(mockedEvent.update).toBeCalledTimes(1);
-    expect(mockedEvent.update.mock.calls[0][0]).toMatchObject({
+    expect(updateEventMock).toBeCalledTimes(1);
+    expect(updateEventMock.mock.calls[0][0]).toMatchObject({
       action: 'click',
       actionSubject: 'button',
       actionSubjectId: 'show_more_advanced_search_button',
@@ -134,7 +136,7 @@ describe('Show more button', () => {
         componentName: 'GlobalQuickSearch',
       },
     });
-    expect(mockedEvent.fire).toBeCalledTimes(1);
-    expect(mockedEvent.fire.mock.calls[0][0]).toBe('fabric-elements');
+    expect(fireEventMock).toBeCalledTimes(1);
+    expect(fireEventMock.mock.calls[0][0]).toBe('fabric-elements');
   });
 });
