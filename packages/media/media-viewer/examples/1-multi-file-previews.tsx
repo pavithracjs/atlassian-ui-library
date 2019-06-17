@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Subscription } from 'rxjs/Subscription';
 import Button from '@atlaskit/button';
 import AkSpinner from '@atlaskit/spinner';
 import {
@@ -30,7 +29,7 @@ import {
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
-import { Identifier, FileIdentifier } from '@atlaskit/media-client';
+import { Identifier, FileIdentifier, MediaStore } from '@atlaskit/media-client';
 import { Card } from '@atlaskit/media-card';
 
 const mediaClient = createStorybookMediaClient();
@@ -51,53 +50,39 @@ export type State = {
 
 export default class Example extends React.Component<{}, State> {
   state: State = {};
-  private subscription?: Subscription;
 
-  componentDidMount() {
-    this.subscription = mediaClient.collection
-      .getItems(defaultCollectionName, { limit: 1 })
-      .subscribe({
-        next: items => {
-          const firstItem = items[0];
-          if (firstItem) {
-            this.setState({
-              firstItemFromDefaultCollection: {
-                id: firstItem.id,
-                mediaItemType: 'file',
-                occurrenceKey: firstItem.occurrenceKey,
-              },
-            });
-          } else {
-            console.error('No items found in the collection');
-          }
-        },
-      });
+  async componentDidMount() {
+    const firstDefaultCollectionItem = await this.getFirstCollectionItem(
+      defaultCollectionName,
+    );
+    this.setState({
+      firstItemFromDefaultCollection: {
+        id: firstDefaultCollectionItem.id,
+        mediaItemType: 'file',
+        occurrenceKey: firstDefaultCollectionItem.occurrenceKey,
+      },
+    });
 
-    this.subscription = mediaClient.collection
-      .getItems(defaultMediaPickerCollectionName, { limit: 1 })
-      .subscribe({
-        next: items => {
-          const firstItem = items[0];
-          if (firstItem) {
-            this.setState({
-              firstItemFromMediaPickerCollection: {
-                id: firstItem.id,
-                mediaItemType: 'file',
-                occurrenceKey: firstItem.occurrenceKey,
-              },
-            });
-          } else {
-            console.error('No items found in the collection');
-          }
-        },
-      });
+    const firstDefaultMPCollectionItem = await this.getFirstCollectionItem(
+      defaultMediaPickerCollectionName,
+    );
+
+    this.setState({
+      firstItemFromMediaPickerCollection: {
+        id: firstDefaultMPCollectionItem.id,
+        mediaItemType: 'file',
+        occurrenceKey: firstDefaultMPCollectionItem.occurrenceKey,
+      },
+    });
   }
 
-  componentWillUnmount() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  getFirstCollectionItem = async (collectionName: string) => {
+    const store = new MediaStore(mediaClient.config);
+    const items = (await store.getCollectionItems(collectionName, { limit: 1 }))
+      .data.contents;
+
+    return items[0];
+  };
 
   private openList = () => {
     this.setState({
