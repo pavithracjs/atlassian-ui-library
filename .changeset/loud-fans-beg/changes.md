@@ -1,0 +1,1 @@
+include defaultMediaPickerCollectionName into collectionNames array to get auth from playgrond
