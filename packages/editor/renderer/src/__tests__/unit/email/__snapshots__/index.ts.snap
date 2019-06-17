@@ -517,30 +517,12 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            <font
-                              color="#FFFFFF"
-                              style="font-color: #FFFFFF;"
-                            >
-                              []
-                            </font>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemUnchecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -582,25 +564,12 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 20px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            ✓
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemChecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -642,30 +611,12 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            <font
-                              color="#FFFFFF"
-                              style="font-color: #FFFFFF;"
-                            >
-                              []
-                            </font>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemUnchecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -730,28 +681,15 @@ exports[`Renderer - EmailSerializer should render decision list correctly 1`] = 
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 9px;width: 16px;height: 16px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 13px;font-weight: 900;text-align: center;color: #36B37E;width: 16px;height: 16px;"
-                          >
-                            ↖
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-decision"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
-                    style="font-size: 14px;padding: 8px 0px 8px 0;"
+                    style="font-size: 14px;padding: 8px 8px 8px 0;"
                   >
                     decision 1 of 2 in list
                   </td>
@@ -785,28 +723,15 @@ exports[`Renderer - EmailSerializer should render decision list correctly 1`] = 
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 9px;width: 16px;height: 16px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 13px;font-weight: 900;text-align: center;color: #36B37E;width: 16px;height: 16px;"
-                          >
-                            ↖
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-decision"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
-                    style="font-size: 14px;padding: 8px 0px 8px 0;"
+                    style="font-size: 14px;padding: 8px 8px 8px 0;"
                   >
                     decision 2 of 2 in list
                   </td>
@@ -1388,31 +1313,15 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             <tbody>
               <tr>
                 <td
-                  style="vertical-align: top;width: 16px;height: 16px;"
+                  style="vertical-align: top;width: 24px;height: 24px;padding: 12px 0px 12px 8px;"
                 >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center;width: 16px;height: 16px;padding: 8px;"
-                        >
-                          <img
-                            src="cid:pfcs-generated-icon-info"
-                            style="width: 16px;height: 16px;"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <img
+                    src="cid:pfcs-generated-icon-info"
+                    style="width: 16px;height: 16px;"
+                  />
                 </td>
                 <td
-                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 0px 1px 16px;margin: 0px;"
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 8px 1px 0;margin: 0px;"
                 >
                   <p
                     style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
@@ -1454,31 +1363,15 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             <tbody>
               <tr>
                 <td
-                  style="vertical-align: top;width: 16px;height: 16px;"
+                  style="vertical-align: top;width: 24px;height: 24px;padding: 12px 0px 12px 8px;"
                 >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center;width: 16px;height: 16px;padding: 8px;"
-                        >
-                          <img
-                            src="cid:pfcs-generated-icon-note"
-                            style="width: 16px;height: 16px;"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <img
+                    src="cid:pfcs-generated-icon-note"
+                    style="width: 16px;height: 16px;"
+                  />
                 </td>
                 <td
-                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 0px 1px 16px;margin: 0px;"
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 8px 1px 0;margin: 0px;"
                 >
                   <p
                     style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
@@ -1520,31 +1413,15 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             <tbody>
               <tr>
                 <td
-                  style="vertical-align: top;width: 16px;height: 16px;"
+                  style="vertical-align: top;width: 24px;height: 24px;padding: 12px 0px 12px 8px;"
                 >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center;width: 16px;height: 16px;padding: 8px;"
-                        >
-                          <img
-                            src="cid:pfcs-generated-icon-tip"
-                            style="width: 16px;height: 16px;"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <img
+                    src="cid:pfcs-generated-icon-tip"
+                    style="width: 16px;height: 16px;"
+                  />
                 </td>
                 <td
-                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 0px 1px 16px;margin: 0px;"
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 8px 1px 0;margin: 0px;"
                 >
                   <p
                     style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
@@ -1586,31 +1463,15 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             <tbody>
               <tr>
                 <td
-                  style="vertical-align: top;width: 16px;height: 16px;"
+                  style="vertical-align: top;width: 24px;height: 24px;padding: 12px 0px 12px 8px;"
                 >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center;width: 16px;height: 16px;padding: 8px;"
-                        >
-                          <img
-                            src="cid:pfcs-generated-icon-success"
-                            style="width: 16px;height: 16px;"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <img
+                    src="cid:pfcs-generated-icon-success"
+                    style="width: 16px;height: 16px;"
+                  />
                 </td>
                 <td
-                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 0px 1px 16px;margin: 0px;"
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 8px 1px 0;margin: 0px;"
                 >
                   <p
                     style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
@@ -1652,31 +1513,15 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             <tbody>
               <tr>
                 <td
-                  style="vertical-align: top;width: 16px;height: 16px;"
+                  style="vertical-align: top;width: 24px;height: 24px;padding: 12px 0px 12px 8px;"
                 >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center;width: 16px;height: 16px;padding: 8px;"
-                        >
-                          <img
-                            src="cid:pfcs-generated-icon-warning"
-                            style="width: 16px;height: 16px;"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <img
+                    src="cid:pfcs-generated-icon-warning"
+                    style="width: 16px;height: 16px;"
+                  />
                 </td>
                 <td
-                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 0px 1px 16px;margin: 0px;"
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 8px 1px 0;margin: 0px;"
                 >
                   <p
                     style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
@@ -1718,31 +1563,15 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             <tbody>
               <tr>
                 <td
-                  style="vertical-align: top;width: 16px;height: 16px;"
+                  style="vertical-align: top;width: 24px;height: 24px;padding: 12px 0px 12px 8px;"
                 >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center;width: 16px;height: 16px;padding: 8px;"
-                        >
-                          <img
-                            src="cid:pfcs-generated-icon-error"
-                            style="width: 16px;height: 16px;"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <img
+                    src="cid:pfcs-generated-icon-error"
+                    style="width: 16px;height: 16px;"
+                  />
                 </td>
                 <td
-                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 0px 1px 16px;margin: 0px;"
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;width: 100%;padding: 1px 8px 1px 0;margin: 0px;"
                 >
                   <p
                     style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
@@ -1765,40 +1594,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
 </div>
 `;
 
-exports[`Renderer - EmailSerializer should render panels correctly 2`] = `
-Array [
-  Object {
-    "contentId": "cid:pfcs-generated-icon-info",
-    "contentType": "png",
-    "data": "data:image/png;base64,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",
-  },
-  Object {
-    "contentId": "cid:pfcs-generated-icon-note",
-    "contentType": "png",
-    "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAJI0lEQVRIDQEYCef2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABDUW9M/wH/nAAAABcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6QH/AWS9r5G0AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wH/nAAAABcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABf/Af+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP4ELyrmvEAAAAAAAAAAAAAAABEVWYP/v0I8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+/QjwQlJuAAAAAAAAAAAAAAAAAP79AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID+BC+rpIBvq6SAQID+BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v0I8EJSbgAAAAAA/v0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/wFkAAAA6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6QH/AWQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANkkvHjlG7pEAAAAASUVORK5CYII=",
-  },
-  Object {
-    "contentId": "cid:pfcs-generated-icon-tip",
-    "contentType": "png",
-    "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAJI0lEQVRIDQEYCef2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBTbDQC/wJu/wAAPAEAABgAAAAA/wAA6AEAAMT+Af6SwK2UzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEFRb14BAf+gAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AWC/r5GiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE1NZgr1BQjjAAAAEgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADt9wMDHcerj/cAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD0BghMAAAAEgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEwn8/kwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf4AHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8BAfYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL/9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//gHGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/+AMYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwLCQ0AABAbcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALa/r5PRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgBoAAAB8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfECAwFpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvKuR4v8AAGoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AABqvKuR4gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQlJuwAAAAD8AAAAAAAAAAAAAAAAAAADBvq6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAICAoAAAAAAAAAAAAAAAAAAAAAAAgICgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEJSbv8AAAAAAAAAAAAAAAC+rpIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wChAAAAAAAAAAD//wChAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQwGa/z1+jYAAAAABQwGawAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcOtSUh9LMMMAAAAASUVORK5CYII=",
-  },
-  Object {
-    "contentId": "cid:pfcs-generated-icon-success",
-    "contentType": "png",
-    "data": "data:image/png;base64,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",
-  },
-  Object {
-    "contentId": "cid:pfcs-generated-icon-warning",
-    "contentType": "png",
-    "data": "data:image/png;base64,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AQMpvK2P3gAAAAAAAAAAAgAAAAAAAAAAAAAAAP8CAYEAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG/f/9ggAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA/wDpAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA/+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA34l5PxC5R/8AAAAASUVORK5CYII=",
-  },
-  Object {
-    "contentId": "cid:pfcs-generated-icon-error",
-    "contentType": "png",
-    "data": "data:image/png;base64,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",
-  },
-]
-`;
+exports[`Renderer - EmailSerializer should render panels correctly 2`] = `Array []`;
 
 exports[`Renderer - EmailSerializer should render paragraph with indentations 1`] = `
 <div
@@ -2001,30 +1797,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            <font
-                              color="#FFFFFF"
-                              style="font-color: #FFFFFF;"
-                            >
-                              []
-                            </font>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemUnchecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -2061,30 +1839,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            <font
-                              color="#FFFFFF"
-                              style="font-color: #FFFFFF;"
-                            >
-                              []
-                            </font>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemUnchecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -2126,30 +1886,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            <font
-                              color="#FFFFFF"
-                              style="font-color: #FFFFFF;"
-                            >
-                              []
-                            </font>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemUnchecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -2191,30 +1933,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 18px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            <font
-                              color="#FFFFFF"
-                              style="font-color: #FFFFFF;"
-                            >
-                              []
-                            </font>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemUnchecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -2253,25 +1977,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 20px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            ✓
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemChecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -2308,25 +2019,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 20px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            ✓
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemChecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -2368,25 +2066,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 20px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            ✓
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemChecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
@@ -2428,25 +2113,12 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
               <tbody>
                 <tr>
                   <td
-                    style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                    style="vertical-align: top;padding: 8px 0px 8px 8px;width: 24px;height: 24px;"
                   >
-                    <table
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%; table-layout: fixed; line-height: 20px;"
-                      width="100%"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            style="font-size: 12px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
-                          >
-                            ✓
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <img
+                      src="cid:pfcs-generated-icon-taskItemChecked"
+                      style="width: 16px;height: 16px;"
+                    />
                   </td>
                   <td
                     style="font-size: 14px;padding: 8px 8px 8px 0;"
