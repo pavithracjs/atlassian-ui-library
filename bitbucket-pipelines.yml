@@ -245,6 +245,18 @@ pipelines:
             - yarn send:buildEvents
           caches:
             - node
+    
+    # This will run the full suite of the mobile webdriver tests on Browserstack.
+    build-mobile-webdriver:
+      - step:
+          script:
+            - source ./build-setup.sh
+            - bolt install --pure-lockfile
+            - MOBILE=true yarn test:webdriver:browserstack packages/editor/editor-mobile-bridge/
+          #after-script:
+          #  - yarn send:buildEvents
+          caches:
+            - node
 
     # This will run the full suite of the visual regression tests using Docker.
     build-visual-regression:
