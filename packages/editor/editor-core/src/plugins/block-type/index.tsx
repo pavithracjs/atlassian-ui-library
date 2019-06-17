@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { InjectedIntl } from 'react-intl';
 import { heading, blockquote, hardBreak } from '@atlaskit/adf-schema';
 import { EditorPlugin, AllowedBlockTypes } from '../../types';
 import { ToolbarSize } from '../../ui/Toolbar';
@@ -8,7 +9,7 @@ import inputRulePlugin from './pm-plugins/input-rule';
 import ToolbarBlockType from './ui/ToolbarBlockType';
 import WithPluginState from '../../ui/WithPluginState';
 import { setBlockTypeWithAnalytics } from './commands';
-import { messages } from './types';
+import { messages, HeadingLevels } from './types';
 import { NodeSpec } from 'prosemirror-model';
 import {
   addAnalytics,
@@ -19,12 +20,47 @@ import {
   ACTION,
 } from '../analytics';
 import { toggleBlockQuote, tooltip } from '../../keymaps';
-import { IconQuote } from '../quick-insert/assets';
+import { IconQuote, IconHeading } from '../quick-insert/assets';
+import { QuickInsertItem } from '../quick-insert/types';
 
 interface BlockTypeNode {
   name: AllowedBlockTypes;
   node: NodeSpec;
 }
+
+const headingPluginOptions = ({
+  formatMessage,
+}: InjectedIntl): Array<QuickInsertItem> =>
+  Array.from({ length: 6 }, (_v, idx) => {
+    let level = (idx + 1) as HeadingLevels;
+    return {
+      title: formatMessage((messages as any)[`heading${level}`]),
+      description: formatMessage(
+        (messages as any)[`heading${level}Description`],
+      ),
+      priority: 1300,
+      keywords: [`h${level}`],
+      icon: () => (
+        <IconHeading
+          level={level}
+          label={formatMessage((messages as any)[`heading${level}`])}
+        />
+      ),
+      action(insert, state) {
+        let tr = insert(state.schema.nodes.heading.createChecked({ level }));
+        return addAnalytics(tr, {
+          action: ACTION.INSERTED,
+          actionSubject: ACTION_SUBJECT.DOCUMENT,
+          eventType: EVENT_TYPE.TRACK,
+          actionSubjectId: ACTION_SUBJECT_ID.FORMAT_HEADING,
+          attributes: {
+            inputMethod: INPUT_METHOD.QUICK_INSERT,
+            headingLevel: level,
+          },
+        });
+      },
+    };
+  });
 
 const blockType: EditorPlugin = {
   nodes({ allowBlockType }) {
@@ -105,33 +141,37 @@ const blockType: EditorPlugin = {
   },
 
   pluginsOptions: {
-    quickInsert: ({ formatMessage }) => [
-      {
-        title: formatMessage(messages.blockquote),
-        description: formatMessage(messages.blockquoteDescription),
-        priority: 1300,
-        keyshortcut: tooltip(toggleBlockQuote),
-        icon: () => <IconQuote label={formatMessage(messages.blockquote)} />,
-        action(insert, state) {
-          const tr = insert(
-            state.schema.nodes.blockquote.createChecked(
-              {},
-              state.schema.nodes.paragraph.createChecked(),
-            ),
-          );
+    quickInsert: intl => {
+      const { formatMessage } = intl;
+      return [
+        {
+          title: formatMessage(messages.blockquote),
+          description: formatMessage(messages.blockquoteDescription),
+          priority: 1300,
+          keyshortcut: tooltip(toggleBlockQuote),
+          icon: () => <IconQuote label={formatMessage(messages.blockquote)} />,
+          action(insert, state) {
+            const tr = insert(
+              state.schema.nodes.blockquote.createChecked(
+                {},
+                state.schema.nodes.paragraph.createChecked(),
+              ),
+            );
 
-          return addAnalytics(tr, {
-            action: ACTION.FORMATTED,
-            actionSubject: ACTION_SUBJECT.TEXT,
-            eventType: EVENT_TYPE.TRACK,
-            actionSubjectId: ACTION_SUBJECT_ID.FORMAT_BLOCK_QUOTE,
-            attributes: {
-              inputMethod: INPUT_METHOD.QUICK_INSERT,
-            },
-          });
+            return addAnalytics(tr, {
+              action: ACTION.FORMATTED,
+              actionSubject: ACTION_SUBJECT.TEXT,
+              eventType: EVENT_TYPE.TRACK,
+              actionSubjectId: ACTION_SUBJECT_ID.FORMAT_BLOCK_QUOTE,
+              attributes: {
+                inputMethod: INPUT_METHOD.QUICK_INSERT,
+              },
+            });
+          },
         },
-      },
-    ],
+        ...headingPluginOptions(intl),
+      ];
+    },
   },
 };
 

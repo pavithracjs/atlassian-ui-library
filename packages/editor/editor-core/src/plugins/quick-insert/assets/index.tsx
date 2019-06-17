@@ -1,3 +1,4 @@
+import React from 'react';
 import Loadable from 'react-loadable';
 
 export const IconAction = Loadable({
@@ -104,3 +105,35 @@ export const IconFallback = Loadable({
   loader: () => import('./fallback').then(module => module.default),
   loading: () => null,
 });
+
+type HeadingProps = {
+  level: number;
+  label: string;
+};
+
+const importHeading = (level: number) => {
+  switch (level) {
+    case 1:
+      return import('./heading1');
+    case 2:
+      return import('./heading2');
+    case 3:
+      return import('./heading3');
+    case 4:
+      return import('./heading4');
+    case 5:
+      return import('./heading5');
+    case 6:
+      return import('./heading6');
+    default:
+      return null;
+  }
+};
+
+export const IconHeading = ({ level, ...props }: HeadingProps) => {
+  const Icon = Loadable({
+    loader: () => importHeading(level).then(module => module.default),
+    loading: () => null,
+  });
+  return <Icon {...props} />;
+};
