@@ -1,1 +1,0 @@
-Add shouldHideGlobalNavShadow prop to LayoutManagerWithViewController

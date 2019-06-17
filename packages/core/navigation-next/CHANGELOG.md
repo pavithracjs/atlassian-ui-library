@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.2.0
+
+### Minor Changes
+
+- [minor][586f8033b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/586f8033b0):
+
+  Add shouldHideGlobalNavShadow prop to LayoutManagerWithViewController
+
 ## 6.1.0
 
 ### Minor Changes
