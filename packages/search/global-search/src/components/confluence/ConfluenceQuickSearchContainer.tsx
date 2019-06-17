@@ -48,6 +48,7 @@ import {
   mapSearchResultsToUIGroups,
   MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
+import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
 import { ConfluenceFeatures } from '../../util/features';
@@ -176,7 +177,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     sessionId: string,
     queryVersion: number,
   ): Promise<CrossProductSearchResults> {
-    const { crossProductSearchClient, modelContext } = this.props;
+    const { crossProductSearchClient, modelContext, features } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
 
@@ -187,11 +188,16 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       modelContext || {},
     );
 
+    const limit = features.searchExtensionsEnabled
+      ? CONF_MAX_DISPLAYED_RESULTS
+      : null;
+
     const results = await crossProductSearchClient.search(
       query,
       sessionId,
       scopes,
       modelParams,
+      limit,
     );
 
     return results;
@@ -409,15 +415,27 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
+    searchMore,
   }: SearchResultProps<ConfluenceResultsMap>) => {
     const { onAdvancedSearch = () => {}, features } = this.props;
+    const onSearchMoreAdvancedSearchClicked = (event: CancelableEvent) => {
+      onAdvancedSearch(
+        event,
+        ConfluenceAdvancedSearchTypes.Content,
+        latestSearchQuery,
+        searchSessionId,
+      );
+    };
 
     return (
       <SearchResultsComponent
+        query={latestSearchQuery}
         isPreQuery={!latestSearchQuery}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}
+        searchMore={searchMore}
+        onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
         keepPreQueryState={
           features.isInFasterSearchExperiment ? false : keepPreQueryState
         }
@@ -486,6 +504,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
+        product="confluence"
         handleSearchSubmit={this.handleSearchSubmit}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
         getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}

@@ -9,13 +9,14 @@ import {
   SearchResultProps,
 } from '../../../components/common/QuickSearchContainer';
 import { GlobalQuickSearch } from '../../../components/GlobalQuickSearch';
-import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 import { GenericResultMap } from '../../../model/Result';
 import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import {
   PerformanceTiming,
   ShownAnalyticsAttributes,
 } from '../../../util/analytics-util';
+import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
+import { QuickSearchContext } from '../../../api/types';
 import { mockLogger } from '../mocks/_mockLogger';
 
 const defaultReferralContext = {
@@ -38,6 +39,7 @@ const mockEvent: any = {
 };
 
 const defaultProps = {
+  product: 'confluence' as QuickSearchContext,
   logger: mockLogger(),
   getSearchResultsComponent: jest.fn(
     (props: SearchResultProps<GenericResultMap>) => null,
