@@ -8,10 +8,7 @@ import {
 export * from './icons';
 
 const cidPrefix = 'cid:pfcs-generated';
-const cidMatcher = new RegExp(
-  `src="cid:pfcs-generated-([\w]*)-([\w-]*)"`,
-  'gi',
-);
+const cidMatcher = new RegExp(`src="${cidPrefix}-([\w]*)-([\w-]*)"`, 'gi');
 type ImageTypeString = 'icon';
 
 export const createContentId = (
@@ -34,10 +31,7 @@ export const processEmbeddedImages = (isMockEnabled: boolean) => (
     return isMockEnabled ? `src="${imageSource}"` : match;
   };
 
-  const processedResult = result.replace(
-    /src="cid:pfcs-generated-([\w]*)-([\w-]*)"/gi,
-    imageProcessor,
-  );
+  const processedResult = result.replace(cidMatcher, imageProcessor);
 
   const embeddedImagesMapper = (iconName: string): MediaImageBase64 => ({
     contentId: createContentId(IconName[iconName as icons.IconString]),

@@ -1388,7 +1388,7 @@ var _default = {
     package: '@atlaskit/icon/glyph/preferences'
   },
   premium: {
-    keywords: ['premium', 'crown', 'icon', 'core'],
+    keywords: ['premium', 'icon', 'core'],
     componentName: 'PremiumIcon',
     package: '@atlaskit/icon/glyph/premium'
   },
