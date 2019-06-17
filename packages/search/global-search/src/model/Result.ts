@@ -17,6 +17,16 @@ export enum JiraProjectType {
   Ops = 'ops',
 }
 
+export interface Results<T = Result> {
+  items: T[];
+  totalSize: number;
+  numberOfCurrentItems?: number;
+}
+
+export type PeopleResults = Results<PersonResult>;
+
+export type ConfluenceObjectResults = Results<ConfluenceObjectResult>;
+
 export interface Result {
   resultId: string;
   // main text to show
@@ -45,23 +55,26 @@ export interface GenericResultMap<T = Result> {
   [key: string]: T[];
 }
 
-export type ResultsWithTiming = {
-  results: GenericResultMap;
+export type ResultsWithTiming<
+  T extends ConfluenceResultsMap | GenericResultMap
+> = {
+  results: T;
   timings?: {
     [key: string]: number | string;
   };
   abTest?: ABTest;
 };
 
-export interface ConfluenceResultsMap extends GenericResultMap {
-  people: Result[];
-  objects: Result[];
-  spaces: Result[];
+export interface ConfluenceResultsMap {
+  people: PeopleResults;
+  objects: ConfluenceObjectResults;
+  spaces: Results;
 }
 
-export interface ConfluenceRecentsMap extends GenericResultMap {
-  objects: Result[];
-  spaces: Result[];
+export interface ConfluenceRecentsMap {
+  objects: ConfluenceObjectResults;
+  spaces: Results;
+  people: PeopleResults;
 }
 
 export interface JiraResultsMap extends GenericResultMap {
@@ -82,6 +95,8 @@ export interface ConfluenceObjectResult extends Result {
 export type ResultsGroup = {
   items: Result[];
   key: string;
+  showTotalSize: boolean;
+  totalSize: number;
   title?: FormattedMessage.MessageDescriptor;
 };
 

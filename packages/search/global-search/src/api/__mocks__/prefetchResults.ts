@@ -3,18 +3,26 @@ import { ConfluenceRecentsMap, Result } from '../../model/Result';
 const confluenceRecentItemsPromise: Promise<
   ConfluenceRecentsMap
 > = Promise.resolve({
-  objects: [],
-  spaces: [],
+  objects: {
+    items: [],
+    totalSize: 0,
+  },
+  spaces: {
+    items: [],
+    totalSize: 0,
+  },
+  people: {
+    items: [],
+    totalSize: 0,
+  },
 });
 const abTestPromise: Promise<Result[]> = Promise.resolve([]);
-const recentPeoplePromise: Promise<Result[]> = Promise.resolve([]);
 
 export const getConfluencePrefetchedData = jest.fn(() => {
   return {
     confluenceRecentItemsPromise,
     abTestPromise,
-    recentPeoplePromise,
   };
 });
 
-export { confluenceRecentItemsPromise, abTestPromise, recentPeoplePromise };
+export { confluenceRecentItemsPromise, abTestPromise };

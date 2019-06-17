@@ -1,34 +1,50 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/dynamic-table",
+    "version": "13.1.0",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 25361,
-      "gzipSize": 7239
+      "size": 26565,
+      "gzipSize": 7191
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/dynamic-table",
+    "version": "13.1.0",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 145861,
-      "gzipSize": 41388
+      "size": 145322,
+      "gzipSize": 41243
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/dynamic-table",
+    "version": "13.1.0",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 51259,
-      "gzipSize": 13576
+      "size": 52746,
+      "gzipSize": 13721
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/dynamic-table",
+    "version": "13.1.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 220618,
-      "gzipSize": 60728
+      "size": 223475,
+      "gzipSize": 60954
     }
   }
 ]

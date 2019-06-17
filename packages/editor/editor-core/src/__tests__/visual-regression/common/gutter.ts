@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import longContent from './__fixtures__/long-content-adf.json';
 import { typeInEditorAtEndOfDocument } from '../../__helpers/page-objects/_editor';
@@ -17,7 +16,7 @@ describe('Gutter:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it('should add gutter at the bottom of the page', async () => {

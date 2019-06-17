@@ -1,5 +1,45 @@
 # @atlaskit/mention
 
+## 18.4.1
+
+### Patch Changes
+
+- [patch][434b2688af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/434b2688af):
+
+  Update translation
+
+## 18.4.0
+
+### Minor Changes
+
+- [minor][11cb8d8626](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11cb8d8626):
+
+  - Remove @atlaskit/analytics dependency.
+
+## 18.3.3
+
+### Patch Changes
+
+- [patch][ac95568398](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ac95568398):
+
+  - Some messages are never pushed to Transifex so we need to run `yarn i18n:push && yarn i18n:pull` again
+
+## 18.3.2
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/avatar@16.0.4
+  - @atlaskit/icon@18.0.1
+  - @atlaskit/tooltip@15.0.0
+
+## 18.3.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/tooltip@14.0.3
+  - @atlaskit/editor-test-helpers@9.3.9
+  - @atlaskit/icon@18.0.0
+
 ## 18.3.0
 
 ### Minor Changes

@@ -248,4 +248,7 @@ export interface EditorProps {
 
   // Set to provide your extensions handlers.
   extensionHandlers?: ExtensionHandlers;
+
+  // Flag to remove private content such as mention names
+  sanitizePrivateContent?: boolean;
 }

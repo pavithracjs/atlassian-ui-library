@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
 import {
   insertMedia,
@@ -30,7 +29,7 @@ describe('Snapshot Test: Media', () => {
 
     afterEach(async () => {
       await scrollToMedia(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
 
     it('should renders selection ring around media (via up)', async () => {
@@ -71,23 +70,23 @@ describe('Snapshot Test: Media', () => {
       });
 
       it('renders selection ring around last media group item (via up)', async () => {
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
 
         await pressKey(page, 'ArrowUp');
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
       });
 
       it('renders selection ring around media group items', async () => {
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
 
         await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
 
         await pressKey(page, 'ArrowLeft');
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
 
         await pressKey(page, 'ArrowLeft');
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
       });
     });
 
@@ -113,7 +112,7 @@ describe('Snapshot Test: Media', () => {
 
       afterEach(async () => {
         await scrollToMedia(page);
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
       });
 
       it('should renders selection ring around media (via up)', async () => {

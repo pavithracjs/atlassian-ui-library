@@ -14,7 +14,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Kirjaudu ulos ja sitten uudelleen sisään',
   'fabric.mention.error.differentText': 'Kirjoita eri teksti',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} jäsen{includes, select, true {, including you} other {}}} other{{count} jäsentä{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ jäsentä{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 jäsen} other{{0} jäsentä}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} jäsentä, mukaan lukien sinut} other{{0} jäsentä, mukaan lukien sinut}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ jäsentä',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ jäsentä, mukaan lukien sinut',
 };

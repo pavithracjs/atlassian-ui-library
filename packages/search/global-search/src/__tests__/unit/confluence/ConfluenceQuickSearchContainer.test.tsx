@@ -15,10 +15,16 @@ import QuickSearchContainer, {
 } from '../../../components/common/QuickSearchContainer';
 import { makeConfluenceObjectResult, makePersonResult } from '../_test-util';
 import { Scope } from '../../../api/types';
-import { Result } from '../../../model/Result';
+import {
+  Result,
+  ConfluenceResultsMap,
+  ResultsWithTiming,
+} from '../../../model/Result';
 import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   DEFAULT_AB_TEST,
+  CrossProductSearchClient,
+  SearchResultsMap,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
@@ -37,6 +43,7 @@ const DEFAULT_FEATURES: ConfluenceFeatures = {
   abTest: DEFAULT_AB_TEST,
   isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
+  searchExtensionsEnabled: false,
 };
 
 function render(partialProps?: Partial<Props>) {
@@ -61,6 +68,33 @@ function render(partialProps?: Partial<Props>) {
   return shallowWithIntl(<ConfluenceQuickSearchContainer {...props} />);
 }
 
+const mockCrossProductSearchClient = {
+  search(query: string, sessionId: string, scopes: Scope[]) {
+    return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE) as any;
+  },
+  getAbTestDataForProduct() {
+    return Promise.resolve(DEFAULT_AB_TEST) as any;
+  },
+  getAbTestData(scope: Scope) {
+    return Promise.resolve(DEFAULT_AB_TEST) as any;
+  },
+  getPeople() {
+    return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+  },
+} as CrossProductSearchClient;
+
+const mockSingleResultPromise = (scope: Scope, result: Result) => {
+  const results = {} as SearchResultsMap;
+  results[scope] = {
+    items: [result],
+    totalSize: 1,
+  };
+
+  return Promise.resolve({
+    results: results,
+  });
+};
+
 describe('ConfluenceQuickSearchContainer', () => {
   it('should render QuickSearchContainer with correct props', () => {
     const wrapper = render();
@@ -81,61 +115,81 @@ describe('ConfluenceQuickSearchContainer', () => {
       confluenceClient: mockConfluenceClient,
     });
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const recentItems = await (quickSearchContainer.props() as QuickSearchContainerProps).getRecentItems(
-      sessionId,
-    );
-    expect(recentItems).toMatchObject({
+    const requiredRecents = await (quickSearchContainer.props() as QuickSearchContainerProps<
+      ConfluenceResultsMap
+    >).getRecentItems('session_id').eagerRecentItemsPromise;
+
+    expect(requiredRecents).toMatchObject({
       results: {
-        objects: [
-          {
-            analyticsType: 'result-confluence',
-            resultType: 'confluence-object-result',
-            containerName: 'containerName',
-            contentType: 'confluence-page',
-            containerId: 'containerId',
-            name: 'name',
-            avatarUrl: 'avatarUrl',
-            href: 'href',
-          },
-        ],
-        spaces: [],
-        people: [],
+        objects: {
+          items: [
+            {
+              analyticsType: 'result-confluence',
+              resultType: 'confluence-object-result',
+              containerName: 'containerName',
+              contentType: 'confluence-page',
+              containerId: 'containerId',
+              name: 'name',
+              avatarUrl: 'avatarUrl',
+              href: 'href',
+              resultId: 'resultId',
+            },
+          ],
+          totalSize: 1,
+        },
+        spaces: {
+          items: [],
+          totalSize: 0,
+        },
+        people: {
+          items: [],
+          totalSize: 0,
+        },
       },
-    });
+    } as ResultsWithTiming<ConfluenceResultsMap>);
   });
 
   it('should return recent items using the crossproduct search when prefetching is on ', async () => {
     const wrapper = render({
       features: { ...DEFAULT_FEATURES, useUrsForBootstrapping: true },
       crossProductSearchClient: {
-        search(query: string, sessionId: string, scopes: Scope[]) {
-          return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
-        },
-        getAbTestDataForProduct() {
-          return Promise.resolve(DEFAULT_AB_TEST);
-        },
-        getAbTestData(scope: Scope) {
-          return Promise.resolve(DEFAULT_AB_TEST);
-        },
+        ...mockCrossProductSearchClient,
         getPeople() {
-          const results = new Map<Scope, Result[]>();
-          results.set(Scope.UserConfluence, [makePersonResult()]);
-
-          return Promise.resolve({
-            results: results,
-          });
+          return mockSingleResultPromise(
+            Scope.UserConfluence,
+            makePersonResult(),
+          );
         },
       },
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getRecentItems(
-      'session_id',
-    );
+    const recentsPromise = (quickSearchContainer.props() as QuickSearchContainerProps<
+      ConfluenceResultsMap
+    >).getRecentItems('session_id');
+    const requiredRecents = await recentsPromise.eagerRecentItemsPromise;
+    const peopleRecents = await recentsPromise.lazyLoadedRecentItemsPromise;
 
-    expect(searchResults).toEqual({
+    expect(requiredRecents).toEqual({
       results: {
-        people: [
+        people: {
+          items: [],
+          totalSize: 0,
+        },
+        objects: {
+          items: [],
+          totalSize: 0,
+        },
+        spaces: {
+          items: [],
+          totalSize: 0,
+        },
+      },
+    } as ResultsWithTiming<ConfluenceResultsMap>);
+
+    expect(peopleRecents).toEqual({
+      people: {
+        items: [
           {
             mentionName: 'mentionName',
             presenceMessage: 'presenceMessage',
@@ -148,10 +202,9 @@ describe('ConfluenceQuickSearchContainer', () => {
             resultId: expect.any(String),
           },
         ],
-        objects: [],
-        spaces: [],
+        totalSize: 1,
       },
-    });
+    } as Partial<ConfluenceResultsMap>);
   });
 
   it('should return recent items using the crossproduct search when prefetching is off', async () => {
@@ -182,13 +235,32 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getRecentItems(
-      'session_id',
-    );
+    const recentsPromise = (quickSearchContainer.props() as QuickSearchContainerProps<
+      ConfluenceResultsMap
+    >).getRecentItems('session_id');
+    const requiredRecents = await recentsPromise.eagerRecentItemsPromise;
+    const peopleRecents = await recentsPromise.lazyLoadedRecentItemsPromise;
 
-    expect(searchResults).toEqual({
+    expect(requiredRecents).toEqual({
       results: {
-        people: [
+        people: {
+          items: [],
+          totalSize: 0,
+        },
+        objects: {
+          items: [],
+          totalSize: 0,
+        },
+        spaces: {
+          items: [],
+          totalSize: 0,
+        },
+      },
+    } as ResultsWithTiming<ConfluenceResultsMap>);
+
+    expect(peopleRecents).toEqual({
+      people: {
+        items: [
           {
             mentionName: 'mentionName',
             presenceMessage: 'presenceMessage',
@@ -201,10 +273,9 @@ describe('ConfluenceQuickSearchContainer', () => {
             resultId: expect.any(String),
           },
         ],
-        objects: [],
-        spaces: [],
+        totalSize: 1,
       },
-    });
+    } as Partial<ConfluenceResultsMap>);
   });
 
   it('should call cross product search client with correct query version', async () => {
@@ -232,18 +303,16 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResults(
-      'query',
-      sessionId,
-      100,
-      dummyQueryVersion,
-    );
+    (quickSearchContainer.props() as QuickSearchContainerProps<
+      ConfluenceResultsMap
+    >).getSearchResults('query', sessionId, 100, dummyQueryVersion);
 
     expect(searchSpy).toHaveBeenCalledWith(
       'query',
       sessionId,
       expect.any(Array),
       modelParams,
+      null,
     );
 
     searchSpy.mockRestore();
@@ -252,66 +321,60 @@ describe('ConfluenceQuickSearchContainer', () => {
   it('should return search result', async () => {
     const wrapper = render({
       crossProductSearchClient: {
+        ...mockCrossProductSearchClient,
         search(query: string, sessionId: string, scopes: Scope[]) {
           // only return items when People scope is set
           if (scopes.find(s => s === Scope.People)) {
-            const results = new Map<Scope, Result[]>();
-            results.set(Scope.People, [makePersonResult()]);
-
-            return Promise.resolve({
-              results: results,
-            });
+            return mockSingleResultPromise(Scope.People, makePersonResult());
           }
 
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
-        getAbTestDataForProduct() {
-          return Promise.resolve(DEFAULT_AB_TEST);
-        },
-        getAbTestData(scope: Scope) {
-          return Promise.resolve(DEFAULT_AB_TEST);
-        },
         getPeople() {
-          const results = new Map<Scope, Result[]>();
-          results.set(Scope.UserConfluence, [makePersonResult()]);
-
-          return Promise.resolve({
-            results: results,
-          });
+          return mockSingleResultPromise(
+            Scope.UserConfluence,
+            makePersonResult(),
+          );
         },
       },
     });
 
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
-    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResults(
-      'query',
-      sessionId,
-      100,
-      0,
-    );
+    const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps<
+      ConfluenceResultsMap
+    >).getSearchResults('query', sessionId, 100, 0);
 
     expect(searchResults).toEqual({
       results: {
-        people: [
-          {
-            mentionName: 'mentionName',
-            presenceMessage: 'presenceMessage',
-            analyticsType: 'result-person',
-            resultType: 'person-result',
-            contentType: 'person',
-            name: 'name',
-            avatarUrl: 'avatarUrl',
-            href: 'href',
-            resultId: expect.any(String),
-          },
-        ],
-        objects: [],
-        spaces: [],
+        people: {
+          items: [
+            {
+              mentionName: 'mentionName',
+              presenceMessage: 'presenceMessage',
+              analyticsType: 'result-person',
+              resultType: 'person-result',
+              contentType: 'person',
+              name: 'name',
+              avatarUrl: 'avatarUrl',
+              href: 'href',
+              resultId: expect.any(String),
+            },
+          ],
+          totalSize: 1,
+        },
+        objects: {
+          items: [],
+          totalSize: 0,
+        },
+        spaces: {
+          items: [],
+          totalSize: 0,
+        },
       },
       timings: {
         confSearchElapsedMs: expect.any(Number),
       },
-    });
+    } as ResultsWithTiming<ConfluenceResultsMap>);
   });
 
   describe('Advanced Search callback', () => {

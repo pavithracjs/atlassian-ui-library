@@ -1,5 +1,54 @@
 # @atlaskit/share
 
+## 0.4.16
+
+### Patch Changes
+
+- [patch][068e17f712](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/068e17f712):
+
+  FS-3966 add bottomMessage property
+
+## 0.4.15
+
+### Patch Changes
+
+- [patch][6fba3189dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fba3189dd):
+
+  internal refactor: remove getDerivedStateFromProps in favor of memoization
+
+## 0.4.14
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/form@6.0.6
+  - @atlaskit/icon@18.0.1
+  - @atlaskit/select@9.1.6
+  - @atlaskit/user-picker@4.0.4
+  - @atlaskit/tooltip@15.0.0
+
+## 0.4.13
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/flag@12.0.4
+  - @atlaskit/form@6.0.5
+  - @atlaskit/inline-dialog@12.0.1
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/select@9.1.5
+  - @atlaskit/toggle@7.0.1
+  - @atlaskit/tooltip@14.0.3
+  - @atlaskit/editor-test-helpers@9.3.9
+  - @atlaskit/user-picker@4.0.3
+  - @atlaskit/icon@18.0.0
+
+## 0.4.12
+
+### Patch Changes
+
+- [patch][e6c0741a32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6c0741a32):
+
+  fix incorrect origin tracing in analytics + small internal cleanups
+
 ## 0.4.11
 
 - Updated dependencies [181209d135](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/181209d135):

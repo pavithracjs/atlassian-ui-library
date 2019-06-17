@@ -1635,6 +1635,11 @@
   version "3.2.15"
   resolved "https://registry.yarnpkg.com/@types/filesize/-/filesize-3.2.15.tgz#a97325f27a5ff7974c7cbd7afa244b8a7affe668"
 
+"@types/flushable@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/flushable/-/flushable-1.0.1.tgz#7ef22f21ee52ba6602758661cc1c1845e72c9735"
+  integrity sha512-4IWprFsI6bdy3ByEE07vK+6271PhmayjAHVmPWQ+lKfAEgHacNhsNohf39oyUOXA6pVn/CVBKrRY1oH6AZweZA==
+
 "@types/glob@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.1.1.tgz#aa59a1c6e3fbc421e07ccd31a944c30eba521575"
@@ -14559,9 +14564,9 @@ prosemirror-state@>=1.0.0, prosemirror-state@^1.0.0, prosemirror-state@^1.2.2:
     prosemirror-model "^1.0.0"
     prosemirror-transform "^1.0.0"
 
-prosemirror-tables@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/prosemirror-tables/-/prosemirror-tables-0.8.0.tgz#30d3adb388b3310b47605e615753521a2a4ca77c"
+prosemirror-tables@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-tables/-/prosemirror-tables-0.8.1.tgz#ea99ad4effec99dd4e2fdb0b33cce4d2547eed83"
   dependencies:
     prosemirror-keymap "^1.0.0"
     prosemirror-model "^1.0.0"

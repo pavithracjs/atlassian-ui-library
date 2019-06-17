@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Button from '@atlaskit/button';
-import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
-import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
 
 import * as Styled from './styled';
 import { DropDownListProps } from './types';
@@ -50,13 +48,6 @@ export class DropdownList extends React.Component<DropDownListProps, State> {
           onClick={isExpanded ? this.hideDropdownList : this.showDropdownList}
           appearance="link"
           spacing="none"
-          iconBefore={
-            isExpanded ? (
-              <ChevronUpIcon label="collapse" />
-            ) : (
-              <ChevronDownIcon label="expand" />
-            )
-          }
         >
           {isExpanded ? (
             <FormattedMessage {...dropDownListMessages.collapseButton} />

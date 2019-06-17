@@ -35,3 +35,5 @@ export {
   OverflowShadowProps,
   shadowClassNames,
 } from './OverflowShadow';
+
+export { WithCreateAnalyticsEvent } from './WithCreateAnalyticsEvent';

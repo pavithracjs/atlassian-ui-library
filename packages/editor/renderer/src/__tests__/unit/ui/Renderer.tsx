@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import Renderer from '../../../ui/Renderer';
+import FabricAnalyticsListeners from '@atlaskit/analytics-listeners';
+import { analyticsClient } from '@atlaskit/editor-test-helpers';
+import { EDITOR_APPEARANCE_CONTEXT } from '@atlaskit/analytics-namespaced-context';
+import Renderer, { Renderer as BaseRenderer } from '../../../ui/Renderer';
+import { RendererAppearance } from '../../../ui/Renderer/types';
 
 const validDoc = {
   version: 1,
@@ -50,8 +54,8 @@ describe('@atlaskit/renderer/ui/Renderer', () => {
 
     const renderer = mount(<Renderer document={doc} />);
     const renderSpy = jest.spyOn(
-      renderer.instance() as any,
-      'updateSerializer',
+      renderer.find(BaseRenderer).instance() as any,
+      'render',
     );
     renderer.setProps({ appearance: 'full-width' });
     renderer.setProps({ appearance: 'full-page' });
@@ -140,6 +144,63 @@ describe('@atlaskit/renderer/ui/Renderer', () => {
       const renderer = mount(<Renderer document={validDoc} />);
       expect(renderer.find('TruncatedWrapper')).toHaveLength(0);
       renderer.unmount();
+    });
+  });
+
+  describe('Analytics', () => {
+    it('should fire analytics event on renderer started', () => {
+      const client = analyticsClient();
+      mount(
+        <FabricAnalyticsListeners client={client}>
+          <Renderer document={validDoc} />
+        </FabricAnalyticsListeners>,
+      );
+
+      expect(client.sendUIEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: 'started',
+          actionSubject: 'renderer',
+          attributes: expect.objectContaining({ platform: 'web' }),
+        }),
+      );
+    });
+
+    const appearances: {
+      appearance: RendererAppearance;
+      analyticsAppearance: EDITOR_APPEARANCE_CONTEXT;
+    }[] = [
+      {
+        appearance: 'full-page',
+        analyticsAppearance: EDITOR_APPEARANCE_CONTEXT.FIXED_WIDTH,
+      },
+      {
+        appearance: 'comment',
+        analyticsAppearance: EDITOR_APPEARANCE_CONTEXT.COMMENT,
+      },
+      {
+        appearance: 'full-width',
+        analyticsAppearance: EDITOR_APPEARANCE_CONTEXT.FULL_WIDTH,
+      },
+    ];
+    appearances.forEach(appearance => {
+      it(`adds appearance to analytics events for ${
+        appearance.appearance
+      } renderer`, () => {
+        const client = analyticsClient();
+        mount(
+          <FabricAnalyticsListeners client={client}>
+            <Renderer document={validDoc} appearance={appearance.appearance} />
+          </FabricAnalyticsListeners>,
+        );
+
+        expect(client.sendUIEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            attributes: expect.objectContaining({
+              appearance: appearance.analyticsAppearance,
+            }),
+          }),
+        );
+      });
     });
   });
 });

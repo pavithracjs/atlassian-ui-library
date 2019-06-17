@@ -19,6 +19,9 @@ function render(partialProps: Partial<Props>) {
     type: ResultGroupType.PreQuery,
     renderAdvancedSearch: () => <a>link</a>,
     searchSessionId: '0',
+    onShowMoreClicked: () => {},
+    onSearchMoreAdvancedSearchClicked: () => {},
+    query: '',
     ...partialProps,
   };
 
@@ -31,6 +34,9 @@ function renderMount(partialProps: Partial<Props>) {
     type: ResultGroupType.PreQuery,
     renderAdvancedSearch: () => <a key="advanced-link">link</a>,
     searchSessionId: '0',
+    onShowMoreClicked: () => {},
+    onSearchMoreAdvancedSearchClicked: () => {},
+    query: '',
     ...partialProps,
   };
 
@@ -43,16 +49,22 @@ it('should render passed objects', () => {
       items: [makeConfluenceObjectResult(), makeConfluenceObjectResult()],
       key: 'recentlyViewedPages',
       title: messages.confluence_recent_pages_heading,
+      totalSize: 2,
+      showTotalSize: false,
     },
     {
       items: [makeConfluenceContainerResult()],
       key: 'recentlyViewedSpaces',
       title: messages.confluence_spaces_heading,
+      totalSize: 1,
+      showTotalSize: false,
     },
     {
       items: [makePersonResult(), makePersonResult(), makePersonResult()],
       key: 'recentlyInteractedPeople',
       title: messages.people_recent_people_heading,
+      totalSize: 3,
+      showTotalSize: false,
     },
   ];
 
@@ -78,21 +90,29 @@ it('should filter out empty groups', () => {
       items: [makeConfluenceObjectResult(), makeConfluenceObjectResult()],
       key: 'recentlyViewedPages',
       title: messages.confluence_recent_pages_heading,
+      totalSize: 2,
+      showTotalSize: false,
     },
     {
       items: [],
       key: 'empty',
       title: messages.confluence_search_placeholder,
+      totalSize: 0,
+      showTotalSize: false,
     },
     {
       items: [],
       key: 'empty2',
       title: messages.confluence_search_placeholder,
+      totalSize: 0,
+      showTotalSize: false,
     },
     {
       items: [makePersonResult(), makePersonResult(), makePersonResult()],
       key: 'recentlyInteractedPeople',
       title: messages.people_recent_people_heading,
+      totalSize: 3,
+      showTotalSize: false,
     },
   ];
 
@@ -126,6 +146,8 @@ it('should fire pre query screen event', () => {
         items: [makeConfluenceContainerResult()],
         key: 'recentlyViewedSpaces',
         title: messages.confluence_recent_spaces_heading,
+        totalSize: 1,
+        showTotalSize: false,
       },
     ],
     screenCounter: preQueryScreenCounter,

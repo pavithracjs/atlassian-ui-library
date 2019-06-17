@@ -1,3 +1,5 @@
+import { globalMediaEventEmitter } from '@atlaskit/media-client';
+const globalEmitSpy = jest.spyOn(globalMediaEventEmitter, 'emit');
 import {
   mockStore,
   mockWsConnectionHolder,
@@ -41,7 +43,7 @@ import {
   getFileStreamsCache,
   FileState,
   UploadingFileState,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { ReplaySubject, Observable } from 'rxjs';
 
 describe('importFiles middleware', () => {
@@ -485,9 +487,9 @@ describe('importFiles middleware', () => {
         )(action);
 
         window.setTimeout(() => {
-          const { tenantContext } = store.getState();
-          expect(tenantContext.file.touchFiles).toBeCalledTimes(1);
-          expect(tenantContext.file.touchFiles).toBeCalledWith(
+          const { tenantMediaClient } = store.getState();
+          expect(tenantMediaClient.file.touchFiles).toBeCalledTimes(1);
+          expect(tenantMediaClient.file.touchFiles).toBeCalledWith(
             [
               {
                 collection: 'tenant-collection',
@@ -517,7 +519,7 @@ describe('importFiles middleware', () => {
       });
     });
 
-    it('should emit file-added in the tenant context', done => {
+    it('should emit file-added in tenant mediaClient and globalMediaEventEmitter', done => {
       const { eventEmitter, mockWsProvider, store, nextDispatch } = setup();
 
       importFilesMiddleware(eventEmitter, mockWsProvider)(store)(nextDispatch)(
@@ -525,10 +527,8 @@ describe('importFiles middleware', () => {
       );
 
       window.setTimeout(() => {
-        const { tenantContext } = store.getState();
-
-        expect(tenantContext.emit).toBeCalledTimes(4);
-        expect(tenantContext.emit).lastCalledWith('file-added', {
+        const { tenantMediaClient } = store.getState();
+        const fileState = {
           id: expectUUID,
           mediaType: 'image',
           mimeType: 'image/jpg',
@@ -537,7 +537,12 @@ describe('importFiles middleware', () => {
           representations: {},
           size: 47,
           status: 'processing',
-        });
+        };
+
+        expect(globalEmitSpy).toBeCalledTimes(4);
+        expect(globalEmitSpy).lastCalledWith('file-added', fileState);
+        expect(tenantMediaClient.emit).toBeCalledTimes(4);
+        expect(tenantMediaClient.emit).lastCalledWith('file-added', fileState);
         done();
       });
     });
@@ -664,9 +669,9 @@ describe('importFiles middleware', () => {
         async next(state) {
           if (state.status !== 'error') {
             await state.preview;
-            const { userContext } = store.getState();
-            expect(userContext.getImage).toBeCalledTimes(1);
-            expect(userContext.getImage).toBeCalledWith('id-1', {
+            const { userMediaClient } = store.getState();
+            expect(userMediaClient.getImage).toBeCalledTimes(1);
+            expect(userMediaClient.getImage).toBeCalledWith('id-1', {
               collection: RECENTS_COLLECTION,
               width: 1920,
               height: 1080,

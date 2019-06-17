@@ -76,6 +76,8 @@ export const mapRecentResultsToUIGroups = (
       items: objectsToDisplay,
       key: 'issues',
       title: messages.jira_recent_issues_heading,
+      totalSize: objectsToDisplay.length,
+      showTotalSize: features.searchExtensionsEnabled,
     },
     {
       items: containersToDisplay,
@@ -84,11 +86,15 @@ export const mapRecentResultsToUIGroups = (
         appPermission && !appPermission.hasSoftwareAccess
           ? messages.jira_recent_core_containers
           : messages.jira_recent_containers,
+      totalSize: containersToDisplay.length,
+      showTotalSize: false,
     },
     {
       items: peopleToDisplay,
       key: 'people',
       title: messages.jira_recent_people_heading,
+      totalSize: peopleToDisplay.length,
+      showTotalSize: false,
     },
   ];
 };
@@ -115,6 +121,8 @@ export const mapSearchResultsToUIGroups = (
       items: objectsToDisplay,
       key: 'issues',
       title: messages.jira_search_result_issues_heading,
+      showTotalSize: features.searchExtensionsEnabled,
+      totalSize: objectsToDisplay.length,
     },
     ...(!hasNoResults(objectsToDisplay, peopleToDisplay, containersToDisplay)
       ? [
@@ -133,6 +141,8 @@ export const mapSearchResultsToUIGroups = (
             title: isEmpty(objectsToDisplay)
               ? messages.jira_search_result_issues_heading
               : undefined,
+            showTotalSize: false,
+            totalSize: 1,
           },
         ]
       : []),
@@ -143,11 +153,15 @@ export const mapSearchResultsToUIGroups = (
         appPermission && !appPermission.hasSoftwareAccess
           ? messages.jira_search_result_core_containers_heading
           : messages.jira_search_result_containers_heading,
+      showTotalSize: false,
+      totalSize: containersToDisplay.length,
     },
     {
       items: peopleToDisplay,
       key: 'people',
       title: messages.jira_search_result_people_heading,
+      showTotalSize: false,
+      totalSize: peopleToDisplay.length,
     },
   ];
 };

@@ -47,4 +47,13 @@ export default md`
       props={require('!!extract-react-types-loader!../src/components/ShareDialogContainer')}
     />
   )}
+  
+  ## Notes
+  
+  The share modal will be instantiated immediately but starts hidden.
+  It will **retain the form state** until the user either:
+  - triggers a share = share completed
+  - presses Esc = share cancelled
+
+  A click outside the modal will hide it, **but the form state will be retained** (as long as the share is not cancelled).
 `;

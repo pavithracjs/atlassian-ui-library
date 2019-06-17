@@ -1,5 +1,60 @@
 # @atlaskit/global-search
 
+## 8.15.4
+
+### Patch Changes
+
+- [patch][9aa576a05d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9aa576a05d):
+
+  added show more button and the ability to extend search results
+
+## 8.15.3
+
+### Patch Changes
+
+- [patch][da0ae1c7ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da0ae1c7ca):
+
+  Do not pre-fetch users, only confluence content
+
+## 8.15.2
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/button@13.0.8
+  - @atlaskit/drawer@4.1.3
+  - @atlaskit/dropdown-menu@8.0.4
+  - @atlaskit/feedback-collector@4.0.5
+  - @atlaskit/flag@12.0.4
+  - @atlaskit/modal-dialog@10.0.4
+  - @atlaskit/navigation@35.1.5
+  - @atlaskit/quick-search@7.4.1
+  - @atlaskit/icon@18.0.0
+
+## 8.15.1
+
+### Patch Changes
+
+- [patch][76c559f29e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76c559f29e):
+
+  fix keyboard nav for confluence
+
+## 8.15.0
+
+### Minor Changes
+
+- [minor][1dc1136437](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1dc1136437):
+
+  Include experiment data in feedback collector info
+
+## 8.14.0
+
+### Minor Changes
+
+- [minor][4499ffab87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4499ffab87):
+
+  Added support for showing a lozenge next to the search result groups
+
 ## 8.13.2
 
 ### Patch Changes

@@ -23,6 +23,7 @@ import {
 } from '../GlobalQuickSearchWrapper';
 import QuickSearchContainer, {
   SearchResultProps,
+  PartiallyLoadedRecentItems,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import SearchResultsComponent from '../common/SearchResults';
@@ -232,7 +233,8 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-  }: SearchResultProps) => {
+    searchMore,
+  }: SearchResultProps<GenericResultMap>) => {
     const query = latestSearchQuery;
     const {
       referralContextIdentifiers,
@@ -242,6 +244,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
+        query={query}
         isPreQuery={!query}
         isError={isError}
         isLoading={isLoading}
@@ -250,6 +253,7 @@ export class JiraQuickSearchContainer extends React.Component<
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={referralContextIdentifiers}
+        searchMore={searchMore}
         renderNoRecentActivity={() => (
           <>
             <FormattedHTMLMessage {...messages.jira_no_recent_activity_body} />
@@ -395,11 +399,16 @@ export class JiraQuickSearchContainer extends React.Component<
         [],
         getJiraMaxObjects(features.abTest, JIRA_PREQUERY_RESULT_LIMIT),
       )
-      .then(xpRecentResults => ({
-        objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
-        containers:
-          xpRecentResults.results.get(Scope.JiraBoardProjectFilter) || [],
-      }));
+      .then(xpRecentResults => {
+        const objects = xpRecentResults.results[Scope.JiraIssue];
+        const containers =
+          xpRecentResults.results[Scope.JiraBoardProjectFilter];
+
+        return {
+          objects: objects ? objects.items : [],
+          containers: containers ? containers.items : [],
+        };
+      });
   };
 
   getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
@@ -443,16 +452,21 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   };
 
-  getRecentItems = (sessionId: string): Promise<ResultsWithTiming> => {
-    return Promise.all([
-      this.getJiraRecentItems(sessionId),
-      this.getRecentlyInteractedPeople(),
-      this.canSearchUsers(),
-    ])
-      .then(([jiraItems, people, canSearchUsers]) => {
-        return { ...jiraItems, people: canSearchUsers ? people : [] };
-      })
-      .then(results => ({ results } as ResultsWithTiming));
+  getRecentItems = (
+    sessionId: string,
+  ): PartiallyLoadedRecentItems<GenericResultMap> => {
+    return {
+      eagerRecentItemsPromise: Promise.all([
+        this.getJiraRecentItems(sessionId),
+        this.getRecentlyInteractedPeople(),
+        this.canSearchUsers(),
+      ])
+        .then(([jiraItems, people, canSearchUsers]) => {
+          return { ...jiraItems, people: canSearchUsers ? people : [] };
+        })
+        .then(results => ({ results } as ResultsWithTiming<GenericResultMap>)),
+      lazyLoadedRecentItemsPromise: Promise.resolve({}),
+    };
   };
 
   getSearchResults = (
@@ -460,7 +474,7 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
     startTime: number,
     queryVersion: number,
-  ): Promise<ResultsWithTiming> => {
+  ): Promise<ResultsWithTiming<GenericResultMap>> => {
     const { features } = this.props;
 
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
@@ -500,20 +514,25 @@ export class JiraQuickSearchContainer extends React.Component<
         peopleElapsedMs,
         canSearchPeople,
       ]) => {
-        this.highlightMatchingFirstResult(query, xpsearchResults.results.get(
-          Scope.JiraIssue,
-        ) as JiraResult[]);
+        const objects = xpsearchResults.results[Scope.JiraIssue];
+        const containers =
+          xpsearchResults.results[Scope.JiraBoardProjectFilter];
+
+        const objectItems = objects ? objects.items : [];
+
+        this.highlightMatchingFirstResult(query, objectItems as JiraResult[]);
+
         return {
           results: {
-            objects: xpsearchResults.results.get(Scope.JiraIssue) || [],
-            containers:
-              xpsearchResults.results.get(Scope.JiraBoardProjectFilter) || [],
+            objects: objectItems,
+            containers: containers ? containers.items : [],
             people: canSearchPeople ? peopleResults : [],
           },
           timings: {
             crossProductSearchElapsedMs,
             peopleElapsedMs,
           },
+
           abTest: xpsearchResults.abTest,
         };
       },
@@ -585,6 +604,7 @@ export class JiraQuickSearchContainer extends React.Component<
         }
         enablePreQueryFromAggregator={features.enablePreQueryFromAggregator}
         referralContextIdentifiers={referralContextIdentifiers}
+        product="jira"
         features={features}
       />
     );

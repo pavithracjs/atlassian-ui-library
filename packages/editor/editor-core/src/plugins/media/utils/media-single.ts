@@ -1,7 +1,13 @@
 import { Node as PMNode, Schema, Fragment, Slice } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-
+import { safeInsert, hasParentNodeOfType } from 'prosemirror-utils';
+import { EditorState, Selection } from 'prosemirror-state';
 import { MediaSingleLayout, MediaSingleAttributes } from '@atlaskit/adf-schema';
+import {
+  calcPxFromPct,
+  breakoutWideScaleRatio,
+  akEditorBreakoutPadding,
+} from '@atlaskit/editor-common';
 
 import {
   isImage,
@@ -11,10 +17,11 @@ import {
 } from '../../../utils';
 import { copyOptionalAttrsFromMediaState } from '../utils/media-common';
 import { MediaState } from '../types';
-import { safeInsert, hasParentNodeOfType } from 'prosemirror-utils';
-import { EditorState, Selection } from 'prosemirror-state';
 import { Command } from '../../../types';
 import { mapSlice } from '../../../utils/slice';
+import { getParentNodeWidth } from '../../../utils/node-width';
+import { alignmentLayouts } from '../ui/ResizableMediaSingle/utils';
+import { WidthPluginState } from '../../width';
 
 export interface MediaSingleState extends MediaState {
   dimensions: { width: number; height: number };
@@ -222,4 +229,57 @@ export const alignAttributes = (
     layout,
     width,
   };
+};
+
+export const calcMediaPxWidth = (opts: {
+  origWidth: number;
+  origHeight: number;
+  state: EditorState;
+  containerWidth: WidthPluginState;
+  layout?: string;
+  pctWidth?: number;
+  pos?: number;
+  isFullWidthModeEnabled?: boolean;
+}): number => {
+  const {
+    origWidth,
+    origHeight,
+    layout,
+    pctWidth,
+    containerWidth,
+    isFullWidthModeEnabled,
+    pos,
+    state,
+  } = opts;
+  const { width, lineLength } = containerWidth;
+  const nestedWidth = getParentNodeWidth(
+    pos,
+    state,
+    containerWidth,
+    isFullWidthModeEnabled,
+  );
+  const calculatedPctWidth =
+    pctWidth && origWidth && origHeight
+      ? Math.ceil(calcPxFromPct(pctWidth / 100, lineLength || width))
+      : undefined;
+
+  if (nestedWidth) {
+    return Math.min(calculatedPctWidth || origWidth, nestedWidth);
+  } else if (layout === 'wide') {
+    if (lineLength) {
+      const wideWidth = Math.ceil(lineLength * breakoutWideScaleRatio);
+      return wideWidth > width ? lineLength : wideWidth;
+    }
+  } else if (layout === 'full-width') {
+    return width - akEditorBreakoutPadding;
+  } else if (calculatedPctWidth) {
+    return calculatedPctWidth;
+  } else if (layout === 'center') {
+    return Math.min(origWidth, lineLength || width);
+  } else if (layout && alignmentLayouts.indexOf(layout) !== -1) {
+    const halfLineLength = Math.ceil((lineLength || width) / 2);
+    return origWidth <= halfLineLength ? origWidth : halfLineLength;
+  }
+
+  return origWidth;
 };

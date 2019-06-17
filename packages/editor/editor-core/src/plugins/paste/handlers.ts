@@ -15,12 +15,26 @@ import {
   TextFormattingState,
 } from '../text-formatting/pm-plugins/main';
 import { compose, processRawValue } from '../../utils';
+import { mapSlice } from '../../utils/slice';
 import { CommandDispatch, Command } from '../../types';
 import { insertMediaAsMediaSingle } from '../media/utils/media-single';
 import { INPUT_METHOD } from '../analytics';
 import { CardOptions } from '../card';
 import { CardAppearance } from '@atlaskit/smart-card';
-import { Node as ProsemirrorNode } from 'prosemirror-model';
+import { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
+import { MentionAttributes } from '@atlaskit/adf-schema';
+
+// remove text attribute from mention for copy/paste (GDPR)
+export function handleMention(slice: Slice, schema: Schema): Slice {
+  return mapSlice(slice, node => {
+    if (node.type.name === schema.nodes.mention.name) {
+      const mention = node.attrs as MentionAttributes;
+      const newMention = { ...mention, text: '' };
+      return schema.nodes.mention.create(newMention, node.content, node.marks);
+    }
+    return node;
+  });
+}
 
 export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
   return (state: EditorState, dispatch?: CommandDispatch): boolean => {

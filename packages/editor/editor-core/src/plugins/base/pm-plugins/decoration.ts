@@ -1,3 +1,4 @@
+import { NodeType } from 'prosemirror-model';
 import { DecorationSet, Decoration } from 'prosemirror-view';
 import {
   PluginKey,
@@ -6,8 +7,6 @@ import {
   NodeSelection,
 } from 'prosemirror-state';
 import { Command } from '../../../types';
-import { pluginKey as floatingToolbarPluginKey } from '../../floating-toolbar/index';
-import { FloatingToolbarConfig } from '../../floating-toolbar/types';
 import { findParentNodeOfType } from 'prosemirror-utils';
 import { Node } from 'prosemirror-model';
 
@@ -19,32 +18,21 @@ export enum ACTIONS {
 }
 
 export const hoverDecoration = (
+  nodeType: NodeType | Array<NodeType>,
   add: boolean,
   className: string = 'danger',
 ): Command => (state, dispatch) => {
-  const config:
-    | FloatingToolbarConfig
-    | undefined = floatingToolbarPluginKey.getState(state);
-
-  if (!config) {
-    return false;
-  }
-
   let parentNode: Node;
   let from: number;
   if (state.selection instanceof NodeSelection) {
     parentNode = state.selection.node;
-    const nodeTypes = Array.isArray(config.nodeType)
-      ? config.nodeType
-      : [config.nodeType];
+    const nodeTypes = Array.isArray(nodeType) ? nodeType : [nodeType];
     if (nodeTypes.indexOf(parentNode.type) < 0) {
       return false;
     }
     from = state.selection.from;
   } else {
-    const foundParentNode = findParentNodeOfType(config.nodeType)(
-      state.selection,
-    );
+    const foundParentNode = findParentNodeOfType(nodeType)(state.selection);
     if (!foundParentNode) {
       return false;
     }

@@ -6,7 +6,12 @@ const paste: EditorPlugin = {
     return [
       {
         name: 'paste',
-        plugin: ({ schema, props }) => createPlugin(schema, props.UNSAFE_cards),
+        plugin: ({ schema, props }) =>
+          createPlugin(
+            schema,
+            props.UNSAFE_cards,
+            props.sanitizePrivateContent,
+          ),
       },
     ];
   },

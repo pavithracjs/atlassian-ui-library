@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { Page } from 'puppeteer';
 import { snapshot, animationFrame, initRendererWithADF } from './_utils';
 import * as wideTableResized from '../__fixtures__/table-wide-resized.adf.json';
@@ -22,7 +21,7 @@ describe('Snapshot Test: Table scaling', () => {
 
   afterEach(async () => {
     await animationFrame(page);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it(`should NOT render a right shadow`, async () => {

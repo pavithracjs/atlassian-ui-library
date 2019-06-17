@@ -6,7 +6,7 @@ import { Analytics } from '../model/Analytics';
 import { Article, ArticleItem, ArticleFeedback } from '../model/Article';
 import { REQUEST_STATE } from '../model/Requests';
 
-import { MIN_CHARACTERS_FOR_SEARCH, VIEW } from './constants';
+import { MIN_CHARACTERS_FOR_SEARCH, VIEW, LOADING_TIMEOUT } from './constants';
 
 /**
  * Saved the original 'window.history.pushState' function in this const because I'm going to modify it
@@ -51,6 +51,7 @@ export interface HelpContextInterface {
     view: VIEW;
     isOpen: boolean;
     isSearchVisible(): boolean;
+    loadArticle(): void;
     isArticleVisible(): boolean;
     getCurrentArticle(): Article | null;
     onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
@@ -94,6 +95,8 @@ class HelpContextProviderImplementation extends React.Component<
     },
   State
 > {
+  requestLoadingTimeout: any;
+
   constructor(
     props: Props &
       Analytics & {
@@ -106,7 +109,7 @@ class HelpContextProviderImplementation extends React.Component<
   }
 
   async componentDidMount() {
-    const { articleId, isOpen } = this.props;
+    const { isOpen } = this.props;
 
     window.history.pushState = function(
       this: HelpContextProviderImplementation,
@@ -121,11 +124,12 @@ class HelpContextProviderImplementation extends React.Component<
         action: 'help-panel-open',
       })(this.props.createAnalyticsEvent);
 
-      if (articleId) {
-        const article = await this.getArticle(articleId);
-        this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
-      }
+      this.loadArticle();
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.requestLoadingTimeout);
   }
 
   async componentDidUpdate(prevProps: Props) {
@@ -138,12 +142,8 @@ class HelpContextProviderImplementation extends React.Component<
     }
     // When the drawer goes from close to open
     // and the articleId is defined, get the content of that article
-    if (
-      (isOpen !== prevProps.isOpen || articleId !== prevProps.articleId) &&
-      articleId
-    ) {
-      const article = await this.getArticle(articleId);
-      this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
+    if (isOpen !== prevProps.isOpen || articleId !== prevProps.articleId) {
+      this.loadArticle();
     }
   }
 
@@ -157,15 +157,21 @@ class HelpContextProviderImplementation extends React.Component<
     if (onSearch) {
       // If the amount of caracters is > than the minimun defined to fire a search...
       if (searchValue.length > MIN_CHARACTERS_FOR_SEARCH) {
-        this.setState({ searchState: REQUEST_STATE.loading });
         try {
+          // display loading state after LOADING_TIMEOUT ms passed after the request
+          this.requestLoadingTimeout = setTimeout(() => {
+            this.setState({ articleState: REQUEST_STATE.loading });
+          }, LOADING_TIMEOUT);
+
           const searchResult = await onSearch(searchValue);
           this.setState({
             searchResult,
             searchState: REQUEST_STATE.done,
           });
+          clearTimeout(this.requestLoadingTimeout);
         } catch (error) {
           this.setState({ searchState: REQUEST_STATE.error });
+          clearTimeout(this.requestLoadingTimeout);
         }
       }
 
@@ -181,17 +187,31 @@ class HelpContextProviderImplementation extends React.Component<
     }
   };
 
+  loadArticle = async () => {
+    const { articleId } = this.props;
+    if (articleId) {
+      const article = await this.getArticle(articleId);
+      this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
+    }
+  };
+
   getArticle = async (articleId: string) => {
     // Execute this function only if onGetArticle was defined
     const { onGetArticle } = this.props;
     if (onGetArticle) {
-      this.setState({ articleState: REQUEST_STATE.loading });
       try {
+        // display loading state after LOADING_TIMEOUT ms passed after the request
+        this.requestLoadingTimeout = setTimeout(() => {
+          this.setState({ articleState: REQUEST_STATE.loading });
+        }, LOADING_TIMEOUT);
+
         const article = await onGetArticle(articleId);
         this.setState({ articleState: REQUEST_STATE.done });
+        clearTimeout(this.requestLoadingTimeout);
         return article;
       } catch (error) {
         this.setState({ articleState: REQUEST_STATE.error });
+        clearTimeout(this.requestLoadingTimeout);
       }
     }
 
@@ -265,6 +285,7 @@ class HelpContextProviderImplementation extends React.Component<
           help: {
             ...this.state,
             isOpen: this.props.isOpen,
+            loadArticle: this.loadArticle,
             isSearchVisible: this.isSearchVisible,
             isArticleVisible: this.isArticleVisible,
             navigateBack: this.navigateBack,
