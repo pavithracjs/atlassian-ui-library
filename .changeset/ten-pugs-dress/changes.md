@@ -1,0 +1,1 @@
+Fix scrolling behaviour on pick a user on multiple users picker
