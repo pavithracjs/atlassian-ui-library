@@ -170,10 +170,11 @@ export const floatingToolbar = (
   intl: InjectedIntl,
 ): FloatingToolbarConfig | undefined => {
   const { inlineCard, blockCard } = state.schema.nodes;
+  const nodeType = [inlineCard, blockCard];
 
   return {
     title: 'Card floating controls',
-    nodeType: [inlineCard, blockCard],
+    nodeType,
     items: [
       // Temporarily disabled after https://product-fabric.atlassian.net/browse/MS-1308
       // buildDropdown(state, intl),
@@ -189,8 +190,8 @@ export const floatingToolbar = (
         type: 'button',
         appearance: 'danger',
         icon: RemoveIcon,
-        onMouseEnter: hoverDecoration(true),
-        onMouseLeave: hoverDecoration(false),
+        onMouseEnter: hoverDecoration(nodeType, true),
+        onMouseLeave: hoverDecoration(nodeType, false),
         title: intl.formatMessage(commonMessages.remove),
         onClick: removeCard,
       },
