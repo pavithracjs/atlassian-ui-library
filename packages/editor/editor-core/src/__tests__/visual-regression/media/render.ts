@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, Device, initFullPageEditorWithAdf } from '../_utils';
 import * as layoutsAndWidths from './__fixtures__/layouts-and-widths-adf.json';
 
@@ -20,7 +19,7 @@ describe('Snapshot Test: Media', () => {
         { width: 1440, height: 9200 },
       );
 
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   });
 });

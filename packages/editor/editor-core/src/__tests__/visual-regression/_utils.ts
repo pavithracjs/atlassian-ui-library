@@ -2,9 +2,11 @@ import {
   getExampleUrl,
   disableAllSideEffects,
   navigateToUrl,
+  compareScreenshot,
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
+import { animationFrame } from '../__helpers/page-objects/_editor';
 
 export {
   setupMediaMocksProviders,
@@ -266,10 +268,17 @@ export const clearEditor = async (page: any) => {
 
 export const snapshot = async (
   page: Page,
-  tolerance?: number,
-  selector = '.akEditor',
+  threshold: {
+    tolerance?: number;
+    useUnsafeThreshold?: boolean;
+  } = {},
+  selector: string = '.akEditor',
 ) => {
+  const { tolerance, useUnsafeThreshold } = threshold;
   const editor = await page.$(selector);
+
+  // Wait for a frame because we are using RAF to throttle floating toolbar render
+  animationFrame(page);
 
   // Try to take a screenshot of only the editor.
   // Otherwise take the whole page.
@@ -280,14 +289,5 @@ export const snapshot = async (
     image = await page.screenshot();
   }
 
-  if (tolerance !== undefined) {
-    // @ts-ignore
-    expect(image).toMatchProdImageSnapshot({
-      failureThreshold: `${tolerance}`,
-      failureThresholdType: 'percent',
-    });
-  } else {
-    // @ts-ignore
-    expect(image).toMatchProdImageSnapshot();
-  }
+  return compareScreenshot(image, tolerance, { useUnsafeThreshold });
 };

@@ -1,5 +1,21 @@
 # @atlaskit/flag
 
+## 12.0.6
+
+### Patch Changes
+
+- [patch][9c80ef7539](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c80ef7539):
+
+  The update to node 10 reveals that unknown type is breaking the extract react types. I had to replace unknown type by any
+
+## 12.0.5
+
+### Patch Changes
+
+- [patch][ff649e1001](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff649e1001):
+
+  Widens type of title prop from string to ReactNode. This gives flexibility to pass i18n components as flag titles.
+
 ## 12.0.4
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

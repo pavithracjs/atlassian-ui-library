@@ -32,12 +32,12 @@ export {
   edgeCell,
   currentColWidth,
   domCellAround,
-  getParentNodeWidth,
 } from './misc';
 export {
   updateControls,
   isClickNear,
   updateResizeHandle,
   createResizeHandle,
+  getResizeCellPos,
 } from './dom';
 export { ScaleOptions, scale, scaleWithParent } from './scale-table';

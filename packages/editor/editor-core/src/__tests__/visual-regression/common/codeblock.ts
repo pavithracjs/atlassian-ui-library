@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import adf from './__fixtures__/code-block-adf.json';
 import { selectors } from '../../__helpers/page-objects/_editor';
@@ -10,6 +9,6 @@ describe('Code breakout:', () => {
     await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
     await page.waitForSelector(selectors.codeContent);
     await page.click(selectors.codeContent);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 });

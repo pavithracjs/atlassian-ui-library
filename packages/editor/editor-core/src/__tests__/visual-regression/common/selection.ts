@@ -1,7 +1,4 @@
-import {
-  MINIMUM_THRESHOLD,
-  waitForTooltip,
-} from '@atlaskit/visual-regression/helper';
+import { waitForTooltip } from '@atlaskit/visual-regression/helper';
 import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
 import adf from './__fixtures__/nested-elements.adf.json';
 import {
@@ -35,7 +32,7 @@ describe('Danger for nested elements', () => {
     });
 
     afterEach(async () => {
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
 
     it(`should show danger for table and all nested elements`, async () => {

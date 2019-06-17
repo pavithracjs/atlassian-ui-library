@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
-import { Plugin, PluginKey, Selection } from 'prosemirror-state';
+import rafSchedule from 'raf-schd';
+import {
+  Plugin,
+  PluginKey,
+  Selection,
+  EditorState,
+  Transaction,
+} from 'prosemirror-state';
 import { findDomRefAtPos, findSelectedNodeOfType } from 'prosemirror-utils';
 import { Popup, ProviderFactory } from '@atlaskit/editor-common';
 
@@ -59,6 +66,10 @@ const getDomRefFromSelection = (view: EditorView) =>
     view.state.selection.from,
     view.domAtPos.bind(view),
   ) as HTMLElement;
+
+function filterUndefined<T>(x?: T): x is T {
+  return !!x;
+}
 
 const floatingToolbarPlugin: EditorPlugin = {
   name: 'floatingToolbar',
@@ -129,6 +140,7 @@ const floatingToolbarPlugin: EditorPlugin = {
                   scrollableElement={popupsScrollableElement}
                 >
                   <ToolbarLoader
+                    target={targetRef}
                     items={items}
                     dispatchCommand={(fn?: Function) =>
                       fn && fn(editorView.state, editorView.dispatch)
@@ -161,29 +173,26 @@ export default floatingToolbarPlugin;
  *
  */
 
-export const pluginKey = new PluginKey('floatingToolbarPluginKey');
+// We throttle update of this plugin with RAF.
+// So from other plugins you will always get the previous state.
+// To prevent the confusion we are not exporting the plugin key.
+const pluginKey = new PluginKey('floatingToolbarPluginKey');
 
 /**
  * Clean up floating toolbar configs from undesired properties.
  */
 function sanitizeFloatingToolbarConfig(
-  config?: FloatingToolbarConfig,
-): FloatingToolbarConfig | undefined {
-  if (!config) {
-    return config;
-  }
-
-  const sanitizeConfig: FloatingToolbarConfig = {
-    ...config,
-  };
-
+  config: FloatingToolbarConfig,
+): FloatingToolbarConfig {
   // Cleanup from non existing node types
   if (Array.isArray(config.nodeType)) {
-    // TODO: Should I remove the configuration if no nodeType?
-    sanitizeConfig.nodeType = config.nodeType.filter(nodeType => !!nodeType); // Keep only valid nodeTypes
+    return {
+      ...config,
+      nodeType: config.nodeType.filter(filterUndefined),
+    };
   }
 
-  return sanitizeConfig;
+  return config;
 }
 
 function floatingToolbarPluginFactory(options: {
@@ -198,25 +207,40 @@ function floatingToolbarPluginFactory(options: {
     reactContext,
     providerFactory,
   } = options;
+
+  const apply = (
+    _tr: Transaction,
+    _pluginState: any,
+    _oldState: EditorState<any>,
+    newState: EditorState<any>,
+  ) => {
+    const { intl } = reactContext();
+    const activeConfigs = floatingToolbarHandlers
+      .map(handler => handler(newState, intl, providerFactory))
+      .filter(filterUndefined)
+      .map(config => sanitizeFloatingToolbarConfig(config));
+
+    const relevantConfig =
+      activeConfigs && getRelevantConfig(newState.selection, activeConfigs);
+
+    dispatch(pluginKey, relevantConfig);
+    return relevantConfig;
+  };
+
+  const rafApply = rafSchedule(apply);
+
   return new Plugin({
     key: pluginKey,
     state: {
       init: () => {
         ToolbarLoader.preload();
       },
-      apply(_tr, _pluginState, _oldState, newState) {
-        const { intl } = reactContext();
-        const activeConfigs = floatingToolbarHandlers
-          .map(handler => handler(newState, intl, providerFactory))
-          .map(config => sanitizeFloatingToolbarConfig(config)) // Clean config from bad configuration
-          .filter(Boolean) as Array<FloatingToolbarConfig>;
-
-        const relevantConfig =
-          activeConfigs && getRelevantConfig(newState.selection, activeConfigs);
-
-        dispatch(pluginKey, relevantConfig);
-        return relevantConfig;
-      },
+      apply: rafApply,
     },
+    view: () => ({
+      destroy: () => {
+        rafApply.cancel();
+      },
+    }),
   });
 }

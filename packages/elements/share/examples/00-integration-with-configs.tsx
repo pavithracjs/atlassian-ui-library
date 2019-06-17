@@ -2,10 +2,11 @@ import Select from '@atlaskit/select';
 import { ToggleStateless as Toggle } from '@atlaskit/toggle';
 import { OptionData } from '@atlaskit/user-picker';
 import { userPickerData } from '@atlaskit/util-data-test';
-import styled from 'styled-components';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
+import styled from 'styled-components';
 import App from '../example-helpers/AppWithFlag';
+import RestrictionMessage from '../example-helpers/RestrictionMessage';
 import { ShareDialogContainer, ShareDialogContainerProps } from '../src';
 import {
   Comment,
@@ -37,14 +38,19 @@ const WrapperWithMarginTop = styled.div`
   margin-top: 10px;
 `;
 
-const mockOriginTracing: OriginTracing = {
-  id: 'id',
-  addToUrl: (l: string) => `${l}&atlOrigin=mockAtlOrigin`,
-  toAnalyticsAttributes: () => ({
-    originIdGenerated: 'id',
-    originProduct: 'product',
-  }),
-};
+let factoryCount = 0;
+function originTracingFactory(): OriginTracing {
+  factoryCount++;
+  const id = `id#${factoryCount}`;
+  return {
+    id,
+    addToUrl: (l: string) => `${l}&atlOrigin=mockAtlOrigin:${id}`,
+    toAnalyticsAttributes: () => ({
+      originIdGenerated: id,
+      originProduct: 'product',
+    }),
+  };
+}
 
 const loadUserOptions = (searchText?: string): OptionData[] => {
   if (!searchText) {
@@ -127,6 +133,7 @@ type ExampleState = {
   customButton: boolean;
   customTitle: boolean;
   escapeOnKeyPress: boolean;
+  restrictionMessage: boolean;
 };
 
 type State = ConfigResponse & Partial<ShareDialogContainerProps> & ExampleState;
@@ -141,6 +148,7 @@ export default class Example extends React.Component<{}, State> {
     allowedDomains: ['atlassian.com'],
     customButton: false,
     customTitle: false,
+    restrictionMessage: false,
     dialogPlacement: dialogPlacementOptions[2].value,
     escapeOnKeyPress: true,
     mode: modeOptions[0].value,
@@ -162,16 +170,24 @@ export default class Example extends React.Component<{}, State> {
     _users: User[],
     _metaData: MetaData,
     _comment?: Comment,
-  ) =>
-    new Promise<ShareResponse>(resolve => {
+  ) => {
+    console.info('Share', {
+      _content,
+      _users,
+      _metaData,
+      _comment,
+    });
+
+    return new Promise<ShareResponse>(resolve => {
       setTimeout(
         () =>
           resolve({
             shareRequestId: 'c41e33e5-e622-4b38-80e9-a623c6e54cdd',
           }),
-        3000,
+        2000,
       );
     });
+  };
 
   client: ShareClient = {
     getConfig: this.getConfig,
@@ -189,6 +205,7 @@ export default class Example extends React.Component<{}, State> {
       mode,
       triggerButtonAppearance,
       triggerButtonStyle,
+      restrictionMessage,
     } = this.state;
 
     this.key++;
@@ -205,7 +222,7 @@ export default class Example extends React.Component<{}, State> {
                   cloudId="12345-12345-12345-12345"
                   dialogPlacement={dialogPlacement}
                   loadUserOptions={loadUserOptions}
-                  originTracingFactory={() => mockOriginTracing}
+                  originTracingFactory={originTracingFactory}
                   productId="confluence"
                   renderCustomTriggerButton={
                     customButton ? renderCustomTriggerButton : undefined
@@ -219,6 +236,9 @@ export default class Example extends React.Component<{}, State> {
                   showFlags={showFlags}
                   triggerButtonAppearance={triggerButtonAppearance}
                   triggerButtonStyle={triggerButtonStyle}
+                  bottomMessage={
+                    restrictionMessage ? <RestrictionMessage /> : null
+                  }
                 />
               </WrapperWithMarginTop>
               <h4>Options</h4>
@@ -259,6 +279,15 @@ export default class Example extends React.Component<{}, State> {
                     isChecked={customTitle}
                     onChange={() =>
                       this.setState({ customTitle: !customTitle })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Show Restriction Message
+                  <Toggle
+                    isChecked={restrictionMessage}
+                    onChange={() =>
+                      this.setState({ restrictionMessage: !restrictionMessage })
                     }
                   />
                 </WrapperWithMarginTop>

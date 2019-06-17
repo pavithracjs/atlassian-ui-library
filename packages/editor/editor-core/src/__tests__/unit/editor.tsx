@@ -4,7 +4,11 @@ import * as React from 'react';
 import Editor from '../../editor';
 import { EditorView } from 'prosemirror-view';
 import Button from '@atlaskit/button';
-import { insertText, sendKeyToPm } from '@atlaskit/editor-test-helpers';
+import {
+  insertText,
+  sendKeyToPm,
+  analyticsClient,
+} from '@atlaskit/editor-test-helpers';
 import FabricAnalyticsListeners, {
   AnalyticsWebClient,
 } from '@atlaskit/analytics-listeners';
@@ -103,12 +107,7 @@ describe(name, () => {
           done();
         };
 
-        return {
-          sendUIEvent: analyticsEventHandler,
-          sendOperationalEvent: analyticsEventHandler,
-          sendTrackEvent: analyticsEventHandler,
-          sendScreenEvent: analyticsEventHandler,
-        };
+        return analyticsClient(analyticsEventHandler);
       };
 
       const appearances: {

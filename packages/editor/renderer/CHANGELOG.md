@@ -1,5 +1,29 @@
 # @atlaskit/renderer
 
+## 48.8.2
+
+- Updated dependencies [a40f54404e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a40f54404e):
+  - @atlaskit/editor-common@39.8.2
+  - @atlaskit/profilecard@11.0.0
+
+## 48.8.1
+
+### Patch Changes
+
+- [patch][ec0197518f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec0197518f):
+
+  Fix incorrect date import path
+
+## 48.8.0
+
+### Minor Changes
+
+- [minor][11a8112851](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a8112851):
+
+  ED-6991 Fire analytics event for renderer started
+
+  Set up analytics v3 in renderer
+
 ## 48.7.3
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

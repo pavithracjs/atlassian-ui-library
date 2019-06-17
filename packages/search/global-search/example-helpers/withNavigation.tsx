@@ -7,6 +7,8 @@ import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
 import { QuickSearchContext } from '../src/api/types';
 
+const defaultCloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // jdog
+
 const RadioGroup = styled.div`
   position: relative;
   padding: 4px;
@@ -23,6 +25,9 @@ const Radio = styled.input`
 export interface Config {
   hideLocale?: boolean;
   message?: JSX.Element;
+  cloudIds?: {
+    [k: string]: string;
+  };
 }
 
 const MessageContainer = styled.div`
@@ -113,6 +118,13 @@ export default function withNavigation<P extends Props>(
       );
     }
 
+    getCloudId(): string | null | undefined {
+      return (
+        (props && props.cloudIds && props.cloudIds[this.state.context]) ||
+        this.props.cloudId
+      );
+    }
+
     renderMessage() {
       if (!props || !props.message) {
         return null;
@@ -147,7 +159,7 @@ export default function withNavigation<P extends Props>(
             searchDrawerContent={
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
-                  cloudId="cloudId"
+                  cloudId={this.getCloudId() || defaultCloudId}
                   context={currentContext}
                   referralContextIdentifiers={{
                     currentContentId: '123',

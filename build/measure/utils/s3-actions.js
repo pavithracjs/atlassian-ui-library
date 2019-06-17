@@ -3,6 +3,7 @@ const path = require('path');
 const npmRun = require('npm-run');
 const chalk = require('chalk').default;
 const { fExists } = require('./fs');
+const axios = require('axios');
 
 const masterStatsFolder = createDir('./.masterBundleSize');
 const currentStatsFolder = createDir('./.currentBundleSize');
@@ -35,6 +36,22 @@ function isAWSAccessible() {
   return true;
 }
 
+/**
+ * This function downloads files from S3 and create ratchet file into a given download location.
+ * This does not use S3 commands instead uses http get to fetch ratchet file from S3.
+ * This is designed to enable local dev loop without AWS credentials to access data on S3.
+ **/
+async function downloadFromS3ForLocal(downloadToFolder, branch, package) {
+  const ratchetFile = `${package}-bundle-size-ratchet.json`;
+  const output = `${downloadToFolder}/${ratchetFile}`;
+  const rachetFileUrl = `http://s3-${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${branch}/bundleSize/${ratchetFile}`;
+  const response = await axios({
+    url: rachetFileUrl,
+    method: 'get',
+  });
+  fs.writeFileSync(output, JSON.stringify(response.data), 'utf-8');
+}
+
 function downloadFromS3(downloadToFolder, branch, package) {
   if (!isAWSAccessible()) {
     process.exit(1);
@@ -55,7 +72,7 @@ function uploadToS3(pathToFile, branch) {
     process.exit(1);
   }
 
-  if (!fs.existsSync(path.resolve(pathToFile))) {
+  if (!fs.accessSync(path.resolve(pathToFile))) {
     console.error(
       chalk.red(`Could not find file: ${pathToFile} from ${process.cwd()}`),
     );
@@ -75,6 +92,7 @@ function uploadToS3(pathToFile, branch) {
 module.exports = {
   currentStatsFolder,
   downloadFromS3,
+  downloadFromS3ForLocal,
   masterStatsFolder,
   uploadToS3,
 };

@@ -4,7 +4,7 @@ import React, { Children, Component, Fragment, type Node } from 'react';
 import { canUseDOM } from 'exenv';
 import Portal from '@atlaskit/portal';
 import { ThemeProvider } from 'styled-components';
-import { TransitionGroup } from 'react-transition-group';
+import { TransitionGroup, Transition } from 'react-transition-group';
 import {
   createAndFireEvent,
   withAnalyticsEvents,
@@ -43,9 +43,16 @@ const createAndFireOnClick = (
     },
   })(createAnalyticsEvent);
 
-export class DrawerBase extends Component<DrawerProps> {
+export class DrawerBase extends Component<
+  DrawerProps,
+  { renderPortal: boolean },
+> {
   static defaultProps = {
     width: 'narrow',
+  };
+
+  state = {
+    renderPortal: false,
   };
 
   body = canUseDOM ? document.querySelector('body') : undefined;
@@ -117,27 +124,35 @@ export class DrawerBase extends Component<DrawerProps> {
       shouldUnmountOnExit,
       onCloseComplete,
     } = this.props;
+
     return (
-      <Portal zIndex="unset">
-        <TransitionGroup component={OnlyChild}>
-          <Fragment>
-            {/* $FlowFixMe the `in` prop is internal */}
-            <Fade in={isOpen}>
-              <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
-            </Fade>
-            <DrawerPrimitive
-              icon={icon}
-              in={isOpen}
-              onClose={this.handleBackButtonClick}
-              onCloseComplete={onCloseComplete}
-              width={width}
-              shouldUnmountOnExit={shouldUnmountOnExit}
-            >
-              {children}
-            </DrawerPrimitive>
-          </Fragment>
-        </TransitionGroup>
-      </Portal>
+      <Transition
+        in={isOpen}
+        timeout={{ enter: 0, exit: 220 }}
+        mountOnEnter
+        unmountOnExit
+      >
+        <Portal zIndex="unset">
+          <TransitionGroup component={OnlyChild}>
+            <Fragment>
+              {/* $FlowFixMe the `in` prop is internal */}
+              <Fade in={isOpen}>
+                <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
+              </Fade>
+              <DrawerPrimitive
+                icon={icon}
+                in={isOpen}
+                onClose={this.handleBackButtonClick}
+                onCloseComplete={onCloseComplete}
+                width={width}
+                shouldUnmountOnExit={shouldUnmountOnExit}
+              >
+                {children}
+              </DrawerPrimitive>
+            </Fragment>
+          </TransitionGroup>
+        </Portal>
+      </Transition>
     );
   }
 }

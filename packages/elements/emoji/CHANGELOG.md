@@ -1,5 +1,13 @@
 # @atlaskit/emoji
 
+## 62.2.0
+
+### Minor Changes
+
+- [minor][11cb8d8626](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11cb8d8626):
+
+  - Remove @atlaskit/analytics dependency.
+
 ## 62.1.7
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

@@ -1,5 +1,13 @@
 # @atlaskit/modal-dialog
 
+## 10.0.5
+
+### Patch Changes
+
+- [patch][02f1f73671](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02f1f73671):
+
+  `heading` prop type changed from string to React.ReactNode. This provides more flexibility for consumers to provide i18n components like FormattedMessage.
+
 ## 10.0.4
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
