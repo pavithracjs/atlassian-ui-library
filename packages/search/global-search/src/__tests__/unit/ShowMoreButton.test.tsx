@@ -32,6 +32,10 @@ const render = (changedProps: Partial<ShowMoreButtonProps>) => {
 };
 
 const advancedLink = 'advanced_link';
+const mockedAnalyticsContext = [
+  { searchSessionId: 'searchSessionId' },
+  { unrelated: '12' },
+];
 
 describe('Show more button', () => {
   let getConfluenceAdvancedSearchLinkSpy: jest.SpyInstance;
@@ -86,7 +90,7 @@ describe('Show more button', () => {
     const wrapper = render({ totalSize: 102, resultLength: 10 });
     const button = wrapper.find(Button);
     expect(button.length).toBe(1);
-    button.simulate('click');
+    button.simulate('click', {}, { context: mockedAnalyticsContext });
 
     expect(showMoreClickSpy).toBeCalledTimes(1);
     expect(onSearchMoreAdvancedSearchSpy).not.toBeCalled();
@@ -95,11 +99,11 @@ describe('Show more button', () => {
     expect(updateEventMock.mock.calls[0][0]).toMatchObject({
       action: 'click',
       actionSubject: 'button',
-      actionSubjectId: 'show_more_button',
+      actionSubjectId: 'showMoreButton',
       eventType: 'ui',
       source: 'globalSearchDrawer',
       attributes: {
-        searchSessionId: undefined,
+        searchSessionId: 'searchSessionId',
         currentSize: 10,
         totalResultSize: 102,
         packageName: 'global-search',
@@ -115,7 +119,7 @@ describe('Show more button', () => {
     const wrapper = render({ totalSize: 102, resultLength: 101 });
     const button = wrapper.find(Button);
     expect(button.length).toBe(1);
-    button.simulate('click');
+    button.simulate('click', {}, { context: mockedAnalyticsContext });
 
     expect(showMoreClickSpy).toBeCalledTimes(0);
     expect(onSearchMoreAdvancedSearchSpy).toBeCalledTimes(1);
@@ -124,11 +128,11 @@ describe('Show more button', () => {
     expect(updateEventMock.mock.calls[0][0]).toMatchObject({
       action: 'click',
       actionSubject: 'button',
-      actionSubjectId: 'show_more_advanced_search_button',
+      actionSubjectId: 'showMoreAdvancedSearchButton',
       eventType: 'ui',
       source: 'globalSearchDrawer',
       attributes: {
-        searchSessionId: undefined,
+        searchSessionId: 'searchSessionId',
         currentSize: 101,
         totalResultSize: 102,
         packageName: 'global-search',

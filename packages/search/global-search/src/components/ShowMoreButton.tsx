@@ -59,7 +59,7 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
           <Button
             appearance="link"
             onClick={(e, analyticsEvent) => {
-              this.triggerEnrichedEvent(analyticsEvent, 'show_more_button');
+              this.triggerEnrichedEvent(analyticsEvent, 'showMoreButton');
               onShowMoreClicked();
             }}
           >
@@ -81,7 +81,7 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
             onClick={(e, analyticsEvent) => {
               this.triggerEnrichedEvent(
                 analyticsEvent,
-                'show_more_advanced_search_button',
+                'showMoreAdvancedSearchButton',
               );
               onSearchMoreAdvancedSearch(e);
             }}
