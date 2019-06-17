@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import Button from '@atlaskit/button';
 import Drawer from '@atlaskit/drawer';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
-import ShortcutIcon from '@atlaskit/icon/glyph/shortcut';
 
 import * as Styled from './styled';
 import Footer from '../Footer';
@@ -84,7 +83,6 @@ export class FocusedTaskCloseAccount extends React.Component<Props, State> {
                     target="_blank"
                   >
                     <FormattedMessage {...commonMessages.learnMore} />{' '}
-                    <ShortcutIcon size="small" label="" />
                   </Button>
                 )
               }

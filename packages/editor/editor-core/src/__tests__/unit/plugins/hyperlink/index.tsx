@@ -1,3 +1,4 @@
+import createStub from 'raf-stub';
 import {
   doc,
   createEditorFactory,
@@ -76,10 +77,16 @@ describe('hyperlink', () => {
   });
 
   describe('floating toolbar', () => {
+    let waitForAnimationFrame: any;
     let getFloatingToolbarSpy: jest.SpyInstance<
       FloatingToolbarHandler | undefined
     >;
+
     beforeAll(() => {
+      let stub = createStub();
+      waitForAnimationFrame = stub.flush;
+      jest.spyOn(window, 'requestAnimationFrame').mockImplementation(stub.add);
+
       getFloatingToolbarSpy = jest.spyOn(
         HyperlinkPlugin.default.pluginsOptions!,
         'floatingToolbar',
@@ -88,14 +95,22 @@ describe('hyperlink', () => {
 
     beforeEach(() => {
       getFloatingToolbarSpy.mockClear();
+      ((window.requestAnimationFrame as any) as jest.SpyInstance<
+        any
+      >).mockClear();
     });
 
     afterAll(() => {
+      ((window.requestAnimationFrame as any) as jest.SpyInstance<
+        any
+      >).mockRestore();
       getFloatingToolbarSpy.mockRestore();
     });
 
     it('should only add text, paragraph and heading, if no task/decision in schema', () => {
       editor(doc(p(a({ href: 'google.com' })('web{<>}site'))));
+
+      waitForAnimationFrame();
 
       expect(getFloatingToolbarSpy).toHaveLastReturnedWith(
         expect.objectContaining({
@@ -113,6 +128,8 @@ describe('hyperlink', () => {
         taskAndDecisionPlugin,
         floatingToolbarPlugin,
       ]);
+
+      waitForAnimationFrame();
 
       expect(getFloatingToolbarSpy).toHaveLastReturnedWith(
         expect.objectContaining({
