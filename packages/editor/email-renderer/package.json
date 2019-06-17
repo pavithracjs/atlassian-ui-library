@@ -18,13 +18,14 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/adf-schema": "^2.5.10"
+    "@atlaskit/adf-schema": "^2.5.10",
+    "@atlaskit/editor-common": "^39.8.1",
+    "prosemirror-model": "^1.7.0"
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.2",
     "@atlaskit/media-test-helpers": "^24.0.3",
     "@atlaskit/util-data-test": "^12.4.0",
-    "prosemirror-model": "^1.7.0",
     "react": "^16.8.0"
   }
 }
