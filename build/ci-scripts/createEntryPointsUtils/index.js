@@ -21,7 +21,7 @@ async function writeEntryPointsPathInPkgJson(
     module: `../dist/esm/${pkgFile}.js`,
     types,
   };
-  writeFile(
+  return writeFile(
     `${entryPointDirName}/package.json`,
     JSON.stringify(entryPointJson, null, 2),
     err => {
