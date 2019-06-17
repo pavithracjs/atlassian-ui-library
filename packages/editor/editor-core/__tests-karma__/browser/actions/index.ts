@@ -160,7 +160,7 @@ describe('@atlaskit/editor-core', () => {
         describe('with waitForMediaUpload === true', () => {
           it('should not resolve when all media operations are pending', async () => {
             const provider = await mediaProvider;
-            await provider.uploadContext;
+            await provider.uploadMediaClientConfig;
             const mediaPluginState = getMediaPluginState(editorView);
             mediaPluginState.insertFile({ id: testTempFileId }, () => {});
 
@@ -180,7 +180,7 @@ describe('@atlaskit/editor-core', () => {
 
           it('should reject after timeout is reached', async () => {
             const provider = await mediaProvider;
-            await provider.uploadContext;
+            await provider.uploadMediaClientConfig;
 
             const mediaPluginState = getMediaPluginState(editorView);
             mediaPluginState.insertFile({ id: testTempFileId }, () => {});
@@ -197,7 +197,7 @@ describe('@atlaskit/editor-core', () => {
 
           it('should not resolve when some media operations are pending', async () => {
             const provider = await mediaProvider;
-            await provider.uploadContext;
+            await provider.uploadMediaClientConfig;
             const mediaPluginState = getMediaPluginState(editorView);
 
             const evts: Array<(state: MediaState) => void> = [];
@@ -231,7 +231,7 @@ describe('@atlaskit/editor-core', () => {
 
           it('should resolve after media have resolved', async () => {
             const provider = await mediaProvider;
-            await provider.uploadContext;
+            await provider.uploadMediaClientConfig;
             const mediaPluginState = getMediaPluginState(editorView);
 
             const evts: Array<(state: MediaState) => void> = [];
@@ -263,8 +263,8 @@ describe('@atlaskit/editor-core', () => {
 
           it('should resolve after processing status', async () => {
             const provider = await mediaProvider;
-            await provider.uploadContext;
-            await provider.viewContext;
+            await provider.uploadMediaClientConfig;
+            await provider.viewMediaClientConfig;
             const mediaPluginState = getMediaPluginState(editorView);
 
             const evts: Array<(state: MediaState) => void> = [];
@@ -403,7 +403,7 @@ describe('@atlaskit/editor-core', () => {
         const mediaPluginState = getMediaPluginState(editorView);
 
         const provider = await mediaProvider;
-        await provider.uploadContext;
+        await provider.uploadMediaClientConfig;
 
         mediaPluginState.insertFile({ id: testTempFileId }, () => {});
 

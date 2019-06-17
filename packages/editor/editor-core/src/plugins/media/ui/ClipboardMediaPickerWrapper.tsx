@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { MediaPluginState, MediaProvider } from '../pm-plugins/main';
 import { Clipboard, ClipboardConfig } from '@atlaskit/media-picker';
-import { Context } from '@atlaskit/media-core';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import { ErrorReporter } from '@atlaskit/editor-common';
 import PickerFacade from '../picker-facade';
 import { CustomMediaPicker } from '../types';
+import { getUploadMediaClientConfigFromMediaProvider } from '../utils/media-common';
 
 type Props = {
   mediaState: MediaPluginState;
@@ -12,7 +13,7 @@ type Props = {
 
 type State = {
   config?: ClipboardConfig;
-  context?: Context;
+  mediaClientConfig?: MediaClientConfig;
   pickerFacadeInstance?: PickerFacade;
 };
 
@@ -41,14 +42,16 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
       return;
     }
 
-    const context = await mediaProvider.uploadContext;
+    const mediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+      mediaProvider,
+    );
 
-    if (!context) {
+    if (!mediaClientConfig) {
       return;
     }
 
     const pickerFacadeConfig = {
-      context,
+      mediaClientConfig,
       errorReporter: mediaState.options.errorReporter || new ErrorReporter(),
     };
 
@@ -82,7 +85,7 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
     this.setState({
       pickerFacadeInstance,
       config,
-      context,
+      mediaClientConfig,
     });
   };
 
@@ -101,15 +104,15 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
   }
 
   render() {
-    const { context, config, pickerFacadeInstance } = this.state;
+    const { mediaClientConfig, config, pickerFacadeInstance } = this.state;
 
-    if (!context || !config || !pickerFacadeInstance) {
+    if (!mediaClientConfig || !config || !pickerFacadeInstance) {
       return null;
     }
 
     return (
       <Clipboard
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         config={config}
         onError={pickerFacadeInstance.handleUploadError}
         onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}

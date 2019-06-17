@@ -49,8 +49,8 @@ import { InsertMenuCustomItem } from '../../../../../types';
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
 
 const mediaProvider: Promise<MediaProvider> = Promise.resolve({
-  viewContext: Promise.resolve({} as any),
-  uploadContext: Promise.resolve({} as any),
+  viewMediaClientConfig: {} as any,
+  uploadMediaClientConfig: {} as any,
 });
 
 const providerFactory = ProviderFactory.create({ mediaProvider });

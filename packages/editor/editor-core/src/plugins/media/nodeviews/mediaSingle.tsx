@@ -17,6 +17,9 @@ import {
 } from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
+import { MediaClientConfig } from '@atlaskit/media-core';
+import { NodeSelection } from 'prosemirror-state';
+
 import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import MediaItem from './media';
@@ -28,9 +31,7 @@ import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
-import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { NodeSelection } from 'prosemirror-state';
 import { MediaOptions } from '../';
 import { updateMediaNodeAttrs } from '../commands';
 import {
@@ -38,6 +39,9 @@ import {
   MediaPluginState,
 } from '../pm-plugins/main';
 import { isMobileUploadCompleted } from '../commands/helpers';
+import { getMediaClient } from '@atlaskit/media-client';
+import { getViewMediaClientConfigFromMediaProvider } from '../utils/media-common';
+
 export interface MediaSingleNodeProps {
   view: EditorView;
   node: PMNode;
@@ -56,7 +60,7 @@ export interface MediaSingleNodeProps {
 export interface MediaSingleNodeState {
   width?: number;
   height?: number;
-  viewContext?: Context;
+  viewMediaClientConfig?: MediaClientConfig;
 }
 
 export default class MediaSingleNode extends Component<
@@ -70,15 +74,19 @@ export default class MediaSingleNode extends Component<
   state = {
     width: undefined,
     height: undefined,
-    viewContext: undefined,
+    viewMediaClientConfig: undefined,
   };
 
   async componentDidMount() {
     const mediaProvider = await this.props.mediaProvider;
     if (mediaProvider) {
-      const viewContext = await mediaProvider.viewContext;
+      const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+        mediaProvider,
+      );
+
+      // = await mediaProvider.viewMediaClientConfig;
       this.setState({
-        viewContext,
+        viewMediaClientConfig,
       });
     }
     const updatedDimensions = await this.getRemoteDimensions();
@@ -122,8 +130,13 @@ export default class MediaSingleNode extends Component<
       };
     }
 
-    const viewContext = await mediaProvider.viewContext;
-    const state = await viewContext.getImageMetadata(id, {
+    const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+      mediaProvider,
+    );
+    const mediaClient = getMediaClient({
+      mediaClientConfig: viewMediaClientConfig,
+    });
+    const state = await mediaClient.getImageMetadata(id, {
       collection,
     });
 
@@ -248,7 +261,7 @@ export default class MediaSingleNode extends Component<
         node={childNode}
         getPos={this.props.getPos}
         cardDimensions={cardDimensions}
-        viewContext={this.state.viewContext}
+        viewMediaClientConfig={this.state.viewMediaClientConfig}
         selected={selected()}
         onClick={this.selectMediaSingle}
         onExternalImageLoaded={this.onExternalImageLoaded}
@@ -267,7 +280,7 @@ export default class MediaSingleNode extends Component<
         updateSize={this.updateSize}
         displayGrid={createDisplayGrid(this.props.eventDispatcher)}
         gridSize={12}
-        viewContext={this.state.viewContext}
+        viewMediaClientConfig={this.state.viewMediaClientConfig}
         state={this.props.view.state}
         appearance={this.props.editorAppearance}
         selected={this.props.selected()}

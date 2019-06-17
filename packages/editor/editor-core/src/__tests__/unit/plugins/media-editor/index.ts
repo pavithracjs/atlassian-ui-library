@@ -161,7 +161,7 @@ describe('media editor', () => {
   });
 
   describe('view', () => {
-    it('sets the context from the media provider', async () => {
+    it('sets the mediaClientConfig from the media provider', async () => {
       const providerFactory = new ProviderFactory();
       const { editorView } = editor(defaultDoc, {
         providerFactory,
@@ -172,10 +172,10 @@ describe('media editor', () => {
       providerFactory.setProvider('mediaProvider', mediaProvider);
 
       const resolvedProvider = await mediaProvider;
-      const resolvedContext = await resolvedProvider.viewContext;
+      const resolvedMediaClientConfig = await resolvedProvider.viewMediaClientConfig;
 
       expect(getPluginState(editorView.state)).toEqual({
-        context: resolvedContext,
+        mediaClientConfig: resolvedMediaClientConfig,
       });
     });
   });

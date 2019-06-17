@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
-import { Context } from '@atlaskit/media-core';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
+import { MediaClientConfig } from '@atlaskit/media-core';
+import { getMediaClient } from '@atlaskit/media-client';
 import {
   akEditorWideLayoutWidth,
   calcPxFromColumns,
@@ -59,25 +60,28 @@ export default class ResizableMediaSingle extends React.Component<
   }
 
   async componentDidMount() {
-    const { viewContext } = this.props;
-    if (viewContext) {
-      this.checkVideoFile(viewContext);
+    const { viewMediaClientConfig } = this.props;
+    if (viewMediaClientConfig) {
+      this.checkVideoFile(viewMediaClientConfig);
     }
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.viewContext !== nextProps.viewContext) {
-      this.checkVideoFile(nextProps.viewContext);
+    if (this.props.viewMediaClientConfig !== nextProps.viewMediaClientConfig) {
+      this.checkVideoFile(nextProps.viewMediaClientConfig);
     }
   }
 
-  async checkVideoFile(viewContext?: Context) {
+  async checkVideoFile(viewMediaClientConfig?: MediaClientConfig) {
     const $pos = this.$pos;
-    if (!$pos || !viewContext) {
+    if (!$pos || !viewMediaClientConfig) {
       return;
     }
     const getMediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
-    const state = await viewContext.file.getCurrentState(
+    const mediaClient = getMediaClient({
+      mediaClientConfig: viewMediaClientConfig,
+    });
+    const state = await mediaClient.file.getCurrentState(
       getMediaNode!.attrs.id,
     );
     if (state && state.status !== 'error' && state.mediaType === 'image') {

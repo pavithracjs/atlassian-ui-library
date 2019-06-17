@@ -1,3 +1,5 @@
+import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers/index';
+
 const mockCloseMediaEditorCommand = jest.fn();
 const mockUploadAnnotationCommand = jest.fn();
 
@@ -9,7 +11,7 @@ jest.mock('../../../../plugins/media/commands/media-editor', () => ({
 import * as React from 'react';
 
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import { FileIdentifier } from '@atlaskit/media-client';
 import { SmartMediaEditor } from '@atlaskit/media-editor';
 
 import { EditorView } from 'prosemirror-view';
@@ -18,23 +20,6 @@ import { MediaEditorState } from '../../../../plugins/media/types';
 import { uploadAnnotation } from '../../../../plugins/media/commands/media-editor';
 
 describe('media editor', () => {
-  const mockContext = jest.fn<Context>(() => ({
-    getImage: () => {
-      return new Promise(() => {});
-    },
-    getImageMetadata: () => {
-      return new Promise(() => {});
-    },
-    getImageUrl: () => {
-      return new Promise(() => {});
-    },
-    file: {
-      getFileState: () => ({
-        subscribe: () => {},
-      }),
-    },
-  }));
-
   const mockView = jest.fn<EditorView>(() => ({
     state: {},
     dispatch: jest.fn(),
@@ -49,7 +34,7 @@ describe('media editor', () => {
 
   it('renders nothing if no active editor', async () => {
     const state: MediaEditorState = {
-      context: new mockContext(),
+      mediaClientConfig: getDefaultMediaClientConfig(),
     };
 
     const wrapper = mountWithIntl(
@@ -60,7 +45,7 @@ describe('media editor', () => {
     wrapper.unmount();
   });
 
-  it('renders nothing if no context', async () => {
+  it('renders nothing if no mediaClientConfig', async () => {
     const state: MediaEditorState = {
       editor: {
         pos: 100,
@@ -77,9 +62,9 @@ describe('media editor', () => {
   });
 
   it('passes the media identifier to the smart editor', async () => {
-    const context = new mockContext();
+    const mediaClientConfig = getDefaultMediaClientConfig();
     const state: MediaEditorState = {
-      context,
+      mediaClientConfig,
       editor: { pos: 69, identifier },
     };
 
@@ -90,16 +75,18 @@ describe('media editor', () => {
     const smartMediaEditor = wrapper.find(SmartMediaEditor);
 
     expect(smartMediaEditor.prop('identifier')).toEqual(identifier);
-    expect(smartMediaEditor.prop('context')).toEqual(context);
+    expect(smartMediaEditor.prop('mediaClientConfig')).toEqual(
+      mediaClientConfig,
+    );
 
     wrapper.unmount();
   });
 
   it('dispatches closeMediaEditor when smart editor onClose is called', () => {
     const view = new mockView();
-    const context = new mockContext();
+    const mediaClientConfig = getDefaultMediaClientConfig();
     const state: MediaEditorState = {
-      context,
+      mediaClientConfig,
       editor: { pos: 69, identifier },
     };
 
@@ -121,9 +108,9 @@ describe('media editor', () => {
 
   it('calls uploadAnnotation with the updated identifier and dimensions from smart editor', () => {
     const view = new mockView();
-    const context = new mockContext();
+    const mediaClientConfig = getDefaultMediaClientConfig();
     const state: MediaEditorState = {
-      context,
+      mediaClientConfig,
       editor: { pos: 69, identifier },
     };
 
@@ -154,9 +141,9 @@ describe('media editor', () => {
 
   it('dispatches uploadAnnotation when smart editor onUploadStart is called', () => {
     const view = new mockView();
-    const context = new mockContext();
+    const mediaClientConfig = getDefaultMediaClientConfig();
     const state: MediaEditorState = {
-      context,
+      mediaClientConfig,
       editor: { pos: 69, identifier },
     };
 
