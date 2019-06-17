@@ -8,13 +8,19 @@ import {
 export * from './icons';
 
 const cidPrefix = 'cid:pfcs-generated';
-const cidMatcher = new RegExp(`src="${cidPrefix}-([\w]*)-([\w-]*)"`, 'gi');
+const cidMatcher = new RegExp(`src="${cidPrefix}-([\\w]*)-([\\w-]*)"`, 'gi');
 type ImageTypeString = 'icon';
 
 export const createContentId = (
   imageName: icons.IconString,
   imageType: ImageTypeString = 'icon',
 ) => `${cidPrefix}-${imageType}-${imageName}`;
+
+const embeddedImagesMapper = (iconName: string): MediaImageBase64 => ({
+  contentId: createContentId(IconName[iconName as icons.IconString]),
+  contentType: 'png',
+  data: (icons as any)[iconName],
+});
 
 export const processEmbeddedImages = (isMockEnabled: boolean) => (
   result: string,
@@ -26,18 +32,17 @@ export const processEmbeddedImages = (isMockEnabled: boolean) => (
     imageType: ImageTypeString,
     imageName: icons.IconString,
   ): string => {
+    // Inline the image if mock is enabled
+    if (isMockEnabled) {
+      return `src="${(icons as any)[imageName]}"`;
+    }
+
+    // Otherwise, do not do a replacement (keep the cid as the src), and add the image to the set.
     imageSet.add(imageName);
-    const imageSource = (icons as any)[imageName];
-    return isMockEnabled ? `src="${imageSource}"` : match;
+    return match;
   };
 
   const processedResult = result.replace(cidMatcher, imageProcessor);
-
-  const embeddedImagesMapper = (iconName: string): MediaImageBase64 => ({
-    contentId: createContentId(IconName[iconName as icons.IconString]),
-    contentType: 'png',
-    data: (icons as any)[iconName],
-  });
 
   return {
     result: processedResult,
