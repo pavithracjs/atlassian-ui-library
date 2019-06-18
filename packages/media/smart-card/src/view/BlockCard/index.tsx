@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FC } from 'react';
 import {
   CardLinkView,
   BlockCardResolvingView,
@@ -7,23 +8,21 @@ import {
   BlockCardForbiddenView,
   BlockCardResolvedView,
 } from '@atlaskit/media-ui';
-
+import { BlockCardProps } from './types';
 import { extractBlockPropsFromJSONLD } from '../../extractors/block';
 import { getCollapsedIcon } from '../../utils';
-import { ObjectState } from '../../client';
 
-export function renderBlockCard(
-  url: string,
-  state: ObjectState,
-  handleAuthorise: (() => void) | undefined,
-  handleErrorRetry: () => void,
-  handleFrameClick: React.EventHandler<React.MouseEvent | React.KeyboardEvent>,
-  isSelected?: boolean,
-): React.ReactNode {
-  switch (state.status) {
+export const BlockCard: FC<BlockCardProps> = ({
+  url,
+  cardState: { status, details },
+  handleAuthorize,
+  handleErrorRetry,
+  handleFrameClick,
+  isSelected,
+}) => {
+  switch (status) {
     case 'pending':
       return <CardLinkView link={url} isSelected={isSelected} />;
-
     case 'resolving':
       return (
         <BlockCardResolvingView
@@ -31,38 +30,34 @@ export function renderBlockCard(
           onClick={handleFrameClick}
         />
       );
-
     case 'resolved':
       return (
         <BlockCardResolvedView
-          {...extractBlockPropsFromJSONLD(state.data || {})}
+          {...extractBlockPropsFromJSONLD((details && details.data) || {})}
           isSelected={isSelected}
           onClick={handleFrameClick}
         />
       );
-
     case 'unauthorized':
       return (
         <BlockCardUnauthorisedView
-          icon={getCollapsedIcon(state)}
+          icon={getCollapsedIcon(details)}
           isSelected={isSelected}
           url={url}
           onClick={handleFrameClick}
-          onAuthorise={handleAuthorise}
+          onAuthorise={handleAuthorize}
         />
       );
-
     case 'forbidden':
       return (
         <BlockCardForbiddenView
           url={url}
           isSelected={isSelected}
           onClick={handleFrameClick}
-          onAuthorise={handleAuthorise}
+          onAuthorise={handleAuthorize}
         />
       );
-
-    case 'not-found':
+    case 'not_found':
       return (
         <BlockCardErroredView
           url={url}
@@ -71,7 +66,6 @@ export function renderBlockCard(
           onClick={handleFrameClick}
         />
       );
-
     case 'errored':
       return (
         <BlockCardErroredView
@@ -83,4 +77,4 @@ export function renderBlockCard(
         />
       );
   }
-}
+};
