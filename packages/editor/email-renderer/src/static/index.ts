@@ -3,7 +3,7 @@ import { IconName } from './icons';
 import {
   SerializeFragmentWithAttachmentsResult,
   MediaImageBase64,
-} from '../../serializer';
+} from '../serializer';
 
 export * from './icons';
 
