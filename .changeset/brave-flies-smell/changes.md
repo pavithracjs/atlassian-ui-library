@@ -1,0 +1,1 @@
+Bump new version of @atlaskit/mention to other AK packages to get correct i18n strings
