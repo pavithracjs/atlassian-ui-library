@@ -455,24 +455,18 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         ref={this.handleSelectRef}
         isMulti={isMulti}
         options={this.getOptions()}
-        onChange={this.handleChange}
         styles={styles}
         components={components}
         inputValue={inputValue}
         menuIsOpen={menuIsOpen}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onClose={this.handleClose}
         isLoading={count > 0 || resolving || isLoading}
         loadingMessage={loadingMessage}
-        onInputChange={this.handleInputChange}
         menuPlacement="auto"
         placeholder={
           placeholder || <FormattedMessage {...messages.placeholder} />
         }
         addMoreMessage={addMoreMessage}
         classNamePrefix="fabric-user-picker"
-        onClearIndicatorHover={this.handleClearIndicatorHover}
         hoveringClearIndicator={hoveringClearIndicator}
         appearance={appearance}
         isClearable={isClearable}
@@ -481,7 +475,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         closeMenuOnSelect={!isMulti}
         noOptionsMessage={noOptionsMessage}
         openMenuOnFocus
-        onKeyDown={this.handleKeyDown}
         isDisabled={isDisabled}
         isFocused={menuIsOpen}
         backspaceRemovesValue={isMulti}
@@ -489,9 +482,16 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         clearValueLabel={clearValueLabel}
         menuMinWidth={menuMinWidth}
         menuPortalTarget={menuPortalTarget}
-        disableInput={disableInput}
+        disableInput={disableInput || isDisabled}
         instanceId={fieldId}
         inputId={inputId}
+        onChange={this.handleChange}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        onClose={this.handleClose}
+        onInputChange={this.handleInputChange}
+        onClearIndicatorHover={this.handleClearIndicatorHover}
+        onKeyDown={this.handleKeyDown}
         {...pickerProps}
       />
     );
