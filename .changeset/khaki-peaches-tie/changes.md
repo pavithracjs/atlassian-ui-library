@@ -1,1 +1,0 @@
-Handle scroll of box of user picker component

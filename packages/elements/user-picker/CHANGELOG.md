@@ -1,5 +1,13 @@
 # @atlaskit/user-picker
 
+## 4.0.6
+
+### Patch Changes
+
+- [patch][b029d82e8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b029d82e8c):
+
+  Handle scroll of box of user picker component
+
 ## 4.0.5
 
 ### Patch Changes
