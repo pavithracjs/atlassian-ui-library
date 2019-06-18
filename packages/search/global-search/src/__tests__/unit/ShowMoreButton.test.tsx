@@ -97,7 +97,7 @@ describe('Show more button', () => {
 
     expect(updateEventMock).toBeCalledTimes(1);
     expect(updateEventMock.mock.calls[0][0]).toMatchObject({
-      action: 'click',
+      action: 'clicked',
       actionSubject: 'button',
       actionSubjectId: 'showMoreButton',
       eventType: 'ui',
@@ -126,7 +126,7 @@ describe('Show more button', () => {
 
     expect(updateEventMock).toBeCalledTimes(1);
     expect(updateEventMock.mock.calls[0][0]).toMatchObject({
-      action: 'click',
+      action: 'clicked',
       actionSubject: 'button',
       actionSubjectId: 'showMoreAdvancedSearchButton',
       eventType: 'ui',
