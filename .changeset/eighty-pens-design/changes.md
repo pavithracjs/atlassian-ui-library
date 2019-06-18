@@ -1,0 +1,1 @@
+Update TeamMentionResource to accept teamLinkContextPath which is used to construct a team link
