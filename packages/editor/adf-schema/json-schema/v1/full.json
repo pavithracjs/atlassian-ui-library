@@ -217,6 +217,36 @@
       ],
       "additionalProperties": false
     },
+    "breakout_mark": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "breakout"
+          ]
+        },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "enum": [
+                "wide",
+                "full-width"
+              ]
+            }
+          },
+          "required": [
+            "mode"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "attrs"
+      ],
+      "additionalProperties": false
+    },
     "paragraph_node": {
       "type": "object",
       "properties": {
@@ -375,22 +405,27 @@
         "attrs": {
           "type": "object",
           "properties": {
+            "width": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
             "layout": {
               "enum": [
+                "wide",
+                "full-width",
                 "wrap-right",
                 "center",
                 "wrap-left",
-                "wide",
-                "full-width",
                 "align-end",
                 "align-start"
               ]
             }
           },
+          "additionalProperties": false,
           "required": [
             "layout"
-          ],
-          "additionalProperties": false
+          ]
         },
         "marks": {
           "type": "array",
@@ -484,6 +519,25 @@
             "marks": {
               "type": "array",
               "maxItems": 0
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "codeBlock_with_marks_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/codeBlock_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/breakout_mark"
+              }
             }
           },
           "additionalProperties": true
@@ -1996,6 +2050,9 @@
               },
               {
                 "$ref": "#/definitions/codeBlock_with_no_marks_node"
+              },
+              {
+                "$ref": "#/definitions/codeBlock_with_marks_node"
               },
               {
                 "$ref": "#/definitions/orderedList_node"

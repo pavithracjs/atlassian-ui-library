@@ -10,4 +10,5 @@ export const collectionNames = [
   'MediaServicesSampleFabric',
   fileCollectionName,
   onlyAnimatedGifsCollectionName,
+  defaultMediaPickerCollectionName,
 ];

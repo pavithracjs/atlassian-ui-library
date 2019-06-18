@@ -315,7 +315,7 @@ export function fireShowMoreButtonClickEvent(
 ) {
   fireGasEvent(
     createAnalyticsEvent,
-    'click',
+    'clicked',
     'button',
     buttonIdentifier,
     'ui',

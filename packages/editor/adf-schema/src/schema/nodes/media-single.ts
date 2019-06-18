@@ -26,7 +26,6 @@ export interface MediaSingleDefinition {
 }
 export interface MediaSingleAttributes {
   /**
-   * @stage 0
    * @minimum 0
    * @maximum 100
    */

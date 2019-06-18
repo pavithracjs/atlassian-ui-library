@@ -1,6 +1,9 @@
 import * as React from 'react';
-import { createStorybookMediaClientConfig } from '@atlaskit/media-test-helpers';
-import { imageItem, defaultCollectionName } from '../example-helpers';
+import {
+  createStorybookMediaClientConfig,
+  defaultCollectionName,
+} from '@atlaskit/media-test-helpers';
+import { imageItem } from '../example-helpers';
 import { MediaViewer } from '../src';
 
 const mediaClientConfig = createStorybookMediaClientConfig();
