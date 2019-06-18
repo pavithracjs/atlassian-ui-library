@@ -59,7 +59,6 @@ export { UploadParams } from './domain/config';
 
 export { BrowserConfig, DropzoneConfig, PopupConfig, ClipboardConfig };
 export interface ComponentConfigs {
-  browser: BrowserConfig;
   dropzone: DropzoneConfig;
   popup: PopupConfig;
 }
@@ -120,4 +119,5 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 // REACT COMPONENTS
 
 export { ClipboardLoader as Clipboard } from './components/clipboard';
-export { BrowserLoader as Browser } from './components/browser';
+// export { BrowserLoader as Browser } from './components/browser';
+export { default as Browser } from './components/browser';

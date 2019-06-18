@@ -25,7 +25,7 @@ export interface BrowserWrapperState {
 
 class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   dropzoneContainer?: HTMLDivElement;
-  private browserRef = React.createRef<Browser>();
+  private browseFn: Function = () => {};
 
   state: BrowserWrapperState = {
     authEnvironment: 'client',
@@ -59,8 +59,8 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   };
 
   onOpen = () => {
-    if (this.browserRef && this.browserRef.current) {
-      this.browserRef.current.browse();
+    if (this.browseFn) {
+      this.browseFn();
     }
   };
 
@@ -88,6 +88,10 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     const { innerText: authEnvironment } = e.currentTarget;
 
     this.setState({ authEnvironment: authEnvironment as AuthEnvironment });
+  };
+
+  onBrowseFn = (browse: () => void) => {
+    this.browseFn = browse;
   };
 
   render() {
@@ -123,7 +127,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
         <UploadPreviews>
           {({ onUploadsStart, onError, onPreviewUpdate }) => (
             <Browser
-              ref={this.browserRef}
+              onBrowseFn={this.onBrowseFn}
               mediaClient={mediaClient}
               config={browseConfig}
               onUploadsStart={onUploadsStart}

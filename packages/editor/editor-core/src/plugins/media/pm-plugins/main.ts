@@ -88,6 +88,7 @@ export class MediaPluginState {
   public editorAppearance: EditorAppearance;
   private removeOnCloseListener: () => void = () => {};
   private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
+  private browseFn?: () => void;
 
   private reactContext: () => {};
 
@@ -309,6 +310,14 @@ export class MediaPluginState {
   };
 
   showMediaPicker = () => {
+    if (
+      this.browseFn &&
+      (!this.uploadContext ||
+        !this.uploadContext.config ||
+        !this.uploadContext.config.userAuthProvider)
+    ) {
+      return this.browseFn();
+    }
     if (!this.popupPicker) {
       return;
     }
@@ -316,6 +325,10 @@ export class MediaPluginState {
       this.dropzonePicker.deactivate();
     }
     this.popupPicker.show();
+  };
+
+  setBrowseFn = (browseFn: () => void) => {
+    this.browseFn = browseFn;
   };
 
   /**

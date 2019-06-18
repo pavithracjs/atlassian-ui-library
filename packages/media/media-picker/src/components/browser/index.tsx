@@ -13,7 +13,7 @@ type State = {
   Browser?: BrowserWithMediaClientConfigComponent;
 };
 
-export class BrowserLoader extends React.PureComponent<
+class BrowserLoader extends React.PureComponent<
   BrowserWithMediaClientConfigProps,
   State
 > {
@@ -49,3 +49,5 @@ export class BrowserLoader extends React.PureComponent<
     return <this.state.Browser {...this.props} />;
   }
 }
+
+export default BrowserLoader;

@@ -11,6 +11,11 @@ export interface BrowserOwnProps {
   config: BrowserConfig;
   isOpen?: boolean;
   onClose?: () => void;
+  /**
+   * This prop will be mainly used for those contexts (like Editor) where there is no react lifecylce and we cannot rerender easily.
+   * Otherwise, isOpen prop is prefered.
+   */
+  onBrowseFn?: (browse: () => void) => void;
 }
 
 export type BrowserProps = BrowserOwnProps & LocalUploadComponentBaseProps;
@@ -30,7 +35,15 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
   };
 
   componentDidMount() {
-    // TODO: handle initial isOpen
+    const { onBrowseFn, isOpen } = this.props;
+
+    if (onBrowseFn) {
+      onBrowseFn(this.browse);
+    }
+
+    if (isOpen) {
+      this.browse();
+    }
   }
 
   componentWillReceiveProps(nextProps: BrowserProps) {
@@ -42,7 +55,7 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
     }
   }
 
-  public browse(): void {
+  public browse: () => void = () => {
     const { onClose } = this.props;
     if (!this.browserRef.current) {
       return;
@@ -54,7 +67,7 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
     if (onClose) {
       onClose();
     }
-  }
+  };
 
   render() {
     const { config = defaultConfig } = this.props;

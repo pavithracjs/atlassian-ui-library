@@ -1,0 +1,32 @@
+import * as React from 'react';
+import PickerFacadeProvider from './PickerFacadeProvider';
+import { MediaPluginState } from '../pm-plugins/main';
+import { Browser } from '@atlaskit/media-picker';
+
+type Props = {
+  mediaState: MediaPluginState;
+  isOpen?: boolean;
+  onBrowseFn: (browse: () => void) => void;
+};
+
+const BrowserMediaPickerWrapper = ({
+  mediaState,
+  isOpen,
+  onBrowseFn,
+}: Props) => (
+  <PickerFacadeProvider mediaState={mediaState} analyticsName="browser">
+    {({ context, config, pickerFacadeInstance }) => (
+      <Browser
+        onBrowseFn={onBrowseFn}
+        isOpen={isOpen}
+        config={config}
+        context={context}
+        onProcessing={pickerFacadeInstance.handleReady}
+        onError={pickerFacadeInstance.handleUploadError}
+        onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}
+      />
+    )}
+  </PickerFacadeProvider>
+);
+
+export default BrowserMediaPickerWrapper;
