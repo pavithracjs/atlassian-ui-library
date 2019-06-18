@@ -3,6 +3,7 @@ declare module '@atlaskit/theme/constants' {
 
   export const borderRadius: () => number;
   export const codeFontFamily: () => string;
+  export const fontSizeSmall: () => number;
   export const noFocusRing: () => string;
   export const focusRing: (color: string, outlineWidth: number) => string;
   export const colors: Record<string, string>;
