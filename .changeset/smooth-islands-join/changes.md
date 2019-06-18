@@ -1,0 +1,1 @@
+fix unbound method in ProfilecardTrigger component
