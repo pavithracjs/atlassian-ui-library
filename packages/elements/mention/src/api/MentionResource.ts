@@ -39,6 +39,10 @@ export interface MentionResourceConfig extends ServiceConfig {
   mentionNameResolver?: MentionNameResolver;
 }
 
+export interface TeamMentionResourceConfig extends MentionResourceConfig {
+  teamLinkContextPath?: string;
+}
+
 export interface ResourceProvider<Result> {
   /**
    * Subscribe to ResourceProvider results
@@ -447,7 +451,7 @@ export class MentionResource extends AbstractMentionResource
     return { ...result, mentions, query: result.query || query };
   }
 
-  protected recordSelection(
+  recordSelection(
     mention: MentionDescription,
     contextIdentifier?: MentionContextIdentifier,
   ): Promise<void> {

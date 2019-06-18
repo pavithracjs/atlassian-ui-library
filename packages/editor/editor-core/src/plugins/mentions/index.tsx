@@ -570,13 +570,17 @@ function buildNodesForTeamMention(
   sanitizePrivateContent?: boolean,
 ): Fragment {
   const { nodes, marks } = schema;
-  const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
+  const { name, id: teamId, accessLevel, context = {} } = selectedMention;
+  const { teamLinkContextPath } = context;
+
+  // generate team link
+  const teamUrl = `${teamLinkContextPath ||
+    window.location.origin}/people/team/${teamId}`;
+  const teamLink = schema.text(name!, [marks.link.create({ href: teamUrl })]);
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');
   const emptySpaceText = schema.text(' ');
-  const teamLink = schema.text(name!, [marks.link.create({ href: teamUrl })]);
 
   const inlineNodes: Node[] = [teamLink, emptySpaceText, openBracketText];
 

@@ -4,7 +4,10 @@ import fetchMock from 'fetch-mock/src/client';
 import * as queryString from 'query-string';
 import TeamMentionResource from '../../../api/TeamMentionResource';
 import { resultCr, resultCraig, teamResults } from '../_mention-search-results';
-import { MentionResourceConfig } from '../../../api/MentionResource';
+import {
+  MentionResourceConfig,
+  TeamMentionResourceConfig,
+} from '../../../api/MentionResource';
 
 const baseUserUrl = 'https://bogus/users/mentions';
 const baseTeamUrl = 'https://bogus/teams/mentions';
@@ -34,10 +37,9 @@ const apiUserMentionConfig: MentionResourceConfig = {
 };
 
 const apiTeamMentionConfig: MentionResourceConfig = {
+  ...apiUserMentionConfig,
   url: baseTeamUrl,
-  securityProvider() {
-    return options(defaultSecurityCode, false);
-  },
+  teamLinkContextPath: '/wiki',
 };
 
 const FULL_CONTEXT = {
@@ -155,6 +157,10 @@ describe('TeamMentionResourceSpec', () => {
           expect(mentions).toHaveLength(resultCraig.length);
           // the second is for user results + team results
         } else if (currentCount === 2) {
+          const firstTeam = mentions[resultCraig.length];
+          expect(firstTeam.userType).toBe('TEAM');
+          expect(firstTeam.context.teamLinkContextPath).toBe('/wiki');
+
           expect(mentions).toHaveLength(
             resultCraig.length + teamResults.length,
           );
