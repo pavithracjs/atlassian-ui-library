@@ -45,8 +45,16 @@ export default class ExampleEditor extends React.Component<Props, State> {
       locale,
     )}`);
     addLocaleData(localeData.default);
-    const messages = await import(`../src/i18n/${locale}`);
-    this.setState({ locale, messages: messages.default });
+
+    const messages = await Promise.all([
+      import(`../src/i18n/${locale}`),
+      import(`@atlaskit/mention/src/i18n/${locale}`),
+    ]).then(args => ({
+      ...args[0].default,
+      ...args[1].default,
+    }));
+
+    this.setState({ locale, messages });
   };
 
   private getLocalTag = (locale: string) => locale.substring(0, 2);

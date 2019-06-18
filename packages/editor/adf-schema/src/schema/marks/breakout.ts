@@ -8,7 +8,6 @@ export type BreakoutMarkAttrs = {
 
 /**
  * @name breakout_mark
- * @stage 0
  */
 export interface BreakoutMarkDefinition {
   type: 'breakout';
