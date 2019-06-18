@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/reduced-ui-pack", "type": "minor" },
+    { "name": "@atlaskit/theme", "type": "patch" }
+  ],
+  "dependents": []
+}
