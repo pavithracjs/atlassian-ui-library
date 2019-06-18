@@ -21,3 +21,5 @@ export type AnalyticsPayload = GasPayload & {
   action?: AnalyticsAction;
   actionSubject: AnalyticsActionSubject;
 };
+
+export type AnalyticsHandler = (event: AnalyticsPayload) => void;

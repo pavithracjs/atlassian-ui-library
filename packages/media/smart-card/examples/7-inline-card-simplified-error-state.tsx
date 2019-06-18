@@ -1,11 +1,10 @@
 import * as React from 'react';
 import Page, { Grid, GridColumn } from '@atlaskit/page';
 import { Card, Client, Provider, ResolveResponse } from '..';
-import { ClientConfig } from '../src/client/types';
 
 class UnAuthCustomClient extends Client {
-  constructor(config: ClientConfig) {
-    super(config);
+  constructor() {
+    super();
   }
   fetchData(): Promise<ResolveResponse> {
     return Promise.resolve({
@@ -20,16 +19,16 @@ class UnAuthCustomClient extends Client {
 }
 
 class ErroringCustomClient extends Client {
-  constructor(config: ClientConfig) {
-    super(config);
+  constructor() {
+    super();
   }
   fetchData(url: string): Promise<ResolveResponse> {
     return Promise.reject(`Can't resolve from ${url}`);
   }
 }
 
-const unAuthClient = new UnAuthCustomClient({ loadingStateDelay: 1000 });
-const erroringClient = new ErroringCustomClient({ loadingStateDelay: 1000 });
+const unAuthClient = new UnAuthCustomClient();
+const erroringClient = new ErroringCustomClient();
 
 class Example extends React.Component {
   render() {
@@ -38,12 +37,18 @@ class Example extends React.Component {
         <Grid>
           <GridColumn>
             <h4>Unauthorized response</h4>
-            <Provider client={unAuthClient}>
+            <Provider
+              client={unAuthClient}
+              cacheOptions={{ maxLoadingDelay: 1000, maxAge: 15000 }}
+            >
               <Card url="http://some.unauth.url" appearance="inline" />
             </Provider>
             <hr />
             <h4>Error response</h4>
-            <Provider client={erroringClient}>
+            <Provider
+              client={erroringClient}
+              cacheOptions={{ maxLoadingDelay: 1000, maxAge: 15000 }}
+            >
               <Card url="http://some.error.url" appearance="inline" />
             </Provider>
           </GridColumn>
