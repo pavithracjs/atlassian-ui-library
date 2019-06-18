@@ -7,13 +7,14 @@ import TableTree, {
   Row,
   Cell,
 } from '@atlaskit/table-tree';
-import { Provider, Card, Client, CardAppearance } from '../src';
+import { Provider, Card, CardAppearance } from '../src';
 import urlsJSON from '../examples-helpers/example-urls.json';
 import styled from 'styled-components';
 import { IntlProvider } from 'react-intl';
 
 type EnvironmentsKeys = 'prod' | 'stg' | 'dev';
 const environments = ['prod', 'stg', 'dev'];
+import SmartCardClient from '../src/client';
 
 enum GroupingModes {
   none = 'none',
@@ -130,11 +131,7 @@ class Example extends React.Component<{}, ExampleState> {
     }
   }
 
-  renderGroups(
-    mode: GroupingMode,
-    appearanceMode: CardAppearance,
-    environment: EnvironmentsKeys,
-  ) {
+  renderGroups(mode: GroupingMode, appearanceMode: CardAppearance) {
     const grouped = this.getGroupedUrls(mode);
 
     // Sort the sections for easier browsing
@@ -182,11 +179,7 @@ class Example extends React.Component<{}, ExampleState> {
                 {!example ? (
                   ''
                 ) : (
-                  <Card
-                    client={new Client(undefined, environment)}
-                    url={example.url}
-                    appearance={appearanceMode}
-                  />
+                  <Card url={example.url} appearance={appearanceMode} />
                 )}
               </Cell>
             </Row>
@@ -253,10 +246,10 @@ class Example extends React.Component<{}, ExampleState> {
 
     return (
       <IntlProvider locale="en">
-        <Provider>
+        <Provider client={new SmartCardClient(environment)}>
           <DivWithMargin>
             {this.renderButtons(groupingMode, appearanceMode, environment)}
-            {this.renderGroups(groupingMode, appearanceMode, environment)}
+            {this.renderGroups(groupingMode, appearanceMode)}
           </DivWithMargin>
         </Provider>
       </IntlProvider>

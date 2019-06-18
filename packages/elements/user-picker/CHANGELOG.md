@@ -1,5 +1,13 @@
 # @atlaskit/user-picker
 
+## 4.0.5
+
+### Patch Changes
+
+- [patch][9b0adb4ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0adb4ce7):
+
+  Fix scrolling behaviour when picking a user in the multi user picker
+
 ## 4.0.4
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
