@@ -2,10 +2,13 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/es2015",
+    "outDir": "../../dist/es5",
+    "lib": [
+      "dom",
+      "es6"
+    ],
     "target": "es5",
-    "module": "esnext",
-    "paths": {}
+    "module": "commonjs"
   },
   "include": [
     "../../src/**/*.ts",
