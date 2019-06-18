@@ -19,7 +19,7 @@ interface Props {
   /** The default value */
   defaultValue: number;
   /** Callback to receive a reference. */
-  inputRef?: (input: HTMLInputElement) => any;
+  inputRef?: (input?: HTMLInputElement) => any;
   /** The theme object to be passed down. See
   [@atlaskit/theme](https://atlaskit.atlassian.com/packages/core/theme) for more details on themeing.
   */
