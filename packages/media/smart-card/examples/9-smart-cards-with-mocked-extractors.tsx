@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Page, { Grid, GridColumn } from '@atlaskit/page';
 import { Card, Client, Provider, ResolveResponse } from '..';
-import { ClientConfig } from '../src/client/types';
 import {
   GithubRepository,
   BitbucketRepository,
@@ -21,6 +20,7 @@ import {
   JiraTasks,
   GitHubIssue,
 } from '../examples-helpers/_jsonLDExamples/atlassian.task';
+import { EnvironmentsKeys } from '../src/client/types';
 
 const metaMock = {
   access: 'granted',
@@ -30,7 +30,7 @@ const metaMock = {
 };
 
 class BitbucketClient extends Client {
-  constructor(config: ClientConfig) {
+  constructor(config: EnvironmentsKeys) {
     super(config);
   }
   fetchData(): Promise<ResolveResponse> {
@@ -42,7 +42,7 @@ class BitbucketClient extends Client {
 }
 
 class GithubClient extends Client {
-  constructor(config: ClientConfig) {
+  constructor(config: EnvironmentsKeys) {
     super(config);
   }
   fetchData(): Promise<ResolveResponse> {
@@ -53,8 +53,8 @@ class GithubClient extends Client {
   }
 }
 
-const bitbucketClient = new BitbucketClient({ loadingStateDelay: 1000 });
-const githubClient = new GithubClient({ loadingStateDelay: 1000 });
+const bitbucketClient = new BitbucketClient('staging');
+const githubClient = new GithubClient('staging');
 
 class Example extends React.Component {
   render() {

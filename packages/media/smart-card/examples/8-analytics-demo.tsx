@@ -2,28 +2,7 @@ import * as React from 'react';
 import Page, { Grid, GridColumn } from '@atlaskit/page';
 import { Card, Client, Provider, ResolveResponse } from '..';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
-
-const responses = {
-  resolved: {
-    meta: {
-      access: 'granted',
-      visibility: 'public',
-      definitionId: 'd1',
-      auth: [],
-    },
-    data: {
-      name: 'this is a document',
-    },
-  } as ResolveResponse,
-  unauth: {
-    meta: {
-      access: 'unauthorized',
-      visibility: 'restricted',
-      definitionId: 'd2',
-      auth: [],
-    },
-  } as ResolveResponse,
-};
+import { mocks } from '../src/utils/mocks';
 
 class CustomClient extends Client {
   constructor(private resp: ResolveResponse) {
@@ -34,8 +13,8 @@ class CustomClient extends Client {
   }
 }
 
-const resolvingClient = new CustomClient(responses.resolved);
-const unauthClient = new CustomClient(responses.unauth);
+const resolvingClient = new CustomClient(mocks.success);
+const unauthClient = new CustomClient(mocks.unauthorized);
 
 class Example extends React.Component {
   state = {
