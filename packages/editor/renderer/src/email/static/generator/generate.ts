@@ -22,7 +22,7 @@ const exportOpts = imageSources.map(file => ({
 
 const createIcons = () => {
   svgexport.render(exportOpts, (err: any) => {
-    if (err) return console.log(err);
+    // if (err) return console.log(err);
     createIndividualIconModules();
 
     const indexFileExports = exportOpts
