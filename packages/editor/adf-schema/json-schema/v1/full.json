@@ -405,6 +405,11 @@
         "attrs": {
           "type": "object",
           "properties": {
+            "width": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
             "layout": {
               "enum": [
                 "wide",
@@ -417,10 +422,10 @@
               ]
             }
           },
+          "additionalProperties": false,
           "required": [
             "layout"
-          ],
-          "additionalProperties": false
+          ]
         },
         "marks": {
           "type": "array",
