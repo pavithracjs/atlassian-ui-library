@@ -18,9 +18,16 @@ export const CloseButton = styled.button`
   height: 28px;
   border: none;
   padding: 0;
+  background-color: transparent;
 
   &:hover {
     background-color: ${colors.N30A};
+  }
+
+  & > span {
+    line-height: 2;
+    height: auto;
+    width: auto;
   }
 `;
 

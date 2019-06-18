@@ -1,5 +1,29 @@
 ## 0.1.0
 
+## 0.9.0
+
+### Minor Changes
+
+- [minor][ed8ef1f7af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed8ef1f7af):
+
+  updated help-article version and fix some IE11 CSS issues
+
+## 0.8.5
+
+### Patch Changes
+
+- [patch][0f869bb237](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f869bb237):
+
+  fix loading error state
+
+## 0.8.4
+
+### Patch Changes
+
+- [patch][2870381e09](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2870381e09):
+
+  fix IE11 styles issues
+
 ## 0.8.3
 
 ### Patch Changes

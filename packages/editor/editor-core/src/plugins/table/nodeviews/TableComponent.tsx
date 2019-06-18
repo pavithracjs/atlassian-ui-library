@@ -14,7 +14,6 @@ import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 import { getPluginState } from '../pm-plugins/main';
 import { scaleTable } from '../pm-plugins/table-resizing';
 import {
-  getParentNodeWidth,
   getLayoutSize,
   insertColgroupFromNode as recreateResizeColsByNode,
   updateControls,
@@ -36,6 +35,7 @@ import {
 } from '../utils';
 import { autoSizeTable } from '../commands';
 import { WidthPluginState } from '../../width';
+import { getParentNodeWidth } from '../../../utils/node-width';
 
 export interface ComponentProps extends Props {
   view: EditorView;

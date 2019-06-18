@@ -28,6 +28,8 @@ export const messages = defineMessages({
   },
 });
 
+const languageList = createLanguageList(DEFAULT_LANGUAGES);
+
 export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
@@ -45,7 +47,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
     const language =
       parent && parent.node.attrs ? parent.node.attrs.language : undefined;
 
-    const options = createLanguageList(DEFAULT_LANGUAGES).map(lang => ({
+    const options = languageList.map(lang => ({
       label: lang.name,
       value: getLanguageIdentifier(lang),
     }));
@@ -64,12 +66,14 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       type: 'separator',
     };
 
+    const nodeType = state.schema.nodes.codeBlock;
+
     const deleteButton: FloatingToolbarButton<Command> = {
       type: 'button',
       appearance: 'danger',
       icon: RemoveIcon,
-      onMouseEnter: hoverDecoration(true),
-      onMouseLeave: hoverDecoration(false),
+      onMouseEnter: hoverDecoration(nodeType, true),
+      onMouseLeave: hoverDecoration(nodeType, false),
       onClick: removeCodeBlock,
       title: formatMessage(commonMessages.remove),
     };
@@ -77,7 +81,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
     return {
       title: 'CodeBlock floating controls',
       getDomRef: () => codeBlockState.element,
-      nodeType: state.schema.nodes.codeBlock,
+      nodeType,
       items: [languageSelect, separator, deleteButton],
     };
   }

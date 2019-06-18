@@ -1,5 +1,47 @@
 # @atlaskit/editor-core
 
+## 112.13.8
+
+### Patch Changes
+
+- [patch][fee6d77243](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fee6d77243):
+
+  ED-7090 Fix issue where popups could appear off screen
+
+  Editor popups are now positioned so that they are always contained within the parent element - this prevents them being cut off when they are too far left or right
+
+## 112.13.7
+
+### Patch Changes
+
+- [patch][2ea937724b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ea937724b):
+
+  ED-7029 Reduce number of re-renders in floating toolbar
+
+## 112.13.6
+
+### Patch Changes
+
+- [patch][32dfaf75c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32dfaf75c8):
+
+  ED-7092: Fixes types inside gap cursor that assumed elements always existed, handle these cases better.
+
+## 112.13.5
+
+### Patch Changes
+
+- [patch][1740216342](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1740216342):
+
+  ED-6999 Fix issue where horizontal scroll would appear when large media items were inside layouts in full-width mode
+
+## 112.13.4
+
+### Patch Changes
+
+- [patch][8a45ef38a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a45ef38a9):
+
+  Update i18n strings with latest translations.
+
 ## 112.13.3
 
 ### Patch Changes
