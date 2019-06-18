@@ -1,5 +1,19 @@
 # @atlaskit/editor-core
 
+## 112.14.0
+
+### Minor Changes
+
+- [minor][393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+
+  refactor @atlaskit/smart-card front-end: simplification. BREAKING CHANGE: Client no longer accepts configuration options as first argument; deprecated in favour of new state management layer.
+
+## 112.13.9
+
+- Updated dependencies [ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):
+  - @atlaskit/task-decision@15.0.4
+  - @atlaskit/renderer@49.0.0
+
 ## 112.13.8
 
 ### Patch Changes
