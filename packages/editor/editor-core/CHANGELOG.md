@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.14.1
+
+### Patch Changes
+
+- [patch][ca1b98b16f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca1b98b16f):
+
+  ED-7070: Dont skip filtering nodes if a content transformer is present while getting the editors value.
+
 ## 112.14.0
 
 ### Minor Changes
