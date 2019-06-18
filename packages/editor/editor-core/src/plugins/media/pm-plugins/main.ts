@@ -477,15 +477,13 @@ export class MediaPluginState {
         pickerPromises.push(customPicker);
         pickers.push((this.customPicker = await customPicker));
       } else {
+        let popupPicker: Promise<PickerFacade> | undefined;
         if (context.config && context.config.userAuthProvider) {
-          const popupPicker = new Picker(
+          popupPicker = new Picker(
             'popup',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init();
-
-          pickerPromises.push(popupPicker);
-          pickers.push((this.popupPicker = await popupPicker));
         }
 
         const dropzonePicker = new Picker('dropzone', pickerFacadeConfig, {
@@ -494,8 +492,16 @@ export class MediaPluginState {
           ...defaultPickerConfig,
         }).init();
 
-        pickerPromises.push(dropzonePicker);
-        pickers.push((this.dropzonePicker = await dropzonePicker));
+        if (popupPicker) {
+          pickerPromises.push(popupPicker, dropzonePicker);
+          pickers.push(
+            (this.popupPicker = await popupPicker),
+            (this.dropzonePicker = await dropzonePicker),
+          );
+        } else {
+          pickerPromises.push(dropzonePicker);
+          pickers.push((this.dropzonePicker = await dropzonePicker));
+        }
 
         this.dropzonePicker.onDrag(this.handleDrag);
         if (this.popupPicker) {
