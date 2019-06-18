@@ -1,1 +1,0 @@
-Extracted email renderer outside react renderer

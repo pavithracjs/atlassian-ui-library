@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.0.0
+
+### Major Changes
+
+- [major][ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):
+
+  Extracted email renderer outside react renderer
+
 ## 48.8.2
 
 - Updated dependencies [a40f54404e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a40f54404e):
