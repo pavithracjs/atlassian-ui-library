@@ -10,7 +10,7 @@
   "types": "index.d.ts",
   "dependencies": {
     "@atlaskit/emoji": "^62.0.0",
-    "@atlaskit/mention": "^18.3.0",
+    "@atlaskit/mention": "^18.4.1",
     "@atlaskit/task-decision": "^15.0.0",
     "@atlaskit/util-service-support": "^4.0.3",
     "date-fns": "^1.30.1",
