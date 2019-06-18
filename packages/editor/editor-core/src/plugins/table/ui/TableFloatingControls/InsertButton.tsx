@@ -58,18 +58,6 @@ const tooltipMessageByType = (type: string) => {
   return type === 'row' ? tableMessages.insertRow : tableMessages.insertColumn;
 };
 
-const shortcutMessageByType = (type?: string) => {
-  return type === 'row'
-    ? keymaps.tooltip(keymaps.addRowAfter)
-    : keymaps.tooltip(keymaps.addColumnAfter);
-};
-
-const shortcutTooltip = (message: string, shortcut?: string) => (
-  <span>
-    {message} <small>{shortcut}</small>
-  </span>
-);
-
 const InsertButton = ({
   onMouseDown,
   index,
@@ -88,9 +76,9 @@ const InsertButton = ({
   >
     {showInsertButton && (
       <Tooltip
-        content={shortcutTooltip(
+        content={keymaps.renderTooltipContent(
           formatMessage(tooltipMessageByType(type)),
-          shortcutMessageByType(type),
+          type === 'row' ? keymaps.addRowAfter : keymaps.addColumnAfter,
         )}
         position="top"
       >
