@@ -1,5 +1,13 @@
 # @atlaskit/profilecard
 
+## 11.0.0
+
+### Major Changes
+
+- [major][a40f54404e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a40f54404e):
+
+  Profilecard is no longer internally wrapped by a react-intl IntlProvider. Consumers must now ensure to Profilecard is wrapped inside a IntlProvider and provide messages from @atlaskit/profilecard/i18n. See https://hello.atlassian.net/wiki/spaces/AtlasKit/pages/287632890/i18n+API
+
 ## 10.2.6
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

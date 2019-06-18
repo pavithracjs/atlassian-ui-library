@@ -26,6 +26,8 @@ export const CloseButton = styled.button`
 
   & > span {
     line-height: 2;
+    height: auto;
+    width: auto;
   }
 `;
 
