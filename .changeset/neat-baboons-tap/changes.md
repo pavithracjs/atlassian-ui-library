@@ -1,1 +1,0 @@
-Adds icons used for email renderer

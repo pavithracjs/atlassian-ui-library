@@ -1,1 +1,0 @@
-adds support for rendering static images, icons etc. in email as inline attachments
