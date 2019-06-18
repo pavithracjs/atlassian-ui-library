@@ -29,13 +29,8 @@ export const SectionMessageOuter = styled.div`
 `;
 
 export const MainInformationList = styled.ul`
-  > li {
-    margin-top: ${gridSizeTimes(2)}px;
-    margin-left: ${gridSizeTimes(1.5)}px;
-    padding-left: ${gridSizeTimes(3)}px;
-    b {
-      font-weight: 600;
-    }
+  > li b {
+    font-weight: 600;
   }
   p + ul {
     margin-top: ${gridSizeTimes(1.5)}px;
@@ -44,6 +39,7 @@ export const MainInformationList = styled.ul`
 
 export const IconHoverWrapper = styled.span`
   color: ${colors.B500};
+  padding-left: ${gridSizeTimes(0.5)}px;
   &:hover {
     color: ${colors.B200};
   }

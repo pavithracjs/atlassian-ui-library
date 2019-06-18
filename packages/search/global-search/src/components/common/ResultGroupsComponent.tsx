@@ -8,6 +8,8 @@ import {
 } from './ScreenAnalyticsHelper';
 import { ReferralContextIdentifiers } from '../GlobalQuickSearchWrapper';
 import { ResultsGroup } from '../../model/Result';
+import { Scope } from '../../api/types';
+import { CancelableEvent } from '../../../../quick-search';
 
 export enum ResultGroupType {
   PreQuery = 'PreQuery',
@@ -21,27 +23,43 @@ export interface Props {
   searchSessionId: string;
   screenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
+  onShowMoreClicked: (scope: Scope) => void;
+  onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void;
+  query: string;
 }
 
-const mapGroupsToSections = (
-  resultsToShow: ResultsGroup[],
-  analyticsData: any,
-): JSX.Element[] => {
-  return resultsToShow
-    .filter(({ items }) => items && items.length)
-    .map((group, index) => (
-      <ResultGroup
-        key={`${group.key}-${index}`}
-        title={group.title ? <FormattedMessage {...group.title} /> : undefined}
-        results={group.items}
-        sectionIndex={index}
-        analyticsData={analyticsData}
-        showTotalSize={group.showTotalSize}
-        totalSize={group.totalSize}
-      />
-    ));
-};
 export default class ResultGroupsComponent extends React.Component<Props> {
+  mapGroupsToSections = (
+    resultsToShow: ResultsGroup[],
+    analyticsData: any,
+  ): JSX.Element[] => {
+    const {
+      onShowMoreClicked,
+      onSearchMoreAdvancedSearchClicked,
+      query,
+    } = this.props;
+
+    return resultsToShow
+      .filter(({ items }) => items && items.length)
+      .map((group, index) => (
+        <ResultGroup
+          key={`${group.key}-${index}`}
+          title={
+            group.title ? <FormattedMessage {...group.title} /> : undefined
+          }
+          results={group.items}
+          sectionIndex={index}
+          analyticsData={analyticsData}
+          showTotalSize={group.showTotalSize}
+          totalSize={group.totalSize}
+          showMoreButton={group.showTotalSize}
+          onShowMoreClicked={() => onShowMoreClicked(group.key as Scope)}
+          onSearchMoreAdvancedSearch={onSearchMoreAdvancedSearchClicked}
+          query={query}
+        />
+      ));
+  };
+
   getAnalyticsComponent() {
     const {
       searchSessionId,
@@ -82,7 +100,7 @@ export default class ResultGroupsComponent extends React.Component<Props> {
     const analyticsData = this.getAnalyticsData();
     return (
       <>
-        {mapGroupsToSections(resultsGroups, analyticsData)}
+        {this.mapGroupsToSections(resultsGroups, analyticsData)}
         {renderAdvancedSearch(analyticsData)}
         {this.getAnalyticsComponent()}
       </>

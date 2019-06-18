@@ -129,7 +129,6 @@ exports[`DeleteUserOverviewScreen 1`] = `
           id="focused-task-close-account.delete-account.overview.paragraph.list-of-apps-with-personal-data.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -156,7 +155,6 @@ exports[`DeleteUserOverviewScreen 1`] = `
           id="focused-task-close-account.delete-account.overview.paragraph.content-created.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -324,7 +322,6 @@ exports[`accessibleSites display text displayed is different when no accessibleS
           id="focused-task-close-account.delete-account.overview.paragraph.list-of-apps-with-personal-data.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -351,7 +348,6 @@ exports[`accessibleSites display text displayed is different when no accessibleS
           id="focused-task-close-account.delete-account.overview.paragraph.content-created.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -519,7 +515,6 @@ exports[`accessibleSites display text displayed is different when no accessibleS
           id="focused-task-close-account.delete-account.overview.paragraph.list-of-apps-with-personal-data.self"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -546,7 +541,6 @@ exports[`accessibleSites display text displayed is different when no accessibleS
           id="focused-task-close-account.delete-account.overview.paragraph.content-created.self"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -726,7 +720,6 @@ exports[`deactivateUserHandler display warning section is not displayed if the d
           id="focused-task-close-account.delete-account.overview.paragraph.list-of-apps-with-personal-data.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -753,7 +746,6 @@ exports[`deactivateUserHandler display warning section is not displayed if the d
           id="focused-task-close-account.delete-account.overview.paragraph.content-created.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -883,7 +875,6 @@ exports[`delete screen display content is different when user is deactivated 1`]
           id="focused-task-close-account.delete-account.overview.paragraph.list-of-apps-with-personal-data.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={
@@ -910,7 +901,6 @@ exports[`delete screen display content is different when user is deactivated 1`]
           id="focused-task-close-account.delete-account.overview.paragraph.content-created.admin"
           values={Object {}}
         />
-         
         <styled.span>
           <StatefulInlineDialog
             content={

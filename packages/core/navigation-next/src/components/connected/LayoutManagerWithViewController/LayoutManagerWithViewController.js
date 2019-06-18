@@ -23,6 +23,7 @@ const LayoutManagerWithViewController = ({
   onCollapseEnd,
   getRefs,
   topOffset,
+  shouldHideGlobalNavShadow,
 }: LayoutManagerWithViewControllerProps) => {
   return (
     <AsyncLayoutManagerWithViewController
@@ -46,6 +47,7 @@ const LayoutManagerWithViewController = ({
       itemsRenderer={ItemsRenderer}
       firstSkeletonToRender={firstSkeletonToRender}
       topOffset={topOffset}
+      shouldHideGlobalNavShadow={shouldHideGlobalNavShadow}
     >
       {children}
     </AsyncLayoutManagerWithViewController>
