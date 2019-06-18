@@ -19,6 +19,8 @@ export const tableSelectors = {
     `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
   nthColumnControl: (n: number) =>
     `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
+  nthNumberedColumnRowControl: (n: number) =>
+    `.${ClassName.NUMBERED_COLUMN_BUTTON}:nth-child(${n})`,
   firstRowControl: `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(1) button`,
   firstColumnControl: `.${
     ClassName.COLUMN_CONTROLS_BUTTON_WRAP
@@ -329,7 +331,7 @@ export const scrollToTable = async (page: any) => {
   await scrollToElement(page, tableSelectors.tableTd, 50);
 };
 
-const select = (type: 'row' | 'column') => async (
+const select = (type: 'row' | 'column' | 'numbered') => async (
   n: number,
   isShiftPressed: boolean = false,
 ) => {
@@ -338,7 +340,10 @@ const select = (type: 'row' | 'column') => async (
   const selector =
     type === 'row'
       ? tableSelectors.nthRowControl(n + 1)
-      : tableSelectors.nthColumnControl(n + 1);
+      : type === 'column'
+      ? tableSelectors.nthColumnControl(n + 1)
+      : tableSelectors.nthNumberedColumnRowControl(n + 1);
+
   await page.waitForSelector(selector);
 
   if (isShiftPressed) {
@@ -359,3 +364,7 @@ export const selectRow = select('row');
  * @param n This has `0` based index.
  */
 export const selectColumn = select('column');
+/**
+ * @param n This has `1` based index.
+ */
+export const selectNumberedColumnRow = select('numbered');

@@ -189,6 +189,9 @@ async function waitForLoadedBackgroundImages(
   rootSelector /*:string*/ = '*',
   timeoutMs /*:number*/ = 30000,
 ) {
+  if (rootSelector !== '*') {
+    await page.waitFor(rootSelector);
+  }
   return await page
     .evaluate(
       (selector /*:string*/, raceTimeout /*:number*/) => {
@@ -239,7 +242,7 @@ async function waitForLoadedBackgroundImages(
 
 /** Waits for atlaskit tooltip component to appear and fade in */
 async function waitForTooltip(page /*:any*/) {
-  const tooltipSelector = '[class^="styled__Tooltip"]';
+  const tooltipSelector = '[class^="Tooltip"]';
   await page.waitForFunction(
     selector =>
       !!document.querySelector(selector) &&
@@ -251,7 +254,7 @@ async function waitForTooltip(page /*:any*/) {
 
 /** Waits for atlaskit tooltip component to disappear */
 async function waitForNoTooltip(page /*:any*/) {
-  const tooltipSelector = '[class^="styled__Tooltip"]';
+  const tooltipSelector = '[class^="Tooltip"]';
   await page.waitForFunction(
     selector => !document.querySelector(selector),
     {},
@@ -314,6 +317,41 @@ async function validateExampleLoaded(page /*:any*/) {
   });
 }
 
+declare var expect: {
+  (
+    value: any,
+  ): {
+    toMatchProdImageSnapshot(options: {
+      failureThreshold: string,
+      failureThresholdType: string,
+    }): void,
+  },
+  extend(matchers: { [name: string]: JestMatcher }): void,
+};
+
+async function compareScreenshot(
+  screenshot /*:any*/,
+  tolerance /*:number*/ = MINIMUM_THRESHOLD,
+  screenshotOptions /*:Object*/ = {},
+) {
+  if (tolerance >= 1) {
+    throw Error(
+      `Snapshot tolerance should be a decimal in the range [0.0, 1.0] and you have attempted to use a tolerance of ${tolerance}`,
+    );
+  } else if (
+    tolerance > MINIMUM_THRESHOLD &&
+    !screenshotOptions.useUnsafeThreshold
+  ) {
+    throw Error(
+      `Snapshot tolerances greater than minimum threshold (${MINIMUM_THRESHOLD}) are considered unsafe, and you have attempted to use a tolerance of ${tolerance}. To use an unsafe threshold, set 'screenshotOptions.useUnsafeThreshold' to true. This is not advised.`,
+    );
+  }
+  expect(screenshot).toMatchProdImageSnapshot({
+    failureThreshold: `${tolerance}`,
+    failureThresholdType: 'percent',
+  });
+}
+
 // get all examples from the code sync
 function getAllExamplesSync() /*: Array<Object> */ {
   return glob
@@ -355,6 +393,7 @@ module.exports = {
   waitForNoTooltip,
   takeScreenShot,
   takeElementScreenShot,
+  compareScreenshot,
   getExampleUrl,
   loadExampleUrl,
   navigateToUrl,

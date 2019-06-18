@@ -218,6 +218,7 @@ const commonProps = {
   isError: false,
   isLoading: false,
   keepPreQueryState: false,
+  searchMore: () => {},
 };
 
 const getSearchAndRecentItemsForJira = (

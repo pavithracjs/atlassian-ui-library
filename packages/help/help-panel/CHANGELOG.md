@@ -1,5 +1,57 @@
 ## 0.1.0
 
+## 0.9.0
+
+### Minor Changes
+
+- [minor][ed8ef1f7af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed8ef1f7af):
+
+  updated help-article version and fix some IE11 CSS issues
+
+## 0.8.5
+
+### Patch Changes
+
+- [patch][0f869bb237](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f869bb237):
+
+  fix loading error state
+
+## 0.8.4
+
+### Patch Changes
+
+- [patch][2870381e09](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2870381e09):
+
+  fix IE11 styles issues
+
+## 0.8.3
+
+### Patch Changes
+
+- [patch][e4ecf9b50e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4ecf9b50e):
+
+  Fix CSS issues. Display loading state only 1000ms after the request was made
+
+## 0.8.2
+
+### Patch Changes
+
+- [patch][4534dc3d51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4534dc3d51):
+
+  Fix for dependency on @atlaskit/tooltip
+
+## 0.8.1
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/form@6.0.5
+  - @atlaskit/item@10.0.2
+  - @atlaskit/navigation@35.1.5
+  - @atlaskit/radio@3.0.3
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/quick-search@7.4.1
+  - @atlaskit/icon@18.0.0
+
 ## 0.8.0
 
 ### Minor Changes

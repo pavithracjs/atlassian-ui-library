@@ -133,4 +133,25 @@ describe('Snapshot Test', () => {
     expect(image).toMatchProdImageSnapshot();
     await page.click(button);
   });
+
+  it('Should match dynamic theme styles', async () => {
+    const url = getExampleUrl(
+      'core',
+      'navigation-next',
+      'navigation-with-dynamic-theme-styles',
+      global.__BASEURL__,
+    );
+    const { page } = global;
+    // TODO: Fix button selector
+    const button = '#toggle-shadow';
+
+    await page.goto(url);
+    await page.waitForSelector(button);
+    await page.click(button);
+
+    const image = await takeScreenShot(page, url);
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
+    await page.click(button);
+  });
 });

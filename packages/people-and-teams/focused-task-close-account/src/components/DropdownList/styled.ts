@@ -17,6 +17,5 @@ export const AccessibleSitesListFootnote = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
-  padding-left: 0;
-  left: 0;
+  padding: 0 ${gridSizeTimes(1)}px;
 `;

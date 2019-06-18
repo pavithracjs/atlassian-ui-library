@@ -1,5 +1,30 @@
 # @atlaskit/editor-test-helpers
 
+## 9.4.1
+
+- Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+  - @atlaskit/editor-core@112.14.0
+  - @atlaskit/smart-card@12.0.0
+
+## 9.4.0
+
+### Minor Changes
+
+- [minor][11a8112851](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a8112851):
+
+  ED-6991 Fire analytics event for renderer started
+
+  Set up analytics v3 in renderer
+
+## 9.3.9
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/editor-common@39.7.2
+  - @atlaskit/editor-core@112.11.20
+  - @atlaskit/media-test-helpers@24.0.3
+  - @atlaskit/smart-card@11.1.6
+  - @atlaskit/icon@18.0.0
+
 ## 9.3.8
 
 ### Patch Changes

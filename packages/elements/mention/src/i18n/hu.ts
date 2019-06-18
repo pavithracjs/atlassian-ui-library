@@ -16,7 +16,10 @@ export default {
     'Próbáljon meg kijelentkezni, majd újból bejelentkezni.',
   'fabric.mention.error.differentText': 'Próbáljon meg más szöveget beírni.',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} tag{includes, select, true {, including you} other {}}} other{{count} tag{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ tag{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 member} other{{0} members}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ members',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ members, including you',
 };

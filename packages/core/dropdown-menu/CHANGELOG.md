@@ -1,5 +1,25 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.5
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/avatar@16.0.4
+  - @atlaskit/droplist@9.0.5
+  - @atlaskit/icon@18.0.1
+  - @atlaskit/item@10.0.3
+  - @atlaskit/tooltip@15.0.0
+
+## 8.0.4
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/button@13.0.8
+  - @atlaskit/droplist@9.0.4
+  - @atlaskit/item@10.0.2
+  - @atlaskit/tooltip@14.0.3
+  - @atlaskit/icon@18.0.0
+
 ## 8.0.3
 
 - Updated dependencies [f8778d517a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f8778d517a):

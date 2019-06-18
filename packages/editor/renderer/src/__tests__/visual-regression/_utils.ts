@@ -2,6 +2,7 @@ import {
   getExampleUrl,
   navigateToUrl,
   disableAllSideEffects,
+  compareScreenshot,
 } from '@atlaskit/visual-regression/helper';
 import { Page } from 'puppeteer';
 import { Props } from '../../ui/Renderer';
@@ -107,9 +108,13 @@ export async function initRendererWithADF(
 
 export async function snapshot(
   page: Page,
-  tolerance?: number,
-  selector = '#RendererOutput',
+  threshold: {
+    tolerance?: number;
+    useUnsafeThreshold?: boolean;
+  } = {},
+  selector: string = '#RendererOutput',
 ) {
+  const { tolerance, useUnsafeThreshold } = threshold;
   const renderer = await page.$(selector);
 
   // Try to take a screenshot of only the renderer.
@@ -121,16 +126,7 @@ export async function snapshot(
     image = await page.screenshot();
   }
 
-  if (tolerance) {
-    // @ts-ignore
-    expect(image).toMatchProdImageSnapshot({
-      failureThreshold: `${tolerance}`,
-      failureThresholdType: 'percent',
-    });
-    return;
-  }
-  // @ts-ignore
-  expect(image).toMatchProdImageSnapshot();
+  compareScreenshot(image, tolerance, { useUnsafeThreshold });
 }
 
 export async function animationFrame(page: Page) {

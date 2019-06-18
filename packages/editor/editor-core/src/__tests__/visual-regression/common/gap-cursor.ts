@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import gapcursor from './__fixtures__/gap-cursor-adf.json';
 import paragraph from './__fixtures__/paragraph-of-text.adf.json';
@@ -15,7 +14,7 @@ describe('Gap cursor:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it('should render gap cursor for code when ArrowRight', async () => {
@@ -55,7 +54,7 @@ describe('Gap cursor: selection', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it('should not break selection when the users drag finishes outside the doc', async () => {

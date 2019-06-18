@@ -83,6 +83,9 @@ export type ConnectedLayoutManagerProps = {
   ...$Exact<ExperimentalFeatureFlags>,
   /** The top offset value to be used in navigation */
   topOffset?: number,
+
+  /** Boolean value to control the shadow on GlobalNavigation */
+  shouldHideGlobalNavShadow?: boolean,
   /** Internal prop which decides which view is active */
   view?: Object | null,
 };

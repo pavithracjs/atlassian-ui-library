@@ -1,5 +1,27 @@
 # @atlaskit/smart-card
 
+## 12.0.0
+
+### Major Changes
+
+- [major][393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+
+  refactor @atlaskit/smart-card front-end: simplification. BREAKING CHANGE: Client no longer accepts configuration options as first argument; deprecated in favour of new state management layer.
+
+## 11.1.6
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/checkbox@8.0.2
+  - @atlaskit/form@6.0.5
+  - @atlaskit/inline-message@10.0.3
+  - @atlaskit/radio@3.0.3
+  - @atlaskit/table-tree@7.0.4
+  - @atlaskit/textfield@2.0.1
+  - @atlaskit/media-ui@11.2.8
+  - @atlaskit/icon@18.0.0
+
 ## 11.1.5
 
 ### Patch Changes

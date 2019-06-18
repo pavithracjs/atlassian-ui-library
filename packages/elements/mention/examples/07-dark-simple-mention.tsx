@@ -1,6 +1,5 @@
-import { AnalyticsListener } from '@atlaskit/analytics';
 import {
-  AnalyticsListener as AnalyticsListenerNext,
+  AnalyticsListener,
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
 // @ts-ignore
@@ -15,11 +14,7 @@ import { IntlProvider } from 'react-intl';
 
 const padding = { padding: '10px' };
 
-function listenerHandler(eventName: string, eventData: Object) {
-  debug(`listenerHandler event: ${eventName} `, eventData);
-}
-
-const listenerHandlerNext = (e: UIAnalyticsEventInterface) => {
+const listenerHandler = (e: UIAnalyticsEventInterface) => {
   debug(
     'Analytics Next handler - payload:',
     e.payload,
@@ -49,20 +44,18 @@ export default function Example() {
     <IntlProvider locale="en">
       <AtlaskitThemeProvider mode={'dark'}>
         <div style={padding}>
-          <AnalyticsListenerNext
-            onEvent={listenerHandlerNext}
+          <AnalyticsListener
+            onEvent={listenerHandler}
             channel={ELEMENTS_CHANNEL}
           >
-            <AnalyticsListener onEvent={listenerHandler} matchPrivate={true}>
-              <Mention
-                {...mentionData}
-                accessLevel={'CONTAINER'}
-                onClick={handler}
-                onMouseEnter={onMentionEvent}
-                onMouseLeave={onMentionEvent}
-              />
-            </AnalyticsListener>
-          </AnalyticsListenerNext>
+            <Mention
+              {...mentionData}
+              accessLevel={'CONTAINER'}
+              onClick={handler}
+              onMouseEnter={onMentionEvent}
+              onMouseLeave={onMentionEvent}
+            />
+          </AnalyticsListener>
         </div>
         <div style={padding}>
           <Mention

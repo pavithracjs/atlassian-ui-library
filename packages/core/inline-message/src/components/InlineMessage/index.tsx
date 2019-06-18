@@ -12,9 +12,9 @@ interface Props {
    the text the dialog is displayed. */
   placement: InlineDialogPlacement;
   /** Text to display second. */
-  secondaryText: string;
+  secondaryText: React.ReactNode;
   /** Text to display first, bolded for emphasis. */
-  title: string;
+  title: React.ReactNode;
   /** Set the icon to be used before the title. Options are: connectivity,
    confirmation, info, warning, and error. */
   type: IconType;

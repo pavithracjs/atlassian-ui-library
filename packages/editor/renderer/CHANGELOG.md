@@ -1,5 +1,62 @@
 # @atlaskit/renderer
 
+## 49.0.1
+
+- Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+  - @atlaskit/editor-test-helpers@9.4.1
+  - @atlaskit/smart-card@12.0.0
+
+## 49.0.0
+
+### Major Changes
+
+- [major][ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):
+
+  Extracted email renderer outside react renderer
+
+## 48.8.2
+
+- Updated dependencies [a40f54404e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a40f54404e):
+  - @atlaskit/editor-common@39.8.2
+  - @atlaskit/profilecard@11.0.0
+
+## 48.8.1
+
+### Patch Changes
+
+- [patch][ec0197518f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec0197518f):
+
+  Fix incorrect date import path
+
+## 48.8.0
+
+### Minor Changes
+
+- [minor][11a8112851](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a8112851):
+
+  ED-6991 Fire analytics event for renderer started
+
+  Set up analytics v3 in renderer
+
+## 48.7.3
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/navigation-next@6.0.8
+  - @atlaskit/editor-common@39.7.2
+  - @atlaskit/editor-test-helpers@9.3.9
+  - @atlaskit/mention@18.3.1
+  - @atlaskit/status@0.9.2
+  - @atlaskit/task-decision@15.0.3
+  - @atlaskit/media-card@63.1.5
+  - @atlaskit/media-filmstrip@34.2.1
+  - @atlaskit/media-test-helpers@24.0.3
+  - @atlaskit/smart-card@11.1.6
+  - @atlaskit/profilecard@10.2.6
+  - @atlaskit/field-range@7.0.4
+  - @atlaskit/icon@18.0.0
+
 ## 48.7.2
 
 ### Patch Changes

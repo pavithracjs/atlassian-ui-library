@@ -36,9 +36,12 @@ import CategorySelector from './CategorySelector';
 import EmojiPickerFooter from './EmojiPickerFooter';
 import EmojiPickerList from './EmojiPickerList';
 import * as styles from './styles';
-import { createAndFireEventInElementsChannel } from '../../util/analytics';
-import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 import {
+  AnalyticsEventPayload,
+  CreateUIAnalyticsEventSignature,
+} from '@atlaskit/analytics-next';
+import {
+  createAndFireEventInElementsChannel,
   categoryClickedEvent,
   closedPickerEvent,
   deleteBeginEvent,
@@ -51,8 +54,6 @@ import {
   uploadBeginButton,
   uploadCancelButton,
   uploadConfirmButton,
-  uploadFailedEvent,
-  uploadSucceededEvent,
   toneSelectorClosedEvent,
 } from '../../util/analytics';
 
@@ -67,7 +68,7 @@ export interface Props {
   onSelection?: OnEmojiEvent;
   onPickerRef?: PickerRefHandler;
   hideToneSelector?: boolean;
-  createAnalyticsEvent?: any;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
 export interface State {
@@ -470,7 +471,6 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
         uploadErrorMessage: message,
       });
     };
-    const startTime = Date.now();
     const onSuccess = (emojiDescription: EmojiDescription) => {
       this.setState({
         activeCategory: customCategory,
@@ -479,20 +479,14 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
       });
       // this.loadEmoji(emojiProvider, emojiDescription);
       this.scrollToEndOfList();
-      this.fireAnalytics(
-        uploadSucceededEvent({
-          duration: Date.now() - startTime,
-        }),
-      );
     };
-    const onFailure = (message: FormattedMessage.MessageDescriptor) =>
-      this.fireAnalytics(
-        uploadFailedEvent({
-          duration: Date.now() - startTime,
-          reason: message.defaultMessage!,
-        }),
-      );
-    uploadEmoji(upload, emojiProvider, errorSetter, onSuccess, onFailure);
+    uploadEmoji(
+      upload,
+      emojiProvider,
+      errorSetter,
+      onSuccess,
+      this.fireAnalytics,
+    );
   };
 
   private onTriggerDelete = (_emojiId: EmojiId, emoji?: EmojiDescription) => {

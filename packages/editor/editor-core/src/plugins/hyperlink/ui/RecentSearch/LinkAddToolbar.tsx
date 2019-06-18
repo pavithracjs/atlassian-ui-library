@@ -133,6 +133,9 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
   /* To not fire on-blur on tab-press */
   private isTabPressed: boolean = false;
 
+  /* To prevent firing blur callback on submit */
+  private submitted: boolean = false;
+
   private urlInputContainer: PanelTextInput | null = null;
   private displayTextInputContainer: PanelTextInput | null = null;
   private urlBlur: () => void;
@@ -329,7 +332,6 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
 
   private handleSubmit = () => {
     const { items, text, selectedIndex } = this.state;
-
     // add the link selected in the dropdown if there is one, otherwise submit the value of the input field
     if (items && items.length > 0 && selectedIndex > -1) {
       const item = items[selectedIndex];
@@ -346,6 +348,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       }
     } else if (text && text.length > 0) {
       if (this.props.onSubmit) {
+        this.submitted = true;
         this.props.onSubmit(
           text,
           this.state.displayText || text,
@@ -361,7 +364,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
 
   private handleKeyDown = (e: KeyboardEvent<any>) => {
     const { items, selectedIndex } = this.state;
-
+    this.submitted = false;
     this.isTabPressed = e.keyCode === 9;
 
     if (!items || !items.length) {
@@ -391,7 +394,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
 
   private handleBlur = (type: string) => {
     const url = normalizeUrl(this.state.text);
-    if (this.props.onBlur) {
+    if (this.props.onBlur && !this.submitted) {
       this.props.onBlur(
         type,
         url,
