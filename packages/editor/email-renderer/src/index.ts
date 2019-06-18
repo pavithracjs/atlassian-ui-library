@@ -2,7 +2,7 @@ import { fontFamily, fontSize } from '@atlaskit/theme';
 
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 
-import { Serializer } from '../serializer';
+import { Serializer } from './serializer';
 import { nodeSerializers } from './serializers';
 import styles from './styles';
 import juice from 'juice';
@@ -92,7 +92,7 @@ const stubImages = (isMockEnabled: boolean) => (content: string) =>
       )
     : content;
 
-export default class EmailSerializer implements Serializer<string> {
+export class EmailSerializer implements Serializer<string> {
   /**
    * Email serializer allows to disable/mock images.
    * The reason behind this is the default behavior is that in email, images are embedded separately
