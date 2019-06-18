@@ -1,0 +1,1 @@
+# @atlaskit/right-side-panel
