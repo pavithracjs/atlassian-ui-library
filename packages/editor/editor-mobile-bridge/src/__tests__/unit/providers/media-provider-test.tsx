@@ -1,4 +1,5 @@
 jest.mock('@atlaskit/media-client');
+import * as React from 'react';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   insertMediaSingleNode,
@@ -22,11 +23,13 @@ import {
 import { Auth, AuthProvider, MediaClientConfig } from '@atlaskit/media-core';
 import {
   getMediaClient,
+  withMediaClient,
   MediaClient,
   ProcessedFileState,
 } from '@atlaskit/media-client';
 import uuid from 'uuid/v4';
 import {
+  asMock,
   asMockReturnValue,
   expectFunctionToHaveBeenCalledWith,
   fakeMediaClient,
@@ -93,6 +96,11 @@ describe('Mobile MediaProvider', async () => {
     };
     mediaClient = fakeMediaClient();
     asMockReturnValue(getMediaClient, mediaClient);
+    asMock(withMediaClient).mockImplementation(
+      (Component: React.ComponentType) => (props: any) => (
+        <Component {...props} mediaClient={mediaClient} />
+      ),
+    );
     asMockReturnValue(mediaClient.file.getFileState, of(testFileState));
 
     promisedMediaProvider = Promise.resolve({
@@ -133,8 +141,7 @@ describe('Mobile MediaProvider', async () => {
 
         const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
-        const provider = await promisedMediaProvider;
-        await provider.viewMediaClientConfig;
+        await promisedMediaProvider;
 
         insertMediaSingleNode(
           editorView,
@@ -171,8 +178,7 @@ describe('Mobile MediaProvider', async () => {
 
         const emptyCollectionName = '';
 
-        const provider = await promisedMediaProvider;
-        await provider.viewMediaClientConfig;
+        await promisedMediaProvider;
 
         insertMediaSingleNode(
           editorView,

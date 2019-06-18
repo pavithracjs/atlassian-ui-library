@@ -84,7 +84,6 @@ export default class MediaSingleNode extends Component<
         mediaProvider,
       );
 
-      // = await mediaProvider.viewMediaClientConfig;
       this.setState({
         viewMediaClientConfig,
       });
@@ -136,6 +135,7 @@ export default class MediaSingleNode extends Component<
     const mediaClient = getMediaClient({
       mediaClientConfig: viewMediaClientConfig,
     });
+    console.log('getRemoteDimensions -> mediaClient', mediaClient);
     const state = await mediaClient.getImageMetadata(id, {
       collection,
     });

@@ -1,5 +1,3 @@
-import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers/index';
-
 const mockCloseMediaEditorCommand = jest.fn();
 const mockUploadAnnotationCommand = jest.fn();
 
@@ -13,6 +11,7 @@ import * as React from 'react';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import { FileIdentifier } from '@atlaskit/media-client';
 import { SmartMediaEditor } from '@atlaskit/media-editor';
+import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers';
 
 import { EditorView } from 'prosemirror-view';
 import MediaEditor from '../../../../plugins/media/ui/MediaEditor';

@@ -1,3 +1,4 @@
+import { MediaClientConfig } from '@atlaskit/media-core';
 import { deleteSelection, splitBlock } from 'prosemirror-commands';
 import { Node as PMNode, ResolvedPos, Fragment } from 'prosemirror-model';
 import { EditorState, NodeSelection } from 'prosemirror-state';
@@ -17,7 +18,6 @@ import {
 } from '../../../utils';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import { MediaProvider, MediaState } from '../types';
-import { MediaClientConfig } from '@atlaskit/media-core/index';
 
 export const posOfMediaGroupNearby = (
   state: EditorState,
