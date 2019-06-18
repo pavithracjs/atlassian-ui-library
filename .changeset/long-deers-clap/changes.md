@@ -1,0 +1,1 @@
+ED-7070: Dont skip filtering nodes if a content transformer is present while getting the editors value.
