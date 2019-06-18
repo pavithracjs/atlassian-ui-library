@@ -1,5 +1,13 @@
 # @atlaskit/media-test-helpers
 
+## 24.1.0
+
+### Minor Changes
+
+- [minor][10c2856bc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/10c2856bc0):
+
+  include defaultMediaPickerCollectionName into collectionNames array to get auth from playgrond
+
 ## 24.0.3
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
