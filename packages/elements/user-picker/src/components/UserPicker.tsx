@@ -6,7 +6,7 @@ import { getStyles } from './styles';
 import { getComponents } from './components';
 import { getCreatableProps } from './creatable';
 
-export class UserPicker extends React.Component<UserPickerProps, {}> {
+export class UserPicker extends React.Component<UserPickerProps> {
   static defaultProps = {
     width: 350,
   };
