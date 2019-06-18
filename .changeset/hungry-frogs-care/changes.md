@@ -1,0 +1,1 @@
+Breakout mark stage-0 -> full schema
