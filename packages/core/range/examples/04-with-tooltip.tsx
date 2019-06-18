@@ -1,9 +1,12 @@
-// @flow
 import React, { Component } from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import Range from '../src';
 
-export default class SimpleRange extends Component<*, *> {
+interface State {
+  value: number;
+}
+
+export default class SimpleRange extends Component<{}, State> {
   state = {
     value: 50,
   };

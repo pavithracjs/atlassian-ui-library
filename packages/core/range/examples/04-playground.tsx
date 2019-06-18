@@ -1,9 +1,16 @@
-// @flow
-
 import React, { Component, Fragment } from 'react';
 import { Checkbox } from '@atlaskit/checkbox';
 import { colors } from '@atlaskit/theme';
 import Range from '../src';
+
+interface State {
+  min: number;
+  max: number;
+  step: number;
+  actualVal: number;
+  isDisabled: boolean;
+  rtl: boolean;
+}
 
 const initialState = {
   min: 0,
@@ -14,7 +21,7 @@ const initialState = {
   rtl: false,
 };
 
-export default class Playground extends Component<*, *> {
+export default class Playground extends Component<{}, State> {
   state = initialState;
 
   render() {
@@ -38,13 +45,17 @@ export default class Playground extends Component<*, *> {
         <Checkbox
           value="Toggle Disabled"
           label="Toggle Disabled"
-          onChange={e => this.setState({ isDisabled: e.target.checked })}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            this.setState({ isDisabled: event.target.checked })
+          }
           name="toggle-disabled"
         />
         <Checkbox
           value="Toggle right-to-left"
           label="Toggle right-to-left"
-          onChange={e => this.setState({ rtl: e.target.checked })}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            this.setState({ rtl: event.target.checked })
+          }
           name="toggle-rtl"
         />
         <p>The ranges below control the values in the range above</p>
