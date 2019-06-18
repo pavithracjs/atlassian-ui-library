@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import Tag from '../src';
 
 const A = styled.a``;
 
-const StyledExample = (props: any) => {
+const StyledExample = (props: HTMLAttributes<HTMLAnchorElement>) => {
   return <A {...props} target="_blank" />;
 };
 
