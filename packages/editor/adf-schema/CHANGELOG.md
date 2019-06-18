@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.6.1
+
+### Patch Changes
+
+- [patch][aff59f9a99](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aff59f9a99):
+
+  ED-7045: promote mediaSingle width attribute from stage-0 to full schema
+
 ## 2.6.0
 
 ### Minor Changes
