@@ -23,16 +23,23 @@ function toBrowserStackClients(
       capabilities: {
         os: launchers[launchKey].os,
         os_version: launchers[launchKey].os_version,
+        browser: launchers[launchKey].browser,
         browserName: launchers[launchKey].browserName,
         browserVersion: launchers[launchKey].browser_version,
         device: launchers[launchKey].device,
-        realMobile: launchers[launchKey].realMobile,
+        deviceOrientation: launchers[launchKey].deviceOrientation,
+        real_mobile: launchers[launchKey].real_mobile,
         project: 'Atlaskit Webdriver Tests',
         build: process.env.BITBUCKET_BRANCH,
         'browserstack.local': true,
         'browserstack.debug': true,
         'browserstack.idleTimeout': 300,
         'browserstack.localIdentifier': commit,
+        'browserstack.appium_version':
+          launchers[launchKey]['browserstack.appium_version'],
+        'browserstack.appiumLogs': true,
+        'browserstack.networkProfile':
+          launchers[launchKey]['browserstack.networkProfile'],
         resolution: launchers[launchKey].resolution,
         acceptSslCerts: true,
       },
@@ -97,63 +104,106 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
 }
 
 function setBrowserStackMobileClients() /*: Array<?Object>*/ {
+  const commonProps = {
+    real_mobile: 'true',
+    'browserstack.appiumLogs': true,
+  };
+  const androidProps = {
+    os: 'android',
+    browser: 'Android',
+    'browserstack.appium_version': '1.12.1',
+  };
+  const iphoneProps = {
+    os: 'ios',
+    browser: 'iPhone',
+    'browserstack.appium_version': '1.9.1',
+  };
+  const ipadProps = {
+    os: 'ios',
+    browser: 'iPad',
+    'browserstack.appium_version': '1.9.1',
+  };
+
   const launchers = {
+    iPhone8Plus: {
+      os_version: '11.3', // 11.0, 11.2,11.3,11.4,12.1 for JS
+      browserName: 'iphone',
+      device: 'iPhone 8 Plus',
+      ...commonProps,
+      ...iphoneProps,
+    },
+    /*
     pixel3: {
       os_version: '9.0', // Android 28
       browserName: 'android',
       device: 'Google Pixel 3',
-      resolution: '1080*2160',
-      realMobile: true,
+      ...commonProps,
+      ...androidProps
     },
     pixel2: {
       os_version: '8.0', // Android 27
       browserName: 'android',
       device: 'Google Pixel 2',
-      resolution: '1920*1080',
-      realMobile: true,
+      ...commonProps,
+      ...androidProps
     },
     nexus6: {
       os_version: '6.0', // Android 23
       browserName: 'android',
       device: 'Google Nexus 6',
-      resolution: '2560*1440',
-      realMobile: true,
+      ...commonProps,
+      ...androidProps
     },
     galaxyTab: {
       os_version: '8.0', // Android 27
       browserName: 'android',
       device: 'Galaxy Tab S4',
-      resolution: '2560*1600',
-      realMobile: true,
+      ...commonProps,
+      ...androidProps
     },
     iPhone8: {
       os_version: '12.0', // iOS 12
       browserName: 'iphone',
       device: 'iPhone 8',
-      resolution: '1920*1080',
-      realMobile: true,
+      ...commonProps,
+      ...iosProps
     },
     iPhone7: {
       os_version: '10.0', // iOS 10
       browserName: 'iphone',
       device: 'iPhone 7',
-      resolution: '1334*750',
-      realMobile: true,
+      ...commonProps,
+      ...iosProps
     },
     iPhone6: {
       os_version: '8.0', // iOS 8
       browserName: 'iphone',
       device: 'iPhone 6',
-      resolution: '1334*750',
-      realMobile: true,
+      ...commonProps,
+      ...iosProps
+    },
+    iPhoneSE: {
+      os_version: '11.0', // iOS 11
+      browserName: 'iphone',
+      device: 'iPhone SE',
+      ...commonProps,
+      ...iosProps
     },
     iPad: {
       os_version: '11.0', // iOS 11
       browserName: 'ipad',
       device: 'iPad 6th',
-      resolution: '2048*1536',
-      realMobile: true,
+      ...commonProps,
+      ...iosProps
     },
+    iPadMini4: {
+      os_version: '11.0', // iOS 11
+      browserName: 'ipad',
+      device: 'iPad Mini 4',
+      ...commonProps,
+      ...iosProps
+    },
+    */
   };
 
   return toBrowserStackClients(launchers, {

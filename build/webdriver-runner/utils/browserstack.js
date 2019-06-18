@@ -7,8 +7,11 @@
 const browserstack = require('browserstack-local');
 const bsLocal = new browserstack.Local();
 
+const isMobile = process.env.MOBILE === 'true';
 const uniqIdentifierStamp = process.env.LOCAL_IDENTIFIER || '';
-const bsKey = process.env.BROWSERSTACK_KEY;
+const bsKey = isMobile
+  ? process.env.BROWSERSTACK_MOBILE_KEY
+  : process.env.BROWSERSTACK_KEY;
 const commit = process.env.BITBUCKET_COMMIT
   ? process.env.BITBUCKET_COMMIT + uniqIdentifierStamp
   : process.env.USER
