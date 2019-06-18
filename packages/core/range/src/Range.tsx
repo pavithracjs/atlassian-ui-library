@@ -1,36 +1,34 @@
-// @flow
-
-import { type ThemeProp } from '@atlaskit/theme';
+import { ThemeProp } from '@atlaskit/theme';
 import React, { Component } from 'react';
 import { Input } from './styled';
-import { Theme, type ThemeTokens } from './theme';
+import { Theme, ThemeTokens } from './theme';
 
-type Props = {
+interface Props {
   /** if the field range needs to be disabled */
-  isDisabled?: boolean,
+  isDisabled?: boolean;
   /** Maximum value of the range */
-  max: number,
+  max: number;
   /** Minimum value of the range */
-  min: number,
+  min: number;
   /** Hook to be invoked on change of the range */
-  onChange?: (value: number) => mixed,
+  onChange?: (value: number) => any;
   /** Step value for the range */
-  step?: number,
+  step?: number;
   /** Value of the range */
-  value?: number,
+  value?: number;
   /** The default value */
-  defaultValue: number,
+  defaultValue: number;
   /** Callback to receive a reference. */
-  inputRef?: (input: ?HTMLInputElement) => mixed,
+  inputRef?: (input?: HTMLInputElement) => any;
   /** The theme object to be passed down. See
   [@atlaskit/theme](https://atlaskit.atlassian.com/packages/core/theme) for more details on themeing.
   */
-  theme?: ThemeProp<ThemeTokens>,
-};
+  theme?: ThemeProp<any, any>;
+}
 
-type State = {
-  value: number,
-};
+interface State {
+  value: number;
+}
 
 const getPercentValue = (value: number, min: number, max: number): string => {
   let percent = '0';
@@ -57,7 +55,7 @@ export default class Slider extends Component<Props, State> {
         : this.props.defaultValue,
   };
 
-  range: ?HTMLInputElement;
+  range?: HTMLInputElement;
 
   componentDidMount() {
     if (this.range) {
@@ -70,14 +68,8 @@ export default class Slider extends Component<Props, State> {
   getValue = () =>
     this.props.value !== undefined ? this.props.value : this.state.value;
 
-  handleChange = (e: Event) => {
-    // Event.target is typed as an EventTarget but we need to access properties on it which are
-    // specific to HTMLInputElement. Due limitations of the HTML spec flow doesn't know that an
-    // EventTarget can have these properties, so we cast it to Element through Object. This is
-    // the safest thing we can do in this situation.
-    // https://flow.org/en/docs/types/casting/#toc-type-casting-through-any
-    const target: HTMLInputElement = (e.target: Object);
-    const value = parseFloat(target.value);
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
     const { onChange } = this.props;
 
     this.setState({ value });
@@ -95,15 +87,15 @@ export default class Slider extends Component<Props, State> {
     return (
       <Theme.Provider value={theme}>
         <Theme.Consumer>
-          {computedTheme => (
+          {(computedTheme: ThemeTokens) => (
             <Input
               {...computedTheme}
               type="range"
               value={value}
               disabled={isDisabled}
               valuePercent={getPercentValue(value, min, max)}
-              innerRef={r => {
-                this.range = r;
+              innerRef={(ref: HTMLInputElement) => {
+                this.range = ref;
               }}
               {...rest}
               onChange={this.handleChange}

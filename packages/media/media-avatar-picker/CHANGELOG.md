@@ -1,5 +1,10 @@
 # @atlaskit/media-avatar-picker
 
+## 21.0.8
+
+- Updated dependencies [4a08d1912e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a08d1912e):
+  - @atlaskit/range@3.0.0
+
 ## 21.0.7
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
