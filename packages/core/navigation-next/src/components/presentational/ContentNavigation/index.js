@@ -85,6 +85,6 @@ export default class ContentNavigation extends Component<
   }
 }
 
-const ToggleContent = ({ isVisible, ...rest }) => (
+const ToggleContent = ({ isVisible, ...rest }: { isVisible: boolean }) => (
   <div css={{ display: isVisible ? 'block' : 'none' }} {...rest} />
 );
