@@ -7,7 +7,7 @@ import Badge from '@atlaskit/badge';
 import { Result } from '../model/Result';
 import ResultList from './ResultList';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { ShowMoreButton } from './ShowMoreButton';
+import ShowMoreButton from './ShowMoreButton';
 
 export interface Props {
   title?: JSX.Element | string;

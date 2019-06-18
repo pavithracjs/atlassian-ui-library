@@ -3,8 +3,12 @@ import {
   version as packageVersion,
 } from '../version.json';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
-import { AnalyticsPayload } from './types.js';
+import { AnalyticsPayload } from './types';
+
 export const ANALYTICS_CHANNEL = 'media';
+export const MESSAGE_WINDOW_CLOSED = 'The auth window was closed';
+export const KEY_WINDOW_CLOSED = 'authWindowClosed';
+export const KEY_SENSITIVE_DATA = 'potentialSensitiveData';
 
 export const context = {
   componentName: 'smart-cards',
@@ -85,8 +89,8 @@ export const trackAppAccountConnected = (
 });
 
 export const uiAuthEvent = (
-  definitionId: string,
   display: 'inline' | 'block',
+  definitionId?: string,
 ): AnalyticsPayload => ({
   action: 'clicked',
   actionSubject: 'button',
@@ -94,14 +98,14 @@ export const uiAuthEvent = (
   eventType: 'ui',
   attributes: {
     ...context,
-    definitionId,
+    definitionId: definitionId || '',
     display,
   },
 });
 
 export const uiAuthAlternateAccountEvent = (
-  definitionId: string,
   display: 'inline' | 'block',
+  definitionId?: string,
 ): AnalyticsPayload => ({
   action: 'clicked',
   actionSubject: 'smartLink',
@@ -109,46 +113,46 @@ export const uiAuthAlternateAccountEvent = (
   eventType: 'ui',
   attributes: {
     ...context,
-    definitionId,
+    definitionId: definitionId || '',
     display,
   },
 });
 
 export const uiCardClickedEvent = (
-  definitionId: string,
   display: 'inline' | 'block',
+  definitionId?: string,
 ): AnalyticsPayload => ({
   action: 'clicked',
   actionSubject: 'smartLink',
   eventType: 'ui',
   attributes: {
     ...context,
-    definitionId,
+    definitionId: definitionId || '',
     display,
   },
 });
 
 export const uiClosedAuthEvent = (
-  definitionId: string,
   display: 'inline' | 'block',
+  definitionId?: string,
 ): AnalyticsPayload => ({
   action: 'closed',
   actionSubject: 'consentModal',
   eventType: 'ui',
   attributes: {
     ...context,
-    definitionId,
+    definitionId: definitionId || '',
     display,
   },
 });
 
 export const screenAuthPopupEvent = (
-  definitionId: string,
+  definitionId?: string,
 ): AnalyticsPayload => ({
   actionSubject: 'consentModal',
   eventType: 'screen',
   attributes: {
     ...context,
-    definitionId,
+    definitionId: definitionId || '',
   },
 });
