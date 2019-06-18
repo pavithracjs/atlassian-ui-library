@@ -1,0 +1,37 @@
+{
+  "name": "@atlaskit/email-renderer",
+  "version": "1.1.0",
+  "description": "Email renderer",
+  "license": "Apache-2.0",
+  "atlaskit:src": "src/index.ts",
+  "main": "dist/es5/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es5/index.d.ts",
+  "sideEffects": false,
+  "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Jaroslav Minarik",
+    "Nathan Pickworth"
+  ],
+  "atlaskit": {
+    "name": "Email renderer",
+    "team": "Content Services",
+    "internal": true
+  },
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "dependencies": {
+    "@atlaskit/adf-schema": "^2.5.10",
+    "@atlaskit/editor-common": "^39.8.1",
+    "@atlaskit/theme": "^9.1.0",
+    "juice": "^5.2.0",
+    "lodash.flow": "^3.5.0",
+    "lodash.property": "^4.4.2",
+    "prosemirror-model": "^1.7.0"
+  },
+  "devDependencies": {
+    "@atlaskit/docs": "^8.1.2",
+    "@atlaskit/media-test-helpers": "^24.0.3",
+    "@atlaskit/util-data-test": "^12.4.0",
+    "react": "^16.8.0"
+  }
+}

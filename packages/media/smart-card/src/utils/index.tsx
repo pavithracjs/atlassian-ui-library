@@ -1,17 +1,25 @@
 import * as React from 'react';
 import Loadable from 'react-loadable';
 
-import { DefinedState } from '../client/types';
 import { CardProps } from '../view/Card';
 import { CardWithData } from '../view/Card/types';
+import { CardState } from '../state/types';
 
 export const isCardWithData = (props: CardProps): props is CardWithData =>
   !!(props as CardWithData).data;
 
-export const getCollapsedIcon = (state: DefinedState): string | undefined => {
-  const { data } = state;
+export const isSpecialKey = (event: React.MouseEvent | React.KeyboardEvent) =>
+  event.isDefaultPrevented() && (event.metaKey || event.ctrlKey);
+
+export const getCollapsedIcon = (
+  details: CardState['details'],
+): string | undefined => {
+  const jsonLdData = (details && details.data) || {};
   return (
-    data && data.generator && data.generator.icon && data.generator.icon.url
+    jsonLdData &&
+    jsonLdData.generator &&
+    jsonLdData.generator.icon &&
+    jsonLdData.generator.icon.url
   );
 };
 
