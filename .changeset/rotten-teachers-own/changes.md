@@ -1,1 +1,0 @@
-add analytics to show more button
