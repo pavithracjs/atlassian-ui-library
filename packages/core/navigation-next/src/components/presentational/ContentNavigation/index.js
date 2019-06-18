@@ -46,19 +46,18 @@ export default class ContentNavigation extends Component<
     const { cachedContainer: CachedContainer } = this.state;
 
     const shouldRenderContainer = Boolean(container);
-    const ContainerComponent =
-      isVisible && CachedContainer ? CachedContainer : Fragment;
+    const ContainerComponent = CachedContainer || Fragment;
 
     return (
       <Fragment>
         <ProductNavigation>
-          {isVisible ? (
-            <NavigationAnalyticsContext
-              data={{ attributes: { navigationLayer: 'product' } }}
-            >
+          <NavigationAnalyticsContext
+            data={{ attributes: { navigationLayer: 'product' } }}
+          >
+            <ToggleContent isVisible={isVisible}>
               <Product />
-            </NavigationAnalyticsContext>
-          ) : null}
+            </ToggleContent>
+          </NavigationAnalyticsContext>
         </ProductNavigation>
         <Transition
           in={shouldRenderContainer}
@@ -74,7 +73,9 @@ export default class ContentNavigation extends Component<
               <NavigationAnalyticsContext
                 data={{ attributes: { navigationLayer: 'container' } }}
               >
-                <ContainerComponent />
+                <ToggleContent isVisible={isVisible && shouldRenderContainer}>
+                  <ContainerComponent />
+                </ToggleContent>
               </NavigationAnalyticsContext>
             </ContainerNavigation>
           )}
@@ -83,3 +84,7 @@ export default class ContentNavigation extends Component<
     );
   }
 }
+
+const ToggleContent = ({ isVisible, ...rest }) => (
+  <div css={{ display: isVisible ? 'block' : 'none' }} {...rest} />
+);
