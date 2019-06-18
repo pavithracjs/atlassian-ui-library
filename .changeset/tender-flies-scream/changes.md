@@ -1,1 +1,0 @@
-Email renderer builds to es5
