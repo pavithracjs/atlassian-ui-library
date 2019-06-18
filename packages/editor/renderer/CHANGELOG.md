@@ -1,5 +1,11 @@
 # @atlaskit/renderer
 
+## 49.0.1
+
+- Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+  - @atlaskit/editor-test-helpers@9.4.1
+  - @atlaskit/smart-card@12.0.0
+
 ## 49.0.0
 
 ### Major Changes
