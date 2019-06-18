@@ -1,0 +1,1 @@
+fix i18n-tools validation error on try/catch
