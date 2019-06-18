@@ -140,12 +140,12 @@ export class Engine {
     keyboardInput.characterPressed.listen(code =>
       this.veCall('add character', ve => ve.addCharacter(code)),
     );
-    keyboardInput.inputCommand.listen(command => {
-      return this.veCall('input command', ve => {
+    keyboardInput.inputCommand.listen(command =>
+      this.veCall('input command', ve => {
         const textCommand = this.toTextCommand(command);
         return ve.textCommand(textCommand);
-      });
-    });
+      }),
+    );
 
     shapeDeleter.deleteShape.listen(() =>
       this.veCall('delete shape', ve => ve.deleteShape()),
