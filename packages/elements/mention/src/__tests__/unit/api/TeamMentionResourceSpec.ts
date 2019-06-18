@@ -36,7 +36,7 @@ const apiUserMentionConfig: MentionResourceConfig = {
   },
 };
 
-const apiTeamMentionConfig: MentionResourceConfig = {
+const apiTeamMentionConfig: TeamMentionResourceConfig = {
   ...apiUserMentionConfig,
   url: baseTeamUrl,
   teamLinkContextPath: '/wiki',
@@ -159,7 +159,10 @@ describe('TeamMentionResourceSpec', () => {
         } else if (currentCount === 2) {
           const firstTeam = mentions[resultCraig.length];
           expect(firstTeam.userType).toBe('TEAM');
-          expect(firstTeam.context.teamLinkContextPath).toBe('/wiki');
+          const teamLinkContextPath = firstTeam.context
+            ? firstTeam.context.teamLinkContextPath
+            : null;
+          expect(teamLinkContextPath).toBe('/wiki');
 
           expect(mentions).toHaveLength(
             resultCraig.length + teamResults.length,

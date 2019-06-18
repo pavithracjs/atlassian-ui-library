@@ -570,8 +570,8 @@ function buildNodesForTeamMention(
   sanitizePrivateContent?: boolean,
 ): Fragment {
   const { nodes, marks } = schema;
-  const { name, id: teamId, accessLevel, context = {} } = selectedMention;
-  const { teamLinkContextPath } = context;
+  const { name, id: teamId, accessLevel, context } = selectedMention;
+  const teamLinkContextPath = context ? context.teamLinkContextPath : null;
 
   // generate team link
   const teamUrl = `${teamLinkContextPath ||
