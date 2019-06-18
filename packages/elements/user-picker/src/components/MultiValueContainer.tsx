@@ -1,13 +1,9 @@
 import { components } from '@atlaskit/select';
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { FormattedMessage } from 'react-intl';
-import styled from 'styled-components';
 import { messages } from './i18n';
 import { isChildInput } from './utils';
-
-export const ScrollAnchor = styled.div`
-  align-self: flex-end;
-`;
 
 export type State = {
   valueSize: number;
@@ -28,7 +24,7 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
     };
   }
 
-  private bottomAnchor: HTMLDivElement | null = null;
+  private containerRef: React.RefObject<MultiValueContainer>;
   private timeoutId: number | null = null;
 
   constructor(props: Props) {
@@ -37,6 +33,7 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
       valueSize: 0,
       previousValueSize: 0,
     };
+    this.containerRef = React.createRef();
   }
 
   componentDidUpdate() {
@@ -47,12 +44,8 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
         window.clearTimeout(this.timeoutId);
         this.timeoutId = null;
       }
-      this.timeoutId = window.setTimeout(() => {
-        if (this.bottomAnchor) {
-          this.bottomAnchor.scrollIntoView(false);
-        }
-        this.timeoutId = null;
-      });
+
+      this.scrollToBottom();
     }
   }
 
@@ -62,8 +55,17 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
     }
   }
 
-  handleBottomAnchor = (ref: HTMLDivElement | null) => {
-    this.bottomAnchor = ref;
+  scrollToBottom = () => {
+    this.timeoutId = window.setTimeout(() => {
+      const { current } = this.containerRef;
+      if (current !== null) {
+        const container = ReactDOM.findDOMNode(current);
+        if (container instanceof HTMLDivElement) {
+          container.scrollTop = container.scrollHeight;
+        }
+      }
+      this.timeoutId = null;
+    });
   };
 
   private showPlaceholder = () => {
@@ -103,9 +105,11 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
   render() {
     const { children, ...valueContainerProps } = this.props;
     return (
-      <components.ValueContainer {...valueContainerProps}>
+      <components.ValueContainer
+        {...valueContainerProps}
+        ref={this.containerRef}
+      >
         {this.renderChildren()}
-        <ScrollAnchor innerRef={this.handleBottomAnchor} />
       </components.ValueContainer>
     );
   }

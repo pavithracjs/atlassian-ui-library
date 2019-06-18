@@ -1,10 +1,7 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  MultiValueContainer,
-  ScrollAnchor,
-} from '../../../components/MultiValueContainer';
+import { MultiValueContainer } from '../../../components/MultiValueContainer';
 import { renderProp } from '../_testUtils';
 
 describe('MultiValueContainer', () => {
@@ -82,11 +79,11 @@ describe('MultiValueContainer', () => {
       children: 'some text',
       getValue: jest.fn(() => []),
     });
-    const scrollIntoView = jest.fn();
-    const innerRef = component.find(ScrollAnchor).prop('innerRef');
-    if (innerRef && typeof innerRef === 'function') {
-      innerRef({ scrollIntoView });
-    }
+
+    const scroll = jest.spyOn(
+      component.instance() as MultiValueContainer,
+      'scrollToBottom',
+    );
 
     expect(component.state()).toHaveProperty('valueSize', 0);
     component.setProps({ getValue: jest.fn(() => [1]) });
@@ -94,7 +91,7 @@ describe('MultiValueContainer', () => {
     expect(component.state()).toHaveProperty('valueSize', 1);
     expect(component.state()).toHaveProperty('previousValueSize', 0);
 
-    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    expect(scroll).toHaveBeenCalledTimes(1);
   });
 
   it('should not scroll if not in focus', () => {
@@ -107,11 +104,10 @@ describe('MultiValueContainer', () => {
       getValue: jest.fn(() => []),
       selectProps: unfocusedSelectProps,
     });
-    const scrollIntoView = jest.fn();
-    const innerRef = component.find(ScrollAnchor).prop('innerRef');
-    if (innerRef && typeof innerRef === 'function') {
-      innerRef({ scrollIntoView });
-    }
+    const scroll = jest.spyOn(
+      component.instance() as MultiValueContainer,
+      'scrollToBottom',
+    );
 
     expect(component.state()).toHaveProperty('valueSize', 0);
     component.setProps({ getValue: jest.fn(() => [1]) });
@@ -119,7 +115,7 @@ describe('MultiValueContainer', () => {
     expect(component.state()).toHaveProperty('valueSize', 1);
     expect(component.state()).toHaveProperty('previousValueSize', 0);
 
-    expect(scrollIntoView).not.toHaveBeenCalled();
+    expect(scroll).not.toHaveBeenCalled();
   });
 
   it('should not scroll when removing an item', () => {
@@ -127,11 +123,10 @@ describe('MultiValueContainer', () => {
       children: 'some text',
       getValue: jest.fn(() => [1]),
     });
-    const scrollIntoView = jest.fn();
-    const innerRef = component.find(ScrollAnchor).prop('innerRef');
-    if (innerRef && typeof innerRef === 'function') {
-      innerRef({ scrollIntoView });
-    }
+    const scroll = jest.spyOn(
+      component.instance() as MultiValueContainer,
+      'scrollToBottom',
+    );
 
     expect(component.state()).toHaveProperty('valueSize', 1);
     component.setProps({ getValue: jest.fn(() => []) });
@@ -139,6 +134,6 @@ describe('MultiValueContainer', () => {
     expect(component.state()).toHaveProperty('valueSize', 0);
     expect(component.state()).toHaveProperty('previousValueSize', 1);
 
-    expect(scrollIntoView).not.toHaveBeenCalled();
+    expect(scroll).not.toHaveBeenCalled();
   });
 });

@@ -1,5 +1,11 @@
 # @atlaskit/editor-test-helpers
 
+## 9.4.1
+
+- Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+  - @atlaskit/editor-core@112.14.0
+  - @atlaskit/smart-card@12.0.0
+
 ## 9.4.0
 
 ### Minor Changes
