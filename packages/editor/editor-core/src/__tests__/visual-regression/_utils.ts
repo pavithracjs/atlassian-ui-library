@@ -6,6 +6,7 @@ import {
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
+import { animationFrame } from '../__helpers/page-objects/_editor';
 
 export {
   setupMediaMocksProviders,
@@ -276,6 +277,9 @@ export const snapshot = async (
   const { tolerance, useUnsafeThreshold } = threshold;
   const editor = await page.$(selector);
 
+  // Wait for a frame because we are using RAF to throttle floating toolbar render
+  animationFrame(page);
+
   // Try to take a screenshot of only the editor.
   // Otherwise take the whole page.
   let image;
@@ -285,5 +289,5 @@ export const snapshot = async (
     image = await page.screenshot();
   }
 
-  compareScreenshot(image, tolerance, { useUnsafeThreshold });
+  return compareScreenshot(image, tolerance, { useUnsafeThreshold });
 };

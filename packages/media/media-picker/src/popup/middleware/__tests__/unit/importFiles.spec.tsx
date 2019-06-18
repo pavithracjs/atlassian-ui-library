@@ -1,3 +1,5 @@
+import { globalMediaEventEmitter } from '@atlaskit/media-client';
+const globalEmitSpy = jest.spyOn(globalMediaEventEmitter, 'emit');
 import {
   mockStore,
   mockWsConnectionHolder,
@@ -517,7 +519,7 @@ describe('importFiles middleware', () => {
       });
     });
 
-    it('should emit file-added in the tenant mediaClient', done => {
+    it('should emit file-added in tenant mediaClient and globalMediaEventEmitter', done => {
       const { eventEmitter, mockWsProvider, store, nextDispatch } = setup();
 
       importFilesMiddleware(eventEmitter, mockWsProvider)(store)(nextDispatch)(
@@ -526,9 +528,7 @@ describe('importFiles middleware', () => {
 
       window.setTimeout(() => {
         const { tenantMediaClient } = store.getState();
-
-        expect(tenantMediaClient.emit).toBeCalledTimes(4);
-        expect(tenantMediaClient.emit).lastCalledWith('file-added', {
+        const fileState = {
           id: expectUUID,
           mediaType: 'image',
           mimeType: 'image/jpg',
@@ -537,7 +537,12 @@ describe('importFiles middleware', () => {
           representations: {},
           size: 47,
           status: 'processing',
-        });
+        };
+
+        expect(globalEmitSpy).toBeCalledTimes(4);
+        expect(globalEmitSpy).lastCalledWith('file-added', fileState);
+        expect(tenantMediaClient.emit).toBeCalledTimes(4);
+        expect(tenantMediaClient.emit).lastCalledWith('file-added', fileState);
         done();
       });
     });

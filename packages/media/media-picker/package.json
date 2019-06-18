@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-picker",
-  "version": "43.1.1",
+  "version": "43.1.2",
   "description": "Library for handling file uploads",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -27,7 +27,7 @@
     "@atlaskit/flag": "^12.0.4",
     "@atlaskit/icon": "^18.0.0",
     "@atlaskit/media-card": "^63.1.5",
-    "@atlaskit/media-client": "^1.4.0",
+    "@atlaskit/media-client": "^1.5.0",
     "@atlaskit/media-editor": "^36.1.1",
     "@atlaskit/media-store": "^12.0.3",
     "@atlaskit/media-ui": "^11.2.8",
@@ -52,7 +52,7 @@
     "video-snapshot": "^1.0.3"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^30.0.4",
+    "@atlaskit/media-core": "^30.0.5",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-intl": "^2.6.0",
@@ -63,7 +63,7 @@
     "@atlaskit/analytics-listeners": "^6.0.0",
     "@atlaskit/build-utils": "^2.1.0",
     "@atlaskit/docs": "^8.1.2",
-    "@atlaskit/media-core": "^30.0.4",
+    "@atlaskit/media-core": "^30.0.5",
     "@atlaskit/media-test-helpers": "^24.0.3",
     "@atlaskit/media-viewer": "^43.1.1",
     "@atlaskit/select": "^9.1.5",

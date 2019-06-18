@@ -72,7 +72,7 @@ function uploadToS3(pathToFile, branch) {
     process.exit(1);
   }
 
-  if (!fs.existsSync(path.resolve(pathToFile))) {
+  if (!fs.accessSync(path.resolve(pathToFile))) {
     console.error(
       chalk.red(`Could not find file: ${pathToFile} from ${process.cwd()}`),
     );

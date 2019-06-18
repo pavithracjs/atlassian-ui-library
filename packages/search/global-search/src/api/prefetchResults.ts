@@ -1,12 +1,11 @@
 import { ConfluenceRecentsMap, JiraResultsMap } from '../model/Result';
 import configureSearchClients from './configureSearchClients';
 import { ConfluenceClient } from './ConfluenceClient';
-import { ABTest, CrossProductSearchResults } from './CrossProductSearchClient';
+import { ABTest } from './CrossProductSearchClient';
 import { Scope } from './types';
 
 interface CommonPrefetchedResults {
   abTestPromise: { [scope: string]: Promise<ABTest> };
-  recentPeoplePromise: Promise<CrossProductSearchResults>;
 }
 
 export interface ConfluencePrefetchedResults extends CommonPrefetchedResults {
@@ -70,10 +69,5 @@ export const getConfluencePrefetchedData = (
         Scope.ConfluencePageBlogAttachment,
       ),
     },
-    recentPeoplePromise: crossProductSearchClient.getPeople(
-      '',
-      PREFETCH_SEARCH_SESSION_ID,
-      'confluence',
-    ),
   };
 };
