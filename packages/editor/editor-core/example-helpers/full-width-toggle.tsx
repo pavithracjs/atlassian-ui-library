@@ -1,19 +1,22 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Toggle from '@atlaskit/toggle';
+import EditorCollapseIcon from '@atlaskit/icon/glyph/editor/collapse';
+import EditorExpandIcon from '@atlaskit/icon/glyph/editor/expand';
 import {
   LOCALSTORAGE_defaultMode,
   FULL_WIDTH_MODE,
   DEFAULT_MODE,
 } from './example-constants';
+import { EditorAppearance } from '../src/types';
 
-const ToggleWrapper = styled.div`
-  display: flex;
-  min-width: 175px;
-  align-items: center;
+const ToggleWrapper = styled.button`
+  cursor: pointer;
+  background: none;
+  border: none;
 `;
 
 interface Props {
+  appearance: EditorAppearance;
   onFullWidthChange: (fullWidthMode: boolean) => void;
 }
 
@@ -25,17 +28,23 @@ export default class FullWidthToggle extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const defaultMode = localStorage.getItem(LOCALSTORAGE_defaultMode);
     this.state = {
-      fullWidthMode: defaultMode === FULL_WIDTH_MODE,
+      fullWidthMode: props.appearance === FULL_WIDTH_MODE,
     };
   }
 
-  componentDidMount() {
-    this.props.onFullWidthChange(this.state.fullWidthMode);
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.appearance !== this.props.appearance) {
+      this.setState(() => ({
+        fullWidthMode: this.props.appearance === FULL_WIDTH_MODE,
+      }));
+    }
   }
 
-  private toggleFullWidthMode = () => {
+  private toggleFullWidthMode = (
+    e: React.SyntheticEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
     this.setState(
       prevState => ({ fullWidthMode: !prevState.fullWidthMode }),
       () => {
@@ -50,13 +59,12 @@ export default class FullWidthToggle extends React.Component<Props, State> {
 
   render() {
     return (
-      <ToggleWrapper>
-        <Toggle
-          isDefaultChecked={this.state.fullWidthMode}
-          onChange={this.toggleFullWidthMode}
-          label="Full Width Mode"
-        />
-        <span>Full Width Mode</span>
+      <ToggleWrapper onClick={this.toggleFullWidthMode}>
+        {this.state.fullWidthMode ? (
+          <EditorCollapseIcon label="Make page fixed-width" />
+        ) : (
+          <EditorExpandIcon label="Make page full-width" />
+        )}
       </ToggleWrapper>
     );
   }

@@ -7,6 +7,7 @@ import {
   Transaction,
 } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
 import {
   InitData,
@@ -24,11 +25,20 @@ export const handleInit = (
   initData: InitData,
   view: EditorView,
   options?: CollabEditOptions,
+  providerFactory?: ProviderFactory,
+  sanitizePrivateContent?: boolean,
 ) => {
   const { doc, json, version } = initData;
   if (doc) {
     const { state } = view;
-    const tr = replaceDocument(doc, state, version, options);
+    const tr = replaceDocument(
+      doc,
+      state,
+      version,
+      options,
+      providerFactory,
+      sanitizePrivateContent,
+    );
     tr.setMeta('isRemote', true);
     const newState = state.apply(tr);
     view.updateState(newState);

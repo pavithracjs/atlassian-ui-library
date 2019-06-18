@@ -1,5 +1,107 @@
 # @atlaskit/editor-core
 
+## 112.14.0
+
+### Minor Changes
+
+- [minor][393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+
+  refactor @atlaskit/smart-card front-end: simplification. BREAKING CHANGE: Client no longer accepts configuration options as first argument; deprecated in favour of new state management layer.
+
+## 112.13.9
+
+- Updated dependencies [ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):
+  - @atlaskit/task-decision@15.0.4
+  - @atlaskit/renderer@49.0.0
+
+## 112.13.8
+
+### Patch Changes
+
+- [patch][fee6d77243](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fee6d77243):
+
+  ED-7090 Fix issue where popups could appear off screen
+
+  Editor popups are now positioned so that they are always contained within the parent element - this prevents them being cut off when they are too far left or right
+
+## 112.13.7
+
+### Patch Changes
+
+- [patch][2ea937724b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ea937724b):
+
+  ED-7029 Reduce number of re-renders in floating toolbar
+
+## 112.13.6
+
+### Patch Changes
+
+- [patch][32dfaf75c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32dfaf75c8):
+
+  ED-7092: Fixes types inside gap cursor that assumed elements always existed, handle these cases better.
+
+## 112.13.5
+
+### Patch Changes
+
+- [patch][1740216342](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1740216342):
+
+  ED-6999 Fix issue where horizontal scroll would appear when large media items were inside layouts in full-width mode
+
+## 112.13.4
+
+### Patch Changes
+
+- [patch][8a45ef38a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a45ef38a9):
+
+  Update i18n strings with latest translations.
+
+## 112.13.3
+
+### Patch Changes
+
+- [patch][8ed2b257d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ed2b257d0):
+
+  ED-7085: Fixes duplicate dropzone in full width mode. When the editor is reconfigured ensure that all pickers are destroyed.
+
+## 112.13.2
+
+### Patch Changes
+
+- [patch][ec0197518f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec0197518f):
+
+  Fix incorrect date import path
+
+## 112.13.1
+
+### Patch Changes
+
+- [patch][2a7ae6c5c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a7ae6c5c9):
+
+  ED-6968 Clicking numbered columns does nothing if table is not selecte
+
+## 112.13.0
+
+### Minor Changes
+
+- [minor][16875546e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/16875546e9):
+
+  Add support to resolving mention names externally for collaborative editing
+
+### Patch Changes
+
+- [patch][a8d95a6f8d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8d95a6f8d):
+
+  - remove mention text if CollabEditOptions.sanitizePrivateContent is true during copy/paste
+
+## 112.12.5
+
+### Patch Changes
+
+- [patch][0c438f1b71](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c438f1b71):
+
+  ED-7081: Fixes floating toolbars not displaying when switching to Full Width mode.
+
 ## 112.12.4
 
 ### Patch Changes

@@ -84,8 +84,9 @@ export class MockCollabEditProvider implements CollabEditProvider {
   protected createStep = (_: object) => {};
   protected sid?: string;
   protected eventBus: any;
+  protected defaultDoc: any;
 
-  constructor(eventBus: any, sid?: string) {
+  constructor(eventBus: any, sid?: string, defaultDoc?: any) {
     // If there's no sid then it's single user, being used for test
     if (sid) {
       this.sid = sid;
@@ -93,12 +94,8 @@ export class MockCollabEditProvider implements CollabEditProvider {
     } else {
       this.eventBus = new EventEmitter();
     }
-  }
 
-  initialize(getState: () => any, createStep: (json: object) => Step) {
-    this.getState = getState;
-    this.createStep = createStep;
-    const doc = {
+    this.defaultDoc = defaultDoc || {
       type: 'doc',
       content: [
         {
@@ -106,12 +103,36 @@ export class MockCollabEditProvider implements CollabEditProvider {
           content: [
             {
               type: 'text',
-              text: 'Hello World',
+              text: 'Hello World ',
+            },
+            {
+              type: 'mention',
+              attrs: {
+                id: '0',
+                text: '',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+            {
+              type: 'mention',
+              attrs: {
+                id: '1',
+                text: '',
+              },
             },
           ],
         },
       ],
     };
+  }
+
+  initialize(getState: () => any, createStep: (json: object) => Step) {
+    this.getState = getState;
+    this.createStep = createStep;
+    const doc = this.defaultDoc;
 
     const { sid } = this;
     this.eventBus.emit('init', { sid, doc });
@@ -143,7 +164,11 @@ export class MockCollabEditProvider implements CollabEditProvider {
   }
 
   unsubscribeAll(evt: CollabEvent) {
-    this.eventBus.removeAllListeners(evt);
+    if (this.sid) {
+      this.eventBus.removeAllListeners(`${this.sid}:${evt}`);
+    } else {
+      this.eventBus.removeAllListeners(evt);
+    }
     return this;
   }
 
@@ -164,7 +189,9 @@ export class MockCollabEditProvider implements CollabEditProvider {
   }
 }
 
-const getCollabEditProviderFor = <T>(_participants: T) => (sid?: string) =>
-  Promise.resolve(new MockCollabEditProvider(mediator, sid));
+const getCollabEditProviderFor = <T>(_participants: T) => (
+  sid?: string,
+  defaultDoc?: any,
+) => Promise.resolve(new MockCollabEditProvider(mediator, sid, defaultDoc));
 
 export const collabEditProvider = getCollabEditProviderFor(participants);

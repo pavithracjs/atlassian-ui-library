@@ -1,23 +1,23 @@
 import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
-import InlineDialog from '@atlaskit/inline-dialog';
 import ShareIcon from '@atlaskit/icon/glyph/share';
+import InlineDialog from '@atlaskit/inline-dialog';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
+import { ConfigResponse } from '../../../clients/ShareServiceClient';
 import ShareButton, {
   Props as ShareButtonProps,
 } from '../../../components/ShareButton';
+import { defaultConfig } from '../../../components/ShareDialogContainer';
 import {
   defaultShareContentState,
   Props,
   ShareDialogWithTrigger,
   State,
 } from '../../../components/ShareDialogWithTrigger';
-import { defaultConfig } from '../../../components/ShareDialogContainer';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
-import { ConfigResponse } from '../../../clients/ShareServiceClient';
 import { messages } from '../../../i18n';
-import { DialogPlacement, ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
+import { ADMIN_NOTIFIED, DialogPlacement, OBJECT_SHARED } from '../../../types';
 import mockPopper from '../_mockPopper';
 mockPopper();
 
@@ -657,6 +657,31 @@ describe('ShareDialogWithTrigger', () => {
           type: OBJECT_SHARED,
         },
       ]);
+    });
+  });
+
+  describe('bottomMessage', () => {
+    it('should display the bottom message', () => {
+      wrapper = shallowWithIntl<Props>(
+        <ShareDialogWithTrigger
+          copyLink="copyLink"
+          fetchConfig={mockFetchConfig}
+          loadUserOptions={mockLoadOptions}
+          onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
+          bottomMessage="Some message"
+        />,
+      )
+        .dive()
+        .dive()
+        .dive();
+      wrapper.setState({ isDialogOpen: true });
+
+      const content = shallow(wrapper
+        .find(InlineDialog)
+        .prop('content') as any);
+      expect(content.contains('Some message')).toBeTruthy();
     });
   });
 });

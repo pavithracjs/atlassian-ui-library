@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/help-article",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "A cross-product help-article component",
   "license": "Apache-2.0",
   "module": "index.js",

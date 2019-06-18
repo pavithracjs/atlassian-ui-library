@@ -317,8 +317,6 @@ async function validateExampleLoaded(page /*:any*/) {
   });
 }
 
-declare var fail: (message: string) => void;
-
 declare var expect: {
   (
     value: any,
@@ -337,14 +335,14 @@ async function compareScreenshot(
   screenshotOptions /*:Object*/ = {},
 ) {
   if (tolerance >= 1) {
-    fail(
+    throw Error(
       `Snapshot tolerance should be a decimal in the range [0.0, 1.0] and you have attempted to use a tolerance of ${tolerance}`,
     );
   } else if (
     tolerance > MINIMUM_THRESHOLD &&
     !screenshotOptions.useUnsafeThreshold
   ) {
-    fail(
+    throw Error(
       `Snapshot tolerances greater than minimum threshold (${MINIMUM_THRESHOLD}) are considered unsafe, and you have attempted to use a tolerance of ${tolerance}. To use an unsafe threshold, set 'screenshotOptions.useUnsafeThreshold' to true. This is not advised.`,
     );
   }

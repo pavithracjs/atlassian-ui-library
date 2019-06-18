@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export const messages = defineMessages({
+  confluence_space_filter: {
+    id: 'global_search.confluence.space_filter',
+    defaultMessage: 'Filter results by space',
+    description: '',
+  },
   confluence_recent_pages_heading: {
     id: 'global_search.confluence.recent_pages_heading',
     defaultMessage: 'Recent pages and blogs',
@@ -229,5 +234,27 @@ export const messages = defineMessages({
     id: 'global_search.give_feedback',
     defaultMessage: 'Give feedback',
     description: '',
+  },
+  show_more_button_text: {
+    id: 'global_search.show_more_button_text',
+    defaultMessage: 'Show {itemsPerPage} more results',
+    description:
+      'Text for button that is used to load more results for a search',
+  },
+  show_more_error: {
+    id: 'global_search.show_more_error',
+    defaultMessage: 'Show more',
+    description: 'Text for error when loading more results for search',
+  },
+  show_more_error_action: {
+    id: 'global_search.show_more_error_action',
+    defaultMessage: 'Try again',
+    description: 'Call to action text when loading more results for ',
+  },
+  show_more_button_advanced_search: {
+    id: 'global_search.show_more_button_advanced_search',
+    defaultMessage: 'Refine results with advanced search',
+    description:
+      'Text for button that is used when we cannot load more results and direct user to advanced search',
   },
 });

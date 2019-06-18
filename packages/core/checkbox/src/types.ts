@@ -36,7 +36,7 @@ export interface CheckboxProps {
   /** id assigned to input */
   id?: string;
   /** Callback to receive a reference.  */
-  inputRef?: (input: HTMLInputElement | null | undefined) => unknown;
+  inputRef?: (input: HTMLInputElement | null | undefined) => any;
   /** Sets whether the checkbox is checked or unchecked. */
   isChecked?: boolean;
   /** Sets whether the checkbox is disabled. */
@@ -63,7 +63,7 @@ export interface CheckboxProps {
    * Function that is called whenever the state of the checkbox changes. It will
    * be called with an object containing the react synthetic event. Use currentTarget to get value, name and checked
    */
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => unknown;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => any;
   /** The value to be used in the checkbox input. This is the value that will be returned on form submission. */
   value?: number | string;
 }
