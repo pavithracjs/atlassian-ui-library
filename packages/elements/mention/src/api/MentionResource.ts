@@ -40,7 +40,7 @@ export interface MentionResourceConfig extends ServiceConfig {
 }
 
 export interface TeamMentionResourceConfig extends MentionResourceConfig {
-  teamLinkContextPath?: string;
+  teamLinkResolver?: (teamId: string) => string;
 }
 
 export interface ResourceProvider<Result> {

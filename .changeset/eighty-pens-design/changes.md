@@ -1,1 +1,1 @@
-Update TeamMentionResource to accept teamLinkContextPath which is used to construct a team link
+Update TeamMentionResource to accept teamLinkResolver option which is used to construct a team link

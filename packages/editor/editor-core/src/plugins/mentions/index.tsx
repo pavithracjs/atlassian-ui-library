@@ -571,18 +571,26 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamLinkContextPath = context ? context.teamLinkContextPath : null;
+  const teamLinkResolver = context ? context.teamLinkResolver : null;
 
-  // generate team link
-  const teamUrl = `${teamLinkContextPath ||
-    window.location.origin}/people/team/${teamId}`;
-  const teamLink = schema.text(name!, [marks.link.create({ href: teamUrl })]);
+  // build team link
+  let teamUrl: string = '';
+  if (typeof teamLinkResolver === 'function') {
+    teamUrl = teamLinkResolver(teamId);
+  } else {
+    teamUrl = `${teamLinkResolver ||
+      window.location.origin}/people/team/${teamId}`;
+  }
+
+  const teamLinkNode = schema.text(name!, [
+    marks.link.create({ href: teamUrl }),
+  ]);
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');
   const emptySpaceText = schema.text(' ');
 
-  const inlineNodes: Node[] = [teamLink, emptySpaceText, openBracketText];
+  const inlineNodes: Node[] = [teamLinkNode, emptySpaceText, openBracketText];
 
   const members: TeamMember[] =
     context && context.members ? context.members : [];

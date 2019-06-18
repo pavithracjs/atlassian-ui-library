@@ -227,7 +227,7 @@ export default class TeamMentionResource extends MentionResource {
           members: team.members,
           includesYou: team.includesYou,
           memberCount: team.memberCount,
-          teamLinkContextPath: this.teamMentionConfig.teamLinkContextPath,
+          teamLinkResolver: this.teamMentionConfig.teamLinkResolver,
         },
       };
     });

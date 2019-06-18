@@ -39,7 +39,7 @@ const apiUserMentionConfig: MentionResourceConfig = {
 const apiTeamMentionConfig: TeamMentionResourceConfig = {
   ...apiUserMentionConfig,
   url: baseTeamUrl,
-  teamLinkContextPath: '/wiki',
+  teamLinkResolver: (teamId: string) => `/wiki/team/${teamId}`,
 };
 
 const FULL_CONTEXT = {
@@ -159,10 +159,10 @@ describe('TeamMentionResourceSpec', () => {
         } else if (currentCount === 2) {
           const firstTeam = mentions[resultCraig.length];
           expect(firstTeam.userType).toBe('TEAM');
-          const teamLinkContextPath = firstTeam.context
-            ? firstTeam.context.teamLinkContextPath
+          const teamLinkResolver = firstTeam.context
+            ? firstTeam.context.teamLinkResolver
             : null;
-          expect(teamLinkContextPath).toBe('/wiki');
+          expect(typeof teamLinkResolver).toBe('function');
 
           expect(mentions).toHaveLength(
             resultCraig.length + teamResults.length,
