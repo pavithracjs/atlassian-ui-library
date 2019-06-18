@@ -4,8 +4,9 @@
   "description": "Email renderer",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/es5/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es5/index.d.ts",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
