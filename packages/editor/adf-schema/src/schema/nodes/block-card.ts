@@ -36,7 +36,7 @@ export const blockCard: NodeSpec = {
         const data = anchor.getAttribute('data-card-data');
 
         return {
-          url: anchor.href,
+          url: anchor.getAttribute('href'),
           data: data ? JSON.parse(data) : null,
         };
       },

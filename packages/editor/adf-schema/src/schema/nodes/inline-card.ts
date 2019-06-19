@@ -36,7 +36,7 @@ export const inlineCard: NodeSpec = {
         const data = anchor.getAttribute('data-card-data');
 
         return {
-          url: anchor.href,
+          url: anchor.getAttribute('href'),
           data: data ? JSON.parse(data) : null,
         };
       },

@@ -4,7 +4,7 @@ import { EditorView } from 'prosemirror-view';
 import styled from 'styled-components';
 import {
   ReactNodeViewState,
-  stateKey,
+  stateKey as reactNodeViewPlugin,
 } from '../../../plugins/base/pm-plugins/react-nodeview';
 import { setNodeSelection } from '../../../utils';
 import { ProsemirrorGetPosHandler } from '../../types';
@@ -96,7 +96,7 @@ export function applySelectionAsProps<T extends ClickWrapperProps>(
       return (
         <Component
           {...this.props}
-          pluginState={stateKey.getState(this.props.view.state)}
+          pluginState={reactNodeViewPlugin.getState(this.props.view.state)}
         />
       );
     }

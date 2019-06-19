@@ -20,8 +20,8 @@ export interface SmartCardProps extends CardProps {
 }
 
 export function Card(
-  UnsupportedComponent: React.ComponentType,
   SmartCardComponent: React.ComponentType<SmartCardProps>,
+  UnsupportedComponent: React.ComponentType,
 ): React.ComponentType<CardProps> {
   return class extends React.PureComponent<CardProps> {
     static contextTypes = {

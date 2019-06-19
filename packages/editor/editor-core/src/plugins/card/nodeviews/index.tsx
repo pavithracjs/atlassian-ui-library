@@ -35,9 +35,9 @@ export class CardNodeView extends ReactNodeView {
 }
 
 export const InlineCardNodeView = applySelectionAsProps(
-  wrapComponentWithClickArea(Card(UnsupportedInlineNode, InlineCard), true),
+  wrapComponentWithClickArea(Card(InlineCard, UnsupportedInlineNode), true),
 );
 
 export const BlockCardNodeView = applySelectionAsProps(
-  wrapComponentWithClickArea(Card(UnsupportedBlockNode, BlockCard)),
+  wrapComponentWithClickArea(Card(BlockCard, UnsupportedBlockNode)),
 );
