@@ -42,7 +42,7 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
     text: icons[state],
     style: {
       'vertical-align': 'top',
-      padding: '8px 0px 8px 8px',
+      padding: '10px 0px 0px 8px',
       width: '24px',
       height: '24px',
     },

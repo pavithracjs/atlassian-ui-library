@@ -22,8 +22,8 @@ const embeddedImagesMapper = (iconName: string): MediaImageBase64 => ({
   data: (icons as any)[iconName],
 });
 
-export const processEmbeddedImages = (isMockEnabled: boolean) => (
-  result: string,
+export const getImageProcessor = (isMockEnabled: boolean) => (
+  html: string,
 ): SerializeFragmentWithAttachmentsResult => {
   const imageSet = new Set<icons.IconString>();
 
@@ -42,10 +42,7 @@ export const processEmbeddedImages = (isMockEnabled: boolean) => (
     return match;
   };
 
-  const processedResult = result.replace(cidMatcher, imageProcessor);
-
-  return {
-    result: processedResult,
-    embeddedImages: [...imageSet].map(embeddedImagesMapper),
-  };
+  const result = html.replace(cidMatcher, imageProcessor);
+  const embeddedImages = [...imageSet].map(embeddedImagesMapper);
+  return { result, embeddedImages };
 };

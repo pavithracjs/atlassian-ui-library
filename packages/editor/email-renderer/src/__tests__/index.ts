@@ -31,10 +31,9 @@ import * as action from './__fixtures__/action.adf.json';
 import * as annotation from './__fixtures__/annotation.adf.json';
 import * as breakout from './__fixtures__/breakout.adf.json';
 
-const render = (doc: any) => {
-  const serializer = EmailSerializer.fromSchema(schema);
+const render = (doc: any, withMockEnabled: boolean = false) => {
+  const serializer = new EmailSerializer(schema, withMockEnabled);
   const docFromSchema = schema.nodeFromJSON(doc);
-  // return serializer.serializeFragment(docFromSchema.content);
   const { result, embeddedImages } = serializer.serializeFragmentWithImages(
     docFromSchema.content,
   );
@@ -49,145 +48,162 @@ const render = (doc: any) => {
 describe('Renderer - EmailSerializer', () => {
   it('should render nothing for image node', () => {
     const { result } = render(image);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render nothing for placeholder node', () => {
     const { result } = render(placeholder);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should apply no mark for action marks', () => {
     const { result } = render(action);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should apply no mark for annotation marks', () => {
     const { result } = render(annotation);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should apply no mark for breakout marks', () => {
     const { result } = render(breakout);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render media single correctly', () => {
     const { result } = render(mediaSingle);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render media group correctly', () => {
     const { result } = render(mediaGroup);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render decision list correctly', () => {
     const { result, embeddedImages } = render(decisionList);
-    expect(result).toMatchSnapshot();
-    expect(embeddedImages).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
+    expect(embeddedImages).toMatchSnapshot('embeddedImages');
+  });
+
+  it('should render decision list correctly with mock enabled', () => {
+    const { result, embeddedImages } = render(decisionList, true);
+    expect(result).toMatchSnapshot('mock-html');
+    expect(embeddedImages).toMatchSnapshot('mock-embeddedImages');
   });
 
   it('should render task list correctly', () => {
     const { result, embeddedImages } = render(taskList);
-    expect(result).toMatchSnapshot();
-    expect(embeddedImages).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
+    expect(embeddedImages).toMatchSnapshot('embeddedImages');
+  });
+
+  it('should render task list correctly with mock enabled', () => {
+    const { result, embeddedImages } = render(taskList, true);
+    expect(result).toMatchSnapshot('mock-html');
+    expect(embeddedImages).toMatchSnapshot('mock-embeddedImages');
   });
 
   it('should render block cards correctly', () => {
     const { result } = render(blockCards);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render inline cards correctly', () => {
     const { result } = render(inlineCards);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render text with em inside of a paragraph correctly', () => {
     const { result } = render(em);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render panels correctly', () => {
     const { result, embeddedImages } = render(panels);
-    expect(result).toMatchSnapshot();
-    expect(embeddedImages).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
+    expect(embeddedImages).toMatchSnapshot('embeddedImages');
+  });
+
+  it('should render panels correctly with mock enabled', () => {
+    const { result, embeddedImages } = render(panels, true);
+    expect(result).toMatchSnapshot('mock-html');
+    expect(embeddedImages).toMatchSnapshot('mock-embeddedImages');
   });
 
   it('should align paragraph correctly', () => {
     const { result } = render(paragraphAlign);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should align heading correctly', () => {
     const { result } = render(headingAlign);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render headings 1-6 correctly', () => {
     const { result } = render(heading);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should inline text properties correctly', () => {
     const { result } = render(inlineTextProps);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should inline code properties correctly', () => {
     const { result } = render(inlineCodeProps);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render codeblock correctly', () => {
     const { result } = render(codeBlock);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render paragraph with indentations', () => {
     const { result } = render(paragraphIndents);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render link', () => {
     const { result } = render(link);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render text and does not interpret HTML', () => {
     const { result } = render(text);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render status correctly', () => {
     const { result } = render(status);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render numbered column for table', () => {
     const { result } = render(tableNumberedColumn);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render layout column and sections', () => {
     const { result } = render(layoutColumnSection);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render extension placeholders', () => {
     const { result } = render(extensions);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
-  // Snapshot was updated as it was blocking master. See https://product-fabric.atlassian.net/browse/ED-6769
   it('should render dates in normal text and task lists', () => {
     const { result } = render(date);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 
   it('should render lists', () => {
     const { result } = render(lists);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchSnapshot('html');
   });
 });

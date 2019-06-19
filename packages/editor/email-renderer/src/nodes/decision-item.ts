@@ -34,7 +34,7 @@ export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
     text: icons[state],
     style: {
       'vertical-align': 'top',
-      padding: '8px 0px 8px 8px',
+      padding: '11px 0px 0px 8px',
       width: '24px',
       height: '24px',
     },

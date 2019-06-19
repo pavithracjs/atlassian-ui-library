@@ -11,7 +11,7 @@ import { nodeSerializers } from './serializers';
 import styles from './styles';
 import juice from 'juice';
 import { escapeHtmlString } from './util';
-import { processEmbeddedImages } from './static';
+import { getImageProcessor } from './static';
 
 const serializeNode = (
   node: PMNode,
@@ -122,7 +122,7 @@ export default class EmailSerializer implements SerializerWithImages<string> {
     property('content'),
     traverseTree,
     juicify,
-    processEmbeddedImages(this.isImageStubEnabled),
+    getImageProcessor(this.isImageStubEnabled),
     stubImages(this.isImageStubEnabled),
   );
 

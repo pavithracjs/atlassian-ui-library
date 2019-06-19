@@ -81,7 +81,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
       'vertical-align': 'top',
       width: '24px',
       height: '24px',
-      padding: '12px 0px 12px 8px',
+      padding: '12px 0px 0px 8px',
     },
   };
 
