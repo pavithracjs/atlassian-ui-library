@@ -7,7 +7,7 @@ type Props = {
   mediaState: MediaPluginState;
 };
 
-const ClipboardMediaPickerWrapper = ({ mediaState }: Props) => (
+export const ClipboardMediaPickerWrapper = ({ mediaState }: Props) => (
   <PickerFacadeProvider mediaState={mediaState} analyticsName="clipboard">
     {({ context, config, pickerFacadeInstance }) => (
       <Clipboard
@@ -20,5 +20,3 @@ const ClipboardMediaPickerWrapper = ({ mediaState }: Props) => (
     )}
   </PickerFacadeProvider>
 );
-
-export default ClipboardMediaPickerWrapper;

@@ -9,7 +9,7 @@ type Props = {
   onBrowseFn: (browse: () => void) => void;
 };
 
-const BrowserMediaPickerWrapper = ({
+export const BrowserMediaPickerWrapper = ({
   mediaState,
   isOpen,
   onBrowseFn,
@@ -28,5 +28,3 @@ const BrowserMediaPickerWrapper = ({
     )}
   </PickerFacadeProvider>
 );
-
-export default BrowserMediaPickerWrapper;

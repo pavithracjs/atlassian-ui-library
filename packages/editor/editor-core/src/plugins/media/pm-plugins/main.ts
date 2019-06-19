@@ -89,7 +89,7 @@ export class MediaPluginState {
   public editorAppearance: EditorAppearance;
   private removeOnCloseListener: () => void = () => {};
   private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
-  private browseFn?: () => void;
+  private openMediaPickerBrowser?: () => void;
 
   private reactContext: () => {};
 
@@ -214,6 +214,11 @@ export class MediaPluginState {
     }
   }
 
+  hasUserAuthProvider = () =>
+    this.uploadContext &&
+    this.uploadContext.config &&
+    this.uploadContext.config.userAuthProvider;
+
   private getDomElement(domAtPos: EditorView['domAtPos']) {
     const { selection, schema } = this.view.state;
     if (!(selection instanceof NodeSelection)) {
@@ -311,13 +316,8 @@ export class MediaPluginState {
   };
 
   showMediaPicker = () => {
-    if (
-      this.browseFn &&
-      (!this.uploadContext ||
-        !this.uploadContext.config ||
-        !this.uploadContext.config.userAuthProvider)
-    ) {
-      return this.browseFn();
+    if (this.openMediaPickerBrowser && !this.hasUserAuthProvider()) {
+      return this.openMediaPickerBrowser();
     }
     if (!this.popupPicker) {
       return;
@@ -329,7 +329,7 @@ export class MediaPluginState {
   };
 
   setBrowseFn = (browseFn: () => void) => {
-    this.browseFn = browseFn;
+    this.openMediaPickerBrowser = browseFn;
   };
 
   /**
