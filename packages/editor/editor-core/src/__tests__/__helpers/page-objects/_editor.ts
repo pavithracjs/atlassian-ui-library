@@ -135,14 +135,27 @@ export async function scrollToElement(
 }
 
 export async function scrollToTop(page: Page) {
-  return page.evaluate((editorScrollSelector: string) => {
-    const editorScroll = document.querySelector(
-      editorScrollSelector,
-    ) as HTMLElement;
-    if (!editorScroll) {
-      return;
-    }
+  return await scrollToTopBottom(page, 'top');
+}
 
-    editorScroll.scrollTo(0, 0);
-  }, selectors.scrollContainer);
+export async function scrollToBottom(page: Page) {
+  return await scrollToTopBottom(page, 'bottom');
+}
+
+async function scrollToTopBottom(page: Page, position: 'top' | 'bottom') {
+  return page.evaluate(
+    (editorScrollSelector: string, position: 'top' | 'bottom') => {
+      const editorScroll = document.querySelector(
+        editorScrollSelector,
+      ) as HTMLElement;
+      if (!editorScroll) {
+        return;
+      }
+
+      const yPos = position === 'bottom' ? editorScroll.scrollHeight : 0;
+      editorScroll.scrollTo(0, yPos);
+    },
+    selectors.scrollContainer,
+    position,
+  );
 }

@@ -1,4 +1,4 @@
-import { EmailSerializer } from '../../index';
+import { EmailSerializer } from '../index';
 import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 import * as paragraphIndents from './__fixtures__/paragraph-indents.adf.json';

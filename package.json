@@ -100,6 +100,7 @@
   "devDependencies": {
     "@atlaskit/app-switcher": "^8.0.1",
     "@babel/node": "^7.0.0",
+    "@babel/plugin-syntax-optional-catch-binding": "^7.2.0",
     "@babel/preset-typescript": "^7.1.0",
     "@changesets/cli": "^1.2.0",
     "@emotion/babel-preset-css-prop": "^10.0.7",
@@ -231,7 +232,7 @@
     "react-live-clock": "^2.0.2",
     "react-lorem-component": "^0.12.2",
     "react-redux": "^5.0.0",
-    "react-test-renderer": "^16.3.0",
+    "react-test-renderer": "^16.8.0",
     "react-uid": "^2.2.0",
     "react-value": "^0.2.0",
     "recompose": "^0.26.0",
