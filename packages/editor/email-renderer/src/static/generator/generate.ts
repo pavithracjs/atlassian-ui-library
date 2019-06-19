@@ -20,8 +20,7 @@ const exportOpts = imageSources.map(file => ({
 }));
 
 const createIcons = () => {
-  svgexport.render(exportOpts, (err: any) => {
-    // if (err) return console.log(err);
+  svgexport.render(exportOpts, () => {
     createIndividualIconModules();
 
     const indexFileExports = exportOpts
@@ -47,8 +46,7 @@ const createIcons = () => {
 
     writeFileSync(resolve(__dirname, `../icons/index.ts`), indexFileContents);
 
-    rimraf(tempFolder, (err?: any) => {
-      // Done.
+    rimraf(tempFolder, () => {
       // if (err) return console.log(err);
     });
   });
