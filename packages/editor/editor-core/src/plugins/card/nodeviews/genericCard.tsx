@@ -18,7 +18,7 @@ export interface CardProps {
 }
 
 export interface SmartCardProps extends CardProps {
-  cardContext: EditorContext<typeof SmartCardContext>;
+  cardContext?: EditorContext<typeof SmartCardContext>;
 }
 
 export const Card = (
