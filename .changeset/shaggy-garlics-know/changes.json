@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/help-article", "type": "minor" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/help",
+      "type": "patch",
+      "dependencies": ["@atlaskit/help-article"]
+    }
+  ]
+}
