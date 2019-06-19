@@ -193,7 +193,7 @@ export type Option = {
 };
 
 export interface LoadOptions {
-  (searchText?: string):
+  (searchText?: string, sessionId?: string):
     | Promisable<OptionData | OptionData[]>
     | Iterable<
         Promisable<OptionData[] | OptionData> | OptionData | OptionData[]
