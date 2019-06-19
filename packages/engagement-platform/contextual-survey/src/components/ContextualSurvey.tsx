@@ -16,7 +16,7 @@ interface Props {
   /** Callback that is triggered when the survey should be dismissed */
   onDismiss: () => void;
   /** Gets whether user has already signed up to the Atlassian Research Group list */
-  getUserHasSignedUp: () => boolean | Promise<boolean>;
+  getUserHasAnsweredMailingList: () => boolean | Promise<boolean>;
   /** Callback that is triggered when the survey is submitted, it will get the survey data as a parameter */
   onSubmit: (formValues: FormValues) => Promise<void>;
   /** Callback that is triggered when the user clicks 'Yes' to sign up to the Atlassian Research Group */
@@ -38,7 +38,7 @@ export default ({
   onDismiss,
   onSubmit,
   onSignUp,
-  getUserHasSignedUp,
+  getUserHasAnsweredMailingList,
   textPlaceholder = 'Tell us why',
 }: Props) => {
   let autoDisappearTimeout: number;
@@ -51,7 +51,7 @@ export default ({
     React.ComponentProps<typeof SurveyForm>['onSubmit']
   >(
     async (formValues, _, callback) => {
-      const userHasSignedUp = getUserHasSignedUp();
+      const userHasSignedUp = getUserHasAnsweredMailingList();
       await onSubmit(formValues);
 
       /**
@@ -71,7 +71,7 @@ export default ({
         setCurrentStep('POST_SURVEY_NO_CONSENT');
       }
     },
-    [getUserHasSignedUp, onSubmit],
+    [getUserHasAnsweredMailingList, onSubmit],
   );
 
   const onSignUpAccept = useCallback(

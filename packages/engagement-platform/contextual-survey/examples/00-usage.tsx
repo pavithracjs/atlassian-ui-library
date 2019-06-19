@@ -76,7 +76,7 @@ export default ({ height = '100%' }: Props) => {
                 question="How strongly do you agree or disagree with this statement"
                 statement="It is easy to find what I'm looking for in Jira"
                 onDismiss={onDismiss}
-                getUserHasSignedUp={() => Promise.resolve(false)}
+                getUserHasAnsweredMailingList={() => Promise.resolve(false)}
                 onSubmit={formValues =>
                   new Promise(resolve => {
                     console.log('submitted value', formValues);

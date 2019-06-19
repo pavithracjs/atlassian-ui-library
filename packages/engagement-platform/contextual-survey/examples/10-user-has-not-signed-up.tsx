@@ -8,7 +8,7 @@ export default () => (
     onDismiss={() => {
       console.log('Dismissed');
     }}
-    getUserHasSignedUp={() => Promise.resolve(false)}
+    getUserHasAnsweredMailingList={() => Promise.resolve(false)}
     onSubmit={formValues =>
       new Promise(resolve => {
         console.log('submitted value', formValues);

@@ -51,7 +51,7 @@ export default ({ onChange, value }: Props) => (
               aria-describedby="contextualSurveyStatement"
               aria-label={tooltipMessage[i]}
             >
-              {i + 1}
+              {score}
             </Button>
           </Tooltip>
         );
