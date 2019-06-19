@@ -7,12 +7,12 @@ import { ComponentClass, HTMLAttributes, ImgHTMLAttributes } from 'react';
 // the smart card container (when set to 0). Offset this
 // to position it with appropriate whitespace from the top.
 export const Icon: ComponentClass<ImgHTMLAttributes<{}>> = styled.img`
-  vertical-align: text-bottom;
   height: 14px;
   width: 14px;
   margin-right: 4px;
   border-radius: 2px;
   user-select: none;
+  vertical-align: text-bottom;
 `;
 
 // Used for 'untrue' icons which claim to be 16x16 but

@@ -1,5 +1,51 @@
 # @atlaskit/editor-core
 
+## 112.15.2
+
+### Patch Changes
+
+- [patch][9459224125](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9459224125):
+
+  ED-7104 Fix issue where h scroll would appear on page when long text was inside code snippet inside layouts in full-width mode
+
+## 112.15.1
+
+### Patch Changes
+
+- [patch][7e9c4f03c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9c4f03c9):
+
+  ED-7015 Fix issue where double digits were cut off in long ordered lists
+
+## 112.15.0
+
+### Minor Changes
+
+- [minor][fec7d4576f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fec7d4576f):
+
+  Bump new version of @atlaskit/mention to other AK packages to get correct i18n strings
+
+## 112.14.1
+
+### Patch Changes
+
+- [patch][ca1b98b16f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca1b98b16f):
+
+  ED-7070: Dont skip filtering nodes if a content transformer is present while getting the editors value.
+
+## 112.14.0
+
+### Minor Changes
+
+- [minor][393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+
+  refactor @atlaskit/smart-card front-end: simplification. BREAKING CHANGE: Client no longer accepts configuration options as first argument; deprecated in favour of new state management layer.
+
+## 112.13.9
+
+- Updated dependencies [ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):
+  - @atlaskit/task-decision@15.0.4
+  - @atlaskit/renderer@49.0.0
+
 ## 112.13.8
 
 ### Patch Changes

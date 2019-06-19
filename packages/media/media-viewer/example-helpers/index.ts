@@ -18,8 +18,6 @@ import {
 } from '@atlaskit/media-test-helpers';
 import { FileIdentifier } from '@atlaskit/media-client';
 
-export { defaultCollectionName } from '@atlaskit/media-test-helpers';
-
 export const imageIdentifier: FileIdentifier = {
   ...imageFileId,
   occurrenceKey: 'testOccurrenceKey',

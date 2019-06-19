@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { EditorView } from 'prosemirror-view';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import {
   cardProvider,
   storyMediaProviderFactory,
@@ -20,6 +21,8 @@ import { TitleInput } from '../example-helpers/PageElements';
 import mediaMockServer from '../example-helpers/media-mock';
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
+import { withSidebarContainer } from '../example-helpers/SidebarContainer';
+import { MountOptions } from '../src/__tests__/visual-regression/_utils';
 
 function createMediaMockEnableOnce() {
   let enabled = false;
@@ -96,9 +99,10 @@ function createEditorWindowBindings(win: Window) {
 
   (window as any)['__mountEditor'] = (
     props: EditorProps = {},
-    mode?: 'light' | 'dark',
+    options: MountOptions = {},
   ) => {
     const target = document.getElementById('editor-container');
+    const { mode, withSidebar } = options;
 
     if (!target) {
       return;
@@ -153,8 +157,21 @@ function createEditorWindowBindings(win: Window) {
       Wrapper = withDarkMode<EditorProps>(Wrapper);
     }
 
+    if (withSidebar) {
+      Wrapper = withSidebarContainer<EditorProps>(Wrapper);
+    }
+
     ReactDOM.unmountComponentAtNode(target);
-    ReactDOM.render(<Wrapper {...props} />, target);
+
+    const WrapperComponent = <Wrapper {...props} />;
+    if (props && props.UNSAFE_cards && props.UNSAFE_cards.provider) {
+      ReactDOM.render(
+        <SmartCardProvider>{WrapperComponent}</SmartCardProvider>,
+        target,
+      );
+    } else {
+      ReactDOM.render(WrapperComponent, target);
+    }
   };
 
   (window as any)['__updateEditorProps'] = (
@@ -171,7 +188,19 @@ function createEditorWindowBindings(win: Window) {
     }
 
     editorProps = { ...editorProps, ...newProps };
-    ReactDOM.render(<Wrapper {...editorProps} />, target);
+    const WrapperComponent = <Wrapper {...editorProps} />;
+    if (
+      editorProps &&
+      editorProps.UNSAFE_cards &&
+      editorProps.UNSAFE_cards.provider
+    ) {
+      ReactDOM.render(
+        <SmartCardProvider>{WrapperComponent}</SmartCardProvider>,
+        target,
+      );
+    } else {
+      ReactDOM.render(WrapperComponent, target);
+    }
   };
 }
 

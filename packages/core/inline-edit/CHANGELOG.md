@@ -1,5 +1,13 @@
 # @atlaskit/inline-edit
 
+## 10.0.3
+
+### Patch Changes
+
+- [patch][e91900a440](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e91900a440):
+
+  Change ReadViewContainer height to min-height to allow multiple lines in read view and add max-width and word-break to prevent overflow
+
 ## 10.0.2
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

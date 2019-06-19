@@ -1,5 +1,21 @@
 # @atlaskit/global-search
 
+## 8.15.6
+
+### Patch Changes
+
+- [patch][bf44848631](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bf44848631):
+
+  fix analytics typo
+
+## 8.15.5
+
+### Patch Changes
+
+- [patch][2a32f09bc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a32f09bc6):
+
+  add analytics to show more button
+
 ## 8.15.4
 
 ### Patch Changes

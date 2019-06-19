@@ -22,6 +22,7 @@ import { akEditorToolbarKeylineHeight } from '../../styles';
 import rafSchedule from 'raf-schd';
 import { scrollbarStyles } from '../styles';
 import WidthEmitter from '../WidthEmitter';
+import { LAYOUT_OFFSET } from '../../plugins/layout/styles';
 
 const SWOOP_ANIMATION = '0.5s cubic-bezier(.15,1,.3,1)';
 const TOTAL_PADDING = akEditorGutterPadding * 2;
@@ -108,14 +109,33 @@ const ContentArea = styled.div`
     }
 
     /* Prevent horizontal scroll on page in full width mode */
-    .pm-table-container,
-    .code-block,
-    .extension-container {
-      max-width: ${({ containerWidth }) =>
-        containerWidth
-          ? `${containerWidth - TOTAL_PADDING - tableMarginFullWidthMode * 2}px`
-          : 'inherit'};
-    }
+    ${({ containerWidth }) => {
+      if (!containerWidth) {
+        // initially hide until we have a containerWidth and can properly size them,
+        // otherwise they can cause the editor width to extend which is non-recoverable
+        return `
+          .pm-table-container,
+          .code-block,
+          .extension-container {
+            display: none;
+          }
+        `;
+      }
+
+      return `
+        .pm-table-container,
+        .code-block,
+        .extension-container {
+          max-width: ${containerWidth -
+            TOTAL_PADDING -
+            tableMarginFullWidthMode * 2}px;
+        }
+
+        [data-layout-section] {
+          max-width: ${containerWidth - TOTAL_PADDING + LAYOUT_OFFSET * 2}px;
+        }
+      `;
+    }}
   }
 `;
 ContentArea.displayName = 'ContentArea';

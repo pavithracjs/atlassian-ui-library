@@ -1,5 +1,13 @@
 # @atlaskit/profilecard
 
+## 11.0.1
+
+### Patch Changes
+
+- [patch][0b87683d6c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b87683d6c):
+
+  fix unbound method in ProfilecardTrigger component
+
 ## 11.0.0
 
 ### Major Changes
