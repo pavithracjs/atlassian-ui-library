@@ -1,0 +1,1 @@
+Visually hide nav content when collapsed, rather than unmounting it.
