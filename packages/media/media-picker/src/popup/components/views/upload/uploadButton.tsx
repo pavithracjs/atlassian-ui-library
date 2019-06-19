@@ -4,11 +4,11 @@ import Button from '@atlaskit/button';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import { startFileBrowser } from '../../../actions/startFileBrowser';
-import { Browser } from '../../../../components/types';
 import { State } from '../../../domain';
+import { Browser } from '../../../../components/browser/browser';
 
 export interface LocalBrowserButtonProps {
-  mpBrowser: Browser;
+  readonly browserRef: React.RefObject<Browser>;
 }
 
 export interface LocalBrowserButtonDispatchProps {
@@ -19,23 +19,19 @@ export type Props = LocalBrowserButtonProps & LocalBrowserButtonDispatchProps;
 
 export class LocalBrowserButton extends React.Component<Props> {
   private onUploadClick = (): void => {
-    const { mpBrowser, onClick } = this.props;
-
+    const { browserRef, onClick } = this.props;
     onClick();
-    if (mpBrowser) {
-      mpBrowser.browse();
+    if (browserRef && browserRef.current) {
+      browserRef.current.browse();
     }
   };
 
   render() {
-    const { mpBrowser } = this.props;
-
     return (
       <Button
         className="e2e-upload-button"
         appearance="default"
         onClick={this.onUploadClick}
-        isDisabled={!mpBrowser}
       >
         <FormattedMessage {...messages.upload_file} />
       </Button>

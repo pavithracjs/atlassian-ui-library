@@ -1,21 +1,29 @@
 import * as React from 'react';
 import PickerFacadeProvider from './PickerFacadeProvider';
 import { MediaPluginState } from '../pm-plugins/main';
-import { Clipboard } from '@atlaskit/media-picker';
+import { Browser } from '@atlaskit/media-picker';
 
 type Props = {
   mediaState: MediaPluginState;
+  isOpen?: boolean;
+  onBrowseFn: (browse: () => void) => void;
 };
 
-export const ClipboardMediaPickerWrapper = ({ mediaState }: Props) => (
-  <PickerFacadeProvider mediaState={mediaState} analyticsName="clipboard">
+export const BrowserMediaPickerWrapper = ({
+  mediaState,
+  isOpen,
+  onBrowseFn,
+}: Props) => (
+  <PickerFacadeProvider mediaState={mediaState} analyticsName="browser">
     {({ context, config, pickerFacadeInstance }) => (
-      <Clipboard
-        context={context}
+      <Browser
+        onBrowseFn={onBrowseFn}
+        isOpen={isOpen}
         config={config}
+        context={context}
+        onProcessing={pickerFacadeInstance.handleReady}
         onError={pickerFacadeInstance.handleUploadError}
         onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}
-        onProcessing={pickerFacadeInstance.handleReady}
       />
     )}
   </PickerFacadeProvider>

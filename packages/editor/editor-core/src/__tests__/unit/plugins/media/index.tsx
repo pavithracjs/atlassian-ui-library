@@ -61,7 +61,7 @@ import {
 } from './_utils';
 import { MediaAttributes, MediaSingleAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
-import ClipboardMediaPickerWrapper from '../../../../plugins/media/ui/ClipboardMediaPickerWrapper';
+import { ClipboardMediaPickerWrapper } from '../../../../plugins/media/ui/ClipboardMediaPickerWrapper';
 
 const pdfFile = {
   id: `${randomId()}`,
