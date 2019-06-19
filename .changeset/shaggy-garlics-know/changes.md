@@ -1,1 +1,0 @@
-Removed hardcoded styles. Added unit test
