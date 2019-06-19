@@ -8,6 +8,7 @@ import {
   akEditorFullPageMaxWidth,
   mapBreakpointToLayoutMaxWidth,
   ImageLoaderProps,
+  akEditorFullWidthLayoutWidth,
 } from '@atlaskit/editor-common';
 import { FullPagePadding } from '../../ui/Renderer/style';
 import { RendererAppearance } from '../../ui/Renderer/types';
@@ -106,7 +107,7 @@ export default class MediaSingle extends Component<Props, State> {
               : containerWidth - padding;
 
           const lineLength = isFullWidth
-            ? containerWidth - padding
+            ? Math.min(akEditorFullWidthLayoutWidth, containerWidth - padding)
             : nonFullWidthSize;
 
           return (
@@ -117,6 +118,7 @@ export default class MediaSingle extends Component<Props, State> {
               containerWidth={containerWidth}
               lineLength={lineLength}
               pctWidth={props.width}
+              fullWidthMode={isFullWidth}
             >
               {React.cloneElement(child, {
                 resizeMode: 'stretchy-fit',

@@ -235,6 +235,8 @@ export default class MediaSingleNode extends Component<
       containerWidth: this.props.width,
       lineLength: this.props.lineLength,
       pctWidth: mediaSingleWidth,
+
+      fullWidthMode,
     };
 
     const uploadComplete = isMobileUploadCompleted(
@@ -263,7 +265,6 @@ export default class MediaSingleNode extends Component<
         {...props}
         view={this.props.view}
         getPos={getPos}
-        fullWidthMode={fullWidthMode}
         updateSize={this.updateSize}
         displayGrid={createDisplayGrid(this.props.eventDispatcher)}
         gridSize={12}
