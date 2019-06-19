@@ -1,31 +1,29 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Node as PMNode } from 'prosemirror-model';
-
 import { EditorView } from 'prosemirror-view';
-import { ClickWrapperProps } from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
-import { stateKey as ReactNodeViewState } from '../../../plugins/base/pm-plugins/react-nodeview';
 import { Context as SmartCardContext } from '@atlaskit/smart-card';
+
+import { ClickWrapperProps } from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
 
 type EditorContext<T> = React.Context<T> & { value: T };
 
-export interface CardProps {
+export interface CardProps extends Partial<ClickWrapperProps> {
   children?: React.ReactNode;
   node: PMNode;
-  getPos: () => number;
+  selected: boolean;
   view: EditorView;
-  selected?: boolean;
 }
 
 export interface SmartCardProps extends CardProps {
   cardContext?: EditorContext<typeof SmartCardContext>;
 }
 
-export const Card = (
+export function Card(
   UnsupportedComponent: React.ComponentType,
   SmartCardComponent: React.ComponentType<SmartCardProps>,
-) =>
-  class extends React.PureComponent<CardProps> {
+): React.ComponentType<CardProps> {
+  return class extends React.PureComponent<CardProps> {
     static contextTypes = {
       contextAdapter: PropTypes.object,
     };
@@ -64,17 +62,4 @@ export const Card = (
       this.setState({ isError: true });
     }
   };
-
-export const SelectableCard = (
-  ClickableCard: React.ComponentType<CardProps & ClickWrapperProps>,
-) =>
-  class extends React.PureComponent<CardProps, {}> {
-    render() {
-      return (
-        <ClickableCard
-          {...this.props}
-          pluginState={ReactNodeViewState.getState(this.props.view.state)}
-        />
-      );
-    }
-  };
+}

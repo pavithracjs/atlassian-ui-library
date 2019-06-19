@@ -17,10 +17,8 @@ import { EditorView } from 'prosemirror-view';
 
 describe('inlineCard', () => {
   let mockEditorView: EditorView;
-  let mockGetPos: jest.Mock;
 
   beforeEach(() => {
-    mockGetPos = jest.fn();
     mockFindOverflowScrollParent = jest.fn();
     mockEditorView = {
       state: {
@@ -44,7 +42,6 @@ describe('inlineCard', () => {
     const mockInlineCardNode = mount(
       <InlineCard
         node={mockInlinePmNode}
-        getPos={mockGetPos}
         view={mockEditorView}
         selected={false}
       />,
@@ -65,7 +62,6 @@ describe('inlineCard', () => {
     const mockInlineCardNode = mount(
       <InlineCard
         node={mockInlinePmNode}
-        getPos={mockGetPos}
         view={mockEditorView}
         selected={false}
       />,

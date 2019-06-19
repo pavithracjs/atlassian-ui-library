@@ -6,11 +6,13 @@ import {
 } from '../../../nodeviews/ReactNodeView';
 import { Node } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { SelectableCard, Card } from './genericCard';
+import { Card } from './genericCard';
 import UnsupportedInlineNode from '../../unsupported-content/nodeviews/unsupported-inline';
 import { InlineCard } from './inlineCard';
 import { BlockCard } from './blockCard';
-import wrapComponentWithClickArea from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
+import wrapComponentWithClickArea, {
+  applySelectionAsProps,
+} from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
 import UnsupportedBlockNode from '../../unsupported-content/nodeviews/unsupported-block';
 
 export class CardNodeView extends ReactNodeView {
@@ -32,12 +34,10 @@ export class CardNodeView extends ReactNodeView {
   }
 }
 
-const ClickableInlineCard = wrapComponentWithClickArea(
-  Card(UnsupportedInlineNode, InlineCard),
+export const InlineCardNodeView = applySelectionAsProps(
+  wrapComponentWithClickArea(Card(UnsupportedInlineNode, InlineCard), true),
 );
-export const InlineCardNodeView = SelectableCard(ClickableInlineCard);
 
-const ClickableBlockCard = wrapComponentWithClickArea(
-  Card(UnsupportedBlockNode, BlockCard),
+export const BlockCardNodeView = applySelectionAsProps(
+  wrapComponentWithClickArea(Card(UnsupportedBlockNode, BlockCard)),
 );
-export const BlockCardNodeView = SelectableCard(ClickableBlockCard);

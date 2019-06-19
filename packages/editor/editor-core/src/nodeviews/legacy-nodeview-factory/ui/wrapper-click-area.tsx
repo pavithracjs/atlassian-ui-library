@@ -2,12 +2,12 @@ import * as React from 'react';
 import { PureComponent, ComponentClass, StatelessComponent } from 'react';
 import { EditorView } from 'prosemirror-view';
 import styled from 'styled-components';
-import { ReactNodeViewState } from '../../../plugins/base/pm-plugins/react-nodeview';
-import { setNodeSelection } from '../../../utils';
 import {
-  ProsemirrorGetPosHandler,
-  ReactComponentConstructor,
-} from '../../types';
+  ReactNodeViewState,
+  stateKey,
+} from '../../../plugins/base/pm-plugins/react-nodeview';
+import { setNodeSelection } from '../../../utils';
+import { ProsemirrorGetPosHandler } from '../../types';
 
 export interface ReactNodeViewComponents {
   [key: string]: ComponentClass<any> | StatelessComponent<any>;
@@ -33,12 +33,14 @@ interface State {
   selected: boolean;
 }
 
-export default function wrapComponentWithClickArea(
-  ReactComponent: ReactComponentConstructor,
+export default function wrapComponentWithClickArea<
+  T extends Partial<ClickWrapperProps> & { selected: boolean }
+>(
+  ReactComponent: React.ComponentType<T>,
   inline?: boolean,
-): ReactComponentConstructor {
+): React.ComponentClass<T & ClickWrapperProps> {
   return class WrapperClickArea extends PureComponent<
-    ClickWrapperProps,
+    T & ClickWrapperProps,
     State
   > {
     state: State = { selected: false };
@@ -83,5 +85,20 @@ export default function wrapComponentWithClickArea(
       const { getPos, view } = this.props;
       setNodeSelection(view, getPos());
     };
+  };
+}
+
+export function applySelectionAsProps<T extends ClickWrapperProps>(
+  Component: React.ComponentType<T>,
+) {
+  return class extends React.PureComponent<T, {}> {
+    render() {
+      return (
+        <Component
+          {...this.props}
+          pluginState={stateKey.getState(this.props.view.state)}
+        />
+      );
+    }
   };
 }
