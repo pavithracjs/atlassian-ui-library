@@ -1,1 +1,0 @@
-Add placeholder to prop types
