@@ -1,6 +1,6 @@
 jest.mock('../../platformDetector');
 import { DefaultUndoerRedoer, UndoerRedoer } from '../../undoerRedoer';
-import { isMac } from '../../platformDetector';
+import { isMac, isWindows } from '../../platformDetector';
 import { asMock } from '@atlaskit/media-test-helpers';
 
 type Mutable<T> = { -readonly [P in keyof T]: T[P] };
@@ -67,13 +67,23 @@ describe('MediaEditor DefaultUndoerRedoer', () => {
 
   it('should emit undo on mac', () => {
     asMock(isMac).mockReturnValue(true);
+    asMock(isWindows).mockReturnValue(false);
     undoerRedoer.undoEnabled();
     document.dispatchEvent(createEvent('z', false, true, false));
     expect(undoSignalSpy).toHaveBeenCalled();
   });
 
-  it('should emit undo on other platform', () => {
+  it('should emit undo on windows', () => {
     asMock(isMac).mockReturnValue(false);
+    asMock(isWindows).mockReturnValue(true);
+    undoerRedoer.undoEnabled();
+    document.dispatchEvent(createEvent('z', false, false, true));
+    expect(undoSignalSpy).toHaveBeenCalled();
+  });
+
+  it('should emit undo on linux', () => {
+    asMock(isMac).mockReturnValue(false);
+    asMock(isWindows).mockReturnValue(false);
     undoerRedoer.undoEnabled();
     document.dispatchEvent(createEvent('z', false, false, true));
     expect(undoSignalSpy).toHaveBeenCalled();
@@ -81,12 +91,22 @@ describe('MediaEditor DefaultUndoerRedoer', () => {
 
   it('should emit redo on mac', () => {
     asMock(isMac).mockReturnValue(true);
+    asMock(isWindows).mockReturnValue(false);
     undoerRedoer.redoEnabled();
     document.dispatchEvent(createEvent('z', true, true, false));
     expect(redoSignalSpy).toHaveBeenCalled();
   });
 
-  it('should emit redo on other platform', () => {
+  it('should emit redo on windows', () => {
+    asMock(isWindows).mockReturnValue(true);
+    asMock(isMac).mockReturnValue(false);
+    undoerRedoer.redoEnabled();
+    document.dispatchEvent(createEvent('y', false, false, true));
+    expect(redoSignalSpy).toHaveBeenCalled();
+  });
+
+  it('should emit redo on linux', () => {
+    asMock(isWindows).mockReturnValue(false);
     asMock(isMac).mockReturnValue(false);
     undoerRedoer.redoEnabled();
     document.dispatchEvent(createEvent('z', true, false, true));

@@ -1,6 +1,6 @@
 import { Component } from './component';
 import { Signal } from '../signal';
-import { isMac } from './platformDetector';
+import { isMac, isWindows } from './platformDetector';
 
 export interface UndoerRedoer extends Component {
   // These methods are called by the core to notify about the availability of the undo operation
@@ -51,6 +51,7 @@ export class DefaultUndoerRedoer implements UndoerRedoer {
 
   private keyDown(event: KeyboardEvent): void {
     const isModKeyPressed = isMac() ? event.metaKey : event.ctrlKey;
+
     if (
       this.isUndoEnabled &&
       event.key === 'z' &&
@@ -61,9 +62,10 @@ export class DefaultUndoerRedoer implements UndoerRedoer {
     }
     if (
       this.isRedoEnabled &&
-      event.key === 'z' &&
       isModKeyPressed &&
-      event.shiftKey
+      (isWindows()
+        ? event.key === 'y' && !event.shiftKey
+        : event.key === 'z' && event.shiftKey)
     ) {
       this.redo.emit({});
     }
