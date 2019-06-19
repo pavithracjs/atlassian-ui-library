@@ -5,7 +5,7 @@ export const withAnalyticsEvents = x.withAnalyticsEvents;
 export const withAnalyticsContext = x.withAnalyticsContext;
 export const createAndFire = x.createAndFireEvent('atlaskit');
 export const defaultAttributes = {
-  componentName: 'help-panel',
+  componentName: 'help',
   packageName,
   packageVersion,
 };

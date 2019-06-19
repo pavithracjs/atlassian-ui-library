@@ -11,7 +11,7 @@ import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { getArticle, searchArticle } from './utils/mockData';
 import { ButtonsWrapper } from './utils/styled';
 
-import HelpPanel from '../src';
+import Help from '../src';
 
 export default class extends React.Component {
   state = {
@@ -48,7 +48,7 @@ export default class extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <FlexContainer id="helpPanelExample">
+      <FlexContainer id="helpExample">
         <ContentWrapper>
           <Page>
             <ButtonsWrapper>
@@ -62,9 +62,9 @@ export default class extends React.Component {
                 </Button>
               </ButtonGroup>
             </ButtonsWrapper>
-            <RightSidePanel isOpen={isOpen} attachPanelTo="helpPanelExample">
+            <RightSidePanel isOpen={isOpen} attachPanelTo="helpExample">
               <LocaleIntlProvider locale={'en'}>
-                <HelpPanel
+                <Help
                   onBtnCloseClick={this.closeDrawer}
                   onWasHelpfulSubmit={this.onWasHelpfulSubmit}
                   articleId="00"
@@ -72,7 +72,7 @@ export default class extends React.Component {
                   onSearch={this.onSearch}
                 >
                   <h1>Default content</h1>
-                </HelpPanel>
+                </Help>
               </LocaleIntlProvider>
             </RightSidePanel>
           </Page>

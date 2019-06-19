@@ -25,7 +25,7 @@ export default class extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <FlexContainer id="helpPanelExample">
+      <FlexContainer id="RightSidePanelExample">
         <ContentWrapper>
           <Page>
             <ButtonsWrapper>
@@ -40,7 +40,7 @@ export default class extends React.Component {
               </ButtonGroup>
             </ButtonsWrapper>
           </Page>
-          <RightSidePanel isOpen={isOpen} attachPanelTo="helpPanelExample">
+          <RightSidePanel isOpen={isOpen} attachPanelTo="RightSidePanelExample">
             <TextWrapper>
               <h1>Right Side Panel content</h1>
             </TextWrapper>

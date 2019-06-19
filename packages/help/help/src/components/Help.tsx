@@ -8,7 +8,7 @@ import {
 import { HelpContextProvider } from './HelpContext';
 import MessagesIntlProvider from './MessagesIntlProvider';
 
-import HelpPanelContent from './HelpPanelContent';
+import HelpContent from './HelpContent';
 import { Article, ArticleItem } from '../model/Article';
 
 export interface Props {
@@ -26,14 +26,14 @@ export interface Props {
   children?: React.ReactNode;
 }
 
-export class HelpPanel extends React.Component<Props> {
+export class Help extends React.Component<Props> {
   render() {
     const { children, ...rest } = this.props;
 
     return (
       <HelpContextProvider {...rest} defaultContent={children}>
         <MessagesIntlProvider>
-          <HelpPanelContent />
+          <HelpContent />
         </MessagesIntlProvider>
       </HelpContextProvider>
     );
@@ -41,5 +41,5 @@ export class HelpPanel extends React.Component<Props> {
 }
 
 export default withAnalyticsContext(defaultAttributes)(
-  withAnalyticsEvents()(HelpPanel),
+  withAnalyticsEvents()(Help),
 );

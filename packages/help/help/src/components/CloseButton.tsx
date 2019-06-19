@@ -33,7 +33,7 @@ const CloseButton = (
   const handleOnBtnCloseClick = (event: React.MouseEvent<any>) => {
     if (onBtnCloseClick) {
       createAndFire({
-        action: 'help-panel-close',
+        action: 'help-close',
       })(props.createAnalyticsEvent);
       onBtnCloseClick(event);
     }

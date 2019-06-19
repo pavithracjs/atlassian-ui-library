@@ -1,7 +1,7 @@
 {
-  "name": "@atlaskit/help-panel",
-  "version": "0.9.0",
-  "description": "A cross-product help-panel component",
+  "name": "@atlaskit/help",
+  "version": "0.10.0",
+  "description": "A cross-product help component",
   "license": "Apache-2.0",
   "module": "index.js",
   "types": "index.d.ts",
@@ -12,7 +12,7 @@
     "Mauro Alvarez"
   ],
   "atlaskit": {
-    "name": "Help Panel",
+    "name": "Help",
     "team": "Help"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",

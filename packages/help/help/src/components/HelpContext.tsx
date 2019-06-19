@@ -189,7 +189,7 @@ class HelpContextProviderImplementation extends React.Component<
           const id = historyLastItem.id;
 
           createAndFire({
-            action: 'help-panel-article-changed',
+            action: 'help-article-changed',
             attributes: { id },
           })(this.props.createAnalyticsEvent);
         }
@@ -207,7 +207,7 @@ class HelpContextProviderImplementation extends React.Component<
       }));
 
       createAndFire({
-        action: 'help-panel-article-changed',
+        action: 'help-article-changed',
         attributes: { id },
       })(this.props.createAnalyticsEvent);
     }

@@ -11,7 +11,7 @@ import {
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { ButtonsWrapper } from './utils/styled';
 
-import HelpPanel from '../src';
+import Help from '../src';
 
 var client = algoliasearch('8K6J5OJIQW', 'c982b4b1a6ca921131d35edb63359b8c');
 var index = client.initIndex('product_help_uat');
@@ -48,7 +48,7 @@ export default class extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <FlexContainer id="helpPanelExample">
+      <FlexContainer id="helpExample">
         <ContentWrapper>
           <Page>
             <ButtonsWrapper>
@@ -62,15 +62,15 @@ export default class extends React.Component {
                 </Button>
               </ButtonGroup>
             </ButtonsWrapper>
-            <RightSidePanel isOpen={isOpen} attachPanelTo="helpPanelExample">
+            <RightSidePanel isOpen={isOpen} attachPanelTo="helpExample">
               <LocaleIntlProvider locale={'en'}>
-                <HelpPanel
+                <Help
                   onBtnCloseClick={this.closeDrawer}
                   articleId="nbgju45fddcNAvvH9lhHc"
                   onGetArticle={this.onGetArticle}
                 >
                   <h1>Default content</h1>
-                </HelpPanel>
+                </Help>
               </LocaleIntlProvider>
             </RightSidePanel>
           </Page>

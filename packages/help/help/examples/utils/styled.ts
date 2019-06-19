@@ -13,6 +13,6 @@ export const ButtonsWrapper = styled.div`
   padding: ${gridSize() * 2}px;
 `;
 
-export const HelpPanelWrapper = styled.div`
+export const HelpWrapper = styled.div`
   width: 368px;
 `;

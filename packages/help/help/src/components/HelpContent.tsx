@@ -15,14 +15,14 @@ import LoadingError from './LoadingError';
 import {
   BackButton,
   BackButtonText,
-  HelpPanelHeader,
-  HelpPanelBody,
-  HelpPanelHeaderText,
+  HelpHeader,
+  HelpBody,
+  HelpHeaderText,
 } from './styled';
 
 export interface Props {}
 
-export const HelpPanelContent = (
+export const HelpContent = (
   props: Props & InjectedIntlProps & HelpContextInterface,
 ) => {
   const {
@@ -36,18 +36,18 @@ export const HelpPanelContent = (
     if (help.mainArticle && help.history.length === 0) {
       return (
         <>
-          <HelpPanelHeader>
-            <HelpPanelHeaderText>
+          <HelpHeader>
+            <HelpHeaderText>
               {formatMessage(messages.help_panel_header)}
-            </HelpPanelHeaderText>
+            </HelpHeaderText>
             <CloseButton />
-          </HelpPanelHeader>
-          <HelpPanelBody>
+          </HelpHeader>
+          <HelpBody>
             {help.isSearchVisible() && <Search />}
             {help.isArticleVisible() && (
               <ArticleComponent article={help.mainArticle} />
             )}
-          </HelpPanelBody>
+          </HelpBody>
         </>
       );
     }
@@ -57,20 +57,20 @@ export const HelpPanelContent = (
     if (help.history.length > 0) {
       return (
         <>
-          <HelpPanelHeader>
-            <HelpPanelHeaderText>
+          <HelpHeader>
+            <HelpHeaderText>
               <BackButton onClick={help.navigateBack}>
                 <ArrowleftIcon label="back" size="medium" />
                 <BackButtonText>
                   {formatMessage(messages.help_panel_navigation_back)}
                 </BackButtonText>
               </BackButton>
-            </HelpPanelHeaderText>
-          </HelpPanelHeader>
+            </HelpHeaderText>
+          </HelpHeader>
 
-          <HelpPanelBody>
+          <HelpBody>
             <ArticleComponent article={help.history[help.history.length - 1]} />
-          </HelpPanelBody>
+          </HelpBody>
         </>
       );
     }
@@ -79,16 +79,16 @@ export const HelpPanelContent = (
     if (!help.articleId && help.history.length === 0) {
       return (
         <>
-          <HelpPanelHeader>
-            <HelpPanelHeaderText>
+          <HelpHeader>
+            <HelpHeaderText>
               {formatMessage(messages.help_panel_header)}
-            </HelpPanelHeaderText>
+            </HelpHeaderText>
             <CloseButton />
-          </HelpPanelHeader>
-          <HelpPanelBody>
+          </HelpHeader>
+          <HelpBody>
             {help.isSearchVisible() && <Search />}
             {help.defaultContent}
-          </HelpPanelBody>
+          </HelpBody>
         </>
       );
     }
@@ -97,33 +97,33 @@ export const HelpPanelContent = (
   if (help.articleState === REQUEST_STATE.error) {
     return (
       <>
-        <HelpPanelHeader>
-          <HelpPanelHeaderText>
+        <HelpHeader>
+          <HelpHeaderText>
             {formatMessage(messages.help_panel_header)}
-          </HelpPanelHeaderText>
+          </HelpHeaderText>
           <CloseButton />
-        </HelpPanelHeader>
-        <HelpPanelBody>
+        </HelpHeader>
+        <HelpBody>
           <LoadingError />
-        </HelpPanelBody>
+        </HelpBody>
       </>
     );
   }
 
   return (
     <>
-      <HelpPanelHeader>
-        <HelpPanelHeaderText>
+      <HelpHeader>
+        <HelpHeaderText>
           {formatMessage(messages.help_panel_header)}
-        </HelpPanelHeaderText>
+        </HelpHeaderText>
         <CloseButton />
-      </HelpPanelHeader>
-      <HelpPanelBody>
+      </HelpHeader>
+      <HelpBody>
         {help.isSearchVisible() && <Search />}
         <Loading />
-      </HelpPanelBody>
+      </HelpBody>
     </>
   );
 };
 
-export default withHelp(injectIntl(HelpPanelContent));
+export default withHelp(injectIntl(HelpContent));

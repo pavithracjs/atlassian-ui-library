@@ -3,9 +3,9 @@ import algoliasearch from 'algoliasearch';
 import Page from '@atlaskit/page';
 
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
-import { ExampleWrapper, HelpPanelWrapper } from './utils/styled';
+import { ExampleWrapper, HelpWrapper } from './utils/styled';
 
-import HelpPanel from '../src';
+import Help from '../src';
 
 var client = algoliasearch('8K6J5OJIQW', 'c982b4b1a6ca921131d35edb63359b8c');
 var index = client.initIndex('product_help_uat');
@@ -30,18 +30,18 @@ export default class extends React.Component {
 
   render() {
     return (
-      <ExampleWrapper id="helpPanelExample">
+      <ExampleWrapper>
         <Page>
-          <HelpPanelWrapper>
+          <HelpWrapper>
             <LocaleIntlProvider locale={'en'}>
-              <HelpPanel
+              <Help
                 articleId="nbgju45fddcNAvvH9lhHc"
                 onGetArticle={this.onGetArticle}
               >
                 <h1>Default content</h1>
-              </HelpPanel>
+              </Help>
             </LocaleIntlProvider>
-          </HelpPanelWrapper>
+          </HelpWrapper>
         </Page>
       </ExampleWrapper>
     );

@@ -4,9 +4,9 @@ import Page from '@atlaskit/page';
 
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { getArticle, searchArticle } from './utils/mockData';
-import { ExampleWrapper, HelpPanelWrapper } from './utils/styled';
+import { ExampleWrapper, HelpWrapper } from './utils/styled';
 
-import HelpPanel from '../src';
+import Help from '../src';
 
 const handleEvent = (analyticsEvent: { payload: any; context: any }) => {
   const { payload, context } = analyticsEvent;
@@ -40,17 +40,17 @@ export default class extends React.Component {
 
   render() {
     return (
-      <ExampleWrapper id="helpPanelExample">
+      <ExampleWrapper>
         <Page>
-          <HelpPanelWrapper>
+          <HelpWrapper>
             <AnalyticsListener channel="atlaskit" onEvent={handleEvent}>
               <LocaleIntlProvider locale={'en'}>
-                <HelpPanel>
+                <Help>
                   <h1>Default content</h1>
-                </HelpPanel>
+                </Help>
               </LocaleIntlProvider>
             </AnalyticsListener>
-          </HelpPanelWrapper>
+          </HelpWrapper>
         </Page>
       </ExampleWrapper>
     );
