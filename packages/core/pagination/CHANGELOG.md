@@ -1,5 +1,13 @@
 # @atlaskit/pagination
 
+## 12.0.4
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
 ## 12.0.3
 
 ### Patch Changes

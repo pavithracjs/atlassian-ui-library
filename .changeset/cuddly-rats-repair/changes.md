@@ -1,1 +1,0 @@
-index.ts will now be ignored when publishing to npm

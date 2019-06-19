@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/radio",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "A radio group React component used for selecting discrete values in a form",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -21,9 +21,9 @@
     "team": "core"
   },
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.0.0",
-    "@atlaskit/icon": "^18.0.3",
-    "@atlaskit/theme": "^9.1.0",
+    "@atlaskit/analytics-next": "^5.0.2",
+    "@atlaskit/icon": "^18.0.4",
+    "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
     "tslib": "^1.9.3"
   },
@@ -36,7 +36,7 @@
     "@atlaskit/button": "^13.0.8",
     "@atlaskit/checkbox": "^8.0.2",
     "@atlaskit/docs": "^8.1.2",
-    "@atlaskit/form": "^6.0.5",
+    "@atlaskit/form": "^6.0.7",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",

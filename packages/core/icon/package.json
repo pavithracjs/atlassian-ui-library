@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/icon",
-  "version": "18.0.3",
+  "version": "18.0.4",
   "description": "A React package that contains icons",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
@@ -23,7 +23,7 @@
     "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel src -d cjs --root-mode=\"upward\""
   },
   "dependencies": {
-    "@atlaskit/theme": "^9.1.0",
+    "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
     "tslib": "^1.9.3",
     "uuid": "^3.1.0"
@@ -37,14 +37,14 @@
     "@atlaskit/button": "^13.0.8",
     "@atlaskit/docs": "^8.1.2",
     "@atlaskit/dynamic-table": "^13.1.1",
-    "@atlaskit/field-text": "^9.0.1",
+    "@atlaskit/field-text": "^9.0.2",
     "@atlaskit/icon-build-process": "^0.1.0",
-    "@atlaskit/icon-file-type": "^4.0.3",
-    "@atlaskit/icon-object": "^4.0.3",
-    "@atlaskit/icon-priority": "^4.0.3",
-    "@atlaskit/logo": "^12.0.2",
-    "@atlaskit/modal-dialog": "^10.0.4",
-    "@atlaskit/section-message": "^4.0.3",
+    "@atlaskit/icon-file-type": "^4.0.4",
+    "@atlaskit/icon-object": "^4.0.4",
+    "@atlaskit/icon-priority": "^4.0.4",
+    "@atlaskit/logo": "^12.0.4",
+    "@atlaskit/modal-dialog": "^10.0.6",
+    "@atlaskit/section-message": "^4.0.4",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/tooltip": "^15.0.1",
     "@atlaskit/visual-regression": "^0.1.0",
