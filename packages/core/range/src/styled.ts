@@ -1,7 +1,7 @@
-// @flow
 /* eslint-disable no-mixed-operators */
 import styled, { css } from 'styled-components';
 import { elevation } from '@atlaskit/theme';
+import { ThemeTokensTrack, ThemeTokens } from './theme';
 
 const sliderThumbSize = 16;
 const sliderThumbBorderThickness = 2;
@@ -9,7 +9,14 @@ const sliderLineThickness = 4;
 const transitionDuration = '0.2s';
 export const overallHeight = 40;
 
-const getBackgroundGradient = ({ lower, upper }, percent) =>
+interface TrackProps extends ThemeTokens {
+  valuePercent: string;
+}
+
+const getBackgroundGradient = (
+  { lower, upper }: ThemeTokensTrack,
+  percent: string,
+) =>
   css`
     background: linear-gradient(${lower}, ${lower}) 0 / ${percent}% 100%
       no-repeat ${upper};
@@ -18,7 +25,7 @@ const getBackgroundGradient = ({ lower, upper }, percent) =>
     }
   `;
 
-const sliderThumbStyle = css`
+const sliderThumbStyle = css<TrackProps>`
   background: ${({ thumb }) => thumb.default.background};
   border: ${sliderThumbBorderThickness}px solid transparent;
   border-radius: 50%;
@@ -28,19 +35,19 @@ const sliderThumbStyle = css`
   ${elevation.e200};
 `;
 
-const sliderThumbFocusedStyle = css`
+const sliderThumbFocusedStyle = css<ThemeTokens>`
   border-color: ${({ thumb }) => thumb.focus.border};
 `;
 
-const sliderThumbDisabledStyle = css`
+const sliderThumbDisabledStyle = css<ThemeTokens>`
   cursor: not-allowed;
   box-shadow: 0 0 1px ${({ thumb }) => thumb.disabled.boxShadow};
 `;
 
-const sliderDefaultBackground = props =>
+const sliderDefaultBackground = (props: TrackProps) =>
   getBackgroundGradient(props.track.default, props.valuePercent);
 
-const sliderTrackStyle = css`
+const sliderTrackStyle = css<TrackProps>`
   background: ${({ track }) => track.background};
   border-radius: ${sliderLineThickness / 2}px;
   border: 0;
@@ -50,7 +57,7 @@ const sliderTrackStyle = css`
   ${sliderDefaultBackground};
 `;
 
-const sliderTrackDisabledStyle = css`
+const sliderTrackDisabledStyle = css<TrackProps>`
   ${props =>
     getBackgroundGradient(
       props.track.disabled,
@@ -59,10 +66,10 @@ const sliderTrackDisabledStyle = css`
   cursor: not-allowed;
 `;
 
-const sliderTrackFocusedStyle = props =>
+const sliderTrackFocusedStyle = (props: TrackProps) =>
   getBackgroundGradient(props.track.hover, props.valuePercent);
 
-const chromeRangeInputStyle = css`
+const chromeRangeInputStyle = css<TrackProps>`
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     margin-top: -${sliderThumbSize / 2 - sliderLineThickness / 2}px;
@@ -97,7 +104,7 @@ const chromeRangeInputStyle = css`
   }
 `;
 
-const firefoxRangeInputStyle = css`
+const firefoxRangeInputStyle = css<TrackProps>`
   &::-moz-focus-outer {
     border: 0;
   }
@@ -134,7 +141,7 @@ const firefoxRangeInputStyle = css`
   }
 `;
 
-const IERangeInputStyle = css`
+const IERangeInputStyle = css<TrackProps>`
   &::-ms-thumb {
     margin-top: 0;
     transition: border-color ${transitionDuration} ease-in-out;
@@ -190,7 +197,7 @@ const IERangeInputStyle = css`
   }
 `;
 
-export const rangeInputStyle = css`
+export const rangeInputStyle = css<TrackProps>`
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   background: transparent; /* Otherwise white in Chrome */
   height: ${overallHeight}px; /* Otherwise thumb will collide with previous box element */
@@ -209,7 +216,7 @@ export const rangeInputStyle = css`
   background-position: right;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<TrackProps>`
   ${rangeInputStyle};
 `;
 

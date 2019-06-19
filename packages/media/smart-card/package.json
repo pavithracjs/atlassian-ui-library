@@ -61,7 +61,7 @@
     "react": "^16.8.0",
     "react-ace": "^6.1.0",
     "react-intl": "^2.6.0",
-    "react-test-renderer": "^16.3.0",
+    "react-test-renderer": "^16.8.0",
     "whatwg-fetch": "^2.0.3",
     "xhr-mock": "^2.4.0"
   }

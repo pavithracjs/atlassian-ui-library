@@ -386,14 +386,14 @@ describe('<Mention />', () => {
       it('should render a mention and use the resolving provider to lookup the name (string result, unknown)', done => {
         const mention = mountWithIntl(
           <ResourcedMention
-            {...mentionData}
+            id={mentionData.id}
             text=""
             mentionProvider={resolvingMentionProvider}
           />,
         );
         ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
           {
-            id: '123',
+            id: mentionData.id,
             status: MentionNameStatus.UNKNOWN,
           },
         );
@@ -404,7 +404,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Unknown');
+          ).toEqual('@Unknown user -ABCD');
           done();
         });
       });
@@ -412,14 +412,14 @@ describe('<Mention />', () => {
       it('should render a mention and use the resolving provider to lookup the name (string result, service error)', done => {
         const mention = mountWithIntl(
           <ResourcedMention
-            {...mentionData}
+            id="123"
             text=""
             mentionProvider={resolvingMentionProvider}
           />,
         );
         ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
           {
-            id: '123',
+            id: mentionData.id,
             status: MentionNameStatus.SERVICE_ERROR,
           },
         );
@@ -430,7 +430,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Error loading name');
+          ).toEqual('@Unknown user 123');
           done();
         });
       });
@@ -445,7 +445,7 @@ describe('<Mention />', () => {
         );
         ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
           Promise.resolve({
-            ud: '456',
+            id: mentionData.id,
             name: 'bacon',
             status: MentionNameStatus.OK,
           }),
@@ -472,7 +472,7 @@ describe('<Mention />', () => {
         );
         ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
           Promise.resolve({
-            ud: '456',
+            id: mentionData.id,
             status: MentionNameStatus.UNKNOWN,
           }),
         );
@@ -483,7 +483,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Unknown');
+          ).toEqual('@Unknown user -ABCD');
           done();
         });
       });
@@ -491,14 +491,14 @@ describe('<Mention />', () => {
       it('should render a mention and use the resolving provider to lookup the name (Promise result, service error)', done => {
         const mention = mountWithIntl(
           <ResourcedMention
-            {...mentionData}
+            id=""
             text=""
             mentionProvider={resolvingMentionProvider}
           />,
         );
         ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
           Promise.resolve({
-            ud: '456',
+            id: mentionData.id,
             status: MentionNameStatus.SERVICE_ERROR,
           }),
         );
@@ -509,7 +509,7 @@ describe('<Mention />', () => {
               .find(Mention)
               .first()
               .text(),
-          ).toEqual('@Error loading name');
+          ).toEqual('@Unknown user ');
           done();
         });
       });

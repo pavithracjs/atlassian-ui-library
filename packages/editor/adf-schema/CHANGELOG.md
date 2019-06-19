@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.6.0
+
+### Minor Changes
+
+- [minor][a6a241d230](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6a241d230):
+
+  Breakout mark stage-0 -> full schema
+
 ## 2.5.10
 
 ### Patch Changes
