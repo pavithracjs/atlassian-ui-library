@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import SurveyContainer from './SurveyContainer';
 import SurveyForm from './SurveyForm';
 import SignUpPrompt from './SignUpPrompt';
@@ -41,6 +41,10 @@ export default ({
   getUserHasSignedUp,
   textPlaceholder = 'Tell us why',
 }: Props) => {
+  let autoDisappearTimeout: number;
+
+  useEffect(() => () => clearTimeout(autoDisappearTimeout), []);
+
   const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
 
   const onSurveySubmit = useCallback<
@@ -80,7 +84,7 @@ export default ({
 
   const triggerAutoDisappear = useCallback(
     () => {
-      setTimeout(() => {
+      autoDisappearTimeout = setTimeout(() => {
         onDismiss();
       }, AUTO_DISAPPEAR_DURATION);
     },
