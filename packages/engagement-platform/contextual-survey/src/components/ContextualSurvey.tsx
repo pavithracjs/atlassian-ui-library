@@ -43,6 +43,7 @@ export default ({
 }: Props) => {
   let autoDisappearTimeout: number;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => clearTimeout(autoDisappearTimeout), []);
 
   const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
@@ -79,11 +80,13 @@ export default ({
       await onSignUp();
       setCurrentStep('SIGN_UP_SUCCESS');
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setCurrentStep],
   );
 
   const triggerAutoDisappear = useCallback(
     () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       autoDisappearTimeout = setTimeout(() => {
         onDismiss();
       }, AUTO_DISAPPEAR_DURATION);
