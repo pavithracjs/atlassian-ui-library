@@ -79,7 +79,6 @@ export class MediaPluginState {
   public pickers: PickerFacade[] = [];
   public pickerPromises: Array<Promise<PickerFacade>> = [];
   private popupPicker?: PickerFacade;
-  private dropzonePicker?: PickerFacade;
   // @ts-ignore
   private customPicker?: PickerFacade;
 
@@ -305,15 +304,7 @@ export class MediaPluginState {
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
 
   // TODO [MSW-454]: remove this logic from Editor
-  onPopupPickerClose = () => {
-    if (
-      this.dropzonePicker &&
-      this.popupPicker &&
-      this.popupPicker.type === 'popup'
-    ) {
-      this.dropzonePicker.activate();
-    }
-  };
+  onPopupPickerClose = () => {};
 
   showMediaPicker = () => {
     if (this.openMediaPickerBrowser && !this.hasUserAuthProvider()) {
@@ -321,9 +312,6 @@ export class MediaPluginState {
     }
     if (!this.popupPicker) {
       return;
-    }
-    if (this.dropzonePicker && this.popupPicker.type === 'popup') {
-      this.dropzonePicker.deactivate();
     }
     this.popupPicker.show();
   };
@@ -442,7 +430,6 @@ export class MediaPluginState {
     }
 
     this.popupPicker = undefined;
-    this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
 
@@ -476,34 +463,18 @@ export class MediaPluginState {
 
         pickerPromises.push(customPicker);
         pickers.push((this.customPicker = await customPicker));
-      } else {
-        let popupPicker: Promise<PickerFacade> | undefined;
-        if (context.config && context.config.userAuthProvider) {
-          popupPicker = new Picker(
-            'popup',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init();
-        }
-
-        const dropzonePicker = new Picker('dropzone', pickerFacadeConfig, {
-          container: this.options.customDropzoneContainer,
-          headless: true,
-          ...defaultPickerConfig,
-        }).init();
+      } else if (context.config && context.config.userAuthProvider) {
+        const popupPicker = new Picker(
+          'popup',
+          pickerFacadeConfig,
+          defaultPickerConfig as any,
+        ).init();
 
         if (popupPicker) {
-          pickerPromises.push(popupPicker, dropzonePicker);
-          pickers.push(
-            (this.popupPicker = await popupPicker),
-            (this.dropzonePicker = await dropzonePicker),
-          );
-        } else {
-          pickerPromises.push(dropzonePicker);
-          pickers.push((this.dropzonePicker = await dropzonePicker));
+          pickerPromises.push(popupPicker);
+          pickers.push((this.popupPicker = await popupPicker));
         }
 
-        this.dropzonePicker.onDrag(this.handleDrag);
         if (this.popupPicker) {
           this.removeOnCloseListener = this.popupPicker.onClose(
             this.onPopupPickerClose,
@@ -667,7 +638,7 @@ export class MediaPluginState {
     return;
   };
 
-  private handleDrag = (dragState: 'enter' | 'leave') => {
+  public handleDrag = (dragState: 'enter' | 'leave') => {
     const isActive = dragState === 'enter';
     if (this.showDropzone === isActive) {
       return;

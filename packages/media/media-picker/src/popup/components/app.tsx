@@ -11,8 +11,6 @@ import {
 } from '@atlaskit/analytics-next';
 
 import { ServiceName, State } from '../domain';
-
-import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { UploadParams, PopupConfig } from '../..';
 
 /* Components */
@@ -21,7 +19,7 @@ import Sidebar from './sidebar/sidebar';
 import UploadView from './views/upload/upload';
 import GiphyView from './views/giphy/giphyView';
 import Browser from './views/browser/browser';
-import { Dropzone } from './dropzone/dropzone';
+import { Dropzone as DropzonePlaceholder } from './dropzone/dropzone';
 import MainEditorView from './views/editor/mainEditorView';
 
 /* Configs */
@@ -53,9 +51,11 @@ import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
   ClipboardConfig,
+  DropzoneConfig,
 } from '../../components/types';
 
 import { Clipboard } from '../../components/clipboard/clipboard';
+import { Dropzone } from '../../components/dropzone/dropzone';
 import { Browser as BrowserComponent } from '../../components/browser/browser';
 import { LocalUploadComponent } from '../../components/localUpload';
 
@@ -104,7 +104,6 @@ export interface AppState {
 }
 
 export class App extends Component<AppProps, AppState> {
-  private readonly mpDropzone: MpDropzone;
   private readonly componentMediaClient: MediaClient;
   private browserRef = React.createRef<BrowserComponent>();
   private readonly localUploader: LocalUploadComponent;
@@ -151,25 +150,11 @@ export class App extends Component<AppProps, AppState> {
     this.localUploader.on('upload-end', onUploadEnd);
     this.localUploader.on('upload-error', onUploadError);
 
-    this.mpDropzone = new MpDropzone(mediaClient, {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-      headless: true,
-    });
-    this.mpDropzone.on('drag-enter', this.onDragEnter);
-    this.mpDropzone.on('drag-leave', this.onDragLeave);
-    this.mpDropzone.on('uploads-start', this.onDrop);
-    this.mpDropzone.on('upload-preview-update', onUploadPreviewUpdate);
-    this.mpDropzone.on('upload-status-update', onUploadStatusUpdate);
-    this.mpDropzone.on('upload-processing', onUploadProcessing);
-    this.mpDropzone.on('upload-end', onUploadEnd);
-    this.mpDropzone.on('upload-error', onUploadError);
-
     onStartApp({
       onCancelUpload: uploadId => {
         // TODO: find how cancel upload
         // this.mpBrowser.cancel(uploadId);
-        this.mpDropzone.cancel(uploadId);
+        // this.mpDropzone.cancel(uploadId);
         this.localUploader.cancel(uploadId);
       },
     });
@@ -192,20 +177,6 @@ export class App extends Component<AppProps, AppState> {
     onDropzoneDropIn(payload.files.length);
     onUploadsStart(payload);
   };
-
-  componentWillReceiveProps({ isVisible }: Readonly<AppProps>): void {
-    if (isVisible !== this.props.isVisible) {
-      if (isVisible) {
-        this.mpDropzone.activate();
-      } else {
-        this.mpDropzone.deactivate();
-      }
-    }
-  }
-
-  componentWillUnmount(): void {
-    this.mpDropzone.deactivate();
-  }
 
   render() {
     const {
@@ -231,11 +202,11 @@ export class App extends Component<AppProps, AppState> {
                     {this.renderCurrentView(selectedServiceName)}
                     <Footer />
                   </ViewWrapper>
-                  <Dropzone isActive={isDropzoneActive} />
+                  <DropzonePlaceholder isActive={isDropzoneActive} />
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
+                {this.renderDropZone()}
                 {this.renderClipboard()}
-                {this.renderBrowser()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -297,33 +268,33 @@ export class App extends Component<AppProps, AppState> {
     );
   };
 
-  private renderBrowser = () => {
+  private renderDropZone = () => {
     const {
-      tenantUploadParams,
-      onUploadsStart,
       onUploadPreviewUpdate,
       onUploadStatusUpdate,
       onUploadProcessing,
       onUploadEnd,
       onUploadError,
+      tenantUploadParams,
     } = this.props;
-    const config = {
+
+    const config: DropzoneConfig = {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
-      multiple: true,
     };
 
     return (
-      <BrowserComponent
-        ref={this.browserRef}
+      <Dropzone
         mediaClient={this.componentMediaClient}
         config={config}
-        onUploadsStart={onUploadsStart}
+        onUploadsStart={this.onDrop}
         onPreviewUpdate={onUploadPreviewUpdate}
         onStatusUpdate={onUploadStatusUpdate}
         onProcessing={onUploadProcessing}
         onEnd={onUploadEnd}
         onError={onUploadError}
+        onDragEnter={this.onDragEnter}
+        onDragLeave={this.onDragLeave}
       />
     );
   };

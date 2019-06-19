@@ -1,16 +1,11 @@
-import {
-  MediaPickerComponents,
-  MediaPickerComponent,
-} from '@atlaskit/media-picker';
 import { ContextFactory } from '@atlaskit/media-core';
 import {
   StoryBookAuthProvider,
   userAuthProvider,
+  asMock,
 } from '@atlaskit/media-test-helpers';
 
-import PickerFacade, {
-  PickerType,
-} from '../../../../plugins/media/picker-facade';
+import PickerFacade from '../../../../plugins/media/picker-facade';
 import { ErrorReportingHandler } from '@atlaskit/editor-common';
 
 describe('Media PickerFacade', () => {
@@ -29,8 +24,7 @@ describe('Media PickerFacade', () => {
     errorReporter,
   };
 
-  // Spies
-  const commonSpies: { [S in keyof MediaPickerComponent]: jest.Mock } = {
+  const spies: Record<string, jest.Mock> = {
     addListener: jest.fn(),
     cancel: jest.fn(),
     emit: jest.fn(),
@@ -47,154 +41,85 @@ describe('Media PickerFacade', () => {
     removeAllListeners: jest.fn(),
     removeListener: jest.fn(),
     setUploadParams: jest.fn(),
-  };
-  const specificSpies: {
-    [K in keyof MediaPickerComponents]: {
-      [S in Partial<keyof MediaPickerComponents[K]>]: jest.Mock
-    }
-  } = {
-    dropzone: {
-      ...commonSpies,
-      activate: jest.fn(),
-      deactivate: jest.fn(),
-      addFiles: jest.fn(),
-    },
-    popup: {
-      ...commonSpies,
-      show: jest.fn(),
-      teardown: jest.fn(),
-      hide: jest.fn(),
-      emitClosed: jest.fn(),
-    },
+    teardown: jest.fn(),
+    show: jest.fn(),
+    hide: jest.fn(),
+    emitClosed: jest.fn(),
   };
 
-  const pickerTypes: Array<PickerType> = ['popup', 'dropzone'];
+  describe('Picker: Popup', () => {
+    let facade: PickerFacade;
 
-  pickerTypes.forEach(pickerType => {
-    describe(`Picker: ${pickerType}`, () => {
-      let facade: PickerFacade;
-      let spies = (specificSpies as Record<PickerType, any>)[pickerType];
+    beforeEach(async () => {
+      Object.keys(spies).forEach(k => asMock(spies[k]).mockClear());
 
-      beforeEach(async () => {
-        Object.keys(spies).forEach(k => spies[k].mockClear());
-
-        class MockPopup {
-          constructor() {
-            (Object.keys(spies) as Array<keyof typeof spies>).forEach(
-              k => ((this as any)[k] = spies[k]),
-            );
-          }
+      class MockPopup {
+        constructor() {
+          (Object.keys(spies) as Array<keyof typeof spies>).forEach(
+            k => ((this as any)[k] = spies[k]),
+          );
         }
-
-        const MediaPickerMock = jest
-          .fn()
-          .mockReturnValue(Promise.resolve(new MockPopup()));
-
-        facade = new PickerFacade(
-          pickerType,
-          pickerFacadeConfig,
-          {
-            uploadParams: { collection: '' },
-          },
-          MediaPickerMock,
-        );
-        await facade.init();
-      });
-
-      afterEach(() => {
-        facade.destroy();
-      });
-
-      it(`listens to picker events`, () => {
-        const fn = jasmine.any(Function);
-        expect(spies.on).toHaveBeenCalledTimes(
-          pickerType === 'dropzone' ? 6 : 4,
-        );
-        expect(spies.on).toHaveBeenCalledWith('upload-preview-update', fn);
-        expect(spies.on).toHaveBeenCalledWith('upload-processing', fn);
-
-        if (pickerType === 'dropzone') {
-          expect(spies.on).toHaveBeenCalledWith('drag-enter', fn);
-          expect(spies.on).toHaveBeenCalledWith('drag-leave', fn);
-        }
-      });
-
-      it('removes listeners on destruction', () => {
-        facade.destroy();
-        expect(spies.removeAllListeners).toHaveBeenCalledTimes(
-          pickerType === 'dropzone' ? 5 : 3,
-        );
-        expect(spies.removeAllListeners).toHaveBeenCalledWith(
-          'upload-preview-update',
-        );
-        expect(spies.removeAllListeners).toHaveBeenCalledWith(
-          'upload-processing',
-        );
-        if (pickerType === 'dropzone') {
-          expect(spies.removeAllListeners).toHaveBeenCalledWith('drag-enter');
-          expect(spies.removeAllListeners).toHaveBeenCalledWith('drag-leave');
-        }
-      });
-
-      // Picker Specific Tests
-      if (pickerType === 'dropzone') {
-        it(`should call picker's activate() during initialization`, () => {
-          expect(spies.activate).toHaveBeenCalledTimes(1);
-        });
       }
 
-      if (pickerType === 'popup') {
-        it(`should call picker's teardown() on destruction`, () => {
-          facade.destroy();
-          expect(spies.teardown).toHaveBeenCalledTimes(1);
-        });
-      } else if (pickerType === 'dropzone') {
-        it(`should call picker's deactivate() on destruction`, () => {
-          facade.destroy();
-          expect(spies.deactivate).toHaveBeenCalledTimes(1);
-        });
-      }
+      const MediaPickerMock = jest
+        .fn()
+        .mockReturnValue(Promise.resolve(new MockPopup()));
 
-      if (pickerType === 'popup') {
-        it(`should call picker's show() on destruction`, () => {
-          facade.show();
-          expect(spies.show).toHaveBeenCalledTimes(1);
-        });
-      }
+      facade = new PickerFacade(
+        'popup',
+        pickerFacadeConfig,
+        {
+          uploadParams: { collection: '' },
+        },
+        MediaPickerMock,
+      );
+      await facade.init();
+    });
 
-      if (pickerType === 'popup') {
-        it(`should call picker's hide() on destruction`, () => {
-          facade.hide();
-          expect(spies.hide).toHaveBeenCalledTimes(1);
-        });
-      }
+    afterEach(() => {
+      facade.destroy();
+    });
 
-      if (pickerType === 'popup') {
-        it(`should call picker on close when onClose is called`, () => {
-          spies.on.mockClear();
-          const closeCb = jest.fn();
-          facade.onClose(closeCb);
+    it('listens to picker events', () => {
+      const fn = jasmine.any(Function);
+      expect(spies.on).toHaveBeenCalledTimes(4);
+      expect(spies.on).toHaveBeenCalledWith('upload-preview-update', fn);
+      expect(spies.on).toHaveBeenCalledWith('upload-processing', fn);
+    });
 
-          expect(spies.on).toHaveBeenCalledTimes(1);
-          expect(spies.on).toHaveBeenCalledWith('closed', closeCb);
-        });
-      }
+    it('removes listeners on destruction', () => {
+      facade.destroy();
+      expect(spies.removeAllListeners).toHaveBeenCalledTimes(3);
+      expect(spies.removeAllListeners).toHaveBeenCalledWith(
+        'upload-preview-update',
+      );
+      expect(spies.removeAllListeners).toHaveBeenCalledWith(
+        'upload-processing',
+      );
+    });
 
-      if (pickerType === 'dropzone') {
-        it(`should call picker.activate when activate is called`, () => {
-          spies.activate.mockClear();
-          facade.activate();
-          expect(spies.activate).toHaveBeenCalledTimes(1);
-        });
-      }
+    it(`should call picker's teardown() on destruction`, () => {
+      facade.destroy();
+      expect(spies.teardown).toHaveBeenCalledTimes(1);
+    });
 
-      if (pickerType === 'dropzone') {
-        it(`should call picker.deactivate when deactivate is called`, () => {
-          spies.deactivate.mockClear();
-          facade.deactivate();
-          expect(spies.deactivate).toHaveBeenCalledTimes(1);
-        });
-      }
+    it(`should call picker's show() on destruction`, () => {
+      facade.show();
+      expect(spies.show).toHaveBeenCalledTimes(1);
+    });
+
+    it(`should call picker's hide() on destruction`, () => {
+      facade.hide();
+      expect(spies.hide).toHaveBeenCalledTimes(1);
+    });
+
+    it(`should call picker on close when onClose is called`, () => {
+      spies.on.mockClear();
+      const closeCb = jest.fn();
+      facade.onClose(closeCb);
+
+      expect(spies.on).toHaveBeenCalledTimes(1);
+      expect(spies.on).toHaveBeenCalledWith('closed', closeCb);
     });
   });
 });

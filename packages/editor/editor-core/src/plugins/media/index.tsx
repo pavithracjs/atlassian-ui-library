@@ -36,6 +36,7 @@ import { ClipboardMediaPickerWrapper } from './ui/ClipboardMediaPickerWrapper';
 import { BrowserMediaPickerWrapper } from './ui/BrowserMediaPickerWrapper';
 import WithPluginState from '../../ui/WithPluginState';
 import MediaEditor from './ui/MediaEditor';
+import { DropzoneMediaPickerWrapper } from './ui/DropzoneMediaPickerWrapper';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 export { insertMediaSingleNode } from './utils/media-single';
@@ -174,6 +175,7 @@ const mediaPlugin = (
           render={({ mediaState }) => (
             <>
               <ClipboardMediaPickerWrapper mediaState={mediaState} />
+              <DropzoneMediaPickerWrapper mediaState={mediaState} />
               {!mediaState.hasUserAuthProvider() && (
                 <BrowserMediaPickerWrapper
                   onBrowseFn={nativeBrowseFn => {

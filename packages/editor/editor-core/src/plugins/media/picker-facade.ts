@@ -1,16 +1,14 @@
 import {
   MediaPicker,
-  MediaPickerComponent,
-  MediaPickerComponents,
   MediaFile,
-  ComponentConfigs,
   UploadPreviewUpdateEventPayload,
   UploadParams,
   UploadErrorEventPayload,
-  isDropzone,
   isPopup,
   isImagePreview,
   UploadProcessingEventPayload,
+  Popup,
+  PopupConfig,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 
@@ -22,8 +20,9 @@ import {
   MobileUploadEndEventPayload,
 } from './types';
 
-export type PickerType = keyof MediaPickerComponents | 'customMediaPicker';
-export type ExtendedComponentConfigs = ComponentConfigs & {
+export type PickerType = 'popup' | 'customMediaPicker';
+export type ExtendedComponentConfigs = {
+  popup: PopupConfig;
   customMediaPicker: CustomMediaPicker;
 };
 
@@ -44,7 +43,7 @@ export type NewMediaEvent = (
 ) => void;
 
 export default class PickerFacade {
-  private picker?: MediaPickerComponent | CustomMediaPicker;
+  private picker?: Popup | CustomMediaPicker;
   private onDragListeners: Array<Function> = [];
   private errorReporter: ErrorReportingHandler;
   private pickerType: PickerType;
@@ -70,9 +69,8 @@ export default class PickerFacade {
       picker = this.picker = this.pickerConfig as CustomMediaPicker;
     } else {
       picker = this.picker = await this.mediaPickerFactoryClass(
-        this.pickerType,
         this.config.context,
-        this.pickerConfig as any,
+        this.pickerConfig as PopupConfig,
       );
     }
 
@@ -80,15 +78,6 @@ export default class PickerFacade {
     (picker as any).on('upload-processing', this.handleReady);
     (picker as any).on('upload-error', this.handleUploadError);
     (picker as any).on('mobile-upload-end', this.handleMobileUploadEnd);
-
-    if (isDropzone(picker)) {
-      (picker as any).on('drag-enter', this.handleDragEnter);
-      (picker as any).on('drag-leave', this.handleDragLeave);
-    }
-
-    if (isDropzone(picker)) {
-      picker.activate();
-    }
 
     return this;
   }
@@ -112,19 +101,10 @@ export default class PickerFacade {
     (picker as any).removeAllListeners('upload-processing');
     (picker as any).removeAllListeners('upload-error');
 
-    if (isDropzone(picker)) {
-      (picker as any).removeAllListeners('drag-enter');
-      (picker as any).removeAllListeners('drag-leave');
-    }
-
     this.onStartListeners = [];
     this.onDragListeners = [];
 
     try {
-      if (isDropzone(picker)) {
-        picker.deactivate();
-      }
-
       if (isPopup(picker)) {
         picker.teardown();
       }
@@ -150,19 +130,9 @@ export default class PickerFacade {
     return () => {};
   }
 
-  activate() {
-    const { picker } = this;
-    if (isDropzone(picker)) {
-      picker.activate();
-    }
-  }
+  activate() {}
 
-  deactivate() {
-    const { picker } = this;
-    if (isDropzone(picker)) {
-      picker.deactivate();
-    }
-  }
+  deactivate() {}
 
   show(): void {
     if (isPopup(this.picker)) {
@@ -286,13 +256,5 @@ export default class PickerFacade {
 
     // remove listeners
     delete this.eventListeners[file.id];
-  };
-
-  private handleDragEnter = () => {
-    this.onDragListeners.forEach(cb => cb.call(cb, 'enter'));
-  };
-
-  private handleDragLeave = () => {
-    this.onDragListeners.forEach(cb => cb.call(cb, 'leave'));
   };
 }

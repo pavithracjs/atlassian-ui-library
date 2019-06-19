@@ -15,15 +15,17 @@ import { fileUploadsStart } from '../../../actions/fileUploadsStart';
 import { UploadParams } from '../../../../domain/config';
 import { LocalBrowserButton } from '../../views/upload/uploadButton';
 import analyticsProcessing from '../../../middleware/analyticsProcessing';
-import { Dropzone } from '../../../components/dropzone/dropzone';
+import { Dropzone } from '../../../../components/dropzone/dropzone';
 import { MediaFile } from '../../../../domain/file';
 import { showPopup } from '../../../actions/showPopup';
 import reducers from '../../../reducers/reducers';
 import { AuthProvider } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 const tenantUploadParams: UploadParams = {};
 const baseUrl = 'some-api-url';
 const clientId = 'some-client-id';
+
 const token = 'some-token';
 const userAuthProvider: AuthProvider = () =>
   Promise.resolve({
@@ -189,123 +191,95 @@ describe('App', () => {
     expect(handlers.onStartApp).toHaveBeenCalledTimes(1);
   });
 
-  it('should activate dropzone when visible', () => {
-    const { handlers, store, mediaClient, userMediaClient } = setup();
-    const element = (
-      <App
-        store={store}
-        selectedServiceName="google"
-        tenantMediaClient={mediaClient}
-        userMediaClient={userMediaClient}
-        isVisible={false}
-        tenantUploadParams={tenantUploadParams}
-        {...handlers}
-      />
-    );
-    const wrapper = shallow(element);
-    const instance = wrapper.instance() as App;
-    const spy = jest.spyOn(instance['mpDropzone'], 'activate');
+  describe('Dropzone', () => {
+    it('should render <Dropzone />', () => {
+      const { handlers, store, mediaClient, userMediaClient } = setup();
 
-    wrapper.setProps({ isVisible: true });
+      const config = {
+        uploadParams: tenantUploadParams,
+        shouldCopyFileToRecents: false,
+      };
 
-    expect(spy).toBeCalled();
-  });
+      const element = (
+        <App
+          store={store}
+          selectedServiceName="upload"
+          tenantMediaClient={mediaClient}
+          userMediaClient={userMediaClient}
+          isVisible={true}
+          tenantUploadParams={tenantUploadParams}
+          {...handlers}
+        />
+      );
 
-  it('should deactivate dropzone when not visible', () => {
-    const { handlers, store, mediaClient, userMediaClient } = setup();
-    const element = (
-      <App
-        store={store}
-        selectedServiceName="google"
-        tenantMediaClient={mediaClient}
-        userMediaClient={userMediaClient}
-        isVisible={true}
-        tenantUploadParams={tenantUploadParams}
-        {...handlers}
-      />
-    );
-    const wrapper = shallow(element);
-    const instance = wrapper.instance() as App;
-    const spy = jest.spyOn(instance['mpDropzone'], 'deactivate');
+      const dropzoneMediaClient = new MediaClient({
+        authProvider: mediaClient.config.authProvider,
+        userAuthProvider: mediaClient.config.authProvider,
+        cacheSize: mediaClient.config.cacheSize,
+      });
 
-    wrapper.setProps({ isVisible: false });
-
-    expect(spy).toBeCalled();
-  });
-
-  it('should deactivate dropzone when unmounted', () => {
-    const { handlers, store, mediaClient, userMediaClient } = setup();
-    const element = (
-      <App
-        store={store}
-        selectedServiceName="google"
-        tenantMediaClient={mediaClient}
-        userMediaClient={userMediaClient}
-        isVisible={true}
-        tenantUploadParams={tenantUploadParams}
-        {...handlers}
-      />
-    );
-    const wrapper = shallow(element);
-    const instance = wrapper.instance() as App;
-    const spy = jest.spyOn(instance['mpDropzone'], 'deactivate');
-
-    wrapper.unmount();
-
-    expect(spy).toBeCalled();
-  });
-
-  it.skip('should activate both dropzones on onDragEnter call and deactivate on onDragLeave and onDrop', async () => {
-    const { handlers, store, mediaClient, userMediaClient } = setup();
-    const element = (
-      <App
-        store={store}
-        selectedServiceName="upload"
-        tenantMediaClient={mediaClient}
-        userMediaClient={userMediaClient}
-        isVisible={false}
-        tenantUploadParams={tenantUploadParams}
-        {...handlers}
-      />
-    );
-
-    const wrapper = mount(element);
-
-    wrapper.setProps({ isVisible: true });
-
-    await waitForDropzoneToRender();
-
-    verifyEventHandling(wrapper, createDragEvent('dragover'));
-    verifyEventHandling(wrapper, createDragEvent('dragleave'));
-    verifyEventHandling(wrapper, createDragEvent('dragover'));
-    verifyEventHandling(wrapper, createDragEvent('drop'));
-  });
-
-  it('should call dispatch props for onDragEnter, onDragLeave and onDrop', async () => {
-    const { handlers, store, mediaClient, userMediaClient } = setup();
-    const element = (
-      <App
-        store={store}
-        selectedServiceName="upload"
-        tenantMediaClient={mediaClient}
-        userMediaClient={userMediaClient}
-        isVisible={true}
-        tenantUploadParams={tenantUploadParams}
-        {...handlers}
-      />
-    );
-    const wrapper = mount(element);
-    const instance = wrapper.instance() as App;
-    instance.onDragEnter({ length: 3 });
-    expect(handlers.onDropzoneDragIn).toBeCalledWith(3);
-
-    instance.onDragLeave({ length: 3 });
-    expect(handlers.onDropzoneDragOut).toBeCalledWith(3);
-
-    instance.onDrop({
-      files: [makeFile('1'), makeFile('2'), makeFile('3')],
+      const wrapper = mount(element);
+      const dropzone = wrapper.find(Dropzone);
+      expect(JSON.stringify(dropzone.prop('mediaClient'))).toEqual(
+        JSON.stringify(dropzoneMediaClient),
+      );
+      expect(JSON.stringify(dropzone.prop('config'))).toEqual(
+        JSON.stringify(config),
+      );
     });
-    expect(handlers.onDropzoneDropIn).toBeCalledWith(3);
+
+    it.skip('should activate both dropzones on onDragEnter call and deactivate on onDragLeave and onDrop', async () => {
+      const { handlers, store, mediaClient, userMediaClient } = setup();
+      const element = (
+        <App
+          store={store}
+          selectedServiceName="upload"
+          tenantMediaClient={mediaClient}
+          userMediaClient={userMediaClient}
+          isVisible={false}
+          tenantUploadParams={tenantUploadParams}
+          {...handlers}
+        />
+      );
+
+      const wrapper = mount(element);
+
+      wrapper.setProps({ isVisible: true });
+
+      await waitForDropzoneToRender();
+
+      verifyEventHandling(wrapper, createDragEvent('dragover'));
+      verifyEventHandling(wrapper, createDragEvent('dragleave'));
+      verifyEventHandling(wrapper, createDragEvent('dragover'));
+      verifyEventHandling(wrapper, createDragEvent('drop'));
+    });
+
+    it('should call dispatch props for onDragEnter, onDragLeave and onDrop', async () => {
+      const { handlers, store, mediaClient, userMediaClient } = setup();
+      const element = (
+        <App
+          store={store}
+          selectedServiceName="upload"
+          tenantMediaClient={mediaClient}
+          userMediaClient={userMediaClient}
+          isVisible={true}
+          tenantUploadParams={tenantUploadParams}
+          {...handlers}
+        />
+      );
+      const wrapper = mount(element);
+      const instance = wrapper.instance() as App;
+      instance.onDragEnter({ length: 3 });
+      expect(handlers.onDropzoneDragIn).toBeCalledWith(3);
+
+      instance.onDragLeave({ length: 3 });
+      expect(handlers.onDropzoneDragOut).toBeCalledWith(3);
+
+      instance.onDrop({
+        files: [makeFile('1'), makeFile('2'), makeFile('3')],
+      });
+      expect(handlers.onDropzoneDropIn).toBeCalledWith(3);
+    });
   });
 
   it('should render media-editor view with localUploader', () => {
