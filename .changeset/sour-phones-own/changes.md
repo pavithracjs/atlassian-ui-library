@@ -1,1 +1,0 @@
-ED-7104 Fix issue where h scroll would appear on page when long text was inside code snippet inside layouts in full-width mode
