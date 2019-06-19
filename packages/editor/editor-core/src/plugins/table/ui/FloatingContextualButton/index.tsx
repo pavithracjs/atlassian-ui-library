@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
 import { Popup } from '@atlaskit/editor-common';
+import { TableLayout } from '@atlaskit/adf-schema';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import styled from 'styled-components';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
@@ -19,6 +20,7 @@ export interface Props {
   mountPoint?: HTMLElement;
   boundariesElement?: HTMLElement;
   scrollableElement?: HTMLElement;
+  layout?: TableLayout;
 }
 
 const ButtonWrapper = styled.div`
@@ -75,7 +77,14 @@ class FloatingContextualButton extends React.Component<
     );
   }
 
-  handleClick = () => {
+  shouldComponentUpdate(nextProps: Props) {
+    return (
+      this.props.targetCellPosition !== nextProps.targetCellPosition ||
+      this.props.layout !== nextProps.layout
+    );
+  }
+
+  private handleClick = () => {
     const { state, dispatch } = this.props.editorView;
 
     toggleContextualMenu()(state, dispatch);
