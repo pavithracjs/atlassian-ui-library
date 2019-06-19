@@ -8,16 +8,7 @@ import { REQUEST_STATE } from '../model/Requests';
 
 import { MIN_CHARACTERS_FOR_SEARCH, VIEW, LOADING_TIMEOUT } from './constants';
 
-/**
- * Saved the original 'window.history.pushState' function in this const because I'm going to modify it
- * when the component is mounted, so when the component gets dismounted I'll use this copy to get
- * 'window.history.pushState' back to the default implementation
- */
-const PUSH_STATE = window.history.pushState;
-
 export interface Props {
-  // Open/Closed drawer state
-  isOpen: boolean;
   // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
   onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
   // Id of the article to display. This prop is optional, if is not defined the default content will be displayed
@@ -33,11 +24,10 @@ export interface Props {
 }
 
 export interface State {
-  // Open/Closed drawer state
   view: VIEW;
   defaultContent?: React.ReactNode;
   // Article
-  defaultArticle: Article | null | undefined; // Article to display, if is empty the default content should be displayed
+  mainArticle?: Article; // Article to display, if is empty the default content should be displayed
   articleState: REQUEST_STATE;
   history: Article[]; // holds all the articles ID the user has navigated
   // Search
@@ -49,13 +39,12 @@ export interface State {
 export interface HelpContextInterface {
   help: {
     view: VIEW;
-    isOpen: boolean;
     isSearchVisible(): boolean;
     loadArticle(): void;
     isArticleVisible(): boolean;
     getCurrentArticle(): Article | null;
     onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
-    defaultArticle: Article | null | undefined; // Article to display, if is empty the default content should be displayed
+    mainArticle?: Article; // Article to display, if is empty the default content should be displayed
     articleState: REQUEST_STATE;
     history: Article[]; // holds all the articles ID the user has navigated
     defaultContent?: React.ReactNode;
@@ -66,6 +55,7 @@ export interface HelpContextInterface {
     searchResult: ArticleItem[];
     searchState: REQUEST_STATE;
     searchValue: string;
+    articleId?: string;
   };
 }
 
@@ -73,7 +63,7 @@ const defaultValues = {
   view: VIEW.DEFAULT_CONTENT,
   defaultContent: undefined,
   // Article
-  defaultArticle: undefined, // Article to display, if is empty the default content should be displayed
+  mainArticle: undefined, // Article to display, if is empty the default content should be displayed
   articleState: REQUEST_STATE.done,
   history: [], // holds all the articles ID the user has navigated
   // Search
@@ -108,41 +98,19 @@ class HelpContextProviderImplementation extends React.Component<
     this.state = initialiseHelpData(defaultValues);
   }
 
-  async componentDidMount() {
-    const { isOpen } = this.props;
-
-    window.history.pushState = function(
-      this: HelpContextProviderImplementation,
-    ) {
-      PUSH_STATE.apply(window.history, arguments);
-    };
-
-    // if the initial value of isOpen is true, fire analytics event and
-    // request the article
-    if (isOpen) {
-      createAndFire({
-        action: 'help-panel-open',
-      })(this.props.createAnalyticsEvent);
-
-      this.loadArticle();
-    }
+  componentDidMount() {
+    this.loadArticle();
   }
 
   componentWillUnmount() {
     clearTimeout(this.requestLoadingTimeout);
   }
 
-  async componentDidUpdate(prevProps: Props) {
-    const { articleId, isOpen } = this.props;
+  componentDidUpdate(prevProps: Props) {
+    const { articleId } = this.props;
 
-    if (isOpen && isOpen !== prevProps.isOpen) {
-      createAndFire({
-        action: 'help-panel-open',
-      })(this.props.createAnalyticsEvent);
-    }
-    // When the drawer goes from close to open
-    // and the articleId is defined, get the content of that article
-    if (isOpen !== prevProps.isOpen || articleId !== prevProps.articleId) {
+    // When the articleId is defined, get the content of that article
+    if (articleId !== prevProps.articleId) {
       this.loadArticle();
     }
   }
@@ -158,20 +126,14 @@ class HelpContextProviderImplementation extends React.Component<
       // If the amount of caracters is > than the minimun defined to fire a search...
       if (searchValue.length > MIN_CHARACTERS_FOR_SEARCH) {
         try {
-          // display loading state after LOADING_TIMEOUT ms passed after the request
-          this.requestLoadingTimeout = setTimeout(() => {
-            this.setState({ articleState: REQUEST_STATE.loading });
-          }, LOADING_TIMEOUT);
-
+          this.setState({ searchState: REQUEST_STATE.loading });
           const searchResult = await onSearch(searchValue);
           this.setState({
             searchResult,
             searchState: REQUEST_STATE.done,
           });
-          clearTimeout(this.requestLoadingTimeout);
         } catch (error) {
           this.setState({ searchState: REQUEST_STATE.error });
-          clearTimeout(this.requestLoadingTimeout);
         }
       }
 
@@ -191,7 +153,7 @@ class HelpContextProviderImplementation extends React.Component<
     const { articleId } = this.props;
     if (articleId) {
       const article = await this.getArticle(articleId);
-      this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
+      this.setState({ mainArticle: article, view: VIEW.ARTICLE });
     }
   };
 
@@ -215,7 +177,7 @@ class HelpContextProviderImplementation extends React.Component<
       }
     }
 
-    return null;
+    return undefined;
   };
 
   navigateBack = async () => {
@@ -227,7 +189,7 @@ class HelpContextProviderImplementation extends React.Component<
           const id = historyLastItem.id;
 
           createAndFire({
-            action: 'help-panel-article-changed',
+            action: 'help-article-changed',
             attributes: { id },
           })(this.props.createAnalyticsEvent);
         }
@@ -245,7 +207,7 @@ class HelpContextProviderImplementation extends React.Component<
       }));
 
       createAndFire({
-        action: 'help-panel-article-changed',
+        action: 'help-article-changed',
         attributes: { id },
       })(this.props.createAnalyticsEvent);
     }
@@ -268,11 +230,8 @@ class HelpContextProviderImplementation extends React.Component<
   getCurrentArticle = () => {
     if (this.state.history.length > 0) {
       return this.state.history[this.state.history.length - 1];
-    } else if (
-      this.state.defaultArticle !== undefined &&
-      this.state.defaultArticle !== null
-    ) {
-      return this.state.defaultArticle;
+    } else if (this.state.mainArticle !== undefined) {
+      return this.state.mainArticle;
     } else {
       return null;
     }
@@ -284,7 +243,6 @@ class HelpContextProviderImplementation extends React.Component<
         value={{
           help: {
             ...this.state,
-            isOpen: this.props.isOpen,
             loadArticle: this.loadArticle,
             isSearchVisible: this.isSearchVisible,
             isArticleVisible: this.isArticleVisible,
@@ -295,6 +253,7 @@ class HelpContextProviderImplementation extends React.Component<
             onBtnCloseClick: this.props.onBtnCloseClick,
             onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
             defaultContent: this.props.defaultContent,
+            articleId: this.props.articleId,
           },
         }}
         children={this.props.children}

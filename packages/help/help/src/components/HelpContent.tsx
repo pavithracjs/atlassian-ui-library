@@ -15,14 +15,14 @@ import LoadingError from './LoadingError';
 import {
   BackButton,
   BackButtonText,
-  HelpPanelHeader,
-  HelpPanelBody,
-  HelpPanelHeaderText,
+  HelpHeader,
+  HelpBody,
+  HelpHeaderText,
 } from './styled';
 
 export interface Props {}
 
-export const HelpPanelContent = (
+export const HelpContent = (
   props: Props & InjectedIntlProps & HelpContextInterface,
 ) => {
   const {
@@ -31,23 +31,23 @@ export const HelpPanelContent = (
   } = props;
 
   if (help.articleState === REQUEST_STATE.done) {
-    // Display HelpContext.DefaultArticle content if its defined and there isn't any
+    // Display HelpContext.mainArticle content if its defined and there isn't any
     // Article in the HelpContext.history[]
-    if (help.defaultArticle && help.history.length === 0) {
+    if (help.mainArticle && help.history.length === 0) {
       return (
         <>
-          <HelpPanelHeader>
-            <HelpPanelHeaderText>
+          <HelpHeader>
+            <HelpHeaderText>
               {formatMessage(messages.help_panel_header)}
-            </HelpPanelHeaderText>
+            </HelpHeaderText>
             <CloseButton />
-          </HelpPanelHeader>
-          <HelpPanelBody>
+          </HelpHeader>
+          <HelpBody>
             {help.isSearchVisible() && <Search />}
             {help.isArticleVisible() && (
-              <ArticleComponent article={help.defaultArticle} />
+              <ArticleComponent article={help.mainArticle} />
             )}
-          </HelpPanelBody>
+          </HelpBody>
         </>
       );
     }
@@ -57,71 +57,73 @@ export const HelpPanelContent = (
     if (help.history.length > 0) {
       return (
         <>
-          <HelpPanelHeader>
-            <HelpPanelHeaderText>
+          <HelpHeader>
+            <HelpHeaderText>
               <BackButton onClick={help.navigateBack}>
                 <ArrowleftIcon label="back" size="medium" />
                 <BackButtonText>
                   {formatMessage(messages.help_panel_navigation_back)}
                 </BackButtonText>
               </BackButton>
-            </HelpPanelHeaderText>
-          </HelpPanelHeader>
+            </HelpHeaderText>
+          </HelpHeader>
 
-          <HelpPanelBody>
+          <HelpBody>
             <ArticleComponent article={help.history[help.history.length - 1]} />
-          </HelpPanelBody>
+          </HelpBody>
         </>
       );
     }
 
     // Display the HelpContext.defaultContent
-    return (
-      <>
-        <HelpPanelHeader>
-          <HelpPanelHeaderText>
-            {formatMessage(messages.help_panel_header)}
-          </HelpPanelHeaderText>
-          <CloseButton />
-        </HelpPanelHeader>
-        <HelpPanelBody>
-          {help.isSearchVisible() && <Search />}
-          {help.defaultContent}
-        </HelpPanelBody>
-      </>
-    );
+    if (!help.articleId && help.history.length === 0) {
+      return (
+        <>
+          <HelpHeader>
+            <HelpHeaderText>
+              {formatMessage(messages.help_panel_header)}
+            </HelpHeaderText>
+            <CloseButton />
+          </HelpHeader>
+          <HelpBody>
+            {help.isSearchVisible() && <Search />}
+            {help.defaultContent}
+          </HelpBody>
+        </>
+      );
+    }
   }
 
   if (help.articleState === REQUEST_STATE.error) {
     return (
       <>
-        <HelpPanelHeader>
-          <HelpPanelHeaderText>
+        <HelpHeader>
+          <HelpHeaderText>
             {formatMessage(messages.help_panel_header)}
-          </HelpPanelHeaderText>
+          </HelpHeaderText>
           <CloseButton />
-        </HelpPanelHeader>
-        <HelpPanelBody>
+        </HelpHeader>
+        <HelpBody>
           <LoadingError />
-        </HelpPanelBody>
+        </HelpBody>
       </>
     );
   }
 
   return (
     <>
-      <HelpPanelHeader>
-        <HelpPanelHeaderText>
+      <HelpHeader>
+        <HelpHeaderText>
           {formatMessage(messages.help_panel_header)}
-        </HelpPanelHeaderText>
+        </HelpHeaderText>
         <CloseButton />
-      </HelpPanelHeader>
-      <HelpPanelBody>
+      </HelpHeader>
+      <HelpBody>
         {help.isSearchVisible() && <Search />}
         <Loading />
-      </HelpPanelBody>
+      </HelpBody>
     </>
   );
 };
 
-export default withHelp(injectIntl(HelpPanelContent));
+export default withHelp(injectIntl(HelpContent));

@@ -1,0 +1,1 @@
+Updated examples. Renamed component and references from help-panel to help
