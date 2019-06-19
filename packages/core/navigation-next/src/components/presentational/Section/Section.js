@@ -20,7 +20,7 @@ export const ScrollableTransitionGroup = (props: StyledComponentProps) => (
     css={{
       position: 'relative',
       flex: '1 1 100%',
-      overflowY: 'hidden',
+      overflow: 'hidden',
     }}
     {...props}
   />

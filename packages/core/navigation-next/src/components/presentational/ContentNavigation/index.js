@@ -54,7 +54,7 @@ export default class ContentNavigation extends Component<
           <NavigationAnalyticsContext
             data={{ attributes: { navigationLayer: 'product' } }}
           >
-            <ToggleContent isVisible={isVisible}>
+            <ToggleContent isVisible={isVisible && !shouldRenderContainer}>
               <Product />
             </ToggleContent>
           </NavigationAnalyticsContext>
@@ -85,6 +85,9 @@ export default class ContentNavigation extends Component<
   }
 }
 
-const ToggleContent = ({ isVisible, ...rest }: { isVisible: boolean }) => (
-  <div css={{ display: isVisible ? 'block' : 'none' }} {...rest} />
-);
+const ToggleContent = ({ isVisible, ...rest }: { isVisible: boolean }) => {
+  const ToggleWrapper = isVisible ? Fragment : 'div';
+  const displayNone = { ...(!isVisible ? { css: { display: 'none' } } : null) };
+
+  return <ToggleWrapper {...displayNone} {...rest} />;
+};
