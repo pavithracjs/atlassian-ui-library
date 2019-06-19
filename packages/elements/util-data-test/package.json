@@ -9,6 +9,7 @@
   "module": "index.js",
   "types": "index.d.ts",
   "dependencies": {
+    "@atlaskit/analytics-next": "^5.0.0",
     "@atlaskit/emoji": "^62.0.0",
     "@atlaskit/mention": "^18.4.1",
     "@atlaskit/task-decision": "^15.0.0",

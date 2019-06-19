@@ -173,6 +173,20 @@
       "avatarUrl": null
     },
     {
+      "id":"unknown",
+      "name":"Unknown user for hydration",
+      "mentionName":"unknown",
+      "nickname": "UK",
+      "avatarUrl": null
+    },
+    {
+      "id":"service_error",
+      "name":"Service error user for hydration",
+      "mentionName":"service_error",
+      "nickname": "SE",
+      "avatarUrl": null
+    },
+    {
       "id":"all",
       "name":"All room members",
       "mentionName":"all",
