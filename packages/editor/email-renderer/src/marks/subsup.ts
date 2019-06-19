@@ -1,4 +1,4 @@
-import { createTag } from '../util';
+import { createTag } from '../create-tag';
 import { MarkSerializerOpts } from '../interfaces';
 
 export default function subsup({ mark, text }: MarkSerializerOpts) {

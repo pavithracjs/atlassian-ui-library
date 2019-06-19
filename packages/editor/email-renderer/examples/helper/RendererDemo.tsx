@@ -4,7 +4,7 @@ import { defaultSchema } from '@atlaskit/adf-schema';
 
 import { document as storyDataDocument } from './story-data';
 
-import { EmailSerializer } from '../../src';
+import EmailSerializer from '../../src';
 
 import { renderDocument } from './render-document';
 
@@ -128,7 +128,7 @@ export default class RendererDemo extends React.Component<
             ref={this.onEmailRef}
             frameBorder="0"
             src="about:blank"
-            style={{ width: '100%', height: '400px' }}
+            style={{ width: '100%', height: '800px' }}
           />
         </div>
       );
