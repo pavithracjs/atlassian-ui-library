@@ -1,0 +1,1 @@
+adf-schema has been extended with one missing color, email-renderer now bundles up styles into .css file
