@@ -18,7 +18,10 @@ import resizedTableInLayout from './__fixtures__/resized-table-in-layout.adf.jso
 import resizedTableInExt from '../table/__fixtures__/nested-table-inside-bodied-ext.adf.json';
 import resizedTableFWM from './__fixtures__/resized-table-fwm.adf.json';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
-import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
+import {
+  clickFirstCell,
+  toggleBreakout,
+} from '../../../__tests__/__helpers/page-objects/_table';
 import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 
 describe('Snapshot Test: Toggle between full-width and default mode', () => {
@@ -35,15 +38,15 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
     viewport?: { width: number; height: number },
   ) => {
     fullWidthMode = false;
-    await initFullPageEditorWithAdf(
-      page,
+    await initEditorWithAdf(page, {
       adf,
-      Device.LaptopHiDPI,
+      appearance: Appearance.fullPage,
       viewport,
+      device: Device.LaptopHiDPI,
       editorProps,
-      undefined,
-      { transition: true },
-    );
+      allowSideEffects: { transition: true },
+      withSidebar: true,
+    });
   };
 
   const initFullWidthEditor = async (
@@ -57,6 +60,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       device: Device.LaptopHiDPI,
       viewport,
       editorProps,
+      allowSideEffects: { transition: true },
     });
   };
 
@@ -132,6 +136,12 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
     const toggleFullWidthModeForTable = async () =>
       await toggleFullWidthMode({ clickInsideTable: true });
 
+    const toggleBreakoutMode = async () => {
+      await toggleBreakout(page, 1);
+      await clickFirstCell(page);
+      await snapshot(page);
+    };
+
     it('scales columns up correctly when going default -> full-width', async () => {
       await initEditor(resizedTableAdf, tableViewport);
       await toggleFullWidthModeForTable();
@@ -164,6 +174,14 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
           await initEditor(breakout.adf, tableViewport);
           await toggleFullWidthModeForTable();
         });
+      });
+
+      it('scales a table through each breakout mode after returning to fixed-width mode', async () => {
+        await initFullWidthEditor(resizedTableAdf, tableViewport);
+        await toggleFullWidthProp({ clickInsideTable: true });
+        await toggleBreakoutMode();
+        await toggleBreakoutMode();
+        await toggleBreakoutMode();
       });
     });
   });

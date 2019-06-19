@@ -1,0 +1,1 @@
+ED-7091 Fix issue where toggling back to fixed-width and using breakout on nodes would use incorrect width

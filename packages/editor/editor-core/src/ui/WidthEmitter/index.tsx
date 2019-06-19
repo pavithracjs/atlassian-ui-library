@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { EditorView } from 'prosemirror-view';
-import { pluginKey as widthPluginKey } from '../../plugins/width';
+import {
+  pluginKey as widthPluginKey,
+  WidthPluginState,
+} from '../../plugins/width';
 import { WidthConsumer } from '@atlaskit/editor-common';
 
 export interface Props {
@@ -10,7 +13,6 @@ export interface Props {
 }
 
 export default class WidthEmitter extends Component<Props> {
-  private width?: number;
   private debounce: number | null = null;
 
   render() {
@@ -21,7 +23,14 @@ export default class WidthEmitter extends Component<Props> {
 
   private broadcastWidth = (width: number) => {
     const { editorView } = this.props;
-    if (editorView && this.width !== width) {
+    if (!editorView) {
+      return null;
+    }
+
+    const widthPluginState: WidthPluginState = widthPluginKey.getState(
+      editorView.state,
+    );
+    if (editorView && widthPluginState.width !== width) {
       if (this.debounce) {
         clearTimeout(this.debounce);
       }
@@ -37,7 +46,6 @@ export default class WidthEmitter extends Component<Props> {
         });
 
         editorView.dispatch(tr);
-        this.width = width;
         this.debounce = null;
       }, 10);
     }
