@@ -6,6 +6,12 @@ import {
 } from '../../../nodeviews/ReactNodeView';
 import { Node } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
+import { SelectableCard, Card } from './genericCard';
+import UnsupportedInlineNode from '../../unsupported-content/nodeviews/unsupported-inline';
+import { InlineCard } from './inlineCard';
+import { BlockCard } from './blockCard';
+import wrapComponentWithClickArea from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
+import UnsupportedBlockNode from '../../unsupported-content/nodeviews/unsupported-block';
 
 export class CardNodeView extends ReactNodeView {
   static fromComponent(
@@ -25,3 +31,13 @@ export class CardNodeView extends ReactNodeView {
       ).init();
   }
 }
+
+const ClickableInlineCard = wrapComponentWithClickArea(
+  Card(UnsupportedInlineNode, InlineCard),
+);
+export const InlineCardNodeView = SelectableCard(ClickableInlineCard);
+
+const ClickableBlockCard = wrapComponentWithClickArea(
+  Card(UnsupportedBlockNode, BlockCard),
+);
+export const BlockCardNodeView = SelectableCard(ClickableBlockCard);

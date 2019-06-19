@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { PureComponent, ComponentClass, StatelessComponent } from 'react';
-import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import styled from 'styled-components';
-import { ProviderFactory } from '@atlaskit/editor-common';
 import { ReactNodeViewState } from '../../../plugins/base/pm-plugins/react-nodeview';
 import { setNodeSelection } from '../../../utils';
 import {
@@ -15,12 +13,9 @@ export interface ReactNodeViewComponents {
   [key: string]: ComponentClass<any> | StatelessComponent<any>;
 }
 
-interface Props {
-  components: ReactNodeViewComponents;
+export interface ClickWrapperProps {
   getPos: ProsemirrorGetPosHandler;
-  node: PMNode;
   pluginState: ReactNodeViewState;
-  providerFactory: ProviderFactory;
   view: EditorView;
 
   onSelection?: (selected: boolean) => void;
@@ -42,7 +37,10 @@ export default function wrapComponentWithClickArea(
   ReactComponent: ReactComponentConstructor,
   inline?: boolean,
 ): ReactComponentConstructor {
-  return class WrapperClickArea extends PureComponent<Props, State> {
+  return class WrapperClickArea extends PureComponent<
+    ClickWrapperProps,
+    State
+  > {
     state: State = { selected: false };
 
     componentDidMount() {
