@@ -1,1 +1,0 @@
-Added placeholder prop for textareas
