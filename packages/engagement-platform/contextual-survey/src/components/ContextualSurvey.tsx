@@ -41,7 +41,7 @@ export default ({
   getUserHasAnsweredMailingList,
   textPlaceholder = 'Tell us why',
 }: Props) => {
-  let autoDisappearTimeout: number;
+  let autoDisappearTimeout: any;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => clearTimeout(autoDisappearTimeout), []);
