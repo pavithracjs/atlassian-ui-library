@@ -225,8 +225,6 @@ export const copyOptionalAttrsFromMediaState = (
  * API are being switched to MediaClientConfig exclusively.
  * This utility helps to retrieve MediaClientConfig object from media Provider no matter what customer
  * has provided.
- * @param mediaProvider
- * @returns Promise of MediaClientConfig object
  */
 export const getViewMediaClientConfigFromMediaProvider = async (
   mediaProvider: MediaProvider,
@@ -244,8 +242,6 @@ export const getViewMediaClientConfigFromMediaProvider = async (
  * API are being switched to MediaClientConfig exclusively.
  * This utility helps to retrieve MediaClientConfig object from media Provider no matter what customer
  * has provided.
- * @param mediaProvider
- * @returns Promise of MediaClientConfig object
  */
 export const getUploadMediaClientConfigFromMediaProvider = async (
   mediaProvider: MediaProvider,

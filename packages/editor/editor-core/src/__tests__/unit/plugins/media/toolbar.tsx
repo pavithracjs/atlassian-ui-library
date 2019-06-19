@@ -22,6 +22,13 @@ import {
   td,
   storyMediaProviderFactory,
 } from '@atlaskit/editor-test-helpers';
+import {
+  asMockReturnValue,
+  fakeMediaClient,
+  getDefaultMediaClientConfig,
+} from '@atlaskit/media-test-helpers';
+import { FileState, MediaClient } from '@atlaskit/media-client';
+import * as MediaClientModule from '@atlaskit/media-client';
 
 import commonMessages from '../../../../messages';
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
@@ -38,13 +45,6 @@ import {
   stateKey,
 } from '../../../../plugins/media/pm-plugins/main';
 import Button from '../../../../plugins/floating-toolbar/ui/Button';
-import {
-  asMockReturnValue,
-  fakeMediaClient,
-  getDefaultMediaClientConfig,
-} from '@atlaskit/media-test-helpers';
-import { FileState, MediaClient } from '@atlaskit/media-client';
-import * as MediaClientModule from '@atlaskit/media-client';
 
 describe('media', () => {
   const createEditor = createEditorFactory<MediaPluginState>();

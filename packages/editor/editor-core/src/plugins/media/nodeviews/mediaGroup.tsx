@@ -9,11 +9,11 @@ import {
   stateKey as mediaStateKey,
 } from '../pm-plugins/main';
 import { FileIdentifier } from '@atlaskit/media-client';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import { setNodeSelection } from '../../../utils';
 import WithPluginState from '../../../ui/WithPluginState';
 import { stateKey as reactNodeViewStateKey } from '../../../plugins/base/pm-plugins/react-nodeview';
 import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close';
-import { MediaClientConfig } from '@atlaskit/media-core';
 import {
   pluginKey as editorDisabledPluginKey,
   EditorDisabledPluginState,

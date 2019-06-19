@@ -17,8 +17,9 @@ import {
 } from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
-import { MediaClientConfig } from '@atlaskit/media-core';
 import { NodeSelection } from 'prosemirror-state';
+import { MediaClientConfig } from '@atlaskit/media-core';
+import { getMediaClient } from '@atlaskit/media-client';
 
 import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
@@ -39,7 +40,6 @@ import {
   MediaPluginState,
 } from '../pm-plugins/main';
 import { isMobileUploadCompleted } from '../commands/helpers';
-import { getMediaClient } from '@atlaskit/media-client';
 import { getViewMediaClientConfigFromMediaProvider } from '../utils/media-common';
 
 export interface MediaSingleNodeProps {
@@ -135,7 +135,7 @@ export default class MediaSingleNode extends Component<
     const mediaClient = getMediaClient({
       mediaClientConfig: viewMediaClientConfig,
     });
-    console.log('getRemoteDimensions -> mediaClient', mediaClient);
+
     const state = await mediaClient.getImageMetadata(id, {
       collection,
     });

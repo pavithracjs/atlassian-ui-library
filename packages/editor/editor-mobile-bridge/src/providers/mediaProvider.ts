@@ -1,3 +1,4 @@
+import { MediaProvider } from '@atlaskit/editor-core';
 import {
   Auth,
   AuthContext,
@@ -15,7 +16,7 @@ const getMediaToken = (context?: AuthContext): Promise<Auth> =>
     context && context.collectionName ? context.collectionName : '',
   ).submit();
 
-async function createMediaProvider() {
+async function createMediaProvider(): Promise<MediaProvider> {
   const mediaClientConfig: MediaClientConfig = {
     authProvider: (context?: AuthContext) => getMediaToken(context),
   };

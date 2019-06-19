@@ -167,6 +167,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     return (
       <Card
+        // context is not really used when the type is external and we want to render the component asap
         mediaClientConfig={mediaClientConfig!}
         identifier={identifier}
         dimensions={cardDimensions}
