@@ -1,0 +1,1 @@
+Use process.env.NODE_ENV to check for node environment, in all files
