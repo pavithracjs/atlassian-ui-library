@@ -36,7 +36,7 @@ export interface MentionDescContext {
   members: TeamMember[];
   includesYou: boolean;
   memberCount: number;
-  teamLinkResolver?: (teamId: string) => string;
+  teamLink: string;
 }
 
 export interface MentionsResult {

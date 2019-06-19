@@ -215,7 +215,16 @@ export default class TeamMentionResource extends MentionResource {
     result: Team[],
     query: string,
   ): MentionsResult {
+    const { teamLinkResolver } = this.teamMentionConfig;
     const mentions: MentionDescription[] = result.map((team: Team) => {
+      let teamLink: string = '';
+      const defaultTeamLink = `${window.location.origin}/people/team/${
+        team.id
+      }`;
+      if (typeof teamLinkResolver === 'function') {
+        teamLink = teamLinkResolver(team.id);
+      }
+
       return {
         id: this.trimTeamARI(team.id),
         avatarUrl: team.smallAvatarImageUrl,
@@ -227,7 +236,7 @@ export default class TeamMentionResource extends MentionResource {
           members: team.members,
           includesYou: team.includesYou,
           memberCount: team.memberCount,
-          teamLinkResolver: this.teamMentionConfig.teamLinkResolver,
+          teamLink: teamLink || defaultTeamLink,
         },
       };
     });

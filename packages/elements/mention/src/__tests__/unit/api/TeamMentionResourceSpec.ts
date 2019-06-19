@@ -159,10 +159,10 @@ describe('TeamMentionResourceSpec', () => {
         } else if (currentCount === 2) {
           const firstTeam = mentions[resultCraig.length];
           expect(firstTeam.userType).toBe('TEAM');
-          const teamLinkResolver = firstTeam.context
-            ? firstTeam.context.teamLinkResolver
+          const teamLink = firstTeam.context
+            ? firstTeam.context.teamLink
             : null;
-          expect(typeof teamLinkResolver).toBe('function');
+          expect(teamLink).toBe(`/wiki/team/${firstTeam.id}`);
 
           expect(mentions).toHaveLength(
             resultCraig.length + teamResults.length,

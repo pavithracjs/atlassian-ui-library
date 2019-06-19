@@ -571,19 +571,13 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamLinkResolver = context ? context.teamLinkResolver : null;
 
   // build team link
-  let teamUrl: string = '';
-  if (typeof teamLinkResolver === 'function') {
-    teamUrl = teamLinkResolver(teamId);
-  } else {
-    teamUrl = `${teamLinkResolver ||
-      window.location.origin}/people/team/${teamId}`;
-  }
-
+  const defaultTeamLink = `${window.location.origin}/people/team/${teamId}`;
+  const teamLink =
+    context && context.teamLink ? context.teamLink : defaultTeamLink;
   const teamLinkNode = schema.text(name!, [
-    marks.link.create({ href: teamUrl }),
+    marks.link.create({ href: teamLink }),
   ]);
 
   const openBracketText = schema.text('(');
