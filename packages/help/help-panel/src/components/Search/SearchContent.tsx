@@ -19,6 +19,12 @@ export const SearchContent = (props: Props & HelpContextInterface) => {
     } else if (searchState !== REQUEST_STATE.loading) {
       return <SearchResultsEmpty />;
     }
+  } else if (
+    searchResult.length > 0 &&
+    searchValue.length <= MIN_CHARACTERS_FOR_SEARCH &&
+    searchValue.length > 0
+  ) {
+    return <SearchResult searchResult={searchResult} />;
   }
   return null;
 };

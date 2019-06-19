@@ -12,3 +12,7 @@ export const ExampleWrapper = styled.div`
 export const ButtonsWrapper = styled.div`
   padding: ${gridSize() * 2}px;
 `;
+
+export const HelpPanelWrapper = styled.div`
+  width: 368px;
+`;

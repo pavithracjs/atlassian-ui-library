@@ -31,9 +31,9 @@ export const HelpPanelContent = (
   } = props;
 
   if (help.articleState === REQUEST_STATE.done) {
-    // Display HelpContext.DefaultArticle content if its defined and there isn't any
+    // Display HelpContext.mainArticle content if its defined and there isn't any
     // Article in the HelpContext.history[]
-    if (help.defaultArticle && help.history.length === 0) {
+    if (help.mainArticle && help.history.length === 0) {
       return (
         <>
           <HelpPanelHeader>
@@ -45,7 +45,7 @@ export const HelpPanelContent = (
           <HelpPanelBody>
             {help.isSearchVisible() && <Search />}
             {help.isArticleVisible() && (
-              <ArticleComponent article={help.defaultArticle} />
+              <ArticleComponent article={help.mainArticle} />
             )}
           </HelpPanelBody>
         </>
@@ -76,20 +76,22 @@ export const HelpPanelContent = (
     }
 
     // Display the HelpContext.defaultContent
-    return (
-      <>
-        <HelpPanelHeader>
-          <HelpPanelHeaderText>
-            {formatMessage(messages.help_panel_header)}
-          </HelpPanelHeaderText>
-          <CloseButton />
-        </HelpPanelHeader>
-        <HelpPanelBody>
-          {help.isSearchVisible() && <Search />}
-          {help.defaultContent}
-        </HelpPanelBody>
-      </>
-    );
+    if (!help.articleId && help.history.length === 0) {
+      return (
+        <>
+          <HelpPanelHeader>
+            <HelpPanelHeaderText>
+              {formatMessage(messages.help_panel_header)}
+            </HelpPanelHeaderText>
+            <CloseButton />
+          </HelpPanelHeader>
+          <HelpPanelBody>
+            {help.isSearchVisible() && <Search />}
+            {help.defaultContent}
+          </HelpPanelBody>
+        </>
+      );
+    }
   }
 
   if (help.articleState === REQUEST_STATE.error) {
