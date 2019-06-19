@@ -1,1 +1,0 @@
-Email renderer es5 tsconfig file tweak
