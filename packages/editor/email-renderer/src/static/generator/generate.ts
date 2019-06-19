@@ -1,7 +1,7 @@
 import * as svgexport from 'svgexport';
 import { resolve } from 'path';
 import { writeFileSync, readFileSync } from 'fs';
-import * as rimraf from 'rimraf';
+import rimraf from 'rimraf';
 import imageSources from './image-sources';
 
 const coreIconSrc = resolve(__dirname, '../svg');

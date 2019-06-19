@@ -37,6 +37,6 @@
     "ts-node": "^6.1.1"
   },
   "scripts": {
-    "build:images": "ts-node --project ./tsconfig.generator.json --files ./src/static/generator/generate.ts"
+    "build:images": "ts-node --files --compiler-options='{ \"module\": \"CommonJS\", \"allowJs\": true }' ./src/static/generator/generate.ts"
   }
 }
