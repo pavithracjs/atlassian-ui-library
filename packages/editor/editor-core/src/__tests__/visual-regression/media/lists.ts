@@ -19,8 +19,7 @@ describe('Snapshot Test: Media', () => {
     page = global.page;
   });
 
-  // TODO: Fix image resizing logic then unskip: https://product-fabric.atlassian.net/browse/ED-6853
-  describe.skip('Lists', async () => {
+  describe('Lists', async () => {
     beforeEach(async () => {
       await initFullPageEditorWithAdf(page, {}, Device.LaptopHiDPI);
       await clickEditableContent(page);
