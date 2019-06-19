@@ -1,0 +1,4 @@
+{
+  "releases": [{ "name": "@atlaskit/spinner", "type": "patch" }],
+  "dependents": []
+}
