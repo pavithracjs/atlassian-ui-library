@@ -1,3 +1,5 @@
+import { nextTick } from '@atlaskit/media-test-helpers';
+
 const removeOnCloseListener = jest.fn();
 const spies = {} as any;
 
@@ -103,6 +105,7 @@ describe('Media with mock facade', () => {
     const { pluginState } = editor(doc(p('{<>}')));
 
     await mediaProvider;
+    await nextTick();
 
     pluginState.destroy();
     await Promise.all(pluginState.pickerPromises);
