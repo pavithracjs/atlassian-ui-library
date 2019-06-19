@@ -1,5 +1,13 @@
 # @atlaskit/spinner
 
+## 12.0.3
+
+### Patch Changes
+
+- [patch][db39394a23](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db39394a23):
+
+  Export Spinner Props, Sizes and Phases types
+
 ## 12.0.2
 
 ### Patch Changes
