@@ -1,5 +1,13 @@
 # @atlaskit/inline-message
 
+## 10.0.5
+
+### Patch Changes
+
+- [patch][93bcf314c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/93bcf314c6):
+
+  Added missing tslib dep
+
 ## 10.0.4
 
 ### Patch Changes

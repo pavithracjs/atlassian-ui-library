@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/banner",
-  "version": "10.0.2",
+  "version": "10.0.3",
   "description": "React component that displays a prominent banner message and icon",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -32,7 +32,7 @@
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^13.0.8",
     "@atlaskit/docs": "^8.1.2",
-    "@atlaskit/icon": "^18.0.0",
+    "@atlaskit/icon": "^18.0.3",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "@types/react-test-renderer": "^16.8.1",
