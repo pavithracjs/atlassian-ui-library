@@ -1,5 +1,13 @@
 # @atlaskit/global-navigation
 
+## 7.2.6
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
 ## 7.2.5
 
 ### Patch Changes

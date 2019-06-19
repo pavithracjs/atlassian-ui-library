@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/polyfills",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A package containing polyfills for native methods.",
   "license": "Apache-2.0",
   "module": "index.js",

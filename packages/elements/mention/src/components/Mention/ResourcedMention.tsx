@@ -9,7 +9,7 @@ import {
   MentionNameDetails,
   MentionNameStatus,
 } from '../../types';
-import Mention from './';
+import Mention, { UNKNOWN_USER_ID } from './';
 
 export interface Props {
   id: string;
@@ -59,13 +59,9 @@ export default class ResourcedMention extends React.PureComponent<
         mentionName = name.name || '';
         break;
       case MentionNameStatus.SERVICE_ERROR:
-        // TODO i18n FS-3982
-        mentionName = 'Error loading name';
-        break;
       case MentionNameStatus.UNKNOWN:
       default:
-        // TODO i18n FS-3982
-        mentionName = 'Unknown';
+        mentionName = UNKNOWN_USER_ID;
         break;
     }
     return `@${mentionName}`;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   externalImageIdentifier,
+  defaultCollectionName,
   createStorybookMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
@@ -20,7 +21,6 @@ import {
   videoLargeFileItem,
   videoProcessingFailedItem,
   wideImageItem,
-  defaultCollectionName,
   videoSquareFileIdItem,
 } from '../example-helpers';
 import { MediaViewer } from '../src';
