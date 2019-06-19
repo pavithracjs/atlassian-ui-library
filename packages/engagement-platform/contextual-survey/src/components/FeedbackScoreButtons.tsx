@@ -41,12 +41,13 @@ export default ({ onChange, value }: Props) => (
       `}
     >
       {Array.from({ length: 7 }, (_, i) => {
-        const index = i + 1;
+        const score = i + 1;
+
         return (
-          <Tooltip content={tooltipMessage[i]} key={index} hideTooltipOnClick>
+          <Tooltip content={tooltipMessage[i]} key={score} hideTooltipOnClick>
             <Button
-              onClick={() => onChange(index)}
-              isSelected={value === index}
+              onClick={() => onChange(score)}
+              isSelected={value === score}
               aria-describedby="contextualSurveyStatement"
               aria-label={tooltipMessage[i]}
             >
