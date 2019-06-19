@@ -1,0 +1,1 @@
+Updating empty state screen for Jira global-search
