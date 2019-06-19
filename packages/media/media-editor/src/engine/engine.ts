@@ -9,7 +9,7 @@ import { Toolbar } from './components/toolbar';
 import { InputCommand, KeyboardInput } from './components/keyboardInput';
 import { ImageReceiver } from './components/imageReceiver';
 import { ShapeDeleter } from './components/shapeDeleter';
-import { UndoerRedoer } from './components/UndoerRedoer';
+import { UndoerRedoer } from './components/undoerRedoer';
 
 import { BitmapExporter } from './core/bitmapExporter';
 import { BitmapProvider } from './core/bitmaps/bitmapProvider';

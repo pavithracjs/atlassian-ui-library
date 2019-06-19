@@ -33,7 +33,7 @@ import { DefaultToolbar } from '../engine/components/toolbar';
 import { DefaultKeyboardInput } from '../engine/components/keyboardInput';
 import { DefaultImageReceiver } from '../engine/components/imageReceiver';
 import { DefaultShapeDeleter } from '../engine/components/shapeDeleter';
-import { DefaultUndoerRedoer } from '../engine/components/UndoerRedoer';
+import { DefaultUndoerRedoer } from '../engine/components/undoerRedoer';
 
 export type ImageGetter = (format?: string) => ExportedImage;
 
