@@ -5,10 +5,12 @@ import { isMac, isWindows } from './platformDetector';
 export interface UndoerRedoer extends Component {
   // These methods are called by the core to notify about the availability of the undo operation
   undoEnabled(): void;
+
   undoDisabled(): void;
 
   // These methods are called by the core to notify about the availability of the redo operation
   redoEnabled(): void;
+
   redoDisabled(): void;
 
   // Signals that the user wants to delete the shape
@@ -52,20 +54,17 @@ export class DefaultUndoerRedoer implements UndoerRedoer {
   private keyDown(event: KeyboardEvent): void {
     const isModKeyPressed = isMac() ? event.metaKey : event.ctrlKey;
 
-    if (
-      this.isUndoEnabled &&
-      event.key === 'z' &&
-      isModKeyPressed &&
-      !event.shiftKey
-    ) {
+    const yKeyWithoutShift = event.key === 'y' && !event.shiftKey;
+    const zKeyWithShift = event.key === 'z' && event.shiftKey;
+    const zKeyWithoutShift = event.key === 'z' && !event.shiftKey;
+
+    if (this.isUndoEnabled && isModKeyPressed && zKeyWithoutShift) {
       this.undo.emit({});
     }
     if (
       this.isRedoEnabled &&
       isModKeyPressed &&
-      (isWindows()
-        ? event.key === 'y' && !event.shiftKey
-        : event.key === 'z' && event.shiftKey)
+      (isWindows() ? yKeyWithoutShift : zKeyWithShift)
     ) {
       this.redo.emit({});
     }
