@@ -1,0 +1,1 @@
+Fix infinite loop of resizes with certain page hights and widths in renderer and editor
