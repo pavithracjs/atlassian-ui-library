@@ -1,1 +1,0 @@
-Expose es5 build for json transformer
