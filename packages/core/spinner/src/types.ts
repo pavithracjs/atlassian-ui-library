@@ -1,6 +1,12 @@
 export type Func = () => void;
 
-type SpinnerSizes = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | number;
+export type SpinnerSizes =
+  | 'xsmall'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'xlarge'
+  | number;
 
 export type SpinnerProps = {
   /** Time in milliseconds after component mount before spinner is visible. */
