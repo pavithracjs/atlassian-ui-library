@@ -1,1 +1,0 @@
-ED-7015 Fix issue where double digits were cut off in long ordered lists

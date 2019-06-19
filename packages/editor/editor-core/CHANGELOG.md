@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.15.1
+
+### Patch Changes
+
+- [patch][7e9c4f03c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9c4f03c9):
+
+  ED-7015 Fix issue where double digits were cut off in long ordered lists
+
 ## 112.15.0
 
 ### Minor Changes
