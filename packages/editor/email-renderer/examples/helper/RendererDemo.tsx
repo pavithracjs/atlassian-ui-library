@@ -6,8 +6,6 @@ import { document as storyDataDocument } from './story-data';
 
 import EmailSerializer from '../../src';
 
-import { renderDocument } from './render-document';
-
 export interface DemoRendererProps {
   serializer: 'email';
   document?: object;
@@ -101,7 +99,8 @@ export default class RendererDemo extends React.Component<
   private onComponentRendered() {
     try {
       const doc = JSON.parse(this.state.input);
-      const html = renderDocument<string>(doc, this.emailSerializer).result;
+      const node = defaultSchema.nodeFromJSON(doc);
+      const html = this.emailSerializer.serializeFragment(node.content);
 
       if (this.emailRef && this.emailRef.contentDocument && html) {
         this.emailRef.contentDocument.body.innerHTML = html;

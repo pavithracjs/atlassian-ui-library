@@ -1,4 +1,3 @@
-import { fontFamily, fontSize } from '@atlaskit/theme';
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 import flow from 'lodash.flow';
@@ -13,6 +12,7 @@ import juice from 'juice';
 import { escapeHtmlString } from './escape-html-string';
 import { getImageProcessor } from './static';
 import { createClassName } from './styles/util';
+import { fontFamily, fontSize } from './styles/common';
 
 const serializeNode = (
   node: PMNode,
