@@ -32,10 +32,11 @@ export const inlineCard: NodeSpec = {
     {
       tag: 'a[data-inline-card]',
       getAttrs: dom => {
-        const data = (dom as HTMLElement).getAttribute('data-card-data');
+        const anchor = dom as HTMLAnchorElement;
+        const data = anchor.getAttribute('data-card-data');
 
         return {
-          url: (dom as HTMLElement).getAttribute('href'),
+          url: anchor.href,
           data: data ? JSON.parse(data) : null,
         };
       },
@@ -47,6 +48,6 @@ export const inlineCard: NodeSpec = {
       href: node.attrs.url,
       'data-card-data': node.attrs.data ? JSON.stringify(node.attrs.data) : '',
     };
-    return ['a', attrs];
+    return ['a', attrs, node.attrs.url];
   },
 };
