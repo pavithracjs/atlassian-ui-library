@@ -2,7 +2,7 @@
 
 We encourage adding tests to all components on **Atlaskit**.
 
-**Jest** is the testing framework across all types of tests in Atlaskit.
+**Jest** is the testing framework across all types of tests in Atlaskit. At the moment, we use Jest version **23**, feel free to consult the [links](https://jestjs.io/docs/en/23.x/getting-started.html) for any additional commands.
 
 ## Testing support as of today includes
 ### Unit tests
@@ -10,10 +10,17 @@ We encourage adding tests to all components on **Atlaskit**.
 - *unit tests* for packages should be structured under `<pkg>/src/__tests__/unit` folder.
 - on CI these are run against changed packages only.
 - run all tests `yarn test`.
-- run all tests in watch mode `yarn jest --watch `.
+- run all tests in watch mode `yarn test --watch`.
 - run test for changed packages `yarn test:changed`.
 - run single test `yarn test <path_to_test_file>`.
-- run tests under certain directories `yarn jest <path_to_directory>`.
+- run tests under certain directories `yarn test <path_to_directory>`.
+- to update all snapshot artifacts `yarn test --updateSnapshot` or `yarn test -u`.
+- to update all snapshot artifacts under a directory: 
+    * `yarn test <path_to_directory> --updateSnapshot`
+    * `yarn test <path_to_directory> -u`.
+- to update one snapshot artifact:
+    * `yarn test <path_to_file> --updateSnapshot`
+    * `yarn test <path_to_file> -u`.
 
 ### Browser unit tests
 - some components require unit tests which can be run against **real browser**.
@@ -76,9 +83,9 @@ Visual regression tests are used to identify visual differences on **UI componen
     - you will need to start the server in another terminal with this command `VISUAL_REGRESSION=true yarn start <pkg>`.
     - `yarn test:vr <path_to_file> --watch` will run watch mode headlessly.
     - `yarn test:vr <path_to_file> --debug` will run watch mode only on Chrome browser.
-- to update all images snapshots for the entire repository `yarn test:vr -u` or `yarn test:vr --updateSnapshot`
-- to update all image snapshots for the package `yarn test:vr <pkg> --update-snapshot` or `yarn test:vr <pkg> -u`
-- to update image snapshots for a single test `yarn test:vr <path_to_file> --update-snapshot` or `yarn test:vr <path_to_file> -u` will update the snapshot if there is a change.  
+- to update all images snapshots for the entire repository `yarn test:vr -u` or `yarn test:vr --updateSnapshot`.
+- to update all image snapshots for the package `yarn test:vr <pkg> --updateSnapshot` or `yarn test:vr <pkg> -u`.
+- to update image snapshots for a single test `yarn test:vr <path_to_file> --updateSnapshot` or `yarn test:vr <path_to_file> -u` will update the snapshot if there is a change.  
 
 **Notes:**
 

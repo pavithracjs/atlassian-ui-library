@@ -14,13 +14,13 @@ import { tableMarginFullWidthMode } from '../table/ui/styles';
 
 export const LAYOUT_OFFSET = 13;
 export const LAYOUT_SECTION_MARGIN = gridSize() - 2;
+export const LAYOUT_COLUMN_PADDING = gridSize() * 1.5;
 
 export const layoutStyles = css`
   .ProseMirror {
     ${columnLayoutSharedStyle} [data-layout-section] {
       position: relative;
       width: calc(100% + ${LAYOUT_OFFSET * 2}px);
-      /* left-padding (12px) + layout-column-border (1px) */
       left: -${LAYOUT_OFFSET}px;
       margin-top: ${gridSize() - 1}px;
 
@@ -32,7 +32,7 @@ export const layoutStyles = css`
         border-radius: 5px;
 
         > div {
-          padding: ${gridSize() * 1.5}px;
+          padding: ${LAYOUT_COLUMN_PADDING}px;
         }
       }
 

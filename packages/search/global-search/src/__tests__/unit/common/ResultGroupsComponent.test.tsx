@@ -19,6 +19,9 @@ function render(partialProps: Partial<Props>) {
     type: ResultGroupType.PreQuery,
     renderAdvancedSearch: () => <a>link</a>,
     searchSessionId: '0',
+    onShowMoreClicked: () => {},
+    onSearchMoreAdvancedSearchClicked: () => {},
+    query: '',
     ...partialProps,
   };
 
@@ -31,6 +34,9 @@ function renderMount(partialProps: Partial<Props>) {
     type: ResultGroupType.PreQuery,
     renderAdvancedSearch: () => <a key="advanced-link">link</a>,
     searchSessionId: '0',
+    onShowMoreClicked: () => {},
+    onSearchMoreAdvancedSearchClicked: () => {},
+    query: '',
     ...partialProps,
   };
 

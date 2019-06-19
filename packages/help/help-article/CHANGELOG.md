@@ -1,5 +1,13 @@
 # @atlaskit/help-article
 
+## 0.4.7
+
+### Patch Changes
+
+- [patch][bd4725ae18](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bd4725ae18):
+
+  Fix list styling (IE11)
+
 ## 0.4.6
 
 ### Patch Changes

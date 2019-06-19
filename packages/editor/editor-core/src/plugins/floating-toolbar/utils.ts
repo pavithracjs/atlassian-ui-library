@@ -1,6 +1,9 @@
-export const shallowEqual = (objA: Object, objB: Object) => {
+export const shallowEqual = (objA?: Object, objB?: Object) => {
   if (objA === objB) {
     return true;
+  }
+  if (objA == null || objB == null) {
+    return false;
   }
 
   const keysA = Object.keys(objA);
@@ -26,14 +29,17 @@ export const shallowEqual = (objA: Object, objB: Object) => {
 
   return true;
 };
-
-export const compareArrays = (left: Array<any>, right: Array<any>) => {
+export const compareArrays = <T>(
+  left: Array<T>,
+  right: Array<T>,
+  compareFn: ((left: T, right: T) => boolean) = shallowEqual,
+) => {
   if (left.length !== right.length) {
     return false;
   }
 
   for (let idx = 0; idx < left.length; idx++) {
-    if (!shallowEqual(left[idx], right[idx])) {
+    if (!compareFn(left[idx], right[idx])) {
       return false;
     }
   }

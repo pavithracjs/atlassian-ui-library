@@ -116,21 +116,23 @@ export const buildToolbar = (
       type: 'separator',
     };
 
+    const nodeType = state.schema.nodes.layoutSection;
+
     const deleteButton: FloatingToolbarButton<Command> = {
       type: 'button',
       appearance: 'danger',
       icon: RemoveIcon,
       title: intl.formatMessage(commonMessages.remove),
       onClick: deleteActiveLayoutNode,
-      onMouseEnter: hoverDecoration(true),
-      onMouseLeave: hoverDecoration(false),
+      onMouseEnter: hoverDecoration(nodeType, true),
+      onMouseLeave: hoverDecoration(nodeType, false),
     };
 
     return {
       title: 'Layout floating controls',
       getDomRef: view =>
         findDomRefAtPos(pos, view.domAtPos.bind(view)) as HTMLElement,
-      nodeType: state.schema.nodes.layoutSection,
+      nodeType,
       items: [
         ...LAYOUT_TYPES.map(i => buildLayoutButton(intl, i, currentLayout)),
         ...(addSidebarLayouts

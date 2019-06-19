@@ -1,25 +1,27 @@
 import * as React from 'react';
 import { Component } from 'react';
 import styled from 'styled-components';
+import { EditorView } from 'prosemirror-view';
 
 import { ButtonGroup } from '@atlaskit/button';
+import { ProviderFactory } from '@atlaskit/editor-common';
 import { borderRadius, gridSize, colors, themed } from '@atlaskit/theme';
 
+import { DispatchAnalyticsEvent } from '../../analytics';
 import { FloatingToolbarItem } from '../types';
-import { compareArrays } from '../utils';
+import { compareArrays, shallowEqual } from '../utils';
 import Button from './Button';
 import Dropdown from './Dropdown';
 import Select, { SelectOption } from './Select';
 import Separator from './Separator';
 import Input from './Input';
-import { ProviderFactory } from '@atlaskit/editor-common';
-import { EditorView } from 'prosemirror-view';
-import { DispatchAnalyticsEvent } from '../../analytics';
 
 const akGridSize = gridSize();
 
+export type Item = FloatingToolbarItem<Function>;
+
 export interface Props {
-  items: Array<FloatingToolbarItem<Function>>;
+  items: Array<Item>;
   dispatchCommand: (command?: Function) => void;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
@@ -29,6 +31,7 @@ export interface Props {
   focusEditor?: () => void;
   editorView?: EditorView;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
+  target?: HTMLElement;
 }
 
 const ToolbarContainer = styled.div`
@@ -47,6 +50,101 @@ const ToolbarContainer = styled.div`
   }
 `;
 
+function makeSameType<T>(_a: T, _b: any): _b is T {
+  return true;
+}
+
+const compareItemWithKeys = <T, U extends keyof T>(
+  leftItem: T,
+  rightItem: T,
+  excludedKeys: Array<U> = [],
+): boolean =>
+  (Object.keys(leftItem) as Array<U>)
+    .filter(key => excludedKeys.indexOf(key) === -1)
+    .every(key =>
+      leftItem[key] instanceof Object
+        ? shallowEqual(leftItem[key], rightItem[key])
+        : leftItem[key] === rightItem[key],
+    );
+
+export const isSameItem = (leftItem: Item, rightItem: Item): boolean => {
+  if (leftItem.type !== rightItem.type) {
+    return false;
+  }
+
+  switch (leftItem.type) {
+    case 'button':
+      // Need to typecast `rightItem as typeof leftItem` otherwise we will
+      // have to put the `type !==` inside each case.
+      return compareItemWithKeys(leftItem, rightItem as typeof leftItem, [
+        'type',
+        'onClick',
+        'onMouseEnter',
+        'onMouseLeave',
+      ]);
+    case 'input':
+      return compareItemWithKeys(leftItem, rightItem as typeof leftItem, [
+        'type',
+        'onSubmit',
+        'onBlur',
+      ]);
+    case 'select':
+      if (
+        makeSameType(leftItem, rightItem) &&
+        Array.isArray(leftItem.options) &&
+        Array.isArray(rightItem.options) &&
+        !compareArrays(leftItem.options, rightItem.options, (left, right) =>
+          compareItemWithKeys(left, right),
+        )
+      ) {
+        return false;
+      }
+      return compareItemWithKeys(leftItem, rightItem as typeof leftItem, [
+        'type',
+        'onChange',
+        'options',
+      ]);
+    case 'dropdown':
+      if (
+        makeSameType(leftItem, rightItem) &&
+        Array.isArray(leftItem.options) &&
+        Array.isArray(rightItem.options) &&
+        !compareArrays(leftItem.options, rightItem.options, (left, right) =>
+          compareItemWithKeys(left, right, ['onClick']),
+        )
+      ) {
+        return false;
+      }
+      return compareItemWithKeys(leftItem, rightItem as typeof leftItem, [
+        'type',
+        'options',
+      ]);
+    case 'custom':
+    case 'separator':
+      return compareItemWithKeys(leftItem, rightItem as typeof leftItem);
+  }
+  return true;
+};
+
+export const areSameItems = (
+  leftArr?: Array<Item>,
+  rightArr?: Array<Item>,
+): boolean => {
+  if (leftArr === undefined && rightArr === undefined) {
+    return true;
+  }
+
+  if (leftArr === undefined || rightArr === undefined) {
+    return false;
+  }
+
+  if (leftArr.length !== rightArr.length) {
+    return false;
+  }
+
+  return leftArr.every((item, index) => isSameItem(rightArr[index], item));
+};
+
 export default class Toolbar extends Component<Props> {
   render() {
     const {
@@ -59,7 +157,7 @@ export default class Toolbar extends Component<Props> {
       className,
       editorView,
     } = this.props;
-    if (!items.length) {
+    if (!items || !items.length) {
       return null;
     }
 
@@ -165,6 +263,6 @@ export default class Toolbar extends Component<Props> {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    return !compareArrays(this.props.items, nextProps.items);
+    return !areSameItems(this.props.items, nextProps.items);
   }
 }

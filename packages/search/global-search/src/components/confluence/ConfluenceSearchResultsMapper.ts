@@ -4,8 +4,9 @@ import { attachConfluenceContextIdentifiers } from '../common/contextIdentifiers
 import { take } from '../SearchResultsUtil';
 import { getConfluenceMaxObjects } from '../../util/experiment-utils';
 import { ConfluenceFeatures } from '../../util/features';
+import { CONF_OBJECTS_ITEMS_PER_PAGE } from '../../util/experiment-utils';
 
-export const DEFAULT_MAX_OBJECTS = 8;
+export const DEFAULT_MAX_OBJECTS = 10;
 export const MAX_SPACES = 3;
 export const MAX_PEOPLE = 3;
 export const MAX_RECENT_RESULTS_TO_SHOW = 3;
@@ -38,8 +39,16 @@ const sliceResults = (
       ...objects,
       items: take(
         objects.items,
-        getConfluenceMaxObjects(features.abTest, DEFAULT_MAX_OBJECTS),
+        getConfluenceMaxObjects(
+          features.abTest,
+          features.searchExtensionsEnabled
+            ? objects.numberOfCurrentItems || CONF_OBJECTS_ITEMS_PER_PAGE
+            : DEFAULT_MAX_OBJECTS,
+        ),
       ),
+      numberOfCurrentItems:
+        objects.numberOfCurrentItems ||
+        Math.min(CONF_OBJECTS_ITEMS_PER_PAGE, objects.items.length || 0),
     },
     spaces: {
       ...spaces,
