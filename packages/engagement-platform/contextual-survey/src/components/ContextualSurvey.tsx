@@ -91,41 +91,39 @@ export default ({
     [onDismiss],
   );
 
-  let content: React.ReactNode = null;
-
-  switch (currentStep) {
-    case 'SURVEY': {
-      content = (
-        <SurveyForm
-          question={question}
-          statement={statement}
-          textPlaceholder={textPlaceholder}
-          onSubmit={onSurveySubmit}
-        />
-      );
-      break;
+  let content: React.ReactNode = (() => {
+    switch (currentStep) {
+      case 'SURVEY': {
+        return (
+          <SurveyForm
+            question={question}
+            statement={statement}
+            textPlaceholder={textPlaceholder}
+            onSubmit={onSurveySubmit}
+          />
+        );
+      }
+      case 'SIGN_UP_PROMPT': {
+        return (
+          <SignUpPrompt
+            onSignUpDecline={onDismiss}
+            onSignUpAccept={onSignUpAccept}
+          />
+        );
+      }
+      case 'SIGN_UP_SUCCESS': {
+        triggerAutoDisappear();
+        return <SignUpSuccess />;
+      }
+      case 'POST_SURVEY_NO_CONSENT':
+      case 'POST_SURVEY_HAS_SIGN_UP': {
+        triggerAutoDisappear();
+        return <FeedbackAcknowledgement />;
+      }
+      default:
+        return null;
     }
-    case 'SIGN_UP_PROMPT': {
-      content = (
-        <SignUpPrompt
-          onSignUpDecline={onDismiss}
-          onSignUpAccept={onSignUpAccept}
-        />
-      );
-      break;
-    }
-    case 'SIGN_UP_SUCCESS': {
-      triggerAutoDisappear();
-      content = <SignUpSuccess />;
-      break;
-    }
-    case 'POST_SURVEY_NO_CONSENT':
-    case 'POST_SURVEY_HAS_SIGN_UP': {
-      triggerAutoDisappear();
-      content = <FeedbackAcknowledgement />;
-      break;
-    }
-  }
+  })();
 
   return <SurveyContainer onDismiss={onDismiss}>{content}</SurveyContainer>;
 };
