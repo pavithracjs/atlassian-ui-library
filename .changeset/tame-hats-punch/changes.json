@@ -1,0 +1,4 @@
+{
+  "releases": [{ "name": "@atlaskit/right-side-panel", "type": "patch" }],
+  "dependents": []
+}
