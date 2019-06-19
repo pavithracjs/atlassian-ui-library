@@ -34,4 +34,51 @@ describe('ContentNavigation', () => {
     // Should continue rendering the Container even though we've unset the prop
     expect(wrapper.find(Container)).toHaveLength(1);
   });
+
+  it('should visually hide the container view when nav is collapsed', () => {
+    const Container = () => null;
+    const wrapper = mount(
+      <ContentNavigation container={Container} {...defaultProps} isVisible />,
+    );
+    expect(wrapper.find(Container).length).toBe(1);
+    expect(
+      wrapper
+        .find(Container)
+        .parent()
+        .is('div'),
+    ).toBeFalsy();
+
+    wrapper.setProps({ isVisible: false });
+    expect(wrapper.find(Container).length).toBe(1);
+    expect(
+      wrapper
+        .find(Container)
+        .parent()
+        .is('div'),
+    ).toBeTruthy();
+    expect(wrapper.find(Container).parent()).toMatchSnapshot();
+  });
+
+  it('should visually hide the product view when nav is collapsed', () => {
+    const Product = () => null;
+    const wrapper = mount(<ContentNavigation product={Product} isVisible />);
+    expect(wrapper.find(Product).length).toBe(1);
+    expect(
+      wrapper
+        .find(Product)
+        .parent()
+        .is('div'),
+    ).toBeFalsy();
+
+    wrapper.setProps({ isVisible: false });
+
+    expect(wrapper.find(Product).length).toBe(1);
+    expect(
+      wrapper
+        .find(Product)
+        .parent()
+        .is('div'),
+    ).toBeTruthy();
+    expect(wrapper.find(Product).parent()).toMatchSnapshot();
+  });
 });

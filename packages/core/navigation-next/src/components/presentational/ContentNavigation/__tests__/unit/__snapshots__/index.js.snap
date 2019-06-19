@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentNavigation should visually hide the container view when nav is collapsed 1`] = `
+.emotion-0 {
+  display: none;
+}
+
+<div
+  className="emotion-0"
+/>
+`;
+
+exports[`ContentNavigation should visually hide the product view when nav is collapsed 1`] = `
+.emotion-0 {
+  display: none;
+}
+
+<div
+  className="emotion-0"
+/>
+`;
