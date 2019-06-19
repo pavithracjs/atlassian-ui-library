@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.11.0
+
+### Minor Changes
+
+- [minor][a9001be8fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a9001be8fd):
+
+  Updated examples. Renamed component and references from help-panel to help
+
 ## 0.9.0
 
 ### Minor Changes

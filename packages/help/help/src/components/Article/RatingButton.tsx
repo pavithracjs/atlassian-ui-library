@@ -40,7 +40,7 @@ export class RatingButton extends React.Component<
 
     // fire Analytics event
     const getCurrentArticle = help.getCurrentArticle();
-    this.fireArticleFeedbackAnalyticsEvent('help-panel-article-rated', {
+    this.fireArticleFeedbackAnalyticsEvent('help-article-rated', {
       articleId: getCurrentArticle ? getCurrentArticle.id : null,
       wasHelpful,
     });
@@ -56,7 +56,7 @@ export class RatingButton extends React.Component<
           // fire Analytics event
           const getCurrentArticle = help.getCurrentArticle();
           this.fireArticleFeedbackAnalyticsEvent(
-            'help-panel-article-rated-feedback',
+            'help-article-rated-feedback',
             {
               articleId: getCurrentArticle ? getCurrentArticle.id : null,
               feedback: data,

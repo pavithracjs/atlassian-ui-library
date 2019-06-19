@@ -31,7 +31,7 @@ export const CloseButton = styled.button`
   }
 `;
 
-export const HelpPanelHeader = styled.div`
+export const HelpHeader = styled.div`
   flex: 1;
   overflow: auto;
   flex-direction: column;
@@ -46,7 +46,7 @@ export const HelpPanelHeader = styled.div`
   justify-content: space-between;
 `;
 
-export const HelpPanelHeaderText = styled.div`
+export const HelpHeaderText = styled.div`
   color: ${colors.N100};
   font-weight: bold;
   height: 28px;
@@ -73,7 +73,7 @@ export const BackButtonText = styled.span`
   height: 28px;
 `;
 
-export const HelpPanelBody = styled.div`
+export const HelpBody = styled.div`
   flex: 1;
   flex-direction: column;
   padding: ${gridSize() * 2}px ${gridSize() * 3}px ${gridSize() * 2}px

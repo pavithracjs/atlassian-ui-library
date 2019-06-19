@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.15.2
+
+### Patch Changes
+
+- [patch][9459224125](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9459224125):
+
+  ED-7104 Fix issue where h scroll would appear on page when long text was inside code snippet inside layouts in full-width mode
+
 ## 112.15.1
 
 ### Patch Changes
