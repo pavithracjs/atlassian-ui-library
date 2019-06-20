@@ -22,7 +22,9 @@ export function sanitizeNodeForPrivacy(
     mention: node => {
       if (node.attrs && node.attrs.text) {
         hasCacheableMentions = true;
-        mentionNames.set(node.attrs.id, node.attrs.text);
+        // Remove @ prefix
+        const name = node.attrs.text.slice(1);
+        mentionNames.set(node.attrs.id, name);
       }
       return {
         ...node,
