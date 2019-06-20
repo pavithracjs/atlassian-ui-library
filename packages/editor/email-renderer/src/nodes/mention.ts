@@ -1,11 +1,11 @@
 import { createTag } from '../create-tag';
 import { createClassName } from '../styles/util';
 import { NodeSerializerOpts } from '../interfaces';
-import { N500, N30 } from '@atlaskit/adf-schema';
+import { N500 } from '@atlaskit/adf-schema';
 
 export const styles = `
 .${createClassName('mention')} {
-  background: ${N30};
+  background: #EFEFF2;
   border: 1px solid transparent;
   border-radius: 20px;
   color: ${N500};
