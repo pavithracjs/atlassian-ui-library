@@ -1,0 +1,1 @@
+add getAuthFromContext field into MediaClientConfig
