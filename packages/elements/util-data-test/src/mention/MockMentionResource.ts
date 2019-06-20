@@ -35,6 +35,7 @@ export interface MockMentionConfig {
 export const createMockMentionNameResolver = () => {
   const analyticsProps: WithAnalyticsEventProps = {
     createAnalyticsEvent: payload => {
+      // eslint-disable-next-line no-console
       console.log('analytics event', payload);
       return new UIAnalyticsEvent({ payload });
     },
