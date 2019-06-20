@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.7.1
+
+### Patch Changes
+
+- [patch][4931459ac1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4931459ac1):
+
+  Revert removed by accident breakout mark
+
 ## 2.7.0
 
 ### Minor Changes

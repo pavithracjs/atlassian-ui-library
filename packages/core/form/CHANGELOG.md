@@ -1,5 +1,14 @@
 # @atlaskit/form
 
+## 6.1.0
+
+### Minor Changes
+
+- [minor][7bbf303d01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bbf303d01):
+
+  - Improved form validation user experience when field validation and submission validation used together on the same field
+  - Improved form validation docs
+
 ## 6.0.7
 
 ### Patch Changes

@@ -17,11 +17,25 @@ export class MockMentionNameClient implements MentionNameClient {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(
-          ids.map<MentionNameDetails>(id => ({
-            id,
-            name: `Hydrated ${id} name`,
-            status: MentionNameStatus.OK,
-          })),
+          ids.map<MentionNameDetails>(id => {
+            if (id === 'unknown') {
+              return {
+                id,
+                status: MentionNameStatus.UNKNOWN,
+              };
+            }
+            if (id === 'service_error') {
+              return {
+                id,
+                status: MentionNameStatus.SERVICE_ERROR,
+              };
+            }
+            return {
+              id,
+              name: `Hydrated ${id} name`,
+              status: MentionNameStatus.OK,
+            };
+          }),
         );
       }, 1500);
     });

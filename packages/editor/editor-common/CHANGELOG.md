@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.8.6
+
+### Patch Changes
+
+- [patch][0438f37f2c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0438f37f2c):
+
+  ED-7105 Fix issue where images in full-width mode page could be a different size between the editor and renderer
+
 ## 39.8.5
 
 ### Patch Changes

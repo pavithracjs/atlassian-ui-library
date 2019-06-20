@@ -228,15 +228,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
       portalProviderAPI: props.portalProviderAPI,
       reactContext: () => this.context,
       dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
-      oldState: state,
     });
 
-    const newState = EditorState.create({
-      schema: state.schema,
-      plugins,
-      doc: state.doc,
-      selection: state.selection,
-    });
+    const newState = state.reconfigure({ plugins });
 
     // need to update the state first so when the view builds the nodeviews it is
     // using the latest plugins

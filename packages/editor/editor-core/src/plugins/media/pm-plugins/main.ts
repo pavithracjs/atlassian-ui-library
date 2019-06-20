@@ -738,9 +738,6 @@ export const createPlugin = (
         update: () => {
           pluginState.updateElement();
         },
-        destroy: () => {
-          pluginState.destroy();
-        },
       };
     },
     props: {
