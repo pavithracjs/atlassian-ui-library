@@ -482,11 +482,12 @@ function mentionPluginFactory(
                     let teams: TeamInfoAttrAnalytics[] | null = null;
 
                     if (!isTeamStats(stats)) {
+                      // is from user mention
                       duration = stats && stats.duration;
                       teams = null;
                       userIds = mentions
                         .map(mention =>
-                          isTeamType(mention.userType) ? mention.id : null,
+                          isTeamType(mention.userType) ? null : mention.id,
                         )
                         .filter(m => !!m) as string[];
                     } else {
