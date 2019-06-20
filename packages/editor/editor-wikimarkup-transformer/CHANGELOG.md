@@ -1,5 +1,13 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.4.0
+
+### Minor Changes
+
+- [minor][10b8678029](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/10b8678029):
+
+  Fix es5 build
+
 ## 4.3.0
 
 ### Minor Changes
