@@ -6,6 +6,7 @@ import * as debounce from 'lodash.debounce';
 import * as React from 'react';
 import { BaseUserPicker } from '../../../components/BaseUserPicker';
 import { getComponents } from '../../../components/components';
+import * as analytics from '../../../analytics';
 import {
   optionToSelectableOption,
   optionToSelectableOptions,
@@ -384,6 +385,30 @@ describe('BaseUserPicker', () => {
         expect(debounce).toHaveBeenCalledWith(expect.any(Function), 200);
       });
     });
+
+    describe('with session id', () => {
+      let analyticsSpy: jest.SpyInstance;
+      beforeEach(() => {
+        analyticsSpy = jest.spyOn(analytics, 'startSession').mockReturnValue({
+          id: 'random-session-id',
+        });
+      });
+
+      afterEach(() => {
+        analyticsSpy.mockRestore();
+      });
+
+      it('should pass sessionId to load option', () => {
+        const loadOptions = jest.fn(() => Promise.resolve(options));
+        const component = mountWithIntl(getBasePicker({ loadOptions }));
+        const input = component.find('input');
+        input.simulate('focus');
+        expect(loadOptions).toHaveBeenCalledWith(
+          undefined,
+          'random-session-id',
+        );
+      });
+    });
   });
 
   describe('with defaultOptions', () => {
@@ -497,7 +522,7 @@ describe('BaseUserPicker', () => {
         search: 'test',
       });
 
-      expect(loadOptions).toHaveBeenCalledWith('test');
+      expect(loadOptions).toHaveBeenCalledWith('test', expect.any(String));
     });
   });
 

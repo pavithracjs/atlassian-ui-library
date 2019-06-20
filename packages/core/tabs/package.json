@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tabs",
-  "version": "10.0.3",
+  "version": "10.0.4",
   "description": "A React component for displaying multiple panels within a single window",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -20,8 +20,8 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.0.0",
-    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/analytics-next": "^5.0.2",
+    "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
     "classnames": "^2.2.5",
     "css-element-queries": "^0.3.2",

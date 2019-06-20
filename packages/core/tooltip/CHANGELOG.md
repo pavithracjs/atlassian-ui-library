@@ -1,5 +1,13 @@
 # @atlaskit/tooltip
 
+## 15.0.1
+
+### Patch Changes
+
+- [patch][93bcf314c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/93bcf314c6):
+
+  Added missing tslib dep
+
 ## 15.0.0
 
 ### Major Changes

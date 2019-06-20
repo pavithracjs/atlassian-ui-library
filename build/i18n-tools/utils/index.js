@@ -8,6 +8,7 @@ const babelConfig = {
     'react-intl',
     '@babel/syntax-dynamic-import',
     ['@babel/plugin-proposal-decorators', { legacy: true }],
+    '@babel/plugin-syntax-optional-catch-binding',
   ],
 };
 

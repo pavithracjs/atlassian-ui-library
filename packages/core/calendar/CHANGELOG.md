@@ -1,5 +1,13 @@
 # @atlaskit/calendar
 
+## 8.0.2
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
 ## 8.0.1
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
