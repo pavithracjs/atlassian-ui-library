@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import getExamplesFor from '@atlaskit/build-utils/getExamples';
+import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr, mockConsole } from '@atlaskit/ssr';
+import waitForExpect from 'wait-for-expect';
 
 const getConsoleMockCalls = mockConsole(console);
 
@@ -18,5 +19,7 @@ test('should ssr then hydrate media-ui correctly', async () => {
   ReactDOM.hydrate(<Example />, elem);
 
   const mockCalls = getConsoleMockCalls();
-  expect(mockCalls.length).toBe(0);
+  waitForExpect(() => {
+    expect(mockCalls.length).toBe(0);
+  });
 });
