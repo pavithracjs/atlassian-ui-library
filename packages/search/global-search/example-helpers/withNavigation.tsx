@@ -6,6 +6,7 @@ import BasicNavigation from './BasicNavigation';
 import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
 import { QuickSearchContext } from '../src/api/types';
+import { randomSpaceIconUrl } from './mockData';
 
 const defaultCloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // jdog
 
@@ -161,10 +162,15 @@ export default function withNavigation<P extends Props>(
                 <WrappedComponent
                   cloudId={this.getCloudId() || defaultCloudId}
                   context={currentContext}
+                  modelContext={
+                    currentContext === 'confluence' ? { spaceKey: 'TEST' } : {}
+                  }
                   referralContextIdentifiers={{
                     currentContentId: '123',
                     currentContainerId: '456',
                     searchReferrerId: '123',
+                    currentContainerName: 'Test space',
+                    currentContainerIcon: randomSpaceIconUrl(),
                   }}
                   logger={DEVELOPMENT_LOGGER}
                   {...this.props}

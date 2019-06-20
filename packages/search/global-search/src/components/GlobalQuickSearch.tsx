@@ -27,6 +27,7 @@ import {
   isAdvancedSearchResult,
   ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
 } from './SearchResultsUtil';
+import { Filter } from './../api/CrossProductSearchClient';
 
 const ATLASKIT_QUICKSEARCH_NS = 'atlaskit.navigation.quick-search';
 const QS_ANALYTICS_EV_KB_CTRLS_USED = `${ATLASKIT_QUICKSEARCH_NS}.keyboard-controls-used`;
@@ -34,7 +35,7 @@ const QS_ANALYTICS_EV_SUBMIT = `${ATLASKIT_QUICKSEARCH_NS}.submit`;
 
 export interface Props {
   onMount?: () => void;
-  onSearch(query: string, queryVersion: number): void;
+  onSearch(query: string, queryVersion: number, filters?: Filter[]): void;
   onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
   isLoading: boolean;
   placeholder?: string;
@@ -47,6 +48,7 @@ export interface Props {
   onSelectedResultIdChanged?: (id: string | number | null) => void;
   inputControls?: JSX.Element;
   referralContextIdentifiers?: ReferralContextIdentifiers;
+  filters?: Filter[];
 }
 
 export interface State {
@@ -79,8 +81,13 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   debouncedSearch = debounce(this.doSearch, 350);
 
   doSearch(query: string) {
-    const { onSearch, searchSessionId, createAnalyticsEvent } = this.props;
-    onSearch(query.trim(), this.queryVersion);
+    const {
+      onSearch,
+      searchSessionId,
+      createAnalyticsEvent,
+      filters,
+    } = this.props;
+    onSearch(query.trim(), this.queryVersion, filters);
     fireTextEnteredEvent(
       query,
       searchSessionId,

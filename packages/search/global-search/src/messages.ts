@@ -1,6 +1,16 @@
 import { defineMessages } from 'react-intl';
 
 export const messages = defineMessages({
+  confluence_no_results_in_space: {
+    id: 'global_search.confluence.no_results_in_space',
+    defaultMessage: "No results in '{spaceTitle}'",
+    description: '',
+  },
+  confluence_remove_space_filter: {
+    id: 'global_search.confluence.remove_space_filter',
+    defaultMessage: 'Remove space filter',
+    description: '',
+  },
   confluence_space_filter: {
     id: 'global_search.confluence.space_filter',
     defaultMessage: 'Filter results by space',

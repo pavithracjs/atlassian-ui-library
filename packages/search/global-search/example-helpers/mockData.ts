@@ -4,6 +4,7 @@ import { QuickNavResult } from '../src/api/ConfluenceClient';
 import {
   CrossProductSearchResponse,
   CrossProductExperimentResponse,
+  Filter,
 } from '../src/api/CrossProductSearchClient';
 import {
   Scope,
@@ -67,6 +68,7 @@ const mockAbbreviations = [
   'FTP',
   'GB',
   'EXE',
+  'TEST',
 ];
 const mockAvatarUrls = [
   'https://s3.amazonaws.com/uifaces/faces/twitter/magugzbrand2d/128.jpg',
@@ -177,7 +179,7 @@ function randomIssueKey() {
   return pickRandom(keys) + '-' + Math.floor(Math.random() * 1000);
 }
 
-function randomSpaceIconUrl() {
+export function randomSpaceIconUrl() {
   return `https://placeimg.com/64/64/arch?bustCache=${Math.random()}`;
 }
 
@@ -212,7 +214,7 @@ export function recentData(n = 50): RecentItemsResponse {
 
 export function makeCrossProductSearchData(
   n = 100,
-): (term: string) => CrossProductSearchResponse {
+): (term: string, filters?: Filter[]) => CrossProductSearchResponse {
   const confData: ConfluenceItem[] = [];
   const confSpaceData: ConfluenceItem[] = [];
   const confDataWithAttachments: ConfluenceItem[] = [];
@@ -240,6 +242,13 @@ export function makeCrossProductSearchData(
         id: uuid(),
         type: type,
       },
+      // 'space' wouldn't normally appear on a page/blogpost/attachment, but it is here so that mock filtering can work
+      space: {
+        key: getMockAbbreviation(),
+        icon: {
+          path: randomSpaceIconUrl(),
+        },
+      },
       iconCssClass: icon,
     });
   }
@@ -266,6 +275,13 @@ export function makeCrossProductSearchData(
       content: {
         id: uuid(),
         type: type,
+      },
+      // 'space' wouldn't normally appear on a page/blogpost/attachment, but it is here so that mock filtering can work
+      space: {
+        key: getMockAbbreviation(),
+        icon: {
+          path: randomSpaceIconUrl(),
+        },
       },
       iconCssClass: icon,
     };
@@ -339,12 +355,23 @@ export function makeCrossProductSearchData(
     ursPeopleData.push(ursPeopleEntry);
   }
 
-  return (term: string) => {
+  return (term: string, filters?: Filter[]) => {
     term = term.toLowerCase();
+    const filteredSpace =
+      filters &&
+      filters.length > 0 &&
+      filters[0]['@type'] === 'spaces' &&
+      filters[0]['spaceKeys'][0];
 
-    const filteredConfResults = confData.filter(
+    let filteredConfResults = confData.filter(
       result => result.title.toLowerCase().indexOf(term) > -1,
     );
+
+    if (filteredSpace) {
+      filteredConfResults = filteredConfResults.filter(
+        result => result.space && result.space.key === filteredSpace,
+      );
+    }
 
     const filteredJiraIssueResults = jiraObjects.filter(result => {
       const resultV1 = result as JiraItemV1;
@@ -359,21 +386,31 @@ export function makeCrossProductSearchData(
         (<JiraItemV2>result).name.toLocaleLowerCase().indexOf(term) > -1,
     );
 
-    const filteredSpaceResults = confSpaceData.filter(
-      result => result.container.title.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredSpaceResults = filteredSpace
+      ? []
+      : confSpaceData.filter(
+          result => result.container.title.toLowerCase().indexOf(term) > -1,
+        );
 
-    const filteredConfResultsWithAttachments = confDataWithAttachments.filter(
+    let filteredConfResultsWithAttachments = confDataWithAttachments.filter(
       result => result.title.toLowerCase().indexOf(term) > -1,
     );
 
-    const filteredPeopleResults = peopleData.filter(
-      item => item.name.toLowerCase().indexOf(term) > -1,
-    );
+    if (filteredSpace) {
+      filteredConfResultsWithAttachments = filteredConfResultsWithAttachments.filter(
+        result => result.space && result.space.key === filteredSpace,
+      );
+    }
 
-    const filteredUrsPeopleResults = ursPeopleData.filter(
-      item => item.name.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredPeopleResults = filteredSpace
+      ? []
+      : peopleData.filter(item => item.name.toLowerCase().indexOf(term) > -1);
+
+    const filteredUrsPeopleResults = filteredSpace
+      ? []
+      : ursPeopleData.filter(
+          item => item.name.toLowerCase().indexOf(term) > -1,
+        );
 
     const abTest = {
       experimentId: 'experiment-1',
