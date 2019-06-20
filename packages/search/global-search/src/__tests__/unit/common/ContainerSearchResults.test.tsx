@@ -115,7 +115,7 @@ const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
   disableJiraPreQueryPeopleSearch: false,
   enablePreQueryFromAggregator: false,
   searchExtensionsEnabled: false,
-  isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
 };
 
 const renderComponent = (product: QuickSearchContext) => {
@@ -218,11 +218,13 @@ const assertAdvancedSearchGroup = (
 
 const commonProps = {
   retrySearch: jest.fn(),
+  onFilterChanged: jest.fn(),
   latestSearchQuery: 'query',
   isError: false,
   isLoading: false,
   keepPreQueryState: false,
   searchMore: () => {},
+  currentFilters: [],
 };
 
 const getSearchAndRecentItemsForJira = (

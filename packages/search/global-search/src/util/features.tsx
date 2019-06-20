@@ -5,6 +5,7 @@ import deepEqual from 'deep-equal';
 const FASTER_SEARCH_EXPERIMENT = 'faster-search';
 const DEFAULT = 'default';
 const SEARCH_EXTENSIONS_EXPERIMENT = 'search-extensions-simple';
+const SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT = 'search-extensions-complex';
 
 const isInFasterSearchExperiment = (
   abTest: ABTest,
@@ -20,6 +21,10 @@ const isInSearchExtensionsExperiment = (abTest: ABTest): boolean => {
   return abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT;
 };
 
+const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {
+  return abTest.experimentId === SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT;
+};
+
 export interface CommonFeatures {
   abTest: ABTest;
   searchExtensionsEnabled: boolean;
@@ -29,6 +34,7 @@ export interface ConfluenceFeatures extends CommonFeatures {
   isInFasterSearchExperiment: boolean;
   useUrsForBootstrapping: boolean;
   isAutocompleteEnabled: boolean;
+  complexSearchExtensionsEnabled: boolean;
 }
 
 export interface JiraFeatures extends CommonFeatures {
@@ -67,6 +73,9 @@ export const createFeatures: (
       enablePreQueryFromAggregator,
       searchExtensionsEnabled: isInSearchExtensionsExperiment(abTest),
       isAutocompleteEnabled,
+      complexSearchExtensionsEnabled: isInSearchExtensionsComplexExperiment(
+        abTest,
+      ),
     };
   },
   deepEqual,
