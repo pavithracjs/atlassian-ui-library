@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
+import getExamplesFor from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
 test('Field text server side rendering', async done => {
