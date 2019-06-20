@@ -2197,7 +2197,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   >
                     <span
                       class="pfcs-generated-mention"
-                      style="background: rgba(9, 30, 66, 0.08); border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
+                      style="background: #EBECF0; border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
                     >
                       @Carolyn
                     </span>
@@ -2366,7 +2366,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   >
                     <span
                       class="pfcs-generated-mention"
-                      style="background: rgba(9, 30, 66, 0.08); border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
+                      style="background: #EBECF0; border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
                     >
                       @Carolyn
                     </span>
@@ -2558,7 +2558,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   >
                     <span
                       class="pfcs-generated-mention"
-                      style="background: rgba(9, 30, 66, 0.08); border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
+                      style="background: #EBECF0; border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
                     >
                       @Carolyn
                     </span>
@@ -2727,7 +2727,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   >
                     <span
                       class="pfcs-generated-mention"
-                      style="background: rgba(9, 30, 66, 0.08); border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
+                      style="background: #EBECF0; border: 1px solid transparent; border-radius: 20px; color: #42526E; padding: 0 4px 2px 3px; white-space: nowrap;"
                     >
                       @Carolyn
                     </span>

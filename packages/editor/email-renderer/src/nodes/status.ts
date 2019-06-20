@@ -64,9 +64,16 @@ export const styles = `
 }
 `;
 
-const ALLOWED_COLORS = ['blue', 'red', 'yellow', 'green', 'purple', 'neutral'];
+const ALLOWED_COLORS = new Set([
+  'blue',
+  'red',
+  'yellow',
+  'green',
+  'purple',
+  'neutral',
+]);
 
 export default function status({ attrs, text }: NodeSerializerOpts) {
-  const color = ALLOWED_COLORS.includes(attrs.color) ? attrs.color : 'neutral';
+  const color = ALLOWED_COLORS.has(attrs.color) ? attrs.color : 'neutral';
   return createTag('span', { class: createClassName(`status-${color}`) }, text);
 }
