@@ -1,1 +1,0 @@
-ED-7046: promote layoutSection and layoutColumn from stage-0 to full schema
