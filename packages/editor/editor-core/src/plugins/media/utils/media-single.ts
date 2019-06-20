@@ -26,6 +26,7 @@ import { WidthPluginState } from '../../width';
 export interface MediaSingleState extends MediaState {
   dimensions: { width: number; height: number };
   scaleFactor?: number;
+  contextId?: string;
 }
 
 function shouldAddParagraph(state: EditorState) {
@@ -117,17 +118,17 @@ export const insertMediaSingleNode = (
 export const createMediaSingleNode = (schema: Schema, collection: string) => (
   mediaState: MediaSingleState,
 ) => {
-  const { id, dimensions, scaleFactor = 1 } = mediaState;
+  const { id, dimensions, contextId, scaleFactor = 1 } = mediaState;
   const { width, height } = dimensions || {
     height: undefined,
     width: undefined,
   };
   const { media, mediaSingle } = schema.nodes;
-
   const mediaNode = media.create({
     id,
     type: 'file',
     collection,
+    contextId,
     width: width && Math.round(width / scaleFactor),
     height: height && Math.round(height / scaleFactor),
   });
