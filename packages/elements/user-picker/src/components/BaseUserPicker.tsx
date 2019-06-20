@@ -210,7 +210,10 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     if (loadOptions) {
       this.setState(({ inflightRequest: previousRequest }) => {
         const inflightRequest = previousRequest + 1;
-        const result = loadOptions(search);
+        const result =
+          this.session && this.session.id
+            ? loadOptions(search, this.session.id)
+            : loadOptions(search);
         const addOptions = this.addOptions.bind(
           this,
           inflightRequest.toString(),

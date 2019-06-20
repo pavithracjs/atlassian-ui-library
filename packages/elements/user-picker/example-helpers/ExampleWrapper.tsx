@@ -31,12 +31,17 @@ export class ExampleWrapper extends React.PureComponent<
     };
   }
 
-  private loadUsers = (searchText?: string) => {
+  private loadUsers = (searchText?: string, sessionId?: string) => {
     if (searchText && searchText.length > 0) {
       return new Promise<OptionData[]>(resolve => {
         window.setTimeout(() => resolve(filterUsers(searchText)), 1000);
       });
     }
+
+    if (sessionId) {
+      console.log(`sessionId is ${sessionId}`);
+    }
+
     return [
       unassigned,
       assignToMe,
