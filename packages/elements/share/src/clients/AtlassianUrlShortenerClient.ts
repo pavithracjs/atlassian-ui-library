@@ -38,9 +38,11 @@ function coalesceProductIdToUrlShortenerProduct(
 const warnProductNotSupported = memoizeOne((productId: string) => {
   const isProduction: boolean = process.env.NODE_ENV === 'production';
   if (!isProduction) {
-    console.warn(
+    /* eslint-disable no-console */
+    console['warn'](
       `elements/share: product "${productId}" is not supported by the URL Shortener!`,
-    ); // eslint-disable-line no-console
+    );
+    /* eslint-enable no-console */
   }
 });
 
