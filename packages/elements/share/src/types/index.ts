@@ -8,6 +8,7 @@ export {
 export * from './form';
 export * from './Flag';
 export * from './OriginTracing';
+export * from './Products';
 export * from './ShareButton';
 export {
   DialogContentState,
