@@ -33,7 +33,7 @@ export interface MediaState {
 
 export interface FeatureFlags {}
 
-type MediaProviderBase = {
+export type MediaProviderBase = {
   uploadParams?: UploadParams;
 
   /**

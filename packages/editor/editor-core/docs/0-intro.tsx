@@ -246,7 +246,7 @@ ${(
     <Props
       shouldCollapseProps
       heading="Props"
-      props={require('!!extract-react-types-loader!../src/editor')}
+      props={require('!!extract-react-types-loader!../src/fake-editor')}
     />
   )}
 `;
