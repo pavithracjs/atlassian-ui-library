@@ -1,5 +1,13 @@
 # @atlaskit/user-picker
 
+## 4.0.7
+
+### Patch Changes
+
+- [patch][25b3ec24af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25b3ec24af):
+
+  add optional session id to async loadoption
+
 ## 4.0.6
 
 ### Patch Changes
