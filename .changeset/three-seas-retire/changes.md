@@ -1,1 +1,0 @@
-BREAKING new optional URL shortening feature (prop change needed)
