@@ -1,5 +1,13 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.3.0
+
+### Minor Changes
+
+- [minor][f05bb0df52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f05bb0df52):
+
+  Improve emoji parsing
+
 ## 4.2.5
 
 - Updated dependencies [ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):
