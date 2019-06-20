@@ -46,9 +46,8 @@ export class EmojiState {
   private view!: EditorView;
   private queryResult: EmojiDescription[] = [];
 
-  constructor(providerFactory: ProviderFactory) {
+  constructor() {
     this.changeHandlers = [];
-    providerFactory.subscribe('emojiProvider', this.handleProvider);
   }
 
   subscribe(cb: StateChangeHandler) {
@@ -222,10 +221,7 @@ export class EmojiState {
             }
           })
           .catch(() => {
-            if (this.emojiProvider) {
-              this.emojiProvider.unsubscribe(this.onProviderChange);
-            }
-            this.emojiProvider = undefined;
+            this.destroy();
           });
         break;
     }
@@ -269,6 +265,13 @@ export class EmojiState {
   setView(view: EditorView) {
     this.view = view;
   }
+
+  destroy() {
+    if (this.emojiProvider) {
+      this.emojiProvider.unsubscribe(this.onProviderChange);
+    }
+    this.emojiProvider = undefined;
+  }
 }
 
 export function createPlugin(
@@ -278,8 +281,8 @@ export function createPlugin(
 ) {
   return new Plugin({
     state: {
-      init(_config, state) {
-        return new EmojiState(providerFactory);
+      init() {
+        return new EmojiState();
       },
       apply(_tr, pluginState, _oldState, _newState) {
         // NOTE: Don't call pluginState.update here.
@@ -309,6 +312,7 @@ export function createPlugin(
     view: (view: EditorView) => {
       const pluginState: EmojiState = emojiPluginKey.getState(view.state);
       pluginState.setView(view);
+      providerFactory.subscribe('emojiProvider', pluginState.handleProvider);
 
       return {
         update(view: EditorView, _prevState: EditorState) {
@@ -321,6 +325,7 @@ export function createPlugin(
             'emojiProvider',
             pluginState.handleProvider,
           );
+          pluginState.destroy();
         },
       };
     },

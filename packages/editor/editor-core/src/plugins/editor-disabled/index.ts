@@ -1,4 +1,4 @@
-import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
+import { Plugin, PluginKey } from 'prosemirror-state';
 import { EditorPlugin } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 
@@ -17,7 +17,7 @@ function reducer(
   return meta;
 }
 
-const { createPluginState, getPluginState } = pluginFactory(pluginKey, reducer);
+const { createPluginState } = pluginFactory(pluginKey, reducer);
 
 /*
 Stores the state of the editor enabled/disabled for panel and floating
@@ -26,14 +26,10 @@ won't re-render when it changes.
 */
 export function createPlugin(
   dispatch: Dispatch<EditorDisabledPluginState>,
-  oldState?: EditorState,
 ): Plugin | undefined {
   return new Plugin({
     key: pluginKey,
-    state: createPluginState(
-      dispatch,
-      (oldState && getPluginState(oldState)) || { editorDisabled: false },
-    ),
+    state: createPluginState(dispatch, { editorDisabled: false }),
   });
 }
 
@@ -41,7 +37,7 @@ const editorDisabledPlugin: EditorPlugin = {
   pmPlugins: () => [
     {
       name: 'editorDisabled',
-      plugin: ({ dispatch, oldState }) => createPlugin(dispatch, oldState),
+      plugin: ({ dispatch }) => createPlugin(dispatch),
     },
   ],
 };
