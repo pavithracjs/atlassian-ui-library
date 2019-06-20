@@ -1,1 +1,0 @@
-Improve emoji parsing
