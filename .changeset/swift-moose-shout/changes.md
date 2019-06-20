@@ -1,0 +1,1 @@
+Fix click and hover behaviours of disabled single user picker
