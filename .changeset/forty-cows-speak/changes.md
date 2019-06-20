@@ -1,1 +1,0 @@
-adds support for embedded images in email renderer

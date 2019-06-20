@@ -1,5 +1,4 @@
 import { TokenType } from './';
-import { EMOJIS } from './emoji';
 
 interface KeywordToken {
   type: TokenType;
@@ -92,15 +91,10 @@ export function parseOtherKeyword(input: string): { type: TokenType } | null {
   // Look for a emoji
   const char = input.charAt(0);
   if ([':', '(', ';'].indexOf(char) !== -1) {
-    for (const emoji of EMOJIS) {
-      for (const text of emoji.markup) {
-        if (input.startsWith(text)) {
-          return {
-            type: TokenType.EMOJI,
-          };
-        }
-      }
-    }
+    return {
+      // This potentially can be a emoji. The emoji parser will fail out if it's not
+      type: TokenType.EMOJI,
+    };
   }
 
   return null;
