@@ -38,4 +38,19 @@ describe('Browser', () => {
     onBrowseFnSpy.mock.calls[0][0]();
     expect(spy).toBeCalled();
   });
+
+  it('should provide a function to onCancelFn callback property and call uploadService.cancel', () => {
+    const onCancelFnSpy = jest.fn();
+    const browser = mount(
+      <Browser
+        mediaClient={mediaClient}
+        config={browseConfig}
+        onCancelFn={onCancelFnSpy}
+      />,
+    );
+    const instance = browser.instance() as Browser;
+    expect(onCancelFnSpy).toBeCalled();
+    onCancelFnSpy.mock.calls[0][0]();
+    expect((instance as any).uploadService.cancel).toBeCalled();
+  });
 });

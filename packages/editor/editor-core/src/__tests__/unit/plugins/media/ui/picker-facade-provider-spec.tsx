@@ -1,0 +1,137 @@
+import { mount } from 'enzyme';
+import * as React from 'react';
+
+const picker: any = {
+  on: jest.fn(),
+  onClose: jest.fn(),
+  onNewMedia: jest.fn(),
+  onMediaEvent: jest.fn(),
+  onDrag: jest.fn(),
+  hide: jest.fn(),
+  setUploadParams: jest.fn(),
+  show: jest.fn(),
+  deactivate: jest.fn(),
+  activate: jest.fn(),
+  destroy: jest.fn(),
+  type: 'popup',
+};
+picker.init = jest.fn().mockReturnValue(picker);
+
+const mockMediaPickerFacade = jest.fn(() => picker);
+
+jest.mock(
+  '../../../../../plugins/media/picker-facade',
+  () => mockMediaPickerFacade,
+);
+
+import {
+  MediaPluginState,
+  MediaProvider,
+} from '../../../../../plugins/media/pm-plugins/main';
+import PickerFacadeProvider from '../../../../../plugins/media/ui/PickerFacadeProvider';
+import { fakeContext } from '@atlaskit/media-test-helpers';
+import { ProviderHandler } from '@atlaskit/editor-common/src/providerFactory';
+
+describe('PickerFacadeProvider', () => {
+  let pluginState: MediaPluginState;
+  let provider: MediaProvider;
+  const dummyContext = fakeContext();
+  const sendAnalyticsSpy = jest.fn();
+
+  beforeEach(() => {
+    pluginState = {} as MediaPluginState;
+    provider = {} as MediaProvider;
+    provider.uploadParams = {};
+    provider.uploadContext = Promise.resolve(dummyContext) as any;
+
+    pluginState.insertFile = jest.fn();
+    pluginState.trackNewMediaEvent = jest.fn(() => sendAnalyticsSpy);
+    pluginState.options = {
+      providerFactory: {
+        subscribe: (_name: string, callback: ProviderHandler) =>
+          callback(_name, Promise.resolve(provider)),
+        unsubscribe: jest.fn(),
+      },
+    } as any;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should initialize PickerFacade properly', () => {
+    mount(
+      <PickerFacadeProvider
+        mediaState={pluginState}
+        analyticsName="analyticsNameTest"
+      >
+        {({ context, config, pickerFacadeInstance }) => {
+          /**
+           * This test cover the basic PickerFacade initialization for any use case of this class.
+           * These are mainly use for any MediaPicker react component.
+           * */
+          expect(pickerFacadeInstance).toBe(picker);
+          expect(context).toBe(dummyContext);
+          expect(config).toEqual({
+            uploadParams: provider.uploadParams,
+          });
+
+          expect(mockMediaPickerFacade).toBeCalled();
+          expect(mockMediaPickerFacade.mock.calls[0][0]).toBe(
+            'customMediaPicker',
+          );
+          expect(picker.init).toBeCalled();
+
+          expect(picker.onNewMedia).toBeCalledWith(pluginState.insertFile);
+          expect(pluginState.trackNewMediaEvent).toBeCalledWith(
+            'analyticsNameTest',
+          );
+          expect(picker.onNewMedia).toBeCalledWith(sendAnalyticsSpy);
+          expect(picker.setUploadParams).toBeCalledWith(provider.uploadParams);
+
+          return null;
+        }}
+      </PickerFacadeProvider>,
+    );
+  });
+
+  it('should call pluginState.options.providerFactory.unsubscribe when component is unmounted', () => {
+    const wrapper = mount(
+      <PickerFacadeProvider
+        mediaState={pluginState}
+        analyticsName="analyticsNameTest"
+      >
+        {() => null}
+      </PickerFacadeProvider>,
+    );
+    wrapper.unmount();
+    expect(pluginState.options.providerFactory.unsubscribe).toBeCalled();
+  });
+
+  it('should not render children if context is not defined', () => {
+    provider.uploadContext = Promise.resolve() as any;
+    mount(
+      <PickerFacadeProvider
+        mediaState={pluginState}
+        analyticsName="analyticsNameTest"
+      >
+        {() => {
+          throw new Error();
+        }}
+      </PickerFacadeProvider>,
+    );
+  });
+
+  it('should not render children if config is not defined', () => {
+    provider.uploadParams = undefined;
+    mount(
+      <PickerFacadeProvider
+        mediaState={pluginState}
+        analyticsName="analyticsNameTest"
+      >
+        {() => {
+          throw new Error();
+        }}
+      </PickerFacadeProvider>,
+    );
+  });
+});

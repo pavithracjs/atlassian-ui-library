@@ -16,6 +16,7 @@ export interface BrowserOwnProps {
    * Otherwise, isOpen prop is prefered.
    */
   onBrowseFn?: (browse: () => void) => void;
+  onCancelFn?: (cancel: (uploadId: string) => void) => void;
 }
 
 export type BrowserProps = BrowserOwnProps & LocalUploadComponentBaseProps;
@@ -35,10 +36,14 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
   };
 
   componentDidMount() {
-    const { onBrowseFn, isOpen } = this.props;
+    const { onBrowseFn, onCancelFn, isOpen } = this.props;
 
     if (onBrowseFn) {
       onBrowseFn(this.browse);
+    }
+
+    if (onCancelFn) {
+      onCancelFn(this.cancel);
     }
 
     if (isOpen) {
