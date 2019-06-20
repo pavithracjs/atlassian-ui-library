@@ -1,1 +1,0 @@
-ED-7105 Fix issue where images in full-width mode page could be a different size between the editor and renderer
