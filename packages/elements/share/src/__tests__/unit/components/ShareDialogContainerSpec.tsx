@@ -200,6 +200,22 @@ describe('ShareDialogContainer', () => {
     expect(shareClient.share).toEqual(mockShare);
   });
 
+  describe('config fetch', () => {
+    it('should call fetchConfig everytime the dialog open', () => {
+      const wrapper = getWrapper();
+
+      const fetchConfig = (wrapper.instance().fetchConfig = jest.fn(
+        wrapper.instance().fetchConfig,
+      ));
+
+      expect(fetchConfig).not.toHaveBeenCalled();
+
+      wrapper.instance().handleDialogOpen();
+
+      expect(fetchConfig).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('isFetchingConfig state', () => {
     it('should be false by default', () => {
       const wrapper = getWrapper();

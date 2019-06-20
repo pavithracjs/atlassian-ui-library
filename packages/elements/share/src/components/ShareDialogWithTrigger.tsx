@@ -50,12 +50,10 @@ export type Props = {
   children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: DialogPlacement;
-  fetchConfig: Function;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
   loadUserOptions?: LoadOptions;
   onDialogOpen?: () => void;
-  onLinkCopy?: Function;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
@@ -210,9 +208,6 @@ class ShareDialogWithTriggerInternal extends React.Component<
           if (this.containerRef.current) {
             this.containerRef.current.focus();
           }
-
-          // always refetch the config when modal is re-opened
-          this.props.fetchConfig();
         }
       },
     );

@@ -226,6 +226,9 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   handleDialogOpen = () => {
     this.updateShortCopyLink();
+
+    // always refetch the config when modal is re-opened
+    this.fetchConfig();
   };
 
   // ensure origin is re-generated if the link or the factory changes
@@ -355,7 +358,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           config={this.state.config}
           copyLink={this.getCopyLink()}
           dialogPlacement={dialogPlacement}
-          fetchConfig={this.fetchConfig}
           isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
           onDialogOpen={this.handleDialogOpen}
