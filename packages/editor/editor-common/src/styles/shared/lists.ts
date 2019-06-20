@@ -16,7 +16,8 @@ export const listsSharedStyles = css`
       of filling the entire block row. This is important to allow
       clicking interactive elements which are floated next to a list.
     */
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   /* =============== INDENTATION AESTHETICS ========= */

@@ -142,7 +142,7 @@ export const InviteToEditButton = (props: InviteToEditComponentProps) => {
   return (
     <ShareDialogContainer
       cloudId="cloudId"
-      client={shareClient}
+      shareClient={shareClient}
       loadUserOptions={loadUserOptions}
       originTracingFactory={() => mockOriginTracing}
       productId="confluence"
