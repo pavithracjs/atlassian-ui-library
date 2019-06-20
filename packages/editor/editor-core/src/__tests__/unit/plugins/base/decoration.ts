@@ -30,7 +30,10 @@ describe('decoration', () => {
     const { editorView } = editor(doc(panel()(p('he{<>}llo'))));
     const { dispatch } = editorView;
 
-    hoverDecoration(true)(editorView.state, dispatch);
+    hoverDecoration(editorView.state.schema.nodes.panel, true)(
+      editorView.state,
+      dispatch,
+    );
     const pluginState: DecorationState = decorationStateKey.getState(
       editorView.state,
     );
@@ -50,9 +53,14 @@ describe('decoration', () => {
       ),
     );
 
-    const { dispatch } = editorView;
+    const {
+      dispatch,
+      state: {
+        schema: { nodes },
+      },
+    } = editorView;
 
-    hoverDecoration(true)(editorView.state, dispatch);
+    hoverDecoration(nodes.layoutSection, true)(editorView.state, dispatch);
     deleteActiveLayoutNode(editorView.state, dispatch);
 
     const pluginState = decorationStateKey.getState(editorView.state);

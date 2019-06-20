@@ -1,5 +1,36 @@
 # @atlaskit/editor-common
 
+## 39.8.5
+
+### Patch Changes
+
+- [patch][29f34ab448](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29f34ab448):
+
+  Fix infinite loop of resizes with certain page hights and widths in renderer and editor
+
+## 39.8.4
+
+### Patch Changes
+
+- [patch][7e9c4f03c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9c4f03c9):
+
+  ED-7015 Fix issue where double digits were cut off in long ordered lists
+
+## 39.8.3
+
+### Patch Changes
+
+- [patch][fee6d77243](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fee6d77243):
+
+  ED-7090 Fix issue where popups could appear off screen
+
+  Editor popups are now positioned so that they are always contained within the parent element - this prevents them being cut off when they are too far left or right
+
+## 39.8.2
+
+- Updated dependencies [a40f54404e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a40f54404e):
+  - @atlaskit/profilecard@11.0.0
+
 ## 39.8.1
 
 ### Patch Changes

@@ -28,10 +28,7 @@ export const TitleWrapper = styled.div`
   align-items: flex-start;
   display: flex;
   ${({ truncate }: StyledProps) =>
-    truncate
-      ? 'flex-wrap: no-wrap;'
-      : 'flex-wrap: wrap;'}
-  justify-content: space-between;
+    truncate ? 'flex-wrap: no-wrap;' : 'flex-wrap: wrap;'}
 `;
 
 export const TitleContainer = styled.div`
@@ -43,8 +40,9 @@ export const TitleContainer = styled.div`
 `;
 
 export const ActionsWrapper = styled.div`
-  flex: 1 0 auto;
+  flex: 0 0 auto;
   margin-bottom: ${gridSize()}px;
+  margin-left: auto;
   max-width: 100%;
   padding-left: ${gridSize() * 4}px;
   text-align: right;

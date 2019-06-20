@@ -21,6 +21,7 @@ import {
 } from 'prosemirror-state';
 import { liftTarget, findWrapping } from 'prosemirror-transform';
 import { LEFT } from '../keymaps';
+import { browser } from '@atlaskit/editor-common';
 import {
   JSONTransformer,
   JSONDocNode,
@@ -717,9 +718,9 @@ export const isTemporary = (id: string): boolean => {
 
 // @see: https://github.com/ProseMirror/prosemirror/issues/710
 // @see: https://bugs.chromium.org/p/chromium/issues/detail?id=740085
-// Chrome >= 58
+// Chrome >= 58 (desktop only)
 export const isChromeWithSelectionBug =
-  parseInt((navigator.userAgent.match(/Chrome\/(\d{2})/) || [])[1], 10) >= 58;
+  browser.chrome && !browser.android && browser.chrome_version >= 58;
 
 export const isEmptyNode = (schema: Schema) => {
   const {

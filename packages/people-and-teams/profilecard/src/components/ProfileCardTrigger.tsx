@@ -103,7 +103,7 @@ class ProfilecardTrigger extends React.Component<
     clearTimeout(this.hideTimer);
   }
 
-  clientFetchProfile() {
+  clientFetchProfile = () => {
     const { cloudId, userId } = this.props;
 
     this.setState({
@@ -119,7 +119,7 @@ class ProfilecardTrigger extends React.Component<
         err => this.handleClientError(err),
       )
       .catch(err => this.handleClientError(err));
-  }
+  };
 
   handleClientSuccess(res: ProfileCardClientData) {
     if (!this._isMounted) {

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { MentionStyle } from './styles';
 import { NoAccessTooltip } from '../NoAccessTooltip';
 import { isRestricted, MentionType, MentionEventHandler } from '../../types';
@@ -10,8 +11,10 @@ import {
   CreateUIAnalyticsEventSignature,
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
+import { messages } from '../i18n';
 
 export const ANALYTICS_HOVER_DELAY = 1000;
+export const UNKNOWN_USER_ID = '_|unknown|_';
 
 export type OwnProps = {
   id: string;
@@ -76,6 +79,17 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
     }
   }
 
+  renderUnknownUserError(id: string) {
+    return (
+      <FormattedMessage
+        {...messages.unknownUserError}
+        values={{ userId: id.slice(-5) }}
+      >
+        {message => `@${message}`}
+      </FormattedMessage>
+    );
+  }
+
   render() {
     const {
       handleOnClick,
@@ -86,6 +100,8 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
     const { text, id, accessLevel } = props;
     const mentionType: MentionType = this.getMentionType();
 
+    const failedMention = text === `@${UNKNOWN_USER_ID}`;
+
     const mentionComponent = (
       <MentionStyle
         mentionType={mentionType}
@@ -93,7 +109,7 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
       >
-        {text || '@...'}
+        {failedMention ? this.renderUnknownUserError(id) : text || '@...'}
       </MentionStyle>
     );
 

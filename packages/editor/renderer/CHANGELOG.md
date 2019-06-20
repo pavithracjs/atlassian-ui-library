@@ -1,5 +1,33 @@
 # @atlaskit/renderer
 
+## 49.1.0
+
+### Minor Changes
+
+- [minor][fec7d4576f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fec7d4576f):
+
+  Bump new version of @atlaskit/mention to other AK packages to get correct i18n strings
+
+## 49.0.1
+
+- Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+  - @atlaskit/editor-test-helpers@9.4.1
+  - @atlaskit/smart-card@12.0.0
+
+## 49.0.0
+
+### Major Changes
+
+- [major][ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):
+
+  Extracted email renderer outside react renderer
+
+## 48.8.2
+
+- Updated dependencies [a40f54404e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a40f54404e):
+  - @atlaskit/editor-common@39.8.2
+  - @atlaskit/profilecard@11.0.0
+
 ## 48.8.1
 
 ### Patch Changes

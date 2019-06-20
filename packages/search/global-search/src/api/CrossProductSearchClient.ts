@@ -156,8 +156,6 @@ export default class CachingCrossProductSearchClientImpl
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
-    this.bootstrapPeopleCache =
-      prefetchResults && prefetchResults.recentPeoplePromise;
   }
 
   public async getPeople(

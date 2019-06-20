@@ -1,5 +1,21 @@
 # @atlaskit/navigation-next
 
+## 6.2.1
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
+## 6.2.0
+
+### Minor Changes
+
+- [minor][586f8033b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/586f8033b0):
+
+  Add shouldHideGlobalNavShadow prop to LayoutManagerWithViewController
+
 ## 6.1.0
 
 ### Minor Changes
