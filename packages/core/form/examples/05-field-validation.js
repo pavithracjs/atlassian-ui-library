@@ -10,32 +10,26 @@ import Form, {
   ValidMessage,
 } from '../src';
 
-export default class extends Component<{}> {
-  validateValue = '';
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  serverValidate = (
-    value: string,
-  ): Promise<?{ value: string, error: string }> =>
-    new Promise(resolve => {
-      setTimeout(() => {
-        if (value.length <= 2) {
-          resolve({ value, error: 'TOO_SHORT' });
-        }
-        if (['jill', 'joe', 'jillian', 'jack'].find(v => v === value)) {
-          resolve({ value, error: 'IN_USE' });
-        }
-        resolve(undefined);
-      }, 500);
-    });
+export default class extends Component<{}> {
+  getUser = async (value: string) => {
+    await sleep(300);
+    if (['jsmith', 'mchan'].includes(value)) {
+      return 'IN_USE';
+    }
+    return undefined;
+  };
 
   validate = (value: string) => {
-    this.validateValue = value;
-    return this.serverValidate(value).then(validateObject => {
-      if (validateObject && validateObject.value === this.validateValue) {
-        return validateObject.error;
-      }
-      return undefined;
-    });
+    if (value.length < 5) {
+      return 'TOO_SHORT';
+    }
+    return this.getUser(value);
+  };
+
+  handleSubmit = (data: { password: string }) => {
+    console.log(data);
   };
 
   render() {
@@ -49,7 +43,7 @@ export default class extends Component<{}> {
           flexDirection: 'column',
         }}
       >
-        <Form onSubmit={data => console.log(data)}>
+        <Form onSubmit={this.handleSubmit}>
           {({ formProps }) => (
             <form {...formProps}>
               <Field
@@ -59,27 +53,27 @@ export default class extends Component<{}> {
                 isRequired
                 validate={this.validate}
               >
-                {({ fieldProps, error, meta: { valid } }) => (
+                {({ fieldProps, error, valid }) => (
                   <Fragment>
                     <TextField {...fieldProps} />
                     {!error && !valid && (
                       <HelperMessage>
-                        Pick a memorable name that others will see
+                        Should be more than 4 characters
                       </HelperMessage>
                     )}
-                    {valid && (
+                    {!error && valid && (
                       <ValidMessage>
                         Nice one, this username is available
                       </ValidMessage>
                     )}
                     {error === 'TOO_SHORT' && (
                       <ErrorMessage>
-                        Too short, username needs to be more than 2 characters
+                        Invalid username, needs to be more than 4 characters
                       </ErrorMessage>
                     )}
                     {error === 'IN_USE' && (
                       <ErrorMessage>
-                        This username is taken by somebody, try something else
+                        Username already taken, try another one
                       </ErrorMessage>
                     )}
                   </Fragment>
