@@ -191,8 +191,7 @@ export const messages = defineMessages({
   },
   jira_no_results_body: {
     id: 'global_search.jira.no_results_body',
-    defaultMessage:
-      'Try again with a different term, or refine your results with our advanced search.',
+    defaultMessage: 'Try again with a different term.',
     description: '',
   },
   jira_no_recent_activity_body: {
