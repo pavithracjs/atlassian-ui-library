@@ -1,5 +1,13 @@
 # @atlaskit/user-picker
 
+## 4.0.8
+
+### Patch Changes
+
+- [patch][77ef850a35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77ef850a35):
+
+  Fix click and hover behaviours of disabled single user picker
+
 ## 4.0.7
 
 ### Patch Changes
