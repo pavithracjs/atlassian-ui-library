@@ -1,5 +1,29 @@
 # @atlaskit/adf-schema
 
+## 2.7.0
+
+### Minor Changes
+
+- [minor][0a7ce4f0e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a7ce4f0e6):
+
+  ED-7046: promote layoutSection and layoutColumn from stage-0 to full schema
+
+## 2.6.1
+
+### Patch Changes
+
+- [patch][aff59f9a99](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aff59f9a99):
+
+  ED-7045: promote mediaSingle width attribute from stage-0 to full schema
+
+## 2.6.0
+
+### Minor Changes
+
+- [minor][a6a241d230](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6a241d230):
+
+  Breakout mark stage-0 -> full schema
+
 ## 2.5.10
 
 ### Patch Changes

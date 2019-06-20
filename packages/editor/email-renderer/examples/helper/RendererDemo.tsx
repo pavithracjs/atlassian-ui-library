@@ -4,7 +4,7 @@ import { defaultSchema } from '@atlaskit/adf-schema';
 
 import { document as storyDataDocument } from './story-data';
 
-import { EmailSerializer } from '../../src';
+import EmailSerializer from '../../src';
 
 import { renderDocument } from './render-document';
 

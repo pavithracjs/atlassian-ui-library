@@ -1,5 +1,42 @@
 # @atlaskit/editor-core
 
+## 112.15.3
+
+- Updated dependencies [dc965edbe6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc965edbe6):
+  - @atlaskit/share@0.5.0
+
+## 112.15.2
+
+### Patch Changes
+
+- [patch][9459224125](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9459224125):
+
+  ED-7104 Fix issue where h scroll would appear on page when long text was inside code snippet inside layouts in full-width mode
+
+## 112.15.1
+
+### Patch Changes
+
+- [patch][7e9c4f03c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9c4f03c9):
+
+  ED-7015 Fix issue where double digits were cut off in long ordered lists
+
+## 112.15.0
+
+### Minor Changes
+
+- [minor][fec7d4576f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fec7d4576f):
+
+  Bump new version of @atlaskit/mention to other AK packages to get correct i18n strings
+
+## 112.14.1
+
+### Patch Changes
+
+- [patch][ca1b98b16f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca1b98b16f):
+
+  ED-7070: Dont skip filtering nodes if a content transformer is present while getting the editors value.
+
 ## 112.14.0
 
 ### Minor Changes

@@ -27,7 +27,6 @@ export interface MediaState {
   };
   /** still require to support Mobile */
   publicId?: string;
-  contextId?: string;
 }
 
 export interface FeatureFlags {}

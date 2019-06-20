@@ -40,8 +40,6 @@ export interface MediaBaseAttributes {
   __fileMimeType?: string | null;
   // For JIRA
   __displayType?: DisplayType | null;
-  // For copy & paste
-  __contextId?: string;
 }
 
 export interface MediaAttributes extends MediaBaseAttributes {
@@ -69,7 +67,6 @@ export const defaultAttrs: DefaultAttributes<
   __fileSize: { default: null },
   __fileMimeType: { default: null },
   __displayType: { default: null },
-  __contextId: { default: null },
 };
 
 export const media: NodeSpec = {

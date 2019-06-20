@@ -49,7 +49,6 @@ export interface MediaSingleNodeProps {
   editorAppearance: EditorAppearance;
   mediaOptions: MediaOptions;
   mediaProvider?: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<any>; // TODO: find right interface
   fullWidthMode?: boolean;
   mediaPluginState: MediaPluginState;
 }
@@ -78,7 +77,6 @@ export default class MediaSingleNode extends Component<
     const mediaProvider = await this.props.mediaProvider;
     if (mediaProvider) {
       const viewContext = await mediaProvider.viewContext;
-
       this.setState({
         viewContext,
       });
@@ -94,43 +92,7 @@ export default class MediaSingleNode extends Component<
         true,
       )(this.props.view.state, this.props.view.dispatch);
     }
-
-    this.copyNode();
   }
-
-  // TODO: move into a different class
-  // TODO: find a better name
-  copyNode = async () => {
-    const mediaProvider = await this.props.mediaProvider;
-    const contextIdentifierProvider = await this.props
-      .contextIdentifierProvider;
-    if (mediaProvider) {
-      if (mediaProvider.uploadParams) {
-        const currentCollectionName = mediaProvider.uploadParams.collection;
-        const { firstChild } = this.props.node;
-        if (firstChild) {
-          const {
-            id: nodeId,
-            collection: nodeCollection,
-          } = firstChild.attrs as MediaAttributes;
-
-          console.log({ currentCollectionName, nodeCollection });
-          if (currentCollectionName !== nodeCollection) {
-            const uploadContext = await mediaProvider.uploadContext;
-
-            if (uploadContext && uploadContext.config.getAuthFromContext) {
-              // TODO: pass ContextIdentifierProvider
-              // TODO: get contextId from node
-              const auth = await uploadContext.config.getAuthFromContext(
-                nodeId,
-              );
-              console.log({ contextIdentifierProvider });
-            }
-          }
-        }
-      }
-    }
-  };
 
   async getRemoteDimensions(): Promise<
     false | { id: string; height: number; width: number }
@@ -378,9 +340,9 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
 
     return (
       <WithProviders
-        providers={['mediaProvider', 'contextIdentifierProvider']}
+        providers={['mediaProvider']}
         providerFactory={providerFactory}
-        renderNode={({ mediaProvider, contextIdentifierProvider }) => {
+        renderNode={({ mediaProvider }) => {
           return (
             <WithPluginState
               editorView={this.view}
@@ -402,7 +364,6 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
                     node={this.node}
                     getPos={this.getPos}
                     mediaProvider={mediaProvider}
-                    contextIdentifierProvider={contextIdentifierProvider}
                     mediaOptions={mediaOptions || {}}
                     view={this.view}
                     fullWidthMode={fullWidthMode}
