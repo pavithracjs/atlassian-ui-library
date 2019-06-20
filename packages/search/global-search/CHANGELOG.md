@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.15.7
+
+### Patch Changes
+
+- [patch][e7db01700d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7db01700d):
+
+  Updating empty state screen for Jira global-search
+
 ## 8.15.6
 
 ### Patch Changes
