@@ -9,7 +9,7 @@ export default evaluateInner`
     border-radius: ${lozengeBorderRadius};
     box-sizing: border-box;
     display: inline-flex;
-    font-size: ${fontSizeSmall()}px;
+    font-size: 11px;
     font-weight: 700;
     line-height: 1;
     max-width: 200px;
