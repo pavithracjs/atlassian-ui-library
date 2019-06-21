@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.16.2
+
+### Patch Changes
+
+- [patch][b229885814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b229885814):
+
+  ED-7125 Fix composition input within Action and Decision list items for the first word entered.
+
 ## 112.16.1
 
 ### Patch Changes
