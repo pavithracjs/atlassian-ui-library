@@ -31,6 +31,9 @@ describe('mentionTypeahead', () => {
     childObjectId: 'child-object-id',
   };
 
+  // all team ids in `packages/elements/util-data-test/json-data/mention-data.json`
+  const allTeamIds = ['team-1', 'team-2', 'team-3', 'team-4'];
+
   type TestDependencies = {
     editorView: EditorView;
     sel: number;
@@ -319,7 +322,7 @@ describe('mentionTypeahead', () => {
               duration: expect.any(Number),
               queryLength: 0,
               spaceInQuery: false,
-              userIds: expect.any(Array),
+              userIds: expect.not.arrayContaining(allTeamIds),
               sessionId: expect.stringMatching(sessionIdRegex),
             }),
           }),
@@ -343,7 +346,7 @@ describe('mentionTypeahead', () => {
               duration: expect.any(Number),
               queryLength: 3,
               spaceInQuery: false,
-              userIds: expect.any(Array),
+              userIds: expect.not.arrayContaining(allTeamIds),
               sessionId: expect.stringMatching(sessionIdRegex),
             }),
           }),
@@ -413,7 +416,13 @@ describe('mentionTypeahead', () => {
               ...commonAttrsTypeAhead,
               duration: 200,
               userIds: null,
-              teams: expect.any(Array),
+              teams: expect.arrayContaining(
+                allTeamIds.map(teamId => ({
+                  teamId,
+                  includesYou: expect.anything(),
+                  memberCount: expect.anything(),
+                })),
+              ),
             }),
           }),
         );
@@ -426,7 +435,7 @@ describe('mentionTypeahead', () => {
             attributes: expect.objectContaining({
               ...commonAttrsTypeAhead,
               duration: 100,
-              userIds: expect.any(Array),
+              userIds: expect.not.arrayContaining(allTeamIds),
               teams: null,
             }),
           }),
