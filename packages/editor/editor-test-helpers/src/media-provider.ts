@@ -37,15 +37,13 @@ export function storyMediaProviderFactory(
       includeUserAuthProvider === false ? undefined : userAuthProvider,
   };
 
-  const mediaProvider: MediaProvider = {
+  return Promise.resolve<MediaProvider>({
     featureFlags: {},
     uploadParams: { collection },
     viewMediaClientConfig: mediaClientConfig,
     uploadMediaClientConfig:
       includeUploadMediaClientConfig === false ? undefined : mediaClientConfig,
-  };
-
-  return Promise.resolve(mediaProvider);
+  });
 }
 
 export type promisedString = Promise<string>;

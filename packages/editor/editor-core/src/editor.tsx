@@ -36,14 +36,12 @@ const ContextAdapter = createContextAdapter({
   card: CardContext,
 });
 
-export const defaultProps: EditorProps = {
-  appearance: 'comment',
-  disabled: false,
-  extensionHandlers: {},
-};
-
 export default class Editor extends React.Component<EditorProps, {}> {
-  static defaultProps = defaultProps;
+  static defaultProps: EditorProps = {
+    appearance: 'comment',
+    disabled: false,
+    extensionHandlers: {},
+  };
 
   static contextTypes = {
     editorActions: PropTypes.object,
