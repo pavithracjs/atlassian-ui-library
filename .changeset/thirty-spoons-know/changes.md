@@ -1,0 +1,1 @@
+Fix selected state on arrow navigation buttons in MV
