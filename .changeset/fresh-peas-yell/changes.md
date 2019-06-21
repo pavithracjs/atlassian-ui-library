@@ -46,9 +46,11 @@ Notes on new API:
 * No need to explicitly teardown the component. Unmounting the component will do the work
 * `onBrowseFn` and `onCancelFn` are workarounds to open the file browser and cancel an ongoing upload. Refer to its type definitions for more info.
 Before we were saving a ref and call `ref.browse()` or `ref.cancel()`.
-* In some cases you will need to provide either `onBrowserFn` or `onCancelFn` in order to open the file browser or to cancel an ongoing upload programatically. Typically this will be needed when this component is being rendered outside a react component, and we cannot take advantage of using `isOpen` directly. A good example of this can be seen in -> https://bitbucket.org/atlassian/atlaskit-mk-2/src/d7a2e4a8fb8e35b841d751f5ecccff188c955c7a/packages/editor/editor-core/src/plugins/media/index.tsx#lines-178 where `BrowserMediaPickerWrapper` is rendered.
+* In some cases you will need to provide either `onBrowserFn` or `onCancelFn` in order to open the file browser or to cancel an ongoing upload programatically. 
+Typically this will be needed when this component is being rendered outside a react component, and we cannot take advantage of using `isOpen` directly. 
+A good example of this can be seen in -> https://bitbucket.org/atlassian/atlaskit-mk-2/src/d7a2e4a8fb8e35b841d751f5ecccff188c955c7a/packages/editor/editor-core/src/plugins/media/index.tsx#lines-178 where `BrowserMediaPickerWrapper` is rendered.
 
-Basically if we have are rendering `Browser` in isolation (meaning, not inside another react component), we will need to do something like:
+Basically if we render `Browser` component in isolation (meaning, not inside another react component), we will need to do something like:
 
 ```
 const saveOpenBrowserFunction = (browse) => this.openBrowser = browse;

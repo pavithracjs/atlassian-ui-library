@@ -83,7 +83,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   };
 
   render() {
-    const array = (Array(5) as any).fill();
+    const array = Array.from({ length: 5 });
     const buttons = array.map((_: any, key: number) => {
       return (
         <Button key={key} appearance="primary" onClick={this.onOpen}>

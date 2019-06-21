@@ -90,7 +90,7 @@ describe('PickerFacadeProvider', () => {
           );
           expect(picker.onNewMedia).toBeCalledWith(sendAnalyticsSpy);
           expect(picker.setUploadParams).toBeCalledWith(provider.uploadParams);
-
+          expect.assertions(10);
           return null;
         }}
       </PickerFacadeProvider>,
