@@ -144,19 +144,6 @@ async function disableScrollBehavior(page /*: any */) {
  * on the page to load prior to taking a screenshot.
  */
 
-// Wait for all image elements on the page to have loaded.
-function areAllImageElementsLoaded() {
-  const images = Array.from(document.images);
-  if (!images.length) {
-    throw new Error(`
-      'waitForLoadedImageElements' was used, but no images existed on the page within the time threshold.
-      Ensure the page contains images.
-      You can increase the wait time via the 'mediaDelayMs' parameter.
-    `);
-  }
-  return images.every(i => i.complete);
-}
-
 /**
  * Wait for resolved image elements to have all loaded.
  *
@@ -168,15 +155,36 @@ function areAllImageElementsLoaded() {
 async function waitForLoadedImageElements(
   page /*:any*/,
   timeout /*:number*/,
-  mediaDelayMs /*:number*/ = 150,
+  options /*:{
+    allowNoImages?:boolean,
+    mediaDelayMs?:number,
+  }*/ = {},
 ) {
-  // Wait for Media API to resolve urls
-  await page.waitFor(mediaDelayMs);
-  // polling at 50ms (roughly every 3 rendered frames)
-  return await page.waitForFunction(areAllImageElementsLoaded, {
-    polling: 50,
-    timeout,
-  });
+  const { allowNoImages, mediaDelayMs } = options;
+
+  // Wait for Media API to resolve urls and generate <img> elements
+  await page.waitFor(mediaDelayMs || 150);
+
+  // Check if there are any images on the page
+  const imagesExist = page.evaluate(
+    () => Array.from(document.images).length > 0,
+  );
+  if (!imagesExist) {
+    if (allowNoImages) {
+      return;
+    } else {
+      throw new Error(`
+      'waitForLoadedImageElements' was used, but no images existed on the page within the time threshold.
+        Ensure the page contains images.
+        You can increase the wait time via the 'mediaDelayMs' parameter, or set 'allowNoImages' to not throw an error.
+    `);
+    }
+  }
+
+  return await page.waitForFunction(
+    () => Array.from(document.images).every(i => i.complete),
+    { timeout },
+  );
 }
 
 /**

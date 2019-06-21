@@ -3,6 +3,7 @@ import {
   navigateToUrl,
   disableAllSideEffects,
   compareScreenshot,
+  waitForLoadedImageElements,
 } from '@atlaskit/visual-regression/helper';
 import { Page } from 'puppeteer';
 import { Props } from '../../ui/Renderer';
@@ -117,6 +118,9 @@ export async function snapshot(
   const { tolerance, useUnsafeThreshold } = threshold;
   const renderer = await page.$(selector);
 
+  // Wait for any images to load
+  await waitForLoadedImageElements(page, 1000, { allowNoImages: true });
+
   // Try to take a screenshot of only the renderer.
   // Otherwise take the whole page.
   let image;
@@ -126,7 +130,7 @@ export async function snapshot(
     image = await page.screenshot();
   }
 
-  compareScreenshot(image, tolerance, { useUnsafeThreshold });
+  return compareScreenshot(image, tolerance, { useUnsafeThreshold });
 }
 
 export async function animationFrame(page: Page) {

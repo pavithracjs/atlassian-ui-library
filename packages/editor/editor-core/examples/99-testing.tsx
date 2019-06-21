@@ -11,6 +11,7 @@ import {
   macroProvider,
   customInsertMenuItems,
   extensionHandlers,
+  parseAndInlineAdfMedia,
 } from '@atlaskit/editor-test-helpers';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
@@ -142,6 +143,10 @@ function createEditorWindowBindings(win: Window) {
       props.extensionHandlers = extensionHandlers;
     }
 
+    if (props.defaultValue) {
+      props.defaultValue = parseAndInlineAdfMedia(props.defaultValue);
+    }
+
     let Editor: React.ComponentType<EditorProps> = (props: EditorProps) => (
       <EditorWithState
         insertMenuItems={customInsertMenuItems}
@@ -188,6 +193,13 @@ function createEditorWindowBindings(win: Window) {
     }
 
     editorProps = { ...editorProps, ...newProps };
+
+    if (editorProps.defaultValue) {
+      editorProps.defaultValue = parseAndInlineAdfMedia(
+        editorProps.defaultValue,
+      );
+    }
+
     const WrapperComponent = <Wrapper {...editorProps} />;
     if (
       editorProps &&

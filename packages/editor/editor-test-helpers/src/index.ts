@@ -120,3 +120,4 @@ export * from './constants';
 export { autoformattingProvider } from './autoformatting-provider';
 export { extensionHandlers } from './extensions';
 export { analyticsClient } from './analytics-client-mock';
+export { parseAndInlineAdfMedia } from './adf-sanitizer';

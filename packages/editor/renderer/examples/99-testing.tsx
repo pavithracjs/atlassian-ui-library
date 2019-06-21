@@ -7,10 +7,12 @@ import {
   storyMediaProviderFactory,
   storyContextIdentifierProviderFactory,
   extensionHandlers,
+  parseAndInlineAdfMedia,
 } from '@atlaskit/editor-test-helpers';
 import { default as Renderer } from '../src/ui/Renderer';
 import { document as defaultDoc } from './helper/story-data';
 import Sidebar from './helper/NavigationNext';
+import { RendererProps } from '../src';
 
 const mediaProvider = storyMediaProviderFactory();
 const emojiProvider = emoji.storyData.getEmojiResource();
@@ -37,13 +39,19 @@ function createRendererWindowBindings(win: Window) {
   }
 
   (window as any)['__mountRenderer'] = (
-    props: { showSidebar?: boolean },
+    props: RendererProps & { showSidebar?: boolean },
     adf: any = defaultDoc,
   ) => {
     const target = document.getElementById('renderer-container');
 
     if (!target) {
       return;
+    }
+
+    if (props && props.document) {
+      props.document = parseAndInlineAdfMedia(props.document);
+    } else if (adf) {
+      adf = parseAndInlineAdfMedia(adf);
     }
 
     const { showSidebar, ...reactProps } = props;

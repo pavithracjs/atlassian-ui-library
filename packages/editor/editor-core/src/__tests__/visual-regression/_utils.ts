@@ -3,6 +3,7 @@ import {
   disableAllSideEffects,
   navigateToUrl,
   compareScreenshot,
+  waitForLoadedImageElements,
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
@@ -141,7 +142,7 @@ export type MountOptions = {
 };
 
 export async function mountEditor(
-  page: any,
+  page: Page,
   props: any,
   mountOptions?: MountOptions,
 ) {
@@ -285,7 +286,10 @@ export const snapshot = async (
   const editor = await page.$(selector);
 
   // Wait for a frame because we are using RAF to throttle floating toolbar render
-  animationFrame(page);
+  await animationFrame(page);
+
+  // Wait for any images to load
+  await waitForLoadedImageElements(page, 1000, { allowNoImages: true });
 
   // Try to take a screenshot of only the editor.
   // Otherwise take the whole page.
