@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import Tabs from '../src';
 import { Content } from './shared';
@@ -14,6 +12,6 @@ const tabs = [
 export default () => (
   <Tabs
     tabs={tabs}
-    onSelect={(tab, index) => console.log('Selected Tab', index + 1)}
+    onSelect={(_tab, index) => console.log('Selected Tab', index + 1)}
   />
 );

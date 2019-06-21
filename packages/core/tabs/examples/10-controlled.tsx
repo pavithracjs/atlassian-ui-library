@@ -1,9 +1,11 @@
-// @flow
-
 import React, { Component } from 'react';
 import Tabs from '../src';
-import type { TabData } from '../src/types';
+import { TabData } from '../src/types';
 import { Content } from './shared';
+
+interface State {
+  selected: TabData;
+}
 
 const tabs = [
   { label: 'Tab 1', content: <Content>One</Content> },
@@ -12,10 +14,7 @@ const tabs = [
   { label: 'Tab 4', content: <Content>Four</Content> },
 ];
 
-export default class TabsControlledExample extends Component<
-  {},
-  { selected: TabData },
-> {
+export default class TabsControlledExample extends Component<{}, State> {
   state = { selected: tabs[0] };
 
   handleUpdate = (selected: TabData) => this.setState({ selected });

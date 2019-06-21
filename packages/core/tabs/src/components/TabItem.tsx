@@ -1,8 +1,6 @@
-// @flow
-
 import React, { Component } from 'react';
 import { NavItem, NavLine } from '../styled';
-import type { TabItemComponentProvided } from '../types';
+import { TabItemComponentProvided } from '../types';
 
 const noop = () => {};
 
@@ -23,7 +21,7 @@ export default class TabItem extends Component<TabItemComponentProvided> {
         status={isSelected ? 'selected' : 'normal'}
       >
         {data.label}
-        {isSelected ? <NavLine status="selected" /> : null}
+        {isSelected && <NavLine status="selected" />}
       </NavItem>
     );
   }

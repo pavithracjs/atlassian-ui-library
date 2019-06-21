@@ -1,9 +1,7 @@
-// @flow
-
 import React from 'react';
 import styled from 'styled-components';
 import Tabs from '../src';
-import type { TabContentComponentProvided } from '../src/types';
+import { TabContentComponentProvided } from '../src/types';
 
 const Content = styled.div`
   padding: 20px;
@@ -47,7 +45,7 @@ export default () => (
   <div>
     <Tabs
       components={{ Content: CustomContent }}
-      onSelect={(tab, index) => console.log('Selected Tab', index + 1)}
+      onSelect={(_tab, index) => console.log('Selected Tab', index + 1)}
       tabs={tabs}
     />
   </div>
