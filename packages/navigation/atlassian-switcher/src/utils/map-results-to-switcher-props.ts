@@ -5,17 +5,24 @@ import {
   getLicensedProductLinks,
   getRecentLinkItems,
   getSuggestedProductLink,
+  SwitcherItemType,
+  getAvailableProductLinks,
+  ProductKey,
 } from './links';
 import {
   isComplete,
   isError,
   isLoading,
   ProviderResult,
+  Status,
 } from '../providers/as-data-provider';
 import {
   CustomLinksResponse,
   LicenseInformationResponse,
   RecentContainersResponse,
+  AvailableProductsResponse,
+  ProductLicenseInformation,
+  WorklensProductType,
 } from '../types';
 import { createCollector } from './create-collector';
 
@@ -32,10 +39,40 @@ function getExpandLink(
   }
 }
 
+function getExpandLinkFromAvailableProducts(
+  availableProducts: ProviderResult<AvailableProductsResponse>,
+) {
+  if (availableProducts === undefined || isError(availableProducts)) {
+    return 'https://start.atlassian.com';
+  }
+  if (isComplete(availableProducts)) {
+    const isStagingInstance = availableProducts.data.sites.some(
+      site => site.url.indexOf('.jira-dev.com') !== -1,
+    );
+    return `https://start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
+  }
+}
+
+function collectAvailableProductLinks(
+  cloudId: string,
+  availableProducts?: ProviderResult<AvailableProductsResponse>,
+): SwitcherItemType[] | undefined {
+  if (availableProducts) {
+    if (isError(availableProducts)) {
+      return [];
+    }
+    if (isComplete(availableProducts)) {
+      return getAvailableProductLinks(availableProducts.data);
+    }
+    return;
+  }
+  return;
+}
+
 function collectProductLinks(
   cloudId: string,
   licenseInformation: ProviderResults['licenseInformation'],
-) {
+): SwitcherItemType[] | undefined {
   if (isError(licenseInformation)) {
     return [];
   }
@@ -86,7 +123,7 @@ function collectAdminLinks(
   }
 }
 
-export function collectFixedProductLinks() {
+export function collectFixedProductLinks(): SwitcherItemType[] {
   return getFixedProductLinks();
 }
 
@@ -131,12 +168,80 @@ interface ProviderResults {
 interface SwitcherFeatures {
   xflow: boolean;
   enableExpandLink: boolean;
+  enableUserCentricProducts: boolean;
+}
+
+function asLegacyProductKey(
+  worklensProductType: WorklensProductType,
+): ProductKey | undefined {
+  switch (worklensProductType) {
+    case WorklensProductType.BITBUCKET:
+      return undefined; // not used in legacy code
+    case WorklensProductType.CONFLUENCE:
+      return ProductKey.CONFLUENCE;
+    case WorklensProductType.JIRA_BUSINESS:
+      return ProductKey.JIRA_CORE;
+    case WorklensProductType.JIRA_SERVICE_DESK:
+      return ProductKey.JIRA_SERVICE_DESK;
+    case WorklensProductType.JIRA_SOFTWARE:
+      return ProductKey.JIRA_SOFTWARE;
+    case WorklensProductType.OPSGENIE:
+      return ProductKey.OPSGENIE;
+    default:
+      throw new Error(`unmapped worklensProductType ${worklensProductType}`);
+  }
+}
+
+/** Convert the new AvailableProductsResponse to legacy LicenseInformationResponse type */
+function asLicenseInformationProviderResult(
+  availableProductsProvider: ProviderResult<AvailableProductsResponse>,
+  cloudId: string,
+): ProviderResult<LicenseInformationResponse> {
+  switch (availableProductsProvider.status) {
+    case Status.LOADING: // intentional fallthrough
+    case Status.ERROR:
+      return availableProductsProvider;
+    case Status.COMPLETE:
+      const site = availableProductsProvider.data.sites.find(
+        site => site.cloudId === cloudId,
+      );
+      if (!site) {
+        return {
+          status: Status.ERROR,
+          data: null,
+          error: new Error(
+            `could not find site in availableProducts for cloudId ${cloudId}`,
+          ),
+        };
+      }
+      return {
+        status: Status.COMPLETE,
+        data: {
+          hostname: site.url,
+          products: site.availableProducts.reduce(
+            (acc: { [key: string]: ProductLicenseInformation }, product) => {
+              const legacyProductKey = asLegacyProductKey(product.productType);
+              if (legacyProductKey) {
+                acc[legacyProductKey] = {
+                  state: 'ACTIVE', // everything is ACTIVE
+                  // applicationUrl: '', // not required?
+                  // billingPeriod: 'ANNUAL' // not required?
+                };
+              }
+              return acc;
+            },
+            {},
+          ),
+        },
+      };
+  }
 }
 
 export function mapResultsToSwitcherProps(
   cloudId: string,
   results: ProviderResults,
   features: SwitcherFeatures,
+  availableProducts: ProviderResult<AvailableProductsResponse>,
 ) {
   const collect = createCollector();
 
@@ -152,17 +257,29 @@ export function mapResultsToSwitcherProps(
   if (isError(licenseInformation)) {
     throw licenseInformation.error;
   }
+  const resolvedLicenseInformation: ProviderResult<
+    LicenseInformationResponse
+  > = features.enableUserCentricProducts
+    ? asLicenseInformationProviderResult(availableProducts, cloudId)
+    : licenseInformation;
 
   return {
-    expandLink: features.enableExpandLink
+    expandLink: features.enableUserCentricProducts
+      ? getExpandLinkFromAvailableProducts(availableProducts)
+      : features.enableExpandLink
       ? getExpandLink(licenseInformation)
       : '',
     licensedProductLinks: collect(
-      collectProductLinks(cloudId, licenseInformation),
+      features.enableUserCentricProducts
+        ? collectAvailableProductLinks(cloudId, availableProducts)
+        : collectProductLinks(cloudId, licenseInformation),
       [],
     ),
     suggestedProductLinks: features.xflow
-      ? collect(collectSuggestedLinks(licenseInformation, isXFlowEnabled), [])
+      ? collect(
+          collectSuggestedLinks(resolvedLicenseInformation, isXFlowEnabled),
+          [],
+        )
       : [],
     fixedLinks: collect(collectFixedProductLinks(), []),
     adminLinks: collect(
@@ -170,15 +287,15 @@ export function mapResultsToSwitcherProps(
       [],
     ),
     recentLinks: collect(
-      collectRecentLinks(recentContainers, licenseInformation),
+      collectRecentLinks(recentContainers, resolvedLicenseInformation),
       [],
     ),
     customLinks: collect(
-      collectCustomLinks(customLinks, licenseInformation),
+      collectCustomLinks(customLinks, resolvedLicenseInformation),
       [],
     ),
 
     showManageLink: collect(collectCanManageLinks(managePermission), false),
-    isLoading: isLoading(licenseInformation),
+    isLoading: isLoading(resolvedLicenseInformation),
   };
 }

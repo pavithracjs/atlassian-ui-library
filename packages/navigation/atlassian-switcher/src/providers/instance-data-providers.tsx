@@ -1,5 +1,11 @@
+import React from 'react';
+
 import { fetchJson, postJson } from '../utils/fetch';
-import asDataProvider from './as-data-provider';
+import asDataProvider, {
+  ProviderResult,
+  Status,
+  ResultLoading,
+} from './as-data-provider';
 import {
   LicenseInformationResponse,
   Permissions,
@@ -28,11 +34,39 @@ const fetchLicenseInformation = withCached(({ cloudId }: WithCloudId) =>
   ),
 );
 
-export const LicenseInformationProvider = asDataProvider(
+const RealLicenseInformationProvider = asDataProvider(
   'licenseInformation',
   fetchLicenseInformation,
   fetchLicenseInformation.cached,
 );
+
+const unresolvedLicenseInformation: ResultLoading = {
+  status: Status.LOADING,
+  data: null,
+};
+
+export const LicenseInformationProvider = ({
+  cloudId,
+  isUserCentric,
+  children,
+}: {
+  cloudId: string;
+  isUserCentric: boolean;
+  children: (
+    licenseInformation: ProviderResult<LicenseInformationResponse>,
+  ) => React.ReactNode;
+}) => {
+  if (!isUserCentric) {
+    return (
+      <RealLicenseInformationProvider cloudId={cloudId}>
+        {children}
+      </RealLicenseInformationProvider>
+    );
+  }
+  return (
+    <React.Fragment>{children(unresolvedLicenseInformation)}</React.Fragment>
+  );
+};
 
 // Permissions api
 type FetchPermissionParamsType = WithCloudId & {
