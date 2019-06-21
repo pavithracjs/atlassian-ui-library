@@ -23,6 +23,7 @@ export {
 export { default as Mention } from './Mention';
 export { default as Popup, findOverflowScrollParent } from './Popup';
 export { default as UnsupportedBlock } from './UnsupportedBlock';
+export { default as UnsupportedInline } from './UnsupportedInline';
 export { BaseTheme, mapBreakpointToLayoutMaxWidth } from './BaseTheme';
 
 export { default as withOuterListeners } from './with-outer-listeners';
