@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.16.1
+
+### Patch Changes
+
+- [patch][2526630b84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2526630b84):
+
+  ED-6405 The shortcuts in editor tooltips are now highlighted.
+
 ## 112.16.0
 
 ### Minor Changes
