@@ -1,0 +1,1 @@
+update api types; dispay user active state in ProfilecardResourced; change trigger component display to inherit

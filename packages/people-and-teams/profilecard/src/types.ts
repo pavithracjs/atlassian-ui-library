@@ -6,36 +6,38 @@ export type Elevation = 'e100' | 'e200' | 'e300' | 'e400' | 'e500' | 'none';
 export interface ApiClientResponse {
   User: {
     id: string;
-    isActive: boolean;
     isBot: boolean;
     isCurrentUser: boolean;
     isNotMentionable: boolean;
     avatarUrl: string | null;
     email: string | null;
     fullName: string | null;
-    isCensored: string | null;
     location: string | null;
     meta: string | null;
     nickname: string | null;
+    companyName: string | null;
     remoteTimeString: string | null;
     remoteWeekdayIndex: string | null;
     remoteWeekdayString: string | null;
+    status: StatusType;
+    statusModifiedDate: number | null;
   };
 }
 
 export interface ProfileCardClientData {
-  isActive: boolean;
   isBot: boolean;
   isCurrentUser: boolean;
   isNotMentionable: boolean;
   avatarUrl?: string;
   email?: string;
   fullName?: string;
-  isCensored?: string;
   location?: string;
   meta?: string;
   nickname?: string;
+  companyName?: string;
   timestring?: string;
+  status: StatusType;
+  statusModifiedDate?: number | null;
 }
 
 export interface ProfileCardResourcedProps {
@@ -117,7 +119,7 @@ export interface ProfilecardProps {
   actions?: ProfileCardAction[];
   clientFetchProfile?: any;
   analytics?: any;
-  statusModifiedDate?: number;
+  statusModifiedDate?: number | null;
   // allow to pass custom elevation, example value of this prop is: `e100`, `e200`, `e300`, `e400` and `e500`
   // Reference from `packages/core/theme/src/elevation.js` to see all valid values.
   customElevation?: Elevation;
