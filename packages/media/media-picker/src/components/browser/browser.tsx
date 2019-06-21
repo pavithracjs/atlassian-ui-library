@@ -26,6 +26,10 @@ const defaultConfig: BrowserConfig = { uploadParams: {} };
 export class Browser extends LocalUploadComponentReact<BrowserProps> {
   private browserRef = React.createRef<HTMLInputElement>();
 
+  defaultProps = {
+    config: defaultConfig,
+  };
+
   private onFilePicked = () => {
     if (!this.browserRef.current) {
       return;
@@ -75,7 +79,7 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
   };
 
   render() {
-    const { config = defaultConfig } = this.props;
+    const { config } = this.props;
     const multiple = config.multiple;
     const fileExtensions =
       config.fileExtensions && config.fileExtensions.join(',');

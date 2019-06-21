@@ -30,7 +30,7 @@ import {
 } from '../../../../../plugins/media/pm-plugins/main';
 import PickerFacadeProvider from '../../../../../plugins/media/ui/PickerFacadeProvider';
 import { fakeContext } from '@atlaskit/media-test-helpers';
-import { ProviderHandler } from '@atlaskit/editor-common/src/providerFactory';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
 describe('PickerFacadeProvider', () => {
   let pluginState: MediaPluginState;
@@ -42,17 +42,20 @@ describe('PickerFacadeProvider', () => {
     pluginState = {} as MediaPluginState;
     provider = {} as MediaProvider;
     provider.uploadParams = {};
-    provider.uploadContext = Promise.resolve(dummyContext) as any;
+    provider.uploadContext = Promise.resolve(dummyContext);
+
+    const providerFactory = new ProviderFactory();
+    providerFactory.subscribe = (_name, callback) =>
+      callback(_name, Promise.resolve(provider));
+    providerFactory.unsubscribe = jest.fn();
 
     pluginState.insertFile = jest.fn();
     pluginState.trackNewMediaEvent = jest.fn(() => sendAnalyticsSpy);
     pluginState.options = {
-      providerFactory: {
-        subscribe: (_name: string, callback: ProviderHandler) =>
-          callback(_name, Promise.resolve(provider)),
-        unsubscribe: jest.fn(),
-      },
-    } as any;
+      providerFactory,
+      nodeViews: {},
+      allowResizing: false,
+    };
   });
 
   afterEach(() => {
