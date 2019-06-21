@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import getExamplesFor from '@atlaskit/build-utils/getExamples';
+import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
