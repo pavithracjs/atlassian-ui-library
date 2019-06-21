@@ -4,22 +4,20 @@ import { HTMLAttributes, ComponentClass } from 'react';
 // TODO: remove this override behaviour for @atlaskit/icon-object
 export const IconObjectOverrides = `
   & > span {
-    height: 14px;
+    height: 100%;
     width: 14px;
-    vertical-align: text-bottom;
     & > svg {
-      vertical-align: text-top;
+      vertical-align: top;
     }
   }
 `;
 // TODO: remove this override behaviour for @atlaskit/icon
 export const IconOverrides = `
   & > span > span {
-    height: 14px;
+    height: 100%;
     width: 14px;
-    vertical-align: text-bottom;
     & > svg {
-      vertical-align: text-top;
+      vertical-align: top;
     }
   }
 `;

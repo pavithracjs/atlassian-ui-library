@@ -10,6 +10,10 @@ import {
   MentionNameDetails,
   MentionNameStatus,
 } from '@atlaskit/mention/resource';
+import {
+  UIAnalyticsEvent,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import debug from '../logger';
 import { mentionResult } from './mention-data';
 import { MockMentionNameClient } from './MockMentionNameClient';
@@ -28,8 +32,19 @@ export interface MockMentionConfig {
   mentionNameResolver?: MentionNameResolver;
 }
 
-export const createMockMentionNameResolver = () =>
-  new DefaultMentionNameResolver(new MockMentionNameClient());
+export const createMockMentionNameResolver = () => {
+  const analyticsProps: WithAnalyticsEventProps = {
+    createAnalyticsEvent: payload => {
+      // eslint-disable-next-line no-console
+      console.log('analytics event', payload);
+      return new UIAnalyticsEvent({ payload });
+    },
+  };
+  return new DefaultMentionNameResolver(
+    new MockMentionNameClient(),
+    analyticsProps,
+  );
+};
 
 export class MockMentionResource extends AbstractMentionResource
   implements ResolvingMentionProvider {

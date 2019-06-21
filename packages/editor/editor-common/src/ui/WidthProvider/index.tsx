@@ -10,6 +10,7 @@ export const Breakpoints = {
 
 const MAX_S = 1266;
 const MAX_M = 2146;
+const SCROLLBAR_WIDTH = 30;
 
 export function getBreakpoint(width: number = 0) {
   if (width >= MAX_S && width < MAX_M) {
@@ -62,7 +63,8 @@ export class WidthProvider extends React.Component<any, WidthProviderState> {
   }
 
   setWidth = rafSchedule((width: number) => {
-    if (this.state.width === width) {
+    // Ignore changes that are less than SCROLLBAR_WIDTH, otherwise it can cause infinite re-scaling
+    if (Math.abs(this.state.width - width) < SCROLLBAR_WIDTH) {
       return;
     }
     this.setState({ width });

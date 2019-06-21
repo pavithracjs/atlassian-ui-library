@@ -56,10 +56,10 @@ export default () => (
             isRequired
             validate={value => (value.length < 8 ? 'TOO_SHORT' : undefined)}
           >
-            {({ fieldProps, error, meta }) => (
+            {({ fieldProps, error, valid }) => (
               <Fragment>
                 <TextField type="password" {...fieldProps} />
-                {!error && !meta.valid && (
+                {!error && !valid && (
                   <HelperMessage>
                     Use 8 or more characters with a mix of letters, numbers &
                     symbols.
@@ -70,7 +70,7 @@ export default () => (
                     Password needs to be more than 8 characters.
                   </ErrorMessage>
                 )}
-                {meta.valid && <ValidMessage>Awesome password!</ValidMessage>}
+                {valid && <ValidMessage>Awesome password!</ValidMessage>}
               </Fragment>
             )}
           </Field>

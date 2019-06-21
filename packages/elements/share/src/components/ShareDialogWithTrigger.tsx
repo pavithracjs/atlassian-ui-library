@@ -50,11 +50,10 @@ export type Props = {
   children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: DialogPlacement;
-  fetchConfig: Function;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
   loadUserOptions?: LoadOptions;
-  onLinkCopy?: Function;
+  onDialogOpen?: () => void;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
@@ -89,17 +88,15 @@ class ShareDialogWithTriggerInternal extends React.Component<
   Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
     isDisabled: false,
-    dialogPlacement: 'bottom-end' as 'bottom-end',
+    dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: true,
-    triggerButtonAppearance: 'subtle' as 'subtle',
-    triggerButtonStyle: 'icon-only' as 'icon-only',
+    triggerButtonAppearance: 'subtle',
+    triggerButtonStyle: 'icon-only',
   };
   private containerRef = React.createRef<HTMLDivElement>();
   private start: number = 0;
-
-  escapeIsHeldDown: boolean = false;
 
   state: State = {
     isDialogOpen: false,
@@ -196,22 +193,21 @@ class ShareDialogWithTriggerInternal extends React.Component<
     this.createAndFireEvent(buttonClicked());
 
     this.setState(
-      {
-        isDialogOpen: !this.state.isDialogOpen,
+      state => ({
+        isDialogOpen: !state.isDialogOpen,
         ignoreIntermediateState: false,
-      },
+      }),
       () => {
+        const { onDialogOpen } = this.props;
         const { isDialogOpen } = this.state;
         if (isDialogOpen) {
           this.start = Date.now();
           this.createAndFireEvent(screenEvent());
+          if (onDialogOpen) onDialogOpen();
 
           if (this.containerRef.current) {
             this.containerRef.current.focus();
           }
-
-          // always refetch the config when modal is re-opened
-          this.props.fetchConfig();
         }
       },
     );
