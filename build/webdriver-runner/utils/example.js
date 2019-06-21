@@ -5,9 +5,17 @@
  */
 
 /**
+ * `bs-local.com` will redirect to localhost (127.0.0.0) via the established SSH tunnel
+ * when performing local testing (which we use locally and in CI).
+ *
+ * This is needed to correctly resolve our examples on Safari (MacOS & iOS).
+ * It works for all browsers and platforms.
+ *
  * @see https://www.browserstack.com/question/663
+ * @see https://www.browserstack.com/question/759
+ * @see https://www.browserstack.com/question/758
  */
-const baseUrl = 'http://127.0.0.1:9000';
+const baseUrl = 'http://bs-local.com:9000';
 
 const getExampleUrl = (
   group /*: string */,

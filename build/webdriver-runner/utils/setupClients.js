@@ -132,14 +132,14 @@ function setBrowserStackMobileClients() /*: Array<?Object>*/ {
       ...commonProps,
       ...iphoneProps,
     },
-    /*
     pixel3: {
       os_version: '9.0', // Android 28
       browserName: 'android',
       device: 'Google Pixel 3',
       ...commonProps,
-      ...androidProps
+      ...androidProps,
     },
+    /*
     pixel2: {
       os_version: '8.0', // Android 27
       browserName: 'android',
