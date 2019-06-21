@@ -23,6 +23,7 @@ import {
   RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareResponse,
+  TooltipPosition,
   ProductId,
 } from '../types';
 import MessagesIntlProvider from './MessagesIntlProvider';
@@ -94,6 +95,10 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   /** Style of the share modal trigger button */
   triggerButtonStyle?: ShareButtonStyle;
+  /** Custom text of the tooltip on share modal trigger button */
+  triggerButtonTooltipText?: string;
+  /** Position of the tooltip on share modal trigger button */
+  triggerButtonTooltipPosition?: TooltipPosition;
   /** Message to be appended to the modal */
   bottomMessage?: React.ReactNode;
   /** Whether we should use the Atlassian Url Shortener or not */
@@ -349,6 +354,8 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       showFlags,
       triggerButtonAppearance,
       triggerButtonStyle,
+      triggerButtonTooltipText,
+      triggerButtonTooltipPosition,
       bottomMessage,
     } = this.props;
     const { isFetchingConfig } = this.state;
@@ -371,6 +378,8 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           showFlags={showFlags}
           triggerButtonAppearance={triggerButtonAppearance}
           triggerButtonStyle={triggerButtonStyle}
+          triggerButtonTooltipText={triggerButtonTooltipText}
+          triggerButtonTooltipPosition={triggerButtonTooltipPosition}
           bottomMessage={bottomMessage}
         />
       </MessagesIntlProvider>

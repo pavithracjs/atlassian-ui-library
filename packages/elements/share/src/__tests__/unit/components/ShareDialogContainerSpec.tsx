@@ -11,7 +11,7 @@ import {
   defaultConfig,
 } from '../../../components/ShareDialogContainer';
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
-import { OriginTracing } from '../../../types';
+import { OriginTracing, TooltipPosition } from '../../../types';
 
 function currentEventLoopEnd() {
   return new Promise(resolve => setImmediate(resolve));
@@ -59,6 +59,8 @@ describe('ShareDialogContainer', () => {
   };
   const mockShowFlags = jest.fn();
   const mockRenderCustomTriggerButton = jest.fn();
+  const mockTriggerButtonTooltipText = 'Share Tooltip';
+  const mockTriggerButtonTooltipPosition: TooltipPosition = 'mouse';
 
   beforeEach(() => {
     mockOriginTracing = {
@@ -106,7 +108,8 @@ describe('ShareDialogContainer', () => {
       shouldCloseOnEscapePress: mockShouldCloseOnEscapePress,
       triggerButtonAppearance: mockTriggerButtonAppearance,
       triggerButtonStyle: mockTriggerButtonStyle,
-
+      triggerButtonTooltipText: mockTriggerButtonTooltipText,
+      triggerButtonTooltipPosition: mockTriggerButtonTooltipPosition,
       ...overrides,
     };
 
@@ -126,6 +129,12 @@ describe('ShareDialogContainer', () => {
     );
     expect(shareDialogWithTrigger.prop('copyLink')).toEqual(
       mockFormatCopyLink(null, mockShareLink),
+    );
+    expect(shareDialogWithTrigger.prop('triggerButtonTooltipText')).toEqual(
+      mockTriggerButtonTooltipText,
+    );
+    expect(shareDialogWithTrigger.prop('triggerButtonTooltipPosition')).toEqual(
+      mockTriggerButtonTooltipPosition,
     );
     expect(shareDialogWithTrigger.prop('dialogPlacement')).toEqual(
       mockDialogPlacement,
