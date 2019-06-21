@@ -1,5 +1,11 @@
 # @atlaskit/renderer
 
+## 49.1.2
+
+- Updated dependencies [2b333a4c6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b333a4c6d):
+  - @atlaskit/editor-common@39.8.7
+  - @atlaskit/profilecard@12.0.0
+
 ## 49.1.1
 
 ### Patch Changes

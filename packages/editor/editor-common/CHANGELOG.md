@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 39.8.7
+
+- Updated dependencies [2b333a4c6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b333a4c6d):
+  - @atlaskit/profilecard@12.0.0
+
 ## 39.8.6
 
 ### Patch Changes
