@@ -1,10 +1,18 @@
-import { AnalyticsHandler, Flags, ExposureEvent, FlagShape } from './types';
+import {
+  AnalyticsHandler,
+  Flags,
+  ExposureEvent,
+  FlagShape,
+  CustomAttributes,
+  ReservedAttributes,
+} from './types';
 import {
   isObject,
   enforceAttributes,
   isFlagWithEvaluationDetails,
   isSimpleFlag,
   validateFlags,
+  checkForReservedAttributes,
 } from './lib';
 
 import TrackedFlag from './tracked-flag';
@@ -71,6 +79,7 @@ export default class FeatureFlagClient {
     options: {
       default: boolean;
       shouldTrackExposureEvent?: boolean;
+      exposureData?: CustomAttributes;
     },
   ): boolean {
     enforceAttributes(options, ['default'], 'getBooleanValue');
@@ -95,6 +104,7 @@ export default class FeatureFlagClient {
       default: string;
       oneOf: string[];
       shouldTrackExposureEvent?: boolean;
+      exposureData?: CustomAttributes;
     },
   ): string {
     enforceAttributes(options, ['default', 'oneOf'], 'getVariantValue');
@@ -123,7 +133,11 @@ export default class FeatureFlagClient {
     return flag.getJSONValue();
   }
 
-  trackExposure = (flagKey: string, flag: FlagShape) => {
+  trackExposure = (
+    flagKey: string,
+    flag: FlagShape,
+    exposureData: CustomAttributes = {},
+  ) => {
     if (
       this.trackedFlags[flagKey] ||
       !flag ||
@@ -133,17 +147,23 @@ export default class FeatureFlagClient {
       return;
     }
 
-    this.analyticsHandler({
+    checkForReservedAttributes(exposureData);
+
+    const flagAttributes: ReservedAttributes = {
+      flagKey,
+      reason: flag.explanation.kind,
+      ruleId: flag.explanation.ruleId,
+      value: flag.value,
+    };
+
+    const exposureEvent: ExposureEvent = {
       action: 'exposed',
       actionSubject: 'feature',
-      attributes: {
-        flagKey,
-        reason: flag.explanation.kind,
-        ruleId: flag.explanation.ruleId,
-        value: flag.value,
-      },
+      attributes: Object.assign(exposureData, flagAttributes),
       source: '@atlaskit/feature-flag-client',
-    });
+    };
+
+    this.analyticsHandler(exposureEvent);
 
     this.trackedFlags[flagKey] = true;
   };

@@ -216,6 +216,101 @@ describe('Feature Flag Client', () => {
         ).toBe(false);
         expect(analyticsHandler).toHaveBeenCalledTimes(0);
       });
+
+      test('should allow for extra attributes in the exposure event', () => {
+        const client = new FeatureFlagClient({
+          analyticsHandler,
+          flags: {
+            'my.detailed.boolean.flag': {
+              value: false,
+              explanation: {
+                kind: 'RULE_MATCH',
+                ruleId: '111-bbbbb-ccc',
+              },
+            },
+          },
+        });
+
+        expect(
+          client.getBooleanValue('my.detailed.boolean.flag', {
+            default: true,
+            exposureData: {
+              permissions: 'read',
+              section: 'view-page',
+            },
+          }),
+        ).toBe(false);
+        expect(analyticsHandler).toHaveBeenCalledTimes(1);
+        expect(analyticsHandler).toHaveBeenCalledWith({
+          action: 'exposed',
+          actionSubject: 'feature',
+          attributes: {
+            flagKey: 'my.detailed.boolean.flag',
+            reason: 'RULE_MATCH',
+            ruleId: '111-bbbbb-ccc',
+            value: false,
+            permissions: 'read',
+            section: 'view-page',
+          },
+          source: '@atlaskit/feature-flag-client',
+        });
+      });
+
+      test('should not allow extra attributes conflicting with reserved attributes', () => {
+        const client = new FeatureFlagClient({
+          analyticsHandler,
+          flags: {
+            'my.detailed.boolean.flag': {
+              value: false,
+              explanation: {
+                kind: 'RULE_MATCH',
+                ruleId: '111-bbbbb-ccc',
+              },
+            },
+          },
+        });
+
+        const errorMessage =
+          'exposureData contains a reserved attribute. Reserved attributes are: flagKey, ruleId, reason, value';
+
+        expect(() =>
+          client.getBooleanValue('my.detailed.boolean.flag', {
+            default: true,
+            exposureData: {
+              value: 'special',
+            },
+          }),
+        ).toThrow(new TypeError(errorMessage));
+
+        expect(() =>
+          client.getBooleanValue('my.detailed.boolean.flag', {
+            default: true,
+            exposureData: {
+              ruleId: 'reserved-1111',
+            },
+          }),
+        ).toThrow(new TypeError(errorMessage));
+
+        expect(() =>
+          client.getBooleanValue('my.detailed.boolean.flag', {
+            default: true,
+            exposureData: {
+              flagKey: 'reserved.key',
+            },
+          }),
+        ).toThrow(new TypeError(errorMessage));
+
+        expect(() =>
+          client.getBooleanValue('my.detailed.boolean.flag', {
+            default: true,
+            exposureData: {
+              reason: 'RESERVED',
+            },
+          }),
+        ).toThrow(new TypeError(errorMessage));
+
+        expect(analyticsHandler).toHaveBeenCalledTimes(0);
+      });
     });
 
     describe('getVariantValue', () => {
@@ -394,6 +489,46 @@ describe('Feature Flag Client', () => {
           }),
         ).toBe('experiment');
         expect(analyticsHandler).toHaveBeenCalledTimes(0);
+      });
+
+      test('should allow for extra attributes in the exposure event', () => {
+        const client = new FeatureFlagClient({
+          analyticsHandler,
+          flags: {
+            'my.experiment': {
+              value: 'experiment',
+              explanation: {
+                kind: 'RULE_MATCH',
+                ruleId: '111-bbbbb-ccc',
+              },
+            },
+          },
+        });
+
+        expect(
+          client.getVariantValue('my.experiment', {
+            default: 'control',
+            oneOf: ['control', 'experiment'],
+            exposureData: {
+              permissions: 'read',
+              container: 'space',
+            },
+          }),
+        ).toBe('experiment');
+        expect(analyticsHandler).toHaveBeenCalledTimes(1);
+        expect(analyticsHandler).toHaveBeenCalledWith({
+          action: 'exposed',
+          actionSubject: 'feature',
+          attributes: {
+            flagKey: 'my.experiment',
+            reason: 'RULE_MATCH',
+            ruleId: '111-bbbbb-ccc',
+            value: 'experiment',
+            permissions: 'read',
+            container: 'space',
+          },
+          source: '@atlaskit/feature-flag-client',
+        });
       });
 
       describe('invalid types', () => {

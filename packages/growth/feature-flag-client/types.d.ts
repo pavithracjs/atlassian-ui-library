@@ -1,13 +1,11 @@
-export type Reason =
+export declare type Reason =
   | 'OFF'
   | 'FALLTHROUGH'
   | 'RULE_MATCH'
   | 'TARGET_MATCH'
   | 'INELIGIBLE';
-
-export type RuleId = string;
-
-export type FlagShape = {
+export declare type RuleId = string;
+export declare type FlagShape = {
   value: boolean | string | object;
   explanation?: {
     kind: Reason;
@@ -15,31 +13,26 @@ export type FlagShape = {
     ruleIndex?: number;
   };
 };
-
-export type Flags = {
+export declare type Flags = {
   [flagName: string]: FlagShape;
 };
-
-export type ReservedAttributes = {
+export declare type ReservedAttributes = {
   flagKey: string;
   reason: Reason;
   ruleId?: string;
   value: boolean | string | object;
 };
-
-export type CustomAttributes = {
+export declare type CustomAttributes = {
   [attributeName: string]: string | number | boolean;
 };
-
-export type ExposureEventAttributes = ReservedAttributes & CustomAttributes;
-
-export type ExposureEvent = {
+export declare type ExposureEventAttributes = ReservedAttributes &
+  CustomAttributes;
+export declare type ExposureEvent = {
   action: string;
   actionSubject: string;
   attributes: ExposureEventAttributes;
   source: string;
 };
-
 export interface FlagConstructor {
   new (
     flagKey: string,
@@ -53,15 +46,12 @@ export interface Flag {
     shouldTrackExposureEvent?: boolean;
     data: CustomAttributes;
   }): boolean;
-
   getVariantValue(options: {
     default: string;
     oneOf: string[];
     shouldTrackExposureEvent?: boolean;
     data: CustomAttributes;
   }): string;
-
   getJSONValue(): object;
 }
-
-export type AnalyticsHandler = (event: ExposureEvent) => void;
+export declare type AnalyticsHandler = (event: ExposureEvent) => void;
