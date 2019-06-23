@@ -33,7 +33,7 @@ export function CardWithUrlContent({
   };
   const handleClickWrapper = (event: MouseEvent | KeyboardEvent) => {
     handleAnalytics();
-    (onClick && onClick(event)) || handleClick(event);
+    onClick ? onClick(event) : handleClick(event);
   };
   const handleAuthorize = () => actions.authorize(appearance);
   // Lazily render into the viewport.
