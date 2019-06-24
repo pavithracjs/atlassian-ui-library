@@ -1,8 +1,6 @@
-// @flow
-
-import React, { Component } from 'react';
+import React, { Component, KeyboardEvent, MouseEvent } from 'react';
 import { Nav, NavLine, NavWrapper } from '../styled';
-import type { TabData, TabsNavigationProps } from '../types';
+import { TabData, TabsNavigationProps } from '../types';
 
 export default class TabsNavigation extends Component<TabsNavigationProps> {
   elementRefs: Array<HTMLElement> = [];
@@ -13,7 +11,7 @@ export default class TabsNavigation extends Component<TabsNavigationProps> {
     }
   }
 
-  tabKeyDownHandler = (e: KeyboardEvent) => {
+  tabKeyDownHandler = (e: KeyboardEvent<HTMLElement>) => {
     if (!['ArrowRight', 'ArrowLeft'].includes(e.key)) {
       return;
     }
@@ -34,7 +32,7 @@ export default class TabsNavigation extends Component<TabsNavigationProps> {
     this.props.onSelect(selected, selectedIndex);
   };
 
-  tabMouseDownHandler = (e: MouseEvent) => e.preventDefault();
+  tabMouseDownHandler = (e: MouseEvent<HTMLElement>) => e.preventDefault();
 
   render() {
     const { selected, component: Item, tabs } = this.props;

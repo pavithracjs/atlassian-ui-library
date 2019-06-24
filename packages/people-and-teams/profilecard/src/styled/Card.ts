@@ -35,7 +35,7 @@ const getFullNameMargin = (props: FullNameLabelProps) =>
 export const CardContainerEmpty = styled.div``;
 
 export const CardTriggerWrapper = styled.div`
-  display: inline-block;
+  display: inherit;
 `;
 
 export const CardElevationWrapper = styled.div`

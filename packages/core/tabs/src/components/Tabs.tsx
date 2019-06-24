@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import {
   withAnalyticsEvents,
@@ -14,9 +12,9 @@ import TabsNavigation from './TabsNavigation';
 import DefaultTabContent from './TabContent';
 import DefaultTabItem from './TabItem';
 import { Tabs as StyledTabs } from '../styled';
-import type {
+import {
   IsSelectedTestFunction,
-  selectedProp,
+  SelectedProp,
   TabData,
   TabsProps,
   TabsState,
@@ -24,7 +22,7 @@ import type {
 
 const defaultIsSelectedTestNumber: IsSelectedTestFunction = (
   selectedIndex,
-  tab,
+  _tab,
   tabIndex,
 ) => selectedIndex === tabIndex;
 
@@ -70,7 +68,7 @@ class Tabs extends Component<TabsProps, TabsState> {
     }
   }
 
-  resolveSelected = (selected: selectedProp, newProps?: TabsProps): TabData => {
+  resolveSelected = (selected: SelectedProp, newProps?: TabsProps): TabData => {
     const { tabs, isSelectedTest } = newProps || this.props;
 
     const testFunction: IsSelectedTestFunction = (() => {
@@ -110,6 +108,7 @@ class Tabs extends Component<TabsProps, TabsState> {
         role: 'tabpanel',
       },
     };
+
     return (
       <StyledTabs>
         <TabsNavigation

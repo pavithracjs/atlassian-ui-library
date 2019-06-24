@@ -20,11 +20,15 @@ import ToolbarLists from '../../../../../plugins/lists/ui/ToolbarLists';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { ReactWrapper } from 'enzyme';
 import { DispatchAnalyticsEvent } from '../../../../../plugins/analytics';
+import Icon from '@atlaskit/icon';
 
 function clickToolbarOption(toolbarOption: ReactWrapper, title: string) {
   toolbarOption
     .find(ToolbarButton)
-    .filterWhere(n => n.prop('title')!.indexOf(title) > -1)
+    .filterWhere(toolbarButton => {
+      const label: string = toolbarButton.find(Icon).prop('label');
+      return label.includes(title);
+    })
     .find('button')
     .simulate('click');
 }

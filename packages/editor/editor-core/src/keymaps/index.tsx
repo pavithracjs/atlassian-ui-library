@@ -1,5 +1,8 @@
+import * as React from 'react';
 import { browser } from '@atlaskit/editor-common';
 import { Command } from '../types';
+import styled from 'styled-components';
+import { colors } from '@atlaskit/theme';
 
 export const toggleBold = makeKeyMapWithCommon('Bold', 'Mod-b');
 export const toggleItalic = makeKeyMapWithCommon('Italic', 'Mod-i');
@@ -92,29 +95,54 @@ const arrowKeysMap: Record<string, string> = {
   ARROWDOWN: '\u2193',
 };
 
+export const TooltipShortcut = styled.span`
+  border-radius: 2px;
+  background-color: ${colors.N400};
+  padding: 0 2px;
+`;
+
+function formatShortcut(keymap: Keymap): string | undefined {
+  let shortcut: string;
+  if (browser.mac) {
+    // for reference: https://wincent.com/wiki/Unicode_representations_of_modifier_keys
+    shortcut = keymap.mac
+      .replace(/Cmd/i, '\u2318')
+      .replace(/Shift/i, '\u21E7')
+      .replace(/Ctrl/i, '\u2303')
+      .replace(/Alt/i, '\u2325');
+  } else {
+    shortcut = keymap.windows;
+  }
+  const keys = shortcut.split('-');
+  const lastKey = keys[keys.length - 1].toUpperCase();
+  keys[keys.length - 1] = arrowKeysMap[lastKey] || lastKey;
+  return keys.join(browser.mac ? '' : '+');
+}
+
 export function tooltip(
-  keymap: Keymap | undefined,
+  keymap?: Keymap,
   description?: string,
 ): string | undefined {
   if (keymap) {
-    let shortcut: string;
-    if (browser.mac) {
-      // for reference: https://wincent.com/wiki/Unicode_representations_of_modifier_keys
-      shortcut = keymap.mac
-        .replace(/Cmd/i, '\u2318')
-        .replace(/Shift/i, '\u21E7')
-        .replace(/Ctrl/i, '\u2303')
-        .replace(/Alt/i, '\u2325');
-    } else {
-      shortcut = keymap.windows;
-    }
-    const keys = shortcut.split('-');
-    const lastKey = keys[keys.length - 1].toUpperCase();
-    keys[keys.length - 1] = arrowKeysMap[lastKey] || lastKey;
-    shortcut = keys.join(browser.mac ? '' : '+');
+    const shortcut = formatShortcut(keymap);
     return description ? `${description} ${shortcut}` : shortcut;
   }
   return;
+}
+
+export function renderTooltipContent(
+  description?: string,
+  keymap?: Keymap,
+  shortcutOverride?: string,
+): React.ReactNode | undefined {
+  const shortcut = shortcutOverride || (keymap && formatShortcut(keymap));
+  return shortcut || description ? (
+    <>
+      {description}
+      {shortcut && description && '\u00A0'}
+      {shortcut && <TooltipShortcut>{shortcut}</TooltipShortcut>}
+    </>
+  ) : null;
 }
 
 export function findKeymapByDescription(
