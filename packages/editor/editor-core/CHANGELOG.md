@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.19.1
+
+### Patch Changes
+
+- [patch][e4943e98e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4943e98e0):
+
+  Fix breaking change in editorActions#getValue
+
 ## 112.19.0
 
 ### Minor Changes
