@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 1.4.0
+
+### Minor Changes
+
+- [minor][60f541121b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60f541121b):
+
+  Added buildstep into atlaskit pipeline
+
 ## 1.3.0
 
 ### Minor Changes
