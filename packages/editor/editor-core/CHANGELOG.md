@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.18.0
+
+### Minor Changes
+
+- [minor][e40e9ca1d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e40e9ca1d8):
+
+  Adds basic real user metrics, e.g. time to render prosemirror, etc...
+
 ## 112.17.0
 
 ### Minor Changes
