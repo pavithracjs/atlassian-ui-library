@@ -285,8 +285,9 @@ export interface BlockType {
   title: MessageDescriptor;
   nodeName: string;
   tagName?: string;
-  level?: HeadingLevelsWithNormal;
+  level?: HeadingLevelsAndNormalText;
 }
 
 export type HeadingLevels = 1 | 2 | 3 | 4 | 5 | 6;
-export type HeadingLevelsWithNormal = 0 | HeadingLevels;
+export type NormalTextLevel = 0;
+export type HeadingLevelsAndNormalText = HeadingLevels | NormalTextLevel;

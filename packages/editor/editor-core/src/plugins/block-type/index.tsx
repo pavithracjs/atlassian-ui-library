@@ -53,7 +53,7 @@ const headingPluginOptions = ({
         />
       ),
       action(insert: QuickInsertActionInsert, state: EditorState) {
-        let tr = insert(state.schema.nodes.heading.createChecked({ level }));
+        const tr = insert(state.schema.nodes.heading.createChecked({ level }));
         return addAnalytics(tr, {
           action: ACTION.FORMATTED,
           actionSubject: ACTION_SUBJECT.TEXT,

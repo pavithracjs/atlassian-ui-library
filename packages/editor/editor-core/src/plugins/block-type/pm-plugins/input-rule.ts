@@ -31,13 +31,15 @@ import {
   ruleWithAnalytics,
 } from '../../analytics';
 
-import { HeadingLevelsWithNormal } from '../types';
+import { HeadingLevelsAndNormalText } from '../types';
 
 const MAX_HEADING_LEVEL = 6;
 
-function getHeadingLevel(match: string[]): { level: HeadingLevelsWithNormal } {
+function getHeadingLevel(
+  match: string[],
+): { level: HeadingLevelsAndNormalText } {
   return {
-    level: match[1].length as HeadingLevelsWithNormal,
+    level: match[1].length as HeadingLevelsAndNormalText,
   };
 }
 

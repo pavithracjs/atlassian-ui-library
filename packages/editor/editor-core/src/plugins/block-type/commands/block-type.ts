@@ -8,7 +8,7 @@ import {
   PANEL,
   HEADINGS_BY_NAME,
   NORMAL_TEXT,
-  HeadingLevelsWithNormal,
+  HeadingLevelsAndNormalText,
 } from '../types';
 import { removeBlockMarks } from '../../../utils/mark';
 import {
@@ -78,7 +78,7 @@ export function setNormalText(): Command {
   };
 }
 function withCurrentHeadingLevel(
-  fn: (level?: HeadingLevelsWithNormal) => Command,
+  fn: (level?: HeadingLevelsAndNormalText) => Command,
 ): Command {
   return (state, dispatch, view) => {
     // Find all headings and paragraphs of text
@@ -93,7 +93,7 @@ function withCurrentHeadingLevel(
     );
 
     // Check each paragraph and/or heading and check for consistent level
-    let level: undefined | HeadingLevelsWithNormal;
+    let level: undefined | HeadingLevelsAndNormalText;
     for (let node of nodes) {
       const nodeLevel = node.node.type === heading ? node.node.attrs.level : 0;
       if (!level) {
@@ -124,7 +124,7 @@ export function setNormalTextWithAnalytics(inputMethod: InputMethod): Command {
     })(setNormalText()),
   );
 }
-export function setHeading(level: HeadingLevelsWithNormal): Command {
+export function setHeading(level: HeadingLevelsAndNormalText): Command {
   return function(state, dispatch) {
     const {
       tr,
@@ -141,7 +141,7 @@ export function setHeading(level: HeadingLevelsWithNormal): Command {
 }
 
 export const setHeadingWithAnalytics = (
-  newHeadingLevel: HeadingLevelsWithNormal,
+  newHeadingLevel: HeadingLevelsAndNormalText,
   inputMethod: InputMethod,
 ) => {
   return withCurrentHeadingLevel(previousHeadingLevel =>
