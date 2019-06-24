@@ -1,1 +1,0 @@
-Updated the icon for Premium and cleaned up reduced-ui-pack sprite
