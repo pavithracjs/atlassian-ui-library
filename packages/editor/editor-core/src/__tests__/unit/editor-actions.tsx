@@ -54,7 +54,6 @@ Object {
     Object {
       "content": Array [
         Object {
-          "marks": Array [],
           "text": ":smile",
           "type": "text",
         },

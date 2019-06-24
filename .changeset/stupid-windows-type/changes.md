@@ -1,0 +1,1 @@
+Fix breaking change in editorActions#getValue
