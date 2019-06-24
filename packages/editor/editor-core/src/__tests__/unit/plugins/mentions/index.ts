@@ -31,6 +31,9 @@ describe('mentionTypeahead', () => {
     childObjectId: 'child-object-id',
   };
 
+  // all team ids in `packages/elements/util-data-test/json-data/mention-data.json`
+  const allTeamIds = ['team-1', 'team-2', 'team-3', 'team-4'];
+
   type TestDependencies = {
     editorView: EditorView;
     sel: number;
@@ -326,6 +329,21 @@ describe('mentionTypeahead', () => {
         );
         expect(event.fire).toHaveBeenCalledTimes(1);
         expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
 
@@ -343,6 +361,7 @@ describe('mentionTypeahead', () => {
               duration: expect.any(Number),
               queryLength: 3,
               spaceInQuery: false,
+              // assert this attribute below
               userIds: expect.any(Array),
               sessionId: expect.stringMatching(sessionIdRegex),
             }),
@@ -350,6 +369,21 @@ describe('mentionTypeahead', () => {
         );
         expect(event.fire).toHaveBeenCalledTimes(4);
         expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
   });
@@ -413,7 +447,13 @@ describe('mentionTypeahead', () => {
               ...commonAttrsTypeAhead,
               duration: 200,
               userIds: null,
-              teams: expect.any(Array),
+              teams: expect.arrayContaining(
+                allTeamIds.map(teamId => ({
+                  teamId,
+                  includesYou: expect.anything(),
+                  memberCount: expect.anything(),
+                })),
+              ),
             }),
           }),
         );
@@ -431,6 +471,21 @@ describe('mentionTypeahead', () => {
             }),
           }),
         );
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
   });
