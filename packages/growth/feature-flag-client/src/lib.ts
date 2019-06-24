@@ -1,4 +1,4 @@
-import { FlagShape, Flags } from './types';
+import { FlagShape, Flags, CustomAttributes } from './types';
 
 export const isType = (value: any, type: string): boolean => {
   return value !== null && typeof value === type;
@@ -30,6 +30,21 @@ export const enforceAttributes = (
       throw new Error(`${title}Missing ${attribute}`);
     }
   });
+};
+
+export const checkForReservedAttributes = (
+  customAttributes: CustomAttributes,
+) => {
+  const reservedAttributes = ['flagKey', 'ruleId', 'reason', 'value'];
+  const keys = Object.keys(customAttributes);
+
+  if (reservedAttributes.some(attribute => keys.includes(attribute))) {
+    throw new TypeError(
+      `exposureData contains a reserved attribute. Reserved attributes are: ${reservedAttributes.join(
+        ', ',
+      )}`,
+    );
+  }
 };
 
 const validateFlag: any = (flagKey: string, flag: FlagShape) => {
