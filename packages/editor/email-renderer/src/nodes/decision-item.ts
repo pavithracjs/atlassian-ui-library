@@ -2,7 +2,6 @@ import { NodeSerializerOpts } from '../interfaces';
 import { createTable, TableData } from '../table-util';
 import { createTag } from '../create-tag';
 import { serializeStyle } from '../serialize-style';
-import { N30 } from '@atlaskit/adf-schema';
 import { createContentId } from '../static';
 
 enum DecisionState {
@@ -51,7 +50,6 @@ export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
   };
 
   const mainContentTable = createTable([[iconTd, textTd]], {
-    'background-color': N30,
     'border-radius': '3px',
     'table-layout': 'fixed',
     'line-height': '20px',
