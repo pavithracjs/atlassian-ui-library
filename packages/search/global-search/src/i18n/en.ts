@@ -43,8 +43,7 @@ export default {
   'global_search.jira.view_all_issues': 'View all issues',
   'global_search.jira.no_results_title':
     "We couldn't find anything matching your search",
-  'global_search.jira.no_results_body':
-    'Try again with a different term, or refine your results with our advanced search.',
+  'global_search.jira.no_results_body': 'Try again with a different term.',
   'global_search.jira.no_recent_activity_body':
     'Or refine your results with our advanced search.',
   'global_search.jira.project_type.business_project': 'Business Project',

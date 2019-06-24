@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/code",
-  "version": "11.0.1",
+  "version": "11.0.3",
   "config": {
     "access": "public"
   },
@@ -10,10 +10,11 @@
   "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
     "memoize-one": "^3.0.1",
-    "react-syntax-highlighter": "^10.0.1"
+    "react-syntax-highlighter": "^10.0.1",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",

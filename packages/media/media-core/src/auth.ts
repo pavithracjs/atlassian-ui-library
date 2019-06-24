@@ -44,6 +44,7 @@ export interface ContextConfig {
   readonly cacheSize?: number;
   readonly authProvider: AuthProvider;
   readonly userAuthProvider?: AuthProvider;
+  readonly getAuthFromContext?: AuthFromContextProvider;
 }
 
 export interface MediaClientConfig extends ContextConfig {
@@ -55,6 +56,8 @@ export interface AuthContext {
 }
 
 export type AuthProvider = (context?: AuthContext) => Promise<Auth>;
+
+export type AuthFromContextProvider = (contextId: string) => Promise<Auth>;
 
 export type MediaApiConfig = {
   authProvider: AuthProvider;

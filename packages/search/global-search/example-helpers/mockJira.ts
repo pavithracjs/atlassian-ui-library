@@ -40,13 +40,18 @@ const getRandomIssueType = () => pickRandom(['task', 'story', 'bug', 'epic']);
 export const generateRandomJiraIssue = (): JiraItem => {
   const issueTypeName = getRandomIssueType();
   const key = randomIssueKey();
+  const containerId = uuid();
   return {
     id: uuid(),
     name: getMockCatchPhrase(),
     url: getIssueUrl(key),
     attributes: {
       '@type': 'issue',
-      containerId: uuid(),
+      containerId,
+      container: {
+        title: getMockCatchPhrase(),
+        id: containerId,
+      },
       key,
       issueTypeName,
       issueTypeId: getIssueTypeId(issueTypeName),

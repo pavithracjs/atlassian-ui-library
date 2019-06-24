@@ -1,5 +1,178 @@
 # @atlaskit/editor-core
 
+## 112.19.1
+
+### Patch Changes
+
+- [patch][e4943e98e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4943e98e0):
+
+  Fix breaking change in editorActions#getValue
+
+## 112.19.0
+
+### Minor Changes
+
+- [minor][0202c1d464](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0202c1d464):
+
+  [ED-7076] Improve table performance reducing the number of React elements on ColumnControl, moving out InsertButton component.
+
+## 112.18.1
+
+### Patch Changes
+
+- [patch][5f4afa52a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f4afa52a9):
+
+  Media Picker Browser component is now migrated to React.
+
+  ## Previous vanilla js API:
+
+  ```
+  // instantiation
+  const browser = await new MediaPicker('browser', context, pickerConfig).init();
+
+  // subscribe to upload events
+  this.mpBrowser.on('uploads-start', onUploadsStart);
+  this.mpBrowser.on('upload-preview-update', onUploadPreviewUpdate);
+  this.mpBrowser.on('upload-status-update', onUploadStatusUpdate);
+  this.mpBrowser.on('upload-processing', onUploadProcessing);
+  this.mpBrowser.on('upload-end', onUploadEnd);
+  this.mpBrowser.on('upload-error', onUploadError);
+
+  // open the native file browser
+  browser.browse();
+
+  // cancel ongoing upload
+  browse.cancel(uploadId);
+
+  // when we want to dispose the component
+  browser.teardown();
+  ```
+
+  ## New React API:
+
+  ```
+  class BrowserConsumer etends React.Component {
+    render() {
+      return (
+        <Browser
+          isOpen={this.props.isOpen}
+          config={config}
+          context={context}
+          onProcessing={onProcessing}
+          onError={onError}
+          onPreviewUpdate={onPreviewUpdate}
+        />
+      )
+    }
+  }
+  ```
+
+  Notes on new API:
+
+  - No need to explicitly teardown the component. Unmounting the component will do the work
+  - `onBrowseFn` and `onCancelFn` are workarounds to open the file browser and cancel an ongoing upload. Refer to its type definitions for more info.
+    Before we were saving a ref and call `ref.browse()` or `ref.cancel()`.
+  - In some cases you will need to provide either `onBrowserFn` or `onCancelFn` in order to open the file browser or to cancel an ongoing upload programatically.
+    Typically this will be needed when this component is being rendered outside a react component, and we cannot take advantage of using `isOpen` directly.
+    A good example of this can be seen in -> https://bitbucket.org/atlassian/atlaskit-mk-2/src/d7a2e4a8fb8e35b841d751f5ecccff188c955c7a/packages/editor/editor-core/src/plugins/media/index.tsx#lines-178 where `BrowserMediaPickerWrapper` is rendered.
+
+  Basically if we render `Browser` component in isolation (meaning, not inside another react component), we will need to do something like:
+
+  ```
+  const saveOpenBrowserFunction = (browse) => this.openBrowser = browse;
+
+  ...
+
+  <Browser
+    onBrowseFn={(browse) => saveOpenBrowserFunction(browse)}
+    config={config}
+    context={context}
+    onProcessing={onProcessing}
+    onError={onError}
+    onPreviewUpdate={onPreviewUpdate}
+  />
+  ```
+
+  At a later point we will just need to call `this.openBrowser` function in that example, in order to open the native File browser. Same applies to `onCancelFn`.
+
+## 112.18.0
+
+### Minor Changes
+
+- [minor][e40e9ca1d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e40e9ca1d8):
+
+  Adds basic real user metrics, e.g. time to render prosemirror, etc...
+
+## 112.17.0
+
+### Minor Changes
+
+- [minor][58dd589a04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58dd589a04):
+
+  Update TeamMentionResource to accept teamLinkResolver option which is used to construct a team link.
+  Fix missing userId of user mentions in analytics in editor-core
+
+## 112.16.2
+
+### Patch Changes
+
+- [patch][b229885814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b229885814):
+
+  ED-7125 Fix composition input within Action and Decision list items for the first word entered.
+
+## 112.16.1
+
+### Patch Changes
+
+- [patch][2526630b84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2526630b84):
+
+  ED-6405 The shortcuts in editor tooltips are now highlighted.
+
+## 112.16.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
+## 112.15.5
+
+### Patch Changes
+
+- [patch][d348e409ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d348e409ed):
+
+  ED-7127: Toggling between modes no longer destroys plugin states, they are maintained while accepting new plugins and re-creating nodeviews.
+
+## 112.15.4
+
+### Patch Changes
+
+- [patch][0438f37f2c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0438f37f2c):
+
+  ED-7105 Fix issue where images in full-width mode page could be a different size between the editor and renderer
+
+## 112.15.3
+
+- Updated dependencies [dc965edbe6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc965edbe6):
+  - @atlaskit/share@0.5.0
+
+## 112.15.2
+
+### Patch Changes
+
+- [patch][9459224125](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9459224125):
+
+  ED-7104 Fix issue where h scroll would appear on page when long text was inside code snippet inside layouts in full-width mode
+
+## 112.15.1
+
+### Patch Changes
+
+- [patch][7e9c4f03c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9c4f03c9):
+
+  ED-7015 Fix issue where double digits were cut off in long ordered lists
+
 ## 112.15.0
 
 ### Minor Changes

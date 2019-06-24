@@ -27,8 +27,6 @@ import { setTextSelection } from '../../../../../index';
 const ControlsButton = `.${ClassName.CONTROLS_BUTTON}`;
 const RowControlsButtonWrap = `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}`;
 const DeleteRowButton = `.${ClassName.CONTROLS_DELETE_BUTTON_WRAP}`;
-const InsertRowButton = `.${ClassName.CONTROLS_INSERT_BUTTON_WRAP}`;
-const InsertColumnButtonInner = `.${ClassName.CONTROLS_INSERT_BUTTON_INNER}`;
 
 describe('RowControls', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -252,49 +250,6 @@ describe('RowControls', () => {
   });
 
   describe('hides add button when delete button overlaps it', () => {
-    it('hides one when two rows are selected', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdCursor, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <RowControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          hoverRows={(rows, danger) => {
-            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-          }}
-          selectRow={row => {
-            editorView.dispatch(selectRow(row)(editorView.state.tr));
-          }}
-        />,
-      );
-
-      expect(floatingControls.find(InsertRowButton).length).toBe(3);
-
-      selectRows([0, 1])(editorView.state, editorView.dispatch);
-
-      // selecting the row mutates the editor state (which is inside editorView)
-      // we set tableHeight prop to trick shouldComponentUpdate and force re-render
-      floatingControls.setProps({ tableHeight: 100 });
-
-      expect(floatingControls.find(InsertRowButton).length).toBe(2);
-      expect(
-        floatingControls
-          .find(RowControlsButtonWrap)
-          .first()
-          .find(InsertRowButton).length,
-      ).toBe(0);
-
-      floatingControls.unmount();
-    });
-
     it('only renders a single delete button over multiple row selections', () => {
       const { editorView } = editor(
         doc(
@@ -326,69 +281,6 @@ describe('RowControls', () => {
       floatingControls.setProps({ tableHeight: 100 });
 
       expect(floatingControls.find(DeleteRowButton).length).toBe(1);
-
-      floatingControls.unmount();
-    });
-  });
-
-  describe('hides add button when isResizing prop is truthy', () => {
-    it('unaffected add button when isRsizing is falsy', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <RowControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          hoverRows={(rows, danger) => {
-            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-          }}
-          selectRow={row => {
-            editorView.dispatch(selectRow(row)(editorView.state.tr));
-          }}
-          insertRowButtonIndex={1}
-        />,
-      );
-
-      expect(floatingControls.find(InsertColumnButtonInner).length).toBe(1);
-
-      floatingControls.unmount();
-    });
-
-    it('hides add button when isRsizing is truthy', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <RowControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          hoverRows={(rows, danger) => {
-            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-          }}
-          selectRow={row => {
-            editorView.dispatch(selectRow(row)(editorView.state.tr));
-          }}
-          insertRowButtonIndex={1}
-          isResizing={true}
-        />,
-      );
-
-      expect(floatingControls.find(InsertColumnButtonInner).length).toBe(0);
 
       floatingControls.unmount();
     });

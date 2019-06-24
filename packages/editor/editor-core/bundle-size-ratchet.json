@@ -1,114 +1,26 @@
 [
   {
-    "id": "src.main",
-    "name": "main",
-    "stats": {
-      "size": 676676,
-      "gzipSize": 178893
-    }
-  },
-  {
-    "id": "src.async",
-    "name": "async",
-    "stats": {
-      "size": 38908,
-      "gzipSize": 9072
-    }
-  },
-  {
-    "id": "node_modules.main",
-    "name": "node_modules [main]",
-    "stats": {
-      "size": 721445,
-      "gzipSize": 209439
-    }
-  },
-  {
-    "id": "node_modules.async",
-    "name": "node_modules [async]",
-    "stats": {
-      "size": 1419253,
-      "gzipSize": 405030
-    }
-  },
-  {
-    "id": "atlaskit.core.main",
-    "name": "main",
-    "stats": {
-      "size": 282353,
-      "gzipSize": 59580
-    }
-  },
-  {
-    "id": "atlaskit.core.async",
-    "name": "async",
-    "stats": {
-      "size": 164312,
-      "gzipSize": 31336
-    }
-  },
-  {
-    "id": "atlaskit.editor.main",
-    "name": "main",
-    "stats": {
-      "size": 135075,
-      "gzipSize": 32046
-    }
-  },
-  {
-    "id": "atlaskit.elements.main",
-    "name": "main",
-    "stats": {
-      "size": 146588,
-      "gzipSize": 40576
-    }
-  },
-  {
-    "id": "atlaskit.elements.async",
-    "name": "async",
-    "stats": {
-      "size": 39963,
-      "gzipSize": 10881
-    }
-  },
-  {
-    "id": "atlaskit.media.main",
-    "name": "main",
-    "stats": {
-      "size": 65438,
-      "gzipSize": 15577
-    }
-  },
-  {
-    "id": "atlaskit.media.async",
-    "name": "async",
-    "stats": {
-      "size": 1026105,
-      "gzipSize": 251700
-    }
-  },
-  {
-    "id": "atlaskit.teamwork-ecosystem.main",
-    "name": "main",
-    "stats": {
-      "size": 624,
-      "gzipSize": 367
-    }
-  },
-  {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.18.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 2020943,
-      "gzipSize": 546831
+      "size": 2199799,
+      "gzipSize": 601433
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.18.0",
+    "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2687521,
-      "gzipSize": 710258
+      "size": 2683637,
+      "gzipSize": 709088
     }
   }
 ]

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/webdriver-runner",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "index.js",
   "private": true,
   "dependencies": {
@@ -19,4 +19,3 @@
     "wdio-chromedriver-service": "^0.1.3"
   }
 }
-

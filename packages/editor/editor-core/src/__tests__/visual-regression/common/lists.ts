@@ -6,6 +6,7 @@ import statusAdf from './__fixtures__/status-inside-lists.adf.json';
 import dateAdf from './__fixtures__/date-inside-lists.adf.json';
 import floatsAdf from './__fixtures__/lists-adjacent-floats-adf.json';
 import floatsAdf2 from './__fixtures__/action-decision-lists-adjacent-floats-adf.json';
+import list100ItemsAdf from './__fixtures__/lists-100-items.adf';
 import {
   waitForCardToolbar,
   clickOnCard,
@@ -23,7 +24,10 @@ import {
   waitForDatePicker,
   clickOnDate,
 } from '../../__helpers/page-objects/_date';
-import { animationFrame } from '../../__helpers/page-objects/_editor';
+import {
+  animationFrame,
+  scrollToBottom,
+} from '../../__helpers/page-objects/_editor';
 import { EditorTestCardProvider } from '../../../../../editor-test-helpers';
 
 describe('Lists', () => {
@@ -75,6 +79,11 @@ describe('Lists', () => {
     await initEditor(page, dateAdf);
     await clickOnDate(page);
     await waitForDatePicker(page);
+  });
+
+  it('should not cut off numbers in long ordered lists', async () => {
+    await initEditor(page, list100ItemsAdf);
+    await scrollToBottom(page);
   });
 });
 

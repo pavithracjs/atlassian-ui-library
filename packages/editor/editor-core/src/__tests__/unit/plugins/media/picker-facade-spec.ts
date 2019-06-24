@@ -53,12 +53,6 @@ describe('Media PickerFacade', () => {
       [S in Partial<keyof MediaPickerComponents[K]>]: jest.Mock
     }
   } = {
-    browser: {
-      ...commonSpies,
-      teardown: jest.fn(),
-      browse: jest.fn(),
-      addFiles: jest.fn(),
-    },
     dropzone: {
       ...commonSpies,
       activate: jest.fn(),
@@ -74,7 +68,7 @@ describe('Media PickerFacade', () => {
     },
   };
 
-  const pickerTypes: Array<PickerType> = ['popup', 'dropzone', 'browser'];
+  const pickerTypes: Array<PickerType> = ['popup', 'dropzone'];
 
   pickerTypes.forEach(pickerType => {
     describe(`Picker: ${pickerType}`, () => {
@@ -149,7 +143,7 @@ describe('Media PickerFacade', () => {
         });
       }
 
-      if (pickerType === 'popup' || pickerType === 'browser') {
+      if (pickerType === 'popup') {
         it(`should call picker's teardown() on destruction`, () => {
           facade.destroy();
           expect(spies.teardown).toHaveBeenCalledTimes(1);
@@ -165,11 +159,6 @@ describe('Media PickerFacade', () => {
         it(`should call picker's show() on destruction`, () => {
           facade.show();
           expect(spies.show).toHaveBeenCalledTimes(1);
-        });
-      } else if (pickerType === 'browser') {
-        it(`should call picker's browse() on destruction`, () => {
-          facade.show();
-          expect(spies.browse).toHaveBeenCalledTimes(1);
         });
       }
 

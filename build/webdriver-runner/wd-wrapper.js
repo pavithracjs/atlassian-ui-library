@@ -53,6 +53,12 @@ export default class Page {
     return this.browser.url(url);
   }
 
+  async moveTo(selector, x, y) {
+    const elem = await this.browser.$(selector);
+    elem.moveTo(x, y);
+    await this.browser.pause(500);
+  }
+
   async hover(selector) {
     const elem = await this.browser.$(selector);
     elem.moveTo();

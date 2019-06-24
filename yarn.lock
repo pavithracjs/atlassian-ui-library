@@ -2812,7 +2812,7 @@ async@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.0.tgz#2796642723573859565633fc6274444bee2f8ce3"
 
-async@^1.4.0, async@^1.5.0, async@^1.5.2:
+async@^1.0.0, async@^1.4.0, async@^1.5.0, async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
@@ -13631,9 +13631,10 @@ performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
 
-phantomjs-prebuilt@^2.1.14:
+phantomjs-prebuilt@^2.1.14, phantomjs-prebuilt@^2.1.4:
   version "2.1.16"
   resolved "https://registry.yarnpkg.com/phantomjs-prebuilt/-/phantomjs-prebuilt-2.1.16.tgz#efd212a4a3966d3647684ea8ba788549be2aefef"
+  integrity sha1-79ISpKOWbTZHaE6ouniFSb4q7+8=
   dependencies:
     es6-promise "^4.0.3"
     extract-zip "^1.6.5"
@@ -14976,15 +14977,10 @@ react-json-tree@^0.11.0:
     prop-types "^15.5.8"
     react-base16-styling "^0.5.1"
 
-react-lazily-render-scroll-parent@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-lazily-render-scroll-parent/-/react-lazily-render-scroll-parent-1.1.1.tgz#c3e36981e26116bd42d568265e8af5ff0c250e6b"
-  dependencies:
-    scrollparent "^2.0.1"
-
-react-lazily-render@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-lazily-render/-/react-lazily-render-1.1.0.tgz#bd831961040503bfd9e852b990fd44561090ff09"
+react-lazily-render@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-lazily-render/-/react-lazily-render-1.2.0.tgz#732464b8f227eb58756df50549157c44c1c18c57"
+  integrity sha512-7G3w4m187V1VXs2LmF5e++ZPj3BqZ0lSsD63Tnz1L+MqsPCW55qqsqf1cM/uTHAR8gRK0tARosx0o9mJUyBeAg==
   dependencies:
     scrollparent "^2.0.1"
 
@@ -15914,7 +15910,7 @@ rimraf@2, rimraf@^2.5.4, rimraf@^2.6.0:
   dependencies:
     glob "^7.0.5"
 
-rimraf@2.6.3, rimraf@^2.2.8, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@~2.6.2:
+rimraf@2.6.3, rimraf@^2.2.8, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3, rimraf@~2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   dependencies:
@@ -17366,6 +17362,14 @@ svg-url-loader@^2.3.0:
   dependencies:
     file-loader "1.1.11"
     loader-utils "1.1.0"
+
+svgexport@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/svgexport/-/svgexport-0.3.2.tgz#722f31840328b483e8a5dcaa73eff818d884d106"
+  integrity sha1-ci8xhAMotIPopdyqc+/4GNiE0QY=
+  dependencies:
+    async "^1.0.0"
+    phantomjs-prebuilt "^2.1.4"
 
 svgo@^0.7.0, svgo@^0.7.2:
   version "0.7.2"

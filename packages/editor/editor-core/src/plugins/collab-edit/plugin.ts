@@ -1,10 +1,4 @@
-import {
-  Plugin,
-  PluginKey,
-  Transaction,
-  Selection,
-  EditorState,
-} from 'prosemirror-state';
+import { Plugin, PluginKey, Transaction, Selection } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { Step, ReplaceStep } from 'prosemirror-transform';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -66,8 +60,6 @@ export const createPlugin = (
   dispatch: Dispatch,
   providerFactory: ProviderFactory,
   options?: CollabEditOptions,
-  // This will only be populated when the editor is reloaded/reconfigured
-  oldState?: EditorState,
   sanitizePrivateContent?: boolean,
 ) => {
   let collabEditProvider: CollabEditProvider | null;
@@ -76,9 +68,7 @@ export const createPlugin = (
     key: pluginKey,
     state: {
       init(config) {
-        return (
-          (oldState && pluginKey.getState(oldState)) || PluginState.init(config)
-        );
+        return PluginState.init(config);
       },
       apply(tr, prevPluginState: PluginState, oldState, newState) {
         const pluginState = prevPluginState.apply(tr);
