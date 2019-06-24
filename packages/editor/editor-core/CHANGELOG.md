@@ -1,5 +1,14 @@
 # @atlaskit/editor-core
 
+## 112.17.0
+
+### Minor Changes
+
+- [minor][58dd589a04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58dd589a04):
+
+  Update TeamMentionResource to accept teamLinkResolver option which is used to construct a team link.
+  Fix missing userId of user mentions in analytics in editor-core
+
 ## 112.16.2
 
 ### Patch Changes

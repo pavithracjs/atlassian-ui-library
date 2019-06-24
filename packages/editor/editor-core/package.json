@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-core",
-  "version": "112.16.2",
+  "version": "112.17.0",
   "description": "A package contains Atlassian editor core functionality",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -47,7 +47,7 @@
     "@atlaskit/media-editor": "^36.1.2",
     "@atlaskit/media-filmstrip": "^34.2.1",
     "@atlaskit/media-picker": "^43.1.1",
-    "@atlaskit/mention": "^18.4.1",
+    "@atlaskit/mention": "^18.6.0",
     "@atlaskit/modal-dialog": "^10.0.4",
     "@atlaskit/select": "^9.1.6",
     "@atlaskit/smart-card": "^12.1.0",
