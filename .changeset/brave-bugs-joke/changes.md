@@ -1,0 +1,1 @@
+SL-331: fix edit handler for smart-card.
