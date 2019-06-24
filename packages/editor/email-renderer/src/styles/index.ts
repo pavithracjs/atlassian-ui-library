@@ -18,6 +18,7 @@ import { styles as dateStyles } from '../nodes/date';
 import { styles as decisionStyles } from '../nodes/decision-item';
 import { styles as inlineCardStyles } from '../nodes/inline-card';
 import { styles as panelStyles } from '../nodes/panel';
+import { styles as taskItemStyles } from '../nodes/task-item';
 import { styles as alignmentStyles } from '../marks/alignment';
 import { styles as codeStyles } from '../marks/code';
 import { styles as emStyles } from '../marks/em';
@@ -71,6 +72,7 @@ const styles = `
   ${decisionStyles}
   ${inlineCardStyles}
   ${panelStyles}
+  ${taskItemStyles}
 
   ${alignmentStyles}
   ${codeStyles}
