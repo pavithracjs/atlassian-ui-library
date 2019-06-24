@@ -1,10 +1,8 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent, ComponentType } from 'react';
 import styled from 'styled-components';
 
 import Button from '@atlaskit/button';
-import { FieldTextStateless } from '@atlaskit/field-text';
-
+import Textfield from '@atlaskit/textfield';
 import { metadata as objectIconMetadata } from '@atlaskit/icon-object';
 import { metadata as fileTypeIconMetadata } from '@atlaskit/icon-file-type';
 import { metadata as priorityIconMetadata } from '@atlaskit/icon-priority';
@@ -13,32 +11,33 @@ import { metadata } from '../src';
 import IconExplorerCell from './utils/IconExplorerCell';
 import logoIcons from '../utils/logoIcons';
 
+type IconsList = Record<string, IconType>;
+
 // WARNING
 // It is going to be very tempting to move these into some higher level abstraction
 // They need to live at the root because of the dynamic imports so webpack resolves
 // them correctly
 
 const iconIconInfo = Promise.all(
-  Object.keys(metadata).map(async (name: $Keys<typeof metadata>) => {
-    // $ExpectError - we are fine with this being dynamic
+  Object.keys(metadata).map(async (name: string) => {
     const icon = await import(`../glyph/${name}.js`);
     return { name, icon: icon.default };
   }),
 ).then(newData =>
   newData
     .map(icon => ({
-      [icon.name]: { ...metadata[icon.name], component: icon.icon },
+      [icon.name]: {
+        ...(metadata as { [key: string]: any })[icon.name],
+        component: icon.icon,
+      },
     }))
     .reduce((acc, b) => ({ ...acc, ...b })),
 );
 const objectIconInfo = Promise.all(
-  Object.keys(objectIconMetadata).map(
-    async (name: $Keys<typeof objectIconMetadata>) => {
-      // $ExpectError - we are fine with this being dynamic
-      const icon = await import(`@atlaskit/icon-object/glyph/${name}.js`);
-      return { name, icon: icon.default };
-    },
-  ),
+  Object.keys(objectIconMetadata).map(async (name: string) => {
+    const icon = await import(`@atlaskit/icon-object/glyph/${name}.js`);
+    return { name, icon: icon.default };
+  }),
 ).then(newData =>
   newData
     .map(icon => ({
@@ -47,13 +46,10 @@ const objectIconInfo = Promise.all(
     .reduce((acc, b) => ({ ...acc, ...b })),
 );
 const fileTypeIconInfo = Promise.all(
-  Object.keys(fileTypeIconMetadata).map(
-    async (name: $Keys<typeof fileTypeIconMetadata>) => {
-      // $ExpectError - we are fine with this being dynamic
-      const icon = await import(`@atlaskit/icon-file-type/glyph/${name}.js`);
-      return { name, icon: icon.default };
-    },
-  ),
+  Object.keys(fileTypeIconMetadata).map(async (name: string) => {
+    const icon = await import(`@atlaskit/icon-file-type/glyph/${name}.js`);
+    return { name, icon: icon.default };
+  }),
 ).then(newData =>
   newData
     .map(icon => ({
@@ -63,13 +59,10 @@ const fileTypeIconInfo = Promise.all(
 );
 
 const priorityIconInfo = Promise.all(
-  Object.keys(priorityIconMetadata).map(
-    async (name: $Keys<typeof priorityIconMetadata>) => {
-      // $ExpectError - we are fine with this being dynamic
-      const icon = await import(`@atlaskit/icon-priority/glyph/${name}.js`);
-      return { name, icon: icon.default };
-    },
-  ),
+  Object.keys(priorityIconMetadata).map(async (name: string) => {
+    const icon = await import(`@atlaskit/icon-priority/glyph/${name}.js`);
+    return { name, icon: icon.default };
+  }),
 ).then(newData =>
   newData
     .map(icon => ({
@@ -78,43 +71,53 @@ const priorityIconInfo = Promise.all(
     .reduce((acc, b) => ({ ...acc, ...b })),
 );
 
-const getAllIcons = async () => {
+const getAllIcons = async (): Promise<IconsList> => {
   const iconData = await iconIconInfo;
   const objectData = await objectIconInfo;
   const filetypeData = await fileTypeIconInfo;
   const priorityData = await priorityIconInfo;
+
   return {
     first: {
       componentName: 'divider-icons',
-      component: () => 'exported from @atlaskit/icon',
+      component: ((() =>
+        'exported from @atlaskit/icon') as unknown) as ComponentType<any>,
       keywords: getKeywords(metadata),
       divider: true,
     },
     ...iconData,
     firstTwo: {
       componentName: 'divider-product',
-      component: () => 'exported from @atlaskit/logo',
+      component: (() =>
+        'exported from @atlaskit/logo' as unknown) as ComponentType<any>,
       keywords: getKeywords(logoIcons),
       divider: true,
     },
     ...logoIcons,
     second: {
       componentName: 'divider-object-icons',
-      component: () => 'exported from @atlaskit/icon-object',
+      component: (() =>
+        'exported from @atlaskit/icon-object' as unknown) as ComponentType<any>,
       keywords: getKeywords(objectIconMetadata),
       divider: true,
     },
     ...objectData,
     third: {
       componentName: 'divider-file-type-icons',
-      component: () => 'exported from @atlaskit/icon-file-type',
+      component: (() =>
+        'exported from @atlaskit/icon-file-type' as unknown) as ComponentType<
+        any
+      >,
       keywords: getKeywords(fileTypeIconMetadata),
       divider: true,
     },
     ...filetypeData,
     forth: {
       componentName: 'divider-priority-icons',
-      component: () => 'exported from @atlaskit/icon-priority',
+      component: (() =>
+        'exported from @atlaskit/icon-priority' as unknown) as ComponentType<
+        any
+      >,
       keywords: getKeywords(priorityIconMetadata),
       divider: true,
     },
@@ -123,11 +126,15 @@ const getAllIcons = async () => {
 };
 const allIconsPromise = getAllIcons();
 
-const getKeywords = logoMap =>
-  Object.values(logoMap).reduce(
-    (existingKeywords, { keywords } /*:any*/) => [
+interface LogoMap {
+  [key: string]: { keywords: string[] };
+}
+
+const getKeywords = (logoMap: LogoMap) =>
+  Object.keys(logoMap).reduce(
+    (existingKeywords: string[], key) => [
       ...existingKeywords,
-      ...keywords,
+      ...logoMap[key].keywords,
     ],
     [],
   );
@@ -149,33 +156,33 @@ const NoIcons = styled.div`
   padding: 10px;
 `;
 
-type iconType = {
-  keywords: string[],
-  component: Class<Component<*>>,
-  componentName: string,
-  package: string,
-  divider?: boolean,
-};
-
-const filterIcons = (icons, query) => {
+const filterIcons = (icons: IconsList, query: string) => {
   const regex = new RegExp(query);
   return Object.keys(icons)
     .map(index => icons[index])
     .filter(icon =>
       icon.keywords
         .map(keyword => (regex.test(keyword) ? 1 : 0))
-        .reduce((allMatches, match) => allMatches + match, 0),
+        .reduce((allMatches: number, match: number) => allMatches + match, 0),
     );
 };
 
-type State = {
-  query: string,
-  showIcons: boolean,
-  allIcons?: { [string]: iconType },
-};
+interface IconType {
+  keywords: string[];
+  component: ComponentType<any>;
+  componentName: string;
+  package?: string;
+  divider?: boolean;
+}
+
+interface State {
+  query: string;
+  showIcons: boolean;
+  allIcons?: IconsList;
+}
 
 class IconAllExample extends Component<{}, State> {
-  state = {
+  readonly state: State = {
     query: '',
     showIcons: false,
   };
@@ -192,7 +199,7 @@ class IconAllExample extends Component<{}, State> {
     if (!this.state.allIcons) {
       return <div>Loading Icons...</div>;
     }
-    const icons: iconType[] = filterIcons(
+    const icons: IconType[] = filterIcons(
       this.state.allIcons,
       this.state.query,
     );
@@ -212,16 +219,13 @@ class IconAllExample extends Component<{}, State> {
   render() {
     return (
       <div>
-        <FieldTextStateless
-          isLabelHidden
+        <Textfield
+          value={this.state.query}
+          placeholder="Search for an icon..."
           key="Icon search"
-          label=""
           onChange={(event: SyntheticEvent<HTMLInputElement>) =>
             this.updateQuery(event.currentTarget.value)
           }
-          placeholder="Search for an icon..."
-          shouldFitContainer
-          value={this.state.query}
         />
         <IconGridWrapper>
           <p>

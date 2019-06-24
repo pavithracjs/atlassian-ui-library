@@ -37,7 +37,7 @@
     "@atlaskit/button": "^13.0.8",
     "@atlaskit/docs": "^8.1.2",
     "@atlaskit/dynamic-table": "^13.1.1",
-    "@atlaskit/field-text": "^9.0.2",
+    "@atlaskit/textfield": "^2.0.2",
     "@atlaskit/icon-build-process": "^0.1.0",
     "@atlaskit/icon-file-type": "^4.0.4",
     "@atlaskit/icon-object": "^4.0.4",

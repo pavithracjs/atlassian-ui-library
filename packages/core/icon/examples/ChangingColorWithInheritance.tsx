@@ -1,15 +1,15 @@
-// @flow
 import React, { Component } from 'react';
 import { colors } from '@atlaskit/theme';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
+
 import BookIcon from '../glyph/book';
 import ArrowUpIcon from '../glyph/arrow-up';
 import ArrowDownIcon from '../glyph/arrow-down';
 import ArrowLeftIcon from '../glyph/arrow-left';
 import ArrowRightIcon from '../glyph/arrow-right';
 
-const ColorDiv = styled.div`
+const ColorDiv = styled.div<{ isColorFlipped: boolean }>`
   align-items: center;
   color: ${props => (props.isColorFlipped ? colors.N300 : 'white')};
   background-color: ${props => (props.isColorFlipped ? 'white' : colors.B500)};
@@ -20,7 +20,7 @@ const ColorDiv = styled.div`
   /* transition: color 0.2s, background-color 0.2s; */
 `;
 
-const Paragraph = styled.p`
+const Paragraph = styled.p<{ isColorFlipped: boolean }>`
   flex-basis: 100%;
   text-align: center;
   color: ${props => (props.isColorFlipped ? 'inherit' : 'white')};
@@ -28,7 +28,7 @@ const Paragraph = styled.p`
 
 export default class ChangingColorWithInheritance extends Component<
   {},
-  { isColorFlipped: boolean },
+  { isColorFlipped: boolean }
 > {
   state = {
     isColorFlipped: false,
@@ -48,11 +48,11 @@ export default class ChangingColorWithInheritance extends Component<
         <Paragraph isColorFlipped={this.state.isColorFlipped}>
           Icons inherit color from their parent by default.
         </Paragraph>
-        <BookIcon />
-        <ArrowUpIcon />
-        <ArrowDownIcon />
-        <ArrowLeftIcon />
-        <ArrowRightIcon />
+        <BookIcon label="book" />
+        <ArrowUpIcon label="arrowup" />
+        <ArrowDownIcon label="arrowdown" />
+        <ArrowLeftIcon label="arrowleft" />
+        <ArrowRightIcon label="arrowright" />
         <Paragraph isColorFlipped={this.state.isColorFlipped}>
           <Button appearance="subtle-link" onClick={this.onToggleClick}>
             Change colour

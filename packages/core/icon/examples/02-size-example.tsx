@@ -1,7 +1,8 @@
-// @flow
-import React, { Component, type Element } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import Btn, { ButtonGroup } from '@atlaskit/button';
+import Button, { ButtonGroup } from '@atlaskit/button';
+
+import { sizeOpts } from '../src/types';
 
 import ActivityIcon from '../glyph/activity';
 import AddCircleIcon from '../glyph/add-circle';
@@ -41,32 +42,29 @@ const demoIcons = [
   ArrowUpIcon,
 ];
 
-const Button = props => (
-  <div style={{ marginRight: 4 }}>
-    <Btn {...props} />
-  </div>
-);
+const sizes: sizeOpts[] = ['small', 'medium', 'large', 'xlarge'];
 
-const sizes = ['small', 'medium', 'large', 'xlarge'];
+interface State {
+  size: sizeOpts;
+}
 
-type sizeOpts = 'small' | 'medium' | 'large' | 'xlarge';
-
-class IconSizeExample extends Component<{}, { size: sizeOpts }> {
-  state = {
+class IconSizeExample extends Component<{}, State> {
+  readonly state: State = {
     size: 'medium',
   };
 
   updateSize = (s: sizeOpts) => this.setState({ size: s });
 
-  renderButtons = (): Array<Element<typeof Button>> =>
-    sizes.map(s => (
-      <Button
-        isSelected={s === this.state.size}
-        key={s}
-        onClick={() => this.updateSize(s)}
-      >
-        {s}
-      </Button>
+  renderButtons = () =>
+    sizes.map(size => (
+      <div style={{ marginRight: 4 }} key={size}>
+        <Button
+          isSelected={size === this.state.size}
+          onClick={() => this.updateSize(size)}
+        >
+          {size}
+        </Button>
+      </div>
     ));
 
   render() {

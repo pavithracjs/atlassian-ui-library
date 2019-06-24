@@ -1,11 +1,16 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, ComponentType } from 'react';
 import { colors } from '@atlaskit/theme';
 import Button from '@atlaskit/button';
+
 import CheckboxIcon from '../glyph/checkbox';
 import RadioIcon from '../glyph/radio';
 
-const toggleableIcons = [['checkbox', CheckboxIcon], ['radio', RadioIcon]];
+type IconPair = [string, ComponentType<any>][];
+
+const toggleableIcons: IconPair = [
+  ['checkbox', CheckboxIcon],
+  ['radio', RadioIcon],
+];
 
 const styles = {
   iconChecked: {
@@ -23,13 +28,13 @@ const styles = {
 };
 
 type State = {
-  toggleColor: boolean,
-  toggleFill: boolean,
-  icons: any,
+  toggleColor: boolean;
+  toggleFill: boolean;
+  icons: IconPair;
 };
 
 export default class ToggleIcons extends Component<{}, State> {
-  state = {
+  readonly state: State = {
     toggleColor: false,
     toggleFill: false,
     icons: toggleableIcons,
@@ -42,6 +47,7 @@ export default class ToggleIcons extends Component<{}, State> {
     const colorStyleReverse = this.state.toggleFill
       ? styles.iconReverse
       : styles.iconChecked;
+
     return (
       <div>
         <h6 style={{ padding: 0, margin: '10px 5px' }}>
