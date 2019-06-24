@@ -28,6 +28,10 @@ export default () => (
     </DecisionItem>
 
     <h3>Simple DecisionItem with placeholder</h3>
-    <DecisionItem contentRef={dumpRef} showPlaceholder={true} />
+    <DecisionItem
+      contentRef={dumpRef}
+      showPlaceholder={true}
+      placeholder="Placeholder text"
+    />
   </div>
 );
