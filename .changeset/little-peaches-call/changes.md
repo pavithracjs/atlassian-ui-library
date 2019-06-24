@@ -1,1 +1,0 @@
-Republishing @atlaskit/editor-jira-transformer
