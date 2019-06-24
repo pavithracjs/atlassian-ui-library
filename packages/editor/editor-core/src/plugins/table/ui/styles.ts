@@ -50,6 +50,7 @@ export const tableToolbarSize = akEditorTableToolbarSize;
 export const tableBorderRadiusSize = 3;
 export const tableInsertColumnButtonSize = 20;
 export const tableDeleteButtonSize = 16;
+export const tableDeleteButtonOffset = 6;
 export const tablePadding = 8;
 export const contextualMenuTriggerSize = 16;
 export const contextualMenuDropdownWidth = 180;
@@ -207,34 +208,6 @@ const InsertButtonHover = () => `
   }
 `;
 
-const DeleteButton = (css?: string) => `
-  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
-  .${ClassName.CONTROLS_DELETE_BUTTON} {
-    height: ${tableDeleteButtonSize}px;
-    width: ${tableDeleteButtonSize}px;
-  }
-  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
-    position: absolute;
-    z-index: 100;
-    ${css}
-
-    .${ClassName.CONTROLS_DELETE_BUTTON} {
-      ${Button(`
-        background: ${N20A};
-        color: ${N300};
-      `)}
-    }
-  }
-`;
-
-const DeleteButtonHover = () => `
-  .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
-    background: ${R300};
-    color: white;
-    cursor: pointer;
-  }
-`;
-
 const insertColumnButtonWrapper = `
   ${InsertButton()}
   ${InsertButtonHover()}
@@ -294,6 +267,28 @@ export const tableStyles = css`
     .${ClassName.CONTROLS_FLOATING_BUTTON_ROW} {
       ${insertRowButtonWrapper}
     }
+
+    /* Delete button*/
+    .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
+    .${ClassName.CONTROLS_DELETE_BUTTON} {
+      height: ${tableDeleteButtonSize}px;
+      width: ${tableDeleteButtonSize}px;
+    }
+    .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
+      .${ClassName.CONTROLS_DELETE_BUTTON} {
+        ${Button(`
+          background: ${N20A};
+          color: ${N300};
+        `)}
+      }
+    }
+    
+    .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
+      background: ${R300};
+      color: white;
+      cursor: pointer;
+    }
+    /* Ends Delete button*/
 
     .less-padding {
       padding: 0 ${tablePadding}px;
@@ -360,17 +355,7 @@ export const tableStyles = css`
       ${HeaderButtonHover()}
       ${HeaderButtonDanger()}
     }
-    .${ClassName.COLUMN_CONTROLS},
-    .${ClassName.CORNER_CONTROLS} {
-      ${DeleteButton(`
-        top: -${tableDeleteButtonSize + 4}px;
-      `)}
-    }
 
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.COLUMN_CONTROLS},
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.CORNER_CONTROLS} {
-      ${ DeleteButtonHover()}
-    }
     /* Corner controls */
     .${ClassName.CORNER_CONTROLS} {
       width: ${tableToolbarSize + 1}px;
@@ -461,10 +446,7 @@ export const tableStyles = css`
       .${ClassName.CONTROLS_BUTTON}:hover {
         z-index: ${akEditorUnitZIndex};
       }
-      ${DeleteButton(`
-        bottom: -${tableInsertColumnButtonSize / 2}px;
-        left: -${tableDeleteButtonSize + 6}px;
-      `)}
+
       ${HeaderButton(`
         border-bottom: 1px solid ${tableBorderColor};
         border-right: 1px solid ${tableBorderColor};
@@ -487,7 +469,6 @@ export const tableStyles = css`
     :not(.${ClassName.IS_RESIZING}) .${ClassName.ROW_CONTROLS} {
       ${HeaderButtonHover()}
       ${HeaderButtonDanger()}
-      ${DeleteButtonHover()}
     }
 
     /* Numbered column */
