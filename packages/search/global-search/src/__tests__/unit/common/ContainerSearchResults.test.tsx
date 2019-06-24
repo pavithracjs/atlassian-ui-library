@@ -115,6 +115,7 @@ const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
   disableJiraPreQueryPeopleSearch: false,
   enablePreQueryFromAggregator: false,
   searchExtensionsEnabled: false,
+  isAutocompleteEnabled: false,
 };
 
 const renderComponent = (product: QuickSearchContext) => {
