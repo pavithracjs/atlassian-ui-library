@@ -30,9 +30,9 @@ export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   &:hover {
     box-shadow: none;
     transition: box-shadow 0.2s ease-in-out;
+    background-color: ${themed({ light: colors.N20, dark: colors.DN50 })};
   }
 
-  background-color: ${themed({ light: colors.N30A, dark: colors.DN50 })};
   border: 1px solid: ${themed({ light: 'none', dark: colors.DN60 })};
 `;
 

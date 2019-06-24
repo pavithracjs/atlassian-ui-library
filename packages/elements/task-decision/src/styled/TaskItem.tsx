@@ -29,12 +29,12 @@ export const CheckBoxWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
       cursor: pointer;
 
       &::after {
-        background: ${themed({ light: colors.N0, dark: colors.DN10 })}
+        background: ${themed({ light: colors.N0, dark: colors.DN80 })}
         background-size: 16px;
         border-radius: 3px;
         border-style: solid;
         border-width: 1px;
-        border-color: ${themed({ light: colors.N50, dark: colors.DN70 })}
+        border-color: ${themed({ light: colors.N50, dark: colors.DN90 })}
         box-sizing: border-box;
         content: '';
         height: 16px;
