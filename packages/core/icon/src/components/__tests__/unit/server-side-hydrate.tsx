@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
@@ -12,7 +11,6 @@ afterEach(() => {
 
 test.skip('should ssr then hydrate icon correctly', async done => {
   const [example] = await getExamplesFor('icon');
-  // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
@@ -21,7 +19,7 @@ test.skip('should ssr then hydrate icon correctly', async done => {
   ReactDOM.hydrate(<Example />, elem);
   // ignore warnings caused by emotion's server-side rendering approach
   // eslint-disable-next-line no-console
-  const mockCalls = console.error.mock.calls.filter(
+  const mockCalls = (console.error as jest.Mock).mock.calls.filter(
     ([f, s]) =>
       !(
         f ===

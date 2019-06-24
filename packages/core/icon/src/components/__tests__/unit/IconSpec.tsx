@@ -1,25 +1,21 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import React, { Component } from 'react';
 import { mount, render } from 'enzyme';
 
 import { colors } from '@atlaskit/theme';
 import { name } from '../../../version.json';
-import Icon, { size } from '../../..';
+import Icon, { size, IconProps } from '../../..';
+import { sizes as sizeValues } from '../../../constants';
 import { IconWrapper } from '../../Icon';
-
-const sizeValues = {
-  small: '16px',
-  medium: '24px',
-  large: '32px',
-  xlarge: '48px',
-};
+import { sizeOpts } from '../../../types';
 
 describe(name, () => {
   describe('Icon', () => {
     const secretContent = 'secret content';
     const secretWrapper = () => <div>{secretContent}</div>;
     const empty = () => <div>Icon</div>;
-    const MyIcon = props => <Icon glyph={secretWrapper} {...props} />;
+    const MyIcon = (props: IconProps) => (
+      <Icon glyph={secretWrapper} {...props} />
+    );
 
     it('should match the DOM Snapshot', () => {
       const wrapper = mount(<Icon glyph={empty} label="My icon" />);
@@ -98,12 +94,11 @@ describe(name, () => {
     describe('label property', () => {
       it('is accessed by glyph', () => {
         /* eslint-disable react/prop-types */
-        const LabelWriter = (props: { label: string }): Node => (
+        const LabelWriter = (props: { label?: string; role: string }) => (
           <div>{props.label}</div>
         );
         const labelContent = 'label content';
         const wrapper = mount(
-          // $FlowFixMe - LabelWriter function signature interpreted incorrectly
           <Icon glyph={LabelWriter} label={labelContent} />,
         );
         expect(wrapper.find('span').is(`[aria-label="${labelContent}"]`)).toBe(
@@ -113,7 +108,8 @@ describe(name, () => {
     });
 
     describe('size property', () => {
-      const sizes = ['small', 'medium', 'large', 'xlarge'];
+      const sizes: sizeOpts[] = ['small', 'medium', 'large', 'xlarge'];
+
       sizes.forEach(s => {
         const wrapper = mount(<Icon glyph={empty} label="My icon" size={s} />);
         const iconWrapper = wrapper.find(IconWrapper);

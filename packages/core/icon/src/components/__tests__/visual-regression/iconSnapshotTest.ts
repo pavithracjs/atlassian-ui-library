@@ -1,4 +1,3 @@
-// @flow
 import {
   getExampleUrl,
   takeScreenShot,
@@ -10,10 +9,13 @@ describe('Snapshot Test', () => {
       'core',
       'icon',
       'size-example',
+      // @ts-ignore - Property '__BASEURL__' does not exist on type 'Global'.
       global.__BASEURL__,
     );
+
+    // @ts-ignore - Property 'page' does not exist on type 'Global'
     const image = await takeScreenShot(global.page, url);
-    //$FlowFixMe
+
     expect(image).toMatchProdImageSnapshot();
   });
 });
