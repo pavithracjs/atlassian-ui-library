@@ -1,4 +1,3 @@
-// @flow
 /**
  * Add synonyms for icons to this file to help users find them on the website.
  *
