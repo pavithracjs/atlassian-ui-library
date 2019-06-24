@@ -1,1 +1,0 @@
-Jira results now have project name rather than issue type
