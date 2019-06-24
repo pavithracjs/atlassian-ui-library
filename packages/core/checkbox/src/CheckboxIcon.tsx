@@ -36,16 +36,12 @@ export default class CheckboxIcon extends Component<CheckboxIconProps, {}> {
           <CheckboxIndeterminateIcon
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
-            isHovered={isHovered}
-            isActive={isActive}
             label=""
           />
         ) : (
           <Icon
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
-            isHovered={isHovered}
-            isActive={isActive}
             label=""
           />
         )}
