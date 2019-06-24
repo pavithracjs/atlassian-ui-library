@@ -152,7 +152,7 @@ function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
       const query = request.split('query=')[1];
       const tokens = query.split('+');
       const lastToken = tokens.slice(-1)[0];
-      if (lastToken.length == 0) {
+      if (lastToken.length === 0) {
         return delay(delayMs, []);
       }
       if (lastToken === 'error') {
