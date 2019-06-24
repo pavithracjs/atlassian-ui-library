@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.1.1
+
+### Patch Changes
+
+- [patch][8e50d00fc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e50d00fc6):
+
+  SL-331: fix edit handler for smart-card.
+
 ## 12.1.0
 
 ### Minor Changes
