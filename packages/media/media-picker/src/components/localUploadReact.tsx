@@ -79,9 +79,9 @@ export class LocalUploadComponentReact<
     this.uploadService.on('file-upload-error', this.onUploadError);
   }
 
-  public cancel(uniqueIdentifier?: string): void {
+  public cancel = (uniqueIdentifier?: string): void => {
     this.uploadService.cancel(uniqueIdentifier);
-  }
+  };
 
   public setUploadParams(uploadParams: UploadParams): void {
     this.uploadService.setUploadParams(uploadParams);
