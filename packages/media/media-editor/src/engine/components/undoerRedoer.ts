@@ -60,6 +60,7 @@ export class DefaultUndoerRedoer implements UndoerRedoer {
 
     if (this.isUndoEnabled && isModKeyPressed && zKeyWithoutShift) {
       this.undo.emit({});
+      event.preventDefault();
     }
     if (
       this.isRedoEnabled &&
@@ -67,6 +68,7 @@ export class DefaultUndoerRedoer implements UndoerRedoer {
       (isWindows() ? yKeyWithoutShift : zKeyWithShift)
     ) {
       this.redo.emit({});
+      event.preventDefault();
     }
   }
 }
