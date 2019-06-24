@@ -185,7 +185,6 @@ export class MediaPluginState {
       if (this.mediaProvider.uploadParams && this.uploadContext) {
         await this.initPickers(
           this.mediaProvider.uploadParams,
-          this.uploadContext,
           PickerFacade,
           this.reactContext,
         );
@@ -448,18 +447,17 @@ export class MediaPluginState {
 
   private async initPickers(
     uploadParams: UploadParams,
-    context: Context,
     Picker: typeof PickerFacade,
     reactContext: () => {},
   ) {
-    if (this.destroyed) {
+    if (this.destroyed || !this.uploadContext) {
       return;
     }
     const { errorReporter, pickers, pickerPromises } = this;
     // create pickers if they don't exist, re-use otherwise
     if (!pickers.length) {
       const pickerFacadeConfig: PickerFacadeConfig = {
-        context,
+        context: this.uploadContext,
         errorReporter,
       };
       const defaultPickerConfig = {
@@ -478,7 +476,7 @@ export class MediaPluginState {
         pickers.push((this.customPicker = await customPicker));
       } else {
         let popupPicker: Promise<PickerFacade> | undefined;
-        if (context.config && context.config.userAuthProvider) {
+        if (this.hasUserAuthProvider()) {
           popupPicker = new Picker(
             'popup',
             pickerFacadeConfig,
