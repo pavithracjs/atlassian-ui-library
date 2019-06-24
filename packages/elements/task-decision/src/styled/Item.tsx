@@ -21,7 +21,7 @@ export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
 
   line-height: 20px;
   border-radius: ${borderRadius()}px;
-  margin: ${akGridSize}px 0;
+  margin: ${akGridSize / 2}px 0;
   padding: ${akGridSize}px ${akGridSize}px;
   min-height: 36px;
   box-sizing: border-box;
