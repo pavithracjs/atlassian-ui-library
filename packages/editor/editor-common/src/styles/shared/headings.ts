@@ -1,6 +1,7 @@
 // @ts-ignore: unused variable
 // prettier-ignore
 import { css, Styles, StyledComponentClass } from 'styled-components';
+import { typography } from '@atlaskit/theme';
 
 // @see typography spreadsheet: https://docs.google.com/spreadsheets/d/1iYusRGCT4PoPfvxbJ8NrgjtfFgXLm5lpDWXzjua1W2E/edit#gid=93913128
 // text sizing prototype: http://proto/fabricrender/
@@ -39,8 +40,8 @@ export const headingsSharedStyles = css`
   }
 
   & h6 {
-    line-height: 1.455;
-    font-size: 0.786em;
+    ${typography.h100};
     margin-top: 1.455em;
+    text-transform: none;
   }
 `;
