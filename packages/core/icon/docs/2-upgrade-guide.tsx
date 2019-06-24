@@ -1,10 +1,13 @@
-// @flow
 import React from 'react';
 import { md, code } from '@atlaskit/docs';
 
 import { DynamicTableStateless } from '@atlaskit/dynamic-table';
 
-const Table = ({ changedValues }: { changedValues: { [string]: string } }) => (
+interface TableProps {
+  changedValues: Record<string, string>;
+}
+
+const Table = ({ changedValues }: TableProps) => (
   <DynamicTableStateless
     isFixedSize
     head={{
@@ -13,13 +16,14 @@ const Table = ({ changedValues }: { changedValues: { [string]: string } }) => (
         { key: 'new location', content: 'New location' },
       ],
     }}
-    rows={Object.entries(changedValues).map(([oldLocation, newLocation]) => ({
-      // $FlowFixMe
-      key: oldLocation + newLocation,
+    rows={Object.keys(changedValues).map(oldLocation => ({
+      key: oldLocation + changedValues[oldLocation],
       cells: [
         { key: oldLocation, content: <code>{oldLocation}</code> },
-        // $FlowFixMe
-        { key: newLocation, content: <code>{newLocation}</code> },
+        {
+          key: changedValues[oldLocation],
+          content: <code>{changedValues[oldLocation]}</code>,
+        },
       ],
     }))}
   />
@@ -111,7 +115,7 @@ import BookIcon from '@atlaskit/icon/glyph/book';
     label="Book"
     primaryColor={colors.N0}
     secondaryColor={colors.B400}
-    size="small"         
+    size="small"
   />
 </Button>
 `}
@@ -123,7 +127,7 @@ import EmojiIcon from '@atlaskit/icon/glyph/emoji';
     label="Yay"
     primaryColor={colors.N0}
     secondaryColor={colors.P300}
-    size="medium"         
+    size="medium"
   />
 </Link>
 `}
@@ -178,7 +182,7 @@ ${code`
   label="Atlassian Design Guidelines"
   primaryColor={colors.N0}
   secondaryColor={colors.B400}
-  size="small"         
+  size="small"
 />
 `}
 
@@ -190,7 +194,7 @@ ${code`
   iconColor={colors.N0}
   iconGradientStart={colors.B400}
   iconGradientStop={colors.N0}
-  size="xsmall"      
+  size="xsmall"
 />
 `}
 
