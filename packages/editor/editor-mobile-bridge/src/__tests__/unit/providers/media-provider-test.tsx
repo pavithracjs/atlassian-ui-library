@@ -33,6 +33,7 @@ import {
   asMockReturnValue,
   expectFunctionToHaveBeenCalledWith,
   fakeMediaClient,
+  fakeWithMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { of } from 'rxjs/observable/of';
 
@@ -97,9 +98,7 @@ describe('Mobile MediaProvider', async () => {
     mediaClient = fakeMediaClient();
     asMockReturnValue(getMediaClient, mediaClient);
     asMock(withMediaClient).mockImplementation(
-      (Component: React.ComponentType) => (props: any) => (
-        <Component {...props} mediaClient={mediaClient} />
-      ),
+      fakeWithMediaClient(mediaClient),
     );
     asMockReturnValue(mediaClient.file.getFileState, of(testFileState));
 

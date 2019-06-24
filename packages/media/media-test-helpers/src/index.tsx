@@ -29,3 +29,4 @@ export * from './fileReader';
 export * from './mockLoadImage';
 export * from './mediaPickerMocks';
 export * from './clipboardEventMocks';
+export { fakeWithMediaClient } from './with-media-client-hoc-mock';

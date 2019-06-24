@@ -57,7 +57,6 @@ type MediaProviderBase = {
 export type WithViewMediaClientConfig = {
   /**
    * Used for displaying Media Cards and downloading files.
-   * This is mediaClientConfig config is required.
    */
   viewMediaClientConfig: MediaClientConfig;
 };
