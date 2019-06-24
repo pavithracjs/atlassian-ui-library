@@ -1,1 +1,0 @@
-Add the ability to send custom attributes with the exposure event
