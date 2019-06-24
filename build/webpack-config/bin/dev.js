@@ -39,6 +39,11 @@ const { print, devServerBanner, errorMsg } = require('../banner');
 let HOST = 'localhost';
 let disableHostCheck = false;
 
+if (process.env.DISABLE_HOST_CHECK) {
+  // Opt out of host checking for locally testing integration tests within browserstack
+  disableHostCheck = true;
+}
+
 if (process.env.VISUAL_REGRESSION) {
   HOST = '0.0.0.0';
   disableHostCheck = true;

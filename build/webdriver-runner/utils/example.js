@@ -11,6 +11,9 @@
  * This is needed to correctly resolve our examples on Safari (MacOS & iOS).
  * It works for all browsers and platforms.
  *
+ * Also, ensure `disableHostCheck` is set to `true` within your Webpack Dev Server
+ * configuration, otherwise the examples won't be reachable from this alternate URL.
+ *
  * @see https://www.browserstack.com/question/663
  * @see https://www.browserstack.com/question/759
  * @see https://www.browserstack.com/question/758

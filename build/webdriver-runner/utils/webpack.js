@@ -200,6 +200,7 @@ async function startDevServer() {
     quiet: true,
     noInfo: false,
     overlay: false,
+    // Disable host checking to ensure Browerstack local testing correctly resolves.
     disableHostCheck: true,
 
     // disable hot reload for tests - they don't need it for running
