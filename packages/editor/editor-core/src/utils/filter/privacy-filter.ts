@@ -23,7 +23,8 @@ export function sanitizeNodeForPrivacy(
       if (node.attrs && node.attrs.text) {
         hasCacheableMentions = true;
         // Remove @ prefix
-        const name = node.attrs.text.slice(1);
+        const text = node.attrs.text;
+        const name = text.startsWith('@') ? text.slice(1) : text;
         mentionNames.set(node.attrs.id, name);
       }
       return {

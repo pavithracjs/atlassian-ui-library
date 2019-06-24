@@ -40,7 +40,7 @@ describe(name, () => {
                         type: 'mention',
                         attrs: {
                           id: '555',
-                          text: '@Elaine Mattia',
+                          text: 'Elaine Mattia',
                         },
                       },
                       {
