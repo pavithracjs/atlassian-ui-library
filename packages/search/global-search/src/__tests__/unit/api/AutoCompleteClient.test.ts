@@ -31,7 +31,6 @@ describe('AutoCompleteClient', () => {
     const serviceOptions = requestSpy.mock.calls[0][1];
     const expectedQueryParams = {
       cloudId,
-      autofix: 1,
       query: 'auto',
     };
     expect(serviceOptions).toHaveProperty('queryParams', expectedQueryParams);
