@@ -11,6 +11,13 @@ import { styles as tableCellStyles } from '../nodes/table-cell';
 import { styles as tableRowStyles } from '../nodes/table-row';
 import { styles as tableHeaderStyles } from '../nodes/table-header';
 import { styles as statusStyles } from '../nodes/status';
+import { styles as blockCardStyles } from '../nodes/block-card';
+import { styles as bodiedExtensionStyles } from '../nodes/bodiedExtension';
+import { styles as inlineExtensionStyles } from '../nodes/inlineExtension';
+import { styles as dateStyles } from '../nodes/date';
+import { styles as decisionStyles } from '../nodes/decision-item';
+import { styles as inlineCardStyles } from '../nodes/inline-card';
+import { styles as panelStyles } from '../nodes/panel';
 import { styles as alignmentStyles } from '../marks/alignment';
 import { styles as codeStyles } from '../marks/code';
 import { styles as emStyles } from '../marks/em';
@@ -57,6 +64,13 @@ const styles = `
   ${tableHeaderStyles}
   ${tableCellStyles}
   ${tableRowStyles}
+  ${blockCardStyles}
+  ${bodiedExtensionStyles}
+  ${inlineExtensionStyles}
+  ${dateStyles}
+  ${decisionStyles}
+  ${inlineCardStyles}
+  ${panelStyles}
 
   ${alignmentStyles}
   ${codeStyles}
