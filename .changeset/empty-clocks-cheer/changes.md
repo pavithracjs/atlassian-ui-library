@@ -1,1 +1,0 @@
-[ED-7076] Improve table performance reducing the number of React elements on ColumnControl, moving out InsertButton component. 
