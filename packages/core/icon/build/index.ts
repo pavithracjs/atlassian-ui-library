@@ -1,4 +1,3 @@
-// @flow
 const path = require('path');
 const buildIcons = require('@atlaskit/icon-build-process');
 const pkgDir = require('pkg-dir');
@@ -16,12 +15,13 @@ const config = {
   glob: '**/*.svg',
 };
 
-buildIcons(config).then(icons => {
+buildIcons(config).then((icons: any) => {
   const iconDocs = buildIcons.createIconDocs(
     icons,
     '@atlaskit/icon',
     synonyms,
     ['icon', 'core'],
   );
-  return fs.outputFile(path.resolve(root, 'src/metadata.js'), iconDocs);
+
+  return fs.outputFile(path.resolve(root, 'src/metadata.ts'), iconDocs);
 });

@@ -19,7 +19,7 @@
     "team": "core"
   },
   "scripts": {
-    "update": "node ./build/index.js && yarn build:babel:cjs",
+    "update": "ts-node ./build/index.ts && yarn build:babel:cjs",
     "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel src -d cjs --root-mode=\"upward\""
   },
   "dependencies": {
@@ -53,7 +53,8 @@
     "enzyme": "^3.7.0",
     "fs-extra": "^4.0.2",
     "lodash.sample": "^4.2.1",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "ts-node": "^6.1.1"
   },
   "keywords": [
     "atlaskit",
