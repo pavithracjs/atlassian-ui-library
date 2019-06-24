@@ -48,6 +48,7 @@ import {
   mapSearchResultsToUIGroups,
   MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
+import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { AutocompleteClient } from '../../api/AutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
@@ -64,7 +65,6 @@ export interface Props {
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
   autocompleteClient: AutocompleteClient;
-  isAutocompleteEnabled?: boolean;
   firePrivateAnalyticsEvent: FireAnalyticsEvent | undefined;
   linkComponent: LinkComponent | undefined;
   createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
@@ -507,13 +507,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   };
 
   render() {
-    const {
-      linkComponent,
-      logger,
-      inputControls,
-      isAutocompleteEnabled,
-      features,
-    } = this.props;
+    const { linkComponent, logger, inputControls, features } = this.props;
+    const { isAutocompleteEnabled } = features;
 
     return (
       <QuickSearchContainer

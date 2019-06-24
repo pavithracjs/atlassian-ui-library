@@ -45,6 +45,7 @@ const DEFAULT_FEATURES: ConfluenceFeatures = {
   isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
+  isAutocompleteEnabled: false,
 };
 
 function render(partialProps?: Partial<Props>) {
@@ -54,7 +55,6 @@ function render(partialProps?: Partial<Props>) {
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
     autocompleteClient: mockAutocompleteClient,
-    isAutocompleteEnabled: false,
     logger,
     referralContextIdentifiers,
     features: DEFAULT_FEATURES,
@@ -462,9 +462,10 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
 
     it('should pass down getAutocomplete if isAutocompleteEnabled', () => {
-      const wrapper = render({ isAutocompleteEnabled: true });
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES, isAutocompleteEnabled: true },
+      });
       const quickSearchContainer = wrapper.find(QuickSearchContainer);
-
       const props = quickSearchContainer.props();
       expect(props.getAutocompleteSuggestions).not.toBeUndefined();
     });

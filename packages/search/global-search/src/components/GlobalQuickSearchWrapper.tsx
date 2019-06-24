@@ -279,6 +279,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       modelContext,
       showFeedbackCollector,
       feedbackCollectorProps,
+      isAutocompleteEnabled,
     } = this.props;
 
     const commonProps = {
@@ -289,6 +290,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         useUrsForBootstrapping: !!useUrsForBootstrapping,
         disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
         enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,
+        isAutocompleteEnabled: !!isAutocompleteEnabled,
       }),
       linkComponent: linkComponent,
       referralContextIdentifiers: referralContextIdentifiers,
