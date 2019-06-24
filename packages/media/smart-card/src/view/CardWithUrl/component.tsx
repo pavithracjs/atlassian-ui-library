@@ -13,9 +13,10 @@ import { useSmartLink } from '../../state';
 
 export function LazyCardWithUrlContent(props: CardWithUrlContentProps) {
   const { appearance, isSelected, container, url } = props;
+  const offset = Math.ceil(window.innerHeight / 4);
   return (
     <LazilyRender
-      offset={100}
+      offset={offset}
       component={appearance === 'inline' ? 'span' : 'div'}
       placeholder={
         <CardLinkView
