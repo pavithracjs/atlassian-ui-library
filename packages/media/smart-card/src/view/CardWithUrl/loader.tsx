@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 import { CardLinkView } from '@atlaskit/media-ui';
-import LazilyRender from 'react-lazily-render-scroll-parent';
 
 import { CardWithUrl } from '../Card/types';
-import { CardWithUrlContent as CardWithUrlContentType } from './component';
+import { LazyCardWithUrlContent as CardWithUrlContentType } from './component';
 import { fireSmartLinkEvent } from '../../utils/analytics';
 import { AnalyticsHandler } from '../../utils/types';
 
@@ -16,7 +15,7 @@ export class CardWithURLRenderer extends React.PureComponent<
   static moduleImporter(target: CardWithURLRenderer) {
     import(/* webpackChunkName:"@atlaskit-internal-smartcard-urlcardcontent" */ './component').then(
       module => {
-        CardWithURLRenderer.CardContent = module.CardWithUrlContent;
+        CardWithURLRenderer.CardContent = module.LazyCardWithUrlContent;
         target.forceUpdate();
       },
     );
@@ -47,27 +46,13 @@ export class CardWithURLRenderer extends React.PureComponent<
     }
 
     return CardWithURLRenderer.CardContent !== null ? (
-      <LazilyRender
-        offset={100}
-        component={appearance === 'inline' ? 'span' : 'div'}
-        placeholder={
-          <CardLinkView
-            isSelected={isSelected}
-            key={'lazy-render-placeholder'}
-            link={url}
-          />
-        }
-        scrollContainer={container}
-        content={
-          <CardWithURLRenderer.CardContent
-            url={url}
-            appearance={appearance}
-            onClick={onClick}
-            isSelected={isSelected}
-            dispatchAnalytics={dispatchAnalytics}
-            container={container}
-          />
-        }
+      <CardWithURLRenderer.CardContent
+        url={url}
+        appearance={appearance}
+        onClick={onClick}
+        isSelected={isSelected}
+        dispatchAnalytics={dispatchAnalytics}
+        container={container}
       />
     ) : (
       <CardLinkView key={'chunk-placeholder'} link={url} />
