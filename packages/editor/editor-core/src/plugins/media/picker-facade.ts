@@ -196,7 +196,7 @@ export default class PickerFacade {
       ? preview
       : { dimensions: undefined, scaleFactor: undefined };
 
-    const state = {
+    const state: MediaState = {
       id: file.id,
       fileName: file.name,
       fileSize: file.size,
