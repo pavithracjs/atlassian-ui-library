@@ -1,7 +1,0 @@
-{
-  "releases": [
-    { "name": "@atlaskit/email-renderer", "type": "minor" },
-    { "name": "@atlaskit/adf-schema", "type": "patch" }
-  ],
-  "dependents": []
-}
