@@ -1,14 +1,18 @@
 import * as React from 'react';
 import { MediaPluginState, MediaProvider } from '../pm-plugins/main';
 import { ClipboardConfig, BrowserConfig } from '@atlaskit/media-picker';
-import { Context } from '@atlaskit/media-core';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import { ErrorReporter } from '@atlaskit/editor-common';
 import PickerFacade from '../picker-facade';
 import { CustomMediaPicker } from '../types';
+import {
+  getUploadMediaClientConfigFromMediaProvider,
+  getViewMediaClientConfigFromMediaProvider,
+} from '../utils/media-common';
 
 interface ChildrenProps {
   config: ClipboardConfig | BrowserConfig;
-  context: Context;
+  mediaClientConfig: MediaClientConfig;
   pickerFacadeInstance: PickerFacade;
 }
 
@@ -20,7 +24,7 @@ type Props = {
 
 type State = {
   config?: ClipboardConfig | BrowserConfig;
-  context?: Context;
+  mediaClientConfig?: MediaClientConfig;
   pickerFacadeInstance?: PickerFacade;
 };
 
@@ -49,14 +53,16 @@ export default class PickerFacadeProvider extends React.Component<
       return;
     }
 
-    const context = await mediaProvider.uploadContext;
+    const resolvedMediaClientConfig =
+      (await getUploadMediaClientConfigFromMediaProvider(mediaProvider)) ||
+      (await getViewMediaClientConfigFromMediaProvider(mediaProvider));
 
-    if (!context) {
+    if (!resolvedMediaClientConfig) {
       return;
     }
 
     const pickerFacadeConfig = {
-      context,
+      mediaClientConfig: resolvedMediaClientConfig,
       errorReporter: mediaState.options.errorReporter || new ErrorReporter(),
     };
 
@@ -92,7 +98,7 @@ export default class PickerFacadeProvider extends React.Component<
     this.setState({
       pickerFacadeInstance,
       config,
-      context,
+      mediaClientConfig: resolvedMediaClientConfig,
     });
   };
 
@@ -111,14 +117,14 @@ export default class PickerFacadeProvider extends React.Component<
   }
 
   render() {
-    const { context, config, pickerFacadeInstance } = this.state;
+    const { mediaClientConfig, config, pickerFacadeInstance } = this.state;
 
-    if (!context || !config || !pickerFacadeInstance) {
+    if (!mediaClientConfig || !config || !pickerFacadeInstance) {
       return null;
     }
 
     return this.props.children({
-      context,
+      mediaClientConfig,
       config,
       pickerFacadeInstance,
     });

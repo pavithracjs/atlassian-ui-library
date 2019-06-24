@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
 
-import { FileIdentifier } from '@atlaskit/media-core';
+import { FileIdentifier } from '@atlaskit/media-client';
 import { Dimensions, SmartMediaEditor } from '@atlaskit/media-editor';
 
 import { MediaEditorState } from '../types';
@@ -28,9 +28,9 @@ export default class MediaEditor extends React.PureComponent<Props> {
 
   render() {
     const {
-      mediaEditorState: { editor, context },
+      mediaEditorState: { editor, mediaClientConfig },
     } = this.props;
-    if (!editor || !context) {
+    if (!editor || !mediaClientConfig) {
       return null;
     }
 
@@ -39,7 +39,7 @@ export default class MediaEditor extends React.PureComponent<Props> {
     return (
       <SmartMediaEditor
         identifier={identifier}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         onUploadStart={this.onUploadStart}
         onClose={this.onClose}
       />

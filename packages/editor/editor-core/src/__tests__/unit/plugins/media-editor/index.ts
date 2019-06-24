@@ -8,6 +8,7 @@ import {
   insertText,
   CreateEditorOptions,
 } from '@atlaskit/editor-test-helpers';
+import { nextTick } from '@atlaskit/media-test-helpers';
 
 import { getFreshMediaProvider } from '../media/_utils';
 import { mediaPlugin } from '../../../../plugins';
@@ -161,7 +162,7 @@ describe('media editor', () => {
   });
 
   describe('view', () => {
-    it('sets the context from the media provider', async () => {
+    it('sets the mediaClientConfig from the media provider', async () => {
       const providerFactory = new ProviderFactory();
       const { editorView } = editor(defaultDoc, {
         providerFactory,
@@ -172,10 +173,12 @@ describe('media editor', () => {
       providerFactory.setProvider('mediaProvider', mediaProvider);
 
       const resolvedProvider = await mediaProvider;
-      const resolvedContext = await resolvedProvider.viewContext;
+      const resolvedMediaClientConfig = resolvedProvider.viewMediaClientConfig;
+
+      await nextTick();
 
       expect(getPluginState(editorView.state)).toEqual({
-        context: resolvedContext,
+        mediaClientConfig: resolvedMediaClientConfig,
       });
     });
   });

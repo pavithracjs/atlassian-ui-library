@@ -15,12 +15,12 @@ export const BrowserMediaPickerWrapper = ({
   onBrowseFn,
 }: Props) => (
   <PickerFacadeProvider mediaState={mediaState} analyticsName="browser">
-    {({ context, config, pickerFacadeInstance }) => (
+    {({ mediaClientConfig, config, pickerFacadeInstance }) => (
       <Browser
         onBrowseFn={onBrowseFn}
         isOpen={isOpen}
         config={config}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         onProcessing={pickerFacadeInstance.handleReady}
         onError={pickerFacadeInstance.handleUploadError}
         onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}

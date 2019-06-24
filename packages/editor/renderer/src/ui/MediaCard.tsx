@@ -10,13 +10,13 @@ import {
   CardError,
   CardOnClickCallback,
 } from '@atlaskit/media-card';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import {
-  Context,
   ImageResizeMode,
   FileIdentifier,
   ExternalImageIdentifier,
   Identifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { MediaType } from '@atlaskit/adf-schema';
 import {
   withImageLoader,
@@ -30,7 +30,7 @@ import { RendererAppearance } from './Renderer/types';
 import { RendererContext } from '../react';
 
 export interface MediaProvider {
-  viewContext?: Context;
+  viewMediaClientConfig?: MediaClientConfig;
 }
 
 export interface MediaCardProps {
@@ -56,7 +56,7 @@ export interface MediaCardProps {
 }
 
 export interface State {
-  context?: Context;
+  mediaClientConfig?: MediaClientConfig;
 }
 
 const mediaIdentifierMap: Map<string, Identifier> = new Map();
@@ -106,7 +106,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     }
 
     const provider = await mediaProvider;
-    const context = await provider.viewContext;
+    const mediaClientConfig = await provider.viewMediaClientConfig;
     const nodeIsInCache =
       (id && mediaIdentifierMap.has(id)) ||
       (url && mediaIdentifierMap.has(url));
@@ -124,7 +124,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     }
 
     this.setState({
-      context,
+      mediaClientConfig: mediaClientConfig,
     });
   }
 
@@ -145,7 +145,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
   };
 
   private renderExternal(shouldOpenMediaViewer: boolean) {
-    const { context } = this.state;
+    const { mediaClientConfig } = this.state;
     const {
       cardDimensions,
       resizeMode,
@@ -167,7 +167,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     return (
       <Card
-        context={context as any} // context is not really used when the type is external and we want to render the component asap
+        // context is not really used when the type is external and we want to render the component asap
+        mediaClientConfig={mediaClientConfig!}
         identifier={identifier}
         dimensions={cardDimensions}
         appearance={appearance}
@@ -210,7 +211,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
   };
 
   render() {
-    const { context } = this.state;
+    const { mediaClientConfig } = this.state;
     const {
       id,
       type,
@@ -239,7 +240,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       return null;
     }
 
-    if (!context || !id) {
+    if (!mediaClientConfig || !id) {
       return this.renderLoadingCard();
     }
 
@@ -257,7 +258,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     return (
       <Card
         identifier={identifier}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         dimensions={cardDimensions}
         onClick={onCardClick}
         resizeMode={resizeMode}
