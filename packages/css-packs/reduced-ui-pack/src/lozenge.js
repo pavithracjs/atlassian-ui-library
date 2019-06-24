@@ -1,5 +1,5 @@
 //@flow
-import { colors, fontSizeSmall } from '@atlaskit/theme';
+import { colors } from '@atlaskit/theme';
 import evaluateInner from './utils/evaluate-inner';
 
 const lozengeBorderRadius = '3px';
@@ -9,7 +9,7 @@ export default evaluateInner`
     border-radius: ${lozengeBorderRadius};
     box-sizing: border-box;
     display: inline-flex;
-    font-size: ${fontSizeSmall()}px;
+    font-size: 11px;
     font-weight: 700;
     line-height: 1;
     max-width: 200px;

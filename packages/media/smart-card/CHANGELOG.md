@@ -1,5 +1,21 @@
 # @atlaskit/smart-card
 
+## 12.1.1
+
+### Patch Changes
+
+- [patch][8e50d00fc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e50d00fc6):
+
+  SL-331: fix edit handler for smart-card.
+
+## 12.1.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
 ## 12.0.0
 
 ### Major Changes

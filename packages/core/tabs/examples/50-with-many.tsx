@@ -1,12 +1,11 @@
-// @flow
-
 import React from 'react';
 import Tabs from '../src';
 import { Content } from './shared';
+import { OnSelectCallback } from '../src/types';
 
-function handleTabSelect(tab, index) {
+const handleTabSelect: OnSelectCallback = (_tab, index) => {
   console.info(`Switched to tab at index ${index}`);
-}
+};
 
 export default () => (
   <Tabs

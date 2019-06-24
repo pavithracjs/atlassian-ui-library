@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.15.8
+
+### Patch Changes
+
+- [patch][465b8bae74](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/465b8bae74):
+
+  Jira results now have project name rather than issue type
+
 ## 8.15.7
 
 ### Patch Changes

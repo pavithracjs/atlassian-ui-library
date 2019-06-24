@@ -1,8 +1,6 @@
-// @flow
-
 import React, { Component } from 'react';
 import { TabPane } from '../styled';
-import type { TabContentComponentProvided } from '../types';
+import { TabContentComponentProvided } from '../types';
 
 export default class TabContent extends Component<TabContentComponentProvided> {
   static defaultProps = {

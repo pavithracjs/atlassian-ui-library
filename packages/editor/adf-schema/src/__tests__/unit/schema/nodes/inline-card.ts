@@ -24,19 +24,13 @@ describe(`${name}/schema inlineCard node`, () => {
   describe('inlineCard with "url" attribute', () => {
     describe('parse html', () => {
       it('converts to inlineCard PM node', () => {
-        const doc = fromHTML(
-          `<span data-inline-card data-card-url="${url}" />`,
-          schema,
-        );
+        const doc = fromHTML(`<a data-inline-card href="${url}" />`, schema);
         const node = doc.firstChild!.firstChild!;
         expect(node.type.spec).toEqual(inlineCard);
       });
 
       it('gets attributes from html', () => {
-        const doc = fromHTML(
-          `<span data-inline-card data-card-url="${url}" />`,
-          schema,
-        );
+        const doc = fromHTML(`<a data-inline-card href="${url}" />`, schema);
 
         const node = doc.firstChild!.firstChild!;
         expect(node.attrs.url).toEqual(url);
@@ -49,7 +43,7 @@ describe(`${name}/schema inlineCard node`, () => {
         const dom = toDOM(schema.nodes.inlineCard.create({ url }), schema)
           .firstChild as HTMLElement;
 
-        expect(dom.getAttribute('data-card-url')).toEqual(url);
+        expect(dom.getAttribute('href')).toEqual(url);
       });
 
       it('encodes and decodes to the same node', () => {
@@ -66,7 +60,7 @@ describe(`${name}/schema inlineCard node`, () => {
     describe('parse html', () => {
       it('converts to inlineCard PM node', () => {
         const doc = fromHTML(
-          `<span data-inline-card data-card-url="" data-card-data='${JSON.stringify(
+          `<a data-inline-card href="" data-card-data='${JSON.stringify(
             data,
           )}' />`,
           schema,
@@ -77,7 +71,7 @@ describe(`${name}/schema inlineCard node`, () => {
 
       it('gets attributes from html', () => {
         const doc = fromHTML(
-          `<span data-inline-card data-card-url="" data-card-data='${JSON.stringify(
+          `<a data-inline-card href="" data-card-data='${JSON.stringify(
             data,
           )}' />`,
           schema,
@@ -93,7 +87,7 @@ describe(`${name}/schema inlineCard node`, () => {
         const dom = toDOM(schema.nodes.inlineCard.create({ data }), schema)
           .firstChild as HTMLElement;
 
-        expect(dom.getAttribute('data-card-url')).toEqual('');
+        expect(dom.getAttribute('href')).toEqual('');
         expect(dom.getAttribute('data-card-data')).toEqual(
           JSON.stringify(data),
         );

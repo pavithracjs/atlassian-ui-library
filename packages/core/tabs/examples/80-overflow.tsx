@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import Lorem from 'react-lorem-component';
 import { colors } from '@atlaskit/theme';
@@ -38,7 +37,7 @@ export default () => (
                 This paragraph is testing horizontal overflow to make sure that
                 the scroll container stays where it should be.
               </p>
-              <Lorem />
+              <Lorem count={5} />
             </div>
           ),
         },
@@ -46,7 +45,7 @@ export default () => (
           label: 'Unconstrained height',
           content: (
             <div>
-              <Lorem />
+              <Lorem count={5} />
             </div>
           ),
         },
