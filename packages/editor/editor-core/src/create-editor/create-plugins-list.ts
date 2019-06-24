@@ -124,11 +124,13 @@ export default function createPluginsList(
   }
 
   if (props.mentionProvider) {
-    plugins.push(mentionsPlugin(createAnalyticsEvent));
+    plugins.push(
+      mentionsPlugin(createAnalyticsEvent, props.sanitizePrivateContent),
+    );
   }
 
   if (props.emojiProvider) {
-    plugins.push(emojiPlugin);
+    plugins.push(emojiPlugin(createAnalyticsEvent));
   }
 
   if (props.allowTables) {
@@ -161,7 +163,9 @@ export default function createPluginsList(
   }
 
   if (props.collabEdit || props.collabEditProvider) {
-    plugins.push(collabEditPlugin(props.collabEdit));
+    plugins.push(
+      collabEditPlugin(props.collabEdit, props.sanitizePrivateContent),
+    );
   }
 
   if (props.maxContentSize) {

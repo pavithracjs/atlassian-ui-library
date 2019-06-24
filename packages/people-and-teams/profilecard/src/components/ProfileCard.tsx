@@ -8,7 +8,6 @@ import Spinner from '@atlaskit/spinner';
 
 import IconLabel from './IconLabel';
 import ErrorMessage from './ErrorMessage';
-import MessagesIntlProvider from './MessagesIntlProvider';
 import relativeDate from '../internal/relative-date';
 import messages from '../messages';
 
@@ -226,11 +225,12 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
       return null;
     }
 
-    return (
-      <FullNameLabel noMeta={!meta}>
-        {`${fullName}${nickname ? ` (${nickname}) ` : ''}`}
-      </FullNameLabel>
-    );
+    const displayName =
+      fullName === nickname
+        ? fullName
+        : `${fullName}${nickname ? ` (${nickname}) ` : ''}`;
+
+    return <FullNameLabel noMeta={!meta}>{displayName}</FullNameLabel>;
   }
 
   renderCardDetailsApp() {
@@ -304,11 +304,9 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
     }
 
     return (
-      <MessagesIntlProvider>
-        <CardElevationWrapper customElevation={customElevation}>
-          {cardContent}
-        </CardElevationWrapper>
-      </MessagesIntlProvider>
+      <CardElevationWrapper customElevation={customElevation}>
+        {cardContent}
+      </CardElevationWrapper>
     );
   }
 }

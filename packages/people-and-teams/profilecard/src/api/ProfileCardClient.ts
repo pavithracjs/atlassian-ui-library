@@ -34,17 +34,18 @@ export const modifyResponse = (
   }
 
   return {
-    isActive: data.isActive,
     isBot: data.isBot,
     isCurrentUser: data.isCurrentUser,
     isNotMentionable: data.isNotMentionable,
+    status: data.status,
+    statusModifiedDate: data.statusModifiedDate || undefined,
     avatarUrl: data.avatarUrl || undefined,
     email: data.email || undefined,
     fullName: data.fullName || undefined,
-    isCensored: data.isCensored || undefined,
     location: data.location || undefined,
     meta: data.meta || undefined,
     nickname: data.nickname || undefined,
+    companyName: data.companyName || undefined,
     timestring: data.remoteTimeString || undefined,
   };
 };

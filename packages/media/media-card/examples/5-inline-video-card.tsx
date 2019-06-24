@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card } from '../src';
 import {
-  createStorybookContext,
+  createStorybookMediaClientConfig,
   videoFileId,
   imageFileId,
   videoLargeFileId,
@@ -12,7 +12,7 @@ import {
   InlineCardVideoWrapperItem,
 } from '../example-helpers/styled';
 
-const context = createStorybookContext();
+const mediaClientConfig = createStorybookMediaClientConfig();
 const onClick = () => console.log('onClick');
 
 export default () => (
@@ -20,7 +20,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>video large [disableOverlay=true] width=500 height=300</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={videoLargeFileId}
         dimensions={{ width: 500, height: 300 }}
         disableOverlay={true}
@@ -36,7 +36,7 @@ export default () => (
       </h1>
       <div style={{ width: '250px', height: 'auto' }}>
         <Card
-          context={context}
+          mediaClientConfig={mediaClientConfig}
           identifier={videoLargeFileId}
           dimensions={{ width: 500, height: 300 }}
           disableOverlay={true}
@@ -48,7 +48,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>Image file [disableOverlay=true]</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={imageFileId}
         disableOverlay={true}
         onClick={onClick}
@@ -57,7 +57,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>Image file [disableOverlay=true] [useInlinePlayer=true]</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={imageFileId}
         disableOverlay={true}
         onClick={onClick}
@@ -67,7 +67,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>video [disableOverlay=true] no dimensions</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={videoFileId}
         disableOverlay={true}
         onClick={onClick}
@@ -77,7 +77,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>video [disableOverlay=true] width=100% height=300</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={videoFileId}
         dimensions={{ width: '100%', height: 300 }}
         disableOverlay={true}
@@ -88,7 +88,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>video horizontal [disableOverlay=true] width=500 height=300</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={videoHorizontalFileId}
         dimensions={{ width: 500, height: 300 }}
         disableOverlay={true}
@@ -99,7 +99,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>video horizontal width=200 height=500</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={videoHorizontalFileId}
         dimensions={{ width: 200, height: 500 }}
         onClick={onClick}
@@ -109,7 +109,7 @@ export default () => (
     <InlineCardVideoWrapperItem>
       <h1>video horizontal no dimensions</h1>
       <Card
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         identifier={videoHorizontalFileId}
         onClick={onClick}
         useInlinePlayer={true}

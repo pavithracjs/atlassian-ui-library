@@ -1,6 +1,6 @@
 // @flow
 import React, { type Node } from 'react';
-import Field from './Field';
+import Field, { type Meta } from './Field';
 
 type FieldProps = {
   isChecked: boolean,
@@ -10,17 +10,14 @@ type FieldProps = {
   value: any,
 };
 
-type Meta = {
-  dirty: boolean,
-  touched: boolean,
-  valid: boolean,
-  error: any,
-  submitError: any,
-};
-
 type Props = {
   /* Children to render in the field. Called with form information. */
-  children: ({ fieldProps: FieldProps, error: any, meta: Meta }) => Node,
+  children: ({
+    fieldProps: FieldProps,
+    error: any,
+    valid: boolean,
+    meta: Meta,
+  }) => Node,
   /* The default checked state of the checkbox */
   defaultIsChecked: boolean,
   /* Whether the field is required for submission */

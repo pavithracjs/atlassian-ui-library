@@ -53,6 +53,12 @@ export default class Page {
     return this.browser.url(url);
   }
 
+  async moveTo(selector, x, y) {
+    const elem = await this.browser.$(selector);
+    elem.moveTo(x, y);
+    await this.browser.pause(500);
+  }
+
   async hover(selector) {
     const elem = await this.browser.$(selector);
     elem.moveTo();
@@ -156,8 +162,8 @@ export default class Page {
     // Console errors can only be checked in Chrome
     if (this.isBrowser('chrome')) {
       const logs = await this.browser.getLogs('browser');
-      if (logs.value) {
-        logs.value.forEach(val => {
+      if (logs.length) {
+        logs.forEach(val => {
           assert.notStrictEqual(val.level, 'SEVERE', `Error : ${val.message}`);
         });
       }
@@ -370,9 +376,9 @@ export default class Page {
 
   async safariCompatibleTab() {
     if (this.isBrowser('Safari')) {
-      await this.keys(['Alt', 'Tab']);
+      await this.keys('\ue00A\ue004');
     } else {
-      await this.keys(['Tab']);
+      await this.keys('\ue004');
     }
   }
 }

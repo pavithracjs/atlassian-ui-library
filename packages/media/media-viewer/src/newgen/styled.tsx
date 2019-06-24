@@ -3,7 +3,7 @@
 // @ts-ignore: unused variable
 // prettier-ignore
 import styled, { StyledComponentClass } from 'styled-components';
-import { MediaType } from '@atlaskit/media-core';
+import { MediaType } from '@atlaskit/media-client';
 // @ts-ignore: unused variable
 // prettier-ignore
 import { HTMLAttributes, VideoHTMLAttributes, AudioHTMLAttributes, ImgHTMLAttributes, ComponentClass, ClassAttributes } from 'react';
@@ -157,7 +157,9 @@ export const PDFWrapper = styled.div`
 
 export const Arrow = styled.span`
   cursor: pointer;
-
+  button {
+    height: inherit;
+  }
   > span {
     color: rgba(27, 38, 56, 0.5);
     fill: #9fb0cc;

@@ -9,8 +9,6 @@ import {
   confluenceRecentItemsPromise,
   // @ts-ignore (additional export from mocked version)
   abTestPromise,
-  // @ts-ignore (additional export from mocked version)
-  recentPeoplePromise,
   getConfluencePrefetchedData,
 } from '../../api/prefetchResults';
 import { QuickSearchContext } from '../../api/types';
@@ -45,7 +43,7 @@ describe('PrefetchedResultsProvider', () => {
       prefetchedResultsHelper = jest.fn();
       const child = (
         <GlobalSearchPreFetchContext.Consumer>
-          {({ prefetchedResults }) => {
+          {prefetchedResults => {
             prefetchedResultsHelper(prefetchedResults);
             return <div />;
           }}
@@ -73,13 +71,13 @@ describe('PrefetchedResultsProvider', () => {
       );
     });
 
-    it('should get recent people prefetch data', async () => {
+    it('should NOT get recent people prefetch data', async () => {
       await confluenceRecentItemsPromise;
 
       expect(getConfluencePrefetchedData).toHaveBeenCalled();
       expect(
         prefetchedResultsHelper.mock.calls[1][0].recentPeoplePromise,
-      ).toEqual(recentPeoplePromise);
+      ).toBeUndefined();
     });
   });
 

@@ -10,7 +10,6 @@ describe('Snapshot Test: Basic Content', () => {
     await loadFullPageEditorWithAdf(page, adf);
     // Wait for loaded emoji image (contained within ADF)
     const emojiSelector = '.emoji-common-emoji-sprite';
-    await page.waitForSelector(emojiSelector);
     await waitForLoadedBackgroundImages(page, emojiSelector);
     await snapshot(page);
   });

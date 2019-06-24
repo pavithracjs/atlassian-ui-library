@@ -1,10 +1,12 @@
 {
   "name": "@atlaskit/css-reset",
-  "version": "4.0.1",
+  "version": "5.0.2",
   "description": "Base stylesheet for ADG",
   "license": "Apache-2.0",
+  "types": "index.d.ts",
+  "module": "dist/bundle.css",
   "main": "dist/bundle.css",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/overview",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -19,7 +21,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
-    "build": "babel-node --ignore WE_WILL_NOT_IGNORE_ANYTHING build/js-to-css.js --config-file=../../../babel.config.js --env-name=production:cjs"
+    "build": "ts-node --compiler-options='{ \"module\": \"CommonJS\", \"allowJs\": true }' build/js-to-css.ts"
   },
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
@@ -30,9 +32,9 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^8.0.0",
-    "@babel/node": "^7.0.0",
-    "less": "^2.7.1"
+    "@atlaskit/docs": "^8.1.1",
+    "less": "^2.7.1",
+    "ts-node": "^6.1.1"
   },
   "keywords": [
     "atlaskit",

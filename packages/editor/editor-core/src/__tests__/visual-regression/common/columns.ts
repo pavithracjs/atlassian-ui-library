@@ -15,6 +15,7 @@ describe.skip('Columns:', () => {
     page = global.page;
     await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
   });
+
   it('should render prosemirror selected node state', async () => {
     await typeInEditorAtEndOfDocument(page, '#');
     await pressKey(page, ['ArrowLeft', 'Backspace']);

@@ -14,15 +14,6 @@ import {
 } from '../../styled/Card';
 import mockGlobalDate from './helper/_mock-global-date';
 
-function MockMessagesIntlProvider(props: any) {
-  return props.children;
-}
-
-jest.mock('../../components/MessagesIntlProvider', () => ({
-  __esModule: true,
-  default: MockMessagesIntlProvider,
-}));
-
 describe('Profilecard', () => {
   const defaultProps: ProfilecardProps = {
     fullName: 'full name test',
@@ -71,6 +62,14 @@ describe('Profilecard', () => {
       it('should not render a card if full name is not set', () => {
         card.setProps({ fullName: undefined });
         expect(card.find(ProfileCard).children()).toHaveLength(0);
+      });
+
+      it('should match snapshot when fullName and nickName are equal', () => {
+        const wrapper = renderShallow({
+          fullName: 'Same Same',
+          nickname: 'Same Same',
+        });
+        expect(wrapper).toMatchSnapshot();
       });
 
       it('should match snapshot when fullName and nickName are set', () => {

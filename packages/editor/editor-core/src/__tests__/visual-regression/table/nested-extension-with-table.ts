@@ -15,6 +15,6 @@ describe('Snapshot Test: nested block extension with table', () => {
     await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
     await clickFirstCell(page);
     await animationFrame(page);
-    await snapshot(page, 0.01);
+    await snapshot(page);
   });
 });

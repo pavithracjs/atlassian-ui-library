@@ -21,6 +21,12 @@ export default class PreQueryState extends React.Component<Props> {
         key="recent"
         sectionIndex={sectionIndex}
         results={take(recentlyViewedItems, 10)}
+        showTotalSize={false}
+        totalSize={recentlyViewedItems.length}
+        showMoreButton={false}
+        onShowMoreClicked={() => {}}
+        onSearchMoreAdvancedSearch={() => {}}
+        query=""
       />
     );
   }

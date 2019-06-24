@@ -1,6 +1,55 @@
 # @atlaskit/feedback-collector
 
+## 4.0.6
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
+## 4.0.5
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/button@13.0.8
+  - @atlaskit/checkbox@8.0.2
+  - @atlaskit/flag@12.0.4
+  - @atlaskit/form@6.0.5
+  - @atlaskit/global-navigation@7.2.4
+  - @atlaskit/modal-dialog@10.0.4
+  - @atlaskit/navigation-next@6.0.8
+  - @atlaskit/select@9.1.5
+  - @atlaskit/icon@18.0.0
+
+## 4.0.4
+
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/button@13.0.6
+  - @atlaskit/form@6.0.4
+  - @atlaskit/modal-dialog@10.0.2
+  - @atlaskit/select@9.1.4
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/icon@17.2.0
+  - @atlaskit/theme@9.1.0
+
+## 4.0.3
+
+- Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
+  - @atlaskit/form@6.0.3
+  - @atlaskit/global-navigation@7.2.2
+  - @atlaskit/icon@17.1.2
+  - @atlaskit/navigation-next@6.0.5
+  - @atlaskit/select@9.1.2
+  - @atlaskit/modal-dialog@10.0.0
+
+## 4.0.2
+
+- Updated dependencies [238b65171f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/238b65171f):
+  - @atlaskit/flag@12.0.0
+
 ## 4.0.1
+
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2
   - @atlaskit/global-navigation@7.1.1
@@ -10,16 +59,19 @@
   - @atlaskit/logo@12.0.0
 
 ## 4.0.0
-- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+- [major][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 ## 3.0.6
+
 - Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
   - @atlaskit/form@5.2.10
   - @atlaskit/textarea@1.0.0
 
 ## 3.0.5
+
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
   - @atlaskit/button@12.0.3
@@ -37,6 +89,7 @@
   - @atlaskit/theme@8.1.7
 
 ## 3.0.4
+
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
   - @atlaskit/checkbox@6.0.3
@@ -54,16 +107,19 @@
   - @atlaskit/button@12.0.0
 
 ## 3.0.3
-- [patch] [4c6816d81b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c6816d81b):
+
+- [patch][4c6816d81b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c6816d81b):
 
   - Fix type from typeFiedlId to typeFieldId
 
 ## 3.0.2
+
 - Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
   - @atlaskit/form@5.2.4
   - @atlaskit/textarea@0.4.0
 
 ## 3.0.1
+
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1
   - @atlaskit/checkbox@6.0.1
@@ -81,7 +137,8 @@
   - @atlaskit/textarea@0.3.0
 
 ## 3.0.0
-- [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+- [major][76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 
   - Drop ES5 from all the flow modules
 
@@ -102,7 +159,7 @@
   import colors from `@atlaskit/theme/dist/esm/colors`;
   ```
 
-  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't _actually_ supposed to be used. 2. We are unable to do this _internally_ in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
 
   To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
 
@@ -113,6 +170,7 @@
   Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
 
 ## 2.0.5
+
 - Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
   - @atlaskit/form@5.1.5
   - @atlaskit/logo@9.2.7
@@ -121,11 +179,13 @@
   - @atlaskit/select@7.0.0
 
 ## 2.0.4
-- [patch] [2a8536a220](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a8536a220):
+
+- [patch][2a8536a220](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a8536a220):
 
   - Button is no longer a peer dependency of this module
 
 ## 2.0.3
+
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1
   - @atlaskit/button@10.1.2
@@ -140,14 +200,17 @@
   - @atlaskit/icon@16.0.0
 
 ## 2.0.2
-- [patch] [a048a85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a048a85):
+
+- [patch][a048a85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a048a85):
 
   - Updated to be compatible with new Forms API
+
 - Updated dependencies [647a46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/647a46f):
   - @atlaskit/select@6.1.14
   - @atlaskit/form@5.0.0
 
 ## 2.0.1
+
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/button@10.1.1
   - @atlaskit/checkbox@5.0.9
@@ -165,10 +228,12 @@
   - @atlaskit/docs@6.0.0
 
 ## 2.0.0
+
 - Updated dependencies [36929ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/36929ef):
   - @atlaskit/button@10.1.0
 
 ## 1.0.2
+
 - Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
   - @atlaskit/docs@5.2.3
   - @atlaskit/button@10.0.4
@@ -186,6 +251,7 @@
   - @atlaskit/theme@7.0.0
 
 ## 1.0.1
+
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2
   - @atlaskit/button@10.0.1
@@ -200,6 +266,7 @@
   - @atlaskit/icon@15.0.0
 
 ## 1.0.0
+
 - Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
   - @atlaskit/docs@5.2.1
   - @atlaskit/checkbox@5.0.6
@@ -217,19 +284,23 @@
   - @atlaskit/button@10.0.0
 
 ## 0.2.5
+
 - Updated dependencies [8e753fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e753fc):
   - @atlaskit/global-navigation@5.3.2
   - @atlaskit/navigation-next@4.0.0
 
 ## 0.2.4
-- [patch] [a637f5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a637f5e):
+
+- [patch][a637f5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a637f5e):
 
   - Refine and fix some flow type errors found by fixing @atlaskit/analytics-next HOCs to allow flow to type check properly
 
 ## 0.2.3
+
 - [patch] Adds missing implicit @babel/runtime dependency [b71751b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b71751b)
 
 ## 0.2.2
+
 - [patch] Updated dependencies [65c6514](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65c6514)
   - @atlaskit/docs@5.0.8
   - @atlaskit/button@9.0.13
@@ -244,18 +315,22 @@
   - @atlaskit/icon@14.0.0
 
 ## 0.2.1
+
 - [patch] Updated dependencies [ac88888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ac88888)
   - @atlaskit/navigation-next@3.15.4
   - @atlaskit/global-navigation@5.0.0
 
 ## 0.2.0
+
 - [patch] Fix bug with flag being not auto-dismissable [51fbd9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51fbd9b)
 - [minor] New set of properties to the Feedback Collector that provide improved mapping between JSD and the form. Export feedback form primitive. Removed export of the flag group, export only flag instead. [fca309f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fca309f)
 
 ## 0.1.6
+
 - [patch] Fixed a bug that crashes dialog when something is selected; fixed a bug that caused textarea to show error state even if not empty [3a6ac76](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3a6ac76)
 
 ## 0.1.5
+
 - [patch] Updated dependencies [4194aa4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4194aa4)
   - @atlaskit/form@4.0.9
   - @atlaskit/logo@9.2.2
@@ -263,6 +338,7 @@
   - @atlaskit/select@6.0.0
 
 ## 0.1.4
+
 - [patch] Updated dependencies [80e1925](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80e1925)
   - @atlaskit/button@9.0.9
   - @atlaskit/form@4.0.5
@@ -271,6 +347,7 @@
   - @atlaskit/checkbox@5.0.0
 
 ## 0.1.3
+
 - [patch] Updated dependencies [d5a043a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5a043a)
   - @atlaskit/form@4.0.3
   - @atlaskit/global-navigation@4.3.2
@@ -280,9 +357,11 @@
   - @atlaskit/modal-dialog@7.0.0
 
 ## 0.1.2
+
 - [patch] Adds sideEffects: false to allow proper tree shaking [b5d6d04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b5d6d04)
 
 ## 0.1.1
+
 - [patch] Updated dependencies [d8d8107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d8d8107)
   - @atlaskit/select@5.0.14
   - @atlaskit/form@4.0.0

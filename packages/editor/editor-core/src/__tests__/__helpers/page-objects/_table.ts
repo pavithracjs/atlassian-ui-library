@@ -13,8 +13,14 @@ import {
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 
 export const tableSelectors = {
-  contextalMenu: `.${ClassName.CONTEXTUAL_MENU_BUTTON}`,
-  hoverdCell: `.ProseMirror table .${ClassName.HOVERED_CELL}`,
+  contextualMenu: `.${ClassName.CONTEXTUAL_MENU_BUTTON}`,
+  hoveredCell: `.ProseMirror table .${ClassName.HOVERED_CELL}`,
+  nthRowControl: (n: number) =>
+    `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
+  nthColumnControl: (n: number) =>
+    `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
+  nthNumberedColumnRowControl: (n: number) =>
+    `.${ClassName.NUMBERED_COLUMN_BUTTON}:nth-child(${n})`,
   firstRowControl: `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(1) button`,
   firstColumnControl: `.${
     ClassName.COLUMN_CONTROLS_BUTTON_WRAP
@@ -32,6 +38,7 @@ export const tableSelectors = {
   columnControls: ClassName.COLUMN_CONTROLS_WRAPPER,
   insertColumnButton: `.${ClassName.CONTROLS_INSERT_COLUMN}`,
   insertRowButton: `.${ClassName.CONTROLS_INSERT_ROW}`,
+  insertButton: `.${ClassName.CONTROLS_INSERT_BUTTON}`,
   cornerButton: `.${ClassName.CONTROLS_CORNER_BUTTON}`,
   breakoutButton: `.${ClassName.LAYOUT_BUTTON}`,
   mergeCellsText: `Merge cells`,
@@ -44,9 +51,9 @@ export const tableSelectors = {
   selectedCell: `.ProseMirror table .${ClassName.SELECTED_CELL}`,
   topLeftCell: `table > tbody > tr:nth-child(2) > td:nth-child(1)`,
   wideState: `.ProseMirror table[data-layout="wide"]`,
-  fullwidthState: `.ProseMirror table[data-layout="full-width"]`,
+  fullWidthState: `.ProseMirror table[data-layout="full-width"]`,
   defaultState: `.ProseMirror table[data-layout="center"]`,
-  fullwidthSelector: `div[aria-label="${
+  fullWidthSelector: `div[aria-label="${
     messages.layoutFullWidth.defaultMessage
   }"]`,
   wideSelector: `div[aria-label="${messages.layoutWide.defaultMessage}"]`,
@@ -69,7 +76,12 @@ export const insertTable = async (page: any) => {
 export const clickFirstCell = async (page: any) => {
   await page.waitForSelector(tableSelectors.topLeftCell);
   await page.click(tableSelectors.topLeftCell);
-  await page.waitForSelector(tableSelectors.removeTable);
+};
+
+export const selectTable = async (page: any) => {
+  await page.waitForSelector(tableSelectors.cornerButton);
+  await page.click(tableSelectors.cornerButton);
+  await page.waitForSelector(tableSelectors.selectedCell);
 };
 
 // table floating toolbar interactions
@@ -82,13 +94,13 @@ export const clickTableOptions = async (page: any) => {
 };
 
 export const clickCellOptions = async (page: any) => {
-  await page.waitForSelector(tableSelectors.contextalMenu);
-  await page.click(tableSelectors.contextalMenu);
+  await page.waitForSelector(tableSelectors.contextualMenu);
+  await page.click(tableSelectors.contextualMenu);
 };
 
 export const selectCellOption = async (page: any, option: string) => {
-  await page.waitForSelector(tableSelectors.contextalMenu);
-  await page.click(tableSelectors.contextalMenu);
+  await page.waitForSelector(tableSelectors.contextualMenu);
+  await page.click(tableSelectors.contextualMenu);
   await clickElementWithText({ page, tag: 'span', text: option });
 };
 
@@ -141,8 +153,8 @@ export const setTableLayoutWide = async (page: any) => {
 
 export const setTableLayoutFullWidth = async (page: any) => {
   await setTableLayoutWide(page);
-  await page.click(tableSelectors.fullwidthSelector);
-  await page.waitForSelector(tableSelectors.fullwidthState);
+  await page.click(tableSelectors.fullWidthSelector);
+  await page.waitForSelector(tableSelectors.fullWidthState);
 };
 
 export const resetTableLayoutDefault = async (page: any) => {
@@ -160,35 +172,48 @@ export const setTableLayout = async (page: any, layout: string) => {
 };
 
 export const insertRow = async (page: any, atIndex: number) => {
-  await insertRowOrColumn(
+  await clickFirstCell(page);
+  const bounds = await getBoundingRect(
     page,
-    tableSelectors.rowControlSelector,
-    tableSelectors.insertRowButton,
-    atIndex,
+    tableSelectors.nthRowControl(atIndex),
   );
+
+  if (page.moveTo) {
+    // only for webdriver
+    const y = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.height * 0.51);
+    await page.moveTo(tableSelectors.nthColumnControl(atIndex), 1, y);
+  } else {
+    const x = bounds.left;
+    const y = bounds.top + bounds.height - 5;
+
+    await page.mouse.move(x, y);
+  }
+
+  await page.waitForSelector(tableSelectors.insertButton);
+  await page.click(tableSelectors.insertButton);
 };
 
 export const insertColumn = async (page: any, atIndex: number) => {
-  await insertRowOrColumn(
-    page,
-    tableSelectors.columnControlSelector,
-    tableSelectors.insertColumnButton,
-    atIndex,
-  );
-};
-
-export const insertRowOrColumn = async (
-  page: any,
-  buttonWrapSelector: string,
-  insertSelector: string,
-  atIndex: number,
-) => {
   await clickFirstCell(page);
-  const buttonSelector = `.${buttonWrapSelector}:nth-child(${atIndex}) ${insertSelector}`;
-  await page.waitForSelector(buttonSelector);
-  await page.hover(buttonSelector);
-  await page.waitForSelector(buttonSelector);
-  await page.click(buttonSelector);
+
+  const bounds = await getBoundingRect(
+    page,
+    tableSelectors.nthColumnControl(atIndex),
+  );
+
+  if (page.moveTo) {
+    const x = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.width * 0.51);
+    await page.moveTo(tableSelectors.nthColumnControl(atIndex), x, 1);
+  } else {
+    let offset = atIndex % 2 === 0 ? 1 : 1.5;
+
+    const x = bounds.left * offset;
+    const y = bounds.top + bounds.height - 5;
+    await page.mouse.move(x, y);
+  }
+
+  await page.waitForSelector(tableSelectors.insertButton);
+  await page.click(tableSelectors.insertButton);
 };
 
 export const deleteRow = async (page: any, atIndex: number) => {
@@ -318,3 +343,41 @@ export const toggleBreakout = async (page: any, times: number) => {
 export const scrollToTable = async (page: any) => {
   await scrollToElement(page, tableSelectors.tableTd, 50);
 };
+
+const select = (type: 'row' | 'column' | 'numbered') => async (
+  n: number,
+  isShiftPressed: boolean = false,
+) => {
+  // @ts-ignore
+  const page = global.page;
+  const selector =
+    type === 'row'
+      ? tableSelectors.nthRowControl(n + 1)
+      : type === 'column'
+      ? tableSelectors.nthColumnControl(n + 1)
+      : tableSelectors.nthNumberedColumnRowControl(n + 1);
+
+  await page.waitForSelector(selector);
+
+  if (isShiftPressed) {
+    await page.keyboard.down('Shift');
+    await page.click(selector);
+    await page.keyboard.up('Shift');
+  } else {
+    await page.click(selector);
+  }
+  await page.waitForSelector(tableSelectors.selectedCell);
+};
+
+/**
+ * @param n This has `0` based index.
+ */
+export const selectRow = select('row');
+/**
+ * @param n This has `0` based index.
+ */
+export const selectColumn = select('column');
+/**
+ * @param n This has `1` based index.
+ */
+export const selectNumberedColumnRow = select('numbered');

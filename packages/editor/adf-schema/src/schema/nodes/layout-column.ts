@@ -3,7 +3,6 @@ import { BlockContent } from './doc';
 
 /**
  * @name layoutColumn_node
- * @stage 0
  */
 export interface LayoutColumnDefinition {
   type: 'layoutColumn';
@@ -56,6 +55,12 @@ export const layoutColumn: NodeSpec = {
       attrs['data-column-width'] = width;
     }
 
-    return ['div', attrs, ['div', {}, 0]];
+    // We need to apply a attribute to the inner most child to help
+    // ProseMirror identify its boundaries better.
+    const contentAttrs: Record<string, string> = {
+      'data-layout-content': 'true',
+    };
+
+    return ['div', attrs, ['div', contentAttrs, 0]];
   },
 };

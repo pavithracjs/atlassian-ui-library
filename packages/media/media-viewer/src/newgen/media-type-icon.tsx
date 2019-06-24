@@ -4,7 +4,7 @@ import AudioIcon from '@atlaskit/icon/glyph/media-services/audio';
 import VideoIcon from '@atlaskit/icon/glyph/media-services/video';
 import DocIcon from '@atlaskit/icon/glyph/media-services/document';
 import UnknownIcon from '@atlaskit/icon/glyph/media-services/unknown';
-import { MediaType } from '@atlaskit/media-core';
+import { MediaType } from '@atlaskit/media-client';
 import { IconWrapper } from './styled';
 
 const icons = {

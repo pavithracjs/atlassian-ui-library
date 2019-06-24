@@ -129,7 +129,6 @@ const Showcase = styled.div`
   border-radius: 3px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   padding: ${gridSize}px;
-  overflow: auto;
 `;
 
 const CodeWrapper = styled.div`

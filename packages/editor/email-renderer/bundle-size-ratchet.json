@@ -1,0 +1,62 @@
+[
+  {
+    "team": "Content Services",
+    "package": "@atlaskit/email-renderer",
+    "version": "1.0.0",
+    "dependent": true,
+    "id": "src.main",
+    "name": "main",
+    "stats": {
+      "size": 132781,
+      "gzipSize": 16798
+    }
+  },
+  {
+    "team": "Content Services",
+    "package": "@atlaskit/email-renderer",
+    "version": "1.0.0",
+    "dependent": true,
+    "id": "node_modules.main",
+    "name": "node_modules [main]",
+    "stats": {
+      "size": 340563,
+      "gzipSize": 94288
+    }
+  },
+  {
+    "team": "Content Services",
+    "package": "@atlaskit/email-renderer",
+    "version": "1.0.0",
+    "dependent": true,
+    "id": "atlaskit.core.main",
+    "name": "main",
+    "stats": {
+      "size": 13201,
+      "gzipSize": 3534
+    }
+  },
+  {
+    "team": "Content Services",
+    "package": "@atlaskit/email-renderer",
+    "version": "1.0.0",
+    "dependent": true,
+    "id": "atlaskit.editor.main",
+    "name": "main",
+    "stats": {
+      "size": 34134,
+      "gzipSize": 9039
+    }
+  },
+  {
+    "team": "Content Services",
+    "package": "@atlaskit/email-renderer",
+    "version": "1.0.0",
+    "dependent": true,
+    "id": "combined.main",
+    "name": "main",
+    "stats": {
+      "size": 518055,
+      "gzipSize": 122058
+    }
+  }
+]

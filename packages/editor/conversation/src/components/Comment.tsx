@@ -25,6 +25,7 @@ import { SharedProps } from './types';
 
 export interface Props extends SharedProps {
   conversationId: string;
+  canModerateComment?: boolean;
   comment: CommentType;
 }
 
@@ -37,7 +38,13 @@ export interface State {
   };
 }
 
-export const DeletedMessage = () => <em>Comment deleted by the author</em>;
+export const DeletedMessage = ({ isAuthor }: { isAuthor?: boolean }) => {
+  return isAuthor ? (
+    <em>Comment deleted by the author</em>
+  ) : (
+    <em>Comment deleted by admin</em>
+  );
+};
 
 const commentChanged = (oldComment: CommentType, newComment: CommentType) => {
   if (oldComment.state !== newComment.state) {
@@ -349,9 +356,11 @@ export default class Comment extends React.Component<Props, State> {
       portal,
     } = this.props;
     const { isEditing } = this.state;
+    const { createdBy } = comment;
+    const isAuthor = user && createdBy && user.id === createdBy.id;
 
     if (comment.deleted) {
-      return <DeletedMessage />;
+      return <DeletedMessage isAuthor={isAuthor} />;
     }
 
     if (isEditing) {
@@ -435,7 +444,13 @@ export default class Comment extends React.Component<Props, State> {
   }
 
   private getActions() {
-    const { comment, user, dataProviders, objectId } = this.props;
+    const {
+      comment,
+      user,
+      dataProviders,
+      objectId,
+      canModerateComment,
+    } = this.props;
     const { isEditing } = this.state;
     const canReply = !!user && !isEditing && !comment.deleted;
 
@@ -449,17 +464,21 @@ export default class Comment extends React.Component<Props, State> {
         Reply
       </CommentAction>,
     ];
+    const editAction = (
+      <CommentAction key="edit" onClick={this.onEdit}>
+        Edit
+      </CommentAction>
+    );
+    const deleteAction = (
+      <CommentAction key="delete" onClick={this.onDelete}>
+        Delete
+      </CommentAction>
+    );
 
     if (createdBy && user && user.id === createdBy.id) {
-      actions = [
-        ...actions,
-        <CommentAction key="edit" onClick={this.onEdit}>
-          Edit
-        </CommentAction>,
-        <CommentAction key="delete" onClick={this.onDelete}>
-          Delete
-        </CommentAction>,
-      ];
+      actions = [...actions, editAction, deleteAction];
+    } else if (user && canModerateComment) {
+      actions = [...actions, deleteAction];
     }
 
     if (

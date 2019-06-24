@@ -14,13 +14,18 @@ import PluginSlot from '../PluginSlot';
 import Toolbar from '../Toolbar';
 import ContentStyles from '../ContentStyles';
 import { ClickAreaBlock } from '../Addon';
-import { tableFullPageEditorStyles } from '../../plugins/table/ui/styles';
+import {
+  tableFullPageEditorStyles,
+  tableMarginFullWidthMode,
+} from '../../plugins/table/ui/styles';
 import { akEditorToolbarKeylineHeight } from '../../styles';
 import rafSchedule from 'raf-schd';
 import { scrollbarStyles } from '../styles';
 import WidthEmitter from '../WidthEmitter';
+import { LAYOUT_OFFSET } from '../../plugins/layout/styles';
 
 const SWOOP_ANIMATION = '0.5s cubic-bezier(.15,1,.3,1)';
+const TOTAL_PADDING = akEditorGutterPadding * 2;
 
 const FullPageEditorWrapper = styled.div`
   min-width: 340px;
@@ -52,16 +57,15 @@ const ContentArea = styled.div`
   padding-bottom: 55px;
   max-width: ${({ theme, fullWidthMode }: any) =>
     (fullWidthMode ? akEditorFullWidthLayoutWidth : theme.layoutMaxWidth) +
-    akEditorGutterPadding * 2}px;
+    TOTAL_PADDING}px;
   transition: margin-left ${SWOOP_ANIMATION}, max-width ${SWOOP_ANIMATION};
   margin-left: ${({ theme, fullWidthMode }: any) =>
     fullWidthMode
       ? 0
-      : `calc(50% - ${(theme.layoutMaxWidth + akEditorGutterPadding * 2) /
-          2}px)`};
+      : `calc(50% - ${(theme.layoutMaxWidth + TOTAL_PADDING) / 2}px)`};
 
   ${({ theme }) => `
-    @media (max-width: ${theme.layoutMaxWidth + akEditorGutterPadding * 2}px) {
+    @media (max-width: ${theme.layoutMaxWidth + TOTAL_PADDING}px) {
       margin-left: auto;
     }
   `}
@@ -103,6 +107,35 @@ const ContentArea = styled.div`
     .pm-table-container {
       width: 100% !important;
     }
+
+    /* Prevent horizontal scroll on page in full width mode */
+    ${({ containerWidth }) => {
+      if (!containerWidth) {
+        // initially hide until we have a containerWidth and can properly size them,
+        // otherwise they can cause the editor width to extend which is non-recoverable
+        return `
+          .pm-table-container,
+          .code-block,
+          .extension-container {
+            display: none;
+          }
+        `;
+      }
+
+      return `
+        .pm-table-container,
+        .code-block,
+        .extension-container {
+          max-width: ${containerWidth -
+            TOTAL_PADDING -
+            tableMarginFullWidthMode * 2}px;
+        }
+
+        [data-layout-section] {
+          max-width: ${containerWidth - TOTAL_PADDING + LAYOUT_OFFSET * 2}px;
+        }
+      `;
+    }}
   }
 `;
 ContentArea.displayName = 'ContentArea';
@@ -149,17 +182,23 @@ const SecondaryToolbar = styled.div`
 `;
 SecondaryToolbar.displayName = 'SecondaryToolbar';
 
+interface State {
+  showKeyline: boolean;
+  containerWidth?: number;
+}
+
 export default class Editor extends React.Component<
   EditorAppearanceComponentProps,
-  any
+  State
 > {
-  state = { showKeyline: false };
+  state: State = { showKeyline: false };
 
   static displayName = 'FullPageEditor';
   private appearance: EditorAppearance = 'full-page';
   private scrollContainer: HTMLElement | undefined;
-  private scheduledKeylineUpdate: number | undefined;
   private contentArea: HTMLElement | undefined;
+  private scheduledKeylineUpdate: number | undefined;
+  private scheduledWidthUpdate: number | undefined;
 
   stopPropagation = (event: MouseEvent<HTMLDivElement, any>) =>
     event.stopPropagation();
@@ -184,6 +223,7 @@ export default class Editor extends React.Component<
         false,
       );
       this.updateToolbarKeyline();
+      this.updateContainerWidth();
     }
   };
 
@@ -200,18 +240,32 @@ export default class Editor extends React.Component<
 
     return false;
   };
-
   private scheduleUpdateToolbarKeyline = rafSchedule(this.updateToolbarKeyline);
 
+  updateContainerWidth = () => {
+    this.setState({
+      containerWidth: this.scrollContainer!.clientWidth,
+    });
+  };
+  private scheduleUpdateContainerWidth = rafSchedule(this.updateContainerWidth);
+
+  handleResize = () => {
+    this.scheduledKeylineUpdate = this.scheduleUpdateToolbarKeyline();
+    this.scheduledWidthUpdate = this.scheduleUpdateContainerWidth();
+  };
+
   componentDidMount() {
-    window.addEventListener('resize', this.scheduleUpdateToolbarKeyline, false);
+    window.addEventListener('resize', this.handleResize, false);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.scheduleUpdateToolbarKeyline);
+    window.removeEventListener('resize', this.handleResize);
 
     if (this.scheduledKeylineUpdate) {
       cancelAnimationFrame(this.scheduledKeylineUpdate);
+    }
+    if (this.scheduledWidthUpdate) {
+      cancelAnimationFrame(this.scheduledWidthUpdate);
     }
   }
 
@@ -235,7 +289,7 @@ export default class Editor extends React.Component<
       dispatchAnalyticsEvent,
     } = this.props;
 
-    const { showKeyline } = this.state;
+    const { showKeyline, containerWidth } = this.state;
 
     return (
       <FullPageEditorWrapper className="akEditor">
@@ -257,6 +311,9 @@ export default class Editor extends React.Component<
             <Avatars
               editorView={editorView}
               eventDispatcher={eventDispatcher}
+              inviteToEditComponent={
+                collabEdit && collabEdit.inviteToEditComponent
+              }
               inviteToEditHandler={collabEdit && collabEdit.inviteToEditHandler}
               isInviteToEditButtonSelected={
                 collabEdit && collabEdit.isInviteToEditButtonSelected
@@ -275,6 +332,7 @@ export default class Editor extends React.Component<
               innerRef={(contentArea: HTMLElement) => {
                 this.contentArea = contentArea;
               }}
+              containerWidth={containerWidth}
             >
               <div
                 style={{ padding: `0 ${akEditorGutterPadding}px` }}

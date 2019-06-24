@@ -8,20 +8,117 @@ exports[`GoToItemBase Default After prop should only show on hover or active or 
 `;
 
 exports[`GoToItemBase Default After prop should show a spinner if the incoming view equals the 'goTo' prop of GoToItem 1`] = `
+.c1 {
+  -webkit-animation: 0.2s bZGgwh;
+  animation: 0.2s bZGgwh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 16px;
+  width: 16px;
+}
+
+div + .c1 {
+  display: none;
+}
+
+.c2 {
+  -webkit-animation: 0.86s cubic-bezier(0.4,0.15,0.6,0.85) infinite ibwhYF;
+  animation: 0.86s cubic-bezier(0.4,0.15,0.6,0.85) infinite ibwhYF;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-dasharray: 43.982297150257104px;
+  stroke-dashoffset: 35.18583772020568px;
+  stroke-linecap: round;
+  stroke-width: 2px;
+  -webkit-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+}
+
+.c0 {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 <Spinner
   delay={200}
   invertColor={true}
   isCompleting={false}
   onComplete={[Function]}
   size="small"
-/>
+>
+  <Outer>
+    <span
+      className="c0"
+    >
+      <Transition
+        addEndListener={[Function]}
+        appear={true}
+        enter={true}
+        exit={true}
+        in={true}
+        mountOnEnter={true}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        timeout={0}
+        unmountOnExit={true}
+      >
+        <SpinnerContainer
+          delay={0.2}
+          phase="DELAY"
+          size={16}
+        >
+          <span
+            className="c1"
+            size={16}
+          >
+            <SpinnerSvg
+              focusable="false"
+              height={16}
+              invertColor={true}
+              phase="DELAY"
+              size={16}
+              viewBox="0 0 16 16"
+              width={16}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <svg
+                className="c2"
+                focusable="false"
+                height={16}
+                size={16}
+                viewBox="0 0 16 16"
+                width={16}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx={8}
+                  cy={8}
+                  r={7}
+                />
+              </svg>
+            </SpinnerSvg>
+          </span>
+        </SpinnerContainer>
+      </Transition>
+    </span>
+  </Outer>
+</Spinner>
 `;
 
 exports[`GoToItemBase should render a ConnectedItem 1`] = `
 <ConnectedItem
   after={[Function]}
+  afterGoTo="another-view"
   id="another-view-item"
   onClick={[Function]}
+  spinnerDelay={200}
   text="Another View"
 />
 `;

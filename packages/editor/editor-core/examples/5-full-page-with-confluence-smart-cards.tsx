@@ -9,7 +9,7 @@ import {
   EditorCardProvider,
 } from '@atlaskit/smart-card';
 
-import Toggle from '@atlaskit/toggle';
+import { ToggleStateless } from '@atlaskit/toggle';
 
 import { default as FullPageExample } from './5-full-page';
 
@@ -87,13 +87,15 @@ export class ConfluenceCardClient extends Client {
 }
 
 export type Props = {
-  doc: string | Object;
+  doc?: string | Object;
 };
+
+const RESOLVE_BEFORE_MACROS = ['jira'];
 
 class FullPageWithFF extends React.Component<
   Props,
   {
-    isFFOn: string[];
+    resolveBeforeMacros: string[];
     reloadEditor: boolean;
   }
 > {
@@ -101,14 +103,16 @@ class FullPageWithFF extends React.Component<
     super(props);
 
     this.state = {
-      isFFOn: [],
+      resolveBeforeMacros: RESOLVE_BEFORE_MACROS,
       reloadEditor: false,
     };
   }
 
   toggleFF = () => {
-    const isFFOn = this.state.isFFOn.length ? [] : ['dumbMacro'];
-    this.setState({ isFFOn, reloadEditor: true }, () => {
+    const resolveBeforeMacros = this.state.resolveBeforeMacros.length
+      ? []
+      : RESOLVE_BEFORE_MACROS;
+    this.setState({ resolveBeforeMacros, reloadEditor: true }, () => {
       this.setState({ reloadEditor: false });
     });
   };
@@ -117,12 +121,14 @@ class FullPageWithFF extends React.Component<
     return (
       <div>
         <div>
-          <Toggle
-            isChecked={this.state.isFFOn}
+          <ToggleStateless
+            isChecked={this.state.resolveBeforeMacros.length}
             onChange={this.toggleFF}
-            label="Resolve smartlinks first"
+            label={`Resolve ${RESOLVE_BEFORE_MACROS.join(
+              ',',
+            )} smart links first`}
           />
-          Priortise Smart links resolution
+          Priortise smart links over {RESOLVE_BEFORE_MACROS.join(',')} macros
         </div>
         {!this.state.reloadEditor && (
           <FullPageExample
@@ -130,7 +136,7 @@ class FullPageWithFF extends React.Component<
             UNSAFE_cards={{
               // This is how we pass in the provider for smart cards
               provider: Promise.resolve(cardProvider),
-              resolveBeforeMacros: this.state.isFFOn,
+              resolveBeforeMacros: this.state.resolveBeforeMacros,
             }}
           />
         )}
@@ -139,10 +145,13 @@ class FullPageWithFF extends React.Component<
   }
 }
 
-const cardClient = new ConfluenceCardClient(undefined, 'staging');
+const cardClient = new ConfluenceCardClient('staging');
 const cardProvider = new ConfluenceCardProvider('staging');
 
-export function Example(doc: string | Object) {
+// put into separate constant because prettier can't handle // in JSX
+const jdogURL = 'https://jdog.jira-dev.com/browse/BENTO-3922';
+
+export function Example(doc?: string | Object) {
   return (
     // We must wrap the <Editor> with a provider, passing cardClient via prop
     <SmartCardProvider client={cardClient}>
@@ -161,6 +170,10 @@ export function Example(doc: string | Object) {
             <a href="/packages/media/smart-card/example/gallery">
               can be found here
             </a>
+          </p>
+          <p>
+            The mock macro provider will replace any JDOG issue link (e.g.
+            <a href={jdogURL}>{jdogURL}</a>) with a "jira" macro.
           </p>
         </SectionMessage>
         <FullPageWithFF doc={doc} />

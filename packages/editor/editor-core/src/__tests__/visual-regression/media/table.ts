@@ -38,7 +38,7 @@ describe('Snapshot Test: Media', () => {
         await waitForMediaToBeLoaded(page);
         await scrollToTable(page);
 
-        await snapshot(page, 0.01);
+        await snapshot(page);
       });
     });
   });

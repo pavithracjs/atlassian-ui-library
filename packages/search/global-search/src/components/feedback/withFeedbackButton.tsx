@@ -3,17 +3,23 @@ import { ComponentType } from 'react';
 import FeedbackButton from './FeedbackButton';
 import FeedbackCollector, { FeedbackFlag } from '@atlaskit/feedback-collector';
 import { FlagGroup } from '@atlaskit/flag';
+import { CommonFeatures } from '../../util/features';
 
 const EMBEDDABLE_KEY = '85dc6027-c074-4800-ba54-4ecb844b29f8';
 const REQUEST_TYPE_ID = '182';
+const FEEDBACK_CONTEXT_CF = 'customfield_10047';
 
 export interface FeedbackCollectorProps {
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
 }
 
 export interface InjectedInputControlProps {
   inputControls?: JSX.Element;
+}
+
+export interface FeatureProps {
+  features: CommonFeatures;
 }
 
 interface State {
@@ -22,10 +28,10 @@ interface State {
 }
 
 export default function withFeedbackButton<P>(
-  WrappedComponent: ComponentType<P & InjectedInputControlProps>,
-): ComponentType<P & FeedbackCollectorProps> {
+  WrappedComponent: ComponentType<P & InjectedInputControlProps & FeatureProps>,
+): ComponentType<P & FeedbackCollectorProps & FeatureProps> {
   return class WithFeedbackButton extends React.Component<
-    P & FeedbackCollectorProps,
+    P & FeedbackCollectorProps & FeatureProps,
     State
   > {
     static displayName = `WithFeedbackButton(${WrappedComponent.displayName ||
@@ -53,7 +59,14 @@ export default function withFeedbackButton<P>(
     render() {
       const { isOpen, displayFlag } = this.state;
 
-      const { name, email } = this.props;
+      const {
+        name,
+        email,
+        features: {
+          abTest: { experimentId, abTestId },
+        },
+      } = this.props;
+      const feedbackContext = `experimentId: ${experimentId}, abTestId: ${abTestId}`;
 
       return (
         <div>
@@ -69,6 +82,12 @@ export default function withFeedbackButton<P>(
               name={name}
               requestTypeId={REQUEST_TYPE_ID}
               embeddableKey={EMBEDDABLE_KEY}
+              additionalFields={[
+                {
+                  id: FEEDBACK_CONTEXT_CF,
+                  value: feedbackContext,
+                },
+              ]}
             />
           )}
 

@@ -1,5 +1,3 @@
-import { Client } from '../../client';
-
 export type CardAppearance = 'inline' | 'block';
 
 type BaseCardProps = {
@@ -7,6 +5,7 @@ type BaseCardProps = {
   isSelected?: boolean;
   onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   importer?: (target: any) => void;
+  container?: HTMLElement;
 };
 
 export type CardWithData = BaseCardProps & {
@@ -15,7 +14,6 @@ export type CardWithData = BaseCardProps & {
 
 export type CardWithUrl = BaseCardProps & {
   url: string;
-  client?: Client;
 };
 
 export type CardProps = CardWithUrl | CardWithData;

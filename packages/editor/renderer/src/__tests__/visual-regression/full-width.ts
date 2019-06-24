@@ -1,26 +1,40 @@
-import { snapshot, mountRenderer, goToRendererTestingExample } from './_utils';
-import { document } from './__fixtures__/document-without-media';
+import { snapshot, initRendererWithADF } from './_utils';
+import * as mixedAdf from '../__fixtures__/document-without-media.adf.json';
+import * as mediaAdf from '../__fixtures__/1600px-media.adf.json';
 import { Page } from 'puppeteer';
+
+const initRenderer = async (
+  page: Page,
+  viewport: { width: number; height: number },
+  adf: any,
+) => {
+  await initRendererWithADF(page, {
+    appearance: 'full-width',
+    viewport,
+    rendererProps: { allowDynamicTextSizing: true },
+    adf,
+  });
+};
 
 describe('Snapshot Test: Full Width', () => {
   let page: Page;
-  beforeAll(async () => {
+  beforeAll(() => {
     // @ts-ignore
     page = global.page;
-    await goToRendererTestingExample(page);
+  });
+
+  afterEach(async () => {
+    await snapshot(page);
   });
 
   [{ width: 2000, height: 2700 }, { width: 1420, height: 2500 }].forEach(
-    size => {
-      it(`should correctly render ${size.width}`, async () => {
-        await page.setViewport(size);
-        await page.waitFor(100);
-        await mountRenderer(page, {
-          appearance: 'full-width',
-          allowDynamicTextSizing: true,
-          document,
-        });
-        await snapshot(page, 0.01);
+    viewport => {
+      it(`should correctly render ${viewport.width}`, async () => {
+        await initRenderer(page, viewport, mixedAdf);
+      });
+
+      it('should correctly size images', async () => {
+        await initRenderer(page, { ...viewport, height: 1100 }, mediaAdf);
       });
     },
   );

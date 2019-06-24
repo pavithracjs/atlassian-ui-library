@@ -3,10 +3,10 @@ import Button, { ButtonGroup } from '@atlaskit/button';
 import { Card } from '@atlaskit/media-card';
 import {
   imageFileId,
-  createUploadContext,
   I18NWrapper,
+  createUploadMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
-import { FileIdentifier } from '@atlaskit/media-core';
+import { FileIdentifier } from '@atlaskit/media-client';
 import { SmartMediaEditor } from '../src';
 
 interface State {
@@ -15,7 +15,7 @@ interface State {
   newFileIdentifier?: FileIdentifier;
 }
 
-const context = createUploadContext();
+const mediaClientConfig = createUploadMediaClientConfig();
 
 class SmartMediaEditorExample extends React.Component<{}, State> {
   state: State = {
@@ -52,7 +52,7 @@ class SmartMediaEditorExample extends React.Component<{}, State> {
           ...imageFileId,
           id: showWithError ? '🥳' : imageFileId.id,
         }}
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         onFinish={this.onFinish}
         onUploadStart={this.onUploadStart}
       />
@@ -87,7 +87,10 @@ class SmartMediaEditorExample extends React.Component<{}, State> {
         {this.renderContent('without-i18n')}
 
         {newFileIdentifier ? (
-          <Card identifier={newFileIdentifier} context={context} />
+          <Card
+            identifier={newFileIdentifier}
+            mediaClientConfig={mediaClientConfig}
+          />
         ) : null}
       </div>
     );

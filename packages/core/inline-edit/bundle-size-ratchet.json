@@ -1,58 +1,86 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/inline-edit",
+    "version": "10.0.1",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 12391,
-      "gzipSize": 3862
+      "size": 12061,
+      "gzipSize": 3866
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/inline-edit",
+    "version": "10.0.1",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 54906,
-      "gzipSize": 16794
+      "size": 56393,
+      "gzipSize": 17197
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/inline-edit",
+    "version": "10.0.1",
+    "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
       "size": 48877,
-      "gzipSize": 16007
+      "gzipSize": 16008
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/inline-edit",
+    "version": "10.0.1",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 60712,
-      "gzipSize": 16212
+      "size": 62615,
+      "gzipSize": 16412
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/inline-edit",
+    "version": "10.0.1",
+    "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 4162,
-      "gzipSize": 1675
+      "size": 4277,
+      "gzipSize": 1706
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/inline-edit",
+    "version": "10.0.1",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 126529,
-      "gzipSize": 35564
+      "size": 129800,
+      "gzipSize": 36353
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/inline-edit",
+    "version": "10.0.1",
+    "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 52816,
-      "gzipSize": 17060
+      "size": 52934,
+      "gzipSize": 17094
     }
   }
 ]

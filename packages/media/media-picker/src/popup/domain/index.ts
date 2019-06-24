@@ -1,4 +1,4 @@
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { MediaCollectionItem } from '@atlaskit/media-store';
 import { Subscription } from 'rxjs/Subscription';
 import { LocalUploads } from './local-upload';
@@ -33,8 +33,8 @@ export interface State {
   readonly remoteUploads: RemoteUploads;
   readonly isCancelling: boolean;
   readonly isUploading: boolean;
-  readonly tenantContext: Context;
-  readonly userContext: Context;
+  readonly tenantMediaClient: MediaClient;
+  readonly userMediaClient: MediaClient;
   readonly lastUploadIndex: number;
   readonly giphy: GiphyState;
   readonly collectionItemsSubscription?: Subscription;

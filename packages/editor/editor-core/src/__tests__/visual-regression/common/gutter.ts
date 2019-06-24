@@ -15,9 +15,12 @@ describe('Gutter:', () => {
     await initFullPageEditorWithAdf(page, longContent, Device.LaptopMDPI);
   });
 
+  afterEach(async () => {
+    await snapshot(page);
+  });
+
   it('should add gutter at the bottom of the page', async () => {
     await typeInEditorAtEndOfDocument(page, 'Hello World');
-    await snapshot(page);
   });
 
   it('should add gutter if a table is added at the end of the editor', async () => {
@@ -26,20 +29,17 @@ describe('Gutter:', () => {
     await page.waitForSelector(tableSelectors.tableTh);
 
     await pressKey(page, ['ArrowDown', 'ArrowDown']); // Go to last row
-    await snapshot(page);
   });
 
   it('should add gutter if a panel is added at the end of the editor', async () => {
     await typeInEditorAtEndOfDocument(page, '/info ', { delay: 100 });
 
     await page.waitForSelector(panelSelectors.infoPanel);
-    await snapshot(page);
   });
 
   it('should add gutter if a decision is added at the end of the editor', async () => {
     await typeInEditorAtEndOfDocument(page, '/decision ', { delay: 100 });
 
     await page.waitForSelector(decisionSelectors.decision);
-    await snapshot(page);
   });
 });

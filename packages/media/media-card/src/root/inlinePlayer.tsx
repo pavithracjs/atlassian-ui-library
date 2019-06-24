@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  Context,
+  MediaClient,
   FileIdentifier,
   FileState,
   MediaFileArtifacts,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { InlinePlayerWrapper } from './styled';
@@ -14,7 +14,7 @@ import { CardLoading } from '../utils/lightCards/cardLoading';
 
 export interface InlinePlayerProps {
   identifier: FileIdentifier;
-  context: Context;
+  mediaClient: MediaClient;
   dimensions: CardDimensions;
   selected?: boolean;
   onError?: (error: Error) => void;
@@ -56,12 +56,12 @@ export class InlinePlayer extends Component<
   };
 
   async componentDidMount() {
-    const { context, identifier } = this.props;
+    const { mediaClient, identifier } = this.props;
     const { id, collectionName } = identifier;
 
     this.revoke();
     this.unsubscribe();
-    this.subscription = context.file
+    this.subscription = mediaClient.file
       .getFileState(await id, { collectionName })
       .subscribe({
         next: async state => {
@@ -70,8 +70,7 @@ export class InlinePlayer extends Component<
 
             if (value instanceof Blob && value.type.indexOf('video/') === 0) {
               const fileSrc = URL.createObjectURL(value);
-              this.setState({ fileSrc });
-              window.setTimeout(this.unsubscribe, 0);
+              this.setFileSrc(fileSrc);
               return;
             }
           }
@@ -80,18 +79,18 @@ export class InlinePlayer extends Component<
             const artifactName = getPreferredVideoArtifact(state);
             const { artifacts } = state;
             if (!artifactName || !artifacts) {
+              this.setBinaryURL();
               return;
             }
 
             try {
-              const fileSrc = await context.file.getArtifactURL(
+              const fileSrc = await mediaClient.file.getArtifactURL(
                 artifacts,
                 artifactName,
                 collectionName,
               );
 
-              this.setState({ fileSrc });
-              window.setTimeout(this.unsubscribe, 0);
+              this.setFileSrc(fileSrc);
             } catch (error) {
               const { onError } = this.props;
 
@@ -103,6 +102,30 @@ export class InlinePlayer extends Component<
         },
       });
   }
+
+  setFileSrc = (fileSrc: string) => {
+    this.setState({ fileSrc });
+    window.setTimeout(this.unsubscribe, 0);
+  };
+
+  // Tries to use the binary artifact to provide something to play while the video is still processing
+  setBinaryURL = async () => {
+    const { mediaClient, identifier, onError } = this.props;
+    const { id, collectionName } = identifier;
+    const resolvedId = await id;
+    try {
+      const fileSrc = await mediaClient.file.getFileBinaryURL(
+        resolvedId,
+        collectionName,
+      );
+
+      this.setFileSrc(fileSrc);
+    } catch (error) {
+      if (onError) {
+        onError(error);
+      }
+    }
+  };
 
   unsubscribe = () => {
     if (this.subscription) {

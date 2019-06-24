@@ -1,6 +1,6 @@
 import { Transaction } from 'prosemirror-state';
 import { filterChildrenBetween } from '../../../utils';
-import { Node } from 'prosemirror-model';
+import { Node, Schema } from 'prosemirror-model';
 
 const SMART_TO_ASCII = {
   '…': '...',
@@ -49,22 +49,31 @@ const replaceSmartCharsToAscii = (
   }
 };
 
-const transformSmartCharsMentionsAndEmojis = (
+const isNodeTextBlock = (schema: Schema) => {
+  const { mention, text, emoji } = schema.nodes;
+
+  return (node: Node, _: any, parent: Node) => {
+    if (node.type === mention || node.type === emoji || node.type === text) {
+      return parent.isTextblock;
+    }
+    return;
+  };
+};
+
+export const transformSmartCharsMentionsAndEmojis = (
   from: number,
   to: number,
   tr: Transaction,
 ): void => {
   const { schema } = tr.doc.type;
   const { mention, text, emoji } = schema.nodes;
-  const isNodeTextBlock = (node: Node, _: any, parent: Node) => {
-    if (node.type === mention || node.type === emoji || node.type === text) {
-      return parent.isTextblock;
-    }
-    return;
-  };
-
   // Traverse through all the nodes within the range and replace them with their plaintext counterpart
-  const children = filterChildrenBetween(tr.doc, from, to, isNodeTextBlock);
+  const children = filterChildrenBetween(
+    tr.doc,
+    from,
+    to,
+    isNodeTextBlock(schema),
+  );
 
   children.forEach(({ node, pos }) => {
     if (node.type === mention || node.type === emoji) {
@@ -81,28 +90,3 @@ const transformSmartCharsMentionsAndEmojis = (
     }
   });
 };
-
-const applyCodeBlock = (from: number, to: number, tr: Transaction): void => {
-  const { schema } = tr.doc.type;
-
-  if (schema.marks.code) {
-    const codeMark = schema.marks.code.create();
-    tr.addMark(
-      tr.mapping.map(from),
-      tr.mapping.map(to),
-      codeMark,
-    ).setStoredMarks([codeMark]);
-  }
-};
-
-export function transformToCodeAction(
-  from: number,
-  to: number,
-  tr: Transaction,
-): Transaction {
-  transformSmartCharsMentionsAndEmojis(from, to, tr);
-
-  applyCodeBlock(from, to, tr);
-
-  return tr;
-}

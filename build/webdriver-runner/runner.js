@@ -68,7 +68,6 @@ function BrowserTestCase(
   options /*: {skip?: string[]} */,
   tester /*: Tester<Object> */,
 ) {
-  let testsToRun = [];
   let skip = [];
   if (options && options.skip) {
     skip = Array.isArray(options.skip) ? options.skip : [];
@@ -86,7 +85,7 @@ function BrowserTestCase(
 
     for (let c of execClients) {
       const client = c || {};
-      const testCode = () => tester(client.driver, testCase);
+      const testCode = async () => await tester(client.driver, testCase);
       if (!launchedDrivers[client.browserName]) {
         launchedDrivers[client.browserName] = launchClient(client);
         launchedClients.push(client);

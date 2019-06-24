@@ -25,18 +25,17 @@ describe('Snapshot Test: table resizing', () => {
       await resizeColumn(page, { colIdx: 2, amount: 123, row: 2 });
       await animationFrame(page);
       await animationFrame(page);
-      await snapshot(page, 0.002);
+      await snapshot(page);
       await resizeColumn(page, { colIdx: 2, amount: -100, row: 2 });
       await animationFrame(page);
       await animationFrame(page);
-      await snapshot(page, 0.002);
+      await snapshot(page);
     });
 
     it(`snaps back to layout width after column removal`, async () => {
       await deleteColumn(page, 1);
       await animationFrame(page);
-      // adding threshold since random blue selection show under table cells on selection
-      await snapshot(page, 0.002);
+      await snapshot(page);
     });
 
     it('overflow table', async () => {
@@ -68,7 +67,7 @@ describe('Snapshot Test: table resizing', () => {
         }
       }, ClassName);
 
-      await snapshot(page, 0.01);
+      await snapshot(page);
     });
   });
 });
@@ -85,7 +84,7 @@ describe('Snapshot Test: table resize handle', () => {
   describe('when table has merged cells', () => {
     it(`should render resize handle spanning all rows`, async () => {
       await grabResizeHandle(page, { colIdx: 2, row: 2 });
-      await snapshot(page, 0.01);
+      await snapshot(page);
     });
   });
 });
@@ -104,6 +103,6 @@ describe('Snapshot Test: table scale', () => {
 
   it(`should not overflow the table with dynamic text sizing enabled`, async () => {
     await toggleBreakout(page, 1);
-    await snapshot(page, 0.005);
+    await snapshot(page);
   });
 });

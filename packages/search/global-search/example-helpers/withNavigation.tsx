@@ -5,6 +5,9 @@ import { Props } from '../src';
 import BasicNavigation from './BasicNavigation';
 import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
+import { QuickSearchContext } from '../src/api/types';
+
+const defaultCloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // jdog
 
 const RadioGroup = styled.div`
   position: relative;
@@ -23,6 +26,9 @@ export interface Config {
   hideLocale?: boolean;
   context?: 'home' | 'jira' | 'confluence';
   message?: JSX.Element;
+  cloudIds?: {
+    [k: string]: string;
+  };
 }
 
 const MessageContainer = styled.div`
@@ -44,6 +50,8 @@ interface State {
 export default function withNavigation<P extends Props>(
   WrappedComponent: ComponentType<P>,
   props?: Config,
+  availableContext: QuickSearchContext[] = ['confluence', 'jira', 'home'],
+  drawerIsOpen?: boolean,
 ): ComponentType<Partial<P>> {
   return class WithNavigation extends React.Component<Partial<P>, State> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
@@ -52,7 +60,7 @@ export default function withNavigation<P extends Props>(
     constructor(props: Partial<P>) {
       super(props);
       this.state = {
-        context: props.context || 'jira',
+        context: props.context || availableContext[0],
         locale: 'en',
       };
     }
@@ -119,6 +127,13 @@ export default function withNavigation<P extends Props>(
       );
     }
 
+    getCloudId(): string | null | undefined {
+      return (
+        (props && props.cloudIds && props.cloudIds[this.state.context]) ||
+        this.props.cloudId
+      );
+    }
+
     renderMessage() {
       if (!props || !props.message) {
         return null;
@@ -126,47 +141,35 @@ export default function withNavigation<P extends Props>(
       return <MessageContainer>{props.message}</MessageContainer>;
     }
     render() {
-      const { context, locale } = this.state;
+      const { context: currentContext, locale } = this.state;
 
       return (
         <>
           {this.renderMessage()}
           <RadioGroup>
             Context:
-            <Radio
-              type="radio"
-              id="confluence"
-              name="context"
-              value="confluence"
-              onChange={this.handleContextChange}
-              checked={context === 'confluence'}
-            />
-            <label htmlFor="confluence">Confluence</label>
-            <Radio
-              type="radio"
-              id="home"
-              name="context"
-              value="home"
-              onChange={this.handleContextChange}
-              checked={context === 'home'}
-            />
-            <label htmlFor="home">Home</label>
-            <Radio
-              type="radio"
-              id="jira"
-              name="context"
-              value="jira"
-              onChange={this.handleContextChange}
-              checked={context === 'jira'}
-            />
-            <label htmlFor="jira">Jira</label>
+            {availableContext.map(context => (
+              <React.Fragment key={context}>
+                <Radio
+                  type="radio"
+                  id={context}
+                  name="context"
+                  value={context}
+                  onChange={this.handleContextChange}
+                  checked={context === currentContext}
+                />
+                <label htmlFor={context}>{context.toUpperCase()}</label>
+              </React.Fragment>
+            ))}
           </RadioGroup>
           {this.renderLocaleRadioGroup()}
           <BasicNavigation
+            drawerIsOpen={drawerIsOpen}
             searchDrawerContent={
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
-                  cloudId="cloudId"
+                  cloudId={this.getCloudId() || defaultCloudId}
+                  context={currentContext}
                   referralContextIdentifiers={{
                     currentContentId: '123',
                     currentContainerId: '456',
@@ -174,7 +177,6 @@ export default function withNavigation<P extends Props>(
                   }}
                   logger={DEVELOPMENT_LOGGER}
                   {...this.props}
-                  context={context}
                 />
               </LocaleIntlProvider>
             }

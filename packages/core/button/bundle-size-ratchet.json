@@ -1,34 +1,50 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/button",
+    "version": "13.0.7",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 13538,
-      "gzipSize": 4283
+      "size": 13535,
+      "gzipSize": 4284
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/button",
+    "version": "13.0.7",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
       "size": 33227,
-      "gzipSize": 10334
+      "gzipSize": 10338
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/button",
+    "version": "13.0.7",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 14121,
-      "gzipSize": 4335
+      "size": 16978,
+      "gzipSize": 4662
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/button",
+    "version": "13.0.7",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 57340,
-      "gzipSize": 17209
+      "size": 60413,
+      "gzipSize": 17624
     }
   }
 ]

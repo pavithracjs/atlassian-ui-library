@@ -1,37 +1,57 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.3",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 20057,
-      "gzipSize": 6905
+      "size": 20342,
+      "gzipSize": 6998
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.3",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 196446,
-      "gzipSize": 59107
+      "size": 196444,
+      "gzipSize": 59612
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.3",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 236514,
-      "gzipSize": 54821
+      "size": 239540,
+      "gzipSize": 55461
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.3",
+    "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 2656,
-      "gzipSize": 1122
+      "size": 2920,
+      "gzipSize": 1237
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.3",
+    "dependent": true,
     "id": "atlaskit.home.main",
     "name": "main",
     "stats": {
@@ -40,19 +60,27 @@
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.3",
+    "dependent": true,
     "id": "atlaskit.navigation.main",
     "name": "main",
     "stats": {
-      "size": 59056,
-      "gzipSize": 15599
+      "size": 59132,
+      "gzipSize": 15627
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.3",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 508459,
-      "gzipSize": 135376
+      "size": 513259,
+      "gzipSize": 136231
     }
   }
 ]

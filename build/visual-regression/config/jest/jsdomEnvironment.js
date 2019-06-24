@@ -1,6 +1,6 @@
 /* eslint-disable */
 const puppeteer = require('puppeteer');
-const JSDOMEnvironment = require('jest-environment-jsdom');
+const JSDOMEnvironment = require('jest-environment-jsdom-fourteen');
 const request = require('request-promise-native');
 const fs = require('fs');
 const os = require('os');

@@ -22,11 +22,9 @@ import StatusIcon from '@atlaskit/icon/glyph/status';
 import PlaceholderTextIcon from '@atlaskit/icon/glyph/media-services/text';
 import LayoutTwoEqualIcon from '@atlaskit/icon/glyph/editor/layout-two-equal';
 import HorizontalRuleIcon from '@atlaskit/icon/glyph/editor/horizontal-rule';
-import {
-  EmojiId,
-  EmojiPicker as AkEmojiPicker,
-  EmojiProvider,
-} from '@atlaskit/emoji';
+import { EmojiPicker as AkEmojiPicker } from '@atlaskit/emoji/picker';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { EmojiId } from '@atlaskit/emoji/types';
 import { Popup, akEditorMenuZIndex } from '@atlaskit/editor-common';
 import EditorActions from '../../../../actions';
 import {
@@ -38,6 +36,8 @@ import {
   tooltip,
   findKeymapByDescription,
   addLink,
+  findShortcutByDescription,
+  renderTooltipContent,
 } from '../../../../keymaps';
 import { InsertMenuCustomItem, CommandDispatch } from '../../../../types';
 import DropdownMenu from '../../../../ui/DropdownMenu';
@@ -421,6 +421,9 @@ class ToolbarInsertBlock extends React.PureComponent<
     }
 
     const labelInsertMenu = formatMessage(messages.insertMenu);
+
+    findShortcutByDescription(messages.insertMenu.description);
+
     const toolbarButtonFactory = (disabled: boolean, items: Array<any>) => (
       <ToolbarButton
         ref={el => this.handleDropDownButtonRef(el, items)}
@@ -428,7 +431,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         disabled={disabled}
         onClick={this.handleTriggerClick}
         spacing={isReducedSpacing ? 'none' : 'default'}
-        title={`${labelInsertMenu} /`}
+        title={renderTooltipContent(labelInsertMenu, undefined, '/')}
         iconBefore={
           <TriggerWrapper>
             <AddIcon label={labelInsertMenu} />
@@ -450,7 +453,7 @@ class ToolbarInsertBlock extends React.PureComponent<
             disabled={isDisabled || btn.isDisabled}
             iconBefore={btn.elemBefore}
             selected={btn.isActive}
-            title={btn.content + (btn.shortcut ? ' ' + btn.shortcut : '')}
+            title={renderTooltipContent(btn.content, undefined, btn.shortcut)}
             onClick={() => this.insertToolbarMenuItem(btn)}
           />
         ))}

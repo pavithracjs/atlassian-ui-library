@@ -1,21 +1,27 @@
-import { goToRendererTestingExample, snapshot, mountRenderer } from './_utils';
+import { snapshot, initRendererWithADF } from './_utils';
 import * as document from '../../../examples/helper/overflow.adf.json';
 import { Page } from 'puppeteer';
 
+const initRenderer = async (page: Page, adf: any) => {
+  await initRendererWithADF(page, {
+    appearance: 'full-page',
+    viewport: { width: 1280, height: 1080 },
+    adf,
+  });
+};
+
 describe('Snapshot Test: Overflow shadows', () => {
   let page: Page;
-  beforeAll(async () => {
+  beforeAll(() => {
     // @ts-ignore
     page = global.page;
-    await goToRendererTestingExample(page);
-    await page.setViewport({ width: 1280, height: 1080 });
+  });
+
+  afterEach(async () => {
+    await snapshot(page);
   });
 
   it(`should render right shadows`, async () => {
-    await mountRenderer(page, {
-      appearance: 'full-page',
-      document,
-    });
-    await snapshot(page, 0.01);
+    await initRenderer(page, document);
   });
 });

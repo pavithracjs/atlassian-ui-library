@@ -7,6 +7,7 @@ import {
   p,
   h1,
   code,
+  mention,
   mediaGroup,
   media,
   mediaSingle,
@@ -34,10 +35,10 @@ import {
   MockMacroProvider,
   createAnalyticsEventMock,
   RefsNode,
-  sleep,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
 import { TextSelection } from 'prosemirror-state';
+import mentionsPlugin from '../../../../plugins/mentions';
 import mediaPlugin from '../../../../plugins/media';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import extensionPlugin from '../../../../plugins/extension';
@@ -73,6 +74,10 @@ describe('paste plugins', () => {
         ...props,
       },
       editorPlugins: [
+        mentionsPlugin(
+          createAnalyticsEvent as any,
+          props.sanitizePrivateContent,
+        ),
         mediaPlugin({ allowMediaSingle: true }),
         macroPlugin,
         codeBlockPlugin(),
@@ -100,6 +105,51 @@ describe('paste plugins', () => {
       data-file-mime-type="${fileMimeType}"></div>`;
 
     describe('editor', () => {
+      describe('paste mention', () => {
+        const mentionsHtml =
+          "<meta charset='utf-8'><p data-pm-slice='1 1 []'><span data-mention-id='2' data-access-level='' contenteditable='false'>@Verdie Carrales</span> test</p>";
+
+        it('should remove mention text when property sanitizePrivateContent is enabled', () => {
+          const { editorView } = editor(doc(p('this is {<>}')), {
+            sanitizePrivateContent: true,
+          });
+          dispatchPasteEvent(editorView, {
+            html: mentionsHtml,
+          });
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              p(
+                'this is ',
+                mention({ id: '2', text: '', accessLevel: '' })(),
+                ' test',
+              ),
+            ),
+          );
+        });
+
+        it('should keep mention text when property sanitizePrivateContent is disabled', () => {
+          const { editorView } = editor(doc(p('this is {<>}')), {
+            sanitizePrivateContent: false,
+          });
+          dispatchPasteEvent(editorView, {
+            html: mentionsHtml,
+          });
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              p(
+                'this is ',
+                mention({
+                  id: '2',
+                  text: '@Verdie Carrales',
+                  accessLevel: '',
+                })(),
+                ' test',
+              ),
+            ),
+          );
+        });
+      });
+
       describe('when message is a media image node', () => {
         it('paste as mediaSingle', () => {
           const { editorView } = editor(doc(p('{<>}')));
@@ -747,6 +797,14 @@ describe('paste plugins', () => {
       },
     };
 
+    const cardProvider = Promise.resolve({
+      resolve: () =>
+        Promise.resolve({
+          type: 'inlineCard',
+          attrs: { url: 'https://jdog.jira-dev.com/browse/BENTO-3677' },
+        }),
+    } as CardProvider);
+
     const extensionProps = (cardOptions = {}): Partial<EditorProps> => {
       return {
         macroProvider: Promise.resolve({
@@ -757,13 +815,7 @@ describe('paste plugins', () => {
           },
         }),
         UNSAFE_cards: {
-          provider: Promise.resolve({
-            resolve: () =>
-              Promise.resolve({
-                type: 'inlineCard',
-                attrs: { url: 'https://jdog.jira-dev.com/browse/BENTO-3677' },
-              }),
-          } as CardProvider),
+          provider: cardProvider,
           ...cardOptions,
         },
       };
@@ -787,7 +839,7 @@ describe('paste plugins', () => {
         const macroProvider = Promise.resolve(new MockMacroProvider({}));
         const { editorView } = editor(
           doc(p('{<>}')),
-          extensionProps({ resolveBeforeMacros: ['dumbMacro'] }),
+          extensionProps({ resolveBeforeMacros: ['jira'] }),
         );
 
         await setMacroProvider(macroProvider)(editorView);
@@ -795,13 +847,21 @@ describe('paste plugins', () => {
         await dispatchPasteEvent(editorView, {
           plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
         });
-        await sleep(100);
+
+        // let the card resolve
+        const resolvedProvider = await cardProvider;
+        await resolvedProvider.resolve(
+          'https://jdog.jira-dev.com/browse/BENTO-3677',
+          'inline',
+        );
+
         expect(editorView.state.doc).toEqualDocument(
           doc(
             p(
               inlineCard({
                 url: 'https://jdog.jira-dev.com/browse/BENTO-3677',
               })(),
+              ' ',
             ),
           ),
         );
@@ -816,9 +876,32 @@ describe('paste plugins', () => {
         await dispatchPasteEvent(editorView, {
           plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
         });
-        await sleep(100);
+
         expect(editorView.state.doc).toEqualDocument(
-          doc(p(inlineExtension(attrs)())),
+          doc(
+            p(
+              inlineExtension({
+                extensionType: 'com.atlassian.confluence.macro.core',
+                extensionKey: 'jira',
+                parameters: {
+                  macroParams: {
+                    paramA: {
+                      value: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+                    },
+                  },
+                  macroMetadata: {
+                    macroId: { value: 12345 },
+                    placeholder: [
+                      {
+                        data: { url: '' },
+                        type: 'icon',
+                      },
+                    ],
+                  },
+                },
+              })(),
+            ),
+          ),
         );
       });
 

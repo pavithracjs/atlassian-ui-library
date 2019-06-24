@@ -6,10 +6,7 @@ import {
   clickMediaInPosition,
   mediaSingleLayouts,
 } from '../../__helpers/page-objects/_media';
-import {
-  typeInEditor,
-  MINIMUM_ACCEPTABLE_TOLERANCE,
-} from '../../__helpers/page-objects/_editor';
+import { typeInEditor } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 // add some comment
@@ -54,7 +51,7 @@ describe('Snapshot Test: Media', () => {
         await changeMediaLayout(page, layout);
         await clickMediaInPosition(page, 0);
 
-        await snapshot(page, MINIMUM_ACCEPTABLE_TOLERANCE);
+        await snapshot(page);
       }
     });
 
@@ -74,7 +71,7 @@ describe('Snapshot Test: Media', () => {
         await changeMediaLayout(page, layout);
         await clickMediaInPosition(page, 1);
 
-        await snapshot(page, MINIMUM_ACCEPTABLE_TOLERANCE);
+        await snapshot(page);
       }
     });
   });

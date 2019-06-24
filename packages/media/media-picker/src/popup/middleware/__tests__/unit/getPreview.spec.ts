@@ -1,14 +1,17 @@
-import { mockStore } from '@atlaskit/media-test-helpers';
+import { mockStore, asMockReturnValue } from '@atlaskit/media-test-helpers';
 import getPreviewMiddleware, { getPreview } from '../../getPreview';
 import { sendUploadEvent } from '../../../actions/sendUploadEvent';
 import { GetPreviewAction } from '../../../actions/getPreview';
 import { Observable } from 'rxjs';
 import { Preview } from '../../../../domain/preview';
+import { FileState, ImageMetadata } from '@atlaskit/media-client';
+import { Auth } from '@atlaskit/media-core';
 
 describe('getPreviewMiddleware', () => {
-  const auth = {
+  const auth: Auth = {
     clientId: 'some-client-id',
     token: 'some-token',
+    baseUrl: '',
   };
   const upfrontId = Promise.resolve('1');
   const file = {
@@ -28,25 +31,39 @@ describe('getPreviewMiddleware', () => {
     },
     scaleFactor: 1,
   };
+
+  const defaultFileState: FileState = {
+    status: 'processing',
+    id: '123',
+    name: 'file-name',
+    size: 10,
+    artifacts: {},
+    mediaType: 'image',
+    mimeType: 'image/png',
+    representations: { image: {} },
+  };
+
+  const defaultImageMetadata: Promise<ImageMetadata> = Promise.resolve({
+    original: {
+      url: 'some-preview-src',
+      width: 10,
+      height: 10,
+    },
+    pending: false,
+  });
+
   const setup = () => {
     const store = mockStore();
-    const { userContext } = store.getState();
-    (userContext.config.authProvider as jest.Mock<any>).mockReturnValue(
+    const { userMediaClient } = store.getState();
+    asMockReturnValue(
+      userMediaClient.config.authProvider,
       Promise.resolve(auth),
     );
-    (userContext.file.getFileState as any) = jest.fn().mockReturnValue(
-      Observable.of({
-        status: 'processing',
-        mediaType: 'image',
-      }),
+    asMockReturnValue(
+      userMediaClient.file.getFileState,
+      Observable.of(defaultFileState),
     );
-    (userContext.getImageMetadata as any) = jest.fn().mockReturnValue({
-      original: {
-        url: 'some-preview-src',
-        width: 10,
-        height: 10,
-      },
-    });
+    asMockReturnValue(userMediaClient.getImageMetadata, defaultImageMetadata);
 
     return {
       store,
@@ -72,21 +89,21 @@ describe('getPreviewMiddleware', () => {
     expect(next).toBeCalledWith(action);
   });
 
-  it('should dispatch send upload event action with upload-preview-update event', () => {
+  it('should dispatch send upload event action with upload-preview-update event', async () => {
     const { store, action } = setup();
-    return getPreview(store, action).then(() => {
-      expect(store.dispatch).toBeCalledWith(
-        sendUploadEvent({
-          event: {
-            name: 'upload-preview-update',
-            data: {
-              file,
-              preview,
-            },
+    getPreview(store, action);
+    await defaultImageMetadata;
+    expect(store.dispatch).toBeCalledWith(
+      sendUploadEvent({
+        event: {
+          name: 'upload-preview-update',
+          data: {
+            file,
+            preview,
           },
-          uploadId,
-        }),
-      );
-    });
+        },
+        uploadId,
+      }),
+    );
   });
 });

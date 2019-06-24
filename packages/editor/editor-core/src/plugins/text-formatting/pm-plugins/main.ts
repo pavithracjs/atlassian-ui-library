@@ -1,7 +1,7 @@
 import { toggleMark } from 'prosemirror-commands';
 import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
 import { Dispatch } from '../../../event-dispatcher';
-import { markActive, anyMarkActive, shallowEqual } from '../utils';
+import { anyMarkActive, shallowEqual } from '../utils';
 import { createInlineCodeFromTextInputWithAnalytics } from '../commands/text-formatting';
 import { EditorView } from 'prosemirror-view';
 import * as keymaps from '../../../keymaps';
@@ -47,7 +47,7 @@ const getTextFormattingState = (
   const state: TextFormattingState = {};
 
   if (code) {
-    state.codeActive = markActive(editorState, code.create());
+    state.codeActive = anyMarkActive(editorState, code.create());
     state.codeDisabled = !toggleMark(code)(editorState);
   }
   if (em) {
@@ -69,11 +69,11 @@ const getTextFormattingState = (
   if (subsup) {
     const subMark = subsup.create({ type: 'sub' });
     const supMark = subsup.create({ type: 'sup' });
-    state.subscriptActive = markActive(editorState, subMark);
+    state.subscriptActive = anyMarkActive(editorState, subMark);
     state.subscriptDisabled = state.codeActive
       ? true
       : !toggleMark(subsup, { type: 'sub' })(editorState);
-    state.superscriptActive = markActive(editorState, supMark);
+    state.superscriptActive = anyMarkActive(editorState, supMark);
     state.superscriptDisabled = state.codeActive
       ? true
       : !toggleMark(subsup, { type: 'sup' })(editorState);

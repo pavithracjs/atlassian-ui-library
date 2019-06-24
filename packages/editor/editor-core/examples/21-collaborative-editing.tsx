@@ -14,7 +14,7 @@ import {
   extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
-import { EmojiProvider } from '@atlaskit/emoji';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { CollabProvider } from '../src/plugins/collab-edit';
 import { EditorActions } from '../src';
@@ -160,6 +160,7 @@ export default class Example extends React.Component<Props, State> {
               <Editor
                 appearance="full-page"
                 analyticsHandler={analyticsHandler}
+                allowStatus={true}
                 allowAnalyticsGASV3={true}
                 allowCodeBlocks={true}
                 allowLayouts={true}
@@ -185,12 +186,13 @@ export default class Example extends React.Component<Props, State> {
                   emoji.storyData.getEmojiResource() as Promise<EmojiProvider>
                 }
                 mentionProvider={Promise.resolve(
-                  mention.storyData.resourceProvider,
+                  mention.storyData.resourceProviderWithResolver,
                 )}
                 taskDecisionProvider={Promise.resolve(
                   taskDecision.getMockTaskDecisionResource(),
                 )}
                 contextIdentifierProvider={storyContextIdentifierProviderFactory()}
+                sanitizePrivateContent={true}
                 collabEdit={{
                   useNativePlugin: true,
                   provider: Promise.resolve(

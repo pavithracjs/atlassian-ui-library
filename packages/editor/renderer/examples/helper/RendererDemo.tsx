@@ -28,7 +28,7 @@ import {
 
 import { ProfileClient, modifyResponse } from '@atlaskit/profilecard';
 
-import { EmailSerializer, renderDocument, TextSerializer } from '../../src';
+import { renderDocument, TextSerializer } from '../../src';
 
 import Sidebar, { getDefaultShowSidebarState } from './NavigationNext';
 import { RendererAppearance } from '../../src/ui/Renderer/types';
@@ -188,7 +188,6 @@ export default class RendererDemo extends React.Component<
   DemoRendererState
 > {
   textSerializer = new TextSerializer(defaultSchema);
-  emailSerializer = new EmailSerializer();
   emailRef?: HTMLIFrameElement;
   inputBox?: HTMLTextAreaElement | null;
   emailTextareaRef?: any;
@@ -209,26 +208,6 @@ export default class RendererDemo extends React.Component<
   private handlePortalRef = (portal: HTMLElement | null) => {
     this.setState({ portal: portal || undefined });
   };
-
-  private onEmailRef = (ref: HTMLIFrameElement | null) => {
-    this.emailRef = ref || undefined;
-
-    if (ref && ref.contentDocument) {
-      // reset padding/margin for empty iframe with about:src URL
-      ref.contentDocument.body.style.padding = '0';
-      ref.contentDocument.body.style.margin = '0';
-
-      this.onComponentRendered();
-    }
-  };
-
-  componentDidMount() {
-    this.onComponentRendered();
-  }
-
-  componentDidUpdate() {
-    this.onComponentRendered();
-  }
 
   render() {
     return (
@@ -258,46 +237,13 @@ export default class RendererDemo extends React.Component<
               <button onClick={this.toggleEventHandlers}>
                 Toggle Event handlers
               </button>
-              {this.props.serializer === 'email' && (
-                <span>
-                  <button onClick={this.copyHTMLToClipboard}>
-                    Copy HTML to clipboard
-                  </button>
-                  <textarea
-                    style={{ width: '0px', height: '0px' }}
-                    ref={ref => {
-                      this.emailTextareaRef = ref;
-                    }}
-                  />
-                </span>
-              )}
             </fieldset>
             {this.renderRenderer(additionalRendererProps)}
             {this.renderText()}
-            {this.renderEmail()}
           </div>
         )}
       </Sidebar>
     );
-  }
-
-  private onComponentRendered() {
-    if (this.props.serializer !== 'email' || !this.emailRef) {
-      return;
-    }
-
-    try {
-      const doc = JSON.parse(this.state.input);
-      const html = renderDocument<string>(doc, this.emailSerializer).result;
-
-      if (this.emailRef && this.emailRef.contentDocument && html) {
-        this.emailRef.contentDocument.body.innerHTML = html;
-        this.emailTextareaRef.value = html;
-      }
-    } catch (ex) {
-      console.error(ex);
-      // pass
-    }
   }
 
   private toggleTruncated() {
@@ -399,31 +345,6 @@ export default class RendererDemo extends React.Component<
     }
   }
 
-  private renderEmail() {
-    if (this.props.serializer !== 'email') {
-      return null;
-    }
-
-    try {
-      JSON.parse(this.state.input);
-
-      return (
-        <div>
-          <h1>E-mail HTML</h1>
-          <iframe
-            ref={this.onEmailRef}
-            frameBorder="0"
-            src="about:blank"
-            style={{ width: '100%', height: '400px' }}
-          />
-        </div>
-      );
-    } catch (ex) {
-      console.error(ex.stack);
-      return null;
-    }
-  }
-
   private toggleSidebar = () => {
     this.setState(prevState => ({ showSidebar: !prevState.showSidebar }));
   };
@@ -432,12 +353,6 @@ export default class RendererDemo extends React.Component<
     this.setState(prevState => ({
       shouldUseEventHandlers: !prevState.shouldUseEventHandlers,
     }));
-  };
-
-  private copyHTMLToClipboard = () => {
-    if (!this.emailTextareaRef) return;
-    this.emailTextareaRef.select();
-    document.execCommand('copy');
   };
 
   private onDocumentChange = () => {

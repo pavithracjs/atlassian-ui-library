@@ -10,12 +10,16 @@ import {
   createPlugin,
   MediaState,
 } from './pm-plugins/main';
+import {
+  createPlugin as createMediaEditorPlugin,
+  pluginKey as mediaEditorPluginKey,
+} from './pm-plugins/media-editor';
 import keymapMediaSinglePlugin from './pm-plugins/keymap-media-single';
 import keymapPlugin from './pm-plugins/keymap';
 import ToolbarMedia from './ui/ToolbarMedia';
 import { ReactMediaGroupNode } from './nodeviews/mediaGroup';
 import { ReactMediaSingleNode } from './nodeviews/mediaSingle';
-import { CustomMediaPicker, MediaProvider } from './types';
+import { CustomMediaPicker, MediaProvider, MediaEditorState } from './types';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { floatingToolbar } from './toolbar';
 
@@ -27,10 +31,11 @@ import {
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
 } from '../analytics';
-import WithPluginState from '../../ui/WithPluginState';
 import { IconImages } from '../quick-insert/assets';
-import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
-import ClipboardMediaPickerWrapper from './ui/ClipboardMediaPickerWrapper';
+import { ClipboardMediaPickerWrapper } from './ui/ClipboardMediaPickerWrapper';
+import { BrowserMediaPickerWrapper } from './ui/BrowserMediaPickerWrapper';
+import WithPluginState from '../../ui/WithPluginState';
+import MediaEditor from './ui/MediaEditor';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 export { insertMediaSingleNode } from './utils/media-single';
@@ -101,6 +106,8 @@ const mediaPlugin = (
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,
                   eventDispatcher,
+                  providerFactory,
+                  options,
                   props.appearance,
                   props.appearance === 'full-width',
                 ),
@@ -129,23 +136,58 @@ const mediaPlugin = (
               keymapMediaSinglePlugin(schema, props.appearance),
           }
         : [],
+      options && options.allowAnnotation
+        ? { name: 'mediaEditor', plugin: createMediaEditorPlugin }
+        : [],
     );
   },
 
-  contentComponent({ editorView }) {
+  contentComponent({ editorView, eventDispatcher }) {
+    // render MediaEditor separately because it doesn't depend on media plugin state
+    // so we can utilise EventDispatcher-based rerendering
+    const mediaEditor =
+      options && options.allowAnnotation ? (
+        <WithPluginState
+          editorView={editorView}
+          plugins={{ mediaEditorState: mediaEditorPluginKey }}
+          eventDispatcher={eventDispatcher}
+          render={({
+            mediaEditorState,
+          }: {
+            mediaEditorState: MediaEditorState;
+          }) => (
+            <MediaEditor
+              mediaEditorState={mediaEditorState}
+              view={editorView}
+            />
+          )}
+        />
+      ) : null;
+
     return (
-      <WithPluginState
-        editorView={editorView}
-        plugins={{
-          mediaState: pluginKey,
-        }}
-        render={({ mediaState }) => (
-          <>
-            <CustomSmartMediaEditor mediaState={mediaState} />
-            <ClipboardMediaPickerWrapper mediaState={mediaState} />
-          </>
-        )}
-      />
+      <>
+        <WithPluginState
+          editorView={editorView}
+          plugins={{
+            mediaState: pluginKey,
+          }}
+          render={({ mediaState }) => (
+            <>
+              <ClipboardMediaPickerWrapper mediaState={mediaState} />
+              {!mediaState.hasUserAuthProvider() && (
+                <BrowserMediaPickerWrapper
+                  onBrowseFn={nativeBrowseFn => {
+                    mediaState && mediaState.setBrowseFn(nativeBrowseFn);
+                  }}
+                  mediaState={mediaState}
+                />
+              )}
+            </>
+          )}
+        />
+
+        {mediaEditor}
+      </>
     );
   },
 

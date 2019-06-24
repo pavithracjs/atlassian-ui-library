@@ -1,5 +1,5 @@
 import { TextSelection, Selection } from 'prosemirror-state';
-import { hasParentNodeOfType, safeInsert } from 'prosemirror-utils';
+import { hasParentNodeOfType } from 'prosemirror-utils';
 
 import { taskDecisionSliceFilter } from '../../utils/filter';
 import { linkifyContent } from '../hyperlink/utils';
@@ -9,18 +9,32 @@ import { EditorView } from 'prosemirror-view';
 import { runMacroAutoConvert } from '../macro';
 import { closeHistory } from 'prosemirror-history';
 import { applyTextMarksToSlice, hasOnlyNodesOfType } from './util';
-import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
+import { queueCardsFromChangedTr, insertCard } from '../card/pm-plugins/doc';
 import {
   pluginKey as textFormattingPluginKey,
   TextFormattingState,
 } from '../text-formatting/pm-plugins/main';
-import { compose } from '../../utils';
+import { compose, processRawValue } from '../../utils';
+import { mapSlice } from '../../utils/slice';
 import { CommandDispatch, Command } from '../../types';
 import { insertMediaAsMediaSingle } from '../media/utils/media-single';
 import { INPUT_METHOD } from '../analytics';
 import { CardOptions } from '../card';
 import { CardAppearance } from '@atlaskit/smart-card';
-import { Node as ProsemirrorNode } from 'prosemirror-model';
+import { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
+import { MentionAttributes } from '@atlaskit/adf-schema';
+
+// remove text attribute from mention for copy/paste (GDPR)
+export function handleMention(slice: Slice, schema: Schema): Slice {
+  return mapSlice(slice, node => {
+    if (node.type.name === schema.nodes.mention.name) {
+      const mention = node.attrs as MentionAttributes;
+      const newMention = { ...mention, text: '' };
+      return schema.nodes.mention.create(newMention, node.content, node.marks);
+    }
+    return node;
+  });
+}
 
 export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
   return (state: EditorState, dispatch?: CommandDispatch): boolean => {
@@ -281,15 +295,19 @@ export function handleMacroAutoConvert(
         }
 
         isLinkSmart(text, 'inline', cardsOptions)
-          .then((res: any) => {
-            if (!res || !res.attrs || !view) {
-              throw new Error('Smart link could not be inserted on paste');
+          .then((cardData: any) => {
+            if (!view) {
+              throw new Error('Missing view');
             }
-            const node = state.schema.nodes.inlineCard.createChecked(res.attrs);
 
-            view.dispatch(
-              safeInsert(node, view.state.selection.from)(view.state.tr),
-            );
+            const { schema, tr } = view.state;
+            const cardAdf = processRawValue(schema, cardData);
+
+            if (!cardAdf) {
+              throw new Error('Received invalid ADF from CardProvider');
+            }
+
+            view.dispatch(insertCard(tr, cardAdf, schema));
           })
           .catch(() => insertAutoMacro(slice, macro, view));
         return true;

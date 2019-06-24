@@ -8,6 +8,10 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+// Minimum threshold chosen to be as close to 0 as possible.
+// Small tolerance allowed as comparison library occasionally has false negatives
+const MINIMUM_THRESHOLD = 0.001;
+
 function trackers(page /*:any*/) {
   let requests = new Set();
   const onStarted = request => requests.add(request);
@@ -185,6 +189,9 @@ async function waitForLoadedBackgroundImages(
   rootSelector /*:string*/ = '*',
   timeoutMs /*:number*/ = 30000,
 ) {
+  if (rootSelector !== '*') {
+    await page.waitFor(rootSelector);
+  }
   return await page
     .evaluate(
       (selector /*:string*/, raceTimeout /*:number*/) => {
@@ -231,6 +238,28 @@ async function waitForLoadedBackgroundImages(
         e,
       );
     });
+}
+
+/** Waits for atlaskit tooltip component to appear and fade in */
+async function waitForTooltip(page /*:any*/) {
+  const tooltipSelector = '[class^="Tooltip"]';
+  await page.waitForFunction(
+    selector =>
+      !!document.querySelector(selector) &&
+      document.querySelector(selector).style.opacity === '1',
+    {},
+    tooltipSelector,
+  );
+}
+
+/** Waits for atlaskit tooltip component to disappear */
+async function waitForNoTooltip(page /*:any*/) {
+  const tooltipSelector = '[class^="Tooltip"]';
+  await page.waitForFunction(
+    selector => !document.querySelector(selector),
+    {},
+    tooltipSelector,
+  );
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
@@ -288,6 +317,41 @@ async function validateExampleLoaded(page /*:any*/) {
   });
 }
 
+declare var expect: {
+  (
+    value: any,
+  ): {
+    toMatchProdImageSnapshot(options: {
+      failureThreshold: string,
+      failureThresholdType: string,
+    }): void,
+  },
+  extend(matchers: { [name: string]: JestMatcher }): void,
+};
+
+async function compareScreenshot(
+  screenshot /*:any*/,
+  tolerance /*:number*/ = MINIMUM_THRESHOLD,
+  screenshotOptions /*:Object*/ = {},
+) {
+  if (tolerance >= 1) {
+    throw Error(
+      `Snapshot tolerance should be a decimal in the range [0.0, 1.0] and you have attempted to use a tolerance of ${tolerance}`,
+    );
+  } else if (
+    tolerance > MINIMUM_THRESHOLD &&
+    !screenshotOptions.useUnsafeThreshold
+  ) {
+    throw Error(
+      `Snapshot tolerances greater than minimum threshold (${MINIMUM_THRESHOLD}) are considered unsafe, and you have attempted to use a tolerance of ${tolerance}. To use an unsafe threshold, set 'screenshotOptions.useUnsafeThreshold' to true. This is not advised.`,
+    );
+  }
+  expect(screenshot).toMatchProdImageSnapshot({
+    failureThreshold: `${tolerance}`,
+    failureThresholdType: 'percent',
+  });
+}
+
 // get all examples from the code sync
 function getAllExamplesSync() /*: Array<Object> */ {
   return glob
@@ -321,11 +385,15 @@ const getExampleUrl = (
   `${environment}/examples.html?groupId=${group}&packageId=${packageName}&exampleId=${exampleName}`;
 
 module.exports = {
+  MINIMUM_THRESHOLD,
   getExamplesFor,
   waitForLoadedImageElements,
   waitForLoadedBackgroundImages,
+  waitForTooltip,
+  waitForNoTooltip,
   takeScreenShot,
   takeElementScreenShot,
+  compareScreenshot,
   getExampleUrl,
   loadExampleUrl,
   navigateToUrl,

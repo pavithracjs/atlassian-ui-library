@@ -3,7 +3,6 @@ import adf from './__fixtures__/table-with-merged-rows.adf.json';
 
 describe('Table cells borders:fullpage', () => {
   let page: any;
-  const threshold = 0.01;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -12,6 +11,6 @@ describe('Table cells borders:fullpage', () => {
 
   it('display cell borders', async () => {
     await initFullPageEditorWithAdf(page, adf);
-    await snapshot(page, threshold);
+    await snapshot(page);
   });
 });

@@ -61,7 +61,7 @@ exports[`ItemPrimitiveBase should allow applying custom styles 1`] = `
           ],
           "results": Array [
             Object {
-              "isThrow": false,
+              "type": "return",
               "value": Object {
                 "default": Object {},
               },
@@ -119,7 +119,7 @@ exports[`ItemPrimitiveBase should allow applying custom styles 1`] = `
       <div
         className="emotion-4"
       >
-        <BeforeOrAfterComponent
+        <AfterComponent
           isActive={false}
           isDragging={false}
           isFocused={false}
@@ -128,10 +128,9 @@ exports[`ItemPrimitiveBase should allow applying custom styles 1`] = `
           spacing="default"
         >
           <div>
-            Before/After Component 
-            default
+            after
           </div>
-        </BeforeOrAfterComponent>
+        </AfterComponent>
       </div>
     </div>
   </ComponentSwitch>

@@ -10,6 +10,8 @@ export {
   tableCellBorderWidth,
   calcTableWidth,
   TableSharedCssClassName,
+  tableResizeHandleWidth,
+  tableCellPadding,
 } from './shared/table';
 
 export { columnLayoutSharedStyle } from './shared/column-layout';
@@ -27,3 +29,4 @@ export { indentationSharedStyles } from './shared/indentation';
 export { blockMarksSharedStyles } from './shared/block-marks';
 export { codeMarkSharedStyles } from './shared/code-mark';
 export { shadowSharedStyle } from './shared/shadow';
+export { dateSharedStyle, DateSharedCssClassName } from './shared/date';

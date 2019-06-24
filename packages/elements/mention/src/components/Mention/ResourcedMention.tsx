@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { MentionProvider } from '../../api/MentionResource';
-import { MentionEventHandler } from '../../types';
-import Mention from './';
+import {
+  MentionProvider,
+  isResolvingMentionProvider,
+} from '../../api/MentionResource';
+import {
+  MentionEventHandler,
+  isPromise,
+  MentionNameDetails,
+  MentionNameStatus,
+} from '../../types';
+import Mention, { UNKNOWN_USER_ID } from './';
 
 export interface Props {
   id: string;
@@ -15,6 +23,7 @@ export interface Props {
 
 export interface State {
   isHighlighted: boolean;
+  resolvedMentionName?: string;
 }
 
 export default class ResourcedMention extends React.PureComponent<
@@ -43,14 +52,42 @@ export default class ResourcedMention extends React.PureComponent<
     }
   }
 
+  private processName(name: MentionNameDetails): string {
+    let mentionName;
+    switch (name.status) {
+      case MentionNameStatus.OK:
+        mentionName = name.name || '';
+        break;
+      case MentionNameStatus.SERVICE_ERROR:
+      case MentionNameStatus.UNKNOWN:
+      default:
+        mentionName = UNKNOWN_USER_ID;
+        break;
+    }
+    return `@${mentionName}`;
+  }
+
   private handleMentionProvider = (props: Props) => {
-    const { id, mentionProvider } = props;
+    const { id, mentionProvider, text } = props;
     if (mentionProvider) {
       mentionProvider
         .then(provider => {
-          this.setState({
+          const newState: State = {
             isHighlighted: provider.shouldHighlightMention({ id }),
-          });
+          };
+          if (!text && isResolvingMentionProvider(provider)) {
+            const nameDetail = provider.resolveMentionName(id);
+            if (isPromise(nameDetail)) {
+              nameDetail.then(nameDetailResult => {
+                this.setState({
+                  resolvedMentionName: this.processName(nameDetailResult),
+                });
+              });
+            } else {
+              newState.resolvedMentionName = this.processName(nameDetail);
+            }
+          }
+          this.setState(newState);
         })
         .catch(() => {
           this.setState({
@@ -70,7 +107,7 @@ export default class ResourcedMention extends React.PureComponent<
     return (
       <Mention
         id={props.id}
-        text={props.text}
+        text={state.resolvedMentionName || props.text}
         isHighlighted={state.isHighlighted}
         accessLevel={props.accessLevel}
         onClick={props.onClick}

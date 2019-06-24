@@ -97,7 +97,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  48,
+                  140,
                 ],
                 "rowspan": 1,
               },
@@ -113,7 +113,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  140,
+                  48,
                 ],
                 "rowspan": 1,
               },
@@ -326,7 +326,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  48,
+                  140,
                 ],
                 "rowspan": 1,
               },
@@ -342,7 +342,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  140,
+                  48,
                 ],
                 "rowspan": 1,
               },
@@ -555,7 +555,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  48,
+                  140,
                 ],
                 "rowspan": 1,
               },
@@ -571,7 +571,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  140,
+                  48,
                 ],
                 "rowspan": 1,
               },

@@ -1,4 +1,3 @@
-import { AnalyticsListener } from '@atlaskit/analytics';
 import { AnalyticsListener as AnalyticsListenerNext } from '@atlaskit/analytics-next';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import Tooltip from '@atlaskit/tooltip';
@@ -7,7 +6,9 @@ import Mention, { ANALYTICS_HOVER_DELAY } from '../../../components/Mention';
 import ResourcedMention from '../../../components/Mention/ResourcedMention';
 import { MentionStyle } from '../../../components/Mention/styles';
 import { ELEMENTS_CHANNEL } from '../../../_constants';
-import { MentionType } from '../../../types';
+import { MentionType, MentionNameStatus } from '../../../types';
+import MentionResource, { MentionProvider } from '../../../api/MentionResource';
+import { MentionNameResolver } from '../../../api/MentionNameResolver';
 import {
   mockMentionData as mentionData,
   mockMentionProvider as mentionProvider,
@@ -101,8 +102,8 @@ describe('<Mention />', () => {
       const spy = jest.fn();
       const mention = mountWithIntl(<Mention {...mentionData} onClick={spy} />);
       mention.find(MentionStyle).simulate('click');
-      expect(spy).toBeCalled();
-      expect(spy).toHaveBeenCalledWith(
+      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenLastCalledWith(
         mentionData.id,
         mentionData.text,
         expect.anything(),
@@ -111,25 +112,18 @@ describe('<Mention />', () => {
     });
 
     it('should dispatch lozenge.select analytics onClick-event', () => {
-      const analyticsSpy = jest.fn();
       const analyticsNextHandlerSpy = jest.fn();
       const mention = mountWithIntl(
         <AnalyticsListenerNext
           onEvent={analyticsNextHandlerSpy}
           channel={ELEMENTS_CHANNEL}
         >
-          <AnalyticsListener onEvent={analyticsSpy} matchPrivate={true}>
-            <Mention {...mentionData} accessLevel={'CONTAINER'} />
-          </AnalyticsListener>
+          <Mention {...mentionData} accessLevel={'CONTAINER'} />
         </AnalyticsListenerNext>,
       );
       mention.find(MentionStyle).simulate('click');
-      expect(analyticsSpy).toBeCalled();
-      expect(analyticsSpy).toHaveBeenCalledWith(
-        'atlassian.fabric.mention.lozenge.select',
-        { accessLevel: 'CONTAINER', isSpecial: false },
-      );
 
+      expect(analyticsNextHandlerSpy).toHaveBeenCalled();
       expect(analyticsNextHandlerSpy).toHaveBeenCalledWith(
         expect.objectContaining(createPayload('mention', 'selected')),
         ELEMENTS_CHANNEL,
@@ -165,26 +159,17 @@ describe('<Mention />', () => {
     });
 
     it('should dispatch lozenge.hover analytics event if hover delay is greater than the threshold', () => {
-      const analyticsSpy = jest.fn();
       const analyticsNextHandlerSpy = jest.fn();
       const mention = mountWithIntl(
         <AnalyticsListenerNext
           onEvent={analyticsNextHandlerSpy}
           channel={ELEMENTS_CHANNEL}
         >
-          <AnalyticsListener onEvent={analyticsSpy} matchPrivate={true}>
-            <Mention {...mentionData} accessLevel={'CONTAINER'} />
-          </AnalyticsListener>
+          <Mention {...mentionData} accessLevel={'CONTAINER'} />
         </AnalyticsListenerNext>,
       );
       mention.find(MentionStyle).simulate('mouseenter');
       jest.runTimersToTime(ANALYTICS_HOVER_DELAY);
-
-      expect(analyticsSpy).toBeCalled();
-      expect(analyticsSpy).toHaveBeenCalledWith(
-        'atlassian.fabric.mention.lozenge.hover',
-        { accessLevel: 'CONTAINER', isSpecial: false },
-      );
 
       expect(analyticsNextHandlerSpy).toHaveBeenCalledWith(
         expect.objectContaining(createPayload('mention', 'hovered')),
@@ -193,16 +178,13 @@ describe('<Mention />', () => {
     });
 
     it('should not dispatch lozenge.hover analytics event for a hover delay bellow the threshold', () => {
-      const analyticsSpy = jest.fn();
       const analyticsNextHandlerSpy = jest.fn();
       const mention = mountWithIntl(
         <AnalyticsListenerNext
           onEvent={analyticsNextHandlerSpy}
           channel={ELEMENTS_CHANNEL}
         >
-          <AnalyticsListener onEvent={analyticsSpy} matchPrivate={true}>
-            <Mention {...mentionData} accessLevel={'CONTAINER'} />
-          </AnalyticsListener>
+          <Mention {...mentionData} accessLevel={'CONTAINER'} />
         </AnalyticsListenerNext>,
       );
       mention.find(MentionStyle).simulate('mouseenter');
@@ -212,7 +194,6 @@ describe('<Mention />', () => {
       // to make sure the clearTimeout removed the scheduled task
       jest.runTimersToTime(ANALYTICS_HOVER_DELAY);
 
-      expect(analyticsSpy).not.toBeCalled();
       expect(analyticsNextHandlerSpy).not.toBeCalled();
     });
 
@@ -235,9 +216,29 @@ describe('<Mention />', () => {
         mention.getDOMNode().attributes.getNamedItem('spellcheck')!.value,
       ).toEqual('false');
     });
+
+    it('should render @... if no text attribute is supplied', () => {
+      const mention = mountWithIntl(<Mention {...mentionData} text="" />);
+      expect(mention.text()).toEqual('@...');
+    });
   });
 
   describe('ResourcedMention', () => {
+    let resolvingMentionProvider: Promise<MentionProvider>;
+    let mentionNameResolver: MentionNameResolver;
+    beforeEach(() => {
+      mentionNameResolver = {
+        lookupName: jest.fn(),
+        cacheName: jest.fn(),
+      } as MentionNameResolver;
+      resolvingMentionProvider = Promise.resolve(
+        new MentionResource({
+          url: 'dummyurl',
+          mentionNameResolver,
+        }),
+      );
+    });
+
     it('should render a stateless mention component based on mention data', () => {
       const mention = mountWithIntl(
         <ResourcedMention {...mentionData} mentionProvider={mentionProvider} />,
@@ -248,6 +249,22 @@ describe('<Mention />', () => {
           .first()
           .text(),
       ).toEqual(mentionData.text);
+    });
+
+    it('should render a mention and use supplied mention name even if resolving provider', () => {
+      const mention = mountWithIntl(
+        <ResourcedMention
+          {...mentionData}
+          mentionProvider={resolvingMentionProvider}
+        />,
+      );
+      expect(
+        mention
+          .find(Mention)
+          .first()
+          .text(),
+      ).toEqual(mentionData.text);
+      expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(0);
     });
 
     it('should render a highlighted stateless mention component if mentionProvider.shouldHighlightMention returns true', async () => {
@@ -336,6 +353,166 @@ describe('<Mention />', () => {
         mentionData.text,
         expect.anything(),
       );
+    });
+
+    describe('resolving mention name', () => {
+      it('should render a mention and use the resolving provider to lookup the name (string result)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          {
+            id: '123',
+            name: 'cheese',
+            status: MentionNameStatus.OK,
+          },
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@cheese');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (string result, unknown)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            id={mentionData.id}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          {
+            id: mentionData.id,
+            status: MentionNameStatus.UNKNOWN,
+          },
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Unknown user -ABCD');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (string result, service error)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            id="123"
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          {
+            id: mentionData.id,
+            status: MentionNameStatus.SERVICE_ERROR,
+          },
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Unknown user 123');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (Promise result)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          Promise.resolve({
+            id: mentionData.id,
+            name: 'bacon',
+            status: MentionNameStatus.OK,
+          }),
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@bacon');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (Promise result, unknown)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            {...mentionData}
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          Promise.resolve({
+            id: mentionData.id,
+            status: MentionNameStatus.UNKNOWN,
+          }),
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Unknown user -ABCD');
+          done();
+        });
+      });
+
+      it('should render a mention and use the resolving provider to lookup the name (Promise result, service error)', done => {
+        const mention = mountWithIntl(
+          <ResourcedMention
+            id=""
+            text=""
+            mentionProvider={resolvingMentionProvider}
+          />,
+        );
+        ((mentionNameResolver.lookupName as any) as jest.SpyInstance).mockReturnValue(
+          Promise.resolve({
+            id: mentionData.id,
+            status: MentionNameStatus.SERVICE_ERROR,
+          }),
+        );
+        setImmediate(() => {
+          expect(mentionNameResolver.lookupName).toHaveBeenCalledTimes(1);
+          expect(
+            mention
+              .find(Mention)
+              .first()
+              .text(),
+          ).toEqual('@Unknown user ');
+          done();
+        });
+      });
     });
   });
 });

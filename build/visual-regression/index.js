@@ -6,6 +6,9 @@ const isReachable = require('is-reachable');
 const jest = require('jest');
 const meow = require('meow');
 const chalk = require('chalk');
+const fs = require('fs');
+const glob = require('glob');
+const rimraf = require('rimraf');
 const webpack = require('../../build/webdriver-runner/utils/webpack');
 const reporting = require('./reporting');
 
@@ -100,6 +103,25 @@ async function runJest(testPaths) {
   return status.results;
 }
 
+/**
+ * Copy screenshots generated from first run into a different directory so we still
+ * have access to these as artifacts when CI build is finished
+ * Also prefix them with "first-run__" so user can differentiate them from the fails
+ * when they download
+ */
+function moveScreenshotsFromFirstRun() {
+  glob.sync('**/+(__diff_output__|__errors__)').forEach(dirPath => {
+    const newDirPath = `${dirPath}{first-run}`;
+    rimraf.sync(newDirPath);
+    fs.renameSync(dirPath, newDirPath);
+    glob.sync(`${newDirPath}/*.png`).forEach(file => {
+      const dir = file.substring(0, file.lastIndexOf('/'));
+      const fileName = file.substring(file.lastIndexOf('/') + 1);
+      fs.renameSync(file, `${dir}/first-run__${fileName}`);
+    });
+  });
+}
+
 async function rerunFailedTests(result) {
   const failingTestPaths = result.testResults
     // If a test **suite** fails (where no tests are executed), we should check to see if
@@ -120,6 +142,8 @@ async function rerunFailedTests(result) {
       result.numFailedTestSuites
     } test suites.\n${failingTestPaths.join('\n')}`,
   );
+
+  moveScreenshotsFromFirstRun();
 
   // We don't want to clobber the original results
   // Now we'll upload two test result files.
@@ -162,8 +186,10 @@ function runTestsWithRetry() {
 
       code = getExitCode(results);
       console.log('initalTestExitStatus', code);
-      // Only retry and report results in CI.
-      if (code !== 0 && process.env.CI) {
+      // We have an additional check for `unchecked` snapshots
+      // These refer to 'obsolete' snapshots. We should fail instead of retry if these exist
+      // TODO: https://product-fabric.atlassian.net/browse/BUILDTOOLS-108
+      if (code !== 0 && process.env.CI && results.snapshot.unchecked === 0) {
         results = await rerunFailedTests(results);
 
         code = getExitCode(results);

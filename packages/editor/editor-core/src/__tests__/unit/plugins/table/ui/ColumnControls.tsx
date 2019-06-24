@@ -23,6 +23,7 @@ import ColumnControls from '../../../../../plugins/table/ui/TableFloatingControl
 import { tablesPlugin } from '../../../../../plugins';
 import { setTextSelection } from '../../../../../index';
 
+const ControlsButton = `.${ClassName.CONTROLS_BUTTON}`;
 const ColumnControlsButtonWrap = `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}`;
 const DeleteColumnButton = `.${ClassName.CONTROLS_DELETE_BUTTON_WRAP}`;
 const InsertColumnButton = `.${ClassName.CONTROLS_INSERT_BUTTON_WRAP}`;
@@ -138,7 +139,7 @@ describe('ColumnControls', () => {
           .at(column)
           .find('button')
           .first()
-          .simulate('mousedown');
+          .simulate('click');
 
         // set numberOfColumns prop to trick shouldComponentUpdate and force re-render
         floatingControls.setProps({ numberOfColumns: 3 });
@@ -247,14 +248,11 @@ describe('ColumnControls', () => {
         />,
       );
 
-      expect(floatingControls.find(InsertColumnButton).length).toBe(3);
-
       selectColumns([0, 1])(editorView.state, editorView.dispatch);
 
       // set numberOfColumns prop to trick shouldComponentUpdate and force re-render
       floatingControls.setProps({ numberOfColumns: 3 });
 
-      expect(floatingControls.find(InsertColumnButton).length).toBe(2);
       expect(
         floatingControls
           .find(ColumnControlsButtonWrap)
@@ -295,7 +293,7 @@ describe('ColumnControls', () => {
   });
 
   describe('hides add button when isResizing prop is truthy', () => {
-    it('unaffected add button when isRsizing is falsy', () => {
+    it('hides add button when isResizing is truthy', () => {
       const { editorView } = editor(
         doc(
           table()(
@@ -310,31 +308,6 @@ describe('ColumnControls', () => {
         <ColumnControls
           tableRef={document.querySelector('table')!}
           editorView={editorView}
-          insertColumnButtonIndex={1}
-        />,
-      );
-
-      expect(floatingControls.find(InsertColumnButtonInner).length).toBe(1);
-
-      floatingControls.unmount();
-    });
-
-    it('hides add button when isRsizing is truthy', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <ColumnControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          insertColumnButtonIndex={1}
           isResizing={true}
         />,
       );
@@ -346,15 +319,8 @@ describe('ColumnControls', () => {
   });
 
   describe('column shift selection', () => {
-    const createEvent = (target: Element) => ({
-      stopPropagation: () => {},
-      preventDefault: () => {},
-      shiftKey: true,
-      target,
-    });
-
     it('should shift select columns after the currently selected column', () => {
-      const { editorView, plugin } = editor(
+      const { editorView } = editor(
         doc(
           table()(
             tr(thEmpty, thEmpty, thEmpty, thEmpty),
@@ -365,17 +331,24 @@ describe('ColumnControls', () => {
       );
 
       selectColumns([0])(editorView.state, editorView.dispatch);
-      const target = document.querySelectorAll(
-        `.${ClassName.COLUMN_CONTROLS} .${ClassName.CONTROLS_BUTTON}`,
-      )[2];
+      const floatingControls = mountWithIntl(
+        <ColumnControls
+          tableRef={document.querySelector('table')!}
+          editorView={editorView}
+        />,
+      );
 
-      plugin.props.handleDOMEvents.mousedown(editorView, createEvent(target));
+      floatingControls
+        .find(ControlsButton)
+        .at(2)
+        .simulate('click', { shiftKey: true });
+
       const rect = getSelectionRect(editorView.state.selection);
       expect(rect).toEqual({ left: 0, top: 0, right: 3, bottom: 3 });
     });
 
     it('should shift select columns before the currently selected column', () => {
-      const { editorView, plugin } = editor(
+      const { editorView } = editor(
         doc(
           table()(
             tr(thEmpty, thEmpty, thEmpty, thEmpty),
@@ -386,11 +359,18 @@ describe('ColumnControls', () => {
       );
 
       selectColumns([2])(editorView.state, editorView.dispatch);
-      const target = document.querySelectorAll(
-        `.${ClassName.COLUMN_CONTROLS} .${ClassName.CONTROLS_BUTTON}`,
-      )[0];
+      const floatingControls = mountWithIntl(
+        <ColumnControls
+          tableRef={document.querySelector('table')!}
+          editorView={editorView}
+        />,
+      );
 
-      plugin.props.handleDOMEvents.mousedown(editorView, createEvent(target));
+      floatingControls
+        .find(ControlsButton)
+        .first()
+        .simulate('click', { shiftKey: true });
+
       const rect = getSelectionRect(editorView.state.selection);
       expect(rect).toEqual({ left: 0, top: 0, right: 3, bottom: 3 });
     });

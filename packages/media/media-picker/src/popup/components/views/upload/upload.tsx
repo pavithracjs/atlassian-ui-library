@@ -9,12 +9,12 @@ import {
   CardEventHandler,
 } from '@atlaskit/media-card';
 import {
-  Context,
   FileItem,
   FileDetails,
   FileIdentifier,
   getMediaTypeFromMimeType,
-} from '@atlaskit/media-core';
+  MediaClient,
+} from '@atlaskit/media-client';
 import Spinner from '@atlaskit/spinner';
 import Flag, { FlagGroup } from '@atlaskit/flag';
 import AnnotateIcon from '@atlaskit/icon/glyph/media-services/annotate';
@@ -23,7 +23,6 @@ import EditorInfoIcon from '@atlaskit/icon/glyph/error';
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import { messages, InfiniteScroll } from '@atlaskit/media-ui';
-import { Browser } from '../../../../components/types';
 import { isWebGLAvailable } from '../../../tools/webgl';
 import { Dropzone } from './dropzone';
 import { fileClick } from '../../../actions/fileClick';
@@ -52,6 +51,7 @@ import {
 } from './styled';
 import { RECENTS_COLLECTION } from '../../../config';
 import { removeFileFromRecents } from '../../../actions/removeFileFromRecents';
+import { Browser } from '../../../../components/browser/browser';
 
 const createEditCardAction = (
   handler: CardEventHandler,
@@ -75,8 +75,8 @@ const createDeleteCardAction = (handler: CardEventHandler): CardAction => {
 const cardDimension = { width: 162, height: 108 };
 
 export interface UploadViewOwnProps {
-  readonly mpBrowser: Browser;
-  readonly context: Context;
+  readonly browserRef: React.RefObject<Browser>;
+  readonly mediaClient: MediaClient;
   readonly recentsCollection: string;
 }
 
@@ -138,7 +138,7 @@ export class StatelessUploadView extends Component<
   };
 
   render() {
-    const { isLoading, mpBrowser } = this.props;
+    const { isLoading, browserRef } = this.props;
     const cards = this.renderCards();
     const isEmpty = !isLoading && cards.length === 0;
 
@@ -156,7 +156,7 @@ export class StatelessUploadView extends Component<
         onThresholdReached={this.onThresholdReachedListener}
       >
         <Wrapper>
-          <Dropzone isEmpty={isEmpty} mpBrowser={mpBrowser} />
+          <Dropzone isEmpty={isEmpty} browserRef={browserRef} />
           {contentPart}
           {confirmationDialog}
         </Wrapper>
@@ -217,8 +217,8 @@ export class StatelessUploadView extends Component<
 
     this.setState({ isLoadingNextPage: true }, async () => {
       try {
-        const { context } = this.props;
-        await context.collection.loadNextPage(RECENTS_COLLECTION);
+        const { mediaClient } = this.props;
+        await mediaClient.collection.loadNextPage(RECENTS_COLLECTION);
       } finally {
         this.setState({ isLoadingNextPage: false });
       }
@@ -307,7 +307,7 @@ export class StatelessUploadView extends Component<
   }
 
   private uploadingFilesCards(): { key: string; el: JSX.Element }[] {
-    const { uploads, onFileClick, context } = this.props;
+    const { uploads, onFileClick, mediaClient } = this.props;
     const itemsKeys = Object.keys(uploads);
     itemsKeys.sort((a, b) => {
       return uploads[b].index - uploads[a].index;
@@ -363,7 +363,7 @@ export class StatelessUploadView extends Component<
         key: id,
         el: (
           <Card
-            context={context}
+            mediaClientConfig={mediaClient.config}
             identifier={identifier}
             dimensions={cardDimension}
             selectable={true}
@@ -378,7 +378,7 @@ export class StatelessUploadView extends Component<
 
   private recentFilesCards(): { key: string; el: JSX.Element }[] {
     const {
-      context,
+      mediaClient,
       recents,
       recentsCollection,
       selectedItems,
@@ -452,7 +452,7 @@ export class StatelessUploadView extends Component<
         key: `${occurrenceKey}-${id}`,
         el: (
           <Card
-            context={context}
+            mediaClientConfig={mediaClient.config}
             identifier={{
               id,
               mediaItemType: 'file',

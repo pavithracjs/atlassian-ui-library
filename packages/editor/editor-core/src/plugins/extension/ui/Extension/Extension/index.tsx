@@ -67,7 +67,11 @@ class Extension extends Component<Props & OverflowShadowProps, any> {
                 width: calcBreakoutWidth(node.attrs.layout, widthState.width),
               }}
             >
-              <div className="extension-overflow-wrapper">
+              <div
+                className={`extension-overflow-wrapper ${
+                  hasBody ? 'with-body' : ''
+                }`}
+              >
                 <Overlay className="extension-overlay" />
                 <Header
                   contentEditable={false}

@@ -4,6 +4,7 @@ import {
   isPastDate,
   timestampToString,
   timestampToTaskContext,
+  DateSharedCssClassName,
 } from '@atlaskit/editor-common';
 
 export interface Props {
@@ -19,14 +20,16 @@ export default class Date extends PureComponent<Props, {}> {
         ? 'date-node date-node-highlighted'
         : 'date-node';
     return (
-      <span
-        className={className}
-        data-node-type="date"
-        data-timestamp={timestamp}
-      >
-        {parentIsIncompleteTask
-          ? timestampToTaskContext(timestamp)
-          : timestampToString(timestamp)}
+      <span className={DateSharedCssClassName.DATE_WRAPPER}>
+        <span
+          className={className}
+          data-node-type="date"
+          data-timestamp={timestamp}
+        >
+          {parentIsIncompleteTask
+            ? timestampToTaskContext(timestamp)
+            : timestampToString(timestamp)}
+        </span>
       </span>
     );
   }

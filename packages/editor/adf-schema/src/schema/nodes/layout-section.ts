@@ -4,7 +4,6 @@ import { BreakoutMarkDefinition } from '../marks';
 
 /**
  * @name layoutSection_node
- * @stage 0
  */
 export type LayoutSectionDefinition = {
   type: 'layoutSection';

@@ -9,7 +9,6 @@ import adf from './__fixtures__/default-table.adf.json';
 
 describe('Table context menu: cells background', () => {
   let page: any;
-  const tolerance = 0.01;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -34,7 +33,7 @@ describe('Table context menu: cells background', () => {
         column: 3,
       },
     });
-    await snapshot(page, tolerance);
+    await snapshot(page);
 
     await selectCellBackground({
       page,
@@ -48,7 +47,7 @@ describe('Table context menu: cells background', () => {
         column: 3,
       },
     });
-    await snapshot(page, tolerance);
+    await snapshot(page);
 
     await selectCellBackground({
       page,
@@ -62,6 +61,6 @@ describe('Table context menu: cells background', () => {
         column: 3,
       },
     });
-    await snapshot(page, tolerance);
+    await snapshot(page);
   });
 });

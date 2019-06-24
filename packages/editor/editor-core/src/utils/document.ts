@@ -3,6 +3,9 @@ import { Transaction, Selection, EditorState } from 'prosemirror-state';
 import { validator, ADFEntity, ValidationError } from '@atlaskit/adf-utils';
 import { analyticsService } from '../analytics';
 import { ContentNodeWithPos } from 'prosemirror-utils';
+import { sanitizeNodeForPrivacy } from '../utils/filter/privacy-filter';
+import { ProviderFactory } from '@atlaskit/editor-common';
+import { JSONDocNode } from '../utils';
 
 const FALSE_POSITIVE_MARKS = ['code', 'alignment', 'indentation'];
 
@@ -125,6 +128,8 @@ function fireAnalyticsEvent(
 export function processRawValue(
   schema: Schema,
   value?: string | object,
+  providerFactory?: ProviderFactory,
+  sanitizePrivateContent?: boolean,
 ): Node | undefined {
   if (!value) {
     return;
@@ -153,7 +158,6 @@ export function processRawValue(
     );
     return;
   }
-
   try {
     const nodes = Object.keys(schema.nodes);
     const marks = Object.keys(schema.marks);
@@ -220,10 +224,17 @@ export function processRawValue(
       },
     );
 
-    const parsedDoc = Node.fromJSON(schema, entity);
+    let newEntity = maySanitizePrivateContent(
+      entity as JSONDocNode,
+      providerFactory,
+      sanitizePrivateContent,
+    );
+
+    const parsedDoc = Node.fromJSON(schema, newEntity);
 
     // throws an error if the document is invalid
     parsedDoc.check();
+
     return parsedDoc;
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -233,6 +244,17 @@ export function processRawValue(
     return;
   }
 }
+
+const maySanitizePrivateContent = (
+  entity: JSONDocNode,
+  providerFactory?: ProviderFactory,
+  sanitizePrivateContent?: boolean,
+): JSONDocNode => {
+  if (sanitizePrivateContent && providerFactory) {
+    return sanitizeNodeForPrivacy(entity, providerFactory);
+  }
+  return entity;
+};
 
 export const getStepRange = (
   transaction: Transaction,
@@ -299,4 +321,14 @@ export function nodesBetweenChanged(
   }
 
   tr.doc.nodesBetween(stepRange.from, stepRange.to, f, startPos);
+}
+
+export function getNodesCount(node: Node): Record<string, number> {
+  let count: Record<string, number> = {};
+
+  node.nodesBetween(0, node.nodeSize - 2, node => {
+    count[node.type.name] = (count[node.type.name] || 0) + 1;
+  });
+
+  return count;
 }

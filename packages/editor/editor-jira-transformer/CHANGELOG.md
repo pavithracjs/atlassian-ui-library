@@ -1,33 +1,53 @@
 # @atlaskit/editor-jira-transformer
 
+## 7.2.2
+
+### Patch Changes
+
+- [patch][8ab87a1c43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ab87a1c43):
+
+  Republishing @atlaskit/editor-jira-transformer
+
+## 7.2.1
+
+- [patch][e9a4cde674](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9a4cde674):
+
+  - ED-6959: Patch transformer to cater for a paragraph node that contains mixed text and media nodes.
+
 ## 7.2.0
-- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+- [minor][79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 
   - Use strict tsconfig to compile editor packages
 
 ## 7.1.2
+
 - Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
   - @atlaskit/editor-json-transformer@6.0.2
   - @atlaskit/editor-test-helpers@9.1.4
   - @atlaskit/editor-core@112.0.0
 
 ## 7.1.1
+
 - Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
   - @atlaskit/editor-json-transformer@6.0.1
   - @atlaskit/editor-test-helpers@9.1.2
   - @atlaskit/editor-core@111.0.0
 
 ## 7.1.0
-- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+- [minor][5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 
   - Enable strictPropertyInitialization in tsconfig.base
 
 ## 7.0.0
-- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+- [major][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 ## 6.0.5
+
 - Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
   - @atlaskit/editor-common@38.0.0
   - @atlaskit/editor-core@109.0.0
@@ -36,6 +56,7 @@
   - @atlaskit/util-data-test@11.1.9
 
 ## 6.0.4
+
 - Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
   - @atlaskit/editor-common@37.0.0
   - @atlaskit/editor-core@108.0.0
@@ -44,6 +65,7 @@
   - @atlaskit/util-data-test@11.1.8
 
 ## 6.0.3
+
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
   - @atlaskit/editor-common@36.1.12
@@ -51,6 +73,7 @@
   - @atlaskit/theme@8.1.7
 
 ## 6.0.2
+
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-common@36.0.0
   - @atlaskit/editor-core@107.0.0
@@ -59,16 +82,19 @@
   - @atlaskit/util-data-test@11.1.5
 
 ## 6.0.1
-- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+- [patch][1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
   - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
 
 ## 6.0.0
-- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+- [major][9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 
   - Dropped ES5 distributables from the typescript packages
 
 ## 5.3.5
+
 - Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
   - @atlaskit/editor-common@34.0.0
   - @atlaskit/editor-core@105.0.0
@@ -77,12 +103,14 @@
   - @atlaskit/util-data-test@10.2.5
 
 ## 5.3.4
+
 - Updated dependencies [4d17df92f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d17df92f8):
   - @atlaskit/editor-json-transformer@4.3.4
   - @atlaskit/editor-test-helpers@7.0.5
   - @atlaskit/editor-core@104.0.0
 
 ## 5.3.3
+
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/editor-core@103.0.3
   - @atlaskit/editor-json-transformer@4.3.3
@@ -92,12 +120,14 @@
   - @atlaskit/theme@8.0.0
 
 ## 5.3.2
+
 - Updated dependencies [60f0ad9a7e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60f0ad9a7e):
   - @atlaskit/editor-json-transformer@4.3.2
   - @atlaskit/editor-core@103.0.0
   - @atlaskit/editor-test-helpers@7.0.4
 
 ## 5.3.1
+
 - Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
   - @atlaskit/editor-common@33.0.0
   - @atlaskit/editor-core@102.0.0
@@ -106,17 +136,20 @@
   - @atlaskit/util-data-test@10.2.2
 
 ## 5.3.0
-- [minor] [1eb20bca95](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1eb20bca95):
 
-  - ED-6368: No implicit any for editor-*-transformer packages
+- [minor][1eb20bca95](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1eb20bca95):
+
+  - ED-6368: No implicit any for editor-\*-transformer packages
 
 ## 5.2.7
+
 - Updated dependencies [4a84fc40e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a84fc40e0):
   - @atlaskit/editor-json-transformer@4.1.12
   - @atlaskit/editor-test-helpers@7.0.1
   - @atlaskit/editor-core@101.0.0
 
 ## 5.2.6
+
 - Updated dependencies [4af5bd2a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4af5bd2a58):
   - @atlaskit/editor-json-transformer@4.1.11
   - @atlaskit/adf-schema@1.5.4
@@ -125,6 +158,7 @@
   - @atlaskit/editor-test-helpers@7.0.0
 
 ## 5.2.5
+
 - Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
   - @atlaskit/editor-common@32.0.0
   - @atlaskit/editor-core@99.0.0
@@ -133,11 +167,13 @@
   - @atlaskit/util-data-test@10.2.1
 
 ## 5.2.4
-- [patch] [557a2b5734](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/557a2b5734):
+
+- [patch][557a2b5734](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/557a2b5734):
 
   - ED-5788: bump prosemirror-view and prosemirror-model
 
 ## 5.2.3
+
 - Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
   - @atlaskit/editor-common@31.0.0
   - @atlaskit/editor-core@98.0.0
@@ -146,6 +182,7 @@
   - @atlaskit/util-data-test@10.0.36
 
 ## 5.2.2
+
 - Updated dependencies [85d5d168fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d5d168fd):
   - @atlaskit/editor-common@30.0.0
   - @atlaskit/editor-core@97.0.0
@@ -154,6 +191,7 @@
   - @atlaskit/util-data-test@10.0.34
 
 ## 5.2.1
+
 - Updated dependencies [dadef80](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dadef80):
   - @atlaskit/editor-common@29.0.0
   - @atlaskit/editor-core@96.0.0
@@ -162,11 +200,13 @@
   - @atlaskit/util-data-test@10.0.33
 
 ## 5.2.0
-- [minor] [d351b2e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d351b2e):
+
+- [minor][d351b2e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d351b2e):
 
   - Support code blocks nested inside a list item
 
 ## 5.1.7
+
 - Updated dependencies [0c116d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c116d6):
   - @atlaskit/editor-json-transformer@4.1.5
   - @atlaskit/editor-test-helpers@6.3.8
@@ -175,6 +215,7 @@
   - @atlaskit/editor-core@95.0.0
 
 ## 5.1.6
+
 - Updated dependencies [cbb8cb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbb8cb5):
   - @atlaskit/editor-common@28.0.0
   - @atlaskit/editor-core@94.0.0
@@ -183,6 +224,7 @@
   - @atlaskit/util-data-test@10.0.31
 
 ## 5.1.5
+
 - Updated dependencies [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
   - @atlaskit/editor-common@27.0.0
   - @atlaskit/editor-core@93.0.0
@@ -191,11 +233,13 @@
   - @atlaskit/util-data-test@10.0.30
 
 ## 5.1.4
-- [patch] [4f0bf09](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4f0bf09):
+
+- [patch][4f0bf09](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4f0bf09):
 
   - JSDOM can't properly stub innertText (see: https://github.com/jsdom/jsdom/issues/1245) but textContent works fine. Changing all uses of innerText to textContent prevents future problems for new SSR consumers
 
 ## 5.1.3
+
 - Updated dependencies [e858305](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e858305):
   - @atlaskit/editor-json-transformer@4.1.2
   - @atlaskit/editor-test-helpers@6.3.5
@@ -203,11 +247,13 @@
   - @atlaskit/editor-core@92.0.19
 
 ## 5.1.2
-- [patch] [ad41550](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad41550):
+
+- [patch][ad41550](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad41550):
 
   - Ignore typeAheadQuery mark in jira transformer
 
 ## 5.1.1
+
 - Updated dependencies [b3738ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3738ea):
   - @atlaskit/editor-common@25.0.0
   - @atlaskit/editor-core@92.0.0
@@ -216,11 +262,13 @@
   - @atlaskit/util-data-test@10.0.28
 
 ## 5.1.0
-- [minor] [1205725](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1205725):
+
+- [minor][1205725](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1205725):
 
   - Move schema to its own package
 
 ## 5.0.20
+
 - Updated dependencies [80f765b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80f765b):
   - @atlaskit/editor-common@23.0.0
   - @atlaskit/editor-core@91.0.0
@@ -229,6 +277,7 @@
   - @atlaskit/util-data-test@10.0.26
 
 ## 5.0.19
+
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/theme@7.0.1
   - @atlaskit/editor-core@90.3.15
@@ -237,6 +286,7 @@
   - @atlaskit/docs@6.0.0
 
 ## 5.0.18
+
 - Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
   - @atlaskit/docs@5.2.3
   - @atlaskit/editor-common@22.2.3
@@ -244,12 +294,14 @@
   - @atlaskit/theme@7.0.0
 
 ## 5.0.17
+
 - Updated dependencies [3a7224a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3a7224a):
   - @atlaskit/editor-json-transformer@4.0.23
   - @atlaskit/editor-test-helpers@6.2.23
   - @atlaskit/editor-core@90.0.0
 
 ## 5.0.16
+
 - Updated dependencies [7e8b4b9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e8b4b9):
   - @atlaskit/editor-common@22.0.0
   - @atlaskit/editor-core@89.0.0
@@ -258,6 +310,7 @@
   - @atlaskit/util-data-test@10.0.21
 
 ## 5.0.15
+
 - Updated dependencies [2c21466](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2c21466):
   - @atlaskit/editor-common@21.0.0
   - @atlaskit/editor-core@88.0.0
@@ -266,6 +319,7 @@
   - @atlaskit/util-data-test@10.0.20
 
 ## 5.0.14
+
 - [patch] Updated dependencies [052ce89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/052ce89)
   - @atlaskit/editor-json-transformer@4.0.19
   - @atlaskit/editor-test-helpers@6.2.8
@@ -273,6 +327,7 @@
   - @atlaskit/editor-common@20.1.2
 
 ## 5.0.13
+
 - [patch] Updated dependencies [b1ce691](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b1ce691)
   - @atlaskit/editor-common@20.0.0
   - @atlaskit/editor-core@86.0.0
@@ -281,6 +336,7 @@
   - @atlaskit/util-data-test@10.0.16
 
 ## 5.0.12
+
 - [patch] Updated dependencies [2afa60d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2afa60d)
   - @atlaskit/editor-common@19.0.0
   - @atlaskit/editor-core@85.0.0
@@ -289,6 +345,7 @@
   - @atlaskit/util-data-test@10.0.14
 
 ## 5.0.11
+
 - [patch] Updated dependencies [8b2c4d3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b2c4d3)
 - [patch] Updated dependencies [3302d51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3302d51)
   - @atlaskit/editor-common@18.0.0
@@ -298,6 +355,7 @@
   - @atlaskit/util-data-test@10.0.12
 
 ## 5.0.10
+
 - [patch] Updated dependencies [23c7eca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/23c7eca)
   - @atlaskit/editor-json-transformer@4.0.15
   - @atlaskit/editor-test-helpers@6.2.4
@@ -305,12 +363,15 @@
   - @atlaskit/editor-core@83.0.0
 
 ## 5.0.9
+
 - [patch] change grey to gray to keep consistent across editor pkgs [1b2a0b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b2a0b3)
 
 ## 5.0.8
+
 - [patch] ED-5299: added mediaSingle to jira transformer [d73f846](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d73f846)
 
 ## 5.0.7
+
 - [patch] Updated dependencies [ef76f1f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef76f1f)
   - @atlaskit/editor-json-transformer@4.0.13
   - @atlaskit/editor-common@17.0.1
@@ -318,6 +379,7 @@
   - @atlaskit/editor-test-helpers@6.1.3
 
 ## 5.0.6
+
 - [patch] Updated dependencies [927ae63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/927ae63)
   - @atlaskit/editor-common@17.0.0
   - @atlaskit/editor-core@81.0.0
@@ -326,6 +388,7 @@
   - @atlaskit/editor-json-transformer@4.0.12
 
 ## 5.0.5
+
 - [patch] Updated dependencies [6e1d642](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6e1d642)
   - @atlaskit/editor-common@16.0.0
   - @atlaskit/editor-core@80.0.0
@@ -334,6 +397,7 @@
   - @atlaskit/util-data-test@10.0.9
 
 ## 5.0.4
+
 - [patch] Update TS to 3.0 [f68d367](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f68d367)
 - [none] Updated dependencies [f68d367](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f68d367)
   - @atlaskit/editor-json-transformer@4.0.10
@@ -342,6 +406,7 @@
   - @atlaskit/editor-core@79.0.12
 
 ## 5.0.3
+
 - [patch] Updated dependencies [7545979](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7545979)
   - @atlaskit/editor-common@15.0.0
   - @atlaskit/editor-core@79.0.0
@@ -350,12 +415,14 @@
   - @atlaskit/util-data-test@10.0.8
 
 ## 5.0.2
+
 - [patch] Updated dependencies [911a570](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/911a570)
   - @atlaskit/editor-json-transformer@4.0.7
   - @atlaskit/editor-test-helpers@6.0.5
   - @atlaskit/editor-core@78.0.0
 
 ## 5.0.1
+
 - [patch] Updated dependencies [b12f7e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b12f7e6)
   - @atlaskit/util-data-test@10.0.7
   - @atlaskit/editor-common@14.0.11
@@ -364,9 +431,6 @@
   - @atlaskit/editor-core@77.1.4
 
 ## 5.0.0
-
-
-
 
 - [major] Synchronous property "serviceHost" as part of many Interfaces in media components (like MediaApiConfig) is removed and replaced with asynchronous "baseUrl" as part of Auth object. [d02746f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d02746f)
 - [none] Updated dependencies [597e0bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/597e0bd)
@@ -401,6 +465,7 @@
   - @atlaskit/editor-core@77.0.0
 
 ## 4.0.3
+
 - [patch] Updated dependencies [acd86a1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acd86a1)
   - @atlaskit/util-data-test@10.0.2
   - @atlaskit/editor-json-transformer@4.0.3
@@ -410,6 +475,7 @@
   - @atlaskit/docs@5.0.2
 
 ## 4.0.2
+
 - [patch] Bump prosemirror-model to 1.6 in order to use toDebugString on Text node spec [fdd5c5d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdd5c5d)
 - [none] Updated dependencies [fdd5c5d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdd5c5d)
   - @atlaskit/editor-common@13.2.6
@@ -418,7 +484,6 @@
   - @atlaskit/editor-core@76.4.2
 
 ## 4.0.1
-
 
 - [none] Updated dependencies [25353c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25353c3)
   - @atlaskit/editor-core@76.0.0
@@ -449,7 +514,6 @@
 
 ## 3.1.9
 
-
 - [none] Updated dependencies [5f6ec84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f6ec84)
   - @atlaskit/editor-core@74.0.17
   - @atlaskit/editor-test-helpers@4.2.4
@@ -462,18 +526,22 @@
   - @atlaskit/editor-json-transformer@3.1.8
 
 ## 3.1.8
+
 - [patch] Updated dependencies [af0cde6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af0cde6)
   - @atlaskit/editor-core@74.0.0
   - @atlaskit/editor-test-helpers@4.2.2
   - @atlaskit/editor-json-transformer@3.1.7
 
 ## 3.1.7
+
 - [patch] Ensure nodes created by transformers are valid, otherwise throws an error. ED-3824 [b45fa8b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b45fa8b)
 
 ## 3.1.6
+
 - [patch] ED-4708: map h6 to h5 [454aab7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/454aab7)
 
 ## 3.1.5
+
 - [patch] Updated dependencies [8d5053e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d5053e)
   - @atlaskit/util-data-test@9.1.15
   - @atlaskit/editor-json-transformer@3.1.5
@@ -482,6 +550,7 @@
   - @atlaskit/editor-core@73.9.5
 
 ## 3.1.4
+
 - [patch] Updated dependencies [0cf2f52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0cf2f52)
   - @atlaskit/util-data-test@9.1.14
   - @atlaskit/editor-json-transformer@3.1.4
@@ -490,6 +559,7 @@
   - @atlaskit/editor-common@11.3.7
 
 ## 3.1.3
+
 - [patch] Remove pinned prosemirror-model@1.4.0 and move back to caret ranges for prosemirror-model@^1.5.0 [4faccc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4faccc0)
 - [patch] Updated dependencies [4faccc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4faccc0)
   - @atlaskit/editor-common@11.3.0
@@ -498,6 +568,7 @@
   - @atlaskit/editor-core@73.8.6
 
 ## 3.1.2
+
 - [patch] Clean Changelogs - remove duplicates and empty entries [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
 - [none] Updated dependencies [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
   - @atlaskit/util-data-test@9.1.13
@@ -507,6 +578,7 @@
   - @atlaskit/editor-common@11.2.1
 
 ## 3.1.1
+
 - [patch] Update changelogs to remove duplicate [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
 - [none] Updated dependencies [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
   - @atlaskit/util-data-test@9.1.12
@@ -517,6 +589,7 @@
   - @atlaskit/docs@4.1.1
 
 ## 3.1.0
+
 - [none] Updated dependencies [7217164](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7217164)
   - @atlaskit/editor-core@73.5.0
   - @atlaskit/editor-test-helpers@4.1.0
@@ -525,6 +598,7 @@
   - @atlaskit/editor-json-transformer@3.1.0
 
 ## 3.0.11
+
 - [patch] Update and lock prosemirror-model version to 1.4.0 [febf753](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/febf753)
 - [none] Updated dependencies [febf753](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/febf753)
   - @atlaskit/editor-common@11.0.6
@@ -533,6 +607,7 @@
   - @atlaskit/editor-core@73.4.4
 
 ## 3.0.10
+
 - [patch] Updated dependencies [1e80619](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e80619)
   - @atlaskit/util-data-test@9.1.10
   - @atlaskit/editor-json-transformer@3.0.9
@@ -542,6 +617,7 @@
   - @atlaskit/docs@4.0.0
 
 ## 3.0.9
+
 - [patch] Updated dependencies [1c87e5a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c87e5a)
   - @atlaskit/util-data-test@9.1.9
   - @atlaskit/editor-json-transformer@3.0.8
@@ -550,6 +626,7 @@
   - @atlaskit/editor-common@10.1.9
 
 ## 3.0.8
+
 - [none] Updated dependencies [febc44d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/febc44d)
   - @atlaskit/editor-core@72.0.0
   - @atlaskit/editor-test-helpers@4.0.0
@@ -558,6 +635,7 @@
   - @atlaskit/editor-json-transformer@3.0.7
 
 ## 3.0.7
+
 - [none] Updated dependencies [8fd4dd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fd4dd1)
   - @atlaskit/editor-test-helpers@3.1.8
   - @atlaskit/util-data-test@9.1.3
@@ -566,49 +644,65 @@
   - @atlaskit/editor-common@9.3.9
 
 ## 3.0.6
+
 - [patch] ED-4459, JIRA transformer should return unicode for emoji node. [107bf1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/107bf1e)
 
 ## 3.0.3
+
 - [patch] Fixes a bug where the HTML for 'Done' Jira issues was not transformed properly [87a5253](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a5253)
 
 ## 3.0.1
+
 - [patch] Fixing the up external-link attribute [e4a8e8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4a8e8f)
 
 ## 3.0.0
+
 - [major] Bump to React 16.3. [4251858](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4251858)
 
 ## 2.5.7
+
 - [patch] change table node builder constructor for tests, remove tableWithAttrs [cf43535](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cf43535)
 
 ## 2.5.3
+
 - [patch] Upgrading ProseMirror Libs [35d14d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/35d14d5)
 
 ## 2.5.1
+
 - [patch] Add "sideEffects: false" to AKM2 packages to allow consumer's to tree-shake [c3b018a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3b018a)
 
 ## 2.5.0
+
 - [minor] Added support to editor-jira-transformer for transforming Jira emoticons to unicode emoji [7315648](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7315648)
 
 ## 2.4.8
+
 - [patch] updated the repository url to https://bitbucket.org/atlassian/atlaskit-mk-2 [1e57e5a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e57e5a)
 
 ## 2.4.5
+
 - [patch] bump editor-common to 6.1.2 [bb7802e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bb7802e)
 
 ## 2.4.4
+
 - [patch] bump mention to 9.1.1 to fix mention autocomplete bug [c7708c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c7708c6)
 
 ## 2.4.0
+
 - [minor] Add React 16 support. [12ea6e4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12ea6e4)
 
 ## 2.3.2
+
 - [patch] Fix transformation of list with empty text child and a sublist. [ad5441f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad5441f)
 
 ## 2.2.1
+
 - [patch] Adding missing dependency collapse-whitespace in editor-jira-transformer. [79a668e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79a668e)
 
 ## 2.0.1
-- [patch] Fix of the build scripts for editor-*-transformer packages [59b4ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59b4ea5)
+
+- [patch] Fix of the build scripts for editor-\*-transformer packages [59b4ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59b4ea5)
 
 ## 2.0.0
+
 - [major] Adding separate transformer packages. [f734c01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f734c01)

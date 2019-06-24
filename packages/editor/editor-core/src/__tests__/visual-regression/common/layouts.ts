@@ -1,12 +1,15 @@
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
+import { Page } from '../../__helpers/page-objects/_types';
 import * as col2 from './__fixtures__/column2-adf.json';
 import * as col3 from './__fixtures__/column3-adf.json';
 import * as colLeftSidebar from './__fixtures__/columnLeftSidebar-adf.json';
 import * as colRightSidebar from './__fixtures__/columnRightSidebar-adf.json';
 import * as col3WithSidebars from './__fixtures__/column3WithSidebars-adf.json';
 
+const layoutColSelector = '[data-layout-column]';
+
 describe('Layouts:', () => {
-  let page: any;
+  let page: Page;
 
   const layouts = [
     { name: '2 columns', adf: col2 },
@@ -22,6 +25,7 @@ describe('Layouts:', () => {
   });
 
   afterEach(async () => {
+    await page.click(layoutColSelector); // click inside column to get toolbar
     await snapshot(page);
   });
 

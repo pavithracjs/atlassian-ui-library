@@ -1,4 +1,4 @@
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 
 export { Outcome } from './outcome';
 

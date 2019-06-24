@@ -1,9 +1,6 @@
-export { Provider, ProviderProps } from './providers/SmartCardProvider';
-export {
-  EditorCardProvider,
-  editorCardProvider,
-} from './providers/EditorCardProvider';
-export { Client, ObjectState, ObjectStatus } from './client';
-export { ResolveResponse } from './client/types';
+export { SmartCardProvider as Provider, ProviderProps } from './state';
+export { EditorCardProvider, editorCardProvider } from './providers/editor';
+export { default as Client } from './client';
+export { JsonLd as ResolveResponse } from './client/types';
 export { Card, CardProps, CardAppearance } from './view/Card';
-export { default as Context } from './providers/SmartCardContext';
+export { default as Context, CardContext } from './state/context';

@@ -1,10 +1,11 @@
 {
   "name": "@atlaskit/tooltip",
-  "version": "14.0.0",
+  "version": "15.0.1",
   "description": "A React Component for displaying Tooltips",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/tooltips",
   "author": "Atlassian Pty Ltd",
@@ -22,12 +23,13 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",
     "@atlaskit/popper": "^2.0.0",
-    "@atlaskit/portal": "^2.0.0",
+    "@atlaskit/portal": "^3.0.5",
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "flushable": "^1.0.0",
     "react-node-resolver": "^1.0.1",
-    "react-transition-group": "^2.2.1"
+    "react-transition-group": "^2.2.1",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
@@ -36,11 +38,12 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^13.0.0",
-    "@atlaskit/docs": "^8.0.0",
-    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/button": "^13.0.8",
+    "@atlaskit/docs": "^8.1.2",
+    "@atlaskit/icon": "^18.0.3",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
+    "@types/flushable": "^1.0.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"
   },

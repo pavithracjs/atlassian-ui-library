@@ -1,6 +1,7 @@
 import uuid from 'uuid/v4';
 import { Store, Dispatch, Middleware } from 'redux';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { map } from 'rxjs/operators/map';
 import {
   TouchFileDescriptor,
   FileState,
@@ -9,7 +10,8 @@ import {
   FilePreview,
   isPreviewableType,
   MediaType,
-} from '@atlaskit/media-core';
+  globalMediaEventEmitter,
+} from '@atlaskit/media-client';
 import { State, SelectedItem, LocalUpload, ServiceName } from '../domain';
 import { isStartImportAction } from '../actions/startImport';
 import { finalizeUpload } from '../actions/finalizeUpload';
@@ -100,7 +102,7 @@ const getPreviewByService = (
   mediaType: MediaType,
   fileId: string,
 ) => {
-  const { userContext, giphy } = store.getState();
+  const { userMediaClient, giphy } = store.getState();
 
   if (serviceName === 'giphy') {
     const selectedGiphy = giphy.imageCardModels.find(
@@ -128,7 +130,7 @@ const getPreviewByService = (
   } else if (serviceName === 'recent_files' && isPreviewableType(mediaType)) {
     return new Promise<FilePreview>(async resolve => {
       // We fetch a good size image, since it can be opened later on in MV
-      const blob = await userContext.getImage(fileId, {
+      const blob = await userMediaClient.getImage(fileId, {
         collection: RECENTS_COLLECTION,
         width: 1920,
         height: 1080,
@@ -150,13 +152,14 @@ export const touchSelectedFiles = (
     return;
   }
 
-  const { tenantContext, config } = store.getState();
+  const { tenantMediaClient, config } = store.getState();
   const tenantCollection =
     config.uploadParams && config.uploadParams.collection;
 
   selectedUploadFiles.forEach(
     ({ file: selectedFile, serviceName, touchFileDescriptor }) => {
       const id = touchFileDescriptor.fileId;
+      const selectedFileId = selectedFile.id;
 
       const mediaType = getMediaTypeFromMimeType(selectedFile.type);
       const preview = getPreviewByService(
@@ -177,17 +180,34 @@ export const touchSelectedFiles = (
         representations: {},
       };
 
-      tenantContext.emit('file-added', fileState);
-      const subject = new ReplaySubject<FileState>(1);
-      subject.next(fileState);
-      getFileStreamsCache().set(id, subject);
+      tenantMediaClient.emit('file-added', fileState);
+      globalMediaEventEmitter.emit('file-added', fileState);
+
+      const existingFileState = getFileStreamsCache().get(selectedFileId);
+
+      // if we already have a fileState in the cache, we re use it for the new id, otherwise we create a new one
+      if (existingFileState) {
+        // We assign the tenant id to the observable to not emit user id instead
+        const tenantFile = existingFileState.pipe(
+          map(file => ({
+            ...file,
+            id,
+            preview: fileState.preview,
+          })),
+        );
+        getFileStreamsCache().set(id, tenantFile);
+      } else {
+        const subject = new ReplaySubject<FileState>(1);
+        subject.next(fileState);
+        getFileStreamsCache().set(id, subject);
+      }
     },
   );
 
   const touchFileDescriptors = selectedUploadFiles.map(
     selectedUploadFile => selectedUploadFile.touchFileDescriptor,
   );
-  tenantContext.file.touchFiles(touchFileDescriptors, tenantCollection);
+  tenantMediaClient.file.touchFiles(touchFileDescriptors, tenantCollection);
 };
 
 export async function importFiles(
@@ -195,12 +215,12 @@ export async function importFiles(
   store: Store<State>,
   wsProvider: WsProvider,
 ): Promise<void> {
-  const { uploads, selectedItems, userContext, config } = store.getState();
+  const { uploads, selectedItems, userMediaClient, config } = store.getState();
   const tenantCollection =
     config.uploadParams && config.uploadParams.collection;
   store.dispatch(hidePopup());
 
-  const auth = await userContext.config.authProvider();
+  const auth = await userMediaClient.config.authProvider();
   const selectedUploadFiles = selectedItems.map(item =>
     mapSelectedItemToSelectedUploadFile(item, tenantCollection),
   );

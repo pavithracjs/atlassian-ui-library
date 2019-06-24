@@ -3,7 +3,7 @@ import {
   getSelectorForTableCell,
   tableSelectors,
 } from '../../__helpers/page-objects/_table';
-import table from './__fixtures__/toolbar-adf.json';
+import toolbarAdf from './__fixtures__/toolbar-adf.json';
 import { waitForElementWithText } from '../../__helpers/page-objects/_editor';
 import {
   clickOnExtension,
@@ -12,15 +12,14 @@ import {
 
 describe('Floating toolbars:', () => {
   let page: any;
-  beforeAll(async () => {
+  beforeEach(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, table, Device.LaptopMDPI);
+    await initFullPageEditorWithAdf(page, toolbarAdf, Device.LaptopMDPI);
   });
 
   afterEach(async () => {
-    // currently set high need to revisit
-    await snapshot(page, 0.02);
+    await snapshot(page);
   });
 
   it('should render the table toolbar', async () => {

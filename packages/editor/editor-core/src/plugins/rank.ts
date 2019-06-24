@@ -64,6 +64,7 @@ export default {
     'media',
     'mediaKeymap',
     'mediaSingleKeymap',
+    'mediaEditor',
     'unsupportedContent',
     'jiraIssue',
     'fakeTextCursor',

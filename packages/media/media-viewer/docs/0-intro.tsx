@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
+import {
+  md,
+  code,
+  Example,
+  Props,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 export default md`
+${<AtlassianInternalWarning />}
+
 MediaViewer is Atlassian's powerful solution for viewing files on the web. It's both powerful and extendable yet easy-to-integrate
 
   ## Usage
@@ -15,7 +23,9 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
     defaultCollectionName,
   } from '@atlaskit/media-test-helpers';
 
-  const context = createStorybookContext();
+  const mediaClientConfig = {
+    authProvider: () => Promise.resolve({id: '', token: '', baseUrl: ''})
+  }
   const selectedItem = {
     id: 'some-valid-id',
     occurrenceKey: '',
@@ -31,7 +41,7 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
   export default () => (
     <MediaViewer
       pageSize={pageSize}
-      context={context}
+      mediaClientConfig={mediaClientConfig}
       selectedItem={selectedItem}
       dataSource={dataSource}
       collectionName={defaultCollectionName}
@@ -48,7 +58,9 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
     defaultCollectionName,
   } from '@atlaskit/media-test-helpers';
 
-  const context = createStorybookContext();
+  const mediaClientConfig = {
+    authProvider: () => Promise.resolve({id: '', token: '', baseUrl: ''})
+  }
 
   const items = [
     {
@@ -76,7 +88,7 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
 
   export default () => (
     <MediaViewer
-      context={context}
+      mediaClientConfig={mediaClientConfig}
       selectedItem={selectedItem}
       dataSource={dataSource}
       collectionName={defaultCollectionName}

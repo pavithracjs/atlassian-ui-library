@@ -44,6 +44,8 @@ export const getStyles = memoizeOne((width: string | number) => ({
           ? css[':hover']
             ? css[':hover'].backgroundColor
             : colors.N0
+          : state.isDisabled
+          ? colors.N10
           : colors.N30,
     },
     padding: 0,
@@ -81,8 +83,14 @@ export const getStyles = memoizeOne((width: string | number) => ({
     display: 'flex',
     flexDirection: 'row',
     maxHeight: 100,
-    overflow: 'hidden',
+    overflowX: 'hidden',
+    overflowY: 'auto',
     flexWrap: state.selectProps.isMulti ? 'wrap' : 'nowrap',
+    scrollbarWidth: 'none',
+    '::-webkit-scrollbar': {
+      width: 0,
+      background: 'transparent',
+    },
   }),
   multiValue: (css: any) => ({
     ...css,

@@ -12,28 +12,30 @@ import TableFloatingControls from '../ui/TableFloatingControls';
 import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 
 import { getPluginState } from '../pm-plugins/main';
-import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
+import { scaleTable } from '../pm-plugins/table-resizing';
 import {
-  getParentNodeWidth,
   getLayoutSize,
   insertColgroupFromNode as recreateResizeColsByNode,
   updateControls,
 } from '../pm-plugins/table-resizing/utils';
 
-import { TablePluginState, TableCssClassName as ClassName } from '../types';
+import {
+  TablePluginState,
+  ColumnResizingPluginState,
+  TableCssClassName as ClassName,
+} from '../types';
 import classnames from 'classnames';
 const isIE11 = browser.ie_version === 11;
 
-import { Props } from './table';
+import { Props, TableOptions } from './table';
 import {
   containsHeaderRow,
-  checkIfHeaderColumnEnabled,
-  checkIfHeaderRowEnabled,
   tablesHaveDifferentColumnWidths,
   tablesHaveDifferentNoOfColumns,
 } from '../utils';
 import { autoSizeTable } from '../commands';
 import { WidthPluginState } from '../../width';
+import { getParentNodeWidth } from '../../../utils/node-width';
 
 export interface ComponentProps extends Props {
   view: EditorView;
@@ -43,7 +45,7 @@ export interface ComponentProps extends Props {
 
   containerWidth: WidthPluginState;
   pluginState: TablePluginState;
-  tableResizingPluginState?: ResizeState;
+  tableResizingPluginState?: ColumnResizingPluginState;
   width: number;
 }
 
@@ -66,12 +68,24 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
   private frameId?: number;
   private node?: PmNode;
   private containerWidth?: WidthPluginState;
+  private layoutSize?: number;
 
   constructor(props: ComponentProps) {
     super(props);
+    const { options, containerWidth, node } = props;
 
-    this.node = props.node;
-    this.containerWidth = props.containerWidth;
+    this.node = node;
+    this.containerWidth = containerWidth;
+
+    // store table size using previous full-width mode so can detect if it has changed
+    const dynamicTextSizing = options ? options.dynamicTextSizing : false;
+    const isFullWidthModeEnabled = options
+      ? options.wasFullWidthModeEnabled
+      : false;
+    this.layoutSize = this.tableNodeLayoutSize(node, containerWidth.width, {
+      dynamicTextSizing,
+      isFullWidthModeEnabled,
+    });
 
     // Disable inline table editing and resizing controls in Firefox
     // https://github.com/ProseMirror/prosemirror/issues/432
@@ -132,7 +146,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       ) {
         const { view } = this.props;
         recreateResizeColsByNode(this.table, this.props.node);
-        updateControls(view.state, view.domAtPos.bind(view));
+        updateControls(view.state);
       }
 
       this.frameId = this.handleTableResizingDebounced(prevProps);
@@ -153,13 +167,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     } = pluginState;
 
     // doesn't work well with WithPluginState
-    const {
-      isInDanger,
-      hoveredColumns,
-      hoveredRows,
-      insertColumnButtonIndex,
-      insertRowButtonIndex,
-    } = getPluginState(view.state);
+    const { isInDanger, hoveredColumns, hoveredRows } = getPluginState(
+      view.state,
+    );
 
     const tableRef = this.table || undefined;
     const tableActive = this.table === pluginState.tableRef;
@@ -182,14 +192,12 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           isInDanger={isInDanger}
           isResizing={isResizing}
           isNumberColumnEnabled={node.attrs.isNumberColumnEnabled}
-          isHeaderColumnEnabled={checkIfHeaderColumnEnabled(view.state)}
-          isHeaderRowEnabled={checkIfHeaderRowEnabled(view.state)}
+          isHeaderRowEnabled={pluginState.isHeaderRowEnabled}
+          isHeaderColumnEnabled={pluginState.isHeaderColumnEnabled}
           hasHeaderRow={containsHeaderRow(view.state, node)}
           // pass `selection` and `tableHeight` to control re-render
           selection={view.state.selection}
           tableHeight={tableRef ? tableRef.offsetHeight : undefined}
-          insertColumnButtonIndex={insertColumnButtonIndex}
-          insertRowButtonIndex={insertRowButtonIndex}
         />
       </div>,
     ];
@@ -205,7 +213,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           // pass `selection` and `numberOfColumns` to control re-render
           selection={view.state.selection}
           numberOfColumns={node.firstChild!.childCount}
-          insertColumnButtonIndex={insertColumnButtonIndex}
         />
       </div>,
     ];
@@ -254,8 +261,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
   };
 
   private handleTableResizing = () => {
-    const { node, containerWidth } = this.props;
-    const prevWidth = this.containerWidth!.width;
+    const { node, containerWidth, options } = this.props;
     const prevNode = this.node!;
     const prevAttrs = prevNode.attrs;
 
@@ -268,8 +274,11 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     const parentWidthChanged =
       parentWidth && parentWidth !== this.state.parentWidth;
 
-    const currentLayoutSize = this.tableNodeLayoutSize(node);
-    const prevLayoutSize = this.tableNodeLayoutSize(prevNode, prevWidth);
+    const layoutSize = this.tableNodeLayoutSize(
+      node,
+      containerWidth.width,
+      options,
+    );
 
     if (
       // Breakout mode/layout changed
@@ -283,7 +292,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       tablesHaveDifferentNoOfColumns(node, prevNode) ||
       // This last check is also to cater for dynamic text sizing changing the 'default' layout width
       // Usually happens on window resize.
-      currentLayoutSize !== prevLayoutSize
+      layoutSize !== this.layoutSize
     ) {
       this.scaleTable({ parentWidth, layoutChanged });
       this.updateParentWidth(parentWidth);
@@ -292,6 +301,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     this.updateTableContainerWidth();
     this.node = node;
     this.containerWidth = containerWidth;
+    this.layoutSize = layoutSize;
   };
 
   private scaleTable = (scaleOptions: {
@@ -389,11 +399,15 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     this.setState({ parentWidth: width });
   };
 
-  private tableNodeLayoutSize = (node: PmNode, containerWidth?: number) =>
+  private tableNodeLayoutSize = (
+    node: PmNode,
+    containerWidth?: number,
+    options?: TableOptions,
+  ) =>
     getLayoutSize(
       node.attrs.layout,
       containerWidth || this.props.containerWidth.width,
-      this.props.options || {},
+      options || this.props.options || {},
     );
 
   private scaleTableDebounced = rafSchedule(this.scaleTable);

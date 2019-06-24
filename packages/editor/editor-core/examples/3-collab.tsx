@@ -4,6 +4,17 @@ import styled from 'styled-components';
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import { borderRadius } from '@atlaskit/theme';
+import { ShareDialogContainer } from '@atlaskit/share';
+
+import {
+  mention,
+  emoji,
+  taskDecision,
+  userPickerData,
+} from '@atlaskit/util-data-test';
+import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { OptionData, User } from '@atlaskit/user-picker';
+import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 
 import Editor, { EditorProps } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
@@ -13,7 +24,6 @@ import {
   storyContextIdentifierProviderFactory,
   extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
-import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 
 import {
   akEditorCodeBackground,
@@ -22,10 +32,10 @@ import {
 } from '../src/styles';
 
 import { collabEditProvider } from '../example-helpers/mock-collab-provider';
-import { EmojiProvider } from '@atlaskit/emoji';
-import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { TitleInput } from '../example-helpers/PageElements';
-import { EditorActions, MediaProvider } from '../src';
+import { EditorActions, MediaProvider, MentionProvider } from '../src';
+import { InviteToEditComponentProps } from '../src/plugins/collab-edit/types';
+import { ResolvingMentionProvider } from '@atlaskit/mention/resource';
 
 export const Content = styled.div`
   padding: 0 20px;
@@ -61,9 +71,7 @@ const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
     <Button
       appearance="primary"
       onClick={() =>
-        props.editorActions
-          .getValue()
-          .then(value => console.log(value.toJSON()))
+        props.editorActions.getValue().then(value => console.log(value))
       }
     >
       Publish
@@ -73,6 +81,85 @@ const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
     </Button>
   </ButtonGroup>
 );
+
+const shareClient = {
+  getConfig: () =>
+    new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          allowComment: true,
+          allowedDomains: [],
+          mode: 'ANYONE',
+        });
+      }, 1000);
+    }),
+  share: () =>
+    new Promise(resolve => {
+      setTimeout(
+        () =>
+          resolve({
+            shareRequestId: 'c41e33e5-e622-4b38-80e9-a623c6e54cdd',
+          }),
+        3000,
+      );
+    }),
+};
+
+const userPropertiesToSearch: (keyof Pick<
+  User,
+  'id' | 'name' | 'publicName'
+>)[] = ['id', 'name', 'publicName'];
+
+const loadUserOptions = (searchText?: string): OptionData[] => {
+  if (!searchText) {
+    return userPickerData;
+  }
+
+  return userPickerData
+    .map((user: User) => ({
+      ...user,
+      type: user.type || 'user',
+    }))
+    .filter((user: User) => {
+      const searchTextInLowerCase = searchText.toLowerCase();
+      return userPropertiesToSearch.some(property => {
+        const value = property && user[property];
+        return !!(value && value.toLowerCase().includes(searchTextInLowerCase));
+      });
+    });
+};
+
+const mockOriginTracing = {
+  id: 'id',
+  addToUrl: (l: string) => `${l}&atlOrigin=mockAtlOrigin`,
+  toAnalyticsAttributes: () => ({
+    originIdGenerated: 'id',
+    originProduct: 'product',
+  }),
+};
+
+export const InviteToEditButton = (props: InviteToEditComponentProps) => {
+  return (
+    <ShareDialogContainer
+      cloudId="cloudId"
+      shareClient={shareClient}
+      loadUserOptions={loadUserOptions}
+      originTracingFactory={() => mockOriginTracing}
+      productId="confluence"
+      renderCustomTriggerButton={({ isSelected, onClick }: any): any =>
+        React.cloneElement(props.children, {
+          onClick,
+          selected: isSelected,
+        })
+      }
+      shareAri="ari"
+      shareContentType="draft"
+      shareLink={window && window.location.href}
+      shareTitle="title"
+      showFlags={() => {}}
+    />
+  );
+};
 
 interface DropzoneEditorWrapperProps {
   children: (container: HTMLElement) => React.ReactNode;
@@ -102,19 +189,26 @@ class DropzoneEditorWrapper extends React.Component<
 
 const mediaProvider1 = storyMediaProviderFactory();
 const mediaProvider2 = storyMediaProviderFactory();
+const mentionProvider2 = Promise.resolve<ResolvingMentionProvider>(
+  mention.storyData.resourceProviderWithResolver2,
+);
 export type Props = {};
 
 interface PropOptions {
   sessionId: string;
   mediaProvider: Promise<MediaProvider>;
-  inviteHandler: any;
+  mentionProvider?: Promise<MentionProvider>;
+  inviteHandler?: (event: React.MouseEvent<HTMLElement>) => void;
   parentContainer: any;
+  inviteToEditComponent?: React.ComponentType<InviteToEditComponentProps>;
 }
 
 const editorProps = ({
   sessionId,
   mediaProvider,
+  mentionProvider,
   inviteHandler,
+  inviteToEditComponent,
   parentContainer,
 }: PropOptions): EditorProps => ({
   appearance: 'full-page',
@@ -125,6 +219,7 @@ const editorProps = ({
     allowBreakout: true,
     UNSAFE_addSidebarLayouts: true,
   },
+  allowStatus: true,
   allowLists: true,
   allowTextColor: true,
   allowDate: true,
@@ -139,7 +234,9 @@ const editorProps = ({
     customDropzoneContainer: parentContainer,
   },
   emojiProvider: emoji.storyData.getEmojiResource() as Promise<EmojiProvider>,
-  mentionProvider: Promise.resolve(mention.storyData.resourceProvider),
+  mentionProvider: Promise.resolve(
+    mentionProvider || mention.storyData.resourceProviderWithResolver,
+  ),
 
   taskDecisionProvider: Promise.resolve(
     taskDecision.getMockTaskDecisionResource(),
@@ -148,7 +245,9 @@ const editorProps = ({
   collabEdit: {
     provider: collabEditProvider(sessionId),
     inviteToEditHandler: inviteHandler,
+    inviteToEditComponent,
   },
+  sanitizePrivateContent: true,
   placeholder: 'Write something...',
   shouldFocus: false,
   quickInsert: true,
@@ -177,7 +276,7 @@ export default class Example extends React.Component<Props> {
                       sessionId: 'rick',
                       mediaProvider: mediaProvider1,
                       parentContainer,
-                      inviteHandler: this.inviteToEditHandler,
+                      inviteToEditComponent: InviteToEditButton,
                     })}
                   />
                 </EditorContext>
@@ -192,8 +291,9 @@ export default class Example extends React.Component<Props> {
                     {...editorProps({
                       sessionId: 'morty',
                       mediaProvider: mediaProvider2,
+                      mentionProvider: mentionProvider2,
                       parentContainer,
-                      inviteHandler: this.inviteToEditHandler,
+                      inviteToEditComponent: InviteToEditButton,
                     })}
                   />
                 </EditorContext>
@@ -204,8 +304,4 @@ export default class Example extends React.Component<Props> {
       </div>
     );
   }
-
-  private inviteToEditHandler = () => {
-    console.log("'Invite to event' clicked");
-  };
 }

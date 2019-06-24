@@ -1,21 +1,52 @@
 # @atlaskit/range
 
+## 3.0.1
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
+## 3.0.0
+
+### Major Changes
+
+- [major][4a08d1912e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a08d1912e):
+
+  @atlaskit/range has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
+## 2.0.2
+
+- Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):
+  - @atlaskit/tooltip@15.0.0
+
+## 2.0.1
+
+- Updated dependencies [70862830d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/70862830d6):
+  - @atlaskit/checkbox@8.0.0
+  - @atlaskit/theme@9.1.0
+
 ## 2.0.0
-- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+- [major][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 ## 1.0.0
-- [major] [546b636a36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/546b636a36):
+
+- [major][546b636a36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/546b636a36):
 
   - This major release indicates that this package is no longer under dev preview but is ready for use
 
 ## 0.2.2
-- [patch] [1f2a181b0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1f2a181b0f):
+
+- [patch][1f2a181b0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1f2a181b0f):
 
   - onChange is no longer overridden by spread props. As a result this component should now work in uncontrolled mode
 
 ## 0.2.1
+
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
   - @atlaskit/checkbox@6.0.4
@@ -23,7 +54,8 @@
   - @atlaskit/theme@8.1.7
 
 ## 0.2.0
-- [minor] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+- [minor][76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 
   - Drop ES5 from all the flow modules
 
@@ -44,7 +76,7 @@
   import colors from `@atlaskit/theme/dist/esm/colors`;
   ```
 
-  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't _actually_ supposed to be used. 2. We are unable to do this _internally_ in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
 
   To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
 
@@ -55,11 +87,13 @@
   Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
 
 ## 0.1.3
-- [patch] [aab267bb3a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aab267bb3a):
+
+- [patch][aab267bb3a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aab267bb3a):
 
   - Added test to make sure the props are passed down to hidden input
 
 ## 0.1.2
+
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/checkbox@5.0.9
   - @atlaskit/theme@7.0.1
@@ -67,11 +101,13 @@
   - @atlaskit/docs@6.0.0
 
 ## 0.1.1
-- [patch] [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+
+- [patch][d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
 
   - Change API to experimental theming API to namespace component themes into separate contexts and make theming simpler. Update all dependant components.
 
 ## 0.1.0
-- [minor] [8945a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8945a58):
+
+- [minor][8945a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8945a58):
 
   - Initial release

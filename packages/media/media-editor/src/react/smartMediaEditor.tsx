@@ -8,7 +8,11 @@ import {
   InjectedIntlProps,
 } from 'react-intl';
 
-import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
+import {
+  MediaClient,
+  UploadableFile,
+  FileIdentifier,
+} from '@atlaskit/media-client';
 import { messages, Shortcut } from '@atlaskit/media-ui';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
@@ -36,9 +40,10 @@ export const convertFileNameToPng = (fileName?: string) => {
 
 export interface SmartMediaEditorProps {
   identifier: FileIdentifier;
-  context: Context;
-  onUploadStart: (identifier: FileIdentifier, dimensions: Dimensions) => void;
-  onFinish: () => void;
+  mediaClient: MediaClient;
+  onUploadStart?: (identifier: FileIdentifier, dimensions: Dimensions) => void;
+  onFinish?: (identifier: FileIdentifier) => void;
+  onClose?: () => void;
 }
 
 export interface SmartMediaEditorState {
@@ -72,10 +77,10 @@ export class SmartMediaEditor extends React.Component<
   }
 
   componentWillReceiveProps(nextProps: Readonly<SmartMediaEditorProps>) {
-    const { identifier, context } = this.props;
+    const { identifier, mediaClient } = this.props;
     if (
       nextProps.identifier.id !== identifier.id ||
-      nextProps.context !== context
+      nextProps.mediaClient !== mediaClient
     ) {
       this.getFile(nextProps.identifier);
     }
@@ -92,10 +97,10 @@ export class SmartMediaEditor extends React.Component<
   }
 
   getFile = async (identifier: FileIdentifier) => {
-    const { context } = this.props;
+    const { mediaClient } = this.props;
     const { collectionName, occurrenceKey } = identifier;
     const id = await identifier.id;
-    const getFileSubscription = context.file
+    const getFileSubscription = mediaClient.file
       .getFileState(id, { collectionName, occurrenceKey })
       .subscribe({
         next: async state => {
@@ -135,9 +140,9 @@ export class SmartMediaEditor extends React.Component<
   };
 
   setRemoteImageUrl = async (identifier: FileIdentifier) => {
-    const { context } = this.props;
+    const { mediaClient } = this.props;
     const id = await identifier.id;
-    const imageUrl = await context.getImageUrl(id, {
+    const imageUrl = await mediaClient.getImageUrl(id, {
       collection: identifier.collectionName,
       mode: 'full-fit',
     });
@@ -148,7 +153,7 @@ export class SmartMediaEditor extends React.Component<
 
   copyFileToUserCollection = async (fileId: string) => {
     const {
-      context: {
+      mediaClient: {
         config: { userAuthProvider, authProvider },
         file,
       },
@@ -173,7 +178,7 @@ export class SmartMediaEditor extends React.Component<
   private onSave = (imageData: string, dimensions: Dimensions) => {
     const { fileName } = this;
     const {
-      context,
+      mediaClient,
       identifier,
       onUploadStart,
       onFinish,
@@ -188,7 +193,7 @@ export class SmartMediaEditor extends React.Component<
     };
     const id = uuidV4();
     const occurrenceKey = uuidV4();
-    const touchedFiles = context.file.touchFiles(
+    const touchedFiles = mediaClient.file.touchFiles(
       [
         {
           fileId: id,
@@ -207,17 +212,26 @@ export class SmartMediaEditor extends React.Component<
       occurrenceKey,
     };
 
-    const uploadingFileState = context.file.upload(
+    const uploadingFileState = mediaClient.file.upload(
       uploadableFile,
       undefined,
       uploadableFileUpfrontIds,
     );
+    const newFileIdentifier: FileIdentifier = {
+      id,
+      collectionName,
+      mediaItemType: 'file',
+      occurrenceKey,
+    };
     const uploadingFileStateSubscription = uploadingFileState.subscribe({
       next: fileState => {
         if (fileState.status === 'processing') {
-          onFinish();
-          this.copyFileToUserCollection(fileState.id);
-          setTimeout(() => uploadingFileStateSubscription.unsubscribe(), 0);
+          this.copyFileToUserCollection(fileState.id).then(() => {
+            if (onFinish) {
+              onFinish(newFileIdentifier);
+            }
+            setTimeout(() => uploadingFileStateSubscription.unsubscribe(), 0);
+          });
         } else if (
           fileState.status === 'failed-processing' ||
           fileState.status === 'error'
@@ -227,13 +241,9 @@ export class SmartMediaEditor extends React.Component<
         }
       },
     });
-    const newFileIdentifier: FileIdentifier = {
-      id,
-      collectionName,
-      mediaItemType: 'file',
-      occurrenceKey,
-    };
-    onUploadStart(newFileIdentifier, dimensions);
+    if (onUploadStart) {
+      onUploadStart(newFileIdentifier, dimensions);
+    }
   };
 
   private onAnyEdit = () => {
@@ -248,9 +258,11 @@ export class SmartMediaEditor extends React.Component<
   };
 
   private closeAnyway = () => {
-    const { onFinish } = this.props;
-    onFinish();
+    const { onClose } = this.props;
     this.closeConfirmationDialog();
+    if (onClose) {
+      onClose();
+    }
   };
 
   private renderDeleteConfirmation = () => {
@@ -289,11 +301,11 @@ export class SmartMediaEditor extends React.Component<
 
   onCancel = () => {
     const { hasBeenEdited } = this.state;
+    const { onClose } = this.props;
     if (hasBeenEdited) {
       this.setState({ closeIntent: true });
-    } else {
-      const { onFinish } = this.props;
-      onFinish();
+    } else if (onClose) {
+      onClose();
     }
   };
 
@@ -331,11 +343,11 @@ export class SmartMediaEditor extends React.Component<
   };
 
   renderError = (error: any) => {
-    const { onFinish } = this.props;
+    const { onClose } = this.props;
     if (error instanceof Error) {
       error = error.message;
     }
-    return <ErrorView message={error} onCancel={onFinish} />;
+    return <ErrorView message={error} onCancel={onClose || (() => {})} />;
   };
 
   render() {

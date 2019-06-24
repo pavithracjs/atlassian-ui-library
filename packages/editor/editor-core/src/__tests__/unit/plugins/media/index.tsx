@@ -37,7 +37,6 @@ import { setNodeSelection, setTextSelection } from '../../../../utils';
 import { AnalyticsHandler, analyticsService } from '../../../../analytics';
 import listPlugin from '../../../../plugins/lists';
 import mediaPlugin from '../../../../plugins/media';
-import CustomSmartMediaEditor from '../../../../plugins/media/ui/CustomSmartMediaEditor';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import rulePlugin from '../../../../plugins/rule';
 import tablePlugin from '../../../../plugins/table';
@@ -60,10 +59,9 @@ import {
   testCollectionName,
   temporaryFileId,
 } from './_utils';
-import { SmartMediaEditor } from '@atlaskit/media-editor';
 import { MediaAttributes, MediaSingleAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
-import ClipboardMediaPickerWrapper from '../../../../plugins/media/ui/ClipboardMediaPickerWrapper';
+import { ClipboardMediaPickerWrapper } from '../../../../plugins/media/ui/ClipboardMediaPickerWrapper';
 
 const pdfFile = {
   id: `${randomId()}`,
@@ -1085,13 +1083,11 @@ describe('Media plugin', () => {
     });
   });
 
-  describe('media editor', () => {
+  describe('media clipboard wrapper', () => {
     let mediaPosition: number;
     let editorView: EditorView;
     let mediaState: MediaPluginState;
     let mediaAttributes: MediaAttributes;
-    let wrapper: ReactWrapper;
-    let smartMediaEditor: ReactWrapper<any, any, any>;
     let clipboardMediaPickerWrapper: ReactWrapper<any, any, any>;
 
     beforeEach(async () => {
@@ -1114,154 +1110,18 @@ describe('Media plugin', () => {
 
       setNodeSelection(editorView, mediaPosition);
 
-      mediaState.openMediaEditor();
-
-      wrapper = mountWithIntl(
-        <CustomSmartMediaEditor mediaState={mediaState} />,
-      );
-
-      smartMediaEditor = wrapper.find(SmartMediaEditor);
-
       clipboardMediaPickerWrapper = mountWithIntl(
         <ClipboardMediaPickerWrapper mediaState={mediaState} />,
       );
     });
 
     afterEach(() => {
-      if (wrapper && typeof wrapper.unmount === 'function') {
-        wrapper.unmount();
+      if (
+        clipboardMediaPickerWrapper &&
+        typeof clipboardMediaPickerWrapper.unmount === 'function'
+      ) {
+        clipboardMediaPickerWrapper.unmount();
       }
-    });
-
-    it('should store current media editing position in mediaState', () => {
-      expect(mediaState.editingMediaSinglePos).toEqual(7);
-    });
-
-    it('should open the media editor', async () => {
-      expect(smartMediaEditor.exists()).toBeTruthy();
-    });
-
-    it('should pass the selected media identifier to the smart editor', async () => {
-      expect(smartMediaEditor.prop('identifier')).toEqual({
-        id: 'media',
-        mediaItemType: 'file',
-        collectionName: testCollectionName,
-      });
-    });
-
-    it('should replace the editing media node with a new one', async () => {
-      mediaState.replaceEditingMedia(
-        {
-          id: 'media2',
-          collectionName: 'collection2',
-          mediaItemType: 'file',
-        },
-        {
-          height: 100,
-          width: 200,
-        },
-      );
-
-      expect(editorView.state.doc).toEqualDocument(
-        doc(
-          p('hello'),
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: 'media2',
-              type: 'file',
-              collection: 'collection2',
-              height: 100,
-              width: 200,
-            })(),
-          ),
-        ),
-      );
-    });
-
-    it('should replace the editing media node even if selection changes', async () => {
-      const { pluginState, editorView, refs } = editor(
-        doc(
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: 'media',
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p('hello {<>}world'),
-        ),
-      );
-
-      await pluginState.setMediaProvider(mediaProvider);
-      setNodeSelection(editorView, 0);
-      pluginState.openMediaEditor();
-
-      // move selection to paragraph
-      setTextSelection(editorView, refs['<>']);
-      insertText(editorView, 'add', refs['<>']);
-
-      // should replace the old one
-      pluginState.replaceEditingMedia(
-        {
-          id: 'media2',
-          collectionName: 'collection2',
-          mediaItemType: 'file',
-        },
-        {
-          height: 100,
-          width: 200,
-        },
-      );
-
-      expect(editorView.state.doc).toEqualDocument(
-        doc(
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: 'media2',
-              type: 'file',
-              collection: 'collection2',
-              height: 100,
-              width: 200,
-            })(),
-          ),
-          p('hello {<>}addworld'),
-        ),
-      );
-    });
-
-    describe('save action', () => {
-      let closeMediaEditorSpy: any;
-
-      beforeEach(async () => {
-        closeMediaEditorSpy = jest.spyOn(mediaState, 'closeMediaEditor');
-        const { onUploadStart } = smartMediaEditor.props();
-
-        onUploadStart(
-          { id: 'some-new-id', mediaItemType: 'file' },
-          { width: 200, height: 100 },
-        );
-      });
-
-      it('should close media editor', () => {
-        expect(closeMediaEditorSpy).toHaveBeenCalled();
-      });
-
-      it('should replace media in the content', () => {
-        expect(editorView.state.doc).toEqualDocument(
-          doc(
-            p('hello'),
-            mediaSingle({ layout: 'center' })(
-              media({
-                id: 'some-new-id',
-                collection: testCollectionName,
-                type: 'file',
-                height: 100,
-                width: 200,
-              })(),
-            ),
-          ),
-        );
-      });
     });
 
     /**

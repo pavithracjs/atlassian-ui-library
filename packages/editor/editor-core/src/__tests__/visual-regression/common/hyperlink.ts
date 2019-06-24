@@ -12,7 +12,7 @@ describe.skip('Hyperlink:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, 0.02);
+    await snapshot(page);
     await page.click(`${selectors.editor}`);
   });
 

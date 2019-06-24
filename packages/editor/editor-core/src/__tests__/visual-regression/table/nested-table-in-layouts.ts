@@ -7,7 +7,12 @@ import {
 import tableIn2ColAdf from './__fixtures__/table-in-2-col-layout.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 import { messages } from '../../../plugins/layout/toolbar';
-import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
+import { clickFirstCell } from '../../__helpers/page-objects/_table';
+import { toggleBreakout } from '../../__helpers/page-objects/_layouts';
+import {
+  clickOnLayoutColumn,
+  waitForLayoutToolbar,
+} from '../../__helpers/page-objects/_layouts';
 
 describe('Snapshot Test: Nested table inside layouts', () => {
   let page: Page;
@@ -52,6 +57,8 @@ describe('Snapshot Test: Nested table inside layouts', () => {
           const layoutBtnSelector = `[aria-label="${layout}"]`;
 
           it(`should resize when changing to ${layout}`, async () => {
+            await clickOnLayoutColumn(page, 2);
+            await waitForLayoutToolbar(page);
             await page.click(layoutBtnSelector);
             await clickFirstCell(page);
           });
@@ -67,10 +74,7 @@ describe('Snapshot Test: Nested table inside layouts', () => {
     });
     ['wide', 'full-width'].forEach((breakout, idx) => {
       it(`should display correctly for layout in ${breakout} breakout mode`, async () => {
-        const breakoutBtnSelector = '[data-editor-popup]';
-        for (let i = 1; i <= idx + 1; i++) {
-          await page.click(breakoutBtnSelector);
-        }
+        await toggleBreakout(page, idx + 1);
         await clickFirstCell(page);
       });
     });

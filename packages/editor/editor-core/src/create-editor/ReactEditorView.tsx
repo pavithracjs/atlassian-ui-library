@@ -51,6 +51,10 @@ import {
 } from './create-editor';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
+import { measureRender } from '../utils/performance/measure-render';
+import measurements from '../utils/performance/measure-enum';
+import { getNodesCount } from '../utils/document';
+import { getResponseEndTime } from '../utils/performance/navigation';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
@@ -203,6 +207,13 @@ export default class ReactEditorView<T = {}> extends React.Component<
       return;
     }
 
+    // We cannot currently guarentee when all the portals will have re-rendered during a reconfigure
+    // so we blur here to stop ProseMirror from trying to apply selection to detached nodes or
+    // nodes that haven't been re-rendered to the document yet.
+    if (this.view.dom instanceof HTMLElement && this.view.hasFocus()) {
+      this.view.dom.blur();
+    }
+
     this.config = processPluginsList(
       this.getPlugins(props.editorProps, props.createAnalyticsEvent),
       props.editorProps,
@@ -221,21 +232,15 @@ export default class ReactEditorView<T = {}> extends React.Component<
       portalProviderAPI: props.portalProviderAPI,
       reactContext: () => this.context,
       dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
-      oldState: state,
     });
 
-    const newState = EditorState.create({
-      schema: state.schema,
-      plugins,
-      doc: state.doc,
-      selection: state.selection,
-    });
+    const newState = state.reconfigure({ plugins });
 
     // need to update the state first so when the view builds the nodeviews it is
     // using the latest plugins
     this.view.updateState(newState);
 
-    return this.view.update(this.getDirectEditorProps(newState));
+    return this.view.update({ ...this.view.props, state: newState });
   };
 
   /**
@@ -340,7 +345,12 @@ export default class ReactEditorView<T = {}> extends React.Component<
       doc =
         this.contentTransformer && typeof defaultValue === 'string'
           ? this.contentTransformer.parse(defaultValue)
-          : processRawValue(schema, defaultValue);
+          : processRawValue(
+              schema,
+              defaultValue,
+              options.props.providerFactory,
+              options.props.editorProps.sanitizePrivateContent,
+            );
     }
     let selection: Selection | undefined;
     if (doc) {
@@ -408,6 +418,22 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   createEditorView = (node: HTMLDivElement) => {
+    measureRender(measurements.PROSEMIRROR_RENDERED, (duration, startTime) => {
+      if (this.view) {
+        this.dispatchAnalyticsEvent({
+          action: ACTION.PROSEMIRROR_RENDERED,
+          actionSubject: ACTION_SUBJECT.EDITOR,
+          attributes: {
+            duration,
+            startTime,
+            nodes: getNodesCount(this.view.state.doc),
+            ttfb: getResponseEndTime(),
+          },
+          eventType: EVENT_TYPE.OPERATIONAL,
+        });
+      }
+    });
+
     // Creates the editor-view from this.editorState. If an editor has been mounted
     // previously, this will contain the previous state of the editor.
     this.view = new EditorView({ mount: node }, this.getDirectEditorProps());

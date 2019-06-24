@@ -4,7 +4,6 @@ import {
   ArticleContentTitle,
   ArticleContentTitleLink,
 } from './styled';
-import StyleTag from './styles/StyleTag';
 import ShortcutIcon from '@atlaskit/icon/glyph/shortcut';
 export interface Props {
   // Article Title
@@ -19,7 +18,6 @@ const HelpArticle: React.SFC<Props> = props => {
   const { title = '', body = '', titleLinkUrl } = props;
   return (
     <ArticleContentInner>
-      <StyleTag />
       {title && (
         <ArticleContentTitle>
           {titleLinkUrl ? (

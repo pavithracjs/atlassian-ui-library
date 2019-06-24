@@ -10,7 +10,6 @@ import {
 
 describe('Table floating toolbar:fullpage', () => {
   let page: any;
-  const threshold = 0.01;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -20,7 +19,7 @@ describe('Table floating toolbar:fullpage', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, threshold);
+    await snapshot(page);
   });
 
   it('display options', async () => {

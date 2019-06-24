@@ -32,6 +32,7 @@ import {
   codeMarkSharedStyles,
   shadowSharedStyle,
   shadowClassNames,
+  dateSharedStyle,
 } from '@atlaskit/editor-common';
 import { RendererCssClassName } from '../../consts';
 import { RendererAppearance } from './types';
@@ -115,6 +116,7 @@ export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
   ${blockMarksSharedStyles};
   ${codeMarkSharedStyles};
   ${shadowSharedStyle};
+  ${dateSharedStyle};
 
   & .UnknownBlock {
     font-family: ${fontFamily()};
