@@ -21,7 +21,11 @@ import {
 } from '../analytics';
 import { toggleBlockQuote, tooltip } from '../../keymaps';
 import { IconQuote, IconHeading } from '../quick-insert/assets';
-import { QuickInsertItem } from '../quick-insert/types';
+import {
+  QuickInsertItem,
+  QuickInsertActionInsert,
+} from '../quick-insert/types';
+import { EditorState } from 'prosemirror-state';
 
 interface BlockTypeNode {
   name: AllowedBlockTypes;
@@ -32,30 +36,32 @@ const headingPluginOptions = ({
   formatMessage,
 }: InjectedIntl): Array<QuickInsertItem> =>
   Array.from({ length: 6 }, (_v, idx) => {
-    let level = (idx + 1) as HeadingLevels;
+    const level = (idx + 1) as HeadingLevels;
+    const descriptionDescriptor = (messages as any)[
+      `heading${level}Description`
+    ];
+
     return {
       title: formatMessage((messages as any)[`heading${level}`]),
-      description: formatMessage(
-        (messages as any)[`heading${level}Description`],
-      ),
+      description: formatMessage(descriptionDescriptor),
       priority: 1300,
       keywords: [`h${level}`],
       icon: () => (
         <IconHeading
           level={level}
-          label={formatMessage((messages as any)[`heading${level}`])}
+          label={formatMessage(descriptionDescriptor)}
         />
       ),
-      action(insert, state) {
+      action(insert: QuickInsertActionInsert, state: EditorState) {
         let tr = insert(state.schema.nodes.heading.createChecked({ level }));
         return addAnalytics(tr, {
-          action: ACTION.INSERTED,
-          actionSubject: ACTION_SUBJECT.DOCUMENT,
+          action: ACTION.FORMATTED,
+          actionSubject: ACTION_SUBJECT.TEXT,
           eventType: EVENT_TYPE.TRACK,
           actionSubjectId: ACTION_SUBJECT_ID.FORMAT_HEADING,
           attributes: {
             inputMethod: INPUT_METHOD.QUICK_INSERT,
-            headingLevel: level,
+            newHeadingLevel: level,
           },
         });
       },

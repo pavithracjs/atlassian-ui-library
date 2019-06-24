@@ -6,7 +6,6 @@ import {
   INPUT_METHOD,
 } from './enums';
 import { InsertSmartLinkAEP } from './smart-links';
-import { HeadingLevels } from '../../block-type/types';
 
 export enum PANEL_TYPE {
   INFO = 'info',
@@ -207,14 +206,6 @@ type InsertLinkPreviewAEP = InsertAEP<
   }
 >;
 
-type InsertHeadingAEP = InsertAEP<
-  ACTION_SUBJECT_ID.FORMAT_HEADING,
-  {
-    inputMethod: INPUT_METHOD.QUICK_INSERT;
-    headingLevel: HeadingLevels;
-  }
->;
-
 export type InsertEventPayload =
   | InsertDividerAEP
   | InsertLineBreakAEP
@@ -227,5 +218,4 @@ export type InsertEventPayload =
   | InsertMediaAEP
   | InsertLinkAEP
   | InsertLinkPreviewAEP
-  | InsertSmartLinkAEP
-  | InsertHeadingAEP;
+  | InsertSmartLinkAEP;

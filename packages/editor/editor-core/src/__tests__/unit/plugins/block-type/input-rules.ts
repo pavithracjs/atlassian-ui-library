@@ -17,7 +17,6 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
-import { pluginKey as quickInsertPluginKey } from '../../../../plugins/quick-insert';
 import { HeadingLevels } from '../../../../plugins/block-type/types';
 import { EditorView } from 'prosemirror-view';
 
@@ -31,7 +30,6 @@ describe('inputrules', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      pluginKey: quickInsertPluginKey,
       editorProps: {
         analyticsHandler: trackEvent as any,
         allowAnalyticsGASV3: true,
@@ -180,13 +178,13 @@ describe('inputrules', () => {
         sendKeyToPm(editorView, 'Enter');
 
         const expectedPayload = {
-          action: 'inserted',
-          actionSubject: 'document',
+          action: 'formatted',
+          actionSubject: 'text',
           eventType: 'track',
           actionSubjectId: 'heading',
           attributes: {
             inputMethod: 'quickInsert',
-            headingLevel: 1,
+            newHeadingLevel: 1,
           },
         };
         expect(createAnalyticsEvent).toHaveBeenCalledWith(expectedPayload);

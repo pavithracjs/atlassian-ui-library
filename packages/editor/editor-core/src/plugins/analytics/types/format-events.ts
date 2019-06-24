@@ -5,6 +5,7 @@ import {
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
 } from './enums';
+import { HeadingLevelsWithNormal } from '../../block-type/types';
 
 export enum INDENT_DIR {
   INDENT = 'indent',
@@ -68,8 +69,10 @@ type FormatHeadingAEP = FormatAEP<
     inputMethod:
       | INPUT_METHOD.TOOLBAR
       | INPUT_METHOD.SHORTCUT
-      | INPUT_METHOD.FORMATTING;
-    newHeadingLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+      | INPUT_METHOD.FORMATTING
+      | INPUT_METHOD.QUICK_INSERT;
+    newHeadingLevel: HeadingLevelsWithNormal;
+    previousHeadingLevel?: HeadingLevelsWithNormal;
   }
 >;
 
