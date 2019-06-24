@@ -1,1 +1,0 @@
-SL-259: bump react-lazily-render, remove react-lazily-render-scroll-parent.
