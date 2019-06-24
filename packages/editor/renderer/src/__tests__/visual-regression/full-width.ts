@@ -1,16 +1,18 @@
 import { snapshot, initRendererWithADF } from './_utils';
-import * as document from '../__fixtures__/document-without-media.adf.json';
+import * as mixedAdf from '../__fixtures__/document-without-media.adf.json';
+import * as mediaAdf from '../__fixtures__/1600px-media.adf.json';
 import { Page } from 'puppeteer';
 
 const initRenderer = async (
   page: Page,
   viewport: { width: number; height: number },
+  adf: any,
 ) => {
   await initRendererWithADF(page, {
     appearance: 'full-width',
     viewport,
     rendererProps: { allowDynamicTextSizing: true },
-    adf: document,
+    adf,
   });
 };
 
@@ -28,7 +30,11 @@ describe('Snapshot Test: Full Width', () => {
   [{ width: 2000, height: 2700 }, { width: 1420, height: 2500 }].forEach(
     viewport => {
       it(`should correctly render ${viewport.width}`, async () => {
-        await initRenderer(page, viewport);
+        await initRenderer(page, viewport, mixedAdf);
+      });
+
+      it('should correctly size images', async () => {
+        await initRenderer(page, { ...viewport, height: 1100 }, mediaAdf);
       });
     },
   );

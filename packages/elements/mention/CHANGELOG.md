@@ -1,5 +1,22 @@
 # @atlaskit/mention
 
+## 18.6.0
+
+### Minor Changes
+
+- [minor][58dd589a04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58dd589a04):
+
+  Update TeamMentionResource to accept teamLinkResolver option which is used to construct a team link.
+  Fix missing userId of user mentions in analytics in editor-core
+
+## 18.5.0
+
+### Minor Changes
+
+- [minor][2d1c3db523](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d1c3db523):
+
+  FS-3986 - Support analytics for mention hydration.
+
 ## 18.4.2
 
 ### Patch Changes

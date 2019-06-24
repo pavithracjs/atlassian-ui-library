@@ -1,13 +1,15 @@
 import { MarkSerializerOpts } from '../interfaces';
-import { createTag, serializeStyle } from '../util';
+import { createTag } from '../create-tag';
+import { createClassName } from '../styles/util';
 
-const css = serializeStyle({
-  border: 'none',
-  background: 'transparent',
-  color: '#0052cc',
-  'text-decoration': 'none',
-});
-
+export const styles = `
+.${createClassName('mark-link')} {
+  border: none;
+  background: transparent;
+  color: #0052cc;
+  text-decoration: none;
+}
+`;
 export default function link({ mark, text }: MarkSerializerOpts) {
   const { href, title } = mark.attrs;
 
@@ -16,7 +18,7 @@ export default function link({ mark, text }: MarkSerializerOpts) {
     {
       href,
       title,
-      style: css,
+      class: createClassName('mark-link'),
     },
     text,
   );

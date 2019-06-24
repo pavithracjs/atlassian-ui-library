@@ -44,6 +44,8 @@ export const getStyles = memoizeOne((width: string | number) => ({
           ? css[':hover']
             ? css[':hover'].backgroundColor
             : colors.N0
+          : state.isDisabled
+          ? colors.N10
           : colors.N30,
     },
     padding: 0,

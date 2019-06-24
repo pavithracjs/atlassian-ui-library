@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.5.0
+
+### Minor Changes
+
+- [minor][dc965edbe6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc965edbe6):
+
+  BREAKING new optional URL shortening feature (prop change needed)
+
 ## 0.4.17
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @atlaskit/feature-flag-client
 
+## 3.1.3
+
+### Patch Changes
+
+- [patch][6edcd3bc31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6edcd3bc31):
+
+  Add the ability to send custom attributes with the exposure event
+
 ## 3.1.2
 
 ### Patch Changes

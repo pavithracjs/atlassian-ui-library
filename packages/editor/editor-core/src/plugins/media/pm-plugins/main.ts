@@ -11,7 +11,7 @@ import {
   PluginKey,
 } from 'prosemirror-state';
 import { Context } from '@atlaskit/media-core';
-import { UploadParams } from '@atlaskit/media-picker';
+import { UploadParams, PopupConfig } from '@atlaskit/media-picker';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 
 import { ErrorReporter } from '@atlaskit/editor-common';
@@ -184,7 +184,6 @@ export class MediaPluginState {
       if (this.mediaProvider.uploadParams && this.uploadContext) {
         await this.initPickers(
           this.mediaProvider.uploadParams,
-          this.uploadContext,
           PickerFacade,
           this.reactContext,
         );
@@ -435,18 +434,17 @@ export class MediaPluginState {
 
   private async initPickers(
     uploadParams: UploadParams,
-    context: Context,
     Picker: typeof PickerFacade,
     reactContext: () => {},
   ) {
-    if (this.destroyed) {
+    if (this.destroyed || !this.uploadContext) {
       return;
     }
     const { errorReporter, pickers, pickerPromises } = this;
     // create pickers if they don't exist, re-use otherwise
     if (!pickers.length) {
       const pickerFacadeConfig: PickerFacadeConfig = {
-        context,
+        context: this.uploadContext,
         errorReporter,
       };
       const defaultPickerConfig = {
@@ -463,23 +461,17 @@ export class MediaPluginState {
 
         pickerPromises.push(customPicker);
         pickers.push((this.customPicker = await customPicker));
-      } else if (context.config && context.config.userAuthProvider) {
+      } else if (this.hasUserAuthProvider()) {
         const popupPicker = new Picker(
           'popup',
           pickerFacadeConfig,
-          defaultPickerConfig as any,
+          defaultPickerConfig as PopupConfig,
         ).init();
-
-        if (popupPicker) {
-          pickerPromises.push(popupPicker);
-          pickers.push((this.popupPicker = await popupPicker));
-        }
-
-        if (this.popupPicker) {
-          this.removeOnCloseListener = this.popupPicker.onClose(
-            this.onPopupPickerClose,
-          );
-        }
+        pickerPromises.push(popupPicker);
+        pickers.push((this.popupPicker = await popupPicker));
+        this.removeOnCloseListener = this.popupPicker.onClose(
+          this.onPopupPickerClose,
+        );
       }
 
       pickers.forEach(picker => {
@@ -728,9 +720,6 @@ export const createPlugin = (
       return {
         update: () => {
           pluginState.updateElement();
-        },
-        destroy: () => {
-          pluginState.destroy();
         },
       };
     },

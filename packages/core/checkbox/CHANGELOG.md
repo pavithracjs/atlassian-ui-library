@@ -1,5 +1,13 @@
 # @atlaskit/checkbox
 
+## 8.0.4
+
+### Patch Changes
+
+- [patch][9c404c7c44](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c404c7c44):
+
+  Using updated icons
+
 ## 8.0.3
 
 ### Patch Changes

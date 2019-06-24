@@ -9,8 +9,12 @@ import {
   toJSONTableCell,
   toJSONTableHeader,
 } from '@atlaskit/adf-schema';
-import { Transformer } from '@atlaskit/editor-common';
 import { Node as PMNode, Mark as PMMark } from 'prosemirror-model';
+
+interface Transformer<T> {
+  encode(node: PMNode): T;
+  parse(content: T): PMNode;
+}
 
 export type JSONNode = {
   type: string;

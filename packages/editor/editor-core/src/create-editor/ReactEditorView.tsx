@@ -51,6 +51,10 @@ import {
 } from './create-editor';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
+import { measureRender } from '../utils/performance/measure-render';
+import measurements from '../utils/performance/measure-enum';
+import { getNodesCount } from '../utils/document';
+import { getResponseEndTime } from '../utils/performance/navigation';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
@@ -228,15 +232,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
       portalProviderAPI: props.portalProviderAPI,
       reactContext: () => this.context,
       dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
-      oldState: state,
     });
 
-    const newState = EditorState.create({
-      schema: state.schema,
-      plugins,
-      doc: state.doc,
-      selection: state.selection,
-    });
+    const newState = state.reconfigure({ plugins });
 
     // need to update the state first so when the view builds the nodeviews it is
     // using the latest plugins
@@ -420,6 +418,22 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   createEditorView = (node: HTMLDivElement) => {
+    measureRender(measurements.PROSEMIRROR_RENDERED, (duration, startTime) => {
+      if (this.view) {
+        this.dispatchAnalyticsEvent({
+          action: ACTION.PROSEMIRROR_RENDERED,
+          actionSubject: ACTION_SUBJECT.EDITOR,
+          attributes: {
+            duration,
+            startTime,
+            nodes: getNodesCount(this.view.state.doc),
+            ttfb: getResponseEndTime(),
+          },
+          eventType: EVENT_TYPE.OPERATIONAL,
+        });
+      }
+    });
+
     // Creates the editor-view from this.editorState. If an editor has been mounted
     // previously, this will contain the previous state of the editor.
     this.view = new EditorView({ mount: node }, this.getDirectEditorProps());

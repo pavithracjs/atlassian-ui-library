@@ -1,5 +1,13 @@
 # @atlaskit/help-article
 
+## 0.5.0
+
+### Minor Changes
+
+- [minor][07c2c73a69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07c2c73a69):
+
+  Removed hardcoded styles. Added unit test
+
 ## 0.4.7
 
 ### Patch Changes

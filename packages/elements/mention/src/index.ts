@@ -5,6 +5,7 @@ import MentionResource, {
   ResolvingMentionProvider,
   MentionStats,
   MentionResourceConfig,
+  TeamMentionResourceConfig,
   isResolvingMentionProvider,
 } from './api/MentionResource';
 import TeamMentionResource from './api/TeamMentionResource';
@@ -58,6 +59,7 @@ export {
   MentionStats,
   TeamMember,
   MentionResourceConfig,
+  TeamMentionResourceConfig,
   // Components
   MentionItem,
   MentionList,

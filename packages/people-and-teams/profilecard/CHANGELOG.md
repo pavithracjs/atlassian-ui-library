@@ -1,5 +1,13 @@
 # @atlaskit/profilecard
 
+## 12.0.0
+
+### Major Changes
+
+- [major][2b333a4c6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b333a4c6d):
+
+  update api types; dispay user active state in ProfilecardResourced; change trigger component display to inherit
+
 ## 11.0.1
 
 ### Patch Changes

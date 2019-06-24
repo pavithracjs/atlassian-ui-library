@@ -30,6 +30,19 @@ export default function Example() {
         />
         <br />
         <ProfileCardResourced
+          userId="2"
+          cloudId="dummy-cloud"
+          resourceClient={mockClient}
+          actions={[
+            {
+              label: 'View profile',
+              id: 'view-profile',
+              callback: () => {},
+            },
+          ]}
+        />
+        <br />
+        <ProfileCardResourced
           userId="error:NotFound"
           cloudId="dummy-cloud"
           resourceClient={mockClient}

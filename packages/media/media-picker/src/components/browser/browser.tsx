@@ -16,6 +16,7 @@ export interface BrowserOwnProps {
    * Otherwise, isOpen prop is prefered.
    */
   onBrowseFn?: (browse: () => void) => void;
+  onCancelFn?: (cancel: (uploadId: string) => void) => void;
 }
 
 export type BrowserProps = BrowserOwnProps & LocalUploadComponentBaseProps;
@@ -24,6 +25,10 @@ const defaultConfig: BrowserConfig = { uploadParams: {} };
 
 export class Browser extends LocalUploadComponentReact<BrowserProps> {
   private browserRef = React.createRef<HTMLInputElement>();
+
+  defaultProps = {
+    config: defaultConfig,
+  };
 
   private onFilePicked = () => {
     if (!this.browserRef.current) {
@@ -35,10 +40,14 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
   };
 
   componentDidMount() {
-    const { onBrowseFn, isOpen } = this.props;
+    const { onBrowseFn, onCancelFn, isOpen } = this.props;
 
     if (onBrowseFn) {
       onBrowseFn(this.browse);
+    }
+
+    if (onCancelFn) {
+      onCancelFn(this.cancel);
     }
 
     if (isOpen) {
@@ -70,7 +79,7 @@ export class Browser extends LocalUploadComponentReact<BrowserProps> {
   };
 
   render() {
-    const { config = defaultConfig } = this.props;
+    const { config } = this.props;
     const multiple = config.multiple;
     const fileExtensions =
       config.fileExtensions && config.fileExtensions.join(',');

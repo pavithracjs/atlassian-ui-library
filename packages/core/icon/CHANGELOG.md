@@ -1,5 +1,13 @@
 # @atlaskit/icon
 
+## 18.0.5
+
+### Patch Changes
+
+- [patch][56eae512a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56eae512a3):
+
+  Updated the icon for Premium and cleaned up reduced-ui-pack sprite
+
 ## 18.0.4
 
 ### Patch Changes
