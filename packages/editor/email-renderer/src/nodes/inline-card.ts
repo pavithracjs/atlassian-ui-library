@@ -4,7 +4,8 @@ import {
   SmartCardWithUrlAttributes,
 } from '../interfaces';
 
-import { createTag, serializeStyle } from '../util';
+import { createTag } from '../create-tag';
+import { serializeStyle } from '../serialize-style';
 
 const borderRadius = {
   'border-radius': '3px',

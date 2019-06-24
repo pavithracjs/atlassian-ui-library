@@ -12,7 +12,9 @@ import {
 } from '@atlaskit/adf-schema';
 
 import { NodeSerializerOpts } from '../interfaces';
-import { createTable, createTag, serializeStyle, TableData } from '../util';
+import { createTable, TableData } from '../table-util';
+import { createTag } from '../create-tag';
+import { serializeStyle } from '../serialize-style';
 import { commonStyle } from '..';
 import { createContentId } from '../static';
 

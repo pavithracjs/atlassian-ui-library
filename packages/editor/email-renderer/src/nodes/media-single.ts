@@ -1,5 +1,6 @@
 import { NodeSerializerOpts } from '../interfaces';
-import { createTag, serializeStyle } from '../util';
+import { createTag } from '../create-tag';
+import { serializeStyle } from '../serialize-style';
 
 export default function mediaSingle({ attrs, text }: NodeSerializerOpts) {
   const fullWidthStyle = serializeStyle({

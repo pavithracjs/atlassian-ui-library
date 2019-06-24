@@ -1,5 +1,7 @@
 import { NodeSerializerOpts } from '../interfaces';
-import { TableData, createTable, createTag, serializeStyle } from '../util';
+import { createTable, TableData } from '../table-util';
+import { createTag } from '../create-tag';
+import { serializeStyle } from '../serialize-style';
 import { N30 } from '@atlaskit/adf-schema';
 import { createContentId } from '../static';
 

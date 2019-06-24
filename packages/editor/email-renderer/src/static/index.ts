@@ -29,16 +29,15 @@ export const getImageProcessor = (isMockEnabled: boolean) => (
 
   const imageProcessor = (
     match: string,
-    imageType: ImageTypeString,
-    imageName: icons.IconString,
+    ...captureGroups: icons.IconString[]
   ): string => {
     // Inline the image if mock is enabled
     if (isMockEnabled) {
-      return `src="${(icons as any)[imageName]}"`;
+      return `src="${(icons as any)[captureGroups[1]]}"`;
     }
 
     // Otherwise, do not do a replacement (keep the cid as the src), and add the image to the set.
-    imageSet.add(imageName);
+    imageSet.add(captureGroups[1]);
     return match;
   };
 

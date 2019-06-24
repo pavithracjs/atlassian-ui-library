@@ -1,6 +1,7 @@
 import { commonStyle } from '.';
 import { Style, Attrs } from './interfaces';
-import { serializeStyle, createTag } from './util';
+import { serializeStyle } from './serialize-style';
+import { createTag } from './create-tag';
 
 export type TableData = {
   text?: string | null;
