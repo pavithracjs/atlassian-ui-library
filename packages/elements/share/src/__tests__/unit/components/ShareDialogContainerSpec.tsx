@@ -17,6 +17,11 @@ function currentEventLoopEnd() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
+// alias for clarity
+function networkResolution() {
+  return currentEventLoopEnd();
+}
+
 describe('ShareDialogContainer', () => {
   let mockOriginTracing: OriginTracing;
   let mockOriginTracingFactory: jest.Mock;
@@ -113,9 +118,15 @@ describe('ShareDialogContainer', () => {
     return shallow(<ShareDialogContainer {...props} />);
   }
 
+  function getShareDialogWithTrigger(
+    wrapper: ShallowWrapper<Props, State, ShareDialogContainer>,
+  ) {
+    return wrapper.find(ShareDialogWithTrigger);
+  }
+
   it('should render', () => {
     const wrapper = getWrapper();
-    const shareDialogWithTrigger = wrapper.find(ShareDialogWithTrigger);
+    const shareDialogWithTrigger = getShareDialogWithTrigger(wrapper);
     expect(shareDialogWithTrigger).toHaveLength(1);
     expect(mockFormatCopyLink).toHaveBeenCalled();
     expect(shareDialogWithTrigger.prop('triggerButtonAppearance')).toEqual(
@@ -145,6 +156,38 @@ describe('ShareDialogContainer', () => {
     expect(mockOriginTracingFactory).toHaveBeenCalledTimes(2);
     expect(mockShareClient.getConfig).toHaveBeenCalledTimes(0);
     expect(wrapper.state().config).toEqual(defaultConfig);
+  });
+
+  describe('internal methods', () => {
+    describe('getFullCopyLink()', () => {
+      it('should includes origin', () => {
+        const wrapper = getWrapper();
+
+        expect(wrapper.instance().getFullCopyLink()).toEqual(
+          mockShareLink + '&someOrigin',
+        );
+      });
+    });
+
+    describe('getCopyLink()', () => {
+      it('should return the fullCopyLink when shortening is NOT enabled', () => {
+        const wrapper = getWrapper();
+
+        expect(wrapper.instance().getCopyLink()).toEqual(
+          wrapper.instance().getFullCopyLink(),
+        );
+      });
+
+      it('should return the short URL when available and shortening is enabled', () => {
+        const wrapper = getWrapper({
+          useUrlShortener: true,
+        });
+
+        wrapper.setState({ shortenedCopyLink: SHORTENED_URL });
+
+        expect(wrapper.instance().getCopyLink()).toEqual(SHORTENED_URL);
+      });
+    });
   });
 
   it('should call props.originTracingFactory only once when nothing change', () => {
@@ -227,13 +270,13 @@ describe('ShareDialogContainer', () => {
       let { isFetchingConfig }: Partial<State> = wrapper.state();
       expect(isFetchingConfig).toEqual(false);
       expect(
-        wrapper.find(ShareDialogWithTrigger).prop('isFetchingConfig'),
+        getShareDialogWithTrigger(wrapper).prop('isFetchingConfig'),
       ).toEqual(isFetchingConfig);
 
       (wrapper as any).setState({ isFetchingConfig: !isFetchingConfig });
 
       expect(
-        wrapper.find(ShareDialogWithTrigger).prop('isFetchingConfig'),
+        getShareDialogWithTrigger(wrapper).prop('isFetchingConfig'),
       ).toEqual(!isFetchingConfig);
     });
 
@@ -241,7 +284,7 @@ describe('ShareDialogContainer', () => {
       const wrapper = getWrapper();
       wrapper.instance().fetchConfig();
       expect(wrapper.state().isFetchingConfig).toBe(true);
-      await currentEventLoopEnd();
+      await networkResolution();
       expect(wrapper.state().isFetchingConfig).toBe(false);
     });
   });
@@ -252,7 +295,7 @@ describe('ShareDialogContainer', () => {
     wrapper.setState({ config: mockConfig });
     wrapper.instance().fetchConfig();
     expect(wrapper.state().isFetchingConfig).toBe(true);
-    await currentEventLoopEnd();
+    await networkResolution();
     expect(wrapper.state().config).toMatchObject(defaultConfig);
     expect(wrapper.state().isFetchingConfig).toBe(false);
   });
@@ -342,72 +385,79 @@ describe('ShareDialogContainer', () => {
   });
 
   describe('url shortening', () => {
-    it('should provides a default shortening client if none given', () => {
-      const wrapper = getWrapper({
-        urlShortenerClient: undefined,
+    describe('props', () => {
+      describe('urlShortenerClient', () => {
+        it('should provides a default shortening client if none given', () => {
+          const wrapper = getWrapper({
+            urlShortenerClient: undefined,
+          });
+
+          const urlShortenerClient =
+            // @ts-ignore: accessing private variable for testing purpose
+            wrapper.instance().urlShortenerClient;
+          expect(urlShortenerClient.shorten).toBeTruthy();
+          expect(urlShortenerClient.shorten).not.toEqual(
+            mockShortenerClient.shorten,
+          );
+          expect(urlShortenerClient.isSupportedProduct).toBeTruthy();
+          expect(urlShortenerClient.isSupportedProduct).not.toEqual(
+            mockShortenerClient.isSupportedProduct,
+          );
+        });
+
+        it('should use the given shortening client if passed as prop', () => {
+          const wrapper = getWrapper();
+
+          const urlShortenerClient =
+            // @ts-ignore: accessing private variable for testing purpose
+            wrapper.instance().urlShortenerClient;
+          expect(urlShortenerClient.shorten).toEqual(
+            mockShortenerClient.shorten,
+          );
+          expect(urlShortenerClient.isSupportedProduct).toEqual(
+            mockShortenerClient.isSupportedProduct,
+          );
+        });
       });
 
-      const urlShortenerClient =
-        // @ts-ignore: accessing private variable for testing purpose
-        wrapper.instance().urlShortenerClient;
-      expect(urlShortenerClient.shorten).toBeTruthy();
-      expect(urlShortenerClient.shorten).not.toEqual(
-        mockShortenerClient.shorten,
-      );
-      expect(urlShortenerClient.isSupportedProduct).toBeTruthy();
-      expect(urlShortenerClient.isSupportedProduct).not.toEqual(
-        mockShortenerClient.isSupportedProduct,
-      );
-    });
+      it('useUrlShortener: should NOT shorten if not enabled', async () => {
+        const wrapper = getWrapper();
 
-    it('should use the given shortening client if passed as prop', () => {
-      const wrapper = getWrapper();
+        expect(mockShortenerClient.shorten).not.toHaveBeenCalled();
+        wrapper.instance().getUpToDateShortenedCopyLink = jest
+          .fn()
+          .mockRejectedValue(new Error('TEST!'));
 
-      const urlShortenerClient =
-        // @ts-ignore: accessing private variable for testing purpose
-        wrapper.instance().urlShortenerClient;
-      expect(urlShortenerClient.shorten).toEqual(mockShortenerClient.shorten);
-      expect(urlShortenerClient.isSupportedProduct).toEqual(
-        mockShortenerClient.isSupportedProduct,
-      );
-    });
+        // stimulate in various ways
+        wrapper.instance().getCopyLink();
+        wrapper.instance().handleDialogOpen();
+        wrapper.instance().getCopyLink();
+        await currentEventLoopEnd();
+        await networkResolution();
 
-    it('should NOT shorten the url if not enabled', async () => {
-      const wrapper = getWrapper();
-
-      expect(mockShortenerClient.shorten).not.toHaveBeenCalled();
-      wrapper.instance().getUpToDateShortenedCopyLink = jest
-        .fn()
-        .mockRejectedValue(new Error('TEST!'));
-
-      // stimulate in various ways
-      wrapper.instance().getCopyLink();
-      wrapper.instance().handleDialogOpen();
-      wrapper.instance().getCopyLink();
-      await currentEventLoopEnd();
-
-      expect(mockShortenerClient.shorten).not.toHaveBeenCalled();
-      expect(
-        wrapper.instance().getUpToDateShortenedCopyLink,
-      ).not.toHaveBeenCalled();
-      expect(wrapper.instance().getCopyLink()).toEqual(
-        wrapper.instance().getFullCopyLink(),
-      );
-    });
-
-    it('should not shorten if the product is not supported', async () => {
-      const wrapper = getWrapper({
-        useUrlShortener: true,
-        urlShortenerClient: undefined, // use the internal one
-        productId: 'trello',
+        expect(mockShortenerClient.shorten).not.toHaveBeenCalled();
+        expect(
+          wrapper.instance().getUpToDateShortenedCopyLink,
+        ).not.toHaveBeenCalled();
+        expect(wrapper.instance().getCopyLink()).toEqual(
+          wrapper.instance().getFullCopyLink(),
+        );
       });
 
-      wrapper.instance().handleDialogOpen();
-      await currentEventLoopEnd();
+      it('productId: should NOT shorten if the product is not supported', async () => {
+        const wrapper = getWrapper({
+          useUrlShortener: true,
+          urlShortenerClient: undefined, // use the internal one
+          productId: 'trello',
+        });
 
-      expect(wrapper.instance().getCopyLink()).toEqual(
-        wrapper.instance().getFullCopyLink(),
-      );
+        wrapper.instance().handleDialogOpen();
+        await networkResolution();
+
+        expect(wrapper.instance().getCopyLink()).toEqual(
+          wrapper.instance().getFullCopyLink(),
+        );
+      });
     });
 
     it('should shorten the url only once the popup opens', async () => {
@@ -426,6 +476,9 @@ describe('ShareDialogContainer', () => {
       expect(wrapper.instance().getCopyLink()).toEqual(
         wrapper.instance().getFullCopyLink(),
       );
+      expect(getShareDialogWithTrigger(wrapper).prop('copyLink')).toEqual(
+        wrapper.instance().getFullCopyLink(),
+      );
 
       wrapper.instance().handleDialogOpen();
 
@@ -433,13 +486,16 @@ describe('ShareDialogContainer', () => {
       expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(1);
       expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(1);
 
-      await currentEventLoopEnd();
+      await networkResolution();
 
       expect(wrapper.state().shortenedCopyLink).toEqual(SHORTENED_URL);
       expect(wrapper.instance().getCopyLink()).toEqual(SHORTENED_URL);
+      expect(getShareDialogWithTrigger(wrapper).prop('copyLink')).toEqual(
+        SHORTENED_URL,
+      );
     });
 
-    it('should re-shorten the url on change and only on change', async () => {
+    it('should re-shorten the url on change + popup reopen and only then', async () => {
       const mockShortenerClient: UrlShortenerClient = {
         isSupportedProduct: jest.fn().mockReturnValue(true),
         shorten: jest.fn().mockResolvedValue({ shortLink: SHORTENED_URL }),
@@ -466,29 +522,113 @@ describe('ShareDialogContainer', () => {
       expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(1);
       expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(1);
 
-      // no change
+      // reopen, no change
 
       wrapper.instance().handleDialogOpen();
       expect(updateShortCopyLink).toHaveBeenCalledTimes(2);
       expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(2);
       expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(1); // thanks to memo
 
-      // change
+      // change in props
       const NEW_SHORTENED_URL = 'https://short2';
       (mockShortenerClient.shorten as jest.Mock).mockResolvedValue({
         shortLink: NEW_SHORTENED_URL,
       });
-      wrapper.setProps({ shareLink: 'new-share-link' });
+      wrapper.setProps({ shareLink: '/new-share-link' });
+
+      // no re-open yet = no change
+      await currentEventLoopEnd();
+      expect(updateShortCopyLink).toHaveBeenCalledTimes(2);
+      expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(2);
+      expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(1);
 
       wrapper.instance().handleDialogOpen();
       expect(updateShortCopyLink).toHaveBeenCalledTimes(3);
       expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(3);
       expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(2);
-      expect(wrapper.state().shortenedCopyLink).toEqual(null); // invalidated
+      expect(wrapper.state().shortenedCopyLink).toBeNull(); // invalidated
 
-      await currentEventLoopEnd();
+      await networkResolution();
       expect(wrapper.state().shortenedCopyLink).toEqual(NEW_SHORTENED_URL);
       expect(wrapper.instance().getCopyLink()).toEqual(NEW_SHORTENED_URL);
+    });
+
+    it('should properly swap and refresh the passed down "copy link" to the short URL once available', async () => {
+      const mockShortenerClient: UrlShortenerClient = {
+        isSupportedProduct: jest.fn().mockReturnValue(true),
+        shorten: jest.fn().mockResolvedValue({ shortLink: SHORTENED_URL }),
+      };
+      const wrapper = getWrapper({
+        useUrlShortener: true,
+        urlShortenerClient: mockShortenerClient,
+      });
+
+      wrapper.instance().handleDialogOpen();
+
+      // not yet
+      expect(wrapper.instance().getCopyLink()).not.toEqual(SHORTENED_URL);
+      expect(getShareDialogWithTrigger(wrapper).prop('copyLink')).not.toEqual(
+        SHORTENED_URL,
+      );
+
+      await networkResolution();
+
+      expect(wrapper.instance().getCopyLink()).toEqual(SHORTENED_URL);
+      expect(getShareDialogWithTrigger(wrapper).prop('copyLink')).toEqual(
+        SHORTENED_URL,
+      );
+    });
+
+    it('should be protected against race conditions', async () => {
+      const SHORTENED_URL_1 = 'https://short/1';
+      const SHORTENED_URL_2 = 'https://short/2';
+      let resolve1: Function;
+      let resolve2: Function;
+
+      const mockShortenerClient: UrlShortenerClient = {
+        isSupportedProduct: jest.fn().mockReturnValue(true),
+        shorten: jest
+          .fn()
+          .mockReturnValueOnce(
+            new Promise<string>(resolve => (resolve1 = resolve)),
+          )
+          .mockReturnValueOnce(
+            new Promise<string>(resolve => (resolve2 = resolve)),
+          ),
+      };
+      const wrapper = getWrapper({
+        useUrlShortener: true,
+        urlShortenerClient: mockShortenerClient,
+      });
+
+      expect(mockShortenerClient.shorten).not.toHaveBeenCalled();
+      expect(wrapper.state().shortenedCopyLink).toBeNull();
+
+      wrapper.instance().handleDialogOpen();
+      expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(1); // request 1 in flight
+      expect(wrapper.state().shortenedCopyLink).toBeNull(); // still not set
+
+      // change in props
+      wrapper.setProps({ shareLink: '/new-share-link' });
+
+      wrapper.instance().handleDialogOpen();
+      expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(2);
+      expect(wrapper.state().shortenedCopyLink).toBeNull(); // still not set
+
+      // now let's resolve the promises in the WRONG order
+      resolve2!({ shortLink: SHORTENED_URL_2 });
+      await currentEventLoopEnd();
+
+      expect(wrapper.state().shortenedCopyLink).toEqual(SHORTENED_URL_2);
+      expect(wrapper.instance().getCopyLink()).toEqual(SHORTENED_URL_2);
+
+      // LATE resolution of the old request
+      resolve1!({ shortLink: SHORTENED_URL_1 });
+      await currentEventLoopEnd();
+
+      // all good, the old response was ignored
+      expect(wrapper.state().shortenedCopyLink).toEqual(SHORTENED_URL_2);
+      expect(wrapper.instance().getCopyLink()).toEqual(SHORTENED_URL_2);
     });
   });
 });
