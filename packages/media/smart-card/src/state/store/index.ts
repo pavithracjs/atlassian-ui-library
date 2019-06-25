@@ -1,22 +1,17 @@
 import { useSmartLinkContext } from '../context';
 import { CardState } from '../types';
 import { useEffect, useState } from 'react';
+import { getUrl } from '../actions/helpers';
 
 export function useSmartCardState(url: string): CardState {
   const { store } = useSmartLinkContext();
   // Initially, card state should be pending and 'empty'.
-  const initialState = store.getState()[url];
-  const [state, setState] = useState<CardState>(
-    initialState || {
-      status: 'pending',
-      lastUpdatedAt: Date.now(),
-    },
-  );
+  const [state, setState] = useState<CardState>(getUrl(store, url));
   // Selector for initial and subsequent states.
   useEffect(
     () => {
       store.subscribe(() => {
-        setState(store.getState()[url]);
+        setState(getUrl(store, url));
       });
     },
     [url, store],
