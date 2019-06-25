@@ -31,7 +31,7 @@ import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
 
 // Show a maximum of this many produts (only used in user-centric mode)
-const MAX_PRODUCT_COUNT = 5;
+export const MAX_PRODUCT_COUNT = 5;
 
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',

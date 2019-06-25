@@ -8,6 +8,7 @@ import {
   SwitcherItemType,
   getAvailableProductLinks,
   ProductKey,
+  MAX_PRODUCT_COUNT,
 } from './links';
 import {
   isComplete,
@@ -32,7 +33,10 @@ function getExpandLink(
   if (availableProducts === undefined || isError(availableProducts)) {
     return 'https://start.atlassian.com?utm_source=switcher';
   }
-  if (isComplete(availableProducts)) {
+  if (
+    isComplete(availableProducts) &&
+    availableProducts.data.sites.length > MAX_PRODUCT_COUNT
+  ) {
     const isStagingInstance = availableProducts.data.sites.some(
       site => site.url.indexOf('.jira-dev.com') !== -1,
     );
