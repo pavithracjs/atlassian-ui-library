@@ -24,6 +24,7 @@ const Radio = styled.input`
 
 export interface Config {
   hideLocale?: boolean;
+  context?: 'home' | 'jira' | 'confluence';
   message?: JSX.Element;
   cloudIds?: {
     [k: string]: string;
@@ -52,25 +53,33 @@ export default function withNavigation<P extends Props>(
   availableContext: QuickSearchContext[] = ['confluence', 'jira', 'home'],
   drawerIsOpen?: boolean,
 ): ComponentType<Partial<P>> {
-  return class WithNavigation extends React.Component<Partial<P>> {
+  return class WithNavigation extends React.Component<Partial<P>, State> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
+    constructor(props: Partial<P>) {
+      super(props);
+      this.state = {
+        context: props.context || availableContext[0],
+        locale: 'en',
+      };
+    }
     handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({
-        context: e.target.value,
-      });
+      if (
+        'home' === e.target.value ||
+        'jira' === e.target.value ||
+        'confluence' === e.target.value
+      ) {
+        this.setState({
+          context: e.target.value,
+        });
+      }
     };
 
     handleLocaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         locale: e.target.value,
       });
-    };
-
-    state: State = {
-      context: availableContext[0],
-      locale: 'en',
     };
 
     renderLocaleRadioGroup() {

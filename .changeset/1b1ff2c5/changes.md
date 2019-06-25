@@ -1,0 +1,1 @@
+- global-search is integrated with autocomplete service

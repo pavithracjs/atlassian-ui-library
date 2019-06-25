@@ -49,6 +49,7 @@ import {
   MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
 import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
+import { AutocompleteClient } from '../../api/AutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
 import { ConfluenceFeatures } from '../../util/features';
@@ -63,6 +64,7 @@ export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
+  autocompleteClient: AutocompleteClient;
   firePrivateAnalyticsEvent: FireAnalyticsEvent | undefined;
   linkComponent: LinkComponent | undefined;
   createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
@@ -360,6 +362,18 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     };
   };
 
+  getAutocompleteSuggestions = (query: string): Promise<string[]> => {
+    const { autocompleteClient } = this.props;
+
+    const autocompletePromise = handlePromiseError(
+      autocompleteClient.getAutocompleteSuggestions(query),
+      [query],
+      this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
+    );
+
+    return autocompletePromise;
+  };
+
   getPreQueryDisplayedResults = (
     recentItems: ConfluenceResultsMap | null,
     searchSessionId: string,
@@ -494,6 +508,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   render() {
     const { linkComponent, logger, inputControls, features } = this.props;
+    const { isAutocompleteEnabled } = features;
 
     return (
       <QuickSearchContainer
@@ -504,6 +519,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
+        getAutocompleteSuggestions={
+          isAutocompleteEnabled ? this.getAutocompleteSuggestions : undefined
+        }
         product="confluence"
         handleSearchSubmit={this.handleSearchSubmit}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}

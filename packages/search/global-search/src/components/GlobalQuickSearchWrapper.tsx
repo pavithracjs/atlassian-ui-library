@@ -109,6 +109,11 @@ export interface Props {
   confluenceUrl?: string;
 
   /**
+   * The URL for Autocomplete service. Overrides the URL to the autocomplete service
+   */
+  autocompleteUrl?: string;
+
+  /**
    * The URL for Jira. Must include the context path.
    */
   jiraUrl?: string;
@@ -124,6 +129,11 @@ export interface Props {
    * An object containing referral IDs, i.e. the searchReferrerId and currentContentId.
    */
   referralContextIdentifiers?: ReferralContextIdentifiers;
+
+  /**
+   * Indicates whether or not autocompletion features is enabled
+   */
+  isAutocompleteEnabled?: boolean;
 
   /**
    * Indicates whether to disable Jira people search on the pre-query screen
@@ -198,6 +208,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       searchAggregatorServiceUrl,
       directoryServiceUrl,
       confluenceUrl,
+      autocompleteUrl,
     } = this.props;
 
     if (activityServiceUrl) {
@@ -214,6 +225,10 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
     if (confluenceUrl) {
       config.confluenceUrl = confluenceUrl;
+    }
+
+    if (autocompleteUrl) {
+      config.autocompleteUrl = autocompleteUrl;
     }
 
     return config;
@@ -264,6 +279,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       modelContext,
       showFeedbackCollector,
       feedbackCollectorProps,
+      isAutocompleteEnabled,
     } = this.props;
 
     const commonProps = {
@@ -274,6 +290,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         useUrsForBootstrapping: !!useUrsForBootstrapping,
         disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
         enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,
+        isAutocompleteEnabled: !!isAutocompleteEnabled,
       }),
       linkComponent: linkComponent,
       referralContextIdentifiers: referralContextIdentifiers,

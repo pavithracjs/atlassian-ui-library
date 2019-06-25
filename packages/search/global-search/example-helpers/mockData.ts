@@ -597,3 +597,13 @@ export function makeConfluenceRecentSpacesData(n: number = 15) {
     };
   }, n);
 }
+
+export function makeAutocompleteData(): string[] {
+  const tokensPerPhrase: string[][] = mockCatchPhrases.map(phrase =>
+    phrase.split(/\W+/),
+  );
+  const tokens = tokensPerPhrase
+    .reduce((acc, val) => acc.concat(val), [])
+    .map(token => token.toLowerCase());
+  return [...new Set(tokens)];
+}
