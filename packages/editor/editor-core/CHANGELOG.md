@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.21.0
+
+### Minor Changes
+
+- [minor][6f12bd05c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f12bd05c7):
+
+  ED-6811 Added headings to the quick insert menu. Amended heading anayltics to also show previousHeadingLevel
+
 ## 112.20.0
 
 ### Minor Changes
