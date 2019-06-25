@@ -130,10 +130,6 @@ export default class PickerFacade {
     return () => {};
   }
 
-  activate() {}
-
-  deactivate() {}
-
   show(): void {
     if (isPopup(this.picker)) {
       try {

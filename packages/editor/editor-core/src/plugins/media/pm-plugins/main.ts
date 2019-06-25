@@ -302,9 +302,6 @@ export class MediaPluginState {
 
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
 
-  // TODO [MSW-454]: remove this logic from Editor
-  onPopupPickerClose = () => {};
-
   showMediaPicker = () => {
     if (this.openMediaPickerBrowser && !this.hasUserAuthProvider()) {
       return this.openMediaPickerBrowser();
