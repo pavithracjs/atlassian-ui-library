@@ -1,1 +1,0 @@
-Adjusted the offset prop for Popper to not use the deprecated format
