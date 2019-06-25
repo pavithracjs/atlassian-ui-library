@@ -3,7 +3,10 @@ import { utils } from '@atlaskit/util-service-support';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import * as ShareServiceExports from '../../../clients/ShareServiceClient';
-import { UrlShortenerClient } from '../../../clients/AtlassianUrlShortenerClient';
+import {
+  ShortenResponse,
+  UrlShortenerClient,
+} from '../../../clients/AtlassianUrlShortenerClient';
 import {
   Props,
   ShareDialogContainer,
@@ -60,7 +63,9 @@ describe('ShareDialogContainer', () => {
   const SHORTENED_URL = 'https://short';
   const mockShortenerClient: UrlShortenerClient = {
     isSupportedProduct: jest.fn().mockReturnValue(true),
-    shorten: jest.fn().mockResolvedValue({ shortLink: SHORTENED_URL }),
+    shorten: jest
+      .fn()
+      .mockResolvedValue({ shortUrl: SHORTENED_URL } as ShortenResponse),
   };
   const mockShowFlags = jest.fn();
   const mockRenderCustomTriggerButton = jest.fn();
@@ -498,7 +503,9 @@ describe('ShareDialogContainer', () => {
     it('should re-shorten the url on change + popup reopen and only then', async () => {
       const mockShortenerClient: UrlShortenerClient = {
         isSupportedProduct: jest.fn().mockReturnValue(true),
-        shorten: jest.fn().mockResolvedValue({ shortLink: SHORTENED_URL }),
+        shorten: jest
+          .fn()
+          .mockResolvedValue({ shortUrl: SHORTENED_URL } as ShortenResponse),
       };
       const wrapper = getWrapper({
         useUrlShortener: true,
@@ -532,8 +539,8 @@ describe('ShareDialogContainer', () => {
       // change in props
       const NEW_SHORTENED_URL = 'https://short2';
       (mockShortenerClient.shorten as jest.Mock).mockResolvedValue({
-        shortLink: NEW_SHORTENED_URL,
-      });
+        shortUrl: NEW_SHORTENED_URL,
+      } as ShortenResponse);
       wrapper.setProps({ shareLink: '/new-share-link' });
 
       // no re-open yet = no change
@@ -556,7 +563,9 @@ describe('ShareDialogContainer', () => {
     it('should properly swap and refresh the passed down "copy link" to the short URL once available', async () => {
       const mockShortenerClient: UrlShortenerClient = {
         isSupportedProduct: jest.fn().mockReturnValue(true),
-        shorten: jest.fn().mockResolvedValue({ shortLink: SHORTENED_URL }),
+        shorten: jest
+          .fn()
+          .mockResolvedValue({ shortUrl: SHORTENED_URL } as ShortenResponse),
       };
       const wrapper = getWrapper({
         useUrlShortener: true,
@@ -616,14 +625,14 @@ describe('ShareDialogContainer', () => {
       expect(wrapper.state().shortenedCopyLink).toBeNull(); // still not set
 
       // now let's resolve the promises in the WRONG order
-      resolve2!({ shortLink: SHORTENED_URL_2 });
+      resolve2!({ shortUrl: SHORTENED_URL_2 } as ShortenResponse);
       await currentEventLoopEnd();
 
       expect(wrapper.state().shortenedCopyLink).toEqual(SHORTENED_URL_2);
       expect(wrapper.instance().getCopyLink()).toEqual(SHORTENED_URL_2);
 
       // LATE resolution of the old request
-      resolve1!({ shortLink: SHORTENED_URL_1 });
+      resolve1!({ shortUrl: SHORTENED_URL_1 } as ShortenResponse);
       await currentEventLoopEnd();
 
       // all good, the old response was ignored
