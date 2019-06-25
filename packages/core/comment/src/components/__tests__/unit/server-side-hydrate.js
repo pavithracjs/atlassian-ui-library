@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
+import waitForExpect from 'wait-for-expect';
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
@@ -29,6 +30,7 @@ test('should ssr then hydrate comment correctly', async () => {
         s === 'style'
       ),
   );
-
-  expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+  waitForExpect(() => {
+    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+  });
 });

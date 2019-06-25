@@ -2,14 +2,18 @@
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
+import waitForExpect from 'wait-for-expect';
 
-test('Nps server side rendering', async done => {
+test('Nps server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('nps');
   for (const example of examples) {
     // $StringLitteral
     const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
-    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+    waitForExpect(() => {
+      expect(() =>
+        ReactDOMServer.renderToString(<Example />),
+      ).not.toThrowError();
+    });
   }
-  done();
 });
