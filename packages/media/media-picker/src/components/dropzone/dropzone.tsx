@@ -17,6 +17,7 @@ export type DropzoneProps = LocalUploadComponentBaseProps & {
   onDrop?: () => void;
   onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
   onDragLeave?: (payload: DropzoneDragLeaveEventPayload) => void;
+  onCancelFn?: (cancel: (uploadId: string) => void) => void;
 };
 
 function dragContainsFiles(event: DragEvent): boolean {
@@ -45,8 +46,12 @@ export class Dropzone extends LocalUploadComponentReact<
   }
 
   public componentDidMount() {
+    const { onCancelFn } = this.props;
     this.removeContainerListeners(); // in case we call activate twice in a row?
     this.addContainerListeners();
+    if (onCancelFn) {
+      onCancelFn(this.cancel);
+    }
   }
 
   public componentWillUnmount(): void {

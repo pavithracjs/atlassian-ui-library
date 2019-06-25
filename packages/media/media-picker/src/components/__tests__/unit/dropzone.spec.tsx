@@ -1,4 +1,5 @@
 import * as React from 'react';
+jest.mock('../../../service/newUploadServiceImpl');
 import { Dropzone } from '../../dropzone/dropzone';
 import { mount, ReactWrapper } from 'enzyme';
 import { DropzoneDragEnterEventPayload, DropzoneConfig } from '../../types';
@@ -157,6 +158,21 @@ containerTypes.forEach(containerType => {
 
       expect(componentInstance.uploadService.addFiles).toHaveBeenCalledTimes(1);
       expect(componentInstance.uploadService.addFiles).toBeCalledWith(files);
+    });
+
+    it('should provide a function to onCancelFn callback property and call uploadService.cancel', () => {
+      const onCancelFnMock = jest.fn();
+      const dropzone = mount(
+        <Dropzone
+          mediaClient={mediaClient}
+          config={config}
+          onCancelFn={onCancelFnMock}
+        />,
+      );
+      const instance = dropzone.instance() as Dropzone;
+      expect(onCancelFnMock).toBeCalled();
+      onCancelFnMock.mock.calls[0][0]();
+      expect((instance as any).uploadService.cancel).toBeCalled();
     });
   });
 });
