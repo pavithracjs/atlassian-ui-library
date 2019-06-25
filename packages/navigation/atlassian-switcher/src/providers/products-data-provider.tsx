@@ -37,6 +37,7 @@ export const AvailableProductsProvider = ({
   if (isUserCentric) {
     return <RealDataProvider>{children}</RealDataProvider>;
   }
+  // We should never be reading from this provider in non-user-centric mode, so here I model it as a provider that never resolves.
   return (
     <React.Fragment>{children(unresolvedAvailableProducts)}</React.Fragment>
   );

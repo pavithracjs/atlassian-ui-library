@@ -132,12 +132,13 @@ export const getFixedProductLinks = (): SwitcherItemType[] => [
   },
 ];
 
+type AvailableProductDetails = Pick<
+  SwitcherItemType,
+  'label' | 'Icon' | 'href'
+>;
+
 export const AVAILABLE_PRODUCT_DATA_MAP: {
-  [productKey in WorklensProductType]: {
-    label: string;
-    Icon: React.ComponentType<any>;
-    href: string;
-  }
+  [productKey in WorklensProductType]: AvailableProductDetails
 } = {
   [WorklensProductType.BITBUCKET]: {
     label: 'Bitbucket',

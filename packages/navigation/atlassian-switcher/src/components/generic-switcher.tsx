@@ -2,10 +2,9 @@ import * as React from 'react';
 import { Messages } from 'react-intl';
 import Switcher from './switcher';
 import CommonDataProvider from '../providers/common-data-provider';
-import { Product, FeatureFlagProps, AvailableProductsResponse } from '../types';
+import { Product, FeatureFlagProps } from '../types';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
-import { ProviderResult } from '../providers/as-data-provider';
 
 type GenericSwitcherProps = {
   cloudId: string;
@@ -37,7 +36,7 @@ export default (props: GenericSwitcherProps) => (
   <AvailableProductsProvider
     isUserCentric={props.features.enableUserCentricProducts}
   >
-    {(availableProducts: ProviderResult<AvailableProductsResponse>) => (
+    {availableProducts => (
       <CommonDataProvider
         cloudId={props.cloudId}
         isUserCentric={Boolean(props.features.enableUserCentricProducts)}

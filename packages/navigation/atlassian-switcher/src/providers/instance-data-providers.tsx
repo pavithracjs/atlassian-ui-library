@@ -63,6 +63,7 @@ export const LicenseInformationProvider = ({
       </RealLicenseInformationProvider>
     );
   }
+  // We should never be reading from this provider in user-centric mode, so here I model it as a provider that never resolves.
   return (
     <React.Fragment>{children(unresolvedLicenseInformation)}</React.Fragment>
   );
