@@ -1,0 +1,1 @@
+Undo and Redo actions (using keyboard shortcuts) are introduced.
