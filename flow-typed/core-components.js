@@ -29,10 +29,6 @@ declare module '@atlaskit/button' {
   declare module.exports: any;
 }
 
-declare module '@atlaskit/droplist' {
-  declare module.exports: any;
-}
-
 declare module '@atlaskit/checkbox' {
   declare module.exports: any;
 }
