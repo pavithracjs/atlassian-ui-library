@@ -1,0 +1,8 @@
+{
+  "releases": [
+    { "name": "@atlaskit/dropdown-menu", "type": "patch" },
+    { "name": "@atlaskit/droplist", "type": "patch" },
+    { "name": "@atlaskit/layer", "type": "patch" }
+  ],
+  "dependents": []
+}
