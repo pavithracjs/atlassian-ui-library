@@ -6,6 +6,11 @@ import {
   DEFAULT_IMAGE_HEIGHT,
   DEFAULT_IMAGE_WIDTH,
 } from '@atlaskit/editor-common';
+import {
+  getViewMediaClientConfigFromMediaProvider,
+  getUploadMediaClientConfigFromMediaProvider,
+} from '../utils/media-common';
+import { getMediaClient } from '@atlaskit/media-client';
 
 export type RemoteDimensions = { id: string; height: number; width: number };
 export class MediaNodeUpdater {
@@ -97,8 +102,13 @@ export class MediaNodeUpdater {
       };
     }
 
-    const viewContext = await mediaProvider.viewContext;
-    const state = await viewContext.getImageMetadata(id, {
+    const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+      mediaProvider,
+    );
+    const mediaClient = getMediaClient({
+      mediaClientConfig: viewMediaClientConfig,
+    });
+    const state = await mediaClient.getImageMetadata(id, {
       collection,
     });
 
@@ -144,10 +154,18 @@ export class MediaNodeUpdater {
     }
     const currentCollectionName = mediaProvider.uploadParams.collection;
     const contextId = this.getCurrentContextId() || (await this.getObjectId());
-    const uploadContext = await mediaProvider.uploadContext;
+    const uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+      mediaProvider,
+    );
+    if (!uploadMediaClientConfig) {
+      return;
+    }
+    const mediaClient = getMediaClient({
+      mediaClientConfig: uploadMediaClientConfig,
+    });
 
-    if (uploadContext && uploadContext.config.getAuthFromContext) {
-      const auth = await uploadContext.config.getAuthFromContext(contextId);
+    if (uploadMediaClientConfig.getAuthFromContext) {
+      const auth = await uploadMediaClientConfig.getAuthFromContext(contextId);
       const { id, collection } = attrs;
       const source = {
         id,
@@ -156,10 +174,10 @@ export class MediaNodeUpdater {
       };
       const destination = {
         collection: currentCollectionName,
-        authProvider: uploadContext.config.authProvider,
+        authProvider: uploadMediaClientConfig.authProvider,
         occurrenceKey: uuidV4(),
       };
-      const mediaFile = await uploadContext.file.copyFile(source, destination);
+      const mediaFile = await mediaClient.file.copyFile(source, destination);
 
       updateMediaNodeAttrs(
         source.id,
