@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView, Decoration } from 'prosemirror-view';
-import {
-  MediaSingleLayout,
-  MediaAttributes,
-  ExternalMediaAttributes,
-} from '@atlaskit/adf-schema';
+import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import {
   MediaSingle,
   WithProviders,
@@ -18,7 +14,6 @@ import {
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
-import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import MediaItem from './media';
 import WithPluginState from '../../../ui/WithPluginState';
 import { pluginKey as widthPluginKey } from '../../width';
@@ -26,33 +21,15 @@ import { setNodeSelection } from '../../../utils';
 import ResizableMediaSingle from '../ui/ResizableMediaSingle';
 import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
-import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
 import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { NodeSelection } from 'prosemirror-state';
 import { MediaOptions } from '../';
-import { updateMediaNodeAttrs } from '../commands';
-import {
-  stateKey as mediaPluginKey,
-  MediaPluginState,
-} from '../pm-plugins/main';
+import { stateKey as mediaPluginKey } from '../pm-plugins/main';
 import { isMobileUploadCompleted } from '../commands/helpers';
-export interface MediaSingleNodeProps {
-  view: EditorView;
-  node: PMNode;
-  getPos: ProsemirrorGetPosHandler;
-  eventDispatcher: EventDispatcher;
-  width: number;
-  selected: Function;
-  lineLength: number;
-  editorAppearance: EditorAppearance;
-  mediaOptions: MediaOptions;
-  mediaProvider?: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<any>; // TODO: find right interface
-  fullWidthMode?: boolean;
-  mediaPluginState: MediaPluginState;
-}
+import { MediaSingleNodeProps } from './types';
+import { MediaNodeUpdater } from './mediaNodeUpdater';
 
 export interface MediaSingleNodeState {
   width?: number;
@@ -68,6 +45,14 @@ export default class MediaSingleNode extends Component<
     mediaOptions: {},
   };
 
+  mediaNodeUpdater: MediaNodeUpdater;
+
+  constructor(props: MediaSingleNodeProps) {
+    super(props);
+
+    this.mediaNodeUpdater = new MediaNodeUpdater(props);
+  }
+
   state = {
     width: undefined,
     height: undefined,
@@ -82,97 +67,21 @@ export default class MediaSingleNode extends Component<
         viewContext,
       });
     }
-    const updatedDimensions = await this.getRemoteDimensions();
+    const updatedDimensions = await this.mediaNodeUpdater.getRemoteDimensions();
     if (updatedDimensions) {
-      updateMediaNodeAttrs(
-        updatedDimensions.id,
-        {
-          height: updatedDimensions.height,
-          width: updatedDimensions.width,
-        },
-        true,
-      )(this.props.view.state, this.props.view.dispatch);
+      this.mediaNodeUpdater.updateDimensions(updatedDimensions);
     }
 
-    this.copyNode();
-  }
-
-  // TODO: move into a different class
-  // TODO: find a better name
-  copyNode = async () => {
-    const mediaProvider = await this.props.mediaProvider;
-    const contextIdentifierProvider = await this.props
-      .contextIdentifierProvider;
-    if (mediaProvider) {
-      if (mediaProvider.uploadParams) {
-        const currentCollectionName = mediaProvider.uploadParams.collection;
-        const { firstChild } = this.props.node;
-        if (firstChild) {
-          const {
-            id: nodeId,
-            collection: nodeCollection,
-          } = firstChild.attrs as MediaAttributes;
-
-          console.log({ currentCollectionName, nodeCollection });
-          if (currentCollectionName !== nodeCollection) {
-            const uploadContext = await mediaProvider.uploadContext;
-
-            if (uploadContext && uploadContext.config.getAuthFromContext) {
-              // TODO: pass ContextIdentifierProvider
-              // TODO: get contextId from node
-              const auth = await uploadContext.config.getAuthFromContext(
-                nodeId,
-              );
-              console.log({ auth, contextIdentifierProvider });
-            }
-          }
-        }
-      }
-    }
-  };
-
-  async getRemoteDimensions(): Promise<
-    false | { id: string; height: number; width: number }
-  > {
-    const mediaProvider = await this.props.mediaProvider;
-    const { firstChild } = this.props.node;
-    if (!mediaProvider || !firstChild) {
-      return false;
-    }
-    const { height, type, width } = firstChild.attrs as
-      | MediaAttributes
-      | ExternalMediaAttributes;
-    if (type === 'external') {
-      return false;
-    }
-    const { id, collection } = firstChild.attrs as MediaAttributes;
-    if (height && width) {
-      return false;
+    const contextId = this.mediaNodeUpdater.getCurrentContextId();
+    if (!contextId) {
+      await this.mediaNodeUpdater.updateContextId();
     }
 
-    // can't fetch remote dimensions on mobile, so we'll default them
-    if (this.props.editorAppearance === 'mobile') {
-      return {
-        id,
-        height: DEFAULT_IMAGE_HEIGHT,
-        width: DEFAULT_IMAGE_WIDTH,
-      };
+    const isNodeFromDifferentCollection = await this.mediaNodeUpdater.isNodeFromDifferentCollection();
+
+    console.log({ isNodeFromDifferentCollection });
+    if (isNodeFromDifferentCollection) {
     }
-
-    const viewContext = await mediaProvider.viewContext;
-    const state = await viewContext.getImageMetadata(id, {
-      collection,
-    });
-
-    if (!state || !state.original) {
-      return false;
-    }
-
-    return {
-      id,
-      height: state.original.height || DEFAULT_IMAGE_HEIGHT,
-      width: state.original.width || DEFAULT_IMAGE_WIDTH,
-    };
   }
 
   private onExternalImageLoaded = ({
