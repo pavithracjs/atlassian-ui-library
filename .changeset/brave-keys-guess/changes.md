@@ -1,1 +1,0 @@
-SL-336: fix page crash when state is undefined.
