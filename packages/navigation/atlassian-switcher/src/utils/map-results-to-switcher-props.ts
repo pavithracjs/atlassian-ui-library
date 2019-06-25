@@ -30,13 +30,15 @@ function getExpandLink(
   availableProducts: ProviderResult<AvailableProductsResponse>,
 ) {
   if (availableProducts === undefined || isError(availableProducts)) {
-    return 'https://start.atlassian.com';
+    return 'https://start.atlassian.com?utm_source=switcher';
   }
   if (isComplete(availableProducts)) {
     const isStagingInstance = availableProducts.data.sites.some(
       site => site.url.indexOf('.jira-dev.com') !== -1,
     );
-    return `https://start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
+    return `https://start.${
+      isStagingInstance ? 'stg.' : ''
+    }atlassian.com?utm_source=switcher`;
   }
 }
 
