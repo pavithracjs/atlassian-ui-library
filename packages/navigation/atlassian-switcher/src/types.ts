@@ -48,7 +48,6 @@ export enum Product {
 }
 
 export enum Feature {
-  enableExpandLink = 'enableExpandLink',
   enableUserCentricProducts = 'enableUserCentricProducts',
 }
 

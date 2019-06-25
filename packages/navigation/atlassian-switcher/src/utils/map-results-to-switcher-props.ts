@@ -27,19 +27,6 @@ import {
 import { createCollector } from './create-collector';
 
 function getExpandLink(
-  licenseInformation: ProviderResults['licenseInformation'],
-) {
-  if (licenseInformation === undefined || isError(licenseInformation)) {
-    return '//start.atlassian.com';
-  }
-  if (isComplete(licenseInformation)) {
-    const isStagingInstance =
-      licenseInformation.data.hostname.indexOf('.jira-dev.com') !== -1;
-    return `//start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
-  }
-}
-
-function getExpandLinkFromAvailableProducts(
   availableProducts: ProviderResult<AvailableProductsResponse>,
 ) {
   if (availableProducts === undefined || isError(availableProducts)) {
@@ -167,7 +154,6 @@ interface ProviderResults {
 
 interface SwitcherFeatures {
   xflow: boolean;
-  enableExpandLink: boolean;
   enableUserCentricProducts: boolean;
 }
 
@@ -265,9 +251,7 @@ export function mapResultsToSwitcherProps(
 
   return {
     expandLink: features.enableUserCentricProducts
-      ? getExpandLinkFromAvailableProducts(availableProducts)
-      : features.enableExpandLink
-      ? getExpandLink(licenseInformation)
+      ? getExpandLink(availableProducts)
       : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
