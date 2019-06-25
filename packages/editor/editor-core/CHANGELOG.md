@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.21.1
+
+### Patch Changes
+
+- [patch][3511ec9566](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3511ec9566):
+
+  [ED-7108] Fix table row & column header state syncing when applied from toolbar
+
 ## 112.21.0
 
 ### Minor Changes
