@@ -106,6 +106,7 @@ export interface AppState {
 export class App extends Component<AppProps, AppState> {
   private readonly componentMediaClient: MediaClient;
   private browserRef = React.createRef<BrowserComponent>();
+  private dropzoneRef = React.createRef<Dropzone>();
   private readonly localUploader: LocalUploadComponent;
 
   constructor(props: AppProps) {
@@ -155,7 +156,9 @@ export class App extends Component<AppProps, AppState> {
         this.browserRef &&
           this.browserRef.current &&
           this.browserRef.current.cancel(uploadId);
-        // this.mpDropzone.cancel(uploadId);
+        this.dropzoneRef &&
+          this.dropzoneRef.current &&
+          this.dropzoneRef.current.cancel(uploadId);
         this.localUploader.cancel(uploadId);
       },
     });
@@ -286,6 +289,7 @@ export class App extends Component<AppProps, AppState> {
 
     return (
       <Dropzone
+        ref={this.dropzoneRef}
         mediaClient={this.componentMediaClient}
         config={config}
         onUploadsStart={this.onDrop}

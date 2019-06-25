@@ -626,7 +626,7 @@ export class MediaPluginState {
     return;
   };
 
-  public handleDrag = (dragState: 'enter' | 'leave') => {
+  handleDrag = (dragState: 'enter' | 'leave') => {
     const isActive = dragState === 'enter';
     if (this.showDropzone === isActive) {
       return;

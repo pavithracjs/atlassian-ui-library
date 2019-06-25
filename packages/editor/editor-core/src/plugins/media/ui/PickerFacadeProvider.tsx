@@ -27,7 +27,7 @@ type Props = {
 };
 
 type State = {
-  config?: ClipboardConfig | BrowserConfig;
+  config?: ClipboardConfig | BrowserConfig | DropzoneConfig;
   mediaClientConfig?: MediaClientConfig;
   pickerFacadeInstance?: PickerFacade;
 };
