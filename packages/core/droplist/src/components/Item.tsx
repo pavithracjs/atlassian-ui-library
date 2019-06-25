@@ -39,6 +39,11 @@ const inputTypes: { [key in AriaTypes]?: ElementType } = {
   option: undefined,
 };
 
+interface OnActivateArgs {
+  item: PureComponent;
+  event: SyntheticEvent<HTMLElement>;
+}
+
 interface Props {
   appearance: 'default' | 'primary';
   children: Node;
@@ -52,12 +57,7 @@ interface Props {
   isFocused: boolean;
   isHidden: boolean;
   isSelected: boolean;
-  onActivate: (
-    {
-      item,
-      event,
-    }: { item: PureComponent; event: SyntheticEvent<HTMLElement> },
-  ) => void;
+  onActivate: (args: OnActivateArgs) => void;
   target: string;
   title: string;
   tooltipDescription: string | null;

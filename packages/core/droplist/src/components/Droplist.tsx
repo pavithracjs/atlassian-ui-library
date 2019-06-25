@@ -23,6 +23,11 @@ import itemTheme from '../theme/item-theme';
 const halfFocusRing = 1;
 const dropOffset = `0, ${gridSize()}px`;
 
+interface OnOpenChangeArgs {
+  isOpen: boolean;
+  event: Event;
+}
+
 interface Props {
   /**
    * Controls the appearance of the menu.
@@ -38,7 +43,7 @@ interface Props {
   isOpen?: boolean;
   onClick?: () => void;
   onKeyDown?: () => void;
-  onOpenChange?: ({ isOpen, event }: { isOpen: boolean; event: Event }) => void;
+  onOpenChange?: (args: OnOpenChangeArgs) => void;
   /** Position of the menu. See the documentation of @atlaskit/layer for more details. */
   position?: string;
   /** Value passed to the Layer component to determine if the list will be fixed positioned. Useful for breaking out of overflow scroll/hidden containers. Note that the layer will become detached from the target element when scrolling so scroll lock or close on scroll handling may be necessary. */
