@@ -1,0 +1,1 @@
+[ED-7108] Fix table row & column header state syncing when applied from toolbar
