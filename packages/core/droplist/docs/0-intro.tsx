@@ -19,6 +19,9 @@ import DropList, {
   very basic logic. It does not have any keyboard interactions, selectable logic or
   open/close functionality
 
+  Child content should typically be \`ItemGroup\` or \`Item\`, or checkbox / radio
+  variants of those.
+
   ${(
     <Example
       packageName="@atlaskit/droplist"
