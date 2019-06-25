@@ -1,8 +1,8 @@
 import URI from 'urijs';
 import {
-  GenericResultMap,
   Result,
   ConfluenceResultsMap,
+  JiraResultsMap,
 } from '../../model/Result';
 import { JiraResultQueryParams } from '../../api/types';
 
@@ -15,20 +15,28 @@ const JIRA_SEARCH_SESSION_ID_PARAM_NAME = 'searchSessionId';
  * @param keysToMap the keys of the given ResultType to map over
  * @param results the GenericResultMap to apply resultMapperFn to
  */
-const mapGenericResultMap = (
+const mapJiraResultMap = (
   resultMapperFn: (r: Result) => Result,
-  keysToMap: string[],
-  results: GenericResultMap,
-): GenericResultMap => {
-  const nonMapped = Object.keys(results)
+  keysToMap: (keyof JiraResultsMap)[],
+  results: JiraResultsMap,
+): JiraResultsMap => {
+  const objectKeys = Object.keys(results) as (keyof JiraResultsMap)[];
+
+  const nonMapped = objectKeys
     .filter(key => !keysToMap.includes(key))
-    .reduce((accum, key) => ({ ...accum, [key]: results[key] }), {});
+    .reduce(
+      (accum, key) => ({ ...accum, [key]: results[key] }),
+      {} as JiraResultsMap,
+    );
 
   return Object.keys(results)
     .filter(key => keysToMap.includes(key))
     .reduce(
       (accum, resultType) => ({
         ...accum,
+        //It's currently impossible to type this due items being an union of arrays
+        //see https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-3.html#improved-behavior-for-calling-union-types
+        //@ts-ignore
         [resultType]: results[resultType].map(resultMapperFn),
       }),
       {
@@ -101,7 +109,7 @@ export const attachConfluenceContextIdentifiers = (
 
 export const attachJiraContextIdentifiers = (
   searchSessionId: string,
-  results: GenericResultMap,
+  results: JiraResultsMap,
 ) => {
   const attachSearchSessionId = attachSearchSessionIdToResult(
     searchSessionId,
@@ -125,7 +133,7 @@ export const attachJiraContextIdentifiers = (
     };
   };
 
-  return mapGenericResultMap(
+  return mapJiraResultMap(
     r => attachJiraContext(attachSearchSessionId(r)),
     ['objects', 'containers'],
     results,
