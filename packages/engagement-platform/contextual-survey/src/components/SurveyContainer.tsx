@@ -17,15 +17,16 @@ export default ({ children, onDismiss }: Props) => {
   return (
     <div
       css={css`
-    position: fixed;
-    bottom: ${surveyMargin}px;
-    right: ${surveyMargin}px;
-    width: ${surveyWidth}px;
-    z-index: ${layers.flag()};
-    ${elevation.e500()}
-    border-radius: ${borderRadius()}px;
-    padding: ${gridSize() * 3}px;
-  `}
+        background-color: ${colors.N0};
+        position: fixed;
+        bottom: ${surveyMargin}px;
+        right: ${surveyMargin}px;
+        width: ${surveyWidth}px;
+        z-index: ${layers.flag()};
+        ${elevation.e500()}
+        border-radius: ${borderRadius()}px;
+        padding: ${gridSize() * 3}px;
+      `}
     >
       <div
         css={css`
