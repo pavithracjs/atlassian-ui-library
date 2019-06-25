@@ -10,6 +10,8 @@ import DroplistWithAnalytics from '../..';
 import { DroplistWithoutAnalytics as Droplist } from '../../components/Droplist';
 import { Trigger, Content } from '../../styled/Droplist';
 
+declare var global: any;
+
 jest.mock('popper.js', () => {
   // @ts-ignore requireActual property is missing from jest
   const PopperJS = jest.requireActual('popper.js');

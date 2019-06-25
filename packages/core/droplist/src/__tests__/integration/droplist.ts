@@ -15,7 +15,7 @@ const droplist = 'div[data-role="droplistContent"]';
 BrowserTestCase(
   'Droplist should close when Escape key is pressed in IE and Edge',
   { skip: ['safari', 'firefox', 'ie'] }, // the issue was only occurring in IE and Edge - AK-4523
-  async client => {
+  async (client: any) => {
     const droplistTest = new Page(client);
     await droplistTest.goto(urlDrawer);
     await droplistTest.waitForSelector(droplistButton);
