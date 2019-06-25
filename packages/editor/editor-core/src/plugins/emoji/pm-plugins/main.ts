@@ -189,7 +189,7 @@ export class EmojiState {
       });
       const textNode = state.schema.text(' ');
 
-      // This problem affects Chrome v58-62. See: https://github.com/ProseMirror/prosemirror/issues/710
+      // This problem affects Chrome v58+. See: https://github.com/ProseMirror/prosemirror/issues/710
       if (isChromeWithSelectionBug) {
         const selection = document.getSelection();
         if (selection) {
