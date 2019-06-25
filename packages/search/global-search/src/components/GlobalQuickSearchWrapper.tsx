@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { CancelableEvent } from '@atlaskit/quick-search';
-import HomeQuickSearchContainer from './home/HomeQuickSearchContainer';
 import ConfluenceQuickSearchContainer from './confluence/ConfluenceQuickSearchContainer';
 import JiraQuickSearchContainer from './jira/JiraQuickSearchContainer';
 import configureSearchClients, {
@@ -299,21 +298,17 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     };
 
     if (this.props.context === 'confluence') {
-      const Container = showFeedbackCollector
+      const ConfluenceContainer = showFeedbackCollector
         ? withFeedbackButton(ConfluenceQuickSearchContainer)
         : ConfluenceQuickSearchContainer;
       return (
-        <Container
+        <ConfluenceContainer
           {...commonProps}
           {...feedbackCollectorProps}
           modelContext={modelContext}
-          firePrivateAnalyticsEvent={undefined}
-          createAnalyticsEvent={undefined}
           inputControls={inputControls}
         />
       );
-    } else if (this.props.context === 'home') {
-      return <HomeQuickSearchContainer {...commonProps} />;
     } else if (this.props.context === 'jira') {
       return (
         <JiraQuickSearchContainer
@@ -322,8 +317,15 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         />
       );
     } else {
-      // fallback to home if nothing specified
-      return <HomeQuickSearchContainer {...commonProps} />;
+      const errorMessage = `Invalid product type, product ${
+        this.props.context
+      } is unsupported`;
+
+      if (logger) {
+        logger.safeError(errorMessage);
+      }
+
+      throw new Error(errorMessage);
     }
   }
 

@@ -24,7 +24,7 @@ const Radio = styled.input`
 
 export interface Config {
   hideLocale?: boolean;
-  context?: 'home' | 'jira' | 'confluence';
+  context?: 'jira' | 'confluence';
   message?: JSX.Element;
   cloudIds?: {
     [k: string]: string;
@@ -42,7 +42,7 @@ const MessageContainer = styled.div`
 `;
 
 interface State {
-  context: 'home' | 'jira' | 'confluence';
+  context: 'jira' | 'confluence';
   locale: string;
 }
 
@@ -50,7 +50,7 @@ interface State {
 export default function withNavigation<P extends Props>(
   WrappedComponent: ComponentType<P>,
   props?: Config,
-  availableContext: QuickSearchContext[] = ['confluence', 'jira', 'home'],
+  availableContext: QuickSearchContext[] = ['confluence', 'jira'],
   drawerIsOpen?: boolean,
 ): ComponentType<Partial<P>> {
   return class WithNavigation extends React.Component<Partial<P>, State> {
@@ -65,11 +65,7 @@ export default function withNavigation<P extends Props>(
       };
     }
     handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (
-        'home' === e.target.value ||
-        'jira' === e.target.value ||
-        'confluence' === e.target.value
-      ) {
+      if ('jira' === e.target.value || 'confluence' === e.target.value) {
         this.setState({
           context: e.target.value,
         });

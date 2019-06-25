@@ -128,7 +128,6 @@ const renderComponent = (product: QuickSearchContext) => {
     createAnalyticsEvent: createAnalyticsEventSpy,
     confluenceClient: noResultsConfluenceClient,
     features: DEFAULT_FEATURES,
-    firePrivateAnalyticsEvent: undefined,
     onAdvancedSearch: undefined,
     linkComponent: undefined,
     referralContextIdentifiers: undefined,
