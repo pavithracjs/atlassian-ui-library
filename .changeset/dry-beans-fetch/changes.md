@@ -1,1 +1,0 @@
-FM-2054: improved table rendering in Hybrid Editor for Mobile

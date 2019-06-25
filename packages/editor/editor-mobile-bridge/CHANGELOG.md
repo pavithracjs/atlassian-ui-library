@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.7.4
+
+### Patch Changes
+
+- [patch][c3e3421cb9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3e3421cb9):
+
+  FM-2054: improved table rendering in Hybrid Editor for Mobile
+
 ## 8.7.3
 
 ### Patch Changes
