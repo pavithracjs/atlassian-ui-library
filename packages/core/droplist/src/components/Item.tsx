@@ -1,4 +1,9 @@
-import React, { PureComponent, ReactNode, SyntheticEvent } from 'react';
+import React, {
+  PureComponent,
+  ReactNode,
+  SyntheticEvent,
+  ElementType,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   withAnalyticsEvents,
@@ -27,7 +32,7 @@ import { AriaTypes } from '../types';
 
 import Element from './Element';
 
-const inputTypes: { [key in AriaTypes]: React.ReactNode } = {
+const inputTypes: { [key in AriaTypes]?: ElementType } = {
   checkbox: Checkbox,
   radio: Radio,
   link: undefined,
@@ -163,7 +168,7 @@ class Item extends PureComponent<Props, State> {
         title={props.title}
         type={props.type}
       >
-        {hasInput && (
+        {hasInput && Input && (
           <InputWrapper {...appearanceProps}>
             <Input
               label=""
