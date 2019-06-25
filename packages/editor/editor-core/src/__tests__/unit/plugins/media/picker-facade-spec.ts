@@ -1,4 +1,4 @@
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import {
   StoryBookAuthProvider,
   userAuthProvider,
@@ -14,13 +14,13 @@ describe('Media PickerFacade', () => {
     captureMessage: () => {},
   };
 
-  const context = ContextFactory.create({
+  const mediaClientConfig: MediaClientConfig = {
     authProvider: StoryBookAuthProvider.create(false),
     userAuthProvider,
-  });
+  };
 
   const pickerFacadeConfig = {
-    context,
+    mediaClientConfig,
     errorReporter,
   };
 
@@ -111,15 +111,6 @@ describe('Media PickerFacade', () => {
     it(`should call picker's hide() on destruction`, () => {
       facade.hide();
       expect(spies.hide).toHaveBeenCalledTimes(1);
-    });
-
-    it(`should call picker on close when onClose is called`, () => {
-      spies.on.mockClear();
-      const closeCb = jest.fn();
-      facade.onClose(closeCb);
-
-      expect(spies.on).toHaveBeenCalledTimes(1);
-      expect(spies.on).toHaveBeenCalledWith('closed', closeCb);
     });
   });
 });

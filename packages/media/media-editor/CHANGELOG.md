@@ -1,5 +1,13 @@
 # @atlaskit/media-editor
 
+## 36.2.0
+
+### Minor Changes
+
+- [minor][bdf6e42a32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bdf6e42a32):
+
+  Undo and Redo actions (using keyboard shortcuts) are introduced.
+
 ## 36.1.2
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

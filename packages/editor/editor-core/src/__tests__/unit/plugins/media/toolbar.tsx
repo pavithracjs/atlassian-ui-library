@@ -22,6 +22,13 @@ import {
   td,
   storyMediaProviderFactory,
 } from '@atlaskit/editor-test-helpers';
+import {
+  asMockReturnValue,
+  fakeMediaClient,
+  getDefaultMediaClientConfig,
+} from '@atlaskit/media-test-helpers';
+import { FileState, MediaClient } from '@atlaskit/media-client';
+import * as MediaClientModule from '@atlaskit/media-client';
 
 import commonMessages from '../../../../messages';
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
@@ -45,7 +52,7 @@ describe('media', () => {
   const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
   const temporaryFileId = `temporary:${randomId()}`;
 
-  const createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
+  let createAnalyticsEvent: jest.Mock<any>;
 
   const getFreshMediaProvider = () =>
     storyMediaProviderFactory({
@@ -87,6 +94,12 @@ describe('media', () => {
   );
 
   const docWithMediaSingle = doc(temporaryMediaSingle);
+
+  beforeEach(() => {
+    createAnalyticsEvent = jest.fn().mockReturnValue({
+      fire() {},
+    });
+  });
 
   describe('toolbar', () => {
     const intlProvider = new IntlProvider({ locale: 'en' });
@@ -277,16 +290,34 @@ describe('media', () => {
     });
 
     describe('image annotation', () => {
-      const mockMediaContext = {
-        file: {
-          getCurrentState: jest.fn(() => {
-            return Promise.resolve({
-              status: 'success',
-              mediaType: 'image',
-            });
+      let mockMediaClient: MediaClient;
+
+      beforeEach(async () => {
+        const mediaClientConfig = getDefaultMediaClientConfig();
+        mockMediaClient = fakeMediaClient({
+          ...mediaClientConfig,
+          userAuthProvider: mediaClientConfig.authProvider,
+        });
+        asMockReturnValue(
+          mockMediaClient.file.getCurrentState,
+          Promise.resolve<FileState>({
+            status: 'processed',
+            id: 'some-id',
+            name: 'some-name',
+            size: 42,
+            artifacts: {},
+            mediaType: 'image',
+            mimeType: 'image/png',
           }),
-        },
-      };
+        );
+        jest
+          .spyOn(MediaClientModule, 'getMediaClient')
+          .mockReturnValue(mockMediaClient);
+      });
+
+      afterEach(() => {
+        jest.resetAllMocks();
+      });
 
       it('has an AnnotationToolbar custom toolbar element', async () => {
         const { editorView, pluginState } = editor(docWithMediaSingle);
@@ -315,13 +346,13 @@ describe('media', () => {
       it('renders an annotate button when an image is selected', async () => {
         const toolbar = shallow(
           <AnnotationToolbar
-            viewContext={mockMediaContext as any}
+            viewMediaClientConfig={mockMediaClient.config}
             id="1234"
             intl={intl}
           />,
         );
 
-        await mockMediaContext.file.getCurrentState();
+        await mockMediaClient.file.getCurrentState('1234');
 
         expect(
           toolbar
@@ -333,22 +364,24 @@ describe('media', () => {
 
       it('fires analytics when the annotate button is clicked', async () => {
         const { editorView, pluginState } = editor(docWithMediaSingle);
+
         await pluginState.setMediaProvider(getFreshMediaProvider());
 
         setNodeSelection(editorView, 0);
 
         const toolbar = shallow(
           <AnnotationToolbar
-            viewContext={mockMediaContext as any}
+            viewMediaClientConfig={mockMediaClient.config}
             id="1234"
             intl={intl}
             view={editorView}
           />,
         );
 
-        await mockMediaContext.file.getCurrentState();
+        await mockMediaClient.file.getCurrentState('1234');
 
         toolbar.find(Button).simulate('click');
+
         expect(createAnalyticsEvent).toHaveBeenCalledWith({
           action: 'clicked',
           actionSubject: 'media',

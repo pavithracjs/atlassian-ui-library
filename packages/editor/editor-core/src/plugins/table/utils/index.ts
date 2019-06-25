@@ -26,7 +26,6 @@ export {
 export { isInsertColumnButton, isInsertRowButton, getIndex } from './dom';
 export {
   getColumnsWidths,
-  isColumnInsertButtonVisible,
   isColumnDeleteButtonVisible,
   getColumnDeleteButtonParams,
   getColumnsParams,
@@ -35,7 +34,6 @@ export {
 } from './column-controls';
 export {
   getRowHeights,
-  isRowInsertButtonVisible,
   isRowDeleteButtonVisible,
   getRowDeleteButtonParams,
   getRowsParams,

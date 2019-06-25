@@ -1,5 +1,13 @@
 # @atlaskit/editor-test-helpers
 
+## 9.4.2
+
+### Patch Changes
+
+- [patch][bb64fcedcb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bb64fcedcb):
+
+  uploadContext and viewContext fields of MediaProvider (part of Editor and Renderer props) are deprecated. New fields uploadMediaClientConfig and viewMediaClientConfig should be used from now on.
+
 ## 9.4.1
 
 - Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):

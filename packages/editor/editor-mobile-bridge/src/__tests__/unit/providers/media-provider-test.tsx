@@ -1,3 +1,5 @@
+jest.mock('@atlaskit/media-client');
+import * as React from 'react';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   insertMediaSingleNode,
@@ -18,15 +20,21 @@ import {
   sleep,
 } from '@atlaskit/editor-test-helpers';
 
-import { Auth, AuthProvider, ProcessedFileState } from '@atlaskit/media-core';
+import { Auth, AuthProvider, MediaClientConfig } from '@atlaskit/media-core';
+import {
+  getMediaClient,
+  withMediaClient,
+  MediaClient,
+  ProcessedFileState,
+} from '@atlaskit/media-client';
 import uuid from 'uuid/v4';
 import {
   asMock,
+  asMockReturnValue,
   expectFunctionToHaveBeenCalledWith,
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { of } from 'rxjs/observable/of';
-import { MediaClient } from '@atlaskit/media-client';
 
 let testFileId: string;
 
@@ -83,15 +91,21 @@ describe('Mobile MediaProvider', async () => {
     };
 
     mockAuthProvider = jest.fn<AuthProvider>(() => async () => testMediaAuth);
-    mediaClient = fakeMediaClient({
+    const mediaClientConfig: MediaClientConfig = {
       authProvider: mockAuthProvider,
-    });
-    asMock(mediaClient.file.getFileState).mockReturnValue(of(testFileState));
-    const promisedMediaClient = Promise.resolve(mediaClient);
+    };
+    mediaClient = fakeMediaClient();
+    asMockReturnValue(getMediaClient, mediaClient);
+    asMock(withMediaClient).mockImplementation(
+      (Component: React.ComponentType) => (props: any) => (
+        <Component {...props} mediaClient={mediaClient} />
+      ),
+    );
+    asMockReturnValue(mediaClient.file.getFileState, of(testFileState));
 
     promisedMediaProvider = Promise.resolve({
-      viewContext: promisedMediaClient,
-      uploadContext: promisedMediaClient,
+      viewMediaClientConfig: mediaClientConfig,
+      uploadMediaClientConfig: mediaClientConfig,
       uploadParams: {
         collection: '',
       },
@@ -127,8 +141,7 @@ describe('Mobile MediaProvider', async () => {
 
         const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
-        const provider = await promisedMediaProvider;
-        await provider.viewContext;
+        await promisedMediaProvider;
 
         insertMediaSingleNode(
           editorView,
@@ -165,8 +178,7 @@ describe('Mobile MediaProvider', async () => {
 
         const emptyCollectionName = '';
 
-        const provider = await promisedMediaProvider;
-        await provider.viewContext;
+        await promisedMediaProvider;
 
         insertMediaSingleNode(
           editorView,

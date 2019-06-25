@@ -9,9 +9,9 @@ type Props = {
 
 export const ClipboardMediaPickerWrapper = ({ mediaState }: Props) => (
   <PickerFacadeProvider mediaState={mediaState} analyticsName="clipboard">
-    {({ context, config, pickerFacadeInstance }) => (
+    {({ mediaClientConfig, config, pickerFacadeInstance }) => (
       <Clipboard
-        context={context}
+        mediaClientConfig={mediaClientConfig}
         config={config}
         onError={pickerFacadeInstance.handleUploadError}
         onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}

@@ -26,23 +26,6 @@ export const getRowHeights = (tableRef: HTMLTableElement): number[] => {
   return heights;
 };
 
-export const isRowInsertButtonVisible = (
-  index: number,
-  selection: Selection,
-): boolean => {
-  const rect = getSelectionRect(selection);
-  if (
-    rect &&
-    selection instanceof CellSelection &&
-    selection.isRowSelection() &&
-    !isTableSelected(selection) &&
-    rect.bottom - index === index - rect.top
-  ) {
-    return false;
-  }
-  return true;
-};
-
 export const isRowDeleteButtonVisible = (selection: Selection): boolean => {
   if (
     !isTableSelected(selection) &&
