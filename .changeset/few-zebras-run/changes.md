@@ -1,0 +1,1 @@
+fix: invalid property being used in URL shortener client
