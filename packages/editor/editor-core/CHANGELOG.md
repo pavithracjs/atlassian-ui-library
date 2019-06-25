@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.22.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
 ## 112.21.1
 
 ### Patch Changes
