@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 8.16.0
+
+### Minor Changes
+
+- [minor][cb424f9560](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb424f9560):
+
+  - global-search is integrated with autocomplete service
+
 ## 8.15.8
 
 ### Patch Changes
