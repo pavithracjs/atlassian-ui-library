@@ -69,7 +69,7 @@ export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
   product: QuickSearchContext;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
   getFilterComponent(props: FilterComponentProps<T>): React.ReactNode;
-  getRecentItems(sessionId: string): Promise<ResultsWithTiming<T>>;
+  getRecentItems(sessionId: string): PartiallyLoadedRecentItems<T>;
   getSearchResults(
     query: string,
     sessionId: string,
