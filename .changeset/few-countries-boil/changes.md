@@ -1,0 +1,1 @@
+ED-6811 Added headings to the quick insert menu. Amended heading anayltics to also show previousHeadingLevel
