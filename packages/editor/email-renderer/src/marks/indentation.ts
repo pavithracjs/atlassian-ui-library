@@ -1,12 +1,38 @@
 import { MarkSerializerOpts } from '../interfaces';
-import { createTable } from '../util';
+import { createTable } from '../table-util';
+import { createClassName } from '../styles/util';
+
+export const styles = `
+.${createClassName('mark-indentation-1')} {
+  padding-left: 30px;
+}
+.${createClassName('mark-indentation-2')} {
+  padding-left: 60px;
+}
+.${createClassName('mark-indentation-3')} {
+  padding-left: 90px;
+}
+.${createClassName('mark-indentation-4')} {
+  padding-left: 120px;
+}
+.${createClassName('mark-indentation-5')} {
+  padding-left: 150px;
+}
+.${createClassName('mark-indentation-6')} {
+  padding-left: 180px;
+}
+`;
 
 export default function code({ mark, text }: MarkSerializerOpts) {
-  // level 1 = 30px, level 2 = 60px, ...
-  const style = {
-    'padding-left': mark.attrs.level * 30 + 'px',
-  };
-
   // Outlook accepts padding on <td> element, thus we wrap it with table here
-  return createTable([[{ text, style }]]);
+  return createTable([
+    [
+      {
+        text,
+        attrs: {
+          class: createClassName(`mark-indentation-${mark.attrs.level}`),
+        },
+      },
+    ],
+  ]);
 }

@@ -1,17 +1,17 @@
-import { createTag, serializeStyle } from '../util';
+import { createTag } from '../create-tag';
+import { createClassName } from '../styles/util';
 import { NodeSerializerOpts } from '../interfaces';
 
-export const listItemStyles = `
-li.listItem > p {
+export const styles = `
+.${createClassName('li')} {
+  margin-top: 4px;
+}
+.${createClassName('li')} > p {
   margin-bottom: 0px;
   padding-top: 0px;
 }
 `;
 
-const style = serializeStyle({
-  'margin-top': '4px',
-});
-
 export default function listItem({ text }: NodeSerializerOpts) {
-  return createTag('li', { class: 'listItem', style }, text);
+  return createTag('li', { class: createClassName('li') }, text);
 }

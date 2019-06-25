@@ -1,5 +1,7 @@
 import { N50, calcTableColumnWidths } from '@atlaskit/adf-schema';
-import { createTag, serializeStyle, commonTableStyle } from '../util';
+import { createTag } from '../create-tag';
+import { serializeStyle } from '../serialize-style';
+import { commonTableStyle } from '../table-util';
 import { NodeSerializerOpts } from '../interfaces';
 
 const css = serializeStyle({

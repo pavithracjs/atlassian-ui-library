@@ -1,5 +1,29 @@
 # @atlaskit/adf-schema
 
+## 2.8.1
+
+### Patch Changes
+
+- [patch][34c6df4fb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/34c6df4fb8):
+
+  adf-schema has been extended with one missing color, email-renderer now bundles up styles into .css file
+
+## 2.8.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
+## 2.7.1
+
+### Patch Changes
+
+- [patch][4931459ac1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4931459ac1):
+
+  Revert removed by accident breakout mark
+
 ## 2.7.0
 
 ### Minor Changes

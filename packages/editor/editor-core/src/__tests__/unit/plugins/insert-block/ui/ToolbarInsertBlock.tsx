@@ -42,15 +42,16 @@ import {
 } from '../../../../../plugins/analytics';
 import tablesPlugin from '../../../../../plugins/table';
 import { AnalyticsHandler } from '../../../../../analytics';
-import { ReactWrapper } from 'enzyme';
+import { ReactWrapper, mount } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
 import { InsertMenuCustomItem } from '../../../../../types';
-
+import { TooltipShortcut } from '../../../../../keymaps';
+import Icon from '@atlaskit/icon';
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
 
 const mediaProvider: Promise<MediaProvider> = Promise.resolve({
-  viewContext: Promise.resolve({} as any),
-  uploadContext: Promise.resolve({} as any),
+  viewMediaClientConfig: {} as any,
+  uploadMediaClientConfig: {} as any,
 });
 
 const providerFactory = ProviderFactory.create({ mediaProvider });
@@ -65,7 +66,9 @@ const getToolbarButton = (
 ): ReactWrapper =>
   toolbarOption
     .find(ToolbarButton)
-    .filterWhere(n => n.prop('title')!.indexOf(title) > -1)
+    .filterWhere(
+      toolbarButton => toolbarButton.find(Icon).prop('label') === title,
+    )
     .find(Button);
 
 const getInsertMenuButton = (
@@ -170,6 +173,42 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
       availableWrapperBlockTypes: pluginState.availableWrapperBlockTypes,
     });
     expect(toolbarOption.find(ToolbarButton).prop('disabled')).toEqual(true);
+  });
+
+  describe('tooltip with shortcut', () => {
+    [
+      { toolbarProps: { mentionsSupported: true }, result: '/' },
+      {
+        toolbarProps: { tableSupported: true, buttons: 2 },
+        result: 'Shift+Alt+T',
+      },
+    ].forEach(({ toolbarProps, result }) => {
+      describe('render the tooltip with shortcut', () => {
+        let tooltipContent: ReactWrapper;
+
+        beforeEach(() => {
+          buildToolbar(toolbarProps);
+          tooltipContent = mount(
+            <div>
+              {toolbarOption
+                .find(ToolbarButton)
+                .first()
+                .prop('title')}
+            </div>,
+          );
+        });
+
+        afterEach(() => {
+          if (tooltipContent) {
+            tooltipContent.unmount();
+          }
+        });
+
+        it(`the shortcut ${result} is displayed with a background`, () => {
+          expect(tooltipContent.find(TooltipShortcut).text()).toEqual(result);
+        });
+      });
+    });
   });
 
   describe('custom items', () => {

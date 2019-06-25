@@ -1,10 +1,11 @@
 {
   "name": "@atlaskit/tabs",
-  "version": "10.0.4",
+  "version": "11.0.0",
   "description": "A React component for displaying multiple panels within a single window",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/tabs",
   "author": "Atlassian Pty Ltd",

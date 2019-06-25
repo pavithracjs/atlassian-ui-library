@@ -48,6 +48,7 @@ const profiles = [
       email: 'nwalter@limage.com',
       location: 'Sydney, Australia',
       meta: 'Senior Developer',
+      status: 'inactive',
       remoteTimeString: getTimeString(),
       remoteWeekdayIndex: getWeekday().index,
       remoteWeekdayString: getWeekday().string,

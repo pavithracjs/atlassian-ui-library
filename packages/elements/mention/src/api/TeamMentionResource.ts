@@ -13,6 +13,7 @@ import {
 import MentionResource, {
   MentionContextIdentifier,
   MentionResourceConfig,
+  TeamMentionResourceConfig,
 } from './MentionResource';
 import debug from '../util/logger';
 
@@ -24,13 +25,13 @@ const MAX_QUERY_TEAMS = 20;
  * remove this class at this point
  */
 export default class TeamMentionResource extends MentionResource {
-  private readonly teamMentionConfig: MentionResourceConfig;
+  private readonly teamMentionConfig: TeamMentionResourceConfig;
   private lastSearchQuery?: string = '';
   private lastReturnedSearchTeam: number;
 
   constructor(
     userMentionConfig: MentionResourceConfig,
-    teamMentionConfig: MentionResourceConfig,
+    teamMentionConfig: TeamMentionResourceConfig,
   ) {
     super(userMentionConfig);
     this.verifyMentionConfig(teamMentionConfig);
@@ -214,7 +215,16 @@ export default class TeamMentionResource extends MentionResource {
     result: Team[],
     query: string,
   ): MentionsResult {
+    const { teamLinkResolver } = this.teamMentionConfig;
     const mentions: MentionDescription[] = result.map((team: Team) => {
+      let teamLink: string = '';
+      const defaultTeamLink = `${window.location.origin}/people/team/${
+        team.id
+      }`;
+      if (typeof teamLinkResolver === 'function') {
+        teamLink = teamLinkResolver(team.id);
+      }
+
       return {
         id: this.trimTeamARI(team.id),
         avatarUrl: team.smallAvatarImageUrl,
@@ -226,6 +236,7 @@ export default class TeamMentionResource extends MentionResource {
           members: team.members,
           includesYou: team.includesYou,
           memberCount: team.memberCount,
+          teamLink: teamLink || defaultTeamLink,
         },
       };
     });
@@ -236,13 +247,5 @@ export default class TeamMentionResource extends MentionResource {
   private trimTeamARI(teamId: string = '') {
     const TEAM_ARI_PREFIX = 'ari:cloud:teams::team/';
     return teamId.replace(TEAM_ARI_PREFIX, '');
-  }
-
-  protected async recordSelection(
-    mention: MentionDescription,
-    contextIdentifier?: MentionContextIdentifier,
-  ): Promise<void> {
-    // TODO: should we record a team selection
-    super.recordSelection(mention, contextIdentifier);
   }
 }

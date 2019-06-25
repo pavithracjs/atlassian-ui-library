@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/icon",
-  "version": "18.0.4",
+  "version": "18.0.5",
   "description": "A React package that contains icons",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",

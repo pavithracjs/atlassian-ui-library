@@ -1,7 +1,4 @@
-import {
-  waitForTooltip,
-  waitForNoTooltip,
-} from '@atlaskit/visual-regression/helper';
+import { waitForTooltip } from '@atlaskit/visual-regression/helper';
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
 import adf from './__fixtures__/default-table.adf.json';
 import {
@@ -65,9 +62,5 @@ describe('Snapshot Test: table insert/delete', () => {
   // TODO: move this to integration tests in future
   it(`should be able to insert column`, async () => {
     await insertColumn(page, 1);
-
-    // after adding in a column the controls shift and the cursor is no longer over an
-    // add column button, so we wait for the tooltip to fade if it was showing
-    await waitForNoTooltip(page);
   });
 });

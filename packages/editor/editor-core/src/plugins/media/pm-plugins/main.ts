@@ -10,8 +10,8 @@ import {
   Plugin,
   PluginKey,
 } from 'prosemirror-state';
-import { Context } from '@atlaskit/media-core';
 import { UploadParams } from '@atlaskit/media-picker';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 
 import { ErrorReporter } from '@atlaskit/editor-common';
@@ -58,8 +58,8 @@ export interface MediaNodeWithPosHandler {
 
 export class MediaPluginState {
   public allowsUploads: boolean = false;
-  public mediaContext?: Context;
-  public uploadContext?: Context;
+  public mediaClientConfig?: MediaClientConfig;
+  public uploadMediaClientConfig?: MediaClientConfig;
   public ignoreLinks: boolean = false;
   public waitForMediaUpload: boolean = true;
   public allUploadsFinished: boolean = true;
@@ -89,6 +89,7 @@ export class MediaPluginState {
   public editorAppearance: EditorAppearance;
   private removeOnCloseListener: () => void = () => {};
   private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
+  private openMediaPickerBrowser?: () => void;
 
   private reactContext: () => {};
 
@@ -141,10 +142,11 @@ export class MediaPluginState {
 
     // TODO disable (not destroy!) pickers until mediaProvider is resolved
     try {
-      let resolvedMediaProvider: MediaProvider = (this.mediaProvider = await mediaProvider);
+      this.mediaProvider = await mediaProvider;
+      let resolvedMediaProvider: MediaProvider = this.mediaProvider;
 
       assert(
-        resolvedMediaProvider && resolvedMediaProvider.viewContext,
+        resolvedMediaProvider && resolvedMediaProvider.viewMediaClientConfig,
         `MediaProvider promise did not resolve to a valid instance of MediaProvider - ${resolvedMediaProvider}`,
       );
     } catch (err) {
@@ -167,9 +169,12 @@ export class MediaPluginState {
       return;
     }
 
-    this.mediaContext = await this.mediaProvider.viewContext;
+    this.mediaClientConfig = await this.mediaProvider.viewMediaClientConfig;
 
-    this.allowsUploads = !!this.mediaProvider.uploadContext;
+    this.allowsUploads = !!(
+      this.mediaProvider.uploadContext ||
+      this.mediaProvider.uploadMediaClientConfig
+    );
     const { view, allowsUploads } = this;
 
     // make sure editable DOM node is mounted
@@ -179,12 +184,12 @@ export class MediaPluginState {
     }
 
     if (this.allowsUploads) {
-      this.uploadContext = await this.mediaProvider.uploadContext;
+      this.uploadMediaClientConfig = await this.mediaProvider
+        .uploadMediaClientConfig;
 
-      if (this.mediaProvider.uploadParams && this.uploadContext) {
+      if (this.mediaProvider.uploadParams && this.uploadMediaClientConfig) {
         await this.initPickers(
           this.mediaProvider.uploadParams,
-          this.uploadContext,
           PickerFacade,
           this.reactContext,
         );
@@ -212,6 +217,10 @@ export class MediaPluginState {
       this.element = newElement;
     }
   }
+
+  hasUserAuthProvider = () =>
+    this.uploadMediaClientConfig &&
+    this.uploadMediaClientConfig.userAuthProvider;
 
   private getDomElement(domAtPos: EditorView['domAtPos']) {
     const { selection, schema } = this.view.state;
@@ -310,6 +319,9 @@ export class MediaPluginState {
   };
 
   showMediaPicker = () => {
+    if (this.openMediaPickerBrowser && !this.hasUserAuthProvider()) {
+      return this.openMediaPickerBrowser();
+    }
     if (!this.popupPicker) {
       return;
     }
@@ -317,6 +329,10 @@ export class MediaPluginState {
       this.dropzonePicker.deactivate();
     }
     this.popupPicker.show();
+  };
+
+  setBrowseFn = (browseFn: () => void) => {
+    this.openMediaPickerBrowser = browseFn;
   };
 
   /**
@@ -435,18 +451,17 @@ export class MediaPluginState {
 
   private async initPickers(
     uploadParams: UploadParams,
-    context: Context,
     Picker: typeof PickerFacade,
     reactContext: () => {},
   ) {
-    if (this.destroyed) {
+    if (this.destroyed || !this.uploadMediaClientConfig) {
       return;
     }
     const { errorReporter, pickers, pickerPromises } = this;
     // create pickers if they don't exist, re-use otherwise
     if (!pickers.length) {
       const pickerFacadeConfig: PickerFacadeConfig = {
-        context,
+        mediaClientConfig: this.uploadMediaClientConfig,
         errorReporter,
       };
       const defaultPickerConfig = {
@@ -464,14 +479,14 @@ export class MediaPluginState {
         pickerPromises.push(customPicker);
         pickers.push((this.customPicker = await customPicker));
       } else {
-        const popupPicker = new Picker(
-          // Fallback to browser picker for unauthenticated users
-          context.config && context.config.userAuthProvider
-            ? 'popup'
-            : 'browser',
-          pickerFacadeConfig,
-          defaultPickerConfig,
-        ).init();
+        let popupPicker: Promise<PickerFacade> | undefined;
+        if (this.hasUserAuthProvider()) {
+          popupPicker = new Picker(
+            'popup',
+            pickerFacadeConfig,
+            defaultPickerConfig,
+          ).init();
+        }
 
         const dropzonePicker = new Picker('dropzone', pickerFacadeConfig, {
           container: this.options.customDropzoneContainer,
@@ -479,16 +494,23 @@ export class MediaPluginState {
           ...defaultPickerConfig,
         }).init();
 
-        pickerPromises.push(popupPicker, dropzonePicker);
-        pickers.push(
-          (this.popupPicker = await popupPicker),
-          (this.dropzonePicker = await dropzonePicker),
-        );
+        if (popupPicker) {
+          pickerPromises.push(popupPicker, dropzonePicker);
+          pickers.push(
+            (this.popupPicker = await popupPicker),
+            (this.dropzonePicker = await dropzonePicker),
+          );
+        } else {
+          pickerPromises.push(dropzonePicker);
+          pickers.push((this.dropzonePicker = await dropzonePicker));
+        }
 
         this.dropzonePicker.onDrag(this.handleDrag);
-        this.removeOnCloseListener = this.popupPicker.onClose(
-          this.onPopupPickerClose,
-        );
+        if (this.popupPicker) {
+          this.removeOnCloseListener = this.popupPicker.onClose(
+            this.onPopupPickerClose,
+          );
+        }
       }
 
       pickers.forEach(picker => {
@@ -737,9 +759,6 @@ export const createPlugin = (
       return {
         update: () => {
           pluginState.updateElement();
-        },
-        destroy: () => {
-          pluginState.destroy();
         },
       };
     },

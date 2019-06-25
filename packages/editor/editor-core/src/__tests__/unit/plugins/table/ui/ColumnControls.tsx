@@ -248,14 +248,11 @@ describe('ColumnControls', () => {
         />,
       );
 
-      expect(floatingControls.find(InsertColumnButton).length).toBe(3);
-
       selectColumns([0, 1])(editorView.state, editorView.dispatch);
 
       // set numberOfColumns prop to trick shouldComponentUpdate and force re-render
       floatingControls.setProps({ numberOfColumns: 3 });
 
-      expect(floatingControls.find(InsertColumnButton).length).toBe(2);
       expect(
         floatingControls
           .find(ColumnControlsButtonWrap)
@@ -296,30 +293,6 @@ describe('ColumnControls', () => {
   });
 
   describe('hides add button when isResizing prop is truthy', () => {
-    it('unaffected add button when isResizing is falsy', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <ColumnControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          insertColumnButtonIndex={1}
-        />,
-      );
-
-      expect(floatingControls.find(InsertColumnButtonInner).length).toBe(1);
-
-      floatingControls.unmount();
-    });
-
     it('hides add button when isResizing is truthy', () => {
       const { editorView } = editor(
         doc(
@@ -335,7 +308,6 @@ describe('ColumnControls', () => {
         <ColumnControls
           tableRef={document.querySelector('table')!}
           editorView={editorView}
-          insertColumnButtonIndex={1}
           isResizing={true}
         />,
       );

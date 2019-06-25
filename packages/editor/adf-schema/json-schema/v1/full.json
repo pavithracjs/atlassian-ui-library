@@ -1863,7 +1863,10 @@
           "maxItems": 3
         },
         "marks": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/breakout_mark"
+          }
         }
       },
       "required": [

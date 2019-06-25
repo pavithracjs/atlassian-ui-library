@@ -1,26 +1,21 @@
 import * as React from 'react';
 import { PureComponent, ComponentClass, StatelessComponent } from 'react';
-import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import styled from 'styled-components';
-import { ProviderFactory } from '@atlaskit/editor-common';
-import { ReactNodeViewState } from '../../../plugins/base/pm-plugins/react-nodeview';
-import { setNodeSelection } from '../../../utils';
 import {
-  ProsemirrorGetPosHandler,
-  ReactComponentConstructor,
-} from '../../types';
+  ReactNodeViewState,
+  stateKey as reactNodeViewPlugin,
+} from '../../../plugins/base/pm-plugins/react-nodeview';
+import { setNodeSelection } from '../../../utils';
+import { ProsemirrorGetPosHandler } from '../../types';
 
 export interface ReactNodeViewComponents {
   [key: string]: ComponentClass<any> | StatelessComponent<any>;
 }
 
-interface Props {
-  components: ReactNodeViewComponents;
+export interface ClickWrapperProps {
   getPos: ProsemirrorGetPosHandler;
-  node: PMNode;
   pluginState: ReactNodeViewState;
-  providerFactory: ProviderFactory;
   view: EditorView;
 
   onSelection?: (selected: boolean) => void;
@@ -38,11 +33,16 @@ interface State {
   selected: boolean;
 }
 
-export default function wrapComponentWithClickArea(
-  ReactComponent: ReactComponentConstructor,
+export default function wrapComponentWithClickArea<
+  T extends Partial<ClickWrapperProps> & { selected: boolean }
+>(
+  ReactComponent: React.ComponentType<T>,
   inline?: boolean,
-): ReactComponentConstructor {
-  return class WrapperClickArea extends PureComponent<Props, State> {
+): React.ComponentClass<T & ClickWrapperProps> {
+  return class WrapperClickArea extends PureComponent<
+    T & ClickWrapperProps,
+    State
+  > {
     state: State = { selected: false };
 
     componentDidMount() {
@@ -85,5 +85,20 @@ export default function wrapComponentWithClickArea(
       const { getPos, view } = this.props;
       setNodeSelection(view, getPos());
     };
+  };
+}
+
+export function applySelectionAsProps<T extends ClickWrapperProps>(
+  Component: React.ComponentType<T>,
+) {
+  return class extends React.PureComponent<T, {}> {
+    render() {
+      return (
+        <Component
+          {...this.props}
+          pluginState={reactNodeViewPlugin.getState(this.props.view.state)}
+        />
+      );
+    }
   };
 }

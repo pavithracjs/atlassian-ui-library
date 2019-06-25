@@ -20,7 +20,7 @@ const getFreshMediaProvider = () =>
   storyMediaProviderFactory({
     collectionName: testCollectionName,
     includeUserAuthProvider: true,
-    includeUploadContext: true,
+    includeUploadMediaClientConfig: true,
   });
 
 describe('Media plugin', async () => {
@@ -50,9 +50,7 @@ describe('Media plugin', async () => {
   describe('updateUploadState', () => {
     it('should change upload state to unfinished when uploads start', async () => {
       const { pluginState } = editor(doc(p('')));
-      const provider = await mediaProvider;
-      await provider.uploadContext;
-      await provider.viewContext;
+      await mediaProvider;
 
       pluginState.insertFile(
         {
@@ -67,9 +65,7 @@ describe('Media plugin', async () => {
 
     it('should change upload state to finished once an upload finishes', async () => {
       const { pluginState } = editor(doc(p('')));
-      const provider = await mediaProvider;
-      await provider.uploadContext;
-      await provider.viewContext;
+      await mediaProvider;
 
       const evts: Array<(state: MediaState) => void> = [];
       pluginState.insertFile(
@@ -98,9 +94,7 @@ describe('Media plugin', async () => {
 
     it('should change upload state to finished once multiple uploads have finished', async () => {
       const { pluginState } = editor(doc(p('')));
-      const provider = await mediaProvider;
-      await provider.uploadContext;
-      await provider.viewContext;
+      await mediaProvider;
 
       const fooEvents: Array<(state: MediaState) => void> = [];
       const barEvents: Array<(state: MediaState) => void> = [];
