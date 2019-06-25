@@ -11,7 +11,7 @@ import {
   CardSurroundings,
   CardEventClickHandler,
 } from '@atlaskit/editor-common';
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 import { MediaProps } from './media';
 
 export interface MediaGroupProps {

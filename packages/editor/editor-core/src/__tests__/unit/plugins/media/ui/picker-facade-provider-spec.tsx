@@ -29,20 +29,20 @@ import {
   MediaProvider,
 } from '../../../../../plugins/media/pm-plugins/main';
 import PickerFacadeProvider from '../../../../../plugins/media/ui/PickerFacadeProvider';
-import { fakeContext } from '@atlaskit/media-test-helpers';
+import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers';
 import { ProviderFactory } from '@atlaskit/editor-common';
 
 describe('PickerFacadeProvider', () => {
   let pluginState: MediaPluginState;
   let provider: MediaProvider;
-  const dummyContext = fakeContext();
+  const dummyMediaClientConfig = getDefaultMediaClientConfig();
   const sendAnalyticsSpy = jest.fn();
 
   beforeEach(() => {
     pluginState = {} as MediaPluginState;
     provider = {} as MediaProvider;
     provider.uploadParams = {};
-    provider.uploadContext = Promise.resolve(dummyContext);
+    provider.uploadMediaClientConfig = dummyMediaClientConfig;
 
     const providerFactory = new ProviderFactory();
     providerFactory.subscribe = (_name, callback) =>
@@ -67,13 +67,13 @@ describe('PickerFacadeProvider', () => {
         mediaState={pluginState}
         analyticsName="analyticsNameTest"
       >
-        {({ context, config, pickerFacadeInstance }) => {
+        {({ mediaClientConfig, config, pickerFacadeInstance }) => {
           /**
            * This test cover the basic PickerFacade initialization for any use case of this class.
            * These are mainly use for any MediaPicker react component.
            * */
           expect(pickerFacadeInstance).toBe(picker);
-          expect(context).toBe(dummyContext);
+          expect(mediaClientConfig).toBe(dummyMediaClientConfig);
           expect(config).toEqual({
             uploadParams: provider.uploadParams,
           });
@@ -110,8 +110,8 @@ describe('PickerFacadeProvider', () => {
     expect(pluginState.options.providerFactory.unsubscribe).toBeCalled();
   });
 
-  it('should not render children if context is not defined', () => {
-    provider.uploadContext = Promise.resolve() as any;
+  it('should not render children if mediaClientConfig is not defined', () => {
+    provider.uploadMediaClientConfig = Promise.resolve() as any;
     mount(
       <PickerFacadeProvider
         mediaState={pluginState}

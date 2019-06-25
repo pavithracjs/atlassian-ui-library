@@ -143,8 +143,14 @@ export default class EditorActions implements EditorActionsOptions {
     }
 
     return compose(
+      doc =>
+        this.contentEncode
+          ? this.contentEncode(
+              Node.fromJSON(this.editorView!.state.schema, doc),
+            )
+          : doc,
       sanitizeNode,
-      this.contentEncode || toJSON,
+      toJSON,
     )(doc);
   }
 

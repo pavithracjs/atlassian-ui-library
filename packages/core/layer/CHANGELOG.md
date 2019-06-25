@@ -1,5 +1,13 @@
 # @atlaskit/layer
 
+## 7.0.3
+
+### Patch Changes
+
+- [patch][6fe990954c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fe990954c):
+
+  Adjusted the offset prop for Popper to not use the deprecated format
+
 ## 7.0.2
 
 ### Patch Changes

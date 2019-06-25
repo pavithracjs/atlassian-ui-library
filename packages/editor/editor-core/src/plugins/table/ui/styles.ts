@@ -147,7 +147,7 @@ const InsertButton = () => `
   .${ClassName.CONTROLS_INSERT_BUTTON_INNER} {
     position: absolute;
     z-index: ${akEditorUnitZIndex + 10};
-    bottom: 1px;
+    bottom: 0;
   }
   .${ClassName.CONTROLS_INSERT_BUTTON_INNER},
   .${ClassName.CONTROLS_INSERT_BUTTON} {
@@ -163,6 +163,9 @@ const InsertButton = () => `
   }
   .${ClassName.CONTROLS_INSERT_LINE} {
     display: none;
+  }
+  &:hover .${ClassName.CONTROLS_INSERT_LINE} {
+    display: flex;
   }
 `;
 
@@ -201,6 +204,25 @@ const DeleteButtonHover = () => `
   }
 `;
 
+const insertColumnButtonWrapper = `
+  ${InsertButton()}
+  ${InsertButtonHover()}
+  ${InsertLine(`
+    width: 2px;
+    left: 9px;
+  `)}
+`;
+
+const insertRowButtonWrapper = `
+  ${InsertButton()}
+  ${InsertButtonHover()}
+  ${InsertLine(`
+    height: 2px;
+    top: -11px;
+    left: ${tableInsertColumnButtonSize - 1}px;
+  `)}
+`;
+
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
     background: ${N20A};
@@ -216,6 +238,13 @@ export const tableStyles = css`
 
   .ProseMirror {
     ${tableSharedStyle}
+    .${ClassName.CONTROLS_FLOATING_BUTTON_COLUMN} {
+      ${insertColumnButtonWrapper}
+    }
+
+    .${ClassName.CONTROLS_FLOATING_BUTTON_ROW} {
+      ${insertRowButtonWrapper}
+    }
 
     .less-padding {
       padding: 0 ${tablePadding}px;
@@ -244,6 +273,11 @@ export const tableStyles = css`
       height: ${tableToolbarSize}px;
       box-sizing: border-box;
       display: none;
+
+      ${InsertMarker(`
+        right: -1px;
+        top: -12px;
+      `)};
 
       .${ClassName.COLUMN_CONTROLS_INNER} {
         display: flex;
@@ -287,66 +321,35 @@ export const tableStyles = css`
       ${DeleteButton(`
         top: -${tableDeleteButtonSize + 4}px;
       `)}
-      .${ClassName.CONTROLS_INSERT_BUTTON_WRAP} {
-        position: absolute;
-        height: ${tableInsertColumnButtonSize}px;
-        width: ${tableInsertColumnButtonSize}px;
-        z-index: ${akEditorSmallZIndex};
-        &:hover .${ClassName.CONTROLS_INSERT_LINE} {
-          display: flex;
-        }
-      }
-      .${ClassName.CONTROLS_INSERT_COLUMN} {
-        top: -${tableInsertColumnButtonTopOffset}px;
-        right: -${tableInsertColumnButtonSize / 2}px;
-      }
-      .${ClassName.CONTROLS_INSERT_ROW} {
-        top: 2px;
-        left: -${tableDeleteButtonSize + 2}px;
-      }
     }
+
     :not(.${ClassName.IS_RESIZING}) .${ClassName.COLUMN_CONTROLS},
     :not(.${ClassName.IS_RESIZING}) .${ClassName.CORNER_CONTROLS} {
       ${ DeleteButtonHover()}
     }
-    .${ClassName.COLUMN_CONTROLS},
-    .${ClassName.CONTROLS_INSERT_COLUMN} {
-      ${InsertButton()}
-      ${InsertMarker(`
-        bottom: 5px;
-        left: 7px;
-      `)}
-    }
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.CONTROLS_INSERT_COLUMN} {
-      ${InsertButtonHover()}
-      ${InsertLine(`
-        width: 2px;
-        left: 9px;
-        top: ${tableInsertColumnButtonSize - 2}px;
-      `)}
-    }
-    .${ClassName.ROW_CONTROLS},
-    .${ClassName.CONTROLS_INSERT_ROW} {
-      ${InsertButton()}
-      ${InsertMarker(`
-        top: 7px;
-        right: 5px;
-      `)}
-    }
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.CONTROLS_INSERT_ROW} {
-      ${InsertButtonHover()}
-      ${InsertLine(`
-        height: 2px;
-        top: 8px;
-        left: ${tableInsertColumnButtonSize - 2}px;
-      `)}
-    }
-
     /* Corner controls */
     .${ClassName.CORNER_CONTROLS} {
       width: ${tableToolbarSize + 1}px;
       height: ${tableToolbarSize + 1}px;
       display: none;
+
+      .${ClassName.CORNER_CONTROLS_INSERT_ROW_MARKER} {
+        position: relative;
+
+        ${InsertMarker(`
+          left: -11px;
+          top: 9px;
+        `)};
+      }
+
+      .${ClassName.CORNER_CONTROLS_INSERT_COLUMN_MARKER} {
+        position: relative;
+
+        ${InsertMarker(`
+          right: -1px;
+          top: -12px;
+        `)};
+      }
     }
     .${ClassName.CONTROLS_CORNER_BUTTON} {
       position: absolute;
@@ -393,6 +396,11 @@ export const tableStyles = css`
       display: none;
       position: relative;
 
+      ${InsertMarker(`
+        bottom: -1px;
+        left: -11px;
+      `)};
+
       .${ClassName.ROW_CONTROLS_INNER} {
         display: flex;
         flex-direction: column;
@@ -408,17 +416,6 @@ export const tableStyles = css`
       .${ClassName.ROW_CONTROLS_BUTTON_WRAP}.active,
       .${ClassName.CONTROLS_BUTTON}:hover {
         z-index: ${akEditorUnitZIndex};
-      }
-      .${ClassName.CONTROLS_INSERT_BUTTON_WRAP} {
-        position: absolute;
-        bottom: -${tableInsertColumnButtonSize / 2}px;
-        left: -${tableInsertColumnButtonLeftOffset}px;
-        height: ${tableInsertColumnButtonSize}px;
-        width: ${tableInsertColumnButtonSize}px;
-        z-index: ${akEditorSmallZIndex};
-        &:hover .${ClassName.CONTROLS_INSERT_LINE} {
-          display: flex;
-        }
       }
       ${DeleteButton(`
         bottom: -${tableInsertColumnButtonSize / 2}px;

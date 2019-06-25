@@ -1,5 +1,13 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.7
+
+### Patch Changes
+
+- [patch][6fe990954c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fe990954c):
+
+  Adjusted the offset prop for Popper to not use the deprecated format
+
 ## 8.0.6
 
 ### Patch Changes

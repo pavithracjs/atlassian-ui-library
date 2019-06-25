@@ -154,7 +154,12 @@ export const TableCssClassName = {
   CONTROLS_DELETE_BUTTON_WRAP: `${tablePrefixSelector}-controls__delete-button-wrap`,
   CONTROLS_DELETE_BUTTON: `${tablePrefixSelector}-controls__delete-button`,
 
+  CONTROLS_FLOATING_BUTTON_COLUMN: `${tablePrefixSelector}-controls-floating__button-column`,
+  CONTROLS_FLOATING_BUTTON_ROW: `${tablePrefixSelector}-controls-floating__button-row`,
+
   CORNER_CONTROLS: `${tablePrefixSelector}-corner-controls`,
+  CORNER_CONTROLS_INSERT_ROW_MARKER: `${tablePrefixSelector}-corner-controls__insert-row-marker`,
+  CORNER_CONTROLS_INSERT_COLUMN_MARKER: `${tablePrefixSelector}-corner-controls__insert-column-marker`,
   CONTROLS_CORNER_BUTTON: `${tablePrefixSelector}-corner-button`,
 
   NUMBERED_COLUMN: `${tablePrefixSelector}-numbered-column`,
