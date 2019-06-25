@@ -1,3 +1,4 @@
+import uuidV4 from 'uuid/v4';
 import { updateMediaNodeAttrs } from '../commands';
 import { MediaSingleNodeProps } from './types';
 import { MediaAttributes, ExternalMediaAttributes } from '@atlaskit/adf-schema';
@@ -23,7 +24,7 @@ export class MediaNodeUpdater {
 
     const { id } = attrs;
     const objectId = await this.getObjectId();
-    console.log('updateContextId updateMediaNodeAttrs', id, objectId);
+
     updateMediaNodeAttrs(
       id,
       {
@@ -126,11 +127,7 @@ export class MediaNodeUpdater {
 
     const { collection: nodeCollection, __contextId } = attrs;
     const contextId = __contextId || (await this.getObjectId());
-    console.log('isNodeFromDifferentCollection', {
-      contextId,
-      currentCollectionName,
-      nodeCollection,
-    });
+
     if (contextId && currentCollectionName !== nodeCollection) {
       return true;
     }
@@ -141,31 +138,37 @@ export class MediaNodeUpdater {
   // TODO: find a better name
   copyNode = async () => {
     const mediaProvider = await this.props.mediaProvider;
-    if (!mediaProvider || !mediaProvider.uploadParams) {
-      return;
-    }
-
-    const currentCollectionName = mediaProvider.uploadParams.collection;
     const attrs = this.getAttrs();
-    if (!attrs) {
+    if (!mediaProvider || !mediaProvider.uploadParams || !attrs) {
       return;
     }
+    const currentCollectionName = mediaProvider.uploadParams.collection;
+    const contextId = this.getCurrentContextId() || (await this.getObjectId());
+    const uploadContext = await mediaProvider.uploadContext;
 
-    const { collection: nodeCollection, __contextId } = attrs;
+    if (uploadContext && uploadContext.config.getAuthFromContext) {
+      const auth = await uploadContext.config.getAuthFromContext(contextId);
+      const { id, collection } = attrs;
+      const source = {
+        id,
+        collection,
+        authProvider: () => Promise.resolve(auth),
+      };
+      const destination = {
+        collection: currentCollectionName,
+        authProvider: uploadContext.config.authProvider,
+        occurrenceKey: uuidV4(),
+      };
+      const mediaFile = await uploadContext.file.copyFile(source, destination);
 
-    console.log('copyNode', {
-      __contextId,
-      currentCollectionName,
-      nodeCollection,
-    });
-    if (__contextId && currentCollectionName !== nodeCollection) {
-      const uploadContext = await mediaProvider.uploadContext;
-
-      if (uploadContext && uploadContext.config.getAuthFromContext) {
-        const auth = await uploadContext.config.getAuthFromContext(__contextId);
-        // TODO: call copyWithToken with that auth
-        console.log({ auth });
-      }
+      updateMediaNodeAttrs(
+        source.id,
+        {
+          id: mediaFile.id,
+          collection: currentCollectionName,
+        },
+        true,
+      )(this.props.view.state, this.props.view.dispatch);
     }
   };
 }

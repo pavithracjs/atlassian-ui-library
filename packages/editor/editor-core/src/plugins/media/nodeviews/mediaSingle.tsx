@@ -79,8 +79,8 @@ export default class MediaSingleNode extends Component<
 
     const isNodeFromDifferentCollection = await this.mediaNodeUpdater.isNodeFromDifferentCollection();
 
-    console.log({ isNodeFromDifferentCollection });
     if (isNodeFromDifferentCollection) {
+      this.mediaNodeUpdater.copyNode();
     }
   }
 

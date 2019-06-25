@@ -37,7 +37,8 @@ export function storyMediaProviderFactory(
       includeUserAuthProvider === false ? undefined : userAuthProvider,
     getAuthFromContext(contextId: string) {
       console.log('getAuthFromContext', contextId);
-      return {} as any;
+
+      return mediaPickerAuthProvider()();
     },
   });
 
