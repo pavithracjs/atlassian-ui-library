@@ -20,7 +20,7 @@ export interface MediaSingleNodeProps {
   editorAppearance: EditorAppearance;
   mediaOptions: MediaOptions;
   mediaProvider?: Promise<MediaProvider>;
-  contextIdentifierProvider: Promise<ContextIdentifierProvider>; // TODO: find right interface
+  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
   fullWidthMode?: boolean;
   mediaPluginState: MediaPluginState;
 }
