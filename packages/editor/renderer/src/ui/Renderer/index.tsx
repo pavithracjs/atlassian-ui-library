@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { Schema } from 'prosemirror-model';
 import { defaultSchema } from '@atlaskit/adf-schema';
+import { reduce } from '@atlaskit/adf-utils';
 import {
   ADFStage,
   UnsupportedBlock,
@@ -12,6 +13,9 @@ import {
   WidthProvider,
   getAnalyticsAppearance,
   WithCreateAnalyticsEvent,
+  getResponseEndTime,
+  startMeasure,
+  stopMeasure,
 } from '@atlaskit/editor-common';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { FabricChannel } from '@atlaskit/analytics-listeners';
@@ -56,6 +60,7 @@ export class Renderer extends PureComponent<Props, {}> {
     super(props);
     this.providerFactory = props.dataProviders || new ProviderFactory();
     this.updateSerializer(props);
+    startMeasure('Renderer Render Time');
   }
 
   componentDidMount() {
@@ -64,6 +69,29 @@ export class Renderer extends PureComponent<Props, {}> {
       actionSubject: ACTION_SUBJECT.RENDERER,
       attributes: { platform: PLATFORM.WEB },
       eventType: EVENT_TYPE.UI,
+    });
+
+    requestAnimationFrame(() => {
+      stopMeasure('Renderer Render Time', duration => {
+        this.fireAnalyticsEvent({
+          action: ACTION.RENDERED,
+          actionSubject: ACTION_SUBJECT.RENDERER,
+          attributes: {
+            platform: PLATFORM.WEB,
+            duration,
+            ttfb: getResponseEndTime(),
+            nodes: reduce<Record<string, number>>(
+              this.props.document,
+              (acc, node) => {
+                acc[node.type] = (acc[node.type] || 0) + 1;
+                return acc;
+              },
+              {},
+            ),
+          },
+          eventType: EVENT_TYPE.OPERATIONAL,
+        });
+      });
     });
   }
 
