@@ -1,1 +1,0 @@
-Renderer does not inline CSS anymore, but can be turned on by a flag for testing purposes

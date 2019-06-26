@@ -1,4 +1,0 @@
-{
-  "releases": [{ "name": "@atlaskit/email-renderer", "type": "major" }],
-  "dependents": []
-}

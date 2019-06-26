@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.0.0
+
+### Major Changes
+
+- [major][38d11825f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38d11825f2):
+
+  Renderer does not inline CSS anymore, but can be turned on by a flag for testing purposes
+
 ## 1.4.0
 
 ### Minor Changes
