@@ -5,7 +5,6 @@ import {
   createEditorFactory,
   table,
   tr,
-  tdEmpty,
   thEmpty,
   mountWithIntl,
 } from '@atlaskit/editor-test-helpers';
@@ -21,8 +20,6 @@ import {
 import CornerControls from '../../../../../plugins/table/ui/TableFloatingControls/CornerControls';
 import { tablesPlugin } from '../../../../../plugins';
 
-const InsertColumnButton = `.${ClassName.CONTROLS_INSERT_COLUMN}`;
-const InsertRowButton = `.${ClassName.CONTROLS_INSERT_ROW}`;
 const CornerButton = `.${ClassName.CONTROLS_CORNER_BUTTON}`;
 
 describe('CornerControls', () => {
@@ -34,72 +31,6 @@ describe('CornerControls', () => {
       editorPlugins: [tablesPlugin()],
       pluginKey,
     });
-
-  describe('when table has number column enabled', () => {
-    it('should render insert column and insert row buttons', () => {
-      const { editorView } = editor(
-        doc(
-          table()(tr(tdEmpty, tdEmpty, tdEmpty), tr(tdEmpty, tdEmpty, tdEmpty)),
-        ),
-      );
-
-      const controls = mountWithIntl(
-        <CornerControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          isNumberColumnEnabled={true}
-        />,
-      );
-
-      expect(controls.find(InsertColumnButton)).toHaveLength(1);
-      expect(controls.find(InsertRowButton)).toHaveLength(1);
-      controls.unmount();
-    });
-  });
-
-  describe('when table has header column enabled', () => {
-    it('should not render insert column button', () => {
-      const { editorView } = editor(
-        doc(
-          table()(tr(thEmpty, tdEmpty, tdEmpty), tr(thEmpty, tdEmpty, tdEmpty)),
-        ),
-      );
-
-      const controls = mountWithIntl(
-        <CornerControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          isHeaderColumnEnabled={true}
-        />,
-      );
-
-      expect(controls.find(InsertColumnButton)).toHaveLength(0);
-      expect(controls.find(InsertRowButton)).toHaveLength(1);
-      controls.unmount();
-    });
-  });
-
-  describe('when table has header row enabled', () => {
-    it('should not render insert row button', () => {
-      const { editorView } = editor(
-        doc(
-          table()(tr(thEmpty, thEmpty, thEmpty), tr(tdEmpty, tdEmpty, tdEmpty)),
-        ),
-      );
-
-      const controls = mountWithIntl(
-        <CornerControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          isHeaderRowEnabled={true}
-        />,
-      );
-
-      expect(controls.find(InsertColumnButton)).toHaveLength(1);
-      expect(controls.find(InsertRowButton)).toHaveLength(0);
-      controls.unmount();
-    });
-  });
 
   describe('when button is clicked', () => {
     it('should select the table', () => {

@@ -19,6 +19,7 @@ import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearc
 import { QuickSearchContext } from '../../../api/types';
 import { mockLogger } from '../mocks/_mockLogger';
 
+const defaultAutocompleteData = ['autocomplete', 'automock', 'automation'];
 const defaultReferralContext = {
   searchReferrerId: 'referrerId',
   currentContentId: 'currentContentId',
@@ -51,6 +52,9 @@ const defaultProps = {
   getSearchResults: jest.fn(
     (query: string, sessionId: string, startTime: number) =>
       Promise.resolve({ results: {} }),
+  ),
+  getAutocompleteSuggestions: jest.fn((query: string) =>
+    Promise.resolve(defaultAutocompleteData),
   ),
   createAnalyticsEvent: jest.fn(() => mockEvent),
   handleSearchSubmit: jest.fn(),
@@ -426,6 +430,55 @@ describe('QuickSearchContainer', () => {
         latestSearchQuery: newQuery,
       });
       assertPostQueryAnalytics(newQuery, searchResults);
+    });
+  });
+
+  describe('Autocomplete', () => {
+    it('renders GlobalQuickSearch with undefined autocomplete data', async () => {
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
+
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
+    });
+
+    it('should call getAutocomplete when onAutocomplete is triggered', async () => {
+      const query = 'auto';
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
+
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      expect(defaultProps.getAutocompleteSuggestions).toHaveBeenCalledWith(
+        query,
+      );
+    });
+
+    it('should pass down the results of getAutocomplete to GlobalQuickSearch', async () => {
+      const query = 'auto';
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
+
+      let globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      wrapper.update();
+      globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocompleteSuggestions')).toBe(
+        defaultAutocompleteData,
+      );
+    });
+
+    it('should handle error', async () => {
+      const query = 'auto';
+      const wrapper = await mountQuickSearchContainerWaitingForRender({
+        getAutocompleteSuggestions: () =>
+          Promise.reject(new Error('everything is broken')),
+      });
+
+      let globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
     });
   });
 });

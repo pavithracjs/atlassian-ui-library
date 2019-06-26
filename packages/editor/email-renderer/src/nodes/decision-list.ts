@@ -1,4 +1,4 @@
-import { createTag } from '../util';
+import { createTag } from '../create-tag';
 import { NodeSerializerOpts } from '../interfaces';
 
 export default function decisionList({ text }: NodeSerializerOpts) {

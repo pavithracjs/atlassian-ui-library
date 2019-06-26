@@ -12,7 +12,7 @@ export enum Scope {
   UserConfluence = 'urs.user-confluence',
 }
 
-export type QuickSearchContext = 'jira' | 'confluence' | 'home';
+export type QuickSearchContext = 'jira' | 'confluence';
 
 type ConfluenceItemContentType = 'page' | 'blogpost';
 

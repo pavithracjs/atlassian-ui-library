@@ -70,30 +70,3 @@ export function makePersonResult(
     ...partial,
   };
 }
-
-export function delay<T>(millis: number = 1, value?: T): Promise<T> {
-  return new Promise(resolve =>
-    window.setTimeout(() => resolve(value), millis),
-  );
-}
-
-export function waitUntil(
-  condition: () => boolean,
-  totalTime: number,
-  timeBetweenRetries?: number,
-): Promise<void> {
-  let waitingTime = 0;
-  const timeToWait = timeBetweenRetries || 100;
-  return new Promise((resolve, reject) => {
-    const id = window.setInterval(() => {
-      if (condition()) {
-        clearInterval(id);
-        resolve();
-      }
-      waitingTime += timeToWait;
-      if (waitingTime > totalTime) {
-        reject();
-      }
-    }, timeToWait);
-  });
-}

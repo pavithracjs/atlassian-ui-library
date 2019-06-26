@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { mount, shallow } from 'enzyme';
 import * as sinon from 'sinon';
-import { imageFileId, genericFileId } from '@atlaskit/media-test-helpers';
+import {
+  imageFileId,
+  genericFileId,
+  nextTick,
+} from '@atlaskit/media-test-helpers';
 import { storyMediaProviderFactory } from '@atlaskit/editor-test-helpers';
 import {
   Card,
@@ -102,9 +106,8 @@ describe('MediaGroup', () => {
 
     expect(mediaGroup.find(FilmstripView)).toHaveLength(1);
 
-    const provider = await mediaProvider;
-    await provider.viewContext;
-    await provider.uploadContext;
+    await mediaProvider;
+    await nextTick();
     mediaGroup.update();
 
     const card = mediaGroup

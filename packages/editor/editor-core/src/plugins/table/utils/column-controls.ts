@@ -17,14 +17,18 @@ export interface ColumnParams {
   width: number;
 }
 
-export const getColumnsWidths = (view: EditorView): number[] => {
+export const getColumnsWidths = (
+  view: EditorView,
+): Array<number | undefined> => {
   const { selection } = view.state;
-  const widths: number[] = [];
+  let widths: Array<number | undefined> = [];
   const table = findTable(selection);
   if (table) {
     const map = TableMap.get(table.node);
     const domAtPos = view.domAtPos.bind(view);
 
+    // When there is no cell we need to fill it with undefined
+    widths = Array.from({ length: map.width });
     for (let i = 0; i < map.width; i++) {
       const cells = getCellsInColumn(i)(selection)!;
       const cell = cells[0];
@@ -37,23 +41,6 @@ export const getColumnsWidths = (view: EditorView): number[] => {
     }
   }
   return widths;
-};
-
-export const isColumnInsertButtonVisible = (
-  index: number,
-  selection: Selection,
-): boolean => {
-  const rect = getSelectionRect(selection);
-  if (
-    rect &&
-    selection instanceof CellSelection &&
-    selection.isColSelection() &&
-    !isTableSelected(selection) &&
-    rect.right - index === index - rect.left
-  ) {
-    return false;
-  }
-  return true;
 };
 
 export const isColumnDeleteButtonVisible = (selection: Selection): boolean => {

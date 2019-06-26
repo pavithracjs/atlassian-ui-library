@@ -1,5 +1,29 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
+## 8.7.4
+
+### Patch Changes
+
+- [patch][c3e3421cb9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3e3421cb9):
+
+  FM-2054: improved table rendering in Hybrid Editor for Mobile
+
+## 8.7.3
+
+### Patch Changes
+
+- [patch][bb64fcedcb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bb64fcedcb):
+
+  uploadContext and viewContext fields of MediaProvider (part of Editor and Renderer props) are deprecated. New fields uploadMediaClientConfig and viewMediaClientConfig should be used from now on.
+
 ## 8.7.2
 
 - Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):

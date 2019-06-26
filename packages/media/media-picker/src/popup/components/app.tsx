@@ -12,7 +12,6 @@ import {
 
 import { ServiceName, State } from '../domain';
 
-import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { UploadParams, PopupConfig } from '../..';
 
@@ -57,6 +56,7 @@ import {
 } from '../../components/types';
 
 import { Clipboard } from '../../components/clipboard/clipboard';
+import { Browser as BrowserComponent } from '../../components/browser/browser';
 import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {
@@ -104,10 +104,10 @@ export interface AppState {
 }
 
 export class App extends Component<AppProps, AppState> {
-  private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
-  private readonly localUploader: LocalUploadComponent;
   private readonly componentMediaClient: MediaClient;
+  private browserRef = React.createRef<BrowserComponent>();
+  private readonly localUploader: LocalUploadComponent;
 
   constructor(props: AppProps) {
     super(props);
@@ -151,19 +151,6 @@ export class App extends Component<AppProps, AppState> {
     this.localUploader.on('upload-end', onUploadEnd);
     this.localUploader.on('upload-error', onUploadError);
 
-    this.mpBrowser = new MpBrowser(mediaClient, {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-      multiple: true,
-    });
-
-    this.mpBrowser.on('uploads-start', onUploadsStart);
-    this.mpBrowser.on('upload-preview-update', onUploadPreviewUpdate);
-    this.mpBrowser.on('upload-status-update', onUploadStatusUpdate);
-    this.mpBrowser.on('upload-processing', onUploadProcessing);
-    this.mpBrowser.on('upload-end', onUploadEnd);
-    this.mpBrowser.on('upload-error', onUploadError);
-
     this.mpDropzone = new MpDropzone(mediaClient, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
@@ -180,7 +167,9 @@ export class App extends Component<AppProps, AppState> {
 
     onStartApp({
       onCancelUpload: uploadId => {
-        this.mpBrowser.cancel(uploadId);
+        this.browserRef &&
+          this.browserRef.current &&
+          this.browserRef.current.cancel(uploadId);
         this.mpDropzone.cancel(uploadId);
         this.localUploader.cancel(uploadId);
       },
@@ -217,7 +206,6 @@ export class App extends Component<AppProps, AppState> {
 
   componentWillUnmount(): void {
     this.mpDropzone.deactivate();
-    this.mpBrowser.teardown();
   }
 
   render() {
@@ -248,6 +236,7 @@ export class App extends Component<AppProps, AppState> {
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
                 {this.renderClipboard()}
+                {this.renderBrowser()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -262,7 +251,7 @@ export class App extends Component<AppProps, AppState> {
       const { userMediaClient } = this.props;
       return (
         <UploadView
-          mpBrowser={this.mpBrowser}
+          browserRef={this.browserRef}
           mediaClient={userMediaClient}
           recentsCollection={RECENTS_COLLECTION}
         />
@@ -300,6 +289,37 @@ export class App extends Component<AppProps, AppState> {
         mediaClient={this.componentMediaClient}
         config={config}
         onUploadsStart={this.onDrop}
+        onPreviewUpdate={onUploadPreviewUpdate}
+        onStatusUpdate={onUploadStatusUpdate}
+        onProcessing={onUploadProcessing}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
+      />
+    );
+  };
+
+  private renderBrowser = () => {
+    const {
+      tenantUploadParams,
+      onUploadsStart,
+      onUploadPreviewUpdate,
+      onUploadStatusUpdate,
+      onUploadProcessing,
+      onUploadEnd,
+      onUploadError,
+    } = this.props;
+    const config = {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+      multiple: true,
+    };
+
+    return (
+      <BrowserComponent
+        ref={this.browserRef}
+        mediaClient={this.componentMediaClient}
+        config={config}
+        onUploadsStart={onUploadsStart}
         onPreviewUpdate={onUploadPreviewUpdate}
         onStatusUpdate={onUploadStatusUpdate}
         onProcessing={onUploadProcessing}

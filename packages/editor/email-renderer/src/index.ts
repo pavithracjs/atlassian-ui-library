@@ -1,4 +1,3 @@
-import { fontFamily, fontSize } from '@atlaskit/theme';
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 import flow from 'lodash.flow';
@@ -7,11 +6,13 @@ import {
   SerializeFragmentWithAttachmentsResult,
   SerializerWithImages,
 } from './serializer';
-import { nodeSerializers } from './serializers';
+import { nodeSerializers } from './node-serializers';
 import styles from './styles';
 import juice from 'juice';
-import { escapeHtmlString } from './util';
+import { escapeHtmlString } from './escape-html-string';
 import { getImageProcessor } from './static';
+import { createClassName } from './styles/util';
+import { fontFamily, fontSize } from './styles/common';
 
 const serializeNode = (
   node: PMNode,
@@ -76,8 +77,8 @@ const traverseTree = (fragment: Fragment, parent?: PMNode): any => {
 };
 
 export const commonStyle = {
-  'font-family': fontFamily(),
-  'font-size': `${fontSize()}px`,
+  'font-family': fontFamily,
+  'font-size': fontSize,
   'font-weight': 400,
   'line-height': '24px',
 };
@@ -85,7 +86,9 @@ export const commonStyle = {
 const wrapAdf = (content: any[]) => ({ version: 1, type: 'doc', content });
 
 const juicify = (html: string): string =>
-  juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
+  juice(`<div class="${createClassName('wrapper')}">${html}</div>`, {
+    extraCss: styles,
+  });
 
 // replace all CID image references with a fake image
 const stubImages = (isMockEnabled: boolean) => (

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/smart-card",
-  "version": "12.1.1",
+  "version": "12.2.1",
   "description": "Smart card component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -24,7 +24,7 @@
     "@atlaskit/media-ui": "^11.2.8",
     "@atlaskit/outbound-auth-flow-client": "^2.0.2",
     "@atlaskit/theme": "^9.1.0",
-    "react-lazily-render-scroll-parent": "^1.1.1",
+    "react-lazily-render": "^1.2.0",
     "lodash.clonedeep": "^4.5.0",
     "react-loadable": "^5.1.0",
     "redux": "^3.7.2"

@@ -8,6 +8,7 @@ import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
 import {
   noResultsConfluenceClient,
   makeConfluenceClient,
+  mockAutocompleteClient,
 } from '../mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
 import QuickSearchContainer, {
@@ -44,6 +45,7 @@ const DEFAULT_FEATURES: ConfluenceFeatures = {
   isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
+  isAutocompleteEnabled: false,
 };
 
 function render(partialProps?: Partial<Props>) {
@@ -52,10 +54,10 @@ function render(partialProps?: Partial<Props>) {
     confluenceClient: noResultsConfluenceClient,
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
+    autocompleteClient: mockAutocompleteClient,
     logger,
     referralContextIdentifiers,
     features: DEFAULT_FEATURES,
-    firePrivateAnalyticsEvent: undefined,
     createAnalyticsEvent: undefined,
     inputControls: undefined,
     onAdvancedSearch: undefined,
@@ -213,9 +215,6 @@ describe('ConfluenceQuickSearchContainer', () => {
       peopleSearchClient: {
         getRecentPeople() {
           return Promise.resolve([makePersonResult()]);
-        },
-        search() {
-          return Promise.resolve([]);
         },
       },
       crossProductSearchClient: {
@@ -446,6 +445,25 @@ describe('ConfluenceQuickSearchContainer', () => {
       expect(mockedEvent.preventDefault).toHaveBeenCalledTimes(1);
       expect(mockedEvent.stopPropagation).toHaveBeenCalledTimes(1);
       expect(redirectSpy).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('Autocomplete', () => {
+    it('should not pass down getAutocomplete if isAutocompleteEnabled is false', () => {
+      const wrapper = render();
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).toBeUndefined();
+    });
+
+    it('should pass down getAutocomplete if isAutocompleteEnabled', () => {
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES, isAutocompleteEnabled: true },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
     });
   });
 });

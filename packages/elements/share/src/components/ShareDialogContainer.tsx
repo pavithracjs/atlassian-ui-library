@@ -261,7 +261,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       this._urlShorteningRequestCounter++;
       return this.urlShortenerClient
         .shorten(longLink, cloudId, productId)
-        .then(response => response.shortLink)
+        .then(response => response.shortUrl)
         .catch(() => {
           // TODO analytics
           return null;

@@ -4,9 +4,7 @@ export {
 } from './components/types';
 
 import {
-  Browser,
   BrowserConfig,
-  BrowserConstructor,
   ClipboardConfig,
   Popup,
   PopupConfig,
@@ -18,8 +16,6 @@ import {
 
 import { Context, MediaClientConfig } from '@atlaskit/media-core';
 
-export const isBrowser = (component: any): component is Browser =>
-  component && 'browse' in component && 'teardown' in component;
 export const isDropzone = (component: any): component is Dropzone =>
   component && 'activate' in component && 'deactivate' in component;
 export const isPopup = (component: any): component is Popup =>
@@ -47,16 +43,14 @@ export { ImagePreview, Preview, NonImagePreview } from './domain/preview';
 
 // Constructor public API and types
 export interface MediaPickerConstructors {
-  browser: BrowserConstructor;
   dropzone: DropzoneConstructor;
   popup: PopupConstructor;
 }
 
-export { Browser, Dropzone, Popup };
-export type MediaPickerComponent = Browser | Dropzone | Popup;
+export { Dropzone, Popup };
+export type MediaPickerComponent = Dropzone | Popup;
 
 export interface MediaPickerComponents {
-  browser: Browser;
   dropzone: Dropzone;
   popup: Popup;
 }
@@ -65,12 +59,11 @@ export { UploadParams } from './domain/config';
 
 export { BrowserConfig, DropzoneConfig, PopupConfig, ClipboardConfig };
 export interface ComponentConfigs {
-  browser: BrowserConfig;
   dropzone: DropzoneConfig;
   popup: PopupConfig;
 }
 
-export { BrowserConstructor, DropzoneConstructor, PopupConstructor };
+export { DropzoneConstructor, PopupConstructor };
 
 function isContext(
   contextOrMediaClientConfig: Context | MediaClientConfig,
@@ -84,23 +77,6 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
   pickerConfig?: ComponentConfigs[K],
 ): Promise<MediaPickerComponents[K]> {
   switch (componentName) {
-    case 'browser': {
-      const [{ BrowserImpl }, { getMediaClient }] = await Promise.all([
-        import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser'),
-        import(/* webpackChunkName:"@atlaskit-media-client" */ '@atlaskit/media-client'),
-      ]);
-
-      const contextOrMediaClientConfigObject = isContext(
-        contextOrMediaClientConfig,
-      )
-        ? { context: contextOrMediaClientConfig }
-        : { mediaClientConfig: contextOrMediaClientConfig };
-      const mediaClient = getMediaClient(contextOrMediaClientConfigObject);
-
-      return new BrowserImpl(mediaClient, pickerConfig as
-        | BrowserConfig
-        | undefined);
-    }
     case 'dropzone': {
       const [{ DropzoneImpl }, { getMediaClient }] = await Promise.all([
         import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone'),
@@ -143,3 +119,4 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 // REACT COMPONENTS
 
 export { ClipboardLoader as Clipboard } from './components/clipboard';
+export { BrowserLoader as Browser } from './components/browser';

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { UploadPreview } from './upload-preview';
-import { LocalUploadComponent } from '../src/components/localUpload';
-import { UploadsStartEventPayload } from '../src';
+import {
+  UploadsStartEventPayload,
+  UploadPreviewUpdateEventPayload,
+  UploadErrorEventPayload,
+} from '../src';
 import { PreviewsTitle, PreviewsWrapper } from './styled';
 import { PreviewData } from './types';
 
@@ -9,8 +12,14 @@ export interface PreviewsDataState {
   previewsData: PreviewData[];
 }
 
+interface BrowserPickerCallbacks {
+  onUploadsStart: (event: UploadsStartEventPayload) => void;
+  onPreviewUpdate: (event: UploadPreviewUpdateEventPayload) => void;
+  onError: (data: UploadErrorEventPayload) => void;
+}
+
 export interface PreviewsDataProps {
-  picker: LocalUploadComponent;
+  children: (callbacks: BrowserPickerCallbacks) => React.ReactNode;
 }
 
 export class UploadPreviews extends React.Component<
@@ -21,20 +30,7 @@ export class UploadPreviews extends React.Component<
     previewsData: [],
   };
 
-  componentDidUpdate(prevProps: PreviewsDataProps) {
-    prevProps.picker.removeAllListeners();
-    this.setupMediaPickerEventListeners();
-  }
-
-  componentDidMount() {
-    this.setupMediaPickerEventListeners();
-  }
-
-  componentWillUnmount() {
-    this.props.picker.removeAllListeners();
-  }
-
-  onUploadsStart = async (event: UploadsStartEventPayload) => {
+  onUploadsStart = (event: UploadsStartEventPayload) => {
     const { previewsData } = this.state;
     const { files } = event;
 
@@ -52,40 +48,38 @@ export class UploadPreviews extends React.Component<
     });
   };
 
-  private setupMediaPickerEventListeners() {
-    const picker = this.props.picker;
+  onPreviewUpdate = (data: UploadPreviewUpdateEventPayload) => {
     const { previewsData } = this.state;
-
-    picker.on('uploads-start', this.onUploadsStart);
-    picker.on('upload-error', data => {
-      console.log('upload error:', data);
+    const currentItem = previewsData[previewsData.length - 1];
+    currentItem.preview = data.preview;
+    this.setState({
+      previewsData: [...previewsData],
     });
-    picker.on('upload-preview-update', async data => {
-      const currentItem = previewsData[previewsData.length - 1];
-      currentItem.preview = data.preview;
-      this.setState({
-        previewsData: [...previewsData],
-      });
-    });
-  }
+  };
 
-  private renderPreviews = () => {
-    const { previewsData } = this.state;
-    return previewsData.map((previewsData, index) => (
-      <UploadPreview
-        key={`${index}`}
-        fileId={previewsData.fileId}
-        upfrontId={previewsData.upfrontId}
-        preview={previewsData.preview}
-      />
-    ));
+  onError = (data: UploadErrorEventPayload) => {
+    console.log('upload error:', data);
   };
 
   render() {
+    const { previewsData } = this.state;
+
     return (
       <PreviewsWrapper>
         <PreviewsTitle>Upload previews</PreviewsTitle>
-        {this.renderPreviews()}
+        {this.props.children({
+          onUploadsStart: this.onUploadsStart,
+          onError: this.onError,
+          onPreviewUpdate: this.onPreviewUpdate,
+        })}
+        {previewsData.map((previewsData, index) => (
+          <UploadPreview
+            key={`${index}`}
+            fileId={previewsData.fileId}
+            upfrontId={previewsData.upfrontId}
+            preview={previewsData.preview}
+          />
+        ))}
       </PreviewsWrapper>
     );
   }
