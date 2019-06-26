@@ -20,6 +20,7 @@ describe('LayoutManagerWithViewController', () => {
       customComponents: { Foo: () => null },
       globalNavigation: GlobalNavigationComponent,
       experimental_flyoutOnHover: false,
+      experimental_hideNavVisuallyOnCollapse: false,
       firstSkeletonToRender: 'product',
       onCollapseStart: jest.fn(),
       onCollapseEnd: jest.fn(),
