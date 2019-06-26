@@ -45,6 +45,8 @@ const createScreenEvent = (
   attributes: buildAttributes(attributes),
 });
 
+export const screenEvent = () => createScreenEvent('shareModal');
+
 // = share dialog invoked. Not to be confused with "share submitted"
 export const shareTriggerButtonClicked = () =>
   createEvent('ui', 'clicked', 'button', 'share');
@@ -62,10 +64,8 @@ export const copyLinkButtonClicked = (
   createEvent('ui', 'clicked', 'button', 'copyShareLink', {
     source: 'shareModal',
     duration: duration(start),
-    ...handleShareOrigin(shareOrigin),
+    ...getOriginTracingAttributes(shareOrigin),
   });
-
-export const screenEvent = () => createScreenEvent('shareModal');
 
 export const formShareSubmitted = (
   start: number,
@@ -79,7 +79,7 @@ export const formShareSubmitted = (
   const teamUserCounts = extractMemberCountsFromTeams(data, isTeam);
   const emails = extractIdsByType(data, isEmail);
   return createEvent('ui', 'clicked', 'button', 'submitShare', {
-    ...handleShareOrigin(shareOrigin),
+    ...getOriginTracingAttributes(shareOrigin),
     contentType: shareContentType,
     duration: duration(start),
     emailCount: emails.length,
@@ -101,10 +101,8 @@ export const formShareSubmitted = (
 
 const duration = (start: number) => Date.now() - start;
 
-const handleShareOrigin = (shareOrigin?: OriginTracing | null) =>
-  shareOrigin
-    ? shareOrigin.toAnalyticsAttributes({ hasGeneratedId: true })
-    : {};
+const getOriginTracingAttributes = (origin?: OriginTracing | null) =>
+  origin ? origin.toAnalyticsAttributes({ hasGeneratedId: true }) : {};
 
 const extractIdsByType = <T extends OptionData>(
   data: DialogContentState,
