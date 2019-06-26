@@ -45,7 +45,8 @@ const createScreenEvent = (
   attributes: buildAttributes(attributes),
 });
 
-export const buttonClicked = () =>
+// = share dialog invoked. Not to be confused with "share submitted"
+export const shareTriggerButtonClicked = () =>
   createEvent('ui', 'clicked', 'button', 'share');
 
 export const cancelShare = (start: number) =>
@@ -54,7 +55,7 @@ export const cancelShare = (start: number) =>
     duration: duration(start),
   });
 
-export const copyShareLink = (
+export const copyLinkButtonClicked = (
   start: number,
   shareOrigin?: OriginTracing | null,
 ) =>
@@ -66,7 +67,7 @@ export const copyShareLink = (
 
 export const screenEvent = () => createScreenEvent('shareModal');
 
-export const submitShare = (
+export const formShareSubmitted = (
   start: number,
   data: DialogContentState,
   shareContentType?: string,

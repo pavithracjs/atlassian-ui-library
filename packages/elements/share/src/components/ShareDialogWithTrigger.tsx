@@ -25,11 +25,11 @@ import {
   ShareError,
 } from '../types';
 import {
-  buttonClicked,
+  shareTriggerButtonClicked,
   cancelShare,
-  copyShareLink,
+  copyLinkButtonClicked,
   screenEvent,
-  submitShare,
+  formShareSubmitted,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -190,7 +190,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private onTriggerClick = () => {
-    this.createAndFireEvent(buttonClicked());
+    this.createAndFireEvent(shareTriggerButtonClicked());
 
     this.setState(
       state => ({
@@ -232,7 +232,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
     this.setState({ isSharing: true });
 
     this.createAndFireEvent(
-      submitShare(this.start, data, shareContentType, formShareOrigin, config),
+      formShareSubmitted(
+        this.start,
+        data,
+        shareContentType,
+        formShareOrigin,
+        config,
+      ),
     );
 
     onShareSubmit(data)
@@ -259,7 +265,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
 
   handleCopyLink = () => {
     const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(copyShareLink(this.start, copyLinkOrigin));
+    this.createAndFireEvent(copyLinkButtonClicked(this.start, copyLinkOrigin));
   };
 
   render() {
