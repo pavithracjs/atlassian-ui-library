@@ -156,6 +156,43 @@ exports[`Renderer - EmailSerializer should inline text properties correctly: htm
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should not inline CSS: html 1`] = `
+<div
+  class="pfcs-generated-wrapper"
+>
+  <span
+    class="pfcs-generated-status-blue"
+  >
+    In progress
+  </span>
+  <span
+    class="pfcs-generated-status-neutral"
+  >
+    Neutral
+  </span>
+  <span
+    class="pfcs-generated-status-red"
+  >
+    Overdue
+  </span>
+  <span
+    class="pfcs-generated-status-yellow"
+  >
+    Yellow
+  </span>
+  <span
+    class="pfcs-generated-status-purple"
+  >
+    Purple
+  </span>
+  <span
+    class="pfcs-generated-status-green"
+  >
+    Green
+  </span>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render block cards correctly: html 1`] = `
 <div
   class="pfcs-generated-wrapper"

@@ -1,4 +1,4 @@
-import EmailSerializer from '..';
+import EmailSerializer, { EmailSerializerOpts } from '..';
 import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 import * as paragraphIndents from './__fixtures__/paragraph-indents.adf.json';
@@ -31,8 +31,20 @@ import * as action from './__fixtures__/action.adf.json';
 import * as annotation from './__fixtures__/annotation.adf.json';
 import * as breakout from './__fixtures__/breakout.adf.json';
 
-const render = (doc: any, withMockEnabled: boolean = false) => {
-  const serializer = new EmailSerializer(schema, withMockEnabled);
+const defaultTestOpts: EmailSerializerOpts = {
+  isImageStubEnabled: false,
+  isInlineCSSEnabled: true,
+};
+
+const render = (
+  doc: any,
+  serializerOptions: Partial<EmailSerializerOpts> = {},
+) => {
+  const opts = {
+    ...defaultTestOpts,
+    ...serializerOptions,
+  };
+  const serializer = new EmailSerializer(schema, opts);
   const docFromSchema = schema.nodeFromJSON(doc);
   const { result, embeddedImages } = serializer.serializeFragmentWithImages(
     docFromSchema.content,
@@ -44,6 +56,23 @@ const render = (doc: any, withMockEnabled: boolean = false) => {
     embeddedImages,
   };
 };
+
+describe('EmailSerializer constructor', () => {
+  it('should initialize with default values', () => {
+    const s = new EmailSerializer(schema);
+    expect(s.opts).toEqual({
+      isImageStubEnabled: false,
+      isInlineCSSEnabled: false,
+    });
+  });
+  it('should override default values', () => {
+    const s = new EmailSerializer(schema, { isInlineCSSEnabled: true });
+    expect(s.opts).toEqual({
+      isImageStubEnabled: false,
+      isInlineCSSEnabled: true,
+    });
+  });
+});
 
 describe('Renderer - EmailSerializer', () => {
   it('should render nothing for image node', () => {
@@ -88,7 +117,9 @@ describe('Renderer - EmailSerializer', () => {
   });
 
   it('should render decision list correctly with mock enabled', () => {
-    const { result, embeddedImages } = render(decisionList, true);
+    const { result, embeddedImages } = render(decisionList, {
+      isImageStubEnabled: true,
+    });
     expect(result).toMatchSnapshot('mock-html');
     expect(embeddedImages).toMatchSnapshot('mock-embeddedImages');
   });
@@ -100,7 +131,9 @@ describe('Renderer - EmailSerializer', () => {
   });
 
   it('should render task list correctly with mock enabled', () => {
-    const { result, embeddedImages } = render(taskList, true);
+    const { result, embeddedImages } = render(taskList, {
+      isImageStubEnabled: true,
+    });
     expect(result).toMatchSnapshot('mock-html');
     expect(embeddedImages).toMatchSnapshot('mock-embeddedImages');
   });
@@ -127,7 +160,9 @@ describe('Renderer - EmailSerializer', () => {
   });
 
   it('should render panels correctly with mock enabled', () => {
-    const { result, embeddedImages } = render(panels, true);
+    const { result, embeddedImages } = render(panels, {
+      isImageStubEnabled: true,
+    });
     expect(result).toMatchSnapshot('mock-html');
     expect(embeddedImages).toMatchSnapshot('mock-embeddedImages');
   });
@@ -204,6 +239,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render lists', () => {
     const { result } = render(lists);
+    expect(result).toMatchSnapshot('html');
+  });
+
+  it('should not inline CSS', () => {
+    const { result } = render(status, { isInlineCSSEnabled: false });
     expect(result).toMatchSnapshot('html');
   });
 });
