@@ -107,22 +107,6 @@ describe('Snapshot Test', () => {
     expect(image).toMatchProdImageSnapshot();
   });
 
-  it('Should match item', async () => {
-    const url = getExampleUrl(
-      'core',
-      'navigation-next',
-      'item',
-      global.__BASEURL__,
-    );
-
-    const { page } = global;
-    await page.goto(url);
-    await page.setViewport({ width: 900, height: 1350 });
-    const image = await takeScreenShot(page, url);
-    //$FlowFixMe
-    expect(image).toMatchProdImageSnapshot();
-  });
-
   it('Should match dynamic theme styles', async () => {
     const url = getExampleUrl(
       'core',
@@ -142,6 +126,22 @@ describe('Snapshot Test', () => {
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
     await page.click(button);
+  });
+
+  it('Should match item', async () => {
+    const url = getExampleUrl(
+      'core',
+      'navigation-next',
+      'item',
+      global.__BASEURL__,
+    );
+
+    const { page } = global;
+    await page.goto(url);
+    await page.setViewport({ width: 900, height: 1350 });
+    const image = await takeScreenShot(page, url);
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
   });
 
   it('Should match collapsed nav screenshot', async () => {
