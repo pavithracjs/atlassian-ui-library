@@ -10,7 +10,10 @@ describe('Snapshot Test', () => {
     const { page } = global;
 
     await page.evaluate(() => {
-      localStorage.setItem('ATLASKIT_NAVIGATION_UI_STATE', '{}');
+      localStorage.setItem(
+        'ATLASKIT_NAVIGATION_UI_STATE',
+        '{"isCollapsed":false,"productNavWidth":290}',
+      );
     });
   });
 
