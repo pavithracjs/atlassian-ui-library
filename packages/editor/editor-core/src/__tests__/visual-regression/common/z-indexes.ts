@@ -46,10 +46,4 @@ describe('z-indexes:', () => {
     await clickToolbarMenu(page, ToolbarMenuItem.mention);
     await page.waitForSelector(selectors.mentionQuery);
   });
-
-  it('should always position editor content below font style drop-down list', async () => {
-    await page.waitForSelector(tableSelectors.removeTable);
-    await clickToolbarMenu(page, ToolbarMenuItem.fontStyle);
-    await page.waitForSelector(selectors.fontStyleDropList);
-  });
 });
