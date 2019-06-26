@@ -24,6 +24,15 @@ describe('Snapshot Test', () => {
       'navigation-app',
       global.__BASEURL__,
     );
+    const { page } = global;
+    await page.evaluate(() => {
+      localStorage.setItem(
+        'ATLASKIT_NAVIGATION_UI_STATE',
+        '{"isCollapsed":false,"productNavWidth":240}',
+      );
+    });
+    await page.goto(url);
+
     const image = await takeScreenShot(global.page, url);
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
