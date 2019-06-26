@@ -1,0 +1,1 @@
+FS-4043 - Fix @ prefix from doc being stored in mention name cache
