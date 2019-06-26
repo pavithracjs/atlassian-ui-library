@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 9.1.0
+
+### Minor Changes
+
+- [minor][a0ae6daeb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0ae6daeb6):
+
+  Removed urijs dependency
+
 ## 9.0.0
 
 ### Major Changes
