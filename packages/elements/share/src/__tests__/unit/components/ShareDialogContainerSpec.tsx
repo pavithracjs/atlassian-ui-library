@@ -339,10 +339,12 @@ describe('ShareDialogContainer', () => {
         users: mockUsers,
         comment: mockComment,
       };
-      const result = await wrapper
-        .instance()
-        .handleSubmitShare(mockDialogContentState);
-      expect(result).toEqual(mockShareResponse);
+
+      expect(wrapper.state().shareActionCount).toEqual(0);
+
+      await wrapper.instance().handleSubmitShare(mockDialogContentState);
+
+      expect(wrapper.state().shareActionCount).toEqual(1);
     });
 
     it('should update the mail Origin Ids if share is successful', async () => {
