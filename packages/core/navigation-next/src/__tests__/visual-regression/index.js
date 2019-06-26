@@ -6,6 +6,14 @@ import {
 } from '@atlaskit/visual-regression/helper';
 
 describe('Snapshot Test', () => {
+  afterEach(async () => {
+    const { page } = global;
+
+    await page.evaluate(() => {
+      localStorage.setItem('ATLASKIT_NAVIGATION_UI_STATE', '{}');
+    });
+  });
+
   it('Basic navigation next should match prod', async () => {
     const url = getExampleUrl(
       'core',
