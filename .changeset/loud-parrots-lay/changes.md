@@ -1,0 +1,1 @@
+Removed urijs dependency
