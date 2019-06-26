@@ -80,7 +80,8 @@ class FloatingContextualButton extends React.Component<
   shouldComponentUpdate(nextProps: Props) {
     return (
       this.props.targetCellPosition !== nextProps.targetCellPosition ||
-      this.props.layout !== nextProps.layout
+      this.props.layout !== nextProps.layout ||
+      this.props.isContextualMenuOpen !== nextProps.isContextualMenuOpen
     );
   }
 
