@@ -9,6 +9,27 @@ import { transitionDurationMs } from '../../../common/constants';
 import { ContainerNavigation, ProductNavigation } from './primitives';
 import type { ContentNavigationProps, ContentNavigationState } from './types';
 
+const HiddenDiv = props => <div css={{ display: 'none' }} {...props} />;
+
+const ToggleContent = ({
+  isVisible,
+  experimental_hideNavVisuallyOnCollapse: EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE,
+  ...rest
+}: {
+  isVisible: boolean,
+  experimental_hideNavVisuallyOnCollapse: boolean,
+}) => {
+  // If FF is false, retain the old behaviour of
+  // un-mounting navigation components on collapse
+  if (!EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE && !isVisible) {
+    return null;
+  }
+
+  const ToggleWrapper = isVisible ? Fragment : HiddenDiv;
+
+  return <ToggleWrapper {...rest} />;
+};
+
 export default class ContentNavigation extends Component<
   ContentNavigationProps,
   ContentNavigationState,
@@ -42,7 +63,12 @@ export default class ContentNavigation extends Component<
   }
 
   render() {
-    const { container, isVisible, product: Product } = this.props;
+    const {
+      container,
+      isVisible,
+      product: Product,
+      experimental_hideNavVisuallyOnCollapse: EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE,
+    } = this.props;
     const { cachedContainer: CachedContainer } = this.state;
 
     const shouldRenderContainer = Boolean(container);
@@ -51,13 +77,18 @@ export default class ContentNavigation extends Component<
     return (
       <Fragment>
         <ProductNavigation>
-          <NavigationAnalyticsContext
-            data={{ attributes: { navigationLayer: 'product' } }}
+          <ToggleContent
+            experimental_hideNavVisuallyOnCollapse={
+              EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE
+            }
+            isVisible={isVisible}
           >
-            <ToggleContent isVisible={isVisible && !shouldRenderContainer}>
+            <NavigationAnalyticsContext
+              data={{ attributes: { navigationLayer: 'product' } }}
+            >
               <Product />
-            </ToggleContent>
-          </NavigationAnalyticsContext>
+            </NavigationAnalyticsContext>
+          </ToggleContent>
         </ProductNavigation>
         <Transition
           in={shouldRenderContainer}
@@ -70,13 +101,18 @@ export default class ContentNavigation extends Component<
               isEntering={state === 'entering'}
               isExiting={state === 'exiting'}
             >
-              <NavigationAnalyticsContext
-                data={{ attributes: { navigationLayer: 'container' } }}
+              <ToggleContent
+                experimental_hideNavVisuallyOnCollapse={
+                  EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE
+                }
+                isVisible={isVisible}
               >
-                <ToggleContent isVisible={isVisible && shouldRenderContainer}>
+                <NavigationAnalyticsContext
+                  data={{ attributes: { navigationLayer: 'container' } }}
+                >
                   <ContainerComponent />
-                </ToggleContent>
-              </NavigationAnalyticsContext>
+                </NavigationAnalyticsContext>
+              </ToggleContent>
             </ContainerNavigation>
           )}
         </Transition>
@@ -84,10 +120,3 @@ export default class ContentNavigation extends Component<
     );
   }
 }
-
-const ToggleContent = ({ isVisible, ...rest }: { isVisible: boolean }) => {
-  const ToggleWrapper = isVisible ? Fragment : 'div';
-  const displayNone = { ...(!isVisible ? { css: { display: 'none' } } : null) };
-
-  return <ToggleWrapper {...displayNone} {...rest} />;
-};

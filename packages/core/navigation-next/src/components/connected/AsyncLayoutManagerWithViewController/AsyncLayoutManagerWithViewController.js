@@ -28,6 +28,7 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
     experimental_flyoutOnHover: false,
     experimental_alternateFlyoutBehaviour: false,
     experimental_fullWidthFlyout: false,
+    experimental_hideNavVisuallyOnCollapse: false,
   };
 
   state = {
@@ -149,6 +150,7 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
       experimental_flyoutOnHover,
       experimental_alternateFlyoutBehaviour,
       experimental_fullWidthFlyout,
+      experimental_hideNavVisuallyOnCollapse,
       firstSkeletonToRender,
       onExpandStart,
       onExpandEnd,
@@ -185,6 +187,9 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
             experimental_alternateFlyoutBehaviour
           }
           experimental_fullWidthFlyout={experimental_fullWidthFlyout}
+          experimental_hideNavVisuallyOnCollapse={
+            experimental_hideNavVisuallyOnCollapse
+          }
           productNavigation={this.renderProductNavigation}
           onExpandStart={onExpandStart}
           onExpandEnd={onExpandEnd}
