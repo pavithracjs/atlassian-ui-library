@@ -12,7 +12,7 @@ describe('Snapshot Test', () => {
     await page.evaluate(() => {
       localStorage.setItem(
         'ATLASKIT_NAVIGATION_UI_STATE',
-        '{"isCollapsed":false,"productNavWidth":290}',
+        '{"isCollapsed":false,"productNavWidth":240}',
       );
     });
   });
