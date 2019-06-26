@@ -1,0 +1,1 @@
+Removed support for Atlassian Home, it is no longer a valid context or product

@@ -10,9 +10,6 @@ import {
   ConfluencePrefetchedResults,
   GlobalSearchPrefetchedResults,
 } from './prefetchResults';
-import RecentSearchClientImpl, {
-  RecentSearchClient,
-} from './RecentSearchClient';
 import {
   AutocompleteClientImpl,
   AutocompleteClient,
@@ -21,7 +18,6 @@ import memoizeOne from 'memoize-one';
 import deepEqual from 'deep-equal';
 
 export interface SearchClients {
-  recentSearchClient: RecentSearchClient;
   crossProductSearchClient: CrossProductSearchClient;
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
@@ -66,10 +62,6 @@ function configureSearchClients(
       : undefined;
 
   return {
-    recentSearchClient: new RecentSearchClientImpl(
-      config.activityServiceUrl,
-      cloudId,
-    ),
     crossProductSearchClient: new CachingCrossProductSearchClientImpl(
       config.searchAggregatorServiceUrl,
       cloudId,

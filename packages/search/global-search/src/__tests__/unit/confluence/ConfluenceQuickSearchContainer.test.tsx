@@ -58,7 +58,6 @@ function render(partialProps?: Partial<Props>) {
     logger,
     referralContextIdentifiers,
     features: DEFAULT_FEATURES,
-    firePrivateAnalyticsEvent: undefined,
     createAnalyticsEvent: undefined,
     inputControls: undefined,
     onAdvancedSearch: undefined,
@@ -216,9 +215,6 @@ describe('ConfluenceQuickSearchContainer', () => {
       peopleSearchClient: {
         getRecentPeople() {
           return Promise.resolve([makePersonResult()]);
-        },
-        search() {
-          return Promise.resolve([]);
         },
       },
       crossProductSearchClient: {

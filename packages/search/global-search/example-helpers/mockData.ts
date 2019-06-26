@@ -1,5 +1,4 @@
 import { GraphqlResponse, SearchResult } from '../src/api/PeopleSearchClient';
-import { RecentItemsResponse } from '../src/api/RecentSearchClient';
 import { QuickNavResult } from '../src/api/ConfluenceClient';
 import {
   CrossProductSearchResponse,
@@ -149,65 +148,8 @@ const getPastDate = () => {
   return getDateWithOffset(offset);
 };
 
-function randomJiraIconUrl() {
-  const urls = [
-    'https://product-fabric.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype',
-    'https://product-fabric.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype',
-  ];
-
-  return pickRandom(urls);
-}
-
-function randomConfluenceIconUrl() {
-  const urls = [
-    'https://home.useast.atlassian.io/confluence-page-icon.svg',
-    'https://home.useast.atlassian.io/confluence-blogpost-icon.svg',
-  ];
-
-  return pickRandom(urls);
-}
-
-function randomProvider() {
-  const providers = ['jira', 'confluence'];
-  return pickRandom(providers);
-}
-
-function randomIssueKey() {
-  const keys = ['ETH', 'XRP', 'ADA', 'TRON', 'DOGE'];
-  return pickRandom(keys) + '-' + Math.floor(Math.random() * 1000);
-}
-
 function randomSpaceIconUrl() {
   return `https://placeimg.com/64/64/arch?bustCache=${Math.random()}`;
-}
-
-export function recentData(n = 50): RecentItemsResponse {
-  const items: any = [];
-
-  for (let i = 0; i < n; i++) {
-    const provider = randomProvider();
-
-    const name =
-      provider === 'jira'
-        ? `${randomIssueKey()} ${getMockCatchPhrase()}`
-        : getMockCatchPhrase();
-
-    const iconUrl =
-      provider === 'jira' ? randomJiraIconUrl() : randomConfluenceIconUrl();
-
-    items.push({
-      objectId: uuid(),
-      name: name,
-      iconUrl: iconUrl,
-      container: getMockCompanyName(),
-      url: getMockUrl(),
-      provider: provider,
-    });
-  }
-
-  return {
-    data: items,
-  };
 }
 
 export function makeCrossProductSearchData(

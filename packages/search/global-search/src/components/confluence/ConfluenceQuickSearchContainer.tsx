@@ -65,9 +65,7 @@ export interface Props {
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
   autocompleteClient: AutocompleteClient;
-  firePrivateAnalyticsEvent: FireAnalyticsEvent | undefined;
   linkComponent: LinkComponent | undefined;
-  createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
   referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   logger: Logger;
   modelContext: ConfluenceModelContext | undefined;
@@ -81,6 +79,10 @@ export interface Props {
       ) => void);
   inputControls: JSX.Element | undefined;
   features: ConfluenceFeatures;
+
+  // These are provided by the withAnalytics HOC
+  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
+  createAnalyticsEvent?: CreateAnalyticsEventFn;
 }
 
 const getRecentItemMatches = (

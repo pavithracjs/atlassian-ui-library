@@ -3,7 +3,6 @@ import seedrandom from 'seedrandom';
 
 import {
   makePeopleSearchData,
-  recentData,
   makeCrossProductSearchData,
   makeConfluenceRecentPagesData,
   makeConfluenceRecentSpacesData,
@@ -57,10 +56,6 @@ function delay<T>(millis: number, value?: T): Promise<T> {
   return new Promise(resolve =>
     window.setTimeout(() => resolve(value), millis),
   );
-}
-
-function mockRecentApi(recentResponse: any) {
-  fetchMock.get(new RegExp('/api/client/recent'), recentResponse);
 }
 
 function mockConfluenceRecentApi({
@@ -176,7 +171,6 @@ export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
   const config = { ...DEFAULT_MOCKS_CONFIG, ...configOverrides };
 
   seedrandom('random seed', { global: true });
-  const recentResponse = recentData();
   const confluenceRecentPagesResponse = makeConfluenceRecentPagesData();
   const confluenceRecentSpacesResponse = makeConfluenceRecentSpacesData();
   const queryMockSearch = makeCrossProductSearchData();
@@ -188,7 +182,6 @@ export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
   const queryPeopleSearch = makePeopleSearchData();
 
   mockAnalyticsApi();
-  mockRecentApi(recentResponse);
   mockCrossProductSearchApi(config.crossProductSearchDelay, queryMockSearch);
   mockCrossProductExperimentApi(
     config.crossProductSearchDelay,
