@@ -301,7 +301,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
                     copyLink={copyLink}
                     loadOptions={loadUserOptions}
                     isSharing={isSharing}
-                    onShareClick={this.handleShareSubmit}
+                    onSubmit={this.handleShareSubmit}
                     title={shareFormTitle}
                     shareError={shareError}
                     onDismiss={this.handleFormDismiss}
