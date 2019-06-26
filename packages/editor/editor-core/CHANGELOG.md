@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.22.1
+
+### Patch Changes
+
+- [patch][a99d463b7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a99d463b7d):
+
+  FS-4043 - Fix @ prefix from doc being stored in mention name cache
+
 ## 112.22.0
 
 ### Minor Changes
