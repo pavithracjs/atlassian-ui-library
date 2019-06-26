@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 9.0.0
+
+### Major Changes
+
+- [major][e84f336455](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e84f336455):
+
+  Removed support for Atlassian Home, it is no longer a valid context or product
+
 ## 8.16.0
 
 ### Minor Changes
