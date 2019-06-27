@@ -294,7 +294,7 @@ describe('hyperlink', () => {
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
-          p(link({ href: 'https://atlassian.com' })('https://atlassian.com')),
+          p(link({ href: 'https://atlassian.com/' })('https://atlassian.com')),
         ),
       );
     });

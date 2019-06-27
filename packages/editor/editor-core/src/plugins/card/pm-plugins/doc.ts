@@ -24,7 +24,6 @@ import {
 } from '../../../plugins/analytics';
 import { SmartLinkNodeContext } from '../../analytics/types/smart-links';
 import { safeInsert } from 'prosemirror-utils';
-import { isSafeUrl, normalizeUrl } from '@atlaskit/adf-schema';
 
 export function shouldReplace(
   node: Node,
