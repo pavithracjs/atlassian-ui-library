@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.3.0
+
+### Minor Changes
+
+- [minor][e28067fdf9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e28067fdf9):
+
+  Visually hide nav content when collapsed, rather than unmounting it.
+
 ## 6.2.1
 
 ### Patch Changes

@@ -8,7 +8,7 @@ export interface ShortenRequest {
 }
 
 export interface ShortenResponse {
-  shortLink: string;
+  shortUrl: string;
 }
 
 export interface UrlShortenerClient {
@@ -62,7 +62,7 @@ export class AtlassianUrlShortenerClient implements UrlShortenerClient {
       if (!product) {
         warnProductNotSupported(productId);
         return {
-          shortLink: fullLink,
+          shortUrl: fullLink,
         };
       }
 
@@ -80,7 +80,11 @@ export class AtlassianUrlShortenerClient implements UrlShortenerClient {
 
       if (!response.ok) throw new Error(`status="${response.status}"`);
 
-      return response.json();
+      const result: ShortenResponse = await response.json();
+
+      if (!result.shortUrl) throw new Error('Breach of contract!');
+
+      return result;
     } catch (err) {
       err.message = `While shortening URL: ${err.message}!`;
       throw err;
