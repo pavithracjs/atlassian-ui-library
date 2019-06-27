@@ -56,6 +56,8 @@ export type FeatureFlagProps = {
   [key in Exclude<Feature, typeof Feature.xflow>]: boolean
 };
 
+export type FeatureMap = { [key in Feature]: boolean };
+
 export type CustomLinksResponse = CustomLink[];
 
 export interface ProductLicenseInformation {
