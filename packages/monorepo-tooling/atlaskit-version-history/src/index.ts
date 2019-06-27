@@ -29,7 +29,7 @@ type ListLogLine = {
 const getHistory = () =>
   new Promise<LogResult>((resolve, reject) => {
     simpleGit('./').log(
-      { file: './package.json' },
+      { '--merges': null, './package.json': null },
       (err: any, result: LogResult) => {
         if (err !== null) {
           reject(err);
@@ -77,34 +77,35 @@ export async function run() {
   */
 
   const log = await getHistory();
+  const readAllFiles: any[] = [];
 
-  const readAllFiles = log.all.map(item => {
-    return loadFileFromGitHistory(item.hash, 'package.json')
-      .then(json => {
-        let parsed: IPackageJSON | null = null;
-        try {
-          parsed = JSON.parse(json);
-        } catch (err) {}
+  for (let i = 0; i < log.all.length; i++) {
+    let item = log.all[i];
+    try {
+      const json = await loadFileFromGitHistory(item.hash, 'package.json');
 
-        return {
-          item: {
-            ...item,
-            date: new Date(item.date).getUTCDate(),
-          },
-          json: parsed,
-        };
-      })
-      .catch(err => {
-        console.error(err);
-        return {
-          item: {
-            ...item,
-            date: new Date(item.date).getUTCDate(),
-          },
-          json: null,
-        };
+      let parsed: IPackageJSON | null = null;
+      try {
+        parsed = JSON.parse(json);
+      } catch (err) {}
+      readAllFiles.push({
+        item: {
+          ...item,
+          date: new Date(item.date).toUTCString(),
+        },
+        json: parsed,
       });
-  });
+    } catch (err) {
+      console.error(err);
+      readAllFiles.push({
+        item: {
+          ...item,
+          date: new Date(item.date).toUTCString(),
+        },
+        json: null,
+      });
+    }
+  }
 
   const getAkDependencyVersions = depMap => {
     return fromEntries(
@@ -112,7 +113,7 @@ export async function run() {
     );
   };
 
-  const allParsed = (await Promise.all(readAllFiles)).map(item => {
+  const allParsed = readAllFiles.map(item => {
     if (item.json === null) {
       return {
         ...item,
@@ -140,19 +141,30 @@ export async function run() {
     .filter(item => Object.entries(item.akDeps).length > 0)
     .forEach(item => {
       const firstColumn = csvData[0];
-      const currentColumn = csvData.push([item.item.date]) - 1;
+      const currentRow = firstColumn.push(item.item.date) - 1;
 
       Object.entries(item.akDeps).forEach(([name, version]) => {
-        let depRowIndex = firstColumn.findIndex(row => row === name);
-
-        if (depRowIndex === -1) {
-          depRowIndex = firstColumn.push(name) - 1;
+        let depColumnIndex = csvData.findIndex(item => item[0] === name);
+        if (depColumnIndex === -1) {
+          depColumnIndex = csvData.push([name]) - 1;
         }
 
         // console.log(csvData)
-        csvData[currentColumn][depRowIndex] = version;
+        csvData[depColumnIndex][currentRow] = version;
       });
     });
+
+  for (let i = 0; i < csvData.length; i++) {
+    for (let j = 0; j < csvData.length; j++) {
+      if (typeof csvData[i][j] !== 'string') {
+        // console.log('found empty cell');
+        csvData[i][j] = '';
+      }
+    }
+
+    if (i !== 0 && csvData[0].length < csvData[i].length) {
+    }
+  }
 
   const csvStrings: any = [];
 
@@ -160,12 +172,15 @@ export async function run() {
     if (!column) {
       return;
     }
-    column.forEach((rowItem, rowIndex) => {
+    for (let rowIndex = 0; rowIndex < csvData[0].length; rowIndex++) {
+      const rowItem = column[rowIndex] || '';
+
       if (typeof csvStrings[rowIndex] !== 'string') {
         csvStrings[rowIndex] = '';
       }
+
       csvStrings[rowIndex] += `"${rowItem}",`;
-    });
+    }
   });
 
   const theCSV = csvStrings.join('\n');
