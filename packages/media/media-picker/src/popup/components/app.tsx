@@ -101,6 +101,7 @@ export type AppProps = AppStateProps & AppOwnProps & AppDispatchProps;
 
 export interface AppState {
   readonly isDropzoneActive: boolean;
+  readonly modalDialogContainer?: HTMLElement;
 }
 
 export class App extends Component<AppProps, AppState> {
@@ -182,6 +183,12 @@ export class App extends Component<AppProps, AppState> {
     onUploadsStart(payload);
   };
 
+  saveDropzoneContainer = (instance: HTMLElement) => {
+    this.setState({
+      modalDialogContainer: instance,
+    });
+  };
+
   render() {
     const {
       selectedServiceName,
@@ -190,7 +197,7 @@ export class App extends Component<AppProps, AppState> {
       store,
       proxyReactContext,
     } = this.props;
-    const { isDropzoneActive } = this.state;
+    const { isDropzoneActive, modalDialogContainer } = this.state;
 
     return (
       <ModalTransition>
@@ -198,7 +205,7 @@ export class App extends Component<AppProps, AppState> {
           <Provider store={store}>
             <ModalDialog onClose={onClose} width="x-large" isChromeless={true}>
               <PassContext store={store} proxyReactContext={proxyReactContext}>
-                <MediaPickerPopupWrapper>
+                <MediaPickerPopupWrapper innerRef={this.saveDropzoneContainer}>
                   <SidebarWrapper>
                     <Sidebar />
                   </SidebarWrapper>
@@ -209,8 +216,8 @@ export class App extends Component<AppProps, AppState> {
                   <DropzonePlaceholder isActive={isDropzoneActive} />
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
-                {this.renderDropZone()}
                 {this.renderClipboard()}
+                {modalDialogContainer && this.renderDropZone()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -282,9 +289,16 @@ export class App extends Component<AppProps, AppState> {
       tenantUploadParams,
     } = this.props;
 
+    const { modalDialogContainer } = this.state;
+
+    if (!modalDialogContainer) {
+      return null;
+    }
+
     const config: DropzoneConfig = {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
+      container: modalDialogContainer,
     };
 
     return (

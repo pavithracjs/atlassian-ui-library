@@ -219,6 +219,9 @@ describe('App', () => {
       });
 
       const wrapper = mount(element);
+      wrapper.setState({
+        modalDialogContainer: () => <div>container</div>,
+      });
       const dropzone = wrapper.find(Dropzone);
       expect(JSON.stringify(dropzone.prop('mediaClient'))).toEqual(
         JSON.stringify(dropzoneMediaClient),
