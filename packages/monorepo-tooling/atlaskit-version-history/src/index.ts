@@ -1,11 +1,14 @@
 import meow from 'meow';
 // import { getRef, getOriginUrl } from './util/git';
+
+//@ts-ignore
 import simpleGit from 'simple-git';
+
 import loadFileFromGitHistory from './util/load-file-from-git-history';
 import { IPackageJSON } from './util/package-json';
 
 // Object.fromEntries polyfill, remove when upgraded to node 10
-function fromEntries(iterable) {
+function fromEntries(iterable: any) {
   return [...iterable].reduce(
     (obj, { 0: key, 1: val }) => Object.assign(obj, { [key]: val }),
     {},
@@ -77,19 +80,33 @@ export async function run() {
   */
 
   const log = await getHistory();
-  const readAllFiles: any[] = [];
+  type DependencyMap = { [key: string]: string };
 
-  for (let i = 0; i < log.all.length; i++) {
-    let item = log.all[i];
+  type ParsedInfo = {
+    commitData: ListLogLine & {
+      date: string;
+    };
+    json: IPackageJSON | null;
+    akDeps?: DependencyMap;
+  };
+  const readAllFiles: ParsedInfo[] = [];
+
+  for (
+    let historyListIndex = 0;
+    historyListIndex < log.all.length;
+    historyListIndex++
+  ) {
+    // Using a for loop because running all promises in parallel spawns too many processes
+    // Batching would be more efficient but in it's current form it's not unreasonably slow.
+
+    let item = log.all[historyListIndex];
+
     try {
       const json = await loadFileFromGitHistory(item.hash, 'package.json');
+      const parsed: IPackageJSON = JSON.parse(json);
 
-      let parsed: IPackageJSON | null = null;
-      try {
-        parsed = JSON.parse(json);
-      } catch (err) {}
       readAllFiles.push({
-        item: {
+        commitData: {
           ...item,
           date: new Date(item.date).toUTCString(),
         },
@@ -98,7 +115,7 @@ export async function run() {
     } catch (err) {
       console.error(err);
       readAllFiles.push({
-        item: {
+        commitData: {
           ...item,
           date: new Date(item.date).toUTCString(),
         },
@@ -107,13 +124,13 @@ export async function run() {
     }
   }
 
-  const getAkDependencyVersions = depMap => {
+  const getAkDependencyVersions = (depMap: { [key: string]: string }) => {
     return fromEntries(
       Object.entries(depMap).filter(([key]) => key.includes('atlaskit')),
     );
   };
 
-  const allParsed = readAllFiles.map(item => {
+  const allParsed: ParsedInfo[] = readAllFiles.map(item => {
     if (item.json === null) {
       return {
         ...item,
@@ -132,16 +149,24 @@ export async function run() {
   });
 
   allParsed.sort(
-    (a, b) => new Date(a.item.date).getTime() - new Date(b.item.date).getTime(),
+    (a, b) =>
+      new Date(a.commitData.date).getTime() -
+      new Date(b.commitData.date).getTime(),
   );
 
-  const csvData: any = [['']];
+  type CsvColumn = [[string]];
+
+  const csvData: CsvColumn = [['']];
 
   allParsed
-    .filter(item => Object.entries(item.akDeps).length > 0)
+    .filter(item => !item.akDeps || Object.entries(item.akDeps).length > 0)
     .forEach(item => {
+      if (!item.akDeps) {
+        return;
+      }
+
       const firstColumn = csvData[0];
-      const currentRow = firstColumn.push(item.item.date) - 1;
+      const currentRow = firstColumn.push(item.commitData.date) - 1;
 
       Object.entries(item.akDeps).forEach(([name, version]) => {
         let depColumnIndex = csvData.findIndex(item => item[0] === name);
@@ -166,7 +191,7 @@ export async function run() {
     }
   }
 
-  const csvStrings: any = [];
+  const csvStrings: string[] = [];
 
   csvData.forEach(column => {
     if (!column) {
