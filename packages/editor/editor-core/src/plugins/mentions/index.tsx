@@ -63,6 +63,7 @@ export interface TeamInfoAttrAnalytics {
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
   sanitizePrivateContent?: boolean,
+  mentionInsertDisplayName?: boolean,
 ): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
@@ -208,7 +209,12 @@ const mentionsPlugin = (
           const pluginState = getMentionPluginState(state);
           const { mentionProvider } = pluginState;
           const { id, name, nickname, accessLevel, userType } = item.mention;
-          const renderName = nickname ? nickname : name;
+          const trimmedNickname =
+            nickname && nickname.startsWith('@') ? nickname.slice(1) : nickname;
+          const renderName =
+            mentionInsertDisplayName || !trimmedNickname
+              ? name
+              : trimmedNickname;
           const typeAheadPluginState = typeAheadPluginKey.getState(
             state,
           ) as TypeAheadPluginState;
