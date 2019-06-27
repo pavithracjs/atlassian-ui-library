@@ -14,24 +14,6 @@ type GenericSwitcherProps = {
   product: Exclude<Product, Product.JIRA | Product.CONFLUENCE>;
 };
 
-const getFeatures = (
-  product: Exclude<Product, Product.JIRA | Product.CONFLUENCE>,
-) => {
-  switch (product) {
-    case Product.SITE_ADMIN:
-    case Product.TRUSTED_ADMIN:
-    case Product.HOME:
-      return {
-        xflow: true,
-      };
-    case Product.PEOPLE:
-    default:
-      return {
-        xflow: false,
-      };
-  }
-};
-
 export default (props: GenericSwitcherProps) => (
   <AvailableProductsProvider
     isUserCentric={props.features.enableUserCentricProducts}
@@ -45,10 +27,7 @@ export default (props: GenericSwitcherProps) => (
           const switcherLinks = mapResultsToSwitcherProps(
             props.cloudId,
             providerResults,
-            {
-              ...props.features,
-              ...getFeatures(props.product),
-            },
+            props.features,
             availableProducts,
           );
 

@@ -49,9 +49,12 @@ export enum Product {
 
 export enum Feature {
   enableUserCentricProducts = 'enableUserCentricProducts',
+  xflow = 'xflow',
 }
 
-export type FeatureFlagProps = { [key in Feature]: boolean };
+export type FeatureFlagProps = {
+  [key in Exclude<Feature, typeof Feature.xflow>]: boolean
+};
 
 export type CustomLinksResponse = CustomLink[];
 

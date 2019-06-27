@@ -36,7 +36,7 @@ export default (props: JiraSwitcherProps) => (
               } = mapResultsToSwitcherProps(
                 props.cloudId,
                 { customLinks, ...providerResults },
-                { ...props.features, xflow: true },
+                props.features,
                 availableProducts,
               );
 
