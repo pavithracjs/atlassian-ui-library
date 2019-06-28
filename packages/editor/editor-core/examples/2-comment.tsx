@@ -148,17 +148,20 @@ class CommentEditorWithFeedbackComponent extends React.Component<Props, State> {
                     onChange={onChange}
                     onSave={SAVE_ACTION}
                     onCancel={CANCEL_ACTION}
+                    feedbackInfo={{
+                      product: 'bitbucket',
+                      packageVersion: version,
+                      packageName: name,
+                      labels: ['atlaskit-comment'],
+                    }}
                     primaryToolbarComponents={
-                      <React.Fragment>
+                      <>
                         <ToolbarFeedback
-                          product={'bitbucket'}
-                          packageVersion={version}
-                          packageName={name}
+                          product="bitbucket"
                           key="toolbar-feedback"
-                          labels={['atlaskit-comment']}
                         />
                         <ToolbarHelp key="toolbar-help" />
-                      </React.Fragment>
+                      </>
                     }
                     allowExtension={true}
                     insertMenuItems={customInsertMenuItems}

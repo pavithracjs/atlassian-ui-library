@@ -150,6 +150,16 @@ export const messages = defineMessages({
     defaultMessage: 'Capture decisions so they’re easy to track',
     description: 'Capture a decision you’ve made',
   },
+  feedbackDialog: {
+    id: 'fabric.editor.feedbackDialog',
+    defaultMessage: 'Give feedback',
+    description: 'Open the feedback dialog from editor',
+  },
+  feedbackDialogDescription: {
+    id: 'fabric.editor.feedbackDialog.description',
+    defaultMessage: 'Tell us about your experience using the new editor',
+    description: 'Open the feedback dialog from editor',
+  },
   horizontalRule: {
     id: 'fabric.editor.horizontalRule',
     defaultMessage: 'Divider',

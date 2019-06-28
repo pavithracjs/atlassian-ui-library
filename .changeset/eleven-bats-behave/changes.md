@@ -1,0 +1,1 @@
+Added quick insert option to open the feedback modal dialog in editor
