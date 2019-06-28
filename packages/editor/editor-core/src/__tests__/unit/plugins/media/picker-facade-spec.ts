@@ -24,46 +24,21 @@ describe('Media PickerFacade', () => {
     errorReporter,
   };
 
-  const spies: Record<string, jest.Mock> = {
-    addListener: jest.fn(),
-    cancel: jest.fn(),
-    emit: jest.fn(),
-    emitUploadEnd: jest.fn(),
-    emitUploadError: jest.fn(),
-    emitUploadPreviewUpdate: jest.fn(),
-    emitUploadProcessing: jest.fn(),
-    emitUploadProgress: jest.fn(),
-    emitUploadsStart: jest.fn(),
-    off: jest.fn(),
+  const popupMediaPickerMock = {
     on: jest.fn(),
-    onAny: jest.fn(),
-    once: jest.fn(),
     removeAllListeners: jest.fn(),
-    removeListener: jest.fn(),
-    setUploadParams: jest.fn(),
     teardown: jest.fn(),
     show: jest.fn(),
+    cancel: jest.fn(),
     hide: jest.fn(),
-    emitClosed: jest.fn(),
   };
 
   describe('Picker: Popup', () => {
     let facade: PickerFacade;
 
     beforeEach(async () => {
-      Object.keys(spies).forEach(k => asMock(spies[k]).mockClear());
-
-      class MockPopup {
-        constructor() {
-          (Object.keys(spies) as Array<keyof typeof spies>).forEach(
-            k => ((this as any)[k] = spies[k]),
-          );
-        }
-      }
-
-      const MediaPickerMock = jest
-        .fn()
-        .mockReturnValue(Promise.resolve(new MockPopup()));
+      const MediaPickerMockConstructor = () =>
+        Promise.resolve(popupMediaPickerMock);
 
       facade = new PickerFacade(
         'popup',
@@ -71,46 +46,53 @@ describe('Media PickerFacade', () => {
         {
           uploadParams: { collection: '' },
         },
-        MediaPickerMock,
+        asMock(MediaPickerMockConstructor),
       );
       await facade.init();
     });
 
     afterEach(() => {
       facade.destroy();
+      jest.clearAllMocks();
     });
 
     it('listens to picker events', () => {
-      const fn = jasmine.any(Function);
-      expect(spies.on).toHaveBeenCalledTimes(4);
-      expect(spies.on).toHaveBeenCalledWith('upload-preview-update', fn);
-      expect(spies.on).toHaveBeenCalledWith('upload-processing', fn);
+      expect(true).toBeTruthy();
+      expect(popupMediaPickerMock.on).toHaveBeenCalledTimes(4);
+      expect(popupMediaPickerMock.on).toHaveBeenCalledWith(
+        'upload-preview-update',
+        expect.any(Function),
+      );
+      expect(popupMediaPickerMock.on).toHaveBeenCalledWith(
+        'upload-processing',
+        expect.any(Function),
+      );
     });
 
     it('removes listeners on destruction', () => {
       facade.destroy();
-      expect(spies.removeAllListeners).toHaveBeenCalledTimes(3);
-      expect(spies.removeAllListeners).toHaveBeenCalledWith(
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledTimes(3);
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledWith(
         'upload-preview-update',
       );
-      expect(spies.removeAllListeners).toHaveBeenCalledWith(
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledWith(
         'upload-processing',
       );
     });
 
     it(`should call picker's teardown() on destruction`, () => {
       facade.destroy();
-      expect(spies.teardown).toHaveBeenCalledTimes(1);
+      expect(popupMediaPickerMock.teardown).toHaveBeenCalledTimes(1);
     });
 
     it(`should call picker's show() on destruction`, () => {
       facade.show();
-      expect(spies.show).toHaveBeenCalledTimes(1);
+      expect(popupMediaPickerMock.show).toHaveBeenCalledTimes(1);
     });
 
     it(`should call picker's hide() on destruction`, () => {
       facade.hide();
-      expect(spies.hide).toHaveBeenCalledTimes(1);
+      expect(popupMediaPickerMock.hide).toHaveBeenCalledTimes(1);
     });
   });
 });
