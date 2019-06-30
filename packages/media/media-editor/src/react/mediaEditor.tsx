@@ -33,6 +33,7 @@ import { DefaultToolbar } from '../engine/components/toolbar';
 import { DefaultKeyboardInput } from '../engine/components/keyboardInput';
 import { DefaultImageReceiver } from '../engine/components/imageReceiver';
 import { DefaultShapeDeleter } from '../engine/components/shapeDeleter';
+import { DefaultUndoerRedoer } from '../engine/components/undoerRedoer';
 
 export type ImageGetter = (format?: string) => ExportedImage;
 
@@ -252,6 +253,7 @@ export class MediaEditor extends React.Component<
           this.supplementaryCanvas,
         );
         const shapeDeleter = new DefaultShapeDeleter(this.hiddenTextArea);
+        const undoerRedoer = new DefaultUndoerRedoer();
 
         // Creating the engine
         const { shapeParameters, tool: initialTool } = this.props;
@@ -275,6 +277,7 @@ export class MediaEditor extends React.Component<
           keyboardInput,
           imageReceiver,
           shapeDeleter,
+          undoerRedoer,
         };
 
         this.engine = new Engine(config);

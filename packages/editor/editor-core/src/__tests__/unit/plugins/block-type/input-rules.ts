@@ -13,21 +13,10 @@ import {
   code,
   hardBreak,
   a as link,
+  sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import panelPlugin from '../../../../plugins/panel';
-import indentationPlugin from '../../../../plugins/indentation';
-import listPlugin from '../../../../plugins/lists';
-import {
-  AnalyticsEventPayload,
-  ACTION,
-  ACTION_SUBJECT,
-  EVENT_TYPE,
-  ACTION_SUBJECT_ID,
-  INPUT_METHOD,
-} from '../../../../plugins/analytics';
 import { HeadingLevels } from '../../../../plugins/block-type/types';
 import { EditorView } from 'prosemirror-view';
 
@@ -41,15 +30,11 @@ describe('inputrules', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [
-        listPlugin,
-        codeBlockPlugin(),
-        panelPlugin,
-        indentationPlugin,
-      ],
       editorProps: {
         analyticsHandler: trackEvent as any,
         allowAnalyticsGASV3: true,
+        allowCodeBlocks: true,
+        allowIndentation: true,
       },
       createAnalyticsEvent,
     });
@@ -72,13 +57,13 @@ describe('inputrules', () => {
     describe('Analytics', () => {
       function createHeadingPayload(
         newHeadingLevel: HeadingLevels,
-        inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.FORMATTING,
-      ): AnalyticsEventPayload {
+        inputMethod: string,
+      ) {
         return {
-          action: ACTION.FORMATTED,
-          actionSubject: ACTION_SUBJECT.TEXT,
-          eventType: EVENT_TYPE.TRACK,
-          actionSubjectId: ACTION_SUBJECT_ID.FORMAT_HEADING,
+          action: 'formatted',
+          actionSubject: 'text',
+          eventType: 'track',
+          actionSubjectId: 'heading',
           attributes: {
             inputMethod,
             newHeadingLevel,
@@ -104,7 +89,7 @@ describe('inputrules', () => {
           insertAutoformatRule(autoformatRule);
 
           expect(createAnalyticsEvent).toHaveBeenCalledWith(
-            createHeadingPayload(headingLevel, INPUT_METHOD.FORMATTING),
+            createHeadingPayload(headingLevel, 'autoformatting'),
           );
         });
       });
@@ -169,19 +154,55 @@ describe('inputrules', () => {
       insertText(editorView, '### ', sel);
       expect(editorView.state.doc).toEqualDocument(doc(code_block()('### ')));
     });
+
+    describe('from quickinsert menu', () => {
+      it('should insert when no existing text', () => {
+        const { editorView, sel } = editor(doc(p('{<>}')));
+        insertText(editorView, '/h1', sel);
+        sendKeyToPm(editorView, 'Enter');
+        expect(editorView.state.doc).toEqualDocument(doc(h1()));
+      });
+
+      it('should insert below when in paragraph', () => {
+        const { editorView, sel } = editor(doc(p('hello {<>}world')));
+        insertText(editorView, '/h1', sel);
+        sendKeyToPm(editorView, 'Enter');
+        expect(editorView.state.doc).toEqualDocument(
+          doc(p('hello world'), h1()),
+        );
+      });
+
+      it('should send analytics v3', () => {
+        const { editorView, sel } = editor(doc(p('{<>}')));
+        insertText(editorView, '/h1', sel);
+        sendKeyToPm(editorView, 'Enter');
+
+        const expectedPayload = {
+          action: 'formatted',
+          actionSubject: 'text',
+          eventType: 'track',
+          actionSubjectId: 'heading',
+          attributes: {
+            inputMethod: 'quickInsert',
+            newHeadingLevel: 1,
+          },
+        };
+        expect(createAnalyticsEvent).toHaveBeenCalledWith(expectedPayload);
+      });
+    });
   });
 
   describe('blockquote rule', () => {
     describe('Analytics', () => {
       it(`should call analytics v3 with blockquote for autoformatting '>'`, () => {
         const greatherThanRule = '>';
-        const expectedPayload: AnalyticsEventPayload = {
-          action: ACTION.FORMATTED,
-          actionSubject: ACTION_SUBJECT.TEXT,
-          eventType: EVENT_TYPE.TRACK,
-          actionSubjectId: ACTION_SUBJECT_ID.FORMAT_BLOCK_QUOTE,
+        const expectedPayload = {
+          action: 'formatted',
+          actionSubject: 'text',
+          eventType: 'track',
+          actionSubjectId: 'blockQuote',
           attributes: {
-            inputMethod: INPUT_METHOD.FORMATTING,
+            inputMethod: 'autoformatting',
           },
         };
 

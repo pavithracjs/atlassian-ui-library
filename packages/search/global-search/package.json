@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/global-search",
-  "version": "8.15.8",
+  "version": "9.1.0",
   "description": "A cross-product search component (batteries included)",
   "license": "Apache-2.0",
   "jsnext:main": "index.js",
@@ -44,7 +44,6 @@
     "@atlaskit/util-service-support": "^4.0.3",
     "@babel/runtime": "^7.0.0",
     "@types/seedrandom": "^2.4.27",
-    "@types/urijs": "^1.15.38",
     "date-fns": "^1.30.1",
     "deep-equal": "^1.0.1",
     "lodash.debounce": "^4.0.8",
@@ -53,7 +52,6 @@
     "rusha": "^0.8.13",
     "tslib": "^1.9.3",
     "unescape": "^1.0.1",
-    "urijs": "^1.19.1",
     "uuid": "^3.1.0"
   },
   "peerDependencies": {

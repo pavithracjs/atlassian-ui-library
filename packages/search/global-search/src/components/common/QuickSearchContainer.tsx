@@ -65,6 +65,7 @@ export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
     startTime: number,
     queryVersion: number,
   ): Promise<ResultsWithTiming<T>>;
+  getAutocompleteSuggestions?(query: string): Promise<string[]>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
@@ -113,6 +114,7 @@ export interface State<T> {
   keepPreQueryState: boolean;
   searchResults: T | null;
   recentItems: T | null;
+  autocompleteSuggestions?: string[];
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -401,6 +403,30 @@ export class QuickSearchContainer<
     }
   }
 
+  handleAutocomplete = async (query: string) => {
+    const { getAutocompleteSuggestions } = this.props;
+    if (!getAutocompleteSuggestions) {
+      return;
+    }
+    try {
+      const results = await getAutocompleteSuggestions(query);
+
+      if (this.unmounted) {
+        return;
+      }
+
+      this.setState({
+        autocompleteSuggestions: results,
+      });
+    } catch (e) {
+      this.props.logger.safeError(
+        LOGGER_NAME,
+        'error while getting autocompletion',
+        e,
+      );
+    }
+  };
+
   getMoreSearchResults = async (scope: Scope) => {
     const { product } = this.props;
     if (product === 'confluence') {
@@ -465,12 +491,14 @@ export class QuickSearchContainer<
       searchResults,
       recentItems,
       keepPreQueryState,
+      autocompleteSuggestions,
     } = this.state;
 
     return (
       <GlobalQuickSearch
         onSearch={this.handleSearch}
         onSearchSubmit={this.handleSearchSubmit}
+        onAutocomplete={this.handleAutocomplete}
         isLoading={isLoading}
         placeholder={placeholder}
         linkComponent={linkComponent}
@@ -478,6 +506,7 @@ export class QuickSearchContainer<
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
         inputControls={inputControls}
+        autocompleteSuggestions={autocompleteSuggestions}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,

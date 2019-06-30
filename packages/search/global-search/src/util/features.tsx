@@ -28,6 +28,7 @@ export interface CommonFeatures {
 export interface ConfluenceFeatures extends CommonFeatures {
   isInFasterSearchExperiment: boolean;
   useUrsForBootstrapping: boolean;
+  isAutocompleteEnabled: boolean;
 }
 
 export interface JiraFeatures extends CommonFeatures {
@@ -41,6 +42,7 @@ export interface FeaturesParameters {
   useUrsForBootstrapping: boolean;
   disableJiraPreQueryPeopleSearch: boolean;
   enablePreQueryFromAggregator: boolean;
+  isAutocompleteEnabled: boolean;
 }
 
 export const createFeatures: (
@@ -52,6 +54,7 @@ export const createFeatures: (
     useUrsForBootstrapping,
     disableJiraPreQueryPeopleSearch,
     enablePreQueryFromAggregator,
+    isAutocompleteEnabled,
   }) => {
     return {
       abTest,
@@ -63,6 +66,7 @@ export const createFeatures: (
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
       searchExtensionsEnabled: isInSearchExtensionsExperiment(abTest),
+      isAutocompleteEnabled,
     };
   },
   deepEqual,

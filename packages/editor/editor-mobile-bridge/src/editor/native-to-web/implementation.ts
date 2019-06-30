@@ -35,13 +35,13 @@ import {
   clearEditorContent,
 } from '@atlaskit/editor-core';
 import { EditorView } from 'prosemirror-view';
+import { EditorViewWithComposition } from '../../types';
 import { EditorState, Selection } from 'prosemirror-state';
 import { JSONTransformer } from '@atlaskit/editor-json-transformer';
 import { Color as StatusColor } from '@atlaskit/status/element';
 
 import NativeToWebBridge from './bridge';
 import WebBridge from '../../web-bridge';
-import { ProseMirrorDOMChange } from '../../types';
 import { hasValue } from '../../utils';
 import { rejectPromise, resolvePromise } from '../../cross-platform-promise';
 
@@ -54,7 +54,7 @@ export default class WebBridgeImpl extends WebBridge
   blockFormatBridgeState: BlockTypeState | null = null;
   listBridgeState: ListsState | null = null;
   mentionsPluginState: MentionPluginState | null = null;
-  editorView: EditorView & ProseMirrorDOMChange | null = null;
+  editorView: EditorView & EditorViewWithComposition | null = null;
   transformer: JSONTransformer = new JSONTransformer();
   editorActions: EditorActions = new EditorActions();
   mediaPicker: CustomMediaPicker | undefined;
@@ -393,14 +393,14 @@ export default class WebBridgeImpl extends WebBridge
     }
 
     /**
-     * NOTE: `inDOMChange` is a private API, it's used as a workaround to forcefully apply current composition
+     * NOTE: `domObserver` is a private API, it's used as a workaround to forcefully apply current composition
      * when integrators request the content. It doesn't break the users current composing so they may continue
      * to compose the current item.
      * @see ED-5924
      */
-    const domChange = this.editorView.inDOMChange;
-    if (domChange && domChange.composing) {
-      domChange.finish(true);
+    const { composing, domObserver } = this.editorView;
+    if (composing && domObserver) {
+      domObserver.flush();
       return true;
     }
 

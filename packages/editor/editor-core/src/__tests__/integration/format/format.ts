@@ -13,7 +13,7 @@ BrowserTestCase(
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
-    await page.type(editorSelector, '[link](https://hello.com) ');
+    await page.type(editorSelector, '[link](https://hello.com)');
 
     await page.waitForSelector('a');
     const doc = await page.$eval(editorSelector, getDocFromElement);
@@ -27,10 +27,11 @@ BrowserTestCase(
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
-    await page.type(editorSelector, '__bold__ ');
-    await page.type(editorSelector, '_italics_ ');
-    await page.type(editorSelector, '**starbold** ');
-    await page.type(editorSelector, '*italicsstar* ');
+    const markdown = '__bold__ _italics_ **starbold** *staritalics*';
+    // Investigate why string based input (without an array) fails in firefox
+    // https://product-fabric.atlassian.net/browse/ED-7044
+    const input = markdown.split('');
+    await page.type(editorSelector, input);
 
     await page.waitForSelector('strong');
     const doc = await page.$eval(editorSelector, getDocFromElement);
