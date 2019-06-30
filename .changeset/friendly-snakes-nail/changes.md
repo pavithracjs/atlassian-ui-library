@@ -1,1 +1,0 @@
-ED-7159 Add i18n translations for Comment appearance Save and Cancel buttons

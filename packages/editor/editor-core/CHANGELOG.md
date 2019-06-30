@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.22.2
+
+### Patch Changes
+
+- [patch][f6be43668f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f6be43668f):
+
+  ED-7159 Add i18n translations for Comment appearance Save and Cancel buttons
+
 ## 112.22.1
 
 ### Patch Changes
