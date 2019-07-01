@@ -292,15 +292,6 @@ export type GlobalNavigationProps = {
   /** A function to get ref of the settings icon */
   getSettingsRef?: (node: NonStringRef<'div'>) => void,
 
-  /**
-    NOTE: This property is experimental and may be removed in a minor release.
-
-    Feature flag for Atlassian Switcher, whether to enable the new link redirecting
-    the user to start.atlassian.com
-    e.g. instead of showing only Jira link, shows Jira Software and Jira Service Desk links
-  */
-  experimental_enableExpandLink?: boolean,
-
   ...$Exact<GlobalNavDrawerProps>,
 };
 
