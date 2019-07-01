@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.23.1
+
+### Patch Changes
+
+- [patch][1a0451f225](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a0451f225):
+
+  ED-5972: Media should correctly render when pasting mixed text and images
+
 ## 112.23.0
 
 ### Minor Changes

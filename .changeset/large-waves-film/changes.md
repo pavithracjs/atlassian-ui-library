@@ -1,1 +1,0 @@
-ED-5972: Media should correctly render when pasting mixed text and images
