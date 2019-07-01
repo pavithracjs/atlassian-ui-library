@@ -44,7 +44,7 @@ export type Props = {
   /** Placement of the modal to the trigger button */
   dialogPlacement?: DialogPlacement;
   /** Transform function to provide custom formatted copy link, a default memorized function is provided */
-  formatCopyLink: (origin: OriginTracing, link: string) => string;
+  formatCopyLink?: (origin: OriginTracing, link: string) => string;
   /** Function used to load users options asynchronously */
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
@@ -130,7 +130,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   static defaultProps = {
     shareLink: getDefaultShareLink(),
-    formatCopyLink: memoizedFormatCopyLink,
     useUrlShortener: false,
   };
 
@@ -293,7 +292,10 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     const { formatCopyLink } = this.props;
     const shareLink = this.getRawLink();
     const copyLinkOrigin = this.getCopyLinkOriginTracing();
-    return formatCopyLink(copyLinkOrigin, shareLink);
+    return (formatCopyLink || memoizedFormatCopyLink)(
+      copyLinkOrigin,
+      shareLink,
+    );
   }
 
   getCopyLink = (): string => {
