@@ -1,1 +1,0 @@
-Add RUM to renderer
