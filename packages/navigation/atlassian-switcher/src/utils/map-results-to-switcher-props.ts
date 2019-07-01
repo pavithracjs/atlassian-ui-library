@@ -216,8 +216,8 @@ function asLicenseInformationProviderResult(
               if (legacyProductKey) {
                 acc[legacyProductKey] = {
                   state: 'ACTIVE', // everything is ACTIVE
-                  // applicationUrl: '', // not required?
-                  // billingPeriod: 'ANNUAL' // not required?
+                  // applicationUrl: '', // not required
+                  // billingPeriod: 'ANNUAL' // not required
                 };
               }
               return acc;
