@@ -1,0 +1,1 @@
+ED-6447 make heading 6 compliant with the ADG h100 styling
