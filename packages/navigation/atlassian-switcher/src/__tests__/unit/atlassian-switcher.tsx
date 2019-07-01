@@ -24,7 +24,7 @@ const renderSpecificTest = (
   });
 };
 
-describe('Atlassian Switcher', async () => {
+describe('Atlassian Switcher', () => {
   renderSpecificTest(
     'should render correct switcher for `jira`',
     'jira',
