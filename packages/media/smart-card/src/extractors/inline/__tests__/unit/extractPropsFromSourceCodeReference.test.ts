@@ -13,7 +13,7 @@ describe('extractInlineViewPropsFromSourceCodeReference', () => {
         name: 'my-repo',
       },
     });
-    expect(props).toHaveProperty('title', 'my-repo/my-branch (branch)');
+    expect(props).toHaveProperty('title', 'my-repo/my-branch');
     expect(props).toHaveProperty('icon');
 
     const icon = props.icon as ReactElement<any>;

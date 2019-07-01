@@ -34,10 +34,10 @@ export const buildName = (props: InlineCardResolvedViewProps, json: any) => {
       return { title: `${repoName}${internalId}${nextProps.title}` };
     }
 
-    // BRANCH: `repo-name/branch-name (branch)`
+    // BRANCH: `repo-name/branch-name`
     if (json['@type'] === 'atlassian:SourceCodeReference') {
       const repoName = repostoryName ? `${repostoryName}/` : '';
-      return { title: `${repoName}${nextProps.title} (branch)` };
+      return { title: `${repoName}${nextProps.title}` };
     }
   }
 
