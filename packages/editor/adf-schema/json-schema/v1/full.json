@@ -280,6 +280,65 @@
       ],
       "additionalProperties": false
     },
+    "alignment_mark": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "alignment"
+          ]
+        },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "align": {
+              "enum": [
+                "center",
+                "end"
+              ]
+            }
+          },
+          "required": [
+            "align"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "attrs"
+      ],
+      "additionalProperties": false
+    },
+    "indentation_mark": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "indentation"
+          ]
+        },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 6
+            }
+          },
+          "required": [
+            "level"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "attrs"
+      ],
+      "additionalProperties": false
+    },
     "paragraph_node": {
       "type": "object",
       "properties": {
@@ -314,6 +373,44 @@
             "marks": {
               "type": "array",
               "maxItems": 0
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "paragraph_with_alignment_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/paragraph_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/alignment_mark"
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "paragraph_with_indentation_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/paragraph_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/indentation_mark"
+              }
             }
           },
           "additionalProperties": true
@@ -447,8 +544,8 @@
               "enum": [
                 "wide",
                 "full-width",
-                "wrap-right",
                 "center",
+                "wrap-right",
                 "wrap-left",
                 "align-end",
                 "align-start"
@@ -714,6 +811,44 @@
             "marks": {
               "type": "array",
               "maxItems": 0
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "heading_with_alignment_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/heading_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/alignment_mark"
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "heading_with_indentation_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/heading_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/indentation_mark"
+              }
             }
           },
           "additionalProperties": true
@@ -1914,6 +2049,12 @@
           "$ref": "#/definitions/paragraph_with_no_marks_node"
         },
         {
+          "$ref": "#/definitions/paragraph_with_alignment_node"
+        },
+        {
+          "$ref": "#/definitions/paragraph_with_indentation_node"
+        },
+        {
           "$ref": "#/definitions/bulletList_node"
         },
         {
@@ -1927,6 +2068,12 @@
         },
         {
           "$ref": "#/definitions/heading_with_no_marks_node"
+        },
+        {
+          "$ref": "#/definitions/heading_with_alignment_node"
+        },
+        {
+          "$ref": "#/definitions/heading_with_indentation_node"
         },
         {
           "$ref": "#/definitions/panel_node"
@@ -1971,6 +2118,12 @@
             "$ref": "#/definitions/paragraph_with_no_marks_node"
           },
           {
+            "$ref": "#/definitions/paragraph_with_alignment_node"
+          },
+          {
+            "$ref": "#/definitions/paragraph_with_indentation_node"
+          },
+          {
             "$ref": "#/definitions/bulletList_node"
           },
           {
@@ -1984,6 +2137,12 @@
           },
           {
             "$ref": "#/definitions/heading_with_no_marks_node"
+          },
+          {
+            "$ref": "#/definitions/heading_with_alignment_node"
+          },
+          {
+            "$ref": "#/definitions/heading_with_indentation_node"
           },
           {
             "$ref": "#/definitions/panel_node"
@@ -2203,6 +2362,12 @@
                 "$ref": "#/definitions/paragraph_with_no_marks_node"
               },
               {
+                "$ref": "#/definitions/paragraph_with_alignment_node"
+              },
+              {
+                "$ref": "#/definitions/paragraph_with_indentation_node"
+              },
+              {
                 "$ref": "#/definitions/bulletList_node"
               },
               {
@@ -2219,6 +2384,12 @@
               },
               {
                 "$ref": "#/definitions/heading_with_no_marks_node"
+              },
+              {
+                "$ref": "#/definitions/heading_with_alignment_node"
+              },
+              {
+                "$ref": "#/definitions/heading_with_indentation_node"
               },
               {
                 "$ref": "#/definitions/panel_node"
