@@ -47,31 +47,46 @@ export class Dropzone extends LocalUploadComponentReact<
 
   public componentDidMount() {
     const { onCancelFn } = this.props;
-    this.removeContainerListeners(); // in case we call activate twice in a row?
-    this.addContainerListeners();
+    this.removeContainerListeners(this.getContainer()); // in case we call activate twice in a row?
+    this.addContainerListeners(this.getContainer());
     if (onCancelFn) {
       onCancelFn(this.cancel);
     }
   }
 
   public componentWillUnmount(): void {
-    this.removeContainerListeners();
+    this.removeContainerListeners(this.getContainer());
   }
 
-  private addContainerListeners = () => {
-    this.getContainer().addEventListener('dragover', this.onDragOver, false);
-    this.getContainer().addEventListener('dragleave', this.onDragLeave, false);
-    this.getContainer().addEventListener('drop', this.onFileDropped);
+  public componentWillReceiveProps(nextProps: DropzoneProps): void {
+    const {
+      config: { container: newContainer },
+    } = nextProps;
+
+    const {
+      config: { container: oldContainer },
+    } = this.props;
+
+    if (newContainer !== oldContainer) {
+      this.removeContainerListeners(oldContainer);
+      this.addContainerListeners(newContainer);
+    }
+  }
+
+  private addContainerListeners = (
+    container: HTMLElement = this.getContainer(),
+  ) => {
+    container.addEventListener('dragover', this.onDragOver, false);
+    container.addEventListener('dragleave', this.onDragLeave, false);
+    container.addEventListener('drop', this.onFileDropped);
   };
 
-  private removeContainerListeners = () => {
-    this.getContainer().removeEventListener('dragover', this.onDragOver, false);
-    this.getContainer().removeEventListener(
-      'dragleave',
-      this.onDragLeave,
-      false,
-    );
-    this.getContainer().removeEventListener('drop', this.onFileDropped);
+  private removeContainerListeners = (
+    container: HTMLElement = this.getContainer(),
+  ) => {
+    container.removeEventListener('dragover', this.onDragOver, false);
+    container.removeEventListener('dragleave', this.onDragLeave, false);
+    container.removeEventListener('drop', this.onFileDropped);
   };
 
   private onDragOver = (e: DragEvent): void => {

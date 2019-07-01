@@ -147,9 +147,7 @@ containerTypes.forEach(containerType => {
     });
 
     it('should upload files when files are dropped', () => {
-      const component = mount(
-        <Dropzone mediaClient={mediaClient} config={config} />,
-      );
+      component = mount(<Dropzone mediaClient={mediaClient} config={config} />);
 
       const componentInstance = component.instance() as any;
       componentInstance.uploadService.addFiles = jest.fn();
@@ -162,17 +160,51 @@ containerTypes.forEach(containerType => {
 
     it('should provide a function to onCancelFn callback property and call uploadService.cancel', () => {
       const onCancelFnMock = jest.fn();
-      const dropzone = mount(
+      component = mount(
         <Dropzone
           mediaClient={mediaClient}
           config={config}
           onCancelFn={onCancelFnMock}
         />,
       );
-      const instance = dropzone.instance() as Dropzone;
+      const instance = component.instance() as Dropzone;
       expect(onCancelFnMock).toBeCalled();
       onCancelFnMock.mock.calls[0][0]();
       expect((instance as any).uploadService.cancel).toBeCalled();
+    });
+
+    it('should change event listeners when container changes', () => {
+      const onCancelFnMock = jest.fn();
+      const newContainer = document.createElement('DIV');
+
+      const removeEventListenerSpyOverOldContainer = jest.spyOn(
+        spyContainer,
+        'removeEventListener',
+      );
+      const addEventListenerSpyOverNewContainer = jest.spyOn(
+        newContainer,
+        'addEventListener',
+      );
+
+      component = mount(
+        <Dropzone
+          mediaClient={mediaClient}
+          config={config}
+          onCancelFn={onCancelFnMock}
+        />,
+      );
+
+      // clear the calls on initial render
+      removeEventListenerSpyOverOldContainer.mockClear();
+
+      component.setProps({
+        config: {
+          container: newContainer,
+        },
+      });
+
+      expect(removeEventListenerSpyOverOldContainer).toBeCalledTimes(3);
+      expect(addEventListenerSpyOverNewContainer).toBeCalledTimes(3);
     });
   });
 });

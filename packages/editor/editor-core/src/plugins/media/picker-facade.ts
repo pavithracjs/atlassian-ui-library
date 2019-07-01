@@ -67,7 +67,7 @@ export default class PickerFacade {
     let picker;
     if (this.pickerType === 'customMediaPicker') {
       picker = this.picker = this.pickerConfig as CustomMediaPicker;
-    } else {
+    } else if (this.pickerType === 'popup') {
       picker = this.picker = await this.mediaPickerFactoryClass(
         this.config.mediaClientConfig,
         this.pickerConfig as PopupConfig,
