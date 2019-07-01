@@ -77,6 +77,13 @@ export default class MediaSingleNode extends Component<
       this.mediaNodeUpdater.updateDimensions(updatedDimensions);
     }
 
+    const { node } = this.props;
+    const childNode = node.firstChild;
+
+    if (!childNode || childNode.attrs.type === 'external') {
+      return;
+    }
+
     const contextId = this.mediaNodeUpdater.getCurrentContextId();
     if (!contextId) {
       await this.mediaNodeUpdater.updateContextId();
