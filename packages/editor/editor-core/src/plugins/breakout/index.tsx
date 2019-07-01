@@ -114,23 +114,23 @@ const breakoutPlugin: EditorPlugin = {
     popupsBoundariesElement,
     popupsScrollableElement,
   }) {
+    if (appearance !== 'full-page') {
+      return null;
+    }
+
     return (
       <WithPluginState
         plugins={{
           pluginState: pluginKey,
         }}
         render={({ pluginState }) => (
-          <>
-            {appearance === 'full-page' && (
-              <LayoutButton
-                editorView={editorView}
-                mountPoint={popupsMountPoint}
-                boundariesElement={popupsBoundariesElement}
-                scrollableElement={popupsScrollableElement}
-                node={pluginState.breakoutNode}
-              />
-            )}
-          </>
+          <LayoutButton
+            editorView={editorView}
+            mountPoint={popupsMountPoint}
+            boundariesElement={popupsBoundariesElement}
+            scrollableElement={popupsScrollableElement}
+            node={pluginState.breakoutNode}
+          />
         )}
       />
     );
