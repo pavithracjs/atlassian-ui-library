@@ -43,8 +43,8 @@ describe('ContentNavigation', () => {
     class Container extends Component<{}> {
       constructor(props) {
         super(props);
-        this.componentDidMount = componentDidMount;
-        this.componentWillUnmount = componentWillUnmount;
+        (this: any).componentDidMount = componentDidMount;
+        (this: any).componentWillUnmount = componentWillUnmount;
       }
 
       render() {
