@@ -27,8 +27,8 @@ function checkMarkAndSendAnalytics() {
     }
   }
 
-  performance.clearMarks();
-  performance.clearMeasures();
+  performance.clearMarks('loaded');
+  performance.clearMeasures('analytics-measure');
   return null;
 }
 

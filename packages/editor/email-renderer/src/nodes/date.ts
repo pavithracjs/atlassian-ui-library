@@ -1,29 +1,35 @@
 import { createTag } from '../create-tag';
-import { serializeStyle } from '../serialize-style';
 import { NodeSerializerOpts } from '../interfaces';
-/**
- * TODO: https://product-fabric.atlassian.net/browse/CS-909
- * Need to revisit when using other packages that depend on react
- */
-import { isPastDate, timestampToString } from '../date';
+import { isPastDate, timestampToString } from '../date-helper';
 import { R50, R500, N40, N500 } from '@atlaskit/adf-schema';
+import { createClassName } from '../styles/util';
 
-type Color = 'neutral' | 'red';
+const className = createClassName('date');
 
-type ColorMapping = {
-  [K in Color]: { 'background-color': string; color: string }
-};
-
-const colorMapping: ColorMapping = {
-  red: {
-    'background-color': R50,
-    color: R500,
-  },
-  neutral: {
-    'background-color': N40,
-    color: N500,
-  },
-};
+export const styles = `
+.${className} {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  max-width: 100%;
+  vertical-align: baseline;
+  border-width: 3px;
+  padding: 2px 4px 3px 4px;
+}
+.${className}-red {
+  background-color: ${R50};
+  color: ${R500};
+}
+.${className}-neutral {
+  background-color: ${N40};
+  color: ${N500};
+}
+`;
 
 export default function status({ attrs, parent }: NodeSerializerOpts) {
   const timestamp: string = attrs.timestamp;
@@ -36,25 +42,10 @@ export default function status({ attrs, parent }: NodeSerializerOpts) {
   ) {
     isParentToDoTask = true;
   }
-  const colorAttributes =
+  const colorClass =
     !!isParentToDoTask && isPastDate(timestamp)
-      ? colorMapping.red
-      : colorMapping.neutral;
-  const css = serializeStyle({
-    'border-radius': '3px',
-    '-webkit-border-radius': '3px',
-    '-moz-border-radius': '3px',
-    'box-sizing': 'border-box',
-    display: 'inline-block',
-    'font-size': '14px',
-    'font-weight': '400',
-    'line-height': '1',
-    'max-width': '100%',
-    'vertical-align': 'baseline',
-    'border-width': '3px',
-    padding: '2px 4px 3px 4px',
-    ...colorAttributes,
-  });
+      ? `${className}-red`
+      : `${className}-neutral`;
   const text = timestampToString(timestamp);
-  return createTag('span', { style: css }, text);
+  return createTag('span', { class: className + ' ' + colorClass }, text);
 }

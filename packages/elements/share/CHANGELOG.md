@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.5.1
+
+### Patch Changes
+
+- [patch][b53dd55ae8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b53dd55ae8):
+
+  fix: invalid property being used in URL shortener client
+
 ## 0.5.0
 
 ### Minor Changes

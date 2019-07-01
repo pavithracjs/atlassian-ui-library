@@ -2,6 +2,7 @@ import { JsonLd } from '../../client/types';
 import { CardBaseActionCreator } from './types';
 import { CardStore } from '../types';
 import { CardType } from '../store/types';
+import { Store } from 'redux';
 
 export const cardAction: CardBaseActionCreator<JsonLd> = (
   type,
@@ -22,6 +23,15 @@ export const getByDefinitionId = (
     const { details } = store[url];
     return details && details.meta.definitionId === definitionId;
   });
+};
+
+export const getUrl = (store: Store<CardStore>, url: string) => {
+  return (
+    store.getState()[url] || {
+      status: 'pending',
+      lastUpdatedAt: Date.now(),
+    }
+  );
 };
 
 export const getDefinitionId = (details?: JsonLd) =>

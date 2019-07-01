@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentNavigation should visually hide the container view when nav is collapsed when "experimental_hideNavVisuallyOnCollapse" is passed 1`] = `
+<AnalyticsContext
+  data={
+    Object {
+      "navigationCtx": Object {
+        "attributes": Object {
+          "navigationLayer": "container",
+        },
+      },
+    }
+  }
+/>
+`;
+
+exports[`ContentNavigation should visually hide the product view when nav is collapsed when "experimental_hideNavVisuallyOnCollapse" is passed 1`] = `
+<AnalyticsContext
+  data={
+    Object {
+      "navigationCtx": Object {
+        "attributes": Object {
+          "navigationLayer": "product",
+        },
+      },
+    }
+  }
+/>
+`;
