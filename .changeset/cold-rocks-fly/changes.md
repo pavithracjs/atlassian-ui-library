@@ -1,0 +1,1 @@
+fix: some smartlinks with sourcecode artifacts were being incorrectly rendered
