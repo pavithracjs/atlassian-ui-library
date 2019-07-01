@@ -22,7 +22,7 @@ function checkBSParallelSessions() {
     })
     .then(response => {
       // Those two values are int and fixed on BS sides, so it should be always returning a proper value.
-      const percentageOfUsedSessions = parseInt(
+      const percentageOfUsedSessions = Math.floor(
         (response.data.parallel_sessions_running /
           response.data.team_parallel_sessions_max_allowed) *
           100,
