@@ -3,7 +3,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Icon priority server side rendering', async done => {
+test.skip('Icon priority server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('icon-priority');
   for (const example of examples) {

@@ -5,7 +5,7 @@ import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-test('Field text area server side rendering', async () => {
+test.skip('Field text area server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('field-text-area');
   for (const example of examples) {

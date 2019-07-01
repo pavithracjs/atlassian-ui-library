@@ -3,7 +3,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Form server side rendering', async done => {
+test.skip('Form server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('form');
   for (const example of examples) {

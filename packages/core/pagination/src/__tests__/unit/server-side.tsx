@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 
 type Example = { filePath: string };
 
-test('Pavigation server side rendering', async done => {
+test.skip('Pavigation server side rendering', async done => {
   const examples: Example[] = await getExamplesFor('pagination');
   for (const example of examples) {
     if (!example.filePath.includes('react-router')) {

@@ -3,7 +3,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test('Icon file type server side rendering', async done => {
+test.skip('Icon file type server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('icon-file-type');
   for (const example of examples) {
