@@ -14,6 +14,7 @@ export const selectors = {
   layoutDataSection: '[data-layout-section="true"]',
   panelContent: '.ak-editor-panel__content',
   codeContent: '.code-content',
+  fontStyleDropList: 'div[data-role="droplistContent"]',
 };
 
 export async function clickEditableContent(page: Page) {

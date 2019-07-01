@@ -5,6 +5,7 @@ import { parseString } from '../text';
 import { normalizePMNodes } from '../utils/normalize';
 import { linkFormat } from './links/link-format';
 import { media } from './media';
+import { emoji } from './emoji';
 import { TokenType, TokenParser, Context } from './';
 import { parseNewlineOnly } from './whitespace';
 import { parseMacroKeyword } from './keyword';
@@ -29,6 +30,7 @@ const processState = {
   LINK: 8,
   MEDIA: 9,
   MACRO: 10,
+  EMOJI: 11,
 };
 
 export const table: TokenParser = ({ input, position, schema, context }) => {
@@ -140,6 +142,13 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
             break;
           }
 
+          case ':':
+          case ';':
+          case '(': {
+            currentState = processState.EMOJI;
+            continue;
+          }
+
           case '[': {
             currentState = processState.LINK;
             continue;
@@ -197,6 +206,13 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
       }
       case processState.MEDIA: {
         const token = media({ input, schema, context, position: index });
+        buffer += input.substr(index, token.length);
+        index += token.length;
+        currentState = processState.BUFFER;
+        continue;
+      }
+      case processState.EMOJI: {
+        const token = emoji({ input, schema, context, position: index });
         buffer += input.substr(index, token.length);
         index += token.length;
         currentState = processState.BUFFER;

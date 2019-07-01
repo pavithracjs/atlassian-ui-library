@@ -1,21 +1,20 @@
 import * as React from 'react';
 import { InlineCardResolvedViewProps } from '@atlaskit/media-ui';
-import BranchIcon from '@atlaskit/icon-object/glyph/branch/16';
-
 import { extractInlineViewPropsFromObject } from './extractPropsFromObject';
 import { buildName } from './extractPropsFromSourceCodeCommon';
 import { BuildInlineProps } from './types';
+import CommitIcon from '@atlaskit/icon-object/glyph/commit/16';
 
-type BuildInlinePropsSourceCodeReference = BuildInlineProps<
+type BuildInlinePropsSourceCodeCommit = BuildInlineProps<
   InlineCardResolvedViewProps
 >;
 
-export const buildIcon: BuildInlinePropsSourceCodeReference = json => {
+export const buildIcon: BuildInlinePropsSourceCodeCommit = json => {
   const name = json.name;
-  return { icon: <BranchIcon label={name} /> };
+  return { icon: <CommitIcon label={name} /> };
 };
 
-export const extractInlineViewPropsFromSourceCodeReference = (
+export const extractInlineViewPropsFromSourceCodeCommit = (
   json: any,
 ): InlineCardResolvedViewProps => {
   const props = extractInlineViewPropsFromObject(json);

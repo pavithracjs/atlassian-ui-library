@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.13.0
+
+### Minor Changes
+
+- [minor][241a14694e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/241a14694e):
+
+  Add RUM to renderer
+
 ## 39.12.0
 
 ### Minor Changes

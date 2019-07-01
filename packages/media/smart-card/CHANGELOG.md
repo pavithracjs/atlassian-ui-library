@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.2.2
+
+### Patch Changes
+
+- [patch][4258086c0d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4258086c0d):
+
+  fix: some smartlinks with sourcecode artifacts were being incorrectly rendered
+
 ## 12.2.1
 
 ### Patch Changes

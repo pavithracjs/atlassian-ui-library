@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.2.0
+
+### Minor Changes
+
+- [minor][c617f954b7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c617f954b7):
+
+  Extracted CSS for last set of 4 ADF nodes
+
 ## 2.1.0
 
 ### Minor Changes
