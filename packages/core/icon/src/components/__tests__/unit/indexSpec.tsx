@@ -4,8 +4,8 @@ import { mount, shallow } from 'enzyme';
 
 import path from 'path';
 import fs from 'fs';
+import { size } from '../../../';
 import { name } from '../../../version.json';
-import { size } from '../../Icon';
 import BookIcon from '../../../../glyph/book';
 import DefaultIcon, { metadata, size as defaultSize } from '../../..';
 

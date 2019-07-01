@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import uuid from 'uuid';
 import { colors } from '@atlaskit/theme';
 
-import { sizes } from '../constants';
+import { sizes, sizeOptions } from '../constants';
 
 interface WrapperProps {
   primaryColor?: string;
   secondaryColor?: string;
-  size?: 'small' | 'medium' | 'large' | 'xlarge';
+  size?: sizeOptions;
 }
 
 const getSize = ({ size }: WrapperProps) =>
@@ -50,7 +50,7 @@ export interface IconProps {
   /** For secondary colour for 2-color icons. Set to inherit to control this via "fill" in CSS */
   secondaryColor?: string;
   /** Control the size of the icon */
-  size?: 'small' | 'medium' | 'large' | 'xlarge';
+  size?: sizeOptions;
 }
 
 export default class Icon extends Component<IconProps, {}> {
@@ -111,11 +111,3 @@ export default class Icon extends Component<IconProps, {}> {
     );
   }
 }
-
-export const size: Record<string, string> = Object.keys(sizes).reduce(
-  (accum, size) => ({
-    ...accum,
-    [size]: size,
-  }),
-  {},
-);
