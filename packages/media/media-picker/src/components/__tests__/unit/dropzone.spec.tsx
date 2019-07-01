@@ -2,7 +2,7 @@ import * as React from 'react';
 jest.mock('../../../service/newUploadServiceImpl');
 import { Dropzone } from '../../dropzone/dropzone';
 import { mount, ReactWrapper } from 'enzyme';
-import { DropzoneDragEnterEventPayload, DropzoneConfig } from '../../types';
+import { DropzoneDragEnterEventPayload } from '../../types';
 import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 const files = [new File([], '')];
@@ -35,26 +35,23 @@ const createDropEvent = () => {
   return createDragOverOrDropEvent('drop');
 };
 
-const containerTypes = ['with', 'with no'];
-
 const mediaClient = fakeMediaClient();
 
-containerTypes.forEach(containerType => {
-  describe(`Dropzone ${containerType} supplied container`, () => {
-    let spyContainer: HTMLElement;
-    let config: DropzoneConfig;
-    let component: ReactWrapper;
+const container = document.createElement('div');
 
-    beforeEach(() => {
-      if (containerType === 'with') {
-        const withContainer = document.createElement('DIV');
-        config = { container: withContainer, uploadParams: {} };
-        spyContainer = withContainer;
-      } else {
-        config = { uploadParams: {} };
-        spyContainer = document.body;
-      }
-    });
+[
+  {
+    config: { container, uploadParams: {} },
+    expectedContainer: container,
+  },
+  {
+    config: { uploadParams: {} },
+    expectedContainer: document.body,
+  },
+].forEach(data => {
+  describe(`Dropzone with config: ${data.config}`, () => {
+    let component: ReactWrapper;
+    const { config, expectedContainer } = data;
 
     afterEach(() => {
       if (component.exists()) component.unmount();
@@ -62,7 +59,7 @@ containerTypes.forEach(containerType => {
 
     it('adds "dragover", "dragleave" and "drop" events to container', async () => {
       let addEventListenerSpy: jest.SpyInstance<any>;
-      addEventListenerSpy = jest.spyOn(spyContainer, 'addEventListener');
+      addEventListenerSpy = jest.spyOn(expectedContainer, 'addEventListener');
 
       component = mount(<Dropzone mediaClient={mediaClient} config={config} />); // Must mount after syping
 
@@ -74,7 +71,7 @@ containerTypes.forEach(containerType => {
 
     it('removes "dragover", "dragleave" and "drop" events from container', async () => {
       const removeEventListenerSpy = jest.spyOn(
-        spyContainer,
+        expectedContainer,
         'removeEventListener',
       );
 
@@ -99,7 +96,7 @@ containerTypes.forEach(containerType => {
         />,
       );
 
-      spyContainer.dispatchEvent(createDragOverEvent());
+      expectedContainer.dispatchEvent(createDragOverEvent());
     });
 
     it('should not emit drag-enter for drag over with type "Not Files"', done => {
@@ -113,7 +110,7 @@ containerTypes.forEach(containerType => {
         />,
       );
 
-      spyContainer.dispatchEvent(createDragOverEvent('Not Files'));
+      expectedContainer.dispatchEvent(createDragOverEvent('Not Files'));
       done();
     });
 
@@ -128,8 +125,8 @@ containerTypes.forEach(containerType => {
         />,
       );
 
-      spyContainer.dispatchEvent(createDragOverEvent());
-      spyContainer.dispatchEvent(createDragLeaveEvent());
+      expectedContainer.dispatchEvent(createDragOverEvent());
+      expectedContainer.dispatchEvent(createDragLeaveEvent());
     });
 
     it('should not emit drag-leave for dragleave event if there was no dragover', () => {
@@ -143,7 +140,7 @@ containerTypes.forEach(containerType => {
         />,
       );
 
-      spyContainer.dispatchEvent(createDragLeaveEvent());
+      expectedContainer.dispatchEvent(createDragLeaveEvent());
     });
 
     it('should upload files when files are dropped', () => {
@@ -152,7 +149,7 @@ containerTypes.forEach(containerType => {
       const componentInstance = component.instance() as any;
       componentInstance.uploadService.addFiles = jest.fn();
 
-      spyContainer.dispatchEvent(createDropEvent());
+      expectedContainer.dispatchEvent(createDropEvent());
 
       expect(componentInstance.uploadService.addFiles).toHaveBeenCalledTimes(1);
       expect(componentInstance.uploadService.addFiles).toBeCalledWith(files);
@@ -178,7 +175,7 @@ containerTypes.forEach(containerType => {
       const newContainer = document.createElement('DIV');
 
       const removeEventListenerSpyOverOldContainer = jest.spyOn(
-        spyContainer,
+        expectedContainer,
         'removeEventListener',
       );
       const addEventListenerSpyOverNewContainer = jest.spyOn(
