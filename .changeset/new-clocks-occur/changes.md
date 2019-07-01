@@ -1,1 +1,0 @@
-FM-2056 Expose mention tapping via renderer bridge so that iOS/Android can display a native profile card for the selected user
