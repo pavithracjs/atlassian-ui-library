@@ -50,6 +50,7 @@ const ScrollProvider = ({ isVisible, ...props }: any) => (
 type ProductNavigationPrimitiveBaseProps = {
   children: Node,
   theme: ProductTheme,
+  isVisible: boolean,
 };
 
 const ProductNavigationPrimitiveBase = ({
@@ -76,7 +77,7 @@ const ProductNavigationPrimitive = withContentTheme(
   ProductNavigationPrimitiveBase,
 );
 
-type ProductNavigationProps = { children: Node };
+type ProductNavigationProps = { isVisible: boolean, children: Node };
 
 type BaseNavigationTheme = {
   children: Node,
