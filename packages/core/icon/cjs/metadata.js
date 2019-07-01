@@ -113,7 +113,7 @@ var _default = {
     package: '@atlaskit/icon/glyph/backlog'
   },
   'billing-filled': {
-    keywords: ['billing-filled', 'billingfilled', 'icon', 'core'],
+    keywords: ['billing-filled', 'billingfilled', 'invoice', 'receipt', 'icon', 'core'],
     componentName: 'BillingFilledIcon',
     package: '@atlaskit/icon/glyph/billing-filled'
   },
@@ -233,7 +233,7 @@ var _default = {
     package: '@atlaskit/icon/glyph/canvas'
   },
   'check-circle-outline': {
-    keywords: ['check-circle-outline', 'checkcircleoutline', 'icon', 'core'],
+    keywords: ['check-circle-outline', 'checkcircleoutline', 'tick', 'icon', 'core'],
     componentName: 'CheckCircleOutlineIcon',
     package: '@atlaskit/icon/glyph/check-circle-outline'
   },
@@ -1388,7 +1388,7 @@ var _default = {
     package: '@atlaskit/icon/glyph/preferences'
   },
   premium: {
-    keywords: ['premium', 'crown', 'icon', 'core'],
+    keywords: ['premium', 'icon', 'core'],
     componentName: 'PremiumIcon',
     package: '@atlaskit/icon/glyph/premium'
   },

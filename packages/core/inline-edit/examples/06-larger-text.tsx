@@ -1,31 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { fontSize, gridSize } from '@atlaskit/theme';
+import Textfield from '@atlaskit/textfield';
 
 import InlineEdit from '../src';
 
-const ReadView = styled.div`
+const ReadViewContainer = styled.div`
+  display: flex;
+  line-height: ${(gridSize() * 2.5) / fontSize()};
+  max-width: 100%;
+  min-height: ${(gridSize() * 2.5) / fontSize()}em;
   padding: ${gridSize()}px ${gridSize() - 2}px;
-  border: 2px solid transparent;
-`;
-
-const EditView = styled.input`
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  box-sizing: border-box;
-  border: 2px solid ${colors.N40};
-  border-radius: 3px;
-  padding: ${gridSize()}px ${gridSize()}px;
-  outline: none;
-  width: 100%;
-  transition: border 0.4s;
-  height: 48px;
-
-  :focus {
-    border-color: ${colors.B100};
-  }
+  word-break: break-word;
 `;
 
 export default class InlineEditExample extends React.Component {
@@ -40,12 +26,32 @@ export default class InlineEditExample extends React.Component {
         }}
       >
         <InlineEdit
-          defaultValue="Field Value"
-          editView={(fieldProps, ref) => (
-            <EditView {...fieldProps} innerRef={ref} />
-          )}
-          readView={() => <ReadView>Field Value</ReadView>}
+          defaultValue="Field value"
           onConfirm={() => {}}
+          editView={fieldProps => (
+            <Textfield
+              {...fieldProps}
+              autoFocus
+              theme={(theme: any, props: any) => {
+                const { container, input } = theme(props);
+                return {
+                  container: {
+                    ...container,
+                    fontSize: 'inherit',
+                    fontWeight: 'inherit',
+                    lineHeight: 'inherit',
+                  },
+                  input: {
+                    ...input,
+                    fontSize: 'inherit',
+                    fontWeight: 'inherit',
+                    lineHeight: 'inherit',
+                  },
+                };
+              }}
+            />
+          )}
+          readView={() => <ReadViewContainer>Field value</ReadViewContainer>}
         />
       </div>
     );

@@ -6,6 +6,7 @@ import {
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
+import { animationFrame } from '../__helpers/page-objects/_editor';
 
 export {
   setupMediaMocksProviders,
@@ -134,17 +135,22 @@ function getEditorProps(appearance: Appearance) {
   return enableAllEditorProps;
 }
 
+export type MountOptions = {
+  mode?: 'light' | 'dark';
+  withSidebar?: boolean;
+};
+
 export async function mountEditor(
   page: any,
   props: any,
-  mode?: 'light' | 'dark',
+  mountOptions?: MountOptions,
 ) {
   await page.evaluate(
-    (props: EditorProps, mode?: 'light' | 'dark') => {
-      (window as any).__mountEditor(props, mode);
+    (props: EditorProps, mountOptions?: MountOptions) => {
+      (window as any).__mountEditor(props, mountOptions);
     },
     props,
-    mode,
+    mountOptions,
   );
   await page.waitForSelector('.ProseMirror', 500);
 }
@@ -171,6 +177,7 @@ type InitEditorWithADFOptions = {
   editorProps?: EditorProps;
   mode?: 'light' | 'dark';
   allowSideEffects?: SideEffectsOption;
+  withSidebar?: boolean;
 };
 
 export const initEditorWithAdf = async (
@@ -183,6 +190,7 @@ export const initEditorWithAdf = async (
     editorProps = {},
     mode,
     allowSideEffects = {},
+    withSidebar = false,
   }: InitEditorWithADFOptions,
 ) => {
   const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
@@ -204,7 +212,7 @@ export const initEditorWithAdf = async (
       ...getEditorProps(appearance),
       ...editorProps,
     },
-    mode,
+    { mode, withSidebar },
   );
 
   // We disable possible side effects, like animation, transitions and caret cursor,
@@ -276,6 +284,9 @@ export const snapshot = async (
   const { tolerance, useUnsafeThreshold } = threshold;
   const editor = await page.$(selector);
 
+  // Wait for a frame because we are using RAF to throttle floating toolbar render
+  animationFrame(page);
+
   // Try to take a screenshot of only the editor.
   // Otherwise take the whole page.
   let image;
@@ -285,5 +296,5 @@ export const snapshot = async (
     image = await page.screenshot();
   }
 
-  compareScreenshot(image, tolerance, { useUnsafeThreshold });
+  return compareScreenshot(image, tolerance, { useUnsafeThreshold });
 };

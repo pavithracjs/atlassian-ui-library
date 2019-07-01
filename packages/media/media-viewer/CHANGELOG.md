@@ -1,5 +1,13 @@
 # @atlaskit/media-viewer
 
+## 43.1.2
+
+### Patch Changes
+
+- [patch][4a9ea62c07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a9ea62c07):
+
+  Fix selected state on arrow navigation buttons in MV
+
 ## 43.1.1
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

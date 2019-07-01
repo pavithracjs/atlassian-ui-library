@@ -1,3 +1,4 @@
+import assert from 'tiny-invariant';
 import { ButtonAppearances } from '@atlaskit/button';
 import { LoadOptions } from '@atlaskit/user-picker';
 import memoizeOne from 'memoize-one';
@@ -7,6 +8,10 @@ import {
   ShareClient,
   ShareServiceClient,
 } from '../clients/ShareServiceClient';
+import {
+  UrlShortenerClient,
+  AtlassianUrlShortenerClient,
+} from '../clients/AtlassianUrlShortenerClient';
 import {
   Content,
   DialogContentState,
@@ -18,6 +23,7 @@ import {
   RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareResponse,
+  ProductId,
 } from '../types';
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
@@ -30,8 +36,11 @@ export const defaultConfig: ConfigResponse = {
 
 export type Props = {
   /** Share service client implementation that gets share configs and performs share */
-  client?: ShareClient;
-  /** Cloud ID of the instance */
+  shareClient?: ShareClient;
+  /** URL Shortener service client implementation that may shorten links for copy */
+  urlShortenerClient?: UrlShortenerClient;
+  /** Cloud ID of the instance
+   * Note: we assume this props is stable. */
   cloudId: string;
   /** Placement of the modal to the trigger button */
   dialogPlacement?: DialogPlacement;
@@ -41,14 +50,9 @@ export type Props = {
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
-  /** Product ID (Canonical ID) in ARI of the share request */
-  /** bitbucket */
-  /** confluence */
-  /** jira-core */
-  /** jira-servicedesk */
-  /** jira-software */
-  /** trello */
-  productId: string;
+  /** Product ID (Canonical ID) in ARI of the share request
+   * Note: we assume this props is stable. */
+  productId: ProductId;
   /** Render function for a custom Share Dialog Trigger Button*/
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   /** Atlassian Resource Identifier of a Site resource to be shared */
@@ -90,12 +94,17 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   /** Style of the share modal trigger button */
   triggerButtonStyle?: ShareButtonStyle;
+  /** Message to be appended to the modal */
+  bottomMessage?: React.ReactNode;
+  /** Whether we should use the Atlassian Url Shortener or not */
+  useUrlShortener?: boolean;
 };
 
 export type State = {
   config?: ConfigResponse;
   isFetchingConfig: boolean;
   shareActionCount: number;
+  shortenedCopyLink: null | string;
 };
 
 const memoizedFormatCopyLink: (
@@ -115,23 +124,35 @@ const getDefaultShareLink: () => string = () =>
  * to ShareDialogTrigger component
  */
 export class ShareDialogContainer extends React.Component<Props, State> {
-  private client: ShareClient;
+  private shareClient: ShareClient;
+  private urlShortenerClient: UrlShortenerClient;
   private _isMounted = false;
+  private _urlShorteningRequestCounter = 0;
 
   static defaultProps = {
     shareLink: getDefaultShareLink(),
     formatCopyLink: memoizedFormatCopyLink,
+    useUrlShortener: false,
   };
 
   constructor(props: Props) {
     super(props);
 
-    this.client = props.client || new ShareServiceClient();
+    // v0.4 -> v0.5 .client -> .shareClient
+    assert(
+      !(props as any).client,
+      'elements/share: Breaking change, please update your props!',
+    );
+    this.shareClient = props.shareClient || new ShareServiceClient();
+
+    this.urlShortenerClient =
+      props.urlShortenerClient || new AtlassianUrlShortenerClient();
 
     this.state = {
       shareActionCount: 0,
       config: defaultConfig,
       isFetchingConfig: false,
+      shortenedCopyLink: null,
     };
   }
 
@@ -149,7 +170,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
         isFetchingConfig: true,
       },
       () => {
-        this.client
+        this.shareClient
           .getConfig(this.props.productId, this.props.cloudId)
           .then((config: ConfigResponse) => {
             if (this._isMounted) {
@@ -190,7 +211,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       atlOriginId: this.getFormShareOriginTracing().id,
     };
 
-    return this.client
+    return this.shareClient
       .share(content, optionDataToUsers(users), metaData, comment)
       .then((response: ShareResponse) => {
         // renew Origin Tracing Id per share action succeeded
@@ -201,6 +222,13 @@ export class ShareDialogContainer extends React.Component<Props, State> {
         return response;
       })
       .catch((err: Error) => Promise.reject(err));
+  };
+
+  handleDialogOpen = () => {
+    this.updateShortCopyLink();
+
+    // always refetch the config when modal is re-opened
+    this.fetchConfig();
   };
 
   // ensure origin is re-generated if the link or the factory changes
@@ -221,6 +249,23 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       shareCount: number,
     ): OriginTracing => {
       return originTracingFactory();
+    },
+  );
+
+  getUpToDateShortenedCopyLink = memoizeOne(
+    (
+      longLink: string,
+      cloudId: string,
+      productId: ProductId,
+    ): Promise<string | null> => {
+      this._urlShorteningRequestCounter++;
+      return this.urlShortenerClient
+        .shorten(longLink, cloudId, productId)
+        .then(response => response.shortUrl)
+        .catch(() => {
+          // TODO analytics
+          return null;
+        });
     },
   );
 
@@ -246,12 +291,47 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     );
   }
 
-  getCopyLink = (): string => {
+  getFullCopyLink(): string {
     const { formatCopyLink } = this.props;
     const shareLink = this.getRawLink();
     const copyLinkOrigin = this.getCopyLinkOriginTracing();
     return formatCopyLink(copyLinkOrigin, shareLink);
+  }
+
+  getCopyLink = (): string => {
+    const { useUrlShortener } = this.props;
+    const { shortenedCopyLink } = this.state;
+
+    if (useUrlShortener && shortenedCopyLink) return shortenedCopyLink;
+
+    return this.getFullCopyLink();
   };
+
+  updateShortCopyLink() {
+    this.setState({
+      shortenedCopyLink: null,
+    });
+
+    const { useUrlShortener } = this.props;
+    if (!useUrlShortener) return;
+
+    const longLink = this.getFullCopyLink();
+    const { cloudId, productId } = this.props;
+    const shortLink = this.getUpToDateShortenedCopyLink(
+      longLink,
+      cloudId,
+      productId,
+    );
+    const requestCounter = this._urlShorteningRequestCounter;
+    shortLink.then(shortenedCopyLink => {
+      if (!this._isMounted) return;
+      const isRequestOutdated =
+        requestCounter !== this._urlShorteningRequestCounter;
+      if (isRequestOutdated) return;
+
+      this.setState({ shortenedCopyLink });
+    });
+  }
 
   getFormShareLink = (): string => {
     // original share link is used here
@@ -269,6 +349,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       showFlags,
       triggerButtonAppearance,
       triggerButtonStyle,
+      bottomMessage,
     } = this.props;
     const { isFetchingConfig } = this.state;
     return (
@@ -277,9 +358,9 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           config={this.state.config}
           copyLink={this.getCopyLink()}
           dialogPlacement={dialogPlacement}
-          fetchConfig={this.fetchConfig}
           isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
+          onDialogOpen={this.handleDialogOpen}
           onShareSubmit={this.handleSubmitShare}
           renderCustomTriggerButton={renderCustomTriggerButton}
           shareContentType={shareContentType}
@@ -290,6 +371,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           showFlags={showFlags}
           triggerButtonAppearance={triggerButtonAppearance}
           triggerButtonStyle={triggerButtonStyle}
+          bottomMessage={bottomMessage}
         />
       </MessagesIntlProvider>
     );

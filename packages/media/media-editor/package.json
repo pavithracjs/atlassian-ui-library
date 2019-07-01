@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-editor",
-  "version": "36.1.2",
+  "version": "36.2.0",
   "description": "Media component for image annotations",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.tsx",

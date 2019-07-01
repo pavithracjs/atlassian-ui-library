@@ -1,5 +1,24 @@
 # @atlaskit/media-core
 
+## 30.0.6
+
+### Patch Changes
+
+- [patch][e69f28b637](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e69f28b637):
+
+  add getAuthFromContext field into MediaClientConfig
+
+  Now products can provide auth based on a `contextId` **ARI**
+
+  ```
+  import {MediaClientConfig} from '@atlaskit/media-core';
+
+  const config: MediaClientConfig = {
+    authProvider, // already exists
+    getAuthFromContext(clientId: string): Promise<Auth> // new optional prop
+  }
+  ```
+
 ## 30.0.5
 
 ### Patch Changes
@@ -597,6 +616,7 @@
 * ```
 
   ```
+
 * after:
 * ```typescript
   ```
@@ -608,6 +628,7 @@
 * ```}
 
   ```
+
 * interface fetchImageDataUri(
   mediaItem: MediaItem,
   options: FetchImageOptions,

@@ -1,27 +1,22 @@
 import * as React from 'react';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
-import { Context } from '@atlaskit/media-core';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
+import { MediaClientConfig } from '@atlaskit/media-core';
+import { getMediaClient } from '@atlaskit/media-client';
 import {
   akEditorWideLayoutWidth,
   calcPxFromColumns,
   calcPctFromPx,
-  calcPxFromPct,
   akEditorBreakoutPadding,
   calcColumnsFromPx,
-  breakoutWideScaleRatio,
 } from '@atlaskit/editor-common';
 
 import { Wrapper } from './styled';
 import { Props, EnabledHandles } from './types';
 import Resizer from './Resizer';
-import {
-  snapTo,
-  handleSides,
-  imageAlignmentMap,
-  alignmentLayouts,
-} from './utils';
+import { snapTo, handleSides, imageAlignmentMap } from './utils';
 import { isFullPage } from '../../../../utils/is-full-page';
+import { calcMediaPxWidth } from '../../utils/media-single';
 
 type State = {
   offsetLeft: number;
@@ -59,25 +54,28 @@ export default class ResizableMediaSingle extends React.Component<
   }
 
   async componentDidMount() {
-    const { viewContext } = this.props;
-    if (viewContext) {
-      this.checkVideoFile(viewContext);
+    const { viewMediaClientConfig } = this.props;
+    if (viewMediaClientConfig) {
+      this.checkVideoFile(viewMediaClientConfig);
     }
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.viewContext !== nextProps.viewContext) {
-      this.checkVideoFile(nextProps.viewContext);
+    if (this.props.viewMediaClientConfig !== nextProps.viewMediaClientConfig) {
+      this.checkVideoFile(nextProps.viewMediaClientConfig);
     }
   }
 
-  async checkVideoFile(viewContext?: Context) {
+  async checkVideoFile(viewMediaClientConfig?: MediaClientConfig) {
     const $pos = this.$pos;
-    if (!$pos || !viewContext) {
+    if (!$pos || !viewMediaClientConfig) {
       return;
     }
     const getMediaNode = this.props.state.doc.nodeAt($pos.pos + 1);
-    const state = await viewContext.file.getCurrentState(
+    const mediaClient = getMediaClient({
+      mediaClientConfig: viewMediaClientConfig,
+    });
+    const state = await mediaClient.file.getCurrentState(
       getMediaNode!.attrs.id,
     );
     if (state && state.status !== 'error' && state.mediaType === 'image') {
@@ -201,6 +199,31 @@ export default class ResizableMediaSingle extends React.Component<
     return snapPoints;
   }
 
+  calcPxWidth = (): number => {
+    const {
+      width: origWidth,
+      height: origHeight,
+      layout,
+      pctWidth,
+      lineLength,
+      containerWidth,
+      fullWidthMode,
+      getPos,
+      state,
+    } = this.props;
+
+    return calcMediaPxWidth({
+      origWidth,
+      origHeight,
+      pctWidth,
+      state,
+      containerWidth: { width: containerWidth, lineLength },
+      isFullWidthModeEnabled: fullWidthMode,
+      layout,
+      pos: getPos(),
+    });
+  };
+
   get insideInlineLike(): boolean {
     const $pos = this.$pos;
     if (!$pos) {
@@ -253,32 +276,11 @@ export default class ResizableMediaSingle extends React.Component<
       height: origHeight,
       layout,
       pctWidth,
-      lineLength,
       containerWidth,
       fullWidthMode,
     } = this.props;
 
-    let pxWidth = origWidth;
-    if (layout === 'wide') {
-      const wideWidth = lineLength * breakoutWideScaleRatio;
-      pxWidth = wideWidth > containerWidth ? lineLength : wideWidth;
-    } else if (layout === 'full-width') {
-      pxWidth = containerWidth - akEditorBreakoutPadding;
-    } else if (pctWidth && origWidth && origHeight) {
-      pxWidth = Math.ceil(
-        calcPxFromPct(pctWidth / 100, lineLength || containerWidth),
-      );
-    } else if (layout === 'center') {
-      pxWidth = Math.min(origWidth, lineLength);
-    } else if (alignmentLayouts.indexOf(layout) !== -1) {
-      const halfLineLength = Math.ceil(lineLength / 2);
-
-      if (origWidth <= halfLineLength) {
-        pxWidth = origWidth;
-      } else {
-        pxWidth = halfLineLength;
-      }
-    }
+    const pxWidth = this.calcPxWidth();
 
     // scale, keeping aspect ratio
     const height = (origHeight / origWidth) * pxWidth;

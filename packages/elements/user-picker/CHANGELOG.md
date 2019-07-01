@@ -1,5 +1,37 @@
 # @atlaskit/user-picker
 
+## 4.0.8
+
+### Patch Changes
+
+- [patch][77ef850a35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77ef850a35):
+
+  Fix click and hover behaviours of disabled single user picker
+
+## 4.0.7
+
+### Patch Changes
+
+- [patch][25b3ec24af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25b3ec24af):
+
+  add optional session id to async loadoption
+
+## 4.0.6
+
+### Patch Changes
+
+- [patch][b029d82e8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b029d82e8c):
+
+  Handle scroll of box of user picker component
+
+## 4.0.5
+
+### Patch Changes
+
+- [patch][9b0adb4ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0adb4ce7):
+
+  Fix scrolling behaviour when picking a user in the multi user picker
+
 ## 4.0.4
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

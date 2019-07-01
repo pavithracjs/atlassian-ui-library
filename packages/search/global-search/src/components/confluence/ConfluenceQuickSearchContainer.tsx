@@ -36,6 +36,7 @@ import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
 import QuickSearchContainer, {
   SearchResultProps,
+  PartiallyLoadedRecentItems,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import NoResultsState from './NoResultsState';
@@ -47,6 +48,8 @@ import {
   mapSearchResultsToUIGroups,
   MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
+import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
+import { AutocompleteClient } from '../../api/AutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
 import { ConfluenceFeatures } from '../../util/features';
@@ -61,9 +64,8 @@ export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
-  firePrivateAnalyticsEvent: FireAnalyticsEvent | undefined;
+  autocompleteClient: AutocompleteClient;
   linkComponent: LinkComponent | undefined;
-  createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
   referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   logger: Logger;
   modelContext: ConfluenceModelContext | undefined;
@@ -77,6 +79,10 @@ export interface Props {
       ) => void);
   inputControls: JSX.Element | undefined;
   features: ConfluenceFeatures;
+
+  // These are provided by the withAnalytics HOC
+  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
+  createAnalyticsEvent?: CreateAnalyticsEventFn;
 }
 
 const getRecentItemMatches = (
@@ -175,7 +181,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     sessionId: string,
     queryVersion: number,
   ): Promise<CrossProductSearchResults> {
-    const { crossProductSearchClient, modelContext } = this.props;
+    const { crossProductSearchClient, modelContext, features } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
 
@@ -186,11 +192,16 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       modelContext || {},
     );
 
+    const limit = features.searchExtensionsEnabled
+      ? CONF_MAX_DISPLAYED_RESULTS
+      : null;
+
     const results = await crossProductSearchClient.search(
       query,
       sessionId,
       scopes,
       modelParams,
+      limit,
     );
 
     return results;
@@ -295,15 +306,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           });
   };
 
-  getRecentItems = async (
+  getRecentItems = (
     sessionId: string,
-  ): Promise<ResultsWithTiming<ConfluenceResultsMap>> => {
+  ): PartiallyLoadedRecentItems<ConfluenceResultsMap> => {
     const { confluenceClient } = this.props;
 
     const recentActivityPromisesMap = {
       'recent-confluence-items': confluenceClient.getRecentItems(sessionId),
       'recent-confluence-spaces': confluenceClient.getRecentSpaces(sessionId),
-      'recent-people': this.getRecentPeople(sessionId),
     };
 
     const recentActivityPromises: Promise<Result[]>[] = (Object.keys(
@@ -320,13 +330,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     // We lose type safety here as typescript assumes there's no guarantee the order in which a map
     // gets converted into promises. Also there is currently no way (and no way in the forseeable future)
     // to get typescript to convert union types into tuple types (https://github.com/Microsoft/TypeScript/issues/13298)
-    return Promise.all(recentActivityPromises).then(
-      ([
-        recentlyViewedPages,
-        recentlyViewedSpaces,
-        recentlyInteractedPeople,
-      ]) => {
-        recentlyViewedPages;
+    const required = Promise.all(recentActivityPromises).then(
+      ([recentlyViewedPages, recentlyViewedSpaces]) => {
         return {
           results: {
             objects: {
@@ -338,13 +343,37 @@ export class ConfluenceQuickSearchContainer extends React.Component<
               totalSize: recentlyViewedSpaces.length,
             },
             people: {
-              items: recentlyInteractedPeople as PersonResult[],
-              totalSize: recentlyInteractedPeople.length,
+              items: [],
+              totalSize: 0,
             },
           },
         };
       },
     );
+
+    return {
+      eagerRecentItemsPromise: required,
+      lazyLoadedRecentItemsPromise: this.getRecentPeople(sessionId).then(
+        recentPeople => ({
+          people: {
+            items: recentPeople,
+            totalSize: recentPeople.length,
+          },
+        }),
+      ),
+    };
+  };
+
+  getAutocompleteSuggestions = (query: string): Promise<string[]> => {
+    const { autocompleteClient } = this.props;
+
+    const autocompletePromise = handlePromiseError(
+      autocompleteClient.getAutocompleteSuggestions(query),
+      [query],
+      this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
+    );
+
+    return autocompletePromise;
   };
 
   getPreQueryDisplayedResults = (
@@ -402,15 +431,27 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
+    searchMore,
   }: SearchResultProps<ConfluenceResultsMap>) => {
     const { onAdvancedSearch = () => {}, features } = this.props;
+    const onSearchMoreAdvancedSearchClicked = (event: CancelableEvent) => {
+      onAdvancedSearch(
+        event,
+        ConfluenceAdvancedSearchTypes.Content,
+        latestSearchQuery,
+        searchSessionId,
+      );
+    };
 
     return (
       <SearchResultsComponent
+        query={latestSearchQuery}
         isPreQuery={!latestSearchQuery}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}
+        searchMore={searchMore}
+        onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
         keepPreQueryState={
           features.isInFasterSearchExperiment ? false : keepPreQueryState
         }
@@ -469,6 +510,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   render() {
     const { linkComponent, logger, inputControls, features } = this.props;
+    const { isAutocompleteEnabled } = features;
 
     return (
       <QuickSearchContainer
@@ -479,6 +521,10 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
+        getAutocompleteSuggestions={
+          isAutocompleteEnabled ? this.getAutocompleteSuggestions : undefined
+        }
+        product="confluence"
         handleSearchSubmit={this.handleSearchSubmit}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
         getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}

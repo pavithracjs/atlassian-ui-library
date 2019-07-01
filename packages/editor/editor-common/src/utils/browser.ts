@@ -4,6 +4,8 @@ const result = {
   ie_version: 0,
   gecko: false,
   chrome: false,
+  chrome_version: 0,
+  android: false,
   ios: false,
   webkit: false,
 };
@@ -26,6 +28,11 @@ if (typeof navigator !== 'undefined') {
     : null;
   result.gecko = !ie && /gecko\/\d/i.test(navigator.userAgent);
   result.chrome = !ie && /Chrome\//.test(navigator.userAgent);
+  result.chrome_version = parseInt(
+    (navigator.userAgent.match(/Chrome\/(\d{2})/) || [])[1],
+    10,
+  );
+  result.android = /Android \d/.test(navigator.userAgent);
   result.ios =
     !ie &&
     /AppleWebKit/.test(navigator.userAgent) &&

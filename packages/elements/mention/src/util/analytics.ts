@@ -69,6 +69,36 @@ export const fireAnalyticsMentionEvent = (
   return event;
 };
 
+export const fireAnalyticsMentionHydrationEvent = (
+  props: WithAnalyticsEventProps,
+) => (
+  action: string,
+  userId: string,
+  fromCache: boolean,
+  duration: number,
+): void => {
+  if (props.createAnalyticsEvent) {
+    const eventPayload: GasPayload = {
+      action,
+      actionSubject: 'mention',
+      actionSubjectId: 'hydration',
+      attributes: {
+        packageName,
+        packageVersion,
+        componentName: 'mention',
+        userId,
+        fromCache,
+        duration: Math.round(duration),
+      },
+      eventType: 'operational',
+    };
+    const analyticsEvent: UIAnalyticsEventInterface = props.createAnalyticsEvent(
+      eventPayload,
+    );
+    analyticsEvent.fire(ELEMENTS_CHANNEL);
+  }
+};
+
 // OLD Analytics
 const MENTION_ANALYTICS_PREFIX = 'atlassian.fabric.mention';
 

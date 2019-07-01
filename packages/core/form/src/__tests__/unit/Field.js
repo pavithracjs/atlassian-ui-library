@@ -360,6 +360,124 @@ test('should never render with undefined fieldProp value', () => {
   });
 });
 
+test('should not show submit error if field value has changed since it was submitted if field validation also used', () => {
+  const wrapper = mount(
+    <Form onSubmit={() => Promise.resolve({ username: 'TAKEN_USERNAME' })}>
+      {({ formProps: { onSubmit } }) => (
+        <>
+          <Field
+            name="username"
+            defaultValue="Jane Chan"
+            validate={value => (value.length < 2 ? 'TOO_SHORT' : undefined)}
+          >
+            {({ fieldProps, error }) => (
+              <>
+                <FieldText {...fieldProps} />
+                {error === 'TAKEN_USERNAME' && (
+                  <ErrorMessage>
+                    There is a problem with this field
+                  </ErrorMessage>
+                )}
+              </>
+            )}
+          </Field>
+          <Button onClick={onSubmit}>Submit</Button>
+        </>
+      )}
+    </Form>,
+  );
+  expect(wrapper.find(ErrorMessage)).toHaveLength(0);
+  wrapper.find(Button).simulate('click');
+  return Promise.resolve().then(() => {
+    wrapper.update();
+    expect(wrapper.find(ErrorMessage)).toHaveLength(1);
+    expect(wrapper.find(FieldText).prop('isInvalid')).toBe(true);
+    wrapper.find('input').simulate('change', { target: { value: 'Jane Cha' } });
+    expect(wrapper.find(ErrorMessage)).toHaveLength(0);
+    expect(wrapper.find(FieldText).prop('isInvalid')).not.toBe(true);
+  });
+});
+
+test('should persist submit error if field value has changed since it was submitted if field validation not used', () => {
+  const wrapper = mount(
+    <Form onSubmit={() => Promise.resolve({ username: 'TAKEN_USERNAME' })}>
+      {({ formProps: { onSubmit } }) => (
+        <>
+          <Field name="username" defaultValue="Jane Chan">
+            {({ fieldProps, error }) => (
+              <>
+                <FieldText {...fieldProps} />
+                {error === 'TAKEN_USERNAME' && (
+                  <ErrorMessage>
+                    There is a problem with this field
+                  </ErrorMessage>
+                )}
+              </>
+            )}
+          </Field>
+          <Button onClick={onSubmit}>Submit</Button>
+        </>
+      )}
+    </Form>,
+  );
+  expect(wrapper.find(ErrorMessage)).toHaveLength(0);
+  wrapper.find(Button).simulate('click');
+  return Promise.resolve().then(() => {
+    wrapper.update();
+    expect(wrapper.find(ErrorMessage)).toHaveLength(1);
+    expect(wrapper.find(FieldText).prop('isInvalid')).toBe(true);
+    wrapper.find('input').simulate('change', { target: { value: 'Jane Cha' } });
+    expect(wrapper.find(ErrorMessage)).toHaveLength(1);
+    expect(wrapper.find(FieldText).prop('isInvalid')).toBe(true);
+  });
+});
+
+test('should continue to show field validation normally, even after submit has failed', () => {
+  const wrapper = mount(
+    <Form onSubmit={() => Promise.resolve({ username: 'TAKEN_USERNAME' })}>
+      {({ formProps: { onSubmit } }) => (
+        <>
+          <Field
+            name="username"
+            defaultValue="Jane Chan"
+            validate={value => {
+              if (value.length < 5) {
+                return 'TOO_SHORT';
+              }
+              return undefined;
+            }}
+          >
+            {({ fieldProps, error }) => (
+              <>
+                <FieldText {...fieldProps} />
+                {error === 'TAKEN_USERNAME' && (
+                  <ErrorMessage>Username taken</ErrorMessage>
+                )}
+                {error === 'TOO_SHORT' && (
+                  <ErrorMessage>Too short</ErrorMessage>
+                )}
+              </>
+            )}
+          </Field>
+          <Button onClick={onSubmit}>Submit</Button>
+        </>
+      )}
+    </Form>,
+  );
+  expect(wrapper.find(ErrorMessage)).toHaveLength(0);
+  wrapper.find(Button).simulate('click');
+  return Promise.resolve().then(() => {
+    wrapper.update();
+    expect(wrapper.find(ErrorMessage)).toHaveLength(1);
+    expect(wrapper.find(ErrorMessage).text()).toBe('Username taken');
+    expect(wrapper.find(FieldText).prop('isInvalid')).toBe(true);
+    wrapper.find('input').simulate('change', { target: { value: 'Jane' } });
+    expect(wrapper.find(ErrorMessage)).toHaveLength(1);
+    expect(wrapper.find(ErrorMessage).text()).toBe('Too short');
+    expect(wrapper.find(FieldText).prop('isInvalid')).toBe(true);
+  });
+});
+
 // unskip as part of https://ecosystem.atlassian.net/browse/AK-5752
 // eslint-disable-next-line jest/no-disabled-tests
 xtest('should always show most recent validation result', done => {

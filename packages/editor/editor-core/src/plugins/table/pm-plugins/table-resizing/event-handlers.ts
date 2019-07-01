@@ -13,7 +13,6 @@ import {
   resizeColumn,
   getLayoutSize,
   currentColWidth,
-  getParentNodeWidth,
   pointsAtCell,
   createResizeHandle,
   updateResizeHandle,
@@ -23,6 +22,7 @@ import { getSelectedColumnIndexes } from '../../utils';
 import { pluginKey as widthPluginKey } from '../../../width';
 import { getPluginState } from './plugin';
 import { setDragging, evenColumns } from './commands';
+import { getParentNodeWidth } from '../../../../utils/node-width';
 
 export const handleMouseDown = (
   view: EditorView,

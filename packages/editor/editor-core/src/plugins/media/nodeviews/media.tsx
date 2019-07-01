@@ -15,7 +15,8 @@ import {
   CardLoading,
   CardOnClickCallback,
 } from '@atlaskit/media-card';
-import { Context, Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 import {
   MediaPluginState,
@@ -45,7 +46,7 @@ export interface MediaNodeProps extends ReactNodeProps, ImageLoaderProps {
   ) => void;
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
-  viewContext?: Context;
+  viewMediaClientConfig?: MediaClientConfig;
   uploadComplete?: boolean;
 }
 
@@ -61,7 +62,7 @@ class MediaNode extends Component<MediaNodeProps> {
   shouldComponentUpdate(nextProps: MediaNodeProps & ImageLoaderProps) {
     if (
       this.props.selected !== nextProps.selected ||
-      this.props.viewContext !== nextProps.viewContext ||
+      this.props.viewMediaClientConfig !== nextProps.viewMediaClientConfig ||
       this.props.uploadComplete !== nextProps.uploadComplete ||
       this.props.node.attrs.id !== nextProps.node.attrs.id ||
       this.props.node.attrs.collection !== nextProps.node.attrs.collection ||
@@ -97,7 +98,7 @@ class MediaNode extends Component<MediaNodeProps> {
       cardDimensions,
       onClick,
       editorAppearance,
-      viewContext,
+      viewMediaClientConfig,
       uploadComplete,
     } = this.props;
 
@@ -106,7 +107,8 @@ class MediaNode extends Component<MediaNodeProps> {
 
     if (
       type !== 'external' &&
-      (!viewContext || (typeof uploadComplete === 'boolean' && !uploadComplete))
+      (!viewMediaClientConfig ||
+        (typeof uploadComplete === 'boolean' && !uploadComplete))
     ) {
       return <CardLoading dimensions={cardDimensions} />;
     }
@@ -126,7 +128,10 @@ class MediaNode extends Component<MediaNodeProps> {
 
     return (
       <Card
-        context={viewContext as any}
+        // mediaClientConfig is not needed for "external" case. So we have to cheat here.
+        // there is a possibility mediaClientConfig will be part of a identifier,
+        // so this might be not an issue
+        mediaClientConfig={viewMediaClientConfig!}
         resizeMode="stretchy-fit"
         dimensions={cardDimensions}
         identifier={identifier}

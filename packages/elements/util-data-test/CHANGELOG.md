@@ -1,5 +1,21 @@
 # @atlaskit/util-data-test
 
+## 12.6.0
+
+### Minor Changes
+
+- [minor][2d1c3db523](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d1c3db523):
+
+  FS-3986 - Support analytics for mention hydration.
+
+## 12.5.0
+
+### Minor Changes
+
+- [minor][fec7d4576f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fec7d4576f):
+
+  Bump new version of @atlaskit/mention to other AK packages to get correct i18n strings
+
 ## 12.4.0
 
 ### Minor Changes

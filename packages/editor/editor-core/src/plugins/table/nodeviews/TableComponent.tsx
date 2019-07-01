@@ -14,7 +14,6 @@ import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 import { getPluginState } from '../pm-plugins/main';
 import { scaleTable } from '../pm-plugins/table-resizing';
 import {
-  getParentNodeWidth,
   getLayoutSize,
   insertColgroupFromNode as recreateResizeColsByNode,
   updateControls,
@@ -36,6 +35,7 @@ import {
 } from '../utils';
 import { autoSizeTable } from '../commands';
 import { WidthPluginState } from '../../width';
+import { getParentNodeWidth } from '../../../utils/node-width';
 
 export interface ComponentProps extends Props {
   view: EditorView;
@@ -167,13 +167,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     } = pluginState;
 
     // doesn't work well with WithPluginState
-    const {
-      isInDanger,
-      hoveredColumns,
-      hoveredRows,
-      insertColumnButtonIndex,
-      insertRowButtonIndex,
-    } = getPluginState(view.state);
+    const { isInDanger, hoveredColumns, hoveredRows } = getPluginState(
+      view.state,
+    );
 
     const tableRef = this.table || undefined;
     const tableActive = this.table === pluginState.tableRef;
@@ -196,14 +192,12 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           isInDanger={isInDanger}
           isResizing={isResizing}
           isNumberColumnEnabled={node.attrs.isNumberColumnEnabled}
-          isHeaderColumnEnabled={pluginState.isHeaderColumnEnabled}
           isHeaderRowEnabled={pluginState.isHeaderRowEnabled}
+          isHeaderColumnEnabled={pluginState.isHeaderColumnEnabled}
           hasHeaderRow={containsHeaderRow(view.state, node)}
           // pass `selection` and `tableHeight` to control re-render
           selection={view.state.selection}
           tableHeight={tableRef ? tableRef.offsetHeight : undefined}
-          insertColumnButtonIndex={insertColumnButtonIndex}
-          insertRowButtonIndex={insertRowButtonIndex}
         />
       </div>,
     ];
@@ -219,7 +213,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           // pass `selection` and `numberOfColumns` to control re-render
           selection={view.state.selection}
           numberOfColumns={node.firstChild!.childCount}
-          insertColumnButtonIndex={insertColumnButtonIndex}
         />
       </div>,
     ];

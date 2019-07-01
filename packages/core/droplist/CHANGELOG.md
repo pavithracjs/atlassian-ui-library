@@ -1,5 +1,21 @@
 # @atlaskit/droplist
 
+## 9.0.7
+
+### Patch Changes
+
+- [patch][6fe990954c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fe990954c):
+
+  Adjusted the offset prop for Popper to not use the deprecated format
+
+## 9.0.6
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
 ## 9.0.5
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

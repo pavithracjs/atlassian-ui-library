@@ -23,6 +23,7 @@ import {
 } from '../GlobalQuickSearchWrapper';
 import QuickSearchContainer, {
   SearchResultProps,
+  PartiallyLoadedRecentItems,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import SearchResultsComponent from '../common/SearchResults';
@@ -232,6 +233,7 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
+    searchMore,
   }: SearchResultProps<GenericResultMap>) => {
     const query = latestSearchQuery;
     const {
@@ -242,6 +244,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
+        query={query}
         isPreQuery={!query}
         isError={isError}
         isLoading={isLoading}
@@ -250,6 +253,7 @@ export class JiraQuickSearchContainer extends React.Component<
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={referralContextIdentifiers}
+        searchMore={searchMore}
         renderNoRecentActivity={() => (
           <>
             <FormattedHTMLMessage {...messages.jira_no_recent_activity_body} />
@@ -450,16 +454,19 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getRecentItems = (
     sessionId: string,
-  ): Promise<ResultsWithTiming<GenericResultMap>> => {
-    return Promise.all([
-      this.getJiraRecentItems(sessionId),
-      this.getRecentlyInteractedPeople(),
-      this.canSearchUsers(),
-    ])
-      .then(([jiraItems, people, canSearchUsers]) => {
-        return { ...jiraItems, people: canSearchUsers ? people : [] };
-      })
-      .then(results => ({ results } as ResultsWithTiming<GenericResultMap>));
+  ): PartiallyLoadedRecentItems<GenericResultMap> => {
+    return {
+      eagerRecentItemsPromise: Promise.all([
+        this.getJiraRecentItems(sessionId),
+        this.getRecentlyInteractedPeople(),
+        this.canSearchUsers(),
+      ])
+        .then(([jiraItems, people, canSearchUsers]) => {
+          return { ...jiraItems, people: canSearchUsers ? people : [] };
+        })
+        .then(results => ({ results } as ResultsWithTiming<GenericResultMap>)),
+      lazyLoadedRecentItemsPromise: Promise.resolve({}),
+    };
   };
 
   getSearchResults = (
@@ -597,6 +604,7 @@ export class JiraQuickSearchContainer extends React.Component<
         }
         enablePreQueryFromAggregator={features.enablePreQueryFromAggregator}
         referralContextIdentifiers={referralContextIdentifiers}
+        product="jira"
         features={features}
       />
     );

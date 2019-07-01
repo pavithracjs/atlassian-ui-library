@@ -1,55 +1,50 @@
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import { FileIdentifier } from '@atlaskit/media-client';
+import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers';
 import { reducer } from '../../../../plugins/media/pm-plugins/media-editor';
 import { MediaEditorState } from '../../../../plugins/media/types';
 
 describe('media editor', () => {
-  const mockContext = jest.fn<Context>(() => ({
-    getImage: () => {
-      return new Promise(() => {});
-    },
-    getImageMetadata: () => {
-      return new Promise(() => {});
-    },
-    getImageUrl: () => {
-      return new Promise(() => {});
-    },
-  }));
-
   describe('reducer', () => {
-    const context = new mockContext();
+    const mediaClientConfig = getDefaultMediaClientConfig();
     const identifier: FileIdentifier = {
       id: 'abc',
       mediaItemType: 'file',
       collectionName: 'xyz',
     };
 
-    it('can set the context to a value', () => {
+    it('can set the mediaClientConfig to a value', () => {
       expect(
         reducer(
           {},
           {
-            type: 'setContext',
-            context,
+            type: 'setMediaClientConfig',
+            mediaClientConfig,
           },
         ),
-      ).toEqual({ context });
+      ).toEqual({ mediaClientConfig });
     });
 
-    it('can unset the context', () => {
+    it('can unset the mediaClientConfig', () => {
       expect(
-        reducer({ context }, { type: 'setContext', context: undefined }),
+        reducer(
+          { mediaClientConfig },
+          { type: 'setMediaClientConfig', mediaClientConfig: undefined },
+        ),
       ).toEqual({});
     });
 
     it('can open the media editor', () => {
       expect(
-        reducer({ context }, { type: 'setContext', context: undefined }),
+        reducer(
+          { mediaClientConfig },
+          { type: 'setMediaClientConfig', mediaClientConfig: undefined },
+        ),
       ).toEqual({});
     });
 
     describe('when media editor is open', () => {
       const pluginState: MediaEditorState = {
-        context,
+        mediaClientConfig,
         editor: { pos: 123, identifier },
       };
 
@@ -58,7 +53,7 @@ describe('media editor', () => {
           reducer(pluginState, {
             type: 'close',
           }),
-        ).toEqual({ context });
+        ).toEqual({ mediaClientConfig });
       });
 
       it('closes it on upload event', () => {
@@ -71,7 +66,7 @@ describe('media editor', () => {
               collectionName: 'newCollection',
             },
           }),
-        ).toEqual({ context });
+        ).toEqual({ mediaClientConfig });
       });
     });
   });

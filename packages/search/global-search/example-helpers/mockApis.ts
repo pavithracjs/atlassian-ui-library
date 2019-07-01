@@ -3,12 +3,12 @@ import seedrandom from 'seedrandom';
 
 import {
   makePeopleSearchData,
-  recentData,
   makeCrossProductSearchData,
   makeConfluenceRecentPagesData,
   makeConfluenceRecentSpacesData,
   makeQuickNavSearchData,
   makeCrossProductExperimentData,
+  makeAutocompleteData,
 } from './mockData';
 import { jiraRecentResponseWithAttributes } from './jiraRecentResponseDataWithAttributes';
 import {
@@ -27,6 +27,7 @@ export type MocksConfig = {
   quickNavDelay: number;
   jiraRecentDelay: number;
   peopleSearchDelay: number;
+  autocompleteDelay: number;
   canSearchUsers: boolean;
   abTestExperimentId: string;
 };
@@ -36,6 +37,7 @@ export const ZERO_DELAY_CONFIG: MocksConfig = {
   quickNavDelay: 0,
   jiraRecentDelay: 0,
   peopleSearchDelay: 0,
+  autocompleteDelay: 0,
   canSearchUsers: true,
   abTestExperimentId: 'default',
 };
@@ -45,6 +47,7 @@ export const DEFAULT_MOCKS_CONFIG: MocksConfig = {
   quickNavDelay: 500,
   jiraRecentDelay: 500,
   peopleSearchDelay: 500,
+  autocompleteDelay: 200,
   canSearchUsers: true,
   abTestExperimentId: 'default',
 };
@@ -53,10 +56,6 @@ function delay<T>(millis: number, value?: T): Promise<T> {
   return new Promise(resolve =>
     window.setTimeout(() => resolve(value), millis),
   );
-}
-
-function mockRecentApi(recentResponse: any) {
-  fetchMock.get(new RegExp('/api/client/recent'), recentResponse);
 }
 
 function mockConfluenceRecentApi({
@@ -141,14 +140,41 @@ function mockAnalyticsApi() {
   fetchMock.mock('https://analytics.atlassian.com/analytics/events', 200);
 }
 
+function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
+  fetchMock.get(
+    new RegExp('gateway/api/ccsearch-autocomplete'),
+    (request: Request) => {
+      const query = request.split('query=')[1];
+      const tokens = query.split('+');
+      const lastToken = tokens.slice(-1)[0];
+      if (lastToken.length === 0) {
+        return delay(delayMs, []);
+      }
+      if (lastToken === 'error') {
+        return Promise.reject({
+          code: 500,
+          reason: 'Sensitive Data',
+        });
+      }
+      const restTokens = tokens.slice(0, -1);
+      const autocompleteList = autocomplete
+        .filter(token =>
+          token.toLowerCase().startsWith(lastToken.toLowerCase()),
+        )
+        .map(token => restTokens.concat([token]).join(' '));
+      return delay(delayMs, autocompleteList);
+    },
+  );
+}
+
 export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
   const config = { ...DEFAULT_MOCKS_CONFIG, ...configOverrides };
 
   seedrandom('random seed', { global: true });
-  const recentResponse = recentData();
   const confluenceRecentPagesResponse = makeConfluenceRecentPagesData();
   const confluenceRecentSpacesResponse = makeConfluenceRecentSpacesData();
   const queryMockSearch = makeCrossProductSearchData();
+  const autocompleteMockData = makeAutocompleteData();
   const queryMockExperiments = makeCrossProductExperimentData(
     config.abTestExperimentId,
   );
@@ -156,7 +182,6 @@ export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
   const queryPeopleSearch = makePeopleSearchData();
 
   mockAnalyticsApi();
-  mockRecentApi(recentResponse);
   mockCrossProductSearchApi(config.crossProductSearchDelay, queryMockSearch);
   mockCrossProductExperimentApi(
     config.crossProductSearchDelay,
@@ -169,6 +194,7 @@ export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
   });
   mockQuickNavApi(config.quickNavDelay, queryMockQuickNav);
   mockJiraApi(config.jiraRecentDelay, config.canSearchUsers);
+  mockAutocompleteApi(config.autocompleteDelay, autocompleteMockData);
 }
 
 export function teardownMocks() {

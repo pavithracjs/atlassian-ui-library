@@ -1,4 +1,4 @@
-import { Flag, FlagShape } from './types';
+import { Flag, FlagShape, CustomAttributes } from './types';
 
 import { isBoolean, isObject, isOneOf, isString } from './lib';
 
@@ -14,6 +14,7 @@ export default class UntrackedFlag implements Flag {
   getBooleanValue(options: {
     default: boolean;
     shouldTrackExposureEvent?: boolean;
+    exposureData?: CustomAttributes;
   }): boolean {
     if (!isBoolean(this.value)) {
       return options.default;
@@ -26,6 +27,7 @@ export default class UntrackedFlag implements Flag {
     default: string;
     oneOf: string[];
     shouldTrackExposureEvent?: boolean;
+    exposureData?: CustomAttributes;
   }): string {
     if (
       !isString(this.value) ||

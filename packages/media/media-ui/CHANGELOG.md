@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.3.0
+
+### Minor Changes
+
+- [minor][fe6dbc5c49](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe6dbc5c49):
+
+  fix icon alignment for inline card.
+
 ## 11.2.9
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

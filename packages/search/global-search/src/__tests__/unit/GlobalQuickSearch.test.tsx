@@ -11,6 +11,7 @@ import { ReferralContextIdentifiers } from '../../components/GlobalQuickSearchWr
 const noop = () => {};
 const DEFAULT_PROPS = {
   onSearch: noop,
+  onAutocomplete: noop,
   onMount: noop,
   isLoading: false,
   searchSessionId: 'abc',
