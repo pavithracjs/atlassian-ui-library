@@ -39,6 +39,12 @@ this is a new line text, not in the table`,
       'should parse properly medias inside a cell',
       '|!quicktime.mov|width=300,height=400!|',
     ],
+    [
+      'HOT-87510 should respect emoji first in table content',
+      `
+|| Day / Status || Mon (!) || Tue (!) || Wed (!) || Thu (!) || Fri (!) ||
+| Queue Size | 4 | 4 | 4 | 2 | 5 |`,
+    ],
   ];
 
   for (const [testCaseDescription, markup] of testCases) {
