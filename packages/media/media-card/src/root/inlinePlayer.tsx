@@ -158,6 +158,13 @@ export class InlinePlayer extends Component<
     };
   };
 
+  onDownloadClick = async () => {
+    const { mediaClient, identifier } = this.props;
+    const { id, collectionName } = identifier;
+
+    mediaClient.file.downloadBinary(await id, undefined, collectionName);
+  };
+
   render() {
     const { onClick, dimensions, selected } = this.props;
     const { fileSrc } = this.state;
@@ -177,6 +184,7 @@ export class InlinePlayer extends Component<
           src={fileSrc}
           isAutoPlay
           isHDAvailable={false}
+          onDownloadClick={this.onDownloadClick}
         />
       </InlinePlayerWrapper>
     );
