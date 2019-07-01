@@ -1,1 +1,0 @@
-Add a download button to inline video player to allow download of video binary
