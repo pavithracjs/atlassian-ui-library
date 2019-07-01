@@ -10,6 +10,9 @@ import {
   WidthProvider,
   getAnalyticsAppearance,
   WithCreateAnalyticsEvent,
+  startMeasure,
+  stopMeasure,
+  clearMeasure,
 } from '@atlaskit/editor-common';
 import { Context as CardContext } from '@atlaskit/smart-card';
 import { FabricEditorAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
@@ -24,11 +27,6 @@ import EditorContext from './ui/EditorContext';
 import { PortalProvider, PortalRenderer } from './ui/PortalProvider';
 import { nextMajorVersion } from './version-wrapper';
 import { createContextAdapter } from './nodeviews';
-import {
-  startMeasure,
-  stopMeasure,
-  clearMeasure,
-} from './utils/performance/measure';
 import measurements from './utils/performance/measure-enum';
 import {
   fireAnalyticsEvent,

@@ -10,6 +10,8 @@ import {
   Transformer,
   ErrorReporter,
   browser,
+  measureRender,
+  getResponseEndTime,
 } from '@atlaskit/editor-common';
 
 import { EventDispatcher, createDispatch, Dispatch } from '../event-dispatcher';
@@ -51,10 +53,8 @@ import {
 } from './create-editor';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
-import { measureRender } from '../utils/performance/measure-render';
 import measurements from '../utils/performance/measure-enum';
 import { getNodesCount } from '../utils/document';
-import { getResponseEndTime } from '../utils/performance/navigation';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
