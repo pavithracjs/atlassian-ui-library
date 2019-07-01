@@ -1,5 +1,12 @@
 import { Page } from './_types';
 
+export enum KEY {
+  CONTROL = '\uE051',
+  META = '\uE051',
+  ALT = '\uE00A',
+  SHIFT = '\uE008',
+}
+
 type KeyboardKey =
   | 'ArrowRight'
   | 'ArrowLeft'
