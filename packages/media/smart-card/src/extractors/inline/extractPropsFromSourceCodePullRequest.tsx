@@ -34,11 +34,7 @@ export const extractInlineViewPropsFromSourceCodePullRequest = (
   return {
     ...props,
     ...buildIcon(json),
-    ...buildName(
-      props,
-      json,
-      json['atlassian:internalId'] ? `#${json['atlassian:internalId']}` : '',
-    ),
+    ...buildName(props, json),
     ...buildInlineSourceCodePullRequestTag(json),
   };
 };
