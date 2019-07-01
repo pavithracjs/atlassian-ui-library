@@ -24,7 +24,16 @@ const InlineExtension: React.StatelessComponent<Props> = ({
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
-      const content = extensionHandlers[extensionType](
+      const extensionOrExtensionHandler = extensionHandlers[extensionType];
+      let extensionHandler;
+
+      if (typeof extensionOrExtensionHandler === 'object') {
+        extensionHandler = extensionOrExtensionHandler.render;
+      } else {
+        extensionHandler = extensionOrExtensionHandler;
+      }
+
+      const content = extensionHandler(
         {
           type: 'inlineExtension',
           extensionKey,

@@ -29,7 +29,16 @@ const BodiedExtension: React.StatelessComponent<Props> = ({
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
-      const extensionContent = extensionHandlers[extensionType](
+      const extensionOrExtensionHandler = extensionHandlers[extensionType];
+      let extensionHandler;
+
+      if (typeof extensionOrExtensionHandler === 'object') {
+        extensionHandler = extensionOrExtensionHandler.render;
+      } else {
+        extensionHandler = extensionOrExtensionHandler;
+      }
+
+      const extensionContent = extensionHandler(
         {
           type: 'bodiedExtension',
           extensionKey,

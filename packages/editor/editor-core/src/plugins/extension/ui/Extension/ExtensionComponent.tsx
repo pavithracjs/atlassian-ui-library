@@ -142,7 +142,16 @@ export default class ExtensionComponent extends Component<Props, State> {
       return;
     }
 
-    return extensionHandlers[extensionType](
+    const extensionOrExtensionHandler = extensionHandlers[extensionType];
+    let extensionHandler;
+
+    if (typeof extensionOrExtensionHandler === 'object') {
+      extensionHandler = extensionOrExtensionHandler.render;
+    } else {
+      extensionHandler = extensionOrExtensionHandler;
+    }
+
+    return extensionHandler(
       {
         type: node.type.name as
           | 'extension'

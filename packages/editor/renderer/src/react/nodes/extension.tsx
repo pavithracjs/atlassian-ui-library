@@ -63,7 +63,16 @@ const Extension: React.StatelessComponent<Props & OverflowShadowProps> = ({
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
-      const content = extensionHandlers[extensionType](
+      const extensionOrExtensionHandler = extensionHandlers[extensionType];
+      let extensionHandler;
+
+      if (typeof extensionOrExtensionHandler === 'object') {
+        extensionHandler = extensionOrExtensionHandler.render;
+      } else {
+        extensionHandler = extensionOrExtensionHandler;
+      }
+
+      const content = extensionHandler(
         {
           type: 'extension',
           extensionKey,
