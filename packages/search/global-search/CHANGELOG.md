@@ -1,5 +1,77 @@
 # @atlaskit/global-search
 
+## 9.1.0
+
+### Minor Changes
+
+- [minor][a0ae6daeb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0ae6daeb6):
+
+  Removed urijs dependency
+
+## 9.0.0
+
+### Major Changes
+
+- [major][e84f336455](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e84f336455):
+
+  Removed support for Atlassian Home, it is no longer a valid context or product
+
+## 8.16.0
+
+### Minor Changes
+
+- [minor][cb424f9560](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb424f9560):
+
+  - global-search is integrated with autocomplete service
+
+## 8.15.8
+
+### Patch Changes
+
+- [patch][465b8bae74](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/465b8bae74):
+
+  Jira results now have project name rather than issue type
+
+## 8.15.7
+
+### Patch Changes
+
+- [patch][e7db01700d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7db01700d):
+
+  Updating empty state screen for Jira global-search
+
+## 8.15.6
+
+### Patch Changes
+
+- [patch][bf44848631](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bf44848631):
+
+  fix analytics typo
+
+## 8.15.5
+
+### Patch Changes
+
+- [patch][2a32f09bc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a32f09bc6):
+
+  add analytics to show more button
+
+## 8.15.4
+
+### Patch Changes
+
+- [patch][9aa576a05d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9aa576a05d):
+
+  added show more button and the ability to extend search results
+
+## 8.15.3
+
+### Patch Changes
+
+- [patch][da0ae1c7ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da0ae1c7ca):
+
+  Do not pre-fetch users, only confluence content
+
 ## 8.15.2
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

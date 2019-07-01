@@ -118,6 +118,8 @@ const applyMarkOnRange = (
 
     return true;
   });
+
+  return tr;
 };
 
 const toggleMarkInRange = (mark: Mark): Command => (state, dispatch) => {
@@ -206,4 +208,5 @@ export {
   isNthParentOfType,
   findCutBefore,
   toggleMark,
+  applyMarkOnRange,
 };

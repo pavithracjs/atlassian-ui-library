@@ -1,5 +1,45 @@
 # @atlaskit/smart-card
 
+## 12.2.1
+
+### Patch Changes
+
+- [patch][b5eb352152](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b5eb352152):
+
+  SL-336: fix page crash when state is undefined.
+
+## 12.2.0
+
+### Minor Changes
+
+- [minor][09f094a7a2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09f094a7a2):
+
+  SL-259: bump react-lazily-render, remove react-lazily-render-scroll-parent.
+
+## 12.1.1
+
+### Patch Changes
+
+- [patch][8e50d00fc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e50d00fc6):
+
+  SL-331: fix edit handler for smart-card.
+
+## 12.1.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
+## 12.0.0
+
+### Major Changes
+
+- [major][393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):
+
+  refactor @atlaskit/smart-card front-end: simplification. BREAKING CHANGE: Client no longer accepts configuration options as first argument; deprecated in favour of new state management layer.
+
 ## 11.1.6
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

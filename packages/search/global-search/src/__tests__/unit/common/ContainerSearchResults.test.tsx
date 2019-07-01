@@ -15,7 +15,10 @@ import QuickSearchContainer, {
   Props as QuickSearchContainerProps,
   SearchResultProps,
 } from '../../../components/common/QuickSearchContainer';
-import { noResultsConfluenceClient } from '../mocks/_mockConfluenceClient';
+import {
+  noResultsConfluenceClient,
+  mockAutocompleteClient,
+} from '../mocks/_mockConfluenceClient';
 import { noResultsCrossProductSearchClient } from '../mocks/_mockCrossProductSearchClient';
 import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
 import { mockLogger } from '../mocks/_mockLogger';
@@ -112,6 +115,7 @@ const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
   disableJiraPreQueryPeopleSearch: false,
   enablePreQueryFromAggregator: false,
   searchExtensionsEnabled: false,
+  isAutocompleteEnabled: false,
 };
 
 const renderComponent = (product: QuickSearchContext) => {
@@ -119,11 +123,11 @@ const renderComponent = (product: QuickSearchContext) => {
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
     jiraClient: mockNoResultJiraClient(),
+    autocompleteClient: mockAutocompleteClient,
     logger,
     createAnalyticsEvent: createAnalyticsEventSpy,
     confluenceClient: noResultsConfluenceClient,
     features: DEFAULT_FEATURES,
-    firePrivateAnalyticsEvent: undefined,
     onAdvancedSearch: undefined,
     linkComponent: undefined,
     referralContextIdentifiers: undefined,
@@ -218,6 +222,7 @@ const commonProps = {
   isError: false,
   isLoading: false,
   keepPreQueryState: false,
+  searchMore: () => {},
 };
 
 const getSearchAndRecentItemsForJira = (

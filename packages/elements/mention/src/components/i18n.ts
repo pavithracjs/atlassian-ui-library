@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export const messages = defineMessages({
+  unknownUserError: {
+    id: 'fabric.mention.unknow.user.error',
+    defaultMessage: 'Unknown user {userId}',
+    description: 'Mention user name could not be found or look up failed',
+  },
   noAccessWarning: {
     id: 'fabric.mention.noAccess.warning',
     defaultMessage: "{name} won't be notified as they have no access",
@@ -36,14 +41,14 @@ export const messages = defineMessages({
   },
   memberCountWithoutYou: {
     id: 'fabric.elements.mentions.team.member.count',
-    defaultMessage: '{count} {count, plural, one {member} other {members}}',
+    defaultMessage: '{0, plural, one {1 member} other {{0} members}}',
     description:
       'Byline to show the number of members in the team when the current user is not a member of the team',
   },
   memberCountWithYou: {
     id: 'fabric.elements.mentions.team.member.count.including.you',
     defaultMessage:
-      '{count} {count, plural, one {member} other {members}}, including you',
+      '{0, plural, one {1 member} other {{0} members}}, including you',
     description:
       'Byline to show the number of members in the team when the current user is also a member of the team',
   },

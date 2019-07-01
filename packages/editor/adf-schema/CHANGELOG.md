@@ -1,5 +1,61 @@
 # @atlaskit/adf-schema
 
+## 2.9.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
+## 2.8.1
+
+### Patch Changes
+
+- [patch][34c6df4fb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/34c6df4fb8):
+
+  adf-schema has been extended with one missing color, email-renderer now bundles up styles into .css file
+
+## 2.8.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
+## 2.7.1
+
+### Patch Changes
+
+- [patch][4931459ac1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4931459ac1):
+
+  Revert removed by accident breakout mark
+
+## 2.7.0
+
+### Minor Changes
+
+- [minor][0a7ce4f0e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a7ce4f0e6):
+
+  ED-7046: promote layoutSection and layoutColumn from stage-0 to full schema
+
+## 2.6.1
+
+### Patch Changes
+
+- [patch][aff59f9a99](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aff59f9a99):
+
+  ED-7045: promote mediaSingle width attribute from stage-0 to full schema
+
+## 2.6.0
+
+### Minor Changes
+
+- [minor][a6a241d230](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6a241d230):
+
+  Breakout mark stage-0 -> full schema
+
 ## 2.5.10
 
 ### Patch Changes

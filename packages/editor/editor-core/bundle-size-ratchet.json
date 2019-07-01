@@ -1,93 +1,141 @@
 [
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 676676,
-      "gzipSize": 178893
+      "size": 694228,
+      "gzipSize": 184557
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 38908,
-      "gzipSize": 9072
+      "size": 45628,
+      "gzipSize": 10565
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 721445,
-      "gzipSize": 209439
+      "size": 725323,
+      "gzipSize": 213953
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 1419253,
-      "gzipSize": 405030
+      "size": 1409578,
+      "gzipSize": 403602
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 282353,
-      "gzipSize": 59580
+      "size": 282477,
+      "gzipSize": 58951
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 164312,
-      "gzipSize": 31336
+      "size": 166730,
+      "gzipSize": 31081
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 135075,
-      "gzipSize": 32046
+      "size": 138153,
+      "gzipSize": 32361
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 146588,
-      "gzipSize": 40576
+      "size": 129402,
+      "gzipSize": 36304
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
-      "size": 39963,
-      "gzipSize": 10881
+      "size": 42250,
+      "gzipSize": 11514
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 65438,
-      "gzipSize": 15577
+      "size": 73830,
+      "gzipSize": 17289
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 1026105,
-      "gzipSize": 251700
+      "size": 1026255,
+      "gzipSize": 251126
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "atlaskit.teamwork-ecosystem.main",
     "name": "main",
     "stats": {
@@ -96,19 +144,27 @@
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 2020943,
-      "gzipSize": 546831
+      "size": 2035726,
+      "gzipSize": 552863
     }
   },
   {
+    "team": "editor",
+    "package": "@atlaskit/editor-core",
+    "version": "112.19.1",
+    "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2687521,
-      "gzipSize": 710258
+      "size": 2689386,
+      "gzipSize": 710211
     }
   }
 ]

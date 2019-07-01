@@ -73,10 +73,12 @@ export default class LayoutManager extends Component<
       },
     },
     topOffset: 0,
+    shouldHideGlobalNavShadow: false,
     // eslint-disable-next-line camelcase
     experimental_flyoutOnHover: false,
     experimental_alternateFlyoutBehaviour: false,
     experimental_fullWidthFlyout: false,
+    experimental_hideNavVisuallyOnCollapse: false,
   };
 
   static getDerivedStateFromProps(props: LayoutManagerProps, state: State) {
@@ -178,8 +180,11 @@ export default class LayoutManager extends Component<
       experimental_alternateFlyoutBehaviour: EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR,
       // eslint-disable-next-line camelcase
       experimental_fullWidthFlyout: EXPERIMENTAL_FULL_WIDTH_FLYOUT,
+      // eslint-disable-next-line camelcase
+      experimental_hideNavVisuallyOnCollapse: EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE,
       collapseToggleTooltipContent,
       topOffset,
+      shouldHideGlobalNavShadow,
       globalNavigation,
       containerNavigation,
       productNavigation,
@@ -269,7 +274,7 @@ export default class LayoutManager extends Component<
                     ]}
                     navigation={navigationUIController}
                   >
-                    {({ width }) => {
+                    {({ width, mouseIsOverGrabArea, mouseIsDown }) => {
                       return (
                         <ContainerNavigationMask
                           disableInteraction={itemIsDragging}
@@ -288,10 +293,21 @@ export default class LayoutManager extends Component<
                               datasets={datasets}
                               globalNavigation={globalNavigation}
                               topOffset={topOffset}
+                              shouldHideGlobalNavShadow={
+                                shouldHideGlobalNavShadow
+                              }
                               experimental_alternateFlyoutBehaviour={
                                 EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR
                               }
                               closeFlyout={this.closeFlyout}
+                              mouseIsOverGrabArea={mouseIsOverGrabArea}
+                              mouseIsOverNavigation={mouseIsOverNavigation}
+                              width={width}
+                              transitionState={transitionState}
+                              isResizing={isResizing}
+                              isCollapsed={isCollapsed}
+                              mouseIsDown={mouseIsDown}
+                              flyoutIsOpen={flyoutIsOpen}
                               view={view}
                             />
 
@@ -300,6 +316,9 @@ export default class LayoutManager extends Component<
                               datasets={datasets}
                               experimental_flyoutOnHover={
                                 EXPERIMENTAL_FLYOUT_ON_HOVER
+                              }
+                              experimental_hideNavVisuallyOnCollapse={
+                                !!EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE
                               }
                               expand={navigationUIController.expand}
                               productNavigation={productNavigation}

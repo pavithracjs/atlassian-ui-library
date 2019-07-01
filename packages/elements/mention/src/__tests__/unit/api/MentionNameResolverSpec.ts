@@ -8,6 +8,10 @@ import {
   MentionNameDetails,
   MentionNameStatus,
 } from '../../../types';
+import {
+  CreateUIAnalyticsEventSignature,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
 describe('MentionNameResolver', () => {
   let mentionNameResolver: MentionNameResolver;
@@ -22,7 +26,6 @@ describe('MentionNameResolver', () => {
       getLookupLimit: () => 2,
       lookupMentionNames,
     };
-
     mentionNameResolver = new DefaultMentionNameResolver(mentionNameClientMock);
 
     jest.useFakeTimers();
@@ -537,5 +540,132 @@ describe('MentionNameResolver', () => {
         )}`,
       );
     }
+  });
+
+  describe('analytics', () => {
+    const baseEventPayload = {
+      actionSubject: 'mention',
+      actionSubjectId: 'hydration',
+      eventType: 'operational',
+    };
+    let mockCreateAnalyticsEvent: jest.Mock<CreateUIAnalyticsEventSignature>;
+
+    beforeEach(() => {
+      mockCreateAnalyticsEvent = jest.fn();
+      mockCreateAnalyticsEvent.mockImplementation(
+        payload => new UIAnalyticsEvent(payload),
+      );
+      mentionNameResolver = new DefaultMentionNameResolver(
+        mentionNameClientMock,
+        { createAnalyticsEvent: mockCreateAnalyticsEvent },
+      );
+
+      // jest.useFakeTimers does not affect Date.now(), so mock it to test duration analytics
+      let now = 1000;
+      jest.spyOn(Date, 'now').mockImplementation(() => {
+        const currentTime = now;
+        now = currentTime + 13;
+        return currentTime;
+      });
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    const analyticsTest = (
+      mentionName: MentionNameDetails,
+      action: string,
+      done: Function,
+    ) => {
+      lookupMentionNames.mockReturnValue(
+        new Promise(resolve => {
+          setTimeout(() => {
+            resolve([mentionName]);
+          }, 1000);
+        }),
+      );
+
+      const namePromise = mentionNameResolver.lookupName(mentionName.id);
+      jest.runAllTimers();
+
+      if (isPromise(namePromise)) {
+        namePromise
+          .then(name => {
+            expect(name).toEqual(mentionName);
+            // Check analytics
+            expect(mockCreateAnalyticsEvent).toBeCalledTimes(1);
+            expect(mockCreateAnalyticsEvent).toBeCalledWith(
+              expect.objectContaining({
+                ...baseEventPayload,
+                action,
+                attributes: expect.objectContaining({
+                  duration: 13, // Mock implementation will increment by 13 for each Date.now();
+                  fromCache: false,
+                  userId: mentionName.id,
+                }),
+              }),
+            );
+
+            // Ensure cached
+            const name2 = mentionNameResolver.lookupName('cheese');
+            expect(name2).toEqual(mentionName);
+            // Check analytics
+            expect(mockCreateAnalyticsEvent).toBeCalledTimes(2);
+            expect(mockCreateAnalyticsEvent).toHaveBeenNthCalledWith(
+              2,
+              expect.objectContaining({
+                ...baseEventPayload,
+                action,
+                attributes: expect.objectContaining({
+                  duration: 0,
+                  fromCache: true,
+                  userId: mentionName.id,
+                }),
+              }),
+            );
+            done();
+          })
+          .catch(err => fail(`Promise was rejected ${err}`));
+      } else {
+        fail(
+          `Return type of lookupName is not a Promise, but a ${typeof namePromise}`,
+        );
+      }
+    };
+
+    it('Uncached, then cached mention', done => {
+      analyticsTest(
+        {
+          id: 'cheese',
+          name: 'bacon',
+          status: MentionNameStatus.OK,
+        },
+        'completed',
+        done,
+      );
+    });
+
+    it('Uncached, cached mention with service error', done => {
+      analyticsTest(
+        {
+          id: 'cheese',
+          status: MentionNameStatus.SERVICE_ERROR,
+        },
+        'failed',
+        done,
+      );
+    });
+
+    it('Uncached, cached unknown mention', done => {
+      analyticsTest(
+        {
+          id: 'cheese',
+          status: MentionNameStatus.UNKNOWN,
+        },
+        'failed',
+        done,
+      );
+    });
   });
 });

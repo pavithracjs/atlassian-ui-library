@@ -23,7 +23,7 @@ import Wrapper, {
 import itemTheme from '../theme/item-theme';
 
 const halfFocusRing = 1;
-const dropOffset = `0 ${gridSize()}px`;
+const dropOffset = `0, ${gridSize()}px`;
 
 type Props = {
   /**

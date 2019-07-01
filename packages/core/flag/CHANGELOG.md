@@ -1,5 +1,29 @@
 # @atlaskit/flag
 
+## 12.0.8
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
+## 12.0.7
+
+### Patch Changes
+
+- [patch][93bcf314c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/93bcf314c6):
+
+  Added missing tslib dep
+
+## 12.0.6
+
+### Patch Changes
+
+- [patch][9c80ef7539](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c80ef7539):
+
+  The update to node 10 reveals that unknown type is breaking the extract react types. I had to replace unknown type by any
+
 ## 12.0.5
 
 ### Patch Changes

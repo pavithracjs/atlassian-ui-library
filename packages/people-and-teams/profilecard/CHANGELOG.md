@@ -1,5 +1,29 @@
 # @atlaskit/profilecard
 
+## 12.0.0
+
+### Major Changes
+
+- [major][2b333a4c6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b333a4c6d):
+
+  update api types; dispay user active state in ProfilecardResourced; change trigger component display to inherit
+
+## 11.0.1
+
+### Patch Changes
+
+- [patch][0b87683d6c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b87683d6c):
+
+  fix unbound method in ProfilecardTrigger component
+
+## 11.0.0
+
+### Major Changes
+
+- [major][a40f54404e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a40f54404e):
+
+  Profilecard is no longer internally wrapped by a react-intl IntlProvider. Consumers must now ensure to Profilecard is wrapped inside a IntlProvider and provide messages from @atlaskit/profilecard/i18n. See https://hello.atlassian.net/wiki/spaces/AtlasKit/pages/287632890/i18n+API
+
 ## 10.2.6
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

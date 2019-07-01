@@ -1,5 +1,21 @@
 # @atlaskit/global-navigation
 
+## 7.2.6
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
+## 7.2.5
+
+### Patch Changes
+
+- [patch][ad35073d36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad35073d36):
+
+  Update Atlassian Switcher rank
+
 ## 7.2.4
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

@@ -1,11 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
-import { ResultItemGroup } from '@atlaskit/quick-search';
+import { ResultItemGroup, CancelableEvent } from '@atlaskit/quick-search';
 import Badge from '@atlaskit/badge';
 
 import { Result } from '../model/Result';
 import ResultList from './ResultList';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
+import ShowMoreButton from './ShowMoreButton';
 
 export interface Props {
   title?: JSX.Element | string;
@@ -14,6 +16,10 @@ export interface Props {
   analyticsData?: {};
   showTotalSize: boolean;
   totalSize: number;
+  showMoreButton: boolean;
+  onShowMoreClicked: () => void;
+  onSearchMoreAdvancedSearch: undefined | ((e: CancelableEvent) => void);
+  query: string;
 }
 
 const TitlelessGroupWrapper = styled.div`
@@ -24,7 +30,7 @@ const BadgeContainer = styled.span`
   margin-left: ${gridSize()}px;
 `;
 
-export default class ResultGroup extends React.Component<Props> {
+export class ResultGroup extends React.Component<Props & InjectedIntlProps> {
   render() {
     const {
       title,
@@ -32,11 +38,27 @@ export default class ResultGroup extends React.Component<Props> {
       sectionIndex,
       showTotalSize,
       totalSize,
+      showMoreButton,
+      onShowMoreClicked,
+      onSearchMoreAdvancedSearch,
+      query,
     } = this.props;
 
     if (results.length === 0) {
       return null;
     }
+
+    const moreButton = showMoreButton ? (
+      <ShowMoreButton
+        resultLength={results.length}
+        onShowMoreClicked={onShowMoreClicked}
+        onSearchMoreAdvancedSearch={onSearchMoreAdvancedSearch}
+        totalSize={totalSize}
+        query={query}
+        // this will force new show more button every click show more to fix scrolling
+        key={`show_more_${results.length}`}
+      />
+    ) : null;
 
     if (!title) {
       return (
@@ -46,6 +68,7 @@ export default class ResultGroup extends React.Component<Props> {
             results={results}
             sectionIndex={sectionIndex}
           />
+          {moreButton}
         </TitlelessGroupWrapper>
       );
     }
@@ -68,7 +91,10 @@ export default class ResultGroup extends React.Component<Props> {
           results={results}
           sectionIndex={sectionIndex}
         />
+        {moreButton}
       </ResultItemGroup>
     );
   }
 }
+
+export default injectIntl(ResultGroup);

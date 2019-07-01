@@ -19,6 +19,8 @@ export const tableSelectors = {
     `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
   nthColumnControl: (n: number) =>
     `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
+  nthNumberedColumnRowControl: (n: number) =>
+    `.${ClassName.NUMBERED_COLUMN_BUTTON}:nth-child(${n})`,
   firstRowControl: `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(1) button`,
   firstColumnControl: `.${
     ClassName.COLUMN_CONTROLS_BUTTON_WRAP
@@ -36,6 +38,7 @@ export const tableSelectors = {
   columnControls: ClassName.COLUMN_CONTROLS_WRAPPER,
   insertColumnButton: `.${ClassName.CONTROLS_INSERT_COLUMN}`,
   insertRowButton: `.${ClassName.CONTROLS_INSERT_ROW}`,
+  insertButton: `.${ClassName.CONTROLS_INSERT_BUTTON}`,
   cornerButton: `.${ClassName.CONTROLS_CORNER_BUTTON}`,
   breakoutButton: `.${ClassName.LAYOUT_BUTTON}`,
   mergeCellsText: `Merge cells`,
@@ -73,7 +76,6 @@ export const insertTable = async (page: any) => {
 export const clickFirstCell = async (page: any) => {
   await page.waitForSelector(tableSelectors.topLeftCell);
   await page.click(tableSelectors.topLeftCell);
-  await page.waitForSelector(tableSelectors.removeTable);
 };
 
 export const selectTable = async (page: any) => {
@@ -170,35 +172,48 @@ export const setTableLayout = async (page: any, layout: string) => {
 };
 
 export const insertRow = async (page: any, atIndex: number) => {
-  await insertRowOrColumn(
+  await clickFirstCell(page);
+  const bounds = await getBoundingRect(
     page,
-    tableSelectors.rowControlSelector,
-    tableSelectors.insertRowButton,
-    atIndex,
+    tableSelectors.nthRowControl(atIndex),
   );
+
+  if (page.moveTo) {
+    // only for webdriver
+    const y = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.height * 0.51);
+    await page.moveTo(tableSelectors.nthColumnControl(atIndex), 1, y);
+  } else {
+    const x = bounds.left;
+    const y = bounds.top + bounds.height - 5;
+
+    await page.mouse.move(x, y);
+  }
+
+  await page.waitForSelector(tableSelectors.insertButton);
+  await page.click(tableSelectors.insertButton);
 };
 
 export const insertColumn = async (page: any, atIndex: number) => {
-  await insertRowOrColumn(
-    page,
-    tableSelectors.columnControlSelector,
-    tableSelectors.insertColumnButton,
-    atIndex,
-  );
-};
-
-export const insertRowOrColumn = async (
-  page: any,
-  buttonWrapSelector: string,
-  insertSelector: string,
-  atIndex: number,
-) => {
   await clickFirstCell(page);
-  const buttonSelector = `.${buttonWrapSelector}:nth-child(${atIndex}) ${insertSelector}`;
-  await page.waitForSelector(buttonSelector);
-  await page.hover(buttonSelector);
-  await page.waitForSelector(buttonSelector);
-  await page.click(buttonSelector);
+
+  const bounds = await getBoundingRect(
+    page,
+    tableSelectors.nthColumnControl(atIndex),
+  );
+
+  if (page.moveTo) {
+    const x = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.width * 0.51);
+    await page.moveTo(tableSelectors.nthColumnControl(atIndex), x, 1);
+  } else {
+    let offset = atIndex % 2 === 0 ? 1 : 1.5;
+
+    const x = bounds.left * offset;
+    const y = bounds.top + bounds.height - 5;
+    await page.mouse.move(x, y);
+  }
+
+  await page.waitForSelector(tableSelectors.insertButton);
+  await page.click(tableSelectors.insertButton);
 };
 
 export const deleteRow = async (page: any, atIndex: number) => {
@@ -329,7 +344,7 @@ export const scrollToTable = async (page: any) => {
   await scrollToElement(page, tableSelectors.tableTd, 50);
 };
 
-const select = (type: 'row' | 'column') => async (
+const select = (type: 'row' | 'column' | 'numbered') => async (
   n: number,
   isShiftPressed: boolean = false,
 ) => {
@@ -338,7 +353,10 @@ const select = (type: 'row' | 'column') => async (
   const selector =
     type === 'row'
       ? tableSelectors.nthRowControl(n + 1)
-      : tableSelectors.nthColumnControl(n + 1);
+      : type === 'column'
+      ? tableSelectors.nthColumnControl(n + 1)
+      : tableSelectors.nthNumberedColumnRowControl(n + 1);
+
   await page.waitForSelector(selector);
 
   if (isShiftPressed) {
@@ -359,3 +377,7 @@ export const selectRow = select('row');
  * @param n This has `0` based index.
  */
 export const selectColumn = select('column');
+/**
+ * @param n This has `1` based index.
+ */
+export const selectNumberedColumnRow = select('numbered');

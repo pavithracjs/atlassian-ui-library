@@ -1,12 +1,16 @@
 import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import { TableMap } from 'prosemirror-tables';
 import { findDomRefAtPos } from 'prosemirror-utils';
-import { akEditorTableToolbarSize } from '@atlaskit/editor-common';
+import {
+  akEditorTableToolbarSize,
+  tableResizeHandleWidth,
+} from '@atlaskit/editor-common';
 import { TableCssClassName as ClassName } from '../../../types';
 import { getPluginState as getMainPluginState } from '../../main';
 import { closestElement } from '../../../../../utils';
 import { updateRightShadow } from '../../../nodeviews/TableComponent';
-import { getPluginState } from '../plugin';
-import { pointsAtCell } from './misc';
+import { pointsAtCell, domCellAround, edgeCell } from './misc';
 
 export const updateControls = (state: EditorState) => {
   const { tableRef } = getMainPluginState(state);
@@ -105,8 +109,8 @@ export const createResizeHandle = (
 export const updateResizeHandle = (
   state: EditorState,
   domAtPos: (pos: number) => { node: Node; offset: number },
+  resizeHandlePos: number,
 ) => {
-  const { resizeHandlePos } = getPluginState(state);
   if (
     resizeHandlePos === null ||
     !pointsAtCell(state.doc.resolve(resizeHandlePos))
@@ -146,3 +150,36 @@ function getHeight(element: HTMLElement): number {
   const rect = element.getBoundingClientRect();
   return rect ? rect.height : element.offsetHeight;
 }
+
+export const getResizeCellPos = (
+  view: EditorView,
+  event: MouseEvent,
+  lastColumnResizable: boolean,
+): number | null => {
+  const { state } = view;
+  const target = domCellAround(event.target as HTMLElement | null);
+  let cellPos: number | null = null;
+
+  if (target) {
+    const { left, right } = target.getBoundingClientRect();
+    if (event.clientX - left <= tableResizeHandleWidth) {
+      cellPos = edgeCell(view, event, 'left', tableResizeHandleWidth);
+    } else if (right - event.clientX <= tableResizeHandleWidth) {
+      cellPos = edgeCell(view, event, 'right', tableResizeHandleWidth);
+    }
+  }
+
+  if (!lastColumnResizable && cellPos !== null) {
+    const $cell = state.doc.resolve(cellPos);
+    const map = TableMap.get($cell.node(-1));
+    const start = $cell.start(-1);
+    const columnIndex =
+      map.colCount($cell.pos - start) + $cell.nodeAfter!.attrs.colspan - 1;
+
+    if (columnIndex === map.width - 1) {
+      return null;
+    }
+  }
+
+  return cellPos;
+};

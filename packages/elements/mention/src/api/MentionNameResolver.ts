@@ -1,5 +1,7 @@
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 import { MentionNameDetails, MentionNameStatus } from '../types';
 import { MentionNameClient } from './MentionNameClient';
+import { fireAnalyticsMentionHydrationEvent } from '../util/analytics';
 
 interface Callback {
   (value?: MentionNameDetails): void;
@@ -15,16 +17,30 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
   private client: MentionNameClient;
   private nameCache: Map<string, MentionNameDetails> = new Map();
   private nameQueue: Map<string, Callback[]> = new Map();
+  private nameStartTime: Map<string, number> = new Map();
   private processingQueue: Map<string, Callback[]> = new Map();
   private debounce: number = 0;
+  private fireHydrationEvent: (
+    action: string,
+    userId: string,
+    fromCache: boolean,
+    duration: number,
+  ) => void;
 
-  constructor(client: MentionNameClient) {
+  constructor(
+    client: MentionNameClient,
+    analyticsProps: WithAnalyticsEventProps = {},
+  ) {
     this.client = client;
+    this.fireHydrationEvent = fireAnalyticsMentionHydrationEvent(
+      analyticsProps,
+    );
   }
 
   lookupName(id: string): Promise<MentionNameDetails> | MentionNameDetails {
     const name = this.nameCache.get(id);
     if (name) {
+      this.fireAnalytics(true, name);
       return name;
     }
 
@@ -36,6 +52,10 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
 
       const queuedItems = this.nameQueue.get(id) || [];
       this.nameQueue.set(id, [...queuedItems, resolve]);
+
+      if (queuedItems.length === 0 && !processingItems) {
+        this.nameStartTime.set(id, Date.now());
+      }
 
       this.scheduleProcessQueue();
 
@@ -89,6 +109,8 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
           // ignore - exception in consumer
         }
       });
+
+      this.fireAnalytics(false, mentionDetail);
     }
   }
 
@@ -130,4 +152,14 @@ export class DefaultMentionNameResolver implements MentionNameResolver {
       this.scheduleProcessQueue();
     }
   };
+
+  private fireAnalytics(fromCache: boolean, mentionDetail: MentionNameDetails) {
+    const { id } = mentionDetail;
+    const action =
+      mentionDetail.status === MentionNameStatus.OK ? 'completed' : 'failed';
+    const start = this.nameStartTime.get(id);
+    const duration = start ? Date.now() - start : 0;
+    this.nameStartTime.delete(id);
+    this.fireHydrationEvent(action, id, fromCache, duration);
+  }
 }

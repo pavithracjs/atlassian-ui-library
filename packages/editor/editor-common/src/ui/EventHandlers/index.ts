@@ -1,4 +1,4 @@
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 import { CardEvent } from '@atlaskit/media-card';
 import { SyntheticEvent } from 'react';
 import { ActionMarkAction } from '@atlaskit/adf-schema';

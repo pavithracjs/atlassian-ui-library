@@ -57,7 +57,7 @@ const tableSharedStyle = css`
   .${TableSharedCssClassName.TABLE_CONTAINER} > table,
   .${TableSharedCssClassName.TABLE_NODE_WRAPPER} > table {
     border-collapse: collapse;
-    margin: ${tableMarginTop}px ${tableMarginSides}px 0;
+    margin: ${tableMarginTop}px ${tableMarginSides}px 0 0;
     border: ${tableCellBorderWidth}px solid ${themed({
   light: akEditorTableBorder,
   dark: akEditorTableBorderDark,

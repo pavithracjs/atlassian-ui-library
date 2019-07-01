@@ -68,9 +68,6 @@ export function isEmpty<T>(array: Array<T>) {
   return array.length === 0;
 }
 
-export function objectValues(object: { [key: string]: any }) {
-  return Object.keys(object || {}).map(key => object[key]);
-}
 /**
  *
  * Gracefully handle promise catch and returning default value

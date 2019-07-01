@@ -16,7 +16,10 @@ export default {
     'Выйдите из системы, а затем войдите снова.',
   'fabric.mention.error.differentText': 'Попробуйте ввести другой текст.',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} участник{includes, select, true {, включая вас} {}}} few{{count} участника{includes, select, true {, включая вас} {}}} many{{count} участников{includes, select, true {, включая вас} {}}} other{{count} участника{includes, select, true {, включая вас} {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    'Более 50 участников{includes, select, true {, включая вас} {}}',
+    '{0, plural, one{1 участник} few{{0} участника} many{{0} участников} other{{0} участника}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} участников, включая вас} few{{0} участников, включая вас} many{{0} участников, включая вас} other{{0} участников, включая вас}}',
+  'fabric.elements.mentions.team.member.50plus': 'Более 50 участников',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    'Более 50 участников, включая вас',
 };

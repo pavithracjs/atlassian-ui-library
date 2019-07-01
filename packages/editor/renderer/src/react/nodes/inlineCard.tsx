@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Card } from '@atlaskit/smart-card';
-import { EventHandlers } from '@atlaskit/editor-common';
+import { EventHandlers, UnsupportedInline } from '@atlaskit/editor-common';
 
 import { getEventHandler } from '../../utils';
+import { CardErrorBoundary } from './fallback';
 
 export default function InlineCard(props: {
   url?: string;
@@ -12,5 +13,11 @@ export default function InlineCard(props: {
   const { url, data, eventHandlers } = props;
   const handler = getEventHandler(eventHandlers, 'smartCard');
   const onClick = url && handler ? () => handler(url) : undefined;
-  return <Card appearance="inline" url={url} data={data} onClick={onClick} />;
+
+  const cardProps = { url, data, onClick };
+  return (
+    <CardErrorBoundary unsupportedComponent={UnsupportedInline} {...cardProps}>
+      <Card appearance="inline" {...cardProps} />
+    </CardErrorBoundary>
+  );
 }

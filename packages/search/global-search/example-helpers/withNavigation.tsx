@@ -7,6 +7,8 @@ import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
 import { QuickSearchContext } from '../src/api/types';
 
+const defaultCloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // jdog
+
 const RadioGroup = styled.div`
   position: relative;
   padding: 4px;
@@ -22,7 +24,11 @@ const Radio = styled.input`
 
 export interface Config {
   hideLocale?: boolean;
+  context?: 'jira' | 'confluence';
   message?: JSX.Element;
+  cloudIds?: {
+    [k: string]: string;
+  };
 }
 
 const MessageContainer = styled.div`
@@ -36,7 +42,7 @@ const MessageContainer = styled.div`
 `;
 
 interface State {
-  context: 'home' | 'jira' | 'confluence';
+  context: 'jira' | 'confluence';
   locale: string;
 }
 
@@ -44,28 +50,32 @@ interface State {
 export default function withNavigation<P extends Props>(
   WrappedComponent: ComponentType<P>,
   props?: Config,
-  availableContext: QuickSearchContext[] = ['confluence', 'jira', 'home'],
+  availableContext: QuickSearchContext[] = ['confluence', 'jira'],
   drawerIsOpen?: boolean,
 ): ComponentType<Partial<P>> {
-  return class WithNavigation extends React.Component<Partial<P>> {
+  return class WithNavigation extends React.Component<Partial<P>, State> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
+    constructor(props: Partial<P>) {
+      super(props);
+      this.state = {
+        context: props.context || availableContext[0],
+        locale: 'en',
+      };
+    }
     handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({
-        context: e.target.value,
-      });
+      if ('jira' === e.target.value || 'confluence' === e.target.value) {
+        this.setState({
+          context: e.target.value,
+        });
+      }
     };
 
     handleLocaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         locale: e.target.value,
       });
-    };
-
-    state: State = {
-      context: availableContext[0],
-      locale: 'en',
     };
 
     renderLocaleRadioGroup() {
@@ -113,6 +123,13 @@ export default function withNavigation<P extends Props>(
       );
     }
 
+    getCloudId(): string | null | undefined {
+      return (
+        (props && props.cloudIds && props.cloudIds[this.state.context]) ||
+        this.props.cloudId
+      );
+    }
+
     renderMessage() {
       if (!props || !props.message) {
         return null;
@@ -147,7 +164,7 @@ export default function withNavigation<P extends Props>(
             searchDrawerContent={
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
-                  cloudId="cloudId"
+                  cloudId={this.getCloudId() || defaultCloudId}
                   context={currentContext}
                   referralContextIdentifiers={{
                     currentContentId: '123',

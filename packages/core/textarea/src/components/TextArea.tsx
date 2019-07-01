@@ -37,8 +37,10 @@ export type Props = {
   maxHeight: string;
   /** The value of the text-area. */
   value?: string;
-  /** The default value of the text-area */
+  /** The default value of the textarea */
   defaultValue?: string;
+  /** The placeholder within the textarea */
+  placeholder?: string;
   /** Handler to be called when the input is blurred */
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   /** Handler to be called when the input changes. */
@@ -73,6 +75,7 @@ export type Props = {
     | React.RefObject<HTMLTextAreaElement>
     | ((e: HTMLTextAreaElement | null) => void);
 };
+
 type State = {
   isFocused: boolean;
 };

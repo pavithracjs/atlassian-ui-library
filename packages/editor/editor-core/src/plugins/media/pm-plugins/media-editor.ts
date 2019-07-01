@@ -6,7 +6,11 @@ import { PMPluginFactoryParams } from '../../../types';
 import { pluginFactory } from '../../../utils/plugin-state-factory';
 import { MediaEditorState, MediaEditorAction } from '../types';
 import { MediaProvider } from '../types';
-import { setMediaContext } from '../commands/media-editor';
+import { setMediaClientConfig } from '../commands/media-editor';
+import {
+  getUploadMediaClientConfigFromMediaProvider,
+  getViewMediaClientConfigFromMediaProvider,
+} from '../utils/media-common';
 
 export const pluginKey = new PluginKey('mediaEditorPlugin');
 
@@ -33,10 +37,10 @@ export const reducer = (
         ...state,
         editor: undefined,
       };
-    case 'setContext':
+    case 'setMediaClientConfig':
       return {
         ...state,
-        context: action.context,
+        mediaClientConfig: action.mediaClientConfig,
       };
     default:
       return state;
@@ -60,10 +64,12 @@ const pluginView = (
       return;
     }
 
-    const resolvedContext = await (resolvedProvider.uploadContext ||
-      resolvedProvider.viewContext);
+    const resolvedMediaClientConfig =
+      (await getUploadMediaClientConfigFromMediaProvider(resolvedProvider)) ||
+      (await getViewMediaClientConfigFromMediaProvider(resolvedProvider));
+
     const { dispatch, state } = view;
-    setMediaContext(resolvedContext)(state, dispatch, view);
+    setMediaClientConfig(resolvedMediaClientConfig)(state, dispatch, view);
   };
 
   providerFactory.subscribe('mediaProvider', updateMediaProvider);

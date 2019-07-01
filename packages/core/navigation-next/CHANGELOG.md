@@ -1,5 +1,46 @@
 # @atlaskit/navigation-next
 
+## 6.3.0
+
+### Minor Changes
+
+- [minor][e28067fdf9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e28067fdf9):
+
+  Visually hide nav content when collapsed, rather than unmounting it.
+
+## 6.2.1
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
+## 6.2.0
+
+### Minor Changes
+
+- [minor][586f8033b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/586f8033b0):
+
+  Add shouldHideGlobalNavShadow prop to LayoutManagerWithViewController
+
+## 6.1.0
+
+### Minor Changes
+
+- [minor][575d2fc15f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/575d2fc15f):
+
+  Adds prop `shouldHideGlobalNavShadow` to control the shadow on global navigation. Fixes an issue where GlobalNavigation didn't pass through props correctly.
+  Also includes changes from [this PR](https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5918/harsha-fix-item-rerenders/diff), which prevents unnecessary re-render of `Item` component in navigation to imporve nav performance.
+
+## 6.0.10
+
+### Patch Changes
+
+- [patch][1d64ee9bda](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1d64ee9bda):
+
+  The after and component props for Item and GlobalItem are passed as new functions in every render. This causes them to re-render the entire component heirarchy under them. This PR fixes the issue by retaining the reference to the props and passing that to prevent unnecessary re-renders.
+
 ## 6.0.9
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

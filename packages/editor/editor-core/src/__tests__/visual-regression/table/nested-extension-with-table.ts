@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
 import adf from './__fixtures__/nested-table.adf.json';
 import { clickFirstCell } from '../../__helpers/page-objects/_table';
@@ -16,6 +15,6 @@ describe('Snapshot Test: nested block extension with table', () => {
     await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
     await clickFirstCell(page);
     await animationFrame(page);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 });

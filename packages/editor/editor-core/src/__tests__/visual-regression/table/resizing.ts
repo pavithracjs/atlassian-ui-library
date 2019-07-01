@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
 import adf from '../common/__fixtures__/noData-adf.json';
 import {
@@ -26,22 +25,22 @@ describe('Snapshot Test: table resizing', () => {
       await resizeColumn(page, { colIdx: 2, amount: 123, row: 2 });
       await animationFrame(page);
       await animationFrame(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
       await resizeColumn(page, { colIdx: 2, amount: -100, row: 2 });
       await animationFrame(page);
       await animationFrame(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
 
     it(`snaps back to layout width after column removal`, async () => {
       await deleteColumn(page, 1);
       await animationFrame(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
 
     it('overflow table', async () => {
       await resizeColumn(page, { colIdx: 2, amount: 500, row: 2 });
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
 
       // Scroll to the end of col we are about to resize
       // Its in overflow.
@@ -68,7 +67,7 @@ describe('Snapshot Test: table resizing', () => {
         }
       }, ClassName);
 
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   });
 });
@@ -85,7 +84,7 @@ describe('Snapshot Test: table resize handle', () => {
   describe('when table has merged cells', () => {
     it(`should render resize handle spanning all rows`, async () => {
       await grabResizeHandle(page, { colIdx: 2, row: 2 });
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await snapshot(page);
     });
   });
 });
@@ -104,6 +103,6 @@ describe('Snapshot Test: table scale', () => {
 
   it(`should not overflow the table with dynamic text sizing enabled`, async () => {
     await toggleBreakout(page, 1);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 });

@@ -34,15 +34,14 @@ export type ConfigResponse = {
 };
 
 export type ConfigResponseMode =
-  | 'EXISTING_USERS_ONLY' // can't invite nor request access
-  | 'INVITE_NEEDS_APPROVAL'
-  | 'ONLY_DOMAIN_BASED_INVITE'
-  | 'DOMAIN_BASED_INVITE'
-  | 'ANYONE';
+  | 'EXISTING_USERS_ONLY' // can't invite nor request access, emails not allowed
+  | 'INVITE_NEEDS_APPROVAL' // show warning message if email options
+  | 'ONLY_DOMAIN_BASED_INVITE' // only allow emails within the allowed domains
+  | 'DOMAIN_BASED_INVITE' // show warning message when emails doesn't match allowed domains
+  | 'ANYONE'; // never show warning message
 
 export const DEFAULT_SHARE_PATH = 'share';
 export const SHARE_CONFIG_PATH = 'share/config';
-// TODO: replace with the real stargate namespace
 export const DEFAULT_SHARE_SERVICE_URL = '/gateway/api';
 
 export class ShareServiceClient implements ShareClient {

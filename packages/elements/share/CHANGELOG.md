@@ -1,5 +1,45 @@
 # @atlaskit/share
 
+## 0.5.1
+
+### Patch Changes
+
+- [patch][b53dd55ae8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b53dd55ae8):
+
+  fix: invalid property being used in URL shortener client
+
+## 0.5.0
+
+### Minor Changes
+
+- [minor][dc965edbe6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc965edbe6):
+
+  BREAKING new optional URL shortening feature (prop change needed)
+
+## 0.4.17
+
+### Patch Changes
+
+- [patch][86e8cc40b7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86e8cc40b7):
+
+  FS-3948 add translations
+
+## 0.4.16
+
+### Patch Changes
+
+- [patch][068e17f712](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/068e17f712):
+
+  FS-3966 add bottomMessage property
+
+## 0.4.15
+
+### Patch Changes
+
+- [patch][6fba3189dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fba3189dd):
+
+  internal refactor: remove getDerivedStateFromProps in favor of memoization
+
 ## 0.4.14
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

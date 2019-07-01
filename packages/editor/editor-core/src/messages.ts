@@ -51,4 +51,14 @@ export default defineMessages({
     defaultMessage: 'Invite to edit',
     description: 'Invite another user to edit the current document',
   },
+  saveButton: {
+    id: 'fabric.editor.saveButton',
+    defaultMessage: 'Save',
+    description: 'Submit and save a comment or document',
+  },
+  cancelButton: {
+    id: 'fabric.editor.cancelButton',
+    defaultMessage: 'Cancel',
+    description: 'Discard the current comment or document',
+  },
 });

@@ -1,0 +1,83 @@
+import { NodeSerializerOpts } from '../interfaces';
+import { TableData, createTable } from '../table-util';
+import { createTag } from '../create-tag';
+import { N30 } from '@atlaskit/adf-schema';
+import { createContentId } from '../static';
+import { createClassName } from '../styles/util';
+
+enum TaskState {
+  TODO = 'TODO',
+  DONE = 'DONE',
+}
+
+const className = createClassName('taskItem');
+
+export const styles = `
+.${className}-img {
+  width: 16px;
+  height: 16px;
+}
+.${className}-iconTd {
+  vertical-align: top;
+  padding: 10px 0px 0px 8px;
+  width: 24px;
+  height: 24px;
+}
+.${className}-textTd {
+  font-size: 14px;
+  padding: 8px 8px 8px 0;
+}
+`;
+
+const icons: { [K in TaskState]: string } = {
+  TODO: createTag('img', {
+    class: className + '-img',
+    src: createContentId('taskItemUnchecked', 'icon'),
+  }),
+  DONE: createTag('img', {
+    class: className + '-img',
+    src: createContentId('taskItemChecked', 'icon'),
+  }),
+};
+
+interface TaskItemAttrs {
+  state: TaskState;
+  localId: string;
+}
+
+export default function taskItem({ attrs, text }: NodeSerializerOpts) {
+  // If there is no content, we shouldn't render anything
+  if (!text) {
+    return '';
+  }
+
+  const state = (attrs as TaskItemAttrs).state;
+
+  const iconTd: TableData = {
+    text: icons[state],
+    attrs: { class: className + '-iconTd' },
+  };
+
+  const textTd: TableData = {
+    text,
+    attrs: { class: className + '-textTd' },
+  };
+
+  const mainContentTable = createTable([[iconTd, textTd]], {
+    'background-color': N30,
+    'border-radius': '3px',
+    'table-layout': 'fixed',
+    'line-height': '20px',
+  });
+
+  return createTable([
+    [
+      {
+        text: mainContentTable,
+        style: {
+          padding: '4px 0px 4px 0',
+        },
+      },
+    ],
+  ]);
+}

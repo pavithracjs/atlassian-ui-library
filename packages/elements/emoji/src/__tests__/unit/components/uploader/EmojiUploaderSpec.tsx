@@ -3,6 +3,8 @@ import { waitUntil } from '@atlaskit/util-common-test';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import { MockEmojiResource } from '@atlaskit/util-data-test';
 
+import { AnalyticsListener } from '@atlaskit/analytics-next';
+
 import * as ImageUtil from '../../../../util/image';
 
 import * as helper from '../picker/_emoji-picker-test-helpers';
@@ -25,7 +27,13 @@ import EmojiUploadComponent from '../../../../components/uploader/EmojiUploadCom
 import EmojiUploadPreview from '../../../../components/common/EmojiUploadPreview';
 
 import { ReactWrapper } from 'enzyme';
-
+import {
+  selectedFileEvent,
+  uploadCancelButton,
+  uploadConfirmButton,
+  uploadFailedEvent,
+  uploadSucceededEvent,
+} from '../../../../util/analytics';
 import { messages } from '../../../../components/i18n';
 
 const sampleEmoji = {
@@ -37,17 +45,23 @@ const sampleEmoji = {
 
 export function setupUploader(
   props?: Props,
-  config?: any,
+  onEvent?: () => void,
 ): Promise<ReactWrapper<any, any>> {
   const uploaderProps: Props = {
     ...props,
   } as Props;
 
   if (!props || !props.emojiProvider) {
-    uploaderProps.emojiProvider = getEmojiResourcePromise(config);
+    uploaderProps.emojiProvider = getEmojiResourcePromise();
   }
 
-  const uploader = mountWithIntl(<EmojiUploader {...uploaderProps} />);
+  const uploader = onEvent
+    ? mountWithIntl(
+        <AnalyticsListener channel="fabric-elements" onEvent={onEvent}>
+          <EmojiUploader {...uploaderProps} />
+        </AnalyticsListener>,
+      )
+    : mountWithIntl(<EmojiUploader {...uploaderProps} />);
 
   return waitUntil(() => {
     uploader.update();
@@ -101,6 +115,7 @@ describe('<EmojiUploader />', () => {
   });
 
   describe('upload', () => {
+    let onEvent: () => void;
     let emojiProvider: Promise<any>;
     let component: ReactWrapper;
 
@@ -120,12 +135,16 @@ describe('<EmojiUploader />', () => {
         }),
       );
 
+      onEvent = jest.fn();
       emojiProvider = getEmojiResourcePromise({
         uploadSupported: true,
       });
-      component = await setupUploader({
-        emojiProvider,
-      });
+      component = await setupUploader(
+        {
+          emojiProvider,
+        },
+        onEvent,
+      );
     });
 
     it('Main upload flow', async () => {
@@ -150,6 +169,28 @@ describe('<EmojiUploader />', () => {
         ...sampleEmoji,
         ...pngFileUploadData,
       });
+      expect(onEvent).toHaveBeenCalledTimes(3);
+
+      expect(onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: selectedFileEvent(),
+        }),
+        'fabric-elements',
+      );
+      expect(onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: uploadConfirmButton({ retry: false }),
+        }),
+        'fabric-elements',
+      );
+      expect(onEvent).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: uploadSucceededEvent({
+            duration: expect.any(Number),
+          }),
+        }),
+        'fabric-elements',
+      );
       // Check display reset correctly
       await waitUntil(() => component.update().find(FileChooser).length > 0);
     });
@@ -198,6 +239,21 @@ describe('<EmojiUploader />', () => {
       // Should be back to initial screen
       await waitUntil(() => component.update().find(FileChooser).length > 0);
       expect(component.find(FileChooser)).toHaveLength(1);
+
+      expect(onEvent).toHaveBeenCalledTimes(2);
+
+      expect(onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: selectedFileEvent(),
+        }),
+        'fabric-elements',
+      );
+      expect(onEvent).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: uploadCancelButton(),
+        }),
+        'fabric-elements',
+      );
     });
 
     it('retry on upload error', async () => {
@@ -236,6 +292,44 @@ describe('<EmojiUploader />', () => {
       // Successfully upload this time
       retryButton.simulate('click');
       await waitUntil(() => provider.getUploads().length > 0);
+
+      expect(onEvent).toHaveBeenCalledTimes(5);
+
+      expect(onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: selectedFileEvent(),
+        }),
+        'fabric-elements',
+      );
+      expect(onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: uploadConfirmButton({ retry: false }),
+        }),
+        'fabric-elements',
+      );
+      expect(onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: uploadFailedEvent({
+            duration: expect.any(Number),
+            reason: 'Upload failed',
+          }),
+        }),
+        'fabric-elements',
+      );
+      expect(onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: uploadConfirmButton({ retry: true }),
+        }),
+        'fabric-elements',
+      );
+      expect(onEvent).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          payload: uploadSucceededEvent({
+            duration: expect.any(Number),
+          }),
+        }),
+        'fabric-elements',
+      );
     });
   });
 });

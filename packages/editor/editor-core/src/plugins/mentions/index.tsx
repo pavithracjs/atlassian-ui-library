@@ -9,6 +9,7 @@ import {
 import {
   MentionProvider,
   isSpecialMention,
+  isResolvingMentionProvider,
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
@@ -61,6 +62,7 @@ export interface TeamInfoAttrAnalytics {
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  sanitizePrivateContent?: boolean,
 ): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
@@ -255,12 +257,30 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
-            return insert(buildNodesForTeamMention(schema, item.mention));
+            return insert(
+              buildNodesForTeamMention(
+                schema,
+                item.mention,
+                mentionProvider,
+                sanitizePrivateContent,
+              ),
+            );
+          }
+
+          // Don't insert into document if document data is sanitized.
+          const text = sanitizePrivateContent ? '' : `@${renderName}`;
+
+          if (
+            sanitizePrivateContent &&
+            isResolvingMentionProvider(mentionProvider)
+          ) {
+            // Cache (locally) for later rendering
+            mentionProvider.cacheMentionName(id, renderName);
           }
 
           return insert(
             schema.nodes.mention.createChecked({
-              text: `@${renderName}`,
+              text,
               id,
               accessLevel,
               userType: userType === 'DEFAULT' ? null : userType,
@@ -397,6 +417,7 @@ function mentionPluginFactory(
               mentionProvider: params.provider,
             };
             dispatch(mentionPluginKey, newPluginState);
+
             return newPluginState;
 
           case ACTIONS.SET_RESULTS:
@@ -461,11 +482,12 @@ function mentionPluginFactory(
                     let teams: TeamInfoAttrAnalytics[] | null = null;
 
                     if (!isTeamStats(stats)) {
+                      // is from user mention
                       duration = stats && stats.duration;
                       teams = null;
                       userIds = mentions
                         .map(mention =>
-                          isTeamType(mention.userType) ? mention.id : null,
+                          isTeamType(mention.userType) ? null : mention.id,
                         )
                         .filter(m => !!m) as string[];
                     } else {
@@ -545,22 +567,35 @@ function mentionPluginFactory(
 function buildNodesForTeamMention(
   schema: Schema,
   selectedMention: MentionDescription,
+  mentionProvider: MentionProvider,
+  sanitizePrivateContent?: boolean,
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
+
+  // build team link
+  const defaultTeamLink = `${window.location.origin}/people/team/${teamId}`;
+  const teamLink =
+    context && context.teamLink ? context.teamLink : defaultTeamLink;
+  const teamLinkNode = schema.text(name!, [
+    marks.link.create({ href: teamLink }),
+  ]);
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');
   const emptySpaceText = schema.text(' ');
-  const teamLink = schema.text(name!, [marks.link.create({ href: teamUrl })]);
 
-  const inlineNodes: Node[] = [teamLink, emptySpaceText, openBracketText];
+  const inlineNodes: Node[] = [teamLinkNode, emptySpaceText, openBracketText];
 
   const members: TeamMember[] =
     context && context.members ? context.members : [];
   members.forEach((member: TeamMember, index) => {
-    const text = `@${member.name}`;
+    const { name, id } = member;
+    const mentionName = `@${name}`;
+    const text = sanitizePrivateContent ? '' : mentionName;
+    if (sanitizePrivateContent && isResolvingMentionProvider(mentionProvider)) {
+      mentionProvider.cacheMentionName(id, name);
+    }
     const userMentionNode = nodes.mention.createChecked({
       text,
       id: member.id,

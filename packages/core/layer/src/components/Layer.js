@@ -103,7 +103,7 @@ export default class Layer extends Component<Props, State> {
     boundariesElement: 'viewport',
     children: null,
     content: null,
-    offset: '0 0',
+    offset: '0, 0',
     onFlippedChange: () => {},
     position: 'right middle',
     zIndex: 400,

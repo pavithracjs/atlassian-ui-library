@@ -9,11 +9,10 @@ import {
   UploadErrorEventPayload,
   isDropzone,
   isPopup,
-  isBrowser,
   isImagePreview,
   UploadProcessingEventPayload,
 } from '@atlaskit/media-picker';
-import { Context } from '@atlaskit/media-core';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 import { ErrorReportingHandler } from '@atlaskit/editor-common';
 
@@ -29,7 +28,7 @@ export type ExtendedComponentConfigs = ComponentConfigs & {
 };
 
 export type PickerFacadeConfig = {
-  context: Context;
+  mediaClientConfig: MediaClientConfig;
   errorReporter: ErrorReportingHandler;
 };
 
@@ -72,7 +71,7 @@ export default class PickerFacade {
     } else {
       picker = this.picker = await this.mediaPickerFactoryClass(
         this.pickerType,
-        this.config.context,
+        this.config.mediaClientConfig,
         this.pickerConfig as any,
       );
     }
@@ -126,7 +125,7 @@ export default class PickerFacade {
         picker.deactivate();
       }
 
-      if (isPopup(picker) || isBrowser(picker)) {
+      if (isPopup(picker)) {
         picker.teardown();
       }
     } catch (ex) {
@@ -172,8 +171,6 @@ export default class PickerFacade {
       } catch (ex) {
         this.errorReporter.captureException(ex);
       }
-    } else if (isBrowser(this.picker)) {
-      this.picker.browse();
     }
   }
 

@@ -157,7 +157,9 @@ export const PDFWrapper = styled.div`
 
 export const Arrow = styled.span`
   cursor: pointer;
-
+  button {
+    height: inherit;
+  }
   > span {
     color: rgba(27, 38, 56, 0.5);
     fill: #9fb0cc;

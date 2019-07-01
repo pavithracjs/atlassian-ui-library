@@ -1,5 +1,54 @@
 # @atlaskit/mention
 
+## 18.6.0
+
+### Minor Changes
+
+- [minor][58dd589a04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58dd589a04):
+
+  Update TeamMentionResource to accept teamLinkResolver option which is used to construct a team link.
+  Fix missing userId of user mentions in analytics in editor-core
+
+## 18.5.0
+
+### Minor Changes
+
+- [minor][2d1c3db523](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d1c3db523):
+
+  FS-3986 - Support analytics for mention hydration.
+
+## 18.4.2
+
+### Patch Changes
+
+- [patch][b23479c7ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b23479c7ba):
+
+  fix i18n-tools validation error on try/catch
+
+## 18.4.1
+
+### Patch Changes
+
+- [patch][434b2688af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/434b2688af):
+
+  Update translation
+
+## 18.4.0
+
+### Minor Changes
+
+- [minor][11cb8d8626](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11cb8d8626):
+
+  - Remove @atlaskit/analytics dependency.
+
+## 18.3.3
+
+### Patch Changes
+
+- [patch][ac95568398](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ac95568398):
+
+  - Some messages are never pushed to Transifex so we need to run `yarn i18n:push && yarn i18n:pull` again
+
 ## 18.3.2
 
 - Updated dependencies [67f06f58dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67f06f58dd):

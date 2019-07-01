@@ -42,10 +42,13 @@ BrowserTestCase(
       },
     });
 
-    await page.waitForSelector(
-      '.ProseMirror .mediaGroupView-content-wrap .overlay',
-    );
-    await page.click('.ProseMirror .mediaGroupView-content-wrap .overlay');
+    const fileCardSelector =
+      '.ProseMirror .mediaGroupView-content-wrap .overlay';
+    await page.waitForSelector(fileCardSelector);
+    await page.click(fileCardSelector);
+    // https://product-fabric.atlassian.net/browse/ED-7063
+    // Firefox fails unless we click the file twice.
+    await page.click(fileCardSelector);
     await page.copy(editable);
 
     await page.click(editable);
