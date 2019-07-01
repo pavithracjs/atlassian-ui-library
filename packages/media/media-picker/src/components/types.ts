@@ -22,24 +22,7 @@ export interface BrowserConfig extends LocalUploadConfig {
   readonly fileExtensions?: Array<string>;
 }
 
-export interface BrowserConstructor {
-  new (mediaClient: MediaClient, browserConfig: BrowserConfig): Browser;
-}
-
-export interface Browser extends LocalUploadComponent {
-  browse(): void;
-  teardown(): void;
-}
-
 export interface ClipboardConfig extends LocalUploadConfig {}
-
-export interface ClipboardConstructor {
-  new (mediaClient: MediaClient, clipboardConfig: ClipboardConfig): Clipboard;
-}
-export interface Clipboard extends LocalUploadComponent {
-  activate(): Promise<void>;
-  deactivate(): void;
-}
 
 export interface PopupConfig extends LocalUploadConfig {
   readonly container?: HTMLElement;
@@ -72,7 +55,6 @@ export interface Popup
 export interface DropzoneConfig extends LocalUploadConfig {
   container?: HTMLElement;
   headless?: boolean;
-  proxyReactContext?: AppProxyReactContext;
 }
 
 export interface DropzoneDragEnterEventPayload {

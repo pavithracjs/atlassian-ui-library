@@ -195,11 +195,6 @@ describe('App', () => {
     it('should render <Dropzone />', () => {
       const { handlers, store, mediaClient, userMediaClient } = setup();
 
-      const config = {
-        uploadParams: tenantUploadParams,
-        shouldCopyFileToRecents: false,
-      };
-
       const element = (
         <App
           store={store}
@@ -218,16 +213,28 @@ describe('App', () => {
         cacheSize: mediaClient.config.cacheSize,
       });
 
+      const modalDialogContainer = document.createElement('DIV');
       const wrapper = mount(element);
       wrapper.setState({
-        modalDialogContainer: () => <div>container</div>,
+        modalDialogContainer,
       });
       const dropzone = wrapper.find(Dropzone);
       expect(JSON.stringify(dropzone.prop('mediaClient'))).toEqual(
         JSON.stringify(dropzoneMediaClient),
       );
-      expect(JSON.stringify(dropzone.prop('config'))).toEqual(
-        JSON.stringify(config),
+      const dropzoneConfigProp = dropzone.prop('config');
+
+      expect(dropzoneConfigProp).toHaveProperty(
+        'uploadParams',
+        tenantUploadParams,
+      );
+      expect(dropzoneConfigProp).toHaveProperty(
+        'shouldCopyFileToRecents',
+        false,
+      );
+      expect(dropzoneConfigProp).toHaveProperty(
+        'container',
+        modalDialogContainer,
       );
     });
 

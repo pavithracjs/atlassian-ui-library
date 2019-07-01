@@ -154,12 +154,8 @@ export class App extends Component<AppProps, AppState> {
 
     onStartApp({
       onCancelUpload: uploadId => {
-        this.browserRef &&
-          this.browserRef.current &&
-          this.browserRef.current.cancel(uploadId);
-        this.dropzoneRef &&
-          this.dropzoneRef.current &&
-          this.dropzoneRef.current.cancel(uploadId);
+        this.browserRef.current && this.browserRef.current.cancel(uploadId);
+        this.dropzoneRef.current && this.dropzoneRef.current.cancel(uploadId);
         this.localUploader.cancel(uploadId);
       },
     });
@@ -197,7 +193,7 @@ export class App extends Component<AppProps, AppState> {
       store,
       proxyReactContext,
     } = this.props;
-    const { isDropzoneActive, modalDialogContainer } = this.state;
+    const { isDropzoneActive } = this.state;
 
     return (
       <ModalTransition>
@@ -217,7 +213,7 @@ export class App extends Component<AppProps, AppState> {
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
                 {this.renderClipboard()}
-                {modalDialogContainer && this.renderDropZone()}
+                {this.renderDropZone()}
               </PassContext>
             </ModalDialog>
           </Provider>

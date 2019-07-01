@@ -11,12 +11,6 @@ import {
 
 import { Context, MediaClientConfig } from '@atlaskit/media-core';
 
-export const isPopup = (component: any): component is Popup =>
-  component &&
-  ['show', 'cancel', 'teardown', 'hide'].every(
-    (prop: string) => prop in component,
-  );
-
 // Events public API and types
 export {
   UploadsStartEventPayload,

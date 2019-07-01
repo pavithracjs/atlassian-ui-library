@@ -4,7 +4,6 @@ import {
   UploadPreviewUpdateEventPayload,
   UploadParams,
   UploadErrorEventPayload,
-  isPopup,
   isImagePreview,
   UploadProcessingEventPayload,
   Popup,
@@ -105,8 +104,8 @@ export default class PickerFacade {
     this.onDragListeners = [];
 
     try {
-      if (isPopup(picker)) {
-        picker.teardown();
+      if (this.pickerType !== 'customMediaPicker') {
+        (picker as Popup).teardown();
       }
     } catch (ex) {
       this.errorReporter.captureException(ex);
@@ -120,9 +119,9 @@ export default class PickerFacade {
   }
 
   show(): void {
-    if (isPopup(this.picker)) {
+    if (this.pickerType !== 'customMediaPicker') {
       try {
-        this.picker.show();
+        (this.picker as Popup).show();
       } catch (ex) {
         this.errorReporter.captureException(ex);
       }
@@ -130,8 +129,8 @@ export default class PickerFacade {
   }
 
   hide(): void {
-    if (isPopup(this.picker)) {
-      this.picker.hide();
+    if (this.pickerType !== 'customMediaPicker') {
+      (this.picker as Popup).hide();
     }
   }
 

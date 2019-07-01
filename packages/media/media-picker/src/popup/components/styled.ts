@@ -1,11 +1,9 @@
-import styled, { ThemedOuterStyledProps } from 'styled-components';
+import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
 import { colors, fontFamily } from '@atlaskit/theme';
 
-export const MediaPickerPopupWrapper: ComponentClass<
-  HTMLAttributes<{}> & ThemedOuterStyledProps<{}, {}>
-> = styled.div`
+export const MediaPickerPopupWrapper = styled.div`
   display: flex;
   cursor: default;
   user-select: none;
