@@ -78,6 +78,7 @@ export default class LayoutManager extends Component<
     experimental_flyoutOnHover: false,
     experimental_alternateFlyoutBehaviour: false,
     experimental_fullWidthFlyout: false,
+    experimental_hideNavVisuallyOnCollapse: false,
   };
 
   static getDerivedStateFromProps(props: LayoutManagerProps, state: State) {
@@ -179,6 +180,8 @@ export default class LayoutManager extends Component<
       experimental_alternateFlyoutBehaviour: EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR,
       // eslint-disable-next-line camelcase
       experimental_fullWidthFlyout: EXPERIMENTAL_FULL_WIDTH_FLYOUT,
+      // eslint-disable-next-line camelcase
+      experimental_hideNavVisuallyOnCollapse: EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE,
       collapseToggleTooltipContent,
       topOffset,
       shouldHideGlobalNavShadow,
@@ -313,6 +316,9 @@ export default class LayoutManager extends Component<
                               datasets={datasets}
                               experimental_flyoutOnHover={
                                 EXPERIMENTAL_FLYOUT_ON_HOVER
+                              }
+                              experimental_hideNavVisuallyOnCollapse={
+                                !!EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE
                               }
                               expand={navigationUIController.expand}
                               productNavigation={productNavigation}

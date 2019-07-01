@@ -15,6 +15,17 @@ describe('useSmartCardState()', () => {
     });
   });
 
+  it('correctly returns default state, store on context undefined', () => {
+    const initialState: CardStore = {};
+    renderSmartLinkHook(
+      () => {
+        const result = useSmartCardState(mockUrl);
+        expect(result).toEqual(initialState['some.url']);
+      },
+      { storeOptions: { initialState } },
+    );
+  });
+
   it('correctly returns state from context', () => {
     const initialState: CardStore = {
       'some.url': {

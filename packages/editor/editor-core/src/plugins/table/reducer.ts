@@ -9,13 +9,13 @@ export default (
     case 'TOGGLE_HEADER_COLUMN':
       return {
         ...pluginState,
-        isHeaderColumnEnabled: pluginState.isHeaderColumnEnabled,
+        isHeaderColumnEnabled: !pluginState.isHeaderColumnEnabled,
       };
 
     case 'TOGGLE_HEADER_ROW':
       return {
         ...pluginState,
-        isHeaderRowEnabled: pluginState.isHeaderRowEnabled,
+        isHeaderRowEnabled: !pluginState.isHeaderRowEnabled,
       };
 
     case 'CLEAR_HOVER_SELECTION':

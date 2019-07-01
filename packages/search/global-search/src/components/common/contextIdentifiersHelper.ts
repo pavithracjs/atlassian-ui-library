@@ -1,10 +1,10 @@
-import URI from 'urijs';
 import {
   GenericResultMap,
   Result,
   ConfluenceResultsMap,
 } from '../../model/Result';
 import { JiraResultQueryParams } from '../../api/types';
+import { addQueryParam } from '../../util/url-utils';
 
 const CONFLUENCE_SEARCH_SESSION_ID_PARAM_NAME = 'search_id';
 const JIRA_SEARCH_SESSION_ID_PARAM_NAME = 'searchSessionId';
@@ -76,8 +76,8 @@ const attachSearchSessionIdToResult = (
   searchSessionId: string,
   searchSessionIdParamName: string,
 ) => (result: Result) => {
-  const href = new URI(result.href);
-  href.addQuery(searchSessionIdParamName, searchSessionId);
+  let href = result.href;
+  href = addQueryParam(href, searchSessionIdParamName, searchSessionId);
 
   return {
     ...result,
@@ -109,19 +109,21 @@ export const attachJiraContextIdentifiers = (
   );
 
   const attachJiraContext = (result: Result) => {
-    const href = new URI(result.href);
+    let href = result.href;
     if (result.containerId) {
-      href.addQuery('searchContainerId', result.containerId);
+      href = addQueryParam(href, 'searchContainerId', result.containerId);
     }
-    href.addQuery('searchContentType', result.contentType.replace(
+
+    href = addQueryParam(href, 'searchContentType', result.contentType.replace(
       'jira-',
       '',
     ) as JiraResultQueryParams['searchContentType']);
-    href.addQuery('searchObjectId', result.resultId);
+
+    href = addQueryParam(href, 'searchObjectId', result.resultId);
 
     return {
       ...result,
-      href: href.toString(),
+      href,
     };
   };
 

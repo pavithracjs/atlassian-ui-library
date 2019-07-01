@@ -3,8 +3,8 @@
 module.exports = {
   'packages/core/navigation-next/src': {
     statements: 66,
-    branches: 69,
-    functions: 69,
+    branches: 68,
+    functions: 68,
     lines: 66,
   },
   'packages/core/global-navigation/src': {

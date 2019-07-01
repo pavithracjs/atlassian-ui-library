@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.9.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
 ## 2.8.1
 
 ### Patch Changes

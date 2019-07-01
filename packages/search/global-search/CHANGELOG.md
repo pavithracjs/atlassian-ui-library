@@ -1,5 +1,29 @@
 # @atlaskit/global-search
 
+## 9.1.0
+
+### Minor Changes
+
+- [minor][a0ae6daeb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0ae6daeb6):
+
+  Removed urijs dependency
+
+## 9.0.0
+
+### Major Changes
+
+- [major][e84f336455](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e84f336455):
+
+  Removed support for Atlassian Home, it is no longer a valid context or product
+
+## 8.16.0
+
+### Minor Changes
+
+- [minor][cb424f9560](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb424f9560):
+
+  - global-search is integrated with autocomplete service
+
 ## 8.15.8
 
 ### Patch Changes
