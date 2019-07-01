@@ -29,11 +29,11 @@ import type {
  *    - ContainerOverlay
  */
 
-const ScrollProvider = (props: any) => (
+const ScrollProvider = ({ isVisible, ...props }: any) => (
   <div
     css={{
       boxSizing: 'border-box',
-      display: 'flex',
+      display: isVisible ? 'flex' : 'none',
       flexDirection: 'column',
       height: '100%',
       overflowX: 'hidden',
@@ -54,6 +54,7 @@ type ProductNavigationPrimitiveBaseProps = {
 
 const ProductNavigationPrimitiveBase = ({
   children,
+  isVisible,
   theme = { mode: light, context: 'product' },
 }: ProductNavigationPrimitiveBaseProps) => (
   <div
@@ -67,7 +68,7 @@ const ProductNavigationPrimitiveBase = ({
       },
     }}
   >
-    <ScrollProvider>{children}</ScrollProvider>
+    <ScrollProvider isVisible={isVisible}>{children}</ScrollProvider>
   </div>
 );
 
@@ -108,6 +109,7 @@ const ContainerNavigationPrimitiveBase = ({
   isEntering,
   isExiting,
   theme,
+  isVisible,
 }: ContainerNavigationPrimitiveBaseProps) => {
   let animationName;
   if (isEntering) animationName = slideIn;
@@ -130,7 +132,7 @@ const ContainerNavigationPrimitiveBase = ({
       animation-name: ${animationName};
       `}
     >
-      <ScrollProvider>{children}</ScrollProvider>
+      <ScrollProvider isVisible={isVisible}>{children}</ScrollProvider>
     </div>
   );
 };
