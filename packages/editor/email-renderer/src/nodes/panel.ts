@@ -9,7 +9,7 @@ import { fontFamily, fontSize, lineHeight, fontWeight } from '../styles/common';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
 
-const className = createClassName('panel');
+export const className = createClassName('panel');
 
 export const styles = `
 .${className} {
