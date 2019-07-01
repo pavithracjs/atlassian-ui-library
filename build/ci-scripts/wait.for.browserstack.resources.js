@@ -6,7 +6,7 @@ const util = require('util');
  * The goal is to prevent Browserstack to be hammered and reduce the number of timeout for users.
  * */
 const numberOfTries = process.env.BS_RETRY || 3;
-const numberOfParallelSessions = process.env.BS_SESSIONS_ALLOWED || 30; // Depending on the number of tests running, the limit is 90.
+const percentageOfSessionsAllowed = process.env.BS_SESSIONS_ALLOWED || 50; // This number represents the percentage of sessiosn allowed.
 const auth = Buffer.from(
   `${process.env.BROWSERSTACK_USERNAME}:${process.env.BROWSERSTACK_KEY}`,
 ).toString('base64');
@@ -21,11 +21,16 @@ function checkBSParallelSessions() {
       },
     })
     .then(response => {
-      const runningParallelSessions = response.data.parallel_sessions_running;
-      if (runningParallelSessions > numberOfParallelSessions) {
+      // Those two values are int and fixed on BS sides, so it should be always returning a proper value.
+      const percentageOfUsedSessions = parseInt(
+        (response.data.parallel_sessions_running /
+          response.data.team_parallel_sessions_max_allowed) *
+          100,
+      );
+      if (percentageOfUsedSessions > percentageOfSessionsAllowed) {
         return Promise.reject(
           new Error(
-            `Browserstack is currently running with ${runningParallelSessions} sessions concurrently, please try again later`,
+            `Browserstack is currently running with ${percentageOfUsedSessions} % of used sessions concurrently, the limit is ${percentageOfSessionsAllowed} %, please try again later`,
           ),
         );
       }
