@@ -17,8 +17,6 @@ import { LocalBrowserButton } from '../../views/upload/uploadButton';
 import analyticsProcessing from '../../../middleware/analyticsProcessing';
 import { Dropzone } from '../../../../components/dropzone/dropzone';
 import { MediaFile } from '../../../../domain/file';
-import { showPopup } from '../../../actions/showPopup';
-import reducers from '../../../reducers/reducers';
 import { AuthProvider } from '@atlaskit/media-core';
 import { MediaClient } from '@atlaskit/media-client';
 
@@ -34,29 +32,6 @@ const userAuthProvider: AuthProvider = () =>
     baseUrl,
   });
 
-const createDragEvent = (
-  eventName: 'dragover' | 'drop' | 'dragleave',
-  types: string[] = ['Files'],
-) => {
-  const event = document.createEvent('Event') as any;
-  event.initEvent(eventName, true, true);
-  event.preventDefault = () => {};
-  event.dataTransfer = {
-    types,
-    effectAllowed: 'move',
-    items: [
-      {
-        kind: 'file',
-      },
-      {
-        kind: 'string',
-      },
-    ],
-  };
-
-  return event as DragEvent;
-};
-
 const makeFile = (id: string): MediaFile => ({
   id: `id${id}`,
   upfrontId: Promise.resolve(`id${id}`),
@@ -65,46 +40,6 @@ const makeFile = (id: string): MediaFile => ({
   type: 'type',
   creationDate: 0,
 });
-
-const mockSetTimeout = () => {
-  const origSetTimeout = window.setTimeout;
-  window.setTimeout = jest.fn().mockImplementation((cb, _, ...args) => {
-    cb(...args);
-  });
-  return {
-    reset() {
-      window.setTimeout = origSetTimeout;
-    },
-  };
-};
-
-const verifyEventHandling = (
-  wrapper: ShallowWrapper | ReactWrapper,
-  event: Event,
-) => {
-  let setTimeoutMockHandler;
-  const dropzonesActive = event.type === 'dragover';
-  if (!dropzonesActive) {
-    setTimeoutMockHandler = mockSetTimeout();
-  }
-  document.body.dispatchEvent(event);
-
-  wrapper.update();
-
-  expect(
-    document.querySelector('.headless-dropzone')!.classList.contains('active'),
-  ).toEqual(dropzonesActive);
-  expect(wrapper.find(Dropzone).props().isActive).toEqual(dropzonesActive);
-
-  if (!dropzonesActive) {
-    if (setTimeoutMockHandler) {
-      setTimeoutMockHandler.reset();
-    }
-  }
-};
-
-const waitForDropzoneToRender = () =>
-  waitUntil(() => !!document.querySelector('.headless-dropzone'));
 
 /**
  * Skipped two tests, they look fine, so not sure whats wrong...
@@ -236,32 +171,6 @@ describe('App', () => {
         'container',
         modalDialogContainer,
       );
-    });
-
-    it.skip('should activate both dropzones on onDragEnter call and deactivate on onDragLeave and onDrop', async () => {
-      const { handlers, store, mediaClient, userMediaClient } = setup();
-      const element = (
-        <App
-          store={store}
-          selectedServiceName="upload"
-          tenantMediaClient={mediaClient}
-          userMediaClient={userMediaClient}
-          isVisible={false}
-          tenantUploadParams={tenantUploadParams}
-          {...handlers}
-        />
-      );
-
-      const wrapper = mount(element);
-
-      wrapper.setProps({ isVisible: true });
-
-      await waitForDropzoneToRender();
-
-      verifyEventHandling(wrapper, createDragEvent('dragover'));
-      verifyEventHandling(wrapper, createDragEvent('dragleave'));
-      verifyEventHandling(wrapper, createDragEvent('dragover'));
-      verifyEventHandling(wrapper, createDragEvent('drop'));
     });
 
     it('should call dispatch props for onDragEnter, onDragLeave and onDrop', async () => {
@@ -414,46 +323,5 @@ describe('Connected App', () => {
       }),
       'media',
     );
-  });
-
-  it.skip('should activate both dropzones on onDragEnter call and deactivate on onDragLeave and onDrop', async () => {
-    const store = createStore<State>(
-      reducers,
-      mockStore({
-        view: {
-          isVisible: false,
-          items: [],
-          isLoading: false,
-          hasError: false,
-          path: [],
-          service: {
-            accountId: 'some-view-service-account-id',
-            name: 'upload',
-          },
-          isUploading: false,
-          isCancelling: false,
-        },
-      }).getState(),
-    );
-
-    // TODO: Fix this
-    const ConnectedAppWithStore = getComponentClassWithStore(
-      ConnectedApp,
-    ) as any;
-    const wrapper = mount(
-      <ConnectedAppWithStore
-        store={store as Store<State>}
-        tenantUploadParams={{}}
-      />,
-    );
-
-    store.dispatch(showPopup());
-
-    await waitForDropzoneToRender();
-
-    verifyEventHandling(wrapper, createDragEvent('dragover'));
-    verifyEventHandling(wrapper, createDragEvent('dragleave'));
-    verifyEventHandling(wrapper, createDragEvent('dragover'));
-    verifyEventHandling(wrapper, createDragEvent('drop'));
   });
 });

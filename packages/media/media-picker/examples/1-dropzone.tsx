@@ -11,7 +11,7 @@ import {
 import Button from '@atlaskit/button';
 import Toggle from '@atlaskit/toggle';
 import Spinner from '@atlaskit/spinner';
-import { FileState } from '@atlaskit/media-core';
+import { FileState } from '@atlaskit/media-client';
 import {
   DropzoneContainer,
   PopupHeader,
