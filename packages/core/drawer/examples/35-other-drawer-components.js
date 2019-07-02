@@ -2,11 +2,11 @@
 
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
-import Item from '@atlaskit/item';
 import Drawer, {
   DrawerSkeletonHeader,
   DrawerSkeletonItem,
   DrawerItemGroup,
+  DrawerItem,
 } from '../src';
 
 type State = {
@@ -17,6 +17,14 @@ export default class DrawersExample extends Component<{}, State> {
   state = {
     isSkeletonVisible: true,
   };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        isSkeletonVisible: false,
+      });
+    }, 1000);
+  }
 
   toggleSkeleton = () =>
     this.setState({
@@ -44,34 +52,34 @@ export default class DrawersExample extends Component<{}, State> {
 const Items = () => (
   <>
     <DrawerItemGroup title="Lots of Items" isCompact>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
     </DrawerItemGroup>
     <DrawerItemGroup title="More Items">
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
     </DrawerItemGroup>
     <DrawerItemGroup title="Even More Items">
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
-      <Item>Item</Item>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
+      <DrawerItem>Item</DrawerItem>
     </DrawerItemGroup>
   </>
 );
