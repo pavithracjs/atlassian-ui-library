@@ -4,12 +4,13 @@ import { renderNodes, Serializer } from '../..';
 import { ExtensionLayout } from '@atlaskit/adf-schema';
 import {
   ADNode,
+  calcBreakoutWidth,
   ExtensionHandlers,
-  WidthConsumer,
+  getExtensionHandler,
   overflowShadow,
   OverflowShadowProps,
+  WidthConsumer,
 } from '@atlaskit/editor-common';
-import { calcBreakoutWidth } from '@atlaskit/editor-common';
 import { RendererCssClassName } from '../../consts';
 
 export interface Props {
@@ -64,13 +65,7 @@ const Extension: React.StatelessComponent<Props & OverflowShadowProps> = ({
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
       const extensionOrExtensionHandler = extensionHandlers[extensionType];
-      let extensionHandler;
-
-      if (typeof extensionOrExtensionHandler === 'object') {
-        extensionHandler = extensionOrExtensionHandler.render;
-      } else {
-        extensionHandler = extensionOrExtensionHandler;
-      }
+      const extensionHandler = getExtensionHandler(extensionOrExtensionHandler);
 
       const content = extensionHandler(
         {
