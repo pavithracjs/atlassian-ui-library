@@ -49,14 +49,14 @@ type Props = {
   onMouseLeave?: Function,
   /** Allows the role attribute of the item to be altered from it's default of
    *  `role="button"` */
-  role: string,
+  role?: string,
   /** Target frame for item `href` link to be aimed at. */
   target?: string,
   /** Standard browser title to be displayed on the item when hovered. */
   title?: string,
 };
 
-export const DrawerItems = (props: Props) => {
+export const DrawerItem = (props: Props) => {
   const {
     autofocus,
     children,
