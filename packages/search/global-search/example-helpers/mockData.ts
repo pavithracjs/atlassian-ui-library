@@ -156,7 +156,7 @@ export function randomSpaceIconUrl() {
 
 export function makeCrossProductSearchData(
   n = 100,
-): (term: string, filters?: Filter[]) => CrossProductSearchResponse {
+): (term: string, filters: Filter[]) => CrossProductSearchResponse {
   const confData: ConfluenceItem[] = [];
   const confSpaceData: ConfluenceItem[] = [];
   const confDataWithAttachments: ConfluenceItem[] = [];
@@ -297,23 +297,20 @@ export function makeCrossProductSearchData(
     ursPeopleData.push(ursPeopleEntry);
   }
 
-  return (term: string, filters?: Filter[]) => {
+  return (term: string, filters: Filter[] = []) => {
     term = term.toLowerCase();
-    const filteredSpace =
-      filters &&
-      filters.length > 0 &&
-      filters[0]['@type'] === 'spaces' &&
-      filters[0]['spaceKeys'][0];
+    const spaceFilter = filters.find(filter => filter['@type'] === 'spaces');
+    const filteredSpaceKey = spaceFilter && spaceFilter['spaceKeys'][0];
 
-    let filteredConfResults = confData.filter(
-      result => result.title.toLowerCase().indexOf(term) > -1,
+    const applySpaceFilter = (result: ConfluenceItem) =>
+      !filteredSpaceKey ||
+      (result.space && result.space.key === filteredSpaceKey);
+
+    const filteredConfResults = confData.filter(
+      result =>
+        result.title.toLowerCase().indexOf(term) > -1 &&
+        applySpaceFilter(result),
     );
-
-    if (filteredSpace) {
-      filteredConfResults = filteredConfResults.filter(
-        result => result.space && result.space.key === filteredSpace,
-      );
-    }
 
     const filteredJiraIssueResults = jiraObjects.filter(result => {
       const resultV1 = result as JiraItemV1;
@@ -328,27 +325,23 @@ export function makeCrossProductSearchData(
         (<JiraItemV2>result).name.toLocaleLowerCase().indexOf(term) > -1,
     );
 
-    const filteredSpaceResults = filteredSpace
+    const filteredSpaceResults = spaceFilter
       ? []
       : confSpaceData.filter(
           result => result.container.title.toLowerCase().indexOf(term) > -1,
         );
 
-    let filteredConfResultsWithAttachments = confDataWithAttachments.filter(
-      result => result.title.toLowerCase().indexOf(term) > -1,
+    const filteredConfResultsWithAttachments = confDataWithAttachments.filter(
+      result =>
+        result.title.toLowerCase().indexOf(term) > -1 &&
+        applySpaceFilter(result),
     );
 
-    if (filteredSpace) {
-      filteredConfResultsWithAttachments = filteredConfResultsWithAttachments.filter(
-        result => result.space && result.space.key === filteredSpace,
-      );
-    }
-
-    const filteredPeopleResults = filteredSpace
+    const filteredPeopleResults = spaceFilter
       ? []
       : peopleData.filter(item => item.name.toLowerCase().indexOf(term) > -1);
 
-    const filteredUrsPeopleResults = filteredSpace
+    const filteredUrsPeopleResults = spaceFilter
       ? []
       : ursPeopleData.filter(
           item => item.name.toLowerCase().indexOf(term) > -1,

@@ -143,7 +143,15 @@ export function buildScreenEvent(
       subscreen: screen,
       timesViewed: timesViewed,
       searchSessionId: searchSessionId,
-      ...referralContextIdentifiers,
+      searchReferrerId:
+        referralContextIdentifiers &&
+        referralContextIdentifiers.searchReferrerId,
+      currentContentId:
+        referralContextIdentifiers &&
+        referralContextIdentifiers.currentContentId,
+      currentContainerId:
+        referralContextIdentifiers &&
+        referralContextIdentifiers.currentContainerId,
       ...DEFAULT_GAS_ATTRIBUTES,
     },
   };

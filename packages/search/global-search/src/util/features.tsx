@@ -18,7 +18,10 @@ const isInFasterSearchExperiment = (
 };
 
 const isInSearchExtensionsExperiment = (abTest: ABTest): boolean => {
-  return abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT;
+  return (
+    abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT ||
+    isInSearchExtensionsComplexExperiment(abTest)
+  );
 };
 
 const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {

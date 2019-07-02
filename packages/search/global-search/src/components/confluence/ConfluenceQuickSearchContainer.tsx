@@ -57,6 +57,7 @@ import { buildConfluenceModelParams } from '../../util/model-parameters';
 import { ConfluenceFeatures } from '../../util/features';
 import ConfluenceFilterGroup from './ConfluenceFilterGroup';
 import NoResultsInFilterState from './NoResultsInFilterState';
+import some from 'lodash.some';
 
 /**
  * NOTE: This component is only consumed internally as such avoid using optional props
@@ -190,7 +191,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
     let scopes = [Scope.ConfluencePageBlogAttachment];
 
-    if (!(filters.length > 0 && filters[0]['@type'] === 'spaces')) {
+    if (!some(filters, (filter: Filter) => filter['@type'] === 'spaces')) {
       scopes = scopes.concat([Scope.ConfluenceSpace, Scope.People]);
     }
 
@@ -436,7 +437,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     }
   };
 
-  getNoResultsState = (
+  getNoResultsStateComponent = (
     latestSearchQuery: string,
     searchSessionId: string,
     currentFilters: Filter[],
@@ -593,7 +594,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           )
         }
         renderNoResult={() =>
-          this.getNoResultsState(
+          this.getNoResultsStateComponent(
             latestSearchQuery,
             searchSessionId,
             currentFilters,

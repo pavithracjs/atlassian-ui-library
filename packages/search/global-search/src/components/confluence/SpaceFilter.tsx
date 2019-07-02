@@ -27,20 +27,16 @@ export default class ConfluenceSpaceFilter extends React.Component<
     isChecked: false,
   };
 
-  generateFilter = () => {
+  generateFilter = (): Filter[] => {
     const { isChecked } = this.state;
-    let filter: Filter[];
-    if (!isChecked) {
-      filter = [
-        {
-          '@type': 'spaces',
-          spaceKeys: [this.props.spaceKey],
-        },
-      ];
-    } else {
-      filter = [];
-    }
-    return filter;
+    return isChecked
+      ? []
+      : [
+          {
+            '@type': 'spaces',
+            spaceKeys: [this.props.spaceKey],
+          },
+        ];
   };
 
   toggleCheckbox = () => {
@@ -76,9 +72,9 @@ export default class ConfluenceSpaceFilter extends React.Component<
     );
   }
 
-  componentDidUpdate() {
-    if (this.state.isChecked && !this.props.isFilterOn) {
-      this.setState({ isChecked: false });
+  static getDerivedStateFromProps(props: Props, state: State) {
+    if (state.isChecked !== props.isFilterOn) {
+      return { isChecked: props.isFilterOn };
     }
   }
 
