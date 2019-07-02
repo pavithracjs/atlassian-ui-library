@@ -28,6 +28,7 @@ const TRIGGER_CONTEXT = {
 };
 
 interface PrefetchTriggerProps {
+  children: React.ReactNode;
   cloudId: string;
   Container?: React.ReactType;
 }
