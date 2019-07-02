@@ -145,13 +145,13 @@ export class MediaNodeUpdater {
     return false;
   };
 
-  // TODO: find a better name
   copyNode = async () => {
     const mediaProvider = await this.props.mediaProvider;
     const attrs = this.getAttrs();
     if (!mediaProvider || !mediaProvider.uploadParams || !attrs) {
       return;
     }
+
     const currentCollectionName = mediaProvider.uploadParams.collection;
     const contextId = this.getCurrentContextId() || (await this.getObjectId());
     const uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
