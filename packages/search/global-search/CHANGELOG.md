@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 9.1.1
+
+### Patch Changes
+
+- [patch][af96d6cbb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af96d6cbb8):
+
+  Removed generic result map and replaced with jira result map
+
 ## 9.1.0
 
 ### Minor Changes
