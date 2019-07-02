@@ -6,6 +6,7 @@
  */
 // Japanese
 export default {
+  'fabric.mention.unknow.user.error': '不明なユーザー : {id}',
   'fabric.mention.noAccess.warning':
     '{name} さんはアクセス権限がないため、通知されません',
   'fabric.mention.noAccess.label': 'アクセス権限がありません',
