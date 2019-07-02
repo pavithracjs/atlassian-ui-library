@@ -7,6 +7,7 @@ import {
   randomId,
   storyMediaProviderFactory,
   Image,
+  sleep,
 } from '@atlaskit/editor-test-helpers';
 import { defaultSchema, MediaAttributes } from '@atlaskit/adf-schema';
 import {
@@ -152,6 +153,7 @@ describe('nodeviews/mediaSingle', () => {
           editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
+          contextIdentifierProvider={contextIdentifierProvider}
           mediaPluginState={pluginState}
         />,
       );
@@ -197,6 +199,7 @@ describe('nodeviews/mediaSingle', () => {
             allowResizing: true,
           }}
           mediaProvider={mediaProvider}
+          contextIdentifierProvider={contextIdentifierProvider}
           mediaPluginState={pluginState}
         />,
       );
@@ -226,6 +229,7 @@ describe('nodeviews/mediaSingle', () => {
         editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
       />,
     );
@@ -431,6 +435,48 @@ describe('nodeviews/mediaSingle', () => {
       expect(updateMediaNodeAttrsSpy).toHaveBeenCalledTimes(0);
     });
   });
+
+  it('should copy node if its collection is different than the current upload one', async () => {
+    const mediaNodeAttrs = {
+      id: 'node-file-id',
+      type: 'file',
+      collection: 'node-source-collection',
+    };
+
+    const mediaNode = media(mediaNodeAttrs as MediaAttributes)();
+    const mediaSingleNodeFromDifferentCollection = mediaSingle()(mediaNode);
+
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNodeFromDifferentCollection(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="full-page"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+    const instance = wrapper.instance() as MediaSingle;
+
+    instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
+    instance.mediaNodeUpdater.isNodeFromDifferentCollection = jest
+      .fn()
+      .mockReturnValue(true);
+    instance.mediaNodeUpdater.copyNode = jest.fn();
+    // we can't await instance.componentDidMount() since it will trigger an extra call to the mocks
+    await sleep(1);
+    expect(
+      instance.mediaNodeUpdater.isNodeFromDifferentCollection,
+    ).toBeCalledTimes(1);
+    expect(instance.mediaNodeUpdater.copyNode).toBeCalledTimes(1);
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
