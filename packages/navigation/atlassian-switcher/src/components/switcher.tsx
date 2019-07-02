@@ -18,6 +18,7 @@ import {
   NavigationAnalyticsContext,
   SWITCHER_SUBJECT,
   RenderTracker,
+  ViewedTracker,
 } from '../utils/analytics';
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
@@ -115,6 +116,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
+          <ViewedTracker subject={SWITCHER_SUBJECT} />
           {firstContentArrived && (
             <RenderTracker
               subject={SWITCHER_SUBJECT}
