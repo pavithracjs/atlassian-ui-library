@@ -78,6 +78,58 @@
       "content": [
         {
           "type": "text",
+          "text": "Long inlineCard inside a decision"
+        }
+      ],
+      "attrs": {
+        "level": 3
+      }
+    },
+    {
+      "type": "decisionList",
+      "attrs": {
+        "localId": "441d4648-eb1b-4c57-afbe-610e49068619"
+      },
+      "content": [
+        {
+          "type": "decisionItem",
+          "attrs": {
+            "localId": "f684d1a9-700c-4525-a035-7962f6744a5b",
+            "state": "DECIDED"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "lorem "
+            },
+            {
+              "type": "inlineCard",
+              "attrs": {
+                "data": {
+                  "@type": "Document",
+                  "generator": {
+                    "@type": "Application",
+                    "name": "Confluence"
+                  },
+                  "url": "https://extranet.atlassian.com/pages/viewpage.action?pageId=3088533424",
+                  "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  "summary": "Today is a big day for Atlassian – we have entered into an agreement to buy Trello. (boom)"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "text": " ipsum"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "content": [
+        {
+          "type": "text",
           "text": "blockCard with url"
         }
       ],
