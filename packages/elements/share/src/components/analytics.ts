@@ -26,7 +26,7 @@ const createEvent = (
   eventType: 'ui' | 'operational',
   action: string,
   actionSubject: string,
-  actionSubjectId: string,
+  actionSubjectId?: string,
   attributes = {},
 ): AnalyticsEventPayload => ({
   eventType,
@@ -71,7 +71,7 @@ export const formShareSubmitted = (
   start: number,
   data: DialogContentState,
   shareContentType?: string,
-  shareOrigin?: OriginTracing | null,
+  shareOrigin?: OriginTracing,
   config?: ConfigResponse,
 ) => {
   const users = extractIdsByType(data, isUser);
@@ -101,7 +101,7 @@ export const formShareSubmitted = (
 
 const duration = (start: number) => Date.now() - start;
 
-const getOriginTracingAttributes = (origin?: OriginTracing | null) =>
+const getOriginTracingAttributes = (origin?: OriginTracing) =>
   origin ? origin.toAnalyticsAttributes({ hasGeneratedId: true }) : {};
 
 const extractIdsByType = <T extends OptionData>(

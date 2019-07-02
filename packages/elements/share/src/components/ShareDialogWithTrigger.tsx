@@ -58,8 +58,8 @@ export type Props = {
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
-  copyLinkOrigin?: OriginTracing | null;
-  formShareOrigin?: OriginTracing | null;
+  copyLinkOrigin?: OriginTracing;
+  formShareOrigin?: OriginTracing;
   shouldCloseOnEscapePress?: boolean;
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
