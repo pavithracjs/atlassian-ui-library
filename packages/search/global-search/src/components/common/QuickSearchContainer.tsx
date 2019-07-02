@@ -8,12 +8,12 @@ import {
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import performanceNow from '../../util/performance-now';
 import {
-  GenericResultMap,
   ResultsWithTiming,
   Result,
   ResultsGroup,
   ConfluenceResultsMap,
   Results,
+  JiraResultsMap,
 } from '../../model/Result';
 import {
   ShownAnalyticsAttributes,
@@ -45,7 +45,7 @@ export interface SearchResultProps<T> extends State<T> {
 }
 
 export interface PartiallyLoadedRecentItems<
-  T extends ConfluenceResultsMap | GenericResultMap
+  T extends ConfluenceResultsMap | JiraResultsMap
 > {
   // Represents recent items that should be present before any UI is shown
   eagerRecentItemsPromise: Promise<ResultsWithTiming<T>>;
@@ -53,7 +53,7 @@ export interface PartiallyLoadedRecentItems<
   lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
 }
 
-export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
+export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   logger: Logger;
   linkComponent?: LinkComponent;
   product: QuickSearchContext;
@@ -122,7 +122,7 @@ const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
  * Container/Stateful Component that handles the data fetching and state handling when the user interacts with Search.
  */
 export class QuickSearchContainer<
-  T extends ConfluenceResultsMap | GenericResultMap
+  T extends ConfluenceResultsMap | JiraResultsMap
 > extends React.Component<Props<T>, State<T>> {
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: boolean = false;
