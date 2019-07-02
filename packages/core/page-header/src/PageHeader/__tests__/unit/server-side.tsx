@@ -1,11 +1,8 @@
-/**
- * @jest-environment node
- */
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Page header server side rendering', async done => {
+test('Page header server side rendering', async done => {
   const examples = await getExamplesFor('page-header');
   for (const example of examples) {
     // $StringLitteral

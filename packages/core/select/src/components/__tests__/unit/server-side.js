@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 // @flow
 
 import React from 'react';

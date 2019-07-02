@@ -139,6 +139,13 @@ export default class MobileRenderer extends React.Component<
                   }
                 },
               },
+              mention: {
+                onClick: (profileId: string, alias: string) => {
+                  toNativeBridge.call('mentionBridge', 'onMentionClick', {
+                    profileId,
+                  });
+                },
+              },
               smartCard: {
                 onClick: this.onLinkClick,
               },

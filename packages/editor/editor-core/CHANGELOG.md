@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.23.1
+
+### Patch Changes
+
+- [patch][1a0451f225](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a0451f225):
+
+  ED-5972: Media should correctly render when pasting mixed text and images
+
+## 112.23.0
+
+### Minor Changes
+
+- [minor][241a14694e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/241a14694e):
+
+  Add RUM to renderer
+
+## 112.22.3
+
+### Patch Changes
+
+- [patch][b8acca53b9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8acca53b9):
+
+  ED-6447 make heading 6 compliant with the ADG h100 styling
+
 ## 112.22.2
 
 ### Patch Changes

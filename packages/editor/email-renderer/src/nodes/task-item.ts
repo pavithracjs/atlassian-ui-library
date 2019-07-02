@@ -27,6 +27,15 @@ export const styles = `
   font-size: 14px;
   padding: 8px 8px 8px 0;
 }
+.${className}-mainContent {
+  background-color: ${N30};
+  border-radius: 3px;
+  table-layout: fixed;
+  line-height: 20px;
+}
+.${className}-wrapper {
+  padding: 4px 0px 4px 0;
+}
 `;
 
 const icons: { [K in TaskState]: string } = {
@@ -63,20 +72,17 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
     attrs: { class: className + '-textTd' },
   };
 
-  const mainContentTable = createTable([[iconTd, textTd]], {
-    'background-color': N30,
-    'border-radius': '3px',
-    'table-layout': 'fixed',
-    'line-height': '20px',
-  });
+  const mainContentTable = createTable(
+    [[iconTd, textTd]],
+    {},
+    { class: `${className}-mainContent` },
+  );
 
   return createTable([
     [
       {
         text: mainContentTable,
-        style: {
-          padding: '4px 0px 4px 0',
-        },
+        attrs: { class: `${className}-wrapper` },
       },
     ],
   ]);

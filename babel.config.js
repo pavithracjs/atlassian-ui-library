@@ -58,7 +58,7 @@ module.exports = {
     test: {
       presets: ['@babel/env'],
       // There is no @babel/ scoped transform for this plugin
-      plugins: ['transform-dynamic-import'],
+      plugins: ['transform-dynamic-import', '@babel/transform-runtime'],
     },
   },
 };

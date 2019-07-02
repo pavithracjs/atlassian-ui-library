@@ -1,5 +1,13 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.4.2
+
+### Patch Changes
+
+- [patch][f7921c3d54](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f7921c3d54):
+
+  Specail case for hanlding emoji in table
+
 ## 4.4.1
 
 - Updated dependencies [2b333a4c6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b333a4c6d):
