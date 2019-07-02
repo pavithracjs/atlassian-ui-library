@@ -1,0 +1,1 @@
+Removed generic result map and replaced with jira result map
