@@ -17,6 +17,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 import drawerItemTheme from '../theme/drawer-item-theme';
+import FocusLock from './focus-lock';
 import DrawerPrimitive from './primitives';
 import { Fade } from './transitions';
 import type { CloseTrigger, DrawerProps } from './types';
@@ -139,16 +140,18 @@ export class DrawerBase extends Component<
               <Fade in={isOpen}>
                 <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
               </Fade>
-              <DrawerPrimitive
-                icon={icon}
-                in={isOpen}
-                onClose={this.handleBackButtonClick}
-                onCloseComplete={onCloseComplete}
-                width={width}
-                shouldUnmountOnExit={shouldUnmountOnExit}
-              >
-                {children}
-              </DrawerPrimitive>
+              <FocusLock>
+                <DrawerPrimitive
+                  icon={icon}
+                  in={isOpen}
+                  onClose={this.handleBackButtonClick}
+                  onCloseComplete={onCloseComplete}
+                  width={width}
+                  shouldUnmountOnExit={shouldUnmountOnExit}
+                >
+                  {children}
+                </DrawerPrimitive>
+              </FocusLock>
             </Fragment>
           </TransitionGroup>
         </Portal>
