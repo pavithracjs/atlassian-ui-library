@@ -34,6 +34,9 @@ export const VolumeWrapper = styled.div`
   overflow: hidden;
   transition: width 0.3s;
   align-items: center;
+  position: absolute;
+  bottom: 0px;
+  left: 43px;
 
   &:hover,
   &:active {

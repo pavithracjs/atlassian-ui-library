@@ -274,7 +274,7 @@ module.exports = async function main(
     // TODO: remove this write once the flow is switched
     fWriteStats(prevStatsPath, stats);
   } else if (results.statsExceededSizeLimit.length && isLint) {
-    throw new Error(`âœ– Module "${packageName}" has exceeded size limit!`);
+    throw new Error(`✖ – Module "${packageName}" has exceeded size limit!`);
   }
 
   // TODO: return success always after switching the flow

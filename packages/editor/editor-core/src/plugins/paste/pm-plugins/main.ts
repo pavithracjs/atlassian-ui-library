@@ -32,6 +32,10 @@ import {
 import { PasteTypes } from '../../analytics';
 import { insideTable } from '../../../utils';
 import { CardOptions } from '../../card';
+import {
+  transformSliceToCorrectMediaWrapper,
+  unwrapNestedMediaElements,
+} from '../../media/utils/media-common';
 export const stateKey = new PluginKey('pastePlugin');
 
 export const md = MarkdownIt('zero', { html: false });
@@ -268,6 +272,8 @@ export function createPlugin(
 
         slice = transformSingleLineCodeBlockToCodeMark(slice, schema);
 
+        slice = transformSliceToCorrectMediaWrapper(slice, schema);
+
         if (
           slice.content.childCount &&
           slice.content.lastChild!.type === schema.nodes.codeBlock
@@ -289,6 +295,11 @@ export function createPlugin(
           html = html.replace(/white-space:pre/g, '');
           html = html.replace(/white-space:pre-wrap/g, '');
         }
+
+        if (html.indexOf('<img ') >= 0) {
+          html = unwrapNestedMediaElements(html);
+        }
+
         return html;
       },
     },

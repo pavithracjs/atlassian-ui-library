@@ -1,1 +1,0 @@
-Extracted CSS for last set of 4 ADF nodes

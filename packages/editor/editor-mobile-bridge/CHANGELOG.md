@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.1
+
+### Patch Changes
+
+- [patch][dfa96bfdcc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfa96bfdcc):
+
+  FM-2056 Expose mention tapping via renderer bridge so that iOS/Android can display a native profile card for the selected user
+
 ## 8.8.0
 
 ### Minor Changes
