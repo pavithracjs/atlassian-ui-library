@@ -1,5 +1,21 @@
 # @atlaskit/editor-core
 
+## 112.23.3
+
+### Patch Changes
+
+- [patch][3dd3d45b66](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3dd3d45b66):
+
+  ED-7100: Ensure Breakout buttons dont use stale state when trying to change or remove breakout modes.
+
+## 112.23.2
+
+### Patch Changes
+
+- [patch][53995e1bc9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/53995e1bc9):
+
+  Use explicits imports for importing Headings Icons
+
 ## 112.23.1
 
 ### Patch Changes

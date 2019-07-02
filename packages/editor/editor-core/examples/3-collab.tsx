@@ -215,6 +215,7 @@ const editorProps = ({
   analyticsHandler,
   allowAnalyticsGASV3: true,
   allowCodeBlocks: true,
+  allowBreakout: true,
   allowLayouts: {
     allowBreakout: true,
     UNSAFE_addSidebarLayouts: true,
