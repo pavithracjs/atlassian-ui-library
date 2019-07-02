@@ -1,0 +1,1 @@
+Fixes the issue of nav unmounting on collapse correctly
