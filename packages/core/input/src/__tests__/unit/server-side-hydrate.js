@@ -9,8 +9,8 @@ jest.spyOn(global.console, 'error').mockImplementation(() => {});
 afterEach(() => {
   jest.resetAllMocks();
 });
-
-test('should ssr then hydrate input correctly', async () => {
+// TODO: https://ecosystem.atlassian.net/browse/AK-6356
+test.skip('should ssr then hydrate input correctly', async () => {
   const [example] = await getExamplesFor('input');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
