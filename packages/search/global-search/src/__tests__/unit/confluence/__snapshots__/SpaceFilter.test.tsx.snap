@@ -4,9 +4,7 @@ exports[`ConfluenceSpaceFilter should render space filter correctly 1`] = `
 <WithItemFocus(Item)
   elemBefore={
     <React.Fragment>
-      <ForwardRef
-        isChecked={false}
-      />
+      <ForwardRef />
       <ForwardRef
         appearance="square"
         borderColor="transparent"
