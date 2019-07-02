@@ -51,6 +51,14 @@ export type ExperimentalFeatureFlags = {|
     This FF has no effect if experimental_flyoutOnHover is set to false.
   */
   experimental_fullWidthFlyout: boolean,
+
+  /**
+    NOTE: This property is experimental and may be removed in a minor release.
+
+    Hides the product and container nav visually rather than unmounting it
+    when nav is collapsed.
+  */
+  experimental_hideNavVisuallyOnCollapse: boolean,
 |};
 
 export type GetRefs = ({

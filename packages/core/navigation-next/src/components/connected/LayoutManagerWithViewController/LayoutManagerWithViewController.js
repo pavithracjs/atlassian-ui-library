@@ -16,6 +16,7 @@ const LayoutManagerWithViewController = ({
   experimental_flyoutOnHover,
   experimental_alternateFlyoutBehaviour,
   experimental_fullWidthFlyout,
+  experimental_hideNavVisuallyOnCollapse,
   globalNavigation,
   onExpandStart,
   onExpandEnd,
@@ -36,6 +37,9 @@ const LayoutManagerWithViewController = ({
       experimental_flyoutOnHover={!!experimental_flyoutOnHover}
       experimental_alternateFlyoutBehaviour={
         !!experimental_alternateFlyoutBehaviour
+      }
+      experimental_hideNavVisuallyOnCollapse={
+        !!experimental_hideNavVisuallyOnCollapse
       }
       experimental_fullWidthFlyout={!!experimental_fullWidthFlyout}
       globalNavigation={globalNavigation}

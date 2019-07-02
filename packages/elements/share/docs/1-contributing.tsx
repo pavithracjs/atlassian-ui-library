@@ -29,6 +29,7 @@ Since we have no control over the actual share action, it shouldn’t be needed 
 ## Quick dev commands
 
 ~~~bash
+bolt start share
 bolt lint
 bolt typecheck:typescript
 bolt run test ./packages/elements/share/src/__tests__/*

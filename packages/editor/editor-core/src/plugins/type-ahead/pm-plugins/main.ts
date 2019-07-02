@@ -1,4 +1,3 @@
-import { EditorView } from 'prosemirror-view';
 import {
   Plugin,
   PluginKey,
@@ -35,13 +34,6 @@ export type PluginState = {
   queryStarted: number;
   upKeyCount: number;
   downKeyCount: number;
-};
-
-type EditorViewWithDOMChange = EditorView & {
-  inDOMChange: {
-    composing: boolean;
-    finish: (force: boolean) => void;
-  };
 };
 
 export const ACTIONS = {
@@ -197,11 +189,7 @@ export function createPlugin(
     props: {
       handleDOMEvents: {
         input(view, event: any) {
-          const {
-            state,
-            dispatch,
-            inDOMChange: domChange,
-          } = view as EditorViewWithDOMChange;
+          const { state, dispatch } = view;
           const { selection, schema } = state;
 
           if (
@@ -211,19 +199,6 @@ export function createPlugin(
           ) {
             updateQueryCommand(event.data)(state, dispatch);
             return false;
-          }
-
-          const triggers = typeAhead.map(
-            typeAheadHandler => typeAheadHandler.trigger,
-          );
-
-          if (
-            triggers.indexOf(event.data) !== -1 &&
-            event.inputType === 'insertCompositionText' &&
-            domChange &&
-            domChange.composing
-          ) {
-            domChange.finish(true);
           }
 
           return false;

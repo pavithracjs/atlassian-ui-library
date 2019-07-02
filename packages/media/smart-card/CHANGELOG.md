@@ -1,5 +1,21 @@
 # @atlaskit/smart-card
 
+## 12.2.2
+
+### Patch Changes
+
+- [patch][4258086c0d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4258086c0d):
+
+  fix: some smartlinks with sourcecode artifacts were being incorrectly rendered
+
+## 12.2.1
+
+### Patch Changes
+
+- [patch][b5eb352152](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b5eb352152):
+
+  SL-336: fix page crash when state is undefined.
+
 ## 12.2.0
 
 ### Minor Changes

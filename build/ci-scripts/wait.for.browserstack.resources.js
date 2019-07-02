@@ -6,32 +6,31 @@ const util = require('util');
  * The goal is to prevent Browserstack to be hammered and reduce the number of timeout for users.
  * */
 const numberOfTries = process.env.BS_RETRY || 3;
-const numberOfBuildsAllowed = process.env.BS_BUILD_ALLOWED || 2; // Depending on the number of tests running each build even 3 may hammer BS
+const percentageOfSessionsAllowed = process.env.BS_SESSIONS_ALLOWED || 50; // This number represents the percentage of sessiosn allowed.
 const auth = Buffer.from(
   `${process.env.BROWSERSTACK_USERNAME}:${process.env.BROWSERSTACK_KEY}`,
 ).toString('base64');
 
 const sleep = util.promisify(setTimeout);
 
-const getNumberOfBuildsRunning = data => {
-  // Currently, there is a browserstack issue with Karma builds running but the duration is null.
-  // See: https://product-fabric.atlassian.net/browse/BUILDTOOLS-137
-  return data.filter(build => build.automation_build.duration !== null).length;
-};
-
-function checkBSBuildQueues() {
+function checkBSParallelSessions() {
   return axios
-    .get('https://api.browserstack.com/automate/builds.json?status=running', {
+    .get('https://api.browserstack.com/automate/plan.json', {
       headers: {
         Authorization: 'Basic ' + auth,
       },
     })
     .then(response => {
-      const runningBuilds = getNumberOfBuildsRunning(response.data);
-      if (runningBuilds > numberOfBuildsAllowed) {
+      // Those two values are int and fixed on BS sides, so it should be always returning a proper value.
+      const percentageOfUsedSessions = Math.floor(
+        (response.data.parallel_sessions_running /
+          response.data.team_parallel_sessions_max_allowed) *
+          100,
+      );
+      if (percentageOfUsedSessions > percentageOfSessionsAllowed) {
         return Promise.reject(
           new Error(
-            `Browserstack is currently running with ${runningBuilds} builds concurrently, please try again later`,
+            `Browserstack is currently running with ${percentageOfUsedSessions} % of used sessions concurrently, the limit is ${percentageOfSessionsAllowed} %, please try again later`,
           ),
         );
       }
@@ -41,7 +40,7 @@ function checkBSBuildQueues() {
 async function main() {
   for (let i = 0; i < numberOfTries; i++) {
     try {
-      await checkBSBuildQueues();
+      await checkBSParallelSessions();
       process.exit(0);
     } catch (e) {
       console.log(e);

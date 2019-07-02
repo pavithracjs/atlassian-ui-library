@@ -172,7 +172,7 @@ describe('Changesets', () => {
     const call = writeChangeset.mock.calls[0][0];
     expect(call).toEqual(expectedChangeset);
   });
-  it('should commit when the commit flag is passed in', async () => {
+  it.skip('should commit when the commit flag is passed in', async () => {
     const cwd = await copyFixtureIntoTempDir(
       __dirname,
       'simple-project-custom-config',

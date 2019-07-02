@@ -8,7 +8,7 @@
     "docker-compose": "^0.14.5",
     "ip": "^1.1.5",
     "is-reachable": "^2.4.0",
-    "jest-image-snapshot": "^2.8.0",
+    "jest-image-snapshot": "^2.8.2",
     "puppeteer": "^1.13.0"
   }
 }

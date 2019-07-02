@@ -9,7 +9,7 @@ const src2 =
   'https://pbs.twimg.com/profile_images/803832195970433027/aaoG6PJI_400x400.jpg';
 const imgSpan = '[role="img"]';
 
-describe('Avatar', () =>
+describe('Avatar', () => {
   describe('Image', () => {
     it('should render an image span when the src is set"', () => {
       const wrapper = mount(
@@ -137,4 +137,5 @@ describe('Avatar', () =>
         });
       });
     });
-  }));
+  });
+});

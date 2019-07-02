@@ -1,11 +1,8 @@
-/**
- * @jest-environment node
- */
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Portal from '../..';
 
-test.skip(`Portal renders without exception in node environment`, () => {
+test(`Portal renders without exception in node environment`, () => {
   expect(() =>
     ReactDOMServer.renderToString(
       <Portal>

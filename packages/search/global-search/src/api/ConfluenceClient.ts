@@ -3,7 +3,6 @@ import {
   ServiceConfig,
   utils,
 } from '@atlaskit/util-service-support';
-import URI from 'urijs';
 import unescapeHtml from 'unescape';
 import {
   AnalyticsType,
@@ -134,12 +133,10 @@ function recentPageToResult(
   baseUrl: string,
   searchSessionId: string,
 ): ConfluenceObjectResult {
-  const href = new URI(`${baseUrl}${recentPage.url}`);
-
   return {
     resultId: String(recentPage.id),
     name: recentPage.title,
-    href: href.toString(),
+    href: `${baseUrl}${recentPage.url}`,
     containerName: recentPage.space,
     analyticsType: AnalyticsType.RecentConfluence,
     resultType: ResultType.ConfluenceObjectResult,

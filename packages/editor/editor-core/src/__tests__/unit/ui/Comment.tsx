@@ -1,6 +1,10 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
-import { createEditorFactory, doc, p } from '@atlaskit/editor-test-helpers';
+import {
+  createEditorFactory,
+  doc,
+  p,
+  mountWithIntl,
+} from '@atlaskit/editor-test-helpers';
 import Comment from '../../../ui/Appearance/Comment';
 
 describe('comment editor', () => {
@@ -13,7 +17,7 @@ describe('comment editor', () => {
     });
   it('should create empty terminal empty paragraph when clicked outside editor', () => {
     const { editorView } = editor(doc(p('Hello world'), p('Hello world')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <Comment
         editorView={editorView}
         providerFactory={{} as any}
@@ -30,7 +34,7 @@ describe('comment editor', () => {
 
   it('should not create empty terminal empty paragraph if it is already present at end', () => {
     const { editorView } = editor(doc(p('Hello world'), p('')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <Comment
         editorView={editorView}
         providerFactory={{} as any}
@@ -46,7 +50,7 @@ describe('comment editor', () => {
 
   it('should not create empty terminal paragraph when clicked inside editor', () => {
     const { editorView } = editor(doc(p('Hello world')));
-    const fullPage = mount(
+    const fullPage = mountWithIntl(
       <Comment
         editorView={editorView}
         providerFactory={{} as any}

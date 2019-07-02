@@ -22,7 +22,10 @@ export default class RendererDemo extends React.Component<
   DemoRendererProps,
   DemoRendererState
 > {
-  emailSerializer = new EmailSerializer(defaultSchema, true);
+  emailSerializer = new EmailSerializer(defaultSchema, {
+    isImageStubEnabled: true,
+    isInlineCSSEnabled: true,
+  });
   emailRef?: HTMLIFrameElement;
   inputBox?: HTMLTextAreaElement | null;
   emailTextareaRef?: any;

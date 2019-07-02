@@ -22,8 +22,9 @@ const embeddedImagesMapper = (iconName: string): MediaImageBase64 => ({
   data: (icons as any)[iconName],
 });
 
-export const getImageProcessor = (isMockEnabled: boolean) => (
+export const processImages = (
   html: string,
+  isMockEnabled: boolean = false,
 ): SerializeFragmentWithAttachmentsResult => {
   const imageSet = new Set<icons.IconString>();
 

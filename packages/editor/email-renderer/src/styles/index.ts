@@ -11,6 +11,19 @@ import { styles as tableCellStyles } from '../nodes/table-cell';
 import { styles as tableRowStyles } from '../nodes/table-row';
 import { styles as tableHeaderStyles } from '../nodes/table-header';
 import { styles as statusStyles } from '../nodes/status';
+import { styles as blockCardStyles } from '../nodes/block-card';
+import { styles as bodiedExtensionStyles } from '../nodes/bodiedExtension';
+import { styles as inlineExtensionStyles } from '../nodes/inlineExtension';
+import { styles as dateStyles } from '../nodes/date';
+import { styles as decisionStyles } from '../nodes/decision-item';
+import { styles as inlineCardStyles } from '../nodes/inline-card';
+import { styles as panelStyles } from '../nodes/panel';
+import { styles as taskItemStyles } from '../nodes/task-item';
+import { styles as mediaStyles } from '../nodes/media';
+import { styles as tableStyles } from '../nodes/table';
+import { styles as taskListStyles } from '../nodes/task-list';
+import { styles as decisionListStyles } from '../nodes/decision-list';
+import { styles as tableUtilStyles } from '../table-util';
 import { styles as alignmentStyles } from '../marks/alignment';
 import { styles as codeStyles } from '../marks/code';
 import { styles as emStyles } from '../marks/em';
@@ -30,20 +43,6 @@ const styles = `
     line-height: ${lineHeight};
     vertical-align: baseline;
   }
-  .${createClassName('table')} {
-    font-family: ${fontFamily};
-    font-size: ${fontSize};
-    font-weight: ${fontWeight};
-    line-height: ${lineHeight};
-  }
-  .${createClassName('table')} td > :first-child,
-  .${createClassName('table')} th > :first-child {
-    padding-top: 0px;
-  }
-  .${createClassName('table')} td > :last-child,
-  .${createClassName('table')} th > :last-child {
-    margin-bottom: 0px;
-  }
   ${paragraphStyles}
   ${codeBlockStyles}
   ${headingStyles}
@@ -57,6 +56,19 @@ const styles = `
   ${tableHeaderStyles}
   ${tableCellStyles}
   ${tableRowStyles}
+  ${blockCardStyles}
+  ${bodiedExtensionStyles}
+  ${inlineExtensionStyles}
+  ${dateStyles}
+  ${decisionStyles}
+  ${inlineCardStyles}
+  ${panelStyles}
+  ${taskItemStyles}
+  ${mediaStyles}
+  ${tableStyles}
+  ${tableUtilStyles}
+  ${taskListStyles}
+  ${decisionListStyles}
 
   ${alignmentStyles}
   ${codeStyles}

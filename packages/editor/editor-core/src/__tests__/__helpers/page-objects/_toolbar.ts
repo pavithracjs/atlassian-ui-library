@@ -18,6 +18,7 @@ export enum ToolbarMenuItem {
   mention,
   emoji,
   removeTable,
+  fontStyle,
 }
 
 const toolbarMenuItemsSelectors = {
@@ -38,6 +39,7 @@ const toolbarMenuItemsSelectors = {
   [ToolbarMenuItem.mention]: `[aria-label="Mention"]`,
   [ToolbarMenuItem.emoji]: `[aria-label="Emoji"]`,
   [ToolbarMenuItem.removeTable]: `[aria-label="Remove"]`,
+  [ToolbarMenuItem.fontStyle]: `[aria-label="Font style"]`,
 };
 
 export async function clickToolbarMenu(page: Page, menu: ToolbarMenuItem) {

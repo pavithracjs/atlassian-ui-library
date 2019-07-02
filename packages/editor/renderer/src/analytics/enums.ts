@@ -7,6 +7,7 @@ export enum EVENT_TYPE {
 
 export enum ACTION {
   STARTED = 'started',
+  RENDERED = 'rendered',
 }
 
 export enum ACTION_SUBJECT {

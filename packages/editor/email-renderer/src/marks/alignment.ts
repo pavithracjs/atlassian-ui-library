@@ -3,9 +3,8 @@ import { createClassName } from '../styles/util';
 import { MarkSerializerOpts } from '../interfaces';
 
 export const styles = `
-.${createClassName('mark-alignment')}-right, .${createClassName(
-  'mark-alignment',
-)}-end {
+.${createClassName('mark-alignment')}-right,
+.${createClassName('mark-alignment')}-end {
   width: 100%;
   text-align: right
 }
