@@ -154,7 +154,9 @@ describe('App', () => {
         modalDialogContainer,
       });
       const dropzone = wrapper.find(Dropzone);
-      expect(dropzone.prop('mediaClient')).toBe(dropzoneMediaClient);
+      expect(JSON.stringify(dropzone.prop('mediaClient'))).toEqual(
+        JSON.stringify(dropzoneMediaClient),
+      );
       const dropzoneConfigProp = dropzone.prop('config');
 
       expect(dropzoneConfigProp).toHaveProperty(
