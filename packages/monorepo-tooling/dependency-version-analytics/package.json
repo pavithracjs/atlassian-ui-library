@@ -1,11 +1,11 @@
 {
-  "name": "@atlaskit/atlaskit-version-history",
+  "name": "@atlaskit/dependency-version-analytics",
   "version": "0.0.1",
   "description": "Tool to pull atlaskit version history from a repo",
   "license": "Apache-2.0",
   "sideEffects": false,
   "bin": {
-    "atlaskit-version-history": "./bin/atlaskit-version-history.js"
+    "dependency-version-analytics": "./bin/dependency-version-analytics.js"
   },
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -13,7 +13,7 @@
   ],
   "atlaskit": {
     "internal": true,
-    "name": "Code Insights",
+    "name": "Dependency Version Analytics",
     "team": "monorepo tooling"
   },
   "dependencies": {
