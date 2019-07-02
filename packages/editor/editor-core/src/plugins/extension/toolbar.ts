@@ -91,6 +91,8 @@ const breakoutOptions = (
 export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
+  _providerFactory,
+  props,
 ) => {
   const extensionState: ExtensionState = pluginKey.getState(state);
   const macroState: MacroState = macroPluginKey.getState(state);
@@ -109,7 +111,10 @@ export const getToolbarConfig: FloatingToolbarHandler = (
         {
           type: 'button',
           icon: EditIcon,
-          onClick: editExtension(macroState && macroState.macroProvider),
+          onClick: editExtension(
+            macroState && macroState.macroProvider,
+            props && props.extensionHandlers,
+          ),
           title: formatMessage(messages.edit),
         },
         ...breakoutOptions(state, formatMessage, extensionState),

@@ -1,10 +1,12 @@
-import { findParentNodeOfType } from 'prosemirror-utils';
-import { Slice, Schema } from 'prosemirror-model';
+import { findParentNodeOfType, replaceSelectedNode } from 'prosemirror-utils';
+import { Slice, Schema, Node as PmNode } from 'prosemirror-model';
+import { EditorState } from 'prosemirror-state';
 import {
   removeSelectedNode,
   removeParentNodeOfType,
   findSelectedNodeOfType,
 } from 'prosemirror-utils';
+import { ExtensionHandlers } from '@atlaskit/editor-common';
 import { pluginKey } from './plugin';
 import { MacroProvider, insertMacroFromMacroBrowser } from '../macro';
 import { getExtensionNode, isSelectionNodeExtension } from './utils';
@@ -54,13 +56,55 @@ export const updateExtensionLayout = (layout: string): Command => (
   return true;
 };
 
-export const editExtension = (macroProvider: MacroProvider | null): Command => (
-  state,
-  dispatch,
-): boolean => {
+export const updateExtensionParams = <T>(
+  updateExtension: (extensionParameters: T) => Promise<object | undefined>,
+  node: { node: PmNode; pos: number },
+) => async (state: EditorState, dispatch?: any): Promise<void> => {
+  const { parameters } = node.node.attrs;
+  const newParameters = await updateExtension(parameters);
+
+  if (newParameters) {
+    const newAttrs = {
+      ...node.node.attrs,
+      parameters: {
+        ...parameters,
+        ...newParameters,
+      },
+    };
+
+    const newNode = state.schema.nodes.extension!.createChecked(newAttrs);
+    if (!newNode) {
+      return;
+    }
+
+    const transaction = replaceSelectedNode(newNode)(state.tr);
+    if (dispatch) {
+      dispatch(transaction.scrollIntoView());
+    }
+  }
+};
+
+export const editExtension = (
+  macroProvider: MacroProvider | null,
+  extensionHandlers?: ExtensionHandlers,
+): Command => (state, dispatch): boolean => {
   const node = getExtensionNode(state);
 
-  if (!node || !macroProvider) {
+  if (!node) {
+    return false;
+  }
+
+  if (extensionHandlers) {
+    const { extensionType } = node.node.attrs;
+    const extension = extensionHandlers[extensionType];
+
+    if (typeof extension === 'object' && extension.update) {
+      updateExtensionParams(extension.update, node)(state, dispatch);
+      return true;
+    }
+  }
+
+  if (!macroProvider) {
     return false;
   }
 
