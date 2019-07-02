@@ -1,5 +1,18 @@
 # @atlaskit/atlassian-switcher
 
+## 3.0.0
+
+### Major Changes
+
+- [major][2258719b5f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2258719b5f):
+
+  Add enableUserCentricProducts to Switcher. Remove enableExpandLink.
+
+  The expand link is now displayed when user-centric mode is enabled,
+  and the amount of products to display exceeds the threshold of 5.
+
+  To upgrade: Delete any references to enableExpandLink/experimental_enableExpandLink
+
 ## 2.1.1
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
