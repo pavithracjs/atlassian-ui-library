@@ -25,7 +25,7 @@ describe('ShareForm', () => {
     ({ allowComment, submitButtonLabel }) => {
       const mockLink = 'link';
       const loadOptions = jest.fn();
-      const onShareClick = jest.fn();
+      const onSubmit = jest.fn();
       const config: ConfigResponse = {
         mode: 'EXISTING_USERS_ONLY',
         allowComment,
@@ -34,7 +34,7 @@ describe('ShareForm', () => {
         <ShareForm
           copyLink={mockLink}
           loadOptions={loadOptions}
-          onShareClick={onShareClick}
+          onSubmit={onSubmit}
           title="some title"
           config={config}
           submitButtonLabel={submitButtonLabel}
@@ -43,7 +43,7 @@ describe('ShareForm', () => {
 
       const akForm = component.find<any>(Form);
       expect(akForm).toHaveLength(1);
-      expect(akForm.prop('onSubmit')).toBe(onShareClick);
+      expect(akForm.prop('onSubmit')).toBe(onSubmit);
 
       const formProps = {};
       const form = renderProp(akForm, 'children', { formProps })

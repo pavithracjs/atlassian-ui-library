@@ -533,7 +533,7 @@ describe('ShareDialogWithTrigger', () => {
 
       shallow(wrapper.find(InlineDialog).prop('content') as any)
         .find(ShareForm)
-        .simulate('shareClick', values);
+        .simulate('submit', values);
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
       expect(mockOnSubmit).toHaveBeenCalledWith(values);
     });
@@ -581,7 +581,7 @@ describe('ShareDialogWithTrigger', () => {
 
       shallow(wrapper.find(InlineDialog).prop('content') as any)
         .find(ShareForm)
-        .simulate('shareClick', values);
+        .simulate('submit', values);
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
       expect(mockOnSubmit).toHaveBeenCalledWith(values);
 
@@ -624,7 +624,7 @@ describe('ShareDialogWithTrigger', () => {
 
       shallow(wrapper.find(InlineDialog).prop('content') as any)
         .find(ShareForm)
-        .simulate('shareClick', values);
+        .simulate('submit', values);
 
       await new Promise(resolve => setTimeout(resolve, 0));
 

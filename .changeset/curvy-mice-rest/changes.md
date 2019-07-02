@@ -1,0 +1,1 @@
+fix: handle an "is mounted" path
