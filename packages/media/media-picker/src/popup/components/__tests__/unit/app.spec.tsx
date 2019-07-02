@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { createStore, applyMiddleware, Middleware } from 'redux';
 import { Store } from 'react-redux';
-import { waitUntil, fakeMediaClient } from '@atlaskit/media-test-helpers';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 import {
   getComponentClassWithStore,
   mockStore,
@@ -154,9 +154,7 @@ describe('App', () => {
         modalDialogContainer,
       });
       const dropzone = wrapper.find(Dropzone);
-      expect(JSON.stringify(dropzone.prop('mediaClient'))).toEqual(
-        JSON.stringify(dropzoneMediaClient),
-      );
+      expect(dropzone.prop('mediaClient')).toBe(dropzoneMediaClient);
       const dropzoneConfigProp = dropzone.prop('config');
 
       expect(dropzoneConfigProp).toHaveProperty(
