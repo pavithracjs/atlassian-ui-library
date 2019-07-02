@@ -20,17 +20,16 @@ export default class FlagGroup extends Component<Props, {}> {
   renderChildren = () => {
     const { children, onDismissed } = this.props;
 
-    return Children.map(children, (flag, idx) => {
-      const isDismissAllowed = idx === 0;
+    return Children.map(children, (flag: React.ReactElement, index: number) => {
+      const isDismissAllowed: boolean = index === 0;
       const { id } = flag.props;
 
       return (
+        // @ts-ignore: Bug in types - 'timeout' prop should not be required when addEndListener is provided
         <Transition
-          //bug in types, it's required but it shouldn't be if addEndListener is provided
-          timeout={0}
           key={id}
           addEndListener={(node, done: (a?: any) => void) => {
-            if (idx > 0) {
+            if (index > 0) {
               done();
               return;
             }
