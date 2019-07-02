@@ -1,5 +1,13 @@
 # @atlaskit/flag
 
+## 12.0.9
+
+### Patch Changes
+
+- [patch][76b4718f7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76b4718f7d):
+
+  Fixing mounting and unmounting animations
+
 ## 12.0.8
 
 ### Patch Changes
