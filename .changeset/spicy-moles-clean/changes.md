@@ -1,0 +1,1 @@
+ED-7186 Fix long inline cards going outside decision items bounds
