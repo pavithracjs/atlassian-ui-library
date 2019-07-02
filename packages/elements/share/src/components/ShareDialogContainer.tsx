@@ -1,4 +1,8 @@
 import assert from 'tiny-invariant';
+import {
+  WithAnalyticsEventProps,
+  withAnalyticsEvents,
+} from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
 import { LoadOptions } from '@atlaskit/user-picker';
 import memoizeOne from 'memoize-one';
@@ -122,7 +126,10 @@ const getDefaultShareLink: () => string = () =>
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
  */
-export class ShareDialogContainer extends React.Component<Props, State> {
+export class ShareDialogContainerInternal extends React.Component<
+  WithAnalyticsEventProps & Props,
+  State
+> {
   private shareClient: ShareClient;
   private urlShortenerClient: UrlShortenerClient;
   private _isMounted = false;
@@ -377,3 +384,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     );
   }
 }
+
+export const ShareDialogContainer: React.ComponentType<
+  Props
+> = withAnalyticsEvents()(ShareDialogContainerInternal);
