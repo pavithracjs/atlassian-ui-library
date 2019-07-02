@@ -66,8 +66,7 @@
     "es6-promise": "^4.0.5",
     "fetch-mock": "^6.5.2",
     "react": "^16.8.0",
-    "react-intl": "^2.6.0",
-    "whatwg-fetch": "^2.0.3"
+    "react-intl": "^2.6.0"
   },
   "repository": {
     "type": "git",

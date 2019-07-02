@@ -35,8 +35,7 @@
     "@types/fetch-mock": "^6.0.3",
     "fetch-mock": "^6.5.2",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "whatwg-fetch": "^2.0.3"
+    "react-dom": "^16.8.0"
   },
   "peerDependencies": {
     "@atlaskit/media-core": "^30.0.4",

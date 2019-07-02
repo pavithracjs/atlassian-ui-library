@@ -41,8 +41,7 @@
     "query-string": "^4.3.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-intl": "^2.6.0",
-    "whatwg-fetch": "^2.0.3"
+    "react-intl": "^2.6.0"
   },
   "author": "Atlassian Pty. Ltd",
   "maintainers": [
