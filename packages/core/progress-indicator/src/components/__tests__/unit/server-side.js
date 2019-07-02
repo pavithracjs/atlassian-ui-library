@@ -3,7 +3,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Progress indicator server side rendering', async done => {
+test('Progress indicator server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('progress-indicator');
   for (const example of examples) {

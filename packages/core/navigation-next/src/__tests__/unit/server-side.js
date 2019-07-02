@@ -19,7 +19,7 @@ const exampleName = (file: string) =>
     .reverse()[0]
     .replace('.js', '');
 
-test.skip('navigation-next server side rendering', async done => {
+test('navigation-next server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('navigation-next');
   for (const example of examples) {

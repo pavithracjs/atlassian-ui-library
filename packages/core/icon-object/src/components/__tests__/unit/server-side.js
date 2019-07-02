@@ -5,7 +5,7 @@ import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-test.skip('Icon object server side rendering', async done => {
+test('Icon object server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('icon-object');
   for (const example of examples) {

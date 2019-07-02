@@ -45,7 +45,7 @@ const App = () => (
 );
 
 //Skipping this test since table tree uses set state in component will mount which throws error when hydrating
-test.skip('should ssr then hydrate table-tree correctly', () => {
+test('should ssr then hydrate table-tree correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
   // server-side
   canUseDom.mockReturnValue(false);

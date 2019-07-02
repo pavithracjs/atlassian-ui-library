@@ -3,7 +3,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Tag server side rendering', async done => {
+test('Tag server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('tag');
   for (const example of examples) {

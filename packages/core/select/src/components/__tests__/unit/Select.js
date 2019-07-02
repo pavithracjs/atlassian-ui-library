@@ -12,7 +12,7 @@ const OPTIONS = [
   { label: '4', value: 'four' },
 ];
 // temporarily skip this test as part of AK-5758 resolution
-test.skip('loading the animated component as default', () => {
+test('loading the animated component as default', () => {
   const atlaskitSelectWrapper = mount(<AtlaskitSelect />);
   expect(atlaskitSelectWrapper.find('Transition').exists()).toBeTruthy();
 });
@@ -137,7 +137,7 @@ test('renders a hidden form field when name is passed', () => {
  * filterOption is getting called multiple for a change in inputValue
  */
 /* eslint-disable jest/no-disabled-tests */
-test.skip('filterOption is called when input of select is changed', () => {
+test('filterOption is called when input of select is changed', () => {
   const filterOptionSpy = jest.fn();
   const atlaskitSelectWrapper = mount(
     <AtlaskitSelect options={OPTIONS} filterOption={filterOptionSpy} />,

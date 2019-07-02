@@ -3,7 +3,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Navigation server side rendering', async done => {
+test('Navigation server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('navigation');
   for (const example of examples) {

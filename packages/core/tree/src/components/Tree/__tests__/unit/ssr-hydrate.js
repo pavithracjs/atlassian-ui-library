@@ -40,7 +40,7 @@ const App = () => (
 );
 
 // unskip as part of https://ecosystem.atlassian.net/browse/AK-5809
-test.skip('should ssr then hydrate tag correctly', () => {
+test('should ssr then hydrate tag correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
 
   // server-side

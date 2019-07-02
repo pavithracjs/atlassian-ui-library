@@ -3,7 +3,7 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
-test.skip('Field radio group server side rendering', async done => {
+test('Field radio group server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('field-radio-group');
   for (const example of examples) {
