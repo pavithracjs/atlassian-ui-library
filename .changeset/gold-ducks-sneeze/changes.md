@@ -1,1 +1,0 @@
-FS-4051 Add editor prop to configure either nickName or name to use for the mention name when inserted

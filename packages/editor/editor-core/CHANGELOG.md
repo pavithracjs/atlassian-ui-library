@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.24.0
+
+### Minor Changes
+
+- [minor][b2deccb03d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b2deccb03d):
+
+  FS-4051 Add editor prop to configure either nickName or name to use for the mention name when inserted
+
 ## 112.23.3
 
 ### Patch Changes
