@@ -291,9 +291,9 @@ pipelines:
                 - source ./build-setup.sh
                 - bolt install --pure-lockfile
                 # Run the non-editor tests.
-                - TEST_ONLY_PATTERN='!packages/editor' yarn test:CI
+                - TEST_ONLY_PATTERN='!packages/editor' yarn test
                 # Run the editor tests (runInBand is required or it fails in CI)
-                - TEST_ONLY_PATTERN='packages/editor' yarn test:CI --runInBand
+                - TEST_ONLY_PATTERN='packages/editor' yarn test --runInBand
               after-script:
                 - yarn send:stepFailureEvents
           # - step:
