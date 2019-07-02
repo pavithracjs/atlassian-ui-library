@@ -185,9 +185,9 @@ export type ActionTypes =
 
 export type OnChange = (value: Value, action: ActionTypes) => void;
 
-export type OnInputChange = (query?: string) => void;
+export type OnInputChange = (query?: string, sessionId?: string) => void;
 
-export type OnPicker = () => void;
+export type OnPicker = (sessionId?: string) => void;
 
 export type OnOption = (value: Value) => void;
 
