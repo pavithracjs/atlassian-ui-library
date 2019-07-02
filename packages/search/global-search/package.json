@@ -71,7 +71,6 @@
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-test-renderer": "^16.8.0",
-    "seedrandom": "^2.4.4",
-    "whatwg-fetch": "^2.0.3"
+    "seedrandom": "^2.4.4"
   }
 }

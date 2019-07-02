@@ -28,8 +28,7 @@
     "es6-promise": "^4.0.5",
     "lru-fast": "^0.2.2",
     "prop-types": "^15.5.10",
-    "react-node-resolver": "^1.0.1",
-    "whatwg-fetch": "^2.0.3"
+    "react-node-resolver": "^1.0.1"
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.2",
