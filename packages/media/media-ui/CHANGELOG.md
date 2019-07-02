@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.4.0
+
+### Minor Changes
+
+- [minor][53b1e6a783](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/53b1e6a783):
+
+  Add a download button to inline video player to allow download of video binary
+
 ## 11.3.0
 
 ### Minor Changes

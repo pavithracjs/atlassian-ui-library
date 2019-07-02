@@ -1,1 +1,0 @@
-Specail case for hanlding emoji in table

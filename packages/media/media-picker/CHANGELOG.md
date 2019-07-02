@@ -8,7 +8,7 @@
 
   Media Picker Browser component is now migrated to React.
 
-  ## Previous vanilla js API:
+  - Previous vanilla js API:
 
   ```
   // instantiation
@@ -32,7 +32,7 @@
   browser.teardown();
   ```
 
-  ## New React API:
+  - New React API:
 
   ```
   class BrowserConsumer etends React.Component {

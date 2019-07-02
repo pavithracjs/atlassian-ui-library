@@ -154,7 +154,8 @@ describe('FileFetcher', () => {
         done();
       });
     });
-    it('should group ids without collection in the same call to /items', done => {
+    //TODO: https://product-fabric.atlassian.net/browse/BUILDTOOLS-177
+    it.skip('should group ids without collection in the same call to /items', done => {
       const { fileFetcher, mediaStore, items } = setup();
 
       fileFetcher.getFileState(items[0].id).subscribe();

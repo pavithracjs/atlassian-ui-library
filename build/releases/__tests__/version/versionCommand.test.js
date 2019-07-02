@@ -108,7 +108,7 @@ describe('running version in a simple project', () => {
     });
   });
 
-  it('should respect config file', async () => {
+  it.skip('should respect config file', async () => {
     // We have used the atlaskit config. Its two differences are it has skipCI and commit as true
     let cwd2 = await copyFixtureIntoTempDir(
       __dirname,

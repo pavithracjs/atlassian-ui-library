@@ -6,6 +6,7 @@ import FullScreenIconOn from '@atlaskit/icon/glyph/vid-full-screen-on';
 import FullScreenIconOff from '@atlaskit/icon/glyph/vid-full-screen-off';
 import SoundIcon from '@atlaskit/icon/glyph/hipchat/outgoing-sound';
 import HDIcon from '@atlaskit/icon/glyph/vid-hd-circle';
+import DownloadIcon from '@atlaskit/icon/glyph/download';
 import MediaButton from '../MediaButton';
 import Spinner from '@atlaskit/spinner';
 import MediaPlayer, {
@@ -54,6 +55,7 @@ export interface CustomMediaPlayerProps {
   readonly isShortcutEnabled?: boolean;
   readonly onCanPlay?: () => void;
   readonly onError?: () => void;
+  readonly onDownloadClick?: () => void;
 }
 
 export interface CustomMediaPlayerState {
@@ -66,6 +68,8 @@ export type CustomMediaPlayerActions = {
   play: () => void;
   pause: () => void;
 };
+
+const toolbar: any = 'toolbar';
 
 export class CustomMediaPlayer extends Component<
   CustomMediaPlayerProps & InjectedIntlProps,
@@ -137,7 +141,7 @@ export class CustomMediaPlayer extends Component<
     const secondaryColor = isHDActive ? colors.white : colors.DN60;
     return (
       <MediaButton
-        appearance={'toolbar' as any}
+        appearance={toolbar}
         onClick={onHDToggleClick}
         iconBefore={
           <HDIcon
@@ -156,7 +160,7 @@ export class CustomMediaPlayer extends Component<
         <VolumeToggleWrapper isMuted={isMuted}>
           <MutedIndicator isMuted={isMuted} />
           <MediaButton
-            appearance={'toolbar' as any}
+            appearance={toolbar}
             onClick={actions.toggleMute}
             iconBefore={<SoundIcon label="volume" />}
           />
@@ -198,9 +202,24 @@ export class CustomMediaPlayer extends Component<
 
     return (
       <MediaButton
-        appearance={'toolbar' as any}
+        appearance={toolbar}
         onClick={this.onFullScreenClick}
         iconBefore={icon}
+      />
+    );
+  };
+
+  renderDownloadButton = () => {
+    const { onDownloadClick } = this.props;
+    if (!onDownloadClick) {
+      return;
+    }
+
+    return (
+      <MediaButton
+        appearance={toolbar}
+        onClick={onDownloadClick}
+        iconBefore={<DownloadIcon label="download" />}
       />
     );
   };
@@ -272,7 +291,7 @@ export class CustomMediaPlayer extends Component<
             const toggleButtonAction = isPlaying ? this.pause : this.play;
             const button = (
               <MediaButton
-                appearance={'toolbar' as any}
+                appearance={toolbar}
                 iconBefore={toggleButtonIcon}
                 onClick={toggleButtonAction}
               />
@@ -316,6 +335,7 @@ export class CustomMediaPlayer extends Component<
                       </CurrentTime>
                       {this.renderHDButton()}
                       {this.renderFullScreenButton()}
+                      {this.renderDownloadButton()}
                     </RightControls>
                   </TimebarWrapper>
                 </ControlsWrapper>

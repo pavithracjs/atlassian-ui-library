@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { validator } from '../../../validator';
+import waitForExpect from 'wait-for-expect';
 
 const validate = validator();
 
@@ -32,16 +33,19 @@ describe('validate', () => {
         const run = () => {
           validate(file.data);
         };
-        expect(run).not.toThrowError();
+        waitForExpect(() => {
+          expect(run).not.toThrowError();
+        });
       });
     });
 
     const invalid = readFilesSync(`${BASE_DIR}/${schemaType}/invalid`);
     invalid.forEach((file: any) => {
-      it(`does not validate '${file.name}'`, () => {
+      it(`does not validate '${file.name}'`, async () => {
         const run = () => {
           validate(file.data);
         };
+        await Promise.resolve();
         expect(run).toThrowError();
       });
     });

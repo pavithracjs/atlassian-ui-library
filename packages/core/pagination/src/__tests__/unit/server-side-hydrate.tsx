@@ -12,7 +12,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate pagination correctly', async () => {
+test.skip('should ssr then hydrate pagination correctly', async () => {
   const [example] = await getExamplesFor('pagination');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
