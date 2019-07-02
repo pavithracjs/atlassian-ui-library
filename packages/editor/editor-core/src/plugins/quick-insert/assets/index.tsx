@@ -175,10 +175,28 @@ type HeadingProps = IconProps & {
   level: HeadingLevels;
 };
 
+function importHeading(level: HeadingLevels) {
+  switch (level) {
+    case 1:
+      return import(`./heading1`);
+    case 2:
+      return import(`./heading2`);
+    case 3:
+      return import(`./heading3`);
+    case 4:
+      return import(`./heading4`);
+    case 5:
+      return import(`./heading5`);
+    case 6:
+    default:
+      return import(`./heading6`);
+  }
+}
+
 export const IconHeading = ({ level, ...props }: HeadingProps) => {
   const Icon = Loadable({
     loader: () =>
-      import(`./heading${level}`).then(module => module.default) as Promise<
+      importHeading(level).then(module => module.default) as Promise<
         React.ComponentType<IconProps>
       >,
     loading: () => null,
