@@ -19,6 +19,7 @@ export type ContainerNavigationPrimitiveProps = {|
   children: Node,
   isEntering: boolean,
   isExiting: boolean,
+  isVisible: boolean,
 |};
 
 export type ContainerNavigationPrimitiveBaseProps = {|

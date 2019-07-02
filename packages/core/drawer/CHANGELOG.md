@@ -1,5 +1,13 @@
 # @atlaskit/drawer
 
+## 4.1.6
+
+### Patch Changes
+
+- [patch][12e4a436a2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12e4a436a2):
+
+  - Added focus lock to Drawer
+
 ## 4.1.5
 
 ### Patch Changes
