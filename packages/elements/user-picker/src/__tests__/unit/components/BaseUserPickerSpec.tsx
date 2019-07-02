@@ -408,6 +408,46 @@ describe('BaseUserPicker', () => {
           'random-session-id',
         );
       });
+
+      const testData = [
+        {
+          callback: jest.fn(),
+          payload: ['random-session-id'],
+          prop: 'onFocus',
+          toString: () => 'onFocus',
+        },
+        {
+          callback: jest.fn(),
+          payload: ['random-session-id'],
+          prop: 'onBlur',
+          toString: () => 'onBlur',
+        },
+        {
+          callback: jest.fn(),
+          payload: ['random-session-id'],
+          prop: 'onClose',
+          toString: () => 'onClose',
+        },
+        {
+          callback: jest.fn(),
+          payload: ['search', 'random-session-id'],
+          prop: 'onInputChange',
+          propParams: ['search', { action: 'input-change' }],
+          toString: () => 'onInputChange',
+        },
+      ];
+
+      test.each(testData)(
+        'should pass session id %s',
+        ({ callback, payload, prop, propParams = [] }) => {
+          const component = mountWithIntl(
+            getBasePicker({ [prop]: callback, open: true }),
+          );
+          const input = component.find(Select);
+          input.props()[prop](...propParams);
+          expect(callback).toHaveBeenCalledWith(...payload);
+        },
+      );
     });
   });
 

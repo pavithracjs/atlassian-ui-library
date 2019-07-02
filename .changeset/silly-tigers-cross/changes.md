@@ -1,0 +1,1 @@
+pass session id to onFocus, onBlur, onClose and onInputChange
