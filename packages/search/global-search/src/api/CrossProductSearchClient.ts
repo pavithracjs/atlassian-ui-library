@@ -120,6 +120,11 @@ export interface PrefetchedData {
   abTest: Promise<ABTest> | undefined;
 }
 
+export interface Filter {
+  '@type': string;
+  [filterType: string]: string[] | string;
+}
+
 export interface CrossProductSearchClient {
   search(
     query: string,
@@ -127,6 +132,7 @@ export interface CrossProductSearchClient {
     scopes: Scope[],
     modelParams: ModelParam[],
     resultLimit?: number | null,
+    filters?: Filter[],
   ): Promise<CrossProductSearchResults>;
   getPeople(
     query: string,
@@ -205,6 +211,7 @@ export default class CachingCrossProductSearchClientImpl
     scopes: Scope[],
     modelParams: ModelParam[],
     resultLimit?: number | null,
+    filters?: Filter[],
   ): Promise<CrossProductSearchResults> {
     const path = 'quicksearch/v1';
 
@@ -213,6 +220,7 @@ export default class CachingCrossProductSearchClientImpl
       cloudId: this.cloudId,
       limit: resultLimit || this.RESULT_LIMIT,
       scopes: scopes,
+      filters: filters || [],
       ...(modelParams.length > 0 ? { modelParams } : {}),
     };
 
