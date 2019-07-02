@@ -3,39 +3,6 @@
 import React, { type Node } from 'react';
 import Item from '@atlaskit/item';
 
-// type Props = {
-//   /** Text to appear to the right of the text. It has a lower font-weight. */
-//   caption?: string,
-//   /** Location to link out to on click. This is passed down to the custom link component if one is provided. */
-//   href?: string,
-//   /** Target frame for item `href` link to be aimed at. */
-//   target?: string,
-//   /** React element to appear to the left of the text. This should be an @atlaskit/icon component. */
-//   icon?: React.ReactNode,
-//   /** Makes the navigation item appear with reduced padding and font size. */
-//   isCompact?: boolean,
-//   /** Set whether the item should be highlighted as selected. Selected items have a different background color. */
-//   isSelected?: boolean,
-//   /** Set whether the item has been highlighted using mouse navigation. Mouse selected items will not display the selectedIcon. */
-//   isMouseSelected?: boolean,
-//   /** Function to be called on click. This is passed down to a custom link component, if one is provided.  */
-//   // onClick?(e: MouseEvent): void;
-//   /** Standard onmouseenter event */
-//   onMouseEnter?: (e: MouseEvent) => void,
-//   /** Standard onmouseleave event */
-//   onMouseLeave?: (e: MouseEvent) => void,
-//   /** Text to be shown alongside the main `text`. */
-//   subText?: React.ReactNode,
-//   /** Main text to be displayed as the item. Accepts a react component but in most cases this should just be a string. */
-//   text?: React.ReactNode,
-//   /** React component to be placed to the right of the main text. */
-//   textAfter?: React.ReactNode,
-//   /** React component to be placed to the right of the main text when the item is selected with keyboard navigation. */
-//   selectedIcon?: React.ReactNode,
-//   /** React component to be used for rendering links */
-//   linkComponent?: React.ComponentType,
-// };
-//
 type DnDType = {
   draggableProps: {
     style: ?Object,
@@ -47,21 +14,45 @@ type DnDType = {
 };
 
 type Props = {
+  /** Whether the Item should attempt to gain browser focus when mounted */
   autofocus?: boolean,
+  /** Main content to be shown inside the item. */
   children?: Node,
-  description?: string,
+  /** Secondary text to be shown underneath the main content. */
+  description: string,
+  /** Drag and drop props provided by react-beautiful-dnd. Please do not use
+   * this unless using react-beautiful-dnd */
   dnd?: DnDType,
-  elementBefore?: Node,
+  /** Content to be shown after the main content. Shown to the right of content (or to the left
+   * in RTL mode). */
+  elemAfter?: Node,
+  /** Content to be shown before the main content. Shown to the left of content (or to the right
+   * in RTL mode). */
+  elemBefore?: Node,
+  /** Link that the user will be redirected to when the item is clicked. If omitted, a
+   *  non-hyperlink component will be rendered. */
   href?: string,
-  isCompact?: boolean,
-  isDisabled?: boolean,
+  /** Causes the item to be rendered with reduced spacing. */
+  isCompact: boolean,
+  /** Causes the item to appear in a disabled state and click behaviours will not be triggered. */
+  isDisabled: boolean,
+  /** Used to apply correct dragging styles when also using react-beautiful-dnd. */
   isDragging?: boolean,
-  isHidden?: boolean,
+  /** Causes the item to still be rendered, but with `display: none` applied. */
+  isHidden: boolean,
+  /** Causes the item to appear with a persistent selected background state. */
   isSelected?: boolean,
-  onClick?: () => void,
-  onMouseEnter?: () => void,
-  onMouseLeave?: () => void,
+  onClick?: Function,
+  /** Standard onmouseenter event */
+  onMouseEnter?: Function,
+  /** Standard onmouseleave event */
+  onMouseLeave?: Function,
+  /** Allows the role attribute of the item to be altered from it's default of
+   *  `role="button"` */
+  role: string,
+  /** Target frame for item `href` link to be aimed at. */
   target?: string,
+  /** Standard browser title to be displayed on the item when hovered. */
   title?: string,
 };
 
@@ -71,7 +62,8 @@ export const DrawerItems = (props: Props) => {
     children,
     description,
     dnd,
-    elementBefore,
+    elemAfter,
+    elemBefore,
     href,
     isCompact,
     isDisabled,
@@ -89,7 +81,8 @@ export const DrawerItems = (props: Props) => {
     <Item
       autofocus={autofocus}
       description={description}
-      elementBefore={elementBefore}
+      elemAfter={elemAfter}
+      elemBefore={elemBefore}
       href={href}
       isCompact={isCompact}
       isDisabled={isDisabled}
