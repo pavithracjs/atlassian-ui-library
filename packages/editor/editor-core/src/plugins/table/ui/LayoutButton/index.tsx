@@ -2,7 +2,6 @@ import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
-import { findTable } from 'prosemirror-utils';
 import { TableLayout } from '@atlaskit/adf-schema';
 import { Popup } from '@atlaskit/editor-common';
 import ExpandIcon from '@atlaskit/icon/glyph/editor/expand';
@@ -20,6 +19,7 @@ export interface Props {
   boundariesElement?: HTMLElement;
   scrollableElement?: HTMLElement;
   isResizing?: boolean;
+  layout?: TableLayout;
 }
 
 const POPUP_OFFSET = [
@@ -48,17 +48,12 @@ class LayoutButton extends React.Component<Props & InjectedIntlProps, any> {
       boundariesElement,
       scrollableElement,
       targetRef,
-      editorView,
       isResizing,
+      layout = 'default',
     } = this.props;
     if (!targetRef) {
       return null;
     }
-    const table = findTable(editorView.state.selection);
-    if (!table) {
-      return false;
-    }
-    const { layout } = table.node.attrs;
     const title = formatMessage(getTitle(layout));
 
     return (
@@ -92,6 +87,14 @@ class LayoutButton extends React.Component<Props & InjectedIntlProps, any> {
           />
         </div>
       </Popup>
+    );
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    return (
+      this.props.targetRef !== nextProps.targetRef ||
+      this.props.layout !== nextProps.layout ||
+      this.props.isResizing !== nextProps.isResizing
     );
   }
 
