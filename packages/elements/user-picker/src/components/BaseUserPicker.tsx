@@ -338,8 +338,11 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   componentDidUpdate(_: UserPickerProps, prevState: UserPickerState) {
     const { menuIsOpen, options } = this.state;
     // load options when the picker open
-    if (menuIsOpen && !prevState.menuIsOpen && !this.session) {
-      this.startSession();
+    if (menuIsOpen && !prevState.menuIsOpen) {
+      if (!this.session) {
+        // session should have been created onFocus
+        this.startSession();
+      }
       this.executeLoadOptions();
     }
 
