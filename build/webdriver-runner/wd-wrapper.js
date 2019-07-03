@@ -302,6 +302,11 @@ export default class Page {
     return this.browser.keys(keys);
   }
 
+  async sendKeys(selector, str) {
+    const elem = await this.browser.$(selector);
+    return elem.sendKeys(str.split(''));
+  }
+
   // Wait
   async waitForSelector(selector, options = {}, reverse = false) {
     const elem = await this.browser.$(selector);
