@@ -1,1 +1,0 @@
-added current space filter for confluence
