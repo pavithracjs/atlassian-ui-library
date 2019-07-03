@@ -98,7 +98,7 @@ describe('BaseUserPicker', () => {
     const select = component.find(Select);
     select.simulate('change', userOptions[0], { action: 'select-option' });
 
-    expect(onSelection).toHaveBeenCalledWith(options[0]);
+    expect(onSelection).toHaveBeenCalledWith(options[0], undefined);
   });
 
   it('should trigger props.onClear if onChange with clear action', () => {
@@ -448,6 +448,21 @@ describe('BaseUserPicker', () => {
           expect(callback).toHaveBeenCalledWith(...payload);
         },
       );
+
+      it('should pass session id on select', () => {
+        const onSelection = jest.fn();
+        const component = mountWithIntl(
+          getBasePicker({ onSelection, open: true }),
+        );
+        const input = component.find(Select);
+        input
+          .props()
+          ['onChange']({ data: 'user-id' }, { action: 'select-option' });
+        expect(onSelection).toHaveBeenCalledWith(
+          'user-id',
+          'random-session-id',
+        );
+      });
 
       it('should pass session id on focus before open', () => {
         const onFocus = jest.fn();
