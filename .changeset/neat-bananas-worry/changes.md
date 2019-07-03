@@ -1,0 +1,1 @@
+Email renderer notification distributor integration
