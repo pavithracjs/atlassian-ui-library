@@ -7,7 +7,6 @@ import {
   randomId,
   storyMediaProviderFactory,
   Image,
-  sleep,
 } from '@atlaskit/editor-test-helpers';
 import { defaultSchema, MediaAttributes } from '@atlaskit/adf-schema';
 import {
@@ -469,12 +468,12 @@ describe('nodeviews/mediaSingle', () => {
       .fn()
       .mockReturnValue(true);
     instance.mediaNodeUpdater.copyNode = jest.fn();
-    // we can't await instance.componentDidMount() since it will trigger an extra call to the mocks
-    await sleep(1);
+    instance.mediaNodeUpdater.updateContextId = jest.fn();
+    await instance.componentDidMount();
     expect(
       instance.mediaNodeUpdater.isNodeFromDifferentCollection,
-    ).toBeCalledTimes(1);
-    expect(instance.mediaNodeUpdater.copyNode).toBeCalledTimes(1);
+    ).toHaveBeenCalled();
+    expect(instance.mediaNodeUpdater.copyNode).toHaveBeenCalled();
   });
 
   afterEach(() => {
