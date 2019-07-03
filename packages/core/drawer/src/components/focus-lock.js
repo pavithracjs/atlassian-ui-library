@@ -26,12 +26,6 @@ type Props = {
 // Thin wrapper over react-focus-lock. This wrapper only exists to ensure API compatibility.
 // This component should be deleted during https://ecosystem.atlassian.net/browse/AK-5658
 export default class FocusLock extends Component<Props> {
-  static defaultProps = {
-    autoFocus: true,
-    isEnabled: true,
-    shouldReturnFocus: true,
-  };
-
   componentDidMount() {
     const { isEnabled, autoFocus } = this.props;
 

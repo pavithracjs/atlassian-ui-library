@@ -50,6 +50,8 @@ export class DrawerBase extends Component<
 > {
   static defaultProps = {
     width: 'narrow',
+    isFocusLockEnabled: true,
+    shouldReturnFoucs: true,
   };
 
   state = {
