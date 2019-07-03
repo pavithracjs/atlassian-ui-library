@@ -50,6 +50,7 @@
     "@atlaskit/visual-regression": "^0.1.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
     "enzyme": "^3.7.0",
+    "lodash.throttle": "^4.1.1",
     "react-lorem-component": "^0.12.2"
   }
 }
