@@ -26,9 +26,6 @@ Object {
       "type": "mediaGroup",
     },
     Object {
-      "type": "paragraph",
-    },
-    Object {
       "content": Array [
         Object {
           "attrs": Object {
@@ -49,9 +46,6 @@ Object {
         },
       ],
       "type": "mediaGroup",
-    },
-    Object {
-      "type": "paragraph",
     },
   ],
   "type": "doc",
