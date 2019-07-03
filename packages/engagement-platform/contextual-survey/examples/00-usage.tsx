@@ -77,15 +77,15 @@ export default ({ height = '100%' }: Props) => {
                 statement="It is easy to find what I'm looking for in Jira"
                 onDismiss={onDismiss}
                 getUserHasAnsweredMailingList={() => Promise.resolve(false)}
-                onSubmit={formValues =>
+                onMailingListAnswer={(answer: boolean) =>
                   new Promise(resolve => {
-                    console.log('submitted value', formValues);
+                    console.log('did sign up to mailing list:', answer);
                     setTimeout(resolve, 1000);
                   })
                 }
-                onSignUp={() =>
+                onSubmit={formValues =>
                   new Promise(resolve => {
-                    console.log('on Sign up');
+                    console.log('submitted value', formValues);
                     setTimeout(resolve, 1000);
                   })
                 }
