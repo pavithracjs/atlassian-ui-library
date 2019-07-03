@@ -18,6 +18,7 @@
     "team": "monorepo tooling"
   },
   "dependencies": {
+    "@atlassian/analytics-node-client": "^1.0.0",
     "@types/node": "^11.11.7",
     "@types/node-fetch": "^2.1.4",
     "@types/url-parse": "^1.4.3",

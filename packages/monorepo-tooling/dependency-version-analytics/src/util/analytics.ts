@@ -51,16 +51,16 @@ class AnalyticsClient {
         .join(', ');
       rows.push([this.package, this.version, event.name, properties]);
     });
-    const eventTable = new Table(
-      [
-        { value: 'Package' },
-        { value: 'Version' },
-        { value: 'Name' },
-        { value: 'Properties', width: 100 },
-      ],
-      rows,
-    );
-    console.log(eventTable.render());
+    // const eventTable = new Table(
+    //   [
+    //     { value: 'Package' },
+    //     { value: 'Version' },
+    //     { value: 'Name' },
+    //     { value: 'Properties', width: 100 },
+    //   ],
+    //   rows,
+    // );
+    // console.log(eventTable.render());
   }
 }
 

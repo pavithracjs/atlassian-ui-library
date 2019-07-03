@@ -276,6 +276,7 @@
     "@atlaskit/activity": "^1.0.1",
     "@atlaskit/util-common-test": "^2.4.2",
     "@atlaskit/util-shared-styles": "^2.10.3",
+    "@atlassian/analytics-node-client": "^1.0.0",
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
