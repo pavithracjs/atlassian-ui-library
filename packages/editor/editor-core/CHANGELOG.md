@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.25.0
+
+### Minor Changes
+
+- [minor][9f3daa0d1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f3daa0d1e):
+
+  ED-7190 Update style of keybard shortcuts in toolbar & context menus
+
 ## 112.24.0
 
 ### Minor Changes
