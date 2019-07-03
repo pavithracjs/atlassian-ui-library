@@ -33,7 +33,7 @@ export default class FocusLock extends Component<Props> {
   };
 
   componentDidMount() {
-    const { isEnabled, autoFocus, shouldReturnFocus } = this.props;
+    const { isEnabled, autoFocus } = this.props;
 
     if (process.env.NODE_ENV !== 'production') {
       invariant(
