@@ -4,7 +4,7 @@ import {
   withAnalyticsContext,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'emotion-theming';
 import CheckboxIcon from './CheckboxIcon';
 
 import { name as packageName, version as packageVersion } from './version.json';
@@ -165,7 +165,7 @@ class Checkbox extends Component<CheckboxProps, State> {
               type="checkbox"
               value={value}
               name={name}
-              innerRef={r => (this.checkbox = r)} // eslint-disable-line
+              ref={r => (this.checkbox = r)} // eslint-disable-line
               required={isRequired}
               {...rest}
             />

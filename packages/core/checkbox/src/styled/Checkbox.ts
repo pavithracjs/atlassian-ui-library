@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { colors, themed, math, gridSize } from '@atlaskit/theme';
 
 export const HiddenCheckbox = styled.input`
@@ -37,14 +38,6 @@ export const Label = styled.label`
 `;
 
 const borderColor = themed({ light: colors.N40, dark: colors.DN80 });
-const focusBorder = css`
-  stroke: ${themed({ light: colors.B100, dark: colors.B75 })};
-  stroke-width: 2px;
-`;
-const invalidBorder = css`
-  stroke: ${themed({ light: colors.R300, dark: colors.R300 })};
-  stroke-width: 2px;
-`;
 const activeBorder = css`
   stroke: currentColor;
   stroke-width: 2px;
@@ -53,11 +46,19 @@ const checkedBorder = css`
   stroke: currentColor;
   stroke-width: 2px;
 `;
-const border = css`
-  stroke: ${({ isHovered, ...rest }: Props) =>
-    isHovered
-      ? themed({ light: colors.N40, dark: colors.DN200 })(rest)
-      : borderColor(rest)};
+const focusBorder = (props: Props) => css`
+  stroke: ${themed({ light: colors.B100, dark: colors.B75 })(props)};
+  stroke-width: 2px;
+`;
+const invalidBorder = (props: Props) => css`
+  stroke: ${themed({ light: colors.R300, dark: colors.R300 })(props)};
+  stroke-width: 2px;
+`;
+
+const border = ({ isHovered, ...rest }: Props) => css`
+  stroke: ${isHovered
+    ? themed({ light: colors.N40, dark: colors.DN200 })(rest)
+    : borderColor(rest)};
   stroke-width: 2px;
 `;
 
@@ -65,19 +66,19 @@ const getBorderColor = (props: Props) => {
   if (props.isDisabled) {
     return '';
   }
-  if (props.isFocused) {
-    return focusBorder;
-  }
   if (props.isActive) {
     return activeBorder;
-  }
-  if (props.isInvalid) {
-    return invalidBorder;
   }
   if (props.isChecked) {
     return checkedBorder;
   }
-  return border;
+  if (props.isFocused) {
+    return focusBorder;
+  }
+  if (props.isInvalid) {
+    return invalidBorder;
+  }
+  return border(props);
 };
 
 const getTickColor = (props: Props) => {
@@ -132,7 +133,7 @@ export const IconWrapper = styled.span`
   transition: all 0.2s ease-in-out;
 
   /* This is adding a property to the inner svg, to add a border to the checkbox */
-  & rect:first-child {
+  & rect:first-of-type {
     transition: stroke 0.2s ease-in-out;
     ${getBorderColor};
   }
