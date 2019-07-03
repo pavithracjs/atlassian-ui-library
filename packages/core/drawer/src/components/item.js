@@ -19,7 +19,7 @@ type Props = {
   /** Main content to be shown inside the item. */
   children?: Node,
   /** Secondary text to be shown underneath the main content. */
-  description: string,
+  description?: string,
   /** Drag and drop props provided by react-beautiful-dnd. Please do not use
    * this unless using react-beautiful-dnd */
   dnd?: DnDType,
@@ -33,16 +33,20 @@ type Props = {
    *  non-hyperlink component will be rendered. */
   href?: string,
   /** Causes the item to be rendered with reduced spacing. */
-  isCompact: boolean,
+  isCompact?: boolean,
   /** Causes the item to appear in a disabled state and click behaviours will not be triggered. */
-  isDisabled: boolean,
+  isDisabled?: boolean,
   /** Used to apply correct dragging styles when also using react-beautiful-dnd. */
   isDragging?: boolean,
   /** Causes the item to still be rendered, but with `display: none` applied. */
-  isHidden: boolean,
+  isHidden?: boolean,
   /** Causes the item to appear with a persistent selected background state. */
   isSelected?: boolean,
+  /** Function to be called when the item is clicked, Receives the MouseEvent. */
   onClick?: Function,
+  /** Function to be called when the item is pressed with a keyboard,
+   * Receives the KeyboardEvent. */
+  onKeyDown?: Function,
   /** Standard onmouseenter event */
   onMouseEnter?: Function,
   /** Standard onmouseleave event */
@@ -71,6 +75,7 @@ export const DrawerItem = (props: Props) => {
     isHidden,
     isSelected,
     onClick,
+    onKeyDown,
     onMouseEnter,
     onMouseLeave,
     target,
@@ -90,6 +95,7 @@ export const DrawerItem = (props: Props) => {
       isHidden={isHidden}
       isSelected={isSelected}
       onClick={onClick}
+      onKeyDown={onKeyDown}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       target={target}

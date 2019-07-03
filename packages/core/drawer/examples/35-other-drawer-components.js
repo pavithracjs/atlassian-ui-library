@@ -35,14 +35,8 @@ export default class DrawersExample extends Component<{}, State> {
     return (
       <div css={{ padding: '2rem' }}>
         <Drawer isOpen width="wide">
-          <h3>Use the toggle button at the bottom</h3>
+          <Button onClick={this.toggleSkeleton}>Toggle Skeleton</Button>
           {this.state.isSkeletonVisible ? <Skeleton /> : <Items />}
-          <Button
-            css={{ position: 'absolute', bottom: '2rem' }}
-            onClick={this.toggleSkeleton}
-          >
-            Toggle Skeleton
-          </Button>
         </Drawer>
       </div>
     );
