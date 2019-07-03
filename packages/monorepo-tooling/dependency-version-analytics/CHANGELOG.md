@@ -1,1 +1,1 @@
-# @atlaskit/atlaskit-version-history
+# @atlaskit/dependency-version-analytics

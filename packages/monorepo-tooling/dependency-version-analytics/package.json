@@ -9,7 +9,8 @@
   },
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Marco J"
+    "Marco J",
+    "Michael B"
   ],
   "atlaskit": {
     "internal": true,
