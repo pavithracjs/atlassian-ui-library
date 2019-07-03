@@ -6,6 +6,10 @@ import { ssr } from '@atlaskit/ssr';
 // @ts-ignore
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });

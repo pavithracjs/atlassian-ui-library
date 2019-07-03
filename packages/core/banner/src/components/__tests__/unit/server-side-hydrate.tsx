@@ -2,10 +2,15 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
+import waitForExpect from 'wait-for-expect';
 
 declare var global: any;
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
+
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
 
 afterEach(() => {
   jest.resetAllMocks();
@@ -19,17 +24,19 @@ test.skip('should ssr then hydrate banner correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  // ignore warnings caused by emotion's server-side rendering approach
-  // @ts-ignore
-  // eslint-disable-next-line no-console
-  const mockCalls = console.error.mock.calls.filter(
-    ([f, s]: [any, any]) =>
-      !(
-        f ===
-          'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
-        s === 'style'
-      ),
-  );
+  await waitForExpect(() => {
+    // ignore warnings caused by emotion's server-side rendering approach
+    // @ts-ignore
+    // eslint-disable-next-line no-console
+    const mockCalls = console.error.mock.calls.filter(
+      ([f, s]: [any, any]) =>
+        !(
+          f ===
+            'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
+          s === 'style'
+        ),
+    );
 
-  expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+  });
 });

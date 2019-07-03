@@ -8,6 +8,10 @@ import waitForExpect from 'wait-for-expect';
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
@@ -20,8 +24,8 @@ test.skip('should ssr then hydrate empty-state correctly', async () => {
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
-  ReactDOM.hydrate(<Example />, elem);
   await waitForExpect(() => {
+    ReactDOM.hydrate(<Example />, elem);
     // ignore warnings caused by emotion's server-side rendering approach
     // eslint-disable-next-line no-console
     const mockCalls = console.error.mock.calls.filter(

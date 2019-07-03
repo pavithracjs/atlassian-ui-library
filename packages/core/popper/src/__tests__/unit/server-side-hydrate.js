@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 jest.mock('popper.js', () => {
   const PopperJS = jest.requireActual('popper.js');
 

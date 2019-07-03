@@ -3,11 +3,15 @@ import * as ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import waitForExpect from 'wait-for-expect';
 
-test.skip('media-viewer server side rendering', async () => {
+beforeAll(() => {
+  jest.setTimeout(20000);
+});
+
+test('media-viewer server side rendering', async () => {
   const examples = await getExamplesFor('media-viewer');
   for (const example of examples) {
-    await waitForExpect(async () => {
-      const Example = await require(example.filePath).default;
+    const Example = await require(example.filePath).default;
+    await waitForExpect(() => {
       expect(() =>
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();
