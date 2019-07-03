@@ -1,1 +1,0 @@
-FS-4032 Update actions and decisions to a lighter style.
