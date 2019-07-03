@@ -448,6 +448,49 @@ describe('BaseUserPicker', () => {
           expect(callback).toHaveBeenCalledWith(...payload);
         },
       );
+
+      it('should pass session id on focus before open', () => {
+        const onFocus = jest.fn();
+        const component = mountWithIntl(getBasePicker({ onFocus }));
+        const input = component.find('input');
+        input.simulate('focus');
+        expect(onFocus).toHaveBeenCalledWith('random-session-id');
+      });
+
+      it('should use the same session id on 2nd focus', async () => {
+        analyticsSpy
+          .mockReturnValueOnce({ id: 'session-first' })
+          .mockReturnValueOnce({ id: 'session-second' });
+        const onFocus = jest.fn();
+        const component = mountWithIntl(getBasePicker({ onFocus }));
+        const input = component.find('input');
+        input.simulate('focus');
+        await component.update();
+        input.simulate('focus');
+        await component.update();
+        expect(onFocus).toHaveBeenCalledTimes(2);
+        expect(onFocus).toHaveBeenCalledWith('session-first');
+      });
+
+      it('should use new session id for on focus if open is false', async () => {
+        analyticsSpy
+          .mockReturnValueOnce({ id: 'session-first' })
+          .mockReturnValueOnce({ id: 'session-second' });
+        const onFocus = jest.fn();
+        const component = mountWithIntl(
+          getBasePicker({ onFocus, open: false }),
+        );
+        const input = component.find('input');
+        input.simulate('focus');
+        await component.update();
+        input.simulate('focus');
+        await component.update();
+        expect(onFocus).toHaveBeenCalledTimes(2);
+        expect(onFocus.mock.calls).toMatchObject([
+          ['session-first'],
+          ['session-second'],
+        ]);
+      });
     });
   });
 
