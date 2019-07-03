@@ -1,0 +1,1 @@
+Replaced `styled-components` with `emotion 10`. No changes to styling or API; only a breaking change if checkbox is being styled using the styled-components theming library.

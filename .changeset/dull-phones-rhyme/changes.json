@@ -1,0 +1,135 @@
+{
+  "releases": [{ "name": "@atlaskit/checkbox", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/button",
+      "type": "patch",
+      "dependencies": ["@atlaskit/select", "@atlaskit/checkbox"]
+    },
+    {
+      "name": "@atlaskit/feedback-collector",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/select",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/form",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/radio",
+        "@atlaskit/select",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/modal-dialog",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/select",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/checkbox"]
+    },
+    {
+      "name": "@atlaskit/nps",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/checkbox"]
+    },
+    {
+      "name": "@atlaskit/radio",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/range",
+      "type": "patch",
+      "dependencies": ["@atlaskit/checkbox"]
+    },
+    {
+      "name": "@atlaskit/select",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/contextual-survey",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-card",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/media-ui",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-filmstrip",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/media-card",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-ui",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/checkbox"]
+    },
+    {
+      "name": "@atlaskit/smart-card",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/form",
+        "@atlaskit/radio",
+        "@atlaskit/media-ui",
+        "@atlaskit/checkbox"
+      ]
+    },
+    {
+      "name": "@atlaskit/focused-task-close-account",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/checkbox"]
+    },
+    {
+      "name": "@atlaskit/global-search",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/feedback-collector",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/navigation",
+        "@atlaskit/checkbox"
+      ]
+    }
+  ]
+}
