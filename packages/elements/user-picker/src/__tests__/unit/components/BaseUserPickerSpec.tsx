@@ -449,7 +449,7 @@ describe('BaseUserPicker', () => {
         },
       );
 
-      it('should pass session id onFocus before open', () => {
+      it('should pass session id on focus before open', () => {
         const onFocus = jest.fn();
         const component = mountWithIntl(getBasePicker({ onFocus }));
         const input = component.find('input');
@@ -457,7 +457,7 @@ describe('BaseUserPicker', () => {
         expect(onFocus).toHaveBeenCalledWith('random-session-id');
       });
 
-      it('should use the same session id on 2nd foucs', async () => {
+      it('should use the same session id on 2nd focus', async () => {
         analyticsSpy
           .mockReturnValueOnce({ id: 'session-first' })
           .mockReturnValueOnce({ id: 'session-second' });
