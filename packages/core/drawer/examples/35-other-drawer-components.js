@@ -19,7 +19,7 @@ type State = {
 
 export default class DrawersExample extends Component<{}, State> {
   state = {
-    isSkeletonVisible: false,
+    isSkeletonVisible: true,
   };
 
   componentDidMount() {
