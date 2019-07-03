@@ -1,0 +1,1 @@
+ED-7190 Update style of keybard shortcuts in toolbar & context menus
