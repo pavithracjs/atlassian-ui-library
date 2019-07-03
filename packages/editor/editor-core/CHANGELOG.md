@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.25.1
+
+### Patch Changes
+
+- [patch][5aece1fc5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5aece1fc5c):
+
+  [ED-7126] Improve table performance, reducing the number of re-renders on LayoutButton and FloatingContextualButton
+
 ## 112.25.0
 
 ### Minor Changes

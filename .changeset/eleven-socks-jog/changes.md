@@ -1,1 +1,0 @@
-[ED-7126] Improve table performance, reducing the number of re-renders on LayoutButton and FloatingContextualButton
