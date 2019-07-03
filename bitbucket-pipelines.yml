@@ -591,20 +591,10 @@ pipelines:
               caches:
                 - node
     update-i18n-translations:
-      - parallel:
-          - step:
-              name: Push messages to translation service
-              script:
-                - source ./build-setup.sh
-                - git merge master --no-edit
-                - bolt install --pure-lockfile
-                - yarn lint
-                - node build/ci-scripts/update.i18n.translations push
-          - step:
-              name: Pull translations and create pull request
-              script:
-                - source ./build-setup.sh
-                - git merge master --no-edit
-                - bolt install --pure-lockfile
-                - yarn lint
-                - node build/ci-scripts/update.i18n.translations pull
+      - step:
+          name: Push and pull translations and create pull request
+          script:
+            - source ./build-setup.sh
+            - bolt install --pure-lockfile
+            - echo 'Pushing'; node build/ci-scripts/update.i18n.translations push
+            - echo 'Pulling'; node build/ci-scripts/update.i18n.translations pull
