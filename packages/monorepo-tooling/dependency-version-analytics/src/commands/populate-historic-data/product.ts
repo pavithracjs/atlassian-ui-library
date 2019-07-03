@@ -32,7 +32,7 @@ type ListLogLine = {
 const getHistory = () =>
   new Promise<LogResult>((resolve, reject) => {
     simpleGit('./').log(
-      { '--merges': null, './package.json': null },
+      ['--merges', '--first-parent', './package.json'],
       (err: any, result: LogResult) => {
         if (err !== null) {
           reject(err);
