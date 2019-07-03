@@ -224,7 +224,9 @@ describe('@atlaskit/editor-core/ui/ToolbarBlockType', () => {
       } is clicked`, () => {
         toolbarOption
           .find(Item)
-          .filterWhere(n => n.text() === blockType.title.defaultMessage)
+          .filterWhere(
+            n => n.text().indexOf(blockType.title.defaultMessage) === 0,
+          )
           .simulate('click');
         expect(trackEvent).toHaveBeenCalledWith(
           `atlassian.editor.format.${blockType.name}.button`,

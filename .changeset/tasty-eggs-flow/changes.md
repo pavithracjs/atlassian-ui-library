@@ -1,0 +1,1 @@
+ED-2362 Add keyboard shortcuts for headings and normal text
