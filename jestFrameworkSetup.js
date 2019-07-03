@@ -1,5 +1,6 @@
 /* eslint-disable */
 import 'fetch-mock';
+import { GlobalWithFetchMock } from 'jest-fetch-mock';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import 'jest-styled-components';
 import { toMatchSnapshot } from 'jest-snapshot';
@@ -10,6 +11,9 @@ import ScreenshotReporter from './build/visual-regression/utils/screenshotReport
 
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-176
 global.XMLHttpRequest = XMLHttpRequest;
+const customGlobal: GlobalWithFetchMock = global;
+customGlobal.fetch = require('jest-fetch-mock');
+customGlobal.fetchMock = customGlobal.fetch;
 
 let consoleError;
 let consoleWarn;
