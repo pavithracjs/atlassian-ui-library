@@ -18,7 +18,7 @@ test('should ssr then hydrate tabs correctly', async () => {
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
-  ReactDOM.hydrate(<Example />, elem);
+  await ReactDOM.hydrate(<Example />, elem);
   // ignore warnings caused by emotion's server-side rendering approach
   // @ts-ignore
   // eslint-disable-next-line no-console
