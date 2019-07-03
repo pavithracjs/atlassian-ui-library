@@ -1,1 +1,0 @@
-FS-4028 - Update translations for mention component
