@@ -124,6 +124,9 @@ export class DrawerBase extends Component<
       width,
       shouldUnmountOnExit,
       onCloseComplete,
+      autoFocusFirstElem,
+      isFocusLockEnabled,
+      shouldReturnFoucs,
     } = this.props;
 
     return (
@@ -140,7 +143,11 @@ export class DrawerBase extends Component<
               <Fade in={isOpen}>
                 <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
               </Fade>
-              <FocusLock>
+              <FocusLock
+                autoFocus={autoFocusFirstElem}
+                isEnabled={isFocusLockEnabled}
+                shouldReturnFoucs={shouldReturnFoucs}
+              >
                 <DrawerPrimitive
                   icon={icon}
                   in={isOpen}

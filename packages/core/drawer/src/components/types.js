@@ -1,5 +1,4 @@
 // @flow
-
 import type { ComponentType, Node } from 'react';
 import type { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
@@ -40,6 +39,19 @@ export type DrawerProps = BaseProps & {
   isOpen: boolean,
   /** Boolean that controls if drawer should be retained/discarded */
   shouldUnmountOnExit?: boolean,
+  /**
+    Boolean indicating whether to focus on the first tabbable element inside the drawer.
+  */
+  autoFocusFirstElem?: boolean,
+  /**
+   *     Boolean indicating if the focus lock is active or not.
+   */
+
+  isFocusLockEnabled?: boolean,
+  /**
+    Whether to return the focus to the previous active element on closing the drawer
+  */
+  shouldReturnFoucs?: boolean,
 };
 
 /**

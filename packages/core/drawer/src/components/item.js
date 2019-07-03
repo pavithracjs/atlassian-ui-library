@@ -15,7 +15,7 @@ type DnDType = {
 
 type Props = {
   /** Whether the Item should attempt to gain browser focus when mounted */
-  autofocus?: boolean,
+  autoFocus?: boolean,
   /** Main content to be shown inside the item. */
   children?: Node,
   /** Secondary text to be shown underneath the main content. */
@@ -62,7 +62,7 @@ type Props = {
 
 export const DrawerItem = (props: Props) => {
   const {
-    autofocus,
+    autoFocus,
     children,
     description,
     dnd,
@@ -84,7 +84,7 @@ export const DrawerItem = (props: Props) => {
 
   return (
     <Item
-      autofocus={autofocus}
+      autoFocus={autoFocus}
       description={description}
       elemAfter={elemAfter}
       elemBefore={elemBefore}
