@@ -1,1 +1,0 @@
-FS-4032 - Remove background styling from actions and decisions in email. Unable to support hover.

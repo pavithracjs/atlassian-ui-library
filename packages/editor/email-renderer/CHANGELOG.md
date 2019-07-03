@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.3.0
+
+### Minor Changes
+
+- [minor][22af1d9ddd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22af1d9ddd):
+
+  FS-4032 - Remove background styling from actions and decisions in email. Unable to support hover.
+
 ## 2.2.0
 
 ### Minor Changes
