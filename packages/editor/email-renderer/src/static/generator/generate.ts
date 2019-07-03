@@ -14,9 +14,11 @@ const generatedWarning = `
 
 const exportOpts = imageSources.map(file => ({
   name: file.name,
-  outputPath: resolve(tempFolder, `./${file.name}.png`),
+  outputPath: resolve(tempFolder, `./${file.name}.${imageOutputType}`),
   input: resolve(coreIconSrc, `${file.input}.svg`),
-  output: resolve(tempFolder, `./${file.name}.png`) + ` ${file.exportSize}`,
+  output:
+    resolve(tempFolder, `./${file.name}.${imageOutputType}`) +
+    ` ${file.exportSize}`,
 }));
 
 const createIcons = () => {
@@ -57,9 +59,9 @@ const createIndividualIconModules = () => {
     writeFileSync(
       resolve(__dirname, `../icons/${icon.name}.ts`),
       `${generatedWarning}
-      export const ${icon.name} = 'data:image/png;base64,${readFileSync(
-        icon.outputPath,
-      ).toString('base64')}'`,
+      export const ${icon.name} = '${readFileSync(icon.outputPath).toString(
+        'base64',
+      )}'`,
     ),
   );
 };
