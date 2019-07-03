@@ -6,6 +6,7 @@
  */
 // Russian
 export default {
+  'fabric.mention.unknow.user.error': 'Неизвестный пользователь: {id}',
   'fabric.mention.noAccess.warning':
     '{name} не получит уведомление, так как доступ для этого пользователя закрыт.',
   'fabric.mention.noAccess.label': 'Нет доступа',
