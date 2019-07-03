@@ -6,6 +6,7 @@
  */
 // English (United Kingdom)
 export default {
+  'fabric.mention.unknow.user.error': 'Unknown user {id}',
   'fabric.mention.noAccess.warning':
     "{name} won't be notified as they have no access",
   'fabric.mention.noAccess.label': 'No access',

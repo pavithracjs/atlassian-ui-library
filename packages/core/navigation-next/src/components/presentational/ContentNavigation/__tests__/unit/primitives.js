@@ -30,6 +30,7 @@ describe('ContentNavigation primitives', () => {
       defaultProps = {
         isEntering: false,
         isExiting: false,
+        isVisible: true,
       };
     });
 
@@ -81,7 +82,7 @@ describe('ContentNavigation primitives', () => {
   describe('ProductNavigation', () => {
     it('should use the `light` theme if another theme was not provided', () => {
       const wrapper = mount(
-        <ProductNavigation>
+        <ProductNavigation isVisible>
           <p>This is a text</p>
         </ProductNavigation>,
       );
@@ -98,7 +99,7 @@ describe('ContentNavigation primitives', () => {
 
     it('should ALWAYS use the `product` context', () => {
       const wrapper = mount(
-        <ProductNavigation>
+        <ProductNavigation isVisible>
           <p>This is a text</p>
         </ProductNavigation>,
       );
@@ -113,7 +114,7 @@ describe('ContentNavigation primitives', () => {
 
     it('should have scrollable effect', () => {
       const wrapper = mount(
-        <ProductNavigation>
+        <ProductNavigation isVisible>
           <p>This is a text</p>
         </ProductNavigation>,
       );
@@ -123,7 +124,7 @@ describe('ContentNavigation primitives', () => {
 
     it('should render the received children', () => {
       const wrapper = mount(
-        <ProductNavigation>
+        <ProductNavigation isVisible>
           <p>This is a text</p>
         </ProductNavigation>,
       );

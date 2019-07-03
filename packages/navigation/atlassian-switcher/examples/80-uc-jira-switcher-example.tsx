@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@atlaskit/button';
 import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
 
-class JiraSwitcherExample extends Component {
+class JiraSwitcherExample extends React.Component {
   state = {
     isDrawerOpen: false,
   };
@@ -21,16 +21,7 @@ class JiraSwitcherExample extends Component {
         return {
           ...originalMockData,
           LICENSE_INFORMATION_DATA: {
-            hostname: 'https://some-random-instance.atlassian.net',
-            firstActivationDate: 1492488658539,
-            maintenanceEndDate: '2017-04-24',
-            maintenanceStartDate: '2017-04-17',
-            products: {
-              'jira-software.ondemand': {
-                billingPeriod: 'ANNUAL',
-                state: 'ACTIVE',
-              },
-            },
+            notUsedInMode: 'user-centric',
           },
         };
       },
@@ -60,12 +51,12 @@ class JiraSwitcherExample extends Component {
           <AtlassianSwitcher
             product="jira"
             cloudId="some-cloud-id"
+            enableUserCentricProducts
             triggerXFlow={this.onTriggerXFlow}
-            enableExpandLink={true}
           />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
-          Open drawer
+          Open user-centric drawer
         </Button>
       </div>
     );

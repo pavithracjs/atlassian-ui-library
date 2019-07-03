@@ -22,7 +22,6 @@ import {
   OriginTracingFactory,
   RenderCustomTriggerButton,
   ShareButtonStyle,
-  ShareResponse,
   ProductId,
 } from '../types';
 import MessagesIntlProvider from './MessagesIntlProvider';
@@ -197,7 +196,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   handleSubmitShare = ({
     users,
     comment,
-  }: DialogContentState): Promise<ShareResponse> => {
+  }: DialogContentState): Promise<void> => {
     const shareLink = this.getFormShareLink();
     const { productId, shareAri, shareContentType, shareTitle } = this.props;
     const content: Content = {
@@ -213,15 +212,14 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
     return this.shareClient
       .share(content, optionDataToUsers(users), metaData, comment)
-      .then((response: ShareResponse) => {
+      .then(() => {
+        if (!this._isMounted) return;
+
         // renew Origin Tracing Id per share action succeeded
         this.setState(state => ({
           shareActionCount: state.shareActionCount + 1,
         }));
-
-        return response;
-      })
-      .catch((err: Error) => Promise.reject(err));
+      });
   };
 
   handleDialogOpen = () => {

@@ -6,6 +6,7 @@
  */
 // Hungarian
 export default {
+  'fabric.mention.unknow.user.error': 'Ismeretlen felhasználó: {id}',
   'fabric.mention.noAccess.warning':
     '{name} nem kap értesítést, mert nincs hozzáférése.',
   'fabric.mention.noAccess.label': 'Nincs hozzáférés',
@@ -16,10 +17,10 @@ export default {
     'Próbáljon meg kijelentkezni, majd újból bejelentkezni.',
   'fabric.mention.error.differentText': 'Próbáljon meg más szöveget beírni.',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{1 member} other{{0} members}}',
+    '{0, plural, one{1 tag} other{{0} tag}}',
   'fabric.elements.mentions.team.member.count.including.you':
-    '{0, plural, one{1 member, including you} other{{0} members, including you}}',
-  'fabric.elements.mentions.team.member.50plus': '50+ members',
+    '{0, plural, one{1 tag, ideértve téged is} other{{0} tag, ideértve téged is}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ tag',
   'fabric.elements.mentions.team.member.50plus.including.you':
-    '50+ members, including you',
+    '50+ tag, ideértve téged is',
 };

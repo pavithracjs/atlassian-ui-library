@@ -30,11 +30,11 @@ import {
 } from '../_test-util';
 import {
   ContentType,
-  GenericResultMap,
   ConfluenceResultsMap,
   ResultsGroup,
   AnalyticsType,
   ResultType,
+  JiraResultsMap,
 } from '../../../model/Result';
 import { messages } from '../../../messages';
 import * as SearchResultUtils from '../../../components/SearchResultsUtil';
@@ -116,6 +116,7 @@ const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
   enablePreQueryFromAggregator: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
 };
 
 const renderComponent = (product: QuickSearchContext) => {
@@ -218,17 +219,19 @@ const assertAdvancedSearchGroup = (
 
 const commonProps = {
   retrySearch: jest.fn(),
+  onFilterChanged: jest.fn(),
   latestSearchQuery: 'query',
   isError: false,
   isLoading: false,
   keepPreQueryState: false,
   searchMore: () => {},
+  currentFilters: [],
 };
 
 const getSearchAndRecentItemsForJira = (
   sessionId: string,
   extraProps = {},
-): SearchResultProps<GenericResultMap> => {
+): SearchResultProps<JiraResultsMap> => {
   return {
     ...commonProps,
     ...extraProps,
@@ -236,6 +239,7 @@ const getSearchAndRecentItemsForJira = (
     searchResults: {
       objects: getIssues(sessionId),
       containers: getBoards(sessionId),
+      people: [],
     },
     recentItems: {
       objects: [],
@@ -434,7 +438,7 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
         searchResultsComponent =
           product === 'jira'
             ? (quickSearchContainer.props() as QuickSearchContainerProps<
-                GenericResultMap
+                JiraResultsMap
               >).getSearchResultsComponent(
                 getSearchAndRecentItemsForJira(sessionId),
               )
@@ -515,7 +519,7 @@ describe('jira', () => {
     const wrapper = renderComponent('jira');
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
     const searchResultsComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
-      GenericResultMap
+      JiraResultsMap
     >).getSearchResultsComponent(
       getSearchAndRecentItemsForJira('abc', { latestSearchQuery: '' }),
     );

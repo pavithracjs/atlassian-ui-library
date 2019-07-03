@@ -5,6 +5,7 @@ import DiscoverFilledGlyph from '@atlaskit/icon/glyph/discover-filled';
 import SettingsGlyph from '@atlaskit/icon/glyph/settings';
 
 import {
+  BitbucketIcon,
   ConfluenceIcon,
   JiraIcon,
   JiraSoftwareIcon,
@@ -16,6 +17,10 @@ import {
   LicenseInformationResponse,
   ProductLicenseInformation,
   RecentContainerType,
+  AvailableProductsResponse,
+  AvailableSite,
+  AvailableProduct,
+  WorklensProductType,
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
@@ -24,6 +29,9 @@ import PeopleLogo from './assets/people';
 import { CustomLink, RecentContainer } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
+
+// Show a maximum of this many produts (only used in user-centric mode)
+export const MAX_PRODUCT_COUNT = 5;
 
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',
@@ -48,6 +56,7 @@ interface MessagesDict {
 export type SwitcherItemType = {
   key: string;
   label: React.ReactNode;
+  description?: React.ReactNode;
   Icon: IconType;
   href: string;
 };
@@ -102,7 +111,7 @@ export const PRODUCT_DATA_MAP: {
   [ProductKey.OPSGENIE]: {
     label: 'Opsgenie',
     Icon: createIcon(OpsgenieLogo, { size: 'small' }),
-    href: 'https://app.opgsenie.com',
+    href: 'https://app.opsgenie.com',
   },
 };
 
@@ -122,6 +131,97 @@ export const getFixedProductLinks = (): SwitcherItemType[] => [
     href: `/people`,
   },
 ];
+
+type AvailableProductDetails = Pick<
+  SwitcherItemType,
+  'label' | 'Icon' | 'href'
+>;
+
+export const AVAILABLE_PRODUCT_DATA_MAP: {
+  [productKey in WorklensProductType]: AvailableProductDetails
+} = {
+  [WorklensProductType.BITBUCKET]: {
+    label: 'Bitbucket',
+    Icon: createIcon(BitbucketIcon, { size: 'small' }),
+    href: '/wiki',
+  },
+  [WorklensProductType.CONFLUENCE]: {
+    label: 'Confluence',
+    Icon: createIcon(ConfluenceIcon, { size: 'small' }),
+    href: '/wiki',
+  },
+  [WorklensProductType.JIRA_BUSINESS]: {
+    label: 'Jira Core',
+    Icon: createIcon(JiraCoreIcon, { size: 'small' }),
+    href: '/secure/BrowseProjects.jspa?selectedProjectType=business',
+  },
+  [WorklensProductType.JIRA_SOFTWARE]: {
+    label: 'Jira Software',
+    Icon: createIcon(JiraSoftwareIcon, { size: 'small' }),
+    href: '/secure/BrowseProjects.jspa?selectedProjectType=software',
+  },
+  [WorklensProductType.JIRA_SERVICE_DESK]: {
+    label: 'Jira Service Desk',
+    Icon: createIcon(JiraServiceDeskIcon, { size: 'small' }),
+    href: '/secure/BrowseProjects.jspa?selectedProjectType=service_desk',
+  },
+  [WorklensProductType.OPSGENIE]: {
+    label: 'Opsgenie',
+    Icon: createIcon(OpsgenieLogo, { size: 'small' }),
+    href: 'https://app.opsgenie.com',
+  },
+};
+
+const getAvailableProductLink = (
+  site: AvailableSite,
+  product: AvailableProduct,
+): SwitcherItemType => {
+  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[product.productType];
+
+  if (
+    product.productType === WorklensProductType.OPSGENIE ||
+    product.productType === WorklensProductType.BITBUCKET
+  ) {
+    // Prefer applicationUrl provided by license information (TCS)
+    // Fallback to hard-coded URL
+    return {
+      key: product.productType + site.displayName,
+      ...productLinkProperties,
+      description: site.displayName,
+      href: product.url,
+    };
+  }
+
+  return {
+    key: product.productType + site.displayName,
+    ...productLinkProperties,
+    description: site.displayName,
+    href: site.url + productLinkProperties.href,
+  };
+};
+
+export const getAvailableProductLinks = (
+  availableProducts: AvailableProductsResponse,
+): SwitcherItemType[] => {
+  const productLinks: SwitcherItemType[] = [];
+  const activityCounts: { [key: string]: number } = {};
+
+  availableProducts.sites.forEach(site => {
+    site.availableProducts.forEach(product => {
+      const availableProductLink = getAvailableProductLink(site, product);
+      productLinks.push(availableProductLink);
+      activityCounts[availableProductLink.key] = product.activityCount;
+    });
+  });
+
+  productLinks.sort((a, b) => {
+    const aCount = activityCounts[a.key] || 0;
+    const bCount = activityCounts[b.key] || 0;
+    return bCount - aCount; // most frequently accessed first
+  });
+
+  return productLinks.slice(0, MAX_PRODUCT_COUNT);
+};
 
 export const getProductLink = (
   productKey: ProductKey | typeof SINGLE_JIRA_PRODUCT,

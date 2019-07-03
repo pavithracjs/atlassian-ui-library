@@ -101,6 +101,9 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     };
   }
 
+  private getSessionId = () =>
+    this.session && this.session.id ? this.session.id : undefined;
+
   private withSelectRef = (callback: (selectRef: any) => void) => () => {
     if (this.selectRef) {
       callback(this.selectRef.select.select);
@@ -253,7 +256,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
 
   private handleFocus = (event: React.FocusEvent) => {
     const { value } = this.state;
-    callCallback(this.props.onFocus);
+    callCallback(this.props.onFocus, this.getSessionId());
     this.setState({ menuIsOpen: true });
     if (!this.props.isMulti && isSingleValue(value)) {
       const input = event.target;
@@ -270,11 +273,11 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.setState({
       inputValue: '',
     });
-    callCallback(this.props.onInputChange, '');
+    callCallback(this.props.onInputChange, '', this.getSessionId());
   };
 
   private handleBlur = () => {
-    callCallback(this.props.onBlur);
+    callCallback(this.props.onBlur, this.getSessionId());
     if (isPopupUserPickerByComponent(this.props.SelectComponent)) {
       return;
     }
@@ -287,7 +290,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
 
   private handleClose = () => {
     this.resetInputState();
-    callCallback(this.props.onClose);
+    callCallback(this.props.onClose, this.getSessionId());
     this.setState({
       menuIsOpen: false,
       options: [],
@@ -299,7 +302,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     { action }: { action: InputActionTypes },
   ) => {
     if (action === 'input-change' || action === 'set-value') {
-      callCallback(this.props.onInputChange, search);
+      callCallback(this.props.onInputChange, search, this.getSessionId());
       this.setState({ inputValue: search });
 
       this.executeLoadOptions(search);

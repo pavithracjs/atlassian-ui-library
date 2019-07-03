@@ -1,5 +1,21 @@
 # @atlaskit/global-search
 
+## 9.2.0
+
+### Minor Changes
+
+- [minor][e6f5e7a694](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f5e7a694):
+
+  added current space filter for confluence
+
+## 9.1.1
+
+### Patch Changes
+
+- [patch][af96d6cbb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af96d6cbb8):
+
+  Removed generic result map and replaced with jira result map
+
 ## 9.1.0
 
 ### Minor Changes

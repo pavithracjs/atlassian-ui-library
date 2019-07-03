@@ -44,7 +44,6 @@ import {
   JiraResult,
   Result,
   ResultsWithTiming,
-  GenericResultMap,
   JiraResultsMap,
   AnalyticsType,
 } from '../../model/Result';
@@ -195,13 +194,13 @@ export class JiraQuickSearchContainer extends React.Component<
   };
 
   getPreQueryDisplayedResults = (
-    recentItems: GenericResultMap | null,
+    recentItems: JiraResultsMap | null,
     searchSessionId: string,
   ) => {
     const { features } = this.props;
 
     return mapRecentResultsToUIGroups(
-      recentItems as JiraResultsMap,
+      recentItems,
       searchSessionId,
       features,
       this.props.appPermission,
@@ -209,7 +208,7 @@ export class JiraQuickSearchContainer extends React.Component<
   };
 
   getPostQueryDisplayedResults = (
-    searchResults: GenericResultMap | null,
+    searchResults: JiraResultsMap | null,
     query: string,
     searchSessionId: string,
   ) => {
@@ -234,7 +233,7 @@ export class JiraQuickSearchContainer extends React.Component<
     keepPreQueryState,
     searchSessionId,
     searchMore,
-  }: SearchResultProps<GenericResultMap>) => {
+  }: SearchResultProps<JiraResultsMap>) => {
     const query = latestSearchQuery;
     const {
       referralContextIdentifiers,
@@ -362,11 +361,13 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   };
 
-  getRecentItemsFromJira = (sessionId: string): Promise<GenericResultMap> => {
+  getRecentItemsFromJira = (sessionId: string): Promise<JiraResultsMap> => {
     return this.props.jiraClient
       .getRecentItems(sessionId)
       .then(items =>
-        items.reduce<GenericResultMap<JiraResult>>((acc, item) => {
+        items.reduce<{
+          [key: string]: JiraResult[];
+        }>((acc, item) => {
           if (item.contentType) {
             const section =
               contentTypeToSection[
@@ -383,12 +384,11 @@ export class JiraQuickSearchContainer extends React.Component<
       .then(({ issues = [], boards = [], projects = [], filters = [] }) => ({
         objects: issues,
         containers: [...boards, ...projects, ...filters],
+        people: [],
       }));
   };
 
-  getRecentItemsFromXpsearch = (
-    sessionId: string,
-  ): Promise<GenericResultMap> => {
+  getRecentItemsFromXpsearch = (sessionId: string): Promise<JiraResultsMap> => {
     const { features } = this.props;
 
     return this.props.crossProductSearchClient
@@ -407,11 +407,12 @@ export class JiraQuickSearchContainer extends React.Component<
         return {
           objects: objects ? objects.items : [],
           containers: containers ? containers.items : [],
+          people: [],
         };
       });
   };
 
-  getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
+  getJiraRecentItems = (sessionId: string): Promise<JiraResultsMap> => {
     const { features } = this.props;
     const recentItemsPromise = features.enablePreQueryFromAggregator
       ? this.getRecentItemsFromXpsearch(sessionId)
@@ -421,6 +422,7 @@ export class JiraQuickSearchContainer extends React.Component<
       {
         objects: [],
         containers: [],
+        people: [],
       },
       error =>
         this.props.logger.safeError(
@@ -454,7 +456,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getRecentItems = (
     sessionId: string,
-  ): PartiallyLoadedRecentItems<GenericResultMap> => {
+  ): PartiallyLoadedRecentItems<JiraResultsMap> => {
     return {
       eagerRecentItemsPromise: Promise.all([
         this.getJiraRecentItems(sessionId),
@@ -464,7 +466,7 @@ export class JiraQuickSearchContainer extends React.Component<
         .then(([jiraItems, people, canSearchUsers]) => {
           return { ...jiraItems, people: canSearchUsers ? people : [] };
         })
-        .then(results => ({ results } as ResultsWithTiming<GenericResultMap>)),
+        .then(results => ({ results } as ResultsWithTiming<JiraResultsMap>)),
       lazyLoadedRecentItemsPromise: Promise.resolve({}),
     };
   };
@@ -474,7 +476,7 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
     startTime: number,
     queryVersion: number,
-  ): Promise<ResultsWithTiming<GenericResultMap>> => {
+  ): Promise<ResultsWithTiming<JiraResultsMap>> => {
     const { features } = this.props;
 
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(

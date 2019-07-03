@@ -13,6 +13,7 @@ import { Permissions } from '../types';
 
 interface CommonDataProviderProps {
   cloudId: string;
+  isUserCentric: boolean;
   children: (
     props: {
       recentContainers: ProviderResult<RecentContainersResponse>;
@@ -24,38 +25,47 @@ interface CommonDataProviderProps {
   ) => React.ReactElement<any>;
 }
 
-export default ({ cloudId, children }: CommonDataProviderProps) => (
-  <RecentContainersProvider cloudId={cloudId}>
-    {recentContainers => (
-      <LicenseInformationProvider cloudId={cloudId}>
-        {licenseInformation => (
-          <UserPermissionProvider
-            cloudId={cloudId}
-            permissionId={Permissions.MANAGE}
-          >
-            {managePermission => (
-              <UserPermissionProvider
-                cloudId={cloudId}
-                permissionId={Permissions.ADD_PRODUCTS}
-              >
-                {addProductsPermission => (
-                  <XFlowSettingsProvider cloudId={cloudId}>
-                    {isXFlowEnabled =>
-                      children({
-                        recentContainers,
-                        licenseInformation,
-                        managePermission,
-                        addProductsPermission,
-                        isXFlowEnabled,
-                      })
-                    }
-                  </XFlowSettingsProvider>
-                )}
-              </UserPermissionProvider>
-            )}
-          </UserPermissionProvider>
-        )}
-      </LicenseInformationProvider>
-    )}
-  </RecentContainersProvider>
-);
+export default ({
+  cloudId,
+  children,
+  isUserCentric,
+}: CommonDataProviderProps) => {
+  return (
+    <RecentContainersProvider cloudId={cloudId}>
+      {recentContainers => (
+        <LicenseInformationProvider
+          cloudId={cloudId}
+          isUserCentric={isUserCentric}
+        >
+          {licenseInformation => (
+            <UserPermissionProvider
+              cloudId={cloudId}
+              permissionId={Permissions.MANAGE}
+            >
+              {managePermission => (
+                <UserPermissionProvider
+                  cloudId={cloudId}
+                  permissionId={Permissions.ADD_PRODUCTS}
+                >
+                  {addProductsPermission => (
+                    <XFlowSettingsProvider cloudId={cloudId}>
+                      {isXFlowEnabled =>
+                        children({
+                          recentContainers,
+                          licenseInformation,
+                          managePermission,
+                          addProductsPermission,
+                          isXFlowEnabled,
+                        })
+                      }
+                    </XFlowSettingsProvider>
+                  )}
+                </UserPermissionProvider>
+              )}
+            </UserPermissionProvider>
+          )}
+        </LicenseInformationProvider>
+      )}
+    </RecentContainersProvider>
+  );
+};

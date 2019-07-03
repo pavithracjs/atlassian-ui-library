@@ -48,7 +48,7 @@ export enum Product {
 }
 
 export enum Feature {
-  enableExpandLink = 'enableExpandLink',
+  enableUserCentricProducts = 'enableUserCentricProducts',
 }
 
 export type FeatureFlagProps = { [key in Feature]: boolean };
@@ -77,4 +77,42 @@ export interface UserPermissionResponse {
 
 export interface RecentContainersResponse {
   data: Array<RecentContainer>;
+}
+
+export enum WorklensProductType {
+  JIRA_BUSINESS = 'JIRA_BUSINESS',
+  JIRA_SERVICE_DESK = 'JIRA_SERVICE_DESK',
+  JIRA_SOFTWARE = 'JIRA_SOFTWARE',
+  CONFLUENCE = 'CONFLUENCE',
+  OPSGENIE = 'OPSGENIE',
+  BITBUCKET = 'BITBUCKET',
+}
+
+export type AvailableProduct =
+  | {
+      activityCount: number;
+      productType:
+        | WorklensProductType.JIRA_BUSINESS
+        | WorklensProductType.JIRA_SERVICE_DESK
+        | WorklensProductType.JIRA_SOFTWARE
+        | WorklensProductType.CONFLUENCE;
+    }
+  | AvailableProductWithUrl;
+
+interface AvailableProductWithUrl {
+  activityCount: number;
+  productType: WorklensProductType.BITBUCKET | WorklensProductType.OPSGENIE;
+  url: string;
+}
+
+export interface AvailableSite {
+  adminAccess: boolean;
+  availableProducts: AvailableProduct[];
+  cloudId: string;
+  displayName: string;
+  url: string;
+}
+
+export interface AvailableProductsResponse {
+  sites: AvailableSite[];
 }

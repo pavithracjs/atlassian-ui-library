@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/drawer",
-  "version": "4.1.5",
+  "version": "4.1.6",
   "description": "React component the renders a Drawer from the left of the screen",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty Ltd",
@@ -32,7 +32,9 @@
     "prop-types": "^15.5.10",
     "raf-schd": "^2.1.0",
     "react-dom": "^16.8.0",
-    "react-transition-group": "^2.2.1"
+    "react-focus-lock": "^1.19.1",
+    "react-transition-group": "^2.2.1",
+    "tiny-invariant": "^0.0.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",

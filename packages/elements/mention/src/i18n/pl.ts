@@ -6,6 +6,7 @@
  */
 // Polish
 export default {
+  'fabric.mention.unknow.user.error': 'Nieznany użytkownik {id}',
   'fabric.mention.noAccess.warning':
     'Użytkownicy: {name} nie zostaną powiadomieni, ponieważ nie mają dostępu',
   'fabric.mention.noAccess.label': 'Brak dostępu',

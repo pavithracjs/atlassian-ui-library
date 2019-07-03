@@ -43,6 +43,8 @@ export type ReferralContextIdentifiers = {
   searchReferrerId: string;
   currentContentId: string;
   currentContainerId?: string;
+  currentContainerName?: string;
+  currentContainerIcon?: string;
 };
 
 export type JiraApplicationPermission = {
