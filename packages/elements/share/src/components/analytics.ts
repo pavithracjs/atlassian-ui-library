@@ -57,13 +57,20 @@ export const cancelShare = (start: number) =>
     duration: duration(start),
   });
 
+export const shortUrlRequested = () =>
+  createEvent('operational', 'requested', 'shortUrl', undefined, {
+    source: 'shareModal',
+  });
+
 export const copyLinkButtonClicked = (
   start: number,
-  shareOrigin?: OriginTracing | null,
+  shortUrl: boolean,
+  shareOrigin?: OriginTracing,
 ) =>
   createEvent('ui', 'clicked', 'button', 'copyShareLink', {
     source: 'shareModal',
     duration: duration(start),
+    shortUrl,
     ...getOriginTracingAttributes(shareOrigin),
   });
 

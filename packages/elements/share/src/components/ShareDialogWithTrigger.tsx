@@ -49,6 +49,7 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderCustomTriggerButton;
   copyLink: string;
+  isCopyLinkShortened: boolean;
   dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
@@ -89,6 +90,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   State
 > {
   static defaultProps: Partial<Props> = {
+    isCopyLinkShortened: false,
     isDisabled: false,
     dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: true,
@@ -264,8 +266,10 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(copyLinkButtonClicked(this.start, copyLinkOrigin));
+    const { copyLinkOrigin, isCopyLinkShortened } = this.props;
+    this.createAndFireEvent(
+      copyLinkButtonClicked(this.start, isCopyLinkShortened, copyLinkOrigin),
+    );
   };
 
   render() {

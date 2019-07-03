@@ -31,6 +31,7 @@ import {
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
+import { shortUrlRequested } from './analytics';
 
 export const defaultConfig: ConfigResponse = {
   mode: 'EXISTING_USERS_ONLY',
@@ -263,6 +264,11 @@ export class ShareDialogContainerInternal extends React.Component<
       productId: ProductId,
     ): Promise<string | null> => {
       this._urlShorteningRequestCounter++;
+
+      const { createAnalyticsEvent } = this.props;
+      if (createAnalyticsEvent)
+        createAnalyticsEvent(shortUrlRequested()).fire('fabric-elements');
+
       return this.urlShortenerClient
         .shorten(longLink, cloudId, productId)
         .then(response => response.shortUrl)
@@ -305,11 +311,15 @@ export class ShareDialogContainerInternal extends React.Component<
     );
   }
 
-  getCopyLink = (): string => {
+  isShortCopyLinkAvailable = (): boolean => {
     const { useUrlShortener } = this.props;
     const { shortenedCopyLink } = this.state;
 
-    if (useUrlShortener && shortenedCopyLink) return shortenedCopyLink;
+    return !!useUrlShortener && !!shortenedCopyLink;
+  };
+
+  getCopyLink = (): string => {
+    if (this.isShortCopyLinkAvailable()) return this.state.shortenedCopyLink!;
 
     return this.getFullCopyLink();
   };
@@ -364,6 +374,7 @@ export class ShareDialogContainerInternal extends React.Component<
         <ShareDialogWithTrigger
           config={this.state.config}
           copyLink={this.getCopyLink()}
+          isCopyLinkShortened={this.isShortCopyLinkAvailable()}
           dialogPlacement={dialogPlacement}
           isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
