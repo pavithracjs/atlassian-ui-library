@@ -65,7 +65,7 @@ export const FromWrapper = styled.div`
 
 type ShareError = {
   message: string;
-} | null;
+};
 
 export type ShareData = {
   users: OptionData[];

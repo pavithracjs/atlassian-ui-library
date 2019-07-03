@@ -1,4 +1,8 @@
 import assert from 'tiny-invariant';
+import {
+  WithAnalyticsEventProps,
+  withAnalyticsEvents,
+} from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
 import { LoadOptions } from '@atlaskit/user-picker';
 import memoizeOne from 'memoize-one';
@@ -27,6 +31,7 @@ import {
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
+import { shortUrlRequested } from './analytics';
 
 export const defaultConfig: ConfigResponse = {
   mode: 'EXISTING_USERS_ONLY',
@@ -44,7 +49,7 @@ export type Props = {
   /** Placement of the modal to the trigger button */
   dialogPlacement?: DialogPlacement;
   /** Transform function to provide custom formatted copy link, a default memorized function is provided */
-  formatCopyLink: (origin: OriginTracing, link: string) => string;
+  formatCopyLink?: (origin: OriginTracing, link: string) => string;
   /** Function used to load users options asynchronously */
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
@@ -122,7 +127,10 @@ const getDefaultShareLink: () => string = () =>
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
  */
-export class ShareDialogContainer extends React.Component<Props, State> {
+export class ShareDialogContainerInternal extends React.Component<
+  WithAnalyticsEventProps & Props,
+  State
+> {
   private shareClient: ShareClient;
   private urlShortenerClient: UrlShortenerClient;
   private _isMounted = false;
@@ -130,7 +138,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   static defaultProps = {
     shareLink: getDefaultShareLink(),
-    formatCopyLink: memoizedFormatCopyLink,
     useUrlShortener: false,
   };
 
@@ -257,6 +264,11 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       productId: ProductId,
     ): Promise<string | null> => {
       this._urlShorteningRequestCounter++;
+
+      const { createAnalyticsEvent } = this.props;
+      if (createAnalyticsEvent)
+        createAnalyticsEvent(shortUrlRequested()).fire('fabric-elements');
+
       return this.urlShortenerClient
         .shorten(longLink, cloudId, productId)
         .then(response => response.shortUrl)
@@ -293,14 +305,21 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     const { formatCopyLink } = this.props;
     const shareLink = this.getRawLink();
     const copyLinkOrigin = this.getCopyLinkOriginTracing();
-    return formatCopyLink(copyLinkOrigin, shareLink);
+    return (formatCopyLink || memoizedFormatCopyLink)(
+      copyLinkOrigin,
+      shareLink,
+    );
   }
 
-  getCopyLink = (): string => {
+  isShortCopyLinkAvailable = (): boolean => {
     const { useUrlShortener } = this.props;
     const { shortenedCopyLink } = this.state;
 
-    if (useUrlShortener && shortenedCopyLink) return shortenedCopyLink;
+    return !!useUrlShortener && !!shortenedCopyLink;
+  };
+
+  getCopyLink = (): string => {
+    if (this.isShortCopyLinkAvailable()) return this.state.shortenedCopyLink!;
 
     return this.getFullCopyLink();
   };
@@ -355,6 +374,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
         <ShareDialogWithTrigger
           config={this.state.config}
           copyLink={this.getCopyLink()}
+          isCopyLinkShortened={this.isShortCopyLinkAvailable()}
           dialogPlacement={dialogPlacement}
           isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
@@ -375,3 +395,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
     );
   }
 }
+
+export const ShareDialogContainer: React.ComponentType<
+  Props
+> = withAnalyticsEvents()(ShareDialogContainerInternal);
