@@ -1,5 +1,6 @@
 //@ts-ignore
 import simpleGit from 'simple-git';
+import semver, { ReleaseType } from 'semver';
 
 import loadFileFromGitHistory from '../../util/load-file-from-git-history';
 import { IPackageJSON } from '../../util/package-json';
@@ -31,20 +32,25 @@ type ListLogLine = {
 
 type CsvColumn = [[string]];
 
-type DependencyMap = { [key: string]: string };
+type DependencyMap = {
+  [name: string]: {
+    version: string;
+    type: DependencyType;
+  };
+};
 
 type ParsedInfo = {
   commitData: ListLogLine & {
     date: string;
   };
   json: IPackageJSON | null;
-  akDeps?: DependencyMap;
+  akDeps: DependencyMap;
 };
 
 const getHistory = () =>
   new Promise<LogResult>((resolve, reject) => {
     simpleGit('./').log(
-      ['--merges', '--first-parent', './package.json'],
+      ['--merges', '--first-parent', '--reverse', './package.json'],
       (err: any, result: LogResult) => {
         if (err !== null) {
           reject(err);
@@ -55,29 +61,23 @@ const getHistory = () =>
     );
   });
 
-const generateCSV = (allParsed: ParsedInfo[]) => {
+const generateCSV = (allParsedInfo: ParsedInfo[]) => {
   const csvData: CsvColumn = [['']];
 
-  allParsed
-    .filter(item => !item.akDeps || Object.entries(item.akDeps).length > 0)
-    .forEach(item => {
-      if (!item.akDeps) {
-        return;
+  allParsedInfo.forEach(item => {
+    const firstColumn = csvData[0];
+    const currentRow = firstColumn.push(item.commitData.date) - 1;
+
+    Object.entries(item.akDeps).forEach(([name, { version }]) => {
+      let depColumnIndex = csvData.findIndex(item => item[0] === name);
+      if (depColumnIndex === -1) {
+        depColumnIndex = csvData.push([name]) - 1;
       }
 
-      const firstColumn = csvData[0];
-      const currentRow = firstColumn.push(item.commitData.date) - 1;
-
-      Object.entries(item.akDeps).forEach(([name, version]) => {
-        let depColumnIndex = csvData.findIndex(item => item[0] === name);
-        if (depColumnIndex === -1) {
-          depColumnIndex = csvData.push([name]) - 1;
-        }
-
-        // console.log(csvData)
-        csvData[depColumnIndex][currentRow] = version;
-      });
+      // console.log(csvData)
+      csvData[depColumnIndex][currentRow] = version;
     });
+  });
 
   for (let i = 0; i < csvData.length; i++) {
     for (let j = 0; j < csvData.length; j++) {
@@ -111,9 +111,110 @@ const generateCSV = (allParsed: ParsedInfo[]) => {
   return csvStrings.join('\n');
 };
 
+const getAkDependencyVersions = (
+  depMap: { [name: string]: string },
+  type: DependencyType,
+): DependencyMap => {
+  return fromEntries(
+    Object.entries(depMap)
+      // TODO: Should this be @atlaskit
+      .filter(([name]) => name.includes('atlaskit'))
+      .map(([name, version]) => [name, { version, type }]),
+  );
+};
+
+type DependencyType =
+  | 'devDependency'
+  | 'dependency'
+  | 'optionalDependency'
+  | 'peerDependency';
+type UpgradeType = 'add' | 'upgrade' | 'remove';
+type SubUpgradeType = ReleaseType | null;
+
+type UpgradeEvent = {
+  dependencyName: string;
+  dependencyType: DependencyType;
+  versionString: string;
+  major: string | null;
+  minor: string | null;
+  patch: string | null;
+  date: string;
+  product: string;
+  upgradeType: UpgradeType;
+  upgradeSubType: SubUpgradeType;
+};
+
+const getUpgradeEvents = (
+  oldDeps: DependencyMap,
+  newDeps: DependencyMap,
+  parsedInfo: ParsedInfo,
+): UpgradeEvent[] => {
+  type DepInfo = {
+    name: string;
+    version: string;
+    type: DependencyType;
+    upgradeType: 'add' | 'upgrade';
+    upgradeSubType: SubUpgradeType;
+  };
+
+  type RemoveDepInfo = DepInfo & {
+    upgradeType: 'remove';
+  };
+
+  const addOrUpgradeDeps = Object.entries(newDeps)
+    .map(([name, { version, type }]) => {
+      let upgradeType: UpgradeType | undefined;
+      let upgradeSubType: SubUpgradeType = null;
+      if (!oldDeps[name]) {
+        upgradeType = 'add';
+      } else if (oldDeps[name].version !== version) {
+        upgradeType = 'upgrade';
+
+        const parsedOld = semver.coerce(oldDeps[name].version);
+        const parsedNew = semver.coerce(version);
+        if (parsedOld && parsedNew) {
+          upgradeSubType = semver.diff(parsedOld.version, parsedNew.version);
+        }
+      }
+
+      return { name, version, type, upgradeType, upgradeSubType };
+    })
+    .filter((v): v is DepInfo => v.upgradeType != null);
+
+  const removedDeps = Object.entries(oldDeps)
+    .map(([name, { version, type }]) => {
+      const upgradeType: UpgradeType | undefined =
+        newDeps[name] == null ? 'remove' : undefined;
+      return { name, version, type, upgradeType };
+    })
+    .filter((v): v is RemoveDepInfo => v.upgradeType != null);
+
+  const upgradeEvents: UpgradeEvent[] = [
+    ...addOrUpgradeDeps,
+    ...removedDeps,
+  ].map(({ name, version, type, upgradeType, upgradeSubType }) => {
+    const parsedVersion = semver.coerce(version);
+    return {
+      dependencyName: name,
+      dependencyType: type,
+      versionString: version,
+      major: parsedVersion ? `${parsedVersion.major}` : null,
+      minor: parsedVersion ? `${parsedVersion.minor}` : null,
+      patch: parsedVersion ? `${parsedVersion.patch}` : null,
+      date: parsedInfo.commitData.date,
+      product: 'TBD',
+      upgradeType,
+      upgradeSubType: upgradeSubType || null,
+    };
+  });
+
+  return upgradeEvents;
+};
+
 export default async function run(flags: PopulateProductFlags) {
   const log = await getHistory();
-  const readAllFiles: ParsedInfo[] = [];
+  const allParsedInfo: ParsedInfo[] = [];
+  const allUpgradeEvents: UpgradeEvent[] = [];
 
   for (
     let historyListIndex = 0;
@@ -129,58 +230,67 @@ export default async function run(flags: PopulateProductFlags) {
       const json = await loadFileFromGitHistory(item.hash, 'package.json');
       const parsed: IPackageJSON = JSON.parse(json);
 
-      readAllFiles.push({
-        commitData: {
-          ...item,
-          date: new Date(item.date).toUTCString(),
-        },
-        json: parsed,
-      });
+      const akDeps: DependencyMap = {
+        ...getAkDependencyVersions(
+          parsed.devDependencies || {},
+          'devDependency',
+        ),
+        ...getAkDependencyVersions(parsed.dependencies || {}, 'dependency'),
+        ...getAkDependencyVersions(
+          parsed.peerDependencies || {},
+          'peerDependency',
+        ),
+        ...getAkDependencyVersions(
+          parsed.optionalDependencies || {},
+          'optionalDependency',
+        ),
+      };
+
+      if (Object.keys(akDeps).length > 0) {
+        const parsedItem = {
+          commitData: {
+            ...item,
+            date: new Date(item.date).toUTCString(),
+          },
+          json: parsed,
+          akDeps,
+        };
+        const previousDeps =
+          allParsedInfo.length > 1
+            ? allParsedInfo[allParsedInfo.length - 1].akDeps
+            : {};
+        const upgradeEvents = getUpgradeEvents(
+          previousDeps,
+          akDeps,
+          parsedItem,
+        );
+        if (upgradeEvents.length > 0) {
+          allUpgradeEvents.push(...upgradeEvents);
+          allParsedInfo.push(parsedItem);
+        }
+      }
     } catch (err) {
+      console.error(
+        `Error parsing package.json most likely, commit ${item.hash} ${
+          item.date
+        }`,
+      );
       console.error(err);
-      readAllFiles.push({
-        commitData: {
-          ...item,
-          date: new Date(item.date).toUTCString(),
-        },
-        json: null,
-      });
     }
   }
 
-  const getAkDependencyVersions = (depMap: { [key: string]: string }) => {
-    return fromEntries(
-      Object.entries(depMap).filter(([key]) => key.includes('atlaskit')),
-    );
-  };
-
-  const allParsed: ParsedInfo[] = readAllFiles.map(item => {
-    if (item.json === null) {
-      return {
-        ...item,
-        akDeps: {},
-      };
-    }
-
-    return {
-      ...item,
-      akDeps: {
-        ...getAkDependencyVersions(item.json.devDependencies || {}),
-        ...getAkDependencyVersions(item.json.dependencies || {}),
-        ...getAkDependencyVersions(item.json.peerDependencies || {}),
-      },
-    };
-  });
-
-  allParsed.sort(
-    (a, b) =>
-      new Date(a.commitData.date).getTime() -
-      new Date(b.commitData.date).getTime(),
-  );
-
-  if (flags.dryRun) {
-    const csv = generateCSV(allParsed);
+  if (flags.csv) {
+    const csv = generateCSV(allParsedInfo);
     console.log(csv);
     return;
   }
+
+  if (flags.dryRun) {
+    console.log(JSON.stringify(allUpgradeEvents));
+    return;
+  }
+
+  // analytics.add('atlaskit.dependency.versions', {
+
+  // })
 }
