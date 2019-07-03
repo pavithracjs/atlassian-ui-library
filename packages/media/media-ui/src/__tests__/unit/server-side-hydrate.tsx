@@ -15,8 +15,8 @@ test('should ssr then hydrate media-ui correctly', async () => {
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
+  ReactDOM.hydrate(<Example />, elem);
   waitForExpect(() => {
-    ReactDOM.hydrate(<Example />, elem);
     const mockCalls = getConsoleMockCalls();
     expect(mockCalls.length).toBe(0);
   });
