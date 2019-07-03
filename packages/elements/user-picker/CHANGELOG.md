@@ -1,5 +1,13 @@
 # @atlaskit/user-picker
 
+## 4.0.10
+
+### Patch Changes
+
+- [patch][06f5bbf5a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06f5bbf5a9):
+
+  start session onfocus
+
 ## 4.0.9
 
 ### Patch Changes
