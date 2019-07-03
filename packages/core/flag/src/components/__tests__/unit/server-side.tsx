@@ -7,7 +7,7 @@ test('Flag server side rendering', async () => {
   const examples = await getExamplesFor('flag');
   for (const example of examples) {
     const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
-    waitForExpect(() => {
+    await waitForExpect(() => {
       expect(() =>
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();

@@ -19,8 +19,8 @@ test.skip('should ssr then hydrate checkbox correctly', async () => {
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
-  await ReactDOM.hydrate(<Example />, elem);
-  waitForExpect(() => {
+  ReactDOM.hydrate(<Example />, elem);
+  await waitForExpect(() => {
     expect(console.error).not.toBeCalled(); // eslint-disable-line no-console
   });
 });

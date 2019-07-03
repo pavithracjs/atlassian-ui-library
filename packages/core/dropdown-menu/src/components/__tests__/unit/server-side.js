@@ -12,7 +12,7 @@ test.skip('Dropdown menu server side rendering', async () => {
   for (const example of examples) {
     // $StringLitteral
     const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
-    waitForExpect(() => {
+    await waitForExpect(() => {
       expect(() =>
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();

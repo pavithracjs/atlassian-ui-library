@@ -11,7 +11,7 @@ test('Icon object server side rendering', async done => {
   for (const example of examples) {
     // $StringLitteral
     const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
-    waitForExpect(() => {
+    await waitForExpect(() => {
       expect(() =>
         ReactDOMServer.renderToString(<Example />),
       ).not.toThrowError();

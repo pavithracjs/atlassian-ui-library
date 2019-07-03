@@ -16,7 +16,7 @@ test('should ssr then hydrate media-ui correctly', async () => {
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
   ReactDOM.hydrate(<Example />, elem);
-  waitForExpect(() => {
+  await waitForExpect(() => {
     const mockCalls = getConsoleMockCalls();
     expect(mockCalls.length).toBe(0);
   });

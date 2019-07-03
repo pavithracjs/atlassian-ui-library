@@ -21,7 +21,7 @@ test('should ssr then hydrate icon correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  waitForExpect(() => {
+  await waitForExpect(() => {
     // ignore warnings caused by emotion's server-side rendering approach
     // eslint-disable-next-line no-console
     const mockCalls = console.error.mock.calls.filter(

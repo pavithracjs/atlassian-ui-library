@@ -13,7 +13,7 @@ test('Item server side rendering', async () => {
       /* item story example contains import on react-router-dom */
       // $StringLitteral
       const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
-      waitForExpect(() => {
+      await waitForExpect(() => {
         expect(() =>
           ReactDOMServer.renderToString(<Example />),
         ).not.toThrowError();

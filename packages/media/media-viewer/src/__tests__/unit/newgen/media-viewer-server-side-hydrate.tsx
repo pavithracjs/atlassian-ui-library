@@ -17,7 +17,7 @@ test.skip('should ssr then hydrate media-viewer correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  waitForExpect(() => {
+  await waitForExpect(() => {
     const mockCalls = getConsoleMockCalls();
     expect(mockCalls.length).toBe(0);
   });

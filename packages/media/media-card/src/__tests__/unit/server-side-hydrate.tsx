@@ -18,7 +18,7 @@ test.skip('should ssr then hydrate media-card correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
 
-  waitForExpect(() => {
+  await waitForExpect(() => {
     const mockCalls = getConsoleMockCalls();
     expect(mockCalls.length).toBe(0);
   });
