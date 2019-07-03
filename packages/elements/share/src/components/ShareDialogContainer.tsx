@@ -39,22 +39,25 @@ export const defaultConfig: ConfigResponse = {
 };
 
 export type Props = {
-  /** Share service client implementation that gets share configs and performs share */
+  /** Share service client implementation that gets share configs and performs share.
+   * Optional, a default one is provided. */
   shareClient?: ShareClient;
-  /** URL Shortener service client implementation that may shorten links for copy */
+  /** URL Shortener service client implementation that may shorten links for copy.
+   * Optional, a default one is provided. */
   urlShortenerClient?: UrlShortenerClient;
-  /** Cloud ID of the instance
+  /** Cloud ID of the instance.
    * Note: we assume this props is stable. */
   cloudId: string;
   /** Placement of the modal to the trigger button */
   dialogPlacement?: DialogPlacement;
-  /** Transform function to provide custom formatted copy link, a default memorized function is provided */
+  /** Transform function to provide custom formatted copy link.
+   * Optional, a default one is provided. */
   formatCopyLink?: (origin: OriginTracing, link: string) => string;
   /** Function used to load users options asynchronously */
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
-  /** Product ID (Canonical ID) in ARI of the share request
+  /** Product ID (Canonical ID) in ARI of the share request.
    * Note: we assume this props is stable. */
   productId: ProductId;
   /** Render function for a custom Share Dialog Trigger Button*/
@@ -81,7 +84,8 @@ export type Props = {
   /** space */
   /** Any other unlisted type will have a default message of "Link shared"*/
   shareContentType: string;
-  /** Link of the resource to be shared (should NOT includes origin tracing) */
+  /** Link of the resource to be shared (should NOT includes origin tracing).
+   * Optional, the current page URL is used by default. */
   shareLink?: string;
   /** Title of the resource to be shared that will be sent in notifications */
   shareTitle: string;
@@ -100,7 +104,8 @@ export type Props = {
   triggerButtonStyle?: ShareButtonStyle;
   /** Message to be appended to the modal */
   bottomMessage?: React.ReactNode;
-  /** Whether we should use the Atlassian Url Shortener or not */
+  /** Whether we should use the Atlassian Url Shortener or not.
+   * Note that all products may not be supported. */
   useUrlShortener?: boolean;
 };
 
