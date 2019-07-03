@@ -4,6 +4,7 @@ import Button from '@atlaskit/button';
 import { layers, elevation, borderRadius } from '@atlaskit/theme';
 import { colors, gridSize } from '@atlaskit/theme';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
+import useEscapeToDismiss from './useEscapeToDismiss';
 
 interface Props {
   children: React.ReactNode;
@@ -14,6 +15,8 @@ export const surveyWidth = gridSize() * 55; // 440
 export const surveyMargin = gridSize() * 6; // 48
 
 export default ({ children, onDismiss }: Props) => {
+  useEscapeToDismiss({ onDismiss });
+
   return (
     <div
       css={css`
