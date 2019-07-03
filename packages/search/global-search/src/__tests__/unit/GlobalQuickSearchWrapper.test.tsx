@@ -118,6 +118,7 @@ describe('advanced search callback', () => {
         preventDefault: expect.any(Function),
         originalEvent: event,
         searchSessionId: 'sessionId',
+        additionalSearchParams: {},
       });
     });
 

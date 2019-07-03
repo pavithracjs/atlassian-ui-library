@@ -384,6 +384,7 @@ describe('ConfluenceQuickSearchContainer', () => {
 
   describe('getFilterComponent', () => {
     const dummySpaceKey = 'abc123';
+    const mockSearchSessionId = 'someSearchSessionId';
 
     const wrapper = render({
       features: { ...DEFAULT_FEATURES, complexSearchExtensionsEnabled: true },
@@ -392,6 +393,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       modelContext: {
         spaceKey: dummySpaceKey,
       },
+      confluenceUrl: 'mockConfluenceUrl',
       referralContextIdentifiers: {
         currentContainerName: 'Dummy space',
         currentContentId: '123',
@@ -443,6 +445,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         ...baseFilterComponentProps,
         latestSearchQuery: 'a',
         searchResults: results,
+        searchSessionId: mockSearchSessionId,
       });
 
       expect(filterComponent).toBeDefined();
@@ -464,6 +467,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         isLoading: true,
         latestSearchQuery: 'a',
         searchResults: results,
+        searchSessionId: mockSearchSessionId,
       });
 
       expect(filterComponent).toBeDefined();
@@ -484,6 +488,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         ...baseFilterComponentProps,
         latestSearchQuery: '',
         searchResults: results,
+        searchSessionId: mockSearchSessionId,
       });
 
       expect(filterComponent).toBeUndefined();
@@ -496,6 +501,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         ...baseFilterComponentProps,
         latestSearchQuery: 'a',
         searchResults: null,
+        searchSessionId: mockSearchSessionId,
       });
 
       expect(filterComponent).toBeUndefined();
