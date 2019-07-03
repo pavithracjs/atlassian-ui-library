@@ -23,7 +23,15 @@ ${chalk.yellow.bold('[populate-product]')}
 `;
 
 export function run() {
-  const cli = meow(HELP_MSG);
+  const cli = meow(HELP_MSG, {
+    flags: {
+      dryRun: {
+        type: 'boolean',
+        alias: 'd',
+      },
+    },
+  });
+
   const [command /*, ...inputs*/] = cli.input;
 
   if (command === 'populate-product') {
