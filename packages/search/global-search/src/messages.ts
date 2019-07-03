@@ -16,6 +16,11 @@ export const messages = defineMessages({
     defaultMessage: 'Filter results by space',
     description: '',
   },
+  confluence_more_filters: {
+    id: 'global_search.confluence.more_filters',
+    defaultMessage: 'More filter options',
+    description: '',
+  },
   confluence_recent_pages_heading: {
     id: 'global_search.confluence.recent_pages_heading',
     defaultMessage: 'Recent pages and blogs',

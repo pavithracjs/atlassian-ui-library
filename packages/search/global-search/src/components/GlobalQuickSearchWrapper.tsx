@@ -77,6 +77,10 @@ export type AdvancedSearchEvent = {
    * searchSessionId from the quick search session, it should be used for the advanced search session
    */
   searchSessionId: string;
+  /**
+   * additional paramaters to pass to advanced search, such as filters to be applied
+   */
+  additionalSearchParams: { [searchParam: string]: string };
 };
 export interface Props {
   /**
@@ -248,6 +252,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     entity: string,
     query: string,
     searchSessionId: string,
+    additionalSearchParams: { [searchParam: string]: string } = {},
   ) => {
     if (this.props.onAdvancedSearch) {
       let preventEventDefault = false;
@@ -257,6 +262,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         category: entity,
         originalEvent: e,
         searchSessionId,
+        additionalSearchParams,
       });
 
       if (preventEventDefault) {
@@ -281,6 +287,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       showFeedbackCollector,
       feedbackCollectorProps,
       isAutocompleteEnabled,
+      confluenceUrl,
     } = this.props;
 
     const commonProps = {
@@ -309,6 +316,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
           {...feedbackCollectorProps}
           modelContext={modelContext}
           inputControls={inputControls}
+          confluenceUrl={confluenceUrl}
         />
       );
     } else if (this.props.context === 'jira') {
