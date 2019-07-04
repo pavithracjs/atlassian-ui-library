@@ -35,12 +35,12 @@ export const styles = `
 `;
 
 export default function codeBlock({ text }: NodeSerializerOpts) {
+  const sanitizedText = (text || '').replace(/\n/g, '<br/>');
   const codeTag = createTag(
     'code',
     { class: `${createClassName('codeBlock-code')}` },
-    text,
+    sanitizedText,
   );
-
   const codeTagWithTable = createTable([
     [
       {

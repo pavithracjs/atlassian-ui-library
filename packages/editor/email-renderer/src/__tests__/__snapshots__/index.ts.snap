@@ -119,8 +119,10 @@ exports[`Renderer - EmailSerializer should apply no mark for breakout marks: htm
               style="color: rgb(23, 43, 77); display: block; font-size: 12px; line-height: 20px; white-space: pre-wrap; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
             >
               #!/bin/bash
-# Bomb diggity.
-:(){ :|: & };:
+              <br />
+              # Bomb diggity.
+              <br />
+              :(){ :|: & };:
             </code>
           </td>
         </tr>
@@ -338,24 +340,37 @@ exports[`Renderer - EmailSerializer should render codeblock correctly: html 1`] 
               style="color: rgb(23, 43, 77); display: block; font-size: 12px; line-height: 20px; white-space: pre-wrap; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
             >
               // Create a map.
-final IntIntOpenHashMap map = new IntIntOpenHashMap();
-map.put(1, 2);
-map.put(2, 5);
-map.put(3, 10);
-int count = map.forEach(new IntIntProcedure()
-{
-   int count;
-   public void apply(int key, int value)
-   {
-       if (value 
+              <br />
+              final IntIntOpenHashMap map = new IntIntOpenHashMap();
+              <br />
+              map.put(1, 2);
+              <br />
+              map.put(2, 5);
+              <br />
+              map.put(3, 10);
+              <br />
+              int count = map.forEach(new IntIntProcedure()
+              <br />
+              {
+              <br />
+                 int count;
+              <br />
+                 public void apply(int key, int value)
+              <br />
+                 {
+              <br />
+                     if (value 
               <!--[if mso]&gt;≻&lt;![endif]-->
               <!--[if !mso]&gt;&lt;!-- -->
               &gt;
               <!--&lt;![endif]-->
               = 5) count++;
-   }
-}).count;
-System.out.println("There are " + count + " values 
+              <br />
+                 }
+              <br />
+              }).count;
+              <br />
+              System.out.println("There are " + count + " values 
               <!--[if mso]&gt;≻&lt;![endif]-->
               <!--[if !mso]&gt;&lt;!-- -->
               &gt;
