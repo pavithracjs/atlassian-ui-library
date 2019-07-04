@@ -77,7 +77,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
 
   const panelIcon = createTag('img', {
     class: className + '-icon',
-    src: createContentId(type, 'icon'),
+    src: createContentId(type),
   });
 
   const iconTd: TableData = {
