@@ -30,14 +30,12 @@ export type ParagraphDefinition = ParagraphBaseDefinition & NoMark;
 
 /**
  * @name paragraph_with_alignment_node
- * @stage 0
  */
 export type ParagraphWithAlignmentDefinition = ParagraphBaseDefinition &
   MarksObject<AlignmentMarkDefinition>;
 
 /**
  * @name paragraph_with_indentation_node
- * @stage 0
  */
 export type ParagraphWithIndentationDefinition = ParagraphBaseDefinition &
   MarksObject<IndentationMarkDefinition>;
