@@ -1,5 +1,13 @@
 # @atlaskit/user-picker
 
+## 4.0.11
+
+### Patch Changes
+
+- [patch][40e6908409](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40e6908409):
+
+  pass session id to on selection
+
 ## 4.0.10
 
 ### Patch Changes
