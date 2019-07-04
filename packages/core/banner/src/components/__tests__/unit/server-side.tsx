@@ -3,6 +3,10 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import * as ReactDOMServer from 'react-dom/server';
 import waitForExpect from 'wait-for-expect';
 
+beforeAll(() => {
+  jest.setTimeout(10000);
+});
+
 test('Banner server side rendering', async () => {
   const examples = await getExamplesFor('banner');
   for (const example of examples) {

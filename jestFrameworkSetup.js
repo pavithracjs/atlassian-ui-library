@@ -8,6 +8,9 @@ import { createSerializer } from 'jest-emotion';
 import 'jest-localstorage-mock';
 import ScreenshotReporter from './build/visual-regression/utils/screenshotReporter';
 
+// override timeout
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000;
+
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-176
 global.XMLHttpRequest = XMLHttpRequest;
 

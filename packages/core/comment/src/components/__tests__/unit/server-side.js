@@ -2,8 +2,10 @@
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import waitForExpect from 'wait-for-expect';
 
-test('Comment server side rendering', async done => {
+test('Comment server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('comment');
   for (const example of examples) {
@@ -11,10 +13,11 @@ test('Comment server side rendering', async done => {
     if (!example.filePath.includes('editor')) {
       // $StringLitteral
       const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
+      await waitForExpect(() => {
+        expect(() =>
+          ReactDOMServer.renderToString(<Example />),
+        ).not.toThrowError();
+      });
     }
   }
-  done();
 });
