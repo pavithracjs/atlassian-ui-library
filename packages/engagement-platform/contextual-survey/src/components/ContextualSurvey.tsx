@@ -16,7 +16,9 @@ interface Props {
   textPlaceholder?: string;
   /** Callback that is triggered when the survey should be dismissed */
   onDismiss: () => void;
-  /** Gets whether user has already signed up to the Atlassian Research Group list */
+  /** Gets whether user has already signed up to the Atlassian Research Group list.
+   * If `true` is returned then the user will not be prompted to sign up to the Research Group.
+   */
   getUserHasAnsweredMailingList: () => boolean | Promise<boolean>;
   /** Callback that is triggered when the survey is submitted, it will get the survey data as a parameter */
   onSubmit: (formValues: FormValues) => Promise<void>;
