@@ -1,17 +1,14 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import Button from '@atlaskit/button';
-import { layers, elevation, borderRadius } from '@atlaskit/theme';
-import { colors, gridSize } from '@atlaskit/theme';
+import { elevation, borderRadius, colors, gridSize } from '@atlaskit/theme';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
+import { surveyInnerWidth } from '../constants';
 
 interface Props {
   children: React.ReactNode;
   onDismiss: () => void;
 }
-
-export const surveyWidth = gridSize() * 55; // 440
-export const surveyMargin = gridSize() * 6; // 48
 
 const padding: number = gridSize() * 3;
 
@@ -20,14 +17,10 @@ export default ({ children, onDismiss }: Props) => {
     <div
       css={css`
         background-color: ${colors.N0};
-        position: fixed;
-        bottom: ${surveyMargin}px;
-        right: ${surveyMargin}px;
-        width: ${surveyWidth}px;
-        z-index: ${layers.flag()};
-        ${elevation.e500()}
         border-radius: ${borderRadius()}px;
         padding: ${padding}px;
+        ${elevation.e500()}
+        width: ${surveyInnerWidth}px;
       `}
     >
       <div

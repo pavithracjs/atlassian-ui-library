@@ -24,6 +24,8 @@ export default ({ onAnswer }: Props) => {
     [setPending, onAnswer],
   );
 
+  const isDisabled: boolean = Boolean(pending);
+
   return (
     <SuccessContainer>
       <h1
@@ -59,7 +61,7 @@ export default ({ onAnswer }: Props) => {
         <Button
           appearance="subtle"
           onClick={() => answeredWith(false)}
-          isDisabled={Boolean(pending)}
+          isDisabled={isDisabled}
           isLoading={pending === 'no'}
         >
           No, thanks
@@ -67,7 +69,7 @@ export default ({ onAnswer }: Props) => {
         <Button
           appearance="primary"
           onClick={() => answeredWith(true)}
-          isDisabled={Boolean(pending)}
+          isDisabled={isDisabled}
           isLoading={pending === 'yes'}
         >
           Yes, sign me up
