@@ -20,38 +20,45 @@ export type DrawerPrimitiveProps = BaseProps & {
   shouldUnmountOnExit?: boolean,
 };
 
-export type DrawerProps = BaseProps & {
-  ...WithAnalyticsEventsProps,
-  /**
+export type DrawerProps = BaseProps &
+  FocusLockProps & {
+    ...WithAnalyticsEventsProps,
+    /**
       Callback function to be called when the drawer will be closed.
     */
-  onClose?: (
-    SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
-    analyticsEvent: any,
-  ) => void,
-  /** A callback function that will be called when the drawer has finished its close transition. */
-  onCloseComplete?: (node: HTMLElement) => void,
-  /**
+    onClose?: (
+      SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
+      analyticsEvent: any,
+    ) => void,
+    /** A callback function that will be called when the drawer has finished its close transition. */
+    onCloseComplete?: (node: HTMLElement) => void,
+    /**
       Callback function that will be called when the drawer is displayed and `keydown` event is triggered.
     */
-  onKeyDown?: (SyntheticKeyboardEvent<*>) => void,
-  /** Controls if the drawer is open or close */
-  isOpen: boolean,
-  /** Boolean that controls if drawer should be retained/discarded */
-  shouldUnmountOnExit?: boolean,
-  /**
-    Boolean indicating whether to focus on the first tabbable element inside the drawer.
-  */
-  autoFocusFirstElem?: boolean,
-  /**
-   *     Boolean indicating if the focus lock is active or not.
-   */
+    onKeyDown?: (SyntheticKeyboardEvent<*>) => void,
+    /** Controls if the drawer is open or close */
+    isOpen: boolean,
+    /** Boolean that controls if drawer should be retained/discarded */
+    shouldUnmountOnExit?: boolean,
+  };
 
-  isFocusLockEnabled?: boolean,
+export type FocusLockProps = {
+  /**
+    Boolean indicating whether to focus on the first tabbable element inside the focus lock.
+  */
+  autoFocusFirstElem?: boolean | (() => HTMLElement | null),
+  /**
+    Content inside the focus lock.
+  */
+  children?: Node,
+  /**
+    Whether the focus lock is active or not.
+  */
+  isFocusLockEnabled: boolean,
   /**
     Whether to return the focus to the previous active element on closing the drawer
   */
-  shouldReturnFoucs?: boolean,
+  shouldReturnFocus?: boolean,
 };
 
 type DnDType = {

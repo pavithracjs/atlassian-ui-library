@@ -1,42 +1,24 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
+import React, { Component } from 'react';
 import invariant from 'tiny-invariant';
 import ReactFocusLock from 'react-focus-lock';
-
-type Props = {
-  /**
-    Boolean indicating whether to focus on the first tabbable element inside the focus lock.
-  */
-  autoFocus: boolean | (() => HTMLElement | null),
-  /**
-    Content inside the focus lock.
-  */
-  children?: Node,
-  /**
-    Whether the focus lock is active or not.
-  */
-  isEnabled: boolean,
-  /**
-    Whether to return the focus to the previous active element.
-  */
-  shouldReturnFocus: boolean,
-};
+import { type FocusLockProps } from './types';
 
 // Thin wrapper over react-focus-lock. This wrapper only exists to ensure API compatibility.
 // This component should be deleted during https://ecosystem.atlassian.net/browse/AK-5658
-export default class FocusLock extends Component<Props> {
+export default class FocusLock extends Component<FocusLockProps> {
   componentDidMount() {
-    const { isEnabled, autoFocus } = this.props;
+    const { isFocusLockEnabled, autoFocusFirstElem } = this.props;
 
     if (process.env.NODE_ENV !== 'production') {
       invariant(
-        typeof autoFocus === 'boolean',
+        typeof autoFocusFirstElem === 'boolean',
         '@atlaskit/modal-dialog: Passing a function as autoFocus is deprecated. Instead call focus on the element ref or use the autofocus property.',
       );
     }
-    if (typeof autoFocus === 'function' && isEnabled) {
-      const elem = autoFocus();
+    if (typeof autoFocusFirstElem === 'function' && isFocusLockEnabled) {
+      const elem = autoFocusFirstElem();
       if (elem && elem.focus) {
         elem.focus();
       }
@@ -44,11 +26,15 @@ export default class FocusLock extends Component<Props> {
   }
 
   render() {
-    const { isEnabled, autoFocus, shouldReturnFocus } = this.props;
+    const {
+      isFocusLockEnabled,
+      autoFocusFirstElem,
+      shouldReturnFocus,
+    } = this.props;
     return (
       <ReactFocusLock
-        disabled={!isEnabled}
-        autoFocus={!!autoFocus}
+        disabled={!isFocusLockEnabled}
+        autoFocusFirstElem={!!autoFocusFirstElem}
         returnFocus={shouldReturnFocus}
       >
         {this.props.children}

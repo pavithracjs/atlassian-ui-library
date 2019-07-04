@@ -51,7 +51,8 @@ export class DrawerBase extends Component<
   static defaultProps = {
     width: 'narrow',
     isFocusLockEnabled: true,
-    shouldReturnFoucs: true,
+    shouldReturnFocus: true,
+    autoFocusFirstElem: false,
   };
 
   state = {
@@ -128,7 +129,7 @@ export class DrawerBase extends Component<
       onCloseComplete,
       autoFocusFirstElem,
       isFocusLockEnabled,
-      shouldReturnFoucs,
+      shouldReturnFocus,
     } = this.props;
 
     return (
@@ -146,9 +147,9 @@ export class DrawerBase extends Component<
                 <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
               </Fade>
               <FocusLock
-                autoFocus={autoFocusFirstElem}
-                isEnabled={isFocusLockEnabled}
-                shouldReturnFoucs={shouldReturnFoucs}
+                autoFocusFirstElem={autoFocusFirstElem}
+                isFocusLockEnabled={isFocusLockEnabled}
+                shouldReturnFocus={shouldReturnFocus}
               >
                 <DrawerPrimitive
                   icon={icon}
