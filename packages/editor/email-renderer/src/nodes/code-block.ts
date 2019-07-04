@@ -11,7 +11,7 @@ export const styles = `
   display: block;
   font-size: 12px;
   line-height: 20px;
-  white-space: pre;
+  white-space: pre-wrap;
   font-family: ${codeFontFamily};
 }
 .${createClassName('codeBlock-pre')} {
@@ -20,6 +20,7 @@ export const styles = `
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   margin: 0px;
+  white-space: pre-line;
 }
 .${createClassName('codeBlock-td')} {
   padding: 8px 16px;
@@ -34,12 +35,12 @@ export const styles = `
 `;
 
 export default function codeBlock({ text }: NodeSerializerOpts) {
+  const sanitizedText = (text || '').replace(/\n/g, '<br/>');
   const codeTag = createTag(
     'code',
     { class: `${createClassName('codeBlock-code')}` },
-    text,
+    sanitizedText,
   );
-
   const codeTagWithTable = createTable([
     [
       {

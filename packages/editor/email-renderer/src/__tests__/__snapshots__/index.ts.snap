@@ -97,7 +97,7 @@ exports[`Renderer - EmailSerializer should apply no mark for breakout marks: htm
 >
   <pre
     class="pfcs-generated-codeBlock-pre"
-    style="background: #F4F5F7; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; margin: 0px;"
+    style="background: #F4F5F7; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; margin: 0px; white-space: pre-line;"
   >
     <table
       border="0"
@@ -116,11 +116,13 @@ exports[`Renderer - EmailSerializer should apply no mark for breakout marks: htm
           >
             <code
               class="pfcs-generated-codeBlock-code"
-              style="color: rgb(23, 43, 77); display: block; font-size: 12px; line-height: 20px; white-space: pre; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
+              style="color: rgb(23, 43, 77); display: block; font-size: 12px; line-height: 20px; white-space: pre-wrap; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
             >
               #!/bin/bash
-# Bomb diggity.
-:(){ :|: & };:
+              <br />
+              # Bomb diggity.
+              <br />
+              :(){ :|: & };:
             </code>
           </td>
         </tr>
@@ -316,7 +318,7 @@ exports[`Renderer - EmailSerializer should render codeblock correctly: html 1`] 
 >
   <pre
     class="pfcs-generated-codeBlock-pre"
-    style="background: #F4F5F7; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; margin: 0px;"
+    style="background: #F4F5F7; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; margin: 0px; white-space: pre-line;"
   >
     <table
       border="0"
@@ -335,27 +337,40 @@ exports[`Renderer - EmailSerializer should render codeblock correctly: html 1`] 
           >
             <code
               class="pfcs-generated-codeBlock-code"
-              style="color: rgb(23, 43, 77); display: block; font-size: 12px; line-height: 20px; white-space: pre; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
+              style="color: rgb(23, 43, 77); display: block; font-size: 12px; line-height: 20px; white-space: pre-wrap; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
             >
               // Create a map.
-final IntIntOpenHashMap map = new IntIntOpenHashMap();
-map.put(1, 2);
-map.put(2, 5);
-map.put(3, 10);
-int count = map.forEach(new IntIntProcedure()
-{
-   int count;
-   public void apply(int key, int value)
-   {
-       if (value 
+              <br />
+              final IntIntOpenHashMap map = new IntIntOpenHashMap();
+              <br />
+              map.put(1, 2);
+              <br />
+              map.put(2, 5);
+              <br />
+              map.put(3, 10);
+              <br />
+              int count = map.forEach(new IntIntProcedure()
+              <br />
+              {
+              <br />
+                 int count;
+              <br />
+                 public void apply(int key, int value)
+              <br />
+                 {
+              <br />
+                     if (value 
               <!--[if mso]&gt;≻&lt;![endif]-->
               <!--[if !mso]&gt;&lt;!-- -->
               &gt;
               <!--&lt;![endif]-->
               = 5) count++;
-   }
-}).count;
-System.out.println("There are " + count + " values 
+              <br />
+                 }
+              <br />
+              }).count;
+              <br />
+              System.out.println("There are " + count + " values 
               <!--[if mso]&gt;≻&lt;![endif]-->
               <!--[if !mso]&gt;&lt;!-- -->
               &gt;
@@ -406,7 +421,7 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -420,7 +435,7 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-date pfcs-generated-date-red"
@@ -464,7 +479,7 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -478,7 +493,7 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-date pfcs-generated-date-neutral"
@@ -522,7 +537,7 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -536,7 +551,7 @@ exports[`Renderer - EmailSerializer should render dates in normal text and task 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-date pfcs-generated-date-red"
@@ -1257,7 +1272,7 @@ exports[`Renderer - EmailSerializer should render numbered column for table: htm
   >
     <table
       class="pfcs-generated-tableNode"
-      style="border: 1px solid #C1C7D0; border-collapse: collapse; width: 100%; table-layout: fixed;"
+      style="border: 1px solid #C1C7D0; border-collapse: collapse; width: 100%;"
       width="100%"
     >
       <colgroup>
@@ -2529,7 +2544,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2543,7 +2558,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     just text
                   </td>
@@ -2581,7 +2596,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2595,7 +2610,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-mention"
@@ -2639,7 +2654,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2653,7 +2668,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-date pfcs-generated-date-red"
@@ -2697,7 +2712,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2711,7 +2726,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     with emoji 🙂 
                   </td>
@@ -2754,7 +2769,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2768,7 +2783,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     ticked off plain text
                   </td>
@@ -2806,7 +2821,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2820,7 +2835,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-mention"
@@ -2864,7 +2879,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2878,7 +2893,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-date pfcs-generated-date-neutral"
@@ -2922,7 +2937,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -2936,7 +2951,7 @@ exports[`Renderer - EmailSerializer should render task list correctly with mock 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     with emoji 🙂 
                   </td>
@@ -3002,7 +3017,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3016,7 +3031,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     just text
                   </td>
@@ -3054,7 +3069,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3068,7 +3083,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-mention"
@@ -3112,7 +3127,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3126,7 +3141,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-date pfcs-generated-date-red"
@@ -3170,7 +3185,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3184,7 +3199,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     with emoji 🙂 
                   </td>
@@ -3227,7 +3242,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3241,7 +3256,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     ticked off plain text
                   </td>
@@ -3279,7 +3294,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3293,7 +3308,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-mention"
@@ -3337,7 +3352,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3351,7 +3366,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     <span
                       class="pfcs-generated-date pfcs-generated-date-neutral"
@@ -3395,7 +3410,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   <td
                     class="pfcs-generated-taskItem-iconTd"
                     height="24"
-                    style="vertical-align: top; padding: 10px 0px 0px 8px; width: 24px; height: 24px;"
+                    style="vertical-align: top; padding: 10px 0px 0px 8px; line-height: 20px; width: 24px; height: 24px;"
                     valign="top"
                     width="24"
                   >
@@ -3409,7 +3424,7 @@ exports[`Renderer - EmailSerializer should render task list correctly: html 1`] 
                   </td>
                   <td
                     class="pfcs-generated-taskItem-textTd"
-                    style="font-size: 14px; padding: 8px 8px 8px 0;"
+                    style="font-size: 14px; line-height: 20px; padding: 8px 8px 8px 0;"
                   >
                     with emoji 🙂 
                   </td>
