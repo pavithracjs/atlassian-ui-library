@@ -4,11 +4,7 @@ import { jsx, css } from '@emotion/core';
 import Button from '@atlaskit/button';
 import { ContextualSurvey, SurveyMarshal } from '../src';
 
-interface Props {
-  height: string;
-}
-
-export default ({ height = '100%' }: Props) => {
+export default function BasicUsage() {
   const [showSurvey, setShowSurvey] = useState(false);
   const onClick = useCallback(
     () => {
@@ -53,4 +49,4 @@ export default ({ height = '100%' }: Props) => {
       </SurveyMarshal>
     </React.Fragment>
   );
-};
+}

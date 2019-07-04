@@ -7,23 +7,27 @@ import { surveyInnerWidth, surveyOffset } from '../constants';
 
 type TransitionState = 'entering' | 'entered' | 'exiting' | 'exited';
 
-const animationDuration = 300;
+const animationDuration: number = 300;
+const offscreen = {
+  translateX: `${surveyInnerWidth + surveyOffset}px`,
+  opacity: '0',
+};
 
 const getAnimationProps = (state: TransitionState) => {
   switch (state) {
-    case 'entered':
     case 'entering': {
+      return offscreen;
+    }
+    case 'entered': {
       return {
         translateX: '0',
         opacity: '1',
       };
     }
+
     case 'exited':
     case 'exiting': {
-      return {
-        translateX: `${surveyInnerWidth + surveyOffset}px`,
-        opacity: '0',
-      };
+      return offscreen;
     }
   }
 };
