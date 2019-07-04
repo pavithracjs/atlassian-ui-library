@@ -28,7 +28,7 @@ import {
 } from '@atlaskit/editor-common';
 import { RendererAppearance } from './Renderer/types';
 import { RendererContext } from '../react';
-import { XOR } from '@atlaskit/type-helpers/index';
+import { XOR } from '@atlaskit/type-helpers';
 
 export interface WithViewMediaClientConfig {
   viewMediaClientConfig: MediaClientConfig;
