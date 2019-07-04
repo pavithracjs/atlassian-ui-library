@@ -45,16 +45,6 @@ export default ({
   textPlaceholder = 'Tell us why',
 }: Props) => {
   const autoDisappearTimeoutRef = useRef<Optional<number>>(null);
-  const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
-
-  // using a ref so that we don't break all of our caches if a consumer is using an arrow function
-  const onDismissRef = useRef<() => void>(onDismiss);
-  useEffect(
-    () => {
-      onDismissRef.current = onDismiss;
-    },
-    [onDismiss],
-  );
 
   // only allow a single dismiss for a component
   const isDismissedRef = useRef<boolean>(false);
@@ -66,6 +56,27 @@ export default ({
     isDismissedRef.current = true;
     onDismissRef.current();
   }, []);
+
+  const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
+  const trySetCurrentStep = useCallback(
+    (step: Step) => {
+      if (!isDismissedRef.current) {
+        setCurrentStep(step);
+      } else {
+        console.log('not setting step', step);
+      }
+    },
+    [setCurrentStep],
+  );
+
+  // using a ref so that we don't break all of our caches if a consumer is using an arrow function
+  const onDismissRef = useRef<() => void>(onDismiss);
+  useEffect(
+    () => {
+      onDismissRef.current = onDismiss;
+    },
+    [onDismiss],
+  );
 
   const tryClearTimeout = useCallback(() => {
     const id: Optional<number> = autoDisappearTimeoutRef.current;
@@ -104,19 +115,19 @@ export default ({
 
       /**
        * Need to call this callback so final-form can clean up before
-       * the survey form is unmounted via setCurrentStep below
+       * the survey form is unmounted via trySetCurrentStep below
        */
       callback();
 
       if (await userHasSignedUp) {
-        setCurrentStep('POST_SURVEY_HAS_SIGN_UP');
+        trySetCurrentStep('POST_SURVEY_HAS_SIGN_UP');
         return;
       }
 
       if (formValues.canContact) {
-        setCurrentStep('SIGN_UP_PROMPT');
+        trySetCurrentStep('SIGN_UP_PROMPT');
       } else {
-        setCurrentStep('POST_SURVEY_NO_CONSENT');
+        trySetCurrentStep('POST_SURVEY_NO_CONSENT');
       }
     },
     [getUserHasAnsweredMailingList, onSubmit],
@@ -126,13 +137,13 @@ export default ({
     async (answer: boolean) => {
       await onMailingListAnswer(answer);
       if (answer) {
-        setCurrentStep('SIGN_UP_SUCCESS');
+        trySetCurrentStep('SIGN_UP_SUCCESS');
         return;
       }
-      setCurrentStep('POST_SURVEY_NO_CONSENT');
+      trySetCurrentStep('POST_SURVEY_NO_CONSENT');
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setCurrentStep],
+    [trySetCurrentStep],
   );
 
   // Start the auto disappear when we are finished
