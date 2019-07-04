@@ -4,6 +4,11 @@ import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import exenv from 'exenv';
 import Tag from '../..';
+import waitForExpect from 'wait-for-expect';
+
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
 
 jest.mock('exenv', () => ({
   get canUseDOM() {
@@ -19,7 +24,7 @@ afterEach(() => {
 
 const App = () => <Tag text="Base Tag" />;
 
-test.skip('should ssr then hydrate tag correctly', () => {
+test('should ssr then hydrate tag correctly', async () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
   // server-side
   canUseDom.mockReturnValue(false);
@@ -28,8 +33,10 @@ test.skip('should ssr then hydrate tag correctly', () => {
   canUseDom.mockReturnValue(true);
   const elem = document.createElement('div');
   elem.innerHTML = serverHTML;
-  ReactDOM.hydrate(<App />, elem);
+  await waitForExpect(() => {
+    ReactDOM.hydrate(<App />, elem);
 
-  // eslint-disable-next-line no-console
-  expect(console.error).not.toBeCalled();
+    // eslint-disable-next-line no-console
+    expect(console.error).not.toBeCalled();
+  });
 });

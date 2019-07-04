@@ -5,7 +5,11 @@ import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-test.skip('Nps server side rendering', async () => {
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
+test('Nps server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('nps');
   for (const example of examples) {

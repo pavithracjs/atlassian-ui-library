@@ -3,6 +3,10 @@ import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 test('Field radio group server side rendering', async done => {
   // $FlowFixMe
   const examples = await getExamplesFor('field-radio-group');

@@ -4,11 +4,10 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr, mockConsole } from '@atlaskit/ssr';
 import waitForExpect from 'wait-for-expect';
 
-let getConsoleMockCalls: any;
+const getConsoleMockCalls = mockConsole(console);
 
 beforeAll(() => {
   jest.setTimeout(10000);
-  getConsoleMockCalls = mockConsole(console);
 });
 
 afterEach(() => {

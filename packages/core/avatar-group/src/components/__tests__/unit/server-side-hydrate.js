@@ -24,8 +24,8 @@ test.skip('should ssr then hydrate avatar-group correctly', async () => {
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
-  ReactDOM.hydrate(<Example />, elem);
   await waitForExpect(() => {
+    ReactDOM.hydrate(<Example />, elem);
     // ignore warnings caused by emotion's server-side rendering approach
     // eslint-disable-next-line no-console
     const mockCalls = console.error.mock.calls.filter(

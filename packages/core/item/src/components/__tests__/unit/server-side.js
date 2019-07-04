@@ -5,6 +5,10 @@ import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 test('Item server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('item');
