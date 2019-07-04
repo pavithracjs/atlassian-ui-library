@@ -4,7 +4,7 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import waitForExpect from 'wait-for-expect';
 
 beforeAll(() => {
-  jest.setTimeout(30000);
+  jest.setTimeout(40000);
 });
 
 test('media-card server side rendering', async () => {

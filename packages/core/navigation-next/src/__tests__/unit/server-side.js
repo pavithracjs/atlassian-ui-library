@@ -22,7 +22,7 @@ const exampleName = (file: string) =>
     .replace('.js', '');
 
 beforeEach(() => {
-  jest.setTimeout(10000);
+  jest.setTimeout(20000);
 });
 
 test('navigation-next server side rendering', async () => {
