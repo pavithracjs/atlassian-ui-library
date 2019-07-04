@@ -449,7 +449,7 @@ describe('BaseUserPicker', () => {
         },
       );
 
-      it('should pass session id on select', () => {
+      it('should pass session id on select when it starts opened', () => {
         const onSelection = jest.fn();
         const component = mountWithIntl(
           getBasePicker({ onSelection, open: true }),
