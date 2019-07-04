@@ -1,0 +1,1 @@
+ED-7195 Change messages to sentence case instead of Title Case. Clarify wording of some quick insert messages.

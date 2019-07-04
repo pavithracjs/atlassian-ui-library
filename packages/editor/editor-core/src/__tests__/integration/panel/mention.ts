@@ -24,7 +24,7 @@ BrowserTestCase(
     });
 
     await page.click(editable);
-    await quickInsert(page, 'Info Panel');
+    await quickInsert(page, 'Info panel');
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     await insertMentionUsingClick(page, '0');
