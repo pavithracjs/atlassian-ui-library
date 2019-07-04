@@ -39,7 +39,7 @@ export const styles = `
 const icons: { [K in DecisionState]: string } = {
   DECIDED: createTag('img', {
     class: className + '-icon',
-    src: createContentId('decision', 'icon'),
+    src: createContentId('decision'),
   }),
 };
 

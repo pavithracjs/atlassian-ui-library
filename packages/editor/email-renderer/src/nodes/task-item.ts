@@ -41,11 +41,11 @@ export const styles = `
 const icons: { [K in TaskState]: string } = {
   TODO: createTag('img', {
     class: className + '-img',
-    src: createContentId('taskItemUnchecked', 'icon'),
+    src: createContentId('taskItemUnchecked'),
   }),
   DONE: createTag('img', {
     class: className + '-img',
-    src: createContentId('taskItemChecked', 'icon'),
+    src: createContentId('taskItemChecked'),
   }),
 };
 
