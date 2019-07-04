@@ -10,7 +10,7 @@ import {
   CardError,
   CardOnClickCallback,
 } from '@atlaskit/media-card';
-import { MediaClientConfig } from '@atlaskit/media-core';
+import { Context, MediaClientConfig } from '@atlaskit/media-core';
 import {
   ImageResizeMode,
   FileIdentifier,
@@ -28,14 +28,24 @@ import {
 } from '@atlaskit/editor-common';
 import { RendererAppearance } from './Renderer/types';
 import { RendererContext } from '../react';
+import { XOR } from '@atlaskit/type-helpers/index';
 
-export interface MediaProvider {
-  viewMediaClientConfig?: MediaClientConfig;
+export interface WithViewMediaClientConfig {
+  viewMediaClientConfig: MediaClientConfig;
 }
+
+export type WithViewContext = {
+  /**
+   * @deprecated Use viewMediaClientConfig instead.
+   */
+  viewContext: Promise<Context>;
+};
+
+export type MediaProvider = XOR<WithViewMediaClientConfig, WithViewContext>;
 
 export interface MediaCardProps {
   id?: string;
-  mediaProvider?: MediaProvider;
+  mediaProvider?: Promise<MediaProvider>;
   eventHandlers?: {
     media?: {
       onClick?: CardOnClickCallback;
@@ -105,8 +115,16 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       return;
     }
 
-    const provider = await mediaProvider;
-    const mediaClientConfig = await provider.viewMediaClientConfig;
+    const mediaProviderObject = await mediaProvider;
+    let mediaClientConfig: MediaClientConfig;
+    if (mediaProviderObject.viewMediaClientConfig) {
+      mediaClientConfig = mediaProviderObject.viewMediaClientConfig;
+    } else if (mediaProviderObject.viewContext) {
+      mediaClientConfig = (await mediaProviderObject.viewContext).config;
+    } else {
+      return;
+    }
+
     const nodeIsInCache =
       (id && mediaIdentifierMap.has(id)) ||
       (url && mediaIdentifierMap.has(url));
