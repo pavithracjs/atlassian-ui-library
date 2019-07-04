@@ -1,6 +1,9 @@
+import chalk from 'chalk';
 //@ts-ignore
 import simpleGit from 'simple-git';
 import semver, { ReleaseType } from 'semver';
+import { analyticsClient } from '@atlassiansox/analytics-node-client';
+import inquirer from 'inquirer';
 
 import loadFileFromGitHistory from '../../util/load-file-from-git-history';
 import { IPackageJSON } from '../../util/package-json';
@@ -139,7 +142,6 @@ type UpgradeEvent = {
   minor: string | null;
   patch: string | null;
   date: string;
-  product: string;
   upgradeType: UpgradeType;
   upgradeSubType: SubUpgradeType;
 };
@@ -202,7 +204,6 @@ const getUpgradeEvents = (
       minor: parsedVersion ? `${parsedVersion.minor}` : null,
       patch: parsedVersion ? `${parsedVersion.patch}` : null,
       date: parsedInfo.commitData.date,
-      product: 'TBD',
       upgradeType,
       upgradeSubType: upgradeSubType || null,
     };
@@ -271,13 +272,17 @@ export default async function run(flags: PopulateProductFlags) {
       }
     } catch (err) {
       console.error(
-        `Error parsing package.json most likely, commit ${item.hash} ${
-          item.date
-        }`,
+        chalk.red(
+          `Error parsing package.json most likely, commit ${item.hash} ${
+            item.date
+          }`,
+        ),
       );
       console.error(err);
     }
   }
+
+  console.log(`Found ${allUpgradeEvents.length} ak dependency changes`);
 
   if (flags.csv) {
     const csv = generateCSV(allParsedInfo);
@@ -290,7 +295,58 @@ export default async function run(flags: PopulateProductFlags) {
     return;
   }
 
-  // analytics.add('atlaskit.dependency.versions', {
+  const analyticsEnv = flags.dev ? 'dev' : 'prod';
 
-  // })
+  const client = analyticsClient({
+    env: flags.dev ? 'dev' : 'prod',
+    product: flags.product,
+  });
+
+  const answers: any = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'continue',
+      message: `Are you sure you want to send ${
+        allUpgradeEvents.length
+      } historical analytics events to '${analyticsEnv}' env for product '${
+        flags.product
+      }?`,
+      default: false,
+    },
+  ]);
+
+  if (!answers.continue) {
+    console.log('Aborting');
+    process.exit(0);
+  }
+
+  try {
+    const promises = await Promise.all(
+      allUpgradeEvents.map(event => {
+        return client.sendTrackEvent({
+          anonymousId: 'unknown',
+          trackEvent: {
+            tags: ['atlaskit'],
+            source: '@atlaskit/dependency-version-analytics',
+            action: 'upgraded',
+            actionSubject: 'akDependency',
+            attributes: {
+              ...event,
+            },
+            origin: 'console',
+            platform: 'bot',
+          },
+        });
+      }),
+    );
+    console.log(
+      chalk.green(
+        `Sent ${promises.length} dependency upgrade analytics events`,
+      ),
+    );
+  } catch (e) {
+    console.error(chalk.red('Sending analytics failed'));
+    console.error(e);
+    process.exit(1);
+  }
 }
