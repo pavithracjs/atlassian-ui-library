@@ -45,20 +45,26 @@ export default ({
 }: Props) => {
   const autoDisappearTimeoutRef = useRef<Optional<number>>(null);
   const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
-  // only allow a single dismiss for a component
-  const isDismissedRef = useRef<boolean>(false);
 
-  const tryDismiss = useCallback(
+  // using a ref so that we don't break all of our caches if a consumer is using an arrow function
+  const onDismissRef = useRef<() => void>(onDismiss);
+  useEffect(
     () => {
-      // Already called dismiss once
-      if (isDismissedRef.current) {
-        return;
-      }
-      isDismissedRef.current = true;
-      onDismiss();
+      onDismissRef.current = onDismiss;
     },
     [onDismiss],
   );
+
+  // only allow a single dismiss for a component
+  const isDismissedRef = useRef<boolean>(false);
+  const tryDismiss = useCallback(() => {
+    // Already called dismiss once
+    if (isDismissedRef.current) {
+      return;
+    }
+    isDismissedRef.current = true;
+    onDismissRef.current();
+  }, []);
 
   const tryClearTimeout = useCallback(() => {
     const id: Optional<number> = autoDisappearTimeoutRef.current;
@@ -75,7 +81,7 @@ export default ({
       tryClearTimeout();
       tryDismiss();
     },
-    [onDismiss],
+    [tryDismiss, tryClearTimeout],
   );
 
   // Cleanup any auto dismiss after dismiss
@@ -128,9 +134,15 @@ export default ({
     [setCurrentStep],
   );
 
+  // Start the auto disappear when we are finished
   useEffect(
     () => {
-      // timeout already scheduled
+      // Already dismissed
+      if (isDismissedRef.current) {
+        return;
+      }
+
+      // Timeout already scheduled
       if (autoDisappearTimeoutRef.current) {
         return;
       }
@@ -142,10 +154,10 @@ export default ({
           'POST_SURVEY_HAS_SIGN_UP',
         ].includes(currentStep)
       ) {
-        autoDisappearTimeoutRef.current = setTimeout(() => {
-          console.log('AUTO DISMISS');
-          onDismiss();
-        }, AUTO_DISAPPEAR_DURATION);
+        autoDisappearTimeoutRef.current = setTimeout(
+          tryDismiss,
+          AUTO_DISAPPEAR_DURATION,
+        );
       }
     },
     [currentStep],
