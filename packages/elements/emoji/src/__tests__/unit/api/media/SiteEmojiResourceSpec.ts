@@ -395,7 +395,7 @@ describe('SiteEmojiResource', () => {
     });
   });
 
-  describe.skip('#findEmoji', () => {
+  describe('#findEmoji', () => {
     it('Emoji found', () => {
       const tokenManagerStub = sinon.createStubInstance(TokenManager) as any;
       const siteEmojiResource = new TestSiteEmojiResource(tokenManagerStub);
@@ -407,11 +407,10 @@ describe('SiteEmojiResource', () => {
         },
       };
 
-      fetchMock.post({
-        matcher: `begin:${fetchSiteEmojiUrl(missingMediaEmojiId)}`,
-        response: {
-          body: serviceResponse,
-        },
+      fetchMock.mock({
+        method: 'GET',
+        matcher: 'end:?altScale=XHDPI',
+        response: serviceResponse,
         name: 'fetch-site-emoji',
       });
 
@@ -434,11 +433,10 @@ describe('SiteEmojiResource', () => {
         },
       };
 
-      fetchMock.post({
-        matcher: `begin:${fetchSiteEmojiUrl(missingMediaEmojiId)}`,
-        response: {
-          body: serviceResponse,
-        },
+      fetchMock.mock({
+        method: 'GET',
+        matcher: 'end:?altScale=XHDPI',
+        response: serviceResponse,
         name: 'fetch-site-emoji',
       });
 
@@ -462,11 +460,10 @@ describe('SiteEmojiResource', () => {
         },
       };
 
-      fetchMock.post({
-        matcher: `begin:${fetchSiteEmojiUrl(atlassianId)}`,
-        response: {
-          body: serviceResponse,
-        },
+      fetchMock.mock({
+        method: 'GET',
+        matcher: 'end:?altScale=XHDPI',
+        response: serviceResponse,
         name: 'fetch-site-emoji',
       });
 
@@ -481,12 +478,12 @@ describe('SiteEmojiResource', () => {
       const tokenManagerStub = sinon.createStubInstance(TokenManager) as any;
       const siteEmojiResource = new TestSiteEmojiResource(tokenManagerStub);
 
-      fetchMock.post({
-        matcher: `begin:${fetchSiteEmojiUrl(missingMediaEmojiId)}`,
+      fetchMock.mock({
+        method: 'GET',
+        matcher: 'end:?altScale=XHDPI',
         response: 403,
         name: 'fetch-site-emoji',
       });
-
       return siteEmojiResource.findEmoji(missingMediaEmojiId).then(emoji => {
         expect(emoji).toEqual(undefined);
         const fetchSiteEmojiCalls = fetchMock.calls('fetch-site-emoji');
