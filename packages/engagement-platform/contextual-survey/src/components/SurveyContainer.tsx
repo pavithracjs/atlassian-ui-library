@@ -13,6 +13,8 @@ interface Props {
 export const surveyWidth = gridSize() * 55; // 440
 export const surveyMargin = gridSize() * 6; // 48
 
+const padding: number = gridSize() * 3;
+
 export default ({ children, onDismiss }: Props) => {
   return (
     <div
@@ -25,14 +27,14 @@ export default ({ children, onDismiss }: Props) => {
         z-index: ${layers.flag()};
         ${elevation.e500()}
         border-radius: ${borderRadius()}px;
-        padding: ${gridSize() * 3}px;
+        padding: ${padding}px;
       `}
     >
       <div
         css={css`
           position: absolute;
-          top: ${gridSize() * 2}px;
-          right: ${gridSize() * 2}px;
+          top: ${padding - gridSize()}px;
+          right: ${padding - gridSize()}px;
         `}
       >
         <Button
