@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.5.0
+
+### Minor Changes
+
+- [minor][8cd4402937](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cd4402937):
+
+  CSS corrections
+
 ## 2.4.0
 
 ### Minor Changes
