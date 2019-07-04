@@ -1,1 +1,0 @@
-ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
