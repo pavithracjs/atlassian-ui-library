@@ -23,7 +23,6 @@ import { toEmojiId } from '../../../../util/type-helpers';
 import {
   atlassianServiceEmojis,
   defaultMediaApiToken,
-  fetchSiteEmojiUrl,
   missingMediaEmoji,
   missingMediaEmojiId,
   missingMediaServiceEmoji,
