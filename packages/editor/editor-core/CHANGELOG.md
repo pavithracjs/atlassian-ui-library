@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.25.2
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
 ## 112.25.1
 
 ### Patch Changes

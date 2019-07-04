@@ -50,6 +50,9 @@ export class DrawerBase extends Component<
 > {
   static defaultProps = {
     width: 'narrow',
+    isFocusLockEnabled: true,
+    shouldReturnFocus: true,
+    autoFocusFirstElem: false,
   };
 
   state = {
@@ -124,6 +127,9 @@ export class DrawerBase extends Component<
       width,
       shouldUnmountOnExit,
       onCloseComplete,
+      autoFocusFirstElem,
+      isFocusLockEnabled,
+      shouldReturnFocus,
     } = this.props;
 
     return (
@@ -140,7 +146,11 @@ export class DrawerBase extends Component<
               <Fade in={isOpen}>
                 <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
               </Fade>
-              <FocusLock>
+              <FocusLock
+                autoFocusFirstElem={autoFocusFirstElem}
+                isFocusLockEnabled={isFocusLockEnabled}
+                shouldReturnFocus={shouldReturnFocus}
+              >
                 <DrawerPrimitive
                   icon={icon}
                   in={isOpen}
@@ -166,6 +176,7 @@ export const DrawerItemTheme = (props: { children: Node }) => (
 
 export * from './skeletons';
 export * from './item-group';
+export * from './item';
 
 export default withAnalyticsContext({
   componentName: 'drawer',

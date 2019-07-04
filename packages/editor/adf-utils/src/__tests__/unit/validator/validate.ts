@@ -23,7 +23,12 @@ const readFilesSync = (path: string) =>
 
 describe('validate', () => {
   ['full', 'stage-0'].forEach(schemaType => {
-    const valid = readFilesSync(`${BASE_DIR}/${schemaType}/valid`);
+    let valid = [];
+    try {
+      valid = readFilesSync(`${BASE_DIR}/${schemaType}/valid`);
+    } catch (e) {
+      return;
+    }
     valid.forEach((file: any) => {
       // Don't test Application Card
       if (file.name.indexOf('applicationCard') === 0) {
@@ -39,7 +44,12 @@ describe('validate', () => {
       });
     });
 
-    const invalid = readFilesSync(`${BASE_DIR}/${schemaType}/invalid`);
+    let invalid = [];
+    try {
+      invalid = readFilesSync(`${BASE_DIR}/${schemaType}/invalid`);
+    } catch (e) {
+      return;
+    }
     invalid.forEach((file: any) => {
       it(`does not validate '${file.name}'`, async () => {
         const run = () => {
