@@ -1,1 +1,0 @@
-Exposed new API for consumers of global search to better control the lifecycle of the search session id

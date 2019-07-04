@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.0.0
+
+### Major Changes
+
+- [major][1e1fd28bb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e1fd28bb3):
+
+  Exposed new API for consumers of global search to better control the lifecycle of the search session id
+
 ## 9.2.0
 
 ### Minor Changes
