@@ -247,39 +247,6 @@
       ],
       "additionalProperties": false
     },
-    "annotation_mark": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": [
-            "annotation"
-          ]
-        },
-        "attrs": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "annotationType": {
-              "enum": [
-                "inlineComment"
-              ]
-            }
-          },
-          "required": [
-            "id",
-            "annotationType"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "type",
-        "attrs"
-      ],
-      "additionalProperties": false
-    },
     "alignment_mark": {
       "type": "object",
       "properties": {
@@ -329,6 +296,39 @@
           },
           "required": [
             "level"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "attrs"
+      ],
+      "additionalProperties": false
+    },
+    "annotation_mark": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "annotation"
+          ]
+        },
+        "attrs": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "annotationType": {
+              "enum": [
+                "inlineComment"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "annotationType"
           ],
           "additionalProperties": false
         }
