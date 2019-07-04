@@ -30,28 +30,26 @@ export default ({ height = '100%' }: Props) => {
         Show survey
       </Button>
       <SurveyMarshal shouldShow={showSurvey}>
-        {({ isOpen }) =>
-          isOpen && (
-            <ContextualSurvey
-              question="How strongly do you agree or disagree with this statement"
-              statement="It is easy to find what I'm looking for in Jira"
-              onDismiss={onDismiss}
-              getUserHasAnsweredMailingList={() => Promise.resolve(false)}
-              onMailingListAnswer={(answer: boolean) =>
-                new Promise(resolve => {
-                  console.log('did sign up to mailing list:', answer);
-                  setTimeout(resolve, 1000);
-                })
-              }
-              onSubmit={formValues =>
-                new Promise(resolve => {
-                  console.log('submitted value', formValues);
-                  setTimeout(resolve, 1000);
-                })
-              }
-            />
-          )
-        }
+        {() => (
+          <ContextualSurvey
+            question="How strongly do you agree or disagree with this statement"
+            statement="It is easy to find what I'm looking for in Jira"
+            onDismiss={onDismiss}
+            getUserHasAnsweredMailingList={() => Promise.resolve(false)}
+            onMailingListAnswer={(answer: boolean) =>
+              new Promise(resolve => {
+                console.log('did sign up to mailing list:', answer);
+                setTimeout(resolve, 1000);
+              })
+            }
+            onSubmit={formValues =>
+              new Promise(resolve => {
+                console.log('submitted value', formValues);
+                setTimeout(resolve, 1000);
+              })
+            }
+          />
+        )}
       </SurveyMarshal>
     </React.Fragment>
   );

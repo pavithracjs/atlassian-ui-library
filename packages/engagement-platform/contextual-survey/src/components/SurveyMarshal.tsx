@@ -28,13 +28,9 @@ const getAnimationProps = (state: TransitionState) => {
   }
 };
 
-type ChildrenArgs = {
-  isOpen: boolean;
-};
-
 type Props = {
   shouldShow: boolean;
-  children: (args: ChildrenArgs) => ReactNode;
+  children: () => ReactNode;
 };
 
 export default function SurveyMarshal(props: Props) {
@@ -58,7 +54,7 @@ export default function SurveyMarshal(props: Props) {
               transition-property: transform, opacity;
             `}
           >
-            {children({ isOpen: true })}
+            {children()}
           </div>
         );
       }}
