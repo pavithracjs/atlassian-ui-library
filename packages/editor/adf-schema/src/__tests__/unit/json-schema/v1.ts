@@ -14,7 +14,7 @@ const schemas = {
 
 describe(`${name} json-schema v1`, () => {
   Object.keys(schemas).forEach(schemaName => {
-    describe(schemaName, async () => {
+    describe(schemaName, () => {
       const schema = schemas[schemaName as keyof typeof schemas];
       const validate = ajv.compile(schema);
 
