@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { GlobalWithFetchMock } from 'jest-fetch-mock';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import 'jest-styled-components';
 import { toMatchSnapshot } from 'jest-snapshot';
