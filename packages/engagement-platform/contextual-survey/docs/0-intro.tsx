@@ -31,7 +31,7 @@ export default md`
 
   ## Usage
 
-  ${code`import Avatar from '@atlaskit/avatar';`}
+  ${code`import { ContextualSurvey, SurveyMarshal } from '@atlaskit/avatar';`}
 
   ${(
     <Example

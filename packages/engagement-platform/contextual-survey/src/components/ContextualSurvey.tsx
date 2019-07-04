@@ -110,7 +110,9 @@ export default ({
     React.ComponentProps<typeof SurveyForm>['onSubmit']
   >(
     async (formValues, _, callback) => {
-      const userHasSignedUp = getUserHasAnsweredMailingList();
+      // getting the answer before calling submit to prevent nativation
+      const userHasAnswered: boolean = await getUserHasAnsweredMailingList();
+
       await onSubmit(formValues);
 
       /**
@@ -119,7 +121,7 @@ export default ({
        */
       callback();
 
-      if (await userHasSignedUp) {
+      if (userHasAnswered) {
         trySetCurrentStep('POST_SURVEY_HAS_SIGN_UP');
         return;
       }
