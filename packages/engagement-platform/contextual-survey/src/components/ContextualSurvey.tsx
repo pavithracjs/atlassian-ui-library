@@ -5,6 +5,7 @@ import SignUpPrompt from './SignUpPrompt';
 import SignUpSuccess from './SignUpSuccess';
 import FeedbackAcknowledgement from './FeedbackAcknowledgement';
 import { FormValues } from '../types';
+import useEscapeToDismiss from './useEscapeToDismiss';
 
 interface Props {
   /** Question used for the survey */
@@ -162,6 +163,8 @@ export default ({
     },
     [currentStep],
   );
+
+  useEscapeToDismiss({ onDismiss: tryDismiss });
 
   const content: React.ReactNode = (() => {
     if (currentStep === 'SURVEY') {
