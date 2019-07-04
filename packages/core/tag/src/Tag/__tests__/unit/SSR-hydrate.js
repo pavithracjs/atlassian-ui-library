@@ -19,7 +19,7 @@ afterEach(() => {
 
 const App = () => <Tag text="Base Tag" />;
 
-test('should ssr then hydrate tag correctly', () => {
+test.skip('should ssr then hydrate tag correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
   // server-side
   canUseDom.mockReturnValue(false);
