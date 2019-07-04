@@ -45,6 +45,6 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "peerDependencies": {
-    "@atlassian/analytics-node-client": "^1.0.0"
+    "@atlassiansox/analytics-node-client": "^1.0.103"
   }
 }
