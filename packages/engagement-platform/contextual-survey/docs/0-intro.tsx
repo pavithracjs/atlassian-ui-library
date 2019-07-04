@@ -34,7 +34,7 @@ export default md`
   After submission (or after signing up to the Atlassian Research Group), the survey will call \`onDismiss\` automatically after a short amount of time.
   \`onDismiss\` is also called if the component is unmounted mid flow. \`onDismiss\` will only ever be called once.
 
-  - \`<SurveyMarshal/>\`: Responsible for placement and animation for the survey
+  - \`<SurveyMarshal/>\`: Responsible for placement and animation for the survey.
   - \`<ContextualSurvey/>\`: Renders the survey questions
 
   ## Usage
