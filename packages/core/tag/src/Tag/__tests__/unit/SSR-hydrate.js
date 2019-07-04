@@ -3,8 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import exenv from 'exenv';
-import Tag from '../..';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
+import Tag from '../..';
 
 beforeEach(() => {
   jest.setTimeout(10000);
