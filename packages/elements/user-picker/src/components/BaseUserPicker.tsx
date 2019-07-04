@@ -147,7 +147,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     switch (action) {
       case 'select-option':
         if (value && !Array.isArray(value)) {
-          callCallback(onSelection, value.data);
+          callCallback(onSelection, value.data, this.getSessionId());
         }
         this.fireEvent(selectEvent, isMulti ? option : value);
         this.session = isMulti ? startSession() : undefined;
@@ -256,7 +256,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
 
   private handleFocus = (event: React.FocusEvent) => {
     const { value, menuIsOpen } = this.state;
-    if (!menuIsOpen) {
+    if (!menuIsOpen || !this.session) {
       this.startSession();
     }
     callCallback(this.props.onFocus, this.getSessionId());
@@ -330,7 +330,9 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     const { open, search } = this.props;
     // load options when the picker open
     if (open) {
-      this.startSession();
+      if (!this.session) {
+        this.startSession();
+      }
       this.executeLoadOptions(search);
     }
   }

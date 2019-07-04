@@ -1,0 +1,1 @@
+pass session id to on selection
