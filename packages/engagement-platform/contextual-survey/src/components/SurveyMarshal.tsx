@@ -30,6 +30,8 @@ const getAnimationProps = (state: TransitionState) => {
 
 type Props = {
   shouldShow: boolean;
+  // Using a function as child so that the child node does
+  // not need to be evaluated if it is not mounted
   children: () => ReactNode;
 };
 
