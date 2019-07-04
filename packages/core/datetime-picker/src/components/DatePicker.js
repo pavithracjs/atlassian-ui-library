@@ -192,15 +192,20 @@ class DatePicker extends Component<Props, State> {
     const [year, month, date] = iso.split('-');
     let newIso = iso;
 
-    const lastDayInMonth = lastDayOfMonth(
+    const lastDayInMonth: number = lastDayOfMonth(
       new Date(
         parseInt(year, 10),
         parseInt(month, 10) - 1, // This needs to be -1, because the Date constructor expects an index of the given month
       ),
     ).getDate();
 
-    if (parseInt(lastDayInMonth, 10) < parseInt(date, 10)) {
-      newIso = `${year}-${month}-${lastDayInMonth}`;
+    const parsedLastDayInMonth: number = parseInt(lastDayInMonth, 10);
+    const parsedMonth: number = parseInt(month, 10);
+
+    if (parsedLastDayInMonth < parseInt(date, 10)) {
+      newIso = `${year}-${padToTwo(parsedMonth)}-${padToTwo(
+        parsedLastDayInMonth,
+      )}`;
     }
 
     this.setState({ view: newIso });
