@@ -1,1 +1,0 @@
-ED-7178: Promoting alignment and indentation to full schema

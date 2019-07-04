@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.11.0
+
+### Minor Changes
+
+- [minor][ef787dba60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef787dba60):
+
+  ED-7178: Promoting alignment and indentation to full schema
+
 ## 2.10.0
 
 ### Minor Changes
