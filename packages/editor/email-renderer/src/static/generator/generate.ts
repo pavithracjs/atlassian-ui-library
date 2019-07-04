@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import { writeFileSync, readFileSync } from 'fs';
 import rimraf from 'rimraf';
 import imageSources from './image-sources';
+import { imageOutputType } from './constants';
 
 const coreIconSrc = resolve(__dirname, '../svg');
 const tempFolder = resolve(__dirname, './tmp');

@@ -2,7 +2,10 @@ import { defaultSchema } from '@atlaskit/adf-schema';
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 import flow from 'lodash.flow';
 import property from 'lodash.property';
-import { SerializerWithImages } from './serializer';
+import {
+  SerializeFragmentWithAttachmentsResult,
+  SerializerWithImages,
+} from './serializer';
 import { nodeSerializers } from './node-serializers';
 import styles from './styles';
 import juice from 'juice';
@@ -93,6 +96,21 @@ const juicify = (html: string, inlineCSS: boolean): string => {
   );
 };
 
+// replace all CID image references with a fake image
+const stubImages = (
+  content: SerializeFragmentWithAttachmentsResult,
+  isMockEnabled: boolean,
+) =>
+  isMockEnabled
+    ? {
+        result: content.result!.replace(
+          /src="cid:[\w-]*"/gi,
+          'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="',
+        ),
+        embeddedImages: content.embeddedImages,
+      }
+    : content;
+
 export interface EmailSerializerOpts {
   isImageStubEnabled: boolean;
   isInlineCSSEnabled: boolean;
@@ -130,7 +148,8 @@ export default class EmailSerializer implements SerializerWithImages<string> {
     property('content'),
     traverseTree,
     html => juicify(html, this.opts.isInlineCSSEnabled),
-    html => processImages(html, this.opts.isImageStubEnabled),
+    html => processImages(html, this.opts.isImageStubEnabled), // inline static assets for demo purposes
+    result => stubImages(result, this.opts.isImageStubEnabled), // stub user uploaded images to prevent console.errors
   );
 
   serializeFragment: (...args: any) => string = flow(
