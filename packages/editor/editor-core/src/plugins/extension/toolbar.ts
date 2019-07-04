@@ -3,6 +3,7 @@ import { hasParentNodeOfType } from 'prosemirror-utils';
 import { EditorState } from 'prosemirror-state';
 import { Node as PMNode } from 'prosemirror-model';
 
+import { ExtensionHandlers } from '@atlaskit/editor-common';
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
 import EditIcon from '@atlaskit/icon/glyph/editor/edit';
 import FullWidthIcon from '@atlaskit/icon/glyph/editor/media-full-width';
@@ -88,6 +89,31 @@ const breakoutOptions = (
     : [];
 };
 
+const editButton = (
+  formatMessage: InjectedIntl['formatMessage'],
+  macroState: MacroState,
+  extensionState: ExtensionState,
+  extensionHandlers: ExtensionHandlers | undefined,
+): Array<FloatingToolbarItem<Command>> => {
+  const { extensionType } = extensionState.node.node.attrs;
+  const extension = extensionHandlers && extensionHandlers[extensionType];
+  if (typeof extension === 'object' && !extension.update) {
+    return [];
+  }
+
+  return [
+    {
+      type: 'button',
+      icon: EditIcon,
+      onClick: editExtension(
+        macroState && macroState.macroProvider,
+        extensionHandlers,
+      ),
+      title: formatMessage(messages.edit),
+    },
+  ];
+};
+
 export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
@@ -108,15 +134,12 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       getDomRef: () => extensionState.element!.parentElement || undefined,
       nodeType,
       items: [
-        {
-          type: 'button',
-          icon: EditIcon,
-          onClick: editExtension(
-            macroState && macroState.macroProvider,
-            props && props.extensionHandlers,
-          ),
-          title: formatMessage(messages.edit),
-        },
+        ...editButton(
+          formatMessage,
+          macroState,
+          extensionState,
+          props && props.extensionHandlers,
+        ),
         ...breakoutOptions(state, formatMessage, extensionState),
         {
           type: 'separator',

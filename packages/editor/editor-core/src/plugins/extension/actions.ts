@@ -97,10 +97,12 @@ export const editExtension = (
   if (extensionHandlers) {
     const { extensionType } = node.node.attrs;
     const extension = extensionHandlers[extensionType];
-
-    if (typeof extension === 'object' && extension.update) {
-      updateExtensionParams(extension.update, node)(state, dispatch);
-      return true;
+    if (typeof extension === 'object') {
+      if (extension.update) {
+        updateExtensionParams(extension.update, node)(state, dispatch);
+        return true;
+      }
+      return false;
     }
   }
 
