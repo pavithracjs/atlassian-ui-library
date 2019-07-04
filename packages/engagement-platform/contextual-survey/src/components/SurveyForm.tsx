@@ -48,7 +48,7 @@ const transitionDuration = 200;
 export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const expandedAreaRef = useRef<HTMLDivElement>(null);
-  const onValueSelect = useCallback(
+  const onScoreSelect = useCallback(
     () => {
       setExpanded(true);
     },
@@ -74,9 +74,9 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
               {({ fieldProps }: { fieldProps: any }) => (
                 <FeedbackScoreButtons
                   {...fieldProps}
-                  onChange={(value: number) => {
-                    fieldProps.onChange(value);
-                    onValueSelect();
+                  onChange={(score: number) => {
+                    fieldProps.onChange(score);
+                    onScoreSelect();
                   }}
                 />
               )}
@@ -101,6 +101,7 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
                         {...fieldProps}
                         aria-labelledby="contextualSurveyQuestion"
                         placeholder={textPlaceholder}
+                        autoFocus
                       />
                     )}
                   </Field>
