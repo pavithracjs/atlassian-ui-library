@@ -4,7 +4,6 @@ import {
   withAnalyticsContext,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import { ThemeProvider } from 'emotion-theming';
 import CheckboxIcon from './CheckboxIcon';
 
 import { name as packageName, version as packageVersion } from './version.json';
@@ -145,51 +144,49 @@ class Checkbox extends Component<CheckboxProps, State> {
     const { isFocused, isActive, isHovered } = this.state;
 
     return (
-      <ThemeProvider theme={emptyTheme}>
-        <Label
-          isDisabled={isDisabled}
-          onMouseDown={this.onMouseDown}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-          onMouseUp={this.onMouseUp}
-        >
-          <CheckboxWrapper>
-            <HiddenCheckbox
-              disabled={isDisabled}
-              checked={isChecked}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-              onKeyUp={this.onKeyUp}
-              onKeyDown={this.onKeyDown}
-              type="checkbox"
-              value={value}
-              name={name}
-              ref={r => (this.checkbox = r)} // eslint-disable-line
-              required={isRequired}
-              {...rest}
-            />
-            <CheckboxIcon
-              isChecked={isChecked}
-              isDisabled={isDisabled}
-              isFocused={isFocused}
-              isActive={isActive}
-              isHovered={isHovered}
-              isInvalid={isInvalid}
-              isIndeterminate={isIndeterminate}
-              primaryColor="inherit"
-              secondaryColor="inherit"
-              label=""
-            />
-          </CheckboxWrapper>
-          <LabelText>
-            {label}
-            {isRequired && (
-              <RequiredIndicator aria-hidden="true">*</RequiredIndicator>
-            )}
-          </LabelText>
-        </Label>
-      </ThemeProvider>
+      <Label
+        isDisabled={isDisabled}
+        onMouseDown={this.onMouseDown}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        onMouseUp={this.onMouseUp}
+      >
+        <CheckboxWrapper>
+          <HiddenCheckbox
+            disabled={isDisabled}
+            checked={isChecked}
+            onChange={this.onChange}
+            onBlur={this.onBlur}
+            onFocus={this.onFocus}
+            onKeyUp={this.onKeyUp}
+            onKeyDown={this.onKeyDown}
+            type="checkbox"
+            value={value}
+            name={name}
+            ref={r => (this.checkbox = r)} // eslint-disable-line
+            required={isRequired}
+            {...rest}
+          />
+          <CheckboxIcon
+            isChecked={isChecked}
+            isDisabled={isDisabled}
+            isFocused={isFocused}
+            isActive={isActive}
+            isHovered={isHovered}
+            isInvalid={isInvalid}
+            isIndeterminate={isIndeterminate}
+            primaryColor="inherit"
+            secondaryColor="inherit"
+            label=""
+          />
+        </CheckboxWrapper>
+        <LabelText>
+          {label}
+          {isRequired && (
+            <RequiredIndicator aria-hidden="true">*</RequiredIndicator>
+          )}
+        </LabelText>
+      </Label>
     );
   }
 }

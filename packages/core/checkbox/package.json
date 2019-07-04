@@ -26,7 +26,6 @@
     "@atlaskit/theme": "^9.1.0",
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",
-    "emotion-theming": "^10.0.7",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
