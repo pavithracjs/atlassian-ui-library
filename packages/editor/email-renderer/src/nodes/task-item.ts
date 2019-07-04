@@ -20,11 +20,13 @@ export const styles = `
 .${className}-iconTd {
   vertical-align: top;
   padding: 10px 0px 0px 8px;
+  line-height: 20px;
   width: 24px;
   height: 24px;
 }
 .${className}-textTd {
   font-size: 14px;
+  line-height: 20px;
   padding: 8px 8px 8px 0;
 }
 .${className}-mainContent {

@@ -11,7 +11,7 @@ export const styles = `
   display: block;
   font-size: 12px;
   line-height: 20px;
-  white-space: pre;
+  white-space: pre-wrap;
   font-family: ${codeFontFamily};
 }
 .${createClassName('codeBlock-pre')} {
@@ -20,6 +20,7 @@ export const styles = `
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   margin: 0px;
+  white-space: pre-line;
 }
 .${createClassName('codeBlock-td')} {
   padding: 8px 16px;
