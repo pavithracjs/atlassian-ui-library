@@ -10,7 +10,7 @@ export type PayloadProvider = () => GasPayload;
 export interface Props {
   payloadProvider: PayloadProvider;
   onEventFired: Function;
-  createAnalyticsEvent: CreateAnalyticsEventFn;
+  createAnalyticsEvent?: CreateAnalyticsEventFn;
 }
 
 export class UnwrappedAnalyticsEventFiredOnMount extends React.Component<
@@ -28,4 +28,6 @@ export class UnwrappedAnalyticsEventFiredOnMount extends React.Component<
   }
 }
 
-export default withAnalyticsEvents()(UnwrappedAnalyticsEventFiredOnMount);
+export default withAnalyticsEvents<Props>()(
+  UnwrappedAnalyticsEventFiredOnMount,
+);

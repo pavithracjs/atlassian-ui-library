@@ -45,7 +45,6 @@ export default class Badge extends React.Component<BadgeProps> {
     children: 0,
     max: 99,
     onValueUpdated: () => {},
-    value: undefined,
   };
 
   // TODO This can be removed when we remove support for onValueUpdated.

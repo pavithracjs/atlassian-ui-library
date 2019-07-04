@@ -62,13 +62,13 @@ interface State {
 class Modal extends React.Component<Props, State> {
   static defaultProps = {
     autoFocus: true,
-    scrollBehavior: 'inside',
+    scrollBehavior: 'inside' as 'inside' | 'outside',
     shouldCloseOnEscapePress: true,
     shouldCloseOnOverlayClick: true,
     isChromeless: false,
     isOpen: true,
     stackIndex: 0,
-    width: 'medium',
+    width: 'medium' as WidthNames,
     isHeadingMultiline: true,
     onClose: () => {},
   };
@@ -207,12 +207,12 @@ const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export const ModalDialogWithoutAnalytics = Modal;
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'modalDialog',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onClose: createAndFireEventOnAtlaskit({
       action: 'closed',
       actionSubject: 'modalDialog',

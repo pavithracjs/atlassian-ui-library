@@ -204,4 +204,6 @@ class ReactionsWithoutAnalytics extends React.PureComponent<
   }
 }
 
-export const Reactions = withAnalyticsEvents()(ReactionsWithoutAnalytics);
+export const Reactions = withAnalyticsEvents<Props>()(
+  ReactionsWithoutAnalytics,
+);

@@ -6,7 +6,7 @@ import {
 } from '@atlaskit/analytics-next';
 import NodeResolver from 'react-node-resolver';
 import { Manager, Reference, Popper } from '@atlaskit/popper';
-import { Props } from '../types';
+import { Props, Placement } from '../types';
 import {
   name as packageName,
   version as packageVersion,
@@ -28,7 +28,7 @@ class InlineDialog extends Component<Props, {}> {
     onContentClick: () => {},
     onContentFocus: () => {},
     onClose: () => {},
-    placement: 'bottom-start',
+    placement: 'bottom-start' as Placement,
   };
 
   containerRef?: HTMLElement;
@@ -130,12 +130,12 @@ class InlineDialog extends Component<Props, {}> {
 export { InlineDialog as InlineDialogWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'inlineDialog',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onClose: createAndFireEventOnAtlaskit({
       action: 'closed',
       actionSubject: 'inlineDialog',
