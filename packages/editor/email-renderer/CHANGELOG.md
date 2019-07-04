@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.4.0
+
+### Minor Changes
+
+- [minor][0718ea79a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0718ea79a0):
+
+  Email renderer notification distributor integration
+
 ## 2.3.0
 
 ### Minor Changes
