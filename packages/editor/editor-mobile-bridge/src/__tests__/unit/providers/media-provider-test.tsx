@@ -60,7 +60,7 @@ const createMedia = (collection: string, width = 256, height = 128) =>
     height,
   })();
 
-describe('Mobile MediaProvider', async () => {
+describe('Mobile MediaProvider', () => {
   const createEditor = createEditorFactory();
 
   let promisedMediaProvider: Promise<MediaProvider>;
