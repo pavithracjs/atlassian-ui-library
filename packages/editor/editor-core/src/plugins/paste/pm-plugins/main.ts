@@ -10,7 +10,6 @@ import linkify from '../linkify-md-plugin';
 import { escapeLinks } from '../util';
 import { transformSliceToRemoveOpenBodiedExtension } from '../../extension/actions';
 import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
-import { linkifyContent } from '../../hyperlink/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
 import { transformSliceToRemoveOpenTable } from '../../table/utils';
 import { transformSliceToAddTableHeaders } from '../../table/commands';
@@ -198,9 +197,6 @@ export function createPlugin(
 
         // finally, handle rich-text copy-paste
         if (isRichText) {
-          // linkify the text where possible
-          slice = linkifyContent(state.schema)(slice);
-
           // run macro autoconvert prior to other conversions
           if (
             handleMacroAutoConvert(text, slice, cardOptions)(
