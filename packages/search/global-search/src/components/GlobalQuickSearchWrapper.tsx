@@ -13,12 +13,17 @@ import {
   ConfluenceModelContext,
   JiraModelContext,
 } from '../api/types';
-import { createFeatures } from '../util/features';
+import {
+  createFeatures,
+  JiraFeatures,
+  ConfluenceFeatures,
+} from '../util/features';
 import { ABTest } from '../api/CrossProductSearchClient';
 import { ABTestProvider } from './AbTestProvider';
 import withFeedbackButton, {
   FeedbackCollectorProps,
 } from './feedback/withFeedbackButton';
+import FeaturesProvider from './FeaturesProvider';
 
 const DEFAULT_NOOP_LOGGER: Logger = {
   safeInfo() {},
@@ -272,17 +277,32 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     }
   };
 
+  createFeatures(abTest: ABTest): ConfluenceFeatures & JiraFeatures {
+    const {
+      disableJiraPreQueryPeopleSearch,
+      enablePreQueryFromAggregator,
+      fasterSearchFFEnabled,
+      useUrsForBootstrapping,
+      isAutocompleteEnabled,
+    } = this.props;
+
+    return createFeatures({
+      abTest,
+      fasterSearchFFEnabled: !!fasterSearchFFEnabled,
+      useUrsForBootstrapping: !!useUrsForBootstrapping,
+      disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
+      enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,
+      isAutocompleteEnabled: !!isAutocompleteEnabled,
+    });
+  }
+
   renderSearchContainer(searchClients: SearchClients, abTest: ABTest) {
     const {
       linkComponent,
       referralContextIdentifiers,
       logger,
-      disableJiraPreQueryPeopleSearch,
-      enablePreQueryFromAggregator,
       inputControls,
       appPermission,
-      fasterSearchFFEnabled,
-      useUrsForBootstrapping,
       modelContext,
       showFeedbackCollector,
       feedbackCollectorProps,
@@ -292,14 +312,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
     const commonProps = {
       ...searchClients,
-      features: createFeatures({
-        abTest,
-        fasterSearchFFEnabled: !!fasterSearchFFEnabled,
-        useUrsForBootstrapping: !!useUrsForBootstrapping,
-        disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
-        enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,
-        isAutocompleteEnabled: !!isAutocompleteEnabled,
-      }),
       linkComponent: linkComponent,
       referralContextIdentifiers: referralContextIdentifiers,
       logger: logger || DEFAULT_NOOP_LOGGER,
@@ -359,7 +371,11 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                   searchClients.crossProductSearchClient
                 }
               >
-                {abTest => this.renderSearchContainer(searchClients, abTest)}
+                {abTest => (
+                  <FeaturesProvider features={this.createFeatures(abTest)}>
+                    {this.renderSearchContainer(searchClients, abTest)}
+                  </FeaturesProvider>
+                )}
               </ABTestProvider>
             );
           }}
