@@ -1,0 +1,1 @@
+Exports DrawerItem as part of the drawer package. Exposes props to control focus lock behaviour.
