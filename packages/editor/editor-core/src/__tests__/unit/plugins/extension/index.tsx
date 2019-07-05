@@ -266,7 +266,7 @@ describe('extension', () => {
           editorView.dispatch(tr);
 
           expect(
-            editExtension(null, extensionHandlers)(
+            editExtension(null, updateHandler)(
               editorView.state,
               editorView.dispatch,
             ),

@@ -7,7 +7,6 @@ export {
   ErrorReportingHandler,
 } from './error-reporter';
 export * from './date';
-export * from './extension-handler';
 export * from './imageLoader';
 export * from './calc-breakout-width';
 export { default as ADFTraversor } from './traversor';
@@ -15,3 +14,4 @@ export * from './analytics';
 export { measureRender } from './performance/measure-render';
 export { startMeasure, stopMeasure, clearMeasure } from './performance/measure';
 export { getResponseEndTime } from './performance/navigation';
+export { getExtensionRenderer } from './extension-handler';

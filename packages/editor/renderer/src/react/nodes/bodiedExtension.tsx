@@ -4,7 +4,7 @@ import { renderNodes, Serializer } from '../..';
 import {
   ADNode,
   ExtensionHandlers,
-  getExtensionHandler,
+  getExtensionRenderer,
 } from '@atlaskit/editor-common';
 import { renderExtension } from './extension';
 
@@ -33,9 +33,8 @@ const BodiedExtension: React.StatelessComponent<Props> = ({
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
-      const extensionOrExtensionHandler = extensionHandlers[extensionType];
-      const extensionHandler = getExtensionHandler(extensionOrExtensionHandler);
-      const extensionContent = extensionHandler(
+      const render = getExtensionRenderer(extensionHandlers[extensionType]);
+      const extensionContent = render(
         {
           type: 'bodiedExtension',
           extensionKey,

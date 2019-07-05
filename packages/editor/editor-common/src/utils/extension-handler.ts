@@ -1,11 +1,11 @@
 import { Extension, ExtensionHandler } from '../types/extension-handler';
 
-export function getExtensionHandler<T>(
-  extensionOrExtensionHandler: Extension<T> | ExtensionHandler<T>,
+export function getExtensionRenderer<T>(
+  extensionHandler: Extension<T> | ExtensionHandler<T>,
 ): ExtensionHandler<T> {
-  if (typeof extensionOrExtensionHandler === 'object') {
-    return extensionOrExtensionHandler.render;
+  if (typeof extensionHandler === 'object') {
+    return extensionHandler.render;
   } else {
-    return extensionOrExtensionHandler;
+    return extensionHandler;
   }
 }

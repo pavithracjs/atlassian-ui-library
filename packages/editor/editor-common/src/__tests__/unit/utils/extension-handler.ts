@@ -1,4 +1,4 @@
-import { getExtensionHandler } from '../../../utils/extension-handler';
+import { getExtensionRenderer } from '../../../utils/extension-handler';
 
 describe('@atlaskit/editor-common extension handler utils', () => {
   it('should return the render handler function from an Extension type', () => {
@@ -6,13 +6,13 @@ describe('@atlaskit/editor-common extension handler utils', () => {
     const extension = {
       render: renderFn,
     };
-    const result = getExtensionHandler(extension);
+    const result = getExtensionRenderer(extension);
     expect(result).toBe(renderFn);
   });
 
   it('should return the ExtensionHandler when given an ExtensionHandler', () => {
     const extensionHandler = jest.fn();
-    const result = getExtensionHandler(extensionHandler);
+    const result = getExtensionRenderer(extensionHandler);
     expect(result).toBe(extensionHandler);
   });
 });

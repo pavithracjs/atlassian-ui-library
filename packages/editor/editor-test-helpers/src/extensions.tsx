@@ -130,14 +130,9 @@ export const extensionHandlers: ExtensionHandlers = {
     render: ext => {
       return <div>{ext.parameters.count}</div>;
     },
-    update: async params => {
-      const newParams = await (async params => {
-        return {
-          count: params.count + 1,
-        };
-      })(params);
-      return newParams;
-    },
+    update: async params => ({
+      count: params.count + 1,
+    }),
   },
   'com.atlassian.extensions.noupdate': {
     render: () => {

@@ -13,9 +13,13 @@ export type ExtensionHandler<T> = (
   doc: Object,
 ) => JSX.Element | ADNode[] | null;
 
+export type UpdateExtension<T> = (
+  extensionParameters: T,
+) => Promise<T | undefined>;
+
 export interface Extension<T> {
   render: ExtensionHandler<T>;
-  update?: (extensionParameters: T) => Promise<object | undefined>;
+  update?: UpdateExtension<T>;
 }
 
 export interface ExtensionHandlers {

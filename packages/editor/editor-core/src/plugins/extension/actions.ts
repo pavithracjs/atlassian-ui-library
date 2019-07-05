@@ -1,17 +1,17 @@
 import { findParentNodeOfType, replaceSelectedNode } from 'prosemirror-utils';
 import { Slice, Schema, Node as PmNode } from 'prosemirror-model';
-import { EditorState } from 'prosemirror-state';
+import { EditorState, NodeSelection } from 'prosemirror-state';
 import {
   removeSelectedNode,
   removeParentNodeOfType,
   findSelectedNodeOfType,
 } from 'prosemirror-utils';
-import { ExtensionHandlers } from '@atlaskit/editor-common';
+import { UpdateExtension } from '@atlaskit/editor-common';
 import { pluginKey } from './plugin';
 import { MacroProvider, insertMacroFromMacroBrowser } from '../macro';
 import { getExtensionNode, isSelectionNodeExtension } from './utils';
 import { mapFragment } from '../../utils/slice';
-import { Command } from '../../types';
+import { Command, CommandDispatch } from '../../types';
 
 export const updateExtensionLayout = (layout: string): Command => (
   state,
@@ -56,10 +56,13 @@ export const updateExtensionLayout = (layout: string): Command => (
   return true;
 };
 
-export const updateExtensionParams = <T>(
-  updateExtension: (extensionParameters: T) => Promise<object | undefined>,
+export const updateExtensionParams = (
+  updateExtension: UpdateExtension<object>,
   node: { node: PmNode; pos: number },
-) => async (state: EditorState, dispatch?: any): Promise<void> => {
+) => async (state: EditorState, dispatch?: CommandDispatch): Promise<void> => {
+  if (!state.schema.nodes.extension) {
+    return;
+  }
   const { parameters } = node.node.attrs;
   const newParameters = await updateExtension(parameters);
 
@@ -72,12 +75,17 @@ export const updateExtensionParams = <T>(
       },
     };
 
-    const newNode = state.schema.nodes.extension!.createChecked(newAttrs);
+    const newNode = state.schema.nodes.extension.createChecked(newAttrs);
     if (!newNode) {
       return;
     }
 
-    const transaction = replaceSelectedNode(newNode)(state.tr);
+    let transaction = replaceSelectedNode(newNode)(state.tr);
+    // Replacing selected node doesn't update the selection. `selection.node` still returns the old node
+    transaction = transaction.setSelection(
+      NodeSelection.create(transaction.doc, state.selection.anchor),
+    );
+
     if (dispatch) {
       dispatch(transaction.scrollIntoView());
     }
@@ -86,7 +94,7 @@ export const updateExtensionParams = <T>(
 
 export const editExtension = (
   macroProvider: MacroProvider | null,
-  extensionHandlers?: ExtensionHandlers,
+  updateExtension?: UpdateExtension<object>,
 ): Command => (state, dispatch): boolean => {
   const node = getExtensionNode(state);
 
@@ -94,16 +102,9 @@ export const editExtension = (
     return false;
   }
 
-  if (extensionHandlers) {
-    const { extensionType } = node.node.attrs;
-    const extension = extensionHandlers[extensionType];
-    if (typeof extension === 'object') {
-      if (extension.update) {
-        updateExtensionParams(extension.update, node)(state, dispatch);
-        return true;
-      }
-      return false;
-    }
+  if (updateExtension) {
+    updateExtensionParams(updateExtension, node)(state, dispatch);
+    return true;
   }
 
   if (!macroProvider) {

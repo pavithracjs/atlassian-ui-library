@@ -4,7 +4,7 @@ import { renderNodes, Serializer } from '../..';
 import {
   ADNode,
   ExtensionHandlers,
-  getExtensionHandler,
+  getExtensionRenderer,
 } from '@atlaskit/editor-common';
 
 export interface Props {
@@ -28,9 +28,8 @@ const InlineExtension: React.StatelessComponent<Props> = ({
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
-      const extensionOrExtensionHandler = extensionHandlers[extensionType];
-      const extensionHandler = getExtensionHandler(extensionOrExtensionHandler);
-      const content = extensionHandler(
+      const render = getExtensionRenderer(extensionHandlers[extensionType]);
+      const content = render(
         {
           type: 'inlineExtension',
           extensionKey,

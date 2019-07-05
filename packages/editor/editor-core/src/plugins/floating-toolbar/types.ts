@@ -3,7 +3,7 @@ import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { NodeType } from 'prosemirror-model';
 
-import { Command, EditorProps } from '../../types';
+import { Command } from '../../types';
 import { ButtonAppearance } from './ui/Button';
 import { DropdownOptions, RenderOptionsPropsT } from './ui/Dropdown';
 import { SelectOptions, SelectOption } from './ui/Select';
@@ -110,5 +110,4 @@ export type FloatingToolbarHandler = (
   state: EditorState,
   intl: InjectedIntl,
   providerFactory: ProviderFactory,
-  props?: EditorProps,
 ) => FloatingToolbarConfig | undefined;

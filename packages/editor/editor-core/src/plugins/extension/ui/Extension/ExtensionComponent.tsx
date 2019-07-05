@@ -11,7 +11,7 @@ import InlineExtension from './InlineExtension';
 import Extension from './Extension';
 import {
   ExtensionHandlers,
-  getExtensionHandler,
+  getExtensionRenderer,
 } from '@atlaskit/editor-common';
 import { setNodeSelection } from '../../../../utils';
 
@@ -145,9 +145,8 @@ export default class ExtensionComponent extends Component<Props, State> {
       return;
     }
 
-    const extensionOrExtensionHandler = extensionHandlers[extensionType];
-    const extensionHandler = getExtensionHandler(extensionOrExtensionHandler);
-    return extensionHandler(
+    const render = getExtensionRenderer(extensionHandlers[extensionType]);
+    return render(
       {
         type: node.type.name as
           | 'extension'

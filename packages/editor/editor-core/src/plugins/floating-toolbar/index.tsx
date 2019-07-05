@@ -12,7 +12,7 @@ import { findDomRefAtPos, findSelectedNodeOfType } from 'prosemirror-utils';
 import { Popup, ProviderFactory } from '@atlaskit/editor-common';
 
 import WithPluginState from '../../ui/WithPluginState';
-import { EditorPlugin, EditorProps } from '../../types';
+import { EditorPlugin } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 import { ToolbarLoader } from './ui/ToolbarLoader';
 import { FloatingToolbarHandler, FloatingToolbarConfig } from './types';
@@ -79,13 +79,12 @@ const floatingToolbarPlugin: EditorPlugin = {
       {
         // Should be after all toolbar plugins
         name: 'floatingToolbar',
-        plugin: ({ dispatch, reactContext, providerFactory, props }) =>
+        plugin: ({ dispatch, reactContext, providerFactory }) =>
           floatingToolbarPluginFactory({
             dispatch,
             floatingToolbarHandlers,
             reactContext,
             providerFactory,
-            props,
           }),
       },
     ];
@@ -201,14 +200,12 @@ function floatingToolbarPluginFactory(options: {
   dispatch: Dispatch<FloatingToolbarConfig | undefined>;
   reactContext: () => { [key: string]: any };
   providerFactory: ProviderFactory;
-  props: EditorProps;
 }) {
   const {
     floatingToolbarHandlers,
     dispatch,
     reactContext,
     providerFactory,
-    props,
   } = options;
 
   const apply = (
@@ -219,7 +216,7 @@ function floatingToolbarPluginFactory(options: {
   ) => {
     const { intl } = reactContext();
     const activeConfigs = floatingToolbarHandlers
-      .map(handler => handler(newState, intl, providerFactory, props))
+      .map(handler => handler(newState, intl, providerFactory))
       .filter(filterUndefined)
       .map(config => sanitizeFloatingToolbarConfig(config));
 

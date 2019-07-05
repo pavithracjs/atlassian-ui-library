@@ -6,7 +6,7 @@ import {
   ADNode,
   calcBreakoutWidth,
   ExtensionHandlers,
-  getExtensionHandler,
+  getExtensionRenderer,
   overflowShadow,
   OverflowShadowProps,
   WidthConsumer,
@@ -64,10 +64,8 @@ const Extension: React.StatelessComponent<Props & OverflowShadowProps> = ({
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
-      const extensionOrExtensionHandler = extensionHandlers[extensionType];
-      const extensionHandler = getExtensionHandler(extensionOrExtensionHandler);
-
-      const content = extensionHandler(
+      const render = getExtensionRenderer(extensionHandlers[extensionType]);
+      const content = render(
         {
           type: 'extension',
           extensionKey,
