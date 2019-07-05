@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.2.0
+
+### Minor Changes
+
+- [minor][85291ccc2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85291ccc2b):
+
+  Infer xflow enabled flag from props
+
 ## 3.1.1
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
