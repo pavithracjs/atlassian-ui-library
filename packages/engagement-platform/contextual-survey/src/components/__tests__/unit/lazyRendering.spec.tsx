@@ -1,9 +1,6 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import SurveyMarshal from '../../SurveyMarshal';
-
-beforeAll(cleanup);
-afterEach(cleanup);
 
 it('should not render anything when not open', () => {
   const mock = jest.fn().mockImplementation(() => null);

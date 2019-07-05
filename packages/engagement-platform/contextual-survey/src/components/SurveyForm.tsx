@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState, useRef, useCallback, RefObject } from 'react';
+import { useState, useRef, useCallback, RefObject, ChangeEvent } from 'react';
 import { Transition } from 'react-transition-group';
 import { jsx, css } from '@emotion/core';
 import Textarea from '@atlaskit/textarea';
@@ -47,6 +47,9 @@ const transitionDuration = 200;
 
 export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
   const [expanded, setExpanded] = useState(false);
+  const [canContact, setCanContact] = useState(false);
+  const hasAutoFilledCanContactRef = useRef(false);
+
   const expandedAreaRef = useRef<HTMLDivElement>(null);
   const onScoreSelect = useCallback(
     () => {
@@ -54,6 +57,17 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
     },
     [setExpanded],
   );
+
+  // On the first type the user types some feedback we auto select
+  // the option for allowing feedback. This automatic selection only
+  // happens once. After that it is up to the user to control
+  const onFeedbackChange = useCallback(() => {
+    if (hasAutoFilledCanContactRef.current) {
+      return;
+    }
+    hasAutoFilledCanContactRef.current = true;
+    setCanContact(true);
+  }, []);
 
   return (
     <section aria-labelledby="contextualSurveyQuestion">
@@ -102,17 +116,22 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
                         aria-labelledby="contextualSurveyQuestion"
                         placeholder={textPlaceholder}
                         autoFocus
+                        onChange={(event: Event) => {
+                          fieldProps.onChange(event);
+                          onFeedbackChange();
+                        }}
                       />
                     )}
                   </Field>
-                  <CheckboxField
-                    name="canContact"
-                    defaultIsChecked
-                    isDisabled={submitting}
-                  >
+                  <CheckboxField name="canContact" isDisabled={submitting}>
                     {({ fieldProps }: { fieldProps: any }) => (
                       <Checkbox
                         {...fieldProps}
+                        onChange={(event: Event) => {
+                          fieldProps.onChange(event);
+                          setCanContact((isChecked: boolean) => !isChecked);
+                        }}
+                        isChecked={canContact}
                         label="Atlassian can contact me about this feedback"
                       />
                     )}
