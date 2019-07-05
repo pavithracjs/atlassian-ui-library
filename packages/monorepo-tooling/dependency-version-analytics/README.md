@@ -10,15 +10,18 @@ The `@atlassiansox/analytics-node-client` package is a peer dependency as it is 
 
 ## Local development
 
-To develop on this locally, you'll need to either:
+To develop on this locally, you'll need to first install the peer dependency temporarily by running the following inside the package:
+
+`npm i @atlassiansox/analytics-node-client --no-save`
+
+You then have two options:
 
 ### 1) Use yarn link
 
 This will run the 'dev' mode of the tool and compile typescript on the fly. Any changes made to the source will instantly reflect in the product repo.
 
-1. Install `@atlassiansox/analytics-node-client` temporarily in the package via `npm i @atlassiansox/analytics-node-client --no-save`
-2. Run `yarn link` inside the package
-3. Run `yarn link add '@atlaskit/dependency-version-analytics'` inside the product repo of your choosing
+1. Run `yarn link` inside the package
+2. Run `yarn link add '@atlaskit/dependency-version-analytics'` inside the product repo of your choosing
 
 Make dev changes + save.
 

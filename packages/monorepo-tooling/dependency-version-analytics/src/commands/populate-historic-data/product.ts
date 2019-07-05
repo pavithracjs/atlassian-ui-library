@@ -1,13 +1,12 @@
 import chalk from 'chalk';
 //@ts-ignore
 import simpleGit from 'simple-git';
-import semver, { ReleaseType } from 'semver';
-import { analyticsClient } from '@atlassiansox/analytics-node-client';
-import inquirer from 'inquirer';
 
 import loadFileFromGitHistory from '../../util/load-file-from-git-history';
 import { IPackageJSON } from '../../util/package-json';
+import { DependencyType, UpgradeEvent } from '../../types';
 import { PopulateHistoricDataFlags } from './types';
+import { createUpgradeEvent, sendAnalytics } from '../../util/analytics';
 
 // Object.fromEntries polyfill, remove when upgraded to node 10
 function fromEntries(iterable: any) {
@@ -17,7 +16,10 @@ function fromEntries(iterable: any) {
   );
 }
 
-export type PopulateProductFlags = PopulateHistoricDataFlags & {};
+export type PopulateProductFlags = PopulateHistoricDataFlags & {
+  csv: boolean;
+  product: string;
+};
 
 type LogResult = {
   all: ListLogLine[];
@@ -42,12 +44,9 @@ type DependencyMap = {
   };
 };
 
-type ParsedInfo = {
-  commitData: ListLogLine & {
-    date: string;
-  };
-  json: IPackageJSON | null;
+type AkPackageChange = {
   akDeps: DependencyMap;
+  date: string;
 };
 
 const getHistory = () =>
@@ -64,14 +63,14 @@ const getHistory = () =>
     );
   });
 
-const generateCSV = (allParsedInfo: ParsedInfo[]) => {
+const generateCSV = (packageChanges: AkPackageChange[]) => {
   const csvData: CsvColumn = [['']];
 
-  allParsedInfo.forEach(item => {
+  packageChanges.forEach(packageChange => {
     const firstColumn = csvData[0];
-    const currentRow = firstColumn.push(item.commitData.date) - 1;
+    const currentRow = firstColumn.push(packageChange.date) - 1;
 
-    Object.entries(item.akDeps).forEach(([name, { version }]) => {
+    Object.entries(packageChange.akDeps).forEach(([name, { version }]) => {
       let depColumnIndex = csvData.findIndex(item => item[0] === name);
       if (depColumnIndex === -1) {
         depColumnIndex = csvData.push([name]) - 1;
@@ -126,106 +125,53 @@ const getAkDependencyVersions = (
   );
 };
 
-type DependencyType =
-  | 'devDependency'
-  | 'dependency'
-  | 'optionalDependency'
-  | 'peerDependency';
-type UpgradeType = 'add' | 'upgrade' | 'remove';
-type SubUpgradeType = ReleaseType | null;
-
-type UpgradeEvent = {
-  dependencyName: string;
-  dependencyType: DependencyType;
-  versionString: string;
-  major: string | null;
-  minor: string | null;
-  patch: string | null;
-  date: string;
-  upgradeType: UpgradeType;
-  upgradeSubType: SubUpgradeType;
-};
-
-const getUpgradeEvents = (
+const getUpgradeEventsFromPkgChange = (
   oldDeps: DependencyMap,
   newDeps: DependencyMap,
-  parsedInfo: ParsedInfo,
+  date: string,
 ): UpgradeEvent[] => {
-  type DepInfo = {
-    name: string;
-    version: string;
-    type: DependencyType;
-    upgradeType: 'add' | 'upgrade';
-    upgradeSubType: SubUpgradeType;
-  };
-
-  type RemoveDepInfo = DepInfo & {
-    upgradeType: 'remove';
-  };
-
-  const addOrUpgradeDeps = Object.entries(newDeps)
+  const addOrUpgradeEvents = Object.entries(newDeps)
     .map(([name, { version, type }]) => {
-      let upgradeType: UpgradeType | undefined;
-      let upgradeSubType: SubUpgradeType = null;
-      if (!oldDeps[name]) {
-        upgradeType = 'add';
-      } else if (oldDeps[name].version !== version) {
-        upgradeType = 'upgrade';
-
-        const parsedOld = semver.coerce(oldDeps[name].version);
-        const parsedNew = semver.coerce(version);
-        if (parsedOld && parsedNew) {
-          upgradeSubType = semver.diff(parsedOld.version, parsedNew.version);
-        }
-      }
-
-      return { name, version, type, upgradeType, upgradeSubType };
+      return createUpgradeEvent(
+        name,
+        version,
+        oldDeps[name] && oldDeps[name].version,
+        date,
+        { dependencyType: type, historical: true },
+      );
     })
-    .filter((v): v is DepInfo => v.upgradeType != null);
+    .filter((e): e is UpgradeEvent => e != null);
 
-  const removedDeps = Object.entries(oldDeps)
+  const removeEvents = Object.entries(oldDeps)
+    .filter(([name]) => newDeps[name] == null)
     .map(([name, { version, type }]) => {
-      const upgradeType: UpgradeType | undefined =
-        newDeps[name] == null ? 'remove' : undefined;
-      return { name, version, type, upgradeType };
+      return createUpgradeEvent(name, undefined, version, date, {
+        dependencyType: type,
+        historical: true,
+      });
     })
-    .filter((v): v is RemoveDepInfo => v.upgradeType != null);
+    .filter((e): e is UpgradeEvent => e != null);
 
-  const upgradeEvents: UpgradeEvent[] = [
-    ...addOrUpgradeDeps,
-    ...removedDeps,
-  ].map(({ name, version, type, upgradeType, upgradeSubType }) => {
-    const parsedVersion = semver.coerce(version);
-    return {
-      dependencyName: name,
-      dependencyType: type,
-      versionString: version,
-      major: parsedVersion ? `${parsedVersion.major}` : null,
-      minor: parsedVersion ? `${parsedVersion.minor}` : null,
-      patch: parsedVersion ? `${parsedVersion.patch}` : null,
-      date: parsedInfo.commitData.date,
-      upgradeType,
-      upgradeSubType: upgradeSubType || null,
-    };
-  });
-
-  return upgradeEvents;
+  return [...addOrUpgradeEvents, ...removeEvents];
 };
 
-export default async function run(flags: PopulateProductFlags) {
-  const log = await getHistory();
-  const allParsedInfo: ParsedInfo[] = [];
+const getEventsFromHistory = async (
+  historyLog: LogResult,
+): Promise<{
+  allPackageChanges: AkPackageChange[];
+  allUpgradeEvents: UpgradeEvent[];
+}> => {
+  const allPackageChanges: AkPackageChange[] = [];
   const allUpgradeEvents: UpgradeEvent[] = [];
-
   for (
     let historyListIndex = 0;
-    historyListIndex < log.all.length;
+    historyListIndex < historyLog.all.length;
     historyListIndex++
   ) {
     // Using a for loop because running all promises in parallel spawns too many processes
     // Batching would be more efficient but in it's current form it's not unreasonably slow.
 
-    let item = log.all[historyListIndex];
+    let item = historyLog.all[historyListIndex];
 
     try {
       const json = await loadFileFromGitHistory(item.hash, 'package.json');
@@ -248,26 +194,22 @@ export default async function run(flags: PopulateProductFlags) {
       };
 
       if (Object.keys(akDeps).length > 0) {
-        const parsedItem = {
-          commitData: {
-            ...item,
-            date: new Date(item.date).toUTCString(),
-          },
-          json: parsed,
+        const packageChange = {
+          date: new Date(item.date).toUTCString(),
           akDeps,
         };
-        const previousDeps =
-          allParsedInfo.length > 1
-            ? allParsedInfo[allParsedInfo.length - 1].akDeps
+        const prevAkDeps =
+          allPackageChanges.length > 1
+            ? allPackageChanges[allPackageChanges.length - 1].akDeps
             : {};
-        const upgradeEvents = getUpgradeEvents(
-          previousDeps,
+        const upgradeEvents = getUpgradeEventsFromPkgChange(
+          prevAkDeps,
           akDeps,
-          parsedItem,
+          packageChange.date,
         );
         if (upgradeEvents.length > 0) {
           allUpgradeEvents.push(...upgradeEvents);
-          allParsedInfo.push(parsedItem);
+          allPackageChanges.push(packageChange);
         }
       }
     } catch (err) {
@@ -282,10 +224,18 @@ export default async function run(flags: PopulateProductFlags) {
     }
   }
 
-  console.log(`Found ${allUpgradeEvents.length} ak dependency changes`);
+  return { allPackageChanges, allUpgradeEvents };
+};
+
+export default async function run(flags: PopulateProductFlags) {
+  const log = await getHistory();
+
+  const { allPackageChanges, allUpgradeEvents } = await getEventsFromHistory(
+    log,
+  );
 
   if (flags.csv) {
-    const csv = generateCSV(allParsedInfo);
+    const csv = generateCSV(allPackageChanges);
     console.log(csv);
     return;
   }
@@ -295,58 +245,11 @@ export default async function run(flags: PopulateProductFlags) {
     return;
   }
 
-  const analyticsEnv = flags.dev ? 'dev' : 'prod';
-
-  const client = analyticsClient({
-    env: flags.dev ? 'dev' : 'prod',
+  await sendAnalytics(allUpgradeEvents, {
+    dev: flags.dev,
+    limit: flags.limit,
     product: flags.product,
   });
 
-  const answers: any = await inquirer.prompt([
-    {
-      type: 'confirm',
-      name: 'continue',
-      message: `Are you sure you want to send ${
-        allUpgradeEvents.length
-      } historical analytics events to '${analyticsEnv}' env for product '${
-        flags.product
-      }?`,
-      default: false,
-    },
-  ]);
-
-  if (!answers.continue) {
-    console.log('Aborting');
-    process.exit(0);
-  }
-
-  try {
-    const promises = await Promise.all(
-      allUpgradeEvents.map(event => {
-        return client.sendTrackEvent({
-          anonymousId: 'unknown',
-          trackEvent: {
-            tags: ['atlaskit'],
-            source: '@atlaskit/dependency-version-analytics',
-            action: 'upgraded',
-            actionSubject: 'akDependency',
-            attributes: {
-              ...event,
-            },
-            origin: 'console',
-            platform: 'bot',
-          },
-        });
-      }),
-    );
-    console.log(
-      chalk.green(
-        `Sent ${promises.length} dependency upgrade analytics events`,
-      ),
-    );
-  } catch (e) {
-    console.error(chalk.red('Sending analytics failed'));
-    console.error(e);
-    process.exit(1);
-  }
+  console.log('Done.');
 }

@@ -1,14 +1,22 @@
-export type AnalyticsEvent = {
+import { ReleaseType } from 'semver';
+
+export type DependencyType =
+  | 'devDependency'
+  | 'dependency'
+  | 'optionalDependency'
+  | 'peerDependency';
+export type UpgradeType = 'add' | 'upgrade' | 'remove';
+export type UpgradeSubType = ReleaseType | null;
+
+export type UpgradeEvent = {
   dependencyName: string;
-  dependencyType?:
-    | 'devDependency'
-    | 'dependency'
-    | 'optionalDependency'
-    | 'peerDependency';
+  dependencyType?: DependencyType;
   versionString: string;
-  major: number;
-  minor: number;
-  patch: number;
+  major: string | null;
+  minor: string | null;
+  patch: string | null;
   date: string;
-  product: string;
+  upgradeType: UpgradeType;
+  upgradeSubType: UpgradeSubType;
+  historical?: boolean;
 };
