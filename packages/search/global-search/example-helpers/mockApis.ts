@@ -6,7 +6,6 @@ import {
   makeCrossProductSearchData,
   makeConfluenceRecentPagesData,
   makeConfluenceRecentSpacesData,
-  makeQuickNavSearchData,
   makeCrossProductExperimentData,
   makeAutocompleteData,
 } from './mockData';
@@ -102,15 +101,6 @@ function mockCrossProductExperimentApi(
   );
 }
 
-function mockQuickNavApi(delayMs: number, queryMockQuickNav: any) {
-  fetchMock.mock(new RegExp('/quicknav/1'), (request: Request) => {
-    const query = request.split('query=')[1];
-    const results = queryMockQuickNav(query);
-
-    return delay(delayMs, results);
-  });
-}
-
 function mockPeopleApi(delayMs: number, queryPeopleSearch: any) {
   fetchMock.post(
     new RegExp('/graphql'),
@@ -179,7 +169,6 @@ export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
   const queryMockExperiments = makeCrossProductExperimentData(
     config.abTestExperimentId,
   );
-  const queryMockQuickNav = makeQuickNavSearchData();
   const queryPeopleSearch = makePeopleSearchData();
 
   mockAnalyticsApi();
@@ -193,7 +182,6 @@ export function setupMocks(configOverrides: Partial<MocksConfig> = {}) {
     confluenceRecentPagesResponse,
     confluenceRecentSpacesResponse,
   });
-  mockQuickNavApi(config.quickNavDelay, queryMockQuickNav);
   mockJiraApi(config.jiraRecentDelay, config.canSearchUsers);
   mockAutocompleteApi(config.autocompleteDelay, autocompleteMockData);
 }
