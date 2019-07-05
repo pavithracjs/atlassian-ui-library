@@ -32,11 +32,9 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { IconImages } from '../quick-insert/assets';
-import { ClipboardMediaPickerWrapper } from './ui/ClipboardMediaPickerWrapper';
-import { BrowserMediaPickerWrapper } from './ui/BrowserMediaPickerWrapper';
 import WithPluginState from '../../ui/WithPluginState';
 import MediaEditor from './ui/MediaEditor';
-import { DropzoneMediaPickerWrapper } from './ui/DropzoneMediaPickerWrapper';
+import { MediaPickerComponents } from './ui/MediaPicker';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 export { insertMediaSingleNode } from './utils/media-single';
@@ -173,18 +171,7 @@ const mediaPlugin = (
             mediaState: pluginKey,
           }}
           render={({ mediaState }) => (
-            <>
-              <ClipboardMediaPickerWrapper mediaState={mediaState} />
-              <DropzoneMediaPickerWrapper mediaState={mediaState} />
-              {!mediaState.hasUserAuthProvider() && (
-                <BrowserMediaPickerWrapper
-                  onBrowseFn={nativeBrowseFn => {
-                    mediaState && mediaState.setBrowseFn(nativeBrowseFn);
-                  }}
-                  mediaState={mediaState}
-                />
-              )}
-            </>
+            <MediaPickerComponents mediaState={mediaState} />
           )}
         />
 

@@ -62,7 +62,7 @@ import {
 import { MediaAttributes, MediaSingleAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
 
-import { ClipboardMediaPickerWrapper } from '../../../../plugins/media/ui/ClipboardMediaPickerWrapper';
+import { ClipboardWrapper } from '../../../../plugins/media/ui/MediaPicker/ClipboardWrapper';
 
 const pdfFile = {
   id: `${randomId()}`,
@@ -1081,7 +1081,7 @@ describe('Media plugin', () => {
     let editorView: EditorView;
     let mediaState: MediaPluginState;
     let mediaAttributes: MediaAttributes;
-    let clipboardMediaPickerWrapper: ReactWrapper<any, any, any>;
+    let clipboardWrapper: ReactWrapper<any, any, any>;
 
     beforeEach(async () => {
       mediaAttributes = {
@@ -1103,17 +1103,14 @@ describe('Media plugin', () => {
 
       setNodeSelection(editorView, mediaPosition);
 
-      clipboardMediaPickerWrapper = mountWithIntl(
-        <ClipboardMediaPickerWrapper mediaState={mediaState} />,
+      clipboardWrapper = mountWithIntl(
+        <ClipboardWrapper mediaState={mediaState} />,
       );
     });
 
     afterEach(() => {
-      if (
-        clipboardMediaPickerWrapper &&
-        typeof clipboardMediaPickerWrapper.unmount === 'function'
-      ) {
-        clipboardMediaPickerWrapper.unmount();
+      if (clipboardWrapper && typeof clipboardWrapper.unmount === 'function') {
+        clipboardWrapper.unmount();
       }
     });
 
@@ -1149,15 +1146,15 @@ describe('Media plugin', () => {
 
       await waitUntil(
         () =>
-          (clipboardMediaPickerWrapper as any).state('pickerFacadeInstance') !==
+          (clipboardWrapper as any).state('pickerFacadeInstance') !==
             undefined &&
-          !clipboardMediaPickerWrapper
+          !clipboardWrapper
             .update()
             .find(Clipboard)
             .isEmpty(),
       );
 
-      const onPreviewUpdate = clipboardMediaPickerWrapper
+      const onPreviewUpdate = clipboardWrapper
         .find(Clipboard)
         .prop('onPreviewUpdate');
 

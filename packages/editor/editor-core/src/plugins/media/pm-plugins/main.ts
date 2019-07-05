@@ -86,8 +86,10 @@ export class MediaPluginState {
   public showEditingDialog?: boolean;
 
   public editorAppearance: EditorAppearance;
+  private removeOnCloseListener: () => void = () => {};
   private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   private openMediaPickerBrowser?: () => void;
+  private onPopupPickerOpen: (isOpen: boolean) => void = () => {};
 
   private reactContext: () => {};
 
@@ -305,6 +307,10 @@ export class MediaPluginState {
 
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
 
+  onPopupPickerClose = () => {
+    this.onPopupPickerOpen(false);
+  };
+
   showMediaPicker = () => {
     if (this.openMediaPickerBrowser && !this.hasUserAuthProvider()) {
       return this.openMediaPickerBrowser();
@@ -313,10 +319,15 @@ export class MediaPluginState {
       return;
     }
     this.popupPicker.show();
+    this.onPopupPickerOpen(true);
   };
 
   setBrowseFn = (browseFn: () => void) => {
     this.openMediaPickerBrowser = browseFn;
+  };
+
+  setOnPopupPickerOpen = (onPopupPickerOpen: (isOpen: boolean) => void) => {
+    this.onPopupPickerOpen = onPopupPickerOpen;
   };
 
   /**
@@ -401,6 +412,7 @@ export class MediaPluginState {
     const { mediaNodes } = this;
     mediaNodes.splice(0, mediaNodes.length);
 
+    this.removeOnCloseListener();
     this.destroyPickers();
   }
 
@@ -468,6 +480,9 @@ export class MediaPluginState {
         ).init();
         pickerPromises.push(popupPicker);
         pickers.push((this.popupPicker = await popupPicker));
+        this.removeOnCloseListener = this.popupPicker.onClose(
+          this.onPopupPickerClose,
+        );
       }
 
       pickers.forEach(picker => {

@@ -4,6 +4,7 @@ import {
   userAuthProvider,
   asMock,
 } from '@atlaskit/media-test-helpers';
+import { Popup } from '@atlaskit/media-picker';
 
 import PickerFacade from '../../../../plugins/media/picker-facade';
 import { ErrorReportingHandler } from '@atlaskit/editor-common';
@@ -24,13 +25,27 @@ describe('Media PickerFacade', () => {
     errorReporter,
   };
 
-  const popupMediaPickerMock = {
+  const popupMediaPickerMock: Popup = {
     on: jest.fn(),
     removeAllListeners: jest.fn(),
     teardown: jest.fn(),
     show: jest.fn(),
     cancel: jest.fn(),
     hide: jest.fn(),
+    emitClosed: jest.fn(),
+    setUploadParams: jest.fn(),
+    emitUploadsStart: jest.fn(),
+    emitUploadProgress: jest.fn(),
+    emitUploadPreviewUpdate: jest.fn(),
+    emitUploadProcessing: jest.fn(),
+    emitUploadEnd: jest.fn(),
+    emitUploadError: jest.fn(),
+    once: jest.fn(),
+    onAny: jest.fn(),
+    addListener: jest.fn(),
+    off: jest.fn(),
+    removeListener: jest.fn(),
+    emit: jest.fn(),
   };
 
   describe('Picker: Popup', () => {
@@ -93,6 +108,15 @@ describe('Media PickerFacade', () => {
     it(`should call picker's hide() on destruction`, () => {
       facade.hide();
       expect(popupMediaPickerMock.hide).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call picker on close when onClose is called', () => {
+      const closeCb = jest.fn();
+      asMock(popupMediaPickerMock.on).mockClear();
+      facade.onClose(closeCb);
+
+      expect(popupMediaPickerMock.on).toHaveBeenCalledTimes(1);
+      expect(popupMediaPickerMock.on).toHaveBeenCalledWith('closed', closeCb);
     });
   });
 });

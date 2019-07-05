@@ -26,7 +26,7 @@ const defaultConfig: BrowserConfig = { uploadParams: {} };
 export class Browser extends LocalUploadComponentReact<BrowserProps> {
   private browserRef = React.createRef<HTMLInputElement>();
 
-  defaultProps = {
+  static defaultProps = {
     config: defaultConfig,
   };
 

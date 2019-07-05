@@ -16,6 +16,8 @@ import { UploadParams } from '../../../../domain/config';
 import { LocalBrowserButton } from '../../views/upload/uploadButton';
 import analyticsProcessing from '../../../middleware/analyticsProcessing';
 import { Dropzone } from '../../../../components/dropzone/dropzone';
+import { Browser as MediaPickerBrowser } from '../../../../components/browser/browser';
+import { Clipboard as MediaPickerClipboard } from '../../../../components/clipboard/clipboard';
 import { MediaFile } from '../../../../domain/file';
 import { AuthProvider } from '@atlaskit/media-core';
 import { MediaClient } from '@atlaskit/media-client';
@@ -199,6 +201,44 @@ describe('App', () => {
       });
       expect(handlers.onDropzoneDropIn).toBeCalledWith(3);
     });
+  });
+
+  it('should render <Browser />', () => {
+    const { handlers, store, mediaClient, userMediaClient } = setup();
+
+    const element = (
+      <App
+        store={store}
+        selectedServiceName="upload"
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
+        isVisible={true}
+        tenantUploadParams={tenantUploadParams}
+        {...handlers}
+      />
+    );
+
+    const wrapper = mount(element);
+    expect(wrapper.find(MediaPickerBrowser)).toHaveLength(1);
+  });
+
+  it('should render <Clipboard />', () => {
+    const { handlers, store, mediaClient, userMediaClient } = setup();
+
+    const element = (
+      <App
+        store={store}
+        selectedServiceName="upload"
+        tenantMediaClient={mediaClient}
+        userMediaClient={userMediaClient}
+        isVisible={true}
+        tenantUploadParams={tenantUploadParams}
+        {...handlers}
+      />
+    );
+
+    const wrapper = mount(element);
+    expect(wrapper.find(MediaPickerClipboard)).toHaveLength(1);
   });
 
   it('should render media-editor view with localUploader', () => {

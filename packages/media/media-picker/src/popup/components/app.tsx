@@ -213,7 +213,8 @@ export class App extends Component<AppProps, AppState> {
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
                 {this.renderClipboard()}
-                {this.renderDropZone()}
+                {this.renderDropzone()}
+                {this.renderBrowser()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -275,7 +276,38 @@ export class App extends Component<AppProps, AppState> {
     );
   };
 
-  private renderDropZone = () => {
+  private renderBrowser = () => {
+    const {
+      tenantUploadParams,
+      onUploadsStart,
+      onUploadPreviewUpdate,
+      onUploadStatusUpdate,
+      onUploadProcessing,
+      onUploadEnd,
+      onUploadError,
+    } = this.props;
+    const config = {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+      multiple: true,
+    };
+
+    return (
+      <BrowserComponent
+        ref={this.browserRef}
+        mediaClient={this.componentMediaClient}
+        config={config}
+        onUploadsStart={onUploadsStart}
+        onPreviewUpdate={onUploadPreviewUpdate}
+        onStatusUpdate={onUploadStatusUpdate}
+        onProcessing={onUploadProcessing}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
+      />
+    );
+  };
+
+  private renderDropzone = () => {
     const {
       onUploadPreviewUpdate,
       onUploadStatusUpdate,

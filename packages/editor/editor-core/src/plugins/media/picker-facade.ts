@@ -104,7 +104,7 @@ export default class PickerFacade {
     this.onDragListeners = [];
 
     try {
-      if (this.pickerType !== 'customMediaPicker') {
+      if (this.pickerType === 'popup') {
         (picker as Popup).teardown();
       }
     } catch (ex) {
@@ -118,8 +118,20 @@ export default class PickerFacade {
     }
   }
 
+  onClose(cb: () => void): () => void {
+    const { picker } = this;
+    if (this.pickerType === 'popup') {
+      const popupPicker = picker as Popup;
+      popupPicker.on('closed', cb);
+
+      return () => popupPicker.off('closed', cb);
+    }
+
+    return () => {};
+  }
+
   show(): void {
-    if (this.pickerType !== 'customMediaPicker') {
+    if (this.pickerType === 'popup') {
       try {
         (this.picker as Popup).show();
       } catch (ex) {
@@ -129,7 +141,7 @@ export default class PickerFacade {
   }
 
   hide(): void {
-    if (this.pickerType !== 'customMediaPicker') {
+    if (this.pickerType === 'popup') {
       (this.picker as Popup).hide();
     }
   }
