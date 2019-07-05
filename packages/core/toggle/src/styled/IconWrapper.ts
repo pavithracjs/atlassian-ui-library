@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 import { themed, colors } from '@atlaskit/theme';
 import { getWidth, paddingUnitless } from './constants';

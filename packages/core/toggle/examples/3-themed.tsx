@@ -1,12 +1,11 @@
-// @flow
 import React from 'react';
 import Button from '@atlaskit/button';
 import { AtlaskitThemeProvider, gridSize } from '@atlaskit/theme';
 import Toggle from '../src';
 
-type State = {|
-  mode: 'light' | 'dark',
-|};
+type State = {
+  mode: 'light' | 'dark';
+};
 
 export default class Swapper extends React.Component<any, State> {
   state: State = {

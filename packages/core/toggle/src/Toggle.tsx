@@ -1,16 +1,15 @@
-// @flow
 import React, { Component } from 'react';
 import ToggleStateless from './ToggleStateless';
 import defaultBaseProps from './defaultBaseProps';
-import type { StatefulProps, DefaultBaseProps } from './types';
+import { StatefulProps, DefaultBaseProps } from './types';
 
-type DefaultProps = DefaultBaseProps & {
-  isDefaultChecked: boolean,
+interface DefaultProps extends DefaultBaseProps {
+  isDefaultChecked: boolean;
+}
+
+type State = {
+  isChecked: boolean;
 };
-
-type State = {|
-  isChecked: boolean,
-|};
 
 // This component is a thin wrapper around the stateless component that manages
 // the isChecked state for you

@@ -24,8 +24,8 @@
     "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/theme": "^9.1.1",
-    "@babel/runtime": "^7.0.0",
-    "react-uid": "^2.2.0"
+    "react-uid": "^2.2.0",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
@@ -44,5 +44,6 @@
     "atlaskit",
     "react",
     "ui"
-  ]
+  ],
+  "types": "index.d.ts"
 }

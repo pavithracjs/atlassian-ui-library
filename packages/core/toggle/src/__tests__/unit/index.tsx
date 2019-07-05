@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { mount } from 'enzyme';
 import CloseIcon from '@atlaskit/icon/glyph/cross';

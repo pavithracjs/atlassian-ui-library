@@ -1,4 +1,3 @@
-// @flow
 import { uid } from 'react-uid';
 import React, { Component } from 'react';
 import {
@@ -11,16 +10,16 @@ import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import { name as packageName, version as packageVersion } from './version.json';
 import { Handle, IconWrapper, Inner, Input, Label, Slide } from './styled';
 import defaultBaseProps from './defaultBaseProps';
-import type { StatelessProps, DefaultBaseProps } from './types';
+import { StatelessProps, DefaultBaseProps } from './types';
 
-type State = {|
+type State = {
   // not controlled by props but by browser focus
-  isFocused: boolean,
-|};
-
-type DefaultProps = DefaultBaseProps & {
-  isChecked: boolean,
+  isFocused: boolean;
 };
+
+interface DefaultProps extends DefaultBaseProps {
+  isChecked: boolean;
+}
 
 class ToggleStateless extends Component<StatelessProps, State> {
   static defaultProps: DefaultProps = {
@@ -65,7 +64,7 @@ class ToggleStateless extends Component<StatelessProps, State> {
     const id = uid({ id: this.constructor.name });
 
     return (
-      <Label size={size} isDisabled={isDisabled} htmlFor={id}>
+      <Label htmlFor={id}>
         <Input
           checked={isChecked}
           disabled={isDisabled}
@@ -83,7 +82,7 @@ class ToggleStateless extends Component<StatelessProps, State> {
             <IconWrapper isChecked={isChecked} size={size}>
               <Icon
                 label={label || (isChecked ? 'Uncheck' : 'Check')}
-                size={size === 'large' ? null : 'small'}
+                size={size === 'large' ? undefined : 'small'}
                 primaryColor="inherit"
               />
             </IconWrapper>

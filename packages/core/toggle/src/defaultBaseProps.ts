@@ -1,5 +1,4 @@
-// @flow
-import type { DefaultBaseProps } from './types';
+import { DefaultBaseProps } from './types';
 
 const defaultBaseProps: DefaultBaseProps = {
   isDisabled: false,

@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { md, Props, Example, code } from '@atlaskit/docs';
 
