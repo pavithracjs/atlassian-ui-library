@@ -19,6 +19,7 @@ import {
 } from '../providers/as-data-provider';
 import {
   CustomLinksResponse,
+  FeatureMap,
   LicenseInformationResponse,
   RecentContainersResponse,
   AvailableProductsResponse,
@@ -158,11 +159,6 @@ interface ProviderResults {
   isXFlowEnabled: ProviderResult<boolean>;
 }
 
-interface SwitcherFeatures {
-  xflow: boolean;
-  enableUserCentricProducts: boolean;
-}
-
 function asLegacyProductKey(
   worklensProductType: WorklensProductType,
 ): ProductKey | undefined {
@@ -232,7 +228,7 @@ function asLicenseInformationProviderResult(
 export function mapResultsToSwitcherProps(
   cloudId: string,
   results: ProviderResults,
-  features: SwitcherFeatures,
+  features: FeatureMap,
   availableProducts: ProviderResult<AvailableProductsResponse>,
 ) {
   const collect = createCollector();

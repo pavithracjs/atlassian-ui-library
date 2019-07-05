@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const npmRun = require('npm-run');
 const chalk = require('chalk').default;
-const { fExists } = require('./fs');
 const axios = require('axios');
 
 const masterStatsFolder = createDir('./.masterBundleSize');
@@ -15,7 +14,9 @@ const BUCKET_NAME = 'atlaskit-artefacts';
 const BUCKET_REGION = 'ap-southeast-2';
 
 function createDir(dir) {
-  if (!fExists(dir)) {
+  try {
+    fs.statSync(dir);
+  } catch (e) {
     fs.mkdirSync(dir);
   }
   return dir;

@@ -1,5 +1,24 @@
 # @atlaskit/select
 
+## 9.1.9
+
+### Patch Changes
+
+- [patch][ef04b7fe05](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef04b7fe05):
+
+  Cleaned up event listeners on unmount
+
+## 9.1.8
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/form@6.1.1
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/icon@19.0.0
+
 ## 9.1.7
 
 ### Patch Changes

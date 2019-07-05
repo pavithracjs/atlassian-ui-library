@@ -1,5 +1,16 @@
 # @atlaskit/task-decision
 
+## 15.1.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/avatar-group@4.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/editor-common@39.13.2
+  - @atlaskit/renderer@49.4.1
+  - @atlaskit/icon@19.0.0
+
 ## 15.1.0
 
 ### Minor Changes
