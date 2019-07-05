@@ -1,1 +1,0 @@
-CS-1184 CSS prefix shortened
