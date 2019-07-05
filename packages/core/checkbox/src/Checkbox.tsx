@@ -124,7 +124,6 @@ class Checkbox extends Component<CheckboxProps, State> {
 
   render() {
     const {
-      createAnalyticsEvent,
       isDisabled,
       isInvalid,
       isIndeterminate,

@@ -3,26 +3,25 @@ import { jsx, css } from '@emotion/core';
 import { colors, themed, math, gridSize } from '@atlaskit/theme';
 import React from 'react';
 
-export const HiddenCheckbox = React.forwardRef(
-  (
-    props: React.HTMLProps<HTMLInputElement>,
-    ref: React.Ref<HTMLInputElement>,
-  ) => (
-    <input
-      ref={ref}
-      css={css`
-        left: 50%;
-        margin: 0;
-        opacity: 0;
-        padding: 0;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        top: 50%;
-      `}
-      {...props}
-    />
-  ),
-);
+export const HiddenCheckbox = React.forwardRef((
+  // @ts-ignore - createAnalyticsEvent is injected from WithAnalyticsEvents HOC
+  { createAnalyticsEvent, ...props }: React.HTMLProps<HTMLInputElement>,
+  ref: React.Ref<HTMLInputElement>,
+) => (
+  <input
+    ref={ref}
+    css={css`
+      left: 50%;
+      margin: 0;
+      opacity: 0;
+      padding: 0;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 50%;
+    `}
+    {...props}
+  />
+));
 
 const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
 
