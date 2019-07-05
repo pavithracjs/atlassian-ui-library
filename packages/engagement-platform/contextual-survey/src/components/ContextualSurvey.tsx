@@ -12,6 +12,8 @@ interface Props {
   question: string;
   /** Optional statement, to be used in conjunction with the question for the survey */
   statement?: string;
+  /** Accessible label text for the survey text area */
+  textLabel?: string;
   /** Text placeholder for the survey text area */
   textPlaceholder?: string;
   /** Callback that is triggered when the survey should be dismissed */
@@ -44,6 +46,7 @@ export default ({
   onSubmit,
   onMailingListAnswer,
   getUserHasAnsweredMailingList,
+  textLabel = 'Why did you give that rating',
   textPlaceholder = 'Tell us why',
 }: Props) => {
   const autoDisappearTimeoutRef = useRef<Optional<number>>(null);
@@ -187,6 +190,7 @@ export default ({
         <SurveyForm
           question={question}
           statement={statement}
+          textLabel={textLabel}
           textPlaceholder={textPlaceholder}
           onSubmit={onSurveySubmit}
         />

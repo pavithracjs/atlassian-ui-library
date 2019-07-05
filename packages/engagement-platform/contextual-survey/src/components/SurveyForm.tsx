@@ -15,6 +15,7 @@ interface Props {
   question: string;
   statement?: string;
   textPlaceholder: string;
+  textLabel: string;
   onSubmit: (
     formValues: FormValues,
     formApi: any,
@@ -45,7 +46,13 @@ const getExpandedHeight = (
 
 const transitionDuration = 200;
 
-export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
+export default ({
+  question,
+  statement,
+  textPlaceholder,
+  textLabel,
+  onSubmit,
+}: Props) => {
   const [expanded, setExpanded] = useState(false);
   const expandedAreaRef = useRef<HTMLDivElement>(null);
   const onScoreSelect = useCallback(
@@ -99,7 +106,7 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
                     {({ fieldProps }: { fieldProps: any }) => (
                       <Textarea
                         {...fieldProps}
-                        aria-labelledby="contextualSurveyQuestion"
+                        aria-label={textLabel}
                         placeholder={textPlaceholder}
                         autoFocus
                       />
