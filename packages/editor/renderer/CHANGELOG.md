@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.4.2
+
+### Patch Changes
+
+- [patch][229335aab3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/229335aab3):
+
+  ED-7192 Fix wrong version of @atlaskit/analytics-namespaced-context inside renderer
+
 ## 49.4.1
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
