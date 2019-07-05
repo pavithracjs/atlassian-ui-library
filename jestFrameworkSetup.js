@@ -1,5 +1,4 @@
 /* eslint-disable */
-import 'whatwg-fetch';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import 'jest-styled-components';
 import { toMatchSnapshot } from 'jest-snapshot';
@@ -11,6 +10,8 @@ import { cleanup } from '@testing-library/react';
 
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-176
 global.XMLHttpRequest = XMLHttpRequest;
+global.fetch = require('jest-fetch-mock');
+global.fetchMock = global.fetch;
 
 let consoleError;
 let consoleWarn;
@@ -38,6 +39,15 @@ process.on('unhandledRejection', reason => {
 */
 const pmModel = require('./node_modules/prosemirror-model');
 const diff = require('./node_modules/jest-diff');
+
+/**
+ * We're checking if fetch is not available in the window, in case we
+ * don't have, we need to make sure that `global` and `window`
+ * are aligned with the same mock
+ */
+if (typeof window !== 'undefined' && !('fetch' in window)) {
+  window.fetch = global.fetch;
+}
 
 /**
  * Polyfill DOMElement.innerText because JSDOM lacks support for it.

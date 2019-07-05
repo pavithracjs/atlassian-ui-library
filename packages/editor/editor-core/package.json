@@ -127,13 +127,13 @@
     "clipboard-polyfill": "2.4.3",
     "diff": "^4.0.1",
     "enzyme": "^3.7.0",
+    "fetch-mock": "^7.3.3",
     "jest-sandbox": "^1.1.1",
     "jquery": "^3.2.1",
     "prosemirror-dev-tools": "^2.1.0",
     "raf-stub": "^2.0.1",
     "react": "^16.8.0",
     "react-intl": "^2.6.0",
-    "sinon": "^2.2.0",
-    "whatwg-fetch": "^2.0.3"
+    "sinon": "^2.2.0"
   }
 }
