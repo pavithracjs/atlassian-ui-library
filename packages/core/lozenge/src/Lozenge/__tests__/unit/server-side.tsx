@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';

@@ -25,7 +25,7 @@ import {
   mockNoResultJiraClient,
 } from '../mocks/_mockJiraClient';
 import { makeJiraObjectResult, makePersonResult } from '../_test-util';
-import { ContentType, GenericResultMap } from '../../../model/Result';
+import { ContentType, JiraResultsMap } from '../../../model/Result';
 import { Scope } from '../../../api/types';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
@@ -86,11 +86,11 @@ describe('Jira Quick Search Container', () => {
 
   const getQuickSearchProperty = (
     wrapper: ShallowWrapper,
-    property: keyof QuickSearchContainerProps<GenericResultMap>,
+    property: keyof QuickSearchContainerProps<JiraResultsMap>,
   ) => {
     const quickSearch = wrapper.find(QuickSearchContainer);
     const quickSearchProps = quickSearch.props() as QuickSearchContainerProps<
-      GenericResultMap
+      JiraResultsMap
     >;
     return quickSearchProps[property] as any;
   };
@@ -175,7 +175,6 @@ describe('Jira Quick Search Container', () => {
       const jiraClient = mockJiraClientWithData([...issues, ...boards]);
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: people,
-        searchResultData: [],
       });
 
       const getRecentItems = getQuickSearchProperty(
@@ -203,7 +202,6 @@ describe('Jira Quick Search Container', () => {
       const jiraClient = mockJiraClientWithData([...issues, ...boards], false);
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: people,
-        searchResultData: [],
       });
 
       const getRecentItems = getQuickSearchProperty(
@@ -279,7 +277,6 @@ describe('Jira Quick Search Container', () => {
     it('should return search results', async () => {
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: [],
-        searchResultData: people,
       });
 
       const resultsMap = {} as SearchResultsMap;
@@ -318,7 +315,6 @@ describe('Jira Quick Search Container', () => {
     it('should not return people search results if no browse permission', async () => {
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: [],
-        searchResultData: people,
       });
 
       const resultsMap = {} as SearchResultsMap;

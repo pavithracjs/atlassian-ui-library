@@ -17,6 +17,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 import drawerItemTheme from '../theme/drawer-item-theme';
+import FocusLock from './focus-lock';
 import DrawerPrimitive from './primitives';
 import { Fade } from './transitions';
 import type { CloseTrigger, DrawerProps } from './types';
@@ -49,6 +50,9 @@ export class DrawerBase extends Component<
 > {
   static defaultProps = {
     width: 'narrow',
+    isFocusLockEnabled: true,
+    shouldReturnFocus: true,
+    autoFocusFirstElem: false,
   };
 
   state = {
@@ -123,6 +127,9 @@ export class DrawerBase extends Component<
       width,
       shouldUnmountOnExit,
       onCloseComplete,
+      autoFocusFirstElem,
+      isFocusLockEnabled,
+      shouldReturnFocus,
     } = this.props;
 
     return (
@@ -139,16 +146,22 @@ export class DrawerBase extends Component<
               <Fade in={isOpen}>
                 <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
               </Fade>
-              <DrawerPrimitive
-                icon={icon}
-                in={isOpen}
-                onClose={this.handleBackButtonClick}
-                onCloseComplete={onCloseComplete}
-                width={width}
-                shouldUnmountOnExit={shouldUnmountOnExit}
+              <FocusLock
+                autoFocusFirstElem={autoFocusFirstElem}
+                isFocusLockEnabled={isFocusLockEnabled}
+                shouldReturnFocus={shouldReturnFocus}
               >
-                {children}
-              </DrawerPrimitive>
+                <DrawerPrimitive
+                  icon={icon}
+                  in={isOpen}
+                  onClose={this.handleBackButtonClick}
+                  onCloseComplete={onCloseComplete}
+                  width={width}
+                  shouldUnmountOnExit={shouldUnmountOnExit}
+                >
+                  {children}
+                </DrawerPrimitive>
+              </FocusLock>
             </Fragment>
           </TransitionGroup>
         </Portal>
@@ -163,6 +176,7 @@ export const DrawerItemTheme = (props: { children: Node }) => (
 
 export * from './skeletons';
 export * from './item-group';
+export * from './item';
 
 export default withAnalyticsContext({
   componentName: 'drawer',

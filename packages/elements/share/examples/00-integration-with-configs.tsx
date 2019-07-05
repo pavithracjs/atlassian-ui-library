@@ -171,7 +171,7 @@ class MockUrlShortenerClient implements UrlShortenerClient {
       this.count++;
       setTimeout(() => {
         resolve({
-          shortLink: `https://foo.atlassian.net/short#${this.count}`,
+          shortUrl: `https://foo.atlassian.net/short#${this.count}`,
         });
       }, 350);
     });

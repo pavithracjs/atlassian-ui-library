@@ -94,7 +94,7 @@ const providers = {
     pending: pendingPromise,
     rejected: rejectedPromise,
     'view only': storyMediaProviderFactory({
-      includeUploadContext: false,
+      includeUploadMediaClientConfig: false,
     }),
     'w/o userAuthProvider': storyMediaProviderFactory({
       includeUserAuthProvider: false,

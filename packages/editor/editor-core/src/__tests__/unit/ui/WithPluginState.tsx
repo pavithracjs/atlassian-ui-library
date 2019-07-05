@@ -76,9 +76,7 @@ describe(name, () => {
       editorView.destroy();
     });
 
-    it('should call render once after changes in several plugins', () => {
-      let renders = 0;
-
+    it('should call render once after changes in several plugins', async () => {
       const pluginState = {};
       const plugin = createPlugin(pluginState, pluginKey);
       const plugin2 = createPlugin(pluginState, pluginKey2);
@@ -86,33 +84,30 @@ describe(name, () => {
         doc: doc(p()),
         editorPlugins: [plugin, plugin2],
       });
+
+      const renderMock = jest.fn().mockReturnValue(null);
+
       const wrapper = mount(
         <WithPluginState
           editorView={editorView}
           eventDispatcher={eventDispatcher}
           plugins={{ pluginState: pluginKey, plugin2State: pluginKey2 }}
-          render={() => {
-            renders++;
-            return null;
-          }}
+          render={renderMock}
         />,
       );
 
-      return Promise.all([
+      await Promise.all([
         setTimeoutPromise(() => dispatch(pluginKey, {}), 0),
         setTimeoutPromise(() => dispatch(pluginKey2, {}), 8),
         setTimeoutPromise(() => dispatch(pluginKey, {}), 5),
         setTimeoutPromise(() => dispatch(pluginKey, {}), 0),
         setTimeoutPromise(() => dispatch(pluginKey2, {}), 8),
         setTimeoutPromise(() => dispatch(pluginKey, {}), 5),
-      ])
-        .then(() =>
-          setTimeoutPromise(() => {
-            wrapper.unmount();
-            editorView.destroy();
-          }, 100),
-        )
-        .then(() => expect(renders).toBeLessThan(6));
+      ]);
+
+      expect(renderMock.mock.calls.length).toBeLessThan(6);
+      wrapper.unmount();
+      editorView.destroy();
     });
   });
 

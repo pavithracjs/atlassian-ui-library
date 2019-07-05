@@ -3,90 +3,118 @@ import {
   SmartCardWithDataAttributes,
   SmartCardWithUrlAttributes,
 } from '../interfaces';
-import { createTag, serializeStyle, createTable } from '../util';
+import { createTag } from '../create-tag';
+import { createTable } from '../table-util';
+import { createClassName } from '../styles/util';
 
-const borderRadius = {
-  'border-radius': '3px',
-  '-webkit-border-radius': '3px',
-  '-moz-border-radius': '3px',
-};
+const className = createClassName('blockCard');
 
-const contentTextWithDataStyle = serializeStyle({
-  padding: '7px 0 0 0',
-  color: '#000000',
-});
-
-const blockWidth = {
-  width: '400px',
-  'min-width': '200px',
-  'max-width': '400px',
-};
-
-const linkStyle = serializeStyle({
-  border: 'none',
-  background: 'transparent',
-  color: '#000000',
-  'text-decoration': 'none',
-});
-
-const cardHeaderTdStyle = {
-  color: '#5E6C84',
-  'font-size': '12px',
-  'line-height': '24px',
-};
-
-const cardContentTdStyle = {
-  ...borderRadius,
-  padding: '6px 12px 12px 12px',
-  background: '#FFFFFF',
-  'font-size': '12px',
-  'line-height': '18px',
-  border: '#ebedf0 solid 1px',
-};
-
-const headingURLStyle = serializeStyle({
-  ...blockWidth,
-  overflow: 'hidden',
-  color: '#000000',
-  'font-size': '14px',
-  'font-weight': '500',
-  'text-overflow': 'ellipsis',
-  'white-space': 'nowrap',
-  'text-decoration': 'none',
-});
-
-const headingDataStyle = serializeStyle({
-  'font-size': '16px',
-  'line-height': '24px',
-  'font-weight': '500',
-});
-
-const outerTdStyle = {
-  ...borderRadius,
-  padding: '2px 5px 5px 5px',
-  margin: '0px',
-  color: '#000000',
-  'background-color': '#F4F5F7',
-  'font-size': '12px',
-};
+export const styles = `
+.${className}-headingUrl {
+  overflow: hidden;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.${className}-outerTd  {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  padding: 2px 5px 5px 5px;
+  margin: 0px;
+  color: #000000;
+  background-color: #F4F5F7;
+  font-size: 12px;
+}
+.${className}-headingData  {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+.${className}-contentTextWithData  {
+  padding: 7px 0 0 0;
+  color: #000000;
+}
+.${className}-block {
+  width: 400px;
+  min-width: 200px;
+  max-width: 400px;
+}
+.${className}-cardContentTd {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  padding: 6px 12px 12px 12px;
+  background: #FFFFFF;
+  font-size: 12px;
+  line-height: 18px;
+  border: #ebedf0 solid 1px;
+}
+.${className}-cardHeaderTd {
+  color: #5E6C84;
+  font-size: 12px;
+  line-height: 24px;
+}
+.${className}-link {
+  border: none;
+  background: transparent;
+  color: #000000;
+  text-decoration: none;
+}
+.${className}-headingUrl {
+  overflow: hidden;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+}
+`;
 
 const renderBlockCardWithData = (attrs: SmartCardWithDataAttributes) => {
   const name = attrs.data.name;
   const summary = attrs.data.summary;
-  const heading = createTag('div', { style: headingDataStyle }, name);
-  const text = createTag('div', { style: contentTextWithDataStyle }, summary);
+  const heading = createTag('div', { class: className + '-headingData' }, name);
+  const text = createTag(
+    'div',
+    { class: className + '-contentTextWithData' },
+    summary,
+  );
 
   const blockContent = createTable(
     [
-      [{ style: cardHeaderTdStyle, text: attrs.data.generator.name }],
-      [{ style: cardContentTdStyle, text: `${heading}${text}` }],
+      [
+        {
+          attrs: { class: className + '-cardHeaderTd' },
+          text: attrs.data.generator.name,
+        },
+      ],
+      [
+        {
+          attrs: { class: className + '-cardContentTd' },
+          text: `${heading}${text}`,
+        },
+      ],
     ],
-    blockWidth,
+    {},
+    { class: className + '-block' },
   );
 
   return createTable(
-    [[{ style: outerTdStyle, text: blockContent }]],
-    blockWidth,
+    [
+      [
+        {
+          text: blockContent,
+          attrs: { class: className + '-outerTd' },
+        },
+      ],
+    ],
+    {},
+    { class: className + '-block' },
   );
 };
 
@@ -95,19 +123,31 @@ const renderBlockCard = (
   text?: string | null,
 ) => {
   const title = text || attrs.url;
-  const heading = createTag('div', { style: headingURLStyle }, title);
+  const heading = createTag(
+    'div',
+    { class: `${className}-block ${className}-headingUrl` },
+    title,
+  );
 
-  return createTable([[{ style: outerTdStyle, text: heading }]], blockWidth);
+  return createTable(
+    [[{ attrs: { class: className + '-outerTd' }, text: heading }]],
+    {},
+    { class: className + '-block' },
+  );
 };
 
 export default function blockCard({ attrs, text }: NodeSerializerOpts) {
   if (attrs.data) {
     const href = attrs.data.url;
     const card = renderBlockCardWithData(attrs as SmartCardWithDataAttributes);
-    return href ? createTag('a', { href, style: linkStyle }, card) : card;
+    return href
+      ? createTag('a', { href, class: className + '-link' }, card)
+      : card;
   }
 
   const href = attrs.url;
   const card = renderBlockCard(attrs as SmartCardWithUrlAttributes, text);
-  return href ? createTag('a', { href, style: linkStyle }, card) : card;
+  return href
+    ? createTag('a', { href, class: className + '-link' }, card)
+    : card;
 }

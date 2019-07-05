@@ -1,5 +1,13 @@
 # @atlaskit/reduced-ui-pack
 
+## 12.0.2
+
+### Patch Changes
+
+- [patch][56eae512a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56eae512a3):
+
+  Updated the icon for Premium and cleaned up reduced-ui-pack sprite
+
 ## 12.0.1
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

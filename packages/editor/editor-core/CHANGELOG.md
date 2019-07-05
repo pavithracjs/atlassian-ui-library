@@ -1,5 +1,261 @@
 # @atlaskit/editor-core
 
+## 112.25.2
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
+## 112.25.1
+
+### Patch Changes
+
+- [patch][5aece1fc5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5aece1fc5c):
+
+  [ED-7126] Improve table performance, reducing the number of re-renders on LayoutButton and FloatingContextualButton
+
+## 112.25.0
+
+### Minor Changes
+
+- [minor][9f3daa0d1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f3daa0d1e):
+
+  ED-7190 Update style of keybard shortcuts in toolbar & context menus
+
+## 112.24.0
+
+### Minor Changes
+
+- [minor][b2deccb03d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b2deccb03d):
+
+  FS-4051 Add editor prop to configure either nickName or name to use for the mention name when inserted
+
+## 112.23.3
+
+### Patch Changes
+
+- [patch][3dd3d45b66](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3dd3d45b66):
+
+  ED-7100: Ensure Breakout buttons dont use stale state when trying to change or remove breakout modes.
+
+## 112.23.2
+
+### Patch Changes
+
+- [patch][53995e1bc9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/53995e1bc9):
+
+  Use explicits imports for importing Headings Icons
+
+## 112.23.1
+
+### Patch Changes
+
+- [patch][1a0451f225](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a0451f225):
+
+  ED-5972: Media should correctly render when pasting mixed text and images
+
+## 112.23.0
+
+### Minor Changes
+
+- [minor][241a14694e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/241a14694e):
+
+  Add RUM to renderer
+
+## 112.22.3
+
+### Patch Changes
+
+- [patch][b8acca53b9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8acca53b9):
+
+  ED-6447 make heading 6 compliant with the ADG h100 styling
+
+## 112.22.2
+
+### Patch Changes
+
+- [patch][f6be43668f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f6be43668f):
+
+  ED-7159 Add i18n translations for Comment appearance Save and Cancel buttons
+
+## 112.22.1
+
+### Patch Changes
+
+- [patch][a99d463b7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a99d463b7d):
+
+  FS-4043 - Fix @ prefix from doc being stored in mention name cache
+
+## 112.22.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
+## 112.21.1
+
+### Patch Changes
+
+- [patch][3511ec9566](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3511ec9566):
+
+  [ED-7108] Fix table row & column header state syncing when applied from toolbar
+
+## 112.21.0
+
+### Minor Changes
+
+- [minor][6f12bd05c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f12bd05c7):
+
+  ED-6811 Added headings to the quick insert menu. Amended heading anayltics to also show previousHeadingLevel
+
+## 112.20.0
+
+### Minor Changes
+
+- [minor][bb64fcedcb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bb64fcedcb):
+
+  uploadContext and viewContext fields of MediaProvider (part of Editor and Renderer props) are deprecated. New fields uploadMediaClientConfig and viewMediaClientConfig should be used from now on.
+
+## 112.19.1
+
+### Patch Changes
+
+- [patch][e4943e98e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4943e98e0):
+
+  Fix breaking change in editorActions#getValue
+
+## 112.19.0
+
+### Minor Changes
+
+- [minor][0202c1d464](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0202c1d464):
+
+  [ED-7076] Improve table performance reducing the number of React elements on ColumnControl, moving out InsertButton component.
+
+## 112.18.1
+
+### Patch Changes
+
+- [patch][5f4afa52a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f4afa52a9):
+
+  Media Picker Browser component is now migrated to React.
+
+  ## Previous vanilla js API:
+
+  ```
+  // instantiation
+  const browser = await new MediaPicker('browser', context, pickerConfig).init();
+
+  // subscribe to upload events
+  this.mpBrowser.on('uploads-start', onUploadsStart);
+  this.mpBrowser.on('upload-preview-update', onUploadPreviewUpdate);
+  this.mpBrowser.on('upload-status-update', onUploadStatusUpdate);
+  this.mpBrowser.on('upload-processing', onUploadProcessing);
+  this.mpBrowser.on('upload-end', onUploadEnd);
+  this.mpBrowser.on('upload-error', onUploadError);
+
+  // open the native file browser
+  browser.browse();
+
+  // cancel ongoing upload
+  browse.cancel(uploadId);
+
+  // when we want to dispose the component
+  browser.teardown();
+  ```
+
+  ## New React API:
+
+  ```
+  class BrowserConsumer etends React.Component {
+    render() {
+      return (
+        <Browser
+          isOpen={this.props.isOpen}
+          config={config}
+          context={context}
+          onProcessing={onProcessing}
+          onError={onError}
+          onPreviewUpdate={onPreviewUpdate}
+        />
+      )
+    }
+  }
+  ```
+
+  Notes on new API:
+
+  - No need to explicitly teardown the component. Unmounting the component will do the work
+  - `onBrowseFn` and `onCancelFn` are workarounds to open the file browser and cancel an ongoing upload. Refer to its type definitions for more info.
+    Before we were saving a ref and call `ref.browse()` or `ref.cancel()`.
+  - In some cases you will need to provide either `onBrowserFn` or `onCancelFn` in order to open the file browser or to cancel an ongoing upload programatically.
+    Typically this will be needed when this component is being rendered outside a react component, and we cannot take advantage of using `isOpen` directly.
+    A good example of this can be seen in -> https://bitbucket.org/atlassian/atlaskit-mk-2/src/d7a2e4a8fb8e35b841d751f5ecccff188c955c7a/packages/editor/editor-core/src/plugins/media/index.tsx#lines-178 where `BrowserMediaPickerWrapper` is rendered.
+
+  Basically if we render `Browser` component in isolation (meaning, not inside another react component), we will need to do something like:
+
+  ```
+  const saveOpenBrowserFunction = (browse) => this.openBrowser = browse;
+
+  ...
+
+  <Browser
+    onBrowseFn={(browse) => saveOpenBrowserFunction(browse)}
+    config={config}
+    context={context}
+    onProcessing={onProcessing}
+    onError={onError}
+    onPreviewUpdate={onPreviewUpdate}
+  />
+  ```
+
+  At a later point we will just need to call `this.openBrowser` function in that example, in order to open the native File browser. Same applies to `onCancelFn`.
+
+## 112.18.0
+
+### Minor Changes
+
+- [minor][e40e9ca1d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e40e9ca1d8):
+
+  Adds basic real user metrics, e.g. time to render prosemirror, etc...
+
+## 112.17.0
+
+### Minor Changes
+
+- [minor][58dd589a04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58dd589a04):
+
+  Update TeamMentionResource to accept teamLinkResolver option which is used to construct a team link.
+  Fix missing userId of user mentions in analytics in editor-core
+
+## 112.16.2
+
+### Patch Changes
+
+- [patch][b229885814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b229885814):
+
+  ED-7125 Fix composition input within Action and Decision list items for the first word entered.
+
+## 112.16.1
+
+### Patch Changes
+
+- [patch][2526630b84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2526630b84):
+
+  ED-6405 The shortcuts in editor tooltips are now highlighted.
+
+## 112.16.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
 ## 112.15.5
 
 ### Patch Changes

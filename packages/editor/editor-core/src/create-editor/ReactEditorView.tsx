@@ -10,6 +10,8 @@ import {
   Transformer,
   ErrorReporter,
   browser,
+  measureRender,
+  getResponseEndTime,
 } from '@atlaskit/editor-common';
 
 import { EventDispatcher, createDispatch, Dispatch } from '../event-dispatcher';
@@ -51,6 +53,8 @@ import {
 } from './create-editor';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
+import measurements from '../utils/performance/measure-enum';
+import { getNodesCount } from '../utils/document';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
@@ -414,6 +418,22 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   createEditorView = (node: HTMLDivElement) => {
+    measureRender(measurements.PROSEMIRROR_RENDERED, (duration, startTime) => {
+      if (this.view) {
+        this.dispatchAnalyticsEvent({
+          action: ACTION.PROSEMIRROR_RENDERED,
+          actionSubject: ACTION_SUBJECT.EDITOR,
+          attributes: {
+            duration,
+            startTime,
+            nodes: getNodesCount(this.view.state.doc),
+            ttfb: getResponseEndTime(),
+          },
+          eventType: EVENT_TYPE.OPERATIONAL,
+        });
+      }
+    });
+
     // Creates the editor-view from this.editorState. If an editor has been mounted
     // previously, this will contain the previous state of the editor.
     this.view = new EditorView({ mount: node }, this.getDirectEditorProps());

@@ -11,23 +11,18 @@ import {
   selectColumn,
   clearHoverSelection,
 } from '../../../commands';
-import {
-  insertColumnWithAnalytics,
-  deleteColumnsWithAnalytics,
-} from '../../../commands-with-analytics';
+import { deleteColumnsWithAnalytics } from '../../../commands-with-analytics';
 import { TableCssClassName as ClassName } from '../../../types';
 import {
   isSelectionUpdated,
   getColumnsWidths,
   isColumnDeleteButtonVisible,
   getColumnDeleteButtonParams,
-  isColumnInsertButtonVisible,
   getColumnsParams,
   getColumnClassNames,
   ColumnParams,
 } from '../../../utils';
 import tableMessages from '../../messages';
-import InsertButton from '../InsertButton';
 import DeleteButton from '../DeleteButton';
 
 export interface Props {
@@ -35,7 +30,6 @@ export interface Props {
   hoveredColumns?: number[];
   isInDanger?: boolean;
   isResizing?: boolean;
-  insertColumnButtonIndex?: number;
   numberOfColumns?: number;
   selection?: Selection;
   tableRef?: HTMLTableElement;
@@ -48,7 +42,6 @@ export default class ColumnControls extends Component<Props, any> {
       selection,
       numberOfColumns,
       hoveredColumns,
-      insertColumnButtonIndex,
       isInDanger,
       isResizing,
     } = this.props;
@@ -66,7 +59,6 @@ export default class ColumnControls extends Component<Props, any> {
 
     return (
       tableRef !== nextProps.tableRef ||
-      insertColumnButtonIndex !== nextProps.insertColumnButtonIndex ||
       isInDanger !== nextProps.isInDanger ||
       isResizing !== nextProps.isResizing ||
       numberOfColumns !== nextProps.numberOfColumns ||
@@ -79,7 +71,6 @@ export default class ColumnControls extends Component<Props, any> {
     const {
       editorView,
       tableRef,
-      insertColumnButtonIndex,
       hoveredColumns,
       isInDanger,
       isResizing,
@@ -138,17 +129,7 @@ export default class ColumnControls extends Component<Props, any> {
                       </>
                     )}
                   </button>
-                  {isColumnInsertButtonVisible(endIndex, selection) && (
-                    <InsertButton
-                      type="column"
-                      tableRef={tableRef}
-                      index={endIndex}
-                      showInsertButton={
-                        !isResizing && insertColumnButtonIndex === endIndex
-                      }
-                      onMouseDown={() => this.insertColumn(endIndex)}
-                    />
-                  )}
+                  <div className={ClassName.CONTROLS_INSERT_MARKER} />
                 </div>
               ),
             )}
@@ -200,10 +181,5 @@ export default class ColumnControls extends Component<Props, any> {
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;
     clearHoverSelection()(state, dispatch);
-  };
-
-  private insertColumn = (column: number) => {
-    const { state, dispatch } = this.props.editorView;
-    insertColumnWithAnalytics(INPUT_METHOD.BUTTON, column)(state, dispatch);
   };
 }

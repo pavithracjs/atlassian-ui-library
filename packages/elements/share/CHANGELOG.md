@@ -1,5 +1,29 @@
 # @atlaskit/share
 
+## 0.5.3
+
+### Patch Changes
+
+- [patch][5212dd363e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5212dd363e):
+
+  feat: new analytics around URL shortening (+internal refactors)
+
+## 0.5.2
+
+### Patch Changes
+
+- [patch][db798d5186](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db798d5186):
+
+  fix: handle an "is mounted" path
+
+## 0.5.1
+
+### Patch Changes
+
+- [patch][b53dd55ae8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b53dd55ae8):
+
+  fix: invalid property being used in URL shortener client
+
 ## 0.5.0
 
 ### Minor Changes

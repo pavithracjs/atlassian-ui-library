@@ -13,16 +13,17 @@ import { RequiredIndicator, LabelInner } from '../../styled/Label';
 const testLabel: string = 'test';
 const isLabelHidden: boolean = true;
 
-describe('ak-field-base', () =>
+describe('ak-field-base', () => {
   describe('Label', () => {
-    describe('by default', () =>
+    describe('by default', () => {
       it('should render a label element', () => {
         expect(
           shallow(
             <Label label={testLabel} isLabelHidden={isLabelHidden} />,
           ).find(LabelInner).length,
         ).toBeGreaterThan(0);
-      }));
+      });
+    });
 
     describe('label prop', () => {
       it('should be reflected in the label element', () => {
@@ -46,7 +47,7 @@ describe('ak-field-base', () =>
     });
 
     describe('required prop', () => {
-      it('should append an asterisk to the content', () =>
+      it('should append an asterisk to the content', () => {
         expect(
           shallow(
             <Label
@@ -55,7 +56,8 @@ describe('ak-field-base', () =>
               isRequired
             />,
           ).find(RequiredIndicator).length,
-        ).toBeGreaterThan(0));
+        ).toBeGreaterThan(0);
+      });
 
       it('should not append an asterisk to the content if required is not set', () => {
         expect(
@@ -107,7 +109,7 @@ describe('ak-field-base', () =>
       });
     });
 
-    describe('onClick prop', () =>
+    describe('onClick prop', () => {
       it('should fire handler when the span is clicked', () => {
         const handler = jest.fn();
         const wrapper = shallow(
@@ -119,9 +121,10 @@ describe('ak-field-base', () =>
         );
         wrapper.find('span').simulate('click');
         expect(handler).toHaveBeenCalledTimes(1);
-      }));
+      });
+    });
 
-    describe('.children', () =>
+    describe('.children', () => {
       it('should render any children passed to it', () => {
         const wrapper = shallow(
           <Label label={testLabel} isLabelHidden={isLabelHidden}>
@@ -129,5 +132,7 @@ describe('ak-field-base', () =>
           </Label>,
         );
         expect(wrapper.find('div.foo')).not.toBe(undefined);
-      }));
-  }));
+      });
+    });
+  });
+});

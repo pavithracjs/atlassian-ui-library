@@ -4,41 +4,46 @@ import {
   SerializeFragmentWithAttachmentsResult,
   MediaImageBase64,
 } from '../serializer';
+import { base64Prefix, imageOutputType } from './generator/constants';
+import { CS_CONTENT_PREFIX } from '../styles/util';
 
 export * from './icons';
 
-const cidPrefix = 'cid:pfcs-generated';
-const cidMatcher = new RegExp(`src="${cidPrefix}-([\\w]*)-([\\w-]*)"`, 'gi');
-type ImageTypeString = 'icon';
+const cidPrefix = 'cid:';
+const pfcsPrefix = CS_CONTENT_PREFIX;
+const cidMatcher = new RegExp(
+  `src="${cidPrefix}${pfcsPrefix}-([\\w]*)-([\\w-]*)"`,
+  'gi',
+);
 
 export const createContentId = (
   imageName: icons.IconString,
-  imageType: ImageTypeString = 'icon',
-) => `${cidPrefix}-${imageType}-${imageName}`;
+  isCidPrefixed: boolean = true,
+) => `${isCidPrefixed ? cidPrefix : ''}${pfcsPrefix}-icon-${imageName}`;
 
 const embeddedImagesMapper = (iconName: string): MediaImageBase64 => ({
-  contentId: createContentId(IconName[iconName as icons.IconString]),
-  contentType: 'png',
+  contentId: createContentId(IconName[iconName as icons.IconString], false),
+  contentType: `image/${imageOutputType}`,
   data: (icons as any)[iconName],
 });
 
-export const getImageProcessor = (isMockEnabled: boolean) => (
+export const processImages = (
   html: string,
+  isMockEnabled: boolean = false,
 ): SerializeFragmentWithAttachmentsResult => {
   const imageSet = new Set<icons.IconString>();
 
   const imageProcessor = (
     match: string,
-    imageType: ImageTypeString,
-    imageName: icons.IconString,
+    ...captureGroups: icons.IconString[]
   ): string => {
     // Inline the image if mock is enabled
     if (isMockEnabled) {
-      return `src="${(icons as any)[imageName]}"`;
+      return `src="${base64Prefix}${(icons as any)[captureGroups[1]]}"`;
     }
 
     // Otherwise, do not do a replacement (keep the cid as the src), and add the image to the set.
-    imageSet.add(imageName);
+    imageSet.add(captureGroups[1]);
     return match;
   };
 

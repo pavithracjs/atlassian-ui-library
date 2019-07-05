@@ -1,5 +1,21 @@
 # @atlaskit/media-card
 
+## 63.3.0
+
+### Minor Changes
+
+- [minor][53b1e6a783](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/53b1e6a783):
+
+  Add a download button to inline video player to allow download of video binary
+
+## 63.2.0
+
+### Minor Changes
+
+- [minor][09f094a7a2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09f094a7a2):
+
+  SL-259: bump react-lazily-render, remove react-lazily-render-scroll-parent.
+
 ## 63.1.5
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

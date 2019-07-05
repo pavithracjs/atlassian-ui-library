@@ -27,11 +27,11 @@ import {
   TooltipPosition,
 } from '../types';
 import {
-  buttonClicked,
+  shareTriggerButtonClicked,
   cancelShare,
-  copyShareLink,
+  copyLinkButtonClicked,
   screenEvent,
-  submitShare,
+  formShareSubmitted,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -51,6 +51,7 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderCustomTriggerButton;
   copyLink: string;
+  isCopyLinkShortened: boolean;
   dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
@@ -60,8 +61,8 @@ export type Props = {
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
-  copyLinkOrigin?: OriginTracing | null;
-  formShareOrigin?: OriginTracing | null;
+  copyLinkOrigin?: OriginTracing;
+  formShareOrigin?: OriginTracing;
   shouldCloseOnEscapePress?: boolean;
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
@@ -93,11 +94,12 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-class ShareDialogWithTriggerInternal extends React.Component<
+export class ShareDialogWithTriggerInternal extends React.Component<
   Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
   static defaultProps: Partial<Props> = {
+    isCopyLinkShortened: false,
     isDisabled: false,
     dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: true,
@@ -200,7 +202,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private onTriggerClick = () => {
-    this.createAndFireEvent(buttonClicked());
+    this.createAndFireEvent(shareTriggerButtonClicked());
 
     this.setState(
       state => ({
@@ -242,7 +244,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
     this.setState({ isSharing: true });
 
     this.createAndFireEvent(
-      submitShare(this.start, data, shareContentType, formShareOrigin, config),
+      formShareSubmitted(
+        this.start,
+        data,
+        shareContentType,
+        formShareOrigin,
+        config,
+      ),
     );
 
     onShareSubmit(data)
@@ -268,8 +276,10 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(copyShareLink(this.start, copyLinkOrigin));
+    const { copyLinkOrigin, isCopyLinkShortened } = this.props;
+    this.createAndFireEvent(
+      copyLinkButtonClicked(this.start, isCopyLinkShortened, copyLinkOrigin),
+    );
   };
 
   renderShareTriggerButton = () => {
@@ -361,7 +371,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
                     copyLink={copyLink}
                     loadOptions={loadUserOptions}
                     isSharing={isSharing}
-                    onShareClick={this.handleShareSubmit}
+                    onSubmit={this.handleShareSubmit}
                     title={shareFormTitle}
                     shareError={shareError}
                     onDismiss={this.handleFormDismiss}

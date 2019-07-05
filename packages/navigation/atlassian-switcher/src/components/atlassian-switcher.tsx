@@ -31,7 +31,7 @@ const getAnalyticsContext = (attributes: object) => ({
 const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
   const { product } = props;
 
-  let Switcher: React.ReactType;
+  let Switcher: React.ElementType;
   switch (product) {
     case Product.JIRA:
       Switcher = JiraSwitcher;

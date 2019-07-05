@@ -17,8 +17,8 @@ export interface Props {
 }
 
 class Decision extends ReactNodeView {
-  private isContentEmpty() {
-    return this.node.content.childCount === 0;
+  private isContentEmpty(node: PMNode) {
+    return node.content.childCount === 0;
   }
 
   createDomRef() {
@@ -54,7 +54,9 @@ class Decision extends ReactNodeView {
           return (
             <DecisionItem
               contentRef={forwardRef}
-              showPlaceholder={!insideCurrentNode && this.isContentEmpty()}
+              showPlaceholder={
+                !insideCurrentNode && this.isContentEmpty(this.node)
+              }
             />
           );
         }}
@@ -62,19 +64,21 @@ class Decision extends ReactNodeView {
     );
   }
 
-  viewShouldUpdate() {
-    return false;
+  viewShouldUpdate(nextNode: PMNode) {
+    /**
+     * To ensure the placeholder is correctly toggled we need to allow react to re-render
+     * on first character insertion.
+     * Note: last character deletion is handled externally and automatically re-renders.
+     */
+    return this.isContentEmpty(this.node) && nextNode.content.childCount === 1;
   }
 
   update(node: PMNode, decorations: Decoration[]) {
-    /**
-     * Returning false here when the previous content was empty – fixes an error where the editor fails to set selection
-     * inside the contentDOM after a transaction. See ED-2374.
-     */
     return super.update(
       node,
       decorations,
-      (_currentNode, _newNode) => !this.isContentEmpty(),
+      // Toggle the placeholder based on whether user input exists.
+      (_currentNode, _newNode) => !this.isContentEmpty(_newNode),
     );
   }
 }

@@ -1,5 +1,29 @@
 # @atlaskit/user-picker
 
+## 4.0.11
+
+### Patch Changes
+
+- [patch][40e6908409](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40e6908409):
+
+  pass session id to on selection
+
+## 4.0.10
+
+### Patch Changes
+
+- [patch][06f5bbf5a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06f5bbf5a9):
+
+  start session onfocus
+
+## 4.0.9
+
+### Patch Changes
+
+- [patch][c91e37e5f1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c91e37e5f1):
+
+  pass session id to onFocus, onBlur, onClose and onInputChange
+
 ## 4.0.8
 
 ### Patch Changes

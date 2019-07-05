@@ -63,6 +63,7 @@ export interface TeamInfoAttrAnalytics {
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
   sanitizePrivateContent?: boolean,
+  mentionInsertDisplayName?: boolean,
 ): EditorPlugin => {
   let sessionId = uuid();
   const fireEvent = <T extends AnalyticsEventPayload>(payload: T): void => {
@@ -208,7 +209,12 @@ const mentionsPlugin = (
           const pluginState = getMentionPluginState(state);
           const { mentionProvider } = pluginState;
           const { id, name, nickname, accessLevel, userType } = item.mention;
-          const renderName = nickname ? nickname : name;
+          const trimmedNickname =
+            nickname && nickname.startsWith('@') ? nickname.slice(1) : nickname;
+          const renderName =
+            mentionInsertDisplayName || !trimmedNickname
+              ? name
+              : trimmedNickname;
           const typeAheadPluginState = typeAheadPluginKey.getState(
             state,
           ) as TypeAheadPluginState;
@@ -482,11 +488,12 @@ function mentionPluginFactory(
                     let teams: TeamInfoAttrAnalytics[] | null = null;
 
                     if (!isTeamStats(stats)) {
+                      // is from user mention
                       duration = stats && stats.duration;
                       teams = null;
                       userIds = mentions
                         .map(mention =>
-                          isTeamType(mention.userType) ? mention.id : null,
+                          isTeamType(mention.userType) ? null : mention.id,
                         )
                         .filter(m => !!m) as string[];
                     } else {
@@ -571,14 +578,20 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
+
+  // build team link
+  const defaultTeamLink = `${window.location.origin}/people/team/${teamId}`;
+  const teamLink =
+    context && context.teamLink ? context.teamLink : defaultTeamLink;
+  const teamLinkNode = schema.text(name!, [
+    marks.link.create({ href: teamLink }),
+  ]);
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');
   const emptySpaceText = schema.text(' ');
-  const teamLink = schema.text(name!, [marks.link.create({ href: teamUrl })]);
 
-  const inlineNodes: Node[] = [teamLink, emptySpaceText, openBracketText];
+  const inlineNodes: Node[] = [teamLinkNode, emptySpaceText, openBracketText];
 
   const members: TeamMember[] =
     context && context.members ? context.members : [];

@@ -12,7 +12,7 @@ import {
   PermittedLayoutsDescriptor,
   ColumnResizingPluginState,
 } from './types';
-import { createPlugin, pluginKey } from './pm-plugins/main';
+import { createPlugin, pluginKey, getPluginState } from './pm-plugins/main';
 import { keymapPlugin } from './pm-plugins/keymap';
 import {
   createPlugin as createFlexiResizingPlugin,
@@ -21,6 +21,7 @@ import {
 import { getToolbarConfig } from './toolbar';
 import FloatingContextualMenu from './ui/FloatingContextualMenu';
 import FloatingContextualButton from './ui/FloatingContextualButton';
+import FloatingInsertButton from './ui/FloatingInsertButton';
 import { isLayoutSupported } from './utils';
 import {
   addAnalytics,
@@ -121,13 +122,18 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
         }}
         render={_ => {
           const { state } = editorView;
-          const pluginState = pluginKey.getState(state);
+          const pluginState = getPluginState(state);
           const tableResizingPluginState = tableResizingPluginKey.getState(
             state,
           );
           const isDragging =
             tableResizingPluginState && tableResizingPluginState.dragging;
           const isMobile = appearance === 'mobile';
+          const allowControls =
+            pluginState &&
+            pluginState.pluginConfig &&
+            pluginState.pluginConfig.allowControls;
+
           return (
             <>
               {pluginState.targetCellPosition && !isDragging && !isMobile && (
@@ -137,6 +143,21 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                   targetCellPosition={pluginState.targetCellPosition}
                   scrollableElement={popupsScrollableElement}
                   isContextualMenuOpen={pluginState.isContextualMenuOpen}
+                  layout={pluginState.layout}
+                />
+              )}
+              {allowControls && (
+                <FloatingInsertButton
+                  tableNode={pluginState.tableNode}
+                  tableRef={pluginState.tableRef}
+                  insertColumnButtonIndex={pluginState.insertColumnButtonIndex}
+                  insertRowButtonIndex={pluginState.insertRowButtonIndex}
+                  isHeaderColumnEnabled={pluginState.isHeaderColumnEnabled}
+                  isHeaderRowEnabled={pluginState.isHeaderRowEnabled}
+                  editorView={editorView}
+                  mountPoint={popupsMountPoint}
+                  boundariesElement={popupsBoundariesElement}
+                  scrollableElement={popupsScrollableElement}
                 />
               )}
               <FloatingContextualMenu
@@ -144,7 +165,7 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                 mountPoint={popupsMountPoint}
                 boundariesElement={popupsBoundariesElement}
                 targetCellPosition={pluginState.targetCellPosition}
-                isOpen={pluginState.isContextualMenuOpen}
+                isOpen={Boolean(pluginState.isContextualMenuOpen)}
                 pluginConfig={pluginState.pluginConfig}
               />
               {appearance === 'full-page' &&
@@ -156,6 +177,7 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                     boundariesElement={popupsBoundariesElement}
                     scrollableElement={popupsScrollableElement}
                     targetRef={pluginState.tableWrapperTarget!}
+                    layout={pluginState.layout}
                     isResizing={
                       !!tableResizingPluginState &&
                       !!tableResizingPluginState.dragging

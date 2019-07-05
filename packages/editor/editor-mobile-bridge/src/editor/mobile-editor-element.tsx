@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
+import { EditorViewWithComposition } from '../types';
 import {
   Editor,
   MediaProvider as MediaProviderType,
@@ -21,7 +22,6 @@ import {
   TaskDecisionProvider,
   MockEmojiProvider,
 } from '../providers';
-import { ProseMirrorDOMChange } from '../types';
 import { parseLocationSearch } from '../bridge-utils';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { cardClient, cardProvider } from '../providers/cardProvider';
@@ -35,7 +35,7 @@ export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl
 
 class EditorWithState extends Editor {
   onEditorCreated(instance: {
-    view: EditorView & ProseMirrorDOMChange;
+    view: EditorView & EditorViewWithComposition;
     eventDispatcher: any;
     transformer?: any;
   }) {

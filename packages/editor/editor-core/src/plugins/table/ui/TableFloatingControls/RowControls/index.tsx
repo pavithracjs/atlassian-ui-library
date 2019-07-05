@@ -6,22 +6,17 @@ import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
 import { INPUT_METHOD } from '../../../../analytics';
 import { clearHoverSelection } from '../../../commands';
 import { getPluginState } from '../../../pm-plugins/main';
-import {
-  insertRowWithAnalytics,
-  deleteRowsWithAnalytics,
-} from '../../../commands-with-analytics';
+import { deleteRowsWithAnalytics } from '../../../commands-with-analytics';
 import { TableCssClassName as ClassName } from '../../../types';
 import {
   RowParams,
   getRowHeights,
-  isRowInsertButtonVisible,
   isRowDeleteButtonVisible,
   getRowDeleteButtonParams,
   getRowsParams,
   getRowClassNames,
 } from '../../../utils';
 import tableMessages from '../../messages';
-import InsertButton from '../InsertButton';
 import DeleteButton from '../DeleteButton';
 
 export interface Props {
@@ -40,7 +35,6 @@ export default class RowControls extends Component<Props, any> {
     const {
       editorView,
       tableRef,
-      insertRowButtonIndex,
       hoveredRows,
       isInDanger,
       isResizing,
@@ -93,17 +87,8 @@ export default class RowControls extends Component<Props, any> {
                   </>
                 )}
               </button>
-              {isRowInsertButtonVisible(endIndex, selection) && (
-                <InsertButton
-                  type="row"
-                  tableRef={tableRef}
-                  index={endIndex}
-                  showInsertButton={
-                    !isResizing && insertRowButtonIndex === endIndex
-                  }
-                  onMouseDown={() => this.insertRow(endIndex)}
-                />
-              )}
+
+              <div className={ClassName.CONTROLS_INSERT_MARKER} />
             </div>
           ))}
           {isRowDeleteButtonVisible(selection) && deleteBtnParams && (
@@ -126,11 +111,6 @@ export default class RowControls extends Component<Props, any> {
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;
     clearHoverSelection()(state, dispatch);
-  };
-
-  private insertRow = (row: number) => {
-    const { state, dispatch } = this.props.editorView;
-    insertRowWithAnalytics(INPUT_METHOD.BUTTON, row)(state, dispatch);
   };
 
   private deleteRows = () => {

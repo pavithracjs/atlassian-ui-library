@@ -1,5 +1,21 @@
 # @atlaskit/drawer
 
+## 4.2.0
+
+### Minor Changes
+
+- [minor][72adb807b9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72adb807b9):
+
+  Exports DrawerItem as part of the drawer package. Exposes props to control focus lock behaviour.
+
+## 4.1.6
+
+### Patch Changes
+
+- [patch][12e4a436a2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12e4a436a2):
+
+  - Added focus lock to Drawer
+
 ## 4.1.5
 
 ### Patch Changes

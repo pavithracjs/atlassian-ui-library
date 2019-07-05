@@ -6,6 +6,7 @@
  */
 // Swedish
 export default {
+  'fabric.mention.unknow.user.error': 'Okänd användare {id}',
   'fabric.mention.noAccess.warning':
     '{name} kommer inte att meddelas eftersom de saknar åtkomst',
   'fabric.mention.noAccess.label': 'Ingen åtkomst',

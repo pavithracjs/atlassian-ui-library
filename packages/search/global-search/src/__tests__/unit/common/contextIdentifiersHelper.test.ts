@@ -6,9 +6,9 @@ import {
   AnalyticsType,
   ConfluenceResultsMap,
   ContentType,
-  GenericResultMap,
   ResultType,
   Result,
+  JiraResultsMap,
 } from '../../../model/Result';
 
 const searchSessionId = 'searchSessionId';
@@ -59,7 +59,7 @@ const confluenceBaseResults: ConfluenceResultsMap = {
   },
 };
 
-const getJiraBaseResults = (result?: Partial<Result>): GenericResultMap => ({
+const getJiraBaseResults = (result?: Partial<Result>): JiraResultsMap => ({
   objects: [
     {
       resultId: 'resultId',

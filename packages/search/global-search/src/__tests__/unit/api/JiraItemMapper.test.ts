@@ -42,7 +42,8 @@ describe('mapJiraItemToResult', () => {
       avatarUrl: avatar.url,
       name: issue.name,
       href: expect.stringMatching(issue.url),
-      containerName: issue.attributes.issueTypeName,
+      containerName:
+        issue.attributes.container && issue.attributes.container.title,
       objectKey: issue.attributes.key,
       analyticsType: AnalyticsType.ResultJira,
       resultType: ResultType.JiraObjectResult,
@@ -77,7 +78,8 @@ describe('mapJiraItemToResult', () => {
       avatarUrl: avatar.url,
       name: board.name,
       href: expect.stringMatching(board.url),
-      containerName: board.attributes.containerName,
+      containerName:
+        board.attributes.container && board.attributes.container.title,
       analyticsType: AnalyticsType.ResultJira,
       resultType: ResultType.JiraObjectResult,
       contentType: ContentType.JiraBoard,

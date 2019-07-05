@@ -14,11 +14,12 @@ import { getCollapsedIcon } from '../../utils';
 
 export const InlineCard: FC<InlineCardProps> = ({
   url,
-  cardState: { status, details },
+  cardState,
   handleAuthorize,
   handleFrameClick,
   isSelected,
 }) => {
+  const { status, details } = cardState;
   switch (status) {
     case 'pending':
       return <CardLinkView link={url} isSelected={isSelected} />;

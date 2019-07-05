@@ -1,29 +1,33 @@
 import { NodeSerializerOpts } from '../interfaces';
-import { createTag, serializeStyle } from '../util';
+import { createTag } from '../create-tag';
+import { serializeStyle } from '../serialize-style';
 import { N30, N50, N800 } from '@atlaskit/adf-schema';
+import { createClassName } from '../styles/util';
 
-const innerStyle = serializeStyle({
-  'background-color': N30,
-  border: `10px solid ${N30}`,
-  'border-radius': '3px',
-  '-webkit-border-radius': '3px',
-  '-moz-border-radius': '3px',
-  color: N800,
-});
+const className = createClassName('media');
 
-const outerStyle = serializeStyle({
-  border: `1px solid ${N50}`,
-  'margin-top': '10px',
-  'border-radius': '3px',
-  'border-style': 'dashed',
-  '-webkit-border-radius': '3px',
-  '-moz-border-radius': '3px',
-});
-
-const imageWrapperStyle = serializeStyle({
-  margin: '24px auto',
-  'text-align': 'center',
-});
+export const styles = `
+.${className}-placeholder-inner {
+  background-color: ${N30};
+  border: 10px solid ${N30};
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  color: ${N800},
+}
+.${className}-placeholder-outer {
+  border: 1px solid ${N50};
+  margin-top: 10px;
+  border-radius: 3px;
+  border-style: dashed;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+.${className}-wrapper {
+  margin: 24px auto;
+  text-align: center;
+}
+`;
 
 export default function media({ attrs }: NodeSerializerOpts) {
   let src;
@@ -45,13 +49,13 @@ export default function media({ attrs }: NodeSerializerOpts) {
       style.height = attrs.height;
     }
     const img = createTag('img', { style: serializeStyle(style), src });
-    return createTag('div', { style: imageWrapperStyle }, img);
+    return createTag('div', { class: `${className}-wrapper` }, img);
   }
   // no id or url found, fall back to placeholder
   const inner = createTag(
     'div',
-    { style: innerStyle },
+    { class: `${className}-placeholder-inner` },
     `&nbsp;&rtri;&nbsp;${attrs.type}:&nbsp;${attrs.collection}&nbsp;`,
   );
-  return createTag('div', { style: outerStyle }, inner);
+  return createTag('div', { class: `${className}-placeholder-outer` }, inner);
 }

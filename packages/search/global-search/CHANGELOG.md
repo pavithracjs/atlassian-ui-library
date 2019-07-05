@@ -1,5 +1,61 @@
 # @atlaskit/global-search
 
+## 10.0.0
+
+### Major Changes
+
+- [major][1e1fd28bb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e1fd28bb3):
+
+  Exposed new API for consumers of global search to better control the lifecycle of the search session id
+
+## 9.2.0
+
+### Minor Changes
+
+- [minor][e6f5e7a694](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f5e7a694):
+
+  added current space filter for confluence
+
+## 9.1.1
+
+### Patch Changes
+
+- [patch][af96d6cbb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af96d6cbb8):
+
+  Removed generic result map and replaced with jira result map
+
+## 9.1.0
+
+### Minor Changes
+
+- [minor][a0ae6daeb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0ae6daeb6):
+
+  Removed urijs dependency
+
+## 9.0.0
+
+### Major Changes
+
+- [major][e84f336455](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e84f336455):
+
+  Removed support for Atlassian Home, it is no longer a valid context or product
+
+## 8.16.0
+
+### Minor Changes
+
+- [minor][cb424f9560](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb424f9560):
+
+  - global-search is integrated with autocomplete service
+
+## 8.15.8
+
+### Patch Changes
+
+- [patch][465b8bae74](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/465b8bae74):
+
+  Jira results now have project name rather than issue type
+
 ## 8.15.7
 
 ### Patch Changes

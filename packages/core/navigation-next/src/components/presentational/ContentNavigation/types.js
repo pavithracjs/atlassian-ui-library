@@ -8,6 +8,7 @@ export type ContentNavigationProps = {
   container?: ?ComponentType<{}>,
   isVisible: boolean,
   product: ComponentType<{}>,
+  experimental_hideNavVisuallyOnCollapse: boolean,
 };
 
 export type ContentNavigationState = {|
@@ -18,6 +19,7 @@ export type ContainerNavigationPrimitiveProps = {|
   children: Node,
   isEntering: boolean,
   isExiting: boolean,
+  isVisible: boolean,
 |};
 
 export type ContainerNavigationPrimitiveBaseProps = {|

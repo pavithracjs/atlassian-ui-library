@@ -4,6 +4,7 @@ import Item, { ItemGroup, itemThemeNamespace } from '@atlaskit/item';
 import { colors, borderRadius, themed } from '@atlaskit/theme';
 import { TypeAheadItem } from '../types';
 import IconFallback from '../../quick-insert/assets/fallback';
+import { Shortcut } from '../../../ui/styles';
 
 const itemTheme = {
   [itemThemeNamespace]: {
@@ -68,17 +69,7 @@ const ItemText = styled.div`
 `;
 
 const ItemAfter = styled.div`
-  min-width: 12px;
-`;
-
-const KeyHint = styled.div`
-  background-color: rgba(223, 225, 229, 0.5); /* N60 at 50% */
-  color: ${colors.N100};
-  border-radius: ${borderRadius()}px;
-  padding: 4px;
-  line-height: 12px;
-  font-size: 11.67px;
-  align-self: flex-end;
+  flex: 0 0 auto;
 `;
 
 const fallbackIcon = (label: string) => {
@@ -219,7 +210,7 @@ export class TypeAheadItemComponent extends React.Component<
             )}
           </ItemText>
           <ItemAfter>
-            {item.keyshortcut && <KeyHint>{item.keyshortcut}</KeyHint>}
+            {item.keyshortcut && <Shortcut>{item.keyshortcut}</Shortcut>}
           </ItemAfter>
         </ItemBody>
       </Item>

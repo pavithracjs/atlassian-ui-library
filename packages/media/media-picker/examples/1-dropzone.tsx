@@ -188,7 +188,21 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
             innerRef={this.saveDropzoneContainer}
           />
           <DropzoneItemsInfo>
-            {dropzone ? <UploadPreviews picker={dropzone} /> : null}
+            {dropzone ? (
+              <UploadPreviews>
+                {({ onUploadsStart, onError, onPreviewUpdate }) => {
+                  /**
+                   *  This will be called several times so we need to remove all listeners every render
+                   *  Still, it will be properly used once dropzone becomes a react component
+                   * */
+                  dropzone.removeAllListeners();
+                  dropzone.on('uploads-start', onUploadsStart);
+                  dropzone.on('upload-error', onError);
+                  dropzone.on('upload-preview-update', onPreviewUpdate);
+                  return null;
+                }}
+              </UploadPreviews>
+            ) : null}
             <h1>User collection items</h1>
             {this.renderLastItems()}
           </DropzoneItemsInfo>

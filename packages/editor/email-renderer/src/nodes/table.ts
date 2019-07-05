@@ -1,20 +1,21 @@
 import { N50, calcTableColumnWidths } from '@atlaskit/adf-schema';
-import { createTag, serializeStyle, commonTableStyle } from '../util';
+import { createTag } from '../create-tag';
 import { NodeSerializerOpts } from '../interfaces';
+import { createClassName } from '../styles/util';
 
-const css = serializeStyle({
-  ...commonTableStyle,
-  border: `1px solid ${N50}`,
-  'border-collapse': 'collapse',
-  width: '100%',
-  'table-layout': 'fixed',
-});
+const className = createClassName('tableNode');
 
-// vertical margin works only on divs, apparently
-const wrapperCss = serializeStyle({
-  'margin-bottom': '20px',
-  'margin-top': '20px',
-});
+export const styles = `
+.${className} {
+  border: 1px solid ${N50};
+  border-collapse: collapse;
+  width: 100%;
+}
+.${className}-wrapper {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+`;
 
 export const numberedColumnWidth = 42;
 
@@ -31,10 +32,6 @@ export default function table({ text, node }: NodeSerializerOpts) {
 
   const colgroup = createTag('colgroup', undefined, colTags.join(''));
 
-  const table = createTag(
-    'table',
-    { style: css, class: 'tableNode' },
-    colgroup + text,
-  );
-  return createTag('div', { style: wrapperCss }, table);
+  const table = createTag('table', { class: className }, colgroup + text);
+  return createTag('div', { class: `${className}-wrapper` }, table);
 }

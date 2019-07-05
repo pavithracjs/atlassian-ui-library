@@ -1,9 +1,9 @@
 import { GraphqlResponse, SearchResult } from '../src/api/PeopleSearchClient';
-import { RecentItemsResponse } from '../src/api/RecentSearchClient';
 import { QuickNavResult } from '../src/api/ConfluenceClient';
 import {
   CrossProductSearchResponse,
   CrossProductExperimentResponse,
+  Filter,
 } from '../src/api/CrossProductSearchClient';
 import {
   Scope,
@@ -67,6 +67,7 @@ const mockAbbreviations = [
   'FTP',
   'GB',
   'EXE',
+  'TEST',
 ];
 const mockAvatarUrls = [
   'https://s3.amazonaws.com/uifaces/faces/twitter/magugzbrand2d/128.jpg',
@@ -149,70 +150,13 @@ const getPastDate = () => {
   return getDateWithOffset(offset);
 };
 
-function randomJiraIconUrl() {
-  const urls = [
-    'https://product-fabric.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype',
-    'https://product-fabric.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype',
-  ];
-
-  return pickRandom(urls);
-}
-
-function randomConfluenceIconUrl() {
-  const urls = [
-    'https://home.useast.atlassian.io/confluence-page-icon.svg',
-    'https://home.useast.atlassian.io/confluence-blogpost-icon.svg',
-  ];
-
-  return pickRandom(urls);
-}
-
-function randomProvider() {
-  const providers = ['jira', 'confluence'];
-  return pickRandom(providers);
-}
-
-function randomIssueKey() {
-  const keys = ['ETH', 'XRP', 'ADA', 'TRON', 'DOGE'];
-  return pickRandom(keys) + '-' + Math.floor(Math.random() * 1000);
-}
-
-function randomSpaceIconUrl() {
+export function randomSpaceIconUrl() {
   return `https://placeimg.com/64/64/arch?bustCache=${Math.random()}`;
-}
-
-export function recentData(n = 50): RecentItemsResponse {
-  const items: any = [];
-
-  for (let i = 0; i < n; i++) {
-    const provider = randomProvider();
-
-    const name =
-      provider === 'jira'
-        ? `${randomIssueKey()} ${getMockCatchPhrase()}`
-        : getMockCatchPhrase();
-
-    const iconUrl =
-      provider === 'jira' ? randomJiraIconUrl() : randomConfluenceIconUrl();
-
-    items.push({
-      objectId: uuid(),
-      name: name,
-      iconUrl: iconUrl,
-      container: getMockCompanyName(),
-      url: getMockUrl(),
-      provider: provider,
-    });
-  }
-
-  return {
-    data: items,
-  };
 }
 
 export function makeCrossProductSearchData(
   n = 100,
-): (term: string) => CrossProductSearchResponse {
+): (term: string, filters: Filter[]) => CrossProductSearchResponse {
   const confData: ConfluenceItem[] = [];
   const confSpaceData: ConfluenceItem[] = [];
   const confDataWithAttachments: ConfluenceItem[] = [];
@@ -240,6 +184,13 @@ export function makeCrossProductSearchData(
         id: uuid(),
         type: type,
       },
+      // 'space' wouldn't normally appear on a page/blogpost/attachment, but it is here so that mock filtering can work
+      space: {
+        key: getMockAbbreviation(),
+        icon: {
+          path: randomSpaceIconUrl(),
+        },
+      },
       iconCssClass: icon,
     });
   }
@@ -266,6 +217,13 @@ export function makeCrossProductSearchData(
       content: {
         id: uuid(),
         type: type,
+      },
+      // 'space' wouldn't normally appear on a page/blogpost/attachment, but it is here so that mock filtering can work
+      space: {
+        key: getMockAbbreviation(),
+        icon: {
+          path: randomSpaceIconUrl(),
+        },
       },
       iconCssClass: icon,
     };
@@ -339,11 +297,19 @@ export function makeCrossProductSearchData(
     ursPeopleData.push(ursPeopleEntry);
   }
 
-  return (term: string) => {
+  return (term: string, filters: Filter[] = []) => {
     term = term.toLowerCase();
+    const spaceFilter = filters.find(filter => filter['@type'] === 'spaces');
+    const filteredSpaceKey = spaceFilter && spaceFilter['spaceKeys'][0];
+
+    const applySpaceFilter = (result: ConfluenceItem) =>
+      !filteredSpaceKey ||
+      (result.space && result.space.key === filteredSpaceKey);
 
     const filteredConfResults = confData.filter(
-      result => result.title.toLowerCase().indexOf(term) > -1,
+      result =>
+        result.title.toLowerCase().indexOf(term) > -1 &&
+        applySpaceFilter(result),
     );
 
     const filteredJiraIssueResults = jiraObjects.filter(result => {
@@ -359,21 +325,27 @@ export function makeCrossProductSearchData(
         (<JiraItemV2>result).name.toLocaleLowerCase().indexOf(term) > -1,
     );
 
-    const filteredSpaceResults = confSpaceData.filter(
-      result => result.container.title.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredSpaceResults = spaceFilter
+      ? []
+      : confSpaceData.filter(
+          result => result.container.title.toLowerCase().indexOf(term) > -1,
+        );
 
     const filteredConfResultsWithAttachments = confDataWithAttachments.filter(
-      result => result.title.toLowerCase().indexOf(term) > -1,
+      result =>
+        result.title.toLowerCase().indexOf(term) > -1 &&
+        applySpaceFilter(result),
     );
 
-    const filteredPeopleResults = peopleData.filter(
-      item => item.name.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredPeopleResults = spaceFilter
+      ? []
+      : peopleData.filter(item => item.name.toLowerCase().indexOf(term) > -1);
 
-    const filteredUrsPeopleResults = ursPeopleData.filter(
-      item => item.name.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredUrsPeopleResults = spaceFilter
+      ? []
+      : ursPeopleData.filter(
+          item => item.name.toLowerCase().indexOf(term) > -1,
+        );
 
     const abTest = {
       experimentId: 'experiment-1',
@@ -596,4 +568,14 @@ export function makeConfluenceRecentSpacesData(n: number = 15) {
       name: getMockCompanyName(),
     };
   }, n);
+}
+
+export function makeAutocompleteData(): string[] {
+  const tokensPerPhrase: string[][] = mockCatchPhrases.map(phrase =>
+    phrase.split(/\W+/),
+  );
+  const tokens = tokensPerPhrase
+    .reduce((acc, val) => acc.concat(val), [])
+    .map(token => token.toLowerCase());
+  return [...new Set(tokens)];
 }

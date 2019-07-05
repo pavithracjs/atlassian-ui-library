@@ -1,5 +1,13 @@
 # @atlaskit/tabs
 
+## 11.0.0
+
+### Major Changes
+
+- [major][61a919319a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/61a919319a):
+
+  @atlaskit/tabs has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes. tabIndex now only accepts type number.
+
 ## 10.0.4
 
 ### Patch Changes

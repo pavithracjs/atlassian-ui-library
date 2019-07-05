@@ -57,6 +57,17 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    #editor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
     p,
     ul,
     ol,
@@ -245,26 +256,29 @@
       font-family: "SFMono-Medium", "SF Mono", "Segoe UI Mono", "Roboto Mono", "Ubuntu Mono", Menlo, Courier, monospace;
     }
 
-    .pm-table-wrapper, .code-block {
-      -webkit-overflow-scrolling : touch !important;
-      overflow: auto !important;
+    /**
+     * TABLES
+     */
+
+    .pm-table-container[data-layout='full-width'],
+    .pm-table-container[data-layout='wide'] {
+      margin-left: 0 !important;
+      transform: none !important;
     }
 
-    var,
-    address,
-    dfn,
-    cite {
-      font-style: italic;
+    .pm-table-container.less-padding {
+      padding: 0 !important;
     }
 
-    abbr {
-      border-bottom: 1px #ccc dotted;
-      cursor: help;
+    .pm-table-wrapper {
+      overflow-x: auto !important;
+      padding-top: 0 !important;
+      -webkit-overflow-scrolling : touch !important; /* iOS */
     }
-
+    
     table {
-      border-collapse: collapse;
-      width: 100%;
+      table-layout: auto !important;
+      border-collapse: collapse;     
     }
 
     thead,
@@ -344,19 +358,21 @@
       white-space: nowrap !important;
     }
 
-    #editor {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 100%;
-      width: 100%;
-      box-sizing: border-box;
+    .code-block {
+      -webkit-overflow-scrolling : touch !important;
+      overflow: auto !important;
     }
 
-    #editor .pm-table-container table {
-      margin-left: 0;
+    var,
+    address,
+    dfn,
+    cite {
+      font-style: italic;
+    }
+
+    abbr {
+      border-bottom: 1px #ccc dotted;
+      cursor: help;
     }
   </style>
 </head>

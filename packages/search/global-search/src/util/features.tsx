@@ -5,6 +5,7 @@ import deepEqual from 'deep-equal';
 const FASTER_SEARCH_EXPERIMENT = 'faster-search';
 const DEFAULT = 'default';
 const SEARCH_EXTENSIONS_EXPERIMENT = 'search-extensions-simple';
+const SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT = 'search-extensions-complex';
 
 const isInFasterSearchExperiment = (
   abTest: ABTest,
@@ -17,7 +18,14 @@ const isInFasterSearchExperiment = (
 };
 
 const isInSearchExtensionsExperiment = (abTest: ABTest): boolean => {
-  return abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT;
+  return (
+    abTest.experimentId === SEARCH_EXTENSIONS_EXPERIMENT ||
+    isInSearchExtensionsComplexExperiment(abTest)
+  );
+};
+
+const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {
+  return abTest.experimentId === SEARCH_EXTENSIONS_COMPLEX_EXPERIMENT;
 };
 
 export interface CommonFeatures {
@@ -28,6 +36,8 @@ export interface CommonFeatures {
 export interface ConfluenceFeatures extends CommonFeatures {
   isInFasterSearchExperiment: boolean;
   useUrsForBootstrapping: boolean;
+  isAutocompleteEnabled: boolean;
+  complexSearchExtensionsEnabled: boolean;
 }
 
 export interface JiraFeatures extends CommonFeatures {
@@ -41,6 +51,7 @@ export interface FeaturesParameters {
   useUrsForBootstrapping: boolean;
   disableJiraPreQueryPeopleSearch: boolean;
   enablePreQueryFromAggregator: boolean;
+  isAutocompleteEnabled: boolean;
 }
 
 export const createFeatures: (
@@ -52,6 +63,7 @@ export const createFeatures: (
     useUrsForBootstrapping,
     disableJiraPreQueryPeopleSearch,
     enablePreQueryFromAggregator,
+    isAutocompleteEnabled,
   }) => {
     return {
       abTest,
@@ -63,6 +75,10 @@ export const createFeatures: (
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
       searchExtensionsEnabled: isInSearchExtensionsExperiment(abTest),
+      isAutocompleteEnabled,
+      complexSearchExtensionsEnabled: isInSearchExtensionsComplexExperiment(
+        abTest,
+      ),
     };
   },
   deepEqual,

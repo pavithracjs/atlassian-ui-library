@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-picker",
-  "version": "43.1.2",
+  "version": "44.0.0",
   "description": "Library for handling file uploads",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -64,7 +64,7 @@
     "@atlaskit/build-utils": "^2.1.0",
     "@atlaskit/docs": "^8.1.2",
     "@atlaskit/media-core": "^30.0.5",
-    "@atlaskit/media-test-helpers": "^24.0.3",
+    "@atlaskit/media-test-helpers": "^24.1.1",
     "@atlaskit/media-viewer": "^43.1.1",
     "@atlaskit/select": "^9.1.5",
     "@atlaskit/ssr": "^0.1.0",
@@ -79,14 +79,13 @@
     "@types/react-redux": "^5.0.0",
     "@types/redux": "^3.6.0",
     "enzyme": "^3.7.0",
-    "fetch-mock": "^6.5.2",
+    "fetch-mock": "^7.3.3",
     "identity-obj-proxy": "^3.0.0",
     "lodash.chunk": "^4.2.0",
     "react": "^16.8.0",
     "react-circle": "^1.0.1",
     "react-dom": "^16.8.0",
     "react-intl": "^2.6.0",
-    "rxjs": "^5.5.0",
-    "whatwg-fetch": "^2.0.3"
+    "rxjs": "^5.5.0"
   }
 }

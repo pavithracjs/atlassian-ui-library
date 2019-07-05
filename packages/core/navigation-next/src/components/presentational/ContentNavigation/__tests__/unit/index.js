@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
 import { mount, shallow } from 'enzyme';
 
 import ContentNavigation from '../../index';
@@ -8,6 +8,7 @@ import { transitionDurationMs } from '../../../../../common/constants';
 const defaultProps = {
   isVisible: false,
   product: () => null,
+  experimental_hideNavVisuallyOnCollapse: false,
 };
 
 describe('ContentNavigation', () => {
@@ -33,5 +34,123 @@ describe('ContentNavigation', () => {
     wrapper.setProps({ container: undefined });
     // Should continue rendering the Container even though we've unset the prop
     expect(wrapper.find(Container)).toHaveLength(1);
+  });
+
+  it('should unmount the container and product when nav is collapsed', async () => {
+    const componentDidMount = jest.fn();
+    const componentWillUnmount = jest.fn();
+
+    class Container extends Component<{}> {
+      constructor(props) {
+        super(props);
+        (this: any).componentDidMount = componentDidMount;
+        (this: any).componentWillUnmount = componentWillUnmount;
+      }
+
+      render() {
+        return null;
+      }
+    }
+
+    class Product extends Component<{}> {
+      constructor(props) {
+        super(props);
+        (this: any).componentDidMount = componentDidMount;
+        (this: any).componentWillUnmount = componentWillUnmount;
+      }
+
+      render() {
+        return null;
+      }
+    }
+
+    const wrapper = mount(
+      <ContentNavigation
+        {...defaultProps}
+        product={Product}
+        container={Container}
+        isVisible
+      />,
+    );
+
+    expect(wrapper.find(Product)).toHaveLength(1);
+    expect(wrapper.find(Container)).toHaveLength(1);
+
+    wrapper.setProps({ isVisible: false });
+
+    expect(wrapper.find(Product)).toHaveLength(0);
+    expect(wrapper.find(Container)).toHaveLength(0);
+    expect(componentDidMount).toBeCalledTimes(2);
+    expect(componentWillUnmount).toBeCalledTimes(2);
+  });
+
+  it('should visually hide the container view when nav is collapsed when "experimental_hideNavVisuallyOnCollapse" is passed', () => {
+    const componentDidMount = jest.fn();
+    const componentWillUnmount = jest.fn();
+
+    class Container extends Component<{}> {
+      constructor(props) {
+        super(props);
+        (this: any).componentDidMount = componentDidMount;
+        (this: any).componentWillUnmount = componentWillUnmount;
+      }
+
+      render() {
+        return null;
+      }
+    }
+
+    const wrapper = mount(
+      <ContentNavigation
+        {...defaultProps}
+        container={Container}
+        isVisible
+        experimental_hideNavVisuallyOnCollapse
+      />,
+    );
+    expect(wrapper.find(Container).length).toBe(1);
+    expect(componentDidMount).toBeCalled();
+    expect(
+      wrapper
+        .find(Container)
+        .parent()
+        .is('div'),
+    ).toBeFalsy();
+
+    wrapper.setProps({ isVisible: false });
+    expect(wrapper.find(Container).length).toBe(1);
+    expect(componentWillUnmount).not.toBeCalled();
+  });
+
+  it('should visually hide the product view when nav is collapsed when "experimental_hideNavVisuallyOnCollapse" is passed', () => {
+    const componentDidMount = jest.fn();
+    const componentWillUnmount = jest.fn();
+
+    class Product extends Component<{}> {
+      constructor(props) {
+        super(props);
+        (this: any).componentDidMount = componentDidMount;
+        (this: any).componentWillUnmount = componentWillUnmount;
+      }
+
+      render() {
+        return null;
+      }
+    }
+
+    const wrapper = mount(
+      <ContentNavigation
+        product={Product}
+        isVisible
+        experimental_hideNavVisuallyOnCollapse
+      />,
+    );
+    expect(wrapper.find(Product).length).toBe(1);
+    expect(componentDidMount).toBeCalled();
+
+    wrapper.setProps({ isVisible: false });
+
+    expect(wrapper.find(Product).length).toBe(1);
+    expect(componentWillUnmount).not.toBeCalled();
   });
 });

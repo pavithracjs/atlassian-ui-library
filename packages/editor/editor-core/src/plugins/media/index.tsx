@@ -32,7 +32,8 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { IconImages } from '../quick-insert/assets';
-import ClipboardMediaPickerWrapper from './ui/ClipboardMediaPickerWrapper';
+import { ClipboardMediaPickerWrapper } from './ui/ClipboardMediaPickerWrapper';
+import { BrowserMediaPickerWrapper } from './ui/BrowserMediaPickerWrapper';
 import WithPluginState from '../../ui/WithPluginState';
 import MediaEditor from './ui/MediaEditor';
 
@@ -173,6 +174,14 @@ const mediaPlugin = (
           render={({ mediaState }) => (
             <>
               <ClipboardMediaPickerWrapper mediaState={mediaState} />
+              {!mediaState.hasUserAuthProvider() && (
+                <BrowserMediaPickerWrapper
+                  onBrowseFn={nativeBrowseFn => {
+                    mediaState && mediaState.setBrowseFn(nativeBrowseFn);
+                  }}
+                  mediaState={mediaState}
+                />
+              )}
             </>
           )}
         />

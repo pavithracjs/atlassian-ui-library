@@ -6,8 +6,6 @@ import { document as storyDataDocument } from './story-data';
 
 import EmailSerializer from '../../src';
 
-import { renderDocument } from './render-document';
-
 export interface DemoRendererProps {
   serializer: 'email';
   document?: object;
@@ -24,7 +22,10 @@ export default class RendererDemo extends React.Component<
   DemoRendererProps,
   DemoRendererState
 > {
-  emailSerializer = new EmailSerializer(defaultSchema, true);
+  emailSerializer = new EmailSerializer(defaultSchema, {
+    isImageStubEnabled: true,
+    isInlineCSSEnabled: true,
+  });
   emailRef?: HTMLIFrameElement;
   inputBox?: HTMLTextAreaElement | null;
   emailTextareaRef?: any;
@@ -101,7 +102,8 @@ export default class RendererDemo extends React.Component<
   private onComponentRendered() {
     try {
       const doc = JSON.parse(this.state.input);
-      const html = renderDocument<string>(doc, this.emailSerializer).result;
+      const node = defaultSchema.nodeFromJSON(doc);
+      const html = this.emailSerializer.serializeFragment(node.content);
 
       if (this.emailRef && this.emailRef.contentDocument && html) {
         this.emailRef.contentDocument.body.innerHTML = html;
@@ -128,7 +130,7 @@ export default class RendererDemo extends React.Component<
             ref={this.onEmailRef}
             frameBorder="0"
             src="about:blank"
-            style={{ width: '100%', height: '400px' }}
+            style={{ width: '100%', height: '800px' }}
           />
         </div>
       );

@@ -21,7 +21,7 @@ export const extractInlineViewPropsFromSourceCodeReference = (
   const props = extractInlineViewPropsFromObject(json);
   return {
     ...props,
-    ...buildName(props, json, json['@id'] ? json['@id'].split(':')[1] : ''),
     ...buildIcon(json),
+    ...buildName(props, json),
   };
 };

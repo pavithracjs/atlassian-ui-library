@@ -17,7 +17,6 @@ pipelines:
             - bolt install --pure-lockfile
             - (cd build/ci-scripts && yarn stop-if-older-build)
             - yarn build
-            - node build/ci-scripts/run.if.package.changed.js @atlaskit/editor-mobile-bridge -- yarn build:editor-mobile-bridge
             # Bump all packages and their dependents using saved changesets.
             - yarn changeset bump
             # We push the bumped packages to master now as it's much better to fail whilst BB is
@@ -27,6 +26,8 @@ pipelines:
             # after the bump. We've kept it running in both places, just to limit the scope of this change
             # so that we don't break anything that was working previously.
             - yarn build:pkg
+            # Because we distribute precompiled code for mobile, for version accuracy, it needs to be built after the bump.
+            - node build/ci-scripts/run.if.package.changed.js @atlaskit/editor-mobile-bridge -- yarn build:editor-mobile-bridge
             # Release all unreleased packages.
             - yarn changeset release --public
             - git push --tags # Push only the tags.
@@ -88,6 +89,9 @@ pipelines:
               - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
               # Run the editor tests (runInBand is required or it fails in CI)
               - TEST_ONLY_PATTERN='packages/editor' yarn test:changed --runInBand --passWithNoTests
+              # Run platform-specific tests of the editor bridge
+              - yarn test:editor-mobile-bridge:ios
+              - yarn test:editor-mobile-bridge:android
               # This script acts like a unit test to check changes to @atlaskit/adf-schema.
               - node build/ci-scripts/run.if.package.changed.js @atlaskit/adf-schema -- yarn build:adf-schema:checkuptodate
             after-script:
@@ -112,8 +116,9 @@ pipelines:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
               - echo "Run browser integration tests using Webdriver + Browserstack"
-              # If we have changed any packages with webdriver tests, we wait until browserstack has free resources, then run our tests
-              - LOCAL_IDENTIFIER=$(date +%s) BS_RETRY=5 BS_BUILD_ALLOWED=4 node build/ci-scripts/run.tool.if.changed.js webdriver -- node build/ci-scripts/wait.for.browserstack.resources.js && yarn test:webdriver:browserstack:changed
+              # If we have changed any packages with webdriver tests, we wait until browserstack has free resources, then run our tests.
+              # BS_SESSIONS_ALLOWED represents the percentage of sessions allowed.
+              - LOCAL_IDENTIFIER=$(date +%s) BS_RETRY=5 BS_SESSIONS_ALLOWED=80 node build/ci-scripts/run.tool.if.changed.js webdriver -- node build/ci-scripts/wait.for.browserstack.resources.js && yarn test:webdriver:browserstack:changed
             after-script:
               - yarn send:stepFailureEvents
             caches:
@@ -290,19 +295,22 @@ pipelines:
                 - source ./build-setup.sh
                 - bolt install --pure-lockfile
                 # Run the non-editor tests.
-                - TEST_ONLY_PATTERN='!packages/editor' yarn test:CI
+                - TEST_ONLY_PATTERN='!packages/editor' yarn test
                 # Run the editor tests (runInBand is required or it fails in CI)
-                - TEST_ONLY_PATTERN='packages/editor' yarn test:CI --runInBand
+                - TEST_ONLY_PATTERN='packages/editor' yarn test --runInBand
+                # Run platform-specific tests of the editor bridge
+                - yarn test:editor-mobile-bridge:ios
+                - yarn test:editor-mobile-bridge:android
               after-script:
                 - yarn send:stepFailureEvents
-          - step:
-              name: Running All Browser Unit tests
-              script:
-                - source ./build-setup.sh
-                - bolt install --pure-lockfile
-                - yarn test:browser:browserstack
-              after-script:
-                - yarn send:stepFailureEvents
+          # - step:
+          #     name: Running All Browser Unit tests
+          #     script:
+          #       - source ./build-setup.sh
+          #       - bolt install --pure-lockfile
+          #       - yarn test:browser:browserstack
+          #     after-script:
+          #       - yarn send:stepFailureEvents
           - step:
               name: Running All Browser Integration tests
               script:
@@ -406,6 +414,8 @@ pipelines:
                 - bolt install --pure-lockfile
                 - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
                 - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - yarn test:editor-mobile-bridge:ios
+                - yarn test:editor-mobile-bridge:android
               after-script:
                 - yarn send:stepFailureEvents
           - step:
