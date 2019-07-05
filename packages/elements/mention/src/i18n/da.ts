@@ -6,6 +6,7 @@
  */
 // Danish
 export default {
+  'fabric.mention.unknow.user.error': 'Ukendt bruger {id}',
   'fabric.mention.noAccess.warning':
     '{name} får ikke besked, da personen ikke har adgang',
   'fabric.mention.noAccess.label': 'Ingen adgang',

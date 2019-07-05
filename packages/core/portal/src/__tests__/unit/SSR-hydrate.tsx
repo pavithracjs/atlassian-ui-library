@@ -32,7 +32,7 @@ const App = () => (
   </div>
 );
 
-test('should ssr then hydrate portal correctly', () => {
+test.skip('should ssr then hydrate portal correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
   // server-side
   canUseDom.mockReturnValue(false);

@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.13.1
+
+### Patch Changes
+
+- [patch][752fad0061](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/752fad0061):
+
+  Fix perfromance measure utils
+
 ## 39.13.0
 
 ### Minor Changes

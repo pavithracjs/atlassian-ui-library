@@ -32,6 +32,7 @@ const features: ConfluenceFeatures = {
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
 };
 
 const searchSessionId = 'searchSessionId';

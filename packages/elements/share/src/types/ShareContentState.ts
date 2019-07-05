@@ -9,7 +9,7 @@ export type ShareContentState = {
 
 export type ShareError = {
   message: string;
-} | null;
+};
 
 export type DialogContentState = {
   users: OptionData[];

@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.1.0
+
+### Minor Changes
+
+- [minor][af2d3ce4f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af2d3ce4f0):
+
+  Fire a ui viewed atlassianSwitcher event on mount
+
 ## 3.0.0
 
 ### Major Changes

@@ -7,6 +7,7 @@ import { configureToMatchImageSnapshot } from 'jest-image-snapshot';
 import { createSerializer } from 'jest-emotion';
 import 'jest-localstorage-mock';
 import ScreenshotReporter from './build/visual-regression/utils/screenshotReporter';
+import { cleanup } from '@testing-library/react';
 
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-176
 global.XMLHttpRequest = XMLHttpRequest;
@@ -106,18 +107,6 @@ if (typeof window !== 'undefined' && !('cancelAnimationFrame' in window)) {
       );
     }
   };
-}
-
-/**
- * We're checking the window actually exists here because tests using `jest-styled-components`
- * need to be run with `testEnvironment=node` for `styled-components@^1`
- * @see https://github.com/styled-components/jest-styled-components#styled-components--v2
- */
-if (typeof window !== 'undefined') {
-  window.performance.mark = () => {};
-  window.performance.clearMarks = () => {};
-  window.performance.clearMeasures = () => {};
-  window.performance.getEntriesByType = () => [];
 }
 
 function transformDoc(fn) {
@@ -410,3 +399,6 @@ if (process.env.VISUAL_REGRESSION) {
 
   expect.extend({ toMatchProdImageSnapshot });
 }
+
+// unmount any components mounted with react-testing-library
+afterEach(cleanup);

@@ -10,7 +10,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate field-radio-group correctly', async () => {
+test.skip('should ssr then hydrate field-radio-group correctly', async () => {
   const [example] = await getExamplesFor('field-radio-group');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
