@@ -43,7 +43,7 @@ describe('Media plugin commands', () => {
     });
   };
 
-  describe('Update Media Node Attributes', async () => {
+  describe('Update Media Node Attributes', () => {
     it('should update media attributes for media single', () => {
       const { editorView } = editor(
         doc(
