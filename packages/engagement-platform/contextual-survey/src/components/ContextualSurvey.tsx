@@ -147,7 +147,8 @@ export default ({
         trySetCurrentStep('SIGN_UP_SUCCESS');
         return;
       }
-      trySetCurrentStep('POST_SURVEY_NO_CONSENT');
+      // We have already thanked to user, we can simply close
+      tryDismiss();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [trySetCurrentStep],
