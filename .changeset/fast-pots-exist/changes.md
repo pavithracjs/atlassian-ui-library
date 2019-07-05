@@ -1,0 +1,1 @@
+ED-7192 Fix wrong version of @atlaskit/analytics-namespaced-context inside renderer
