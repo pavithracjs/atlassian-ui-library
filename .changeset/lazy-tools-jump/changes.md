@@ -1,1 +1,0 @@
-Cleaned up event listeners on unmount
