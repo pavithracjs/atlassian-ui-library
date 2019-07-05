@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.1.0
+
+### Minor Changes
+
+- [minor][c11db2f5dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c11db2f5dc):
+
+  Modified caching behaviour for Confluence search so that it now has a 15 minute timeout
+
 ## 10.0.1
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

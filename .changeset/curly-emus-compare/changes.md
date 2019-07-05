@@ -1,1 +1,0 @@
-Modified caching behaviour for Confluence search so that it now has a 15 minute timeout
