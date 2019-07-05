@@ -5,7 +5,6 @@ import {
   FileState,
 } from '@atlaskit/media-client';
 import AudioIcon from '@atlaskit/icon/glyph/media-services/audio';
-import { constructAuthTokenUrl } from '../utils';
 import { Outcome } from '../domain';
 import {
   AudioPlayer,
@@ -16,7 +15,7 @@ import {
   CustomAudioPlayerWrapper,
 } from '../styled';
 import { createError, MediaViewerError } from '../error';
-import { getArtifactUrl } from '@atlaskit/media-store';
+import { MediaStore } from '@atlaskit/media-store';
 import { BaseState, BaseViewer } from './base-viewer';
 import { isIE } from '../utils/isIE';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
@@ -44,10 +43,14 @@ const defaultCover = (
 
 const getCoverUrl = (
   item: ProcessedFileState,
-  context: MediaClient,
+  mediaClient: MediaClient,
   collectionName?: string,
 ): Promise<string> =>
-  constructAuthTokenUrl(`/file/${item.id}/image`, context, collectionName);
+  new MediaStore({
+    authProvider: mediaClient.config.authProvider,
+  }).getFileImageURL(item.id, {
+    collection: collectionName,
+  });
 
 export class AudioViewer extends BaseViewer<string, Props, State> {
   protected get initialState() {
@@ -142,15 +145,10 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
       let audioUrl: string | undefined;
 
       if (item.status === 'processed') {
-        const artifactUrl = getArtifactUrl(item.artifacts, 'audio.mp3');
-        if (!artifactUrl) {
-          throw new Error('No audio artifacts found');
-        }
-        audioUrl = await constructAuthTokenUrl(
-          artifactUrl,
-          mediaClient,
-          collectionName,
-        );
+        audioUrl = await new MediaStore({
+          authProvider: mediaClient.config.authProvider,
+        }).getArtifactURL(item.artifacts, 'audio.mp3', collectionName);
+
         if (!audioUrl) {
           throw new Error('No audio artifacts found');
         }

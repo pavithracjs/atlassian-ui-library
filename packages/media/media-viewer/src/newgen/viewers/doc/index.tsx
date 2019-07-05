@@ -3,10 +3,9 @@ import { MediaClient, FileState } from '@atlaskit/media-client';
 import { Outcome } from '../../domain';
 import { createError, MediaViewerError } from '../../error';
 import { Spinner } from '../../loading';
-import { constructAuthTokenUrl } from '../../utils';
 import { Props as RendererProps } from './pdfRenderer';
 import { ComponentClass } from 'react';
-import { getArtifactUrl } from '@atlaskit/media-store';
+import { MediaStore } from '@atlaskit/media-store';
 import { BaseViewer } from '../base-viewer';
 import { getObjectUrlFromFileState } from '../../utils/getObjectUrlFromFileState';
 
@@ -43,21 +42,11 @@ export class DocViewer extends BaseViewer<string, Props> {
     const { item, mediaClient, collectionName } = this.props;
 
     if (item.status === 'processed') {
-      const pdfArtifactUrl = getArtifactUrl(item.artifacts, 'document.pdf');
-      if (!pdfArtifactUrl) {
-        this.setState({
-          content: Outcome.failed(
-            createError('noPDFArtifactsFound', undefined, item),
-          ),
-        });
-        return;
-      }
       try {
-        const src = await constructAuthTokenUrl(
-          pdfArtifactUrl,
-          mediaClient,
-          collectionName,
-        );
+        const src = await new MediaStore({
+          authProvider: mediaClient.config.authProvider,
+        }).getArtifactURL(item.artifacts, 'document.pdf', collectionName);
+
         this.setState({
           content: Outcome.successful(src),
         });

@@ -4,9 +4,8 @@ import {
   ProcessedFileState,
   FileState,
 } from '@atlaskit/media-client';
-import { getArtifactUrl } from '@atlaskit/media-store';
+import { getArtifactUrl, MediaStore } from '@atlaskit/media-store';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
-import { constructAuthTokenUrl } from '../utils';
 import { Outcome } from '../domain';
 import { Video, CustomVideoPlayerWrapper } from '../styled';
 import { isIE } from '../utils/isIE';
@@ -89,11 +88,15 @@ export class VideoViewer extends BaseViewer<string, Props, State> {
         if (!artifactUrl) {
           throw new Error(`No video artifacts found`);
         }
-        contentUrl = await constructAuthTokenUrl(
-          artifactUrl,
-          mediaClient,
+
+        contentUrl = await new MediaStore({
+          authProvider: mediaClient.config.authProvider,
+        }).getArtifactURL(
+          item.artifacts,
+          preferHd ? hdArtifact : sdArtifact,
           collectionName,
         );
+
         if (!contentUrl) {
           throw new Error(`No video artifacts found`);
         }
