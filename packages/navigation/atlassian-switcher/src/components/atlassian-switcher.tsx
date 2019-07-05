@@ -18,7 +18,7 @@ import mapPropsToFeatures from '../utils/map-props-to-features';
 type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
-  triggerXFlow: TriggerXFlowCallback;
+  triggerXFlow?: TriggerXFlowCallback;
 } & Partial<FeatureFlagProps>;
 
 const getAnalyticsContext = (attributes: object) => ({

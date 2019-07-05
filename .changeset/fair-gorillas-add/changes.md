@@ -1,0 +1,1 @@
+Infer xflow enabled flag from props
