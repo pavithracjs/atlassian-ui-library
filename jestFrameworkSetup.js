@@ -7,6 +7,7 @@ import { configureToMatchImageSnapshot } from 'jest-image-snapshot';
 import { createSerializer } from 'jest-emotion';
 import 'jest-localstorage-mock';
 import ScreenshotReporter from './build/visual-regression/utils/screenshotReporter';
+import { cleanup } from '@testing-library/react';
 
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-176
 global.XMLHttpRequest = XMLHttpRequest;
@@ -398,3 +399,6 @@ if (process.env.VISUAL_REGRESSION) {
 
   expect.extend({ toMatchProdImageSnapshot });
 }
+
+// unmount any components mounted with react-testing-library
+afterEach(cleanup);
