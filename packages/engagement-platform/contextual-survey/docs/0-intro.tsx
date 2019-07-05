@@ -26,13 +26,40 @@ export default md`
 
   The user flow for this component is:
 
-  1. Choosing a feedback score
-  2. **(Optional)** Writing extra feedback in a \`textarea\`
-  3. Submitting
-  4. **(Conditional)** Asking the user if they want to sign up to the Atlassian Research group. This step is skipped if \`onMailingListAnswer\` resolves to \`true\`
+  #### Phase 1: Feedback
 
-  After submission (or after signing up to the Atlassian Research Group), the survey will call \`onDismiss\` automatically after a short amount of time.
-  \`onDismiss\` is also called if the component is unmounted mid flow. \`onDismiss\` will only ever be called once.
+  - Choosing a feedback score
+  - **(Optional)** Writing extra feedback in a \`textarea\`
+  - **(Optional)** User selects if they can be contacted about their feedback.
+  This is automatically set to \`true\` on the first change event for the \`textarea\`. It is set to \`false\` by default.
+
+  #### Phase 2 (Optional): Atlassian Research Signup
+
+  This phase will be entered when:
+
+  1. The user has selected they want to be contacted about their feedback
+  2. \`getUserHasAnsweredMailingList()\` has resolved to \`false\`
+
+  If this phase is not entered then a thank you message is displayed.
+
+  In this phase a prompt is opened which asks the user if they want to join the **Atlassian Research Group**.
+
+  After \`onMailingListAnswer()\` has resolved:
+
+  - If the user selected **yes** a thank you message is displayed
+  - If the user selected **no** the survey is closed.
+
+  #### Dismissing
+
+  \`onDismiss\` will be called when the survey is finished. This can happen when:
+
+  - The user explicitly closes the survey
+  - The user finishes the survey. The survey will be auto dismissed after a small delay
+  - The \`<SurveyComponent/>\` is unmounted
+
+  \`onDismiss\` will only ever be called once
+
+  #### Responsibilities
 
   - \`<SurveyMarshal/>\`: Responsible for placement and animation for the survey.
   - \`<ContextualSurvey/>\`: Renders the survey questions
