@@ -23,7 +23,14 @@ export {
   removeTableFromLastChild,
   transformSliceToRemoveOpenTable,
 } from './paste';
-export { isInsertColumnButton, isInsertRowButton, getIndex } from './dom';
+export {
+  isCell,
+  isInsertColumnButton,
+  isInsertRowButton,
+  getIndex,
+  getMousePositionHorizontalRelativeByElement,
+  getMousePositionVerticalRelativeByElement,
+} from './dom';
 export {
   getColumnsWidths,
   isColumnDeleteButtonVisible,
