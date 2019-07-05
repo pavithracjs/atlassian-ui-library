@@ -7730,9 +7730,10 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-react-types-loader@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/extract-react-types-loader/-/extract-react-types-loader-0.3.4.tgz#69e7f10ebc497043f7e913657182e5a4e6e9aefc"
+extract-react-types-loader@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.npmjs.org/extract-react-types-loader/-/extract-react-types-loader-0.3.5.tgz#2be0336aafbb2e2310d0d966f181d0aced7e3519"
+  integrity sha512-9f8yrVO7yignl0+tTTCN2JcKrODS0h/VbUToKag9dk9NlgPVGbTuzeSaNSrpISxaP4htSGQysCrqh9+QfMsOTg==
   dependencies:
     extract-react-types "^0.19.0"
 
