@@ -24,8 +24,6 @@ interface State {
   isMouseDown: boolean;
 }
 
-const emptyTheme = {};
-
 class Checkbox extends Component<CheckboxProps, State> {
   static defaultProps = {
     isDisabled: false,
@@ -44,7 +42,7 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.props.isChecked
         : this.props.defaultChecked,
   };
-  checkbox?: HTMLInputElement | null;
+  checkbox?: HTMLInputElement | null = undefined;
   actionKeys = [' '];
 
   componentDidMount() {
@@ -126,21 +124,26 @@ class Checkbox extends Component<CheckboxProps, State> {
 
   render() {
     const {
+      createAnalyticsEvent,
       isDisabled,
       isInvalid,
       isIndeterminate,
       label,
       name,
       value,
-      onChange,
       isRequired,
+      //props not passed into HiddenCheckbox
       defaultChecked,
+      inputRef,
+      isChecked: propsIsChecked,
+      isFullWidth,
+      onChange,
       ...rest
     } = this.props;
     const isChecked =
       this.props.isChecked === undefined
         ? this.state.isChecked
-        : this.props.isChecked;
+        : propsIsChecked;
     const { isFocused, isActive, isHovered } = this.state;
 
     return (

@@ -1,16 +1,28 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import { colors, themed, math, gridSize } from '@atlaskit/theme';
+import React from 'react';
 
-export const HiddenCheckbox = styled.input`
-  left: 50%;
-  margin: 0;
-  opacity: 0;
-  padding: 0;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-`;
+export const HiddenCheckbox = React.forwardRef(
+  (
+    props: React.HTMLProps<HTMLInputElement>,
+    ref: React.Ref<HTMLInputElement>,
+  ) => (
+    <input
+      ref={ref}
+      css={css`
+        left: 50%;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+      `}
+      {...props}
+    />
+  ),
+);
 
 const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
 
@@ -24,18 +36,24 @@ interface Props {
   rest?: any;
 }
 
-export const Label = styled.label`
-  align-items: flex-start;
-  display: flex;
-  color: ${(props: Props) =>
-    props.isDisabled ? disabledColor(props) : colors.text(props)};
-  ${({ isDisabled }: Props) =>
-    isDisabled
-      ? css`
-          cursor: not-allowed;
-        `
-      : ''};
-`;
+interface LabelProps extends React.HTMLProps<HTMLLabelElement> {
+  isDisabled?: boolean;
+}
+export const Label = ({ isDisabled, ...rest }: LabelProps) => (
+  <label
+    css={css`
+      align-items: flex-start;
+      display: flex;
+      color: ${isDisabled ? disabledColor(rest) : colors.text(rest)};
+      ${isDisabled
+        ? css`
+            cursor: not-allowed;
+          `
+        : ''};
+    `}
+    {...rest}
+  />
+);
 
 const borderColor = themed({ light: colors.N40, dark: colors.DN80 });
 const activeBorder = css`
@@ -73,10 +91,10 @@ const getBorderColor = (props: Props) => {
     return checkedBorder;
   }
   if (props.isFocused) {
-    return focusBorder;
+    return focusBorder(props);
   }
   if (props.isInvalid) {
-    return invalidBorder;
+    return invalidBorder(props);
   }
   return border(props);
 };
@@ -115,40 +133,68 @@ const getBoxColor = (props: Props) => {
   return color(rest);
 };
 
-export const LabelText = styled.span`
-  padding: 2px 4px;
-`;
+export const LabelText = (props: { children: React.ReactNode }) => (
+  <span
+    css={css`
+      padding: 2px 4px;
+    `}
+    {...props}
+  />
+);
 
-export const CheckboxWrapper = styled.span`
-  display: flex;
-  flex-shrink: 0;
-  position: relative;
-`;
+export const CheckboxWrapper = (props: { children: React.ReactNode }) => (
+  <label
+    css={css`
+      display: flex;
+      flex-shrink: 0;
+      position: relative;
+    `}
+    {...props}
+  />
+);
 
-export const IconWrapper = styled.span`
-  line-height: 0;
-  flex-shrink: 0;
-  color: ${getBoxColor};
-  fill: ${getTickColor};
-  transition: all 0.2s ease-in-out;
+interface IconProps extends React.HTMLProps<HTMLLabelElement> {
+  isChecked?: boolean;
+  isDisabled?: boolean;
+  isActive?: boolean;
+  isHovered?: boolean;
+  isFocused?: boolean;
+  isInvalid?: boolean;
+}
+export const IconWrapper = ({ children, ...props }: IconProps) => (
+  <label
+    css={css`
+      line-height: 0;
+      flex-shrink: 0;
+      color: ${getBoxColor(props)};
+      fill: ${getTickColor(props)};
+      transition: all 0.2s ease-in-out;
 
-  /* This is adding a property to the inner svg, to add a border to the checkbox */
-  & rect:first-of-type {
-    transition: stroke 0.2s ease-in-out;
-    ${getBorderColor};
-  }
+      /* This is adding a property to the inner svg, to add a border to the checkbox */
+      & rect:first-of-type {
+        transition: stroke 0.2s ease-in-out;
+        ${getBorderColor(props)};
+      }
 
-  /**
-   * Need to set the Icon component wrapper to flex to avoid a scrollbar bug which
-   * happens when checkboxes are flex items in a parent with overflow.
-   * See AK-6321 for more details.
-   **/
-  > span {
-    display: flex;
-  }
-`;
+      /**
+      * Need to set the Icon component wrapper to flex to avoid a scrollbar bug which
+      * happens when checkboxes are flex items in a parent with overflow.
+      * See AK-6321 for more details.
+      **/
+      > span {
+        display: flex;
+      }
+    `}
+    children={children}
+  />
+);
 
-export const RequiredIndicator = styled.span`
-  color: ${colors.R400};
-  padding-left: ${math.multiply(gridSize, 0.25)}px;
-`;
+export const RequiredIndicator = (props: Props) => (
+  <span
+    css={css`
+      color: ${colors.R400};
+      padding-left: ${math.multiply(gridSize, 0.25)}px;
+    `}
+    {...props}
+  />
+);

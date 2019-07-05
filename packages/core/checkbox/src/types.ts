@@ -31,6 +31,7 @@ export interface CheckboxIconProps {
 }
 
 export interface CheckboxProps {
+  createAnalyticsEvent?: Event;
   /** Sets whether the checkbox begins checked. */
   defaultChecked?: boolean;
   /** id assigned to input */
