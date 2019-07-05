@@ -142,7 +142,7 @@ export const LabelText = (props: { children: React.ReactNode }) => (
 );
 
 export const CheckboxWrapper = (props: { children: React.ReactNode }) => (
-  <label
+  <span
     css={css`
       display: flex;
       flex-shrink: 0;
@@ -161,7 +161,7 @@ interface IconProps extends React.HTMLProps<HTMLLabelElement> {
   isInvalid?: boolean;
 }
 export const IconWrapper = ({ children, ...props }: IconProps) => (
-  <label
+  <span
     css={css`
       line-height: 0;
       flex-shrink: 0;
