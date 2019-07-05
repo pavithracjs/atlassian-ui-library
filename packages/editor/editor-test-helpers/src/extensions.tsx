@@ -126,4 +126,22 @@ export const extensionHandlers: ExtensionHandlers = {
 
     return null;
   },
+  'com.atlassian.extensions.update': {
+    render: ext => {
+      return <div>{ext.parameters.count}</div>;
+    },
+    update: async params => {
+      const newParams = await (async params => {
+        return {
+          count: params.count + 1,
+        };
+      })(params);
+      return newParams;
+    },
+  },
+  'com.atlassian.extensions.noupdate': {
+    render: () => {
+      return <button>This is a test extension</button>;
+    },
+  },
 };
