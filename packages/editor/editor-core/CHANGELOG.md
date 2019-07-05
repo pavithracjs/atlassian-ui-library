@@ -1,5 +1,37 @@
 # @atlaskit/editor-core
 
+## 112.25.2
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
+## 112.25.1
+
+### Patch Changes
+
+- [patch][5aece1fc5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5aece1fc5c):
+
+  [ED-7126] Improve table performance, reducing the number of re-renders on LayoutButton and FloatingContextualButton
+
+## 112.25.0
+
+### Minor Changes
+
+- [minor][9f3daa0d1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f3daa0d1e):
+
+  ED-7190 Update style of keybard shortcuts in toolbar & context menus
+
+## 112.24.0
+
+### Minor Changes
+
+- [minor][b2deccb03d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b2deccb03d):
+
+  FS-4051 Add editor prop to configure either nickName or name to use for the mention name when inserted
+
 ## 112.23.3
 
 ### Patch Changes

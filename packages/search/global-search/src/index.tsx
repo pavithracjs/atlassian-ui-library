@@ -15,3 +15,9 @@ export {
   default as withFeedbackButton,
   FeedbackCollectorProps,
 } from './components/feedback/withFeedbackButton';
+
+export {
+  default as SearchSessionProvider,
+  SearchSessionProps,
+  injectSearchSession,
+} from './components/SearchSessionProvider';

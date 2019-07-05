@@ -109,9 +109,10 @@ function formatShortcut(keymap: Keymap): string | undefined {
       .replace(/Cmd/i, '\u2318')
       .replace(/Shift/i, '\u21E7')
       .replace(/Ctrl/i, '\u2303')
-      .replace(/Alt/i, '\u2325');
+      .replace(/Alt/i, '\u2325')
+      .replace(/Backspace/i, '\u232B');
   } else {
-    shortcut = keymap.windows;
+    shortcut = keymap.windows.replace(/Backspace/i, '\u232B');
   }
   const keys = shortcut.split('-');
   const lastKey = keys[keys.length - 1].toUpperCase();

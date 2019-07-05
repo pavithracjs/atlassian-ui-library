@@ -143,6 +143,7 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                   targetCellPosition={pluginState.targetCellPosition}
                   scrollableElement={popupsScrollableElement}
                   isContextualMenuOpen={pluginState.isContextualMenuOpen}
+                  layout={pluginState.layout}
                 />
               )}
               {allowControls && (
@@ -176,6 +177,7 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                     boundariesElement={popupsBoundariesElement}
                     scrollableElement={popupsScrollableElement}
                     targetRef={pluginState.tableWrapperTarget!}
+                    layout={pluginState.layout}
                     isResizing={
                       !!tableResizingPluginState &&
                       !!tableResizingPluginState.dragging

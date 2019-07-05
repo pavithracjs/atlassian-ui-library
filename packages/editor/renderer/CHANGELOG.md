@@ -1,12 +1,24 @@
 # @atlaskit/renderer
 
+## 49.4.0
+
+### Minor Changes
+
+- [minor][1bc0c48926](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bc0c48926):
+
+  uploadContext and viewContext fields of MediaProvider (part of Editor and Renderer props) are deprecated. New fields uploadMediaClientConfig and viewMediaClientConfig should be used from now on.
+
 ## 49.3.0
 
 ### Minor Changes
 
 - [minor][241a14694e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/241a14694e):
 
-  Add RUM to renderer
+  IMPORTANT! This release accidentally released breaking changes.
+  MediaProvider's field `viewContext` was replaced with `uploadMediaClientConfig`.
+  This was fixed in the following version 49.4.0.
+
+  Minor change: Add RUM to renderer
 
 ## 49.2.0
 

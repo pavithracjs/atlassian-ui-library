@@ -1,7 +1,6 @@
 import { NodeSerializerOpts } from '../interfaces';
 import { TableData, createTable } from '../table-util';
 import { createTag } from '../create-tag';
-import { N30 } from '@atlaskit/adf-schema';
 import { createContentId } from '../static';
 import { createClassName } from '../styles/util';
 
@@ -20,15 +19,16 @@ export const styles = `
 .${className}-iconTd {
   vertical-align: top;
   padding: 10px 0px 0px 8px;
+  line-height: 20px;
   width: 24px;
   height: 24px;
 }
 .${className}-textTd {
   font-size: 14px;
+  line-height: 20px;
   padding: 8px 8px 8px 0;
 }
 .${className}-mainContent {
-  background-color: ${N30};
   border-radius: 3px;
   table-layout: fixed;
   line-height: 20px;
@@ -41,11 +41,11 @@ export const styles = `
 const icons: { [K in TaskState]: string } = {
   TODO: createTag('img', {
     class: className + '-img',
-    src: createContentId('taskItemUnchecked', 'icon'),
+    src: createContentId('taskItemUnchecked'),
   }),
   DONE: createTag('img', {
     class: className + '-img',
-    src: createContentId('taskItemChecked', 'icon'),
+    src: createContentId('taskItemChecked'),
   }),
 };
 

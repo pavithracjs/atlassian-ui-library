@@ -54,10 +54,6 @@ export const link: MarkSpec = {
             : undefined,
         };
 
-        if (href.slice(-1) === '/') {
-          href = href.slice(0, -1);
-        }
-
         if (isSafeUrl(href)) {
           attrs.href = normalizeUrl(href);
         } else {

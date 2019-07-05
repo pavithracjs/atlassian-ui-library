@@ -5,6 +5,7 @@ const path = require('path');
 const isReachable = require('is-reachable');
 const jest = require('jest');
 const meow = require('meow');
+const chalk = require('chalk');
 
 const webpack = require('./utils/webpack');
 const reporting = require('./reporting');
@@ -175,17 +176,23 @@ async function main() {
 
   let client = initClient();
 
-  client.startServer();
+  client
+    .startServer()
+    .then(async () => {
+      const code = await runTestsWithRetry();
 
-  const code = await runTestsWithRetry();
+      console.log(`Exiting tests with exit code: ${+code}`);
+      if (!serverAlreadyRunning) {
+        webpack.stopDevServer();
+      }
 
-  console.log(`Exiting tests with exit code: ${+code}`);
-  if (!serverAlreadyRunning) {
-    webpack.stopDevServer();
-  }
-
-  client.stopServer();
-  process.exit(code);
+      client.stopServer();
+      process.exit(code);
+    })
+    .catch(() => {
+      console.log(chalk.red('Exiting as failed to start server'));
+      process.exit(1);
+    });
 }
 
 main().catch(err => {

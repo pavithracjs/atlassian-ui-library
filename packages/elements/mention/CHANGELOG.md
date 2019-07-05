@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.6.1
+
+### Patch Changes
+
+- [patch][227431f9cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/227431f9cb):
+
+  FS-4028 - Update translations for mention component
+
 ## 18.6.0
 
 ### Minor Changes

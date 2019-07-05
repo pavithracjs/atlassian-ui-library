@@ -1,5 +1,13 @@
 # @atlaskit/task-decision
 
+## 15.1.0
+
+### Minor Changes
+
+- [minor][574e62c302](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/574e62c302):
+
+  FS-4032 Update actions and decisions to a lighter style.
+
 ## 15.0.4
 
 - Updated dependencies [ff85c1c706](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff85c1c706):

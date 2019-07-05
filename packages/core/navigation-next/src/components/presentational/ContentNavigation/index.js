@@ -9,8 +9,6 @@ import { transitionDurationMs } from '../../../common/constants';
 import { ContainerNavigation, ProductNavigation } from './primitives';
 import type { ContentNavigationProps, ContentNavigationState } from './types';
 
-const HiddenDiv = props => <div css={{ display: 'none' }} {...props} />;
-
 const ToggleContent = ({
   isVisible,
   experimental_hideNavVisuallyOnCollapse: EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE,
@@ -25,9 +23,7 @@ const ToggleContent = ({
     return null;
   }
 
-  const ToggleWrapper = isVisible ? Fragment : HiddenDiv;
-
-  return <ToggleWrapper {...rest} />;
+  return <Fragment {...rest} />;
 };
 
 export default class ContentNavigation extends Component<
@@ -76,7 +72,7 @@ export default class ContentNavigation extends Component<
 
     return (
       <Fragment>
-        <ProductNavigation>
+        <ProductNavigation isVisible={isVisible}>
           <ToggleContent
             experimental_hideNavVisuallyOnCollapse={
               EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE
@@ -100,6 +96,7 @@ export default class ContentNavigation extends Component<
             <ContainerNavigation
               isEntering={state === 'entering'}
               isExiting={state === 'exiting'}
+              isVisible={isVisible}
             >
               <ToggleContent
                 experimental_hideNavVisuallyOnCollapse={

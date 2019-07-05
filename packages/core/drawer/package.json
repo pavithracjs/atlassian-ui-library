@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/drawer",
-  "version": "4.1.6",
+  "version": "4.2.0",
   "description": "React component the renders a Drawer from the left of the screen",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty Ltd",
@@ -50,6 +50,7 @@
     "@atlaskit/visual-regression": "^0.1.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
     "enzyme": "^3.7.0",
+    "lodash.throttle": "^4.1.1",
     "react-lorem-component": "^0.12.2"
   }
 }

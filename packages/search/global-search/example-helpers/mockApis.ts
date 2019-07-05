@@ -78,7 +78,8 @@ function mockCrossProductSearchApi(delayMs: number, queryMockSearch: any) {
     (request: Request, options: Options) => {
       const body = JSON.parse(options.body);
       const query = body.query;
-      const results = queryMockSearch(query);
+      const filters = body.filters;
+      const results = queryMockSearch(query, filters);
 
       return delay(delayMs, results);
     },

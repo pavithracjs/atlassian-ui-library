@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.5.3
+
+### Patch Changes
+
+- [patch][5212dd363e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5212dd363e):
+
+  feat: new analytics around URL shortening (+internal refactors)
+
 ## 0.5.2
 
 ### Patch Changes
