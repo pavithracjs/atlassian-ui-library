@@ -14,7 +14,7 @@ describe('static asset rendering tests', () => {
     // this should contain data necessary to create inline email attachments
     expect(output.embeddedImages).toEqual([
       {
-        contentId: 'pfcs-generated-icon-info',
+        contentId: 'csg-icon-info',
         contentType: `image/${imageOutputType}`,
         data: icons.info,
       },
@@ -43,13 +43,11 @@ describe('static asset rendering tests', () => {
   });
 
   it('createContentId: should create contentIds as expected', () => {
-    expect(createContentId('info')).toEqual('cid:pfcs-generated-icon-info');
-    expect(createContentId('info')).toEqual('cid:pfcs-generated-icon-info');
-    expect(createContentId('note')).toEqual('cid:pfcs-generated-icon-note');
-    expect(createContentId('error')).toEqual('cid:pfcs-generated-icon-error');
-    expect(createContentId('error')).toEqual('cid:pfcs-generated-icon-error');
-    expect(createContentId('error', false)).toEqual(
-      'pfcs-generated-icon-error',
-    );
+    expect(createContentId('info')).toEqual('cid:csg-icon-info');
+    expect(createContentId('info')).toEqual('cid:csg-icon-info');
+    expect(createContentId('note')).toEqual('cid:csg-icon-note');
+    expect(createContentId('error')).toEqual('cid:csg-icon-error');
+    expect(createContentId('error')).toEqual('cid:csg-icon-error');
+    expect(createContentId('error', false)).toEqual('csg-icon-error');
   });
 });
