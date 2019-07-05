@@ -16,7 +16,11 @@ const BUCKET_REGION = 'ap-southeast-2';
 
 function createDir(dir) {
   if (!fExists(dir)) {
-    fs.mkdirSync(dir);
+    try {
+      fs.mkdirSync(dir);
+    } catch (e) {
+      // do nothing
+    }
   }
   return dir;
 }
