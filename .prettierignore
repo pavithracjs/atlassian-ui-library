@@ -5,7 +5,7 @@ dist
 packages/core/icon/cjs
 packages/core/icon/glyph
 packages/core/icon/utils
-packages/core/icon/src/metadata.js
+packages/core/icon/src/metadata.ts
 packages/core/icon-object/cjs
 packages/core/icon-object/glyph
 packages/core/icon-object/utils
