@@ -132,6 +132,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
   componentWillUnmount() {
     if (typeof window === 'undefined') return;
     window.removeEventListener('click', this.handleClick);
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   // Event Handlers
