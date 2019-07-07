@@ -1,9 +1,10 @@
 import {
-  buttonClicked,
+  shareTriggerButtonClicked,
   cancelShare,
-  copyShareLink,
+  shortUrlRequested,
+  copyLinkButtonClicked,
   screenEvent,
-  submitShare,
+  formShareSubmitted,
 } from '../../../components/analytics';
 import {
   ConfigResponse,
@@ -22,9 +23,9 @@ describe('share analytics', () => {
     })),
   });
 
-  describe('buttonClicked', () => {
+  describe('shareTriggerButtonClicked', () => {
     it('should create event payload', () => {
-      expect(buttonClicked()).toMatchObject({
+      expect(shareTriggerButtonClicked()).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -53,6 +54,20 @@ describe('share analytics', () => {
     });
   });
 
+  describe('shortUrlRequested', () => {
+    it('should create a correct event payload', () => {
+      expect(shortUrlRequested()).toMatchObject({
+        eventType: 'operational',
+        action: 'requested',
+        actionSubject: 'shortUrl',
+        actionSubjectId: undefined,
+        attributes: expect.objectContaining({
+          source: 'shareModal',
+        }),
+      });
+    });
+  });
+
   describe('screenEvent', () => {
     it('should create event payload', () => {
       expect(screenEvent()).toMatchObject({
@@ -66,9 +81,9 @@ describe('share analytics', () => {
     });
   });
 
-  describe('copyShareLink', () => {
+  describe('copyLinkButtonClicked', () => {
     it('should create event payload without origin id', () => {
-      expect(copyShareLink(100)).toMatchObject({
+      expect(copyLinkButtonClicked(100, true)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -77,13 +92,14 @@ describe('share analytics', () => {
           duration: expect.any(Number),
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
+          shortUrl: true,
         }),
       });
     });
 
     it('should create event payload with origin id', () => {
       const shareOrigin: OriginTracing = mockShareOrigin();
-      expect(copyShareLink(100, shareOrigin)).toMatchObject({
+      expect(copyLinkButtonClicked(100, false, shareOrigin)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -93,6 +109,7 @@ describe('share analytics', () => {
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
           originIdGenerated: 'abc-123',
+          shortUrl: false,
           originProduct: 'jest',
         }),
       });
@@ -103,7 +120,7 @@ describe('share analytics', () => {
     });
   });
 
-  describe('submitShare', () => {
+  describe('formShareSubmitted', () => {
     const data: DialogContentState = {
       users: [
         {
@@ -128,7 +145,7 @@ describe('share analytics', () => {
       },
     };
     it('should create event payload without share content type and origin id', () => {
-      expect(submitShare(100, data)).toMatchObject({
+      expect(formShareSubmitted(100, data)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -149,7 +166,7 @@ describe('share analytics', () => {
     });
 
     it('should create event payload without origin id', () => {
-      expect(submitShare(100, data, 'issue')).toMatchObject({
+      expect(formShareSubmitted(100, data, 'issue')).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -172,27 +189,29 @@ describe('share analytics', () => {
 
     it('should create event payload with origin id', () => {
       const shareOrigin: OriginTracing = mockShareOrigin();
-      expect(submitShare(100, data, 'issue', shareOrigin)).toMatchObject({
-        eventType: 'ui',
-        action: 'clicked',
-        actionSubject: 'button',
-        actionSubjectId: 'submitShare',
-        attributes: expect.objectContaining({
-          contentType: 'issue',
-          duration: expect.any(Number),
-          teamCount: 1,
-          userCount: 1,
-          emailCount: 1,
-          users: ['abc-123'],
-          teams: ['123-abc'],
-          packageVersion: expect.any(String),
-          packageName: '@atlaskit/share',
-          isMessageEnabled: false,
-          messageLength: 0,
-          originIdGenerated: 'abc-123',
-          originProduct: 'jest',
-        }),
-      });
+      expect(formShareSubmitted(100, data, 'issue', shareOrigin)).toMatchObject(
+        {
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'button',
+          actionSubjectId: 'submitShare',
+          attributes: expect.objectContaining({
+            contentType: 'issue',
+            duration: expect.any(Number),
+            teamCount: 1,
+            userCount: 1,
+            emailCount: 1,
+            users: ['abc-123'],
+            teams: ['123-abc'],
+            packageVersion: expect.any(String),
+            packageName: '@atlaskit/share',
+            isMessageEnabled: false,
+            messageLength: 0,
+            originIdGenerated: 'abc-123',
+            originProduct: 'jest',
+          }),
+        },
+      );
       expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledTimes(1);
       expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledWith({
         hasGeneratedId: true,
@@ -206,7 +225,7 @@ describe('share analytics', () => {
         allowComment: true,
       };
       expect(
-        submitShare(100, data, 'issue', shareOrigin, config),
+        formShareSubmitted(100, data, 'issue', shareOrigin, config),
       ).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
@@ -264,7 +283,7 @@ describe('share analytics', () => {
         allowComment: true,
       };
       expect(
-        submitShare(100, dataWithMembers, 'issue', shareOrigin, config),
+        formShareSubmitted(100, dataWithMembers, 'issue', shareOrigin, config),
       ).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
@@ -305,7 +324,7 @@ describe('share analytics', () => {
       };
 
       expect(
-        submitShare(100, dataWithMembers, 'issue', shareOrigin, config),
+        formShareSubmitted(100, dataWithMembers, 'issue', shareOrigin, config),
       ).toMatchObject({
         eventType: 'ui',
         action: 'clicked',

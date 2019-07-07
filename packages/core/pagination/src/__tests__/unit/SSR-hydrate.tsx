@@ -20,7 +20,7 @@ afterEach(() => {
 
 const App = () => <Pagination pages={[1, 2, 3]} />;
 
-test('should ssr then hydrate tag correctly', () => {
+test.skip('should ssr then hydrate tag correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
 
   // server-side

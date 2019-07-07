@@ -6,6 +6,7 @@
  */
 // Estonian
 export default {
+  'fabric.mention.unknow.user.error': 'Tundmatu kasutaja: {id}',
   'fabric.mention.noAccess.warning':
     'Kasutajat {name} ei teavitata, kuna tal puudub juurdepääs',
   'fabric.mention.noAccess.label': 'Juurdepääs puudub',

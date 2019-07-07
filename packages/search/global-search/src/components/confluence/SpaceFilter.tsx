@@ -1,13 +1,18 @@
 import * as React from 'react';
 import Checkbox from '@atlaskit/checkbox/Checkbox';
 import Avatar from '@atlaskit/avatar/index';
-import Item from '@atlaskit/item';
+import baseItem, { withItemFocus } from '@atlaskit/item';
+import { Filter } from '../../api/CrossProductSearchClient';
+
+const Item = withItemFocus(baseItem);
 
 export interface Props {
   spaceAvatar: string;
   spaceTitle: string;
+  spaceKey: string;
   isDisabled?: boolean;
-  onFilterChanged(isFilterOn: boolean): void;
+  isFilterOn?: boolean;
+  onFilterChanged(filter: Filter[]): void;
 }
 
 interface State {
@@ -22,12 +27,32 @@ export default class ConfluenceSpaceFilter extends React.Component<
     isChecked: false,
   };
 
+  generateFilter = (): Filter[] => {
+    const { isChecked } = this.state;
+    return isChecked
+      ? []
+      : [
+          {
+            '@type': 'spaces',
+            spaceKeys: [this.props.spaceKey],
+          },
+        ];
+  };
+
   toggleCheckbox = () => {
     const { isChecked } = this.state;
-    this.props.onFilterChanged(!isChecked);
+    const filter = this.generateFilter();
+    this.props.onFilterChanged(filter);
     this.setState({
       isChecked: !isChecked,
     });
+  };
+
+  handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleCheckbox();
+    }
   };
 
   getIcons() {
@@ -47,12 +72,19 @@ export default class ConfluenceSpaceFilter extends React.Component<
     );
   }
 
+  static getDerivedStateFromProps(props: Props, state: State) {
+    if (state.isChecked !== props.isFilterOn) {
+      return { isChecked: props.isFilterOn };
+    }
+  }
+
   render() {
     const { isDisabled, spaceTitle } = this.props;
 
     return (
       <Item
         onClick={this.toggleCheckbox}
+        onKeyDown={this.handleKeyDown}
         elemBefore={this.getIcons()}
         isCompact
         isDisabled={isDisabled}

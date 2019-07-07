@@ -14,7 +14,6 @@ export interface AlignmentAttributes {
 
 /**
  * @name alignment_mark
- * @stage 0
  */
 export interface AlignmentMarkDefinition {
   type: 'alignment';

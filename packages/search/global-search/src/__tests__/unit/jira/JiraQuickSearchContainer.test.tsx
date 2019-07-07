@@ -25,7 +25,7 @@ import {
   mockNoResultJiraClient,
 } from '../mocks/_mockJiraClient';
 import { makeJiraObjectResult, makePersonResult } from '../_test-util';
-import { ContentType, GenericResultMap } from '../../../model/Result';
+import { ContentType, JiraResultsMap } from '../../../model/Result';
 import { Scope } from '../../../api/types';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
@@ -86,11 +86,11 @@ describe('Jira Quick Search Container', () => {
 
   const getQuickSearchProperty = (
     wrapper: ShallowWrapper,
-    property: keyof QuickSearchContainerProps<GenericResultMap>,
+    property: keyof QuickSearchContainerProps<JiraResultsMap>,
   ) => {
     const quickSearch = wrapper.find(QuickSearchContainer);
     const quickSearchProps = quickSearch.props() as QuickSearchContainerProps<
-      GenericResultMap
+      JiraResultsMap
     >;
     return quickSearchProps[property] as any;
   };

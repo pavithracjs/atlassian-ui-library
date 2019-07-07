@@ -25,6 +25,36 @@ import {
 import { SmartLinkNodeContext } from '../../analytics/types/smart-links';
 import { safeInsert } from 'prosemirror-utils';
 
+export function shouldReplace(
+  node: Node,
+  compareLinkText: boolean = true,
+  compareToUrl?: string,
+) {
+  const linkMark = node.marks.find(mark => mark.type.name === 'link');
+  if (!linkMark) {
+    // not a link anymore
+    return false;
+  }
+
+  // ED-6041: compare normalised link text after linkfy from Markdown transformer
+  // instead, since it always decodes URL ('%20' -> ' ') on the link text
+  const normalisedHref = md.normalizeLinkText(linkMark.attrs.href);
+  const normalizedLinkText = md.normalizeLinkText(node.text || '');
+
+  if (compareLinkText && normalisedHref !== normalizedLinkText) {
+    return false;
+  }
+
+  if (compareToUrl) {
+    const normalizedUrl = md.normalizeLinkText(compareToUrl);
+    if (normalizedUrl !== normalisedHref) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export function insertCard(tr: Transaction, cardAdf: Node, schema: Schema) {
   const { inlineCard } = schema.nodes;
 
@@ -57,19 +87,7 @@ function replaceLinksToCards(
     return;
   }
 
-  // not a link anymore
-  const linkMark = node.marks.find(mark => mark.type.name === 'link');
-  if (!linkMark) {
-    return;
-  }
-
-  const textSlice = node.text;
-  const normalizedLinkText = textSlice && md.normalizeLinkText(url);
-  if (
-    request.compareLinkText &&
-    normalizedLinkText !== textSlice &&
-    url !== textSlice
-  ) {
+  if (!shouldReplace(node, request.compareLinkText, url)) {
     return;
   }
 
@@ -79,7 +97,7 @@ function replaceLinksToCards(
     nodes.push(schema.text(' '));
   }
 
-  tr.replaceWith(pos, pos + (textSlice || url).length, nodes);
+  tr.replaceWith(pos, pos + (node.text || url).length, nodes);
 
   return $pos.node($pos.depth - 1).type.name;
 }
@@ -163,18 +181,8 @@ export const queueCardsFromChangedTr = (
     const linkMark = node.marks.find(mark => mark.type === link);
 
     if (linkMark) {
-      // ED-6041: compare normalised link text after linkfy from Markdown transformer
-      // instead, since it always decodes URL ('%20' -> ' ') on the link text
-      if (normalizeLinkText) {
-        const normalizedLinkText = md.normalizeLinkText(linkMark.attrs.href);
-
-        // don't bother queueing nodes that have user-defined text for a link
-        if (
-          node.text !== normalizedLinkText &&
-          node.text !== linkMark.attrs.href
-        ) {
-          return false;
-        }
+      if (!shouldReplace(node, normalizeLinkText)) {
+        return false;
       }
 
       requests.push({

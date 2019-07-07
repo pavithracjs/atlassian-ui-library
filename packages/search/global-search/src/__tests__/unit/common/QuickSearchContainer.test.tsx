@@ -9,7 +9,6 @@ import {
   SearchResultProps,
 } from '../../../components/common/QuickSearchContainer';
 import { GlobalQuickSearch } from '../../../components/GlobalQuickSearch';
-import { GenericResultMap } from '../../../model/Result';
 import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import {
   PerformanceTiming,
@@ -18,6 +17,8 @@ import {
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 import { QuickSearchContext } from '../../../api/types';
 import { mockLogger } from '../mocks/_mockLogger';
+import { JiraResultsMap, ConfluenceResultsMap } from '../../../model/Result';
+import uuid from 'uuid/v4';
 
 const defaultAutocompleteData = ['autocomplete', 'automock', 'automation'];
 const defaultReferralContext = {
@@ -25,6 +26,8 @@ const defaultReferralContext = {
   currentContentId: 'currentContentId',
   currentContainerId: 'currentContainerId',
 };
+
+type GenericResultMap = JiraResultsMap | ConfluenceResultsMap;
 
 const mapToResultGroup = (resultMap: GenericResultMap) =>
   Object.keys(resultMap).map(key => ({
@@ -74,7 +77,7 @@ const mountQuickSearchContainer = (
     ...defaultProps,
     ...partialProps,
   };
-  return mount(<QuickSearchContainer {...props} />);
+  return mount(<QuickSearchContainer {...props} searchSessionId={uuid()} />);
 };
 
 const mountQuickSearchContainerWaitingForRender = async (
@@ -228,7 +231,7 @@ describe('QuickSearchContainer', () => {
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
     wrapper.update();
 
-    const { searchSessionId } = wrapper.find(QuickSearchContainer).state();
+    const { searchSessionId } = wrapper.find(QuickSearchContainer).props();
     expect(searchSessionId).not.toBeNull();
 
     expect(defaultProps.handleSearchSubmit).toHaveBeenCalledWith(

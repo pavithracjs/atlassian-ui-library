@@ -51,7 +51,7 @@ export class CopyLinkButton extends React.Component<
   Props & InjectedIntlProps,
   State
 > {
-  private autoDismiss: number | undefined;
+  private autoDismiss: ReturnType<typeof setTimeout> | undefined;
   private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   state = {
@@ -63,16 +63,14 @@ export class CopyLinkButton extends React.Component<
   }
 
   private clearAutoDismiss = () => {
-    if (this.autoDismiss && window) {
-      window.clearTimeout(this.autoDismiss);
+    if (this.autoDismiss) {
+      clearTimeout(this.autoDismiss);
       this.autoDismiss = undefined;
     }
   };
 
   private handleClick = () => {
-    if (this.inputRef.current) {
-      this.inputRef.current!.select();
-    }
+    this.inputRef.current!.select();
     document.execCommand('copy');
 
     if (this.props.onLinkCopy) {
@@ -81,11 +79,9 @@ export class CopyLinkButton extends React.Component<
 
     this.setState({ shouldShowCopiedMessage: true }, () => {
       this.clearAutoDismiss();
-      this.autoDismiss =
-        window &&
-        window.setTimeout(() => {
-          this.setState({ shouldShowCopiedMessage: false });
-        }, AUTO_DISMISS_SECONDS * 1000);
+      this.autoDismiss = setTimeout(() => {
+        this.setState({ shouldShowCopiedMessage: false });
+      }, AUTO_DISMISS_SECONDS * 1000);
     });
   };
 
