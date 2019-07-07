@@ -7,6 +7,7 @@ import { FileIdentifier, FileState } from '@atlaskit/media-client';
 import {
   asMockReturnValue,
   fakeMediaClient,
+  nextTick,
 } from '@atlaskit/media-test-helpers';
 import {
   InlinePlayer,
@@ -189,6 +190,21 @@ describe('<InlinePlayer />', () => {
       'some-collection',
     );
     expect(component.find(CustomMediaPlayer).prop('src')).toEqual('binary-url');
+  });
+
+  it('should download video binary when download button is clicked', async () => {
+    const { component, mediaClient } = setup();
+
+    await update(component);
+    const instance = component.instance() as InlinePlayer;
+    instance.onDownloadClick();
+    await nextTick();
+    expect(mediaClient.file.downloadBinary).toBeCalledTimes(1);
+    expect(mediaClient.file.downloadBinary).toBeCalledWith(
+      'some-id',
+      undefined,
+      'some-collection',
+    );
   });
 
   describe('getPreferredVideoArtifact()', () => {

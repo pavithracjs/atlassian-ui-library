@@ -1,5 +1,61 @@
 # @atlaskit/email-renderer
 
+## 2.6.0
+
+### Minor Changes
+
+- [minor][d08834952b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d08834952b):
+
+  CS-1184 CSS prefix shortened
+
+## 2.5.0
+
+### Minor Changes
+
+- [minor][8cd4402937](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cd4402937):
+
+  CSS corrections
+
+## 2.4.0
+
+### Minor Changes
+
+- [minor][0718ea79a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0718ea79a0):
+
+  Email renderer notification distributor integration
+
+## 2.3.0
+
+### Minor Changes
+
+- [minor][22af1d9ddd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22af1d9ddd):
+
+  FS-4032 - Remove background styling from actions and decisions in email. Unable to support hover.
+
+## 2.2.0
+
+### Minor Changes
+
+- [minor][c617f954b7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c617f954b7):
+
+  Extracted CSS for last set of 4 ADF nodes
+
+## 2.1.0
+
+### Minor Changes
+
+- [minor][86218aa155](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86218aa155):
+
+  Email renderer: Extracted CSS for 8 more nodes
+
+## 2.0.0
+
+### Major Changes
+
+- [major][38d11825f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38d11825f2):
+
+  Renderer does not inline CSS anymore, but can be turned on by a flag for testing purposes
+
 ## 1.4.0
 
 ### Minor Changes

@@ -6,6 +6,7 @@
  */
 // Finnish
 export default {
+  'fabric.mention.unknow.user.error': 'Tuntematon käyttäjä {id}',
   'fabric.mention.noAccess.warning':
     '{name} ei saa ilmoitusta, koska hänellä ei ole pääsyä',
   'fabric.mention.noAccess.label': 'Ei pääsyä',

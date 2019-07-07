@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import FullScreenIcon from '@atlaskit/icon/glyph/vid-full-screen-on';
 import VidPlayIcon from '@atlaskit/icon/glyph/vid-play';
 import VidHdCircleIcon from '@atlaskit/icon/glyph/vid-hd-circle';
+import DownloadIcon from '@atlaskit/icon/glyph/download';
 import Button from '@atlaskit/button';
 import Spinner from '@atlaskit/spinner';
 import { fakeIntl, asMock } from '@atlaskit/media-test-helpers';
@@ -135,6 +136,15 @@ describe('<CustomMediaPlayer />', () => {
 
       component.find('video').simulate('waiting');
       expect(component.find(Spinner)).toHaveLength(1);
+    });
+
+    it('should render download button if onDownloadClick is passed', () => {
+      const onDownloadClick = jest.fn();
+      const { component } = setup({ onDownloadClick });
+
+      expect(component.find(DownloadIcon)).toHaveLength(1);
+      component.find(DownloadIcon).simulate('click');
+      expect(onDownloadClick).toBeCalledTimes(1);
     });
   });
 

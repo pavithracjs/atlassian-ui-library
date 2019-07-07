@@ -23,7 +23,7 @@ const getFreshMediaProvider = () =>
     includeUploadMediaClientConfig: true,
   });
 
-describe('Media plugin', async () => {
+describe('Media plugin', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
   const mediaProvider = getFreshMediaProvider();
   const providerFactory = ProviderFactory.create({ mediaProvider });

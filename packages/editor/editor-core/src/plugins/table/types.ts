@@ -56,6 +56,7 @@ export interface TablePluginState {
   insertColumnButtonIndex?: number;
   insertRowButtonIndex?: number;
   isFullWidthModeEnabled?: boolean;
+  layout?: TableLayout;
 }
 
 export type TablePluginAction =
@@ -68,6 +69,7 @@ export type TablePluginAction =
         tableRef?: HTMLElement;
         tableNode?: PmNode;
         tableWrapperTarget?: HTMLElement;
+        layout: TableLayout;
       };
     }
   | {
@@ -97,6 +99,10 @@ export type TablePluginAction =
     }
   | { type: 'CLEAR_HOVER_SELECTION'; data: { decorationSet: DecorationSet } }
   | { type: 'SET_TARGET_CELL_POSITION'; data: { targetCellPosition?: number } }
+  | {
+      type: 'SET_TABLE_LAYOUT';
+      data: { layout: TableLayout };
+    }
   | { type: 'SHOW_INSERT_ROW_BUTTON'; data: { insertRowButtonIndex: number } }
   | {
       type: 'SHOW_INSERT_COLUMN_BUTTON';

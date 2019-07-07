@@ -6,6 +6,7 @@
  */
 // Czech
 export default {
+  'fabric.mention.unknow.user.error': 'Neznámý uživatel {id}',
   'fabric.mention.noAccess.warning':
     'Uživatel {name} nebude informován, protože nemá přístup',
   'fabric.mention.noAccess.label': 'Žádný přístup',

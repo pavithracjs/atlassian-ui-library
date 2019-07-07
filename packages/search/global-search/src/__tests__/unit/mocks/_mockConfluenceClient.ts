@@ -1,6 +1,6 @@
 import { ConfluenceClient } from '../../../api/ConfluenceClient';
 import { AutocompleteClient } from '../../../api/AutocompleteClient';
-import { makeConfluenceObjectResult, makePersonResult } from '../_test-util';
+import { makeConfluenceObjectResult } from '../_test-util';
 import { Result } from '../../../model/Result';
 
 const EMPTY_PROMISE = () => Promise.resolve([]);
@@ -8,7 +8,6 @@ const EMPTY_PROMISE = () => Promise.resolve([]);
 export const noResultsConfluenceClient: ConfluenceClient = {
   getRecentItems: EMPTY_PROMISE,
   getRecentSpaces: EMPTY_PROMISE,
-  searchPeopleInQuickNav: EMPTY_PROMISE,
 };
 
 export const makeConfluenceClient = (
@@ -25,22 +24,6 @@ export function makeSingleResultQuickNavSearchResponse(
 ): Result[] {
   return [result || makeConfluenceObjectResult()];
 }
-
-export const singleResultQuickNav = (result?: Result): ConfluenceClient => {
-  return makeConfluenceClient({
-    searchPeopleInQuickNav(query: string) {
-      return Promise.resolve([result || makePersonResult()]);
-    },
-  });
-};
-
-export const errorConfluenceQuickNavSearch: ConfluenceClient = makeConfluenceClient(
-  {
-    searchPeopleInQuickNav(query: string) {
-      return Promise.reject('error');
-    },
-  },
-);
 
 export const mockAutocompleteClient: AutocompleteClient = {
   getAutocompleteSuggestions: EMPTY_PROMISE,

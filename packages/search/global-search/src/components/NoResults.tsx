@@ -11,7 +11,7 @@ const NoResultsWrapper = styled.div`
 
 export interface Props {
   title: JSX.Element | string;
-  body: JSX.Element | string;
+  body?: JSX.Element | string;
 }
 
 export default class NoResults extends React.Component<Props> {
@@ -21,7 +21,7 @@ export default class NoResults extends React.Component<Props> {
       <NoResultsWrapper>
         <NoResultsImage />
         <h3>{title}</h3>
-        <p>{body}</p>
+        {body && <p>{body}</p>}
       </NoResultsWrapper>
     );
   }

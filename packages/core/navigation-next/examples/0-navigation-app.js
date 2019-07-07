@@ -41,6 +41,7 @@ export default class App extends Component<
     isFlyoutAvailable: boolean,
     isAlternateFlyoutBehaviourEnabled: boolean,
     isFullWitdhFlyoutEnabled: boolean,
+    isHideNavVisuallyEnabled: boolean,
   },
 > {
   state = {
@@ -48,6 +49,7 @@ export default class App extends Component<
     isFlyoutAvailable: true,
     isAlternateFlyoutBehaviourEnabled: true,
     isFullWitdhFlyoutEnabled: false,
+    isHideNavVisuallyEnabled: false,
   };
 
   onDebugToggle = () => {
@@ -70,12 +72,19 @@ export default class App extends Component<
     }));
   };
 
+  onHideNavVisuallyToggle = () => {
+    this.setState(state => ({
+      isHideNavVisuallyEnabled: !state.isHideNavVisuallyEnabled,
+    }));
+  };
+
   render() {
     const {
       isDebugEnabled,
       isFlyoutAvailable,
       isAlternateFlyoutBehaviourEnabled,
       isFullWitdhFlyoutEnabled,
+      isHideNavVisuallyEnabled,
     } = this.state;
 
     return (
@@ -84,6 +93,7 @@ export default class App extends Component<
           <LayoutManagerWithViewController
             customComponents={{ LinkItem, ProjectSwitcher }}
             experimental_flyoutOnHover={isFlyoutAvailable}
+            experimental_hideNavVisuallyOnCollapse={isHideNavVisuallyEnabled}
             experimental_alternateFlyoutBehaviour={
               isAlternateFlyoutBehaviourEnabled
             }
@@ -118,6 +128,11 @@ export default class App extends Component<
               <ToggleStateless
                 isChecked={isFullWitdhFlyoutEnabled}
                 onChange={this.onFullWidthFlyoutToggle}
+              />
+              <Label label="Hide nav visually on collapse" />
+              <ToggleStateless
+                isChecked={isHideNavVisuallyEnabled}
+                onChange={this.onHideNavVisuallyToggle}
               />
               <Label label="Toggle debug logger" />
               <ToggleStateless

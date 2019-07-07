@@ -11,7 +11,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate tooltip correctly', async () => {
+test.skip('should ssr then hydrate tooltip correctly', async () => {
   const [example] = await getExamplesFor('tooltip');
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 

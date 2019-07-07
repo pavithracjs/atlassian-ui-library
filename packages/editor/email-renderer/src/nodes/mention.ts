@@ -14,6 +14,17 @@ export const styles = `
 }
 `;
 
-export default function mention({ text }: NodeSerializerOpts) {
-  return createTag('span', { class: createClassName('mention') }, text);
+const resolveMention = (node: NodeSerializerOpts) => {
+  if (['all', 'here'].includes(node.attrs.id)) {
+    return '@' + node.attrs.id;
+  }
+  return node.text || '@unknown';
+};
+
+export default function mention(node: NodeSerializerOpts) {
+  return createTag(
+    'span',
+    { class: createClassName('mention') },
+    resolveMention(node),
+  );
 }

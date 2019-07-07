@@ -20,6 +20,9 @@ import {
   Result,
   ConfluenceResultsMap,
   ResultsWithTiming,
+  ContentType,
+  ResultType,
+  AnalyticsType,
 } from '../../../model/Result';
 import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
@@ -32,6 +35,7 @@ import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { mockLogger } from '../mocks/_mockLogger';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 import { ConfluenceFeatures } from '../../../util/features';
+import ConfluenceFilterGroup from '../../../components/confluence/ConfluenceFilterGroup';
 
 const sessionId = 'sessionId';
 const referralContextIdentifiers: ReferralContextIdentifiers = {
@@ -46,6 +50,7 @@ const DEFAULT_FEATURES: ConfluenceFeatures = {
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
 };
 
 function render(partialProps?: Partial<Props>) {
@@ -304,7 +309,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
     (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
-    >).getSearchResults('query', sessionId, 100, dummyQueryVersion);
+    >).getSearchResults('query', sessionId, 100, dummyQueryVersion, []);
 
     expect(searchSpy).toHaveBeenCalledWith(
       'query',
@@ -312,6 +317,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       expect.any(Array),
       modelParams,
       null,
+      [],
     );
 
     searchSpy.mockRestore();
@@ -341,7 +347,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     const quickSearchContainer = wrapper.find(QuickSearchContainer);
     const searchResults = await (quickSearchContainer.props() as QuickSearchContainerProps<
       ConfluenceResultsMap
-    >).getSearchResults('query', sessionId, 100, 0);
+    >).getSearchResults('query', sessionId, 100, 0, []);
 
     expect(searchResults).toEqual({
       results: {
@@ -374,6 +380,126 @@ describe('ConfluenceQuickSearchContainer', () => {
         confSearchElapsedMs: expect.any(Number),
       },
     } as ResultsWithTiming<ConfluenceResultsMap>);
+  });
+
+  describe('getFilterComponent', () => {
+    const dummySpaceKey = 'abc123';
+
+    const wrapper = render({
+      features: { ...DEFAULT_FEATURES, complexSearchExtensionsEnabled: true },
+      confluenceClient: noResultsConfluenceClient,
+      crossProductSearchClient: noResultsCrossProductSearchClient,
+      modelContext: {
+        spaceKey: dummySpaceKey,
+      },
+      referralContextIdentifiers: {
+        currentContainerName: 'Dummy space',
+        currentContentId: '123',
+        currentContainerIcon: 'test.png',
+        currentContainerId: '123',
+        searchReferrerId: '123',
+      },
+    });
+
+    const results: ConfluenceResultsMap = {
+      objects: {
+        items: [
+          {
+            analyticsType: AnalyticsType.ResultConfluence,
+            resultType: ResultType.ConfluenceObjectResult,
+            containerName: 'containerName',
+            contentType: ContentType.ConfluencePage,
+            containerId: 'containerId',
+            name: 'name',
+            avatarUrl: 'avatarUrl',
+            href: 'href',
+            resultId: 'resultId',
+          },
+        ],
+        totalSize: 1,
+      },
+      spaces: {
+        items: [],
+        totalSize: 0,
+      },
+      people: {
+        items: [],
+        totalSize: 0,
+      },
+    };
+
+    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+
+    const baseFilterComponentProps = {
+      isLoading: false,
+      currentFilters: [],
+      onFilterChanged: jest.fn(),
+    };
+
+    it('Renders filter component', () => {
+      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
+        ConfluenceResultsMap
+      >).getFilterComponent({
+        ...baseFilterComponentProps,
+        latestSearchQuery: 'a',
+        searchResults: results,
+      });
+
+      expect(filterComponent).toBeDefined();
+      expect(filterComponent).not.toBeNull();
+
+      expect(
+        (filterComponent as ConfluenceFilterGroup).props.isDisabled,
+      ).toBeFalsy();
+      expect((filterComponent as ConfluenceFilterGroup).props.spaceKey).toEqual(
+        dummySpaceKey,
+      );
+    });
+
+    it('Filter component is disabled when results are loading', () => {
+      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
+        ConfluenceResultsMap
+      >).getFilterComponent({
+        ...baseFilterComponentProps,
+        isLoading: true,
+        latestSearchQuery: 'a',
+        searchResults: results,
+      });
+
+      expect(filterComponent).toBeDefined();
+      expect(filterComponent).not.toBeNull();
+
+      expect(
+        (filterComponent as ConfluenceFilterGroup).props.isDisabled,
+      ).toBeTruthy();
+      expect((filterComponent as ConfluenceFilterGroup).props.spaceKey).toEqual(
+        dummySpaceKey,
+      );
+    });
+
+    it("Doesn't render filter component on pre-query", () => {
+      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
+        ConfluenceResultsMap
+      >).getFilterComponent({
+        ...baseFilterComponentProps,
+        latestSearchQuery: '',
+        searchResults: results,
+      });
+
+      expect(filterComponent).toBeUndefined();
+    });
+
+    it("Doesn't render filter component if there are no search results", () => {
+      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
+        ConfluenceResultsMap
+      >).getFilterComponent({
+        ...baseFilterComponentProps,
+        latestSearchQuery: 'a',
+        searchResults: null,
+      });
+
+      expect(filterComponent).toBeUndefined();
+    });
   });
 
   describe('Advanced Search callback', () => {

@@ -11,6 +11,7 @@ import { extractInlineViewPropsFromSourceCodeRepository } from './extractPropsFr
 import { extractInlineViewPropsFromSourceCodePullRequest } from './extractPropsFromSourceCodePullRequest';
 import { extractInlineViewPropsFromSourceCodeReference } from './extractPropsFromSourceCodeReference';
 import { extractInlineViewPropsFromDigitalDocument } from './extractPropsFromDigitalDocument';
+import { extractInlineViewPropsFromSourceCodeCommit } from './extractPropsFromSourceCodeCommit';
 
 const extractorPrioritiesByType = {
   Object: 0,
@@ -21,6 +22,7 @@ const extractorPrioritiesByType = {
   'atlassian:Task': 10,
   'atlassian:Project': 10,
   'atlassian:Template': 10,
+  'atlassian:SourceCodeCommit': 10,
   'atlassian:SourceCodeRepository': 10,
   'atlassian:SourceCodePullRequest': 10,
   'atlassian:SourceCodeReference': 10,
@@ -35,6 +37,7 @@ const extractorFunctionsByType = {
   'atlassian:Task': extractInlineViewPropsFromTask,
   'atlassian:Project': extractInlineViewPropsFromProject,
   'atlassian:Template': extractInlineViewPropsFromTemplate,
+  'atlassian:SourceCodeCommit': extractInlineViewPropsFromSourceCodeCommit,
   'atlassian:SourceCodeRepository': extractInlineViewPropsFromSourceCodeRepository,
   'atlassian:SourceCodePullRequest': extractInlineViewPropsFromSourceCodePullRequest,
   'atlassian:SourceCodeReference': extractInlineViewPropsFromSourceCodeReference,

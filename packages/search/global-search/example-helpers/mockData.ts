@@ -1,8 +1,8 @@
 import { GraphqlResponse, SearchResult } from '../src/api/PeopleSearchClient';
-import { QuickNavResult } from '../src/api/ConfluenceClient';
 import {
   CrossProductSearchResponse,
   CrossProductExperimentResponse,
+  Filter,
 } from '../src/api/CrossProductSearchClient';
 import {
   Scope,
@@ -66,6 +66,7 @@ const mockAbbreviations = [
   'FTP',
   'GB',
   'EXE',
+  'TEST',
 ];
 const mockAvatarUrls = [
   'https://s3.amazonaws.com/uifaces/faces/twitter/magugzbrand2d/128.jpg',
@@ -148,13 +149,13 @@ const getPastDate = () => {
   return getDateWithOffset(offset);
 };
 
-function randomSpaceIconUrl() {
+export function randomSpaceIconUrl() {
   return `https://placeimg.com/64/64/arch?bustCache=${Math.random()}`;
 }
 
 export function makeCrossProductSearchData(
   n = 100,
-): (term: string) => CrossProductSearchResponse {
+): (term: string, filters: Filter[]) => CrossProductSearchResponse {
   const confData: ConfluenceItem[] = [];
   const confSpaceData: ConfluenceItem[] = [];
   const confDataWithAttachments: ConfluenceItem[] = [];
@@ -182,6 +183,13 @@ export function makeCrossProductSearchData(
         id: uuid(),
         type: type,
       },
+      // 'space' wouldn't normally appear on a page/blogpost/attachment, but it is here so that mock filtering can work
+      space: {
+        key: getMockAbbreviation(),
+        icon: {
+          path: randomSpaceIconUrl(),
+        },
+      },
       iconCssClass: icon,
     });
   }
@@ -208,6 +216,13 @@ export function makeCrossProductSearchData(
       content: {
         id: uuid(),
         type: type,
+      },
+      // 'space' wouldn't normally appear on a page/blogpost/attachment, but it is here so that mock filtering can work
+      space: {
+        key: getMockAbbreviation(),
+        icon: {
+          path: randomSpaceIconUrl(),
+        },
       },
       iconCssClass: icon,
     };
@@ -281,11 +296,19 @@ export function makeCrossProductSearchData(
     ursPeopleData.push(ursPeopleEntry);
   }
 
-  return (term: string) => {
+  return (term: string, filters: Filter[] = []) => {
     term = term.toLowerCase();
+    const spaceFilter = filters.find(filter => filter['@type'] === 'spaces');
+    const filteredSpaceKey = spaceFilter && spaceFilter['spaceKeys'][0];
+
+    const applySpaceFilter = (result: ConfluenceItem) =>
+      !filteredSpaceKey ||
+      (result.space && result.space.key === filteredSpaceKey);
 
     const filteredConfResults = confData.filter(
-      result => result.title.toLowerCase().indexOf(term) > -1,
+      result =>
+        result.title.toLowerCase().indexOf(term) > -1 &&
+        applySpaceFilter(result),
     );
 
     const filteredJiraIssueResults = jiraObjects.filter(result => {
@@ -301,21 +324,27 @@ export function makeCrossProductSearchData(
         (<JiraItemV2>result).name.toLocaleLowerCase().indexOf(term) > -1,
     );
 
-    const filteredSpaceResults = confSpaceData.filter(
-      result => result.container.title.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredSpaceResults = spaceFilter
+      ? []
+      : confSpaceData.filter(
+          result => result.container.title.toLowerCase().indexOf(term) > -1,
+        );
 
     const filteredConfResultsWithAttachments = confDataWithAttachments.filter(
-      result => result.title.toLowerCase().indexOf(term) > -1,
+      result =>
+        result.title.toLowerCase().indexOf(term) > -1 &&
+        applySpaceFilter(result),
     );
 
-    const filteredPeopleResults = peopleData.filter(
-      item => item.name.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredPeopleResults = spaceFilter
+      ? []
+      : peopleData.filter(item => item.name.toLowerCase().indexOf(term) > -1);
 
-    const filteredUrsPeopleResults = ursPeopleData.filter(
-      item => item.name.toLowerCase().indexOf(term) > -1,
-    );
+    const filteredUrsPeopleResults = spaceFilter
+      ? []
+      : ursPeopleData.filter(
+          item => item.name.toLowerCase().indexOf(term) > -1,
+        );
 
     const abTest = {
       experimentId: 'experiment-1',
@@ -446,69 +475,6 @@ export function makePeopleSearchData(
         AccountCentricUserSearch: filteredItems,
         Collaborators: filteredItems,
       },
-    };
-  };
-}
-
-function generateRandomQuickNavItem(className: string): QuickNavResult {
-  return {
-    className: className,
-    name: getMockName(),
-    href: getMockUrl(),
-    id: uuid(),
-    icon: getMockAvatarUrl(),
-  };
-}
-
-export function makeQuickNavSearchData(n: number = 50) {
-  // create some attachments
-  const attachments: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem(
-      'content-type-attachment-' + pickRandom(['image', 'pdf']),
-    ),
-  );
-
-  // create some pages
-  const pages: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-page'),
-  );
-
-  // create some blogposts
-  const blogs: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-blogpost'),
-  );
-
-  // create some people
-  const people: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-userinfo'),
-  );
-
-  return (term: string) => {
-    term = term.toLowerCase();
-
-    const filteredPages = pages.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredBlogposts = blogs.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredAttachments = attachments.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredPeople = people.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    return {
-      contentNameMatches: [
-        filteredPages,
-        filteredAttachments,
-        filteredBlogposts,
-        filteredPeople,
-      ],
     };
   };
 }

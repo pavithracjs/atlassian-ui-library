@@ -1,21 +1,43 @@
 import { NodeSerializerOpts } from '../interfaces';
 import { createTable, TableData } from '../table-util';
 import { createTag } from '../create-tag';
-import { serializeStyle } from '../serialize-style';
-import { N30 } from '@atlaskit/adf-schema';
 import { createContentId } from '../static';
+import { createClassName } from '../styles/util';
 
 enum DecisionState {
   DECIDED = 'DECIDED',
 }
 
+const className = createClassName('decision');
+export const styles = `
+.${className} {
+  padding: 4px 0px 4px 0;
+}
+.${className}-content {
+  border-radius: 3px;
+  table-layout: fixed;
+  line-height: 20px;
+}
+.${className}-icon {
+  width: 16px;
+  height: 16px;
+}
+.${className}-iconTd {
+  vertical-align: top;
+  padding: 11px 0px 0px 8px;
+  width: 24px;
+  height: 24px;
+}
+.${className}-textTd {
+  font-size: 14px;
+  padding: 8px 8px 8px 0;
+}
+`;
+
 const icons: { [K in DecisionState]: string } = {
   DECIDED: createTag('img', {
-    style: serializeStyle({
-      width: '16px',
-      height: '16px',
-    }),
-    src: createContentId('decision', 'icon'),
+    class: className + '-icon',
+    src: createContentId('decision'),
   }),
 };
 
@@ -34,36 +56,25 @@ export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
 
   const iconTd: TableData = {
     text: icons[state],
-    style: {
-      'vertical-align': 'top',
-      padding: '11px 0px 0px 8px',
-      width: '24px',
-      height: '24px',
-    },
+    attrs: { class: className + '-iconTd' },
   };
 
   const textTd: TableData = {
     text,
-    style: {
-      'font-size': '14px',
-      padding: '8px 8px 8px 0',
-    },
+    attrs: { class: className + '-textTd' },
   };
 
-  const mainContentTable = createTable([[iconTd, textTd]], {
-    'background-color': N30,
-    'border-radius': '3px',
-    'table-layout': 'fixed',
-    'line-height': '20px',
-  });
+  const mainContentTable = createTable(
+    [[iconTd, textTd]],
+    {},
+    { class: className + '-content' },
+  );
 
   return createTable([
     [
       {
         text: mainContentTable,
-        style: {
-          padding: '4px 0px 4px 0',
-        },
+        attrs: { class: className },
       },
     ],
   ]);

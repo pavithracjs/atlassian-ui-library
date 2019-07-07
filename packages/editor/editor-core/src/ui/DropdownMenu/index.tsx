@@ -116,7 +116,7 @@ export default class DropdownMenuWrapper extends PureComponent<Props, State> {
     if (item.tooltipDescription) {
       return (
         <Tooltip
-          key={item.content}
+          key={item.key || item.content}
           content={item.tooltipDescription}
           position={item.tooltipPosition}
         >

@@ -17,8 +17,6 @@ import { getPluginState } from '../index';
 import commonMessages from '../../../messages';
 import { BreakoutCssClassName } from '../constants';
 import { isBreakoutMarkAllowed } from '../utils/is-breakout-mark-allowed';
-import { CommandDispatch } from '../../../types';
-import { EditorState } from 'prosemirror-state';
 
 const { B300, N300, N20A } = colors;
 
@@ -70,11 +68,8 @@ const getTitle = (layout?: BreakoutMode) => {
 };
 
 class LayoutButton extends React.Component<Props & InjectedIntlProps, {}> {
-  private handleClick = (
-    state: EditorState,
-    dispatch: CommandDispatch,
-    breakoutMode: BreakoutMode,
-  ) => () => {
+  private handleClick = (breakoutMode: BreakoutMode) => () => {
+    const { state, dispatch } = this.props.editorView;
     if (
       [BREAKOUT_MODE.WIDE, BREAKOUT_MODE.FULL_WIDTH].indexOf(breakoutMode) !==
       -1
@@ -95,7 +90,7 @@ class LayoutButton extends React.Component<Props & InjectedIntlProps, {}> {
       node,
     } = this.props;
 
-    const { state, dispatch } = editorView;
+    const { state } = editorView;
 
     if (!node || !isBreakoutMarkAllowed(state)) {
       return null;
@@ -137,7 +132,7 @@ class LayoutButton extends React.Component<Props & InjectedIntlProps, {}> {
         <Wrapper>
           <ToolbarButton
             title={title}
-            onClick={this.handleClick(state, dispatch, nextBreakoutMode)}
+            onClick={this.handleClick(nextBreakoutMode)}
             iconBefore={
               breakoutMode === BREAKOUT_MODE.FULL_WIDTH ? (
                 <CollapseIcon label={title} />

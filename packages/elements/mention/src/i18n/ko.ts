@@ -6,6 +6,7 @@
  */
 // Korean
 export default {
+  'fabric.mention.unknow.user.error': '알 수 없는 사용자 {id}',
   'fabric.mention.noAccess.warning':
     '{name}은(는) 액세스 권한이 없어 알림을 받지 못합니다.',
   'fabric.mention.noAccess.label': '액세스 권한 없음',

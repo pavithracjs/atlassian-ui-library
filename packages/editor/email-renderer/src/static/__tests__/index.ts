@@ -1,12 +1,12 @@
-import { getImageProcessor, createContentId } from '..';
+import { processImages, createContentId } from '..';
 import * as icons from '../icons';
+import { base64Prefix, imageOutputType } from '../generator/constants';
 
 describe('static asset rendering tests', () => {
-  it('getImageProcessor: should have expected embeddedImages array', () => {
+  it('processImages: should have expected embeddedImages array', () => {
     const contentId = createContentId('info');
     const htmlTestString = `<html><img src="${contentId}" /></html>`;
-    const processor = getImageProcessor(false);
-    const output = processor(htmlTestString);
+    const output = processImages(htmlTestString, false);
 
     // htmlTestString should remain unchanged!
     expect(output.result).toMatch(htmlTestString);
@@ -14,21 +14,22 @@ describe('static asset rendering tests', () => {
     // this should contain data necessary to create inline email attachments
     expect(output.embeddedImages).toEqual([
       {
-        contentId: 'cid:pfcs-generated-icon-info',
-        contentType: 'png',
+        contentId: 'csg-icon-info',
+        contentType: `image/${imageOutputType}`,
         data: icons.info,
       },
     ]);
   });
 
-  it('getImageProcessor: should replace image source with inline source when mock enabled', () => {
+  it('processImages: should replace image source with inline source when mock enabled', () => {
     const contentId = createContentId('info');
     const htmlTestString = `<html><img src="${contentId}" /></html>`;
-    const processor = getImageProcessor(true);
-    const output = processor(htmlTestString);
+    const output = processImages(htmlTestString, true);
 
     // image src should be base64 inline data uri
-    expect(output.result).toMatch(`<html><img src="${icons.info}" /></html>`);
+    expect(output.result).toMatch(
+      `<html><img src="${base64Prefix}${icons.info}" /></html>`,
+    );
 
     // embeddedImages is irrelevant for mock mode
     expect(output.embeddedImages).toEqual([]);
@@ -42,14 +43,11 @@ describe('static asset rendering tests', () => {
   });
 
   it('createContentId: should create contentIds as expected', () => {
-    expect(createContentId('info')).toEqual('cid:pfcs-generated-icon-info');
-    expect(createContentId('info', 'icon')).toEqual(
-      'cid:pfcs-generated-icon-info',
-    );
-    expect(createContentId('note')).toEqual('cid:pfcs-generated-icon-note');
-    expect(createContentId('error')).toEqual('cid:pfcs-generated-icon-error');
-    expect(createContentId('error', 'icon')).toEqual(
-      'cid:pfcs-generated-icon-error',
-    );
+    expect(createContentId('info')).toEqual('cid:csg-icon-info');
+    expect(createContentId('info')).toEqual('cid:csg-icon-info');
+    expect(createContentId('note')).toEqual('cid:csg-icon-note');
+    expect(createContentId('error')).toEqual('cid:csg-icon-error');
+    expect(createContentId('error')).toEqual('cid:csg-icon-error');
+    expect(createContentId('error', false)).toEqual('csg-icon-error');
   });
 });

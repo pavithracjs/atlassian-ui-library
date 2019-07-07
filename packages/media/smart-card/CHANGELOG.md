@@ -1,5 +1,27 @@
 # @atlaskit/smart-card
 
+## 12.2.3
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/form@6.1.1
+  - @atlaskit/inline-message@10.0.7
+  - @atlaskit/radio@3.0.6
+  - @atlaskit/table-tree@7.0.6
+  - @atlaskit/textfield@2.0.3
+  - @atlaskit/media-ui@11.4.1
+  - @atlaskit/icon@19.0.0
+
+## 12.2.2
+
+### Patch Changes
+
+- [patch][4258086c0d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4258086c0d):
+
+  fix: some smartlinks with sourcecode artifacts were being incorrectly rendered
+
 ## 12.2.1
 
 ### Patch Changes

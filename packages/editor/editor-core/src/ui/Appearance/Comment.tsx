@@ -25,6 +25,8 @@ import {
 import WidthEmitter from '../WidthEmitter';
 import { GRID_GUTTER } from '../../plugins/grid';
 import classnames from 'classnames';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
+import messages from '../../messages';
 
 export interface CommentEditorProps {
   isMaxContentSizeReached?: boolean;
@@ -127,8 +129,8 @@ SecondaryToolbar.displayName = 'SecondaryToolbar';
 
 export interface EditorAppearanceComponentState {}
 
-export default class Editor extends React.Component<
-  EditorAppearanceComponentProps,
+class Editor extends React.Component<
+  EditorAppearanceComponentProps & InjectedIntlProps,
   EditorAppearanceComponentState
 > {
   static displayName = 'CommentEditorAppearance';
@@ -174,6 +176,7 @@ export default class Editor extends React.Component<
       onCancel,
       disabled,
       dispatchAnalyticsEvent,
+      intl,
     } = this.props;
     const maxContentSizeReached =
       maxContentSize && maxContentSize.maxContentSizeReached;
@@ -244,7 +247,7 @@ export default class Editor extends React.Component<
                   disabled || (mediaState && !mediaState.allUploadsFinished)
                 }
               >
-                Save
+                {intl.formatMessage(messages.saveButton)}
               </Button>
             )}
             {!!onCancel && (
@@ -253,7 +256,7 @@ export default class Editor extends React.Component<
                 onClick={this.handleCancel}
                 isDisabled={disabled}
               >
-                Cancel
+                {intl.formatMessage(messages.cancelButton)}
               </Button>
             )}
           </ButtonGroup>
@@ -276,3 +279,5 @@ export default class Editor extends React.Component<
     );
   }
 }
+
+export default injectIntl(Editor);
