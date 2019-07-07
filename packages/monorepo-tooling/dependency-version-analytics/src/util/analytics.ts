@@ -51,7 +51,11 @@ export function createUpgradeEvent(
   version: string | undefined,
   previousVersion: string | undefined,
   date: string,
-  optionalArgs: { dependencyType?: DependencyType; historical?: boolean } = {},
+  optionalArgs: {
+    commitHash?: string;
+    dependencyType?: DependencyType;
+    historical?: boolean;
+  } = {},
 ): UpgradeEvent | null {
   if (Number.isNaN(Date.parse(date))) {
     throw new Error(`Invalid date: '${date}'`);

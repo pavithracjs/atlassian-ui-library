@@ -10,7 +10,6 @@ export type UpgradeSubType = ReleaseType | null;
 
 export type UpgradeEvent = {
   dependencyName: string;
-  dependencyType?: DependencyType;
   versionString: string;
   major: string | null;
   minor: string | null;
@@ -18,5 +17,7 @@ export type UpgradeEvent = {
   date: string;
   upgradeType: UpgradeType;
   upgradeSubType: UpgradeSubType;
+  dependencyType?: DependencyType;
   historical?: boolean;
+  commitHash?: string;
 };

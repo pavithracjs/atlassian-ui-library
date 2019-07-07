@@ -128,7 +128,7 @@ const getAkDependencyVersions = (
 const getUpgradeEventsFromPkgChange = (
   oldDeps: DependencyMap,
   newDeps: DependencyMap,
-  date: string,
+  { date, commitHash }: { date: string; commitHash: string },
 ): UpgradeEvent[] => {
   const addOrUpgradeEvents = Object.entries(newDeps)
     .map(([name, { version, type }]) => {
@@ -137,7 +137,11 @@ const getUpgradeEventsFromPkgChange = (
         version,
         oldDeps[name] && oldDeps[name].version,
         date,
-        { dependencyType: type, historical: true },
+        {
+          commitHash,
+          dependencyType: type,
+          historical: true,
+        },
       );
     })
     .filter((e): e is UpgradeEvent => e != null);
@@ -146,6 +150,7 @@ const getUpgradeEventsFromPkgChange = (
     .filter(([name]) => newDeps[name] == null)
     .map(([name, { version, type }]) => {
       return createUpgradeEvent(name, undefined, version, date, {
+        commitHash,
         dependencyType: type,
         historical: true,
       });
@@ -205,7 +210,10 @@ const getEventsFromHistory = async (
         const upgradeEvents = getUpgradeEventsFromPkgChange(
           prevAkDeps,
           akDeps,
-          packageChange.date,
+          {
+            date: packageChange.date,
+            commitHash: item.hash,
+          },
         );
         if (upgradeEvents.length > 0) {
           allUpgradeEvents.push(...upgradeEvents);
