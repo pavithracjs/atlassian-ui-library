@@ -22,7 +22,7 @@ BrowserTestCase(
     });
 
     await page.click(fullpage.placeholder);
-    await quickInsert(page, 'Info Panel');
+    await quickInsert(page, 'Info panel');
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     await page.type(editable, 'this text should be in the panel');

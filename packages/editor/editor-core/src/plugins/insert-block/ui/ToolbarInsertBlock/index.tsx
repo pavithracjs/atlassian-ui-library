@@ -82,7 +82,7 @@ export const messages = defineMessages({
   },
   actionDescription: {
     id: 'fabric.editor.action.description',
-    defaultMessage: 'Capture actions to move work forward',
+    defaultMessage: 'Create and assign action items',
     description: '',
   },
   link: {
@@ -92,7 +92,7 @@ export const messages = defineMessages({
   },
   linkDescription: {
     id: 'fabric.editor.link.description',
-    defaultMessage: 'Link to an internal or external page',
+    defaultMessage: 'Insert a link',
     description: 'Insert a hyperlink',
   },
   filesAndImages: {
@@ -193,7 +193,7 @@ export const messages = defineMessages({
   },
   statusDescription: {
     id: 'fabric.editor.status.description',
-    defaultMessage: 'Create a colored lozenge with text inside',
+    defaultMessage: 'Add a custom status label',
     description:
       'Inserts an item representing the status of an activity to task.',
   },
