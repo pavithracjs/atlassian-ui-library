@@ -19,7 +19,8 @@ export const messages = defineMessages({
   confluence_more_filters: {
     id: 'global_search.confluence.more_filters',
     defaultMessage: 'More filter options',
-    description: '',
+    description:
+      'Text to display on button that takes the user to advanced search, which has more filtering options',
   },
   confluence_recent_pages_heading: {
     id: 'global_search.confluence.recent_pages_heading',

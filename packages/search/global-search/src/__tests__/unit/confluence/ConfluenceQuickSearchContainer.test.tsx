@@ -36,6 +36,8 @@ import { mockLogger } from '../mocks/_mockLogger';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 import { ConfluenceFeatures } from '../../../util/features';
 import ConfluenceFilterGroup from '../../../components/confluence/ConfluenceFilterGroup';
+import { shallow } from 'enzyme';
+import filter from '@atlaskit/icon/glyph/filter';
 
 const sessionId = 'sessionId';
 const referralContextIdentifiers: ReferralContextIdentifiers = {
@@ -385,6 +387,7 @@ describe('ConfluenceQuickSearchContainer', () => {
   describe('getFilterComponent', () => {
     const dummySpaceKey = 'abc123';
     const mockSearchSessionId = 'someSearchSessionId';
+    const onAdvancedSearch = jest.fn();
 
     const wrapper = render({
       features: { ...DEFAULT_FEATURES, complexSearchExtensionsEnabled: true },
@@ -401,6 +404,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         currentContainerId: '123',
         searchReferrerId: '123',
       },
+      onAdvancedSearch,
     });
 
     const results: ConfluenceResultsMap = {
@@ -456,6 +460,32 @@ describe('ConfluenceQuickSearchContainer', () => {
       ).toBeFalsy();
       expect((filterComponent as ConfluenceFilterGroup).props.spaceKey).toEqual(
         dummySpaceKey,
+      );
+    });
+
+    it('More filters button redirects to advanced search', () => {
+      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
+        ConfluenceResultsMap
+      >).getFilterComponent({
+        ...baseFilterComponentProps,
+        latestSearchQuery: 'a',
+        searchResults: results,
+        currentFilters: [{ '@type': 'spaces', spaceKeys: [dummySpaceKey] }],
+        searchSessionId: mockSearchSessionId,
+      });
+
+      const filterWrapper = shallow(filterComponent as React.ReactElement);
+
+      filterWrapper
+        .find('WithAnalyticsContext(WithAnalyticsEvents(Button))')
+        .simulate('click');
+
+      expect(onAdvancedSearch).toHaveBeenCalledWith(
+        undefined,
+        'content',
+        'a',
+        'someSearchSessionId',
+        { space: dummySpaceKey },
       );
     });
 

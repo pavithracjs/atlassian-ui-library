@@ -316,7 +316,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
           {...feedbackCollectorProps}
           modelContext={modelContext}
           inputControls={inputControls}
-          confluenceUrl={confluenceUrl}
+          confluenceUrl={confluenceUrl || ''}
         />
       );
     } else if (this.props.context === 'jira') {

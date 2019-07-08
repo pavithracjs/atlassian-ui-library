@@ -89,7 +89,7 @@ export interface Props {
   // These are provided by the withAnalytics HOC
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
-  confluenceUrl?: string;
+  confluenceUrl: string;
 }
 
 const getRecentItemMatches = (
@@ -516,8 +516,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       referralContextIdentifiers.currentContainerIcon &&
       referralContextIdentifiers.currentContainerName &&
       modelContext &&
-      modelContext.spaceKey &&
-      confluenceUrl
+      modelContext.spaceKey
     ) {
       const additionalSearchParams: { [searchParam: string]: string } = {};
       for (const filter of currentFilters) {
