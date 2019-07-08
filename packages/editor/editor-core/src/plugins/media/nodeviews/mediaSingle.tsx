@@ -104,15 +104,15 @@ export default class MediaSingleNode extends Component<
       const mediaClient = getMediaClient({
         mediaClientConfig: viewMediaClientConfig,
       });
-
       this.setState({
         viewMediaClientConfig,
-      });
-
-      const upload = await mediaClient.file.upload({
-        content: firstChild.attrs.url,
-      });
-      console.log('upload is ', upload);
+      })
+      // TODO: passs collection
+      const fileUpfront = await mediaClient.file.uploadExternal(
+        firstChild.attrs.url,
+      );
+      // You can use fileUpfront.id already to replace the node
+      console.log('file id', fileUpfront.id);
     }
   };
 

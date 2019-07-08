@@ -93,6 +93,7 @@ export interface FileFetcher {
     controller?: UploadController,
     uploadableFileUpfrontIds?: UploadableFileUpfrontIds,
   ): Observable<FileState>;
+  uploadExternal(url: string, collection?: string): UploadableFileUpfrontIds;
   downloadBinary(
     id: string,
     name?: string,
@@ -262,6 +263,26 @@ export class FileFetcherImpl implements FileFetcher {
       occurrenceKey,
       deferredUploadId,
     };
+  }
+
+  uploadExternal(url: string, collection?: string) {
+    const uploadableFileUpfrontIds = this.generateUploadableFileUpfrontIds(
+      collection,
+    );
+
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        const file: UploadableFile = {
+          content: blob,
+          mimeType: blob.type,
+          collection,
+        };
+
+        return this.upload(file, undefined, uploadableFileUpfrontIds);
+      });
+
+    return uploadableFileUpfrontIds;
   }
 
   public upload(
