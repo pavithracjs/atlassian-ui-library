@@ -9,21 +9,27 @@ import CloseIcon from '@atlaskit/icon/glyph/cross';
 import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import { name as packageName, version as packageVersion } from './version.json';
 import { Handle, IconWrapper, Inner, Input, Label, Slide } from './styled';
-import defaultBaseProps from './defaultBaseProps';
-import { StatelessProps, DefaultBaseProps, StyledProps } from './types';
+import { StatelessProps, BaseProps, StyledProps } from './types';
 
 interface State {
   // not controlled by props but by browser focus
   isFocused: boolean;
 }
 
-interface DefaultProps extends DefaultBaseProps {
+interface DefaultProps extends BaseProps {
   isChecked: boolean;
 }
 
 class ToggleStateless extends Component<StatelessProps, State> {
   static defaultProps: DefaultProps = {
-    ...defaultBaseProps,
+    isDisabled: false,
+    onBlur: () => {},
+    onChange: () => {},
+    onFocus: () => {},
+    size: 'regular',
+    label: '',
+    name: '',
+    value: '',
     isChecked: false,
   };
 

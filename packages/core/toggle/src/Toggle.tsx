@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import ToggleStateless from './ToggleStateless';
-import defaultBaseProps from './defaultBaseProps';
-import { StatefulProps, DefaultBaseProps } from './types';
+import { StatefulProps, BaseProps } from './types';
 
-interface DefaultProps extends DefaultBaseProps {
+interface DefaultProps extends BaseProps {
   isDefaultChecked: boolean;
 }
 
@@ -15,7 +14,14 @@ interface State {
 // the isChecked state for you
 export default class Toggle extends Component<StatefulProps, State> {
   static defaultProps: DefaultProps = {
-    ...defaultBaseProps,
+    isDisabled: false,
+    onBlur: () => {},
+    onChange: () => {},
+    onFocus: () => {},
+    size: 'regular',
+    label: '',
+    name: '',
+    value: '',
     isDefaultChecked: false,
   };
 

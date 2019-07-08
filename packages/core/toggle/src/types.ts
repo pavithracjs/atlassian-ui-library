@@ -1,6 +1,6 @@
 export type Sizes = 'regular' | 'large';
 
-interface BaseProps {
+export interface BaseProps {
   /** Whether the toggle is disabled or not. This will prevent any interaction with the user */
   isDisabled: boolean;
   /** Label to be set for accessibility */
@@ -18,9 +18,6 @@ interface BaseProps {
   /** Defines the size of the toggle. */
   size: Sizes;
 }
-
-// All base props have defaults
-export type DefaultBaseProps = BaseProps;
 
 export interface StatefulProps extends BaseProps {
   /** Whether the toggle is initially checked or not
