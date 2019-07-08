@@ -102,6 +102,8 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
   private displayTextInputContainer: PanelTextInput | null = null;
   private urlBlur: () => void;
   private textBlur: () => void;
+  private handleClearText: () => void;
+  private handleClearDisplayText: () => void;
 
   constructor(props: Props & InjectedIntlProps) {
     super(props);
@@ -116,6 +118,9 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
     /* Cache functions */
     this.urlBlur = this.handleBlur.bind(this, 'url');
     this.textBlur = this.handleBlur.bind(this, 'text');
+
+    this.handleClearText = this.createClearHandler('text');
+    this.handleClearDisplayText = this.createClearHandler('displayText');
   }
 
   async resolveProvider() {
@@ -162,13 +167,26 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
     }
   };
 
-  private clearUrl = (field: keyof State, component: PanelTextInput) => {
-    this.setState({
-      [field]: '',
-    } as any);
-    if (component) {
-      component.focus();
-    }
+  private createClearHandler = (field: 'text' | 'displayText') => {
+    return () => {
+      this.setState({
+        [field]: '',
+      } as any);
+
+      switch (field) {
+        case 'text': {
+          if (this.urlInputContainer) {
+            this.urlInputContainer.focus();
+          }
+          break;
+        }
+        case 'displayText': {
+          if (this.displayTextInputContainer) {
+            this.displayTextInputContainer.focus();
+          }
+        }
+      }
+    };
   };
 
   render() {
@@ -211,13 +229,7 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
             />
             {text && (
               <Tooltip content={formatClearLinkText}>
-                <ClearText
-                  onClick={this.clearUrl.bind(
-                    null,
-                    'text',
-                    this.urlInputContainer!,
-                  )}
-                >
+                <ClearText onClick={this.handleClearText}>
                   <CrossCircleIcon label={formatClearLinkText} />
                 </ClearText>
               </Tooltip>
@@ -247,13 +259,7 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
             />
             {displayText && (
               <Tooltip content={formatMessage(messages.clearText)}>
-                <ClearText
-                  onClick={this.clearUrl.bind(
-                    null,
-                    'displayText',
-                    this.displayTextInputContainer!,
-                  )}
-                >
+                <ClearText onClick={this.handleClearDisplayText}>
                   <CrossCircleIcon label={formatMessage(messages.clearText)} />
                 </ClearText>
               </Tooltip>
