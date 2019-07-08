@@ -1,5 +1,4 @@
 import {
-  MediaClient,
   FileIdentifier,
   Identifier,
   isFileIdentifier,

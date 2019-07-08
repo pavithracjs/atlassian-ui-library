@@ -15,7 +15,6 @@ import {
   CustomAudioPlayerWrapper,
 } from '../styled';
 import { createError, MediaViewerError } from '../error';
-import { MediaStore } from '@atlaskit/media-store';
 import { BaseState, BaseViewer } from './base-viewer';
 import { isIE } from '../utils/isIE';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';

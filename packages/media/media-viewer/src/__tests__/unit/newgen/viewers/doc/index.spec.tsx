@@ -2,8 +2,6 @@ import * as React from 'react';
 import { ProcessedFileState } from '@atlaskit/media-client';
 import { Spinner } from '../../../../../newgen/loading';
 import { DocViewer, Props } from '../../../../../newgen/viewers/doc/index';
-import { ErrorMessage, createError } from '../../../../../newgen/error';
-import Button from '@atlaskit/button';
 import {
   mountWithIntlContext,
   fakeMediaClient,
@@ -54,11 +52,6 @@ const item: ProcessedFileState = {
     },
   },
   representations: {},
-};
-
-const itemWithNoArtifacts: ProcessedFileState = {
-  ...item,
-  artifacts: {},
 };
 
 describe('DocViewer', () => {

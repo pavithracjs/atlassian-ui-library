@@ -3,7 +3,6 @@ import Button from '@atlaskit/button';
 import { ProcessedFileState } from '@atlaskit/media-client';
 import Spinner from '@atlaskit/spinner';
 import {
-  awaitError,
   mountWithIntlContext,
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
