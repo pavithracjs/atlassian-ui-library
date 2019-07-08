@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState, useRef, useCallback, RefObject, ChangeEvent } from 'react';
+import { useState, useRef, useCallback, RefObject, ChangeEvent, useEffect } from 'react';
 import { Transition } from 'react-transition-group';
 import { jsx, css } from '@emotion/core';
 import Textarea from '@atlaskit/textarea';
@@ -124,6 +124,7 @@ export default ({
                         placeholder={textPlaceholder}
                         autoFocus
                         onChange={(event: Event) => {
+                          console.log('ON FEEDBACK CHANGE')
                           fieldProps.onChange(event);
                           onFeedbackChange();
                         }}

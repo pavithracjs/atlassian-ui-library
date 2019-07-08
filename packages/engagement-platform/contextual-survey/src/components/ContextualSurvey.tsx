@@ -68,7 +68,7 @@ export default ({
       if (!isDismissedRef.current) {
         setCurrentStep(step);
       } else {
-        console.log('not setting step', step);
+        console.log(`not setting step "${step}" as survey is already dismissed`);
       }
     },
     [setCurrentStep],
@@ -114,28 +114,37 @@ export default ({
   const onSurveySubmit = useCallback<
     React.ComponentProps<typeof SurveyForm>['onSubmit']
   >(
-    async (formValues, _, callback) => {
-      // getting the answer before calling submit to prevent nativation
-      const userHasAnswered: boolean = await getUserHasAnsweredMailingList();
-
+    async(formValues, _, cleanup) => {
+      // Submitting form: Phase 1 complete
       await onSubmit(formValues);
 
-      /**
-       * Need to call this callback so final-form can clean up before
-       * the survey form is unmounted via trySetCurrentStep below
-       */
-      callback();
+      // Note: need to call cleanup just before we navigate away
+      // It cleans up the form (required)
+      // It will also clear the
 
+      // Optional Phase 2: Asking to join Atlassian Research Group
+      // Only enter phase 2 if:
+      // 1. permission given to contact; AND
+      // 2. user has previously not answered mailing list question (getUserHasAnsweredMailingList returns false)
+
+      // Not entering phase 2: no permission given to respond to feedback
+      if (!formValues.canContact) {
+        cleanup();
+        trySetCurrentStep('POST_SURVEY_NO_CONSENT');
+        return;
+      }
+
+      const userHasAnswered: boolean = await getUserHasAnsweredMailingList();
+      cleanup();
+
+      // Not entering phase 2: user has already answered this question
       if (userHasAnswered) {
         trySetCurrentStep('POST_SURVEY_HAS_SIGN_UP');
         return;
       }
 
-      if (formValues.canContact) {
-        trySetCurrentStep('SIGN_UP_PROMPT');
-      } else {
-        trySetCurrentStep('POST_SURVEY_NO_CONSENT');
-      }
+      // Enter phase 2
+      trySetCurrentStep('SIGN_UP_PROMPT');
     },
     [getUserHasAnsweredMailingList, onSubmit],
   );
@@ -198,6 +207,7 @@ export default ({
       );
     }
     if (currentStep === 'SIGN_UP_PROMPT') {
+      console.log('rendering sign up prompt')
       return <SignUpPrompt onAnswer={onMailingListResponse} />;
     }
     if (currentStep === 'SIGN_UP_SUCCESS') {
