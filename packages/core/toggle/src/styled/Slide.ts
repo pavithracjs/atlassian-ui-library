@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
 import { borderWidth, getHeight, getWidth, transition } from './constants';
+import { StyledProps } from 'src/types';
 
 const colorOptions = {
   bgChecked: themed({ light: colors.G400, dark: colors.G300 }),
@@ -12,7 +13,7 @@ const colorOptions = {
   bgUncheckedDisabled: themed({ light: colors.N20, dark: colors.DN70 }),
 };
 
-const getBgColor = ({ isChecked, isDisabled, ...rest }) => {
+const getBgColor = ({ isChecked, isDisabled, ...rest }: StyledProps) => {
   let color = colorOptions.bgUnchecked;
   if (isChecked) color = colorOptions.bgChecked;
   if (isDisabled && !isChecked) color = colorOptions.bgUncheckedDisabled;
@@ -20,7 +21,7 @@ const getBgColor = ({ isChecked, isDisabled, ...rest }) => {
 
   return color(rest);
 };
-const getHoverStyles = ({ isChecked, isDisabled, ...rest }) => {
+const getHoverStyles = ({ isChecked, isDisabled, ...rest }: StyledProps) => {
   let bgcolor;
   if (!isDisabled) {
     bgcolor = isChecked
@@ -40,7 +41,7 @@ const getHoverStyles = ({ isChecked, isDisabled, ...rest }) => {
   `;
 };
 
-const getBorderColor = ({ isFocused, ...rest }) =>
+const getBorderColor = ({ isFocused, ...rest }: StyledProps) =>
   isFocused
     ? themed({ light: colors.B100, dark: colors.B75 })(rest)
     : 'transparent';

@@ -7,6 +7,8 @@ import ToggleStatelessWithAnalytics, {
 } from '../../ToggleStateless';
 import { Input } from '../../styled';
 
+declare var global: any;
+
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 describe('Toggle', () => {

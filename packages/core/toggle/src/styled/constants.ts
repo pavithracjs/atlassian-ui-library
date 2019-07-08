@@ -1,6 +1,10 @@
 import { gridSize } from '@atlaskit/theme';
+import { Sizes } from '../types';
 
-const dimensions = {
+type Dimensions = 'width' | 'height';
+
+type DimensionsObject = { [k in Sizes]: { [key in Dimensions]: number } };
+const dimensions: DimensionsObject = {
   regular: {
     height: gridSize() * 2,
     width: gridSize() * 4,
@@ -15,6 +19,5 @@ export const borderWidth = '2px';
 export const paddingUnitless = gridSize() / 4;
 export const transition = '0.2s';
 
-export const getHeight = ({ size }: { size: string }) =>
-  dimensions[size].height;
-export const getWidth = ({ size }: { size: string }) => dimensions[size].width;
+export const getHeight = ({ size }: { size: Sizes }) => dimensions[size].height;
+export const getWidth = ({ size }: { size: Sizes }) => dimensions[size].width;

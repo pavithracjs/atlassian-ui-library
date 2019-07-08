@@ -23,7 +23,7 @@ export default class Toggle extends Component<StatefulProps, State> {
     isChecked: this.props.isDefaultChecked,
   };
 
-  onChange = (event: Event) => {
+  onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ isChecked: !this.state.isChecked });
     this.props.onChange(event);
   };

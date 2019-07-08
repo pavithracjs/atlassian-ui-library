@@ -10,7 +10,7 @@ import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import { name as packageName, version as packageVersion } from './version.json';
 import { Handle, IconWrapper, Inner, Input, Label, Slide } from './styled';
 import defaultBaseProps from './defaultBaseProps';
-import { StatelessProps, DefaultBaseProps } from './types';
+import { StatelessProps, DefaultBaseProps, StyledProps } from './types';
 
 type State = {
   // not controlled by props but by browser focus
@@ -54,7 +54,7 @@ class ToggleStateless extends Component<StatelessProps, State> {
     const { isChecked, isDisabled, label, name, size, value } = this.props;
     const { isFocused } = this.state;
 
-    const styledProps = {
+    const styledProps: StyledProps = {
       isChecked,
       isDisabled,
       isFocused,

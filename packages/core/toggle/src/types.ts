@@ -1,3 +1,5 @@
+export type Sizes = 'regular' | 'large';
+
 interface BaseProps {
   /** Whether the toggle is disabled or not. This will prevent any interaction with the user */
   isDisabled: boolean;
@@ -14,7 +16,7 @@ interface BaseProps {
   /** Handler to be called when toggle is focused. */
   onFocus: (event: React.FocusEvent<HTMLInputElement>) => void;
   /** Defines the size of the toggle. */
-  size: 'regular' | 'large';
+  size: Sizes;
 }
 
 // All base props have defaults
@@ -30,4 +32,11 @@ export interface StatefulProps extends BaseProps {
 export interface StatelessProps extends BaseProps {
   /** Whether the toggle is checked or not */
   isChecked: boolean;
+}
+
+export interface StyledProps {
+  isChecked: boolean;
+  isFocused?: boolean;
+  isDisabled?: boolean;
+  size: Sizes;
 }
