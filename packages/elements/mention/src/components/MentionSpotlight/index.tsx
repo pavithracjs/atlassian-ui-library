@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link, BrowserRouter } from 'react-router-dom';
 
 export interface Props {
   /** Decides whether component should be rendered or not. This logic could have been implemented by passing
@@ -14,7 +15,7 @@ export interface Props {
 
 export default class MentionSpotlight extends React.Component<Props, {}> {
   render() {
-    const { showComponent, onClose } = this.props;
+    const { showComponent, onClose, createTeamLink } = this.props;
 
     if (!showComponent) {
       return null;
@@ -22,8 +23,19 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
 
     return (
       <>
-        <div>I am SPOTLIGHT!</div>
+        <div>
+          <strong>You can now mention teams!</strong>
+        </div>
         <div onClick={onClose}>CLOSE</div>
+        <div>
+          <p>
+            If you don't have any teams,{' '}
+            <BrowserRouter>
+              <Link to={createTeamLink}>start a team</Link>
+            </BrowserRouter>{' '}
+            with the group of people you work with daily
+          </p>
+        </div>
       </>
     );
   }
