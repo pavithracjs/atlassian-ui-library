@@ -204,7 +204,7 @@ const getEventsFromHistory = async (
           akDeps,
         };
         const prevAkDeps =
-          allPackageChanges.length > 1
+          allPackageChanges.length > 0
             ? allPackageChanges[allPackageChanges.length - 1].akDeps
             : {};
         const upgradeEvents = getUpgradeEventsFromPkgChange(
