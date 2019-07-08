@@ -8,11 +8,11 @@ interface BaseProps {
   /** The value to be submitted in a form. */
   value: string;
   /** Handler to be called when toggle is unfocused */
-  onBlur: (event: Event) => void;
+  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
   /** Handler to be called when native 'change' event happens internally. */
-  onChange: (event: Event) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   /** Handler to be called when toggle is focused. */
-  onFocus: (event: Event) => void;
+  onFocus: (event: React.FocusEvent<HTMLInputElement>) => void;
   /** Defines the size of the toggle. */
   size: 'regular' | 'large';
 }

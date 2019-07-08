@@ -31,19 +31,19 @@ class ToggleStateless extends Component<StatelessProps, State> {
     isFocused: false,
   };
 
-  handleBlur = (event: Event) => {
+  handleBlur: React.FocusEventHandler<HTMLInputElement> = event => {
     this.setState({
       isFocused: false,
     });
     this.props.onBlur(event);
   };
 
-  handleFocus = (event: Event) => {
+  handleFocus: React.FocusEventHandler<HTMLInputElement> = event => {
     this.setState({ isFocused: true });
     this.props.onFocus(event);
   };
 
-  handleChange = (event: Event) => {
+  handleChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     if (this.props.isDisabled) {
       return;
     }
