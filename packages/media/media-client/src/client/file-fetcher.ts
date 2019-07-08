@@ -4,7 +4,11 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { publishReplay } from 'rxjs/operators/publishReplay';
 import uuid from 'uuid/v4';
 import Dataloader from 'dataloader';
-import { AuthProvider, authToOwner } from '@atlaskit/media-core';
+import {
+  AuthProvider,
+  authToOwner,
+  ProcessingFileState,
+} from '@atlaskit/media-core';
 import {
   MediaStore,
   UploadableFile,
@@ -269,18 +273,34 @@ export class FileFetcherImpl implements FileFetcher {
     const uploadableFileUpfrontIds = this.generateUploadableFileUpfrontIds(
       collection,
     );
+    const { id, occurrenceKey } = uploadableFileUpfrontIds;
+    const subject = new ReplaySubject<FileState>(1);
+    const deferredBlob = fetch(url).then(response => response.blob());
+    const previewPromise = new Promise<FilePreview>(async resolve => {
+      resolve({ value: await deferredBlob });
+    });
+    const fileState: ProcessingFileState = {
+      status: 'processing',
+      name: '',
+      size: 0,
+      mediaType: 'image',
+      mimeType: '', // TODO: should we extend this after fetching blob?
+      id,
+      occurrenceKey,
+      preview: previewPromise,
+    };
+    subject.next(fileState);
+    getFileStreamsCache().set(id, subject);
 
-    fetch(url)
-      .then(response => response.blob())
-      .then(blob => {
-        const file: UploadableFile = {
-          content: blob,
-          mimeType: blob.type,
-          collection,
-        };
+    deferredBlob.then(blob => {
+      const file: UploadableFile = {
+        content: blob,
+        mimeType: blob.type,
+        collection,
+      };
 
-        return this.upload(file, undefined, uploadableFileUpfrontIds);
-      });
+      return this.upload(file, undefined, uploadableFileUpfrontIds);
+    });
 
     return uploadableFileUpfrontIds;
   }
