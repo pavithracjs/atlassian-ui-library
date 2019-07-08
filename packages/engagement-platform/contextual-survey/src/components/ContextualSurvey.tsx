@@ -8,13 +8,19 @@ import { FormValues } from '../types';
 import useEscapeToDismiss from './useEscapeToDismiss';
 
 interface Props {
-  /** Question used for the survey */
-  question: string;
-  /** Optional statement, to be used in conjunction with the question for the survey */
+  /** Optional statement, to be used in conjunction with the question for the survey
+   * Example: "How strongly do you agree or disagree with this statement"
+   */
   statement?: string;
+  /** Question used for the survey
+   * Example: "It is easy to find what I am looking for in Jira"
+   */
+  question: string;
   /** Accessible label text for the survey text area */
   textLabel?: string;
-  /** Text placeholder for the survey text area */
+  /** Text placeholder for the survey text area
+   * Example: "Tell us why"
+   */
   textPlaceholder?: string;
   /** Callback that is triggered when the survey should be dismissed */
   onDismiss: () => void;
