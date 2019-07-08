@@ -46,9 +46,7 @@ const getCoverUrl = (
   mediaClient: MediaClient,
   collectionName?: string,
 ): Promise<string> =>
-  new MediaStore({
-    authProvider: mediaClient.config.authProvider,
-  }).getFileImageURL(item.id, {
+  mediaClient.getImageUrl(item.id, {
     collection: collectionName,
   });
 
@@ -145,9 +143,11 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
       let audioUrl: string | undefined;
 
       if (item.status === 'processed') {
-        audioUrl = await new MediaStore({
-          authProvider: mediaClient.config.authProvider,
-        }).getArtifactURL(item.artifacts, 'audio.mp3', collectionName);
+        audioUrl = await mediaClient.file.getArtifactURL(
+          item.artifacts,
+          'audio.mp3',
+          collectionName,
+        );
 
         if (!audioUrl) {
           throw new Error('No audio artifacts found');

@@ -1,6 +1,3 @@
-import * as util from '../../../../../newgen/utils';
-const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
-
 import * as React from 'react';
 import { ProcessedFileState } from '@atlaskit/media-client';
 import { Spinner } from '../../../../../newgen/loading';
@@ -18,9 +15,20 @@ function createFixture(
   fetchPromise: Promise<any>,
   item: ProcessedFileState,
   collectionName?: string,
+  mockReturnGetArtifactURL?: Promise<string>,
 ) {
   const mediaClient = fakeMediaClient();
   const onClose = jest.fn(() => fetchPromise);
+
+  jest
+    .spyOn(mediaClient.file, 'getArtifactURL')
+    .mockReturnValue(
+      mockReturnGetArtifactURL ||
+        Promise.resolve(
+          'some-base-url/document?client=some-client-id&token=some-token',
+        ),
+    );
+
   const el = mountWithIntlContext<Props, BaseState<Content>>(
     <DocViewer
       item={item}
@@ -55,7 +63,7 @@ const itemWithNoArtifacts: ProcessedFileState = {
 
 describe('DocViewer', () => {
   afterEach(() => {
-    constructAuthTokenUrlSpy.mockClear();
+    jest.clearAllMocks();
   });
 
   it('assigns a document content when successful', async () => {
@@ -74,36 +82,17 @@ describe('DocViewer', () => {
     expect(el.find(Spinner)).toHaveLength(1);
   });
 
-  it('shows an error message and download button if no artifact found', async () => {
-    const fetchPromise = Promise.resolve(() => {});
-    const { el } = createFixture(fetchPromise, itemWithNoArtifacts);
-
-    await (el as any).instance()['init']();
-
-    const { content } = el.state();
-    expect(content.status).toEqual('FAILED');
-    expect(content.err).toEqual(
-      createError('noPDFArtifactsFound', undefined, itemWithNoArtifacts),
-    );
-
-    const errorMessage = el.find(ErrorMessage);
-    expect(errorMessage).toHaveLength(1);
-    expect(errorMessage.text()).toContain(
-      'No PDF artifacts found for this file.',
-    );
-
-    // download button
-    expect(errorMessage.text()).toContain(
-      'Try downloading the file to view it',
-    );
-    expect(errorMessage.find(Button)).toHaveLength(1);
-  });
-
-  it('MSW-720: passes collectionName to constructAuthTokenUrl', async () => {
+  it('MSW-720: passes collectionName to getArtifactURL', async () => {
     const collectionName = 'some-collection';
     const fetchPromise = Promise.resolve();
-    const { el } = createFixture(fetchPromise, item, collectionName);
+    const { el, mediaClient } = createFixture(
+      fetchPromise,
+      item,
+      collectionName,
+    );
     await (el as any).instance()['init']();
-    expect(constructAuthTokenUrlSpy.mock.calls[0][2]).toEqual(collectionName);
+    expect(
+      (mediaClient.file.getArtifactURL as jest.Mock).mock.calls[0][2],
+    ).toEqual(collectionName);
   });
 });

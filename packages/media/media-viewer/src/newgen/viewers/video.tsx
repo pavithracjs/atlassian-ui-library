@@ -1,10 +1,6 @@
 import * as React from 'react';
-import {
-  MediaClient,
-  ProcessedFileState,
-  FileState,
-} from '@atlaskit/media-client';
-import { getArtifactUrl, MediaStore } from '@atlaskit/media-store';
+import { MediaClient, FileState } from '@atlaskit/media-client';
+import { getArtifactUrl } from '@atlaskit/media-store';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { Outcome } from '../domain';
 import { Video, CustomVideoPlayerWrapper } from '../styled';
@@ -84,14 +80,8 @@ export class VideoViewer extends BaseViewer<string, Props, State> {
       let contentUrl: string | undefined;
       if (item.status === 'processed') {
         const preferHd = isHDActive && isHDAvailable(item);
-        const artifactUrl = getVideoArtifactUrl(item, preferHd);
-        if (!artifactUrl) {
-          throw new Error(`No video artifacts found`);
-        }
 
-        contentUrl = await new MediaStore({
-          authProvider: mediaClient.config.authProvider,
-        }).getArtifactURL(
+        contentUrl = await mediaClient.file.getArtifactURL(
           item.artifacts,
           preferHd ? hdArtifact : sdArtifact,
           collectionName,
@@ -129,12 +119,4 @@ function isHDAvailable(file: FileState): boolean {
     return false;
   }
   return !!getArtifactUrl(file.artifacts, hdArtifact);
-}
-
-function getVideoArtifactUrl(
-  file: ProcessedFileState,
-  preferHd?: boolean,
-): string | undefined {
-  const artifactName = preferHd ? hdArtifact : sdArtifact;
-  return getArtifactUrl(file.artifacts, artifactName);
 }
