@@ -30,7 +30,11 @@ import { stateKey as mediaPluginKey } from '../pm-plugins/main';
 import { isMobileUploadCompleted } from '../commands/helpers';
 import { MediaSingleNodeProps, MediaSingleNodeViewProps } from './types';
 import { MediaNodeUpdater } from './mediaNodeUpdater';
-import { getViewMediaClientConfigFromMediaProvider } from '../utils/media-common';
+import {
+  getViewMediaClientConfigFromMediaProvider,
+  getUploadMediaClientConfigFromMediaProvider,
+} from '../utils/media-common';
+import { getMediaClient } from '@atlaskit/media-client';
 
 export interface MediaSingleNodeState {
   width?: number;
@@ -80,31 +84,38 @@ export default class MediaSingleNode extends Component<
   };
 
   async componentDidMount() {
-    this.setViewMediaClientConfig(this.props);
+    const mediaProvider = await this.props.mediaProvider;
 
-    const updatedDimensions = await this.mediaNodeUpdater.getRemoteDimensions();
-    if (updatedDimensions) {
-      this.mediaNodeUpdater.updateDimensions(updatedDimensions);
-    }
-
-    const { node } = this.props;
-    const childNode = node.firstChild;
-
-    if (!childNode || childNode.attrs.type === 'external') {
+    if (!mediaProvider) {
       return;
     }
+    const { firstChild } = this.props.node;
+    if (
+      firstChild &&
+      firstChild.attrs.type === 'external' &&
+      !firstChild.attrs.__external
+    ) {
+      const viewMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+        mediaProvider,
+      );
+      if (!viewMediaClientConfig) {
+        return;
+      }
+      const mediaClient = getMediaClient({
+        mediaClientConfig: viewMediaClientConfig,
+      });
 
-    const contextId = this.mediaNodeUpdater.getCurrentContextId();
-    if (!contextId) {
-      await this.mediaNodeUpdater.updateContextId();
+      this.setState({
+        viewMediaClientConfig,
+      });
+
+      const upload = await mediaClient.file.upload({
+        content: firstChild.attrs.url,
+      });
+      console.log('upload is ', upload);
     }
+  };
 
-    const isNodeFromDifferentCollection = await this.mediaNodeUpdater.isNodeFromDifferentCollection();
-
-    if (isNodeFromDifferentCollection) {
-      this.mediaNodeUpdater.copyNode();
-    }
-  }
 
   private onExternalImageLoaded = ({
     width,

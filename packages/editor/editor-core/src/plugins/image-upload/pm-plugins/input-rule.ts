@@ -20,7 +20,7 @@ export function inputRulePlugin(schema: Schema): Plugin | undefined {
         alt: match[1],
       };
 
-      const node = createExternalMediaNode(attrs.src, schema);
+      const node = createExternalMediaNode(attrs.src, schema, true);
       if (node) {
         analyticsService.trackEvent('atlassian.editor.image.autoformatting');
         return state.tr.replaceWith(start, end, node);

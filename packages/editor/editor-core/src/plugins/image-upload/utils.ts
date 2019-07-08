@@ -28,6 +28,7 @@ export const canInsertMedia = (state: EditorState): boolean => {
 export const createExternalMediaNode = (
   url: string,
   schema: Schema,
+  isExternal: boolean,
 ): Node | null => {
   const { media, mediaSingle } = schema.nodes;
   if (!media || !mediaSingle) {
@@ -37,6 +38,7 @@ export const createExternalMediaNode = (
   const mediaNode = media.createChecked({
     type: 'external',
     url,
+    __external: !!isExternal,
   });
   return mediaSingle.createChecked({}, mediaNode);
 };
