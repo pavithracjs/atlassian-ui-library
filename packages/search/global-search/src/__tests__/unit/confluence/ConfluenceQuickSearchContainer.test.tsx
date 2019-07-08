@@ -37,7 +37,6 @@ import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearc
 import { ConfluenceFeatures } from '../../../util/features';
 import ConfluenceFilterGroup from '../../../components/confluence/ConfluenceFilterGroup';
 import { shallow } from 'enzyme';
-import filter from '@atlaskit/icon/glyph/filter';
 
 const sessionId = 'sessionId';
 const referralContextIdentifiers: ReferralContextIdentifiers = {
@@ -70,6 +69,7 @@ function render(partialProps?: Partial<Props>) {
     onAdvancedSearch: undefined,
     linkComponent: undefined,
     modelContext: undefined,
+    confluenceUrl: 'mockConfluenceUrl',
     ...partialProps,
   };
 
