@@ -150,11 +150,7 @@ describe('App', () => {
         cacheSize: mediaClient.config.cacheSize,
       });
 
-      const modalDialogContainer = document.createElement('DIV');
       const wrapper = mount(element);
-      wrapper.setState({
-        modalDialogContainer,
-      });
       const dropzone = wrapper.find(Dropzone);
       expect(JSON.stringify(dropzone.prop('mediaClient'))).toEqual(
         JSON.stringify(dropzoneMediaClient),
@@ -168,10 +164,6 @@ describe('App', () => {
       expect(dropzoneConfigProp).toHaveProperty(
         'shouldCopyFileToRecents',
         false,
-      );
-      expect(dropzoneConfigProp).toHaveProperty(
-        'container',
-        modalDialogContainer,
       );
     });
 

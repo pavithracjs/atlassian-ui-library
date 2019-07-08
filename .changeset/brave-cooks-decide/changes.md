@@ -46,9 +46,19 @@ Media Picker Dropone component is now migrated to React.
 
   Notes on new API:
 
+  - old `MediaPicker` constructor does not recieve `pickerType` as first parameter anymore, since the only component left to migrate to react is `popup`. 
+  Meaning that if before we were doing:
+   ```
+   new MediaPicker('popup', context, config)
+   ```
+  now we will need to just do
+   ```
+   new MediaPicker(context, config)
+   ```
+
   - No need to explicitly teardown the component. Unmounting the component will do the work
-  - `onCancelFn` is a workaround to cancel an ongoing upload. Refer to its type definitions for more info.
-    Before we were saving a ref and calling `ref.cancel()`.
+  
+  - `onCancelFn` is a workaround to cancel an ongoing upload. Refer to its type definitions for more info. Before we were saving a ref and calling `ref.cancel()`.
 
   Basically if we render `Dropzone` component in isolation (meaning, not inside another react component), we will need to do something like:
 
