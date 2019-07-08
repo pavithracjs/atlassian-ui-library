@@ -88,7 +88,7 @@ describe('Entrypoints', () => {
       expect(err).toBeDefined();
     }
   });
-  test.skip('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points js file', async () => {
+  test('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points js file', async () => {
     const isTs = false;
     const pkgJs = testPackagesForWrite[1];
     const pkgFileJs = pkgJs.files[0];
@@ -103,6 +103,8 @@ describe('Entrypoints', () => {
         pkgFileJs,
         entryPointDirNameJs,
       );
+      // We need this console.log to make sure the test is correctly running.
+      console.log(entryPointDirNameJs);
       const entryPointDirJs = fs.readdirSync(entryPointDirNameJs);
       expect(entryPointDirJs).toContain('package.json');
     } catch (err) {
