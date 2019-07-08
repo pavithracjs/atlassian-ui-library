@@ -46,7 +46,7 @@ import { ReactWrapper, mount } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
 import { InsertMenuCustomItem } from '../../../../../types';
 import { TooltipShortcut } from '../../../../../keymaps';
-import Icon from '@atlaskit/icon';
+
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
 
 const mediaProvider: Promise<MediaProvider> = Promise.resolve({
@@ -67,7 +67,7 @@ const getToolbarButton = (
   toolbarOption
     .find(ToolbarButton)
     .filterWhere(
-      toolbarButton => toolbarButton.find(Icon).prop('label') === title,
+      toolbarButton => toolbarButton.find('Icon').prop('label') === title,
     )
     .find(Button);
 
