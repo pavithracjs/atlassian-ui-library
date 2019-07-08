@@ -1,7 +1,9 @@
 import {
+  errorEncountered,
   shareTriggerButtonClicked,
   cancelShare,
   shortUrlRequested,
+  shortUrlGenerated,
   copyLinkButtonClicked,
   screenEvent,
   formShareSubmitted,
@@ -21,6 +23,20 @@ describe('share analytics', () => {
       originIdGenerated: 'abc-123',
       originProduct: 'jest',
     })),
+  });
+
+  describe('errorEncountered', () => {
+    it('should create a correct event payload', () => {
+      expect(errorEncountered('foo')).toMatchObject({
+        eventType: 'operational',
+        action: 'encountered',
+        actionSubject: 'error',
+        actionSubjectId: 'foo',
+        attributes: expect.objectContaining({
+          source: 'shareModal',
+        }),
+      });
+    });
   });
 
   describe('shareTriggerButtonClicked', () => {
@@ -63,6 +79,22 @@ describe('share analytics', () => {
         actionSubjectId: undefined,
         attributes: expect.objectContaining({
           source: 'shareModal',
+        }),
+      });
+    });
+  });
+
+  describe('shortUrlGenerated', () => {
+    it('should create a correct event payload', () => {
+      expect(shortUrlGenerated(100, false)).toMatchObject({
+        eventType: 'operational',
+        action: 'generated',
+        actionSubject: 'shortUrl',
+        actionSubjectId: undefined,
+        attributes: expect.objectContaining({
+          duration: expect.any(Number),
+          source: 'shareModal',
+          tooSlow: false,
         }),
       });
     });
