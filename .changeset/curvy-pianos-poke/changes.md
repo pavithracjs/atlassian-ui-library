@@ -1,0 +1,1 @@
+include bundled cjs files

@@ -126,8 +126,16 @@ const getAllIcons = async (): Promise<IconsList> => {
 };
 const allIconsPromise = getAllIcons();
 
+interface IconType {
+  keywords: string[];
+  component: ComponentType<any>;
+  componentName: string;
+  package?: string;
+  divider?: boolean;
+}
+
 interface LogoMap {
-  [key: string]: { keywords: string[] };
+  [key: string]: Pick<IconType, Exclude<keyof IconType, 'component'>>;
 }
 
 const getKeywords = (logoMap: LogoMap) =>
@@ -166,14 +174,6 @@ const filterIcons = (icons: IconsList, query: string) => {
         .reduce((allMatches: number, match: number) => allMatches + match, 0),
     );
 };
-
-interface IconType {
-  keywords: string[];
-  component: ComponentType<any>;
-  componentName: string;
-  package?: string;
-  divider?: boolean;
-}
 
 interface State {
   query: string;

@@ -4,8 +4,11 @@
   "description": "A React package that contains icons",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "cjs/index.js",
+  "types": "index.d.ts",
   "module": "index.js",
+  "main": "cjs/index.js",
+  "atlaskit:src": "src/index.ts",
+  "atlaskit:designLink": "https://atlassian.design/guidelines/product/foundations/iconography",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -19,12 +22,11 @@
     "team": "core"
   },
   "scripts": {
-    "update": "ts-node ./build/index.ts && yarn build:babel:cjs",
-    "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel src -d cjs --root-mode=\"upward\""
+    "update": "ts-node ./build/index.ts && yarn build:typescript:cjs",
+    "build:typescript:cjs": "NODE_ENV=production tsc --project build/cjs/tsconfig.json"
   },
   "dependencies": {
     "@atlaskit/theme": "^9.1.1",
-    "@babel/runtime": "^7.0.0",
     "tslib": "^1.9.3",
     "uuid": "^3.1.0"
   },
