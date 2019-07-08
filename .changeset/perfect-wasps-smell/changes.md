@@ -1,1 +1,0 @@
-ED-7191 Fix regression where cell popup is not place on the correct horizontal place

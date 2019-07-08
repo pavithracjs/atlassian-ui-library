@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.26.1
+
+### Patch Changes
+
+- [patch][2714c80a0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2714c80a0b):
+
+  ED-7191 Fix regression where cell popup is not place on the correct horizontal place
+
 ## 112.26.0
 
 ### Minor Changes
