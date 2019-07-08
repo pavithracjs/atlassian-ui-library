@@ -1,13 +1,9 @@
-import {
-  Plugin,
-  PluginKey,
-  Transaction,
-  Selection,
-  EditorState,
-} from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
+import { Plugin, PluginKey, Transaction, Selection } from 'prosemirror-state';
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { Step, ReplaceStep } from 'prosemirror-transform';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import memoizeOne from 'memoize-one';
+
 import { Dispatch } from '../../event-dispatcher';
 import {
   getSendableSelection,
@@ -48,24 +44,31 @@ const unsubscribeAllEvents = (provider: CollabEditProvider) => {
   });
 };
 
+const initCollab = (
+  collabEditProvider: CollabEditProvider,
+  view: EditorView,
+) => {
+  collabEditProvider.initialize(
+    () => view.state,
+    json => Step.fromJSON(view.state.schema, json),
+  );
+};
+
+const initCollabMemo = memoizeOne(initCollab);
+
 export const createPlugin = (
   dispatch: Dispatch,
   providerFactory: ProviderFactory,
   options?: CollabEditOptions,
-  // This will only be populated when the editor is reloaded/reconfigured
-  oldState?: EditorState,
+  sanitizePrivateContent?: boolean,
 ) => {
-  const isInitialLoad = !oldState;
   let collabEditProvider: CollabEditProvider | null;
-  let isReady = false;
 
   return new Plugin({
     key: pluginKey,
     state: {
       init(config) {
-        return (
-          (oldState && pluginKey.getState(oldState)) || PluginState.init(config)
-        );
+        return PluginState.init(config);
       },
       apply(tr, prevPluginState: PluginState, oldState, newState) {
         const pluginState = prevPluginState.apply(tr);
@@ -113,10 +116,13 @@ export const createPlugin = (
         return this.getState(state).decorations;
       },
     },
-    filterTransaction(tr) {
+    filterTransaction(tr, state) {
+      const pluginState = pluginKey.getState(state);
+      const collabInitialiseTr = tr.getMeta('collabInitialised');
+
       // Don't allow transactions that modifies the document before
       // collab-plugin is ready.
-      if (!isReady && tr.docChanged) {
+      if (!!collabInitialiseTr && !pluginState.isReady && tr.docChanged) {
         return false;
       }
 
@@ -130,19 +136,24 @@ export const createPlugin = (
           providerPromise?: Promise<CollabEditProvider>,
         ) => {
           if (providerPromise) {
+            const pluginState = pluginKey.getState(view.state);
             collabEditProvider = await providerPromise;
 
-            if (!isInitialLoad) {
-              // We set `isReady = true` here as our init handler won't be fired again.
-              isReady = true;
+            if (pluginState.isReady) {
               unsubscribeAllEvents(collabEditProvider);
             }
 
             // Initialize provider
             collabEditProvider
               .on('init', data => {
-                isReady = true;
-                handleInit(data, view, options);
+                view.dispatch(view.state.tr.setMeta('collabInitialised', true));
+                handleInit(
+                  data,
+                  view,
+                  options,
+                  providerFactory,
+                  sanitizePrivateContent,
+                );
               })
               .on('connected', data => handleConnection(data, view))
               .on('data', data => applyRemoteData(data, view, options))
@@ -166,15 +177,9 @@ export const createPlugin = (
              * We only want to initialise once, if we reload/reconfigure this plugin
              * We dont want to re-init collab, it would break existing sessions
              */
-            if (isInitialLoad) {
-              collabEditProvider.initialize(
-                () => view.state,
-                json => Step.fromJSON(view.state.schema, json),
-              );
-            }
+            initCollabMemo(collabEditProvider, view);
           } else {
             collabEditProvider = null;
-            isReady = false;
           }
         },
       );
@@ -213,6 +218,7 @@ export class PluginState {
   private decorationSet: DecorationSet;
   private participants: Participants;
   private sid?: string;
+  public isReady: boolean;
 
   get decorations() {
     return this.decorationSet;
@@ -230,10 +236,12 @@ export class PluginState {
     decorations: DecorationSet,
     participants: Participants,
     sessionId?: string,
+    collabInitalised: boolean = false,
   ) {
     this.decorationSet = decorations;
     this.participants = participants;
     this.sid = sessionId;
+    this.isReady = collabInitalised;
   }
 
   getInitial(sessionId: string) {
@@ -242,11 +250,16 @@ export class PluginState {
   }
 
   apply(tr: Transaction) {
-    let { decorationSet, participants, sid } = this;
+    let { decorationSet, participants, sid, isReady } = this;
 
     const presenceData = tr.getMeta('presence') as PresenceData;
     const telepointerData = tr.getMeta('telepointer') as TelepointerData;
     const sessionIdData = tr.getMeta('sessionId') as ConnectionData;
+    let collabInitialised = tr.getMeta('collabInitialised');
+
+    if (typeof collabInitialised !== 'boolean') {
+      collabInitialised = isReady;
+    }
 
     if (sessionIdData) {
       sid = sessionIdData.sid;
@@ -386,7 +399,7 @@ export class PluginState {
       decorationSet = decorationSet.add(tr.doc, add);
     }
 
-    return new PluginState(decorationSet, participants, sid);
+    return new PluginState(decorationSet, participants, sid, collabInitialised);
   }
 
   static init(config: any) {

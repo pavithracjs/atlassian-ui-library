@@ -16,6 +16,7 @@ const LayoutManagerWithViewController = ({
   experimental_flyoutOnHover,
   experimental_alternateFlyoutBehaviour,
   experimental_fullWidthFlyout,
+  experimental_hideNavVisuallyOnCollapse,
   globalNavigation,
   onExpandStart,
   onExpandEnd,
@@ -23,6 +24,7 @@ const LayoutManagerWithViewController = ({
   onCollapseEnd,
   getRefs,
   topOffset,
+  shouldHideGlobalNavShadow,
 }: LayoutManagerWithViewControllerProps) => {
   return (
     <AsyncLayoutManagerWithViewController
@@ -36,6 +38,9 @@ const LayoutManagerWithViewController = ({
       experimental_alternateFlyoutBehaviour={
         !!experimental_alternateFlyoutBehaviour
       }
+      experimental_hideNavVisuallyOnCollapse={
+        !!experimental_hideNavVisuallyOnCollapse
+      }
       experimental_fullWidthFlyout={!!experimental_fullWidthFlyout}
       globalNavigation={globalNavigation}
       containerSkeleton={() =>
@@ -46,6 +51,7 @@ const LayoutManagerWithViewController = ({
       itemsRenderer={ItemsRenderer}
       firstSkeletonToRender={firstSkeletonToRender}
       topOffset={topOffset}
+      shouldHideGlobalNavShadow={shouldHideGlobalNavShadow}
     >
       {children}
     </AsyncLayoutManagerWithViewController>

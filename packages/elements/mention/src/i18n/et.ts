@@ -6,6 +6,7 @@
  */
 // Estonian
 export default {
+  'fabric.mention.unknow.user.error': 'Tundmatu kasutaja: {id}',
   'fabric.mention.noAccess.warning':
     'Kasutajat {name} ei teavitata, kuna tal puudub juurdepääs',
   'fabric.mention.noAccess.label': 'Juurdepääs puudub',
@@ -14,7 +15,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Proovi logida välja ja taas sisse',
   'fabric.mention.error.differentText': 'Proovi sisestada muud teksti',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} member{includes, select, true {, including you} other {}}} other{{count} members{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 liige} other{{0} liiget}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} liiget, sealhulgas sina} other{{0} liiget, sealhulgas sina}}',
+  'fabric.elements.mentions.team.member.50plus': 'Vähemalt 50 liiget',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    'Vähemalt 50 liiget, sealhulgas sina',
 };

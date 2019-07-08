@@ -1,35 +1,35 @@
 import {
   AnalyticsContext,
-  withAnalyticsEvents,
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
+  withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
+import ShareIcon from '@atlaskit/icon/glyph/share';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
-import ShareIcon from '@atlaskit/icon/glyph/share';
 import * as React from 'react';
-import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import styled from 'styled-components';
 import { messages } from '../i18n';
 import {
+  ADMIN_NOTIFIED,
   ConfigResponse,
   DialogContentState,
   DialogPlacement,
   Flag,
+  OBJECT_SHARED,
   OriginTracing,
+  RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareError,
-  RenderCustomTriggerButton,
-  ADMIN_NOTIFIED,
-  OBJECT_SHARED,
 } from '../types';
 import {
-  buttonClicked,
+  shareTriggerButtonClicked,
   cancelShare,
-  copyShareLink,
+  copyLinkButtonClicked,
   screenEvent,
-  submitShare,
+  formShareSubmitted,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -49,26 +49,32 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderCustomTriggerButton;
   copyLink: string;
+  isCopyLinkShortened: boolean;
   dialogPlacement?: DialogPlacement;
-  fetchConfig: Function;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
   loadUserOptions?: LoadOptions;
-  onLinkCopy?: Function;
+  onDialogOpen?: () => void;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
-  shareOrigin?: OriginTracing | null;
+  copyLinkOrigin?: OriginTracing;
+  formShareOrigin?: OriginTracing;
   shouldCloseOnEscapePress?: boolean;
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
+  bottomMessage?: React.ReactNode;
 };
 
 const InlineDialogFormWrapper = styled.div`
   width: 352px;
   margin: -16px 0;
+`;
+
+const BottomMessageWrapper = styled.div`
+  width: 352px;
 `;
 
 export const defaultShareContentState: DialogContentState = {
@@ -79,21 +85,20 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-class ShareDialogWithTriggerInternal extends React.Component<
+export class ShareDialogWithTriggerInternal extends React.Component<
   Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
+    isCopyLinkShortened: false,
     isDisabled: false,
-    dialogPlacement: 'bottom-end' as 'bottom-end',
+    dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: true,
-    triggerButtonAppearance: 'subtle' as 'subtle',
-    triggerButtonStyle: 'icon-only' as 'icon-only',
+    triggerButtonAppearance: 'subtle',
+    triggerButtonStyle: 'icon-only',
   };
   private containerRef = React.createRef<HTMLDivElement>();
   private start: number = 0;
-
-  escapeIsHeldDown: boolean = false;
 
   state: State = {
     isDialogOpen: false,
@@ -187,25 +192,24 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private onTriggerClick = () => {
-    this.createAndFireEvent(buttonClicked());
+    this.createAndFireEvent(shareTriggerButtonClicked());
 
     this.setState(
-      {
-        isDialogOpen: !this.state.isDialogOpen,
+      state => ({
+        isDialogOpen: !state.isDialogOpen,
         ignoreIntermediateState: false,
-      },
+      }),
       () => {
+        const { onDialogOpen } = this.props;
         const { isDialogOpen } = this.state;
         if (isDialogOpen) {
           this.start = Date.now();
           this.createAndFireEvent(screenEvent());
+          if (onDialogOpen) onDialogOpen();
 
           if (this.containerRef.current) {
             this.containerRef.current.focus();
           }
-
-          // always refetch the config when modal is re-opened
-          this.props.fetchConfig();
         }
       },
     );
@@ -219,7 +223,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
     const {
       onShareSubmit,
       shareContentType,
-      shareOrigin,
+      formShareOrigin,
       showFlags,
       config,
     } = this.props;
@@ -230,7 +234,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
     this.setState({ isSharing: true });
 
     this.createAndFireEvent(
-      submitShare(this.start, data, shareContentType, shareOrigin, config),
+      formShareSubmitted(
+        this.start,
+        data,
+        shareContentType,
+        formShareOrigin,
+        config,
+      ),
     );
 
     onShareSubmit(data)
@@ -256,7 +266,10 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    this.createAndFireEvent(copyShareLink(this.start, this.props.shareOrigin));
+    const { copyLinkOrigin, isCopyLinkShortened } = this.props;
+    this.createAndFireEvent(
+      copyLinkButtonClicked(this.start, isCopyLinkShortened, copyLinkOrigin),
+    );
   };
 
   render() {
@@ -272,9 +285,10 @@ class ShareDialogWithTriggerInternal extends React.Component<
       config,
       triggerButtonAppearance,
       triggerButtonStyle,
+      bottomMessage,
     } = this.props;
 
-    // for performance purposes, we may want to have a lodable content i.e. ShareForm
+    // for performance purposes, we may want to have a loadable content i.e. ShareForm
     return (
       <div
         tabIndex={0}
@@ -285,21 +299,26 @@ class ShareDialogWithTriggerInternal extends React.Component<
         <InlineDialog
           content={
             <AnalyticsContext data={{ source: 'shareModal' }}>
-              <InlineDialogFormWrapper>
-                <ShareForm
-                  copyLink={copyLink}
-                  loadOptions={loadUserOptions}
-                  isSharing={isSharing}
-                  onShareClick={this.handleShareSubmit}
-                  title={shareFormTitle}
-                  shareError={shareError}
-                  onDismiss={this.handleFormDismiss}
-                  defaultValue={defaultValue}
-                  config={config}
-                  onLinkCopy={this.handleCopyLink}
-                  isFetchingConfig={isFetchingConfig}
-                />
-              </InlineDialogFormWrapper>
+              <>
+                <InlineDialogFormWrapper>
+                  <ShareForm
+                    copyLink={copyLink}
+                    loadOptions={loadUserOptions}
+                    isSharing={isSharing}
+                    onSubmit={this.handleShareSubmit}
+                    title={shareFormTitle}
+                    shareError={shareError}
+                    onDismiss={this.handleFormDismiss}
+                    defaultValue={defaultValue}
+                    config={config}
+                    onLinkCopy={this.handleCopyLink}
+                    isFetchingConfig={isFetchingConfig}
+                  />
+                </InlineDialogFormWrapper>
+                {bottomMessage ? (
+                  <BottomMessageWrapper>{bottomMessage}</BottomMessageWrapper>
+                ) : null}
+              </>
             </AnalyticsContext>
           }
           isOpen={isDialogOpen}

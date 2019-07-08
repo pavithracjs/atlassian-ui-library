@@ -23,11 +23,11 @@ const extractSpecificAttributes = (
     case 'issue':
       return {
         objectKey: attributes.key,
-        containerName: attributes.issueTypeName,
+        containerName: attributes.container && attributes.container.title,
       };
     case 'board':
       return {
-        containerName: attributes.containerName,
+        containerName: attributes.container && attributes.container.title,
       };
     case 'filter':
       return {
@@ -74,7 +74,7 @@ const mapJiraItemToResultV2 = (item: JiraItemV2): JiraResult => {
     name: name,
     href: url,
     resultType: resultType,
-    containerId: attributes.containerId,
+    containerId: attributes.container && attributes.container.id,
     analyticsType: AnalyticsType.ResultJira,
     ...extractSpecificAttributes(attributes),
     avatarUrl: attributes.avatar && extractAvatarUrl(attributes.avatar),

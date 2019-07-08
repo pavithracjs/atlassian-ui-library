@@ -4,16 +4,22 @@ import {
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
 import { doc, p, mention, a } from '@atlaskit/editor-test-helpers';
-import { MockMentionResource } from '@atlaskit/util-data-test';
-import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
-import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
+import {
+  MockMentionResource,
+  MockMentionConfig,
+} from '@atlaskit/util-data-test';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   MentionProvider,
   MentionDescription,
+  MentionNameResolver,
 } from '@atlaskit/mention/resource';
 import { EditorView } from 'prosemirror-view';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
+import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
+import collabPlugin from '../../../../plugins/collab-edit';
+import mentionPlugin from '../../../../plugins/mentions';
 
 describe('mentionTypeahead', () => {
   const createEditor = createEditorFactory();
@@ -25,12 +31,16 @@ describe('mentionTypeahead', () => {
     childObjectId: 'child-object-id',
   };
 
+  // all team ids in `packages/elements/util-data-test/json-data/mention-data.json`
+  const allTeamIds = ['team-1', 'team-2', 'team-3', 'team-4'];
+
   type TestDependencies = {
     editorView: EditorView;
     sel: number;
     mentionProvider: MentionProvider;
     createAnalyticsEvent: CreateUIAnalyticsEventSignature;
     event: any;
+    mockMentionNameResolver?: MentionNameResolver;
   };
   type TestExecutor = (
     deps: TestDependencies,
@@ -45,13 +55,53 @@ describe('mentionTypeahead', () => {
    * @param test Test case function to be passed to Jest
    * @return Promise resolving with the return value of the test.
    */
-  const withMentionQuery = (query: string, test: TestExecutor) => async (
-    ...args: any[]
-  ) => {
+  const withMentionQuery = (
+    query: string,
+    test: TestExecutor,
+    options?: any,
+  ) => async (...args: any[]) => {
     const { event, createAnalyticsEvent } = analyticsMocks();
-    const { editorView, sel, mentionProvider } = await editor({
-      createAnalyticsEvent,
-    });
+    const mentionNameResolver: MentionNameResolver = {
+      cacheName: jest.fn(),
+      lookupName: jest.fn(),
+    };
+    let editorProps: any = {};
+    let mentionProviderConfig: MockMentionConfig = {};
+    let editorPlugins;
+    if (options && options.sanitizePrivateContent) {
+      editorProps = {
+        collabEdit: {
+          sanitizePrivateContent: true,
+        },
+      };
+      editorPlugins = [
+        collabPlugin,
+        mentionPlugin(
+          undefined,
+          editorProps.collabEdit,
+          options.mentionInsertDisplayName,
+        ),
+      ];
+      mentionProviderConfig = {
+        mentionNameResolver,
+      };
+    }
+
+    if (options && options.mentionInsertDisplayName) {
+      editorProps = {
+        ...editorProps,
+        mentionInsertDisplayName: options.mentionInsertDisplayName,
+      };
+    }
+
+    const { editorView, sel, mentionProvider } = await editor(
+      {
+        createAnalyticsEvent,
+        editorPlugins,
+      },
+      editorProps,
+      mentionProviderConfig,
+    );
     const mentionResults = subscribe(mentionProvider, query);
     insertText(editorView, `@${query}`, sel);
     // Ensures results have been handled by the plugin before moving on
@@ -65,6 +115,7 @@ describe('mentionTypeahead', () => {
           mentionProvider,
           createAnalyticsEvent,
           event,
+          mockMentionNameResolver: mentionNameResolver,
         },
         ...args,
       ),
@@ -78,8 +129,14 @@ describe('mentionTypeahead', () => {
    * @param options List of options to add or override when creating the editor.
    * @return Object containing `editorView`, `sel` and `mentionProvider`.
    */
-  const editor = async (options?: any) => {
-    const mentionProvider = Promise.resolve(new MockMentionResource({}));
+  const editor = async (
+    options?: any,
+    editorProps?: any,
+    mentionProviderConfig?: MockMentionConfig,
+  ) => {
+    const mentionProvider = Promise.resolve(
+      new MockMentionResource(mentionProviderConfig || {}),
+    );
     const contextIdentifierProvider = Promise.resolve(contextIdentifiers);
     const { editorView, sel } = createEditor({
       doc: doc(p('{<>}')),
@@ -87,6 +144,7 @@ describe('mentionTypeahead', () => {
         mentionProvider,
         contextIdentifierProvider,
         allowAnalyticsGASV3: true,
+        ...editorProps,
       },
       providerFactory: ProviderFactory.create({
         mentionProvider,
@@ -282,6 +340,21 @@ describe('mentionTypeahead', () => {
         );
         expect(event.fire).toHaveBeenCalledTimes(1);
         expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
 
@@ -299,6 +372,7 @@ describe('mentionTypeahead', () => {
               duration: expect.any(Number),
               queryLength: 3,
               spaceInQuery: false,
+              // assert this attribute below
               userIds: expect.any(Array),
               sessionId: expect.stringMatching(sessionIdRegex),
             }),
@@ -306,6 +380,21 @@ describe('mentionTypeahead', () => {
         );
         expect(event.fire).toHaveBeenCalledTimes(4);
         expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
   });
@@ -369,7 +458,13 @@ describe('mentionTypeahead', () => {
               ...commonAttrsTypeAhead,
               duration: 200,
               userIds: null,
-              teams: expect.any(Array),
+              teams: expect.arrayContaining(
+                allTeamIds.map(teamId => ({
+                  teamId,
+                  includesYou: expect.anything(),
+                  memberCount: expect.anything(),
+                })),
+              ),
             }),
           }),
         );
@@ -387,6 +482,21 @@ describe('mentionTypeahead', () => {
             }),
           }),
         );
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
   });
@@ -449,6 +559,120 @@ describe('mentionTypeahead', () => {
           );
         }),
       );
+
+      it(
+        'should not insert mention name when collabEdit.sanitizePrivateContent is true and mentionInsertDisplayName is true',
+        withMentionQuery(
+          'april',
+          ({ editorView, mockMentionNameResolver }) => {
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            expect(mockMentionNameResolver!.lookupName).toHaveBeenCalledTimes(
+              0,
+            );
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledTimes(1);
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledWith(
+              '6',
+              'Dorene Rieger',
+            );
+
+            // expect text in mention to be empty due to sanitization
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  mention({
+                    id: '6',
+                    text: '',
+                  })(),
+                  ' ',
+                ),
+              ),
+            );
+          },
+          { sanitizePrivateContent: true, mentionInsertDisplayName: true },
+        ),
+      );
+
+      it(
+        'should not insert mention name when collabEdit.sanitizePrivateContent is true and mentionInsertDisplayName is falsy',
+        withMentionQuery(
+          'april',
+          ({ editorView, mockMentionNameResolver }) => {
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            expect(mockMentionNameResolver!.lookupName).toHaveBeenCalledTimes(
+              0,
+            );
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledTimes(1);
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledWith(
+              '6',
+              'April',
+            );
+
+            // expect text in mention to be empty due to sanitization
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  mention({
+                    id: '6',
+                    text: '',
+                  })(),
+                  ' ',
+                ),
+              ),
+            );
+          },
+          { sanitizePrivateContent: true },
+        ),
+      );
+
+      it(
+        'should insert mention name when collabEdit.sanitizePrivateContent is falsy and mentionInsertDisplayName true',
+        withMentionQuery(
+          'april',
+          ({ editorView }) => {
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            // expect text in mention to be empty due to sanitization
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  mention({
+                    id: '6',
+                    text: '@Dorene Rieger',
+                  })(),
+                  ' ',
+                ),
+              ),
+            );
+          },
+          { mentionInsertDisplayName: true },
+        ),
+      );
+
+      it(
+        'should insert nickname when collabEdit.sanitizePrivateContent is falsy and mentionInsertDisplayName falsy',
+        withMentionQuery(
+          'april',
+          ({ editorView }) => {
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            // expect text in mention to be empty due to sanitization
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  mention({
+                    id: '6',
+                    text: '@April',
+                  })(),
+                  ' ',
+                ),
+              ),
+            );
+          },
+          {},
+        ),
+      );
     });
 
     describe('when selecting a team', () => {
@@ -482,6 +706,60 @@ describe('mentionTypeahead', () => {
             ),
           );
         }),
+      );
+
+      it(
+        'should not insert mention name when collabEdit.sanitizePrivateContent is true',
+        withMentionQuery(
+          'Team Beta',
+          ({ editorView, mockMentionNameResolver }) => {
+            // select Team Beta team
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            expect(mockMentionNameResolver!.lookupName).toHaveBeenCalledTimes(
+              0,
+            );
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledTimes(2);
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenNthCalledWith(
+              1,
+              'member-1',
+              'Tung Dang',
+            );
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenNthCalledWith(
+              2,
+              'member-2',
+              'Ishan Somasiri',
+            );
+
+            // should expand 2 members
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  '',
+                  a({ href: 'http://localhost/people/team/team-2' })(
+                    'Team Beta',
+                  ),
+                  ' (',
+                  mention({
+                    id: 'member-1',
+                    text: '',
+                    userType: 'DEFAULT',
+                    accessLevel: 'CONTAINER',
+                  })(),
+                  ' ',
+                  mention({
+                    id: 'member-2',
+                    text: '',
+                    userType: 'DEFAULT',
+                    accessLevel: 'CONTAINER',
+                  })(),
+                  ')',
+                ),
+              ),
+            );
+          },
+          { sanitizePrivateContent: true },
+        ),
       );
     });
   });

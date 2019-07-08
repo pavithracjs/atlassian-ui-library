@@ -248,4 +248,11 @@ export interface EditorProps {
 
   // Set to provide your extensions handlers.
   extensionHandlers?: ExtensionHandlers;
+
+  // Flag to remove private content such as mention names
+  sanitizePrivateContent?: boolean;
+
+  // flag to indicate display name instead of nick name should be inserted for mentions
+  // default: false, which inserts the nick name
+  mentionInsertDisplayName?: boolean;
 }

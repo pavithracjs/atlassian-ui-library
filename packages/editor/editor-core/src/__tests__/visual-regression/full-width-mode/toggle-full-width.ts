@@ -1,9 +1,10 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import {
   initFullPageEditorWithAdf,
   snapshot,
   updateEditorProps,
   Device,
+  initEditorWithAdf,
+  Appearance,
 } from '../_utils';
 import { Page } from '../../__helpers/page-objects/_types';
 import mixedContentAdf from './__fixtures__/mixed-content.adf.json';
@@ -15,44 +16,78 @@ import resizedTableWideAdf from './__fixtures__/resized-table-wide.adf.json';
 import resizedTableFullWidthAdf from './__fixtures__/resized-table-full-width.adf.json';
 import resizedTableInLayout from './__fixtures__/resized-table-in-layout.adf.json';
 import resizedTableInExt from '../table/__fixtures__/nested-table-inside-bodied-ext.adf.json';
+import resizedTableFWM from './__fixtures__/resized-table-fwm.adf.json';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
 import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 
-const editorSelector = '.akEditor';
+type ToggleFullWidthOptions = {
+  // Focus is lost after toggling full width mode so if your test
+  // requires a specific element to be focused prior to snapshotting
+  // then you can rerun your focus commands via this callback.
+  postToggleCallback?: () => void;
+};
 
 describe('Snapshot Test: Toggle between full-width and default mode', () => {
   let page: Page;
   let fullWidthMode: boolean;
 
-  const initEditor = async (adf: Object) => {
+  const editorProps = {
+    allowDynamicTextSizing: true,
+    allowLayouts: { allowBreakout: true, UNSAFE_addSidebarLayouts: true },
+  };
+
+  const initEditor = async (
+    adf: Object,
+    viewport?: { width: number; height: number },
+  ) => {
     fullWidthMode = false;
     await initFullPageEditorWithAdf(
       page,
       adf,
       Device.LaptopHiDPI,
-      undefined,
-      { allowDynamicTextSizing: true },
+      viewport,
+      editorProps,
       undefined,
       { transition: true },
     );
   };
 
-  const toggleFullWidthProp = async () => {
+  const initFullWidthEditor = async (
+    adf: Object,
+    viewport?: { width: number; height: number },
+  ) => {
+    fullWidthMode = true;
+    await initEditorWithAdf(page, {
+      adf,
+      appearance: Appearance.fullWidth,
+      device: Device.LaptopHiDPI,
+      viewport,
+      editorProps,
+    });
+  };
+
+  const toggleFullWidthProp = async (opts: ToggleFullWidthOptions = {}) => {
+    const { postToggleCallback } = opts;
     fullWidthMode = !fullWidthMode;
+
     await updateEditorProps(page, {
       appearance: fullWidthMode ? 'full-width' : 'full-page',
     });
     await page.waitFor(1000); // wait for transition to complete
+
+    if (postToggleCallback) {
+      await postToggleCallback();
+    }
   };
 
-  const toggleFullWidthMode = async () => {
-    // go from default -> full-width
-    await toggleFullWidthProp();
-    await snapshot(page, MINIMUM_THRESHOLD);
-    // then from full-width -> default
-    await toggleFullWidthProp();
-    await snapshot(page, MINIMUM_THRESHOLD);
+  const toggleFullWidthMode = async (opts: ToggleFullWidthOptions = {}) => {
+    const timesToToggle = 2;
+    const numTimesToToggle = Array(timesToToggle).fill(0);
+    for (const _i of numTimesToToggle) {
+      await toggleFullWidthProp(opts);
+      await snapshot(page);
+    }
   };
 
   beforeEach(() => {
@@ -69,8 +104,14 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
     const codeSelector = '.code-block';
     it('hides breakout buttons in full-width mode and shows them in default mode', async () => {
       await initEditor(breakoutAdf);
+      await page.waitForSelector(codeSelector);
       await page.click(codeSelector);
-      await toggleFullWidthMode();
+      await toggleFullWidthMode({
+        postToggleCallback: async () => {
+          // re-click the codeblock to see its UI controls.
+          await page.click(codeSelector);
+        },
+      });
     });
 
     it('handles breakout mode + gap cursor', async () => {
@@ -78,8 +119,14 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       await initEditor(layoutWithBreakoutAdf);
       await page.click(panelContentSelector);
       await pressKey(page, ['ArrowRight']);
-      await toggleFullWidthProp();
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await toggleFullWidthProp({
+        postToggleCallback: async () => {
+          // Reselect the column to see its UI controls
+          await page.click(panelContentSelector);
+          pressKey(page, ['ArrowRight']);
+        },
+      });
+      await snapshot(page);
     });
   });
 
@@ -92,33 +139,38 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
   });
 
   describe('Table resizing', () => {
-    it('scales column correctly', async () => {
-      await initEditor(resizedTableAdf);
-      await toggleFullWidthMode();
+    // use a smaller viewport for the table tests so differences are picked up as a > 0.1% diff
+    const tableViewport = {
+      width: 1440,
+      height: 450,
+    };
+
+    const toggleFullWidthModeForTable = async () =>
+      await toggleFullWidthMode({
+        postToggleCallback: async () => {
+          // Re-click inside the table to see its UI controls
+          await clickFirstCell(page);
+        },
+      });
+
+    it('scales columns up correctly when going default -> full-width', async () => {
+      await initEditor(resizedTableAdf, tableViewport);
+      await toggleFullWidthModeForTable();
+    });
+
+    it('scales columns down correctly when going full-width -> default', async () => {
+      await initFullWidthEditor(resizedTableFWM, tableViewport);
+      await toggleFullWidthModeForTable();
     });
 
     it('scales table inside layouts correctly', async () => {
-      await initEditor(resizedTableInLayout);
-      await toggleFullWidthProp();
-      await clickFirstCell(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
-
-      await toggleFullWidthProp();
-      await page.click(editorSelector);
-      await clickFirstCell(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await initEditor(resizedTableInLayout, tableViewport);
+      await toggleFullWidthModeForTable();
     });
 
     it('scales table inside extension correctly', async () => {
-      await initEditor(resizedTableInExt);
-      await toggleFullWidthProp();
-      await clickFirstCell(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
-
-      await toggleFullWidthProp();
-      await page.click(editorSelector);
-      await clickFirstCell(page);
-      await snapshot(page, MINIMUM_THRESHOLD);
+      await initEditor(resizedTableInExt, tableViewport);
+      await toggleFullWidthModeForTable();
     });
 
     describe('breakout modes', () => {
@@ -130,8 +182,8 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
         it(`scales a ${
           breakout.name
         } layout table through modes correctly`, async () => {
-          await initEditor(breakout.adf);
-          await toggleFullWidthMode();
+          await initEditor(breakout.adf, tableViewport);
+          await toggleFullWidthModeForTable();
         });
       });
     });

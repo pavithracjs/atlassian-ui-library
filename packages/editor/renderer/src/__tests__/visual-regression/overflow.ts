@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initRendererWithADF } from './_utils';
 import * as document from '../../../examples/helper/overflow.adf.json';
 import { Page } from 'puppeteer';
@@ -19,7 +18,7 @@ describe('Snapshot Test: Overflow shadows', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it(`should render right shadows`, async () => {

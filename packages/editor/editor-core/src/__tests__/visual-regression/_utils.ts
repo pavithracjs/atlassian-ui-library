@@ -2,9 +2,11 @@ import {
   getExampleUrl,
   disableAllSideEffects,
   navigateToUrl,
+  compareScreenshot,
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
+import { animationFrame } from '../__helpers/page-objects/_editor';
 
 export {
   setupMediaMocksProviders,
@@ -14,6 +16,8 @@ export {
   setFeature,
   toggleFeature,
 } from '../integration/_helpers';
+
+export const editorSelector = '.ProseMirror';
 
 export const DEFAULT_WIDTH = 800;
 export const DEFAULT_HEIGHT = 600;
@@ -27,7 +31,6 @@ export const dynamicTextViewportSizes = [
 
 // TODO: remove this gotoExample step
 export const initEditor = async (page: any, appearance: string) => {
-  const editor = '.ProseMirror';
   const url = getExampleUrl(
     'editor',
     'editor-core',
@@ -43,8 +46,8 @@ export const initEditor = async (page: any, appearance: string) => {
   }
 
   await page.setViewport({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
-  await page.waitForSelector(editor);
-  await page.click(editor);
+  await page.waitForSelector(editorSelector);
+  await page.click(editorSelector);
   await page.addStyleTag({
     content: `
       .json-output { display: none; }
@@ -102,6 +105,7 @@ function getEditorProps(appearance: Appearance) {
       'Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule.',
     shouldFocus: false,
     UNSAFE_cards: true,
+    allowHelpDialog: true,
   };
 
   if (
@@ -133,19 +137,24 @@ function getEditorProps(appearance: Appearance) {
   return enableAllEditorProps;
 }
 
+export type MountOptions = {
+  mode?: 'light' | 'dark';
+  withSidebar?: boolean;
+};
+
 export async function mountEditor(
   page: any,
   props: any,
-  mode?: 'light' | 'dark',
+  mountOptions?: MountOptions,
 ) {
   await page.evaluate(
-    (props: EditorProps, mode?: 'light' | 'dark') => {
-      (window as any).__mountEditor(props, mode);
+    (props: EditorProps, mountOptions?: MountOptions) => {
+      (window as any).__mountEditor(props, mountOptions);
     },
     props,
-    mode,
+    mountOptions,
   );
-  await page.waitForSelector('.ProseMirror', 500);
+  await page.waitForSelector(editorSelector, 500);
 }
 
 export enum Appearance {
@@ -170,6 +179,7 @@ type InitEditorWithADFOptions = {
   editorProps?: EditorProps;
   mode?: 'light' | 'dark';
   allowSideEffects?: SideEffectsOption;
+  withSidebar?: boolean;
 };
 
 export const initEditorWithAdf = async (
@@ -182,6 +192,7 @@ export const initEditorWithAdf = async (
     editorProps = {},
     mode,
     allowSideEffects = {},
+    withSidebar = false,
   }: InitEditorWithADFOptions,
 ) => {
   const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
@@ -203,7 +214,7 @@ export const initEditorWithAdf = async (
       ...getEditorProps(appearance),
       ...editorProps,
     },
-    mode,
+    { mode, withSidebar },
   );
 
   // We disable possible side effects, like animation, transitions and caret cursor,
@@ -259,17 +270,24 @@ export const updateEditorProps = async (
 
 export const clearEditor = async (page: any) => {
   await page.evaluate(() => {
-    const dom = document.querySelector('.ProseMirror') as HTMLElement;
+    const dom = document.querySelector(editorSelector) as HTMLElement;
     dom.innerHTML = '<p><br /></p>';
   });
 };
 
 export const snapshot = async (
   page: Page,
-  tolerance?: number,
-  selector = '.akEditor',
+  threshold: {
+    tolerance?: number;
+    useUnsafeThreshold?: boolean;
+  } = {},
+  selector: string = '.akEditor',
 ) => {
+  const { tolerance, useUnsafeThreshold } = threshold;
   const editor = await page.$(selector);
+
+  // Wait for a frame because we are using RAF to throttle floating toolbar render
+  animationFrame(page);
 
   // Try to take a screenshot of only the editor.
   // Otherwise take the whole page.
@@ -280,14 +298,5 @@ export const snapshot = async (
     image = await page.screenshot();
   }
 
-  if (tolerance !== undefined) {
-    // @ts-ignore
-    expect(image).toMatchProdImageSnapshot({
-      failureThreshold: `${tolerance}`,
-      failureThresholdType: 'percent',
-    });
-  } else {
-    // @ts-ignore
-    expect(image).toMatchProdImageSnapshot();
-  }
+  return compareScreenshot(image, tolerance, { useUnsafeThreshold });
 };

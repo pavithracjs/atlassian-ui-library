@@ -146,7 +146,6 @@ export function createPMPlugins({
   portalProviderAPI,
   reactContext,
   dispatchAnalyticsEvent,
-  oldState,
 }: PMPluginCreateConfig): Plugin[] {
   return editorConfig.pmPlugins
     .sort(sortByOrder('plugins'))
@@ -162,7 +161,6 @@ export function createPMPlugins({
         portalProviderAPI,
         reactContext,
         dispatchAnalyticsEvent,
-        oldState,
       }),
     )
     .filter(plugin => !!plugin) as Plugin[];

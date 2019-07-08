@@ -50,7 +50,6 @@ export function firePreQueryShownEvent(
   createAnalyticsEvent: CreateAnalyticsEventFn,
   abTest: ABTest,
   referralContextIdentifiers?: ReferralContextIdentifiers,
-  experimentRequestDurationMs?: number,
   retrievedFromAggregator?: boolean,
 ) {
   fireGasEvent(
@@ -61,7 +60,6 @@ export function firePreQueryShownEvent(
     'ui',
     {
       preQueryRequestDurationMs: elapsedMs,
-      experimentRequestDurationMs,
       renderTimeMs,
       searchSessionId: searchSessionId,
       referralContextIdentifiers,
@@ -303,6 +301,29 @@ export function fireHighlightedSearchResult(
       ...transformSearchResultEventData(eventData),
       key,
       referralContextIdentifiers,
+    },
+  );
+}
+
+export function fireShowMoreButtonClickEvent(
+  searchSessionId: string,
+  currentSize: number,
+  totalResultSize: number,
+  buttonIdentifier: string,
+  pageSize: number,
+  createAnalyticsEvent?: CreateAnalyticsEventFn,
+) {
+  fireGasEvent(
+    createAnalyticsEvent,
+    'clicked',
+    'button',
+    buttonIdentifier,
+    'ui',
+    {
+      searchSessionId,
+      currentSize,
+      totalResultSize,
+      pageSize,
     },
   );
 }

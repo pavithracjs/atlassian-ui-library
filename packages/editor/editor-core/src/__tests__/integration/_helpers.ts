@@ -1,7 +1,7 @@
 import { getExampleUrl } from '@atlaskit/webdriver-runner/utils/example';
 import { messages as insertBlockMessages } from '../../plugins/insert-block/ui/ToolbarInsertBlock';
 import { ToolbarFeatures } from '../../../example-helpers/ToolsDrawer';
-import { EditorAppearance } from '../../types';
+import { EditorAppearance, EditorProps } from '../../types';
 import { pluginKey as tableResizingPluginKey } from '../../plugins/table/pm-plugins/table-resizing';
 import messages from '../../messages';
 import { tableSelectors } from '../__helpers/page-objects/_table';
@@ -23,7 +23,10 @@ export const linkToolbar =
 export const insertMention = async (browser: any, query: string) => {
   await browser.type(editable, '@');
   await browser.waitForSelector(typeAheadPicker);
-  await browser.type(editable, query);
+  // Investigate why string based input (without an array) fails in firefox
+  // https://product-fabric.atlassian.net/browse/ED-7044
+  const q = query.split('');
+  await browser.type(editable, q);
   await browser.keys(['Return']);
 };
 
@@ -302,7 +305,12 @@ export const toggleBreakout = async (page: any, times: number) => {
 };
 
 export const quickInsert = async (browser: any, insertTitle: string) => {
-  await browser.type(editable, `/${insertTitle.split(' ')[0]}`);
+  const firstWord = `/${insertTitle.split(' ')[0]}`;
+  // Investigate why string based input (without an array) fails in firefox
+  // https://product-fabric.atlassian.net/browse/ED-7044
+  const inputText = firstWord.split('');
+  await browser.type(editable, inputText);
+
   await browser.waitForSelector('div[aria-label="Popup"]');
   await browser.waitForSelector(
     `[aria-label="Popup"] [role="button"][aria-describedby="${insertTitle}"]`,
@@ -372,6 +380,35 @@ interface ResizeOptions {
   resizeWidth: number;
   startX?: number;
 }
+
+export const updateEditorProps = async (
+  page: any,
+  newProps: Partial<EditorProps>,
+) => {
+  await page.browser.execute((props: EditorProps) => {
+    (window as any).__updateEditorProps(props);
+  }, newProps);
+};
+
+export const setProseMirrorTextSelection = async (
+  page: any,
+  pos: { anchor: number; head?: number },
+) => {
+  await page.browser.execute(
+    (anchor: number, head: number) => {
+      var view = (window as any).__editorView;
+      view.dispatch(
+        view.state.tr.setSelection(
+          // Re-use the current selection (presumed TextSelection) to use our new positions.
+          view.state.selection.constructor.create(view.state.doc, anchor, head),
+        ),
+      );
+      view.focus();
+    },
+    pos.anchor,
+    pos.head || pos.anchor,
+  );
+};
 
 export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
   await page.browser.execute(

@@ -90,7 +90,7 @@ describe('MentionPicker', () => {
     const component = setupPicker({
       query: 's',
     } as Props);
-    return waitUntil(hasExpectedItems(component, 5));
+    return waitUntil(hasExpectedItems(component, 6));
   });
 
   it('should accept limit result to starting with shae', () => {

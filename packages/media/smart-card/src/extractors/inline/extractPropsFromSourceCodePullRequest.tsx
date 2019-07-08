@@ -3,27 +3,12 @@ import { InlineCardResolvedViewProps } from '@atlaskit/media-ui';
 import PullRequestIcon from '@atlaskit/icon-object/glyph/pull-request/16';
 
 import { extractInlineViewPropsFromObject } from './extractPropsFromObject';
-import { BuildInlineProps, AlterInlineProps } from './types';
+import { buildName } from './extractPropsFromSourceCodeCommon';
+import { BuildInlineProps } from './types';
 
 type BuildInlinePropsSourceCodePullRequest = BuildInlineProps<
   InlineCardResolvedViewProps
 >;
-type AlterInlinePropsSourceCodePullRequest = AlterInlineProps<
-  InlineCardResolvedViewProps
->;
-
-export const buildName: AlterInlinePropsSourceCodePullRequest = (
-  props,
-  json,
-) => {
-  const nextProps = { ...props };
-  const link = nextProps.link || json.url;
-  if (link) {
-    const repoNumber = link.match(/.*?(\d+)[^0-9]*$/).pop();
-    return { title: `#${repoNumber} ${nextProps.title}` };
-  }
-  return nextProps;
-};
 
 const buildInlineSourceCodePullRequestTag: BuildInlinePropsSourceCodePullRequest = json => {
   if (json['atlassian:state']) {

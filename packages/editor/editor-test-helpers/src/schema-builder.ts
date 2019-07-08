@@ -109,8 +109,10 @@ export function text(value: string, schema: Schema): RefsContentItem {
 
   // Helpers
   const isEven = (n: number) => n % 2 === 0;
-
-  for (const match of matches(value, /([\\]+)?{(\w+|<|>|<>|<cell|cell>)}/g)) {
+  for (const match of matches(
+    value,
+    /([\\]+)?{(\w+|<|>|<>|<cell|cell>|<node>)}/g,
+  )) {
     const [refToken, skipChars, refName] = match;
     let { index } = match;
 
@@ -285,6 +287,10 @@ export const clean = (content: BuilderContentFn) => (schema: Schema) => {
   return node instanceof Node
     ? Node.fromJSON(schema, node.toJSON())
     : undefined;
+};
+
+export const cleanOne = (content: BuilderContentFn) => (schema: Schema) => {
+  return (clean(content)(schema) as Node[])[0];
 };
 
 //

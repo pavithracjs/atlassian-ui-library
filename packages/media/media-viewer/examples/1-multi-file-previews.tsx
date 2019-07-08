@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Subscription } from 'rxjs/Subscription';
 import Button from '@atlaskit/button';
 import AkSpinner from '@atlaskit/spinner';
 import {
-  createStorybookContext,
   externalImageIdentifier,
   externalSmallImageIdentifier,
+  createStorybookMediaClient,
+  defaultCollectionName,
+  defaultMediaPickerCollectionName,
 } from '@atlaskit/media-test-helpers';
 import { ButtonList, Container, Group } from '../example-helpers/styled';
 import {
@@ -17,7 +18,6 @@ import {
   videoHorizontalFileItem,
   videoIdentifier,
   wideImageIdentifier,
-  defaultCollectionName,
   audioItem,
   audioItemNoCover,
 } from '../example-helpers';
@@ -29,10 +29,10 @@ import {
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
-import { Identifier, FileIdentifier } from '@atlaskit/media-core';
+import { Identifier, FileIdentifier, MediaStore } from '@atlaskit/media-client';
 import { Card } from '@atlaskit/media-card';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 const handleEvent = (analyticsEvent: UIAnalyticsEventInterface) => {
   const { payload } = analyticsEvent;
@@ -44,39 +44,45 @@ export type State = {
     dataSource: MediaViewerDataSource;
     identifier: Identifier;
   };
-  firstCollectionItem?: Identifier;
+  firstItemFromDefaultCollection?: FileIdentifier;
+  firstItemFromMediaPickerCollection?: FileIdentifier;
 };
 
 export default class Example extends React.Component<{}, State> {
   state: State = {};
-  private subscription?: Subscription;
 
-  componentDidMount() {
-    this.subscription = context.collection
-      .getItems(defaultCollectionName, { limit: 1 })
-      .subscribe({
-        next: items => {
-          const firstItem = items[0];
-          if (firstItem) {
-            this.setState({
-              firstCollectionItem: {
-                id: firstItem.id,
-                mediaItemType: 'file',
-                occurrenceKey: firstItem.occurrenceKey,
-              },
-            });
-          } else {
-            console.error('No items found in the collection');
-          }
-        },
-      });
+  async componentDidMount() {
+    const firstDefaultCollectionItem = await this.getFirstCollectionItem(
+      defaultCollectionName,
+    );
+    this.setState({
+      firstItemFromDefaultCollection: {
+        id: firstDefaultCollectionItem.id,
+        mediaItemType: 'file',
+        occurrenceKey: firstDefaultCollectionItem.occurrenceKey,
+      },
+    });
+
+    const firstDefaultMPCollectionItem = await this.getFirstCollectionItem(
+      defaultMediaPickerCollectionName,
+    );
+
+    this.setState({
+      firstItemFromMediaPickerCollection: {
+        id: firstDefaultMPCollectionItem.id,
+        mediaItemType: 'file',
+        occurrenceKey: firstDefaultMPCollectionItem.occurrenceKey,
+      },
+    });
   }
 
-  componentWillUnmount() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  getFirstCollectionItem = async (collectionName: string) => {
+    const store = new MediaStore(mediaClient.config);
+    const items = (await store.getCollectionItems(collectionName, { limit: 1 }))
+      .data.contents;
+
+    return items[0];
+  };
 
   private openList = () => {
     this.setState({
@@ -152,15 +158,14 @@ export default class Example extends React.Component<{}, State> {
     });
   };
 
-  private openCollection = () => {
-    const { firstCollectionItem } = this.state;
-    if (!firstCollectionItem) {
-      return;
-    }
+  private openCollection = (
+    identifier: Identifier,
+    collectionName: string,
+  ) => () => {
     this.setState({
       selected: {
-        dataSource: { collectionName: defaultCollectionName },
-        identifier: firstCollectionItem,
+        dataSource: { collectionName },
+        identifier,
       },
     });
   };
@@ -207,6 +212,11 @@ export default class Example extends React.Component<{}, State> {
   };
 
   render() {
+    const {
+      firstItemFromDefaultCollection,
+      firstItemFromMediaPickerCollection,
+      selected,
+    } = this.state;
     return (
       <I18NWrapper>
         <Container>
@@ -228,15 +238,38 @@ export default class Example extends React.Component<{}, State> {
             <h2>Collection names</h2>
             <ButtonList>
               <li>
-                {this.state.firstCollectionItem ? (
+                <h4>{defaultCollectionName}</h4>
+                {firstItemFromDefaultCollection ? (
                   <Card
-                    context={context}
+                    mediaClientConfig={mediaClient.config}
                     identifier={{
                       collectionName: defaultCollectionName,
-                      id: (this.state.firstCollectionItem as FileIdentifier).id,
+                      id: firstItemFromDefaultCollection.id,
                       mediaItemType: 'file',
                     }}
-                    onClick={this.openCollection}
+                    onClick={this.openCollection(
+                      firstItemFromDefaultCollection,
+                      defaultCollectionName,
+                    )}
+                  />
+                ) : (
+                  <AkSpinner />
+                )}
+              </li>
+              <li>
+                <h4>{defaultMediaPickerCollectionName}</h4>
+                {firstItemFromMediaPickerCollection ? (
+                  <Card
+                    mediaClientConfig={mediaClient.config}
+                    identifier={{
+                      collectionName: defaultMediaPickerCollectionName,
+                      id: firstItemFromMediaPickerCollection.id,
+                      mediaItemType: 'file',
+                    }}
+                    onClick={this.openCollection(
+                      firstItemFromMediaPickerCollection,
+                      defaultMediaPickerCollectionName,
+                    )}
                   />
                 ) : (
                   <AkSpinner />
@@ -267,12 +300,12 @@ export default class Example extends React.Component<{}, State> {
             </ButtonList>
           </Group>
 
-          {this.state.selected && (
+          {selected && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
-                context={context}
-                selectedItem={this.state.selected.identifier}
-                dataSource={this.state.selected.dataSource}
+                mediaClientConfig={mediaClient.config}
+                selectedItem={selected.identifier}
+                dataSource={selected.dataSource}
                 collectionName={defaultCollectionName}
                 onClose={this.onClose}
                 pageSize={5}

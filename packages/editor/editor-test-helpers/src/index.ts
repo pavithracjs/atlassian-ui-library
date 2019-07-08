@@ -88,6 +88,7 @@ export {
   inlineCard,
   blockCard,
   clean,
+  cleanOne,
   status,
   alignment,
   indentation,
@@ -119,3 +120,4 @@ export * from './table';
 export * from './constants';
 export { autoformattingProvider } from './autoformatting-provider';
 export { extensionHandlers } from './extensions';
+export { analyticsClient } from './analytics-client-mock';

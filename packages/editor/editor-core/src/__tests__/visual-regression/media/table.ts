@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
 import {
   insertMedia,
@@ -39,7 +38,7 @@ describe('Snapshot Test: Media', () => {
         await waitForMediaToBeLoaded(page);
         await scrollToTable(page);
 
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
       });
     });
   });
@@ -69,7 +68,7 @@ describe('Snapshot Test: Media', () => {
         await insertMedia(page);
         await waitForMediaToBeLoaded(page);
 
-        await snapshot(page, MINIMUM_THRESHOLD);
+        await snapshot(page);
       });
     });
   });

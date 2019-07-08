@@ -9,7 +9,7 @@ import ErrorIcon from '@atlaskit/icon/glyph/editor/error';
 import commonMessages from '../../messages';
 import { FloatingToolbarHandler } from '../floating-toolbar/types';
 import { removePanel, changePanelType } from './actions';
-import { pluginKey, PanelState } from './pm-plugins/main';
+import { getPluginState } from './pm-plugins/main';
 import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
@@ -49,13 +49,14 @@ export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
 ) => {
-  const panelState: PanelState | undefined = pluginKey.getState(state);
+  const panelState = getPluginState(state);
   if (panelState && panelState.toolbarVisible && panelState.element) {
     const { activePanelType } = panelState;
+    const nodeType = state.schema.nodes.panel;
     return {
       title: 'Panel floating controls',
       getDomRef: () => panelState.element,
-      nodeType: state.schema.nodes.panel,
+      nodeType,
       items: [
         {
           type: 'button',
@@ -100,8 +101,8 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           appearance: 'danger',
           icon: RemoveIcon,
           onClick: removePanel(),
-          onMouseEnter: hoverDecoration(true),
-          onMouseLeave: hoverDecoration(false),
+          onMouseEnter: hoverDecoration(nodeType, true),
+          onMouseLeave: hoverDecoration(nodeType, false),
           title: formatMessage(commonMessages.remove),
         },
       ],

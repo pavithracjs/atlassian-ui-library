@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
@@ -26,18 +23,15 @@ class Example extends React.Component {
   }
 }
 
-test('media-client server side rendering of project examples', async () => {
-  (await getExamplesFor('media-client')).forEach(
-    (examples: { filePath: string }) => {
-      const Example = require(examples.filePath).default;
+test.skip('media-client server side rendering of project examples', async () => {
+  const examples = await getExamplesFor('media-client');
+  for (const example of examples) {
+    const Example = await require(example.filePath).default;
 
-      expect(() =>
-        ReactDOMServer.renderToString(<Example />),
-      ).not.toThrowError();
-    },
-  );
+    expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
+  }
 });
 
-test('media-client server side rendering of simple component', () => {
+test.skip('media-client server side rendering of simple component', () => {
   expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
 });

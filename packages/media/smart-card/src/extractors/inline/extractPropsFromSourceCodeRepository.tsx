@@ -1,6 +1,4 @@
-import { InlineCardResolvedViewProps } from '@atlaskit/media-ui';
 import { extractInlineViewPropsFromObject } from './extractPropsFromObject';
 
-export const extractInlineViewPropsFromSourceCodeRepository = (
-  json: any,
-): InlineCardResolvedViewProps => extractInlineViewPropsFromObject(json);
+// NOTE: the "full name" of the repository is already sent to us in the JSON-LD.
+export const extractInlineViewPropsFromSourceCodeRepository = extractInlineViewPropsFromObject;

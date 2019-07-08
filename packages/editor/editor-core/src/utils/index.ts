@@ -21,6 +21,7 @@ import {
 } from 'prosemirror-state';
 import { liftTarget, findWrapping } from 'prosemirror-transform';
 import { LEFT } from '../keymaps';
+import { browser } from '@atlaskit/editor-common';
 import {
   JSONTransformer,
   JSONDocNode,
@@ -307,9 +308,14 @@ export function checkNodeDown(
   doc: Node,
   filter: (node: Node) => boolean,
 ): boolean {
-  const res = doc.resolve(
-    selection.$to.after(findAncestorPosition(doc, selection.$to).depth),
-  );
+  const ancestorDepth = findAncestorPosition(doc, selection.$to).depth;
+
+  // Top level node
+  if (ancestorDepth === 0) {
+    return false;
+  }
+
+  const res = doc.resolve(selection.$to.after(ancestorDepth));
   return res.nodeAfter ? filter(res.nodeAfter) : false;
 }
 
@@ -471,7 +477,7 @@ export function getGroupsInRange(
 /**
  * Traverse the document until an "ancestor" is found. Any nestable block can be an ancestor.
  */
-export function findAncestorPosition(doc: Node, pos: any): any {
+export function findAncestorPosition(doc: Node, pos: ResolvedPos): any {
   const nestableBlocks = ['blockquote', 'bulletList', 'orderedList'];
 
   if (pos.depth === 1) {
@@ -640,21 +646,26 @@ export function closestElement(
  * From Modernizr
  * Returns the kind of transitionevent available for the element
  */
-export function whichTransitionEvent() {
+export function whichTransitionEvent<TransitionEventName extends string>() {
   const el = document.createElement('fakeelement');
-  const transitions = {
+  const transitions: Record<string, string> = {
     transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
+    OTransition: 'oTransitionEnd',
     WebkitTransition: 'webkitTransitionEnd',
-  } as any;
+  };
 
-  let t: any;
-  for (t in transitions) {
-    if (el.style[t] !== undefined) {
-      return transitions[t];
+  for (const t in transitions) {
+    if (el.style[t as keyof CSSStyleDeclaration] !== undefined) {
+      // Use a generic as the return type because TypeScript doesnt know
+      // about cross browser features, so we cast here to align to the
+      // standard Event spec and propagate the type properly to the callbacks
+      // of `addEventListener` and `removeEventListener`.
+      return transitions[t] as TransitionEventName;
     }
   }
+
+  return;
 }
 
 export function moveLeft(view: EditorView) {
@@ -712,9 +723,9 @@ export const isTemporary = (id: string): boolean => {
 
 // @see: https://github.com/ProseMirror/prosemirror/issues/710
 // @see: https://bugs.chromium.org/p/chromium/issues/detail?id=740085
-// Chrome >= 58
+// Chrome >= 58 (desktop only)
 export const isChromeWithSelectionBug =
-  parseInt((navigator.userAgent.match(/Chrome\/(\d{2})/) || [])[1], 10) >= 58;
+  browser.chrome && !browser.android && browser.chrome_version >= 58;
 
 export const isEmptyNode = (schema: Schema) => {
   const {

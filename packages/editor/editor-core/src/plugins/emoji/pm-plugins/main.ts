@@ -43,14 +43,11 @@ export class EmojiState {
   onDismiss = (): void => {};
 
   private changeHandlers: StateChangeHandler[] = [];
-  private state: EditorState;
   private view!: EditorView;
   private queryResult: EmojiDescription[] = [];
 
-  constructor(state: EditorState, providerFactory: ProviderFactory) {
+  constructor() {
     this.changeHandlers = [];
-    this.state = state;
-    providerFactory.subscribe('emojiProvider', this.handleProvider);
   }
 
   subscribe(cb: StateChangeHandler) {
@@ -67,8 +64,6 @@ export class EmojiState {
   }
 
   update(state: EditorState) {
-    this.state = state;
-
     if (!this.emojiProvider) {
       return;
     }
@@ -123,7 +118,8 @@ export class EmojiState {
     this.queryActive = false;
     this.query = undefined;
 
-    const { state, view } = this;
+    const { view } = this;
+    const { state } = view;
 
     if (state) {
       const { schema } = state;
@@ -142,13 +138,13 @@ export class EmojiState {
   }
 
   isEnabled() {
-    const { schema } = this.state;
+    const { schema } = this.view.state;
     const { emojiQuery } = schema.marks;
-    return isMarkTypeAllowedInCurrentSelection(emojiQuery, this.state);
+    return isMarkTypeAllowedInCurrentSelection(emojiQuery, this.view.state);
   }
 
   private findEmojiQueryMark() {
-    const { state } = this;
+    const { state } = this.view;
     const { doc, schema, selection } = state;
     const { to, from } = selection;
     const { emojiQuery } = schema.marks;
@@ -181,7 +177,8 @@ export class EmojiState {
   }
 
   insertEmoji = (emojiId?: EmojiId) => {
-    const { state, view } = this;
+    const { view } = this;
+    const { state } = view;
     const { emoji } = state.schema.nodes;
 
     if (emoji && emojiId) {
@@ -192,7 +189,7 @@ export class EmojiState {
       });
       const textNode = state.schema.text(' ');
 
-      // This problem affects Chrome v58-62. See: https://github.com/ProseMirror/prosemirror/issues/710
+      // This problem affects Chrome v58+. See: https://github.com/ProseMirror/prosemirror/issues/710
       if (isChromeWithSelectionBug) {
         const selection = document.getSelection();
         if (selection) {
@@ -224,10 +221,7 @@ export class EmojiState {
             }
           })
           .catch(() => {
-            if (this.emojiProvider) {
-              this.emojiProvider.unsubscribe(this.onProviderChange);
-            }
-            this.emojiProvider = undefined;
+            this.destroy();
           });
         break;
     }
@@ -271,6 +265,13 @@ export class EmojiState {
   setView(view: EditorView) {
     this.view = view;
   }
+
+  destroy() {
+    if (this.emojiProvider) {
+      this.emojiProvider.unsubscribe(this.onProviderChange);
+    }
+    this.emojiProvider = undefined;
+  }
 }
 
 export function createPlugin(
@@ -280,8 +281,8 @@ export function createPlugin(
 ) {
   return new Plugin({
     state: {
-      init(_config, state) {
-        return new EmojiState(state, providerFactory);
+      init() {
+        return new EmojiState();
       },
       apply(_tr, pluginState, _oldState, _newState) {
         // NOTE: Don't call pluginState.update here.
@@ -311,9 +312,12 @@ export function createPlugin(
     view: (view: EditorView) => {
       const pluginState: EmojiState = emojiPluginKey.getState(view.state);
       pluginState.setView(view);
+      providerFactory.subscribe('emojiProvider', pluginState.handleProvider);
 
       return {
         update(view: EditorView, _prevState: EditorState) {
+          const pluginState: EmojiState = emojiPluginKey.getState(view.state);
+          pluginState.setView(view);
           pluginState.update(view.state);
         },
         destroy() {
@@ -321,6 +325,7 @@ export function createPlugin(
             'emojiProvider',
             pluginState.handleProvider,
           );
+          pluginState.destroy();
         },
       };
     },

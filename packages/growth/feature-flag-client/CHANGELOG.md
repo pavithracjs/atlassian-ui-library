@@ -1,45 +1,70 @@
 # @atlaskit/feature-flag-client
 
+## 3.1.3
+
+### Patch Changes
+
+- [patch][6edcd3bc31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6edcd3bc31):
+
+  Add the ability to send custom attributes with the exposure event
+
+## 3.1.2
+
+### Patch Changes
+
+- [patch][0ccf9ade40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ccf9ade40):
+
+  Use process.env.NODE_ENV to check for node environment, in all files
+
 ## 3.1.1
-- [patch] [2e25dad67e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e25dad67e):
+
+- [patch][2e25dad67e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e25dad67e):
 
   - Change process.env check to process.env.NODE_ENV check
 
 ## 3.1.0
-- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+- [minor][5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 
   - Enable strictPropertyInitialization in tsconfig.base
 
 ## 3.0.0
-- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+- [major][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 ## 2.1.2
-- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+- [patch][0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 
   - Bump tslib
 
 ## 2.1.1
-- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+- [patch][1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
   - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
 
 ## 2.1.0
-- [minor] [a89f1bf6cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a89f1bf6cd):
+
+- [minor][a89f1bf6cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a89f1bf6cd):
 
   - Enable noImplicitAny for growth/feature-flag-client
 
 ## 2.0.0
-- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+- [major][9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 
   - Dropped ES5 distributables from the typescript packages
 
 ## 1.1.2
+
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/docs@7.0.0
 
 ## 1.1.1
+
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/docs@6.0.0
 

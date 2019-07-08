@@ -4,19 +4,19 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   layoutFixedWidth: {
     id: 'fabric.editor.layoutFixedWidth',
-    defaultMessage: 'Back to Center',
+    defaultMessage: 'Back to center',
     description:
       'Display your element (image, table, extension, etc) as standard width',
   },
   layoutWide: {
     id: 'fabric.editor.layoutWide',
-    defaultMessage: 'Go Wide',
+    defaultMessage: 'Go wide',
     description:
       'Display your element (image, table, extension, etc) wider than normal',
   },
   layoutFullWidth: {
     id: 'fabric.editor.layoutFullWidth',
-    defaultMessage: 'Go Full width',
+    defaultMessage: 'Go full width',
     description:
       'Display your element (image, table, extension, etc) as full width',
   },
@@ -50,5 +50,15 @@ export default defineMessages({
     id: 'fabric.editor.editMode.inviteToEditButton.title',
     defaultMessage: 'Invite to edit',
     description: 'Invite another user to edit the current document',
+  },
+  saveButton: {
+    id: 'fabric.editor.saveButton',
+    defaultMessage: 'Save',
+    description: 'Submit and save a comment or document',
+  },
+  cancelButton: {
+    id: 'fabric.editor.cancelButton',
+    defaultMessage: 'Cancel',
+    description: 'Discard the current comment or document',
   },
 });

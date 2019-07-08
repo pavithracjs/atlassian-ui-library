@@ -6,6 +6,7 @@
  */
 // Portuguese (Brazil)
 export default {
+  'fabric.mention.unknow.user.error': 'Usuário desconhecido {id}',
   'fabric.mention.noAccess.warning':
     '{name} não será notificado(a) porque não tem acesso',
   'fabric.mention.noAccess.label': 'Sem acesso',
@@ -14,7 +15,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Tente sair e fazer login novamente',
   'fabric.mention.error.differentText': 'Tente inserir outro texto',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} membro{includes, select, true {, incluindo você} other {}}} other{{count} membros{includes, select, true {, incluindo você} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    'Mais de 50 membros{includes, select, true {, incluindo você} other {}}',
+    '{0, plural, one{1 membro} other{{0} membros}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} użytkownika wliczając Ciebie} other{{0} użytkownika wliczając Ciebie}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ membros',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ membros, incluindo você',
 };

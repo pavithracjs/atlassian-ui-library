@@ -170,7 +170,12 @@ export const fixCursorAlignment = (view: EditorView) => {
     state: { selection, schema },
     domAtPos,
   } = view;
-  const { side, $from } = selection as GapCursorSelection;
+
+  if (!(selection instanceof GapCursorSelection)) {
+    return;
+  }
+
+  const { side, $from } = selection;
 
   // gap cursor is positioned relative to that node
   const targetNode = side === Side.LEFT ? $from.nodeAfter! : $from.nodeBefore!;
@@ -186,17 +191,21 @@ export const fixCursorAlignment = (view: EditorView) => {
   let targetNodeRef = findDomRefAtPos(
     targetNodePos,
     domAtPos.bind(view),
-  ) as HTMLElement;
+  ) as HTMLElement | null;
 
-  const gapCursorRef = view.dom.querySelector(
+  const gapCursorRef = view.dom.querySelector<HTMLSpanElement>(
     '.ProseMirror-gapcursor span',
-  ) as HTMLElement;
+  );
   if (!gapCursorRef) {
     return;
   }
 
-  const gapCursorParentNodeRef = gapCursorRef.parentNode! as HTMLElement;
-  const previousSibling = gapCursorParentNodeRef.previousSibling as HTMLElement;
+  const gapCursorParentNodeRef = gapCursorRef.parentElement;
+  if (!gapCursorParentNodeRef) {
+    return;
+  }
+
+  const previousSibling = gapCursorParentNodeRef.previousSibling as HTMLElement | null;
   const isTargetNodeMediaSingle = isMediaSingle(targetNodeRef);
   const isMediaWithWrapping =
     isTargetNodeMediaSingle &&
@@ -215,15 +224,21 @@ export const fixCursorAlignment = (view: EditorView) => {
 
   // gets width and height of the prevNode DOM element, or its nodeView wrapper DOM element
   do {
+    if (!targetNodeRef) {
+      break;
+    }
+
     const isTargetNodeNodeViewWrapper = isNodeViewWrapper(targetNodeRef);
-    const firstChild = targetNodeRef.firstChild as HTMLElement;
+    const firstChild = targetNodeRef.firstElementChild;
     const css = window.getComputedStyle(
       isTargetNodeNodeViewWrapper && !isTargetNodeMediaSingle
         ? firstChild || targetNodeRef
         : targetNodeRef,
     );
 
-    const isInTableCell = /td|th/i.test(targetNodeRef.parentNode!.nodeName);
+    const isInTableCell =
+      !!targetNodeRef.parentElement &&
+      /td|th/i.test(targetNodeRef.parentElement.nodeName);
 
     height = parseInt(css.height!, 10);
     width = parseInt(css.width!, 10);
@@ -250,10 +265,13 @@ export const fixCursorAlignment = (view: EditorView) => {
       breakoutWidth = width;
     }
 
-    if (targetNodeRef.parentElement!.classList.contains('ProseMirror')) {
+    if (
+      targetNodeRef.parentElement &&
+      targetNodeRef.parentElement.classList.contains('ProseMirror')
+    ) {
       break;
     }
-    targetNodeRef = targetNodeRef.parentNode as HTMLElement;
+    targetNodeRef = targetNodeRef.parentElement;
   } while (targetNodeRef && !targetNodeRef.contains(gapCursorRef));
 
   // height of the rule (<hr>) is 0, that's why we set minHeight
@@ -270,10 +288,12 @@ export const fixCursorAlignment = (view: EditorView) => {
   }
 
   // table nodeView margin fix
-  if (targetNode.type === schema.nodes.table) {
-    const style = window.getComputedStyle(
-      targetNodeRef.querySelector('table')!,
-    );
+  if (targetNodeRef && targetNode.type === schema.nodes.table) {
+    const tableNode = targetNodeRef.querySelector('table');
+    if (!tableNode) {
+      return;
+    }
+    const style = window.getComputedStyle(tableNode);
     const halfPlusButtonSize = tableInsertColumnButtonSize / 2;
     marginTop = parseInt(style.marginTop!, 10);
     paddingLeft =

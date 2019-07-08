@@ -4,9 +4,9 @@ import {
   // @ts-ignore (additional export from mocked version)
   confluenceRecentItemsPromise,
 } from '../../api/prefetchResults';
+
 import { ConfluenceQuickSearchContainer } from '../../components/confluence/ConfluenceQuickSearchContainer';
 import GlobalQuickSearch from '../../components/GlobalQuickSearchWrapper';
-import { HomeQuickSearchContainer } from '../../components/home/HomeQuickSearchContainer';
 import { JiraQuickSearchContainer } from '../../components/jira/JiraQuickSearchContainer';
 import PrefetchedResultsProvider from '../../components/PrefetchedResultsProvider';
 import { mountWithIntl } from './helpers/_intl-enzyme-test-helper';
@@ -14,14 +14,9 @@ import { QuickSearchContext } from '../../api/types';
 
 jest.mock('../../api/prefetchResults');
 jest.mock('../../api/CachingConfluenceClient');
-
-it('should render the home container with context home', () => {
-  const wrapper = mountWithIntl(
-    <GlobalQuickSearch cloudId="123" context="home" />,
-  );
-
-  expect(wrapper.find(HomeQuickSearchContainer).exists()).toBe(true);
-});
+jest.mock('../../components/AbTestProvider', () => ({
+  ABTestProvider: ({ children }: any) => children({}),
+}));
 
 it('should render the confluence container with context confluence', () => {
   const wrapper = mountWithIntl(

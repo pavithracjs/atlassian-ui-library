@@ -15,6 +15,7 @@ exports[`Mention Description Byline should render Team Mention description if a 
             "name": "Test User",
           },
         ],
+        "teamLink": "/wiki/people/team/12345",
       },
       "id": "12345",
       "name": "Test team",
@@ -37,4 +38,3 @@ exports[`Mention Description Byline should render User Mention description if a 
   }
 />
 `;
-

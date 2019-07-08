@@ -6,11 +6,26 @@ export default (
   action: TablePluginAction,
 ): TablePluginState => {
   switch (action.type) {
+    case 'TOGGLE_HEADER_COLUMN':
+      return {
+        ...pluginState,
+        isHeaderColumnEnabled: !pluginState.isHeaderColumnEnabled,
+      };
+
+    case 'TOGGLE_HEADER_ROW':
+      return {
+        ...pluginState,
+        isHeaderRowEnabled: !pluginState.isHeaderRowEnabled,
+      };
+
     case 'CLEAR_HOVER_SELECTION':
       return { ...pluginState, ...action.data, ...defaultTableSelection };
 
     case 'SET_TARGET_CELL_POSITION':
       return { ...pluginState, ...action.data, isContextualMenuOpen: false };
+
+    case 'SET_TABLE_LAYOUT':
+      return { ...pluginState, ...action.data };
 
     case 'TOGGLE_CONTEXTUAL_MENU':
       return {

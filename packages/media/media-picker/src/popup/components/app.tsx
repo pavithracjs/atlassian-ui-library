@@ -3,8 +3,8 @@ import { Component } from 'react';
 import { Dispatch, Store } from 'redux';
 import { connect, Provider } from 'react-redux';
 import { IntlShape } from 'react-intl';
-import { Context, ContextFactory } from '@atlaskit/media-core';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
+import { MediaClient } from '@atlaskit/media-client';
 import {
   UIAnalyticsEventHandlerSignature,
   ObjectType,
@@ -12,7 +12,6 @@ import {
 
 import { ServiceName, State } from '../domain';
 
-import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { UploadParams, PopupConfig } from '../..';
 
@@ -57,13 +56,14 @@ import {
 } from '../../components/types';
 
 import { Clipboard } from '../../components/clipboard/clipboard';
+import { Browser as BrowserComponent } from '../../components/browser/browser';
 import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
   readonly isVisible: boolean;
-  readonly tenantContext: Context;
-  readonly userContext: Context;
+  readonly tenantMediaClient: MediaClient;
+  readonly userMediaClient: MediaClient;
   readonly config?: Partial<PopupConfig>;
 }
 
@@ -104,10 +104,10 @@ export interface AppState {
 }
 
 export class App extends Component<AppProps, AppState> {
-  private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
+  private readonly componentMediaClient: MediaClient;
+  private browserRef = React.createRef<BrowserComponent>();
   private readonly localUploader: LocalUploadComponent;
-  private readonly componentContext: Context;
 
   constructor(props: AppProps) {
     super(props);
@@ -119,8 +119,8 @@ export class App extends Component<AppProps, AppState> {
       onUploadProcessing,
       onUploadEnd,
       onUploadError,
-      tenantContext,
-      userContext,
+      tenantMediaClient,
+      userMediaClient,
       tenantUploadParams,
     } = props;
 
@@ -131,15 +131,15 @@ export class App extends Component<AppProps, AppState> {
     // Context that has both auth providers defined explicitly using to provided contexts.
     // Each of the local components using this context will upload first to user's recents
     // and then copy to a tenant's collection.
-    const context = ContextFactory.create({
-      authProvider: tenantContext.config.authProvider,
-      userAuthProvider: userContext.config.authProvider,
-      cacheSize: tenantContext.config.cacheSize,
+    const mediaClient = new MediaClient({
+      authProvider: tenantMediaClient.config.authProvider,
+      userAuthProvider: userMediaClient.config.authProvider,
+      cacheSize: tenantMediaClient.config.cacheSize,
     });
 
-    this.componentContext = context;
+    this.componentMediaClient = mediaClient;
 
-    this.localUploader = new LocalUploadComponent(context, {
+    this.localUploader = new LocalUploadComponent(mediaClient, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
     });
@@ -151,20 +151,7 @@ export class App extends Component<AppProps, AppState> {
     this.localUploader.on('upload-end', onUploadEnd);
     this.localUploader.on('upload-error', onUploadError);
 
-    this.mpBrowser = new MpBrowser(context, {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-      multiple: true,
-    });
-
-    this.mpBrowser.on('uploads-start', onUploadsStart);
-    this.mpBrowser.on('upload-preview-update', onUploadPreviewUpdate);
-    this.mpBrowser.on('upload-status-update', onUploadStatusUpdate);
-    this.mpBrowser.on('upload-processing', onUploadProcessing);
-    this.mpBrowser.on('upload-end', onUploadEnd);
-    this.mpBrowser.on('upload-error', onUploadError);
-
-    this.mpDropzone = new MpDropzone(context, {
+    this.mpDropzone = new MpDropzone(mediaClient, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
       headless: true,
@@ -180,7 +167,9 @@ export class App extends Component<AppProps, AppState> {
 
     onStartApp({
       onCancelUpload: uploadId => {
-        this.mpBrowser.cancel(uploadId);
+        this.browserRef &&
+          this.browserRef.current &&
+          this.browserRef.current.cancel(uploadId);
         this.mpDropzone.cancel(uploadId);
         this.localUploader.cancel(uploadId);
       },
@@ -217,7 +206,6 @@ export class App extends Component<AppProps, AppState> {
 
   componentWillUnmount(): void {
     this.mpDropzone.deactivate();
-    this.mpBrowser.teardown();
   }
 
   render() {
@@ -248,6 +236,7 @@ export class App extends Component<AppProps, AppState> {
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
                 {this.renderClipboard()}
+                {this.renderBrowser()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -259,11 +248,11 @@ export class App extends Component<AppProps, AppState> {
   private renderCurrentView(selectedServiceName: ServiceName): JSX.Element {
     if (selectedServiceName === 'upload') {
       // We need to create a new context since Cards in recents view need user auth
-      const { userContext } = this.props;
+      const { userMediaClient } = this.props;
       return (
         <UploadView
-          mpBrowser={this.mpBrowser}
-          context={userContext}
+          browserRef={this.browserRef}
+          mediaClient={userMediaClient}
           recentsCollection={RECENTS_COLLECTION}
         />
       );
@@ -297,9 +286,40 @@ export class App extends Component<AppProps, AppState> {
 
     return (
       <Clipboard
-        context={this.componentContext}
+        mediaClient={this.componentMediaClient}
         config={config}
         onUploadsStart={this.onDrop}
+        onPreviewUpdate={onUploadPreviewUpdate}
+        onStatusUpdate={onUploadStatusUpdate}
+        onProcessing={onUploadProcessing}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
+      />
+    );
+  };
+
+  private renderBrowser = () => {
+    const {
+      tenantUploadParams,
+      onUploadsStart,
+      onUploadPreviewUpdate,
+      onUploadStatusUpdate,
+      onUploadProcessing,
+      onUploadEnd,
+      onUploadError,
+    } = this.props;
+    const config = {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+      multiple: true,
+    };
+
+    return (
+      <BrowserComponent
+        ref={this.browserRef}
+        mediaClient={this.componentMediaClient}
+        config={config}
+        onUploadsStart={onUploadsStart}
         onPreviewUpdate={onUploadPreviewUpdate}
         onStatusUpdate={onUploadStatusUpdate}
         onProcessing={onUploadProcessing}
@@ -312,15 +332,15 @@ export class App extends Component<AppProps, AppState> {
 
 const mapStateToProps = ({
   view,
-  tenantContext,
-  userContext,
+  tenantMediaClient,
+  userMediaClient,
   config,
 }: State): AppStateProps => ({
   selectedServiceName: view.service.name,
   isVisible: view.isVisible,
   config,
-  tenantContext,
-  userContext,
+  tenantMediaClient,
+  userMediaClient,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<State>): AppDispatchProps => ({

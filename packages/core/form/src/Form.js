@@ -23,8 +23,8 @@ type Props = {
     submitting: boolean,
     getValues: () => ?Object,
   }) => Node,
-  /* Called when the form is submitted without errors */
-  onSubmit: Object => any,
+  /* Called when the form is submitted without field validation errors */
+  onSubmit: Object => ?Object | Promise<?Object> | void,
   /* When set the form and all fields will be disabled */
   isDisabled: boolean,
 };
@@ -86,8 +86,8 @@ class Form extends React.Component<Props, State> {
 
   componentDidMount() {
     this.unsubscribe = this.form.subscribe(
-      ({ submitting, dirty }) => {
-        this.setState({ submitting, dirty });
+      ({ dirty, submitting }) => {
+        this.setState({ dirty, submitting });
       },
       {
         dirty: true,

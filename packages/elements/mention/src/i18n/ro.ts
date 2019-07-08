@@ -6,6 +6,7 @@
  */
 // Romanian
 export default {
+  'fabric.mention.unknow.user.error': 'Utilizator necunoscut {id}',
   'fabric.mention.noAccess.warning':
     '{name} nu va fi notificat deoarece nu are acces',
   'fabric.mention.noAccess.label': 'Fără acces',
@@ -14,7 +15,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Deconectați-vă și conectați-vă din nou',
   'fabric.mention.error.differentText': 'Introduceți un text diferit',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} membru {includes, select, true {, including you} alt {}}} few{{count} membri {includes, select, true {, including you} alți {}}} other{{count} membri {includes, select, true {, including you} alți {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ de membri {includes, select, true {, including you} alți {}}',
+    '{0, plural, one{1 membru} few{{0} membri} other{{0} de membri}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} de membri, inclusiv dvs.} few{{0} de membri, inclusiv dvs.} other{{0} de membri, inclusiv dvs.}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ membri',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ membri, inclusiv dvs.',
 };

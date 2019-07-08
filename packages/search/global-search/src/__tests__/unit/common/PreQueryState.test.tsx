@@ -32,6 +32,8 @@ it('should render recent activities when there is recent activity', () => {
         items: [makeConfluenceObjectResult()],
         key: 'recentlyViewedPages',
         title: messages.confluence_recent_pages_heading,
+        totalSize: 1,
+        showTotalSize: false,
       },
     ],
   });

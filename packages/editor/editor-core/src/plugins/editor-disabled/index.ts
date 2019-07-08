@@ -2,11 +2,22 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import { EditorPlugin } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 
+import { pluginFactory } from '../../utils/plugin-state-factory';
+
 export const pluginKey = new PluginKey('editorDisabledPlugin');
 
 export type EditorDisabledPluginState = {
   editorDisabled: boolean;
 };
+
+function reducer(
+  _pluginState: EditorDisabledPluginState,
+  meta: EditorDisabledPluginState,
+) {
+  return meta;
+}
+
+const { createPluginState } = pluginFactory(pluginKey, reducer);
 
 /*
 Stores the state of the editor enabled/disabled for panel and floating
@@ -18,24 +29,7 @@ export function createPlugin(
 ): Plugin | undefined {
   return new Plugin({
     key: pluginKey,
-    state: {
-      init: () =>
-        ({
-          editorDisabled: false,
-        } as EditorDisabledPluginState),
-      apply(tr, oldPluginState: EditorDisabledPluginState) {
-        const newPluginState: EditorDisabledPluginState = tr.getMeta(pluginKey);
-
-        if (
-          newPluginState &&
-          oldPluginState.editorDisabled !== newPluginState.editorDisabled
-        ) {
-          dispatch(pluginKey, newPluginState);
-          return newPluginState;
-        }
-        return oldPluginState;
-      },
-    },
+    state: createPluginState(dispatch, { editorDisabled: false }),
   });
 }
 

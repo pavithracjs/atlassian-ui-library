@@ -27,6 +27,7 @@ BrowserTestCase(
     await page.click(fullpage.placeholder);
 
     await quickInsert(page, 'Bodied extension');
+    await page.click('.extension-content p');
     await quickInsert(page, messages.action.defaultMessage);
 
     const doc = await page.$eval(editable, getDocFromElement);

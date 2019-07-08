@@ -87,10 +87,7 @@ const AppSwitcherComponent = itemProps => (
   />
 );
 
-const getGlobalNavigation = (
-  enableAtlassianSwitcher,
-  enableExpandLink,
-) => () => (
+const getGlobalNavigation = enableAtlassianSwitcher => () => (
   <AnalyticsListener
     channel="navigation"
     onEvent={analyticsEvent => {
@@ -105,12 +102,21 @@ const getGlobalNavigation = (
   >
     <GlobalNavigation
       product="jira"
+      productHref="#"
       cloudId="some-cloud-id"
       productIcon={EmojiAtlassianIcon}
+      onProductClick={() => console.log('product clicked')}
+      onCreateClick={() => console.log('create clicked')}
+      onSearchClick={() => console.log('search clicked')}
+      onStarredClick={() => console.log('starred clicked')}
+      onHelpClick={() => console.log('help clicked')}
+      helpItems={() => <div />}
+      onNotificationClick={() => console.log('notification clicked')}
+      onSettingsClick={() => console.log('settings clicked')}
+      loginHref="#login"
       appSwitcherComponent={AppSwitcherComponent}
       appSwitcherTooltip="Switch to ..."
       enableAtlassianSwitcher={enableAtlassianSwitcher}
-      experimental_enableExpandLink={enableExpandLink}
       triggerXFlow={(...props) => {
         console.log('TRIGGERING XFLOW', props);
       }}
@@ -120,13 +126,11 @@ const getGlobalNavigation = (
 
 type State = {
   enableAtlassianSwitcher: boolean,
-  enableExpandLink: boolean,
 };
 
 export default class extends Component<{}, State> {
   state = {
     enableAtlassianSwitcher: true,
-    enableExpandLink: false,
   };
 
   componentDidMount() {
@@ -141,15 +145,12 @@ export default class extends Component<{}, State> {
   };
 
   render() {
-    const { enableAtlassianSwitcher, enableExpandLink } = this.state;
+    const { enableAtlassianSwitcher } = this.state;
     return (
       <IntlProvider>
         <NavigationProvider>
           <LayoutManager
-            globalNavigation={getGlobalNavigation(
-              enableAtlassianSwitcher,
-              enableExpandLink,
-            )}
+            globalNavigation={getGlobalNavigation(enableAtlassianSwitcher)}
             productNavigation={() => null}
             containerNavigation={() => null}
           >
@@ -158,13 +159,6 @@ export default class extends Component<{}, State> {
               <ToggleStateless
                 isChecked={enableAtlassianSwitcher}
                 onChange={this.toggleStateValue('enableAtlassianSwitcher')}
-              />
-            </div>
-            <div css={{ padding: '10px 40px' }}>
-              Using enableExpandLink:
-              <ToggleStateless
-                isChecked={enableExpandLink}
-                onChange={this.toggleStateValue('enableExpandLink')}
               />
             </div>
           </LayoutManager>

@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { code, md, Props, Example } from '@atlaskit/docs';
+import {
+  code,
+  md,
+  Props,
+  Example,
+  AtlassianInternalWarning,
+} from '@atlaskit/docs';
 
 const newConversationSource = `import { Conversation, ConversationResource } from '@atlaskit/conversation';
 
@@ -314,6 +320,8 @@ const props = {
 };
 
 export default md`
+  ${<AtlassianInternalWarning />}
+
   The Conversation component is a drop-in component for adding conversations in any context. It is the front-end part of the \`Conversation Service\` and together they make up \`Conversations as a Service\`.
 
   ## What is a Conversation?

@@ -6,6 +6,7 @@
  */
 // Chinese
 export default {
+  'fabric.mention.unknow.user.error': '未知用户 {id}',
   'fabric.mention.noAccess.warning': '将不会通知{name}因为他们无法访问',
   'fabric.mention.noAccess.label': '无法访问',
   'fabric.mention.error.defaultHeadline': '出错了',
@@ -13,7 +14,10 @@ export default {
   'fabric.mention.error.loginAgain': '尝试再次退出',
   'fabric.mention.error.differentText': '尝试输入不同的文本',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, other{{count}成员{includes, select, true {, including you}其他 {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ 成员{includes, select, true {, including you}其他 {}}',
+    '{0, plural, other{{0} 位成员}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, other{{0} 位成员，包括您}}',
+  'fabric.elements.mentions.team.member.50plus': '50 多位成员',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50 多位成员，包括您',
 };

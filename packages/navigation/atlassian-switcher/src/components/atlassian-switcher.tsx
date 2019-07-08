@@ -18,7 +18,7 @@ import mapPropsToFeatures from '../utils/map-props-to-features';
 type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
-  triggerXFlow: TriggerXFlowCallback;
+  triggerXFlow?: TriggerXFlowCallback;
 } & Partial<FeatureFlagProps>;
 
 const getAnalyticsContext = (attributes: object) => ({
@@ -31,7 +31,7 @@ const getAnalyticsContext = (attributes: object) => ({
 const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
   const { product } = props;
 
-  let Switcher: React.ReactType;
+  let Switcher: React.ElementType;
   switch (product) {
     case Product.JIRA:
       Switcher = JiraSwitcher;

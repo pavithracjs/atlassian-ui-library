@@ -21,6 +21,10 @@ declare module '@atlaskit/blanket' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/breadcrumbs' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/button' {
   declare module.exports: any;
 }
@@ -38,6 +42,14 @@ declare module '@atlaskit/dynamic-table' {
 }
 
 declare module '@atlaskit/flag' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/icon' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/inline-dialog' {
   declare module.exports: any;
 }
 
@@ -69,6 +81,14 @@ declare module '@atlaskit/pagination' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/portal' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/radio' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/section-message' {
   declare module.exports: any;
 }
@@ -81,10 +101,6 @@ declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
 
-declare module '@atlaskit/radio' {
-  declare module.exports: any;
-}
-
-declare module '@atlaskit/portal' {
+declare module '@atlaskit/tooltip' {
   declare module.exports: any;
 }

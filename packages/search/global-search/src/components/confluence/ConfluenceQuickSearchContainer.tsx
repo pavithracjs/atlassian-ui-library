@@ -11,14 +11,15 @@ import {
   CrossProductSearchClient,
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  ABTest,
+  Filter,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
   Result,
   ResultsWithTiming,
-  GenericResultMap,
   ConfluenceResultsMap,
+  PersonResult,
+  ConfluenceObjectResult,
 } from '../../model/Result';
 import { PeopleSearchClient } from '../../api/PeopleSearchClient';
 import { SearchScreenCounter } from '../../util/ScreenCounter';
@@ -36,6 +37,8 @@ import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
 import QuickSearchContainer, {
   SearchResultProps,
+  PartiallyLoadedRecentItems,
+  FilterComponentProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import NoResultsState from './NoResultsState';
@@ -47,36 +50,55 @@ import {
   mapSearchResultsToUIGroups,
   MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
+import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
+import { AutocompleteClient } from '../../api/AutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
-import { isInFasterSearchExperiment } from '../../util/experiment-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
+import { ConfluenceFeatures } from '../../util/features';
+import ConfluenceFilterGroup from './ConfluenceFilterGroup';
+import NoResultsInFilterState from './NoResultsInFilterState';
+import some from 'lodash.some';
 
+/**
+ * NOTE: This component is only consumed internally as such avoid using optional props
+ * i.e. instead of "propX?: something" use "propX: something | undefined"
+ *
+ * This improves type safety and prevent us from accidentally forgetting a parameter.
+ */
 export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
-  linkComponent?: LinkComponent;
-  createAnalyticsEvent?: CreateAnalyticsEventFn;
-  referralContextIdentifiers?: ReferralContextIdentifiers;
+  autocompleteClient: AutocompleteClient;
+  linkComponent: LinkComponent | undefined;
+  referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   logger: Logger;
-  fasterSearchFFEnabled: boolean;
-  useUrsForBootstrapping: boolean;
-  modelContext?: ConfluenceModelContext;
-  onAdvancedSearch?: (
-    e: CancelableEvent,
-    entity: string,
-    query: string,
-    searchSessionId: string,
-  ) => void;
-  inputControls?: JSX.Element;
+  modelContext: ConfluenceModelContext | undefined;
+  onAdvancedSearch:
+    | undefined
+    | ((
+        e: CancelableEvent,
+        entity: string,
+        query: string,
+        searchSessionId: string,
+      ) => void);
+  inputControls: JSX.Element | undefined;
+  features: ConfluenceFeatures;
+
+  // These are provided by the withAnalytics HOC
+  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
+  createAnalyticsEvent?: CreateAnalyticsEventFn;
 }
 
 const getRecentItemMatches = (
   query: string,
-  recentItems: GenericResultMap,
-): Result[] => {
-  return recentItems.objects
+  recentItems: ConfluenceResultsMap | null,
+): ConfluenceObjectResult[] => {
+  if (!recentItems) {
+    return [];
+  }
+
+  return recentItems.objects.items
     .filter(result => {
       return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
     })
@@ -85,18 +107,35 @@ const getRecentItemMatches = (
 
 const mergeSearchResultsWithRecentItems = (
   searchResults: ConfluenceResultsMap,
-  recentItems: Result[],
+  recentItems: ConfluenceObjectResult[],
 ): ConfluenceResultsMap => {
-  const defaultSearchResults = {
-    objects: [],
-    spaces: [],
-    people: [],
+  const defaultSearchResults: ConfluenceResultsMap = {
+    objects: {
+      items: [],
+      totalSize: 0,
+    },
+    spaces: {
+      items: [],
+      totalSize: 0,
+    },
+    people: {
+      items: [],
+      totalSize: 0,
+    },
   };
 
   const results = { ...defaultSearchResults, ...searchResults };
 
   return {
-    objects: appendListWithoutDuplication(recentItems, results.objects),
+    objects: {
+      items: appendListWithoutDuplication(recentItems, results.objects.items),
+      // We don't add the 3 extra results to the total.
+      // The rationale here is that the server results will eventually contain the 3 recent items
+      // so the total here already includes the recent items.
+      // In the case where we don't know the number from the server, we also can't show more so
+      // this numeber should just be the size of the current list.
+      totalSize: results.objects.totalSize,
+    },
     spaces: results.spaces,
     people: results.people,
   };
@@ -146,23 +185,32 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     query: string,
     sessionId: string,
     queryVersion: number,
+    filters: Filter[],
   ): Promise<CrossProductSearchResults> {
-    const { crossProductSearchClient, modelContext } = this.props;
+    const { crossProductSearchClient, modelContext, features } = this.props;
 
-    let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
+    let scopes = [Scope.ConfluencePageBlogAttachment];
 
-    scopes.push(Scope.People);
+    if (!some(filters, (filter: Filter) => filter['@type'] === 'spaces')) {
+      scopes = scopes.concat([Scope.ConfluenceSpace, Scope.People]);
+    }
 
     const modelParams = buildConfluenceModelParams(
       queryVersion,
       modelContext || {},
     );
 
+    const limit = features.searchExtensionsEnabled
+      ? CONF_MAX_DISPLAYED_RESULTS
+      : null;
+
     const results = await crossProductSearchClient.search(
       query,
       sessionId,
       scopes,
       modelParams,
+      limit,
+      filters,
     );
 
     return results;
@@ -207,9 +255,15 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     sessionId: string,
     startTime: number,
     queryVersion: number,
-  ): Promise<ResultsWithTiming> => {
+    filters: Filter[],
+  ): Promise<ResultsWithTiming<ConfluenceResultsMap>> => {
     const confXpSearchPromise = handlePromiseError(
-      this.searchCrossProductConfluence(query, sessionId, queryVersion),
+      this.searchCrossProductConfluence(
+        query,
+        sessionId,
+        queryVersion,
+        filters,
+      ),
       EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
       this.handleSearchErrorAnalyticsThunk('xpsearch-confluence'),
     );
@@ -220,51 +274,61 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     return Promise.all<CrossProductSearchResults, number>([
       confXpSearchPromise,
       mapPromiseToPerformanceTime(confXpSearchPromise),
-    ]).then(([xpsearchResults, confSearchElapsedMs]) => ({
-      results: {
-        objects:
-          xpsearchResults.results.get(Scope.ConfluencePageBlogAttachment) || [],
-        spaces: xpsearchResults.results.get(Scope.ConfluenceSpace) || [],
-        people: xpsearchResults.results.get(Scope.People) || [],
-      },
-      timings: {
-        confSearchElapsedMs,
-      },
-    }));
+    ]).then(([xpsearchResults, confSearchElapsedMs]) => {
+      const spaces = xpsearchResults.results[Scope.ConfluenceSpace];
+      const objects =
+        xpsearchResults.results[Scope.ConfluencePageBlogAttachment];
+      const people = xpsearchResults.results[Scope.People];
+
+      return {
+        results: {
+          objects: {
+            items: objects ? objects.items : [],
+            totalSize: objects ? objects.totalSize : 0,
+          },
+          spaces: {
+            items: spaces ? spaces.items : [],
+            totalSize: spaces ? spaces.totalSize : 0,
+          },
+          people: {
+            items: people ? people.items : [],
+            totalSize: people ? people.totalSize : 0,
+          },
+        },
+        timings: {
+          confSearchElapsedMs,
+        },
+      };
+    });
   };
 
-  getAbTestData = (sessionId: string): Promise<ABTest> => {
-    return this.props.crossProductSearchClient.getAbTestData(
-      Scope.ConfluencePageBlogAttachment,
-    );
-  };
-
-  getRecentPeople = (sessionId: string): Promise<Result[]> => {
+  getRecentPeople = (sessionId: string): Promise<PersonResult[]> => {
     const {
       peopleSearchClient,
       crossProductSearchClient,
-      useUrsForBootstrapping,
+      features,
     } = this.props;
 
     // We want to be consistent with the search results when prefetching is enabled so we will use URS (via aggregator) to get the
     // bootstrapped people results, see prefetchResults.ts.
-    return !useUrsForBootstrapping
+    return !features.useUrsForBootstrapping
       ? peopleSearchClient.getRecentPeople()
       : crossProductSearchClient
           .getPeople('', sessionId, 'confluence', 3)
-          .then(
-            xProductResult =>
-              xProductResult.results.get(Scope.UserConfluence) || [],
-          );
+          .then(xProductResult => {
+            const recentPeople = xProductResult.results[Scope.UserConfluence];
+            return recentPeople ? recentPeople.items : [];
+          });
   };
 
-  getRecentItems = (sessionId: string): Promise<ResultsWithTiming> => {
+  getRecentItems = (
+    sessionId: string,
+  ): PartiallyLoadedRecentItems<ConfluenceResultsMap> => {
     const { confluenceClient } = this.props;
 
     const recentActivityPromisesMap = {
-      'recent-confluence-items': confluenceClient.getRecentItems(sessionId),
-      'recent-confluence-spaces': confluenceClient.getRecentSpaces(sessionId),
-      'recent-people': this.getRecentPeople(sessionId),
+      'recent-confluence-items': confluenceClient.getRecentItems(),
+      'recent-confluence-spaces': confluenceClient.getRecentSpaces(),
     };
 
     const recentActivityPromises: Promise<Result[]>[] = (Object.keys(
@@ -277,45 +341,83 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       ),
     );
 
-    return Promise.all(recentActivityPromises).then(
-      ([
-        recentlyViewedPages,
-        recentlyViewedSpaces,
-        recentlyInteractedPeople,
-      ]) => ({
-        results: {
-          objects: recentlyViewedPages,
-          spaces: recentlyViewedSpaces,
-          people: recentlyInteractedPeople,
-        },
-      }),
+    // NOTE:
+    // We lose type safety here as typescript assumes there's no guarantee the order in which a map
+    // gets converted into promises. Also there is currently no way (and no way in the forseeable future)
+    // to get typescript to convert union types into tuple types (https://github.com/Microsoft/TypeScript/issues/13298)
+    const required = Promise.all(recentActivityPromises).then(
+      ([recentlyViewedPages, recentlyViewedSpaces]) => {
+        return {
+          results: {
+            objects: {
+              items: recentlyViewedPages as ConfluenceObjectResult[],
+              totalSize: recentlyViewedPages.length,
+            },
+            spaces: {
+              items: recentlyViewedSpaces as Result[],
+              totalSize: recentlyViewedSpaces.length,
+            },
+            people: {
+              items: [],
+              totalSize: 0,
+            },
+          },
+        };
+      },
     );
+
+    return {
+      eagerRecentItemsPromise: required,
+      lazyLoadedRecentItemsPromise: this.getRecentPeople(sessionId).then(
+        recentPeople => ({
+          people: {
+            items: recentPeople,
+            totalSize: recentPeople.length,
+          },
+        }),
+      ),
+    };
+  };
+
+  getAutocompleteSuggestions = (query: string): Promise<string[]> => {
+    const { autocompleteClient } = this.props;
+
+    const autocompletePromise = handlePromiseError(
+      autocompleteClient.getAutocompleteSuggestions(query),
+      [query],
+      this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
+    );
+
+    return autocompletePromise;
   };
 
   getPreQueryDisplayedResults = (
-    recentItems: ConfluenceResultsMap,
-    abTest: ABTest,
-    searchSessionId: string,
-  ) => mapRecentResultsToUIGroups(recentItems, abTest, searchSessionId);
-
-  getPostQueryDisplayedResults = (
-    searchResults: ConfluenceResultsMap,
-    latestSearchQuery: string,
-    recentItems: ConfluenceResultsMap,
-    abTest: ABTest,
-    isLoading: boolean,
-    inFasterSearchExperiment: boolean,
+    recentItems: ConfluenceResultsMap | null,
     searchSessionId: string,
   ) => {
-    if (inFasterSearchExperiment) {
-      const currentSearchResults: ConfluenceResultsMap = isLoading
-        ? ({} as ConfluenceResultsMap)
-        : (searchResults as ConfluenceResultsMap);
+    const { features } = this.props;
+    return mapRecentResultsToUIGroups(recentItems, features, searchSessionId);
+  };
+
+  getPostQueryDisplayedResults = (
+    searchResults: ConfluenceResultsMap | null,
+    latestSearchQuery: string,
+    recentItems: ConfluenceResultsMap | null,
+    isLoading: boolean,
+    searchSessionId: string,
+  ) => {
+    const { features } = this.props;
+    if (features.isInFasterSearchExperiment) {
+      const currentSearchResults: ConfluenceResultsMap =
+        isLoading || !searchResults
+          ? ({} as ConfluenceResultsMap)
+          : searchResults;
 
       const recentResults = getRecentItemMatches(
         latestSearchQuery,
-        recentItems as ConfluenceResultsMap,
+        recentItems,
       );
+
       const mergedRecentSearchResults = mergeSearchResultsWithRecentItems(
         currentSearchResults,
         recentResults,
@@ -323,14 +425,99 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
       return mapSearchResultsToUIGroups(
         mergedRecentSearchResults,
-        abTest,
+        features,
         searchSessionId,
       );
     } else {
       return mapSearchResultsToUIGroups(
-        searchResults as ConfluenceResultsMap,
-        abTest,
+        searchResults,
+        features,
         searchSessionId,
+      );
+    }
+  };
+
+  getNoResultsStateComponent = (
+    latestSearchQuery: string,
+    searchSessionId: string,
+    currentFilters: Filter[],
+    onFilterChanged: (filter: Filter[]) => void,
+  ) => {
+    const {
+      onAdvancedSearch = () => {},
+      referralContextIdentifiers,
+    } = this.props;
+    const filtersAreApplied = currentFilters.length > 0;
+    if (
+      filtersAreApplied &&
+      referralContextIdentifiers &&
+      referralContextIdentifiers.currentContainerName
+    ) {
+      return (
+        <NoResultsInFilterState
+          spaceTitle={referralContextIdentifiers.currentContainerName}
+          query={latestSearchQuery}
+          onClickAdvancedSearch={(event, entity) =>
+            onAdvancedSearch(event, entity, latestSearchQuery, searchSessionId)
+          }
+          onClearFilters={() => {
+            onFilterChanged([]);
+          }}
+        />
+      );
+    }
+
+    return (
+      <NoResultsState
+        query={latestSearchQuery}
+        onClick={(event, entity) =>
+          onAdvancedSearch(event, entity, latestSearchQuery, searchSessionId)
+        }
+      />
+    );
+  };
+
+  getFilterComponent = ({
+    latestSearchQuery,
+    searchResults,
+    isLoading,
+    currentFilters,
+    onFilterChanged,
+  }: FilterComponentProps<ConfluenceResultsMap>) => {
+    const { referralContextIdentifiers, modelContext, features } = this.props;
+
+    if (!features.complexSearchExtensionsEnabled) {
+      return;
+    }
+
+    // only show filter post-query
+    if (!latestSearchQuery) {
+      return;
+    }
+    // don't show space filter if there are no results in all spaces
+    if (
+      currentFilters.length === 0 &&
+      (searchResults === null || searchResults.objects.totalSize === 0)
+    ) {
+      return;
+    }
+
+    if (
+      referralContextIdentifiers &&
+      referralContextIdentifiers.currentContainerIcon &&
+      referralContextIdentifiers.currentContainerName &&
+      modelContext &&
+      modelContext.spaceKey
+    ) {
+      return (
+        <ConfluenceFilterGroup
+          onFilterChanged={onFilterChanged}
+          isDisabled={isLoading}
+          spaceTitle={referralContextIdentifiers.currentContainerName}
+          spaceAvatar={referralContextIdentifiers.currentContainerIcon}
+          spaceKey={modelContext.spaceKey}
+          isFilterOn={currentFilters.length !== 0}
+        />
       );
     }
   };
@@ -344,22 +531,32 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-    abTest,
-  }: SearchResultProps) => {
-    const { onAdvancedSearch = () => {}, fasterSearchFFEnabled } = this.props;
-
-    const inFasterSearchExperiment = isInFasterSearchExperiment(
-      abTest,
-      fasterSearchFFEnabled,
-    );
+    searchMore,
+    currentFilters,
+    onFilterChanged,
+  }: SearchResultProps<ConfluenceResultsMap>) => {
+    const { onAdvancedSearch = () => {}, features } = this.props;
+    const onSearchMoreAdvancedSearchClicked = (event: CancelableEvent) => {
+      onAdvancedSearch(
+        event,
+        ConfluenceAdvancedSearchTypes.Content,
+        latestSearchQuery,
+        searchSessionId,
+      );
+    };
 
     return (
       <SearchResultsComponent
+        query={latestSearchQuery}
         isPreQuery={!latestSearchQuery}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}
-        keepPreQueryState={inFasterSearchExperiment ? false : keepPreQueryState}
+        searchMore={searchMore}
+        onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
+        keepPreQueryState={
+          features.isInFasterSearchExperiment ? false : keepPreQueryState
+        }
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
@@ -385,47 +582,32 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           />
         )}
         getPreQueryGroups={() =>
-          this.getPreQueryDisplayedResults(
-            recentItems as ConfluenceResultsMap,
-            abTest,
-            searchSessionId,
-          )
+          this.getPreQueryDisplayedResults(recentItems, searchSessionId)
         }
         getPostQueryGroups={() =>
           this.getPostQueryDisplayedResults(
-            searchResults as ConfluenceResultsMap,
+            searchResults,
             latestSearchQuery,
-            recentItems as ConfluenceResultsMap,
-            abTest,
+            recentItems,
             isLoading,
-            inFasterSearchExperiment,
             searchSessionId,
           )
         }
-        renderNoResult={() => (
-          <NoResultsState
-            query={latestSearchQuery}
-            onClick={(event, entity) =>
-              onAdvancedSearch(
-                event,
-                entity,
-                latestSearchQuery,
-                searchSessionId,
-              )
-            }
-          />
-        )}
+        renderNoResult={() =>
+          this.getNoResultsStateComponent(
+            latestSearchQuery,
+            searchSessionId,
+            currentFilters,
+            onFilterChanged,
+          )
+        }
       />
     );
   };
 
   render() {
-    const {
-      linkComponent,
-      logger,
-      inputControls,
-      fasterSearchFFEnabled,
-    } = this.props;
+    const { linkComponent, logger, inputControls, features } = this.props;
+    const { isAutocompleteEnabled } = features;
 
     return (
       <QuickSearchContainer
@@ -434,15 +616,20 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         )}
         linkComponent={linkComponent}
         getSearchResultsComponent={this.getSearchResultsComponent}
+        getFilterComponent={this.getFilterComponent}
+        referralContextIdentifiers={this.props.referralContextIdentifiers}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
-        getAbTestData={this.getAbTestData}
+        getAutocompleteSuggestions={
+          isAutocompleteEnabled ? this.getAutocompleteSuggestions : undefined
+        }
+        product="confluence"
         handleSearchSubmit={this.handleSearchSubmit}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
         getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         logger={logger}
         inputControls={inputControls}
-        fasterSearchFFEnabled={fasterSearchFFEnabled}
+        features={features}
       />
     );
   }

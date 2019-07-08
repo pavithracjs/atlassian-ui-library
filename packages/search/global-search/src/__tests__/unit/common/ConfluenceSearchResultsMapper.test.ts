@@ -11,6 +11,7 @@ import {
   mapSearchResultsToUIGroups,
 } from '../../../components/confluence/ConfluenceSearchResultsMapper';
 import { ConfluenceResultsMap, ResultsGroup } from '../../../model/Result';
+import { ConfluenceFeatures } from '../../../util/features';
 
 type TestParam = {
   desc: string;
@@ -25,6 +26,15 @@ const abTest = {
   experimentId: 'experimentId',
 };
 
+const features: ConfluenceFeatures = {
+  abTest,
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
+  searchExtensionsEnabled: false,
+  isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
+};
+
 const searchSessionId = 'searchSessionId';
 
 [
@@ -36,22 +46,31 @@ const searchSessionId = 'searchSessionId';
       peopleCount,
       objectsCount,
       spacesCount,
-    }: any): ConfluenceResultsMap => ({
-      people: peopleCount && [...Array(peopleCount)].map(makePersonResult),
-      objects:
-        objectsCount &&
-        [...Array(objectsCount)].map(makeConfluenceObjectResult),
-      spaces:
-        spacesCount &&
-        [...Array(spacesCount)].map(makeConfluenceContainerResult),
+    }: {
+      peopleCount: number | undefined;
+      objectsCount: number | undefined;
+      spacesCount: number | undefined;
+    }): ConfluenceResultsMap => ({
+      people: {
+        items: [...Array(peopleCount || 0)].map(makePersonResult),
+        totalSize: peopleCount || 0,
+      },
+      objects: {
+        items: [...Array(objectsCount || 0)].map(makeConfluenceObjectResult),
+        totalSize: objectsCount || 0,
+      },
+      spaces: {
+        items: [...Array(spacesCount || 0)].map(makeConfluenceContainerResult),
+        totalSize: spacesCount || 0,
+      },
     });
 
     [
       {
         desc: 'it should return 3 groups even with empty result',
-        objectsCount: undefined,
-        spacesCount: undefined,
-        peopleCount: undefined,
+        objectsCount: 0,
+        spacesCount: 0,
+        peopleCount: 0,
       },
       {
         desc: 'it should return ui groups each with correct items',
@@ -68,7 +87,7 @@ const searchSessionId = 'searchSessionId';
       {
         desc: 'it should return 3 groups even with missing results',
         peopleCount: 1,
-        objectsCount: undefined,
+        objectsCount: 0,
         spacesCount: 0,
       },
     ].forEach(({ desc, objectsCount, peopleCount, spacesCount }: TestParam) => {
@@ -79,7 +98,7 @@ const searchSessionId = 'searchSessionId';
           spacesCount,
         });
 
-        const groups = mapper(recentResultsMap, abTest, searchSessionId);
+        const groups = mapper(recentResultsMap, features, searchSessionId);
         expect(groups.length).toBe(3);
         expect(groups.map(group => group.key)).toEqual([
           'objects',
@@ -101,7 +120,7 @@ const searchSessionId = 'searchSessionId';
         peopleCount: MAX_PEOPLE + 2,
         spacesCount: MAX_SPACES + 4,
       });
-      const groups = mapper(recentResultsMap, abTest, searchSessionId);
+      const groups = mapper(recentResultsMap, features, searchSessionId);
       expect(groups.map(group => group.items.length)).toEqual([
         DEFAULT_MAX_OBJECTS,
         MAX_SPACES,
@@ -131,7 +150,11 @@ const searchSessionId = 'searchSessionId';
           ...abTest,
           experimentId: 'grape-15',
         };
-        const groups = mapper(recentResultsMap, grapeABTest, searchSessionId);
+        const groups = mapper(
+          recentResultsMap,
+          { ...features, abTest: grapeABTest },
+          searchSessionId,
+        );
         checkResultCounts(groups, 15);
       });
 
@@ -140,7 +163,11 @@ const searchSessionId = 'searchSessionId';
           ...abTest,
           experimentId: 'grape-abc',
         };
-        const groups = mapper(recentResultsMap, grapeABTest, searchSessionId);
+        const groups = mapper(
+          recentResultsMap,
+          { ...features, abTest: grapeABTest },
+          searchSessionId,
+        );
         checkResultCounts(groups, DEFAULT_MAX_OBJECTS);
       });
     });

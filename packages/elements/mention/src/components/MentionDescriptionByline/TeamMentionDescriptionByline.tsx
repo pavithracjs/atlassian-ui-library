@@ -5,8 +5,7 @@ import { DescriptionBylineStyle } from './styles';
 import { messages } from '../i18n';
 
 export default class TeamMentionDescriptionByline extends React.PureComponent<
-  DescriptionBylineProps,
-  {}
+  DescriptionBylineProps
 > {
   private renderByline = (memberCount: number, includesYou: boolean) => {
     if (includesYou) {
@@ -14,31 +13,31 @@ export default class TeamMentionDescriptionByline extends React.PureComponent<
         return this.getBylineComponent(
           <FormattedMessage {...messages.plus50MembersWithYou} />,
         );
-      } else {
-        return this.getBylineComponent(
-          <FormattedMessage
-            {...messages.memberCountWithYou}
-            values={{
-              count: memberCount,
-            }}
-          />,
-        );
       }
+
+      return this.getBylineComponent(
+        <FormattedMessage
+          {...messages.memberCountWithYou}
+          values={{
+            0: memberCount,
+          }}
+        />,
+      );
     } else {
       if (memberCount > 50) {
         return this.getBylineComponent(
           <FormattedMessage {...messages.plus50MembersWithoutYou} />,
         );
-      } else {
-        return this.getBylineComponent(
-          <FormattedMessage
-            {...messages.memberCountWithoutYou}
-            values={{
-              count: memberCount,
-            }}
-          />,
-        );
       }
+
+      return this.getBylineComponent(
+        <FormattedMessage
+          {...messages.memberCountWithoutYou}
+          values={{
+            0: memberCount,
+          }}
+        />,
+      );
     }
   };
 
@@ -49,7 +48,7 @@ export default class TeamMentionDescriptionByline extends React.PureComponent<
   render() {
     const { context } = this.props.mention;
 
-    if (context === null || typeof context === 'undefined') {
+    if (!context) {
       return null;
     }
 

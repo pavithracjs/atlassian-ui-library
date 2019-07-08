@@ -24,7 +24,7 @@ const App = () => (
   </TagGroup>
 );
 
-test('should ssr then hydrate tag-group correctly', () => {
+test.skip('should ssr then hydrate tag-group correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
   // server-side
   canUseDom.mockReturnValue(false);

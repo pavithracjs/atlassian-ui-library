@@ -16,9 +16,7 @@ import {
   errorFileId,
   videoSquareFileId,
 } from '@atlaskit/media-test-helpers';
-import { FileIdentifier } from '@atlaskit/media-core';
-
-export { defaultCollectionName } from '@atlaskit/media-test-helpers';
+import { FileIdentifier } from '@atlaskit/media-client';
 
 export const imageIdentifier: FileIdentifier = {
   ...imageFileId,

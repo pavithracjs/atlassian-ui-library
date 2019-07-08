@@ -6,6 +6,7 @@
  */
 // German
 export default {
+  'fabric.mention.unknow.user.error': 'Unbekannter Benutzer {id}',
   'fabric.mention.noAccess.warning':
     '{name} wird nicht benachrichtigt, da diese Person keinen Zugriff besitzt.',
   'fabric.mention.noAccess.label': 'Kein Zugriff',
@@ -16,7 +17,10 @@ export default {
   'fabric.mention.error.differentText':
     'Versuchen Sie, einen anderen Text einzugeben.',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} Mitglied{einschließlich, select, true {, einschließlich Ihnen} other {}}} other{{count} Mitglieder{einschließlich, select, true {, einschließlich Ihnen} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ Mitglieder{einschließlich, select, true {, einschließlich Ihnen} other {}}',
+    '{0, plural, one{Ein Mitglied} other{{0} Mitglieder}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} Mitglieder, inklusive Ihnen} other{{0} Mitglieder, inklusive Ihnen}}',
+  'fabric.elements.mentions.team.member.50plus': 'Mehr als 50 Mitglieder',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    'Mehr als 50 Mitglieder, inklusive Ihnen',
 };

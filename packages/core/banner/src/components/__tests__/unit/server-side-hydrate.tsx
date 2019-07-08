@@ -3,15 +3,17 @@ import * as ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
+declare var global: any;
+
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate banner correctly', async () => {
+test.skip('should ssr then hydrate banner correctly', async () => {
   const [example] = await getExamplesFor('banner');
-  const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+  const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);

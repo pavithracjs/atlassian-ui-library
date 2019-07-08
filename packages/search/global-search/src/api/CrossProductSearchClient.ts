@@ -4,6 +4,9 @@ import {
   ResultType,
   AnalyticsType,
   ContentType,
+  Results,
+  PeopleResults,
+  ConfluenceObjectResults,
 } from '../model/Result';
 import { mapJiraItemToResult } from './JiraItemMapper';
 import { mapConfluenceItemToResult } from './ConfluenceItemMapper';
@@ -29,13 +32,58 @@ export const DEFAULT_AB_TEST: ABTest = Object.freeze({
   controlId: 'default',
 });
 
+type PeopleScopes = Scope.People | Scope.UserConfluence | Scope.UserJira;
+type ConfluenceObjectScopes =
+  | Scope.ConfluencePageBlogAttachment
+  | Scope.ConfluencePageBlog;
+type ConfluenceContainerResults = Scope.ConfluenceSpace;
+
+/**
+ * Eventually we want all the scopes to be typed in some way
+ */
+export type TypePeopleResults = {
+  [S in PeopleScopes]: PeopleResults | undefined
+};
+
+export type TypeConfluenceObjectResults = {
+  [S in ConfluenceObjectScopes]: ConfluenceObjectResults | undefined
+};
+
+export type TypeConfluenceContainerResults = {
+  [S in ConfluenceContainerResults]: Results | undefined
+};
+
+/**
+ * Temporary type as we start typing all our results
+ */
+export type GenericResults = {
+  [S in Exclude<Scope, PeopleScopes>]: Results | undefined
+};
+
+/**
+ * Note that this type ONLY provides types when retrieving objects given a key.
+ * It does NOT have much type safety when it comes to assigning the values to a key.
+ *
+ * e.g.
+ * typeof results[Scope.People] == PeopleResults (i.e provides type safety)
+ *
+ * but the following will also not throw any typescript warnings.
+ *
+ * const scope: Scope = Scope.People;
+ * results[scope] = new Result()
+ */
+export type SearchResultsMap = GenericResults &
+  TypePeopleResults &
+  TypeConfluenceObjectResults &
+  TypeConfluenceContainerResults;
+
 export type CrossProductSearchResults = {
-  results: Map<Scope, Result[]>;
+  results: SearchResultsMap;
   abTest?: ABTest;
 };
 
 export const EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE: CrossProductSearchResults = {
-  results: new Map(),
+  results: {} as SearchResultsMap,
 };
 
 export interface CrossProductSearchResponse {
@@ -59,6 +107,7 @@ export interface ScopeResult {
   error?: string;
   results: SearchItem[];
   abTest?: ABTest; // in case of an error abTest will be undefined
+  size?: number;
 }
 
 export interface Experiment {
@@ -71,6 +120,11 @@ export interface PrefetchedData {
   abTest: Promise<ABTest> | undefined;
 }
 
+export interface Filter {
+  '@type': string;
+  [filterType: string]: string[] | string;
+}
+
 export interface CrossProductSearchClient {
   search(
     query: string,
@@ -78,6 +132,7 @@ export interface CrossProductSearchClient {
     scopes: Scope[],
     modelParams: ModelParam[],
     resultLimit?: number | null,
+    filters?: Filter[],
   ): Promise<CrossProductSearchResults>;
   getPeople(
     query: string,
@@ -86,6 +141,7 @@ export interface CrossProductSearchClient {
     resultLimit?: number,
   ): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
+  getAbTestDataForProduct(product: QuickSearchContext): Promise<ABTest>;
 }
 
 export default class CachingCrossProductSearchClientImpl
@@ -106,8 +162,6 @@ export default class CachingCrossProductSearchClientImpl
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
-    this.bootstrapPeopleCache =
-      prefetchResults && prefetchResults.recentPeoplePromise;
   }
 
   public async getPeople(
@@ -147,7 +201,7 @@ export default class CachingCrossProductSearchClientImpl
     }
 
     return {
-      results: {} as Map<Scope, Result[]>,
+      results: {} as SearchResultsMap,
     };
   }
 
@@ -157,6 +211,7 @@ export default class CachingCrossProductSearchClientImpl
     scopes: Scope[],
     modelParams: ModelParam[],
     resultLimit?: number | null,
+    filters?: Filter[],
   ): Promise<CrossProductSearchResults> {
     const path = 'quicksearch/v1';
 
@@ -165,6 +220,7 @@ export default class CachingCrossProductSearchClientImpl
       cloudId: this.cloudId,
       limit: resultLimit || this.RESULT_LIMIT,
       scopes: scopes,
+      filters: filters || [],
       ...(modelParams.length > 0 ? { modelParams } : {}),
     };
 
@@ -172,9 +228,32 @@ export default class CachingCrossProductSearchClientImpl
       path,
       body,
     );
-    return this.parseResponse(response, sessionId);
+    return this.parseResponse(response);
   }
 
+  public async getAbTestDataForProduct(product: QuickSearchContext) {
+    let scope: Scope;
+
+    switch (product) {
+      case 'confluence':
+        scope = Scope.ConfluencePageBlogAttachment;
+        break;
+      case 'jira':
+        scope = Scope.JiraIssue;
+        break;
+      default:
+        throw new Error('Invalid product for abtest');
+    }
+
+    return await this.getAbTestData(scope);
+  }
+
+  /**
+   * @deprecated use {getAbTestDataForProduct} instead. Using manually defined scopes here can
+   * break caching behaviour.
+   *
+   * This will be moved into private scope in the near future.
+   */
   public async getAbTestData(scope: Scope): Promise<ABTest> {
     if (this.abTestDataCache[scope]) {
       return this.abTestDataCache[scope];
@@ -229,24 +308,29 @@ export default class CachingCrossProductSearchClientImpl
    */
   private parseResponse(
     response: CrossProductSearchResponse,
-    searchSessionId: string,
   ): CrossProductSearchResults {
     let abTest: ABTest | undefined;
-    const results: Map<Scope, Result[]> = response.scopes
+    const results: SearchResultsMap = response.scopes
       .filter(scope => scope.results)
-      .reduce((resultsMap, scopeResult) => {
-        resultsMap.set(
-          scopeResult.id,
-          scopeResult.results.map(result =>
+      .reduce(
+        (resultsMap, scopeResult) => {
+          const items = scopeResult.results.map(result =>
             mapItemToResult(scopeResult.id as Scope, result),
-          ),
-        );
+          );
 
-        if (!abTest) {
-          abTest = scopeResult.abTest;
-        }
-        return resultsMap;
-      }, new Map());
+          resultsMap[scopeResult.id] = {
+            items,
+            totalSize:
+              scopeResult.size !== undefined ? scopeResult.size : items.length,
+          };
+
+          if (!abTest) {
+            abTest = scopeResult.abTest;
+          }
+          return resultsMap;
+        },
+        {} as SearchResultsMap,
+      );
 
     return { results, abTest };
   }

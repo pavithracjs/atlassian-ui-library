@@ -1,4 +1,3 @@
-import { MINIMUM_THRESHOLD } from '@atlaskit/visual-regression/helper';
 import { snapshot, initFullPageEditorWithAdf } from '../_utils';
 import adf from './__fixtures__/default-table.adf.json';
 import {
@@ -20,7 +19,7 @@ describe('Table floating toolbar:fullpage', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 
   it('display options', async () => {

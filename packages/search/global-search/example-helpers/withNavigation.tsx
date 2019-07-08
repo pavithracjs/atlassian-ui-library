@@ -5,6 +5,10 @@ import { Props } from '../src';
 import BasicNavigation from './BasicNavigation';
 import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
+import { QuickSearchContext } from '../src/api/types';
+import { randomSpaceIconUrl } from './mockData';
+
+const defaultCloudId = '497ea592-beb4-43c3-9137-a6e5fa301088'; // jdog
 
 const RadioGroup = styled.div`
   position: relative;
@@ -21,7 +25,11 @@ const Radio = styled.input`
 
 export interface Config {
   hideLocale?: boolean;
+  context?: 'jira' | 'confluence';
   message?: JSX.Element;
+  cloudIds?: {
+    [k: string]: string;
+  };
 }
 
 const MessageContainer = styled.div`
@@ -35,7 +43,7 @@ const MessageContainer = styled.div`
 `;
 
 interface State {
-  context: 'home' | 'jira' | 'confluence';
+  context: 'jira' | 'confluence';
   locale: string;
 }
 
@@ -43,26 +51,32 @@ interface State {
 export default function withNavigation<P extends Props>(
   WrappedComponent: ComponentType<P>,
   props?: Config,
+  availableContext: QuickSearchContext[] = ['confluence', 'jira'],
+  drawerIsOpen?: boolean,
 ): ComponentType<Partial<P>> {
-  return class WithNavigation extends React.Component<Partial<P>> {
+  return class WithNavigation extends React.Component<Partial<P>, State> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
+    constructor(props: Partial<P>) {
+      super(props);
+      this.state = {
+        context: props.context || availableContext[0],
+        locale: 'en',
+      };
+    }
     handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({
-        context: e.target.value,
-      });
+      if ('jira' === e.target.value || 'confluence' === e.target.value) {
+        this.setState({
+          context: e.target.value,
+        });
+      }
     };
 
     handleLocaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         locale: e.target.value,
       });
-    };
-
-    state: State = {
-      context: 'jira',
-      locale: 'en',
     };
 
     renderLocaleRadioGroup() {
@@ -110,6 +124,13 @@ export default function withNavigation<P extends Props>(
       );
     }
 
+    getCloudId(): string | null | undefined {
+      return (
+        (props && props.cloudIds && props.cloudIds[this.state.context]) ||
+        this.props.cloudId
+      );
+    }
+
     renderMessage() {
       if (!props || !props.message) {
         return null;
@@ -117,52 +138,44 @@ export default function withNavigation<P extends Props>(
       return <MessageContainer>{props.message}</MessageContainer>;
     }
     render() {
-      const { context, locale } = this.state;
+      const { context: currentContext, locale } = this.state;
 
       return (
         <>
           {this.renderMessage()}
           <RadioGroup>
             Context:
-            <Radio
-              type="radio"
-              id="confluence"
-              name="context"
-              value="confluence"
-              onChange={this.handleContextChange}
-              checked={context === 'confluence'}
-            />
-            <label htmlFor="confluence">Confluence</label>
-            <Radio
-              type="radio"
-              id="home"
-              name="context"
-              value="home"
-              onChange={this.handleContextChange}
-              checked={context === 'home'}
-            />
-            <label htmlFor="home">Home</label>
-            <Radio
-              type="radio"
-              id="jira"
-              name="context"
-              value="jira"
-              onChange={this.handleContextChange}
-              checked={context === 'jira'}
-            />
-            <label htmlFor="jira">Jira</label>
+            {availableContext.map(context => (
+              <React.Fragment key={context}>
+                <Radio
+                  type="radio"
+                  id={context}
+                  name="context"
+                  value={context}
+                  onChange={this.handleContextChange}
+                  checked={context === currentContext}
+                />
+                <label htmlFor={context}>{context.toUpperCase()}</label>
+              </React.Fragment>
+            ))}
           </RadioGroup>
           {this.renderLocaleRadioGroup()}
           <BasicNavigation
+            drawerIsOpen={drawerIsOpen}
             searchDrawerContent={
               <LocaleIntlProvider locale={locale}>
                 <WrappedComponent
-                  cloudId="cloudId"
-                  context={context}
+                  cloudId={this.getCloudId() || defaultCloudId}
+                  context={currentContext}
+                  modelContext={
+                    currentContext === 'confluence' ? { spaceKey: 'TEST' } : {}
+                  }
                   referralContextIdentifiers={{
                     currentContentId: '123',
                     currentContainerId: '456',
                     searchReferrerId: '123',
+                    currentContainerName: 'Test space',
+                    currentContainerIcon: randomSpaceIconUrl(),
                   }}
                   logger={DEVELOPMENT_LOGGER}
                   {...this.props}

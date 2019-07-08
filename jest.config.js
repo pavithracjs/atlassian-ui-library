@@ -78,7 +78,7 @@ const config = {
   },
   snapshotSerializers: ['enzyme-to-json/serializer'],
   setupFiles: ['./build/jest-config/setup.js'],
-  setupTestFrameworkScriptFile: `${__dirname}/jestFrameworkSetup.js`,
+  setupFilesAfterEnv: [`${__dirname}/jestFrameworkSetup.js`],
   testResultsProcessor: 'jest-junit',
   testEnvironmentOptions: {
     // Need this to have jsdom loading images.

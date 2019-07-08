@@ -1,11 +1,80 @@
 # @atlaskit/global-navigation
 
-## 7.2.3
-- [patch] [b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+## 7.3.1
 
-  -  This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/field-radio-group@6.0.4
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/navigation-next@6.3.2
+  - @atlaskit/onboarding@8.0.6
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/tag@8.0.5
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/atlassian-switcher@3.1.1
+  - @atlaskit/icon@19.0.0
+
+## 7.3.0
+
+### Minor Changes
+
+- [minor][2258719b5f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2258719b5f):
+
+  Add enableUserCentricProducts to Switcher. Remove enableExpandLink.
+
+  The expand link is now displayed when user-centric mode is enabled,
+  and the amount of products to display exceeds the threshold of 5.
+
+  To upgrade: Delete any references to enableExpandLink/experimental_enableExpandLink
+
+## 7.2.6
+
+### Patch Changes
+
+- [patch][4615439434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4615439434):
+
+  index.ts will now be ignored when publishing to npm
+
+## 7.2.5
+
+### Patch Changes
+
+- [patch][ad35073d36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad35073d36):
+
+  Update Atlassian Switcher rank
+
+## 7.2.4
+
+- Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
+  - @atlaskit/docs@8.1.2
+  - @atlaskit/avatar@16.0.3
+  - @atlaskit/button@13.0.8
+  - @atlaskit/drawer@4.1.3
+  - @atlaskit/dropdown-menu@8.0.4
+  - @atlaskit/field-base@13.0.4
+  - @atlaskit/field-radio-group@6.0.2
+  - @atlaskit/modal-dialog@10.0.4
+  - @atlaskit/navigation-next@6.0.8
+  - @atlaskit/onboarding@8.0.4
+  - @atlaskit/section-message@4.0.2
+  - @atlaskit/tag@8.0.3
+  - @atlaskit/toggle@7.0.1
+  - @atlaskit/atlassian-switcher@2.1.1
+  - @atlaskit/icon@18.0.0
+
+## 7.2.3
+
+- [patch][b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
+
+  - This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
 
 ## 7.2.2
+
 - Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
 - Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
   - @atlaskit/button@13.0.4
@@ -17,6 +86,7 @@
   - @atlaskit/modal-dialog@10.0.0
 
 ## 7.2.1
+
 - Updated dependencies [6dd86f5b07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6dd86f5b07):
   - @atlaskit/avatar@16.0.2
   - @atlaskit/drawer@4.1.1
@@ -28,11 +98,13 @@
   - @atlaskit/section-message@4.0.0
 
 ## 7.2.0
-- [minor] [9925939ae5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9925939ae5):
+
+- [minor][9925939ae5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9925939ae5):
 
   - Add support for Global Invite button and drawer
 
 ## 7.1.1
+
 - Updated dependencies [4b07b57640](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b07b57640):
   - @atlaskit/button@13.0.2
   - @atlaskit/icon@17.0.2
@@ -41,36 +113,43 @@
   - @atlaskit/logo@12.0.0
 
 ## 7.1.0
-- [minor] [75c3e9cb69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c3e9cb69):
+
+- [minor][75c3e9cb69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c3e9cb69):
 
   - Adds support for recent drawer in global navigation
 
 ## 7.0.1
-- [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
+
+- [patch][21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
 
   - Clean couple of TODO's that were already done
 
 ## 7.0.0
-- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+- [major][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
   - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 ## 6.3.2
+
 - Updated dependencies [59024ff4c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59024ff4c5):
   - @atlaskit/atlassian-switcher@0.5.0
 
 ## 6.3.1
+
 - Updated dependencies [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
   - @atlaskit/drawer@3.0.9
   - @atlaskit/modal-dialog@8.0.8
   - @atlaskit/blanket@9.0.0
 
 ## 6.3.0
-- [minor] [a618e6d372](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a618e6d372):
+
+- [minor][a618e6d372](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a618e6d372):
 
   - Updated help button actions, if enableHelpDrawer is true, a drawer will be displayed otherwise a menu will be displayed
 
 ## 6.2.9
+
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
   - @atlaskit/avatar@15.0.4
@@ -94,6 +173,7 @@
   - @atlaskit/theme@8.1.7
 
 ## 6.2.8
+
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
   - @atlaskit/analytics-next@4.0.3
@@ -116,30 +196,36 @@
   - @atlaskit/button@12.0.0
 
 ## 6.2.7
-- [patch] [bcb3d443fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcb3d443fc):
+
+- [patch][bcb3d443fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcb3d443fc):
 
   - Addressing QA fixes
 
 ## 6.2.6
-- [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
+
+- [patch][a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
 
   - Migrates package from emotion 9 to emotion 10. No behaviour or API changes.
 
 ## 6.2.5
+
 - Updated dependencies [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
   - @atlaskit/atlassian-switcher@0.4.0
 
 ## 6.2.4
-- [patch] [db2a7ffde6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db2a7ffde6):
+
+- [patch][db2a7ffde6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db2a7ffde6):
 
   - Fixing recent containers bug
 
 ## 6.2.3
-- [patch] [9d6f8d516a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d6f8d516a):
+
+- [patch][9d6f8d516a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d6f8d516a):
 
   - Adding expand link support to Atlassian Switcher
 
 ## 6.2.2
+
 - Updated dependencies [987ab01f30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/987ab01f30):
 - Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
   - @atlaskit/notification-log-client@4.0.2
@@ -148,30 +234,36 @@
   - @atlaskit/badge@11.0.0
 
 ## 6.2.1
-- [patch] [aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
+
+- [patch][aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
 
   - Adds an analytics event to track atlassian switcher dissmisals using the triggerXFlow callback
 
 ## 6.2.0
-- [minor] [6d7faa9784](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6d7faa9784):
+
+- [minor][6d7faa9784](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6d7faa9784):
 
   - Adds the ability to a function to access refs in navigation-next/GlobalItem. This function is exposed in GlobalNavigation for each of the items on GlobalNav in a prop called get<X>Ref, where X is product, create etc.
 
 ## 6.1.4
+
 - Updated dependencies [68443e3d6f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/68443e3d6f):
   - @atlaskit/atlassian-switcher@0.3.0
 
 ## 6.1.3
-- [patch] [a041506c4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a041506c4d):
+
+- [patch][a041506c4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a041506c4d):
 
   - Fixes a bug in global-navigation caused due to a missing asset in atlassian-switcher
 
 ## 6.1.2
-- [patch] [94acafec27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94acafec27):
+
+- [patch][94acafec27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94acafec27):
 
   - Adds the error page according to the designs.
 
 ## 6.1.1
+
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1
   - @atlaskit/analytics-next@4.0.1
@@ -196,12 +288,14 @@
   - @atlaskit/atlassian-switcher@0.2.0
 
 ## 6.1.0
-- [minor] [b08df363b7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b08df363b7):
+
+- [minor][b08df363b7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b08df363b7):
 
   - Add atlassian-switcher prefetch trigger in global-navigation
 
 ## 6.0.0
-- [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+- [major][76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 
   - Drop ES5 from all the flow modules
 
@@ -222,7 +316,7 @@
   import colors from `@atlaskit/theme/dist/esm/colors`;
   ```
 
-  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't _actually_ supposed to be used. 2. We are unable to do this _internally_ in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
 
   To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
 
@@ -233,46 +327,56 @@
   Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
 
 ## 5.7.6
+
 - Updated dependencies [6ee7b60c4a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ee7b60c4a):
   - @atlaskit/atlassian-switcher@0.1.0
 
 ## 5.7.5
+
 - Updated dependencies [e7fa9e1308](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7fa9e1308):
   - @atlaskit/atlassian-switcher@0.0.9
 
 ## 5.7.4
+
 - Updated dependencies [ebfdf1e915](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfdf1e915):
   - @atlaskit/atlassian-switcher@0.0.8
 
 ## 5.7.3
+
 - Updated dependencies [8a70a0db9f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a70a0db9f):
   - @atlaskit/atlassian-switcher@0.0.7
 
 ## 5.7.2
+
 - Updated dependencies [3437ac9990](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3437ac9990):
   - @atlaskit/atlassian-switcher@0.0.6
 
 ## 5.7.1
-- [patch] [9184dbf08b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9184dbf08b):
+
+- [patch][9184dbf08b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9184dbf08b):
 
   - Fixing package.json issue with atlassian-switcher
 
 ## 5.7.0
-- [minor] [308109b557](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/308109b557):
+
+- [minor][308109b557](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/308109b557):
 
   - Adding Atlassian Switcher integration
 
 ## 5.6.0
-- [minor] [8c149b1613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c149b1613):
+
+- [minor][8c149b1613](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c149b1613):
 
   - Add the ability to contolr the notification drawer
 
 ## 5.5.3
-- [patch] [4c9a6d2187](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c9a6d2187):
+
+- [patch][4c9a6d2187](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c9a6d2187):
 
   - Correcting attribute name in analytics event
 
 ## 5.5.2
+
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1
   - @atlaskit/avatar@14.1.8
@@ -287,21 +391,25 @@
   - @atlaskit/icon@16.0.0
 
 ## 5.5.1
-- [patch] [a4b0717](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4b0717):
+
+- [patch][a4b0717](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4b0717):
 
   - Updated analytics events triggered by the notification-indicator
 
 ## 5.5.0
-- [minor] [52224f1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52224f1):
+
+- [minor][52224f1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52224f1):
 
   - Add new properties to global-navigation to be able to inject and use new Settings drawer
 
 ## 5.4.0
-- [minor] [6ce6b0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ce6b0c):
+
+- [minor][6ce6b0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ce6b0c):
 
   - Support onCloseComplete
 
 ## 5.3.8
+
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/analytics-next@3.1.2
   - @atlaskit/avatar@14.1.7
@@ -326,11 +434,13 @@
   - @atlaskit/docs@6.0.0
 
 ## 5.3.7
-- [patch] [bee7762](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee7762):
+
+- [patch][bee7762](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee7762):
 
   - Fixes a double scrollbar issue that happens on windows when connected to a mouse
 
 ## 5.3.6
+
 - Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
   - @atlaskit/docs@5.2.3
   - @atlaskit/blanket@7.0.11
@@ -350,6 +460,7 @@
   - @atlaskit/badge@9.2.1
 
 ## 5.3.5
+
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2
   - @atlaskit/avatar@14.1.5
@@ -364,6 +475,7 @@
   - @atlaskit/icon@15.0.0
 
 ## 5.3.4
+
 - Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
   - @atlaskit/docs@5.2.1
   - @atlaskit/analytics-next@3.1.1
@@ -384,62 +496,76 @@
   - @atlaskit/button@10.0.0
 
 ## 5.3.3
-- [patch] [4d9040d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d9040d):
+
+- [patch][4d9040d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d9040d):
 
   - Uses the latest version of @atlaskit/drawer
 
 ## 5.3.2
+
 - Updated dependencies [8e753fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e753fc):
   - @atlaskit/navigation-next@4.0.0
 
 ## 5.3.1
-- [patch] [3e7125a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e7125a):
+
+- [patch][3e7125a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e7125a):
 
   - Fixes a bug that prevented the notification badge from clearing when the notification drawer is opened.
 
 ## 5.3.0
-- [minor] [ffb0d5a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ffb0d5a):
+
+- [minor][ffb0d5a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ffb0d5a):
 
   - Support global navigation drawer widths
 
 ## 5.2.1
-- [patch] [ad45749](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad45749):
+
+- [patch][ad45749](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad45749):
 
   - Update flow types to use object spread instead of intersection and reference GlobalItem via ElementConfig rather than its props directly
 
 ## 5.2.0
-- [minor] [0d4946e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d4946e):
+
+- [minor][0d4946e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d4946e):
 
   - Adds badgeCount to the analytics event that's fired when notification icon is clicked
 
 ## 5.1.2
-- [patch] [a637f5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a637f5e):
+
+- [patch][a637f5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a637f5e):
 
   - Refine and fix some flow type errors found by fixing @atlaskit/analytics-next HOCs to allow flow to type check properly
 
 ## 5.1.1
-- [patch] [d427e8a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d427e8a):
+
+- [patch][d427e8a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d427e8a):
 
   - Adds tests to global-navigation. Removes a bit of dead code
 
 ## 5.1.0
-- [minor] [96a854f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96a854f):
+
+- [minor][96a854f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96a854f):
 
   - This release makes the notification icon and badge a built-in into global-navigation. Introduces 4 new props which let the products configure the notification.
 
 ## 5.0.5
+
 - [patch] Adds missing implicit @babel/runtime dependency [b71751b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b71751b)
 
 ## 5.0.4
+
 - [patch] Bump @atlaskit/drawer dependency to fix positioning issues within the drawer for dropdowns and other fixed position elements. [3c34445](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3c34445)
 
 ## 5.0.3
+
 - [patch] Fixes an erroneous for an improper prop validation. Basic code cleanup and adds tests for GlobalNavigation. [a4e9f03](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4e9f03)
 
 ## 5.0.2
+
 - [patch] Fix scrollbars from displaying unnecessarily in global-navigation dropdown menus [28e6739](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/28e6739)
 
 ## 5.0.1
+
 - [patch] Updated dependencies [65c6514](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65c6514)
   - @atlaskit/docs@5.0.8
   - @atlaskit/avatar@14.0.11
@@ -451,92 +577,111 @@
   - @atlaskit/icon@14.0.0
 
 ## 5.0.0
+
 - [major] BREAKING: appSwitcherComponent now completely replaces the GlobalItem component altogether, rather than replacing the wrapping element for a GlobalItem. The props provided to this component have changed. If you still want to use a GlobalItem inside your appSwitcherComponent you should spread these props onto that GlobalItem before applying your own props. FIXES: fix issue with global-navigation drawer 'controlled' status not updating. update how appSwitcher component is handled to fix tooltip and hover state issues. [ac88888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ac88888)
 
 ## 4.6.0
+
 - [minor] Allow both href and onClick for product logo at the same time [34b1c13](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/34b1c13)
 
 ## 4.5.2
+
 - [patch] Fix issues with tooltips and hover states in items that render as dropdown menus. [ad36064](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad36064)
 
 ## 4.5.1
+
 - [patch] Fix drawer screen events not firing on subsequent opens of a drawer after the initial one [7eb5248](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7eb5248)
 
 ## 4.5.0
+
 - [minor] Fire keyboardShortcut pressed analytics event when closing a drawer with the ESC key [6bea7d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6bea7d0)
 
 ## 4.4.4
+
 - [patch] Adds the new hideTooltipOnMouseDown was required since global-navigation and navigation-next are using onMouseDown and onMouseUp iteractions [8719daf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8719daf)
 
 ## 4.4.3
+
 - [patch] fixing remount component on GlobalItem component [e71825a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e71825a)
 
 ## 4.4.2
+
 - [patch] fixing HelpIcon active on children :hover [ae95dad](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ae95dad)
 
 ## 4.4.1
+
 - [patch] Do not cache CustomComponent in GlobalItem [372795f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/372795f)
 
 ## 4.4.0
+
 - [minor] Exposes a new prop shouldUnmountOnExit in @atlaskit/drawer which let's the consumer decide if the contents of the drawer should be retained on unmount. Exposes 4 new props, one for each drawer to let the product decide if the contents of the drawer should be retained on drawerClose [2988998](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2988998)
 
 ## 4.3.4
+
 - [patch] bump dep on navigation-next [4af6c6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4af6c6a)
 
 ## 4.3.3
+
 - [patch] Bumping dependency on navigation-next. [d591e69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d591e69)
 
 ## 4.3.2
+
 - [patch] Updated dependencies [d5a043a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5a043a)
   - @atlaskit/icon@13.8.1
   - @atlaskit/onboarding@6.0.1
   - @atlaskit/modal-dialog@7.0.0
 
 ## 4.3.1
+
 - [patch] Adds sideEffects: false to allow proper tree shaking [b5d6d04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b5d6d04)
 
 ## 4.3.0
+
 - [minor] Add UI analytics event for dismissing global navigation drawers [e7d5eac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7d5eac)
 - [patch] Updated dependencies [501378a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/501378a)
   - @atlaskit/drawer@2.0.0
 
 ## 4.2.2
+
 - [patch] Updated dependencies [90ba6bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90ba6bd)
   - @atlaskit/navigation-next@3.6.6
   - @atlaskit/analytics-namespaced-context@2.1.2
   - @atlaskit/analytics-listeners@4.0.0
 
 ## 4.2.1
+
 - [patch] Notification badge icon should show 9+ instead of 1x [d716569](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d716569)
 
 ## 4.2.0
 
 - [minor] Add screen analytics events for navigation drawers [f02fb34](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f02fb34)
 
-
-- [none] Updated dependencies [ac34b7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ac34b7a)
+* [none] Updated dependencies [ac34b7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ac34b7a)
   - @atlaskit/navigation-next@3.6.1
-- [none] Updated dependencies [f02fb34](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f02fb34)
+* [none] Updated dependencies [f02fb34](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f02fb34)
   - @atlaskit/navigation-next@3.6.1
-- [none] Updated dependencies [20b8844](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/20b8844)
+* [none] Updated dependencies [20b8844](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/20b8844)
   - @atlaskit/analytics-listeners@3.4.0
   - @atlaskit/navigation-next@3.6.1
-- [none] Updated dependencies [85ddb9e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85ddb9e)
+* [none] Updated dependencies [85ddb9e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85ddb9e)
   - @atlaskit/navigation-next@3.6.1
   - @atlaskit/analytics-listeners@3.4.0
 
 ## 4.1.6
+
 - [patch] Updated dependencies [b12f7e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b12f7e6)
   - @atlaskit/badge@9.1.1
   - @atlaskit/navigation-next@3.5.2
 
 ## 4.1.5
+
 - [patch] Updated dependencies [dfa100e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfa100e)
   - @atlaskit/analytics-listeners@3.3.1
   - @atlaskit/analytics-namespaced-context@2.1.1
   - @atlaskit/navigation-next@3.5.1
 
 ## 4.1.4
+
 - [patch] Updated dependencies [df22ad8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/df22ad8)
   - @atlaskit/theme@6.0.0
   - @atlaskit/section-message@1.0.5
@@ -552,6 +697,7 @@
   - @atlaskit/docs@5.0.6
 
 ## 4.1.3
+
 - [patch] Fix navigationItem click events not firing for help and profile icons [06bf373](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06bf373)
 
 - [none] Updated dependencies [06bf373](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06bf373)
@@ -560,10 +706,12 @@
   - @atlaskit/navigation-next@3.3.4
 
 ## 4.1.2
+
 - [patch] Updated dependencies [15f93f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/15f93f0)
   - @atlaskit/navigation-next@3.3.3
 
 ## 4.1.1
+
 - [patch] Updated dependencies [0b2daf0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b2daf0)
   - @atlaskit/navigation-next@3.3.2
 
@@ -579,6 +727,7 @@
   - @atlaskit/navigation-next@3.3.0
 
 ## 4.0.7
+
 - [patch] Remove unused dependancy on navigation-next [2d3b1ee](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d3b1ee)
 - [patch] Updated dependencies [2d3b1ee](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d3b1ee)
 
@@ -595,11 +744,13 @@
   - @atlaskit/navigation-next@3.2.4
 
 ## 4.0.5
+
 - [patch] Updated dependencies [626244b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/626244b)
   - @atlaskit/drawer@1.0.4
   - @atlaskit/navigation-next@3.2.1
 
 ## 4.0.4
+
 - [patch] update the dependency of react-dom to 16.4.2 due to vulnerability in previous versions read https://reactjs.org/blog/2018/08/01/react-v-16-4-2.html for details [a4bd557](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4bd557)
 - [none] Updated dependencies [a4bd557](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4bd557)
   - @atlaskit/modal-dialog@6.0.6
@@ -614,15 +765,18 @@
   - @atlaskit/avatar@14.0.6
 
 ## 4.0.3
+
 - [patch] Updated dependencies [6438477](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6438477)
   - @atlaskit/drawer@1.0.2
   - @atlaskit/navigation-next@3.1.3
 
 ## 4.0.2
+
 - [patch] Pass through href for product logo [d40f193](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d40f193)
 - [patch] Updated dependencies [d40f193](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d40f193)
 
 ## 4.0.1
+
 - [patch] Updated dependencies [acd86a1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acd86a1)
   - @atlaskit/navigation-next@3.1.1
   - @atlaskit/onboarding@5.1.3
@@ -638,17 +792,20 @@
   - @atlaskit/modal-dialog@6.0.5
 
 ## 4.0.0
+
 - [major] Support controlled and uncontrolled drawers in Global Navigation. Update icons for starred drawer and help menu. Remove people drawer from Global navigation. [d0733a7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0733a7)
 - [none] Updated dependencies [d0733a7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0733a7)
   - @atlaskit/navigation-next@3.0.3
 
 ## 3.0.2
+
 - [patch] Update docs, change dev deps [25d6e48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d6e48)
 - [none] Updated dependencies [25d6e48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d6e48)
   - @atlaskit/navigation-next@3.0.2
   - @atlaskit/avatar@14.0.3
 
 ## 3.0.1
+
 - [patch] Significant overhaul of API. Publish docs. [532892d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/532892d)
 - [patch] Updated dependencies [532892d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/532892d)
   - @atlaskit/navigation-next@3.0.0
@@ -683,7 +840,6 @@
 
 ## 2.1.4
 
-
 - [none] Updated dependencies [da63331](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da63331)
   - @atlaskit/navigation-next@1.0.3
   - @atlaskit/modal-dialog@5.2.8
@@ -696,6 +852,7 @@
   - @atlaskit/dropdown-menu@5.2.3
 
 ## 2.1.3
+
 - [patch] Updated dependencies [8a01bcd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a01bcd)
   - @atlaskit/avatar@12.0.0
   - @atlaskit/navigation-next@1.0.2
@@ -703,28 +860,34 @@
   - @atlaskit/dropdown-menu@5.2.2
 
 ## 2.1.2
+
 - [patch] Updated dependencies [0c9d7b1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c9d7b1)
   - @atlaskit/navigation-next@1.0.1
 
 ## 2.1.1
+
 - [patch] Updated dependencies [50ca31b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50ca31b)
   - @atlaskit/drawer@0.1.1
 
 ## 2.1.0
+
 - [minor] Add productHref prop [c9595c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c9595c4)
 
 ## 2.0.0
+
 - [major] Extract standalone Drawer component. Remove drawer state from navigation state manager navigation-next. Stop exporting Drawer component in global-navigation [d11307b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d11307b)
 - [major] Updated dependencies [d11307b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d11307b)
   - @atlaskit/navigation-next@1.0.0
   - @atlaskit/drawer@0.1.0
 
 ## 1.0.0
+
 - [major] Update props api for global-navigation. Change the way ResizeControl works in navigation-next [1516d79](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1516d79)
 - [major] Updated dependencies [1516d79](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1516d79)
   - @atlaskit/navigation-next@0.3.4
 
 ## 0.1.3
+
 - [patch] Clean Changelogs - remove duplicates and empty entries [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
 - [patch] Updated dependencies [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
   - @atlaskit/onboarding@4.1.2
@@ -734,10 +897,12 @@
   - @atlaskit/dropdown-menu@5.0.4
 
 ## 0.1.2
+
 - [patch] Updated dependencies [7200aa4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7200aa4)
   - @atlaskit/navigation-next@0.3.2
 
 ## 0.1.1
+
 - [patch] Update changelogs to remove duplicate [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
 - [patch] Updated dependencies [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
   - @atlaskit/theme@4.0.3
@@ -750,6 +915,7 @@
   - @atlaskit/docs@4.1.1
 
 ## 0.1.0
+
 - [none] Updated dependencies [9d20f54](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d20f54)
   - @atlaskit/onboarding@4.1.0
   - @atlaskit/navigation-next@0.3.0
@@ -761,10 +927,12 @@
   - @atlaskit/blanket@6.0.2
 
 ## 0.0.10
+
 - [patch] Updated dependencies [ba0ba79](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ba0ba79)
   - @atlaskit/navigation-next@0.2.2
 
 ## 0.0.9
+
 - [patch] Update readme's [223cd67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/223cd67)
 - [patch] Updated dependencies [223cd67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/223cd67)
   - @atlaskit/navigation-next@0.2.1
@@ -777,10 +945,12 @@
   - @atlaskit/avatar@11.0.1
 
 ## 0.0.8
+
 - [patch] Updated dependencies [41f5218](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41f5218)
   - @atlaskit/navigation-next@0.2.0
 
 ## 0.0.7
+
 - [patch] Updated dependencies [1e80619](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e80619)
   - @atlaskit/navigation-next@0.1.3
   - @atlaskit/onboarding@4.0.0
@@ -792,20 +962,25 @@
   - @atlaskit/avatar@11.0.0
 
 ## 0.0.6
+
 - [patch] Updated dependencies [615e77c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/615e77c)
   - @atlaskit/navigation-next@0.1.2
 
 ## 0.0.5
+
 - [patch] Updated dependencies [3882051](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3882051)
   - @atlaskit/navigation-next@0.1.1
 
 ## 0.0.4
+
 - [patch] Bumping dep on navigation-next [548787e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/548787e)
 
 ## 0.0.3
+
 - [patch] Rename props to be in sync with navigation-next package [1fde1da](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1fde1da)
 
 ## 0.0.2
+
 - [patch] Add global-navigation package [41a4d1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41a4d1c)
 - [patch] Updated dependencies [7c99742](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c99742)
   - @atlaskit/navigation-next@0.0.7

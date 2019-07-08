@@ -37,6 +37,7 @@ export const N50 = '#C1C7D0';
 export const N80 = '#97A0AF';
 export const N90 = '#8993A4';
 export const N200 = '#6B778C';
+export const N300 = '#5E6C84';
 export const N500 = '#42526E';
 export const N800 = '#172B4D';
 

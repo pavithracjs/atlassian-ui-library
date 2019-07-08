@@ -15,17 +15,6 @@ export enum ConfluenceAdvancedSearchTypes {
   People = 'people',
 }
 
-const JIRA_ADVANCED_SEARCH_URLS = {
-  [JiraEntityTypes.Issues]: (query: string) =>
-    `/secure/QuickSearch.jspa?searchString=${query}`,
-  [JiraEntityTypes.Boards]: (query: string) =>
-    `/secure/ManageRapidViews.jspa?contains=${query}`,
-  [JiraEntityTypes.Filters]: (query: string) =>
-    `/secure/ManageFilters.jspa?Search=Search&filterView=search&name=${query}`,
-  [JiraEntityTypes.Projects]: (query: string) => `/projects?contains=${query}`,
-  [JiraEntityTypes.People]: (query: string) => `/people/search?q=${query}`,
-};
-
 export const isAdvancedSearchResult = (resultId: string) =>
   [
     ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
@@ -41,9 +30,22 @@ export function getConfluenceAdvancedSearchLink(query?: string) {
 export function getJiraAdvancedSearchUrl(
   entityType: JiraEntityTypes,
   query?: string,
+  enableIssueKeySmartMode?: boolean,
 ) {
-  const getUrl = JIRA_ADVANCED_SEARCH_URLS[entityType];
-  return getUrl(query || '');
+  switch (entityType) {
+    case JiraEntityTypes.Issues:
+      return !enableIssueKeySmartMode && query && +query
+        ? `/issues/?jql=order+by+created+DESC`
+        : `/secure/QuickSearch.jspa?searchString=${query}`;
+    case JiraEntityTypes.Boards:
+      return `/secure/ManageRapidViews.jspa?contains=${query}`;
+    case JiraEntityTypes.Filters:
+      return `/secure/ManageFilters.jspa?Search=Search&filterView=search&name=${query}`;
+    case JiraEntityTypes.Projects:
+      return `/projects?contains=${query}`;
+    case JiraEntityTypes.People:
+      return `/people/search?q=${query}`;
+  }
 }
 
 export function redirectToConfluenceAdvancedSearch(query = '') {
@@ -55,7 +57,7 @@ export function redirectToJiraAdvancedSearch(
   entityType: JiraEntityTypes,
   query = '',
 ) {
-  window.location.assign(getJiraAdvancedSearchUrl(entityType, query));
+  window.location.assign(getJiraAdvancedSearchUrl(entityType, query, true));
 }
 
 export function take<T>(array: Array<T>, n: number) {
@@ -66,9 +68,6 @@ export function isEmpty<T>(array: Array<T>) {
   return array.length === 0;
 }
 
-export function objectValues(object: { [key: string]: any }) {
-  return Object.keys(object || {}).map(key => object[key]);
-}
 /**
  *
  * Gracefully handle promise catch and returning default value

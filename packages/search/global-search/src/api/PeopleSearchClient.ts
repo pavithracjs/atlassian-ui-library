@@ -2,7 +2,6 @@ import {
   PersonResult,
   ResultType,
   AnalyticsType,
-  Result,
   ContentType,
 } from '../model/Result';
 import {
@@ -35,15 +34,12 @@ export interface GraphqlError {
 }
 
 export interface PeopleSearchClient {
-  search(query: string): Promise<Result[]>;
-  getRecentPeople(): Promise<Result[]>;
+  getRecentPeople(): Promise<PersonResult[]>;
 }
 
 export default class PeopleSearchClientImpl implements PeopleSearchClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-
-  private readonly RESULT_LIMIT = 5;
 
   constructor(url: string, cloudId: string) {
     this.serviceConfig = { url: url };
@@ -73,39 +69,6 @@ export default class PeopleSearchClientImpl implements PeopleSearchClient {
     };
   }
 
-  private buildSearchQuery(query: string) {
-    return {
-      query: `query Search(
-        $cloudId: String!,
-        $displayName: String!,
-        $first: Int!,
-        $offset: Int,
-        $excludeInactive: Boolean,
-        $excludeBots: Boolean,
-        $product: String,
-      ) {
-        UserSearch (product: $product, displayName: $displayName, cloudId: $cloudId, first: $first, offset: $offset,
-        filter: { excludeInactive: $excludeInactive, excludeBots: $excludeBots }) {
-          id,
-          fullName,
-          avatarUrl,
-          title,
-          nickname,
-          department
-        }
-      }`,
-      variables: {
-        cloudId: this.cloudId,
-        product: 'confluence',
-        displayName: query,
-        first: this.RESULT_LIMIT,
-        offset: 1,
-        excludeInactive: true,
-        excludeBots: true,
-      },
-    };
-  }
-
   private buildRequestOptions(body: object): RequestServiceOptions {
     return {
       path: 'graphql',
@@ -119,7 +82,7 @@ export default class PeopleSearchClientImpl implements PeopleSearchClient {
     };
   }
 
-  public async getRecentPeople(): Promise<Result[]> {
+  public async getRecentPeople(): Promise<PersonResult[]> {
     const options = this.buildRequestOptions(this.buildRecentQuery());
 
     const response = await utils.requestService<GraphqlResponse>(
@@ -140,34 +103,6 @@ export default class PeopleSearchClientImpl implements PeopleSearchClient {
       userSearchResultToResult(record, AnalyticsType.RecentPerson),
     );
   }
-
-  public async search(query: string): Promise<Result[]> {
-    const options = this.buildRequestOptions(
-      this.buildSearchQuery(query.trim()),
-    );
-
-    const response = await utils.requestService<GraphqlResponse>(
-      this.serviceConfig,
-      options,
-    );
-
-    if (response.errors) {
-      throw new Error(makeGraphqlErrorMessage(response.errors));
-    }
-
-    if (!response.data || !response.data.UserSearch) {
-      throw new Error('PeopleSearchClient: Response data missing');
-    }
-
-    return response.data.UserSearch.map(record =>
-      userSearchResultToResult(record, AnalyticsType.ResultPerson),
-    );
-  }
-}
-
-function makeGraphqlErrorMessage(errors: GraphqlError[]) {
-  const firstError = errors[0];
-  return `${firstError.category}: ${firstError.message}`;
 }
 
 function userSearchResultToResult(

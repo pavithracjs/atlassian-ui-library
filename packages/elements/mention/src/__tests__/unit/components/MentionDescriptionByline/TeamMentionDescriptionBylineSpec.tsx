@@ -20,6 +20,7 @@ const buildTeamData = (memberCount: number, includesYou: boolean) => ({
     ...teamMention.context,
     includesYou: includesYou,
     memberCount: memberCount,
+    teamLink: '/wiki/people/team/12345',
   },
 });
 

@@ -26,11 +26,10 @@
     "url": "https://bitbucket.org/atlassian/atlaskit-mk-2"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "es6-promise": "^4.0.5",
-    "fetch-mock": "^6.5.2",
-    "sinon": "^2.2.0",
-    "whatwg-fetch": "^2.0.3"
+    "fetch-mock": "^7.3.3",
+    "sinon": "^2.2.0"
   },
   "keywords": [
     "fabric",

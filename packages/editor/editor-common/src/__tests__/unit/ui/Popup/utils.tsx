@@ -7,6 +7,15 @@ import {
   validatePosition,
 } from '../../../../ui/Popup/utils';
 
+type ElementLayout = {
+  width?: number;
+  height?: number;
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
+};
+
 describe('@atlaskit/editor-common popup utils', () => {
   // This test should sit above the mounted, as it relies on untampered offsetParent
   it('should not be valid if the element is not mounted', () => {
@@ -19,71 +28,107 @@ describe('@atlaskit/editor-common popup utils', () => {
     let offset: number[];
     let stick: boolean;
     let wrapper: ReactWrapper;
-    let root: Element;
-    let popup: HTMLElement;
-    let target: HTMLElement;
+    let rootEl: Element;
+    let popupEl: HTMLElement;
+    let targetEl: HTMLElement;
+
+    /**
+     * Mock the dimensions & position of the different elements
+     * Provide values to override, default layout looks like:
+     *
+     * -----------------------------------------
+     * |<root>            ^                    |
+     * |100px x 100px     | 10px               |
+     * |          |---------------|            |
+     * |<--30px---| <target>      |---40px---->|
+     * |          | 30px x 20px   |            |
+     * |          |---------------|            |
+     * |                  | 70px               |
+     * |                  |                    |
+     * |                  v                    |
+     * -----------------------------------------
+     *
+     * */
+    const layoutElements = (
+      elements: {
+        root?: ElementLayout;
+        popup?: ElementLayout;
+        target?: ElementLayout;
+      } = {},
+    ) => {
+      const { root, popup, target } = elements;
+
+      rootEl.getBoundingClientRect = () =>
+        ({
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 100,
+          width: 100,
+          ...(root ? root : {}),
+        } as ClientRect);
+
+      popupEl.getBoundingClientRect = () =>
+        ({
+          height: 10,
+          width: 50,
+          ...(popup ? popup : {}),
+        } as ClientRect);
+
+      targetEl.getBoundingClientRect = () =>
+        ({
+          top: 10,
+          left: 30,
+          right: 40,
+          height: 20,
+          width: 30,
+          ...(target ? target : {}),
+        } as ClientRect);
+    };
+
+    beforeAll(() => {
+      Object.defineProperty(HTMLElement.prototype, 'offsetParent', {
+        get() {
+          return rootEl;
+        },
+      });
+      Object.defineProperty(HTMLElement.prototype, 'clientWidth', {
+        get() {
+          return this.getBoundingClientRect().width - 5;
+        },
+      });
+    });
 
     beforeEach(() => {
       offset = [0, 0];
       stick = false;
       wrapper = mount(
         <div id="root">
-          <span id="popup">OPA</span>
+          <div id="popup">OPA</div>
           <figure id="target" />
         </div>,
       );
 
-      root = wrapper.find('#root').getDOMNode();
-      popup = wrapper.find('#popup').getDOMNode() as HTMLElement;
-      target = wrapper.find('#target').getDOMNode() as HTMLElement;
+      rootEl = wrapper.find('#root').getDOMNode();
+      popupEl = wrapper.find('#popup').getDOMNode() as HTMLElement;
+      targetEl = wrapper.find('#target').getDOMNode() as HTMLElement;
 
-      root.getBoundingClientRect = () =>
-        ({
-          top: 2,
-          left: 3,
-          right: 5,
-          height: 7,
-          width: 11,
-        } as ClientRect);
-
-      popup.getBoundingClientRect = () =>
-        ({
-          top: 13,
-          left: 17,
-          right: 19,
-          height: 23,
-          width: 29,
-        } as ClientRect);
-
-      target.getBoundingClientRect = () =>
-        ({
-          top: 31,
-          left: 37,
-          right: 41,
-          height: 47,
-          width: 53,
-        } as ClientRect);
-
-      Object.defineProperty(HTMLElement.prototype, 'offsetParent', {
-        get() {
-          return root;
-        },
-      });
+      layoutElements();
     });
 
-    it('should calculatePosition for start and right placement', () => {
+    it('should calculatePosition for start and left placement', () => {
       const placement = ['start', 'left'] as [string, string];
       const calc = calculatePosition({
         placement,
-        target,
-        popup,
+        target: targetEl,
+        popup: popupEl,
         offset,
         stick,
       });
 
       expect(calc).toEqual({
-        top: 29,
-        left: 34,
+        top: 10,
+        left: 30,
       });
     });
 
@@ -91,15 +136,15 @@ describe('@atlaskit/editor-common popup utils', () => {
       const placement = ['start', 'end'] as [string, string];
       const calc = calculatePosition({
         placement,
-        target,
-        popup,
+        target: targetEl,
+        popup: popupEl,
         offset,
         stick,
       });
 
       expect(calc).toEqual({
-        top: 29,
-        left: 41,
+        top: 10,
+        left: 40,
       });
     });
 
@@ -107,26 +152,38 @@ describe('@atlaskit/editor-common popup utils', () => {
       const placement = ['top', 'left'] as [string, string];
       const calc = calculatePosition({
         placement,
-        target,
-        popup,
+        target: targetEl,
+        popup: popupEl,
         offset,
         stick,
       });
 
       expect(calc).toEqual({
-        bottom: -22,
-        left: 34,
+        bottom: 90,
+        left: 30,
       });
     });
 
     it('should force position when forcePlacement Y is sent', () => {
-      const calc = getVerticalPlacement(target, popup, 32, 'bottom-left', true);
+      const calc = getVerticalPlacement(
+        targetEl,
+        popupEl,
+        32,
+        'bottom-left',
+        true,
+      );
 
       expect(calc).toEqual('bottom-left');
     });
 
     it('should force position when forcePlacement X is sent', () => {
-      const calc = getHorizontalPlacement(target, popup, 32, 'top-right', true);
+      const calc = getHorizontalPlacement(
+        targetEl,
+        popupEl,
+        32,
+        'top-right',
+        true,
+      );
 
       expect(calc).toEqual('top-right');
     });
@@ -135,15 +192,15 @@ describe('@atlaskit/editor-common popup utils', () => {
       const placement = ['bottom', 'left'] as [string, string];
       const calc = calculatePosition({
         placement,
-        target,
-        popup,
+        target: targetEl,
+        popup: popupEl,
         offset,
         stick,
       });
 
       expect(calc).toEqual({
-        top: 76,
-        left: 34,
+        top: 30,
+        left: 30,
       });
     });
 
@@ -151,15 +208,15 @@ describe('@atlaskit/editor-common popup utils', () => {
       const placement = ['bottom', 'center'] as [string, string];
       const calc = calculatePosition({
         placement,
-        target,
-        popup,
+        target: targetEl,
+        popup: popupEl,
         offset,
         stick,
       });
 
       expect(calc).toEqual({
-        top: 76,
-        left: 61,
+        top: 30,
+        left: 23,
       });
     });
 
@@ -167,15 +224,95 @@ describe('@atlaskit/editor-common popup utils', () => {
       const placement = ['bottom', 'right'] as [string, string];
       const calc = calculatePosition({
         placement,
-        target,
-        popup,
+        target: targetEl,
+        popup: popupEl,
         offset,
         stick,
       });
 
       expect(calc).toEqual({
-        top: 76,
-        right: -36,
+        top: 30,
+        right: 1,
+      });
+    });
+
+    it('should not allow x position < 1', () => {
+      layoutElements({
+        target: { left: 0 },
+      });
+      const placement = ['bottom', 'center'] as [string, string];
+      const calc = calculatePosition({
+        placement,
+        target: targetEl,
+        popup: popupEl,
+        offset,
+        stick,
+      });
+
+      expect(calc).toEqual({
+        left: 1,
+        top: 30,
+      });
+    });
+
+    it('should not allow x position > parent width - popup width', () => {
+      layoutElements({
+        target: { left: 70 },
+      });
+      const placement = ['bottom', 'center'] as [string, string];
+      const calc = calculatePosition({
+        placement,
+        target: targetEl,
+        popup: popupEl,
+        offset,
+        stick,
+      });
+
+      expect(calc).toEqual({
+        left: 49,
+        top: 30,
+      });
+    });
+
+    describe('allow out of bound', () => {
+      it('should allow x position < 1', () => {
+        layoutElements({
+          target: { left: 0 },
+        });
+        const placement = ['bottom', 'center'] as [string, string];
+        const calc = calculatePosition({
+          placement,
+          target: targetEl,
+          popup: popupEl,
+          offset,
+          stick,
+          allowOutOfBounds: true,
+        });
+
+        expect(calc).toEqual({
+          left: -7,
+          top: 30,
+        });
+      });
+
+      it('should allow x position > parent width - popup width', () => {
+        layoutElements({
+          target: { left: 70 },
+        });
+        const placement = ['bottom', 'center'] as [string, string];
+        const calc = calculatePosition({
+          placement,
+          target: targetEl,
+          popup: popupEl,
+          offset,
+          stick,
+          allowOutOfBounds: true,
+        });
+
+        expect(calc).toEqual({
+          left: 63,
+          top: 30,
+        });
       });
     });
   });

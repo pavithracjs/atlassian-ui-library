@@ -75,9 +75,9 @@ describe('gap-cursor', () => {
       });
     });
 
-    describe('when selection moving to preceding block node', () =>
-      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName =>
-        describe(nodeName, () =>
+    describe('when selection moving to preceding block node', () => {
+      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName => {
+        describe(nodeName, () => {
           it(`should create TextSelection on preceding ${nodeName}`, () => {
             const { editorView } = editor(
               doc(
@@ -89,13 +89,14 @@ describe('gap-cursor', () => {
             expect(editorView.state.selection instanceof TextSelection).toBe(
               true,
             );
-          }),
-        ),
-      ));
+          });
+        });
+      });
+    });
 
-    describe('when selection moving to following block node', () =>
-      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName =>
-        describe(nodeName, () =>
+    describe('when selection moving to following block node', () => {
+      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName => {
+        describe(nodeName, () => {
           it(`should create TextSelection on following ${nodeName}`, () => {
             const { editorView } = editor(
               doc(
@@ -107,9 +108,10 @@ describe('gap-cursor', () => {
             expect(editorView.state.selection instanceof TextSelection).toBe(
               true,
             );
-          }),
-        ),
-      ));
+          });
+        });
+      });
+    });
   });
 
   describe('when block nodes allow gap cursor', () => {
@@ -244,11 +246,11 @@ describe('gap-cursor', () => {
       });
     });
 
-    ['ArrowLeft', 'ArrowUp'].forEach(direction =>
-      describe(`when pressing ${direction}`, () =>
-        describe('when cursor is inside first content block node of document', () =>
-          (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName =>
-            describe(nodeName, () =>
+    ['ArrowLeft', 'ArrowUp'].forEach(direction => {
+      describe(`when pressing ${direction}`, () => {
+        describe('when cursor is inside first content block node of document', () => {
+          (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName => {
+            describe(nodeName, () => {
               it('should set GapCursorSelection', () => {
                 const { editorView } = editor(
                   doc((blockNodes[nodeName] as any)()),
@@ -260,10 +262,12 @@ describe('gap-cursor', () => {
                 expect(
                   (editorView.state.selection as GapCursorSelection).side,
                 ).toEqual(Side.LEFT);
-              }),
-            ),
-          ))),
-    );
+              });
+            });
+          });
+        });
+      });
+    });
   });
 
   describe('when inside of a table', () => {

@@ -70,8 +70,7 @@ export class InlinePlayer extends Component<
 
             if (value instanceof Blob && value.type.indexOf('video/') === 0) {
               const fileSrc = URL.createObjectURL(value);
-              this.setState({ fileSrc });
-              window.setTimeout(this.unsubscribe, 0);
+              this.setFileSrc(fileSrc);
               return;
             }
           }
@@ -80,6 +79,7 @@ export class InlinePlayer extends Component<
             const artifactName = getPreferredVideoArtifact(state);
             const { artifacts } = state;
             if (!artifactName || !artifacts) {
+              this.setBinaryURL();
               return;
             }
 
@@ -90,8 +90,7 @@ export class InlinePlayer extends Component<
                 collectionName,
               );
 
-              this.setState({ fileSrc });
-              window.setTimeout(this.unsubscribe, 0);
+              this.setFileSrc(fileSrc);
             } catch (error) {
               const { onError } = this.props;
 
@@ -103,6 +102,30 @@ export class InlinePlayer extends Component<
         },
       });
   }
+
+  setFileSrc = (fileSrc: string) => {
+    this.setState({ fileSrc });
+    window.setTimeout(this.unsubscribe, 0);
+  };
+
+  // Tries to use the binary artifact to provide something to play while the video is still processing
+  setBinaryURL = async () => {
+    const { mediaClient, identifier, onError } = this.props;
+    const { id, collectionName } = identifier;
+    const resolvedId = await id;
+    try {
+      const fileSrc = await mediaClient.file.getFileBinaryURL(
+        resolvedId,
+        collectionName,
+      );
+
+      this.setFileSrc(fileSrc);
+    } catch (error) {
+      if (onError) {
+        onError(error);
+      }
+    }
+  };
 
   unsubscribe = () => {
     if (this.subscription) {
@@ -135,6 +158,13 @@ export class InlinePlayer extends Component<
     };
   };
 
+  onDownloadClick = async () => {
+    const { mediaClient, identifier } = this.props;
+    const { id, collectionName } = identifier;
+
+    mediaClient.file.downloadBinary(await id, undefined, collectionName);
+  };
+
   render() {
     const { onClick, dimensions, selected } = this.props;
     const { fileSrc } = this.state;
@@ -154,6 +184,7 @@ export class InlinePlayer extends Component<
           src={fileSrc}
           isAutoPlay
           isHDAvailable={false}
+          onDownloadClick={this.onDownloadClick}
         />
       </InlinePlayerWrapper>
     );

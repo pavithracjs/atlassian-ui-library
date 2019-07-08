@@ -1,7 +1,8 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 import Avatar from '@atlaskit/avatar';
+import Button from '@atlaskit/button';
 import AddIcon from '@atlaskit/icon/glyph/add';
 import BacklogIcon from '@atlaskit/icon/glyph/backlog';
 import BoardIcon from '@atlaskit/icon/glyph/board';
@@ -179,20 +180,52 @@ const Content = makeTestComponent(
 const customThemeMode = modeGenerator({
   product: {
     text: colors.N0,
-    background: colors.G500,
+    background: colors.G300,
   },
 });
 
-export default () => (
-  <NavigationProvider>
-    <ThemeProvider theme={theme => ({ ...theme, mode: customThemeMode })}>
-      <LayoutManager
-        globalNavigation={GlobalNavigation}
-        productNavigation={ProductNavigation}
-        containerNavigation={ContainerNavigation}
-      >
-        <Content />
-      </LayoutManager>
-    </ThemeProvider>
-  </NavigationProvider>
-);
+type State = { shouldHideGlobalNavShadow: boolean };
+export default class extends Component<{}, State> {
+  state = {
+    shouldHideGlobalNavShadow: false,
+  };
+
+  toggleShadowMode = () => {
+    this.setState(state => {
+      const { shouldHideGlobalNavShadow } = state;
+      return {
+        shouldHideGlobalNavShadow: !shouldHideGlobalNavShadow,
+      };
+    });
+  };
+
+  render() {
+    const { shouldHideGlobalNavShadow } = this.state;
+    return (
+      <NavigationProvider>
+        <ThemeProvider
+          theme={theme => ({
+            ...theme,
+            mode: customThemeMode,
+          })}
+        >
+          <LayoutManager
+            globalNavigation={GlobalNavigation}
+            productNavigation={ProductNavigation}
+            containerNavigation={ContainerNavigation}
+            shouldHideGlobalNavShadow={shouldHideGlobalNavShadow}
+          >
+            <Content />
+            <Button
+              id="toggle-shadow"
+              onClick={this.toggleShadowMode}
+              css={{ marginLeft: '2rem' }}
+            >
+              Toggle global nav shadow
+            </Button>
+          </LayoutManager>
+        </ThemeProvider>
+      </NavigationProvider>
+    );
+  }
+}

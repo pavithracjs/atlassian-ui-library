@@ -7,6 +7,7 @@ import { FileIdentifier, FileState } from '@atlaskit/media-client';
 import {
   asMockReturnValue,
   fakeMediaClient,
+  nextTick,
 } from '@atlaskit/media-test-helpers';
 import {
   InlinePlayer,
@@ -46,6 +47,10 @@ describe('<InlinePlayer />', () => {
     asMockReturnValue(
       mediaClient.file.getArtifactURL,
       Promise.resolve('some-url'),
+    );
+    asMockReturnValue(
+      mediaClient.file.getFileBinaryURL,
+      Promise.resolve('binary-url'),
     );
     const identifier = {
       id: Promise.resolve('some-id'),
@@ -173,6 +178,33 @@ describe('<InlinePlayer />', () => {
       'some-collection',
     );
     expect(component.find(CustomMediaPlayer).prop('src')).toEqual('some-url');
+  });
+
+  it('should use binary artifact if file is processing and no other artifact is present', async () => {
+    const { component, mediaClient } = setup(undefined, {});
+
+    await update(component);
+    expect(mediaClient.file.getFileBinaryURL).toBeCalledTimes(1);
+    expect(mediaClient.file.getFileBinaryURL).toBeCalledWith(
+      'some-id',
+      'some-collection',
+    );
+    expect(component.find(CustomMediaPlayer).prop('src')).toEqual('binary-url');
+  });
+
+  it('should download video binary when download button is clicked', async () => {
+    const { component, mediaClient } = setup();
+
+    await update(component);
+    const instance = component.instance() as InlinePlayer;
+    instance.onDownloadClick();
+    await nextTick();
+    expect(mediaClient.file.downloadBinary).toBeCalledTimes(1);
+    expect(mediaClient.file.downloadBinary).toBeCalledWith(
+      'some-id',
+      undefined,
+      'some-collection',
+    );
   });
 
   describe('getPreferredVideoArtifact()', () => {

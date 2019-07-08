@@ -4,7 +4,7 @@ import { getExampleUrl } from '@atlaskit/visual-regression/helper';
 import { widths } from '../../../constants';
 
 describe('Snapshot Test', () => {
-  widths.forEach(async width => {
+  for (const width of widths) {
     it(`should match ${width} drawer screenshot`, async () => {
       const url = getExampleUrl(
         'core',
@@ -25,7 +25,7 @@ describe('Snapshot Test', () => {
       //$FlowFixMe
       expect(image).toMatchProdImageSnapshot();
     });
-  });
+  }
 
   it('should match themed drawer screenshot', async () => {
     const url = getExampleUrl(

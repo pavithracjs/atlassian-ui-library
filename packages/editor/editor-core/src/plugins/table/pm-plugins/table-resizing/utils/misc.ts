@@ -1,8 +1,6 @@
 import { cellAround, TableMap } from 'prosemirror-tables';
-import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { ResolvedPos, NodeSpec, Node as PMNode } from 'prosemirror-model';
-import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
+import { ResolvedPos, NodeSpec } from 'prosemirror-model';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
 import {
   calcTableWidth,
@@ -11,16 +9,9 @@ import {
   akEditorFullWidthLayoutWidth,
   getBreakpoint,
   mapBreakpointToLayoutMaxWidth,
-  absoluteBreakoutWidth,
-  gridMediumMaxWidth,
   akEditorGutterPadding,
 } from '@atlaskit/editor-common';
-import { gridSize } from '@atlaskit/theme';
-import {
-  LAYOUT_OFFSET,
-  LAYOUT_SECTION_MARGIN,
-} from '../../../../layout/styles';
-import { WidthPluginState } from '../../../../width';
+import { TableOptions } from '../../../nodeviews/table';
 
 export const tableLayoutToSize: Record<string, number> = {
   default: akEditorDefaultLayoutWidth,
@@ -32,14 +23,11 @@ export const tableLayoutToSize: Record<string, number> = {
 export function getLayoutSize(
   tableLayout: TableLayout,
   containerWidth: number = 0,
-  options: {
-    dynamicTextSizing?: boolean;
-    isBreakoutEnabled?: boolean;
-  },
+  options: TableOptions,
 ): number {
-  const { dynamicTextSizing, isBreakoutEnabled } = options;
+  const { dynamicTextSizing, isFullWidthModeEnabled } = options;
 
-  if (isBreakoutEnabled === false) {
+  if (isFullWidthModeEnabled) {
     return containerWidth
       ? Math.min(
           containerWidth - akEditorGutterPadding * 2,
@@ -142,82 +130,3 @@ export function domCellAround(target: HTMLElement | null): HTMLElement | null {
   }
   return target;
 }
-
-const getParentNode = (tablePos: number, state: EditorState): PMNode | null => {
-  if (tablePos === undefined) {
-    return null;
-  }
-
-  const $pos = state.doc.resolve(tablePos);
-  const parent = findParentNodeOfTypeClosestToPos($pos, [
-    state.schema.nodes.bodiedExtension,
-    state.schema.nodes.layoutSection,
-  ]);
-
-  return parent ? parent.node : null;
-};
-
-export const getParentNodeWidth = (
-  tablePos: number,
-  state: EditorState,
-  containerWidth: WidthPluginState,
-  isFullWidthModeEnabled?: boolean,
-) => {
-  const node = getParentNode(tablePos, state);
-
-  if (!node) {
-    return;
-  }
-
-  let layout = node.attrs.layout || 'default';
-  const { schema } = state;
-  const breakoutMark =
-    schema.marks.breakout && schema.marks.breakout.isInSet(node.marks);
-  if (breakoutMark && breakoutMark.attrs.mode) {
-    layout = breakoutMark.attrs.mode;
-  }
-  let parentWidth = calcBreakoutNodeWidth(
-    layout,
-    containerWidth,
-    isFullWidthModeEnabled,
-  );
-
-  if (node.type === schema.nodes.layoutSection) {
-    parentWidth += LAYOUT_OFFSET * 2; // extra width that gets added to layout
-
-    if (containerWidth.width > gridMediumMaxWidth) {
-      parentWidth -= (LAYOUT_SECTION_MARGIN + 2) * (node.childCount - 1); // margin between sections
-
-      const $pos = state.doc.resolve(tablePos);
-      const column = findParentNodeOfTypeClosestToPos($pos, [
-        state.schema.nodes.layoutColumn,
-      ]);
-      if (column && column.node && !isNaN(column.node.attrs.width)) {
-        parentWidth = Math.round(parentWidth * column.node.attrs.width * 0.01);
-      }
-    }
-  }
-
-  // Need to account for the padding of the parent node
-  const padding =
-    node.type === schema.nodes.layoutSection
-      ? gridSize() * 3 // layout
-      : gridSize() * 4; // bodied extension
-  parentWidth -= padding;
-  parentWidth -= 2; // border
-
-  return parentWidth;
-};
-
-const calcBreakoutNodeWidth = (
-  layout: 'full-width' | 'wide' | string,
-  containerWidth: WidthPluginState,
-  isFullWidthModeEnabled?: boolean,
-) => {
-  return isFullWidthModeEnabled
-    ? Math.min(
-        containerWidth.lineLength as number,
-        akEditorFullWidthLayoutWidth,
-      )
-    : absoluteBreakoutWidth(layout, containerWidth.width);
-};

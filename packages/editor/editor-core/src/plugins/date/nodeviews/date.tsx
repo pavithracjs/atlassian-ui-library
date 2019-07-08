@@ -7,17 +7,17 @@ import {
   timestampToString,
   timestampToTaskContext,
   isPastDate,
+  DateSharedCssClassName,
 } from '@atlaskit/editor-common';
 import { Date } from '@atlaskit/date';
 import { setDatePickerAt } from '../actions';
 
 const SelectableDate = styled(Date)`
-  .ProseMirror-selectednode & {
-    display: 'relative';
+  .dateView-content-wrap.ProseMirror-selectednode & {
+    position: relative;
     &::before {
       content: '';
       border: 2px solid ${colors.B200};
-      display: 'absolute';
       background: transparent;
       border-radius: ${borderRadius()}px;
       box-sizing: border-box;
@@ -56,7 +56,10 @@ export default class DateNodeView extends React.Component<Props> {
       withinIncompleteTask && isPastDate(timestamp) ? 'red' : undefined;
 
     return (
-      <span id={Math.random().toString()} onClick={this.handleClick}>
+      <span
+        className={DateSharedCssClassName.DATE_WRAPPER}
+        onClick={this.handleClick}
+      >
         <SelectableDate color={color} value={timestamp}>
           {withinIncompleteTask
             ? timestampToTaskContext(timestamp)

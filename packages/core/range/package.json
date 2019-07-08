@@ -1,11 +1,12 @@
 {
   "name": "@atlaskit/range",
-  "version": "2.0.1",
+  "version": "3.0.1",
   "description": "A styled version of the native input[range] element.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -19,7 +20,7 @@
     "team": "core"
   },
   "dependencies": {
-    "@atlaskit/theme": "^9.1.0",
+    "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
@@ -28,10 +29,10 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
+    "@atlaskit/docs": "^8.1.1",
     "@atlaskit/checkbox": "^8.0.0",
-    "@atlaskit/docs": "^8.0.0",
     "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/tooltip": "^14.0.0",
+    "@atlaskit/tooltip": "^15.0.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"

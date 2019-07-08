@@ -6,14 +6,17 @@ const PM_FOCUS_SELECTOR = '.ProseMirror-focused';
 
 BrowserTestCase(
   `list: shouldn't change focus on tab if the list is not indentable`,
-  { skip: ['ie', 'safari'] },
+  { skip: ['ie'] },
   async (client: any, testName: string) => {
     const page = new Page(client);
     await page.goto(fullpage.path);
     await page.waitForSelector(fullpage.placeholder);
     await page.click(fullpage.placeholder);
 
-    await page.type(editable, '* abc');
+    // Investigate why string based input (without an array) fails in firefox
+    // https://product-fabric.atlassian.net/browse/ED-7044
+    await page.type(editable, '* '.split(''));
+    await page.type(editable, 'abc');
     await page.keys('Return');
     await page.keys('Tab');
     await page.type(editable, '123');

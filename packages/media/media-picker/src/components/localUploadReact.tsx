@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { UploadService } from '../service/types';
 import {
   UploadEndEventPayload,
@@ -15,7 +15,7 @@ import { NewUploadServiceImpl } from '../service/newUploadServiceImpl';
 import { LocalUploadConfig } from './types';
 
 export type LocalUploadComponentBaseProps = {
-  context: Context;
+  mediaClient: MediaClient;
   config: LocalUploadConfig;
   onUploadsStart?: (payload: UploadsStartEventPayload) => void;
   onPreviewUpdate?: (payload: UploadPreviewUpdateEventPayload) => void;
@@ -35,7 +35,7 @@ export class LocalUploadComponentReact<
     super(props);
 
     const {
-      context,
+      mediaClient,
       config,
       onUploadsStart,
       onPreviewUpdate,
@@ -67,7 +67,7 @@ export class LocalUploadComponentReact<
     }
 
     this.uploadService = new NewUploadServiceImpl(
-      context,
+      mediaClient,
       tenantUploadParams,
       shouldCopyFileToRecents,
     );
@@ -79,9 +79,9 @@ export class LocalUploadComponentReact<
     this.uploadService.on('file-upload-error', this.onUploadError);
   }
 
-  public cancel(uniqueIdentifier?: string): void {
+  public cancel = (uniqueIdentifier?: string): void => {
     this.uploadService.cancel(uniqueIdentifier);
-  }
+  };
 
   public setUploadParams(uploadParams: UploadParams): void {
     this.uploadService.setUploadParams(uploadParams);

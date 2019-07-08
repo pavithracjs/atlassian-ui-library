@@ -136,7 +136,7 @@ export class DeleteUserOverviewScreen extends React.Component<
             overviewMessages.paragraphListOfAppsWithPersonalDataAdmin,
             overviewMessages.paragraphListOfAppsWithPersonalDataSelf,
           )}
-        />{' '}
+        />
         <Styled.IconHoverWrapper>
           <StatefulInlineDialog
             placement="auto-start"
@@ -163,7 +163,7 @@ export class DeleteUserOverviewScreen extends React.Component<
             overviewMessages.paragraphContentCreatedAdmin,
             overviewMessages.paragraphContentCreatedSelf,
           )}
-        />{' '}
+        />
         <Styled.IconHoverWrapper>
           <StatefulInlineDialog
             placement="auto-start"

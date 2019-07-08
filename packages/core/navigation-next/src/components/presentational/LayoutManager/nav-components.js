@@ -1,13 +1,9 @@
 // @flow
-import React, {
-  Component,
-  PureComponent,
-  Fragment,
-  type ComponentType,
-} from 'react';
-import isEqual from 'lodash.isequal';
+import React, { Component, Fragment, type ComponentType } from 'react';
+import deepEqual from 'deep-equal';
 import { colors } from '@atlaskit/theme';
 
+import RenderBlocker from '../../common/RenderBlocker';
 import { ContentNavigationWrapper } from '../ContentNavigation/primitives';
 import ContentNavigation from '../ContentNavigation';
 import { isTransitioning, type TransitionState } from '../ResizeTransition';
@@ -30,11 +26,12 @@ type ComposedContainerNavigationProps = {
   getNavRef: () => void,
   expand: () => void,
   view?: Object | null,
+  experimental_hideNavVisuallyOnCollapse: boolean,
 };
 export class ComposedContainerNavigation extends Component<ComposedContainerNavigationProps> {
   shouldComponentUpdate(nextProps: ComposedContainerNavigationProps) {
     const { props } = this;
-    return !isEqual(props, nextProps);
+    return !deepEqual(props, nextProps);
   }
 
   render() {
@@ -43,6 +40,8 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
       datasets,
       // eslint-disable-next-line camelcase
       experimental_flyoutOnHover: EXPERIMENTAL_FLYOUT_ON_HOVER,
+      // eslint-disable-next-line camelcase
+      experimental_hideNavVisuallyOnCollapse: EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE,
       productNavigation,
       transitionState,
       transitionStyle,
@@ -72,6 +71,9 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
           isVisible={isVisible}
           key="product-nav"
           product={productNavigation}
+          experimental_hideNavVisuallyOnCollapse={
+            EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE
+          }
           view={view}
         />
         {isCollapsed && !EXPERIMENTAL_FLYOUT_ON_HOVER ? (
@@ -111,50 +113,84 @@ type ComposedGlobalNavigationProps = {
   datasets?: Object,
   globalNavigation: ComponentType<{}>,
   topOffset?: number,
+  shouldHideGlobalNavShadow?: boolean,
   experimental_alternateFlyoutBehaviour: boolean,
   closeFlyout: () => void,
   view?: Object | null,
+  mouseIsOverGrabArea: boolean,
+  mouseIsOverNavigation: boolean,
+  isResizing: boolean,
+  isCollapsed: boolean,
+  width: number,
+  mouseIsDown: boolean,
+  flyoutIsOpen: boolean,
+  transitionState: TransitionState,
 };
 
 // Shallow comparision of props is sufficeint in this case
-export class ComposedGlobalNavigation extends PureComponent<ComposedGlobalNavigationProps> {
+export class ComposedGlobalNavigation extends Component<ComposedGlobalNavigationProps> {
   render() {
     const {
       containerNavigation,
       datasets,
       globalNavigation: GlobalNavigation,
       topOffset,
+      shouldHideGlobalNavShadow,
       // eslint-disable-next-line camelcase
       experimental_alternateFlyoutBehaviour: EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR,
       closeFlyout,
+      mouseIsOverGrabArea,
+      mouseIsOverNavigation,
+      isResizing,
+      isCollapsed,
+      width,
+      mouseIsDown,
+      flyoutIsOpen,
+      transitionState,
     } = this.props;
 
     const dataset = datasets ? datasets.globalNavigation : {};
 
     return (
-      <div
-        {...dataset}
-        onMouseOver={
-          EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR ? closeFlyout : null
-        }
+      // Prevents GlobalNavigation from re-rendering on resize, hover
+      // and flyout expand/collapse
+      <RenderBlocker
+        blockOnChange
+        mouseIsOverGrabArea={mouseIsOverGrabArea}
+        mouseIsOverNavigation={mouseIsOverNavigation}
+        isResizing={isResizing}
+        isCollapsed={isCollapsed}
+        width={width}
+        flyoutIsOpen={flyoutIsOpen}
+        mouseIsDown={mouseIsDown}
+        transitionState={transitionState}
       >
-        <ThemeProvider
-          theme={theme => ({
-            topOffset,
-            mode: light, // If no theme already exists default to light mode
-            ...theme,
-          })}
+        <div
+          {...dataset}
+          onMouseOver={
+            EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR ? closeFlyout : null
+          }
         >
-          <Fragment>
-            <Shadow
-              isBold={!!containerNavigation}
-              isOverDarkBg
-              style={{ marginLeft: GLOBAL_NAV_WIDTH }}
-            />
-            <GlobalNavigation />
-          </Fragment>
-        </ThemeProvider>
-      </div>
+          <ThemeProvider
+            theme={theme => ({
+              topOffset,
+              mode: light, // If no theme already exists default to light mode
+              ...theme,
+            })}
+          >
+            <Fragment>
+              {!shouldHideGlobalNavShadow && (
+                <Shadow
+                  isBold={!!containerNavigation}
+                  isOverDarkBg
+                  style={{ marginLeft: GLOBAL_NAV_WIDTH }}
+                />
+              )}
+              <GlobalNavigation />
+            </Fragment>
+          </ThemeProvider>
+        </div>
+      </RenderBlocker>
     );
   }
 }

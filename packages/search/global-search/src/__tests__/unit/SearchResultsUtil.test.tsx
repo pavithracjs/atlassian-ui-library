@@ -1,4 +1,9 @@
-import { handlePromiseError } from '../../components/SearchResultsUtil';
+import {
+  handlePromiseError,
+  getJiraAdvancedSearchUrl,
+  JiraEntityTypes,
+  redirectToJiraAdvancedSearch,
+} from '../../components/SearchResultsUtil';
 
 describe('handlePromiseError', () => {
   it('should do nothing when promise is resolved', () => {
@@ -44,5 +49,50 @@ describe('handlePromiseError', () => {
           'should never throw exception and never reach the catch block',
         );
       });
+  });
+});
+
+describe('JiraIssueAdvancedSearchUrl for issue', () => {
+  it('should return quick search url', () => {
+    const issueUrl = getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, '');
+    expect(issueUrl).toBe('/secure/QuickSearch.jspa?searchString=');
+  });
+
+  it('should return quick search url', () => {
+    const issueUrl = getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, 'abc');
+    expect(issueUrl).toBe('/secure/QuickSearch.jspa?searchString=abc');
+  });
+
+  ['12', ' 33 '].forEach(query => {
+    it('should return GIN url with numeric queries', () => {
+      const issueUrl = getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, query);
+      expect(issueUrl).toBe('/issues/?jql=order+by+created+DESC');
+    });
+  });
+});
+
+describe('redirectToJiraIssueAdvancedSearch', () => {
+  let originalWindowLocation = window.location;
+  let assignSpy: jest.SpyInstance<() => {}>;
+  beforeEach(() => {
+    delete window.location;
+    assignSpy = jest.fn();
+    window.location = Object.assign({}, window.location, {
+      assign: assignSpy,
+    });
+  });
+
+  afterEach(() => {
+    window.location = originalWindowLocation;
+  });
+
+  ['', '88', 'query'].forEach(query => {
+    it('should always use quick search url', () => {
+      redirectToJiraAdvancedSearch(JiraEntityTypes.Issues, query);
+      expect(assignSpy).toBeCalledTimes(1);
+      expect(assignSpy.mock.calls[0][0]).toBe(
+        `/secure/QuickSearch.jspa?searchString=${query}`,
+      );
+    });
   });
 });

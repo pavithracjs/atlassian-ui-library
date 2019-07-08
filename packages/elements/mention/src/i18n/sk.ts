@@ -6,6 +6,7 @@
  */
 // Slovak
 export default {
+  'fabric.mention.unknow.user.error': 'Neznámy používateľ {id}',
   'fabric.mention.noAccess.warning':
     'Používateľ {name} sa neupozorní. pretože nemá prístup',
   'fabric.mention.noAccess.label': 'Žiadny prístup',
@@ -14,7 +15,10 @@ export default {
   'fabric.mention.error.loginAgain': 'Skúste sa odhlásiť a následne prihlásiť',
   'fabric.mention.error.differentText': 'Skúste zadať iný text',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} člen{includes, select, true {, including you} other {}}} few{{count} členovia{includes, select, true {, including you} other {}}} many{{count} členov{includes, select, true {, including you} other {}}} other{{count} členov{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    'Viac ako 50 členov{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 člen} few{{0} členovia} many{{0} členov} other{{0} členov}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} členov vrátane vás} few{{0} členov vrátane vás} many{{0} členov vrátane vás} other{{0} členov vrátane vás}}',
+  'fabric.elements.mentions.team.member.50plus': 'Viac ako 50 členov',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    'Viac ako 50 členov vrátane vás',
 };

@@ -1,1 +1,1 @@
-export * from './mediaImage';
+export { MediaImage, MediaImageProps } from './mediaImage';

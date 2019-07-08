@@ -1,17 +1,22 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Filmstrip, FilmstripView, FilmstripProps, FilmstripItem } from '../..';
-import { fakeContext } from '@atlaskit/media-test-helpers';
+import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers';
 import { Card, CardLoading } from '@atlaskit/media-card';
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
+import { MediaClientConfig } from '@atlaskit/media-core';
 
 describe('<Filmstrip />', () => {
   const firstIdenfier: Identifier = {
     id: 'id-1',
     mediaItemType: 'file',
   };
-  const setup = (props?: Partial<FilmstripProps>) => {
-    const context = fakeContext();
+  type Arguments = {
+    items?: FilmstripProps['items'];
+    mediaClientConfig?: FilmstripProps['mediaClientConfig'];
+  };
+  const setup = (props: Arguments = {}) => {
+    const mediaClientConfig: MediaClientConfig = getDefaultMediaClientConfig();
     const items: FilmstripItem[] = [
       {
         identifier: firstIdenfier,
@@ -24,12 +29,16 @@ describe('<Filmstrip />', () => {
       },
     ];
     const component = shallow(
-      <Filmstrip context={context} items={items} {...props} />,
+      <Filmstrip
+        mediaClientConfig={mediaClientConfig}
+        items={items}
+        {...props}
+      />,
     );
 
     return {
       component,
-      context,
+      mediaClientConfig,
     };
   };
 
@@ -60,7 +69,7 @@ describe('<Filmstrip />', () => {
   });
 
   it('should pass properties down to Cards', () => {
-    const { component, context } = setup({
+    const { component, mediaClientConfig } = setup({
       items: [
         {
           identifier: firstIdenfier,
@@ -78,7 +87,7 @@ describe('<Filmstrip />', () => {
         .props(),
     ).toEqual(
       expect.objectContaining({
-        context,
+        mediaClientConfig,
         selectable: true,
         selected: true,
         identifier: {
@@ -89,9 +98,9 @@ describe('<Filmstrip />', () => {
     );
   });
 
-  it('should render loading cards if context is missing', () => {
+  it('should render loading cards if mediaClientConfig is missing', () => {
     const { component } = setup({
-      context: undefined,
+      mediaClientConfig: undefined,
     });
     expect(component.find(CardLoading)).toHaveLength(2);
   });

@@ -1,8 +1,5 @@
 import { loadFullPageEditorWithAdf, snapshot } from './_utils';
-import {
-  waitForLoadedBackgroundImages,
-  MINIMUM_THRESHOLD,
-} from '@atlaskit/visual-regression/helper';
+import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 import adf from './adf/basic-content.adf.json';
 
 describe('Snapshot Test: Basic Content', () => {
@@ -13,8 +10,7 @@ describe('Snapshot Test: Basic Content', () => {
     await loadFullPageEditorWithAdf(page, adf);
     // Wait for loaded emoji image (contained within ADF)
     const emojiSelector = '.emoji-common-emoji-sprite';
-    await page.waitForSelector(emojiSelector);
     await waitForLoadedBackgroundImages(page, emojiSelector);
-    await snapshot(page, MINIMUM_THRESHOLD);
+    await snapshot(page);
   });
 });

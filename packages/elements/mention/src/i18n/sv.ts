@@ -6,6 +6,7 @@
  */
 // Swedish
 export default {
+  'fabric.mention.unknow.user.error': 'Okänd användare {id}',
   'fabric.mention.noAccess.warning':
     '{name} kommer inte att meddelas eftersom de saknar åtkomst',
   'fabric.mention.noAccess.label': 'Ingen åtkomst',
@@ -15,7 +16,10 @@ export default {
     'Prova att logga ut och sedan logga in igen',
   'fabric.mention.error.differentText': 'Prova att skriva en annan text',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} medlem{includes, select, true {, including you} other {}}} other{{count} medlemmar{includes, select, true {, including you} other {}}}}',
-  'fabric.elements.mentions.team.member.50plus':
-    '50+ medlemmar{includes, select, true {, including you} other {}}',
+    '{0, plural, one{1 medlem} other{{0} medlemmar}}',
+  'fabric.elements.mentions.team.member.count.including.you':
+    '{0, plural, one{{0} medlemmar, inklusive du} other{{0} medlemmar, inklusive du}}',
+  'fabric.elements.mentions.team.member.50plus': '50+ medlemmar',
+  'fabric.elements.mentions.team.member.50plus.including.you':
+    '50+ medlemmar, inklusive du',
 };

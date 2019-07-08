@@ -1,58 +1,86 @@
 [
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.6",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 20057,
-      "gzipSize": 6904
+      "size": 20342,
+      "gzipSize": 6996
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.6",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 196446,
-      "gzipSize": 59107
+      "size": 209421,
+      "gzipSize": 63309
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.6",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 236246,
-      "gzipSize": 54974
+      "size": 240521,
+      "gzipSize": 55524
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.6",
+    "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
       "size": 2920,
-      "gzipSize": 1237
+      "gzipSize": 1238
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.6",
+    "dependent": true,
     "id": "atlaskit.home.main",
     "name": "main",
     "stats": {
       "size": 3990,
-      "gzipSize": 1472
+      "gzipSize": 1474
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.6",
+    "dependent": true,
     "id": "atlaskit.navigation.main",
     "name": "main",
     "stats": {
-      "size": 59237,
-      "gzipSize": 15696
+      "size": 59132,
+      "gzipSize": 15624
     }
   },
   {
+    "team": "core",
+    "package": "@atlaskit/global-navigation",
+    "version": "7.2.6",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 509263,
-      "gzipSize": 135679
+      "size": 527333,
+      "gzipSize": 141034
     }
   }
 ]

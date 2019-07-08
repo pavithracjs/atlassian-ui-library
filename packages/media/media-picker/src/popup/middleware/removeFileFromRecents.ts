@@ -9,7 +9,7 @@ export const removeFileFromRecents = (store: Store<State>) => (
   if (isRemoveFileFromRecentsAction(action)) {
     store
       .getState()
-      .userContext.collection.removeFile(
+      .userMediaClient.collection.removeFile(
         action.userFileId || action.id,
         RECENTS_COLLECTION,
         action.occurrenceKey,

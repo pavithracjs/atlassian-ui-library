@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl';
 import { EmojiProvider, supportsUploadFeature } from '../../api/EmojiResource';
 
 import { EmojiDescription, EmojiUpload } from '../../types';
+import { uploadFailedEvent, uploadSucceededEvent } from '../../util/analytics';
+import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 
 import { messages } from '../i18n';
 
@@ -13,18 +15,31 @@ export const uploadEmoji = (
     message: FormattedMessage.MessageDescriptor | undefined,
   ) => void,
   onSuccess: (emojiDescription: EmojiDescription) => void,
-  onFailure: (message: FormattedMessage.MessageDescriptor) => void,
+  fireAnalytics: (event: AnalyticsEventPayload) => void,
 ) => {
+  const startTime = Date.now();
   errorSetter(undefined);
   if (supportsUploadFeature(emojiProvider)) {
     emojiProvider
       .uploadCustomEmoji(upload)
-      .then(emojiDescription => onSuccess(emojiDescription))
+      .then(emojiDescription => {
+        fireAnalytics(
+          uploadSucceededEvent({
+            duration: Date.now() - startTime,
+          }),
+        );
+        onSuccess(emojiDescription);
+      })
       .catch(err => {
         errorSetter(messages.emojiUploadFailed);
         // eslint-disable-next-line no-console
         console.error('Unable to upload emoji', err);
-        onFailure(messages.emojiUploadFailed);
+        fireAnalytics(
+          uploadFailedEvent({
+            duration: Date.now() - startTime,
+            reason: messages.emojiUploadFailed.defaultMessage,
+          }),
+        );
       });
   }
 };

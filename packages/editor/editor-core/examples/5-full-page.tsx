@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 
-import Editor, { EditorProps } from './../src/editor';
+import Editor, { EditorProps, EditorAppearance } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
 import WithEditorActions from './../src/ui/WithEditorActions';
 import {
@@ -27,6 +27,11 @@ import { DevTools } from '../example-helpers/DevTools';
 import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions } from './../src';
 import withSentry from '../example-helpers/withSentry';
+import BreadcrumbsMiscActions from '../example-helpers/breadcrumbs-misc-actions';
+import {
+  DEFAULT_MODE,
+  LOCALSTORAGE_defaultMode,
+} from '../example-helpers/example-constants';
 
 /**
  * +-------------------------------+
@@ -94,6 +99,7 @@ export const SaveAndCancelButtons = (props: {
         }
         props.editorActions.clear();
         localStorage.removeItem(LOCALSTORAGE_defaultDocKey);
+        localStorage.removeItem(LOCALSTORAGE_defaultTitleKey);
       }}
     >
       Close
@@ -101,7 +107,11 @@ export const SaveAndCancelButtons = (props: {
   </ButtonGroup>
 );
 
-export type State = { disabled: boolean; title: string };
+export type State = {
+  disabled: boolean;
+  title?: string;
+  appearance: EditorAppearance;
+};
 
 export const providers: any = {
   emojiProvider: emoji.storyData.getEmojiResource({
@@ -126,6 +136,13 @@ export const mediaProvider = storyMediaProviderFactory({
 
 export const quickInsertProvider = quickInsertProviderFactory();
 
+export const getAppearance = (): EditorAppearance => {
+  return (localStorage.getItem(LOCALSTORAGE_defaultMode) || DEFAULT_MODE) ===
+    DEFAULT_MODE
+    ? 'full-page'
+    : 'full-width';
+};
+
 export interface ExampleProps {
   onTitleChange?: (title: string) => void;
 }
@@ -137,6 +154,7 @@ class ExampleEditorComponent extends React.Component<
   state: State = {
     disabled: true,
     title: localStorage.getItem(LOCALSTORAGE_defaultTitleKey) || '',
+    appearance: this.props.appearance || getAppearance(),
   };
 
   componentDidMount() {
@@ -148,13 +166,20 @@ class ExampleEditorComponent extends React.Component<
     `);
   }
 
+  componentDidUpdate(prevProps: EditorProps) {
+    if (prevProps.appearance !== this.props.appearance) {
+      this.setState(() => ({
+        appearance: this.props.appearance || 'full-page',
+      }));
+    }
+  }
+
   render() {
     return (
       <Wrapper>
         <Content>
           <SmartCardProvider>
             <Editor
-              appearance="full-page"
               analyticsHandler={analyticsHandler}
               allowAnalyticsGASV3={true}
               quickInsert={{ provider: Promise.resolve(quickInsertProvider) }}
@@ -192,41 +217,50 @@ class ExampleEditorComponent extends React.Component<
                 allowResizing: true,
                 allowAnnotation: true,
               }}
+              allowHelpDialog
               placeholder="Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule."
               shouldFocus={false}
               disabled={this.state.disabled}
               defaultValue={
                 (localStorage &&
-                  localStorage.getItem('fabric.editor.example.full-page')) ||
+                  localStorage.getItem(LOCALSTORAGE_defaultDocKey)) ||
                 undefined
               }
               contentComponents={
                 <WithEditorActions
                   render={actions => (
-                    <TitleInput
-                      value={this.state.title}
-                      onChange={this.handleTitleChange}
-                      innerRef={this.handleTitleRef}
-                      onFocus={this.handleTitleOnFocus}
-                      onBlur={this.handleTitleOnBlur}
-                      onKeyDown={(e: KeyboardEvent) => {
-                        this.onKeyPressed(e, actions);
-                      }}
-                    />
+                    <>
+                      <BreadcrumbsMiscActions
+                        appearance={this.state.appearance}
+                        onFullWidthChange={this.setFullWidthMode}
+                      />
+                      <TitleInput
+                        value={this.state.title}
+                        onChange={this.handleTitleChange}
+                        innerRef={this.handleTitleRef}
+                        onFocus={this.handleTitleOnFocus}
+                        onBlur={this.handleTitleOnBlur}
+                        onKeyDown={(e: KeyboardEvent) => {
+                          this.onKeyPressed(e, actions);
+                        }}
+                      />
+                    </>
                   )}
                 />
               }
-              primaryToolbarComponents={
+              primaryToolbarComponents={[
                 <WithEditorActions
+                  key={1}
                   render={actions => (
                     <SaveAndCancelButtons editorActions={actions} />
                   )}
-                />
-              }
+                />,
+              ]}
               onSave={SAVE_ACTION}
               insertMenuItems={customInsertMenuItems}
               extensionHandlers={extensionHandlers}
               {...this.props}
+              appearance={this.state.appearance}
             />
           </SmartCardProvider>
         </Content>
@@ -262,6 +296,10 @@ class ExampleEditorComponent extends React.Component<
     if (ref) {
       ref.focus();
     }
+  };
+
+  private setFullWidthMode = (fullWidthMode: boolean) => {
+    this.setState({ appearance: fullWidthMode ? 'full-width' : 'full-page' });
   };
 }
 
