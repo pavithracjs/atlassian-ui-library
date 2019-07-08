@@ -7,14 +7,19 @@ import {
 } from '@testing-library/react';
 import SurveyMarshal from '../../SurveyMarshal';
 import { FormValues } from '../../../types';
-import ContextualSurvey from '../../ContextualSurvey';
+import ContextualSurvey, {
+  AUTO_DISAPPEAR_DURATION,
+} from '../../ContextualSurvey';
+
+jest.useFakeTimers();
 
 type Props = {
   hasUserAnswered: boolean;
   onSubmit: (value: FormValues) => Promise<void>;
+  onDismiss: () => void;
 };
 
-function App({ hasUserAnswered, onSubmit }: Props) {
+function App({ hasUserAnswered, onSubmit, onDismiss }: Props) {
   const [showSurvey, setShowSurvey] = useState(true);
 
   return (
@@ -24,9 +29,11 @@ function App({ hasUserAnswered, onSubmit }: Props) {
           question="Question"
           statement="Statement"
           textPlaceholder="Placeholder"
-          onDismiss={() => setShowSurvey(false)}
+          onDismiss={() => {
+            onDismiss();
+            setShowSurvey(false);
+          }}
           getUserHasAnsweredMailingList={() => {
-            console.log('resolving if user has answered', hasUserAnswered);
             return Promise.resolve(hasUserAnswered);
           }}
           onMailingListAnswer={() => Promise.resolve()}
@@ -37,19 +44,27 @@ function App({ hasUserAnswered, onSubmit }: Props) {
   );
 }
 
+async function asyncAct() {
+  const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+  await Promise.resolve();
+  act(() => {});
+  error.mockRestore();
+}
+
 it('should allow a standard signup flow', async () => {
   const onSubmit = jest.fn().mockImplementation(() => {
-    console.log('resolving on submit');
     return Promise.resolve();
   });
+  const onDismiss = jest.fn();
   const {
     container,
     getByLabelText,
     getByText,
-    getAllByLabelText,
     queryByPlaceholderText,
     getByPlaceholderText,
-  } = render(<App hasUserAnswered={false} onSubmit={onSubmit} />);
+  } = render(
+    <App hasUserAnswered={false} onSubmit={onSubmit} onDismiss={onDismiss} />,
+  );
 
   // displaying form initially
   expect(getByText('Question')).toBeTruthy();
@@ -75,21 +90,46 @@ it('should allow a standard signup flow', async () => {
   if (!form) {
     throw new Error('could not find form');
   }
-  console.log('manually submitting form');
   fireEvent.submit(form);
 
-  console.log('post submit')
-
   expect(onSubmit).toHaveBeenCalledWith({
-    canContact: false,
+    // set to true by updating the feedback
+    canContact: true,
     feedbackScore: 7,
     writtenFeedback: feedback,
   });
 
+  // Waiting for some promises to resolve.
+  // this does not play nicely with 'act'
 
+  // Waiting for onSubmit promise to resolve
+  await asyncAct();
+  // Waiting for getUserHasAnsweredMailingList promise to resolve
+  await asyncAct();
 
-  console.log('YO: running assertion');
-  // expect(
-  //   getByText('Are you interested in participating in our research?'),
-  // ).toBeTruthy();
+  expect(
+    getByText('Are you interested in participating in our research?'),
+  ).toBeTruthy();
+
+  const signUp: HTMLElement | null = getByText('Yes, sign me up').closest(
+    'button',
+  );
+  if (!signUp) {
+    throw new Error('Unable to find signup button');
+  }
+  fireEvent.click(signUp);
+
+  // letting the mail signup promise resolve
+  await asyncAct();
+
+  expect(getByText('Thanks for signing up')).toBeTruthy();
+
+  expect(onDismiss).not.toHaveBeenCalled();
+
+  // running auto dismiss
+  act(() => {
+    jest.advanceTimersByTime(AUTO_DISAPPEAR_DURATION);
+  });
+
+  expect(onDismiss).toHaveBeenCalled();
 });

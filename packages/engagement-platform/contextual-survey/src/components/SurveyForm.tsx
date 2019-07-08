@@ -1,5 +1,12 @@
 /** @jsx jsx */
-import { useState, useRef, useCallback, RefObject, ChangeEvent, useEffect } from 'react';
+import {
+  useState,
+  useRef,
+  useCallback,
+  RefObject,
+  ChangeEvent,
+  useEffect,
+} from 'react';
 import { Transition } from 'react-transition-group';
 import { jsx, css } from '@emotion/core';
 import Textarea from '@atlaskit/textarea';
@@ -54,7 +61,7 @@ export default ({
   onSubmit,
 }: Props) => {
   const [expanded, setExpanded] = useState(false);
-  const [canContact, setCanContact] = useState(false);
+  const [canContactDefault, setCanContactDefault] = useState(false);
   const hasAutoFilledCanContactRef = useRef(false);
 
   const expandedAreaRef = useRef<HTMLDivElement>(null);
@@ -73,7 +80,7 @@ export default ({
       return;
     }
     hasAutoFilledCanContactRef.current = true;
-    setCanContact(true);
+    setCanContactDefault(true);
   }, []);
 
   return (
@@ -124,22 +131,20 @@ export default ({
                         placeholder={textPlaceholder}
                         autoFocus
                         onChange={(event: Event) => {
-                          console.log('ON FEEDBACK CHANGE')
                           fieldProps.onChange(event);
                           onFeedbackChange();
                         }}
                       />
                     )}
                   </Field>
-                  <CheckboxField name="canContact" isDisabled={submitting}>
+                  <CheckboxField
+                    name="canContact"
+                    isDisabled={submitting}
+                    defaultIsChecked={canContactDefault}
+                  >
                     {({ fieldProps }: { fieldProps: any }) => (
                       <Checkbox
                         {...fieldProps}
-                        onChange={(event: Event) => {
-                          fieldProps.onChange(event);
-                          setCanContact((isChecked: boolean) => !isChecked);
-                        }}
-                        isChecked={canContact}
                         label="Atlassian can contact me about this feedback"
                       />
                     )}

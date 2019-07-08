@@ -37,7 +37,7 @@ type Step =
 
 type Optional<T> = T | null;
 
-const AUTO_DISAPPEAR_DURATION: number = 8000;
+export const AUTO_DISAPPEAR_DURATION: number = 8000;
 
 export default ({
   question,
@@ -68,7 +68,9 @@ export default ({
       if (!isDismissedRef.current) {
         setCurrentStep(step);
       } else {
-        console.log(`not setting step "${step}" as survey is already dismissed`);
+        console.log(
+          `not setting step "${step}" as survey is already dismissed`,
+        );
       }
     },
     [setCurrentStep],
@@ -114,7 +116,7 @@ export default ({
   const onSurveySubmit = useCallback<
     React.ComponentProps<typeof SurveyForm>['onSubmit']
   >(
-    async(formValues, _, cleanup) => {
+    async (formValues, _, cleanup) => {
       // Submitting form: Phase 1 complete
       await onSubmit(formValues);
 
@@ -207,7 +209,6 @@ export default ({
       );
     }
     if (currentStep === 'SIGN_UP_PROMPT') {
-      console.log('rendering sign up prompt')
       return <SignUpPrompt onAnswer={onMailingListResponse} />;
     }
     if (currentStep === 'SIGN_UP_SUCCESS') {
