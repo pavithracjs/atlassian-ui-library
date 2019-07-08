@@ -203,7 +203,7 @@ export default ({
           'POST_SURVEY_HAS_SIGN_UP',
         ].includes(currentStep)
       ) {
-        autoDisappearTimeoutRef.current = setTimeout(
+        autoDisappearTimeoutRef.current = window.setTimeout(
           tryDismiss,
           AUTO_DISAPPEAR_DURATION,
         );

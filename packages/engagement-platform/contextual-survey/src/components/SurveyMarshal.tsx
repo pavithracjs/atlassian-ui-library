@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { jsx, css } from '@emotion/core';
 import { Transition } from 'react-transition-group';
 import { layers } from '@atlaskit/theme';

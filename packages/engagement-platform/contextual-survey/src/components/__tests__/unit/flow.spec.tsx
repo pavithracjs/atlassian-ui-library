@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  render,
-  fireEvent,
-  getByPlaceholderText,
-  act,
-} from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import SurveyMarshal from '../../SurveyMarshal';
 import { FormValues } from '../../../types';
 import ContextualSurvey, {

@@ -1,12 +1,5 @@
 /** @jsx jsx */
-import {
-  useState,
-  useRef,
-  useCallback,
-  RefObject,
-  ChangeEvent,
-  useEffect,
-} from 'react';
+import { useState, useRef, useCallback, RefObject } from 'react';
 import { Transition } from 'react-transition-group';
 import { jsx, css } from '@emotion/core';
 import Textarea from '@atlaskit/textarea';
