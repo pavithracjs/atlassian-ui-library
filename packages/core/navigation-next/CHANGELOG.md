@@ -1,5 +1,24 @@
 # @atlaskit/navigation-next
 
+## 6.3.2
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/global-navigation@7.3.1
+  - @atlaskit/inline-dialog@12.0.3
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/onboarding@8.0.6
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/select@9.1.8
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/icon@19.0.0
+
 ## 6.3.1
 
 ### Patch Changes

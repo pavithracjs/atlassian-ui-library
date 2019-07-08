@@ -1,5 +1,54 @@
 # @atlaskit/editor-core
 
+## 112.26.1
+
+### Patch Changes
+
+- [patch][2714c80a0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2714c80a0b):
+
+  ED-7191 Fix regression where cell popup is not place on the correct horizontal place
+
+## 112.26.0
+
+### Minor Changes
+
+- [minor][143dcb8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/143dcb8704):
+
+  ED-2362 Add keyboard shortcuts for headings and normal text
+
+## 112.25.3
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/avatar-group@4.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/calendar@8.0.3
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/droplist@9.0.8
+  - @atlaskit/item@10.0.5
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/select@9.1.8
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/editor-common@39.13.2
+  - @atlaskit/editor-test-helpers@9.5.2
+  - @atlaskit/renderer@49.4.1
+  - @atlaskit/emoji@62.2.1
+  - @atlaskit/mention@18.6.2
+  - @atlaskit/share@0.5.4
+  - @atlaskit/status@0.9.3
+  - @atlaskit/task-decision@15.1.1
+  - @atlaskit/user-picker@4.0.12
+  - @atlaskit/media-card@63.3.1
+  - @atlaskit/media-editor@36.2.1
+  - @atlaskit/media-filmstrip@34.2.2
+  - @atlaskit/media-picker@44.0.1
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/smart-card@12.2.3
+  - @atlaskit/icon@19.0.0
+
 ## 112.25.2
 
 ### Patch Changes

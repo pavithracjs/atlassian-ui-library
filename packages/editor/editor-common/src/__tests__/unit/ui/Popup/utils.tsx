@@ -273,5 +273,47 @@ describe('@atlaskit/editor-common popup utils', () => {
         top: 30,
       });
     });
+
+    describe('allow out of bound', () => {
+      it('should allow x position < 1', () => {
+        layoutElements({
+          target: { left: 0 },
+        });
+        const placement = ['bottom', 'center'] as [string, string];
+        const calc = calculatePosition({
+          placement,
+          target: targetEl,
+          popup: popupEl,
+          offset,
+          stick,
+          allowOutOfBounds: true,
+        });
+
+        expect(calc).toEqual({
+          left: -7,
+          top: 30,
+        });
+      });
+
+      it('should allow x position > parent width - popup width', () => {
+        layoutElements({
+          target: { left: 70 },
+        });
+        const placement = ['bottom', 'center'] as [string, string];
+        const calc = calculatePosition({
+          placement,
+          target: targetEl,
+          popup: popupEl,
+          offset,
+          stick,
+          allowOutOfBounds: true,
+        });
+
+        expect(calc).toEqual({
+          left: 63,
+          top: 30,
+        });
+      });
+    });
   });
 });
