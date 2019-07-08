@@ -12,10 +12,10 @@ import { Handle, IconWrapper, Inner, Input, Label, Slide } from './styled';
 import defaultBaseProps from './defaultBaseProps';
 import { StatelessProps, DefaultBaseProps, StyledProps } from './types';
 
-type State = {
+interface State {
   // not controlled by props but by browser focus
   isFocused: boolean;
-};
+}
 
 interface DefaultProps extends DefaultBaseProps {
   isChecked: boolean;

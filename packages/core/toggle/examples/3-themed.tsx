@@ -3,9 +3,9 @@ import Button from '@atlaskit/button';
 import { AtlaskitThemeProvider, gridSize } from '@atlaskit/theme';
 import Toggle from '../src';
 
-type State = {
+interface State {
   mode: 'light' | 'dark';
-};
+}
 
 export default class Swapper extends React.Component<any, State> {
   state: State = {

@@ -7,9 +7,9 @@ interface DefaultProps extends DefaultBaseProps {
   isDefaultChecked: boolean;
 }
 
-type State = {
+interface State {
   isChecked: boolean;
-};
+}
 
 // This component is a thin wrapper around the stateless component that manages
 // the isChecked state for you
