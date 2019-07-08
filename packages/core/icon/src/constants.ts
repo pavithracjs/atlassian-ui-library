@@ -1,13 +1,13 @@
-export type sizeOptions = 'small' | 'medium' | 'large' | 'xlarge';
+import { sizeOpts } from './types';
 
-export const sizes: Record<sizeOptions, string> = {
+export const sizes: Record<sizeOpts, string> = {
   small: '16px',
   medium: '24px',
   large: '32px',
   xlarge: '48px',
 };
 
-export const sizeMap: Record<string, sizeOptions> = {
+export const sizeMap: Record<string, sizeOpts> = {
   small: 'small',
   medium: 'medium',
   large: 'large',

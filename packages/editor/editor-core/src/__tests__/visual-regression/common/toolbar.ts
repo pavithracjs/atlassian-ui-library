@@ -1,4 +1,5 @@
 import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
+import { waitForNoTooltip } from '@atlaskit/visual-regression/helper';
 import {
   clickToolbarMenu,
   ToolbarMenuItem,
@@ -20,6 +21,7 @@ describe('Toolbar', () => {
 
   afterEach(async () => {
     await page.waitForSelector(selectors[ToolbarMenuItem.toolbarDropList]);
+    await waitForNoTooltip(page);
     await snapshot(page);
   });
 
