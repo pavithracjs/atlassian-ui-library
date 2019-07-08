@@ -25,6 +25,7 @@ import { SurveyMarshal, ContextualSurvey } from '@atlaskit/contextual-survey';
 - 🛠If the user marks that they do not want to be contacted, then `getUserHasAnsweredMailingList()` is not called. Previously `getUserHasAnsweredMailingList()` was always called _regardless_ of whether the user wanted to be contacted. The email sign up is only showed if the user states that they want to be contacted and if `getUserHasAnsweredMailingList` returns `false`. We now don't call `getUserHasAnsweredMailingList` if the user has stated they don't want to be contacted as it is a precondition.
 - 🚀 The user is able to dismiss the form at any time using the `escape` key
 - 🕵️‍ After clicking a score the response `textarea` is given browser focus.
+- ✅ New behaviour for the _can contact_ checkbox. It is now not selected by default. When a user types into the response text area for the first time we swap it to checked. From that point the user is welcome to change it's value and we do not automatically swap it to checked again. This allows people to select a score but not be contacted for it. It also recognises that the engagement platform would like to be able to respond to people who provide feedback.
 - ♿️ Added `aria-pressed` to currently selected score
 - 📖 Documentation explaining application flow
 - 👩‍🔬 Added automated test for happy path
