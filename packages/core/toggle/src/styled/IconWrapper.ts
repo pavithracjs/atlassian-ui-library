@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { themed, colors } from '@atlaskit/theme';
 import { getWidth, paddingUnitless } from './constants';
-import { StyledProps } from 'src/types';
+import { StyledProps } from '../types';
 
 const iconPadding = `${paddingUnitless / 2}px`;
 

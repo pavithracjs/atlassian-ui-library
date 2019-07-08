@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
 import { borderWidth, getHeight, getWidth, transition } from './constants';
-import { StyledProps } from 'src/types';
+import { StyledProps } from '../types';
 
 const colorOptions = {
   bgChecked: themed({ light: colors.G400, dark: colors.G300 }),
