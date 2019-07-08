@@ -10,8 +10,7 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
     <div
       onMouseOver={[Function]}
     >
-      <Tooltip
-        component={[Function]}
+      <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
         content={
           <div
             css="unknown styles"
@@ -28,9 +27,7 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
         }
         delay={600}
         hideTooltipOnClick={true}
-        mousePosition="bottom"
         position="right"
-        tag="div"
       >
         <Button
           hasHighlight={false}
@@ -45,7 +42,7 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
         >
           <ChevronLeftIcon />
         </Button>
-      </Tooltip>
+      </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
     </div>
   </Outer>
   <LifeCycleProvider
@@ -78,8 +75,7 @@ exports[`ResizeControlBase should render correctly 1`] = `
     <div
       onMouseOver={[Function]}
     >
-      <Tooltip
-        component={[Function]}
+      <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
         content={
           <div
             css="unknown styles"
@@ -96,9 +92,7 @@ exports[`ResizeControlBase should render correctly 1`] = `
         }
         delay={600}
         hideTooltipOnClick={true}
-        mousePosition="bottom"
         position="right"
-        tag="div"
       >
         <Button
           hasHighlight={false}
@@ -113,7 +107,7 @@ exports[`ResizeControlBase should render correctly 1`] = `
         >
           <ChevronLeftIcon />
         </Button>
-      </Tooltip>
+      </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
     </div>
   </Outer>
   <LifeCycleProvider
