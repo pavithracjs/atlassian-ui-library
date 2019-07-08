@@ -25,8 +25,10 @@ import ResizableMediaSingle from '../ui/ResizableMediaSingle';
 import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { MediaOptions, MediaPMPluginOptions } from '../index';
+import { MediaOptions } from '../index';
 import { stateKey as mediaPluginKey } from '../pm-plugins/main';
+import { updateMediaNodeAttrs, replaceExternalMedia } from '../commands';
+
 import { isMobileUploadCompleted } from '../commands/helpers';
 import { MediaSingleNodeProps, MediaSingleNodeViewProps } from './types';
 import { MediaNodeUpdater } from './mediaNodeUpdater';
@@ -108,11 +110,21 @@ export default class MediaSingleNode extends Component<
         viewMediaClientConfig,
       })
       // TODO: passs collection
+
+      const collection =
+        mediaProvider.uploadParams && mediaProvider.uploadParams.collection;
+
       const fileUpfront = await mediaClient.file.uploadExternal(
         firstChild.attrs.url,
+        collection,
       );
-      // You can use fileUpfront.id already to replace the node
-      console.log('file id', fileUpfront.id);
+
+      if (fileUpfront.id) {
+        replaceExternalMedia(this.props.getPos(), {
+          id: fileUpfront.id,
+          collection,
+        })(this.props.view.state, this.props.view.dispatch);
+      }
     }
   };
 

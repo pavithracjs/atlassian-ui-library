@@ -28,3 +28,22 @@ export const updateMediaNodeAttrs = (
   }
   return true;
 };
+
+export const replaceExternalMedia = (pos: number, attrs: object): Command => (
+  state,
+  dispatch,
+) => {
+  if (dispatch) {
+    dispatch(
+      state.tr
+        .step(
+          new SetAttrsStep(pos + 1, {
+            type: 'file',
+            url: null,
+            ...attrs,
+          }),
+        )
+        .setMeta('addToHistory', false),
+    );
+  }
+};
