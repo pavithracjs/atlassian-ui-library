@@ -1,5 +1,14 @@
 # @atlaskit/editor-test-helpers
 
+## 9.7.0
+
+### Minor Changes
+
+- [minor][d217a12e31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d217a12e31):
+
+  ED-7056: Update prosemirror-utils, this enables us to replace selected nodes while inserting
+  ED-6668: Adds a selected ring to all extensions
+
 ## 9.6.0
 
 ### Minor Changes

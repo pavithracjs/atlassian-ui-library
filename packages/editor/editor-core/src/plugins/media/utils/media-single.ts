@@ -108,6 +108,8 @@ export const insertMediaSingleNode = (
         shouldAddParagraph(view.state)
           ? Fragment.fromArray([node, state.schema.nodes.paragraph.create()])
           : node,
+        undefined,
+        true,
       )(state.tr),
     );
   }

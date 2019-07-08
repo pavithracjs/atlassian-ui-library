@@ -1,4 +1,4 @@
-import React, { useRef, useState, ComponentType } from 'react';
+import React, { useRef, useState, ComponentType, FC } from 'react';
 import styled from 'styled-components';
 
 import Textfield from '@atlaskit/textfield';
@@ -48,12 +48,12 @@ interface State {
   isModalOpen: boolean;
 }
 
-const IconExplorerCell = ({
+const IconExplorerCell: FC<Props> = ({
   component: Icon,
   componentName,
   package: packageName,
   divider,
-}: Props) => {
+}) => {
   const inputEl = useRef<HTMLInputElement>(null);
   const [state, setState] = useState<State>({
     isModalOpen: false,

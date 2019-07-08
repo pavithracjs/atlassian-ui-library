@@ -4,8 +4,8 @@ import { css, Styles, StyledComponentClass } from 'styled-components';
 import {
   mediaSingleSharedStyle,
   akEditorDeleteBorder,
-  akEditorDeleteBorderBoldSize,
   akEditorDeleteBackground,
+  akEditorSelectedBorderBoldSize,
 } from '@atlaskit/editor-common';
 import { colors } from '@atlaskit/theme';
 
@@ -93,7 +93,7 @@ export const mediaStyles = css`
   .danger > div > div > .media-card-frame,
   .danger > span > a {
     background-color: ${akEditorDeleteBackground};
-    box-shadow: 0px 0px 0px ${akEditorDeleteBorderBoldSize}px
+    box-shadow: 0px 0px 0px ${akEditorSelectedBorderBoldSize}px
       ${akEditorDeleteBorder};
     transition: background-color 0s;
     transition: box-shadow 0s;
@@ -103,7 +103,7 @@ export const mediaStyles = css`
   .danger {
     /* Media single */
     .media-single div div div::after {
-      border: ${akEditorDeleteBorderBoldSize}px solid ${akEditorDeleteBorder};
+      border: ${akEditorSelectedBorderBoldSize}px solid ${akEditorDeleteBorder};
     }
 
     .mediaSingle-selected .mediaSingle-resize-handle-right::after,
