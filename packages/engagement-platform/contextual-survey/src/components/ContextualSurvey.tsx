@@ -126,8 +126,15 @@ export default ({
 
       // Optional Phase 2: Asking to join Atlassian Research Group
       // Only enter phase 2 if:
-      // 1. permission given to contact; AND
-      // 2. user has previously not answered mailing list question (getUserHasAnsweredMailingList returns false)
+      // 1. not already dismissed; AND
+      // 2. permission given to contact; AND
+      // 3. user has previously not answered mailing list question (getUserHasAnsweredMailingList returns false)
+
+      // Not entering phase 2: User has dismissed while the submit promise was resolving
+      if (isDismissedRef.current) {
+        cleanup();
+        return;
+      }
 
       // Not entering phase 2: no permission given to respond to feedback
       if (!formValues.canContact) {
