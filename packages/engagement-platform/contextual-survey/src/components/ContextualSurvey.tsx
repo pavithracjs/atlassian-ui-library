@@ -74,7 +74,7 @@ export default ({
       // Already dismissed - cannot update the step
       if (isDismissedRef.current) {
         if (process.env.NODE_ENV !== 'production') {
-          // eslint-ignore-next-line no-console
+          // eslint-disable-next-line no-console
           console.log(
             `not setting step "${step}" as survey is already dismissed`,
           );
