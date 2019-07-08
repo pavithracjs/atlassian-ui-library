@@ -5,7 +5,7 @@ import { CardLinkView } from '@atlaskit/media-ui';
 
 import { CardWithUrlContentProps } from './types';
 import { uiCardClickedEvent } from '../../utils/analytics';
-import { isSpecialKey } from '../../utils';
+import { isSpecialEvent } from '../../utils';
 import { getDefinitionId, getServices } from '../../state/actions/helpers';
 import { BlockCard } from '../BlockCard';
 import { InlineCard } from '../InlineCard';
@@ -42,7 +42,7 @@ export function CardWithUrlContent({
   const services = getServices(state.details);
   // Setup UI handlers.
   const handleClick = (event: MouseEvent | KeyboardEvent) => {
-    isSpecialKey(event)
+    isSpecialEvent(event)
       ? window.open(url, '_blank')
       : window.open(url, '_self');
   };
