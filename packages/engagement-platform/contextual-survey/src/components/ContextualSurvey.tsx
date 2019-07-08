@@ -71,13 +71,18 @@ export default ({
   const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
   const trySetCurrentStep = useCallback(
     (step: Step) => {
-      if (!isDismissedRef.current) {
-        setCurrentStep(step);
-      } else {
-        console.log(
-          `not setting step "${step}" as survey is already dismissed`,
-        );
+      // Already dismissed - cannot update the step
+      if (isDismissedRef.current) {
+        if (process.env.NODE_ENV !== 'production') {
+          // eslint-ignore-next-line no-console
+          console.log(
+            `not setting step "${step}" as survey is already dismissed`,
+          );
+        }
+        return;
       }
+
+      setCurrentStep(step);
     },
     [setCurrentStep],
   );
@@ -161,7 +166,7 @@ export default ({
       // Enter phase 2
       trySetCurrentStep('SIGN_UP_PROMPT');
     },
-    [getUserHasAnsweredMailingList, onSubmit],
+    [getUserHasAnsweredMailingList, onSubmit, trySetCurrentStep],
   );
 
   const onMailingListResponse = useCallback(
@@ -175,7 +180,7 @@ export default ({
       tryDismiss();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [trySetCurrentStep],
+    [tryDismiss, trySetCurrentStep],
   );
 
   // Start the auto disappear when we are finished
@@ -204,7 +209,7 @@ export default ({
         );
       }
     },
-    [currentStep],
+    [currentStep, tryDismiss],
   );
 
   useEscapeToDismiss({ onDismiss: tryDismiss });
