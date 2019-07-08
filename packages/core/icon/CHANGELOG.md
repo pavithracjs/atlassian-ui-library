@@ -1,5 +1,13 @@
 # @atlaskit/icon
 
+## 19.0.1
+
+### Patch Changes
+
+- [patch][a1a4c19100](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1a4c19100):
+
+  include bundled cjs files
+
 ## 19.0.0
 
 ### Major Changes
