@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.2.4
+
+### Patch Changes
+
+- [patch][aed5ccba18](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aed5ccba18):
+
+  SL-343 fix behaviour when using middle-click or clicking inside of iframes for inline Smart Links.
+
 ## 12.2.3
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
