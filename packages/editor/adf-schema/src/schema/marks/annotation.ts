@@ -2,7 +2,6 @@ import { MarkSpec } from 'prosemirror-model';
 
 /**
  * @name annotation_mark
- * @stage 0
  */
 export interface AnnotationMarkDefinition {
   type: 'annotation';

@@ -1,6 +1,6 @@
 import { HTMLAttributes, ComponentClass } from 'react';
 import styled, { css } from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { colors, gridSize, borderRadius } from '@atlaskit/theme';
 
 const akGridSize = gridSize() + 'px';
 
@@ -96,9 +96,14 @@ export const scrollbarStyles = `
   }
 `;
 
-export const Shortcut = styled.small`
-  color: ${colors.N50};
-  margin-top: 0;
+export const Shortcut = styled.div`
+  background-color: rgba(223, 225, 229, 0.5); /* N60 at 50% */
+  color: ${colors.N100};
+  border-radius: ${borderRadius()}px;
+  padding: 4px;
+  line-height: 12px;
+  font-size: 11.67px;
+  align-self: flex-end;
 `;
 
 export const ClickSelectWrapper: React.ComponentClass<

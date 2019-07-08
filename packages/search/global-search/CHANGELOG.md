@@ -1,5 +1,45 @@
 # @atlaskit/global-search
 
+## 10.1.0
+
+### Minor Changes
+
+- [minor][c11db2f5dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c11db2f5dc):
+
+  Modified caching behaviour for Confluence search so that it now has a 15 minute timeout
+
+## 10.0.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/feedback-collector@4.0.7
+  - @atlaskit/flag@12.0.10
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/navigation@35.1.8
+  - @atlaskit/quick-search@7.5.1
+  - @atlaskit/icon@19.0.0
+
+## 10.0.0
+
+### Major Changes
+
+- [major][1e1fd28bb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e1fd28bb3):
+
+  Exposed new API for consumers of global search to better control the lifecycle of the search session id
+
+## 9.2.0
+
+### Minor Changes
+
+- [minor][e6f5e7a694](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f5e7a694):
+
+  added current space filter for confluence
+
 ## 9.1.1
 
 ### Patch Changes

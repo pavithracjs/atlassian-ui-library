@@ -6,6 +6,7 @@
  */
 // Dutch
 export default {
+  'fabric.mention.unknow.user.error': 'Onbekende gebruiker {id}',
   'fabric.mention.noAccess.warning':
     '{name} ontvangt geen melding omdat hij/zij geen toegang heeft',
   'fabric.mention.noAccess.label': 'Geen toegang',

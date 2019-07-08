@@ -8,13 +8,13 @@ import {
   UrlShortenerClient,
 } from '../../../clients/AtlassianUrlShortenerClient';
 import {
-  Props,
-  ShareDialogContainer,
+  ShareDialogContainerInternal,
   State,
   defaultConfig,
 } from '../../../components/ShareDialogContainer';
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
 import { OriginTracing } from '../../../types';
+import { PropsOf } from '../_testUtils';
 
 function currentEventLoopEnd() {
   return new Promise(resolve => setImmediate(resolve));
@@ -96,9 +96,13 @@ describe('ShareDialogContainer', () => {
   });
 
   function getWrapper(
-    overrides: Partial<Props> = {},
-  ): ShallowWrapper<Props, State, ShareDialogContainer> {
-    let props: Props = {
+    overrides: Partial<PropsOf<ShareDialogContainerInternal>> = {},
+  ): ShallowWrapper<
+    PropsOf<ShareDialogContainerInternal>,
+    State,
+    ShareDialogContainerInternal
+  > {
+    let props: PropsOf<ShareDialogContainerInternal> = {
       shareClient: mockShareClient,
       urlShortenerClient: mockShortenerClient,
       cloudId: mockCloudId,
@@ -120,12 +124,10 @@ describe('ShareDialogContainer', () => {
       ...overrides,
     };
 
-    return shallow(<ShareDialogContainer {...props} />);
+    return shallow(<ShareDialogContainerInternal {...props} />);
   }
 
-  function getShareDialogWithTrigger(
-    wrapper: ShallowWrapper<Props, State, ShareDialogContainer>,
-  ) {
+  function getShareDialogWithTrigger(wrapper: ReturnType<typeof getWrapper>) {
     return wrapper.find(ShareDialogWithTrigger);
   }
 
@@ -339,10 +341,12 @@ describe('ShareDialogContainer', () => {
         users: mockUsers,
         comment: mockComment,
       };
-      const result = await wrapper
-        .instance()
-        .handleSubmitShare(mockDialogContentState);
-      expect(result).toEqual(mockShareResponse);
+
+      expect(wrapper.state().shareActionCount).toEqual(0);
+
+      await wrapper.instance().handleSubmitShare(mockDialogContentState);
+
+      expect(wrapper.state().shareActionCount).toEqual(1);
     });
 
     it('should update the mail Origin Ids if share is successful', async () => {

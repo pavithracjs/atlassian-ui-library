@@ -72,6 +72,26 @@ export const RenderTracker = withAnalyticsEvents({
   },
 );
 
+export const ViewedTracker = withAnalyticsEvents({
+  onRender: (createAnalyticsEvent: CreateUIAnalyticsEventSignature) => {
+    return createAnalyticsEvent({
+      eventType: UI_EVENT_TYPE,
+      action: 'viewed',
+      actionSubject: SWITCHER_SUBJECT,
+    }).fire(NAVIGATION_CHANNEL);
+  },
+})(
+  class extends React.Component<RenderTrackerProps> {
+    componentDidMount() {
+      this.props.onRender();
+    }
+
+    render() {
+      return null;
+    }
+  },
+);
+
 export {
   withAnalyticsEvents,
   NavigationAnalyticsContext,

@@ -19,9 +19,11 @@ export enum ToolbarMenuItem {
   emoji,
   removeTable,
   fontStyle,
+  toolbarDropList,
+  insertMenu,
 }
 
-const toolbarMenuItemsSelectors = {
+export const toolbarMenuItemsSelectors = {
   [ToolbarMenuItem.table]: `[aria-label="Table"]`,
   [ToolbarMenuItem.insertBlock]: `[aria-label="Insert"]`,
   [ToolbarMenuItem.italic]: `[aria-label="Italic"]`,
@@ -40,6 +42,8 @@ const toolbarMenuItemsSelectors = {
   [ToolbarMenuItem.emoji]: `[aria-label="Emoji"]`,
   [ToolbarMenuItem.removeTable]: `[aria-label="Remove"]`,
   [ToolbarMenuItem.fontStyle]: `[aria-label="Font style"]`,
+  [ToolbarMenuItem.toolbarDropList]: '[data-role="droplistContent"]',
+  [ToolbarMenuItem.insertMenu]: '[aria-label="Insert"]',
 };
 
 export async function clickToolbarMenu(page: Page, menu: ToolbarMenuItem) {

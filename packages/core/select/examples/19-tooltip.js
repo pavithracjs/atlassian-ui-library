@@ -29,7 +29,7 @@ const ElementBeforeExample = () => (
         label: 'Brisbane',
         value: 'brisbane',
         tooltipDescription: 'Brisbane is a fine city',
-        tooltipPosition: 'right ',
+        tooltipPosition: 'right',
       },
       {
         label: 'Canberra',

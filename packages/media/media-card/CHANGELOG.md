@@ -1,5 +1,19 @@
 # @atlaskit/media-card
 
+## 63.3.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/field-radio-group@6.0.4
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/media-ui@11.4.1
+  - @atlaskit/media-viewer@43.1.3
+  - @atlaskit/icon@19.0.0
+
 ## 63.3.0
 
 ### Minor Changes

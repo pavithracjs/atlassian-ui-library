@@ -11,6 +11,7 @@ interface LoadTimes {
   licenseInformation?: number;
   permitted?: number;
   appswitcher?: number;
+  availableProducts?: number;
 }
 
 export const REQUEST_SLOW = {
@@ -40,19 +41,31 @@ export const REQUEST_FAST = {
 export const mockEndpoints = (
   product: string,
   transformer?: DataTransformer,
-  loadTimes?: LoadTimes,
+  loadTimes: LoadTimes = {},
 ) => {
   const mockData = transformer
     ? transformer(ORIGINAL_MOCK_DATA)
     : ORIGINAL_MOCK_DATA;
 
   const {
+    AVAILABLE_PRODUCTS_DATA,
     RECENT_CONTAINERS_DATA,
     CUSTOM_LINKS_DATA,
     LICENSE_INFORMATION_DATA,
     USER_PERMISSION_DATA,
     XFLOW_SETTINGS,
   } = mockData;
+  fetchMock.get(
+    '/gateway/api/worklens/api/available-products',
+    () =>
+      new Promise(res =>
+        setTimeout(
+          () => res(AVAILABLE_PRODUCTS_DATA),
+          loadTimes && loadTimes.availableProducts,
+        ),
+      ),
+    { overwriteRoutes: true },
+  );
   fetchMock.get(
     '/gateway/api/activity/api/client/recent/containers?cloudId=some-cloud-id',
     () =>
@@ -88,11 +101,17 @@ export const mockEndpoints = (
   );
   fetchMock.post(
     '/gateway/api/permissions/permitted',
-    (_: string, options: any) =>
+    (_: string, options: { body: string }) =>
       new Promise(res =>
         setTimeout(
           () =>
-            res(USER_PERMISSION_DATA[JSON.parse(options.body).permissionId]),
+            res(
+              USER_PERMISSION_DATA[
+                JSON.parse(options.body).permissionId as
+                  | 'manage'
+                  | 'add-products'
+              ],
+            ),
           loadTimes && loadTimes.permitted,
         ),
       ),

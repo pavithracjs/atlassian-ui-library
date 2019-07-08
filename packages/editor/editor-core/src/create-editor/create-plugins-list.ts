@@ -125,7 +125,11 @@ export default function createPluginsList(
 
   if (props.mentionProvider) {
     plugins.push(
-      mentionsPlugin(createAnalyticsEvent, props.sanitizePrivateContent),
+      mentionsPlugin(
+        createAnalyticsEvent,
+        props.sanitizePrivateContent,
+        props.mentionInsertDisplayName,
+      ),
     );
   }
 

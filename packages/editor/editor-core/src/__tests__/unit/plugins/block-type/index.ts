@@ -12,7 +12,9 @@ import {
   h5,
   h6,
   p,
+  sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
+import { browser } from '@atlaskit/editor-common';
 import {
   pluginKey as blockTypePluginKey,
   BlockTypeState,
@@ -368,6 +370,74 @@ describe('block-type', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(code_block()(''), p('')),
       );
+    });
+  });
+
+  describe('handleKeyDown', () => {
+    let _mac: boolean;
+    beforeEach(() => {
+      _mac = browser.mac;
+    });
+    afterEach(() => {
+      browser.mac = _mac;
+    });
+
+    describe('on Mac', () => {
+      beforeEach(() => {
+        browser.mac = true;
+      });
+
+      it('should convert text to heading when Cmd+Opt+{heading level} hit', () => {
+        const { editorView } = editor(doc(p('hello{<>}')));
+        sendKeyToPm(editorView, 'Cmd-Alt-1');
+        expect(editorView.state.doc).toEqualDocument(doc(h1('hello')));
+      });
+
+      it('should convert heading to paragraph when Cmd+Opt+0 hit', () => {
+        const { editorView } = editor(doc(h1('hello{<>}')));
+        sendKeyToPm(editorView, 'Cmd-Alt-0');
+        expect(editorView.state.doc).toEqualDocument(doc(p('hello')));
+      });
+    });
+
+    describe('on Windows', () => {
+      beforeEach(() => {
+        browser.mac = false;
+      });
+
+      /**
+       * When keydown events come through in the browser, there is an event for each key
+       * and we store the location of the alt key from its own keydown event
+       * So in these tests we call sendKeyToPm with the alt key first so it can be stored
+       */
+
+      it('should convert text to heading when Ctrl+LeftAlt+{heading level} hit', () => {
+        const { editorView } = editor(doc(p('hello{<>}')));
+        sendKeyToPm(editorView, 'LeftAlt');
+        sendKeyToPm(editorView, 'Ctrl-LeftAlt-1');
+        expect(editorView.state.doc).toEqualDocument(doc(h1('hello')));
+      });
+
+      it('should convert heading to paragraph when Ctrl+LeftAlt+0 hit', () => {
+        const { editorView } = editor(doc(h1('hello{<>}')));
+        sendKeyToPm(editorView, 'LeftAlt');
+        sendKeyToPm(editorView, 'Ctrl-LeftAlt-0');
+        expect(editorView.state.doc).toEqualDocument(doc(p('hello')));
+      });
+
+      it('should not convert text to heading when Ctrl+RightAlt+{heading level} hit', () => {
+        const { editorView } = editor(doc(p('hello{<>}')));
+        sendKeyToPm(editorView, 'RightAlt');
+        sendKeyToPm(editorView, 'Ctrl-RightAlt-1');
+        expect(editorView.state.doc).toEqualDocument(doc(p('hello')));
+      });
+
+      it('should not convert heading to paragraph when Ctrl+RightAlt+0 hit', () => {
+        const { editorView } = editor(doc(h1('hello{<>}')));
+        sendKeyToPm(editorView, 'RightAlt');
+        sendKeyToPm(editorView, 'Ctrl-RightAlt-0');
+        expect(editorView.state.doc).toEqualDocument(doc(h1('hello')));
+      });
     });
   });
 });

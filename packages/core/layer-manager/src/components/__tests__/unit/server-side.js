@@ -5,7 +5,7 @@ import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-test('Layer manager server side rendering', async () => {
+test.skip('Layer manager server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('layer-manager');
   for (const example of examples) {
