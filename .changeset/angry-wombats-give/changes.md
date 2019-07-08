@@ -1,0 +1,1 @@
+added support for batching of link resolve requests in Smart Card client.
