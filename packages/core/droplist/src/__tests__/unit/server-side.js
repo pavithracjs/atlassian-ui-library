@@ -5,7 +5,7 @@ import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-test('Droplist server side rendering', async () => {
+test.skip('Droplist server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('Droplist');
   for (const example of examples) {

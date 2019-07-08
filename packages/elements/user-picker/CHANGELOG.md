@@ -1,5 +1,32 @@
 # @atlaskit/user-picker
 
+## 4.0.12
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/select@9.1.8
+  - @atlaskit/tag@8.0.5
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/icon@19.0.0
+
+## 4.0.11
+
+### Patch Changes
+
+- [patch][40e6908409](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40e6908409):
+
+  pass session id to on selection
+
+## 4.0.10
+
+### Patch Changes
+
+- [patch][06f5bbf5a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06f5bbf5a9):
+
+  start session onfocus
+
 ## 4.0.9
 
 ### Patch Changes

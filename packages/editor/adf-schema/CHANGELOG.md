@@ -1,5 +1,29 @@
 # @atlaskit/adf-schema
 
+## 2.11.1
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
+## 2.11.0
+
+### Minor Changes
+
+- [minor][ef787dba60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef787dba60):
+
+  ED-7178: Promoting alignment and indentation to full schema
+
+## 2.10.0
+
+### Minor Changes
+
+- [minor][3d9136e483](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d9136e483):
+
+  ED-7182: Promoting annotation to full schema
+
 ## 2.9.0
 
 ### Minor Changes

@@ -7,14 +7,14 @@ import {
 } from '../providers/jira-data-providers';
 import CommonDataProvider from '../providers/common-data-provider';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
-import { FeatureFlagProps, AvailableProductsResponse } from '../types';
+import { FeatureMap, AvailableProductsResponse } from '../types';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 import { ProviderResult } from '../providers/as-data-provider';
 
 type JiraSwitcherProps = {
   cloudId: string;
   messages: Messages;
-  features: FeatureFlagProps;
+  features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
 };
 
@@ -36,7 +36,7 @@ export default (props: JiraSwitcherProps) => (
               } = mapResultsToSwitcherProps(
                 props.cloudId,
                 { customLinks, ...providerResults },
-                { ...props.features, xflow: true },
+                props.features,
                 availableProducts,
               );
 

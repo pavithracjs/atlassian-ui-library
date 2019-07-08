@@ -21,9 +21,10 @@ import {
   Logger,
   JiraApplicationPermission,
 } from '../GlobalQuickSearchWrapper';
-import QuickSearchContainer, {
+import GenericQuickSearchContainer, {
   SearchResultProps,
   PartiallyLoadedRecentItems,
+  Props as QuickSearchContainerProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import SearchResultsComponent from '../common/SearchResults';
@@ -72,6 +73,10 @@ const NoResultsAdvancedSearchContainer = styled.div`
 const BeforePreQueryStateContainer = styled.div`
   margin-top: ${gridSize()}px;
 `;
+
+const QuickSearchContainer = GenericQuickSearchContainer as React.ComponentType<
+  QuickSearchContainerProps<JiraResultsMap>
+>;
 
 /**
  * NOTE: This component is only consumed internally as such avoid using optional props
@@ -581,6 +586,7 @@ export class JiraQuickSearchContainer extends React.Component<
         getPreQueryDisplayedResults={(recentItems, searchSessionId) =>
           this.getPreQueryDisplayedResults(recentItems, searchSessionId)
         }
+        getFilterComponent={() => null}
         getPostQueryDisplayedResults={(
           searchResults,
           query,

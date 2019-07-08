@@ -6,7 +6,7 @@ import ReactDOMServer from 'react-dom/server';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-test('Dropdown menu server side rendering', async () => {
+test.skip('Dropdown menu server side rendering', async () => {
   // $FlowFixMe
   const examples = await getExamplesFor('dropdown-menu');
   for (const example of examples) {

@@ -35,6 +35,12 @@ import {
 } from '../../commands-with-analytics';
 import { closestElement } from '../../../../utils';
 import { getSelectedColumnIndexes, getSelectedRowIndexes } from '../../utils';
+import {
+  tooltip,
+  addColumnAfter,
+  addRowAfter,
+  backspace,
+} from '../../../../keymaps';
 
 export const messages = defineMessages({
   cellBackground: {
@@ -176,13 +182,13 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     items.push({
       content: formatMessage(tableMessages.insertColumn),
       value: { name: 'insert_column' },
-      elemAfter: <Shortcut>⌃⌥→</Shortcut>,
+      elemAfter: <Shortcut>{tooltip(addColumnAfter)}</Shortcut>,
     });
 
     items.push({
       content: formatMessage(tableMessages.insertRow),
       value: { name: 'insert_row' },
-      elemAfter: <Shortcut>⌃⌥↓</Shortcut>,
+      elemAfter: <Shortcut>{tooltip(addRowAfter)}</Shortcut>,
     });
 
     const { top, bottom, right, left } = selectionRect;
@@ -221,7 +227,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
         0: Math.max(noOfColumns, noOfRows),
       }),
       value: { name: 'clear' },
-      elemAfter: <Shortcut>⌫</Shortcut>,
+      elemAfter: <Shortcut>{tooltip(backspace)}</Shortcut>,
     });
 
     return items.length ? [{ items }] : null;

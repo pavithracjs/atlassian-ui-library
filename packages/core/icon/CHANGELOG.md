@@ -1,5 +1,13 @@
 # @atlaskit/icon
 
+## 19.0.0
+
+### Major Changes
+
+- [major][06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+
+  @atlaskit/icon has been converted to TypeScript to provide static typing. Flow types are no longer provided. No API or bahavioural changes.
+
 ## 18.0.5
 
 ### Patch Changes

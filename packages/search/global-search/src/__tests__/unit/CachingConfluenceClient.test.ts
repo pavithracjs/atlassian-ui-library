@@ -107,14 +107,14 @@ describe('CachingConfluenceClient', () => {
       );
 
       expect(fetchMock.called()).toBeFalsy();
-      const result = await confluenceClient.getRecentItems('search_id');
+      const result = await confluenceClient.getRecentItems();
       expect(result).toEqual(expectedResults);
     });
 
     it('should do an actual search if the pre-fetching isnt available', async () => {
       mockRecentlyViewedPages(pages);
 
-      const result = await confluenceClient.getRecentItems('search_id');
+      const result = await confluenceClient.getRecentItems();
       expect(fetchMock.called()).toBeTruthy();
       expect(result).toEqual(expectedResults);
     });
@@ -149,14 +149,14 @@ describe('CachingConfluenceClient', () => {
       );
 
       expect(fetchMock.called()).toBeFalsy();
-      const result = await confluenceClient.getRecentSpaces('search_id');
+      const result = await confluenceClient.getRecentSpaces();
       expect(result).toEqual(expectedResults);
     });
 
     it('should do an actual search if the pre-fetching isnt available', async () => {
       mockRecentlyViewedSpaces(spaces);
 
-      const result = await confluenceClient.getRecentSpaces('search_id');
+      const result = await confluenceClient.getRecentSpaces();
       expect(fetchMock.called()).toBeTruthy();
       expect(result).toEqual(expectedResults);
     });

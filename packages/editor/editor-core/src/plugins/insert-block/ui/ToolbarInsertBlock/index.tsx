@@ -529,7 +529,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         value: { name: 'link' },
         isDisabled: linkDisabled,
         elemBefore: <LinkIcon label={labelLink} />,
-        elemAfter: <Shortcut>{shortcutLink}</Shortcut>,
+        elemAfter: shortcutLink && <Shortcut>{shortcutLink}</Shortcut>,
         shortcut: shortcutLink,
       });
     }
@@ -580,7 +580,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         content: labelTable,
         value: { name: 'table' },
         elemBefore: <TableIcon label={labelTable} />,
-        elemAfter: <Shortcut>{shortcutTable}</Shortcut>,
+        elemAfter: shortcutTable && <Shortcut>{shortcutTable}</Shortcut>,
         shortcut: shortcutTable,
       });
     }
@@ -604,7 +604,7 @@ class ToolbarInsertBlock extends React.PureComponent<
           content: labelBlock,
           value: blockType,
           elemBefore: <BlockTypeIcon label={labelBlock} />,
-          elemAfter: <Shortcut>{shortcutBlock}</Shortcut>,
+          elemAfter: shortcutBlock && <Shortcut>{shortcutBlock}</Shortcut>,
           shortcut: shortcutBlock,
         });
       });

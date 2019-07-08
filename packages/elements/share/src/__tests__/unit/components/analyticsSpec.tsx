@@ -1,6 +1,7 @@
 import {
   shareTriggerButtonClicked,
   cancelShare,
+  shortUrlRequested,
   copyLinkButtonClicked,
   screenEvent,
   formShareSubmitted,
@@ -53,6 +54,20 @@ describe('share analytics', () => {
     });
   });
 
+  describe('shortUrlRequested', () => {
+    it('should create a correct event payload', () => {
+      expect(shortUrlRequested()).toMatchObject({
+        eventType: 'operational',
+        action: 'requested',
+        actionSubject: 'shortUrl',
+        actionSubjectId: undefined,
+        attributes: expect.objectContaining({
+          source: 'shareModal',
+        }),
+      });
+    });
+  });
+
   describe('screenEvent', () => {
     it('should create event payload', () => {
       expect(screenEvent()).toMatchObject({
@@ -68,7 +83,7 @@ describe('share analytics', () => {
 
   describe('copyLinkButtonClicked', () => {
     it('should create event payload without origin id', () => {
-      expect(copyLinkButtonClicked(100)).toMatchObject({
+      expect(copyLinkButtonClicked(100, true)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -77,13 +92,14 @@ describe('share analytics', () => {
           duration: expect.any(Number),
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
+          shortUrl: true,
         }),
       });
     });
 
     it('should create event payload with origin id', () => {
       const shareOrigin: OriginTracing = mockShareOrigin();
-      expect(copyLinkButtonClicked(100, shareOrigin)).toMatchObject({
+      expect(copyLinkButtonClicked(100, false, shareOrigin)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -93,6 +109,7 @@ describe('share analytics', () => {
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
           originIdGenerated: 'abc-123',
+          shortUrl: false,
           originProduct: 'jest',
         }),
       });

@@ -1,7 +1,9 @@
+import { isPerformanceAPIAvailable } from './is-performance-api-available';
+
 const measureMap = new Map<string, number>();
 
 export function startMeasure(measureName: string) {
-  if (!('performance' in window)) {
+  if (!isPerformanceAPIAvailable()) {
     return;
   }
   performance.mark(measureName);
@@ -12,7 +14,7 @@ export function stopMeasure(
   measureName: string,
   onMeasureComplete: (duration: number, startTime: number) => void,
 ) {
-  if (!('performance' in window)) {
+  if (!isPerformanceAPIAvailable()) {
     return;
   }
 
@@ -35,7 +37,7 @@ export function stopMeasure(
 }
 
 export function clearMeasure(measureName: string) {
-  if (!('performance' in window)) {
+  if (!isPerformanceAPIAvailable()) {
     return;
   }
 

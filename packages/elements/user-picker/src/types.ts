@@ -189,7 +189,7 @@ export type OnInputChange = (query?: string, sessionId?: string) => void;
 
 export type OnPicker = (sessionId?: string) => void;
 
-export type OnOption = (value: Value) => void;
+export type OnOption = (value: Value, sessionId?: string) => void;
 
 export type Option = {
   label: string;

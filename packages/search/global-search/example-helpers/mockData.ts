@@ -1,5 +1,4 @@
 import { GraphqlResponse, SearchResult } from '../src/api/PeopleSearchClient';
-import { QuickNavResult } from '../src/api/ConfluenceClient';
 import {
   CrossProductSearchResponse,
   CrossProductExperimentResponse,
@@ -476,69 +475,6 @@ export function makePeopleSearchData(
         AccountCentricUserSearch: filteredItems,
         Collaborators: filteredItems,
       },
-    };
-  };
-}
-
-function generateRandomQuickNavItem(className: string): QuickNavResult {
-  return {
-    className: className,
-    name: getMockName(),
-    href: getMockUrl(),
-    id: uuid(),
-    icon: getMockAvatarUrl(),
-  };
-}
-
-export function makeQuickNavSearchData(n: number = 50) {
-  // create some attachments
-  const attachments: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem(
-      'content-type-attachment-' + pickRandom(['image', 'pdf']),
-    ),
-  );
-
-  // create some pages
-  const pages: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-page'),
-  );
-
-  // create some blogposts
-  const blogs: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-blogpost'),
-  );
-
-  // create some people
-  const people: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-userinfo'),
-  );
-
-  return (term: string) => {
-    term = term.toLowerCase();
-
-    const filteredPages = pages.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredBlogposts = blogs.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredAttachments = attachments.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredPeople = people.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    return {
-      contentNameMatches: [
-        filteredPages,
-        filteredAttachments,
-        filteredBlogposts,
-        filteredPeople,
-      ],
     };
   };
 }

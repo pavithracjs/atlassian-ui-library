@@ -1,5 +1,6 @@
 import { processImages, createContentId } from '..';
 import * as icons from '../icons';
+import { base64Prefix, imageOutputType } from '../generator/constants';
 
 describe('static asset rendering tests', () => {
   it('processImages: should have expected embeddedImages array', () => {
@@ -13,8 +14,8 @@ describe('static asset rendering tests', () => {
     // this should contain data necessary to create inline email attachments
     expect(output.embeddedImages).toEqual([
       {
-        contentId: 'cid:pfcs-generated-icon-info',
-        contentType: 'png',
+        contentId: 'csg-icon-info',
+        contentType: `image/${imageOutputType}`,
         data: icons.info,
       },
     ]);
@@ -26,7 +27,9 @@ describe('static asset rendering tests', () => {
     const output = processImages(htmlTestString, true);
 
     // image src should be base64 inline data uri
-    expect(output.result).toMatch(`<html><img src="${icons.info}" /></html>`);
+    expect(output.result).toMatch(
+      `<html><img src="${base64Prefix}${icons.info}" /></html>`,
+    );
 
     // embeddedImages is irrelevant for mock mode
     expect(output.embeddedImages).toEqual([]);
@@ -40,14 +43,11 @@ describe('static asset rendering tests', () => {
   });
 
   it('createContentId: should create contentIds as expected', () => {
-    expect(createContentId('info')).toEqual('cid:pfcs-generated-icon-info');
-    expect(createContentId('info', 'icon')).toEqual(
-      'cid:pfcs-generated-icon-info',
-    );
-    expect(createContentId('note')).toEqual('cid:pfcs-generated-icon-note');
-    expect(createContentId('error')).toEqual('cid:pfcs-generated-icon-error');
-    expect(createContentId('error', 'icon')).toEqual(
-      'cid:pfcs-generated-icon-error',
-    );
+    expect(createContentId('info')).toEqual('cid:csg-icon-info');
+    expect(createContentId('info')).toEqual('cid:csg-icon-info');
+    expect(createContentId('note')).toEqual('cid:csg-icon-note');
+    expect(createContentId('error')).toEqual('cid:csg-icon-error');
+    expect(createContentId('error')).toEqual('cid:csg-icon-error');
+    expect(createContentId('error', false)).toEqual('csg-icon-error');
   });
 });

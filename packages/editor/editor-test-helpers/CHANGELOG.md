@@ -1,5 +1,30 @@
 # @atlaskit/editor-test-helpers
 
+## 9.6.0
+
+### Minor Changes
+
+- [minor][143dcb8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/143dcb8704):
+
+  ED-2362 Add keyboard shortcuts for headings and normal text
+
+## 9.5.2
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/editor-common@39.13.2
+  - @atlaskit/editor-core@112.25.3
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/smart-card@12.2.3
+  - @atlaskit/icon@19.0.0
+
+## 9.5.1
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
 ## 9.5.0
 
 ### Minor Changes

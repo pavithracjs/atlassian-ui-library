@@ -37,6 +37,8 @@ export function storyMediaProviderFactory(
       includeUserAuthProvider === false ? undefined : userAuthProvider,
     getAuthFromContext: () => mediaPickerAuthProvider()(),
   };
+  // Feel free to up-comment this and farther lines to verify it works with old context stack.
+  // const context: Context = ContextFactory.create(mediaClientConfig);
 
   return Promise.resolve<MediaProvider>({
     featureFlags: {},
@@ -44,6 +46,8 @@ export function storyMediaProviderFactory(
     viewMediaClientConfig: mediaClientConfig,
     uploadMediaClientConfig:
       includeUploadMediaClientConfig === false ? undefined : mediaClientConfig,
+    // viewContext: Promise.resolve(context),
+    // uploadContext: includeUploadMediaClientConfig === false ? undefined : Promise.resolve(context),
   });
 }
 

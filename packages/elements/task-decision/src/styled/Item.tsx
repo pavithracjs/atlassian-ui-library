@@ -21,7 +21,7 @@ export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
 
   line-height: 20px;
   border-radius: ${borderRadius()}px;
-  margin: ${akGridSize}px 0;
+  margin: ${akGridSize / 2}px 0;
   padding: ${akGridSize}px ${akGridSize}px;
   min-height: 36px;
   box-sizing: border-box;
@@ -30,9 +30,9 @@ export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   &:hover {
     box-shadow: none;
     transition: box-shadow 0.2s ease-in-out;
+    background-color: ${themed({ light: colors.N20, dark: colors.DN50 })};
   }
 
-  background-color: ${themed({ light: colors.N30A, dark: colors.DN50 })};
   border: 1px solid: ${themed({ light: 'none', dark: colors.DN60 })};
 `;
 

@@ -1,5 +1,31 @@
 # @atlaskit/atlassian-switcher
 
+## 3.2.0
+
+### Minor Changes
+
+- [minor][85291ccc2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85291ccc2b):
+
+  Infer xflow enabled flag from props
+
+## 3.1.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/item@10.0.5
+  - @atlaskit/navigation@35.1.8
+  - @atlaskit/icon@19.0.0
+
+## 3.1.0
+
+### Minor Changes
+
+- [minor][af2d3ce4f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af2d3ce4f0):
+
+  Fire a ui viewed atlassianSwitcher event on mount
+
 ## 3.0.0
 
 ### Major Changes

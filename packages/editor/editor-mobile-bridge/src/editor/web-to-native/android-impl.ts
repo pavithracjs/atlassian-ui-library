@@ -57,7 +57,9 @@ export default class AndroidBridge implements NativeBridge {
   }
 
   submitPromise(name: string, uuid: string, args: string) {
-    this.promiseBridge.submitPromise(name, uuid, args);
+    if (this.promiseBridge) {
+      this.promiseBridge.submitPromise(name, uuid, args);
+    }
   }
 
   updateBlockState(currentBlockType: string) {
