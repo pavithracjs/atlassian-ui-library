@@ -18,7 +18,7 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
       os: 'Windows',
       os_version: '10',
       browserName: 'chrome',
-      browser_version: '73.0',
+      browser_version: '75.0',
       resolution: RESOLUTION,
     },
     firefox: {
