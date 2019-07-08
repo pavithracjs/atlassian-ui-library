@@ -19,12 +19,17 @@ export class MediaPickerComponents extends React.Component<Props, State> {
 
   componentDidMount() {
     const { mediaState } = this.props;
-    mediaState.setOnPopupPickerOpen(isPopupOpened => {
+    mediaState.onPopupToggle(isPopupOpened => {
       this.setState({
         isPopupOpened,
       });
     });
   }
+
+  onBrowseFn = (nativeBrowseFn: () => void) => {
+    const { mediaState } = this.props;
+    mediaState && mediaState.setBrowseFn(nativeBrowseFn);
+  };
 
   render() {
     const { mediaState } = this.props;
@@ -35,9 +40,7 @@ export class MediaPickerComponents extends React.Component<Props, State> {
         <DropzoneWrapper mediaState={mediaState} isActive={!isPopupOpened} />
         {!mediaState.hasUserAuthProvider() && (
           <BrowserWrapper
-            onBrowseFn={nativeBrowseFn => {
-              mediaState && mediaState.setBrowseFn(nativeBrowseFn);
-            }}
+            onBrowseFn={this.onBrowseFn}
             mediaState={mediaState}
           />
         )}

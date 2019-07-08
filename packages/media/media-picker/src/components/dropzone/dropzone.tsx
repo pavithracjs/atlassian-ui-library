@@ -47,7 +47,6 @@ export class Dropzone extends LocalUploadComponentReact<
 
   public componentDidMount() {
     const { onCancelFn } = this.props;
-    this.removeContainerListeners(this.getContainer()); // in case we call activate twice in a row?
     this.addContainerListeners(this.getContainer());
     if (onCancelFn) {
       onCancelFn(this.cancel);

@@ -105,7 +105,7 @@ describe('Media with mock facade', () => {
 
     await mediaProvider;
 
-    pluginState.setOnPopupPickerOpen(onPopupPickerOpenMock);
+    pluginState.onPopupToggle(onPopupPickerOpenMock);
     pluginState.showMediaPicker();
     expect(onPopupPickerOpenMock).toHaveBeenCalledTimes(1);
     expect(onPopupPickerOpenMock).toHaveBeenCalledWith(true);
@@ -118,7 +118,7 @@ describe('Media with mock facade', () => {
 
     await mediaProvider;
 
-    pluginState.setOnPopupPickerOpen(onPopupPickerOpenMock);
+    pluginState.onPopupToggle(onPopupPickerOpenMock);
     pluginState.onPopupPickerClose();
     expect(onPopupPickerOpenMock).toHaveBeenCalledTimes(1);
     expect(onPopupPickerOpenMock).toHaveBeenCalledWith(false);

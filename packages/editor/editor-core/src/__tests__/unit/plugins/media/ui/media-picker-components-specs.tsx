@@ -56,7 +56,7 @@ describe('MediaPickerComponents', () => {
       allowResizing: false,
       customDropzoneContainer: document.createElement('div'),
     };
-    pluginState.setOnPopupPickerOpen = jest.fn();
+    pluginState.onPopupToggle = jest.fn();
     pluginState.setBrowseFn = jest.fn();
   });
 
@@ -64,14 +64,14 @@ describe('MediaPickerComponents', () => {
     jest.clearAllMocks();
   });
 
-  it('should subscribe to mediaState.setOnPopupPickerOpen on mount', () => {
+  it('should subscribe to mediaState.onPopupToggle on mount', () => {
     mount(<MediaPickerComponents mediaState={pluginState} />);
-    expect(pluginState.setOnPopupPickerOpen).toBeCalled();
+    expect(pluginState.onPopupToggle).toBeCalled();
   });
 
-  it('should change state when mediaState.setOnPopupPickerOpen is called', () => {
+  it('should change state when mediaState.onPopupToggle is called', () => {
     let callback: (isOpen: boolean) => void = () => {};
-    pluginState.setOnPopupPickerOpen = cb => (callback = cb);
+    pluginState.onPopupToggle = cb => (callback = cb);
     wrapper = mount(<MediaPickerComponents mediaState={pluginState} />);
     callback(true);
     expect(wrapper.state()).toHaveProperty('isPopupOpened', true);
