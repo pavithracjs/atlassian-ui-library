@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.26.2
+
+### Patch Changes
+
+- [patch][278a1cbdae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/278a1cbdae):
+
+  ED-7195 Change messages to sentence case instead of Title Case. Clarify wording of some quick insert messages.
+
 ## 112.26.1
 
 ### Patch Changes
