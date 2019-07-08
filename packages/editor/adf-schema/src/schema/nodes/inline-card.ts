@@ -41,6 +41,21 @@ export const inlineCard: NodeSpec = {
         };
       },
     },
+
+    // for renderer
+    {
+      tag: 'div[data-inline-card]',
+
+      getAttrs: dom => {
+        const anchor = dom as HTMLDivElement;
+        const data = anchor.getAttribute('data-card-data');
+
+        return {
+          url: anchor.getAttribute('data-card-url'),
+          data: data ? JSON.parse(data) : null,
+        };
+      },
+    },
   ],
   toDOM(node: PMNode) {
     const attrs = {
