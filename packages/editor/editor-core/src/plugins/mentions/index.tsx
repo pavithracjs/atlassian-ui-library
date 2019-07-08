@@ -20,6 +20,7 @@ import {
   ProviderFactory,
   ContextIdentifierProvider,
 } from '@atlaskit/editor-common';
+import MentionSpotlight from '../../../../../elements/mention/src/components/MentionSpotlight';
 
 import { analyticsService } from '../../analytics';
 import { EditorPlugin, Command, EditorAppearance } from '../../types';
@@ -188,7 +189,7 @@ const mentionsPlugin = (
             pluginState.mentionProvider.filter(query || '', mentionContext);
           }
 
-          return mentions.map(
+          const mentionItems = mentions.map(
             (mention: MentionDescription): TypeAheadItem => ({
               title: mention.id,
               render: ({ isSelected, onClick, onHover }) => (
@@ -202,6 +203,21 @@ const mentionsPlugin = (
               mention,
             }),
           );
+          if (mentions.length >= 1) {
+            mentionItems.unshift({
+              title: 'Hi', // todo - what's the purpose of this?
+              render: () => {
+                return (
+                  <MentionSpotlight
+                    showComponent={true}
+                    createTeamLink="qqqq" // todo from where do these settings come?
+                    onClose={() => console.log('On close callback')}
+                  />
+                );
+              },
+            });
+          }
+          return mentionItems;
         },
         selectItem(state, item, insert, { mode }) {
           const { schema } = state;
