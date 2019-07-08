@@ -20,12 +20,13 @@ export const clearFormatting = makeKeyMapWithCommon(
   'Clear formatting',
   'Mod-\\',
 );
-export const setNormalText = makeKeymap('Normal text', '', 'Cmd-Alt-0');
-export const toggleHeading1 = makeKeymap('Heading 1', '', 'Cmd-Alt-1');
-export const toggleHeading2 = makeKeymap('Heading 2', '', 'Cmd-Alt-2');
-export const toggleHeading3 = makeKeymap('Heading 3', '', 'Cmd-Alt-3');
-export const toggleHeading4 = makeKeymap('Heading 4', '', 'Cmd-Alt-4');
-export const toggleHeading5 = makeKeymap('Heading 5', '', 'Cmd-Alt-5');
+export const setNormalText = makeKeyMapWithCommon('Normal text', 'Mod-Alt-0');
+export const toggleHeading1 = makeKeyMapWithCommon('Heading 1', 'Mod-Alt-1');
+export const toggleHeading2 = makeKeyMapWithCommon('Heading 2', 'Mod-Alt-2');
+export const toggleHeading3 = makeKeyMapWithCommon('Heading 3', 'Mod-Alt-3');
+export const toggleHeading4 = makeKeyMapWithCommon('Heading 4', 'Mod-Alt-4');
+export const toggleHeading5 = makeKeyMapWithCommon('Heading 5', 'Mod-Alt-5');
+export const toggleHeading6 = makeKeyMapWithCommon('Heading 6', 'Mod-Alt-6');
 export const toggleOrderedList = makeKeymap('Numbered list', '', 'Cmd-Shift-7');
 export const toggleBulletList = makeKeymap('Bullet list', '', 'Cmd-Shift-8');
 export const toggleBlockQuote = makeKeymap('Quote', '', 'Cmd-Alt-9');
@@ -187,6 +188,7 @@ const ALL = [
   toggleHeading3,
   toggleHeading4,
   toggleHeading5,
+  toggleHeading6,
   toggleBlockQuote,
   insertNewLine,
   insertRule,
@@ -238,13 +240,13 @@ export function bindKeymapWithCommand(
   keymap[shortcut] = newCmd;
 }
 
-export function findKeyMapForBrowser(kayMap: Keymap): string | undefined {
-  if (kayMap) {
+export function findKeyMapForBrowser(keyMap: Keymap): string | undefined {
+  if (keyMap) {
     if (browser.mac) {
-      return kayMap.mac;
+      return keyMap.mac;
     }
 
-    return kayMap.windows;
+    return keyMap.windows;
   }
   return;
 }
@@ -253,3 +255,12 @@ export const LEFT = 37;
 export const RIGHT = 39;
 export const UP = 38;
 export const DOWN = 40;
+
+export const KEY_0 = 48;
+export const KEY_1 = 49;
+export const KEY_2 = 50;
+export const KEY_3 = 51;
+export const KEY_4 = 52;
+export const KEY_5 = 53;
+export const KEY_6 = 54;
+export const HEADING_KEYS = [KEY_0, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6];
