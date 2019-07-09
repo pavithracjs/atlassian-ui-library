@@ -1,29 +1,33 @@
 import * as React from 'react';
-import { MediaPluginState, MediaProvider } from '../pm-plugins/main';
-import { ClipboardConfig, BrowserConfig } from '@atlaskit/media-picker';
+import { MediaPluginState, MediaProvider } from '../../pm-plugins/main';
+import {
+  ClipboardConfig,
+  BrowserConfig,
+  DropzoneConfig,
+} from '@atlaskit/media-picker';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import { ErrorReporter } from '@atlaskit/editor-common';
-import PickerFacade from '../picker-facade';
-import { CustomMediaPicker } from '../types';
+import PickerFacade from '../../picker-facade';
+import { CustomMediaPicker } from '../../types';
 import {
   getUploadMediaClientConfigFromMediaProvider,
   getViewMediaClientConfigFromMediaProvider,
-} from '../utils/media-common';
+} from '../../utils/media-common';
 
-interface ChildrenProps {
-  config: ClipboardConfig | BrowserConfig;
+export interface ChildrenProps {
+  config: ClipboardConfig | BrowserConfig | DropzoneConfig;
   mediaClientConfig: MediaClientConfig;
   pickerFacadeInstance: PickerFacade;
 }
 
-type Props = {
+export type Props = {
   mediaState: MediaPluginState;
   analyticsName: string;
   children: (props: ChildrenProps) => React.ReactNode;
 };
 
 type State = {
-  config?: ClipboardConfig | BrowserConfig;
+  config?: ClipboardConfig | BrowserConfig | DropzoneConfig;
   mediaClientConfig?: MediaClientConfig;
   pickerFacadeInstance?: PickerFacade;
 };
