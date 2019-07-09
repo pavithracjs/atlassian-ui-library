@@ -40,10 +40,10 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
           </Styled.Heading>
           <Styled.Body>
             <p>
-              If you don't have any teams,{' '}
+              If you don't have any teams,
               <BrowserRouter>
                 <Link to={createTeamLink}>start a team </Link>
-              </BrowserRouter>{' '}
+              </BrowserRouter>
               with the group of people you work with daily.
             </p>
           </Styled.Body>
