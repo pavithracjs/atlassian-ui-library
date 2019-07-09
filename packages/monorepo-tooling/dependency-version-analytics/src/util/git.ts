@@ -15,7 +15,6 @@ export type ListLogLine = {
 export async function getChangesSince(since?: string): Promise<ListLogSummary> {
   const revisionRange = since ? [`${since}..`] : [];
   return git().log([
-    '--merges',
     '--first-parent',
     '--reverse',
     ...revisionRange,
