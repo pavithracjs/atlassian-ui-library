@@ -704,7 +704,7 @@ describe('ShareDialogContainer', () => {
       });
     });
 
-    it('should first shorten the url only once the popup opens', async () => {
+    it('should not attempt to shorten before the popup opens', async () => {
       const wrapper = getWrapper({
         useUrlShortener: true,
       });

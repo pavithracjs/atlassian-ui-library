@@ -32,6 +32,8 @@ Since we have no control over the actual share action, it shouldn’t be needed 
 
 ## Quick dev commands
 
+In the repo root dir:
+
 ~~~bash
 bolt start share
 bolt lint
@@ -39,5 +41,13 @@ bolt lint:eslint
 bolt typecheck:typescript
 bolt run test ./packages/elements/share/src/__tests__/*
 bolt run test ./packages/elements/share/src/__tests__/unit/components/ShareDialogWithTriggerSpec.tsx
+~~~
+
+In the package dir: (subset, faster)
+
+~~~bash
+yarn prettier  --no-editorconfig --write "**/*.{js,ts,tsx}"
+yarn eslint  --fix '**/*.{js,ts,tsx}'
+yarn stylelint  '**/*.{js,ts,tsx}'
 ~~~
 `;
