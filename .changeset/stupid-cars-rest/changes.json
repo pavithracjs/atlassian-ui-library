@@ -1,0 +1,15 @@
+{
+  "releases": [{ "name": "@atlaskit/datetime-picker", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/form",
+      "type": "patch",
+      "dependencies": ["@atlaskit/datetime-picker"]
+    },
+    {
+      "name": "@atlaskit/inline-dialog",
+      "type": "patch",
+      "dependencies": ["@atlaskit/datetime-picker"]
+    }
+  ]
+}
