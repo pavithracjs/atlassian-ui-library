@@ -7,29 +7,28 @@ import populatePackage from './commands/populate-historic-data/package';
 
 // prettier-ignore
 const HELP_MSG = `
-${chalk.yellow.bold('[send-product] <product>')}
-   Sends analytics event for the current package.json
-
-   ${chalk.green('Examples')}
-     ${chalk.dim('$ atlaskit-version-analytics send-product jira')}
-
-${chalk.yellow.bold('[populate-product] <product>')}
-   Sends analytics events for historical atlaskit dependency version changes in package.json over time.
-   Should only be run once.
-   ${chalk.green('Options')}
-     ${chalk.yellow('--csv')}         Prints AK dependency history in CSV format
+${chalk.green('Global options')}
      ${chalk.yellow('--dev')}         Send analytics to dev analytics pipeline instead of prod
      ${chalk.yellow('--dryRun')}      Performs a dry run, prints analytics events to console in JSON format instead of sending them
+     ${chalk.yellow('--limit')}       Limit the number of events sent, used for validation purposes
+
+${chalk.yellow.bold('[populate-product] <product>')}
+   Sends analytics events for atlaskit dependency versions changes in package.json.
+
+   Detects changes since the last time the tool was run by using the 'atlaskit-dependency-version-analytics-last-run' git tag and updating
+   the tag on successful completion.
+   If running the tool for the first time (tag does not exist), --reset must be used to detect changes since the beginning of the repo.
+
+   ${chalk.green('Options')}
+     ${chalk.yellow('--csv')}         Prints AK dependency history in CSV format
+     ${chalk.yellow('--reset')}       Reset change detection to detect changes from the beginning of time
+     ${chalk.yellow('--tag')}         Specify a different tag to mark when the tool was last run
 
    ${chalk.green('Examples')}
      ${chalk.dim('$ atlaskit-version-analytics populate-product jira')}
 
 ${chalk.yellow.bold('[populate-package] <package>')}
-   Sends analytics events for all published versions of package.
-   Should only be run once.
-   ${chalk.green('Options')}
-     ${chalk.yellow('--dev')}         Send analytics to dev analytics pipeline instead of prod
-     ${chalk.yellow('--dryRun')}      Performs a dry run, prints analytics events to console in JSON format instead of sending them
+   Sends analytics events for published versions of the specified atlaskit package.
 
    ${chalk.green('Examples')}
      ${chalk.dim('$ atlaskit-version-analytics populate-package @atlaskit/button')}
@@ -57,7 +56,13 @@ export function run({ dev }: { dev: boolean }) {
         type: 'boolean',
         alias: 'd',
       },
+      reset: {
+        type: 'boolean',
+      },
       limit: {
+        type: 'string',
+      },
+      tag: {
         type: 'string',
       },
     },
@@ -73,12 +78,15 @@ export function run({ dev }: { dev: boolean }) {
       console.error(chalk.red('Must pass a product parameter'));
       process.exit(1);
     }
+
     return populateProduct({
       csv: cli.flags.csv,
       dev: dev || cli.flags.dev,
       dryRun: cli.flags.dryRun,
+      reset: cli.flags.reset,
       limit,
       product,
+      tag: cli.flags.tag,
     });
   } else if (command === 'populate-package') {
     const pkg = inputs[0];

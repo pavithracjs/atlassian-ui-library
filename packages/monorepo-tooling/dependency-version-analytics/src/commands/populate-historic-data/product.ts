@@ -1,3 +1,4 @@
+import { DEFAULT_TAG } from './../../constants';
 import chalk from 'chalk';
 //@ts-ignore
 import simpleGit from 'simple-git';
@@ -5,8 +6,21 @@ import simpleGit from 'simple-git';
 import loadFileFromGitHistory from '../../util/load-file-from-git-history';
 import { IPackageJSON } from '../../util/package-json';
 import { DependencyType, UpgradeEvent } from '../../types';
-import { PopulateHistoricDataFlags } from './types';
+import {
+  PopulateHistoricDataFlags,
+  DependencyMap,
+  AkPackageChange,
+} from './types';
 import { createUpgradeEvent, sendAnalytics } from '../../util/analytics';
+import {
+  getChangesSince,
+  tagCommit,
+  doesTagExist,
+  refetchTag,
+  getHash,
+} from '../../util/git';
+import { ListLogSummary } from 'simple-git/typings/response';
+import { generateCSV } from './generate-csv';
 
 // Object.fromEntries polyfill, remove when upgraded to node 10
 function fromEntries(iterable: any) {
@@ -19,110 +33,52 @@ function fromEntries(iterable: any) {
 export type PopulateProductFlags = PopulateHistoricDataFlags & {
   csv: boolean;
   product: string;
+  reset: boolean;
+  tag: string;
 };
 
-type LogResult = {
-  all: ListLogLine[];
-};
-
-type ListLogLine = {
-  hash: string;
-  date: string;
-  message: string;
-  refs: string;
-  body: string;
-  author_name: string;
-  author_email: string;
-};
-
-type CsvColumn = [[string]];
-
-type DependencyMap = {
-  [name: string]: {
-    version: string;
-    type: DependencyType;
-  };
-};
-
-type AkPackageChange = {
-  akDeps: DependencyMap;
-  date: string;
-};
-
-const getHistory = () =>
-  new Promise<LogResult>((resolve, reject) => {
-    simpleGit('./').log(
-      ['--merges', '--first-parent', '--reverse', './package.json'],
-      (err: any, result: LogResult) => {
-        if (err !== null) {
-          reject(err);
-        }
-
-        resolve(result);
-      },
-    );
-  });
-
-const generateCSV = (packageChanges: AkPackageChange[]) => {
-  const csvData: CsvColumn = [['']];
-
-  packageChanges.forEach(packageChange => {
-    const firstColumn = csvData[0];
-    const currentRow = firstColumn.push(packageChange.date) - 1;
-
-    Object.entries(packageChange.akDeps).forEach(([name, { version }]) => {
-      let depColumnIndex = csvData.findIndex(item => item[0] === name);
-      if (depColumnIndex === -1) {
-        depColumnIndex = csvData.push([name]) - 1;
-      }
-
-      // console.log(csvData)
-      csvData[depColumnIndex][currentRow] = version;
-    });
-  });
-
-  for (let i = 0; i < csvData.length; i++) {
-    for (let j = 0; j < csvData.length; j++) {
-      if (typeof csvData[i][j] !== 'string') {
-        // console.log('found empty cell');
-        csvData[i][j] = '';
-      }
-    }
-
-    if (i !== 0 && csvData[0].length < csvData[i].length) {
-    }
-  }
-
-  const csvStrings: string[] = [];
-
-  csvData.forEach(column => {
-    if (!column) {
-      return;
-    }
-    for (let rowIndex = 0; rowIndex < csvData[0].length; rowIndex++) {
-      const rowItem = column[rowIndex] || '';
-
-      if (typeof csvStrings[rowIndex] !== 'string') {
-        csvStrings[rowIndex] = '';
-      }
-
-      csvStrings[rowIndex] += `"${rowItem}",`;
-    }
-  });
-
-  return csvStrings.join('\n');
-};
-
-const getAkDependencyVersions = (
+const parseAkDependencyVersions = (
   depMap: { [name: string]: string },
   type: DependencyType,
 ): DependencyMap => {
   return fromEntries(
     Object.entries(depMap)
-      // TODO: Should this be @atlaskit
-      .filter(([name]) => name.includes('atlaskit'))
+      .filter(([name]) => name.includes('@atlaskit'))
       .map(([name, version]) => [name, { version, type }]),
   );
+};
+
+const getAkDependencyVersionsFromHash = async (
+  hash: string,
+): Promise<DependencyMap> => {
+  let akDeps: DependencyMap = {};
+  try {
+    const json = await loadFileFromGitHistory(hash, 'package.json');
+    const parsed: IPackageJSON = JSON.parse(json);
+
+    akDeps = {
+      ...parseAkDependencyVersions(
+        parsed.devDependencies || {},
+        'devDependency',
+      ),
+      ...parseAkDependencyVersions(parsed.dependencies || {}, 'dependency'),
+      ...parseAkDependencyVersions(
+        parsed.peerDependencies || {},
+        'peerDependency',
+      ),
+      ...parseAkDependencyVersions(
+        parsed.optionalDependencies || {},
+        'optionalDependency',
+      ),
+    };
+  } catch (e) {
+    console.error(
+      chalk.red(`Error parsing package.json most likely, commit ${hash}`),
+    );
+    console.error(e);
+  }
+
+  return akDeps;
 };
 
 const getUpgradeEventsFromPkgChange = (
@@ -161,74 +117,44 @@ const getUpgradeEventsFromPkgChange = (
 };
 
 const getEventsFromHistory = async (
-  historyLog: LogResult,
+  packageChangesLog: ListLogSummary,
+  prevRunHash: string | null,
 ): Promise<{
   allPackageChanges: AkPackageChange[];
   allUpgradeEvents: UpgradeEvent[];
 }> => {
   const allPackageChanges: AkPackageChange[] = [];
   const allUpgradeEvents: UpgradeEvent[] = [];
+  const prevRunAkDeps = prevRunHash
+    ? await getAkDependencyVersionsFromHash(prevRunHash)
+    : {};
   for (
     let historyListIndex = 0;
-    historyListIndex < historyLog.all.length;
+    historyListIndex < packageChangesLog.all.length;
     historyListIndex++
   ) {
     // Using a for loop because running all promises in parallel spawns too many processes
     // Batching would be more efficient but in it's current form it's not unreasonably slow.
+    let item = packageChangesLog.all[historyListIndex];
 
-    let item = historyLog.all[historyListIndex];
-
-    try {
-      const json = await loadFileFromGitHistory(item.hash, 'package.json');
-      const parsed: IPackageJSON = JSON.parse(json);
-
-      const akDeps: DependencyMap = {
-        ...getAkDependencyVersions(
-          parsed.devDependencies || {},
-          'devDependency',
-        ),
-        ...getAkDependencyVersions(parsed.dependencies || {}, 'dependency'),
-        ...getAkDependencyVersions(
-          parsed.peerDependencies || {},
-          'peerDependency',
-        ),
-        ...getAkDependencyVersions(
-          parsed.optionalDependencies || {},
-          'optionalDependency',
-        ),
+    const akDeps = await getAkDependencyVersionsFromHash(item.hash);
+    if (Object.keys(akDeps).length > 0) {
+      const packageChange = {
+        date: new Date(item.date).toISOString(),
+        akDeps,
       };
-
-      if (Object.keys(akDeps).length > 0) {
-        const packageChange = {
-          date: new Date(item.date).toISOString(),
-          akDeps,
-        };
-        const prevAkDeps =
-          allPackageChanges.length > 0
-            ? allPackageChanges[allPackageChanges.length - 1].akDeps
-            : {};
-        const upgradeEvents = getUpgradeEventsFromPkgChange(
-          prevAkDeps,
-          akDeps,
-          {
-            date: packageChange.date,
-            commitHash: item.hash,
-          },
-        );
-        if (upgradeEvents.length > 0) {
-          allUpgradeEvents.push(...upgradeEvents);
-          allPackageChanges.push(packageChange);
-        }
+      const prevAkDeps =
+        allPackageChanges.length > 0
+          ? allPackageChanges[allPackageChanges.length - 1].akDeps
+          : prevRunAkDeps;
+      const upgradeEvents = getUpgradeEventsFromPkgChange(prevAkDeps, akDeps, {
+        date: packageChange.date,
+        commitHash: item.hash,
+      });
+      if (upgradeEvents.length > 0) {
+        allUpgradeEvents.push(...upgradeEvents);
+        allPackageChanges.push(packageChange);
       }
-    } catch (err) {
-      console.error(
-        chalk.red(
-          `Error parsing package.json most likely, commit ${item.hash} ${
-            item.date
-          }`,
-        ),
-      );
-      console.error(err);
     }
   }
 
@@ -236,10 +162,32 @@ const getEventsFromHistory = async (
 };
 
 export default async function run(flags: PopulateProductFlags) {
-  const log = await getHistory();
+  const tag = flags.tag || DEFAULT_TAG;
+  if (!flags.reset) {
+    await refetchTag(tag);
+    const tagExists = await doesTagExist(tag);
+    if (!tagExists) {
+      console.error(
+        chalk.red(
+          `Tag '${tag}' does not exist. Must use --reset for populating from start of history.`,
+        ),
+      );
+      process.exit(1);
+    }
+  }
+  const detectSince = flags.reset ? undefined : tag;
+  const log = await getChangesSince(detectSince);
+
+  if (log.all.length === 0) {
+    console.log(`No package.json changes found since '${tag}' tag.`);
+    return;
+  }
+
+  const prevRunHash = flags.reset ? null : await getHash(tag);
 
   const { allPackageChanges, allUpgradeEvents } = await getEventsFromHistory(
     log,
+    prevRunHash,
   );
 
   if (flags.csv) {
@@ -253,11 +201,21 @@ export default async function run(flags: PopulateProductFlags) {
     return;
   }
 
-  await sendAnalytics(allUpgradeEvents, {
-    dev: flags.dev,
-    limit: flags.limit,
-    product: flags.product,
-  });
+  if (allUpgradeEvents.length > 0) {
+    await sendAnalytics(allUpgradeEvents, {
+      dev: flags.dev,
+      limit: flags.limit,
+      product: flags.product,
+    });
+  } else {
+    console.log(
+      `Found no AK dependency changes since last run from tag "${tag}"'`,
+    );
+  }
 
-  console.log('Done.');
+  console.log('Updating tag to current commit...');
+
+  await tagCommit(DEFAULT_TAG);
+
+  console.log(`Finished. Run 'git push origin ${tag}'.`);
 }
