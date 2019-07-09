@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.5
+
+### Patch Changes
+
+- [patch][29854703dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29854703dc):
+
+  ED-6896 Fix to ensure editor-mobile-bridge releases contain the precompiled app within ./dist
+
 ## 8.8.4
 
 > **DON'T USE** - This release is missing a precompiled dist.

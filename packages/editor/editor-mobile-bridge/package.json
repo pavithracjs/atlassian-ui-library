@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-mobile-bridge",
-  "version": "8.8.4",
+  "version": "8.8.5",
   "description": "Mobile distribution of the Editor",
   "module": "index.js",
   "atlaskit:src": "src/index.ts",

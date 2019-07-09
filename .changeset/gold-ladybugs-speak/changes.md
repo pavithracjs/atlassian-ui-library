@@ -1,1 +1,0 @@
-ED-6896 Fix to ensure editor-mobile-bridge releases contain the precompiled app within ./dist
