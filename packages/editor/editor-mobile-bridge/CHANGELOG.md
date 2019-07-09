@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.3
+
+### Patch Changes
+
+- [patch][ed1fd9801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed1fd9801e):
+
+  ED-6896 Leverage buid pipeline fix to ensure correct version number is compiled into dist
+
 ## 8.8.2
 
 ### Patch Changes
