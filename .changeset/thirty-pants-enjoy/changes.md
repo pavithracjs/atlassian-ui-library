@@ -1,1 +1,0 @@
-ED-5657 Add keyboard shortcuts for lists on Windows (number & bullet)
