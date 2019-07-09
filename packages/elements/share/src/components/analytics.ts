@@ -78,13 +78,12 @@ export const shortUrlGenerated = (start: number, tooSlow: boolean) =>
 
 export const copyLinkButtonClicked = (
   start: number,
-  shortUrl?: boolean,
   shareOrigin?: OriginTracing,
 ) =>
   createEvent('ui', 'clicked', 'button', 'copyShareLink', {
     source: 'shareModal',
     duration: duration(start),
-    shortUrl,
+    shortUrl: undefined, // unknown at creation, will be filled later
     ...getOriginTracingAttributes(shareOrigin),
   });
 

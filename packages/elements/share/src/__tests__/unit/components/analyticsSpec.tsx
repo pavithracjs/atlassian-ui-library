@@ -115,7 +115,7 @@ describe('share analytics', () => {
 
   describe('copyLinkButtonClicked', () => {
     it('should create event payload without origin id', () => {
-      expect(copyLinkButtonClicked(100, true)).toMatchObject({
+      expect(copyLinkButtonClicked(100)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -124,14 +124,14 @@ describe('share analytics', () => {
           duration: expect.any(Number),
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
-          shortUrl: true,
+          shortUrl: undefined,
         }),
       });
     });
 
     it('should create event payload with origin id', () => {
       const shareOrigin: OriginTracing = mockShareOrigin();
-      expect(copyLinkButtonClicked(100, false, shareOrigin)).toMatchObject({
+      expect(copyLinkButtonClicked(100, shareOrigin)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -141,7 +141,7 @@ describe('share analytics', () => {
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
           originIdGenerated: 'abc-123',
-          shortUrl: false,
+          shortUrl: undefined,
           originProduct: 'jest',
         }),
       });

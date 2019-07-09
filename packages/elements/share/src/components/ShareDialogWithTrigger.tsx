@@ -268,9 +268,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
 
   handleCopyLink = () => {
     const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(
-      copyLinkButtonClicked(this.start, undefined, copyLinkOrigin),
-    );
+    this.createAndFireEvent(copyLinkButtonClicked(this.start, copyLinkOrigin));
   };
 
   render() {
