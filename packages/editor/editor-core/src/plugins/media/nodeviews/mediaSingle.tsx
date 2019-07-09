@@ -114,17 +114,22 @@ export default class MediaSingleNode extends Component<
       const collection =
         mediaProvider.uploadParams && mediaProvider.uploadParams.collection;
 
-      const fileUpfront = await mediaClient.file.uploadExternal(
-        firstChild.attrs.url,
-        collection,
-      );
-
-      if (fileUpfront.id) {
-        replaceExternalMedia(this.props.getPos(), {
-          id: fileUpfront.id,
+      try {
+        const {
+          uploadableFileUpfrontIds,
+          dimensions,
+        } = await mediaClient.file.uploadExternal(
+          firstChild.attrs.url,
           collection,
+        );
+
+        replaceExternalMedia(this.props.getPos(), {
+          id: uploadableFileUpfrontIds.id,
+          collection,
+          height: dimensions.height,
+          width: dimensions.width,
         })(this.props.view.state, this.props.view.dispatch);
-      }
+      } catch (e) {}
     }
   };
 
