@@ -4,6 +4,7 @@ import {
   userAuthProvider,
   mediaPickerAuthProvider,
   defaultMediaPickerAuthProvider,
+  getAuthFromContextProvider,
 } from '@atlaskit/media-test-helpers';
 import { MediaProvider } from '@atlaskit/editor-core';
 
@@ -35,7 +36,7 @@ export function storyMediaProviderFactory(
       : defaultMediaPickerAuthProvider,
     userAuthProvider:
       includeUserAuthProvider === false ? undefined : userAuthProvider,
-    getAuthFromContext: () => mediaPickerAuthProvider()(),
+    getAuthFromContext: getAuthFromContextProvider,
   };
   // Feel free to up-comment this and farther lines to verify it works with old context stack.
   // const context: Context = ContextFactory.create(mediaClientConfig);
