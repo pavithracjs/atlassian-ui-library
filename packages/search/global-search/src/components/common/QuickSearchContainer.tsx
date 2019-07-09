@@ -54,6 +54,7 @@ export interface FilterComponentProps<T> {
   latestSearchQuery: string;
   searchResults: T | null;
   isLoading: boolean;
+  searchSessionId: string;
   currentFilters: Filter[];
   onFilterChanged(filter: Filter[]): void;
 }
@@ -562,6 +563,7 @@ export class QuickSearchContainer<
           currentFilters,
           isLoading,
           latestSearchQuery,
+          searchSessionId,
         })}
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,
