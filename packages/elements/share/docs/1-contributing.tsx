@@ -13,11 +13,15 @@ Naming in the code:
 - "form share" refers to the use of the form: pick users, add message, "share button"
 - "copy link" refers to the use of the "copy" button
 
+### analytics
+
+documented here https://hello.atlassian.net/wiki/spaces/PData/pages/401815409/Minimum+event+spec+-+Share
+
 ### SSR
 
-(to be validated) With SSR rendering, \`window\` is not available, hence some \`window\` checks here and there.
+We shouldn't have to worry about SSR since this component is loaded asynchronously.
 
-To test SSR in JIRA, see \`services/jira-frontend-ssr/README.md\`.
+If needed: to test SSR in JIRA, see \`<jira repo>/services/jira-frontend-ssr/README.md\`.
 
 ## Decisions
 
@@ -31,6 +35,7 @@ Since we have no control over the actual share action, it shouldn’t be needed 
 ~~~bash
 bolt start share
 bolt lint
+bolt lint:eslint
 bolt typecheck:typescript
 bolt run test ./packages/elements/share/src/__tests__/*
 bolt run test ./packages/elements/share/src/__tests__/unit/components/ShareDialogWithTriggerSpec.tsx
