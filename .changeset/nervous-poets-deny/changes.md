@@ -1,0 +1,1 @@
+CS-1184 Email renderer icons compressed, rendered diff looks better for some nodes

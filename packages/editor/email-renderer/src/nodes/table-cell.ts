@@ -7,13 +7,13 @@ import { NodeSerializerOpts } from '../interfaces';
 export const styles = `
 .${createClassName('tableCell')} {
   background-clip: padding-box;
-  height: 2.5em;
+  height: auto;
   min-width: 3em;
   vertical-align: top;
   border: 1px solid ${N50};
   border-right-width: 0;
   border-bottom-width: 0;
-  padding: 6px 10px;
+  padding: 8px;
 }
 `;
 export default function tableCell({ attrs, text }: NodeSerializerOpts) {
