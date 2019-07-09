@@ -1,1 +1,0 @@
-Fixing a rare bug in Safari and malformed date string.
