@@ -1,1 +1,0 @@
-AUX-36 Add update support for extension handler

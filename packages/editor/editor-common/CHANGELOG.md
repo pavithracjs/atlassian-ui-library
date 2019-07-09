@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.16.0
+
+### Minor Changes
+
+- [minor][4a22a774a6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a22a774a6):
+
+  AUX-36 Add update support for extension handler
+
 ## 39.15.0
 
 ### Minor Changes
