@@ -44,7 +44,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
               <BrowserRouter>
                 <Link to={createTeamLink}>start a team </Link>
               </BrowserRouter>{' '}
-              with the group of people you work daily
+              with the group of people you work with daily.
             </p>
           </Styled.Body>
         </Styled.Section>
