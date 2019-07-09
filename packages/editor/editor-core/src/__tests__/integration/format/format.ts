@@ -5,6 +5,7 @@ import {
   goToEditorTestingExample,
 } from '../../__helpers/testing-example-helpers';
 import { Page } from '../../__helpers/page-objects/_types';
+import { KEY } from '../../__helpers/page-objects/_keyboard';
 
 const editorSelector = '.ProseMirror';
 
@@ -73,23 +74,22 @@ BrowserTestCase(
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
-    await insertHeadings(page, ['\uE051', '\uE00A']); // Control & Alt
+    await insertHeadings(page, [KEY.CONTROL, KEY.ALT]);
 
     const doc = await page.$eval(editorSelector, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
-// todo: re-enable when BUILDTOOLS-108 is merged
-// BrowserTestCase(
-//   'format.ts: should be able to use keyboard shortcuts to set headings (Mac)',
-//   { skip: ['chrome', 'firefox', 'edge', 'ie'] },
-//   async (client: any, testName: string) => {
-//     const page = await goToEditorTestingExample(client);
-//     await mountEditor(page, { appearance: 'full-page' });
-//     await insertHeadings(page, ['\uE03D', '\uE00A']); // Meta & Alt
+BrowserTestCase(
+  'format.ts: should be able to use keyboard shortcuts to set headings (Mac)',
+  { skip: ['chrome', 'firefox', 'edge', 'ie'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+    await mountEditor(page, { appearance: 'full-page' });
+    await insertHeadings(page, [KEY.META, KEY.ALT]);
 
-//     const doc = await page.$eval(editorSelector, getDocFromElement);
-//     expect(doc).toMatchCustomDocSnapshot(testName);
-//   },
-// );
+    const doc = await page.$eval(editorSelector, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
