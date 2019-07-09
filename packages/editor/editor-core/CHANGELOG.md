@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.28.1
+
+### Patch Changes
+
+- [patch][6504d78bf2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6504d78bf2):
+
+  [ED-7167] Improve table performance, extracting the InsertButton position logic from row & column controls to prosemirror event handles
+
 ## 112.28.0
 
 ### Minor Changes
