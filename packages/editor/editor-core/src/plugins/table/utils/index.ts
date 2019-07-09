@@ -27,7 +27,7 @@ export {
   isCell,
   isInsertColumnButton,
   isInsertRowButton,
-  getIndex,
+  getColumnOrRowIndex,
   getMousePositionHorizontalRelativeByElement,
   getMousePositionVerticalRelativeByElement,
 } from './dom';

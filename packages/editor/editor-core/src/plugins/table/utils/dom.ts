@@ -25,31 +25,39 @@ export const isInsertRowButton = (node: HTMLElement) => {
   );
 };
 
-export const getIndex = (target: HTMLElement) =>
+export const getColumnOrRowIndex = (target: HTMLElement) =>
   parseInt(target.getAttribute('data-index') || '-1', 10);
 
 export const getMousePositionHorizontalRelativeByElement = (
   mouseEvent: MouseEvent,
 ): 'left' | 'right' | null => {
-  const element = mouseEvent.target as HTMLElement;
-  const elementRect = element.getBoundingClientRect();
-  if (elementRect.width <= 0) {
-    return null;
+  const element = mouseEvent.target;
+  if (element instanceof HTMLElement) {
+    const elementRect = element.getBoundingClientRect();
+    if (elementRect.width <= 0) {
+      return null;
+    }
+
+    const x = mouseEvent.clientX - elementRect.left;
+    return x / elementRect.width > 0.5 ? 'right' : 'left';
   }
 
-  const x = mouseEvent.clientX - elementRect.left;
-  return x / elementRect.width > 0.5 ? 'right' : 'left';
+  return null;
 };
 
 export const getMousePositionVerticalRelativeByElement = (
   mouseEvent: MouseEvent,
 ): 'top' | 'bottom' | null => {
-  const element = mouseEvent.target as HTMLElement;
-  const elementRect = element.getBoundingClientRect();
-  if (elementRect.height <= 0) {
-    return null;
+  const element = mouseEvent.target;
+  if (element instanceof HTMLElement) {
+    const elementRect = element.getBoundingClientRect();
+    if (elementRect.height <= 0) {
+      return null;
+    }
+
+    const y = mouseEvent.clientY - elementRect.top;
+    return y / elementRect.height > 0.5 ? 'bottom' : 'top';
   }
 
-  const y = mouseEvent.clientY - elementRect.top;
-  return y / elementRect.height > 0.5 ? 'bottom' : 'top';
+  return null;
 };

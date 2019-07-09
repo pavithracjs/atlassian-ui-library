@@ -89,14 +89,18 @@ class FloatingInsertButton extends React.Component<
       return null;
     }
 
-    const cellPositiion = this.getCellPosition(type);
-    if (!cellPositiion) {
+    const cellPosition = this.getCellPosition(type);
+    if (!cellPosition) {
       return null;
     }
 
     const tablePos = findTable(editorView.state.selection);
+    if (!tablePos) {
+      return null;
+    }
+
     const domAtPos = editorView.domAtPos.bind(editorView);
-    const pos = cellPositiion + tablePos!.start + 1;
+    const pos = cellPosition + tablePos.start + 1;
     const target = findDomRefAtPos(pos, domAtPos);
     if (!target || !(target instanceof HTMLElement)) {
       return null;

@@ -27,7 +27,7 @@ import { TableCssClassName as ClassName } from './types';
 import {
   isCell,
   isInsertRowButton,
-  getIndex,
+  getColumnOrRowIndex,
   getMousePositionHorizontalRelativeByElement,
   getMousePositionVerticalRelativeByElement,
 } from './utils';
@@ -113,7 +113,7 @@ export const handleMouseOver = (
   const target = mouseEvent.target as HTMLElement;
 
   if (isInsertRowButton(target)) {
-    return showInsertRowButton(getIndex(target))(state, dispatch);
+    return showInsertRowButton(getColumnOrRowIndex(target))(state, dispatch);
   }
 
   if (isCell(target)) {
@@ -154,7 +154,7 @@ export const handleMouseMove = (view: EditorView, event: Event) => {
   if (element.classList.contains(ClassName.COLUMN_CONTROLS_BUTTON)) {
     const { state, dispatch } = view;
     const { insertColumnButtonIndex } = getPluginState(state);
-    const index = getIndex(element);
+    const index = getColumnOrRowIndex(element);
 
     const positionColumnOffset =
       getMousePositionHorizontalRelativeByElement(event as MouseEvent) ===
@@ -171,7 +171,7 @@ export const handleMouseMove = (view: EditorView, event: Event) => {
   if (element.classList.contains(ClassName.ROW_CONTROLS_BUTTON)) {
     const { state, dispatch } = view;
     const { insertRowButtonIndex } = getPluginState(state);
-    const index = getIndex(element);
+    const index = getColumnOrRowIndex(element);
 
     const positionRowOffset =
       getMousePositionVerticalRelativeByElement(event as MouseEvent) ===
