@@ -1,5 +1,158 @@
 # @atlaskit/editor-core
 
+## 112.30.0
+
+### Minor Changes
+
+- [minor][4a22a774a6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a22a774a6):
+
+  AUX-36 Add update support for extension handler
+
+## 112.29.0
+
+### Minor Changes
+
+- [minor][e754b5f85e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e754b5f85e):
+
+  Media Picker Dropone component is now migrated to React.
+
+  - Previous vanilla js API:
+
+  ```
+  // instantiation
+  const dropzone = await new MediaPicker('dropzone', context, pickerConfig).init();
+
+  // subscribe to upload events
+  dropzone.on('uploads-start', onUploadsStart);
+  dropzone.on('upload-preview-update', onUploadPreviewUpdate);
+  dropzone.on('upload-status-update', onUploadStatusUpdate);
+  dropzone.on('upload-processing', onUploadProcessing);
+  dropzone.on('upload-end', onUploadEnd);
+  dropzone.on('upload-error', onUploadError);
+  ```
+
+
+    // activate/deactivate dropone
+    dropzone.activate();
+    dropzone.deactivate();
+
+    // cancel ongoing upload
+    dropzone.cancel(uploadId);
+
+    // when we want to dispose the component
+    dropzone.teardown();
+    ```
+
+    - New React API:
+
+    ```
+    class DropzoneConsumer extends React.Component {
+      render() {
+        return (
+          <Dropzone
+            config={config}
+            context={context}
+            onProcessing={onProcessing}
+            onError={onError}
+            onPreviewUpdate={onPreviewUpdate}
+          />
+        )
+      }
+    }
+    ```
+
+    Notes on new API:
+
+    - old `MediaPicker` constructor does not recieve `pickerType` as first parameter anymore, since the only component left to migrate to react is `popup`.
+    Meaning that if before we were doing:
+     ```
+     new MediaPicker('popup', context, config)
+     ```
+    now we will need to just do
+     ```
+     new MediaPicker(context, config)
+     ```
+
+    - No need to explicitly teardown the component. Unmounting the component will do the work
+
+    - `onCancelFn` is a workaround to cancel an ongoing upload. Refer to its type definitions for more info. Before we were saving a ref and calling `ref.cancel()`.
+
+    Basically if we render `Dropzone` component in isolation (meaning, not inside another react component), we will need to do something like:
+
+    ```
+    const saveCancelUploadFn = (cancel) => this.cancelUpload = cancel;
+
+    ...
+
+    <Dropzone
+      onCancelFn={(cancel) => saveCancelUploadFn(cancel)}
+      config={config}
+      context={context}
+      onProcessing={onProcessing}
+      onError={onError}
+      onPreviewUpdate={onPreviewUpdate}
+    />
+    ```
+
+    At a later point we will just need to call `this.cancelUpload` function in that example, in order to cancel an ongoing upload if needed.
+
+## 112.28.2
+
+### Patch Changes
+
+- [patch][216a679624](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/216a679624):
+
+  ED-7212 Add cleanup to the macroProvider such that it unsubscribes on destroy
+
+## 112.28.1
+
+### Patch Changes
+
+- [patch][6504d78bf2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6504d78bf2):
+
+  [ED-7167] Improve table performance, extracting the InsertButton position logic from row & column controls to prosemirror event handles
+
+## 112.28.0
+
+### Minor Changes
+
+- [minor][efb8f04952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/efb8f04952):
+
+  ED-5657 Add keyboard shortcuts for lists on Windows (number & bullet)
+
+## 112.27.1
+
+### Patch Changes
+
+- [patch][e80e60b358](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80e60b358):
+
+  FM-2123: fixed double @ insertion on mention composition (Android)
+
+## 112.27.0
+
+### Minor Changes
+
+- [minor][d217a12e31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d217a12e31):
+
+  ED-7056: Update prosemirror-utils, this enables us to replace selected nodes while inserting
+  ED-6668: Adds a selected ring to all extensions
+
+## 112.26.2
+
+### Patch Changes
+
+- [patch][278a1cbdae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/278a1cbdae):
+
+  ED-7195 Change messages to sentence case instead of Title Case. Clarify wording of some quick insert messages.
+
+## 112.26.1
+
+### Patch Changes
+
+- [patch][2714c80a0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2714c80a0b):
+
+  ED-7191 Fix regression where cell popup is not place on the correct horizontal place
+
 ## 112.26.0
 
 ### Minor Changes

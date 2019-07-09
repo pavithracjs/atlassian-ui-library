@@ -37,7 +37,7 @@ class ExampleChildren extends Component<ExampleChildrenProps, {}> {
   }
 
   async createMediaPicker(reactContext: any) {
-    this.popup = await MediaPicker('popup', mediaClientConfig, {
+    this.popup = await MediaPicker(mediaClientConfig, {
       container: document.body,
       uploadParams: {
         collection: defaultCollectionName,

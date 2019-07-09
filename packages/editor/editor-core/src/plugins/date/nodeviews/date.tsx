@@ -13,7 +13,7 @@ import { Date } from '@atlaskit/date';
 import { setDatePickerAt } from '../actions';
 
 const SelectableDate = styled(Date)`
-  .ProseMirror-selectednode & {
+  .dateView-content-wrap.ProseMirror-selectednode & {
     position: relative;
     &::before {
       content: '';

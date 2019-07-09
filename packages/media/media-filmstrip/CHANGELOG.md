@@ -1,5 +1,12 @@
 # @atlaskit/media-filmstrip
 
+## 34.2.3
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/media-card@63.3.2
+  - @atlaskit/checkbox@9.0.0
+
 ## 34.2.2
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

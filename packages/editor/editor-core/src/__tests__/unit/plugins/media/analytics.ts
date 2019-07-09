@@ -68,10 +68,7 @@ describe('Media Analytics', () => {
       }
     };
 
-    const mediaPickers = [
-      { picker: 'popup', inputMethod: 'cloudPicker' },
-      { picker: 'dropzone', inputMethod: 'dragAndDrop' },
-    ];
+    const mediaPickers = [{ picker: 'popup', inputMethod: 'cloudPicker' }];
     mediaPickers.forEach(mediaPicker => {
       it(`should fire analytics event when inserted via ${
         mediaPicker.picker

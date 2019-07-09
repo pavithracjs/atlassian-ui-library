@@ -128,6 +128,7 @@ const renderComponent = (product: QuickSearchContext) => {
     logger,
     createAnalyticsEvent: createAnalyticsEventSpy,
     confluenceClient: noResultsConfluenceClient,
+    confluenceUrl: 'mockConfluenceUrl',
     features: DEFAULT_FEATURES,
     onAdvancedSearch: undefined,
     linkComponent: undefined,

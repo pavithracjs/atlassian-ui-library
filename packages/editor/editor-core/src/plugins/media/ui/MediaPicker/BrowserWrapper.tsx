@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PickerFacadeProvider from './PickerFacadeProvider';
-import { MediaPluginState } from '../pm-plugins/main';
+import { MediaPluginState } from '../../pm-plugins/main';
 import { Browser } from '@atlaskit/media-picker';
 
 type Props = {
@@ -9,11 +9,7 @@ type Props = {
   onBrowseFn: (browse: () => void) => void;
 };
 
-export const BrowserMediaPickerWrapper = ({
-  mediaState,
-  isOpen,
-  onBrowseFn,
-}: Props) => (
+export const BrowserWrapper = ({ mediaState, isOpen, onBrowseFn }: Props) => (
   <PickerFacadeProvider mediaState={mediaState} analyticsName="browser">
     {({ mediaClientConfig, config, pickerFacadeInstance }) => (
       <Browser

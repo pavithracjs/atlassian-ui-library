@@ -1,5 +1,19 @@
 # @atlaskit/form
 
+## 6.1.3
+
+- Updated dependencies [19d9d0f13f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19d9d0f13f):
+  - @atlaskit/datetime-picker@8.0.8
+
+## 6.1.2
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/modal-dialog@10.0.8
+  - @atlaskit/radio@3.0.7
+  - @atlaskit/select@9.1.10
+  - @atlaskit/checkbox@9.0.0
+
 ## 6.1.1
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

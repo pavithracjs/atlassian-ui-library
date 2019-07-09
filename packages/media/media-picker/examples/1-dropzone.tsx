@@ -6,12 +6,12 @@ import {
   defaultMediaPickerCollectionName,
   createUploadMediaClientConfig,
   createStorybookMediaClientConfig,
+  fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
 import Toggle from '@atlaskit/toggle';
 import Spinner from '@atlaskit/spinner';
-import { FileState, MediaClient } from '@atlaskit/media-client';
-import { MediaPicker, Dropzone } from '../src';
+import { FileState } from '@atlaskit/media-client';
 import {
   DropzoneContainer,
   PopupHeader,
@@ -21,13 +21,17 @@ import {
 } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 
+import { Dropzone } from '../src/components/dropzone/dropzone';
+import { DropzoneConfig } from '../src/components/types';
+import { UploadsStartEventPayload } from '../src';
+
 export interface DropzoneWrapperState {
   isConnectedToUsersCollection: boolean;
   isActive: boolean;
   isFetchingLastItems: boolean;
   lastItems: any[];
-  inflightUploads: string[];
-  dropzone?: Dropzone;
+  dropzoneContainer?: HTMLElement;
+  fileIds: string[];
 }
 const mediaClientConfig = createUploadMediaClientConfig();
 const nonUserMediaClientConfig = createStorybookMediaClientConfig({
@@ -42,7 +46,7 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
     isActive: true,
     isFetchingLastItems: true,
     lastItems: [],
-    inflightUploads: [],
+    fileIds: [],
   };
 
   // TODO: Move into example-helpers
@@ -64,66 +68,69 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
       });
   }
 
-  async createDropzone() {
-    const { isConnectedToUsersCollection } = this.state;
-    const dropzoneMediaClientConfig = isConnectedToUsersCollection
-      ? mediaClientConfig
-      : nonUserMediaClientConfig;
+  onUploadsStart = (payload: UploadsStartEventPayload) => {
+    const fileIds = payload.files.map(({ id }) => id);
+    this.setState({ fileIds });
+  };
 
-    if (this.state.dropzone) {
-      this.state.dropzone.deactivate();
-    }
-    const dropzone = await MediaPicker('dropzone', dropzoneMediaClientConfig, {
-      container: this.dropzoneContainer,
+  renderDragZone = () => {
+    const {
+      isConnectedToUsersCollection,
+      isActive,
+      dropzoneContainer,
+    } = this.state;
+
+    if (!isActive || !dropzoneContainer) return null;
+
+    const dropzoneMediaClient = isConnectedToUsersCollection
+      ? fakeMediaClient(mediaClientConfig)
+      : fakeMediaClient(nonUserMediaClientConfig);
+
+    dropzoneMediaClient.on('file-added', this.onFileUploaded);
+
+    const config: DropzoneConfig = {
+      container: this.state.dropzoneContainer,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },
-    });
+    };
 
-    const dropzoneMediaClient = new MediaClient(dropzoneMediaClientConfig);
-    dropzoneMediaClient.on('file-added', this.onFileUploaded);
-
-    dropzone.activate();
-
-    this.setState({
-      dropzone,
-    });
-  }
+    return (
+      <UploadPreviews>
+        {({ onUploadsStart, onError, onPreviewUpdate }) => (
+          <Dropzone
+            mediaClient={dropzoneMediaClient}
+            config={config}
+            onUploadsStart={payload => {
+              this.onUploadsStart(payload);
+              onUploadsStart(payload);
+            }}
+            onError={onError}
+            onPreviewUpdate={onPreviewUpdate}
+          />
+        )}
+      </UploadPreviews>
+    );
+  };
 
   onFileUploaded = (fileState: FileState) => {
     console.log('onFileUploaded', fileState);
   };
 
   saveDropzoneContainer = async (element: HTMLDivElement) => {
-    this.dropzoneContainer = element;
-
-    await this.createDropzone();
+    this.setState({ dropzoneContainer: element });
     this.fetchLastItems();
   };
 
   onConnectionChange = () => {
     const isConnectedToUsersCollection = !this.state
       .isConnectedToUsersCollection;
-    this.setState({ isConnectedToUsersCollection }, () => {
-      this.createDropzone();
-    });
+    this.setState({ isConnectedToUsersCollection });
   };
 
   onActiveChange = () => {
-    const { dropzone, isActive } = this.state;
-    this.setState({ isActive: !isActive }, () => {
-      if (dropzone) {
-        if (isActive) {
-          dropzone.activate();
-        } else {
-          dropzone.deactivate();
-        }
-      }
-    });
-  };
-
-  onCancel = () => {
-    this.setState({ inflightUploads: [] });
+    const { isActive } = this.state;
+    this.setState({ isActive: !isActive });
   };
 
   renderLastItems = () => {
@@ -153,13 +160,7 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
   };
 
   render() {
-    const {
-      isConnectedToUsersCollection,
-      isActive,
-      inflightUploads,
-      dropzone,
-    } = this.state;
-    const isCancelButtonDisabled = inflightUploads.length === 0;
+    const { isConnectedToUsersCollection, isActive } = this.state;
 
     return (
       <PopupContainer>
@@ -167,13 +168,7 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
           <Button appearance="primary" onClick={this.onFetchLastItems}>
             Fetch last items
           </Button>
-          <Button
-            appearance="danger"
-            onClick={this.onCancel}
-            isDisabled={isCancelButtonDisabled}
-          >
-            Cancel uploads
-          </Button>
+          <Button appearance="danger">Cancel uploads</Button>
           Connected to users collection
           <Toggle
             isDefaultChecked={isConnectedToUsersCollection}
@@ -188,21 +183,7 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
             innerRef={this.saveDropzoneContainer}
           />
           <DropzoneItemsInfo>
-            {dropzone ? (
-              <UploadPreviews>
-                {({ onUploadsStart, onError, onPreviewUpdate }) => {
-                  /**
-                   *  This will be called several times so we need to remove all listeners every render
-                   *  Still, it will be properly used once dropzone becomes a react component
-                   * */
-                  dropzone.removeAllListeners();
-                  dropzone.on('uploads-start', onUploadsStart);
-                  dropzone.on('upload-error', onError);
-                  dropzone.on('upload-preview-update', onPreviewUpdate);
-                  return null;
-                }}
-              </UploadPreviews>
-            ) : null}
+            {this.renderDragZone()}
             <h1>User collection items</h1>
             {this.renderLastItems()}
           </DropzoneItemsInfo>

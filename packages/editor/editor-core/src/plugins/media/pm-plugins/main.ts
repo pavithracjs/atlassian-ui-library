@@ -10,7 +10,7 @@ import {
   Plugin,
   PluginKey,
 } from 'prosemirror-state';
-import { UploadParams } from '@atlaskit/media-picker';
+import { UploadParams, PopupConfig } from '@atlaskit/media-picker';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 
@@ -79,7 +79,6 @@ export class MediaPluginState {
   public pickers: PickerFacade[] = [];
   public pickerPromises: Array<Promise<PickerFacade>> = [];
   private popupPicker?: PickerFacade;
-  private dropzonePicker?: PickerFacade;
   // @ts-ignore
   private customPicker?: PickerFacade;
 
@@ -90,6 +89,7 @@ export class MediaPluginState {
   private removeOnCloseListener: () => void = () => {};
   private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   private openMediaPickerBrowser?: () => void;
+  private onPopupToogleCallback: (isOpen: boolean) => void = () => {};
 
   private reactContext: () => {};
 
@@ -307,15 +307,8 @@ export class MediaPluginState {
 
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
 
-  // TODO [MSW-454]: remove this logic from Editor
   onPopupPickerClose = () => {
-    if (
-      this.dropzonePicker &&
-      this.popupPicker &&
-      this.popupPicker.type === 'popup'
-    ) {
-      this.dropzonePicker.activate();
-    }
+    this.onPopupToogleCallback(false);
   };
 
   showMediaPicker = () => {
@@ -325,14 +318,16 @@ export class MediaPluginState {
     if (!this.popupPicker) {
       return;
     }
-    if (this.dropzonePicker && this.popupPicker.type === 'popup') {
-      this.dropzonePicker.deactivate();
-    }
     this.popupPicker.show();
+    this.onPopupToogleCallback(true);
   };
 
   setBrowseFn = (browseFn: () => void) => {
     this.openMediaPickerBrowser = browseFn;
+  };
+
+  onPopupToggle = (onPopupToogleCallback: (isOpen: boolean) => void) => {
+    this.onPopupToogleCallback = onPopupToogleCallback;
   };
 
   /**
@@ -445,7 +440,6 @@ export class MediaPluginState {
     }
 
     this.popupPicker = undefined;
-    this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
 
@@ -478,39 +472,17 @@ export class MediaPluginState {
 
         pickerPromises.push(customPicker);
         pickers.push((this.customPicker = await customPicker));
-      } else {
-        let popupPicker: Promise<PickerFacade> | undefined;
-        if (this.hasUserAuthProvider()) {
-          popupPicker = new Picker(
-            'popup',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init();
-        }
-
-        const dropzonePicker = new Picker('dropzone', pickerFacadeConfig, {
-          container: this.options.customDropzoneContainer,
-          headless: true,
-          ...defaultPickerConfig,
-        }).init();
-
-        if (popupPicker) {
-          pickerPromises.push(popupPicker, dropzonePicker);
-          pickers.push(
-            (this.popupPicker = await popupPicker),
-            (this.dropzonePicker = await dropzonePicker),
-          );
-        } else {
-          pickerPromises.push(dropzonePicker);
-          pickers.push((this.dropzonePicker = await dropzonePicker));
-        }
-
-        this.dropzonePicker.onDrag(this.handleDrag);
-        if (this.popupPicker) {
-          this.removeOnCloseListener = this.popupPicker.onClose(
-            this.onPopupPickerClose,
-          );
-        }
+      } else if (this.hasUserAuthProvider()) {
+        const popupPicker = new Picker(
+          'popup',
+          pickerFacadeConfig,
+          defaultPickerConfig as PopupConfig,
+        ).init();
+        pickerPromises.push(popupPicker);
+        pickers.push((this.popupPicker = await popupPicker));
+        this.removeOnCloseListener = this.popupPicker.onClose(
+          this.onPopupPickerClose,
+        );
       }
 
       pickers.forEach(picker => {
@@ -669,7 +641,7 @@ export class MediaPluginState {
     return;
   };
 
-  private handleDrag = (dragState: 'enter' | 'leave') => {
+  handleDrag = (dragState: 'enter' | 'leave') => {
     const isActive = dragState === 'enter';
     if (this.showDropzone === isActive) {
       return;

@@ -1,57 +1,7 @@
 import { Identifier } from '@atlaskit/media-client';
-import {
-  constructAuthTokenUrl,
-  getSelectedIndex,
-} from '../../../../newgen/utils';
-import { fakeMediaClient } from '@atlaskit/media-test-helpers';
+import { getSelectedIndex } from '../../../../newgen/utils';
 
 describe('utils', () => {
-  describe('constructAuthTokenUrl', () => {
-    it('should add auth token and client query parameters to the url when auth is client based', async () => {
-      const mediaClient = fakeMediaClient();
-      const url = await constructAuthTokenUrl(
-        '/file/3333-4444-5555',
-        mediaClient,
-        'mycollection',
-      );
-      expect(url).toEqual(
-        'some-service-host/file/3333-4444-5555?client=some-client-id&collection=mycollection&token=some-token',
-      );
-    });
-
-    it('should work with urls with params', async () => {
-      const mediaClient = fakeMediaClient();
-      const url = await constructAuthTokenUrl(
-        '/file/3333-4444-5555?version=1',
-        mediaClient,
-        'mycollection',
-      );
-      expect(url).toEqual(
-        'some-service-host/file/3333-4444-5555?version=1&client=some-client-id&collection=mycollection&token=some-token',
-      );
-    });
-
-    it('should add the auth token to the url when auth type is ASAP', async () => {
-      const issuer = 'some-issuer'; // issuer gets send through the headers, so it shouldn't show up in the url
-      const authPromise = Promise.resolve({
-        token: 'some-token',
-        asapIssuer: issuer,
-        baseUrl: 'some-base-url',
-      });
-      const mediaClient = fakeMediaClient({
-        authProvider: () => authPromise,
-      });
-      const url = await constructAuthTokenUrl(
-        '/file/3333-4444-5555',
-        mediaClient,
-        'mycollection',
-      );
-      expect(url).toEqual(
-        'some-base-url/file/3333-4444-5555?collection=mycollection&issuer=some-issuer&token=some-token',
-      );
-    });
-  });
-
   describe('getSelectedIndex', () => {
     it('should return the right index if item is found', () => {
       const identifier: Identifier = {

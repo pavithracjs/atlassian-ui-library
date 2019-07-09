@@ -13,12 +13,13 @@ import {
 import commonMessages from '../../../messages';
 
 [
-  commonMessages.layoutFixedWidth.defaultMessage,
-  commonMessages.layoutWide.defaultMessage,
-  commonMessages.layoutFullWidth.defaultMessage,
-].forEach(layoutName => {
+  commonMessages.layoutFixedWidth,
+  commonMessages.layoutWide,
+  commonMessages.layoutFullWidth,
+].forEach(layoutMessages => {
+  const layoutName = layoutMessages.id.split('.').pop();
   BrowserTestCase(
-    `layouts.ts: Extension: ${layoutName} Layout`,
+    `layouts.ts: Extension: ${layoutName} layout`,
     { skip: ['edge', 'ie'] },
     async (client: any, testName: string) => {
       const page = await goToEditorTestingExample(client);
@@ -30,7 +31,7 @@ import commonMessages from '../../../messages';
       });
 
       await insertBlockMenuItem(page, 'Block macro (EH)');
-      await changeSelectedNodeLayout(page, layoutName);
+      await changeSelectedNodeLayout(page, layoutMessages.defaultMessage);
 
       const doc = await page.$eval(editable, getDocFromElement);
       expect(doc).toMatchCustomDocSnapshot(testName);

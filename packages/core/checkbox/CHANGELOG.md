@@ -1,5 +1,15 @@
 # @atlaskit/checkbox
 
+## 9.0.0
+
+### Major Changes
+
+- [major][87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+
+  Replaced `styled-components` with `emotion 10` as part of Atlaskit-wide conversion process.
+
+  **No changes to styling or API**; only a breaking change if checkbox is being styled using the styled-components `styled` function or via the styled-components theming library.
+
 ## 8.0.5
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

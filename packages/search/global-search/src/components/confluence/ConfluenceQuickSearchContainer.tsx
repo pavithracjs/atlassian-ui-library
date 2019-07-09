@@ -81,6 +81,7 @@ export interface Props {
         entity: string,
         query: string,
         searchSessionId: string,
+        additionalParams?: { [searchParam: string]: string },
       ) => void);
   inputControls: JSX.Element | undefined;
   features: ConfluenceFeatures;
@@ -88,6 +89,7 @@ export interface Props {
   // These are provided by the withAnalytics HOC
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
+  confluenceUrl: string;
 }
 
 const getRecentItemMatches = (
@@ -481,10 +483,17 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     latestSearchQuery,
     searchResults,
     isLoading,
+    searchSessionId,
     currentFilters,
     onFilterChanged,
   }: FilterComponentProps<ConfluenceResultsMap>) => {
-    const { referralContextIdentifiers, modelContext, features } = this.props;
+    const {
+      onAdvancedSearch = () => {},
+      referralContextIdentifiers,
+      modelContext,
+      features,
+      confluenceUrl,
+    } = this.props;
 
     if (!features.complexSearchExtensionsEnabled) {
       return;
@@ -509,14 +518,31 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       modelContext &&
       modelContext.spaceKey
     ) {
+      const additionalSearchParams: { [searchParam: string]: string } = {};
+      for (const filter of currentFilters) {
+        if (filter['@type'] === 'spaces') {
+          additionalSearchParams.space = filter.spaceKeys[0];
+        }
+      }
       return (
         <ConfluenceFilterGroup
           onFilterChanged={onFilterChanged}
           isDisabled={isLoading}
           spaceTitle={referralContextIdentifiers.currentContainerName}
-          spaceAvatar={referralContextIdentifiers.currentContainerIcon}
+          spaceAvatar={`${confluenceUrl}${
+            referralContextIdentifiers.currentContainerIcon
+          }`}
           spaceKey={modelContext.spaceKey}
           isFilterOn={currentFilters.length !== 0}
+          onAdvancedSearch={(event: CancelableEvent) =>
+            onAdvancedSearch(
+              event,
+              ConfluenceAdvancedSearchTypes.Content,
+              latestSearchQuery,
+              searchSessionId,
+              additionalSearchParams,
+            )
+          }
         />
       );
     }

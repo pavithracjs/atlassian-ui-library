@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.11.2
+
+### Patch Changes
+
+- [patch][1b12e59bfd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b12e59bfd):
+
+  ED-6917, SL-260: support drag and drop of smart links
+
 ## 2.11.1
 
 ### Patch Changes

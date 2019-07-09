@@ -61,8 +61,9 @@ class FloatingContextualButton extends React.Component<
         mountTo={tableWrapper || mountPoint}
         boundariesElement={targetCellRef}
         scrollableElement={scrollableElement}
-        forcePlacement={true}
         offset={[3, -3]}
+        forcePlacement
+        allowOutOfBounds
       >
         <ButtonWrapper>
           <ToolbarButton

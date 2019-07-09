@@ -138,11 +138,13 @@ export const TableCssClassName = {
   COLUMN_CONTROLS: `${tablePrefixSelector}-column-controls`,
   COLUMN_CONTROLS_INNER: `${tablePrefixSelector}-column-controls__inner`,
   COLUMN_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-column-controls__button-wrap`,
+  COLUMN_CONTROLS_BUTTON: `${tablePrefixSelector}-column-controls__button`,
 
   ROW_CONTROLS_WRAPPER: `${tablePrefixSelector}-row-controls-wrapper`,
   ROW_CONTROLS: `${tablePrefixSelector}-row-controls`,
   ROW_CONTROLS_INNER: `${tablePrefixSelector}-row-controls__inner`,
   ROW_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-row-controls__button-wrap`,
+  ROW_CONTROLS_BUTTON: `${tablePrefixSelector}-row-controls__button`,
 
   CONTROLS_BUTTON: `${tablePrefixSelector}-controls__button`,
   CONTROLS_BUTTON_ICON: `${tablePrefixSelector}-controls__button-icon`,

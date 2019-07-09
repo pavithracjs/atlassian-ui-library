@@ -19,7 +19,7 @@ describe('<Dropzone>', () => {
     it('should pass through isActive to Wrapper', () => {
       const element = shallow(<Dropzone isActive={true} />);
 
-      expect(element.find(Wrapper).prop('isActive')).toBe(true);
+      expect(element.find(Wrapper).prop('isActive')).toBeTruthy();
     });
   });
 });

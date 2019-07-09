@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { EditorView } from 'prosemirror-view';
-import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
+import { getSelectionRect } from 'prosemirror-utils';
 
 import { INPUT_METHOD } from '../../../../analytics';
 import { clearHoverSelection } from '../../../commands';
@@ -50,7 +50,7 @@ export default class RowControls extends Component<Props, any> {
     return (
       <div className={ClassName.ROW_CONTROLS}>
         <div className={ClassName.ROW_CONTROLS_INNER}>
-          {rowsParams.map(({ startIndex, endIndex, height }: RowParams) => (
+          {rowsParams.map(({ startIndex, height }: RowParams) => (
             <div
               className={`${
                 ClassName.ROW_CONTROLS_BUTTON_WRAP
@@ -66,27 +66,16 @@ export default class RowControls extends Component<Props, any> {
             >
               <button
                 type="button"
-                className={ClassName.CONTROLS_BUTTON}
+                className={`${ClassName.ROW_CONTROLS_BUTTON}
+                  ${ClassName.CONTROLS_BUTTON}
+                `}
                 onClick={event =>
                   this.props.selectRow(startIndex, event.shiftKey)
                 }
                 onMouseOver={() => this.props.hoverRows([startIndex])}
-                onMouseMove={e => e.preventDefault()}
                 onMouseOut={this.clearHoverSelection}
-              >
-                {!isCellSelection(selection) && (
-                  <>
-                    <div
-                      className={ClassName.CONTROLS_BUTTON_OVERLAY}
-                      data-index={startIndex}
-                    />
-                    <div
-                      className={ClassName.CONTROLS_BUTTON_OVERLAY}
-                      data-index={endIndex}
-                    />
-                  </>
-                )}
-              </button>
+                data-index={startIndex}
+              />
 
               <div className={ClassName.CONTROLS_INSERT_MARKER} />
             </div>

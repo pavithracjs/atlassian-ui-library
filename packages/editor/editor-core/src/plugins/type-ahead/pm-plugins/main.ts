@@ -13,6 +13,7 @@ import {
   TypeAheadItemsLoader,
 } from '../types';
 import { dismissCommand } from '../commands/dismiss';
+import { insertTypeAheadQuery } from '../commands/insert-query';
 import { itemsListUpdated } from '../commands/items-list-updated';
 import { updateQueryCommand } from '../commands/update-query';
 import { isQueryActive } from '../utils/is-query-active';
@@ -205,6 +206,29 @@ export function createPlugin(
           ) {
             updateQueryCommand(event.data)(state, dispatch);
             return false;
+          }
+
+          return false;
+        },
+        // FM-2123: On latest Android version Q there's a bug while compositionend,
+        // the typeAheadQuery is inserted next to the position of the trigger character (so that creates double characters).
+        // In this use case, need to replace the last written character with our typeAheadQuery.
+        compositionend: (view, event: any) => {
+          const { state, dispatch } = view;
+          const { selection, schema } = state;
+
+          const triggers = typeAhead.map(
+            typeAheadHandler => typeAheadHandler.trigger,
+          );
+
+          if (
+            triggers.indexOf(event.data) !== -1 &&
+            selection instanceof TextSelection &&
+            selection.$cursor &&
+            !schema.marks.typeAheadQuery.isInSet(selection.$cursor.marks())
+          ) {
+            insertTypeAheadQuery(event.data, true)(state, dispatch);
+            return true;
           }
 
           return false;
