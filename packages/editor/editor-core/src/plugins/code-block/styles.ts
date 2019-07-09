@@ -8,7 +8,7 @@ import { akEditorCodeFontFamily, akEditorCodeBlockPadding } from '../../styles';
 import {
   akEditorDeleteBackground,
   akEditorDeleteBorder,
-  akEditorDeleteBorderSize,
+  akEditorSelectedBorderSize,
   akEditorDeleteIconColor,
 } from '@atlaskit/editor-common';
 
@@ -16,7 +16,7 @@ export const codeBlockStyles = css`
   .ProseMirror .code-block {
     background: ${themed({ light: colors.N20, dark: colors.DN50 })};
     font-family: ${akEditorCodeFontFamily};
-    border: ${akEditorDeleteBorderSize}px solid transparent;
+    border: ${akEditorSelectedBorderSize}px solid transparent;
     border-radius: ${borderRadius()}px;
     font-size: 14px;
     line-height: 24px;
@@ -93,7 +93,7 @@ export const codeBlockStyles = css`
 
   /* Danger when top level node */
   .ProseMirror .danger.code-block {
-    border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
+    border: ${akEditorSelectedBorderSize}px solid ${akEditorDeleteBorder};
     .line-number-gutter {
       background-color: ${colors.R75};
       color: ${akEditorDeleteIconColor};

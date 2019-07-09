@@ -118,6 +118,30 @@ const HeaderButton = (css?: string) => `
     }
     ${css}
   }
+
+  .${ClassName.COLUMN_CONTROLS_BUTTON}::after {
+    content: ' ';
+    background-color: transparent;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .${ClassName.ROW_CONTROLS_BUTTON}::after {
+    content: ' ';
+    background-color: transparent;
+    left: -15px;
+    top: 0;
+    position: absolute;
+    width: 15px;
+    height: 100%;
+    z-index: 1;
+  }
+
   .active .${ClassName.CONTROLS_BUTTON} {
     color: ${N0};
     background-color: ${tableToolbarSelectedColor};
@@ -185,6 +209,7 @@ const DeleteButton = (css?: string) => `
   }
   .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
     position: absolute;
+    z-index: 100;
     ${css}
 
     .${ClassName.CONTROLS_DELETE_BUTTON} {

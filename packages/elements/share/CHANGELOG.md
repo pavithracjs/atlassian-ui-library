@@ -1,5 +1,44 @@
 # @atlaskit/share
 
+## 0.5.6
+
+### Patch Changes
+
+- [patch][469b504df8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/469b504df8):
+
+  feat: better short url analytics
+
+## 0.5.5
+
+### Patch Changes
+
+- [patch][d6d7086f3f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6d7086f3f):
+
+  feat: intelligently default to current page URL, even if there is a PWA navigation
+
+## 0.5.4
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/form@6.1.1
+  - @atlaskit/flag@12.0.10
+  - @atlaskit/inline-dialog@12.0.3
+  - @atlaskit/select@9.1.8
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/editor-test-helpers@9.5.2
+  - @atlaskit/user-picker@4.0.12
+  - @atlaskit/icon@19.0.0
+
+## 0.5.3
+
+### Patch Changes
+
+- [patch][5212dd363e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5212dd363e):
+
+  feat: new analytics around URL shortening (+internal refactors)
+
 ## 0.5.2
 
 ### Patch Changes

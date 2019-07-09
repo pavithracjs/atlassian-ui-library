@@ -7,7 +7,7 @@ const throwExpectedToFail = () => {
 };
 
 describe('request', () => {
-  const url = 'http://some-url';
+  const url = 'http://some-url/';
   const clientId = 'some-client-id';
   const asapIssuer = 'some-asap-issuer';
   const token = 'some-token';

@@ -1,13 +1,15 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.sizes = void 0;
-var sizes = {
-  small: '16px',
-  medium: '24px',
-  large: '32px',
-  xlarge: '48px'
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sizes = {
+    small: '16px',
+    medium: '24px',
+    large: '32px',
+    xlarge: '48px',
 };
-exports.sizes = sizes;
+exports.sizeMap = {
+    small: 'small',
+    medium: 'medium',
+    large: 'large',
+    xlarge: 'xlarge',
+};
+//# sourceMappingURL=constants.js.map

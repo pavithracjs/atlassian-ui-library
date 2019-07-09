@@ -1,5 +1,12 @@
 # @atlaskit/color-picker
 
+## 0.5.3
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/select@9.1.8
+  - @atlaskit/icon@19.0.0
+
 ## 0.5.2
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

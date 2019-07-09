@@ -63,12 +63,15 @@ export const setTableRef = (ref?: HTMLElement | null) =>
       const tableWrapperTarget =
         closestElement(tableRef, `.${ClassName.TABLE_NODE_WRAPPER}`) ||
         undefined;
+      const layout = tableNode ? tableNode.attrs.layout : undefined;
+
       return {
         type: 'SET_TABLE_REF',
         data: {
           tableRef,
           tableNode,
           tableWrapperTarget,
+          layout: layout || 'default',
           isHeaderRowEnabled: checkIfHeaderRowEnabled(state),
           isHeaderColumnEnabled: checkIfHeaderColumnEnabled(state),
         },

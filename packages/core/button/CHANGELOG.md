@@ -1,5 +1,19 @@
 # @atlaskit/button
 
+## 13.0.10
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/select@9.1.10
+  - @atlaskit/checkbox@9.0.0
+
+## 13.0.9
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/select@9.1.8
+  - @atlaskit/icon@19.0.0
+
 ## 13.0.8
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

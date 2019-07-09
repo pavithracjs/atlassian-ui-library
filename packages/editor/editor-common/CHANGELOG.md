@@ -1,5 +1,40 @@
 # @atlaskit/editor-common
 
+## 39.15.0
+
+### Minor Changes
+
+- [minor][d217a12e31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d217a12e31):
+
+  ED-7056: Update prosemirror-utils, this enables us to replace selected nodes while inserting
+  ED-6668: Adds a selected ring to all extensions
+
+## 39.14.0
+
+### Minor Changes
+
+- [minor][2714c80a0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2714c80a0b):
+
+  ED-7191 Fix regression where cell popup is not place on the correct horizontal place
+
+## 39.13.2
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/editor-test-helpers@9.5.2
+  - @atlaskit/emoji@62.2.1
+  - @atlaskit/mention@18.6.2
+  - @atlaskit/media-card@63.3.1
+  - @atlaskit/profilecard@12.0.1
+  - @atlaskit/icon@19.0.0
+
+## 39.13.1
+
+### Patch Changes
+
+- [patch][752fad0061](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/752fad0061):
+
+  Fix perfromance measure utils
+
 ## 39.13.0
 
 ### Minor Changes

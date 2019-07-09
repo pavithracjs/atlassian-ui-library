@@ -78,5 +78,16 @@ const styles = `
   ${strikeStyles}
   ${strongStyles}
   ${underlineStyles}
+
+  /* Hacks to bypass diff styles */
+
+  .${createClassName('taskItem')}-iconTd
+    span.diff-image-container:first-child:nth-last-child(2) {
+    display: none;
+  }
+  .${createClassName('panel')} span.diff-image-overlay,
+  .${createClassName('taskItem')}-iconTd span.diff-image-overlay {
+    display: none;
+  }
 `;
 export default styles;

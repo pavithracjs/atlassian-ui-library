@@ -70,39 +70,19 @@ export default function keymapPlugin(schema: Schema): Plugin {
     list,
   );
 
-  [
-    blockTypes.NORMAL_TEXT,
-    blockTypes.HEADING_1,
-    blockTypes.HEADING_2,
-    blockTypes.HEADING_3,
-    blockTypes.HEADING_4,
-    blockTypes.HEADING_5,
-    blockTypes.HEADING_6,
-    blockTypes.BLOCK_QUOTE,
-  ].forEach(blockType => {
-    if (schema.nodes[blockType.nodeName]) {
-      const shortcut = keymaps.findShortcutByDescription(
-        blockType.title.defaultMessage,
-      );
-      if (shortcut) {
-        const eventName = analyticsEventName(
-          blockType.name,
+  if (schema.nodes[blockTypes.BLOCK_QUOTE.nodeName]) {
+    keymaps.bindKeymapWithCommand(
+      keymaps.findShortcutByKeymap(keymaps.toggleBlockQuote)!,
+      trackAndInvoke(
+        analyticsEventName(blockTypes.BLOCK_QUOTE.name, INPUT_METHOD.KEYBOARD),
+        insertBlockTypesWithAnalytics(
+          blockTypes.BLOCK_QUOTE.name,
           INPUT_METHOD.KEYBOARD,
-        );
-        keymaps.bindKeymapWithCommand(
-          shortcut,
-          trackAndInvoke(
-            eventName,
-            insertBlockTypesWithAnalytics(
-              blockType.name,
-              INPUT_METHOD.KEYBOARD,
-            ),
-          ),
-          list,
-        );
-      }
-    }
-  });
+        ),
+      ),
+      list,
+    );
+  }
 
   return keymap(list);
 }

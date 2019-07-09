@@ -1,3 +1,5 @@
+import { isPerformanceAPIAvailable } from './is-performance-api-available';
+
 /**
  * Measures time it takes to render a frame including -> style, paint, layout and composition.
  *
@@ -8,14 +10,14 @@
  * 4. When the main thread is unblocked our callback gets executed and onMeasureComplete is being called
  *
  * Why does it work:
- * | javascript (framework)           | style | layout | paint | composite |  | javascript            | ...
- * | startMark + scheduling rAF |                                           | rAF callback, endMark
+ * | javascript (framework)           | style | layout | paint | composite | javascript  | ...
+ *  | startMark + scheduling rAF |                                                       | rAF callback, endMark
  */
 export function measureRender(
   measureName: string,
   onMeasureComplete: (duration: number, startTime: number) => void,
 ) {
-  if (!('performance' in window)) {
+  if (!isPerformanceAPIAvailable()) {
     return;
   }
 
@@ -24,25 +26,28 @@ export function measureRender(
   const startTime = performance.now();
 
   performance.mark(startMark);
+
   requestAnimationFrame(() => {
-    performance.mark(endMark);
-    const duration = performance.now() - startTime;
+    requestAnimationFrame(() => {
+      performance.mark(endMark);
+      const duration = performance.now() - startTime;
 
-    try {
-      performance.measure(measureName, startMark, endMark);
-      const entry = performance.getEntriesByName(measureName).pop();
+      try {
+        performance.measure(measureName, startMark, endMark);
+        const entry = performance.getEntriesByName(measureName).pop();
 
-      if (!entry) {
+        if (!entry) {
+          onMeasureComplete(duration, startTime);
+        } else {
+          onMeasureComplete(entry.duration, entry.startTime);
+        }
+      } catch (e) {
         onMeasureComplete(duration, startTime);
-      } else {
-        onMeasureComplete(entry.duration, entry.startTime);
       }
-    } catch (e) {
-      onMeasureComplete(duration, startTime);
-    }
 
-    performance.clearMeasures(measureName);
-    performance.clearMarks(startMark);
-    performance.clearMarks(endMark);
+      performance.clearMeasures(measureName);
+      performance.clearMarks(startMark);
+      performance.clearMarks(endMark);
+    });
   });
 }

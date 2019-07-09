@@ -1,5 +1,29 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.4
+
+### Patch Changes
+
+- [patch][f7d5a189ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f7d5a189ab):
+
+  Release non-empty dist package 🤞
+
+## 8.8.3
+
+### Patch Changes
+
+- [patch][ed1fd9801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed1fd9801e):
+
+  ED-6896 Leverage buid pipeline fix to ensure correct version number is compiled into dist
+
+## 8.8.2
+
+### Patch Changes
+
+- [patch][e80e60b358](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80e60b358):
+
+  FM-2123: fixed double @ insertion on mention composition (Android)
+
 ## 8.8.1
 
 ### Patch Changes

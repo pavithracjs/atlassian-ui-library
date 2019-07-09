@@ -24,7 +24,7 @@ BrowserTestCase(
 
     await page.click(editable);
 
-    await insertBlockMenuItem(page, 'Info Panel', undefined, true);
+    await insertBlockMenuItem(page, 'Info panel', undefined, true);
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     await page.type(editable, 'this text should be in the panel');

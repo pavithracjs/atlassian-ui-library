@@ -45,7 +45,14 @@ const createScreenEvent = (
   attributes: buildAttributes(attributes),
 });
 
+export const CHANNEL_ID = 'fabric-elements';
+
 export const screenEvent = () => createScreenEvent('shareModal');
+
+export const errorEncountered = (actionSubjectId: string) =>
+  createEvent('operational', 'encountered', 'error', actionSubjectId, {
+    source: 'shareModal',
+  });
 
 // = share dialog invoked. Not to be confused with "share submitted"
 export const shareTriggerButtonClicked = () =>
@@ -62,15 +69,21 @@ export const shortUrlRequested = () =>
     source: 'shareModal',
   });
 
+export const shortUrlGenerated = (start: number, tooSlow: boolean) =>
+  createEvent('operational', 'generated', 'shortUrl', undefined, {
+    source: 'shareModal',
+    duration: duration(start),
+    tooSlow,
+  });
+
 export const copyLinkButtonClicked = (
   start: number,
-  shortUrl: boolean,
   shareOrigin?: OriginTracing,
 ) =>
   createEvent('ui', 'clicked', 'button', 'copyShareLink', {
     source: 'shareModal',
     duration: duration(start),
-    shortUrl,
+    shortUrl: undefined, // unknown at creation, will be filled later
     ...getOriginTracingAttributes(shareOrigin),
   });
 

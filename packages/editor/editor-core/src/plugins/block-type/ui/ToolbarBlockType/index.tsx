@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactElement, createElement } from 'react';
+import { createElement } from 'react';
 import {
   defineMessages,
   injectIntl,
@@ -12,7 +12,7 @@ import { akEditorMenuZIndex } from '@atlaskit/editor-common';
 
 import { analyticsService as analytics } from '../../../../analytics';
 import ToolbarButton from '../../../../ui/ToolbarButton';
-import DropdownMenu from '../../../../ui/DropdownMenu';
+import DropdownMenu, { MenuItem } from '../../../../ui/DropdownMenu';
 import {
   ButtonContent,
   Separator,
@@ -22,7 +22,8 @@ import {
 } from '../../../../ui/styles';
 import { BlockTypeState } from '../../pm-plugins/main';
 import { BlockType, NORMAL_TEXT } from '../../types';
-import { BlockTypeMenuItem } from './styled';
+import { BlockTypeMenuItem, KeyboardShortcut } from './styled';
+import { tooltip, findKeymapByDescription } from '../../../../keymaps';
 
 export const messages = defineMessages({
   textStyles: {
@@ -33,11 +34,8 @@ export const messages = defineMessages({
   },
 });
 
-export type DropdownItem = {
-  content: ReactElement<any>;
-  key: string;
+export type DropdownItem = MenuItem & {
   value: BlockType;
-  isActive: boolean;
 };
 
 export interface Props {
@@ -186,10 +184,12 @@ class ToolbarBlockType extends React.PureComponent<
             </BlockTypeMenuItem>
           ),
           value: blockType,
-          key: `${blockType}-${blockTypeNo}`,
-          // ED-2853, hiding tooltips as shortcuts are not working atm.
-          // tooltipDescription: tooltip(findKeymapByDescription(blockType.title)),
-          // tooltipPosition: 'right',
+          key: `${blockType.name}-${blockTypeNo}`,
+          elemAfter: (
+            <KeyboardShortcut selected={isActive}>
+              {tooltip(findKeymapByDescription(blockType.title.defaultMessage))}
+            </KeyboardShortcut>
+          ),
           isActive,
         });
         return acc;

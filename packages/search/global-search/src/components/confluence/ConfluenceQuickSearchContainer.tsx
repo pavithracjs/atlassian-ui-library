@@ -329,8 +329,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const { confluenceClient } = this.props;
 
     const recentActivityPromisesMap = {
-      'recent-confluence-items': confluenceClient.getRecentItems(sessionId),
-      'recent-confluence-spaces': confluenceClient.getRecentSpaces(sessionId),
+      'recent-confluence-items': confluenceClient.getRecentItems(),
+      'recent-confluence-spaces': confluenceClient.getRecentSpaces(),
     };
 
     const recentActivityPromises: Promise<Result[]>[] = (Object.keys(

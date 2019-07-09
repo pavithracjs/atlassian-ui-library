@@ -17,6 +17,8 @@ export {
   toggleFeature,
 } from '../integration/_helpers';
 
+export const editorSelector = '.ProseMirror';
+
 export const DEFAULT_WIDTH = 800;
 export const DEFAULT_HEIGHT = 600;
 
@@ -29,7 +31,6 @@ export const dynamicTextViewportSizes = [
 
 // TODO: remove this gotoExample step
 export const initEditor = async (page: any, appearance: string) => {
-  const editor = '.ProseMirror';
   const url = getExampleUrl(
     'editor',
     'editor-core',
@@ -45,8 +46,8 @@ export const initEditor = async (page: any, appearance: string) => {
   }
 
   await page.setViewport({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
-  await page.waitForSelector(editor);
-  await page.click(editor);
+  await page.waitForSelector(editorSelector);
+  await page.click(editorSelector);
   await page.addStyleTag({
     content: `
       .json-output { display: none; }
@@ -104,6 +105,7 @@ function getEditorProps(appearance: Appearance) {
       'Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule.',
     shouldFocus: false,
     UNSAFE_cards: true,
+    allowHelpDialog: true,
   };
 
   if (
@@ -152,7 +154,7 @@ export async function mountEditor(
     props,
     mountOptions,
   );
-  await page.waitForSelector('.ProseMirror', 500);
+  await page.waitForSelector(editorSelector, 500);
 }
 
 export enum Appearance {
@@ -268,7 +270,7 @@ export const updateEditorProps = async (
 
 export const clearEditor = async (page: any) => {
   await page.evaluate(() => {
-    const dom = document.querySelector('.ProseMirror') as HTMLElement;
+    const dom = document.querySelector(editorSelector) as HTMLElement;
     dom.innerHTML = '<p><br /></p>';
   });
 };

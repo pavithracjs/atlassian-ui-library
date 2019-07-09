@@ -4,7 +4,7 @@ import {
   withAnalyticsContext,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'emotion-theming';
 import CheckboxIcon from './CheckboxIcon';
 
 import { name as packageName, version as packageVersion } from './version.json';
@@ -45,7 +45,7 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.props.isChecked
         : this.props.defaultChecked,
   };
-  checkbox?: HTMLInputElement;
+  checkbox?: HTMLInputElement | null = undefined;
   actionKeys = [' '];
 
   componentDidMount() {
@@ -133,15 +133,19 @@ class Checkbox extends Component<CheckboxProps, State> {
       label,
       name,
       value,
-      onChange,
       isRequired,
+      //props not passed into HiddenCheckbox
       defaultChecked,
+      inputRef,
+      isChecked: propsIsChecked,
+      isFullWidth,
+      onChange,
       ...rest
     } = this.props;
     const isChecked =
       this.props.isChecked === undefined
         ? this.state.isChecked
-        : this.props.isChecked;
+        : propsIsChecked;
     const { isFocused, isActive, isHovered } = this.state;
 
     return (
@@ -165,7 +169,7 @@ class Checkbox extends Component<CheckboxProps, State> {
               type="checkbox"
               value={value}
               name={name}
-              innerRef={r => (this.checkbox = r)} // eslint-disable-line
+              ref={r => (this.checkbox = r)}
               required={isRequired}
               {...rest}
             />
