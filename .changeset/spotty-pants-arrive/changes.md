@@ -1,0 +1,1 @@
+ED-6896 Leverage buid pipeline fix to ensure correct version number is compiled into dist
