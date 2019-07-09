@@ -44,4 +44,5 @@ export function errorReporter(event: ErrorEvent) {
   });
 }
 
+// Global error listener
 window.addEventListener('error', errorReporter);
