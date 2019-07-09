@@ -83,6 +83,7 @@ export default class ConfluenceSpaceFilter extends React.Component<
     if (state.isChecked !== props.isFilterOn) {
       return { isChecked: props.isFilterOn };
     }
+    return null;
   }
 
   render() {

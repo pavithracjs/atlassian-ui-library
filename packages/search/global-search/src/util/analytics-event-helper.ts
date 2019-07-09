@@ -13,6 +13,17 @@ import { CreateAnalyticsEventFn } from '../components/analytics/types';
 import { ABTest } from '../api/CrossProductSearchClient';
 import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
 
+function stripUGC(referralContextIdentifiers?: ReferralContextIdentifiers) {
+  if (referralContextIdentifiers) {
+    const {
+      searchReferrerId,
+      currentContentId,
+      currentContainerId,
+    } = referralContextIdentifiers;
+    return { searchReferrerId, currentContentId, currentContainerId };
+  }
+}
+
 const fireGasEvent = (
   createAnalyticsEvent: CreateAnalyticsEventFn | undefined,
   action: string,
@@ -62,7 +73,7 @@ export function firePreQueryShownEvent(
       preQueryRequestDurationMs: elapsedMs,
       renderTimeMs,
       searchSessionId: searchSessionId,
-      referralContextIdentifiers,
+      referralContextIdentifiers: stripUGC(referralContextIdentifiers),
       ...eventAttributes,
       retrievedFromAggregator,
       ...abTest,
@@ -163,7 +174,7 @@ export function firePostQueryShownEvent(
       ...getQueryAttributes(query),
       postQueryRequestDurationMs: elapsedMs,
       searchSessionId,
-      referralContextIdentifiers,
+      referralContextIdentifiers: stripUGC(referralContextIdentifiers),
       ...otherPerformanceTimings,
       ...resultsDetails,
       ...DEFAULT_GAS_ATTRIBUTES,
@@ -250,7 +261,7 @@ export function fireSelectedSearchResult(
       searchSessionId: searchSessionId,
       newTab,
       ...transformSearchResultEventData(eventData),
-      referralContextIdentifiers,
+      referralContextIdentifiers: stripUGC(referralContextIdentifiers),
     },
   );
 }
@@ -278,7 +289,7 @@ export function fireSelectedAdvancedSearch(
       ...getQueryAttributes(query),
       wasOnNoResultsScreen: eventData.wasOnNoResultsScreen || false,
       ...transformSearchResultEventData(eventData),
-      referralContextIdentifiers,
+      referralContextIdentifiers: stripUGC(referralContextIdentifiers),
     },
   );
 }
@@ -300,7 +311,7 @@ export function fireHighlightedSearchResult(
       searchSessionId: searchSessionId,
       ...transformSearchResultEventData(eventData),
       key,
-      referralContextIdentifiers,
+      referralContextIdentifiers: stripUGC(referralContextIdentifiers),
     },
   );
 }
