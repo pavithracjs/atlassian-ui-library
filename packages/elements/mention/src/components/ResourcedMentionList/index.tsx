@@ -5,6 +5,7 @@ import { MentionDescription, OnMentionEvent } from '../../types';
 import uniqueId from '../../util/id';
 import debug from '../../util/logger';
 import MentionList from '../MentionList';
+import MentionSpotlight from '../MentionSpotlight';
 
 function applyPresence(mentions: MentionDescription[], presences: PresenceMap) {
   const updatedMentions: MentionDescription[] = [];
@@ -39,11 +40,13 @@ export interface Props {
   query?: string;
   onSelection?: OnMentionEvent;
   resourceError?: Error;
+  mentionsSpotlightEnabled?: boolean;
 }
 
 export interface State {
   resourceError?: Error;
   mentions: MentionDescription[];
+  mentionsClosed: Boolean;
 }
 
 export default class ResourcedMentionList extends React.PureComponent<
@@ -59,6 +62,7 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.state = {
       resourceError: undefined,
       mentions: [],
+      mentionsClosed: false,
     };
 
     this.applyPropChanges({} as Props, props);
@@ -219,11 +223,34 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.mentionListRef = ref;
   };
 
+  private mentionsHighlight = () => {
+    const { mentions, mentionsClosed } = this.state;
+    const { mentionsSpotlightEnabled } = this.props;
+    // TODO include local storage checks
+    const shouldShow =
+      !mentionsClosed &&
+      mentionsSpotlightEnabled &&
+      mentions &&
+      mentions.length > 0;
+    if (!shouldShow) {
+      return null;
+    }
+
+    return (
+      <MentionSpotlight
+        showComponent={true} // TODO this can be removed
+        createTeamLink="/people/search#createTeam"
+        onClose={() => this.setState({ mentionsClosed: true })}
+      />
+    );
+  };
+
   render() {
     const { mentions, resourceError } = this.state;
 
     return (
       <MentionList
+        initialHighlight={this.mentionsHighlight()}
         mentions={mentions}
         resourceError={resourceError}
         onSelection={this.notifySelection}
