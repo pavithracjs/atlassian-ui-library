@@ -56,7 +56,7 @@ export function createInitialPluginState(
     query: null,
     trigger: null,
     typeAheadHandler: null,
-    currentIndex: 1, // this should be done after checking the FF
+    currentIndex: 0,
     items: [],
     itemsLoader: null,
     queryMarkPos: null,
@@ -369,7 +369,7 @@ export function setCurrentItemIndex({
   const newPluginState = {
     ...pluginState,
     currentIndex:
-      params.currentIndex || params.currentIndex === 1
+      params.currentIndex || params.currentIndex === 0
         ? params.currentIndex
         : pluginState.currentIndex,
   };
@@ -401,11 +401,6 @@ export function selectPrevActionHandler({
   pluginState,
 }: ActionHandlerParams): PluginState {
   let newIndex = pluginState.currentIndex - 1;
-  // todo - must be behind a feature flag
-  if (newIndex == 0) {
-    newIndex--; // decrease index once more not to select the first item
-  }
-  //
   const newPluginState = {
     ...pluginState,
     currentIndex: newIndex < 0 ? pluginState.items.length - 1 : newIndex,
@@ -420,11 +415,6 @@ export function selectNextActionHandler({
   pluginState,
 }: ActionHandlerParams): PluginState {
   let newIndex = pluginState.currentIndex + 1;
-  // todo - must be behind a feature flag
-  if (newIndex > pluginState.items.length - 1) {
-    newIndex = 1; // reset index to the second position not to select the first item
-  }
-  //
   const newPluginState = {
     ...pluginState,
     currentIndex: newIndex > pluginState.items.length - 1 ? 0 : newIndex,

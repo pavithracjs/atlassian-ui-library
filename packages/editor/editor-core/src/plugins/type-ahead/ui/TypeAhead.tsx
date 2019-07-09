@@ -7,6 +7,7 @@ import { TypeAheadItemsList } from './TypeAheadItemsList';
 import { selectByIndex } from '../commands/select-item';
 import { setCurrentIndex } from '../commands/set-current-index';
 import { TypeAheadItem } from '../types';
+import MentionSpotlight from '../../../../../../elements/mention/src/components/MentionSpotlight';
 
 export const TypeAheadContent: React.ComponentClass<
   React.HTMLAttributes<{}>
@@ -60,6 +61,12 @@ export function TypeAhead({
       offset={[0, 8]}
     >
       <TypeAheadContent className="fabric-editor-typeahead">
+        {/* {spotlight} */}
+        <MentionSpotlight
+          showComponent={true}
+          createTeamLink="qqqq" // todo from where do these settings come?
+          onClose={() => console.log('On close callback')}
+        />
         {Array.isArray(items) ? (
           <TypeAheadItemsList
             insertByIndex={index =>
