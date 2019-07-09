@@ -38,6 +38,7 @@ export type TypeAheadSelectItem = (
 
 export type TypeAheadHandler = {
   trigger: string;
+  spotlight?: any;
   customRegex?: string;
   getItems: (
     query: string,

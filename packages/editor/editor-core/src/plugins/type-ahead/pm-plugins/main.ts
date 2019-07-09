@@ -34,6 +34,7 @@ export type PluginState = {
   queryStarted: number;
   upKeyCount: number;
   downKeyCount: number;
+  showSpotlight: boolean;
 };
 
 export const ACTIONS = {
@@ -45,7 +46,7 @@ export const ACTIONS = {
   ITEMS_LIST_UPDATED: 'ITEMS_LIST_UPDATED',
 };
 
-export function createInitialPluginState(
+export function createInitialPluginState( // if we try to pass editorState here, places which does not have editorState to will not be able to call this. Ex packages/editor/editor-core/src/plugins/type-ahead/index.tsx
   prevActiveState = false,
   isAllowed = true,
 ): PluginState {
@@ -63,7 +64,12 @@ export function createInitialPluginState(
     queryStarted: 0,
     upKeyCount: 0,
     downKeyCount: 0,
+    showSpotlight: true,
   };
+}
+
+function getSpotlightStatus(state: EditorState) {
+  return true;
 }
 
 export function createPlugin(
@@ -351,6 +357,7 @@ export function defaultActionHandler({
     queryStarted: Date.now(),
     upKeyCount: 0,
     downKeyCount: 0,
+    showSpotlight: pluginState.showSpotlight,
   };
 
   dispatch(pluginKey, newPluginState);

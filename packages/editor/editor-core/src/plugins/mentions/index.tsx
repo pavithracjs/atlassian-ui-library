@@ -147,6 +147,15 @@ const mentionsPlugin = (
         },
       ],
       typeAhead: {
+        spotlight: (enabled: boolean) => {
+          // const typeAheadPluginState = typeAheadPluginKey.getState( // am I interested in the mention plugin state here? Yes
+          //   state,
+          // ) as TypeAheadPluginState;
+          // console.log("====typeAheadPluginState", typeAheadPluginState);
+          console.log(enabled);
+          return <div>test spotlight</div>;
+        },
+
         trigger: '@',
         // Custom regex must have a capture group around trigger
         // so it's possible to use it without needing to scan through all triggers again

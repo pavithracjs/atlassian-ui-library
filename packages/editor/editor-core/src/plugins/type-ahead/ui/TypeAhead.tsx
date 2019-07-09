@@ -33,6 +33,7 @@ export type TypeAheadProps = {
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
+  spotlight?: HTMLElement;
 };
 
 export function TypeAhead({
@@ -45,6 +46,7 @@ export function TypeAhead({
   popupsMountPoint,
   popupsBoundariesElement,
   popupsScrollableElement,
+  spotlight,
 }: TypeAheadProps) {
   if (!active || !anchorElement || !items || !items.length) {
     return null;
@@ -61,12 +63,7 @@ export function TypeAhead({
       offset={[0, 8]}
     >
       <TypeAheadContent className="fabric-editor-typeahead">
-        {/* {spotlight} */}
-        <MentionSpotlight
-          showComponent={true}
-          createTeamLink="qqqq" // todo from where do these settings come?
-          onClose={() => console.log('On close callback')}
-        />
+        {spotlight}
         {Array.isArray(items) ? (
           <TypeAheadItemsList
             insertByIndex={index =>
