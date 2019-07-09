@@ -1,1 +1,0 @@
-added more filters button next to confluence current space filter

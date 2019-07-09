@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.2.0
+
+### Minor Changes
+
+- [minor][8d013cf28c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d013cf28c):
+
+  added more filters button next to confluence current space filter
+
 ## 10.1.1
 
 - Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
