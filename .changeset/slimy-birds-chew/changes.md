@@ -1,0 +1,1 @@
+Remove constructAuthTokenURL and replace with mediaClient

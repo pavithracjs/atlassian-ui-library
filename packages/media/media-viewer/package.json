@@ -32,7 +32,6 @@
     "deep-equal": "^1.0.1",
     "exenv": "^1.2.2",
     "pdfjs-dist": "^2.0.489",
-    "query-string": "^4.3.2",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
@@ -52,7 +51,6 @@
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "@types/enzyme": "^3.1.15",
-    "@types/query-string": "^4.3.1",
     "enzyme": "^3.7.0",
     "jsverify": "^0.8.3",
     "react-dom": "^16.8.0",
