@@ -8,7 +8,7 @@ export type DependencyType =
 export type UpgradeType = 'add' | 'upgrade' | 'remove';
 export type UpgradeSubType = ReleaseType | null;
 
-// go/analytics/registry/17058
+// go/dataportal/analytics/registry/17058
 export type UpgradeEvent = {
   dependencyName: string;
   versionString: string;
