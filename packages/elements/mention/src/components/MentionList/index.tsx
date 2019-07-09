@@ -44,7 +44,7 @@ export interface Props {
   mentions: MentionDescription[];
   resourceError?: Error;
   onSelection?: OnMentionEvent;
-  initialHighlight?: React.Node;
+  initialHighlight?: React.ReactElement | null;
 }
 
 export interface State {
