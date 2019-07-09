@@ -38,15 +38,9 @@ test('DatePicker, onCalendarChange picks a correct date if it is calculated wron
   const date = '2018-5-1';
   const resultDate = '2018-05-01';
   const datePickerWrapper = mount(<DatePicker value={date} />);
-
   datePickerWrapper.instance().onCalendarChange({ iso: date });
   datePickerWrapper.update();
-
-  console.log(datePickerWrapper.instance().state);
-
   expect(datePickerWrapper.instance().state.view).toEqual(resultDate);
-
-  // expect(datePickerWrapper.instance().state.view).toEqual(resultDate);
 });
 
 test('DatePicker, supplying a custom parseInputValue prop, produces the expected result', () => {
