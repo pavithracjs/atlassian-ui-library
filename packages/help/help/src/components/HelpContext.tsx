@@ -196,6 +196,8 @@ class HelpContextProviderImplementation extends React.Component<
 
         return newState;
       });
+    } else if (this.state.mainArticle) {
+      this.setState({ mainArticle: undefined, view: VIEW.DEFAULT_CONTENT });
     }
   };
 

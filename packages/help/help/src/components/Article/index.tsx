@@ -4,6 +4,7 @@ import RelatedArticles from './RelatedArticles';
 import RatingButton from './RatingButton';
 
 import { Article as ArticleModel } from '../../model/Article';
+import { ArticleContainer } from './styled';
 
 export interface Props {
   article: ArticleModel;
@@ -15,7 +16,7 @@ const Article: React.SFC<Props> = props => {
 
   if (article) {
     return (
-      <>
+      <ArticleContainer>
         <HelpArticle
           title={article.title}
           body={article.body}
@@ -23,7 +24,7 @@ const Article: React.SFC<Props> = props => {
         />
         <RatingButton />
         <RelatedArticles relatedArticles={article.relatedArticles} />
-      </>
+      </ArticleContainer>
     );
   } else {
     return null;
