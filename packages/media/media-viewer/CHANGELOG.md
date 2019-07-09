@@ -1,5 +1,13 @@
 # @atlaskit/media-viewer
 
+## 43.1.4
+
+### Patch Changes
+
+- [patch][79d79bf098](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79d79bf098):
+
+  Remove constructAuthTokenURL and replace with mediaClient
+
 ## 43.1.3
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
