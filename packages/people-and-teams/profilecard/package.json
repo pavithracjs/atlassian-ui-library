@@ -8,7 +8,7 @@
   "atlaskit:src": "src/index.ts",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
-  "types": "index.d.ts",
+  "types": "dist/cjs/index.d.ts",
   "scripts": {
     "i18n:push": "i18n-tools push --resource profilecard . --type ts",
     "i18n:pull": "i18n-tools pull --resource profilecard . --type ts"

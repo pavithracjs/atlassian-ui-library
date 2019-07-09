@@ -5,7 +5,8 @@
     "access": "private"
   },
   "description": "Analytics viewer for the examples",
-  "modules": "index.js",
+  "main": "dist/cjs/index.js",
+  "modules": "dist/esm/index.js",
   "types": "dist/cjs/types.d.ts",
   "atlaskit:src": "src/index.ts",
   "repository": {

@@ -7,7 +7,7 @@
   "description": "Reactions component",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
-  "types": "index.d.ts",
+  "types": "dist/cjs/index.d.ts",
   "atlaskit:src": "src/index.ts",
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.4",
