@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.2
+
+### Patch Changes
+
+- [patch][e80e60b358](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80e60b358):
+
+  FM-2123: fixed double @ insertion on mention composition (Android)
+
 ## 8.8.1
 
 ### Patch Changes
