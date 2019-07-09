@@ -8,7 +8,7 @@
   "author": "Atlassian Pty Ltd",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "                               run-p build:babel build:flowtypes && run-p build:typescript build:adf-schema:json-schema --print-label --continue-on-error && yarn build:exception-packages && yarn copy:version",
+    "build": "                               run-p build:babel build:flowtypes && run-p build:typescript build:adf-schema:json-schema --print-label --continue-on-error && yarn build:exception-packages && yarn copy:version && yarn build:create:folder:entry-points",
     "build:exception-packages": "            yarn build:media-editor:copy-binaries && yarn build:css-reset && yarn build:reduced-ui-pack && yarn build:email-renderer",
     "build:babel": "                         run-p build:babel:cjs build:babel:esm",
     "build:babel:cjs": "                     NODE_ENV=production BABEL_ENV=production:cjs bolt workspaces exec --parallel --only-fs \"$(node ./build/ci-scripts/get.glob.packages.for.tools.js babel)\" -- babel src -d dist/cjs --root-mode upward",
