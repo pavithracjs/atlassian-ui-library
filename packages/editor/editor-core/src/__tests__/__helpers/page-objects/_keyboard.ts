@@ -2,7 +2,7 @@ import { Page } from './_types';
 
 export enum KEY {
   CONTROL = '\uE051',
-  META = '\uE051',
+  META = '\uE053',
   ALT = '\uE00A',
   SHIFT = '\uE008',
 }
