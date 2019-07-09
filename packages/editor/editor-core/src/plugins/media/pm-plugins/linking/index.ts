@@ -24,7 +24,7 @@ function mapping(
   tr: Transaction,
   pluginState: MediaLinkingState,
 ): MediaLinkingState {
-  if (pluginState.mediaPos) {
+  if (pluginState && pluginState.mediaPos !== null) {
     return {
       ...pluginState,
       mediaPos: tr.mapping.map(pluginState.mediaPos),

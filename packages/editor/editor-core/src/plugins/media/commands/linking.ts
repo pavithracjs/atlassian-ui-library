@@ -19,7 +19,7 @@ import {
 
 export const showLinkingToolbar = createMediaLinkingCommand(state => {
   const mediaLinkingState = getMediaLinkingState(state);
-  if (mediaLinkingState.mediaPos !== null) {
+  if (mediaLinkingState && mediaLinkingState.mediaPos !== null) {
     const mediaSingle = state.doc.nodeAt(mediaLinkingState.mediaPos);
     if (mediaSingle) {
       return {
@@ -41,8 +41,10 @@ interface CreateToggleLinkMarkOptions {
 function getCurrentUrl(state: EditorState): string | undefined {
   const { link: linkType }: { link: MarkType } = state.schema.marks;
   const mediaLinkingState = getMediaLinkingState(state);
-
-  const $pos = state.doc.resolve(mediaLinkingState.mediaPos!);
+  if (!mediaLinkingState || mediaLinkingState.mediaPos === null) {
+    return;
+  }
+  const $pos = state.doc.resolve(mediaLinkingState.mediaPos);
   const node = state.doc.nodeAt($pos.pos) as Node;
 
   if (!node) {
@@ -65,7 +67,10 @@ function toggleLinkMark(
   { forceRemove = false, url }: CreateToggleLinkMarkOptions,
 ) {
   const mediaLinkingState = getMediaLinkingState(state);
-  const $pos = state.doc.resolve(mediaLinkingState.mediaPos!);
+  if (!mediaLinkingState || mediaLinkingState.mediaPos === null) {
+    return tr;
+  }
+  const $pos = state.doc.resolve(mediaLinkingState.mediaPos);
   const node = state.doc.nodeAt($pos.pos) as Node;
 
   if (!node) {

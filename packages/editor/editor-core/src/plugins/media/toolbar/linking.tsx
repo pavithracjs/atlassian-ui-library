@@ -34,8 +34,7 @@ import {
 
 export function shouldShowMediaLinkToolbar(editorState: EditorState): boolean {
   const mediaLinkingState = getMediaLinkingState(editorState);
-
-  if (mediaLinkingState.mediaPos === null) {
+  if (!mediaLinkingState || mediaLinkingState.mediaPos === null) {
     return false;
   }
   const {
