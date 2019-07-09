@@ -46,7 +46,7 @@ export interface Props {
 export interface State {
   resourceError?: Error;
   mentions: MentionDescription[];
-  mentionsClosed: boolean;
+  highlightClosed: boolean;
 }
 
 export default class ResourcedMentionList extends React.PureComponent<
@@ -62,7 +62,7 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.state = {
       resourceError: undefined,
       mentions: [],
-      mentionsClosed: false,
+      highlightClosed: false,
     };
 
     this.applyPropChanges({} as Props, props);
@@ -223,16 +223,16 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.mentionListRef = ref;
   };
 
-  private closeMention = () => {
-    this.setState({ mentionsClosed: true });
+  private closeHighlight = () => {
+    this.setState({ highlightClosed: true });
   };
 
   private mentionsHighlight = () => {
-    const { mentions, mentionsClosed } = this.state;
+    const { mentions, highlightClosed } = this.state;
     const { mentionsSpotlightEnabled } = this.props;
     // TODO include local storage checks
     const shouldShow =
-      !mentionsClosed &&
+      !highlightClosed &&
       mentionsSpotlightEnabled &&
       mentions &&
       mentions.length > 0;
@@ -244,7 +244,7 @@ export default class ResourcedMentionList extends React.PureComponent<
       <MentionSpotlight
         showComponent={true} // TODO this can be removed
         createTeamLink="/people/search#createTeam"
-        onClose={this.closeMention}
+        onClose={this.closeHighlight}
       />
     );
   };
