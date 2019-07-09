@@ -1,4 +1,11 @@
 import * as React from 'react';
+import { Link, BrowserRouter } from 'react-router-dom';
+import * as Styled from './styled';
+
+import Button from '@atlaskit/button';
+import CloseIcon from '@atlaskit/icon/glyph/cross';
+
+import Tooltip from '@atlaskit/tooltip';
 
 export interface Props {
   /** Decides whether component should be rendered or not. This logic could have been implemented by passing
@@ -14,17 +21,43 @@ export interface Props {
 
 export default class MentionSpotlight extends React.Component<Props, {}> {
   render() {
-    const { showComponent, onClose } = this.props;
+    const { showComponent, onClose, createTeamLink } = this.props;
 
     if (!showComponent) {
       return null;
     }
 
     return (
-      <>
-        <div>I am SPOTLIGHT!</div>
-        <div onClick={onClose}>CLOSE</div>
-      </>
+      <Styled.Card>
+        <Styled.Aside>
+          <img src={Styled.iconUrl} height={32} />
+        </Styled.Aside>
+        <Styled.Section>
+          <Styled.Heading>
+            <Styled.Title>
+              <strong>You can now mention teams! </strong>
+            </Styled.Title>
+          </Styled.Heading>
+          <Styled.Body>
+            <p>
+              If you don't have any teams,{' '}
+              <BrowserRouter>
+                <Link to={createTeamLink}>start a team </Link>
+              </BrowserRouter>{' '}
+              with the group of people you work daily
+            </p>
+          </Styled.Body>
+        </Styled.Section>
+        <Styled.Actions>
+          <Tooltip content="Close" position="bottom">
+            <Button
+              appearance="subtle"
+              iconBefore={<CloseIcon label="Close Modal" size="small" />}
+              onClick={onClose}
+            />
+          </Tooltip>
+        </Styled.Actions>
+      </Styled.Card>
     );
   }
 }
