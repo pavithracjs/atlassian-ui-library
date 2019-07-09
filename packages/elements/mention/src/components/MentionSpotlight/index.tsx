@@ -37,16 +37,6 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
             <Styled.Title>
               <strong>You can now mention teams! </strong>
             </Styled.Title>
-
-            <Styled.Actions>
-              <Tooltip content="Close" position="bottom">
-                <Button
-                  appearance="subtle"
-                  iconBefore={<CloseIcon label="Close Modal" size="medium" />}
-                  onClick={onClose}
-                />
-              </Tooltip>
-            </Styled.Actions>
           </Styled.Heading>
           <Styled.Body>
             <p>
@@ -58,6 +48,15 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
             </p>
           </Styled.Body>
         </Styled.Section>
+        <Styled.Actions>
+          <Tooltip content="Close" position="bottom">
+            <Button
+              appearance="subtle"
+              iconBefore={<CloseIcon label="Close Modal" size="small" />}
+              onClick={onClose}
+            />
+          </Tooltip>
+        </Styled.Actions>
       </Styled.Card>
     );
   }
