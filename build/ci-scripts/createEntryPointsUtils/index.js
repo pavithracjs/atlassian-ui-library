@@ -14,7 +14,7 @@ async function writeEntryPointsPathInPkgJson(
   entryPointDirName /*: string*/,
 ) {
   // Add a package.json
-  const types = isTs ? `../dist/esm/${pkgFile}.d.ts` : undefined;
+  const types = isTs ? `../dist/cjs/${pkgFile}.d.ts` : undefined;
   const entryPointJson = {
     name: `${pkg.name}/${pkgFile}`,
     main: `../dist/cjs/${pkgFile}.js`,
