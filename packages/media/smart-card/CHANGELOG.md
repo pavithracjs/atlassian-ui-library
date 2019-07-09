@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.2.7
+
+### Patch Changes
+
+- [patch][b346bb2963](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b346bb2963):
+
+  added support for batching of link resolve requests in Smart Card client.
+
 ## 12.2.6
 
 ### Patch Changes
