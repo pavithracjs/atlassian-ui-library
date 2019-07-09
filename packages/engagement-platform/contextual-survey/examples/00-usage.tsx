@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { jsx, css } from '@emotion/core';
 import Button from '@atlaskit/button';
 import { Checkbox } from '@atlaskit/checkbox';
-import { ContextualSurvey, SurveyMarshal } from '../src';
+import { ContextualSurvey, SurveyMarshal, OnDismissArgs } from '../src';
 import { gridSize } from '@atlaskit/theme/constants';
 
 export default function BasicUsage() {
@@ -17,7 +17,8 @@ export default function BasicUsage() {
   );
 
   const onDismiss = useCallback(
-    () => {
+    (args: OnDismissArgs) => {
+      console.log('dismiss called with', args);
       setShowSurvey(false);
     },
     [setShowSurvey],

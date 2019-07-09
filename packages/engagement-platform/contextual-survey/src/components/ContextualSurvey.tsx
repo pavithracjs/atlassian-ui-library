@@ -7,6 +7,15 @@ import FeedbackAcknowledgement from './FeedbackAcknowledgement';
 import { FormValues } from '../types';
 import useEscapeToDismiss from './useEscapeToDismiss';
 
+export enum DismissTrigger {
+  AutoDismiss = 'AUTO_DISMISS',
+  Manual = 'MANUAL',
+  Finished = 'FINISHED',
+  Unmount = 'UNMOUNT',
+}
+
+export type OnDismissArgs = { trigger: DismissTrigger };
+
 interface Props {
   /** Optional statement, to be used in conjunction with the question for the survey
    * Example: "How strongly do you agree or disagree with this statement"
@@ -23,7 +32,7 @@ interface Props {
    */
   textPlaceholder?: string;
   /** Callback that is triggered when the survey should be dismissed */
-  onDismiss: () => void;
+  onDismiss: (args: OnDismissArgs) => void;
   /** Gets whether user has already signed up to the Atlassian Research Group list.
    * If `true` is returned then the user will not be prompted to sign up to the Research Group.
    */
@@ -59,13 +68,13 @@ export default ({
 
   // only allow a single dismiss for a component
   const isDismissedRef = useRef<boolean>(false);
-  const tryDismiss = useCallback(() => {
+  const tryDismiss = useCallback((trigger: DismissTrigger) => {
     // Already called dismiss once
     if (isDismissedRef.current) {
       return;
     }
     isDismissedRef.current = true;
-    onDismissRef.current();
+    onDismissRef.current({ trigger });
   }, []);
 
   const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
@@ -88,7 +97,7 @@ export default ({
   );
 
   // using a ref so that we don't break all of our caches if a consumer is using an arrow function
-  const onDismissRef = useRef<() => void>(onDismiss);
+  const onDismissRef = useRef<(args: OnDismissArgs) => void>(onDismiss);
   useEffect(
     () => {
       onDismissRef.current = onDismiss;
@@ -105,23 +114,15 @@ export default ({
     }
   }, []);
 
-  const manualDismiss = useCallback(
-    () => {
-      // clear any pending timers
-      tryClearTimeout();
-      tryDismiss();
-    },
-    [tryDismiss, tryClearTimeout],
-  );
-
   // Cleanup any auto dismiss after dismiss
   useEffect(
     () => {
       return function unmount() {
-        manualDismiss();
+        tryClearTimeout();
+        tryDismiss(DismissTrigger.Unmount);
       };
     },
-    [manualDismiss],
+    [tryClearTimeout, tryDismiss],
   );
 
   const onSurveySubmit = useCallback<
@@ -177,7 +178,7 @@ export default ({
         return;
       }
       // We have already thanked to user, we can simply close
-      tryDismiss();
+      tryDismiss(DismissTrigger.Finished);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [tryDismiss, trySetCurrentStep],
@@ -204,7 +205,7 @@ export default ({
         ].includes(currentStep)
       ) {
         autoDisappearTimeoutRef.current = window.setTimeout(
-          tryDismiss,
+          () => tryDismiss(DismissTrigger.AutoDismiss),
           AUTO_DISAPPEAR_DURATION,
         );
       }
@@ -212,7 +213,7 @@ export default ({
     [currentStep, tryDismiss],
   );
 
-  useEscapeToDismiss({ onDismiss: tryDismiss });
+  useEscapeToDismiss({ onDismiss: () => tryDismiss(DismissTrigger.Manual) });
 
   const content: React.ReactNode = (() => {
     if (currentStep === 'SURVEY') {
@@ -241,6 +242,15 @@ export default ({
 
     return null;
   })();
+
+  const manualDismiss = useCallback(
+    () => {
+      // clear any pending timers
+      tryClearTimeout();
+      tryDismiss(DismissTrigger.Manual);
+    },
+    [tryDismiss, tryClearTimeout],
+  );
 
   return <SurveyContainer onDismiss={manualDismiss}>{content}</SurveyContainer>;
 };

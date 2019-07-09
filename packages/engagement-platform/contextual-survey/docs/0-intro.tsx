@@ -59,6 +59,27 @@ export default md`
 
   \`onDismiss\` will only ever be called once
 
+  \`onDismiss\` is called with arguments: \`{ trigger: DismissTrigger }\`. This can be used to distinguish between different rationales for dismissing
+
+  ${code`
+  // Types
+
+  export enum DismissTrigger {
+    AutoDismiss = 'AUTO_DISMISS',
+    Manual = 'MANUAL',
+    Finished = 'FINISHED',
+    Unmount = 'UNMOUNT',
+  }
+
+  export type OnDismissArgs = { trigger: DismissTrigger };
+
+  onDismiss: (args: OnDismissArgs) => void;
+
+  // These types are exported publicly for you to use
+
+  import {DismissTrigger, OnDismissArgs} from '@atlaskit/contextual-survey';
+  `}
+
   #### Responsibilities
 
   - \`<SurveyMarshal/>\`: Responsible for placement and animation for the survey.
