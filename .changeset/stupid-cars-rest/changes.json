@@ -1,5 +1,5 @@
 {
-  "releases": [{ "name": "@atlaskit/datetime-picker", "type": "major" }],
+  "releases": [{ "name": "@atlaskit/datetime-picker", "type": "patch" }],
   "dependents": [
     {
       "name": "@atlaskit/form",
