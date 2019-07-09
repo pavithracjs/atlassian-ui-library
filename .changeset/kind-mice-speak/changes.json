@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/webdriver-runner", "type": "patch" },
+    { "name": "@atlaskit/visual-regression", "type": "patch" }
+  ],
+  "dependents": []
+}
