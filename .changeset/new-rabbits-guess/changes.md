@@ -1,1 +1,0 @@
-ED-6917, SL-260: support drag and drop of smart links
