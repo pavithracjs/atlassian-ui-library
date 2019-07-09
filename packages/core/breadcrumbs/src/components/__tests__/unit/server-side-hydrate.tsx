@@ -13,7 +13,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate breadcrumbs correctly', async () => {
+test.skip('should ssr then hydrate breadcrumbs correctly', async () => {
   const [example] = await getExamplesFor('breadcrumbs');
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 

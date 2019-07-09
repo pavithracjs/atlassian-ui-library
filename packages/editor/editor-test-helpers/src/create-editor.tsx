@@ -17,7 +17,7 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import { mount, ReactWrapper } from 'enzyme';
 import { RefsNode, Refs } from './schema-builder';
 import { Schema } from 'prosemirror-model';
-import { PluginKey } from 'prosemirror-state';
+import { PluginKey, NodeSelection } from 'prosemirror-state';
 import patchEditorViewForJSDOM from './jsdom-fixtures';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
@@ -178,6 +178,15 @@ export default function createEditorFactoryForTests<T = any>() {
               ) as any),
             );
           }
+        }
+        // NodeSelection
+        else if (refs['<node>']) {
+          const { state } = editorView;
+          dispatch(
+            state.tr.setSelection(
+              NodeSelection.create(state.doc, refs['<node>']),
+            ),
+          );
         }
       }
     }

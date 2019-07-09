@@ -38,7 +38,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', mediaClientConfig, {
+    const popup = await MediaPicker(mediaClientConfig, {
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },

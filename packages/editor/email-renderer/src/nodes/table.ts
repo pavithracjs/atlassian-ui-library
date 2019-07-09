@@ -10,7 +10,6 @@ export const styles = `
   border: 1px solid ${N50};
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed;
 }
 .${className}-wrapper {
   margin-bottom: 20px;

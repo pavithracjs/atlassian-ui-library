@@ -215,6 +215,33 @@ const items: Array<QuickInsertItem> = [
       });
     },
   },
+  {
+    title: 'New extension',
+    action(insert) {
+      return insert({
+        type: 'extension',
+        attrs: {
+          extensionType: 'com.atlassian.extensions.update',
+          extensionKey: 'test-key-123',
+          parameters: {
+            count: 0,
+          },
+        },
+      });
+    },
+  },
+  {
+    title: 'New extension without config',
+    action(insert) {
+      return insert({
+        type: 'extension',
+        attrs: {
+          extensionType: 'com.atlassian.extensions.noupdate',
+          extensionKey: 'test-key-456',
+        },
+      });
+    },
+  },
 ];
 
 export default function quickInsertProviderFactory(): QuickInsertProvider {

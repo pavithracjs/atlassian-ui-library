@@ -6,6 +6,7 @@
  */
 // Romanian
 export default {
+  'fabric.mention.unknow.user.error': 'Utilizator necunoscut {id}',
   'fabric.mention.noAccess.warning':
     '{name} nu va fi notificat deoarece nu are acces',
   'fabric.mention.noAccess.label': 'Fără acces',

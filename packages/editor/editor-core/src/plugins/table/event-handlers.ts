@@ -23,7 +23,14 @@ import {
   isLastItemMediaGroup,
   closestElement,
 } from '../../utils/';
-import { isInsertColumnButton, isInsertRowButton, getIndex } from './utils';
+import { TableCssClassName as ClassName } from './types';
+import {
+  isCell,
+  isInsertRowButton,
+  getColumnOrRowIndex,
+  getMousePositionHorizontalRelativeByElement,
+  getMousePositionVerticalRelativeByElement,
+} from './utils';
 import {
   setEditorFocus,
   showInsertColumnButton,
@@ -105,15 +112,32 @@ export const handleMouseOver = (
   const { state, dispatch } = view;
   const target = mouseEvent.target as HTMLElement;
 
-  if (isInsertColumnButton(target)) {
-    return showInsertColumnButton(getIndex(target))(state, dispatch);
-  }
   if (isInsertRowButton(target)) {
-    return showInsertRowButton(getIndex(target))(state, dispatch);
+    return showInsertRowButton(getColumnOrRowIndex(target))(state, dispatch);
   }
+
+  if (isCell(target)) {
+    return hideInsertColumnOrRowButton()(state, dispatch);
+  }
+
+  return false;
+};
+
+export const handleMouseLeave = (view: EditorView, event: Event): boolean => {
+  const { state, dispatch } = view;
   const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
     state,
   );
+
+  const target = event.target as HTMLElement;
+  if (
+    target.classList.contains(ClassName.CONTROLS_BUTTON) ||
+    target.classList.contains(ClassName.ROW_CONTROLS_BUTTON_WRAP) ||
+    target.classList.contains(ClassName.COLUMN_CONTROLS_BUTTON_WRAP)
+  ) {
+    return true;
+  }
+
   if (
     (typeof insertColumnButtonIndex !== 'undefined' ||
       typeof insertRowButtonIndex !== 'undefined') &&
@@ -124,18 +148,43 @@ export const handleMouseOver = (
   return false;
 };
 
-export const handleMouseLeave = (view: EditorView): boolean => {
-  const { state, dispatch } = view;
-  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
-    state,
-  );
-  if (
-    (typeof insertColumnButtonIndex !== 'undefined' ||
-      typeof insertRowButtonIndex !== 'undefined') &&
-    hideInsertColumnOrRowButton()(state, dispatch)
-  ) {
-    return true;
+export const handleMouseMove = (view: EditorView, event: Event) => {
+  const element = event.target as HTMLElement;
+
+  if (element.classList.contains(ClassName.COLUMN_CONTROLS_BUTTON)) {
+    const { state, dispatch } = view;
+    const { insertColumnButtonIndex } = getPluginState(state);
+    const index = getColumnOrRowIndex(element);
+
+    const positionColumnOffset =
+      getMousePositionHorizontalRelativeByElement(event as MouseEvent) ===
+      'right'
+        ? 1
+        : 0;
+    const positionColumn = index + positionColumnOffset;
+
+    if (positionColumn !== insertColumnButtonIndex) {
+      return showInsertColumnButton(positionColumn)(state, dispatch);
+    }
   }
+
+  if (element.classList.contains(ClassName.ROW_CONTROLS_BUTTON)) {
+    const { state, dispatch } = view;
+    const { insertRowButtonIndex } = getPluginState(state);
+    const index = getColumnOrRowIndex(element);
+
+    const positionRowOffset =
+      getMousePositionVerticalRelativeByElement(event as MouseEvent) ===
+      'bottom'
+        ? 1
+        : 0;
+    const positionRow = index + positionRowOffset;
+
+    if (positionRow !== insertRowButtonIndex) {
+      return showInsertRowButton(positionRow)(state, dispatch);
+    }
+  }
+
   return false;
 };
 

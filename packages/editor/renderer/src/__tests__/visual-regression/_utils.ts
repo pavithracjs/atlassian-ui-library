@@ -126,7 +126,7 @@ export async function snapshot(
     image = await page.screenshot();
   }
 
-  compareScreenshot(image, tolerance, { useUnsafeThreshold });
+  return compareScreenshot(image, tolerance, { useUnsafeThreshold });
 }
 
 export async function animationFrame(page: Page) {

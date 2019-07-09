@@ -8,7 +8,30 @@ import keyCodes from './key-codes';
  * Accepts key descriptions similar to Keymap, i.e. 'Shift-Ctrl-L'
  */
 export default function sendKeyToPm(editorView: EditorView, keys: string) {
-  const parts = keys.split(/-(?!'?$)/);
+  const event = new CustomEvent('keydown', {
+    bubbles: true,
+    cancelable: true,
+  });
+  (event as any).DOM_KEY_LOCATION_LEFT = 1;
+  (event as any).DOM_KEY_LOCATION_RIGHT = 2;
+
+  let parts = keys.split(/-(?!'?$)/);
+
+  // set location property of event if Left or Right version of key specified
+  let location = 0;
+  const locationKeyRegex = /^(Left|Right)(Ctrl|Alt|Mod|Shift|Cmd)$/;
+  parts = parts.map(part => {
+    if (part.search(locationKeyRegex) === -1) {
+      return part;
+    }
+    const [, pLocation, pKey] = part.match(locationKeyRegex);
+    location =
+      pLocation === 'Left'
+        ? (event as any).DOM_KEY_LOCATION_LEFT
+        : (event as any).DOM_KEY_LOCATION_RIGHT;
+    return pKey;
+  });
+
   const modKey = parts.indexOf('Mod') !== -1;
   const cmdKey = parts.indexOf('Cmd') !== -1;
   const ctrlKey = parts.indexOf('Ctrl') !== -1;
@@ -20,11 +43,6 @@ export default function sendKeyToPm(editorView: EditorView, keys: string) {
   // and it's the uppercased character code in real world
   const code = keyCodes[key] ? keyCodes[key] : key.toUpperCase().charCodeAt(0);
 
-  const event = new CustomEvent('keydown', {
-    bubbles: true,
-    cancelable: true,
-  });
-
   (event as any).key = key.replace(/Space/g, ' ');
   (event as any).shiftKey = shiftKey;
   (event as any).altKey = altKey;
@@ -33,6 +51,7 @@ export default function sendKeyToPm(editorView: EditorView, keys: string) {
   (event as any).keyCode = code;
   (event as any).which = code;
   (event as any).view = window;
+  (event as any).location = location;
 
   // try {
   (editorView as TestingEditorView).dispatchEvent(event);

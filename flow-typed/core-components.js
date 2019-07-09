@@ -45,6 +45,10 @@ declare module '@atlaskit/flag' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/icon' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/inline-dialog' {
   declare module.exports: any;
 }

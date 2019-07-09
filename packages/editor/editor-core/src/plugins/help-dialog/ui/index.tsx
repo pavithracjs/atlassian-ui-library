@@ -149,6 +149,7 @@ export const formatting: ((intl: InjectedIntl) => Format[]) = ({
   {
     name: formatMessage(blockTypeMessages.heading1),
     type: 'heading',
+    keymap: () => keymaps.toggleHeading1,
     autoFormatting: () => (
       <span>
         <CodeSm>#</CodeSm> <CodeLg>Space</CodeLg>
@@ -158,11 +159,57 @@ export const formatting: ((intl: InjectedIntl) => Format[]) = ({
   {
     name: formatMessage(blockTypeMessages.heading2),
     type: 'heading',
+    keymap: () => keymaps.toggleHeading2,
     autoFormatting: () => (
       <span>
         <CodeLg>##</CodeLg> <CodeLg>Space</CodeLg>
       </span>
     ),
+  },
+  {
+    name: formatMessage(blockTypeMessages.heading3),
+    type: 'heading',
+    keymap: () => keymaps.toggleHeading3,
+    autoFormatting: () => (
+      <span>
+        <CodeLg>###</CodeLg> <CodeLg>Space</CodeLg>
+      </span>
+    ),
+  },
+  {
+    name: formatMessage(blockTypeMessages.heading4),
+    type: 'heading',
+    keymap: () => keymaps.toggleHeading4,
+    autoFormatting: () => (
+      <span>
+        <CodeLg>####</CodeLg> <CodeLg>Space</CodeLg>
+      </span>
+    ),
+  },
+  {
+    name: formatMessage(blockTypeMessages.heading5),
+    type: 'heading',
+    keymap: () => keymaps.toggleHeading5,
+    autoFormatting: () => (
+      <span>
+        <CodeLg>#####</CodeLg> <CodeLg>Space</CodeLg>
+      </span>
+    ),
+  },
+  {
+    name: formatMessage(blockTypeMessages.heading6),
+    type: 'heading',
+    keymap: () => keymaps.toggleHeading6,
+    autoFormatting: () => (
+      <span>
+        <CodeLg>######</CodeLg> <CodeLg>Space</CodeLg>
+      </span>
+    ),
+  },
+  {
+    name: formatMessage(blockTypeMessages.normal),
+    type: 'paragraph',
+    keymap: () => keymaps.setNormalText,
   },
   {
     name: formatMessage(listMessages.orderedList),
@@ -351,7 +398,10 @@ export const getSupportedFormatting = (
 };
 
 export const getComponentFromKeymap = (keymap: keymaps.Keymap) => {
-  const shortcut: string = keymap[browser.mac ? 'mac' : 'windows'];
+  let shortcut: string = keymap[browser.mac ? 'mac' : 'windows'];
+  if (browser.mac) {
+    shortcut = shortcut.replace('Alt', 'Opt');
+  }
   const keyParts = shortcut.replace(/\-(?=.)/g, ' + ').split(' ');
   return (
     <span>

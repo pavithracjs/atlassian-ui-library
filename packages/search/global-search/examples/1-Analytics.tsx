@@ -3,7 +3,7 @@ import { AnalyticsListener as AnalyticsNextListener } from '@atlaskit/analytics-
 import { setupMocks, teardownMocks } from '../example-helpers/mockApis';
 import styled from 'styled-components';
 import { AnalyticsListener } from '@atlaskit/analytics';
-import { GlobalQuickSearch } from '../src';
+import { GlobalQuickSearch, SearchSessionProvider } from '../src';
 import withNavigation from '../example-helpers/withNavigation';
 
 const GlobalQuickSearchInNavigation = withNavigation(GlobalQuickSearch, {
@@ -94,7 +94,9 @@ export default class extends React.Component<any, any> {
                 channel="fabric-elements"
                 onEvent={(e: any) => this.onAnalyticsNextEvent(e)}
               >
-                <GlobalQuickSearchInNavigation />
+                <SearchSessionProvider>
+                  <GlobalQuickSearchInNavigation />
+                </SearchSessionProvider>
               </AnalyticsNextListener>
             </AnalyticsListener>
           </AnalyticsListener>

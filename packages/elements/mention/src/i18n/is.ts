@@ -6,6 +6,7 @@
  */
 // Icelandic
 export default {
+  'fabric.mention.unknow.user.error': 'Óþekktur notandi {id}',
   'fabric.mention.noAccess.warning':
     '{name} mun ekki fá tilkynningu þar sem þeir hafa ekki aðgang',
   'fabric.mention.noAccess.label': 'Enginn aðgangur',

@@ -1,16 +1,12 @@
-import {
-  MediaPickerComponents,
-  MediaPickerComponent,
-} from '@atlaskit/media-picker';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import {
   StoryBookAuthProvider,
   userAuthProvider,
+  asMock,
 } from '@atlaskit/media-test-helpers';
+import { Popup } from '@atlaskit/media-picker';
 
-import PickerFacade, {
-  PickerType,
-} from '../../../../plugins/media/picker-facade';
+import PickerFacade from '../../../../plugins/media/picker-facade';
 import { ErrorReportingHandler } from '@atlaskit/editor-common';
 
 describe('Media PickerFacade', () => {
@@ -29,172 +25,98 @@ describe('Media PickerFacade', () => {
     errorReporter,
   };
 
-  // Spies
-  const commonSpies: { [S in keyof MediaPickerComponent]: jest.Mock } = {
-    addListener: jest.fn(),
+  const popupMediaPickerMock: Popup = {
+    on: jest.fn(),
+    removeAllListeners: jest.fn(),
+    teardown: jest.fn(),
+    show: jest.fn(),
     cancel: jest.fn(),
-    emit: jest.fn(),
-    emitUploadEnd: jest.fn(),
-    emitUploadError: jest.fn(),
+    hide: jest.fn(),
+    emitClosed: jest.fn(),
+    setUploadParams: jest.fn(),
+    emitUploadsStart: jest.fn(),
+    emitUploadProgress: jest.fn(),
     emitUploadPreviewUpdate: jest.fn(),
     emitUploadProcessing: jest.fn(),
-    emitUploadProgress: jest.fn(),
-    emitUploadsStart: jest.fn(),
-    off: jest.fn(),
-    on: jest.fn(),
-    onAny: jest.fn(),
+    emitUploadEnd: jest.fn(),
+    emitUploadError: jest.fn(),
     once: jest.fn(),
-    removeAllListeners: jest.fn(),
+    onAny: jest.fn(),
+    addListener: jest.fn(),
+    off: jest.fn(),
     removeListener: jest.fn(),
-    setUploadParams: jest.fn(),
-  };
-  const specificSpies: {
-    [K in keyof MediaPickerComponents]: {
-      [S in Partial<keyof MediaPickerComponents[K]>]: jest.Mock
-    }
-  } = {
-    dropzone: {
-      ...commonSpies,
-      activate: jest.fn(),
-      deactivate: jest.fn(),
-      addFiles: jest.fn(),
-    },
-    popup: {
-      ...commonSpies,
-      show: jest.fn(),
-      teardown: jest.fn(),
-      hide: jest.fn(),
-      emitClosed: jest.fn(),
-    },
+    emit: jest.fn(),
   };
 
-  const pickerTypes: Array<PickerType> = ['popup', 'dropzone'];
+  describe('Picker: Popup', () => {
+    let facade: PickerFacade;
 
-  pickerTypes.forEach(pickerType => {
-    describe(`Picker: ${pickerType}`, () => {
-      let facade: PickerFacade;
-      let spies = (specificSpies as Record<PickerType, any>)[pickerType];
+    beforeEach(async () => {
+      const MediaPickerMockConstructor = () =>
+        Promise.resolve(popupMediaPickerMock);
 
-      beforeEach(async () => {
-        Object.keys(spies).forEach(k => spies[k].mockClear());
+      facade = new PickerFacade(
+        'popup',
+        pickerFacadeConfig,
+        {
+          uploadParams: { collection: '' },
+        },
+        asMock(MediaPickerMockConstructor),
+      );
+      await facade.init();
+    });
 
-        class MockPopup {
-          constructor() {
-            (Object.keys(spies) as Array<keyof typeof spies>).forEach(
-              k => ((this as any)[k] = spies[k]),
-            );
-          }
-        }
+    afterEach(() => {
+      facade.destroy();
+      jest.clearAllMocks();
+    });
 
-        const MediaPickerMock = jest
-          .fn()
-          .mockReturnValue(Promise.resolve(new MockPopup()));
+    it('listens to picker events', () => {
+      expect(true).toBeTruthy();
+      expect(popupMediaPickerMock.on).toHaveBeenCalledTimes(4);
+      expect(popupMediaPickerMock.on).toHaveBeenCalledWith(
+        'upload-preview-update',
+        expect.any(Function),
+      );
+      expect(popupMediaPickerMock.on).toHaveBeenCalledWith(
+        'upload-processing',
+        expect.any(Function),
+      );
+    });
 
-        facade = new PickerFacade(
-          pickerType,
-          pickerFacadeConfig,
-          {
-            uploadParams: { collection: '' },
-          },
-          MediaPickerMock,
-        );
-        await facade.init();
-      });
+    it('removes listeners on destruction', () => {
+      facade.destroy();
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledTimes(3);
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledWith(
+        'upload-preview-update',
+      );
+      expect(popupMediaPickerMock.removeAllListeners).toHaveBeenCalledWith(
+        'upload-processing',
+      );
+    });
 
-      afterEach(() => {
-        facade.destroy();
-      });
+    it(`should call picker's teardown() on destruction`, () => {
+      facade.destroy();
+      expect(popupMediaPickerMock.teardown).toHaveBeenCalledTimes(1);
+    });
 
-      it(`listens to picker events`, () => {
-        const fn = jasmine.any(Function);
-        expect(spies.on).toHaveBeenCalledTimes(
-          pickerType === 'dropzone' ? 6 : 4,
-        );
-        expect(spies.on).toHaveBeenCalledWith('upload-preview-update', fn);
-        expect(spies.on).toHaveBeenCalledWith('upload-processing', fn);
+    it(`should call picker's show() on destruction`, () => {
+      facade.show();
+      expect(popupMediaPickerMock.show).toHaveBeenCalledTimes(1);
+    });
 
-        if (pickerType === 'dropzone') {
-          expect(spies.on).toHaveBeenCalledWith('drag-enter', fn);
-          expect(spies.on).toHaveBeenCalledWith('drag-leave', fn);
-        }
-      });
+    it(`should call picker's hide() on destruction`, () => {
+      facade.hide();
+      expect(popupMediaPickerMock.hide).toHaveBeenCalledTimes(1);
+    });
 
-      it('removes listeners on destruction', () => {
-        facade.destroy();
-        expect(spies.removeAllListeners).toHaveBeenCalledTimes(
-          pickerType === 'dropzone' ? 5 : 3,
-        );
-        expect(spies.removeAllListeners).toHaveBeenCalledWith(
-          'upload-preview-update',
-        );
-        expect(spies.removeAllListeners).toHaveBeenCalledWith(
-          'upload-processing',
-        );
-        if (pickerType === 'dropzone') {
-          expect(spies.removeAllListeners).toHaveBeenCalledWith('drag-enter');
-          expect(spies.removeAllListeners).toHaveBeenCalledWith('drag-leave');
-        }
-      });
+    it('should call picker on close when onClose is called', () => {
+      const closeCb = jest.fn();
+      asMock(popupMediaPickerMock.on).mockClear();
+      facade.onClose(closeCb);
 
-      // Picker Specific Tests
-      if (pickerType === 'dropzone') {
-        it(`should call picker's activate() during initialization`, () => {
-          expect(spies.activate).toHaveBeenCalledTimes(1);
-        });
-      }
-
-      if (pickerType === 'popup') {
-        it(`should call picker's teardown() on destruction`, () => {
-          facade.destroy();
-          expect(spies.teardown).toHaveBeenCalledTimes(1);
-        });
-      } else if (pickerType === 'dropzone') {
-        it(`should call picker's deactivate() on destruction`, () => {
-          facade.destroy();
-          expect(spies.deactivate).toHaveBeenCalledTimes(1);
-        });
-      }
-
-      if (pickerType === 'popup') {
-        it(`should call picker's show() on destruction`, () => {
-          facade.show();
-          expect(spies.show).toHaveBeenCalledTimes(1);
-        });
-      }
-
-      if (pickerType === 'popup') {
-        it(`should call picker's hide() on destruction`, () => {
-          facade.hide();
-          expect(spies.hide).toHaveBeenCalledTimes(1);
-        });
-      }
-
-      if (pickerType === 'popup') {
-        it(`should call picker on close when onClose is called`, () => {
-          spies.on.mockClear();
-          const closeCb = jest.fn();
-          facade.onClose(closeCb);
-
-          expect(spies.on).toHaveBeenCalledTimes(1);
-          expect(spies.on).toHaveBeenCalledWith('closed', closeCb);
-        });
-      }
-
-      if (pickerType === 'dropzone') {
-        it(`should call picker.activate when activate is called`, () => {
-          spies.activate.mockClear();
-          facade.activate();
-          expect(spies.activate).toHaveBeenCalledTimes(1);
-        });
-      }
-
-      if (pickerType === 'dropzone') {
-        it(`should call picker.deactivate when deactivate is called`, () => {
-          spies.deactivate.mockClear();
-          facade.deactivate();
-          expect(spies.deactivate).toHaveBeenCalledTimes(1);
-        });
-      }
+      expect(popupMediaPickerMock.on).toHaveBeenCalledTimes(1);
+      expect(popupMediaPickerMock.on).toHaveBeenCalledWith('closed', closeCb);
     });
   });
 });

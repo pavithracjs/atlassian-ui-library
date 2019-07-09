@@ -6,6 +6,7 @@
  */
 // Chinese
 export default {
+  'fabric.mention.unknow.user.error': '未知用户 {id}',
   'fabric.mention.noAccess.warning': '将不会通知{name}因为他们无法访问',
   'fabric.mention.noAccess.label': '无法访问',
   'fabric.mention.error.defaultHeadline': '出错了',

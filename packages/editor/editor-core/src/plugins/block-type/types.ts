@@ -23,7 +23,7 @@ export const messages = defineMessages({
   },
   heading1Description: {
     id: 'fabric.editor.heading1Description',
-    defaultMessage: 'Use this for top level heading',
+    defaultMessage: 'Use this for a top level heading',
     description: 'Description of the main heading, heading 1',
   },
   heading2: {
@@ -78,7 +78,7 @@ export const messages = defineMessages({
   },
   heading6Description: {
     id: 'fabric.editor.heading6Description',
-    defaultMessage: 'Use this as low level heading',
+    defaultMessage: 'Use this for low level headings',
     description: '',
   },
   blockquote: {
@@ -88,7 +88,7 @@ export const messages = defineMessages({
   },
   blockquoteDescription: {
     id: 'fabric.editor.blockquote.description',
-    defaultMessage: 'Insert quote or citation',
+    defaultMessage: 'Insert a quote or citation',
     description: 'Quote some text',
   },
   codeblock: {
@@ -103,7 +103,7 @@ export const messages = defineMessages({
   },
   infoPanel: {
     id: 'fabric.editor.infoPanel',
-    defaultMessage: 'Info Panel',
+    defaultMessage: 'Info panel',
     description:
       'Visually distinguishes your text by adding a background colour (blue, purple, yellow, green, red)',
   },
