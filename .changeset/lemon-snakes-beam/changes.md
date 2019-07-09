@@ -1,0 +1,1 @@
+[ED-7167] Improve table performance, extracting the InsertButton position logic from row & column controls to prosemirror event handles

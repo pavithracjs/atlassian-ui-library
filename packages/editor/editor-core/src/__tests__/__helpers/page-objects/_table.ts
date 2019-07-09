@@ -220,7 +220,7 @@ export const insertColumn = async (page: any, atIndex: number) => {
     coords = { x, y };
     await page.mouse.move(x, y);
   } else {
-    const x = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.width * 0.51);
+    const x = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.width * 0.55);
     await page.moveTo(tableSelectors.nthColumnControl(atIndex), x, 1);
   }
 
