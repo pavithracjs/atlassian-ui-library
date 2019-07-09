@@ -1,4 +1,6 @@
-import React, { Node } from 'react';
+/** @jsx jsx */
+
+import { jsx } from '@emotion/core';
 import { ItemGroup } from '@atlaskit/item';
 import { fontSizeSmall, gridSize as gridSizeFn } from '@atlaskit/theme';
 

@@ -1,6 +1,9 @@
-import React, { Component, FC, ReactChildren, MouseEvent } from 'react';
+/** @jsx jsx */
+
+import { Component, FC, ReactChildren, MouseEvent } from 'react';
 import { colors, layers, gridSize } from '@atlaskit/theme';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
+import { jsx } from '@emotion/core';
 
 import { Slide } from './transitions';
 import { DrawerPrimitiveProps, DrawerWidth, Widths } from './types';
