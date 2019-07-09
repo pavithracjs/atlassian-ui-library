@@ -1,5 +1,14 @@
 # @atlaskit/global-search
 
+## 10.1.1
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/feedback-collector@4.0.8
+  - @atlaskit/modal-dialog@10.0.8
+  - @atlaskit/navigation@35.1.9
+  - @atlaskit/checkbox@9.0.0
+
 ## 10.1.0
 
 ### Minor Changes

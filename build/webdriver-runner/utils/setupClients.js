@@ -25,7 +25,7 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
       os: 'Windows',
       os_version: '10',
       browserName: 'firefox',
-      browser_version: '66.0',
+      browser_version: '67.0',
       resolution: RESOLUTION,
     },
     ie: {
@@ -39,7 +39,7 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
       os: 'OS X',
       os_version: 'Mojave',
       browserName: 'Safari',
-      browser_version: '12.0',
+      browser_version: '12.1',
       resolution: RESOLUTION,
     },
     // https://github.com/webdriverio/webdriverio/issues/3196

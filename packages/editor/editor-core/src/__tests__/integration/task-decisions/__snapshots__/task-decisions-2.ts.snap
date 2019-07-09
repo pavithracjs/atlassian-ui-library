@@ -38,6 +38,52 @@ Object {
 }
 `;
 
+exports[`task-decision-2.ts: can paste plain text into an action 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "localId": "abc-123",
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "localId": "abc-123",
+            "state": "TODO",
+          },
+          "content": Array [
+            Object {
+              "text": "this is a link ",
+              "type": "text",
+            },
+            Object {
+              "marks": Array [
+                Object {
+                  "attrs": Object {
+                    "__confluenceMetadata": null,
+                    "href": "http://www.google.com",
+                  },
+                  "type": "link",
+                },
+              ],
+              "text": "http://www.google.com",
+              "type": "text",
+            },
+            Object {
+              "text": " more elements with some **format** some addition *formatting*",
+              "type": "text",
+            },
+          ],
+          "type": "taskItem",
+        },
+      ],
+      "type": "taskList",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
 exports[`task-decision-2.ts: can paste rich text into an action 1`] = `
 Object {
   "content": Array [
@@ -99,6 +145,35 @@ Object {
                 },
               ],
               "text": " formatting",
+              "type": "text",
+            },
+          ],
+          "type": "taskItem",
+        },
+      ],
+      "type": "taskList",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`task-decision-2.ts: can type into decision 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "localId": "abc-123",
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "localId": "abc-123",
+            "state": "TODO",
+          },
+          "content": Array [
+            Object {
+              "text": "adding action",
               "type": "text",
             },
           ],

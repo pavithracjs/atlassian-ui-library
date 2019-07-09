@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.5.5
+
+### Patch Changes
+
+- [patch][d6d7086f3f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6d7086f3f):
+
+  feat: intelligently default to current page URL, even if there is a PWA navigation
+
 ## 0.5.4
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

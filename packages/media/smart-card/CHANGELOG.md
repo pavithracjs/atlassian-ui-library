@@ -1,5 +1,30 @@
 # @atlaskit/smart-card
 
+## 12.2.7
+
+### Patch Changes
+
+- [patch][b346bb2963](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b346bb2963):
+
+  added support for batching of link resolve requests in Smart Card client.
+
+## 12.2.6
+
+### Patch Changes
+
+- [patch][c95713b660](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95713b660):
+
+  fix lazy rendering offset to be more portable between devices
+
+## 12.2.5
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/form@6.1.2
+  - @atlaskit/radio@3.0.7
+  - @atlaskit/media-ui@11.4.2
+  - @atlaskit/checkbox@9.0.0
+
 ## 12.2.4
 
 ### Patch Changes

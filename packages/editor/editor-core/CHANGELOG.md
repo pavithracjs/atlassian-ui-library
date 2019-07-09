@@ -1,5 +1,21 @@
 # @atlaskit/editor-core
 
+## 112.28.0
+
+### Minor Changes
+
+- [minor][efb8f04952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/efb8f04952):
+
+  ED-5657 Add keyboard shortcuts for lists on Windows (number & bullet)
+
+## 112.27.1
+
+### Patch Changes
+
+- [patch][e80e60b358](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80e60b358):
+
+  FM-2123: fixed double @ insertion on mention composition (Android)
+
 ## 112.27.0
 
 ### Minor Changes
