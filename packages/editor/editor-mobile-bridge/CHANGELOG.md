@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.4
+
+### Patch Changes
+
+- [patch][f7d5a189ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f7d5a189ab):
+
+  Release non-empty dist package 🤞
+
 ## 8.8.3
 
 ### Patch Changes
