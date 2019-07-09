@@ -10,6 +10,7 @@ import {
   ConfigResponse,
   DialogContentState,
   OriginTracing,
+  Reason,
 } from '../types/index.js';
 import {
   name as packageName,
@@ -120,6 +121,11 @@ export const formShareSubmitted = (
     isMessageEnabled: config ? config.allowComment : false,
   });
 };
+
+export const genericErrorOccurred = (reason: Reason) =>
+  createEvent('operational', 'error', 'occurred', undefined, {
+    reason: reason,
+  });
 
 const duration = (start: number) => Date.now() - start;
 
