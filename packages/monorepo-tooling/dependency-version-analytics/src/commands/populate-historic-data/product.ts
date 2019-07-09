@@ -200,7 +200,7 @@ const getEventsFromHistory = async (
 
       if (Object.keys(akDeps).length > 0) {
         const packageChange = {
-          date: new Date(item.date).toUTCString(),
+          date: new Date(item.date).toISOString(),
           akDeps,
         };
         const prevAkDeps =

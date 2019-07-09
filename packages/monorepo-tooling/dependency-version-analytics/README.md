@@ -12,7 +12,10 @@ The `@atlassiansox/analytics-node-client` package is a peer dependency as it is 
 
 To develop on this locally, you'll need to first install the peer dependency temporarily by running the following inside the package:
 
-`npm i @atlassiansox/analytics-node-client --no-save`
+```sh
+$ npm i @atlassiansox/analytics-node-client --no-save
+$ yarn build:pkg:new
+```
 
 You then have two options:
 

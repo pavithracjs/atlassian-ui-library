@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/dependency-version-analytics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tool to pull atlaskit version history from a repo",
   "license": "Apache-2.0",
   "sideEffects": false,

@@ -9,6 +9,7 @@ import {
   UpgradeType,
   UpgradeSubType,
 } from 'src/types';
+import { version as packageVersion } from '../../version.json';
 
 function getUpgradeType(
   version: string | undefined,
@@ -72,12 +73,13 @@ export function createUpgradeEvent(
   const parsedVersion = semver.coerce(eventVersion as string);
 
   return {
+    cliVersion: packageVersion,
     dependencyName: name,
     versionString: eventVersion as string,
     major: parsedVersion ? `${parsedVersion.major}` : null,
     minor: parsedVersion ? `${parsedVersion.minor}` : null,
     patch: parsedVersion ? `${parsedVersion.patch}` : null,
-    date: new Date(date).toUTCString(),
+    date: new Date(date).toISOString(),
     upgradeType,
     upgradeSubType,
     ...optionalArgs,
@@ -94,9 +96,8 @@ export async function sendAnalytics(
   }: { dev: boolean; limit?: number; product: string; skipPrompt?: boolean },
 ) {
   const analyticsEnv = dev ? 'dev' : 'prod';
-  const eventsToSend = limit
-    ? analyticsEvents.slice(0, limit)
-    : analyticsEvents;
+  const eventsToSend =
+    limit != null ? analyticsEvents.slice(0, limit) : analyticsEvents;
 
   const client = analyticsClient({
     env: dev ? 'dev' : 'prod',
@@ -126,7 +127,6 @@ export async function sendAnalytics(
       eventsToSend.map(event => {
         return client.sendTrackEvent({
           anonymousId: 'unknown',
-          timestamp: new Date(event.date),
           trackEvent: {
             tags: ['atlaskit'],
             source: '@atlaskit/dependency-version-analytics',
