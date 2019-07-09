@@ -1,0 +1,1 @@
+use getAuthFromContext from media when a file if pasted from a different collection
