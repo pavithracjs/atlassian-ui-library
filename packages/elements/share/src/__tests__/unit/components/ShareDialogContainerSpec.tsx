@@ -8,13 +8,14 @@ import {
   UrlShortenerClient,
 } from '../../../clients/AtlassianUrlShortenerClient';
 import {
-  Props,
-  ShareDialogContainer,
+  ShareDialogContainerInternal,
   State,
   defaultConfig,
 } from '../../../components/ShareDialogContainer';
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
 import { OriginTracing } from '../../../types';
+import { PropsOf } from '../_testUtils';
+import { copyLinkButtonClicked } from '../../../components/analytics';
 
 function currentEventLoopEnd() {
   return new Promise(resolve => setImmediate(resolve));
@@ -28,8 +29,16 @@ function networkResolution() {
 describe('ShareDialogContainer', () => {
   let mockOriginTracing: OriginTracing;
   let mockOriginTracingFactory: jest.Mock;
+  const mockConfig: ShareServiceExports.ConfigResponse = {
+    mode: 'EXISTING_USERS_ONLY',
+    allowComment: true,
+  };
   let mockRequestService: jest.Mock;
+  let mockGetConfig: jest.Mock;
+  let mockShare: jest.Mock;
   let mockShareServiceClient: jest.Mock;
+  let mockCreateAnalyticsEvent: jest.Mock;
+  let mockFormatCopyLink: jest.Mock;
   const mockCloudId = 'cloudId';
   const mockDialogPlacement = 'bottom-start';
   const mockProductId = 'confluence';
@@ -39,7 +48,6 @@ describe('ShareDialogContainer', () => {
   const mockShareTitle = 'Share Title';
   const mockTriggerButtonStyle = 'icon-with-text' as 'icon-with-text';
   const mockTriggerButtonAppearance = 'subtle';
-  const mockFormatCopyLink = jest.fn((origin, link) => link + '&someOrigin');
   const mockShouldCloseOnEscapePress = true;
   const mockUsers: OptionData[] = [
     { type: 'user', id: 'id', name: 'User 1' },
@@ -50,25 +58,12 @@ describe('ShareDialogContainer', () => {
     value: 'comment',
   };
   const mockLoadUserOptions = () => [];
-  const mockConfig: ShareServiceExports.ConfigResponse = {
-    mode: 'EXISTING_USERS_ONLY',
-    allowComment: true,
-  };
-  const mockGetConfig = jest.fn().mockResolvedValue(mockConfig);
-  const mockShare = jest.fn().mockResolvedValue({});
-  const mockShareClient: ShareServiceExports.ShareClient = {
-    getConfig: mockGetConfig,
-    share: mockShare,
-  };
+
+  let mockShareClient: ShareServiceExports.ShareClient;
   const SHORTENED_URL = 'https://short';
-  const mockShortenerClient: UrlShortenerClient = {
-    isSupportedProduct: jest.fn().mockReturnValue(true),
-    shorten: jest
-      .fn()
-      .mockResolvedValue({ shortUrl: SHORTENED_URL } as ShortenResponse),
-  };
-  const mockShowFlags = jest.fn();
-  const mockRenderCustomTriggerButton = jest.fn();
+  let mockShortenerClient: UrlShortenerClient;
+  let mockShowFlags: jest.Mock;
+  let mockRenderCustomTriggerButton: jest.Mock;
 
   beforeEach(() => {
     mockOriginTracing = {
@@ -77,6 +72,8 @@ describe('ShareDialogContainer', () => {
       toAnalyticsAttributes: jest.fn(),
     };
     mockOriginTracingFactory = jest.fn().mockReturnValue(mockOriginTracing);
+    mockGetConfig = jest.fn().mockResolvedValue(mockConfig);
+    mockShare = jest.fn().mockResolvedValue({});
     mockRequestService = jest
       .spyOn(utils, 'requestService')
       .mockResolvedValue(mockConfig);
@@ -86,19 +83,38 @@ describe('ShareDialogContainer', () => {
         share: mockShare,
         getConfig: mockGetConfig,
       }));
-  });
+    mockCreateAnalyticsEvent = jest.fn().mockReturnValue({
+      fire: jest.fn(),
+    });
+    mockFormatCopyLink = jest.fn((origin, link) => link + '&someOrigin');
 
+    mockShareClient = {
+      getConfig: mockGetConfig,
+      share: mockShare,
+    };
+    mockShortenerClient = {
+      isSupportedProduct: jest.fn().mockReturnValue(true),
+      shorten: jest
+        .fn()
+        .mockResolvedValue({ shortUrl: SHORTENED_URL } as ShortenResponse),
+    };
+    mockShowFlags = jest.fn();
+    mockRenderCustomTriggerButton = jest.fn();
+  });
   afterEach(() => {
     mockRequestService.mockRestore();
     mockShareServiceClient.mockRestore();
-    (mockShortenerClient.isSupportedProduct as jest.Mock).mockClear();
-    (mockShortenerClient.shorten as jest.Mock).mockClear();
+    window.history.pushState({}, '', '/');
   });
 
   function getWrapper(
-    overrides: Partial<Props> = {},
-  ): ShallowWrapper<Props, State, ShareDialogContainer> {
-    let props: Props = {
+    overrides: Partial<PropsOf<ShareDialogContainerInternal>> = {},
+  ): ShallowWrapper<
+    PropsOf<ShareDialogContainerInternal>,
+    State,
+    ShareDialogContainerInternal
+  > {
+    let props: PropsOf<ShareDialogContainerInternal> = {
       shareClient: mockShareClient,
       urlShortenerClient: mockShortenerClient,
       cloudId: mockCloudId,
@@ -116,16 +132,15 @@ describe('ShareDialogContainer', () => {
       shouldCloseOnEscapePress: mockShouldCloseOnEscapePress,
       triggerButtonAppearance: mockTriggerButtonAppearance,
       triggerButtonStyle: mockTriggerButtonStyle,
+      createAnalyticsEvent: mockCreateAnalyticsEvent,
 
       ...overrides,
     };
 
-    return shallow(<ShareDialogContainer {...props} />);
+    return shallow(<ShareDialogContainerInternal {...props} />);
   }
 
-  function getShareDialogWithTrigger(
-    wrapper: ShallowWrapper<Props, State, ShareDialogContainer>,
-  ) {
+  function getShareDialogWithTrigger(wrapper: ReturnType<typeof getWrapper>) {
     return wrapper.find(ShareDialogWithTrigger);
   }
 
@@ -164,6 +179,26 @@ describe('ShareDialogContainer', () => {
   });
 
   describe('internal methods', () => {
+    describe('getRawLink()', () => {
+      it('should always give priority to an explicit link', () => {
+        const wrapper = getWrapper();
+        expect(wrapper.instance().getRawLink()).toEqual(mockShareLink);
+
+        wrapper.setState({ currentPageUrl: 'whatever, should be ignored' });
+        expect(wrapper.instance().getRawLink()).toEqual(mockShareLink);
+
+        wrapper.setProps({ shareLink: 'new-share-link' });
+        expect(wrapper.instance().getRawLink()).toEqual('new-share-link');
+      });
+
+      it('should default to the current page url if no explicit link provided', () => {
+        const wrapper = getWrapper({
+          shareLink: undefined,
+        });
+        expect(wrapper.instance().getRawLink()).toEqual(window.location.href);
+      });
+    });
+
     describe('getFullCopyLink()', () => {
       it('should includes origin', () => {
         const wrapper = getWrapper();
@@ -192,6 +227,27 @@ describe('ShareDialogContainer', () => {
 
         expect(wrapper.instance().getCopyLink()).toEqual(SHORTENED_URL);
       });
+    });
+  });
+
+  describe('automatic default to current page URL', () => {
+    it('should be provided as default', () => {
+      const wrapper = getWrapper();
+      expect(wrapper.state().currentPageUrl).toEqual(window.location.href);
+    });
+
+    it('should refresh the current url only on popup reopen', async () => {
+      window.history.pushState({}, '', 'test0');
+      const wrapper = getWrapper();
+      expect(wrapper.state().currentPageUrl).toEqual('http://localhost/test0');
+
+      window.history.pushState({}, '', 'test1');
+      wrapper.update();
+      expect(wrapper.state().currentPageUrl).toEqual('http://localhost/test0');
+
+      wrapper.instance().handleDialogOpen();
+      await currentEventLoopEnd();
+      expect(wrapper.state().currentPageUrl).toEqual('http://localhost/test1');
     });
   });
 
@@ -236,7 +292,7 @@ describe('ShareDialogContainer', () => {
     );
   });
 
-  it('should have default this.client if props.client is not given', () => {
+  it('should have default this.shareClient if props.shareClient is not given', () => {
     const wrapper = getWrapper({
       shareClient: undefined,
     });
@@ -248,8 +304,8 @@ describe('ShareDialogContainer', () => {
     expect(shareClient.share).toEqual(mockShare);
   });
 
-  describe('config fetch', () => {
-    it('should call fetchConfig everytime the dialog open', () => {
+  describe('config', () => {
+    it('should call fetchConfig every time the dialog open', () => {
       const wrapper = getWrapper();
 
       const fetchConfig = (wrapper.instance().fetchConfig = jest.fn(
@@ -262,47 +318,46 @@ describe('ShareDialogContainer', () => {
 
       expect(fetchConfig).toHaveBeenCalledTimes(1);
     });
-  });
+    describe('isFetchingConfig state', () => {
+      it('should be false by default', () => {
+        const wrapper = getWrapper();
+        expect(wrapper.state().isFetchingConfig).toBe(false);
+      });
 
-  describe('isFetchingConfig state', () => {
-    it('should be false by default', () => {
-      const wrapper = getWrapper();
-      expect((wrapper.state() as State).isFetchingConfig).toBe(false);
+      it('should be passed into isFetchingConfig prop in ShareDialogWithTrigger', () => {
+        const wrapper = getWrapper();
+        let { isFetchingConfig } = wrapper.state();
+        expect(isFetchingConfig).toEqual(false);
+        expect(
+          getShareDialogWithTrigger(wrapper).prop('isFetchingConfig'),
+        ).toEqual(isFetchingConfig);
+
+        wrapper.setState({ isFetchingConfig: !isFetchingConfig });
+
+        expect(
+          getShareDialogWithTrigger(wrapper).prop('isFetchingConfig'),
+        ).toEqual(!isFetchingConfig);
+      });
+
+      it('should be set to true when fetchConfig is called, and set back to false when the network request is finished', async () => {
+        const wrapper = getWrapper();
+        wrapper.instance().fetchConfig();
+        expect(wrapper.state().isFetchingConfig).toBe(true);
+        await networkResolution();
+        expect(wrapper.state().isFetchingConfig).toBe(false);
+      });
     });
 
-    it('should be passed into isFetchingConfig prop in ShareDialogWithTrigger', () => {
+    it('should reset the state.config to default config if shareClient.getConfig failed', async () => {
       const wrapper = getWrapper();
-      let { isFetchingConfig }: Partial<State> = wrapper.state();
-      expect(isFetchingConfig).toEqual(false);
-      expect(
-        getShareDialogWithTrigger(wrapper).prop('isFetchingConfig'),
-      ).toEqual(isFetchingConfig);
-
-      (wrapper as any).setState({ isFetchingConfig: !isFetchingConfig });
-
-      expect(
-        getShareDialogWithTrigger(wrapper).prop('isFetchingConfig'),
-      ).toEqual(!isFetchingConfig);
-    });
-
-    it('should be set to true when fetchConfig is called, and set back to false when the network request is finished', async () => {
-      const wrapper = getWrapper();
+      mockGetConfig.mockRejectedValueOnce(new Error('error'));
+      wrapper.setState({ config: mockConfig });
       wrapper.instance().fetchConfig();
       expect(wrapper.state().isFetchingConfig).toBe(true);
       await networkResolution();
+      expect(wrapper.state().config).toMatchObject(defaultConfig);
       expect(wrapper.state().isFetchingConfig).toBe(false);
     });
-  });
-
-  it('should reset the state.config to default config if shareClient.getConfig failed', async () => {
-    const wrapper = getWrapper();
-    mockGetConfig.mockRejectedValueOnce(new Error('error'));
-    wrapper.setState({ config: mockConfig });
-    wrapper.instance().fetchConfig();
-    expect(wrapper.state().isFetchingConfig).toBe(true);
-    await networkResolution();
-    expect(wrapper.state().config).toMatchObject(defaultConfig);
-    expect(wrapper.state().isFetchingConfig).toBe(false);
   });
 
   describe('handleSubmitShare', () => {
@@ -339,10 +394,12 @@ describe('ShareDialogContainer', () => {
         users: mockUsers,
         comment: mockComment,
       };
-      const result = await wrapper
-        .instance()
-        .handleSubmitShare(mockDialogContentState);
-      expect(result).toEqual(mockShareResponse);
+
+      expect(wrapper.state().shareActionCount).toEqual(0);
+
+      await wrapper.instance().handleSubmitShare(mockDialogContentState);
+
+      expect(wrapper.state().shareActionCount).toEqual(1);
     });
 
     it('should update the mail Origin Ids if share is successful', async () => {
@@ -380,9 +437,7 @@ describe('ShareDialogContainer', () => {
         comment: mockComment,
       };
       try {
-        await wrapper
-          .instance()
-          .handleSubmitShare(mockDialogContentState as any);
+        await wrapper.instance().handleSubmitShare(mockDialogContentState);
       } catch (err) {
         expect(err).toEqual('error');
       }
@@ -465,7 +520,191 @@ describe('ShareDialogContainer', () => {
       });
     });
 
-    it('should shorten the url only once the popup opens', async () => {
+    describe('analytics', () => {
+      it('should send an analytics on short URL request', () => {
+        const wrapper = getWrapper({
+          useUrlShortener: true,
+        });
+
+        expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+        wrapper.instance().handleDialogOpen();
+
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledWith({
+          eventType: 'operational',
+          action: 'requested',
+          actionSubject: 'shortUrl',
+          actionSubjectId: undefined,
+          attributes: {
+            packageName: expect.any(String),
+            packageVersion: expect.any(String),
+            source: 'shareModal',
+          },
+        });
+      });
+
+      it('should decorate the copy link analytics with shortUrl', async () => {
+        const wrapper = getWrapper({
+          useUrlShortener: true,
+        });
+
+        let finalPayload = wrapper
+          .instance()
+          .decorateAnalytics(copyLinkButtonClicked(0));
+
+        expect(finalPayload).toMatchObject({
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'button',
+          actionSubjectId: 'copyShareLink',
+          attributes: {
+            shortUrl: false,
+          },
+        });
+
+        wrapper.instance().handleDialogOpen();
+        await currentEventLoopEnd();
+
+        finalPayload = wrapper
+          .instance()
+          .decorateAnalytics(copyLinkButtonClicked(0));
+        expect(finalPayload).toMatchObject({
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'button',
+          actionSubjectId: 'copyShareLink',
+          attributes: {
+            shortUrl: true,
+          },
+        });
+      });
+
+      describe('on short URL reception', () => {
+        it('should send an analytics', async () => {
+          const wrapper = getWrapper({
+            useUrlShortener: true,
+          });
+          let resolveShortening: any;
+          const shortenResult = new Promise(resolve => {
+            resolveShortening = resolve;
+          });
+          (mockShortenerClient.shorten as jest.Mock).mockReturnValue(
+            shortenResult,
+          );
+          expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+          wrapper.instance().handleDialogOpen();
+          mockCreateAnalyticsEvent.mockClear();
+
+          resolveShortening({
+            shortUrl: 'whatever',
+          });
+          await currentEventLoopEnd();
+
+          expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+          expect(mockCreateAnalyticsEvent.mock.calls[0][0]).toMatchObject({
+            eventType: 'operational',
+            action: 'generated',
+            actionSubject: 'shortUrl',
+            actionSubjectId: undefined,
+            attributes: {
+              duration: expect.any(Number),
+              packageName: '@atlaskit/share',
+              packageVersion: '999.9.9',
+              source: 'shareModal',
+              tooSlow: false,
+            },
+          });
+        });
+
+        it('should includes perf info - too slow', async () => {
+          const wrapper = getWrapper({
+            useUrlShortener: true,
+          });
+          let resolveShortening: any;
+          const shortenResult = new Promise(resolve => {
+            resolveShortening = resolve;
+          });
+          (mockShortenerClient.shorten as jest.Mock).mockReturnValue(
+            shortenResult,
+          );
+          expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+          wrapper.instance().handleDialogOpen();
+          mockCreateAnalyticsEvent.mockClear();
+
+          // pretend we clicked on the copy link button
+          wrapper.instance().decorateAnalytics(copyLinkButtonClicked(0));
+
+          // then resolve later
+          resolveShortening({
+            shortUrl: 'whatever',
+          });
+          await currentEventLoopEnd();
+
+          expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+          expect(mockCreateAnalyticsEvent.mock.calls[0][0]).toMatchObject({
+            eventType: 'operational',
+            action: 'generated',
+            actionSubject: 'shortUrl',
+            attributes: {
+              duration: expect.any(Number),
+              tooSlow: true,
+            },
+          });
+        });
+      });
+
+      it('should send an analytics on short URL generation error', async () => {
+        const wrapper = getWrapper({
+          useUrlShortener: true,
+        });
+        let rejectShortening: any;
+        const shortenResult = new Promise((resolve, reject) => {
+          rejectShortening = reject;
+        });
+        (mockShortenerClient.shorten as jest.Mock).mockReturnValue(
+          shortenResult,
+        );
+
+        expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+        wrapper.instance().handleDialogOpen();
+
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledWith({
+          eventType: 'operational',
+          action: 'requested',
+          actionSubject: 'shortUrl',
+          actionSubjectId: undefined,
+          attributes: {
+            packageName: '@atlaskit/share',
+            packageVersion: '999.9.9',
+            source: 'shareModal',
+          },
+        });
+        mockCreateAnalyticsEvent.mockClear();
+
+        rejectShortening(new Error('Test!'));
+        await currentEventLoopEnd();
+
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledWith({
+          eventType: 'operational',
+          action: 'encountered',
+          actionSubject: 'error',
+          actionSubjectId: 'urlShortening',
+          attributes: {
+            packageName: '@atlaskit/share',
+            packageVersion: '999.9.9',
+            source: 'shareModal',
+          },
+        });
+      });
+    });
+
+    it('should not attempt to shorten before the popup opens', async () => {
       const wrapper = getWrapper({
         useUrlShortener: true,
       });
@@ -500,7 +739,7 @@ describe('ShareDialogContainer', () => {
       );
     });
 
-    it('should re-shorten the url on change + popup reopen and only then', async () => {
+    it('should re-shorten the url only on link change + popup reopen', async () => {
       const mockShortenerClient: UrlShortenerClient = {
         isSupportedProduct: jest.fn().mockReturnValue(true),
         shorten: jest
@@ -558,6 +797,56 @@ describe('ShareDialogContainer', () => {
       await networkResolution();
       expect(wrapper.state().shortenedCopyLink).toEqual(NEW_SHORTENED_URL);
       expect(wrapper.instance().getCopyLink()).toEqual(NEW_SHORTENED_URL);
+    });
+
+    it('should properly integrate with auto share URL when re-shortening', async () => {
+      window.history.pushState({}, '', 'test0');
+      const mockShortenerClient: UrlShortenerClient = {
+        isSupportedProduct: jest.fn().mockReturnValue(true),
+        shorten: jest
+          .fn()
+          .mockResolvedValue({ shortUrl: SHORTENED_URL } as ShortenResponse),
+      };
+      const wrapper = getWrapper({
+        useUrlShortener: true,
+        urlShortenerClient: mockShortenerClient,
+        shareLink: undefined,
+      });
+      const updateShortCopyLink = (wrapper.instance().updateShortCopyLink = jest.fn(
+        wrapper.instance().updateShortCopyLink,
+      ));
+      const getUpToDateShortenedCopyLink = (wrapper.instance().getUpToDateShortenedCopyLink = jest.fn(
+        wrapper.instance().getUpToDateShortenedCopyLink,
+      ));
+
+      wrapper.instance().handleDialogOpen();
+      expect(updateShortCopyLink).toHaveBeenCalledTimes(1);
+      expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(1);
+      expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(1);
+      expect(mockShortenerClient.shorten).toHaveBeenCalledWith(
+        'http://localhost/test0&someOrigin',
+        mockCloudId,
+        mockProductId,
+      );
+
+      // change page URL
+      window.history.pushState({}, '', 'test1');
+
+      // no re-open yet = no change
+      await currentEventLoopEnd();
+      expect(updateShortCopyLink).toHaveBeenCalledTimes(1);
+      expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(1);
+      expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(1);
+
+      wrapper.instance().handleDialogOpen();
+      expect(updateShortCopyLink).toHaveBeenCalledTimes(2);
+      expect(getUpToDateShortenedCopyLink).toHaveBeenCalledTimes(2);
+      expect(mockShortenerClient.shorten).toHaveBeenCalledTimes(2);
+      expect(mockShortenerClient.shorten).toHaveBeenCalledWith(
+        'http://localhost/test1&someOrigin',
+        mockCloudId,
+        mockProductId,
+      );
     });
 
     it('should properly swap and refresh the passed down "copy link" to the short URL once available', async () => {

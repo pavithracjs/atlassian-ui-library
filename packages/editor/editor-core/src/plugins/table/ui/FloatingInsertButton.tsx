@@ -3,7 +3,7 @@ import { EditorView } from 'prosemirror-view';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { Node as PmNode } from 'prosemirror-model';
 import { findDomRefAtPos, findTable } from 'prosemirror-utils';
-import { TableMap } from 'prosemirror-tables';
+import { TableMap, CellSelection } from 'prosemirror-tables';
 import { Popup, PopupPosition, PopupProps } from '@atlaskit/editor-common';
 import { TableCssClassName as ClassName } from '../types';
 import InsertButton from './TableFloatingControls/InsertButton';
@@ -82,9 +82,25 @@ class FloatingInsertButton extends React.Component<
       return null;
     }
 
+    const {
+      state: { tr },
+    } = editorView;
+    if (tr.selection instanceof CellSelection) {
+      return null;
+    }
+
+    const cellPosition = this.getCellPosition(type);
+    if (!cellPosition) {
+      return null;
+    }
+
     const tablePos = findTable(editorView.state.selection);
+    if (!tablePos) {
+      return null;
+    }
+
     const domAtPos = editorView.domAtPos.bind(editorView);
-    const pos = this.getCellPosition(type) + tablePos!.start + 1;
+    const pos = cellPosition + tablePos.start + 1;
     const target = findDomRefAtPos(pos, domAtPos);
     if (!target || !(target instanceof HTMLElement)) {
       return null;
@@ -125,7 +141,7 @@ class FloatingInsertButton extends React.Component<
     );
   }
 
-  private getCellPosition(type: 'column' | 'row'): number {
+  private getCellPosition(type: 'column' | 'row'): number | null {
     const {
       tableNode,
       insertColumnButtonIndex,
@@ -137,10 +153,18 @@ class FloatingInsertButton extends React.Component<
       const columnIndex =
         insertColumnButtonIndex === 0 ? 0 : insertColumnButtonIndex! - 1;
 
+      if (columnIndex > tableMap.width - 1) {
+        return null;
+      }
+
       return tableMap.positionAt(0, columnIndex!, tableNode!);
     } else {
       const rowIndex =
         insertRowButtonIndex === 0 ? 0 : insertRowButtonIndex! - 1;
+
+      if (rowIndex > tableMap.height - 1) {
+        return null;
+      }
 
       return tableMap.positionAt(rowIndex!, 0, tableNode!);
     }

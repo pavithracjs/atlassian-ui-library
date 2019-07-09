@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component, SyntheticEvent } from 'react';
 import { EditorView } from 'prosemirror-view';
 import { Selection } from 'prosemirror-state';
-import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
+import { getSelectionRect } from 'prosemirror-utils';
 import { browser } from '@atlaskit/editor-common';
 
 import { INPUT_METHOD } from '../../../../analytics';
@@ -91,48 +91,36 @@ export default class ColumnControls extends Component<Props, any> {
       <div className={ClassName.COLUMN_CONTROLS}>
         <div className={ClassName.COLUMN_CONTROLS_INNER}>
           <>
-            {columnsParams.map(
-              ({ startIndex, endIndex, width }: ColumnParams) => (
-                <div
-                  className={`${
-                    ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-                  } ${getColumnClassNames(
-                    startIndex,
-                    selection,
-                    hoveredColumns,
-                    isInDanger,
-                    isResizing,
-                  )}`}
-                  key={startIndex}
-                  style={{ width }}
-                  onMouseDown={e => e.preventDefault()}
-                >
-                  <button
-                    type="button"
-                    className={ClassName.CONTROLS_BUTTON}
-                    onClick={event =>
-                      this.selectColumn(startIndex, event.shiftKey)
-                    }
-                    onMouseOver={() => this.hoverColumns([startIndex])}
-                    onMouseOut={this.clearHoverSelection}
-                  >
-                    {!isCellSelection(selection) && (
-                      <>
-                        <div
-                          className={ClassName.CONTROLS_BUTTON_OVERLAY}
-                          data-index={startIndex}
-                        />
-                        <div
-                          className={ClassName.CONTROLS_BUTTON_OVERLAY}
-                          data-index={endIndex}
-                        />
-                      </>
-                    )}
-                  </button>
-                  <div className={ClassName.CONTROLS_INSERT_MARKER} />
-                </div>
-              ),
-            )}
+            {columnsParams.map(({ startIndex, width }: ColumnParams) => (
+              <div
+                className={`${
+                  ClassName.COLUMN_CONTROLS_BUTTON_WRAP
+                } ${getColumnClassNames(
+                  startIndex,
+                  selection,
+                  hoveredColumns,
+                  isInDanger,
+                  isResizing,
+                )}`}
+                key={startIndex}
+                style={{ width }}
+                onMouseDown={e => e.preventDefault()}
+              >
+                <button
+                  type="button"
+                  className={`${ClassName.COLUMN_CONTROLS_BUTTON} ${
+                    ClassName.CONTROLS_BUTTON
+                  }`}
+                  onClick={event =>
+                    this.selectColumn(startIndex, event.shiftKey)
+                  }
+                  onMouseOver={() => this.hoverColumns([startIndex])}
+                  onMouseOut={this.clearHoverSelection}
+                  data-index={startIndex}
+                />
+                <div className={ClassName.CONTROLS_INSERT_MARKER} />
+              </div>
+            ))}
             {isColumnDeleteButtonVisible(selection) && deleteBtnParams && (
               <DeleteButton
                 key="delete"

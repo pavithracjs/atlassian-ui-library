@@ -1,5 +1,7 @@
+import { isPerformanceAPIAvailable } from './is-performance-api-available';
+
 export function getResponseEndTime(): number | undefined {
-  if (!('performance' in window)) {
+  if (!isPerformanceAPIAvailable()) {
     return;
   }
 

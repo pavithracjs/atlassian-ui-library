@@ -18,7 +18,9 @@ export const Card = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${colors.P50};
-  padding: ${gridSize() * 1.75}px;
+  padding: ${gridSize() * 1.75}px ${gridSize() * 1}px;
+  overflow: hidden;
+  line-height: 21px;
 `;
 
 export const Section = styled.div`

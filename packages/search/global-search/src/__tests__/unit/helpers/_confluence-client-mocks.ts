@@ -1,8 +1,6 @@
 import fetchMock from 'fetch-mock';
 import {
   ConfluenceContentType,
-  QuickNavResponse,
-  QuickNavResult,
   RecentPage,
   RecentSpace,
 } from '../../../api/ConfluenceClient';
@@ -43,11 +41,6 @@ export const MOCK_QUICKNAV_RESULT_BASE = {
   icon: 'icon',
 };
 
-export const mockQuickNavResult = (className: string) => ({
-  className: className,
-  ...MOCK_QUICKNAV_RESULT_BASE,
-});
-
 export function mockRecentlyViewedPages(pages: RecentPage[]) {
   fetchMock.get('begin:http://localhost/rest/recentlyviewed/1.0/recent', pages);
 }
@@ -57,10 +50,4 @@ export function mockRecentlyViewedSpaces(spaces: RecentSpace[]) {
     'begin:http://localhost/rest/recentlyviewed/1.0/recent/spaces',
     spaces,
   );
-}
-
-export function mockQuickNavSearch(results: QuickNavResult[][]) {
-  fetchMock.get('begin:http://localhost/rest/quicknav/1', {
-    contentNameMatches: results,
-  } as QuickNavResponse);
 }

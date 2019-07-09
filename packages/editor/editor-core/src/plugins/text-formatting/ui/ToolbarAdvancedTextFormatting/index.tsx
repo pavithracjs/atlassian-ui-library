@@ -283,7 +283,7 @@ class ToolbarAdvancedTextFormatting extends PureComponent<
     items.push({
       key: value,
       content,
-      elemAfter: <Shortcut>{tooltip}</Shortcut>,
+      elemAfter: tooltip && <Shortcut>{tooltip}</Shortcut>,
       value,
       isActive: active,
       isDisabled: disabled,

@@ -9,7 +9,9 @@ export interface MediaProps extends MediaCardProps {
 }
 
 export default class Media extends PureComponent<MediaProps, {}> {
-  private renderCard = (providers: { mediaProvider?: MediaProvider } = {}) => {
+  private renderCard = (
+    providers: { mediaProvider?: Promise<MediaProvider> } = {},
+  ) => {
     const { mediaProvider } = providers;
 
     return <MediaCard mediaProvider={mediaProvider} {...this.props} />;

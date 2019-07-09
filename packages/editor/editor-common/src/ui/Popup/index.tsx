@@ -29,6 +29,7 @@ export interface Props {
   stick?: boolean;
   ariaLabel?: string;
   forcePlacement?: boolean;
+  allowOutOfBounds?: boolean; // Allow to correct position elements inside table: https://product-fabric.atlassian.net/browse/ED-7191
 }
 
 export interface State {
@@ -45,6 +46,7 @@ export default class Popup extends React.Component<Props, State> {
   scrollElement: undefined | false | HTMLElement;
   static defaultProps = {
     offset: [0, 0],
+    allowOutOfBound: false,
   };
 
   state: State = {
@@ -70,6 +72,7 @@ export default class Popup extends React.Component<Props, State> {
       alignY,
       stick,
       forcePlacement,
+      allowOutOfBounds,
     } = props;
     const { popup } = state;
 
@@ -97,6 +100,7 @@ export default class Popup extends React.Component<Props, State> {
       target,
       stick,
       offset: offset!,
+      allowOutOfBounds,
     });
     position = onPositionCalculated ? onPositionCalculated(position) : position;
 

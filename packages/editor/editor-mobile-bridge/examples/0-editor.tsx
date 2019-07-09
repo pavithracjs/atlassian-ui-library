@@ -73,6 +73,7 @@ export default class Example extends React.Component {
             collectionName: 'InitialCollectionForTesting',
             includeUserAuthProvider: true,
           })}
+          placeholder="Type something here"
         />
       </Wrapper>
     );

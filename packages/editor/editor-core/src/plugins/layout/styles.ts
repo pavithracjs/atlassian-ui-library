@@ -7,7 +7,7 @@ import {
   gridMediumMaxWidth,
   akEditorDeleteBackground,
   akEditorDeleteBorder,
-  akEditorDeleteBorderSize,
+  akEditorSelectedBorderSize,
 } from '@atlaskit/editor-common';
 import { TableCssClassName } from '../table/types';
 import { tableMarginFullWidthMode } from '../table/ui/styles';
@@ -58,7 +58,7 @@ export const layoutStyles = css`
 
       &.selected.danger > [data-layout-column] {
         background-color: ${akEditorDeleteBackground};
-        border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
+        border: ${akEditorSelectedBorderSize}px solid ${akEditorDeleteBorder};
       }
     }
   }

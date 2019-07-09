@@ -25,11 +25,12 @@ import {
   ShareError,
 } from '../types';
 import {
-  buttonClicked,
+  shareTriggerButtonClicked,
   cancelShare,
-  copyShareLink,
+  copyLinkButtonClicked,
   screenEvent,
-  submitShare,
+  formShareSubmitted,
+  CHANNEL_ID,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -49,6 +50,9 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderCustomTriggerButton;
   copyLink: string;
+  analyticsDecorator?: (
+    payload: AnalyticsEventPayload,
+  ) => AnalyticsEventPayload;
   dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
@@ -58,8 +62,8 @@ export type Props = {
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
-  copyLinkOrigin?: OriginTracing | null;
-  formShareOrigin?: OriginTracing | null;
+  copyLinkOrigin?: OriginTracing;
+  formShareOrigin?: OriginTracing;
   shouldCloseOnEscapePress?: boolean;
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
@@ -84,7 +88,7 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-class ShareDialogWithTriggerInternal extends React.Component<
+export class ShareDialogWithTriggerInternal extends React.Component<
   Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
@@ -115,10 +119,9 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private createAndFireEvent = (payload: AnalyticsEventPayload) => {
-    const { createAnalyticsEvent } = this.props;
-    if (createAnalyticsEvent) {
-      createAnalyticsEvent(payload).fire('fabric-elements');
-    }
+    const { createAnalyticsEvent, analyticsDecorator } = this.props;
+    if (analyticsDecorator) payload = analyticsDecorator(payload);
+    if (createAnalyticsEvent) createAnalyticsEvent(payload).fire(CHANNEL_ID);
   };
 
   private getFlags = (
@@ -190,7 +193,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private onTriggerClick = () => {
-    this.createAndFireEvent(buttonClicked());
+    this.createAndFireEvent(shareTriggerButtonClicked());
 
     this.setState(
       state => ({
@@ -232,7 +235,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
     this.setState({ isSharing: true });
 
     this.createAndFireEvent(
-      submitShare(this.start, data, shareContentType, formShareOrigin, config),
+      formShareSubmitted(
+        this.start,
+        data,
+        shareContentType,
+        formShareOrigin,
+        config,
+      ),
     );
 
     onShareSubmit(data)
@@ -259,7 +268,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
 
   handleCopyLink = () => {
     const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(copyShareLink(this.start, copyLinkOrigin));
+    this.createAndFireEvent(copyLinkButtonClicked(this.start, copyLinkOrigin));
   };
 
   render() {
@@ -295,7 +304,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
                     copyLink={copyLink}
                     loadOptions={loadUserOptions}
                     isSharing={isSharing}
-                    onShareClick={this.handleShareSubmit}
+                    onSubmit={this.handleShareSubmit}
                     title={shareFormTitle}
                     shareError={shareError}
                     onDismiss={this.handleFormDismiss}

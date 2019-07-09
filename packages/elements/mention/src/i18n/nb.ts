@@ -6,6 +6,7 @@
  */
 // Norwegian Bokmål
 export default {
+  'fabric.mention.unknow.user.error': 'Ukjent bruker {id}',
   'fabric.mention.noAccess.warning':
     '{name} blir ikke varslet, da de ikke har tilgang',
   'fabric.mention.noAccess.label': 'Ingen tilgang',

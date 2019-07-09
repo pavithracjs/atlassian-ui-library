@@ -11,7 +11,6 @@ export interface IndentationMarkAttributes {
 
 /**
  * @name indentation_mark
- * @stage 0
  */
 export interface IndentationMarkDefinition {
   type: 'indentation';
