@@ -1,0 +1,1 @@
+Fix the issue with aria-label not set for profile menu
