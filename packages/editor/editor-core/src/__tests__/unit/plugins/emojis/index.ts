@@ -20,9 +20,6 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { emojiPluginKey } from '../../../../plugins/emoji/pm-plugins/main';
-import emojiPlugin from '../../../../plugins/emoji';
-import listPlugin from '../../../../plugins/lists';
-import quickInsertPlugin from '../../../../plugins/quick-insert';
 
 const { testData } = emojiData;
 
@@ -49,12 +46,15 @@ describe('emojis', () => {
   const providerFactory = ProviderFactory.create({ emojiProvider });
   let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
 
-  const editor = (doc: any, extraPlugins: any[] = []) => {
+  const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({
       doc,
-      editorProps: { allowAnalyticsGASV3: true },
-      editorPlugins: [emojiPlugin(), listPlugin, ...extraPlugins],
+      editorProps: {
+        allowAnalyticsGASV3: true,
+        emojiProvider: new Promise(() => {}),
+        allowLists: true,
+      },
       providerFactory,
       pluginKey: emojiPluginKey,
       createAnalyticsEvent,
@@ -448,7 +448,7 @@ describe('emojis', () => {
 
   describe('quick insert', () => {
     it('should trigger emoji typeahead invoked analytics event', async () => {
-      const { editorView, sel } = editor(doc(p('{<>}')), [quickInsertPlugin]);
+      const { editorView, sel } = editor(doc(p('{<>}')));
       insertText(editorView, '/Emoji', sel);
       sendKeyToPm(editorView, 'Enter');
 

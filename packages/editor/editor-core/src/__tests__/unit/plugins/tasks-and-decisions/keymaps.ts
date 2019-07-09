@@ -17,9 +17,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { uuid } from '@atlaskit/adf-schema';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import mentionsPlugin from '../../../../plugins/mentions';
-import tablesPlugin from '../../../../plugins/table';
+import { MockMentionResource } from '@atlaskit/util-data-test';
 
 describe('tasks and decisions - keymaps', () => {
   const createEditor = createEditorFactory();
@@ -38,12 +36,12 @@ describe('tasks and decisions - keymaps', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [
-        tablesPlugin(),
-        tasksAndDecisionsPlugin,
-        mentionsPlugin(),
-      ],
-      editorProps: { allowAnalyticsGASV3: true },
+      editorProps: {
+        allowAnalyticsGASV3: true,
+        allowTables: true,
+        allowTasksAndDecisions: true,
+        mentionProvider: Promise.resolve(new MockMentionResource({})),
+      },
       createAnalyticsEvent,
     });
   };

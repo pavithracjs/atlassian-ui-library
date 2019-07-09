@@ -10,7 +10,6 @@ import {
   sendKeyToPm,
   dispatchPasteEvent,
 } from '@atlaskit/editor-test-helpers';
-import codeBlockPlugin from '../../../../plugins/code-block';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 
@@ -23,10 +22,10 @@ describe('hyperlink', () => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({
       doc,
-      editorPlugins: [codeBlockPlugin()],
       editorProps: {
         analyticsHandler: trackEvent,
         allowAnalyticsGASV3: true,
+        allowCodeBlocks: true,
       },
       createAnalyticsEvent,
     });

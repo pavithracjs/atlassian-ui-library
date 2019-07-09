@@ -20,7 +20,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 
-const quickInsertPlugin: EditorPlugin = {
+const quickInsertPlugin = (): EditorPlugin => ({
   name: 'quickInsert',
 
   pmPlugins(quickInsert: Array<QuickInsertHandler>) {
@@ -85,7 +85,7 @@ const quickInsertPlugin: EditorPlugin = {
       },
     },
   },
-};
+});
 
 export default quickInsertPlugin;
 

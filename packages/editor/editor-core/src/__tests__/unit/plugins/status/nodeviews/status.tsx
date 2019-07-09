@@ -15,7 +15,6 @@ import {
   messages,
   IntlStatusContainerView,
 } from '../../../../../plugins/status/nodeviews/status';
-import statusPlugin from '../../../../../plugins/status';
 import { pluginKey, StatusType } from '../../../../../plugins/status/plugin';
 import * as Actions from '../../../../../plugins/status/actions';
 // @ts-ignore
@@ -34,7 +33,11 @@ describe('Status - NodeView', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [statusPlugin({ menuDisabled: false })],
+      editorProps: {
+        allowStatus: {
+          menuDisabled: false,
+        },
+      },
     });
   };
 

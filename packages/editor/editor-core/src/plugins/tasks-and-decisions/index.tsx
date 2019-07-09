@@ -53,7 +53,7 @@ const quickInsertItem = (
   ) as Transaction;
 };
 
-const tasksAndDecisionsPlugin: EditorPlugin = {
+const tasksAndDecisionsPlugin = (): EditorPlugin => ({
   nodes() {
     return [
       { name: 'decisionList', node: decisionList },
@@ -133,6 +133,6 @@ const tasksAndDecisionsPlugin: EditorPlugin = {
       },
     ],
   },
-};
+});
 
 export default tasksAndDecisionsPlugin;

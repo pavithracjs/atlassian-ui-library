@@ -12,7 +12,6 @@ import {
   MediaPluginState,
   MediaState,
 } from '../../../../plugins/media/pm-plugins/main';
-import mediaPlugin from '../../../../plugins/media';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
@@ -31,8 +30,12 @@ describe('Media plugin', () => {
   const editor = (doc: any, editorProps = {}) =>
     createEditor({
       doc,
-      editorPlugins: [mediaPlugin({ provider: mediaProvider })],
-      editorProps: editorProps,
+      editorProps: {
+        ...editorProps,
+        media: {
+          provider: mediaProvider,
+        },
+      },
       providerFactory,
       pluginKey: mediaPluginKey,
     });

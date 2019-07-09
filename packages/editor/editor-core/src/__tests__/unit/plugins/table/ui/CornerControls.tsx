@@ -18,7 +18,6 @@ import {
   TableCssClassName as ClassName,
 } from '../../../../../plugins/table/types';
 import CornerControls from '../../../../../plugins/table/ui/TableFloatingControls/CornerControls';
-import { tablesPlugin } from '../../../../../plugins';
 
 const CornerButton = `.${ClassName.CONTROLS_CORNER_BUTTON}`;
 
@@ -28,7 +27,7 @@ describe('CornerControls', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 

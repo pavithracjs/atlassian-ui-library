@@ -33,13 +33,13 @@ export function createPlugin(
   });
 }
 
-const editorDisabledPlugin: EditorPlugin = {
+const editorDisabledPlugin = (): EditorPlugin => ({
   pmPlugins: () => [
     {
       name: 'editorDisabled',
       plugin: ({ dispatch }) => createPlugin(dispatch),
     },
   ],
-};
+});
 
 export default editorDisabledPlugin;

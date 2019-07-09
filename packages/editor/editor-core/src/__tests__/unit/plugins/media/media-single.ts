@@ -5,6 +5,7 @@ import {
   media,
   extension,
   createEditorFactory,
+  storyContextIdentifierProviderFactory,
 } from '@atlaskit/editor-test-helpers';
 
 import {
@@ -18,6 +19,7 @@ import {
   temporaryMediaWithDimensions,
   temporaryMedia,
 } from './_utils';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
 const createMediaState = (
   id: string,
@@ -31,16 +33,23 @@ const createMediaState = (
 
 describe('media-single', () => {
   const createEditor = createEditorFactory();
-  const editor = (doc: any) =>
-    createEditor({
+  const editor = (doc: any) => {
+    const contextIdentifierProvider = storyContextIdentifierProviderFactory();
+    const providerFactory = ProviderFactory.create({
+      contextIdentifierProvider,
+    });
+    return createEditor({
       doc,
       editorProps: {
         allowExtension: true,
         media: {
           allowMediaSingle: true,
         },
+        contextIdentifierProvider,
       },
+      providerFactory,
     });
+  };
 
   describe('insertMediaAsMediaSingle', () => {
     describe('when inserting node that is not a media node', () => {
@@ -238,7 +247,7 @@ describe('media-single', () => {
       });
 
       describe('is NodeSelection', () => {
-        it.only('replaces the selected node', () => {
+        it('replaces the selected node', () => {
           const { editorView } = editor(
             doc(
               p('hello'),

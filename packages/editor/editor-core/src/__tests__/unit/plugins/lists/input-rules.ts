@@ -10,8 +10,6 @@ import {
   hardBreak,
 } from '@atlaskit/editor-test-helpers';
 import { analyticsService, AnalyticsHandler } from '../../../../analytics';
-import listPlugin from '../../../../plugins/lists';
-import codeBlockPlugin from '../../../../plugins/code-block';
 import { EditorView } from 'prosemirror-view';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
@@ -24,10 +22,11 @@ describe('inputrules', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [listPlugin, codeBlockPlugin()],
       editorProps: {
         analyticsHandler: trackEvent as any,
         allowAnalyticsGASV3: true,
+        allowLists: true,
+        allowCodeBlocks: true,
       },
       createAnalyticsEvent,
     });

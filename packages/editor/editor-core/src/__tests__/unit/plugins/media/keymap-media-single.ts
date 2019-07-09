@@ -7,7 +7,6 @@ import {
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
 
-import codeBlockPlugin from '../../../../plugins/code-block';
 import { temporaryMedia, mediaEditor } from './_utils';
 
 describe('mediaSingle - keymap', () => {
@@ -56,7 +55,7 @@ describe('mediaSingle - keymap', () => {
         mediaSingle({ layout: 'wrap-right' })(temporaryMedia),
         p('{<>}Hello World!'),
       ),
-      [codeBlockPlugin()],
+      { allowCodeBlocks: true },
     );
 
     sendKeyToPm(editorView, 'Backspace');

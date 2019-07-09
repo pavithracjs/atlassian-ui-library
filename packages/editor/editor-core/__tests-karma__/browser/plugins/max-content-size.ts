@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 import { createEditorFactory } from '@atlaskit/editor-test-helpers';
-import maxContentSize from '../../../src/plugins/max-content-size';
 
 describe('editor/plugins/max-content-size', () => {
   const createEditor = createEditorFactory();
 
   const editor = () =>
     createEditor({
-      editorPlugins: [maxContentSize],
       editorProps: { maxContentSize: 10 },
     });
 

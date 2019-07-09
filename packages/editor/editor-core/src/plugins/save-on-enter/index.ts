@@ -72,7 +72,7 @@ const analyticsPayload = (
   },
 });
 
-const saveOnEnterPlugin: EditorPlugin = {
+const saveOnEnterPlugin = (): EditorPlugin => ({
   pmPlugins() {
     return [
       {
@@ -81,6 +81,6 @@ const saveOnEnterPlugin: EditorPlugin = {
       },
     ];
   },
-};
+});
 
 export default saveOnEnterPlugin;

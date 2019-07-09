@@ -13,15 +13,11 @@ import {
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { pluginKey as codeBlockPluginKey } from '../../../../plugins/code-block/pm-plugins/main';
-import tablesPlugin from '../../../../plugins/table';
-import listPlugin from '../../../../plugins/lists';
 import {
   removeCodeBlock,
   changeLanguage,
 } from '../../../../plugins/code-block/actions';
 import { setTextSelection } from '../../../../utils';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import quickInsertPlugin from '../../../../plugins/quick-insert';
 
 describe('code-block', () => {
   const createEditor = createEditorFactory();
@@ -33,13 +29,12 @@ describe('code-block', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [
-        codeBlockPlugin(),
-        listPlugin,
-        tablesPlugin(),
-        quickInsertPlugin,
-      ],
-      editorProps: { allowCodeBlocks: true, allowAnalyticsGASV3: true },
+      editorProps: {
+        allowCodeBlocks: true,
+        allowAnalyticsGASV3: true,
+        allowTables: true,
+        allowLists: true,
+      },
       pluginKey: codeBlockPluginKey,
       createAnalyticsEvent,
     });

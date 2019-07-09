@@ -30,7 +30,7 @@ export function createPlugin(
   });
 }
 
-const maxContentSizePlugin: EditorPlugin = {
+const maxContentSizePlugin = (): EditorPlugin => ({
   pmPlugins() {
     return [
       {
@@ -40,6 +40,6 @@ const maxContentSizePlugin: EditorPlugin = {
       },
     ];
   },
-};
+});
 
 export default maxContentSizePlugin;

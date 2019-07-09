@@ -1,12 +1,16 @@
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { doc, createEditorFactory, p } from '@atlaskit/editor-test-helpers';
+import {
+  doc,
+  createEditorFactory,
+  p,
+  storyContextIdentifierProviderFactory,
+} from '@atlaskit/editor-test-helpers';
 
 import {
   stateKey as mediaPluginKey,
   MediaPluginState,
   MediaProvider,
 } from '../../../../plugins/media/pm-plugins/main';
-import mediaPlugin from '../../../../plugins/media';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import PickerFacade from '../../../../plugins/media/picker-facade';
 import { MediaFile } from '../../../../../../../media/media-picker';
@@ -25,20 +29,25 @@ describe('Media Analytics', () => {
   let pickers: PickerFacade[];
 
   const editor = (doc: any) => {
+    const contextIdentifierProvider = storyContextIdentifierProviderFactory();
     mediaProvider = getFreshMediaProvider();
-    providerFactory = ProviderFactory.create({ mediaProvider });
+    providerFactory = ProviderFactory.create({
+      mediaProvider,
+      contextIdentifierProvider,
+    });
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
 
     return createEditor({
       doc,
-      editorPlugins: [
-        mediaPlugin({
-          provider: mediaProvider,
+      editorProps: {
+        allowAnalyticsGASV3: true,
+        media: {
           allowMediaSingle: true,
           customDropzoneContainer: document.body,
-        }),
-      ],
-      editorProps: { allowAnalyticsGASV3: true },
+          provider: mediaProvider,
+        },
+        contextIdentifierProvider,
+      },
       providerFactory,
       createAnalyticsEvent,
       pluginKey: mediaPluginKey,

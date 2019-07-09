@@ -6,7 +6,6 @@ import {
   p,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
-import { cardPlugin } from '../../../../plugins';
 import { pluginKey } from '../../../../plugins/card/pm-plugins/main';
 
 import commonMessages from '../../../../messages';
@@ -22,7 +21,9 @@ describe('card', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [cardPlugin],
+      editorProps: {
+        UNSAFE_cards: {},
+      },
       pluginKey,
     });
   };

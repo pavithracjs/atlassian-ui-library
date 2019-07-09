@@ -14,7 +14,6 @@ import {
   closeDatePicker,
 } from '../../../../plugins/date/actions';
 import { pluginKey } from '../../../../plugins/date/plugin';
-import datePlugin from '../../../../plugins/date';
 
 describe('date plugin', () => {
   const createEditor = createEditorFactory();
@@ -22,7 +21,7 @@ describe('date plugin', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [datePlugin],
+      editorProps: { allowDate: true },
     });
   };
 

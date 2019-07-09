@@ -13,7 +13,6 @@ import HelpDialog, {
   getComponentFromKeymap,
   getSupportedFormatting,
 } from '../../../../../src/plugins/help-dialog/ui';
-import helpDialog from '../../../../../src/plugins/help-dialog';
 import * as keymaps from '../../../../../src/keymaps';
 import EditorActions from '../../../../../src/actions';
 import { EventDispatcher } from '../../../../../src/event-dispatcher';
@@ -27,7 +26,7 @@ describe('@atlaskit/editor-core/editor/ui/HelpDialog', () => {
   const createEditor = createEditorFactory();
 
   beforeEach(() => {
-    const editor = createEditor({ editorPlugins: [helpDialog] });
+    const editor = createEditor({ editorProps: { allowHelpDialog: true } });
     editorActions = new EditorActions();
     editorActions._privateRegisterEditor(
       editor.editorView,

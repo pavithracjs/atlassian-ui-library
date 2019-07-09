@@ -5,7 +5,6 @@ import {
   p,
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
-import helpDialog from '../../../../plugins/help-dialog';
 
 describe('help-dialog', () => {
   const createEditor = createEditorFactory();
@@ -15,8 +14,7 @@ describe('help-dialog', () => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({
       doc,
-      editorProps: { allowAnalyticsGASV3: true },
-      editorPlugins: [helpDialog],
+      editorProps: { allowAnalyticsGASV3: true, allowHelpDialog: true },
       createAnalyticsEvent,
     });
   };
