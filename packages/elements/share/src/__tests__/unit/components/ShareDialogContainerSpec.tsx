@@ -15,6 +15,7 @@ import {
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
 import { OriginTracing } from '../../../types';
 import { PropsOf } from '../_testUtils';
+import { copyLinkButtonClicked } from '../../../components/analytics';
 
 function currentEventLoopEnd() {
   return new Promise(resolve => setImmediate(resolve));
@@ -542,9 +543,168 @@ describe('ShareDialogContainer', () => {
           },
         });
       });
+
+      it('should decorate the copy link analytics with shortUrl', async () => {
+        const wrapper = getWrapper({
+          useUrlShortener: true,
+        });
+
+        let finalPayload = wrapper
+          .instance()
+          .decorateAnalytics(copyLinkButtonClicked(0));
+
+        expect(finalPayload).toMatchObject({
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'button',
+          actionSubjectId: 'copyShareLink',
+          attributes: {
+            shortUrl: false,
+          },
+        });
+
+        wrapper.instance().handleDialogOpen();
+        await currentEventLoopEnd();
+
+        finalPayload = wrapper
+          .instance()
+          .decorateAnalytics(copyLinkButtonClicked(0));
+        expect(finalPayload).toMatchObject({
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'button',
+          actionSubjectId: 'copyShareLink',
+          attributes: {
+            shortUrl: true,
+          },
+        });
+      });
+
+      describe('on short URL reception', () => {
+        it('should send an analytics', async () => {
+          const wrapper = getWrapper({
+            useUrlShortener: true,
+          });
+          let resolveShortening: any;
+          const shortenResult = new Promise(resolve => {
+            resolveShortening = resolve;
+          });
+          (mockShortenerClient.shorten as jest.Mock).mockReturnValue(
+            shortenResult,
+          );
+          expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+          wrapper.instance().handleDialogOpen();
+          mockCreateAnalyticsEvent.mockClear();
+
+          resolveShortening({
+            shortUrl: 'whatever',
+          });
+          await currentEventLoopEnd();
+
+          expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+          expect(mockCreateAnalyticsEvent.mock.calls[0][0]).toMatchObject({
+            eventType: 'operational',
+            action: 'generated',
+            actionSubject: 'shortUrl',
+            actionSubjectId: undefined,
+            attributes: {
+              duration: expect.any(Number),
+              packageName: '@atlaskit/share',
+              packageVersion: '999.9.9',
+              source: 'shareModal',
+              tooSlow: false,
+            },
+          });
+        });
+
+        it('should includes perf info - too slow', async () => {
+          const wrapper = getWrapper({
+            useUrlShortener: true,
+          });
+          let resolveShortening: any;
+          const shortenResult = new Promise(resolve => {
+            resolveShortening = resolve;
+          });
+          (mockShortenerClient.shorten as jest.Mock).mockReturnValue(
+            shortenResult,
+          );
+          expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+          wrapper.instance().handleDialogOpen();
+          mockCreateAnalyticsEvent.mockClear();
+
+          // pretend we clicked on the copy link button
+          wrapper.instance().decorateAnalytics(copyLinkButtonClicked(0));
+
+          // then resolve later
+          resolveShortening({
+            shortUrl: 'whatever',
+          });
+          await currentEventLoopEnd();
+
+          expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+          expect(mockCreateAnalyticsEvent.mock.calls[0][0]).toMatchObject({
+            eventType: 'operational',
+            action: 'generated',
+            actionSubject: 'shortUrl',
+            attributes: {
+              duration: expect.any(Number),
+              tooSlow: true,
+            },
+          });
+        });
+      });
+
+      it('should send an analytics on short URL generation error', async () => {
+        const wrapper = getWrapper({
+          useUrlShortener: true,
+        });
+        let rejectShortening: any;
+        const shortenResult = new Promise((resolve, reject) => {
+          rejectShortening = reject;
+        });
+        (mockShortenerClient.shorten as jest.Mock).mockReturnValue(
+          shortenResult,
+        );
+
+        expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+        wrapper.instance().handleDialogOpen();
+
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledWith({
+          eventType: 'operational',
+          action: 'requested',
+          actionSubject: 'shortUrl',
+          actionSubjectId: undefined,
+          attributes: {
+            packageName: '@atlaskit/share',
+            packageVersion: '999.9.9',
+            source: 'shareModal',
+          },
+        });
+        mockCreateAnalyticsEvent.mockClear();
+
+        rejectShortening(new Error('Test!'));
+        await currentEventLoopEnd();
+
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(1);
+        expect(mockCreateAnalyticsEvent).toHaveBeenCalledWith({
+          eventType: 'operational',
+          action: 'encountered',
+          actionSubject: 'error',
+          actionSubjectId: 'urlShortening',
+          attributes: {
+            packageName: '@atlaskit/share',
+            packageVersion: '999.9.9',
+            source: 'shareModal',
+          },
+        });
+      });
     });
 
-    it('should first shorten the url only once the popup opens', async () => {
+    it('should not attempt to shorten before the popup opens', async () => {
       const wrapper = getWrapper({
         useUrlShortener: true,
       });

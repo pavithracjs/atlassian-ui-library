@@ -1,5 +1,6 @@
 import assert from 'tiny-invariant';
 import {
+  AnalyticsEventPayload,
   WithAnalyticsEventProps,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
@@ -31,7 +32,15 @@ import {
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
-import { shortUrlRequested } from './analytics';
+import {
+  errorEncountered,
+  shortUrlGenerated,
+  shortUrlRequested,
+  copyLinkButtonClicked,
+  CHANNEL_ID,
+} from './analytics';
+
+const COPY_LINK_EVENT = copyLinkButtonClicked(0);
 
 export const defaultConfig: ConfigResponse = {
   mode: 'EXISTING_USERS_ONLY',
@@ -140,6 +149,7 @@ export class ShareDialogContainerInternal extends React.Component<
   private urlShortenerClient: UrlShortenerClient;
   private _isMounted = false;
   private _urlShorteningRequestCounter = 0;
+  private _lastUrlShorteningWasTooSlow = false;
 
   static defaultProps = {
     useUrlShortener: false,
@@ -174,6 +184,11 @@ export class ShareDialogContainerInternal extends React.Component<
   componentWillUnmount() {
     this._isMounted = false;
   }
+
+  private createAndFireEvent = (payload: AnalyticsEventPayload) => {
+    const { createAnalyticsEvent } = this.props;
+    if (createAnalyticsEvent) createAnalyticsEvent(payload).fire(CHANNEL_ID);
+  };
 
   fetchConfig = () => {
     this.setState(
@@ -248,6 +263,32 @@ export class ShareDialogContainerInternal extends React.Component<
     this.fetchConfig();
   };
 
+  decorateAnalytics = (
+    payload: AnalyticsEventPayload,
+  ): AnalyticsEventPayload => {
+    if (
+      payload.type === COPY_LINK_EVENT.type &&
+      payload.action === COPY_LINK_EVENT.action &&
+      payload.actionSubjectId === COPY_LINK_EVENT.actionSubjectId
+    ) {
+      const { useUrlShortener } = this.props;
+      const isCopyLinkShortened = this.isShortCopyLinkAvailable();
+
+      payload = {
+        ...payload,
+        attributes: {
+          ...payload.attributes,
+          shortUrl: isCopyLinkShortened,
+        },
+      };
+
+      if (useUrlShortener && !isCopyLinkShortened)
+        this._lastUrlShorteningWasTooSlow = true;
+    }
+
+    return payload;
+  };
+
   // ensure origin is re-generated if the link or the factory changes
   // separate memoization is needed since copy != form
   getUniqueCopyLinkOriginTracing = memoizeOne(
@@ -275,17 +316,22 @@ export class ShareDialogContainerInternal extends React.Component<
       cloudId: string,
       productId: ProductId,
     ): Promise<string | null> => {
+      this._lastUrlShorteningWasTooSlow = false;
       this._urlShorteningRequestCounter++;
 
-      const { createAnalyticsEvent } = this.props;
-      if (createAnalyticsEvent)
-        createAnalyticsEvent(shortUrlRequested()).fire('fabric-elements');
+      this.createAndFireEvent(shortUrlRequested());
 
+      const start = Date.now();
       return this.urlShortenerClient
         .shorten(longLink, cloudId, productId)
-        .then(response => response.shortUrl)
+        .then(response => {
+          this.createAndFireEvent(
+            shortUrlGenerated(start, this._lastUrlShorteningWasTooSlow),
+          );
+          return response.shortUrl;
+        })
         .catch(() => {
-          // TODO analytics
+          this.createAndFireEvent(errorEncountered('urlShortening'));
           return null;
         });
     },
@@ -387,7 +433,7 @@ export class ShareDialogContainerInternal extends React.Component<
         <ShareDialogWithTrigger
           config={this.state.config}
           copyLink={this.getCopyLink()}
-          isCopyLinkShortened={this.isShortCopyLinkAvailable()}
+          analyticsDecorator={this.decorateAnalytics}
           dialogPlacement={dialogPlacement}
           isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}

@@ -8,7 +8,7 @@ export type RenderCustomTriggerButton = (
   },
 ) => React.ReactNode;
 
-// TODO: removed this and import from @atlaskit/inline-dialog when it is migrated to typescript
+// TODO: remove this and import from @atlaskit/inline-dialog when it is migrated to typescript
 export type DialogPlacement =
   | 'auto-start'
   | 'auto'
