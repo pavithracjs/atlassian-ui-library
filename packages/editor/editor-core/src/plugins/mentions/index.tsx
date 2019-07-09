@@ -53,6 +53,7 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
+import MentionSpotlight from '../../../../../elements/mention/src/components/MentionSpotlight';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -153,7 +154,13 @@ const mentionsPlugin = (
           // ) as TypeAheadPluginState;
           // console.log("====typeAheadPluginState", typeAheadPluginState);
           console.log(enabled);
-          return <div>test spotlight</div>;
+          return (
+            <MentionSpotlight
+              showComponent={true}
+              createTeamLink="qqqq" // todo from where do these settings come?
+              onClose={() => console.log('On close callback')}
+            />
+          );
         },
 
         trigger: '@',

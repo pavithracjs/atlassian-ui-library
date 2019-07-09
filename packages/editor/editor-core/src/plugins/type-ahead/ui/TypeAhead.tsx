@@ -7,7 +7,6 @@ import { TypeAheadItemsList } from './TypeAheadItemsList';
 import { selectByIndex } from '../commands/select-item';
 import { setCurrentIndex } from '../commands/set-current-index';
 import { TypeAheadItem } from '../types';
-import MentionSpotlight from '../../../../../../elements/mention/src/components/MentionSpotlight';
 
 export const TypeAheadContent: React.ComponentClass<
   React.HTMLAttributes<{}>
