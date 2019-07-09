@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.28.2
+
+### Patch Changes
+
+- [patch][216a679624](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/216a679624):
+
+  ED-7212 Add cleanup to the macroProvider such that it unsubscribes on destroy
+
 ## 112.28.1
 
 ### Patch Changes
