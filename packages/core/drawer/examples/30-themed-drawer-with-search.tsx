@@ -60,7 +60,7 @@ export default class DrawersExample extends React.Component<{}, State> {
             </div>
           </DrawerItemTheme>
         </Drawer>
-        <Button id="button" interface="button" onClick={this.openDrawer}>
+        <Button id="button" type="button" onClick={this.openDrawer}>
           Open drawer
         </Button>
       </div>

@@ -3,6 +3,7 @@ import React, {
   Component,
   SyntheticEvent,
   Fragment,
+  ReactNode,
   FC,
 } from 'react';
 import { canUseDOM } from 'exenv';
@@ -142,7 +143,7 @@ export class DrawerBase extends Component<
         mountOnEnter
         unmountOnExit
       >
-        <Portal zIndex="unset">
+        <Portal>
           <TransitionGroup component={OnlyChild}>
             <Fragment>
               {/* $FlowFixMe the `in` prop is internal */}
@@ -173,7 +174,7 @@ export class DrawerBase extends Component<
   }
 }
 
-export const DrawerItemTheme = (props: { children: Node }) => (
+export const DrawerItemTheme = (props: { children: ReactNode }) => (
   <ThemeProvider theme={drawerItemTheme}>{props.children}</ThemeProvider>
 );
 

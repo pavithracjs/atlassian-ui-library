@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import Button from '@atlaskit/button';
 import Drawer from '../src';
 
@@ -23,7 +23,7 @@ export default class DrawersExample extends Component<{}, State> {
       isNestedDrawerOpen: true,
     });
 
-  onClose = (...args: [MouseEvent | KeyboardEvent, any]) => {
+  onClose = (...args: [SyntheticEvent, any]) => {
     console.log('onClose', args);
     this.setState({
       isDrawerOpen: false,
@@ -31,7 +31,7 @@ export default class DrawersExample extends Component<{}, State> {
     });
   };
 
-  onNestedClose = (...args: [MouseEvent | KeyboardEvent, any]) => {
+  onNestedClose = (...args: [SyntheticEvent, any]) => {
     console.log('onClose Nested', args);
     this.setState({
       isNestedDrawerOpen: false,
@@ -74,7 +74,7 @@ export default class DrawersExample extends Component<{}, State> {
             </Button>
           </div>
         </Drawer>
-        <Button id="open-drawer" interface="button" onClick={this.openDrawer}>
+        <Button id="open-drawer" type="button" onClick={this.openDrawer}>
           Open drawer
         </Button>
       </div>

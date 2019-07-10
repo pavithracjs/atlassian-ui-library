@@ -32,7 +32,7 @@ export default class DrawersExample extends Component<{}, State> {
         >
           <Lorem count={100} />
         </Drawer>
-        <Button interface="button" onClick={this.openDrawer}>
+        <Button type="button" onClick={this.openDrawer}>
           Open drawer
         </Button>
       </div>

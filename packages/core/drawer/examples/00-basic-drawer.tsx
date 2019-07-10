@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+/** @jsx jsx */
+
+import { jsx } from '@emotion/core';
+import { Component, SyntheticEvent } from 'react';
 import Button from '@atlaskit/button';
 import Drawer from '../src';
 
@@ -15,7 +18,7 @@ export default class DrawersExample extends Component<{}, State> {
       isDrawerOpen: true,
     });
 
-  onClose = (...args: [MouseEvent | KeyboardEvent, any]) => {
+  onClose = (...args: [SyntheticEvent<HTMLElement>, any]) => {
     console.log('onClose', args);
     this.setState({
       isDrawerOpen: false,
@@ -36,7 +39,7 @@ export default class DrawersExample extends Component<{}, State> {
         >
           <code>Drawer contents</code>
         </Drawer>
-        <Button id="open-drawer" interface="button" onClick={this.openDrawer}>
+        <Button id="open-drawer" type="button" onClick={this.openDrawer}>
           Open drawer
         </Button>
       </div>

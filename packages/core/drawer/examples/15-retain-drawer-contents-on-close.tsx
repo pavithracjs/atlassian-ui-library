@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+/** @jsx jsx */
+
+import { jsx } from '@emotion/core';
+import { Component } from 'react';
 import Button from '@atlaskit/button';
 import Drawer from '../src';
 
@@ -40,15 +43,9 @@ export default class DrawersExample extends Component<{}, State> {
           <label htmlFor="textbox" css={{ display: 'block' }}>
             Type something in the textarea below and see if it is retained
           </label>
-          <textarea
-            input="textbox"
-            type="text"
-            id="textbox"
-            rows="50"
-            cols="50"
-          />
+          <textarea id="textbox" rows={50} cols={50} />
         </Drawer>
-        <Button interface="button" onClick={this.openDrawer}>
+        <Button type="button" onClick={this.openDrawer}>
           Open drawer
         </Button>
         <div css={{ marginTop: '2rem' }}>
@@ -56,7 +53,7 @@ export default class DrawersExample extends Component<{}, State> {
             <input
               id="checkbox"
               type="checkbox"
-              value={this.state.shouldUnmountOnExit}
+              checked={this.state.shouldUnmountOnExit}
               onChange={this.toggleUnmountBehaviour}
             />
             Toggle remounting of drawer contents on exit

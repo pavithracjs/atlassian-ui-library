@@ -12,7 +12,7 @@ export type DrawerWidth = keyof Widths;
 
 export interface BaseProps {
   /** The content of the drawer */
-  children?: Node;
+  children?: ReactNode;
   /** Icon to be rendered in your drawer as a component, if available */
   icon?: ComponentType<any>;
   /** Available drawer sizes */
@@ -55,7 +55,7 @@ export interface FocusLockProps {
   /**
     Whether the focus lock is active or not.
   */
-  isFocusLockEnabled: boolean;
+  isFocusLockEnabled?: boolean;
   /**
     Whether to return the focus to the previous active element on closing the drawer
   */
@@ -76,7 +76,7 @@ export interface ItemProps {
   /** Whether the Item should attempt to gain browser focus when mounted */
   autoFocus?: boolean;
   /** Main content to be shown inside the item. */
-  children?: Node;
+  children?: ReactNode;
   /** Secondary text to be shown underneath the main content. */
   description?: string;
   /** Drag and drop props provided by react-beautiful-dnd. Please do not use
@@ -84,10 +84,10 @@ export interface ItemProps {
   dnd?: DnDType;
   /** Content to be shown after the main content. Shown to the right of content (or to the left
    * in RTL mode). */
-  elemAfter?: Node;
+  elemAfter?: ReactNode;
   /** Content to be shown before the main content. Shown to the left of content (or to the right
    * in RTL mode). */
-  elemBefore?: Node;
+  elemBefore?: ReactNode;
   /** Link that the user will be redirected to when the item is clicked. If omitted, a
    *  non-hyperlink component will be rendered. */
   href?: string;
