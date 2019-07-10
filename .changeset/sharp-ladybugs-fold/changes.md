@@ -1,1 +1,0 @@
-Added new OpsGenie logo
