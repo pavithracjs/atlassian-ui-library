@@ -70,6 +70,9 @@ export type TablePluginAction =
         tableNode?: PmNode;
         tableWrapperTarget?: HTMLElement;
         layout: TableLayout;
+        isHeaderRowEnabled: boolean;
+        isHeaderColumnEnabled: boolean;
+        decorationSet: DecorationSet;
       };
     }
   | {
@@ -127,9 +130,9 @@ export type ColumnResizingPluginAction =
       data: { lastClick: { x: number; y: number; time: number } | null };
     };
 
-export const TableDecorations = {
-  CONTROLS_HOVER: 'CONTROLS_HOVER',
-};
+export enum TableDecorations {
+  CONTROLS_HOVER = 'CONTROLS_HOVER',
+}
 
 export const TableCssClassName = {
   ...TableSharedCssClassName,
