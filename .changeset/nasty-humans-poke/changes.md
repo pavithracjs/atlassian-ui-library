@@ -1,1 +1,0 @@
-ED-5844 Adding media link UI to editor 

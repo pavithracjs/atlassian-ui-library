@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.11.4
+
+### Patch Changes
+
+- [patch][f60618b0f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f60618b0f0):
+
+  ED-5844 Adding media link UI to editor
+
 ## 2.11.3
 
 ### Patch Changes

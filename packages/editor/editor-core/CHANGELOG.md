@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.32.0
+
+### Minor Changes
+
+- [minor][f60618b0f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f60618b0f0):
+
+  ED-5844 Adding media link UI to editor
+
 ## 112.31.2
 
 ### Patch Changes
