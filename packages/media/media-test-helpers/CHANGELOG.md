@@ -1,5 +1,13 @@
 # @atlaskit/media-test-helpers
 
+## 24.2.0
+
+### Minor Changes
+
+- [minor][a552f93596](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a552f93596):
+
+  Increase image preview max height and width to 4096px
+
 ## 24.1.3
 
 - Updated dependencies [e754b5f85e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e754b5f85e):
