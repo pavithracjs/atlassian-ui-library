@@ -156,7 +156,6 @@ const mentionsPlugin = (
           console.log(enabled);
           return (
             <MentionSpotlight
-              showComponent={true}
               createTeamLink="qqqq" // todo from where do these settings come?
               onClose={() => console.log('On close callback')}
             />

@@ -69,10 +69,6 @@ export function createInitialPluginState( // if we try to pass editorState here,
   };
 }
 
-function getSpotlightStatus(state: EditorState) {
-  return true;
-}
-
 export function createPlugin(
   dispatch: Dispatch,
   reactContext: () => { [key: string]: any },
