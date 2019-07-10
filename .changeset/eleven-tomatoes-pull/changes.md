@@ -1,0 +1,1 @@
+Create viewMediaClientConfig & uploadMediaClientConfig on Editor if they are missing
