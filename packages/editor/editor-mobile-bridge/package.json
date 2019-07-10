@@ -59,6 +59,7 @@
     "@atlaskit/multi-entry-tools": "^0.0.1",
     "@atlaskit/select": "^9.1.3",
     "@atlaskit/textfield": "^2.0.0",
+    "@atlaskit/util-data-test": "^12.6.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
     "ajv": "^4.11.3",
     "babel-loader": "^8.0.2",
