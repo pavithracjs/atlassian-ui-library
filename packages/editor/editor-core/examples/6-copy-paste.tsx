@@ -48,14 +48,15 @@ export const Content: any = styled.div`
 `;
 Content.displayName = 'Content';
 
+const getLocalStorageKey = (collectionName: string) =>
+  `fabric.editor.example.copypaste-${collectionName}`;
 // eslint-disable-next-line no-console
 export const analyticsHandler = (actionName: string, props?: {}) =>
   console.log(actionName, props);
 
-export const LOCALSTORAGE_defaultDocKey = 'fabric.editor.example.full-page';
 export const LOCALSTORAGE_defaultTitleKey =
   'fabric.editor.example.full-page.title';
-export const SaveAndCancelButtons = (props: {
+export const createSaveAndCancelButtons = (collectionName: string) => (props: {
   editorActions?: EditorActions;
 }) => (
   <ButtonGroup>
@@ -71,7 +72,7 @@ export const SaveAndCancelButtons = (props: {
           // eslint-disable-next-line no-console
           console.log(value);
           localStorage.setItem(
-            LOCALSTORAGE_defaultDocKey,
+            getLocalStorageKey(collectionName),
             JSON.stringify(value),
           );
         });
@@ -87,7 +88,7 @@ export const SaveAndCancelButtons = (props: {
           return;
         }
         props.editorActions.clear();
-        localStorage.removeItem(LOCALSTORAGE_defaultDocKey);
+        localStorage.removeItem(getLocalStorageKey(collectionName));
         localStorage.removeItem(LOCALSTORAGE_defaultTitleKey);
       }}
     >
@@ -202,6 +203,12 @@ class ExampleEditorComponent extends React.Component<
   };
 
   renderEditor = (collectionName: string) => {
+    const defaultValue =
+      (localStorage &&
+        localStorage.getItem(getLocalStorageKey(collectionName))) ||
+      undefined;
+    const SaveAndCancelButtons = createSaveAndCancelButtons(collectionName);
+
     return (
       <EditorContext key={collectionName}>
         <Content>
@@ -252,11 +259,7 @@ class ExampleEditorComponent extends React.Component<
                   placeholder="Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule."
                   shouldFocus={false}
                   disabled={this.state.disabled}
-                  defaultValue={
-                    (localStorage &&
-                      localStorage.getItem(LOCALSTORAGE_defaultDocKey)) ||
-                    undefined
-                  }
+                  defaultValue={defaultValue}
                   contentComponents={
                     <>
                       <BreadcrumbsMiscActions

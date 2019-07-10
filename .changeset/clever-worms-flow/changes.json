@@ -1,0 +1,9 @@
+{
+  "releases": [
+    { "name": "@atlaskit/adf-schema", "type": "minor" },
+    { "name": "@atlaskit/editor-core", "type": "minor" },
+    { "name": "@atlaskit/media-test-helpers", "type": "minor" },
+    { "name": "@atlaskit/editor-test-helpers", "type": "patch" }
+  ],
+  "dependents": []
+}

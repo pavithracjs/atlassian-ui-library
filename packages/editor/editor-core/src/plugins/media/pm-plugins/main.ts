@@ -14,7 +14,10 @@ import { UploadParams, PopupConfig } from '@atlaskit/media-picker';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 
-import { ErrorReporter } from '@atlaskit/editor-common';
+import {
+  ErrorReporter,
+  ContextIdentifierProvider,
+} from '@atlaskit/editor-common';
 
 import analyticsService from '../../../analytics/service';
 import { isImage } from '../../../utils';
@@ -79,6 +82,7 @@ export class MediaPluginState {
   private view!: EditorView;
   private destroyed = false;
   public mediaProvider?: MediaProvider;
+  private contextIdentifierProvider?: ContextIdentifierProvider;
   private errorReporter: ErrorReporter;
 
   public pickers: PickerFacade[] = [];
@@ -125,9 +129,23 @@ export class MediaPluginState {
         this.setMediaProvider(provider),
     );
 
+    options.providerFactory.subscribe(
+      'contextIdentifierProvider',
+      this.onContextIdentifierProvider,
+    );
+
     this.errorReporter = options.errorReporter || new ErrorReporter();
     this.dispatchAnalyticsEvent = dispatchAnalyticsEvent;
   }
+
+  onContextIdentifierProvider = async (
+    _name: string,
+    provider?: Promise<ContextIdentifierProvider>,
+  ) => {
+    if (provider) {
+      this.contextIdentifierProvider = await provider;
+    }
+  };
 
   setMediaProvider = async (mediaProvider?: Promise<MediaProvider>) => {
     if (!mediaProvider) {
@@ -277,21 +295,30 @@ export class MediaPluginState {
     mediaState: MediaState,
     onMediaStateChanged: MediaStateEventSubscriber,
   ) => {
+    const mediaStateWithContext: MediaState = {
+      ...mediaState,
+      contextId: this.contextIdentifierProvider
+        ? this.contextIdentifierProvider.objectId
+        : undefined,
+    };
+
     const collection = this.collectionFromProvider();
     if (collection === undefined) {
       return;
     }
 
     if (this.editorAppearance === 'mobile') {
-      this.mobileUploadComplete[mediaState.id] = false;
+      this.mobileUploadComplete[mediaStateWithContext.id] = false;
     }
 
     this.allUploadsFinished = false;
 
-    if (isMediaSingle(this.view.state.schema, mediaState.fileMimeType)) {
-      insertMediaSingleNode(this.view, mediaState, collection);
+    if (
+      isMediaSingle(this.view.state.schema, mediaStateWithContext.fileMimeType)
+    ) {
+      insertMediaSingleNode(this.view, mediaStateWithContext, collection);
     } else {
-      insertMediaGroupNode(this.view, [mediaState], collection);
+      insertMediaGroupNode(this.view, [mediaStateWithContext], collection);
     }
 
     // do events when media state changes
@@ -301,7 +328,7 @@ export class MediaPluginState {
     const isEndState = (state: MediaState) =>
       state.status && MEDIA_RESOLVED_STATES.indexOf(state.status) !== -1;
 
-    if (!isEndState(mediaState)) {
+    if (!isEndState(mediaStateWithContext)) {
       const updater = (promise: Promise<any>) => {
         // Chain the previous promise with a new one for this media item
         return new Promise<MediaState | null>(resolve => {
