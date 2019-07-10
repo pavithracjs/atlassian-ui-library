@@ -42,6 +42,8 @@ export interface Props {
   zIndex?: number | string;
   offsetX?: number;
   offsetY?: number;
+
+  showTeamMentionsHighlight?: boolean;
 }
 
 export interface State {
@@ -245,6 +247,7 @@ export class MentionPicker extends React.PureComponent<
         onSelection={onSelection}
         query={query}
         ref={this.handleMentionListRef}
+        mentionsSpotlightEnabled={!!this.props.showTeamMentionsHighlight}
       />
     );
 
