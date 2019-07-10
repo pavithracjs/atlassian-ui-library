@@ -22,7 +22,7 @@ function getUpgradeType(
   } else if (
     previousVersion != null &&
     version != null &&
-    previousVersion != version
+    previousVersion !== version
   ) {
     return 'upgrade';
   } else {
