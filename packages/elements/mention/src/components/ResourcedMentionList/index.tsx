@@ -242,7 +242,6 @@ export default class ResourcedMentionList extends React.PureComponent<
 
     return (
       <MentionSpotlight
-        showComponent={true} // TODO this can be removed
         createTeamLink="/people/search#createTeam"
         onClose={this.closeHighlight}
       />
