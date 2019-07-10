@@ -27,6 +27,7 @@ export interface Props {
   creator?: User;
   lastUpdater?: User;
   disabled?: boolean;
+  highlight?: boolean;
 }
 
 export interface State {
@@ -184,6 +185,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
       placeholder,
       taskId,
       disabled,
+      highlight,
     } = this.props;
 
     return (
@@ -204,6 +206,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
           creator={creator}
           lastUpdater={lastUpdater}
           disabled={disabled}
+          highlight={highlight}
         >
           {children}
         </TaskItem>

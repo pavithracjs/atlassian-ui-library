@@ -27,6 +27,7 @@ export interface TaskProps {
   children?: ReactElement<any>;
   providers?: ProviderFactory;
   disabled?: boolean;
+  highlight?: boolean;
 }
 
 export class TaskItem extends PureComponent<TaskProps & InjectedIntlProps, {}> {

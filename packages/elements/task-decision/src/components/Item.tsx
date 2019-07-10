@@ -14,6 +14,7 @@ export interface Props {
   placeholder?: string;
   showPlaceholder?: boolean;
   attribution?: string;
+  highlight?: boolean;
 }
 
 export default class Item extends PureComponent<Props, {}> {
@@ -40,9 +41,9 @@ export default class Item extends PureComponent<Props, {}> {
   }
 
   renderMessageAppearance() {
-    const { contentRef, children, icon } = this.props;
+    const { contentRef, children, icon, highlight } = this.props;
     return (
-      <Wrapper>
+      <Wrapper highlight={highlight}>
         {icon}
         {this.renderPlaceholder()}
         <ContentWrapper innerRef={contentRef}>{children}</ContentWrapper>

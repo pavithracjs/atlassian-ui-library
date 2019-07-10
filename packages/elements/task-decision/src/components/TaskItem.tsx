@@ -22,6 +22,7 @@ export interface Props {
   creator?: User;
   lastUpdater?: User;
   disabled?: boolean;
+  highlight?: boolean;
 }
 
 let taskCount = 0;
@@ -87,6 +88,7 @@ export class TaskItem extends PureComponent<
       isDone,
       contentRef,
       children,
+      highlight,
       placeholder,
       showPlaceholder,
       disabled,
@@ -115,6 +117,7 @@ export class TaskItem extends PureComponent<
         placeholder={placeholder}
         showPlaceholder={showPlaceholder}
         attribution={this.getAttributionText()}
+        highlight={highlight}
       >
         {children}
       </Item>

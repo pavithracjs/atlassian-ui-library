@@ -1,5 +1,6 @@
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Node as PMNode } from 'prosemirror-model';
+import { findParentNodeOfType } from 'prosemirror-utils';
 import { uuid } from '@atlaskit/adf-schema';
 import {
   ProviderFactory,
@@ -20,6 +21,7 @@ enum ACTIONS {
 
 export interface TaskDecisionPluginState {
   currentTaskDecisionItem: PMNode | undefined;
+  highlightTaskDecisionItem: PMNode | undefined;
   contextIdentifierProvider?: ContextIdentifierProvider;
 }
 
@@ -51,9 +53,14 @@ export function createPlugin(
     },
     state: {
       init() {
-        return { insideTaskDecisionItem: false };
+        return {};
       },
-      apply(tr, pluginState) {
+      apply(
+        tr,
+        pluginState: TaskDecisionPluginState,
+        oldEditorState,
+        editorState,
+      ) {
         const { action, data } = tr.getMeta(stateKey) || {
           action: null,
           data: null,
@@ -67,6 +74,19 @@ export function createPlugin(
               contextIdentifierProvider: data,
             };
             break;
+        }
+
+        if (!tr.selection.eq(oldEditorState.selection)) {
+          const schema = editorState.schema;
+          const taskDecisionItem = findParentNodeOfType([
+            schema.nodes.taskItem,
+          ])(tr.selection);
+
+          newPluginState = {
+            ...newPluginState,
+            highlightTaskDecisionItem:
+              taskDecisionItem && taskDecisionItem.node,
+          };
         }
 
         dispatch(stateKey, newPluginState);

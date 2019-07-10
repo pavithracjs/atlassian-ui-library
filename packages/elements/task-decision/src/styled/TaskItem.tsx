@@ -4,6 +4,16 @@ import styled from 'styled-components';
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 import { gridSize, colors, themed } from '@atlaskit/theme';
 
+const checkedBoxSvg = (color: string) =>
+  `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12" height="12" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect width="12" height="12" rx="2" fill="${color}"></rect>
+  <path fill="#FFFFFF" d="M9.374 4.914L5.456 8.832a.769.769 0 0 1-1.088 0L2.626 7.091a.769.769 0 1 1 1.088-1.089L4.912 7.2l3.374-3.374a.769.769 0 1 1 1.088 1.088"></path>
+</svg>`;
+
+const checkedBoxDataUrl = (color: string) =>
+  `url(data:image/svg+xml;charset=utf-8;base64,${btoa(checkedBoxSvg(color))})`;
+
 export const CheckBoxWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
   flex: 0 0 16px;
   width: 16px;
@@ -29,12 +39,12 @@ export const CheckBoxWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
       cursor: pointer;
 
       &::after {
-        background: ${themed({ light: colors.N0, dark: colors.DN80 })}
+        background: ${themed({ light: colors.N10, dark: colors.DN80 })}
         background-size: 16px;
         border-radius: 3px;
         border-style: solid;
-        border-width: 1px;
-        border-color: ${themed({ light: colors.N50, dark: colors.DN90 })}
+        border-width: 2px;
+        border-color: ${themed({ light: colors.N40, dark: colors.DN90 })}
         box-sizing: border-box;
         content: '';
         height: 16px;
@@ -56,16 +66,14 @@ export const CheckBoxWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
     }
     &:checked {
       + label::after {
-        background: url(data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICA8cmVjdCB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSIyIiBmaWxsPSIjMDA1MkNDIj48L3JlY3Q+DQogIDxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik05LjM3NCA0LjkxNEw1LjQ1NiA4LjgzMmEuNzY5Ljc2OSAwIDAgMS0xLjA4OCAwTDIuNjI2IDcuMDkxYS43NjkuNzY5IDAgMSAxIDEuMDg4LTEuMDg5TDQuOTEyIDcuMmwzLjM3NC0zLjM3NGEuNzY5Ljc2OSAwIDEgMSAxLjA4OCAxLjA4OCI+PC9wYXRoPg0KPC9zdmc+)
-          no-repeat 0 0;
+        background: ${checkedBoxDataUrl(colors.B400)} no-repeat 0 0;
         background-size: 16px;
         border: 0;
         border-color: transparent;
         border-radius: 0; /* FS-1392 */
       }
       &:not([disabled]) + label:hover::after {
-        background: url(data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICA8cmVjdCB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHJ4PSIyIiBmaWxsPSIjMDc0N0E2Ij48L3JlY3Q+DQogIDxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik05LjM3NCA0LjkxNEw1LjQ1NiA4LjgzMmEuNzY5Ljc2OSAwIDAgMS0xLjA4OCAwTDIuNjI2IDcuMDkxYS43NjkuNzY5IDAgMSAxIDEuMDg4LTEuMDg5TDQuOTEyIDcuMmwzLjM3NC0zLjM3NGEuNzY5Ljc2OSAwIDEgMSAxLjA4OCAxLjA4OCI+PC9wYXRoPg0KPC9zdmc+)
-          no-repeat 0 0;
+        background: ${checkedBoxDataUrl(colors.B300)} no-repeat 0 0;
         background-size: 16px;
       }
     }

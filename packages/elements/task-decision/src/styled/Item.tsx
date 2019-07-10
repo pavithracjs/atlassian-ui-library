@@ -15,25 +15,36 @@ export const ContentWrapper: ComponentClass<
   flex: 1 1 auto;
 `;
 
-export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
+export interface WrapperProps {
+  highlight?: boolean;
+}
+
+const highlightColor = themed({ light: colors.N20, dark: colors.DN50 });
+
+export const Wrapper: ComponentClass<
+  HTMLAttributes<{}> & WrapperProps
+> = styled.div`
   display: flex;
   flex-direction: row;
 
   line-height: 20px;
   border-radius: ${borderRadius()}px;
-  margin: ${akGridSize / 2}px 0;
+  margin: 0;
   padding: ${akGridSize}px ${akGridSize}px;
   min-height: 36px;
   box-sizing: border-box;
   box-shadow: none;
 
+  background-color: ${(props: WrapperProps) =>
+    props.highlight ? highlightColor : 'transparent'};
+
   &:hover {
     box-shadow: none;
     transition: box-shadow 0.2s ease-in-out;
-    background-color: ${themed({ light: colors.N20, dark: colors.DN50 })};
+    background-color: ${highlightColor};
   }
 
-  border: 1px solid: ${themed({ light: 'none', dark: colors.DN60 })};
+  border: 1px solid 'none';
 `;
 
 export const ParticipantWrapper: ComponentClass<

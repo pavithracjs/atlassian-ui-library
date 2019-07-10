@@ -18,6 +18,7 @@ export interface Props {
   children?: ReactElement<any>;
   taskDecisionProvider?: Promise<TaskDecisionProvider>;
   contextIdentifierProvider?: Promise<ContextIdentifierProvider>;
+  highlight?: boolean;
 }
 
 export interface State {

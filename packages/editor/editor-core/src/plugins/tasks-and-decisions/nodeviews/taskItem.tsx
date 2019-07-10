@@ -104,10 +104,24 @@ class Task extends ReactNodeView<Props> {
           }}
           render={({
             editorDisabledPlugin,
+	    taskDecisionPlugin,
           }: {
             editorDisabledPlugin: EditorDisabledPluginState;
             taskDecisionPlugin: TaskDecisionPluginState;
           }) => {
+            let highlightCurrentNode = false;
+            if (
+              taskDecisionPlugin &&
+              taskDecisionPlugin.highlightTaskDecisionItem
+            ) {
+              // use same markup as going from empty task to task with content is a new node, so eq
+              // is false in that case, causing flickering in that use case
+              // localId is unique within the document, so this will only match 1 node.
+              highlightCurrentNode = this.node.sameMarkup(
+                taskDecisionPlugin.highlightTaskDecisionItem,
+              );
+            }
+
             return (
               <TaskItem
                 taskId={localId}
@@ -117,6 +131,7 @@ class Task extends ReactNodeView<Props> {
                 showPlaceholder={this.isContentEmpty(this.node)}
                 providers={props.providerFactory}
                 disabled={(editorDisabledPlugin || {}).editorDisabled}
+                highlight={highlightCurrentNode}
               />
             );
           }}

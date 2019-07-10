@@ -56,6 +56,7 @@ export default class DecisionItem extends PureComponent<Props, {}> {
         placeholder={placeholder}
         showPlaceholder={showPlaceholder}
         attribution={this.getAttributionText()}
+        highlight
       >
         {children}
       </Item>

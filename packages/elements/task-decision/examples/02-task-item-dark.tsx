@@ -18,6 +18,16 @@ export default () => (
         Hello <b>world</b>.
       </TaskItem>
 
+      <h3>Simple TaskItem highlighted</h3>
+      <TaskItem
+        taskId="task-1"
+        contentRef={dumpRef}
+        onChange={action('onChange')}
+        highlight
+      >
+        Hello <b>world</b>.
+      </TaskItem>
+
       <h3>Long TaskItem</h3>
       <TaskItem taskId="task-1" contentRef={dumpRef}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
