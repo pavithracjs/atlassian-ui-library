@@ -1,4 +1,4 @@
-import { AkPackageChange } from './types';
+import { AkPackageChange } from '../types';
 
 type CsvColumn = [[string]];
 

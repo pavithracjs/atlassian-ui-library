@@ -9,7 +9,7 @@ import {
   UpgradeType,
   UpgradeSubType,
 } from 'src/types';
-import { version as packageVersion } from '../../version.json';
+import { version as packageVersion } from '../version.json';
 
 function getUpgradeType(
   version: string | undefined,

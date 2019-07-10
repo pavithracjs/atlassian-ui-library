@@ -1,24 +1,27 @@
-import { PackageInfo } from './../../util/get-package-info';
+import { PackageVersionHistory } from '../../util/get-package-version-history';
 import semver from 'semver';
 import { PopulateHistoricDataFlags } from './types';
 import { UpgradeEvent } from '../../types';
-import getPackageInfo from '../../util/get-package-info';
+import getPackageVersionHistory from '../../util/get-package-version-history';
 import { createUpgradeEvent, sendAnalytics } from '../../util/analytics';
 
 export type PopulatePackageFlags = PopulateHistoricDataFlags & {
+  since?: string;
   pkg: string;
 };
 
 const createAnalyticsEvents = (
   packageName: string,
-  packageInfo: PackageInfo,
+  packageVersionHistory: PackageVersionHistory,
+  since?: string,
 ): UpgradeEvent[] => {
-  if (!packageInfo.data || !packageInfo.data.time) {
-    throw new Error(`Malformed yarn info json for ${packageName}`);
-  }
-  const upgradeEvents = Object.entries(packageInfo.data.time)
-    .filter(([version]) => semver.valid(version))
-    .sort((a, b) => +new Date(a[1]) - +new Date(b[1]))
+  const upgradeEvents = Object.entries(packageVersionHistory)
+    .filter(
+      ([version, date]) =>
+        semver.valid(version) &&
+        (!since || Number(new Date(date)) > Number(new Date(since))),
+    )
+    .sort((a, b) => Number(new Date(a[1])) - Number(new Date(b[1])))
     .map(([version, time], i, arr) => {
       const previousVersion = arr[i - 1] && arr[i - 1][0];
       return createUpgradeEvent(packageName, version, previousVersion, time, {
@@ -30,17 +33,27 @@ const createAnalyticsEvents = (
   return upgradeEvents;
 };
 
-export default async function run(flags: PopulatePackageFlags) {
+export default async function populatePackage(
+  flags: PopulatePackageFlags,
+): Promise<UpgradeEvent[]> {
   if (!flags.pkg.startsWith('@atlaskit/')) {
     throw new Error(`Package must start with '@atlaskit/'`);
   }
-  const packageInfo = await getPackageInfo(flags.pkg);
+  const packageVersionHistory = await getPackageVersionHistory(flags.pkg);
 
-  const analyticsEvents = createAnalyticsEvents(flags.pkg, packageInfo);
+  if (flags.since && Number.isNaN(Number(new Date(flags.since)))) {
+    throw new Error(`'since' flag is an invalid date`);
+  }
+
+  const analyticsEvents = createAnalyticsEvents(
+    flags.pkg,
+    packageVersionHistory,
+    flags.since,
+  );
 
   if (flags.dryRun) {
     console.log(JSON.stringify(analyticsEvents));
-    return;
+    return analyticsEvents;
   }
 
   await sendAnalytics(analyticsEvents, {
@@ -49,5 +62,5 @@ export default async function run(flags: PopulatePackageFlags) {
     product: 'atlaskit',
   });
 
-  console.log('Done.');
+  return analyticsEvents;
 }

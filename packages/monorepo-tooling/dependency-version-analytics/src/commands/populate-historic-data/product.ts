@@ -20,7 +20,7 @@ import {
   getHash,
 } from '../../util/git';
 import { ListLogSummary } from 'simple-git/typings/response';
-import { generateCSV } from './generate-csv';
+import { generateCSV } from './util/generate-csv';
 
 // Object.fromEntries polyfill, remove when upgraded to node 10
 function fromEntries(iterable: any) {
@@ -161,7 +161,7 @@ const getEventsFromHistory = async (
   return { allPackageChanges, allUpgradeEvents };
 };
 
-export default async function run(flags: PopulateProductFlags) {
+export default async function populateProduct(flags: PopulateProductFlags) {
   const tag = flags.tag || DEFAULT_TAG;
   if (!flags.reset) {
     await refetchTag(tag);
