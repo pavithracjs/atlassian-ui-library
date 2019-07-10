@@ -1,4 +1,7 @@
-import React, { Component, SyntheticEvent } from 'react';
+/** @jsx jsx */
+
+import { jsx } from '@emotion/core';
+import { Component, SyntheticEvent, Fragment } from 'react';
 import Button from '@atlaskit/button';
 import StarLargeIcon from '@atlaskit/icon/glyph/star-large';
 import BoardIcon from '@atlaskit/icon/glyph/board';
@@ -68,7 +71,7 @@ const commonProps = {
 };
 
 const Items = () => (
-  <>
+  <Fragment>
     <DrawerItemGroup title="Lots of Items" isCompact>
       <DrawerItem
         {...commonProps}
@@ -106,10 +109,10 @@ const Items = () => (
         Item isHidden
       </DrawerItem>
     </DrawerItemGroup>
-  </>
+  </Fragment>
 );
 const Skeleton = () => (
-  <>
+  <Fragment>
     <DrawerSkeletonHeader isAvatarHidden />
     <DrawerSkeletonItem itemTextWidth="24rem" />
     <DrawerSkeletonItem itemTextWidth="24rem" />
@@ -117,5 +120,5 @@ const Skeleton = () => (
     <DrawerSkeletonItem itemTextWidth="24rem" />
     <DrawerSkeletonItem itemTextWidth="24rem" />
     <DrawerSkeletonItem itemTextWidth="24rem" />
-  </>
+  </Fragment>
 );
