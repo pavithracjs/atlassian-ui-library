@@ -1,0 +1,1 @@
+Increase image preview max height and width to 4096px

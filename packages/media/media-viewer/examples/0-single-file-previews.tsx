@@ -21,6 +21,7 @@ import {
   videoLargeFileItem,
   videoProcessingFailedItem,
   wideImageItem,
+  verticalImageItem,
   videoSquareFileIdItem,
 } from '../example-helpers';
 import { MediaViewer } from '../src';
@@ -70,6 +71,7 @@ export default class Example extends React.Component<{}, State> {
               <li>{this.createItem(imageItem, 'Picture')}</li>
               <li>{this.createItem(smallImageItem, 'Icon')}</li>
               <li>{this.createItem(wideImageItem, 'Wide')}</li>
+              <li>{this.createItem(verticalImageItem, 'Vertical')}</li>
               <li>{this.createItem(largeImageItem, 'Large')}</li>
             </ButtonList>
           </Group>
