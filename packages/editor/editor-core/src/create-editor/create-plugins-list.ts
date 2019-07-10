@@ -50,6 +50,7 @@ import {
   annotationPlugin,
   analyticsPlugin,
   customAutoformatPlugin,
+  historyAnalyticsPlugin,
 } from '../plugins';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -78,6 +79,7 @@ export function getDefaultPluginsList(
     typeAheadPlugin,
     unsupportedContentPlugin,
     editorDisabledPlugin,
+    historyAnalyticsPlugin,
   ]);
 }
 
