@@ -29,7 +29,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
           </Styled.Heading>
           <Styled.Body>
             <p>
-              If you don't have any teams,
+              If you don't have any teams,{' '}
               <a href={createTeamLink} target="_blank">
                 start a team{' '}
               </a>

@@ -29,7 +29,7 @@ export const Section = styled.div`
 
 export const Aside = styled.div`
   flex-direction: column;
-  margin-right: ${gridSize() * 1}px;
+  margin: 0 ${gridSize() * 1}px 0 ${gridSize() * 2}px;
   opacity: 0.7;
 `;
 
