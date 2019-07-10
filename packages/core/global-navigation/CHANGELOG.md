@@ -1,5 +1,13 @@
 # @atlaskit/global-navigation
 
+## 7.3.2
+
+### Patch Changes
+
+- [patch][ff3bea5617](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff3bea5617):
+
+  Fix the issue with aria-label not set for profile menu
+
 ## 7.3.1
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
