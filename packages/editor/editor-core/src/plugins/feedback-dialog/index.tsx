@@ -11,7 +11,6 @@ import {
   ACTION_SUBJECT,
   INPUT_METHOD,
   EVENT_TYPE,
-  ACTION_SUBJECT_ID,
 } from '../analytics';
 import loadJiraCollectorDialogScript from './loadJiraCollectorDialogScript';
 
@@ -75,7 +74,6 @@ const feedbackDialog = (feedbackInfo: FeedbackInfo): EditorPlugin => {
             return addAnalytics(tr, {
               action: ACTION.OPENED,
               actionSubject: ACTION_SUBJECT.FEEDBACK_DIALOG,
-              actionSubjectId: ACTION_SUBJECT_ID.SHORTCUT_FEEDBACK_DIALOG,
               attributes: { inputMethod: INPUT_METHOD.QUICK_INSERT },
               eventType: EVENT_TYPE.UI,
             });

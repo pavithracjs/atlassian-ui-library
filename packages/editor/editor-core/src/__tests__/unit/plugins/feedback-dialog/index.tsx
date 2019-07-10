@@ -83,7 +83,6 @@ describe('feedbackDialogPlugin', () => {
       expect(createAnalyticsEvent).toHaveBeenCalledWith({
         action: 'opened',
         actionSubject: 'feedbackDialog',
-        actionSubjectId: 'shortcutFeedbackDialog',
         eventType: 'ui',
         attributes: {
           inputMethod: 'quickInsert',

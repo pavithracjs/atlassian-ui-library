@@ -29,6 +29,9 @@ import {
 import { createDispatch } from '../../event-dispatcher';
 import { openFeedbackDialog } from '../../plugins/feedback-dialog';
 import { FeedbackInfo } from '../../types';
+import deprecationWarnings, {
+  DeprecationWarning,
+} from '../../utils/deprecation-warnings';
 
 const PopupWithOutsideListeners: any = withOuterListeners(Popup);
 const POPUP_HEIGHT = 388;
@@ -45,17 +48,38 @@ export type EditorProduct =
   | undefined;
 
 export interface Props {
-  /** DEPRECATED - moved to EditorProps.feedbackInfo.packageVersion. Feedback modal is now a part of Editor. */
+  /** @deprecated  To pass package version use feedbackInfo property – <Editor feedbackInfo={{ packageVersion }} /> */
   packageVersion?: string;
-  /** DEPRECATED - moved to EditorProps.feedbackInfo.packageName. Feedback modal is now a part of Editor. */
+  /** @deprecated  'To pass package name use feedbackInfo property – <Editor feedbackInfo={{ packageName }} /> */
   packageName?: string;
   product?: EditorProduct;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
-  /** DEPRECATED - moved to EditorProps.feedbackInfo.labels. Feedback modal is now a part of Editor. */
+  /** @deprecated 'To pass feedback labels use feedbackInfo property – <Editor feedbackInfo={{ labels }} />' */
   labels?: string[];
 }
+
+const deprecations: Array<DeprecationWarning> = [
+  {
+    property: 'packageVersion',
+    description:
+      'To pass package version use feedbackInfo property – <Editor feedbackInfo={{ packageVersion }} />',
+    type: 'removed',
+  },
+  {
+    property: 'packageName',
+    description:
+      'To pass package name use feedbackInfo property – <Editor feedbackInfo={{ packageName }} />',
+    type: 'removed',
+  },
+  {
+    property: 'labels',
+    description:
+      'To pass feedback labels use feedbackInfo property – <Editor feedbackInfo={{ labels }} />',
+    type: 'removed',
+  },
+];
 
 export interface State {
   jiraIssueCollectorScriptLoading: boolean;
@@ -70,6 +94,17 @@ declare global {
   }
 }
 
+const pickBy = (test: (key: string, value: any) => boolean, object: any): any =>
+  (Object.keys(object) as Array<keyof typeof object>).reduce(
+    (obj, key) =>
+      object.hasOwnProperty(key) && test(String(key), object[key])
+        ? { ...obj, [key]: object[key] }
+        : obj,
+    {},
+  );
+
+const isNullOrUndefined = (attr: string) => attr === null || attr === undefined;
+
 export default class ToolbarFeedback extends PureComponent<Props, State> {
   static contextTypes = {
     editorActions: PropTypes.object.isRequired,
@@ -79,6 +114,11 @@ export default class ToolbarFeedback extends PureComponent<Props, State> {
     jiraIssueCollectorScriptLoading: false,
     showOptOutOption: false,
   };
+
+  constructor(props: Props) {
+    super(props);
+    deprecationWarnings(ToolbarFeedback.name, props, deprecations);
+  }
 
   private handleRef = (ref: ToolbarButton | null) => {
     if (ref) {
@@ -92,18 +132,17 @@ export default class ToolbarFeedback extends PureComponent<Props, State> {
 
   private handleSpinnerComplete() {}
 
-  private getFeedbackInfo(): FeedbackInfo {
-    return Object.entries(
-      (({ product, packageVersion, packageName, labels }: FeedbackInfo) => ({
-        product,
-        packageVersion,
-        packageName,
-        labels,
-      }))(this.props),
-    )
-      .filter(([_name, value]) => value)
-      .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
-  }
+  // Create a FeedbackInfo instance from props.
+  private getFeedbackInfo = (): FeedbackInfo => {
+    const isFeedbackInfoAttr = (attr: string) =>
+      ['product', 'packageVersion', 'packageName', 'labels'].indexOf(attr) >= 0;
+
+    return pickBy(
+      (key: string, value: any) =>
+        isFeedbackInfoAttr(key) && !isNullOrUndefined(value),
+      this.props,
+    );
+  };
 
   render() {
     const {

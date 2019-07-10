@@ -107,7 +107,6 @@ export enum ACTION_SUBJECT_ID {
   PUNC = 'punctuation',
   SAVE = 'save',
   SECTION = 'section',
-  SHORTCUT_FEEDBACK_DIALOG = 'shortcutFeedbackDialog',
   SMART_LINK = 'smartLink',
   STATUS = 'status',
   SYMBOL = 'symbol',

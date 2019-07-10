@@ -158,7 +158,7 @@ export const messages = defineMessages({
   feedbackDialogDescription: {
     id: 'fabric.editor.feedbackDialog.description',
     defaultMessage: 'Tell us about your experience using the new editor',
-    description: 'Open the feedback dialog from editor',
+    description: 'Description for feedback option under quick insert dropdown',
   },
   horizontalRule: {
     id: 'fabric.editor.horizontalRule',

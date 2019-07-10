@@ -34,7 +34,7 @@ type PickerAEP<ActionSubjectID, Attributes> = UIAEP<
 type FeedbackAEP = UIAEP<
   ACTION.OPENED,
   ACTION_SUBJECT.FEEDBACK_DIALOG,
-  ACTION_SUBJECT_ID.SHORTCUT_FEEDBACK_DIALOG,
+  undefined,
   { inputMethod: INPUT_METHOD.QUICK_INSERT }
 >;
 
