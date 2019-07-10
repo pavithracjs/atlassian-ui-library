@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.31.1
+
+### Patch Changes
+
+- [patch][428874c03b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/428874c03b):
+
+  ED-7166: Lists can now be toggled inside panels
+
 ## 112.31.0
 
 ### Minor Changes
