@@ -9,6 +9,7 @@ import {
   JiraIcon,
   JiraServiceDeskIcon,
   JiraSoftwareIcon,
+  OpsGenieIcon,
   StrideIcon,
   StatuspageIcon,
 } from '../src';
@@ -20,6 +21,7 @@ const logoOptions = [
   JiraIcon,
   JiraServiceDeskIcon,
   JiraSoftwareIcon,
+  OpsGenieIcon,
   StrideIcon,
   StatuspageIcon,
 ];
