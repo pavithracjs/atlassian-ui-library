@@ -168,7 +168,7 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                 isOpen={Boolean(pluginState.isContextualMenuOpen)}
                 pluginConfig={pluginState.pluginConfig}
               />
-              {pluginState.pluginConfig.allowControls && (
+              {allowControls && (
                 <FloatingDeleteButton
                   editorView={editorView}
                   selection={editorView.state.selection}
