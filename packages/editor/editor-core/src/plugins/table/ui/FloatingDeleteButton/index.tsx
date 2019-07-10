@@ -221,6 +221,7 @@ class FloatingDeleteButton extends Component<Props, State> {
       tableRef,
       `.${ClassName.TABLE_CONTAINER}`,
     );
+
     const tableWrapper = closestElement(
       tableRef,
       `.${ClassName.TABLE_NODE_WRAPPER}`,
@@ -239,6 +240,7 @@ class FloatingDeleteButton extends Component<Props, State> {
           top: this.state.top,
           selectionType: this.state.selectionType,
           isNumbered: isNumberedEnabled,
+          tableWrapper,
         })}
       >
         <DeleteButton

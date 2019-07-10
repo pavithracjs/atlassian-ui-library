@@ -14,6 +14,7 @@ interface GetPopupOptions {
   top: number;
   selectionType?: CellSelectionType;
   isNumbered?: boolean;
+  tableWrapper: HTMLElement | null;
 }
 
 const DELETE_BUTTON_CONTROLS_OFFSET =
@@ -22,11 +23,31 @@ const DELETE_BUTTON_CONTROLS_OFFSET =
 const DELETE_BUTTON_CONTROLS_NUMBERED_OFFSET =
   DELETE_BUTTON_CONTROLS_OFFSET + akEditorTableNumberColumnWidth;
 
-function getColumnOptions(left: number): Partial<PopupProps> {
+function getColumnOptions(
+  left: number,
+  tableWrapper: HTMLElement | null,
+): Partial<PopupProps> {
   return {
     alignX: 'left',
     alignY: 'start',
     offset: [left, DELETE_BUTTON_CONTROLS_OFFSET],
+    shouldRenderPopup() {
+      if (tableWrapper) {
+        const rect = tableWrapper.getBoundingClientRect();
+        const maxVisibleLeftPosition =
+          rect.width + tableWrapper.scrollLeft - tableDeleteButtonSize;
+        const minVisibleLeftPosition = tableWrapper.scrollLeft;
+        return (
+          maxVisibleLeftPosition - left > 0 && left > minVisibleLeftPosition
+        );
+      }
+      return false;
+    },
+    onPositionCalculated(position) {
+      return {
+        ...position,
+      };
+    },
   };
 }
 
@@ -50,10 +71,11 @@ export default function getPopupOptions({
   top,
   selectionType,
   isNumbered = false,
+  tableWrapper,
 }: GetPopupOptions): Partial<PopupProps> {
   switch (selectionType) {
     case 'column':
-      return getColumnOptions(left);
+      return getColumnOptions(left, tableWrapper);
     case 'row':
       return getRowOptions(top, isNumbered);
     default: {
