@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RecentList, { LinkInputType } from './LinkAddToolbar';
+import HyperlinkAddToolbar, { LinkInputType } from './HyperlinkAddToolbar';
 import { ProviderFactory, WithProviders } from '@atlaskit/editor-common';
 import { DispatchAnalyticsEvent } from '../../../analytics';
 
@@ -13,14 +13,11 @@ export interface Props {
     isTabPressed?: boolean,
   ) => void;
   onSubmit: (href: string, text: string, type?: LinkInputType) => void;
-  displayText?: string | null;
+  displayText: string;
   displayUrl?: string;
 }
 
-export default class HyperlinkAddToolbar extends React.PureComponent<
-  Props,
-  {}
-> {
+export default class Toolbar extends React.PureComponent<Props, {}> {
   render() {
     const {
       onSubmit,
@@ -35,7 +32,7 @@ export default class HyperlinkAddToolbar extends React.PureComponent<
         providers={['activityProvider']}
         providerFactory={providerFactory}
         renderNode={({ activityProvider }) => (
-          <RecentList
+          <HyperlinkAddToolbar
             provider={activityProvider}
             onSubmit={onSubmit}
             onBlur={onBlur}
