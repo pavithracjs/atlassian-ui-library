@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.31.2
+
+### Patch Changes
+
+- [patch][96bb8c8f70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96bb8c8f70):
+
+  Create viewMediaClientConfig & uploadMediaClientConfig on Editor if they are missing
+
 ## 112.31.1
 
 ### Patch Changes
