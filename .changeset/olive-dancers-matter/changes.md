@@ -1,1 +1,0 @@
-ED-7188: Full width mode is now centre aligned.

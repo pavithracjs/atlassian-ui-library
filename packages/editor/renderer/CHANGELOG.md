@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.6.0
+
+### Minor Changes
+
+- [minor][e9cdfa5aed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9cdfa5aed):
+
+  ED-7188: Full width mode is now centre aligned.
+
 ## 49.5.0
 
 ### Minor Changes
