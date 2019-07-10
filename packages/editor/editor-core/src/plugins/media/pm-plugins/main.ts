@@ -149,6 +149,7 @@ export class MediaPluginState {
     try {
       this.mediaProvider = await mediaProvider;
 
+      // TODO [MS-2038]: remove once context api is removed
       // We want to re assign the view and upload configs if they are missing for backwards compatibility
       // as currently integrators can pass context || mediaClientConfig
       if (!this.mediaProvider.viewMediaClientConfig) {
