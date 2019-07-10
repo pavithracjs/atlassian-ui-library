@@ -16,12 +16,16 @@ import { EditorView } from 'prosemirror-view';
 import * as React from 'react';
 import { tablesPlugin } from '../../../../../plugins';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
-import { TablePluginState } from '../../../../../plugins/table/types';
+import {
+  TablePluginState,
+  TableCssClassName,
+} from '../../../../../plugins/table/types';
 import FloatingDeleteButton, {
   Props as FloatingDeleteButtonProps,
 } from '../../../../../plugins/table/ui/FloatingDeleteButton';
 import DeleteButton from '../../../../../plugins/table/ui/FloatingDeleteButton/DeleteButton';
 import tableMessages from '../../../../../plugins/table/ui/messages';
+import * as tableUtils from '../../../../../plugins/table/utils';
 
 describe('Floating Delete Button', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -77,6 +81,20 @@ describe('Floating Delete Button', () => {
   });
 
   describe('Columns', () => {
+    beforeEach(() => {
+      const COLUMN_WIDTH = 33;
+      const tableWrapper = document.querySelector(
+        `.${TableCssClassName.TABLE_NODE_WRAPPER}`,
+      );
+      jest.spyOn(tableWrapper!, 'getBoundingClientRect').mockReturnValue({
+        width: COLUMN_WIDTH * 3,
+      });
+      tableWrapper!.scrollLeft = 0;
+      jest
+        .spyOn(tableUtils, 'getColumnsWidths')
+        .mockReturnValue([COLUMN_WIDTH, COLUMN_WIDTH, COLUMN_WIDTH]);
+    });
+
     test.each([[1], [2], [3]])(
       'should renders a delete button with column %d selected',
       column => {

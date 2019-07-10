@@ -17,7 +17,6 @@ import {
   getColumnsWidths,
   getRowDeleteButtonParams,
   getRowHeights,
-  checkIfNumberColumnEnabled,
 } from '../../utils';
 import tableMessages from '../messages';
 import DeleteButton from './DeleteButton';

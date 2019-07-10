@@ -34,7 +34,7 @@ function getColumnOptions(
           maxVisibleLeftPosition - left > 0 && left > minVisibleLeftPosition
         );
       }
-      return false;
+      return true;
     },
   };
 }
