@@ -273,7 +273,6 @@ export class MediaPluginState {
   ) => {
     const mediaStateWithContext: MediaState = {
       ...mediaState,
-      // TODO: check which contextIdentifierProvider prop we want here
       contextId: this.contextIdentifierProvider
         ? this.contextIdentifierProvider.objectId
         : undefined,
