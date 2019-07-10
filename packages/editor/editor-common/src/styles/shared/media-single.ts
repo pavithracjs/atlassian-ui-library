@@ -16,7 +16,8 @@ const mediaSingleSharedStyle = css`
   }
 
   table .media-single {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .media-single.image-wrap-left + .media-single.image-wrap-right,

@@ -119,6 +119,7 @@ function createEditorWindowBindings(win: Window) {
       props.media = {
         allowMediaSingle: true,
         allowResizing: true,
+        allowResizingInTables: true,
         allowLinking: true,
         ...props.media,
         provider: mediaProvider,

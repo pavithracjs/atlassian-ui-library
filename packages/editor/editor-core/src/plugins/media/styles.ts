@@ -6,6 +6,8 @@ import {
   akEditorDeleteBorder,
   akEditorDeleteBackground,
   akEditorSelectedBorderBoldSize,
+  akEditorMediaResizeHandlerPaddingWide,
+  akEditorMediaResizeHandlerPadding,
 } from '@atlaskit/editor-common';
 import { colors } from '@atlaskit/theme';
 
@@ -36,6 +38,16 @@ export const mediaStyles = css`
         margin-right: 0;
       }
     }
+
+    /* Larger margins for resize handlers when at depth 0 of the document */
+    & > .mediaSingleView-content-wrap {
+      .mediaSingle-resize-handle-right {
+        margin-right: -${akEditorMediaResizeHandlerPaddingWide}px;
+      }
+      .mediaSingle-resize-handle-left {
+        margin-left: -${akEditorMediaResizeHandlerPaddingWide}px;
+      }
+    }
   }
 
   .mediaSingle-resize-handle-right,
@@ -50,13 +62,13 @@ export const mediaStyles = css`
   .mediaSingle-resize-handle-right {
     align-items: flex-end;
     padding-right: 12px;
-    margin-right: -12px;
+    margin-right: -${akEditorMediaResizeHandlerPadding}px;
   }
 
   .mediaSingle-resize-handle-left {
     align-items: flex-start;
     padding-left: 12px;
-    margin-left: -12px;
+    margin-left: -${akEditorMediaResizeHandlerPadding}px;
   }
 
   .mediaSingle-resize-handle-right::after,

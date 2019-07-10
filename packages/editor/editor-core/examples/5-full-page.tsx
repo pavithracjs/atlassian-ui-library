@@ -221,6 +221,7 @@ class ExampleEditorComponent extends React.Component<
                 allowResizing: true,
                 allowAnnotation: true,
                 allowLinking: true,
+                allowResizingInTables: true,
               }}
               allowHelpDialog
               placeholder="Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule."

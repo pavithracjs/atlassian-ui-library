@@ -135,15 +135,15 @@ export const handleMouseOver = (
     return showInsertRowButton(positionRow)(state, dispatch);
   }
 
-  if (isCell(target) || isCornerButton(target)) {
-    return hideInsertColumnOrRowButton()(state, dispatch);
-  }
-
   if (isColumnControlsDecorations(target)) {
     const [startIndex] = getColumnOrRowIndex(target);
     const { state, dispatch } = view;
 
     return hoverColumns([startIndex], false)(state, dispatch);
+  }
+
+  if (isCell(target) || isCornerButton(target)) {
+    return hideInsertColumnOrRowButton()(state, dispatch);
   }
 
   return false;

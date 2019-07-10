@@ -43,6 +43,7 @@ export interface MediaOptions {
   customDropzoneContainer?: HTMLElement;
   customMediaPicker?: CustomMediaPicker;
   allowResizing?: boolean;
+  allowResizingInTables?: boolean;
   allowAnnotation?: boolean;
   allowLinking?: boolean;
 }
@@ -237,6 +238,7 @@ const mediaPlugin = (
       floatingToolbar(state, intl, {
         providerFactory,
         allowResizing: options && options.allowResizing,
+        allowResizingInTables: options && options.allowResizingInTables,
         allowAnnotation: options && options.allowAnnotation,
         allowLinking: options && options.allowLinking,
         allowAdvancedToolBarOptions:

@@ -12,7 +12,6 @@ import {
   ProviderFactory,
 } from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
-import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 import { NodeSelection } from 'prosemirror-state';
 import { MediaClientConfig } from '@atlaskit/media-core';
 
@@ -31,6 +30,7 @@ import { isMobileUploadCompleted } from '../commands/helpers';
 import { MediaSingleNodeProps, MediaSingleNodeViewProps } from './types';
 import { MediaNodeUpdater } from './mediaNodeUpdater';
 import { getViewMediaClientConfigFromMediaProvider } from '../utils/media-common';
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 
 export interface MediaSingleNodeState {
   width?: number;
@@ -152,9 +152,9 @@ export default class MediaSingleNode extends Component<
       selected,
       getPos,
       node,
-      view: { state },
       mediaPluginOptions,
       fullWidthMode,
+      view: { state },
     } = this.props;
 
     const { layout, width: mediaSingleWidth } = node.attrs;
@@ -174,16 +174,6 @@ export default class MediaSingleNode extends Component<
       }
     }
 
-    let canResize = !!this.props.mediaOptions.allowResizing;
-
-    const pos = getPos();
-    if (pos) {
-      const $pos = state.doc.resolve(pos);
-      const { table } = state.schema.nodes;
-      const disabledNode = !!findParentNodeOfTypeClosestToPos($pos, [table]);
-      canResize = canResize && !disabledNode;
-    }
-
     if (width === null || height === null) {
       width = DEFAULT_IMAGE_WIDTH;
       height = DEFAULT_IMAGE_HEIGHT;
@@ -200,7 +190,6 @@ export default class MediaSingleNode extends Component<
       layout,
       width,
       height,
-
       containerWidth: this.props.width,
       lineLength: this.props.lineLength,
       pctWidth: mediaSingleWidth,
@@ -230,6 +219,19 @@ export default class MediaSingleNode extends Component<
         url={childNode.attrs.url}
       />
     );
+
+    let canResize = !!this.props.mediaOptions.allowResizing;
+
+    if (!this.props.mediaOptions.allowResizingInTables) {
+      // If resizing not allowed in tables, check parents for tables
+      const pos = getPos();
+      if (pos) {
+        const $pos = state.doc.resolve(pos);
+        const { table } = state.schema.nodes;
+        const disabledNode = !!findParentNodeOfTypeClosestToPos($pos, [table]);
+        canResize = canResize && !disabledNode;
+      }
+    }
 
     return canResize ? (
       <ResizableMediaSingle
