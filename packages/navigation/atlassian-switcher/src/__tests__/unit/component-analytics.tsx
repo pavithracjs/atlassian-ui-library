@@ -118,6 +118,10 @@ describe('Atlassian Switcher - Component Analytics', () => {
       eventType: 'operational',
       action: 'rendered',
       actionSubject: 'atlassianSwitcher',
+      attributes: {
+        suggestedProductKeys: ['confluence.ondemand'],
+        licensedProductKeys: ['jira'],
+      },
     });
     expect(payload.attributes).toHaveProperty('duration');
     expect(payload.attributes.duration).toBeGreaterThanOrEqual(0);
