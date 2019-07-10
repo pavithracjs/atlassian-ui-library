@@ -13,22 +13,22 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <linearGradient id="${id}-1" x1="50%" x2="50%" y1="0%" y2="100%">
         <stop
           offset="0%"
-          stop-color="${iconGradientStart}"
-          ${iconGradientStart === 'inherit' ? 'stop-opacity="0.4"' : ''}
+          stop-color="${iconGradientStop}"
         />
         <stop
-          stop-color="${iconGradientStop}"
-          offset="100%"
+          offset="82%"
+          stop-color="${iconGradientStart}"
+          ${iconGradientStart === 'inherit' ? 'stop-opacity="0.4"' : ''}
         />
       </linearGradient>
       <linearGradient id="${id}-2" x1="7.133%" x2="50%" y1="13.352%" y2="58.228%">
         <stop
           offset="0%"
-          stop-color="${iconGradientStart}"
-          ${iconGradientStart === 'inherit' ? 'stop-opacity="0.4"' : ''}
+          stop-color="${iconGradientStop}"
         />
         <stop
-          stop-color="${iconGradientStop}"
+          stop-color="${iconGradientStart}"
+          ${iconGradientStart === 'inherit' ? 'stop-opacity="0.4"' : ''}
           offset="100%"
         />
       </linearGradient>
