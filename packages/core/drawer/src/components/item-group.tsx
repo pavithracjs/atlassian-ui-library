@@ -1,5 +1,6 @@
 /** @jsx jsx */
 
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import { ItemGroup } from '@atlaskit/item';
 import { fontSizeSmall, gridSize as gridSizeFn } from '@atlaskit/theme';
@@ -7,7 +8,7 @@ import { fontSizeSmall, gridSize as gridSizeFn } from '@atlaskit/theme';
 interface Props {
   /** React Elements to be displayed within the group. This should generally be
    a collection of NavigationItems. */
-  children?: Node;
+  children?: ReactNode;
   /** Set whether the text should be compacted. */
   isCompact?: boolean;
   /** Text to appear as heading above group. Will be auto-capitalised. */

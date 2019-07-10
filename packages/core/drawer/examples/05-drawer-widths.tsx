@@ -12,7 +12,7 @@ interface State {
 export default class DrawersExample extends Component<{}, State> {
   state = {
     isDrawerOpen: false,
-    width: 'narrow',
+    width: 'narrow' as DrawerWidth,
   };
 
   openDrawer = (width: DrawerWidth) => () =>
@@ -42,7 +42,7 @@ export default class DrawersExample extends Component<{}, State> {
         </Drawer>
         {widths.map(width => (
           <Button
-            onClick={this.openDrawer(width)}
+            onClick={this.openDrawer(width as DrawerWidth)}
             type="button"
             key={width}
             id={`open-${width}-drawer`}

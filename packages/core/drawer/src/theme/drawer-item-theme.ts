@@ -15,7 +15,7 @@ const focus = {
   outline: themed({ light: colors.B100, dark: colors.B75 }),
 };
 
-function lightenColor(color, alpha) {
+function lightenColor(color: string, alpha: number) {
   const { r: red, g: green, b: blue } = chromatism.convert(color).rgb;
   return `rgba(${red}, ${green}, ${blue}, 0.${alpha})`;
 }

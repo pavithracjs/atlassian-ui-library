@@ -9,12 +9,13 @@ interface State {
 
 export default class DrawersExample extends Component<{}, State> {
   state = {
-    width: widths[0],
+    width: widths[0] as DrawerWidth,
   };
 
   onNextClick = () => {
-    const width =
-      widths[(widths.indexOf(this.state.width) + 1) % widths.length];
+    const width = widths[
+      (widths.indexOf(this.state.width) + 1) % widths.length
+    ] as DrawerWidth;
     this.setState({
       width,
     });
@@ -27,7 +28,7 @@ export default class DrawersExample extends Component<{}, State> {
           <code>{this.state.width} width</code>
         </div>
         <div css={{ margin: '1rem 0' }}>
-          <Button interface="button" onClick={this.onNextClick}>
+          <Button type="button" onClick={this.onNextClick}>
             Next width
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, SyntheticEvent } from 'react';
 import Button from '@atlaskit/button';
 import StarLargeIcon from '@atlaskit/icon/glyph/star-large';
 import BoardIcon from '@atlaskit/icon/glyph/board';
@@ -45,15 +45,15 @@ export default class DrawersExample extends Component<{}, State> {
   }
 }
 
-const persister = ev => {
+const persister = (ev: SyntheticEvent) => {
   ev.persist();
   logEvToConsole(ev);
 };
-const logEvToConsole = throttle(ev => {
-  if (ev.interface && ev.currentTarget) {
+const logEvToConsole = throttle((ev: SyntheticEvent) => {
+  if (ev.type && ev.currentTarget) {
     ev.persist();
     console.log(
-      `"${ev.interface}" event triggered on Item with text "${
+      `"${ev.type}" event triggered on Item with text "${
         ev.currentTarget.textContent
       }"`,
     );
@@ -81,10 +81,16 @@ const Items = () => (
       <DrawerItem {...commonProps} description="Here be description">
         Item with description
       </DrawerItem>
-      <DrawerItem {...commonProps} elemAfter={<StarLargeIcon />}>
+      <DrawerItem
+        {...commonProps}
+        elemAfter={<StarLargeIcon label="Star Icon" />}
+      >
         Item with elemAfter
       </DrawerItem>
-      <DrawerItem {...commonProps} elemBefore={<BoardIcon />}>
+      <DrawerItem
+        {...commonProps}
+        elemBefore={<BoardIcon label="Board icon" />}
+      >
         Item with elemBefore
       </DrawerItem>
       <DrawerItem {...commonProps} isCompact>
