@@ -241,6 +241,27 @@ const columnControlsLineMarker = `
   }
 `
 
+const DeleteButton = `
+  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
+  .${ClassName.CONTROLS_DELETE_BUTTON} {
+    height: ${tableDeleteButtonSize}px;
+    width: ${tableDeleteButtonSize}px;
+  }
+  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
+    .${ClassName.CONTROLS_DELETE_BUTTON} {
+      ${Button(`
+        background: ${N20A};
+        color: ${N300};
+      `)}
+    }
+  }
+  
+  .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
+    background: ${R300};
+    color: white;
+    cursor: pointer;
+  }
+`;
 
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
@@ -269,25 +290,7 @@ export const tableStyles = css`
     }
 
     /* Delete button*/
-    .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
-    .${ClassName.CONTROLS_DELETE_BUTTON} {
-      height: ${tableDeleteButtonSize}px;
-      width: ${tableDeleteButtonSize}px;
-    }
-    .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
-      .${ClassName.CONTROLS_DELETE_BUTTON} {
-        ${Button(`
-          background: ${N20A};
-          color: ${N300};
-        `)}
-      }
-    }
-    
-    .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
-      background: ${R300};
-      color: white;
-      cursor: pointer;
-    }
+    ${DeleteButton}
     /* Ends Delete button*/
 
     .less-padding {
