@@ -1,0 +1,1 @@
+ED-7166: Lists can now be toggled inside panels
