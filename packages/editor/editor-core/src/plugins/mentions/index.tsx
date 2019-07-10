@@ -148,13 +148,9 @@ const mentionsPlugin = (
         },
       ],
       typeAhead: {
-        getSpotlight: state => {
-          // const typeAheadPluginState = typeAheadPluginKey.getState( // am I interested in the mention plugin state here? Yes
-          //   state,
-          // ) as TypeAheadPluginState;
-          console.log('====state', state);
-          const pluginState = getMentionPluginState(state);
-          console.log('====pluginState', pluginState);
+        getSpotlight: (state: EditorState) => {
+          // const pluginState = getMentionPluginState(state);
+          // from pluginState we can access the MentionProvider, from which we can access the TeamMentionResource
 
           return (
             <MentionSpotlight

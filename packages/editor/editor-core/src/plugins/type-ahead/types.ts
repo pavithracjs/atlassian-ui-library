@@ -52,7 +52,7 @@ export type TypeAheadHandler = {
   ) => Array<TypeAheadItem> | Promise<Array<TypeAheadItem>>;
   selectItem: TypeAheadSelectItem;
   dismiss?: (state: EditorState) => void;
-  getSpotlight?: any;
+  getSpotlight?: (state: EditorState) => JSX.Element;
 };
 
 export type TypeAheadItemsLoader = null | {

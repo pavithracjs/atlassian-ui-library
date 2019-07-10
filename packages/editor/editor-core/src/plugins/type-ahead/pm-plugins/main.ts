@@ -35,7 +35,7 @@ export type PluginState = {
   queryStarted: number;
   upKeyCount: number;
   downKeyCount: number;
-  spotlight: any;
+  spotlight?: any;
 };
 
 export const ACTIONS = {
@@ -47,7 +47,7 @@ export const ACTIONS = {
   ITEMS_LIST_UPDATED: 'ITEMS_LIST_UPDATED',
 };
 
-export function createInitialPluginState( // if we try to pass editorState here, places which does not have editorState to will not be able to call this. Ex packages/editor/editor-core/src/plugins/type-ahead/index.tsx
+export function createInitialPluginState(
   prevActiveState = false,
   isAllowed = true,
 ): PluginState {
@@ -65,7 +65,6 @@ export function createInitialPluginState( // if we try to pass editorState here,
     queryStarted: 0,
     upKeyCount: 0,
     downKeyCount: 0,
-    showSpotlight: true,
   };
 }
 
@@ -334,7 +333,7 @@ export function defaultActionHandler({
   const typeAheadHandler = typeAhead.find(t => t.trigger === trigger)!;
   let typeAheadItems: Array<TypeAheadItem> | Promise<Array<TypeAheadItem>> = [];
   let itemsLoader: TypeAheadItemsLoader = null;
-  let spotlight;
+  let spotlight: JSX.Element;
 
   try {
     const { intl } = reactContext();
@@ -382,7 +381,6 @@ export function defaultActionHandler({
     queryStarted: Date.now(),
     upKeyCount: 0,
     downKeyCount: 0,
-    showSpotlight: pluginState.showSpotlight,
     spotlight,
   };
 
@@ -433,7 +431,7 @@ export function selectPrevActionHandler({
   dispatch,
   pluginState,
 }: ActionHandlerParams): PluginState {
-  let newIndex = pluginState.currentIndex - 1;
+  const newIndex = pluginState.currentIndex - 1;
   const newPluginState = {
     ...pluginState,
     currentIndex: newIndex < 0 ? pluginState.items.length - 1 : newIndex,
@@ -447,7 +445,7 @@ export function selectNextActionHandler({
   dispatch,
   pluginState,
 }: ActionHandlerParams): PluginState {
-  let newIndex = pluginState.currentIndex + 1;
+  const newIndex = pluginState.currentIndex + 1;
   const newPluginState = {
     ...pluginState,
     currentIndex: newIndex > pluginState.items.length - 1 ? 0 : newIndex,
