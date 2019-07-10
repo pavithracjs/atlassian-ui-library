@@ -156,8 +156,8 @@ const mentionsPlugin = (
           console.log(enabled);
           return (
             <MentionSpotlight
-              createTeamLink="qqqq" // todo from where do these settings come?
-              onClose={() => console.log('On close callback')}
+              createTeamLink="/people/search#createTeam"
+              onClose={() => console.log('On close callback')} // todo - other analytics functions
             />
           );
         },
