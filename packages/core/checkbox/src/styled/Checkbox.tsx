@@ -57,88 +57,101 @@ export const Label = ({ isDisabled, ...rest }: LabelProps) => (
   />
 );
 
-const borderColor = themed({ light: colors.N40, dark: colors.DN80 });
-const activeBorder = css`
-  stroke: currentColor;
-  stroke-width: 2px;
-`;
-const checkedBorder = css`
-  stroke: currentColor;
-  stroke-width: 2px;
-`;
-const focusBorder = (props: Props) => css`
-  stroke: ${themed({ light: colors.B100, dark: colors.B75 })(props)};
-  stroke-width: 2px;
-`;
-const invalidBorder = (props: Props) => css`
-  stroke: ${themed({ light: colors.R300, dark: colors.R300 })(props)};
+const activeBorder = iconTokens => ({
+  stroke: iconTokens.borderColor.active,
+  strokeWidth: '2px',
+});
+
+const checkedBorder = iconTokens => ({
+  stroke: iconTokens.borderColor.checked,
+  strokeWidth: '2px',
+});
+
+const focusBorder = iconTokens => ({
+  stroke: iconTokens.borderColor.focused,
+  strokeWidth: '2px;',
+});
+
+const invalidBorder = iconTokens => ({
+  stroke: iconTokens.borderColor.invalid,
+  strokeWidth: '2px;',
+});
+
+const border = ({ isHovered, tokens: { icon }, ...rest }: Props) => css`
+  stroke: ${isHovered ? icon.borderColor.hovered : icon.borderColor.rest};
   stroke-width: 2px;
 `;
 
-const border = ({ isHovered, ...rest }: Props) => css`
-  stroke: ${isHovered
-    ? themed({ light: colors.N40, dark: colors.DN200 })(rest)
-    : borderColor(rest)};
-  stroke-width: 2px;
-`;
-
-const getBorderColor = (props: Props) => {
+const getBorderColor = ({ tokens, ...props }: Props) => {
   if (props.isDisabled) {
-    return '';
+    return tokens.icon.borderColor.disabled;
   }
   if (props.isActive) {
-    return activeBorder;
+    return activeBorder(tokens.icon);
   }
   if (props.isChecked) {
-    return checkedBorder;
+    return checkedBorder(tokens.icon);
   }
   if (props.isFocused) {
-    return focusBorder(props);
+    return focusBorder(tokens.icon);
   }
   if (props.isInvalid) {
-    return invalidBorder(props);
+    return invalidBorder(tokens.icon);
   }
-  return border(props);
+  return border({ tokens, ...props });
 };
 
 const getTickColor = (props: Props) => {
-  const { isChecked, isDisabled, isActive, ...rest } = props;
+  const {
+    isChecked,
+    isDisabled,
+    isActive,
+    tokens: { icon },
+    ...rest
+  } = props;
 
-  let color = themed({ light: colors.N10, dark: colors.DN10 });
+  let color = icon.tickColor.checked;
 
   if (isDisabled && isChecked) {
-    color = themed({ light: colors.N70, dark: colors.DN90 });
+    color = icon.tickColor.disabledAndChecked;
   } else if (isActive && isChecked && !isDisabled) {
-    color = themed({ light: colors.B400, dark: colors.DN10 });
+    color = icon.tickColor.isActiveAndChecked;
   } else if (!isChecked) {
-    color = themed({ light: 'transparent', dark: 'transparent' });
+    color = icon.tickColor.rest;
   }
-  return color(rest);
+  return color;
 };
 
 const getBoxColor = (props: Props) => {
-  const { isChecked, isDisabled, isActive, isHovered, ...rest } = props;
+  const {
+    isChecked,
+    isDisabled,
+    isActive,
+    isHovered,
+    tokens: { icon },
+    ...rest
+  } = props;
   // set the default
-  let color = themed({ light: colors.N10, dark: colors.DN10 });
+  let color = icon.boxColor.rest;
 
   if (isDisabled) {
-    color = themed({ light: colors.N20, dark: colors.DN10 });
+    color = icon.boxColor.disabled;
   } else if (isActive) {
-    color = themed({ light: colors.B50, dark: colors.B200 });
+    color = icon.boxColor.active;
   } else if (isHovered && isChecked) {
-    color = themed({ light: colors.B300, dark: colors.B75 });
+    color = icon.boxColor.hoveredAndChecked;
   } else if (isHovered) {
-    color = themed({ light: colors.N30, dark: colors.DN30 });
+    color = icon.boxColor.hovered;
   } else if (isChecked) {
-    color = themed({ light: colors.B400, dark: colors.B400 });
+    color = icon.boxColor.checked;
   }
-  return color(rest);
+  return color;
 };
 
 export const LabelText = (props: { children: React.ReactNode }) => (
   <span
     css={css`
-      padding: 2px 4px;
+      padding: 6px 4px;
     `}
     {...props}
   />
@@ -146,11 +159,11 @@ export const LabelText = (props: { children: React.ReactNode }) => (
 
 export const CheckboxWrapper = (props: { children: React.ReactNode }) => (
   <span
-    css={css`
-      display: flex;
-      flex-shrink: 0;
-      position: relative;
-    `}
+    css={{
+      display: 'flex;',
+      flexShrink: 0,
+      position: 'relative',
+    }}
     {...props}
   />
 );
@@ -165,28 +178,28 @@ interface IconProps extends React.HTMLProps<HTMLLabelElement> {
 }
 export const IconWrapper = ({ children, ...props }: IconProps) => (
   <span
-    css={css`
-      line-height: 0;
-      flex-shrink: 0;
-      color: ${getBoxColor(props)};
-      fill: ${getTickColor(props)};
-      transition: all 0.2s ease-in-out;
+    css={{
+      lineHeight: 0,
+      flexShrink: 0,
+      color: getBoxColor(props),
+      fill: getTickColor(props),
+      transition: 'all 0.2s ease-in-out;',
 
       /* This is adding a property to the inner svg, to add a border to the checkbox */
-      & rect:first-of-type {
-        transition: stroke 0.2s ease-in-out;
-        ${getBorderColor(props)};
-      }
+      '& rect:first-of-type': {
+        transition: 'stroke 0.2s ease-in-out;',
+        ...getBorderColor(props),
+      },
 
       /**
-      * Need to set the Icon component wrapper to flex to avoid a scrollbar bug which
-      * happens when checkboxes are flex items in a parent with overflow.
-      * See AK-6321 for more details.
-      **/
-      > span {
-        display: flex;
-      }
-    `}
+       * Need to set the Icon component wrapper to flex to avoid a scrollbar bug which
+       * happens when checkboxes are flex items in a parent with overflow.
+       * See AK-6321 for more details.
+       **/
+      '> span': {
+        display: 'flex',
+      },
+    }}
     children={children}
   />
 );
@@ -197,10 +210,10 @@ export type RequiredIndicatorProps = {
 
 export const RequiredIndicator = (props: RequiredIndicatorProps) => (
   <span
-    css={css`
-      color: ${colors.R400};
-      padding-left: ${multiply(gridSize, 0.25)}px;
-    `}
+    css={{
+      color: colors.R400,
+      paddingLeft: `${math.multiply(gridSize, 0.25)}px;`,
+    }}
     {...props}
   />
 );

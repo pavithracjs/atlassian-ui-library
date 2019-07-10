@@ -22,9 +22,11 @@ export default class CheckboxIcon extends Component<CheckboxIconProps, {}> {
       isIndeterminate,
       primaryColor,
       secondaryColor,
+      tokens,
     } = this.props;
     return (
       <IconWrapper
+        tokens={tokens}
         isChecked={isChecked}
         isDisabled={isDisabled}
         isFocused={isFocused}
@@ -36,12 +38,14 @@ export default class CheckboxIcon extends Component<CheckboxIconProps, {}> {
           <CheckboxIndeterminateIcon
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
+            size={tokens.icon.size}
             label=""
           />
         ) : (
           <Icon
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
+            size={tokens.icon.size}
             label=""
           />
         )}
