@@ -36,7 +36,6 @@ export interface Props {
 
 export interface State {
   selectionType?: CellSelectionType;
-  isNumberedEnabled?: boolean;
   left: number;
   top: number;
   indexes: number[];
@@ -109,9 +108,6 @@ class FloatingDeleteButton extends Component<Props, State> {
         case 'row': {
           // Calculate the button position and indexes for rows
           if (nextProps.tableRef) {
-            const isNumberedEnabled = checkIfNumberColumnEnabled(
-              nextProps.editorView.state,
-            );
             const rowHeights = getRowHeights(nextProps.tableRef);
             const deleteBtnParams = getRowDeleteButtonParams(
               rowHeights,
@@ -120,7 +116,6 @@ class FloatingDeleteButton extends Component<Props, State> {
             if (deleteBtnParams) {
               return {
                 ...deleteBtnParams,
-                isNumberedEnabled,
                 left: 0,
                 selectionType: selectionType,
               };
@@ -210,7 +205,7 @@ class FloatingDeleteButton extends Component<Props, State> {
 
   render() {
     const { mountPoint, boundariesElement, tableRef } = this.props;
-    const { selectionType, isNumberedEnabled } = this.state;
+    const { selectionType } = this.state;
 
     if (!selectionType || !tableRef) {
       return null;
@@ -238,7 +233,6 @@ class FloatingDeleteButton extends Component<Props, State> {
           left: this.state.left,
           top: this.state.top,
           selectionType: this.state.selectionType,
-          isNumbered: isNumberedEnabled,
           tableWrapper,
         })}
       >

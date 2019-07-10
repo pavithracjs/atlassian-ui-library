@@ -1,8 +1,5 @@
 import { CellSelectionType } from './types';
-import {
-  PopupProps,
-  akEditorTableNumberColumnWidth,
-} from '@atlaskit/editor-common';
+import { PopupProps } from '@atlaskit/editor-common';
 import {
   tableDeleteButtonOffset,
   tableToolbarSize,
@@ -13,15 +10,11 @@ interface GetPopupOptions {
   left: number;
   top: number;
   selectionType?: CellSelectionType;
-  isNumbered?: boolean;
   tableWrapper: HTMLElement | null;
 }
 
 const DELETE_BUTTON_CONTROLS_OFFSET =
   tableToolbarSize + tableDeleteButtonSize + tableDeleteButtonOffset;
-
-const DELETE_BUTTON_CONTROLS_NUMBERED_OFFSET =
-  DELETE_BUTTON_CONTROLS_OFFSET + akEditorTableNumberColumnWidth;
 
 function getColumnOptions(
   left: number,
@@ -43,26 +36,22 @@ function getColumnOptions(
       }
       return false;
     },
-    onPositionCalculated(position) {
-      return {
-        ...position,
-      };
-    },
   };
 }
 
-function getRowOptions(
-  top: number,
-  isNumbered: boolean = false,
-): Partial<PopupProps> {
-  const offset = isNumbered
-    ? DELETE_BUTTON_CONTROLS_NUMBERED_OFFSET
-    : DELETE_BUTTON_CONTROLS_OFFSET;
+function getRowOptions(top: number): Partial<PopupProps> {
   return {
     alignX: 'left',
     alignY: 'start',
     forcePlacement: true,
-    offset: [-offset, -top],
+    offset: [0, -top],
+    onPositionCalculated(position) {
+      return {
+        ...position,
+        // We need to force left to always be the offset to not be affected by overflow
+        left: -DELETE_BUTTON_CONTROLS_OFFSET,
+      };
+    },
   };
 }
 
@@ -70,14 +59,13 @@ export default function getPopupOptions({
   left,
   top,
   selectionType,
-  isNumbered = false,
   tableWrapper,
 }: GetPopupOptions): Partial<PopupProps> {
   switch (selectionType) {
     case 'column':
       return getColumnOptions(left, tableWrapper);
     case 'row':
-      return getRowOptions(top, isNumbered);
+      return getRowOptions(top);
     default: {
       return {};
     }
