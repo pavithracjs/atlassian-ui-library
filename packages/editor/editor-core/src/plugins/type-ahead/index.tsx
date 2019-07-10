@@ -49,13 +49,11 @@ const typeAheadPlugin: EditorPlugin = {
         plugins={{
           typeAhead: typeAheadPluginKey,
         }}
-        render={temp => {
-          const {
-            typeAhead = createInitialPluginState(),
-          }: {
-            typeAhead: TypeAheadPluginState; // it takes a typeAhead of type TypeAheadPluginState
-          } = temp;
-
+        render={({
+          typeAhead = createInitialPluginState(),
+        }: {
+          typeAhead: TypeAheadPluginState;
+        }) => {
           const { queryMarkPos } = typeAhead;
           const domRef =
             queryMarkPos !== null ? editorView.domAtPos(queryMarkPos) : null;
@@ -76,8 +74,7 @@ const typeAheadPlugin: EditorPlugin = {
               isLoading={!!typeAhead.itemsLoader}
               items={typeAhead.items}
               currentIndex={typeAhead.currentIndex}
-              spotlight={typeAhead.spotlight} // todo - fix // I already have the plugin state here :thinking:
-              // if I could get the EditorState, I can access to MentionProvider, which will be providing a Team Resource mention provider
+              spotlight={typeAhead.spotlight}
             />
           );
         }}
