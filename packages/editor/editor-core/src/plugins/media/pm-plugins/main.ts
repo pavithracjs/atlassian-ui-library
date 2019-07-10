@@ -24,7 +24,12 @@ import { EditorAppearance } from '../../../types/editor-props';
 import DropPlaceholder, { PlaceholderType } from '../ui/Media/DropPlaceholder';
 import { MediaPluginOptions } from '../media-plugin-options';
 import { insertMediaGroupNode } from '../utils/media-files';
-import { removeMediaNode, splitMediaGroup } from '../utils/media-common';
+import {
+  removeMediaNode,
+  splitMediaGroup,
+  getViewMediaClientConfigFromMediaProvider,
+  getUploadMediaClientConfigFromMediaProvider,
+} from '../utils/media-common';
 import PickerFacade, {
   PickerFacadeConfig,
   MediaStateEventListener,
@@ -143,11 +148,29 @@ export class MediaPluginState {
     // TODO disable (not destroy!) pickers until mediaProvider is resolved
     try {
       this.mediaProvider = await mediaProvider;
-      let resolvedMediaProvider: MediaProvider = this.mediaProvider;
+
+      // We want to re assign the view and upload configs if they are missing for backwards compatibility
+      // as currently integrators can pass context || mediaClientConfig
+      if (!this.mediaProvider.viewMediaClientConfig) {
+        const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+          this.mediaProvider,
+        );
+        if (viewMediaClientConfig) {
+          this.mediaProvider.viewMediaClientConfig = viewMediaClientConfig;
+        }
+      }
+
+      if (!this.mediaProvider.uploadMediaClientConfig) {
+        this.mediaProvider.uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+          this.mediaProvider,
+        );
+      }
 
       assert(
-        resolvedMediaProvider && resolvedMediaProvider.viewMediaClientConfig,
-        `MediaProvider promise did not resolve to a valid instance of MediaProvider - ${resolvedMediaProvider}`,
+        this.mediaProvider.viewMediaClientConfig,
+        `MediaProvider promise did not resolve to a valid instance of MediaProvider - ${
+          this.mediaProvider
+        }`,
       );
     } catch (err) {
       const wrappedError = new Error(
