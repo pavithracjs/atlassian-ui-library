@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.11.3
+
+### Patch Changes
+
+- [patch][4aed452b1b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aed452b1b):
+
+  ED-7041, SL-231: fix copying smart link from renderer to editor
+
 ## 2.11.2
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-ED-7041, SL-231: fix copying smart link from renderer to editor
