@@ -62,7 +62,7 @@ export function TypeAhead({
       offset={[0, 8]}
     >
       <TypeAheadContent className="fabric-editor-typeahead">
-        {spotlight}
+        {spotlight && spotlight}
         {Array.isArray(items) ? (
           <TypeAheadItemsList
             insertByIndex={index =>

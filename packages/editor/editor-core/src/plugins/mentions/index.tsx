@@ -148,12 +148,14 @@ const mentionsPlugin = (
         },
       ],
       typeAhead: {
-        spotlight: (enabled: boolean) => {
+        getSpotlight: state => {
           // const typeAheadPluginState = typeAheadPluginKey.getState( // am I interested in the mention plugin state here? Yes
           //   state,
           // ) as TypeAheadPluginState;
-          // console.log("====typeAheadPluginState", typeAheadPluginState);
-          console.log(enabled);
+          console.log('====state', state);
+          const pluginState = getMentionPluginState(state);
+          console.log('====pluginState', pluginState);
+
           return (
             <MentionSpotlight
               createTeamLink="/people/search#createTeam"

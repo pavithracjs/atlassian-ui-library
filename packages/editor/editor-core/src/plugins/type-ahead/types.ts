@@ -38,7 +38,6 @@ export type TypeAheadSelectItem = (
 
 export type TypeAheadHandler = {
   trigger: string;
-  spotlight?: any;
   customRegex?: string;
   getItems: (
     query: string,
@@ -53,6 +52,7 @@ export type TypeAheadHandler = {
   ) => Array<TypeAheadItem> | Promise<Array<TypeAheadItem>>;
   selectItem: TypeAheadSelectItem;
   dismiss?: (state: EditorState) => void;
+  getSpotlight?: any;
 };
 
 export type TypeAheadItemsLoader = null | {
