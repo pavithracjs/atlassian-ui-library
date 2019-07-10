@@ -192,7 +192,7 @@ class FloatingDeleteButton extends Component<Props, State> {
             state,
             dispatch,
           );
-          break;
+          return;
         }
         case 'row': {
           deleteRowsWithAnalytics(
@@ -200,12 +200,11 @@ class FloatingDeleteButton extends Component<Props, State> {
             rect,
             !!isHeaderRowRequired,
           )(state, dispatch);
-          break;
+          return;
         }
       }
     }
     ({ state, dispatch } = this.props.editorView);
-    // TODO: Potential twice dispatch for a single action.
     clearHoverSelection()(state, dispatch);
   };
 
