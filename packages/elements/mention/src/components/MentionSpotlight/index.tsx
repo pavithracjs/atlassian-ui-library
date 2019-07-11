@@ -18,34 +18,37 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
 
     return (
       <Styled.Card>
-        <Styled.Aside>
-          <img src={Styled.iconUrl} height={32} />
-        </Styled.Aside>
-        <Styled.Section>
-          <Styled.Heading>
-            <Styled.Title>
-              <strong>You can now mention teams! </strong>
-            </Styled.Title>
-          </Styled.Heading>
-          <Styled.Body>
-            <p>
-              If you don't have any teams,
-              <a href={createTeamLink} target="_blank">
-                start a team{' '}
-              </a>
-              with the group of people you work with daily.
-            </p>
-          </Styled.Body>
-        </Styled.Section>
-        <Styled.Actions>
-          <Tooltip content="Close" position="bottom">
-            <Button
-              appearance="subtle"
-              iconBefore={<CloseIcon label="Close Modal" size="small" />}
-              onClick={onClose}
-            />
-          </Tooltip>
-        </Styled.Actions>
+        <Styled.Content>
+          <Styled.Aside>
+            <img src={Styled.iconUrl} height={32} />
+          </Styled.Aside>
+          <Styled.Section>
+            <Styled.Heading>
+              <Styled.Title>
+                <strong>You can now mention teams! </strong>
+              </Styled.Title>
+            </Styled.Heading>
+            <Styled.Body>
+              <p>
+                If you don't have any teams,
+                <a href={createTeamLink} target="_blank">
+                  {' '}
+                  start a team{' '}
+                </a>
+                with the group of people you work with daily.
+              </p>
+            </Styled.Body>
+          </Styled.Section>
+          <Styled.Actions>
+            <Tooltip content="Close" position="bottom">
+              <Button
+                appearance="subtle"
+                iconBefore={<CloseIcon label="Close Modal" size="small" />}
+                onClick={onClose}
+              />
+            </Tooltip>
+          </Styled.Actions>
+        </Styled.Content>
       </Styled.Card>
     );
   }
