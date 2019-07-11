@@ -1,6 +1,6 @@
 import { createTheme, colors } from '@atlaskit/theme';
 import memoize from 'memoize-one';
-import { ComponentTokens, EvaluatedTokens } from '../types';
+import { ComponentTokens, EvaluatedTokens } from './types';
 
 export const componentTokens: ComponentTokens = {
   label: {
@@ -44,31 +44,37 @@ export const componentTokens: ComponentTokens = {
   },
 };
 
-const evaluateMode = memoize((obj, mode) => {
-  function traverse(obj) {
-    return Object.keys(obj).reduce((acc, curr) => {
-      const value = obj[curr];
-      if (typeof value !== 'object') {
-        acc[curr] = value;
-      } else if (Object.keys(value).includes(mode)) {
-        acc[curr] = value[mode];
-      } else {
-        acc[curr] = traverse(obj[curr]);
-      }
-      return acc;
-    }, {});
+const evaluateMode = function<T, R>(obj: T, mode: string): R {
+  function traverse(obj: any) {
+    return Object.keys(obj).reduce(
+      (acc: any, curr: string) => {
+        const value = obj[curr];
+        if (typeof value !== 'object') {
+          acc[curr] = value;
+        } else if (Object.keys(value).includes(mode)) {
+          acc[curr] = value[mode];
+        } else {
+          acc[curr] = traverse(obj[curr]);
+        }
+        return acc;
+      },
+      {} as R,
+    );
   }
   return traverse(obj);
-});
+};
 
 const defaultThemeFn = ({
   tokens,
   mode,
 }: {
   tokens: ComponentTokens;
-  mode: 'light' | 'dark';
+  mode: string;
 }): EvaluatedTokens => {
-  return evaluateMode(tokens, mode);
+  return evaluateMode<ComponentTokens, EvaluatedTokens>(tokens, mode);
 };
 
-export default createTheme(defaultThemeFn);
+export default createTheme<
+  EvaluatedTokens,
+  { tokens: ComponentTokens; mode: string }
+>(defaultThemeFn);
