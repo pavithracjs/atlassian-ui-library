@@ -16,8 +16,14 @@ export default function BlockCard(props: {
 
   const cardProps = { url, data, onClick };
   return (
-    <CardErrorBoundary unsupportedComponent={UnsupportedBlock} {...cardProps}>
-      <Card appearance="block" {...cardProps} />
-    </CardErrorBoundary>
+    <div
+      data-block-card
+      data-card-data={data ? JSON.stringify(data) : undefined}
+      data-card-url={url}
+    >
+      <CardErrorBoundary unsupportedComponent={UnsupportedBlock} {...cardProps}>
+        <Card appearance="block" {...cardProps} />
+      </CardErrorBoundary>
+    </div>
   );
 }

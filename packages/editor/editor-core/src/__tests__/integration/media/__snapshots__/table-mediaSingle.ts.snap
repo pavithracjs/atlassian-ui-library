@@ -75,6 +75,7 @@ Object {
                   "content": Array [
                     Object {
                       "attrs": Object {
+                        "__contextId": "DUMMY-OBJECT-ID",
                         "__displayType": null,
                         "__fileMimeType": "image/svg+xml",
                         "__fileName": "example.png",

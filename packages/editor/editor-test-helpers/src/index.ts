@@ -98,6 +98,7 @@ export {
 export { default as defaultSchema } from './schema';
 export * from './html-helpers';
 export { storyMediaProviderFactory } from './media-provider';
+export { activityProviderFactory } from './activity-provider';
 export {
   storyContextIdentifierProviderFactory,
 } from './context-identifier-provider';

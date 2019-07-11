@@ -42,13 +42,19 @@ export default function media({ attrs }: NodeSerializerOpts) {
     const style: any = {
       'max-width': '100%',
     };
+    const elementAttrs: any = {};
+
     if (attrs.width) {
-      style.width = attrs.width;
+      elementAttrs.width = attrs.width;
     }
     if (attrs.height) {
-      style.height = attrs.height;
+      elementAttrs.height = attrs.height;
     }
-    const img = createTag('img', { style: serializeStyle(style), src });
+    const img = createTag('img', {
+      style: serializeStyle(style),
+      src,
+      ...elementAttrs,
+    });
     return createTag('div', { class: `${className}-wrapper` }, img);
   }
   // no id or url found, fall back to placeholder

@@ -82,7 +82,8 @@ const styles = `
   /* Hacks to bypass diff styles */
 
   .${createClassName('taskItem')}-iconTd
-    span.diff-image-container:first-child:nth-last-child(2) {
+  span.diff-image-container:first-child:nth-last-child(2),
+  .${createClassName('panel')} > span.diff-image-container.diff-removed {
     display: none;
   }
   .${createClassName('panel')} span.diff-image-overlay,

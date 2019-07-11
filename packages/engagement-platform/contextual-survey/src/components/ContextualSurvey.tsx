@@ -1,26 +1,46 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import SurveyContainer from './SurveyContainer';
 import SurveyForm from './SurveyForm';
 import SignUpPrompt from './SignUpPrompt';
 import SignUpSuccess from './SignUpSuccess';
 import FeedbackAcknowledgement from './FeedbackAcknowledgement';
 import { FormValues } from '../types';
+import useEscapeToDismiss from './useEscapeToDismiss';
+
+export enum DismissTrigger {
+  AutoDismiss = 'AUTO_DISMISS',
+  Manual = 'MANUAL',
+  Finished = 'FINISHED',
+  Unmount = 'UNMOUNT',
+}
+
+export type OnDismissArgs = { trigger: DismissTrigger };
 
 interface Props {
-  /** Question used for the survey */
-  question: string;
-  /** Optional statement, to be used in conjunction with the question for the survey */
+  /** Optional statement, to be used in conjunction with the question for the survey
+   * Example: "How strongly do you agree or disagree with this statement"
+   */
   statement?: string;
-  /** Text placeholder for the survey text area */
+  /** Question used for the survey
+   * Example: "It is easy to find what I am looking for in Jira"
+   */
+  question: string;
+  /** Accessible label text for the survey text area */
+  textLabel?: string;
+  /** Text placeholder for the survey text area
+   * Example: "Tell us why"
+   */
   textPlaceholder?: string;
   /** Callback that is triggered when the survey should be dismissed */
-  onDismiss: () => void;
-  /** Gets whether user has already signed up to the Atlassian Research Group list */
-  getUserHasAnsweredMailingList: () => boolean | Promise<boolean>;
+  onDismiss: (args: OnDismissArgs) => void;
+  /** Gets whether user has already signed up to the Atlassian Research Group list.
+   * If `true` is returned then the user will not be prompted to sign up to the Research Group.
+   */
+  getUserHasAnsweredMailingList: () => Promise<boolean>;
   /** Callback that is triggered when the survey is submitted, it will get the survey data as a parameter */
   onSubmit: (formValues: FormValues) => Promise<void>;
-  /** Callback that is triggered when the user clicks 'Yes' to sign up to the Atlassian Research Group */
-  onSignUp: () => Promise<void>;
+  /** Callback that is triggered when the user clicks 'Yes' or 'No' to sign up to the Atlassian Research Group */
+  onMailingListAnswer: (answer: boolean) => Promise<void>;
 }
 
 type Step =
@@ -30,103 +50,207 @@ type Step =
   | 'POST_SURVEY_NO_CONSENT'
   | 'POST_SURVEY_HAS_SIGN_UP';
 
-const AUTO_DISAPPEAR_DURATION = 8000;
+type Optional<T> = T | null;
+
+export const AUTO_DISAPPEAR_DURATION: number = 8000;
 
 export default ({
   question,
   statement,
   onDismiss,
   onSubmit,
-  onSignUp,
+  onMailingListAnswer,
   getUserHasAnsweredMailingList,
+  textLabel = 'Why did you give that rating',
   textPlaceholder = 'Tell us why',
 }: Props) => {
-  let autoDisappearTimeout: any;
+  const autoDisappearTimeoutRef = useRef<Optional<number>>(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => () => clearTimeout(autoDisappearTimeout), []);
+  // only allow a single dismiss for a component
+  const isDismissedRef = useRef<boolean>(false);
+  const tryDismiss = useCallback((trigger: DismissTrigger) => {
+    // Already called dismiss once
+    if (isDismissedRef.current) {
+      return;
+    }
+    isDismissedRef.current = true;
+    onDismissRef.current({ trigger });
+  }, []);
 
   const [currentStep, setCurrentStep] = useState<Step>('SURVEY');
-
-  const onSurveySubmit = useCallback<
-    React.ComponentProps<typeof SurveyForm>['onSubmit']
-  >(
-    async (formValues, _, callback) => {
-      const userHasSignedUp = getUserHasAnsweredMailingList();
-      await onSubmit(formValues);
-
-      /**
-       * Need to call this callback so final-form can clean up before
-       * the survey form is unmounted via setCurrentStep below
-       */
-      callback();
-
-      if (await userHasSignedUp) {
-        setCurrentStep('POST_SURVEY_HAS_SIGN_UP');
+  const trySetCurrentStep = useCallback(
+    (step: Step) => {
+      // Already dismissed - cannot update the step
+      if (isDismissedRef.current) {
+        if (process.env.NODE_ENV !== 'production') {
+          // eslint-disable-next-line no-console
+          console.log(
+            `not setting step "${step}" as survey is already dismissed`,
+          );
+        }
         return;
       }
 
-      if (formValues.canContact) {
-        setCurrentStep('SIGN_UP_PROMPT');
-      } else {
-        setCurrentStep('POST_SURVEY_NO_CONSENT');
-      }
+      setCurrentStep(step);
     },
-    [getUserHasAnsweredMailingList, onSubmit],
-  );
-
-  const onSignUpAccept = useCallback(
-    async () => {
-      await onSignUp();
-      setCurrentStep('SIGN_UP_SUCCESS');
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setCurrentStep],
   );
 
-  const triggerAutoDisappear = useCallback(
+  // using a ref so that we don't break all of our caches if a consumer is using an arrow function
+  const onDismissRef = useRef<(args: OnDismissArgs) => void>(onDismiss);
+  useEffect(
     () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      autoDisappearTimeout = setTimeout(() => {
-        onDismiss();
-      }, AUTO_DISAPPEAR_DURATION);
+      onDismissRef.current = onDismiss;
     },
     [onDismiss],
   );
 
-  let content: React.ReactNode = (() => {
-    switch (currentStep) {
-      case 'SURVEY': {
-        return (
-          <SurveyForm
-            question={question}
-            statement={statement}
-            textPlaceholder={textPlaceholder}
-            onSubmit={onSurveySubmit}
-          />
-        );
-      }
-      case 'SIGN_UP_PROMPT': {
-        return (
-          <SignUpPrompt
-            onSignUpDecline={onDismiss}
-            onSignUpAccept={onSignUpAccept}
-          />
-        );
-      }
-      case 'SIGN_UP_SUCCESS': {
-        triggerAutoDisappear();
-        return <SignUpSuccess />;
-      }
-      case 'POST_SURVEY_NO_CONSENT':
-      case 'POST_SURVEY_HAS_SIGN_UP': {
-        triggerAutoDisappear();
-        return <FeedbackAcknowledgement />;
-      }
-      default:
-        return null;
+  const tryClearTimeout = useCallback(() => {
+    const id: Optional<number> = autoDisappearTimeoutRef.current;
+
+    if (id) {
+      clearTimeout(id);
+      autoDisappearTimeoutRef.current = null;
     }
+  }, []);
+
+  // Cleanup any auto dismiss after dismiss
+  useEffect(
+    () => {
+      return function unmount() {
+        tryClearTimeout();
+        tryDismiss(DismissTrigger.Unmount);
+      };
+    },
+    [tryClearTimeout, tryDismiss],
+  );
+
+  const onSurveySubmit = useCallback<
+    React.ComponentProps<typeof SurveyForm>['onSubmit']
+  >(
+    async (formValues, _, cleanup) => {
+      // Submitting form: Phase 1 complete
+      await onSubmit(formValues);
+
+      // Note: need to call cleanup just before we navigate away
+      // It cleans up the form (required)
+      // It will also clear the
+
+      // Optional Phase 2: Asking to join Atlassian Research Group
+      // Only enter phase 2 if:
+      // 1. not already dismissed; AND
+      // 2. permission given to contact; AND
+      // 3. user has previously not answered mailing list question (getUserHasAnsweredMailingList returns false)
+
+      // Not entering phase 2: User has dismissed while the submit promise was resolving
+      if (isDismissedRef.current) {
+        cleanup();
+        return;
+      }
+
+      // Not entering phase 2: no permission given to respond to feedback
+      if (!formValues.canContact) {
+        cleanup();
+        trySetCurrentStep('POST_SURVEY_NO_CONSENT');
+        return;
+      }
+
+      const userHasAnswered: boolean = await getUserHasAnsweredMailingList();
+      cleanup();
+
+      // Not entering phase 2: user has already answered this question
+      if (userHasAnswered) {
+        trySetCurrentStep('POST_SURVEY_HAS_SIGN_UP');
+        return;
+      }
+
+      // Enter phase 2
+      trySetCurrentStep('SIGN_UP_PROMPT');
+    },
+    [getUserHasAnsweredMailingList, onSubmit, trySetCurrentStep],
+  );
+
+  const onMailingListResponse = useCallback(
+    async (answer: boolean) => {
+      await onMailingListAnswer(answer);
+      if (answer) {
+        trySetCurrentStep('SIGN_UP_SUCCESS');
+        return;
+      }
+      // We have already thanked to user, we can simply close
+      tryDismiss(DismissTrigger.Finished);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [tryDismiss, trySetCurrentStep],
+  );
+
+  // Start the auto disappear when we are finished
+  useEffect(
+    () => {
+      // Already dismissed
+      if (isDismissedRef.current) {
+        return;
+      }
+
+      // Timeout already scheduled
+      if (autoDisappearTimeoutRef.current) {
+        return;
+      }
+
+      if (
+        [
+          'SIGN_UP_SUCCESS',
+          'POST_SURVEY_NO_CONSENT',
+          'POST_SURVEY_HAS_SIGN_UP',
+        ].includes(currentStep)
+      ) {
+        autoDisappearTimeoutRef.current = window.setTimeout(
+          () => tryDismiss(DismissTrigger.AutoDismiss),
+          AUTO_DISAPPEAR_DURATION,
+        );
+      }
+    },
+    [currentStep, tryDismiss],
+  );
+
+  useEscapeToDismiss({ onDismiss: () => tryDismiss(DismissTrigger.Manual) });
+
+  const content: React.ReactNode = (() => {
+    if (currentStep === 'SURVEY') {
+      return (
+        <SurveyForm
+          question={question}
+          statement={statement}
+          textLabel={textLabel}
+          textPlaceholder={textPlaceholder}
+          onSubmit={onSurveySubmit}
+        />
+      );
+    }
+    if (currentStep === 'SIGN_UP_PROMPT') {
+      return <SignUpPrompt onAnswer={onMailingListResponse} />;
+    }
+    if (currentStep === 'SIGN_UP_SUCCESS') {
+      return <SignUpSuccess />;
+    }
+    if (
+      currentStep === 'POST_SURVEY_NO_CONSENT' ||
+      currentStep === 'POST_SURVEY_HAS_SIGN_UP'
+    ) {
+      return <FeedbackAcknowledgement />;
+    }
+
+    return null;
   })();
 
-  return <SurveyContainer onDismiss={onDismiss}>{content}</SurveyContainer>;
+  const manualDismiss = useCallback(
+    () => {
+      // clear any pending timers
+      tryClearTimeout();
+      tryDismiss(DismissTrigger.Manual);
+    },
+    [tryDismiss, tryClearTimeout],
+  );
+
+  return <SurveyContainer onDismiss={manualDismiss}>{content}</SurveyContainer>;
 };
