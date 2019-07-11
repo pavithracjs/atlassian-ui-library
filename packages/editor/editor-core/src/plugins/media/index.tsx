@@ -16,6 +16,7 @@ import {
 } from './pm-plugins/media-editor';
 import keymapMediaSinglePlugin from './pm-plugins/keymap-media-single';
 import keymapPlugin from './pm-plugins/keymap';
+import linkingPlugin from './pm-plugins/linking';
 import ToolbarMedia from './ui/ToolbarMedia';
 import { ReactMediaGroupNode } from './nodeviews/mediaGroup';
 import { ReactMediaSingleNode } from './nodeviews/mediaSingle';
@@ -47,6 +48,7 @@ export interface MediaOptions {
   customMediaPicker?: CustomMediaPicker;
   allowResizing?: boolean;
   allowAnnotation?: boolean;
+  allowLinking?: boolean;
 }
 
 export interface MediaSingleOptions {
@@ -79,7 +81,7 @@ const mediaPlugin = (
   },
 
   pmPlugins() {
-    return [
+    const pmPlugins = [
       {
         name: 'media',
         plugin: ({
@@ -127,18 +129,29 @@ const mediaPlugin = (
           ),
       },
       { name: 'mediaKeymap', plugin: () => keymapPlugin() },
-    ].concat(
-      options && options.allowMediaSingle
-        ? {
-            name: 'mediaSingleKeymap',
-            plugin: ({ schema, props }) =>
-              keymapMediaSinglePlugin(schema, props.appearance),
-          }
-        : [],
-      options && options.allowAnnotation
-        ? { name: 'mediaEditor', plugin: createMediaEditorPlugin }
-        : [],
-    );
+    ];
+
+    if (options && options.allowMediaSingle) {
+      pmPlugins.push({
+        name: 'mediaSingleKeymap',
+        plugin: ({ schema, props }) =>
+          keymapMediaSinglePlugin(schema, props.appearance),
+      });
+    }
+
+    if (options && options.allowAnnotation) {
+      pmPlugins.push({ name: 'mediaEditor', plugin: createMediaEditorPlugin });
+    }
+
+    if (options && options.allowLinking) {
+      pmPlugins.push({
+        name: 'mediaLinking',
+        plugin: ({ dispatch }: PMPluginFactoryParams) =>
+          linkingPlugin(dispatch),
+      });
+    }
+
+    return pmPlugins;
   },
 
   contentComponent({ editorView, eventDispatcher }) {
@@ -217,14 +230,14 @@ const mediaPlugin = (
       },
     ],
 
-    floatingToolbar: (state, intl) =>
-      floatingToolbar(
-        state,
-        intl,
-        options && options.allowResizing,
-        options && options.allowAnnotation,
+    floatingToolbar: (state, intl, providerFactory) =>
+      floatingToolbar(state, intl, {
+        providerFactory,
         appearance,
-      ),
+        allowResizing: options && options.allowResizing,
+        allowAnnotation: options && options.allowAnnotation,
+        allowLinking: options && options.allowLinking,
+      }),
   },
 });
 

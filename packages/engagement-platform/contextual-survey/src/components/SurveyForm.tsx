@@ -15,6 +15,7 @@ interface Props {
   question: string;
   statement?: string;
   textPlaceholder: string;
+  textLabel: string;
   onSubmit: (
     formValues: FormValues,
     formApi: any,
@@ -45,15 +46,35 @@ const getExpandedHeight = (
 
 const transitionDuration = 200;
 
-export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
+export default ({
+  question,
+  statement,
+  textPlaceholder,
+  textLabel,
+  onSubmit,
+}: Props) => {
   const [expanded, setExpanded] = useState(false);
+  const [canContactDefault, setCanContactDefault] = useState(false);
+  const hasAutoFilledCanContactRef = useRef(false);
+
   const expandedAreaRef = useRef<HTMLDivElement>(null);
-  const onValueSelect = useCallback(
+  const onScoreSelect = useCallback(
     () => {
       setExpanded(true);
     },
     [setExpanded],
   );
+
+  // On the first type the user types some feedback we auto select
+  // the option for allowing feedback. This automatic selection only
+  // happens once. After that it is up to the user to control
+  const onFeedbackChange = useCallback(() => {
+    if (hasAutoFilledCanContactRef.current) {
+      return;
+    }
+    hasAutoFilledCanContactRef.current = true;
+    setCanContactDefault(true);
+  }, []);
 
   return (
     <section aria-labelledby="contextualSurveyQuestion">
@@ -74,9 +95,9 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
               {({ fieldProps }: { fieldProps: any }) => (
                 <FeedbackScoreButtons
                   {...fieldProps}
-                  onChange={(value: number) => {
-                    fieldProps.onChange(value);
-                    onValueSelect();
+                  onChange={(score: number) => {
+                    fieldProps.onChange(score);
+                    onScoreSelect();
                   }}
                 />
               )}
@@ -99,15 +120,20 @@ export default ({ question, statement, textPlaceholder, onSubmit }: Props) => {
                     {({ fieldProps }: { fieldProps: any }) => (
                       <Textarea
                         {...fieldProps}
-                        aria-labelledby="contextualSurveyQuestion"
+                        aria-label={textLabel}
                         placeholder={textPlaceholder}
+                        autoFocus
+                        onChange={(event: Event) => {
+                          fieldProps.onChange(event);
+                          onFeedbackChange();
+                        }}
                       />
                     )}
                   </Field>
                   <CheckboxField
                     name="canContact"
-                    defaultIsChecked
                     isDisabled={submitting}
+                    defaultIsChecked={canContactDefault}
                   >
                     {({ fieldProps }: { fieldProps: any }) => (
                       <Checkbox

@@ -278,7 +278,6 @@ export default class RendererDemo extends React.Component<
         props.portal = this.state.portal;
       }
 
-      props.appearance = this.props.appearance;
       props.maxHeight = this.props.maxHeight;
       props.truncated = this.props.truncationEnabled && this.state.truncated;
       props.allowDynamicTextSizing = this.props.allowDynamicTextSizing;
@@ -289,6 +288,8 @@ export default class RendererDemo extends React.Component<
           ...additionalRendererProps,
         };
       }
+
+      props.appearance = this.props.appearance;
 
       const expandButton = (
         <div>

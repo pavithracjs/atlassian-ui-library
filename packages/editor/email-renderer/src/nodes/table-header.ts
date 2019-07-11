@@ -11,9 +11,9 @@ export const styles = `
   border-right-width: 0;
   border-bottom-width: 0;
   font-weight: bold;
-  height: 2.5em;
+  height: auto;
   min-width: 3em;
-  padding: 6px 10px;
+  padding: 8px;
   text-align: left;
   vertical-align: top;
 }

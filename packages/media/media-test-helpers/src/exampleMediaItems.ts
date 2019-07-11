@@ -83,6 +83,12 @@ export const largeImageFileId = {
   collectionName,
 };
 
+export const verticalImageFileId = {
+  id: 'f9235f5a-d582-4740-8611-ebf3feaf28b6',
+  mediaItemType: fileType,
+  collectionName,
+};
+
 export const docFileId = {
   id: '71cd7e7d-4e86-4b89-a0b4-7f6ffe013c94',
   mediaItemType: fileType,
