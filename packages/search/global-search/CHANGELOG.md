@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.2.4
+
+### Patch Changes
+
+- [patch][5427f7028a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5427f7028a):
+
+  Fixing problem with subtext colours not matching between pages and people in the Quick Search complex experiment.
+
 ## 10.2.3
 
 ### Patch Changes
