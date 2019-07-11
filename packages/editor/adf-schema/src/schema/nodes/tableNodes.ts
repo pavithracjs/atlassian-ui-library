@@ -289,7 +289,7 @@ export const tableCell = {
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock |  mediaGroup | mediaSingle | applicationCard | decisionList | taskList | blockCard | extension | unsupportedBlock)+',
   attrs: cellAttrs,
   tableRole: 'cell',
-  marks: 'alignment',
+  marks: 'alignment link',
   isolating: true,
   parseDOM: [
     // Ignore number cell copied from renderer

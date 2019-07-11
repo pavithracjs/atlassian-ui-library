@@ -28,6 +28,7 @@ export const listItem: NodeSpec = {
     '(paragraph | mediaSingle | codeBlock) (paragraph | bulletList | orderedList | mediaSingle | codeBlock)*',
   defining: true,
   parseDOM: [{ tag: 'li' }],
+  marks: 'link',
   toDOM() {
     return ['li', 0];
   },
