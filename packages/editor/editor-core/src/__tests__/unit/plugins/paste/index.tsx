@@ -1157,6 +1157,11 @@ describe('paste plugins', () => {
           "<meta charset='utf-8'><p data-pm-slice='1 1 []'><a href='http://www.google.com'>www.google.com</a></p>",
       };
 
+      const singleUrlPasteEvent = {
+        html:
+          "<meta charset='utf-8'><a href='http://www.google.com'>www.google.com</a>",
+      };
+
       const mixedPasteEvent = {
         html:
           "<meta charset='utf-8'><ul><li>Hello World</li></ul><p>Hello World</p",
@@ -1225,6 +1230,23 @@ describe('paste plugins', () => {
 
       it('should create analytics event for paste an url', () => {
         dispatchPasteEvent(editorView, urlPasteEvent);
+
+        expect(createAnalyticsEvent).toHaveBeenCalledWith({
+          action: 'pasted',
+          actionSubject: 'document',
+          actionSubjectId: actionSubjectId,
+          eventType: 'track',
+          attributes: expect.objectContaining({
+            content: 'url',
+            inputMethod: 'keyboard',
+            source: 'uncategorized',
+            type: 'richText',
+          }),
+        });
+      });
+
+      it('should create analytics event for only a url', () => {
+        dispatchPasteEvent(editorView, singleUrlPasteEvent);
 
         expect(createAnalyticsEvent).toHaveBeenCalledWith({
           action: 'pasted',

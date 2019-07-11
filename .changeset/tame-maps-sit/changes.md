@@ -1,0 +1,1 @@
+ED-7211: Handle paste events with only an anchor tag
