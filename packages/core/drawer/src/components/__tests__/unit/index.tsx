@@ -6,7 +6,9 @@ import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Drawer from '../../index';
 import DrawerPrimitive from '../../primitives';
 
-const findKeydownListenerCall = listenerFn =>
+declare var global: any;
+
+const findKeydownListenerCall = (listenerFn: any) =>
   listenerFn.mock.calls.find(e => e[0] === 'keydown');
 
 const escKeyDown = () => {

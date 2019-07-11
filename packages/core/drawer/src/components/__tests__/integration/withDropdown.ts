@@ -12,7 +12,7 @@ const dropdownMenu = '#drawer-contents div[aria-label][role="menu"]';
 BrowserTestCase(
   'Drawer should render fixed dropdown-menu correctly',
   {},
-  async client => {
+  async (client: any) => {
     const drawerTest = new Page(client);
     await drawerTest.goto(urlDrawer);
     await drawerTest.waitFor(dropdownTrigger, 5000);
