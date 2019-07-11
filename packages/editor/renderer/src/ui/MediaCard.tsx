@@ -285,25 +285,9 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       occurrenceKey,
     };
 
-    const width =
-      cardDimensions &&
-      cardDimensions.width &&
-      parseInt(`${cardDimensions.width}`);
-    const height =
-      cardDimensions &&
-      cardDimensions.height &&
-      parseInt(`${cardDimensions.height}`);
-
     return (
-      // Needed for copy & paste
       <div
-        data-context-id={contextId}
-        data-type="file"
-        data-node-type="media"
-        data-width={width}
-        data-height={height}
-        data-id={id}
-        data-collection={collection}
+        {...getClipboardAttrs({ id, collection, contextId, cardDimensions })}
       >
         <Card
           identifier={identifier}
@@ -323,5 +307,37 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     );
   }
 }
+
+// Needed for copy & paste
+export const getClipboardAttrs = ({
+  id,
+  collection,
+  contextId,
+  cardDimensions,
+}: {
+  id: string;
+  collection?: string;
+  contextId?: string;
+  cardDimensions?: CardDimensions;
+}): { [key: string]: string | number | undefined } => {
+  const width =
+    cardDimensions &&
+    cardDimensions.width &&
+    parseInt(`${cardDimensions.width}`);
+  const height =
+    cardDimensions &&
+    cardDimensions.height &&
+    parseInt(`${cardDimensions.height}`);
+
+  return {
+    'data-context-id': contextId,
+    'data-type': 'file',
+    'data-node-type': 'media',
+    'data-width': width,
+    'data-height': height,
+    'data-id': id,
+    'data-collection': collection,
+  };
+};
 
 export const MediaCard = withImageLoader<MediaCardProps>(MediaCardInternal);
