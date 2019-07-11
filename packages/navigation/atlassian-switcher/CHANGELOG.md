@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.3.0
+
+### Minor Changes
+
+- [minor][b81d931ee3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d931ee3):
+
+  Added new OpsGenie logo, fixed the gradient for the StatusPage logo, and refactored atlassian-switcher to use the new logos
+
 ## 3.2.0
 
 ### Minor Changes
