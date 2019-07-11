@@ -1,5 +1,42 @@
 # @atlaskit/media-test-helpers
 
+## 24.3.0
+
+### Minor Changes
+
+- [minor][13ca42c394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13ca42c394):
+
+  # use getAuthFromContext from media when a file if pasted from a different collection
+
+  Now products can provide auth using **getAuthFromContext** on MediaClientConfig:
+
+  ```
+  import {MediaClientConfig} from '@atlaskit/media-core'
+  import Editor from '@atlaskit/editor-core'
+
+  const viewMediaClientConfig: MediaClientConfig = {
+    authProvider // already exists
+    getAuthFromContext(contextId: string) {
+      // here products can return auth for external pages.
+      // in case of copy & paste on Confluence, they can provide read token for
+      // files on the source collection
+    }
+  }
+  const mediaProvider: = {
+    viewMediaClientConfig
+  }
+
+  <Editor {...otherNonRelatedProps} media={{provider: mediaProvider}} />
+  ```
+
+## 24.2.0
+
+### Minor Changes
+
+- [minor][a552f93596](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a552f93596):
+
+  Increase image preview max height and width to 4096px
+
 ## 24.1.3
 
 - Updated dependencies [e754b5f85e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e754b5f85e):

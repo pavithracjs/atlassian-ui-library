@@ -5,13 +5,10 @@ export const Actions = styled.div`
   justify-content: flex-end;
 `;
 
-export const Title = styled.div`
-  flex: auto;
-`;
+export const Title = styled.div``;
 
 export const Heading = styled.div`
-  flex-direction: row;
-  display: flex;
+  margin-left: ${gridSize() * 2}px;
 `;
 
 export const Card = styled.div`
@@ -21,20 +18,21 @@ export const Card = styled.div`
   padding: ${gridSize() * 1.75}px ${gridSize() * 1}px;
   overflow: hidden;
   line-height: 21px;
+  padding-left: 16px;
 `;
 
-export const Section = styled.div`
-  flex-direction: column;
+export const Content = styled.div`
+  max-width: 280px;
+  display: flex;
 `;
+export const Section = styled.div``;
 
 export const Aside = styled.div`
-  flex-direction: column;
-  margin-right: ${gridSize() * 1}px;
   opacity: 0.7;
 `;
 
 export const Body = styled.div`
-  flex-direction: column;
+  margin-left: ${gridSize() * 2}px;
 `;
 
 export const iconUrl =

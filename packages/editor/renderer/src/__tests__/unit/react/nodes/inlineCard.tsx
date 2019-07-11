@@ -25,7 +25,7 @@ describe('Renderer - React/Nodes/InlineCard', () => {
 
   it('should render a <span>-tag', () => {
     node = mount(<InlineCard url={url} />);
-    expect(node.getDOMNode()['tagName']).toEqual('A');
+    expect(node.getDOMNode()['tagName']).toEqual('SPAN');
   });
 
   it('should render with url if prop exists', () => {

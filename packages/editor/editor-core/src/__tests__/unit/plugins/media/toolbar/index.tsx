@@ -1,72 +1,67 @@
 import * as React from 'react';
-import { floatingToolbar } from '../../../../plugins/media/toolbar';
 import {
-  AnnotationToolbar,
-  messages as annotateMessages,
-} from '../../../../plugins/media/toolbar/annotation';
-import { IntlProvider } from 'react-intl';
-import {
+  bodiedExtension,
   createEditorFactory,
   doc,
-  p,
-  randomId,
-  mediaSingle,
-  media,
-  bodiedExtension,
-  layoutSection,
   layoutColumn,
-  ul,
+  layoutSection,
   li,
+  media,
+  mediaSingle,
+  p,
   table,
-  tr,
   td,
-  storyMediaProviderFactory,
+  tr,
+  ul,
 } from '@atlaskit/editor-test-helpers';
+import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
+import * as MediaClientModule from '@atlaskit/media-client';
+import { FileState, MediaClient } from '@atlaskit/media-client';
 import {
   asMockReturnValue,
   fakeMediaClient,
   getDefaultMediaClientConfig,
 } from '@atlaskit/media-test-helpers';
-import { FileState, MediaClient } from '@atlaskit/media-client';
-import * as MediaClientModule from '@atlaskit/media-client';
-
-import commonMessages from '../../../../messages';
-import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
+import { shallow } from 'enzyme';
+import { ReactElement } from 'react';
+import { IntlProvider } from 'react-intl';
+import commonMessages from '../../../../../messages';
 import {
   FloatingToolbarButton,
   FloatingToolbarCustom,
-} from '../../../../plugins/floating-toolbar/types';
-import { setNodeSelection } from '../../../../utils';
-import { Command } from '../../../../types';
-import { ReactElement } from 'react';
-import { shallow } from 'enzyme';
+} from '../../../../../plugins/floating-toolbar/types';
+import Button from '../../../../../plugins/floating-toolbar/ui/Button';
+import { MediaOptions } from '../../../../../plugins/media';
 import {
   MediaPluginState,
   stateKey,
-} from '../../../../plugins/media/pm-plugins/main';
-import Button from '../../../../plugins/floating-toolbar/ui/Button';
+} from '../../../../../plugins/media/pm-plugins/main';
+import { floatingToolbar } from '../../../../../plugins/media/toolbar';
+import {
+  AnnotationToolbar,
+  messages as annotateMessages,
+} from '../../../../../plugins/media/toolbar/annotation';
+import { Command } from '../../../../../types';
+import { setNodeSelection } from '../../../../../utils';
+import {
+  getFreshMediaProvider,
+  temporaryFileId,
+  testCollectionName,
+} from '../_utils';
 
 describe('media', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
 
-  const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
-  const temporaryFileId = `temporary:${randomId()}`;
-
   let createAnalyticsEvent: jest.Mock<any>;
 
-  const getFreshMediaProvider = () =>
-    storyMediaProviderFactory({
-      collectionName: testCollectionName,
-      includeUserAuthProvider: true,
-    });
-
-  const editor = (doc: any) => {
+  const editor = (doc: any, mediaPropsOverride: MediaOptions = {}) => {
     return createEditor({
       doc,
       editorProps: {
         media: {
           provider: getFreshMediaProvider(),
           allowMediaSingle: true,
+          ...mediaPropsOverride,
         },
         allowExtension: true,
         allowLayouts: true,
@@ -92,7 +87,6 @@ describe('media', () => {
   const temporaryMediaSingle = mediaSingle({ layout: 'center' })(
     temporaryMedia,
   );
-
   const docWithMediaSingle = doc(temporaryMediaSingle);
 
   beforeEach(() => {
@@ -126,13 +120,9 @@ describe('media', () => {
     it('should render alignment, wrapping and breakout buttons in full page without resizing enabled', () => {
       const { editorView } = editor(docWithMediaSingle);
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        undefined,
-        undefined,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        appearance: 'full-page',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(11);
     });
@@ -140,13 +130,10 @@ describe('media', () => {
     it('should only render alignment and wrapping buttons in full page when resizing is enabled', () => {
       const { editorView } = editor(docWithMediaSingle);
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        undefined,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        appearance: 'full-page',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(8);
     });
@@ -154,13 +141,11 @@ describe('media', () => {
     it('can render regular toolbar with annotation in full page', () => {
       const { editorView } = editor(docWithMediaSingle);
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        true,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        allowAnnotation: true,
+        appearance: 'full-page',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(9);
       const item = toolbar!.items.find(cmd => cmd.type === 'custom');
@@ -170,13 +155,10 @@ describe('media', () => {
     it('should not render any layout buttons when in comment', () => {
       const { editorView } = editor(docWithMediaSingle);
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        undefined,
-        'comment',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        appearance: 'comment',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
     });
@@ -191,13 +173,10 @@ describe('media', () => {
         ),
       );
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        undefined,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        appearance: 'full-page',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
     });
@@ -212,13 +191,10 @@ describe('media', () => {
         ),
       );
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        undefined,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        appearance: 'full-page',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
     });
@@ -226,13 +202,10 @@ describe('media', () => {
     it('should not render any layout buttons when inside a list item', () => {
       const { editorView } = editor(doc(ul(li(temporaryMediaSingle))));
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        undefined,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        appearance: 'full-page',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
     });
@@ -242,13 +215,10 @@ describe('media', () => {
         doc(table()(tr(td()(temporaryMediaSingle)))),
       );
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        undefined,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        appearance: 'full-page',
+      });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
     });
@@ -272,13 +242,10 @@ describe('media', () => {
 
       const alignLeftTitle = intl.formatMessage(commonMessages.alignImageLeft);
 
-      const toolbar = floatingToolbar(
-        editorView.state,
-        intl,
-        true,
-        undefined,
-        'full-page',
-      );
+      const toolbar = floatingToolbar(editorView.state, intl, {
+        allowResizing: true,
+        appearance: 'full-page',
+      });
       const button = toolbar!.items.find(
         item => item.type === 'button' && item.title === alignLeftTitle,
       ) as FloatingToolbarButton<Command>;
@@ -325,13 +292,11 @@ describe('media', () => {
 
         setNodeSelection(editorView, 0);
 
-        const toolbar = floatingToolbar(
-          editorView.state,
-          intl,
-          true,
-          true,
-          'full-page',
-        );
+        const toolbar = floatingToolbar(editorView.state, intl, {
+          allowResizing: true,
+          allowAnnotation: true,
+          appearance: 'full-page',
+        });
 
         const annotateToolbarComponent = toolbar!.items.find(
           item => item.type === 'custom',

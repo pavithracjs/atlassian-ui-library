@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/contextual-survey",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "A React component used to ask the user for feedback",
   "license": "Apache-2.0",
   "types": "index.d.ts",
@@ -36,6 +36,7 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
+    "@atlaskit/checkbox": "^9.0.0",
     "@atlaskit/docs": "^8.1.3"
   },
   "keywords": [

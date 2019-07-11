@@ -15,6 +15,7 @@ import {
   wideImageFileId,
   errorFileId,
   videoSquareFileId,
+  verticalImageFileId,
 } from '@atlaskit/media-test-helpers';
 import { FileIdentifier } from '@atlaskit/media-client';
 
@@ -70,6 +71,11 @@ export const largeImageItem: FileIdentifier = {
 
 export const wideImageItem: FileIdentifier = {
   ...wideImageFileId,
+  occurrenceKey: 'testOccurrenceKey',
+};
+
+export const verticalImageItem: FileIdentifier = {
+  ...verticalImageFileId,
   occurrenceKey: 'testOccurrenceKey',
 };
 

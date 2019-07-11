@@ -11,8 +11,8 @@ export const styles = `
   border: 1px solid ${N50};
   border-right-width: 0;
   border-bottom-width: 0;
-  height: 2.5em;
-  padding: 6px 10px;
+  height: auto;
+  padding: 8px;
   text-align: center;
   vertical-align: top;
   width: ${numberedColumnWidth}px;
