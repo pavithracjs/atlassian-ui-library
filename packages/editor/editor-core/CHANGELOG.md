@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.2
+
+### Patch Changes
+
+- [patch][4b27187d8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b27187d8e):
+
+  [ED-7215] Improve table performance moving the column line markers from React Component to CSS only
+
 ## 112.33.1
 
 ### Patch Changes

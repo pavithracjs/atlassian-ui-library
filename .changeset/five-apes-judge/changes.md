@@ -1,1 +1,0 @@
-[ED-7215] Improve table performance moving the column line markers from React Component to CSS only  
