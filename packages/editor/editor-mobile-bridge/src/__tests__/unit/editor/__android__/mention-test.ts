@@ -1,5 +1,6 @@
+import { ProviderFactory } from '@atlaskit/editor-common';
+
 import {
-  mentionPlugin,
   typeAheadPluginKey,
   TypeAheadPluginState,
 } from '@atlaskit/editor-core';
@@ -11,12 +12,18 @@ import {
   typeAheadQuery,
 } from '@atlaskit/editor-test-helpers';
 
-import { androidComposeStart, androidComposeEnd } from '../../_utils';
+import { MentionProvider } from '@atlaskit/mention/resource';
+import { mention as mentionData } from '@atlaskit/util-data-test';
 
+import { androidComposeStart, androidComposeEnd } from '../../_utils';
 import { EditorViewWithComposition } from '../../../../types';
 
 describe('mentions on mobile', () => {
   const createEditor = createEditorFactory<TypeAheadPluginState>();
+
+  const mentionProvider: Promise<MentionProvider> = Promise.resolve(
+    mentionData.storyData.resourceProvider,
+  );
 
   const editor = (
     doc: any,
@@ -26,7 +33,8 @@ describe('mentions on mobile', () => {
   } => {
     const { editorView, plugin } = createEditor({
       doc,
-      editorPlugins: [mentionPlugin()],
+      editorProps: { mentionProvider },
+      providerFactory: ProviderFactory.create({ mentionProvider }),
       pluginKey: typeAheadPluginKey,
     });
 
