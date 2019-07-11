@@ -35,7 +35,7 @@ import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { mockLogger } from '../mocks/_mockLogger';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 import { ConfluenceFeatures } from '../../../util/features';
-import ConfluenceFilterGroup from '../../../components/confluence/ConfluenceFilterGroup';
+import { ConfluenceFilterGroup } from '../../../components/confluence/ConfluenceFilterGroup';
 import { shallow } from 'enzyme';
 
 const sessionId = 'sessionId';
@@ -463,7 +463,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       );
     });
 
-    it('More filters button redirects to advanced search', () => {
+    it('onAdvancedSearch is passed correct params', () => {
       const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
         ConfluenceResultsMap
       >).getFilterComponent({
@@ -475,10 +475,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       });
 
       const filterWrapper = shallow(filterComponent as React.ReactElement);
-
-      filterWrapper
-        .find('WithAnalyticsContext(WithAnalyticsEvents(Button))')
-        .simulate('click');
+      filterWrapper.props().wrappedComponentProps.onAdvancedSearch();
 
       expect(onAdvancedSearch).toHaveBeenCalledWith(
         undefined,

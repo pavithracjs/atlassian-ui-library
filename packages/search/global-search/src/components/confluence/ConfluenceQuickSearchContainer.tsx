@@ -534,6 +534,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           }`}
           spaceKey={modelContext.spaceKey}
           isFilterOn={currentFilters.length !== 0}
+          searchSessionId={searchSessionId}
           onAdvancedSearch={(event: CancelableEvent) =>
             onAdvancedSearch(
               event,
