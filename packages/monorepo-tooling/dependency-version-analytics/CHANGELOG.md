@@ -1,0 +1,1 @@
+# @atlaskit/dependency-version-analytics
