@@ -13,20 +13,20 @@ export const HiddenCheckbox = React.forwardRef((
 ) => (
   <input
     ref={ref}
-    css={css`
-      left: 50%;
-      margin: 0;
-      opacity: 0;
-      padding: 0;
-      position: absolute;
-      transform: translate(-50%, -50%);
-      top: 50%;
-    `}
+    css={{
+      left: '50%',
+      margin: 0,
+      opacity: 0,
+      padding: 0,
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)',
+      top: '50%',
+    }}
     {...props}
   />
 ));
 
-const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
+const disabledColor = { light: colors.N80, dark: colors.N80 };
 
 interface Props {
   isActive?: boolean;
@@ -41,46 +41,44 @@ interface Props {
 interface LabelProps extends React.HTMLProps<HTMLLabelElement> {
   isDisabled?: boolean;
 }
-export const Label = ({ isDisabled, ...rest }: LabelProps) => (
+export const Label = ({ isDisabled, tokens, ...rest }: LabelProps) => (
   <label
-    css={css`
-      align-items: flex-start;
-      display: flex;
-      color: ${isDisabled ? disabledColor(rest) : colors.text(rest)};
-      ${isDisabled
-        ? css`
-            cursor: not-allowed;
-          `
-        : ''};
-    `}
+    css={{
+      alignItems: 'flex-start;',
+      display: 'flex',
+      color: isDisabled
+        ? tokens.label.textColor.disabled
+        : tokens.label.textColor.rest,
+      ...(isDisabled && { cursor: 'not-allowed' }),
+    }}
     {...rest}
   />
 );
 
 const activeBorder = iconTokens => ({
   stroke: iconTokens.borderColor.active,
-  strokeWidth: '2px',
+  strokeWidth: iconTokens.borderWidth,
 });
 
 const checkedBorder = iconTokens => ({
   stroke: iconTokens.borderColor.checked,
-  strokeWidth: '2px',
+  strokeWidth: iconTokens.borderWidth,
 });
 
 const focusBorder = iconTokens => ({
   stroke: iconTokens.borderColor.focused,
-  strokeWidth: '2px;',
+  strokeWidth: iconTokens.borderWidth,
 });
 
 const invalidBorder = iconTokens => ({
   stroke: iconTokens.borderColor.invalid,
-  strokeWidth: '2px;',
+  strokeWidth: iconTokens.borderWidth,
 });
 
-const border = ({ isHovered, tokens: { icon }, ...rest }: Props) => css`
-  stroke: ${isHovered ? icon.borderColor.hovered : icon.borderColor.rest};
-  stroke-width: 2px;
-`;
+const border = ({ isHovered, tokens: { icon }, ...rest }: Props) => ({
+  stroke: isHovered ? icon.borderColor.hovered : icon.borderColor.rest,
+  strokeWidth: icon.borderWidth,
+});
 
 const getBorderColor = ({ tokens, ...props }: Props) => {
   if (props.isDisabled) {
@@ -148,12 +146,20 @@ const getBoxColor = (props: Props) => {
   return color;
 };
 
-export const LabelText = (props: { children: React.ReactNode }) => (
+export const LabelText = ({
+  tokens,
+  ...rest
+}: {
+  children: React.ReactNode;
+}) => (
   <span
-    css={css`
-      padding: 6px 4px;
-    `}
-    {...props}
+    css={{
+      paddingTop: tokens.label.spacing.top,
+      paddingRight: tokens.label.spacing.right,
+      paddingBottom: tokens.label.spacing.bottom,
+      paddingLeft: tokens.label.spacing.left,
+    }}
+    {...rest}
   />
 );
 
