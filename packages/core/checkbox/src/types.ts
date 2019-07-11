@@ -65,6 +65,10 @@ export interface CheckboxProps extends WithAnalyticsEventsProps {
    * be called with an object containing the react synthetic event. Use currentTarget to get value, name and checked
    */
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => any;
+  theme: (
+    current: Function,
+    props: { tokens: ComponentTokens; mode: 'light' | 'dark' },
+  ) => ComponentTokens;
   /** The value to be used in the checkbox input. This is the value that will be returned on form submission. */
   value?: number | string;
 }
