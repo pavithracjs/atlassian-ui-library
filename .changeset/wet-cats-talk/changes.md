@@ -1,0 +1,1 @@
+Adding last modified date to the simple extensions to Quick Search
