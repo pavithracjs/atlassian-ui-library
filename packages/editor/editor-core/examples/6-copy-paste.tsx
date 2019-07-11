@@ -254,6 +254,7 @@ class ExampleEditorComponent extends React.Component<
     return (
       <EditorContext key={collectionName}>
         <Content>
+          <h2>Editor ({collectionName})</h2>
           <SmartCardProvider>
             <WithEditorActions
               render={actions => (
@@ -342,7 +343,7 @@ class ExampleEditorComponent extends React.Component<
   renderRenderer = () => {
     return (
       <RendererWrapper>
-        <h2>Renderer</h2>
+        <h2>Renderer ({defaultCollectionName})</h2>
         <ReactRenderer
           document={rendererDoc}
           adfStage="stage0"
