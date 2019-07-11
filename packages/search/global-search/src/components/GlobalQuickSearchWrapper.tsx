@@ -306,7 +306,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       modelContext,
       showFeedbackCollector,
       feedbackCollectorProps,
-      isAutocompleteEnabled,
       confluenceUrl,
     } = this.props;
 
