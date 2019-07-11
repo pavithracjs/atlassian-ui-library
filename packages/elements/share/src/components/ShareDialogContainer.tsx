@@ -197,7 +197,6 @@ export class ShareDialogContainerInternal extends React.Component<
   };
 
   fetchConfig = () => {
-    const { createAnalyticsEvent } = this.props;
     this.setState(
       {
         isFetchingConfig: true,
@@ -207,10 +206,6 @@ export class ShareDialogContainerInternal extends React.Component<
           .getConfig(this.props.productId, this.props.cloudId)
           .then((config: ConfigResponse) => {
             if (this._isMounted) {
-              if (createAnalyticsEvent)
-                createAnalyticsEvent(configReceived(config)).fire(
-                  'fabric-elements',
-                );
               this.setState({
                 config,
                 isFetchingConfig: false,
@@ -219,10 +214,6 @@ export class ShareDialogContainerInternal extends React.Component<
           })
           .catch(() => {
             if (this._isMounted) {
-              if (createAnalyticsEvent)
-                createAnalyticsEvent(configNotReceived()).fire(
-                  'fabric-elements',
-                );
               this.setState({
                 config: defaultConfig,
                 isFetchingConfig: false,

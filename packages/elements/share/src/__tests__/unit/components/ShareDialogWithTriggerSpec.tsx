@@ -281,8 +281,8 @@ describe('ShareDialogWithTrigger', () => {
 
       wrapper.find(ShareButton).simulate('click');
       expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(2);
-      // Button clicked event
-      expect(mockCreateAnalyticsEvent).toHaveBeenCalledWith({
+      // Share button clicked event
+      expect(mockCreateAnalyticsEvent.mock.calls[0][0]).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -292,8 +292,8 @@ describe('ShareDialogWithTrigger', () => {
           packageVersion: expect.any(String),
         },
       });
-      // Share modal appeared event
-      expect(mockCreateAnalyticsEvent).toHaveBeenCalledWith({
+      // Share modal screen event
+      expect(mockCreateAnalyticsEvent.mock.calls[1][0]).toMatchObject({
         eventType: 'screen',
         name: 'shareModal',
         attributes: {
