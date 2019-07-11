@@ -65,6 +65,7 @@ export function getDefaultPluginsList(
 
   if (props.allowAnalyticsGASV3) {
     defaultPluginList.push(analyticsPlugin(createAnalyticsEvent));
+    defaultPluginList.push(historyAnalyticsPlugin);
   }
 
   return defaultPluginList.concat([
@@ -79,7 +80,6 @@ export function getDefaultPluginsList(
     typeAheadPlugin,
     unsupportedContentPlugin,
     editorDisabledPlugin,
-    historyAnalyticsPlugin,
   ]);
 }
 

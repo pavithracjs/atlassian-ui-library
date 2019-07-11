@@ -1,4 +1,5 @@
 import { Transaction } from 'prosemirror-state';
+import { AnalyticsEventPayloadWithChannel } from '../../analytics';
 
 export enum HistoryAnalyticsActionTypes {
   PUSH = 'PUSH',

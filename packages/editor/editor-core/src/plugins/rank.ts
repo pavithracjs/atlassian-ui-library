@@ -89,6 +89,8 @@ export default {
     'grid',
     'scrollGutterPlugin',
     'analytics',
+    'historyAnalytics',
+    'historyAnalyticsKeymap',
   ],
   nodes: [
     'doc',
