@@ -19,10 +19,11 @@ export const Card = styled.div`
   overflow: hidden;
   line-height: 21px;
   padding-left: 16px;
+  padding-right: 0px;
 `;
 
 export const Content = styled.div`
-  max-width: 280px;
+  max-width: 290px;
   display: flex;
 `;
 export const Section = styled.div``;
