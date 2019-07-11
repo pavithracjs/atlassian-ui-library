@@ -40,15 +40,9 @@ type SwitcherProps = {
   expandLink?: string;
 };
 
-type AnalyticAttributes = {
-  itemsCount: number;
-  licensedProductKeys?: string[];
-  suggestedProductKeys?: string[];
-};
-
-const getAnalyticsContext = (attributes: AnalyticAttributes) => ({
+const getAnalyticsContext = (itemsCount: number) => ({
   ...analyticsAttributes({
-    ...attributes,
+    itemsCount,
   }),
 });
 
@@ -116,13 +110,11 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     const itemsCount =
       switchToLinks.length + recentLinks.length + customLinks.length;
-    const licensedProductKeys = licensedProductLinks.map(item => item.key);
-    const suggestedProductKeys = suggestedProductLinks.map(item => item.key);
 
     const firstContentArrived = Boolean(licensedProductLinks.length);
 
     return (
-      <NavigationAnalyticsContext data={getAnalyticsContext({ itemsCount })}>
+      <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
           <ViewedTracker subject={SWITCHER_SUBJECT} />
           {firstContentArrived && (
@@ -130,8 +122,12 @@ export default class Switcher extends React.Component<SwitcherProps> {
               subject={SWITCHER_SUBJECT}
               data={{
                 duration: this.timeSinceMounted(),
-                licensedProductKeys,
-                suggestedProductKeys,
+                items: {
+                  licensedProducts: licensedProductLinks.map(item => item.key),
+                  suggestedProducts: suggestedProductLinks.map(
+                    item => item.key,
+                  ),
+                },
               }}
             />
           )}
