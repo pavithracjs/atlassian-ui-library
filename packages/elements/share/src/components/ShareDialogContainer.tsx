@@ -197,6 +197,7 @@ export class ShareDialogContainerInternal extends React.Component<
   };
 
   fetchConfig = () => {
+    const { createAnalyticsEvent } = this.props;
     this.setState(
       {
         isFetchingConfig: true,
@@ -206,7 +207,10 @@ export class ShareDialogContainerInternal extends React.Component<
           .getConfig(this.props.productId, this.props.cloudId)
           .then((config: ConfigResponse) => {
             if (this._isMounted) {
-              // TODO: Send analytics event
+              if (createAnalyticsEvent)
+                createAnalyticsEvent(configReceived(config)).fire(
+                  'fabric-elements',
+                );
               this.setState({
                 config,
                 isFetchingConfig: false,
@@ -215,7 +219,10 @@ export class ShareDialogContainerInternal extends React.Component<
           })
           .catch(() => {
             if (this._isMounted) {
-              // TODO: Send analytics event
+              if (createAnalyticsEvent)
+                createAnalyticsEvent(configNotReceived()).fire(
+                  'fabric-elements',
+                );
               this.setState({
                 config: defaultConfig,
                 isFetchingConfig: false,
@@ -344,7 +351,13 @@ export class ShareDialogContainerInternal extends React.Component<
           return response.shortUrl;
         })
         .catch(() => {
+<<<<<<< HEAD
           this.createAndFireEvent(errorEncountered('urlShortening'));
+=======
+          // TODO analytics: error getting shortened link.
+          if (createAnalyticsEvent)
+            createAnalyticsEvent(shortUrlNotReceived()).fire('fabric-elements');
+>>>>>>> elements/share: VIRAL-557: added more tests and analytics for share dialog, removed superfluous !important in CSS
           return null;
         });
     },
