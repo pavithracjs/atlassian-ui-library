@@ -1,0 +1,1 @@
+ED-7097 Improve table performance, extract the DeleteButton from Table controls as a Floating element.
