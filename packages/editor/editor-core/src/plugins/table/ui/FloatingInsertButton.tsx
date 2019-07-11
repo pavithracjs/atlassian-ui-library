@@ -4,12 +4,7 @@ import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { Node as PmNode } from 'prosemirror-model';
 import { findDomRefAtPos, findTable } from 'prosemirror-utils';
 import { TableMap, CellSelection } from 'prosemirror-tables';
-import {
-  Popup,
-  PopupPosition,
-  PopupProps,
-  akEditorTableNumberColumnWidth,
-} from '@atlaskit/editor-common';
+import { Popup, PopupPosition, PopupProps } from '@atlaskit/editor-common';
 import { TableCssClassName as ClassName } from '../types';
 import InsertButton from './TableFloatingControls/InsertButton';
 import { closestElement } from '../../../utils';
@@ -23,7 +18,6 @@ import {
   tableInsertColumnButtonSize,
   tableInsertColumnButtonOffset,
 } from './styles';
-import { checkIfNumberColumnEnabled } from '../utils';
 
 export interface Props {
   editorView: EditorView;
@@ -47,8 +41,6 @@ const HORIZONTAL_ALIGN_ROW_BUTTON = -(
   tableInsertColumnButtonOffset +
   tableInsertColumnButtonSize
 );
-const HORIZONTAL_NUMBERED_ALIGN_ROW_BUTTON =
-  HORIZONTAL_ALIGN_ROW_BUTTON - akEditorTableNumberColumnWidth;
 const VERTICAL_ALIGN_ROW_BUTTON = tableInsertColumnButtonSize / 2;
 
 class FloatingInsertButton extends React.Component<
@@ -189,25 +181,29 @@ class FloatingInsertButton extends React.Component<
 
   private createRowOptions(): PopupProps {
     const { insertRowButtonIndex } = this.props;
-    const offset = checkIfNumberColumnEnabled(this.props.editorView.state)
-      ? HORIZONTAL_NUMBERED_ALIGN_ROW_BUTTON
-      : HORIZONTAL_ALIGN_ROW_BUTTON;
-    const options = {
+    let defaultOptions = {
       alignX: 'left',
       alignY: 'bottom',
-      offset: [offset, VERTICAL_ALIGN_ROW_BUTTON],
+      offset: [0, VERTICAL_ALIGN_ROW_BUTTON],
     } as PopupProps;
 
     if (insertRowButtonIndex === 0) {
-      return {
-        ...options,
-        alignX: 'left',
+      defaultOptions = {
+        ...defaultOptions,
         alignY: 'top',
-        offset: [offset, -VERTICAL_ALIGN_ROW_BUTTON],
+        offset: [0, -VERTICAL_ALIGN_ROW_BUTTON],
       };
     }
 
-    return options;
+    return {
+      ...defaultOptions,
+      onPositionCalculated(position) {
+        return {
+          ...position,
+          left: HORIZONTAL_ALIGN_ROW_BUTTON,
+        };
+      },
+    };
   }
 
   private createColumnOptions(): PopupProps {
