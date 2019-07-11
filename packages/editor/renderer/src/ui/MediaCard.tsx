@@ -25,6 +25,7 @@ import {
   ImageLoaderProps,
   // @ts-ignore
   ImageLoaderState,
+  ContextIdentifierProvider,
 } from '@atlaskit/editor-common';
 import { RendererAppearance } from './Renderer/types';
 import { RendererContext } from '../react';
@@ -46,6 +47,7 @@ export type MediaProvider = XOR<WithViewMediaClientConfig, WithViewContext>;
 export interface MediaCardProps {
   id?: string;
   mediaProvider?: Promise<MediaProvider>;
+  contextIdentifierProvider?: Promise<ContextIdentifierProvider>;
   eventHandlers?: {
     media?: {
       onClick?: CardOnClickCallback;
@@ -67,6 +69,7 @@ export interface MediaCardProps {
 
 export interface State {
   mediaClientConfig?: MediaClientConfig;
+  contextIdentifierProvider?: ContextIdentifierProvider;
 }
 
 const mediaIdentifierMap: Map<string, Identifier> = new Map();
@@ -106,6 +109,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const {
       rendererContext,
       mediaProvider,
+      contextIdentifierProvider,
       id,
       url,
       collection: collectionName,
@@ -113,6 +117,12 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     if (!mediaProvider) {
       return;
+    }
+
+    if (contextIdentifierProvider) {
+      this.setState({
+        contextIdentifierProvider: await contextIdentifierProvider,
+      });
     }
 
     const mediaProviderObject = await mediaProvider;
@@ -229,7 +239,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
   };
 
   render() {
-    const { mediaClientConfig } = this.state;
+    const { contextIdentifierProvider, mediaClientConfig } = this.state;
     const {
       id,
       type,
@@ -249,6 +259,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const onCardClick = this.getOnCardClickCallback(isInlinePlayer);
 
     const shouldOpenMediaViewer = !isMobile && !onCardClick;
+    const contextId =
+      contextIdentifierProvider && contextIdentifierProvider.objectId;
 
     if (type === 'external') {
       return this.renderExternal(shouldOpenMediaViewer);
@@ -273,21 +285,41 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       occurrenceKey,
     };
 
+    const width =
+      cardDimensions &&
+      cardDimensions.width &&
+      parseInt(`${cardDimensions.width}`);
+    const height =
+      cardDimensions &&
+      cardDimensions.height &&
+      parseInt(`${cardDimensions.height}`);
+
     return (
-      <Card
-        identifier={identifier}
-        mediaClientConfig={mediaClientConfig}
-        dimensions={cardDimensions}
-        onClick={onCardClick}
-        resizeMode={resizeMode}
-        isLazy={!isMobile}
-        disableOverlay={disableOverlay}
-        useInlinePlayer={isInlinePlayer}
-        shouldOpenMediaViewer={shouldOpenMediaViewer}
-        mediaViewerDataSource={{
-          list: Array.from(mediaIdentifierMap.values()),
-        }}
-      />
+      // Needed for copy & paste
+      <div
+        data-context-id={contextId}
+        data-type="file"
+        data-node-type="media"
+        data-width={width}
+        data-height={height}
+        data-id={id}
+        data-collection={collection}
+      >
+        <Card
+          identifier={identifier}
+          mediaClientConfig={mediaClientConfig}
+          dimensions={cardDimensions}
+          onClick={onCardClick}
+          resizeMode={resizeMode}
+          isLazy={!isMobile}
+          disableOverlay={disableOverlay}
+          useInlinePlayer={isInlinePlayer}
+          shouldOpenMediaViewer={shouldOpenMediaViewer}
+          mediaViewerDataSource={{
+            list: Array.from(mediaIdentifierMap.values()),
+          }}
+        />
+      </div>
     );
   }
 }
