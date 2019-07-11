@@ -81,6 +81,7 @@ interface ModeValue {
   light: string;
   dark: string;
 }
+
 type TokenValue = ModeValue | string;
 
 export interface ComponentTokens {
@@ -185,3 +186,28 @@ export interface ThemeProps {
   tokens: ComponentTokens;
   mode: string;
 }
+
+export interface EvaluatedLabelTokens {
+  textColor: {
+    rest: string;
+    disabled: string;
+  };
+  spacing: {
+    bottom: string;
+    right: string;
+    left: string;
+    top: string;
+  };
+}
+
+export interface EvaluatedTokens {
+  label: EvaluatedLabelTokens;
+  icon: EvaluatedIconTokens;
+}
+
+export interface ThemeProps {
+  tokens: ComponentTokens;
+  mode: string;
+}
+
+export interface ThemeTokens extends EvaluatedTokens {}

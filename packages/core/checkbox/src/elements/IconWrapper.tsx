@@ -149,17 +149,3 @@ export default ({ children, ...props }: IconProps) => (
     children={children}
   />
 );
-
-export type RequiredIndicatorProps = {
-  'aria-hidden'?: boolean | 'true' | 'false';
-} & React.AllHTMLAttributes<HTMLSpanElement>;
-
-export const RequiredIndicator = (props: RequiredIndicatorProps) => (
-  <span
-    css={{
-      color: colors.R400,
-      paddingLeft: `${math.multiply(gridSize, 0.25)}px;`,
-    }}
-    {...props}
-  />
-);
