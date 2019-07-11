@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
-import Button from '@atlaskit/button';
 import { Checkbox } from '../src';
+import { ComponentTokens } from '../src/types';
 import merge from 'lodash.merge';
 
 const newThemeTokens = {
-  icon: {
-    boxColor: {
-      rest: 'papayawhip',
-      checked: 'hotpink',
+  label: {
+    spacing: {
+      top: '6px',
+      bottom: '6px',
     },
+  },
+  icon: {
     size: 'large',
   },
 };
 
-const customTheme = (current, props) => {
+const customTheme = (
+  current: Function,
+  props: { tokens: ComponentTokens; mode: 'light' | 'dark' },
+) => {
   const themeTokens = current(props);
   const mergedTokens = merge(themeTokens, newThemeTokens);
-  console.log('THEME TOKENS', mergedTokens);
   return mergedTokens;
 };
 
