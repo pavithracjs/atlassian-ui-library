@@ -1,1 +1,0 @@
-FS-4025 add contentType attribute to copyShareLink event
