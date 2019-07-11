@@ -276,6 +276,42 @@ describe('modal-dialog', () => {
         wrapper.find(MyContent).simulate('click');
         expect(spy).not.toHaveBeenCalled();
       });
+
+      it('should close the modal when Escape is pressed', () => {
+        const spy = jest.fn();
+        const wrapper = mount(
+          <ModalDialog onClose={spy}>
+            <MyContent />
+          </ModalDialog>,
+        );
+
+        // The regular escape event
+        const escapeKeyDownEvent: Partial<KeyboardEvent> = new KeyboardEvent(
+          'keydown',
+          { key: 'Escape' },
+        );
+        document.dispatchEvent(escapeKeyDownEvent);
+
+        expect(spy).toHaveBeenCalledTimes(1);
+      });
+
+      it('should close the modal when Escape is pressed in IE11', () => {
+        const spy = jest.fn();
+        const wrapper = mount(
+          <ModalDialog onClose={spy}>
+            <MyContent />
+          </ModalDialog>,
+        );
+
+        // The IE11 escape event
+        const escKeyDownEvent: Partial<KeyboardEvent> = new KeyboardEvent(
+          'keydown',
+          { key: 'Esc' },
+        );
+        document.dispatchEvent(escKeyDownEvent);
+
+        expect(spy).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
