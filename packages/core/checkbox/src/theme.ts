@@ -8,8 +8,15 @@ export const componentTokens: ComponentTokens = {
       rest: { light: colors.N900, dark: colors.DN600 },
       disabled: { light: colors.N80, dark: colors.N80 },
     },
+    spacing: {
+      top: '2px',
+      right: '4px',
+      bottom: '2px',
+      left: '4px',
+    },
   },
   icon: {
+    borderWidth: '2px',
     borderColor: {
       rest: { light: colors.N40, dark: colors.DN80 },
       disabled: { light: '', dark: '' },
