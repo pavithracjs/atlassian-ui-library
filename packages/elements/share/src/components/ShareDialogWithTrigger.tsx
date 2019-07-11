@@ -25,12 +25,12 @@ import {
   ShareError,
 } from '../types';
 import {
-  shareTriggerButtonClicked,
   cancelShare,
-  copyLinkButtonClicked,
-  screenEvent,
-  formShareSubmitted,
   CHANNEL_ID,
+  copyLinkButtonClicked,
+  formShareSubmitted,
+  screenEvent,
+  shareTriggerButtonClicked,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -267,8 +267,10 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(copyLinkButtonClicked(this.start, copyLinkOrigin));
+    const { copyLinkOrigin, shareContentType } = this.props;
+    this.createAndFireEvent(
+      copyLinkButtonClicked(this.start, shareContentType, copyLinkOrigin),
+    );
   };
 
   render() {
