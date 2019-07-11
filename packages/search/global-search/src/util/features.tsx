@@ -31,13 +31,13 @@ const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {
 export interface CommonFeatures {
   abTest: ABTest;
   searchExtensionsEnabled: boolean;
+  complexSearchExtensionsEnabled: boolean;
 }
 
 export interface ConfluenceFeatures extends CommonFeatures {
   isInFasterSearchExperiment: boolean;
   useUrsForBootstrapping: boolean;
   isAutocompleteEnabled: boolean;
-  complexSearchExtensionsEnabled: boolean;
 }
 
 export interface JiraFeatures extends CommonFeatures {
