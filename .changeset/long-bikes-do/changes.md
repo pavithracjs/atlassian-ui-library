@@ -1,1 +1,0 @@
-Added analytics for current space filter component
