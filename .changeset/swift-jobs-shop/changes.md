@@ -1,1 +1,0 @@
-ED-7238: refactor test to use EditorProps over importing mentionPlugin

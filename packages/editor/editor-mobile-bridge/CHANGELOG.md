@@ -1,5 +1,13 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.6
+
+### Patch Changes
+
+- [patch][fabee8bd0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fabee8bd0e):
+
+  ED-7238: refactor test to use EditorProps over importing mentionPlugin
+
 ## 8.8.5
 
 ### Patch Changes

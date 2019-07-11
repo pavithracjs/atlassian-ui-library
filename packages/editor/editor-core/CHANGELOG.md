@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.1
+
+### Patch Changes
+
+- [patch][fabee8bd0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fabee8bd0e):
+
+  ED-7238: refactor test to use EditorProps over importing mentionPlugin
+
 ## 112.33.0
 
 ### Minor Changes
