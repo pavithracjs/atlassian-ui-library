@@ -65,9 +65,7 @@ describe('Snapshot Test', () => {
     const pageContent = "[class$='LayoutContainer']";
     await page.waitForSelector(pageContent);
     await page.evaluate(
-      selector =>
-        console.log(document.querySelector(selector)) ||
-        document.querySelector(selector).scrollBy(0, 500),
+      selector => document.querySelector(selector).scrollBy(0, 500),
       pageContent,
     );
     const image = await takeScreenShot(page, url);
