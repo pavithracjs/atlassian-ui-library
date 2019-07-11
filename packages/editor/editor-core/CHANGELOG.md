@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.4
+
+### Patch Changes
+
+- [patch][e14708091e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e14708091e):
+
+  ED-7211: Handle paste events with only an anchor tag
+
 ## 112.33.3
 
 ### Patch Changes
