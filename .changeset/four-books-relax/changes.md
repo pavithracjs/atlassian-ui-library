@@ -1,0 +1,1 @@
+Fixes styling issue which happens on pages with page banner and scrollable page content
