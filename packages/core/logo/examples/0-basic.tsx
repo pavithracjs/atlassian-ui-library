@@ -27,6 +27,9 @@ import {
   StatuspageLogo,
   StatuspageIcon,
   StatuspageWordmark,
+  OpsGenieLogo,
+  OpsGenieIcon,
+  OpsGenieWordmark,
   StrideLogo,
   StrideIcon,
   StrideWordmark,
@@ -129,6 +132,17 @@ export default () => (
           </td>
           <td>
             <JiraIcon />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <OpsGenieLogo />
+          </td>
+          <td>
+            <OpsGenieWordmark />
+          </td>
+          <td>
+            <OpsGenieIcon />
           </td>
         </tr>
         <tr>
