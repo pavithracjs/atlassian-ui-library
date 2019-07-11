@@ -38,12 +38,9 @@ import {
   shortUrlGenerated,
   shortUrlRequested,
 } from './analytics';
-<<<<<<< HEAD
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
-=======
->>>>>>> elements/share: VIRAL-557: added error boundary and analytics; in the event of an error, a generic error event is fired
 import ErrorBoundary from './ErrorBoundary';
 
 const COPY_LINK_EVENT = copyLinkButtonClicked(0);

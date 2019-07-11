@@ -77,6 +77,22 @@ export const shortUrlGenerated = (start: number, tooSlow: boolean) =>
     tooSlow,
   });
 
+  export const shortUrlNotReceived = () =>
+  createEvent('operational', 'notReceived', 'shortUrl', undefined, {
+    source: 'shareModal',
+  });
+
+export const configReceived = (config: ConfigResponse) =>
+  createEvent('operational', 'received', 'config', undefined, {
+    config: config,
+    source: 'shareModal',
+  });
+
+export const configNotReceived = () =>
+  createEvent('operational', 'received', 'config', undefined, {
+    source: 'shareModal',
+  });
+
 export const copyLinkButtonClicked = (
   start: number,
   shareContentType?: string,
