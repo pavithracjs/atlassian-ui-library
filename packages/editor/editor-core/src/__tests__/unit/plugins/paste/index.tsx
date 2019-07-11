@@ -1142,349 +1142,140 @@ describe('paste plugins', () => {
   });
 
   describe('analytics V3', () => {
-    function testAnalyticsPasteContentInside(
-      doc: (schema: Schema) => RefsNode,
-      actionSubjectId: PASTE_ACTION_SUBJECT_ID,
-    ) {
+    const paragraphDoc = doc(p('Five{<>}'));
+    const orderedListDoc = doc(ol(li(p('Five{<>}'))));
+    const bulletListDoc = doc(ul(li(p('Five{<>}'))));
+    const headingDoc = doc(h1('Five{<>}'));
+    const panelDoc = doc(panel()(p('Five{<>}')));
+    const blockQuoteDoc = doc(blockquote(p('Five{<>}')));
+    const tableCellDoc = doc(
+      table({ isNumberColumnEnabled: true })(
+        tr(th()(p('One')), th()(p('Two'))),
+        tr(td()(p('Th{<>}ree')), td()(p('Four'))),
+        tr(td()(p('Five')), td()(p('Six'))),
+      ),
+    );
+
+    /**
+     * Table with this format
+     * | description | document | actionSubjectId
+     */
+    describe.each([
+      ['paragraph', paragraphDoc, ACTION_SUBJECT_ID.PASTE_PARAGRAPH],
+      ['ordered list', orderedListDoc, ACTION_SUBJECT_ID.PASTE_ORDERED_LIST],
+      ['bullet list', bulletListDoc, ACTION_SUBJECT_ID.PASTE_BULLET_LIST],
+      ['heading', headingDoc, ACTION_SUBJECT_ID.PASTE_HEADING],
+      ['panel', panelDoc, ACTION_SUBJECT_ID.PASTE_PANEL],
+      ['blockquote', blockQuoteDoc, ACTION_SUBJECT_ID.PASTE_BLOCKQUOTE],
+      ['table cell', tableCellDoc, ACTION_SUBJECT_ID.PASTE_TABLE_CELL],
+    ])('paste inside %s', (_, doc, actionSubjectId) => {
       let editorView: EditorView;
-
-      const textPasteEvent = {
-        html: "<meta charset='utf-8'><p data-pm-slice='1 1 []'>hello world</p>",
-      };
-
-      const urlPasteEvent = {
-        html:
-          "<meta charset='utf-8'><p data-pm-slice='1 1 []'><a href='http://www.google.com'>www.google.com</a></p>",
-      };
-
-      const singleUrlPasteEvent = {
-        html:
-          "<meta charset='utf-8'><a href='http://www.google.com'>www.google.com</a>",
-      };
-
-      const mixedPasteEvent = {
-        html:
-          "<meta charset='utf-8'><ul><li>Hello World</li></ul><p>Hello World</p",
-      };
-
-      const bulletListPasteEvent = {
-        html: "<meta charset='utf-8'><ul><li>Hello World</li></ul>",
-      };
-
-      const orderedListPasteEvent = {
-        html: "<meta charset='utf-8'><ol><li>Hello World</li></ol>",
-      };
-
-      const headingPasteEvent = {
-        html: "<meta charset='utf-8'><h1>Hello World</h1>",
-      };
-
-      const blockQuotePasteEvent = {
-        html:
-          "<meta charset='utf-8'><blockquote><p>Hello World</p></blockquote>",
-      };
-
-      const codePasteEvent = {
-        plain: 'code line 1\ncode line 2',
-        html: '<pre>code line 1\ncode line 2</pre>',
-      };
-
-      const mediaSinglePasteEvent = {
-        html: `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div`,
-      };
-
-      const tablePasteEvent = {
-        html: `<meta charset='utf-8'><table><tbody><tr><td><p>asdasd</p></td></tr></tbody></table>`,
-      };
-
-      const decisionItemPasteEvent = {
-        text: '',
-        html: `<meta charset='utf-8'><ol data-node-type="decisionList" data-decision-list-local-id="2b1a545e-a76d-4b9a-b0a8-c5996e51e32f" style="list-style: none; padding-left: 0"><li data-decision-local-id="f9ad0cf0-42e6-4c62-8076-7981b3fab3f7" data-decision-state="DECIDED"></li></ol>`,
-      };
-
-      const taskItemPasteEvent = {
-        text: ' asdasdasd',
-        html: `<meta charset='utf-8'><ol data-node-type="actionList" data-task-list-local-id="c0060bd1-ee91-47e7-b55e-4f45bd2e0b0b" style="list-style: none; padding-left: 0"><li data-task-local-id="1803f18d-1fad-4998-81e4-644ed22f3929" data-task-state="TODO"> asdasdasd</li></ol>`,
-      };
 
       beforeEach(() => {
         ({ editorView } = editor(doc));
       });
 
-      it('should create analytics event for paste paragraph', () => {
-        dispatchPasteEvent(editorView, textPasteEvent);
+      /**
+       * Table with the given format
+       * | description | contentType | html paste event | plain paste event
+       */
+      test.each([
+        [
+          'a paragraph',
+          'text',
+          "<meta charset='utf-8'><p data-pm-slice='1 1 []'>hello world</p>",
+          'www.google.com',
+        ],
+        [
+          'an url',
+          'url',
+          "<meta charset='utf-8'><p data-pm-slice='1 1 []'><a href='http://www.google.com'>www.google.com</a></p>",
+          'www.google.com',
+        ],
+        [
+          'only an url',
+          'url',
+          "<meta charset='utf-8'><a href='http://www.google.com'>www.google.com</a>",
+          'www.google.com'
+        ],
+        [
+          'a mixed event',
+          'mixed',
+          "<meta charset='utf-8'><ul><li>Hello World</li></ul><p>Hello World</p",
+          'Hello World',
+        ],
+        [
+          'a bullet list',
+          'bulletList',
+          "<meta charset='utf-8'><ul><li>Hello World</li></ul>",
+          'Hello World',
+        ],
+        [
+          'an ordered list',
+          'orderedList',
+          "<meta charset='utf-8'><ol><li>Hello World</li></ol>",
+          'Hello World',
+        ],
+        [
+          'a heading',
+          'heading',
+          "<meta charset='utf-8'><h1>Hello World</h1>",
+          '',
+        ],
+        [
+          'a blockquote',
+          'blockquote',
+          "<meta charset='utf-8'><blockquote><p>Hello World</p></blockquote>",
+          'Hello World',
+        ],
+        [
+          'a code',
+          'codeBlock',
+          '<pre>code line 1\ncode line 2</pre>',
+          'code line 1\ncode line 2',
+        ],
+        [
+          'a media single',
+          'mediaSingle',
+          `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div`,
+          '',
+        ],
+        [
+          'a table',
+          'table',
+          `<meta charset='utf-8'><table><tbody><tr><td><p>foo</p></td></tr></tbody></table>`,
+          'foo',
+        ],
+        [
+          'a decision list',
+          'decisionList',
+          `<meta charset='utf-8'><ol data-node-type="decisionList" data-decision-list-local-id="2b1a545e-a76d-4b9a-b0a8-c5996e51e32f" style="list-style: none; padding-left: 0"><li data-decision-local-id="f9ad0cf0-42e6-4c62-8076-7981b3fab3f7" data-decision-state="DECIDED">foo</li></ol>`,
+          'foo',
+        ],
+        [
+          'a task item',
+          'taskItem',
+          `<meta charset='utf-8'><ol data-node-type="actionList" data-task-list-local-id="c0060bd1-ee91-47e7-b55e-4f45bd2e0b0b" style="list-style: none; padding-left: 0"><li data-task-local-id="1803f18d-1fad-4998-81e4-644ed22f3929" data-task-state="TODO"> foo</li></ol>`,
+          'foo',
+        ],
+      ])(
+        'should create analytics event for paste %s',
+        (_, content, html, plain = '') => {
+          dispatchPasteEvent(editorView, { html, plain });
 
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'text',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste an url', () => {
-        dispatchPasteEvent(editorView, urlPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'url',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for only a url', () => {
-        dispatchPasteEvent(editorView, singleUrlPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'url',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a mixed event', () => {
-        dispatchPasteEvent(editorView, mixedPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'mixed',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a bullet list', () => {
-        dispatchPasteEvent(editorView, bulletListPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'bulletList',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste an ordered list', () => {
-        dispatchPasteEvent(editorView, orderedListPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'orderedList',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a heading', () => {
-        dispatchPasteEvent(editorView, headingPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'heading',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a code', () => {
-        dispatchPasteEvent(editorView, codePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'codeBlock',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a blockquote', () => {
-        dispatchPasteEvent(editorView, blockQuotePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'blockquote',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a media single', () => {
-        dispatchPasteEvent(editorView, mediaSinglePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'mediaSingle',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a table', () => {
-        dispatchPasteEvent(editorView, tablePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'table',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a decision list', () => {
-        dispatchPasteEvent(editorView, decisionItemPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'decisionList',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a task item', () => {
-        dispatchPasteEvent(editorView, taskItemPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'taskItem',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-    }
-
-    describe('paste inside paragraph', () => {
-      testAnalyticsPasteContentInside(
-        doc(p('Five{<>}')),
-        ACTION_SUBJECT_ID.PASTE_PARAGRAPH,
-      );
-    });
-
-    describe('paste inside ordered list', () => {
-      testAnalyticsPasteContentInside(
-        doc(ol(li(p('Five{<>}')))),
-        ACTION_SUBJECT_ID.PASTE_ORDERED_LIST,
-      );
-    });
-
-    describe('paste inside bullet list', () => {
-      testAnalyticsPasteContentInside(
-        doc(ul(li(p('Five{<>}')))),
-        ACTION_SUBJECT_ID.PASTE_BULLET_LIST,
-      );
-    });
-
-    describe('paste inside heading', () => {
-      testAnalyticsPasteContentInside(
-        doc(h1('Five{<>}')),
-        ACTION_SUBJECT_ID.PASTE_HEADING,
-      );
-    });
-
-    describe('paste inside panel', () => {
-      testAnalyticsPasteContentInside(
-        doc(panel()(p('Five{<>}'))),
-        ACTION_SUBJECT_ID.PASTE_PANEL,
-      );
-    });
-
-    describe('paste inside blockquote', () => {
-      testAnalyticsPasteContentInside(
-        doc(blockquote(p('Five{<>}'))),
-        ACTION_SUBJECT_ID.PASTE_BLOCKQUOTE,
-      );
-    });
-
-    describe('paste inside table cell', () => {
-      testAnalyticsPasteContentInside(
-        doc(
-          table({ isNumberColumnEnabled: true })(
-            tr(th()(p('One')), th()(p('Two'))),
-            tr(td()(p('Th{<>}ree')), td()(p('Four'))),
-            tr(td()(p('Five')), td()(p('Six'))),
-          ),
-        ),
-        ACTION_SUBJECT_ID.PASTE_TABLE_CELL,
+          expect(createAnalyticsEvent).toHaveBeenCalledWith({
+            action: 'pasted',
+            actionSubject: 'document',
+            actionSubjectId,
+            eventType: 'track',
+            attributes: expect.objectContaining({
+              content,
+              inputMethod: 'keyboard',
+              source: 'uncategorized',
+              type: 'richText',
+            }),
+          });
+        },
       );
     });
   });
