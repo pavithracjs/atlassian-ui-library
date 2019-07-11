@@ -1,38 +1,32 @@
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 import {
-  AnalyticsEventPayload,
   WithAnalyticsEventProps,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
-import { Reason } from '../types';
-import { errorToReason } from './utils';
+import { CHANNEL_ID, errorEncountered } from './analytics';
 
-type ErrorBoundaryProps = InjectedIntlProps & WithAnalyticsEventProps;
-
-type ErrorBoundaryState = {
+type Props = WithAnalyticsEventProps;
+type State = {
   hasError: boolean;
-  reason?: Reason;
 };
 
-class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
-  state: ErrorBoundaryState = { hasError: false };
-
-  fireOperationalEvent = (payload: AnalyticsEventPayload) => {
-    if (this.props.createAnalyticsEvent) {
-      this.props.createAnalyticsEvent(payload).fire('fabric-elements');
-    }
-  };
+class ErrorBoundary extends React.Component<Props, State> {
+  state = { hasError: false };
 
   componentDidCatch(error: any) {
-    const reason = errorToReason(error);
+    const { createAnalyticsEvent } = this.props;
+
+    if (createAnalyticsEvent) {
+      createAnalyticsEvent(
+        errorEncountered(undefined, {
+          message: error.message,
+          errorClass: error.name,
+        }),
+      ).fire(CHANNEL_ID);
+    }
 
     this.setState({
       hasError: true,
-      reason,
     });
   }
 
@@ -46,4 +40,4 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-export default withAnalyticsEvents()(injectIntl(ErrorBoundary));
+export default withAnalyticsEvents()(ErrorBoundary);

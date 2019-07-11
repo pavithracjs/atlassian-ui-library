@@ -12,7 +12,6 @@ import {
   ConfigResponseMode,
   User,
   UserWithEmail,
-  Reason,
 } from '../types';
 
 const matchAllowedDomains = memoizeOne(
@@ -119,11 +118,3 @@ export const isValidEmailUsingConfig = memoizeOne(
     };
   },
 );
-
-export function errorToReason(error: any): Reason {
-  const { name = 'Unknown', status = undefined } = error || {};
-  return {
-    name,
-    status,
-  };
-}

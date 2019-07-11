@@ -1,5 +1,4 @@
 import {
-  AnalyticsContext,
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
   withAnalyticsEvents,
@@ -301,29 +300,28 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       >
         <InlineDialog
           content={
-            <AnalyticsContext data={{ source: 'shareModal' }}>
-              <>
-                <InlineDialogFormWrapper>
-                  <ShareForm
-                    copyLink={copyLink}
-                    loadOptions={loadUserOptions}
-                    isSharing={isSharing}
-                    onSubmit={this.handleShareSubmit}
-                    title={shareFormTitle}
-                    shareError={shareError}
-                    onDismiss={this.handleFormDismiss}
-                    defaultValue={defaultValue}
-                    config={config}
-                    onLinkCopy={this.handleCopyLink}
-                    isFetchingConfig={isFetchingConfig}
-                    submitButtonLabel={submitButtonLabel}
-                  />
-                </InlineDialogFormWrapper>
-                {bottomMessage ? (
-                  <BottomMessageWrapper>{bottomMessage}</BottomMessageWrapper>
-                ) : null}
-              </>
-            </AnalyticsContext>
+            <div>
+              {/* Can't use fragment due to a bug in Enzyme: https://github.com/airbnb/enzyme/issues/1213 */}
+              <InlineDialogFormWrapper>
+                <ShareForm
+                  copyLink={copyLink}
+                  loadOptions={loadUserOptions}
+                  isSharing={isSharing}
+                  onSubmit={this.handleShareSubmit}
+                  title={shareFormTitle}
+                  shareError={shareError}
+                  onDismiss={this.handleFormDismiss}
+                  defaultValue={defaultValue}
+                  config={config}
+                  onLinkCopy={this.handleCopyLink}
+                  isFetchingConfig={isFetchingConfig}
+                  submitButtonLabel={submitButtonLabel}
+                />
+              </InlineDialogFormWrapper>
+              {bottomMessage ? (
+                <BottomMessageWrapper>{bottomMessage}</BottomMessageWrapper>
+              ) : null}
+            </div>
           }
           isOpen={isDialogOpen}
           onClose={this.handleCloseDialog}

@@ -11,7 +11,6 @@ import ShareButton, {
 import {
   defaultShareContentState,
   Props,
-  ShareDialogWithTrigger,
   ShareDialogWithTriggerInternal,
   State,
 } from '../../../components/ShareDialogWithTrigger';

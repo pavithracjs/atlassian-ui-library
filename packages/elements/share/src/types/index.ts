@@ -10,7 +10,6 @@ export * from './Flag';
 export * from './OriginTracing';
 export * from './Products';
 export * from './ShareButton';
-export * from './Reason';
 export {
   DialogContentState,
   ShareContentState,
