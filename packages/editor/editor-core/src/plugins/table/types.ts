@@ -177,6 +177,8 @@ export const TableCssClassName = {
   NUMBERED_COLUMN_BUTTON: `${tablePrefixSelector}-numbered-column__button`,
 
   HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
+  HOVERED_CELL_IN_DANGER: 'danger',
+  HOVERED_CELL_ACTIVE: 'active',
   WITH_CONTROLS: `${tablePrefixSelector}-with-controls`,
   RESIZING_PLUGIN: `${tablePrefixSelector}-resizing-plugin`,
   RESIZE_CURSOR: `${tablePrefixSelector}-resize-cursor`,

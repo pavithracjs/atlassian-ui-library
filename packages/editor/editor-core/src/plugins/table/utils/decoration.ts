@@ -29,7 +29,7 @@ export const createControlsHoverDecoration = (
   cells.map(cell => {
     const classes = [ClassName.HOVERED_CELL];
     if (danger) {
-      classes.push('danger');
+      classes.push(ClassName.HOVERED_CELL_IN_DANGER);
     }
 
     return Decoration.node(
