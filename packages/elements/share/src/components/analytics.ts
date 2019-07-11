@@ -122,11 +122,6 @@ export const formShareSubmitted = (
   });
 };
 
-export const genericErrorOccurred = (reason: Reason) =>
-  createEvent('operational', 'error', 'occurred', undefined, {
-    reason: reason,
-  });
-
 const duration = (start: number) => Date.now() - start;
 
 const getOriginTracingAttributes = (origin?: OriginTracing) =>

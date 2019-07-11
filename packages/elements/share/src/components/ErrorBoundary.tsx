@@ -7,7 +7,6 @@ import {
 } from '@atlaskit/analytics-next';
 import { Reason } from '../types';
 import { errorToReason } from './utils';
-import { genericErrorOccurred } from './analytics';
 
 type ErrorBoundaryProps = InjectedIntlProps & WithAnalyticsEventProps;
 
@@ -31,15 +30,10 @@ class ErrorBoundary extends React.Component<
   componentDidCatch(error: any) {
     const reason = errorToReason(error);
 
-    this.setState(
-      {
-        hasError: true,
-        reason,
-      },
-      () => {
-        this.fireOperationalEvent(genericErrorOccurred(reason));
-      },
-    );
+    this.setState({
+      hasError: true,
+      reason,
+    });
   }
 
   render() {
