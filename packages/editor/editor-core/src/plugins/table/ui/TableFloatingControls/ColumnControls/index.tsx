@@ -118,7 +118,6 @@ export default class ColumnControls extends Component<Props, any> {
                   onMouseOut={this.clearHoverSelection}
                   data-index={startIndex}
                 />
-                <div className={ClassName.CONTROLS_INSERT_MARKER} />
               </div>
             ))}
             {isColumnDeleteButtonVisible(selection) && deleteBtnParams && (

@@ -58,6 +58,8 @@ export const tableInsertColumnButtonLeftOffset = 22;
 export const tableInsertColumnButtonTopOffset = 22;
 export const tableScrollbarOffset = 15;
 export const tableMarginFullWidthMode = 2;
+export const lineMarkerOffsetFromColumnControls = 13;
+export const lineMarkerSize = 4;
 
 const isIE11 = browser.ie_version === 11;
 
@@ -71,14 +73,18 @@ const InsertLine = (css?: string) => `
   }
 `;
 
+const Marker = `
+  background-color: ${tableBorderColor};
+  position: absolute;
+  height: ${lineMarkerSize}px;
+  width: ${lineMarkerSize}px;
+  border-radius: 50%;
+  pointer-events: none;
+`;
+
 const InsertMarker = (css?: string) => `
   .${ClassName.CONTROLS_INSERT_MARKER} {
-    background-color: ${tableBorderColor};
-    position: absolute;
-    height: 4px;
-    width: 4px;
-    border-radius: 50%;
-    pointer-events: none;
+    ${Marker};
     ${css}
   }
 `;
@@ -248,6 +254,21 @@ const insertRowButtonWrapper = `
   `)}
 `;
 
+const columnControlsLineMarker = `
+  .${ClassName.TABLE_CONTAINER}.${ClassName.WITH_CONTROLS} table tr:first-child td,
+  .${ClassName.TABLE_CONTAINER}.${ClassName.WITH_CONTROLS} table tr:first-child th {
+    position: relative;
+
+    &::before {
+      content: ' ';
+      ${Marker};
+      top: -${tableToolbarSize + lineMarkerOffsetFromColumnControls}px;
+      right: -${lineMarkerSize / 2}px;
+    }
+  }
+`
+
+
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
     background: ${N20A};
@@ -261,8 +282,11 @@ export const tableStyles = css`
     cursor: pointer;
   }
 
+
   .ProseMirror {
-    ${tableSharedStyle}
+    ${tableSharedStyle};
+    ${columnControlsLineMarker};
+
     .${ClassName.CONTROLS_FLOATING_BUTTON_COLUMN} {
       ${insertColumnButtonWrapper}
     }
@@ -298,11 +322,6 @@ export const tableStyles = css`
       height: ${tableToolbarSize}px;
       box-sizing: border-box;
       display: none;
-
-      ${InsertMarker(`
-        right: -1px;
-        top: -12px;
-      `)};
 
       .${ClassName.COLUMN_CONTROLS_INNER} {
         display: flex;
@@ -577,6 +596,7 @@ export const tableStyles = css`
     .${ClassName.TABLE_NODE_WRAPPER} > table {
       overflow: hidden;
       table-layout: fixed;
+      overflow-y: visible;
 
       .${ClassName.CELL_NODEVIEW_WRAPPER} {
         position: relative;
