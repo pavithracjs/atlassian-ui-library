@@ -274,7 +274,7 @@ export const messages = defineMessages({
   },
   confluence_container_subtext_with_modified_date: {
     id: 'global_search.show_more_button_text',
-    defaultMessage: '{containerName}  ·  Last modified {friendlyLastModified}',
+    defaultMessage: '{containerName}  ·  Updated {friendlyLastModified}',
     description:
       'Text describing which space a given search result is from, as well as a date when it was last edited or created.',
   },
