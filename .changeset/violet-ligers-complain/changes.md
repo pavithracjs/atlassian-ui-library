@@ -1,0 +1,1 @@
+CS-1184 Email renderer - prevent tables from flowing outside container
