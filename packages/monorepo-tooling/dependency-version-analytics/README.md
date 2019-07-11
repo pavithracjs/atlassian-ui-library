@@ -8,6 +8,50 @@ This is a tool that sends dependency version upgrade analytics to the GASv3 pipe
 
 The `@atlassiansox/analytics-node-client` package is a peer dependency as it is a private package and so must be installed alongside the tool.
 
+## Commands
+
+Commands are exposed via both the CLI and programatically.
+
+### populate-product \<product>
+
+Sends analytics events of atlaskit dependency changes to package.json that have occurred since the tool was last run.
+
+Run `yarn dependency-version-analytics --help` for more info.
+
+#### Example
+
+```sh
+$ atlaskit-version-analytics populate-product jira
+```
+
+#### Description
+
+Reads the git history of changes to package.json in the current branch (assumed to be master) since the tool was last run, tracks changes to atlaskit dependencies and sends analytics in the format specified by http://go.atlassian.com/dataportal/analytics/registry/17058.
+
+This command is intended to be used in product CI pipelines to record dep changes over time.
+
+Dependency versions are compared to the versions when the tool was last run, which is marked by a git tag that the tool creates and updates on each run.
+
+For initial publishing of historical events, the `--reset` flag can be used to send changes that have occurred since the start of history.
+
+### populate-package \<package>
+
+Sends analytics events for published versions of the specified atlaskit package.
+
+Run `yarn dependency-version-analytics --help` for more info.
+
+#### Example
+
+```sh
+$ atlaskit-version-analytics populate-package @atlaskit/button
+```
+
+#### Description
+
+Reads the version history of the package from npm and sends events for versions published since the time specified by `--since`, or all versions if not specified.
+
+This command will be used to record when atlaskit publish new versions of their packages in this repo https://bitbucket.org/atlassian/atlaskit-version-analytics.
+
 ## Local development
 
 To develop on this locally, you'll need to first install the peer dependency temporarily by running the following inside the package:
@@ -39,31 +83,3 @@ After each dev change,
 1. Run `yarn build:typescript:cli` outside the package
 2. Run `yalc publish` inside the package
 3. Run `yalc add '@atlaskit/dependency-version-analytics'` inside the product repo of your choosing
-
-## Commands
-
-### populate-product <product>
-
-Sends historical analytics events of atlaskit dependency changes to package.json that have occurred over the course of the git history of the current commit (typically master).
-
-#### Args
-
-`<product>` The product the tool is running in, e.g. `jira`, `confluence`.
-
-#### Flags
-
-`--csv` Prints AK dependency history in CSV format
-`--dev` Send analytics to dev analytics pipeline instead of prod
-`--dryRun` Performs a dry run, prints analytics events to console in JSON format instead of sending them
-
-#### Example
-
-```sh
-$ atlaskit-version-analytics populate-product jira
-```
-
-#### Description
-
-This reads the git history of changes to package.json in the current branch (assumed to be master), tracks changes to atlaskit dependencies and sends analytics in the format specified by http://go.atlassian.com/analytics/registry/17058.
-
-You will only want to run this command once to prevent duplicate events ending up in the event store.
