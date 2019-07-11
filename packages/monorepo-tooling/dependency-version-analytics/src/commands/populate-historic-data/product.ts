@@ -206,6 +206,7 @@ export default async function populateProduct(flags: PopulateProductFlags) {
       dev: flags.dev,
       limit: flags.limit,
       product: flags.product,
+      skipPrompt: !flags.interactive,
     });
   } else {
     console.log(

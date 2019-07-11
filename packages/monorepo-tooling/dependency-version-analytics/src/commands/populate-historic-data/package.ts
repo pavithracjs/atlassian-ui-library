@@ -60,6 +60,7 @@ export default async function populatePackage(
     dev: flags.dev,
     limit: flags.limit,
     product: 'atlaskit',
+    skipPrompt: !flags.interactive,
   });
 
   return analyticsEvents;

@@ -10,9 +10,10 @@ import {
 // prettier-ignore
 const HELP_MSG = `
 ${chalk.green('Global options')}
-     ${chalk.yellow('--dev')}         Send analytics to dev analytics pipeline instead of prod
-     ${chalk.yellow('--dryRun')}      Performs a dry run, prints analytics events to console in JSON format instead of sending them
-     ${chalk.yellow('--limit')}       Limit the number of events sent, used for validation purposes
+     ${chalk.yellow('--dev')}            Send analytics to dev analytics pipeline instead of prod
+     ${chalk.yellow('--dryRun')}         Performs a dry run, prints analytics events to console in JSON format instead of sending them
+     ${chalk.yellow('--limit')}          Limit the number of events sent, used for validation purposes
+     ${chalk.yellow('--no-interactive')} Disable any interactive prompts
 
 ${chalk.yellow.bold('[populate-product] <product>')}
    Sends analytics events for atlaskit dependency versions changes in package.json.
@@ -42,6 +43,7 @@ type Cli = meow.Result & {
     dev: boolean;
     dryRun: boolean;
     limit?: number;
+    interactive: boolean;
   };
 };
 
@@ -64,6 +66,10 @@ export function run({ dev }: { dev: boolean }) {
       limit: {
         type: 'string',
       },
+      interactive: {
+        type: 'boolean',
+        default: true,
+      },
       tag: {
         type: 'string',
       },
@@ -85,9 +91,10 @@ export function run({ dev }: { dev: boolean }) {
       csv: cli.flags.csv,
       dev: dev || cli.flags.dev,
       dryRun: cli.flags.dryRun,
-      reset: cli.flags.reset,
+      interactive: cli.flags.interactive,
       limit,
       product,
+      reset: cli.flags.reset,
       tag: cli.flags.tag,
     });
   } else if (command === 'populate-package') {
@@ -99,6 +106,7 @@ export function run({ dev }: { dev: boolean }) {
     return populatePackage({
       dev: dev || cli.flags.dev,
       dryRun: cli.flags.dryRun,
+      interactive: cli.flags.interactive,
       limit,
       pkg,
     });

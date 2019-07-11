@@ -4,6 +4,7 @@ export type PopulateHistoricDataFlags = {
   dev: boolean;
   dryRun: boolean;
   limit?: number;
+  interactive: boolean;
 };
 
 export type DependencyMap = {
