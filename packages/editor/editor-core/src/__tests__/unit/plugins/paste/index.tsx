@@ -34,7 +34,6 @@ import {
   a,
   MockMacroProvider,
   createAnalyticsEventMock,
-  RefsNode,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
 import { TextSelection } from 'prosemirror-state';
@@ -53,11 +52,7 @@ import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 import { panelPlugin, cardPlugin } from '../../../../plugins';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
-import {
-  PASTE_ACTION_SUBJECT_ID,
-  ACTION_SUBJECT_ID,
-} from '../../../../plugins/analytics';
-import { Schema } from 'prosemirror-model';
+import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
 import { CardProvider } from '../../../../plugins/card';
 import { EditorProps } from '../../../..';
 
@@ -1196,7 +1191,7 @@ describe('paste plugins', () => {
           'only an url',
           'url',
           "<meta charset='utf-8'><a href='http://www.google.com'>www.google.com</a>",
-          'www.google.com'
+          'www.google.com',
         ],
         [
           'a mixed event',
