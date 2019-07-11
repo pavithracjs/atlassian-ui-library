@@ -54,10 +54,11 @@ import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { AutocompleteClient } from '../../api/AutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
-import { ConfluenceFeatures } from '../../util/features';
 import ConfluenceFilterGroup from './ConfluenceFilterGroup';
 import NoResultsInFilterState from './NoResultsInFilterState';
 import some from 'lodash.some';
+import { injectFeatures } from '../FeaturesProvider';
+import { ConfluenceFeatures } from '../../util/features';
 
 /**
  * NOTE: This component is only consumed internally as such avoid using optional props
@@ -662,6 +663,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   }
 }
 
-export default injectIntl<Props>(
-  withAnalytics(ConfluenceQuickSearchContainer, {}, {}),
+export default injectFeatures(
+  injectIntl<Props>(withAnalytics(ConfluenceQuickSearchContainer, {}, {})),
 );

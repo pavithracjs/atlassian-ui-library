@@ -1,4 +1,4 @@
-import { ABTest } from '../api/CrossProductSearchClient';
+import { ABTest, DEFAULT_AB_TEST } from '../api/CrossProductSearchClient';
 import memoizeOne from 'memoize-one';
 import deepEqual from 'deep-equal';
 
@@ -44,6 +44,17 @@ export interface JiraFeatures extends CommonFeatures {
   disableJiraPreQueryPeopleSearch: boolean;
   enablePreQueryFromAggregator: boolean;
 }
+
+export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
+  isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
+  disableJiraPreQueryPeopleSearch: false,
+  enablePreQueryFromAggregator: false,
+  searchExtensionsEnabled: false,
+  abTest: DEFAULT_AB_TEST,
+};
 
 export interface FeaturesParameters {
   abTest: ABTest;

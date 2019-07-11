@@ -272,4 +272,10 @@ export const messages = defineMessages({
     description:
       'Text for button that is used when we cannot load more results and direct user to advanced search',
   },
+  confluence_container_subtext_with_modified_date: {
+    id: 'global_search.show_more_button_text',
+    defaultMessage: '{containerName}  ·  Updated {friendlyLastModified}',
+    description:
+      'Text describing which space a given search result is from, as well as a date when it was last edited or created.',
+  },
 });

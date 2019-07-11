@@ -1,4 +1,6 @@
 import * as React from 'react';
+import styled from 'styled-components';
+import { colors } from '@atlaskit/theme';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import {
   ObjectResult as ObjectResultComponent,
@@ -24,11 +26,14 @@ import { getAvatarForConfluenceObjectResult } from '../util/confluence-avatar-ut
 import { getDefaultAvatar } from '../util/jira-avatar-util';
 import DarkReturn from '../assets/DarkReturn';
 import Return from '../assets/Return';
+import { injectFeatures } from './FeaturesProvider';
+import { ConfluenceFeatures, JiraFeatures } from '../util/features';
 
 export interface Props {
   results: Result[];
   sectionIndex: number;
   analyticsData?: {};
+  features: ConfluenceFeatures | JiraFeatures; // this component is shared
 }
 
 const extractAvatarData = (jiraResult: JiraResult) =>
@@ -85,12 +90,42 @@ const getI18nJiraContentType = (
   return undefined;
 };
 
+// Being tested as part of the 'complex' experiment, to improve scannability when there
+// is lots of text.
+const LightSubtextWrapper = styled.span`
+  color: ${colors.N90};
+`;
+
+const getI18nConfluenceContainerSubtext = (
+  containerName: string,
+  friendlyLastModified: string | undefined,
+  isComplexSearchExtensionsEnabled: boolean,
+) => {
+  if (isComplexSearchExtensionsEnabled) {
+    const containerText = friendlyLastModified ? (
+      <FormattedMessage
+        {...messages.confluence_container_subtext_with_modified_date}
+        values={{
+          containerName,
+          friendlyLastModified,
+        }}
+      />
+    ) : (
+      containerName
+    );
+
+    return <LightSubtextWrapper>{containerText}</LightSubtextWrapper>;
+  } else {
+    return containerName;
+  }
+};
+
 export const getUniqueResultId = (result: Result): string =>
   result.key ? result.key : `${result.contentType}-${result.resultId}`;
 
-export default class ResultList extends React.Component<Props> {
+class ResultList extends React.Component<Props> {
   render() {
-    const { results, sectionIndex } = this.props;
+    const { results, sectionIndex, features } = this.props;
 
     return results.map((result, index) => {
       const resultType: ResultType = result.resultType;
@@ -112,6 +147,14 @@ export default class ResultList extends React.Component<Props> {
       switch (resultType) {
         case ResultType.ConfluenceObjectResult: {
           const confluenceResult = result as ConfluenceObjectResult;
+          const confluenceFeatures: ConfluenceFeatures = features as ConfluenceFeatures;
+
+          const subText = getI18nConfluenceContainerSubtext(
+            confluenceResult.containerName,
+            confluenceResult.friendlyLastModified,
+            confluenceFeatures.complexSearchExtensionsEnabled,
+          );
+
           return (
             <ObjectResultComponent
               key={uniqueKey}
@@ -119,7 +162,7 @@ export default class ResultList extends React.Component<Props> {
               name={confluenceResult.name}
               href={confluenceResult.href}
               type={confluenceResult.analyticsType}
-              containerName={confluenceResult.containerName}
+              containerName={subText}
               avatar={getAvatarForConfluenceObjectResult(confluenceResult)}
               analyticsData={analyticsData}
               selectedIcon={selectedIcon}
@@ -232,3 +275,7 @@ export default class ResultList extends React.Component<Props> {
     });
   }
 }
+
+export const UnwrappedResultList = ResultList;
+
+export default injectFeatures(ResultList);
