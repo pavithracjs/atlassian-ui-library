@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.2.2
+
+### Patch Changes
+
+- [patch][e80b86a298](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80b86a298):
+
+  Adding last modified date to the simple extensions to Quick Search
+
 ## 10.2.1
 
 ### Patch Changes
