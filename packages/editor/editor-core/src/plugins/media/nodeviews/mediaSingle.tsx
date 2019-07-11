@@ -25,10 +25,16 @@ import ResizableMediaSingle from '../ui/ResizableMediaSingle';
 import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
+<<<<<<< HEAD
 import { MediaOptions } from '../index';
 import { stateKey as mediaPluginKey } from '../pm-plugins/main';
 import { updateMediaNodeAttrs, replaceExternalMedia } from '../commands';
 
+=======
+import { MediaOptions } from '../';
+import { replaceExternalMedia } from '../commands';
+import { stateKey as mediaPluginKey, MediaProvider } from '../pm-plugins/main';
+>>>>>>> Tests for external media upload
 import { isMobileUploadCompleted } from '../commands/helpers';
 import { MediaSingleNodeProps, MediaSingleNodeViewProps } from './types';
 import { MediaNodeUpdater } from './mediaNodeUpdater';
@@ -91,25 +97,78 @@ export default class MediaSingleNode extends Component<
     if (!mediaProvider) {
       return;
     }
+    await this.uploadExternalMedia(mediaProvider);
+    await this.updateRemoteDimensions(mediaProvider);
+  }
+
+  private onExternalImageLoaded = ({
+    width,
+    height,
+  }: {
+    width: number;
+    height: number;
+  }) => {
+    this.setState(
+      {
+        width,
+        height,
+      },
+      () => {
+        this.forceUpdate();
+      },
+    );
+  };
+
+  updateRemoteDimensions = async (mediaProvider: MediaProvider) => {
+    const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+      mediaProvider,
+    );
+
+    this.setState({
+      viewMediaClientConfig,
+    });
+
+    const { node } = this.props;
+    const childNode = node.firstChild;
+
+    if (!childNode || childNode.attrs.type === 'external') {
+      return;
+    }
+
+    const updatedDimensions = await this.mediaNodeUpdater.getRemoteDimensions();
+    if (updatedDimensions) {
+      this.mediaNodeUpdater.updateDimensions(updatedDimensions);
+    }
+
+    const contextId = this.mediaNodeUpdater.getCurrentContextId();
+    if (!contextId) {
+      await this.mediaNodeUpdater.updateContextId();
+    }
+
+    const isNodeFromDifferentCollection = await this.mediaNodeUpdater.isNodeFromDifferentCollection();
+
+    if (isNodeFromDifferentCollection) {
+      this.mediaNodeUpdater.copyNode();
+    }
+  };
+
+  uploadExternalMedia = async (mediaProvider: MediaProvider) => {
     const { firstChild } = this.props.node;
+
     if (
       firstChild &&
       firstChild.attrs.type === 'external' &&
       !firstChild.attrs.__external
     ) {
-      const viewMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+      const uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
         mediaProvider,
       );
-      if (!viewMediaClientConfig) {
+      if (!uploadMediaClientConfig) {
         return;
       }
       const mediaClient = getMediaClient({
-        mediaClientConfig: viewMediaClientConfig,
+        mediaClientConfig: uploadMediaClientConfig,
       });
-      this.setState({
-        viewMediaClientConfig,
-      })
-      // TODO: passs collection
 
       const collection =
         mediaProvider.uploadParams && mediaProvider.uploadParams.collection;
@@ -129,27 +188,10 @@ export default class MediaSingleNode extends Component<
           height: dimensions.height,
           width: dimensions.width,
         })(this.props.view.state, this.props.view.dispatch);
-      } catch (e) {}
+      } catch (e) {
+        //keep it an external image
+      }
     }
-  };
-
-
-  private onExternalImageLoaded = ({
-    width,
-    height,
-  }: {
-    width: number;
-    height: number;
-  }) => {
-    this.setState(
-      {
-        width,
-        height,
-      },
-      () => {
-        this.forceUpdate();
-      },
-    );
   };
 
   selectMediaSingle = ({ event }: CardEvent) => {
