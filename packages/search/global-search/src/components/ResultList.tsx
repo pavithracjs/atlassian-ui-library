@@ -234,6 +234,14 @@ class ResultList extends React.Component<Props> {
         case ResultType.PersonResult: {
           const personResult = result as PersonResult;
 
+          const presenceMessage = features.complexSearchExtensionsEnabled ? (
+            <LightSubtextWrapper>
+              {personResult.presenceMessage}
+            </LightSubtextWrapper>
+          ) : (
+            personResult.presenceMessage
+          );
+
           return (
             <PersonResultComponent
               key={uniqueKey}
@@ -243,7 +251,7 @@ class ResultList extends React.Component<Props> {
               type={personResult.analyticsType}
               avatarUrl={personResult.avatarUrl}
               mentionName={personResult.mentionName}
-              presenceMessage={personResult.presenceMessage}
+              presenceMessage={presenceMessage}
               analyticsData={analyticsData}
               selectedIcon={selectedIcon}
               target="_blank"

@@ -23,6 +23,7 @@ import { QuickSearchContext } from '../../../api/types';
 import { mockLogger } from '../mocks/_mockLogger';
 import { JiraResultsMap, ConfluenceResultsMap } from '../../../model/Result';
 import uuid from 'uuid/v4';
+import { DEFAULT_FEATURES } from '../../../util/features';
 
 const defaultAutocompleteData = ['autocomplete', 'automock', 'automation'];
 const defaultReferralContext = {
@@ -68,10 +69,7 @@ const defaultProps = {
   referralContextIdentifiers: defaultReferralContext,
   getPreQueryDisplayedResults: jest.fn(mapToResultGroup),
   getPostQueryDisplayedResults: jest.fn(mapToResultGroup),
-  features: {
-    abTest: DEFAULT_AB_TEST,
-    searchExtensionsEnabled: false,
-  },
+  features: DEFAULT_FEATURES,
 };
 
 const mountQuickSearchContainer = (
