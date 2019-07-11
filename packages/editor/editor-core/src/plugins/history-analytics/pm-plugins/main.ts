@@ -22,7 +22,11 @@ const historyAnalyticsPluginFactory = pluginFactory<
   HistoryAnalyticsPluginState
 >(historyAnalyticsPluginKey, reducer);
 
-const { createPluginState } = historyAnalyticsPluginFactory;
+const {
+  createPluginState,
+  createCommand,
+  getPluginState,
+} = historyAnalyticsPluginFactory;
 
 export const createPlugin = (dispatch: Dispatch) =>
   new Plugin({
@@ -33,9 +37,15 @@ export const createPlugin = (dispatch: Dispatch) =>
       oldState: EditorState,
       newState: EditorState,
     ) => {
+      // todo: merge transactions like prosemirror-history
+      // todo: ignore addToHistory false
+      // todo: don't add whole transactions
+      // todo: store max number that matches history
       return newState.tr.setMeta(historyAnalyticsPluginKey, {
         type: HistoryAnalyticsActionTypes.PUSH,
-        tr: newState.tr,
+        transactions,
       });
     },
   });
+
+export { createPluginState, createCommand, getPluginState };

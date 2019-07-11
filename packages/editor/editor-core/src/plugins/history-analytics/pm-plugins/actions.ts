@@ -8,7 +8,7 @@ export enum HistoryAnalyticsActionTypes {
 
 export interface Push {
   type: HistoryAnalyticsActionTypes.PUSH;
-  tr: Transaction;
+  transactions: Transaction[];
 }
 
 export interface Undo {
