@@ -26,7 +26,7 @@ interface State {
   isMouseDown: boolean;
 }
 
-const emptyTheme = {};
+const defaultThemeValue = (current, props) => current(props);
 
 class Checkbox extends Component<CheckboxProps, State> {
   static defaultProps = {
@@ -34,7 +34,7 @@ class Checkbox extends Component<CheckboxProps, State> {
     isInvalid: false,
     defaultChecked: false,
     isIndeterminate: false,
-    theme: (current, props) => current(props),
+    theme: defaultThemeValue,
   };
 
   state: State = {
@@ -156,7 +156,7 @@ class Checkbox extends Component<CheckboxProps, State> {
       <Theme.Provider value={theme}>
         <GlobalTheme.Consumer>
           {({ mode }) => (
-            <Theme.Consumer mode={'dark'} tokens={componentTokens}>
+            <Theme.Consumer mode={mode} tokens={componentTokens}>
               {tokens => (
                 <Label
                   isDisabled={isDisabled}
@@ -164,6 +164,7 @@ class Checkbox extends Component<CheckboxProps, State> {
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseUp={this.onMouseUp}
+                  tokens={tokens}
                 >
                   <CheckboxWrapper>
                     <HiddenCheckbox
@@ -195,7 +196,7 @@ class Checkbox extends Component<CheckboxProps, State> {
                       label=""
                     />
                   </CheckboxWrapper>
-                  <LabelText>
+                  <LabelText tokens={tokens}>
                     {label}
                     {isRequired && (
                       <RequiredIndicator aria-hidden="true">
