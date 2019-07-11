@@ -64,4 +64,16 @@ export const messages = defineMessages({
     description:
       'Byline to show the number of members in the team when the number exceeds 50 and also includes the current user',
   },
+  spotlightTitle: {
+    id: 'fabric.elements.mentions.team.spotlight.title',
+    defaultMessage: 'You can now mention teams!',
+    description:
+      'Title of the spotlight shown in the mention tpyeahead. This is related to team mentions',
+  },
+  spotlightCloseButtonToolTip: {
+    id: 'fabric.elements.mentions.team.spotlight.close.button.tooltip',
+    defaultMessage: 'Dismiss',
+    description:
+      'Closes the spotlight component when this button is clicked. This text for the tooltip of that button',
+  },
 });
