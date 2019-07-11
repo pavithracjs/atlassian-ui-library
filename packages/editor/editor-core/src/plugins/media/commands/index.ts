@@ -45,5 +45,7 @@ export const replaceExternalMedia = (pos: number, attrs: object): Command => (
         )
         .setMeta('addToHistory', false),
     );
+    return true;
   }
+  return false;
 };

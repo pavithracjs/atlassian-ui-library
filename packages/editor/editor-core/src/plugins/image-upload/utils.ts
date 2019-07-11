@@ -28,7 +28,7 @@ export const canInsertMedia = (state: EditorState): boolean => {
 export const createExternalMediaNode = (
   url: string,
   schema: Schema,
-  isExternal: boolean,
+  isExternal?: boolean,
 ): Node | null => {
   const { media, mediaSingle } = schema.nodes;
   if (!media || !mediaSingle) {
