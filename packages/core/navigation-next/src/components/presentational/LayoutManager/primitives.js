@@ -10,8 +10,6 @@ export const LayoutContainer = ({ topOffset = 0, ...props }: *) => {
         display: 'flex',
         flexDirection: 'row',
         height: `calc(100vh - ${topOffset}px)`,
-        position: 'relative',
-        top: `${topOffset}px`,
         overflow: 'auto',
       }}
       {...props}

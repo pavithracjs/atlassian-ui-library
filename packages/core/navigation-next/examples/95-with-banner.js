@@ -202,9 +202,6 @@ export default class Example extends Component<{}, State> {
         {isBannerVisible && (
           <div
             css={{
-              position: 'fixed',
-              left: 0,
-              right: 0,
               height: `${bannerHeight}px`,
               padding: '2rem',
               boxSizing: 'border-box',
