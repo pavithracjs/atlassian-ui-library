@@ -18,6 +18,9 @@
     "name": "Dependency Version Analytics",
     "team": "monorepo tooling"
   },
+  "scripts": {
+    "build": "tsc --project ./build/es5"
+  },
   "dependencies": {
     "@types/node": "^11.11.7",
     "@types/node-fetch": "^2.1.4",

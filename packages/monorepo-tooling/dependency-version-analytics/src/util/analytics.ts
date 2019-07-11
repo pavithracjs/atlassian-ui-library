@@ -8,7 +8,7 @@ import {
   DependencyType,
   UpgradeType,
   UpgradeSubType,
-} from 'src/types';
+} from '../types';
 import { version as packageVersion } from '../version.json';
 
 function getUpgradeType(
