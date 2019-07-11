@@ -29,6 +29,12 @@ export interface CheckboxIconProps {
   secondaryColor?: any;
   /** The label for icon to be displayed */
   label: any;
+  theme: (
+    current: (
+      props: { tokens: ComponentTokens; mode: string },
+    ) => EvaluatedTokens,
+    props: { tokens: ComponentTokens; mode: string },
+  ) => EvaluatedTokens;
 }
 
 export interface CheckboxProps extends WithAnalyticsEventsProps {
@@ -65,86 +71,115 @@ export interface CheckboxProps extends WithAnalyticsEventsProps {
    * be called with an object containing the react synthetic event. Use currentTarget to get value, name and checked
    */
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => any;
-  theme: (
-    current: Function,
-    props: { tokens: ComponentTokens; mode: 'light' | 'dark' },
-  ) => ComponentTokens;
+  theme?: (
+    current: (
+      props: { tokens: ComponentTokens; mode: string },
+    ) => EvaluatedTokens,
+    props: { tokens: ComponentTokens; mode: string },
+  ) => EvaluatedTokens;
   /** The value to be used in the checkbox input. This is the value that will be returned on form submission. */
   value?: number | string;
 }
 
 interface ModeValue {
-  light?: string;
-  dark?: string;
+  light: string;
+  dark: string;
 }
 interface LabelTokens {
-  textColor?: {
-    rest?: ModeValue;
-    disabled?: ModeValue;
+  textColor: {
+    rest: ModeValue;
+    disabled: ModeValue;
+  };
+  spacing: {
+    top: string;
+    right: string;
+    bottom: string;
+    left: string;
   };
 }
-interface IconTokens {
-  borderColor?: {
-    rest?: ModeValue;
-    disabled?: ModeValue;
-    checked?: ModeValue;
-    active?: ModeValue;
-    invalid?: ModeValue;
-    focused?: ModeValue;
-    hovered?: ModeValue;
+
+export interface IconTokens {
+  borderWidth: string;
+  borderColor: {
+    rest: ModeValue;
+    disabled: ModeValue;
+    checked: ModeValue;
+    active: ModeValue;
+    invalid: ModeValue;
+    focused: ModeValue;
+    hovered: ModeValue;
   };
-  boxColor?: {
-    rest?: ModeValue;
-    disabled?: ModeValue;
-    active?: ModeValue;
-    hoveredAndChecked?: ModeValue;
-    hovered?: ModeValue;
-    checked?: ModeValue;
+  boxColor: {
+    rest: ModeValue;
+    disabled: ModeValue;
+    active: ModeValue;
+    hoveredAndChecked: ModeValue;
+    hovered: ModeValue;
+    checked: ModeValue;
   };
-  tickColor?: {
-    rest?: ModeValue;
-    disabledAndChecked?: ModeValue;
-    activeAndChecked?: ModeValue;
-    checked?: ModeValue;
+  tickColor: {
+    rest: ModeValue;
+    disabledAndChecked: ModeValue;
+    activeAndChecked: ModeValue;
+    checked: ModeValue;
   };
-  size?: 'small' | 'medium' | 'large';
+  size: 'small' | 'medium' | 'large';
 }
+
 export interface ComponentTokens {
-  label?: LabelTokens;
-  icon?: IconTokens;
+  label: LabelTokens;
+  icon: IconTokens;
+}
+
+export interface EvaluatedIconTokens {
+  borderWidth: string;
+  borderColor: {
+    rest: string;
+    disabled: string;
+    checked: string;
+    active: string;
+    invalid: string;
+    focused: string;
+    hovered: string;
+  };
+  boxColor: {
+    rest: string;
+    disabled: string;
+    active: string;
+    hoveredAndChecked: string;
+    hovered: string;
+    checked: string;
+  };
+  tickColor: {
+    rest: string;
+    disabledAndChecked: string;
+    activeAndChecked: string;
+    checked: string;
+  };
+  size: 'small' | 'medium' | 'large';
+}
+
+export interface EvaluatedLabelTokens {
+  textColor: {
+    rest: string;
+    disabled: string;
+  };
+  spacing: {
+    bottom: string;
+    right: string;
+    left: string;
+    top: string;
+  };
 }
 
 export interface EvaluatedTokens {
-  label: {
-    textColor: {
-      rest: string;
-      disabled: string;
-    };
-  };
-  icon: {
-    borderColor: {
-      rest?: string;
-      disabled?: string;
-      checked?: string;
-      active?: string;
-      invalid?: string;
-      focused?: string;
-      hovered?: string;
-    };
-    boxColor: {
-      rest?: string;
-      disabled?: string;
-      active?: string;
-      hoveredAndChecked?: string;
-      hovered?: string;
-      checked?: string;
-    };
-    tickColor: {
-      rest?: string;
-      disabledAndChecked?: string;
-      activeAndChecked?: string;
-      checked?: string;
-    };
-    size?: 'small' | 'medium' | 'large';
-  };
+  label: EvaluatedLabelTokens;
+  icon: EvaluatedIconTokens;
 }
+
+export interface ThemeProps {
+  tokens: ComponentTokens;
+  mode: string;
+}
+
+export interface ThemeTokens extends EvaluatedTokens {}

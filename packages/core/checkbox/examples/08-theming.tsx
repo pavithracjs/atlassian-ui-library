@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Checkbox } from '../src';
-import { ComponentTokens } from '../src/types';
+import { ComponentTokens, EvaluatedTokens } from '../src/types';
 import merge from 'lodash.merge';
 
 const newThemeTokens = {
@@ -16,12 +16,13 @@ const newThemeTokens = {
 };
 
 const customTheme = (
-  current: Function,
-  props: { tokens: ComponentTokens; mode: 'light' | 'dark' },
+  current: (
+    props: { tokens: ComponentTokens; mode: string },
+  ) => EvaluatedTokens,
+  { tokens, mode }: { tokens: ComponentTokens; mode: string },
 ) => {
-  const themeTokens = current(props);
-  const mergedTokens = merge(themeTokens, newThemeTokens);
-  return mergedTokens;
+  const mergedTokens = merge(tokens, newThemeTokens);
+  return current({ tokens: mergedTokens, mode });
 };
 
 export default () => <Checkbox label="Remember me" theme={customTheme} />;
