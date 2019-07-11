@@ -1,4 +1,4 @@
 {
-  "releases": [{ "name": "@atlaskit/modal-dialog", "type": "minor" }],
+  "releases": [{ "name": "@atlaskit/modal-dialog", "type": "patch" }],
   "dependents": []
 }
