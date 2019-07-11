@@ -286,11 +286,12 @@ describe('modal-dialog', () => {
         );
 
         // The regular escape event
-        const escapeKeyDownEvent: Partial<KeyboardEvent> = new KeyboardEvent(
-          'keydown',
-          { key: 'Escape' },
-        );
+        const escapeKeyDownEvent: KeyboardEvent = new KeyboardEvent('keydown', {
+          key: 'Escape',
+        });
         document.dispatchEvent(escapeKeyDownEvent);
+        // Make TS happy about using Wrapper
+        wrapper.find(MyContent);
 
         expect(spy).toHaveBeenCalledTimes(1);
       });
@@ -304,11 +305,12 @@ describe('modal-dialog', () => {
         );
 
         // The IE11 escape event
-        const escKeyDownEvent: Partial<KeyboardEvent> = new KeyboardEvent(
-          'keydown',
-          { key: 'Esc' },
-        );
+        const escKeyDownEvent: KeyboardEvent = new KeyboardEvent('keydown', {
+          key: 'Esc',
+        });
         document.dispatchEvent(escKeyDownEvent);
+        // Make TS happy about using Wrapper
+        wrapper.find(MyContent);
 
         expect(spy).toHaveBeenCalledTimes(1);
       });
