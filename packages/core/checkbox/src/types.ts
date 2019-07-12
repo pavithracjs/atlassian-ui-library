@@ -187,7 +187,7 @@ export interface ThemeProps {
   mode: string;
 }
 
-export interface EvaluatedLabelTokens {
+export interface ThemeLabelTokens {
   textColor: {
     rest: string;
     disabled: string;
@@ -200,14 +200,12 @@ export interface EvaluatedLabelTokens {
   };
 }
 
-export interface EvaluatedTokens {
-  label: EvaluatedLabelTokens;
-  icon: EvaluatedIconTokens;
+export interface ThemeTokens {
+  label: ThemeLabelTokens;
+  icon: ThemeIconTokens;
 }
 
 export interface ThemeProps {
   tokens: ComponentTokens;
   mode: string;
 }
-
-export interface ThemeTokens extends EvaluatedTokens {}
