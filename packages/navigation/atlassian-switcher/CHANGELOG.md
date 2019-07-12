@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.4.0
+
+### Minor Changes
+
+- [minor][986a1cc91d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986a1cc91d):
+
+  Enable prefetching for available-products endpoint
+
 ## 3.3.0
 
 ### Minor Changes

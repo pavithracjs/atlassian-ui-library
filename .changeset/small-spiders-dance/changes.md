@@ -1,1 +1,0 @@
-Enable prefetching for available-products endpoint
