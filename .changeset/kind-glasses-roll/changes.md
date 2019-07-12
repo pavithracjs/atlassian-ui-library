@@ -1,1 +1,0 @@
-ED-7210: Fire link insertion event when exiting from floating toolbar

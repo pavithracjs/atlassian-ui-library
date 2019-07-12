@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.5
+
+### Patch Changes
+
+- [patch][66809023e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66809023e3):
+
+  ED-7210: Fire link insertion event when exiting from floating toolbar
+
 ## 112.33.4
 
 ### Patch Changes
