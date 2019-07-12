@@ -33,6 +33,7 @@ export default class NumberColumn extends Component<Props, any> {
           <div
             key={`wrapper-${index}`}
             className={this.getClassNames(index)}
+            data-index={index}
             style={{
               height: (rows[index] as HTMLElement).offsetHeight + 1,
             }}
