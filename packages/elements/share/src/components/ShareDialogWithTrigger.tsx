@@ -69,6 +69,7 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
   bottomMessage?: React.ReactNode;
+  submitButtonLabel?: React.ReactNode;
 };
 
 const InlineDialogFormWrapper = styled.div`
@@ -287,6 +288,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       triggerButtonAppearance,
       triggerButtonStyle,
       bottomMessage,
+      submitButtonLabel,
     } = this.props;
 
     // for performance purposes, we may want to have a loadable content i.e. ShareForm
@@ -314,6 +316,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
                     config={config}
                     onLinkCopy={this.handleCopyLink}
                     isFetchingConfig={isFetchingConfig}
+                    submitButtonLabel={submitButtonLabel}
                   />
                 </InlineDialogFormWrapper>
                 {bottomMessage ? (
