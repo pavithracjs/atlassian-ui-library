@@ -30,11 +30,9 @@ export interface CheckboxIconProps {
   /** The label for icon to be displayed */
   label: any;
   theme: (
-    current: (
-      props: { tokens: ComponentTokens; mode: string },
-    ) => EvaluatedTokens,
-    props: { tokens: ComponentTokens; mode: string },
-  ) => EvaluatedTokens;
+    current: (props: ThemeProps) => ThemeTokens,
+    props: ThemeProps,
+  ) => ThemeTokens;
 }
 
 export interface CheckboxProps extends WithAnalyticsEventsProps {
@@ -72,11 +70,9 @@ export interface CheckboxProps extends WithAnalyticsEventsProps {
    */
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => any;
   theme?: (
-    current: (
-      props: { tokens: ComponentTokens; mode: string },
-    ) => EvaluatedTokens,
-    props: { tokens: ComponentTokens; mode: string },
-  ) => EvaluatedTokens;
+    current: (props: ThemeProps) => ThemeTokens,
+    props: ThemeProps,
+  ) => ThemeTokens;
   /** The value to be used in the checkbox input. This is the value that will be returned on form submission. */
   value?: number | string;
 }
@@ -131,7 +127,7 @@ export interface ComponentTokens {
   icon: IconTokens;
 }
 
-export interface EvaluatedIconTokens {
+export interface ThemeIconTokens {
   borderWidth: string;
   borderColor: {
     rest: string;
@@ -159,7 +155,7 @@ export interface EvaluatedIconTokens {
   size: 'small' | 'medium' | 'large';
 }
 
-export interface EvaluatedLabelTokens {
+export interface ThemeLabelTokens {
   textColor: {
     rest: string;
     disabled: string;
@@ -172,14 +168,12 @@ export interface EvaluatedLabelTokens {
   };
 }
 
-export interface EvaluatedTokens {
-  label: EvaluatedLabelTokens;
-  icon: EvaluatedIconTokens;
+export interface ThemeTokens {
+  label: ThemeLabelTokens;
+  icon: ThemeIconTokens;
 }
 
 export interface ThemeProps {
   tokens: ComponentTokens;
   mode: string;
 }
-
-export interface ThemeTokens extends EvaluatedTokens {}
