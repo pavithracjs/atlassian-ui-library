@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.6
+
+### Patch Changes
+
+- [patch][f37cdc770c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f37cdc770c):
+
+  [ED-7243] Improve table decorations architecture
+
 ## 112.33.5
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-[ED-7243] Improve table decorations architecture 
