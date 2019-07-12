@@ -1,5 +1,3 @@
-import { toNativeBridge } from './editor/web-to-native';
-
 interface QueryParams {
   theme?: 'dark' | 'light';
 }
@@ -51,11 +49,6 @@ export const sendToBridge = (bridgeName: any, eventName: any, props = {}) => {
     const logName = `${bridgeName}:${eventName}`;
     logs[logName] = logs[logName] || [];
     logs[logName] = logs[logName].concat(props);
-  }
-
-  const log = (toNativeBridge as any).log;
-  if (log) {
-    log(bridgeName, eventName, props);
   }
 };
 
