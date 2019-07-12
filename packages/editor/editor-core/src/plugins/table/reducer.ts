@@ -39,7 +39,12 @@ export default (
       ) {
         return pluginState;
       }
-      return { ...pluginState, ...action.data };
+
+      return {
+        ...pluginState,
+        ...action.data,
+        insertColumnButtonIndex: undefined, // We need to assure that column is not shown
+      };
 
     case 'SHOW_INSERT_COLUMN_BUTTON':
       if (
@@ -48,7 +53,11 @@ export default (
       ) {
         return pluginState;
       }
-      return { ...pluginState, ...action.data };
+      return {
+        ...pluginState,
+        ...action.data,
+        insertRowButtonIndex: undefined, // We need to assure that row is not shown
+      };
 
     case 'HIDE_INSERT_COLUMN_OR_ROW_BUTTON':
       if (
