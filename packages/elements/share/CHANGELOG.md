@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.5.8
+
+### Patch Changes
+
+- [patch][540b9336e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/540b9336e9):
+
+  FS-4008 add shareeAction
+
 ## 0.5.7
 
 ### Patch Changes
