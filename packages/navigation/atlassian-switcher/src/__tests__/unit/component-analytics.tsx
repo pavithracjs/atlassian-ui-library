@@ -110,6 +110,12 @@ describe('Atlassian Switcher - Component Analytics', () => {
       eventType: 'ui',
       action: 'viewed',
       actionSubject: 'atlassianSwitcher',
+      attributes: {
+        items: {
+          suggestedProducts: ['confluence.ondemand'],
+          licensedProducts: ['jira'],
+        },
+      },
     });
 
     // Operational event when the Switcher first displays content
@@ -118,12 +124,6 @@ describe('Atlassian Switcher - Component Analytics', () => {
       eventType: 'operational',
       action: 'rendered',
       actionSubject: 'atlassianSwitcher',
-      attributes: {
-        items: {
-          suggestedProducts: ['confluence.ondemand'],
-          licensedProducts: ['jira'],
-        },
-      },
     });
     expect(payload.attributes).toHaveProperty('duration');
     expect(payload.attributes.duration).toBeGreaterThanOrEqual(0);

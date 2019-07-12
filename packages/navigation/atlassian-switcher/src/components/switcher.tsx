@@ -116,19 +116,19 @@ export default class Switcher extends React.Component<SwitcherProps> {
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
-          <ViewedTracker subject={SWITCHER_SUBJECT} />
+          <ViewedTracker
+            subject={SWITCHER_SUBJECT}
+            data={{
+              items: {
+                licensedProducts: licensedProductLinks.map(item => item.key),
+                suggestedProducts: suggestedProductLinks.map(item => item.key),
+              },
+            }}
+          />
           {firstContentArrived && (
             <RenderTracker
               subject={SWITCHER_SUBJECT}
-              data={{
-                duration: this.timeSinceMounted(),
-                items: {
-                  licensedProducts: licensedProductLinks.map(item => item.key),
-                  suggestedProducts: suggestedProductLinks.map(
-                    item => item.key,
-                  ),
-                },
-              }}
+              data={{ duration: this.timeSinceMounted() }}
             />
           )}
           <Section
