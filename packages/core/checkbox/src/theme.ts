@@ -1,6 +1,5 @@
 import { createTheme, colors } from '@atlaskit/theme';
-import memoize from 'memoize-one';
-import { ComponentTokens, EvaluatedTokens } from './types';
+import { ComponentTokens, ThemeTokens, ThemeProps } from './types';
 
 export const componentTokens: ComponentTokens = {
   label: {
@@ -44,8 +43,11 @@ export const componentTokens: ComponentTokens = {
   },
 };
 
-const evaluateMode = function<T, R>(obj: T, mode: string): R {
-  function traverse(obj: any) {
+const evaluateMode = function<TargetType, ResultType>(
+  obj: TargetType,
+  mode: string,
+): ResultType {
+  const traverse = function traverse(obj: any) {
     return Object.keys(obj).reduce(
       (acc: any, curr: string) => {
         const value = obj[curr];
@@ -58,23 +60,14 @@ const evaluateMode = function<T, R>(obj: T, mode: string): R {
         }
         return acc;
       },
-      {} as R,
+      {} as ResultType,
     );
-  }
+  };
   return traverse(obj);
 };
 
-const defaultThemeFn = ({
-  tokens,
-  mode,
-}: {
-  tokens: ComponentTokens;
-  mode: string;
-}): EvaluatedTokens => {
-  return evaluateMode<ComponentTokens, EvaluatedTokens>(tokens, mode);
+const defaultThemeFn = ({ tokens, mode }: ThemeProps): ThemeTokens => {
+  return evaluateMode<ComponentTokens, ThemeTokens>(tokens, mode);
 };
 
-export default createTheme<
-  EvaluatedTokens,
-  { tokens: ComponentTokens; mode: string }
->(defaultThemeFn);
+export default createTheme<ThemeTokens, ThemeProps>(defaultThemeFn);

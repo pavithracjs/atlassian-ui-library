@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import { colors, math, gridSize } from '@atlaskit/theme';
-import { EvaluatedTokens, EvaluatedIconTokens } from '../types';
+import { ThemeTokens, ThemeIconTokens } from '../types';
 import React from 'react';
 
 export const HiddenCheckbox = React.forwardRef((
@@ -32,12 +32,12 @@ interface Props {
   isInvalid?: boolean;
   isHovered?: boolean;
   rest?: any;
-  tokens: EvaluatedTokens;
+  tokens: ThemeTokens;
 }
 
 interface LabelProps extends React.HTMLProps<HTMLLabelElement> {
   isDisabled?: boolean;
-  tokens: EvaluatedTokens;
+  tokens: ThemeTokens;
 }
 export const Label = ({ isDisabled, tokens, ...rest }: LabelProps) => (
   <label
@@ -53,27 +53,27 @@ export const Label = ({ isDisabled, tokens, ...rest }: LabelProps) => (
   />
 );
 
-const disabledBorder = (iconTokens: EvaluatedIconTokens) => ({
+const disabledBorder = (iconTokens: ThemeIconTokens) => ({
   stroke: iconTokens.borderColor.disabled,
   strokeWidth: iconTokens.borderWidth,
 });
 
-const activeBorder = (iconTokens: EvaluatedIconTokens) => ({
+const activeBorder = (iconTokens: ThemeIconTokens) => ({
   stroke: iconTokens.borderColor.active,
   strokeWidth: iconTokens.borderWidth,
 });
 
-const checkedBorder = (iconTokens: EvaluatedIconTokens) => ({
+const checkedBorder = (iconTokens: ThemeIconTokens) => ({
   stroke: iconTokens.borderColor.checked,
   strokeWidth: iconTokens.borderWidth,
 });
 
-const focusBorder = (iconTokens: EvaluatedIconTokens) => ({
+const focusBorder = (iconTokens: ThemeIconTokens) => ({
   stroke: iconTokens.borderColor.focused,
   strokeWidth: iconTokens.borderWidth,
 });
 
-const invalidBorder = (iconTokens: EvaluatedIconTokens) => ({
+const invalidBorder = (iconTokens: ThemeIconTokens) => ({
   stroke: iconTokens.borderColor.invalid,
   strokeWidth: iconTokens.borderWidth,
 });
@@ -151,7 +151,7 @@ export const LabelText = ({
   tokens,
   ...rest
 }: {
-  tokens: EvaluatedTokens;
+  tokens: ThemeTokens;
   children: React.ReactNode;
 }) => (
   <span
@@ -177,7 +177,7 @@ export const CheckboxWrapper = (props: { children: React.ReactNode }) => (
 );
 
 interface IconProps extends React.HTMLProps<HTMLLabelElement> {
-  tokens: EvaluatedTokens;
+  tokens: ThemeTokens;
   isChecked?: boolean;
   isDisabled?: boolean;
   isActive?: boolean;
