@@ -1,0 +1,1 @@
+Add '--no-interactive' flag to disable interactive prompts
