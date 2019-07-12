@@ -1,19 +1,19 @@
+import { Team } from '@atlaskit/user-picker';
 import {
-  errorEncountered,
-  shareTriggerButtonClicked,
   cancelShare,
-  shortUrlRequested,
-  shortUrlGenerated,
   copyLinkButtonClicked,
-  screenEvent,
+  errorEncountered,
   formShareSubmitted,
+  screenEvent,
+  shareTriggerButtonClicked,
+  shortUrlGenerated,
+  shortUrlRequested,
 } from '../../../components/analytics';
 import {
   ConfigResponse,
   DialogContentState,
   OriginTracing,
 } from '../../../types';
-import { Team } from '@atlaskit/user-picker';
 
 describe('share analytics', () => {
   const mockShareOrigin = (): OriginTracing => ({
@@ -131,7 +131,7 @@ describe('share analytics', () => {
 
     it('should create event payload with origin id', () => {
       const shareOrigin: OriginTracing = mockShareOrigin();
-      expect(copyLinkButtonClicked(100, shareOrigin)).toMatchObject({
+      expect(copyLinkButtonClicked(100, 'issue', shareOrigin)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -143,6 +143,7 @@ describe('share analytics', () => {
           originIdGenerated: 'abc-123',
           shortUrl: undefined,
           originProduct: 'jest',
+          contentType: 'issue',
         }),
       });
       expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledTimes(1);
