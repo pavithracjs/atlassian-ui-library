@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.7
+
+### Patch Changes
+
+- [patch][95c6536030](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95c6536030):
+
+  ED-7247 Fix regression where table insert button is not shown when hover on numbered controls.
+
 ## 112.33.6
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-ED-7247 Fix regression where table insert button is not shown when hover on numbered controls.
