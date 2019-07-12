@@ -26,19 +26,16 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
           <Styled.Section>
             <Styled.Heading>
               <Styled.Title>
-                <strong>
-                  <SpotlightTitle />
-                </strong>
+                <SpotlightTitle />
               </Styled.Title>
             </Styled.Heading>
             <Styled.Body>
               <p>
-                If you don't have any teams,
+                Don't have a team?
                 <a href={createTeamLink} target="_blank">
                   {' '}
-                  start a team{' '}
+                  Start one now{' '}
                 </a>
-                with the group of people you work with daily.
               </p>
             </Styled.Body>
           </Styled.Section>
