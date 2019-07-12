@@ -5,19 +5,19 @@ import { Node as PmNode } from 'prosemirror-model';
 import { findDomRefAtPos, findTable } from 'prosemirror-utils';
 import { TableMap, CellSelection } from 'prosemirror-tables';
 import { Popup, PopupPosition, PopupProps } from '@atlaskit/editor-common';
-import { TableCssClassName as ClassName } from '../types';
-import InsertButton from './TableFloatingControls/InsertButton';
-import { closestElement } from '../../../utils';
-import { INPUT_METHOD } from '../../analytics';
+import { TableCssClassName as ClassName } from '../../types';
+import InsertButton from './InsertButton';
+import { closestElement } from '../../../../utils';
+import { INPUT_METHOD } from '../../../analytics';
 import {
   insertColumnWithAnalytics,
   insertRowWithAnalytics,
-} from '../commands-with-analytics';
+} from '../../commands-with-analytics';
 import {
   tableToolbarSize,
   tableInsertColumnButtonSize,
   tableInsertColumnButtonOffset,
-} from './styles';
+} from '../styles';
 
 export interface Props {
   editorView: EditorView;
