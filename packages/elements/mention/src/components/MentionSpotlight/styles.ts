@@ -15,10 +15,11 @@ export const Card = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${colors.P50};
-  padding: ${gridSize() * 1.75}px ${gridSize() * 1}px;
   overflow: hidden;
   line-height: 21px;
-  padding-left: 16px;
+  padding-top: ${gridSize() * 1.75}px;
+  padding-bottom: ${gridSize() * 1.75}px;
+  padding-left: ${gridSize() * 2}pxpx;
   padding-right: 0px;
 `;
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Styled from './styled';
+import * as Styled from './styles';
 
 import Button from '@atlaskit/button';
 import CloseIcon from '@atlaskit/icon/glyph/cross';
