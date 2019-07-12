@@ -88,7 +88,7 @@ export default class Example extends PureComponent<{}, State> {
     this.setState({ fetchingSchema: true });
 
     fetch(
-      'https://unpkg.com/@atlaskit/editor-common@latest/dist/json-schema/v1/full.json',
+      'https://unpkg.com/@atlaskit/adf-schema@2.12.0/dist/json-schema/v1/full.json',
     )
       .then(res => {
         return res.json();
