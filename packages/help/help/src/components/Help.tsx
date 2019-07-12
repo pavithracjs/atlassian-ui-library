@@ -1,19 +1,23 @@
 import * as React from 'react';
 import {
-  defaultAttributes,
-  withAnalyticsContext,
   withAnalyticsEvents,
-} from '../analytics';
+  withAnalyticsContext,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
+import { defaultAnalyticsAttributes } from '../analytics';
+import { Article, ArticleItem } from '../model/Article';
 
 import { HelpContextProvider } from './HelpContext';
 import MessagesIntlProvider from './MessagesIntlProvider';
 
 import HelpContent from './HelpContent';
-import { Article, ArticleItem } from '../model/Article';
 
 export interface Props {
   // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
-  onBtnCloseClick?(event: any): void;
+  onButtonCloseClick?(
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent: UIAnalyticsEvent,
+  ): void;
   // Id of the article to display. This prop is optional, if is not defined the default content will be displayed
   articleId?: string;
   // Function used to get an article content. This prop is optional, if is not defined the default content will be displayed
@@ -40,6 +44,6 @@ export class Help extends React.Component<Props> {
   }
 }
 
-export default withAnalyticsContext(defaultAttributes)(
+export default withAnalyticsContext(defaultAnalyticsAttributes)(
   withAnalyticsEvents()(Help),
 );

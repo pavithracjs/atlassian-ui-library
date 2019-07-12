@@ -20,11 +20,13 @@ export default class extends React.Component {
   state = {
     isOpen: false,
     searchText: 'test',
+    articleId: '',
   };
 
-  openDrawer = () =>
+  openDrawer = (articleId: string = '') =>
     this.setState({
       isOpen: true,
+      articleId,
     });
 
   closeDrawer = () =>
@@ -46,15 +48,36 @@ export default class extends React.Component {
   };
 
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, articleId } = this.state;
     return (
       <FlexContainer id="helpExample">
         <ContentWrapper>
           <Page>
             <ButtonsWrapper>
               <ButtonGroup>
-                <Button type="button" onClick={this.openDrawer}>
-                  Open drawer
+                <Button type="button" onClick={() => this.openDrawer()}>
+                  Open drawer - no ID
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={() => this.openDrawer('nbgju45fddcNAvvH9lhHc')}
+                >
+                  Open drawer - article 1
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={() => this.openDrawer('fkXjwybosO2ev4g5lLsZw')}
+                >
+                  Open drawer - article 2
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={() => this.openDrawer('11111111111111111111')}
+                >
+                  Open drawer - wrong id
                 </Button>
 
                 <Button type="button" onClick={this.closeDrawer}>
@@ -66,10 +89,10 @@ export default class extends React.Component {
               <LocaleIntlProvider locale={'en'}>
                 <Help
                   onBtnCloseClick={this.closeDrawer}
-                  articleId="nbgju45fddcNAvvH9lhHc"
+                  articleId={articleId}
                   onGetArticle={this.onGetArticle}
                 >
-                  <h1>Default content</h1>
+                  <span>Default content</span>
                 </Help>
               </LocaleIntlProvider>
             </RightSidePanel>

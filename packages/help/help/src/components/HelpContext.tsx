@@ -1,6 +1,9 @@
 import React, { createContext } from 'react';
 import { createAndFire, withAnalyticsEvents } from '../analytics';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import {
+  CreateUIAnalyticsEventSignature,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
 import { Analytics } from '../model/Analytics';
 import { Article, ArticleItem, ArticleFeedback } from '../model/Article';
@@ -10,7 +13,10 @@ import { MIN_CHARACTERS_FOR_SEARCH, VIEW, LOADING_TIMEOUT } from './constants';
 
 export interface Props {
   // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
-  onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
+  onButtonCloseClick?(
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent: UIAnalyticsEvent,
+  ): void;
   // Id of the article to display. This prop is optional, if is not defined the default content will be displayed
   articleId?: string;
   // Function used to get an article content. This prop is optional, if is not defined the default content will be displayed
@@ -27,9 +33,11 @@ export interface State {
   view: VIEW;
   defaultContent?: React.ReactNode;
   // Article
+  articleId: string;
   mainArticle?: Article; // Article to display, if is empty the default content should be displayed
   articleState: REQUEST_STATE;
   history: Article[]; // holds all the articles ID the user has navigated
+  hasNavigatedToDefaultContent: boolean;
   // Search
   searchValue: string;
   searchResult: ArticleItem[];
@@ -43,8 +51,11 @@ export interface HelpContextInterface {
     loadArticle(): void;
     isArticleVisible(): boolean;
     getCurrentArticle(): Article | null;
-    onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
-    mainArticle?: Article; // Article to display, if is empty the default content should be displayed
+    onButtonCloseClick?(
+      event: React.MouseEvent<HTMLElement, MouseEvent>,
+      analyticsEvent: UIAnalyticsEvent,
+    ): void;
+    mainArticle?: Article | null; // Article to display, if is empty the default content should be displayed
     articleState: REQUEST_STATE;
     history: Article[]; // holds all the articles ID the user has navigated
     defaultContent?: React.ReactNode;
@@ -63,10 +74,12 @@ const defaultValues = {
   view: VIEW.DEFAULT_CONTENT,
   defaultContent: undefined,
   // Article
+  articleId: '',
   mainArticle: undefined, // Article to display, if is empty the default content should be displayed
-  articleState: REQUEST_STATE.done,
+  articleState: REQUEST_STATE.loading,
   history: [], // holds all the articles ID the user has navigated
-  // Search
+  hasNavigatedToDefaultContent: false,
+  // Search values
   searchValue: '',
   searchResult: [],
   searchState: REQUEST_STATE.done,
@@ -95,7 +108,10 @@ class HelpContextProviderImplementation extends React.Component<
   ) {
     super(props);
 
-    this.state = initialiseHelpData(defaultValues);
+    this.state = initialiseHelpData({
+      ...defaultValues,
+      articleId: this.props.articleId ? this.props.articleId : '',
+    });
   }
 
   componentDidMount() {
@@ -106,11 +122,28 @@ class HelpContextProviderImplementation extends React.Component<
     clearTimeout(this.requestLoadingTimeout);
   }
 
-  componentDidUpdate(prevProps: Props) {
-    const { articleId } = this.props;
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    // sync state.articleId with prop.articleId
+    if (this.props.articleId !== prevProps.articleId) {
+      this.setState({
+        articleId: this.props.articleId ? this.props.articleId : '',
+      });
+    }
 
-    // When the articleId is defined, get the content of that article
-    if (articleId !== prevProps.articleId) {
+    if (
+      this.state.view === prevState.view &&
+      this.state.view === VIEW.DEFAULT_CONTENT &&
+      this.props.articleId === prevProps.articleId &&
+      this.state.hasNavigatedToDefaultContent
+    ) {
+      this.setState({
+        view: VIEW.ARTICLE,
+        hasNavigatedToDefaultContent: false,
+      });
+    }
+
+    // When the articleId changes, get the content of that article
+    if (this.state.articleId !== prevState.articleId) {
       this.loadArticle();
     }
   }
@@ -150,27 +183,50 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   loadArticle = async () => {
-    const { articleId } = this.props;
+    const { articleId } = this.state;
+
+    // If articleId isn't empty, try lo load the article with ID = articleId
+    // otherwise display the default content
     if (articleId) {
+      this.setState({ view: VIEW.ARTICLE });
       const article = await this.getArticle(articleId);
-      this.setState({ mainArticle: article, view: VIEW.ARTICLE });
+      this.setState({
+        mainArticle: article,
+      });
+    } else {
+      this.setState({
+        view: VIEW.DEFAULT_CONTENT,
+        // mainArticle: undefined,
+        articleState: REQUEST_STATE.done,
+      });
     }
   };
 
   getArticle = async (articleId: string) => {
     // Execute this function only if onGetArticle was defined
-    const { onGetArticle } = this.props;
-    if (onGetArticle) {
-      try {
-        // display loading state after LOADING_TIMEOUT ms passed after the request
-        this.requestLoadingTimeout = setTimeout(() => {
-          this.setState({ articleState: REQUEST_STATE.loading });
-        }, LOADING_TIMEOUT);
+    if (this.props.onGetArticle) {
+      const { view } = this.state;
 
-        const article = await onGetArticle(articleId);
-        this.setState({ articleState: REQUEST_STATE.done });
-        clearTimeout(this.requestLoadingTimeout);
-        return article;
+      try {
+        // if the view === ARTICLE display loading state after ${LOADING_TIMEOUT}ms
+        // passed after the request. Otherwise, display the loading state immediately
+        if (view === VIEW.ARTICLE) {
+          this.requestLoadingTimeout = setTimeout(() => {
+            this.setState({ articleState: REQUEST_STATE.loading });
+          }, LOADING_TIMEOUT);
+        } else {
+          this.setState({ articleState: REQUEST_STATE.loading });
+        }
+
+        const article = await this.props.onGetArticle(articleId);
+
+        // if we get an article, return it, otherwise display error (by throwing an exeption)
+        if (article) {
+          this.setState({ articleState: REQUEST_STATE.done });
+          clearTimeout(this.requestLoadingTimeout);
+          return article;
+        }
+        throw 'EmptyArticle';
       } catch (error) {
         this.setState({ articleState: REQUEST_STATE.error });
         clearTimeout(this.requestLoadingTimeout);
@@ -181,6 +237,7 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   navigateBack = async () => {
+    // If the history isn't empty, navigate back through the history
     if (this.state.history.length > 0 && this.state.history !== undefined) {
       this.setState(prevState => {
         const newState = { history: [...prevState.history.slice(0, -1)] };
@@ -193,11 +250,18 @@ class HelpContextProviderImplementation extends React.Component<
             attributes: { id },
           })(this.props.createAnalyticsEvent);
         }
-
-        return newState;
       });
-    } else if (this.state.mainArticle) {
-      this.setState({ mainArticle: undefined, view: VIEW.DEFAULT_CONTENT });
+
+      // Otherwise, if the mainArticle isn't empty or we are displaying
+      // the error message, navigate back to the "default content"
+    } else if (
+      this.state.mainArticle ||
+      this.state.articleState === REQUEST_STATE.error
+    ) {
+      this.setState({
+        view: VIEW.DEFAULT_CONTENT,
+        hasNavigatedToDefaultContent: true,
+      });
     }
   };
 
@@ -216,9 +280,12 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   isSearchVisible = (): boolean => {
-    if (this.props.onSearch) {
-      return this.state.view === VIEW.ARTICLE;
-    }
+    // if (this.props.onSearch) {
+    //   return (
+    //     this.state.view === VIEW.ARTICLE ||
+    //     this.state.view === VIEW.DEFAULT_CONTENT
+    //   );
+    // }
     return false;
   };
 
@@ -252,10 +319,10 @@ class HelpContextProviderImplementation extends React.Component<
             navigateTo: this.navigateTo,
             onSearch: this.onSearch,
             getCurrentArticle: this.getCurrentArticle,
-            onBtnCloseClick: this.props.onBtnCloseClick,
+            onButtonCloseClick: this.props.onButtonCloseClick,
             onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
             defaultContent: this.props.defaultContent,
-            articleId: this.props.articleId,
+            articleId: this.state.articleId,
           },
         }}
         children={this.props.children}

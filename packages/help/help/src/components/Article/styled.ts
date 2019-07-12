@@ -3,13 +3,21 @@ import styled from '@emotion/styled';
 import { gridSize } from '@atlaskit/theme/constants';
 import * as colors from '@atlaskit/theme/colors';
 
+interface ArticleContainerProps {
+  searchVisible?: boolean;
+}
+
 export const ArticleContainer = styled.div`
   position: absolute;
-  height: calc(100% - ${13 * gridSize()}px);
+  height: ${(props: ArticleContainerProps) =>
+    props.searchVisible
+      ? `calc(100% - ${13 * gridSize()}px)`
+      : `calc(100% - ${6 * gridSize()}px)`};
   width: 100%;
   background-color: #ffffff;
-  top: ${13 * gridSize()}px;
-  left: 0;
+  top: ${(props: ArticleContainerProps) =>
+    props.searchVisible ? `${13 * gridSize()}px` : `${6 * gridSize()}px`};
+  left: 100%;
   flex: 1;
   flex-direction: column;
   padding: ${gridSize() * 2}px ${gridSize() * 3}px ${gridSize() * 2}px
