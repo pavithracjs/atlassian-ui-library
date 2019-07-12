@@ -15,6 +15,7 @@ import {
   MediaCard,
   MediaCardInternal,
   getListOfIdentifiersFromDoc,
+  getClipboardAttrs,
 } from '../../../../ui/MediaCard';
 import * as doc from '../../../../../examples/helper/media-layout.adf.json';
 
@@ -321,6 +322,57 @@ describe('Media', () => {
 
         mediaFileCard1.unmount();
         mediaExternalCard0.unmount();
+      });
+    });
+  });
+
+  describe('getClipboardAttrs()', () => {
+    it('should return all needed properties for copy & paste', () => {
+      expect(getClipboardAttrs({ id: '1', collection: 'collection' })).toEqual({
+        'data-context-id': undefined,
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': undefined,
+        'data-height': undefined,
+        'data-id': '1',
+        'data-collection': 'collection',
+      });
+    });
+
+    it('should get width and height from cardDimensions', () => {
+      expect(
+        getClipboardAttrs({
+          id: '1',
+          cardDimensions: { height: '40px', width: '50px' },
+        }),
+      ).toEqual({
+        'data-context-id': undefined,
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': 50,
+        'data-height': 40,
+        'data-id': '1',
+        'data-collection': undefined,
+      });
+    });
+
+    it('should return context-id', () => {
+      expect(
+        getClipboardAttrs({
+          id: '1',
+          contextIdentifierProvider: {
+            objectId: 'object-id',
+            containerId: 'container',
+          },
+        }),
+      ).toEqual({
+        'data-context-id': 'object-id',
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': undefined,
+        'data-height': undefined,
+        'data-id': '1',
+        'data-collection': undefined,
       });
     });
   });

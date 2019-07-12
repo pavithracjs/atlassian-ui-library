@@ -259,8 +259,6 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const onCardClick = this.getOnCardClickCallback(isInlinePlayer);
 
     const shouldOpenMediaViewer = !isMobile && !onCardClick;
-    const contextId =
-      contextIdentifierProvider && contextIdentifierProvider.objectId;
 
     if (type === 'external') {
       return this.renderExternal(shouldOpenMediaViewer);
@@ -287,7 +285,12 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     return (
       <div
-        {...getClipboardAttrs({ id, collection, contextId, cardDimensions })}
+        {...getClipboardAttrs({
+          id,
+          collection,
+          contextIdentifierProvider,
+          cardDimensions,
+        })}
       >
         <Card
           identifier={identifier}
@@ -312,14 +315,16 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 export const getClipboardAttrs = ({
   id,
   collection,
-  contextId,
+  contextIdentifierProvider,
   cardDimensions,
 }: {
   id: string;
   collection?: string;
-  contextId?: string;
+  contextIdentifierProvider?: ContextIdentifierProvider;
   cardDimensions?: CardDimensions;
 }): { [key: string]: string | number | undefined } => {
+  const contextId =
+    contextIdentifierProvider && contextIdentifierProvider.objectId;
   const width =
     cardDimensions &&
     cardDimensions.width &&
