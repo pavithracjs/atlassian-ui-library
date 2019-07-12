@@ -132,11 +132,7 @@ const ContentStyles: ComponentClass<
   /* Danger when top level node */
   .danger > span > .extension-container {
     background: ${akEditorDeleteBackground};
-    .extension-overlay {
-      box-shadow: inset 0px 0px 0px ${akEditorSelectedBorderBoldSize}px ${akEditorDeleteBorder} !important;
-      opacity: 1;
-      transition: opacity 0s;
-    }
+    box-shadow: 0 0 0 ${akEditorSelectedBorderBoldSize}px ${akEditorDeleteBorder};
   }
 
   .panelView-content-wrap {

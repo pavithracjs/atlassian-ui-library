@@ -14,18 +14,8 @@ import {
 
 import { setTextSelection } from '../../../../index';
 import { setGapCursorSelection } from '../../../../utils';
-import gapCursorPlugin, {
-  GapCursorSelection,
-  Side,
-} from '../../../../plugins/gap-cursor';
+import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import { pluginKey } from '../../../../plugins/gap-cursor/pm-plugins/main';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import rulePlugin from '../../../../plugins/rule';
-import panelPlugin from '../../../../plugins/panel';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import tablesPlugin from '../../../../plugins/table';
-import extensionPlugin from '../../../../plugins/extension';
-import mediaPlugin from '../../../../plugins/media';
 
 import {
   blockNodes,
@@ -40,18 +30,15 @@ describe('gap-cursor', () => {
   const editor = (doc: any, trackEvent?: () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [
-        gapCursorPlugin,
-        mediaPlugin({ allowMediaSingle: true }),
-        extensionPlugin,
-        tablesPlugin(),
-        tasksAndDecisionsPlugin,
-        codeBlockPlugin(),
-        rulePlugin,
-        panelPlugin,
-      ],
       editorProps: {
         analyticsHandler: trackEvent,
+        allowExtension: true,
+        allowTables: true,
+        allowTasksAndDecisions: true,
+        allowCodeBlocks: true,
+        allowRule: true,
+        allowPanel: true,
+        media: { allowMediaSingle: true },
       },
       pluginKey,
     });
