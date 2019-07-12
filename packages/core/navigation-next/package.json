@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/navigation-next",
-  "version": "6.3.2",
+  "version": "6.3.3",
   "description": "The Atlassian navigation component.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -69,6 +69,7 @@
     "mkdirp": "^0.5.1",
     "react-async-component": "^2.0.0",
     "react-dom": "^16.8.0",
+    "react-lorem-component": "^0.12.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2"
   }

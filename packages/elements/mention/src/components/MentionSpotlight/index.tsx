@@ -1,10 +1,11 @@
 import * as React from 'react';
-import * as Styled from './styled';
+import * as Styled from './styles';
 
 import Button from '@atlaskit/button';
 import CloseIcon from '@atlaskit/icon/glyph/cross';
 
 import Tooltip from '@atlaskit/tooltip';
+import { SpotlightTitle, SpotlightCloseTooltip } from '../../util/i18n';
 
 export interface Props {
   createTeamLink: string;
@@ -25,7 +26,9 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
           <Styled.Section>
             <Styled.Heading>
               <Styled.Title>
-                <strong>You can now mention teams! </strong>
+                <strong>
+                  <SpotlightTitle />
+                </strong>
               </Styled.Title>
             </Styled.Heading>
             <Styled.Body>
@@ -40,13 +43,17 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
             </Styled.Body>
           </Styled.Section>
           <Styled.Actions>
-            <Tooltip content="Close" position="bottom">
-              <Button
-                appearance="subtle"
-                iconBefore={<CloseIcon label="Close Modal" size="small" />}
-                onClick={onClose}
-              />
-            </Tooltip>
+            <SpotlightCloseTooltip>
+              {tooltip => (
+                <Tooltip content={tooltip} position="bottom">
+                  <Button
+                    appearance="subtle"
+                    iconBefore={<CloseIcon label="Close Modal" size="small" />}
+                    onClick={onClose}
+                  />
+                </Tooltip>
+              )}
+            </SpotlightCloseTooltip>
           </Styled.Actions>
         </Styled.Content>
       </Styled.Card>

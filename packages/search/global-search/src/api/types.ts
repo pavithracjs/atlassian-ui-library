@@ -41,6 +41,7 @@ export interface ConfluenceItem {
     };
   };
   iconCssClass: string; // icon-file-* for attachments, otherwise not needed
+  friendlyLastModified: string; // e.g. "about 6 hours ago"
 }
 
 export interface JiraItemV1 {
