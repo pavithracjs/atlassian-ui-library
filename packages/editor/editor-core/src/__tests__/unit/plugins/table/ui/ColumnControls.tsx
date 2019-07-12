@@ -1,31 +1,29 @@
-import * as React from 'react';
-import { selectTable, getSelectionRect } from 'prosemirror-utils';
 import {
-  doc,
-  p,
   createEditorFactory,
-  table,
-  tr,
-  tdEmpty,
-  tdCursor,
-  td,
-  thEmpty,
+  doc,
   mountWithIntl,
+  p,
   selectColumns,
+  table,
+  td,
+  tdCursor,
+  tdEmpty,
+  thEmpty,
+  tr,
 } from '@atlaskit/editor-test-helpers';
-
+import { getSelectionRect } from 'prosemirror-utils';
+import * as React from 'react';
+import { setTextSelection } from '../../../../../index';
+import { tablesPlugin } from '../../../../../plugins';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 import {
-  TablePluginState,
   TableCssClassName as ClassName,
+  TablePluginState,
 } from '../../../../../plugins/table/types';
 import ColumnControls from '../../../../../plugins/table/ui/TableFloatingControls/ColumnControls';
-import { tablesPlugin } from '../../../../../plugins';
-import { setTextSelection } from '../../../../../index';
 
 const ControlsButton = `.${ClassName.CONTROLS_BUTTON}`;
 const ColumnControlsButtonWrap = `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}`;
-const DeleteColumnButton = `.${ClassName.CONTROLS_DELETE_BUTTON_WRAP}`;
 const InsertColumnButton = `.${ClassName.CONTROLS_INSERT_BUTTON_WRAP}`;
 const InsertColumnButtonInner = `.${ClassName.CONTROLS_INSERT_BUTTON_INNER}`;
 
@@ -113,66 +111,6 @@ describe('ColumnControls', () => {
         floatingControls.unmount();
       });
     });
-
-    describe('DeleteColumnButton', () => {
-      it(`renders a delete button with column ${column} selected`, () => {
-        const { editorView } = editor(
-          doc(
-            table()(
-              tr(thEmpty, td({})(p()), thEmpty),
-              tr(tdCursor, tdEmpty, tdEmpty),
-              tr(tdEmpty, tdEmpty, tdEmpty),
-            ),
-          ),
-        );
-
-        const floatingControls = mountWithIntl(
-          <ColumnControls
-            tableRef={document.querySelector('table')!}
-            editorView={editorView}
-          />,
-        );
-
-        // now click the column
-        floatingControls
-          .find(ColumnControlsButtonWrap)
-          .at(column)
-          .find('button')
-          .first()
-          .simulate('click');
-
-        // set numberOfColumns prop to trick shouldComponentUpdate and force re-render
-        floatingControls.setProps({ numberOfColumns: 3 });
-
-        // we should now have a delete button
-        expect(floatingControls.find(DeleteColumnButton).length).toBe(1);
-        floatingControls.unmount();
-      });
-    });
-  });
-
-  describe('DeleteColumnButton', () => {
-    it('does not render a delete button with no selection', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, td({})(p()), thEmpty),
-            tr(tdCursor, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <ColumnControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-        />,
-      );
-
-      expect(floatingControls.find(DeleteColumnButton).length).toBe(0);
-      floatingControls.unmount();
-    });
   });
 
   it('applies the danger class to the column buttons', () => {
@@ -205,34 +143,6 @@ describe('ColumnControls', () => {
     floatingControls.unmount();
   });
 
-  it('does not render a delete button with whole table selected', () => {
-    const { editorView } = editor(
-      doc(
-        table()(
-          tr(thEmpty, thEmpty, thEmpty),
-          tr(tdCursor, tdEmpty, tdEmpty),
-          tr(tdEmpty, tdEmpty, tdEmpty),
-        ),
-      ),
-    );
-
-    const floatingControls = mountWithIntl(
-      <ColumnControls
-        tableRef={document.querySelector('table')!}
-        editorView={editorView}
-      />,
-    );
-
-    // select the whole table
-    editorView.dispatch(selectTable(editorView.state.tr));
-
-    // set numberOfColumns prop to trick shouldComponentUpdate and force re-render
-    floatingControls.setProps({ numberOfColumns: 3 });
-
-    expect(floatingControls.find(DeleteColumnButton).length).toBe(0);
-    floatingControls.unmount();
-  });
-
   describe('hides add button when delete button overlaps it', () => {
     it('hides one when two columns are selected', () => {
       const { editorView } = editor(
@@ -259,34 +169,6 @@ describe('ColumnControls', () => {
           .first()
           .find(InsertColumnButton).length,
       ).toBe(0);
-
-      floatingControls.unmount();
-    });
-
-    it('only renders a single delete button over multiple column selections', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, td({})(p()), thEmpty),
-            tr(tdCursor, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <ColumnControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-        />,
-      );
-
-      selectColumns([0, 1])(editorView.state, editorView.dispatch);
-
-      // set numberOfColumns prop to trick shouldComponentUpdate and force re-render
-      floatingControls.setProps({ numberOfColumns: 3 });
-
-      expect(floatingControls.find(DeleteColumnButton).length).toBe(1);
 
       floatingControls.unmount();
     });

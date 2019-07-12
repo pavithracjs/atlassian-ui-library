@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.33.4
+
+### Patch Changes
+
+- [patch][e14708091e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e14708091e):
+
+  ED-7211: Handle paste events with only an anchor tag
+
+## 112.33.3
+
+### Patch Changes
+
+- [patch][5f09ffcf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f09ffcf70):
+
+  ED-7097 Improve table performance, extract the DeleteButton from Table controls as a Floating element.
+
+## 112.33.2
+
+### Patch Changes
+
+- [patch][4b27187d8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b27187d8e):
+
+  [ED-7215] Improve table performance moving the column line markers from React Component to CSS only
+
 ## 112.33.1
 
 ### Patch Changes

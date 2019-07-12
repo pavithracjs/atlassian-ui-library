@@ -95,6 +95,7 @@ function recentPageToResult(
     iconClass: recentPage.iconClass,
     containerId: recentPage.spaceKey,
     isRecentResult: true,
+    friendlyLastModified: undefined, // not available for recent results
   };
 }
 

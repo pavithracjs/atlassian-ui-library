@@ -40,6 +40,7 @@ export function makeConfluenceObjectResult(
     containerName: 'containerName',
     contentType: ContentType.ConfluencePage,
     containerId: 'containerId',
+    friendlyLastModified: 'friendly-last-modified',
     ...buildMockSearchResultProperties(),
     ...partial,
   };

@@ -62,6 +62,7 @@ import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
 import { buildJiraModelParams } from '../../util/model-parameters';
 import { JiraFeatures } from '../../util/features';
+import { injectFeatures } from '../FeaturesProvider';
 
 const JIRA_RESULT_LIMIT = 6;
 const JIRA_PREQUERY_RESULT_LIMIT = 10;
@@ -623,4 +624,6 @@ const JiraQuickSearchContainerWithIntl = injectIntl<Props>(
   withAnalytics(JiraQuickSearchContainer, {}, {}),
 );
 
-export default withAnalyticsEvents()(JiraQuickSearchContainerWithIntl);
+export default injectFeatures(
+  withAnalyticsEvents()(JiraQuickSearchContainerWithIntl),
+);
