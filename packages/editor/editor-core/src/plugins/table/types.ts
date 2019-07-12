@@ -70,6 +70,9 @@ export type TablePluginAction =
         tableNode?: PmNode;
         tableWrapperTarget?: HTMLElement;
         layout: TableLayout;
+        isHeaderRowEnabled: boolean;
+        isHeaderColumnEnabled: boolean;
+        decorationSet: DecorationSet;
       };
     }
   | {
@@ -127,9 +130,9 @@ export type ColumnResizingPluginAction =
       data: { lastClick: { x: number; y: number; time: number } | null };
     };
 
-export const TableDecorations = {
-  CONTROLS_HOVER: 'CONTROLS_HOVER',
-};
+export enum TableDecorations {
+  CONTROLS_HOVER = 'CONTROLS_HOVER',
+}
 
 export const TableCssClassName = {
   ...TableSharedCssClassName,
@@ -174,6 +177,8 @@ export const TableCssClassName = {
   NUMBERED_COLUMN_BUTTON: `${tablePrefixSelector}-numbered-column__button`,
 
   HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
+  HOVERED_CELL_IN_DANGER: 'danger',
+  HOVERED_CELL_ACTIVE: 'active',
   WITH_CONTROLS: `${tablePrefixSelector}-with-controls`,
   RESIZING_PLUGIN: `${tablePrefixSelector}-resizing-plugin`,
   RESIZE_CURSOR: `${tablePrefixSelector}-resize-cursor`,

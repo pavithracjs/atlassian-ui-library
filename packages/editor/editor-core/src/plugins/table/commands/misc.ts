@@ -6,7 +6,7 @@ import {
   TableMap,
   CellSelection,
 } from 'prosemirror-tables';
-import { EditorView } from 'prosemirror-view';
+import { EditorView, DecorationSet } from 'prosemirror-view';
 import { Node as PMNode, Slice, Schema } from 'prosemirror-model';
 import {
   findTable,
@@ -74,6 +74,7 @@ export const setTableRef = (ref?: HTMLElement | null) =>
           layout: layout || 'default',
           isHeaderRowEnabled: checkIfHeaderRowEnabled(state),
           isHeaderColumnEnabled: checkIfHeaderColumnEnabled(state),
+          decorationSet: DecorationSet.empty,
         },
       };
     },
