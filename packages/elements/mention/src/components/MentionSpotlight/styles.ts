@@ -1,24 +1,30 @@
 import styled from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { colors, gridSize, typography } from '@atlaskit/theme';
 
 export const Actions = styled.div`
   justify-content: flex-end;
+  margin-top: ${gridSize() * -1}px;
 `;
 
-export const Title = styled.div``;
+export const Title = styled.div`
+  ${typography.h400};
+  margin-top: 0px;
+`;
 
 export const Heading = styled.div`
   margin-left: ${gridSize() * 2}px;
+  margin-bottom: ${gridSize() * 0.5}px;
 `;
 
 export const Card = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${colors.P50};
-  padding: ${gridSize() * 1.75}px ${gridSize() * 1}px;
   overflow: hidden;
   line-height: 21px;
-  padding-left: 16px;
+  padding-top: ${gridSize() * 2}px;
+  padding-bottom: ${gridSize() * 2}px;
+  padding-left: ${gridSize() * 2}px;
   padding-right: 0px;
 `;
 
@@ -28,12 +34,11 @@ export const Content = styled.div`
 `;
 export const Section = styled.div``;
 
-export const Aside = styled.div`
-  opacity: 0.7;
-`;
+export const Aside = styled.div``;
 
 export const Body = styled.div`
   margin-left: ${gridSize() * 2}px;
+  ${typography.p500};
 `;
 
 export const iconUrl =
