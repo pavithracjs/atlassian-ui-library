@@ -22,6 +22,7 @@ import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
 import OpenIcon from '@atlaskit/icon/glyph/shortcut';
 import { normalizeUrl } from './utils';
 import { EditorState } from 'prosemirror-state';
+import { DispatchAnalyticsEvent } from '../analytics';
 import { linkToolbarMessages as linkToolbarCommonMessages } from '../../messages';
 import {
   RECENT_SEARCH_HEIGHT_IN_PX,
@@ -195,6 +196,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
               render: (
                 view?: EditorView,
                 idx?: number,
+                dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
               ):
                 | React.ComponentClass
                 | React.SFC
@@ -224,6 +226,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                       view.focus();
                     }}
                     onBlur={handleBlur(activeLinkMark, view)}
+                    dispatchAnalyticsEvent={dispatchAnalyticsEvent}
                   />
                 );
               },

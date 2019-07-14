@@ -3,7 +3,6 @@ import Checkbox from '@atlaskit/checkbox/Checkbox';
 import Avatar from '@atlaskit/avatar/index';
 import baseItem, { withItemFocus } from '@atlaskit/item';
 import { Filter } from '../../api/CrossProductSearchClient';
-import styled from 'styled-components';
 
 const Item = withItemFocus(baseItem);
 
@@ -19,12 +18,6 @@ export interface Props {
 interface State {
   isChecked: boolean;
 }
-
-const TitleContainer = styled.div`
-  max-width: 250px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
 
 export default class ConfluenceSpaceFilter extends React.Component<
   Props,
@@ -97,7 +90,7 @@ export default class ConfluenceSpaceFilter extends React.Component<
         isCompact
         isDisabled={isDisabled}
       >
-        <TitleContainer title={spaceTitle}>{spaceTitle}</TitleContainer>
+        {spaceTitle}
       </Item>
     );
   }

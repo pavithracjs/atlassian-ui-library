@@ -30,6 +30,7 @@ function mapConfluenceItemToResultObject(
         : 'UNAVAILABLE',
     iconClass: item.iconCssClass,
     experimentId: experimentId,
+    friendlyLastModified: item.friendlyLastModified,
   };
 }
 

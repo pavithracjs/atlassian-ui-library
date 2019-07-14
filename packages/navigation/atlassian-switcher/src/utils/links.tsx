@@ -11,6 +11,7 @@ import {
   JiraSoftwareIcon,
   JiraServiceDeskIcon,
   JiraCoreIcon,
+  OpsGenieIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
 import {
@@ -24,7 +25,6 @@ import {
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
-import OpsgenieLogo from './assets/opsgenie-logo';
 import PeopleLogo from './assets/people';
 import { CustomLink, RecentContainer } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
@@ -110,7 +110,7 @@ export const PRODUCT_DATA_MAP: {
   },
   [ProductKey.OPSGENIE]: {
     label: 'Opsgenie',
-    Icon: createIcon(OpsgenieLogo, { size: 'small' }),
+    Icon: createIcon(OpsGenieIcon, { size: 'small' }),
     href: 'https://app.opsgenie.com',
   },
 };
@@ -167,7 +167,7 @@ export const AVAILABLE_PRODUCT_DATA_MAP: {
   },
   [WorklensProductType.OPSGENIE]: {
     label: 'Opsgenie',
-    Icon: createIcon(OpsgenieLogo, { size: 'small' }),
+    Icon: createIcon(OpsGenieIcon, { size: 'small' }),
     href: 'https://app.opsgenie.com',
   },
 };

@@ -157,6 +157,7 @@ export function firePostQueryShownEvent(
   timings: PerformanceTiming,
   searchSessionId: string,
   query: string,
+  filtersApplied: { [filterType: string]: boolean },
   createAnalyticsEvent: CreateAnalyticsEventFn,
   abTest: ABTest,
   referralContextIdentifiers?: ReferralContextIdentifiers,
@@ -172,6 +173,7 @@ export function firePostQueryShownEvent(
     source: DEFAULT_GAS_SOURCE,
     attributes: {
       ...getQueryAttributes(query),
+      filtersApplied,
       postQueryRequestDurationMs: elapsedMs,
       searchSessionId,
       referralContextIdentifiers: stripUGC(referralContextIdentifiers),
@@ -335,6 +337,22 @@ export function fireShowMoreButtonClickEvent(
       currentSize,
       totalResultSize,
       pageSize,
+    },
+  );
+}
+
+export function fireMoreFiltersButtonClickEvent(
+  searchSessionId: string,
+  createAnalyticsEvent?: CreateAnalyticsEventFn,
+) {
+  fireGasEvent(
+    createAnalyticsEvent,
+    'clicked',
+    'button',
+    'showMoreFilters',
+    'ui',
+    {
+      searchSessionId,
     },
   );
 }

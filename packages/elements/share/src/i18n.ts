@@ -73,6 +73,11 @@ export const messages = defineMessages({
     defaultMessage: 'Share',
     description: 'Default text for the share dialog trigger button',
   },
+  inviteTriggerButtonText: {
+    id: 'fabric.elements.share.trigger.button.invite.text',
+    defaultMessage: 'Invite',
+    description: 'Button label for when the sharee action is set to "edit".',
+  },
   copyLinkButtonIconLabel: {
     id: 'fabric.elements.share.copylink.button.icon.label',
     defaultMessage: 'Copy link icon',

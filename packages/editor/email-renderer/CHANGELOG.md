@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.7.1
+
+### Patch Changes
+
+- [patch][59fb844cd5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59fb844cd5):
+
+  CS-1184 Email renderer - prevent tables from flowing outside container
+
 ## 2.7.0
 
 ### Minor Changes
