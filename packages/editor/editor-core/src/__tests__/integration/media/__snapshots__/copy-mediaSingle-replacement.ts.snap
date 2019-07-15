@@ -22,6 +22,7 @@ Object {
           "attrs": Object {
             "__contextId": null,
             "__displayType": null,
+            "__external": false,
             "__fileMimeType": null,
             "__fileName": "example.png",
             "__fileSize": null,
@@ -48,6 +49,7 @@ Object {
           "attrs": Object {
             "__contextId": null,
             "__displayType": null,
+            "__external": false,
             "__fileMimeType": null,
             "__fileName": "example.png",
             "__fileSize": null,
@@ -66,14 +68,15 @@ Object {
     },
     Object {
       "attrs": Object {
-        "layout": "wrap-right",
-        "width": 66.67,
+        "layout": "wrap-left",
+        "width": 41.666666666666664,
       },
       "content": Array [
         Object {
           "attrs": Object {
-            "__contextId": null,
+            "__contextId": "DUMMY-OBJECT-ID",
             "__displayType": null,
+            "__external": false,
             "__fileMimeType": null,
             "__fileName": "example.png",
             "__fileSize": null,

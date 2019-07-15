@@ -9,6 +9,7 @@ Object {
           "attrs": Object {
             "__contextId": null,
             "__displayType": null,
+            "__external": false,
             "__fileMimeType": null,
             "__fileName": "example.png",
             "__fileSize": null,
@@ -24,15 +25,6 @@ Object {
         },
       ],
       "type": "mediaGroup",
-    },
-    Object {
-      "content": Array [
-        Object {
-          "text": "pasting",
-          "type": "text",
-        },
-      ],
-      "type": "paragraph",
     },
     Object {
       "content": Array [
@@ -40,6 +32,7 @@ Object {
           "attrs": Object {
             "__contextId": null,
             "__displayType": null,
+            "__external": false,
             "__fileMimeType": null,
             "__fileName": "example.png",
             "__fileSize": null,
@@ -55,9 +48,6 @@ Object {
         },
       ],
       "type": "mediaGroup",
-    },
-    Object {
-      "type": "paragraph",
     },
   ],
   "type": "doc",

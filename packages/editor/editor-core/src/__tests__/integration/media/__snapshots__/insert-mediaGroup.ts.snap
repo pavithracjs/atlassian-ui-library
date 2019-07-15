@@ -18,6 +18,7 @@ Object {
           "attrs": Object {
             "__contextId": "DUMMY-OBJECT-ID",
             "__displayType": null,
+            "__external": false,
             "__fileMimeType": "image/svg+xml",
             "__fileName": "example.png",
             "__fileSize": 235,

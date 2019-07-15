@@ -1,17 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`insert-mediaSingle.ts: Inserts a media single on fullpage 1`] = `
+exports[`copy-mediaSingle-replacement.ts: Copies and pastes mediaSingle on fullpage 1`] = `
 Object {
   "content": Array [
-    Object {
-      "content": Array [
-        Object {
-          "text": "some text",
-          "type": "text",
-        },
-      ],
-      "type": "paragraph",
-    },
     Object {
       "attrs": Object {
         "layout": "center",
@@ -23,16 +14,16 @@ Object {
             "__contextId": "DUMMY-OBJECT-ID",
             "__displayType": null,
             "__external": false,
-            "__fileMimeType": "image/svg+xml",
+            "__fileMimeType": null,
             "__fileName": "example.png",
-            "__fileSize": 235,
+            "__fileSize": null,
             "collection": "MediaServicesSample",
-            "height": 4096,
+            "height": 619,
             "id": "1234-5678-abcd-efgh",
             "occurrenceKey": null,
             "type": "file",
             "url": null,
-            "width": 4096,
+            "width": 1100,
           },
           "type": "media",
         },
