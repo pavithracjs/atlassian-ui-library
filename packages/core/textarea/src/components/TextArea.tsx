@@ -4,7 +4,7 @@ import {
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
 import GlobalTheme from '@atlaskit/theme';
-import * as React from 'react';
+import React from 'react';
 import {
   name as packageName,
   version as packageVersion,

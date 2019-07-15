@@ -1,5 +1,21 @@
 # @atlaskit/modal-dialog
 
+## 10.0.10
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/form@6.1.4
+  - @atlaskit/inline-dialog@12.0.5
+  - @atlaskit/select@10.0.0
+
+## 10.0.9
+
+### Patch Changes
+
+- [patch][0342746c45](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0342746c45):
+
+  Closing a dialog in IE11 specific event key
+
 ## 10.0.8
 
 - Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):

@@ -1,5 +1,19 @@
 # @atlaskit/button
 
+## 13.0.12
+
+### Patch Changes
+
+- [patch][29a1f158c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29a1f158c1):
+
+  Use default react import in typescript files.
+
+## 13.0.11
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/logo@12.1.1
+  - @atlaskit/select@10.0.0
+
 ## 13.0.10
 
 - Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):

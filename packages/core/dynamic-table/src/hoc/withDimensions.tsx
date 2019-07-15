@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Omit } from '@atlaskit/type-helpers';
 
 export interface State {

@@ -1,5 +1,41 @@
 # @atlaskit/editor-core
 
+## 112.33.11
+
+### Patch Changes
+
+- [patch][5ca03a3267](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca03a3267):
+
+  ED-7242 Use calculated offset to position table InsertButton (Use allowOutOfBound from popup)
+
+## 112.33.10
+
+### Patch Changes
+
+- [patch][64868b4e0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64868b4e0e):
+
+  ED-7249 Fix regression where table Insert Column button doesn't hide.
+
+## 112.33.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/logo@12.1.1
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/share@0.5.9
+  - @atlaskit/user-picker@4.0.13
+  - @atlaskit/media-picker@45.0.1
+  - @atlaskit/media-test-helpers@24.3.1
+  - @atlaskit/select@10.0.0
+
+## 112.33.8
+
+### Patch Changes
+
+- [patch][eaebe8551f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaebe8551f):
+
+  Update i18n strings with latest translations.
+
 ## 112.33.7
 
 ### Patch Changes

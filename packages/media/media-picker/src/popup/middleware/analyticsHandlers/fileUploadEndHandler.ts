@@ -8,7 +8,9 @@ export default (action: Action, store: MiddlewareAPI<State>): HandlerResult => {
   if (isFileUploadEndAction(action)) {
     const { file, publicFile } = action;
 
-    const timeStarted = store.getState().uploads[file.id].timeStarted;
+    const { timeStarted } = store.getState().uploads[file.id] || {
+      timeStarted: undefined,
+    };
 
     return [
       {

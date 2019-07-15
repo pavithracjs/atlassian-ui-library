@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import IconForType from '../IconForType';

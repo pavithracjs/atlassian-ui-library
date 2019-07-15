@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/button",
-  "version": "13.0.10",
+  "version": "13.0.12",
   "description": "A React component that is a base button.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -38,8 +38,8 @@
     "@atlaskit/checkbox": "^9.0.0",
     "@atlaskit/docs": "^8.1.3",
     "@atlaskit/icon": "^19.0.0",
-    "@atlaskit/logo": "^12.0.2",
-    "@atlaskit/select": "^9.1.10",
+    "@atlaskit/logo": "^12.1.1",
+    "@atlaskit/select": "^10.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "@types/react-router-dom": "^4.3.1",

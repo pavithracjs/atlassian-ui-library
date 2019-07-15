@@ -1,5 +1,14 @@
 # @atlaskit/share
 
+## 0.5.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/form@6.1.4
+  - @atlaskit/inline-dialog@12.0.5
+  - @atlaskit/user-picker@4.0.13
+  - @atlaskit/select@10.0.0
+
 ## 0.5.8
 
 ### Patch Changes
