@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Select from '@atlaskit/select';
 import Group from '@atlaskit/tag-group';

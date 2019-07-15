@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import Banner from '../src';
 

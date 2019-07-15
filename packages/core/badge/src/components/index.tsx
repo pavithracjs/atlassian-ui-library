@@ -1,5 +1,5 @@
 import GlobalTheme, { ThemeProp, GlobalThemeTokens } from '@atlaskit/theme';
-import * as React from 'react';
+import React from 'react';
 
 import Container from './Container';
 import Format from './Format';

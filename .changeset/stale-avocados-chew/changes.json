@@ -1,0 +1,19 @@
+{
+  "releases": [
+    { "name": "@atlaskit/badge", "type": "patch" },
+    { "name": "@atlaskit/banner", "type": "patch" },
+    { "name": "@atlaskit/blanket", "type": "patch" },
+    { "name": "@atlaskit/breadcrumbs", "type": "patch" },
+    { "name": "@atlaskit/button", "type": "patch" },
+    { "name": "@atlaskit/code", "type": "patch" },
+    { "name": "@atlaskit/dynamic-table", "type": "patch" },
+    { "name": "@atlaskit/inline-edit", "type": "patch" },
+    { "name": "@atlaskit/inline-message", "type": "patch" },
+    { "name": "@atlaskit/right-side-panel", "type": "patch" },
+    { "name": "@atlaskit/section-message", "type": "patch" },
+    { "name": "@atlaskit/textarea", "type": "patch" },
+    { "name": "@atlaskit/tooltip", "type": "patch" },
+    { "name": "@atlaskit/width-detector", "type": "patch" }
+  ],
+  "dependents": []
+}

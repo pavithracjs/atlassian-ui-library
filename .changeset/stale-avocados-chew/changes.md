@@ -1,0 +1,1 @@
+Use default react import in typescript files.

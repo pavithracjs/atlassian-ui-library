@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 
-import * as React from 'react';
+import React from 'react';
 import NodeResolver from 'react-node-resolver';
 import flushable from 'flushable';
 import { Popper } from '@atlaskit/popper';
