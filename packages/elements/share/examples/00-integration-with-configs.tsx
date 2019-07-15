@@ -275,7 +275,6 @@ export default class Example extends React.Component<{}, State> {
                   shareAri="ari"
                   shareContentType="issue"
                   shareFormTitle={customTitle ? 'Custom Title' : undefined}
-                  shareLink={window.location.href}
                   shareTitle="My Share"
                   shouldCloseOnEscapePress={escapeOnKeyPress}
                   showFlags={showFlags}

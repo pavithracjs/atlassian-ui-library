@@ -1,6 +1,9 @@
 jest.mock('@atlaskit/media-client');
 import * as React from 'react';
-import { ProviderFactory } from '@atlaskit/editor-common';
+import {
+  ProviderFactory,
+  ContextIdentifierProvider,
+} from '@atlaskit/editor-common';
 import {
   insertMediaSingleNode,
   mediaPlugin,
@@ -60,10 +63,11 @@ const createMedia = (collection: string, width = 256, height = 128) =>
     height,
   })();
 
-describe('Mobile MediaProvider', async () => {
+describe('Mobile MediaProvider', () => {
   const createEditor = createEditorFactory();
 
   let promisedMediaProvider: Promise<MediaProvider>;
+  let promisedIdentifierProvider: Promise<ContextIdentifierProvider>;
   let mockAuthProvider: AuthProvider;
   let providerFactory: ProviderFactory;
   let testFileState: ProcessedFileState;
@@ -111,8 +115,14 @@ describe('Mobile MediaProvider', async () => {
       },
     });
 
+    promisedIdentifierProvider = Promise.resolve({
+      containerId: 'come-container-id',
+      objectId: 'some-object-id',
+    });
+
     providerFactory = ProviderFactory.create({
       mediaProvider: promisedMediaProvider,
+      contextIdentifierProvider: promisedIdentifierProvider,
     });
   });
 

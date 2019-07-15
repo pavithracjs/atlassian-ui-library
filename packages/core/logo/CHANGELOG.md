@@ -1,5 +1,19 @@
 # @atlaskit/logo
 
+## 12.1.1
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/select@10.0.0
+
+## 12.1.0
+
+### Minor Changes
+
+- [minor][b81d931ee3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d931ee3):
+
+  Added new OpsGenie logo, fixed the gradient for the StatusPage logo, and refactored atlassian-switcher to use the new logos
+
 ## 12.0.4
 
 ### Patch Changes

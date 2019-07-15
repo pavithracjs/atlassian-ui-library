@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import DynamicTableStateless from './Stateless';
 import { SortOrderType, StatefulProps, RankEnd, RowType } from '../types';
 import { reorderRows } from '../internal/helpers';

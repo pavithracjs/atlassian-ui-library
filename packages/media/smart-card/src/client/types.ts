@@ -23,6 +23,12 @@ export type JsonLdVisibility = 'public' | 'restricted' | 'other' | 'not_found';
 
 export type JsonLdAccess = 'granted' | 'unauthorized' | 'forbidden';
 
+export type JsonLdBatch = Array<JsonLdResponse>;
+export type JsonLdResponse = {
+  status: number;
+  body: JsonLd;
+};
+
 export type JsonLd = {
   meta: {
     visibility: JsonLdVisibility;

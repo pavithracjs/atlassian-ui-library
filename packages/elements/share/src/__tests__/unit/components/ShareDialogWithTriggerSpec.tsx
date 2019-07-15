@@ -42,7 +42,6 @@ describe('ShareDialogWithTrigger', () => {
   ): ShallowWrapper<Props & InjectedIntlProps> {
     let props: Omit<PropsOf<ShareDialogWithTriggerInternal>, 'intl'> = {
       copyLink: 'copyLink',
-      isCopyLinkShortened: false,
       loadUserOptions: mockLoadOptions,
       onDialogOpen: mockOnDialogOpen,
       onShareSubmit: mockOnShareSubmit,

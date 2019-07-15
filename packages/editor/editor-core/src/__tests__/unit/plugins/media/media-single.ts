@@ -3,6 +3,7 @@ import {
   p,
   mediaSingle,
   media,
+  extension,
   createEditorFactory,
 } from '@atlaskit/editor-test-helpers';
 
@@ -11,7 +12,6 @@ import {
   insertMediaAsMediaSingle,
 } from '../../../../plugins/media/utils/media-single';
 import { MediaState } from '../../../../plugins/media/pm-plugins/main';
-import mediaPlugin from '../../../../plugins/media';
 import {
   temporaryFileId,
   testCollectionName,
@@ -34,7 +34,12 @@ describe('media-single', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [mediaPlugin({ allowMediaSingle: true })],
+      editorProps: {
+        allowExtension: true,
+        media: {
+          allowMediaSingle: true,
+        },
+      },
     });
 
   describe('insertMediaAsMediaSingle', () => {
@@ -227,6 +232,32 @@ describe('media-single', () => {
               p('world'),
               mediaSingle({ layout: 'center' })(temporaryMediaWithDimensions()),
               p(''),
+            ),
+          );
+        });
+      });
+
+      describe('is NodeSelection', () => {
+        it.only('replaces the selected node', () => {
+          const { editorView } = editor(
+            doc(
+              p('hello'),
+              '{<node>}',
+              extension({ extensionKey: 'extKey', extensionType: 'extType' })(),
+            ),
+          );
+
+          insertMediaSingleNode(
+            editorView,
+            createMediaState(temporaryFileId),
+            testCollectionName,
+          );
+
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              p('hello'),
+              mediaSingle({ layout: 'center' })(temporaryMediaWithDimensions()),
+              p(),
             ),
           );
         });

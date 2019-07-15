@@ -37,7 +37,7 @@ export default class Example extends Component<Props, State> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', mediaClientConfig, {
+    const popup = await MediaPicker(mediaClientConfig, {
       uploadParams: {
         collection: defaultCollectionName,
       },

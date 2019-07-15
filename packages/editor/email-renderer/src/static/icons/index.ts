@@ -11,6 +11,7 @@ export * from './error';
 export * from './decision';
 export * from './taskItemChecked';
 export * from './taskItemUnchecked';
+export * from './genericAttachment';
 
 export enum IconName {
   info = 'info',
@@ -22,6 +23,7 @@ export enum IconName {
   decision = 'decision',
   taskItemChecked = 'taskItemChecked',
   taskItemUnchecked = 'taskItemUnchecked',
+  genericAttachment = 'genericAttachment',
 }
 
 export type IconString =
@@ -33,4 +35,5 @@ export type IconString =
   | 'error'
   | 'decision'
   | 'taskItemChecked'
-  | 'taskItemUnchecked';
+  | 'taskItemUnchecked'
+  | 'genericAttachment';

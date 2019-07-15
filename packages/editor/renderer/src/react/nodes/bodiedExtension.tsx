@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { RendererContext } from '..';
 import { renderNodes, Serializer } from '../..';
-import { ADNode, ExtensionHandlers } from '@atlaskit/editor-common';
+import {
+  ADNode,
+  ExtensionHandlers,
+  getExtensionRenderer,
+} from '@atlaskit/editor-common';
 import { renderExtension } from './extension';
 
 export interface Props {
@@ -29,7 +33,8 @@ const BodiedExtension: React.StatelessComponent<Props> = ({
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
-      const extensionContent = extensionHandlers[extensionType](
+      const render = getExtensionRenderer(extensionHandlers[extensionType]);
+      const extensionContent = render(
         {
           type: 'bodiedExtension',
           extensionKey,

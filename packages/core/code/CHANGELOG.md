@@ -1,5 +1,13 @@
 # @atlaskit/code
 
+## 11.0.4
+
+### Patch Changes
+
+- [patch][29a1f158c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29a1f158c1):
+
+  Use default react import in typescript files.
+
 ## 11.0.3
 
 ### Patch Changes

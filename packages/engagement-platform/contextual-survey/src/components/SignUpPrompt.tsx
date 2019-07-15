@@ -7,19 +7,24 @@ import { fontSize, gridSize } from '@atlaskit/theme';
 import SuccessContainer from './SuccessContainer';
 
 interface Props {
-  onSignUpAccept: () => Promise<void>;
-  onSignUpDecline: () => void;
+  onAnswer: (answer: boolean) => Promise<void>;
 }
 
-export default ({ onSignUpAccept, onSignUpDecline }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const handleSignUpAcceptClick = useCallback(
-    async () => {
-      setIsLoading(true);
-      await onSignUpAccept();
+type PendingAnswer = 'yes' | 'no';
+
+type Optional<T> = T | null;
+
+export default ({ onAnswer }: Props) => {
+  const [pending, setPending] = useState<Optional<PendingAnswer>>(null);
+  const answeredWith = useCallback(
+    async (answer: boolean) => {
+      setPending(answer ? 'yes' : 'no');
+      await onAnswer(answer);
     },
-    [onSignUpAccept, setIsLoading],
+    [setPending, onAnswer],
   );
+
+  const isDisabled: boolean = Boolean(pending);
 
   return (
     <SuccessContainer>
@@ -55,15 +60,17 @@ export default ({ onSignUpAccept, onSignUpDecline }: Props) => {
       >
         <Button
           appearance="subtle"
-          onClick={onSignUpDecline}
-          isDisabled={isLoading}
+          onClick={() => answeredWith(false)}
+          isDisabled={isDisabled}
+          isLoading={pending === 'no'}
         >
           No, thanks
         </Button>
         <Button
           appearance="primary"
-          onClick={handleSignUpAcceptClick}
-          isLoading={isLoading}
+          onClick={() => answeredWith(true)}
+          isDisabled={isDisabled}
+          isLoading={pending === 'yes'}
         >
           Yes, sign me up
         </Button>

@@ -9,6 +9,7 @@ export enum ACTION {
   CHANGED_FULL_WIDTH_MODE = 'changedFullWidthMode',
   CHANGED_LAYOUT = 'changedLayout',
   CHANGED_TYPE = 'changedType',
+  CHANGED_URL = 'changedUrl',
   CLICKED = 'clicked',
   DELETED = 'deleted',
   DISPATCHED_INVALID_TRANSACTION = 'dispatchedInvalidTransaction',
@@ -23,6 +24,7 @@ export enum ACTION {
   STARTED = 'started',
   STOPPED = 'stopped',
   SUBSTITUTED = 'autoSubstituted',
+  UNLINK = 'unlinked',
   VISITED = 'visited',
 }
 
@@ -55,6 +57,7 @@ export enum ACTION_SUBJECT {
   EDITOR = 'editor',
   LAYOUT = 'layout',
   MEDIA = 'media',
+  MEDIA_SINGLE = 'mediaSingle',
   PANEL = 'panel',
   PICKER = 'picker',
   SMART_LINK = 'smartLink',
@@ -92,6 +95,7 @@ export enum ACTION_SUBJECT_ID {
   FORMAT_UNDERLINE = 'underline',
   LINE_BREAK = 'lineBreak',
   LINK = 'link',
+  MEDIA_LINK = 'mediaLink',
   LINK_PREVIEW = 'linkPreview',
   MEDIA = 'media',
   MENTION = 'mention',

@@ -1,4 +1,5 @@
-import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
+import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
+import { waitForNoTooltip } from '@atlaskit/visual-regression/helper';
 import {
   clickToolbarMenu,
   ToolbarMenuItem,
@@ -9,28 +10,31 @@ import { Page } from '../../__helpers/page-objects/_types';
 describe('Toolbar', () => {
   let page: Page;
 
-  beforeAll(() => {
+  beforeEach(async () => {
     // @ts-ignore
     page = global.page;
+    await initEditorWithAdf(page, {
+      appearance: Appearance.fullPage,
+      viewport: { width: 1000, height: 350 },
+    });
   });
 
   afterEach(async () => {
     await page.waitForSelector(selectors[ToolbarMenuItem.toolbarDropList]);
+    await waitForNoTooltip(page);
     await snapshot(page);
   });
 
   it('should display headings menu correctly', async () => {
-    await initFullPageEditorWithAdf(page, {}, Device.LaptopMDPI);
     await clickToolbarMenu(page, ToolbarMenuItem.fontStyle);
   });
 
   it('should display text formatting menu correctly', async () => {
-    await initFullPageEditorWithAdf(page, {}, Device.LaptopMDPI);
     await clickToolbarMenu(page, ToolbarMenuItem.moreFormatting);
   });
 
   it('should display insert menu correctly', async () => {
-    await initFullPageEditorWithAdf(page, {}, Device.LaptopMDPI);
+    await page.setViewport({ width: 1000, height: 700 });
     await clickToolbarMenu(page, ToolbarMenuItem.insertMenu);
   });
 });

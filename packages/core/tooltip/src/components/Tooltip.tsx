@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 
-import * as React from 'react';
+import React from 'react';
 import NodeResolver from 'react-node-resolver';
 import flushable from 'flushable';
 import { Popper } from '@atlaskit/popper';
@@ -352,12 +352,12 @@ const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export type TooltipType = Tooltip;
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'tooltip',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onHide: unhoveredPayload,
     onShow: createAndFireEventOnAtlaskit({ ...hoveredPayload }),
   })(Tooltip),

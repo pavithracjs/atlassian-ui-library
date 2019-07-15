@@ -6,6 +6,14 @@
  */
 // Portuguese (Portugal)
 export default {
+  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.openLink': 'Abrir ligação num novo separador',
+  'fabric.editor.unlink': 'Remover ligação',
+  'fabric.editor.editLink': 'Editar ligação',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Colar ligação ou pesquisa visualizados recentemente',
+  'fabric.editor.linkPlaceholder': 'Colar ligação',
+  'fabric.editor.linkAddress': 'Endereço da ligação',
   'fabric.editor.layoutFixedWidth': 'Voltar ao centro',
   'fabric.editor.layoutWide': 'Alagar',
   'fabric.editor.layoutFullWidth': 'Passar para a largura completa',
@@ -15,16 +23,28 @@ export default {
   'fabric.editor.remove': 'Remover',
   'fabric.editor.visit': 'Abrir ligação numa nova janela',
   'fabric.editor.editMode.inviteToEditButton.title': 'Convidar para editar',
+  'fabric.editor.saveButton': 'Guardar',
+  'fabric.editor.cancelButton': 'Cancelar',
   'fabric.editor.alignment': 'Alinhamento',
   'fabric.editor.normal': 'Texto normal',
   'fabric.editor.heading1': 'Título 1',
+  'fabric.editor.heading1Description':
+    'Utilizar para um cabeçalho de nível superior',
   'fabric.editor.heading2': 'Título 2',
+  'fabric.editor.heading2Description': 'Utilize para secções chave',
   'fabric.editor.heading3': 'Título 3',
+  'fabric.editor.heading3Description':
+    'Utilize para títulos de grupos e secções',
   'fabric.editor.heading4': 'Título 4',
+  'fabric.editor.heading4Description':
+    'Utilize para títulos de nível mais profundo',
   'fabric.editor.heading5': 'Título 5',
+  'fabric.editor.heading5Description': 'Utilize para agrupar itens de lista',
   'fabric.editor.heading6': 'Título 6',
+  'fabric.editor.heading6Description':
+    'Utilizar para um cabeçalho de nível inferior',
   'fabric.editor.blockquote': 'Cotação',
-  'fabric.editor.blockquote.description': 'Inserir cotação ou citação',
+  'fabric.editor.blockquote.description': 'Inserir uma cotação ou citação',
   'fabric.editor.codeblock': 'Fragmento de código',
   'fabric.editor.codeblock.description':
     'Apresentar código com realce de sintaxe',
@@ -60,21 +80,13 @@ export default {
   'fabric.editor.altText': 'Todo o texto',
   'fabric.editor.closeHelpDialog': 'Fechar caixa de diálogo de ajuda',
   'fabric.editor.quickInsert': 'Inserção rápida',
-  'fabric.editor.openLink': 'Abrir ligação num novo separador',
-  'fabric.editor.unlink': 'Remover ligação',
-  'fabric.editor.editLink': 'Editar ligação',
-  'fabric.editor.hyperlinkToolbarPlaceholder':
-    'Colar ligação ou pesquisa visualizados recentemente',
-  'fabric.editor.linkPlaceholder': 'Colar ligação',
-  'fabric.editor.linkAddress': 'Endereço da ligação',
   'fabric.editor.displayText': 'Texto a apresentar',
   'fabric.editor.clearLinkText': 'Limpar texto',
   'fabric.editor.clearLink': 'Limpar ligação',
   'fabric.editor.action': 'Item de ação',
-  'fabric.editor.action.description':
-    'Registar ações para fazer o trabalho avançar',
+  'fabric.editor.action.description': 'Criar e atribuir itens de ação',
   'fabric.editor.link': 'Hiperligação',
-  'fabric.editor.link.description': 'Ligar a uma página interna ou externa',
+  'fabric.editor.link.description': 'Inserir uma ligação',
   'fabric.editor.filesAndImages': 'Ficheiros e imagens',
   'fabric.editor.filesAndImages.description':
     'Adicionar imagens e outros ficheiros à sua página',
@@ -102,7 +114,7 @@ export default {
     'Estruturar a sua página utilizando secções',
   'fabric.editor.status': 'Estado',
   'fabric.editor.status.description':
-    'Criar um losango colorido com texto no seu interior',
+    'Adicionar uma etiqueta de estado personalizada',
   'fabric.editor.viewMore': 'Ver mais',
   'fabric.editor.insertMenu': 'Inserir',
   'fabric.editor.twoColumns': 'Duas colunas',
@@ -118,6 +130,7 @@ export default {
   'fabric.editor.annotate': 'Anotar',
   'fabric.editor.wrapLeft': 'Alinhar à esquerda',
   'fabric.editor.wrapRight': 'Alinhar à direita',
+  'fabric.editor.backLink': 'Go back',
   'fabric.editor.info': 'Informação',
   'fabric.editor.note': 'Nota',
   'fabric.editor.success': 'Sucesso',
@@ -156,7 +169,7 @@ export default {
   'fabric.editor.bold': 'Negrito',
   'fabric.editor.italic': 'Itálico',
   'fabric.theme.#172b4d': 'Cinzento escuro',
-  'fabric.theme.#97a0af': 'Cinzento claro',
+  'fabric.theme.#97a0af': 'Light gray',
   'fabric.theme.#6554c0': 'Roxo',
   'fabric.theme.#00b8d9': 'Verde cinza',
   'fabric.theme.#36b37e': 'Verde',

@@ -2,43 +2,43 @@
   {
     "team": "navigation",
     "package": "@atlaskit/atlassian-switcher",
-    "version": "2.1.1",
+    "version": "3.2.0",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 62001,
-      "gzipSize": 16618
+      "size": 60470,
+      "gzipSize": 16253
     }
   },
   {
     "team": "navigation",
     "package": "@atlaskit/atlassian-switcher",
-    "version": "2.1.1",
+    "version": "3.2.0",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
       "size": 94828,
-      "gzipSize": 28020
+      "gzipSize": 28025
     }
   },
   {
     "team": "navigation",
     "package": "@atlaskit/atlassian-switcher",
-    "version": "2.1.1",
+    "version": "3.2.0",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 77520,
-      "gzipSize": 20537
+      "size": 79914,
+      "gzipSize": 21192
     }
   },
   {
     "team": "navigation",
     "package": "@atlaskit/atlassian-switcher",
-    "version": "2.1.1",
+    "version": "3.2.0",
     "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
@@ -50,13 +50,13 @@
   {
     "team": "navigation",
     "package": "@atlaskit/atlassian-switcher",
-    "version": "2.1.1",
+    "version": "3.2.0",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 232189,
-      "gzipSize": 64096
+      "size": 232941,
+      "gzipSize": 64384
     }
   }
 ]

@@ -34,6 +34,15 @@ test('DatePicker, onCalendarChange if the iso date is greater than the last day 
   expect(datePickerWrapper.instance().state.view).toEqual(fallbackDate);
 });
 
+test('DatePicker, onCalendarChange picks a correct date if it is calculated wrong and comes malformed', () => {
+  const date = '2018-5-1';
+  const resultDate = '2018-05-01';
+  const datePickerWrapper = mount(<DatePicker value={date} />);
+  datePickerWrapper.instance().onCalendarChange({ iso: date });
+  datePickerWrapper.update();
+  expect(datePickerWrapper.instance().state.view).toEqual(resultDate);
+});
+
 test('DatePicker, supplying a custom parseInputValue prop, produces the expected result', () => {
   const parseInputValue = (date, dateFormat) => new Date('01/01/1970'); //eslint-disable-line no-unused-vars
   const onChangeSpy = jest.fn();

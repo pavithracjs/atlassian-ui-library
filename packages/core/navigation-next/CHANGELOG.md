@@ -1,5 +1,22 @@
 # @atlaskit/navigation-next
 
+## 6.3.4
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/inline-dialog@12.0.5
+  - @atlaskit/logo@12.1.1
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/select@10.0.0
+
+## 6.3.3
+
+### Patch Changes
+
+- [patch][ad3e77e5f9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad3e77e5f9):
+
+  Fixes styling issue which happens on pages with page banner and scrollable page content
+
 ## 6.3.2
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

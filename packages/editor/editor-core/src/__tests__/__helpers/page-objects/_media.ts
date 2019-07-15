@@ -3,8 +3,10 @@ import { Page } from './_types';
 import { getBoundingRect, scrollToElement } from './_editor';
 
 import { snapshot } from '../../visual-regression/_utils';
-import commonMessages from '../../../messages';
+import commonMessages, { linkToolbarMessages } from '../../../messages';
 import { messages as mediaLayoutToolbarMessages } from '../../../plugins/media/toolbar/buildMediaLayoutButtons';
+import { mediaLinkToolbarMessages } from '../../../plugins/media/ui/MediaLinkingToolbar';
+import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 
 export enum MediaLayout {
   center,
@@ -31,6 +33,14 @@ export enum MediaResizeSide {
   left = 'left',
 }
 
+export enum MediaToolbarButton {
+  addLink,
+  editLink,
+  openLink,
+  backLink,
+  unlink,
+}
+
 // Selectors
 const mediaUploadCardSelector = '.e2e-recent-upload-card';
 const mediaImageSelector =
@@ -38,6 +48,24 @@ const mediaImageSelector =
 const mediaImageSelected =
   '.ProseMirror-selectednode .media-single .img-wrapper, .ProseMirror-selectednode .mediaGroupView-content-wrap .img-wrapper';
 const insertMediaFileSelector = 'div[aria-label="%s"]';
+
+export const LinkToolbarSelectors = {
+  [MediaToolbarButton.addLink]: `[aria-label="Media floating controls"] [aria-label="${
+    linkToolbarMessages.addLink.defaultMessage
+  }"]`,
+  [MediaToolbarButton.editLink]: `[aria-label="Media floating controls"] [aria-label="${
+    linkToolbarMessages.editLink.defaultMessage
+  }"]`,
+  [MediaToolbarButton.openLink]: `[aria-label="Media floating controls"] [aria-label="${
+    linkToolbarMessages.openLink.defaultMessage
+  }"]`,
+  [MediaToolbarButton.unlink]: `[aria-label="Media floating controls"] [aria-label="${
+    linkToolbarMessages.unlink.defaultMessage
+  }"]`,
+  [MediaToolbarButton.backLink]: `[aria-label="Media floating controls"] [aria-label="${
+    mediaLinkToolbarMessages.backLink.defaultMessage
+  }"]`,
+};
 
 const LayoutSelectors = {
   [MediaLayout.center]: {
@@ -107,6 +135,28 @@ export const insertMedia = async (page: Page, filenames = ['one.svg']) => {
   await integrationInsertMedia(page, filenames, insertMediaFileSelector);
   await waitForMediaToBeLoaded(page);
 };
+
+export async function clickOnToolbarButton(
+  page: Page,
+  button: MediaToolbarButton,
+) {
+  const selector = LinkToolbarSelectors[button];
+
+  await page.waitForSelector(selector);
+  await page.click(selector);
+}
+
+export async function waitForActivityItems(page: Page, items: number) {
+  const itemsSelector = `[aria-label="Media floating controls"] .recent-list ul li`;
+  await page.waitFor(
+    (selector: string, items: number) =>
+      document.querySelectorAll(selector).length === items,
+    {},
+    itemsSelector,
+    items,
+  );
+  await waitForLoadedImageElements(page, 3000);
+}
 
 export async function changeMediaLayout(page: Page, layout: MediaLayout) {
   const { button, modifier } = LayoutSelectors[layout];

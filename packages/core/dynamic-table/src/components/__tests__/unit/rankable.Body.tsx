@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { mount, shallow } from 'enzyme';
 import { RankableBody } from '../../rankable/Body';

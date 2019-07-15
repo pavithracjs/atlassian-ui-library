@@ -167,6 +167,10 @@ export default function withNavigation<P extends Props>(
                 <WrappedComponent
                   cloudId={this.getCloudId() || defaultCloudId}
                   context={currentContext}
+                  confluenceUrl={
+                    currentContext === 'confluence' &&
+                    'example-confluence.com/wiki'
+                  }
                   modelContext={
                     currentContext === 'confluence' ? { spaceKey: 'TEST' } : {}
                   }

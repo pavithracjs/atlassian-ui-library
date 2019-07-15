@@ -10,11 +10,14 @@ import {
   Plugin,
   PluginKey,
 } from 'prosemirror-state';
-import { UploadParams } from '@atlaskit/media-picker';
+import { UploadParams, PopupConfig } from '@atlaskit/media-picker';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 
-import { ErrorReporter } from '@atlaskit/editor-common';
+import {
+  ErrorReporter,
+  ContextIdentifierProvider,
+} from '@atlaskit/editor-common';
 
 import analyticsService from '../../../analytics/service';
 import { isImage } from '../../../utils';
@@ -24,7 +27,12 @@ import { EditorAppearance } from '../../../types/editor-props';
 import DropPlaceholder, { PlaceholderType } from '../ui/Media/DropPlaceholder';
 import { MediaPluginOptions } from '../media-plugin-options';
 import { insertMediaGroupNode } from '../utils/media-files';
-import { removeMediaNode, splitMediaGroup } from '../utils/media-common';
+import {
+  removeMediaNode,
+  splitMediaGroup,
+  getViewMediaClientConfigFromMediaProvider,
+  getUploadMediaClientConfigFromMediaProvider,
+} from '../utils/media-common';
 import PickerFacade, {
   PickerFacadeConfig,
   MediaStateEventListener,
@@ -74,12 +82,12 @@ export class MediaPluginState {
   private view!: EditorView;
   private destroyed = false;
   public mediaProvider?: MediaProvider;
+  private contextIdentifierProvider?: ContextIdentifierProvider;
   private errorReporter: ErrorReporter;
 
   public pickers: PickerFacade[] = [];
   public pickerPromises: Array<Promise<PickerFacade>> = [];
   private popupPicker?: PickerFacade;
-  private dropzonePicker?: PickerFacade;
   // @ts-ignore
   private customPicker?: PickerFacade;
 
@@ -90,6 +98,7 @@ export class MediaPluginState {
   private removeOnCloseListener: () => void = () => {};
   private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   private openMediaPickerBrowser?: () => void;
+  private onPopupToogleCallback: (isOpen: boolean) => void = () => {};
 
   private reactContext: () => {};
 
@@ -120,9 +129,23 @@ export class MediaPluginState {
         this.setMediaProvider(provider),
     );
 
+    options.providerFactory.subscribe(
+      'contextIdentifierProvider',
+      this.onContextIdentifierProvider,
+    );
+
     this.errorReporter = options.errorReporter || new ErrorReporter();
     this.dispatchAnalyticsEvent = dispatchAnalyticsEvent;
   }
+
+  onContextIdentifierProvider = async (
+    _name: string,
+    provider?: Promise<ContextIdentifierProvider>,
+  ) => {
+    if (provider) {
+      this.contextIdentifierProvider = await provider;
+    }
+  };
 
   setMediaProvider = async (mediaProvider?: Promise<MediaProvider>) => {
     if (!mediaProvider) {
@@ -143,11 +166,30 @@ export class MediaPluginState {
     // TODO disable (not destroy!) pickers until mediaProvider is resolved
     try {
       this.mediaProvider = await mediaProvider;
-      let resolvedMediaProvider: MediaProvider = this.mediaProvider;
+
+      // TODO [MS-2038]: remove once context api is removed
+      // We want to re assign the view and upload configs if they are missing for backwards compatibility
+      // as currently integrators can pass context || mediaClientConfig
+      if (!this.mediaProvider.viewMediaClientConfig) {
+        const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+          this.mediaProvider,
+        );
+        if (viewMediaClientConfig) {
+          this.mediaProvider.viewMediaClientConfig = viewMediaClientConfig;
+        }
+      }
+
+      if (!this.mediaProvider.uploadMediaClientConfig) {
+        this.mediaProvider.uploadMediaClientConfig = await getUploadMediaClientConfigFromMediaProvider(
+          this.mediaProvider,
+        );
+      }
 
       assert(
-        resolvedMediaProvider && resolvedMediaProvider.viewMediaClientConfig,
-        `MediaProvider promise did not resolve to a valid instance of MediaProvider - ${resolvedMediaProvider}`,
+        this.mediaProvider.viewMediaClientConfig,
+        `MediaProvider promise did not resolve to a valid instance of MediaProvider - ${
+          this.mediaProvider
+        }`,
       );
     } catch (err) {
       const wrappedError = new Error(
@@ -253,21 +295,30 @@ export class MediaPluginState {
     mediaState: MediaState,
     onMediaStateChanged: MediaStateEventSubscriber,
   ) => {
+    const mediaStateWithContext: MediaState = {
+      ...mediaState,
+      contextId: this.contextIdentifierProvider
+        ? this.contextIdentifierProvider.objectId
+        : undefined,
+    };
+
     const collection = this.collectionFromProvider();
     if (collection === undefined) {
       return;
     }
 
     if (this.editorAppearance === 'mobile') {
-      this.mobileUploadComplete[mediaState.id] = false;
+      this.mobileUploadComplete[mediaStateWithContext.id] = false;
     }
 
     this.allUploadsFinished = false;
 
-    if (isMediaSingle(this.view.state.schema, mediaState.fileMimeType)) {
-      insertMediaSingleNode(this.view, mediaState, collection);
+    if (
+      isMediaSingle(this.view.state.schema, mediaStateWithContext.fileMimeType)
+    ) {
+      insertMediaSingleNode(this.view, mediaStateWithContext, collection);
     } else {
-      insertMediaGroupNode(this.view, [mediaState], collection);
+      insertMediaGroupNode(this.view, [mediaStateWithContext], collection);
     }
 
     // do events when media state changes
@@ -277,7 +328,7 @@ export class MediaPluginState {
     const isEndState = (state: MediaState) =>
       state.status && MEDIA_RESOLVED_STATES.indexOf(state.status) !== -1;
 
-    if (!isEndState(mediaState)) {
+    if (!isEndState(mediaStateWithContext)) {
       const updater = (promise: Promise<any>) => {
         // Chain the previous promise with a new one for this media item
         return new Promise<MediaState | null>(resolve => {
@@ -307,15 +358,8 @@ export class MediaPluginState {
 
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
 
-  // TODO [MSW-454]: remove this logic from Editor
   onPopupPickerClose = () => {
-    if (
-      this.dropzonePicker &&
-      this.popupPicker &&
-      this.popupPicker.type === 'popup'
-    ) {
-      this.dropzonePicker.activate();
-    }
+    this.onPopupToogleCallback(false);
   };
 
   showMediaPicker = () => {
@@ -325,14 +369,16 @@ export class MediaPluginState {
     if (!this.popupPicker) {
       return;
     }
-    if (this.dropzonePicker && this.popupPicker.type === 'popup') {
-      this.dropzonePicker.deactivate();
-    }
     this.popupPicker.show();
+    this.onPopupToogleCallback(true);
   };
 
   setBrowseFn = (browseFn: () => void) => {
     this.openMediaPickerBrowser = browseFn;
+  };
+
+  onPopupToggle = (onPopupToogleCallback: (isOpen: boolean) => void) => {
+    this.onPopupToogleCallback = onPopupToogleCallback;
   };
 
   /**
@@ -445,7 +491,6 @@ export class MediaPluginState {
     }
 
     this.popupPicker = undefined;
-    this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
 
@@ -478,39 +523,17 @@ export class MediaPluginState {
 
         pickerPromises.push(customPicker);
         pickers.push((this.customPicker = await customPicker));
-      } else {
-        let popupPicker: Promise<PickerFacade> | undefined;
-        if (this.hasUserAuthProvider()) {
-          popupPicker = new Picker(
-            'popup',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init();
-        }
-
-        const dropzonePicker = new Picker('dropzone', pickerFacadeConfig, {
-          container: this.options.customDropzoneContainer,
-          headless: true,
-          ...defaultPickerConfig,
-        }).init();
-
-        if (popupPicker) {
-          pickerPromises.push(popupPicker, dropzonePicker);
-          pickers.push(
-            (this.popupPicker = await popupPicker),
-            (this.dropzonePicker = await dropzonePicker),
-          );
-        } else {
-          pickerPromises.push(dropzonePicker);
-          pickers.push((this.dropzonePicker = await dropzonePicker));
-        }
-
-        this.dropzonePicker.onDrag(this.handleDrag);
-        if (this.popupPicker) {
-          this.removeOnCloseListener = this.popupPicker.onClose(
-            this.onPopupPickerClose,
-          );
-        }
+      } else if (this.hasUserAuthProvider()) {
+        const popupPicker = new Picker(
+          'popup',
+          pickerFacadeConfig,
+          defaultPickerConfig as PopupConfig,
+        ).init();
+        pickerPromises.push(popupPicker);
+        pickers.push((this.popupPicker = await popupPicker));
+        this.removeOnCloseListener = this.popupPicker.onClose(
+          this.onPopupPickerClose,
+        );
       }
 
       pickers.forEach(picker => {
@@ -669,7 +692,7 @@ export class MediaPluginState {
     return;
   };
 
-  private handleDrag = (dragState: 'enter' | 'leave') => {
+  handleDrag = (dragState: 'enter' | 'leave') => {
     const isActive = dragState === 'enter';
     if (this.showDropzone === isActive) {
       return;

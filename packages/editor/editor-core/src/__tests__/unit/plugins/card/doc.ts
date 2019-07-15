@@ -93,7 +93,7 @@ describe('card', () => {
   };
 
   describe('doc', () => {
-    describe('#state.update', async () => {
+    describe('#state.update', () => {
       it('keeps positions the same for typing after the link', () => {
         const { editorView, refs } = editor(
           doc(

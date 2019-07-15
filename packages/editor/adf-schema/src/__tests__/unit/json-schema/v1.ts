@@ -13,29 +13,25 @@ const schemas = {
 };
 
 describe(`${name} json-schema v1`, () => {
-  Object.keys(schemas).forEach(schemaName => {
-    describe(schemaName, async () => {
-      const schema = schemas[schemaName as keyof typeof schemas];
-      const validate = ajv.compile(schema);
-
-      const valid = readFilesSync(
-        `${__dirname}/v1-reference/${schemaName}/valid`,
-      );
-      valid.forEach(file => {
+  Object.keys(schemas).map(schemaName => {
+    let invalid: { name: string; data: any }[] = [];
+    let valid: { name: string; data: any }[] = [];
+    const schema = schemas[schemaName as keyof typeof schemas];
+    const validate = ajv.compile(schema);
+    valid = readFilesSync(`${__dirname}/v1-reference/${schemaName}/valid`);
+    invalid = readFilesSync(`${__dirname}/v1-reference/${schemaName}/invalid`);
+    describe(schemaName, () => {
+      for (let file of valid) {
         it(`validates '${file.name}'`, () => {
           validate(file.data);
           expect(validate.errors).toEqual(null);
         });
-      });
-
-      const invalid = readFilesSync(
-        `${__dirname}/v1-reference/${schemaName}/invalid`,
-      );
-      invalid.forEach(file => {
+      }
+      for (let file of invalid) {
         it(`does not validate '${file.name}'`, () => {
           expect(validate(file.data)).toEqual(false);
         });
-      });
+      }
     });
   });
 });
