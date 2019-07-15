@@ -15,15 +15,20 @@ const createAnalyticsEvents = (
   packageVersionHistory: PackageVersionHistory,
   since?: string,
 ): UpgradeEvent[] => {
-  const upgradeEvents = Object.entries(packageVersionHistory)
-    .filter(
-      ([version, date]) =>
-        semver.valid(version) &&
-        (!since || Number(new Date(date)) > Number(new Date(since))),
-    )
-    .sort((a, b) => Number(new Date(a[1])) - Number(new Date(b[1])))
-    .map(([version, time], i, arr) => {
-      const previousVersion = arr[i - 1] && arr[i - 1][0];
+  const sortedPackageVersionHistory = Object.entries(
+    packageVersionHistory,
+  ).sort((a, b) => Number(new Date(a[1])) - Number(new Date(b[1])));
+  const upgradeEvents = sortedPackageVersionHistory
+    .map(([version, time], i) => {
+      if (
+        !semver.valid(version) ||
+        (since && Number(new Date(time)) <= Number(new Date(since)))
+      ) {
+        return null;
+      }
+      const previousVersion =
+        sortedPackageVersionHistory[i - 1] &&
+        sortedPackageVersionHistory[i - 1][0];
       return createUpgradeEvent(packageName, version, previousVersion, time, {
         historical: true,
       });
