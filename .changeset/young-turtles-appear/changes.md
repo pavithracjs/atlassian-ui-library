@@ -1,0 +1,1 @@
+add media attrs to MediaSingle node on renderer
