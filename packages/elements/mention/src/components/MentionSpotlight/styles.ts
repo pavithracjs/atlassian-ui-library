@@ -3,7 +3,7 @@ import { colors, gridSize, typography } from '@atlaskit/theme';
 
 export const Actions = styled.div`
   justify-content: flex-end;
-  margin-top: -${gridSize() * 0.5}px;
+  margin-top: -${gridSize() * 0.5}px; /* Negative margin is used to middle align x button with title*/
   margin-right: ${gridSize() * 0.5}px;
 `;
 
@@ -27,7 +27,7 @@ export const Card = styled.div`
   padding-bottom: ${gridSize() * 2}px;
   padding-left: ${gridSize() * 2}px;
   padding-right: 0px;
-  margin-top: -${gridSize() * 0.5}px;
+  margin-top: -${gridSize() * 0.5}px; /* Negative margin is used to fill the entire top of the mention dropdown with background colour of spotlight*/
 `;
 
 export const Content = styled.div`
@@ -44,6 +44,3 @@ export const Body = styled.div`
   margin-left: ${gridSize() * 2}px;
   ${typography.p500};
 `;
-
-export const iconUrl =
-  'https://ptc-directory-sited-static.us-east-1.staging.public.atl-paas.net/teams/avatars/2.svg';
