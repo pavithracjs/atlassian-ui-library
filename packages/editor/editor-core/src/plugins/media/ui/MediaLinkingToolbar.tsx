@@ -24,8 +24,8 @@ import { defineMessages } from 'react-intl';
 export const mediaLinkToolbarMessages = defineMessages({
   backLink: {
     id: 'fabric.editor.backLink',
-    defaultMessage: 'Go Back',
-    description: 'Go Back from media linking toolbar to main toolbar',
+    defaultMessage: 'Go back',
+    description: 'Go back from media linking toolbar to main toolbar',
   },
 });
 

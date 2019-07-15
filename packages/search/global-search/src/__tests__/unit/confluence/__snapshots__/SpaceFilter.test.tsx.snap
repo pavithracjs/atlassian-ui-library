@@ -17,10 +17,6 @@ exports[`ConfluenceSpaceFilter should render space filter correctly 1`] = `
   onClick={[Function]}
   onKeyDown={[Function]}
 >
-  <styled.div
-    title="Test space"
-  >
-    Test space
-  </styled.div>
+  Test space
 </WithItemFocus(Item)>
 `;

@@ -14,7 +14,7 @@ const messages = defineMessages({
   },
   '#97a0af': {
     id: 'fabric.theme.#97a0af',
-    defaultMessage: 'Light grey',
+    defaultMessage: 'Light gray',
     description: 'Name of a color.',
   },
   '#6554c0': {

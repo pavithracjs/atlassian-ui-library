@@ -1,5 +1,37 @@
 # @atlaskit/global-search
 
+## 10.2.4
+
+### Patch Changes
+
+- [patch][5427f7028a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5427f7028a):
+
+  Fixing problem with subtext colours not matching between pages and people in the Quick Search complex experiment.
+
+## 10.2.3
+
+### Patch Changes
+
+- [patch][554c44e342](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/554c44e342):
+
+  fix incorrect message id for i18n string
+
+## 10.2.2
+
+### Patch Changes
+
+- [patch][e80b86a298](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80b86a298):
+
+  Adding last modified date to the simple extensions to Quick Search
+
+## 10.2.1
+
+### Patch Changes
+
+- [patch][8f711664af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f711664af):
+
+  Added analytics for current space filter component
+
 ## 10.2.0
 
 ### Minor Changes

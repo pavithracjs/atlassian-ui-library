@@ -191,6 +191,7 @@ export function makeCrossProductSearchData(
         },
       },
       iconCssClass: icon,
+      friendlyLastModified: 'about 7 hours ago',
     });
   }
 
@@ -225,6 +226,12 @@ export function makeCrossProductSearchData(
         },
       },
       iconCssClass: icon,
+      friendlyLastModified: pickRandom([
+        'about 7 hours ago',
+        'Dec 23, 2018',
+        'Jun 17, 2018',
+        'Jan 23, 2018',
+      ]),
     };
 
     confDataWithAttachments.push(newAttachment);
@@ -254,6 +261,7 @@ export function makeCrossProductSearchData(
         },
       },
       iconCssClass: 'aui-iconfont-space-default',
+      friendlyLastModified: 'about 7 hours ago',
     });
   }
 

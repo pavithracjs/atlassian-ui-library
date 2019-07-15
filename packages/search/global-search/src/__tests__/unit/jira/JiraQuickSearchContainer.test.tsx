@@ -35,6 +35,7 @@ import {
   SearchResultsMap,
 } from '../../../api/CrossProductSearchClient';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
+import { DEFAULT_FEATURES } from '../../../util/features';
 
 const issues = [
   makeJiraObjectResult({
@@ -71,12 +72,7 @@ describe('Jira Quick Search Container', () => {
       linkComponent: undefined,
       onAdvancedSearch: undefined,
       appPermission: undefined,
-      features: {
-        abTest: DEFAULT_AB_TEST,
-        disableJiraPreQueryPeopleSearch: false,
-        enablePreQueryFromAggregator: false,
-        searchExtensionsEnabled: false,
-      },
+      features: DEFAULT_FEATURES,
       ...partialProps,
     };
 
