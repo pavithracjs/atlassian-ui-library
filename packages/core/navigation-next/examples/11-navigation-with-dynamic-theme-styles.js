@@ -170,7 +170,6 @@ const ContainerNavigation = () => (
         </div>
       )}
     </MenuSection>
-    <div>Footer Section</div>
   </div>
 );
 const Content = makeTestComponent(
