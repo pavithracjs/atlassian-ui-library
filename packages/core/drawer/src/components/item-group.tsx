@@ -3,7 +3,11 @@
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import { ItemGroup } from '@atlaskit/item';
-import { fontSizeSmall, gridSize as gridSizeFn } from '@atlaskit/theme';
+import {
+  // @ts-ignore - it's exported the type is just missing
+  fontSizeSmall,
+  gridSize as gridSizeFn,
+} from '@atlaskit/theme';
 
 interface Props {
   /** React Elements to be displayed within the group. This should generally be
