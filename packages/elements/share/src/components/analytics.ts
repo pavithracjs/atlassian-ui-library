@@ -54,13 +54,10 @@ export const errorEncountered = (
   actionSubjectId: string | undefined,
   attributes: any = {},
 ) =>
-  createEvent(
-    'operational',
-    'encountered',
-    'error',
-    actionSubjectId,
-    attributes,
-  );
+  createEvent('operational', 'encountered', 'error', actionSubjectId, {
+    ...attributes,
+    source: ANALYTICS_SOURCE,
+  });
 
 // = share dialog invoked. Not to be confused with "share submitted"
 export const shareTriggerButtonClicked = () =>

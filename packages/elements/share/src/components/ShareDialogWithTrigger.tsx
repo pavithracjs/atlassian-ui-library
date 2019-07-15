@@ -1,4 +1,5 @@
 import {
+  AnalyticsContext,
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
   withAnalyticsEvents,
@@ -30,6 +31,7 @@ import {
   formShareSubmitted,
   screenEvent,
   shareTriggerButtonClicked,
+  ANALYTICS_SOURCE,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -300,28 +302,29 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       >
         <InlineDialog
           content={
-            <div>
-              {/* Can't use fragment due to a bug in Enzyme: https://github.com/airbnb/enzyme/issues/1213 */}
-              <InlineDialogFormWrapper>
-                <ShareForm
-                  copyLink={copyLink}
-                  loadOptions={loadUserOptions}
-                  isSharing={isSharing}
-                  onSubmit={this.handleShareSubmit}
-                  title={shareFormTitle}
-                  shareError={shareError}
-                  onDismiss={this.handleFormDismiss}
-                  defaultValue={defaultValue}
-                  config={config}
-                  onLinkCopy={this.handleCopyLink}
-                  isFetchingConfig={isFetchingConfig}
-                  submitButtonLabel={submitButtonLabel}
-                />
-              </InlineDialogFormWrapper>
-              {bottomMessage ? (
-                <BottomMessageWrapper>{bottomMessage}</BottomMessageWrapper>
-              ) : null}
-            </div>
+            <AnalyticsContext data={{ source: ANALYTICS_SOURCE }}>
+              <>
+                <InlineDialogFormWrapper>
+                  <ShareForm
+                    copyLink={copyLink}
+                    loadOptions={loadUserOptions}
+                    isSharing={isSharing}
+                    onSubmit={this.handleShareSubmit}
+                    title={shareFormTitle}
+                    shareError={shareError}
+                    onDismiss={this.handleFormDismiss}
+                    defaultValue={defaultValue}
+                    config={config}
+                    onLinkCopy={this.handleCopyLink}
+                    isFetchingConfig={isFetchingConfig}
+                    submitButtonLabel={submitButtonLabel}
+                  />
+                </InlineDialogFormWrapper>
+                {bottomMessage ? (
+                  <BottomMessageWrapper>{bottomMessage}</BottomMessageWrapper>
+                ) : null}
+              </>
+            </AnalyticsContext>
           }
           isOpen={isDialogOpen}
           onClose={this.handleCloseDialog}

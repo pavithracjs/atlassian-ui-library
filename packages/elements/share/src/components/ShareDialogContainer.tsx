@@ -1,5 +1,4 @@
 import {
-  AnalyticsContext,
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
   withAnalyticsEvents,
@@ -38,7 +37,6 @@ import {
   errorEncountered,
   shortUrlGenerated,
   shortUrlRequested,
-  ANALYTICS_SOURCE,
 } from './analytics';
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
@@ -443,37 +441,35 @@ export class ShareDialogContainerInternal extends React.Component<
     } = this.props;
     const { isFetchingConfig } = this.state;
     return (
-      <AnalyticsContext data={{ source: ANALYTICS_SOURCE }}>
-        <ErrorBoundary>
-          <MessagesIntlProvider>
-            <ShareDialogWithTrigger
-              config={this.state.config}
-              copyLink={this.getCopyLink()}
-              analyticsDecorator={this.decorateAnalytics}
-              dialogPlacement={dialogPlacement}
-              isFetchingConfig={isFetchingConfig}
-              loadUserOptions={loadUserOptions}
-              onDialogOpen={this.handleDialogOpen}
-              onShareSubmit={this.handleSubmitShare}
-              renderCustomTriggerButton={renderCustomTriggerButton}
-              shareContentType={shareContentType}
-              shareFormTitle={shareFormTitle}
-              copyLinkOrigin={this.getCopyLinkOriginTracing()}
-              formShareOrigin={this.getFormShareOriginTracing()}
-              shouldCloseOnEscapePress={shouldCloseOnEscapePress}
-              showFlags={showFlags}
-              triggerButtonAppearance={triggerButtonAppearance}
-              triggerButtonStyle={triggerButtonStyle}
-              bottomMessage={bottomMessage}
-              submitButtonLabel={
-                shareeAction === 'edit' && (
-                  <FormattedMessage {...messages.inviteTriggerButtonText} />
-                )
-              }
-            />
-          </MessagesIntlProvider>
-        </ErrorBoundary>
-      </AnalyticsContext>
+      <ErrorBoundary>
+        <MessagesIntlProvider>
+          <ShareDialogWithTrigger
+            config={this.state.config}
+            copyLink={this.getCopyLink()}
+            analyticsDecorator={this.decorateAnalytics}
+            dialogPlacement={dialogPlacement}
+            isFetchingConfig={isFetchingConfig}
+            loadUserOptions={loadUserOptions}
+            onDialogOpen={this.handleDialogOpen}
+            onShareSubmit={this.handleSubmitShare}
+            renderCustomTriggerButton={renderCustomTriggerButton}
+            shareContentType={shareContentType}
+            shareFormTitle={shareFormTitle}
+            copyLinkOrigin={this.getCopyLinkOriginTracing()}
+            formShareOrigin={this.getFormShareOriginTracing()}
+            shouldCloseOnEscapePress={shouldCloseOnEscapePress}
+            showFlags={showFlags}
+            triggerButtonAppearance={triggerButtonAppearance}
+            triggerButtonStyle={triggerButtonStyle}
+            bottomMessage={bottomMessage}
+            submitButtonLabel={
+              shareeAction === 'edit' && (
+                <FormattedMessage {...messages.inviteTriggerButtonText} />
+              )
+            }
+          />
+        </MessagesIntlProvider>
+      </ErrorBoundary>
     );
   }
 }
