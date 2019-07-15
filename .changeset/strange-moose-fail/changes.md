@@ -1,1 +1,0 @@
-CS-1238 Added generic icon for media attachments
