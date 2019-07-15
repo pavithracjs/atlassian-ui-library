@@ -12,7 +12,7 @@ import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { getArticle, searchArticle } from './utils/mockData';
 import { ButtonsWrapper } from './utils/styled';
 
-import Help from '../src';
+import Help, { ArticleFeedback } from '../src';
 
 const handleEvent = (analyticsEvent: { payload: any; context: any }) => {
   const { payload, context } = analyticsEvent;
@@ -26,8 +26,17 @@ export default class extends React.Component {
     articleId: undefined,
   };
 
-  onWasHelpfulSubmit = (value: string): Promise<boolean> => {
-    return new Promise(resolve => setTimeout(() => resolve(true), 1000));
+  onWasHelpfulSubmit = (
+    articleFeedback: ArticleFeedback,
+    analyticsEvent: UIAnalyticsEvent,
+  ): Promise<boolean> => {
+    return new Promise(resolve =>
+      setTimeout(() => {
+        analyticsEvent.fire('help');
+        console.log(articleFeedback);
+        resolve(true);
+      }, 1000),
+    );
   };
 
   openDrawer = (articleId: string = '') =>
@@ -45,6 +54,22 @@ export default class extends React.Component {
     this.setState({
       isOpen: false,
     });
+  };
+
+  articleWasHelpfulNoButtonClick = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
+    event.preventDefault();
+    analyticsEvent.fire('help');
+  };
+
+  articleWasHelpfulYesButtonClick = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
+    event.preventDefault();
+    analyticsEvent.fire('help');
   };
 
   onGetArticle = (articleId: string): Promise<any> => {
@@ -97,6 +122,12 @@ export default class extends React.Component {
                     articleId={articleId}
                     onGetArticle={this.onGetArticle}
                     onSearch={this.onSearch}
+                    onWasHelpfulYesButtonClick={
+                      this.articleWasHelpfulYesButtonClick
+                    }
+                    onWasHelpfulNoButtonClick={
+                      this.articleWasHelpfulNoButtonClick
+                    }
                   >
                     <span>Default content</span>
                   </Help>

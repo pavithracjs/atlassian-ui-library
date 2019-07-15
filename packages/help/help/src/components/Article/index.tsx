@@ -7,7 +7,7 @@ import { REQUEST_STATE } from '../../model/Requests';
 import { withHelp, HelpContextInterface } from '../HelpContext';
 
 import RelatedArticles from './RelatedArticles';
-import RatingButton from './RatingButton';
+import ArticleWasHelpfulForm from './ArticleWasHelpfulForm';
 import Loading from './Loading';
 import LoadingError from './LoadingError';
 import { ArticleContainer } from './styled';
@@ -103,7 +103,7 @@ export class Article extends Component<Props & HelpContextInterface, State> {
               body={article.body}
               titleLinkUrl={article.productUrl}
             />
-            <RatingButton />
+            <ArticleWasHelpfulForm />
             <RelatedArticles relatedArticles={article.relatedArticles} />
           </>
         )

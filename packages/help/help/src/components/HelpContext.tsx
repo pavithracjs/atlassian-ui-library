@@ -12,19 +12,32 @@ import { REQUEST_STATE } from '../model/Requests';
 import { MIN_CHARACTERS_FOR_SEARCH, VIEW, LOADING_TIMEOUT } from './constants';
 
 export interface Props {
-  // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
-  onButtonCloseClick?(
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
-    analyticsEvent: UIAnalyticsEvent,
-  ): void;
   // Id of the article to display. This prop is optional, if is not defined the default content will be displayed
   articleId?: string;
   // Function used to get an article content. This prop is optional, if is not defined the default content will be displayed
   onGetArticle?(id: string): Promise<Article>;
   // Function used to search an article.  This prop is optional, if is not defined search input will be hidden
   onSearch?(value: string): Promise<ArticleItem[]>;
+  // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
+  onButtonCloseClick?(
+    event?: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): void;
   // Function used when the user submits the "Was this helpful" form. This prop is optional, if is not defined the "Was this helpful" section will be hidden
-  onWasHelpfulSubmit?(value: any): Promise<boolean>;
+  onWasHelpfulSubmit?(
+    value: ArticleFeedback,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): Promise<boolean>;
+  // Event handler for the "Yes" button of the "Was this helpful" section. This prop is optional
+  onWasHelpfulYesButtonClick?(
+    event?: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): void;
+  // Event handler for the "No" button of the "Was this helpful" section. This prop is optional
+  onWasHelpfulNoButtonClick?(
+    event?: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): void;
   // Default content. This prop is optional
   defaultContent?: React.ReactNode;
 }
@@ -55,13 +68,24 @@ export interface HelpContextInterface {
       event: React.MouseEvent<HTMLElement, MouseEvent>,
       analyticsEvent: UIAnalyticsEvent,
     ): void;
+    onWasHelpfulYesButtonClick?(
+      event?: React.MouseEvent<HTMLElement, MouseEvent>,
+      analyticsEvent?: UIAnalyticsEvent,
+    ): void;
+    onWasHelpfulNoButtonClick?(
+      event?: React.MouseEvent<HTMLElement, MouseEvent>,
+      analyticsEvent?: UIAnalyticsEvent,
+    ): void;
     mainArticle?: Article | null; // Article to display, if is empty the default content should be displayed
     articleState: REQUEST_STATE;
     history: Article[]; // holds all the articles ID the user has navigated
     defaultContent?: React.ReactNode;
     navigateBack(): void;
     navigateTo(id: string): void;
-    onWasHelpfulSubmit?(value: ArticleFeedback): Promise<boolean>;
+    onWasHelpfulSubmit?(
+      value: ArticleFeedback,
+      analyticsEvent?: UIAnalyticsEvent,
+    ): Promise<boolean>;
     onSearch(value: string): void;
     searchResult: ArticleItem[];
     searchState: REQUEST_STATE;
@@ -321,6 +345,8 @@ class HelpContextProviderImplementation extends React.Component<
             getCurrentArticle: this.getCurrentArticle,
             onButtonCloseClick: this.props.onButtonCloseClick,
             onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
+            onWasHelpfulYesButtonClick: this.props.onWasHelpfulYesButtonClick,
+            onWasHelpfulNoButtonClick: this.props.onWasHelpfulNoButtonClick,
             defaultContent: this.props.defaultContent,
             articleId: this.state.articleId,
           },

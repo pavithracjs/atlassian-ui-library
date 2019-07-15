@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import {
   CreateUIAnalyticsEventSignature,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import Tooltip from '@atlaskit/tooltip';
 import Button from '@atlaskit/button';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 import {
   name as packageName,
@@ -39,7 +39,7 @@ const CloseButton = (
     createAnalyticsEvent,
   } = props;
 
-  const handleonButtonCloseClick = (
+  const handleButtonCloseClick = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
     if (onButtonCloseClick) {
@@ -57,7 +57,7 @@ const CloseButton = (
         position="left"
       >
         <Button
-          onClick={handleonButtonCloseClick}
+          onClick={handleButtonCloseClick}
           appearance="subtle"
           iconBefore={<CrossIcon label="" size="medium" />}
         />
