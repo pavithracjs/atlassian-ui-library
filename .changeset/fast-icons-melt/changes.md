@@ -1,1 +1,0 @@
-Closing a dialog in IE11 specific event key
