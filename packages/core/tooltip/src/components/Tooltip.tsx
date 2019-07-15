@@ -352,12 +352,12 @@ const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export type TooltipType = Tooltip;
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'tooltip',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onHide: unhoveredPayload,
     onShow: createAndFireEventOnAtlaskit({ ...hoveredPayload }),
   })(Tooltip),

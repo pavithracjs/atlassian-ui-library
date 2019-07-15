@@ -57,10 +57,6 @@ export class StatusPickerWithoutAnalytcs extends React.Component<Props, State> {
   private inputMethod?: InputMethod;
   private createStatusAnalyticsAndFireFunc: Function;
 
-  static defaultProps = {
-    autoFocus: false,
-  };
-
   constructor(props: Props) {
     super(props);
 
@@ -243,4 +239,4 @@ export class StatusPickerWithoutAnalytcs extends React.Component<Props, State> {
     event.nativeEvent.stopImmediatePropagation();
 }
 
-export default withAnalyticsEvents()(StatusPickerWithoutAnalytcs);
+export default withAnalyticsEvents<Props>()(StatusPickerWithoutAnalytcs);

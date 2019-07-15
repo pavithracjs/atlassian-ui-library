@@ -104,10 +104,8 @@ const componentChannels = {
   [FabricChannel.media]: DummyMediaComponent,
 };
 
-export const createComponentWithAnalytics = (
-  channel: FabricChannel,
-): React.ComponentType<OwnProps> =>
-  withAnalyticsEvents({
+export const createComponentWithAnalytics = (channel: FabricChannel) =>
+  withAnalyticsEvents<OwnProps>({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -117,8 +115,8 @@ export const createComponentWithAnalytics = (
 
 export const createComponentWithAttributesWithAnalytics = (
   channel: FabricChannel,
-): React.ComponentType<OwnProps> =>
-  withAnalyticsEvents({
+) =>
+  withAnalyticsEvents<OwnProps>({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -135,8 +133,8 @@ export const createComponentWithAttributesWithAnalytics = (
 export const createTaggedComponentWithAnalytics = (
   channel: FabricChannel,
   tag: string,
-): React.ComponentType<OwnProps> =>
-  withAnalyticsEvents({
+) =>
+  withAnalyticsEvents<OwnProps>({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -145,10 +143,8 @@ export const createTaggedComponentWithAnalytics = (
     }),
   })(componentChannels[channel]);
 
-export const IncorrectEventType = (
-  channel: FabricChannel,
-): React.ComponentType<OwnProps> =>
-  withAnalyticsEvents({
+export const IncorrectEventType = (channel: FabricChannel) =>
+  withAnalyticsEvents<OwnProps>({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
@@ -160,7 +156,7 @@ export const createButtonWithAnalytics = (
   payload: GasPurePayload,
   channel: FabricChannel,
 ) =>
-  withAnalyticsEvents({
+  withAnalyticsEvents<OwnProps>({
     onClick: createAndFireEvent(channel)(payload),
   })(MyButton);
 

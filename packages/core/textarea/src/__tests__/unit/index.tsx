@@ -169,11 +169,15 @@ describe('props', () => {
 
 describe('TextAreaWithAnalytics', () => {
   beforeEach(() => {
+    // @ts-ignore
     jest.spyOn(global.console, 'warn');
+    // @ts-ignore
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
+    // @ts-ignore
     (global.console.warn as jest.Mock).mockRestore();
+    // @ts-ignore
     (global.console.error as jest.Mock).mockRestore();
   });
 

@@ -96,4 +96,4 @@ export class ShowMoreButton extends React.PureComponent<ShowMoreButtonProps> {
   }
 }
 
-export default withAnalyticsEvents()(ShowMoreButton) as typeof ShowMoreButton;
+export default withAnalyticsEvents<ShowMoreButtonProps>()(ShowMoreButton);

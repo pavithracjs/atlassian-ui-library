@@ -159,5 +159,5 @@ export default function<P, D>(
     }
   };
 
-  return withAnalyticsEvents()(DataProvider);
+  return withAnalyticsEvents<P & DataProviderProps<D>>()(DataProvider);
 }

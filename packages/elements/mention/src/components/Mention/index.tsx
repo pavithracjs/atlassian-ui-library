@@ -129,9 +129,7 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
   }
 }
 
-const MentionWithAnalytics: React.ComponentClass<
-  OwnProps
-> = withAnalyticsEvents({
+const MentionWithAnalytics = withAnalyticsEvents<OwnProps>({
   onClick: (
     createEvent: CreateUIAnalyticsEventSignature,
     props: Props,

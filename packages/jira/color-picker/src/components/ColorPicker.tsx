@@ -121,8 +121,8 @@ export class ColorPickerWithoutAnalytics extends React.Component<Props> {
   }
 }
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'color-picker',
   packageName,
   packageVersion,
-})(withAnalyticsEvents()(ColorPickerWithoutAnalytics));
+})(withAnalyticsEvents<Props>()(ColorPickerWithoutAnalytics));

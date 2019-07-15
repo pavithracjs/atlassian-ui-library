@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, ComponentType } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import Button, { ButtonProps } from '@atlaskit/button';
 import { gridSize } from '@atlaskit/theme';
 
@@ -15,7 +15,7 @@ export type NavigatorPropsType = {
    * This can we used to add padding when displaying a icon
    */
   styles?: Object;
-  component?: ComponentType<any>;
+  component?: React.ElementType<any>;
 };
 
 const Navigator: FC<ButtonProps> = props => (
