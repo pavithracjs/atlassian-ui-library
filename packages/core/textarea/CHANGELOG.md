@@ -1,5 +1,13 @@
 # @atlaskit/textarea
 
+## 2.1.1
+
+### Patch Changes
+
+- [patch][29a1f158c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29a1f158c1):
+
+  Use default react import in typescript files.
+
 ## 2.1.0
 
 ### Minor Changes

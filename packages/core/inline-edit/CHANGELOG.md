@@ -1,5 +1,13 @@
 # @atlaskit/inline-edit
 
+## 10.0.6
+
+### Patch Changes
+
+- [patch][29a1f158c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29a1f158c1):
+
+  Use default react import in typescript files.
+
 ## 10.0.5
 
 - Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
