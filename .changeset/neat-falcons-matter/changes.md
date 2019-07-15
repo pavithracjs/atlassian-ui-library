@@ -1,0 +1,1 @@
+Fixing analytics for upload handlers in media-picker
