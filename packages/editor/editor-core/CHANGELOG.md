@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.10
+
+### Patch Changes
+
+- [patch][64868b4e0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64868b4e0e):
+
+  ED-7249 Fix regression where table Insert Column button doesn't hide.
+
 ## 112.33.9
 
 - Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):

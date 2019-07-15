@@ -1,1 +1,0 @@
-ED-7249 Fix regression where table Insert Column button doesn't hide.
