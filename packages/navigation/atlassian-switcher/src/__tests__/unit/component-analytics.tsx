@@ -111,7 +111,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
       action: 'viewed',
       actionSubject: 'atlassianSwitcher',
       attributes: {
-        items: {
+        switcherItems: {
           suggestedProducts: ['confluence.ondemand'],
           licensedProducts: ['jira'],
         },
