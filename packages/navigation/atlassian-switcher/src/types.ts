@@ -121,3 +121,14 @@ export interface AvailableSite {
 export interface AvailableProductsResponse {
   sites: AvailableSite[];
 }
+
+export enum ProductKey {
+  CONFLUENCE = 'confluence.ondemand',
+  JIRA_CORE = 'jira-core.ondemand',
+  JIRA_SOFTWARE = 'jira-software.ondemand',
+  JIRA_SERVICE_DESK = 'jira-servicedesk.ondemand',
+  JIRA_OPS = 'jira-incident-manager.ondemand',
+  OPSGENIE = 'opsgenie',
+}
+
+export type RecommendationsEngineResponse = ProductKey[];
