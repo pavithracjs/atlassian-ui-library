@@ -13,6 +13,10 @@ export interface TaskListDefinition {
   content: Array<TaskItemNode>;
   attrs: {
     localId: string;
+    /**
+     * @minimum 1
+     */
+    order?: number;
   };
 }
 

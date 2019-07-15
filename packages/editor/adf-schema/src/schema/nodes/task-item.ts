@@ -1,6 +1,11 @@
 import { Node, NodeSpec } from 'prosemirror-model';
 import { Inline } from './doc';
+import { TaskListDefinition as TaskList } from './task-list';
 import { uuid } from '../../utils/uuid';
+
+export interface TaskItemArray extends Array<Inline | TaskList> {
+  0: Inline;
+}
 
 /**
  * @name taskItem_node
@@ -8,9 +13,9 @@ import { uuid } from '../../utils/uuid';
 export interface TaskItemDefinition {
   type: 'taskItem';
   /**
-   * @allowUnsupportedInline true
+   * @minItems 1
    */
-  content?: Array<Inline>;
+  content?: TaskItemArray;
   attrs: {
     localId: string;
     state: 'TODO' | 'DONE';
@@ -18,7 +23,7 @@ export interface TaskItemDefinition {
 }
 
 export const taskItem: NodeSpec = {
-  content: 'inline*',
+  content: '(inline | taskList)*',
   defining: true,
   marks: '_',
   attrs: {

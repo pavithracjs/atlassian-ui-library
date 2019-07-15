@@ -13,6 +13,10 @@ export interface DecisionListDefinition {
   content: Array<DecisionItemNode>;
   attrs: {
     localId: string;
+    /**
+     * @minimum 1
+     */
+    order?: number;
   };
 }
 

@@ -1,6 +1,11 @@
 import { Node, NodeSpec } from 'prosemirror-model';
 import { Inline } from './doc';
+import { DecisionListDefinition as DecisionList } from './decision-list';
 import { uuid } from '../../utils/uuid';
+
+export interface DecisionItemArray extends Array<Inline | DecisionList> {
+  0: Inline;
+}
 
 /**
  * @name decisionItem_node
@@ -8,9 +13,9 @@ import { uuid } from '../../utils/uuid';
 export interface DecisionItemDefinition {
   type: 'decisionItem';
   /**
-   * @allowUnsupportedInline true
+   * @minItems 1
    */
-  content?: Array<Inline>;
+  content?: DecisionItemArray;
   attrs: {
     localId: string;
     state: string;
@@ -18,7 +23,7 @@ export interface DecisionItemDefinition {
 }
 
 export const decisionItem: NodeSpec = {
-  content: 'inline*',
+  content: '(inline | decisionList)*',
   defining: true,
   marks: '_',
   attrs: {
