@@ -37,6 +37,7 @@ export const fakeContext = (
     getCurrentState: jest.fn(),
     copyFile: jest.fn(),
     getFileBinaryURL: jest.fn(),
+    uploadExternal: jest.fn(),
   };
   const defaultContext: Context = {
     getImageMetadata,
