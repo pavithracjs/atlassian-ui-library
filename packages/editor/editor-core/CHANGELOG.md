@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.11
+
+### Patch Changes
+
+- [patch][5ca03a3267](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca03a3267):
+
+  ED-7242 Use calculated offset to position table InsertButton (Use allowOutOfBound from popup)
+
 ## 112.33.10
 
 ### Patch Changes

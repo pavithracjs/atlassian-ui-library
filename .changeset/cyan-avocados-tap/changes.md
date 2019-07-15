@@ -1,1 +1,0 @@
-ED-7242 Use calculated offset to position table InsertButton (Use allowOutOfBound from popup) 
