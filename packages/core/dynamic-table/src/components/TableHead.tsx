@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Head } from '../styled/TableHead';
 import { validateSortKey } from '../internal/helpers';
 import { HeadType, SortOrderType, RowCellType } from '../types';
