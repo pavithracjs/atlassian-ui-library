@@ -21,6 +21,7 @@ export default {
     'blockType',
     'quickInsert',
     'tasksAndDecisions',
+    'historyAnalyticsKeymap',
     'blockTypeInputRule',
     'tasksAndDecisionsInputRule',
     'typeAhead',
@@ -90,7 +91,6 @@ export default {
     'scrollGutterPlugin',
     'analytics',
     'historyAnalytics',
-    'historyAnalyticsKeymap',
   ],
   nodes: [
     'doc',

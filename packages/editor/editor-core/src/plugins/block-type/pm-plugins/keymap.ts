@@ -3,8 +3,7 @@ import { undoInputRule } from 'prosemirror-inputrules';
 import { keymap } from 'prosemirror-keymap';
 import { redo, undo } from 'prosemirror-history';
 import { Schema } from 'prosemirror-model';
-import { Plugin, EditorState } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
+import { Plugin } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import * as commands from '../../../commands';
 import { trackAndInvoke } from '../../../analytics';
@@ -14,19 +13,11 @@ import {
   insertBlockTypesWithAnalytics,
 } from '../../block-type/commands';
 import { INPUT_METHOD } from '../../analytics';
-import { CommandDispatch } from 'src/types';
 
 const analyticsEventName = (blockTypeName: string, eventSource: string) =>
   `atlassian.editor.format.${blockTypeName}.${eventSource}`;
 
-const tryUndoInputRuleElseUndoHistory = (
-  state: EditorState,
-  dispatch: CommandDispatch,
-  view: EditorView,
-) => {
-  chainCommands(undoInputRule, undo)(state, dispatch, view);
-  return false;
-};
+const tryUndoInputRuleElseUndoHistory = chainCommands(undoInputRule, undo);
 
 export default function keymapPlugin(schema: Schema): Plugin {
   const list = {};
