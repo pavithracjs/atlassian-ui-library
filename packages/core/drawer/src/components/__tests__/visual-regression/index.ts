@@ -1,7 +1,6 @@
 import { getExampleUrl } from '@atlaskit/visual-regression/helper';
 import { widths } from '../../../constants';
 
-const global: any = {};
 describe('Snapshot Test', () => {
   for (const width of widths) {
     it(`should match ${width} drawer screenshot`, async () => {
@@ -9,9 +8,11 @@ describe('Snapshot Test', () => {
         'core',
         'drawer',
         'drawer-widths',
+        // @ts-ignore
         global.__BASEURL__,
       );
 
+      // @ts-ignore
       const { page } = global;
       const button = `#open-${width}-drawer`;
       await page.goto(url);
@@ -30,8 +31,11 @@ describe('Snapshot Test', () => {
       'core',
       'drawer',
       'themed-drawer-with-search',
+      // @ts-ignore
       global.__BASEURL__,
     );
+
+    // @ts-ignore
     const { page } = global;
     const button = '#button';
     await page.goto(url);
