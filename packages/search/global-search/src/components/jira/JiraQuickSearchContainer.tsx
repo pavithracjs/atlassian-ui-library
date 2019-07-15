@@ -86,7 +86,7 @@ const QuickSearchContainer = GenericQuickSearchContainer as React.ComponentType<
  * This improves type safety and prevent us from accidentally forgetting a parameter.
  */
 export interface Props {
-  createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
+  createAnalyticsEvent?: CreateAnalyticsEventFn | undefined;
   linkComponent: LinkComponent | undefined;
   referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   jiraClient: JiraClient;
@@ -584,16 +584,17 @@ export class JiraQuickSearchContainer extends React.Component<
           messages.jira_search_placeholder,
         )}
         linkComponent={linkComponent}
-        getPreQueryDisplayedResults={(recentItems, searchSessionId) =>
-          this.getPreQueryDisplayedResults(recentItems, searchSessionId)
-        }
+        getPreQueryDisplayedResults={(
+          recentItems: JiraResultsMap | null,
+          searchSessionId: string,
+        ) => this.getPreQueryDisplayedResults(recentItems, searchSessionId)}
         getFilterComponent={() => null}
         getPostQueryDisplayedResults={(
-          searchResults,
-          query,
-          _recentItems,
-          _isLoading,
-          searchSessionId,
+          searchResults: JiraResultsMap | null,
+          query: string,
+          _recentItems: any,
+          _isLoading: boolean,
+          searchSessionId: string,
         ) =>
           this.getPostQueryDisplayedResults(
             searchResults,
@@ -625,5 +626,5 @@ const JiraQuickSearchContainerWithIntl = injectIntl<Props>(
 );
 
 export default injectFeatures(
-  withAnalyticsEvents()(JiraQuickSearchContainerWithIntl),
+  withAnalyticsEvents<Props>()(JiraQuickSearchContainerWithIntl),
 );

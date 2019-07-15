@@ -83,7 +83,7 @@ class StatusInternal extends PureComponent<Props, any> {
   }
 }
 
-export const Status: React.ComponentClass<OwnProps> = withAnalyticsEvents({
+export const Status = withAnalyticsEvents<OwnProps>({
   onClick: (
     createEvent: CreateUIAnalyticsEventSignature,
     props: Props,
@@ -110,4 +110,4 @@ export const Status: React.ComponentClass<OwnProps> = withAnalyticsEvents({
       },
     });
   },
-})(StatusInternal) as React.ComponentClass<OwnProps>;
+})(StatusInternal);

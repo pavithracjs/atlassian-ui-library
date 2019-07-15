@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { RankableTableBodyCell } from '../../styled/rankable/TableCell';
 import { HeadCellType, RowCellType } from '../../types';
 import withDimensions, { WithDimensionsProps } from '../../hoc/withDimensions';

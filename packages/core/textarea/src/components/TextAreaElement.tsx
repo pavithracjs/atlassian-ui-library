@@ -1,9 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 
 type Props = {
-  forwardedRef?:
-    | React.RefObject<HTMLTextAreaElement>
-    | ((e: HTMLTextAreaElement | null) => void);
+  forwardedRef?: React.Ref<HTMLTextAreaElement>;
   /**
    * Enables the resizing of the textarea:
    * auto: both directions.

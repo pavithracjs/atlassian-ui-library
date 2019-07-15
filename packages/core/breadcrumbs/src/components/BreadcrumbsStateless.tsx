@@ -15,7 +15,7 @@ const defaultMaxItems = 8;
 
 const { toArray } = React.Children;
 
-interface IProps {
+export interface BreadcrumbsStatelessProps {
   /** Override collapsing of the nav when there are more than maxItems */
   isExpanded?: boolean;
   /** Set the maximum number of breadcrumbs to display. When there are more
@@ -31,13 +31,11 @@ interface IProps {
   itemsAfterCollapse?: number;
 }
 
-type DefaultProps = Pick<
-  IProps,
-  'isExpanded' | 'maxItems' | 'itemsBeforeCollapse' | 'itemsAfterCollapse'
->;
-
-class BreadcrumbsStateless extends React.Component<IProps, {}> {
-  static defaultProps: DefaultProps = {
+class BreadcrumbsStateless extends React.Component<
+  BreadcrumbsStatelessProps,
+  {}
+> {
+  static defaultProps = {
     isExpanded: false,
     maxItems: defaultMaxItems,
     itemsBeforeCollapse: 1,
@@ -101,12 +99,12 @@ class BreadcrumbsStateless extends React.Component<IProps, {}> {
 export { BreadcrumbsStateless as BreadcrumbsStatelessWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<BreadcrumbsStatelessProps>({
   componentName: 'breadcrumbs',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<BreadcrumbsStatelessProps>({
     onExpand: createAndFireEventOnAtlaskit({
       action: 'expanded',
       actionSubject: 'breadcrumbs',

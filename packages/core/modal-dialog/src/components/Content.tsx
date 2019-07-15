@@ -211,14 +211,16 @@ export default class Content extends React.Component<Props, State> {
   handleKeyDown = (event: any) => {
     const { onClose, shouldCloseOnEscapePress, stackIndex = 0 } = this.props;
 
-    // avoid consumers accidently closing multiple modals if they hold escape.
+    // avoid consumers accidentally closing multiple modals if they hold escape.
     if (this.escapeIsHeldDown) return;
-    if (event.key === 'Escape') this.escapeIsHeldDown = true;
+    if (event.key === 'Escape' || event.key === 'Esc')
+      this.escapeIsHeldDown = true;
 
     // only the foremost modal should be interactive.
     if (!this._isMounted || stackIndex > 0) return;
 
     switch (event.key) {
+      case 'Esc':
       case 'Escape':
         if (shouldCloseOnEscapePress) onClose(event);
         break;

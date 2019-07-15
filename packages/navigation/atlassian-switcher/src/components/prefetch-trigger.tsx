@@ -93,7 +93,9 @@ class PrefetchTrigger extends React.Component<
   }
 }
 
-const PrefetchTriggerWithEvents = withAnalyticsEvents()(PrefetchTrigger);
+const PrefetchTriggerWithEvents = withAnalyticsEvents<PrefetchTriggerProps>()(
+  PrefetchTrigger,
+);
 
 export default (props: PrefetchTriggerProps) => (
   <NavigationAnalyticsContext data={TRIGGER_CONTEXT}>

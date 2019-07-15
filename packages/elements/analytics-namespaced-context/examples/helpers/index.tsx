@@ -22,7 +22,7 @@ class DummyComponent extends React.Component<Props> {
 }
 
 export const createDummyComponentWithAnalytics = (channel?: string) =>
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
       actionSubject: 'someComponent',
