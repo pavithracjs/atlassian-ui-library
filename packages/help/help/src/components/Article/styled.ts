@@ -4,19 +4,19 @@ import { gridSize } from '@atlaskit/theme/constants';
 import * as colors from '@atlaskit/theme/colors';
 
 interface ArticleContainerProps {
-  searchVisible?: boolean;
+  isSearchVisible: boolean;
 }
 
 export const ArticleContainer = styled.div`
   position: absolute;
   height: ${(props: ArticleContainerProps) =>
-    props.searchVisible
+    props.isSearchVisible
       ? `calc(100% - ${13 * gridSize()}px)`
       : `calc(100% - ${6 * gridSize()}px)`};
   width: 100%;
   background-color: #ffffff;
   top: ${(props: ArticleContainerProps) =>
-    props.searchVisible ? `${13 * gridSize()}px` : `${6 * gridSize()}px`};
+    props.isSearchVisible ? `${13 * gridSize()}px` : `${6 * gridSize()}px`};
   left: 100%;
   flex: 1;
   flex-direction: column;

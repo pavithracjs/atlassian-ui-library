@@ -17,7 +17,6 @@ import {
 } from '../../../version.json';
 import { withAnalyticsEvents, withAnalyticsContext } from '../../../analytics';
 import { messages } from '../../../messages';
-import { Analytics } from '../../../model/Analytics';
 
 import { ArticleFeedback } from '../../../model/Article';
 import { withHelp, HelpContextInterface } from '../../HelpContext';

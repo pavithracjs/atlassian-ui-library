@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import Page from '@atlaskit/page';
 
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { getArticle, searchArticle } from './utils/mockData';
 import { ExampleWrapper, HelpWrapper } from './utils/styled';
 
-import Help from '../src';
+import Help, { ArticleFeedback } from '../src';
 
 const handleEvent = (analyticsEvent: { payload: any; context: any }) => {
   const { payload, context } = analyticsEvent;
@@ -18,8 +18,17 @@ export default class extends React.Component {
     searchText: 'test',
   };
 
-  onWasHelpfulSubmit = (value: string): Promise<boolean> => {
-    return new Promise(resolve => setTimeout(() => resolve(true), 1000));
+  onWasHelpfulSubmit = (
+    articleFeedback: ArticleFeedback,
+    analyticsEvent: UIAnalyticsEvent,
+  ): Promise<boolean> => {
+    return new Promise(resolve =>
+      setTimeout(() => {
+        analyticsEvent.fire('help');
+        console.log(articleFeedback);
+        resolve(true);
+      }, 1000),
+    );
   };
 
   onSearchArticlesSubmit = (searchValue: any) => {

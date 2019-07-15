@@ -121,7 +121,6 @@ export default class extends React.Component {
                     onWasHelpfulSubmit={this.onWasHelpfulSubmit}
                     articleId={articleId}
                     onGetArticle={this.onGetArticle}
-                    onSearch={this.onSearch}
                     onWasHelpfulYesButtonClick={
                       this.articleWasHelpfulYesButtonClick
                     }

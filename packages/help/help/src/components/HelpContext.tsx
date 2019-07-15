@@ -304,12 +304,13 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   isSearchVisible = (): boolean => {
-    // if (this.props.onSearch) {
-    //   return (
-    //     this.state.view === VIEW.ARTICLE ||
-    //     this.state.view === VIEW.DEFAULT_CONTENT
-    //   );
-    // }
+    if (this.props.onSearch) {
+      return (
+        this.state.view === VIEW.ARTICLE ||
+        this.state.view === VIEW.DEFAULT_CONTENT
+      );
+    }
+
     return false;
   };
 
@@ -331,11 +332,12 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   render() {
+    const { hasNavigatedToDefaultContent, ...restState } = this.state;
     return (
       <HelpContext.Provider
         value={{
           help: {
-            ...this.state,
+            ...restState,
             loadArticle: this.loadArticle,
             isSearchVisible: this.isSearchVisible,
             isArticleVisible: this.isArticleVisible,

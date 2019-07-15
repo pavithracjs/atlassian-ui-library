@@ -131,7 +131,7 @@ export class Article extends Component<Props & HelpContextInterface, State> {
       >
         {(state: TRANSITION_STATUS) => (
           <ArticleContainer
-            isSearchVisible={this.props.help.isSearchVisible}
+            isSearchVisible={this.props.help.isSearchVisible()}
             style={{
               ...defaultStyle,
               ...transitionStyles[state],
