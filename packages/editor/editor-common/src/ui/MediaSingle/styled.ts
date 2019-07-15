@@ -170,11 +170,6 @@ const Wrapper: React.ComponentClass<
     font-size: 0;
     line-height: 0;
   }
-
-  & > div {
-    position: absolute;
-    height: 100%;
-  }
 `;
 
 Wrapper.displayName = 'WrapperMediaSingle';
