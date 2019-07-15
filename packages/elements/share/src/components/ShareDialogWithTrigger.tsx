@@ -70,8 +70,8 @@ export type Props = {
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
-  triggerButtonTooltipText?: string;
   triggerButtonTooltipPosition?: TooltipPosition;
+  triggerButtonTooltipText?: string;
   bottomMessage?: React.ReactNode;
   submitButtonLabel?: React.ReactNode;
 };
@@ -348,12 +348,16 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
+      intl: { formatMessage },
       copyLink,
       dialogPlacement,
+      isDisabled,
       isFetchingConfig,
       loadUserOptions,
       shareFormTitle,
       config,
+      triggerButtonAppearance,
+      triggerButtonStyle,
       bottomMessage,
       submitButtonLabel,
     } = this.props;
@@ -363,6 +367,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       <ShareButtonWrapper
         tabIndex={0}
         onKeyDown={this.handleKeyDown}
+        style={{ outline: 'none' }}
         innerRef={this.containerRef}
       >
         <InlineDialog

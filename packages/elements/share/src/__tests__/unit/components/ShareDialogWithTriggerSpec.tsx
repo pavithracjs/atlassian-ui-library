@@ -22,8 +22,8 @@ import {
   ADMIN_NOTIFIED,
   DialogPlacement,
   OBJECT_SHARED,
-  TooltipPosition,
   RenderCustomTriggerButton,
+  TooltipPosition,
 } from '../../../types';
 import { Omit, PropsOf } from '../_testUtils';
 import mockPopper from '../_mockPopper';
@@ -344,7 +344,10 @@ describe('ShareDialogWithTrigger', () => {
         defaultValue: mockShareData,
         shareError: new Error('unable to share'),
       });
-      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      wrapper
+        .dive()
+        .find('div')
+        .simulate('keydown', escapeKeyDownEvent);
       expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
       expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
       expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
@@ -380,7 +383,10 @@ describe('ShareDialogWithTrigger', () => {
         shareError: new Error('unable to share'),
       };
       wrapper.setState(state);
-      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      wrapper
+        .dive()
+        .find('div')
+        .simulate('keydown', escapeKeyDownEvent);
       expect(escapeKeyDownEvent.stopPropagation).not.toHaveBeenCalled();
       expect(wrapper.state() as State).toMatchObject(state);
     });
@@ -410,7 +416,10 @@ describe('ShareDialogWithTrigger', () => {
         defaultValue: mockShareData,
         shareError: new Error('unable to share'),
       });
-      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      wrapper
+        .dive()
+        .find('div')
+        .simulate('keydown', escapeKeyDownEvent);
       expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
       expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
       expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
@@ -549,6 +558,9 @@ describe('ShareDialogWithTrigger', () => {
 
   describe('Aktooltip', () => {
     it('should be rendered if the props.triggerButtonStyle is `icon-only`', () => {
+      const wrapper = getWrapper({
+        triggerButtonStyle: 'icon-only',
+      });
       expect(wrapper.dive().find(Aktooltip)).toHaveLength(1);
       expect(
         wrapper
@@ -585,6 +597,9 @@ describe('ShareDialogWithTrigger', () => {
     });
 
     it('should digest props.triggerButtonTooltipText as content and props.triggerButtonTooltipPosition as position', () => {
+      const wrapper = getWrapper({
+        triggerButtonStyle: 'icon-only',
+      });
       expect(
         (wrapper
           .dive()
