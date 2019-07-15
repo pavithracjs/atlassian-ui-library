@@ -5,7 +5,12 @@ import Button from '@atlaskit/button';
 import CloseIcon from '@atlaskit/icon/glyph/cross';
 
 import Tooltip from '@atlaskit/tooltip';
-import { SpotlightTitle, SpotlightCloseTooltip } from '../../util/i18n';
+import {
+  SpotlightTitle,
+  SpotlightCloseTooltip,
+  SpotlightDescription,
+  SpotlightDescriptionLink,
+} from '../../util/i18n';
 
 export interface Props {
   createTeamLink: string;
@@ -30,13 +35,21 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
               </Styled.Title>
             </Styled.Heading>
             <Styled.Body>
-              <p>
-                Don't have a team?
-                <a href={createTeamLink} target="_blank">
-                  {' '}
-                  Start one now{' '}
-                </a>
-              </p>
+              <SpotlightDescription>
+                {description => (
+                  <p>
+                    {description}
+                    <SpotlightDescriptionLink>
+                      {linkText => (
+                        <a href={createTeamLink} target="_blank">
+                          {' '}
+                          {linkText}{' '}
+                        </a>
+                      )}
+                    </SpotlightDescriptionLink>
+                  </p>
+                )}
+              </SpotlightDescription>
             </Styled.Body>
           </Styled.Section>
           <Styled.Actions>

@@ -70,6 +70,18 @@ export const messages = defineMessages({
     description:
       'Title of the spotlight shown in the mention tpyeahead. This is related to team mentions',
   },
+  spotlightDescription: {
+    id: 'fabric.elements.mentions.team.spotlight.description',
+    defaultMessage: 'Don’t have a team?',
+    description:
+      'Description of the spotlight shown in the mention tpyeahead. This is related to team mentions',
+  },
+  spotlightDescriptionLink: {
+    id: 'fabric.elements.mentions.team.spotlight.description.link',
+    defaultMessage: 'Start one now',
+    description:
+      'Team creation link in the description of the spotlight shown in the mention tpyeahead. This is related to team mentions',
+  },
   spotlightCloseButtonToolTip: {
     id: 'fabric.elements.mentions.team.spotlight.close.button.tooltip',
     defaultMessage: 'Dismiss',
