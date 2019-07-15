@@ -31,7 +31,6 @@ import PeopleLogo from './assets/people';
 import { CustomLink, RecentContainer } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
-import { LicenseInformationProvider } from 'src/providers/instance-data-providers';
 
 // Show a maximum of this many produts (only used in user-centric mode)
 export const MAX_PRODUCT_COUNT = 5;
@@ -297,7 +296,8 @@ export const getAdministrationLinks = (
   ];
 };
 
-// TODO filter out owned products from recommendations list based on license information
+const PRODUCT_RECOMMENDATION_LIMIT = 2;
+
 export const getSuggestedProductLink = (
   licenseInformationData: LicenseInformationResponse,
   productRecommendations: RecommendationsEngineResponse,
@@ -305,9 +305,12 @@ export const getSuggestedProductLink = (
   const filteredProducts = productRecommendations.filter(
     product => !getProductIsActive(licenseInformationData, product),
   );
-  return filteredProducts.map(product =>
-    getProductLink(product, licenseInformationData.products[product]),
-  );
+
+  return filteredProducts
+    .slice(0, PRODUCT_RECOMMENDATION_LIMIT)
+    .map(product =>
+      getProductLink(product, licenseInformationData.products[product]),
+    );
 };
 
 export const getCustomLinkItems = (
