@@ -3,6 +3,7 @@ import { colors, gridSize, typography } from '@atlaskit/theme';
 
 export const Actions = styled.div`
   justify-content: flex-end;
+  margin-top: ${gridSize() * -1}px;
 `;
 
 export const Title = styled.div`

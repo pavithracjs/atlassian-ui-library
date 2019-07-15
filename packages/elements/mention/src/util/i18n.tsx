@@ -34,3 +34,9 @@ export const SpotlightTitle = noPropFormatter(messages.spotlightTitle);
 export const SpotlightCloseTooltip = noPropFormatter(
   messages.spotlightCloseButtonToolTip,
 );
+export const SpotlightDescription = noPropFormatter(
+  messages.spotlightDescription,
+);
+export const SpotlightDescriptionLink = noPropFormatter(
+  messages.spotlightDescriptionLink,
+);
