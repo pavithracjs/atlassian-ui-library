@@ -1,1 +1,0 @@
-Fixing analytics for upload handlers in @atlaskit/media-picker
