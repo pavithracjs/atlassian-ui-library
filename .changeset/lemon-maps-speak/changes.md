@@ -1,2 +1,0 @@
-- [populate-package] Fix upgradeType erroneously set to 'add' instead of 'upgrade' for the first event sent using --since
-- Add new upgradeType 'downgrade' to analytics payloads when a package is downgraded, typically after a rollback.

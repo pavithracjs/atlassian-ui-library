@@ -41,27 +41,15 @@ interface IState {
   hasOverflow: boolean;
 }
 
-type DefaultProps = Pick<
-  IProps,
-  | 'component'
-  | 'hasSeparator'
-  | 'href'
-  | 'truncationWidth'
-  | 'onClick'
-  | 'target'
->;
-
 class BreadcrumbsItem extends React.Component<IProps, IState> {
   // eslint-disable-line react/sort-comp
   button: any = null;
 
-  static defaultProps: DefaultProps = {
-    component: undefined,
+  static defaultProps = {
     hasSeparator: false,
     href: '#',
     truncationWidth: 0,
     onClick: () => {},
-    target: '',
   };
 
   state = { hasOverflow: false };
@@ -164,7 +152,7 @@ class BreadcrumbsItem extends React.Component<IProps, IState> {
 export { BreadcrumbsItem as BreadcrumbsItemWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsEvents({
+export default withAnalyticsEvents<IProps>({
   onClick: createAndFireEventOnAtlaskit({
     action: 'clicked',
     actionSubject: 'breadcrumbsItem',

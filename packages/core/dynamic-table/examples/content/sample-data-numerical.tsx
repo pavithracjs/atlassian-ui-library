@@ -1,5 +1,5 @@
 /* sample-data.js */
-import * as React from 'react';
+import React from 'react';
 import Avatar from '@atlaskit/avatar';
 import styled from 'styled-components';
 import presidents from './numerical.json';

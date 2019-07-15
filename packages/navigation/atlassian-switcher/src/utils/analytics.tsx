@@ -48,7 +48,7 @@ type RenderTrackerProps = {
   onRender?: any;
 };
 
-export const RenderTracker = withAnalyticsEvents({
+export const RenderTracker = withAnalyticsEvents<RenderTrackerProps>({
   onRender: (
     createAnalyticsEvent: CreateUIAnalyticsEventSignature,
     props: RenderTrackerProps,
@@ -72,7 +72,7 @@ export const RenderTracker = withAnalyticsEvents({
   },
 );
 
-export const ViewedTracker = withAnalyticsEvents({
+export const ViewedTracker = withAnalyticsEvents<RenderTrackerProps>({
   onRender: (createAnalyticsEvent: CreateUIAnalyticsEventSignature) => {
     return createAnalyticsEvent({
       eventType: UI_EVENT_TYPE,

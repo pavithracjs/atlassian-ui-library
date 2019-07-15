@@ -1,5 +1,5 @@
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
-import * as React from 'react';
+import React from 'react';
 import Badge from '../src';
 
 export default function Example() {

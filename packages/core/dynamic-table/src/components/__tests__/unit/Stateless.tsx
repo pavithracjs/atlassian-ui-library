@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { shallow, mount, ShallowWrapper } from 'enzyme';
 import DynamicTableWithAnalytics, {
   DynamicTableWithoutAnalytics as StatelessDynamicTable,

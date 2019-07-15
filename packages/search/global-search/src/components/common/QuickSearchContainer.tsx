@@ -591,8 +591,8 @@ export class QuickSearchContainer<
   }
 }
 
-const WithAnalyticsQuickSearchContainer = withAnalyticsEvents()(
+const WithAnalyticsQuickSearchContainer = withAnalyticsEvents<any>()(
   QuickSearchContainer,
-) as typeof QuickSearchContainer;
+);
 
 export default injectSearchSession(WithAnalyticsQuickSearchContainer);

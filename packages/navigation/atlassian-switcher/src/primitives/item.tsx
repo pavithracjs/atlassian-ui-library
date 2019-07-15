@@ -42,7 +42,7 @@ class SwitcherItem extends React.Component<SwitcherItemProps> {
   }
 }
 
-const SwitcherItemWithEvents = withAnalyticsEvents({
+const SwitcherItemWithEvents = withAnalyticsEvents<SwitcherItemProps>({
   onClick: createAndFireNavigationEvent({
     eventType: UI_EVENT_TYPE,
     action: 'clicked',

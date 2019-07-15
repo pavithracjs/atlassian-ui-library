@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import InlineEditUncontrolled from './InlineEditUncontrolled';

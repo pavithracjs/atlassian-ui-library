@@ -1,5 +1,33 @@
 # @atlaskit/global-search
 
+## 10.3.1
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 10.3.0
+
+### Minor Changes
+
+- [minor][0598e7ce48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0598e7ce48):
+
+  Feedback collector with search bug fix
+
 ## 10.2.4
 
 ### Patch Changes

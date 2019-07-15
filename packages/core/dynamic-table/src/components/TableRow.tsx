@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { TableBodyRow } from '../styled/TableRow';
 import { TableBodyCell } from '../styled/TableCell';
 import { HeadType, RowType } from '../types';

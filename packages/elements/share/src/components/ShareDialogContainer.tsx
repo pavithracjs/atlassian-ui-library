@@ -157,7 +157,7 @@ export class ShareDialogContainerInternal extends React.Component<
 
   static defaultProps = {
     useUrlShortener: false,
-    shareeAction: 'view',
+    shareeAction: 'view' as 'view' | 'edit',
   };
 
   constructor(props: Props) {
@@ -473,6 +473,6 @@ export class ShareDialogContainerInternal extends React.Component<
   }
 }
 
-export const ShareDialogContainer: React.ComponentType<
-  Props
-> = withAnalyticsEvents()(ShareDialogContainerInternal);
+export const ShareDialogContainer = withAnalyticsEvents<Props>()(
+  ShareDialogContainerInternal,
+);
