@@ -276,7 +276,6 @@ module.exports = async function main(
   } else if (results.statsExceededSizeLimit.length && isLint) {
     throw new Error(`✖ – Module "${packageName}" has exceeded size limit!`);
   }
-
-  // TODO: return success always after switching the flow
-  return results.passedBundleSizeCheck ? 1 : 0;
+  // For s3, we always pass the bundle check.;
+  return s3 ? 0 : results.passedBundleSizeCheck ? 1 : 0;
 };

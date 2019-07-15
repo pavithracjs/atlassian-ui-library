@@ -20,19 +20,29 @@ function buildStats(outputPath, statsGroups) {
       // CHANGED_PACKAGES return only the packages that have changed since master
       // and do not include the dependents if the flag --dependent='direct' is set.
       // The goal of this code below is to check if the tool runs against the main changed packages or the dependents.
-      const changedPkg = process.env.CHANGED_PACKAGES
-        ? JSON.parse(process.env.CHANGED_PACKAGES).filter(pkg =>
-            pathToPkg.includes(pkg),
-          ).length > 0
+      console.log('CHANGED_PACKAGES_MAIN', process.env.CHANGED_PACKAGES_MAIN);
+      console.log(
+        'CHANGED_PACKAGES_DEPENDENTS',
+        process.env.CHANGED_PACKAGES_DEPENDENTS,
+      );
+      const mainPkgs = process.env.CHANGED_PACKAGES_MAIN
+        ? process.env.CHANGED_PACKAGES.split(' ')
+        : [];
+      const depPkgs = process.env.CHANGED_PACKAGES_DEPENDENTS
+        ? process.env.CHANGED_PACKAGES_DEPENDENTS.split(' ')
+        : [];
+      const dependentPkgs = [...new Set(depPkgs.concat(mainPkgs))];
+      const isDependent = depPkgs
+        ? depPkgs.filter(pkg => pathToPkg.includes(pkg)).length > 0
         : false;
-
+      console.log('dependent:', isDependent, pathToPkg);
       if (!fExists(filePath)) return acc;
 
       acc.push({
         team: packageTeam,
         package: packageName,
         version: packageVersion,
-        dependent: !changedPkg,
+        dependent: isDependent,
         id: stat.id,
         name: stat.name,
         threshold: stat.threshold,
