@@ -250,7 +250,7 @@ class HelpContextProviderImplementation extends React.Component<
           clearTimeout(this.requestLoadingTimeout);
           return article;
         }
-        throw 'EmptyArticle';
+        throw new Error('EmptyArticle');
       } catch (error) {
         this.setState({ articleState: REQUEST_STATE.error });
         clearTimeout(this.requestLoadingTimeout);
