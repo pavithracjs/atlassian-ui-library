@@ -1,1 +1,0 @@
-Feedback collector with search bug fix

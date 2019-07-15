@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.3.0
+
+### Minor Changes
+
+- [minor][0598e7ce48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0598e7ce48):
+
+  Feedback collector with search bug fix
+
 ## 10.2.4
 
 ### Patch Changes
