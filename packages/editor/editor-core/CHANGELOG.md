@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.33.7
+
+### Patch Changes
+
+- [patch][95c6536030](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95c6536030):
+
+  ED-7247 Fix regression where table insert button is not shown when hover on numbered controls.
+
+## 112.33.6
+
+### Patch Changes
+
+- [patch][f37cdc770c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f37cdc770c):
+
+  [ED-7243] Improve table decorations architecture
+
+## 112.33.5
+
+### Patch Changes
+
+- [patch][66809023e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66809023e3):
+
+  ED-7210: Fire link insertion event when exiting from floating toolbar
+
 ## 112.33.4
 
 ### Patch Changes

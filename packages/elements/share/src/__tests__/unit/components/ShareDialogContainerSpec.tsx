@@ -2,15 +2,15 @@ import { OptionData } from '@atlaskit/user-picker';
 import { utils } from '@atlaskit/util-service-support';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
-import * as ShareServiceExports from '../../../clients/ShareServiceClient';
 import {
   ShortenResponse,
   UrlShortenerClient,
 } from '../../../clients/AtlassianUrlShortenerClient';
+import * as ShareServiceExports from '../../../clients/ShareServiceClient';
 import {
+  defaultConfig,
   ShareDialogContainerInternal,
   State,
-  defaultConfig,
 } from '../../../components/ShareDialogContainer';
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
 import { OriginTracing } from '../../../types';
@@ -105,6 +105,9 @@ describe('ShareDialogContainer', () => {
     mockRequestService.mockRestore();
     mockShareServiceClient.mockRestore();
     window.history.pushState({}, '', '/');
+    (mockShortenerClient.isSupportedProduct as jest.Mock).mockClear();
+    (mockShortenerClient.shorten as jest.Mock).mockClear();
+    mockShare.mockClear();
   });
 
   function getWrapper(
@@ -381,6 +384,33 @@ describe('ShareDialogContainer', () => {
         {
           productId: mockProductId,
           atlOriginId: wrapper.instance().getFormShareOriginTracing().id,
+          shareeAction: 'view',
+        },
+        mockComment,
+      );
+    });
+
+    it('should send shareeAction', () => {
+      const wrapper = getWrapper({ shareeAction: 'view' });
+      const mockDialogContentState = {
+        users: mockUsers,
+        comment: mockComment,
+      };
+      wrapper.instance().handleSubmitShare(mockDialogContentState);
+      wrapper.instance().forceUpdate();
+      expect(mockShare).toHaveBeenCalledTimes(1);
+      expect(mockShare).toHaveBeenCalledWith(
+        {
+          ari: mockShareAri,
+          link: mockShareLink,
+          title: mockShareTitle,
+          type: mockShareContentType,
+        },
+        [{ type: 'user', id: 'id' }, { type: 'user', email: 'mock@email.com' }],
+        {
+          productId: mockProductId,
+          atlOriginId: wrapper.instance().getFormShareOriginTracing().id,
+          shareeAction: 'view',
         },
         mockComment,
       );

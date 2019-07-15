@@ -13,4 +13,5 @@ export type Comment = {
 export type MetaData = {
   productId: string;
   atlOriginId: string;
+  shareeAction?: 'view' | 'edit';
 };

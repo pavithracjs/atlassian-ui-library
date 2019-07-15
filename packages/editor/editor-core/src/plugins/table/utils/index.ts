@@ -4,7 +4,11 @@ export {
   normalizeSelection,
   isSelectionUpdated,
 } from './selection';
-export { findControlsHoverDecoration } from './decoration';
+export {
+  findControlsHoverDecoration,
+  createControlsHoverDecoration,
+  updateDecorations,
+} from './decoration';
 export {
   isIsolating,
   containsHeaderColumn,
