@@ -434,6 +434,7 @@
     "less-loader": "^4.0.5",
     "linkify-it": "^2.0.3",
     "listr": "^0.14.2",
+    "lodash": "4.17.14",
     "lodash.clonedeep": "^4.5.0",
     "lodash.debounce": "^4.0.8",
     "lodash.flattendeep": "^4.4.0",
