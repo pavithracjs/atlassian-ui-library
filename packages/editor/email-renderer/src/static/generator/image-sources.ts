@@ -52,4 +52,9 @@ export default [
     input: 'action-default',
     exportSize: '48:48',
   },
+  {
+    name: 'genericAttachment',
+    input: 'generic-attachment',
+    exportSize: '24:24',
+  },
 ];
