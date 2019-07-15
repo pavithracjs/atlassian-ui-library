@@ -56,6 +56,7 @@ export interface ExternalMediaAttributes {
   url: string;
   width?: number;
   height?: number;
+  __external?: boolean;
 }
 
 export const defaultAttrs: DefaultAttributes<
