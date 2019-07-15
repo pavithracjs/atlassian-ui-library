@@ -14,7 +14,16 @@ import {
 } from '../../../version.json';
 import { DrawerBase } from '../../index';
 
-const global: any = {};
+const noop = () => {};
+// @ts-ignore
+const _global = global;
+const global: any = {
+  window: {
+    addEventListener: noop,
+    removeEventListener: noop,
+    dispatchEvent: _global.window.dispatchEvent,
+  },
+};
 // This is a global mock for this file that will mock all components wrapped with analytics
 // and replace them with an empty SFC that returns null. This includes components imported
 // directly in this file and others imported as dependencies of those imports.
@@ -27,10 +36,12 @@ jest.mock('@atlaskit/analytics-next', () => ({
 }));
 
 const escKeyDown = () => {
-  const escKeyDownEvent: KeyboardEvent = new KeyboardEvent('keydown', {
-    key: 'Esc',
-  });
-  document.dispatchEvent(escKeyDownEvent);
+  const event = document.createEvent('Events');
+  event.initEvent('keydown', true, true);
+
+  // @ts-ignore
+  event.key = 'Escape';
+  global.window.dispatchEvent(event);
 };
 
 describe('Drawer', () => {
@@ -93,7 +104,7 @@ describe('Drawer', () => {
     expect(onCloseSpy.mock.calls[0][1]).toEqual(myEvent);
   });
 
-  it('should pass the correct trigger attribute based on how the drawer was dismissed', () => {
+  it.only('should pass the correct trigger attribute based on how the drawer was dismissed', () => {
     const myEvent = {};
     const createAnalyticsEventSpy: any = jest.fn(() => myEvent);
     const onCloseSpy = jest.fn();

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
-const global: any = {};
+const global: any = { console: { error: () => {} } };
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
 afterEach(() => {
