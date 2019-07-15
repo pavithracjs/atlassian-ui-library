@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Styled from './styles';
 
 import Button from '@atlaskit/button';
-import CloseIcon from '@atlaskit/icon/glyph/cross';
+import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close';
 
 import Tooltip from '@atlaskit/tooltip';
 import {
@@ -55,13 +55,18 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
           <Styled.Actions>
             <SpotlightCloseTooltip>
               {tooltip => (
-                <Tooltip content={tooltip} position="bottom">
-                  <Button
-                    appearance="subtle"
-                    iconBefore={<CloseIcon label="Close Modal" size="small" />}
-                    onClick={onClose}
-                  />
-                </Tooltip>
+                <Styled.ButtonStyles>
+                  <Tooltip content={tooltip} position="bottom">
+                    <Button
+                      appearance="subtle"
+                      iconBefore={
+                        <EditorCloseIcon label="Close" size="medium" />
+                      }
+                      onClick={onClose}
+                      spacing="none"
+                    />
+                  </Tooltip>
+                </Styled.ButtonStyles>
               )}
             </SpotlightCloseTooltip>
           </Styled.Actions>

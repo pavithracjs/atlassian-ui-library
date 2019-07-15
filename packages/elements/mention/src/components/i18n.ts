@@ -66,19 +66,19 @@ export const messages = defineMessages({
   },
   spotlightTitle: {
     id: 'fabric.elements.mentions.team.spotlight.title',
-    defaultMessage: 'You can now mention teams!',
+    defaultMessage: 'Mention your team',
     description:
       'Title of the spotlight shown in the mention tpyeahead. This is related to team mentions',
   },
   spotlightDescription: {
     id: 'fabric.elements.mentions.team.spotlight.description',
-    defaultMessage: 'Don’t have a team?',
+    defaultMessage: 'Get everyone on the page with one click. No team?',
     description:
       'Description of the spotlight shown in the mention tpyeahead. This is related to team mentions',
   },
   spotlightDescriptionLink: {
     id: 'fabric.elements.mentions.team.spotlight.description.link',
-    defaultMessage: 'Start one now',
+    defaultMessage: 'Start one.',
     description:
       'Team creation link in the description of the spotlight shown in the mention tpyeahead. This is related to team mentions',
   },
