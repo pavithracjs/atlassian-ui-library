@@ -44,7 +44,7 @@ describe('Full-width mode', () => {
       describe(`with media`, () => {
         it('should display content in full-width mode', async () => {
           await initEditor(adfWithMedia, width);
-          await waitForLoadedImageElements(page);
+          // await waitForLoadedImageElements(page);
           await snapshot(page);
         });
       });

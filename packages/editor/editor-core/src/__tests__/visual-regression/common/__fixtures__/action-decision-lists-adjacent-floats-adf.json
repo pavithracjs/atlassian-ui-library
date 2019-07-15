@@ -20,10 +20,11 @@
         {
           "type": "media",
           "attrs": {
-            "type": "external",
+            "id": "454c9f89-2167-4937-ba91-0ad6c5cca03c",
+            "type": "file",
+            "collection": "MediaServicesSample",
             "width": 320,
-            "height": 320,
-            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+            "height": 320
           }
         }
       ]
@@ -80,10 +81,11 @@
         {
           "type": "media",
           "attrs": {
-            "type": "external",
+            "id": "454c9f89-2167-4937-ba91-0ad6c5cca03c",
+            "type": "file",
+            "collection": "MediaServicesSample",
             "width": 320,
-            "height": 320,
-            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+            "height": 320
           }
         }
       ]

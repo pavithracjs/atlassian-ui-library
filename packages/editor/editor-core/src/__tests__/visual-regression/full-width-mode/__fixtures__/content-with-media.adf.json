@@ -38,8 +38,11 @@
         {
           "type": "media",
           "attrs": {
-            "type": "external",
-            "url": "https://lonelyplanetimages.imgix.net/mastheads/65830387.jpg?sharp=10&vib=20&w=1200"
+            "id": "454c9f89-2167-4937-ba91-0ad6c5cca03c",
+            "type": "file",
+            "collection": "MediaServicesSample",
+            "width": 2048,
+            "height": 1357
           }
         }
       ]
