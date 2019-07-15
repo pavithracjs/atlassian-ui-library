@@ -15,7 +15,7 @@ interface State {
 export default class DrawersExample extends Component<{}, State> {
   state = {
     isDrawerOpen: false,
-    width: 'narrow',
+    width: 'narrow' as DrawerWidth,
   };
 
   openDrawer = (width: DrawerWidth) => () =>

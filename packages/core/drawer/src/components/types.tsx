@@ -8,7 +8,7 @@ export type Widths = {
   narrow: number;
   wide: number;
 };
-export type DrawerWidth = 'extended' | 'full' | 'medium' | 'narrow' | 'wide';
+export type DrawerWidth = keyof Widths;
 
 export interface BaseProps {
   /** The content of the drawer */
@@ -87,7 +87,7 @@ export interface ItemProps {
   elemAfter?: ReactNode;
   /** Content to be shown before the main content. Shown to the left of content (or to the right
    * in RTL mode). */
-  elemBefore?: ReactNode;
+  elemBefore?: Node;
   /** Link that the user will be redirected to when the item is clicked. If omitted, a
    *  non-hyperlink component will be rendered. */
   href?: string;

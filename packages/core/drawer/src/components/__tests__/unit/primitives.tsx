@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { mount, shallow } from 'enzyme';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
 
@@ -90,15 +90,18 @@ describe('Drawer primitive', () => {
   it('should call onClose when the icon is clicked', () => {
     const onClose = jest.fn();
     const props = { ...commonProps, onClose };
-    const wrapper = shallow(
+    const wrapper = mount(
       <DrawerPrimitive {...props}>
         <DrawerContent />
       </DrawerPrimitive>,
     );
 
     const event = { target: 'button' };
-    const callsBeforeIconClick = [].concat(onClose.mock.calls);
-    wrapper.find('IconWrapper').prop('onClick')(event);
+    const callsBeforeIconClick = Array.prototype.concat(onClose.mock.calls);
+
+    const handler = wrapper.find('IconWrapper').prop('onClick');
+    if (handler) handler((event as unknown) as MouseEvent);
+
     const callsAfterIconClick = onClose.mock.calls;
 
     expect({ callsBeforeIconClick, callsAfterIconClick }).toEqual({
@@ -117,11 +120,13 @@ describe('Drawer primitive', () => {
     );
 
     const node = 'div';
-    const callsBeforeExited = [].concat(onCloseComplete.mock.calls);
-    wrapper
-      .find(Slide)
-      .props()
-      .onExited(node);
+    const callsBeforeExited = Array.prototype.concat(
+      onCloseComplete.mock.calls,
+    );
+
+    const handler = wrapper.find(Slide).props().onExited;
+    if (handler) handler((node as unknown) as HTMLElement);
+
     const callsAfterExited = onCloseComplete.mock.calls;
 
     expect({
