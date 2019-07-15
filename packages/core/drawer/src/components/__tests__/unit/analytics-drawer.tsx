@@ -14,6 +14,7 @@ import {
 } from '../../../version.json';
 import { DrawerBase } from '../../index';
 
+const global: any = {};
 // This is a global mock for this file that will mock all components wrapped with analytics
 // and replace them with an empty SFC that returns null. This includes components imported
 // directly in this file and others imported as dependencies of those imports.
@@ -26,10 +27,10 @@ jest.mock('@atlaskit/analytics-next', () => ({
 }));
 
 const escKeyDown = () => {
-  const event = document.createEvent('Events');
-  event.initEvent('keydown', true, true);
-  event.key = 'Escape';
-  global.window.dispatchEvent(event);
+  const escKeyDownEvent: KeyboardEvent = new KeyboardEvent('keydown', {
+    key: 'Esc',
+  });
+  document.dispatchEvent(escKeyDownEvent);
 };
 
 describe('Drawer', () => {

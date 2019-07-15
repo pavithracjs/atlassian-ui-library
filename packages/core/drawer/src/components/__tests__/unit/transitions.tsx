@@ -5,10 +5,10 @@ import { Fade, Slide } from '../../transitions';
 
 describe('Drawer Transitions', () => {
   describe('Slide', () => {
-    let wrapper;
+    let wrapper: any;
 
     beforeEach(() => {
-      wrapper = mount(<Slide in test="some-test-data" />);
+      wrapper = mount(<Slide in component="some-test-data" />);
     });
 
     it('should use the default styles to start the animation', () => {
@@ -23,7 +23,7 @@ describe('Drawer Transitions', () => {
 
     it('should add the other element props', () => {
       const { ...otherProps } = wrapper.find('TransitionHandler').props();
-      expect(otherProps).toMatchObject({ test: 'some-test-data' });
+      expect(otherProps).toMatchObject({ component: 'some-test-data' });
     });
 
     it('should use the transition styles', () => {
@@ -42,8 +42,9 @@ describe('Drawer Transitions', () => {
     });
 
     it('should update "unmountOnExit"', () => {
-      const { unmountOnExit } = mount(<Slide in shouldUnmountOnExit={false} />);
+      const wrapper: any = mount(<Slide in shouldUnmountOnExit={false} />);
 
+      const { unmountOnExit } = wrapper.find('Transition').props();
       expect(unmountOnExit).toBeFalsy();
     });
 
@@ -56,10 +57,10 @@ describe('Drawer Transitions', () => {
   });
 
   describe('Fade', () => {
-    let wrapper;
+    let wrapper: any;
 
     beforeEach(() => {
-      wrapper = mount(<Fade in test="some-test-data" />);
+      wrapper = mount(<Fade in component="some-test-data" />);
     });
 
     it('should use the default styles to start the animation', () => {
@@ -74,7 +75,7 @@ describe('Drawer Transitions', () => {
 
     it('should add the other element props', () => {
       const { ...otherProps } = wrapper.find('TransitionHandler').props();
-      expect(otherProps).toMatchObject({ test: 'some-test-data' });
+      expect(otherProps).toMatchObject({ component: 'some-test-data' });
     });
 
     it('should use the transition styles', () => {

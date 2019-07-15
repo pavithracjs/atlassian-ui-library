@@ -1,6 +1,7 @@
 import { getExampleUrl } from '@atlaskit/visual-regression/helper';
 import { widths } from '../../../constants';
 
+const global: any = {};
 describe('Snapshot Test', () => {
   for (const width of widths) {
     it(`should match ${width} drawer screenshot`, async () => {
