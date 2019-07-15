@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.8
+
+### Patch Changes
+
+- [patch][eaebe8551f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaebe8551f):
+
+  Update i18n strings with latest translations.
+
 ## 112.33.7
 
 ### Patch Changes
