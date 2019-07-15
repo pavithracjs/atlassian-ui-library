@@ -30,6 +30,7 @@ import {
 import { RendererAppearance } from './Renderer/types';
 import { RendererContext } from '../react';
 import { XOR } from '@atlaskit/type-helpers';
+import styled from 'styled-components';
 
 export interface WithViewMediaClientConfig {
   viewMediaClientConfig: MediaClientConfig;
@@ -284,7 +285,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     };
 
     return (
-      <div
+      <CardWrapper
         {...getClipboardAttrs({
           id,
           collection,
@@ -306,10 +307,17 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
             list: Array.from(mediaIdentifierMap.values()),
           }}
         />
-      </div>
+      </CardWrapper>
     );
   }
 }
+
+const CardWrapper = styled.div`
+  & > div {
+    position: absolute;
+    height: 100%;
+  }
+`;
 
 // Needed for copy & paste
 export const getClipboardAttrs = ({
