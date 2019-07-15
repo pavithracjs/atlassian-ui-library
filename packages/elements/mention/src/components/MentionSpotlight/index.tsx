@@ -18,8 +18,8 @@ export interface Props {
   onClose: () => void;
 }
 
-const iconUrl =
-  'https://ptc-directory-sited-static.us-east-1.staging.public.atl-paas.net/teams/avatars/2.svg';
+const ICON_URL =
+  'https://ptc-directory-sited-static.us-east-1.prod.public.atl-paas.net/teams/avatars/2.svg';
 
 export default class MentionSpotlight extends React.Component<Props, {}> {
   render() {
@@ -29,7 +29,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
       <Styled.Card>
         <Styled.Content>
           <Styled.Aside>
-            <img src={iconUrl} height={32} />
+            <img src={ICON_URL} height={32} />
           </Styled.Aside>
           <Styled.Section>
             <Styled.Heading>
