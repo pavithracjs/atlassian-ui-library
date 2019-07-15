@@ -312,14 +312,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
   }
 }
 
-export const CardWrapper = styled.div`
-  position: static !important;
-
-  & > div {
-    position: absolute;
-    height: 100%;
-  }
-`;
+export const CardWrapper = styled.div``;
 
 // Needed for copy & paste
 export const getClipboardAttrs = ({
