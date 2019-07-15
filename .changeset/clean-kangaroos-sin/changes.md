@@ -1,0 +1,1 @@
+Modal-dialog padding now matches AGD and GUI pack
