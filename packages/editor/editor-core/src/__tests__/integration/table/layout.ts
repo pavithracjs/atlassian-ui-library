@@ -25,7 +25,7 @@ import {
 import messages from '../../../messages';
 
 BrowserTestCase(
-  'Remains in overflow on table scale to wide',
+  'Avoid overflow when table scale to wide',
   { skip: ['edge', 'ie', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
@@ -47,7 +47,7 @@ BrowserTestCase(
 );
 
 BrowserTestCase(
-  'Remains in overflow on table scale to full width',
+  'Avoid overflow when table scale to full width',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
