@@ -313,6 +313,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 }
 
 const CardWrapper = styled.div`
+  position: static !important;
+
   & > div {
     position: absolute;
     height: 100%;
