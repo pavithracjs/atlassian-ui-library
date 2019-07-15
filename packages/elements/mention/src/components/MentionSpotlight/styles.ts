@@ -45,7 +45,5 @@ export const Body = styled.div`
   ${typography.p500};
 `;
 
-export const ButtonStyles = styled.div``;
-
 export const iconUrl =
   'https://ptc-directory-sited-static.us-east-1.staging.public.atl-paas.net/teams/avatars/2.svg';

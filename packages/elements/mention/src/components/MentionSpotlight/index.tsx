@@ -55,18 +55,14 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
           <Styled.Actions>
             <SpotlightCloseTooltip>
               {tooltip => (
-                <Styled.ButtonStyles>
-                  <Tooltip content={tooltip} position="bottom">
-                    <Button
-                      appearance="subtle"
-                      iconBefore={
-                        <EditorCloseIcon label="Close" size="medium" />
-                      }
-                      onClick={onClose}
-                      spacing="none"
-                    />
-                  </Tooltip>
-                </Styled.ButtonStyles>
+                <Tooltip content={tooltip} position="bottom">
+                  <Button
+                    appearance="subtle"
+                    iconBefore={<EditorCloseIcon label="Close" size="medium" />}
+                    onClick={onClose}
+                    spacing="none"
+                  />
+                </Tooltip>
               )}
             </SpotlightCloseTooltip>
           </Styled.Actions>
