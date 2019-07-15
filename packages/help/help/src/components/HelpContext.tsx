@@ -2,7 +2,6 @@ import React, { createContext } from 'react';
 import { createAndFire, withAnalyticsEvents } from '../analytics';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
-import { Analytics } from '../model/Analytics';
 import { Article, ArticleItem, ArticleFeedback } from '../model/Article';
 import { REQUEST_STATE } from '../model/Requests';
 
@@ -79,20 +78,12 @@ const initialiseHelpData = (data: State) => {
 const HelpContext = createContext<Partial<HelpContextInterface>>({});
 
 class HelpContextProviderImplementation extends React.Component<
-  Props &
-    Analytics & {
-      createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-    },
+  Props & { createAnalyticsEvent?: CreateUIAnalyticsEventSignature },
   State
 > {
   requestLoadingTimeout: any;
 
-  constructor(
-    props: Props &
-      Analytics & {
-        createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-      },
-  ) {
+  constructor(props: Props) {
     super(props);
 
     this.state = initialiseHelpData(defaultValues);
@@ -191,7 +182,7 @@ class HelpContextProviderImplementation extends React.Component<
           createAndFire({
             action: 'help-article-changed',
             attributes: { id },
-          })(this.props.createAnalyticsEvent);
+          })(this.props.createAnalyticsEvent!);
         }
 
         return newState;
@@ -209,7 +200,7 @@ class HelpContextProviderImplementation extends React.Component<
       createAndFire({
         action: 'help-article-changed',
         attributes: { id },
-      })(this.props.createAnalyticsEvent);
+      })(this.props.createAnalyticsEvent!);
     }
   };
 
@@ -262,7 +253,7 @@ class HelpContextProviderImplementation extends React.Component<
   }
 }
 
-export const HelpContextProvider = withAnalyticsEvents()(
+export const HelpContextProvider = withAnalyticsEvents<Props>()(
   HelpContextProviderImplementation,
 );
 

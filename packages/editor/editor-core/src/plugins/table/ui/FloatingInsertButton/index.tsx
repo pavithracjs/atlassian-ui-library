@@ -4,15 +4,17 @@ import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { Node as PmNode } from 'prosemirror-model';
 import { findDomRefAtPos, findTable } from 'prosemirror-utils';
 import { TableMap, CellSelection } from 'prosemirror-tables';
-import { Popup, PopupPosition, PopupProps } from '@atlaskit/editor-common';
-import { TableCssClassName as ClassName } from '../types';
-import InsertButton from './TableFloatingControls/InsertButton';
-import { closestElement } from '../../../utils';
-import { INPUT_METHOD } from '../../analytics';
+import { Popup } from '@atlaskit/editor-common';
+import { TableCssClassName as ClassName } from '../../types';
+import InsertButton from './InsertButton';
+import { closestElement } from '../../../../utils';
+import { INPUT_METHOD } from '../../../analytics';
 import {
   insertColumnWithAnalytics,
   insertRowWithAnalytics,
-} from '../commands-with-analytics';
+} from '../../commands-with-analytics';
+import getPopupOptions from './getPopupOptions';
+import { checkIfNumberColumnEnabled } from '../../utils';
 
 export interface Props {
   editorView: EditorView;
@@ -27,23 +29,12 @@ export interface Props {
   scrollableElement?: HTMLElement;
 }
 
-const HORIZONTAL_ALIGN_COLUMN_BUTTON = -10;
-const VERTICAL_ALIGN_COLUMN_BUTTON = 14;
-const HORIZONTAL_ALIGN_ROW_BUTTON = -34;
-const VERTICAL_ALIGN_ROW_BUTTON = 10;
-
 class FloatingInsertButton extends React.Component<
   Props & InjectedIntlProps,
   any
 > {
   constructor(props: Props & InjectedIntlProps) {
     super(props);
-    this.onPositionCalculatedForColumn = this.onPositionCalculatedForColumn.bind(
-      this,
-    );
-    this.onPositionCalculatedForRow = this.onPositionCalculatedForRow.bind(
-      this,
-    );
     this.insertColumn = this.insertColumn.bind(this);
     this.insertRow = this.insertRow.bind(this);
   }
@@ -120,8 +111,10 @@ class FloatingInsertButton extends React.Component<
       `.${ClassName.TABLE_NODE_WRAPPER}`,
     );
 
-    const options: PopupProps =
-      type === 'column' ? this.createColumnOptions() : this.createRowOptions();
+    const index: number =
+      type === 'column' ? insertColumnButtonIndex! : insertRowButtonIndex!;
+
+    const hasNumberedColumns = checkIfNumberColumnEnabled(editorView.state);
 
     return (
       <Popup
@@ -130,7 +123,13 @@ class FloatingInsertButton extends React.Component<
         boundariesElement={tableContainerWrapper || boundariesElement}
         scrollableElement={tableWrapper!}
         forcePlacement={true}
-        {...options}
+        allowOutOfBounds
+        {...getPopupOptions(
+          type,
+          index,
+          hasNumberedColumns,
+          tableContainerWrapper,
+        )}
       >
         <InsertButton
           type={type}
@@ -170,48 +169,6 @@ class FloatingInsertButton extends React.Component<
     }
   }
 
-  private createRowOptions(): PopupProps {
-    const { insertRowButtonIndex } = this.props;
-    const options = {
-      alignX: 'left',
-      alignY: 'bottom',
-      offset: [HORIZONTAL_ALIGN_ROW_BUTTON, VERTICAL_ALIGN_ROW_BUTTON],
-      onPositionCalculated: this.onPositionCalculatedForRow,
-    } as PopupProps;
-
-    if (insertRowButtonIndex === 0) {
-      return {
-        ...options,
-        alignX: 'left',
-        alignY: 'top',
-      };
-    }
-
-    return options;
-  }
-
-  private createColumnOptions(): PopupProps {
-    const { insertColumnButtonIndex } = this.props;
-    const options = {
-      alignX: 'end',
-      alignY: 'top',
-      offset: [HORIZONTAL_ALIGN_COLUMN_BUTTON, VERTICAL_ALIGN_COLUMN_BUTTON],
-      onPositionCalculated: this.onPositionCalculatedForColumn,
-    } as PopupProps;
-
-    // We need to change the popup position when
-    // the column index is zero
-    if (insertColumnButtonIndex === 0) {
-      return {
-        ...options,
-        alignX: 'left',
-        alignY: 'top',
-      };
-    }
-
-    return options;
-  }
-
   private insertRow() {
     const { editorView, insertRowButtonIndex } = this.props;
 
@@ -234,59 +191,6 @@ class FloatingInsertButton extends React.Component<
         dispatch,
       );
     }
-  }
-
-  private onPositionCalculatedForRow(position: PopupPosition) {
-    const { bottom } = position;
-    const { insertRowButtonIndex } = this.props;
-    const left = HORIZONTAL_ALIGN_ROW_BUTTON;
-
-    if (bottom && insertRowButtonIndex === 0) {
-      return {
-        ...position,
-        bottom: bottom - 24,
-        left,
-      };
-    }
-
-    return {
-      ...position,
-      left,
-    };
-  }
-
-  // :: (position: PopupPosition) -> PopupPosition
-  // Limit the InsertButton position to the table container
-  // if the left position starts before it
-  // we should always set the InsertButton on the start,
-  // considering the offset from the first column
-  private onPositionCalculatedForColumn(position: PopupPosition) {
-    const { left } = position;
-    const { tableRef, insertColumnButtonIndex } = this.props;
-
-    if (!left) {
-      return position;
-    }
-
-    if (insertColumnButtonIndex === 0) {
-      return {
-        ...position,
-        left: HORIZONTAL_ALIGN_COLUMN_BUTTON,
-      };
-    }
-
-    const tableContainerWrapper = closestElement(
-      tableRef,
-      `.${ClassName.TABLE_CONTAINER}`,
-    );
-    const rect = tableContainerWrapper
-      ? tableContainerWrapper.getBoundingClientRect()
-      : null;
-
-    return {
-      ...position,
-      left: rect && left > rect.width ? rect.width : left,
-    };
   }
 }
 

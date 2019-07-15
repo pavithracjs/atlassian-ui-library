@@ -68,6 +68,4 @@ export class ConfluenceFilterGroup extends React.Component<Props> {
   }
 }
 
-export default withAnalyticsEvents()(
-  ConfluenceFilterGroup,
-) as typeof ConfluenceFilterGroup;
+export default withAnalyticsEvents<Props>()(ConfluenceFilterGroup);

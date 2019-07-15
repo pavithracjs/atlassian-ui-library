@@ -1,5 +1,11 @@
 # @atlaskit/media-test-helpers
 
+## 24.3.1
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/media-picker@45.0.1
+  - @atlaskit/select@10.0.0
+
 ## 24.3.0
 
 ### Minor Changes

@@ -236,7 +236,7 @@ describe('MediaImage', () => {
 
         mockImageTag(component, [1000, 750], [100, 75], true);
         expectToEqual(
-          component.find(ImageComponent).prop('style').width,
+          component.find(ImageComponent).prop('style')!.width,
           '134%',
         );
       });
@@ -255,7 +255,7 @@ describe('MediaImage', () => {
 
         mockImageTag(component, [1000, 750], [100, 75], true);
         expectToEqual(
-          component.find(ImageComponent).prop('style').height,
+          component.find(ImageComponent).prop('style')!.height,
           '75%',
         );
       });
@@ -323,7 +323,7 @@ describe('MediaImage', () => {
           previewOrientation: 1,
         });
 
-        expect(component.prop('style').transform).toEqual(
+        expect(component.prop('style')!.transform).toEqual(
           defaultTransform.transform,
         );
       });
@@ -364,7 +364,7 @@ describe('MediaImage', () => {
 
         mockImageTag(component, [1000, 750], [75, 100], true);
         expectToEqual(
-          component.find(ImageComponent).prop('style').width,
+          component.find(ImageComponent).prop('style')!.width,
           '134%',
         );
       });

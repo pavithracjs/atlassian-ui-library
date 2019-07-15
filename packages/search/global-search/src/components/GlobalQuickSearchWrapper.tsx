@@ -203,6 +203,10 @@ export interface Props {
   feedbackCollectorProps?: FeedbackCollectorProps;
 }
 
+const ConfluenceContainerWithFeedback = withFeedbackButton(
+  ConfluenceQuickSearchContainer,
+);
+
 /**
  * Component that exposes the public API for global quick search. Its only purpose is to offer a simple, user-friendly API to the outside and hide the implementation detail of search clients etc.
  */
@@ -318,11 +322,20 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     };
 
     if (this.props.context === 'confluence') {
-      const ConfluenceContainer = showFeedbackCollector
-        ? withFeedbackButton(ConfluenceQuickSearchContainer)
-        : ConfluenceQuickSearchContainer;
+      if (showFeedbackCollector) {
+        return (
+          // Same as below but missing input controls which is injected by the feedback button
+          <ConfluenceContainerWithFeedback
+            {...commonProps}
+            {...feedbackCollectorProps}
+            modelContext={modelContext}
+            confluenceUrl={confluenceUrl || ''}
+          />
+        );
+      }
+
       return (
-        <ConfluenceContainer
+        <ConfluenceQuickSearchContainer
           {...commonProps}
           {...feedbackCollectorProps}
           modelContext={modelContext}

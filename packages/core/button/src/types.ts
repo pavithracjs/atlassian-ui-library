@@ -26,7 +26,7 @@ export type OnlyButtonProps = {
   /** Add a classname to the button */
   className?: string;
   /** A custom component to use instead of the default button */
-  component?: React.ComponentType<React.AllHTMLAttributes<HTMLElement>>;
+  component?: React.ElementType<any>;
   /** Internal use only. Please use `ref` to forward refs */
   consumerRef?: React.Ref<HTMLElement>;
   /** Provides a url for buttons being used as a link */
@@ -69,6 +69,8 @@ export type OnlyButtonProps = {
     current: (props: ThemeProps) => ThemeTokens,
     props: ThemeProps,
   ) => ThemeTokens;
+
+  children?: React.ReactNode;
 };
 
 export type ButtonProps = HtmlAttributes & OnlyButtonProps;
