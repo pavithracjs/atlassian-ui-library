@@ -116,7 +116,10 @@ export const handleMouseOver = (
     return showInsertRowButton(getColumnOrRowIndex(target))(state, dispatch);
   }
 
-  if (isCell(target)) {
+  if (
+    isCell(target) ||
+    target.classList.contains(ClassName.CONTROLS_CORNER_BUTTON)
+  ) {
     return hideInsertColumnOrRowButton()(state, dispatch);
   }
 
