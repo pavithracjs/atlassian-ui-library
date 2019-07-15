@@ -1,1 +1,0 @@
-Major bump to react-select which includes a bump from emotion 9 --> 10, this will impact users who are currently creating custom components using emotion. Empty values in selects have also now been changed to be more deterministic across single and multi select. See https://github.com/JedWatson/react-select/issues/3585 for details
