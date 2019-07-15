@@ -226,9 +226,10 @@ export const getProductLink = (
   if (productKey === ProductKey.OPSGENIE) {
     // Prefer applicationUrl provided by license information (TCS)
     // Fallback to hard-coded URL
-    const href = productLicenseInformation.applicationUrl
-      ? productLicenseInformation.applicationUrl
-      : productLinkProperties.href;
+    const href =
+      productLicenseInformation && productLicenseInformation.applicationUrl
+        ? productLicenseInformation.applicationUrl
+        : productLinkProperties.href;
 
     return {
       key: productKey,
