@@ -3,15 +3,17 @@ import { mount, shallow } from 'enzyme';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
 
 import DrawerPrimitive from '../../primitives';
+import { DrawerWidth } from '../../types';
 import { Slide } from '../../transitions';
 
 const DrawerContent = () => <code>Drawer contents</code>;
 
 describe('Drawer primitive', () => {
   const commonProps = {
-    width: 'wide',
+    width: 'wide' as DrawerWidth,
     in: true,
     shouldUnmountOnExit: false,
+    onClose: () => null,
   };
 
   beforeEach(() => {
@@ -29,7 +31,7 @@ describe('Drawer primitive', () => {
         <DrawerContent />
       </DrawerPrimitive>,
     );
-    expect(wrapper.find(props.icon).props().size).toBe('large');
+    expect((wrapper.find(props.icon).props() as any).size).toBe('large');
   });
 
   it('should render arrow left if icon prop does NOT exist', () => {
@@ -76,7 +78,7 @@ describe('Drawer primitive', () => {
   });
 
   it('should render with medium width', () => {
-    const props = { ...commonProps, width: 'medium' };
+    const props = { ...commonProps, width: 'medium' as DrawerWidth };
     const wrapper = mount(
       <DrawerPrimitive {...props}>
         <DrawerContent />

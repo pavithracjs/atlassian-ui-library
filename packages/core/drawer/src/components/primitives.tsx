@@ -23,7 +23,7 @@ const widths: Widths = {
 // ------------------------------
 
 const Wrapper = ({
-  width = 'narrow' as DrawerWidth,
+  width = 'narrow',
   shouldUnmountOnExit,
   ...props
 }: {

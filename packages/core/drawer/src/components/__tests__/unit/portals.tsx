@@ -6,7 +6,7 @@ import Drawer from '../../index';
 describe('Drawer portal', () => {
   it('should not be rendered if not open', () => {
     mount(
-      <Drawer isOpen={false}>
+      <Drawer width="narrow" isOpen={false}>
         <div />
       </Drawer>,
     );
