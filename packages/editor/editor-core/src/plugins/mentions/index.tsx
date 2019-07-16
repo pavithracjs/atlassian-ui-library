@@ -13,6 +13,7 @@ import {
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
+import { MentionSpotlight } from '@atlaskit/mention';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';
@@ -53,7 +54,6 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
-import MentionSpotlight from '../../../../../elements/mention/src/components/MentionSpotlight';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
