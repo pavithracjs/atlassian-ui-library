@@ -1,4 +1,4 @@
-import { Transaction, EditorState } from 'prosemirror-state';
+import { Transaction, EditorState, Plugin } from 'prosemirror-state';
 import { Mapping } from 'prosemirror-transform';
 import { historyAnalyticsPluginKey, HistoryAnalyticsPluginState } from './main';
 import {
@@ -6,10 +6,14 @@ import {
   analyticsPluginKey,
   addAnalytics,
 } from '../../analytics';
-import { PmHistoryPluginState, PmHistoryItem, PmHistoryBranch } from './types';
-
-// prosemirror-history does not exports its plugin key
-const pmHistoryPluginKey = 'history$';
+import {
+  PmHistoryPluginState,
+  PmHistoryItem,
+  PmHistoryBranch,
+  PmHistoryPluginConfig,
+  pmHistoryPluginKey,
+  DEPTH_OVERFLOW,
+} from './types';
 
 /**
  * Pushes relevant transactions into done stack
@@ -23,7 +27,6 @@ export const pushTransactionsToHistory = (
   pluginState: HistoryAnalyticsPluginState,
   state: EditorState,
 ): HistoryAnalyticsPluginState => {
-  const done = [...pluginState.done];
   let updatedState = false;
 
   const newTransactions = transactions.reduce(
@@ -41,8 +44,9 @@ export const pushTransactionsToHistory = (
         const pmHistoryPluginState: PmHistoryPluginState = getPmHistoryPluginState(
           state,
         );
+        const { newGroupDelay } = getPmHistoryPluginConfig(state);
         var newGroup =
-          pmHistoryPluginState.prevTime < (tr.time || 0) - 500 ||
+          pmHistoryPluginState.prevTime < (tr.time || 0) - newGroupDelay ||
           (!appended && !isAdjacentToLastStep(tr, pmHistoryPluginState));
         updatedState = true;
 
@@ -58,7 +62,7 @@ export const pushTransactionsToHistory = (
           if (trAnalytics) {
             let lastTr = trs.length
               ? trs[trs.length - 1]
-              : done[done.length - 1];
+              : pluginState.done[pluginState.done.length - 1];
             if (lastTr) {
               trAnalytics.forEach(analyticsPayload => {
                 addAnalytics(
@@ -78,19 +82,27 @@ export const pushTransactionsToHistory = (
     [],
   );
 
+  let { done, undone } = pluginState;
   if (updatedState) {
+    done = [...done, ...newTransactions];
+  }
+  if (undone.length > 0) {
+    undone = [];
+  }
+
+  const { depth } = getPmHistoryPluginConfig(state);
+  if (done.length - depth > DEPTH_OVERFLOW) {
+    done = done.slice(-depth);
+  }
+
+  if (pluginState.done === done && pluginState.undone === undone) {
+    return pluginState;
+  } else {
     return {
-      done: [...done, ...newTransactions],
-      undone: [],
+      done,
+      undone,
     };
   }
-  if (pluginState.undone.length > 0) {
-    return {
-      ...pluginState,
-      undone: [],
-    };
-  }
-  return pluginState;
 };
 
 /**
@@ -120,11 +132,20 @@ export const syncWithPmHistory = (
 };
 
 const getPmHistoryPluginState = (state: EditorState): PmHistoryPluginState => {
+  return getPmHistoryPlugin(state).getState(state);
+};
+
+const getPmHistoryPluginConfig = (
+  state: EditorState,
+): PmHistoryPluginConfig => {
+  return getPmHistoryPlugin(state).spec.config;
+};
+
+const getPmHistoryPlugin = (state: EditorState): Plugin => {
   // prosemirror-history does not export their plugin key
-  const pmHistoryPlugin = state.plugins.find(
+  return state.plugins.find(
     plugin => (plugin as any).key === pmHistoryPluginKey,
-  );
-  return pmHistoryPlugin!.getState(state);
+  ) as Plugin;
 };
 
 /**
