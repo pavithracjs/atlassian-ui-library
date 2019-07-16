@@ -1,5 +1,13 @@
 # @atlaskit/editor-test-helpers
 
+## 9.9.2
+
+### Patch Changes
+
+- [patch][979464019f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/979464019f):
+
+  ED-7073: fixed table clear cell not working (caused by `prosemirror-utils@0.9.3`)
+
 ## 9.9.1
 
 ### Patch Changes
