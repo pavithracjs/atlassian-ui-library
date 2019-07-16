@@ -1,13 +1,14 @@
 import { Transaction, EditorState } from 'prosemirror-state';
+import { Mapping } from 'prosemirror-transform';
 import { historyAnalyticsPluginKey, HistoryAnalyticsPluginState } from './main';
-import { StepMap, Step, Mapping } from 'prosemirror-transform';
 import {
   AnalyticsEventPayloadWithChannel,
   analyticsPluginKey,
   addAnalytics,
 } from '../../analytics';
-import { Node } from 'prosemirror-model';
+import { PmHistoryPluginState, PmHistoryItem, PmHistoryBranch } from './types';
 
+// prosemirror-history does not exports its plugin key
 const pmHistoryPluginKey = 'history$';
 
 /**
@@ -37,21 +38,20 @@ export const pushTransactionsToHistory = (
 
       const appended = tr.getMeta('appendedTransaction');
       if ((appended || tr).getMeta('addToHistory') !== false) {
-        const {
-          prevTime,
-          prevMap,
-          done: pmHistoryDone,
-        } = getPmHistoryPluginState(state);
+        const pmHistoryPluginState: PmHistoryPluginState = getPmHistoryPluginState(
+          state,
+        );
         var newGroup =
-          prevTime < (tr.time || 0) - 500 ||
-          (!appended && !isAdjacentToLastStep(tr, prevMap, pmHistoryDone));
+          pmHistoryPluginState.prevTime < (tr.time || 0) - 500 ||
+          (!appended && !isAdjacentToLastStep(tr, pmHistoryPluginState));
         updatedState = true;
 
         if (newGroup) {
+          // we want to add this transaction to done stack
           return [...trs, tr];
         } else {
-          // if we are skipping this transaction, we want to add its analytics to the
-          // last transaction
+          // we are skipping this transaction, but we want to add its analytics to the
+          // last transaction so we can fire undo events properly
           const trAnalytics: AnalyticsEventPayloadWithChannel[] = tr.getMeta(
             analyticsPluginKey,
           );
@@ -95,7 +95,7 @@ export const pushTransactionsToHistory = (
 
 /**
  * Ensure that this plugin's state is in sync with prosemirror-history's
- * If not, patch our plugin state to make it so
+ * If not, try and patch our plugin state to make it so
  */
 export const syncWithPmHistory = (
   pluginState: HistoryAnalyticsPluginState,
@@ -106,29 +106,87 @@ export const syncWithPmHistory = (
     done: pmHistoryDone,
     undone: pmHistoryUndone,
   } = getPmHistoryPluginState(state);
-  pmHistoryDone = pmHistoryDone.items.values.filter(value => value.selection);
-  pmHistoryUndone = pmHistoryUndone.items.values.filter(
-    value => value.selection,
-  );
+  const pmHistoryDoneItems = getEventCountBranchItems(pmHistoryDone);
+  const pmHistoryUndoneItems = getEventCountBranchItems(pmHistoryUndone);
 
-  if (done.length !== pmHistoryDone.length) {
-    done = syncStack(done, pmHistoryDone, state);
+  if (done.length !== pmHistoryDoneItems.length) {
+    done = syncStack(done, pmHistoryDoneItems, state);
   }
-  if (undone.length !== pmHistoryUndone.length) {
-    undone = syncStack(undone, pmHistoryUndone, state);
+  if (undone.length !== pmHistoryUndoneItems.length) {
+    undone = syncStack(undone, pmHistoryUndoneItems, state);
   }
 
   return { done, undone };
 };
 
+const getPmHistoryPluginState = (state: EditorState): PmHistoryPluginState => {
+  // prosemirror-history does not export their plugin key
+  const pmHistoryPlugin = state.plugins.find(
+    plugin => (plugin as any).key === pmHistoryPluginKey,
+  );
+  return pmHistoryPlugin!.getState(state);
+};
+
+/**
+ * Copied from prosemirror-history, used to determine if a transaction should be added
+ * to done stack or skipped over as it was so close to previous one
+ */
+const isAdjacentToLastStep = (
+  tr: Transaction,
+  pmHistoryPluginState: PmHistoryPluginState,
+): boolean => {
+  const { prevMap, done } = pmHistoryPluginState;
+  const firstMap = tr.mapping.maps[0];
+  if (!prevMap) {
+    return false;
+  }
+  if (!firstMap) {
+    return true;
+  }
+
+  let adjacent = false;
+  firstMap.forEach((start: number, end: number) => {
+    done.items.forEach(
+      (item: PmHistoryItem) => {
+        if (item.step) {
+          prevMap.forEach(
+            (_start: number, _end: number, rStart: number, rEnd: number) => {
+              if (start <= rEnd && end >= rStart) {
+                adjacent = true;
+              }
+            },
+          );
+          return false;
+        } else {
+          start = item.map.invert().map(start, -1);
+          end = item.map.invert().map(end, 1);
+        }
+        return;
+      },
+      done.items.length,
+      0,
+    );
+  });
+
+  return adjacent;
+};
+
+/**
+ * Filters branch items to those that actually caused the branch's eventCount
+ * property to increase
+ */
+const getEventCountBranchItems = (branch: PmHistoryBranch): PmHistoryItem[] =>
+  branch.items.values.filter((value: PmHistoryItem) => value.selection);
+
 const syncStack = (
   stack: Transaction[],
-  pmHistoryStack: any[], // todo: type
+  pmHistoryStack: PmHistoryItem[],
   state: EditorState,
 ): Transaction[] => {
   const eventDiff = stack.length - pmHistoryStack.length;
 
-  // find last item in stack which matches prosemirror-history's and remove
+  // Our stack has too many events
+  // Find last item in our stack which matches prosemirror-history's and drop
   // all transactions after that
   if (eventDiff > 0) {
     if (pmHistoryStack.length > 0) {
@@ -148,71 +206,27 @@ const syncStack = (
     }
   }
 
-  // add in filler transactions to make up the difference
+  // Our stack is missing some events
+  // Add in filler transactions to make up the difference - these won't have
+  // the analytics events we want but will at least keep us in time
   if (eventDiff < 0) {
     stack = [...stack];
-    for (
-      let i = pmHistoryStack.length + eventDiff;
-      i < pmHistoryStack.length;
-      i++
-    ) {
-      stack.push(generateTrFromItem(pmHistoryStack[i], state.doc));
+    for (let i = eventDiff; i < 0; i++) {
+      stack.push(
+        generateTrFromItem(pmHistoryStack[pmHistoryStack.length + i], state),
+      );
     }
     return stack;
   }
   return stack;
 };
 
-// todo: type
-const generateTrFromItem = (item: any, doc: Node): Transaction => {
-  const tr = new Transaction(doc);
-  // todo: none of the settings are applied
-  tr.time = item.time;
-  tr.mapping = new Mapping(item.map);
+const generateTrFromItem = (
+  item: PmHistoryItem,
+  state: EditorState,
+): Transaction => {
+  const tr = new Transaction(state as any); // the type for this is wrong
+  tr.mapping = new Mapping([item.map]);
   tr.steps = [item.step];
   return tr;
-};
-
-// todo: do i need this?
-// todo: clean up and type
-function isAdjacentToLastStep(
-  transform: Transaction,
-  prevMap: StepMap,
-  done: { items: StepMap[] },
-) {
-  if (!prevMap) {
-    return false;
-  }
-  var firstMap = transform.mapping.maps[0],
-    adjacent = false;
-  if (!firstMap) {
-    return true;
-  }
-  firstMap.forEach((start: number, end: number) => {
-    done.items.forEach(
-      (item: Step) => {
-        if (item.step) {
-          prevMap.forEach(
-            (_start: number, _end: number, rStart: number, rEnd: number) => {
-              if (start <= rEnd && end >= rStart) {
-                adjacent = true;
-              }
-            },
-          );
-          return false;
-        } else {
-          start = item.map.invert().map(start, -1);
-          end = item.map.invert().map(end, 1);
-        }
-      },
-      done.items.length,
-      0,
-    );
-  });
-  return adjacent;
-}
-
-const getPmHistoryPluginState = (state: EditorState): any => {
-  // todo: type
-  return state[pmHistoryPluginKey];
 };
