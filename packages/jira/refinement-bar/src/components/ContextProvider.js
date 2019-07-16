@@ -90,11 +90,4 @@ export const RefinementBarConsumer = ({
   </RefinementBarContext.Consumer>
 );
 
-// Required until atlaskit upgrades to react >= 16.6 😞
-export const withRefinementBarContext = (Comp: ComponentType<*>) => (
-  props: *,
-) => (
-  <RefinementBarContext.Consumer>
-    {c => <Comp {...props} tempContextFromProps={c} />}
-  </RefinementBarContext.Consumer>
-);
+export const useRefinementBar = () => React.useContext(RefinementBarContext);
