@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.7.0
+
+### Minor Changes
+
+- [minor][64b87b4ecb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64b87b4ecb):
+
+  TEAMS-544 : Releasing the initial version of the Mention Spotlight
+
 ## 18.6.3
 
 ### Patch Changes
