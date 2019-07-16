@@ -50,10 +50,13 @@ export class ArticleWasHelpfulForm extends React.Component<
   };
 
   onRateSubmit = (articleFeedback: ArticleFeedback) => {
+    let analyticsEvent: UIAnalyticsEvent | undefined;
     if (this.props.help.onWasHelpfulSubmit) {
-      const analyticsEvent: UIAnalyticsEvent = this.props.createAnalyticsEvent({
-        action: 'click',
-      });
+      if (this.props.createAnalyticsEvent) {
+        analyticsEvent = this.props.createAnalyticsEvent({
+          action: 'click',
+        });
+      }
 
       try {
         this.props.help
