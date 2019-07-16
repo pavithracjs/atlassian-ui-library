@@ -360,7 +360,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
-    "bitbucket-build-status": "^1.0.3",
+    "bitbucket-build-status": "^1.1.0",
     "blueimp-load-image": "^2.19.0",
     "bolt": "^0.23.1",
     "bolt-webpack-analyzer": "^0.0.1",

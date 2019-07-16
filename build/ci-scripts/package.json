@@ -14,7 +14,7 @@
     "@atlaskit/build-utils": "^2.0.0",
     "adf-builder": "^3.2.0",
     "axios": "^0.18.0",
-    "bitbucket-build-status": "^1.0.3",
+    "bitbucket-build-status": "^1.1.0",
     "bolt-webpack-analyzer": "^0.0.1",
     "chalk": "^2.1.0",
     "npm-run": "^4.1.2",
