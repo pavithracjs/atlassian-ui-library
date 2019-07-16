@@ -1,1 +1,1 @@
-Upgrade to lodash >=4.17.11
+Upgrade bitbucket-build-status >= 1.1.0 that has the upgrade to lodash >=4.17.11
