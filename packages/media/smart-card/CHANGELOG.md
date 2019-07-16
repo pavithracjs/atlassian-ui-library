@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.3.0
+
+### Minor Changes
+
+- [minor][602ab89822](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/602ab89822):
+
+  SL-345 add property for disabling auth flow of Smart Links (for Mobile).
+
 ## 12.2.8
 
 ### Patch Changes

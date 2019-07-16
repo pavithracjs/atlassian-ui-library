@@ -1,1 +1,0 @@
-SL-345 add property for disabling auth flow of Smart Links (for Mobile).
