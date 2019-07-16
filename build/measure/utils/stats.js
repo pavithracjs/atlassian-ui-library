@@ -17,32 +17,23 @@ function buildStats(outputPath, statsGroups) {
       const packageVersion = require(`${pathToPkg}/package.json`).version;
       const packageName = require(`${pathToPkg}/package.json`).name;
       const packageTeam = require(`${pathToPkg}/package.json`).atlaskit.team;
-      // CHANGED_PACKAGES return only the packages that have changed since master
-      // and do not include the dependents if the flag --dependent='direct' is set.
-      // The goal of this code below is to check if the tool runs against the main changed packages or the dependents.
-      console.log('CHANGED_PACKAGES_MAIN', process.env.CHANGED_PACKAGES_MAIN);
-      console.log(
-        'CHANGED_PACKAGES_DEPENDENTS',
-        process.env.CHANGED_PACKAGES_DEPENDENTS,
-      );
-      const mainPkgs = process.env.CHANGED_PACKAGES_MAIN
-        ? process.env.CHANGED_PACKAGES.split(' ')
-        : [];
-      const depPkgs = process.env.CHANGED_PACKAGES_DEPENDENTS
-        ? process.env.CHANGED_PACKAGES_DEPENDENTS.split(' ')
-        : [];
-      const dependentPkgs = [...new Set(depPkgs.concat(mainPkgs))];
-      const isDependent = depPkgs
-        ? depPkgs.filter(pkg => pathToPkg.includes(pkg)).length > 0
+      // CHANGED_MAIN_PACKAGES return only the packages that have changed since master.
+      // CHANGED_PACKAGES - use for the main scripts - can return either only the packages that have changed since master or
+      // those packages and includes their dependents if the flag --dependent='direct' is set.
+      // The goal of this code below is to check if the tool runs against the main changed package or a dependent.
+      const mainPkgs = JSON.parse(process.env.CHANGED_MAIN_PACKAGES)
+        .map(pkg => path.join(process.cwd(), pkg))
+        .includes(pathToPkg)
+        ? true
         : false;
-      console.log('dependent:', isDependent, pathToPkg);
+
       if (!fExists(filePath)) return acc;
 
       acc.push({
         team: packageTeam,
         package: packageName,
         version: packageVersion,
-        dependent: isDependent,
+        dependent: !mainPkgs,
         id: stat.id,
         name: stat.name,
         threshold: stat.threshold,
