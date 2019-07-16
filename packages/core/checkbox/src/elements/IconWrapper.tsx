@@ -1,31 +1,11 @@
 /** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import { themed } from '@atlaskit/theme/components';
 import { gridSize } from '@atlaskit/theme/constants';
 import * as colors from '@atlaskit/theme/colors';
 import { multiply } from '@atlaskit/theme/math';
-import { EvaluatedTokens, EvaluatedIconTokens } from '../types';
+import { ThemeTokens, ThemeIconTokens } from '../types';
 import React from 'react';
-
-export const HiddenCheckbox = React.forwardRef((
-  // @ts-ignore - createAnalyticsEvent is injected from WithAnalyticsEvents HOC
-  { createAnalyticsEvent, ...props }: React.HTMLProps<HTMLInputElement>,
-  ref: React.Ref<HTMLInputElement>,
-) => (
-  <input
-    ref={ref}
-    css={{
-      left: '50%',
-      margin: 0,
-      opacity: 0,
-      padding: 0,
-      position: 'absolute',
-      transform: 'translate(-50%, -50%)',
-      top: '50%',
-    }}
-    {...props}
-  />
-));
 
 interface Props {
   isActive?: boolean;
@@ -37,24 +17,6 @@ interface Props {
   rest?: any;
   tokens: ThemeTokens;
 }
-
-interface LabelProps extends React.HTMLProps<HTMLLabelElement> {
-  isDisabled?: boolean;
-  tokens: ThemeTokens;
-}
-export const Label = ({ isDisabled, tokens, ...rest }: LabelProps) => (
-  <label
-    css={{
-      alignItems: 'flex-start;',
-      display: 'flex',
-      color: isDisabled
-        ? tokens.label.textColor.disabled
-        : tokens.label.textColor.rest,
-      ...(isDisabled && { cursor: 'not-allowed' }),
-    }}
-    {...rest}
-  />
-);
 
 const disabledBorder = (iconTokens: ThemeIconTokens) => ({
   stroke: iconTokens.borderColor.disabled,
@@ -150,36 +112,7 @@ const getBoxColor = (props: Props) => {
   return color;
 };
 
-export const LabelText = ({
-  tokens,
-  ...rest
-}: {
-  tokens: ThemeTokens;
-  children: React.ReactNode;
-}) => (
-  <span
-    css={{
-      paddingTop: tokens.label.spacing.top,
-      paddingRight: tokens.label.spacing.right,
-      paddingBottom: tokens.label.spacing.bottom,
-      paddingLeft: tokens.label.spacing.left,
-    }}
-    {...rest}
-  />
-);
-
-export const CheckboxWrapper = (props: { children: React.ReactNode }) => (
-  <span
-    css={{
-      display: 'flex;',
-      flexShrink: 0,
-      position: 'relative',
-    }}
-    {...props}
-  />
-);
-
-interface IconProps extends React.HTMLProps<HTMLLabelElement> {
+export interface IconProps extends React.HTMLProps<HTMLLabelElement> {
   tokens: ThemeTokens;
   isChecked?: boolean;
   isDisabled?: boolean;
@@ -188,7 +121,8 @@ interface IconProps extends React.HTMLProps<HTMLLabelElement> {
   isFocused?: boolean;
   isInvalid?: boolean;
 }
-export const IconWrapper = ({ children, ...props }: IconProps) => (
+
+export default ({ children, ...props }: IconProps) => (
   <span
     css={{
       lineHeight: 0,

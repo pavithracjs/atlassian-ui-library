@@ -3,7 +3,7 @@ import Icon from '@atlaskit/icon/glyph/checkbox';
 import GlobalTheme from '@atlaskit/theme/components';
 import CheckboxIndeterminateIcon from '@atlaskit/icon/glyph/checkbox-indeterminate';
 import Theme, { componentTokens } from './theme';
-import { IconWrapper } from './styled/Checkbox';
+import { IconWrapper } from './elements';
 import { CheckboxIconProps, ThemeProps, ThemeTokens } from './types';
 
 export default class CheckboxIcon extends Component<CheckboxIconProps, {}> {
