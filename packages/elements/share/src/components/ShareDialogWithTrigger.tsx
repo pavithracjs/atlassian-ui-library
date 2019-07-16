@@ -296,28 +296,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       triggerButtonStyle,
     } = this.props;
 
-    let button: React.ReactNode = (
-      <ShareButton
-        appearance={triggerButtonAppearance}
-        text={
-          triggerButtonStyle !== 'icon-only' ? (
-            <FormattedMessage {...messages.shareTriggerButtonText} />
-          ) : null
-        }
-        onClick={this.onTriggerClick}
-        iconBefore={
-          triggerButtonStyle !== 'text-only' ? (
-            <ShareIcon
-              label={formatMessage(messages.shareTriggerButtonIconLabel)}
-            />
-          ) : (
-            undefined
-          )
-        }
-        isSelected={isDialogOpen}
-        isDisabled={isDisabled}
-      />
-    );
+    let button: React.ReactNode;
 
     if (renderCustomTriggerButton) {
       const { shareError } = this.state;
@@ -326,6 +305,29 @@ export class ShareDialogWithTriggerInternal extends React.Component<
         isSelected: isDialogOpen,
         onClick: this.onTriggerClick,
       });
+    } else {
+      button = (
+        <ShareButton
+          appearance={triggerButtonAppearance}
+          text={
+            triggerButtonStyle !== 'icon-only' ? (
+              <FormattedMessage {...messages.shareTriggerButtonText} />
+            ) : null
+          }
+          onClick={this.onTriggerClick}
+          iconBefore={
+            triggerButtonStyle !== 'text-only' ? (
+              <ShareIcon
+                label={formatMessage(messages.shareTriggerButtonIconLabel)}
+              />
+            ) : (
+              undefined
+            )
+          }
+          isSelected={isDialogOpen}
+          isDisabled={isDisabled}
+        />
+      );
     }
 
     if (triggerButtonStyle === 'icon-only') {
