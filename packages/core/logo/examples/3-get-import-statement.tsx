@@ -20,6 +20,7 @@ const products: Product[] = [
   { label: 'Jira', value: 'Jira' },
   { label: 'JiraServiceDesk', value: 'JiraServiceDesk' },
   { label: 'JiraSoftware', value: 'JiraSoftware' },
+  { label: 'OpsGenie', value: 'OpsGenie' },
   { label: 'StatusPage', value: 'StatusPage' },
   { label: 'Stride', value: 'Stride' },
 ];

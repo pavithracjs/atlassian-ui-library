@@ -1,6 +1,6 @@
 // @flow
-
-import React from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 
 import { groupedCountries } from './data/countries';
 import Select from './Select';

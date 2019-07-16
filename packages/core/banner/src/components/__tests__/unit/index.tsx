@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { mount, shallow } from 'enzyme';
 import * as renderer from 'react-test-renderer';
 import WarningIcon from '@atlaskit/icon/glyph/warning';

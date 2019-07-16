@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
 
 export default md`
@@ -9,7 +9,7 @@ export default md`
   ${code`
 import TextArea from '@atlaskit/textarea';
   `}
-  
+
   @atlaskit/textarea exports a default component, that is optionally controllable. To control the component, specify a value prop; to specify the defaultValue but leave the component uncontrolled specify a defaultValue prop.
 
   ${(

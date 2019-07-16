@@ -25,6 +25,7 @@ export interface Props {
   offset?: number[];
   onPositionCalculated?: (position: Position) => Position;
   onPlacementChanged?: (placement: [string, string]) => void;
+  shouldRenderPopup?: (position: Position) => boolean;
   scrollableElement?: HTMLElement;
   stick?: boolean;
   ariaLabel?: string;
@@ -195,6 +196,11 @@ export default class Popup extends React.Component<Props, State> {
 
   private renderPopup() {
     const { position } = this.state;
+    const { shouldRenderPopup } = this.props;
+
+    if (shouldRenderPopup && !shouldRenderPopup(position || {})) {
+      return null;
+    }
 
     return (
       <div

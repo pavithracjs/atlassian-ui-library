@@ -1,6 +1,6 @@
 // @flow
-
-import React from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import { components } from 'react-select';
 
 import { colors, layers } from '@atlaskit/theme';

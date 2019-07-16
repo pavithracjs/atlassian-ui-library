@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/status",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "config": {
     "access": "public"
   },
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.4",
-    "@atlaskit/analytics-next": "^5.0.0",
+    "@atlaskit/analytics-next": "^5.1.0",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/lozenge": "^9.0.0",

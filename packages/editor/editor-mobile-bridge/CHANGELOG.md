@@ -1,5 +1,14 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.7
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/form@6.1.4
+  - @atlaskit/editor-core@112.33.9
+  - @atlaskit/media-test-helpers@24.3.1
+  - @atlaskit/select@10.0.0
+
 ## 8.8.6
 
 ### Patch Changes

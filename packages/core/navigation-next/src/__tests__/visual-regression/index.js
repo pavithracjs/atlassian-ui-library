@@ -61,7 +61,14 @@ describe('Snapshot Test', () => {
       'with-banner',
       global.__BASEURL__,
     );
-    const image = await takeScreenShot(global.page, url);
+    const { page } = global;
+    const pageContent = "[class$='LayoutContainer']";
+    await page.waitForSelector(pageContent);
+    await page.evaluate(
+      selector => document.querySelector(selector).scrollBy(0, 500),
+      pageContent,
+    );
+    const image = await takeScreenShot(page, url);
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });

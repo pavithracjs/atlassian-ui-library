@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import DynamicTable from '../src';
 import { caption, head, rows } from './content/sample-data';
 

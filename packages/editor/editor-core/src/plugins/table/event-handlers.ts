@@ -116,7 +116,10 @@ export const handleMouseOver = (
     return showInsertRowButton(getColumnOrRowIndex(target))(state, dispatch);
   }
 
-  if (isCell(target)) {
+  if (
+    isCell(target) ||
+    target.classList.contains(ClassName.CONTROLS_CORNER_BUTTON)
+  ) {
     return hideInsertColumnOrRowButton()(state, dispatch);
   }
 
@@ -168,7 +171,10 @@ export const handleMouseMove = (view: EditorView, event: Event) => {
     }
   }
 
-  if (element.classList.contains(ClassName.ROW_CONTROLS_BUTTON)) {
+  if (
+    element.classList.contains(ClassName.ROW_CONTROLS_BUTTON) ||
+    element.classList.contains(ClassName.NUMBERED_COLUMN_BUTTON)
+  ) {
     const { state, dispatch } = view;
     const { insertRowButtonIndex } = getPluginState(state);
     const index = getColumnOrRowIndex(element);

@@ -1,9 +1,4 @@
-import React, {
-  Component,
-  Fragment,
-  SyntheticEvent,
-  ComponentType,
-} from 'react';
+import React, { Component, Fragment, SyntheticEvent } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -19,27 +14,27 @@ import {
 } from '../version.json';
 import { PaginationPropTypes } from '../types';
 
-type StateType = {
+interface State {
   selectedIndex: number;
-};
+}
 
-class Pagination extends Component<PaginationPropTypes, StateType> {
+class Pagination extends Component<PaginationPropTypes, State> {
   static defaultProps = {
+    collapseRange: collapseRangeHelper,
     components: {},
-    renderEllipsis: renderDefaultEllipsis,
+    defaultSelectedIndex: 0,
     i18n: {
       prev: 'previous',
       next: 'next',
     },
-    onChange: () => {},
-    defaultSelectedIndex: 0,
-    max: 7,
-    collapseRange: collapseRangeHelper,
     innerStyles: {},
+    max: 7,
+    onChange: () => {},
+    renderEllipsis: renderDefaultEllipsis,
   };
 
   state = {
-    selectedIndex: this.props.defaultSelectedIndex,
+    selectedIndex: this.props.defaultSelectedIndex || 0,
   };
 
   static getDerivedStateFromProps(props: PaginationPropTypes) {
@@ -95,7 +90,7 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
       return (
         <PageComponent
           key={`page-${getPageLabel ? getPageLabel(page, index) : index}`}
-          component={components.Page}
+          component={components!.Page}
           onClick={event => this.onChange(event, index)}
           isSelected={selectedIndex === index}
           page={page}
@@ -111,9 +106,10 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
     const { pages, max, collapseRange, renderEllipsis } = this.props;
     const pagesComponents = this.pagesToComponents(pages);
 
+    // @ts-ignore
     return collapseRange(pagesComponents, selectedIndex, {
-      max,
-      ellipsis: renderEllipsis,
+      max: max!,
+      ellipsis: renderEllipsis!,
     });
   };
 
@@ -121,14 +117,14 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
     const { components, pages, i18n } = this.props;
     const { selectedIndex } = this.state;
     const props = {
-      'aria-label': i18n.prev,
+      'aria-label': i18n!.prev,
       pages,
     };
 
     return (
       <LeftNavigator
         key="left-navigator"
-        component={components.Previous}
+        component={components!.Previous}
         onClick={event => this.onChange(event, selectedIndex - 1)}
         isDisabled={selectedIndex === 0}
         {...props}
@@ -140,13 +136,13 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
     const { components, pages, i18n } = this.props;
     const { selectedIndex } = this.state;
     const props = {
-      'aria-label': i18n.next,
+      'aria-label': i18n!.next,
       pages,
     };
     return (
       <RightNavigator
         key="right-navigator"
-        component={components.Next}
+        component={components!.Next}
         onClick={event => this.onChange(event, selectedIndex + 1)}
         isDisabled={selectedIndex === pages.length - 1}
         {...props}
@@ -156,6 +152,7 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
 
   render() {
     const { innerStyles } = this.props;
+
     return (
       <div style={{ display: 'flex', ...innerStyles }}>
         <Fragment>
@@ -168,8 +165,8 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
   }
 }
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<PaginationPropTypes>({
   componentName: 'pagination',
   packageName,
   packageVersion,
-})(withAnalyticsEvents()((Pagination as unknown) as ComponentType<any>));
+})(withAnalyticsEvents<PaginationPropTypes>()(Pagination));

@@ -1,5 +1,23 @@
 # @atlaskit/media-picker
 
+## 45.0.2
+
+### Patch Changes
+
+- [patch][6a072313bf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a072313bf):
+
+  Fixing analytics for upload handlers in media-picker- [patch][50d3fb94a6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50d3fb94a6):
+
+  Fixing analytics for upload handlers in @atlaskit/media-picker
+
+## 45.0.1
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/media-test-helpers@24.3.1
+  - @atlaskit/select@10.0.0
+
 ## 45.0.0
 
 ### Major Changes

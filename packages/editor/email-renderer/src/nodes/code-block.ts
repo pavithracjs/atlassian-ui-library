@@ -2,8 +2,9 @@ import { NodeSerializerOpts } from '../interfaces';
 import { createTag } from '../create-tag';
 import { codeFontFamily } from '../styles/common';
 import { N20 } from '@atlaskit/adf-schema';
+import { createClassName } from '../styles/util';
 
-const className = `codeBlock`;
+const className = createClassName(`codeBlock`);
 
 export const styles = `
 .${className}-pre {
