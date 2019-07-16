@@ -4,6 +4,9 @@ import type { ComponentType, ElementRef } from 'react';
 
 type DrawerWidth = 'extended' | 'full' | 'medium' | 'narrow' | 'wide';
 
+type NonStringRef<T> = {
+  current: ElementRef<T> | null,
+};
 export type DrawerContentProps = { closeDrawer: () => void };
 
 export type InitialNavigationStateShape = {
