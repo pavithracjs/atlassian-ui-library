@@ -2,7 +2,6 @@ import * as React from 'react';
 import { colors } from '@atlaskit/theme';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import Button from '@atlaskit/button';
-import { truncateUrlForErrorView } from '../utils';
 import { Frame } from '../Frame';
 import { IconAndTitleLayout } from '../IconAndTitleLayout';
 import { AKIconWrapper } from '../Icon';
@@ -37,7 +36,7 @@ export class InlineCardErroredView extends React.Component<
   render() {
     const { url, message, onClick, onRetry, isSelected } = this.props;
     return (
-      <Frame onClick={onClick} isSelected={isSelected}>
+      <Frame link={url} onClick={onClick} isSelected={isSelected}>
         <IconAndTitleLayout
           icon={
             <AKIconWrapper>
@@ -48,7 +47,7 @@ export class InlineCardErroredView extends React.Component<
               />
             </AKIconWrapper>
           }
-          title={truncateUrlForErrorView(url) + ' - ' + message.trim()}
+          title={url + ' - ' + message.trim()}
           titleColor={colors.R300}
         />{' '}
         {onRetry && (
