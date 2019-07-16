@@ -15,10 +15,7 @@ import Badge from '@atlaskit/badge';
 import Button from '@atlaskit/button';
 import AddIcon from '@atlaskit/icon/glyph/add';
 
-import {
-  RefinementBarProvider,
-  withRefinementBarContext,
-} from './ContextProvider';
+import { RefinementBarProvider, RefinementBarContext } from './ContextProvider';
 import Popup, { DialogInner } from './Popup';
 import { FilterButton } from './FilterButton';
 import { FilterManager } from './FilterManager';
@@ -33,8 +30,8 @@ import {
 
 type Props = {
   createAnalyticsEvent: (*) => any,
-  tempContextFromProps: Object,
 };
+type Context = Object;
 type State = {
   activePopupKey: string | null,
   invalid: { [key: string]: string },
@@ -43,25 +40,22 @@ type State = {
 };
 
 class ActualRefinementBar extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    // TEMP: until `static contextType` is available
-    this.ctx = props.tempContextFromProps;
+  constructor(props: Props, context: Context) {
+    super(props, context);
 
     // declared here once so react-select can keep track of the keys;
     // helps with the focused option, scroll tracking etc.
-    this.filterOptions = this.ctx.removeableKeys.map(this.mapKeyToOption);
+    this.filterOptions = context.removeableKeys.map(this.mapKeyToOption);
 
     this.state = {
       activePopupKey: null,
       invalid: {},
       isExpanded: true,
-      values: this.ctx.value,
+      values: context.value,
     };
   }
 
-  ctx: Object;
+  static contextType = RefinementBarContext;
 
   filterOptions: Array<Object>;
 
@@ -70,12 +64,6 @@ class ActualRefinementBar extends PureComponent<Props, State> {
   showAllRef: ElementRef<*> = createRef();
 
   analyticsTimer: TimeoutID;
-
-  // Required until atlaskit upgrades to react >= 16.6 😞
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.ctx = nextProps.tempContextFromProps;
-  }
 
   // ==============================
   // Popups
@@ -105,7 +93,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       // NOTE: we must avoid personally identifiable information, so the payload
       // SHOULD NOT contain any actual values.
       const filters = objectMap(values, (val, key) => {
-        const field = this.ctx.fieldConfig[key];
+        const field = this.context.fieldConfig[key];
         const filterType = field.type.name;
 
         // Augment where possible with additional data related to the filter
@@ -138,13 +126,13 @@ class ActualRefinementBar extends PureComponent<Props, State> {
   // ==============================
 
   handleFieldAdd = async (key: string) => {
-    const field = this.ctx.fieldConfig[key];
+    const field = this.context.fieldConfig[key];
     const data = field.getInitialValue();
     const meta = { action: 'add', key, data };
     const values = await cloneObj(this.state.values, { add: { [key]: data } });
 
     this.setState({ activePopupKey: key, values, isExpanded: true }, () => {
-      this.ctx.onChange(values, meta);
+      this.context.onChange(values, meta);
     });
   };
 
@@ -156,23 +144,23 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     const values = await cloneObj(this.state.values, { remove: key });
 
     this.setState({ values }, () => {
-      this.ctx.onChange(values, { action: 'remove', key });
+      this.context.onChange(values, { action: 'remove', key });
     });
   };
 
   handleFieldClear = async (key: string) => {
-    const field = this.ctx.fieldConfig[key];
+    const field = this.context.fieldConfig[key];
     const value = field.getInitialValue();
     const values = cloneObj(this.state.values, { add: { [key]: value } });
 
     this.setState({ values }, () => {
       this.handleIdleAnalyticsEvent(values);
-      this.ctx.onChange(values, { action: 'clear', key });
+      this.context.onChange(values, { action: 'clear', key });
     });
   };
 
   handleFieldChange = (key: string) => (value: *) => {
-    const { fieldConfig } = this.ctx;
+    const { fieldConfig } = this.context;
     const oldInvalid = this.state.invalid;
     const values = cloneObj(this.state.values, { add: { [key]: value } });
 
@@ -194,7 +182,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       }
 
       // avoid unnecessary calls
-      if (values[key] === this.ctx.value[key]) {
+      if (values[key] === this.context.value[key]) {
         return;
       }
 
@@ -202,46 +190,56 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       const meta = { action: 'update', key, data };
 
       this.handleIdleAnalyticsEvent(values);
-      this.ctx.onChange(values, meta);
+      this.context.onChange(values, meta);
     };
 
     this.setState({ invalid, values }, liveUpdateStoredValues);
   };
 
   makeField = (config: Object) => (key: string) => {
-    const { type, ...field } = this.ctx.fieldConfig[key];
-    const Field = type.view;
+    const fieldModel = this.context.fieldConfig[key];
+
+    // Catch invalid configurations
+    if (!fieldModel) {
+      const likelySource = config.isRemovable ? 'value' : 'irremovableKeys';
+
+      throw new Error(
+        `Couldn't find a matching field config for key "${key}". There may be stale keys in \`${likelySource}\`.`,
+      );
+    }
+
+    const { type, ...field } = fieldModel;
+    const FieldView = type.view;
+
+    // Catch missing views:
+    // This should only really happen when developing a new field type
+    if (!FieldView) {
+      throw new Error(
+        `Couldn't find the View (${type.name}) for key "${key}".`,
+      );
+    }
 
     const invalidMessage = this.state.invalid[key];
     const isInvalid = Boolean(invalidMessage);
 
     const initialValue = field.getInitialValue();
-    const storedValue = this.ctx.value[key] || initialValue;
+    const storedValue = this.context.value[key] || initialValue;
     const localValue = this.state.values[key] || initialValue;
 
     const hasPopup = typeof field.formatButtonLabel === 'function';
     const popupIsOpen = this.state.activePopupKey === key;
 
-    // this shouldn't be possible, but better to be safe
-    if (!Field) {
-      throw new Error(
-        `There's something wrong with the renderer (${
-          type.name
-        }) for "${key}".`,
-      );
-    }
-
     const fieldUI = ({ scheduleUpdate }) => {
       const extra = scheduleUpdate ? { ...config, scheduleUpdate } : config;
 
       return (
-        <Field
+        <FieldView
           closePopup={this.closePopup}
           field={field}
           invalidMessage={invalidMessage}
           key={key}
           onChange={this.handleFieldChange(key)}
-          refinementBarValue={this.ctx.value}
+          refinementBarValue={this.context.value}
           storedValue={storedValue}
           value={localValue}
           {...extra}
@@ -316,13 +314,13 @@ class ActualRefinementBar extends PureComponent<Props, State> {
   };
 
   mapKeyToOption = value => {
-    const field = this.ctx.fieldConfig[value];
+    const field = this.context.fieldConfig[value];
     const label = field.label || value;
     return { label, value }; // react-select expects this shape
   };
 
   render() {
-    const { irremovableKeys, selectedKeys } = this.ctx;
+    const { irremovableKeys, selectedKeys } = this.context;
     const { activePopupKey, isExpanded } = this.state;
     const FILTER_POPUP_KEY = '__refinement-bar-more-menu__';
 
@@ -418,7 +416,7 @@ const Group = forwardRef(({ children }: *, ref) => {
 // ==============================
 
 export const RefinementBarUI = withAnalyticsContext(defaultAttributes)(
-  withAnalyticsEvents()(withRefinementBarContext(ActualRefinementBar)),
+  withAnalyticsEvents()(ActualRefinementBar),
 );
 
 // ==============================
