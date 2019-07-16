@@ -1,4 +1,3 @@
-import assert from 'tiny-invariant';
 import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
@@ -8,15 +7,18 @@ import { ButtonAppearances } from '@atlaskit/button';
 import { LoadOptions } from '@atlaskit/user-picker';
 import memoizeOne from 'memoize-one';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
+import assert from 'tiny-invariant';
+import {
+  AtlassianUrlShortenerClient,
+  UrlShortenerClient,
+} from '../clients/AtlassianUrlShortenerClient';
 import {
   ConfigResponse,
   ShareClient,
   ShareServiceClient,
 } from '../clients/ShareServiceClient';
-import {
-  UrlShortenerClient,
-  AtlassianUrlShortenerClient,
-} from '../clients/AtlassianUrlShortenerClient';
+import { messages } from '../i18n';
 import {
   Content,
   DialogContentState,
@@ -25,20 +27,20 @@ import {
   MetaData,
   OriginTracing,
   OriginTracingFactory,
+  ProductId,
   RenderCustomTriggerButton,
   ShareButtonStyle,
-  ProductId,
 } from '../types';
-import MessagesIntlProvider from './MessagesIntlProvider';
-import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
-import { optionDataToUsers } from './utils';
 import {
+  CHANNEL_ID,
+  copyLinkButtonClicked,
   errorEncountered,
   shortUrlGenerated,
   shortUrlRequested,
-  copyLinkButtonClicked,
-  CHANNEL_ID,
 } from './analytics';
+import MessagesIntlProvider from './MessagesIntlProvider';
+import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
+import { optionDataToUsers } from './utils';
 
 const COPY_LINK_EVENT = copyLinkButtonClicked(0);
 
@@ -116,6 +118,8 @@ export type Props = {
   /** Whether we should use the Atlassian Url Shortener or not.
    * Note that all products may not be supported. */
   useUrlShortener?: boolean;
+  /** Action that will be performed by the recipient when he/she receives the notification. */
+  shareeAction?: 'view' | 'edit';
 };
 
 export type State = {
@@ -153,6 +157,7 @@ export class ShareDialogContainerInternal extends React.Component<
 
   static defaultProps = {
     useUrlShortener: false,
+    shareeAction: 'view' as 'view' | 'edit',
   };
 
   constructor(props: Props) {
@@ -225,7 +230,13 @@ export class ShareDialogContainerInternal extends React.Component<
     comment,
   }: DialogContentState): Promise<void> => {
     const shareLink = this.getFormShareLink();
-    const { productId, shareAri, shareContentType, shareTitle } = this.props;
+    const {
+      productId,
+      shareAri,
+      shareContentType,
+      shareTitle,
+      shareeAction,
+    } = this.props;
     const content: Content = {
       ari: shareAri,
       link: shareLink,
@@ -235,6 +246,7 @@ export class ShareDialogContainerInternal extends React.Component<
     const metaData: MetaData = {
       productId,
       atlOriginId: this.getFormShareOriginTracing().id,
+      shareeAction,
     };
 
     return this.shareClient
@@ -426,6 +438,7 @@ export class ShareDialogContainerInternal extends React.Component<
       triggerButtonAppearance,
       triggerButtonStyle,
       bottomMessage,
+      shareeAction,
     } = this.props;
     const { isFetchingConfig } = this.state;
     return (
@@ -449,12 +462,17 @@ export class ShareDialogContainerInternal extends React.Component<
           triggerButtonAppearance={triggerButtonAppearance}
           triggerButtonStyle={triggerButtonStyle}
           bottomMessage={bottomMessage}
+          submitButtonLabel={
+            shareeAction === 'edit' && (
+              <FormattedMessage {...messages.inviteTriggerButtonText} />
+            )
+          }
         />
       </MessagesIntlProvider>
     );
   }
 }
 
-export const ShareDialogContainer: React.ComponentType<
-  Props
-> = withAnalyticsEvents()(ShareDialogContainerInternal);
+export const ShareDialogContainer = withAnalyticsEvents<Props>()(
+  ShareDialogContainerInternal,
+);

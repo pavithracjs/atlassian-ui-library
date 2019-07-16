@@ -50,14 +50,16 @@ export const tableToolbarSize = akEditorTableToolbarSize;
 export const tableBorderRadiusSize = 3;
 export const tableInsertColumnButtonSize = 20;
 export const tableDeleteButtonSize = 16;
+export const tableDeleteButtonOffset = 6;
 export const tablePadding = 8;
 export const contextualMenuTriggerSize = 16;
 export const contextualMenuDropdownWidth = 180;
 export const layoutButtonSize = 32;
-export const tableInsertColumnButtonLeftOffset = 22;
-export const tableInsertColumnButtonTopOffset = 22;
+export const tableInsertColumnButtonOffset = 3;
 export const tableScrollbarOffset = 15;
 export const tableMarginFullWidthMode = 2;
+export const lineMarkerOffsetFromColumnControls = 13;
+export const lineMarkerSize = 4;
 
 const isIE11 = browser.ie_version === 11;
 
@@ -71,14 +73,18 @@ const InsertLine = (css?: string) => `
   }
 `;
 
+const Marker = `
+  background-color: ${tableBorderColor};
+  position: absolute;
+  height: ${lineMarkerSize}px;
+  width: ${lineMarkerSize}px;
+  border-radius: 50%;
+  pointer-events: none;
+`;
+
 const InsertMarker = (css?: string) => `
   .${ClassName.CONTROLS_INSERT_MARKER} {
-    background-color: ${tableBorderColor};
-    position: absolute;
-    height: 4px;
-    width: 4px;
-    border-radius: 50%;
-    pointer-events: none;
+    ${Marker};
     ${css}
   }
 `;
@@ -201,34 +207,6 @@ const InsertButtonHover = () => `
   }
 `;
 
-const DeleteButton = (css?: string) => `
-  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
-  .${ClassName.CONTROLS_DELETE_BUTTON} {
-    height: ${tableDeleteButtonSize}px;
-    width: ${tableDeleteButtonSize}px;
-  }
-  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
-    position: absolute;
-    z-index: 100;
-    ${css}
-
-    .${ClassName.CONTROLS_DELETE_BUTTON} {
-      ${Button(`
-        background: ${N20A};
-        color: ${N300};
-      `)}
-    }
-  }
-`;
-
-const DeleteButtonHover = () => `
-  .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
-    background: ${R300};
-    color: white;
-    cursor: pointer;
-  }
-`;
-
 const insertColumnButtonWrapper = `
   ${InsertButton()}
   ${InsertButtonHover()}
@@ -248,6 +226,42 @@ const insertRowButtonWrapper = `
   `)}
 `;
 
+const columnControlsLineMarker = `
+  .${ClassName.TABLE_CONTAINER}.${ClassName.WITH_CONTROLS} table tr:first-child td,
+  .${ClassName.TABLE_CONTAINER}.${ClassName.WITH_CONTROLS} table tr:first-child th {
+    position: relative;
+
+    &::before {
+      content: ' ';
+      ${Marker};
+      top: -${tableToolbarSize + lineMarkerOffsetFromColumnControls}px;
+      right: -${lineMarkerSize / 2}px;
+    }
+  }
+`
+
+const DeleteButton = `
+  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
+  .${ClassName.CONTROLS_DELETE_BUTTON} {
+    height: ${tableDeleteButtonSize}px;
+    width: ${tableDeleteButtonSize}px;
+  }
+  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
+    .${ClassName.CONTROLS_DELETE_BUTTON} {
+      ${Button(`
+        background: ${N20A};
+        color: ${N300};
+      `)}
+    }
+  }
+  
+  .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
+    background: ${R300};
+    color: white;
+    cursor: pointer;
+  }
+`;
+
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
     background: ${N20A};
@@ -261,8 +275,11 @@ export const tableStyles = css`
     cursor: pointer;
   }
 
+
   .ProseMirror {
-    ${tableSharedStyle}
+    ${tableSharedStyle};
+    ${columnControlsLineMarker};
+
     .${ClassName.CONTROLS_FLOATING_BUTTON_COLUMN} {
       ${insertColumnButtonWrapper}
     }
@@ -270,6 +287,10 @@ export const tableStyles = css`
     .${ClassName.CONTROLS_FLOATING_BUTTON_ROW} {
       ${insertRowButtonWrapper}
     }
+
+    /* Delete button*/
+    ${DeleteButton}
+    /* Ends Delete button*/
 
     .less-padding {
       padding: 0 ${tablePadding}px;
@@ -298,11 +319,6 @@ export const tableStyles = css`
       height: ${tableToolbarSize}px;
       box-sizing: border-box;
       display: none;
-
-      ${InsertMarker(`
-        right: -1px;
-        top: -12px;
-      `)};
 
       .${ClassName.COLUMN_CONTROLS_INNER} {
         display: flex;
@@ -341,17 +357,7 @@ export const tableStyles = css`
       ${HeaderButtonHover()}
       ${HeaderButtonDanger()}
     }
-    .${ClassName.COLUMN_CONTROLS},
-    .${ClassName.CORNER_CONTROLS} {
-      ${DeleteButton(`
-        top: -${tableDeleteButtonSize + 4}px;
-      `)}
-    }
 
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.COLUMN_CONTROLS},
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.CORNER_CONTROLS} {
-      ${ DeleteButtonHover()}
-    }
     /* Corner controls */
     .${ClassName.CORNER_CONTROLS} {
       width: ${tableToolbarSize + 1}px;
@@ -442,10 +448,7 @@ export const tableStyles = css`
       .${ClassName.CONTROLS_BUTTON}:hover {
         z-index: ${akEditorUnitZIndex};
       }
-      ${DeleteButton(`
-        bottom: -${tableInsertColumnButtonSize / 2}px;
-        left: -${tableDeleteButtonSize + 6}px;
-      `)}
+
       ${HeaderButton(`
         border-bottom: 1px solid ${tableBorderColor};
         border-right: 1px solid ${tableBorderColor};
@@ -468,7 +471,6 @@ export const tableStyles = css`
     :not(.${ClassName.IS_RESIZING}) .${ClassName.ROW_CONTROLS} {
       ${HeaderButtonHover()}
       ${HeaderButtonDanger()}
-      ${DeleteButtonHover()}
     }
 
     /* Numbered column */
@@ -577,6 +579,7 @@ export const tableStyles = css`
     .${ClassName.TABLE_NODE_WRAPPER} > table {
       overflow: hidden;
       table-layout: fixed;
+      overflow-y: visible;
 
       .${ClassName.CELL_NODEVIEW_WRAPPER} {
         position: relative;

@@ -2,6 +2,7 @@ import * as React from 'react';
 import throttle from 'lodash.throttle';
 import now from '../utils/performance-now';
 import { prefetchAll } from '../providers/instance-data-providers';
+import { prefetchAvailableProducts } from '../providers/products-data-provider';
 import {
   NAVIGATION_CHANNEL,
   NavigationAnalyticsContext,
@@ -53,6 +54,7 @@ class PrefetchTrigger extends React.Component<
   private triggerPrefetch: typeof prefetchAll = throttle(
     (params: any) => {
       prefetchAll(params);
+      prefetchAvailableProducts();
       this.fireOperationalEvent({
         action: 'triggered',
       });
@@ -91,7 +93,9 @@ class PrefetchTrigger extends React.Component<
   }
 }
 
-const PrefetchTriggerWithEvents = withAnalyticsEvents()(PrefetchTrigger);
+const PrefetchTriggerWithEvents = withAnalyticsEvents<PrefetchTriggerProps>()(
+  PrefetchTrigger,
+);
 
 export default (props: PrefetchTriggerProps) => (
   <NavigationAnalyticsContext data={TRIGGER_CONTEXT}>

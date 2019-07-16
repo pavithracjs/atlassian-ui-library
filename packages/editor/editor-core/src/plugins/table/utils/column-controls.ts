@@ -10,6 +10,7 @@ import {
 import { Selection } from 'prosemirror-state';
 import { TableMap, CellSelection } from 'prosemirror-tables';
 import { tableDeleteButtonSize } from '../ui/styles';
+import { TableCssClassName as ClassName } from '../types';
 
 export interface ColumnParams {
   startIndex: number;
@@ -118,9 +119,9 @@ export const getColumnClassNames = (
     isColumnSelected(index)(selection) ||
     (hoveredColumns.indexOf(index) > -1 && !isResizing)
   ) {
-    classNames.push('active');
+    classNames.push(ClassName.HOVERED_CELL_ACTIVE);
     if (isInDanger) {
-      classNames.push('danger');
+      classNames.push(ClassName.HOVERED_CELL_IN_DANGER);
     }
   }
   return classNames.join(' ');

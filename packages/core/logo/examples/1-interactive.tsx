@@ -146,6 +146,7 @@ export default class InteractiveLogo extends Component<Props, State> {
           useProps,
         )}
         {sizeRange(logos.JiraSoftwareLogo, colorPreset, sizePreset, useProps)}
+        {sizeRange(logos.OpsGenieLogo, colorPreset, sizePreset, useProps)}
         {sizeRange(logos.StatuspageLogo, colorPreset, sizePreset, useProps)}
         {sizeRange(logos.StrideLogo, colorPreset, sizePreset, useProps)}
       </div>

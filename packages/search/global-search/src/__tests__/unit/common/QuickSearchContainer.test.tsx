@@ -1,6 +1,10 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { ABTest, DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
+import {
+  ABTest,
+  DEFAULT_AB_TEST,
+  Filter,
+} from '../../../api/CrossProductSearchClient';
 import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
 import {
   PartiallyLoadedRecentItems,
@@ -19,6 +23,7 @@ import { QuickSearchContext } from '../../../api/types';
 import { mockLogger } from '../mocks/_mockLogger';
 import { JiraResultsMap, ConfluenceResultsMap } from '../../../model/Result';
 import uuid from 'uuid/v4';
+import { DEFAULT_FEATURES } from '../../../util/features';
 
 const defaultAutocompleteData = ['autocomplete', 'automock', 'automation'];
 const defaultReferralContext = {
@@ -64,10 +69,7 @@ const defaultProps = {
   referralContextIdentifiers: defaultReferralContext,
   getPreQueryDisplayedResults: jest.fn(mapToResultGroup),
   getPostQueryDisplayedResults: jest.fn(mapToResultGroup),
-  features: {
-    abTest: DEFAULT_AB_TEST,
-    searchExtensionsEnabled: false,
-  },
+  features: DEFAULT_FEATURES,
 };
 
 const mountQuickSearchContainer = (
@@ -115,6 +117,7 @@ describe('QuickSearchContainer', () => {
       timings: PerformanceTiming,
       searchSessionId: string,
       query: string,
+      filtersApplied: { [filterType: string]: boolean },
       createAnalyticsEvent: CreateAnalyticsEventFn,
       abTest: ABTest,
       referralContextIdentifiers?: ReferralContextIdentifiers,
@@ -163,6 +166,7 @@ describe('QuickSearchContainer', () => {
       [x: string]: any;
       spaces?: { key: string }[] | { key: string }[];
     },
+    filtersApplied: { [filterType: string]: boolean } = {},
   ) => {
     expect(firePostQueryShownEventSpy).toBeCalled();
     expect(defaultProps.getPostQueryDisplayedResults).toBeCalled();
@@ -184,6 +188,7 @@ describe('QuickSearchContainer', () => {
       }),
       expect.any(String),
       query,
+      filtersApplied,
       defaultProps.createAnalyticsEvent,
       DEFAULT_AB_TEST,
       defaultReferralContext,
@@ -348,10 +353,11 @@ describe('QuickSearchContainer', () => {
         | Promise<{ results: { spaces: { key: string }[] } }>
         | Promise<never>
         | Promise<{ results: { spaces: { key: string }[] } }>,
+      filters: Filter[] = [],
     ) => {
       getSearchResults.mockReturnValueOnce(resultPromise);
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
-      await globalQuickSearch.props().onSearch(query, 0);
+      await globalQuickSearch.props().onSearch(query, 0, filters);
 
       globalQuickSearch = wrapper.find(GlobalQuickSearch);
       expect(globalQuickSearch.props().isLoading).toBe(false);
@@ -382,6 +388,30 @@ describe('QuickSearchContainer', () => {
         isError: false,
       });
       assertPostQueryAnalytics(query, searchResults);
+    });
+
+    it('should handle search with filters', async () => {
+      const searchResults = {
+        spaces: [
+          {
+            key: 'space-1',
+          },
+        ],
+      };
+      const query = 'query';
+      const wrapper = await renderAndWait();
+      await search(
+        wrapper,
+        query,
+        Promise.resolve({ results: searchResults }),
+        [{ '@type': 'spaces', spaceKeys: ['abc123'] }],
+      );
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        searchResults,
+        isLoading: false,
+        isError: false,
+      });
+      assertPostQueryAnalytics(query, searchResults, { spaces: true });
     });
 
     it('should handle error', async () => {

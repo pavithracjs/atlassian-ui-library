@@ -25,12 +25,12 @@ import {
   ShareError,
 } from '../types';
 import {
-  shareTriggerButtonClicked,
   cancelShare,
-  copyLinkButtonClicked,
-  screenEvent,
-  formShareSubmitted,
   CHANNEL_ID,
+  copyLinkButtonClicked,
+  formShareSubmitted,
+  screenEvent,
+  shareTriggerButtonClicked,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -69,6 +69,7 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
   bottomMessage?: React.ReactNode;
+  submitButtonLabel?: React.ReactNode;
 };
 
 const InlineDialogFormWrapper = styled.div`
@@ -267,8 +268,10 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(copyLinkButtonClicked(this.start, copyLinkOrigin));
+    const { copyLinkOrigin, shareContentType } = this.props;
+    this.createAndFireEvent(
+      copyLinkButtonClicked(this.start, shareContentType, copyLinkOrigin),
+    );
   };
 
   render() {
@@ -285,6 +288,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       triggerButtonAppearance,
       triggerButtonStyle,
       bottomMessage,
+      submitButtonLabel,
     } = this.props;
 
     // for performance purposes, we may want to have a loadable content i.e. ShareForm
@@ -312,6 +316,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
                     config={config}
                     onLinkCopy={this.handleCopyLink}
                     isFetchingConfig={isFetchingConfig}
+                    submitButtonLabel={submitButtonLabel}
                   />
                 </InlineDialogFormWrapper>
                 {bottomMessage ? (
@@ -358,6 +363,6 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   }
 }
 
-export const ShareDialogWithTrigger: React.ComponentType<
-  Props
-> = withAnalyticsEvents()(injectIntl(ShareDialogWithTriggerInternal));
+export const ShareDialogWithTrigger = withAnalyticsEvents<Props>()(
+  injectIntl<Props>(ShareDialogWithTriggerInternal),
+);

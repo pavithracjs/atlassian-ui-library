@@ -48,6 +48,7 @@ describe('Snapshot Test: Media', () => {
 
       it('should show edit media linking toolbar', async () => {
         await clickOnToolbarButton(page, MediaToolbarButton.addLink);
+        await page.mouse.move(0, 0); // Prevent keep mouse over the button. (This cause to sometimes highlight the button)
         await waitForActivityItems(page, 5);
 
         await pressKey(page, ['ArrowDown', 'Enter']);

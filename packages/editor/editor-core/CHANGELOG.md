@@ -1,5 +1,117 @@
 # @atlaskit/editor-core
 
+## 112.33.13
+
+### Patch Changes
+
+- [patch][030ead1ffa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/030ead1ffa):
+
+  ED-7262: Fix text color dropdown alignment on smaller viewports (it would appear outside the viewport)
+
+## 112.33.12
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 112.33.11
+
+### Patch Changes
+
+- [patch][5ca03a3267](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca03a3267):
+
+  ED-7242 Use calculated offset to position table InsertButton (Use allowOutOfBound from popup)
+
+## 112.33.10
+
+### Patch Changes
+
+- [patch][64868b4e0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64868b4e0e):
+
+  ED-7249 Fix regression where table Insert Column button doesn't hide.
+
+## 112.33.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/logo@12.1.1
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/share@0.5.9
+  - @atlaskit/user-picker@4.0.13
+  - @atlaskit/media-picker@45.0.1
+  - @atlaskit/media-test-helpers@24.3.1
+  - @atlaskit/select@10.0.0
+
+## 112.33.8
+
+### Patch Changes
+
+- [patch][eaebe8551f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaebe8551f):
+
+  Update i18n strings with latest translations.
+
+## 112.33.7
+
+### Patch Changes
+
+- [patch][95c6536030](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95c6536030):
+
+  ED-7247 Fix regression where table insert button is not shown when hover on numbered controls.
+
+## 112.33.6
+
+### Patch Changes
+
+- [patch][f37cdc770c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f37cdc770c):
+
+  [ED-7243] Improve table decorations architecture
+
+## 112.33.5
+
+### Patch Changes
+
+- [patch][66809023e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66809023e3):
+
+  ED-7210: Fire link insertion event when exiting from floating toolbar
+
+## 112.33.4
+
+### Patch Changes
+
+- [patch][e14708091e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e14708091e):
+
+  ED-7211: Handle paste events with only an anchor tag
+
+## 112.33.3
+
+### Patch Changes
+
+- [patch][5f09ffcf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f09ffcf70):
+
+  ED-7097 Improve table performance, extract the DeleteButton from Table controls as a Floating element.
+
+## 112.33.2
+
+### Patch Changes
+
+- [patch][4b27187d8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b27187d8e):
+
+  [ED-7215] Improve table performance moving the column line markers from React Component to CSS only
+
 ## 112.33.1
 
 ### Patch Changes

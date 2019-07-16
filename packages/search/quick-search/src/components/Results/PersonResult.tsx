@@ -12,7 +12,7 @@ export type Props = CommonResultProps & {
   /** A character with which to prefix the `mentionName`. Defaults to '@' */
   mentionPrefix?: string;
   /** Text to be shown alongside the main `text`. */
-  presenceMessage?: string;
+  presenceMessage?: React.ReactNode;
   /** Sets the appearance of the presence indicator */
   presenceState?: 'online' | 'busy' | 'offline' | null;
 };

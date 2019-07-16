@@ -10,20 +10,33 @@ export default {
   'fabric.elements.share.form.send': 'Envoyer',
   'fabric.elements.share.form.retry': 'Réessayer',
   'fabric.elements.share.form.comment.placeholder': 'Ajouter un message',
-  'fabric.elements.share.form.user-picker.placeholder':
-    'Saisissez un nom, une équipe ou une adresse e-mail.',
+  'fabric.elements.share.form.user-picker.placeholder.generic':
+    'Saisir un nom, une équipe ou une adresse e-mail',
+  'fabric.elements.share.form.user-picker.placeholder.existingUserOnly':
+    'Saisir un nom ou une équipe',
   'fabric.elements.share.form.user-picker.add-more': 'Saisir plus d’éléments',
   'fabric.elements.share.form.user-picker.validation.required':
     'Sélectionnez au moins un utilisateur, une équipe ou une adresse e-mail.',
-  'fabric.elements.share.form.user-picker.no-options.emptyQuery':
-    "Pas de résultats. Invitez des personnes à l'aide d'une adresse e-mail.",
-  'fabric.elements.share.form.user-picker.no-options':
+  'fabric.elements.share.form.user-picker.no-options.domainBasedUserOnly':
+    "Vous pouvez uniquement inviter des personnes disposant d'une adresse e-mail {domains}. Contactez l'administrateur du site pour inviter d'autres personnes.",
+  'fabric.elements.share.form.user-picker.no-options.existingUserOnly':
+    'Pas de résultats pour « {inputValue} ».',
+  'fabric.elements.share.form.user-picker.no-options.generic':
     "Pas de résultats pour « {inputValue} ». Invitez des personnes à l'aide d'une adresse e-mail.",
+  'fabric.elements.share.trigger.button.icon.label': 'Icône de partage',
   'fabric.elements.share.trigger.button.text': 'Partager',
+  'fabric.elements.share.trigger.button.invite.text': 'Inviter',
+  'fabric.elements.share.copylink.button.icon.label': 'Icône de copie du lien',
   'fabric.elements.share.copylink.button.text': 'Copier le lien',
+  'fabric.elements.share.copied.to.clipboard.icon.label': 'Icône de lien copié',
   'fabric.elements.share.copied.to.clipboard.message':
     'Lien copié dans le presse-papier',
   'fabric.elements.share.form.capabilities.info.message':
     'Votre invitation sera envoyée à un administrateur pour approbation',
+  'fabric.elements.share.failure.icon.label': "Icône d'erreur",
   'fabric.elements.share.failure.message': 'Partage impossible',
+  'fabric.elements.share.success.message':
+    '{object, select, blogpost {Billet de blog partagé} board {Tableau partagé} calendar {Calendrier partagé} draft {Brouillon partagé} filter {Filtre partagé} issue {Ticket partagé} media {Média partagé} page {Page partagée} project {Projet partagé} pullrequest {Pull request partagée} question {Question partagée} report {Rapport partagé} repository {Dépôt partagé} request {Demande partagée} roadmap {Feuille de route partagée} site {Site partagé} space {Espace partagé} other {Lien partagé}}',
+  'fabric.elements.share.admin.notified.message':
+    'Votre administrateur a été prévenu',
 };

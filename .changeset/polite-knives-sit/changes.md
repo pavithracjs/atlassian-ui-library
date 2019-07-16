@@ -1,0 +1,1 @@
+Now able to take a prop that will show a feature highlight

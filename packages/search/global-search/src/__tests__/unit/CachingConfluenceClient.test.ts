@@ -43,6 +43,7 @@ describe('CachingConfluenceClient', () => {
         containerId: 'abc',
         iconClass: 'iconClass',
         isRecentResult: true,
+        friendlyLastModified: undefined, // not available for recent results
       })),
       totalSize: pages.length,
     },

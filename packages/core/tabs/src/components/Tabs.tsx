@@ -126,12 +126,12 @@ class Tabs extends Component<TabsProps, TabsState> {
 export { Tabs as TabsWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<TabsProps>({
   componentName: 'tabs',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<TabsProps>({
     onSelect: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'tab',
