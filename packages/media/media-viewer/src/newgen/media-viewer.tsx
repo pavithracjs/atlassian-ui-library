@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentClass, SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 import { MediaClient, Identifier } from '@atlaskit/media-client';
 import { IntlProvider, intlShape } from 'react-intl';
 import { Shortcut } from '@atlaskit/media-ui';
@@ -123,6 +123,4 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
   }
 }
 
-export const MediaViewer = withAnalyticsEvents()(
-  MediaViewerComponent,
-) as ComponentClass<Props>;
+export const MediaViewer = withAnalyticsEvents<Props>()(MediaViewerComponent);

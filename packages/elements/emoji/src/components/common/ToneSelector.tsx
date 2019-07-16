@@ -86,9 +86,6 @@ export class ToneSelectorInternal extends PureComponent<
   }
 }
 
-type ToneSelector = ToneSelectorInternal;
-const ToneSelector: React.ComponentType<Props> = withAnalyticsEvents()(
-  ToneSelectorInternal,
-);
+const ToneSelector = withAnalyticsEvents<Props>()(ToneSelectorInternal);
 
 export default ToneSelector;

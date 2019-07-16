@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';

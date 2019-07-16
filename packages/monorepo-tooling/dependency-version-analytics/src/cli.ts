@@ -33,6 +33,9 @@ ${chalk.yellow.bold('[populate-product] <product>')}
 ${chalk.yellow.bold('[populate-package] <package>')}
    Sends analytics events for published versions of the specified atlaskit package.
 
+   ${chalk.green('Options')}
+     ${chalk.yellow('--since')}       Only publish versions since the following JS date string (exclusive)
+
    ${chalk.green('Examples')}
      ${chalk.dim('$ atlaskit-version-analytics populate-package @atlaskit/button')}
 `;
@@ -42,8 +45,9 @@ type Cli = meow.Result & {
     csv: boolean;
     dev: boolean;
     dryRun: boolean;
-    limit?: number;
+    limit?: string;
     interactive: boolean;
+    since: string;
   };
 };
 
@@ -69,6 +73,9 @@ export function run({ dev }: { dev: boolean }) {
       interactive: {
         type: 'boolean',
         default: true,
+      },
+      since: {
+        type: 'string',
       },
       tag: {
         type: 'string',
@@ -109,6 +116,7 @@ export function run({ dev }: { dev: boolean }) {
       interactive: cli.flags.interactive,
       limit,
       pkg,
+      since: cli.flags.since,
     });
   }
 

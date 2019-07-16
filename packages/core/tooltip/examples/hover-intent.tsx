@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Target } from './styled';
 import Tooltip from '../src';
 import { PositionType } from '../src/types';

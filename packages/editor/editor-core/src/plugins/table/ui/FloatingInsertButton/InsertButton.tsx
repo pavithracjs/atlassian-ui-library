@@ -6,7 +6,7 @@ import Tooltip from '@atlaskit/tooltip';
 import { TableCssClassName as ClassName } from '../../types';
 import { tableToolbarSize } from '../styles';
 import tableMessages from '../messages';
-import { closestElement } from '../../../../utils/';
+import { closestElement } from '../../../../utils';
 import * as keymaps from '../../../../keymaps';
 
 export interface ButtonProps {

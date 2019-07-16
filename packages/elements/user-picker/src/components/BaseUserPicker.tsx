@@ -512,6 +512,4 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   }
 }
 
-export const BaseUserPicker: React.ComponentType<Props> = withAnalyticsEvents()(
-  UserPickerInternal,
-);
+export const BaseUserPicker = withAnalyticsEvents<Props>()(UserPickerInternal);

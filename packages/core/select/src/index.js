@@ -1,11 +1,9 @@
 // @flow
-export {
-  components,
-  createFilter,
-  mergeStyles,
-  makeAsyncSelect,
-  makeCreatableSelect,
-} from 'react-select';
+export { components, createFilter, mergeStyles } from 'react-select';
+
+export { makeAsyncSelect } from 'react-select/async';
+
+export { makeCreatableSelect } from 'react-select/creatable';
 
 export { CheckboxOption, RadioOption } from './components/input-options';
 

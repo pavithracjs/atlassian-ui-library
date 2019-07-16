@@ -1,5 +1,14 @@
 # @atlaskit/navigation-next
 
+## 6.3.4
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/inline-dialog@12.0.5
+  - @atlaskit/logo@12.1.1
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/select@10.0.0
+
 ## 6.3.3
 
 ### Patch Changes
