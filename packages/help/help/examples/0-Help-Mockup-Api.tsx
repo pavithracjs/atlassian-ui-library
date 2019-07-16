@@ -59,7 +59,7 @@ export default class extends React.Component {
                   articleId="00"
                   onGetArticle={this.onGetArticle}
                 >
-                  <h1>Default content</h1>
+                  <span>Default content</span>
                 </Help>
               </LocaleIntlProvider>
             </AnalyticsListener>

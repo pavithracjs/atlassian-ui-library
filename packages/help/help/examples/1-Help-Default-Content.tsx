@@ -55,7 +55,7 @@ export default class extends React.Component {
             <AnalyticsListener channel="atlaskit" onEvent={handleEvent}>
               <LocaleIntlProvider locale={'en'}>
                 <Help>
-                  <h1>Default content</h1>
+                  <span>Default content</span>
                 </Help>
               </LocaleIntlProvider>
             </AnalyticsListener>

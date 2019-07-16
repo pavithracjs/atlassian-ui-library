@@ -15,4 +15,6 @@ export const ButtonsWrapper = styled.div`
 
 export const HelpWrapper = styled.div`
   width: 368px;
+  position: relative;
+  overflow-x: hidden;
 `;
