@@ -185,7 +185,9 @@ export default function createPluginsList(
   }
 
   if (props.allowExtension) {
-    plugins.push(extensionPlugin);
+    plugins.push(
+      extensionPlugin({ breakoutEnabled: props.appearance === 'full-page' }),
+    );
   }
 
   if (props.macroProvider) {

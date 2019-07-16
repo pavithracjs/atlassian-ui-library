@@ -36,20 +36,11 @@ import {
   createAnalyticsEventMock,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
+import { mention as mentionData } from '@atlaskit/util-data-test';
 import { TextSelection } from 'prosemirror-state';
-import mentionsPlugin from '../../../../plugins/mentions';
-import mediaPlugin from '../../../../plugins/media';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import extensionPlugin from '../../../../plugins/extension';
-import listPlugin from '../../../../plugins/lists';
-import tablesPlugin from '../../../../plugins/table';
-import macroPlugin, {
-  setMacroProvider,
-  MacroAttributes,
-} from '../../../../plugins/macro';
+import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import { panelPlugin, cardPlugin } from '../../../../plugins';
+
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
@@ -66,23 +57,20 @@ describe('paste plugins', () => {
       createAnalyticsEvent: createAnalyticsEvent as any,
       editorProps: {
         allowAnalyticsGASV3: true,
+        allowExtension: true,
+        allowCodeBlocks: true,
+        allowLists: true,
+        allowPanel: true,
+        allowTasksAndDecisions: true,
+        allowTables: true,
+        mentionProvider: Promise.resolve(
+          mentionData.storyData.resourceProvider,
+        ),
+        macroProvider: Promise.resolve(new MockMacroProvider({})),
+        UNSAFE_cards: {},
+        media: { allowMediaSingle: true },
         ...props,
       },
-      editorPlugins: [
-        mentionsPlugin(
-          createAnalyticsEvent as any,
-          props.sanitizePrivateContent,
-        ),
-        mediaPlugin({ allowMediaSingle: true }),
-        macroPlugin,
-        codeBlockPlugin(),
-        extensionPlugin,
-        listPlugin,
-        panelPlugin,
-        tasksAndDecisionsPlugin,
-        tablesPlugin(),
-        cardPlugin,
-      ],
     });
 
     createAnalyticsEvent.mockClear();
