@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import * as React from 'react';
+import React from 'react';
 import { Checkbox } from '@atlaskit/checkbox';
 import Button, { ButtonAppearances } from '../src';
 

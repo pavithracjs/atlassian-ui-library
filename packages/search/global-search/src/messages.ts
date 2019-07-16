@@ -16,6 +16,12 @@ export const messages = defineMessages({
     defaultMessage: 'Filter results by space',
     description: '',
   },
+  confluence_more_filters: {
+    id: 'global_search.confluence.more_filters',
+    defaultMessage: 'More filter options',
+    description:
+      'Text to display on button that takes the user to advanced search, which has more filtering options',
+  },
   confluence_recent_pages_heading: {
     id: 'global_search.confluence.recent_pages_heading',
     defaultMessage: 'Recent pages and blogs',
@@ -265,5 +271,11 @@ export const messages = defineMessages({
     defaultMessage: 'Refine results with advanced search',
     description:
       'Text for button that is used when we cannot load more results and direct user to advanced search',
+  },
+  confluence_container_subtext_with_modified_date: {
+    id: 'global_search.confluence.subtext_with_modified_date',
+    defaultMessage: '{containerName}  ·  Updated {friendlyLastModified}',
+    description:
+      'Text describing which space a given search result is from, as well as a date when it was last edited or created.',
   },
 });

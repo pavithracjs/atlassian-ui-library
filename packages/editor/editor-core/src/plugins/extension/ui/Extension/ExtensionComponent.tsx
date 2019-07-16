@@ -9,7 +9,10 @@ import {
 import { MacroProvider } from '../../../macro';
 import InlineExtension from './InlineExtension';
 import Extension from './Extension';
-import { ExtensionHandlers } from '@atlaskit/editor-common';
+import {
+  ExtensionHandlers,
+  getExtensionRenderer,
+} from '@atlaskit/editor-common';
 import { setNodeSelection } from '../../../../utils';
 
 export interface Props {
@@ -142,7 +145,8 @@ export default class ExtensionComponent extends Component<Props, State> {
       return;
     }
 
-    return extensionHandlers[extensionType](
+    const render = getExtensionRenderer(extensionHandlers[extensionType]);
+    return render(
       {
         type: node.type.name as
           | 'extension'

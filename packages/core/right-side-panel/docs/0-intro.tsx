@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   md,
   code,
@@ -24,7 +24,7 @@ export default md`
   ## Usage
 
   ${code`
-  import * as React from 'react';
+  import React from 'react';
   import Button, { ButtonGroup } from '@atlaskit/button';
   import Page from '@atlaskit/page';
 
@@ -75,7 +75,7 @@ export default md`
         </FlexContainer>
       );
     }
-  }  
+  }
   `}
 
   ${(

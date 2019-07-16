@@ -60,10 +60,9 @@ BrowserTestCase(
   },
 );
 
-// todo: enable when BUILDTOOLS-108 is merged in
 BrowserTestCase(
   'list: should be able to insert lists via keyboard shortcut (Mac)',
-  { skip: ['ie', 'edge', 'chrome', 'firefox', 'safari'] },
+  { skip: ['ie', 'edge', 'chrome', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowLists: true });

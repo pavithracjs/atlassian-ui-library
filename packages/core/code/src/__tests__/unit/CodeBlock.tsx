@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 import ThemedCodeBlock from '../../ThemedCodeBlock';
 import CodeBlock from '../../components/CodeBlock';
 

@@ -27,7 +27,9 @@ pipelines:
             # so that we don't break anything that was working previously.
             - yarn build:pkg
             # Because we distribute precompiled code for mobile, for version accuracy, it needs to be built after the bump.
-            - node build/ci-scripts/run.if.package.changed.js @atlaskit/editor-mobile-bridge -- yarn build:editor-mobile-bridge
+            # Unfortunately, we can't rely on `run.if.package.changed.js` here because it runs against the last commit,
+            # which contains our changeset bump rather than the actual changes.
+            - yarn build:editor-mobile-bridge
             # Release all unreleased packages.
             - yarn changeset release --public
             - git push --tags # Push only the tags.

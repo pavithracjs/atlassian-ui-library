@@ -206,6 +206,13 @@ type InsertLinkPreviewAEP = InsertAEP<
   }
 >;
 
+type InsertMediaLinkAEP = InsertAEP<
+  ACTION_SUBJECT_ID.MEDIA_LINK,
+  {
+    inputMethod: INPUT_METHOD.TYPEAHEAD | INPUT_METHOD.MANUAL;
+  }
+>;
+
 export type InsertEventPayload =
   | InsertDividerAEP
   | InsertLineBreakAEP
@@ -218,4 +225,5 @@ export type InsertEventPayload =
   | InsertMediaAEP
   | InsertLinkAEP
   | InsertLinkPreviewAEP
+  | InsertMediaLinkAEP
   | InsertSmartLinkAEP;

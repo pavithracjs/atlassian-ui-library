@@ -29,10 +29,10 @@ const NOT_FOUND_IMAGE =
 const NotFoundImage = styled.img`
   height: ${gridSize() * 20}px;
 `;
-type ErrorBoundaryProps = {
+
+interface ErrorBoundaryProps {
   messages: Messages;
-} & InjectedIntlProps &
-  WithAnalyticsEventProps;
+}
 
 type ErrorBoundaryState = {
   hasError: boolean;
@@ -40,7 +40,7 @@ type ErrorBoundaryState = {
 };
 
 class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
+  ErrorBoundaryProps & InjectedIntlProps & WithAnalyticsEventProps,
   ErrorBoundaryState
 > {
   state: ErrorBoundaryState = { hasError: false };
@@ -132,4 +132,6 @@ class ErrorBoundary extends React.Component<
   }
 }
 
-export default withAnalyticsEvents()(injectIntl(ErrorBoundary));
+export default withAnalyticsEvents<ErrorBoundaryProps>()(
+  injectIntl<ErrorBoundaryProps>(ErrorBoundary),
+);

@@ -2,49 +2,49 @@
   {
     "team": "engagement-platform",
     "package": "@atlaskit/contextual-survey",
-    "version": "0.1.1",
+    "version": "0.1.3",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 11772,
-      "gzipSize": 3293
+      "size": 13816,
+      "gzipSize": 3918
     }
   },
   {
     "team": "engagement-platform",
     "package": "@atlaskit/contextual-survey",
-    "version": "0.1.1",
+    "version": "0.1.3",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 105917,
-      "gzipSize": 33237
+      "size": 105519,
+      "gzipSize": 33174
     }
   },
   {
     "team": "engagement-platform",
     "package": "@atlaskit/contextual-survey",
-    "version": "0.1.1",
+    "version": "0.1.3",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 84959,
-      "gzipSize": 21464
+      "size": 85291,
+      "gzipSize": 21116
     }
   },
   {
     "team": "engagement-platform",
     "package": "@atlaskit/contextual-survey",
-    "version": "0.1.1",
+    "version": "0.1.3",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 199285,
-      "gzipSize": 56057
+      "size": 201254,
+      "gzipSize": 56511
     }
   }
 ]

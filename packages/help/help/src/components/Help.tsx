@@ -56,6 +56,6 @@ export class Help extends React.Component<Props> {
   }
 }
 
-export default withAnalyticsContext(defaultAnalyticsAttributes)(
-  withAnalyticsEvents()(Help),
+export default withAnalyticsContext<Props>(defaultAnalyticsAttributes)(
+  withAnalyticsEvents<Props>()(Help),
 );

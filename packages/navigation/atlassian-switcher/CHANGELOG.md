@@ -1,5 +1,49 @@
 # @atlaskit/atlassian-switcher
 
+## 3.4.2
+
+### Patch Changes
+
+- [patch][4344114172](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4344114172):
+
+  Update analytics event to include products shown when viewed.
+
+## 3.4.1
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 3.4.0
+
+### Minor Changes
+
+- [minor][986a1cc91d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986a1cc91d):
+
+  Enable prefetching for available-products endpoint
+
+## 3.3.0
+
+### Minor Changes
+
+- [minor][b81d931ee3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d931ee3):
+
+  Added new OpsGenie logo, fixed the gradient for the StatusPage logo, and refactored atlassian-switcher to use the new logos
+
 ## 3.2.0
 
 ### Minor Changes

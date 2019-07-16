@@ -1,10 +1,6 @@
-import * as util from '../../../../../newgen/utils';
-const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
-
 import * as React from 'react';
 import { ProcessedFileState } from '@atlaskit/media-client';
 import {
-  awaitError,
   mountWithIntlContext,
   nextTick,
   fakeMediaClient,
@@ -13,7 +9,6 @@ import { AudioViewer } from '../../../../../newgen/viewers/audio';
 import Spinner from '@atlaskit/spinner';
 import { DefaultCoverWrapper, AudioCover } from '../../../../../newgen/styled';
 import { ErrorMessage } from '../../../../../newgen/error';
-import Button from '@atlaskit/button';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { Auth } from '@atlaskit/media-store';
 
@@ -37,19 +32,25 @@ const audioItem: ProcessedFileState = {
   representations: {},
 };
 
-const audioItemWithNoArtifacts: ProcessedFileState = {
-  ...audioItem,
-  artifacts: {},
-};
-
 function createFixture(
   authPromise: Promise<Auth>,
   collectionName?: string,
   item?: ProcessedFileState,
+  mockReturnGetArtifactURL?: Promise<string>,
 ) {
   const mediaClient = fakeMediaClient({
     authProvider: () => authPromise,
   });
+
+  jest
+    .spyOn(mediaClient.file, 'getArtifactURL')
+    .mockReturnValue(
+      mockReturnGetArtifactURL ||
+        Promise.resolve(
+          'some-base-url/audio?client=some-client-id&token=some-token',
+        ),
+    );
+
   const el = mountWithIntlContext(
     <AudioViewer
       mediaClient={mediaClient}
@@ -63,7 +64,7 @@ function createFixture(
 
 describe('Audio viewer', () => {
   afterEach(() => {
-    constructAuthTokenUrlSpy.mockClear();
+    jest.clearAllMocks();
   });
 
   it('assigns a src for audio files when successful', async () => {
@@ -83,31 +84,16 @@ describe('Audio viewer', () => {
     expect(el.find(Spinner)).toHaveLength(1);
   });
 
-  it('shows error message with a download button if there is an error displaying the preview', async () => {
-    const authPromise = Promise.reject(new Error('test error'));
-    const { el } = createFixture(authPromise);
-    await awaitError(authPromise, 'test error');
-    el.update();
-    const errorMessage = el.find(ErrorMessage);
-    expect(errorMessage).toHaveLength(1);
-    expect(errorMessage.text()).toContain(
-      "We couldn't generate a preview for this file",
-    );
-
-    // download button
-    expect(errorMessage.text()).toContain(
-      'Try downloading the file to view it',
-    );
-    expect(errorMessage.find(Button)).toHaveLength(1);
-  });
-
   it('shows error if no audio artifacts found', async () => {
     const authPromise: any = new Promise(() => {});
     const { el } = createFixture(
       authPromise,
       undefined,
-      audioItemWithNoArtifacts,
+      undefined,
+      Promise.resolve(''),
     );
+    await (el as any).instance()['init']();
+
     el.update();
     const errorMessage = el.find(ErrorMessage);
     expect(errorMessage).toHaveLength(1);
@@ -150,15 +136,13 @@ describe('Audio viewer', () => {
       el.update();
 
       expect(el.find(DefaultCoverWrapper)).toHaveLength(0);
-      expect(el.find(AudioCover).prop('src')).toEqual(
-        'some-base-url/file/some-id/image?client=some-client-id&token=some-token',
-      );
+      expect(el.find(AudioCover).prop('src')).toEqual('some-image-url');
     });
 
-    it('MSW-720: pass the collectionName to calls to constructAuthTokenUrl', async () => {
+    it('MSW-720: pass the collectionName to calls to getArtifactURL', async () => {
       const collectionName = 'collectionName';
       const authPromise = Promise.resolve({ token, clientId, baseUrl });
-      const { el } = createFixture(authPromise, collectionName);
+      const { el, mediaClient } = createFixture(authPromise, collectionName);
       const instance: any = el.instance();
       const promiseSrc = Promise.resolve('cover-src');
 
@@ -167,13 +151,26 @@ describe('Audio viewer', () => {
       await promiseSrc;
       el.update();
 
-      expect(constructAuthTokenUrlSpy.mock.calls[0][2]).toEqual(collectionName);
-      expect(constructAuthTokenUrlSpy.mock.calls[1][2]).toEqual(collectionName);
+      expect(
+        (mediaClient.file.getArtifactURL as jest.Mock).mock.calls[0][2],
+      ).toEqual(collectionName);
+      expect(
+        (mediaClient.file.getArtifactURL as jest.Mock).mock.calls[1][2],
+      ).toEqual(collectionName);
     });
 
     describe('AutoPlay', () => {
       async function createAutoPlayFixture(previewCount: number) {
         const mediaClient = fakeMediaClient();
+
+        jest
+          .spyOn(mediaClient.file, 'getArtifactURL')
+          .mockReturnValue(
+            Promise.resolve(
+              'some-base-url/audio?client=some-client-id&token=some-token',
+            ),
+          );
+
         const el = mountWithIntlContext(
           <AudioViewer
             mediaClient={mediaClient}

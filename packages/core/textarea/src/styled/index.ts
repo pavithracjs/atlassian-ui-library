@@ -3,7 +3,7 @@ import { codeFontFamily, fontSize, gridSize } from '@atlaskit/theme';
 import { ThemeTokens } from '../theme';
 import { Props } from '../components/TextArea';
 
-type StyleProps = Props & ThemeTokens & { isFocused?: boolean; none?: any };
+type StyleProps = Props & ThemeTokens & { isFocused: boolean; none?: any };
 
 const grid = gridSize();
 const borderRadius = '3px';
@@ -62,15 +62,12 @@ const getHoverState = (props: StyleProps) => {
   `;
 };
 
-const getMinimumRowsHeight = ({
-  minimumRows,
-  isCompact,
-}: Pick<Props, 'isCompact' | 'minimumRows'>) => {
+const getMinimumRowsHeight = ({ minimumRows = 1, isCompact }: Props) => {
   const lineHeight = getLineHeight({ isCompact });
   return `min-height: ${lineHeight * minimumRows}px;`;
 };
 
-const getResizeStyles = ({ resize }: Pick<Partial<Props>, 'resize'>) => {
+const getResizeStyles = ({ resize }: Props) => {
   if (resize === 'auto') {
     return `resize: auto;`;
   }

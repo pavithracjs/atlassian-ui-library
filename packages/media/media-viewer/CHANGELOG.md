@@ -1,5 +1,41 @@
 # @atlaskit/media-viewer
 
+## 43.2.1
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 43.2.0
+
+### Minor Changes
+
+- [minor][a552f93596](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a552f93596):
+
+  Increase image preview max height and width to 4096px
+
+## 43.1.4
+
+### Patch Changes
+
+- [patch][79d79bf098](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79d79bf098):
+
+  Remove constructAuthTokenURL and replace with mediaClient
+
 ## 43.1.3
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

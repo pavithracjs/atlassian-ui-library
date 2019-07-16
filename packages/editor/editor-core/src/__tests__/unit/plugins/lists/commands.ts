@@ -8,10 +8,13 @@ import {
   date,
   code_block,
   sendKeyToPm,
+  panel,
+  ul,
 } from '@atlaskit/editor-test-helpers';
 import {
   enterKeyCommand,
   backspaceKeyCommand,
+  toggleList,
 } from '../../../../plugins/lists/commands';
 import { GapCursorSelection } from '../../../../plugins/gap-cursor';
 
@@ -100,6 +103,50 @@ describe('lists plugin -> commands', () => {
           doc(ol(li(p('text')), li(code_block()('code')))),
         );
       });
+    });
+  });
+
+  describe('toggleList', () => {
+    it('should be able to toggle ol to ul inside a panel', () => {
+      const { editorView } = createEditor({
+        doc: doc(panel()(ol(li(p('text{<>}'))))),
+        editorProps: {
+          allowLists: true,
+          allowPanel: true,
+        },
+      });
+
+      toggleList(
+        editorView.state,
+        editorView.dispatch,
+        editorView,
+        'bulletList',
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(panel()(ul(li(p('text{<>}'))))),
+      );
+    });
+
+    it('should be able to toggle ul to ol inside a panel', () => {
+      const { editorView } = createEditor({
+        doc: doc(panel()(ul(li(p('text{<>}'))))),
+        editorProps: {
+          allowLists: true,
+          allowPanel: true,
+        },
+      });
+
+      toggleList(
+        editorView.state,
+        editorView.dispatch,
+        editorView,
+        'orderedList',
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(panel()(ol(li(p('text{<>}'))))),
+      );
     });
   });
 });

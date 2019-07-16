@@ -284,4 +284,4 @@ export class ItemViewerBase extends React.Component<Props, State> {
   }
 }
 
-export const ItemViewer = withAnalyticsEvents()(ItemViewerBase);
+export const ItemViewer = withAnalyticsEvents<Props>()(ItemViewerBase);

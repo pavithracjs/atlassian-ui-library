@@ -1,5 +1,73 @@
 # @atlaskit/global-search
 
+## 10.3.1
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 10.3.0
+
+### Minor Changes
+
+- [minor][0598e7ce48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0598e7ce48):
+
+  Feedback collector with search bug fix
+
+## 10.2.4
+
+### Patch Changes
+
+- [patch][5427f7028a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5427f7028a):
+
+  Fixing problem with subtext colours not matching between pages and people in the Quick Search complex experiment.
+
+## 10.2.3
+
+### Patch Changes
+
+- [patch][554c44e342](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/554c44e342):
+
+  fix incorrect message id for i18n string
+
+## 10.2.2
+
+### Patch Changes
+
+- [patch][e80b86a298](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80b86a298):
+
+  Adding last modified date to the simple extensions to Quick Search
+
+## 10.2.1
+
+### Patch Changes
+
+- [patch][8f711664af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f711664af):
+
+  Added analytics for current space filter component
+
+## 10.2.0
+
+### Minor Changes
+
+- [minor][8d013cf28c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d013cf28c):
+
+  added more filters button next to confluence current space filter
+
 ## 10.1.1
 
 - Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
