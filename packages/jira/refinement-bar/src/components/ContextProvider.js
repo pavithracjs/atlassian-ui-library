@@ -6,24 +6,30 @@ import { diffArr, objectMap } from '../utils';
 
 export const RefinementBarContext = React.createContext({});
 
+type FieldKey = string;
 type FieldType = {
   label: string,
   type: ComponentType<*>,
 };
-type FieldConfigType = { [key: string]: FieldType };
-type Keys = Array<string>;
+type FieldConfigType = { [FieldKey]: FieldType };
 type Meta = {
   type: 'add' | 'remove' | 'update',
-  key: string,
+  key: FieldKey,
   data?: any,
 };
 
-type ProviderProps = {
-  children?: Node,
+export type CommonProps = {
+  /** All fields that may be rendered in the refinement bar. */
   fieldConfig: FieldConfigType,
-  irremovableKeys: Keys,
+  /** All fields that may be rendered in the refinement bar. */
+  irremovableKeys: Array<FieldKey>,
+  /** Handle what happens when one of the field's values changes. */
   onChange: (value: Object, meta: Meta) => void,
+  /** The current value of each field in the refinement bar. */
   value: Object,
+};
+type ProviderProps = CommonProps & {
+  children?: Node,
 };
 type State = {
   fieldConfig: FieldConfigType,
