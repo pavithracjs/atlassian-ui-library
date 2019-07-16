@@ -57,7 +57,7 @@ export const HelpContent = (
             <Button
               onClick={help.navigateBack}
               appearance="subtle"
-              theme={(currentTheme, themeProps) => {
+              theme={(currentTheme: any, themeProps: any) => {
                 const { buttonStyles, ...rest } = currentTheme(themeProps);
                 return {
                   buttonStyles: {
