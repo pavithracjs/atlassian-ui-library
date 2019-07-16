@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.4.2
+
+### Patch Changes
+
+- [patch][4344114172](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4344114172):
+
+  Update analytics event to include products shown when viewed.
+
 ## 3.4.1
 
 ### Patch Changes
