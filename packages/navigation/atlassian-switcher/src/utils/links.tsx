@@ -218,28 +218,23 @@ export const getAvailableProductLinks = (
 
 export const getProductLink = (
   productKey: ProductKey | typeof SINGLE_JIRA_PRODUCT,
-  productLicenseInformation: ProductLicenseInformation,
+  productLicenseInformation?: ProductLicenseInformation,
 ): SwitcherItemType => {
   const productLinkProperties = PRODUCT_DATA_MAP[productKey];
 
-  if (productKey === ProductKey.OPSGENIE) {
+  if (productKey === ProductKey.OPSGENIE && productLicenseInformation) {
     // Prefer applicationUrl provided by license information (TCS)
     // Fallback to hard-coded URL
-    const href =
-      productLicenseInformation && productLicenseInformation.applicationUrl
-        ? productLicenseInformation.applicationUrl
-        : productLinkProperties.href;
+    const href = productLicenseInformation.applicationUrl
+      ? productLicenseInformation.applicationUrl
+      : productLinkProperties.href;
 
-    return {
-      key: productKey,
-      ...productLinkProperties,
-      href,
-    };
+    return { key: productKey, ...productLinkProperties, href };
   }
 
   return {
     key: productKey,
-    ...PRODUCT_DATA_MAP[productKey],
+    ...productLinkProperties,
   };
 };
 
@@ -305,12 +300,9 @@ export const getSuggestedProductLink = (
   const filteredProducts = productRecommendations.filter(
     product => !getProductIsActive(licenseInformationData, product),
   );
-
   return filteredProducts
     .slice(0, PRODUCT_RECOMMENDATION_LIMIT)
-    .map(product =>
-      getProductLink(product, licenseInformationData.products[product]),
-    );
+    .map(product => getProductLink(product));
 };
 
 export const getCustomLinkItems = (
