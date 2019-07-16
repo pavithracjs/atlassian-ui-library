@@ -8,35 +8,36 @@ import {
 import { HistoryAnalyticsActionTypes } from './actions';
 import { Transaction, EditorState } from 'prosemirror-state';
 
-const findTransactionsToUndo = (
-  state: EditorState,
-  transactions: Transaction[],
-): Transaction[] => {
+// todo: store max number that matches history
+
+const findTransactionsToUndo = (state: EditorState): Transaction[] => {
   const { plugins } = state;
-  // prosemirror-inputrules doesn't have a plugin key (!)
+  const { done: transactions } = getPluginState(state);
+
+  // Undoing auto-formatting is handled in a special way
+  // prosemirror-inputrules doesn't have a plugin key so have to find
+  // its state in this weird way
   const inputRulesPlugin = plugins.find(plugin => plugin.spec.isInputRules);
   if (inputRulesPlugin) {
     const undoableInputRule = inputRulesPlugin.getState(state);
     if (undoableInputRule) {
-      return transactions.splice(transactions.length - 2);
+      return transactions.slice(-2);
     }
   }
 
-  return transactions.splice(transactions.length - 1);
+  return transactions.slice(-1);
 };
 
 export const undo = createCommand(
-  {
+  state => ({
     type: HistoryAnalyticsActionTypes.UNDO,
-  },
+    transactions: findTransactionsToUndo(state),
+  }),
   (tr, state) => {
     const pluginState = getPluginState(state);
     console.log(pluginState);
     if (pluginState.done.length > 0) {
-      const transactionsToUndo = findTransactionsToUndo(
-        state,
-        pluginState.done,
-      );
+      const transactionsToUndo = findTransactionsToUndo(state);
 
       // inspect for analytics meta
       const analyticsMeta: AnalyticsEventPayloadWithChannel[] = transactionsToUndo.reduce(

@@ -37,14 +37,19 @@ export const createPlugin = (dispatch: Dispatch) =>
       oldState: EditorState,
       newState: EditorState,
     ) => {
-      // todo: merge transactions like prosemirror-history
-      // todo: ignore addToHistory false
-      // todo: don't add whole transactions
-      // todo: store max number that matches history
-      return newState.tr.setMeta(historyAnalyticsPluginKey, {
-        type: HistoryAnalyticsActionTypes.PUSH,
-        transactions,
-      });
+      const meta = transactions.find(tr =>
+        tr.getMeta(historyAnalyticsPluginKey),
+      );
+      if (!meta) {
+        const action: HistoryAnalyticsAction = {
+          type: HistoryAnalyticsActionTypes.PUSH,
+          transactions,
+          oldState,
+          state: newState,
+        };
+        return newState.tr.setMeta(historyAnalyticsPluginKey, action);
+      }
+      return;
     },
   });
 
