@@ -5,6 +5,9 @@ import { Frame } from '../Frame';
 import { colors } from '@atlaskit/theme';
 import { messages } from '../../messages';
 import { FormattedMessage } from 'react-intl';
+import LockIcon from '@atlaskit/icon/glyph/lock-filled';
+import { AKIconWrapper } from '../Icon';
+import { ForbiddenWrapper } from '../ForbiddenView/styled';
 
 export interface InlineCardUnauthorizedViewProps {
   /** The url to display */
@@ -18,6 +21,12 @@ export interface InlineCardUnauthorizedViewProps {
   /** A flag that determines whether the card is selected in edit mode. */
   isSelected?: boolean;
 }
+
+const FallbackUnauthorizedIcon = (
+  <AKIconWrapper>
+    <LockIcon label="error" size="small" primaryColor={colors.B400} />
+  </AKIconWrapper>
+);
 
 export class InlineCardUnauthorizedView extends React.Component<
   InlineCardUnauthorizedViewProps
@@ -33,15 +42,19 @@ export class InlineCardUnauthorizedView extends React.Component<
     const { url, icon, onClick, isSelected, onAuthorise } = this.props;
     return (
       <Frame link={url} onClick={onClick} isSelected={isSelected}>
-        <IconAndTitleLayout icon={icon} title={url} titleColor={colors.N500} />
+        <IconAndTitleLayout
+          icon={icon ? icon : FallbackUnauthorizedIcon}
+          title={url}
+          titleColor={colors.N500}
+        />
         {!onAuthorise ? (
-          ''
+          <ForbiddenWrapper>
+            {` \u2011 `}
+            <FormattedMessage {...messages.invalid_permissions} />
+            {` `}
+          </ForbiddenWrapper>
         ) : (
           <>
-            {/* 
-              NB: a non-breaking hyphen - hyphentation should be
-              handled by the browser, not us.
-            */}
             {` \u2011 `}
             <Button
               spacing="none"
