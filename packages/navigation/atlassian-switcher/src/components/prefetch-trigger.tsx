@@ -16,7 +16,7 @@ import {
   WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
 import packageContext from '../utils/package-context';
-import { FeatureFlagProps } from '@atlaskit/atlassian-switcher/types';
+import { FeatureFlagProps } from '../types';
 
 const THROTTLE_EXPIRES = 60 * 1000; // 60 seconds
 const THROTTLE_OPTIONS = {
