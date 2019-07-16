@@ -1,6 +1,3 @@
-import * as util from '../../../newgen/utils';
-const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
-
 import * as React from 'react';
 import { Observable } from 'rxjs';
 import { ReactWrapper } from 'enzyme';
@@ -50,10 +47,6 @@ const processedImageState: FileState = {
 };
 
 describe('<Header />', () => {
-  afterEach(() => {
-    constructAuthTokenUrlSpy.mockClear();
-  });
-
   it('shows an empty header while loading', () => {
     const mediaClient = fakeMediaClient();
     mediaClient.file.getFileState = () => Observable.empty();

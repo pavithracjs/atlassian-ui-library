@@ -25,11 +25,12 @@ import {
   ShareError,
 } from '../types';
 import {
-  shareTriggerButtonClicked,
   cancelShare,
+  CHANNEL_ID,
   copyLinkButtonClicked,
-  screenEvent,
   formShareSubmitted,
+  screenEvent,
+  shareTriggerButtonClicked,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -49,7 +50,9 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderCustomTriggerButton;
   copyLink: string;
-  isCopyLinkShortened: boolean;
+  analyticsDecorator?: (
+    payload: AnalyticsEventPayload,
+  ) => AnalyticsEventPayload;
   dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
@@ -66,6 +69,7 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
   bottomMessage?: React.ReactNode;
+  submitButtonLabel?: React.ReactNode;
 };
 
 const InlineDialogFormWrapper = styled.div`
@@ -90,7 +94,6 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   State
 > {
   static defaultProps: Partial<Props> = {
-    isCopyLinkShortened: false,
     isDisabled: false,
     dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: true,
@@ -117,10 +120,9 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private createAndFireEvent = (payload: AnalyticsEventPayload) => {
-    const { createAnalyticsEvent } = this.props;
-    if (createAnalyticsEvent) {
-      createAnalyticsEvent(payload).fire('fabric-elements');
-    }
+    const { createAnalyticsEvent, analyticsDecorator } = this.props;
+    if (analyticsDecorator) payload = analyticsDecorator(payload);
+    if (createAnalyticsEvent) createAnalyticsEvent(payload).fire(CHANNEL_ID);
   };
 
   private getFlags = (
@@ -266,9 +268,9 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    const { copyLinkOrigin, isCopyLinkShortened } = this.props;
+    const { copyLinkOrigin, shareContentType } = this.props;
     this.createAndFireEvent(
-      copyLinkButtonClicked(this.start, isCopyLinkShortened, copyLinkOrigin),
+      copyLinkButtonClicked(this.start, shareContentType, copyLinkOrigin),
     );
   };
 
@@ -286,6 +288,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       triggerButtonAppearance,
       triggerButtonStyle,
       bottomMessage,
+      submitButtonLabel,
     } = this.props;
 
     // for performance purposes, we may want to have a loadable content i.e. ShareForm
@@ -313,6 +316,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
                     config={config}
                     onLinkCopy={this.handleCopyLink}
                     isFetchingConfig={isFetchingConfig}
+                    submitButtonLabel={submitButtonLabel}
                   />
                 </InlineDialogFormWrapper>
                 {bottomMessage ? (
@@ -359,6 +363,6 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   }
 }
 
-export const ShareDialogWithTrigger: React.ComponentType<
-  Props
-> = withAnalyticsEvents()(injectIntl(ShareDialogWithTriggerInternal));
+export const ShareDialogWithTrigger = withAnalyticsEvents<Props>()(
+  injectIntl<Props>(ShareDialogWithTriggerInternal),
+);

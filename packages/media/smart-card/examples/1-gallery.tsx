@@ -66,7 +66,7 @@ class Example extends React.Component<{}, ExampleState> {
   state: ExampleState = {
     groupingMode: 'none',
     appearanceMode: 'inline',
-    environment: 'prod',
+    environment: 'stg',
   };
 
   handleGroupClick = (groupingMode: GroupingMode) => {

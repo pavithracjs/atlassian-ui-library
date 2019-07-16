@@ -21,7 +21,7 @@ There are two approaches to defining a custom button. The first is to wrap butto
 
 ${code`
 // CustomButton.js
-import * as React from 'react';
+import React from 'react';
 import Button, { Theme as ButtonTheme } from '@atlaskit/button';
 
 <ButtonTheme.Provider value={customTheme}>
@@ -34,7 +34,7 @@ The second approach is to create a wrapped Button component that passes in all e
 
 ${code`
 // CustomButton.js
-import * as React from 'react';
+import React from 'react';
 import Button from '@atlaskit/button';
 
 export default (props) => (
@@ -74,7 +74,7 @@ customTheme = (currentTheme, themeProps) => {
   };
 `}
 
-In most cases, the props of interest will include \`appearance\`, \`state\` and \`mode\` - though any prop in Button can be used (including custom props, if you want to add any to your Button wrapper.). 
+In most cases, the props of interest will include \`appearance\`, \`state\` and \`mode\` - though any prop in Button can be used (including custom props, if you want to add any to your Button wrapper.).
 
 The \`extract\` function is an arbitrary function that takes Button's props, and generates the required styling. This is up to what your implementation requires.
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import Page from '@atlaskit/page';
 import {
@@ -19,9 +19,8 @@ export default class extends React.Component {
     searchText: 'test',
   };
 
-  onWasHelpfulSubmit = (value: string): Promise<boolean> => {
-    return new Promise(resolve => setTimeout(() => resolve(true), 1000));
-  };
+  onWasHelpfulSubmit = (): Promise<boolean> =>
+    new Promise(resolve => setTimeout(() => resolve(true), 1000));
 
   openDrawer = () =>
     this.setState({

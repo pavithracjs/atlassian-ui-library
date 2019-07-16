@@ -48,7 +48,7 @@ type RenderTrackerProps = {
   onRender?: any;
 };
 
-export const RenderTracker = withAnalyticsEvents({
+export const RenderTracker = withAnalyticsEvents<RenderTrackerProps>({
   onRender: (
     createAnalyticsEvent: CreateUIAnalyticsEventSignature,
     props: RenderTrackerProps,
@@ -72,12 +72,16 @@ export const RenderTracker = withAnalyticsEvents({
   },
 );
 
-export const ViewedTracker = withAnalyticsEvents({
-  onRender: (createAnalyticsEvent: CreateUIAnalyticsEventSignature) => {
+export const ViewedTracker = withAnalyticsEvents<RenderTrackerProps>({
+  onRender: (
+    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    props: RenderTrackerProps,
+  ) => {
     return createAnalyticsEvent({
       eventType: UI_EVENT_TYPE,
       action: 'viewed',
       actionSubject: SWITCHER_SUBJECT,
+      attributes: props.data,
     }).fire(NAVIGATION_CHANNEL);
   },
 })(

@@ -1,4 +1,11 @@
-import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
+import {
+  snapshot,
+  initEditorWithAdf,
+  Appearance,
+  Device,
+  deviceViewPorts,
+} from '../_utils';
+import { waitForNoTooltip } from '@atlaskit/visual-regression/helper';
 import {
   clickToolbarMenu,
   ToolbarMenuItem,
@@ -20,6 +27,7 @@ describe('Toolbar', () => {
 
   afterEach(async () => {
     await page.waitForSelector(selectors[ToolbarMenuItem.toolbarDropList]);
+    await waitForNoTooltip(page);
     await snapshot(page);
   });
 
@@ -31,8 +39,36 @@ describe('Toolbar', () => {
     await clickToolbarMenu(page, ToolbarMenuItem.moreFormatting);
   });
 
+  it('should display text color menu correctly', async () => {
+    await clickToolbarMenu(page, ToolbarMenuItem.textColor);
+  });
+
   it('should display insert menu correctly', async () => {
     await page.setViewport({ width: 1000, height: 700 });
     await clickToolbarMenu(page, ToolbarMenuItem.insertMenu);
+  });
+});
+
+describe('Toolbar: Comment', () => {
+  let page: Page;
+
+  beforeEach(async () => {
+    // @ts-ignore
+    page = global.page;
+    await initEditorWithAdf(page, {
+      appearance: Appearance.comment,
+      device: Device.iPadPro,
+    });
+  });
+
+  afterEach(async () => {
+    await page.waitForSelector(selectors[ToolbarMenuItem.toolbarDropList]);
+    await waitForNoTooltip(page);
+    await snapshot(page);
+  });
+
+  it('should display text color menu correctly at small viewport', async () => {
+    await page.setViewport(deviceViewPorts[Device.iPhonePlus]);
+    await clickToolbarMenu(page, ToolbarMenuItem.textColor);
   });
 });

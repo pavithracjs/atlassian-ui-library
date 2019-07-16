@@ -1,5 +1,66 @@
 # @atlaskit/share
 
+## 0.5.10
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 0.5.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/form@6.1.4
+  - @atlaskit/inline-dialog@12.0.5
+  - @atlaskit/user-picker@4.0.13
+  - @atlaskit/select@10.0.0
+
+## 0.5.8
+
+### Patch Changes
+
+- [patch][540b9336e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/540b9336e9):
+
+  FS-4008 add shareeAction
+
+## 0.5.7
+
+### Patch Changes
+
+- [patch][adcabaf0cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/adcabaf0cd):
+
+  FS-4025 add contentType attribute to copyShareLink event
+
+## 0.5.6
+
+### Patch Changes
+
+- [patch][469b504df8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/469b504df8):
+
+  feat: better short url analytics
+
+## 0.5.5
+
+### Patch Changes
+
+- [patch][d6d7086f3f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6d7086f3f):
+
+  feat: intelligently default to current page URL, even if there is a PWA navigation
+
 ## 0.5.4
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

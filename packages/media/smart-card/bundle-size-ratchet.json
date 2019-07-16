@@ -2,79 +2,79 @@
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 20308,
-      "gzipSize": 5425
+      "size": 20691,
+      "gzipSize": 5562
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 14734,
-      "gzipSize": 4065
+      "size": 15167,
+      "gzipSize": 4135
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 21333,
-      "gzipSize": 6733
+      "size": 28743,
+      "gzipSize": 8948
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 198469,
-      "gzipSize": 55492
+      "size": 144822,
+      "gzipSize": 42139
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 24045,
-      "gzipSize": 6226
+      "size": 24059,
+      "gzipSize": 6234
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 161443,
-      "gzipSize": 35060
+      "size": 171519,
+      "gzipSize": 37007
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
@@ -86,19 +86,19 @@
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 53630,
-      "gzipSize": 11900
+      "size": 53621,
+      "gzipSize": 11905
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "atlaskit.teamwork-ecosystem.main",
     "name": "main",
@@ -110,25 +110,25 @@
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 65958,
-      "gzipSize": 18410
+      "size": 73737,
+      "gzipSize": 20910
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/smart-card",
-    "version": "12.2.1",
+    "version": "12.2.3",
     "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 425146,
-      "gzipSize": 104844
+      "size": 381637,
+      "gzipSize": 94416
     }
   }
 ]

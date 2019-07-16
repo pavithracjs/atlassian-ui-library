@@ -1,6 +1,6 @@
 // For version "3.0.0"
 import * as React from 'react';
-import { PropsInjector, SumPropsInjector } from '@atlaskit/type-helpers';
+import { SumPropsInjector } from '@atlaskit/type-helpers';
 
 /*
   UIAnalyticsEvent.js
@@ -112,6 +112,10 @@ export interface AnalyticsContextProps {
 
 export class AnalyticsContext extends React.Component<AnalyticsContextProps> {}
 
+type AnalyticsHOC<Props, AppliedProps> = (
+  Component: React.ComponentType<Props>,
+) => React.ComponentType<Props & AppliedProps>;
+
 /*
   withAnalyticsContext.js
  */
@@ -119,13 +123,13 @@ export type WithAnalyticsContextProps = {
   analyticsContext?: ObjectType;
 };
 
-export type WithAnalyticsContextFunction = PropsInjector<
-  WithAnalyticsContextProps
->;
+export type WithAnalyticsContextFunction<
+  OwnProps extends object
+> = AnalyticsHOC<OwnProps, WithAnalyticsContextProps>;
 
-export function withAnalyticsContext(
+export function withAnalyticsContext<OwnProps>(
   defaultData?: any,
-): WithAnalyticsContextFunction;
+): WithAnalyticsContextFunction<OwnProps>;
 
 /*
   withAnalyticsEvents.js
@@ -134,30 +138,33 @@ export type CreateUIAnalyticsEventSignature = (
   payload: AnalyticsEventPayload,
 ) => UIAnalyticsEventInterface;
 
-interface AnalyticsEventCreator<TOwnProps> {
+interface AnalyticsEventCreator<OwnProps> {
   (
     create: CreateUIAnalyticsEventSignature,
-    props: TOwnProps,
+    props: OwnProps,
   ): UIAnalyticsEventInterface;
 }
 
-export interface EventMap<TOwnProps> {
-  [k: string]: AnalyticsEventPayload | AnalyticsEventCreator<TOwnProps>;
+export interface EventMap<OwnProps> {
+  [k: string]: AnalyticsEventPayload | AnalyticsEventCreator<OwnProps>;
 }
 
 export interface WithAnalyticsEventProps {
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
-export type WithAnalyticsEventFunction = PropsInjector<WithAnalyticsEventProps>;
+export type WithAnalyticsEventFunction<OwnProps extends object> = AnalyticsHOC<
+  OwnProps,
+  WithAnalyticsEventProps
+>;
 
-export function withAnalyticsEvents<TOwnProps>(
-  createEventMap?: EventMap<TOwnProps>,
-): WithAnalyticsEventFunction;
+export function withAnalyticsEvents<OwnProps>(
+  createEventMap?: EventMap<OwnProps>,
+): WithAnalyticsEventFunction<OwnProps>;
 
 // Just in case your props are of Sum type, and not a Record.
-export function withAnalyticsForSumTypeProps<TOwnProps>(
-  createEventMap?: EventMap<TOwnProps>,
+export function withAnalyticsForSumTypeProps<OwnProps>(
+  createEventMap?: EventMap<OwnProps>,
 ): SumPropsInjector<WithAnalyticsEventProps>;
 
 /*

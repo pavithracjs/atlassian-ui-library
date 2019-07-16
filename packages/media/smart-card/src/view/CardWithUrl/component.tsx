@@ -5,7 +5,7 @@ import { CardLinkView } from '@atlaskit/media-ui';
 
 import { CardWithUrlContentProps } from './types';
 import { uiCardClickedEvent } from '../../utils/analytics';
-import { isSpecialKey } from '../../utils';
+import { isSpecialEvent } from '../../utils';
 import { getDefinitionId, getServices } from '../../state/actions/helpers';
 import { BlockCard } from '../BlockCard';
 import { InlineCard } from '../InlineCard';
@@ -13,9 +13,10 @@ import { useSmartLink } from '../../state';
 
 export function LazyCardWithUrlContent(props: CardWithUrlContentProps) {
   const { appearance, isSelected, container, url } = props;
+  const offset = Math.ceil(window.innerHeight / 4);
   return (
     <LazilyRender
-      offset={100}
+      offset={offset}
       component={appearance === 'inline' ? 'span' : 'div'}
       placeholder={
         <CardLinkView
@@ -42,7 +43,7 @@ export function CardWithUrlContent({
   const services = getServices(state.details);
   // Setup UI handlers.
   const handleClick = (event: MouseEvent | KeyboardEvent) => {
-    isSpecialKey(event)
+    isSpecialEvent(event)
       ? window.open(url, '_blank')
       : window.open(url, '_self');
   };

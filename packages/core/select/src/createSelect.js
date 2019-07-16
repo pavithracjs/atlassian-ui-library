@@ -1,6 +1,7 @@
 // @flow
 import React, { Component, type ComponentType, type ElementRef } from 'react';
-import { mergeStyles, makeAnimated } from 'react-select';
+import { mergeStyles } from 'react-select';
+import makeAnimated from 'react-select/animated';
 import memoizeOne from 'memoize-one';
 import isEqual from 'react-fast-compare';
 import { colors, gridSize } from '@atlaskit/theme';
@@ -135,7 +136,7 @@ function baseStyles(validationState, isCompact) {
         transition: `background-color ${transitionDuration} ease-in-out,
         border-color ${transitionDuration} ease-in-out`,
 
-        '-ms-overflow-style': '-ms-autohiding-scrollbar',
+        msOverflowStyle: '-ms-autohiding-scrollbar',
         '::-webkit-scrollbar': {
           height: gridSize(),
           width: gridSize(),

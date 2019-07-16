@@ -1,4 +1,4 @@
-import { ABTest } from '../api/CrossProductSearchClient';
+import { ABTest, DEFAULT_AB_TEST } from '../api/CrossProductSearchClient';
 import memoizeOne from 'memoize-one';
 import deepEqual from 'deep-equal';
 
@@ -31,19 +31,30 @@ const isInSearchExtensionsComplexExperiment = (abTest: ABTest): boolean => {
 export interface CommonFeatures {
   abTest: ABTest;
   searchExtensionsEnabled: boolean;
+  complexSearchExtensionsEnabled: boolean;
 }
 
 export interface ConfluenceFeatures extends CommonFeatures {
   isInFasterSearchExperiment: boolean;
   useUrsForBootstrapping: boolean;
   isAutocompleteEnabled: boolean;
-  complexSearchExtensionsEnabled: boolean;
 }
 
 export interface JiraFeatures extends CommonFeatures {
   disableJiraPreQueryPeopleSearch: boolean;
   enablePreQueryFromAggregator: boolean;
 }
+
+export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
+  isInFasterSearchExperiment: false,
+  useUrsForBootstrapping: false,
+  isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
+  disableJiraPreQueryPeopleSearch: false,
+  enablePreQueryFromAggregator: false,
+  searchExtensionsEnabled: false,
+  abTest: DEFAULT_AB_TEST,
+};
 
 export interface FeaturesParameters {
   abTest: ABTest;

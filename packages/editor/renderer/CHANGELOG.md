@@ -1,5 +1,41 @@
 # @atlaskit/renderer
 
+## 49.7.0
+
+### Minor Changes
+
+- [minor][92dd3a8d58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92dd3a8d58):
+
+  Add media attrs to MediaSingle node on renderer
+
+  This ensures we populate the clipboard with enough media information, that can be
+  used later on editor side on paste event, to copy the file to the destination
+  collection.
+
+## 49.6.1
+
+### Patch Changes
+
+- [patch][4aed452b1b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aed452b1b):
+
+  ED-7041, SL-231: fix copying smart link from renderer to editor
+
+## 49.6.0
+
+### Minor Changes
+
+- [minor][e9cdfa5aed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9cdfa5aed):
+
+  ED-7188: Full width mode is now centre aligned.
+
+## 49.5.0
+
+### Minor Changes
+
+- [minor][4a22a774a6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a22a774a6):
+
+  AUX-36 Add update support for extension handler
+
 ## 49.4.2
 
 ### Patch Changes

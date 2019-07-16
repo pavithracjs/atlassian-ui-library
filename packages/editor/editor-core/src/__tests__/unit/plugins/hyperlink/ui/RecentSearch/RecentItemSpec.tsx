@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import RecentItem, {
   Name,
   ContainerName,
-} from '../../../../../../plugins/hyperlink/ui/RecentSearch/RecentItem';
+} from '../../../../../../ui/RecentSearch/RecentItem';
 
 const noop = () => {};
 describe('@atlaskit/editor-core/ui/RecentSearch/RecentItem', () => {

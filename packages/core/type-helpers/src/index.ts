@@ -71,18 +71,6 @@ export type PropsPasser<Extra extends object = {}> = <
 ) => React.ComponentClass<PropsOf<C> & Extra>;
 
 /**
- * This type is used for HOC's that inject props into the provided component in
- * such a way that the resultant component does not accept those props any more
- */
-export type PropsInjector<InjectedProps extends object> = <
-  C extends React.ComponentType<any>
->(
-  Component: C,
-) => React.ComponentType<
-  Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
->;
-
-/**
  * Sometimes we want to utilse the power of Algebraic Data Types.
  * Meaning, ADTs behave similarly to algebra:
  *  - (a + b) * c === a * c + b * c

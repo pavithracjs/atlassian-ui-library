@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import Spinner from '@atlaskit/spinner';
-import RecentList from '../../../../../../plugins/hyperlink/ui/RecentSearch/RecentList';
-import RecentItem from '../../../../../../plugins/hyperlink/ui/RecentSearch/RecentItem';
+import RecentList from '../../../../../../ui/RecentSearch/RecentList';
+import RecentItem from '../../../../../../ui/RecentSearch/RecentItem';
 
 const noop = () => {};
 describe('@atlaskit/editor-core/ui/RecentSearch/RecentList', () => {

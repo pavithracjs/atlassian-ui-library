@@ -28,7 +28,7 @@ import {
   MediaPluginState,
   MediaProvider,
 } from '../../../../../plugins/media/pm-plugins/main';
-import PickerFacadeProvider from '../../../../../plugins/media/ui/PickerFacadeProvider';
+import PickerFacadeProvider from '../../../../../plugins/media/ui/MediaPicker/PickerFacadeProvider';
 import { getDefaultMediaClientConfig } from '@atlaskit/media-test-helpers';
 import { ProviderFactory } from '@atlaskit/editor-common';
 

@@ -70,6 +70,9 @@ export type TablePluginAction =
         tableNode?: PmNode;
         tableWrapperTarget?: HTMLElement;
         layout: TableLayout;
+        isHeaderRowEnabled: boolean;
+        isHeaderColumnEnabled: boolean;
+        decorationSet: DecorationSet;
       };
     }
   | {
@@ -127,9 +130,9 @@ export type ColumnResizingPluginAction =
       data: { lastClick: { x: number; y: number; time: number } | null };
     };
 
-export const TableDecorations = {
-  CONTROLS_HOVER: 'CONTROLS_HOVER',
-};
+export enum TableDecorations {
+  CONTROLS_HOVER = 'CONTROLS_HOVER',
+}
 
 export const TableCssClassName = {
   ...TableSharedCssClassName,
@@ -138,11 +141,13 @@ export const TableCssClassName = {
   COLUMN_CONTROLS: `${tablePrefixSelector}-column-controls`,
   COLUMN_CONTROLS_INNER: `${tablePrefixSelector}-column-controls__inner`,
   COLUMN_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-column-controls__button-wrap`,
+  COLUMN_CONTROLS_BUTTON: `${tablePrefixSelector}-column-controls__button`,
 
   ROW_CONTROLS_WRAPPER: `${tablePrefixSelector}-row-controls-wrapper`,
   ROW_CONTROLS: `${tablePrefixSelector}-row-controls`,
   ROW_CONTROLS_INNER: `${tablePrefixSelector}-row-controls__inner`,
   ROW_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-row-controls__button-wrap`,
+  ROW_CONTROLS_BUTTON: `${tablePrefixSelector}-row-controls__button`,
 
   CONTROLS_BUTTON: `${tablePrefixSelector}-controls__button`,
   CONTROLS_BUTTON_ICON: `${tablePrefixSelector}-controls__button-icon`,
@@ -172,6 +177,8 @@ export const TableCssClassName = {
   NUMBERED_COLUMN_BUTTON: `${tablePrefixSelector}-numbered-column__button`,
 
   HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
+  HOVERED_CELL_IN_DANGER: 'danger',
+  HOVERED_CELL_ACTIVE: 'active',
   WITH_CONTROLS: `${tablePrefixSelector}-with-controls`,
   RESIZING_PLUGIN: `${tablePrefixSelector}-resizing-plugin`,
   RESIZE_CURSOR: `${tablePrefixSelector}-resize-cursor`,

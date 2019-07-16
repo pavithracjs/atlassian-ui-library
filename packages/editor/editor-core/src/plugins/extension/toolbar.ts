@@ -88,6 +88,28 @@ const breakoutOptions = (
     : [];
 };
 
+const editButton = (
+  formatMessage: InjectedIntl['formatMessage'],
+  macroState: MacroState,
+  extensionState: ExtensionState,
+): Array<FloatingToolbarItem<Command>> => {
+  if (!extensionState.showEditButton) {
+    return [];
+  }
+
+  return [
+    {
+      type: 'button',
+      icon: EditIcon,
+      onClick: editExtension(
+        macroState && macroState.macroProvider,
+        extensionState.updateExtension,
+      ),
+      title: formatMessage(messages.edit),
+    },
+  ];
+};
+
 export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
@@ -106,12 +128,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       getDomRef: () => extensionState.element!.parentElement || undefined,
       nodeType,
       items: [
-        {
-          type: 'button',
-          icon: EditIcon,
-          onClick: editExtension(macroState && macroState.macroProvider),
-          title: formatMessage(messages.edit),
-        },
+        ...editButton(formatMessage, macroState, extensionState),
         ...breakoutOptions(state, formatMessage, extensionState),
         {
           type: 'separator',

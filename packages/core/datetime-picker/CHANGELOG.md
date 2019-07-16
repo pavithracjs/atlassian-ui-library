@@ -1,5 +1,20 @@
 # @atlaskit/datetime-picker
 
+## 8.0.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/select@10.0.0
+
+## 8.0.8
+
+### Patch Changes
+
+- [patch][19d9d0f13f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19d9d0f13f):
+
+  Fixing a rare bug in Safari and malformed date string.
+
 ## 8.0.7
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

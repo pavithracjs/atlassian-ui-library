@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TextField from '@atlaskit/textfield';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import { colors, gridSize } from '@atlaskit/theme';

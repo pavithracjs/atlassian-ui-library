@@ -362,7 +362,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
-    "bitbucket-build-status": "^1.0.3",
+    "bitbucket-build-status": "^1.1.0",
     "blueimp-load-image": "^2.19.0",
     "bolt": "^0.23.1",
     "bolt-webpack-analyzer": "^0.0.1",
@@ -484,7 +484,7 @@
     "prosemirror-state": "^1.2.2",
     "prosemirror-tables": "^0.8.1",
     "prosemirror-transform": "^1.1.3",
-    "prosemirror-utils": "git+https://github.com/atlassian/prosemirror-utils.git#release-0.9.3",
+    "prosemirror-utils": "0.9.4",
     "prosemirror-view": "^1.9.10",
     "pubnub": "^4.20.3",
     "puppeteer": "^1.13.0",
@@ -519,7 +519,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scrolllock": "^3.0.2",
-    "react-select": "^2.4.2",
+    "react-select": "^3.0.4",
     "react-syntax-highlighter": "^10.0.1",
     "react-transition-group": "^2.2.1",
     "react-uid": "^2.2.0",
@@ -536,6 +536,7 @@
     "semver": "^5.4.1",
     "sentence-case": "^2.1.1",
     "shallow-equal": "^1.0.0",
+    "simple-git": "^1.115.0",
     "snake-case": "^2.1.0",
     "source-trace": "^2.0.0",
     "string-raw": "^1.0.1",
@@ -602,5 +603,8 @@
     "last 1 and_chr versions",
     "last 1 ios_saf versions",
     "ie 11"
-  ]
+  ],
+  "peerDependencies": {
+    "@atlassiansox/analytics-node-client": "^1.0.103"
+  }
 }

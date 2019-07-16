@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/nps",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "description": "React component for displaying an NPS survey dialog",
   "author": "Atlassian Pty Ltd",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
@@ -30,8 +30,8 @@
     "styled-components": "^3.2.6"
   },
   "dependencies": {
-    "@atlaskit/button": "^13.0.9",
-    "@atlaskit/checkbox": "^8.0.5",
+    "@atlaskit/button": "^13.0.10",
+    "@atlaskit/checkbox": "^9.0.0",
     "@atlaskit/dropdown-menu": "^8.0.8",
     "@atlaskit/field-text-area": "^6.0.2",
     "@atlaskit/icon": "^19.0.0",

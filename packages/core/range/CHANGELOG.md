@@ -1,5 +1,10 @@
 # @atlaskit/range
 
+## 3.0.2
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/checkbox@9.0.0
+
 ## 3.0.1
 
 ### Patch Changes

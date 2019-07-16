@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-mobile-bridge",
-  "version": "8.8.1",
+  "version": "8.8.7",
   "description": "Mobile distribution of the Editor",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
@@ -9,7 +9,7 @@
     "start": "webpack --watch",
     "debug": "webpack -d --watch",
     "build:dev": "webpack -d",
-    "prebuild": "copy-pkg package.json tmp/package.json --only name,version,sideEffects && mv tmp/package.json src/version.json",
+    "prebuild": "rm -rf dist && copy-pkg package.json tmp/package.json --only name,version,sideEffects && mv tmp/package.json src/version.json",
     "build": "webpack -p"
   },
   "maintainers": [
@@ -29,7 +29,7 @@
   "homepage": "https://bitbucket.org/atlaskit/atlaskit-mk-2#readme",
   "dependencies": {
     "@atlaskit/editor-common": "^39.12.0",
-    "@atlaskit/editor-core": "^112.22.0",
+    "@atlaskit/editor-core": "^112.33.9",
     "@atlaskit/editor-json-transformer": "^6.1.0",
     "@atlaskit/emoji": "^62.1.5",
     "@atlaskit/media-core": "^30.0.4",
@@ -51,15 +51,16 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/button": "^13.0.5",
+    "@atlaskit/button": "^13.0.11",
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/editor-test-helpers": "^9.5.0",
-    "@atlaskit/form": "^6.0.3",
+    "@atlaskit/form": "^6.1.4",
     "@atlaskit/media-client": "^1.2.1",
-    "@atlaskit/media-test-helpers": "^24.0.1",
+    "@atlaskit/media-test-helpers": "^24.3.1",
     "@atlaskit/multi-entry-tools": "^0.0.1",
-    "@atlaskit/select": "^9.1.3",
+    "@atlaskit/select": "^10.0.0",
     "@atlaskit/textfield": "^2.0.0",
+    "@atlaskit/util-data-test": "^12.6.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
     "ajv": "^4.11.3",
     "babel-loader": "^8.0.2",

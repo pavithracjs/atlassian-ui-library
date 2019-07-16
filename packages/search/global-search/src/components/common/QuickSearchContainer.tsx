@@ -54,6 +54,7 @@ export interface FilterComponentProps<T> {
   latestSearchQuery: string;
   searchResults: T | null;
   isLoading: boolean;
+  searchSessionId: string;
   currentFilters: Filter[];
   onFilterChanged(filter: Filter[]): void;
 }
@@ -229,6 +230,7 @@ export class QuickSearchContainer<
               timings || {},
               this.props.searchSessionId,
               this.state.latestSearchQuery,
+              this.state.currentFilters || [],
               this.state.isLoading,
             );
           },
@@ -311,6 +313,7 @@ export class QuickSearchContainer<
     timings: Record<string, number | React.ReactText>,
     searchSessionId: string,
     latestSearchQuery: string,
+    latestFilters: Filter[],
     isLoading: boolean,
   ) => {
     const { features } = this.props;
@@ -324,6 +327,11 @@ export class QuickSearchContainer<
       getPostQueryDisplayedResults,
       referralContextIdentifiers,
     } = this.props;
+
+    const filtersApplied: { [filterType: string]: boolean } = {};
+    for (const filter of latestFilters) {
+      filtersApplied[filter['@type']] = true;
+    }
 
     if (createAnalyticsEvent && getPostQueryDisplayedResults) {
       const resultsArray: Result[][] = resultMapToArray(
@@ -343,6 +351,7 @@ export class QuickSearchContainer<
         performanceTiming,
         searchSessionId,
         latestSearchQuery,
+        filtersApplied,
         createAnalyticsEvent,
         features.abTest,
         referralContextIdentifiers,
@@ -562,6 +571,7 @@ export class QuickSearchContainer<
           currentFilters,
           isLoading,
           latestSearchQuery,
+          searchSessionId,
         })}
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,
@@ -581,8 +591,8 @@ export class QuickSearchContainer<
   }
 }
 
-const WithAnalyticsQuickSearchContainer = withAnalyticsEvents()(
+const WithAnalyticsQuickSearchContainer = withAnalyticsEvents<any>()(
   QuickSearchContainer,
-) as typeof QuickSearchContainer;
+);
 
 export default injectSearchSession(WithAnalyticsQuickSearchContainer);

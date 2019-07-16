@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Component, ReactNode } from 'react';
 import { canUseDOM } from 'exenv';
 import { createPortal } from 'react-dom';
@@ -36,7 +36,7 @@ export interface State {
 }
 
 const defaultStyle = {
-  transition: `width ${transitionDurationMs}ms, 
+  transition: `width ${transitionDurationMs}ms,
   flex ${transitionDurationMs}ms`,
   width: `0`,
   flex: `0 0 0`,

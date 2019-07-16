@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 import cases from 'jest-in-case';
 import Spinner from '@atlaskit/spinner';
 import * as renderer from 'react-test-renderer';
