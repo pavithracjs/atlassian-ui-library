@@ -13,7 +13,7 @@ export type Props = {
 
 export const WithCreateAnalyticsEvent: React.ComponentType<
   Props
-> = withAnalyticsEvents()(
+> = withAnalyticsEvents<Props>()(
   class WithCreateAnalyticsEvent extends React.Component<
     Props & WithAnalyticsEventProps
   > {

@@ -3,7 +3,7 @@ import { ComponentType } from 'react';
 import FeedbackButton from './FeedbackButton';
 import FeedbackCollector, { FeedbackFlag } from '@atlaskit/feedback-collector';
 import { FlagGroup } from '@atlaskit/flag';
-import { CommonFeatures } from '../../util/features';
+import { FeaturesProviderProps, injectFeatures } from '../FeaturesProvider';
 
 const EMBEDDABLE_KEY = '85dc6027-c074-4800-ba54-4ecb844b29f8';
 const REQUEST_TYPE_ID = '182';
@@ -15,11 +15,7 @@ export interface FeedbackCollectorProps {
 }
 
 export interface InjectedInputControlProps {
-  inputControls?: JSX.Element;
-}
-
-export interface FeatureProps {
-  features: CommonFeatures;
+  inputControls: JSX.Element | undefined;
 }
 
 interface State {
@@ -27,11 +23,13 @@ interface State {
   displayFlag: boolean;
 }
 
-export default function withFeedbackButton<P>(
-  WrappedComponent: ComponentType<P & InjectedInputControlProps & FeatureProps>,
-): ComponentType<P & FeedbackCollectorProps & FeatureProps> {
-  return class WithFeedbackButton extends React.Component<
-    P & FeedbackCollectorProps & FeatureProps,
+export default function withFeedbackButton<P extends InjectedInputControlProps>(
+  WrappedComponent: ComponentType<P>,
+) {
+  class WithFeedbackButton extends React.Component<
+    Pick<P, Exclude<keyof P, keyof InjectedInputControlProps>> &
+      FeedbackCollectorProps &
+      FeaturesProviderProps,
     State
   > {
     static displayName = `WithFeedbackButton(${WrappedComponent.displayName ||
@@ -69,7 +67,7 @@ export default function withFeedbackButton<P>(
       const feedbackContext = `experimentId: ${experimentId}, abTestId: ${abTestId}`;
 
       return (
-        <div>
+        <>
           <WrappedComponent
             {...this.props}
             inputControls={this.renderFeedbackButton()}
@@ -96,8 +94,10 @@ export default function withFeedbackButton<P>(
               <FeedbackFlag />
             </FlagGroup>
           )}
-        </div>
+        </>
       );
     }
-  };
+  }
+
+  return injectFeatures(WithFeedbackButton);
 }

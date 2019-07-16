@@ -5,7 +5,7 @@ export type DependencyType =
   | 'dependency'
   | 'optionalDependency'
   | 'peerDependency';
-export type UpgradeType = 'add' | 'upgrade' | 'remove';
+export type UpgradeType = 'add' | 'upgrade' | 'remove' | 'downgrade';
 export type UpgradeSubType = ReleaseType | null;
 
 // go/dataportal/analytics/registry/17058

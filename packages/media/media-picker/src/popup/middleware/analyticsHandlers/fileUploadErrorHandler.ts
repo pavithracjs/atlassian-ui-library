@@ -9,7 +9,9 @@ export default (action: Action, store: MiddlewareAPI<State>): HandlerResult => {
     const uploadFile = action.file;
     const currentUploads = store.getState().uploads;
 
-    const timeStarted = currentUploads[uploadFile.id].timeStarted;
+    const { timeStarted } = currentUploads[uploadFile.id] || {
+      timeStarted: undefined,
+    };
 
     return [
       {

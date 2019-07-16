@@ -79,9 +79,6 @@ export class EmojiPickerInternal extends LoadingEmojiComponent<
   }
 }
 
-type EmojiPicker = EmojiPickerInternal;
-const EmojiPicker: React.ComponentType<Props> = withAnalyticsEvents()(
-  EmojiPickerInternal,
-);
+const EmojiPicker = withAnalyticsEvents<Props>()(EmojiPickerInternal);
 
 export default EmojiPicker;

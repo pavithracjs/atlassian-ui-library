@@ -24,7 +24,13 @@ function getUpgradeType(
     version != null &&
     previousVersion !== version
   ) {
-    return 'upgrade';
+    const coercedPrevious: any = semver.coerce(previousVersion);
+    const coercedNew: any = semver.coerce(version);
+    if (semver.lt(coercedNew, coercedPrevious)) {
+      return 'downgrade';
+    } else {
+      return 'upgrade';
+    }
   } else {
     return null;
   }

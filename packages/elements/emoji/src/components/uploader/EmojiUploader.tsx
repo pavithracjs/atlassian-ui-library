@@ -63,6 +63,6 @@ export class EmojiUploaderInternal extends LoadingEmojiComponent<
 }
 
 type EmojiUploader = EmojiUploaderInternal;
-const EmojiUploader = withAnalyticsEvents()(EmojiUploaderInternal);
+const EmojiUploader = withAnalyticsEvents<Props>()(EmojiUploaderInternal);
 
 export default EmojiUploader;

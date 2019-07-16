@@ -299,7 +299,7 @@ export class MentionPicker extends React.PureComponent<
   }
 }
 
-export const MentionPickerWithAnalytics = withAnalyticsEvents({})(
+export const MentionPickerWithAnalytics = withAnalyticsEvents<Props>({})(
   MentionPicker,
 );
 

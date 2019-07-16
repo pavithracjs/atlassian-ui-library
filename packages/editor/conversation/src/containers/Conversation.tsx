@@ -146,11 +146,12 @@ const mapDispatchToProps = (
   },
 });
 
-const ResourcedConversation = withAnalyticsEvents()(
+const ResourcedConversation = withAnalyticsEvents<BaseProps>()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(Conversation as any),
+    // @ts-ignore connect generic types to be provided
+  )(Conversation),
 );
 
 export interface ContainerProps {

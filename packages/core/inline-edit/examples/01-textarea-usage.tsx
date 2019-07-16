@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TextArea from '@atlaskit/textarea';
 import { gridSize, fontSize } from '@atlaskit/theme';
 
