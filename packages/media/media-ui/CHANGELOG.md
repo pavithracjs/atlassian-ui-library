@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.4.5
+
+### Patch Changes
+
+- [patch][515427ad91](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/515427ad91):
+
+  fix: forbidden and unauthorised smartlinks act like <a> tags and no longer truncate their URLs
+
 ## 11.4.4
 
 ### Patch Changes

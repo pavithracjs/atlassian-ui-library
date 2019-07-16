@@ -1,1 +1,0 @@
-fix: forbidden and unauthorised smartlinks act like <a> tags and no longer truncate their URLs
