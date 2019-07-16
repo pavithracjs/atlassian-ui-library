@@ -1,1 +1,0 @@
-ED-7257: Disable breakout for extensions in Full Width mode. Minor fixes for extension selection and spacing

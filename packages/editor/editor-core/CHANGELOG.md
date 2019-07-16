@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.15
+
+### Patch Changes
+
+- [patch][e0ebde5385](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0ebde5385):
+
+  ED-7257: Disable breakout for extensions in Full Width mode. Minor fixes for extension selection and spacing
+
 ## 112.33.14
 
 ### Patch Changes
