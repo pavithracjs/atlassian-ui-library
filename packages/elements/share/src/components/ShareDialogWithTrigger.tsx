@@ -71,7 +71,7 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
   triggerButtonTooltipPosition?: TooltipPosition;
-  triggerButtonTooltipText?: string;
+  triggerButtonTooltipText?: React.ReactNode;
   bottomMessage?: React.ReactNode;
   submitButtonLabel?: React.ReactNode;
 };

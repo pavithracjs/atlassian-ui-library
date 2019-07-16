@@ -114,10 +114,10 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   /** Style of the share modal trigger button */
   triggerButtonStyle?: ShareButtonStyle;
-  /** Custom text of the tooltip on share modal trigger button */
-  triggerButtonTooltipText?: string;
   /** Position of the tooltip on share modal trigger button */
   triggerButtonTooltipPosition?: TooltipPosition;
+  /** Custom text of the tooltip on share modal trigger button */
+  triggerButtonTooltipText?: React.ReactNode;
   /** Message to be appended to the modal */
   bottomMessage?: React.ReactNode;
   /** Whether we should use the Atlassian Url Shortener or not.
