@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.13
+
+### Patch Changes
+
+- [patch][030ead1ffa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/030ead1ffa):
+
+  ED-7262: Fix text color dropdown alignment on smaller viewports (it would appear outside the viewport)
+
 ## 112.33.12
 
 ### Patch Changes

@@ -4054,13 +4054,14 @@ binaryextensions@2:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-2.1.1.tgz#3209a51ca4a4ad541a3b8d3d6a6d5b83a2485935"
 
-bitbucket-build-status@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/bitbucket-build-status/-/bitbucket-build-status-1.0.3.tgz#b902e97fc361bbba252ea1e1e83185432e344474"
+bitbucket-build-status@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bitbucket-build-status/-/bitbucket-build-status-1.1.0.tgz#e9e436559a9c1741f9b1c1a569335814a6e83718"
+  integrity sha512-07hfpQS7D1UQEkkwS0MjNkGnNIsMpf1zB9zw8g4vIoSyCs2CZql/YLiCZn2dXNrfZnk/IKqJbHatL12r004FEA==
   dependencies:
     commander "^2.9.0"
     jsonfile "^2.2.3"
-    lodash "^3.10.1"
+    lodash "^4.17.14"
     superagent "^1.4.0"
 
 bl@^1.0.0:
@@ -11801,13 +11802,18 @@ lodash.zip@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.zip/-/lodash.zip-4.2.0.tgz#ec6662e4896408ed4ab6c542a3990b72cc080020"
 
-lodash@^3.10.1, lodash@^3.8.0:
+lodash@^3.8.0:
   version "3.10.1"
   resolved "http://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
 lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.0:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
+lodash@^4.17.14:
+  version "4.17.14"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
+  integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
 log-symbols@^1.0.2:
   version "1.0.2"
