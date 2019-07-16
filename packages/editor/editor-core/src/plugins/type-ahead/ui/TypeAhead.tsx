@@ -32,7 +32,7 @@ export type TypeAheadProps = {
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
-  spotlight?: HTMLElement;
+  spotlight?: JSX.Element | null;
 };
 
 export function TypeAhead({
