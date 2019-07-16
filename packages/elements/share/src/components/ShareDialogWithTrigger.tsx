@@ -348,16 +348,12 @@ export class ShareDialogWithTriggerInternal extends React.Component<
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
-      intl: { formatMessage },
       copyLink,
       dialogPlacement,
-      isDisabled,
       isFetchingConfig,
       loadUserOptions,
       shareFormTitle,
       config,
-      triggerButtonAppearance,
-      triggerButtonStyle,
       bottomMessage,
       submitButtonLabel,
     } = this.props;

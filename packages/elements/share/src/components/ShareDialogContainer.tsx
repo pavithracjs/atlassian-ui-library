@@ -30,7 +30,6 @@ import {
   ProductId,
   RenderCustomTriggerButton,
   ShareButtonStyle,
-  ShareResponse,
   TooltipPosition,
 } from '../types';
 import {

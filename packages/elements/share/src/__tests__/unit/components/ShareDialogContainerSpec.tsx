@@ -13,7 +13,7 @@ import {
   State,
 } from '../../../components/ShareDialogContainer';
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
-import { OriginTracing } from '../../../types';
+import { OriginTracing, TooltipPosition } from '../../../types';
 import { PropsOf } from '../_testUtils';
 import { copyLinkButtonClicked } from '../../../components/analytics';
 
