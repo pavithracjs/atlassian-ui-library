@@ -2,7 +2,7 @@
   {
     "team": "core",
     "package": "@atlaskit/layer-manager",
-    "version": "7.0.4",
+    "version": "7.0.6",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "core",
     "package": "@atlaskit/layer-manager",
-    "version": "7.0.4",
+    "version": "7.0.6",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -26,7 +26,7 @@
   {
     "team": "core",
     "package": "@atlaskit/layer-manager",
-    "version": "7.0.4",
+    "version": "7.0.6",
     "dependent": true,
     "id": "combined.main",
     "name": "main",

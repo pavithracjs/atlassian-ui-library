@@ -1,2 +1,2 @@
 /* eslint flowtype/require-valid-file-annotation: 0 */
-module.exports = require('./dist/es5/traverse');
+module.exports = require('./dist/cjs/traverse');

@@ -1,1 +1,1 @@
-export * from './dist/es5/builders';
+export * from './dist/cjs/builders';

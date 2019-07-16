@@ -5,8 +5,9 @@
     "access": "public"
   },
   "description": "Fabric component for display a dropdown to select a user from",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {

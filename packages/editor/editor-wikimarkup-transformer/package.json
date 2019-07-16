@@ -4,9 +4,9 @@
   "description": "Wiki markup transformer for JIRA and Confluence",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
-  "main": "dist/es5/index.js",
-  "module": "dist/es2015/index.js",
-  "types": "dist/es5/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [

@@ -1,1 +1,1 @@
-export * from './dist/es2015/validator';
+export * from './dist/esm/validator';

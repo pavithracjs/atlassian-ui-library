@@ -5,8 +5,9 @@
     "access": "public"
   },
   "description": "Fabric Date React Components",
-  "modules": "index.js",
-  "types": "dist/es5/types.d.ts",
+  "main": "dist/cjs/index.js",
+  "modules": "dist/esm/index.js",
+  "types": "dist/cjs/types.d.ts",
   "atlaskit:src": "src/index.ts",
   "repository": {
     "type": "git",
