@@ -31,7 +31,7 @@ import {
 } from '../styled';
 
 interface Props {
-  createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 interface State {
   wasHelpful: boolean | null;
