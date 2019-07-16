@@ -10,12 +10,17 @@ import {
   type ElementRef,
 } from 'react';
 import memoize from 'memoize-one';
+import applyRef from 'apply-ref';
 import { jsx } from '@emotion/core';
 import Badge from '@atlaskit/badge';
 import Button from '@atlaskit/button';
 import AddIcon from '@atlaskit/icon/glyph/add';
 
-import { RefinementBarProvider, RefinementBarContext } from './ContextProvider';
+import {
+  RefinementBarProvider,
+  RefinementBarContext,
+  type CommonProps,
+} from './ContextProvider';
 import Popup, { DialogInner } from './Popup';
 import { FilterButton } from './FilterButton';
 import { FilterManager } from './FilterManager';
@@ -28,8 +33,17 @@ import {
   withAnalyticsEvents,
 } from '../analytics';
 
-type Props = {
+type Props = CommonProps & {
+  /** The key of the "active" popup; use this with `onPopupOpen` and `onPopupClose` to take control of the field popups. */
+  activePopupKey?: string | null,
+  /** Internal. Passed in dynamically. */
   createAnalyticsEvent: (*) => any,
+  /** Called when a field popup is opened, with the field key. */
+  onPopupOpen?: (key: string) => void,
+  /** Called when a field popup is closed. */
+  onPopupClose?: () => void,
+  /** Access the the field elements by reference. Any keys present should match those of the `fieldConfig`. */
+  refs: Object,
 };
 type Context = Object;
 type State = {
@@ -57,6 +71,10 @@ class ActualRefinementBar extends PureComponent<Props, State> {
 
   static contextType = RefinementBarContext;
 
+  static defaultProps = {
+    refs: {},
+  };
+
   filterOptions: Array<Object>;
 
   showLessRef: ElementRef<*> = createRef();
@@ -69,11 +87,25 @@ class ActualRefinementBar extends PureComponent<Props, State> {
   // Popups
   // ==============================
 
-  openPopup = key => () => {
+  getActivePopup = () => {
+    return this.props.activePopupKey === undefined
+      ? this.state.activePopupKey
+      : this.props.activePopupKey;
+  };
+
+  openPopup = key => {
+    const { onPopupOpen } = this.props;
+
+    if (onPopupOpen) onPopupOpen(key);
+
     this.setState({ activePopupKey: key });
   };
 
   closePopup = () => {
+    const { onPopupClose } = this.props;
+
+    if (onPopupClose) onPopupClose();
+
     this.setState({ activePopupKey: null });
   };
 
@@ -131,7 +163,9 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     const meta = { action: 'add', key, data };
     const values = await cloneObj(this.state.values, { add: { [key]: data } });
 
-    this.setState({ activePopupKey: key, values, isExpanded: true }, () => {
+    this.openPopup(key);
+
+    this.setState({ values, isExpanded: true }, () => {
       this.context.onChange(values, meta);
     });
   };
@@ -204,7 +238,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       const likelySource = config.isRemovable ? 'value' : 'irremovableKeys';
 
       throw new Error(
-        `Couldn't find a matching field config for key "${key}". There may be stale keys in \`${likelySource}\`.`,
+        `Couldn't find a matching field config for key "${key}". There may be stale or invalid keys in \`${likelySource}\`.`,
       );
     }
 
@@ -227,10 +261,10 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     const localValue = this.state.values[key] || initialValue;
 
     const hasPopup = typeof field.formatButtonLabel === 'function';
-    const popupIsOpen = this.state.activePopupKey === key;
+    const popupIsOpen = this.getActivePopup() === key;
 
-    const fieldUI = ({ scheduleUpdate }) => {
-      const extra = scheduleUpdate ? { ...config, scheduleUpdate } : config;
+    const fieldUI = renderContextProps => {
+      const extra = { ...config, ...renderContextProps };
 
       return (
         <FieldView
@@ -250,8 +284,14 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     return hasPopup ? (
       <Popup
         key={key}
+        innerRef={val => {
+          // This could be tidier by just applying to FilterButton's ref, but
+          // there's a bug in the version of react-popper (1.0.2) we're using
+          // that results in infite set state calls.
+          applyRef(this.props.refs[key], val);
+        }}
         isOpen={popupIsOpen}
-        onOpen={this.openPopup(key)}
+        onOpen={() => this.openPopup(key)}
         onClose={this.closePopup}
         allowClose={!isInvalid}
         target={({ isOpen, onClick, ref }: *) => (
@@ -274,7 +314,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
         {fieldUI}
       </Popup>
     ) : (
-      fieldUI({})
+      fieldUI({ innerRef: this.props.refs[key] })
     );
   };
 
@@ -321,7 +361,8 @@ class ActualRefinementBar extends PureComponent<Props, State> {
 
   render() {
     const { irremovableKeys, selectedKeys } = this.context;
-    const { activePopupKey, isExpanded } = this.state;
+    const { isExpanded } = this.state;
+    const activePopupKey = this.getActivePopup();
     const FILTER_POPUP_KEY = '__refinement-bar-more-menu__';
 
     return (
@@ -344,7 +385,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
 
         {/* Add Filter Popup */}
         <Popup
-          onOpen={this.openPopup(FILTER_POPUP_KEY)}
+          onOpen={() => this.openPopup(FILTER_POPUP_KEY)}
           onClose={this.closePopup}
           isOpen={activePopupKey === FILTER_POPUP_KEY}
           target={({ isOpen, onClick, ref }: *) => (
@@ -412,19 +453,34 @@ const Group = forwardRef(({ children }: *, ref) => {
 });
 
 // ==============================
-// Main Export
+// Wrap with analytics
 // ==============================
 
 export const RefinementBarUI = withAnalyticsContext(defaultAttributes)(
   withAnalyticsEvents()(ActualRefinementBar),
 );
 
-// ==============================
-// Put it together
-// ==============================
-
-export const RefinementBar = (props: *) => (
-  <RefinementBarProvider {...props}>
-    <RefinementBarUI />
+export const RefinementBar = ({
+  activePopupKey,
+  fieldConfig,
+  irremovableKeys,
+  onChange,
+  onPopupClose,
+  onPopupOpen,
+  refs,
+  value,
+}: *) => (
+  <RefinementBarProvider
+    fieldConfig={fieldConfig}
+    irremovableKeys={irremovableKeys}
+    onChange={onChange}
+    value={value}
+  >
+    <RefinementBarUI
+      activePopupKey={activePopupKey}
+      onPopupOpen={onPopupOpen}
+      onPopupClose={onPopupClose}
+      refs={refs}
+    />
   </RefinementBarProvider>
 );
