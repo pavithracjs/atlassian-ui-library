@@ -6,7 +6,7 @@ import {
 } from '../types';
 
 // TODO: arguments for FF goes here, define FF rules here to display certain products in priority
-function resolveRecommendations(): RecommendationItem[] {
+export function resolveRecommendations(): RecommendationItem[] {
   return [
     { productKey: ProductKey.JIRA_SOFTWARE },
     { productKey: ProductKey.CONFLUENCE },

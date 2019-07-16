@@ -14,6 +14,8 @@ import {
   RecommendationsEngineResponse,
 } from '../../../types';
 
+import { resolveRecommendations } from '../../../providers/recommendations-provider';
+
 const HOSTNAME = 'my-hostname.com';
 const ACTIVE_PRODUCT_STATE = {
   state: 'ACTIVE',
@@ -43,13 +45,6 @@ const generateOpsgenieLicenseInformation = (
     },
   },
 });
-
-const generateRecommendations = (): RecommendationsEngineResponse => [
-  ProductKey.JIRA_SOFTWARE,
-  ProductKey.CONFLUENCE,
-  ProductKey.JIRA_SERVICE_DESK,
-  ProductKey.OPSGENIE,
-];
 
 describe('utils/links', () => {
   it('Fixed product list should have People', () => {
@@ -179,7 +174,7 @@ describe('utils/links', () => {
   });
 
   describe('getXSellLink', () => {
-    const suggestedProducts = generateRecommendations();
+    const suggestedProducts = resolveRecommendations();
     it('should offer both JSW and Confluence if no products are active', () => {
       const licenseInformation = generateLicenseInformation([]);
       const result = getSuggestedProductLink(
@@ -214,7 +209,7 @@ describe('utils/links', () => {
       expect(result[0]).toHaveProperty('key', ProductKey.CONFLUENCE);
       expect(result[1]).toHaveProperty('key', ProductKey.JIRA_SERVICE_DESK);
     });
-    it('should offer Jira Service Desk and Opsgenie if Confluence and JSW are active', () => {
+    it('should offer Jira Service Desk if Confluence and JSW are active', () => {
       const licenseInformation = generateLicenseInformation([
         ProductKey.JIRA_SOFTWARE,
         ProductKey.CONFLUENCE,
@@ -223,11 +218,10 @@ describe('utils/links', () => {
         licenseInformation,
         suggestedProducts,
       );
-      expect(result.length).toEqual(2);
+      expect(result.length).toEqual(1);
       expect(result[0]).toHaveProperty('key', ProductKey.JIRA_SERVICE_DESK);
-      expect(result[1]).toHaveProperty('key', ProductKey.OPSGENIE);
     });
-    it('should offer Confluence and Opsgenie if JSW and JSD are active', () => {
+    it('should offer Confluence if JSW and JSD are active', () => {
       const licenseInformation = generateLicenseInformation([
         ProductKey.JIRA_SOFTWARE,
         ProductKey.JIRA_SERVICE_DESK,
@@ -236,11 +230,10 @@ describe('utils/links', () => {
         licenseInformation,
         suggestedProducts,
       );
-      expect(result.length).toEqual(2);
+      expect(result.length).toEqual(1);
       expect(result[0]).toHaveProperty('key', ProductKey.CONFLUENCE);
-      expect(result[1]).toHaveProperty('key', ProductKey.OPSGENIE);
     });
-    it('should return Jira and Opsgenie if Confluence and JSD are active', () => {
+    it('should return Jira if Confluence and JSD are active', () => {
       const licenseInformation = generateLicenseInformation([
         ProductKey.JIRA_SERVICE_DESK,
         ProductKey.CONFLUENCE,
@@ -250,9 +243,8 @@ describe('utils/links', () => {
         suggestedProducts,
       );
       expect(result[0]).toHaveProperty('key', ProductKey.JIRA_SOFTWARE);
-      expect(result[1]).toHaveProperty('key', ProductKey.OPSGENIE);
     });
-    it('should return Opsgenie if Confluence, JSD and JSW are active', () => {
+    it('should return any empty array if Confluence, JSD and JSW are active', () => {
       const licenseInformation = generateLicenseInformation([
         ProductKey.JIRA_SERVICE_DESK,
         ProductKey.CONFLUENCE,
@@ -262,8 +254,7 @@ describe('utils/links', () => {
         licenseInformation,
         suggestedProducts,
       );
-      expect(result).toHaveLength(1);
-      expect(result[0]).toHaveProperty('key', ProductKey.OPSGENIE);
+      expect(result).toHaveLength(0);
     });
   });
 });
