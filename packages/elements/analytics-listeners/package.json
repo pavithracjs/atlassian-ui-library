@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/analytics-listeners",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "Fabric analytics listeners to be used by the products",
   "config": {
     "access": "public"
@@ -10,8 +10,8 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
   "dependencies": {
-    "@atlaskit/analytics-gas-types": "^4.0.4",
-    "@atlaskit/analytics-namespaced-context": "^4.1.1",
+    "@atlaskit/analytics-gas-types": "^4.0.5",
+    "@atlaskit/analytics-namespaced-context": "^4.1.2",
     "@atlaskit/analytics-next": "^5.1.0",
     "lodash.last": "^3.0.0",
     "lodash.merge": "^4.6.1",
@@ -30,7 +30,7 @@
     "url": "https://bitbucket.org/atlassian/atlaskit-mk-2"
   },
   "devDependencies": {
-    "@atlaskit/button": "^13.0.13",
+    "@atlaskit/button": "^13.0.14",
     "@atlaskit/docs": "^8.1.1",
     "enzyme": "^3.7.0",
     "jest-in-case": "^1.0.2",

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-client",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Media API Web Client Library",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",
@@ -19,7 +19,7 @@
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/type-helpers": "^4.1.1",
+    "@atlaskit/type-helpers": "^4.1.4",
     "chunkinator": "^2.0.4",
     "dataloader": "^1.4.0",
     "deep-equal": "^1.0.1",
@@ -31,12 +31,12 @@
     "uuid-validate": "^0.0.3"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.2.0",
-    "@atlaskit/button": "^13.0.5",
+    "@atlaskit/build-utils": "^2.2.2",
+    "@atlaskit/button": "^13.0.14",
     "@atlaskit/docs": "^8.1.1",
-    "@atlaskit/media-card": "^63.1.4",
-    "@atlaskit/media-core": "^30.0.5",
-    "@atlaskit/media-test-helpers": "^24.0.1",
+    "@atlaskit/media-card": "^63.3.4",
+    "@atlaskit/media-core": "^30.0.7",
+    "@atlaskit/media-test-helpers": "^24.3.2",
     "@atlaskit/ssr": "^0.1.0",
     "@types/fetch-mock": "^6.0.3",
     "@types/query-string": "^4.3.1",
@@ -48,7 +48,7 @@
     "styled-components": "^3.2.6"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^30.0.5",
+    "@atlaskit/media-core": "^30.0.7",
     "rxjs": "^5.5.0"
   },
   "resolutions": {
