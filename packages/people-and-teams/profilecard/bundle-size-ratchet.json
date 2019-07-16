@@ -1,34 +1,50 @@
 [
   {
+    "team": "people and teams",
+    "package": "@atlaskit/profilecard",
+    "version": "10.2.6",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 73663,
-      "gzipSize": 13559
+      "size": 73573,
+      "gzipSize": 13495
     }
   },
   {
+    "team": "people and teams",
+    "package": "@atlaskit/profilecard",
+    "version": "10.2.6",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 137365,
-      "gzipSize": 40944
+      "size": 207578,
+      "gzipSize": 57607
     }
   },
   {
+    "team": "people and teams",
+    "package": "@atlaskit/profilecard",
+    "version": "10.2.6",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 89044,
-      "gzipSize": 23707
+      "size": 82521,
+      "gzipSize": 21683
     }
   },
   {
+    "team": "people and teams",
+    "package": "@atlaskit/profilecard",
+    "version": "10.2.6",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 298622,
-      "gzipSize": 78390
+      "size": 362697,
+      "gzipSize": 92656
     }
   }
 ]

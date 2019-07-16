@@ -1,11 +1,11 @@
 {
   "name": "@atlaskit/nachos-textfield",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A React component that is a textfield.",
   "license": "Apache-2.0",
-  "main": "dist/es5/index.js",
-  "module": "dist/es2015/index.js",
-  "types": "dist/es5/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
   "atlaskit:src": "./index.ts",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
@@ -28,7 +28,7 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.2.0",
+    "@atlaskit/build-utils": "^2.2.2",
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0"

@@ -1,21 +1,33 @@
 [
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 199636,
-      "gzipSize": 133471
+      "size": 199539,
+      "gzipSize": 133462
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 879468,
-      "gzipSize": 239807
+      "size": 922905,
+      "gzipSize": 251828
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
@@ -24,43 +36,63 @@
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 103787,
-      "gzipSize": 25937
+      "size": 98335,
+      "gzipSize": 24372
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 125599,
-      "gzipSize": 29434
+      "size": 125695,
+      "gzipSize": 29509
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
       "size": 1702,
-      "gzipSize": 736
+      "gzipSize": 735
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 1307132,
-      "gzipSize": 428044
+      "size": 1345410,
+      "gzipSize": 437900
     }
   },
   {
+    "team": "media",
+    "package": "@atlaskit/media-test-helpers",
+    "version": "24.0.3",
+    "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
       "size": 13421,
-      "gzipSize": 4451
+      "gzipSize": 4452
     }
   }
 ]

@@ -15,6 +15,7 @@ export function SmartCardProvider({
     maxLoadingDelay: MAX_LOADING_DELAY,
   },
   storeOptions = { initialState: {} },
+  authFlow = 'oauth2',
   children,
 }: CardProviderProps) {
   const context = useContext(SmartCardContext);
@@ -34,7 +35,7 @@ export function SmartCardProvider({
           connections: {
             client,
           },
-          config: cacheOptions,
+          config: { ...cacheOptions, authFlow },
         }}
       >
         {children}

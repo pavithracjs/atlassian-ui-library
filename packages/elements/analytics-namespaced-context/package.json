@@ -1,13 +1,14 @@
 {
   "name": "@atlaskit/analytics-namespaced-context",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "Provides a namespace for AnalyticsContext data (@atlaskit/analytics-next)",
   "config": {
     "access": "public"
   },
   "atlaskit:src": "src/index.ts",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "dependencies": {
     "@atlaskit/analytics-next": "^5.1.0",
     "tslib": "^1.9.3"
@@ -25,7 +26,7 @@
     "url": "https://bitbucket.org/atlassian/atlaskit-mk-2"
   },
   "devDependencies": {
-    "@atlaskit/analytics-listeners": "^6.1.1",
+    "@atlaskit/analytics-listeners": "^6.1.2",
     "@atlaskit/docs": "^8.1.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",

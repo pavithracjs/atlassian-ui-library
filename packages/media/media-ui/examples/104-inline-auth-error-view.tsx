@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Page, { Grid, GridColumn } from '@atlaskit/page';
 import TextField from '@atlaskit/field-text';
-import { InlineCardErroredView } from '../src/InlineCard/ErroredView';
 import { IntlProvider } from 'react-intl';
+import { InlineCardUnauthorizedView } from '../src/InlineCard/UnauthorisedView';
 
 class Example extends React.Component {
   state = {
@@ -30,11 +30,9 @@ class Example extends React.Component {
           </Grid>
           <Grid>
             <GridColumn>
-              <InlineCardErroredView
+              <InlineCardUnauthorizedView
                 url={this.state.url}
-                message="Something went wrong here"
                 onClick={() => alert('This will have zero effect...')}
-                onRetry={() => alert('Trying hard...')}
               />
               <hr />
             </GridColumn>
@@ -44,13 +42,7 @@ class Example extends React.Component {
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Praesent in finibus augue. Etiam ut leo justo. Proin consequat
-                lacus id leo{' '}
-                <InlineCardErroredView
-                  url={this.state.url}
-                  message="Something went wrong here"
-                  onClick={() => alert('This will have zero effect...')}
-                  onRetry={() => alert('Trying hard...')}
-                />{' '}
+                lacus id leo <InlineCardUnauthorizedView url={this.state.url} />{' '}
                 volutpat ornare sodales nec purus. Curabitur tempor lacinia
                 auctor. Proin commodo quis nisi at rutrum. In hac habitasse
                 platea dictumst. Nam feugiat neque eget est pharetra euismod.

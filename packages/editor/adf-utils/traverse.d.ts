@@ -1,1 +1,1 @@
-export * from './dist/es5/traverse';
+export * from './dist/cjs/traverse';

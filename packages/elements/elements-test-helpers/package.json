@@ -1,17 +1,17 @@
 {
   "name": "@atlaskit/elements-test-helpers",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "common test helpers",
   "config": {
     "access": "public"
   },
-  "main": "dist/es5/index.js",
+  "main": "dist/cjs/index.js",
   "atlaskit:src": "src/index.ts",
-  "jsnext:main": "dist/es2015/index.js",
-  "module": "dist/es2015/index.js",
-  "types": "dist/es5/index.d.ts",
+  "jsnext:main": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
   "dependencies": {
-    "@atlaskit/build-utils": "^2.0.0",
+    "@atlaskit/build-utils": "^2.2.2",
     "@atlaskit/ssr": "^0.1.0",
     "exenv": "^1.2.2",
     "tslib": "^1.9.3"

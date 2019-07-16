@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/pubsub",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "config": {
     "access": "public"
   },
@@ -10,8 +10,9 @@
   },
   "description": "Interacts with Atlassian Frontend PubSub service to receive pubsub events.",
   "atlaskit:src": "src/index.ts",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "sideEffects": false,
   "author": "Atlassian Pty. Ltd",
   "maintainers": [
@@ -20,7 +21,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@atlaskit/util-service-support": "^4.0.3",
+    "@atlaskit/util-service-support": "^4.0.4",
     "eventemitter2": "^4.1.0",
     "pubnub": "^4.20.3",
     "tslib": "^1.9.3"
@@ -29,10 +30,10 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/button": "^13.0.14",
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/field-text": "^9.0.0",
-    "@atlaskit/lozenge": "^9.0.0",
+    "@atlaskit/lozenge": "^9.0.2",
     "@atlaskit/theme": "^9.0.3",
     "@types/fetch-mock": "^6.0.3",
     "es6-promise": "^4.0.5",

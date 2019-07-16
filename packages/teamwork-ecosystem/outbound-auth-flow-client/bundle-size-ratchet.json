@@ -1,5 +1,9 @@
 [
   {
+    "team": "teamwork ecosystem",
+    "package": "@atlaskit/outbound-auth-flow-client",
+    "version": "2.0.2",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
@@ -8,6 +12,10 @@
     }
   },
   {
+    "team": "teamwork ecosystem",
+    "package": "@atlaskit/outbound-auth-flow-client",
+    "version": "2.0.2",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {

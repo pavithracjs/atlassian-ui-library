@@ -1,4 +1,5 @@
 import * as React from 'react';
+// @ts-ignore
 import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
 import { ResultData, SelectedResultId, ResultId } from './Results/types';
 import AkSearch from './Search/Search';
@@ -104,6 +105,7 @@ export type Props = {
   /** Optional way of being notified when the selected result changes due to keyboard nav */
   onSelectedResultIdChanged?: (id: SelectedResultId) => void;
   // Internal: injected by withAnalytics(). Fire a private analytics event
+  // @ts-ignore
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   /** React component to be used for rendering links */
   linkComponent?: React.ComponentType<any>;
@@ -483,5 +485,6 @@ export class QuickSearch extends React.Component<Props, State> {
  * @atlaskit/analytics/AnalyticsListener.
  */
 export default decorateWithAnalyticsData(
+  // @ts-ignore
   withAnalytics<typeof QuickSearch>(QuickSearch, {}, {}),
 );
