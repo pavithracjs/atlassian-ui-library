@@ -25,7 +25,7 @@ import drawerItemTheme from '../theme/drawer-item-theme';
 import FocusLock from './focus-lock';
 import DrawerPrimitive from './primitives';
 import { Fade } from './transitions';
-import { CloseTrigger, DrawerProps } from './types';
+import { CloseTrigger, DrawerProps, DrawerWidth } from './types';
 
 const OnlyChild: FC<any> = ({ children }) =>
   Children.toArray(children)[0] || null;
@@ -52,7 +52,7 @@ export class DrawerBase extends Component<
   { renderPortal: boolean }
 > {
   static defaultProps = {
-    width: 'narrow',
+    width: 'narrow' as DrawerWidth,
     isFocusLockEnabled: true,
     shouldReturnFocus: true,
     autoFocusFirstElem: false,
@@ -182,8 +182,8 @@ export * from './skeletons';
 export * from './item-group';
 export * from './item';
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<DrawerProps>({
   componentName: 'drawer',
   packageName,
   packageVersion,
-})(withAnalyticsEvents()(DrawerBase));
+})(withAnalyticsEvents<DrawerProps>()(DrawerBase));
