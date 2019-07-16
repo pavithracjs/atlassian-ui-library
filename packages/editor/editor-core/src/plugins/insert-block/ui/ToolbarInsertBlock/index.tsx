@@ -3,7 +3,7 @@ import { ReactInstance } from 'react';
 import * as ReactDOM from 'react-dom';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import { EditorView } from 'prosemirror-view';
-import { Node as PMNode } from 'prosemirror-model';
+import { Node as PMNode, Fragment } from 'prosemirror-model';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
 import ExpandIcon from '@atlaskit/icon/glyph/chevron-down';
 import TableIcon from '@atlaskit/icon/glyph/editor/table';
@@ -53,7 +53,6 @@ import { MacroProvider } from '../../../macro/types';
 import { createTable } from '../../../table/commands';
 import { insertDate, openDatePicker } from '../../../date/actions';
 import { showPlaceholderFloatingToolbar } from '../../../placeholder-text/actions';
-import { createHorizontalRule } from '../../../rule/pm-plugins/input-rule';
 import { TriggerWrapper } from './styles';
 import { insertLayoutColumns } from '../../../layout/actions';
 import { insertTaskDecision } from '../../../tasks-and-decisions/commands';
@@ -71,8 +70,10 @@ import {
   PANEL_TYPE,
   InsertEventPayload,
   DispatchAnalyticsEvent,
+  addAnalytics,
 } from '../../../analytics';
 import { EditorState } from 'prosemirror-state';
+import { safeInsert } from '../../../../utils/insert';
 
 export const messages = defineMessages({
   action: {
@@ -796,12 +797,19 @@ class ToolbarInsertBlock extends React.PureComponent<
     'atlassian.editor.format.horizontalrule.button',
     (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      const tr = createHorizontalRule(
-        editorView.state,
+      let tr = safeInsert(
+        editorView.state.schema.nodes.rule.createChecked(),
         editorView.state.selection.from,
-        editorView.state.selection.to,
-        inputMethod,
-      );
+        false,
+      )(editorView.state.tr);
+
+      tr = addAnalytics(tr, {
+        action: ACTION.INSERTED,
+        actionSubject: ACTION_SUBJECT.DOCUMENT,
+        actionSubjectId: ACTION_SUBJECT_ID.DIVIDER,
+        attributes: { inputMethod },
+        eventType: EVENT_TYPE.TRACK,
+      });
 
       if (tr) {
         editorView.dispatch(tr);
