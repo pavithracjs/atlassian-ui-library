@@ -165,7 +165,11 @@ describe('analyticsProcessing middleware', () => {
     verifyAnalyticsCall(editorShowImage(''), {
       name: 'fileEditorModal',
       eventType: SCREEN_EVENT_TYPE,
-      attributes,
+      attributes: {
+        ...attributes,
+        imageUrl: '',
+        originalImage: undefined,
+      },
     });
   });
 
@@ -257,15 +261,24 @@ describe('analyticsProcessing middleware', () => {
         attributes: {
           fileCount: 1,
           ...attributes,
+          files: [
+            {
+              accountId: undefined,
+              fileId: '789',
+              fileName: '1.jpg',
+              fileSize: 10,
+              fileMimetype: 'image/jpg',
+            },
+          ],
         },
       },
       {
         selectedItems: [
           {
-            mimeType: '',
-            id: '',
-            name: '',
-            size: 0,
+            mimeType: 'image/jpg',
+            id: '789',
+            name: '1.jpg',
+            size: 10,
             date: 0,
             serviceName: UPLOAD,
             upfrontId: Promise.resolve(''),
@@ -282,26 +295,42 @@ describe('analyticsProcessing middleware', () => {
         ...buttonClickPayload,
         actionSubjectId: 'insertFilesButton',
         attributes: {
-          fileCount: 2,
           ...attributes,
+          fileCount: 2,
+          files: [
+            {
+              accountId: undefined,
+              fileId: '123',
+              fileName: '1.jpg',
+              fileSize: 10,
+              fileMimetype: 'image/jpg',
+            },
+            {
+              accountId: undefined,
+              fileId: '456',
+              fileName: '1.png',
+              fileSize: 20,
+              fileMimetype: 'image/png',
+            },
+          ],
         },
       },
       {
         selectedItems: [
           {
-            mimeType: '',
-            id: '',
-            name: '',
-            size: 0,
+            mimeType: 'image/jpg',
+            id: '123',
+            name: '1.jpg',
+            size: 10,
             date: 0,
             serviceName: UPLOAD,
             upfrontId: Promise.resolve(''),
           },
           {
-            mimeType: '',
-            id: '',
-            name: '',
-            size: 0,
+            mimeType: 'image/png',
+            id: '456',
+            name: '1.png',
+            size: 20,
             date: 0,
             serviceName: UPLOAD,
             upfrontId: Promise.resolve(''),
@@ -369,7 +398,12 @@ describe('analyticsProcessing middleware', () => {
       {
         ...buttonClickPayload,
         actionSubjectId: 'annotateFileButton',
-        attributes,
+        attributes: {
+          ...attributes,
+          collectionName: '',
+          fileId: '',
+          fileName: '',
+        },
       },
     );
   });

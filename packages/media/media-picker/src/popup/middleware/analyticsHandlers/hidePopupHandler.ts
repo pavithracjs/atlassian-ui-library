@@ -5,15 +5,24 @@ import { buttonClickPayload, HandlerResult } from '.';
 
 export default (action: Action, store: MiddlewareAPI<State>): HandlerResult => {
   if (isHidePopupAction(action)) {
+    const { selectedItems = [] } = store.getState();
+    const files = selectedItems.map(item => ({
+      fileId: item.id,
+      fileMimetype: item.mimeType,
+      fileName: item.name,
+      fileSize: item.size,
+      accountId: item.accountId,
+    }));
+    const actionSubjectId =
+      selectedItems.length > 0 ? 'insertFilesButton' : 'cancelButton';
+
     return [
       {
         ...buttonClickPayload,
-        actionSubjectId:
-          store.getState().selectedItems.length > 0
-            ? 'insertFilesButton'
-            : 'cancelButton',
+        actionSubjectId,
         attributes: {
-          fileCount: store.getState().selectedItems.length,
+          fileCount: selectedItems.length,
+          ...(selectedItems.length > 0 ? { files } : {}),
         },
       },
     ];
