@@ -74,8 +74,6 @@ describe('ResourcedMentionList', () => {
     element.setState({ mentions: [{ id: 'someUser' }] });
 
     const spotlight = element.find(MentionList).props().initialHighlight;
-    console.log('spotlight', spotlight);
-    console.log('spotlight debug', spotlight.props);
     spotlight && spotlight.props.onClose();
 
     expect(localStorage.getItem(mentionSpotlightLocalStorageKey)).toEqual(
