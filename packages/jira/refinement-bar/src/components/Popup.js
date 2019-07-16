@@ -33,6 +33,7 @@ type PopperPropsNoChildren = $Diff<PopperProps, PopperChildren>;
 type Props = {
   allowClose: boolean,
   children?: Node | (({ scheduleUpdate: * }) => Node),
+  innerRef?: ElementRef<*>,
   isOpen?: boolean,
   popperProps?: PopperPropsNoChildren,
   onClose?: (*) => void,
@@ -155,13 +156,15 @@ export default class Popup extends PureComponent<Props, State> {
   }
 
   render() {
-    const { allowClose, target } = this.props;
+    const { allowClose, innerRef, target } = this.props;
     const isOpen = this.getProp('isOpen');
     const onClick = isOpen ? this.close : this.open;
 
     return (
       <Manager>
-        <Reference>{({ ref }) => target({ ref, isOpen, onClick })}</Reference>
+        <Reference innerRef={innerRef}>
+          {({ ref }) => target({ ref, isOpen, onClick })}
+        </Reference>
         {this.renderDialog()}
         {isOpen && <Blanket onClick={this.close} allowClose={allowClose} />}
       </Manager>
