@@ -298,11 +298,11 @@ export const getSuggestedProductLink = (
   productRecommendations: RecommendationsEngineResponse,
 ): SwitcherItemType[] => {
   const filteredProducts = productRecommendations.filter(
-    product => !getProductIsActive(licenseInformationData, product),
+    product => !getProductIsActive(licenseInformationData, product.productKey),
   );
   return filteredProducts
     .slice(0, PRODUCT_RECOMMENDATION_LIMIT)
-    .map(product => getProductLink(product));
+    .map(product => getProductLink(product.productKey));
 };
 
 export const getCustomLinkItems = (

@@ -1,12 +1,16 @@
 import asDataProvider from './as-data-provider';
-import { RecommendationsEngineResponse, ProductKey } from '../types';
+import {
+  RecommendationsEngineResponse,
+  ProductKey,
+  RecommendationItem,
+} from '../types';
 
 // TODO: arguments for FF goes here, define FF rules here to display certain products in priority
-function resolveRecommendations() {
+function resolveRecommendations(): RecommendationItem[] {
   return [
-    ProductKey.JIRA_SOFTWARE,
-    ProductKey.CONFLUENCE,
-    ProductKey.JIRA_SERVICE_DESK,
+    { productKey: ProductKey.JIRA_SOFTWARE },
+    { productKey: ProductKey.CONFLUENCE },
+    { productKey: ProductKey.JIRA_SERVICE_DESK },
   ];
 }
 const fetchRecommendations = (): Promise<RecommendationsEngineResponse> =>

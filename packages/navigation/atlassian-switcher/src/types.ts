@@ -131,4 +131,8 @@ export enum ProductKey {
   OPSGENIE = 'opsgenie',
 }
 
-export type RecommendationsEngineResponse = ProductKey[];
+export type RecommendationsEngineResponse = RecommendationItem[];
+
+export interface RecommendationItem {
+  productKey: ProductKey;
+}
