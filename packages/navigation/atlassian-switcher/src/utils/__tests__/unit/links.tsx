@@ -11,7 +11,6 @@ import {
   ProductLicenseInformation,
   LicenseInformationResponse,
   ProductKey,
-  RecommendationsEngineResponse,
 } from '../../../types';
 
 import { resolveRecommendations } from '../../../providers/recommendations-provider';
