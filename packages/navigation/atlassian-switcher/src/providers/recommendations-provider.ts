@@ -7,7 +7,6 @@ function resolveRecommendations() {
     ProductKey.JIRA_SOFTWARE,
     ProductKey.CONFLUENCE,
     ProductKey.JIRA_SERVICE_DESK,
-    ProductKey.OPSGENIE,
   ];
 }
 const fetchRecommendations = (): Promise<RecommendationsEngineResponse> =>
