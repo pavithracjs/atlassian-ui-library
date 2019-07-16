@@ -6,9 +6,7 @@ import {
   AnalyticsEventPayload,
 } from '../../analytics';
 import { HistoryAnalyticsActionTypes } from './actions';
-import { Transaction, EditorState } from 'prosemirror-state';
-
-// todo: store max number that matches history
+import { Transaction, EditorState, Plugin } from 'prosemirror-state';
 
 const findTransactionsToUndo = (state: EditorState): Transaction[] => {
   const { plugins } = state;
@@ -17,7 +15,9 @@ const findTransactionsToUndo = (state: EditorState): Transaction[] => {
   // Undoing auto-formatting is handled in a special way
   // prosemirror-inputrules doesn't have a plugin key so have to find
   // its state in this weird way
-  const inputRulesPlugin = plugins.find(plugin => plugin.spec.isInputRules);
+  const inputRulesPlugin: Plugin | undefined = plugins.find(
+    plugin => plugin.spec.isInputRules,
+  );
   if (inputRulesPlugin) {
     const undoableInputRule = inputRulesPlugin.getState(state);
     if (undoableInputRule) {
@@ -35,7 +35,6 @@ export const undo = createCommand(
   }),
   (tr, state) => {
     const pluginState = getPluginState(state);
-    console.log(pluginState);
     if (pluginState.done.length > 0) {
       const transactionsToUndo = findTransactionsToUndo(state);
 

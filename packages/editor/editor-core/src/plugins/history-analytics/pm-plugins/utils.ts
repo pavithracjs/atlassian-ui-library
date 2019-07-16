@@ -1,6 +1,6 @@
 import { Transaction, EditorState, Plugin } from 'prosemirror-state';
 import { Mapping } from 'prosemirror-transform';
-import { historyAnalyticsPluginKey, HistoryAnalyticsPluginState } from './main';
+import { HistoryAnalyticsPluginState } from './main';
 import {
   AnalyticsEventPayloadWithChannel,
   analyticsPluginKey,
@@ -31,14 +31,6 @@ export const pushTransactionsToHistory = (
 
   const newTransactions = transactions.reduce(
     (trs: Transaction[], tr: Transaction) => {
-      if (
-        tr.steps.length === 0 ||
-        tr.getMeta(historyAnalyticsPluginKey) ||
-        tr.getMeta(pmHistoryPluginKey)
-      ) {
-        return trs;
-      }
-
       const appended = tr.getMeta('appendedTransaction');
       if ((appended || tr).getMeta('addToHistory') !== false) {
         const pmHistoryPluginState: PmHistoryPluginState = getPmHistoryPluginState(
@@ -113,7 +105,8 @@ export const syncWithPmHistory = (
   pluginState: HistoryAnalyticsPluginState,
   state: EditorState,
 ): HistoryAnalyticsPluginState => {
-  let { done, undone } = pluginState;
+  let done: Transaction[] = pluginState.done;
+  let undone: Transaction[] = pluginState.undone;
   let {
     done: pmHistoryDone,
     undone: pmHistoryUndone,
@@ -121,11 +114,15 @@ export const syncWithPmHistory = (
   const pmHistoryDoneItems = getEventCountBranchItems(pmHistoryDone);
   const pmHistoryUndoneItems = getEventCountBranchItems(pmHistoryUndone);
 
-  if (done.length !== pmHistoryDoneItems.length) {
-    done = syncStack(done, pmHistoryDoneItems, state);
+  if (areStacksDifferent(pluginState.done, pmHistoryDoneItems)) {
+    done = syncStack(pluginState.done, pmHistoryDoneItems, state);
   }
-  if (undone.length !== pmHistoryUndoneItems.length) {
-    undone = syncStack(undone, pmHistoryUndoneItems, state);
+  if (areStacksDifferent(pluginState.undone, pmHistoryUndoneItems)) {
+    undone = syncStack(pluginState.undone, pmHistoryUndoneItems, state);
+  }
+
+  if (done === pluginState.done && undone === pluginState.undone) {
+    return pluginState;
   }
 
   return { done, undone };
@@ -146,6 +143,29 @@ const getPmHistoryPlugin = (state: EditorState): Plugin => {
   return state.plugins.find(
     plugin => (plugin as any).key === pmHistoryPluginKey,
   ) as Plugin;
+};
+
+/**
+ * Filters branch items to those that actually caused the branch's eventCount
+ * property to increase
+ */
+const getEventCountBranchItems = (branch: PmHistoryBranch): PmHistoryItem[] =>
+  branch.items.values.filter((value: PmHistoryItem) => value.selection);
+
+const areStacksDifferent = (
+  stack: Transaction[],
+  pmHistoryStack: PmHistoryItem[],
+): boolean => {
+  if (stack.length !== pmHistoryStack.length) {
+    return false;
+  }
+  if (stack.length === 0) {
+    return true;
+  }
+
+  const lastTr = stack[stack.length - 1];
+  const lastItem = pmHistoryStack[pmHistoryStack.length - 1];
+  return lastTr.mapping.maps[lastTr.steps.length - 1] === lastItem.map;
 };
 
 /**
@@ -191,13 +211,6 @@ const isAdjacentToLastStep = (
 
   return adjacent;
 };
-
-/**
- * Filters branch items to those that actually caused the branch's eventCount
- * property to increase
- */
-const getEventCountBranchItems = (branch: PmHistoryBranch): PmHistoryItem[] =>
-  branch.items.values.filter((value: PmHistoryItem) => value.selection);
 
 const syncStack = (
   stack: Transaction[],
