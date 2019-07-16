@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.4.4
+
+### Patch Changes
+
+- [patch][3371cb9ba0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3371cb9ba0):
+
+  Updated Atlassian Switcher prefecth trigger to accept enableUserCentricProducts feature flag
+
 ## 3.4.3
 
 ### Patch Changes
