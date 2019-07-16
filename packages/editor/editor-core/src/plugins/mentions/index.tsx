@@ -54,6 +54,7 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
+import { TeamMentionResource } from '../../../src';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -149,15 +150,23 @@ const mentionsPlugin = (
       ],
       typeAhead: {
         getSpotlight: (state: EditorState) => {
-          // const pluginState = getMentionPluginState(state);
-          // from pluginState we can access the MentionProvider, from which we can access the TeamMentionResource
-
-          return (
-            <MentionSpotlight
-              createTeamLink="/people/search#createTeam"
-              onClose={() => null} // todo - other analytics functions
-            />
-          );
+          const pluginState = getMentionPluginState(state);
+          if (
+            pluginState.mentionProvider &&
+            pluginState.mentionProvider instanceof TeamMentionResource
+          ) {
+            if (
+              pluginState.mentionProvider.mentionTypeaheadSpotlightEnabled()
+            ) {
+              return (
+                <MentionSpotlight
+                  createTeamLink="/people/search#createTeam"
+                  onClose={() => null} // todo - other analytics functions
+                />
+              );
+            }
+          }
+          return null;
         },
 
         trigger: '@',

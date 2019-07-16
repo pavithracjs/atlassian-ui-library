@@ -55,6 +55,9 @@ export default class TeamMentionResource extends MentionResource {
     }
   }
 
+  // todo - TEAMS-590 : enable/disable the spotlight based on Feature Flags and other conditions
+  mentionTypeaheadSpotlightEnabled = () => false;
+
   /**
    * Returns the initial mention display list before a search is performed for the specified
    * container.
