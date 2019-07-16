@@ -10,12 +10,12 @@ import CheckboxIcon from './CheckboxIcon';
 
 import { name as packageName, version as packageVersion } from './version.json';
 import {
-  HiddenCheckbox,
-  Label,
   LabelText,
+  Label,
   CheckboxWrapper,
   RequiredIndicator,
-} from './styled/Checkbox';
+  HiddenCheckbox,
+} from './elements';
 import { CheckboxProps } from './types';
 
 interface State {
