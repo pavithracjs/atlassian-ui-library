@@ -2,7 +2,6 @@ import * as React from 'react';
 import { colors } from '@atlaskit/theme';
 import LockIcon from '@atlaskit/icon/glyph/lock-filled';
 import Button from '@atlaskit/button';
-import { truncateUrlForErrorView } from '../utils';
 import { Frame } from '../Frame';
 import { IconAndTitleLayout } from '../IconAndTitleLayout';
 import { AKIconWrapper } from '../Icon';
