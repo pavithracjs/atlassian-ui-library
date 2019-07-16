@@ -73,6 +73,7 @@ class JiraSwitcherExample extends React.Component {
           <Button type="button" onClick={this.clearCache}>
             Clear cache
           </Button>
+          <div style={{ width: 16 }} />
           <Button
             type="button"
             onClick={this.onToggleEnableUserCentricProducts}
