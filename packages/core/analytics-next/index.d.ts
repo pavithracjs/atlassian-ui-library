@@ -125,7 +125,12 @@ export type WithAnalyticsContextProps = {
 
 export type WithAnalyticsContextFunction<
   OwnProps extends object
-> = AnalyticsHOC<OwnProps, WithAnalyticsContextProps>;
+> = AnalyticsHOC<
+  OwnProps,
+  {
+    analyticsContext?: Record<string, any>;
+  }
+>;
 
 export function withAnalyticsContext<OwnProps>(
   defaultData?: any,
