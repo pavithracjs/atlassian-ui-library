@@ -1,0 +1,1 @@
+ED-7262: Fix text color dropdown alignment on smaller viewports (it would appear outside the viewport)
