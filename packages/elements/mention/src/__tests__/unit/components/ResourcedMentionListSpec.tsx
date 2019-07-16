@@ -4,6 +4,7 @@ import { MockMentionResource } from '../../../../../util-data-test/src/mention/M
 import MentionList from '../../..//components/MentionList';
 import ResourcedMentionList, {
   Props,
+  mentionSpotlightLocalStorageKey,
 } from '../../../components/ResourcedMentionList';
 
 describe('ResourcedMentionList', () => {
@@ -19,6 +20,10 @@ describe('ResourcedMentionList', () => {
   function render(props?: Partial<Props>) {
     return shallow(<ResourcedMentionList {...defaultProps} {...props} />);
   }
+
+  beforeEach(() => {
+    localStorage.clear();
+  });
 
   it('should show the highlight if conditions are just right', () => {
     const element = render({ mentionsSpotlightEnabled: true });
@@ -53,5 +58,28 @@ describe('ResourcedMentionList', () => {
 
     const spotlight = element.find(MentionList).props().initialHighlight;
     expect(spotlight).toBeNull();
+  });
+
+  it('should not show the highlight if the user has opted out', () => {
+    localStorage.setItem(mentionSpotlightLocalStorageKey, 'closed');
+    const element = render({ mentionsSpotlightEnabled: true });
+    element.setState({ mentions: [{ id: 'someUser' }] });
+
+    const spotlight = element.find(MentionList).props().initialHighlight;
+    expect(spotlight).toBeNull();
+  });
+
+  it('should set a value in local storage when users closees', () => {
+    const element = render({ mentionsSpotlightEnabled: true });
+    element.setState({ mentions: [{ id: 'someUser' }] });
+
+    const spotlight = element.find(MentionList).props().initialHighlight;
+    console.log('spotlight', spotlight);
+    console.log('spotlight debug', spotlight.props);
+    spotlight && spotlight.props.onClose();
+
+    expect(localStorage.getItem(mentionSpotlightLocalStorageKey)).toEqual(
+      'closed',
+    );
   });
 });

@@ -49,6 +49,9 @@ export interface State {
   highlightClosed: boolean;
 }
 
+export const mentionSpotlightLocalStorageKey =
+  'atlassian.people.context.mention.spotlight';
+
 export default class ResourcedMentionList extends React.PureComponent<
   Props,
   State
@@ -224,14 +227,29 @@ export default class ResourcedMentionList extends React.PureComponent<
   };
 
   private closeHighlight = () => {
+    localStorage.setItem(mentionSpotlightLocalStorageKey, 'closed');
     this.setState({ highlightClosed: true });
+  };
+
+  // Note - not a simple look up to avoid showing it to users that have local storage disabled
+  private isEnabledFromLocalStorage = () => {
+    let localValue = localStorage.getItem(mentionSpotlightLocalStorageKey);
+    if (!localValue) {
+      // Attempt to write to see if the user has local storage access
+      localStorage.setItem(mentionSpotlightLocalStorageKey, 'canShow');
+      localValue = localStorage.getItem(mentionSpotlightLocalStorageKey);
+    }
+
+    return localValue === 'canShow';
   };
 
   private mentionsHighlight = () => {
     const { mentions, highlightClosed } = this.state;
     const { mentionsSpotlightEnabled } = this.props;
-    // TODO include local storage checks
+    const disabledViaLocalStorage = !this.isEnabledFromLocalStorage();
+
     const shouldShow =
+      !disabledViaLocalStorage &&
       !highlightClosed &&
       mentionsSpotlightEnabled &&
       mentions &&
