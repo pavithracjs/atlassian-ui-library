@@ -1,0 +1,1 @@
+Updated Atlassian Switcher prefecth trigger to accept enableUserCentricProducts feature flag
