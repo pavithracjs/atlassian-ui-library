@@ -168,8 +168,8 @@ export class ArticleWasHelpfulForm extends React.Component<
   }
 }
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'ArticleWasHelpfulForm',
   packageName,
   packageVersion,
-})(withAnalyticsEvents()(withHelp(injectIntl(ArticleWasHelpfulForm))));
+})(withAnalyticsEvents<Props>()(withHelp(injectIntl(ArticleWasHelpfulForm))));

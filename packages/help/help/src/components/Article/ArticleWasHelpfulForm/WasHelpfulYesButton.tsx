@@ -27,7 +27,7 @@ export interface Props {
     | 'subtle'
     | 'subtle-link'
     | 'warning';
-  createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
 const ArticleWasHelpfulYesButton = (
@@ -63,8 +63,12 @@ const ArticleWasHelpfulYesButton = (
   );
 };
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'ArticleWasHelpfulYesButton',
   packageName,
   packageVersion,
-})(withAnalyticsEvents()(withHelp(injectIntl(ArticleWasHelpfulYesButton))));
+})(
+  withAnalyticsEvents<Props>()(
+    withHelp(injectIntl(ArticleWasHelpfulYesButton)),
+  ),
+);
