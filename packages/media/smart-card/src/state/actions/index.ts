@@ -87,6 +87,11 @@ export function useSmartCardActions(
             dispatchAnalytics(resolvedEvent(nextDefinitionId));
           } else {
             dispatchAnalytics(unresolvedEvent(nextStatus, nextDefinitionId));
+            // If we require authorization & do not have an authFlow available,
+            // throw an error and render as a normal blue link.
+            if (nextStatus === 'unauthorized' && config.authFlow !== 'oauth2') {
+              throw Error('Provider.authFlow is not set to OAuth2.');
+            }
           }
           dispatch(cardAction(ACTION_RESOLVED, { url: resourceUrl }, response));
         })
