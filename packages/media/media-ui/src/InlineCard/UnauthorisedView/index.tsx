@@ -33,12 +33,8 @@ export class InlineCardUnauthorizedView extends React.Component<
   render() {
     const { url, icon, onClick, isSelected, onAuthorise } = this.props;
     return (
-      <Frame onClick={onClick} isSelected={isSelected}>
-        <IconAndTitleLayout
-          icon={icon}
-          title={truncateUrlForErrorView(url)}
-          titleColor={colors.N500}
-        />
+      <Frame link={url} onClick={onClick} isSelected={isSelected}>
+        <IconAndTitleLayout icon={icon} title={url} titleColor={colors.N500} />
         {!onAuthorise ? (
           ''
         ) : (

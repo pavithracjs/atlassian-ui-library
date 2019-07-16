@@ -34,14 +34,14 @@ export class InlineCardForbiddenView extends React.Component<
   render() {
     const { url, onClick, isSelected, onAuthorise } = this.props;
     return (
-      <Frame onClick={onClick} isSelected={isSelected}>
+      <Frame link={url} onClick={onClick} isSelected={isSelected}>
         <IconAndTitleLayout
           icon={
             <AKIconWrapper>
               <LockIcon label="error" size="small" primaryColor={colors.B400} />
             </AKIconWrapper>
           }
-          title={truncateUrlForErrorView(url)}
+          title={url}
           titleColor={colors.N500}
         />
         {!onAuthorise ? (
