@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.4.6
+
+### Patch Changes
+
+- [patch][7016422921](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7016422921):
+
+  Passed in empty object in order to get the correct cache key
+
 ## 3.4.5
 
 ### Patch Changes
