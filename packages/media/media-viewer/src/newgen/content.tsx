@@ -21,6 +21,14 @@ export interface ContentState {
 export class Content extends Component<ContentProps, ContentState> {
   state: ContentState = {};
 
+  /*
+   * Here we get called by InactivityDetector and given a function we
+   * pass down as "showControls" to out children.
+   */
+  triggerActivityCallbackRequester = (triggerActivityCallback: () => void) => {
+    this.setState({ triggerActivityCallback });
+  };
+
   render() {
     const { onClose } = this.props;
     const { triggerActivityCallback } = this.state;
@@ -29,17 +37,9 @@ export class Content extends Component<ContentProps, ContentState> {
       showControls: triggerActivityCallback,
     });
 
-    // Here we get called by InactivityDetector and given a function we pass down as "showControls"
-    // to out children.
-    const triggerActivityCallbackRequester = (
-      triggerActivityCallback: () => void,
-    ) => {
-      this.setState({ triggerActivityCallback });
-    };
-
     return (
       <InactivityDetector
-        triggerActivityCallbackRequester={triggerActivityCallbackRequester}
+        triggerActivityCallbackRequester={this.triggerActivityCallbackRequester}
       >
         <CloseButtonWrapper className={hideControlsClassName}>
           <MediaButton
