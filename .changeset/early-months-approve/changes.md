@@ -1,0 +1,1 @@
+bugfix, fixes missing version.json file
