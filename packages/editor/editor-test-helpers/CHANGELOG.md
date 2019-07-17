@@ -1,5 +1,15 @@
 # @atlaskit/editor-test-helpers
 
+## 9.10.0
+
+### Minor Changes
+
+- [minor][c0ba9ee289](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0ba9ee289):
+
+  set viewMediaClientConfig when properties change in MediaSingle node
+
+  This fixes [ED-7269] + [FEF-8938]: issue with images not loading when the page transition from view to edit mode
+
 ## 9.9.4
 
 ### Patch Changes
