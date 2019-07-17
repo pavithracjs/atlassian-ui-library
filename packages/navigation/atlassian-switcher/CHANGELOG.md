@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.5.0
+
+### Minor Changes
+
+- [minor][a6dcd23804](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6dcd23804):
+
+  Add a new provider to suggest a list of recommended products, and refactor existing logic
+
 ## 3.4.6
 
 ### Patch Changes
