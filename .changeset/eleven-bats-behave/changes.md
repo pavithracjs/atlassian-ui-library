@@ -11,7 +11,7 @@ For `Editor` component, a property called `feedbackInfo` is added contains the f
 - `packageVersion`
 - `labels`
 
-The above properties will provide environmental context for the Jira feedback dialog.
+The above properties will provide environmental context for the feedback dialog.
 
 Note that `feedbackInfo` is required to enable editor quick insert option for the feedback dialog.
 

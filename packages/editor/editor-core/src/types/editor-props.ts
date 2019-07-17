@@ -118,7 +118,7 @@ export interface EditorProps {
   // Enable the editor help dialog.
   allowHelpDialog?: boolean;
 
-  // Information required for editor to display the feedback modal(from Jira)
+  // Information required for editor to display the feedback modal.
   // This is also required to enable quick insert plugin for feedback modal.
   feedbackInfo?: FeedbackInfo;
 

@@ -20,15 +20,15 @@ describe('utils -> deprecationWarnings', () => {
         prop4: 'test value 4',
       },
       [
-        { property: 'prop1', message: 'prop1 is moved', type: 'removed' },
-        { property: 'prop2', message: 'prop2 is moved', type: '' },
+        { property: 'prop1', description: 'prop1 is moved', type: 'removed' },
+        { property: 'prop2', description: 'prop2 is moved', type: '' },
         {
           property: 'prop3',
-          message: '',
+          description: '',
           type: 'removed',
           condition: props => typeof props['prop3'] === 'string',
         },
-        { property: 'prop5', message: 'prop5 is moved', type: '' },
+        { property: 'prop5', description: 'prop5 is moved', type: '' },
       ],
     );
   });
