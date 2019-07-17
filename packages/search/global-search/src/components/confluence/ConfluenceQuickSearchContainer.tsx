@@ -142,6 +142,7 @@ const mergeSearchResultsWithRecentItems = (
       // In the case where we don't know the number from the server, we also can't show more so
       // this numeber should just be the size of the current list.
       totalSize: results.objects.totalSize,
+      numberOfCurrentItems: results.objects.numberOfCurrentItems,
     },
     spaces: results.spaces,
     people: results.people,
@@ -448,34 +449,24 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     searchSessionId: string,
   ) => {
     const { features } = this.props;
-    if (features.isInFasterSearchExperiment) {
-      const currentSearchResults: ConfluenceResultsMap =
-        isLoading || !searchResults
-          ? ({} as ConfluenceResultsMap)
-          : searchResults;
+    const currentSearchResults: ConfluenceResultsMap =
+      isLoading || !searchResults
+        ? ({} as ConfluenceResultsMap)
+        : searchResults;
 
-      const recentResults = getRecentItemMatches(
-        latestSearchQuery,
-        recentItems,
-      );
+    const recentResults = getRecentItemMatches(latestSearchQuery, recentItems);
 
-      const mergedRecentSearchResults = mergeSearchResultsWithRecentItems(
-        currentSearchResults,
-        recentResults,
-      );
+    const mergedRecentSearchResults = mergeSearchResultsWithRecentItems(
+      currentSearchResults,
+      recentResults,
+    );
 
-      return mapSearchResultsToUIGroups(
-        mergedRecentSearchResults,
-        features,
-        searchSessionId,
-      );
-    } else {
-      return mapSearchResultsToUIGroups(
-        searchResults,
-        features,
-        searchSessionId,
-      );
-    }
+    return mapSearchResultsToUIGroups(
+      mergedRecentSearchResults,
+      features,
+      searchSessionId,
+      isLoading, // Hide the lozenge for the faster search screen
+    );
   };
 
   getNoResultsStateComponent = (
@@ -592,13 +583,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     searchResults,
     isLoading,
     recentItems,
-    keepPreQueryState,
     searchSessionId,
     searchMore,
     currentFilters,
     onFilterChanged,
   }: SearchResultProps<ConfluenceResultsMap>) => {
-    const { onAdvancedSearch = () => {}, features } = this.props;
+    const { onAdvancedSearch = () => {} } = this.props;
     const onSearchMoreAdvancedSearchClicked = (event: CancelableEvent) => {
       onAdvancedSearch(
         event,
@@ -620,9 +610,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         searchMore={searchMore}
         currentFilters={currentFilters}
         onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
-        keepPreQueryState={
-          features.isInFasterSearchExperiment ? false : keepPreQueryState
-        }
+        keepPreQueryState={false}
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
