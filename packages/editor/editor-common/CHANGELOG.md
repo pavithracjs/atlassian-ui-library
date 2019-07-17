@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.16.4
+
+### Patch Changes
+
+- [patch][404c2886f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/404c2886f8):
+
+  fix MediaSingle styles for renderer
+
 ## 39.16.3
 
 ### Patch Changes

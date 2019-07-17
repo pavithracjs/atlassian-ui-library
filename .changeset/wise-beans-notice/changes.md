@@ -1,1 +1,0 @@
-fix MediaSingle styles for renderer
