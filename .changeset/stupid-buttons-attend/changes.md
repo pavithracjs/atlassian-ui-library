@@ -1,0 +1,1 @@
+FM-2149 Disable default oauth2 flow when resolving smart links. Native to resolve auth on their side instead.
