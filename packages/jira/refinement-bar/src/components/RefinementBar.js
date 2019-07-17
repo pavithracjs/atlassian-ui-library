@@ -273,6 +273,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
           field={field}
           invalidMessage={invalidMessage}
           key={key}
+          onClear={() => this.handleFieldClear(key)}
           onChange={this.handleFieldChange(key)}
           refinementBarValue={this.context.value}
           storedValue={storedValue}

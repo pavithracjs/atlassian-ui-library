@@ -11,6 +11,7 @@ import SearchIcon from '@atlaskit/icon/glyph/search';
 import { ClearButton, HiddenSubmitButton } from '../../components/common';
 
 type Props = {
+  onClear: () => void,
   onChange: string => void,
   innerRef: ElementRef<*>,
   value: string,
@@ -30,7 +31,7 @@ export default class SearchView extends PureComponent<Props, State> {
   };
 
   handleClear = () => {
-    this.props.onChange('');
+    this.props.onClear();
     const el = this.inputRef.current;
 
     if (el && typeof el.focus === 'function') {
