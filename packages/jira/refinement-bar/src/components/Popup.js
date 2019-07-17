@@ -88,7 +88,7 @@ export default class Popup extends PureComponent<Props, State> {
     popperProps: defaultPopperProps,
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const wasOpen = this.getProp('isOpen', prevProps, prevState);
     const isOpen = this.getProp('isOpen');
 
@@ -126,7 +126,7 @@ export default class Popup extends PureComponent<Props, State> {
     }
   };
 
-  open = (event: *) => {
+  open = (event: Event) => {
     this.callProp('onOpen', event);
     this.setState({ isOpen: true });
   };

@@ -7,6 +7,7 @@ import { diffArr, objectMap } from '../utils';
 export const RefinementBarContext = React.createContext({});
 
 type FieldKey = string;
+type FieldKeys = Array<FieldKey>;
 type FieldType = {
   label: string,
   type: ComponentType<*>,
@@ -18,24 +19,33 @@ type Meta = {
   data?: any,
 };
 
+export type ValuesType = { [FieldKey]: any };
 export type CommonProps = {
   /** All fields that may be rendered in the refinement bar. */
   fieldConfig: FieldConfigType,
   /** All fields that may be rendered in the refinement bar. */
-  irremovableKeys: Array<FieldKey>,
+  irremovableKeys: FieldKeys,
   /** Handle what happens when one of the field's values changes. */
   onChange: (value: Object, meta: Meta) => void,
   /** The current value of each field in the refinement bar. */
-  value: Object,
+  value: ValuesType,
+};
+export type ProviderContext = {
+  ...CommonProps,
+  removeableKeys: FieldKeys,
+  selectedKeys: FieldKeys,
 };
 type ProviderProps = CommonProps & {
   children?: Node,
 };
-type State = {
+type ProviderState = {
   fieldConfig: FieldConfigType,
 };
 
-export class RefinementBarProvider extends Component<ProviderProps, State> {
+export class RefinementBarProvider extends Component<
+  ProviderProps,
+  ProviderState,
+> {
   static defaultProps = {
     irremovableKeys: [],
   };
@@ -96,4 +106,5 @@ export const RefinementBarConsumer = ({
   </RefinementBarContext.Consumer>
 );
 
+// $FlowFixMe useContext
 export const useRefinementBar = () => React.useContext(RefinementBarContext);

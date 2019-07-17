@@ -19,7 +19,8 @@ import AddIcon from '@atlaskit/icon/glyph/add';
 import {
   RefinementBarProvider,
   RefinementBarContext,
-  type CommonProps,
+  type ProviderContext,
+  type ValuesType,
 } from './ContextProvider';
 import Popup, { DialogInner } from './Popup';
 import { FilterButton } from './FilterButton';
@@ -33,7 +34,7 @@ import {
   withAnalyticsEvents,
 } from '../analytics';
 
-type Props = CommonProps & {
+type Props = {
   /** The key of the "active" popup; use this with `onPopupOpen` and `onPopupClose` to take control of the field popups. */
   activePopupKey?: string | null,
   /** Internal. Passed in dynamically. */
@@ -45,16 +46,15 @@ type Props = CommonProps & {
   /** Access the the field elements by reference. Any keys present should match those of the `fieldConfig`. */
   refs: Object,
 };
-type Context = Object;
 type State = {
   activePopupKey: string | null,
   invalid: { [key: string]: string },
   isExpanded: boolean,
-  values: Object,
+  values: ValuesType,
 };
 
 class ActualRefinementBar extends PureComponent<Props, State> {
-  constructor(props: Props, context: Context) {
+  constructor(props: Props, context: ProviderContext) {
     super(props, context);
 
     // declared here once so react-select can keep track of the keys;
@@ -65,7 +65,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       activePopupKey: null,
       invalid: {},
       isExpanded: true,
-      values: context.value,
+      values: context.value || {},
     };
   }
 
