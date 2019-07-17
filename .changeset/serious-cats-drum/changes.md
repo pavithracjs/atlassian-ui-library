@@ -1,0 +1,1 @@
+ED-6152: Fixes previous inline cursor regression where you couldnt type after the inline cursor
