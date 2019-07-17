@@ -17,18 +17,22 @@ import {
 import { createError, MediaViewerError } from '../error';
 import { BaseState, BaseViewer } from './base-viewer';
 import { isIE } from '../utils/isIE';
-import { CustomMediaPlayer } from '@atlaskit/media-ui';
+import {
+  CustomMediaPlayer,
+  WithShowControlMethodProp,
+} from '@atlaskit/media-ui';
 import { getObjectUrlFromFileState } from '../utils/getObjectUrlFromFileState';
 
-export type Props = Readonly<{
-  item: FileState;
-  mediaClient: MediaClient;
-  collectionName?: string;
-  previewCount: number;
-  showControls?: () => void;
-  onCanPlay?: () => void;
-  onError?: () => void;
-}>;
+export type Props = Readonly<
+  {
+    item: FileState;
+    mediaClient: MediaClient;
+    collectionName?: string;
+    previewCount: number;
+    onCanPlay?: () => void;
+    onError?: () => void;
+  } & WithShowControlMethodProp
+>;
 
 export type State = BaseState<string> & {
   coverUrl?: string;

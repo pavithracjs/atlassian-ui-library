@@ -1,15 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { MediaButton } from '@atlaskit/media-ui';
+import { hideControlsClassName, MediaButton } from '@atlaskit/media-ui';
 import ZoomOutIcon from '@atlaskit/icon/glyph/media-services/zoom-out';
 import ZoomInIcon from '@atlaskit/icon/glyph/media-services/zoom-in';
 import { ZoomLevel } from './domain/zoomLevel';
-import {
-  ZoomWrapper,
-  ZoomControlsWrapper,
-  hideControlsClassName,
-  ZoomLevelIndicator,
-} from './styled';
+import { ZoomWrapper, ZoomControlsWrapper, ZoomLevelIndicator } from './styled';
 import {
   withAnalyticsEvents,
   WithAnalyticsEventProps,

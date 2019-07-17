@@ -12,15 +12,17 @@ import { Subscription } from 'rxjs/Subscription';
 import { toIdentifier } from './utils';
 import { Spinner } from './loading';
 import { MediaCollectionItem } from '@atlaskit/media-store';
+import { WithShowControlMethodProp } from '@atlaskit/media-ui';
 
-export type Props = Readonly<{
-  onClose?: () => void;
-  defaultSelectedItem?: Identifier;
-  showControls?: () => void;
-  collectionName: string;
-  mediaClient: MediaClient;
-  pageSize: number;
-}>;
+export type Props = Readonly<
+  {
+    onClose?: () => void;
+    defaultSelectedItem?: Identifier;
+    collectionName: string;
+    mediaClient: MediaClient;
+    pageSize: number;
+  } & WithShowControlMethodProp
+>;
 
 export type State = {
   items: Outcome<MediaCollectionItem[], MediaViewerError>;
