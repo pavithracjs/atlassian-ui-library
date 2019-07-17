@@ -19,6 +19,7 @@ import AddIcon from '@atlaskit/icon/glyph/add';
 import {
   RefinementBarProvider,
   RefinementBarContext,
+  type CommonProps,
   type ProviderContext,
   type ValuesType,
 } from './ContextProvider';
@@ -460,7 +461,9 @@ export const RefinementBarUI = withAnalyticsContext(defaultAttributes)(
   withAnalyticsEvents()(ActualRefinementBar),
 );
 
-export const RefinementBar = ({
+type RefinementBarProps = CommonProps & Props;
+
+const RefinementBar = ({
   activePopupKey,
   fieldConfig,
   irremovableKeys,
@@ -469,7 +472,7 @@ export const RefinementBar = ({
   onPopupOpen,
   refs,
   value,
-}: *) => (
+}: RefinementBarProps) => (
   <RefinementBarProvider
     fieldConfig={fieldConfig}
     irremovableKeys={irremovableKeys}
@@ -484,3 +487,5 @@ export const RefinementBar = ({
     />
   </RefinementBarProvider>
 );
+
+export default RefinementBar;

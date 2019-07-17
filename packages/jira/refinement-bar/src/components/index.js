@@ -6,4 +6,4 @@ export {
   RefinementBarContext,
   useRefinementBar,
 } from './ContextProvider';
-export { RefinementBarUI, RefinementBar as default } from './RefinementBar';
+export { RefinementBarUI, default } from './RefinementBar';
