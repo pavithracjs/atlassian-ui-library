@@ -33,6 +33,7 @@ type PopperPropsNoChildren = $Diff<PopperProps, PopperChildren>;
 type Props = {
   allowClose: boolean,
   children?: Node | (({ scheduleUpdate: * }) => Node),
+  innerRef?: ElementRef<*>,
   isOpen?: boolean,
   popperProps?: PopperPropsNoChildren,
   onClose?: (*) => void,
@@ -87,8 +88,29 @@ export default class Popup extends PureComponent<Props, State> {
     popperProps: defaultPopperProps,
   };
 
-  getProp = (key: string) => {
-    return this.props[key] !== undefined ? this.props[key] : this.state[key];
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const wasOpen = this.getProp('isOpen', prevProps, prevState);
+    const isOpen = this.getProp('isOpen');
+
+    const closeWasAllowed = this.getProp('allowClose', prevProps, prevState);
+    const closeIsAllowed = this.getProp('allowClose');
+
+    // NOTE: event listeners bound on update, rather than within the open/close
+    // methods because the consumer can take control of the open state.
+    if ((!wasOpen && isOpen) || (!closeWasAllowed && closeIsAllowed)) {
+      window.addEventListener('keydown', this.handleKeyDown);
+    }
+    if ((wasOpen && !isOpen) || (closeWasAllowed && !closeIsAllowed)) {
+      window.removeEventListener('keydown', this.handleKeyDown);
+    }
+  }
+
+  getProp = (
+    key: string,
+    props: Props = this.props,
+    state: State = this.state,
+  ) => {
+    return props[key] !== undefined ? props[key] : state[key];
   };
 
   callProp = (name: string, ...args: Array<any>): any => {
@@ -104,11 +126,9 @@ export default class Popup extends PureComponent<Props, State> {
     }
   };
 
-  open = (event: *) => {
+  open = (event: Event) => {
     this.callProp('onOpen', event);
     this.setState({ isOpen: true });
-
-    window.addEventListener('keydown', this.handleKeyDown);
   };
 
   close = (event: Event) => {
@@ -118,8 +138,6 @@ export default class Popup extends PureComponent<Props, State> {
 
     this.callProp('onClose', event);
     this.setState({ isOpen: false });
-
-    window.removeEventListener('keydown', this.handleKeyDown);
   };
 
   renderDialog() {
@@ -155,13 +173,15 @@ export default class Popup extends PureComponent<Props, State> {
   }
 
   render() {
-    const { allowClose, target } = this.props;
+    const { allowClose, innerRef, target } = this.props;
     const isOpen = this.getProp('isOpen');
     const onClick = isOpen ? this.close : this.open;
 
     return (
       <Manager>
-        <Reference>{({ ref }) => target({ ref, isOpen, onClick })}</Reference>
+        <Reference innerRef={innerRef}>
+          {({ ref }) => target({ ref, isOpen, onClick })}
+        </Reference>
         {this.renderDialog()}
         {isOpen && <Blanket onClick={this.close} allowClose={allowClose} />}
       </Manager>

@@ -25,7 +25,7 @@ ${(
 ## Usage
 
 ${code`
-  import { RefinementBar } from '@atlaskit/refinement-bar';
+  import RefinementBar from '@atlaskit/refinement-bar';
 `}
 
 ${(
@@ -42,6 +42,9 @@ ${(
   <Props
     heading="Refinement bar props"
     props={require('!!extract-react-types-loader!../src/components/RefinementBar')}
+    overrides={{
+      createAnalyticsEvent: () => null,
+    }}
   />
 )}
 `;
