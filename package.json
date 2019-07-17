@@ -37,7 +37,7 @@
     "update:icons": "                        bolt w @atlaskit/icon update && bolt w @atlaskit/icon-object update && bolt w @atlaskit/icon-file-type update && bolt w @atlaskit/reduced-ui-pack update",
     "delete": "                              yarn run delete:modules && yarn run delete:build",
     "delete:modules": "                      bolt ws exec --parallel -- rm -rf node_modules && rm -rf node_modules",
-    "delete:build": "                        bolt ws exec --parallel -- rm -rf dist && git clean -xdf",
+    "delete:build": "                        bolt ws exec --parallel -- rm -rf dist  && git clean -fd",
     "enable:lfs": "                          node enable-lfs-hooks.js",
     "test": "                                yarn jest",
     "test:changed": "                        CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js) COVERAGE_PACKAGES=$(node build/ci-scripts/get.code.threshold.for.changed.packages.since.master.js) yarn test",
