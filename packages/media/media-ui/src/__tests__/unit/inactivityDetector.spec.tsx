@@ -17,7 +17,9 @@ describe('InactivityDetector', () => {
   const setup = () => {
     const showControlsRegister = jest.fn();
     const component = shallow(
-      <InactivityDetector showControlsRegister={showControlsRegister}>
+      <InactivityDetector
+        triggerActivityCallbackRequester={showControlsRegister}
+      >
         <DummyChild />
       </InactivityDetector>,
     );

@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import { hideControlsClassName } from '..';
 
 export interface ContentWrapperProps {
-  showControls: boolean;
+  controlsAreVisible: boolean;
 }
 
-const handleControlsVisibility = ({ showControls }: ContentWrapperProps) => `
+const handleControlsVisibility = ({
+  controlsAreVisible,
+}: ContentWrapperProps) => `
   transition: opacity .3s;
-  opacity: ${showControls ? '1' : '0'};
+  opacity: ${controlsAreVisible ? '1' : '0'};
 `;
 
 export const InactivityDetectorWrapper = styled.div`
