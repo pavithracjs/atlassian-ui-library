@@ -81,50 +81,24 @@ interface ModeValue {
   light: string;
   dark: string;
 }
-interface LabelTokens {
-  textColor: {
-    rest: ModeValue;
-    disabled: ModeValue;
-  };
-  spacing: {
-    top: string;
-    right: string;
-    bottom: string;
-    left: string;
-  };
-}
-
-export interface IconTokens {
-  borderWidth: string;
-  borderColor: {
-    rest: ModeValue;
-    disabled: ModeValue;
-    checked: ModeValue;
-    active: ModeValue;
-    invalid: ModeValue;
-    focused: ModeValue;
-    hovered: ModeValue;
-  };
-  boxColor: {
-    rest: ModeValue;
-    disabled: ModeValue;
-    active: ModeValue;
-    hoveredAndChecked: ModeValue;
-    hovered: ModeValue;
-    checked: ModeValue;
-  };
-  tickColor: {
-    rest: ModeValue;
-    disabledAndChecked: ModeValue;
-    activeAndChecked: ModeValue;
-    checked: ModeValue;
-  };
-  size: 'small' | 'medium' | 'large';
-}
+type TokenValue = ModeValue | string;
 
 export interface ComponentTokens {
-  label: LabelTokens;
-  icon: IconTokens;
+  label: {
+    [LabelKey in keyof ThemeLabelTokens]: ThemeLabelTokens[LabelKey] extends string
+      ? string
+      : { [LabelProperty in keyof ThemeLabelTokens[LabelKey]]: TokenValue }
+  };
+  icon: {
+    [IconKey in keyof ThemeIconTokens]: ThemeIconTokens[IconKey] extends string
+      ? string
+      : { [IconProperty in keyof ThemeIconTokens[IconKey]]: TokenValue }
+  };
+  requiredIndicator: {
+    textColor: {
+      rest: string;
+    };
+  };
 }
 
 export interface ThemeIconTokens {
@@ -152,7 +126,7 @@ export interface ThemeIconTokens {
     activeAndChecked: string;
     checked: string;
   };
-  size: 'small' | 'medium' | 'large';
+  size: string;
 }
 
 export interface ThemeLabelTokens {
@@ -171,6 +145,11 @@ export interface ThemeLabelTokens {
 export interface ThemeTokens {
   label: ThemeLabelTokens;
   icon: ThemeIconTokens;
+  requiredIndicator: {
+    textColor: {
+      rest: string;
+    };
+  };
 }
 
 export interface ThemeProps {
