@@ -1,1 +1,1 @@
-Consume analytics-next ts type definitions as an ambient delcaration
+Consume analytics-next ts type definitions as an ambient declaration.
