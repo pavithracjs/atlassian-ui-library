@@ -16,6 +16,7 @@ import {
 } from '../../__helpers/page-objects/_keyboard';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 import { isVisualRegression } from '../utils';
+import { Page } from 'puppeteer';
 
 export const tableSelectors = {
   contextualMenu: `.${ClassName.CONTEXTUAL_MENU_BUTTON}`,
@@ -350,6 +351,23 @@ export const grabResizeHandle = async (
   await page.mouse.down();
 };
 
+export const scrollTable = async (page: any, percentage: number = 1) => {
+  await page.evaluate(
+    (selector: string, percentage: number) => {
+      const element = document.querySelector(selector) as HTMLElement;
+
+      if (element) {
+        element.scrollTo(
+          (element.scrollWidth - element.offsetWidth) * percentage,
+          0,
+        );
+      }
+    },
+    `.${ClassName.TABLE_NODE_WRAPPER}`,
+    percentage,
+  );
+};
+
 export const toggleBreakout = async (page: any, times: number) => {
   const timesArray = Array.from({ length: times });
 
@@ -361,6 +379,15 @@ export const toggleBreakout = async (page: any, times: number) => {
 
 export const scrollToTable = async (page: any) => {
   await scrollToElement(page, tableSelectors.tableTd, 50);
+};
+
+export const unselectTable = async (page: Page) => {
+  const rect = await getBoundingRect(page, `.${ClassName.TABLE_NODE_WRAPPER}`)!;
+
+  await page.mouse.click(
+    rect.left + rect.width * 0.5, // Middle of the table
+    rect.top - 20, // 20px outside the top of the table
+  );
 };
 
 const select = (type: 'row' | 'column' | 'numbered') => async (
