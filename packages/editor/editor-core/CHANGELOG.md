@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.24
+
+### Patch Changes
+
+- [patch][ee02cca952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee02cca952):
+
+  ED-6152: Fixes previous inline cursor regression where you couldnt type after the inline cursor
+
 ## 112.33.23
 
 ### Patch Changes
