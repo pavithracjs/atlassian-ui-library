@@ -49,7 +49,7 @@ describe('Inline cursor target', () => {
       ),
     );
 
-    expect(pluginState.positions[0]).toEqual(sel);
+    expect(pluginState.positions[0]).toEqual(sel - 1);
   });
 
   it(`should give positions at the current pos when at the end of a 'special' node`, () => {
@@ -72,6 +72,6 @@ describe('Inline cursor target', () => {
       ),
     );
 
-    expect(pluginState.positions[0]).toEqual(sel);
+    expect(pluginState.positions[0]).toEqual(sel - 1);
   });
 });
