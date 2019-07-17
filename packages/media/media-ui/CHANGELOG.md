@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.4.6
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 11.4.5
 
 ### Patch Changes

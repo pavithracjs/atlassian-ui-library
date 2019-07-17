@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.7.2
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
 ## 49.7.1
 
 ### Patch Changes

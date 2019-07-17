@@ -1,5 +1,13 @@
 # @atlaskit/quick-search
 
+## 7.6.4
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 7.6.3
 
 ### Patch Changes

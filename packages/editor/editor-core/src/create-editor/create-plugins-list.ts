@@ -238,6 +238,7 @@ export default function createPluginsList(
   // UI only plugins
   plugins.push(
     insertBlockPlugin({
+      allowTables: !!props.allowTables,
       insertMenuItems: props.insertMenuItems,
       horizontalRuleEnabled: props.allowRule,
       nativeStatusSupported: !statusMenuDisabled,

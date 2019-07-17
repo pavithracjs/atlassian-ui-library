@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 63.3.5
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 63.3.4
 
 ### Patch Changes

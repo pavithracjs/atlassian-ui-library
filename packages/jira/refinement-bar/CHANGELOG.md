@@ -1,5 +1,13 @@
 # @atlaskit/refinement-bar
 
+## 0.5.0
+
+### Minor Changes
+
+- [minor][149c9a6222](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/149c9a6222):
+
+  support field refs and controlled popups
+
 ## 0.4.9
 
 - Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):

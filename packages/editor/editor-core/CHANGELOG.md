@@ -1,5 +1,74 @@
 # @atlaskit/editor-core
 
+## 112.33.24
+
+### Patch Changes
+
+- [patch][ee02cca952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee02cca952):
+
+  ED-6152: Fixes previous inline cursor regression where you couldnt type after the inline cursor
+
+## 112.33.23
+
+### Patch Changes
+
+- [patch][92419b2ad8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92419b2ad8):
+
+  ED-7116 Update logic for image sizing when changing layout to/from aligned
+
+  - If an image is smaller than 50% of line length the image will preserve its original size when aligned, else it will be capped at 50% line length
+  - When returning to a centred image after aligning the image will use its most recent resized size (whether that happened when aligned or when it was previously centred) or, if never resized, fall back to its original size
+
+## 112.33.22
+
+### Patch Changes
+
+- [patch][2588afa0a7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2588afa0a7):
+
+  ED-6864: fix pasting tables with cells without content
+
+## 112.33.21
+
+### Patch Changes
+
+- [patch][c0ba9ee289](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0ba9ee289):
+
+  set viewMediaClientConfig when properties change in MediaSingle node
+
+  This fixes [ED-7269] + [FEF-8938]: issue with images not loading when the page transition from view to edit mode
+
+## 112.33.20
+
+### Patch Changes
+
+- [patch][41dce81d89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41dce81d89):
+
+  ED-6985 Avoid overflow when table change to a bigger layout
+
+## 112.33.19
+
+### Patch Changes
+
+- [patch][00c8b76ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00c8b76ccc):
+
+  ED-7259 Fix Table Insert Menu rerender for each table change
+
+## 112.33.18
+
+### Patch Changes
+
+- [patch][1ddb0c3fef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ddb0c3fef):
+
+  ED-6152: Fix cursor alignment after emoji
+
+## 112.33.17
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
 ## 112.33.16
 
 ### Patch Changes

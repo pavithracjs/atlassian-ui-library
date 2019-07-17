@@ -30,6 +30,14 @@ class ConfluenceSwitcherExample extends React.Component {
                 billingPeriod: 'ANNUAL',
                 state: 'ACTIVE',
               },
+              'jira-software.ondemand': {
+                billingPeriod: 'ANNUAL',
+                state: 'ACTIVE',
+              },
+              'jira-servicedesk.ondemand': {
+                billingPeriod: 'ANNUAL',
+                state: 'ACTIVE',
+              },
             },
           },
         };
@@ -57,7 +65,11 @@ class ConfluenceSwitcherExample extends React.Component {
     return (
       <div style={{ padding: '2rem' }}>
         <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
-          <AtlassianSwitcher product="confluence" cloudId="some-cloud-id" />
+          <AtlassianSwitcher
+            product="confluence"
+            cloudId="some-cloud-id"
+            triggerXFlow={this.onTriggerXFlow}
+          />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
           Open drawer

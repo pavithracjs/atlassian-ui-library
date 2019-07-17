@@ -6,30 +6,46 @@ import { diffArr, objectMap } from '../utils';
 
 export const RefinementBarContext = React.createContext({});
 
+type FieldKey = string;
+type FieldKeys = Array<FieldKey>;
 type FieldType = {
   label: string,
   type: ComponentType<*>,
 };
-type FieldConfigType = { [key: string]: FieldType };
-type Keys = Array<string>;
+type FieldConfigType = { [FieldKey]: FieldType };
 type Meta = {
   type: 'add' | 'remove' | 'update',
-  key: string,
+  key: FieldKey,
   data?: any,
 };
 
-type ProviderProps = {
-  children?: Node,
+export type ValuesType = { [FieldKey]: any };
+export type CommonProps = {
+  /** All fields that may be rendered in the refinement bar. */
   fieldConfig: FieldConfigType,
-  irremovableKeys: Keys,
+  /** All fields that may be rendered in the refinement bar. */
+  irremovableKeys: FieldKeys,
+  /** Handle what happens when one of the field's values changes. */
   onChange: (value: Object, meta: Meta) => void,
-  value: Object,
+  /** The current value of each field in the refinement bar. */
+  value: ValuesType,
 };
-type State = {
+export type ProviderContext = {
+  ...CommonProps,
+  removeableKeys: FieldKeys,
+  selectedKeys: FieldKeys,
+};
+type ProviderProps = CommonProps & {
+  children?: Node,
+};
+type ProviderState = {
   fieldConfig: FieldConfigType,
 };
 
-export class RefinementBarProvider extends Component<ProviderProps, State> {
+export class RefinementBarProvider extends Component<
+  ProviderProps,
+  ProviderState,
+> {
   static defaultProps = {
     irremovableKeys: [],
   };
@@ -90,11 +106,5 @@ export const RefinementBarConsumer = ({
   </RefinementBarContext.Consumer>
 );
 
-// Required until atlaskit upgrades to react >= 16.6 😞
-export const withRefinementBarContext = (Comp: ComponentType<*>) => (
-  props: *,
-) => (
-  <RefinementBarContext.Consumer>
-    {c => <Comp {...props} tempContextFromProps={c} />}
-  </RefinementBarContext.Consumer>
-);
+// $FlowFixMe useContext
+export const useRefinementBar = () => React.useContext(RefinementBarContext);

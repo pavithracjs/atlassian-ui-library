@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.3.1
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 12.3.0
 
 ### Minor Changes

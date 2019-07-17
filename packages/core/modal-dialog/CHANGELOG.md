@@ -1,5 +1,13 @@
 # @atlaskit/modal-dialog
 
+## 10.0.13
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
 ## 10.0.12
 
 ### Patch Changes
