@@ -1,0 +1,1 @@
+Fixes bug, missing version.json file
