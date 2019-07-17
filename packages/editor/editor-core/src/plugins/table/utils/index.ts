@@ -26,6 +26,7 @@ export {
   removeTableFromFirstChild,
   removeTableFromLastChild,
   transformSliceToRemoveOpenTable,
+  transformSliceToCorrectEmptyTableCells,
 } from './paste';
 export {
   isCell,

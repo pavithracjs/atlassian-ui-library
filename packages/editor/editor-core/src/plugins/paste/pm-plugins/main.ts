@@ -11,7 +11,10 @@ import { escapeLinks } from '../util';
 import { transformSliceToRemoveOpenBodiedExtension } from '../../extension/actions';
 import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
-import { transformSliceToRemoveOpenTable } from '../../table/utils';
+import {
+  transformSliceToRemoveOpenTable,
+  transformSliceToCorrectEmptyTableCells,
+} from '../../table/utils';
 import { transformSliceToAddTableHeaders } from '../../table/commands';
 import { handleMacroAutoConvert, handleMention } from '../handlers';
 import {
@@ -269,6 +272,8 @@ export function createPlugin(
         slice = transformSingleLineCodeBlockToCodeMark(slice, schema);
 
         slice = transformSliceToCorrectMediaWrapper(slice, schema);
+
+        slice = transformSliceToCorrectEmptyTableCells(slice, schema);
 
         if (
           slice.content.childCount &&
