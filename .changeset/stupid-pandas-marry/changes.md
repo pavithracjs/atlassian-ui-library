@@ -1,0 +1,1 @@
+Hide inline video player controls during inactivty
