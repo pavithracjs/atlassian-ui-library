@@ -4,6 +4,7 @@ import {
   InjectedIntlProps,
   FormattedHTMLMessage,
 } from 'react-intl';
+// @ts-ignore
 import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import { ConfluenceClient } from '../../api/ConfluenceClient';
@@ -88,6 +89,7 @@ export interface Props {
   features: ConfluenceFeatures;
 
   // These are provided by the withAnalytics HOC
+  // @ts-ignore
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   confluenceUrl: string;

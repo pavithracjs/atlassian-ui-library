@@ -16,6 +16,7 @@ import {
   WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
 import packageContext from '../utils/package-context';
+import { FeatureFlagProps } from '../types';
 
 const THROTTLE_EXPIRES = 60 * 1000; // 60 seconds
 const THROTTLE_OPTIONS = {
@@ -28,11 +29,11 @@ const TRIGGER_CONTEXT = {
   ...packageContext,
 };
 
-interface PrefetchTriggerProps {
+type PrefetchTriggerProps = {
   children: React.ReactNode;
   cloudId: string;
   Container?: React.ReactType;
-}
+} & Partial<FeatureFlagProps>;
 
 class PrefetchTrigger extends React.Component<
   PrefetchTriggerProps & WithAnalyticsEventProps
@@ -54,7 +55,9 @@ class PrefetchTrigger extends React.Component<
   private triggerPrefetch: typeof prefetchAll = throttle(
     (params: any) => {
       prefetchAll(params);
-      prefetchAvailableProducts();
+      if (this.props.enableUserCentricProducts) {
+        prefetchAvailableProducts();
+      }
       this.fireOperationalEvent({
         action: 'triggered',
       });

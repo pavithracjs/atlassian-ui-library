@@ -4,11 +4,10 @@
   "description": "A React package that contains icons",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
-  "types": "index.d.ts",
-  "module": "index.js",
+  "types": "cjs/index.d.ts",
+  "module": "cjs/index.js",
   "main": "cjs/index.js",
   "atlaskit:src": "src/index.ts",
-  "atlaskit:designLink": "https://atlassian.design/guidelines/product/foundations/iconography",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [

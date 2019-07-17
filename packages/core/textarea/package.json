@@ -1,10 +1,11 @@
 {
   "name": "@atlaskit/textarea",
-  "version": "2.1.2",
+  "version": "2.1.4",
   "description": "Textarea Component",
   "license": "Apache-2.0",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/text-field",
   "sideEffects": false,
@@ -23,7 +24,7 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^5.1.0",
     "@atlaskit/theme": "^9.0.0",
-    "@atlaskit/type-helpers": "^4.1.3",
+    "@atlaskit/type-helpers": "^4.1.5",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
@@ -31,8 +32,8 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^13.0.13",
+    "@atlaskit/build-utils": "^2.2.3",
+    "@atlaskit/button": "^13.0.15",
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",

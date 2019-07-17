@@ -14,7 +14,6 @@ import {
   HyperlinkState,
 } from '../hyperlink/pm-plugins/main';
 import { mentionPluginKey, MentionPluginState } from '../mentions';
-import { pluginKey as tablesStateKey } from '../table/pm-plugins/main';
 import { stateKey as imageUploadStateKey } from '../image-upload/pm-plugins/main';
 import {
   pluginKey as placeholderTextStateKey,
@@ -57,6 +56,7 @@ const toolbarSizeToButtons = (toolbarSize: ToolbarSize) => {
 };
 
 export interface InsertBlockOptions {
+  allowTables?: boolean;
   insertMenuItems?: any;
   horizontalRuleEnabled?: boolean;
   nativeStatusSupported?: boolean;
@@ -92,7 +92,6 @@ const insertBlockPlugin = (options: InsertBlockOptions): EditorPlugin => ({
             blockTypeState: blockTypeStateKey,
             mediaState: mediaStateKey,
             mentionState: mentionPluginKey,
-            tablesState: tablesStateKey,
             macroState: macroStateKey,
             hyperlinkState: hyperlinkPluginKey,
             emojiState: emojiPluginKey,
@@ -106,7 +105,6 @@ const insertBlockPlugin = (options: InsertBlockOptions): EditorPlugin => ({
             mentionState,
             blockTypeState,
             mediaState,
-            tablesState,
             macroState = {} as MacroState,
             hyperlinkState,
             emojiState,
@@ -134,7 +132,7 @@ const insertBlockPlugin = (options: InsertBlockOptions): EditorPlugin => ({
               isDisabled={disabled}
               isTypeAheadAllowed={typeAheadState && typeAheadState.isAllowed}
               editorView={editorView}
-              tableSupported={!!tablesState}
+              tableSupported={options.allowTables}
               actionSupported={!!editorView.state.schema.nodes.taskItem}
               mentionsSupported={
                 !!(mentionState && mentionState.mentionProvider)

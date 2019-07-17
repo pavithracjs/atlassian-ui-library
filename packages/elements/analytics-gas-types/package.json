@@ -1,13 +1,14 @@
 {
   "name": "@atlaskit/analytics-gas-types",
-  "version": "4.0.4",
+  "version": "4.0.6",
   "description": "Shared analytics functions/components for Fabric Elements",
   "config": {
     "access": "public"
   },
   "atlaskit:src": "src/index.ts",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",
     "tslib": "^1.9.3"

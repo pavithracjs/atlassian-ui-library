@@ -79,8 +79,8 @@
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 2312,
-      "gzipSize": 908
+      "size": 2311,
+      "gzipSize": 905
     }
   },
   {
@@ -104,7 +104,7 @@
     "name": "main",
     "stats": {
       "size": 623,
-      "gzipSize": 365
+      "gzipSize": 366
     }
   },
   {
