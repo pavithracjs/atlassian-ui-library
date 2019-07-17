@@ -29,6 +29,15 @@ Object {
     Object {
       "content": Array [
         Object {
+          "text": "pasting",
+          "type": "text",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "content": Array [
+        Object {
           "attrs": Object {
             "__contextId": null,
             "__displayType": null,
@@ -48,6 +57,9 @@ Object {
         },
       ],
       "type": "mediaGroup",
+    },
+    Object {
+      "type": "paragraph",
     },
   ],
   "type": "doc",

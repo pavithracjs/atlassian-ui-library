@@ -2,139 +2,242 @@
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
+<<<<<<< HEAD
       "size": 728163,
       "gzipSize": 194014
+=======
+      "size": 723136,
+      "gzipSize": 190248
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "src.async",
     "name": "async",
     "stats": {
+<<<<<<< HEAD
       "size": 49728,
       "gzipSize": 11801
+=======
+      "size": 46849,
+      "gzipSize": 10653
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
+<<<<<<< HEAD
       "size": 728089,
       "gzipSize": 214372
+=======
+      "size": 726002,
+      "gzipSize": 213439
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
+<<<<<<< HEAD
       "size": 1399444,
       "gzipSize": 398821
+=======
+      "size": 1399434,
+      "gzipSize": 399270
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
+<<<<<<< HEAD
       "size": 228454,
       "gzipSize": 50719
+=======
+      "size": 228722,
+      "gzipSize": 50865
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
+<<<<<<< HEAD
       "size": 167040,
       "gzipSize": 31240
+=======
+      "size": 166970,
+      "gzipSize": 31137
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
+<<<<<<< HEAD
       "size": 140545,
       "gzipSize": 33430
+=======
+      "size": 140741,
+      "gzipSize": 33378
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
+<<<<<<< HEAD
       "size": 135952,
       "gzipSize": 37681
+=======
+      "size": 130465,
+      "gzipSize": 36469
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
+<<<<<<< HEAD
       "size": 42239,
       "gzipSize": 11513
+=======
+      "size": 42249,
+      "gzipSize": 11550
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
+<<<<<<< HEAD
       "size": 76905,
       "gzipSize": 17846
+=======
+      "size": 76521,
+      "gzipSize": 17490
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
+<<<<<<< HEAD
       "size": 1024979,
       "gzipSize": 250530
+=======
+      "size": 1023697,
+      "gzipSize": 249397
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "atlaskit.teamwork-ecosystem.main",
     "name": "main",
@@ -146,25 +249,43 @@
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
+<<<<<<< HEAD
       "size": 2029427,
       "gzipSize": 558549
+=======
+      "size": 2017149,
+      "gzipSize": 553750
+>>>>>>> Fix bundle size rachets and integration tests
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/editor-core",
+<<<<<<< HEAD
     "version": "112.40.0",
+=======
+    "version": "112.33.18",
+>>>>>>> Fix bundle size rachets and integration tests
     "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
+<<<<<<< HEAD
       "size": 2681913,
       "gzipSize": 705958
+=======
+      "size": 2677730,
+      "gzipSize": 704547
+>>>>>>> Fix bundle size rachets and integration tests
     }
   }
 ]

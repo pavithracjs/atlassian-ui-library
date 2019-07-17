@@ -2,7 +2,7 @@
   {
     "team": "editor",
     "package": "@atlaskit/adf-schema",
-    "version": "2.12.0",
+    "version": "2.12.2",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,25 +14,25 @@
   {
     "team": "editor",
     "package": "@atlaskit/adf-schema",
-    "version": "2.12.0",
+    "version": "2.12.2",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 60668,
-      "gzipSize": 18855
+      "size": 60852,
+      "gzipSize": 18928
     }
   },
   {
     "team": "editor",
     "package": "@atlaskit/adf-schema",
-    "version": "2.12.0",
+    "version": "2.12.2",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 118018,
-      "gzipSize": 32219
+      "size": 118202,
+      "gzipSize": 32288
     }
   }
 ]

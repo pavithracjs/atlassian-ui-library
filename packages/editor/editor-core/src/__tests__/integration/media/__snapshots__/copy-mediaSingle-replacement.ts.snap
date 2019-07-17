@@ -68,13 +68,13 @@ Object {
     },
     Object {
       "attrs": Object {
-        "layout": "wrap-left",
-        "width": 41.666666666666664,
+        "layout": "wrap-right",
+        "width": 66.67,
       },
       "content": Array [
         Object {
           "attrs": Object {
-            "__contextId": "DUMMY-OBJECT-ID",
+            "__contextId": null,
             "__displayType": null,
             "__external": false,
             "__fileMimeType": null,

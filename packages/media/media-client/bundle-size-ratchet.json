@@ -2,7 +2,7 @@
   {
     "team": "media",
     "package": "@atlaskit/media-client",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "media",
     "package": "@atlaskit/media-client",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "dependent": true,
     "id": "src.async",
     "name": "async",
@@ -26,7 +26,7 @@
   {
     "team": "media",
     "package": "@atlaskit/media-client",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -38,7 +38,7 @@
   {
     "team": "media",
     "package": "@atlaskit/media-client",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
@@ -50,7 +50,7 @@
   {
     "team": "media",
     "package": "@atlaskit/media-client",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
@@ -62,7 +62,7 @@
   {
     "team": "media",
     "package": "@atlaskit/media-client",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
@@ -74,7 +74,7 @@
   {
     "team": "media",
     "package": "@atlaskit/media-client",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "dependent": true,
     "id": "combined.async",
     "name": "async",
