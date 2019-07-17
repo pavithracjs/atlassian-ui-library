@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { Component, SyntheticEvent, ReactNode } from 'react';
+import { Component, SyntheticEvent, ReactElement } from 'react';
 import { InactivityDetectorWrapper } from './styled';
 import { findParentByClassname, hideControlsClassName } from '..';
 
 export interface InactivityDetectorProps {
-  children: ReactNode;
-  // Consumer will give us a callback requester, that we call with an argument
-  // being a reference to a function (triggerActivityCallback) we want consumer to call
-  // when they want to trigger an custom activity outside what this wrapper supports (mouse movement)
-  triggerActivityCallbackRequester?: (
-    triggerActivityCallback: () => void,
-  ) => void;
+  children: (triggerActivityCallback: () => void) => ReactElement;
+  // // Consumer will give us a callback requester, that we call with an argument
+  // // being a reference to a function (triggerActivityCallback) we want consumer to call
+  // // when they want to trigger an custom activity outside what this wrapper supports (mouse movement)
+  // triggerActivityCallbackRequester?: (
+  //   ,
+  // ) => void;
 }
 
 export interface InactivityDetectorState {
@@ -30,12 +30,9 @@ export class InactivityDetector extends Component<
   InactivityDetectorState
 > {
   private checkActivityTimeout?: number;
-  private readonly contentWrapperElement: React.RefObject<HTMLElement>;
-
-  constructor(props: InactivityDetectorProps) {
-    super(props);
-    this.contentWrapperElement = React.createRef();
-  }
+  private readonly contentWrapperElement: React.RefObject<
+    HTMLElement
+  > = React.createRef();
 
   state: InactivityDetectorState = {
     controlsAreVisible: true,
@@ -78,10 +75,6 @@ export class InactivityDetector extends Component<
   };
 
   componentDidMount() {
-    const { triggerActivityCallbackRequester } = this.props;
-    if (triggerActivityCallbackRequester) {
-      triggerActivityCallbackRequester(this.checkMouseMovement);
-    }
     this.checkMouseMovement();
   }
 
@@ -100,7 +93,7 @@ export class InactivityDetector extends Component<
         onMouseMove={this.checkMouseMovement}
         onClick={this.checkMouseMovement}
       >
-        {children}
+        {children(this.checkMouseMovement)}
       </InactivityDetectorWrapper>
     );
   }

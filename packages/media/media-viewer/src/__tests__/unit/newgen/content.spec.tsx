@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { Content } from '../../../newgen/content';
 import {
   InactivityDetector,
@@ -15,29 +15,33 @@ class DummyChild extends React.Component<WithShowControlMethodProp> {
 describe('<Content />', () => {
   const setup = () => {
     const showControls = jest.fn();
-    const component = shallow(
+    const component = mount(
       <Content>
         <DummyChild />
       </Content>,
     );
-    component.props().showControlsRegister(showControls);
+    const children = mount(
+      component
+        .find(InactivityDetector)
+        .props()
+        .children(showControls),
+    );
 
     return {
       component,
+      children,
       showControls,
     };
   };
 
   it('should render children', () => {
-    const { component } = setup();
-    expect(component.find(InactivityDetector).children()).toHaveLength(2);
+    const { children } = setup();
+    expect(children).toHaveLength(2);
   });
 
   it('should allow children to show controls', () => {
-    const { component, showControls } = setup();
-    const childrenShowControls = component
-      .find(DummyChild)
-      .prop('showControls');
+    const { children, showControls } = setup();
+    const childrenShowControls = children.find(DummyChild).prop('showControls');
     expect(childrenShowControls).toBeDefined();
     expect(childrenShowControls).toBe(showControls);
   });

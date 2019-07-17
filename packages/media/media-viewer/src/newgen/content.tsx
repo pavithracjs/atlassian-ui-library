@@ -14,41 +14,33 @@ export interface ContentProps {
   children: ReactElement<WithShowControlMethodProp>;
 }
 
-export interface ContentState {
-  triggerActivityCallback?: () => void;
-}
-
-export class Content extends Component<ContentProps, ContentState> {
-  state: ContentState = {};
-
+export class Content extends Component<ContentProps> {
   /*
    * Here we get called by InactivityDetector and given a function we
    * pass down as "showControls" to out children.
    */
-  triggerActivityCallbackRequester = (triggerActivityCallback: () => void) => {
-    this.setState({ triggerActivityCallback });
-  };
-
   render() {
     const { onClose } = this.props;
-    const { triggerActivityCallback } = this.state;
-
-    const children = React.cloneElement(this.props.children, {
-      showControls: triggerActivityCallback,
-    });
 
     return (
-      <InactivityDetector
-        triggerActivityCallbackRequester={this.triggerActivityCallbackRequester}
-      >
-        <CloseButtonWrapper className={hideControlsClassName}>
-          <MediaButton
-            appearance={'toolbar' as any}
-            onClick={onClose}
-            iconBefore={<CrossIcon label="Close" />}
-          />
-        </CloseButtonWrapper>
-        {children}
+      <InactivityDetector>
+        {triggerActivityCallback => {
+          const children = React.cloneElement(this.props.children, {
+            showControls: triggerActivityCallback,
+          });
+          return (
+            <>
+              <CloseButtonWrapper className={hideControlsClassName}>
+                <MediaButton
+                  appearance={'toolbar' as any}
+                  onClick={onClose}
+                  iconBefore={<CrossIcon label="Close" />}
+                />
+              </CloseButtonWrapper>
+              {children}
+            </>
+          );
+        }}
       </InactivityDetector>
     );
   }

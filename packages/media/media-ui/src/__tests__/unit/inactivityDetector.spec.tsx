@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { InactivityDetector, WithShowControlMethodProp } from '../..';
-import {
-  asMock,
-  expectFunctionToHaveBeenCalledWith,
-} from '@atlaskit/media-test-helpers';
+import { asMock } from '@atlaskit/media-test-helpers';
 import { InactivityDetectorWrapper } from '../../inactivityDetector/styled';
 
 class DummyChild extends React.Component<WithShowControlMethodProp> {
@@ -15,18 +12,16 @@ class DummyChild extends React.Component<WithShowControlMethodProp> {
 
 describe('InactivityDetector', () => {
   const setup = () => {
-    const showControlsRegister = jest.fn();
     const component = shallow(
-      <InactivityDetector
-        triggerActivityCallbackRequester={showControlsRegister}
-      >
-        <DummyChild />
+      <InactivityDetector>
+        {triggerActivityCallback => (
+          <DummyChild showControls={triggerActivityCallback} />
+        )}
       </InactivityDetector>,
     );
 
     return {
       component,
-      showControlsRegister,
     };
   };
 
@@ -43,36 +38,35 @@ describe('InactivityDetector', () => {
     expect(component.find(DummyChild)).toBeDefined();
   });
 
-  it('should call showControlsRegister with showControl callback', () => {
-    const { showControlsRegister } = setup();
-    expectFunctionToHaveBeenCalledWith(showControlsRegister, [
-      expect.any(Function),
-    ]);
+  it('should provide triggerActivityCallback as render function argument', () => {
+    const { component } = setup();
+    expect(component.find(DummyChild).props().showControls).toBeDefined();
   });
 
   it('should give moseMovement resetting function as part of showControlsRegister call', () => {
-    const { showControlsRegister, component } = setup();
-    const activityActivationFunction = showControlsRegister.mock.calls[0][0];
+    const { component } = setup();
+    const activityActivationFunction = component.find(DummyChild).props()
+      .showControls;
 
     // Controls are visible in the beginning
-    expect(component.state('showControls')).toBeTruthy();
+    expect(component.state('controlsAreVisible')).toBeTruthy();
     // User waits
     jest.runOnlyPendingTimers();
     // Controls should disappear now.
-    expect(component.state('showControls')).toBeFalsy();
+    expect(component.state('controlsAreVisible')).toBeFalsy();
     // One of the child components calls given function
-    activityActivationFunction();
+    activityActivationFunction!();
     // Controls should be visible again
-    expect(component.state('showControls')).toBeTruthy();
+    expect(component.state('controlsAreVisible')).toBeTruthy();
   });
 
   it('should handle mouse move', () => {
     const { component } = setup();
 
-    expect(component.state('showControls')).toBeTruthy();
+    expect(component.state('controlsAreVisible')).toBeTruthy();
     component.find(InactivityDetectorWrapper).simulate('mouseMove');
     jest.runOnlyPendingTimers();
-    expect(component.state('showControls')).toBeFalsy();
+    expect(component.state('controlsAreVisible')).toBeFalsy();
   });
 
   it('should keep controls visible when user is hovering them', () => {
@@ -84,14 +78,14 @@ describe('InactivityDetector', () => {
       target: elementWithControls,
     });
     jest.runOnlyPendingTimers();
-    expect(component.state('showControls')).toBeTruthy();
+    expect(component.state('controlsAreVisible')).toBeTruthy();
   });
 
   it('should start with controls visible', () => {
     const { component } = setup();
 
     expect(
-      component.find(InactivityDetectorWrapper).prop('showControls'),
+      component.find(InactivityDetectorWrapper).prop('controlsAreVisible'),
     ).toBeTruthy();
   });
 

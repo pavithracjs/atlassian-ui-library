@@ -180,13 +180,15 @@ export class InlinePlayer extends Component<
         onClick={onClick}
       >
         <InactivityDetector>
-          <CustomMediaPlayer
-            type="video"
-            src={fileSrc}
-            isAutoPlay
-            isHDAvailable={false}
-            onDownloadClick={this.onDownloadClick}
-          />
+          {() => (
+            <CustomMediaPlayer
+              type="video"
+              src={fileSrc}
+              isAutoPlay
+              isHDAvailable={false}
+              onDownloadClick={this.onDownloadClick}
+            />
+          )}
         </InactivityDetector>
       </InlinePlayerWrapper>
     );
