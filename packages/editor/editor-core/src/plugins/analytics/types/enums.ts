@@ -24,6 +24,7 @@ export enum ACTION {
   STARTED = 'started',
   STOPPED = 'stopped',
   SUBSTITUTED = 'autoSubstituted',
+  UNDID = 'undid',
   UNLINK = 'unlinked',
   VISITED = 'visited',
 }

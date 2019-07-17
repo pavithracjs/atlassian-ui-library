@@ -4,71 +4,69 @@ import {
   addAnalytics,
   AnalyticsEventPayloadWithChannel,
   AnalyticsEventPayload,
+  ACTION,
+  HistoryEventPayload,
 } from '../../analytics';
 import { HistoryAnalyticsActionTypes } from './actions';
-import { Transaction, EditorState, Plugin } from 'prosemirror-state';
-
-const findTransactionsToUndo = (state: EditorState): Transaction[] => {
-  const { plugins } = state;
-  const { done: transactions } = getPluginState(state);
-
-  // Undoing auto-formatting is handled in a special way
-  // prosemirror-inputrules doesn't have a plugin key so have to find
-  // its state in this weird way
-  const inputRulesPlugin: Plugin | undefined = plugins.find(
-    plugin => plugin.spec.isInputRules,
-  );
-  if (inputRulesPlugin) {
-    const undoableInputRule = inputRulesPlugin.getState(state);
-    if (undoableInputRule) {
-      return transactions.slice(-2);
-    }
-  }
-
-  return transactions.slice(-1);
-};
+import { Transaction, EditorState } from 'prosemirror-state';
+import { getPmInputRulesPluginState } from './utils';
 
 export const undo = createCommand(
   state => ({
     type: HistoryAnalyticsActionTypes.UNDO,
     transactions: findTransactionsToUndo(state),
   }),
+  // inspect transactions we are going to undo for analytics meta and create a new
+  // undo analytics event from any that we find and add these to the current transaction
   (tr, state) => {
-    const pluginState = getPluginState(state);
-    if (pluginState.done.length > 0) {
-      const transactionsToUndo = findTransactionsToUndo(state);
+    const transactionsToUndo = findTransactionsToUndo(state);
 
-      // inspect for analytics meta
-      const analyticsMeta: AnalyticsEventPayloadWithChannel[] = transactionsToUndo.reduce(
-        (analytics: AnalyticsEventPayloadWithChannel[], tr: Transaction) => {
-          const trAnalytics: AnalyticsEventPayloadWithChannel[] = tr.getMeta(
-            analyticsPluginKey,
-          );
-          if (trAnalytics) {
-            return [...analytics, ...trAnalytics];
-          }
-          return analytics;
-        },
-        [],
-      );
-      if (analyticsMeta && analyticsMeta.length > 0) {
-        analyticsMeta
-          .map(analytics => ({
-            // todo: type
-            ...analytics.payload,
-            action: 'undo',
-            actionSubjectId: analytics.payload.action,
-            attributes: {
-              ...analytics.payload.attributes,
+    const analyticsMeta: AnalyticsEventPayloadWithChannel[] = transactionsToUndo.reduce(
+      (analytics: AnalyticsEventPayloadWithChannel[], tr: Transaction) => {
+        const trAnalytics: AnalyticsEventPayloadWithChannel[] = tr.getMeta(
+          analyticsPluginKey,
+        );
+        if (trAnalytics) {
+          return [...analytics, ...trAnalytics];
+        }
+        return analytics;
+      },
+      [],
+    );
+    if (analyticsMeta.length > 0) {
+      analyticsMeta
+        .map(
+          (analytics): AnalyticsEventPayload =>
+            ({
+              action: ACTION.UNDID,
               actionSubject: analytics.payload.actionSubject,
-              actionSubjectId: analytics.payload.actionSubjectId,
-            },
-          }))
-          .forEach(analyticsPayload => {
-            addAnalytics(tr, analyticsPayload as AnalyticsEventPayload);
-          });
-      }
+              actionSubjectId: analytics.payload.action,
+              attributes: {
+                ...analytics.payload.attributes,
+                actionSubject: analytics.payload.actionSubject,
+                actionSubjectId: analytics.payload.actionSubjectId,
+              },
+            } as HistoryEventPayload),
+        )
+        .forEach(analyticsPayload => {
+          addAnalytics(tr, analyticsPayload);
+        });
     }
     return tr;
   },
 );
+
+const findTransactionsToUndo = (state: EditorState): Transaction[] => {
+  const { done } = getPluginState(state);
+  if (done.length === 0) {
+    return done;
+  }
+
+  // undoing auto-formatting is handled in a special way by prosemirror-inputrules
+  const undoableInputRule = getPmInputRulesPluginState(state);
+  if (undoableInputRule) {
+    return done.slice(-2);
+  }
+
+  return done.slice(-1);
+};

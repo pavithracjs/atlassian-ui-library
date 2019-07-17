@@ -128,11 +128,13 @@ export const syncWithPmHistory = (
   return { done, undone };
 };
 
-const getPmHistoryPluginState = (state: EditorState): PmHistoryPluginState => {
+export const getPmHistoryPluginState = (
+  state: EditorState,
+): PmHistoryPluginState => {
   return getPmHistoryPlugin(state).getState(state);
 };
 
-const getPmHistoryPluginConfig = (
+export const getPmHistoryPluginConfig = (
   state: EditorState,
 ): PmHistoryPluginConfig => {
   return getPmHistoryPlugin(state).spec.config;
@@ -143,6 +145,17 @@ const getPmHistoryPlugin = (state: EditorState): Plugin => {
   return state.plugins.find(
     plugin => (plugin as any).key === pmHistoryPluginKey,
   ) as Plugin;
+};
+
+export const getPmInputRulesPluginState = (state: EditorState): boolean => {
+  // prosemirror-inputrules doesn't have a plugin key
+  const inputRulesPlugin: Plugin | undefined = state.plugins.find(
+    plugin => plugin.spec.isInputRules,
+  );
+  if (inputRulesPlugin) {
+    return inputRulesPlugin.getState(state);
+  }
+  return false;
 };
 
 /**

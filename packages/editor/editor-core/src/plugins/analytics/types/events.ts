@@ -9,6 +9,7 @@ import { MediaEventPayload } from './media-events';
 import { TableEventPayload } from './table-events';
 import { PasteEventPayload } from './paste-events';
 import { ErrorEventPayload } from './error-events';
+import { HistoryEventPayload } from './history-events';
 
 type AEP<Action, ActionSubject, ActionSubjectID, Attributes, EventType> = {
   action: Action;
@@ -71,7 +72,8 @@ export type AnalyticsEventPayload =
   | MediaEventPayload
   | TableEventPayload
   | PasteEventPayload
-  | ErrorEventPayload;
+  | ErrorEventPayload
+  | HistoryEventPayload;
 
 export type AnalyticsEventPayloadWithChannel = {
   channel: string;
