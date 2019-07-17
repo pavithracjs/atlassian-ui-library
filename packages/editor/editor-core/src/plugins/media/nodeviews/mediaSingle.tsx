@@ -61,8 +61,14 @@ export default class MediaSingleNode extends Component<
     viewMediaClientConfig: undefined,
   };
 
-  async componentDidMount() {
-    const mediaProvider = await this.props.mediaProvider;
+  componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
+    if (nextProps.mediaProvider !== this.props.mediaProvider) {
+      this.setViewMediaClientConfig(nextProps);
+    }
+  }
+
+  setViewMediaClientConfig = async (props: MediaSingleNodeProps) => {
+    const mediaProvider = await props.mediaProvider;
     if (mediaProvider) {
       const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
         mediaProvider,
@@ -72,6 +78,11 @@ export default class MediaSingleNode extends Component<
         viewMediaClientConfig,
       });
     }
+  };
+
+  async componentDidMount() {
+    this.setViewMediaClientConfig(this.props);
+
     const updatedDimensions = await this.mediaNodeUpdater.getRemoteDimensions();
     if (updatedDimensions) {
       this.mediaNodeUpdater.updateDimensions(updatedDimensions);

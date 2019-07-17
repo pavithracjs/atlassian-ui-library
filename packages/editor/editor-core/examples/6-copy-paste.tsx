@@ -22,7 +22,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { TitleInput } from '../example-helpers/PageElements';
-import { EditorActions, MediaProvider } from './../src';
+import { EditorActions, MediaProvider, MediaOptions } from './../src';
 import BreadcrumbsMiscActions from '../example-helpers/breadcrumbs-misc-actions';
 import {
   defaultCollectionName,
@@ -98,6 +98,7 @@ export type State = {
   disabled: boolean;
   title?: string;
   appearance: EditorAppearance;
+  mediaOptions: Map<string, Promise<MediaProvider>>;
 };
 const contextIdentifierProvider = storyContextIdentifierProviderFactory();
 const providers: any = {
@@ -200,7 +201,23 @@ class ExampleEditorComponent extends React.Component<
     disabled: true,
     title: localStorage.getItem(LOCALSTORAGE_defaultTitleKey) || '',
     appearance: 'full-page',
+    mediaOptions: new Map(),
   };
+
+  async componentDidMount() {
+    const { mediaOptions } = this.state;
+    // Simulate adding mediaProvider async
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    mediaOptions.set(
+      defaultCollectionName,
+      getMediaProvider(defaultCollectionName),
+    );
+    mediaOptions.set(
+      defaultMediaPickerCollectionName,
+      getMediaProvider(defaultMediaPickerCollectionName),
+    );
+    this.setState({ mediaOptions });
+  }
 
   componentDidUpdate(prevProps: EditorProps) {
     if (prevProps.appearance !== this.props.appearance) {
@@ -250,6 +267,13 @@ class ExampleEditorComponent extends React.Component<
         localStorage.getItem(getLocalStorageKey(collectionName))) ||
       undefined;
     const SaveAndCancelButtons = createSaveAndCancelButtons(collectionName);
+    const { mediaOptions } = this.state;
+    const media: MediaOptions = {
+      provider: mediaOptions.get(collectionName),
+      allowMediaSingle: true,
+      allowResizing: true,
+      allowAnnotation: true,
+    };
 
     return (
       <EditorContext key={collectionName}>
@@ -293,12 +317,7 @@ class ExampleEditorComponent extends React.Component<
                   allowStatus={true}
                   {...providers}
                   editorActions={actions}
-                  media={{
-                    provider: getMediaProvider(collectionName),
-                    allowMediaSingle: true,
-                    allowResizing: true,
-                    allowAnnotation: true,
-                  }}
+                  media={media}
                   placeholder="Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule."
                   shouldFocus={false}
                   disabled={this.state.disabled}
