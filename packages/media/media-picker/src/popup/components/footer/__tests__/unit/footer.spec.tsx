@@ -8,7 +8,7 @@ import {
 } from '@atlaskit/media-test-helpers';
 import { Footer, default as ConnectedFooter } from '../../footer';
 import { Wrapper, CancelButton, InsertButton } from '../../styled';
-import { startImport, hidePopup } from '../../../../actions';
+import { startImport, hidePopup, resetView } from '../../../../actions';
 
 const ConnectedFooterWithStore = getComponentClassWithStore(ConnectedFooter);
 
@@ -37,13 +37,17 @@ describe('<Footer />', () => {
     test('should dispatch an action when onInsert is called', () => {
       const { component, dispatch } = createConnectedComponent();
       component.props().onInsert([SELECTED_ITEM]);
+      expect(dispatch).toBeCalledTimes(1);
       expect(dispatch).toBeCalledWith(startImport());
     });
 
     test('should dispatch an action when onCancel is called', () => {
       const { component, dispatch } = createConnectedComponent();
       component.props().onCancel();
-      expect(dispatch).toBeCalledWith(hidePopup());
+
+      expect(dispatch).toBeCalledTimes(2);
+      expect(dispatch.mock.calls[0][0]).toEqual(resetView());
+      expect(dispatch.mock.calls[1][0]).toEqual(hidePopup());
     });
 
     test('should pass all required state through to component props', () => {
