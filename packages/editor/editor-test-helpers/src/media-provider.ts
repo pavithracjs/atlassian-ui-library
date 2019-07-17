@@ -5,6 +5,7 @@ import {
   mediaPickerAuthProvider,
   defaultMediaPickerAuthProvider,
   getAuthFromContextProvider,
+  fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { MediaProvider } from '@atlaskit/editor-core';
 
@@ -51,6 +52,22 @@ export function storyMediaProviderFactory(
     // uploadContext: includeUploadMediaClientConfig === false ? undefined : Promise.resolve(context),
   });
 }
+
+// This method returns an instance of MediaProvider ready to use in tests and side effect free
+// We should migrate unit tests to this method and stop using storyMediaProviderFactory
+export const fakeMediaProvider = (
+  mediaProviderFactoryConfig: MediaProviderFactoryConfig = {},
+): Promise<MediaProvider> => {
+  const { collectionName } = mediaProviderFactoryConfig;
+  const collection = collectionName || defaultCollectionName;
+  const mediaClientConfig = fakeMediaClient().config;
+  return Promise.resolve<MediaProvider>({
+    featureFlags: {},
+    uploadParams: { collection },
+    viewMediaClientConfig: mediaClientConfig,
+    uploadMediaClientConfig: mediaClientConfig,
+  });
+};
 
 export type promisedString = Promise<string>;
 export type resolveFn = (...v: any) => any;

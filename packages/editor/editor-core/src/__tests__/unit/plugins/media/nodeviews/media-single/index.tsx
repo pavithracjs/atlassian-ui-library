@@ -5,9 +5,8 @@ import {
   mediaSingle,
   media,
   randomId,
-  storyMediaProviderFactory,
+  fakeMediaProvider,
   Image,
-  sleep,
 } from '@atlaskit/editor-test-helpers';
 import { defaultSchema, MediaAttributes } from '@atlaskit/adf-schema';
 import {
@@ -31,13 +30,13 @@ import { stateKey as SelectionChangePluginKey } from '../../../../../../plugins/
 import { MediaOptions } from '../../../../../../plugins/media';
 import * as mediaCommands from '../../../../../../plugins/media/commands';
 import ResizableMediaSingle from '../../../../../../plugins/media/ui/ResizableMediaSingle';
+import { nextTick } from '@atlaskit/media-test-helpers';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
 const getFreshMediaProvider = () =>
-  storyMediaProviderFactory({
+  fakeMediaProvider({
     collectionName: testCollectionName,
-    includeUserAuthProvider: true,
   });
 
 describe('nodeviews/mediaSingle', () => {
@@ -504,23 +503,15 @@ describe('nodeviews/mediaSingle', () => {
     const instance = wrapper.instance() as MediaSingle;
 
     instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
-    instance.mediaNodeUpdater.isNodeFromDifferentCollection = jest
-      .fn()
-      .mockReturnValue(true);
-    instance.mediaNodeUpdater.copyNode = jest.fn();
-    instance.mediaNodeUpdater.updateContextId = jest.fn();
-    await instance.componentDidMount();
 
     expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
     wrapper.setProps({ mediaProvider });
-    const resolvedMediaProvider = await (await mediaProvider)
-      .viewMediaClientConfig!;
-    await sleep(10);
-    expect(wrapper.state('viewMediaClientConfig')).toEqual({
-      authProvider: resolvedMediaProvider.authProvider,
-      getAuthFromContext: resolvedMediaProvider.getAuthFromContext,
-      userAuthProvider: resolvedMediaProvider.userAuthProvider,
-    });
+    // We need to await to ticks since we await 2 different promises on the componentWillReceiveProps
+    // unfortunately we can't access the real promises here
+    await nextTick();
+    await nextTick();
+
+    expect(wrapper.state('viewMediaClientConfig')).toBeDefined();
   });
 
   afterEach(() => {
