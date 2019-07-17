@@ -4,7 +4,7 @@ import React, { PureComponent, type Node } from 'react';
 import Transition from 'react-transition-group/Transition';
 import type { CollapseListener } from './types';
 
-const DURATION = 300;
+const DURATION = 3300;
 
 function camelToKebab(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -101,6 +101,7 @@ export default class ResizeTransition extends PureComponent<Props> {
           // transitions interupt manual resize behaviour
           const cssTransition =
             !userIsDragging && this.isMounted ? getTransition(properties) : {};
+          console.log(properties);
 
           // `from` and `to` styles tweened by the transition
           const dynamicProperties = {
@@ -110,13 +111,6 @@ export default class ResizeTransition extends PureComponent<Props> {
             entered: getStyle({ keys: properties, values: to }),
           };
 
-          // due to the use of 3d transform for GPU acceleration, which
-          // changes the stacking context, we only apply the transform during
-          // the animation period.
-          const gpuAcceleration = isTransitioning(transitionState)
-            ? { transform: 'translate3d(0, 0, 0)' }
-            : {};
-
           // let the browser know what we're up to
           const willChange = getChanges(properties);
 
@@ -124,7 +118,6 @@ export default class ResizeTransition extends PureComponent<Props> {
           const transitionStyle = {
             ...willChange,
             ...cssTransition,
-            ...gpuAcceleration,
             ...dynamicProperties[transitionState],
           };
 
