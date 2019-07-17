@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.22
+
+### Patch Changes
+
+- [patch][2588afa0a7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2588afa0a7):
+
+  ED-6864: fix pasting tables with cells without content
+
 ## 112.33.21
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-ED-6864: fix pasting tables with cells without content
