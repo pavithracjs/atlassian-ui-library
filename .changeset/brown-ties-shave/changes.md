@@ -1,0 +1,1 @@
+set viewMediaClientConfig when properties change in MediaSingle node

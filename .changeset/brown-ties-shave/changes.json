@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/editor-test-helpers", "type": "minor" },
+    { "name": "@atlaskit/editor-core", "type": "patch" }
+  ],
+  "dependents": []
+}
