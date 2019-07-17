@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.17
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
 ## 112.33.16
 
 ### Patch Changes

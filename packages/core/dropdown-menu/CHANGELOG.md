@@ -1,5 +1,13 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.10
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
 ## 8.0.9
 
 - Updated dependencies [18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
