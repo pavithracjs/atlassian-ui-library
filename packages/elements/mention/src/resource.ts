@@ -6,6 +6,7 @@ import MentionResource, {
   MentionStats,
   MentionResourceConfig,
   isResolvingMentionProvider,
+  TeamMentionProvider,
 } from './api/MentionResource';
 import PresenceResource, {
   PresenceProvider,
@@ -42,6 +43,7 @@ export {
   MentionsResult,
   MentionNameClient,
   MentionNameResolver,
+  TeamMentionProvider,
   // types
   MentionContextIdentifier,
   MentionStats,

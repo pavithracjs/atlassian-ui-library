@@ -8,6 +8,7 @@ import {
 } from '@atlaskit/analytics-next';
 import {
   MentionProvider,
+  TeamMentionProvider,
   isSpecialMention,
   isResolvingMentionProvider,
   MentionDescription,
@@ -54,7 +55,6 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
-import { TeamMentionResource } from '../../../src';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -149,30 +149,30 @@ const mentionsPlugin = (
         },
       ],
       typeAhead: {
+        trigger: '@',
+        // Custom regex must have a capture group around trigger
+        // so it's possible to use it without needing to scan through all triggers again
+        customRegex: '\\(?(@)',
         getSpotlight: (state: EditorState) => {
           const pluginState = getMentionPluginState(state);
+          const provider = pluginState.mentionProvider;
           if (
-            pluginState.mentionProvider &&
-            pluginState.mentionProvider instanceof TeamMentionResource
+            provider &&
+            (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
           ) {
             if (
-              pluginState.mentionProvider.mentionTypeaheadSpotlightEnabled()
+              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled()
             ) {
               return (
                 <MentionSpotlight
                   createTeamLink="/people/search#createTeam"
-                  onClose={() => null} // todo - other analytics functions
+                  onClose={() => null}
                 />
               );
             }
           }
           return null;
         },
-
-        trigger: '@',
-        // Custom regex must have a capture group around trigger
-        // so it's possible to use it without needing to scan through all triggers again
-        customRegex: '\\(?(@)',
         getItems(
           query,
           state,
@@ -410,7 +410,7 @@ export function getMentionPluginState(state: EditorState) {
 }
 
 export type MentionPluginState = {
-  mentionProvider?: MentionProvider;
+  mentionProvider?: MentionProvider | TeamMentionProvider;
   contextIdentifierProvider?: ContextIdentifierProvider;
   mentions?: Array<MentionDescription>;
 };

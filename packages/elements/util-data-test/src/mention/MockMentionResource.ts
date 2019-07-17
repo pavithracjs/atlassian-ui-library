@@ -9,6 +9,7 @@ import {
   ResolvingMentionProvider,
   MentionNameDetails,
   MentionNameStatus,
+  TeamMentionProvider,
 } from '@atlaskit/mention/resource';
 import {
   UIAnalyticsEvent,
@@ -30,6 +31,7 @@ export interface MockMentionConfig {
   minWait?: number;
   maxWait?: number;
   mentionNameResolver?: MentionNameResolver;
+  enableSpotlight?: boolean;
 }
 
 export const createMockMentionNameResolver = () => {
@@ -47,7 +49,7 @@ export const createMockMentionNameResolver = () => {
 };
 
 export class MockMentionResource extends AbstractMentionResource
-  implements ResolvingMentionProvider {
+  implements ResolvingMentionProvider, TeamMentionProvider {
   private config: MockMentionConfig;
   private lastReturnedSearch: number;
 
@@ -140,4 +142,6 @@ export class MockMentionResource extends AbstractMentionResource
   shouldHighlightMention(mention: MentionDescription): boolean {
     return mention.id === 'oscar';
   }
+
+  mentionTypeaheadSpotlightEnabled = () => this.config.enableSpotlight || false;
 }

@@ -10,6 +10,7 @@ import {
 
 import { validator, ErrorCallback, ADFEntity } from '@atlaskit/adf-utils';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
+import { mention } from '@atlaskit/util-data-test';
 
 import Editor from './../src/editor';
 import { EditorAppearance } from '../src/types';
@@ -91,6 +92,9 @@ export default class KitchenSinkEditor extends React.Component<Props, State> {
           }}
           allowStatus={true}
           {...providers}
+          mentionProvider={Promise.resolve(
+            mention.storyData.resourceProviderWithSpotlight,
+          )} // enable spotlight only for kitchen sink example
           media={{
             provider: mediaProvider,
             allowMediaSingle: true,

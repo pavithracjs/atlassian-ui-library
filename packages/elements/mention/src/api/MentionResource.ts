@@ -86,6 +86,10 @@ export interface MentionProvider
   isFiltering(query: string): boolean;
 }
 
+export interface TeamMentionProvider extends MentionProvider {
+  mentionTypeaheadSpotlightEnabled: () => boolean;
+}
+
 /**
  * Support
  */
