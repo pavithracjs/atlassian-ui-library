@@ -1,12 +1,37 @@
 import { createEditorFactory, doc, p } from '@atlaskit/editor-test-helpers';
+import { akEditorBreakoutPadding } from '@atlaskit/editor-common';
+import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import { EditorView } from 'prosemirror-view';
 import { buildLayoutForWidths } from '../../layout/_utils';
-import { calcMediaPxWidth } from '../../../../../plugins/media/utils/media-single';
+import {
+  calcMediaPxWidth,
+  alignAttributes,
+} from '../../../../../plugins/media/utils/media-single';
 
 describe('Media Single Utils', () => {
   const createEditor = createEditorFactory();
 
   const containerWidth = { width: 1920, lineLength: 760 };
+  const origWidth = 100;
+  const origHeight = 100;
+
+  // Percent widths are calculated as x% of line length - resize handle gutter
+  const fixedWidthPctMap: { [key: number]: number } = {
+    20: 133,
+    40: 290,
+    50: 368,
+    60: 447,
+    80: 604,
+    100: 760,
+  };
+  const fullWidthPctMap: { [key: number]: number } = {
+    20: 341,
+    40: 706,
+    50: 888,
+    60: 1071,
+    80: 1436,
+    100: 1800,
+  };
 
   const editor = (doc: any) =>
     createEditor({
@@ -14,13 +39,109 @@ describe('Media Single Utils', () => {
       editorProps: { allowLayouts: true },
     });
 
+  describe('alignAttributes', () => {
+    const align = (opts: {
+      oldLayout: MediaSingleLayout;
+      newLayout: MediaSingleLayout;
+      width?: number;
+    }) =>
+      alignAttributes(opts.newLayout, {
+        layout: opts.oldLayout,
+        width: opts.width,
+      });
+
+    describe('unwrapped -> wrapped layout', () => {
+      it('sets 50% width if no width defined', () => {
+        const { width } = align({
+          oldLayout: 'center',
+          newLayout: 'align-start',
+        });
+        expect(width).toBe(50);
+      });
+
+      it('sets 50% width if width is 100%', () => {
+        const { width } = align({
+          oldLayout: 'center',
+          newLayout: 'align-start',
+          width: 100,
+        });
+        expect(width).toBe(50);
+      });
+
+      it('keeps width if width is < 100%', () => {
+        const { width } = align({
+          oldLayout: 'center',
+          newLayout: 'align-start',
+          width: 70,
+        });
+        expect(width).toBe(70);
+      });
+
+      it('sets 50% width if layout is wide', () => {
+        const { width } = align({
+          oldLayout: 'wide',
+          newLayout: 'align-start',
+          width: 120,
+        });
+        expect(width).toBe(50);
+      });
+
+      it('sets 50% width if layout is full-width', () => {
+        const { width } = align({
+          oldLayout: 'full-width',
+          newLayout: 'align-start',
+          width: 150,
+        });
+        expect(width).toBe(50);
+      });
+    });
+
+    describe('unwrapped -> unwrapped layout', () => {
+      it('unsets width if wide layout', () => {
+        const { width } = align({
+          oldLayout: 'center',
+          newLayout: 'wide',
+        });
+        expect(width).toBe(undefined);
+      });
+
+      it('unsets width if full-width layout', () => {
+        const { width } = align({
+          oldLayout: 'center',
+          newLayout: 'full-width',
+        });
+        expect(width).toBe(undefined);
+      });
+    });
+
+    describe('wrapped -> unwrapped layout', () => {
+      it('updates width when previous width does not align to even grid', () => {
+        const { width } = align({
+          oldLayout: 'align-start',
+          newLayout: 'center',
+          width: 60,
+        });
+        expect(width).toBe(50);
+      });
+
+      it('leaves width when previous width aligns to even grid', () => {
+        const { width } = align({
+          oldLayout: 'align-start',
+          newLayout: 'center',
+          width: 50,
+        });
+        expect(width).toBe(undefined);
+      });
+    });
+  });
+
   describe('calcMediaPxWidth', () => {
     let editorView: EditorView;
     let sel: number;
     const calcWidth = (opts = {}): number =>
       calcMediaPxWidth({
-        origWidth: 100,
-        origHeight: 100,
+        origWidth,
+        origHeight,
         state: editorView.state,
         containerWidth,
         pos: sel,
@@ -36,15 +157,15 @@ describe('Media Single Utils', () => {
         const width = calcWidth({
           layout: 'wide',
         });
-        expect(width).toBe(1011); // line length * wide ratio (1.33)
+        expect(width).toBe(Math.round(containerWidth.lineLength * 1.33));
       });
 
       it('calculates correct width when bigger than page width', () => {
         const width = calcWidth({
           layout: 'wide',
-          containerWidth: { width: 600, lineLength: 760 },
+          containerWidth: { width: 600, lineLength: containerWidth.lineLength },
         });
-        expect(width).toBe(760); // defaults to line length
+        expect(width).toBe(containerWidth.lineLength);
       });
     });
 
@@ -53,7 +174,7 @@ describe('Media Single Utils', () => {
         const width = calcWidth({
           layout: 'full-width',
         });
-        expect(width).toBe(1824); // width - breakout padding
+        expect(width).toBe(containerWidth.width - akEditorBreakoutPadding);
       });
     });
 
@@ -62,7 +183,7 @@ describe('Media Single Utils', () => {
         const width = calcWidth({
           layout: 'align-start',
         });
-        expect(width).toBe(100); // original width
+        expect(width).toBe(origWidth);
       });
 
       it('calculates correct width for media when bigger than 50% line length', () => {
@@ -70,7 +191,7 @@ describe('Media Single Utils', () => {
           origWidth: 2000,
           layout: 'align-start',
         });
-        expect(width).toBe(380); // 50% of line length
+        expect(width).toBe(containerWidth.lineLength * 0.5);
       });
     });
 
@@ -81,41 +202,81 @@ describe('Media Single Utils', () => {
        */
 
       describe('full-width mode', () => {
-        [
-          { pct: 20, px: 341 },
-          { pct: 40, px: 706 },
-          { pct: 60, px: 1071 },
-          { pct: 80, px: 1436 },
-          { pct: 100, px: 1800 },
-        ].forEach(size => {
-          it(`calculates correct width for media resized to ${
-            size.pct
-          }%`, () => {
+        for (const pct in fullWidthPctMap) {
+          it(`calculates correct width for media resized to ${pct}%`, () => {
             const width = calcWidth({
-              pctWidth: size.pct,
+              pctWidth: pct,
               isFullWidthModeEnabled: true,
               containerWidth: { width: 1920, lineLength: 1800 },
             });
-            expect(width).toBe(size.px);
+            expect(width).toBe(fullWidthPctMap[pct]);
           });
-        });
+        }
       });
 
       describe('fixed-width mode', () => {
-        [
-          { pct: 20, px: 133 },
-          { pct: 40, px: 290 },
-          { pct: 60, px: 447 },
-          { pct: 80, px: 604 },
-          { pct: 100, px: 760 },
-        ].forEach(size => {
-          it(`calculates correct width for media resized to ${
-            size.pct
-          }%`, () => {
-            const width = calcWidth({ pctWidth: size.pct });
-            expect(width).toBe(size.px);
+        for (const pct in fixedWidthPctMap) {
+          it(`calculates correct width for media resized to ${pct}%`, () => {
+            const width = calcWidth({ pctWidth: pct });
+            expect(width).toBe(fixedWidthPctMap[pct]);
           });
+        }
+      });
+
+      describe('that is aligned', () => {
+        it('calculates resized width when user has previously resized to < 50%', () => {
+          const width = calcWidth({
+            layout: 'align-start',
+            pctWidth: 50,
+            resizedPctWidth: 20,
+          });
+          expect(width).toBe(fixedWidthPctMap[20]);
         });
+
+        it('calculates 50% width when user has previously resized to > 50%', () => {
+          const width = calcWidth({
+            layout: 'align-start',
+            pctWidth: 50,
+            resizedPctWidth: 80,
+          });
+          expect(width).toBe(fixedWidthPctMap[50]);
+        });
+      });
+
+      describe('that is centred', () => {
+        it('calculates previous resized width when user has previously resized media', () => {
+          const width = calcWidth({
+            layout: 'center',
+            pctWidth: 50,
+            resizedPctWidth: 80,
+          });
+          expect(width).toBe(fixedWidthPctMap[80]);
+        });
+      });
+    });
+
+    describe('centred media', () => {
+      it('calculates previous resized width when user has previously resized media', () => {
+        const width = calcWidth({
+          layout: 'center',
+          resizedPctWidth: 80,
+        });
+        expect(width).toBe(fixedWidthPctMap[80]);
+      });
+
+      it('calculates original width when < line length', () => {
+        const width = calcWidth({
+          layout: 'center',
+        });
+        expect(width).toBe(origWidth);
+      });
+
+      it('calculates line length when image width > line length', () => {
+        const width = calcWidth({
+          layout: 'center',
+          origWidth: 2000,
+        });
+        expect(width).toBe(containerWidth.lineLength);
       });
     });
 
@@ -133,7 +294,7 @@ describe('Media Single Utils', () => {
               isFullWidthModeEnabled: true,
               containerWidth: { width: 1920, lineLength: 1800 },
             });
-            expect(width).toBe(100); // original width
+            expect(width).toBe(origWidth);
           });
 
           it('calculates correct width for resized media', () => {
@@ -142,7 +303,7 @@ describe('Media Single Utils', () => {
               containerWidth: { width: 1920, lineLength: 1800 },
               pctWidth: 20,
             });
-            expect(width).toBe(341); // 20% of line length - resize handle gutter
+            expect(width).toBe(fullWidthPctMap[20]);
           });
         });
 
@@ -151,7 +312,7 @@ describe('Media Single Utils', () => {
             const width = calcWidth({
               isFullWidthModeEnabled: true,
             });
-            expect(width).toBe(100); // original width
+            expect(width).toBe(origWidth);
           });
 
           it('calculates correct width for resized media', () => {
@@ -159,7 +320,7 @@ describe('Media Single Utils', () => {
               isFullWidthModeEnabled: true,
               pctWidth: 20,
             });
-            expect(width).toBe(133); // 20% of line length - resize handle gutter
+            expect(width).toBe(fixedWidthPctMap[20]);
           });
         });
       });
@@ -182,7 +343,7 @@ describe('Media Single Utils', () => {
               containerWidth: { width: 1920, lineLength: 1800 },
               pctWidth: 20,
             });
-            expect(width).toBe(341); // 20% of line length - resize handle gutter
+            expect(width).toBe(fullWidthPctMap[20]);
           });
         });
 
@@ -199,7 +360,7 @@ describe('Media Single Utils', () => {
               origWidth: 2000,
               pctWidth: 20,
             });
-            expect(width).toBe(133); // 20% of line length - resize handle gutter
+            expect(width).toBe(fixedWidthPctMap[20]);
           });
         });
       });
