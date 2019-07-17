@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.18
+
+### Patch Changes
+
+- [patch][1ddb0c3fef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ddb0c3fef):
+
+  ED-6152: Fix cursor alignment after emoji
+
 ## 112.33.17
 
 ### Patch Changes
