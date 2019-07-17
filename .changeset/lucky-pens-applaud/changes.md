@@ -1,1 +1,0 @@
-ED-6985 Avoid overflow when table change to a bigger layout

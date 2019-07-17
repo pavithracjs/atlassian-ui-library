@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.20
+
+### Patch Changes
+
+- [patch][41dce81d89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41dce81d89):
+
+  ED-6985 Avoid overflow when table change to a bigger layout
+
 ## 112.33.19
 
 ### Patch Changes
