@@ -1,0 +1,1 @@
+analytics-next now exports an ambient module declaration which resolves an issue with types being required via relative imports
