@@ -1,0 +1,1 @@
+Consume analytics-next ts type definitions as an ambient delcaration
