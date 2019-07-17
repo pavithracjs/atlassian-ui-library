@@ -41,6 +41,11 @@ export const componentTokens: ComponentTokens = {
     },
     size: 'medium',
   },
+  requiredIndicator: {
+    textColor: {
+      rest: colors.r500,
+    },
+  },
 };
 
 const evaluateMode = function<TargetType, ResultType>(
