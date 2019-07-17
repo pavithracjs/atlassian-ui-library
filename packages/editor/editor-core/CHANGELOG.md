@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.19
+
+### Patch Changes
+
+- [patch][00c8b76ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00c8b76ccc):
+
+  ED-7259 Fix Table Insert Menu rerender for each table change
+
 ## 112.33.18
 
 ### Patch Changes

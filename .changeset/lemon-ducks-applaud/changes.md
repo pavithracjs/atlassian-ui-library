@@ -1,1 +1,0 @@
-ED-7259 Fix Table Insert Menu rerender for each table change
