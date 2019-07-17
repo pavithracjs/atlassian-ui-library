@@ -1,0 +1,1 @@
+ED-6152: Fix cursor alignment after emoji
