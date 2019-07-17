@@ -85,7 +85,7 @@ type TokenValue = ModeValue | string;
 export interface ComponentTokens {
   label: {
     [LabelKey in keyof ThemeLabelTokens]: ThemeLabelTokens[LabelKey] extends string
-      ? string
+      ? ThemeLabelTokens[LabelKey]
       : { [LabelProperty in keyof ThemeLabelTokens[LabelKey]]: TokenValue }
   };
   icon: {
@@ -125,7 +125,7 @@ export interface ThemeIconTokens {
     activeAndChecked: string;
     checked: string;
   };
-  size: string;
+  size: 'small' | 'medium' | 'large' | 'xlarge';
 }
 
 export interface ThemeLabelTokens {
