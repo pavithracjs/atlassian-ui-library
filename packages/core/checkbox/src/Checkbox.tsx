@@ -197,7 +197,7 @@ class Checkbox extends Component<CheckboxProps, State> {
                   <LabelText tokens={tokens}>
                     {label}
                     {isRequired && (
-                      <RequiredIndicator aria-hidden="true">
+                      <RequiredIndicator tokens={tokens} aria-hidden="true">
                         *
                       </RequiredIndicator>
                     )}
