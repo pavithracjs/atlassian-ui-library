@@ -5,8 +5,7 @@ import { buttonClickPayload, HandlerResult } from '.';
 
 export default (action: Action, store: MiddlewareAPI<State>): HandlerResult => {
   if (isHidePopupAction(action)) {
-    const storeStates = store.getState();
-    const { selectedItems = [] } = storeStates;
+    const { selectedItems = [] } = store.getState();
     const actionSubjectId =
       selectedItems.length > 0 ? 'insertFilesButton' : 'cancelButton';
 
