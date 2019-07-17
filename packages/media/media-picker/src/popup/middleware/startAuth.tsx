@@ -1,6 +1,7 @@
 import { Store, Dispatch } from 'redux';
 
-import { updateServiceList, START_AUTH, StartAuthAction } from '../actions';
+import { updateServiceList } from '../actions/updateServiceList';
+import { START_AUTH, StartAuthAction } from '../actions/startAuth';
 import { changeAccount } from '../actions/changeAccount';
 import { State, ServiceAccountWithType } from '../domain';
 import { Fetcher } from '../tools/fetcher/fetcher';
