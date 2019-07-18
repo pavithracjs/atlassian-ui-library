@@ -23,6 +23,8 @@ export interface Props {
   createAnalyticsEvent: CreateUIAnalyticsEventSignature;
 }
 
+const iconBefore = <CrossIcon label="" size="medium" />;
+
 /**
  * This function will return a CloseButton component only if the function
  * to be executed on the onClick event is passed as a parameter
@@ -59,7 +61,7 @@ const CloseButton = (
         <Button
           onClick={handleButtonCloseClick}
           appearance="subtle"
-          iconBefore={<CrossIcon label="" size="medium" />}
+          iconBefore={iconBefore}
         />
       </Tooltip>
     </CloseButtonContainer>
