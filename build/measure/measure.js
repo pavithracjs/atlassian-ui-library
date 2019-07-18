@@ -273,7 +273,7 @@ module.exports = async function main(
   if (updateSnapshot) {
     // TODO: remove this write once the flow is switched
     fWriteStats(prevStatsPath, stats);
-  } else if (results.statsExceededSizeLimit.length && isLint) {
+  } else if (results.statsExceededSizeLimit.length && isLint && !s3) {
     throw new Error(`✖ – Module "${packageName}" has exceeded size limit!`);
   }
   // For s3, we always pass the bundle check.;
