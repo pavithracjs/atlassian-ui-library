@@ -3,7 +3,7 @@ import { Checkbox } from '../src';
 import { ComponentTokens, ThemeTokens } from '../src/types';
 import merge from 'lodash.merge';
 
-const newThemeTokens = {
+const newThemeTokens: ComponentTokens = {
   label: {
     spacing: {
       top: '6px',

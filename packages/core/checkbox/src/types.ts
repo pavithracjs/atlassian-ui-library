@@ -85,18 +85,18 @@ type TokenValue = ModeValue | string;
 
 export interface ComponentTokens {
   label: {
-    [LabelKey in keyof ThemeLabelTokens]: ThemeLabelTokens[LabelKey] extends string
+    [LabelKey in keyof ThemeLabelTokens]?: ThemeLabelTokens[LabelKey] extends string
       ? ThemeLabelTokens[LabelKey]
-      : { [LabelProperty in keyof ThemeLabelTokens[LabelKey]]: TokenValue }
+      : { [LabelProperty in keyof ThemeLabelTokens[LabelKey]]?: TokenValue }
   };
   icon: {
-    [IconKey in keyof ThemeIconTokens]: ThemeIconTokens[IconKey] extends string
-      ? string
-      : { [IconProperty in keyof ThemeIconTokens[IconKey]]: TokenValue }
+    [IconKey in keyof ThemeIconTokens]?: ThemeIconTokens[IconKey] extends string
+      ? ThemeIconTokens[IconKey]
+      : { [IconProperty in keyof ThemeIconTokens[IconKey]]?: TokenValue }
   };
-  requiredIndicator: {
-    textColor: {
-      rest: string;
+  requiredIndicator?: {
+    textColor?: {
+      rest?: string;
     };
   };
 }
