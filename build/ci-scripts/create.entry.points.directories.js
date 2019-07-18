@@ -27,7 +27,7 @@
  * "name": "@atlaskit/bagde",
    "main": "../../dist/esm/a.js",
    "modules": "../../dist/cjs/a.js",
-   "types": "../../dist/esm/a.d.ts",
+   "types": "../../dist/cjs/a.d.ts",
  */
 const { createEntryPointsDirWithPkgJson } = require('./createEntryPointsUtils');
 

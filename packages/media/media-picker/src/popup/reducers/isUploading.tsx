@@ -1,10 +1,8 @@
 import { Action } from 'redux';
 
-import {
-  isStartImportAction,
-  isResetViewAction,
-  isHidePopupAction,
-} from '../actions';
+import { isStartImportAction } from '../actions/startImport';
+import { isResetViewAction } from '../actions/resetView';
+import { isHidePopupAction } from '../actions/hidePopup';
 import { State } from '../domain';
 
 export function isUploading(state = false, action: Action) {

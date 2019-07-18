@@ -1,5 +1,21 @@
 # @atlaskit/analytics-next
 
+## 5.1.2
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 5.1.1
+
+### Patch Changes
+
+- [patch][6ea9bb7873](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ea9bb7873):
+
+  analytics-next now exports an ambient module declaration which resolves an issue with types being required via relative imports
+
 ## 5.1.0
 
 ### Minor Changes

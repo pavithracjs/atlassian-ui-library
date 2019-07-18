@@ -18,6 +18,16 @@ type Z = Array<any>;
 export const uniqueArr = (arr: Z): Z => [...new Set(arr)];
 export const diffArr = (a: Z, b: Z): Z => a.filter(i => b.indexOf(i) < 0);
 
+// NOTE: only use `isEqualArr` for primitives (string, number etc.) like "keys"
+const stringifyArr = (a: Z): string =>
+  a
+    .filter(Boolean)
+    .sort()
+    .join(',');
+export const isEqualArr = (a: Z, b: Z): boolean => {
+  return stringifyArr(a) === stringifyArr(b);
+};
+
 type cloneArrOptions = { add?: any, remove?: any, sort?: boolean };
 export const cloneArr = (arr: Z, options: cloneArrOptions = {}): Z => {
   const { add, remove, sort } = options;

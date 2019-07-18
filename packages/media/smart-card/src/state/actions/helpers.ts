@@ -1,5 +1,5 @@
 import { JsonLd } from '../../client/types';
-import { CardBaseActionCreator } from './types';
+import { CardBaseActionCreator, ServerErrors } from './types';
 import { CardStore } from '../types';
 import { CardType } from '../store/types';
 import { Store } from 'redux';
@@ -63,4 +63,9 @@ export const getStatus = ({ meta }: JsonLd): CardType => {
     default:
       return 'resolved';
   }
+};
+
+export const getError = ({ data }: JsonLd): ServerErrors | undefined => {
+  const { error = {} } = data || {};
+  return error.type;
 };

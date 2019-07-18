@@ -1,0 +1,1 @@
+The types property in package.json now points to the correct file"
