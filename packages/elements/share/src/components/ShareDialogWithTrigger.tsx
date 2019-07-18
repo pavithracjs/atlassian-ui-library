@@ -98,7 +98,7 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-export class ShareDialogWithTriggerInternal extends React.Component<
+export class ShareDialogWithTriggerInternal extends React.PureComponent<
   Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
