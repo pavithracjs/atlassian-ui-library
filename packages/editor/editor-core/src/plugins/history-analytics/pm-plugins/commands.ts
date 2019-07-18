@@ -2,10 +2,10 @@ import { createCommand, getPluginState } from './main';
 import {
   analyticsPluginKey,
   addAnalytics,
-  AnalyticsEventPayloadWithChannel,
   AnalyticsEventPayload,
   ACTION,
-  HistoryEventPayload,
+  EVENT_TYPE,
+  AEPExcludingHistoryWithChannel,
 } from '../../analytics';
 import { HistoryAnalyticsActionTypes } from './actions';
 import { Transaction, EditorState } from 'prosemirror-state';
@@ -21,9 +21,9 @@ export const undo = createCommand(
   (tr, state) => {
     const transactionsToUndo = findTransactionsToUndo(state);
 
-    const analyticsMeta: AnalyticsEventPayloadWithChannel[] = transactionsToUndo.reduce(
-      (analytics: AnalyticsEventPayloadWithChannel[], tr: Transaction) => {
-        const trAnalytics: AnalyticsEventPayloadWithChannel[] = tr.getMeta(
+    const analyticsMeta: AEPExcludingHistoryWithChannel[] = transactionsToUndo.reduce(
+      (analytics: AEPExcludingHistoryWithChannel[], tr: Transaction) => {
+        const trAnalytics: AEPExcludingHistoryWithChannel[] = tr.getMeta(
           analyticsPluginKey,
         );
         if (trAnalytics) {
@@ -36,17 +36,16 @@ export const undo = createCommand(
     if (analyticsMeta.length > 0) {
       analyticsMeta
         .map(
-          (analytics): AnalyticsEventPayload =>
-            ({
-              action: ACTION.UNDID,
-              actionSubject: analytics.payload.actionSubject,
-              actionSubjectId: analytics.payload.action,
-              attributes: {
-                ...analytics.payload.attributes,
-                actionSubject: analytics.payload.actionSubject,
-                actionSubjectId: analytics.payload.actionSubjectId,
-              },
-            } as HistoryEventPayload),
+          (analytics): AnalyticsEventPayload => ({
+            action: ACTION.UNDID,
+            actionSubject: analytics.payload.actionSubject,
+            actionSubjectId: analytics.payload.action,
+            attributes: {
+              ...analytics.payload.attributes,
+              actionSubjectId: analytics.payload.actionSubjectId,
+            },
+            eventType: EVENT_TYPE.TRACK,
+          }),
         )
         .forEach(analyticsPayload => {
           addAnalytics(tr, analyticsPayload);

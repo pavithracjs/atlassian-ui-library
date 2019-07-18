@@ -1,17 +1,28 @@
-import { ACTION, ACTION_SUBJECT_ID, EVENT_TYPE } from './enums';
-import { ACTION_SUBJECT } from '@atlaskit/renderer/src/analytics/enums';
-import { Attributes } from 'react';
+import { ACTION, ACTION_SUBJECT_ID, ACTION_SUBJECT, EVENT_TYPE } from './enums';
+import { TABLE_ACTION } from './table-events';
+import {
+  AnalyticsEventPayload,
+  AnalyticsEventPayloadWithChannel,
+} from './events';
+
+export type AEPExcludingHistory = Exclude<
+  AnalyticsEventPayload,
+  HistoryEventPayload
+>;
+
+export type AEPExcludingHistoryWithChannel = AnalyticsEventPayloadWithChannel & {
+  payload: AEPExcludingHistory;
+};
 
 type UndoAEP = {
   action: ACTION.UNDID;
   // matches the original event
   actionSubject: ACTION_SUBJECT;
   // action of the original event
-  actionSubjectId: ACTION;
-  // all attributes from original event + actionSubject/actionSubjectId
-  attributes: Attributes & {
-    actionSubject: ACTION_SUBJECT; //todo: this is in 2 places
-    actionSubjectId?: ACTION_SUBJECT_ID;
+  actionSubjectId: Omit<ACTION, 'UNDID'> | TABLE_ACTION;
+  // all attributes from original event + its actionSubjectId
+  attributes: Pick<AEPExcludingHistory, 'attributes'> & {
+    actionSubjectId: ACTION_SUBJECT_ID | undefined | null;
   };
   eventType: EVENT_TYPE.TRACK;
 };

@@ -16,7 +16,6 @@ import { INPUT_METHOD } from '../../analytics';
 
 const analyticsEventName = (blockTypeName: string, eventSource: string) =>
   `atlassian.editor.format.${blockTypeName}.${eventSource}`;
-
 const tryUndoInputRuleElseUndoHistory = chainCommands(undoInputRule, undo);
 
 export default function keymapPlugin(schema: Schema): Plugin {

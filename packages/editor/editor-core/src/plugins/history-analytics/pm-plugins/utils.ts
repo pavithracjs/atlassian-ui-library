@@ -27,7 +27,8 @@ export const pushTransactionsToHistory = (
   pluginState: HistoryAnalyticsPluginState,
   state: EditorState,
 ): HistoryAnalyticsPluginState => {
-  let updatedState = false;
+  let shouldUpdateDone = false;
+  let shouldClearUndone = false;
 
   const newTransactions = transactions.reduce(
     (trs: Transaction[], tr: Transaction) => {
@@ -37,13 +38,14 @@ export const pushTransactionsToHistory = (
           state,
         );
         const { newGroupDelay } = getPmHistoryPluginConfig(state);
-        var newGroup =
+        const newGroup =
           pmHistoryPluginState.prevTime < (tr.time || 0) - newGroupDelay ||
           (!appended && !isAdjacentToLastStep(tr, pmHistoryPluginState));
-        updatedState = true;
+        shouldClearUndone = true;
 
         if (newGroup) {
           // we want to add this transaction to done stack
+          shouldUpdateDone = true;
           return [...trs, tr];
         } else {
           // we are skipping this transaction, but we want to add its analytics to the
@@ -52,6 +54,7 @@ export const pushTransactionsToHistory = (
             analyticsPluginKey,
           );
           if (trAnalytics) {
+            shouldUpdateDone = true;
             let lastTr = trs.length
               ? trs[trs.length - 1]
               : pluginState.done[pluginState.done.length - 1];
@@ -75,10 +78,10 @@ export const pushTransactionsToHistory = (
   );
 
   let { done, undone } = pluginState;
-  if (updatedState) {
+  if (shouldUpdateDone) {
     done = [...done, ...newTransactions];
   }
-  if (undone.length > 0) {
+  if (shouldClearUndone && undone.length > 0) {
     undone = [];
   }
 
