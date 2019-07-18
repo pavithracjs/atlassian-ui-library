@@ -1,5 +1,13 @@
 # @atlaskit/media-editor
 
+## 36.2.4
+
+### Patch Changes
+
+- [patch][6e7c111cc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6e7c111cc6):
+
+  Fixing binaries import for cjs
+
 ## 36.2.3
 
 ### Patch Changes
