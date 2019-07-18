@@ -68,20 +68,20 @@ export class RefinementBarProvider extends Component<
     };
   }
 
-  get fieldKeys() {
+  get fieldKeys(): FieldKeys {
     return Object.keys(this.props.fieldConfig);
   }
 
-  get valueKeys() {
+  get valueKeys(): FieldKeys {
     return Object.keys(this.props.value);
   }
 
-  get removeableKeys() {
+  get removeableKeys(): FieldKeys {
     const irremovable = this.props.irremovableKeys;
     return diffArr(this.fieldKeys, irremovable);
   }
 
-  get selectedKeys() {
+  get selectedKeys(): FieldKeys {
     const irremovable = this.props.irremovableKeys;
     return diffArr(this.valueKeys, irremovable);
   }
