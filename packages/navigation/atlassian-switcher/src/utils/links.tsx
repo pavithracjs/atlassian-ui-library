@@ -194,10 +194,16 @@ const getAvailableProductLink = (
   };
 };
 
-const getMatchingProduct = (
+const shouldSkipProduct = (
+  cloudId: string,
   worklensProduct: WorklensProductType,
-  currentProduct: Product,
+  currentCloudId?: string,
+  currentProduct?: Product,
 ): boolean => {
+  if (!currentCloudId || !currentProduct || cloudId !== currentCloudId) {
+    return false;
+  }
+
   if (
     currentProduct === Product.JIRA &&
     (worklensProduct === WorklensProductType.JIRA_BUSINESS ||
@@ -226,12 +232,13 @@ export const getAvailableProductLinks = (
 
   availableProducts.sites.forEach(site => {
     site.availableProducts.forEach(product => {
-      // skip the product that the switcher is displayed from
       if (
-        productType &&
-        cloudId &&
-        site.cloudId === cloudId &&
-        getMatchingProduct(product.productType, productType)
+        shouldSkipProduct(
+          site.cloudId,
+          product.productType,
+          cloudId,
+          productType,
+        )
       ) {
         return;
       }
