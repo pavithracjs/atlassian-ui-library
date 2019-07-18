@@ -66,8 +66,8 @@ const CloseButton = (
   ) : null;
 };
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext<Partial<Props>>({
   componentName: 'closeButton',
   packageName,
   packageVersion,
-})(withAnalyticsEvents<Props>()(withHelp(injectIntl(CloseButton))));
+})(withAnalyticsEvents<Partial<Props>>()(withHelp(injectIntl(CloseButton))));
