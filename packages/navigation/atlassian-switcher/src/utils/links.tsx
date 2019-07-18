@@ -217,9 +217,9 @@ const getMatchingProduct = (
 };
 
 export const getAvailableProductLinks = (
-  cloudId: string,
-  productType: Product,
   availableProducts: AvailableProductsResponse,
+  cloudId?: string,
+  productType?: Product,
 ): SwitcherItemType[] => {
   const productLinks: SwitcherItemType[] = [];
   const activityCounts: { [key: string]: number } = {};
@@ -228,15 +228,17 @@ export const getAvailableProductLinks = (
     site.availableProducts.forEach(product => {
       // skip the product that the switcher is displayed from
       if (
-        !(
-          site.cloudId === cloudId &&
-          getMatchingProduct(product.productType, productType)
-        )
+        productType &&
+        cloudId &&
+        site.cloudId === cloudId &&
+        getMatchingProduct(product.productType, productType)
       ) {
-        const availableProductLink = getAvailableProductLink(site, product);
-        productLinks.push(availableProductLink);
-        activityCounts[availableProductLink.key] = product.activityCount;
+        return;
       }
+
+      const availableProductLink = getAvailableProductLink(site, product);
+      productLinks.push(availableProductLink);
+      activityCounts[availableProductLink.key] = product.activityCount;
     });
   });
 

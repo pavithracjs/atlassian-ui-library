@@ -9,6 +9,7 @@ import {
   AvailableSite,
   WorklensProductType,
   AvailableProduct,
+  Product,
 } from '../../types';
 
 describe('map-results-to-switcher-props', () => {
@@ -16,7 +17,6 @@ describe('map-results-to-switcher-props', () => {
     it('displays the 5 most active products with an expand link', () => {
       const props = mapResultsToSwitcherProps(
         cloudId,
-        product,
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
@@ -33,6 +33,7 @@ describe('map-results-to-switcher-props', () => {
             generateSite('site10', [WorklensProductType.JIRA_SOFTWARE, 10]),
           ],
         }),
+        product,
       );
 
       expect(props.licensedProductLinks).toMatchObject([
@@ -76,7 +77,6 @@ describe('map-results-to-switcher-props', () => {
     it('displays the 5 most active products without an expand link', () => {
       const props = mapResultsToSwitcherProps(
         cloudId,
-        product,
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
@@ -91,6 +91,7 @@ describe('map-results-to-switcher-props', () => {
             generateSite('bitbucket', [WorklensProductType.BITBUCKET, 0]),
           ],
         }),
+        product,
       );
 
       expect(props.licensedProductLinks).toMatchObject([
@@ -108,7 +109,6 @@ describe('map-results-to-switcher-props', () => {
     it('renders opsgenie and bitbucket correctly', () => {
       const props = mapResultsToSwitcherProps(
         cloudId,
-        product,
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
@@ -128,6 +128,7 @@ describe('map-results-to-switcher-props', () => {
             ),
           ],
         }),
+        product,
       );
 
       expect(props.licensedProductLinks).toMatchObject([
@@ -148,7 +149,6 @@ describe('map-results-to-switcher-props', () => {
   it('does not show the product that the switcher is displayed from', () => {
     const props = mapResultsToSwitcherProps(
       cloudId,
-      product,
       loadingProvidersResult,
       {
         enableUserCentricProducts: true,
@@ -166,6 +166,7 @@ describe('map-results-to-switcher-props', () => {
           generateSite('site40', [WorklensProductType.CONFLUENCE, 40]),
         ],
       }),
+      product,
     );
 
     expect(props.licensedProductLinks).toMatchObject([
@@ -205,7 +206,7 @@ function generateSite(
 }
 
 const cloudId = 'some-cloud-id';
-const product = 'confluence';
+const product = Product.CONFLUENCE;
 
 function asCompletedProvider<T>(data: T): ResultComplete<T> {
   return {

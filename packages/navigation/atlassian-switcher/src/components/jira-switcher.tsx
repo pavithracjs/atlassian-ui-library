@@ -36,10 +36,10 @@ export default (props: JiraSwitcherProps) => (
                 ...switcherLinks
               } = mapResultsToSwitcherProps(
                 props.cloudId,
-                props.product,
                 { customLinks, ...providerResults },
                 props.features,
                 availableProducts,
+                props.product,
               );
 
               return (
