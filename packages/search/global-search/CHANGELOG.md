@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.3.4
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 10.3.3
 
 ### Patch Changes
