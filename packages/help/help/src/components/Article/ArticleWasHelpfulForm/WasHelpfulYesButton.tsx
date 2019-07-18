@@ -50,7 +50,10 @@ const ArticleWasHelpfulYesButton = (
   };
 
   return (
-    <Button onClick={handleButtonClick} appearance={appearance}>
+    <Button
+      onClick={handleButtonClick}
+      appearance={appearance ? appearance : 'default'}
+    >
       {formatMessage(messages.help_panel_article_rating_option_yes)}
     </Button>
   );
