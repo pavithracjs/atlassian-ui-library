@@ -25,6 +25,7 @@ export default {
     'Nepodarilo sa nájsť žiadne výsledky pre „{inputValue}“. Pozvite ľudí pomocou e-mailovej adresy.',
   'fabric.elements.share.trigger.button.icon.label': 'Ikona zdieľania',
   'fabric.elements.share.trigger.button.text': 'Zdieľať',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Share',
   'fabric.elements.share.trigger.button.invite.text': 'Pozvať',
   'fabric.elements.share.copylink.button.icon.label':
     'Kopírovať ikonu prepojenia',

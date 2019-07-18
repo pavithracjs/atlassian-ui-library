@@ -25,6 +25,7 @@ export default {
     'Engar niðurstöður fundust fyrir "{inputValue}". Bjóddu fólki með því að nota tölvupóstfang.',
   'fabric.elements.share.trigger.button.icon.label': 'Deilingartákn',
   'fabric.elements.share.trigger.button.text': 'Deila',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Share',
   'fabric.elements.share.trigger.button.invite.text': 'Boðið',
   'fabric.elements.share.copylink.button.icon.label': '„Afrita tengil“-tákn',
   'fabric.elements.share.copylink.button.text': 'Afrita tengil',

@@ -25,6 +25,7 @@ export default {
     'Pro „{inputValue}“ se nepodařilo najít žádné výsledky. Pozvěte lidi pomocí jejich e-mailové adresy.',
   'fabric.elements.share.trigger.button.icon.label': 'Ikona sdílení',
   'fabric.elements.share.trigger.button.text': 'Sdílet',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Share',
   'fabric.elements.share.trigger.button.invite.text': 'Pozvat',
   'fabric.elements.share.copylink.button.icon.label':
     'Ikona zkopírování propojení',

@@ -26,6 +26,7 @@ export default {
   'fabric.elements.share.trigger.button.icon.label':
     'Ícone de compartilhamento',
   'fabric.elements.share.trigger.button.text': 'Compartilhar',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Compartilhar',
   'fabric.elements.share.trigger.button.invite.text': 'Convidar',
   'fabric.elements.share.copylink.button.icon.label': 'Ícone de cópia de link',
   'fabric.elements.share.copylink.button.text': 'Copiar link',

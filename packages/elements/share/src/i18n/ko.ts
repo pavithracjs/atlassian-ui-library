@@ -25,6 +25,7 @@ export default {
     '"{inputValue}"에 대한 결과를 찾지 못했습니다. 이메일 주소를 사용하여 사람들을 초대해 보세요.',
   'fabric.elements.share.trigger.button.icon.label': '공유 아이콘',
   'fabric.elements.share.trigger.button.text': '공유',
+  'fabric.elements.share.trigger.button.tooltip.text': '공유',
   'fabric.elements.share.trigger.button.invite.text': '초대',
   'fabric.elements.share.copylink.button.icon.label': '링크 복사 아이콘',
   'fabric.elements.share.copylink.button.text': '연결 복사',

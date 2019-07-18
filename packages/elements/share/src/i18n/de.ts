@@ -25,6 +25,7 @@ export default {
     'Es wurden kein Ergebnisse für "{inputValue}" gefunden. Laden Sie Personen mittels E-Mail-Adresse ein.',
   'fabric.elements.share.trigger.button.icon.label': 'Teilen-Symbol',
   'fabric.elements.share.trigger.button.text': 'Teilen',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Teilen',
   'fabric.elements.share.trigger.button.invite.text': 'Einladen',
   'fabric.elements.share.copylink.button.icon.label':
     'Symbol für Link kopieren',

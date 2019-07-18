@@ -25,6 +25,7 @@ export default {
     "Pas de résultats pour « {inputValue} ». Invitez des personnes à l'aide d'une adresse e-mail.",
   'fabric.elements.share.trigger.button.icon.label': 'Icône de partage',
   'fabric.elements.share.trigger.button.text': 'Partager',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Partager',
   'fabric.elements.share.trigger.button.invite.text': 'Inviter',
   'fabric.elements.share.copylink.button.icon.label': 'Icône de copie du lien',
   'fabric.elements.share.copylink.button.text': 'Copier le lien',

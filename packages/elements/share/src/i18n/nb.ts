@@ -25,6 +25,7 @@ export default {
     'Vi kunne ikke finne noen resultater for "{inputValue}". Inviter personer ved å bruke en e-postadresse.',
   'fabric.elements.share.trigger.button.icon.label': 'Dele-ikon',
   'fabric.elements.share.trigger.button.text': 'Del',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Share',
   'fabric.elements.share.trigger.button.invite.text': 'Inviter',
   'fabric.elements.share.copylink.button.icon.label': 'Kopier kobling-ikon',
   'fabric.elements.share.copylink.button.text': 'Kopier kobling',
