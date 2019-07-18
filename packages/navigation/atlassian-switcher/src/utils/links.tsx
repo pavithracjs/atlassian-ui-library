@@ -22,6 +22,7 @@ import {
   AvailableSite,
   AvailableProduct,
   WorklensProductType,
+  Product,
   ProductKey,
   RecommendationsEngineResponse,
 } from '../types';
@@ -193,14 +194,55 @@ const getAvailableProductLink = (
   };
 };
 
+const shouldSkipProduct = (
+  cloudId: string,
+  worklensProduct: WorklensProductType,
+  currentCloudId?: string,
+  currentProduct?: Product,
+): boolean => {
+  if (!currentCloudId || !currentProduct || cloudId !== currentCloudId) {
+    return false;
+  }
+
+  if (
+    currentProduct === Product.JIRA &&
+    (worklensProduct === WorklensProductType.JIRA_BUSINESS ||
+      worklensProduct === WorklensProductType.JIRA_SOFTWARE)
+  ) {
+    return true;
+  }
+
+  if (
+    currentProduct === Product.CONFLUENCE &&
+    worklensProduct === WorklensProductType.CONFLUENCE
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
+  cloudId?: string,
+  productType?: Product,
 ): SwitcherItemType[] => {
   const productLinks: SwitcherItemType[] = [];
   const activityCounts: { [key: string]: number } = {};
 
   availableProducts.sites.forEach(site => {
     site.availableProducts.forEach(product => {
+      if (
+        shouldSkipProduct(
+          site.cloudId,
+          product.productType,
+          cloudId,
+          productType,
+        )
+      ) {
+        return;
+      }
+
       const availableProductLink = getAvailableProductLink(site, product);
       productLinks.push(availableProductLink);
       activityCounts[availableProductLink.key] = product.activityCount;
