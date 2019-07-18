@@ -5,7 +5,7 @@ import {
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
-import Button from '@atlaskit/button';
+import Button, { ButtonAppearances } from '@atlaskit/button';
 
 import {
   name as packageName,
@@ -19,14 +19,7 @@ import { withHelp, HelpContextInterface } from '../../HelpContext';
 
 export interface Props {
   onClick?: () => void;
-  appearance?:
-    | 'default'
-    | 'link'
-    | 'danger'
-    | 'primary'
-    | 'subtle'
-    | 'subtle-link'
-    | 'warning';
+  appearance?: ButtonAppearances;
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
