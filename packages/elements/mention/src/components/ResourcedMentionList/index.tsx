@@ -6,6 +6,7 @@ import uniqueId from '../../util/id';
 import debug from '../../util/logger';
 import MentionList from '../MentionList';
 import MentionSpotlight from '../MentionSpotlight';
+import MentionSpotlightController from '../MentionSpotlight/MentionSpotlightController';
 
 function applyPresence(mentions: MentionDescription[], presences: PresenceMap) {
   const updatedMentions: MentionDescription[] = [];
@@ -48,9 +49,6 @@ export interface State {
   mentions: MentionDescription[];
   highlightClosed: boolean;
 }
-
-export const mentionSpotlightLocalStorageKey =
-  'atlassian.people.context.mention.spotlight';
 
 export default class ResourcedMentionList extends React.PureComponent<
   Props,
@@ -227,29 +225,17 @@ export default class ResourcedMentionList extends React.PureComponent<
   };
 
   private closeHighlight = () => {
-    localStorage.setItem(mentionSpotlightLocalStorageKey, 'closed');
+    MentionSpotlightController.registerClosed();
     this.setState({ highlightClosed: true });
-  };
-
-  // Note - not a simple look up to avoid showing it to users that have local storage disabled
-  private isEnabledFromLocalStorage = () => {
-    let localValue = localStorage.getItem(mentionSpotlightLocalStorageKey);
-    if (!localValue) {
-      // Attempt to write to see if the user has local storage access
-      localStorage.setItem(mentionSpotlightLocalStorageKey, 'canShow');
-      localValue = localStorage.getItem(mentionSpotlightLocalStorageKey);
-    }
-
-    return localValue === 'canShow';
   };
 
   private mentionsHighlight = () => {
     const { mentions, highlightClosed } = this.state;
     const { mentionsSpotlightEnabled } = this.props;
-    const disabledViaLocalStorage = !this.isEnabledFromLocalStorage();
+    const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
 
     const shouldShow =
-      !disabledViaLocalStorage &&
+      enabledViaLocalStorage &&
       !highlightClosed &&
       mentionsSpotlightEnabled &&
       mentions &&

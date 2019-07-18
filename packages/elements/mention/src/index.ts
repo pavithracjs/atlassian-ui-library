@@ -25,6 +25,7 @@ import { MentionPickerWithAnalytics as MentionPicker } from './components/Mentio
 import Mention from './components/Mention';
 import ResourcedMention from './components/Mention/ResourcedMention';
 import MentionSpotlight from './components/MentionSpotlight';
+import MentionSpotlightController from './components/MentionSpotlight/MentionSpotlightController';
 import {
   MentionDescription,
   MentionsResult,
@@ -69,6 +70,7 @@ export {
   Mention,
   ResourcedMention,
   MentionSpotlight,
+  MentionSpotlightController,
   // Functions
   isSpecialMention,
   isResolvingMentionProvider,
