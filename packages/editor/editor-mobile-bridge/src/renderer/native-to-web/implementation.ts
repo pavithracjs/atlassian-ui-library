@@ -24,6 +24,9 @@ export default class RendererBridgeImpl extends WebBridge
     }
   }
 
+  // Missing? Renderer throws if absent from bridge
+  setFocus(enabled: string) {}
+
   onPromiseResolved(uuid: string, payload: string) {
     resolvePromise(uuid, JSON.parse(payload));
   }

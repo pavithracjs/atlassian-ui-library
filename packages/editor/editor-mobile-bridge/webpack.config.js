@@ -52,6 +52,8 @@ module.exports = async function createWebpackConfig() {
       editor: './src/editor/index.tsx',
       renderer: './src/renderer/index.tsx',
       'error-reporter': './src/error-reporter.ts',
+      'service-worker': './src/service-worker.ts',
+      'service-worker-register': './src/service-worker-register.ts',
     },
     stats: {
       warnings: false,
@@ -103,7 +105,7 @@ module.exports = async function createWebpackConfig() {
       }),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, 'public/renderer.html.ejs'),
-        chunks: ['error-reporter', 'renderer'],
+        chunks: ['error-reporter', 'renderer', 'service-worker-register'],
         chunksSortMode: 'manual',
         filename: 'renderer.html',
       }),

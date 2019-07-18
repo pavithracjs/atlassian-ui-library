@@ -13,4 +13,6 @@ export default interface RendererBridge
   extends TaskDecisionBridge,
     PromiseBridge {
   setContent(content: string): void;
+  // Missing? Renderer throws if absent from bridge
+  setFocus(enabled: string): void;
 }

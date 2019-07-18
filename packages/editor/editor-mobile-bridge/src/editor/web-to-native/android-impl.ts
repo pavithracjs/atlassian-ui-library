@@ -58,7 +58,16 @@ export default class AndroidBridge implements NativeBridge {
 
   submitPromise(name: string, uuid: string, args: string) {
     if (this.promiseBridge) {
-      this.promiseBridge.submitPromise(name, uuid, args);
+      try {
+        this.promiseBridge.submitPromise(name, uuid, args);
+      } catch (e) {
+        console.error(
+          `Could not submit promise "${name}" with args: ${JSON.stringify(
+            args,
+          )}`,
+          e,
+        );
+      }
     }
   }
 
