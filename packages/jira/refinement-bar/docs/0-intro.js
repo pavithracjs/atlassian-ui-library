@@ -25,14 +25,14 @@ ${(
 ## Usage
 
 ${code`
-  import RefinementBar from '@atlaskit/refinement-bar';
+  import RefinementBar, { SearchFilter } from '@atlaskit/refinement-bar';
 `}
 
 ${(
   <Example
     packageName="@atlaskit/refinement-bar"
-    Component={require('../examples/00-refinement-bar').default}
-    source={require('!!raw-loader!../examples/00-refinement-bar')}
+    Component={require('../examples/00-basic-usage').default}
+    source={require('!!raw-loader!../examples/00-basic-usage')}
     title="Basic Usage"
     language="jsx"
   />
