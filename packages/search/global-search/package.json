@@ -3,7 +3,6 @@
   "version": "10.3.4",
   "description": "A cross-product search component (batteries included)",
   "license": "Apache-2.0",
-  "jsnext:main": "index.js",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
