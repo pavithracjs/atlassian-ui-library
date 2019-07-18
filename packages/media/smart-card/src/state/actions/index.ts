@@ -15,7 +15,6 @@ import {
   ACTION_ERROR,
 } from './constants';
 import { CardAppearance } from '../../view/Card';
-import { JsonLd } from '../../client/types';
 import {
   resolvedEvent,
   unresolvedEvent,
@@ -44,14 +43,14 @@ export function useSmartCardActions(
     details: undefined,
   };
 
-  function register() {
+  async function register() {
     if (!details) {
       dispatch(cardAction(ACTION_PENDING, { url }));
     }
-    resolve();
+    await resolve();
   }
 
-  function resolve(
+  async function resolve(
     resourceUrl = url,
     isReloading = false,
     showLoadingSpinner = true,
@@ -77,28 +76,70 @@ export function useSmartCardActions(
     // its cache lifespan OR there is no data for it currently. Once the data
     // has come back asynchronously, dispatch the resolved action for the card.
     if (isReloading || hasExpired || !hasData) {
-      connections.client
-        .fetchData(resourceUrl)
-        .then((response: JsonLd) => {
-          isCompleted = true;
-          const nextDefinitionId = getDefinitionId(response);
-          const nextStatus = getStatus(response);
-          if (nextStatus === 'resolved') {
-            dispatchAnalytics(resolvedEvent(nextDefinitionId));
-          } else {
-            dispatchAnalytics(unresolvedEvent(nextStatus, nextDefinitionId));
-            // If we require authorization & do not have an authFlow available,
-            // throw an error and render as a normal blue link.
-            if (nextStatus === 'unauthorized' && config.authFlow !== 'oauth2') {
-              throw Error('Provider.authFlow is not set to OAuth2.');
-            }
+      try {
+        const response = await connections.client.fetchData(resourceUrl);
+        const nextDefinitionId = getDefinitionId(response);
+        const nextStatus = getStatus(response);
+
+        // Dispatch analytics.
+        if (nextStatus === 'resolved') {
+          dispatchAnalytics(resolvedEvent(nextDefinitionId));
+        } else {
+          dispatchAnalytics(unresolvedEvent(nextStatus, nextDefinitionId));
+          // If we require authorization & do not have an authFlow available,
+          // throw an error and render as a normal blue link.
+          if (nextStatus === 'unauthorized' && config.authFlow !== 'oauth2') {
+            throw Error('Provider.authFlow is not set to OAuth2.');
           }
-          dispatch(cardAction(ACTION_RESOLVED, { url: resourceUrl }, response));
-        })
-        .catch((error: any) => {
-          isCompleted = true;
+        }
+
+        dispatch(cardAction(ACTION_RESOLVED, { url: resourceUrl }, response));
+      } catch (error) {
+        // Handle FatalErrors (completely failed to resolve data).
+        if (error.kind === 'fatal') {
+          const urlData = getState()[resourceUrl];
+
+          // If there's no previous data in the store for this URL, then bail
+          // out and let the editor handle fallbacks (returns to a blue link).
+          if (!urlData || (urlData && urlData.status !== 'resolved')) {
+            console.log('THROWING AGAIN', urlData);
+            throw error;
+          }
+
+          // If we already have resolved data for this URL in the store, then
+          // simply fallback to the previous data.
+          if (urlData && urlData.status === 'resolved') {
+            dispatch(
+              cardAction(
+                ACTION_RESOLVED,
+                { url: resourceUrl },
+                urlData.details,
+              ),
+            );
+          }
+          // Handle AuthErrors (user did not have access to resource).
+        } else if (error.kind === 'auth') {
+          dispatch(
+            cardAction(
+              ACTION_RESOLVED,
+              { url: resourceUrl },
+              {
+                meta: {
+                  visibility: 'restricted',
+                  access: 'unauthorized',
+                  auth: [],
+                  definitionId: 'provider-not-found',
+                },
+                data: {},
+              },
+            ),
+          );
+        } else {
           dispatch(cardAction(ACTION_ERROR, { url: resourceUrl }, error));
-        });
+        }
+      } finally {
+        isCompleted = true;
+      }
     } else {
       dispatchAnalytics(resolvedEvent(definitionId));
       isCompleted = true;
