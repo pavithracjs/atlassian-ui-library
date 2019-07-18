@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Component } from 'react';
 import HelpArticle from '@atlaskit/help-article';
 import { Transition } from 'react-transition-group';
-import { Article as ArticleModel } from '../../model/Article';
 import { REQUEST_STATE } from '../../model/Requests';
 import { withHelp, HelpContextInterface } from '../HelpContext';
 
@@ -26,7 +25,6 @@ const transitionStyles: { [id: string]: React.CSSProperties } = {
 export interface Props {}
 
 export interface State {
-  article: ArticleModel | null;
   isOpen: boolean;
   skipArticleFadeInAnimation: boolean;
 }
@@ -46,7 +44,6 @@ export class Article extends Component<Props & HelpContextInterface, State> {
   }
 
   componentDidMount() {
-    const article = this.props.help.getCurrentArticle();
     // if helpContext.articleId is defined when this component is mounted,
     // set skipArticleFadeInAnimation = true to skip the initial slide-in
     // isOpen = true only when the helpContext.view = VIEW.ARTICLE
@@ -54,20 +51,11 @@ export class Article extends Component<Props & HelpContextInterface, State> {
       skipArticleFadeInAnimation:
         this.props.help.articleId !== '' ||
         this.props.help.articleId !== undefined,
-      article,
       isOpen: this.props.help.view === VIEW.ARTICLE,
     });
   }
 
   componentDidUpdate(prevProps: Props & HelpContextInterface) {
-    // sync this.state.article with the value returned from HelpContext.getCurrentArticle()
-    const article = this.props.help.getCurrentArticle();
-    if (article !== this.state.article) {
-      this.setState({
-        article,
-      });
-    }
-
     // check if the helpContext.view has changed
     if (prevProps.help.view !== this.props.help.view) {
       // isOpen = true only when the helpContext.view = VIEW.ARTICLE
@@ -93,28 +81,34 @@ export class Article extends Component<Props & HelpContextInterface, State> {
   }
 
   renderArticleContent() {
-    if (this.props.help.articleState === REQUEST_STATE.done) {
-      const { article } = this.state;
-      return (
-        article && (
-          <>
-            <HelpArticle
-              title={article.title}
-              body={article.body}
-              titleLinkUrl={article.productUrl}
-            />
-            <ArticleWasHelpfulForm />
-            <RelatedArticles relatedArticles={article.relatedArticles} />
-          </>
-        )
-      );
+    const article = this.props.help.getCurrentArticle();
+    if (article) {
+      if (article.state === REQUEST_STATE.done) {
+        return (
+          article.article && (
+            <>
+              <HelpArticle
+                title={article.article.title}
+                body={article.article.body}
+                titleLinkUrl={article.article.productUrl}
+              />
+              <ArticleWasHelpfulForm />
+              <RelatedArticles
+                relatedArticles={article.article.relatedArticles}
+              />
+            </>
+          )
+        );
+      }
+
+      if (article.state === REQUEST_STATE.error) {
+        return <LoadingError />;
+      }
+
+      return <Loading />;
     }
 
-    if (this.props.help.articleState === REQUEST_STATE.error) {
-      return <LoadingError />;
-    }
-
-    return <Loading />;
+    return null;
   }
 
   render() {
