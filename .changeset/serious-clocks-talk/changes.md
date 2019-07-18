@@ -1,1 +1,0 @@
-fix: fallback to blue links when resolve is unsupported

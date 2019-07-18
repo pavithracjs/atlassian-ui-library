@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.3.3
+
+### Patch Changes
+
+- [patch][8903a232f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8903a232f7):
+
+  fix: fallback to blue links when resolve is unsupported
+
 ## 12.3.2
 
 ### Patch Changes
