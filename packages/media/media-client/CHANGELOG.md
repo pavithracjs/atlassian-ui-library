@@ -1,5 +1,13 @@
 # @atlaskit/media-client
 
+## 1.5.2
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 1.5.1
 
 ### Patch Changes

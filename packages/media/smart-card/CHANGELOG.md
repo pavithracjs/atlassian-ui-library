@@ -1,5 +1,29 @@
 # @atlaskit/smart-card
 
+## 12.3.2
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 12.3.1
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
+## 12.3.0
+
+### Minor Changes
+
+- [minor][602ab89822](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/602ab89822):
+
+  SL-345 add property for disabling auth flow of Smart Links (for Mobile).
+
 ## 12.2.8
 
 ### Patch Changes

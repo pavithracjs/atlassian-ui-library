@@ -7,7 +7,6 @@ import {
   getSuggestedProductLink,
   SwitcherItemType,
   getAvailableProductLinks,
-  ProductKey,
   MAX_PRODUCT_COUNT,
 } from './links';
 import {
@@ -25,6 +24,8 @@ import {
   AvailableProductsResponse,
   ProductLicenseInformation,
   WorklensProductType,
+  ProductKey,
+  RecommendationsEngineResponse,
 } from '../types';
 import { createCollector } from './create-collector';
 
@@ -78,15 +79,22 @@ function collectProductLinks(
 
 function collectSuggestedLinks(
   licenseInformation: ProviderResults['licenseInformation'],
+  productRecommendations: ProviderResults['productRecommendations'],
   isXFlowEnabled: ProviderResults['isXFlowEnabled'],
 ) {
   if (isError(isXFlowEnabled) || isError(licenseInformation)) {
     return [];
   }
-
-  if (isComplete(licenseInformation) && isComplete(isXFlowEnabled)) {
+  if (
+    isComplete(licenseInformation) &&
+    isComplete(isXFlowEnabled) &&
+    isComplete(productRecommendations)
+  ) {
     return isXFlowEnabled.data
-      ? getSuggestedProductLink(licenseInformation.data)
+      ? getSuggestedProductLink(
+          licenseInformation.data,
+          productRecommendations.data,
+        )
       : [];
   }
 }
@@ -157,6 +165,7 @@ interface ProviderResults {
   managePermission: ProviderResult<boolean>;
   addProductsPermission: ProviderResult<boolean>;
   isXFlowEnabled: ProviderResult<boolean>;
+  productRecommendations: ProviderResult<RecommendationsEngineResponse>;
 }
 
 function asLegacyProductKey(
@@ -240,8 +249,8 @@ export function mapResultsToSwitcherProps(
     addProductsPermission,
     customLinks,
     recentContainers,
+    productRecommendations,
   } = results;
-
   if (isError(licenseInformation)) {
     throw licenseInformation.error;
   }
@@ -263,7 +272,11 @@ export function mapResultsToSwitcherProps(
     ),
     suggestedProductLinks: features.xflow
       ? collect(
-          collectSuggestedLinks(resolvedLicenseInformation, isXFlowEnabled),
+          collectSuggestedLinks(
+            resolvedLicenseInformation,
+            productRecommendations,
+            isXFlowEnabled,
+          ),
           [],
         )
       : [],

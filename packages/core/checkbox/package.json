@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/checkbox",
-  "version": "9.0.2",
+  "version": "9.0.4",
   "description": "Checkbox component for use in forms",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -22,7 +22,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.1.0",
+    "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/theme": "^9.1.0",
     "@babel/runtime": "^7.0.0",
@@ -34,11 +34,11 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.2.2",
+    "@atlaskit/build-utils": "^2.2.3",
     "@atlaskit/docs": "^8.1.3",
-    "@atlaskit/button": "^13.0.14",
+    "@atlaskit/button": "^13.0.16",
     "@atlaskit/form": "^6.1.2",
-    "@atlaskit/section-message": "^4.0.7",
+    "@atlaskit/section-message": "^4.0.8",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",

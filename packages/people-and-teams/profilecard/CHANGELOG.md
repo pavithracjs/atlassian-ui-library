@@ -1,5 +1,13 @@
 # @atlaskit/profilecard
 
+## 12.0.3
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 12.0.2
 
 ### Patch Changes

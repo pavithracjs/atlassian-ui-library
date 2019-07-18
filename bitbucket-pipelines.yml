@@ -22,10 +22,10 @@ pipelines:
             # We push the bumped packages to master now as it's much better to fail whilst BB is
             # ahead of npm, than the other way round.
             - git push
-            # We run the build:pkg script again, because the versions in our package.jsons may have changed
+            # We run the copy:version script again, because the versions in our package.jsons may have changed
             # after the bump. We've kept it running in both places, just to limit the scope of this change
             # so that we don't break anything that was working previously.
-            - yarn build:pkg
+            - yarn copy:version
             # Because we distribute precompiled code for mobile, for version accuracy, it needs to be built after the bump.
             # Unfortunately, we can't rely on `run.if.package.changed.js` here because it runs against the last commit,
             # which contains our changeset bump rather than the actual changes.
@@ -77,7 +77,6 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
-              - export 
               - bolt measure:dependents
             after-script:
               - yarn send:stepFailureEvents

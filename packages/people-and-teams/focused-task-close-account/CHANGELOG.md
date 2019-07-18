@@ -1,5 +1,13 @@
 # @atlaskit/focused-task-close-account
 
+## 0.12.4
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 0.12.3
 
 ### Patch Changes

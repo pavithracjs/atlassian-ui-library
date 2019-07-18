@@ -1,5 +1,13 @@
 # @atlaskit/banner
 
+## 10.0.7
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
 ## 10.0.6
 
 ### Patch Changes

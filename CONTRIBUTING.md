@@ -375,7 +375,7 @@ How you do this will completely depend on what _exactly_ you are trying to achie
 >
 > **THESE WILL NOT COVER 100% OF USE CASES AND ARE PROVIDED WITHOUT WARRANTY**
 >
-> In certain circumstances you'll need to have a dependency be built, in others you'll need to make sure you've run `build:pkg` to copy the package.json's into `dist/`, in others, you will need to generate certain schema files.
+> In certain circumstances you'll need to have a dependency be built, in others you'll need to make sure you've run `copy:version` to copy the package.json's into `dist/`, in others, you will need to generate certain schema files.
 
 ## Documenting your code
 

@@ -256,16 +256,6 @@ export const messages = defineMessages({
     description:
       'Text for button that is used to load more results for a search',
   },
-  show_more_error: {
-    id: 'global_search.show_more_error',
-    defaultMessage: 'Show more',
-    description: 'Text for error when loading more results for search',
-  },
-  show_more_error_action: {
-    id: 'global_search.show_more_error_action',
-    defaultMessage: 'Try again',
-    description: 'Call to action text when loading more results for ',
-  },
   show_more_button_advanced_search: {
     id: 'global_search.show_more_button_advanced_search',
     defaultMessage: 'Refine results with advanced search',

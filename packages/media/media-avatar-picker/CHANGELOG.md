@@ -1,5 +1,13 @@
 # @atlaskit/media-avatar-picker
 
+## 21.0.11
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 21.0.10
 
 ### Patch Changes

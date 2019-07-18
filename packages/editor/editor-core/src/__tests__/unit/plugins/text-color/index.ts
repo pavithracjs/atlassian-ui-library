@@ -3,6 +3,7 @@ import {
   code,
   textColor,
   p,
+  hardBreak,
   createEditorFactory,
   a,
   strong,
@@ -161,5 +162,23 @@ describe('text-color', () => {
     );
 
     expect(pluginState.color).toBe(testColor1);
+  });
+
+  it(`shouldn't apply color to a non text node`, () => {
+    const { editorView } = editor(doc(p('t{<}ext', hardBreak(), 'text{>}')));
+    const { dispatch, state } = editorView;
+
+    changeColor(testColor1)(state, dispatch);
+
+    expect(editorView.state.doc).toEqualDocument(
+      doc(
+        p(
+          't',
+          textColor({ color: testColor1 })('ext'),
+          hardBreak(),
+          textColor({ color: testColor1 })('text'),
+        ),
+      ),
+    );
   });
 });

@@ -1,5 +1,13 @@
 # @atlaskit/media-editor
 
+## 36.2.3
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 36.2.2
 
 ### Patch Changes

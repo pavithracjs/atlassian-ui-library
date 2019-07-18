@@ -1,5 +1,13 @@
 # @nachos/textfield
 
+## 0.1.2
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 0.1.1
 
 ### Patch Changes

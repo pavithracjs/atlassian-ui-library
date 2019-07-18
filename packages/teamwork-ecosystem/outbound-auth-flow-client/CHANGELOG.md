@@ -1,5 +1,13 @@
 # @atlaskit/outbound-auth-flow-client
 
+## 2.0.4
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
 ## 2.0.3
 
 ### Patch Changes

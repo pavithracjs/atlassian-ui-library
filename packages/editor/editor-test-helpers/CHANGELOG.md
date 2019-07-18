@@ -1,5 +1,31 @@
 # @atlaskit/editor-test-helpers
 
+## 9.10.1
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 9.10.0
+
+### Minor Changes
+
+- [minor][c0ba9ee289](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0ba9ee289):
+
+  set viewMediaClientConfig when properties change in MediaSingle node
+
+  This fixes [ED-7269] + [FEF-8938]: issue with images not loading when the page transition from view to edit mode
+
+## 9.9.4
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
 ## 9.9.3
 
 ### Patch Changes

@@ -5,10 +5,12 @@ import { mockEndpoints, REQUEST_MEDIUM } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher, { AtlassianSwitcherPrefetchTrigger } from '../src';
 import { resetAll } from '../src/providers/instance-data-providers';
+import { resetAvailableProducts } from '../src/providers/products-data-provider';
 
 class JiraSwitcherExample extends React.Component {
   state = {
     isDrawerOpen: false,
+    enableUserCentricProducts: false,
   };
 
   componentDidMount() {
@@ -23,6 +25,7 @@ class JiraSwitcherExample extends React.Component {
 
   clearCache = () => {
     resetAll();
+    resetAvailableProducts();
   };
 
   onClose = () => {
@@ -37,8 +40,15 @@ class JiraSwitcherExample extends React.Component {
     );
   };
 
+  onToggleEnableUserCentricProducts = () => {
+    this.setState({
+      enableUserCentricProducts: !this.state.enableUserCentricProducts,
+    });
+  };
+
   render() {
     const CLOUD_ID = 'some-cloud-id';
+    const { enableUserCentricProducts } = this.state;
 
     return (
       <div style={{ padding: '2rem' }}>
@@ -47,10 +57,14 @@ class JiraSwitcherExample extends React.Component {
             product="jira"
             cloudId={CLOUD_ID}
             triggerXFlow={this.onTriggerXFlow}
+            enableUserCentricProducts={enableUserCentricProducts}
           />
         </Drawer>
         <div style={{ display: 'flex' }}>
-          <AtlassianSwitcherPrefetchTrigger cloudId={CLOUD_ID}>
+          <AtlassianSwitcherPrefetchTrigger
+            cloudId={CLOUD_ID}
+            enableUserCentricProducts={enableUserCentricProducts}
+          >
             <Button type="button" onClick={this.openDrawer}>
               Open drawer
             </Button>
@@ -58,6 +72,15 @@ class JiraSwitcherExample extends React.Component {
           <div style={{ width: 16 }} />
           <Button type="button" onClick={this.clearCache}>
             Clear cache
+          </Button>
+          <div style={{ width: 16 }} />
+          <Button
+            type="button"
+            onClick={this.onToggleEnableUserCentricProducts}
+          >
+            {enableUserCentricProducts
+              ? 'Disable user centric products'
+              : 'Enable user centric products'}
           </Button>
         </div>
       </div>
