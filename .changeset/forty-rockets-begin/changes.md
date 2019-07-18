@@ -1,0 +1,1 @@
+ED-7267: Validate URLs passing through smart links
