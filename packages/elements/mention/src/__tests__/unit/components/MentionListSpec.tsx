@@ -151,7 +151,7 @@ describe('MentionList', () => {
 
     beforeEach(() => {
       const props = {
-        initialHighlight: HighlightItem,
+        initialHighlightElement: HighlightItem,
       };
       component = setupList(props);
       defaultMentionItemsShow = () =>

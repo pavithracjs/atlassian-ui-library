@@ -40,13 +40,13 @@ export interface Props {
   query?: string;
   onSelection?: OnMentionEvent;
   resourceError?: Error;
-  mentionsSpotlightEnabled?: boolean;
+  isTeamMentionHighlightEnabled?: boolean;
 }
 
 export interface State {
   resourceError?: Error;
   mentions: MentionDescription[];
-  highlightClosed: boolean;
+  isHighlightClosed: boolean;
 }
 
 export default class ResourcedMentionList extends React.PureComponent<
@@ -62,7 +62,7 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.state = {
       resourceError: undefined,
       mentions: [],
-      highlightClosed: false,
+      isHighlightClosed: false,
     };
 
     this.applyPropChanges({} as Props, props);
@@ -224,16 +224,16 @@ export default class ResourcedMentionList extends React.PureComponent<
   };
 
   private closeHighlight = () => {
-    this.setState({ highlightClosed: true });
+    this.setState({ isHighlightClosed: true });
   };
 
   private mentionsHighlight = () => {
-    const { mentions, highlightClosed } = this.state;
-    const { mentionsSpotlightEnabled } = this.props;
-    // TODO include local storage checks
+    const { mentions, isHighlightClosed } = this.state;
+    const { isTeamMentionHighlightEnabled } = this.props;
+    // TODO include local storage checks - TEAMS-548
     const shouldShow =
-      !highlightClosed &&
-      mentionsSpotlightEnabled &&
+      !isHighlightClosed &&
+      isTeamMentionHighlightEnabled &&
       mentions &&
       mentions.length > 0;
     if (!shouldShow) {
@@ -253,7 +253,7 @@ export default class ResourcedMentionList extends React.PureComponent<
 
     return (
       <MentionList
-        initialHighlight={this.mentionsHighlight()}
+        initialHighlightElement={this.mentionsHighlight()}
         mentions={mentions}
         resourceError={resourceError}
         onSelection={this.notifySelection}
