@@ -7,7 +7,6 @@ import {
   getSuggestedProductLink,
   SwitcherItemType,
   getAvailableProductLinks,
-  ProductKey,
   MAX_PRODUCT_COUNT,
 } from './links';
 import {
@@ -25,6 +24,9 @@ import {
   AvailableProductsResponse,
   ProductLicenseInformation,
   WorklensProductType,
+  ProductKey,
+  RecommendationsEngineResponse,
+  Product,
 } from '../types';
 import { createCollector } from './create-collector';
 
@@ -48,15 +50,20 @@ function getExpandLink(
 }
 
 function collectAvailableProductLinks(
-  cloudId: string,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
+  cloudId?: string,
+  productType?: Product,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
     if (isError(availableProducts)) {
       return [];
     }
     if (isComplete(availableProducts)) {
-      return getAvailableProductLinks(availableProducts.data);
+      return getAvailableProductLinks(
+        availableProducts.data,
+        cloudId,
+        productType,
+      );
     }
     return;
   }
@@ -78,15 +85,22 @@ function collectProductLinks(
 
 function collectSuggestedLinks(
   licenseInformation: ProviderResults['licenseInformation'],
+  productRecommendations: ProviderResults['productRecommendations'],
   isXFlowEnabled: ProviderResults['isXFlowEnabled'],
 ) {
   if (isError(isXFlowEnabled) || isError(licenseInformation)) {
     return [];
   }
-
-  if (isComplete(licenseInformation) && isComplete(isXFlowEnabled)) {
+  if (
+    isComplete(licenseInformation) &&
+    isComplete(isXFlowEnabled) &&
+    isComplete(productRecommendations)
+  ) {
     return isXFlowEnabled.data
-      ? getSuggestedProductLink(licenseInformation.data)
+      ? getSuggestedProductLink(
+          licenseInformation.data,
+          productRecommendations.data,
+        )
       : [];
   }
 }
@@ -157,6 +171,7 @@ interface ProviderResults {
   managePermission: ProviderResult<boolean>;
   addProductsPermission: ProviderResult<boolean>;
   isXFlowEnabled: ProviderResult<boolean>;
+  productRecommendations: ProviderResult<RecommendationsEngineResponse>;
 }
 
 function asLegacyProductKey(
@@ -230,6 +245,7 @@ export function mapResultsToSwitcherProps(
   results: ProviderResults,
   features: FeatureMap,
   availableProducts: ProviderResult<AvailableProductsResponse>,
+  product?: Product,
 ) {
   const collect = createCollector();
 
@@ -240,8 +256,8 @@ export function mapResultsToSwitcherProps(
     addProductsPermission,
     customLinks,
     recentContainers,
+    productRecommendations,
   } = results;
-
   if (isError(licenseInformation)) {
     throw licenseInformation.error;
   }
@@ -257,13 +273,17 @@ export function mapResultsToSwitcherProps(
       : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
-        ? collectAvailableProductLinks(cloudId, availableProducts)
+        ? collectAvailableProductLinks(availableProducts, cloudId, product)
         : collectProductLinks(cloudId, licenseInformation),
       [],
     ),
     suggestedProductLinks: features.xflow
       ? collect(
-          collectSuggestedLinks(resolvedLicenseInformation, isXFlowEnabled),
+          collectSuggestedLinks(
+            resolvedLicenseInformation,
+            productRecommendations,
+            isXFlowEnabled,
+          ),
           [],
         )
       : [],

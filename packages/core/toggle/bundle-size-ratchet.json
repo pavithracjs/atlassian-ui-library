@@ -2,7 +2,7 @@
   {
     "team": "core",
     "package": "@atlaskit/toggle",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "core",
     "package": "@atlaskit/toggle",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -26,25 +26,25 @@
   {
     "team": "core",
     "package": "@atlaskit/toggle",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 29136,
-      "gzipSize": 7830
+      "size": 29180,
+      "gzipSize": 7836
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/toggle",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 42817,
-      "gzipSize": 11687
+      "size": 42861,
+      "gzipSize": 11693
     }
   }
 ]

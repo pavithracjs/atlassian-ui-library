@@ -42,6 +42,7 @@ import {
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
+import ErrorBoundary from './ErrorBoundary';
 
 const COPY_LINK_EVENT = copyLinkButtonClicked(0);
 
@@ -210,7 +211,6 @@ export class ShareDialogContainerInternal extends React.Component<
           .getConfig(this.props.productId, this.props.cloudId)
           .then((config: ConfigResponse) => {
             if (this._isMounted) {
-              // TODO: Send analytics event
               this.setState({
                 config,
                 isFetchingConfig: false,
@@ -219,7 +219,6 @@ export class ShareDialogContainerInternal extends React.Component<
           })
           .catch(() => {
             if (this._isMounted) {
-              // TODO: Send analytics event
               this.setState({
                 config: defaultConfig,
                 isFetchingConfig: false,
@@ -449,35 +448,37 @@ export class ShareDialogContainerInternal extends React.Component<
     } = this.props;
     const { isFetchingConfig } = this.state;
     return (
-      <MessagesIntlProvider>
-        <ShareDialogWithTrigger
-          config={this.state.config}
-          copyLink={this.getCopyLink()}
-          analyticsDecorator={this.decorateAnalytics}
-          dialogPlacement={dialogPlacement}
-          isFetchingConfig={isFetchingConfig}
-          loadUserOptions={loadUserOptions}
-          onDialogOpen={this.handleDialogOpen}
-          onShareSubmit={this.handleSubmitShare}
-          renderCustomTriggerButton={renderCustomTriggerButton}
-          shareContentType={shareContentType}
-          shareFormTitle={shareFormTitle}
-          copyLinkOrigin={this.getCopyLinkOriginTracing()}
-          formShareOrigin={this.getFormShareOriginTracing()}
-          shouldCloseOnEscapePress={shouldCloseOnEscapePress}
-          showFlags={showFlags}
-          triggerButtonAppearance={triggerButtonAppearance}
-          triggerButtonStyle={triggerButtonStyle}
-          triggerButtonTooltipText={triggerButtonTooltipText}
-          triggerButtonTooltipPosition={triggerButtonTooltipPosition}
-          bottomMessage={bottomMessage}
-          submitButtonLabel={
-            shareeAction === 'edit' && (
-              <FormattedMessage {...messages.inviteTriggerButtonText} />
-            )
-          }
-        />
-      </MessagesIntlProvider>
+      <ErrorBoundary>
+        <MessagesIntlProvider>
+          <ShareDialogWithTrigger
+            config={this.state.config}
+            copyLink={this.getCopyLink()}
+            analyticsDecorator={this.decorateAnalytics}
+            dialogPlacement={dialogPlacement}
+            isFetchingConfig={isFetchingConfig}
+            loadUserOptions={loadUserOptions}
+            onDialogOpen={this.handleDialogOpen}
+            onShareSubmit={this.handleSubmitShare}
+            renderCustomTriggerButton={renderCustomTriggerButton}
+            shareContentType={shareContentType}
+            shareFormTitle={shareFormTitle}
+            copyLinkOrigin={this.getCopyLinkOriginTracing()}
+            formShareOrigin={this.getFormShareOriginTracing()}
+            shouldCloseOnEscapePress={shouldCloseOnEscapePress}
+            showFlags={showFlags}
+            triggerButtonAppearance={triggerButtonAppearance}
+            triggerButtonStyle={triggerButtonStyle}
+            triggerButtonTooltipPosition={triggerButtonTooltipPosition}
+            triggerButtonTooltipText={triggerButtonTooltipText}
+            bottomMessage={bottomMessage}
+            submitButtonLabel={
+              shareeAction === 'edit' && (
+                <FormattedMessage {...messages.inviteTriggerButtonText} />
+              )
+            }
+          />
+        </MessagesIntlProvider>
+      </ErrorBoundary>
     );
   }
 }

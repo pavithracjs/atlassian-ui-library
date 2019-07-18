@@ -1,9 +1,7 @@
 import { Action, Dispatch, Store } from 'redux';
-import {
-  getFilesInRecentsFullfilled,
-  getFilesInRecentsFailed,
-  saveCollectionItemsSubscription,
-} from '../actions';
+import { getFilesInRecentsFullfilled } from '../actions/getFilesInRecents';
+import { getFilesInRecentsFailed } from '../actions/getFilesInRecents';
+import { saveCollectionItemsSubscription } from '../actions/saveCollectionItemsSubscription';
 import { State } from '../domain';
 import { isGetFilesInRecentsAction } from '../actions/getFilesInRecents';
 import { RECENTS_COLLECTION } from '../config';

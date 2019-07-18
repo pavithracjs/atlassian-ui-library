@@ -110,6 +110,12 @@ describe('Atlassian Switcher - Component Analytics', () => {
       eventType: 'ui',
       action: 'viewed',
       actionSubject: 'atlassianSwitcher',
+      attributes: {
+        switcherItems: {
+          suggestedProducts: ['confluence.ondemand'],
+          licensedProducts: ['jira'],
+        },
+      },
     });
 
     // Operational event when the Switcher first displays content

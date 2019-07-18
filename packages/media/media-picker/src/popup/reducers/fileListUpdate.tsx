@@ -1,4 +1,7 @@
-import { FILE_LIST_UPDATE, FileListUpdateAction } from '../actions';
+import {
+  FILE_LIST_UPDATE,
+  FileListUpdateAction,
+} from '../actions/fileListUpdate';
 import { State } from '../domain';
 import { pathsEqual } from '../tools/pathsEqual';
 

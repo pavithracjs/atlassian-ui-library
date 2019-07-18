@@ -16,7 +16,7 @@ export const mockMentionData = {
   text: '@Oscar Wallhult',
 };
 
-const mentionResource = new MentionResource({
+export const mentionResource = new MentionResource({
   url: 'dummyurl',
 
   shouldHighlightMention(mention) {

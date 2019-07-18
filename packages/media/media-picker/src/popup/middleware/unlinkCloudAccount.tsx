@@ -3,9 +3,9 @@ import { Store, Dispatch } from 'redux';
 import {
   REQUEST_UNLINK_CLOUD_ACCOUNT,
   RequestUnlinkCloudAccountAction,
-  changeService,
-  unlinkCloudAccount,
-} from '../actions';
+} from '../actions/unlinkCloudAccount';
+import { changeService } from '../actions/changeService';
+import { unlinkCloudAccount } from '../actions/unlinkCloudAccount';
 import { State } from '../domain';
 import { Fetcher } from '../tools/fetcher/fetcher';
 

@@ -9,11 +9,12 @@ const CreateImage = (filename: string) => <img src={filename} />;
 
 export default md`
   ${<AtlassianInternalWarning />}
-  
+
   # Documentation
 
   ## Table of contents
 
+  - [Installing @atlaskit/media-picker](#install-media-picker)
   - [Working with the Library](#working-with-the-library)
   - [Arguments](#arguments)
   - [Component Creation](#component-creation)
@@ -24,6 +25,19 @@ export default md`
     - [Clipboard](#clipboard)
     - [Browser](#browser)
     - [Popup](#popup)
+
+  ### Note:
+
+  Don't forget to add these polyfills to your product build if you're using emoji or mentions in the editor and you want to target older browsers:
+
+  * ChildNode.remove() ([polyfill](https://www.npmjs.com/package/element-remove), [browser support](https://caniuse.com/#feat=childnode-remove))
+
+  <a name="install-media-picker"></a>
+  ## Installing @atlaskit/media-picker
+
+${code`
+  yarn add @atlaskit/media-picker
+`}
 
   <a name="working-with-the-library"></a>
   ## Working with the Library
@@ -107,6 +121,7 @@ export default md`
   Please note that you don't need to specify the **new** keyword before creating a component.
   MediaPicker will do it internally.
 
+  <a name="typescript"></a>
   #### Typescript
 
   MediaPicker is fully written in Typescript, and it exports all its public types and interfaces.

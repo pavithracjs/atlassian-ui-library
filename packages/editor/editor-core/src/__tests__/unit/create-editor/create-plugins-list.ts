@@ -158,6 +158,7 @@ describe('createPluginsList', () => {
     ];
 
     const props = {
+      allowTables: true,
       insertMenuItems: customItems,
       nativeStatusSupported: false,
     };

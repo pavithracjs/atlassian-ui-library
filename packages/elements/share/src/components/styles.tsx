@@ -10,8 +10,8 @@ export default (props: ButtonProps) => (
         buttonStyles: {
           ...buttonStyles,
           padding: 0,
-          '& > span > span:first-child': {
-            margin: '0 !important',
+          '& > span > span:first-of-type': {
+            margin: '0', // This is a workaround for an issue in AtlasKit (https://ecosystem.atlassian.net/browse/AK-3976)
           },
         },
         ...rest,

@@ -9,6 +9,7 @@ import {
   AvailableSite,
   WorklensProductType,
   AvailableProduct,
+  Product,
 } from '../../types';
 
 describe('map-results-to-switcher-props', () => {
@@ -32,6 +33,7 @@ describe('map-results-to-switcher-props', () => {
             generateSite('site10', [WorklensProductType.JIRA_SOFTWARE, 10]),
           ],
         }),
+        product,
       );
 
       expect(props.licensedProductLinks).toMatchObject([
@@ -89,6 +91,7 @@ describe('map-results-to-switcher-props', () => {
             generateSite('bitbucket', [WorklensProductType.BITBUCKET, 0]),
           ],
         }),
+        product,
       );
 
       expect(props.licensedProductLinks).toMatchObject([
@@ -125,6 +128,7 @@ describe('map-results-to-switcher-props', () => {
             ),
           ],
         }),
+        product,
       );
 
       expect(props.licensedProductLinks).toMatchObject([
@@ -140,6 +144,40 @@ describe('map-results-to-switcher-props', () => {
         },
       ]);
     });
+  });
+
+  it('does not show the product that the switcher is displayed from', () => {
+    const props = mapResultsToSwitcherProps(
+      cloudId,
+      loadingProvidersResult,
+      {
+        enableUserCentricProducts: true,
+        xflow: false,
+      },
+      asCompletedProvider<AvailableProductsResponse>({
+        sites: [
+          generateSite('some-cloud-id', [
+            WorklensProductType.JIRA_BUSINESS,
+            50,
+          ]),
+          generateSite('some-cloud-id', [WorklensProductType.CONFLUENCE, 50]),
+          generateSite('site30', [WorklensProductType.JIRA_BUSINESS, 30]),
+          generateSite('site20', [WorklensProductType.OPSGENIE, 20]),
+          generateSite('site40', [WorklensProductType.CONFLUENCE, 40]),
+        ],
+      }),
+      product,
+    );
+
+    expect(props.licensedProductLinks).toMatchObject([
+      { description: 'some-cloud-id', label: 'Jira Core' },
+      { description: 'site40', label: 'Confluence' },
+      { description: 'site30', label: 'Jira Core' },
+      { description: 'site20', label: 'Opsgenie' },
+    ]);
+
+    // Expand link is not rendered when the full list of products is displayed.
+    expect(props.expandLink).toBeUndefined();
   });
 });
 
@@ -168,6 +206,7 @@ function generateSite(
 }
 
 const cloudId = 'some-cloud-id';
+const product = Product.CONFLUENCE;
 
 function asCompletedProvider<T>(data: T): ResultComplete<T> {
   return {
@@ -188,4 +227,5 @@ const loadingProvidersResult = {
   managePermission: loadingProviderResult,
   addProductsPermission: loadingProviderResult,
   isXFlowEnabled: loadingProviderResult,
+  productRecommendations: loadingProviderResult,
 };

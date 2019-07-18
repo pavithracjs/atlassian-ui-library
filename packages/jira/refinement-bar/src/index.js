@@ -17,4 +17,5 @@ export {
   RefinementBarUI,
   RefinementBarProvider,
   RefinementBarConsumer,
+  useRefinementBar,
 } from './components';
