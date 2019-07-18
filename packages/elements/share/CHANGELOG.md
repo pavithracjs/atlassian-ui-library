@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.5.14
+
+### Patch Changes
+
+- [patch][8fb78b50c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fb78b50c8):
+
+  Error boundary added with analytics, various cleanups
+
 ## 0.5.13
 
 ### Patch Changes
