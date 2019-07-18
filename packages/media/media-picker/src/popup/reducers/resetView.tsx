@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 
-import { isResetViewAction } from '../actions';
+import { isResetViewAction } from '../actions/resetView';
 import { State, SelectedItem, LocalUploads } from '../domain';
 
 export default function resetView(state: State, action: Action): State {

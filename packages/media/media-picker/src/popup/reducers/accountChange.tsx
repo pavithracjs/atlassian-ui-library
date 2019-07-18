@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 
-import { isChangeAccountAction } from '../actions';
+import { isChangeAccountAction } from '../actions/changeAccount';
 import { State } from '../domain';
 
 export default function accountChange(state: State, action: Action): State {
