@@ -12,7 +12,7 @@ import { PopupHeader, PopupContainer } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
 import { UploadParams, BrowserConfig } from '../src';
-import { Browser } from '../src/components/browser/browser';
+import { Browser } from '../src/';
 import { FileState, MediaClient } from '@atlaskit/media-client';
 import { MediaClientConfig } from '@atlaskit/media-core';
 
@@ -128,7 +128,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
           {({ onUploadsStart, onError, onPreviewUpdate }) => (
             <Browser
               onBrowseFn={this.onBrowseFn}
-              mediaClient={mediaClient}
+              mediaClientConfig={mediaClient.config}
               config={browseConfig}
               onUploadsStart={onUploadsStart}
               onError={onError}
