@@ -101,7 +101,6 @@ export default class ResizeTransition extends PureComponent<Props> {
           // transitions interupt manual resize behaviour
           const cssTransition =
             !userIsDragging && this.isMounted ? getTransition(properties) : {};
-          console.log(properties);
 
           // `from` and `to` styles tweened by the transition
           const dynamicProperties = {
