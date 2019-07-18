@@ -34,9 +34,6 @@ const ArticleWasHelpfulYesButton = (
     onClick,
   } = props;
 
-  const finalAppearance: ButtonAppearances =
-    appearance !== undefined ? appearance : 'default';
-
   const handleButtonClick = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
@@ -53,7 +50,7 @@ const ArticleWasHelpfulYesButton = (
   };
 
   return (
-    <Button onClick={handleButtonClick} appearance={finalAppearance}>
+    <Button onClick={handleButtonClick} appearance={appearance}>
       {formatMessage(messages.help_panel_article_rating_option_yes)}
     </Button>
   );
