@@ -34,6 +34,8 @@ describe('share analytics', () => {
         actionSubjectId: 'foo',
         attributes: expect.objectContaining({
           source: 'shareModal',
+          packageVersion: expect.any(String),
+          packageName: '@atlaskit/share',
         }),
       });
     });
@@ -79,6 +81,8 @@ describe('share analytics', () => {
         actionSubjectId: undefined,
         attributes: expect.objectContaining({
           source: 'shareModal',
+          packageVersion: expect.any(String),
+          packageName: '@atlaskit/share',
         }),
       });
     });
