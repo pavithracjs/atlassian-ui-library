@@ -32,8 +32,10 @@ export type CommonProps = {
 };
 export type ProviderContext = {
   ...CommonProps,
+  fieldKeys: FieldKeys,
   removeableKeys: FieldKeys,
   selectedKeys: FieldKeys,
+  valueKeys: FieldKeys,
 };
 type ProviderProps = CommonProps & {
   children?: Node,
@@ -66,26 +68,34 @@ export class RefinementBarProvider extends Component<
     };
   }
 
+  get fieldKeys() {
+    return Object.keys(this.props.fieldConfig);
+  }
+
+  get valueKeys() {
+    return Object.keys(this.props.value);
+  }
+
   get removeableKeys() {
-    const all = Object.keys(this.props.fieldConfig);
     const irremovable = this.props.irremovableKeys;
-    return diffArr(all, irremovable);
+    return diffArr(this.fieldKeys, irremovable);
   }
 
   get selectedKeys() {
-    const values = Object.keys(this.props.value);
     const irremovable = this.props.irremovableKeys;
-    return diffArr(values, irremovable);
+    return diffArr(this.valueKeys, irremovable);
   }
 
   render() {
     const context = {
       fieldConfig: this.state.fieldConfig,
+      fieldKeys: this.fieldKeys,
       irremovableKeys: this.props.irremovableKeys,
       onChange: this.props.onChange,
       removeableKeys: this.removeableKeys,
       selectedKeys: this.selectedKeys,
       value: this.props.value,
+      valueKeys: this.valueKeys,
     };
 
     return (
