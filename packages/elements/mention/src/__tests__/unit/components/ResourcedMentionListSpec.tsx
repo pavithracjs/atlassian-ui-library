@@ -36,58 +36,58 @@ describe('ResourcedMentionList', () => {
 
   it('should show the highlight if conditions are just right', () => {
     mockIsSpotlightEnabled.mockReturnValue(true);
-    const element = render({ mentionsSpotlightEnabled: true });
+    const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlight;
+    const spotlight = element.find(MentionList).props().initialHighlightElement;
     expect(spotlight).toBeDefined();
   });
 
   it('should not show the highlight if there are no users', () => {
     mockIsSpotlightEnabled.mockReturnValue(true);
-    const element = render({ mentionsSpotlightEnabled: true });
+    const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [] });
 
-    const spotlight = element.find(MentionList).props().initialHighlight;
+    const spotlight = element.find(MentionList).props().initialHighlightElement;
     expect(spotlight).toBeNull();
   });
 
   it('should not show the highlight if the spotlight flag is disabled', () => {
     mockIsSpotlightEnabled.mockReturnValue(true);
-    const element = render({ mentionsSpotlightEnabled: false });
+    const element = render({ isTeamMentionHighlightEnabled: false });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlight;
+    const spotlight = element.find(MentionList).props().initialHighlightElement;
     expect(spotlight).toBeNull();
   });
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
     mockIsSpotlightEnabled.mockReturnValue(true);
-    const element = render({ mentionsSpotlightEnabled: true });
+    const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({
       mentions: [{ id: 'someUser' }],
-      highlightClosed: true,
+      isHighlightClosed: true,
     });
 
-    const spotlight = element.find(MentionList).props().initialHighlight;
+    const spotlight = element.find(MentionList).props().initialHighlightElement;
     expect(spotlight).toBeNull();
   });
 
   it('should not show the highlight if the user has opted out', () => {
     mockIsSpotlightEnabled.mockReturnValue(false);
-    const element = render({ mentionsSpotlightEnabled: true });
+    const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlight;
+    const spotlight = element.find(MentionList).props().initialHighlightElement;
     expect(spotlight).toBeNull();
   });
 
   it('should register a closed event when users closes', () => {
     mockIsSpotlightEnabled.mockReturnValue(true);
-    const element = render({ mentionsSpotlightEnabled: true });
+    const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlight;
+    const spotlight = element.find(MentionList).props().initialHighlightElement;
     spotlight && spotlight.props.onClose();
 
     expect(mockRegisterClosed).toHaveBeenCalled();

@@ -44,7 +44,7 @@ export interface Props {
   mentions: MentionDescription[];
   resourceError?: Error;
   onSelection?: OnMentionEvent;
-  initialHighlight?: React.ReactElement | null;
+  initialHighlightElement?: React.ReactElement | null;
 }
 
 export interface State {
@@ -206,7 +206,7 @@ export default class MentionList extends React.PureComponent<Props, State> {
 
       return (
         <div>
-          {this.props.initialHighlight}
+          {this.props.initialHighlightElement}
           {mentions.map((mention, idx) => {
             const key = mention.id;
             const item = (
