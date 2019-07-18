@@ -45,6 +45,7 @@ import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
 import { CardProvider } from '../../../../plugins/card';
+import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import { EditorProps } from '../../../..';
 
 describe('paste plugins', () => {
@@ -150,6 +151,46 @@ describe('paste plugins', () => {
                 })(),
               ),
             ),
+          );
+        });
+      });
+
+      describe('when pasted inside table', () => {
+        it('should set a GapCursor after it', () => {
+          const { editorView } = editor(doc(table({})(tr(td()(p('{<>}'))))));
+
+          dispatchPasteEvent(editorView, {
+            html: `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div>`,
+          });
+
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table({})(
+                tr(
+                  td()(
+                    mediaSingle({ layout: 'center' })(
+                      media({
+                        id: '9b5c6412-6de0-42cb-837f-bc08c24b4383',
+                        type: 'file',
+                        collection: 'MediaServicesSample',
+                        __fileMimeType: 'image/png',
+                        __fileName: 'image-20190325-222039.png',
+                        __fileSize: 29502,
+                        height: 288,
+                        width: 490,
+                      })(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          const { selection, schema } = editorView.state;
+          expect(selection instanceof GapCursorSelection).toBe(true);
+          expect((selection as GapCursorSelection).side).toBe(Side.RIGHT);
+          expect(selection.$from.nodeBefore!.type).toEqual(
+            schema.nodes.mediaSingle,
           );
         });
       });
@@ -1237,7 +1278,7 @@ describe('paste plugins', () => {
         [
           'a media single',
           'mediaSingle',
-          `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div`,
+          `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div>`,
           '',
         ],
         [
