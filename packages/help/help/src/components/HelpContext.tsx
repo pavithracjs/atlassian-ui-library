@@ -69,8 +69,8 @@ export interface HelpContextInterface {
     isArticleVisible(): boolean;
     getCurrentArticle(): HistoryItem | undefined;
     onButtonCloseClick?(
-      event: React.MouseEvent<HTMLElement, MouseEvent>,
-      analyticsEvent: UIAnalyticsEvent,
+      event?: React.MouseEvent<HTMLElement, MouseEvent>,
+      analyticsEvent?: UIAnalyticsEvent,
     ): void;
     onWasHelpfulYesButtonClick?(
       event?: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -213,7 +213,7 @@ class HelpContextProviderImplementation extends React.Component<
     }
   };
 
-  updateHistoryItem = (uid: number, update: any) => {
+  updateHistoryItem = (uid: number, update: Partial<HistoryItem>) => {
     const history: HistoryItem[] = [...this.state.history];
     const index = history.findIndex(
       (historyItem: HistoryItem) => historyItem.uid === uid,
