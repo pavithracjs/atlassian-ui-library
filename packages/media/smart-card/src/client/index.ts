@@ -64,7 +64,6 @@ export default class CardClient implements CardClientInterface {
     // Catch non-200 server responses to fallback or return useful information.
     if (status === 'not_found') {
       switch (errorType) {
-        case 'ResolveBadRequestError':
         case 'ResolveAuthError':
           throw new FetchError(
             'auth',

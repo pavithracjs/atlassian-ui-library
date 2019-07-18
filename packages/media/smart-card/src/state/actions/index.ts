@@ -97,24 +97,17 @@ export function useSmartCardActions(
       } catch (error) {
         // Handle FatalErrors (completely failed to resolve data).
         if (error.kind === 'fatal') {
-          const urlData = getState()[resourceUrl];
-
           // If there's no previous data in the store for this URL, then bail
           // out and let the editor handle fallbacks (returns to a blue link).
-          if (!urlData || (urlData && urlData.status !== 'resolved')) {
-            console.log('THROWING AGAIN', urlData);
+          if (!details || status !== 'resolved') {
             throw error;
           }
 
           // If we already have resolved data for this URL in the store, then
           // simply fallback to the previous data.
-          if (urlData && urlData.status === 'resolved') {
+          if (status === 'resolved') {
             dispatch(
-              cardAction(
-                ACTION_RESOLVED,
-                { url: resourceUrl },
-                urlData.details,
-              ),
+              cardAction(ACTION_RESOLVED, { url: resourceUrl }, details),
             );
           }
           // Handle AuthErrors (user did not have access to resource).
