@@ -1,0 +1,1 @@
+Fixing binaries import for cjs
