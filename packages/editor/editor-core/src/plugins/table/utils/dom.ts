@@ -25,8 +25,10 @@ export const isInsertRowButton = (node: HTMLElement) => {
   );
 };
 
-export const getColumnOrRowIndex = (target: HTMLElement) =>
-  parseInt(target.getAttribute('data-index') || '-1', 10);
+export const getColumnOrRowIndex = (target: HTMLElement): [number, number] => [
+  parseInt(target.getAttribute('data-start-index') || '-1', 10),
+  parseInt(target.getAttribute('data-end-index') || '-1', 10),
+];
 
 export const getMousePositionHorizontalRelativeByElement = (
   mouseEvent: MouseEvent,
