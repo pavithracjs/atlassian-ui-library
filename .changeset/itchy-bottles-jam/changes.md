@@ -1,1 +1,0 @@
-Add various usage examples. Plus a handful of cleanup.

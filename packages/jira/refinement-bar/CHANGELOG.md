@@ -1,5 +1,13 @@
 # @atlaskit/refinement-bar
 
+## 0.5.2
+
+### Patch Changes
+
+- [patch][0870316c7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0870316c7d):
+
+  Add various usage examples. Plus a handful of cleanup.
+
 ## 0.5.1
 
 ### Patch Changes
