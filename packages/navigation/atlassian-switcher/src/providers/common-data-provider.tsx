@@ -10,11 +10,16 @@ import {
   XFlowSettingsProvider,
 } from './instance-data-providers';
 import { RecommendationsEngineProvider } from './recommendations-provider';
-import { Permissions, RecommendationsEngineResponse } from '../types';
+import {
+  Permissions,
+  RecommendationsEngineResponse,
+  RecommendationFeatureFlags,
+} from '../types';
 
 interface CommonDataProviderProps {
   cloudId: string;
   isUserCentric: boolean;
+  recommendationFeatureFlags?: RecommendationFeatureFlags;
   children: (
     props: {
       recentContainers: ProviderResult<RecentContainersResponse>;
@@ -31,6 +36,7 @@ export default ({
   cloudId,
   children,
   isUserCentric,
+  recommendationFeatureFlags,
 }: CommonDataProviderProps) => {
   return (
     <RecentContainersProvider cloudId={cloudId}>
@@ -52,7 +58,11 @@ export default ({
                   {addProductsPermission => (
                     <XFlowSettingsProvider cloudId={cloudId}>
                       {isXFlowEnabled => (
-                        <RecommendationsEngineProvider>
+                        <RecommendationsEngineProvider
+                          recommendationFeatureFlags={
+                            recommendationFeatureFlags
+                          }
+                        >
                           {productRecommendations =>
                             children({
                               recentContainers,
