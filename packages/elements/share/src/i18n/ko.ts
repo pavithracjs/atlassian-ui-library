@@ -18,7 +18,7 @@ export default {
   'fabric.elements.share.form.user-picker.validation.required':
     '사용자, 팀 또는 이메일을 최소한 하나 선택하십시오.',
   'fabric.elements.share.form.user-picker.no-options.domainBasedUserOnly':
-    '{domains} 이메일 주소로만 사람들을 추대할 수 있습니다. 사이트 관리자에게 문의하여 다른 사람을 초대해보세요.',
+    '{domains} 이메일 주소로만 사람들을 초대할 수 있습니다. 사이트 관리자에게 문의하여 다른 사람을 초대해보세요.',
   'fabric.elements.share.form.user-picker.no-options.existingUserOnly':
     '"{inputValue}"에 대한 결과를 찾지 못했습니다.',
   'fabric.elements.share.form.user-picker.no-options.generic':

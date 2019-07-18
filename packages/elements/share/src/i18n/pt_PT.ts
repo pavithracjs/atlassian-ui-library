@@ -25,7 +25,7 @@ export default {
     'Não foi possível encontrar resultados para "{inputValue}". Convite pessoas adicionando um endereço de e-mail.',
   'fabric.elements.share.trigger.button.icon.label': 'Partilhar ícone',
   'fabric.elements.share.trigger.button.text': 'Partilhar',
-  'fabric.elements.share.trigger.button.tooltip.text': 'Share',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Partilhar',
   'fabric.elements.share.trigger.button.invite.text': 'Convidar',
   'fabric.elements.share.copylink.button.icon.label': 'Copiar ícone da ligação',
   'fabric.elements.share.copylink.button.text': 'Copiar ligação',
