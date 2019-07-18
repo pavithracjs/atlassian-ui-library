@@ -26,6 +26,7 @@ export default (props: GenericSwitcherProps) => (
         {providerResults => {
           const switcherLinks = mapResultsToSwitcherProps(
             props.cloudId,
+            props.product,
             providerResults,
             props.features,
             availableProducts,

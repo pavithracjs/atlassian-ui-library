@@ -22,6 +22,7 @@ import {
   AvailableSite,
   AvailableProduct,
   WorklensProductType,
+  Product,
   ProductKey,
   RecommendationsEngineResponse,
 } from '../types';
@@ -193,7 +194,31 @@ const getAvailableProductLink = (
   };
 };
 
+const getMatchingProduct = (
+  worklensProduct: WorklensProductType,
+  currentProduct: Product,
+): boolean => {
+  if (
+    currentProduct === Product.JIRA &&
+    (worklensProduct === WorklensProductType.JIRA_BUSINESS ||
+      worklensProduct === WorklensProductType.JIRA_SOFTWARE)
+  ) {
+    return true;
+  }
+
+  if (
+    currentProduct === Product.CONFLUENCE &&
+    worklensProduct === WorklensProductType.CONFLUENCE
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
 export const getAvailableProductLinks = (
+  cloudId: string,
+  productType: Product,
   availableProducts: AvailableProductsResponse,
 ): SwitcherItemType[] => {
   const productLinks: SwitcherItemType[] = [];
@@ -201,9 +226,17 @@ export const getAvailableProductLinks = (
 
   availableProducts.sites.forEach(site => {
     site.availableProducts.forEach(product => {
-      const availableProductLink = getAvailableProductLink(site, product);
-      productLinks.push(availableProductLink);
-      activityCounts[availableProductLink.key] = product.activityCount;
+      // skip the product that the switcher is displayed from
+      if (
+        !(
+          site.cloudId === cloudId &&
+          getMatchingProduct(product.productType, productType)
+        )
+      ) {
+        const availableProductLink = getAvailableProductLink(site, product);
+        productLinks.push(availableProductLink);
+        activityCounts[availableProductLink.key] = product.activityCount;
+      }
     });
   });
 

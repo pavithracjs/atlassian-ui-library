@@ -50,6 +50,7 @@ function getExpandLink(
 
 function collectAvailableProductLinks(
   cloudId: string,
+  productType: Product,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
@@ -57,7 +58,11 @@ function collectAvailableProductLinks(
       return [];
     }
     if (isComplete(availableProducts)) {
-      return getAvailableProductLinks(availableProducts.data);
+      return getAvailableProductLinks(
+        cloudId,
+        productType,
+        availableProducts.data,
+      );
     }
     return;
   }
@@ -236,6 +241,7 @@ function asLicenseInformationProviderResult(
 
 export function mapResultsToSwitcherProps(
   cloudId: string,
+  product: string,
   results: ProviderResults,
   features: FeatureMap,
   availableProducts: ProviderResult<AvailableProductsResponse>,
@@ -266,7 +272,7 @@ export function mapResultsToSwitcherProps(
       : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
-        ? collectAvailableProductLinks(cloudId, availableProducts)
+        ? collectAvailableProductLinks(cloudId, product, availableProducts)
         : collectProductLinks(cloudId, licenseInformation),
       [],
     ),
