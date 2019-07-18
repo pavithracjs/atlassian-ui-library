@@ -26,8 +26,8 @@ describe('Snapshot Test: table insert/delete with merged columns', () => {
     await clickFirstCell(page);
   });
 
-  test('should be able to insert a row at the end of the table', async () => {
-    await insertColumn(page, 1, 'right');
+  test('should be able to insert a column at the end of the table', async () => {
+    await insertColumn(page, 0, 'right');
     await snapshot(page);
   });
 });
@@ -84,6 +84,6 @@ describe('Snapshot Test: table insert/delete', () => {
 
   // TODO: move this to integration tests in future
   it(`should be able to insert column`, async () => {
-    await insertColumn(page, 2);
+    await insertColumn(page, 1, 'left');
   });
 });

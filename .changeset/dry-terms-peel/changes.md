@@ -1,0 +1,1 @@
+[ED-7018] Improve table performance moving the column controls from external divs to Prosemirror Decorations inside of the table cells.

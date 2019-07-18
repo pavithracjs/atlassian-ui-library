@@ -2,7 +2,10 @@
 import { TableMap } from 'prosemirror-tables';
 import { findTable, getCellsInColumn, getCellsInRow } from 'prosemirror-utils';
 import { createCommand } from '../pm-plugins/main';
-import { updateDecorations, createControlsHoverDecoration } from '../utils';
+import {
+  updatePluginStateDecorations,
+  createControlsHoverDecoration,
+} from '../utils';
 import { TableDecorations } from '../types';
 // #endregion
 
@@ -18,15 +21,19 @@ export const hoverColumns = (hoveredColumns: number[], isInDanger?: boolean) =>
       if (!cells) {
         return false;
       }
-      const decorations = createControlsHoverDecoration(cells, isInDanger);
+      const decorations = createControlsHoverDecoration(
+        cells,
+        'column',
+        isInDanger,
+      );
 
       return {
         type: 'HOVER_COLUMNS',
         data: {
-          decorationSet: updateDecorations(
+          decorationSet: updatePluginStateDecorations(
             state,
             decorations,
-            TableDecorations.CONTROLS_HOVER,
+            TableDecorations.COLUMN_CONTROLS_HOVER,
           ),
           hoveredColumns,
           isInDanger,
@@ -43,15 +50,19 @@ export const hoverRows = (hoveredRows: number[], isInDanger?: boolean) =>
       if (!cells) {
         return false;
       }
-      const decorations = createControlsHoverDecoration(cells, isInDanger);
+      const decorations = createControlsHoverDecoration(
+        cells,
+        'row',
+        isInDanger,
+      );
 
       return {
         type: 'HOVER_ROWS',
         data: {
-          decorationSet: updateDecorations(
+          decorationSet: updatePluginStateDecorations(
             state,
             decorations,
-            TableDecorations.CONTROLS_HOVER,
+            TableDecorations.ROW_CONTROLS_HOVER,
           ),
           hoveredRows,
           isInDanger,
@@ -75,15 +86,19 @@ export const hoverTable = (isInDanger?: boolean) =>
       if (!cells) {
         return false;
       }
-      const decorations = createControlsHoverDecoration(cells, isInDanger);
+      const decorations = createControlsHoverDecoration(
+        cells,
+        'table',
+        isInDanger,
+      );
 
       return {
         type: 'HOVER_TABLE',
         data: {
-          decorationSet: updateDecorations(
+          decorationSet: updatePluginStateDecorations(
             state,
             decorations,
-            TableDecorations.CONTROLS_HOVER,
+            TableDecorations.TABLE_CONTROLS_HOVER,
           ),
           hoveredColumns,
           hoveredRows,
@@ -98,10 +113,10 @@ export const clearHoverSelection = () =>
   createCommand(state => ({
     type: 'CLEAR_HOVER_SELECTION',
     data: {
-      decorationSet: updateDecorations(
+      decorationSet: updatePluginStateDecorations(
         state,
         [],
-        TableDecorations.CONTROLS_HOVER,
+        TableDecorations.ALL_CONTROLS_HOVER,
       ),
     },
   }));

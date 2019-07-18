@@ -1,10 +1,46 @@
 // #region Imports
 import { Transaction } from 'prosemirror-state';
+import { CellSelection } from 'prosemirror-tables';
 import { findTable, findParentNodeOfType } from 'prosemirror-utils';
+import { DecorationSet } from 'prosemirror-view';
+import { Node as PmNode } from 'prosemirror-model';
 import { defaultTableSelection } from './pm-plugins/main';
-import { TablePluginState } from './types';
-import { findControlsHoverDecoration } from './utils';
+import { TablePluginState, TableDecorations } from './types';
+import {
+  findControlsHoverDecoration,
+  updateNodeDecorations,
+  createColumnControlsDecoration,
+  createColumnSelectedDecorations,
+} from './utils';
 // #endregion
+
+const getDecorationSet = (
+  tr: Transaction,
+  allowControls: boolean,
+  tableNode?: PmNode,
+): DecorationSet => {
+  let decorationSet = DecorationSet.empty;
+
+  if (allowControls && tableNode) {
+    decorationSet = updateNodeDecorations(
+      tr.doc,
+      decorationSet,
+      createColumnControlsDecoration(tr.selection),
+      TableDecorations.COLUMN_CONTROLS_DECORATIONS,
+    );
+  }
+
+  if (tr.selection instanceof CellSelection && tr.selection.isColSelection()) {
+    decorationSet = updateNodeDecorations(
+      tr.doc,
+      decorationSet,
+      createColumnSelectedDecorations(tr),
+      TableDecorations.COLUMN_SELECTED,
+    );
+  }
+
+  return decorationSet;
+};
 
 export const handleDocOrSelectionChanged = (
   tr: Transaction,
@@ -20,6 +56,10 @@ export const handleDocOrSelectionChanged = (
     targetCellPosition = cell ? cell.pos : undefined;
   }
 
+  const {
+    pluginConfig: { allowControls = true },
+  } = pluginState;
+
   const hoverDecoration = findControlsHoverDecoration(
     pluginState.decorationSet,
   );
@@ -29,11 +69,13 @@ export const handleDocOrSelectionChanged = (
     pluginState.targetCellPosition !== targetCellPosition ||
     hoverDecoration.length
   ) {
+    const decorationSet = getDecorationSet(tr, allowControls, tableNode);
+
     const nextPluginState = {
       ...pluginState,
       ...defaultTableSelection,
       // @see: https://product-fabric.atlassian.net/browse/ED-3796
-      decorationSet: pluginState.decorationSet.remove(hoverDecoration),
+      decorationSet: decorationSet.remove(hoverDecoration),
       targetCellPosition,
       tableNode,
     };

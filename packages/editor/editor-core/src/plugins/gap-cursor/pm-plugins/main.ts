@@ -2,6 +2,7 @@ import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
 import { EditorView, Decoration, DecorationSet } from 'prosemirror-view';
 import { ResolvedPos } from 'prosemirror-model';
 import { findPositionOfNodeBefore } from 'prosemirror-utils';
+import { CellSelection } from 'prosemirror-tables';
 import { GapCursorSelection, JSON_ID, Side } from '../selection';
 import { fixCursorAlignment, isIgnoredClick } from '../utils';
 import { setGapCursorAtPos, deleteNode } from '../actions';
@@ -53,10 +54,15 @@ const plugin = new Plugin({
 
     // render gap cursor only when its valid
     createSelectionBetween(
-      _view: EditorView,
+      view: EditorView,
       $anchor: ResolvedPos,
       $head: ResolvedPos,
     ) {
+      if (view && view.state && view.state.selection instanceof CellSelection) {
+        // Do not show GapCursor when there is a CellSection happening
+        return;
+      }
+
       if ($anchor.pos === $head.pos && GapCursorSelection.valid($head)) {
         return new GapCursorSelection($head);
       }
