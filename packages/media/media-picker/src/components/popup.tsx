@@ -101,7 +101,11 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
       return;
     }
     unmountComponentAtNode(this.container);
-    this.container.remove();
+    if (this.container && typeof this.container.remove === 'function') {
+      this.container.remove();
+    } else {
+      // TODO [MS-2138]: add track when remove polyfill is not available on consumer side
+    }
   }
 
   public hide(): void {
