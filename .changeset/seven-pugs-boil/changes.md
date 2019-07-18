@@ -1,0 +1,1 @@
+Fixed space filter showing on intermediate pre query screen
