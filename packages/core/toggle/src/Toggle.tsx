@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import ToggleStateless from './ToggleStateless';
-import { StatefulProps, BaseProps } from './types';
-
-interface DefaultProps extends BaseProps {
-  isDefaultChecked: boolean;
-}
+import { StatefulProps } from './types';
 
 interface State {
   isChecked: boolean;
@@ -13,7 +9,7 @@ interface State {
 // This component is a thin wrapper around the stateless component that manages
 // the isChecked state for you
 export default class Toggle extends Component<StatefulProps, State> {
-  static defaultProps: DefaultProps = {
+  static defaultProps = {
     isDisabled: false,
     onBlur: () => {},
     onChange: () => {},
@@ -31,7 +27,7 @@ export default class Toggle extends Component<StatefulProps, State> {
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ isChecked: !this.state.isChecked });
-    this.props.onChange(event);
+    this.props.onChange!(event);
   };
 
   render() {

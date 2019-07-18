@@ -9,24 +9,20 @@ import CloseIcon from '@atlaskit/icon/glyph/cross';
 import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import { name as packageName, version as packageVersion } from './version.json';
 import { Handle, IconWrapper, Inner, Input, Label, Slide } from './styled';
-import { StatelessProps, BaseProps, StyledProps } from './types';
+import { StatelessProps, StyledProps, Sizes } from './types';
 
 interface State {
   // not controlled by props but by browser focus
   isFocused: boolean;
 }
 
-interface DefaultProps extends BaseProps {
-  isChecked: boolean;
-}
-
 class ToggleStateless extends Component<StatelessProps, State> {
-  static defaultProps: DefaultProps = {
+  static defaultProps = {
     isDisabled: false,
     onBlur: () => {},
     onChange: () => {},
     onFocus: () => {},
-    size: 'regular',
+    size: 'regular' as Sizes,
     label: '',
     name: '',
     value: '',
@@ -38,22 +34,20 @@ class ToggleStateless extends Component<StatelessProps, State> {
   };
 
   handleBlur: React.FocusEventHandler<HTMLInputElement> = event => {
-    this.setState({
-      isFocused: false,
-    });
-    this.props.onBlur(event);
+    this.setState({ isFocused: false });
+    this.props.onBlur!(event);
   };
 
   handleFocus: React.FocusEventHandler<HTMLInputElement> = event => {
     this.setState({ isFocused: true });
-    this.props.onFocus(event);
+    this.props.onFocus!(event);
   };
 
   handleChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     if (this.props.isDisabled) {
       return;
     }
-    this.props.onChange(event);
+    this.props.onChange!(event);
   };
 
   render() {
@@ -64,7 +58,7 @@ class ToggleStateless extends Component<StatelessProps, State> {
       isChecked,
       isDisabled,
       isFocused,
-      size,
+      size: size!,
     };
     const Icon = isChecked ? ConfirmIcon : CloseIcon;
     const id = uid({ id: this.constructor.name });
@@ -84,8 +78,12 @@ class ToggleStateless extends Component<StatelessProps, State> {
         />
         <Slide {...styledProps}>
           <Inner {...styledProps}>
-            <Handle isChecked={isChecked} isDisabled={isDisabled} size={size} />
-            <IconWrapper isChecked={isChecked} size={size}>
+            <Handle
+              isChecked={isChecked}
+              isDisabled={isDisabled}
+              size={size!}
+            />
+            <IconWrapper isChecked={isChecked} size={size!}>
               <Icon
                 label={label || (isChecked ? 'Uncheck' : 'Check')}
                 size={size === 'large' ? undefined : 'small'}
