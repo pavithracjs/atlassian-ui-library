@@ -1,1 +1,0 @@
-ED-7274: Applying text colour over a range should only apply to text nodes

@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.26
+
+### Patch Changes
+
+- [patch][8b3bf71af7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b3bf71af7):
+
+  ED-7274: Applying text colour over a range should only apply to text nodes
+
 ## 112.33.25
 
 ### Patch Changes
