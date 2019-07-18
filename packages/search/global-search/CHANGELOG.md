@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.4.0
+
+### Minor Changes
+
+- [minor][96ff4ffc6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96ff4ffc6d):
+
+  Fixed space filter showing on intermediate pre query screen
+
 ## 10.3.4
 
 ### Patch Changes
