@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 
-import { isChangeCloudAccountFolderAction } from '../actions';
+import { isChangeCloudAccountFolderAction } from '../actions/changeCloudAccountFolder';
 import { State } from '../domain';
 
 export default function pathChangeRequest(state: State, action: Action): State {

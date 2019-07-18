@@ -9,7 +9,8 @@ import {
   UserPermissionProvider,
   XFlowSettingsProvider,
 } from './instance-data-providers';
-import { Permissions } from '../types';
+import { RecommendationsEngineProvider } from './recommendations-provider';
+import { Permissions, RecommendationsEngineResponse } from '../types';
 
 interface CommonDataProviderProps {
   cloudId: string;
@@ -21,6 +22,7 @@ interface CommonDataProviderProps {
       managePermission: ProviderResult<boolean>;
       addProductsPermission: ProviderResult<boolean>;
       isXFlowEnabled: ProviderResult<boolean>;
+      productRecommendations: ProviderResult<RecommendationsEngineResponse>;
     },
   ) => React.ReactElement<any>;
 }
@@ -49,15 +51,20 @@ export default ({
                 >
                   {addProductsPermission => (
                     <XFlowSettingsProvider cloudId={cloudId}>
-                      {isXFlowEnabled =>
-                        children({
-                          recentContainers,
-                          licenseInformation,
-                          managePermission,
-                          addProductsPermission,
-                          isXFlowEnabled,
-                        })
-                      }
+                      {isXFlowEnabled => (
+                        <RecommendationsEngineProvider>
+                          {productRecommendations =>
+                            children({
+                              recentContainers,
+                              licenseInformation,
+                              managePermission,
+                              addProductsPermission,
+                              isXFlowEnabled,
+                              productRecommendations,
+                            })
+                          }
+                        </RecommendationsEngineProvider>
+                      )}
                     </XFlowSettingsProvider>
                   )}
                 </UserPermissionProvider>

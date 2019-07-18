@@ -1,6 +1,6 @@
 import { Node as PMNode, Schema, Slice, Fragment } from 'prosemirror-model';
 import { flatten } from 'prosemirror-utils';
-import { flatmap } from '../../../utils/slice';
+import { flatmap, mapSlice } from '../../../utils/slice';
 
 // lifts up the content of each cell, returning an array of nodes
 export const unwrapContentFromTable = (
@@ -85,4 +85,22 @@ export const transformSliceToRemoveOpenTable = (
   }
 
   return slice;
+};
+
+export const transformSliceToCorrectEmptyTableCells = (
+  slice: Slice,
+  schema: Schema,
+): Slice => {
+  const { tableCell, tableHeader } = schema.nodes;
+  return mapSlice(slice, node => {
+    if (
+      node &&
+      (node.type === tableCell || node.type === tableHeader) &&
+      !node.content.childCount
+    ) {
+      return node.type.createAndFill(node.attrs) || node;
+    }
+
+    return node;
+  });
 };

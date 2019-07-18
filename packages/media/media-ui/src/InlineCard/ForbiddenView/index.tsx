@@ -2,7 +2,6 @@ import * as React from 'react';
 import { colors } from '@atlaskit/theme';
 import LockIcon from '@atlaskit/icon/glyph/lock-filled';
 import Button from '@atlaskit/button';
-import { truncateUrlForErrorView } from '../utils';
 import { Frame } from '../Frame';
 import { IconAndTitleLayout } from '../IconAndTitleLayout';
 import { AKIconWrapper } from '../Icon';
@@ -34,14 +33,14 @@ export class InlineCardForbiddenView extends React.Component<
   render() {
     const { url, onClick, isSelected, onAuthorise } = this.props;
     return (
-      <Frame onClick={onClick} isSelected={isSelected}>
+      <Frame link={url} onClick={onClick} isSelected={isSelected}>
         <IconAndTitleLayout
           icon={
             <AKIconWrapper>
               <LockIcon label="error" size="small" primaryColor={colors.B400} />
             </AKIconWrapper>
           }
-          title={truncateUrlForErrorView(url)}
+          title={url}
           titleColor={colors.N500}
         />
         {!onAuthorise ? (

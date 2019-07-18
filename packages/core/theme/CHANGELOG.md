@@ -1,5 +1,13 @@
 # @atlaskit/theme
 
+## 9.1.2
+
+### Patch Changes
+
+- [patch][c6ad66d326](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6ad66d326):
+
+  The types property in package.json now points to the correct file"
+
 ## 9.1.1
 
 ### Patch Changes

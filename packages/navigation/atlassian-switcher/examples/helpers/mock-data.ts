@@ -12,10 +12,28 @@ export interface MockData {
   };
   XFLOW_SETTINGS: object;
 }
-
+// Mock data can be overriden in the story so be careful when testing.
 const ORIGINAL_MOCK_DATA: MockData = {
   AVAILABLE_PRODUCTS_DATA: {
     sites: [
+      {
+        adminAccess: false,
+        availableProducts: [
+          {
+            activityCount: 1000,
+            productType: 'CONFLUENCE',
+            url: null,
+          },
+          {
+            activityCount: 1000,
+            productType: 'JIRA_SOFTWARE',
+            url: null,
+          },
+        ],
+        cloudId: 'some-cloud-id',
+        displayName: 'some-cloud-id',
+        url: 'https://some-cloud-id.jira-dev.com',
+      },
       {
         adminAccess: false,
         availableProducts: [

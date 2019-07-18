@@ -2,7 +2,7 @@
   {
     "team": "core",
     "package": "@atlaskit/inline-dialog",
-    "version": "12.0.0",
+    "version": "12.0.1",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "core",
     "package": "@atlaskit/inline-dialog",
-    "version": "12.0.0",
+    "version": "12.0.1",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -26,25 +26,25 @@
   {
     "team": "core",
     "package": "@atlaskit/inline-dialog",
-    "version": "12.0.0",
+    "version": "12.0.1",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 20969,
-      "gzipSize": 5502
+      "size": 21013,
+      "gzipSize": 5510
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/inline-dialog",
-    "version": "12.0.0",
+    "version": "12.0.1",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 75787,
-      "gzipSize": 22727
+      "size": 75831,
+      "gzipSize": 22733
     }
   }
 ]

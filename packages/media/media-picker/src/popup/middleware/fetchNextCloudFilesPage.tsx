@@ -1,10 +1,8 @@
 import { Action, Store, Dispatch } from 'redux';
 
-import {
-  isFetchNextCloudFilesPageAction,
-  fileListUpdate,
-  requestUnlinkCloudAccount,
-} from '../actions';
+import { isFetchNextCloudFilesPageAction } from '../actions/fetchNextCloudFilesPage';
+import { fileListUpdate } from '../actions/fileListUpdate';
+import { requestUnlinkCloudAccount } from '../actions/unlinkCloudAccount';
 import { State } from '../domain';
 import { Fetcher } from '../tools/fetcher/fetcher';
 

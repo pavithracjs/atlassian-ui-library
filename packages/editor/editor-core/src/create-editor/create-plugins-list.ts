@@ -185,7 +185,9 @@ export default function createPluginsList(
   }
 
   if (props.allowExtension) {
-    plugins.push(extensionPlugin);
+    plugins.push(
+      extensionPlugin({ breakoutEnabled: props.appearance === 'full-page' }),
+    );
   }
 
   if (props.macroProvider) {
@@ -236,6 +238,7 @@ export default function createPluginsList(
   // UI only plugins
   plugins.push(
     insertBlockPlugin({
+      allowTables: !!props.allowTables,
       insertMenuItems: props.insertMenuItems,
       horizontalRuleEnabled: props.allowRule,
       nativeStatusSupported: !statusMenuDisabled,

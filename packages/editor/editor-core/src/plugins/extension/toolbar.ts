@@ -59,9 +59,10 @@ const breakoutOptions = (
   state: EditorState,
   formatMessage: InjectedIntl['formatMessage'],
   extensionState: ExtensionState,
+  breakoutEnabled: boolean,
 ): Array<FloatingToolbarItem<Command>> => {
   const { layout, allowBreakout, node } = extensionState;
-  return allowBreakout && isLayoutSupported(state, node)
+  return breakoutEnabled && allowBreakout && isLayoutSupported(state, node)
     ? [
         {
           type: 'button',
@@ -110,10 +111,9 @@ const editButton = (
   ];
 };
 
-export const getToolbarConfig: FloatingToolbarHandler = (
-  state,
-  { formatMessage },
-) => {
+export const getToolbarConfig = (
+  breakoutEnabled: boolean = true,
+): FloatingToolbarHandler => (state, { formatMessage }) => {
   const extensionState: ExtensionState = pluginKey.getState(state);
   const macroState: MacroState = macroPluginKey.getState(state);
   if (extensionState && extensionState.element) {
@@ -129,7 +129,12 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       nodeType,
       items: [
         ...editButton(formatMessage, macroState, extensionState),
-        ...breakoutOptions(state, formatMessage, extensionState),
+        ...breakoutOptions(
+          state,
+          formatMessage,
+          extensionState,
+          breakoutEnabled,
+        ),
         {
           type: 'separator',
         },

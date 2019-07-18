@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { connect, Dispatch } from 'react-redux';
 
-import { changeService, searchGiphy } from '../../../actions';
+import { searchGiphy } from '../../../actions/searchGiphy';
+import { changeService } from '../../../actions/changeService';
 import { StatelessSidebarItem } from './sidebarItem';
 import { GiphyIcon } from '../icons';
 

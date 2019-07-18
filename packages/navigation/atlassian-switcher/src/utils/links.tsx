@@ -22,6 +22,9 @@ import {
   AvailableSite,
   AvailableProduct,
   WorklensProductType,
+  Product,
+  ProductKey,
+  RecommendationsEngineResponse,
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
@@ -36,15 +39,6 @@ export const MAX_PRODUCT_COUNT = 5;
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',
   DEACTIVATED = 'DEACTIVATED',
-}
-
-export enum ProductKey {
-  CONFLUENCE = 'confluence.ondemand',
-  JIRA_CORE = 'jira-core.ondemand',
-  JIRA_SOFTWARE = 'jira-software.ondemand',
-  JIRA_SERVICE_DESK = 'jira-servicedesk.ondemand',
-  JIRA_OPS = 'jira-incident-manager.ondemand',
-  OPSGENIE = 'opsgenie',
 }
 
 const SINGLE_JIRA_PRODUCT: 'jira' = 'jira';
@@ -200,14 +194,55 @@ const getAvailableProductLink = (
   };
 };
 
+const shouldSkipProduct = (
+  cloudId: string,
+  worklensProduct: WorklensProductType,
+  currentCloudId?: string,
+  currentProduct?: Product,
+): boolean => {
+  if (!currentCloudId || !currentProduct || cloudId !== currentCloudId) {
+    return false;
+  }
+
+  if (
+    currentProduct === Product.JIRA &&
+    (worklensProduct === WorklensProductType.JIRA_BUSINESS ||
+      worklensProduct === WorklensProductType.JIRA_SOFTWARE)
+  ) {
+    return true;
+  }
+
+  if (
+    currentProduct === Product.CONFLUENCE &&
+    worklensProduct === WorklensProductType.CONFLUENCE
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
+  cloudId?: string,
+  productType?: Product,
 ): SwitcherItemType[] => {
   const productLinks: SwitcherItemType[] = [];
   const activityCounts: { [key: string]: number } = {};
 
   availableProducts.sites.forEach(site => {
     site.availableProducts.forEach(product => {
+      if (
+        shouldSkipProduct(
+          site.cloudId,
+          product.productType,
+          cloudId,
+          productType,
+        )
+      ) {
+        return;
+      }
+
       const availableProductLink = getAvailableProductLink(site, product);
       productLinks.push(availableProductLink);
       activityCounts[availableProductLink.key] = product.activityCount;
@@ -225,27 +260,23 @@ export const getAvailableProductLinks = (
 
 export const getProductLink = (
   productKey: ProductKey | typeof SINGLE_JIRA_PRODUCT,
-  productLicenseInformation: ProductLicenseInformation,
+  productLicenseInformation?: ProductLicenseInformation,
 ): SwitcherItemType => {
   const productLinkProperties = PRODUCT_DATA_MAP[productKey];
 
-  if (productKey === ProductKey.OPSGENIE) {
+  if (productKey === ProductKey.OPSGENIE && productLicenseInformation) {
     // Prefer applicationUrl provided by license information (TCS)
     // Fallback to hard-coded URL
     const href = productLicenseInformation.applicationUrl
       ? productLicenseInformation.applicationUrl
       : productLinkProperties.href;
 
-    return {
-      key: productKey,
-      ...productLinkProperties,
-      href,
-    };
+    return { key: productKey, ...productLinkProperties, href };
   }
 
   return {
     key: productKey,
-    ...PRODUCT_DATA_MAP[productKey],
+    ...productLinkProperties,
   };
 };
 
@@ -302,31 +333,18 @@ export const getAdministrationLinks = (
   ];
 };
 
+const PRODUCT_RECOMMENDATION_LIMIT = 2;
+
 export const getSuggestedProductLink = (
   licenseInformationData: LicenseInformationResponse,
+  productRecommendations: RecommendationsEngineResponse,
 ): SwitcherItemType[] => {
-  const productLinks = [];
-
-  if (!getProductIsActive(licenseInformationData, ProductKey.CONFLUENCE)) {
-    productLinks.push(
-      getProductLink(
-        ProductKey.CONFLUENCE,
-        licenseInformationData.products[ProductKey.CONFLUENCE],
-      ),
-    );
-  }
-  if (
-    !getProductIsActive(licenseInformationData, ProductKey.JIRA_SERVICE_DESK)
-  ) {
-    productLinks.push(
-      getProductLink(
-        ProductKey.JIRA_SERVICE_DESK,
-        licenseInformationData.products[ProductKey.JIRA_SERVICE_DESK],
-      ),
-    );
-  }
-
-  return productLinks;
+  const filteredProducts = productRecommendations.filter(
+    product => !getProductIsActive(licenseInformationData, product.productKey),
+  );
+  return filteredProducts
+    .slice(0, PRODUCT_RECOMMENDATION_LIMIT)
+    .map(product => getProductLink(product.productKey));
 };
 
 export const getCustomLinkItems = (

@@ -1,13 +1,21 @@
 [
   {
+    "team": "growth",
+    "package": "@atlaskit/feature-flag-client",
+    "version": "3.1.1",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 5114,
-      "gzipSize": 1681
+      "size": 4639,
+      "gzipSize": 1539
     }
   },
   {
+    "team": "growth",
+    "package": "@atlaskit/feature-flag-client",
+    "version": "3.1.1",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
@@ -16,11 +24,15 @@
     }
   },
   {
+    "team": "growth",
+    "package": "@atlaskit/feature-flag-client",
+    "version": "3.1.1",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 6240,
-      "gzipSize": 1995
+      "size": 5765,
+      "gzipSize": 1854
     }
   }
 ]

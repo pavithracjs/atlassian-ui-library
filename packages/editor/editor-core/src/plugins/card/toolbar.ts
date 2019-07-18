@@ -19,6 +19,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { hoverDecoration } from '../base/pm-plugins/decoration';
+import { isSafeUrl } from '@atlaskit/adf-schema';
 
 export const messages = defineMessages({
   block: {
@@ -169,8 +170,19 @@ export const floatingToolbar = (
   state: EditorState,
   intl: InjectedIntl,
 ): FloatingToolbarConfig | undefined => {
-  const { inlineCard, blockCard } = state.schema.nodes;
+  const { selection, schema } = state;
+  const { inlineCard, blockCard } = schema.nodes;
   const nodeType = [inlineCard, blockCard];
+  if (!(selection instanceof NodeSelection)) {
+    return undefined;
+  }
+
+  const { attrs } = selection.node;
+  const data = attrs.data || {};
+  const url = attrs.url || data.url;
+  if (!url || (url && !isSafeUrl(url))) {
+    return undefined;
+  }
 
   return {
     title: 'Card floating controls',

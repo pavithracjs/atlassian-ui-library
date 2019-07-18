@@ -1,5 +1,29 @@
 # @atlaskit/refinement-bar
 
+## 0.5.2
+
+### Patch Changes
+
+- [patch][0870316c7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0870316c7d):
+
+  Add various usage examples. Plus a handful of cleanup.
+
+## 0.5.1
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 0.5.0
+
+### Minor Changes
+
+- [minor][149c9a6222](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/149c9a6222):
+
+  support field refs and controlled popups
+
 ## 0.4.9
 
 - Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):

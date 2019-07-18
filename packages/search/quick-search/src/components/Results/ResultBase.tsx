@@ -37,6 +37,7 @@ export class ResultBase extends React.PureComponent<DefaultProps & Props> {
       unregisterResult: result => {},
       onMouseEnter: resultData => {},
       onMouseLeave: () => {},
+      // @ts-ignore
       sendAnalytics: (string, data) => {},
       getIndex: () => null,
     },

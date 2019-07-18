@@ -386,6 +386,36 @@ describe('smart-card: card states', () => {
           expect(mockFetch).toBeCalledTimes(1);
         });
       });
+
+      describe('with authFlow explicitly disabled', () => {
+        it('inline: renders as blue link', async () => {
+          mockFetch.mockImplementationOnce(async () => mocks.unauthorized);
+          const { getByText } = render(
+            <Provider client={mockClient} authFlow="disabled">
+              <Card appearance="inline" url={mockUrl} />
+            </Provider>,
+          );
+          const dumbLink = await waitForElement(() => getByText(mockUrl));
+          expect(dumbLink).toBeTruthy();
+          expect(mockFetch).toBeCalled();
+          expect(mockFetch).toBeCalledTimes(1);
+        });
+
+        it('block: renders in error state', async () => {
+          mockFetch.mockImplementationOnce(async () => mocks.unauthorized);
+          const { getByText } = render(
+            <Provider client={mockClient} authFlow="disabled">
+              <Card appearance="block" url={mockUrl} />
+            </Provider>,
+          );
+          const errorView = await waitForElement(() =>
+            getByText(/We couldn't load this link/),
+          );
+          expect(errorView).toBeTruthy();
+          expect(mockFetch).toBeCalled();
+          expect(mockFetch).toBeCalledTimes(1);
+        });
+      });
     });
 
     describe('> state: error', () => {

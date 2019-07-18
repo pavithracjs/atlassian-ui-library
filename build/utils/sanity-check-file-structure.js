@@ -13,6 +13,8 @@ Where-as expected would be:
 - editor/editor-core/components/*
 - etc....
 
+*Update*: we are now shipping entrypoint at the root but under a folder with the entry point name.
+
 This check does a quick compare of the src/ directory with the root of the package dir.
 So this check needs to be run *AFTER* the dists are build. This should help us prevent shipping broken code.
 
@@ -21,9 +23,9 @@ const { readFile, readdir } = require('./fs');
 
 /*
 Does your package have a path that shouldn't be distributed?
-Cool just add it to the exceptionlist
+Cool just add it to the exception list
  */
-const exceptionList = ['__tests__', '@types'];
+const exceptionList = ['__tests__', '@types', 'components'];
 
 const main = async () => {
   const [src, root, packageJSON] = await Promise.all([
@@ -40,15 +42,22 @@ const main = async () => {
   if (packageJSON.module !== 'index.js' || packageJSON.private) {
     return;
   }
-
+  const fileRegex = /\.(js|tsx?)$/;
   const missing = src
     .filter(fileName => !exceptionList.includes(fileName))
-    .map(fileName => fileName.replace(/\.tsx?/, '.js'))
-    .filter(fileName => !root.includes(fileName));
+    .filter(fileName => fileName.match(fileRegex))
+    .map(fileName => fileName)
+    .filter(
+      fileName =>
+        !fileName.includes('version.json') &&
+        !root.includes(fileName.replace(/\.tsx?/, '')),
+    );
 
   if (missing.length > 0) {
     throw new Error(
-      `Build files in root are  missing some files: ${missing.join(',')}`,
+      `Build files in root are  missing some files or folders: ${missing.join(
+        ',',
+      )}`,
     );
   }
 };

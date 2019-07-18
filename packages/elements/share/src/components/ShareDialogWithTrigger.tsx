@@ -31,6 +31,7 @@ import {
   formShareSubmitted,
   screenEvent,
   shareTriggerButtonClicked,
+  ANALYTICS_SOURCE,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -301,7 +302,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       >
         <InlineDialog
           content={
-            <AnalyticsContext data={{ source: 'shareModal' }}>
+            <AnalyticsContext data={{ source: ANALYTICS_SOURCE }}>
               <>
                 <InlineDialogFormWrapper>
                   <ShareForm

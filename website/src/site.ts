@@ -9,14 +9,7 @@ import data from './SITE_DATA';
 import NAV_DATA from './NAV_DATA';
 import * as fs from './utils/fs';
 
-const productPackages = [
-  'bitbucket',
-  'confluence',
-  'jira',
-  'statuspage',
-  'stride',
-  'trello',
-];
+const productPackages = ['bitbucket', 'jira', 'trello'];
 
 const siteData: Directory = data;
 export default siteData;

@@ -11,7 +11,7 @@ import { withCached } from '../utils/with-cached';
 
 export const MANAGE_HREF = '/plugins/servlet/customize-application-navigator';
 
-const fetchAvailableProducts = withCached(() =>
+const fetchAvailableProducts = withCached((param: object) =>
   fetchJson<AvailableProductsResponse>(
     `/gateway/api/worklens/api/available-products`,
   ),
@@ -47,7 +47,7 @@ export const AvailableProductsProvider = ({
 };
 
 export const prefetchAvailableProducts = () => {
-  fetchAvailableProducts();
+  fetchAvailableProducts({});
 };
 
 export const resetAvailableProducts = () => {

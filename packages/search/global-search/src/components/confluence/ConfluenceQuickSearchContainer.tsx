@@ -4,7 +4,8 @@ import {
   InjectedIntlProps,
   FormattedHTMLMessage,
 } from 'react-intl';
-import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
+// @ts-ignore
+import { withAnalytics } from '@atlaskit/analytics';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import { ConfluenceClient } from '../../api/ConfluenceClient';
 import {
@@ -35,14 +36,16 @@ import {
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
-import QuickSearchContainer, {
+import {
+  BaseConfluenceQuickSearchContainer,
   SearchResultProps,
   PartiallyLoadedRecentItems,
-  FilterComponentProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import NoResultsState from './NoResultsState';
-import SearchResultsComponent from '../common/SearchResults';
+import SearchResultsComponent, {
+  FilterComponentProps,
+} from '../common/SearchResults';
 import { getConfluenceAdvancedSearchLink } from '../SearchResultsUtil';
 import AdvancedSearchGroup from './AdvancedSearchGroup';
 import {
@@ -88,7 +91,7 @@ export interface Props {
   features: ConfluenceFeatures;
 
   // These are provided by the withAnalytics HOC
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
+  firePrivateAnalyticsEvent?: any;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   confluenceUrl: string;
 }
@@ -482,12 +485,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   getFilterComponent = ({
     latestSearchQuery,
-    searchResults,
+    searchResultsTotalSize,
     isLoading,
     searchSessionId,
     currentFilters,
     onFilterChanged,
-  }: FilterComponentProps<ConfluenceResultsMap>) => {
+  }: FilterComponentProps) => {
     const {
       onAdvancedSearch = () => {},
       referralContextIdentifiers,
@@ -504,11 +507,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     if (!latestSearchQuery) {
       return;
     }
+
     // don't show space filter if there are no results in all spaces
-    if (
-      currentFilters.length === 0 &&
-      (searchResults === null || searchResults.objects.totalSize === 0)
-    ) {
+    if (currentFilters.length === 0 && searchResultsTotalSize === 0) {
       return;
     }
 
@@ -588,6 +589,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
+        getFilterComponent={this.getFilterComponent}
+        currentFilters={currentFilters}
+        onFilterChanged={onFilterChanged}
         renderNoRecentActivity={() => (
           <FormattedHTMLMessage
             {...messages.no_recent_activity_body}
@@ -638,13 +642,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const { isAutocompleteEnabled } = features;
 
     return (
-      <QuickSearchContainer
+      <BaseConfluenceQuickSearchContainer
         placeholder={this.props.intl.formatMessage(
           messages.confluence_search_placeholder,
         )}
         linkComponent={linkComponent}
         getSearchResultsComponent={this.getSearchResultsComponent}
-        getFilterComponent={this.getFilterComponent}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
