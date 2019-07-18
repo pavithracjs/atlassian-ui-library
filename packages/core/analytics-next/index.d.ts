@@ -81,7 +81,7 @@ declare module '@atlaskit/analytics-next' {
   /*
     AnalyticsEvent.js
   */
-  declare class AnalyticsEvent implements AnalyticsEventInterface {
+  export class AnalyticsEvent implements AnalyticsEventInterface {
     payload: AnalyticsEventPayload;
 
     clone: () => AnalyticsEventInterface;
