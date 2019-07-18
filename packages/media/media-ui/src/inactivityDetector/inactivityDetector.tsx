@@ -5,12 +5,6 @@ import { findParentByClassname, hideControlsClassName } from '..';
 
 export interface InactivityDetectorProps {
   children: (triggerActivityCallback: () => void) => ReactElement;
-  // // Consumer will give us a callback requester, that we call with an argument
-  // // being a reference to a function (triggerActivityCallback) we want consumer to call
-  // // when they want to trigger an custom activity outside what this wrapper supports (mouse movement)
-  // triggerActivityCallbackRequester?: (
-  //   ,
-  // ) => void;
 }
 
 export interface InactivityDetectorState {
