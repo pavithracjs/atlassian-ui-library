@@ -1,1 +1,0 @@
-Removed the site-product combination the user is on from the switcher options
