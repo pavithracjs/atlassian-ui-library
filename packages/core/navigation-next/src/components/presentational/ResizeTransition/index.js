@@ -4,7 +4,7 @@ import React, { PureComponent, type Node } from 'react';
 import Transition from 'react-transition-group/Transition';
 import type { CollapseListener } from './types';
 
-const DURATION = 3300;
+const DURATION = 300;
 
 function camelToKebab(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
