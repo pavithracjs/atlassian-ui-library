@@ -135,8 +135,6 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
               cellStyle = cellMatch[2];
               // Move into the cell content
               index += cellMatch[2].length;
-              // Remove empty spaces after new cell
-              // index += cellMatch[3].length;
               continue;
             }
             break;
