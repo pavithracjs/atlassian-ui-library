@@ -1,11 +1,11 @@
-// @flow
 import styled from 'styled-components';
 import { themed, colors } from '@atlaskit/theme';
 import { getWidth, paddingUnitless } from './constants';
+import { StyledProps } from '../types';
 
 const iconPadding = `${paddingUnitless / 2}px`;
 
-const getPadding = ({ isChecked }) =>
+const getPadding = ({ isChecked }: StyledProps) =>
   isChecked
     ? `
     padding-left: ${iconPadding};
@@ -17,10 +17,10 @@ const getPadding = ({ isChecked }) =>
   `;
 
 // the Icon sizes are 16/24/32/48 so we have to force-scale the icons down to 20px this way
-const iconSizing = ({ size }) =>
+const iconSizing = ({ size }: StyledProps) =>
   size === 'large' ? `> span { height: 20px; width: 20px; }` : '';
 
-const getIconColor = ({ isChecked }) =>
+const getIconColor = ({ isChecked }: StyledProps) =>
   isChecked
     ? themed({ light: 'inherit', dark: colors.DN30 })
     : themed({ light: 'inherit', dark: colors.DN600 });

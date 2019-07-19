@@ -1,4 +1,3 @@
-// @flow
 export { default as Handle } from './Handle';
 export { default as IconWrapper } from './IconWrapper';
 export { default as Inner } from './Inner';

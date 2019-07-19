@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { mount } from 'enzyme';
 import CloseIcon from '@atlaskit/icon/glyph/cross';
@@ -7,6 +6,8 @@ import ToggleStatelessWithAnalytics, {
   ToggleStatelessWithoutAnalytics as Toggle,
 } from '../../ToggleStateless';
 import { Input } from '../../styled';
+
+declare var global: any;
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 

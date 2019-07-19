@@ -1,12 +1,11 @@
-// @flow
 import React, { Component } from 'react';
 import Button from '@atlaskit/button';
 import { gridSize } from '@atlaskit/theme';
 import { ToggleStateless } from '../src';
 
-type State = {|
-  isChecked: boolean,
-|};
+interface State {
+  isChecked: boolean;
+}
 
 export default class StatelessExample extends Component<any, State> {
   state: State = {

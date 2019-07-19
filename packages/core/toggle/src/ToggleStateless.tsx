@@ -1,4 +1,3 @@
-// @flow
 import { uid } from 'react-uid';
 import React, { Component } from 'react';
 import {
@@ -10,21 +9,23 @@ import CloseIcon from '@atlaskit/icon/glyph/cross';
 import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import { name as packageName, version as packageVersion } from './version.json';
 import { Handle, IconWrapper, Inner, Input, Label, Slide } from './styled';
-import defaultBaseProps from './defaultBaseProps';
-import type { StatelessProps, DefaultBaseProps } from './types';
+import { StatelessProps, StyledProps, Sizes } from './types';
 
-type State = {|
+interface State {
   // not controlled by props but by browser focus
-  isFocused: boolean,
-|};
-
-type DefaultProps = DefaultBaseProps & {
-  isChecked: boolean,
-};
+  isFocused: boolean;
+}
 
 class ToggleStateless extends Component<StatelessProps, State> {
-  static defaultProps: DefaultProps = {
-    ...defaultBaseProps,
+  static defaultProps = {
+    isDisabled: false,
+    onBlur: () => {},
+    onChange: () => {},
+    onFocus: () => {},
+    size: 'regular' as Sizes,
+    label: '',
+    name: '',
+    value: '',
     isChecked: false,
   };
 
@@ -32,40 +33,38 @@ class ToggleStateless extends Component<StatelessProps, State> {
     isFocused: false,
   };
 
-  handleBlur = (event: Event) => {
-    this.setState({
-      isFocused: false,
-    });
-    this.props.onBlur(event);
+  handleBlur: React.FocusEventHandler<HTMLInputElement> = event => {
+    this.setState({ isFocused: false });
+    this.props.onBlur!(event);
   };
 
-  handleFocus = (event: Event) => {
+  handleFocus: React.FocusEventHandler<HTMLInputElement> = event => {
     this.setState({ isFocused: true });
-    this.props.onFocus(event);
+    this.props.onFocus!(event);
   };
 
-  handleChange = (event: Event) => {
+  handleChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     if (this.props.isDisabled) {
       return;
     }
-    this.props.onChange(event);
+    this.props.onChange!(event);
   };
 
   render() {
     const { isChecked, isDisabled, label, name, size, value } = this.props;
     const { isFocused } = this.state;
 
-    const styledProps = {
+    const styledProps: StyledProps = {
       isChecked,
       isDisabled,
       isFocused,
-      size,
+      size: size!,
     };
     const Icon = isChecked ? ConfirmIcon : CloseIcon;
     const id = uid({ id: this.constructor.name });
 
     return (
-      <Label size={size} isDisabled={isDisabled} htmlFor={id}>
+      <Label htmlFor={id}>
         <Input
           checked={isChecked}
           disabled={isDisabled}
@@ -79,11 +78,15 @@ class ToggleStateless extends Component<StatelessProps, State> {
         />
         <Slide {...styledProps}>
           <Inner {...styledProps}>
-            <Handle isChecked={isChecked} isDisabled={isDisabled} size={size} />
-            <IconWrapper isChecked={isChecked} size={size}>
+            <Handle
+              isChecked={isChecked}
+              isDisabled={isDisabled}
+              size={size!}
+            />
+            <IconWrapper isChecked={isChecked} size={size!}>
               <Icon
                 label={label || (isChecked ? 'Uncheck' : 'Check')}
-                size={size === 'large' ? null : 'small'}
+                size={size === 'large' ? undefined : 'small'}
                 primaryColor="inherit"
               />
             </IconWrapper>
@@ -97,12 +100,12 @@ class ToggleStateless extends Component<StatelessProps, State> {
 export { ToggleStateless as ToggleStatelessWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<StatelessProps>({
   componentName: 'toggle',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<StatelessProps>({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'toggle',
