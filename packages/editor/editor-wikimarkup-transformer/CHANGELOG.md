@@ -1,5 +1,13 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.4.5
+
+### Patch Changes
+
+- [patch][5d9be88694](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d9be88694):
+
+  fix the issuer where color macro is broken down to multiple paragraph
+
 ## 4.4.4
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-fix the issuer where color macro is broken down to multiple paragraph
