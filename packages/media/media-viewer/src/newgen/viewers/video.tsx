@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { MediaClient, FileState } from '@atlaskit/media-client';
 import { getArtifactUrl } from '@atlaskit/media-store';
-import { CustomMediaPlayer } from '@atlaskit/media-ui';
+import {
+  CustomMediaPlayer,
+  WithShowControlMethodProp,
+} from '@atlaskit/media-ui';
 import { Outcome } from '../domain';
 import { Video, CustomVideoPlayerWrapper } from '../styled';
 import { isIE } from '../utils/isIE';
@@ -9,15 +12,16 @@ import { createError, MediaViewerError } from '../error';
 import { BaseState, BaseViewer } from './base-viewer';
 import { getObjectUrlFromFileState } from '../utils/getObjectUrlFromFileState';
 
-export type Props = Readonly<{
-  item: FileState;
-  mediaClient: MediaClient;
-  collectionName?: string;
-  showControls?: () => void;
-  previewCount: number;
-  onCanPlay?: () => void;
-  onError?: () => void;
-}>;
+export type Props = Readonly<
+  {
+    item: FileState;
+    mediaClient: MediaClient;
+    collectionName?: string;
+    previewCount: number;
+    onCanPlay?: () => void;
+    onError?: () => void;
+  } & WithShowControlMethodProp
+>;
 
 export type State = BaseState<string> & {
   isHDActive: boolean;
