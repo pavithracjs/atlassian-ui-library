@@ -1,0 +1,80 @@
+{
+  "releases": [{ "name": "@atlaskit/toggle", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/avatar",
+      "type": "patch",
+      "dependencies": ["@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/avatar-group",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/dynamic-table",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/form",
+      "type": "patch",
+      "dependencies": ["@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/navigation-next",
+        "@atlaskit/toggle"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/page", "@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/global-navigation",
+        "@atlaskit/toggle"
+      ]
+    },
+    {
+      "name": "@atlaskit/page",
+      "type": "patch",
+      "dependencies": ["@atlaskit/navigation", "@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/avatar-group",
+        "@atlaskit/share",
+        "@atlaskit/media-card",
+        "@atlaskit/media-picker",
+        "@atlaskit/toggle"
+      ]
+    },
+    {
+      "name": "@atlaskit/share",
+      "type": "patch",
+      "dependencies": ["@atlaskit/form", "@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/media-card",
+      "type": "patch",
+      "dependencies": ["@atlaskit/toggle"]
+    },
+    {
+      "name": "@atlaskit/media-picker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/media-card", "@atlaskit/toggle"]
+    }
+  ]
+}
