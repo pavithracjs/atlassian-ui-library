@@ -45,7 +45,6 @@ export const tableBorderSelectedColor = B300;
 export const tableCellDeleteColor = R50;
 export const tableBorderDeleteColor = R300;
 export const tableToolbarDeleteColor = R75;
-
 export const tableToolbarSize = akEditorTableToolbarSize;
 export const tableBorderRadiusSize = 3;
 export const tableInsertColumnButtonSize = 20;
@@ -60,6 +59,7 @@ export const tableScrollbarOffset = 15;
 export const tableMarginFullWidthMode = 2;
 export const lineMarkerOffsetFromColumnControls = 13;
 export const lineMarkerSize = 4;
+
 
 const isIE11 = browser.ie_version === 11;
 
@@ -154,6 +154,7 @@ const HeaderButton = (css?: string) => `
     border-color: ${tableBorderSelectedColor};
   }
 `;
+
 
 const HeaderButtonHover = () => `
   .${ClassName.CONTROLS_BUTTON}:hover {
@@ -262,6 +263,45 @@ const DeleteButton = `
   }
 `;
 
+const OverflowShadow = `
+.${ClassName.TABLE_RIGHT_SHADOW},
+.${ClassName.TABLE_LEFT_SHADOW}{
+  display: block;
+  height: calc(100% - ${tableMarginTop + tableMarginBottom + tableToolbarSize - 2}px);
+  position: absolute;
+  pointer-events: none;
+  top: ${tableMarginTop + tableToolbarSize - 1}px;
+  z-index: ${akEditorSmallZIndex};
+  width: 8px;
+}
+.${ClassName.TABLE_LEFT_SHADOW} {
+  background: linear-gradient(
+    to left,
+    rgba(99, 114, 130, 0) 0,
+    ${N40A} 100%
+  );
+  left: 0px;
+}
+.${ClassName.TABLE_RIGHT_SHADOW} {
+  background: linear-gradient(
+    to right,
+    rgba(99, 114, 130, 0) 0,
+    ${N40A} 100%
+  );
+  left: calc(100% + 2px);
+}
+.${ClassName.WITH_CONTROLS} {
+  .${ClassName.TABLE_RIGHT_SHADOW},
+  .${ClassName.TABLE_LEFT_SHADOW}{
+    height: calc(100% - ${tableMarginTop + tableMarginBottom - 2}px);
+    top: ${tableMarginTop - 1}px;
+  }
+  .${ClassName.TABLE_LEFT_SHADOW} {
+    border-left: 1px solid ${tableBorderColor};
+  }
+}
+`
+
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
     background: ${N20A};
@@ -292,6 +332,7 @@ export const tableStyles = css`
     ${DeleteButton}
     /* Ends Delete button*/
 
+    ${OverflowShadow}
     .less-padding {
       padding: 0 ${tablePadding}px;
 
@@ -451,10 +492,10 @@ export const tableStyles = css`
 
       ${HeaderButton(`
         border-bottom: 1px solid ${tableBorderColor};
-        border-right: 1px solid ${tableBorderColor};
+        border-right: 0px;
         border-radius: 0;
         height: 100%;
-        width: ${tableToolbarSize + 1}px;
+        width: ${tableToolbarSize}px;
 
         .${ClassName.CONTROLS_BUTTON_OVERLAY} {
           position: absolute;
@@ -521,37 +562,6 @@ export const tableStyles = css`
           z-index: ${akEditorUnitZIndex};
           color: ${N0};
         }
-      }
-
-      /* scroll shadows */
-      .${ClassName.TABLE_RIGHT_SHADOW},
-      .${ClassName.TABLE_LEFT_SHADOW}::after {
-        display: block;
-        position: absolute;
-        pointer-events: none;
-        z-index: ${akEditorSmallZIndex};
-        width: 8px;
-      }
-      .${ClassName.TABLE_LEFT_SHADOW}::after {
-        background: linear-gradient(
-          to left,
-          rgba(99, 114, 130, 0) 0,
-          ${N40A} 100%
-        );
-        content: '';
-        height: 100%;
-        right: -8px;
-        bottom: 0;
-      }
-      .${ClassName.TABLE_RIGHT_SHADOW} {
-        background: linear-gradient(
-          to right,
-          rgba(99, 114, 130, 0) 0,
-          ${N40A} 100%
-        );
-        height: calc(100% - ${tableMarginTop + tableMarginBottom - 2}px);
-        left: calc(100% + 2px);
-        top: ${tableMarginTop - 1}px;
       }
     }
     :not(.${ClassName.IS_RESIZING}) .${ClassName.WITH_CONTROLS} {

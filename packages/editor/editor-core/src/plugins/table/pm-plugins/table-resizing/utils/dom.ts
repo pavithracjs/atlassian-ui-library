@@ -9,7 +9,7 @@ import {
 import { TableCssClassName as ClassName } from '../../../types';
 import { getPluginState as getMainPluginState } from '../../main';
 import { closestElement } from '../../../../../utils';
-import { updateRightShadow } from '../../../nodeviews/TableComponent';
+import { updateOverflowShadows } from '../../../nodeviews/TableComponent';
 import { pointsAtCell, domCellAround, edgeCell } from './misc';
 
 export const updateControls = (state: EditorState) => {
@@ -61,11 +61,14 @@ export const updateControls = (state: EditorState) => {
     }
   }
 
-  updateRightShadow(
+  updateOverflowShadows(
     wrapper,
     tableRef,
     wrapper.parentElement.querySelector<HTMLElement>(
       `.${ClassName.TABLE_RIGHT_SHADOW}`,
+    ),
+    wrapper.parentElement.querySelector<HTMLElement>(
+      `.${ClassName.TABLE_LEFT_SHADOW}`,
     ),
   );
 };
