@@ -1,0 +1,1 @@
+- Fixes app crash issue due to too much recursion.
