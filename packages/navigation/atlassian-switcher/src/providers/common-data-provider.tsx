@@ -59,9 +59,7 @@ export default ({
                     <XFlowSettingsProvider cloudId={cloudId}>
                       {isXFlowEnabled => (
                         <RecommendationsEngineProvider
-                          recommendationsFeatureFlags={
-                            recommendationsFeatureFlags
-                          }
+                          featureFlags={recommendationsFeatureFlags}
                         >
                           {productRecommendations =>
                             children({

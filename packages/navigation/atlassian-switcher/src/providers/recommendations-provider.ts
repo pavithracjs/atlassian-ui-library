@@ -7,11 +7,11 @@ import {
 import { resolveRecommendations } from './recommendations';
 
 const fetchRecommendations = ({
-  recommendationsFeatureFlags,
+  featureFlags,
 }: {
-  recommendationsFeatureFlags?: RecommendationFeatureFlags;
+  featureFlags?: RecommendationFeatureFlags;
 }): Promise<RecommendationsEngineResponse> =>
-  Promise.resolve(resolveRecommendations(recommendationsFeatureFlags));
+  Promise.resolve(resolveRecommendations(featureFlags));
 
 export const RecommendationsEngineProvider = asDataProvider(
   'productRecommendations',
