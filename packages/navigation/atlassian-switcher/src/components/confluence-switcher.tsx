@@ -7,13 +7,12 @@ import {
 } from '../providers/confluence-data-providers';
 import CommonDataProvider from '../providers/common-data-provider';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
-import { FeatureMap, AvailableProductsResponse, Product } from '../types';
+import { FeatureMap, AvailableProductsResponse } from '../types';
 import { ProviderResult } from '../providers/as-data-provider';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 
 type ConfluenceSwitcherProps = {
   cloudId: string;
-  product: Product;
   messages: Messages;
   features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
@@ -39,7 +38,6 @@ export default (props: ConfluenceSwitcherProps) => (
                 { customLinks, ...providerResults },
                 props.features,
                 availableProducts,
-                props.product,
               );
 
               return (
