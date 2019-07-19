@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.28
+
+### Patch Changes
+
+- [patch][a1b3b85cf4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b3b85cf4):
+
+  ED-6475 Show overflow shadow when table is not selected
+
 ## 112.33.27
 
 ### Patch Changes

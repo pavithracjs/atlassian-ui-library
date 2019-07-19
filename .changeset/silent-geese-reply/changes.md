@@ -1,1 +1,0 @@
-ED-6475 Show overflow shadow when table is not selected
