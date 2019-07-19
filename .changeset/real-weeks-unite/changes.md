@@ -1,0 +1,1 @@
+Send filtered spaces to advanced search
