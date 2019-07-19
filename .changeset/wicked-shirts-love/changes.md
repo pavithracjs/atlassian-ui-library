@@ -1,0 +1,1 @@
+ED-7278: Adjust smart link icon height, when link is truncated the text after the link should now wrap correctly
