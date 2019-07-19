@@ -136,7 +136,7 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
               // Move into the cell content
               index += cellMatch[2].length;
               // Remove empty spaces after new cell
-              index += cellMatch[3].length;
+              // index += cellMatch[3].length;
               continue;
             }
             break;
@@ -257,14 +257,23 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
     index++;
   }
 
-  bufferToCells(
-    cellStyle,
-    buffer,
-    cellsBuffer,
-    schema,
-    ignoreTokenTypes,
-    context,
-  );
+  /**
+   * If there are left over content which didn't have a closing |
+   * For example
+   * |cell1|cell2|cell3
+   * we still want to create a new cell for the last cell3 if it's
+   * not empty.
+   */
+  if (buffer.trim().length > 0) {
+    bufferToCells(
+      cellStyle,
+      buffer,
+      cellsBuffer,
+      schema,
+      ignoreTokenTypes,
+      context,
+    );
+  }
 
   if (builder) {
     if (cellsBuffer.length) {
