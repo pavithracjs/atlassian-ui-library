@@ -1,41 +1,18 @@
-import { md, code } from '@atlaskit/docs';
+import * as React from 'react';
+import { md, Props } from '@atlaskit/docs';
 
 export default md`
 # Intro
 
-The Provider component has one purpose: provide a custom client to cards:
+The **SmartCardProvider** utilises **React.Context** to expose a Store (Redux), Client (SmartCardClient) and any configuration options available for Smart Links.
 
-${code`
-const myDefinitionId = uuid.v4();
+It accepts the following properties:
 
-  const customResponse = {
-    meta: {
-      visibility: 'public',
-      access: 'granted',
-      auth: [],
-      definitionId: myDefinitionId,
-    },
-    data: {
-      name: 'My Document',
-    },
-  } as ResolveResponse;
+${(
+  <Props
+    heading="SmartCardProvider Props"
+    props={require('!!extract-react-types-loader!../src/state/context/provider')}
+  />
+)}
 
-  class CustomClient extends Client {
-    fetchData(url: string) {
-      if (canIHandleThat(url)) {
-        return Promise.resolve(customResponse);
-      }
-      return super.fetchData(url);
-    }
-  }
-  ...
-  <Provider client={new CustomClient()}>
-    ...
-    <Card appearance="block" url={specialCaseUrl} />
-    ...
-  </Provider>
-...
-`}
-
-As such, we can customise the way the URL will be handeled.
 `;
