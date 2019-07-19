@@ -30,6 +30,7 @@ import {
   DEFAULT_AB_TEST,
   CrossProductSearchClient,
   SearchResultsMap,
+  FilterType,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
@@ -467,7 +468,9 @@ describe('ConfluenceQuickSearchContainer', () => {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
           searchResultsTotalSize: results.objects.totalSize,
-          currentFilters: [{ '@type': 'spaces', spaceKeys: [dummySpaceKey] }],
+          currentFilters: [
+            { '@type': FilterType.Spaces, spaceKeys: [dummySpaceKey] },
+          ],
           searchSessionId: mockSearchSessionId,
         },
       );
@@ -483,7 +486,7 @@ describe('ConfluenceQuickSearchContainer', () => {
           'content',
           'a',
           'someSearchSessionId',
-          { space: dummySpaceKey },
+          [dummySpaceKey],
         );
       }
     });

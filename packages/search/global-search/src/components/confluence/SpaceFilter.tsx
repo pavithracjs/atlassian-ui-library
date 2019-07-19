@@ -2,7 +2,7 @@ import * as React from 'react';
 import Checkbox from '@atlaskit/checkbox/Checkbox';
 import Avatar from '@atlaskit/avatar/index';
 import baseItem, { withItemFocus } from '@atlaskit/item';
-import { Filter } from '../../api/CrossProductSearchClient';
+import { Filter, FilterType } from '../../api/CrossProductSearchClient';
 
 const Item = withItemFocus(baseItem);
 
@@ -33,7 +33,7 @@ export default class ConfluenceSpaceFilter extends React.Component<
       ? []
       : [
           {
-            '@type': 'spaces',
+            '@type': FilterType.Spaces,
             spaceKeys: [this.props.spaceKey],
           },
         ];
