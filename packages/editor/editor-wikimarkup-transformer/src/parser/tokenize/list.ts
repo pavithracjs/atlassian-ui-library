@@ -76,13 +76,16 @@ export const list: TokenParser = ({ input, position, schema, context }) => {
                 schema,
                 context,
                 input: buffer,
+                includeLeadingSpace: true,
               });
-              const normalizedContent = normalizePMNodes(content, schema);
-              contentBuffer.push(...normalizedContent);
+              contentBuffer.push(...content);
               builder.add([
                 {
                   style: lastListSymbols,
-                  content: sanitize(contentBuffer, schema),
+                  content: sanitize(
+                    normalizePMNodes(contentBuffer, schema),
+                    schema,
+                  ),
                 },
               ]);
               buffer = '';
@@ -155,14 +158,13 @@ export const list: TokenParser = ({ input, position, schema, context }) => {
               schema,
               context,
               input: buffer,
+              includeLeadingSpace: true,
             });
-            const normalizedContent = normalizePMNodes(content, schema);
-            contentBuffer.push(...sanitize(normalizedContent, schema));
+            contentBuffer.push(...sanitize(content, schema));
             buffer = '';
           }
 
-          const normalizedContent = normalizePMNodes(token.nodes, schema);
-          contentBuffer.push(...sanitize(normalizedContent, schema));
+          contentBuffer.push(...sanitize(token.nodes, schema));
         }
         index += token.length;
         state = processState.BUFFER;
@@ -181,13 +183,16 @@ export const list: TokenParser = ({ input, position, schema, context }) => {
             schema,
             context,
             input: buffer,
+            includeLeadingSpace: true,
           });
-          const normalizedContent = normalizePMNodes(content, schema);
-          contentBuffer.push(...normalizedContent);
+          contentBuffer.push(...content);
         }
 
         builder.add([
-          { style: lastListSymbols, content: sanitize(contentBuffer, schema) },
+          {
+            style: lastListSymbols,
+            content: sanitize(normalizePMNodes(contentBuffer, schema), schema),
+          },
         ]);
         output.push(...builder.buildPMNode());
         return {
@@ -207,14 +212,17 @@ export const list: TokenParser = ({ input, position, schema, context }) => {
       schema,
       context,
       input: buffer,
+      includeLeadingSpace: true,
     });
-    const normalizedContent = normalizePMNodes(content, schema);
-    contentBuffer.push(...normalizedContent);
+    contentBuffer.push(...content);
   }
 
   if (builder) {
     builder.add([
-      { style: lastListSymbols, content: sanitize(contentBuffer, schema) },
+      {
+        style: lastListSymbols,
+        content: sanitize(normalizePMNodes(contentBuffer, schema), schema),
+      },
     ]);
     output.push(...builder.buildPMNode());
   }
