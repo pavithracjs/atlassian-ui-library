@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.5.0
+
+### Minor Changes
+
+- [minor][dd3a518fe9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd3a518fe9):
+
+  Send filtered spaces to advanced search
+
 ## 10.4.2
 
 ### Patch Changes
