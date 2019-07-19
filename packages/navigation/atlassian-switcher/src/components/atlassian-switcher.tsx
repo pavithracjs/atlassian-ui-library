@@ -7,7 +7,7 @@ import {
   TriggerXFlowCallback,
   FeatureFlagProps,
   Product,
-  RecommendationFeatureFlags,
+  RecommendationsFeatureFlags,
 } from '../types';
 import IntlProvider from './intl-provider';
 import messages from '../utils/messages';
@@ -24,7 +24,7 @@ type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
   triggerXFlow?: TriggerXFlowCallback;
-  recommendationsFeatureFlags?: RecommendationFeatureFlags;
+  recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 } & Partial<FeatureFlagProps>;
 
 const getAnalyticsContext = (attributes: object) => ({

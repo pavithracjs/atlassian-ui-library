@@ -1,7 +1,7 @@
 import asDataProvider from './as-data-provider';
 import {
   RecommendationsEngineResponse,
-  RecommendationFeatureFlags,
+  RecommendationsFeatureFlags,
 } from '../types';
 
 import { resolveRecommendations } from './recommendations';
@@ -9,7 +9,7 @@ import { resolveRecommendations } from './recommendations';
 const fetchRecommendations = ({
   featureFlags,
 }: {
-  featureFlags?: RecommendationFeatureFlags;
+  featureFlags?: RecommendationsFeatureFlags;
 }): Promise<RecommendationsEngineResponse> =>
   Promise.resolve(resolveRecommendations(featureFlags));
 

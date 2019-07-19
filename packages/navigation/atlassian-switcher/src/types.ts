@@ -137,6 +137,6 @@ export interface RecommendationItem {
   productKey: ProductKey;
 }
 
-export type RecommendationFeatureFlags = {
+export type RecommendationsFeatureFlags = {
   [key: string]: string | boolean;
 };

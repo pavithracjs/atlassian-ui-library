@@ -13,13 +13,13 @@ import { RecommendationsEngineProvider } from './recommendations-provider';
 import {
   Permissions,
   RecommendationsEngineResponse,
-  RecommendationFeatureFlags,
+  RecommendationsFeatureFlags,
 } from '../types';
 
 interface CommonDataProviderProps {
   cloudId: string;
   isUserCentric: boolean;
-  recommendationsFeatureFlags?: RecommendationFeatureFlags;
+  recommendationsFeatureFlags?: RecommendationsFeatureFlags;
   children: (
     props: {
       recentContainers: ProviderResult<RecentContainersResponse>;

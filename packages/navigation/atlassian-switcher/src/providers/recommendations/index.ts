@@ -1,7 +1,7 @@
 import {
   ProductKey,
   RecommendationItem,
-  RecommendationFeatureFlags,
+  RecommendationsFeatureFlags,
 } from '../../types';
 
 import { jswOgExpandsExperiment } from './experiments';
@@ -15,7 +15,7 @@ function baseRecommendation(): RecommendationItem[] {
 }
 
 export function resolveRecommendations(
-  featureFlags?: RecommendationFeatureFlags,
+  featureFlags?: RecommendationsFeatureFlags,
 ): RecommendationItem[] {
   if (!featureFlags) {
     return baseRecommendation();
