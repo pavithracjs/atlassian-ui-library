@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.31
+
+### Patch Changes
+
+- [patch][0c43589d06](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c43589d06):
+
+  fix: 🐛 ED-4920: set GapCursor selection after pasting mediaSingle in a table cell
+
 ## 112.33.30
 
 ### Patch Changes
