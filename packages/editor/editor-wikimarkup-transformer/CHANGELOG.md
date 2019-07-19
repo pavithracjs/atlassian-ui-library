@@ -1,5 +1,13 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.4.6
+
+### Patch Changes
+
+- [patch][d77e23ae9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d77e23ae9b):
+
+  Respect empty column
+
 ## 4.4.5
 
 ### Patch Changes
