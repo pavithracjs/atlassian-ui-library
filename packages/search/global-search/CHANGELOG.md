@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.4.1
+
+### Patch Changes
+
+- [patch][dd9ca0710e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd9ca0710e):
+
+  Removed incorrect jsnext:main field from package.json
+
 ## 10.4.0
 
 ### Minor Changes

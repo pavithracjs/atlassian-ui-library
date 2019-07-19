@@ -1,1 +1,0 @@
-Removed incorrect jsnext:main field from package.json
