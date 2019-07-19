@@ -1,5 +1,13 @@
 # @atlaskit/outbound-auth-flow-client
 
+## 2.0.5
+
+### Patch Changes
+
+- [patch][dd9ca0710e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd9ca0710e):
+
+  Removed incorrect jsnext:main field from package.json
+
 ## 2.0.4
 
 ### Patch Changes

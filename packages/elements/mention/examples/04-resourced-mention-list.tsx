@@ -50,6 +50,7 @@ export default class DemoResourcedMentionList extends React.Component<
         resourceProvider={resourceProvider}
         query={this.state.query}
         ref={this.handleMentionListRef}
+        isTeamMentionHighlightEnabled
       />
     );
 

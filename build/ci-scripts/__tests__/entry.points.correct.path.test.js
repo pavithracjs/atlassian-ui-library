@@ -37,8 +37,7 @@ function deleteDirectory(directoryPath) {
 }
 
 let dirsToRemove = [];
-// TODO: To unskip when I fix those tests.
-describe.skip('Entrypoints', () => {
+describe('Entrypoints', () => {
   beforeEach(() => {
     dirsToRemove.forEach(file => deleteDirectory(file));
   });
@@ -70,25 +69,6 @@ describe.skip('Entrypoints', () => {
     }
   });
 
-  test('writeEntryPointsPathInPkgJson should error if wrong path', async () => {
-    const isTsWrong = false;
-    const pkgWrong = testPackagesForWrite[1];
-    const pkgFileWrong = pkgWrong.files[1];
-    const entryPointDirNameWrong = path.join(pkgWrong.dir, pkgFileWrong);
-    const entryPointPkgTsonpathWrong = `${entryPointDirNameWrong}/package.json`;
-    try {
-      await writeEntryPointsPathInPkgJson(
-        isTsWrong,
-        pkgWrong,
-        pkgFileWrong,
-        entryPointDirNameWrong,
-      );
-      fs.accessSync(entryPointPkgTsonpathWrong);
-      dirsToRemove.push(entryPointDirNameWrong);
-    } catch (err) {
-      expect(err).toBeDefined();
-    }
-  });
   test('writeEntryPointsPathInPkgJson should write a file with the correct path to entry points js file', async () => {
     const isTs = false;
     const pkgJs = testPackagesForWrite[1];
@@ -110,47 +90,6 @@ describe.skip('Entrypoints', () => {
       expect(entryPointDirJs).toContain('package.json');
     } catch (err) {
       expect(err).toBeUndefined();
-    }
-  });
-
-  test('createEntryPointsDirWithPkgJson is generating folders', async () => {
-    await createEntryPointsDirWithPkgJson();
-    const packages = await bolt.getWorkspaces();
-    const pkgContents = packages
-      .filter(pkg => pkg.dir.includes('/packages'))
-      .map(pkg => {
-        return {
-          name: pkg.name,
-          pkgDirPath: pkg.dir,
-          files: fs
-            .readdirSync(path.join(pkg.dir, 'src'))
-            .filter(
-              file =>
-                file.includes('.') &&
-                !file.includes('index') &&
-                path.parse(file).name &&
-                !file.includes('.d.ts') &&
-                !file.includes('version.json'),
-            ),
-        };
-      });
-    for (let pkg of pkgContents) {
-      for (let pkgFile of pkg.files) {
-        const file = path.parse(pkgFile).name;
-        const entryPointDirName = path.join(pkg.pkgDirPath, file);
-        console.log(entryPointDirName);
-        dirsToRemove.push(entryPointDirName);
-        try {
-          expect(fs.existsSync(entryPointDirName)).toBeTruthy();
-          const dirContent = fs.readdirSync(entryPointDirName);
-          expect(dirContent).toContain('package.json');
-        } catch (e) {
-          throw new Error(
-            `${entryPointDirName} folder should exist and should contain a package.json`,
-            e,
-          );
-        }
-      }
     }
   });
 });

@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 
-import { isFetchNextCloudFilesPageAction } from '../actions';
+import { isFetchNextCloudFilesPageAction } from '../actions/fetchNextCloudFilesPage';
 import { State } from '../domain';
 
 export default function fetchNextPage(state: State, action: Action): State {

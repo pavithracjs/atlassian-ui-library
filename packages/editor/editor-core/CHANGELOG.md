@@ -1,5 +1,50 @@
 # @atlaskit/editor-core
 
+## 112.33.27
+
+### Patch Changes
+
+- [patch][7b5254402e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7b5254402e):
+
+  ED-7268 Fix regression where table insert button is not shown when a cell is selected
+
+## 112.33.26
+
+### Patch Changes
+
+- [patch][8b3bf71af7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b3bf71af7):
+
+  ED-7274: Applying text colour over a range should only apply to text nodes
+
+## 112.33.25
+
+### Patch Changes
+
+- [patch][ba223c9878](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ba223c9878):
+
+  ED-7267: Validate URLs passing through smart links- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 112.33.24
+
+### Patch Changes
+
+- [patch][ee02cca952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee02cca952):
+
+  ED-6152: Fixes previous inline cursor regression where you couldnt type after the inline cursor
+
+## 112.33.23
+
+### Patch Changes
+
+- [patch][92419b2ad8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92419b2ad8):
+
+  ED-7116 Update logic for image sizing when changing layout to/from aligned
+
+  - If an image is smaller than 50% of line length the image will preserve its original size when aligned, else it will be capped at 50% line length
+  - When returning to a centred image after aligning the image will use its most recent resized size (whether that happened when aligned or when it was previously centred) or, if never resized, fall back to its original size
+
 ## 112.33.22
 
 ### Patch Changes

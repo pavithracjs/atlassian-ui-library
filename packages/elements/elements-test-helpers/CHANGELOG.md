@@ -1,5 +1,13 @@
 # @atlaskit/elements-test-helpers
 
+## 0.6.3
+
+### Patch Changes
+
+- [patch][dd9ca0710e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd9ca0710e):
+
+  Removed incorrect jsnext:main field from package.json
+
 ## 0.6.2
 
 ### Patch Changes

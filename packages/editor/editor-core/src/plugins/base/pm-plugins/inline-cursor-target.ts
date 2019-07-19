@@ -32,7 +32,7 @@ export const findSpecialNodeAfter = ($pos: ResolvedPos, tr: Transaction) => {
 
 export const findSpecialNodeBefore = ($pos: ResolvedPos, tr: Transaction) => {
   if (isSpecial($pos.nodeBefore)) {
-    return $pos.pos;
+    return $pos.pos - 1;
   }
 
   if ($pos.pos === 0) {
@@ -88,6 +88,7 @@ export default () => {
             return Decoration.widget(position, node, {
               raw: true,
               side: -1,
+              key: 'inlineCursor',
             } as any);
           });
 

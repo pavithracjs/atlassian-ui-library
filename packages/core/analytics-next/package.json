@@ -1,12 +1,12 @@
 {
   "name": "@atlaskit/analytics-next",
-  "version": "5.1.0",
+  "version": "5.1.3",
   "description": "The 🆕 Atlaskit component analytics framework",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "atlaskit:src": "src/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "types": "index.d.ts",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -29,9 +29,9 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^13.0.13",
+    "@atlaskit/button": "^13.0.16",
     "@atlaskit/docs": "^8.1.1",
-    "@atlaskit/field-text": "^9.0.2",
+    "@atlaskit/field-text": "^9.0.3",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/type-helpers": "^4.1.3",
     "enzyme": "^3.7.0",

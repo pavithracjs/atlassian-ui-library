@@ -1,12 +1,11 @@
 {
   "name": "@atlaskit/outbound-auth-flow-client",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Front-end library for starting outbound auth flows",
   "config": {
     "access": "public"
   },
   "atlaskit:src": "src/index.ts",
-  "jsnext:main": "index.js",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",

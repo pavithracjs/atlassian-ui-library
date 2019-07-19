@@ -1,5 +1,13 @@
 # @atlaskit/reactions
 
+## 17.1.7
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 17.1.6
 
 ### Patch Changes

@@ -1,9 +1,8 @@
 {
   "name": "@atlaskit/quick-search",
-  "version": "7.6.4",
+  "version": "7.6.5",
   "description": "A quick-search component",
   "license": "Apache-2.0",
-  "jsnext:main": "index.js",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",

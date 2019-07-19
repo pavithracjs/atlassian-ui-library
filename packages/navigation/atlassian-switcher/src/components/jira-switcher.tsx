@@ -11,12 +11,14 @@ import {
   FeatureMap,
   AvailableProductsResponse,
   RecommendationFeatureFlags,
+  Product,
 } from '../types';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 import { ProviderResult } from '../providers/as-data-provider';
 
 type JiraSwitcherProps = {
   cloudId: string;
+  product: Product;
   messages: Messages;
   features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
@@ -44,6 +46,7 @@ export default (props: JiraSwitcherProps) => (
                 { customLinks, ...providerResults },
                 props.features,
                 availableProducts,
+                props.product,
               );
 
               return (

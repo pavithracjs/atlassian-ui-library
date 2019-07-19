@@ -5,6 +5,19 @@ import { EditorState, Transaction } from 'prosemirror-state';
 
 type Cell = { pos: number; start: number; node: PMNode };
 
+export const selectCell = (column: number, row: number) => (
+  state: EditorState,
+  dispatch: (tr: Transaction) => void,
+) => {
+  const { tr } = state;
+  const { pos } = getCellsInColumn(column)(tr.selection)![row];
+
+  const $anchor = tr.doc.resolve(pos);
+  const $head = tr.doc.resolve(pos);
+  dispatch(tr.setSelection(new CellSelection($anchor, $head) as any));
+  return true;
+};
+
 export const selectColumns = (columnIndexes: number[]) => (
   state: EditorState,
   dispatch: (tr: Transaction) => void,

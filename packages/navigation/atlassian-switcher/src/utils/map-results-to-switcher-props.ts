@@ -26,6 +26,7 @@ import {
   WorklensProductType,
   ProductKey,
   RecommendationsEngineResponse,
+  Product,
 } from '../types';
 import { createCollector } from './create-collector';
 
@@ -49,15 +50,20 @@ function getExpandLink(
 }
 
 function collectAvailableProductLinks(
-  cloudId: string,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
+  cloudId?: string,
+  productType?: Product,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
     if (isError(availableProducts)) {
       return [];
     }
     if (isComplete(availableProducts)) {
-      return getAvailableProductLinks(availableProducts.data);
+      return getAvailableProductLinks(
+        availableProducts.data,
+        cloudId,
+        productType,
+      );
     }
     return;
   }
@@ -239,6 +245,7 @@ export function mapResultsToSwitcherProps(
   results: ProviderResults,
   features: FeatureMap,
   availableProducts: ProviderResult<AvailableProductsResponse>,
+  product?: Product,
 ) {
   const collect = createCollector();
 
@@ -266,7 +273,7 @@ export function mapResultsToSwitcherProps(
       : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
-        ? collectAvailableProductLinks(cloudId, availableProducts)
+        ? collectAvailableProductLinks(availableProducts, cloudId, product)
         : collectProductLinks(cloudId, licenseInformation),
       [],
     ),
