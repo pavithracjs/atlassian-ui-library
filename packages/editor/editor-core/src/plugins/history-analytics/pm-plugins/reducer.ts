@@ -1,6 +1,10 @@
 import { HistoryAnalyticsAction, HistoryAnalyticsActionTypes } from './actions';
 import { HistoryAnalyticsPluginState } from './main';
-import { pushTransactionsToHistory, syncWithPmHistory } from './utils';
+import {
+  pushTransactionsToHistory,
+  syncWithPmHistory,
+  getPmHistoryPluginState,
+} from './utils';
 
 export default (
   pluginState: HistoryAnalyticsPluginState,
@@ -16,7 +20,7 @@ export default (
           pluginState,
           action.oldState,
         ),
-        action.state,
+        getPmHistoryPluginState(action.state),
       );
       break;
 

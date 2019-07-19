@@ -1,4 +1,5 @@
 import { StepMap, Step } from 'prosemirror-transform';
+import { Selection } from 'prosemirror-state';
 
 export const pmHistoryPluginKey = 'history$';
 export const DEPTH_OVERFLOW = 20;
@@ -28,7 +29,7 @@ export interface PmHistoryBranch {
 export interface PmHistoryPluginState {
   done: PmHistoryBranch;
   undone: PmHistoryBranch;
-  prevMap: StepMap;
+  prevMap?: StepMap;
   prevTime: number;
 }
 

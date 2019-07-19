@@ -106,22 +106,19 @@ export const pushTransactionsToHistory = (
  */
 export const syncWithPmHistory = (
   pluginState: HistoryAnalyticsPluginState,
-  state: EditorState,
+  pmHistoryPluginState: PmHistoryPluginState,
 ): HistoryAnalyticsPluginState => {
   let done: Transaction[] = pluginState.done;
   let undone: Transaction[] = pluginState.undone;
-  let {
-    done: pmHistoryDone,
-    undone: pmHistoryUndone,
-  } = getPmHistoryPluginState(state);
-  const pmHistoryDoneItems = getEventCountBranchItems(pmHistoryDone);
-  const pmHistoryUndoneItems = getEventCountBranchItems(pmHistoryUndone);
+  let { done: pmHistoryDone, undone: pmHistoryUndone } = pmHistoryPluginState;
+  const pmHistoryDoneItems = getIndividualBranchItems(pmHistoryDone);
+  const pmHistoryUndoneItems = getIndividualBranchItems(pmHistoryUndone);
 
   if (areStacksDifferent(pluginState.done, pmHistoryDoneItems)) {
-    done = syncStack(pluginState.done, pmHistoryDoneItems, state);
+    done = syncStack(pluginState.done, pmHistoryDoneItems);
   }
   if (areStacksDifferent(pluginState.undone, pmHistoryUndoneItems)) {
-    undone = syncStack(pluginState.undone, pmHistoryUndoneItems, state);
+    undone = syncStack(pluginState.undone, pmHistoryUndoneItems);
   }
 
   if (done === pluginState.done && undone === pluginState.undone) {
@@ -143,7 +140,7 @@ export const getPmHistoryPluginConfig = (
   return getPmHistoryPlugin(state).spec.config;
 };
 
-const getPmHistoryPlugin = (state: EditorState): Plugin => {
+export const getPmHistoryPlugin = (state: EditorState): Plugin => {
   // prosemirror-history does not export their plugin key
   return state.plugins.find(
     plugin => (plugin as any).key === pmHistoryPluginKey,
@@ -165,7 +162,7 @@ export const getPmInputRulesPluginState = (state: EditorState): boolean => {
  * Filters branch items to those that actually caused the branch's eventCount
  * property to increase
  */
-const getEventCountBranchItems = (branch: PmHistoryBranch): PmHistoryItem[] =>
+const getIndividualBranchItems = (branch: PmHistoryBranch): PmHistoryItem[] =>
   branch.items.values.filter((value: PmHistoryItem) => value.selection);
 
 const areStacksDifferent = (
@@ -173,15 +170,16 @@ const areStacksDifferent = (
   pmHistoryStack: PmHistoryItem[],
 ): boolean => {
   if (stack.length !== pmHistoryStack.length) {
-    return false;
-  }
-  if (stack.length === 0) {
     return true;
   }
+  if (stack.length === 0) {
+    return false;
+  }
 
-  const lastTr = stack[stack.length - 1];
-  const lastItem = pmHistoryStack[pmHistoryStack.length - 1];
-  return lastTr.mapping.maps[lastTr.steps.length - 1] === lastItem.map;
+  return !isTransactionItemEqual(
+    stack[stack.length - 1],
+    pmHistoryStack[pmHistoryStack.length - 1],
+  );
 };
 
 /**
@@ -231,28 +229,31 @@ const isAdjacentToLastStep = (
 const syncStack = (
   stack: Transaction[],
   pmHistoryStack: PmHistoryItem[],
-  state: EditorState,
 ): Transaction[] => {
+  let synced: Transaction[] = [...stack];
   const eventDiff = stack.length - pmHistoryStack.length;
+  const lastItem = pmHistoryStack.length
+    ? pmHistoryStack[pmHistoryStack.length - 1]
+    : undefined;
+  let lastTr = synced.length ? synced[synced.length - 1] : undefined;
 
   // Our stack has too many events
   // Find last item in our stack which matches prosemirror-history's and drop
   // all transactions after that
   if (eventDiff > 0) {
-    if (pmHistoryStack.length > 0) {
-      const lastMap = pmHistoryStack[pmHistoryStack.length - 1].map;
+    if (pmHistoryStack.length) {
       let i;
       for (i = stack.length - 1; i >= 0; i--) {
         const tr = stack[i];
-        if (tr.mapping.maps[tr.steps.length - 1] === lastMap) {
+        if (isTransactionItemEqual(tr, lastItem)) {
           break;
         }
       }
       if (i >= 0) {
-        return stack.slice(-i);
+        synced = stack.slice(-i);
       }
     } else {
-      return [];
+      synced = [];
     }
   }
 
@@ -260,22 +261,66 @@ const syncStack = (
   // Add in filler transactions to make up the difference - these won't have
   // the analytics events we want but will at least keep us in time
   if (eventDiff < 0) {
-    stack = [...stack];
-    for (let i = eventDiff; i < 0; i++) {
-      stack.push(
-        generateTrFromItem(pmHistoryStack[pmHistoryStack.length + i], state),
-      );
+    if (isTransactionItemEqual(lastTr, lastItem)) {
+      // if last items are the same but stacks are different length, something
+      // has gone wrong and we need to start from scratch
+      synced = rebuildStack(stack, pmHistoryStack);
+    } else {
+      synced = [...stack];
+      for (let i = eventDiff; i < 0; i++) {
+        synced.push(
+          generateTrFromItem(pmHistoryStack[pmHistoryStack.length + i]),
+        );
+      }
     }
-    return stack;
   }
-  return stack;
+
+  lastTr = synced.length ? synced[synced.length - 1] : undefined;
+  if (
+    !isTransactionItemEqual(lastTr, lastItem) ||
+    synced.length !== pmHistoryStack.length
+  ) {
+    synced = rebuildStack(stack, pmHistoryStack);
+  }
+
+  return synced;
 };
 
-const generateTrFromItem = (
-  item: PmHistoryItem,
-  state: EditorState,
-): Transaction => {
-  const tr = new Transaction(state as any); // the type for this is wrong
+const isTransactionItemEqual = (tr?: Transaction, item?: PmHistoryItem) =>
+  (!tr && !item) ||
+  (tr && item && tr.mapping.maps[tr.steps.length - 1] === item.map);
+
+/**
+ * Something has gone terribly wrong and we need to rebuild our stack based
+ * off prosemirror-history's
+ * Analytics are preserved in transactions that are kept
+ */
+const rebuildStack = (
+  stack: Transaction[],
+  pmHistoryStack: PmHistoryItem[],
+): Transaction[] => {
+  const newStack: Transaction[] = [];
+  let startIdx = 0;
+  pmHistoryStack.forEach(item => {
+    for (let i = startIdx; i < stack.length; i++) {
+      const tr = stack[i];
+      if (isTransactionItemEqual(tr, item)) {
+        newStack.push(tr);
+        break;
+      }
+
+      if (i === stack.length - 1) {
+        newStack.push(generateTrFromItem(item));
+        startIdx = 0;
+      }
+    }
+  });
+
+  return newStack;
+};
+
+export const generateTrFromItem = (item: PmHistoryItem): Transaction => {
+  const tr = new Transaction({} as any);
   tr.mapping = new Mapping([item.map]);
   tr.steps = [item.step];
   return tr;

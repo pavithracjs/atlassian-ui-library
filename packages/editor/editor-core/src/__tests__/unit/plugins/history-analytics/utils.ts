@@ -1,4 +1,4 @@
-import { Transaction } from 'prosemirror-state';
+import { Transaction, TextSelection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import {
   createEditorFactory,
@@ -21,8 +21,13 @@ import {
   addAnalytics,
   AnalyticsEventPayload,
 } from '../../../../plugins/analytics';
-import { Mapping, StepMap } from 'prosemirror-transform';
-import { DEPTH_OVERFLOW } from '../../../../plugins/history-analytics/pm-plugins/types';
+import { Mapping, StepMap, ReplaceStep } from 'prosemirror-transform';
+import {
+  DEPTH_OVERFLOW,
+  PmHistoryItem,
+  PmHistoryBranch,
+} from '../../../../plugins/history-analytics/pm-plugins/types';
+import { Slice } from 'prosemirror-model';
 
 const insertDividerAnalytics: AnalyticsEventPayload = {
   action: ACTION.INSERTED,
@@ -42,6 +47,30 @@ const formatHeadingAnalytics: AnalyticsEventPayload = {
 describe('History Analytics Plugin: utils', () => {
   const createEditor = createEditorFactory();
   const createTransaction = () => new Transaction(editorView.state as any);
+  const createPmHistoryItem = (
+    mapRanges: [number, number, number] = [1, 0, 1],
+  ): PmHistoryItem => ({
+    map: new StepMap(mapRanges),
+    step: new ReplaceStep(
+      mapRanges[0],
+      mapRanges[0] + mapRanges[2],
+      Slice.empty,
+    ),
+    selection: new TextSelection(editorView.state.doc.resolve(mapRanges[0])),
+  });
+  const generatePmHistoryBranch = (
+    opts: { items?: PmHistoryItem[]; eventCount?: number } = {},
+  ): PmHistoryBranch => {
+    const { items, eventCount } = opts;
+    return {
+      eventCount: eventCount !== undefined ? eventCount : 0,
+      items: {
+        values: items || [],
+        length: items ? items.length : 0,
+        forEach: () => {},
+      },
+    };
+  };
   const mockDate = () => {
     let _dateNow = Date.now;
     beforeAll(() => {
@@ -398,6 +427,158 @@ describe('History Analytics Plugin: utils', () => {
           { ...originalPluginState, undone: [createTransaction()] },
         );
         expect(pluginState.undone).toHaveLength(0);
+      });
+    });
+  });
+
+  describe('syncWithPmHistory', () => {
+    const syncWithPmHistory = (
+      opts: {
+        done?: Transaction[];
+        undone?: Transaction[];
+        pmHistoryDone?: { items: PmHistoryItem[]; eventCount: number };
+        pmHistoryUndone?: { items: PmHistoryItem[]; eventCount: number };
+      } = {},
+    ) => {
+      const { done, undone, pmHistoryDone, pmHistoryUndone } = opts;
+      const originalPluginState: HistoryAnalyticsPluginState = {
+        done: done || [],
+        undone: undone || [],
+      };
+      const pmHistoryPluginState = {
+        done: generatePmHistoryBranch(pmHistoryDone),
+        undone: generatePmHistoryBranch(pmHistoryUndone),
+        prevTime: 0,
+      };
+
+      const pluginState = utils.syncWithPmHistory(
+        originalPluginState,
+        pmHistoryPluginState,
+      );
+      return { pluginState, originalPluginState, pmHistoryPluginState };
+    };
+
+    describe('stacks are same size', () => {
+      describe('and both are 0 in length', () => {
+        it('returns original plugin state', () => {
+          const { pluginState, originalPluginState } = syncWithPmHistory();
+          expect(originalPluginState).toBe(pluginState);
+        });
+      });
+
+      describe('and last items match', () => {
+        it('returns original plugin state', () => {
+          const item = createPmHistoryItem();
+          const { pluginState, originalPluginState } = syncWithPmHistory({
+            done: [utils.generateTrFromItem(item)],
+            pmHistoryDone: { items: [item], eventCount: 1 },
+          });
+          expect(originalPluginState).toBe(pluginState);
+        });
+      });
+
+      describe('and last items are different', () => {
+        it("rebuilds stack from prosemirror-history's", () => {
+          const item = createPmHistoryItem();
+          const { pluginState } = syncWithPmHistory({
+            done: [createTransaction()],
+            pmHistoryDone: { items: [item], eventCount: 1 },
+          });
+          const { done } = pluginState;
+
+          expect(done).toHaveLength(1);
+          expect(done[0].mapping.maps[0]).toBe(item.map);
+        });
+      });
+    });
+
+    describe("prosemirror-history's stack is bigger", () => {
+      describe('and last items are different', () => {
+        it('fills in the difference with generated transactions', () => {
+          const items: PmHistoryItem[] = [
+            createPmHistoryItem(),
+            createPmHistoryItem([2, 0, 1]),
+          ];
+          const tr = utils.generateTrFromItem(items[0]);
+          const { pluginState, originalPluginState } = syncWithPmHistory({
+            done: [tr],
+            pmHistoryDone: { items, eventCount: 2 },
+          });
+          const { done } = pluginState;
+
+          expect(done).toHaveLength(2);
+          expect(done[0]).toBe(originalPluginState.done[0]);
+          expect(done[1].mapping.maps[0]).toBe(items[1].map);
+        });
+      });
+
+      describe('and last items are the same', () => {
+        it("rebuilds stack from prosemirror-history's", () => {
+          const items: PmHistoryItem[] = [
+            createPmHistoryItem(),
+            createPmHistoryItem([2, 0, 1]),
+          ];
+          const tr = utils.generateTrFromItem(items[1]);
+          const { pluginState } = syncWithPmHistory({
+            done: [tr],
+            pmHistoryDone: { items, eventCount: 2 },
+          });
+          const { done } = pluginState;
+
+          expect(done).toHaveLength(2);
+          expect(done[0].mapping.maps[0]).toBe(items[0].map);
+          expect(done[1].mapping.maps[0]).toBe(items[1].map);
+        });
+      });
+    });
+
+    describe("prosemirror-history's stack is smaller", () => {
+      describe('and last items are different', () => {
+        it('drops transactions until last items match', () => {
+          const item = createPmHistoryItem();
+          const trs = [utils.generateTrFromItem(item), createTransaction()];
+          const { pluginState } = syncWithPmHistory({
+            done: trs,
+            pmHistoryDone: { items: [item], eventCount: 1 },
+          });
+          const { done } = pluginState;
+
+          expect(done).toEqual([trs[0]]);
+        });
+
+        describe('and stacks are a different length after dropping transactions', () => {
+          it("rebuilds stack from prosemirror-history's", () => {
+            const item = createPmHistoryItem();
+            const trs = [
+              createTransaction(),
+              utils.generateTrFromItem(item),
+              createTransaction(),
+            ];
+            const { pluginState } = syncWithPmHistory({
+              done: trs,
+              pmHistoryDone: { items: [item], eventCount: 1 },
+            });
+            const { done } = pluginState;
+
+            expect(done).toHaveLength(1);
+            expect(done[0].mapping.maps[0]).toBe(item.map);
+          });
+        });
+      });
+
+      describe('and last items are the same', () => {
+        it("rebuilds stack from prosemirror-history's", () => {
+          const item = createPmHistoryItem();
+          const trs = [createTransaction(), utils.generateTrFromItem(item)];
+          const { pluginState } = syncWithPmHistory({
+            done: trs,
+            pmHistoryDone: { items: [item], eventCount: 1 },
+          });
+          const { done } = pluginState;
+
+          expect(done).toHaveLength(1);
+          expect(done[0].mapping.maps[0]).toBe(item.map);
+        });
       });
     });
   });
