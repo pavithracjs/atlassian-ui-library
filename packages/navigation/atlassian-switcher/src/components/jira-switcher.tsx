@@ -11,7 +11,6 @@ import {
   FeatureMap,
   AvailableProductsResponse,
   RecommendationFeatureFlags,
-  Product,
 } from '../types';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 import { ProviderResult } from '../providers/as-data-provider';
