@@ -58,7 +58,7 @@ To develop on this locally, you'll need to first install the peer dependency tem
 
 ```sh
 $ npm i @atlassiansox/analytics-node-client --no-save
-$ yarn build:pkg:new
+$ yarn copy:version
 ```
 
 You then have two options:
