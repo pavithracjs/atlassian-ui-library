@@ -74,7 +74,7 @@ export type AdvancedSearchEvent = {
    */
   category: string;
   /**
-   * orignial event, this is useful when need to check if the click was to open in new tab or in same tab
+   * original event, this is useful when need to check if the click was to open in new tab or in same tab
    * but if consumer wanna cancel the event {@link preventDefault} should be used
    */
   originalEvent: object;
@@ -83,9 +83,9 @@ export type AdvancedSearchEvent = {
    */
   searchSessionId: string;
   /**
-   * additional paramaters to pass to advanced search, such as filters to be applied
+   * Space Keys of the spaces to filter the search to (confluence only)
    */
-  additionalSearchParams: { [searchParam: string]: string };
+  spaces: string[];
 };
 export interface Props {
   /**
@@ -261,7 +261,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     entity: string,
     query: string,
     searchSessionId: string,
-    additionalSearchParams: { [searchParam: string]: string } = {},
+    spaces: string[] = [],
   ) => {
     if (this.props.onAdvancedSearch) {
       let preventEventDefault = false;
@@ -271,7 +271,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         category: entity,
         originalEvent: e,
         searchSessionId,
-        additionalSearchParams,
+        spaces,
       });
 
       if (preventEventDefault) {
