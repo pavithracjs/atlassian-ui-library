@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.27
+
+### Patch Changes
+
+- [patch][7b5254402e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7b5254402e):
+
+  ED-7268 Fix regression where table insert button is not shown when a cell is selected
+
 ## 112.33.26
 
 ### Patch Changes

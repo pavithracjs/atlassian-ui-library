@@ -1,1 +1,0 @@
-ED-7268 Fix regression where table insert button is not shown when a cell is selected

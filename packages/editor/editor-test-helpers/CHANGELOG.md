@@ -1,5 +1,13 @@
 # @atlaskit/editor-test-helpers
 
+## 9.11.0
+
+### Minor Changes
+
+- [minor][d53c3e989f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d53c3e989f):
+
+  Add selectCell helper
+
 ## 9.10.1
 
 ### Patch Changes
