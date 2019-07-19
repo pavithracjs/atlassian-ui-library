@@ -203,7 +203,11 @@ export const insertRow = async (page: any, atIndex: number) => {
   }
 };
 
-export const insertColumn = async (page: any, atIndex: number) => {
+export const insertColumn = async (
+  page: any,
+  atIndex: number,
+  side: 'left' | 'right' = 'left',
+) => {
   await clickFirstCell(page);
 
   const bounds = await getBoundingRect(
@@ -211,14 +215,11 @@ export const insertColumn = async (page: any, atIndex: number) => {
     tableSelectors.nthColumnControl(atIndex),
   );
 
-  let coords: { x: number; y: number };
-
   if (isVisualRegression()) {
-    let offset = atIndex % 2 === 0 ? 1 : 1.5;
+    let offset = bounds.width * (side === 'left' ? 0.5 : 0.55);
 
-    const x = bounds.left * offset;
+    const x = bounds.left + offset;
     const y = bounds.top + bounds.height - 5;
-    coords = { x, y };
     await page.mouse.move(x, y);
   } else {
     const x = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.width * 0.55);
@@ -229,9 +230,9 @@ export const insertColumn = async (page: any, atIndex: number) => {
   await page.click(tableSelectors.insertButton);
 
   if (isVisualRegression()) {
-    // cursor could or could not be over an insert col button so move it up
+    // cursor could or could not be over an insert col button so move it to 0,0
     // and wait for tooltip to fade (if one was previously showing)
-    await page.mouse.move(coords!.x, coords!.y - 20);
+    await page.mouse.move(0, 0);
     await waitForNoTooltip(page);
   }
 };

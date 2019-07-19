@@ -113,7 +113,14 @@ export const handleMouseOver = (
   const target = mouseEvent.target as HTMLElement;
 
   if (isInsertRowButton(target)) {
-    return showInsertRowButton(getColumnOrRowIndex(target))(state, dispatch);
+    const [startIndex, endIndex] = getColumnOrRowIndex(target);
+
+    const positionRow =
+      getMousePositionVerticalRelativeByElement(mouseEvent as MouseEvent) ===
+      'bottom'
+        ? endIndex
+        : startIndex;
+    return showInsertRowButton(positionRow)(state, dispatch);
   }
 
   if (
@@ -157,14 +164,13 @@ export const handleMouseMove = (view: EditorView, event: Event) => {
   if (element.classList.contains(ClassName.COLUMN_CONTROLS_BUTTON)) {
     const { state, dispatch } = view;
     const { insertColumnButtonIndex } = getPluginState(state);
-    const index = getColumnOrRowIndex(element);
+    const [startIndex, endIndex] = getColumnOrRowIndex(element);
 
-    const positionColumnOffset =
+    const positionColumn =
       getMousePositionHorizontalRelativeByElement(event as MouseEvent) ===
       'right'
-        ? 1
-        : 0;
-    const positionColumn = index + positionColumnOffset;
+        ? endIndex
+        : startIndex;
 
     if (positionColumn !== insertColumnButtonIndex) {
       return showInsertColumnButton(positionColumn)(state, dispatch);
@@ -177,14 +183,13 @@ export const handleMouseMove = (view: EditorView, event: Event) => {
   ) {
     const { state, dispatch } = view;
     const { insertRowButtonIndex } = getPluginState(state);
-    const index = getColumnOrRowIndex(element);
+    const [startIndex, endIndex] = getColumnOrRowIndex(element);
 
-    const positionRowOffset =
+    const positionRow =
       getMousePositionVerticalRelativeByElement(event as MouseEvent) ===
       'bottom'
-        ? 1
-        : 0;
-    const positionRow = index + positionRowOffset;
+        ? endIndex
+        : startIndex;
 
     if (positionRow !== insertRowButtonIndex) {
       return showInsertRowButton(positionRow)(state, dispatch);
