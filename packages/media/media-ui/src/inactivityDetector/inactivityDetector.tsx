@@ -85,6 +85,10 @@ export class InactivityDetector extends Component<
         innerRef={this.contentWrapperElement}
         controlsAreVisible={controlsAreVisible}
         onMouseMove={this.checkMouseMovement}
+        onMouseOut={() =>
+          // Do not pass element, hence forcing elements to be hidden.
+          this.checkMouseMovement()
+        }
         onClick={this.checkMouseMovement}
       >
         {children(this.checkMouseMovement)}

@@ -69,6 +69,15 @@ describe('InactivityDetector', () => {
     expect(component.state('controlsAreVisible')).toBeFalsy();
   });
 
+  it('should handle mouse out', () => {
+    const { component } = setup();
+
+    expect(component.state('controlsAreVisible')).toBeTruthy();
+    component.find(InactivityDetectorWrapper).simulate('mouseOut');
+    jest.runOnlyPendingTimers();
+    expect(component.state('controlsAreVisible')).toBeFalsy();
+  });
+
   it('should keep controls visible when user is hovering them', () => {
     const { component } = setup();
     const elementWithControls = document.createElement('div');
