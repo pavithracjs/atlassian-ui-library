@@ -1,6 +1,6 @@
 import * as api from './api';
 import { getEnvironment } from '../utils/environments';
-import { getStatus, getError } from '../state/actions/helpers';
+import { getError } from '../state/actions/helpers';
 import {
   JsonLd,
   CardClient as CardClientInterface,
@@ -43,6 +43,7 @@ export default class CardClient implements CardClientInterface {
   private createLoader() {
     return new DataLoader((urls: string[]) => this.batchResolve(urls), {
       maxBatchSize: 50,
+      cache: false,
     });
   }
 
@@ -56,45 +57,38 @@ export default class CardClient implements CardClientInterface {
   public async fetchData(url: string): Promise<JsonLd> {
     const loader = this.getLoader(new URL(url).hostname);
     const response = await loader.load(url);
-    const { body, status: statusCode } = response;
-
-    const status = getStatus(body);
-    const errorType = getError(body);
+    const { body, status } = response;
 
     // Catch non-200 server responses to fallback or return useful information.
-    if (status === 'not_found') {
-      switch (errorType) {
-        case 'ResolveAuthError':
-          throw new FetchError(
-            'auth',
-            `authentication required for URL ${url}, error: ${errorType}`,
-          );
-        case 'InternalServerError': // Timeouts and ORS failures
-        case 'ResolveUnsupportedError': // URL isn't supported
-          throw new FetchError(
-            'fatal',
-            `the URL ${url} is unsupported, received server error: ${errorType}`,
-          );
-        default:
-          return response.body;
-        // NOTE: just return the response which is already a "not found"
-        // fallback.
-      }
-    }
+    const errorType = getError(body);
+    switch (errorType) {
+      case 'ResolveAuthError':
+        throw new FetchError(
+          'auth',
+          `authentication required for URL ${url}, error: ${errorType}`,
+        );
+      case 'InternalServerError': // Timeouts and ORS failures
+      case 'ResolveUnsupportedError': // URL isn't supported
+        throw new FetchError(
+          'fatal',
+          `the URL ${url} is unsupported, received server error: ${errorType}`,
+        );
+      default:
+        if (status === 404) {
+          return {
+            meta: {
+              visibility: 'not_found',
+              access: 'forbidden',
+              auth: [],
+              definitionId: 'provider-not-found',
+            },
+            data: {
+              url,
+            },
+          };
+        }
 
-    if (statusCode === 404) {
-      return {
-        meta: {
-          visibility: 'not_found',
-          access: 'forbidden',
-          auth: [],
-          definitionId: 'provider-not-found',
-        },
-        data: {
-          url,
-        },
-      };
+        return response.body;
     }
-    return response.body;
   }
 }

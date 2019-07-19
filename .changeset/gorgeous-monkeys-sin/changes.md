@@ -1,0 +1,1 @@
+fixed issues with cards not updating after authentication
