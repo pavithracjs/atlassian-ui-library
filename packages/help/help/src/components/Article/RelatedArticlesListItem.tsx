@@ -14,7 +14,7 @@ const RelatedArticlesListItem = (props: Props & HelpContextInterface) => {
   const { relatedArticle, help } = props;
 
   const handleOnClick = () => {
-    help.navigateTo(relatedArticle.id);
+    help.loadArticle(relatedArticle.id);
   };
 
   return (
