@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Checkbox from '@atlaskit/checkbox/Checkbox';
-import Avatar from '@atlaskit/avatar/index';
+import Avatar from '@atlaskit/avatar';
 import baseItem, { withItemFocus } from '@atlaskit/item';
 import { Filter } from '../../api/CrossProductSearchClient';
 
