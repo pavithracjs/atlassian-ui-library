@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.3.4
+
+### Patch Changes
+
+- [patch][19a83a0c7e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19a83a0c7e):
+
+  fixed issues with cards not updating after authentication
+
 ## 12.3.3
 
 ### Patch Changes
