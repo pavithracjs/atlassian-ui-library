@@ -83,7 +83,7 @@ export type AdvancedSearchEvent = {
    */
   searchSessionId: string;
   /**
-   * spaces to filter the search to (confluence only)
+   * Space Keys of the spaces to filter the search to (confluence only)
    */
   spaces: string[];
 };
