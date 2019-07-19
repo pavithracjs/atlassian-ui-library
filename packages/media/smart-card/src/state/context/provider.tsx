@@ -44,5 +44,4 @@ export function SmartCardProvider({
   }
 }
 export { CardProviderProps as ProviderProps };
-
-export const cache = {};
+export default SmartCardProvider;

@@ -10,16 +10,30 @@ import {
 export default md`
   ${<AtlassianInternalWarning />}
   
-  Turns a URL into a card with metadata sourced from either:
+  Turns a URL into a card with JSON-LD metadata sourced from either:
 
-  - a vendor or...
-  - a custom fetch function that can be provided.
-
-  _Note_: this package uses an AbortController, so you might need to provide a polyfill for that.
+  - a Client which communicates with Object Resolver Service;
+  - a Client which with a custom fetch function (defined by you!).
 
   ## Usage
 
   ${code`import { Provider, Card } from '@atlaskit/smart-card';`}
+
+  In the Fabric Editor - wrap your instance of the Editor:
+
+  ${code`
+    <SmartCardProvider>
+      <Editor />
+    </SmartCardProvider>
+  `}
+
+  In the Fabric Renderer - wrap your instance of the Renderer:
+
+  ${code`
+    <SmartCardProvider>
+      <Renderer />
+    </SmartCardProvider>
+  `}
 
   ${(
     <Example
@@ -31,8 +45,8 @@ export default md`
 
 ${(
   <Props
-    heading="renderCardWithData Props"
-    props={require('!!extract-react-types-loader!../src/view/CardWithData/loader')}
+    heading="Smart Link Props"
+    props={require('!!extract-react-types-loader!../src/view/CardWithUrl/loader')}
   />
 )}
 
