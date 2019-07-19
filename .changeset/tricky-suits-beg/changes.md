@@ -1,1 +1,0 @@
-ED-6379 Prevent layout trashing on table resizing/update.
