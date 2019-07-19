@@ -20,24 +20,6 @@ const ORIGINAL_MOCK_DATA: MockData = {
         adminAccess: false,
         availableProducts: [
           {
-            activityCount: 1000,
-            productType: 'CONFLUENCE',
-            url: null,
-          },
-          {
-            activityCount: 1000,
-            productType: 'JIRA_SOFTWARE',
-            url: null,
-          },
-        ],
-        cloudId: 'some-cloud-id',
-        displayName: 'some-cloud-id',
-        url: 'https://some-cloud-id.jira-dev.com',
-      },
-      {
-        adminAccess: false,
-        availableProducts: [
-          {
             activityCount: 0,
             productType: 'CONFLUENCE',
             url: null,
