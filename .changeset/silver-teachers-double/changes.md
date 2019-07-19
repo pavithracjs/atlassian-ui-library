@@ -1,0 +1,2 @@
+- Fixes app crash issue due to too much recursion.
+- Fixes issue where children with `postion: fixed` would flicker during nav expand/collapse.

@@ -3,7 +3,7 @@
 import React, { Fragment, Component } from 'react';
 import Tooltip from '@atlaskit/tooltip';
 
-import deepEqual from 'deep-equal';
+import deepEqual from 'react-fast-compare';
 import { styleReducerNoOp, withGlobalTheme } from '../../../theme';
 import type {
   GlobalItemPresentationProps,
