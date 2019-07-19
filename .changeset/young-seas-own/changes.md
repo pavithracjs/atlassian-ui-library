@@ -1,0 +1,1 @@
+Revert the change that filteres the current product from the list of products in switcher because that makes filtering too eager

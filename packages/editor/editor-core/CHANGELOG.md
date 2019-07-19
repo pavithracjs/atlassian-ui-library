@@ -1,5 +1,21 @@
 # @atlaskit/editor-core
 
+## 112.33.29
+
+### Patch Changes
+
+- [patch][846f0e72ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/846f0e72ba):
+
+  ED-7280: Editor shouldnt attempt to apply focus while it isnt editable. If our disabled flag changes to false and we have the prop shouldFocus, attempt to apply focus at this point.
+
+## 112.33.28
+
+### Patch Changes
+
+- [patch][a1b3b85cf4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b3b85cf4):
+
+  ED-6475 Show overflow shadow when table is not selected
+
 ## 112.33.27
 
 ### Patch Changes
