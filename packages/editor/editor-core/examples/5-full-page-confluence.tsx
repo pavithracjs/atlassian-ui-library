@@ -74,6 +74,7 @@ export default class ExampleEditorComponent extends React.Component<
           }}
           disabled={this.state.disabled}
           appearance={this.state.appearance}
+          shouldFocus={true}
         />
       </SidebarContainer>
     );

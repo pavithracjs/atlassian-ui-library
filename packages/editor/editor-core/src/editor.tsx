@@ -109,13 +109,6 @@ export default class Editor extends React.Component<EditorProps, {}> {
       instance.eventDispatcher,
       instance.transformer,
     );
-    if (this.props.shouldFocus) {
-      if (!instance.view.hasFocus()) {
-        window.setTimeout(() => {
-          instance.view.focus();
-        }, 0);
-      }
-    }
   }
 
   private deprecationWarnings(props: EditorProps) {
