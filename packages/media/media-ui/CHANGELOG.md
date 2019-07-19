@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.5.0
+
+### Minor Changes
+
+- [minor][1c806932b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c806932b3):
+
+  Following exported members are introduced: `findParentByClassname` function, `InactivityDetector` component to help with inactivity detection and hiding controls in inline video player and media viewer, `WithShowControlMethodProp` interface to combine type expectations.
+
 ## 11.4.7
 
 ### Patch Changes

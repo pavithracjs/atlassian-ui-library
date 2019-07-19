@@ -1,5 +1,13 @@
 # @atlaskit/media-viewer
 
+## 43.2.5
+
+### Patch Changes
+
+- [patch][0b662ba2e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b662ba2e0):
+
+  Use Inactivity Detector component for hiding controls
+
 ## 43.2.4
 
 ### Patch Changes

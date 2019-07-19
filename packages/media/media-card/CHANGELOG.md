@@ -1,5 +1,13 @@
 # @atlaskit/media-card
 
+## 63.3.8
+
+### Patch Changes
+
+- [patch][8dbc8914cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8dbc8914cd):
+
+  Hide inline video player controls during inactivty
+
 ## 63.3.7
 
 - Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):

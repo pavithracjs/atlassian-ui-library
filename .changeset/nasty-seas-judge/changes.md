@@ -1,1 +1,0 @@
-Use Inactivity Detector component for hiding controls

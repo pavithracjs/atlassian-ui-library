@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-card",
-  "version": "63.3.7",
+  "version": "63.3.8",
   "description": "Includes all media card related components, CardView, CardViewSmall, Card...",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -29,8 +29,8 @@
     "@atlaskit/dropdown-menu": "^8.0.11",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/media-client": "^1.5.2",
-    "@atlaskit/media-ui": "^11.4.6",
-    "@atlaskit/media-viewer": "^43.2.4",
+    "@atlaskit/media-ui": "^11.5.0",
+    "@atlaskit/media-viewer": "^43.2.5",
     "@atlaskit/spinner": "^12.0.5",
     "@atlaskit/theme": "^9.1.0",
     "@atlaskit/type-helpers": "^4.1.5",
