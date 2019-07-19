@@ -6,7 +6,7 @@ import DropboxIcon from '@atlaskit/icon/glyph/dropbox';
 import GoogledriveIcon from '@atlaskit/icon/glyph/googledrive';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
-import { startAuth } from '../../../../actions';
+import { startAuth } from '../../../../actions/startAuth';
 import { ServiceAccountLink, ServiceName, State } from '../../../../domain';
 import {
   ButtonWrapper,

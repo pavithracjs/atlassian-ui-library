@@ -165,6 +165,10 @@ abc
 * item 2 with {code}code block{code}
 `,
     ],
+    [
+      'should not break {color} macro to differnt lines',
+      `* {color:#205081}123{color} {color:#d04437}456{color}`,
+    ],
   ];
 
   for (const [testCaseDescription, markup] of testCases) {

@@ -24,16 +24,6 @@ import {
 
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';
 import { TablePluginState } from '../../../../plugins/table/types';
-import {
-  tablesPlugin,
-  extensionPlugin,
-  tasksAndDecisionsPlugin,
-  codeBlockPlugin,
-  mediaPlugin,
-  panelPlugin,
-  rulePlugin,
-  listsPlugin,
-} from '../../../../plugins';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 
@@ -48,10 +38,10 @@ describe('table keymap', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
       editorProps: {
         analyticsHandler: trackEvent,
         allowAnalyticsGASV3: true,
+        allowTables: true,
       },
       pluginKey,
       createAnalyticsEvent,
@@ -64,18 +54,16 @@ describe('table keymap', () => {
   ) =>
     createEditor({
       doc,
-      editorPlugins: [
-        tablesPlugin(),
-        rulePlugin,
-        listsPlugin,
-        panelPlugin,
-        mediaPlugin({ allowMediaSingle: true }),
-        codeBlockPlugin(),
-        tasksAndDecisionsPlugin,
-        extensionPlugin,
-      ],
       editorProps: {
         analyticsHandler: trackEvent,
+        allowExtension: true,
+        allowTables: true,
+        allowRule: true,
+        allowLists: true,
+        allowPanel: true,
+        allowCodeBlocks: true,
+        allowTasksAndDecisions: true,
+        media: { allowMediaSingle: true },
       },
       pluginKey,
     });

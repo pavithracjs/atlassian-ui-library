@@ -40,7 +40,7 @@ export default class RowControls extends Component<Props, any> {
     return (
       <div className={ClassName.ROW_CONTROLS}>
         <div className={ClassName.ROW_CONTROLS_INNER}>
-          {rowsParams.map(({ startIndex, height }: RowParams) => (
+          {rowsParams.map(({ startIndex, endIndex, height }: RowParams) => (
             <div
               className={`${
                 ClassName.ROW_CONTROLS_BUTTON_WRAP
@@ -64,7 +64,8 @@ export default class RowControls extends Component<Props, any> {
                 }
                 onMouseOver={() => this.props.hoverRows([startIndex])}
                 onMouseOut={this.clearHoverSelection}
-                data-index={startIndex}
+                data-start-index={startIndex}
+                data-end-index={endIndex}
               />
 
               <div className={ClassName.CONTROLS_INSERT_MARKER} />

@@ -53,7 +53,17 @@ export const clickElementWithText = async ({
   await target[0].click();
 };
 
-export const getBoundingRect = async (page: any, selector: string) => {
+interface Rect {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  id: string;
+}
+export const getBoundingRect = async (
+  page: any,
+  selector: string,
+): Promise<Rect> => {
   if (page.evaluate) {
     return await page.evaluate((selector: string) => {
       const element = document.querySelector(selector)!;

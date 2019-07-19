@@ -90,6 +90,16 @@ export interface EditorViewProps {
   ) => void;
 }
 
+function handleEditorFocus(view: EditorView) {
+  if (view.hasFocus()) {
+    return;
+  }
+
+  window.setTimeout(() => {
+    view.focus();
+  }, 0);
+}
+
 export default class ReactEditorView<T = {}> extends React.Component<
   EditorViewProps & T
 > {
@@ -155,6 +165,13 @@ export default class ReactEditorView<T = {}> extends React.Component<
       this.view.setProps({
         editable: _state => !nextProps.editorProps.disabled,
       } as DirectEditorProps);
+
+      if (
+        !nextProps.editorProps.disabled &&
+        nextProps.editorProps.shouldFocus
+      ) {
+        handleEditorFocus(this.view);
+      }
     }
 
     // Activate or deactivate analytics if change property
@@ -442,12 +459,20 @@ export default class ReactEditorView<T = {}> extends React.Component<
   handleEditorViewRef = (node: HTMLDivElement) => {
     if (!this.view && node) {
       this.createEditorView(node);
+      const view = this.view!;
       this.props.onEditorCreated({
-        view: this.view!,
+        view,
         config: this.config,
         eventDispatcher: this.eventDispatcher,
         transformer: this.contentTransformer,
       });
+
+      if (
+        this.props.editorProps.shouldFocus &&
+        (view.props.editable && view.props.editable(view.state))
+      ) {
+        handleEditorFocus(view);
+      }
 
       // Set the state of the EditorDisabled plugin to the current value
       this.broadcastDisabled(!!this.props.editorProps.disabled);

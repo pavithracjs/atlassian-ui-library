@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ComponentType } from 'react';
+// @ts-ignore
 import { FireAnalyticsEvent } from '@atlaskit/analytics';
 import { ResultData, ResultId, SelectedResultId } from './Results/types';
 import { ResultBase } from './Results/ResultBase';
@@ -14,6 +15,7 @@ export type ResultContextType = {
   /** Standard onMouseLeave event. */
   onMouseLeave: () => void;
   /** Fires an analytics event */
+  // @ts-ignore
   sendAnalytics?: FireAnalyticsEvent;
   /** get the index of the search result in the list of result */
   getIndex: (resultId: ResultId) => number | null;

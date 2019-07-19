@@ -188,4 +188,5 @@ const loadingProvidersResult = {
   managePermission: loadingProviderResult,
   addProductsPermission: loadingProviderResult,
   isXFlowEnabled: loadingProviderResult,
+  productRecommendations: loadingProviderResult,
 };

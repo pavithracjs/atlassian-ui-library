@@ -76,7 +76,11 @@ class FloatingInsertButton extends React.Component<
     const {
       state: { tr },
     } = editorView;
-    if (tr.selection instanceof CellSelection) {
+    if (
+      tr.selection instanceof CellSelection &&
+      ((tr.selection as CellSelection).isColSelection() ||
+        (tr.selection as CellSelection).isRowSelection())
+    ) {
       return null;
     }
 

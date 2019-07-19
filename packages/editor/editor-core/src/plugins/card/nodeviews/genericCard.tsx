@@ -5,6 +5,7 @@ import { EditorView } from 'prosemirror-view';
 import { Context as SmartCardContext } from '@atlaskit/smart-card';
 
 import { ClickWrapperProps } from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
+import { isSafeUrl } from '@atlaskit/adf-schema';
 
 type EditorContext<T> = React.Context<T> & { value: T };
 
@@ -33,8 +34,12 @@ export function Card(
     };
 
     render() {
+      const { url } = this.props.node.attrs;
+      if (url && !isSafeUrl(url)) {
+        return <UnsupportedComponent />;
+      }
+
       if (this.state.isError) {
-        const { url } = this.props.node.attrs;
         if (url) {
           return (
             <a

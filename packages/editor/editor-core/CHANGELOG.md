@@ -1,5 +1,163 @@
 # @atlaskit/editor-core
 
+## 112.33.30
+
+### Patch Changes
+
+- [patch][51fa352bef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51fa352bef):
+
+  ED-7275 Fix bug where inserting a new column in a merged column, add the column at the beggining.
+
+## 112.33.29
+
+### Patch Changes
+
+- [patch][846f0e72ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/846f0e72ba):
+
+  ED-7280: Editor shouldnt attempt to apply focus while it isnt editable. If our disabled flag changes to false and we have the prop shouldFocus, attempt to apply focus at this point.
+
+## 112.33.28
+
+### Patch Changes
+
+- [patch][a1b3b85cf4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b3b85cf4):
+
+  ED-6475 Show overflow shadow when table is not selected
+
+## 112.33.27
+
+### Patch Changes
+
+- [patch][7b5254402e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7b5254402e):
+
+  ED-7268 Fix regression where table insert button is not shown when a cell is selected
+
+## 112.33.26
+
+### Patch Changes
+
+- [patch][8b3bf71af7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b3bf71af7):
+
+  ED-7274: Applying text colour over a range should only apply to text nodes
+
+## 112.33.25
+
+### Patch Changes
+
+- [patch][ba223c9878](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ba223c9878):
+
+  ED-7267: Validate URLs passing through smart links- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 112.33.24
+
+### Patch Changes
+
+- [patch][ee02cca952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee02cca952):
+
+  ED-6152: Fixes previous inline cursor regression where you couldnt type after the inline cursor
+
+## 112.33.23
+
+### Patch Changes
+
+- [patch][92419b2ad8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92419b2ad8):
+
+  ED-7116 Update logic for image sizing when changing layout to/from aligned
+
+  - If an image is smaller than 50% of line length the image will preserve its original size when aligned, else it will be capped at 50% line length
+  - When returning to a centred image after aligning the image will use its most recent resized size (whether that happened when aligned or when it was previously centred) or, if never resized, fall back to its original size
+
+## 112.33.22
+
+### Patch Changes
+
+- [patch][2588afa0a7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2588afa0a7):
+
+  ED-6864: fix pasting tables with cells without content
+
+## 112.33.21
+
+### Patch Changes
+
+- [patch][c0ba9ee289](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0ba9ee289):
+
+  set viewMediaClientConfig when properties change in MediaSingle node
+
+  This fixes [ED-7269] + [FEF-8938]: issue with images not loading when the page transition from view to edit mode
+
+## 112.33.20
+
+### Patch Changes
+
+- [patch][41dce81d89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41dce81d89):
+
+  ED-6985 Avoid overflow when table change to a bigger layout
+
+## 112.33.19
+
+### Patch Changes
+
+- [patch][00c8b76ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00c8b76ccc):
+
+  ED-7259 Fix Table Insert Menu rerender for each table change
+
+## 112.33.18
+
+### Patch Changes
+
+- [patch][1ddb0c3fef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ddb0c3fef):
+
+  ED-6152: Fix cursor alignment after emoji
+
+## 112.33.17
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 112.33.16
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 112.33.15
+
+### Patch Changes
+
+- [patch][e0ebde5385](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0ebde5385):
+
+  ED-7257: Disable breakout for extensions in Full Width mode. Minor fixes for extension selection and spacing
+
+## 112.33.14
+
+### Patch Changes
+
+- [patch][979464019f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/979464019f):
+
+  ED-7073: fixed table clear cell not working (caused by `prosemirror-utils@0.9.3`)
+
+## 112.33.13
+
+### Patch Changes
+
+- [patch][030ead1ffa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/030ead1ffa):
+
+  ED-7262: Fix text color dropdown alignment on smaller viewports (it would appear outside the viewport)
+
 ## 112.33.12
 
 ### Patch Changes

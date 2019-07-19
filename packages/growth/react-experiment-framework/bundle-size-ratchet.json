@@ -1,26 +1,38 @@
 [
   {
+    "team": "growth",
+    "package": "@atlaskit/react-experiment-framework",
+    "version": "0.5.0",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 6355,
-      "gzipSize": 2081
+      "size": 4914,
+      "gzipSize": 1953
     }
   },
   {
+    "team": "growth",
+    "package": "@atlaskit/react-experiment-framework",
+    "version": "0.5.0",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 2899,
-      "gzipSize": 975
+      "size": 2498,
+      "gzipSize": 865
     }
   },
   {
+    "team": "growth",
+    "package": "@atlaskit/react-experiment-framework",
+    "version": "0.5.0",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 8628,
-      "gzipSize": 2547
+      "size": 6798,
+      "gzipSize": 2317
     }
   }
 ]

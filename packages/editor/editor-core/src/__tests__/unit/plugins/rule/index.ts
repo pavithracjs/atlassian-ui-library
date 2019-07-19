@@ -7,8 +7,6 @@ import {
   bodiedExtension,
   bodiedExtensionData,
 } from '@atlaskit/editor-test-helpers';
-import rulePlugin from '../../../../plugins/rule';
-import extensionPlugin from '../../../../plugins/extension';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 describe('rule', () => {
@@ -20,13 +18,13 @@ describe('rule', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [rulePlugin, extensionPlugin],
       editorProps: {
         analyticsHandler: trackEvent,
         allowExtension: {
           allowBreakout: true,
         },
         allowAnalyticsGASV3: true,
+        allowRule: true,
       },
       createAnalyticsEvent,
     });

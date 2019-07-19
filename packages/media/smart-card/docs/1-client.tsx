@@ -3,66 +3,14 @@ import { md, code } from '@atlaskit/docs';
 export default md`
   # Intro
 
-  The Client is basically a state and data fetch manager for multiple smart cards.
+  The Client is a HTTP client which interacts with the [Object Resolver Service](https://microscope.prod.atl-paas.net/object-resolver-service), or a service of your own. It lives on the **SmartCardProvider**, which uses **React.Context**. 
+  
+  The Object Resolver Service provides two primary endpoints:
 
-  ## Providing a custom fetch implementation
-
-  Say you have a mechnism to handle certain types of links. You can utilise that for smart cards. You'll need to build a function that will return an Promise of ResolveResponse. Having that, you can use a Provider to provide a "custom" client:
-
-  ${code`
-  const myDefinitionId = uuid.v4();
-
-  const customResponse = {
-    meta: {
-      visibility: 'public',
-      access: 'granted',
-      auth: [],
-      definitionId: myDefinitionId,
-    },
-    data: {
-      name: 'My Document',
-    },
-  } as ResolveResponse;
-
-  class CustomClient extends Client {
-    fetchData(url: string) {
-      if (canIHandleThat(url)) {
-        return Promise.resolve(customResponse);
-      }
-      return super.fetchData(url);
-    }
-  }
-  ...
-  <Provider client={new CustomClient()}>
-    ...
-    <Card appearance="block" url={specialCaseUrl} />
-    ...
-  </Provider>
-  ...
- `}
-
-  ## Customizing Client
-
-  You can set the timeout for cache. Meaning that when resolving happens, the resolved data will be good for \`date.now + lifespan\`.
-
-  Also, you can pass a custom function that will return "current time".
-
-  ${code`
-  new Client({
-    cacheLifespan: 60000,                  // 60s
-    getNowTimeFn: () => mockedDate.now()), // mock the time
-  })
-  `}
-
-  The cards will delay showing loading indicator. You can control that behaviour with an option:
-
-  ${code`
-  new Client({
-    loadingStateDelay: 5000 // show loading animation after 5s
-  })
-  `}
-
-  ## ResolveResponse type
+  * **/check:** for checking if a URL is supported by Object Resolver Service;
+  * **/resolve:** for getting the JSON-LD metadata backing a link.
+  
+  We recommend a similar API contract for your services. All clients must return data in the [JSON-LD format](https://product-fabric.atlassian.net/wiki/spaces/SL/pages/460753040/Atlassian+Object+Vocabulary+JSON-LD). We export **ResolveResponse** to represent this:
 
   ${code`
   type RemoteResourceAuthConfig = {
@@ -84,11 +32,41 @@ export default md`
   }
   `}
 
-  ## Internal workflow
+  ## Providing your own implementation
 
-  You don't have to worry about these details unless you become a maintainer.
+  If you have a service of your own which resolves metadata for specific kinds of links, you can communicate with that service by extending the Client:
 
-  Internally, when a card appears on the page, it will register itself to the client. As such a client will know which card to update of a certain url has been requested.
+  ${code`
+  const myDefinitionId = 'awesome-object-provider';
+  const myResponse = {
+    meta: {
+      visibility: 'public',
+      access: 'granted',
+      auth: [],
+      definitionId: myDefinitionId,
+    },
+    data: {
+      name: 'My Smart Link metadata',
+    },
+  } as ResolveResponse;
 
-  While resolving the url, the Client will match a definitionId to a URL, therefore we'll have a path from a definitionId to a particular card.
+  // Setup custom client which speaks to awesome-object-provider service.
+  class AwesomeClient extends Client {
+    fetchData(url: string) {
+      if (isUrlAwesome(url)) {
+        return Promise.resolve(myResponse);
+      }
+      return super.fetchData(url);
+    }
+  }
+
+  // Setup the Provider with this custom client.
+  ...
+  <SmartCardProvider client={new AwesomeClient()}>
+    ...
+    <Card appearance="block" url={awesomeUrl} />
+    ...
+  </SmartCardProvider>
+  ...
+ `}
 `;
