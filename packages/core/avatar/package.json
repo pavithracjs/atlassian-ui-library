@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/avatar",
-  "version": "16.0.7",
+  "version": "16.0.8",
   "description": "A component that represents a user.",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -38,7 +38,7 @@
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/section-message": "^4.0.5",
     "@atlaskit/ssr": "^0.1.0",
-    "@atlaskit/toggle": "^7.0.4",
+    "@atlaskit/toggle": "^8.0.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0"

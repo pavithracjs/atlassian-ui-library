@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/form",
-  "version": "6.1.4",
+  "version": "6.1.5",
   "description": "Form package provides layout & validation for form fields",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -57,7 +57,7 @@
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/textarea": "^2.0.0",
     "@atlaskit/textfield": "^2.0.3",
-    "@atlaskit/toggle": "^7.0.3",
+    "@atlaskit/toggle": "^8.0.0",
     "@atlaskit/tooltip": "^15.0.2",
     "@atlaskit/visual-regression": "^0.1.0",
     "@atlaskit/webdriver-runner": "^0.1.0",

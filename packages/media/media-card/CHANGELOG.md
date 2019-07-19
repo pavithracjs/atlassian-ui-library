@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 63.3.7
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/toggle@8.0.0
+
 ## 63.3.6
 
 ### Patch Changes
