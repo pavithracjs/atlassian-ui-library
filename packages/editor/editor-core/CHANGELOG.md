@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.30
+
+### Patch Changes
+
+- [patch][51fa352bef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51fa352bef):
+
+  ED-7275 Fix bug where inserting a new column in a merged column, add the column at the beggining.
+
 ## 112.33.29
 
 ### Patch Changes

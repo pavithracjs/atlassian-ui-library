@@ -1,1 +1,0 @@
-ED-7275 Fix bug where inserting a new column in a merged column, add the column at the beggining.
