@@ -22,7 +22,7 @@ type JiraSwitcherProps = {
   messages: Messages;
   features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
-  recommendationFeatureFlags?: RecommendationFeatureFlags;
+  recommendationsFeatureFlags?: RecommendationFeatureFlags;
 };
 
 export default (props: JiraSwitcherProps) => (
@@ -35,7 +35,7 @@ export default (props: JiraSwitcherProps) => (
           <CommonDataProvider
             cloudId={props.cloudId}
             isUserCentric={props.features.enableUserCentricProducts}
-            recommendationFeatureFlags={props.recommendationFeatureFlags}
+            recommendationsFeatureFlags={props.recommendationsFeatureFlags}
           >
             {providerResults => {
               const {

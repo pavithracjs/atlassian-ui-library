@@ -19,7 +19,7 @@ import {
 interface CommonDataProviderProps {
   cloudId: string;
   isUserCentric: boolean;
-  recommendationFeatureFlags?: RecommendationFeatureFlags;
+  recommendationsFeatureFlags?: RecommendationFeatureFlags;
   children: (
     props: {
       recentContainers: ProviderResult<RecentContainersResponse>;
@@ -36,7 +36,7 @@ export default ({
   cloudId,
   children,
   isUserCentric,
-  recommendationFeatureFlags,
+  recommendationsFeatureFlags,
 }: CommonDataProviderProps) => {
   return (
     <RecentContainersProvider cloudId={cloudId}>
@@ -59,8 +59,8 @@ export default ({
                     <XFlowSettingsProvider cloudId={cloudId}>
                       {isXFlowEnabled => (
                         <RecommendationsEngineProvider
-                          recommendationFeatureFlags={
-                            recommendationFeatureFlags
+                          recommendationsFeatureFlags={
+                            recommendationsFeatureFlags
                           }
                         >
                           {productRecommendations =>

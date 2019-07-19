@@ -17,7 +17,6 @@ function baseRecommendation(): RecommendationItem[] {
 export function resolveRecommendations(
   featureFlags?: RecommendationFeatureFlags,
 ): RecommendationItem[] {
-  console.log('featureFlags', featureFlags);
   if (!featureFlags) {
     return baseRecommendation();
   }

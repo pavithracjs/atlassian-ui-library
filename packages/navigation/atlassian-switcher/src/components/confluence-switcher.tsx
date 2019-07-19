@@ -22,7 +22,7 @@ type ConfluenceSwitcherProps = {
   messages: Messages;
   features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
-  recommendationFeatureFlags?: RecommendationFeatureFlags;
+  recommendationsFeatureFlags?: RecommendationFeatureFlags;
 };
 
 export default (props: ConfluenceSwitcherProps) => (

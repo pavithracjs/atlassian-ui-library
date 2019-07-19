@@ -69,7 +69,7 @@ class JiraSwitcherExample extends React.Component {
             product="jira"
             cloudId="some-cloud-id"
             triggerXFlow={this.onTriggerXFlow}
-            recommendationFeatureFlags={{
+            recommendationsFeatureFlags={{
               'jsw.og.expands.experiment': 'variation1',
             }}
           />

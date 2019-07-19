@@ -24,7 +24,7 @@ type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
   triggerXFlow?: TriggerXFlowCallback;
-  recommendationFeatureFlags?: RecommendationFeatureFlags;
+  recommendationsFeatureFlags?: RecommendationFeatureFlags;
 } & Partial<FeatureFlagProps>;
 
 const getAnalyticsContext = (attributes: object) => ({
