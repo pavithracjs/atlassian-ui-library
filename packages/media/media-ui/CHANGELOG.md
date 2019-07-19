@@ -1,5 +1,13 @@
 # @atlaskit/media-ui
 
+## 11.4.7
+
+### Patch Changes
+
+- [patch][2d48433f3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d48433f3c):
+
+  ED-7278: Adjust smart link icon height, when link is truncated the text after the link should now wrap correctly
+
 ## 11.4.6
 
 ### Patch Changes
