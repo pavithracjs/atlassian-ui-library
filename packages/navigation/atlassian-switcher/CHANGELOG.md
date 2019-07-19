@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.7.0
+
+### Minor Changes
+
+- [minor][5ac638ae2e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ac638ae2e):
+
+  Revert the change that filteres the current product from the list of products in switcher because that makes filtering too eager
+
 ## 3.6.0
 
 ### Minor Changes
