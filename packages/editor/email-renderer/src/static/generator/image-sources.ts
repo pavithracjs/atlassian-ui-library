@@ -55,6 +55,26 @@ export default [
   {
     name: 'genericAttachment',
     input: 'generic-attachment',
-    exportSize: '24:24',
+    exportSize: '32:32',
+  },
+  {
+    name: 'audioAttachment',
+    input: 'audio-attachment',
+    exportSize: '32:32',
+  },
+  {
+    name: 'videoAttachment',
+    input: 'video-attachment',
+    exportSize: '32:32',
+  },
+  {
+    name: 'archiveAttachment',
+    input: 'archive-attachment',
+    exportSize: '32:32',
+  },
+  {
+    name: 'documentAttachment',
+    input: 'document-attachment',
+    exportSize: '32:32',
   },
 ];

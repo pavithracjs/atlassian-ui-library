@@ -4,7 +4,7 @@ import { defaultSchema } from '@atlaskit/adf-schema';
 
 import { document as storyDataDocument } from './story-data';
 
-import EmailSerializer from '../../src';
+import EmailSerializer, { MetaDataContext } from '../../src';
 
 export interface DemoRendererProps {
   serializer: 'email';
@@ -17,7 +17,46 @@ export interface DemoRendererProps {
 export interface DemoRendererState {
   input: string;
 }
-
+const context: MetaDataContext = {
+  mediaMetaData: {
+    'media-type-image': {
+      name: 'Dark wallpaper theme.jpg',
+      mediaType: 'image',
+      mimeType: 'image/jpeg',
+      size: 54981,
+    },
+    'media-type-doc': {
+      name: 'My bachelor thesis.pdf',
+      mediaType: 'doc',
+      mimeType: 'application/pdf',
+      size: 12345,
+    },
+    'media-type-video': {
+      name: 'Metallica full concert.mpeg',
+      mediaType: 'video',
+      mimeType: 'vide/mpeg',
+      size: 982347,
+    },
+    'media-type-audio': {
+      name: 'The sound of silence.mp3',
+      mediaType: 'audio',
+      mimeType: 'audio/mpeg',
+      size: 98734,
+    },
+    'media-type-archive': {
+      name: 'The Slackening.zip',
+      mediaType: 'archive',
+      mimeType: 'application/zip',
+      size: 4383,
+    },
+    'media-type-unknown': {
+      name: '',
+      mediaType: 'unknown',
+      mimeType: 'unknown',
+      size: 54981,
+    },
+  },
+};
 export default class RendererDemo extends React.Component<
   DemoRendererProps,
   DemoRendererState
@@ -103,7 +142,10 @@ export default class RendererDemo extends React.Component<
     try {
       const doc = JSON.parse(this.state.input);
       const node = defaultSchema.nodeFromJSON(doc);
-      const html = this.emailSerializer.serializeFragment(node.content);
+      const { result: html } = this.emailSerializer.serializeFragmentWithImages(
+        node.content,
+        context,
+      );
 
       if (this.emailRef && this.emailRef.contentDocument && html) {
         this.emailRef.contentDocument.body.innerHTML = html;
