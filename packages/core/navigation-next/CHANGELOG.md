@@ -1,5 +1,14 @@
 # @atlaskit/navigation-next
 
+## 6.3.6
+
+### Patch Changes
+
+- [patch][aa493c8ee5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa493c8ee5):
+
+  - Fixes app crash issue due to too much recursion.
+  - Fixes issue where children with `postion: fixed` would flicker during nav expand/collapse.
+
 ## 6.3.5
 
 ### Patch Changes
