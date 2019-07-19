@@ -1,0 +1,1 @@
+Fixed a minor dep import so its compatible with all recent versions of atlaskit/avatar
