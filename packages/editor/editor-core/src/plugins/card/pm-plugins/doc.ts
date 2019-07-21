@@ -42,7 +42,7 @@ export function shouldReplace(
   const normalisedHref = md.normalizeLinkText(linkMark.attrs.href);
   const normalizedLinkText = md.normalizeLinkText(node.text || '');
 
-  if (compareLinkText && normalisedHref !== normalizedLinkText) {
+  if (compareLinkText && normalisedHref !== normalizedLinkText.replace(/\/$/, '')) {
     return false;
   }
 
