@@ -1,5 +1,21 @@
 # @atlaskit/global-search
 
+## 10.5.0
+
+### Minor Changes
+
+- [minor][dd3a518fe9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd3a518fe9):
+
+  Send filtered spaces to advanced search
+
+## 10.4.2
+
+### Patch Changes
+
+- [patch][78c4a2b655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/78c4a2b655):
+
+  Fixed a minor dep import so its compatible with all recent versions of atlaskit/avatar
+
 ## 10.4.1
 
 ### Patch Changes

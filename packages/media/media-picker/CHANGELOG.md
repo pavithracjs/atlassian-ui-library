@@ -1,5 +1,11 @@
 # @atlaskit/media-picker
 
+## 45.0.6
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/media-card@63.3.7
+  - @atlaskit/toggle@8.0.0
+
 ## 45.0.5
 
 ### Patch Changes

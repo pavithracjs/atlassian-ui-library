@@ -115,6 +115,12 @@ function handleMeasureResult({ errors, results }) {
       console.log(chalk.green('Updated bundle size snapshots'));
     } else if (allPassed) {
       console.log(chalk.green('No significant bundle size changes detected'));
+    } else if (c.flags.s3) {
+      console.log(
+        chalk.yellow(
+          'The bundle size has been measured using s3 flag, please report to the add-on on your pull-request.',
+        ),
+      );
     } else {
       console.log(
         chalk.red(

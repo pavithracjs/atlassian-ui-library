@@ -1,5 +1,31 @@
 # @atlaskit/editor-core
 
+## 112.33.33
+
+### Patch Changes
+
+- [patch][31a61bf470](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/31a61bf470):
+
+  ED-6379 Prevent layout trashing on table resizing/update.
+
+## 112.33.32
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/avatar-group@4.0.7
+  - @atlaskit/share@0.5.15
+  - @atlaskit/media-card@63.3.7
+  - @atlaskit/media-picker@45.0.6
+  - @atlaskit/toggle@8.0.0
+
+## 112.33.31
+
+### Patch Changes
+
+- [patch][0c43589d06](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c43589d06):
+
+  fix: 🐛 ED-4920: set GapCursor selection after pasting mediaSingle in a table cell
+
 ## 112.33.30
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.12.0
+
+### Minor Changes
+
+- [minor][7880462487](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7880462487):
+
+  Updated design. Added new props related to feedback from
+
 ## 0.11.4
 
 ### Patch Changes

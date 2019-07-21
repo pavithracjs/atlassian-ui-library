@@ -1,5 +1,12 @@
 # @atlaskit/navigation-next
 
+## 6.3.7
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/global-navigation@7.3.4
+  - @atlaskit/toggle@8.0.0
+
 ## 6.3.6
 
 ### Patch Changes

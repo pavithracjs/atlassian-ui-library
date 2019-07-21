@@ -13,6 +13,7 @@ import {
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   Filter,
+  SpaceFilter,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
@@ -85,7 +86,7 @@ export interface Props {
         entity: string,
         query: string,
         searchSessionId: string,
-        additionalParams?: { [searchParam: string]: string },
+        spaces?: string[],
       ) => void);
   inputControls: JSX.Element | undefined;
   features: ConfluenceFeatures;
@@ -513,6 +514,10 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       return;
     }
 
+    function instanceOfSpaceFilter(filter: Filter): filter is SpaceFilter {
+      return filter['@type'] === 'spaces';
+    }
+
     if (
       referralContextIdentifiers &&
       referralContextIdentifiers.currentContainerIcon &&
@@ -520,12 +525,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       modelContext &&
       modelContext.spaceKey
     ) {
-      const additionalSearchParams: { [searchParam: string]: string } = {};
-      for (const filter of currentFilters) {
-        if (filter['@type'] === 'spaces') {
-          additionalSearchParams.space = filter.spaceKeys[0];
-        }
-      }
+      const spaceFilter = currentFilters.find(instanceOfSpaceFilter);
+      const spaces = spaceFilter ? spaceFilter.spaceKeys : [];
       return (
         <ConfluenceFilterGroup
           onFilterChanged={onFilterChanged}
@@ -543,7 +544,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
               ConfluenceAdvancedSearchTypes.Content,
               latestSearchQuery,
               searchSessionId,
-              additionalSearchParams,
+              spaces,
             )
           }
         />

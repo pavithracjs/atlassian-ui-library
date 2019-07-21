@@ -1,1 +1,0 @@
-fix: 🐛 ED-4920: set GapCursor selection after pasting mediaSingle in a table cell
