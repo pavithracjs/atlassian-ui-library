@@ -25,7 +25,7 @@ export default {
     'Nu am găsit niciun rezultat pentru "{inputValue}". Invită persoane utilizând o adresă de e-mail.',
   'fabric.elements.share.trigger.button.icon.label': 'Pictogramă partajare',
   'fabric.elements.share.trigger.button.text': 'Partajați',
-  'fabric.elements.share.trigger.button.tooltip.text': 'Share',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Partajați',
   'fabric.elements.share.trigger.button.invite.text': 'Invitați',
   'fabric.elements.share.copylink.button.icon.label': 'Pictogramă copiere link',
   'fabric.elements.share.copylink.button.text': 'Copiați link',
