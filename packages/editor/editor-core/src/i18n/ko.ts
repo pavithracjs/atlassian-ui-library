@@ -6,7 +6,7 @@
  */
 // Korean
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': '링크 추가',
   'fabric.editor.openLink': '새 탭에서 링크 열기',
   'fabric.editor.unlink': '링크 해제',
   'fabric.editor.editLink': '링크 편집',
@@ -117,7 +117,7 @@ export default {
   'fabric.editor.annotate': '주석 달기',
   'fabric.editor.wrapLeft': '이미지 왼쪽에서 줄 바꿈',
   'fabric.editor.wrapRight': '이미지 오른쪽에서 줄 바꿈',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': '뒤로 가기',
   'fabric.editor.info': '정보',
   'fabric.editor.note': '참고',
   'fabric.editor.success': '성공',
@@ -151,7 +151,7 @@ export default {
   'fabric.editor.bold': '굵은 글씨',
   'fabric.editor.italic': '이탤릭 글씨',
   'fabric.theme.#172b4d': '어두운 회색',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': '밝은 회색',
   'fabric.theme.#6554c0': '보라색',
   'fabric.theme.#00b8d9': '암록색',
   'fabric.theme.#36b37e': '녹색',

@@ -6,7 +6,7 @@
  */
 // Swedish
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Lägg till länk',
   'fabric.editor.openLink': 'Öppna länk i en ny flik',
   'fabric.editor.unlink': 'Ta bort länk',
   'fabric.editor.editLink': 'Redigera länk',
@@ -123,7 +123,7 @@ export default {
   'fabric.editor.annotate': 'Kommentera',
   'fabric.editor.wrapLeft': 'Radbyte vänster',
   'fabric.editor.wrapRight': 'Radbyte höger',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Gå tillbaka',
   'fabric.editor.info': 'Info',
   'fabric.editor.note': 'Anteckning',
   'fabric.editor.success': 'Klart!',
@@ -161,7 +161,7 @@ export default {
   'fabric.editor.bold': 'Fet',
   'fabric.editor.italic': 'Kursiv',
   'fabric.theme.#172b4d': 'Mörkgrå',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Ljusgrå',
   'fabric.theme.#6554c0': 'Lila',
   'fabric.theme.#00b8d9': 'Blågrön',
   'fabric.theme.#36b37e': 'Grön',
