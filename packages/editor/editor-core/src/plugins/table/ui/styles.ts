@@ -13,6 +13,7 @@ import {
   akEditorTableBorder,
   tableCellPadding,
   tableCellBorderWidth,
+  akEditorTableFloatingControls,
 } from '@atlaskit/editor-common';
 import { scrollbarStyles } from '../../../ui/styles';
 import { TableCssClassName as ClassName } from '../types';
@@ -387,6 +388,28 @@ const hoveredCell = `
     }
   }
 `
+const RowControls = `
+  .${ClassName.WITH_CONTROLS} {
+    .${ClassName.TABLE_NODE_WRAPPER} {
+      margin-left: -${tableToolbarSize}px;
+      padding-left: ${tableToolbarSize}px;
+    }
+    .pm-table-cell-nodeview-wrapper {
+      margin: -8px;
+      padding: 8px;
+    }
+
+    .prosemirror-tables-row-control-decoration {
+      background-color: red;
+      height: 100%;
+      width: 11px;
+      top: 0px;
+      left: -11px;
+      position: absolute;
+    }
+  }
+  
+`;
 
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
@@ -421,6 +444,9 @@ export const tableStyles = css`
     /* Ends Delete button*/
 
     ${OverflowShadow}
+
+    ${RowControls}
+    
     .less-padding {
       padding: 0 ${tablePadding}px;
 

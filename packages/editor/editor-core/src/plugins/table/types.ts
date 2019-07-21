@@ -137,16 +137,18 @@ export enum TableDecorations {
 
   COLUMN_CONTROLS_DECORATIONS = 'COLUMN_CONTROLS_DECORATIONS',
   COLUMN_SELECTED = 'COLUMN_SELECTED',
+
+  ROW_CONTROLS_DECORATIONS = 'ROW_CONTROLS_DECORATIONS',
 }
 
 export const TableCssClassName = {
   ...TableSharedCssClassName,
-
   COLUMN_CONTROLS: `${tablePrefixSelector}-column-controls`,
   COLUMN_CONTROLS_DECORATIONS: `${tablePrefixSelector}-column-controls-decoration`,
   COLUMN_SELECTED: `${tablePrefixSelector}-column__selected`,
 
   ROW_CONTROLS_WRAPPER: `${tablePrefixSelector}-row-controls-wrapper`,
+  ROW_CONTROLS_DECORATIONS: `${tablePrefixSelector}-row-controls-decorations`,
   ROW_CONTROLS: `${tablePrefixSelector}-row-controls`,
   ROW_CONTROLS_INNER: `${tablePrefixSelector}-row-controls__inner`,
   ROW_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-row-controls__button-wrap`,

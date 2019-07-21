@@ -94,15 +94,6 @@ export default class TableFloatingControls extends Component<Props> {
           isHeaderColumnEnabled={isHeaderColumnEnabled}
           hoveredRows={hoveredRows}
         />
-        <RowControls
-          editorView={editorView}
-          tableRef={tableRef}
-          hoverRows={this.hoverRows}
-          hoveredRows={hoveredRows}
-          isInDanger={isInDanger}
-          isResizing={isResizing}
-          selectRow={this.selectRow}
-        />
       </div>
     );
   }
