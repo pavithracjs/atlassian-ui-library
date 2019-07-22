@@ -5,7 +5,7 @@ import {
   FormattedHTMLMessage,
 } from 'react-intl';
 // @ts-ignore
-import { withAnalytics } from '@atlaskit/analytics';
+import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import { ConfluenceClient } from '../../api/ConfluenceClient';
 import {
@@ -37,16 +37,14 @@ import {
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
-import {
-  BaseConfluenceQuickSearchContainer,
+import QuickSearchContainer, {
   SearchResultProps,
   PartiallyLoadedRecentItems,
+  FilterComponentProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import NoResultsState from './NoResultsState';
-import SearchResultsComponent, {
-  FilterComponentProps,
-} from '../common/SearchResults';
+import SearchResultsComponent from '../common/SearchResults';
 import { getConfluenceAdvancedSearchLink } from '../SearchResultsUtil';
 import AdvancedSearchGroup from './AdvancedSearchGroup';
 import {
@@ -56,6 +54,7 @@ import {
 } from './ConfluenceSearchResultsMapper';
 import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { AutocompleteClient } from '../../api/AutocompleteClient';
+import { NavAutocompleteClient } from '../../api/NavAutoCompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
 import ConfluenceFilterGroup from './ConfluenceFilterGroup';
@@ -75,6 +74,7 @@ export interface Props {
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
   autocompleteClient: AutocompleteClient;
+  navAutocompleteClient: NavAutocompleteClient;
   linkComponent: LinkComponent | undefined;
   referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   logger: Logger;
@@ -92,7 +92,8 @@ export interface Props {
   features: ConfluenceFeatures;
 
   // These are provided by the withAnalytics HOC
-  firePrivateAnalyticsEvent?: any;
+  // @ts-ignore
+  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   confluenceUrl: string;
 }
@@ -417,6 +418,18 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     return autocompletePromise;
   };
 
+  getNavAutocompleteSuggestions = (query: string): Promise<string[]> => {
+    const { navAutocompleteClient } = this.props;
+
+    const navAutocompletePromise = handlePromiseError(
+      navAutocompleteClient.getNavAutocompleteSuggestions(query),
+      [query],
+      this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
+    );
+
+    return navAutocompletePromise;
+  };
+
   getPreQueryDisplayedResults = (
     recentItems: ConfluenceResultsMap | null,
     searchSessionId: string,
@@ -505,12 +518,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   getFilterComponent = ({
     latestSearchQuery,
-    searchResultsTotalSize,
+    searchResults,
     isLoading,
     searchSessionId,
     currentFilters,
     onFilterChanged,
-  }: FilterComponentProps) => {
+  }: FilterComponentProps<ConfluenceResultsMap>) => {
     const {
       onAdvancedSearch = () => {},
       referralContextIdentifiers,
@@ -527,9 +540,11 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     if (!latestSearchQuery) {
       return;
     }
-
     // don't show space filter if there are no results in all spaces
-    if (currentFilters.length === 0 && searchResultsTotalSize === 0) {
+    if (
+      currentFilters.length === 0 &&
+      (searchResults === null || searchResults.objects.totalSize === 0)
+    ) {
       return;
     }
 
@@ -609,9 +624,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
-        getFilterComponent={this.getFilterComponent}
-        currentFilters={currentFilters}
-        onFilterChanged={onFilterChanged}
         renderNoRecentActivity={() => (
           <FormattedHTMLMessage
             {...messages.no_recent_activity_body}
@@ -660,19 +672,26 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   render() {
     const { linkComponent, logger, inputControls, features } = this.props;
     const { isAutocompleteEnabled } = features;
+    const { isNavAutocompleteEnabled } = features;
 
     return (
-      <BaseConfluenceQuickSearchContainer
+      <QuickSearchContainer
         placeholder={this.props.intl.formatMessage(
           messages.confluence_search_placeholder,
         )}
         linkComponent={linkComponent}
         getSearchResultsComponent={this.getSearchResultsComponent}
+        getFilterComponent={this.getFilterComponent}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         getAutocompleteSuggestions={
           isAutocompleteEnabled ? this.getAutocompleteSuggestions : undefined
+        }
+        getNavAutocompleteSuggestions={
+          isNavAutocompleteEnabled
+            ? this.getNavAutocompleteSuggestions
+            : undefined
         }
         product="confluence"
         handleSearchSubmit={this.handleSearchSubmit}
