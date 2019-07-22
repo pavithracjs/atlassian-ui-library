@@ -25,6 +25,7 @@ export default {
     '我们找不到任何关于“{inputValue}”的结果。请用电子邮件地址邀请他人。',
   'fabric.elements.share.trigger.button.icon.label': '分享图标',
   'fabric.elements.share.trigger.button.text': '共享',
+  'fabric.elements.share.trigger.button.tooltip.text': '分享',
   'fabric.elements.share.trigger.button.invite.text': '邀请',
   'fabric.elements.share.copylink.button.icon.label': '复制链接图标',
   'fabric.elements.share.copylink.button.text': '复制链接',

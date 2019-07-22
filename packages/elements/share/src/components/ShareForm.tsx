@@ -36,7 +36,7 @@ const CenterAlignedIconWrapper = styled.div`
 
 export const FromWrapper = styled.div`
   [class^='FormHeader__FormHeaderWrapper'] {
-    h1 {
+    h1:first-child {
       ${typography.h500()}
       
       > span {

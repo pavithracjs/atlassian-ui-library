@@ -147,9 +147,9 @@ BrowserTestCase(
     await page.click(CELL);
 
     // select a column
-    const controlSelector = `.${ClassName.COLUMN_CONTROLS_WRAPPER} .${
-      ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-    }:first-child .${ClassName.CONTROLS_BUTTON}`;
+    const controlSelector = `.${
+      ClassName.COLUMN_CONTROLS_DECORATIONS
+    }[data-start-index="0"]`;
     await page.waitForSelector(controlSelector);
     await page.click(controlSelector);
 

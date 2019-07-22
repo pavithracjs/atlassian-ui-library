@@ -3,36 +3,51 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import AkButton from '@atlaskit/button';
 import { Popup } from '@atlaskit/editor-common';
-import ToolbarFeedback, {
-  getBrowserInfo,
-  getDeviceInfo,
-} from '../../../ui/ToolbarFeedback';
+import ToolbarFeedback from '../../../ui/ToolbarFeedback';
 import { analyticsService } from '../../../analytics';
 import { analyticsEventKey } from '../../../plugins/analytics';
+import { openFeedbackDialog } from '../../../plugins/feedback-dialog';
 
-window.jQuery = {};
+jest.mock('../../../plugins/feedback-dialog', () => ({
+  openFeedbackDialog: jest.fn(),
+}));
 
 describe('@atlaskit/editor-core/ui/ToolbarFeedback', () => {
-  describe('analytics', () => {
-    let toolbarOption: ReactWrapper;
-    let mockEventDispatcher: { emit: jest.Mock };
+  let toolbarOption: ReactWrapper;
 
-    function mountWithEditorActions() {
-      mockEventDispatcher = { emit: jest.fn() };
-      const context = {
-        editorActions: { eventDispatcher: mockEventDispatcher },
-      };
-      const childContextTypes = {
-        editorActions: PropTypes.object.isRequired,
-      };
-      toolbarOption = mount(<ToolbarFeedback />, {
-        context,
-        childContextTypes,
-      });
+  beforeAll(() => {
+    window.jQuery = { ajax: () => {} };
+  });
+
+  afterAll(() => {
+    if (window.jQuery) {
+      delete window.jQuery;
     }
+  });
+
+  const mockEventDispatcher: { emit: jest.Mock } = { emit: jest.fn() };
+
+  function mountWithEditorActions(props = {}) {
+    const context = {
+      editorActions: { eventDispatcher: mockEventDispatcher },
+    };
+    const childContextTypes = {
+      editorActions: PropTypes.object.isRequired,
+    };
+    toolbarOption = mount(<ToolbarFeedback {...props} />, {
+      context,
+      childContextTypes,
+    });
+  }
+
+  describe('analytics', () => {
+    afterEach(() => {
+      if (toolbarOption) {
+        toolbarOption.unmount();
+      }
+    });
 
     it('should trigger analyticsService.trackEvent when feedback icon is clicked', () => {
-      window.jQuery = { ajax: () => {} };
       const trackEvent = jest.fn();
       analyticsService.trackEvent = trackEvent;
       mountWithEditorActions();
@@ -41,11 +56,9 @@ describe('@atlaskit/editor-core/ui/ToolbarFeedback', () => {
       expect(trackEvent).toHaveBeenCalledWith(
         'atlassian.editor.feedback.button',
       );
-      toolbarOption.unmount();
     });
 
     it('should trigger feedback button clicked analytics event when feedback icon clicked', () => {
-      window.jQuery = { ajax: () => {} };
       mountWithEditorActions();
 
       toolbarOption.find(AkButton).simulate('click');
@@ -57,12 +70,10 @@ describe('@atlaskit/editor-core/ui/ToolbarFeedback', () => {
           eventType: 'ui',
         },
       });
-      toolbarOption.unmount();
     });
   });
 
   it('should open opt out popup for bitbucket when feedback icon is clicked', () => {
-    window.jQuery = { ajax: () => {} };
     const toolbarOption = mount(<ToolbarFeedback product="bitbucket" />);
     expect(toolbarOption.find(Popup).length).toEqual(0);
     toolbarOption.find(AkButton).simulate('click');
@@ -70,56 +81,28 @@ describe('@atlaskit/editor-core/ui/ToolbarFeedback', () => {
     toolbarOption.unmount();
   });
 
-  describe('getBrowserInfo', () => {
-    it('should return correct browser and its version', () => {
-      expect(
-        getBrowserInfo(
-          'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64;Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; InfoPath.2)',
-        ),
-      ).toEqual('Microsoft Internet Explorer 8.0');
-      expect(
-        getBrowserInfo(
-          'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36',
-        ),
-      ).toEqual('Chrome 35.0.1916.114');
-      expect(
-        getBrowserInfo(
-          'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20100101 Firefox/29.0',
-        ),
-      ).toEqual('Firefox 29.0');
-      expect(
-        getBrowserInfo(
-          'Mozilla/5.0 (Windows; U; Win98; en-US; rv:0.9.2) Gecko/20010725 Netscape6/6.1',
-        ),
-      ).toEqual('Netscape6 6.1');
-      expect(
-        getBrowserInfo(
-          'Opera/12.02 (Android 4.1; Linux; Opera Mobi/ADR-1111101157; U; en-US) Presto/2.9.201 Version/12.02',
-        ),
-      ).toEqual('Opera 12.02');
+  describe('openFeedbackDialog', () => {
+    beforeEach(() => {
+      mountWithEditorActions({
+        packageName: 'editor',
+        packageVersion: '1.1.1',
+        labels: ['label1', 'label2'],
+      });
+      toolbarOption.find(AkButton).simulate('click');
     });
-  });
 
-  describe('getDeviceInfo', () => {
-    it('should return OS and its version', () => {
-      expect(
-        getDeviceInfo(
-          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36',
-          '5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36',
-        ),
-      ).toEqual('Mac OS X 10_13_3');
-      expect(
-        getDeviceInfo(
-          'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-          '5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-        ),
-      ).toEqual('iOS 11.0.0');
-      expect(
-        getDeviceInfo(
-          'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Mobile Safari/537.36',
-          '5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Mobile Safari/537.36',
-        ),
-      ).toEqual('Android 5.0');
+    afterEach(() => {
+      if (toolbarOption) {
+        toolbarOption.unmount();
+      }
+    });
+
+    it('should call openFeedbackDialog with correct params', () => {
+      expect(openFeedbackDialog).toHaveBeenCalledWith({
+        packageName: 'editor',
+        packageVersion: '1.1.1',
+        labels: ['label1', 'label2'],
+      });
     });
   });
 });

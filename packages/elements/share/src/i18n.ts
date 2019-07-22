@@ -73,6 +73,12 @@ export const messages = defineMessages({
     defaultMessage: 'Share',
     description: 'Default text for the share dialog trigger button',
   },
+  shareTriggerButtonTooltipText: {
+    id: 'fabric.elements.share.trigger.button.tooltip.text',
+    defaultMessage: 'Share',
+    description:
+      'Default text for tooltip on the icon-only share dialog trigger button',
+  },
   inviteTriggerButtonText: {
     id: 'fabric.elements.share.trigger.button.invite.text',
     defaultMessage: 'Invite',

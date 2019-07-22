@@ -72,7 +72,6 @@ export type TablePluginAction =
         layout: TableLayout;
         isHeaderRowEnabled: boolean;
         isHeaderColumnEnabled: boolean;
-        decorationSet: DecorationSet;
       };
     }
   | {
@@ -131,17 +130,21 @@ export type ColumnResizingPluginAction =
     };
 
 export enum TableDecorations {
-  CONTROLS_HOVER = 'CONTROLS_HOVER',
+  ALL_CONTROLS_HOVER = 'CONTROLS_HOVER',
+  ROW_CONTROLS_HOVER = 'ROW_CONTROLS_HOVER',
+  COLUMN_CONTROLS_HOVER = 'COLUMN_CONTROLS_HOVER',
+  TABLE_CONTROLS_HOVER = 'TABLE_CONTROLS_HOVER',
+
+  COLUMN_CONTROLS_DECORATIONS = 'COLUMN_CONTROLS_DECORATIONS',
+  COLUMN_SELECTED = 'COLUMN_SELECTED',
 }
 
 export const TableCssClassName = {
   ...TableSharedCssClassName,
 
-  COLUMN_CONTROLS_WRAPPER: `${tablePrefixSelector}-column-controls-wrapper`,
   COLUMN_CONTROLS: `${tablePrefixSelector}-column-controls`,
-  COLUMN_CONTROLS_INNER: `${tablePrefixSelector}-column-controls__inner`,
-  COLUMN_CONTROLS_BUTTON_WRAP: `${tablePrefixSelector}-column-controls__button-wrap`,
-  COLUMN_CONTROLS_BUTTON: `${tablePrefixSelector}-column-controls__button`,
+  COLUMN_CONTROLS_DECORATIONS: `${tablePrefixSelector}-column-controls-decoration`,
+  COLUMN_SELECTED: `${tablePrefixSelector}-column__selected`,
 
   ROW_CONTROLS_WRAPPER: `${tablePrefixSelector}-row-controls-wrapper`,
   ROW_CONTROLS: `${tablePrefixSelector}-row-controls`,
@@ -176,6 +179,9 @@ export const TableCssClassName = {
   NUMBERED_COLUMN: `${tablePrefixSelector}-numbered-column`,
   NUMBERED_COLUMN_BUTTON: `${tablePrefixSelector}-numbered-column__button`,
 
+  HOVERED_COLUMN: `${tablePrefixSelector}-hovered-column`,
+  HOVERED_ROW: `${tablePrefixSelector}-hovered-row`,
+  HOVERED_TABLE: `${tablePrefixSelector}-hovered-table`,
   HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
   HOVERED_CELL_IN_DANGER: 'danger',
   HOVERED_CELL_ACTIVE: 'active',

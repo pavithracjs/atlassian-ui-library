@@ -497,9 +497,9 @@ export const doubleClickResizeHandle = async (
 
 export const selectColumns = async (page: any, indexes: number[]) => {
   for (let i = 0, count = indexes.length; i < count; i++) {
-    const controlSelector = `.${tableSelectors.columnControls} .${
-      TableCssClassName.COLUMN_CONTROLS_BUTTON_WRAP
-    }:nth-child(${indexes[i]}) .${TableCssClassName.CONTROLS_BUTTON}`;
+    const controlSelector = `.${
+      TableCssClassName.COLUMN_CONTROLS_DECORATIONS
+    }[data-start-index="${indexes[i]}"]`;
     await page.waitForSelector(controlSelector);
     if (i > 0) {
       await page.browser.keys(['Shift']);
