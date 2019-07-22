@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.33.35
+
+### Patch Changes
+
+- [patch][d5444d841f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5444d841f):
+
+  Upgrade media-editor in to pull in latest cjs change
+
 ## 112.33.34
 
 ### Patch Changes
