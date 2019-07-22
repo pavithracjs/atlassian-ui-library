@@ -13,7 +13,7 @@ import {
   ProductKey,
 } from '../../../types';
 
-import { resolveRecommendations } from '../../../providers/recommendations-provider';
+import { resolveRecommendations } from '../../../providers/recommendations';
 
 const HOSTNAME = 'my-hostname.com';
 const ACTIVE_PRODUCT_STATE = {
