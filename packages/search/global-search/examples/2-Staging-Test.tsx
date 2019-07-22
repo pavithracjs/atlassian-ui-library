@@ -48,6 +48,7 @@ export default class extends React.Component<{}, { cloudId: string }> {
       <GlobalQuickSearchInNavigation
         {...config}
         enablePreQueryFromAggregator={true}
+        isNavAutocompleteEnabled={true}
       />
     );
   }
