@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.34.2
+
+- Updated dependencies [bc0d3bf0b2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bc0d3bf0b2):
+  - @atlaskit/share@0.6.0
+
 ## 112.34.1
 
 ### Patch Changes

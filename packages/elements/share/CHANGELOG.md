@@ -1,5 +1,13 @@
 # @atlaskit/share
 
+## 0.6.0
+
+### Minor Changes
+
+- [minor][bc0d3bf0b2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bc0d3bf0b2):
+
+  added tooltip support for elements/share
+
 ## 0.5.16
 
 ### Patch Changes

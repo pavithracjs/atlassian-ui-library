@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-core",
-  "version": "112.34.1",
+  "version": "112.34.2",
   "description": "A package contains Atlassian editor core functionality",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -118,7 +118,7 @@
     "@atlaskit/pubsub": "^5.0.3",
     "@atlaskit/renderer": "^49.7.3",
     "@atlaskit/section-message": "^4.0.8",
-    "@atlaskit/share": "^0.5.15",
+    "@atlaskit/share": "^0.6.0",
     "@atlaskit/textarea": "^2.1.5",
     "@atlaskit/toggle": "^8.0.0",
     "@atlaskit/user-picker": "^4.0.17",
