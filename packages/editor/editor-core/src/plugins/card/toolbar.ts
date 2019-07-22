@@ -3,12 +3,15 @@ import { EditorState, NodeSelection } from 'prosemirror-state';
 import { removeSelectedNode } from 'prosemirror-utils';
 
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
-import OpenIcon from '@atlaskit/icon/glyph/open';
+import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
+import OpenIcon from '@atlaskit/icon/glyph/shortcut';
 
 import { analyticsService } from '../../analytics';
-import commonMessages from '../../messages';
-import { Command } from '../../../src/types';
-import { FloatingToolbarConfig } from '../../../src/plugins/floating-toolbar/types';
+import { Command } from '../../types';
+import {
+  FloatingToolbarConfig,
+  FloatingToolbarItem,
+} from '../floating-toolbar/types';
 import {
   ACTION,
   ACTION_SUBJECT,
@@ -18,7 +21,25 @@ import {
   AnalyticsEventPayload,
   ACTION_SUBJECT_ID,
 } from '../analytics';
+import { linkToolbarMessages } from '../../messages';
+import commonMessages from '../../messages';
+
+import { Node } from 'prosemirror-model';
 import { hoverDecoration } from '../base/pm-plugins/decoration';
+import { changeSelectedCardToText } from './pm-plugins/doc';
+import { CardPluginState } from './types';
+import { pluginKey } from './pm-plugins/main';
+import { ProviderFactory } from '@atlaskit/editor-common';
+import {
+  buildEditLinkToolbar,
+  editLink,
+  editLinkToolbarConfig,
+} from './ui/EditLinkToolbar';
+import {
+  displayInfoForCard,
+  findCardInfo,
+  titleUrlPairFromNode,
+} from './utils';
 import { isSafeUrl } from '@atlaskit/adf-schema';
 
 export const messages = defineMessages({
@@ -72,9 +93,8 @@ export const visitCardLink: Command = (state, dispatch) => {
     return false;
   }
 
-  const { attrs, type } = state.selection.node;
-  const data = attrs.data || {};
-  const url = attrs.url || data.url;
+  const { type } = state.selection.node;
+  const { url } = titleUrlPairFromNode(state.selection.node);
 
   const payload: AnalyticsEventPayload = {
     action: ACTION.VISITED,
@@ -99,114 +119,99 @@ export const visitCardLink: Command = (state, dispatch) => {
   return true;
 };
 
-// Temporarily disabled after https://product-fabric.atlassian.net/browse/MS-1308
-/*
-const changeAppearance = (selectedOption: SelectOption) => {
-  if (selectedOption.value === 'link') {
-    return changeSelectedCardToLink;
-  } else {
-    return setSelectedCardAppearance(selectedOption.value as CardAppearance);
+const unlinkCard = (node: Node, state: EditorState): Command => {
+  const displayInfo = displayInfoForCard(node, findCardInfo(state));
+  const text = displayInfo.title || displayInfo.url;
+  if (text) {
+    return changeSelectedCardToText(text);
   }
+
+  return () => false;
 };
 
-const buildDropdown = (
+const generateDeleteButton = (
+  node: Node,
   state: EditorState,
   intl: InjectedIntl,
 ): FloatingToolbarItem<Command> => {
-  const { selection } = state;
-  const selectedNode = selection instanceof NodeSelection && selection.node;
-  const options: SelectOption[] = [];
-  const { inlineCard, blockCard } = state.schema.nodes;
+  const { inlineCard } = state.schema.nodes;
 
-  if (selectedNode && [inlineCard, blockCard].indexOf(selectedNode.type) > -1) {
-    const currentAppearance = appearanceForNodeType(selectedNode.type);
-
-    ['block', 'inline', 'link'].forEach(value => {
-      // don't allow conversion to link if it has no url attached
-      if (value === 'link' && !selectedNode.attrs.url) {
-        return;
-      }
-
-      if (value === 'block') {
-        // don't allow conversion if the parent node doesn't allow it
-        const { $from } = selection;
-        const containerDepth =
-          currentAppearance === 'block' ? $from.depth : $from.depth - 1;
-
-        const allowed = $from
-          .node(containerDepth)
-          .type.validContent(
-            Fragment.from(
-              blockCard.createChecked(
-                selectedNode.attrs,
-                undefined,
-                selectedNode.marks,
-              ),
-            ),
-          );
-
-        if (!allowed) {
-          return;
-        }
-      }
-
-      options.push({
-        value,
-        label: intl.formatMessage(messages[value]),
-        selected: currentAppearance === value,
-      });
-    });
+  if (node.type === inlineCard) {
+    return {
+      type: 'button',
+      title: intl.formatMessage(linkToolbarMessages.unlink),
+      icon: UnlinkIcon,
+      onClick: unlinkCard(node, state),
+    };
   }
 
   return {
-    type: 'select',
-    options,
-    defaultValue: options.find(option => !!option.selected),
-    onChange: changeAppearance,
+    type: 'button',
+    appearance: 'danger',
+    icon: RemoveIcon,
+    onMouseEnter: hoverDecoration(node.type, true),
+    onMouseLeave: hoverDecoration(node.type, false),
+    title: intl.formatMessage(commonMessages.remove),
+    onClick: removeCard,
   };
-}; */
+};
 
-export const floatingToolbar = (
+const generateToolbarItems = (
   state: EditorState,
   intl: InjectedIntl,
-): FloatingToolbarConfig | undefined => {
-  const { selection, schema } = state;
-  const { inlineCard, blockCard } = schema.nodes;
-  const nodeType = [inlineCard, blockCard];
-  if (!(selection instanceof NodeSelection)) {
-    return undefined;
+  providerFactory: ProviderFactory,
+) => (node: Node): Array<FloatingToolbarItem<Command>> => {
+  const { url } = titleUrlPairFromNode(node);
+  if (url && !isSafeUrl(url)) {
+    return [];
   }
 
-  const { attrs } = selection.node;
-  const data = attrs.data || {};
-  const url = attrs.url || data.url;
-  if (!url || (url && !isSafeUrl(url))) {
-    return undefined;
-  }
+  const pluginState: CardPluginState = pluginKey.getState(state);
 
-  return {
-    title: 'Card floating controls',
-    nodeType,
-    items: [
-      // Temporarily disabled after https://product-fabric.atlassian.net/browse/MS-1308
-      // buildDropdown(state, intl),
-      // { type: 'separator' },
+  if (pluginState.showLinkingToolbar) {
+    return [
+      buildEditLinkToolbar({
+        providerFactory,
+        node,
+      }),
+    ];
+  } else {
+    return [
       {
         type: 'button',
-        icon: OpenIcon,
-        title: intl.formatMessage(commonMessages.visit),
-        onClick: visitCardLink,
+        selected: false,
+        title: intl.formatMessage(linkToolbarMessages.editLink),
+        showTitle: true,
+        onClick: editLink,
       },
       { type: 'separator' },
       {
         type: 'button',
-        appearance: 'danger',
-        icon: RemoveIcon,
-        onMouseEnter: hoverDecoration(nodeType, true),
-        onMouseLeave: hoverDecoration(nodeType, false),
-        title: intl.formatMessage(commonMessages.remove),
-        onClick: removeCard,
+        icon: OpenIcon,
+        className: 'hyperlink-open-link',
+        title: intl.formatMessage(linkToolbarMessages.openLink),
+        onClick: visitCardLink,
       },
-    ],
+      { type: 'separator' },
+      generateDeleteButton(node, state, intl),
+    ];
+  }
+};
+
+export const floatingToolbar = (
+  state: EditorState,
+  intl: InjectedIntl,
+  providerFactory: ProviderFactory,
+): FloatingToolbarConfig | undefined => {
+  const { inlineCard, blockCard } = state.schema.nodes;
+  const nodeType = [inlineCard, blockCard];
+
+  const pluginState: CardPluginState = pluginKey.getState(state);
+
+  return {
+    title: 'Card floating controls',
+    nodeType,
+    items: generateToolbarItems(state, intl, providerFactory),
+    ...(pluginState.showLinkingToolbar ? editLinkToolbarConfig : {}),
   };
 };

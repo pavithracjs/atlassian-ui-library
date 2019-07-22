@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import styled from 'styled-components';
 import { EditorView } from 'prosemirror-view';
+import { Node } from 'prosemirror-model';
 
 import { ButtonGroup } from '@atlaskit/button';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -32,6 +33,7 @@ export interface Props {
   editorView?: EditorView;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   target?: HTMLElement;
+  node: Node;
 }
 
 const ToolbarContainer = styled.div`
@@ -120,6 +122,7 @@ export const isSameItem = (leftItem: Item, rightItem: Item): boolean => {
         'options',
       ]);
     case 'custom':
+      return false;
     case 'separator':
       return compareItemWithKeys(leftItem, rightItem as typeof leftItem);
   }
@@ -263,6 +266,9 @@ export default class Toolbar extends Component<Props> {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    return !areSameItems(this.props.items, nextProps.items);
+    return (
+      this.props.node.type !== nextProps.node.type ||
+      !areSameItems(this.props.items, nextProps.items)
+    );
   }
 }

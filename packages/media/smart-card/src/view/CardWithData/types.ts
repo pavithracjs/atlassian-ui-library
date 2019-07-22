@@ -7,4 +7,5 @@ export interface CardWithDataContentProps {
   data: CardState['details'];
   onClick?: EventHandler<MouseEvent | KeyboardEvent>;
   isSelected?: boolean;
+  onResolve?: (data: { url?: string; title?: string }) => void;
 }

@@ -61,6 +61,8 @@ export const createPlugin = ({
         return {
           requests: [],
           provider: null,
+          cards: [],
+          showLinkingToolbar: false,
         };
       },
 
@@ -71,6 +73,11 @@ export const createPlugin = ({
           requests: pluginState.requests.map(request => ({
             ...request,
             pos: tr.mapping.map(request.pos),
+          })),
+
+          cards: pluginState.cards.map(card => ({
+            ...card,
+            pos: tr.mapping.map(card.pos),
           })),
         };
 

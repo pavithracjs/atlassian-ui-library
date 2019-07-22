@@ -6,6 +6,7 @@ type BaseCardProps = {
   onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   importer?: (target: any) => void;
   container?: HTMLElement;
+  onResolve?: (data: { url?: string; title?: string }) => void;
 };
 
 export type CardWithData = BaseCardProps & {

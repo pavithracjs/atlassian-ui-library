@@ -7,4 +7,5 @@ export type InlineCardProps = {
   handleAuthorize: (() => void) | undefined;
   handleFrameClick: EventHandler<MouseEvent | KeyboardEvent>;
   isSelected?: boolean;
+  onResolve?: (data: { url?: string; title?: string }) => void;
 };

@@ -17,7 +17,7 @@ Object {
               "name": "Welcome to Atlassian!",
               "url": "http://www.atlassian.com",
             },
-            "url": "",
+            "url": null,
           },
           "type": "inlineCard",
         },

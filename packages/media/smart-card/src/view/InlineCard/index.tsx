@@ -18,6 +18,7 @@ export const InlineCard: FC<InlineCardProps> = ({
   handleAuthorize,
   handleFrameClick,
   isSelected,
+  onResolve,
 }) => {
   const { status, details } = cardState;
   switch (status) {
@@ -38,9 +39,20 @@ export const InlineCard: FC<InlineCardProps> = ({
         />
       );
     case 'resolved':
+      const props = extractInlinePropsFromJSONLD(
+        (details && details.data) || {},
+      );
+
+      if (onResolve) {
+        onResolve({
+          url,
+          title: props.title,
+        });
+      }
+
       return (
         <InlineCardResolvedView
-          {...extractInlinePropsFromJSONLD((details && details.data) || {})}
+          {...props}
           link={url}
           isSelected={isSelected}
           onClick={handleFrameClick}

@@ -139,6 +139,8 @@ export default class Example extends Component {
         <Container>
           <Toolbar
             items={this.getActiveItems()}
+            // these examples aren't prosemirror specific
+            node={undefined as any}
             dispatchCommand={() => SAVE_ACTION}
           />
         </Container>

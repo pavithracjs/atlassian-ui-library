@@ -26,7 +26,7 @@ export const inlineCard: NodeSpec = {
   selectable: true,
   draggable: true,
   attrs: {
-    url: { default: '' },
+    url: { default: null },
     data: { default: null },
   },
   parseDOM: [
@@ -41,7 +41,7 @@ export const inlineCard: NodeSpec = {
         const data = anchor.getAttribute('data-card-data');
 
         return {
-          url: anchor.getAttribute('href'),
+          url: anchor.getAttribute('href') || null,
           data: data ? JSON.parse(data) : null,
         };
       },
@@ -65,9 +65,13 @@ export const inlineCard: NodeSpec = {
   toDOM(node: PMNode) {
     const attrs = {
       'data-inline-card': '',
-      href: node.attrs.url,
+      href: node.attrs.url || '',
       'data-card-data': node.attrs.data ? JSON.stringify(node.attrs.data) : '',
     };
-    return ['a', attrs, node.attrs.url];
+    if (node.attrs.url) {
+      return ['a', attrs, node.attrs.url];
+    } else {
+      return ['a', attrs];
+    }
   },
 };

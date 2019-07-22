@@ -5,6 +5,8 @@ import { EditorView } from 'prosemirror-view';
 import { Context as SmartCardContext } from '@atlaskit/smart-card';
 
 import { isSafeUrl } from '@atlaskit/adf-schema';
+import { getPosHandler } from '../../../nodeviews';
+import { titleUrlPairFromNode } from '../utils';
 
 type EditorContext<T> = React.Context<T> & { value: T };
 
@@ -13,6 +15,7 @@ export interface CardProps {
   node: PMNode;
   selected: boolean;
   view: EditorView;
+  getPos: getPosHandler;
 }
 
 export interface SmartCardProps extends CardProps {
@@ -33,7 +36,7 @@ export function Card(
     };
 
     render() {
-      const { url } = this.props.node.attrs;
+      const { url } = titleUrlPairFromNode(this.props.node);
       if (url && !isSafeUrl(url)) {
         return <UnsupportedComponent />;
       }

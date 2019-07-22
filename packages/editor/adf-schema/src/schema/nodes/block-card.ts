@@ -27,7 +27,7 @@ export const blockCard: NodeSpec = {
   draggable: true,
   selectable: true,
   attrs: {
-    url: { default: '' },
+    url: { default: null },
     data: { default: null },
   },
   parseDOM: [
@@ -42,7 +42,7 @@ export const blockCard: NodeSpec = {
         const data = anchor.getAttribute('data-card-data');
 
         return {
-          url: anchor.getAttribute('href'),
+          url: anchor.getAttribute('href') || null,
           data: data ? JSON.parse(data) : null,
         };
       },
@@ -56,7 +56,7 @@ export const blockCard: NodeSpec = {
         const data = anchor.getAttribute('data-card-data');
 
         return {
-          url: anchor.getAttribute('data-card-url'),
+          url: anchor.getAttribute('data-card-url') || null,
           data: data ? JSON.parse(data) : null,
         };
       },
@@ -65,7 +65,7 @@ export const blockCard: NodeSpec = {
   toDOM(node: PMNode) {
     const attrs = {
       'data-block-card': '',
-      href: node.attrs.url,
+      href: node.attrs.url || '',
       'data-card-data': node.attrs.data ? JSON.stringify(node.attrs.data) : '',
     };
     return ['a', attrs];

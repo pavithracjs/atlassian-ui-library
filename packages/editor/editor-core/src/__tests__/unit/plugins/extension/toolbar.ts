@@ -13,6 +13,7 @@ import { pluginKey } from '../../../../plugins/extension/plugin';
 import { getToolbarConfig } from '../../../../plugins/extension/toolbar';
 import commonMessages from '../../../../messages';
 import { EditorProps } from '../../../../types';
+import { getToolbarItems } from '../floating-toolbar/_helpers';
 
 describe('extension toolbar', () => {
   const createEditor = createEditorFactory();
@@ -61,7 +62,7 @@ describe('extension toolbar', () => {
         providerFactory,
       );
       expect(toolbar).toBeDefined();
-      const removeButton = toolbar!.items.find(
+      const removeButton = getToolbarItems(toolbar!, editorView).find(
         item => item.type === 'button' && item.title === removeTitle,
       );
 
@@ -86,7 +87,7 @@ describe('extension toolbar', () => {
         providerFactory,
       );
       expect(toolbar).toBeDefined();
-      const editButton = toolbar!.items.find(
+      const editButton = getToolbarItems(toolbar!, editorView).find(
         item => item.type === 'button' && item.title === 'Edit',
       );
 
@@ -110,7 +111,7 @@ describe('extension toolbar', () => {
         providerFactory,
       );
       expect(toolbar).toBeDefined();
-      const breakoutButtons = toolbar!.items.filter(
+      const breakoutButtons = getToolbarItems(toolbar!, editorView).filter(
         item =>
           item.type === 'button' &&
           [
@@ -138,7 +139,7 @@ describe('extension toolbar', () => {
         providerFactory,
       );
       expect(toolbar).toBeDefined();
-      const breakoutButtons = toolbar!.items.filter(
+      const breakoutButtons = getToolbarItems(toolbar!, editorView).filter(
         item =>
           item.type === 'button' &&
           [

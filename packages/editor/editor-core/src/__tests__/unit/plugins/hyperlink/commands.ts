@@ -219,6 +219,7 @@ describe('hyperlink commands', () => {
         )(view.state, view.dispatch),
       ).toBe(true);
       expect(cardPluginKey.getState(view.state)).toEqual({
+        cards: [],
         requests: [
           {
             url: 'http://www.atlassian.com/',
@@ -229,6 +230,7 @@ describe('hyperlink commands', () => {
           },
         ],
         provider: null, // cardProvider would have been set yet
+        showLinkingToolbar: false,
       });
     });
     it('should not insert a href which contains XSS', () => {

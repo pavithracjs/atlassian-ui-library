@@ -44,6 +44,7 @@ describe('inlineCard', () => {
         node={mockInlinePmNode}
         view={mockEditorView}
         selected={false}
+        getPos={() => 0}
       />,
     );
     const wrapper = mockInlineCardNode.find(Card);
@@ -64,6 +65,7 @@ describe('inlineCard', () => {
         node={mockInlinePmNode}
         view={mockEditorView}
         selected={false}
+        getPos={() => 0}
       />,
     );
     const wrapper = mockInlineCardNode.find(Card);

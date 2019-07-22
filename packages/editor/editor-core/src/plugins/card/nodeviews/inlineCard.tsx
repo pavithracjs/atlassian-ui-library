@@ -8,6 +8,7 @@ import { ZeroWidthSpace } from '../../../utils';
 import { SmartCardProps, Card } from './genericCard';
 import UnsupportedInlineNode from '../../unsupported-content/nodeviews/unsupported-inline';
 import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
+import { registerCard } from '../pm-plugins/actions';
 
 export class InlineCardComponent extends React.PureComponent<SmartCardProps> {
   private scrollContainer?: HTMLElement;
@@ -22,6 +23,23 @@ export class InlineCardComponent extends React.PureComponent<SmartCardProps> {
     const scrollContainer = findOverflowScrollParent(view.dom as HTMLElement);
     this.scrollContainer = scrollContainer || undefined;
   }
+
+  onResolve = (data: { url?: string; title?: string }) => {
+    const { getPos, view } = this.props;
+    if (!getPos) {
+      return;
+    }
+
+    const { title, url } = data;
+
+    view.dispatch(
+      registerCard({
+        title,
+        url,
+        pos: getPos(),
+      })(view.state.tr),
+    );
+  };
 
   render() {
     const { node, selected, cardContext } = this.props;
@@ -38,6 +56,7 @@ export class InlineCardComponent extends React.PureComponent<SmartCardProps> {
             isSelected={selected}
             onClick={this.onClick}
             container={this.scrollContainer}
+            onResolve={this.onResolve}
           />
         </span>
       </span>
@@ -62,6 +81,7 @@ export class InlineCard extends SelectionBasedNodeView {
         node={this.node}
         selected={this.insideSelection()}
         view={this.view}
+        getPos={this.getPos}
       />
     );
   }
