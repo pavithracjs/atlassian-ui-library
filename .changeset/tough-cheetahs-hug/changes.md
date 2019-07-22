@@ -1,0 +1,1 @@
+update docs to latest component state (React + Popup), improve information
