@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 45.0.7
+
+### Patch Changes
+
+- [patch][e29ffdb057](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e29ffdb057):
+
+  update docs to latest component state (React + Popup), improve information
+
 ## 45.0.6
 
 - Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
