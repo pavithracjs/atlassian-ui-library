@@ -1,6 +1,5 @@
 import { NodeSerializerOpts } from '../interfaces';
 import { createTag } from '../create-tag';
-import { serializeStyle } from '../serialize-style';
 import { N30, N50, N800 } from '@atlaskit/adf-schema';
 import { createClassName } from '../styles/util';
 
@@ -24,8 +23,11 @@ export const styles = `
   -moz-border-radius: 3px;
 }
 .${className}-wrapper {
-  margin: 24px auto;
+  margin: 12px;
   text-align: center;
+}
+.${className}-img {
+  max-width: 100%;
 }
 `;
 
@@ -39,21 +41,9 @@ export default function media({ attrs }: NodeSerializerOpts) {
     src = attrs.url;
   }
   if (src) {
-    const style: any = {
-      'max-width': '100%',
-    };
-    const elementAttrs: any = {};
-
-    if (attrs.width) {
-      elementAttrs.width = attrs.width;
-    }
-    if (attrs.height) {
-      elementAttrs.height = attrs.height;
-    }
     const img = createTag('img', {
-      style: serializeStyle(style),
+      class: `${className}-img`,
       src,
-      ...elementAttrs,
     });
     return createTag('div', { class: `${className}-wrapper` }, img);
   }
