@@ -5,7 +5,11 @@ import {
 } from '../interfaces';
 import { createTag } from '../create-tag';
 import { N30, B400 } from '@atlaskit/adf-schema';
-import { createClassName } from '../styles/util';
+import {
+  createClassName,
+  MEDIA_PREVIEW_IMAGE_WIDTH,
+  MEDIA_PREVIEW_IMAGE_HEIGHT,
+} from '../styles/util';
 import { createContentId, IconString } from '../static';
 
 const className = createClassName('media');
@@ -120,8 +124,8 @@ const renderLozenge = (metadata?: MediaMetaDataContextItem) => {
 
 const previewStyles = `
 .${className}-preview-img {
-  width: 200px;
-  height: 120px;
+  width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
+  height: ${MEDIA_PREVIEW_IMAGE_HEIGHT}px;
   background-color: white;
   display: block;
   object-fit: cover;

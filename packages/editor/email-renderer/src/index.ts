@@ -173,4 +173,5 @@ export class EmailSerializer implements SerializerWithImages<string> {
 }
 
 export * from './interfaces';
+export * from './styles/util';
 export default EmailSerializer;
