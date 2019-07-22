@@ -462,7 +462,7 @@
     "postis": "^2.2.0",
     "pretty-proptypes": "^0.5.0",
     "prettyjson": "^1.2.1",
-    "prismjs": "^1.6.0",
+    "prismjs": "^1.17.1",
     "prop-types": "^15.5.10",
     "prosemirror-collab": "^1.0.0",
     "prosemirror-commands": "^1.0.7",
