@@ -172,6 +172,12 @@ type AuthProvider = (context?: AuthContext) => Promise<Auth>;`}
 
   * **container?**: HTMLElement - Container element for dropzone to render
 
+  Here's an example of using the component.
+
+  **NOTE:**
+  
+  * To cancel the upload take a look at the \`onCancelFn\` prop. You are passed a ref to a function which you can call later by passing an upload id you received before.
+
   ${code`import { Dropzone } from '@atlaskit/media-picker';
 
 const mediaClientConfig = {
@@ -187,13 +193,22 @@ const dropZoneConfig = {
 
   Here's an example of using the component.
 
-  ${code`<Dropzone
+  **NOTE:**
+  
+  * To cancel the upload take a look at the \`onCancelFn\` prop. You are passed a ref to a function which you can call later by passing an upload id you received before.
+
+  ${code`function onCancelFn(cancelFn) {
+    // do something with cancelFn when needed...
+    setTimeout(() => cancelFn('some-upload-id'), 1000)
+  }
+
+<Dropzone
   mediaClientConfig={mediaClientConfig}
   config={dropZoneConfig}
   onDragEnter={onDragEnterFn}
   onDragLeave={onDragLeaveFn}
   onDrop={onDropFn}
-  onCancelFn={onCancelFnFn}
+  onCancelFn={onCancelFn}
   onUploadsStart={onUploadsStartFn}
   onProcessing={onProcessingFn}
   onStatusUpdate={onStatusUpdateFn}
@@ -208,6 +223,8 @@ const dropZoneConfig = {
   The \`Clipboard\` React component provides copy &amp; paste capabilities. This allows the user to paste copied files into the browser.
 
   _It does not have any additional configuration beyond the base configuration options available._
+
+  Here's an example of using the component.
 
   ${code`import { Clipboard } from '@atlaskit/media-picker';
 
@@ -250,6 +267,13 @@ ${code`<Clipboard
 
   * **multiple?**: \`boolean\` - whether or not to allow multiple files during selection
   * **fileExtensions?**: \`Array<string>\` - limit file types to given extensions
+  
+  Here's an example of using the component.
+
+  **NOTE:**
+
+  * To cancel the upload take a look at the \`onCancelFn\` prop. You are passed a ref to a function which you can call later by passing an upload id you received before.
+  * If you want to render the component without showing the native dialog immediately, you can use the \`onBrowseFn\` prop to receive a function which can be called later.
 
   ${code`import { Clipboard } from '@atlaskit/media-picker';
 
@@ -265,12 +289,22 @@ const browserConfig = {
   },
 };`}
 
-${code`<Browser
+${code`function onCancelFn(cancelFn) {
+  // cancel known upload with cancelFn when needed...
+  setTimeout(() => cancelFn('some-upload-id'), 1000)
+}
+
+function onBrowseFnHandler(browseFn) {
+  // show native browser dialog with browseFn when needed...
+  setTimeout(() => browseFn(), 1000)
+}
+
+<Browser
   mediaClientConfig={mediaClientConfig}
   config={browserConfig}
   isOpen={true}
   onBrowseFn={onBrowseFnHandler}
-  onCancelFn={onBrowseFnHandler}
+  onCancelFn={onCancelFn}
   onUploadsStart={onUploadsStartFn}
   onProcessing={onProcessingFn}
   onStatusUpdate={onStatusUpdateFn}
