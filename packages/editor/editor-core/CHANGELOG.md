@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.35.0
+
+### Minor Changes
+
+- [minor][d4218e8388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4218e8388):
+
+  [ED-7018] Improve table performance moving the column controls from external divs to Prosemirror Decorations inside of the table cells.
+
 ## 112.34.2
 
 - Updated dependencies [bc0d3bf0b2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bc0d3bf0b2):
