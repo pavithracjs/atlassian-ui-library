@@ -11,8 +11,13 @@ describe('<Filmstrip />', () => {
     id: 'id-1',
     mediaItemType: 'file',
   };
+  const secondIdentifier: Identifier = {
+    id: 'id-2',
+    mediaItemType: 'file',
+  };
   type Arguments = {
     items?: FilmstripProps['items'];
+    shouldOpenMediaViewer?: FilmstripProps['shouldOpenMediaViewer'];
     mediaClientConfig?: FilmstripProps['mediaClientConfig'];
   };
   const setup = (props: Arguments = {}) => {
@@ -22,10 +27,7 @@ describe('<Filmstrip />', () => {
         identifier: firstIdenfier,
       },
       {
-        identifier: {
-          id: 'id-2',
-          mediaItemType: 'file',
-        },
+        identifier: secondIdentifier,
       },
     ];
     const component = shallow(
@@ -68,7 +70,7 @@ describe('<Filmstrip />', () => {
     ).toEqual('id-2');
   });
 
-  it('should pass properties down to Cards', () => {
+  it.only('should pass properties down to Cards', () => {
     const { component, mediaClientConfig } = setup({
       items: [
         {
@@ -76,7 +78,11 @@ describe('<Filmstrip />', () => {
           selectable: true,
           selected: true,
         },
+        {
+          identifier: secondIdentifier,
+        },
       ],
+      shouldOpenMediaViewer: true,
     });
 
     expect(
@@ -94,6 +100,8 @@ describe('<Filmstrip />', () => {
           id: 'id-1',
           mediaItemType: 'file',
         },
+        shouldOpenMediaViewer: true,
+        mediaViewerDataSource: { list: [firstIdenfier, secondIdentifier] },
       }),
     );
   });
