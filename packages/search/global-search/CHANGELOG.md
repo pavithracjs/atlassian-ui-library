@@ -1,5 +1,45 @@
 # @atlaskit/global-search
 
+## 10.5.0
+
+### Minor Changes
+
+- [minor][dd3a518fe9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd3a518fe9):
+
+  Send filtered spaces to advanced search
+
+## 10.4.2
+
+### Patch Changes
+
+- [patch][78c4a2b655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/78c4a2b655):
+
+  Fixed a minor dep import so its compatible with all recent versions of atlaskit/avatar
+
+## 10.4.1
+
+### Patch Changes
+
+- [patch][dd9ca0710e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd9ca0710e):
+
+  Removed incorrect jsnext:main field from package.json
+
+## 10.4.0
+
+### Minor Changes
+
+- [minor][96ff4ffc6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96ff4ffc6d):
+
+  Fixed space filter showing on intermediate pre query screen
+
+## 10.3.4
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 10.3.3
 
 ### Patch Changes

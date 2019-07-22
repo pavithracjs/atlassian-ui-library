@@ -1,5 +1,21 @@
 # @atlaskit/analytics-next
 
+## 5.1.3
+
+### Patch Changes
+
+- [patch][c6ad66d326](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6ad66d326):
+
+  The types property in package.json now points to the correct file"
+
+## 5.1.2
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 5.1.1
 
 ### Patch Changes

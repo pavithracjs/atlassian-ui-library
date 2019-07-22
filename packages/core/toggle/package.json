@@ -1,13 +1,14 @@
 {
   "name": "@atlaskit/toggle",
-  "version": "7.0.3",
+  "version": "8.0.0",
   "description": "A component to view and switch between enabled or disabled states",
   "license": "Apache-2.0",
+  "types": "dist/cjs/index.d.ts",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
-  "atlaskit:src": "src/index.js",
-  "sideEffects": false,
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/toggles",
+  "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
@@ -21,11 +22,11 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^5.0.2",
+    "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/theme": "^9.1.1",
-    "@babel/runtime": "^7.0.0",
-    "react-uid": "^2.2.0"
+    "react-uid": "^2.2.0",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
@@ -33,7 +34,7 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^13.0.9",
+    "@atlaskit/button": "^13.0.16",
     "@atlaskit/docs": "^8.1.3",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",

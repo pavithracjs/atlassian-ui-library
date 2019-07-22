@@ -1,6 +1,6 @@
 import { Action, Store, Dispatch } from 'redux';
 
-import { updateServiceList } from '../actions';
+import { updateServiceList } from '../actions/updateServiceList';
 import { Fetcher } from '../tools/fetcher/fetcher';
 import { State } from '../domain';
 import {

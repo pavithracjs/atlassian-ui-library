@@ -1,5 +1,10 @@
 # @atlaskit/form
 
+## 6.1.5
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/toggle@8.0.0
+
 ## 6.1.4
 
 - Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):

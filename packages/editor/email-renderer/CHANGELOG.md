@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.9.0
+
+### Minor Changes
+
+- [minor][435258881c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/435258881c):
+
+  CS-1238 Media honor width and flow settings
+
 ## 2.8.0
 
 ### Minor Changes

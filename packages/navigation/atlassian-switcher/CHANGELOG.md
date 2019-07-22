@@ -1,5 +1,29 @@
 # @atlaskit/atlassian-switcher
 
+## 3.7.0
+
+### Minor Changes
+
+- [minor][5ac638ae2e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ac638ae2e):
+
+  Revert the change that filteres the current product from the list of products in switcher because that makes filtering too eager
+
+## 3.6.0
+
+### Minor Changes
+
+- [minor][f5d0b1aef8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f5d0b1aef8):
+
+  Removed the site-product combination the user is on from the switcher options
+
+## 3.5.1
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 3.5.0
 
 ### Minor Changes

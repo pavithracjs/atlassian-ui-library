@@ -1,5 +1,13 @@
 # @atlaskit/tooltip
 
+## 15.0.5
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 15.0.4
 
 ### Patch Changes

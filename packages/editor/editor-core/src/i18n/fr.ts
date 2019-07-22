@@ -6,7 +6,7 @@
  */
 // French
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Ajouter un lien',
   'fabric.editor.openLink': 'Ouvrir le lien dans un nouvel onglet',
   'fabric.editor.unlink': 'Dissocier',
   'fabric.editor.editLink': 'Modifier le lien',
@@ -132,7 +132,7 @@ export default {
   'fabric.editor.annotate': 'Annoter',
   'fabric.editor.wrapLeft': 'Ajuster vers la gauche',
   'fabric.editor.wrapRight': 'Ajuster vers la droite',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Retour',
   'fabric.editor.info': 'Informations',
   'fabric.editor.note': 'Note',
   'fabric.editor.success': 'Opération réussie',
@@ -171,7 +171,7 @@ export default {
   'fabric.editor.bold': 'Gras',
   'fabric.editor.italic': 'Italique',
   'fabric.theme.#172b4d': 'Gris foncé',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Gris clair',
   'fabric.theme.#6554c0': 'Violet',
   'fabric.theme.#00b8d9': 'Gris-bleu',
   'fabric.theme.#36b37e': 'Vert',

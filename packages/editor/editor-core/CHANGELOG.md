@@ -1,5 +1,89 @@
 # @atlaskit/editor-core
 
+## 112.33.34
+
+### Patch Changes
+
+- [patch][926ca90f35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926ca90f35):
+
+  Update i18n strings with latest translations
+
+## 112.33.33
+
+### Patch Changes
+
+- [patch][31a61bf470](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/31a61bf470):
+
+  ED-6379 Prevent layout trashing on table resizing/update.
+
+## 112.33.32
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/avatar-group@4.0.7
+  - @atlaskit/share@0.5.15
+  - @atlaskit/media-card@63.3.7
+  - @atlaskit/media-picker@45.0.6
+  - @atlaskit/toggle@8.0.0
+
+## 112.33.31
+
+### Patch Changes
+
+- [patch][0c43589d06](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c43589d06):
+
+  fix: 🐛 ED-4920: set GapCursor selection after pasting mediaSingle in a table cell
+
+## 112.33.30
+
+### Patch Changes
+
+- [patch][51fa352bef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51fa352bef):
+
+  ED-7275 Fix bug where inserting a new column in a merged column, add the column at the beggining.
+
+## 112.33.29
+
+### Patch Changes
+
+- [patch][846f0e72ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/846f0e72ba):
+
+  ED-7280: Editor shouldnt attempt to apply focus while it isnt editable. If our disabled flag changes to false and we have the prop shouldFocus, attempt to apply focus at this point.
+
+## 112.33.28
+
+### Patch Changes
+
+- [patch][a1b3b85cf4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b3b85cf4):
+
+  ED-6475 Show overflow shadow when table is not selected
+
+## 112.33.27
+
+### Patch Changes
+
+- [patch][7b5254402e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7b5254402e):
+
+  ED-7268 Fix regression where table insert button is not shown when a cell is selected
+
+## 112.33.26
+
+### Patch Changes
+
+- [patch][8b3bf71af7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b3bf71af7):
+
+  ED-7274: Applying text colour over a range should only apply to text nodes
+
+## 112.33.25
+
+### Patch Changes
+
+- [patch][ba223c9878](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ba223c9878):
+
+  ED-7267: Validate URLs passing through smart links- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 112.33.24
 
 ### Patch Changes

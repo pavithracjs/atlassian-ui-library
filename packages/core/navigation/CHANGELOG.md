@@ -1,5 +1,20 @@
 # @atlaskit/navigation
 
+## 35.1.12
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/page@11.0.5
+  - @atlaskit/toggle@8.0.0
+
+## 35.1.11
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 35.1.10
 
 ### Patch Changes

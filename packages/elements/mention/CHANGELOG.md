@@ -1,5 +1,21 @@
 # @atlaskit/mention
 
+## 18.8.0
+
+### Minor Changes
+
+- [minor][2d8dd7bc30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d8dd7bc30):
+
+  Now able to take a prop that will show a feature highlight
+
+## 18.7.3
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 18.7.2
 
 ### Patch Changes

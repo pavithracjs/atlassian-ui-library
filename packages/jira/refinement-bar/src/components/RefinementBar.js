@@ -27,7 +27,7 @@ import Popup, { DialogInner } from './Popup';
 import { FilterButton } from './FilterButton';
 import { FilterManager } from './FilterManager';
 
-import { cloneObj, objectMap, stringCompare } from '../utils';
+import { cloneObj, isEqualArr, objectMap, stringCompare } from '../utils';
 import {
   createAndFire,
   defaultAttributes,
@@ -273,6 +273,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
           field={field}
           invalidMessage={invalidMessage}
           key={key}
+          onClear={() => this.handleFieldClear(key)}
           onChange={this.handleFieldChange(key)}
           refinementBarValue={this.context.value}
           storedValue={storedValue}
@@ -360,6 +361,12 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     return { label, value }; // react-select expects this shape
   };
 
+  shouldDisplayAddUI = () => {
+    const { fieldKeys, irremovableKeys } = this.context;
+
+    return !isEqualArr(fieldKeys, irremovableKeys);
+  };
+
   render() {
     const { irremovableKeys, selectedKeys } = this.context;
     const { isExpanded } = this.state;
@@ -385,33 +392,35 @@ class ActualRefinementBar extends PureComponent<Props, State> {
         ) : null}
 
         {/* Add Filter Popup */}
-        <Popup
-          onOpen={() => this.openPopup(FILTER_POPUP_KEY)}
-          onClose={this.closePopup}
-          isOpen={activePopupKey === FILTER_POPUP_KEY}
-          target={({ isOpen, onClick, ref }: *) => (
-            <Button
-              appearance="link"
-              iconBefore={<AddIcon />}
-              ref={ref}
-              isSelected={isOpen}
-              onClick={onClick}
-            >
-              More
-            </Button>
-          )}
-        >
-          {({ scheduleUpdate }) => (
-            <DialogInner minWidth={220}>
-              <FilterManager
-                options={this.filterOptions}
-                onChange={this.onChangeFilter}
-                scheduleUpdate={scheduleUpdate}
-                value={this.getFilterValue(selectedKeys)}
-              />
-            </DialogInner>
-          )}
-        </Popup>
+        {this.shouldDisplayAddUI() ? (
+          <Popup
+            onOpen={() => this.openPopup(FILTER_POPUP_KEY)}
+            onClose={this.closePopup}
+            isOpen={activePopupKey === FILTER_POPUP_KEY}
+            target={({ isOpen, onClick, ref }: *) => (
+              <Button
+                appearance="link"
+                iconBefore={<AddIcon />}
+                ref={ref}
+                isSelected={isOpen}
+                onClick={onClick}
+              >
+                More
+              </Button>
+            )}
+          >
+            {({ scheduleUpdate }) => (
+              <DialogInner minWidth={220}>
+                <FilterManager
+                  options={this.filterOptions}
+                  onChange={this.onChangeFilter}
+                  scheduleUpdate={scheduleUpdate}
+                  value={this.getFilterValue(selectedKeys)}
+                />
+              </DialogInner>
+            )}
+          </Popup>
+        ) : null}
 
         {isExpanded && selectedKeys.length ? (
           <Button

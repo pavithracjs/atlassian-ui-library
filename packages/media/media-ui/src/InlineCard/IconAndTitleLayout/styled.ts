@@ -4,7 +4,7 @@ import { HTMLAttributes, ComponentClass } from 'react';
 // TODO: remove this override behaviour for @atlaskit/icon-object
 export const IconObjectOverrides = `
   & > span {
-    height: 100%;
+    height: 16px;
     width: 14px;
     & > svg {
       vertical-align: top;
@@ -14,7 +14,7 @@ export const IconObjectOverrides = `
 // TODO: remove this override behaviour for @atlaskit/icon
 export const IconOverrides = `
   & > span > span {
-    height: 100%;
+    height: 16px;
     width: 14px;
     & > svg {
       vertical-align: top;

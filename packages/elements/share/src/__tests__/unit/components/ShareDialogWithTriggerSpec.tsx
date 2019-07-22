@@ -3,7 +3,7 @@ import ShareIcon from '@atlaskit/icon/glyph/share';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
-import { FormattedMessage, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import { ConfigResponse } from '../../../clients/ShareServiceClient';
 import ShareButton, {
   Props as ShareButtonProps,
@@ -11,7 +11,6 @@ import ShareButton, {
 import {
   defaultShareContentState,
   Props,
-  ShareDialogWithTrigger,
   ShareDialogWithTriggerInternal,
   State,
 } from '../../../components/ShareDialogWithTrigger';
@@ -23,6 +22,7 @@ import mockPopper from '../_mockPopper';
 mockPopper();
 
 describe('ShareDialogWithTrigger', () => {
+  let mockCreateAnalyticsEvent: jest.Mock;
   let mockOnShareSubmit: jest.Mock = jest.fn();
   const mockLoadOptions = () => [];
   const mockShowFlags: jest.Mock = jest.fn();
@@ -40,17 +40,20 @@ describe('ShareDialogWithTrigger', () => {
       onShareSubmit: mockOnShareSubmit,
       shareContentType: 'page',
       showFlags: mockShowFlags,
+      createAnalyticsEvent: mockCreateAnalyticsEvent,
 
       ...overrides,
     };
 
-    return shallowWithIntl<Props>(<ShareDialogWithTrigger {...props} />)
-      .dive()
-      .dive()
-      .dive();
+    const WithIntl = injectIntl(ShareDialogWithTriggerInternal);
+
+    return shallowWithIntl<Props>(<WithIntl {...props} />);
   }
 
   beforeEach(() => {
+    mockCreateAnalyticsEvent = jest.fn().mockReturnValue({
+      fire: jest.fn(),
+    });
     mockOnShareSubmit.mockReset();
     mockShowFlags.mockReset();
     mockOnDialogOpen.mockReset();
@@ -271,7 +274,33 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockOnDialogOpen).toHaveBeenCalledTimes(1);
     });
 
-    it.skip('should send an analytic event', () => {});
+    it('should send an analytic event', () => {
+      const wrapper = getWrapper();
+      expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+      wrapper.find(ShareButton).simulate('click');
+      expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(2);
+      // Share button clicked event
+      expect(mockCreateAnalyticsEvent.mock.calls[0][0]).toMatchObject({
+        eventType: 'ui',
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: 'share',
+        attributes: {
+          packageName: expect.any(String),
+          packageVersion: expect.any(String),
+        },
+      });
+      // Share modal screen event
+      expect(mockCreateAnalyticsEvent.mock.calls[1][0]).toMatchObject({
+        eventType: 'screen',
+        name: 'shareModal',
+        attributes: {
+          packageName: expect.any(String),
+          packageVersion: expect.any(String),
+        },
+      });
+    });
   });
 
   describe('handleCloseDialog', () => {
@@ -284,8 +313,6 @@ describe('ShareDialogWithTrigger', () => {
         .simulate('close', { isOpen: false, event: { type: 'submit' } });
       expect((wrapper.state() as State).isDialogOpen).toEqual(false);
     });
-
-    it.skip('should send an analytic event', () => {});
 
     it('should be triggered when the InlineDialog is closed', () => {
       const wrapper = getWrapper();

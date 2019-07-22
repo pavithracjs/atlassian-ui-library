@@ -513,7 +513,7 @@ pipelines:
           script:
             - source ./build-setup.sh
             - bolt install --pure-lockfile
-            - yarn measure:dependents --s3
+            - yarn measure:dependents:s3
             - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize
             - if [ -e ".currentBundleSize/merged.json" ]; then node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json; fi
           artifacts:
@@ -580,7 +580,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem
+                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform
                 - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               # required to debug, may be we can remove this later
               artifacts:

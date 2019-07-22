@@ -1,5 +1,13 @@
 # @atlaskit/quick-search
 
+## 7.6.5
+
+### Patch Changes
+
+- [patch][dd9ca0710e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd9ca0710e):
+
+  Removed incorrect jsnext:main field from package.json
+
 ## 7.6.4
 
 ### Patch Changes

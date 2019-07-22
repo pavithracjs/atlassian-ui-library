@@ -120,10 +120,22 @@ export interface PrefetchedData {
   abTest: Promise<ABTest> | undefined;
 }
 
-export interface Filter {
-  '@type': string;
-  [filterType: string]: string[] | string;
+export enum FilterType {
+  Spaces = 'spaces',
+  Contributors = 'contributors',
 }
+
+export interface SpaceFilter {
+  '@type': FilterType.Spaces;
+  spaceKeys: string[];
+}
+
+export interface ContributorsFilter {
+  '@type': FilterType.Contributors;
+  accountIds: string[];
+}
+
+export type Filter = SpaceFilter | ContributorsFilter;
 
 export interface CrossProductSearchClient {
   search(

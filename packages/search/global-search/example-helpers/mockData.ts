@@ -3,6 +3,7 @@ import {
   CrossProductSearchResponse,
   CrossProductExperimentResponse,
   Filter,
+  SpaceFilter,
 } from '../src/api/CrossProductSearchClient';
 import {
   Scope,
@@ -306,7 +307,12 @@ export function makeCrossProductSearchData(
 
   return (term: string, filters: Filter[] = []) => {
     term = term.toLowerCase();
-    const spaceFilter = filters.find(filter => filter['@type'] === 'spaces');
+
+    function instanceOfSpaceFilter(filter: Filter): filter is SpaceFilter {
+      return filter['@type'] === 'spaces';
+    }
+
+    const spaceFilter = filters.find(instanceOfSpaceFilter);
     const filteredSpaceKey = spaceFilter && spaceFilter['spaceKeys'][0];
 
     const applySpaceFilter = (result: ConfluenceItem) =>

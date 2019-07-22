@@ -1,5 +1,11 @@
 # @atlaskit/avatar-group
 
+## 4.0.7
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/toggle@8.0.0
+
 ## 4.0.6
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):

@@ -79,35 +79,38 @@ export default class ColumnControls extends Component<Props, any> {
       <div className={ClassName.COLUMN_CONTROLS}>
         <div className={ClassName.COLUMN_CONTROLS_INNER}>
           <>
-            {columnsParams.map(({ startIndex, width }: ColumnParams) => (
-              <div
-                className={`${
-                  ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-                } ${getColumnClassNames(
-                  startIndex,
-                  selection,
-                  hoveredColumns,
-                  isInDanger,
-                  isResizing,
-                )}`}
-                key={startIndex}
-                style={{ width }}
-                onMouseDown={e => e.preventDefault()}
-              >
-                <button
-                  type="button"
-                  className={`${ClassName.COLUMN_CONTROLS_BUTTON} ${
-                    ClassName.CONTROLS_BUTTON
-                  }`}
-                  onClick={event =>
-                    this.selectColumn(startIndex, event.shiftKey)
-                  }
-                  onMouseOver={() => this.hoverColumns([startIndex])}
-                  onMouseOut={this.clearHoverSelection}
-                  data-index={startIndex}
-                />
-              </div>
-            ))}
+            {columnsParams.map(
+              ({ startIndex, endIndex, width }: ColumnParams) => (
+                <div
+                  className={`${
+                    ClassName.COLUMN_CONTROLS_BUTTON_WRAP
+                  } ${getColumnClassNames(
+                    startIndex,
+                    selection,
+                    hoveredColumns,
+                    isInDanger,
+                    isResizing,
+                  )}`}
+                  key={startIndex}
+                  style={{ width }}
+                  onMouseDown={e => e.preventDefault()}
+                >
+                  <button
+                    type="button"
+                    className={`${ClassName.COLUMN_CONTROLS_BUTTON} ${
+                      ClassName.CONTROLS_BUTTON
+                    }`}
+                    onClick={event =>
+                      this.selectColumn(startIndex, event.shiftKey)
+                    }
+                    onMouseOver={() => this.hoverColumns([startIndex])}
+                    onMouseOut={this.clearHoverSelection}
+                    data-start-index={startIndex}
+                    data-end-index={endIndex}
+                  />
+                </div>
+              ),
+            )}
           </>
         </div>
       </div>

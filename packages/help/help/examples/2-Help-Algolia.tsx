@@ -38,7 +38,7 @@ export default class extends React.Component {
                 articleId="nbgju45fddcNAvvH9lhHc"
                 onGetArticle={this.onGetArticle}
               >
-                <h1>Default content</h1>
+                <span>Default content</span>
               </Help>
             </LocaleIntlProvider>
           </HelpWrapper>

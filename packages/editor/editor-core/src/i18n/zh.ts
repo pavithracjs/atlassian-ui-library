@@ -6,7 +6,7 @@
  */
 // Chinese
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': '添加链接',
   'fabric.editor.openLink': '在新选项卡打开链接',
   'fabric.editor.unlink': '取消链接',
   'fabric.editor.editLink': '编辑链接',
@@ -111,7 +111,7 @@ export default {
   'fabric.editor.annotate': '标注',
   'fabric.editor.wrapLeft': '隐藏左边',
   'fabric.editor.wrapRight': '隐藏右边',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': '返回',
   'fabric.editor.info': '信息',
   'fabric.editor.note': '说明',
   'fabric.editor.success': '成功',
@@ -145,7 +145,7 @@ export default {
   'fabric.editor.bold': '粗体',
   'fabric.editor.italic': '斜体',
   'fabric.theme.#172b4d': '深灰色',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': '浅灰',
   'fabric.theme.#6554c0': '紫色',
   'fabric.theme.#00b8d9': '蓝绿色',
   'fabric.theme.#36b37e': '绿色',

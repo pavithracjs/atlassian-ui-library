@@ -9,8 +9,40 @@ import {
 import { TableCssClassName as ClassName } from '../../../types';
 import { getPluginState as getMainPluginState } from '../../main';
 import { closestElement } from '../../../../../utils';
-import { updateRightShadow } from '../../../nodeviews/TableComponent';
+import { updateOverflowShadows } from '../../../nodeviews/TableComponent';
 import { pointsAtCell, domCellAround, edgeCell } from './misc';
+
+function getWidths(children: HTMLCollection): Array<number | undefined> {
+  const widths: Array<number | undefined> = [];
+  for (let i = 0, count = children.length; i < count; i++) {
+    const child: HTMLElement = children[i] as HTMLElement;
+    if (child) {
+      const rect = child.getBoundingClientRect();
+      const width = rect ? rect.width : child.offsetWidth;
+      widths[i] = width;
+    } else {
+      widths[i] = undefined;
+    }
+  }
+  return widths;
+}
+
+function getHeights(
+  children: NodeListOf<HTMLElement>,
+): Array<number | undefined> {
+  const heights: Array<number | undefined> = [];
+  for (let i = 0, count = children.length; i < count; i++) {
+    const child: HTMLElement = children[i] as HTMLElement;
+    if (child) {
+      const rect = child.getBoundingClientRect();
+      const height = rect ? rect.height : child.offsetHeight;
+      heights[i] = height;
+    } else {
+      heights[i] = undefined;
+    }
+  }
+  return heights;
+}
 
 export const updateControls = (state: EditorState) => {
   const { tableRef } = getMainPluginState(state);
@@ -38,34 +70,38 @@ export const updateControls = (state: EditorState) => {
     ClassName.NUMBERED_COLUMN_BUTTON,
   );
 
-  const getWidth = (element: HTMLElement): number => {
-    const rect = element.getBoundingClientRect();
-    return rect ? rect.width : element.offsetWidth;
-  };
+  // Get all widths and heights
+  const colWidths = getWidths(cols);
+  const rowHeights = getHeights(rows);
 
   // update column controls width on resize
   for (let i = 0, count = columnControls.length; i < count; i++) {
-    if (cols[i]) {
-      columnControls[i].style.width = `${getWidth(cols[i] as HTMLElement) +
-        1}px`;
+    const colWidth = colWidths[i];
+    if (colWidth) {
+      columnControls[i].style.width = `${colWidth + 1}px`;
     }
   }
   // update rows controls height on resize
+
   for (let i = 0, count = rowControls.length; i < count; i++) {
-    if (rows[i]) {
-      rowControls[i].style.height = `${getHeight(rows[i]) + 1}px`;
+    const height = rowHeights[i];
+    if (height) {
+      rowControls[i].style.height = `${height + 1}px`;
 
       if (numberedRows.length) {
-        numberedRows[i].style.height = `${getHeight(rows[i]) + 1}px`;
+        numberedRows[i].style.height = `${height + 1}px`;
       }
     }
   }
 
-  updateRightShadow(
+  updateOverflowShadows(
     wrapper,
     tableRef,
     wrapper.parentElement.querySelector<HTMLElement>(
       `.${ClassName.TABLE_RIGHT_SHADOW}`,
+    ),
+    wrapper.parentElement.querySelector<HTMLElement>(
+      `.${ClassName.TABLE_LEFT_SHADOW}`,
     ),
   );
 };
@@ -145,11 +181,6 @@ export const updateResizeHandle = (
   }
   return;
 };
-
-function getHeight(element: HTMLElement): number {
-  const rect = element.getBoundingClientRect();
-  return rect ? rect.height : element.offsetHeight;
-}
 
 export const getResizeCellPos = (
   view: EditorView,

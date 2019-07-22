@@ -1,18 +1,23 @@
 import * as React from 'react';
 import { MediaClient, Identifier } from '@atlaskit/media-client';
+import {
+  hideControlsClassName,
+  WithShowControlMethodProp,
+} from '@atlaskit/media-ui';
 import { ItemViewer } from './item-viewer';
-import { HeaderWrapper, hideControlsClassName, ListWrapper } from './styled';
+import { HeaderWrapper, ListWrapper } from './styled';
 import { Navigation } from './navigation';
 import Header from './header';
 
-export type Props = Readonly<{
-  onClose?: () => void;
-  onNavigationChange?: (selectedItem: Identifier) => void;
-  showControls?: () => void;
-  defaultSelectedItem: Identifier;
-  items: Identifier[];
-  mediaClient: MediaClient;
-}>;
+export type Props = Readonly<
+  {
+    onClose?: () => void;
+    onNavigationChange?: (selectedItem: Identifier) => void;
+    defaultSelectedItem: Identifier;
+    items: Identifier[];
+    mediaClient: MediaClient;
+  } & WithShowControlMethodProp
+>;
 
 export type State = {
   selectedItem: Identifier;

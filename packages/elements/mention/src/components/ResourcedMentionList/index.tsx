@@ -5,6 +5,7 @@ import { MentionDescription, OnMentionEvent } from '../../types';
 import uniqueId from '../../util/id';
 import debug from '../../util/logger';
 import MentionList from '../MentionList';
+import MentionSpotlight from '../MentionSpotlight';
 
 function applyPresence(mentions: MentionDescription[], presences: PresenceMap) {
   const updatedMentions: MentionDescription[] = [];
@@ -39,11 +40,13 @@ export interface Props {
   query?: string;
   onSelection?: OnMentionEvent;
   resourceError?: Error;
+  isTeamMentionHighlightEnabled?: boolean;
 }
 
 export interface State {
   resourceError?: Error;
   mentions: MentionDescription[];
+  isHighlightClosed: boolean;
 }
 
 export default class ResourcedMentionList extends React.PureComponent<
@@ -59,6 +62,7 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.state = {
       resourceError: undefined,
       mentions: [],
+      isHighlightClosed: false,
     };
 
     this.applyPropChanges({} as Props, props);
@@ -219,11 +223,37 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.mentionListRef = ref;
   };
 
+  private closeHighlight = () => {
+    this.setState({ isHighlightClosed: true });
+  };
+
+  private mentionsHighlight = () => {
+    const { mentions, isHighlightClosed } = this.state;
+    const { isTeamMentionHighlightEnabled } = this.props;
+    // TODO include local storage checks - TEAMS-548
+    const shouldShow =
+      !isHighlightClosed &&
+      isTeamMentionHighlightEnabled &&
+      mentions &&
+      mentions.length > 0;
+    if (!shouldShow) {
+      return null;
+    }
+
+    return (
+      <MentionSpotlight
+        createTeamLink="/people/search#createTeam"
+        onClose={this.closeHighlight}
+      />
+    );
+  };
+
   render() {
     const { mentions, resourceError } = this.state;
 
     return (
       <MentionList
+        initialHighlightElement={this.mentionsHighlight()}
         mentions={mentions}
         resourceError={resourceError}
         onSelection={this.notifySelection}

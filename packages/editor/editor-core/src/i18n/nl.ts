@@ -6,7 +6,7 @@
  */
 // Dutch
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Link toevoegen',
   'fabric.editor.openLink': 'Link openen in een nieuw tabblad',
   'fabric.editor.unlink': 'Verwijder koppeling',
   'fabric.editor.editLink': 'Link bewerken',
@@ -129,7 +129,7 @@ export default {
   'fabric.editor.annotate': 'Aantekeningen maken',
   'fabric.editor.wrapLeft': 'Links uitlijnen',
   'fabric.editor.wrapRight': 'Rechts uitlijnen',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Terug',
   'fabric.editor.info': 'Informatie',
   'fabric.editor.note': 'Notitie',
   'fabric.editor.success': 'Gelukt',
@@ -167,7 +167,7 @@ export default {
   'fabric.editor.bold': 'Vet',
   'fabric.editor.italic': 'Cursief',
   'fabric.theme.#172b4d': 'Donkergrijs',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Lichtgrijs',
   'fabric.theme.#6554c0': 'Paars',
   'fabric.theme.#00b8d9': 'Groenblauw',
   'fabric.theme.#36b37e': 'Groen',

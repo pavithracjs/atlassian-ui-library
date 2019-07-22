@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { shallow, ShallowWrapper } from 'enzyme';
+import { ReactWrapper } from 'enzyme';
 import { Observable } from 'rxjs';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { MediaFileArtifacts } from '@atlaskit/media-store';
@@ -7,12 +7,14 @@ import { FileIdentifier, FileState } from '@atlaskit/media-client';
 import {
   asMockReturnValue,
   fakeMediaClient,
+  mountWithIntlContext,
   nextTick,
 } from '@atlaskit/media-test-helpers';
 import {
   InlinePlayer,
   InlinePlayerProps,
   getPreferredVideoArtifact,
+  InlinePlayerState,
 } from '../../../root/inlinePlayer';
 import { CardLoading } from '../../../utils/lightCards/cardLoading';
 import { InlinePlayerWrapper } from '../../../root/styled';
@@ -57,7 +59,10 @@ describe('<InlinePlayer />', () => {
       collectionName: 'some-collection',
     } as FileIdentifier;
 
-    const component = shallow(
+    const component = mountWithIntlContext<
+      InlinePlayerProps,
+      InlinePlayerState
+    >(
       <InlinePlayer
         mediaClient={mediaClient}
         identifier={identifier}
@@ -70,7 +75,9 @@ describe('<InlinePlayer />', () => {
       mediaClient,
     };
   };
-  const update = async (component: ShallowWrapper) => {
+  const update = async (
+    component: ReactWrapper<InlinePlayerProps, InlinePlayerState>,
+  ) => {
     await new Promise(resolve => window.setTimeout(resolve));
     component.update();
   };

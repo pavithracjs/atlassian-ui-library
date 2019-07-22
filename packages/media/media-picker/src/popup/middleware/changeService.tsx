@@ -1,7 +1,8 @@
 import { Store, Dispatch, Action } from 'redux';
 
 import { State, ServiceName, ServiceAccountWithType } from '../domain';
-import { changeAccount, isChangeServiceAction } from '../actions';
+import { isChangeServiceAction } from '../actions/changeService';
+import { changeAccount } from '../actions/changeAccount';
 import { getConnectedRemoteAccounts } from '../actions/getConnectedRemoteAccounts';
 
 const loggableServices: ServiceName[] = ['google', 'dropbox'];

@@ -1,5 +1,6 @@
 import * as api from './api';
 import { getEnvironment } from '../utils/environments';
+import { getError } from '../state/actions/helpers';
 import {
   JsonLd,
   CardClient as CardClientInterface,
@@ -9,6 +10,16 @@ import {
   JsonLdResponse,
 } from './types';
 import DataLoader from 'dataloader';
+
+export type FetchErrorKind = 'fatal' | 'auth';
+export class FetchError extends Error {
+  public readonly kind: FetchErrorKind;
+  constructor(kind: FetchErrorKind, message: string) {
+    super(`${kind}: ${message}`);
+    this.kind = kind;
+    this.name = 'FetchError';
+  }
+}
 
 export default class CardClient implements CardClientInterface {
   private environment: ClientEnvironment;
@@ -32,6 +43,7 @@ export default class CardClient implements CardClientInterface {
   private createLoader() {
     return new DataLoader((urls: string[]) => this.batchResolve(urls), {
       maxBatchSize: 50,
+      cache: false,
     });
   }
 
@@ -45,19 +57,38 @@ export default class CardClient implements CardClientInterface {
   public async fetchData(url: string): Promise<JsonLd> {
     const loader = this.getLoader(new URL(url).hostname);
     const response = await loader.load(url);
-    if (response.status === 404) {
-      return {
-        meta: {
-          visibility: 'not_found',
-          access: 'forbidden',
-          auth: [],
-          definitionId: 'provider-not-found',
-        },
-        data: {
-          url,
-        },
-      };
+    const { body, status } = response;
+
+    // Catch non-200 server responses to fallback or return useful information.
+    const errorType = getError(body);
+    switch (errorType) {
+      case 'ResolveAuthError':
+        throw new FetchError(
+          'auth',
+          `authentication required for URL ${url}, error: ${errorType}`,
+        );
+      case 'InternalServerError': // Timeouts and ORS failures
+      case 'ResolveUnsupportedError': // URL isn't supported
+        throw new FetchError(
+          'fatal',
+          `the URL ${url} is unsupported, received server error: ${errorType}`,
+        );
+      default:
+        if (status === 404) {
+          return {
+            meta: {
+              visibility: 'not_found',
+              access: 'forbidden',
+              auth: [],
+              definitionId: 'provider-not-found',
+            },
+            data: {
+              url,
+            },
+          };
+        }
+
+        return response.body;
     }
-    return response.body;
   }
 }

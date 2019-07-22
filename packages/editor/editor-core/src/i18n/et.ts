@@ -6,7 +6,7 @@
  */
 // Estonian
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Lisa link',
   'fabric.editor.openLink': 'Ava link uues vahekaardis',
   'fabric.editor.unlink': 'Eemalda link',
   'fabric.editor.editLink': 'Muuda linki',
@@ -121,7 +121,7 @@ export default {
   'fabric.editor.annotate': 'Lisa märge',
   'fabric.editor.wrapLeft': 'Aseta vasakule',
   'fabric.editor.wrapRight': 'Aseta paremale',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Mine tagasi',
   'fabric.editor.info': 'Info',
   'fabric.editor.note': 'Märkus',
   'fabric.editor.success': 'Õnnestus',
@@ -159,7 +159,7 @@ export default {
   'fabric.editor.bold': 'Rasvane kiri',
   'fabric.editor.italic': 'Kaldkiri',
   'fabric.theme.#172b4d': 'Tumehall',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Helehall',
   'fabric.theme.#6554c0': 'Lilla',
   'fabric.theme.#00b8d9': 'Sinakasroheline',
   'fabric.theme.#36b37e': 'Roheline',

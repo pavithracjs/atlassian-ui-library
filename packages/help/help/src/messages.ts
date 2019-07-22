@@ -56,6 +56,17 @@ export const messages = defineMessages({
     defaultMessage: `It isn't relevant`,
     description: '',
   },
+  help_panel_article_rating_form_submit: {
+    id: 'global_help.article_rating.form.submit',
+    defaultMessage: `Submit`,
+    description: '',
+  },
+  help_panel_article_rating_form_cancel: {
+    id: 'global_help.article_rating.form.cancel',
+    defaultMessage: `Cancel`,
+    description: '',
+  },
+
   help_panel_related_article_title: {
     id: 'global_help.related_article.title',
     defaultMessage: 'RELATED',
