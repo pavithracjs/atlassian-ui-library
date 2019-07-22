@@ -1,0 +1,1 @@
+Upgrade `@types/prosemirror-view` Typescript definitions to latest 1.9.x API
