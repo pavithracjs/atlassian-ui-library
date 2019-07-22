@@ -1,0 +1,1 @@
+Allows consumer to enable Media Viewer on Cards
