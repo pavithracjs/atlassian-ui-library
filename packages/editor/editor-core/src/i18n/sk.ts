@@ -6,7 +6,7 @@
  */
 // Slovak
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Pridať prepojenie',
   'fabric.editor.openLink': 'Otvoriť prepojenie na novej karte',
   'fabric.editor.unlink': 'Zrušiť prepojenie',
   'fabric.editor.editLink': 'Upraviť prepojenie',
@@ -120,7 +120,7 @@ export default {
   'fabric.editor.annotate': 'Komentovať',
   'fabric.editor.wrapLeft': 'Zbaliť vľavo',
   'fabric.editor.wrapRight': 'Zbaliť vpravo',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Vrátiť sa',
   'fabric.editor.info': 'Informácie',
   'fabric.editor.note': 'Poznámka',
   'fabric.editor.success': 'Úspech',
@@ -158,7 +158,7 @@ export default {
   'fabric.editor.bold': 'Hrubé',
   'fabric.editor.italic': 'Kurzíva',
   'fabric.theme.#172b4d': 'Tmavo sivá',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Svetlo sivá',
   'fabric.theme.#6554c0': 'Purpurová',
   'fabric.theme.#00b8d9': 'Modrozelená',
   'fabric.theme.#36b37e': 'Zelená',
