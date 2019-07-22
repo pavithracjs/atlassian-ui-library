@@ -79,7 +79,6 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
   public async show(): Promise<void> {
     const { dispatch } = this.store;
 
-    dispatch(resetView());
     dispatch(getFilesInRecents());
     dispatch(showPopup());
   }
