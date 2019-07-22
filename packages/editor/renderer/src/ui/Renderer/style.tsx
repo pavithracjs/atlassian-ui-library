@@ -34,6 +34,7 @@ import {
   shadowClassNames,
   dateSharedStyle,
   akEditorFullWidthLayoutWidth,
+  tasksAndDecisionsStyles,
 } from '@atlaskit/editor-common';
 import { RendererCssClassName } from '../../consts';
 import { RendererAppearance } from './types';
@@ -119,6 +120,7 @@ export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
   ${codeMarkSharedStyles};
   ${shadowSharedStyle};
   ${dateSharedStyle};
+  ${tasksAndDecisionsStyles};
 
   & .UnknownBlock {
     font-family: ${fontFamily()};

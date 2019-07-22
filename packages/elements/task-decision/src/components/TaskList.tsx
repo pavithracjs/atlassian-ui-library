@@ -6,9 +6,13 @@ import { FabricElementsAnalyticsContext } from '@atlaskit/analytics-namespaced-c
 export interface Props {
   listId?: string;
   children?: ReactNode;
+  tagName?: string;
 }
 
 export default class TaskList extends PureComponent<Props, {}> {
+  defaultProps = {
+    tagName: 'li',
+  };
   render() {
     const { listId, children } = this.props;
 
@@ -30,9 +34,9 @@ export default class TaskList extends PureComponent<Props, {}> {
               position: idx,
             }}
           >
-            <li key={idx} data-task-local-id="">
+            <div key={idx} data-task-local-id="">
               {child}
-            </li>
+            </div>
           </FabricElementsAnalyticsContext>
         ))}
       </ListWrapper>

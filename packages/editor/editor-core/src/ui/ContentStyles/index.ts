@@ -13,6 +13,7 @@ import {
   akEditorDeleteBackground,
   akEditorDeleteBorder,
   akEditorSelectedBorderBoldSize,
+  tasksAndDecisionsStyles,
 } from '@atlaskit/editor-common';
 
 import { telepointerStyle } from '../../plugins/collab-edit/styles';
@@ -30,7 +31,6 @@ import { fakeCursorStyles } from '../../plugins/fake-text-cursor/styles';
 import { mentionsStyles } from '../../plugins/mentions/styles';
 import { textFormattingStyles } from '../../plugins/text-formatting/styles';
 import { placeholderTextStyles } from '../../plugins/placeholder-text/styles';
-import { tasksAndDecisionsStyles } from '../../plugins/tasks-and-decisions/ui/styles';
 import { gridStyles } from '../../plugins/grid/styles';
 import { linkStyles } from '../../plugins/hyperlink/styles';
 import { extensionStyles } from '../../plugins/extension/ui/styles';

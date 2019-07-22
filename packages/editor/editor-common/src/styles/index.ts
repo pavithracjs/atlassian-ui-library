@@ -30,3 +30,4 @@ export { blockMarksSharedStyles } from './shared/block-marks';
 export { codeMarkSharedStyles } from './shared/code-mark';
 export { shadowSharedStyle } from './shared/shadow';
 export { dateSharedStyle, DateSharedCssClassName } from './shared/date';
+export { tasksAndDecisionsStyles } from './shared/task-decision';

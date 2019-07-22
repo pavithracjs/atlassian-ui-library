@@ -98,6 +98,7 @@ const docs = [
   { label: 'Example document', value: 'example-document.ts' },
   { label: 'With huge table', value: 'example-doc-with-huge-table.ts' },
   { label: 'With table', value: 'example-doc-with-table.ts' },
+  { label: 'Nested actions', value: 'example-nested-actions.ts' },
 ];
 
 type Theme = 'light' | 'dark';
