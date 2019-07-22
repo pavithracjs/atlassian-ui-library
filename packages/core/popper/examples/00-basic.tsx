@@ -1,5 +1,4 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import Lorem from 'react-lorem-component';
 import styled from 'styled-components';
@@ -7,6 +6,9 @@ import { elevation, borderRadius } from '@atlaskit/theme';
 
 import { Manager, Reference, Popper } from '../src';
 
+interface PopupProps {
+  outOfBoundaries: boolean | null;
+}
 const Popup = styled.div`
   background: white;
   border: 2px solid red;
@@ -15,7 +17,7 @@ const Popup = styled.div`
   padding: 8px;
   margin: 2px 0;
   transition: opacity 200ms ease-in-out;
-  opacity: ${p => (p.outOfBoundaries ? 0 : 1)};
+  opacity: ${(p: PopupProps) => (p.outOfBoundaries ? 0 : 1)};
   ${elevation.e300};
 `;
 
@@ -34,7 +36,7 @@ export default () => (
         <Manager>
           <Reference>
             {({ ref }) => (
-              <Button appearance="primary" ref={ref}>
+              <Button appearance="primary" consumerRef={ref}>
                 Reference element
               </Button>
             )}
