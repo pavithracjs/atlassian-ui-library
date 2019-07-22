@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 45.0.8
+
+### Patch Changes
+
+- [patch][a58828c9e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a58828c9e2):
+
+  Fix analytics for insert files button and annotate file button
+
 ## 45.0.7
 
 ### Patch Changes

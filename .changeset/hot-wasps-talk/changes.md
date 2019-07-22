@@ -1,1 +1,0 @@
-Fix analytics for insert files button and annotate file button
