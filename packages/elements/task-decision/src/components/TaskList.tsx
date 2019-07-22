@@ -6,13 +6,9 @@ import { FabricElementsAnalyticsContext } from '@atlaskit/analytics-namespaced-c
 export interface Props {
   listId?: string;
   children?: ReactNode;
-  tagName?: string;
 }
 
 export default class TaskList extends PureComponent<Props, {}> {
-  defaultProps = {
-    tagName: 'li',
-  };
   render() {
     const { listId, children } = this.props;
 

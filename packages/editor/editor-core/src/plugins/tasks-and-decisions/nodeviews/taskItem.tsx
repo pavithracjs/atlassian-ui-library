@@ -81,7 +81,7 @@ class Task extends ReactNodeView<Props> {
   };
 
   createDomRef() {
-    const domRef = document.createElement('li');
+    const domRef = document.createElement('div');
     domRef.style['list-style-type' as any] = 'none';
     return domRef;
   }
