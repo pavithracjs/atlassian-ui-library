@@ -70,7 +70,7 @@
     "@types/react-helmet": "^5.0.8",
     "@types/react-router": "^4.4.1",
     "@types/recompose": "^0.30.3",
-    "codesandboxer": "^1.0.1",
+    "codesandboxer": "^1.0.3",
     "commonmark": "^0.27.0",
     "commonmark-react-renderer": "^4.3.3",
     "connect-history-api-fallback": "^1.5.0",
