@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tag",
-  "version": "8.0.6",
+  "version": "9.0.0",
   "description": "This component displays as a tag with an optional link and/or button to remove the given tag.",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",

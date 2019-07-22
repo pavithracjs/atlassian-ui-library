@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/user-picker",
-  "version": "4.0.17",
+  "version": "4.0.18",
   "config": {
     "access": "public"
   },
@@ -17,7 +17,7 @@
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/lozenge": "^9.0.3",
     "@atlaskit/select": "^10.0.1",
-    "@atlaskit/tag": "^8.0.6",
+    "@atlaskit/tag": "^9.0.0",
     "@atlaskit/theme": "^9.0.3",
     "@atlaskit/tooltip": "^15.0.5",
     "lodash.debounce": "^4.0.8",
