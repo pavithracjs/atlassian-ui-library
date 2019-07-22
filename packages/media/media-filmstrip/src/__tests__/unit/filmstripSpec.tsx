@@ -70,7 +70,7 @@ describe('<Filmstrip />', () => {
     ).toEqual('id-2');
   });
 
-  it.only('should pass properties down to Cards', () => {
+  it('should pass properties down to Cards', () => {
     const { component, mediaClientConfig } = setup({
       items: [
         {
