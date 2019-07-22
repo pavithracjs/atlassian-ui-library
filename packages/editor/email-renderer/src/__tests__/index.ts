@@ -31,7 +31,7 @@ import * as placeholder from './__fixtures__/placeholder.adf.json';
 import * as action from './__fixtures__/action.adf.json';
 import * as annotation from './__fixtures__/annotation.adf.json';
 import * as breakout from './__fixtures__/breakout.adf.json';
-import { MetaDataContext } from 'src/interfaces';
+import { MetaDataContext } from '../interfaces';
 
 const defaultTestOpts: EmailSerializerOpts = {
   isImageStubEnabled: false,

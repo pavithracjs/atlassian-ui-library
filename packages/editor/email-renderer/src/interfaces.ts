@@ -61,4 +61,5 @@ export interface MediaMetaDataContextItem {
 }
 export interface MetaDataContext {
   mediaMetaData?: { [key: string]: MediaMetaDataContextItem };
+  inlineCardConversion?: { [key: string]: string };
 }

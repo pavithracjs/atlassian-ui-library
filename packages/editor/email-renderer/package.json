@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.2",
-    "@atlaskit/media-test-helpers": "^24.0.3",
     "@atlaskit/util-data-test": "^12.4.0",
     "react": "^16.8.0",
     "rimraf": "^2.6.3",
