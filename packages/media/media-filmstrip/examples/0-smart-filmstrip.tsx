@@ -25,7 +25,7 @@ import Button from '@atlaskit/button';
 export interface ExampleState {
   items: FilmstripItem[];
   mediaClient?: MediaClient;
-  openMediaViewer: boolean;
+  shouldOpenMediaViewer: boolean;
 }
 
 const defaultMediaClient = createUploadMediaClient();
@@ -118,7 +118,7 @@ class Example extends Component<{}, ExampleState> {
       },
     ],
     mediaClient: defaultMediaClient,
-    openMediaViewer: false,
+    shouldOpenMediaViewer: false,
   };
 
   createOnClickFromId = (id: string) => (event: any) => {
@@ -205,15 +205,15 @@ class Example extends Component<{}, ExampleState> {
   };
 
   toggleMediaViewer = () => {
-    const { openMediaViewer } = this.state;
+    const { shouldOpenMediaViewer } = this.state;
 
     this.setState({
-      openMediaViewer: !openMediaViewer,
+      shouldOpenMediaViewer: !shouldOpenMediaViewer,
     });
   };
 
   render() {
-    const { items, mediaClient, openMediaViewer } = this.state;
+    const { items, mediaClient, shouldOpenMediaViewer } = this.state;
 
     return (
       <ExampleWrapper>
@@ -221,7 +221,7 @@ class Example extends Component<{}, ExampleState> {
           <Filmstrip
             mediaClientConfig={mediaClient && mediaClient.config}
             items={items}
-            shouldOpenMediaViewer={openMediaViewer}
+            shouldOpenMediaViewer={shouldOpenMediaViewer}
           />
         </FilmstripWrapper>
         <div>
@@ -237,7 +237,7 @@ class Example extends Component<{}, ExampleState> {
           <Button appearance="primary" onClick={this.toggleMediaViewer}>
             toggle mediaViewer
           </Button>
-          MediaClient is: {openMediaViewer ? 'ON' : 'OFF'}
+          MediaClient is: {shouldOpenMediaViewer ? 'ON' : 'OFF'}
         </div>
       </ExampleWrapper>
     );

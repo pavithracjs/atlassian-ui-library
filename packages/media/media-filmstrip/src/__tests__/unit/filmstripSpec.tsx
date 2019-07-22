@@ -106,6 +106,45 @@ describe('<Filmstrip />', () => {
     );
   });
 
+  it('should not activate media-viewer by default', () => {
+    const { component } = setup({
+      items: [{ identifier: firstIdenfier }, { identifier: secondIdentifier }],
+    });
+
+    expect(
+      component
+        .find(FilmstripView)
+        .find(Card)
+        .first()
+        .props(),
+    ).toEqual(
+      expect.objectContaining({
+        shouldOpenMediaViewer: undefined,
+        mediaViewerDataSource: undefined,
+      }),
+    );
+  });
+
+  it('should not activate media-viewer if shouldOpenMediaViewer is false', () => {
+    const { component } = setup({
+      items: [{ identifier: firstIdenfier }, { identifier: secondIdentifier }],
+      shouldOpenMediaViewer: false,
+    });
+
+    expect(
+      component
+        .find(FilmstripView)
+        .find(Card)
+        .first()
+        .props(),
+    ).toEqual(
+      expect.objectContaining({
+        shouldOpenMediaViewer: false,
+        mediaViewerDataSource: undefined,
+      }),
+    );
+  });
+
   it('should render loading cards if mediaClientConfig is missing', () => {
     const { component } = setup({
       mediaClientConfig: undefined,
