@@ -29,6 +29,7 @@ import {
   isIsolating,
   updatePluginStateDecorations,
   createColumnControlsDecoration,
+  createControlsDecoration,
 } from '../utils';
 import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
@@ -77,7 +78,7 @@ export const setTableRef = (ref?: HTMLElement | null) =>
       if (allowControls && tableRef) {
         decorationSet = updatePluginStateDecorations(
           state,
-          createColumnControlsDecoration(state.selection),
+          createControlsDecoration(state.selection),
           TableDecorations.COLUMN_CONTROLS_DECORATIONS,
         );
       }

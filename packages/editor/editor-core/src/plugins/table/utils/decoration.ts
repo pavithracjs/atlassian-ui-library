@@ -11,6 +11,7 @@ import {
   ContentNodeWithPos,
   getSelectionRect,
   findTable,
+  getCellsInColumn,
 } from 'prosemirror-utils';
 import { TableMap } from 'prosemirror-tables';
 import { getPluginState } from '../pm-plugins/main';
@@ -101,6 +102,43 @@ export const createColumnSelectedDecorations = (
       },
       {
         key: `${TableDecorations.COLUMN_SELECTED}_${index}`,
+      },
+    );
+  });
+};
+
+export const createControlsDecoration = (
+  selection: Selection,
+): Decoration[] => {
+  const rowDecorations = createRowControlsDecoration(selection);
+  const columnDecorations = createColumnControlsDecoration(selection);
+
+  return [...rowDecorations, ...columnDecorations];
+};
+
+export const createRowControlsDecoration = (
+  selection: Selection,
+): Decoration[] => {
+  const cells: ContentNodeWithPos[] = getCellsInColumn(0)(selection) || [];
+  let index = 0;
+  return cells.map(cell => {
+    const rowspan = (cell.node.attrs as CellAttributes).rowspan || 1;
+    const element = document.createElement('div');
+    element.classList.add(ClassName.ROW_CONTROLS_DECORATIONS);
+    element.dataset.startIndex = `${index}`;
+    index += rowspan;
+    element.dataset.endIndex = `${index}`;
+
+    return Decoration.widget(
+      cell.pos + 1,
+      // Do not delay the rendering for this Decoration
+      // because we need to always render all controls
+      // to keep the order safe
+      element,
+      {
+        key: `${TableDecorations.ROW_CONTROLS_DECORATIONS}_${index}`,
+        // this decoration should be the first one, even before gap cursor.
+        side: -100,
       },
     );
   });

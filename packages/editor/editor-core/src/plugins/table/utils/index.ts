@@ -7,6 +7,7 @@ export {
 export {
   findControlsHoverDecoration,
   createControlsHoverDecoration,
+  createControlsDecoration,
   createColumnControlsDecoration,
   createColumnSelectedDecorations,
   updatePluginStateDecorations,

@@ -11,6 +11,7 @@ import {
   updateNodeDecorations,
   createColumnControlsDecoration,
   createColumnSelectedDecorations,
+  createControlsDecoration,
 } from './utils';
 import { findColumnControlSelectedDecoration } from './utils/decoration';
 // #endregion
@@ -26,7 +27,7 @@ const getDecorationSet = (
     decorationSet = updateNodeDecorations(
       tr.doc,
       decorationSet,
-      createColumnControlsDecoration(tr.selection),
+      createControlsDecoration(tr.selection),
       TableDecorations.COLUMN_CONTROLS_DECORATIONS,
     );
   }

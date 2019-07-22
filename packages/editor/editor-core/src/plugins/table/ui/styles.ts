@@ -394,18 +394,19 @@ const RowControls = `
       margin-left: -${tableToolbarSize}px;
       padding-left: ${tableToolbarSize}px;
     }
-    .pm-table-cell-nodeview-wrapper {
-      margin: -8px;
-      padding: 8px;
-    }
 
-    .prosemirror-tables-row-control-decoration {
-      background-color: red;
-      height: 100%;
-      width: 11px;
-      top: 0px;
-      left: -11px;
-      position: absolute;
+    .${ClassName.ROW_CONTROLS_DECORATIONS} {
+      ${columnHeaderButton(`
+          display: inline;
+          border-bottom: ${tableCellBorderWidth}px solid ${tableBorderColor};
+          border-top: none;
+          width: ${tableToolbarSize}px;
+          height: 100%;
+          position: absolute;
+          left: -${tableToolbarSize + 8}px;
+          top: 0px;
+          z-index: ${columnControlsZIndex};
+        `)}
     }
   }
   
