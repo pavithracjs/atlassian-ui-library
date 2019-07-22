@@ -50,12 +50,21 @@ export interface SearchResultProps<T> extends State<T> {
   onFilterChanged(filter: Filter[]): void;
 }
 
+export interface FilterComponentProps<T> {
+  latestSearchQuery: string;
+  searchResults: T | null;
+  isLoading: boolean;
+  searchSessionId: string;
+  currentFilters: Filter[];
+  onFilterChanged(filter: Filter[]): void;
+}
+
 export interface PartiallyLoadedRecentItems<
   T extends ConfluenceResultsMap | JiraResultsMap
 > {
   // Represents recent items that should be present before any UI is shown
   eagerRecentItemsPromise: Promise<ResultsWithTiming<T>>;
-  // Represents items which can load in after initi7al UI is shown
+  // Represents items which can load in after initial UI is shown
   lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
 }
 
@@ -64,6 +73,7 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   linkComponent?: LinkComponent;
   product: QuickSearchContext;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
+  getFilterComponent(props: FilterComponentProps<T>): React.ReactNode;
   getRecentItems(sessionId: string): PartiallyLoadedRecentItems<T>;
   getSearchResults(
     query: string,
@@ -73,6 +83,7 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
     filters: Filter[],
   ): Promise<ResultsWithTiming<T>>;
   getAutocompleteSuggestions?(query: string): Promise<string[]>;
+  getNavAutocompleteSuggestions?(query: string): Promise<string[]>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
@@ -137,6 +148,10 @@ export class QuickSearchContainer<
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: boolean = false;
   latestQueryVersion: number = 0;
+
+  static defaultProps = {
+    getFilterComponent: () => null,
+  };
 
   constructor(props: CompleteProps<T>) {
     super(props);
@@ -436,12 +451,23 @@ export class QuickSearchContainer<
   }
 
   handleAutocomplete = async (query: string) => {
-    const { getAutocompleteSuggestions } = this.props;
-    if (!getAutocompleteSuggestions) {
-      return;
-    }
+    const {
+      getAutocompleteSuggestions,
+      getNavAutocompleteSuggestions,
+    } = this.props;
+    // if (!getAutocompleteSuggestions && !getNavAutocompleteSuggestions) {
+    //   return;
+    // }
     try {
-      const results = await getAutocompleteSuggestions(query);
+      let results;
+
+      if (getAutocompleteSuggestions) {
+        results = await getAutocompleteSuggestions(query);
+      } else if (getNavAutocompleteSuggestions) {
+        results = await getNavAutocompleteSuggestions(query);
+      } else {
+        return;
+      }
 
       if (this.unmounted) {
         return;
@@ -517,6 +543,7 @@ export class QuickSearchContainer<
   render() {
     const {
       linkComponent,
+      getFilterComponent,
       getSearchResultsComponent,
       placeholder,
       selectedResultId,
@@ -550,6 +577,14 @@ export class QuickSearchContainer<
         autocompleteSuggestions={autocompleteSuggestions}
         filters={this.state.currentFilters}
       >
+        {getFilterComponent({
+          onFilterChanged: this.handleFilter,
+          searchResults,
+          currentFilters,
+          isLoading,
+          latestSearchQuery,
+          searchSessionId,
+        })}
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,
           latestSearchQuery,

@@ -146,6 +146,11 @@ export interface Props {
   isAutocompleteEnabled?: boolean;
 
   /**
+   * Indicates whether or not navautocompletion features is enabled
+   */
+  isNavAutocompleteEnabled?: boolean;
+
+  /**
    * Indicates whether to disable Jira people search on the pre-query screen
    */
   disableJiraPreQueryPeopleSearch?: boolean;
@@ -288,6 +293,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       fasterSearchFFEnabled,
       useUrsForBootstrapping,
       isAutocompleteEnabled,
+      isNavAutocompleteEnabled,
     } = this.props;
 
     return createFeatures({
@@ -297,6 +303,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,
       isAutocompleteEnabled: !!isAutocompleteEnabled,
+      isNavAutocompleteEnabled: !!isNavAutocompleteEnabled,
     });
   }
 
