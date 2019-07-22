@@ -25,6 +25,7 @@ export default {
     'Tuloksia ei löytynyt haulle "{inputValue}". Kutsu henkilöitä sähköpostiosoitteen avulla.',
   'fabric.elements.share.trigger.button.icon.label': 'Jaa kuvake',
   'fabric.elements.share.trigger.button.text': 'Jaa',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Jaa',
   'fabric.elements.share.trigger.button.invite.text': 'Kutsu',
   'fabric.elements.share.copylink.button.icon.label': 'Kopioi linkin kuvake',
   'fabric.elements.share.copylink.button.text': 'Kopioi linkki',

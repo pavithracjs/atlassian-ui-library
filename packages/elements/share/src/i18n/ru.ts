@@ -25,6 +25,7 @@ export default {
     'Мы никого не нашли по запросу «{inputValue}». Пригласите пользователей по адресу электронной почты.',
   'fabric.elements.share.trigger.button.icon.label': 'Значок «Поделиться»',
   'fabric.elements.share.trigger.button.text': 'Поделиться',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Поделиться',
   'fabric.elements.share.trigger.button.invite.text': 'Пригласить',
   'fabric.elements.share.copylink.button.icon.label':
     'Значок «Копировать ссылку»',

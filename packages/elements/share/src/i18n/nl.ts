@@ -25,6 +25,7 @@ export default {
     "Geen resultaten gevonden voor '{inputValue}'. Nodig personen uit door hun e-mailadres in te voeren.",
   'fabric.elements.share.trigger.button.icon.label': "Pictogram 'Delen'",
   'fabric.elements.share.trigger.button.text': 'Delen',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Delen',
   'fabric.elements.share.trigger.button.invite.text': 'Uitnodigen',
   'fabric.elements.share.copylink.button.icon.label':
     "Pictogram 'Link kopiëren'",
