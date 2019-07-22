@@ -166,7 +166,7 @@ BrowserTestCase(
       },
     });
 
-    await insertColumn(page, 1);
+    await insertColumn(page, 0, 'right');
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -346,7 +346,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await selectColumns(page, [1, 2]);
+    await selectColumns(page, [0, 1]);
     await resizeColumn(page, { cellHandlePos: 2, resizeWidth: 52 });
 
     const doc = await page.$eval(editable, getDocFromElement);

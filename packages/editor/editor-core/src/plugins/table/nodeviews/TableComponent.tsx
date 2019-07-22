@@ -9,7 +9,6 @@ import {
 } from '@atlaskit/editor-common';
 
 import TableFloatingControls from '../ui/TableFloatingControls';
-import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 
 import { getPluginState } from '../pm-plugins/main';
 import { scaleTable } from '../pm-plugins/table-resizing';
@@ -173,9 +172,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     } = pluginState;
 
     // doesn't work well with WithPluginState
-    const { isInDanger, hoveredColumns, hoveredRows } = getPluginState(
-      view.state,
-    );
+    const { isInDanger, hoveredRows } = getPluginState(view.state);
 
     const tableRef = this.table || undefined;
     const tableActive = this.table === pluginState.tableRef;
@@ -198,21 +195,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           // pass `selection` and `tableHeight` to control re-render
           selection={view.state.selection}
           tableHeight={tableRef ? tableRef.offsetHeight : undefined}
-        />
-      </div>,
-    ];
-
-    const columnControls = [
-      <div key={0} className={ClassName.COLUMN_CONTROLS_WRAPPER}>
-        <ColumnControls
-          editorView={view}
-          tableRef={tableRef}
-          hoveredColumns={hoveredColumns}
-          isInDanger={isInDanger}
-          isResizing={isResizing}
-          // pass `selection` and `numberOfColumns` to control re-render
-          selection={view.state.selection}
-          numberOfColumns={node.firstChild!.childCount}
         />
       </div>,
     ];
@@ -245,9 +227,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
               this.table = elem.querySelector('table');
             }
           }}
-        >
-          {allowControls && columnControls}
-        </div>
+        />
         <div
           ref={elem => {
             this.rightShadow = elem;

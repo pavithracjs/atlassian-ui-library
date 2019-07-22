@@ -12,12 +12,6 @@ import { TableMap, CellSelection } from 'prosemirror-tables';
 import { tableDeleteButtonSize } from '../ui/styles';
 import { TableCssClassName as ClassName } from '../types';
 
-export interface ColumnParams {
-  startIndex: number;
-  endIndex: number;
-  width: number;
-}
-
 export const getColumnsWidths = (
   view: EditorView,
 ): Array<number | undefined> => {
@@ -84,27 +78,6 @@ export const getColumnDeleteButtonParams = (
 
   const left = offset + width / 2 - tableDeleteButtonSize / 2;
   return { left, indexes };
-};
-
-export const getColumnsParams = (
-  columnsWidths: Array<number | undefined>,
-): ColumnParams[] => {
-  const columns: ColumnParams[] = [];
-  for (let i = 0, count = columnsWidths.length; i < count; i++) {
-    const width = columnsWidths[i];
-    if (!width) {
-      continue;
-    }
-    let endIndex = columnsWidths.length;
-    for (let k = i + 1, count = columnsWidths.length; k < count; k++) {
-      if (columnsWidths[k]) {
-        endIndex = k;
-        break;
-      }
-    }
-    columns.push({ startIndex: i, endIndex, width });
-  }
-  return columns;
 };
 
 export const getColumnClassNames = (

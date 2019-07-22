@@ -27,6 +27,8 @@ import {
   handleClick,
   handleTripleClick,
   handleCut,
+  handleMouseOut,
+  handleMouseDown,
 } from '../event-handlers';
 import { findControlsHoverDecoration } from '../utils';
 import { fixTables } from '../transforms';
@@ -183,17 +185,10 @@ export const createPlugin = (
       handleDOMEvents: {
         blur: handleBlur,
         focus: handleFocus,
-        // Ignore any `mousedown` `event` from control and numbered column buttons
-        // PM end up changing selection during shift selection if not prevented
-        mousedown: (_, event: Event) =>
-          !!(
-            event.target &&
-            event.target instanceof HTMLElement &&
-            (event.target.classList.contains(ClassName.CONTROLS_BUTTON) ||
-              event.target.classList.contains(ClassName.NUMBERED_COLUMN_BUTTON))
-          ),
+        mousedown: handleMouseDown,
         mouseover: handleMouseOver,
         mouseleave: handleMouseLeave,
+        mouseout: handleMouseOut,
         mousemove: handleMouseMove,
         click: handleClick,
       },
