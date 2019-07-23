@@ -104,7 +104,7 @@ describe('Drawer', () => {
     expect(onCloseSpy.mock.calls[0][1]).toEqual(myEvent);
   });
 
-  it.only('should pass the correct trigger attribute based on how the drawer was dismissed', () => {
+  it('should pass the correct trigger attribute based on how the drawer was dismissed', () => {
     const myEvent = {};
     const createAnalyticsEventSpy: any = jest.fn(() => myEvent);
     const onCloseSpy = jest.fn();

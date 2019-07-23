@@ -217,8 +217,9 @@ describe('Drawer Transitions', () => {
 
     expect(onClose).not.toHaveBeenCalled();
   });
-
-  xit('should NOT retain Drawer contents by default', () => {
+  // this funtionality is currently broken and
+  // will be fixed by https://ecosystem.atlassian.net/projects/AK/queues/issue/AK-6444
+  it.skip('should NOT retain Drawer contents by default', () => {
     const wrapper = mount(
       <Drawer isOpen width="wide">
         <code>Drawer contents</code>
@@ -233,7 +234,9 @@ describe('Drawer Transitions', () => {
     ).toBeTruthy();
   });
 
-  xit('should retain Drawer contents when shouldUnmountOnExit is passed', () => {
+  // this funtionality is currently broken and
+  // will be fixed by https://ecosystem.atlassian.net/projects/AK/queues/issue/AK-6444
+  it.skip('should retain Drawer contents when shouldUnmountOnExit is passed', () => {
     const wrapper = mount(
       <Drawer isOpen width="wide" shouldUnmountOnExit={false}>
         <code>Drawer contents</code>
