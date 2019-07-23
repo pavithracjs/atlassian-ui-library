@@ -32,6 +32,7 @@ export default (props: JiraSwitcherProps) => (
         {(availableProducts: ProviderResult<AvailableProductsResponse>) => (
           <CommonDataProvider
             cloudId={props.cloudId}
+            disableRecentContainers={props.features.disableRecentContainers}
             isUserCentric={props.features.enableUserCentricProducts}
             recommendationsFeatureFlags={props.recommendationsFeatureFlags}
           >
