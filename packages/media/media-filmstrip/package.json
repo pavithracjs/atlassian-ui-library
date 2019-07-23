@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-filmstrip",
-  "version": "34.2.5",
+  "version": "34.3.0",
   "description": "Includes components that show media cards as a filmstrip",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.tsx",

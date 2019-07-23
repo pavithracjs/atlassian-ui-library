@@ -97,6 +97,10 @@ declare module '@atlaskit/spinner' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/tag' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }

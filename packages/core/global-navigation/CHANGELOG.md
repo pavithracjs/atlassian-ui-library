@@ -1,5 +1,10 @@
 # @atlaskit/global-navigation
 
+## 7.3.5
+
+- Updated dependencies [1adb8727e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1adb8727e3):
+  - @atlaskit/tag@9.0.0
+
 ## 7.3.4
 
 - Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):

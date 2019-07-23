@@ -14,7 +14,7 @@ import {
 
 BrowserTestCase(
   'delete-last-column-with-empty-action.ts: Delete last table column with empty action',
-  { skip: ['ie', 'edge'] },
+  { skip: ['ie', 'edge', 'firefox'] },
   async (client: any, testName: string) => {
     const LAST_HEADER_FROM_FIRST_ROW =
       'table > tbody > tr:first-child > th:last-child';
@@ -38,9 +38,9 @@ BrowserTestCase(
     await quickInsert(page, 'Action item');
 
     // Select button wrapper from last column
-    const controlSelector = `.${ClassName.COLUMN_CONTROLS_WRAPPER} .${
-      ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-    }:last-child .${ClassName.CONTROLS_BUTTON}`;
+    const controlSelector = `.${
+      ClassName.COLUMN_CONTROLS_DECORATIONS
+    }[data-start-index="2"]`;
     await page.waitForSelector(controlSelector);
     await page.click(controlSelector);
 

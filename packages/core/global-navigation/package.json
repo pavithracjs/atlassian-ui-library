@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/global-navigation",
-  "version": "7.3.4",
+  "version": "7.3.5",
   "description": "Global navigation component for Atlassian",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty Ltd",
@@ -53,7 +53,7 @@
     "@atlaskit/modal-dialog": "^10.0.14",
     "@atlaskit/onboarding": "^8.0.7",
     "@atlaskit/section-message": "^4.0.5",
-    "@atlaskit/tag": "^8.0.6",
+    "@atlaskit/tag": "^9.0.0",
     "@atlaskit/toggle": "^8.0.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",

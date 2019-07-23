@@ -1,5 +1,25 @@
 # @atlaskit/media-filmstrip
 
+## 34.3.0
+
+### Minor Changes
+
+- [minor][40c6ed5a59](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40c6ed5a59):
+
+  Allows consumer to enable Media Viewer on Cards
+
+  Use boolean prop `shouldOpenMediaViewer` to activate Media Viewer in media cards contained
+
+  Example:
+
+  ```
+  <Filmstrip
+    shouldOpenMediaViewer={openMediaViewer}
+    mediaClientConfig={mediaClient.config}
+    items={items}
+  />
+  ```
+
 ## 34.2.5
 
 ### Patch Changes

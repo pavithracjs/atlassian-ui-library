@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/onboarding",
-  "version": "8.0.7",
+  "version": "8.0.8",
   "description": "Highlight elements of the UI to the user and display a complementary dialog.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/button": "^13.0.16",
     "@atlaskit/modal-dialog": "^10.0.14",
-    "@atlaskit/popper": "^2.0.1",
+    "@atlaskit/popper": "^3.0.0",
     "@atlaskit/portal": "^3.0.7",
     "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",

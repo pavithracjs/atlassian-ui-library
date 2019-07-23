@@ -124,12 +124,16 @@ export default class EditorWithFeedback extends React.Component<Props, State> {
                     onSave={SAVE_ACTION}
                     onCancel={CANCEL_ACTION}
                     quickInsert={true}
+                    feedbackInfo={{
+                      product: 'bitbucket',
+                      packageVersion: version,
+                      packageName: name,
+                      labels: ['atlaskit-comment-bitbucket'],
+                    }}
                     primaryToolbarComponents={[
                       <ToolbarFeedback
-                        packageVersion={version}
-                        packageName={name}
+                        product="bitbucket"
                         key="toolbar-feedback"
-                        labels={['atlaskit-comment-bitbucket']}
                       />,
                       <ToolbarHelp key="toolbar-help" />,
                     ]}

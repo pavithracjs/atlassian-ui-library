@@ -55,6 +55,7 @@ export enum ACTION_SUBJECT {
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
+  FEEDBACK_DIALOG = 'feedbackDialog',
   LAYOUT = 'layout',
   MEDIA = 'media',
   MEDIA_SINGLE = 'mediaSingle',

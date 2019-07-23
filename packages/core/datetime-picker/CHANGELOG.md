@@ -1,5 +1,11 @@
 # @atlaskit/datetime-picker
 
+## 8.0.11
+
+- Updated dependencies [ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):
+  - @atlaskit/popper@3.0.0
+  - @atlaskit/calendar@8.0.5
+
 ## 8.0.10
 
 ### Patch Changes

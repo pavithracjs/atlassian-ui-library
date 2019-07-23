@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import { Wrapper, InsertButton, CancelButton } from './styled';
-import { startImport, hidePopup } from '../../actions';
+import { startImport, hidePopup, resetView } from '../../actions';
 import { SelectedItem, State } from '../../domain';
 
 export interface FooterStateProps {
@@ -90,7 +90,10 @@ const mapDispatchToProps = (
   dispatch: Dispatch<State>,
 ): FooterDispatchProps => ({
   onInsert: () => dispatch(startImport()),
-  onCancel: () => dispatch(hidePopup()),
+  onCancel: () => {
+    dispatch(resetView());
+    dispatch(hidePopup());
+  },
 });
 
 export default connect(

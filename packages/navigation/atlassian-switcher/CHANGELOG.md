@@ -1,5 +1,21 @@
 # @atlaskit/atlassian-switcher
 
+## 3.8.1
+
+### Patch Changes
+
+- [patch][91ec1329f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/91ec1329f7):
+
+  Changing flag key for JSW to Opsgenie experiment
+
+## 3.8.0
+
+### Minor Changes
+
+- [minor][3e25438208](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e25438208):
+
+  Enables AtlassianSwitcher to receive recommendationFeatureFlags which is then passed to the RecommendationProvider to be parsed and handle output based on feature flag values.
+
 ## 3.7.0
 
 ### Minor Changes

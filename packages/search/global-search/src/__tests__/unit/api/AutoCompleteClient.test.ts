@@ -14,6 +14,7 @@ describe('AutoCompleteClient', () => {
 
   beforeEach(() => {
     requestSpy = jest.spyOn(utils, 'requestService');
+    requestSpy.mockReturnValue(Promise.resolve(undefined));
     autoCompleteClient = new AutocompleteClientImpl(url, cloudId);
   });
 

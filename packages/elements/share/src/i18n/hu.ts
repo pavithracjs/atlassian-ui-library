@@ -25,6 +25,7 @@ export default {
     'Nincs találat a következő keresésre: „{inputValue}”. Hívj meg embereket az e-mail-címük alapján.',
   'fabric.elements.share.trigger.button.icon.label': 'Ikon megosztása',
   'fabric.elements.share.trigger.button.text': 'Megosztás',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Megosztás',
   'fabric.elements.share.trigger.button.invite.text': 'Meghívás',
   'fabric.elements.share.copylink.button.icon.label': 'Hivatkozásikon másolása',
   'fabric.elements.share.copylink.button.text': 'Hivatkozás másolása',

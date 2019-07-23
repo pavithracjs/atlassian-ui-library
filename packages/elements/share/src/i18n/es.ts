@@ -25,6 +25,7 @@ export default {
     'No hemos encontrado ningún resultado para "{inputValue}". Invita a la gente mediante una dirección de correo electrónico.',
   'fabric.elements.share.trigger.button.icon.label': 'Compartir icono',
   'fabric.elements.share.trigger.button.text': 'Compartir',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Compartir',
   'fabric.elements.share.trigger.button.invite.text': 'Invitar',
   'fabric.elements.share.copylink.button.icon.label': 'Copiar icono de enlace',
   'fabric.elements.share.copylink.button.text': 'Copiar enlace',

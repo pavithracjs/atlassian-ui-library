@@ -7,8 +7,7 @@ import { AppearanceType } from '../types';
 
 // Constants
 // ==============================
-const innerGutter = 16;
-const outerGutter = 20;
+const modalPadding = gridSize() * 3;
 const keylineColor = themed({ light: colors.N30, dark: colors.DN30 });
 export const keylineHeight = 2;
 
@@ -34,7 +33,8 @@ export const Header = styled.header`
   justify-content: space-between;
   transition: box-shadow 200ms;
   z-index: 1;
-  padding: ${outerGutter}px ${outerGutter}px ${innerGutter - keylineHeight}px;
+  padding: ${modalPadding}px ${modalPadding}px ${modalPadding - keylineHeight}px
+    ${modalPadding}px;
   box-shadow: ${(props: HeaderProps) =>
     props.showKeyline
       ? `0 ${keylineHeight}px 0 0 ${keylineColor(props)}`
@@ -96,10 +96,10 @@ export const bodyStyles = (shouldScroll?: boolean) => css`
     ? `
         overflow-y: auto;
         overflow-x: hidden;
-        padding: ${keylineHeight}px ${outerGutter}px;
+        padding: ${keylineHeight}px ${modalPadding}px;
       `
     : `
-        padding: 0 ${outerGutter}px;
+        padding: 0 ${modalPadding}px;
       `}
 
   @media (min-width: 320px) and (max-width: 480px) {
@@ -127,7 +127,8 @@ export const Footer = styled.footer`
   justify-content: space-between;
   transition: box-shadow 200ms;
   z-index: 1;
-  padding: ${innerGutter - keylineHeight}px ${outerGutter}px ${outerGutter}px;
+  padding: ${modalPadding - keylineHeight}px ${modalPadding}px ${modalPadding}px
+    ${modalPadding}px;
   box-shadow: ${(props: FooterProps) =>
     props.showKeyline
       ? `0 -${keylineHeight}px 0 0 ${keylineColor(props)}`

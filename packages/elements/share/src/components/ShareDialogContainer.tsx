@@ -30,6 +30,7 @@ import {
   ProductId,
   RenderCustomTriggerButton,
   ShareButtonStyle,
+  TooltipPosition,
 } from '../types';
 import {
   CHANNEL_ID,
@@ -114,6 +115,10 @@ export type Props = {
   triggerButtonAppearance?: ButtonAppearances;
   /** Style of the share modal trigger button */
   triggerButtonStyle?: ShareButtonStyle;
+  /** Position of the tooltip on share modal trigger button */
+  triggerButtonTooltipPosition?: TooltipPosition;
+  /** Custom text of the tooltip on share modal trigger button */
+  triggerButtonTooltipText?: React.ReactNode;
   /** Message to be appended to the modal */
   bottomMessage?: React.ReactNode;
   /** Whether we should use the Atlassian Url Shortener or not.
@@ -436,6 +441,8 @@ export class ShareDialogContainerInternal extends React.Component<
       showFlags,
       triggerButtonAppearance,
       triggerButtonStyle,
+      triggerButtonTooltipText,
+      triggerButtonTooltipPosition,
       bottomMessage,
       shareeAction,
     } = this.props;
@@ -461,6 +468,8 @@ export class ShareDialogContainerInternal extends React.Component<
             showFlags={showFlags}
             triggerButtonAppearance={triggerButtonAppearance}
             triggerButtonStyle={triggerButtonStyle}
+            triggerButtonTooltipPosition={triggerButtonTooltipPosition}
+            triggerButtonTooltipText={triggerButtonTooltipText}
             bottomMessage={bottomMessage}
             submitButtonLabel={
               shareeAction === 'edit' && (

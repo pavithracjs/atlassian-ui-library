@@ -55,6 +55,7 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
+import { MentionSpotlightController } from '@atlaskit/mention';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -285,6 +286,8 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
+            MentionSpotlightController.registerTeamMention();
+
             return insert(
               buildNodesForTeamMention(
                 schema,

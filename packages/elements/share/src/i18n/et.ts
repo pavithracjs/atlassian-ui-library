@@ -25,6 +25,7 @@ export default {
     'Me ei suutnud leida ühtegi tulemust seoses otsitavaga „{inputValue}". Kutsu inimesi e-posti aadressi alusel.',
   'fabric.elements.share.trigger.button.icon.label': 'Jagamisikoon',
   'fabric.elements.share.trigger.button.text': 'Jaga',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Jaga',
   'fabric.elements.share.trigger.button.invite.text': 'Kutsu',
   'fabric.elements.share.copylink.button.icon.label': 'Kopeeri lingi ikoon',
   'fabric.elements.share.copylink.button.text': 'Kopeeri link',

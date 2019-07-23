@@ -1,5 +1,13 @@
 # @atlaskit/modal-dialog
 
+## 10.1.0
+
+### Minor Changes
+
+- [minor][eb7b748d59](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb7b748d59):
+
+  Modal-dialog padding now matches AGD and GUI pack
+
 ## 10.0.14
 
 ### Patch Changes
