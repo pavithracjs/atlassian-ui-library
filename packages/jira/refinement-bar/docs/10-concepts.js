@@ -1,20 +1,41 @@
 // @flow
+import React from 'react';
+import { code, Example, md } from '@atlaskit/docs';
 
+export default md`
+This documentation attempts to provide further detail on the various concepts behind the refinement bar.
+
+## Fields
+
+Each field is comprised of a \`Controller\` and a \`View\`.
+
+### Controller
+
+The controller exposes the methods that unify various behaviours by interpreting and rendering data e.g.
+
+\`formatButtonLabel\` describes what the button's label should present to the user.
+
+\`defaultValidation\` this can be overwritten on a per field basis by providing an alternative \`validate\` when the class is instantiated.
+
+\`getInitialValue\` returns the initial value of the field type.
+
+Example Controller
+
+${code`
 import React from 'react';
 import FieldController from '../Controller';
 
 export default class TextController extends FieldController {
-  constructor(config: *) {
+  constructor(config) {
     super(config);
 
     this.validate = config.validate || this.defaultValidation;
   }
 
-  formatButtonLabel = ({ type, value }: *) => {
+  formatButtonLabel = ({ type, value }) => {
     const exact = type === 'is';
     const notset = type === 'is_not_set';
 
-    // $FlowFixMe
     const typeLabel = this.getFilterTypes().find(f => f.type === type).label;
     const showType = exact || notset || this.hasValue({ value });
     const showValue = exact || this.hasValue({ value });
@@ -26,8 +47,8 @@ export default class TextController extends FieldController {
     return (
       <span>
         <strong>{this.label}:</strong>
-        {showType ? ` ${typeLabel}` : null}
-        {showValue ? ` "${value}"` : null}
+        {showType ? typeLabel : null}
+        {showValue ? value : null}
       </span>
     );
   };
@@ -56,9 +77,7 @@ export default class TextController extends FieldController {
     { type: 'is_not_set', label: 'is empty' },
   ];
 
-  // Implementation
-
-  defaultValidation = ({ type, value }: *) => {
+  defaultValidation = ({ type, value }) => {
     const defaultReturn = null;
 
     if (type === 'is_not_set') {
@@ -71,3 +90,5 @@ export default class TextController extends FieldController {
     return defaultReturn;
   };
 }
+`}
+`;

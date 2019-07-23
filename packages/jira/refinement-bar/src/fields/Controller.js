@@ -1,8 +1,6 @@
 // @flow
 
-type validateFnType = (
-  value: Object,
-) => { message: string | null, isInvalid: boolean };
+type validateFnType = (value: Object) => string | null;
 type initialFnType = (value: Object) => any;
 
 export default class FieldController {
@@ -12,14 +10,14 @@ export default class FieldController {
     this.label = config.label;
     this.note = config.note;
     this.type = config.type;
-    this.validateValue = config.validateValue || this.defaultValidation;
+    this.validate = config.validate || this.defaultValidation;
 
     if (!this.label) {
       throw new Error(`"${this.key}" requires a label.`);
     }
   }
 
-  validateValue: validateFnType;
+  validate: validateFnType;
 
   config: Object;
 
@@ -37,8 +35,5 @@ export default class FieldController {
 
   getInitialValue: initialFnType = () => '';
 
-  defaultValidation: validateFnType = () => ({
-    message: null,
-    isInvalid: false,
-  });
+  defaultValidation: validateFnType = () => null;
 }

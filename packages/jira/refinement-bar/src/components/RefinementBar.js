@@ -200,12 +200,12 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     const values = cloneObj(this.state.values, { add: { [key]: value } });
 
     const field = fieldConfig[key];
-    const { message, isInvalid } = field.validateValue(value);
+    const invalidMessage = field.validate(value);
 
     let invalid = oldInvalid;
 
-    if (isInvalid) {
-      invalid = cloneObj(oldInvalid, { add: { [key]: message } });
+    if (invalidMessage) {
+      invalid = cloneObj(oldInvalid, { add: { [key]: invalidMessage } });
     } else if (oldInvalid[key]) {
       invalid = cloneObj(oldInvalid, { remove: key });
     }

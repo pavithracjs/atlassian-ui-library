@@ -5,28 +5,24 @@ import FieldController from '../Controller';
 import { isObject, objectMap } from '../../utils';
 
 const validateInput = (label, value, name) => {
-  let message = null;
-  let isInvalid = false;
+  let result = null;
   const prefix = name ? `${label} "${name}"` : label;
 
   if (Number.isNaN(value)) {
-    message = `${prefix} must be a number`;
-    isInvalid = true;
+    result = `${prefix} must be a number`;
   } else if (!Number.isInteger(value)) {
-    message = `${prefix} must be a whole number`;
-    isInvalid = true;
+    result = `${prefix} must be a whole number`;
   } else if (value < 0) {
-    message = `${prefix} must be a positive number`;
-    isInvalid = true;
+    result = `${prefix} must be a positive number`;
   }
 
-  return { message, isInvalid };
+  return result;
 };
 
 export default class NumberController extends FieldController {
   constructor(config: *) {
     super(config);
-    this.validateValue = config.validateValue || this.defaultValidation;
+    this.validate = config.validate || this.defaultValidation;
   }
 
   formatButtonLabel = ({ type, value }: *) => {
@@ -96,7 +92,7 @@ export default class NumberController extends FieldController {
   // Implementation
 
   defaultValidation = ({ type, value }: *) => {
-    let result = { message: null, isInvalid: false };
+    let result = null;
     const nameMap = { lt: 'to', gt: 'from' };
 
     if (type === 'is_not_set') {
@@ -106,24 +102,17 @@ export default class NumberController extends FieldController {
     if (isObject(value)) {
       // make sure both values are present
       if (value.lt === undefined || value.gt === undefined) {
-        return {
-          message: 'Both inputs are required.',
-          isInvalid: true,
-        };
+        return 'Both inputs are required.';
       }
 
       // check for a valid range
       if (value.lt <= value.gt) {
-        return {
-          message:
-            'Invalid range; the second input must be greater than the first.',
-          isInvalid: true,
-        };
+        return 'Invalid range; the second input must be greater than the first.';
       }
 
       objectMap(value, (val, key) => {
         const r = validateInput(this.label, val, nameMap[key]);
-        if (r.isInvalid) result = r;
+        if (r) result = r;
         return null;
       });
     } else {
