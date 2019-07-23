@@ -19,10 +19,20 @@ export interface Props {
   onClose: () => void;
 }
 
+export interface State {
+  isSpotlightClosed: boolean;
+}
+
 const ICON_URL =
   'https://ptc-directory-sited-static.us-east-1.prod.public.atl-paas.net/teams/avatars/2.svg';
 
-export default class MentionSpotlight extends React.Component<Props, {}> {
+export default class MentionSpotlight extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      isSpotlightClosed: false,
+    };
+  }
   componentDidMount() {
     MentionSpotlightController.registerRender();
   }
@@ -31,8 +41,19 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
     MentionSpotlightController.registerCreateLinkClick();
   };
 
+  onCloseClick = () => {
+    console.log('+++++++++++==========');
+    this.setState({ isSpotlightClosed: true });
+    this.props.onClose();
+  };
+
   render() {
-    const { onClose, createTeamLink } = this.props;
+    const { createTeamLink } = this.props;
+    const { isSpotlightClosed: isHighlightClosed } = this.state;
+
+    if (isHighlightClosed) {
+      return null;
+    }
 
     return (
       <Styled.Card>
@@ -75,7 +96,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
                   <Button
                     appearance="subtle"
                     iconBefore={<EditorCloseIcon label="Close" size="medium" />}
-                    onClick={onClose}
+                    onClick={this.onCloseClick}
                     spacing="none"
                   />
                 </Tooltip>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
+import { shallow } from 'enzyme';
 import { noop } from '@babel/types';
 import Button from '@atlaskit/button';
 
@@ -53,5 +54,19 @@ describe('MentionSpotlight', () => {
     spotlight.find('a').simulate('click');
 
     expect(mockRegisterCreateLinkClick).toHaveBeenCalled();
+  });
+
+  it('should not show the highlight if the spotlight has been closed by the user', () => {
+    const onClose = jest.fn();
+    const spotlight = render({ onClose: onClose });
+
+    spotlight.find(Button).simulate('click');
+
+    spotlight.setState({
+      isSpotlightClosed: true,
+    });
+
+    console.log(spotlight.debug());
+    expect(spotlight).toBeNull();
   });
 });
