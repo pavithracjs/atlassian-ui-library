@@ -1,1 +1,0 @@
-Update package.json with a correct script to copy binaries in both esm and cjs. Adding a check to make sure those folders exits after being built.
