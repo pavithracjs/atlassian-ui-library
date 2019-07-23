@@ -48,8 +48,8 @@ describe('ConfluenceClient', () => {
           analyticsType: AnalyticsType.RecentConfluence,
           resultType: ResultType.ConfluenceObjectResult,
           contentType: ContentType.ConfluencePage,
-          containerId: 'abc',
-          iconClass: 'iconClass',
+          containerId: pages[0].spaceKey,
+          iconClass: pages[0].iconClass,
           isRecentResult: true,
         },
         {
@@ -60,8 +60,8 @@ describe('ConfluenceClient', () => {
           analyticsType: AnalyticsType.RecentConfluence,
           resultType: ResultType.ConfluenceObjectResult,
           contentType: ContentType.ConfluenceBlogpost,
-          containerId: 'abc',
-          iconClass: 'iconClass',
+          containerId: pages[1].spaceKey,
+          iconClass: pages[1].iconClass,
           isRecentResult: true,
         },
       ]);
@@ -71,6 +71,32 @@ describe('ConfluenceClient', () => {
       mockRecentlyViewedPages([]);
       const result = await confluenceClient.getRecentItems();
       expect(result).toEqual([]);
+    });
+
+    it('should return confluence items excluding pages with empty titles', async () => {
+      const pages: RecentPage[] = [
+        buildMockPage('page', { title: undefined }),
+        buildMockPage('page'),
+      ];
+
+      mockRecentlyViewedPages(pages);
+
+      const result = await confluenceClient.getRecentItems();
+
+      expect(result).toEqual([
+        {
+          resultId: pages[1].id + '',
+          name: pages[1].title,
+          href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}`,
+          containerName: pages[1].space,
+          analyticsType: AnalyticsType.RecentConfluence,
+          resultType: ResultType.ConfluenceObjectResult,
+          contentType: ContentType.ConfluencePage,
+          containerId: pages[1].spaceKey,
+          iconClass: pages[1].iconClass,
+          isRecentResult: true,
+        },
+      ]);
     });
   });
 
