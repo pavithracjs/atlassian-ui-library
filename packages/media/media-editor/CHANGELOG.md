@@ -1,5 +1,13 @@
 # @atlaskit/media-editor
 
+## 36.2.5
+
+### Patch Changes
+
+- [patch][22bbf51cea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22bbf51cea):
+
+  change copy-binaries script to move media-editor binaries into right destination
+
 ## 36.2.4
 
 ### Patch Changes

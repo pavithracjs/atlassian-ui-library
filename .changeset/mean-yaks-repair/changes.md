@@ -1,1 +1,0 @@
-change copy-binaries script to move media-editor binaries into right destination
