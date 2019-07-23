@@ -1,8 +1,7 @@
 // @flow
 
 import type { ComponentType, ElementRef } from 'react';
-
-type DrawerWidth = 'extended' | 'full' | 'medium' | 'narrow' | 'wide';
+import type { DrawerWidth } from '@atlaskit/drawer';
 
 type NonStringRef<T> = {
   current: ElementRef<T> | null,
