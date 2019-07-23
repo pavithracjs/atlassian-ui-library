@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.35.1
+
+### Patch Changes
+
+- [patch][f6ea3777ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f6ea3777ff):
+
+  Upgrade media editor in editor core
+
 ## 112.35.0
 
 ### Minor Changes
