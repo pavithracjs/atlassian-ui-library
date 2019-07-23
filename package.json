@@ -565,6 +565,7 @@
     "uuid": "^3.1.0",
     "uuid-validate": "^0.0.3",
     "video-snapshot": "^1.0.3",
+    "w3c-keyname": "^2.1.0",
     "webpack-cli": "^3.1.0",
     "xregexp": "^4.1.1",
     "yarn-deduplicate": "^1.0.5"

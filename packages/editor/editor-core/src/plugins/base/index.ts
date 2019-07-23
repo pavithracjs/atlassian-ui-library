@@ -1,6 +1,5 @@
 import { baseKeymap } from 'prosemirror-commands';
 import { history } from 'prosemirror-history';
-import { keymap } from 'prosemirror-keymap';
 import { doc, paragraph, text } from '@atlaskit/adf-schema';
 import { EditorPlugin, PMPluginFactory } from '../../types';
 import filterStepsPlugin from './pm-plugins/filter-steps';
@@ -10,6 +9,7 @@ import inlineCursorTargetPlugin from './pm-plugins/inline-cursor-target';
 import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
 import scrollGutter from './pm-plugins/scroll-gutter';
+import { keymap } from '../../utils/keymap';
 
 interface BasePluginOptions {
   allowScrollGutter?: boolean;
