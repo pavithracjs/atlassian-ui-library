@@ -141,7 +141,7 @@ export class DrawerBase extends Component<
         mountOnEnter
         unmountOnExit
       >
-        <Portal>
+        <Portal zIndex="unset">
           <TransitionGroup component={OnlyChild}>
             <Fragment>
               {/* $FlowFixMe the `in` prop is internal */}
