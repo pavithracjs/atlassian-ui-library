@@ -1,6 +1,7 @@
 jest.mock('../../../plugins', () => ({
   basePlugin: jest.fn(),
   analyticsPlugin: jest.fn(),
+  historyAnalyticsPlugin: jest.fn(),
   mediaPlugin: jest.fn(),
   tablesPlugin: jest.fn(),
   insertBlockPlugin: jest.fn(),
@@ -41,6 +42,7 @@ import {
   placeholderTextPlugin,
   layoutPlugin,
   statusPlugin,
+  historyAnalyticsPlugin,
 } from '../../../plugins';
 
 import createPluginsList from '../../../create-editor/create-plugins-list';
@@ -49,6 +51,7 @@ describe('createPluginsList', () => {
   beforeEach(() => {
     (basePlugin as any).mockReset();
     (analyticsPlugin as any).mockReset();
+    (historyAnalyticsPlugin as any).mockReset();
     (insertBlockPlugin as any).mockReset();
     (placeholderTextPlugin as any).mockReset();
     (statusPlugin as any).mockReset();
@@ -152,10 +155,22 @@ describe('createPluginsList', () => {
     expect(analyticsPlugin).toHaveBeenCalledWith(createAnalyticsEvent);
   });
 
-  it('should no add analyticsPlugin if allowAnalyticsGASV3 prop is false', () => {
+  it('should not add analyticsPlugin if allowAnalyticsGASV3 prop is false', () => {
     const createAnalyticsEvent = jest.fn();
     createPluginsList({ allowAnalyticsGASV3: false }, createAnalyticsEvent);
     expect(analyticsPlugin).not.toHaveBeenCalled();
+  });
+
+  it('should add historyAnalyticsPlugin if allowAnalyticsGASV3 prop is provided', () => {
+    const createAnalyticsEvent = jest.fn();
+    createPluginsList({ allowAnalyticsGASV3: true }, createAnalyticsEvent);
+    expect(historyAnalyticsPlugin).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not add historyAnalyticsPlugin if allowAnalyticsGASV3 prop is false', () => {
+    const createAnalyticsEvent = jest.fn();
+    createPluginsList({ allowAnalyticsGASV3: false }, createAnalyticsEvent);
+    expect(historyAnalyticsPlugin).not.toHaveBeenCalled();
   });
 
   it('should add feedbackDialogPlugin if feedbackInfo is provided for editor props', () => {

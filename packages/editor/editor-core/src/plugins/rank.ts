@@ -21,6 +21,8 @@ export default {
     'blockType',
     'quickInsert',
     'tasksAndDecisions',
+    // This needs to be before blockTypeInputRule where we call prosemirror-history undo
+    'historyAnalyticsKeymap',
     'blockTypeInputRule',
     'tasksAndDecisionsInputRule',
     'typeAhead',
@@ -89,6 +91,7 @@ export default {
     'grid',
     'scrollGutterPlugin',
     'analytics',
+    'historyAnalytics',
   ],
   nodes: [
     'doc',

@@ -51,6 +51,7 @@ import {
   analyticsPlugin,
   customAutoformatPlugin,
   feedbackDialogPlugin,
+  historyAnalyticsPlugin,
 } from '../plugins';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -89,6 +90,7 @@ export default function createPluginsList(
 
   if (props.allowAnalyticsGASV3) {
     plugins.push(analyticsPlugin(createAnalyticsEvent));
+    plugins.push(historyAnalyticsPlugin());
   }
 
   if (props.allowBreakout && isFullPage(props.appearance)) {
