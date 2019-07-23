@@ -1,1 +1,0 @@
-Made quick search more robust against malformed Confluence responses
