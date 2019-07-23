@@ -182,6 +182,15 @@ export interface RecentUpdatesListener {
 export interface TaskDecisionResourceConfig extends ServiceConfig {
   currentUser?: User;
   pubSubClient?: PubSubClient;
+  /**
+   * Indicates if initial state for an action or decision is should be cached,
+   * i.e. was originally hydrated from the service initially, and so should be
+   * considered up to date.
+   *
+   * Will stop the initiation of the hydration from the service the first
+   * time an action or decision is seen.
+   */
+  cacheInitialState?: boolean;
 }
 
 export interface TaskDecisionProvider {
@@ -203,7 +212,11 @@ export interface TaskDecisionProvider {
 
   // Tasks
   toggleTask(objectKey: ObjectKey, state: TaskState): Promise<TaskState>;
-  subscribe(objectKey: ObjectKey, handler: Handler): void;
+  subscribe(
+    objectKey: ObjectKey,
+    handler: Handler,
+    item?: BaseItem<TaskState | DecisionState>,
+  ): void;
   unsubscribe(objectKey: ObjectKey, handler: Handler): void;
   getCurrentUser?(): User | undefined;
 }
