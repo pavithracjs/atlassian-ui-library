@@ -481,7 +481,7 @@ const getRecentItems = (product: string) =>
                   {
                     id: 'jira-object-result',
                     hasContainerId: true,
-                    resultsCount: 8,
+                    resultsCount: 6,
                   },
                   {
                     id: 'JiraIssueAdvancedSearch',
