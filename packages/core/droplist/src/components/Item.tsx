@@ -44,8 +44,11 @@ interface OnActivateArgs {
   event: SyntheticEvent<HTMLElement>;
 }
 
+type Appearance = 'default' | 'primary';
+type Position = 'top' | 'bottom' | 'left' | 'right';
+
 interface Props {
-  appearance: 'default' | 'primary';
+  appearance: Appearance;
   children: Node;
   description: string;
   elemAfter: ReactNode;
@@ -61,7 +64,7 @@ interface Props {
   target: string;
   title: string;
   tooltipDescription: string | null;
-  tooltipPosition: 'top' | 'bottom' | 'left' | 'right';
+  tooltipPosition: Position;
   type: AriaTypes;
   itemContext?: string;
 }
@@ -73,12 +76,8 @@ interface State {
 
 class Item extends PureComponent<Props, State> {
   static defaultProps = {
-    appearance: 'default',
-    children: null,
+    appearance: 'default' as Appearance,
     description: '',
-    elemAfter: null,
-    elemBefore: null,
-    href: null,
     isActive: false,
     isChecked: false,
     isDisabled: false,
@@ -87,10 +86,7 @@ class Item extends PureComponent<Props, State> {
     isSelected: false,
     itemContext: 'menu',
     onActivate: () => {},
-    target: null,
-    title: null,
-    tooltipDescription: null,
-    tooltipPosition: 'right',
+    tooltipPosition: 'right' as Position,
     type: 'link',
   };
 
@@ -211,12 +207,12 @@ class Item extends PureComponent<Props, State> {
 export { Item as DroplistItemWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'droplistItem',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onActivate: createAndFireEventOnAtlaskit({
       action: 'selected',
       actionSubject: 'droplistItem',

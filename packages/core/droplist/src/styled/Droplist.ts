@@ -21,10 +21,10 @@ const getMaxHeight = ({
   return isTall ? '90vh' : `${defaultMaxHeight}px`;
 };
 
-export default styled.div`
+export default styled.div<{ fit: boolean }>`
   display: inline-flex;
 
-  ${(props: { fit?: boolean }) =>
+  ${props =>
     props.fit &&
     `
     display: block;
@@ -58,7 +58,7 @@ export const SpinnerContainer = styled.div`
   padding: ${math.multiply(gridSize, 2.5)}px;
 `;
 
-export const Trigger = styled.div`
+export const Trigger = styled.div<{ fit: boolean }>`
   display: inline-flex;
   transition-duration: 0.2s;
   transition: box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38);

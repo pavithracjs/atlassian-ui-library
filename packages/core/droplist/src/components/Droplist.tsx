@@ -20,13 +20,13 @@ import Wrapper, {
 } from '../styled/Droplist';
 import itemTheme from '../theme/item-theme';
 
-const halfFocusRing = 1;
-const dropOffset = `0, ${gridSize()}px`;
-
 interface OnOpenChangeArgs {
   isOpen: boolean;
   event: Event;
 }
+
+type Appearance = 'default' | 'tall';
+type Boundaries = 'viewport' | 'window' | 'scrollParent';
 
 interface Props {
   /**
@@ -34,9 +34,9 @@ interface Props {
    * Default menu has scroll after its height exceeds the pre-defined amount.
    * Tall menu has no scroll until the height exceeds the height of the viewport.
    */
-  appearance?: 'default' | 'tall';
+  appearance?: Appearance;
   /** Value passed to the Layer component to determine when to reposition the droplist */
-  boundariesElement?: 'viewport' | 'window' | 'scrollParent';
+  boundariesElement?: Boundaries;
   /** If true, a Spinner is rendered instead of the items */
   isLoading?: boolean;
   /** Controls the open state of the drop list. */
@@ -67,8 +67,8 @@ interface Props {
 
 class Droplist extends Component<Props, {}> {
   static defaultProps = {
-    appearance: 'default',
-    boundariesElement: 'viewport',
+    appearance: 'default' as Appearance,
+    boundariesElement: 'viewport' as Boundaries,
     children: null,
     isLoading: false,
     isOpen: false,
@@ -119,8 +119,7 @@ class Droplist extends Component<Props, {}> {
     // We need to manually set the content width to match the trigger width
     // if props.shouldFitContainer is true
     if (shouldFitContainer && dropContentRef && triggerRef) {
-      dropContentRef.style.width = `${triggerRef.offsetWidth -
-        halfFocusRing * 2}px`;
+      dropContentRef.style.width = `${triggerRef.offsetWidth - 1 * 2}px`;
     }
   };
 
@@ -216,7 +215,7 @@ class Droplist extends Component<Props, {}> {
           autoFlip={shouldFlip}
           boundariesElement={boundariesElement}
           content={layerContent}
-          offset={dropOffset}
+          offset={`0, ${gridSize()}px`}
           position={position}
           isAlwaysFixed={isOpen && isMenuFixed}
           onPositioned={onPositioned}
@@ -233,12 +232,12 @@ class Droplist extends Component<Props, {}> {
 export { Droplist as DroplistWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'droplist',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onOpenChange: createAndFireEventOnAtlaskit({
       action: 'toggled',
       actionSubject: 'droplist',
