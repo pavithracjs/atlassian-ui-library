@@ -8,7 +8,7 @@ export type Widths = {
   narrow: number;
   wide: number;
 };
-export type DrawerWidth = keyof Widths;
+export type DrawerWidth = 'extended' | 'full' | 'medium' | 'narrow' | 'wide';
 
 export interface BaseProps {
   /** The content of the drawer */
