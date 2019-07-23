@@ -1,9 +1,44 @@
 import React from 'react';
 import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
+import { InterpolationWithTheme } from '@emotion/core';
+import { IconProps } from './elements/IconWrapper';
+import { LabelProps } from './elements/Label';
 
 export type ChildrenType = React.ReactChild;
 export type ComponentType = React.Component<{}, {}>;
 export type ElementType = React.ReactChild;
+
+export interface CheckboxDefaultStyles {
+  iconWrapper: (state: IconProps) => InterpolationWithTheme<any>;
+  labelText: (state: { tokens: ThemeTokens }) => InterpolationWithTheme<any>;
+  label: (state: LabelProps) => InterpolationWithTheme<any>;
+}
+
+export interface CheckboxIconDefaultStyles {
+  iconWrapper: (state: IconProps) => InterpolationWithTheme<any>;
+}
+
+export interface CheckboxIconStylesProp {
+  iconWrapper?: (
+    defaultStyles: InterpolationWithTheme<any>,
+    state: IconProps,
+  ) => InterpolationWithTheme<any>;
+}
+
+export interface CheckboxStylesProp {
+  iconWrapper?: (
+    defaultStyles: InterpolationWithTheme<any>,
+    state: IconProps,
+  ) => InterpolationWithTheme<any>;
+  labelText?: (
+    defaultStyles: InterpolationWithTheme<any>,
+    state: { tokens: ThemeTokens },
+  ) => InterpolationWithTheme<any>;
+  label?: (
+    defaultStyles: InterpolationWithTheme<any>,
+    state: LabelProps,
+  ) => InterpolationWithTheme<any>;
+}
 
 export interface CheckboxIconProps {
   /** Sets the checkbox icon active state. */
@@ -29,13 +64,15 @@ export interface CheckboxIconProps {
   secondaryColor?: any;
   /** The label for icon to be displayed */
   label: any;
-  theme: (
+  styles?: CheckboxIconStylesProp;
+  theme?: (
     current: (props: ThemeProps) => ThemeTokens,
     props: ThemeProps,
   ) => ThemeTokens;
 }
 
 export interface CheckboxProps extends WithAnalyticsEventsProps {
+  styles?: CheckboxStylesProp;
   /** Sets whether the checkbox begins checked. */
   defaultChecked?: boolean;
   /** id assigned to input */
