@@ -30,6 +30,7 @@ export {
   removeTableFromLastChild,
   transformSliceToRemoveOpenTable,
   transformSliceToCorrectEmptyTableCells,
+  transformSliceToFixHardBreakProblemOnCopyFromCell,
 } from './paste';
 export {
   isCell,

@@ -15,6 +15,7 @@ import {
   th,
   code_block,
   dispatchPasteEvent,
+  br,
 } from '@atlaskit/editor-test-helpers';
 import { pluginKey as tablePluginKey } from '../../../../plugins/table/pm-plugins/main';
 import {
@@ -27,6 +28,7 @@ import {
   removeTableFromFirstChild,
   removeTableFromLastChild,
   transformSliceToRemoveOpenTable,
+  transformSliceToFixHardBreakProblemOnCopyFromCell,
 } from '../../../../plugins/table/utils/paste';
 
 const array = (...args: any): Node[] => args.map((i: any) => i(defaultSchema));
@@ -291,6 +293,25 @@ describe('table plugin', () => {
         expect(
           removeTableFromLastChild(sliceFragment.child(1), 1, sliceFragment),
         ).toEqualDocument(tableNode);
+      });
+    });
+
+    describe('transformSliceToFixHardBreakProblemOnCopyFromCell()', () => {
+      describe('when a slice contains a hardBreak after a table with only one cell', () => {
+        it('should return only the content', () => {
+          const slice = new Slice(
+            fragment(table()(tr(th()(p('1')))), p(br())),
+            0,
+            1,
+          );
+
+          expect(
+            transformSliceToFixHardBreakProblemOnCopyFromCell(
+              slice,
+              defaultSchema,
+            ),
+          ).toEqual(new Slice(fragment(p('1')), 0, 1));
+        });
       });
     });
 
