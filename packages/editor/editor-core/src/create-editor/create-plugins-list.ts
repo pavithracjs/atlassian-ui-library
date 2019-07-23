@@ -50,6 +50,7 @@ import {
   annotationPlugin,
   analyticsPlugin,
   customAutoformatPlugin,
+  feedbackDialogPlugin,
 } from '../plugins';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -143,6 +144,10 @@ export default function createPluginsList(
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
     plugins.push(tasksAndDecisionsPlugin);
+  }
+
+  if (props.feedbackInfo) {
+    plugins.push(feedbackDialogPlugin(props.feedbackInfo));
   }
 
   if (props.allowHelpDialog) {

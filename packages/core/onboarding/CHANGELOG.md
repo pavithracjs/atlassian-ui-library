@@ -1,5 +1,10 @@
 # @atlaskit/onboarding
 
+## 8.0.8
+
+- Updated dependencies [ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):
+  - @atlaskit/popper@3.0.0
+
 ## 8.0.7
 
 ### Patch Changes

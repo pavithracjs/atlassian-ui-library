@@ -25,6 +25,7 @@ export default {
     '"{inputValue}" に一致する結果が見つかりませんでした。メール アドレスを使用してユーザーを招待してください。',
   'fabric.elements.share.trigger.button.icon.label': '共有アイコン',
   'fabric.elements.share.trigger.button.text': 'シェア',
+  'fabric.elements.share.trigger.button.tooltip.text': '共有',
   'fabric.elements.share.trigger.button.invite.text': '招待',
   'fabric.elements.share.copylink.button.icon.label': 'リンクをコピー アイコン',
   'fabric.elements.share.copylink.button.text': 'リンクをコピー',

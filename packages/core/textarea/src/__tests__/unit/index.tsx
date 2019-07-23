@@ -100,7 +100,7 @@ describe('TextArea', () => {
     { placeholder: 'test placeholder' },
     { maxLength: 5 },
   ].forEach((prop: { [s: string]: any }) =>
-    describe(JSON.stringify(prop), () =>
+    describe(JSON.stringify(prop), () => {
       it('TextArea should have attribute defined', () => {
         const key = Object.keys(prop)[0];
         const value = prop[key];
@@ -109,8 +109,8 @@ describe('TextArea', () => {
             .find('textarea')
             .prop(key),
         ).toBe(value);
-      }),
-    ),
+      });
+    }),
   );
 
   it('TextArea should have value="something"', () =>

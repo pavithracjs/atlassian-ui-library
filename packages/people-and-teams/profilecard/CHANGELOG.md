@@ -1,5 +1,10 @@
 # @atlaskit/profilecard
 
+## 12.0.4
+
+- Updated dependencies [ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):
+  - @atlaskit/popper@3.0.0
+
 ## 12.0.3
 
 ### Patch Changes

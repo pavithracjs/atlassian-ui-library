@@ -21,7 +21,7 @@ import {
 } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 
-import { Dropzone } from '../src/components/dropzone/dropzone';
+import { Dropzone } from '../src/';
 import { DropzoneConfig } from '../src/components/types';
 import { UploadsStartEventPayload } from '../src';
 
@@ -99,7 +99,7 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
       <UploadPreviews>
         {({ onUploadsStart, onError, onPreviewUpdate }) => (
           <Dropzone
-            mediaClient={dropzoneMediaClient}
+            mediaClientConfig={dropzoneMediaClient.config}
             config={config}
             onUploadsStart={payload => {
               this.onUploadsStart(payload);

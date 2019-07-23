@@ -203,3 +203,11 @@ export const IconHeading = ({ level, ...props }: HeadingProps) => {
   });
   return <Icon {...props} />;
 };
+
+export const IconFeedback = Loadable({
+  loader: () =>
+    import('./feedback').then(module => module.default) as Promise<
+      React.ComponentType<IconProps>
+    >,
+  loading: () => null,
+});

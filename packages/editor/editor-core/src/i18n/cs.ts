@@ -6,7 +6,7 @@
  */
 // Czech
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Přidat odkaz',
   'fabric.editor.openLink': 'Otevřít odkaz na nové kartě',
   'fabric.editor.unlink': 'Zrušit propojení',
   'fabric.editor.editLink': 'Upravit odkaz',
@@ -120,7 +120,7 @@ export default {
   'fabric.editor.annotate': 'Opatřit poznámkami',
   'fabric.editor.wrapLeft': 'Sbalit vpravo',
   'fabric.editor.wrapRight': 'Sbalit vlevo',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Zpět',
   'fabric.editor.info': 'Informace',
   'fabric.editor.note': 'Poznámka',
   'fabric.editor.success': 'Úspěch',
@@ -158,7 +158,7 @@ export default {
   'fabric.editor.bold': 'Tučné',
   'fabric.editor.italic': 'Kurzíva',
   'fabric.theme.#172b4d': 'Tmavě šedá',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Světle šedá',
   'fabric.theme.#6554c0': 'Fialová',
   'fabric.theme.#00b8d9': 'Tmavě modrozelená',
   'fabric.theme.#36b37e': 'Zelená',

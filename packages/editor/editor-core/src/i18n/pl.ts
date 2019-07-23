@@ -6,7 +6,7 @@
  */
 // Polish
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Dodaj łącze',
   'fabric.editor.openLink': 'Otwórz łącze w nowej karcie',
   'fabric.editor.unlink': 'Usuń link',
   'fabric.editor.editLink': 'Edytuj łącze',
@@ -122,7 +122,7 @@ export default {
   'fabric.editor.annotate': 'Dodaj adnotację',
   'fabric.editor.wrapLeft': 'Zawijaj do lewej',
   'fabric.editor.wrapRight': 'Zawijaj do prawej',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Wróć',
   'fabric.editor.info': 'Informacje',
   'fabric.editor.note': 'Uwaga',
   'fabric.editor.success': 'Sukces',
@@ -160,7 +160,7 @@ export default {
   'fabric.editor.bold': 'Pogrubienie',
   'fabric.editor.italic': 'Kursywa',
   'fabric.theme.#172b4d': 'Ciemnoszary',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Jasnoszary',
   'fabric.theme.#6554c0': 'Fioletowy',
   'fabric.theme.#00b8d9': 'Morski',
   'fabric.theme.#36b37e': 'Zielony',

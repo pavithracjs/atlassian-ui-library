@@ -22,11 +22,13 @@ import {
   selectRow as selectRowTransform,
   ContentNodeWithPos,
 } from 'prosemirror-utils';
-import { createCommand } from '../pm-plugins/main';
+import { createCommand, getPluginState } from '../pm-plugins/main';
 import {
   checkIfHeaderRowEnabled,
   checkIfHeaderColumnEnabled,
   isIsolating,
+  updatePluginStateDecorations,
+  createColumnControlsDecoration,
 } from '../utils';
 import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
@@ -40,7 +42,7 @@ import {
 import { fixAutoSizedTable } from '../transforms';
 import { INPUT_METHOD } from '../../analytics';
 import { insertRowWithAnalytics } from '../commands-with-analytics';
-import { TableCssClassName as ClassName } from '../types';
+import { TableCssClassName as ClassName, TableDecorations } from '../types';
 // #endregion
 
 // #region Constants
@@ -52,7 +54,9 @@ const TAB_BACKWARD_DIRECTION = -1;
 export const setEditorFocus = (editorHasFocus: boolean) =>
   createCommand({
     type: 'SET_EDITOR_FOCUS',
-    data: { editorHasFocus },
+    data: {
+      editorHasFocus,
+    },
   });
 
 export const setTableRef = (ref?: HTMLElement | null) =>
@@ -64,6 +68,19 @@ export const setTableRef = (ref?: HTMLElement | null) =>
         closestElement(tableRef, `.${ClassName.TABLE_NODE_WRAPPER}`) ||
         undefined;
       const layout = tableNode ? tableNode.attrs.layout : undefined;
+      const {
+        pluginConfig: { allowControls = true },
+      } = getPluginState(state);
+
+      let decorationSet = DecorationSet.empty;
+
+      if (allowControls && tableRef) {
+        decorationSet = updatePluginStateDecorations(
+          state,
+          createColumnControlsDecoration(state.selection),
+          TableDecorations.COLUMN_CONTROLS_DECORATIONS,
+        );
+      }
 
       return {
         type: 'SET_TABLE_REF',
@@ -74,7 +91,7 @@ export const setTableRef = (ref?: HTMLElement | null) =>
           layout: layout || 'default',
           isHeaderRowEnabled: checkIfHeaderRowEnabled(state),
           isHeaderColumnEnabled: checkIfHeaderColumnEnabled(state),
-          decorationSet: DecorationSet.empty,
+          decorationSet,
         },
       };
     },

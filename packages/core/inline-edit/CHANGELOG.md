@@ -1,5 +1,11 @@
 # @atlaskit/inline-edit
 
+## 10.0.11
+
+- Updated dependencies [1adb8727e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1adb8727e3):
+  - @atlaskit/tag-group@8.0.2
+  - @atlaskit/tag@9.0.0
+
 ## 10.0.10
 
 ### Patch Changes

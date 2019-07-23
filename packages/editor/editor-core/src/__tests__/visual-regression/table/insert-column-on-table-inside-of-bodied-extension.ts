@@ -27,6 +27,6 @@ describe('Snapshot Test: table insert/delete', () => {
   });
 
   it('should be able to insert column', async () => {
-    await insertColumn(page, 2);
+    await insertColumn(page, 1, 'left');
   });
 });

@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.12.3
+
+### Patch Changes
+
+- [patch][ec8066a555](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec8066a555):
+
+  Upgrade `@types/prosemirror-view` Typescript definitions to latest 1.9.x API
+
 ## 2.12.2
 
 ### Patch Changes

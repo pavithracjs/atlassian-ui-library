@@ -6,7 +6,7 @@
  */
 // Japanese
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'リンクを追加',
   'fabric.editor.openLink': 'リンクを新しいタブで開く',
   'fabric.editor.unlink': 'リンクを解除',
   'fabric.editor.editLink': 'リンクを編集',
@@ -119,7 +119,7 @@ export default {
   'fabric.editor.annotate': '注釈',
   'fabric.editor.wrapLeft': '左揃え',
   'fabric.editor.wrapRight': '右揃え',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': '戻る',
   'fabric.editor.info': '情報',
   'fabric.editor.note': 'メモ',
   'fabric.editor.success': '成功',
@@ -154,7 +154,7 @@ export default {
   'fabric.editor.bold': '太字',
   'fabric.editor.italic': '斜体',
   'fabric.theme.#172b4d': 'ダークグレー',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'ライトグレー',
   'fabric.theme.#6554c0': '紫',
   'fabric.theme.#00b8d9': '青緑',
   'fabric.theme.#36b37e': '緑',

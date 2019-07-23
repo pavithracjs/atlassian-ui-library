@@ -5,10 +5,7 @@ import SearchSessionProvider, {
 } from '../../components/SearchSessionProvider';
 
 describe('SearchSessionProvider', () => {
-  const DummyComponent = (props: any) => (
-    //@ts-ignore
-    <div {...props} />
-  );
+  const DummyComponent = (props: any) => <div />;
 
   it('generates and passes searchSessionId to children', () => {
     const InjectedDummyComponent = injectSearchSession(DummyComponent);

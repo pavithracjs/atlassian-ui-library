@@ -25,6 +25,7 @@ export default {
     'Vi hittade inte några resultat för "{inputValue}". Bjud in personer genom att använda e-postadresser.',
   'fabric.elements.share.trigger.button.icon.label': 'Dela-ikon',
   'fabric.elements.share.trigger.button.text': 'Dela',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Dela',
   'fabric.elements.share.trigger.button.invite.text': 'Bjud In',
   'fabric.elements.share.copylink.button.icon.label': 'Kopiera länk-ikon',
   'fabric.elements.share.copylink.button.text': 'Kopiera länk',

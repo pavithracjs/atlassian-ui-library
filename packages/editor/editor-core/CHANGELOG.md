@@ -1,5 +1,81 @@
 # @atlaskit/editor-core
 
+## 112.35.0
+
+### Minor Changes
+
+- [minor][d4218e8388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4218e8388):
+
+  [ED-7018] Improve table performance moving the column controls from external divs to Prosemirror Decorations inside of the table cells.
+
+## 112.34.2
+
+- Updated dependencies [bc0d3bf0b2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bc0d3bf0b2):
+  - @atlaskit/share@0.6.0
+
+## 112.34.1
+
+### Patch Changes
+
+- [patch][ec8066a555](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec8066a555):
+
+  Upgrade `@types/prosemirror-view` Typescript definitions to latest 1.9.x API
+
+## 112.34.0
+
+### Minor Changes
+
+- [minor][8ea4c1d314](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ea4c1d314):
+
+  ED-6382 Added quick insert option to open the feedback modal dialog in editor
+
+  **Interface Changes**
+  There are also changes in the interface of `Editor` component and `ToolbarFeedback` component.
+
+  **`Editor`**
+  For `Editor` component, a property called `feedbackInfo` is added contains the following properties:
+
+  - `product`
+  - `packageName`
+  - `packageVersion`
+  - `labels`
+
+  The above properties will provide environmental context for the feedback dialog.
+
+  Note that `feedbackInfo` is required to enable editor quick insert option for the feedback dialog.
+
+  **`ToolbarFeedback`**
+  For `ToolbarFeedback` component, the following feedback related properties are deprecated in favour of using the `feedbackInfo` property on Editor.
+
+  - `packageName`
+  - `packageVersion`
+  - `labels`
+
+  **Compatibility**
+  Existing code using the `ToolbarFeedback` component will still work, there will be not no changes on the feedback dialog behavior. However, in order to enable opening feedback dialog from quick insert menu, you need to add `feedbackInfo` property on `Editor`.
+
+  If you have put different value for `packageName`, `packageVersion` and `labels` in both `Editor` and `ToolbarFeedback`, depends on how you opening the feedback dialog, it will use different properties.
+  For example, if a user opens the feedback dialog using the quick insert menu, the feedback modal will use relevant properties from `Editor` component, otherwise opening from toolbar feedback button will bring up a dialog uses relevant properties from `ToolbarFeedback` component.
+
+  **Explanation**
+  In order to enable opening feedback dialog from the quick insert menu, we need to move the feedback dialog code from ToolbarFeedback to Editor itself, because initialize editor plugin from a UI component is not ideal, and it would be very difficult to get properties from an UI component.
+
+## 112.33.35
+
+### Patch Changes
+
+- [patch][d5444d841f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5444d841f):
+
+  Upgrade media-editor in to pull in latest cjs change
+
+## 112.33.34
+
+### Patch Changes
+
+- [patch][926ca90f35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926ca90f35):
+
+  Update i18n strings with latest translations
+
 ## 112.33.33
 
 ### Patch Changes

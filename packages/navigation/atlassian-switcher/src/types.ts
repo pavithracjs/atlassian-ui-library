@@ -136,3 +136,7 @@ export type RecommendationsEngineResponse = RecommendationItem[];
 export interface RecommendationItem {
   productKey: ProductKey;
 }
+
+export type RecommendationsFeatureFlags = {
+  [key: string]: string | boolean;
+};

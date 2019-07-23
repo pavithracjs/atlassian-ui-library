@@ -6,7 +6,7 @@
  */
 // Norwegian Bokmål
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Legg til kobling',
   'fabric.editor.openLink': 'Åpne kobling i en ny fane',
   'fabric.editor.unlink': 'Fjern kobling',
   'fabric.editor.editLink': 'Rediger kobling',
@@ -123,7 +123,7 @@ export default {
   'fabric.editor.annotate': 'Kommenter',
   'fabric.editor.wrapLeft': 'Juster til venstre',
   'fabric.editor.wrapRight': 'Juster til høyre',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Gå tilbake',
   'fabric.editor.info': 'Informasjon',
   'fabric.editor.note': 'Merknad',
   'fabric.editor.success': 'Vellykket',
@@ -160,7 +160,7 @@ export default {
   'fabric.editor.bold': 'Fet',
   'fabric.editor.italic': 'Kursiv',
   'fabric.theme.#172b4d': 'Mørkegrå',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Lysegrå',
   'fabric.theme.#6554c0': 'Lilla',
   'fabric.theme.#00b8d9': 'Blågrønn',
   'fabric.theme.#36b37e': 'Grønn',

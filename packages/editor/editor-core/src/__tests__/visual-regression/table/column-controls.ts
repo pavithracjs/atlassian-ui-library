@@ -5,13 +5,17 @@ import {
   getSelectorForTableCell,
   selectCellOption,
   tableSelectors,
+  selectColumn,
   clickFirstCell,
+  grabResizeHandle,
+  hoverColumnControls,
 } from '../../__helpers/page-objects/_table';
 import {
   pressKeyDown,
   pressKeyUp,
 } from '../../__helpers/page-objects/_keyboard';
 import adf from './__fixtures__/default-table.adf.json';
+import adfTableWithoutTableHeader from './__fixtures__/table-without-table-header.adf.json';
 
 describe('Table context menu: merge-split cells', () => {
   let page: any;
@@ -46,5 +50,48 @@ describe('Table context menu: merge-split cells', () => {
     });
     const to = getSelectorForTableCell({ row: 1, cell: 3, cellType: 'th' });
     await tableMergeCells(from, to);
+  });
+
+  it('should display the borders when the column controls are selected', async () => {
+    await selectColumn(1);
+
+    await snapshot(
+      page,
+      { tolerance: 0, useUnsafeThreshold: true },
+      tableSelectors.nthColumnControl(1),
+    );
+  });
+
+  it('should display column resizer handler on top of the column controls', async () => {
+    await grabResizeHandle(page, { colIdx: 1, row: 2 });
+    await snapshot(
+      page,
+      { tolerance: 0, useUnsafeThreshold: true },
+      tableSelectors.nthColumnControl(1),
+    );
+  });
+
+  describe('when there is no table header', () => {
+    it('should display hover effect', async () => {
+      await initFullPageEditorWithAdf(
+        page,
+        adfTableWithoutTableHeader,
+        Device.LaptopHiDPI,
+      );
+      await clickFirstCell(page);
+      await hoverColumnControls(page, 1, 'right');
+      await snapshot(page);
+    });
+
+    it('should display selected effect', async () => {
+      await initFullPageEditorWithAdf(
+        page,
+        adfTableWithoutTableHeader,
+        Device.LaptopHiDPI,
+      );
+      await clickFirstCell(page);
+      await selectColumn(1);
+      await snapshot(page);
+    });
   });
 });

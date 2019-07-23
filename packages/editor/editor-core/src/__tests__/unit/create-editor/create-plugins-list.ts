@@ -4,6 +4,7 @@ jest.mock('../../../plugins', () => ({
   mediaPlugin: jest.fn(),
   tablesPlugin: jest.fn(),
   insertBlockPlugin: jest.fn(),
+  feedbackDialogPlugin: jest.fn(),
   placeholderTextPlugin: jest.fn(),
   textFormattingPlugin: jest.fn(),
   codeBlockPlugin: jest.fn(),
@@ -19,6 +20,7 @@ import {
   fakeTextCursorPlugin,
   submitEditorPlugin,
   insertBlockPlugin,
+  feedbackDialogPlugin,
   placeholderTextPlugin,
   layoutPlugin,
   statusPlugin,
@@ -137,6 +139,16 @@ describe('createPluginsList', () => {
     const createAnalyticsEvent = jest.fn();
     createPluginsList({ allowAnalyticsGASV3: false }, createAnalyticsEvent);
     expect(analyticsPlugin).not.toHaveBeenCalled();
+  });
+
+  it('should add feedbackDialogPlugin if feedbackInfo is provided for editor props', () => {
+    const feedbackInfo = {
+      product: 'bitbucket',
+      packageName: 'editor',
+      packageVersion: '1.1.1',
+    };
+    createPluginsList({ feedbackInfo });
+    expect(feedbackDialogPlugin).toBeCalledWith(feedbackInfo);
   });
 
   it('should always add insertBlockPlugin to the editor with insertMenuItems', () => {

@@ -101,6 +101,10 @@ declare module '@atlaskit/spinner' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/tag' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
@@ -110,5 +114,9 @@ declare module '@atlaskit/toggle' {
 }
 
 declare module '@atlaskit/tooltip' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/popper' {
   declare module.exports: any;
 }
