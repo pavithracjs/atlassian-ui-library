@@ -15,8 +15,27 @@ import {
   CheckboxWrapper,
   RequiredIndicator,
   HiddenCheckbox,
+  labelCSS,
+  iconWrapperCSS,
+  labelTextCSS,
 } from './elements';
-import { CheckboxProps } from './types';
+import {
+  CheckboxProps,
+  CheckboxStylesProp,
+  CheckboxDefaultStyles,
+} from './types';
+
+// interface CheckboxStyles {
+//   iconWrapper: (state: IconProps) => InterpolationWithTheme<any>;
+//   labelText: (state: { tokens: ThemeTokens, }) => InterpolationWithTheme<any>;
+//   label: (state: LabelProps) => InterpolationWithTheme<any>;
+// }
+
+const defaultStyles: CheckboxDefaultStyles = {
+  iconWrapper: iconWrapperCSS,
+  label: labelCSS,
+  labelText: labelTextCSS,
+};
 
 interface State {
   isActive: boolean;
@@ -95,6 +114,15 @@ class Checkbox extends Component<CheckboxProps, State> {
     }
   };
 
+  getStyles = (key: keyof CheckboxStylesProp, state: any) => {
+    const defaultStyle = defaultStyles[key](state);
+    const customStyle = this.props.styles && this.props.styles[key];
+    if (customStyle) {
+      return customStyle(defaultStyle, state);
+    }
+    return defaultStyle;
+  };
+
   onBlur = () =>
     this.setState({
       // onBlur is called after onMouseDown if the checkbox was focused, however
@@ -141,6 +169,7 @@ class Checkbox extends Component<CheckboxProps, State> {
       isFullWidth,
       onChange,
       theme,
+      styles,
       ...rest
     } = this.props;
 
@@ -157,6 +186,7 @@ class Checkbox extends Component<CheckboxProps, State> {
             <Theme.Consumer mode={mode} tokens={componentTokens}>
               {tokens => (
                 <Label
+                  getStyles={this.getStyles}
                   isDisabled={isDisabled}
                   onMouseDown={this.onMouseDown}
                   onMouseEnter={this.onMouseEnter}
@@ -182,6 +212,12 @@ class Checkbox extends Component<CheckboxProps, State> {
                     />
                     <CheckboxIcon
                       theme={theme}
+                      styles={
+                        styles &&
+                        styles.iconWrapper && {
+                          iconWrapper: styles.iconWrapper,
+                        }
+                      }
                       isChecked={isChecked}
                       isDisabled={isDisabled}
                       isFocused={isFocused}
@@ -194,7 +230,7 @@ class Checkbox extends Component<CheckboxProps, State> {
                       label=""
                     />
                   </CheckboxWrapper>
-                  <LabelText tokens={tokens}>
+                  <LabelText getStyles={this.getStyles} tokens={tokens}>
                     {label}
                     {isRequired && (
                       <RequiredIndicator tokens={tokens} aria-hidden="true">
