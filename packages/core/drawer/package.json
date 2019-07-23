@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/analytics-next": "^5.1.2",
@@ -54,5 +54,5 @@
     "lodash.throttle": "^4.1.1",
     "react-lorem-component": "^0.12.2"
   },
-  "types": "index.d.ts"
+  "types": "dist/cjs/index.d.ts"
 }
