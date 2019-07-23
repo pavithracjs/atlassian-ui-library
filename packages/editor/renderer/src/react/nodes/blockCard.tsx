@@ -9,12 +9,13 @@ export default function BlockCard(props: {
   url?: string;
   data?: object;
   eventHandlers?: EventHandlers;
+  container?: HTMLElement;
 }) {
-  const { url, data, eventHandlers } = props;
+  const { url, data, eventHandlers, container } = props;
   const handler = getEventHandler(eventHandlers, 'smartCard');
   const onClick = url && handler ? () => handler(url) : undefined;
 
-  const cardProps = { url, data, onClick };
+  const cardProps = { url, data, onClick, container };
   return (
     <div
       data-block-card
