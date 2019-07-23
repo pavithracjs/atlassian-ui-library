@@ -80,11 +80,9 @@ export class DrawerBase extends Component<
     const { isOpen } = this.props;
     if (isOpen !== prevProps.isOpen) {
       if (isOpen) {
-        window.addEventListener('keydown', (this
-          .handleKeyDown as unknown) as EventListenerOrEventListenerObject);
+        window.addEventListener('keydown', this.handleKeyDown);
       } else {
-        window.removeEventListener('keydown', (this
-          .handleKeyDown as unknown) as EventListenerOrEventListenerObject);
+        window.removeEventListener('keydown', this.handleKeyDown);
       }
     }
   }
