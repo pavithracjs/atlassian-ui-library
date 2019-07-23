@@ -1,0 +1,1 @@
+Upgrade media editor in editor core
