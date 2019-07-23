@@ -1,0 +1,1 @@
+ED-7315 Ensure text selection remains inside inserted action/decision item when inserting into an empty paragraph below another paragraph
