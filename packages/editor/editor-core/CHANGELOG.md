@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.37.0
+
+### Minor Changes
+
+- [minor][4fc000749a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4fc000749a):
+
+  ED-7216: Internal: Align plugin initialisation
+
 ## 112.36.1
 
 ### Patch Changes
