@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.36.1
+
+### Patch Changes
+
+- [patch][3d94fcc7d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d94fcc7d8):
+
+  [ED-7128] Fix table split when copy from a table cell with a hard break at the end
+
 ## 112.36.0
 
 ### Minor Changes

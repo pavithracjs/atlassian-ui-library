@@ -1,1 +1,0 @@
-[ED-7128] Fix table split when copy from a table cell with a hard break at the end
