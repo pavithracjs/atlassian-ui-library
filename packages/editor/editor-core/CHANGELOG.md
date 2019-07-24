@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.35.3
+
+### Patch Changes
+
+- [patch][b62ca2126a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b62ca2126a):
+
+  ED-7304 Fix bug where column keep selection UI when you select a cell
+
 ## 112.35.2
 
 ### Patch Changes

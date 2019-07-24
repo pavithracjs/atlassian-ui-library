@@ -1,1 +1,0 @@
-ED-7304 Fix bug where column keep selection UI when you select a cell
