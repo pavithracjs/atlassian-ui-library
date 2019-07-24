@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { jsx } from '@emotion/core';
-import { HiddenSubmitButton } from './common';
+import { HiddenButton } from './common';
 
 const Form = props => (
   <form
@@ -41,7 +41,7 @@ const Label = ({ htmlFor, ...props }: *) => (
 export const Group = ({ children, ...props }: *) => (
   <Form {...props}>
     {children}
-    <HiddenSubmitButton type="submit" tabIndex="-1" />
+    <HiddenButton type="submit" tabIndex="-1" />
   </Form>
 );
 

@@ -99,7 +99,7 @@ const FIELD_CONFIG = (function fieldConfig() {
     browser: {
       label: 'Browser',
       type: TextFilter,
-      note: 'The browser(s) in which this issue is reproducible (if any)',
+      note: 'The browser(s) in which this issue is reproducible.',
     },
     comment: {
       label: 'Comment',

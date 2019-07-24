@@ -27,7 +27,7 @@ export const fieldConfig = {
   browser: {
     label: 'Browser',
     type: TextFilter,
-    note: 'The browser(s), if any, in which this issue is reproducible.',
+    note: 'The browser(s) in which this issue is reproducible.',
   },
 }
 `}
@@ -80,18 +80,13 @@ either \`irremovableKeys\` or in the \`value\` object.
 
 ## Fields
 
-Field definitions expect a minimum of \`label\` and \`type\`. You can optionally
-pass in \`validate\` for custom validation, and a \`note\` to be rendered
-beneath the filter UI.
+Field definitions expect a minimum of \`label\` and \`type\`, but may require or
+support further configuration.
 
 ${code`
-type Validate = ({ type?: string, value: any }) => string | null
-
 type DefaultConfig = {
   label: string,
-  note?: string,
   type: React.ComponentType<*>,
-  validate?: Validate,
 }
 `}
 
@@ -254,7 +249,100 @@ ${(
 
 ### Number
 
-### Search
+The number filter, in addition to the default config also accepts (optionally) \`validate\`
+for custom validation, and a \`note\` to be rendered beneath the filter UI.
+
+${code`
+type ValidationSignature = ({ type?: string, value: any }) => string | null
+
+type NumberConfig = {
+  label: string,
+  note?: string,
+  type: NumberFilter,
+  validate?: ValidationSignature,
+}
+`}
+
+The number filter's value can be of 6 different \`types\`, with slight variants
+amongst the value shape:
+
+- \`'is'\`, where the value must be \`number\`
+- \`'not'\`, where the value must be \`number\`
+- \`'gt'\`, where the value must be \`number\`
+- \`'lt'\`, where the value must be \`number\`
+- \`'between'\`, where the value must be \`{ gt: number, lt: number }\`
+- \`'is_not_set'\`, where the value must be \`null\`
+
+The number filter has quite strict default validation, and will fail if:
+
+- the value provided is not a number
+- the number is negative e.g. \`-9\`
+- the number is not "whole" e.g. \`2.4\`
+- when between, the second number is less than first e.g. \`9 -- 2\`
+
+${(
+  <Example
+    Component={require('../examples/96-number-filter-config-reference').default}
+    packageName="@atlaskit/refinement-bar"
+    source={require('!!raw-loader!../examples/96-number-filter-config-reference')}
+    title="Number filter config reference"
+  />
+)}
 
 ### Text
+
+The text filter, in addition to the default config also accepts (optionally) \`validate\`
+for custom validation, and a \`note\` to be rendered beneath the filter UI.
+
+${code`
+type ValidationSignature = ({ type?: string, value: any }) => string | null
+
+type TextConfig = {
+  label: string,
+  note?: string,
+  type: TextFilter,
+  validate?: ValidationSignature,
+}
+`}
+
+The text filter's value can be of 4 different \`types\`, with slight variants
+amongst the value shape:
+
+- \`'contains'\`, where the value must be \`string\`
+- \`'not_contains'\`, where the value must be \`string\`
+- \`'is'\`, where the value must be \`string\`
+- \`'is_not_set'\`, where the value must be \`null\`
+
+The config reference below implements a custom validate function. Try beginning
+your search string with either \`'*'\` or \`'?'\`.
+
+${(
+  <Example
+    Component={require('../examples/97-text-filter-config-reference').default}
+    packageName="@atlaskit/refinement-bar"
+    source={require('!!raw-loader!../examples/97-text-filter-config-reference')}
+    title="Text filter config reference"
+  />
+)}
+
+### Search
+
+The search filter has no additional config beyond the default.
+
+${code`
+type SearchConfig = {
+  label: string,
+  type: SearchFilter,
+}
+`}
+
+${(
+  <Example
+    Component={require('../examples/98-search-filter-config-reference').default}
+    packageName="@atlaskit/refinement-bar"
+    source={require('!!raw-loader!../examples/98-search-filter-config-reference')}
+    title="Search filter config reference"
+  />
+)}
+
 `;
