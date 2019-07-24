@@ -1,5 +1,11 @@
 # @atlaskit/global-search
 
+## 10.6.2
+
+- Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
+  - @atlaskit/quick-search@7.6.6
+  - @atlaskit/drawer@5.0.0
+
 ## 10.6.1
 
 ### Patch Changes
