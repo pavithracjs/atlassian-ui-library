@@ -1,1 +1,0 @@
-TEAMS-588 : Refactors the Team Spotlight ( which is used in mention typeahead for Fabric Editor and TinyMCE editor). Now can close the spotlight from Fabric Editor by clicking on the x button.
