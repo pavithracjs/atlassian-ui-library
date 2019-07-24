@@ -14,6 +14,7 @@ import MentionResource, {
   MentionContextIdentifier,
   MentionResourceConfig,
   TeamMentionResourceConfig,
+  TeamMentionProvider,
 } from './MentionResource';
 import debug from '../util/logger';
 
@@ -24,7 +25,8 @@ const MAX_QUERY_TEAMS = 20;
  * In future we will have a new endpoint to return both users and teams, we can
  * remove this class at this point
  */
-export default class TeamMentionResource extends MentionResource {
+export default class TeamMentionResource extends MentionResource
+  implements TeamMentionProvider {
   private readonly teamMentionConfig: TeamMentionResourceConfig;
   private lastSearchQuery?: string = '';
   private lastReturnedSearchTeam: number;
@@ -54,6 +56,10 @@ export default class TeamMentionResource extends MentionResource {
       this.handleBothRequests(query, getUserPromise, getTeamsPromise);
     }
   }
+
+  // todo - TEAMS-590 : enable/disable the spotlight based on Feature Flags and other conditions
+  mentionTypeaheadSpotlightEnabled = () =>
+    this.teamMentionConfig.teamSpotlightEnabled || false;
 
   /**
    * Returns the initial mention display list before a search is performed for the specified

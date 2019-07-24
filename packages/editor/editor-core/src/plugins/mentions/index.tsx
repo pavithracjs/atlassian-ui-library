@@ -8,11 +8,13 @@ import {
 } from '@atlaskit/analytics-next';
 import {
   MentionProvider,
+  TeamMentionProvider,
   isSpecialMention,
   isResolvingMentionProvider,
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
+import { MentionSpotlight } from '@atlaskit/mention';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';
@@ -152,6 +154,26 @@ const mentionsPlugin = (
         // Custom regex must have a capture group around trigger
         // so it's possible to use it without needing to scan through all triggers again
         customRegex: '\\(?(@)',
+        getSpotlight: (state: EditorState) => {
+          const pluginState = getMentionPluginState(state);
+          const provider = pluginState.mentionProvider;
+          if (
+            provider &&
+            (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
+          ) {
+            if (
+              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled()
+            ) {
+              return (
+                <MentionSpotlight
+                  createTeamLink="/people/search#createTeam"
+                  onClose={() => null}
+                />
+              );
+            }
+          }
+          return null;
+        },
         getItems(
           query,
           state,
@@ -391,7 +413,7 @@ export function getMentionPluginState(state: EditorState) {
 }
 
 export type MentionPluginState = {
-  mentionProvider?: MentionProvider;
+  mentionProvider?: MentionProvider | TeamMentionProvider;
   contextIdentifierProvider?: ContextIdentifierProvider;
   mentions?: Array<MentionDescription>;
 };
