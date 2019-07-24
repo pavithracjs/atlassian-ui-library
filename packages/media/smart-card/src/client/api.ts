@@ -1,3 +1,5 @@
+const ALLOWED_RESPONSE_STATUS_CODES = [200, 401, 404];
+
 export async function request<T>(
   method: string,
   url: string,
@@ -15,7 +17,7 @@ export async function request<T>(
   };
 
   const response = await fetch(url, requestConfig);
-  if (response.ok || response.status === 404) {
+  if (response.ok || ALLOWED_RESPONSE_STATUS_CODES.includes(response.status)) {
     return await response.json();
   }
 

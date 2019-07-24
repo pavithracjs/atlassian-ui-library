@@ -3,9 +3,6 @@ import Page, { Grid, GridColumn } from '@atlaskit/page';
 import { Card, Client, Provider, ResolveResponse } from '..';
 
 class UnAuthCustomClient extends Client {
-  constructor() {
-    super();
-  }
   fetchData(): Promise<ResolveResponse> {
     return Promise.resolve({
       meta: {
@@ -19,23 +16,23 @@ class UnAuthCustomClient extends Client {
 }
 
 class ErroringCustomClient extends Client {
-  constructor() {
-    super();
-  }
   fetchData(url: string): Promise<ResolveResponse> {
     return Promise.reject(`Can't resolve from ${url}`);
   }
 }
 
 class NotFoundClient extends Client {
-  // @ts-ignore we're overriding a private API here for example purposes.
-  getLoader(_hostname: string) {
-    console.log('getLoader');
-    return {
-      load: async () => ({
-        status: 404,
-        body: {},
-      }),
+  constructor() {
+    super();
+
+    // @ts-ignore we're overriding a private API here for example purposes.
+    this.getLoader = (_hostname: string) => {
+      return {
+        load: async () => ({
+          status: 404,
+          body: {},
+        }),
+      };
     };
   }
 }
@@ -72,7 +69,7 @@ class Example extends React.Component {
 
             <h4>Not found response</h4>
             <Provider
-              client={notFoundClient}
+              client={(notFoundClient as any) as Client}
               cacheOptions={{ maxLoadingDelay: 1000, maxAge: 15000 }}
             >
               <Card url="http://some.notfound.url" appearance="inline" />
