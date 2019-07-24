@@ -397,14 +397,22 @@ export class JiraQuickSearchContainer extends React.Component<
   getRecentItemsFromXpsearch = (sessionId: string): Promise<JiraResultsMap> => {
     const { features } = this.props;
 
+    const referrerId =
+      this.props.referralContextIdentifiers &&
+      this.props.referralContextIdentifiers.searchReferrerId;
+
     return this.props.crossProductSearchClient
-      .search(
-        '',
+      .search({
+        query: '',
         sessionId,
-        SCOPES,
-        [],
-        getJiraMaxObjects(features.abTest, JIRA_PREQUERY_RESULT_LIMIT),
-      )
+        referrerId,
+        scopes: SCOPES,
+        modelParams: [],
+        resultLimit: getJiraMaxObjects(
+          features.abTest,
+          JIRA_PREQUERY_RESULT_LIMIT,
+        ),
+      })
       .then(xpRecentResults => {
         const objects = xpRecentResults.results[Scope.JiraIssue];
         const containers =
@@ -485,16 +493,23 @@ export class JiraQuickSearchContainer extends React.Component<
   ): Promise<ResultsWithTiming<JiraResultsMap>> => {
     const { features } = this.props;
 
+    const referrerId =
+      this.props.referralContextIdentifiers &&
+      this.props.referralContextIdentifiers.searchReferrerId;
+
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
-      query,
-      sessionId,
-      SCOPES,
-      buildJiraModelParams(
-        queryVersion,
-        this.props.referralContextIdentifiers &&
-          this.props.referralContextIdentifiers.currentContainerId,
-      ),
-      getJiraMaxObjects(features.abTest, JIRA_RESULT_LIMIT),
+      {
+        query,
+        sessionId,
+        referrerId,
+        scopes: SCOPES,
+        modelParams: buildJiraModelParams(
+          queryVersion,
+          this.props.referralContextIdentifiers &&
+            this.props.referralContextIdentifiers.currentContainerId,
+        ),
+        resultLimit: getJiraMaxObjects(features.abTest, JIRA_RESULT_LIMIT),
+      },
     );
 
     const searchPeoplePromise = Promise.resolve([] as Result[]);

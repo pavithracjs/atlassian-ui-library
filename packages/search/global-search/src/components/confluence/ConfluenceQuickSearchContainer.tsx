@@ -194,7 +194,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     queryVersion: number,
     filters: Filter[],
   ): Promise<CrossProductSearchResults> {
-    const { crossProductSearchClient, modelContext, features } = this.props;
+    const {
+      crossProductSearchClient,
+      modelContext,
+      features,
+      referralContextIdentifiers,
+    } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment];
 
@@ -209,16 +214,20 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
     const limit = features.searchExtensionsEnabled
       ? CONF_MAX_DISPLAYED_RESULTS
-      : null;
+      : undefined;
 
-    const results = await crossProductSearchClient.search(
+    const referrerId =
+      referralContextIdentifiers && referralContextIdentifiers.searchReferrerId;
+
+    const results = await crossProductSearchClient.search({
       query,
       sessionId,
+      referrerId,
       scopes,
       modelParams,
-      limit,
+      resultLimit: limit,
       filters,
-    );
+    });
 
     return results;
   }
@@ -314,14 +323,24 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       peopleSearchClient,
       crossProductSearchClient,
       features,
+      referralContextIdentifiers,
     } = this.props;
+
+    const referrerId =
+      referralContextIdentifiers && referralContextIdentifiers.searchReferrerId;
 
     // We want to be consistent with the search results when prefetching is enabled so we will use URS (via aggregator) to get the
     // bootstrapped people results, see prefetchResults.ts.
     return !features.useUrsForBootstrapping
       ? peopleSearchClient.getRecentPeople()
       : crossProductSearchClient
-          .getPeople('', sessionId, 'confluence', 3)
+          .getPeople({
+            query: '',
+            sessionId,
+            referrerId,
+            currentQuickSearchContext: 'confluence',
+            resultLimit: 3,
+          })
           .then(xProductResult => {
             const recentPeople = xProductResult.results[Scope.UserConfluence];
             return recentPeople ? recentPeople.items : [];

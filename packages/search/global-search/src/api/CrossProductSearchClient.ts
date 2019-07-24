@@ -137,21 +137,27 @@ export interface ContributorsFilter {
 
 export type Filter = SpaceFilter | ContributorsFilter;
 
+export interface SearchParams {
+  query: string;
+  sessionId: string;
+  referrerId: string | undefined;
+  scopes: Scope[];
+  modelParams: ModelParam[];
+  resultLimit?: number;
+  filters?: Filter[];
+}
+
+export interface SearchPeopleParams {
+  query: string;
+  sessionId: string;
+  referrerId: string | undefined;
+  currentQuickSearchContext: QuickSearchContext;
+  resultLimit?: number;
+}
+
 export interface CrossProductSearchClient {
-  search(
-    query: string,
-    sessionId: string,
-    scopes: Scope[],
-    modelParams: ModelParam[],
-    resultLimit?: number | null,
-    filters?: Filter[],
-  ): Promise<CrossProductSearchResults>;
-  getPeople(
-    query: string,
-    sessionId: string,
-    currentQuickSearchContext: QuickSearchContext,
-    resultLimit?: number,
-  ): Promise<CrossProductSearchResults>;
+  search(params: SearchParams): Promise<CrossProductSearchResults>;
+  getPeople(params: SearchPeopleParams): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
   getAbTestDataForProduct(product: QuickSearchContext): Promise<ABTest>;
 }
@@ -176,12 +182,13 @@ export default class CachingCrossProductSearchClientImpl
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
   }
 
-  public async getPeople(
-    query: string,
-    sessionId: string,
-    currentQuickSearchContext: QuickSearchContext,
-    resultLimit: number = 3,
-  ): Promise<CrossProductSearchResults> {
+  public async getPeople({
+    query,
+    sessionId,
+    referrerId,
+    currentQuickSearchContext,
+    resultLimit = 3,
+  }: SearchPeopleParams): Promise<CrossProductSearchResults> {
     const isBootstrapQuery = !query;
 
     // We will use the bootstrap people cache if the query is a bootstrap query and there is a result cached
@@ -197,13 +204,14 @@ export default class CachingCrossProductSearchClientImpl
         : null;
 
     if (scope) {
-      const searchPromise = this.search(
+      const searchPromise = this.search({
         query,
         sessionId,
-        [scope],
-        [],
+        referrerId,
+        scopes: [scope],
+        modelParams: [],
         resultLimit,
-      );
+      });
 
       if (isBootstrapQuery) {
         this.bootstrapPeopleCache = searchPromise;
@@ -217,22 +225,27 @@ export default class CachingCrossProductSearchClientImpl
     };
   }
 
-  public async search(
-    query: string,
-    sessionId: string,
-    scopes: Scope[],
-    modelParams: ModelParam[],
-    resultLimit?: number | null,
-    filters?: Filter[],
-  ): Promise<CrossProductSearchResults> {
+  public async search({
+    query,
+    sessionId,
+    referrerId,
+    scopes,
+    modelParams,
+    resultLimit = this.RESULT_LIMIT,
+    filters = [],
+  }: SearchParams): Promise<CrossProductSearchResults> {
     const path = 'quicksearch/v1';
 
     const body = {
       query: query,
       cloudId: this.cloudId,
-      limit: resultLimit || this.RESULT_LIMIT,
-      scopes: scopes,
-      filters: filters || [],
+      limit: resultLimit,
+      scopes,
+      filters: filters,
+      searchSession: {
+        sessionId,
+        referrerId,
+      },
       ...(modelParams.length > 0 ? { modelParams } : {}),
     };
 
