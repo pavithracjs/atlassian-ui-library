@@ -1,5 +1,13 @@
 # @atlaskit/util-data-test
 
+## 12.7.0
+
+### Minor Changes
+
+- [minor][06cfea0870](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06cfea0870):
+
+  TEAMS-549 : Adding capability to show a spotlight in Fabric Editor
+
 ## 12.6.3
 
 ### Patch Changes

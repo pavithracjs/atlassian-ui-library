@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.36.0
+
+### Minor Changes
+
+- [minor][06cfea0870](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06cfea0870):
+
+  TEAMS-549 : Adding capability to show a spotlight in Fabric Editor
+
+## 112.35.3
+
+### Patch Changes
+
+- [patch][b62ca2126a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b62ca2126a):
+
+  ED-7304 Fix bug where column keep selection UI when you select a cell
+
+## 112.35.2
+
+### Patch Changes
+
+- [patch][0bb88234e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0bb88234e6):
+
+  Upgrade prosemirror-view to 1.9.12
+
 ## 112.35.1
 
 ### Patch Changes

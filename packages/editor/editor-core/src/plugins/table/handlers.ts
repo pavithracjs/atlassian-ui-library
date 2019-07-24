@@ -12,6 +12,7 @@ import {
   createColumnControlsDecoration,
   createColumnSelectedDecorations,
 } from './utils';
+import { findColumnControlSelectedDecoration } from './utils/decoration';
 // #endregion
 
 const getDecorationSet = (
@@ -64,10 +65,16 @@ export const handleDocOrSelectionChanged = (
     pluginState.decorationSet,
   );
 
+  // @see: https://product-fabric.atlassian.net/browse/ED-7304
+  const selectedColumnControlsDecoration = findColumnControlSelectedDecoration(
+    pluginState.decorationSet,
+  );
+
   if (
     pluginState.tableNode !== tableNode ||
     pluginState.targetCellPosition !== targetCellPosition ||
-    hoverDecoration.length
+    hoverDecoration.length ||
+    selectedColumnControlsDecoration.length
   ) {
     const decorationSet = getDecorationSet(tr, allowControls, tableNode);
 

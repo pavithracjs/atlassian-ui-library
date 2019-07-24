@@ -1,1 +1,0 @@
-TEAMS-549 : Adding capability to show a spotlight in Fabric Editor
