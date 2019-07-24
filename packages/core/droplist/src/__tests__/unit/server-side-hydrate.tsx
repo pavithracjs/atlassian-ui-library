@@ -23,7 +23,6 @@ test('should ssr then hydrate droplist correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   // eslint-disable-next-line no-console
-  // @ts-ignore
   const mockCalls = console.error.mock.calls.filter(
     ([f, s]: [string, string]) =>
       !(
@@ -33,5 +32,5 @@ test('should ssr then hydrate droplist correctly', async () => {
       ),
   );
 
-  expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+  expect(mockCalls.length).toBe(0);
 });
