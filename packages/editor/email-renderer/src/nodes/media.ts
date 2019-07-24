@@ -13,7 +13,7 @@ import {
 import { createContentId, IconString } from '../static';
 
 const className = createClassName('media');
-const ICON_DIMENSION = 16;
+const ICON_DIMENSION = 14;
 
 export default function media(node: NodeSerializerOpts) {
   const { context, attrs } = node;
@@ -75,19 +75,18 @@ const lozengeStyles = `
   margin: 8px 0;
 }
 .${className}-lozenge-icon {
-  vertical-align: text-bottom;
+  vertical-align: bottom;
 }
 .${className}-lozenge {
-  padding: 0 2px;
-  line-height: 20px;
+  line-height: 14px;
   display: inline-block;
-  background-color: ${N30};
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
 }
 .${className}-lozenge-text {
   color: ${B400};
+  margin-left: 4px;
 }
 `;
 
@@ -117,7 +116,7 @@ const renderLozenge = (metadata?: MediaMetaDataContextItem) => {
   const lozenge = createTag(
     'div',
     { class: `${className}-lozenge` },
-    iconTag + '&nbsp;' + textTag,
+    iconTag + textTag,
   );
   return createTag('div', { class: `${className}-lozenge-wrapper` }, lozenge);
 };
@@ -126,28 +125,32 @@ const previewStyles = `
 .${className}-preview-img {
   width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
   height: ${MEDIA_PREVIEW_IMAGE_HEIGHT}px;
-  background-color: white;
-  display: block;
-  object-fit: cover;
-}
-.${className}-preview-wrapper {
-  margin: 8px 0px;
-  padding: 8px;
   background-color: ${N30};
+  display: block;
+  object-fit: contain;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
+}
+.${className}-preview-wrapper {
+  margin: 8px 0px;
+  padding: 0;
   display: table;
 }
 .${className}-preview-desc {
-  margin-top: 8px;
-  line-height: 20px;
+  margin-top: 3px;
+  line-height: 16px;
   display: inline-block;
-  width: 200px;
+  width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
 }
 .${className}-preview-text {
   color: ${B400};
-  word-break: break-all;
+  text-overflow: ellipsis;
+  margin-left: 4px;
+  width: ${MEDIA_PREVIEW_IMAGE_WIDTH - ICON_DIMENSION - 4}px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
 }
 `;
 
@@ -176,7 +179,7 @@ const renderPreview = (
   const description = createTag(
     'div',
     { class: `${className}-preview-desc` },
-    iconTag + '&nbsp;' + textTag,
+    iconTag + textTag,
   );
 
   return createTag(

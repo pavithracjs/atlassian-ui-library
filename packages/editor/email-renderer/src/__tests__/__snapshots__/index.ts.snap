@@ -1155,32 +1155,31 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
     </div>
     <div
       class="csg-media-preview-wrapper"
-      style="margin: 8px 0px; padding: 8px; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; display: table;"
+      style="margin: 8px 0px; padding: 0; display: table;"
     >
       <img
         class="csg-media-preview-img"
-        height="120"
+        height="108"
         src="cid:media-type-doc"
-        style="width: 200px; height: 120px; background-color: white; display: block; object-fit: cover;"
-        width="200"
+        style="width: 162px; height: 108px; background-color: #EBECF0; display: block; object-fit: contain; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        width="162"
       />
       <div
         class="csg-media-preview-desc"
-        style="margin-top: 8px; line-height: 20px; display: inline-block; width: 200px;"
+        style="margin-top: 3px; line-height: 16px; display: inline-block; width: 162px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-documentAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-preview-text"
-          style="color: #0052CC; word-break: break-all;"
+          style="color: #0052CC; text-overflow: ellipsis; margin-left: 4px; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
         >
           My bachelor thesis.pdf
         </span>
@@ -1188,32 +1187,31 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
     </div>
     <div
       class="csg-media-preview-wrapper"
-      style="margin: 8px 0px; padding: 8px; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; display: table;"
+      style="margin: 8px 0px; padding: 0; display: table;"
     >
       <img
         class="csg-media-preview-img"
-        height="120"
+        height="108"
         src="cid:media-type-video"
-        style="width: 200px; height: 120px; background-color: white; display: block; object-fit: cover;"
-        width="200"
+        style="width: 162px; height: 108px; background-color: #EBECF0; display: block; object-fit: contain; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        width="162"
       />
       <div
         class="csg-media-preview-desc"
-        style="margin-top: 8px; line-height: 20px; display: inline-block; width: 200px;"
+        style="margin-top: 3px; line-height: 16px; display: inline-block; width: 162px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-videoAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-preview-text"
-          style="color: #0052CC; word-break: break-all;"
+          style="color: #0052CC; text-overflow: ellipsis; margin-left: 4px; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
         >
           Metallica full concert.mpeg
         </span>
@@ -1225,21 +1223,20 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-audioAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           The sound of silence.mp3
         </span>
@@ -1251,21 +1248,20 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-archiveAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           The Slackening.zip
         </span>
@@ -1277,21 +1273,20 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           unknown
         </span>
@@ -1315,21 +1310,20 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1341,21 +1335,20 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1367,21 +1360,20 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1393,21 +1385,20 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1438,21 +1429,20 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1475,21 +1465,20 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1524,21 +1513,20 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1561,21 +1549,20 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1598,21 +1585,20 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1641,21 +1627,20 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
@@ -1678,21 +1663,20 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
     >
       <div
         class="csg-media-lozenge"
-        style="padding: 0 2px; line-height: 20px; display: inline-block; background-color: #EBECF0; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
       >
         <span>
           <img
             class="csg-media-lozenge-icon"
-            height="16px"
+            height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: text-bottom;"
-            width="16px"
+            style="vertical-align: bottom;"
+            width="14px"
           />
         </span>
-         
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC;"
+          style="color: #0052CC; margin-left: 4px;"
         >
           Attached file
         </span>
