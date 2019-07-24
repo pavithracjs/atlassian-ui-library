@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.3.5
+
+### Patch Changes
+
+- [patch][6695dbd447](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695dbd447):
+
+  fix: ensure smartlinks render a not found view when the link resource isn't found
+
 ## 12.3.4
 
 ### Patch Changes
