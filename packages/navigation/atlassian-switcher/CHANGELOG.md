@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.8.1
+
+### Patch Changes
+
+- [patch][91ec1329f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/91ec1329f7):
+
+  Changing flag key for JSW to Opsgenie experiment
+
 ## 3.8.0
 
 ### Minor Changes

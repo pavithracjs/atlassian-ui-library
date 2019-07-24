@@ -1,5 +1,21 @@
 # @atlaskit/global-search
 
+## 10.6.0
+
+### Minor Changes
+
+- [minor][38eb4d4da6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38eb4d4da6):
+
+  Made quick search more robust against malformed Confluence responses
+
+## 10.5.1
+
+### Patch Changes
+
+- [patch][d3374c9f71](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3374c9f71):
+
+  updated quick search translation string
+
 ## 10.5.0
 
 ### Minor Changes

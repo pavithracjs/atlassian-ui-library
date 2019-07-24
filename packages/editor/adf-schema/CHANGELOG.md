@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.12.4
+
+### Patch Changes
+
+- [patch][0bb88234e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0bb88234e6):
+
+  Upgrade prosemirror-view to 1.9.12
+
 ## 2.12.3
 
 ### Patch Changes

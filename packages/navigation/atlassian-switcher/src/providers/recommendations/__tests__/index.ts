@@ -1,6 +1,7 @@
 import { ProductKey } from '../../../types';
 
 import { resolveRecommendations } from '../index';
+import { JSW_OG_EXPANDS_EXPERIMENT_FEATURE_FLAG_KEY } from '../constants';
 
 describe('recommendations-provider-recommendations', () => {
   it('should return base recommendations if no feature flag provided', () => {
@@ -23,7 +24,9 @@ describe('recommendations-provider-recommendations', () => {
 
   it('should return jsw+og recommendations if feature flag is matched for variation', () => {
     expect(
-      resolveRecommendations({ 'jsw.og.expands.experiment': 'variation1' }),
+      resolveRecommendations({
+        [JSW_OG_EXPANDS_EXPERIMENT_FEATURE_FLAG_KEY]: 'variation1',
+      }),
     ).toEqual([
       { productKey: ProductKey.JIRA_SOFTWARE },
       { productKey: ProductKey.CONFLUENCE },
@@ -34,7 +37,9 @@ describe('recommendations-provider-recommendations', () => {
 
   it('should return base recommends even if jsw+ogis matched but requires experiment cohort', () => {
     expect(
-      resolveRecommendations({ 'jsw.og.expands.experiment': 'control' }),
+      resolveRecommendations({
+        [JSW_OG_EXPANDS_EXPERIMENT_FEATURE_FLAG_KEY]: 'control',
+      }),
     ).toEqual([
       { productKey: ProductKey.JIRA_SOFTWARE },
       { productKey: ProductKey.CONFLUENCE },
