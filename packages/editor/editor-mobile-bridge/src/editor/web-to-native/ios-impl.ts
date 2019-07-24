@@ -4,6 +4,13 @@ import NativeBridge from './bridge';
 import { sendToBridge } from '../../bridge-utils';
 
 export default class IosBridge implements NativeBridge {
+  getKeyboardControlsHeight(): number {
+    if (window.uiBridge) {
+      return window.uiBridge.getKeyboardControlsHeight();
+    }
+    return 0;
+  }
+
   showMentions(query: String) {
     if (window.webkit && window.webkit.messageHandlers.mentionBridge) {
       window.webkit.messageHandlers.mentionBridge.postMessage({

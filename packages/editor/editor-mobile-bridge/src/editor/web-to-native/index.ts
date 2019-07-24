@@ -1,4 +1,5 @@
 import {
+  UserInterfaceBridge,
   ListBridge,
   MediaBridge,
   MentionBridge,
@@ -14,6 +15,7 @@ import DummyBridge from './dummy-impl';
 import NativeBridge from './bridge';
 
 export interface EditorBridges {
+  uiBridge?: UserInterfaceBridge;
   mentionsBridge?: MentionBridge;
   mentionBridge?: MentionBridge;
   textFormatBridge?: TextFormattingBridge;

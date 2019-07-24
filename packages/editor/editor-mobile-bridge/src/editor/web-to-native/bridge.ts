@@ -1,6 +1,10 @@
 import { Color as StatusColor } from '@atlaskit/status/element';
 import { EditorBridges, EditorPluginBridges } from './index';
 
+export interface UserInterfaceBridge {
+  getKeyboardControlsHeight(): number;
+}
+
 export interface MentionBridge {
   showMentions(query: String): void;
   dismissMentions(): void;
@@ -53,7 +57,8 @@ export interface LinkBridge {
 }
 
 export default interface NativeBridge
-  extends MentionBridge,
+  extends UserInterfaceBridge,
+    MentionBridge,
     TextFormattingBridge,
     PromiseBridge,
     ListBridge,

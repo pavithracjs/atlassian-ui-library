@@ -9,6 +9,10 @@ export default class DummyBridge implements NativeBridge {
     console.log(...args);
   };
 
+  getKeyboardControlsHeight() {
+    return 0;
+  }
+
   showMentions(query: String) {
     this.log(`showMentions(query=${query})`);
   }

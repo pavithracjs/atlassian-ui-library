@@ -32,6 +32,11 @@ export default class AndroidBridge implements NativeBridge {
     this.linkBridge = window.linkBridge as LinkBridge;
   }
 
+  getKeyboardControlsHeight() {
+    // Not implemented as not useful in Android (yet?)
+    return 0;
+  }
+
   showMentions(query: String) {
     this.mentionBridge.showMentions(query);
   }

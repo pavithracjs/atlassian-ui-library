@@ -27,4 +27,6 @@ export default interface NativeToWebBridge {
   onLinkUpdate(text: string, url: string): void;
   insertBlockType(type: string): void;
   scrollToSelection(): void;
+  // The height of the UI controls toolbar, and the soft keyboard which sits beneath it (when applicable)
+  setKeyboardControlsHeight(height: number): void;
 }
