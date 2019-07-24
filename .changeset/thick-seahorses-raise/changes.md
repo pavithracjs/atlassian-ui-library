@@ -1,1 +1,0 @@
-Upgrade prosemirror-view to 1.9.12
