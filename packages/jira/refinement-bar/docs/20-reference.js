@@ -7,10 +7,26 @@ export default md`
 This documentation attempts to provide further detail on the various properties
 and components that combine to make the refinement bar.
 
-<!-- NOTE: the field description should probably be in "Concepts" and linked to from "Reference" below -->
+* [Props](#props)
+  * [fieldConfig](#props-fieldConfig)
+  * [irremovableKeys](#props-irremovableKeys)
+  * [onChange](#props-onChange)
+  * [value](#props-value)
+* [Fields](#fields)
+  * [Select](#fields-Select)
+  * [AvatarSelect](#fields-AvatarSelect)
+  * [IssueSelect](#fields-IssueSelect)
+  * [AsyncSelect](#fields-AsyncSelect)
+  * [AvatarAsyncSelect](#fields-AvatarAsyncSelect)
+  * [IssueAsyncSelect](#fields-IssueAsyncSelect)
+  * [Number](#fields-Number)
+  * [Text](#fields-Text)
+  * [Search](#fields-Search)
 
+<a name="props"></a>
 ## Props
 
+<a name="props-fieldConfig"></a>
 ### \`fieldConfig\`
 
 The configuration object for each field that may be rendered in the refinement
@@ -32,6 +48,7 @@ export const fieldConfig = {
 }
 `}
 
+<a name="props-irremovableKeys"></a>
 ### \`irremovableKeys\`
 
 The array of keys representing which fields may not be removed from the
@@ -40,6 +57,7 @@ left of) any other fields. They will not appear in the "+ more" dropdown menu
 and they will not be hidden if the user collapses the filters via the "Show
 Less" button.
 
+<a name="props-onChange"></a>
 ### \`onChange\`
 
 The function that's called when a change happens in the refinement bar. A call
@@ -71,6 +89,7 @@ type OnChange = (Value, Meta) => void
 Go to the ["change meta"](/packages/jira/refinement-bar/example/change-meta)
 example to see this in action.
 
+<a name="props-value"></a>
 ### \`value\`
 
 The object representing the value of fields.
@@ -90,6 +109,7 @@ type DefaultConfig = {
 }
 `}
 
+<a name="fields-Select"></a>
 ### Select
 
 The select filter renders a searchable list of options. Each option expects a
@@ -123,6 +143,7 @@ ${(
   />
 )}
 
+<a name="fields-AvatarSelect"></a>
 ### AvatarSelect
 
 The \`AvatarSelect\` filter extends the \`Select\` filter. The only difference
@@ -144,6 +165,7 @@ ${(
   />
 )}
 
+<a name="fields-IssueSelect"></a>
 ### IssueSelect
 
 The \`IssueSelect\` filter extends the \`Select\` filter. The only difference
@@ -166,6 +188,7 @@ ${(
   />
 )}
 
+<a name="fields-AsyncSelect"></a>
 ### AsyncSelect
 
 The \`AsyncSelect\` filter extends the \`Select\` filter, so any config available
@@ -202,6 +225,7 @@ ${(
   />
 )}
 
+<a name="fields-AvatarAsyncSelect"></a>
 ### AvatarAsyncSelect
 
 The \`AvatarAsyncSelect\` filter extends the \`AsyncSelect\` filter. The only
@@ -224,6 +248,7 @@ ${(
   />
 )}
 
+<a name="fields-IssueAsyncSelect"></a>
 ### IssueAsyncSelect
 
 The \`IssueAsyncSelect\` filter extends the \`AsyncSelect\` filter. The only difference
@@ -247,6 +272,7 @@ ${(
   />
 )}
 
+<a name="fields-Number"></a>
 ### Number
 
 The number filter, in addition to the default config also accepts (optionally) \`validate\`
@@ -289,6 +315,7 @@ ${(
   />
 )}
 
+<a name="fields-Text"></a>
 ### Text
 
 The text filter, in addition to the default config also accepts (optionally) \`validate\`
@@ -325,6 +352,7 @@ ${(
   />
 )}
 
+<a name="fields-Search"></a>
 ### Search
 
 The search filter has no additional config beyond the default.

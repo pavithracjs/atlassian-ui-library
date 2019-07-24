@@ -14,7 +14,7 @@ type FieldType = {
 };
 type FieldConfigType = { [FieldKey]: FieldType };
 type Meta = {
-  type: 'add' | 'remove' | 'update' | 'clear',
+  type: 'add' | 'clear' | 'remove' | 'update',
   key: FieldKey,
   data?: any,
 };

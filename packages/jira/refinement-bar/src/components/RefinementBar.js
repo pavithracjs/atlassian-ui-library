@@ -44,7 +44,7 @@ type Props = {
   onPopupOpen?: (key: string) => void,
   /** Called when a field popup is closed. */
   onPopupClose?: () => void,
-  /** Access the the field elements by reference. Any keys present should match those of the `fieldConfig`. */
+  /** Access the field elements by reference. Any keys present should match those of the `fieldConfig`. */
   refs: Object,
 };
 type State = {
