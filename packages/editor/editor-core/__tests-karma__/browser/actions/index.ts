@@ -22,9 +22,6 @@ import {
   stateKey as mediaPluginStateKey,
   MediaState,
 } from './../../../src/plugins/media/pm-plugins/main';
-import extensionPlugin from '../../../src/plugins/extension';
-import tasksAndDecisionsPlugin from '../../../src/plugins/tasks-and-decisions';
-import mediaPlugin from '../../../src/plugins/media';
 import EditorActions from '../../../src/actions';
 import { toJSON } from '../../../src/utils';
 import { EventDispatcher } from '../../../src/event-dispatcher';
@@ -75,10 +72,10 @@ describe('@atlaskit/editor-core', () => {
 
       beforeEach(() => {
         const editor = createEditor({
-          editorPlugins: [tasksAndDecisionsPlugin, mediaPlugin()],
           editorProps: {
             mediaProvider,
             waitForMediaUpload: true,
+            allowTasksAndDecisions: true,
             uploadErrorHandler: () => {},
           },
           providerFactory,
@@ -384,7 +381,6 @@ describe('@atlaskit/editor-core', () => {
 
       it('should resolve even when media operations are pending', async () => {
         const { editorView } = createEditor({
-          editorPlugins: [mediaPlugin()],
           editorProps: {
             mediaProvider,
             waitForMediaUpload: false,
@@ -462,7 +458,9 @@ describe('@atlaskit/editor-core', () => {
           extensionKey: 'expand',
         };
         const editor = createEditor({
-          editorPlugins: [extensionPlugin],
+          editorProps: {
+            allowExtension: true,
+          },
           doc: doc(bodiedExtension(attrs)(p('{<>}'))),
         });
         const editorView = editor.editorView;

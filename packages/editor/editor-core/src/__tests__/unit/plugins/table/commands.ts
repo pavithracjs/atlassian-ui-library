@@ -34,8 +34,6 @@ import {
 } from '../../../../plugins/table/commands';
 import { handleCut } from '../../../../plugins/table/event-handlers';
 import { TablePluginState } from '../../../../plugins/table/types';
-import tablesPlugin from '../../../../plugins/table';
-import panelPlugin from '../../../../plugins/panel';
 import {
   pluginKey,
   getPluginState,
@@ -48,7 +46,10 @@ describe('table plugin: actions', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin(), panelPlugin],
+      editorProps: {
+        allowTables: true,
+        allowPanel: true,
+      },
       pluginKey,
     });
 

@@ -20,9 +20,6 @@ import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { insertTaskDecision } from '../../../../plugins/tasks-and-decisions/commands';
 import { TaskDecisionListType } from '../../../../plugins/tasks-and-decisions/types';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import mediaPlugin from '../../../../plugins/media';
-import panelPlugin from '../../../../plugins/panel';
 
 describe('tasks and decisions - commands', () => {
   const createEditor = createEditorFactory();
@@ -54,8 +51,12 @@ describe('tasks and decisions - commands', () => {
 
     return createEditor({
       doc,
-      editorPlugins: [tasksAndDecisionsPlugin, mediaPlugin(), panelPlugin],
-      editorProps: { allowAnalyticsGASV3: true },
+      editorProps: {
+        allowAnalyticsGASV3: true,
+        allowTasksAndDecisions: true,
+        allowPanel: true,
+        media: {},
+      },
       createAnalyticsEvent,
       providerFactory,
     });

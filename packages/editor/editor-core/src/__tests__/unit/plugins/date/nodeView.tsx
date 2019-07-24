@@ -7,8 +7,6 @@ import {
   taskItem,
 } from '@atlaskit/editor-test-helpers';
 import { insertDate } from '../../../../plugins/date/actions';
-import datePlugin from '../../../../plugins/date';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 import DateNodeView from '../../../../plugins/date/nodeviews/date';
 import { uuid } from '@atlaskit/adf-schema';
 
@@ -26,7 +24,10 @@ describe('date plugin', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [datePlugin, tasksAndDecisionsPlugin],
+      editorProps: {
+        allowDate: true,
+        allowTasksAndDecisions: true,
+      },
     });
   };
 

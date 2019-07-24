@@ -3,7 +3,6 @@ import * as React from 'react';
 import { doc, p, createEditorFactory } from '@atlaskit/editor-test-helpers';
 import MentionIcon from '@atlaskit/icon/glyph/editor/mention';
 import { analyticsService } from '../../../../../analytics';
-import mentionsPlugin from '../../../../../plugins/mentions';
 import ToolbarMention from '../../../../../plugins/mentions/ui/ToolbarMention';
 
 describe('ToolbarMention', () => {
@@ -11,8 +10,7 @@ describe('ToolbarMention', () => {
   const editor = (doc: any, analyticsHandler = () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [mentionsPlugin()],
-      editorProps: { analyticsHandler },
+      editorProps: { analyticsHandler, mentionProvider: new Promise(() => {}) },
     });
 
   it('should create a typeAheadQuery by clicking on the ToolbarMention icon', () => {

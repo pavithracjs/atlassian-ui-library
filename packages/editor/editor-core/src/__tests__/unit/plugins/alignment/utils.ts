@@ -8,10 +8,6 @@ import {
   AlignmentPluginState,
   pluginKey as alignmentPluginKey,
 } from '../../../../plugins/alignment/pm-plugins/main';
-import alignment from '../../../../plugins/alignment';
-import panelPlugin from '../../../../plugins/panel';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import tablesPlugin from '../../../../plugins/table';
 import { removeBlockMarks } from '../../../../utils/mark';
 
 describe('alignment utils', () => {
@@ -21,12 +17,6 @@ describe('alignment utils', () => {
     createEditor({
       doc,
       pluginKey: alignmentPluginKey,
-      editorPlugins: [
-        tablesPlugin(),
-        codeBlockPlugin(),
-        panelPlugin,
-        alignment,
-      ],
       editorProps: {
         allowTextAlignment: true,
       },

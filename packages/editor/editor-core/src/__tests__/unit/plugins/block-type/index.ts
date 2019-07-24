@@ -20,9 +20,6 @@ import {
   BlockTypeState,
 } from '../../../../plugins/block-type/pm-plugins/main';
 import { setTextSelection } from '../../../../utils';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import panelPlugin from '../../../../plugins/panel';
-import listPlugin from '../../../../plugins/lists';
 import {
   setBlockType,
   insertBlockType,
@@ -47,9 +44,11 @@ describe('block-type', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [codeBlockPlugin(), panelPlugin, listPlugin],
       editorProps: {
         allowAnalyticsGASV3: true,
+        allowCodeBlocks: true,
+        allowPanel: true,
+        allowLists: true,
       },
       pluginKey: blockTypePluginKey,
       createAnalyticsEvent,

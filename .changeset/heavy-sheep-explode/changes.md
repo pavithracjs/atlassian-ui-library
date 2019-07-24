@@ -1,0 +1,1 @@
+ED-7216: Internal: Align plugin initialisation

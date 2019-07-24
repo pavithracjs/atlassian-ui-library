@@ -1,5 +1,4 @@
 import { pluginKey } from '../../../../plugins/card/pm-plugins/main';
-import cardPlugin from '../../../../plugins/card';
 import {
   doc,
   createEditorFactory,
@@ -19,7 +18,9 @@ describe('card', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [cardPlugin],
+      editorProps: {
+        UNSAFE_cards: {},
+      },
       pluginKey,
     });
   };

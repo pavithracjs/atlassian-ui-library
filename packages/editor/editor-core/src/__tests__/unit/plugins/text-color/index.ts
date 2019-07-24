@@ -13,7 +13,6 @@ import {
   pluginKey as textColorPluginKey,
 } from '../../../../plugins/text-color/pm-plugins/main';
 import { changeColor } from '../../../../plugins/text-color/commands/change-color';
-import textColorPlugin from '../../../../plugins/text-color';
 
 describe('text-color', () => {
   const createEditor = createEditorFactory<TextColorPluginState>();
@@ -21,7 +20,7 @@ describe('text-color', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [textColorPlugin],
+      editorProps: { allowTextColor: true },
       pluginKey: textColorPluginKey,
     });
 

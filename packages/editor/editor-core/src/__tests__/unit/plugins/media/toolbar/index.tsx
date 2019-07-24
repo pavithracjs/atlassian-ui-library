@@ -13,6 +13,7 @@ import {
   td,
   tr,
   ul,
+  storyContextIdentifierProviderFactory,
 } from '@atlaskit/editor-test-helpers';
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
 import * as MediaClientModule from '@atlaskit/media-client';
@@ -48,6 +49,7 @@ import {
   temporaryFileId,
   testCollectionName,
 } from '../_utils';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
 describe('media', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
@@ -55,6 +57,10 @@ describe('media', () => {
   let createAnalyticsEvent: jest.Mock<any>;
 
   const editor = (doc: any, mediaPropsOverride: MediaOptions = {}) => {
+    const contextIdentifierProvider = storyContextIdentifierProviderFactory();
+    const providerFactory = ProviderFactory.create({
+      contextIdentifierProvider,
+    });
     return createEditor({
       doc,
       editorProps: {
@@ -69,7 +75,9 @@ describe('media', () => {
         allowTables: true,
         allowAnalyticsGASV3: true,
         analyticsHandler: jest.fn(),
+        contextIdentifierProvider,
       },
+      providerFactory,
       createAnalyticsEvent,
       pluginKey: stateKey,
     });

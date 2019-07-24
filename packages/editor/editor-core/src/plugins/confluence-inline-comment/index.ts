@@ -1,7 +1,7 @@
 import { EditorPlugin } from '../../types';
 import { confluenceInlineComment } from '@atlaskit/adf-schema';
 
-const confluenceInlineCommentPlugin: EditorPlugin = {
+const confluenceInlineCommentPlugin = (): EditorPlugin => ({
   marks() {
     return [
       {
@@ -10,6 +10,6 @@ const confluenceInlineCommentPlugin: EditorPlugin = {
       },
     ];
   },
-};
+});
 
 export default confluenceInlineCommentPlugin;

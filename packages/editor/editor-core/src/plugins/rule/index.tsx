@@ -14,7 +14,7 @@ import {
 } from '../analytics';
 import { IconDivider } from '../quick-insert/assets';
 
-const rulePlugin: EditorPlugin = {
+const rulePlugin = (): EditorPlugin => ({
   nodes() {
     return [{ name: 'rule', node: rule }];
   },
@@ -56,6 +56,6 @@ const rulePlugin: EditorPlugin = {
       },
     ],
   },
-};
+});
 
 export default rulePlugin;

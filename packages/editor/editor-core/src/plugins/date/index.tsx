@@ -32,7 +32,7 @@ export type DateType = {
   day?: number;
 };
 
-const datePlugin: EditorPlugin = {
+const datePlugin = (): EditorPlugin => ({
   nodes() {
     return [{ name: 'date', node: date }];
   },
@@ -122,6 +122,6 @@ const datePlugin: EditorPlugin = {
       },
     ],
   },
-};
+});
 
 export default datePlugin;

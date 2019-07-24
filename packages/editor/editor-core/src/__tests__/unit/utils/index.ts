@@ -19,6 +19,7 @@ import {
   mediaGroup,
   mediaSingle,
 } from '@atlaskit/editor-test-helpers';
+import { MockMentionResource } from '@atlaskit/util-data-test';
 import { toggleMark } from 'prosemirror-commands';
 
 import {
@@ -31,12 +32,6 @@ import {
   closestElement,
   isSelectionInsideLastNodeInDocument,
 } from '../../../utils';
-import mediaPlugin from '../../../plugins/media';
-import codeBlockPlugin from '../../../plugins/code-block';
-import panelPlugin from '../../../plugins/panel';
-import listPlugin from '../../../plugins/lists';
-import mentionsPlugin from '../../../plugins/mentions';
-import tasksAndDecisionsPlugin from '../../../plugins/tasks-and-decisions';
 import { Node, Schema } from 'prosemirror-model';
 
 describe('@atlaskit/editore-core/utils', () => {
@@ -45,14 +40,16 @@ describe('@atlaskit/editore-core/utils', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [
-        mediaPlugin({ allowMediaSingle: true }),
-        codeBlockPlugin(),
-        panelPlugin,
-        listPlugin,
-        mentionsPlugin(),
-        tasksAndDecisionsPlugin,
-      ],
+      editorProps: {
+        media: {
+          allowMediaSingle: true,
+        },
+        allowCodeBlocks: true,
+        allowPanel: true,
+        allowLists: true,
+        allowTasksAndDecisions: true,
+        mentionProvider: Promise.resolve(new MockMentionResource({})),
+      },
     });
 
   describe('#closest', () => {

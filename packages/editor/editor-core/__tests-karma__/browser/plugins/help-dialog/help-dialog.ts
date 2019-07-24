@@ -5,7 +5,7 @@ import {
   createEditorFactory,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import helpDialog, {
+import {
   pluginKey,
   openHelpCommand,
   closeHelpCommand,
@@ -20,7 +20,7 @@ describe('@atlaskit/editor-core/editor/ui/HelpDialog', () => {
   const createEditor = createEditorFactory();
 
   beforeEach(() => {
-    const editor = createEditor({ editorPlugins: [helpDialog] });
+    const editor = createEditor({ editorProps: { allowHelpDialog: true } });
     editorActions = new EditorActions();
     editorActions._privateRegisterEditor(
       editor.editorView,

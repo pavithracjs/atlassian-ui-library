@@ -20,8 +20,6 @@ import {
   TablePluginState,
   PluginConfig,
 } from '../../../../plugins/table/types';
-import tablesPlugin from '../../../../plugins/table';
-import quickInsertPlugin from '../../../../plugins/quick-insert';
 import { AnalyticsHandler } from '../../../../analytics';
 import {
   deleteTableWithAnalytics,
@@ -72,7 +70,6 @@ describe('Table analytic events', () => {
 
     const _editor = createEditor({
       doc,
-      editorPlugins: [tablesPlugin(), quickInsertPlugin],
       editorProps: {
         analyticsHandler: trackEvent,
         allowTables: tableOptions,

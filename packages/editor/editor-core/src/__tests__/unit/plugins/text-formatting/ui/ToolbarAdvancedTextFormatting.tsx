@@ -26,8 +26,6 @@ import ToolbarAdvancedTextFormatting, {
 } from '../../../../../plugins/text-formatting/ui/ToolbarAdvancedTextFormatting';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
 import DropdownMenuWrapper from '../../../../../ui/DropdownMenu';
-import panelPlugin from '../../../../../plugins/panel';
-import codeBlockPlugin from '../../../../../plugins/code-block';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import { AnalyticsHandler } from '../../../../../analytics';
@@ -42,11 +40,12 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
     analyticsHandler = jest.fn();
     return createEditor({
       doc,
-      editorPlugins: [panelPlugin, codeBlockPlugin()],
       pluginKey: pluginKey,
       editorProps: {
         analyticsHandler,
         allowAnalyticsGASV3: true,
+        allowPanel: true,
+        allowCodeBlocks: true,
       },
       createAnalyticsEvent: createAnalyticsEvent as any,
     });

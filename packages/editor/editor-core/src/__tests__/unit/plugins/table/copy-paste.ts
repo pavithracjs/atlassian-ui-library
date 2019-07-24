@@ -22,7 +22,6 @@ import {
   TablePluginState,
   PluginConfig,
 } from '../../../../plugins/table/types';
-import tablesPlugin from '../../../../plugins/table';
 import {
   unwrapContentFromTable,
   removeTableFromFirstChild,
@@ -56,7 +55,6 @@ describe('table plugin', () => {
     } as PluginConfig;
     return createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
       editorProps: {
         analyticsHandler: trackEvent,
         allowTables: tableOptions,

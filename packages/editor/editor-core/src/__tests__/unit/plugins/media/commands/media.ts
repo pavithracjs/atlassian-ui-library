@@ -4,8 +4,8 @@ import {
   doc,
   mediaSingle,
   media,
+  storyContextIdentifierProviderFactory,
 } from '@atlaskit/editor-test-helpers';
-import mediaPlugin from '../../../../../plugins/media';
 import { MediaPluginState } from '../../../../../plugins/media/pm-plugins/main';
 import { stateKey as mediaPluginKey } from '../../../../../plugins/media/pm-plugins/main';
 import { getFreshMediaProvider, testCollectionName } from '../_utils';
@@ -13,8 +13,12 @@ import { updateMediaNodeAttrs } from '../../../../../plugins/media/commands';
 
 describe('Media plugin commands', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
+  const contextIdentifierProvider = storyContextIdentifierProviderFactory();
   const mediaProvider = getFreshMediaProvider();
-  const providerFactory = ProviderFactory.create({ mediaProvider });
+  const providerFactory = ProviderFactory.create({
+    mediaProvider,
+    contextIdentifierProvider,
+  });
 
   const mediaPluginOptions = (dropzoneContainer: HTMLElement) => ({
     provider: mediaProvider,
@@ -26,16 +30,13 @@ describe('Media plugin commands', () => {
     doc: any,
     editorProps = {},
     dropzoneContainer: HTMLElement = document.body,
-    extraPlugins: any[] = [],
   ) => {
     return createEditor({
       doc,
-      editorPlugins: [
-        mediaPlugin(mediaPluginOptions(dropzoneContainer)),
-        ...extraPlugins,
-      ],
       editorProps: {
         ...editorProps,
+        media: mediaPluginOptions(dropzoneContainer),
+        contextIdentifierProvider,
         allowAnalyticsGASV3: true,
       },
       providerFactory,

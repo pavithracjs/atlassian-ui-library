@@ -27,9 +27,6 @@ import {
   emoji,
   mention,
 } from '@atlaskit/editor-test-helpers';
-import emojiPlugin from '../../../plugins/emoji';
-import mentionsPlugin from '../../../plugins/mentions';
-import { tablesPlugin, listsPlugin } from '../../../plugins';
 import { Command } from '../../../types';
 
 describe('utils -> commands', () => {
@@ -142,7 +139,7 @@ describe('utils -> commands', () => {
   describe('isNthParentOfType', () => {
     const { editorView } = createEditor({
       doc: table()(tr(td()(p('hel{<>}lo')))),
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
     });
 
     it('returns true for paragraph at selection depth', () => {
@@ -221,7 +218,7 @@ describe('utils -> commands', () => {
       it('returns true with selection at start', () => {
         const { editorView } = createEditor({
           doc: doc(table()(tr(td()(p('{<>}hello'))))),
-          editorPlugins: [tablesPlugin()],
+          editorProps: { allowTables: true },
         });
 
         expect(isEmptySelectionAtStart(editorView.state)).toBe(true);
@@ -230,7 +227,7 @@ describe('utils -> commands', () => {
       it('returns false with selection at end', () => {
         const { editorView } = createEditor({
           doc: doc(table()(tr(td()(p('hello{<>}'))))),
-          editorPlugins: [tablesPlugin()],
+          editorProps: { allowTables: true },
         });
 
         expect(isEmptySelectionAtStart(editorView.state)).toBe(false);
@@ -239,7 +236,7 @@ describe('utils -> commands', () => {
       it('returns false with selection at middle', () => {
         const { editorView } = createEditor({
           doc: doc(table()(tr(td()(p('he{<>}llo'))))),
-          editorPlugins: [tablesPlugin()],
+          editorProps: { allowTables: true },
         });
 
         expect(isEmptySelectionAtStart(editorView.state)).toBe(false);
@@ -270,7 +267,7 @@ describe('utils -> commands', () => {
       it('returns true with selection in first', () => {
         const { editorView } = createEditor({
           doc: doc(ul(li(p('{<>}hello'), p('world')))),
-          editorPlugins: [listsPlugin],
+          editorProps: { allowLists: true },
         });
 
         expect(isFirstChildOfParent(editorView.state)).toBe(true);
@@ -279,7 +276,7 @@ describe('utils -> commands', () => {
       it('returns false with selection in second', () => {
         const { editorView } = createEditor({
           doc: doc(ul(li(p('hello'), p('wo{<>}rld')))),
-          editorPlugins: [listsPlugin],
+          editorProps: { allowLists: true },
         });
 
         expect(isFirstChildOfParent(editorView.state)).toBe(false);
@@ -290,7 +287,7 @@ describe('utils -> commands', () => {
       it('returns true with selection in start of second li', () => {
         const { editorView } = createEditor({
           doc: doc(ul(li(p('first')), li(p('{<>}hello')))),
-          editorPlugins: [listsPlugin],
+          editorProps: { allowLists: true },
         });
 
         expect(isFirstChildOfParent(editorView.state)).toBe(true);
@@ -299,7 +296,7 @@ describe('utils -> commands', () => {
       it('returns true with selection in first p of first nested li', () => {
         const { editorView } = createEditor({
           doc: doc(ul(li(p('first'), ul(li(p('{<>}hello'), p('world')))))),
-          editorPlugins: [listsPlugin],
+          editorProps: { allowLists: true },
         });
 
         expect(isFirstChildOfParent(editorView.state)).toBe(true);
@@ -308,7 +305,7 @@ describe('utils -> commands', () => {
       it('returns false with selection in second p of first nested li', () => {
         const { editorView } = createEditor({
           doc: doc(ul(li(p('first'), ul(li(p('hello'), p('{<>}world')))))),
-          editorPlugins: [listsPlugin],
+          editorProps: { allowLists: true },
         });
 
         expect(isFirstChildOfParent(editorView.state)).toBe(false);
@@ -324,7 +321,7 @@ describe('utils -> commands', () => {
               ),
             ),
           ),
-          editorPlugins: [listsPlugin],
+          editorProps: { allowLists: true },
         });
 
         expect(isFirstChildOfParent(editorView.state)).toBe(true);
@@ -336,7 +333,7 @@ describe('utils -> commands', () => {
     it('finds a split in a balanced tree', () => {
       const { editorView } = createEditor({
         doc: doc(ul(li(p('first')), li(p('{<>}second')))),
-        editorPlugins: [listsPlugin],
+        editorProps: { allowLists: true },
       });
 
       const { $from } = editorView.state.selection;
@@ -355,7 +352,7 @@ describe('utils -> commands', () => {
     it('finds a split in an unbalanced tree above', () => {
       const { editorView } = createEditor({
         doc: doc(ul(li(p('first'), ul(li(p('nested')))), li(p('{<>}second')))),
-        editorPlugins: [listsPlugin],
+        editorProps: { allowLists: true },
       });
 
       const { $from } = editorView.state.selection;
@@ -379,7 +376,7 @@ describe('utils -> commands', () => {
             li(p('second'), p('nested'), ul(li(p('{<>}child')))),
           ),
         ),
-        editorPlugins: [listsPlugin],
+        editorProps: { allowLists: true },
       });
 
       const { $from } = editorView.state.selection;
@@ -395,7 +392,7 @@ describe('utils -> commands', () => {
     it('does not search across isolating boundaries', () => {
       const { editorView } = createEditor({
         doc: doc(table()(tr(td()(p('{<>}hey'))))),
-        editorPlugins: [tablesPlugin(), listsPlugin],
+        editorProps: { allowLists: true, allowTables: true },
       });
 
       const { $from } = editorView.state.selection;
@@ -414,11 +411,11 @@ describe('utils -> commands', () => {
         editorProps: {
           mentionProvider: new Promise(() => {}),
           emojiProvider: new Promise(() => {}),
+          allowTables: true,
         },
         providerFactory: ProviderFactory.create({
           emojiProvider: new Promise(() => {}),
         }),
-        editorPlugins: [mentionsPlugin(), emojiPlugin(), tablesPlugin()],
       });
     };
 
@@ -486,7 +483,7 @@ describe('utils -> commands', () => {
               tr(td()(p('{cell>}hey')), tdEmpty, tdEmpty),
             ),
           ),
-          editorPlugins: [tablesPlugin()],
+          editorProps: { allowTables: true },
         });
 
         toggleMark(editorView.state.schema.marks.code)(
@@ -514,7 +511,7 @@ describe('utils -> commands', () => {
               tr(td()(p('{cell>}hey')), tdEmpty, tdEmpty),
             ),
           ),
-          editorPlugins: [tablesPlugin()],
+          editorProps: { allowTables: true },
         });
 
         toggleMark(editorView.state.schema.marks.strong)(
@@ -542,7 +539,7 @@ describe('utils -> commands', () => {
               tr(tdEmpty, tdEmpty, tdEmpty),
             ),
           ),
-          editorPlugins: [tablesPlugin()],
+          editorProps: { allowTables: true },
         });
 
         toggleMark(editorView.state.schema.marks.strong)(

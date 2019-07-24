@@ -17,7 +17,6 @@ import {
   TablePluginState,
   TableDecorations,
 } from '../../../../plugins/table/types';
-import tablesPlugin from '../../../../plugins/table';
 import { handleDocOrSelectionChanged } from '../../../../plugins/table/handlers';
 
 describe('table action handlers', () => {
@@ -29,7 +28,7 @@ describe('table action handlers', () => {
     editor = (doc: any) =>
       createEditor({
         doc,
-        editorPlugins: [tablesPlugin()],
+        editorProps: { allowTables: true },
         pluginKey,
       });
 

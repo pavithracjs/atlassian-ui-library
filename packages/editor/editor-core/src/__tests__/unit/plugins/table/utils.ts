@@ -20,7 +20,6 @@ import {
   getRowClassNames,
 } from '../../../../plugins/table/utils';
 import { TablePluginState } from '../../../../plugins/table/types';
-import tablesPlugin from '../../../../plugins/table';
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';
 
 describe('table plugin: utils', () => {
@@ -29,7 +28,7 @@ describe('table plugin: utils', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 
