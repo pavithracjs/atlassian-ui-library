@@ -84,19 +84,48 @@ interface ModeValue {
 type TokenValue = ModeValue | string;
 
 export interface ComponentTokens {
-  label: {
-    [LabelKey in keyof ThemeLabelTokens]?: ThemeLabelTokens[LabelKey] extends string
-      ? ThemeLabelTokens[LabelKey]
-      : { [LabelProperty in keyof ThemeLabelTokens[LabelKey]]?: TokenValue }
+  label?: {
+    textColor?: {
+      rest: TokenValue;
+      disabled: TokenValue;
+    };
+    spacing?: {
+      bottom?: TokenValue;
+      right?: TokenValue;
+      left?: TokenValue;
+      top?: TokenValue;
+    };
   };
-  icon: {
-    [IconKey in keyof ThemeIconTokens]?: ThemeIconTokens[IconKey] extends string
-      ? ThemeIconTokens[IconKey]
-      : { [IconProperty in keyof ThemeIconTokens[IconKey]]?: TokenValue }
+  icon?: {
+    borderWidth?: string;
+    borderColor?: {
+      rest?: TokenValue;
+      disabled?: TokenValue;
+      checked?: TokenValue;
+      active?: TokenValue;
+      invalid?: TokenValue;
+      focused?: TokenValue;
+      hovered?: TokenValue;
+    };
+    boxColor?: {
+      rest?: TokenValue;
+      disabled?: TokenValue;
+      active?: TokenValue;
+      hoveredAndChecked?: TokenValue;
+      hovered?: TokenValue;
+      checked?: TokenValue;
+    };
+    tickColor?: {
+      rest?: TokenValue;
+      disabledAndChecked?: TokenValue;
+      activeAndChecked?: TokenValue;
+      checked?: TokenValue;
+    };
+    size?: 'small' | 'medium' | 'large' | 'xlarge';
   };
   requiredIndicator?: {
     textColor?: {
-      rest?: string;
+      rest?: TokenValue;
     };
   };
 }
