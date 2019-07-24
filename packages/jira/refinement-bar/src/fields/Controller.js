@@ -1,23 +1,23 @@
 // @flow
 
-type validateFnType = (value: Object) => string | null;
-type initialFnType = (value: Object) => any;
+type ValidationSignature = (value: any) => string | null;
+type InitialValueSignature = () => any;
+type HasValueSignature = (value: any) => boolean;
 
 export default class FieldController {
   constructor(config: *) {
     this.config = config;
     this.key = config.key;
     this.label = config.label;
-    this.note = config.note;
     this.type = config.type;
     this.validate = config.validate || this.defaultValidation;
 
     if (!this.label) {
-      throw new Error(`"${this.key}" requires a label.`);
+      throw Error(`"${this.key}" requires a label.`);
     }
   }
 
-  validate: validateFnType;
+  validate: ValidationSignature;
 
   config: Object;
 
@@ -25,15 +25,25 @@ export default class FieldController {
 
   label: string;
 
-  note: string;
+  type: {
+    controller: Object,
+    name: string,
+    view: Object,
+  };
 
-  type: string;
+  hasValue: HasValueSignature = () => {
+    throw Error(
+      `Missing \`hasValue\` method in the "${this.type.name}" controller.`,
+    );
+  };
 
-  hasValue = ({ value }: Object) => Boolean(value);
+  getInitialValue: InitialValueSignature = () => {
+    throw Error(
+      `Missing \`getInitialValue\` method in the "${
+        this.type.name
+      }" controller.`,
+    );
+  };
 
-  getValue = (data: Object) => data[this.config.key] || '';
-
-  getInitialValue: initialFnType = () => '';
-
-  defaultValidation: validateFnType = () => null;
+  defaultValidation: ValidationSignature = () => null;
 }

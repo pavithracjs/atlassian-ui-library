@@ -22,8 +22,10 @@ const validateInput = (label, value, name) => {
 export default class NumberController extends FieldController {
   constructor(config: *) {
     super(config);
-    this.validate = config.validate || this.defaultValidation;
+    this.note = config.note;
   }
+
+  note: ?string;
 
   formatButtonLabel = ({ type, value }: *) => {
     // $FlowFixMe
@@ -88,8 +90,6 @@ export default class NumberController extends FieldController {
     },
     { type: 'is_not_set', label: 'has no value' },
   ];
-
-  // Implementation
 
   defaultValidation = ({ type, value }: *) => {
     let result = null;
