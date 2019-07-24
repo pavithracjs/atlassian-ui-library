@@ -1,0 +1,1 @@
+TEAMS-588 : Hide spotlight if user opts out
