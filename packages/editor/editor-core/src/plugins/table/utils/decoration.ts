@@ -22,6 +22,11 @@ const filterDecorationByKey = (
 ): Decoration[] =>
   decorationSet.find(undefined, undefined, spec => spec.key.indexOf(key) > -1);
 
+export const findColumnControlSelectedDecoration = (
+  decorationSet: DecorationSet,
+): Decoration[] =>
+  filterDecorationByKey(TableDecorations.COLUMN_SELECTED, decorationSet);
+
 export const findControlsHoverDecoration = (
   decorationSet: DecorationSet,
 ): Decoration[] =>

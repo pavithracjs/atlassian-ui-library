@@ -12,6 +12,8 @@ import {
   tr,
   tdEmpty,
   tdCursor,
+  selectColumns,
+  selectCell,
 } from '@atlaskit/editor-test-helpers';
 
 import {
@@ -61,23 +63,57 @@ describe('table hover selection plugin', () => {
     return decorationSet.find(cells[0].pos, cells[cells.length - 1].pos);
   };
 
-  describe('hoverColumn(number)', () => {
-    describe('when table has 3 columns', () => {
-      let editorView: EditorView;
-      beforeEach(() => {
-        const mountedEditor = editor(
-          doc(
-            p('text'),
-            table()(
-              tr(tdCursor, tdEmpty, tdEmpty),
-              tr(tdEmpty, tdEmpty, tdEmpty),
-            ),
+  describe('when table has 3 columns/2 rows', () => {
+    let editorView: EditorView;
+    beforeEach(() => {
+      const mountedEditor = editor(
+        doc(
+          p('text'),
+          table()(
+            tr(tdCursor, tdEmpty, tdEmpty),
+            tr(tdEmpty, tdEmpty, tdEmpty),
           ),
-        );
+        ),
+      );
 
-        editorView = mountedEditor.editorView;
+      editorView = mountedEditor.editorView;
+    });
+
+    describe('selectColumn(1)', () => {
+      const firstRow = 0;
+      const column = 1;
+      beforeEach(() => {
+        selectColumns([column])(editorView.state, editorView.dispatch);
       });
 
+      test('should add decoration', () => {
+        const cells = getCellsInColumn(column)(editorView.state.selection)!;
+
+        const decor = getTableDecorations(
+          editorView,
+          cells,
+          TableDecorations.COLUMN_SELECTED,
+        );
+
+        expect(decor).toHaveLength(2);
+      });
+
+      test('should remove decoration when select a single cell', () => {
+        selectCell(column, firstRow)(editorView.state, editorView.dispatch);
+
+        const cells = getCellsInColumn(column)(editorView.state.selection)!;
+
+        const decor = getTableDecorations(
+          editorView,
+          cells,
+          TableDecorations.COLUMN_SELECTED,
+        );
+
+        expect(decor).toHaveLength(0);
+      });
+    });
+
+    describe('hoverColumn(number)', () => {
       it('can create a hover selection over multiple columns', () => {
         hoverColumns([0, 1])(editorView.state, editorView.dispatch);
         const cells = getCellsInColumn(0)(editorView.state.selection)!.concat(
