@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import { InterpolationWithTheme } from '@emotion/core';
 
 export type ButtonAppearances =
   | 'default'
@@ -15,8 +16,11 @@ export type ButtonAppearances =
 // have the type defined in OnlyButtonProps.
 type HtmlAttributes = Pick<
   React.AllHTMLAttributes<HTMLElement>,
-  Exclude<keyof React.AllHTMLAttributes<HTMLElement>, keyof OnlyButtonProps>
->;
+  Exclude<
+    keyof React.AllHTMLAttributes<HTMLElement>,
+    keyof OnlyButtonProps | 'css'
+  >
+> & { css?: InterpolationWithTheme<any> };
 
 export type OnlyButtonProps = {
   /** The base styling to apply to the button */
