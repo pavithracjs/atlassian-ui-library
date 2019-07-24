@@ -1,8 +1,6 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noUnusedParameters": true,
     "strict": true
