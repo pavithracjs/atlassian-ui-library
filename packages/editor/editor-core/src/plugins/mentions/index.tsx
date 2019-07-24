@@ -14,7 +14,10 @@ import {
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
-import { MentionSpotlight } from '@atlaskit/mention';
+import {
+  MentionSpotlight,
+  MentionSpotlightController,
+} from '@atlaskit/mention';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';
@@ -161,13 +164,15 @@ const mentionsPlugin = (
             provider &&
             (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
           ) {
+            const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
             if (
-              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled()
+              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled() &&
+              enabledViaLocalStorage
             ) {
               return (
                 <MentionSpotlight
                   createTeamLink="/people/search#createTeam"
-                  onClose={() => null}
+                  onClose={() => MentionSpotlightController.registerClosed()} // todo - TEAMS-605 - this needs to replaced by a proper function when implementing analytics
                 />
               );
             }

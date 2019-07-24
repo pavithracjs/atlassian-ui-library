@@ -42,7 +42,6 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   };
 
   onCloseClick = () => {
-    console.log('+++++++++++==========');
     this.setState({ isSpotlightClosed: true });
     this.props.onClose();
   };
