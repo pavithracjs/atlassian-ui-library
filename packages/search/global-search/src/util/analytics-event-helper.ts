@@ -34,7 +34,7 @@ const fireGasEvent = (
   nonPrivacySafeAttributes?: object | null,
 ): void => {
   if (createAnalyticsEvent) {
-    const event = createAnalyticsEvent();
+    const event = createAnalyticsEvent({});
     const payload: GasPayload = {
       action,
       actionSubject,
@@ -162,7 +162,7 @@ export function firePostQueryShownEvent(
   abTest: ABTest,
   referralContextIdentifiers?: ReferralContextIdentifiers,
 ) {
-  const event = createAnalyticsEvent();
+  const event = createAnalyticsEvent({});
 
   const { elapsedMs, ...otherPerformanceTimings } = timings;
   const payload: GasPayload = {
