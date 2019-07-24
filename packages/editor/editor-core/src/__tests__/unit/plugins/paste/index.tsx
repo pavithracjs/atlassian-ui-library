@@ -1139,6 +1139,19 @@ describe('paste plugins', () => {
       );
     });
 
+    describe('when pasted list where openStart > openEnd', () => {
+      it('should flatten the list and dont split the table', () => {
+        const { editorView } = editor(doc(table({})(tr(td()(p('{<>}'))))));
+        const html = `<meta charset='utf-8'><ul class="ak-ul" data-pm-slice="5 3 []"><li><ul class="ak-ul"><li><p>2</p></li></ul></li><li><p>3</p></li></ul>`;
+
+        dispatchPasteEvent(editorView, { html });
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(table({})(tr(td()(ul(li(p('2')), li(p('3'))))))),
+        );
+      });
+    });
+
     it('should handle numbered table copied inside editor', () => {
       const { editorView } = editor(doc(p('{<>}')));
 
