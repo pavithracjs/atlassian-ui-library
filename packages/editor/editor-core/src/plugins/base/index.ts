@@ -10,6 +10,7 @@ import inlineCursorTargetPlugin from './pm-plugins/inline-cursor-target';
 import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
 import scrollGutter from './pm-plugins/scroll-gutter';
+import iosScrolling from './pm-plugins/ios-scrolling';
 import { isFullPage } from '../../utils/is-full-page';
 
 const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
@@ -46,6 +47,13 @@ const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
           }),
       },
     ];
+
+    if (appearance === 'mobile') {
+      plugins.push({
+        name: 'iosScrollPlugin',
+        plugin: () => iosScrolling(),
+      });
+    }
 
     if (isFullPage(appearance)) {
       plugins.push({
