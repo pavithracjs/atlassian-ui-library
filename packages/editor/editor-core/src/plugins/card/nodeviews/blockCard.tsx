@@ -1,18 +1,20 @@
 import * as React from 'react';
 import { Node as PMNode } from 'prosemirror-model';
-import { Card } from '@atlaskit/smart-card';
+import { Card as SmartCard } from '@atlaskit/smart-card';
 import * as PropTypes from 'prop-types';
 import { EditorView } from 'prosemirror-view';
-import { SmartCardProps } from './genericCard';
+import { SmartCardProps, Card } from './genericCard';
+import UnsupportedBlockNode from '../../unsupported-content/nodeviews/unsupported-block';
+import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
 
 export interface Props {
   children?: React.ReactNode;
   node: PMNode;
-  getPos: () => number;
+  getPos?: () => number;
   view: EditorView;
   selected?: boolean;
 }
-export class BlockCard extends React.PureComponent<SmartCardProps> {
+export class BlockCardComponent extends React.PureComponent<SmartCardProps> {
   onClick = () => {};
 
   static contextTypes = {
@@ -27,7 +29,7 @@ export class BlockCard extends React.PureComponent<SmartCardProps> {
     // that puts caret in next editable text element
     const cardInner = (
       <>
-        <Card
+        <SmartCard
           url={url}
           data={data}
           appearance="block"
@@ -48,6 +50,20 @@ export class BlockCard extends React.PureComponent<SmartCardProps> {
           cardInner
         )}
       </div>
+    );
+  }
+}
+
+const WrappedBlockCard = Card(BlockCardComponent, UnsupportedBlockNode);
+
+export class BlockCard extends SelectionBasedNodeView {
+  render() {
+    return (
+      <WrappedBlockCard
+        node={this.node}
+        selected={this.insideSelection()}
+        view={this.view}
+      />
     );
   }
 }

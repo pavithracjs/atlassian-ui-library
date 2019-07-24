@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { EventHandler, MouseEvent, KeyboardEvent } from 'react';
 import * as PropTypes from 'prop-types';
-import { Card } from '@atlaskit/smart-card';
+import { Card as SmartCard } from '@atlaskit/smart-card';
 import { findOverflowScrollParent } from '@atlaskit/editor-common';
 
 import { ZeroWidthSpace } from '../../../utils';
-import { SmartCardProps } from './genericCard';
+import { SmartCardProps, Card } from './genericCard';
+import UnsupportedInlineNode from '../../unsupported-content/nodeviews/unsupported-inline';
+import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
 
-export class InlineCard extends React.PureComponent<SmartCardProps> {
+export class InlineCardComponent extends React.PureComponent<SmartCardProps> {
   private scrollContainer?: HTMLElement;
   private onClick: EventHandler<MouseEvent | KeyboardEvent> = () => {};
 
@@ -29,7 +31,7 @@ export class InlineCard extends React.PureComponent<SmartCardProps> {
       <span>
         <span>{ZeroWidthSpace}</span>
         <span className="card">
-          <Card
+          <SmartCard
             url={url}
             data={data}
             appearance="inline"
@@ -47,6 +49,20 @@ export class InlineCard extends React.PureComponent<SmartCardProps> {
       </cardContext.Provider>
     ) : (
       card
+    );
+  }
+}
+
+const WrappedInlineCard = Card(InlineCardComponent, UnsupportedInlineNode);
+
+export class InlineCard extends SelectionBasedNodeView {
+  render() {
+    return (
+      <WrappedInlineCard
+        node={this.node}
+        selected={this.insideSelection()}
+        view={this.view}
+      />
     );
   }
 }
