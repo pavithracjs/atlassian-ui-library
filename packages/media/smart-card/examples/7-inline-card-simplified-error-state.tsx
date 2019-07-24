@@ -27,8 +27,22 @@ class ErroringCustomClient extends Client {
   }
 }
 
+class NotFoundClient extends Client {
+  // @ts-ignore we're overriding a private API here for example purposes.
+  getLoader(_hostname: string) {
+    console.log('getLoader');
+    return {
+      load: async () => ({
+        status: 404,
+        body: {},
+      }),
+    };
+  }
+}
+
 const unAuthClient = new UnAuthCustomClient();
 const erroringClient = new ErroringCustomClient();
+const notFoundClient = new NotFoundClient();
 
 class Example extends React.Component {
   render() {
@@ -43,13 +57,25 @@ class Example extends React.Component {
             >
               <Card url="http://some.unauth.url" appearance="inline" />
             </Provider>
+
             <hr />
+
             <h4>Error response</h4>
             <Provider
               client={erroringClient}
               cacheOptions={{ maxLoadingDelay: 1000, maxAge: 15000 }}
             >
               <Card url="http://some.error.url" appearance="inline" />
+            </Provider>
+
+            <hr />
+
+            <h4>Not found response</h4>
+            <Provider
+              client={notFoundClient}
+              cacheOptions={{ maxLoadingDelay: 1000, maxAge: 15000 }}
+            >
+              <Card url="http://some.notfound.url" appearance="inline" />
             </Provider>
           </GridColumn>
         </Grid>

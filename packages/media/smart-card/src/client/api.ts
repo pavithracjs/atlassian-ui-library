@@ -15,8 +15,9 @@ export async function request<T>(
   };
 
   const response = await fetch(url, requestConfig);
-  if (response.ok) {
+  if (response.ok || response.status === 404) {
     return await response.json();
   }
+
   throw response;
 }
