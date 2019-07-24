@@ -35,7 +35,7 @@ const main = async () => {
   ]);
 
   /*
-  This check is not relevant for packages that still ship ES5 and ES2015.
+  This check is not relevant for packages that still ship CJS and ESM.
   it's also not relevant for private packages because those are allmost all test helpers
   that do funky stuff with their dist anyway (and are never published)
   */
