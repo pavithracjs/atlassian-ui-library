@@ -48,9 +48,9 @@ export default class MentionSpotlight extends React.Component<Props, State> {
 
   render() {
     const { createTeamLink } = this.props;
-    const { isSpotlightClosed: isHighlightClosed } = this.state;
+    const { isSpotlightClosed } = this.state;
 
-    if (isHighlightClosed) {
+    if (isSpotlightClosed) {
       return null;
     }
 
