@@ -1,7 +1,6 @@
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
-import flow from 'lodash.flow';
-import property from 'lodash.property';
+import * as _ from 'lodash';
 import {
   SerializeFragmentWithAttachmentsResult,
   SerializerWithImages,
@@ -13,12 +12,14 @@ import { escapeHtmlString } from './escape-html-string';
 import { processImages } from './static';
 import { createClassName } from './styles/util';
 import { fontFamily, fontSize } from './styles/common';
+import { MetaDataContext, EmailSerializerOpts } from './interfaces';
 
 const serializeNode = (
   node: PMNode,
   index: any,
   parent?: PMNode,
   serializedHTML?: string,
+  context?: MetaDataContext,
 ): string => {
   // ignore nodes with unknown type
   if (!nodeSerializers[node.type.name]) {
@@ -37,6 +38,7 @@ const serializeNode = (
     parent: parent,
     text:
       serializedHTML || node.attrs.text || node.attrs.shortName || node.text,
+    context: context,
   });
 };
 
@@ -62,14 +64,18 @@ const getAttrsFromParent = (
   return {};
 };
 
-const traverseTree = (fragment: Fragment, parent?: PMNode): any => {
+const traverseTree = (
+  fragment: Fragment,
+  parent?: PMNode,
+  context?: MetaDataContext,
+): any => {
   let output = '';
   fragment.forEach((childNode, _offset, idx) => {
     if (childNode.isLeaf) {
-      output += serializeNode(childNode, idx, parent);
+      output += serializeNode(childNode, idx, parent, undefined, context);
     } else {
-      const innerHTML = traverseTree(childNode.content, childNode);
-      output += serializeNode(childNode, idx, parent, innerHTML);
+      const innerHTML = traverseTree(childNode.content, childNode, context);
+      output += serializeNode(childNode, idx, parent, innerHTML, context);
     }
   });
 
@@ -111,17 +117,13 @@ const stubImages = (
       }
     : content;
 
-export interface EmailSerializerOpts {
-  isImageStubEnabled: boolean;
-  isInlineCSSEnabled: boolean;
-}
 /**
  * EmailSerializer allows to disable/mock images via isImageStubEnabled flag.
  * The reason behind this is that in emails, images are embedded separately as inline attachemnts
  * and referenced via CID. However, when rendered in browser, this does not work and breaks the experience
  * when rendered in demo page, so we instead inline the image data.
  */
-export default class EmailSerializer implements SerializerWithImages<string> {
+export class EmailSerializer implements SerializerWithImages<string> {
   readonly opts: EmailSerializerOpts;
   private static readonly defaultOpts: EmailSerializerOpts = {
     isImageStubEnabled: false,
@@ -138,23 +140,28 @@ export default class EmailSerializer implements SerializerWithImages<string> {
     };
   }
 
-  serializeFragmentWithImages = flow(
-    (fragment: Fragment) => fragment.toJSON(),
-    JSON.stringify,
-    escapeHtmlString,
-    JSON.parse,
-    wrapAdf,
-    this.schema.nodeFromJSON,
-    property('content'),
-    traverseTree,
-    html => juicify(html, this.opts.isInlineCSSEnabled),
-    html => processImages(html, this.opts.isImageStubEnabled), // inline static assets for demo purposes
-    result => stubImages(result, this.opts.isImageStubEnabled), // stub user uploaded images to prevent console.errors
-  );
+  serializeFragmentWithImages = (
+    fragment: Fragment,
+    context?: MetaDataContext,
+  ) => {
+    return _.flow(
+      (fragment: Fragment) => fragment.toJSON(),
+      JSON.stringify,
+      escapeHtmlString,
+      JSON.parse,
+      wrapAdf,
+      this.schema.nodeFromJSON,
+      _.property('content'),
+      fragment => traverseTree(fragment, undefined, context),
+      html => juicify(html, this.opts.isInlineCSSEnabled),
+      html => processImages(html, this.opts.isImageStubEnabled), // inline static assets for demo purposes
+      result => stubImages(result, this.opts.isImageStubEnabled), // stub user uploaded images to prevent console.errors
+    )(fragment);
+  };
 
-  serializeFragment: (...args: any) => string = flow(
+  serializeFragment: (...args: any) => string = _.flow(
     this.serializeFragmentWithImages,
-    property('result'),
+    _.property('result'),
   );
 
   static fromSchema(
@@ -164,3 +171,7 @@ export default class EmailSerializer implements SerializerWithImages<string> {
     return new EmailSerializer(schema, opts);
   }
 }
+
+export * from './interfaces';
+export * from './styles/util';
+export default EmailSerializer;

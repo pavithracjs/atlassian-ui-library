@@ -1,8 +1,4 @@
 import { emoji } from '@atlaskit/util-data-test';
-import {
-  videoLargeFileId,
-  videoSquareFileId,
-} from '@atlaskit/media-test-helpers';
 
 const emojiTestData = emoji.testData;
 const emojiStoryData = emoji.storyData;
@@ -784,63 +780,23 @@ System.out.println("There are " + count + " values >= 5");`,
       },
     },
     {
-      type: 'mediaSingle',
-      attrs: {
-        layout: 'full-width',
-      },
-      content: [
-        {
-          type: 'media',
-          attrs: {
-            type: 'file',
-            id: '5556346b-b081-482b-bc4a-4faca8ecd2de',
-            collection: 'MediaServicesSample',
-            height: 200,
-            width: 300,
-          },
-        },
-      ],
-    },
-    {
-      type: 'mediaSingle',
-      attrs: {},
-      content: [
-        {
-          type: 'media',
-          attrs: {
-            type: 'file',
-            id: videoLargeFileId.id,
-            collection: 'MediaServicesSample',
-            height: 200,
-            width: 400,
-          },
-        },
-      ],
-    },
-    {
-      type: 'mediaSingle',
-      attrs: {},
-      content: [
-        {
-          type: 'media',
-          attrs: {
-            type: 'file',
-            id: videoSquareFileId.id,
-            collection: 'MediaServicesSample',
-            height: 200,
-            width: 400,
-          },
-        },
-      ],
-    },
-    {
       type: 'mediaGroup',
       content: [
         {
           type: 'media',
           attrs: {
             type: 'file',
-            id: '5556346b-b081-482b-bc4a-4faca8ecd2de',
+            id: 'media-type-image',
+            collection: 'MediaServicesSample',
+            width: 480,
+            height: 320,
+          },
+        },
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: 'media-type-doc',
             collection: 'MediaServicesSample',
           },
         },
@@ -848,20 +804,7 @@ System.out.println("There are " + count + " values >= 5");`,
           type: 'media',
           attrs: {
             type: 'file',
-            id: '2afaf845-4385-431f-9a15-3e21520cf896',
-            collection: 'MediaServicesSample',
-          },
-        },
-      ],
-    },
-    {
-      type: 'mediaGroup',
-      content: [
-        {
-          type: 'media',
-          attrs: {
-            type: 'file',
-            id: '5556346b-b081-482b-bc4a-4faca8ecd2de',
+            id: 'media-type-video',
             collection: 'MediaServicesSample',
           },
         },
@@ -869,41 +812,23 @@ System.out.println("There are " + count + " values >= 5");`,
           type: 'media',
           attrs: {
             type: 'file',
-            id: '2dfcc12d-04d7-46e7-9fdf-3715ff00ba40',
-            collection: 'MediaServicesSample',
-          },
-        },
-      ],
-    },
-    {
-      type: 'mediaGroup',
-      content: [
-        {
-          type: 'media',
-          attrs: {
-            type: 'link',
-            id: '410f38f7-ce31-4527-a69d-740e958bf1d1',
-            collection: 'MediaServicesSample',
-          },
-        },
-      ],
-    },
-    {
-      type: 'mediaGroup',
-      content: [
-        {
-          type: 'media',
-          attrs: {
-            type: 'link',
-            id: '15a9fb95-2d72-4d28-b338-00fd6bea121b',
+            id: 'media-type-audio',
             collection: 'MediaServicesSample',
           },
         },
         {
           type: 'media',
           attrs: {
-            type: 'link',
-            id: '410f38f7-ce31-4527-a69d-740e958bf1d1',
+            type: 'file',
+            id: 'media-type-archive',
+            collection: 'MediaServicesSample',
+          },
+        },
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: 'media-type-unknown',
             collection: 'MediaServicesSample',
           },
         },
