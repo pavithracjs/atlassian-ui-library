@@ -1,1 +1,0 @@
-Updated types for analytics-next and buttons to make them easier to consume

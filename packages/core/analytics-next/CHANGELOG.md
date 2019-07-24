@@ -1,5 +1,13 @@
 # @atlaskit/analytics-next
 
+## 5.2.0
+
+### Minor Changes
+
+- [minor][8fcbe23ec6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fcbe23ec6):
+
+  Updated types for analytics-next and buttons to make them easier to consume
+
 ## 5.1.3
 
 ### Patch Changes
