@@ -23,12 +23,25 @@ import {
   isLastItemMediaGroup,
   closestElement,
 } from '../../utils/';
-import { isInsertColumnButton, isInsertRowButton, getIndex } from './utils';
+import {
+  isCell,
+  isInsertRowButton,
+  isColumnControlsDecorations,
+  isTableControlsButton,
+  isRowControlsButton,
+  isCornerButton,
+  getColumnOrRowIndex,
+  getMousePositionHorizontalRelativeByElement,
+  getMousePositionVerticalRelativeByElement,
+} from './utils';
 import {
   setEditorFocus,
   showInsertColumnButton,
   showInsertRowButton,
   hideInsertColumnOrRowButton,
+  selectColumn,
+  hoverColumns,
+  clearHoverSelection,
 } from './commands';
 import { getPluginState } from './pm-plugins/main';
 import { getSelectedCellInfo } from './utils';
@@ -55,6 +68,12 @@ export const handleClick = (view: EditorView, event: Event): boolean => {
   const element = event.target as HTMLElement;
   const table = findTable(view.state.selection)!;
 
+  if (event instanceof MouseEvent && isColumnControlsDecorations(element)) {
+    const [startIndex] = getColumnOrRowIndex(element);
+    const { state, dispatch } = view;
+
+    return selectColumn(startIndex, event.shiftKey)(state, dispatch);
+  }
   /**
    * Check if the table cell with an image is clicked
    * and its not the image itself
@@ -105,15 +124,73 @@ export const handleMouseOver = (
   const { state, dispatch } = view;
   const target = mouseEvent.target as HTMLElement;
 
-  if (isInsertColumnButton(target)) {
-    return showInsertColumnButton(getIndex(target))(state, dispatch);
-  }
   if (isInsertRowButton(target)) {
-    return showInsertRowButton(getIndex(target))(state, dispatch);
+    const [startIndex, endIndex] = getColumnOrRowIndex(target);
+
+    const positionRow =
+      getMousePositionVerticalRelativeByElement(mouseEvent as MouseEvent) ===
+      'bottom'
+        ? endIndex
+        : startIndex;
+    return showInsertRowButton(positionRow)(state, dispatch);
   }
+
+  if (isCell(target) || isCornerButton(target)) {
+    return hideInsertColumnOrRowButton()(state, dispatch);
+  }
+
+  if (isColumnControlsDecorations(target)) {
+    const [startIndex] = getColumnOrRowIndex(target);
+    const { state, dispatch } = view;
+
+    return hoverColumns([startIndex], false)(state, dispatch);
+  }
+
+  return false;
+};
+
+// Ignore any `mousedown` `event` from control and numbered column buttons
+// PM end up changing selection during shift selection if not prevented
+export const handleMouseDown = (_: EditorView, event: Event) => {
+  const isControl = !!(
+    event.target &&
+    event.target instanceof HTMLElement &&
+    (isColumnControlsDecorations(event.target) ||
+      isRowControlsButton(event.target))
+  );
+
+  if (isControl) {
+    event.preventDefault();
+  }
+
+  return isControl;
+};
+
+export const handleMouseOut = (
+  view: EditorView,
+  mouseEvent: Event,
+): boolean => {
+  const target = mouseEvent.target as HTMLElement;
+
+  if (isColumnControlsDecorations(target)) {
+    const { state, dispatch } = view;
+    return clearHoverSelection()(state, dispatch);
+  }
+
+  return false;
+};
+
+export const handleMouseLeave = (view: EditorView, event: Event): boolean => {
+  const { state, dispatch } = view;
   const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
     state,
   );
+
+  const target = event.target as HTMLElement;
+  if (isTableControlsButton(target)) {
+    return true;
+  }
+
   if (
     (typeof insertColumnButtonIndex !== 'undefined' ||
       typeof insertRowButtonIndex !== 'undefined') &&
@@ -124,18 +201,41 @@ export const handleMouseOver = (
   return false;
 };
 
-export const handleMouseLeave = (view: EditorView): boolean => {
-  const { state, dispatch } = view;
-  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
-    state,
-  );
-  if (
-    (typeof insertColumnButtonIndex !== 'undefined' ||
-      typeof insertRowButtonIndex !== 'undefined') &&
-    hideInsertColumnOrRowButton()(state, dispatch)
-  ) {
-    return true;
+export const handleMouseMove = (view: EditorView, event: Event) => {
+  const element = event.target as HTMLElement;
+
+  if (isColumnControlsDecorations(element)) {
+    const { state, dispatch } = view;
+    const { insertColumnButtonIndex } = getPluginState(state);
+    const [startIndex, endIndex] = getColumnOrRowIndex(element);
+
+    const positionColumn =
+      getMousePositionHorizontalRelativeByElement(event as MouseEvent) ===
+      'right'
+        ? endIndex
+        : startIndex;
+
+    if (positionColumn !== insertColumnButtonIndex) {
+      return showInsertColumnButton(positionColumn)(state, dispatch);
+    }
   }
+
+  if (isRowControlsButton(element)) {
+    const { state, dispatch } = view;
+    const { insertRowButtonIndex } = getPluginState(state);
+    const [startIndex, endIndex] = getColumnOrRowIndex(element);
+
+    const positionRow =
+      getMousePositionVerticalRelativeByElement(event as MouseEvent) ===
+      'bottom'
+        ? endIndex
+        : startIndex;
+
+    if (positionRow !== insertRowButtonIndex) {
+      return showInsertRowButton(positionRow)(state, dispatch);
+    }
+  }
+
   return false;
 };
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { mount } from 'enzyme';
 import TextAreaWithAnalytics, {
   TextAreaWithoutAnalytics as TextArea,
@@ -100,7 +100,7 @@ describe('TextArea', () => {
     { placeholder: 'test placeholder' },
     { maxLength: 5 },
   ].forEach((prop: { [s: string]: any }) =>
-    describe(JSON.stringify(prop), () =>
+    describe(JSON.stringify(prop), () => {
       it('TextArea should have attribute defined', () => {
         const key = Object.keys(prop)[0];
         const value = prop[key];
@@ -109,8 +109,8 @@ describe('TextArea', () => {
             .find('textarea')
             .prop(key),
         ).toBe(value);
-      }),
-    ),
+      });
+    }),
   );
 
   it('TextArea should have value="something"', () =>
@@ -169,11 +169,15 @@ describe('props', () => {
 
 describe('TextAreaWithAnalytics', () => {
   beforeEach(() => {
+    // @ts-ignore
     jest.spyOn(global.console, 'warn');
+    // @ts-ignore
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
+    // @ts-ignore
     (global.console.warn as jest.Mock).mockRestore();
+    // @ts-ignore
     (global.console.error as jest.Mock).mockRestore();
   });
 

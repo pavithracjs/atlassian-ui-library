@@ -13,11 +13,11 @@ import { TextColorPluginState } from '../../pm-plugins/main';
 import * as commands from '../../commands/change-color';
 import { EditorTextColorIcon } from './icon';
 import {
-  TriggerWrapper,
   Separator,
-  Wrapper,
+  TriggerWrapper,
+  MenuWrapper,
   ExpandIconWrapper,
-} from './styles';
+} from '../../../../ui/styles';
 
 export const messages = defineMessages({
   textColor: {
@@ -135,7 +135,7 @@ class ToolbarTextColor extends React.Component<
 
     const labelTextColor = formatMessage(messages.textColor);
     return (
-      <Wrapper>
+      <MenuWrapper>
         <Dropdown
           mountTo={popupsMountPoint}
           boundariesElement={popupsBoundariesElement}
@@ -182,7 +182,7 @@ class ToolbarTextColor extends React.Component<
           />
         </Dropdown>
         <Separator />
-      </Wrapper>
+      </MenuWrapper>
     );
   }
 

@@ -6,6 +6,7 @@
  */
 // Slovak
 export default {
+  'fabric.mention.unknow.user.error': 'Neznámy používateľ {id}',
   'fabric.mention.noAccess.warning':
     'Používateľ {name} sa neupozorní. pretože nemá prístup',
   'fabric.mention.noAccess.label': 'Žiadny prístup',

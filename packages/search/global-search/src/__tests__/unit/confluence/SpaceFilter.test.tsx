@@ -8,6 +8,7 @@ const render = () => {
     <SpaceFilter
       spaceTitle="Test space"
       spaceAvatar="test.png"
+      spaceKey="TEST"
       onFilterChanged={onFilterChanged}
     />,
   );
@@ -21,7 +22,7 @@ describe('ConfluenceSpaceFilter', () => {
   it('should call onFilterChanged when clicked', () => {
     const wrapper = render();
     wrapper
-      .find('Item')
+      .find('WithItemFocus(Item)')
       .at(0)
       .simulate('click');
     expect(onFilterChanged).toHaveBeenCalled();

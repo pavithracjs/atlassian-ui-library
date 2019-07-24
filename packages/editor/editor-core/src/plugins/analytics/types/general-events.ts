@@ -1,4 +1,4 @@
-import { UIAEP, TrackAEP } from './events';
+import { UIAEP, TrackAEP, OperationalAEP } from './events';
 import {
   ACTION,
   ACTION_SUBJECT,
@@ -31,6 +31,13 @@ type PickerAEP<ActionSubjectID, Attributes> = UIAEP<
   Attributes
 >;
 
+type FeedbackAEP = UIAEP<
+  ACTION.OPENED,
+  ACTION_SUBJECT.FEEDBACK_DIALOG,
+  undefined,
+  { inputMethod: INPUT_METHOD.QUICK_INSERT }
+>;
+
 type TypeAheadAEP<ActionSubjectID, Attributes> = UIAEP<
   ACTION.INVOKED,
   ACTION_SUBJECT.TYPEAHEAD,
@@ -43,6 +50,18 @@ type EditorStartAEP = UIAEP<
   ACTION_SUBJECT.EDITOR,
   undefined,
   { platform: PLATFORMS.NATIVE | PLATFORMS.HYBRID | PLATFORMS.WEB }
+>;
+
+type EditorPerfAEP = OperationalAEP<
+  ACTION.EDITOR_MOUNTED | ACTION.PROSEMIRROR_RENDERED,
+  ACTION_SUBJECT.EDITOR,
+  undefined,
+  {
+    duration: number;
+    startTime: number;
+    nodes?: Record<string, number>;
+    ttfb?: number;
+  }
 >;
 
 type EditorStopAEP = UIAEP<
@@ -149,8 +168,10 @@ export type GeneralEventPayload =
   | ButtonFeedbackAEP
   | PickerEmojiAEP
   | PickerImageAEP
+  | FeedbackAEP
   | TypeAheadQuickInsertAEP
   | TypeAheadEmojiAEP
   | TypeAheadLinkAEP
   | TypeAheadMentionAEP
-  | FullWidthModeAEP;
+  | FullWidthModeAEP
+  | EditorPerfAEP;

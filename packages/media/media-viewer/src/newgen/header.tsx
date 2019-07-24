@@ -11,7 +11,11 @@ import {
 } from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 import deepEqual from 'deep-equal';
-import { messages, toHumanReadableMediaSize } from '@atlaskit/media-ui';
+import {
+  hideControlsClassName,
+  messages,
+  toHumanReadableMediaSize,
+} from '@atlaskit/media-ui';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import { Outcome } from './domain';
 import {
@@ -23,7 +27,6 @@ import {
   MedatadataTextWrapper,
   MetadataIconWrapper,
   MetadataFileName,
-  hideControlsClassName,
 } from './styled';
 import { MediaTypeIcon } from './media-type-icon';
 import { MediaViewerError, createError } from './error';

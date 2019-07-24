@@ -1,5 +1,263 @@
 # @atlaskit/global-search
 
+## 10.6.2
+
+- Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
+  - @atlaskit/quick-search@7.6.6
+  - @atlaskit/drawer@5.0.0
+
+## 10.6.1
+
+### Patch Changes
+
+- [patch][8fcbe23ec6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fcbe23ec6):
+
+  Updated types for analytics-next and buttons to make them easier to consume
+
+## 10.6.0
+
+### Minor Changes
+
+- [minor][38eb4d4da6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38eb4d4da6):
+
+  Made quick search more robust against malformed Confluence responses
+
+## 10.5.1
+
+### Patch Changes
+
+- [patch][d3374c9f71](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3374c9f71):
+
+  updated quick search translation string
+
+## 10.5.0
+
+### Minor Changes
+
+- [minor][dd3a518fe9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd3a518fe9):
+
+  Send filtered spaces to advanced search
+
+## 10.4.2
+
+### Patch Changes
+
+- [patch][78c4a2b655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/78c4a2b655):
+
+  Fixed a minor dep import so its compatible with all recent versions of atlaskit/avatar
+
+## 10.4.1
+
+### Patch Changes
+
+- [patch][dd9ca0710e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd9ca0710e):
+
+  Removed incorrect jsnext:main field from package.json
+
+## 10.4.0
+
+### Minor Changes
+
+- [minor][96ff4ffc6d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96ff4ffc6d):
+
+  Fixed space filter showing on intermediate pre query screen
+
+## 10.3.4
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 10.3.3
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
+## 10.3.2
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 10.3.1
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 10.3.0
+
+### Minor Changes
+
+- [minor][0598e7ce48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0598e7ce48):
+
+  Feedback collector with search bug fix
+
+## 10.2.4
+
+### Patch Changes
+
+- [patch][5427f7028a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5427f7028a):
+
+  Fixing problem with subtext colours not matching between pages and people in the Quick Search complex experiment.
+
+## 10.2.3
+
+### Patch Changes
+
+- [patch][554c44e342](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/554c44e342):
+
+  fix incorrect message id for i18n string
+
+## 10.2.2
+
+### Patch Changes
+
+- [patch][e80b86a298](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80b86a298):
+
+  Adding last modified date to the simple extensions to Quick Search
+
+## 10.2.1
+
+### Patch Changes
+
+- [patch][8f711664af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f711664af):
+
+  Added analytics for current space filter component
+
+## 10.2.0
+
+### Minor Changes
+
+- [minor][8d013cf28c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d013cf28c):
+
+  added more filters button next to confluence current space filter
+
+## 10.1.1
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/feedback-collector@4.0.8
+  - @atlaskit/modal-dialog@10.0.8
+  - @atlaskit/navigation@35.1.9
+  - @atlaskit/checkbox@9.0.0
+
+## 10.1.0
+
+### Minor Changes
+
+- [minor][c11db2f5dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c11db2f5dc):
+
+  Modified caching behaviour for Confluence search so that it now has a 15 minute timeout
+
+## 10.0.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/feedback-collector@4.0.7
+  - @atlaskit/flag@12.0.10
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/navigation@35.1.8
+  - @atlaskit/quick-search@7.5.1
+  - @atlaskit/icon@19.0.0
+
+## 10.0.0
+
+### Major Changes
+
+- [major][1e1fd28bb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e1fd28bb3):
+
+  Exposed new API for consumers of global search to better control the lifecycle of the search session id
+
+## 9.2.0
+
+### Minor Changes
+
+- [minor][e6f5e7a694](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f5e7a694):
+
+  added current space filter for confluence
+
+## 9.1.1
+
+### Patch Changes
+
+- [patch][af96d6cbb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af96d6cbb8):
+
+  Removed generic result map and replaced with jira result map
+
+## 9.1.0
+
+### Minor Changes
+
+- [minor][a0ae6daeb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0ae6daeb6):
+
+  Removed urijs dependency
+
+## 9.0.0
+
+### Major Changes
+
+- [major][e84f336455](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e84f336455):
+
+  Removed support for Atlassian Home, it is no longer a valid context or product
+
+## 8.16.0
+
+### Minor Changes
+
+- [minor][cb424f9560](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb424f9560):
+
+  - global-search is integrated with autocomplete service
+
+## 8.15.8
+
+### Patch Changes
+
+- [patch][465b8bae74](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/465b8bae74):
+
+  Jira results now have project name rather than issue type
+
+## 8.15.7
+
+### Patch Changes
+
+- [patch][e7db01700d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7db01700d):
+
+  Updating empty state screen for Jira global-search
+
 ## 8.15.6
 
 ### Patch Changes

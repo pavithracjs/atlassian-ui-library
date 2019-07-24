@@ -36,6 +36,8 @@ import {
   tooltip,
   findKeymapByDescription,
   addLink,
+  findShortcutByDescription,
+  renderTooltipContent,
 } from '../../../../keymaps';
 import { InsertMenuCustomItem, CommandDispatch } from '../../../../types';
 import DropdownMenu from '../../../../ui/DropdownMenu';
@@ -80,7 +82,7 @@ export const messages = defineMessages({
   },
   actionDescription: {
     id: 'fabric.editor.action.description',
-    defaultMessage: 'Capture actions to move work forward',
+    defaultMessage: 'Create and assign action items',
     description: '',
   },
   link: {
@@ -90,7 +92,7 @@ export const messages = defineMessages({
   },
   linkDescription: {
     id: 'fabric.editor.link.description',
-    defaultMessage: 'Link to an internal or external page',
+    defaultMessage: 'Insert a link',
     description: 'Insert a hyperlink',
   },
   filesAndImages: {
@@ -148,6 +150,16 @@ export const messages = defineMessages({
     defaultMessage: 'Capture decisions so they’re easy to track',
     description: 'Capture a decision you’ve made',
   },
+  feedbackDialog: {
+    id: 'fabric.editor.feedbackDialog',
+    defaultMessage: 'Give feedback',
+    description: 'Open the feedback dialog from editor',
+  },
+  feedbackDialogDescription: {
+    id: 'fabric.editor.feedbackDialog.description',
+    defaultMessage: 'Tell us about your experience using the new editor',
+    description: 'Description for feedback option under quick insert dropdown',
+  },
   horizontalRule: {
     id: 'fabric.editor.horizontalRule',
     defaultMessage: 'Divider',
@@ -191,7 +203,7 @@ export const messages = defineMessages({
   },
   statusDescription: {
     id: 'fabric.editor.status.description',
-    defaultMessage: 'Create a colored lozenge with text inside',
+    defaultMessage: 'Add a custom status label',
     description:
       'Inserts an item representing the status of an activity to task.',
   },
@@ -419,6 +431,9 @@ class ToolbarInsertBlock extends React.PureComponent<
     }
 
     const labelInsertMenu = formatMessage(messages.insertMenu);
+
+    findShortcutByDescription(messages.insertMenu.description);
+
     const toolbarButtonFactory = (disabled: boolean, items: Array<any>) => (
       <ToolbarButton
         ref={el => this.handleDropDownButtonRef(el, items)}
@@ -426,7 +441,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         disabled={disabled}
         onClick={this.handleTriggerClick}
         spacing={isReducedSpacing ? 'none' : 'default'}
-        title={`${labelInsertMenu} /`}
+        title={renderTooltipContent(labelInsertMenu, undefined, '/')}
         iconBefore={
           <TriggerWrapper>
             <AddIcon label={labelInsertMenu} />
@@ -448,7 +463,7 @@ class ToolbarInsertBlock extends React.PureComponent<
             disabled={isDisabled || btn.isDisabled}
             iconBefore={btn.elemBefore}
             selected={btn.isActive}
-            title={btn.content + (btn.shortcut ? ' ' + btn.shortcut : '')}
+            title={renderTooltipContent(btn.content, undefined, btn.shortcut)}
             onClick={() => this.insertToolbarMenuItem(btn)}
           />
         ))}
@@ -524,7 +539,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         value: { name: 'link' },
         isDisabled: linkDisabled,
         elemBefore: <LinkIcon label={labelLink} />,
-        elemAfter: <Shortcut>{shortcutLink}</Shortcut>,
+        elemAfter: shortcutLink && <Shortcut>{shortcutLink}</Shortcut>,
         shortcut: shortcutLink,
       });
     }
@@ -575,7 +590,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         content: labelTable,
         value: { name: 'table' },
         elemBefore: <TableIcon label={labelTable} />,
-        elemAfter: <Shortcut>{shortcutTable}</Shortcut>,
+        elemAfter: shortcutTable && <Shortcut>{shortcutTable}</Shortcut>,
         shortcut: shortcutTable,
       });
     }
@@ -599,7 +614,7 @@ class ToolbarInsertBlock extends React.PureComponent<
           content: labelBlock,
           value: blockType,
           elemBefore: <BlockTypeIcon label={labelBlock} />,
-          elemAfter: <Shortcut>{shortcutBlock}</Shortcut>,
+          elemAfter: shortcutBlock && <Shortcut>{shortcutBlock}</Shortcut>,
           shortcut: shortcutBlock,
         });
       });

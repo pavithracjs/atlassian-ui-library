@@ -1,18 +1,23 @@
 {
   "name": "@atlaskit/email-renderer",
-  "version": "1.2.0",
+  "version": "2.9.0",
   "description": "Email renderer",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
-  "main": "dist/es5/index.js",
-  "module": "dist/es2015/index.js",
-  "types": "dist/es5/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "type": "module",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Jaroslav Minarik",
     "Nathan Pickworth"
   ],
+  "scripts": {
+    "build": "ts-node --project ./tsconfig.ts-node.json ./build/ts-to-css.ts",
+    "build:images": "ts-node --files --project ./tsconfig.ts-node.json ./src/static/generator/generate.ts"
+  },
   "atlaskit": {
     "name": "Email renderer",
     "team": "Content Services",
@@ -20,9 +25,8 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/adf-schema": "^2.5.10",
-    "@atlaskit/editor-common": "^39.8.1",
-    "@atlaskit/theme": "^9.1.0",
+    "@atlaskit/adf-schema": "^2.8.1",
+    "date-fns": "^1.30.1",
     "juice": "^5.2.0",
     "lodash.flow": "^3.5.0",
     "lodash.property": "^4.4.2",
@@ -36,8 +40,5 @@
     "rimraf": "^2.6.3",
     "svgexport": "^0.3.2",
     "ts-node": "^6.1.1"
-  },
-  "scripts": {
-    "build:images": "ts-node --files --compiler-options='{ \"module\": \"CommonJS\", \"allowJs\": true }' ./src/static/generator/generate.ts"
   }
 }

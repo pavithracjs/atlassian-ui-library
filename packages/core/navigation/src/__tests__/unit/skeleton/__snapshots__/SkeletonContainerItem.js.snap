@@ -3,7 +3,8 @@
 exports[`passes down custom styles 1`] = `
 <SkeletonContainerItemWrapper>
   <SkeletonIconWrapper>
-    <Skeleton
+    <styled.div
+      color="currentColor"
       size="medium"
       weight="normal"
     />
@@ -21,7 +22,8 @@ exports[`passes down custom styles 1`] = `
 exports[`renders a skeleton representation of a container item 1`] = `
 <SkeletonContainerItemWrapper>
   <SkeletonIconWrapper>
-    <Skeleton
+    <styled.div
+      color="currentColor"
       size="medium"
       weight="normal"
     />
@@ -37,7 +39,8 @@ exports[`renders a skeleton representation of a container item 1`] = `
 exports[`shows a compact version when collapsed 1`] = `
 <SkeletonContainerItemWrapper>
   <SkeletonIconWrapper>
-    <Skeleton
+    <styled.div
+      color="currentColor"
       size="medium"
       weight="normal"
     />

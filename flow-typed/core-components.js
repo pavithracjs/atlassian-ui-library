@@ -37,11 +37,19 @@ declare module '@atlaskit/code' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/drawer' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/dynamic-table' {
   declare module.exports: any;
 }
 
 declare module '@atlaskit/flag' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/icon' {
   declare module.exports: any;
 }
 
@@ -93,10 +101,22 @@ declare module '@atlaskit/spinner' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/tag' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/toggle' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/tooltip' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/popper' {
   declare module.exports: any;
 }

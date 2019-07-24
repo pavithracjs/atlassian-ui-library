@@ -1,5 +1,4 @@
 import * as React from 'react';
-import uuid from 'uuid/v4';
 import {
   LinkComponent,
   Logger,
@@ -8,12 +7,12 @@ import {
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import performanceNow from '../../util/performance-now';
 import {
-  GenericResultMap,
   ResultsWithTiming,
   Result,
   ResultsGroup,
   ConfluenceResultsMap,
   Results,
+  JiraResultsMap,
 } from '../../model/Result';
 import {
   ShownAnalyticsAttributes,
@@ -35,6 +34,11 @@ import {
 } from '../../util/features';
 import { Scope, QuickSearchContext } from '../../api/types';
 import { CONF_OBJECTS_ITEMS_PER_PAGE } from '../../util/experiment-utils';
+import { Filter } from '../../api/CrossProductSearchClient';
+import {
+  injectSearchSession,
+  SearchSessionProps,
+} from '../SearchSessionProvider';
 
 const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
   results.map(result => result.items);
@@ -42,18 +46,20 @@ const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
 export interface SearchResultProps<T> extends State<T> {
   retrySearch: () => void;
   searchMore: (scope: Scope) => void;
+  searchSessionId: string;
+  onFilterChanged(filter: Filter[]): void;
 }
 
 export interface PartiallyLoadedRecentItems<
-  T extends ConfluenceResultsMap | GenericResultMap
+  T extends ConfluenceResultsMap | JiraResultsMap
 > {
   // Represents recent items that should be present before any UI is shown
   eagerRecentItemsPromise: Promise<ResultsWithTiming<T>>;
-  // Represents items which can load in after initial UI is shown
+  // Represents items which can load in after initi7al UI is shown
   lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
 }
 
-export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
+export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   logger: Logger;
   linkComponent?: LinkComponent;
   product: QuickSearchContext;
@@ -64,7 +70,9 @@ export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
     sessionId: string,
     startTime: number,
     queryVersion: number,
+    filters: Filter[],
   ): Promise<ResultsWithTiming<T>>;
+  getAutocompleteSuggestions?(query: string): Promise<string[]>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
@@ -105,14 +113,18 @@ export interface Props<T extends ConfluenceResultsMap | GenericResultMap> {
   features: JiraFeatures | ConfluenceFeatures | CommonFeatures;
 }
 
+type CompleteProps<T extends ConfluenceResultsMap | JiraResultsMap> = Props<T> &
+  SearchSessionProps;
+
 export interface State<T> {
   latestSearchQuery: string;
-  searchSessionId: string;
   isLoading: boolean;
   isError: boolean;
   keepPreQueryState: boolean;
   searchResults: T | null;
   recentItems: T | null;
+  autocompleteSuggestions?: string[];
+  currentFilters: Filter[];
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -120,26 +132,26 @@ const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
  * Container/Stateful Component that handles the data fetching and state handling when the user interacts with Search.
  */
 export class QuickSearchContainer<
-  T extends ConfluenceResultsMap | GenericResultMap
-> extends React.Component<Props<T>, State<T>> {
+  T extends ConfluenceResultsMap | JiraResultsMap
+> extends React.Component<CompleteProps<T>, State<T>> {
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: boolean = false;
   latestQueryVersion: number = 0;
 
-  constructor(props: Props<T>) {
+  constructor(props: CompleteProps<T>) {
     super(props);
     this.state = {
       isLoading: true,
       isError: false,
       latestSearchQuery: '',
-      searchSessionId: uuid(), // unique id for search attribution
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
+      currentFilters: [],
     };
   }
 
-  shouldComponentUpdate(nextProps: Props<T>, nextState: State<T>) {
+  shouldComponentUpdate(nextProps: CompleteProps<T>, nextState: State<T>) {
     return (
       !deepEqual(nextProps, this.props) || !deepEqual(nextState, this.state)
     );
@@ -150,7 +162,7 @@ export class QuickSearchContainer<
       error,
       info,
       safeState: {
-        searchSessionId: this.state.searchSessionId,
+        searchSessionId: this.props.searchSessionId,
         latestSearchQuery: !!this.state.latestSearchQuery,
         isLoading: this.state.isLoading,
         isError: this.state.isError,
@@ -169,16 +181,17 @@ export class QuickSearchContainer<
     this.unmounted = true;
   }
 
-  doSearch = async (query: string, queryVersion: number) => {
+  doSearch = async (query: string, queryVersion: number, filters: Filter[]) => {
     const startTime: number = performanceNow();
     this.latestQueryVersion = queryVersion;
 
     try {
       const { results, timings } = await this.props.getSearchResults(
         query,
-        this.state.searchSessionId,
+        this.props.searchSessionId,
         startTime,
         queryVersion,
+        filters,
       );
 
       if (this.unmounted) {
@@ -201,8 +214,9 @@ export class QuickSearchContainer<
               this.state.searchResults || ({} as any), // Remove 'any' as part of QS-740
               this.state.recentItems || ({} as any), // Remove 'any' as part of QS-740
               timings || {},
-              this.state.searchSessionId,
+              this.props.searchSessionId,
               this.state.latestSearchQuery,
+              this.state.currentFilters || [],
               this.state.isLoading,
             );
           },
@@ -223,8 +237,7 @@ export class QuickSearchContainer<
   };
 
   fireExperimentExposureEvent = () => {
-    const { createAnalyticsEvent, features } = this.props;
-    const { searchSessionId } = this.state;
+    const { createAnalyticsEvent, features, searchSessionId } = this.props;
 
     if (createAnalyticsEvent) {
       fireExperimentExposureEvent(
@@ -239,7 +252,8 @@ export class QuickSearchContainer<
     requestStartTime?: number,
     renderStartTime?: number,
   ) => {
-    const { searchSessionId, recentItems } = this.state;
+    const { searchSessionId } = this.props;
+    const { recentItems } = this.state;
 
     const {
       createAnalyticsEvent,
@@ -285,6 +299,7 @@ export class QuickSearchContainer<
     timings: Record<string, number | React.ReactText>,
     searchSessionId: string,
     latestSearchQuery: string,
+    latestFilters: Filter[],
     isLoading: boolean,
   ) => {
     const { features } = this.props;
@@ -298,6 +313,11 @@ export class QuickSearchContainer<
       getPostQueryDisplayedResults,
       referralContextIdentifiers,
     } = this.props;
+
+    const filtersApplied: { [filterType: string]: boolean } = {};
+    for (const filter of latestFilters) {
+      filtersApplied[filter['@type']] = true;
+    }
 
     if (createAnalyticsEvent && getPostQueryDisplayedResults) {
       const resultsArray: Result[][] = resultMapToArray(
@@ -317,6 +337,7 @@ export class QuickSearchContainer<
         performanceTiming,
         searchSessionId,
         latestSearchQuery,
+        filtersApplied,
         createAnalyticsEvent,
         features.abTest,
         referralContextIdentifiers,
@@ -324,13 +345,21 @@ export class QuickSearchContainer<
     }
   };
 
-  handleSearch = (newLatestSearchQuery: string, queryVersion: number) => {
-    if (this.state.latestSearchQuery === newLatestSearchQuery) {
+  handleSearch = (
+    newLatestSearchQuery: string,
+    queryVersion: number,
+    filters: Filter[],
+  ) => {
+    if (
+      this.state.latestSearchQuery === newLatestSearchQuery &&
+      filters === this.state.currentFilters
+    ) {
       return;
     }
 
     this.setState({
       latestSearchQuery: newLatestSearchQuery,
+      currentFilters: filters,
       isLoading: true,
     });
 
@@ -341,18 +370,23 @@ export class QuickSearchContainer<
           isError: false,
           isLoading: false,
           keepPreQueryState: true,
+          currentFilters: [],
         },
         () => {
           this.fireShownPreQueryEvent();
         },
       );
     } else {
-      this.doSearch(newLatestSearchQuery, queryVersion);
+      this.doSearch(newLatestSearchQuery, queryVersion, filters);
     }
   };
 
   retrySearch = () => {
-    this.handleSearch(this.state.latestSearchQuery, this.latestQueryVersion);
+    this.handleSearch(
+      this.state.latestSearchQuery,
+      this.latestQueryVersion,
+      this.state.currentFilters,
+    );
   };
 
   async componentDidMount() {
@@ -364,7 +398,7 @@ export class QuickSearchContainer<
       const {
         eagerRecentItemsPromise,
         lazyLoadedRecentItemsPromise,
-      } = this.props.getRecentItems(this.state.searchSessionId);
+      } = this.props.getRecentItems(this.props.searchSessionId);
 
       const { results } = await eagerRecentItemsPromise;
 
@@ -400,6 +434,30 @@ export class QuickSearchContainer<
       }
     }
   }
+
+  handleAutocomplete = async (query: string) => {
+    const { getAutocompleteSuggestions } = this.props;
+    if (!getAutocompleteSuggestions) {
+      return;
+    }
+    try {
+      const results = await getAutocompleteSuggestions(query);
+
+      if (this.unmounted) {
+        return;
+      }
+
+      this.setState({
+        autocompleteSuggestions: results,
+      });
+    } catch (e) {
+      this.props.logger.safeError(
+        LOGGER_NAME,
+        'error while getting autocompletion',
+        e,
+      );
+    }
+  };
 
   getMoreSearchResults = async (scope: Scope) => {
     const { product } = this.props;
@@ -444,8 +502,16 @@ export class QuickSearchContainer<
   handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { handleSearchSubmit } = this.props;
     if (handleSearchSubmit) {
-      handleSearchSubmit(event, this.state.searchSessionId);
+      handleSearchSubmit(event, this.props.searchSessionId);
     }
+  };
+
+  handleFilter = (filter: Filter[]) => {
+    this.handleSearch(
+      this.state.latestSearchQuery,
+      this.latestQueryVersion,
+      filter,
+    );
   };
 
   render() {
@@ -456,21 +522,24 @@ export class QuickSearchContainer<
       selectedResultId,
       onSelectedResultIdChanged,
       inputControls,
+      searchSessionId,
     } = this.props;
     const {
       isLoading,
-      searchSessionId,
       latestSearchQuery,
       isError,
       searchResults,
       recentItems,
       keepPreQueryState,
+      autocompleteSuggestions,
+      currentFilters,
     } = this.state;
 
     return (
       <GlobalQuickSearch
         onSearch={this.handleSearch}
         onSearchSubmit={this.handleSearchSubmit}
+        onAutocomplete={this.handleAutocomplete}
         isLoading={isLoading}
         placeholder={placeholder}
         linkComponent={linkComponent}
@@ -478,6 +547,8 @@ export class QuickSearchContainer<
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
         inputControls={inputControls}
+        autocompleteSuggestions={autocompleteSuggestions}
+        filters={this.state.currentFilters}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,
@@ -489,12 +560,20 @@ export class QuickSearchContainer<
           keepPreQueryState,
           searchSessionId,
           searchMore: this.getMoreSearchResults,
+          currentFilters,
+          onFilterChanged: this.handleFilter,
         })}
       </GlobalQuickSearch>
     );
   }
 }
 
-export default withAnalyticsEvents()(
-  QuickSearchContainer,
-) as typeof QuickSearchContainer;
+export const BaseConfluenceQuickSearchContainer = injectSearchSession(
+  withAnalyticsEvents<CompleteProps<ConfluenceResultsMap>>()(
+    QuickSearchContainer,
+  ),
+);
+
+export const BaseJiraQuickSearchContainerJira = injectSearchSession(
+  withAnalyticsEvents<CompleteProps<JiraResultsMap>>()(QuickSearchContainer),
+);

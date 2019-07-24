@@ -142,7 +142,7 @@ export const InviteToEditButton = (props: InviteToEditComponentProps) => {
   return (
     <ShareDialogContainer
       cloudId="cloudId"
-      client={shareClient}
+      shareClient={shareClient}
       loadUserOptions={loadUserOptions}
       originTracingFactory={() => mockOriginTracing}
       productId="confluence"
@@ -215,6 +215,7 @@ const editorProps = ({
   analyticsHandler,
   allowAnalyticsGASV3: true,
   allowCodeBlocks: true,
+  allowBreakout: true,
   allowLayouts: {
     allowBreakout: true,
     UNSAFE_addSidebarLayouts: true,

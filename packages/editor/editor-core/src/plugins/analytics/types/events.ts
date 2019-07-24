@@ -5,6 +5,7 @@ import { FormatEventPayload } from './format-events';
 import { SubstituteEventPayload } from './substitute-events';
 import { InsertEventPayload } from './insert-events';
 import { NodeEventPayload } from './node-events';
+import { MediaEventPayload } from './media-events';
 import { TableEventPayload } from './table-events';
 import { PasteEventPayload } from './paste-events';
 import { ErrorEventPayload } from './error-events';
@@ -67,6 +68,7 @@ export type AnalyticsEventPayload =
   | SubstituteEventPayload
   | InsertEventPayload
   | NodeEventPayload
+  | MediaEventPayload
   | TableEventPayload
   | PasteEventPayload
   | ErrorEventPayload;

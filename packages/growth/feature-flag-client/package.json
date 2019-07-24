@@ -1,10 +1,11 @@
 {
   "name": "@atlaskit/feature-flag-client",
-  "version": "3.1.2",
+  "version": "3.1.5",
   "description": "A client to take care of feature flag evaluation and tracking of exposure events",
   "atlaskit:src": "src/index.ts",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Growth team",

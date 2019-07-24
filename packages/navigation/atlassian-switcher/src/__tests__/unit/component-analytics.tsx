@@ -103,7 +103,22 @@ describe('Atlassian Switcher - Component Analytics', () => {
     eventStream = createStream();
     wrapper = mount(<DefaultAtlassianSwitcher onEventFired={eventStream} />);
   });
-  it('should fire "atlassianSwitcher rendered"', async () => {
+  it('should fire "atlassianSwitcher rendered and "atlassianSwitcher viewed"', async () => {
+    // UI event when the Switcher is viewed at all (before content load)
+    const { payload: viewedPayload } = await eventStream.next();
+    expect(viewedPayload).toMatchObject({
+      eventType: 'ui',
+      action: 'viewed',
+      actionSubject: 'atlassianSwitcher',
+      attributes: {
+        switcherItems: {
+          suggestedProducts: ['confluence.ondemand'],
+          licensedProducts: ['jira'],
+        },
+      },
+    });
+
+    // Operational event when the Switcher first displays content
     const { payload } = await eventStream.next();
     expect(payload).toMatchObject({
       eventType: 'operational',
@@ -189,7 +204,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
     for (let i = 0; i < appSwitcherLinksCategories.length; i++) {
       const appSwitcherLinkCategory = appSwitcherLinksCategories[i];
       it(appSwitcherLinkCategory.name, async () => {
-        eventStream.skip(1);
+        // skip viewed/rendered events
+        eventStream.skip(2);
         const item = wrapper.find(Item);
         item.at(i).simulate('click');
         const { payload, context } = await eventStream.next();
@@ -207,7 +223,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
   });
 
   it('should fire "button clicked - manageListButton"', async () => {
-    await eventStream.skip(1);
+    // skip viewed/rendered events
+    await eventStream.skip(2);
     /*
       This is needed as there's a slight delay between the rendered event being fired
       and the last endpoint being proccessed. This can be removed once we instrument

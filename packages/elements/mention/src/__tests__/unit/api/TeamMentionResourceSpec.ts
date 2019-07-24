@@ -4,7 +4,10 @@ import fetchMock from 'fetch-mock/src/client';
 import * as queryString from 'query-string';
 import TeamMentionResource from '../../../api/TeamMentionResource';
 import { resultCr, resultCraig, teamResults } from '../_mention-search-results';
-import { MentionResourceConfig } from '../../../api/MentionResource';
+import {
+  MentionResourceConfig,
+  TeamMentionResourceConfig,
+} from '../../../api/MentionResource';
 
 const baseUserUrl = 'https://bogus/users/mentions';
 const baseTeamUrl = 'https://bogus/teams/mentions';
@@ -33,11 +36,10 @@ const apiUserMentionConfig: MentionResourceConfig = {
   },
 };
 
-const apiTeamMentionConfig: MentionResourceConfig = {
+const apiTeamMentionConfig: TeamMentionResourceConfig = {
+  ...apiUserMentionConfig,
   url: baseTeamUrl,
-  securityProvider() {
-    return options(defaultSecurityCode, false);
-  },
+  teamLinkResolver: (teamId: string) => `/wiki/team/${teamId}`,
 };
 
 const FULL_CONTEXT = {
@@ -155,6 +157,13 @@ describe('TeamMentionResourceSpec', () => {
           expect(mentions).toHaveLength(resultCraig.length);
           // the second is for user results + team results
         } else if (currentCount === 2) {
+          const firstTeam = mentions[resultCraig.length];
+          expect(firstTeam.userType).toBe('TEAM');
+          const teamLink = firstTeam.context
+            ? firstTeam.context.teamLink
+            : null;
+          expect(teamLink).toBe(`/wiki/team/${firstTeam.id}`);
+
           expect(mentions).toHaveLength(
             resultCraig.length + teamResults.length,
           );
@@ -265,6 +274,24 @@ describe('TeamMentionResourceSpec', () => {
   describe('#shouldHighlightMention', () => {
     it('should return false by default', () => {
       expect(resource.shouldHighlightMention(testMentionDesc)).toBe(false);
+    });
+  });
+
+  describe('#spotlightEnable', () => {
+    it('should return false by default', () => {
+      expect(resource.mentionTypeaheadSpotlightEnabled()).toBe(false);
+    });
+    it('should return true when enabled', () => {
+      const withSpotlightResource = new TeamMentionResource(
+        apiUserMentionConfig,
+        {
+          ...apiTeamMentionConfig,
+          teamSpotlightEnabled: true,
+        },
+      );
+      expect(withSpotlightResource.mentionTypeaheadSpotlightEnabled()).toBe(
+        true,
+      );
     });
   });
 });

@@ -11,8 +11,13 @@ describe('<Filmstrip />', () => {
     id: 'id-1',
     mediaItemType: 'file',
   };
+  const secondIdentifier: Identifier = {
+    id: 'id-2',
+    mediaItemType: 'file',
+  };
   type Arguments = {
     items?: FilmstripProps['items'];
+    shouldOpenMediaViewer?: FilmstripProps['shouldOpenMediaViewer'];
     mediaClientConfig?: FilmstripProps['mediaClientConfig'];
   };
   const setup = (props: Arguments = {}) => {
@@ -22,10 +27,7 @@ describe('<Filmstrip />', () => {
         identifier: firstIdenfier,
       },
       {
-        identifier: {
-          id: 'id-2',
-          mediaItemType: 'file',
-        },
+        identifier: secondIdentifier,
       },
     ];
     const component = shallow(
@@ -76,7 +78,11 @@ describe('<Filmstrip />', () => {
           selectable: true,
           selected: true,
         },
+        {
+          identifier: secondIdentifier,
+        },
       ],
+      shouldOpenMediaViewer: true,
     });
 
     expect(
@@ -94,6 +100,47 @@ describe('<Filmstrip />', () => {
           id: 'id-1',
           mediaItemType: 'file',
         },
+        shouldOpenMediaViewer: true,
+        mediaViewerDataSource: { list: [firstIdenfier, secondIdentifier] },
+      }),
+    );
+  });
+
+  it('should not activate media-viewer by default', () => {
+    const { component } = setup({
+      items: [{ identifier: firstIdenfier }, { identifier: secondIdentifier }],
+    });
+
+    expect(
+      component
+        .find(FilmstripView)
+        .find(Card)
+        .first()
+        .props(),
+    ).toEqual(
+      expect.objectContaining({
+        shouldOpenMediaViewer: undefined,
+        mediaViewerDataSource: undefined,
+      }),
+    );
+  });
+
+  it('should not activate media-viewer if shouldOpenMediaViewer is false', () => {
+    const { component } = setup({
+      items: [{ identifier: firstIdenfier }, { identifier: secondIdentifier }],
+      shouldOpenMediaViewer: false,
+    });
+
+    expect(
+      component
+        .find(FilmstripView)
+        .find(Card)
+        .first()
+        .props(),
+    ).toEqual(
+      expect.objectContaining({
+        shouldOpenMediaViewer: false,
+        mediaViewerDataSource: undefined,
       }),
     );
   });

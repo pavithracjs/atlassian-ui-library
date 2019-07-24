@@ -1,5 +1,161 @@
 # @atlaskit/adf-schema
 
+## 2.12.4
+
+### Patch Changes
+
+- [patch][0bb88234e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0bb88234e6):
+
+  Upgrade prosemirror-view to 1.9.12
+
+## 2.12.3
+
+### Patch Changes
+
+- [patch][ec8066a555](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec8066a555):
+
+  Upgrade `@types/prosemirror-view` Typescript definitions to latest 1.9.x API
+
+## 2.12.2
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 2.12.1
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 2.12.0
+
+### Minor Changes
+
+- [minor][13ca42c394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13ca42c394):
+
+  # use getAuthFromContext from media when a file if pasted from a different collection
+
+  Now products can provide auth using **getAuthFromContext** on MediaClientConfig:
+
+  ```
+  import {MediaClientConfig} from '@atlaskit/media-core'
+  import Editor from '@atlaskit/editor-core'
+
+  const viewMediaClientConfig: MediaClientConfig = {
+    authProvider // already exists
+    getAuthFromContext(contextId: string) {
+      // here products can return auth for external pages.
+      // in case of copy & paste on Confluence, they can provide read token for
+      // files on the source collection
+    }
+  }
+  const mediaProvider: = {
+    viewMediaClientConfig
+  }
+
+  <Editor {...otherNonRelatedProps} media={{provider: mediaProvider}} />
+  ```
+
+## 2.11.4
+
+### Patch Changes
+
+- [patch][f60618b0f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f60618b0f0):
+
+  ED-5844 Adding media link UI to editor
+
+## 2.11.3
+
+### Patch Changes
+
+- [patch][4aed452b1b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aed452b1b):
+
+  ED-7041, SL-231: fix copying smart link from renderer to editor
+
+## 2.11.2
+
+### Patch Changes
+
+- [patch][1b12e59bfd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b12e59bfd):
+
+  ED-6917, SL-260: support drag and drop of smart links
+
+## 2.11.1
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
+## 2.11.0
+
+### Minor Changes
+
+- [minor][ef787dba60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef787dba60):
+
+  ED-7178: Promoting alignment and indentation to full schema
+
+## 2.10.0
+
+### Minor Changes
+
+- [minor][3d9136e483](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d9136e483):
+
+  ED-7182: Promoting annotation to full schema
+
+## 2.9.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
+## 2.8.1
+
+### Patch Changes
+
+- [patch][34c6df4fb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/34c6df4fb8):
+
+  adf-schema has been extended with one missing color, email-renderer now bundles up styles into .css file
+
+## 2.8.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
+## 2.7.1
+
+### Patch Changes
+
+- [patch][4931459ac1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4931459ac1):
+
+  Revert removed by accident breakout mark
+
+## 2.7.0
+
+### Minor Changes
+
+- [minor][0a7ce4f0e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a7ce4f0e6):
+
+  ED-7046: promote layoutSection and layoutColumn from stage-0 to full schema
+
 ## 2.6.1
 
 ### Patch Changes

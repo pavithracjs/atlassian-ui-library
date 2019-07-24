@@ -1,5 +1,147 @@
 # @atlaskit/smart-card
 
+## 12.3.4
+
+### Patch Changes
+
+- [patch][19a83a0c7e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19a83a0c7e):
+
+  fixed issues with cards not updating after authentication
+
+## 12.3.3
+
+### Patch Changes
+
+- [patch][8903a232f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8903a232f7):
+
+  fix: fallback to blue links when resolve is unsupported
+
+## 12.3.2
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 12.3.1
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
+## 12.3.0
+
+### Minor Changes
+
+- [minor][602ab89822](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/602ab89822):
+
+  SL-345 add property for disabling auth flow of Smart Links (for Mobile).
+
+## 12.2.8
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 12.2.7
+
+### Patch Changes
+
+- [patch][b346bb2963](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b346bb2963):
+
+  added support for batching of link resolve requests in Smart Card client.
+
+## 12.2.6
+
+### Patch Changes
+
+- [patch][c95713b660](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95713b660):
+
+  fix lazy rendering offset to be more portable between devices
+
+## 12.2.5
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/form@6.1.2
+  - @atlaskit/radio@3.0.7
+  - @atlaskit/media-ui@11.4.2
+  - @atlaskit/checkbox@9.0.0
+
+## 12.2.4
+
+### Patch Changes
+
+- [patch][aed5ccba18](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aed5ccba18):
+
+  SL-343 fix behaviour when using middle-click or clicking inside of iframes for inline Smart Links.
+
+## 12.2.3
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/form@6.1.1
+  - @atlaskit/inline-message@10.0.7
+  - @atlaskit/radio@3.0.6
+  - @atlaskit/table-tree@7.0.6
+  - @atlaskit/textfield@2.0.3
+  - @atlaskit/media-ui@11.4.1
+  - @atlaskit/icon@19.0.0
+
+## 12.2.2
+
+### Patch Changes
+
+- [patch][4258086c0d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4258086c0d):
+
+  fix: some smartlinks with sourcecode artifacts were being incorrectly rendered
+
+## 12.2.1
+
+### Patch Changes
+
+- [patch][b5eb352152](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b5eb352152):
+
+  SL-336: fix page crash when state is undefined.
+
+## 12.2.0
+
+### Minor Changes
+
+- [minor][09f094a7a2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09f094a7a2):
+
+  SL-259: bump react-lazily-render, remove react-lazily-render-scroll-parent.
+
+## 12.1.1
+
+### Patch Changes
+
+- [patch][8e50d00fc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e50d00fc6):
+
+  SL-331: fix edit handler for smart-card.
+
+## 12.1.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
 ## 12.0.0
 
 ### Major Changes

@@ -5,7 +5,6 @@ import {
   FileState,
 } from '@atlaskit/media-client';
 import AudioIcon from '@atlaskit/icon/glyph/media-services/audio';
-import { constructAuthTokenUrl } from '../utils';
 import { Outcome } from '../domain';
 import {
   AudioPlayer,
@@ -16,21 +15,24 @@ import {
   CustomAudioPlayerWrapper,
 } from '../styled';
 import { createError, MediaViewerError } from '../error';
-import { getArtifactUrl } from '@atlaskit/media-store';
 import { BaseState, BaseViewer } from './base-viewer';
 import { isIE } from '../utils/isIE';
-import { CustomMediaPlayer } from '@atlaskit/media-ui';
+import {
+  CustomMediaPlayer,
+  WithShowControlMethodProp,
+} from '@atlaskit/media-ui';
 import { getObjectUrlFromFileState } from '../utils/getObjectUrlFromFileState';
 
-export type Props = Readonly<{
-  item: FileState;
-  mediaClient: MediaClient;
-  collectionName?: string;
-  previewCount: number;
-  showControls?: () => void;
-  onCanPlay?: () => void;
-  onError?: () => void;
-}>;
+export type Props = Readonly<
+  {
+    item: FileState;
+    mediaClient: MediaClient;
+    collectionName?: string;
+    previewCount: number;
+    onCanPlay?: () => void;
+    onError?: () => void;
+  } & WithShowControlMethodProp
+>;
 
 export type State = BaseState<string> & {
   coverUrl?: string;
@@ -44,10 +46,12 @@ const defaultCover = (
 
 const getCoverUrl = (
   item: ProcessedFileState,
-  context: MediaClient,
+  mediaClient: MediaClient,
   collectionName?: string,
 ): Promise<string> =>
-  constructAuthTokenUrl(`/file/${item.id}/image`, context, collectionName);
+  mediaClient.getImageUrl(item.id, {
+    collection: collectionName,
+  });
 
 export class AudioViewer extends BaseViewer<string, Props, State> {
   protected get initialState() {
@@ -142,15 +146,12 @@ export class AudioViewer extends BaseViewer<string, Props, State> {
       let audioUrl: string | undefined;
 
       if (item.status === 'processed') {
-        const artifactUrl = getArtifactUrl(item.artifacts, 'audio.mp3');
-        if (!artifactUrl) {
-          throw new Error('No audio artifacts found');
-        }
-        audioUrl = await constructAuthTokenUrl(
-          artifactUrl,
-          mediaClient,
+        audioUrl = await mediaClient.file.getArtifactURL(
+          item.artifacts,
+          'audio.mp3',
           collectionName,
         );
+
         if (!audioUrl) {
           throw new Error('No audio artifacts found');
         }

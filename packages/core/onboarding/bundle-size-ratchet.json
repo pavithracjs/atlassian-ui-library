@@ -2,7 +2,7 @@
   {
     "team": "core",
     "package": "@atlaskit/onboarding",
-    "version": "8.0.3",
+    "version": "8.0.4",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "core",
     "package": "@atlaskit/onboarding",
-    "version": "8.0.3",
+    "version": "8.0.4",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -26,25 +26,25 @@
   {
     "team": "core",
     "package": "@atlaskit/onboarding",
-    "version": "8.0.3",
+    "version": "8.0.4",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 71721,
-      "gzipSize": 18543
+      "size": 71765,
+      "gzipSize": 18552
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/onboarding",
-    "version": "8.0.3",
+    "version": "8.0.4",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 204748,
-      "gzipSize": 57912
+      "size": 204792,
+      "gzipSize": 57916
     }
   }
 ]

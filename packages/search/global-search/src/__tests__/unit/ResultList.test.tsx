@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { shallow } from 'enzyme';
 import {
   ObjectResult as ObjectResultComponent,
@@ -8,7 +9,10 @@ import {
 
 import PageIcon from '@atlaskit/icon-object/glyph/page/24';
 import BoardIcon from '@atlaskit/icon/glyph/board';
-import ResultList, { Props } from '../../components/ResultList';
+import {
+  UnwrappedResultList as ResultList,
+  Props,
+} from '../../components/ResultList';
 import {
   Result,
   JiraResult,
@@ -25,16 +29,26 @@ import {
   makeJiraObjectResult,
 } from './_test-util';
 import * as JiraAvatarUtil from '../../../src/util/jira-avatar-util';
+import {
+  DEFAULT_FEATURES,
+  ConfluenceFeatures,
+  JiraFeatures,
+} from '../../../src/util/features';
+import { messages } from '../../../src/messages';
 
 const DUMMY_ANALYTICS_DATA = {
   resultCount: 123,
 };
 
-function render(partialProps: Partial<Props>) {
+function render(
+  partialProps: Partial<Props>,
+  features?: ConfluenceFeatures & JiraFeatures,
+) {
   const props: Props = {
     results: [],
     sectionIndex: 0,
     ...partialProps,
+    features: features || DEFAULT_FEATURES,
   };
 
   return shallow(<ResultList {...props} />);
@@ -114,6 +128,46 @@ it('should pass the correct properties to ObjectResult for Confluence results', 
   const avatar = wrapper.find(ObjectResultComponent).prop('avatar');
   // @ts-ignore TS can't find type
   expect(avatar.type).toEqual(PageIcon);
+});
+
+it('should render the friendly last modified date if the complex extensions feature is enabled', () => {
+  const confluenceResults: ConfluenceObjectResult[] = [
+    makeConfluenceObjectResult({
+      resultId: 'resultId',
+      analyticsType: AnalyticsType.ResultConfluence,
+    }),
+  ];
+
+  const wrapper = render(
+    {
+      results: confluenceResults,
+      analyticsData: DUMMY_ANALYTICS_DATA,
+    },
+    {
+      ...DEFAULT_FEATURES,
+      complexSearchExtensionsEnabled: true,
+    },
+  );
+
+  expect(wrapper.find(ObjectResultComponent).props()).toMatchObject({
+    href: 'href',
+    resultId: 'confluence-page-resultId',
+    type: 'result-confluence',
+    name: 'name',
+    analyticsData: expect.objectContaining(DUMMY_ANALYTICS_DATA),
+  });
+
+  const expectedI18nMessage =
+    messages.confluence_container_subtext_with_modified_date;
+  const message = shallow(wrapper.props().containerName);
+
+  expect(message.find(FormattedMessage).props()).toMatchObject({
+    ...expectedI18nMessage,
+    values: {
+      containerName: 'containerName',
+      friendlyLastModified: 'friendly-last-modified',
+    },
+  });
 });
 
 it('should pass the correct properties to ContainerResult for Confluence spaces', () => {

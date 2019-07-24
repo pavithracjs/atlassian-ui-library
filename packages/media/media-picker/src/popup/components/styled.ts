@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import { HTMLAttributes, ComponentClass } from 'react';
 import { colors, fontFamily } from '@atlaskit/theme';
 
-export const MediaPickerPopupWrapper: ComponentClass<
-  HTMLAttributes<{}>
-> = styled.div`
+export const MediaPickerPopupWrapper = styled.div`
   display: flex;
   cursor: default;
   user-select: none;

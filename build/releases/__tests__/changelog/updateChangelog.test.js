@@ -96,7 +96,7 @@ const multipleReleaseObj = {
   ],
 };
 
-describe('updateChangelog', async () => {
+describe('updateChangelog', () => {
   let cwd, emptyChangelogPath, existingChangelogPath, noChangelogPath;
   beforeEach(async () => {
     cwd = await copyFixtureIntoTempDir(

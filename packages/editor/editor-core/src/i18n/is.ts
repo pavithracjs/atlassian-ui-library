@@ -6,6 +6,14 @@
  */
 // Icelandic
 export default {
+  'fabric.editor.mediaAddLink': 'Bæta við tengli',
+  'fabric.editor.openLink': 'Opna tengil í nýjum flipa',
+  'fabric.editor.unlink': 'Fjarlægja tengil',
+  'fabric.editor.editLink': 'Breyta tengli',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Líma tengil eða leita í „nýlega skoðað”',
+  'fabric.editor.linkPlaceholder': 'Líma tengil',
+  'fabric.editor.linkAddress': 'Tengja slóð',
   'fabric.editor.layoutFixedWidth': 'Til baka í staður',
   'fabric.editor.layoutWide': 'Breikka',
   'fabric.editor.layoutFullWidth': 'Fara til fullri breidd',
@@ -15,19 +23,32 @@ export default {
   'fabric.editor.remove': 'Fjarlægja',
   'fabric.editor.visit': 'Opna tengil í nýjum glugga',
   'fabric.editor.editMode.inviteToEditButton.title': 'Boð til breyta',
+  'fabric.editor.saveButton': 'Vista',
+  'fabric.editor.cancelButton': 'Hætta við',
   'fabric.editor.alignment': 'Stilling',
   'fabric.editor.normal': 'Eðlilegur texti',
   'fabric.editor.heading1': 'Fyrirsögn 1',
+  'fabric.editor.heading1Description':
+    'Notaðu þetta fyrir efsta stigs fyrirsögn',
   'fabric.editor.heading2': 'Fyrirsögn 2',
+  'fabric.editor.heading2Description': 'Notaðu þetta fyrir aðalhluta',
   'fabric.editor.heading3': 'Fyrirsögn 3',
+  'fabric.editor.heading3Description':
+    'Notaðu þetta fyrir undirhluta og hópfyrirsagnir',
   'fabric.editor.heading4': 'Fyrirsögn 4',
+  'fabric.editor.heading4Description':
+    'Notaðu þetta fyrir neðstu fyrirsagnirnar',
   'fabric.editor.heading5': 'Fyrirsögn 5',
+  'fabric.editor.heading5Description':
+    'Notaðu þetta til að hópa saman listaatriði',
   'fabric.editor.heading6': 'Fyrirsögn 6',
+  'fabric.editor.heading6Description':
+    'Notaðu þetta fyrir lægra stigs fyrirsagnir',
   'fabric.editor.blockquote': 'Vitna',
   'fabric.editor.blockquote.description': 'Setja inn tilboð eða tilvitnun',
   'fabric.editor.codeblock': 'Brot úr kóða',
   'fabric.editor.codeblock.description': 'Birtu kóða með auðkenndri málskipan',
-  'fabric.editor.infoPanel': 'Upplýsingagluggi',
+  'fabric.editor.infoPanel': 'Upplýsingar pallborð',
   'fabric.editor.infoPanel.description': 'Auðkenndu upplýsingar á lituðum skjá',
   'fabric.editor.notePanel': 'Athugaðu spjaldið',
   'fabric.editor.notePanel.description': 'Bættu við athugasemd á lituðum skjá',
@@ -58,21 +79,13 @@ export default {
   'fabric.editor.altText': 'Baktexti',
   'fabric.editor.closeHelpDialog': 'Loka hjálparsamtali',
   'fabric.editor.quickInsert': 'Fýtiinnsetning',
-  'fabric.editor.openLink': 'Opna tengil í nýjum flipa',
-  'fabric.editor.unlink': 'Fjarlægja tengil',
-  'fabric.editor.editLink': 'Breyta tengli',
-  'fabric.editor.hyperlinkToolbarPlaceholder':
-    'Líma tengil eða leita í „nýlega skoðað”',
-  'fabric.editor.linkPlaceholder': 'Líma tengil',
-  'fabric.editor.linkAddress': 'Tengja slóð',
   'fabric.editor.displayText': 'Texti sem á að birta',
   'fabric.editor.clearLinkText': 'Hreinsa texta',
   'fabric.editor.clearLink': 'Hreinsa tengli',
   'fabric.editor.action': 'Aðgerð atriði',
-  'fabric.editor.action.description':
-    'Fangaðu aðgerðir til að koma vinnu á skrið',
+  'fabric.editor.action.description': 'Búa til og nota aðgerðartákn',
   'fabric.editor.link': 'Tengja',
-  'fabric.editor.link.description': 'Tengdu við innri eða ytri síðu',
+  'fabric.editor.link.description': 'Setja inn tengil',
   'fabric.editor.filesAndImages': 'Skrár & myndir',
   'fabric.editor.filesAndImages.description':
     'Bæta myndum og aðrar skrár á síðunni þinni',
@@ -98,8 +111,7 @@ export default {
   'fabric.editor.columns.description':
     'Byggðu upp síðuna þína með því að nota hluta',
   'fabric.editor.status': 'Staða',
-  'fabric.editor.status.description':
-    'Búðu til litaðan tígul með texta að innan',
+  'fabric.editor.status.description': 'Bæta við sérsniðnu stöðumerki',
   'fabric.editor.viewMore': 'Skoða fleiri',
   'fabric.editor.insertMenu': 'Setja inn',
   'fabric.editor.twoColumns': 'Tveir dálkar',
@@ -115,6 +127,7 @@ export default {
   'fabric.editor.annotate': 'Skrifa skýringar',
   'fabric.editor.wrapLeft': 'Vinstriskrið',
   'fabric.editor.wrapRight': 'Hægriskrið',
+  'fabric.editor.backLink': 'Til baka',
   'fabric.editor.info': 'Upplýsingar',
   'fabric.editor.note': 'Athugasemd',
   'fabric.editor.success': 'Tókst',

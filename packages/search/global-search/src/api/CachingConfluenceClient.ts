@@ -2,41 +2,35 @@ import {
   ConfluenceRecentsMap,
   Result,
   ConfluenceObjectResult,
-  PersonResult,
 } from '../model/Result';
 import ConfluenceClientImpl from './ConfluenceClient';
+import { SimpleCache } from '../util/simple-cache';
 
 export default class CachingConfluenceClient extends ConfluenceClientImpl {
-  prefetchedResults?: Promise<ConfluenceRecentsMap>;
+  itemCache: SimpleCache<Promise<ConfluenceObjectResult[]>>;
+  spaceCache: SimpleCache<Promise<Result[]>>;
 
   constructor(url: string, prefetchedResults?: Promise<ConfluenceRecentsMap>) {
     super(url);
-    this.prefetchedResults = prefetchedResults;
+
+    this.itemCache = new SimpleCache(
+      prefetchedResults &&
+        prefetchedResults.then(result => result.objects.items),
+      () => super.getRecentItems(),
+    );
+
+    this.spaceCache = new SimpleCache(
+      prefetchedResults &&
+        prefetchedResults.then(result => result.spaces.items),
+      () => super.getRecentSpaces(),
+    );
   }
 
-  async getRecentItems(
-    searchSessionId: string,
-  ): Promise<ConfluenceObjectResult[]> {
-    if (this.prefetchedResults) {
-      return (await this.prefetchedResults).objects.items;
-    }
-    return super.getRecentItems(searchSessionId);
+  async getRecentItems(): Promise<ConfluenceObjectResult[]> {
+    return await this.itemCache.get();
   }
 
-  async getRecentSpaces(searchSessionId: string): Promise<Result[]> {
-    if (this.prefetchedResults) {
-      return (await this.prefetchedResults).spaces.items;
-    }
-    return super.getRecentSpaces(searchSessionId);
-  }
-
-  async searchPeopleInQuickNav(
-    query: string,
-    searchSessionId: string,
-  ): Promise<PersonResult[]> {
-    if (this.prefetchedResults) {
-      return (await this.prefetchedResults).people.items;
-    }
-    return super.searchPeopleInQuickNav(query, searchSessionId);
+  async getRecentSpaces(): Promise<Result[]> {
+    return await this.spaceCache.get();
   }
 }

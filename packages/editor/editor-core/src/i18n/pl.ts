@@ -6,6 +6,14 @@
  */
 // Polish
 export default {
+  'fabric.editor.mediaAddLink': 'Dodaj łącze',
+  'fabric.editor.openLink': 'Otwórz łącze w nowej karcie',
+  'fabric.editor.unlink': 'Usuń link',
+  'fabric.editor.editLink': 'Edytuj łącze',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Wklej łącze lub przeszukaj ostatnio przeglądane strony',
+  'fabric.editor.linkPlaceholder': 'Wklej link',
+  'fabric.editor.linkAddress': 'Adres łącza',
   'fabric.editor.layoutFixedWidth': 'Powrót do centrum',
   'fabric.editor.layoutWide': 'Szeroki widok',
   'fabric.editor.layoutFullWidth': 'Pełna szerokość',
@@ -15,14 +23,25 @@ export default {
   'fabric.editor.remove': 'Usuń',
   'fabric.editor.visit': 'Otwórz link w nowym oknie',
   'fabric.editor.editMode.inviteToEditButton.title': 'Zaproś do edycji',
+  'fabric.editor.saveButton': 'Zapisz',
+  'fabric.editor.cancelButton': 'Anuluj',
   'fabric.editor.alignment': 'Wyrównanie',
   'fabric.editor.normal': 'Normalny tekst',
   'fabric.editor.heading1': 'Nagłówek 1',
+  'fabric.editor.heading1Description':
+    'Użyj tego do nagłówka najwyższego poziomu',
   'fabric.editor.heading2': 'Nagłówek 2',
+  'fabric.editor.heading2Description': 'Użyj tego do kluczowych sekcji',
   'fabric.editor.heading3': 'Nagłówek 3',
+  'fabric.editor.heading3Description':
+    'Użyj tego do podsekcji i grup nagłówków',
   'fabric.editor.heading4': 'Nagłówek 4',
+  'fabric.editor.heading4Description': 'Użyj tego do nagłówków głębokich',
   'fabric.editor.heading5': 'Nagłówek 5',
+  'fabric.editor.heading5Description': 'Użyj tego do grupowania elementów list',
   'fabric.editor.heading6': 'Nagłówek 6',
+  'fabric.editor.heading6Description':
+    'Użyj tego do nagłówków niskiego poziomu',
   'fabric.editor.blockquote': 'Cytat',
   'fabric.editor.blockquote.description': 'Wstaw cytat',
   'fabric.editor.codeblock': 'Wstawka kodu',
@@ -56,22 +75,13 @@ export default {
   'fabric.editor.altText': 'Cały tekst',
   'fabric.editor.closeHelpDialog': 'Zamknij okno dialogowe pomocy',
   'fabric.editor.quickInsert': 'Szybkie wstawianie',
-  'fabric.editor.openLink': 'Otwórz łącze w nowej karcie',
-  'fabric.editor.unlink': 'Usuń link',
-  'fabric.editor.editLink': 'Edytuj łącze',
-  'fabric.editor.hyperlinkToolbarPlaceholder':
-    'Wklej łącze lub przeszukaj ostatnio przeglądane strony',
-  'fabric.editor.linkPlaceholder': 'Wklej link',
-  'fabric.editor.linkAddress': 'Adres łącza',
   'fabric.editor.displayText': 'Wyświetlany tekst',
   'fabric.editor.clearLinkText': 'Wyczyść tekst',
   'fabric.editor.clearLink': 'Wyczyść łącze',
   'fabric.editor.action': 'Element akcji',
-  'fabric.editor.action.description':
-    'Obserwuj działania, aby pchnąć prace do przodu',
+  'fabric.editor.action.description': 'Utwórz i przypisz elementy działań',
   'fabric.editor.link': 'Łącze',
-  'fabric.editor.link.description':
-    'Łącze do wewnętrznej lub zewnętrznej strony',
+  'fabric.editor.link.description': 'Wstaw łącze',
   'fabric.editor.filesAndImages': 'Pliki i obrazy',
   'fabric.editor.filesAndImages.description':
     'Dodaj obrazy i inne pliki do strony',
@@ -96,7 +106,7 @@ export default {
   'fabric.editor.columns.description':
     'Uporządkuj swoją stronę, korzystając z sekcji',
   'fabric.editor.status': 'Status',
-  'fabric.editor.status.description': 'Utwórz kolorowy kształt z tekstem',
+  'fabric.editor.status.description': 'Dodaj niestandardową etykietę statusu',
   'fabric.editor.viewMore': 'Wyświetl więcej',
   'fabric.editor.insertMenu': 'Wstaw',
   'fabric.editor.twoColumns': 'Dwie kolumny',
@@ -112,6 +122,7 @@ export default {
   'fabric.editor.annotate': 'Dodaj adnotację',
   'fabric.editor.wrapLeft': 'Zawijaj do lewej',
   'fabric.editor.wrapRight': 'Zawijaj do prawej',
+  'fabric.editor.backLink': 'Wróć',
   'fabric.editor.info': 'Informacje',
   'fabric.editor.note': 'Uwaga',
   'fabric.editor.success': 'Sukces',

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, Fragment, type ComponentType } from 'react';
-import deepEqual from 'deep-equal';
+import deepEqual from 'react-fast-compare';
 import { colors } from '@atlaskit/theme';
 
 import RenderBlocker from '../../common/RenderBlocker';
@@ -26,6 +26,7 @@ type ComposedContainerNavigationProps = {
   getNavRef: () => void,
   expand: () => void,
   view?: Object | null,
+  experimental_hideNavVisuallyOnCollapse: boolean,
 };
 export class ComposedContainerNavigation extends Component<ComposedContainerNavigationProps> {
   shouldComponentUpdate(nextProps: ComposedContainerNavigationProps) {
@@ -39,6 +40,8 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
       datasets,
       // eslint-disable-next-line camelcase
       experimental_flyoutOnHover: EXPERIMENTAL_FLYOUT_ON_HOVER,
+      // eslint-disable-next-line camelcase
+      experimental_hideNavVisuallyOnCollapse: EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE,
       productNavigation,
       transitionState,
       transitionStyle,
@@ -68,6 +71,9 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
           isVisible={isVisible}
           key="product-nav"
           product={productNavigation}
+          experimental_hideNavVisuallyOnCollapse={
+            EXPERIMENTAL_HIDE_NAV_VISUALLY_ON_COLLAPSE
+          }
           view={view}
         />
         {isCollapsed && !EXPERIMENTAL_FLYOUT_ON_HOVER ? (

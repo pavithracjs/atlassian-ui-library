@@ -10,7 +10,11 @@ import {
   shadowSharedStyle,
   inlineNodeSharedStyle,
   dateSharedStyle,
+  akEditorDeleteBackground,
+  akEditorDeleteBorder,
+  akEditorSelectedBorderBoldSize,
 } from '@atlaskit/editor-common';
+
 import { telepointerStyle } from '../../plugins/collab-edit/styles';
 import { gapCursorStyles } from '../../plugins/gap-cursor/styles';
 import { tableStyles } from '../../plugins/table/ui/styles';
@@ -29,12 +33,7 @@ import { placeholderTextStyles } from '../../plugins/placeholder-text/styles';
 import { tasksAndDecisionsStyles } from '../../plugins/tasks-and-decisions/ui/styles';
 import { gridStyles } from '../../plugins/grid/styles';
 import { linkStyles } from '../../plugins/hyperlink/styles';
-
-import {
-  akEditorDeleteBackground,
-  akEditorDeleteBorder,
-  akEditorDeleteBorderBoldSize,
-} from '@atlaskit/editor-common';
+import { extensionStyles } from '../../plugins/extension/ui/styles';
 
 const ContentStyles: ComponentClass<
   HTMLAttributes<{}> & { theme: any }
@@ -121,6 +120,7 @@ const ContentStyles: ComponentClass<
   ${linkStyles}
   ${blockMarksSharedStyles}
   ${dateSharedStyle}
+  ${extensionStyles}
 
   /** Global selector for extensions, as .danger tag is assigned to root level node which is unaccessible from triggered child node **/
   /* Danger when nested node */
@@ -132,11 +132,7 @@ const ContentStyles: ComponentClass<
   /* Danger when top level node */
   .danger > span > .extension-container {
     background: ${akEditorDeleteBackground};
-    .extension-overlay {
-      box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderBoldSize}px ${akEditorDeleteBorder} !important;
-      opacity: 1;
-      transition: opacity 0s;
-    }
+    box-shadow: 0 0 0 ${akEditorSelectedBorderBoldSize}px ${akEditorDeleteBorder};
   }
 
   .panelView-content-wrap {

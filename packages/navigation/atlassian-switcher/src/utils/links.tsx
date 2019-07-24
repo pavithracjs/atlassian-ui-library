@@ -5,38 +5,39 @@ import DiscoverFilledGlyph from '@atlaskit/icon/glyph/discover-filled';
 import SettingsGlyph from '@atlaskit/icon/glyph/settings';
 
 import {
+  BitbucketIcon,
   ConfluenceIcon,
   JiraIcon,
   JiraSoftwareIcon,
   JiraServiceDeskIcon,
   JiraCoreIcon,
+  OpsGenieIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
 import {
   LicenseInformationResponse,
   ProductLicenseInformation,
   RecentContainerType,
+  AvailableProductsResponse,
+  AvailableSite,
+  AvailableProduct,
+  WorklensProductType,
+  ProductKey,
+  RecommendationsEngineResponse,
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
-import OpsgenieLogo from './assets/opsgenie-logo';
 import PeopleLogo from './assets/people';
 import { CustomLink, RecentContainer } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
 
+// Show a maximum of this many produts (only used in user-centric mode)
+export const MAX_PRODUCT_COUNT = 5;
+
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',
   DEACTIVATED = 'DEACTIVATED',
-}
-
-export enum ProductKey {
-  CONFLUENCE = 'confluence.ondemand',
-  JIRA_CORE = 'jira-core.ondemand',
-  JIRA_SOFTWARE = 'jira-software.ondemand',
-  JIRA_SERVICE_DESK = 'jira-servicedesk.ondemand',
-  JIRA_OPS = 'jira-incident-manager.ondemand',
-  OPSGENIE = 'opsgenie',
 }
 
 const SINGLE_JIRA_PRODUCT: 'jira' = 'jira';
@@ -48,6 +49,7 @@ interface MessagesDict {
 export type SwitcherItemType = {
   key: string;
   label: React.ReactNode;
+  description?: React.ReactNode;
   Icon: IconType;
   href: string;
 };
@@ -101,8 +103,8 @@ export const PRODUCT_DATA_MAP: {
   },
   [ProductKey.OPSGENIE]: {
     label: 'Opsgenie',
-    Icon: createIcon(OpsgenieLogo, { size: 'small' }),
-    href: 'https://app.opgsenie.com',
+    Icon: createIcon(OpsGenieIcon, { size: 'small' }),
+    href: 'https://app.opsgenie.com',
   },
 };
 
@@ -123,29 +125,116 @@ export const getFixedProductLinks = (): SwitcherItemType[] => [
   },
 ];
 
+type AvailableProductDetails = Pick<
+  SwitcherItemType,
+  'label' | 'Icon' | 'href'
+>;
+
+export const AVAILABLE_PRODUCT_DATA_MAP: {
+  [productKey in WorklensProductType]: AvailableProductDetails
+} = {
+  [WorklensProductType.BITBUCKET]: {
+    label: 'Bitbucket',
+    Icon: createIcon(BitbucketIcon, { size: 'small' }),
+    href: '/wiki',
+  },
+  [WorklensProductType.CONFLUENCE]: {
+    label: 'Confluence',
+    Icon: createIcon(ConfluenceIcon, { size: 'small' }),
+    href: '/wiki',
+  },
+  [WorklensProductType.JIRA_BUSINESS]: {
+    label: 'Jira Core',
+    Icon: createIcon(JiraCoreIcon, { size: 'small' }),
+    href: '/secure/BrowseProjects.jspa?selectedProjectType=business',
+  },
+  [WorklensProductType.JIRA_SOFTWARE]: {
+    label: 'Jira Software',
+    Icon: createIcon(JiraSoftwareIcon, { size: 'small' }),
+    href: '/secure/BrowseProjects.jspa?selectedProjectType=software',
+  },
+  [WorklensProductType.JIRA_SERVICE_DESK]: {
+    label: 'Jira Service Desk',
+    Icon: createIcon(JiraServiceDeskIcon, { size: 'small' }),
+    href: '/secure/BrowseProjects.jspa?selectedProjectType=service_desk',
+  },
+  [WorklensProductType.OPSGENIE]: {
+    label: 'Opsgenie',
+    Icon: createIcon(OpsGenieIcon, { size: 'small' }),
+    href: 'https://app.opsgenie.com',
+  },
+};
+
+const getAvailableProductLink = (
+  site: AvailableSite,
+  product: AvailableProduct,
+): SwitcherItemType => {
+  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[product.productType];
+
+  if (
+    product.productType === WorklensProductType.OPSGENIE ||
+    product.productType === WorklensProductType.BITBUCKET
+  ) {
+    // Prefer applicationUrl provided by license information (TCS)
+    // Fallback to hard-coded URL
+    return {
+      key: product.productType + site.displayName,
+      ...productLinkProperties,
+      description: site.displayName,
+      href: product.url,
+    };
+  }
+
+  return {
+    key: product.productType + site.displayName,
+    ...productLinkProperties,
+    description: site.displayName,
+    href: site.url + productLinkProperties.href,
+  };
+};
+
+export const getAvailableProductLinks = (
+  availableProducts: AvailableProductsResponse,
+): SwitcherItemType[] => {
+  const productLinks: SwitcherItemType[] = [];
+  const activityCounts: { [key: string]: number } = {};
+
+  availableProducts.sites.forEach(site => {
+    site.availableProducts.forEach(product => {
+      const availableProductLink = getAvailableProductLink(site, product);
+      productLinks.push(availableProductLink);
+      activityCounts[availableProductLink.key] = product.activityCount;
+    });
+  });
+
+  productLinks.sort((a, b) => {
+    const aCount = activityCounts[a.key] || 0;
+    const bCount = activityCounts[b.key] || 0;
+    return bCount - aCount; // most frequently accessed first
+  });
+
+  return productLinks.slice(0, MAX_PRODUCT_COUNT);
+};
+
 export const getProductLink = (
   productKey: ProductKey | typeof SINGLE_JIRA_PRODUCT,
-  productLicenseInformation: ProductLicenseInformation,
+  productLicenseInformation?: ProductLicenseInformation,
 ): SwitcherItemType => {
   const productLinkProperties = PRODUCT_DATA_MAP[productKey];
 
-  if (productKey === ProductKey.OPSGENIE) {
+  if (productKey === ProductKey.OPSGENIE && productLicenseInformation) {
     // Prefer applicationUrl provided by license information (TCS)
     // Fallback to hard-coded URL
     const href = productLicenseInformation.applicationUrl
       ? productLicenseInformation.applicationUrl
       : productLinkProperties.href;
 
-    return {
-      key: productKey,
-      ...productLinkProperties,
-      href,
-    };
+    return { key: productKey, ...productLinkProperties, href };
   }
 
   return {
     key: productKey,
-    ...PRODUCT_DATA_MAP[productKey],
+    ...productLinkProperties,
   };
 };
 
@@ -202,31 +291,18 @@ export const getAdministrationLinks = (
   ];
 };
 
+const PRODUCT_RECOMMENDATION_LIMIT = 2;
+
 export const getSuggestedProductLink = (
   licenseInformationData: LicenseInformationResponse,
+  productRecommendations: RecommendationsEngineResponse,
 ): SwitcherItemType[] => {
-  const productLinks = [];
-
-  if (!getProductIsActive(licenseInformationData, ProductKey.CONFLUENCE)) {
-    productLinks.push(
-      getProductLink(
-        ProductKey.CONFLUENCE,
-        licenseInformationData.products[ProductKey.CONFLUENCE],
-      ),
-    );
-  }
-  if (
-    !getProductIsActive(licenseInformationData, ProductKey.JIRA_SERVICE_DESK)
-  ) {
-    productLinks.push(
-      getProductLink(
-        ProductKey.JIRA_SERVICE_DESK,
-        licenseInformationData.products[ProductKey.JIRA_SERVICE_DESK],
-      ),
-    );
-  }
-
-  return productLinks;
+  const filteredProducts = productRecommendations.filter(
+    product => !getProductIsActive(licenseInformationData, product.productKey),
+  );
+  return filteredProducts
+    .slice(0, PRODUCT_RECOMMENDATION_LIMIT)
+    .map(product => getProductLink(product.productKey));
 };
 
 export const getCustomLinkItems = (

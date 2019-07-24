@@ -1,5 +1,47 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.11
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 8.0.10
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 8.0.9
+
+- Updated dependencies [18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+  - @atlaskit/build-utils@2.2.2
+  - @atlaskit/button@13.0.14
+  - @atlaskit/lozenge@9.0.2
+
+## 8.0.8
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/droplist@9.0.8
+  - @atlaskit/item@10.0.5
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/icon@19.0.0
+
+## 8.0.7
+
+### Patch Changes
+
+- [patch][6fe990954c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fe990954c):
+
+  Adjusted the offset prop for Popper to not use the deprecated format
+
 ## 8.0.6
 
 ### Patch Changes

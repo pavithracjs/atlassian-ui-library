@@ -9,10 +9,17 @@ import {
   UserPermissionProvider,
   XFlowSettingsProvider,
 } from './instance-data-providers';
-import { Permissions } from '../types';
+import { RecommendationsEngineProvider } from './recommendations-provider';
+import {
+  Permissions,
+  RecommendationsEngineResponse,
+  RecommendationsFeatureFlags,
+} from '../types';
 
 interface CommonDataProviderProps {
   cloudId: string;
+  isUserCentric: boolean;
+  recommendationsFeatureFlags?: RecommendationsFeatureFlags;
   children: (
     props: {
       recentContainers: ProviderResult<RecentContainersResponse>;
@@ -20,42 +27,60 @@ interface CommonDataProviderProps {
       managePermission: ProviderResult<boolean>;
       addProductsPermission: ProviderResult<boolean>;
       isXFlowEnabled: ProviderResult<boolean>;
+      productRecommendations: ProviderResult<RecommendationsEngineResponse>;
     },
   ) => React.ReactElement<any>;
 }
 
-export default ({ cloudId, children }: CommonDataProviderProps) => (
-  <RecentContainersProvider cloudId={cloudId}>
-    {recentContainers => (
-      <LicenseInformationProvider cloudId={cloudId}>
-        {licenseInformation => (
-          <UserPermissionProvider
-            cloudId={cloudId}
-            permissionId={Permissions.MANAGE}
-          >
-            {managePermission => (
-              <UserPermissionProvider
-                cloudId={cloudId}
-                permissionId={Permissions.ADD_PRODUCTS}
-              >
-                {addProductsPermission => (
-                  <XFlowSettingsProvider cloudId={cloudId}>
-                    {isXFlowEnabled =>
-                      children({
-                        recentContainers,
-                        licenseInformation,
-                        managePermission,
-                        addProductsPermission,
-                        isXFlowEnabled,
-                      })
-                    }
-                  </XFlowSettingsProvider>
-                )}
-              </UserPermissionProvider>
-            )}
-          </UserPermissionProvider>
-        )}
-      </LicenseInformationProvider>
-    )}
-  </RecentContainersProvider>
-);
+export default ({
+  cloudId,
+  children,
+  isUserCentric,
+  recommendationsFeatureFlags,
+}: CommonDataProviderProps) => {
+  return (
+    <RecentContainersProvider cloudId={cloudId}>
+      {recentContainers => (
+        <LicenseInformationProvider
+          cloudId={cloudId}
+          isUserCentric={isUserCentric}
+        >
+          {licenseInformation => (
+            <UserPermissionProvider
+              cloudId={cloudId}
+              permissionId={Permissions.MANAGE}
+            >
+              {managePermission => (
+                <UserPermissionProvider
+                  cloudId={cloudId}
+                  permissionId={Permissions.ADD_PRODUCTS}
+                >
+                  {addProductsPermission => (
+                    <XFlowSettingsProvider cloudId={cloudId}>
+                      {isXFlowEnabled => (
+                        <RecommendationsEngineProvider
+                          featureFlags={recommendationsFeatureFlags}
+                        >
+                          {productRecommendations =>
+                            children({
+                              recentContainers,
+                              licenseInformation,
+                              managePermission,
+                              addProductsPermission,
+                              isXFlowEnabled,
+                              productRecommendations,
+                            })
+                          }
+                        </RecommendationsEngineProvider>
+                      )}
+                    </XFlowSettingsProvider>
+                  )}
+                </UserPermissionProvider>
+              )}
+            </UserPermissionProvider>
+          )}
+        </LicenseInformationProvider>
+      )}
+    </RecentContainersProvider>
+  );
+};

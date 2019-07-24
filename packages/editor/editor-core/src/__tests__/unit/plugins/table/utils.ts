@@ -11,13 +11,10 @@ import {
 import {
   getColumnsWidths,
   getRowHeights,
-  isColumnInsertButtonVisible,
-  isRowInsertButtonVisible,
   isColumnDeleteButtonVisible,
   isRowDeleteButtonVisible,
   getColumnDeleteButtonParams,
   getRowDeleteButtonParams,
-  getColumnsParams,
   getRowsParams,
   getColumnClassNames,
   getRowClassNames,
@@ -51,7 +48,7 @@ describe('table plugin: utils', () => {
         const columnsWidths = getColumnsWidths(editorView);
         columnsWidths.forEach(width => {
           expect(typeof width).toEqual('number');
-          expect(width > 0).toBe(true);
+          expect(width && width > 0).toBe(true);
         });
       });
     });
@@ -69,10 +66,7 @@ describe('table plugin: utils', () => {
             ),
           );
           const columnsWidths = getColumnsWidths(editorView);
-          columnsWidths.forEach(width => {
-            expect(typeof width).toEqual('number');
-            expect(width > 0).toBe(true);
-          });
+          expect(columnsWidths).toEqual([1, undefined, 1]);
         });
       });
     });
@@ -118,264 +112,6 @@ describe('table plugin: utils', () => {
             expect(typeof height).toEqual('number');
             expect(height > 0).toBe(true);
           });
-        });
-      });
-    });
-  });
-
-  describe('#isColumnInsertButtonVisible', () => {
-    describe('when selection is a TextSelection', () => {
-      it('should return true', () => {
-        const { editorView } = editor(
-          doc(p('text'), table()(tr(tdCursor, tdEmpty, tdEmpty))),
-        );
-        for (let i = 0; i < 2; i++) {
-          expect(
-            isColumnInsertButtonVisible(i, editorView.state.selection),
-          ).toBe(true);
-        }
-      });
-    });
-    describe('when selection is a CellSelection', () => {
-      describe('when no columns are fully selected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, td({})(p('{cell>}b3'))),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isColumnInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
-        });
-      });
-
-      describe('when first column is selected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-                tr(td({})(p('{cell>}c1')), tdEmpty, tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isColumnInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
-        });
-      });
-
-      describe('when two columns are selected', () => {
-        it('should return false for second column', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, td({})(p('{cell>}c2')), tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            if (i === 1) {
-              expect(
-                isColumnInsertButtonVisible(i, editorView.state.selection),
-              ).toBe(false);
-            } else {
-              expect(
-                isColumnInsertButtonVisible(i, editorView.state.selection),
-              ).toBe(true);
-            }
-          }
-        });
-      });
-      describe('when three columns are selected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, td({})(p('{cell>}c3')), tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isColumnInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
-        });
-      });
-      describe('when table is selected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, td({})(p('{cell>}c3'))),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isColumnInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
-        });
-      });
-    });
-  });
-
-  describe('#isRowInsertButtonVisible', () => {
-    describe('when selection is a TextSelection', () => {
-      it('should return true', () => {
-        const { editorView } = editor(
-          doc(
-            p('text'),
-            table()(
-              tr(tdCursor, tdEmpty),
-              tr(tdEmpty, tdEmpty),
-              tr(tdEmpty, tdEmpty),
-            ),
-          ),
-        );
-        for (let i = 0; i < 2; i++) {
-          expect(isRowInsertButtonVisible(i, editorView.state.selection)).toBe(
-            true,
-          );
-        }
-      });
-    });
-    describe('when selection is a CellSelection', () => {
-      describe('when no rows are fully selected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, td({})(p('{cell>}c2')), tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isRowInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
-        });
-      });
-
-      describe('when first row is selected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, td({})(p('{cell>}a3'))),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isRowInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
-        });
-      });
-
-      describe('when two rows are selected', () => {
-        it('should return false for second row', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, td({})(p('{cell>}b3'))),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            if (i === 1) {
-              expect(
-                isRowInsertButtonVisible(i, editorView.state.selection),
-              ).toBe(false);
-            } else {
-              expect(
-                isRowInsertButtonVisible(i, editorView.state.selection),
-              ).toBe(true);
-            }
-          }
-        });
-      });
-      describe('when three rows are selected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, td({})(p('{cell>}c3'))),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isRowInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
-        });
-      });
-      describe('when table is elected', () => {
-        it('should return true', () => {
-          const { editorView } = editor(
-            doc(
-              p('text'),
-              table()(
-                tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, tdEmpty),
-                tr(tdEmpty, tdEmpty, td({})(p('{cell>}c3'))),
-              ),
-            ),
-          );
-
-          for (let i = 0; i < 2; i++) {
-            expect(
-              isRowInsertButtonVisible(i, editorView.state.selection),
-            ).toBe(true);
-          }
         });
       });
     });
@@ -632,33 +368,6 @@ describe('table plugin: utils', () => {
           expect(indexes).toEqual([0, 2]);
           expect(top > 0).toBe(true);
         });
-      });
-    });
-  });
-
-  describe('#getColumnsParams', () => {
-    describe('columnsWidths = [100, 150, 200]', () => {
-      it('should return consecutive indexes', () => {
-        const columnsWidths = [100, 150, 200];
-        const columns = getColumnsParams(columnsWidths);
-        columns.forEach((column, index) => {
-          expect(column.startIndex).toEqual(index);
-          expect(column.endIndex).toEqual(index + 1);
-          expect(column.width).toEqual(columnsWidths[index]);
-        });
-      });
-    });
-    describe('columnsWidths = [100, ,150, ,200]', () => {
-      it('should return correct indexes', () => {
-        const columnsWidths = [100, , 150, , 200];
-        const columns = getColumnsParams(columnsWidths);
-        const expectedIndexes = [0, 2, 4, 5];
-        for (let i = 0, count = columns.length; i < count; i++) {
-          const column = columns[i];
-          expect(column.startIndex).toEqual(expectedIndexes[i]);
-          expect(column.endIndex).toEqual(expectedIndexes[i + 1]);
-          expect(column.width).toEqual(columnsWidths[expectedIndexes[i]]);
-        }
       });
     });
   });

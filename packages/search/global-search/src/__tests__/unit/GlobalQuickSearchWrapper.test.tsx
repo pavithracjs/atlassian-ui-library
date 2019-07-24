@@ -6,26 +6,19 @@ import {
 } from '../../api/prefetchResults';
 
 import { ConfluenceQuickSearchContainer } from '../../components/confluence/ConfluenceQuickSearchContainer';
-import GlobalQuickSearch from '../../components/GlobalQuickSearchWrapper';
-import { HomeQuickSearchContainer } from '../../components/home/HomeQuickSearchContainer';
 import { JiraQuickSearchContainer } from '../../components/jira/JiraQuickSearchContainer';
 import PrefetchedResultsProvider from '../../components/PrefetchedResultsProvider';
 import { mountWithIntl } from './helpers/_intl-enzyme-test-helper';
 import { QuickSearchContext } from '../../api/types';
+import { DEFAULT_AB_TEST } from '../../api/CrossProductSearchClient';
 
 jest.mock('../../api/prefetchResults');
 jest.mock('../../api/CachingConfluenceClient');
-jest.mock('../../components/AbTestProvider', () => ({
-  ABTestProvider: ({ children }: any) => children({}),
+jest.doMock('../../components/AbTestProvider', () => ({
+  ABTestProvider: ({ children }: any) => children(DEFAULT_AB_TEST),
 }));
 
-it('should render the home container with context home', () => {
-  const wrapper = mountWithIntl(
-    <GlobalQuickSearch cloudId="123" context="home" />,
-  );
-
-  expect(wrapper.find(HomeQuickSearchContainer).exists()).toBe(true);
-});
+import GlobalQuickSearch from '../../components/GlobalQuickSearchWrapper';
 
 it('should render the confluence container with context confluence', () => {
   const wrapper = mountWithIntl(
@@ -127,6 +120,7 @@ describe('advanced search callback', () => {
         preventDefault: expect.any(Function),
         originalEvent: event,
         searchSessionId: 'sessionId',
+        spaces: [],
       });
     });
 

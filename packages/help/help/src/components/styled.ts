@@ -11,68 +11,6 @@ export const truncate = (width: string = '100%') => css`
   width: ${width};
 `;
 
-export const CloseButton = styled.button`
-  color: ${colors.N100};
-  cursor: pointer;
-  width: 28px;
-  height: 28px;
-  border: none;
-  padding: 0;
-  background-color: transparent;
-
-  &:hover {
-    background-color: ${colors.N30A};
-  }
-
-  & > span {
-    line-height: 2;
-    height: auto;
-    width: auto;
-  }
-`;
-
-export const HelpHeader = styled.div`
-  flex: 1;
-  overflow: auto;
-  flex-direction: column;
-  border-bottom: 2px solid ${colors.N30};
-  padding: ${gridSize()}px ${gridSize() * 3}px;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: stretch;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-`;
-
-export const HelpHeaderText = styled.div`
-  color: ${colors.N100};
-  font-weight: bold;
-  height: 28px;
-  line-height: 28px;
-  width: 100%;
-`;
-
-export const BackButton = styled.button`
-  color: ${colors.N100};
-  align-items: center;
-  background: 0;
-  border: 0;
-  cursor: pointer;
-  display: flex;
-  font-size: inherit;
-  height: 28px;
-  justify-content: left;
-  line-height: 28px;
-  padding: 0;
-  font-weight: bold;
-`;
-
-export const BackButtonText = styled.span`
-  height: 28px;
-`;
-
 export const HelpBody = styled.div`
   flex: 1;
   flex-direction: column;

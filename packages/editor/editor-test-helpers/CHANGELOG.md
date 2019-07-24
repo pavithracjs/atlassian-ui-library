@@ -1,5 +1,173 @@
 # @atlaskit/editor-test-helpers
 
+## 9.11.2
+
+### Patch Changes
+
+- [patch][0bb88234e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0bb88234e6):
+
+  Upgrade prosemirror-view to 1.9.12
+
+## 9.11.1
+
+### Patch Changes
+
+- [patch][ec8066a555](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec8066a555):
+
+  Upgrade `@types/prosemirror-view` Typescript definitions to latest 1.9.x API
+
+## 9.11.0
+
+### Minor Changes
+
+- [minor][d53c3e989f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d53c3e989f):
+
+  Add selectCell helper
+
+## 9.10.1
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 9.10.0
+
+### Minor Changes
+
+- [minor][c0ba9ee289](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0ba9ee289):
+
+  set viewMediaClientConfig when properties change in MediaSingle node
+
+  This fixes [ED-7269] + [FEF-8938]: issue with images not loading when the page transition from view to edit mode
+
+## 9.9.4
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 9.9.3
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 9.9.2
+
+### Patch Changes
+
+- [patch][979464019f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/979464019f):
+
+  ED-7073: fixed table clear cell not working (caused by `prosemirror-utils@0.9.3`)
+
+## 9.9.1
+
+### Patch Changes
+
+- [patch][13ca42c394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13ca42c394):
+
+  # use getAuthFromContext from media when a file if pasted from a different collection
+
+  Now products can provide auth using **getAuthFromContext** on MediaClientConfig:
+
+  ```
+  import {MediaClientConfig} from '@atlaskit/media-core'
+  import Editor from '@atlaskit/editor-core'
+
+  const viewMediaClientConfig: MediaClientConfig = {
+    authProvider // already exists
+    getAuthFromContext(contextId: string) {
+      // here products can return auth for external pages.
+      // in case of copy & paste on Confluence, they can provide read token for
+      // files on the source collection
+    }
+  }
+  const mediaProvider: = {
+    viewMediaClientConfig
+  }
+
+  <Editor {...otherNonRelatedProps} media={{provider: mediaProvider}} />
+  ```
+
+## 9.9.0
+
+### Minor Changes
+
+- [minor][f60618b0f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f60618b0f0):
+
+  ED-5844 Adding media link UI to editor
+
+## 9.8.0
+
+### Minor Changes
+
+- [minor][4a22a774a6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a22a774a6):
+
+  AUX-36 Add update support for extension handler
+
+## 9.7.0
+
+### Minor Changes
+
+- [minor][d217a12e31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d217a12e31):
+
+  ED-7056: Update prosemirror-utils, this enables us to replace selected nodes while inserting
+  ED-6668: Adds a selected ring to all extensions
+
+## 9.6.0
+
+### Minor Changes
+
+- [minor][143dcb8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/143dcb8704):
+
+  ED-2362 Add keyboard shortcuts for headings and normal text
+
+## 9.5.2
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/editor-common@39.13.2
+  - @atlaskit/editor-core@112.25.3
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/smart-card@12.2.3
+  - @atlaskit/icon@19.0.0
+
+## 9.5.1
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
+## 9.5.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
+## 9.4.2
+
+### Patch Changes
+
+- [patch][bb64fcedcb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bb64fcedcb):
+
+  uploadContext and viewContext fields of MediaProvider (part of Editor and Renderer props) are deprecated. New fields uploadMediaClientConfig and viewMediaClientConfig should be used from now on.
+
 ## 9.4.1
 
 - Updated dependencies [393fb6acd2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/393fb6acd2):

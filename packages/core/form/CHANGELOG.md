@@ -1,5 +1,63 @@
 # @atlaskit/form
 
+## 6.1.5
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/toggle@8.0.0
+
+## 6.1.4
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/datetime-picker@8.0.9
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/select@10.0.0
+
+## 6.1.3
+
+- Updated dependencies [19d9d0f13f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19d9d0f13f):
+  - @atlaskit/datetime-picker@8.0.8
+
+## 6.1.2
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/modal-dialog@10.0.8
+  - @atlaskit/radio@3.0.7
+  - @atlaskit/select@9.1.10
+  - @atlaskit/checkbox@9.0.0
+
+## 6.1.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/calendar@8.0.3
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/datetime-picker@8.0.7
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/droplist@9.0.8
+  - @atlaskit/field-radio-group@6.0.4
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/multi-select@13.0.7
+  - @atlaskit/radio@3.0.6
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/select@9.1.8
+  - @atlaskit/single-select@8.0.6
+  - @atlaskit/textfield@2.0.3
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/icon@19.0.0
+
+## 6.1.0
+
+### Minor Changes
+
+- [minor][7bbf303d01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bbf303d01):
+
+  - Improved form validation user experience when field validation and submission validation used together on the same field
+  - Improved form validation docs
+
 ## 6.0.7
 
 ### Patch Changes

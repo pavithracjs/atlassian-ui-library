@@ -33,7 +33,7 @@ export interface LinkDefinition {
 }
 
 export const link: MarkSpec = {
-  excludes: COLOR,
+  excludes: `${LINK} ${COLOR}`, // ED-5844 No multiple links in media node
   group: LINK,
   attrs: {
     href: {},
@@ -53,10 +53,6 @@ export const link: MarkSpec = {
             ? JSON.parse(dom.getAttribute('__confluenceMetadata') || '')
             : undefined,
         };
-
-        if (href.slice(-1) === '/') {
-          href = href.slice(0, -1);
-        }
 
         if (isSafeUrl(href)) {
           attrs.href = normalizeUrl(href);

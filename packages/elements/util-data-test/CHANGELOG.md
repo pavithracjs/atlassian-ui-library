@@ -1,5 +1,52 @@
 # @atlaskit/util-data-test
 
+## 12.7.0
+
+### Minor Changes
+
+- [minor][06cfea0870](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06cfea0870):
+
+  TEAMS-549 : Adding capability to show a spotlight in Fabric Editor
+
+## 12.6.3
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 12.6.2
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 12.6.1
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 12.6.0
+
+### Minor Changes
+
+- [minor][2d1c3db523](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d1c3db523):
+
+  FS-3986 - Support analytics for mention hydration.
+
 ## 12.5.0
 
 ### Minor Changes

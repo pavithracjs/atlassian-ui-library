@@ -17,13 +17,16 @@ function buildStats(outputPath, statsGroups) {
       const packageVersion = require(`${pathToPkg}/package.json`).version;
       const packageName = require(`${pathToPkg}/package.json`).name;
       const packageTeam = require(`${pathToPkg}/package.json`).atlaskit.team;
-      // CHANGED_PACKAGES return only the packages that have changed since master
-      // and do not include the dependents if the flag --dependent='direct' is set.
-      // The goal of this code below is to check if the tool runs against the main changed packages or the dependents.
-      const changedPkg = process.env.CHANGED_PACKAGES
-        ? JSON.parse(process.env.CHANGED_PACKAGES).filter(pkg =>
-            pathToPkg.includes(pkg),
-          ).length > 0
+      // CHANGED_MAIN_PACKAGES return only the packages that have changed since master.
+      // CHANGED_PACKAGES - use for the main scripts - can return either only the packages that have changed since master or
+      // those packages and includes their dependents if the flag --dependent='direct' is set.
+      // The goal of this code below is to check if the tool runs against the main changed package or a dependent.
+      const mainPkgs = process.env.CHANGED_MAIN_PACKAGES
+        ? JSON.parse(process.env.CHANGED_MAIN_PACKAGES)
+            .map(pkg => path.join(process.cwd(), pkg))
+            .includes(pathToPkg)
+          ? true
+          : false
         : false;
 
       if (!fExists(filePath)) return acc;
@@ -32,7 +35,7 @@ function buildStats(outputPath, statsGroups) {
         team: packageTeam,
         package: packageName,
         version: packageVersion,
-        dependent: !changedPkg,
+        dependent: !mainPkgs,
         id: stat.id,
         name: stat.name,
         threshold: stat.threshold,

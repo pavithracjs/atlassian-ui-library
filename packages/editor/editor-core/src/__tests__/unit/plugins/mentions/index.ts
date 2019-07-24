@@ -21,6 +21,15 @@ import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss'
 import collabPlugin from '../../../../plugins/collab-edit';
 import mentionPlugin from '../../../../plugins/mentions';
 
+let mockRegisterTeamMention = jest.fn();
+
+jest.mock('@atlaskit/mention', () => ({
+  __esModule: true,
+  MentionSpotlightController: {
+    registerTeamMention: () => mockRegisterTeamMention(),
+  },
+}));
+
 describe('mentionTypeahead', () => {
   const createEditor = createEditorFactory();
   const sessionIdRegex = /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/i;
@@ -30,6 +39,9 @@ describe('mentionTypeahead', () => {
     objectId: 'object-id',
     childObjectId: 'child-object-id',
   };
+
+  // all team ids in `packages/elements/util-data-test/json-data/mention-data.json`
+  const allTeamIds = ['team-1', 'team-2', 'team-3', 'team-4'];
 
   type TestDependencies = {
     editorView: EditorView;
@@ -73,10 +85,21 @@ describe('mentionTypeahead', () => {
       };
       editorPlugins = [
         collabPlugin,
-        mentionPlugin(undefined, editorProps.collabEdit),
+        mentionPlugin(
+          undefined,
+          editorProps.collabEdit,
+          options.mentionInsertDisplayName,
+        ),
       ];
       mentionProviderConfig = {
         mentionNameResolver,
+      };
+    }
+
+    if (options && options.mentionInsertDisplayName) {
+      editorProps = {
+        ...editorProps,
+        mentionInsertDisplayName: options.mentionInsertDisplayName,
       };
     }
 
@@ -326,6 +349,21 @@ describe('mentionTypeahead', () => {
         );
         expect(event.fire).toHaveBeenCalledTimes(1);
         expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
 
@@ -343,6 +381,7 @@ describe('mentionTypeahead', () => {
               duration: expect.any(Number),
               queryLength: 3,
               spaceInQuery: false,
+              // assert this attribute below
               userIds: expect.any(Array),
               sessionId: expect.stringMatching(sessionIdRegex),
             }),
@@ -350,6 +389,21 @@ describe('mentionTypeahead', () => {
         );
         expect(event.fire).toHaveBeenCalledTimes(4);
         expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
   });
@@ -413,7 +467,13 @@ describe('mentionTypeahead', () => {
               ...commonAttrsTypeAhead,
               duration: 200,
               userIds: null,
-              teams: expect.any(Array),
+              teams: expect.arrayContaining(
+                allTeamIds.map(teamId => ({
+                  teamId,
+                  includesYou: expect.anything(),
+                  memberCount: expect.anything(),
+                })),
+              ),
             }),
           }),
         );
@@ -431,6 +491,21 @@ describe('mentionTypeahead', () => {
             }),
           }),
         );
+
+        // check there is no team id in attributes.userIds
+        // note that `expect.not.arrayContaining` is not supported in current Jest version yet.
+        // @ts-ignore
+        const renderedCall = createAnalyticsEvent.mock.calls.find(
+          (
+            call: any, // tslint:disable-line no-any
+          ) =>
+            call[0] &&
+            call[0].action === 'rendered' &&
+            call[0].actionSubject === 'mentionTypeahead',
+        );
+        renderedCall[0].attributes.userIds.forEach((userId: string) => {
+          expect(allTeamIds.includes(userId)).toEqual(false);
+        });
       }),
     );
   });
@@ -495,9 +570,18 @@ describe('mentionTypeahead', () => {
       );
 
       it(
-        'should not insert mention name when collabEdit.sanitizePrivateContent is true',
+        'should not register a team mention while selecting a user',
+        withMentionQuery('here', ({ editorView, mentionProvider }) => {
+          // select a user
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+          expect(mockRegisterTeamMention).not.toHaveBeenCalled();
+        }),
+      );
+
+      it(
+        'should not insert mention name when collabEdit.sanitizePrivateContent is true and mentionInsertDisplayName is true',
         withMentionQuery(
-          'helga',
+          'april',
           ({ editorView, mockMentionNameResolver }) => {
             selectCurrentItem()(editorView.state, editorView.dispatch);
 
@@ -506,8 +590,8 @@ describe('mentionTypeahead', () => {
             );
             expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledTimes(1);
             expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledWith(
-              '9',
-              'Helga Wetherbee',
+              '6',
+              'Dorene Rieger',
             );
 
             // expect text in mention to be empty due to sanitization
@@ -515,7 +599,40 @@ describe('mentionTypeahead', () => {
               doc(
                 p(
                   mention({
-                    id: '9',
+                    id: '6',
+                    text: '',
+                  })(),
+                  ' ',
+                ),
+              ),
+            );
+          },
+          { sanitizePrivateContent: true, mentionInsertDisplayName: true },
+        ),
+      );
+
+      it(
+        'should not insert mention name when collabEdit.sanitizePrivateContent is true and mentionInsertDisplayName is falsy',
+        withMentionQuery(
+          'april',
+          ({ editorView, mockMentionNameResolver }) => {
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            expect(mockMentionNameResolver!.lookupName).toHaveBeenCalledTimes(
+              0,
+            );
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledTimes(1);
+            expect(mockMentionNameResolver!.cacheName).toHaveBeenCalledWith(
+              '6',
+              'April',
+            );
+
+            // expect text in mention to be empty due to sanitization
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  mention({
+                    id: '6',
                     text: '',
                   })(),
                   ' ',
@@ -524,6 +641,54 @@ describe('mentionTypeahead', () => {
             );
           },
           { sanitizePrivateContent: true },
+        ),
+      );
+
+      it(
+        'should insert mention name when collabEdit.sanitizePrivateContent is falsy and mentionInsertDisplayName true',
+        withMentionQuery(
+          'april',
+          ({ editorView }) => {
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            // expect text in mention to be empty due to sanitization
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  mention({
+                    id: '6',
+                    text: '@Dorene Rieger',
+                  })(),
+                  ' ',
+                ),
+              ),
+            );
+          },
+          { mentionInsertDisplayName: true },
+        ),
+      );
+
+      it(
+        'should insert nickname when collabEdit.sanitizePrivateContent is falsy and mentionInsertDisplayName falsy',
+        withMentionQuery(
+          'april',
+          ({ editorView }) => {
+            selectCurrentItem()(editorView.state, editorView.dispatch);
+
+            // expect text in mention to be empty due to sanitization
+            expect(editorView.state.doc).toEqualDocument(
+              doc(
+                p(
+                  mention({
+                    id: '6',
+                    text: '@April',
+                  })(),
+                  ' ',
+                ),
+              ),
+            );
+          },
+          {},
         ),
       );
     });
@@ -558,6 +723,15 @@ describe('mentionTypeahead', () => {
               ),
             ),
           );
+        }),
+      );
+
+      it(
+        'should register a team mention ',
+        withMentionQuery('Team Beta', ({ editorView }) => {
+          // select Team Beta team
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+          expect(mockRegisterTeamMention).toHaveBeenCalled();
         }),
       );
 

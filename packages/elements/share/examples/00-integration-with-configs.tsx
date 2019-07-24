@@ -21,6 +21,10 @@ import {
   ShareResponse,
   User,
 } from '../src/types';
+import {
+  ShortenResponse,
+  UrlShortenerClient,
+} from '../src/clients/AtlassianUrlShortenerClient';
 
 type UserData = {
   avatarUrl?: string;
@@ -129,11 +133,24 @@ const triggerButtonStyleOptions: Array<{
   { label: 'text-only', value: 'text-only' },
 ];
 
+const triggerButtonTooltipPositionOptions: Array<{
+  label: string;
+  value: State['triggerButtonTooltipPosition'];
+}> = [
+  { label: 'top', value: 'top' },
+  { label: 'left', value: 'left' },
+  { label: 'bottom', value: 'bottom' },
+  { label: 'right', value: 'right' },
+  { label: 'mouse', value: 'mouse' },
+];
+
 type ExampleState = {
   customButton: boolean;
   customTitle: boolean;
+  customTooltipText: boolean;
   escapeOnKeyPress: boolean;
   restrictionMessage: boolean;
+  useUrlShortener: boolean;
 };
 
 type State = ConfigResponse & Partial<ShareDialogContainerProps> & ExampleState;
@@ -142,18 +159,40 @@ const renderCustomTriggerButton: RenderCustomTriggerButton = ({ onClick }) => (
   <button onClick={onClick}>Custom Button</button>
 );
 
+class MockUrlShortenerClient implements UrlShortenerClient {
+  count = 0;
+
+  public isSupportedProduct(): boolean {
+    return true;
+  }
+
+  public shorten(): Promise<ShortenResponse> {
+    return new Promise<ShortenResponse>(resolve => {
+      this.count++;
+      setTimeout(() => {
+        resolve({
+          shortUrl: `https://foo.atlassian.net/short#${this.count}`,
+        });
+      }, 350);
+    });
+  }
+}
+
 export default class Example extends React.Component<{}, State> {
   state: State = {
     allowComment: true,
     allowedDomains: ['atlassian.com'],
     customButton: false,
     customTitle: false,
+    customTooltipText: false,
     restrictionMessage: false,
+    useUrlShortener: false,
     dialogPlacement: dialogPlacementOptions[2].value,
     escapeOnKeyPress: true,
     mode: modeOptions[0].value,
     triggerButtonAppearance: triggerButtonAppearanceOptions[0].value,
     triggerButtonStyle: triggerButtonStyleOptions[0].value,
+    triggerButtonTooltipPosition: triggerButtonTooltipPositionOptions[0].value,
   };
 
   key: number = 0;
@@ -189,10 +228,12 @@ export default class Example extends React.Component<{}, State> {
     });
   };
 
-  client: ShareClient = {
+  shareClient: ShareClient = {
     getConfig: this.getConfig,
     share: this.share,
   };
+
+  urlShortenerClient: UrlShortenerClient = new MockUrlShortenerClient();
 
   render() {
     const {
@@ -200,12 +241,15 @@ export default class Example extends React.Component<{}, State> {
       allowedDomains,
       customButton,
       customTitle,
+      customTooltipText,
       dialogPlacement,
       escapeOnKeyPress,
       mode,
       triggerButtonAppearance,
       triggerButtonStyle,
+      triggerButtonTooltipPosition,
       restrictionMessage,
+      useUrlShortener,
     } = this.state;
 
     this.key++;
@@ -218,7 +262,8 @@ export default class Example extends React.Component<{}, State> {
               <WrapperWithMarginTop>
                 <ShareDialogContainer
                   key={`key-${this.key}`}
-                  client={this.client}
+                  shareClient={this.shareClient}
+                  urlShortenerClient={this.urlShortenerClient}
                   cloudId="12345-12345-12345-12345"
                   dialogPlacement={dialogPlacement}
                   loadUserOptions={loadUserOptions}
@@ -230,15 +275,19 @@ export default class Example extends React.Component<{}, State> {
                   shareAri="ari"
                   shareContentType="issue"
                   shareFormTitle={customTitle ? 'Custom Title' : undefined}
-                  shareLink={window.location.href}
                   shareTitle="My Share"
                   shouldCloseOnEscapePress={escapeOnKeyPress}
                   showFlags={showFlags}
                   triggerButtonAppearance={triggerButtonAppearance}
                   triggerButtonStyle={triggerButtonStyle}
+                  triggerButtonTooltipText={
+                    customTooltipText ? 'Custom Tooltip Text' : undefined
+                  }
+                  triggerButtonTooltipPosition={triggerButtonTooltipPosition}
                   bottomMessage={
                     restrictionMessage ? <RestrictionMessage /> : null
                   }
+                  useUrlShortener={useUrlShortener}
                 />
               </WrapperWithMarginTop>
               <h4>Options</h4>
@@ -283,11 +332,29 @@ export default class Example extends React.Component<{}, State> {
                   />
                 </WrapperWithMarginTop>
                 <WrapperWithMarginTop>
+                  Custom Trigger Button Tooltip Text
+                  <Toggle
+                    isChecked={customTooltipText}
+                    onChange={() =>
+                      this.setState({ customTooltipText: !customTooltipText })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
                   Show Restriction Message
                   <Toggle
                     isChecked={restrictionMessage}
                     onChange={() =>
                       this.setState({ restrictionMessage: !restrictionMessage })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Use an URL shortener
+                  <Toggle
+                    isChecked={useUrlShortener}
+                    onChange={() =>
+                      this.setState({ useUrlShortener: !useUrlShortener })
                     }
                   />
                 </WrapperWithMarginTop>
@@ -336,6 +403,21 @@ export default class Example extends React.Component<{}, State> {
                     options={triggerButtonAppearanceOptions}
                     onChange={(option: any) =>
                       this.setState({ triggerButtonAppearance: option.value })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Trigger Button Tooltip Position
+                  <Select
+                    value={{
+                      label: triggerButtonTooltipPosition,
+                      value: triggerButtonTooltipPosition,
+                    }}
+                    options={triggerButtonTooltipPositionOptions}
+                    onChange={(option: any) =>
+                      this.setState({
+                        triggerButtonTooltipPosition: option.value,
+                      })
                     }
                   />
                 </WrapperWithMarginTop>

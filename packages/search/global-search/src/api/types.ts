@@ -12,9 +12,16 @@ export enum Scope {
   UserConfluence = 'urs.user-confluence',
 }
 
-export type QuickSearchContext = 'jira' | 'confluence' | 'home';
+export type QuickSearchContext = 'jira' | 'confluence';
 
 type ConfluenceItemContentType = 'page' | 'blogpost';
+
+interface Container {
+  title: string;
+  id?: string; // This has to be optional because Confluence doesn't return it
+  displayUrl?: string;
+}
+
 export interface ConfluenceItem {
   title: string; // this is highlighted
   baseUrl: string;
@@ -26,10 +33,7 @@ export interface ConfluenceItem {
       id: string;
     };
   };
-  container: {
-    title: string; // this is unhighlighted
-    displayUrl: string;
-  };
+  container: Container;
   space?: {
     key: string; // currently used as instance-unique ID
     icon: {
@@ -37,6 +41,7 @@ export interface ConfluenceItem {
     };
   };
   iconCssClass: string; // icon-file-* for attachments, otherwise not needed
+  friendlyLastModified: string; // e.g. "about 6 hours ago"
 }
 
 export interface JiraItemV1 {
@@ -60,8 +65,7 @@ export interface JiraItemAvatar {
 
 export interface JiraItemAttributes {
   '@type': 'issue' | 'board' | 'project' | 'filter';
-  containerId?: string;
-  containerName?: string;
+  container?: Container;
   ownerId?: string;
   ownerName?: string;
   key?: string;

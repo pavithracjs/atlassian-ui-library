@@ -50,6 +50,7 @@ import {
   annotationPlugin,
   analyticsPlugin,
   customAutoformatPlugin,
+  feedbackDialogPlugin,
 } from '../plugins';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -125,7 +126,11 @@ export default function createPluginsList(
 
   if (props.mentionProvider) {
     plugins.push(
-      mentionsPlugin(createAnalyticsEvent, props.sanitizePrivateContent),
+      mentionsPlugin(
+        createAnalyticsEvent,
+        props.sanitizePrivateContent,
+        props.mentionInsertDisplayName,
+      ),
     );
   }
 
@@ -139,6 +144,10 @@ export default function createPluginsList(
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
     plugins.push(tasksAndDecisionsPlugin);
+  }
+
+  if (props.feedbackInfo) {
+    plugins.push(feedbackDialogPlugin(props.feedbackInfo));
   }
 
   if (props.allowHelpDialog) {
@@ -181,7 +190,9 @@ export default function createPluginsList(
   }
 
   if (props.allowExtension) {
-    plugins.push(extensionPlugin);
+    plugins.push(
+      extensionPlugin({ breakoutEnabled: props.appearance === 'full-page' }),
+    );
   }
 
   if (props.macroProvider) {
@@ -232,6 +243,7 @@ export default function createPluginsList(
   // UI only plugins
   plugins.push(
     insertBlockPlugin({
+      allowTables: !!props.allowTables,
       insertMenuItems: props.insertMenuItems,
       horizontalRuleEnabled: props.allowRule,
       nativeStatusSupported: !statusMenuDisabled,

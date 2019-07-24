@@ -42,9 +42,7 @@ type GetNoOptionMessageDescriptor = (
   emailValidity: EmailValidationResponse,
 ) => MessageDescriptor;
 
-type GetNoOptionMessage = (
-  { inputValue }: { inputValue: string },
-) => any | null;
+type GetNoOptionMessage = (params: { inputValue: string }) => any;
 
 const getNoOptionsMessageDescriptor: GetNoOptionMessageDescriptor = (
   mode: ConfigResponseMode | '',

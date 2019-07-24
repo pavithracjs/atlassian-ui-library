@@ -7,8 +7,9 @@ import {
   grabResizeHandle,
   clickFirstCell,
   toggleBreakout,
+  scrollTable,
+  unselectTable,
 } from '../../__helpers/page-objects/_table';
-import { TableCssClassName as ClassName } from '../../../plugins/table/types';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 
 describe('Snapshot Test: table resizing', () => {
@@ -38,36 +39,46 @@ describe('Snapshot Test: table resizing', () => {
       await snapshot(page);
     });
 
-    it('overflow table', async () => {
-      await resizeColumn(page, { colIdx: 2, amount: 500, row: 2 });
-      await snapshot(page);
+    describe('Overflow Table', () => {
+      beforeEach(async () => {
+        // Go to overflow
+        await resizeColumn(page, { colIdx: 2, amount: 500, row: 2 });
+      });
+      test('should overflow table when resizing over the available size', async () => {
+        await snapshot(page);
+      });
 
-      // Scroll to the end of col we are about to resize
-      // Its in overflow.
-      await page.evaluate((className: typeof ClassName) => {
-        const element = document.querySelector(
-          `.${className.TABLE_NODE_WRAPPER}`,
-        ) as HTMLElement;
+      test('should keep overflow when resizing an table with overflow', async () => {
+        // Scroll to the end of col we are about to resize
+        // Its in overflow.
+        await scrollTable(page, 1);
+        await resizeColumn(page, { colIdx: 2, amount: -550, row: 2 });
+        // Scroll back so we can see the result of our resize.
+        await scrollTable(page, 0);
 
-        if (element) {
-          element.scrollTo(element.offsetWidth, 0);
-        }
-      }, ClassName);
+        await snapshot(page);
+      });
 
-      await resizeColumn(page, { colIdx: 2, amount: -550, row: 2 });
+      describe('unselected', () => {
+        beforeEach(async () => {
+          await unselectTable(page);
+        });
 
-      // Scroll back so we can see the result of our resize.
-      await page.evaluate((className: typeof ClassName) => {
-        const element = document.querySelector(
-          `.${className.TABLE_NODE_WRAPPER}`,
-        ) as HTMLElement;
+        test('should show overflow in both side when scroll is in the middle', async () => {
+          await scrollTable(page, 0.5); // Scroll to the middle of the table
+          await snapshot(page);
+        });
 
-        if (element) {
-          element.scrollTo(0, 0);
-        }
-      }, ClassName);
+        test('should show only left overflow when scroll is in the right', async () => {
+          await scrollTable(page, 1); // Scroll to the right of the table
+          await snapshot(page);
+        });
 
-      await snapshot(page);
+        test('should show only right overflow when scroll is in the left', async () => {
+          await scrollTable(page, 0); // Scroll to the left of the table
+          await snapshot(page);
+        });
+      });
     });
   });
 });

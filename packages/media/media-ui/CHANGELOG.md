@@ -1,5 +1,99 @@
 # @atlaskit/media-ui
 
+## 11.5.0
+
+### Minor Changes
+
+- [minor][1c806932b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c806932b3):
+
+  Following exported members are introduced: `findParentByClassname` function, `InactivityDetector` component to help with inactivity detection and hiding controls in inline video player and media viewer, `WithShowControlMethodProp` interface to combine type expectations.
+
+## 11.4.7
+
+### Patch Changes
+
+- [patch][2d48433f3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d48433f3c):
+
+  ED-7278: Adjust smart link icon height, when link is truncated the text after the link should now wrap correctly
+
+## 11.4.6
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
+## 11.4.5
+
+### Patch Changes
+
+- [patch][515427ad91](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/515427ad91):
+
+  fix: forbidden and unauthorised smartlinks act like <a> tags and no longer truncate their URLs
+
+## 11.4.4
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 11.4.3
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 11.4.2
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/checkbox@9.0.0
+
+## 11.4.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/avatar-group@4.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/icon@19.0.0
+
+## 11.4.0
+
+### Minor Changes
+
+- [minor][53b1e6a783](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/53b1e6a783):
+
+  Add a download button to inline video player to allow download of video binary
+
 ## 11.3.0
 
 ### Minor Changes

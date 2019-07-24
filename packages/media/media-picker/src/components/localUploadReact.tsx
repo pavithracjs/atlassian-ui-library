@@ -8,6 +8,7 @@ import {
   UploadProcessingEventPayload,
   UploadsStartEventPayload,
   UploadStatusUpdateEventPayload,
+  UploadEventPayloadMap,
 } from '../domain/uploadEvent';
 import { UploadComponent } from './component';
 import { UploadParams } from '../domain/config';
@@ -26,7 +27,8 @@ export type LocalUploadComponentBaseProps = {
 };
 
 export class LocalUploadComponentReact<
-  Props extends LocalUploadComponentBaseProps
+  Props extends LocalUploadComponentBaseProps,
+  M extends UploadEventPayloadMap = UploadEventPayloadMap
 > extends Component<Props, {}> {
   protected readonly uploadService: UploadService;
   protected uploadComponent = new UploadComponent();
@@ -79,9 +81,9 @@ export class LocalUploadComponentReact<
     this.uploadService.on('file-upload-error', this.onUploadError);
   }
 
-  public cancel(uniqueIdentifier?: string): void {
+  public cancel = (uniqueIdentifier?: string): void => {
     this.uploadService.cancel(uniqueIdentifier);
-  }
+  };
 
   public setUploadParams(uploadParams: UploadParams): void {
     this.uploadService.setUploadParams(uploadParams);

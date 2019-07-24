@@ -10,9 +10,11 @@ import linkify from '../linkify-md-plugin';
 import { escapeLinks } from '../util';
 import { transformSliceToRemoveOpenBodiedExtension } from '../../extension/actions';
 import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
-import { linkifyContent } from '../../hyperlink/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
-import { transformSliceToRemoveOpenTable } from '../../table/utils';
+import {
+  transformSliceToRemoveOpenTable,
+  transformSliceToCorrectEmptyTableCells,
+} from '../../table/utils';
 import { transformSliceToAddTableHeaders } from '../../table/commands';
 import { handleMacroAutoConvert, handleMention } from '../handlers';
 import {
@@ -32,6 +34,10 @@ import {
 import { PasteTypes } from '../../analytics';
 import { insideTable } from '../../../utils';
 import { CardOptions } from '../../card';
+import {
+  transformSliceToCorrectMediaWrapper,
+  unwrapNestedMediaElements,
+} from '../../media/utils/media-common';
 export const stateKey = new PluginKey('pastePlugin');
 
 export const md = MarkdownIt('zero', { html: false });
@@ -194,9 +200,6 @@ export function createPlugin(
 
         // finally, handle rich-text copy-paste
         if (isRichText) {
-          // linkify the text where possible
-          slice = linkifyContent(state.schema)(slice);
-
           // run macro autoconvert prior to other conversions
           if (
             handleMacroAutoConvert(text, slice, cardOptions)(
@@ -268,6 +271,10 @@ export function createPlugin(
 
         slice = transformSingleLineCodeBlockToCodeMark(slice, schema);
 
+        slice = transformSliceToCorrectMediaWrapper(slice, schema);
+
+        slice = transformSliceToCorrectEmptyTableCells(slice, schema);
+
         if (
           slice.content.childCount &&
           slice.content.lastChild!.type === schema.nodes.codeBlock
@@ -289,6 +296,11 @@ export function createPlugin(
           html = html.replace(/white-space:pre/g, '');
           html = html.replace(/white-space:pre-wrap/g, '');
         }
+
+        if (html.indexOf('<img ') >= 0) {
+          html = unwrapNestedMediaElements(html);
+        }
+
         return html;
       },
     },

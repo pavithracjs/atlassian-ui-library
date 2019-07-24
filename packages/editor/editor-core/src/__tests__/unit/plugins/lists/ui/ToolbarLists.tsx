@@ -24,7 +24,12 @@ import { DispatchAnalyticsEvent } from '../../../../../plugins/analytics';
 function clickToolbarOption(toolbarOption: ReactWrapper, title: string) {
   toolbarOption
     .find(ToolbarButton)
-    .filterWhere(n => n.prop('title')!.indexOf(title) > -1)
+    .filterWhere(toolbarButton =>
+      toolbarButton
+        .find('Icon')
+        .prop('label')!
+        .includes(title),
+    )
     .find('button')
     .simulate('click');
 }

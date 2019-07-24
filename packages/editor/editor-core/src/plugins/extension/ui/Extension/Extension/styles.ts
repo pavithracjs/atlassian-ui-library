@@ -1,11 +1,8 @@
 import styled from 'styled-components';
 import { colors, borderRadius, themed } from '@atlaskit/theme';
-import { blockNodesVerticalMargin } from '@atlaskit/editor-common';
 import { Wrapper as WrapperDefault, padding } from '../styles';
 
 export const Wrapper = styled(WrapperDefault)`
-  margin: ${blockNodesVerticalMargin} 0;
-
   .extension-overflow-wrapper:not(.with-body) {
     overflow-x: auto;
   }

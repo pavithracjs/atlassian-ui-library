@@ -1,5 +1,174 @@
 # @atlaskit/share
 
+## 0.6.0
+
+### Minor Changes
+
+- [minor][bc0d3bf0b2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bc0d3bf0b2):
+
+  added tooltip support for elements/share
+
+## 0.5.16
+
+### Patch Changes
+
+- [patch][ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):
+
+  popper has been converted to Typescript. Typescript consumers will now get static type safety. Flow types are no longer provided. No API or behavioural changes.
+
+## 0.5.15
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/form@6.1.5
+  - @atlaskit/toggle@8.0.0
+
+## 0.5.14
+
+### Patch Changes
+
+- [patch][8fb78b50c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fb78b50c8):
+
+  Error boundary added with analytics, various cleanups
+
+## 0.5.13
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 0.5.12
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 0.5.11
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 0.5.10
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 0.5.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/form@6.1.4
+  - @atlaskit/inline-dialog@12.0.5
+  - @atlaskit/user-picker@4.0.13
+  - @atlaskit/select@10.0.0
+
+## 0.5.8
+
+### Patch Changes
+
+- [patch][540b9336e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/540b9336e9):
+
+  FS-4008 add shareeAction
+
+## 0.5.7
+
+### Patch Changes
+
+- [patch][adcabaf0cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/adcabaf0cd):
+
+  FS-4025 add contentType attribute to copyShareLink event
+
+## 0.5.6
+
+### Patch Changes
+
+- [patch][469b504df8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/469b504df8):
+
+  feat: better short url analytics
+
+## 0.5.5
+
+### Patch Changes
+
+- [patch][d6d7086f3f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6d7086f3f):
+
+  feat: intelligently default to current page URL, even if there is a PWA navigation
+
+## 0.5.4
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/form@6.1.1
+  - @atlaskit/flag@12.0.10
+  - @atlaskit/inline-dialog@12.0.3
+  - @atlaskit/select@9.1.8
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/editor-test-helpers@9.5.2
+  - @atlaskit/user-picker@4.0.12
+  - @atlaskit/icon@19.0.0
+
+## 0.5.3
+
+### Patch Changes
+
+- [patch][5212dd363e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5212dd363e):
+
+  feat: new analytics around URL shortening (+internal refactors)
+
+## 0.5.2
+
+### Patch Changes
+
+- [patch][db798d5186](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db798d5186):
+
+  fix: handle an "is mounted" path
+
+## 0.5.1
+
+### Patch Changes
+
+- [patch][b53dd55ae8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b53dd55ae8):
+
+  fix: invalid property being used in URL shortener client
+
+## 0.5.0
+
+### Minor Changes
+
+- [minor][dc965edbe6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc965edbe6):
+
+  BREAKING new optional URL shortening feature (prop change needed)
+
 ## 0.4.17
 
 ### Patch Changes

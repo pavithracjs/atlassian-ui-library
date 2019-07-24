@@ -7,7 +7,7 @@ import {
   MediaFileArtifacts,
 } from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
-import { CustomMediaPlayer } from '@atlaskit/media-ui';
+import { CustomMediaPlayer, InactivityDetector } from '@atlaskit/media-ui';
 import { InlinePlayerWrapper } from './styled';
 import { CardDimensions, defaultImageCardDimensions } from '..';
 import { CardLoading } from '../utils/lightCards/cardLoading';
@@ -158,6 +158,13 @@ export class InlinePlayer extends Component<
     };
   };
 
+  onDownloadClick = async () => {
+    const { mediaClient, identifier } = this.props;
+    const { id, collectionName } = identifier;
+
+    mediaClient.file.downloadBinary(await id, undefined, collectionName);
+  };
+
   render() {
     const { onClick, dimensions, selected } = this.props;
     const { fileSrc } = this.state;
@@ -172,12 +179,17 @@ export class InlinePlayer extends Component<
         selected={selected}
         onClick={onClick}
       >
-        <CustomMediaPlayer
-          type="video"
-          src={fileSrc}
-          isAutoPlay
-          isHDAvailable={false}
-        />
+        <InactivityDetector>
+          {() => (
+            <CustomMediaPlayer
+              type="video"
+              src={fileSrc}
+              isAutoPlay
+              isHDAvailable={false}
+              onDownloadClick={this.onDownloadClick}
+            />
+          )}
+        </InactivityDetector>
       </InlinePlayerWrapper>
     );
   }

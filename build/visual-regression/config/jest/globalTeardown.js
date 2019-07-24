@@ -20,7 +20,7 @@ async function globalTeardown() {
   } else {
     // Connect to docker puppeteer to close browser
     const wsEndpoint = await getDockerWsEndpoint();
-    dockerBrowser = await puppeteer.connect({
+    const dockerBrowser = await puppeteer.connect({
       browserWSEndpoint: wsEndpoint,
       ignoreHTTPSErrors: true,
     });

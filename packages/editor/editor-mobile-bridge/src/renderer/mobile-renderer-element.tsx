@@ -93,9 +93,11 @@ export default class MobileRenderer extends React.Component<
       if (!this.state.document) {
         return null;
       }
-
+      // Temporarily opting out of the default oauth2 flow for phase 1 of Smart Links
+      // See https://product-fabric.atlassian.net/browse/FM-2149 for details.
+      const authFlow = 'disabled';
       return (
-        <SmartCardProvider client={cardClient}>
+        <SmartCardProvider client={cardClient} authFlow={authFlow}>
           <ReactRenderer
             onComplete={() => {
               if (
@@ -137,6 +139,13 @@ export default class MobileRenderer extends React.Component<
                       occurrenceKey,
                     });
                   }
+                },
+              },
+              mention: {
+                onClick: (profileId: string, alias: string) => {
+                  toNativeBridge.call('mentionBridge', 'onMentionClick', {
+                    profileId,
+                  });
                 },
               },
               smartCard: {

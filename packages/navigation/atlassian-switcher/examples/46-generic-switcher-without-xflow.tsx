@@ -63,11 +63,7 @@ class GenericSwitcherExample extends React.Component {
     return (
       <div style={{ padding: '2rem' }}>
         <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
-          <AtlassianSwitcher
-            product="trusted-admin"
-            cloudId="some-cloud-id"
-            triggerXFlow={this.onTriggerXFlow}
-          />
+          <AtlassianSwitcher product="trusted-admin" cloudId="some-cloud-id" />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
           Open drawer

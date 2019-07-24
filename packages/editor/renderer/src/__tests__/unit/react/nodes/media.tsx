@@ -8,14 +8,15 @@ import { sleep } from '@atlaskit/media-test-helpers';
 import {
   FileIdentifier,
   ExternalImageIdentifier,
-  ContextFactory,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 
 import Media from '../../../../react/nodes/media';
 import {
   MediaCard,
   MediaCardInternal,
   getListOfIdentifiersFromDoc,
+  getClipboardAttrs,
+  CardWrapper,
 } from '../../../../ui/MediaCard';
 import * as doc from '../../../../../examples/helper/media-layout.adf.json';
 
@@ -27,6 +28,81 @@ describe('Media', () => {
       id: '5556346b-b081-482b-bc4a-4faca8ecd2de',
       collection: 'MediaServicesSample',
     },
+  };
+  const mediaProvider = {
+    viewMediaClientConfig: {
+      authProvider: jest.fn(),
+    },
+  };
+
+  const createFileIdentifier = (index = 0): FileIdentifier => ({
+    id: `b9d94b5f-e06c-4a80-bfda-00000000000${index}`,
+    mediaItemType: 'file',
+    collectionName: 'MediaServicesSample',
+  });
+
+  const createExternalIdentifier = (index = 0): ExternalImageIdentifier => ({
+    dataURI: `https://example.com/image${index}.png`,
+    mediaItemType: 'external-image',
+    name: `https://example.com/image${index}.png`,
+  });
+
+  const mountFileCard = async (identifier: FileIdentifier) => {
+    const card = mount(
+      <MediaCard
+        type="file"
+        id={await identifier.id}
+        collection={identifier.collectionName}
+        mediaProvider={mediaProvider as any}
+        rendererContext={{
+          adDoc: {
+            content: [
+              {
+                attrs: {
+                  collection: identifier.collectionName,
+                  height: 580,
+                  id: await identifier.id,
+                  type: 'file',
+                  width: 1021,
+                },
+                type: 'media',
+              },
+            ],
+          },
+        }}
+      />,
+    );
+    card.setState({ imageStatus: 'complete' });
+    card.update();
+    return card;
+  };
+
+  const mountExternalCard = (indentifier: ExternalImageIdentifier) => {
+    const card = mount(
+      <MediaCard
+        type="external"
+        url={indentifier.dataURI}
+        mediaProvider={mediaProvider as any}
+        rendererContext={{
+          adDoc: {
+            content: [
+              {
+                attrs: {
+                  height: 580,
+                  url: indentifier.dataURI,
+                  type: 'external',
+                  width: 1021,
+                },
+                type: 'media',
+              },
+            ],
+          },
+        }}
+      />,
+    );
+    card.setState({ imageStatus: 'complete' });
+    card.update();
+    return card;
   };
 
   it('should render a media component with the proper props', async () => {
@@ -62,9 +138,13 @@ describe('Media', () => {
       );
       const cardWithoutOnClick = mount(<MediaCard type="file" id="1" />);
 
-      // force media context to be resolved
-      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
-      cardWithoutOnClick.find(MediaCardInternal).setState({ context: {} });
+      // force media mediaClientConfig to be resolved
+      cardWithOnClick
+        .find(MediaCardInternal)
+        .setState({ mediaClientConfig: {} });
+      cardWithoutOnClick
+        .find(MediaCardInternal)
+        .setState({ mediaClientConfig: {} });
 
       expect(
         cardWithOnClick.find(Card).prop('shouldOpenMediaViewer'),
@@ -80,8 +160,10 @@ describe('Media', () => {
         <MediaCard type="file" id="1" eventHandlers={{ media: { onClick } }} />,
       );
 
-      // force media context to be resolved
-      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
+      // force media mediaClientConfig to be resolved
+      cardWithOnClick
+        .find(MediaCardInternal)
+        .setState({ mediaClientConfig: {} });
       const cardComponent = cardWithOnClick.find(Card);
       const event: CardEvent = {
         event: {} as any,
@@ -100,8 +182,10 @@ describe('Media', () => {
         <MediaCard type="file" id="1" eventHandlers={{ media: { onClick } }} />,
       );
 
-      // force media context to be resolved
-      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
+      // force media mediaClientConfig to be resolved
+      cardWithOnClick
+        .find(MediaCardInternal)
+        .setState({ mediaClientConfig: {} });
       const cardComponent = cardWithOnClick.find(Card);
       const event: CardEvent = {
         event: {} as any,
@@ -114,85 +198,7 @@ describe('Media', () => {
       expect(onClick).not.toHaveBeenCalled();
     });
 
-    describe('populates identifier cache for the page context', () => {
-      const mediaProvider = {
-        viewContext: ContextFactory.create({
-          authProvider: jest.fn(),
-        }),
-      };
-
-      const createFileIdentifier = (index = 0): FileIdentifier => ({
-        id: `b9d94b5f-e06c-4a80-bfda-00000000000${index}`,
-        mediaItemType: 'file',
-        collectionName: 'MediaServicesSample',
-      });
-
-      const createExternalIdentifier = (
-        index = 0,
-      ): ExternalImageIdentifier => ({
-        dataURI: `https://example.com/image${index}.png`,
-        mediaItemType: 'external-image',
-        name: `https://example.com/image${index}.png`,
-      });
-
-      const mountFileCard = async (identifier: FileIdentifier) => {
-        const card = mount(
-          <MediaCard
-            type="file"
-            id={await identifier.id}
-            collection={identifier.collectionName}
-            mediaProvider={mediaProvider as any}
-            rendererContext={{
-              adDoc: {
-                content: [
-                  {
-                    attrs: {
-                      collection: identifier.collectionName,
-                      height: 580,
-                      id: await identifier.id,
-                      type: 'file',
-                      width: 1021,
-                    },
-                    type: 'media',
-                  },
-                ],
-              },
-            }}
-          />,
-        );
-        card.setState({ imageStatus: 'complete' });
-        card.update();
-        return card;
-      };
-
-      const mountExternalCard = (indentifier: ExternalImageIdentifier) => {
-        const card = mount(
-          <MediaCard
-            type="external"
-            url={indentifier.dataURI}
-            mediaProvider={mediaProvider as any}
-            rendererContext={{
-              adDoc: {
-                content: [
-                  {
-                    attrs: {
-                      height: 580,
-                      url: indentifier.dataURI,
-                      type: 'external',
-                      width: 1021,
-                    },
-                    type: 'media',
-                  },
-                ],
-              },
-            }}
-          />,
-        );
-        card.setState({ imageStatus: 'complete' });
-        card.update();
-        return card;
-      };
-
+    describe('populates identifier cache for the page mediaClientConfig', () => {
       it('should have a mediaViewerDataSource if doc is passed for a file card', async () => {
         const fileIdentifier = createFileIdentifier();
         const mediaFileCard = await mountFileCard(fileIdentifier);
@@ -314,6 +320,77 @@ describe('Media', () => {
 
         mediaFileCard1.unmount();
         mediaExternalCard0.unmount();
+      });
+    });
+
+    it('should add media attrs for copy and paste', async () => {
+      const fileIdentifier = createFileIdentifier();
+      const mediaFileCard = await mountFileCard(fileIdentifier);
+
+      await sleep();
+      mediaFileCard.update();
+      expect(mediaFileCard.find(CardWrapper)).toHaveLength(1);
+      expect(mediaFileCard.find(CardWrapper).props()).toEqual(
+        expect.objectContaining({
+          'data-context-id': undefined,
+          'data-type': 'file',
+          'data-node-type': 'media',
+          'data-width': undefined,
+          'data-height': undefined,
+          'data-id': fileIdentifier.id,
+          'data-collection': 'MediaServicesSample',
+        }),
+      );
+    });
+  });
+
+  describe('getClipboardAttrs()', () => {
+    it('should return all needed properties for copy & paste', () => {
+      expect(getClipboardAttrs({ id: '1', collection: 'collection' })).toEqual({
+        'data-context-id': undefined,
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': undefined,
+        'data-height': undefined,
+        'data-id': '1',
+        'data-collection': 'collection',
+      });
+    });
+
+    it('should get width and height from cardDimensions', () => {
+      expect(
+        getClipboardAttrs({
+          id: '1',
+          cardDimensions: { height: '40px', width: '50px' },
+        }),
+      ).toEqual({
+        'data-context-id': undefined,
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': 50,
+        'data-height': 40,
+        'data-id': '1',
+        'data-collection': undefined,
+      });
+    });
+
+    it('should return context-id', () => {
+      expect(
+        getClipboardAttrs({
+          id: '1',
+          contextIdentifierProvider: {
+            objectId: 'object-id',
+            containerId: 'container',
+          },
+        }),
+      ).toEqual({
+        'data-context-id': 'object-id',
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': undefined,
+        'data-height': undefined,
+        'data-id': '1',
+        'data-collection': undefined,
       });
     });
   });

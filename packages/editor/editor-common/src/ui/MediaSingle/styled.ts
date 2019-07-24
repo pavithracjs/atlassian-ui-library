@@ -171,9 +171,20 @@ const Wrapper: React.ComponentClass<
     line-height: 0;
   }
 
+  /* Editor */
   & > div {
     position: absolute;
     height: 100%;
+  }
+
+  /* Renderer */
+  [data-node-type='media'] {
+    position: static !important;
+
+    > div {
+      position: absolute;
+      height: 100%;
+    }
   }
 `;
 

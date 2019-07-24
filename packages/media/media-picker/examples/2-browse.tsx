@@ -2,38 +2,37 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  mediaPickerAuthProvider,
   defaultCollectionName,
   defaultMediaPickerCollectionName,
+  mediaPickerAuthProvider,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
-import { MediaPicker, Browser, UploadParams, BrowserConfig } from '../src';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
+import { UploadParams, BrowserConfig } from '../src';
+import { Browser } from '../src/';
 import { FileState, MediaClient } from '@atlaskit/media-client';
 import { MediaClientConfig } from '@atlaskit/media-core';
 
 export interface BrowserWrapperState {
   collectionName: string;
   authEnvironment: AuthEnvironment;
-  fileBrowser?: Browser;
+  mediaClient?: MediaClient;
+  browseConfig?: BrowserConfig;
 }
 
 class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   dropzoneContainer?: HTMLDivElement;
+  private browseFn: Function = () => {};
 
   state: BrowserWrapperState = {
     authEnvironment: 'client',
     collectionName: defaultMediaPickerCollectionName,
   };
 
-  async componentWillMount() {
-    await this.createBrowse();
-  }
-
-  async createBrowse() {
+  componentDidMount() {
     const mediaClientConfig: MediaClientConfig = {
       authProvider: mediaPickerAuthProvider(),
     };
@@ -45,19 +44,13 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
       fileExtensions: ['image/jpeg', 'image/png', 'video/mp4'],
       uploadParams,
     };
-    if (this.state.fileBrowser) {
-      this.state.fileBrowser.teardown();
-    }
-    const fileBrowser = await MediaPicker(
-      'browser',
-      mediaClientConfig,
-      browseConfig,
-    );
 
     const mediaClient = new MediaClient(mediaClientConfig);
     mediaClient.on('file-added', this.onFileAdded);
+
     this.setState({
-      fileBrowser,
+      mediaClient,
+      browseConfig,
     });
   }
 
@@ -66,23 +59,28 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   };
 
   onOpen = () => {
-    const { fileBrowser } = this.state;
-    if (fileBrowser) {
-      fileBrowser.browse();
+    if (this.browseFn) {
+      this.browseFn();
     }
   };
 
   onCollectionChange = (e: React.SyntheticEvent<HTMLElement>) => {
     const { innerText: collectionName } = e.currentTarget;
-    const { fileBrowser } = this.state;
-    if (!fileBrowser) {
+    const { browseConfig } = this.state;
+    if (!browseConfig) {
       return;
     }
 
-    this.setState({ collectionName }, () => {
-      fileBrowser.setUploadParams({
-        collection: collectionName,
-      });
+    const uploadParams: UploadParams = {
+      collection: collectionName,
+    };
+
+    this.setState({
+      collectionName,
+      browseConfig: {
+        ...browseConfig,
+        uploadParams,
+      },
     });
   };
 
@@ -92,8 +90,20 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     this.setState({ authEnvironment: authEnvironment as AuthEnvironment });
   };
 
+  onBrowseFn = (browse: () => void) => {
+    this.browseFn = browse;
+  };
+
   render() {
-    const { collectionName, authEnvironment, fileBrowser } = this.state;
+    const {
+      collectionName,
+      authEnvironment,
+      mediaClient,
+      browseConfig,
+    } = this.state;
+    if (!browseConfig || !mediaClient) {
+      return null;
+    }
 
     return (
       <PopupContainer>
@@ -114,7 +124,18 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
             <DropdownItem onClick={this.onAuthTypeChange}>asap</DropdownItem>
           </DropdownMenu>
         </PopupHeader>
-        {fileBrowser ? <UploadPreviews picker={fileBrowser} /> : null}
+        <UploadPreviews>
+          {({ onUploadsStart, onError, onPreviewUpdate }) => (
+            <Browser
+              onBrowseFn={this.onBrowseFn}
+              mediaClientConfig={mediaClient.config}
+              config={browseConfig}
+              onUploadsStart={onUploadsStart}
+              onError={onError}
+              onPreviewUpdate={onPreviewUpdate}
+            />
+          )}
+        </UploadPreviews>
       </PopupContainer>
     );
   }

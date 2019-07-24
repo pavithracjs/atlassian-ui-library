@@ -11,11 +11,16 @@ import {
   Props as ConfluenceProps,
 } from '../../../components/confluence/ConfluenceQuickSearchContainer';
 
-import QuickSearchContainer, {
+import {
+  BaseConfluenceQuickSearchContainer,
+  BaseJiraQuickSearchContainerJira,
   Props as QuickSearchContainerProps,
   SearchResultProps,
 } from '../../../components/common/QuickSearchContainer';
-import { noResultsConfluenceClient } from '../mocks/_mockConfluenceClient';
+import {
+  noResultsConfluenceClient,
+  mockAutocompleteClient,
+} from '../mocks/_mockConfluenceClient';
 import { noResultsCrossProductSearchClient } from '../mocks/_mockCrossProductSearchClient';
 import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
 import { mockLogger } from '../mocks/_mockLogger';
@@ -27,11 +32,11 @@ import {
 } from '../_test-util';
 import {
   ContentType,
-  GenericResultMap,
   ConfluenceResultsMap,
   ResultsGroup,
   AnalyticsType,
   ResultType,
+  JiraResultsMap,
 } from '../../../model/Result';
 import { messages } from '../../../messages';
 import * as SearchResultUtils from '../../../components/SearchResultsUtil';
@@ -112,6 +117,8 @@ const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
   disableJiraPreQueryPeopleSearch: false,
   enablePreQueryFromAggregator: false,
   searchExtensionsEnabled: false,
+  isAutocompleteEnabled: false,
+  complexSearchExtensionsEnabled: false,
 };
 
 const renderComponent = (product: QuickSearchContext) => {
@@ -119,11 +126,12 @@ const renderComponent = (product: QuickSearchContext) => {
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
     jiraClient: mockNoResultJiraClient(),
+    autocompleteClient: mockAutocompleteClient,
     logger,
     createAnalyticsEvent: createAnalyticsEventSpy,
     confluenceClient: noResultsConfluenceClient,
+    confluenceUrl: 'mockConfluenceUrl',
     features: DEFAULT_FEATURES,
-    firePrivateAnalyticsEvent: undefined,
     onAdvancedSearch: undefined,
     linkComponent: undefined,
     referralContextIdentifiers: undefined,
@@ -214,17 +222,19 @@ const assertAdvancedSearchGroup = (
 
 const commonProps = {
   retrySearch: jest.fn(),
+  onFilterChanged: jest.fn(),
   latestSearchQuery: 'query',
   isError: false,
   isLoading: false,
   keepPreQueryState: false,
   searchMore: () => {},
+  currentFilters: [],
 };
 
 const getSearchAndRecentItemsForJira = (
   sessionId: string,
   extraProps = {},
-): SearchResultProps<GenericResultMap> => {
+): SearchResultProps<JiraResultsMap> => {
   return {
     ...commonProps,
     ...extraProps,
@@ -232,6 +242,7 @@ const getSearchAndRecentItemsForJira = (
     searchResults: {
       objects: getIssues(sessionId),
       containers: getBoards(sessionId),
+      people: [],
     },
     recentItems: {
       objects: [],
@@ -426,15 +437,18 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
         getAdvancedSearchUrlSpy.mockReturnValue(
           product === 'jira' ? 'jiraUrl' : 'confUrl',
         );
-        const quickSearchContainer = wrapper.find(QuickSearchContainer);
         searchResultsComponent =
           product === 'jira'
-            ? (quickSearchContainer.props() as QuickSearchContainerProps<
-                GenericResultMap
+            ? (wrapper
+                .find(BaseJiraQuickSearchContainerJira)
+                .props() as QuickSearchContainerProps<
+                JiraResultsMap
               >).getSearchResultsComponent(
                 getSearchAndRecentItemsForJira(sessionId),
               )
-            : (quickSearchContainer.props() as QuickSearchContainerProps<
+            : (wrapper
+                .find(BaseConfluenceQuickSearchContainer)
+                .props() as QuickSearchContainerProps<
                 ConfluenceResultsMap
               >).getSearchResultsComponent(
                 getSearchAndRecentItemsForConfluence(sessionId),
@@ -509,9 +523,9 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
 describe('jira', () => {
   it('should not render lozenge for pre-query screen', () => {
     const wrapper = renderComponent('jira');
-    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+    const quickSearchContainer = wrapper.find(BaseJiraQuickSearchContainerJira);
     const searchResultsComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
-      GenericResultMap
+      JiraResultsMap
     >).getSearchResultsComponent(
       getSearchAndRecentItemsForJira('abc', { latestSearchQuery: '' }),
     );

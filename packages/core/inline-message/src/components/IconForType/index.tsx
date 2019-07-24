@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { IconType } from '../../types';
 import IconWrapper from './styledIconForType';
 import { typesMapping } from '../../constants';

@@ -34,31 +34,18 @@ import {
   a,
   MockMacroProvider,
   createAnalyticsEventMock,
-  RefsNode,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
+import { mention as mentionData } from '@atlaskit/util-data-test';
 import { TextSelection } from 'prosemirror-state';
-import mentionsPlugin from '../../../../plugins/mentions';
-import mediaPlugin from '../../../../plugins/media';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import extensionPlugin from '../../../../plugins/extension';
-import listPlugin from '../../../../plugins/lists';
-import tablesPlugin from '../../../../plugins/table';
-import macroPlugin, {
-  setMacroProvider,
-  MacroAttributes,
-} from '../../../../plugins/macro';
+import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import { panelPlugin, cardPlugin } from '../../../../plugins';
+
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
-import {
-  PASTE_ACTION_SUBJECT_ID,
-  ACTION_SUBJECT_ID,
-} from '../../../../plugins/analytics';
-import { Schema } from 'prosemirror-model';
+import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
 import { CardProvider } from '../../../../plugins/card';
+import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import { EditorProps } from '../../../..';
 
 describe('paste plugins', () => {
@@ -71,23 +58,20 @@ describe('paste plugins', () => {
       createAnalyticsEvent: createAnalyticsEvent as any,
       editorProps: {
         allowAnalyticsGASV3: true,
+        allowExtension: true,
+        allowCodeBlocks: true,
+        allowLists: true,
+        allowPanel: true,
+        allowTasksAndDecisions: true,
+        allowTables: true,
+        mentionProvider: Promise.resolve(
+          mentionData.storyData.resourceProvider,
+        ),
+        macroProvider: Promise.resolve(new MockMacroProvider({})),
+        UNSAFE_cards: {},
+        media: { allowMediaSingle: true },
         ...props,
       },
-      editorPlugins: [
-        mentionsPlugin(
-          createAnalyticsEvent as any,
-          props.sanitizePrivateContent,
-        ),
-        mediaPlugin({ allowMediaSingle: true }),
-        macroPlugin,
-        codeBlockPlugin(),
-        extensionPlugin,
-        listPlugin,
-        panelPlugin,
-        tasksAndDecisionsPlugin,
-        tablesPlugin(),
-        cardPlugin,
-      ],
     });
 
     createAnalyticsEvent.mockClear();
@@ -166,8 +150,47 @@ describe('paste plugins', () => {
                   __fileMimeType: 'image/jpeg',
                 })(),
               ),
-              p(),
             ),
+          );
+        });
+      });
+
+      describe('when pasted inside table', () => {
+        it('should set a GapCursor after it', () => {
+          const { editorView } = editor(doc(table({})(tr(td()(p('{<>}'))))));
+
+          dispatchPasteEvent(editorView, {
+            html: `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div>`,
+          });
+
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table({})(
+                tr(
+                  td()(
+                    mediaSingle({ layout: 'center' })(
+                      media({
+                        id: '9b5c6412-6de0-42cb-837f-bc08c24b4383',
+                        type: 'file',
+                        collection: 'MediaServicesSample',
+                        __fileMimeType: 'image/png',
+                        __fileName: 'image-20190325-222039.png',
+                        __fileSize: 29502,
+                        height: 288,
+                        width: 490,
+                      })(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          const { selection, schema } = editorView.state;
+          expect(selection instanceof GapCursorSelection).toBe(true);
+          expect((selection as GapCursorSelection).side).toBe(Side.RIGHT);
+          expect(selection.$from.nodeBefore!.type).toEqual(
+            schema.nodes.mediaSingle,
           );
         });
       });
@@ -192,7 +215,6 @@ describe('paste plugins', () => {
                     'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
                 })(),
               ),
-              p(),
             ),
           );
         });
@@ -207,7 +229,6 @@ describe('paste plugins', () => {
 
           expect(editorView.state.doc).toEqualDocument(
             doc(
-              p(),
               mediaGroup(
                 media({
                   id: 'af9310df-fee5-459a-a968-99062ecbb756',
@@ -216,10 +237,126 @@ describe('paste plugins', () => {
                   __fileMimeType: 'pdf',
                 })(),
               ),
-              p(),
             ),
           );
         });
+      });
+    });
+
+    describe('pasting mixed text and media', () => {
+      const nestedMediaHTML = `<meta charset='utf-8'><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">, front-end web apps, mobile apps, robots, and many other needs of the JavaScript community.</p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" class="article-body-image-wrapper" style="color: var(--theme-anchor-color, #557de8); text-decoration: none; cursor: zoom-in;"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" alt="npm website screenshot: &quot;build amazing things&quot;" loading="lazy" style="height: auto; position: relative; display: block; margin: auto; left: -6px; max-width: calc(100% + 12px);"></a></p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Interestingly, using npm package</p>`;
+      const multipleNestedMediaHTML = `<meta charset='utf-8'><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">, front-end web apps, mobile apps, robots, and many other needs of the JavaScript community.</p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" class="article-body-image-wrapper" style="color: var(--theme-anchor-color, #557de8); text-decoration: none; cursor: zoom-in;"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" alt="npm website screenshot: &quot;build amazing things&quot;" loading="lazy" style="height: auto; position: relative; display: block; margin: auto; left: -6px; max-width: calc(100% + 12px);"></a></p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" class="article-body-image-wrapper" style="color: var(--theme-anchor-color, #557de8); text-decoration: none; cursor: zoom-in;"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" alt="npm website screenshot: &quot;build amazing things&quot;" loading="lazy" style="height: auto; position: relative; display: block; margin: auto; left: -6px; max-width: calc(100% + 12px);"></a></p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" class="article-body-image-wrapper" style="color: var(--theme-anchor-color, #557de8); text-decoration: none; cursor: zoom-in;"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png" alt="npm website screenshot: &quot;build amazing things&quot;" loading="lazy" style="height: auto; position: relative; display: block; margin: auto; left: -6px; max-width: calc(100% + 12px);"></a></p><p style="margin: 0.95em 0px 1.2em; padding: 0.2em; color: rgb(10, 10, 10); font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;Palatino LT STD&quot;, &quot;Book Antiqua&quot;, Georgia, serif; font-size: 21px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Interestingly, using npm package</p>`;
+      const mediaHTML = `<meta charset='utf-8'><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; padding-top: 20px; padding-bottom: 20px;"><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; font-size: 18px; line-height: 34px;">ulum stress. These signaling pathways regulate a variety of cellular activities including proliferation, differentiation, survival, and death.</p></div><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><img src="https://www.biorbyt.com/pub/media/wysiwyg/MAPK_signaling_pathway.jpg" alt="MAPK Signaling Pathway" style="box-sizing: border-box; border: 0px; height: 854px; max-width: 100%; width: 982px; background-size: cover;"></div><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; margin-bottom: 3rem;"> </div><div style="box-sizing: border-box; color: rgb(51, 51, 51); font-family: droid_sansregular; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 1rem; font-size: 18px; line-height: 34px;">Six subfamilies of MAPKs have been extensively characterized in mammalian cells: ERK1/2, JNKs, ERK 3, p38s, ERK5 and ERK 7/8. Transmission of signals</p></div>`;
+      const hiddenMediaHTML = `<meta charset='utf-8'><p class="ia ib at bv ic b id ie if ig ih ii ij ik il im in" data-selectable-paragraph="" style="box-sizing: inherit; margin: 2em 0px -0.46em; font-weight: 400; color: rgba(0, 0, 0, 0.84); font-style: normal; line-height: 1.58; letter-spacing: -0.004em; font-family: medium-content-serif-font, Georgia, Cambria, &quot;Times New Roman&quot;, Times, serif; font-size: 21px; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">ening after learning my tech is about 35% useful? bourbon, of course! After a couple of silky smooth glasses with ice (sorry purists), I begin researching a solution.</p><figure class="io ip iq ir is dv jd iu iv paragraph-image" style="box-sizing: inherit; margin: 56px 24px 0px; clear: both; max-width: 544px; color: rgba(0, 0, 0, 0.8); font-family: medium-content-sans-serif-font, -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size: medium; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><div class="iy n di iz" style="box-sizing: inherit; display: block; position: relative; margin: auto; background-color: rgba(0, 0, 0, 0.05);"><div class="je n" style="box-sizing: inherit; display: block; padding-bottom: 360px;"><div class="cv iw fd p q fc ab ay v ix" style="box-sizing: inherit; top: 0px; left: 0px; will-change: transform; width: 544px; overflow: hidden; opacity: 0; height: 360px; position: absolute; transition: opacity 100ms ease 400ms; transform: translateZ(0px);"><img alt="" src="https://miro.medium.com/max/60/1*Ul-CDqf6wi-Ee8FQgmBUhQ@2x.jpeg?q=20" class="fd p q fc ab jb jc" width="544" height="360" style="box-sizing: inherit; vertical-align: middle; top: 0px; left: 0px; width: 544px; height: 360px; position: absolute; filter: blur(20px); transform: scale(1.1);"></div><img alt="" class="ln lo fd p q fc ab" width="544" height="360" src="https://miro.medium.com/max/1088/1*Ul-CDqf6wi-Ee8FQgmBUhQ@2x.jpeg" style="box-sizing: inherit; vertical-align: middle; top: 0px; left: 0px; width: 544px; height: 360px; position: absolute; opacity: 1; transition: opacity 400ms ease 0ms;"></div></div></figure><p class="ia ib at bv ic b id ie if ig ih ii ij ik il im in" data-selectable-paragraph="" style="box-sizing: inherit; margin: 2em 0px -0.46em; font-weight: 400; color: rgba(0, 0, 0, 0.84); font-style: normal; line-height: 1.58; letter-spacing: -0.004em; font-family: medium-content-serif-font, Georgia, Cambria, &quot;Times New Roman&quot;, Times, serif; font-size: 21px; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">So to downgrade the iOS devices (phone and tablet), I must connect them to the MacBook and restore via iTunes.</p>`;
+
+      // dev.to nested structure
+      it('hoists nested media nodes in the clipboard html', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        dispatchPasteEvent(editorView, {
+          html: nestedMediaHTML,
+        });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              ', front-end web apps, mobile apps, robots, and many other needs of the JavaScript community.',
+            ),
+            // Left over parent that held the image tag previously
+            p(),
+            mediaSingle()(
+              media({
+                type: 'external',
+                url: `https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png`,
+              })(),
+            ),
+            p('Interestingly, using npm package'),
+          ),
+        );
+      });
+
+      it('hoists multiple nested media nodes in the clipboard html', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        dispatchPasteEvent(editorView, {
+          html: multipleNestedMediaHTML,
+        });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              ', front-end web apps, mobile apps, robots, and many other needs of the JavaScript community.',
+            ),
+            // Left over parent that held the image tag previously
+            p(),
+            mediaSingle()(
+              media({
+                type: 'external',
+                url: `https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png`,
+              })(),
+            ),
+            // Left over parent that held the image tag previously
+            p(),
+            mediaSingle()(
+              media({
+                type: 'external',
+                url: `https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png`,
+              })(),
+            ),
+            // Left over parent that held the image tag previously
+            p(),
+            mediaSingle()(
+              media({
+                type: 'external',
+                url: `https://res.cloudinary.com/practicaldev/image/fetch/s--dW53ZT_i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/9w2isgu5pn9bi5k59eto.png`,
+              })(),
+            ),
+            p('Interestingly, using npm package'),
+          ),
+        );
+      });
+
+      it('should insert external media in a media single', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        dispatchPasteEvent(editorView, {
+          html: mediaHTML,
+        });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              'ulum stress. These signaling pathways regulate a variety of cellular activities including proliferation, differentiation, survival, and death.',
+            ),
+            mediaSingle()(
+              media({
+                type: 'external',
+                url: `https://www.biorbyt.com/pub/media/wysiwyg/MAPK_signaling_pathway.jpg`,
+              })(),
+            ),
+            p(
+              `Six subfamilies of MAPKs have been extensively characterized in mammalian cells: ERK1/2, JNKs, ERK 3, p38s, ERK5 and ERK 7/8. Transmission of signals`,
+            ),
+          ),
+        );
+      });
+
+      // Medium.com use case
+      it('should remove any media not visible in the DOM', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+        dispatchPasteEvent(editorView, {
+          html: hiddenMediaHTML,
+        });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              'ening after learning my tech is about 35% useful? bourbon, of course! After a couple of silky smooth glasses with ice (sorry purists), I begin researching a solution.',
+            ),
+            mediaSingle()(
+              media({
+                type: 'external',
+                url: `https://miro.medium.com/max/1088/1*Ul-CDqf6wi-Ee8FQgmBUhQ@2x.jpeg`,
+              })(),
+            ),
+            p(
+              `So to downgrade the iOS devices (phone and tablet), I must connect them to the MacBook and restore via iTunes.`,
+            ),
+          ),
+        );
       });
     });
 
@@ -1026,330 +1163,160 @@ describe('paste plugins', () => {
         ),
       );
     });
+
+    it('should paste table with cells that dont have paragraphs', () => {
+      const { editorView } = editor(doc(p('{<>}')));
+
+      const html = `<meta charset='utf-8'><meta name="generator" content="Sheets"/><style type="text/css"><!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}--></style><table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" cellpadding="0" dir="ltr" border="1" style="table-layout:fixed;font-size:10pt;font-family:arial,sans,sans-serif;width:0px;border-collapse:collapse;border:none"><colgroup><col width="100"/><col width="86"/></colgroup><tbody><tr style="height:21px;"><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;"></td><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;text-align:right;" data-sheets-value="{&quot;1&quot;:3,&quot;3&quot;:2}">2</td></tr><tr style="height:21px;"><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;text-align:right;" data-sheets-value="{&quot;1&quot;:3,&quot;3&quot;:3}">3</td><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;text-align:right;" data-sheets-value="{&quot;1&quot;:3,&quot;3&quot;:4}">4</td></tr></tbody></table>`;
+
+      dispatchPasteEvent(editorView, { html });
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          table({})(
+            tr(td()(p('')), td()(p('2'))),
+            tr(td()(p('3')), td()(p('4'))),
+          ),
+        ),
+      );
+    });
   });
 
   describe('analytics V3', () => {
-    function testAnalyticsPasteContentInside(
-      doc: (schema: Schema) => RefsNode,
-      actionSubjectId: PASTE_ACTION_SUBJECT_ID,
-    ) {
+    const paragraphDoc = doc(p('Five{<>}'));
+    const orderedListDoc = doc(ol(li(p('Five{<>}'))));
+    const bulletListDoc = doc(ul(li(p('Five{<>}'))));
+    const headingDoc = doc(h1('Five{<>}'));
+    const panelDoc = doc(panel()(p('Five{<>}')));
+    const blockQuoteDoc = doc(blockquote(p('Five{<>}')));
+    const tableCellDoc = doc(
+      table({ isNumberColumnEnabled: true })(
+        tr(th()(p('One')), th()(p('Two'))),
+        tr(td()(p('Th{<>}ree')), td()(p('Four'))),
+        tr(td()(p('Five')), td()(p('Six'))),
+      ),
+    );
+
+    /**
+     * Table with this format
+     * | description | document | actionSubjectId
+     */
+    describe.each([
+      ['paragraph', paragraphDoc, ACTION_SUBJECT_ID.PASTE_PARAGRAPH],
+      ['ordered list', orderedListDoc, ACTION_SUBJECT_ID.PASTE_ORDERED_LIST],
+      ['bullet list', bulletListDoc, ACTION_SUBJECT_ID.PASTE_BULLET_LIST],
+      ['heading', headingDoc, ACTION_SUBJECT_ID.PASTE_HEADING],
+      ['panel', panelDoc, ACTION_SUBJECT_ID.PASTE_PANEL],
+      ['blockquote', blockQuoteDoc, ACTION_SUBJECT_ID.PASTE_BLOCKQUOTE],
+      ['table cell', tableCellDoc, ACTION_SUBJECT_ID.PASTE_TABLE_CELL],
+    ])('paste inside %s', (_, doc, actionSubjectId) => {
       let editorView: EditorView;
-
-      const textPasteEvent = {
-        html: "<meta charset='utf-8'><p data-pm-slice='1 1 []'>hello world</p>",
-      };
-
-      const urlPasteEvent = {
-        html:
-          "<meta charset='utf-8'><p data-pm-slice='1 1 []'><a href='http://www.google.com'>www.google.com</a></p>",
-      };
-
-      const mixedPasteEvent = {
-        html:
-          "<meta charset='utf-8'><ul><li>Hello World</li></ul><p>Hello World</p",
-      };
-
-      const bulletListPasteEvent = {
-        html: "<meta charset='utf-8'><ul><li>Hello World</li></ul>",
-      };
-
-      const orderedListPasteEvent = {
-        html: "<meta charset='utf-8'><ol><li>Hello World</li></ol>",
-      };
-
-      const headingPasteEvent = {
-        html: "<meta charset='utf-8'><h1>Hello World</h1>",
-      };
-
-      const blockQuotePasteEvent = {
-        html:
-          "<meta charset='utf-8'><blockquote><p>Hello World</p></blockquote>",
-      };
-
-      const codePasteEvent = {
-        plain: 'code line 1\ncode line 2',
-        html: '<pre>code line 1\ncode line 2</pre>',
-      };
-
-      const mediaSinglePasteEvent = {
-        html: `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div`,
-      };
-
-      const tablePasteEvent = {
-        html: `<meta charset='utf-8'><table><tbody><tr><td><p>asdasd</p></td></tr></tbody></table>`,
-      };
-
-      const decisionItemPasteEvent = {
-        text: '',
-        html: `<meta charset='utf-8'><ol data-node-type="decisionList" data-decision-list-local-id="2b1a545e-a76d-4b9a-b0a8-c5996e51e32f" style="list-style: none; padding-left: 0"><li data-decision-local-id="f9ad0cf0-42e6-4c62-8076-7981b3fab3f7" data-decision-state="DECIDED"></li></ol>`,
-      };
-
-      const taskItemPasteEvent = {
-        text: ' asdasdasd',
-        html: `<meta charset='utf-8'><ol data-node-type="actionList" data-task-list-local-id="c0060bd1-ee91-47e7-b55e-4f45bd2e0b0b" style="list-style: none; padding-left: 0"><li data-task-local-id="1803f18d-1fad-4998-81e4-644ed22f3929" data-task-state="TODO"> asdasdasd</li></ol>`,
-      };
 
       beforeEach(() => {
         ({ editorView } = editor(doc));
       });
 
-      it('should create analytics event for paste paragraph', () => {
-        dispatchPasteEvent(editorView, textPasteEvent);
+      /**
+       * Table with the given format
+       * | description | contentType | html paste event | plain paste event
+       */
+      test.each([
+        [
+          'a paragraph',
+          'text',
+          "<meta charset='utf-8'><p data-pm-slice='1 1 []'>hello world</p>",
+          'www.google.com',
+        ],
+        [
+          'an url',
+          'url',
+          "<meta charset='utf-8'><p data-pm-slice='1 1 []'><a href='http://www.google.com'>www.google.com</a></p>",
+          'www.google.com',
+        ],
+        [
+          'only an url',
+          'url',
+          "<meta charset='utf-8'><a href='http://www.google.com'>www.google.com</a>",
+          'www.google.com',
+        ],
+        [
+          'a mixed event',
+          'mixed',
+          "<meta charset='utf-8'><ul><li>Hello World</li></ul><p>Hello World</p",
+          'Hello World',
+        ],
+        [
+          'a bullet list',
+          'bulletList',
+          "<meta charset='utf-8'><ul><li>Hello World</li></ul>",
+          'Hello World',
+        ],
+        [
+          'an ordered list',
+          'orderedList',
+          "<meta charset='utf-8'><ol><li>Hello World</li></ol>",
+          'Hello World',
+        ],
+        [
+          'a heading',
+          'heading',
+          "<meta charset='utf-8'><h1>Hello World</h1>",
+          '',
+        ],
+        [
+          'a blockquote',
+          'blockquote',
+          "<meta charset='utf-8'><blockquote><p>Hello World</p></blockquote>",
+          'Hello World',
+        ],
+        [
+          'a code',
+          'codeBlock',
+          '<pre>code line 1\ncode line 2</pre>',
+          'code line 1\ncode line 2',
+        ],
+        [
+          'a media single',
+          'mediaSingle',
+          `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div>`,
+          '',
+        ],
+        [
+          'a table',
+          'table',
+          `<meta charset='utf-8'><table><tbody><tr><td><p>foo</p></td></tr></tbody></table>`,
+          'foo',
+        ],
+        [
+          'a decision list',
+          'decisionList',
+          `<meta charset='utf-8'><ol data-node-type="decisionList" data-decision-list-local-id="2b1a545e-a76d-4b9a-b0a8-c5996e51e32f" style="list-style: none; padding-left: 0"><li data-decision-local-id="f9ad0cf0-42e6-4c62-8076-7981b3fab3f7" data-decision-state="DECIDED">foo</li></ol>`,
+          'foo',
+        ],
+        [
+          'a task item',
+          'taskItem',
+          `<meta charset='utf-8'><ol data-node-type="actionList" data-task-list-local-id="c0060bd1-ee91-47e7-b55e-4f45bd2e0b0b" style="list-style: none; padding-left: 0"><li data-task-local-id="1803f18d-1fad-4998-81e4-644ed22f3929" data-task-state="TODO"> foo</li></ol>`,
+          'foo',
+        ],
+      ])(
+        'should create analytics event for paste %s',
+        (_, content, html, plain = '') => {
+          dispatchPasteEvent(editorView, { html, plain });
 
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'text',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste an url', () => {
-        dispatchPasteEvent(editorView, urlPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'url',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a mixed event', () => {
-        dispatchPasteEvent(editorView, mixedPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'mixed',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a bullet list', () => {
-        dispatchPasteEvent(editorView, bulletListPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'bulletList',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste an ordered list', () => {
-        dispatchPasteEvent(editorView, orderedListPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'orderedList',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a heading', () => {
-        dispatchPasteEvent(editorView, headingPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'heading',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a code', () => {
-        dispatchPasteEvent(editorView, codePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'codeBlock',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a blockquote', () => {
-        dispatchPasteEvent(editorView, blockQuotePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'blockquote',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a media single', () => {
-        dispatchPasteEvent(editorView, mediaSinglePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'mediaSingle',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a table', () => {
-        dispatchPasteEvent(editorView, tablePasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'table',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a decision list', () => {
-        dispatchPasteEvent(editorView, decisionItemPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'decisionList',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-
-      it('should create analytics event for paste a task item', () => {
-        dispatchPasteEvent(editorView, taskItemPasteEvent);
-
-        expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'pasted',
-          actionSubject: 'document',
-          actionSubjectId: actionSubjectId,
-          eventType: 'track',
-          attributes: expect.objectContaining({
-            content: 'taskItem',
-            inputMethod: 'keyboard',
-            source: 'uncategorized',
-            type: 'richText',
-          }),
-        });
-      });
-    }
-
-    describe('paste inside paragraph', () => {
-      testAnalyticsPasteContentInside(
-        doc(p('Five{<>}')),
-        ACTION_SUBJECT_ID.PASTE_PARAGRAPH,
-      );
-    });
-
-    describe('paste inside ordered list', () => {
-      testAnalyticsPasteContentInside(
-        doc(ol(li(p('Five{<>}')))),
-        ACTION_SUBJECT_ID.PASTE_ORDERED_LIST,
-      );
-    });
-
-    describe('paste inside bullet list', () => {
-      testAnalyticsPasteContentInside(
-        doc(ul(li(p('Five{<>}')))),
-        ACTION_SUBJECT_ID.PASTE_BULLET_LIST,
-      );
-    });
-
-    describe('paste inside heading', () => {
-      testAnalyticsPasteContentInside(
-        doc(h1('Five{<>}')),
-        ACTION_SUBJECT_ID.PASTE_HEADING,
-      );
-    });
-
-    describe('paste inside panel', () => {
-      testAnalyticsPasteContentInside(
-        doc(panel()(p('Five{<>}'))),
-        ACTION_SUBJECT_ID.PASTE_PANEL,
-      );
-    });
-
-    describe('paste inside blockquote', () => {
-      testAnalyticsPasteContentInside(
-        doc(blockquote(p('Five{<>}'))),
-        ACTION_SUBJECT_ID.PASTE_BLOCKQUOTE,
-      );
-    });
-
-    describe('paste inside table cell', () => {
-      testAnalyticsPasteContentInside(
-        doc(
-          table({ isNumberColumnEnabled: true })(
-            tr(th()(p('One')), th()(p('Two'))),
-            tr(td()(p('Th{<>}ree')), td()(p('Four'))),
-            tr(td()(p('Five')), td()(p('Six'))),
-          ),
-        ),
-        ACTION_SUBJECT_ID.PASTE_TABLE_CELL,
+          expect(createAnalyticsEvent).toHaveBeenCalledWith({
+            action: 'pasted',
+            actionSubject: 'document',
+            actionSubjectId,
+            eventType: 'track',
+            attributes: expect.objectContaining({
+              content,
+              inputMethod: 'keyboard',
+              source: 'uncategorized',
+              type: 'richText',
+            }),
+          });
+        },
       );
     });
   });

@@ -18,6 +18,7 @@ import {
   NavigationAnalyticsContext,
   SWITCHER_SUBJECT,
   RenderTracker,
+  ViewedTracker,
 } from '../utils/analytics';
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
@@ -82,11 +83,6 @@ export default class Switcher extends React.Component<SwitcherProps> {
     triggerXFlow(key, 'atlassian-switcher', event, analyticsEvent);
   };
 
-  getExpandHref = (hostname: string) => {
-    const isStagingInstance = hostname.indexOf('.jira-dev.com') !== -1;
-    return `//start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
-  };
-
   render() {
     const {
       messages,
@@ -120,6 +116,15 @@ export default class Switcher extends React.Component<SwitcherProps> {
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
+          <ViewedTracker
+            subject={SWITCHER_SUBJECT}
+            data={{
+              switcherItems: {
+                licensedProducts: licensedProductLinks.map(item => item.key),
+                suggestedProducts: suggestedProductLinks.map(item => item.key),
+              },
+            }}
+          />
           {firstContentArrived && (
             <RenderTracker
               subject={SWITCHER_SUBJECT}
@@ -151,6 +156,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               >
                 <SwitcherItem
                   icon={<item.Icon theme="product" />}
+                  description={item.description}
                   href={item.href}
                 >
                   {item.label}

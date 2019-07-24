@@ -1,13 +1,14 @@
 {
   "name": "@atlaskit/util-service-support",
-  "version": "4.0.3",
+  "version": "4.0.5",
   "description": "A library of support classes for integrating React components with REST HTTP services",
   "config": {
     "access": "public"
   },
   "atlaskit:src": "src/index.ts",
-  "module": "index.js",
-  "types": "index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "dependencies": {
     "tslib": "^1.9.3",
     "url": "^0.11.0",
@@ -28,9 +29,8 @@
   "devDependencies": {
     "@atlaskit/docs": "^8.1.1",
     "es6-promise": "^4.0.5",
-    "fetch-mock": "^6.5.2",
-    "sinon": "^2.2.0",
-    "whatwg-fetch": "^2.0.3"
+    "fetch-mock": "^7.3.3",
+    "sinon": "^2.2.0"
   },
   "keywords": [
     "fabric",

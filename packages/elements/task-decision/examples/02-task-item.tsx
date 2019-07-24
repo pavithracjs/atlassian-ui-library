@@ -51,6 +51,7 @@ export default () => (
       contentRef={dumpRef}
       onChange={action('onChange')}
       showPlaceholder={true}
+      placeholder="Placeholder text"
     />
   </div>
 );

@@ -10,20 +10,35 @@ export default {
   'fabric.elements.share.form.send': 'Enviar',
   'fabric.elements.share.form.retry': 'Tentar novamente',
   'fabric.elements.share.form.comment.placeholder': 'Adicionar uma mensagem',
-  'fabric.elements.share.form.user-picker.placeholder':
+  'fabric.elements.share.form.user-picker.placeholder.generic':
     'Introduza o nome, equipa ou e-mail',
+  'fabric.elements.share.form.user-picker.placeholder.existingUserOnly':
+    'Introduza o nome ou equipa',
   'fabric.elements.share.form.user-picker.add-more': 'Introduza mais',
   'fabric.elements.share.form.user-picker.validation.required':
     'Selecione pelo menos um utilizador, equipa ou e-mail.',
-  'fabric.elements.share.form.user-picker.no-options.emptyQuery':
-    'Não foi possível encontrar resultados. Convite pessoas adicionando um endereço de e-mail.',
-  'fabric.elements.share.form.user-picker.no-options':
+  'fabric.elements.share.form.user-picker.no-options.domainBasedUserOnly':
+    'Só pode convidar pessoas com endereços de e-mail {domains} . Contacte o administrador do site para convidar outras pessoas.',
+  'fabric.elements.share.form.user-picker.no-options.existingUserOnly':
+    'Não foi possível encontrar resultados para "{inputValue}".',
+  'fabric.elements.share.form.user-picker.no-options.generic':
     'Não foi possível encontrar resultados para "{inputValue}". Convite pessoas adicionando um endereço de e-mail.',
+  'fabric.elements.share.trigger.button.icon.label': 'Partilhar ícone',
   'fabric.elements.share.trigger.button.text': 'Partilhar',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Partilhar',
+  'fabric.elements.share.trigger.button.invite.text': 'Convidar',
+  'fabric.elements.share.copylink.button.icon.label': 'Copiar ícone da ligação',
   'fabric.elements.share.copylink.button.text': 'Copiar ligação',
+  'fabric.elements.share.copied.to.clipboard.icon.label':
+    'Copiar ícone de sucesso da ligação',
   'fabric.elements.share.copied.to.clipboard.message':
     'Ligação copiada para a área de transferência',
   'fabric.elements.share.form.capabilities.info.message':
     'O seu convite será enviado a um administrador para aprovação',
+  'fabric.elements.share.failure.icon.label': 'Ícone de erro',
   'fabric.elements.share.failure.message': 'Não é possível partilhar',
+  'fabric.elements.share.success.message':
+    '{object, select, blogpost {Blog post shared} quadro {Board shared} calendário {Calendar shared} rascunho {Draft shared} filtro {Filter shared} problema {Issue shared} multimédia {Media shared} página {Page shared} projeto {Project shared} pullrequest {Pull Request shared} pergunta {Question shared} relatório {Report shared} repositório {Repository shared} pedido {Request shared} roteiro {Roadmap shared} site {Site shared} espaço {Space shared} outro {Link Shared}}',
+  'fabric.elements.share.admin.notified.message':
+    'O seu administrador foi notificado',
 };

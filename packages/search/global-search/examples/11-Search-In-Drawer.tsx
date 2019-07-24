@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@atlaskit/button';
 import { setupMocks, teardownMocks } from '../example-helpers/mockApis';
 import Drawer, { DrawerItemTheme } from '@atlaskit/drawer';
-import { GlobalQuickSearch } from '../src';
+import { GlobalQuickSearch, SearchSessionProvider } from '../src';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 
 export default class extends React.Component {
@@ -38,14 +38,16 @@ export default class extends React.Component {
         >
           <DrawerItemTheme>
             <LocaleIntlProvider locale={'en'}>
-              <GlobalQuickSearch
-                cloudId="cloudId"
-                context={'jira'}
-                referralContextIdentifiers={{
-                  currentContentId: '123',
-                  searchReferrerId: '123',
-                }}
-              />
+              <SearchSessionProvider>
+                <GlobalQuickSearch
+                  cloudId="cloudId"
+                  context={'jira'}
+                  referralContextIdentifiers={{
+                    currentContentId: '123',
+                    searchReferrerId: '123',
+                  }}
+                />
+              </SearchSessionProvider>
             </LocaleIntlProvider>
           </DrawerItemTheme>
         </Drawer>

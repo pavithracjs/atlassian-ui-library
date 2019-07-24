@@ -6,6 +6,14 @@
  */
 // Dutch
 export default {
+  'fabric.editor.mediaAddLink': 'Link toevoegen',
+  'fabric.editor.openLink': 'Link openen in een nieuw tabblad',
+  'fabric.editor.unlink': 'Verwijder koppeling',
+  'fabric.editor.editLink': 'Link bewerken',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Link plakken of recent bekeken zoeken',
+  'fabric.editor.linkPlaceholder': 'Plak link',
+  'fabric.editor.linkAddress': 'Linkadres',
   'fabric.editor.layoutFixedWidth': 'Terug naar midden',
   'fabric.editor.layoutWide': 'Brede weergave',
   'fabric.editor.layoutFullWidth': 'Op volledige breedte weergeven',
@@ -16,16 +24,29 @@ export default {
   'fabric.editor.visit': 'Link openen in een nieuw venster',
   'fabric.editor.editMode.inviteToEditButton.title':
     'Uitnodigen om te bewerken',
+  'fabric.editor.saveButton': 'Opslaan',
+  'fabric.editor.cancelButton': 'Annuleren',
   'fabric.editor.alignment': 'Uitlijning',
   'fabric.editor.normal': 'Normale tekst',
   'fabric.editor.heading1': 'Koptekst 1',
+  'fabric.editor.heading1Description':
+    'Dit gebruiken voor een kop op het hoogste niveau',
   'fabric.editor.heading2': 'Koptekst 2',
+  'fabric.editor.heading2Description':
+    'Dit gebruiken voor belangrijke gedeelten',
   'fabric.editor.heading3': 'Koptekst 3',
+  'fabric.editor.heading3Description':
+    'Dit gebruiken voor subsecties en groepskoppen',
   'fabric.editor.heading4': 'Koptekst 4',
+  'fabric.editor.heading4Description': 'Dit gebruiken voor diepe koppen',
   'fabric.editor.heading5': 'Koptekst 5',
+  'fabric.editor.heading5Description':
+    'Dit gebruiken voor het groeperen van lijstitems',
   'fabric.editor.heading6': 'Koptekst 6',
+  'fabric.editor.heading6Description':
+    'Dit gebruiken voor koppen op laag niveau',
   'fabric.editor.blockquote': 'Citaat',
-  'fabric.editor.blockquote.description': 'Citaat invoegen',
+  'fabric.editor.blockquote.description': 'Voeg een citaat in',
   'fabric.editor.codeblock': 'Codefragment',
   'fabric.editor.codeblock.description': 'Code weergeven met syntaxismarkering',
   'fabric.editor.infoPanel': 'Infopaneel',
@@ -61,21 +82,13 @@ export default {
   'fabric.editor.altText': 'Alt-tekst',
   'fabric.editor.closeHelpDialog': 'Sluit helpdialoogvenster',
   'fabric.editor.quickInsert': 'Snel invoegen',
-  'fabric.editor.openLink': 'Link openen in een nieuw tabblad',
-  'fabric.editor.unlink': 'Verwijder koppeling',
-  'fabric.editor.editLink': 'Link bewerken',
-  'fabric.editor.hyperlinkToolbarPlaceholder':
-    'Link plakken of recent bekeken zoeken',
-  'fabric.editor.linkPlaceholder': 'Plak link',
-  'fabric.editor.linkAddress': 'Linkadres',
   'fabric.editor.displayText': 'Tekst om weer te geven',
   'fabric.editor.clearLinkText': 'Tekst wissen',
   'fabric.editor.clearLink': 'Link wissen',
   'fabric.editor.action': 'Taak',
-  'fabric.editor.action.description':
-    'Acties vastleggen om vooruitgang te boeken',
+  'fabric.editor.action.description': 'Actie-items maken en toewijzen',
   'fabric.editor.link': 'Link',
-  'fabric.editor.link.description': 'Link naar een interne of externe pagina',
+  'fabric.editor.link.description': 'Een link invoegen',
   'fabric.editor.filesAndImages': 'Bestanden en afbeeldingen',
   'fabric.editor.filesAndImages.description':
     'Afbeeldingen en andere bestanden aan je pagina toevoegen',
@@ -100,7 +113,7 @@ export default {
   'fabric.editor.columns': 'Lay-outs',
   'fabric.editor.columns.description': 'Je pagina structureren met secties',
   'fabric.editor.status': 'Status',
-  'fabric.editor.status.description': 'Een gekleurde ruit met tekst maken',
+  'fabric.editor.status.description': 'Een aangepast statuslabel toevoegen',
   'fabric.editor.viewMore': 'Meer bekijken',
   'fabric.editor.insertMenu': 'Invoegen',
   'fabric.editor.twoColumns': 'Twee kolommen',
@@ -116,6 +129,7 @@ export default {
   'fabric.editor.annotate': 'Aantekeningen maken',
   'fabric.editor.wrapLeft': 'Links uitlijnen',
   'fabric.editor.wrapRight': 'Rechts uitlijnen',
+  'fabric.editor.backLink': 'Terug',
   'fabric.editor.info': 'Informatie',
   'fabric.editor.note': 'Notitie',
   'fabric.editor.success': 'Gelukt',

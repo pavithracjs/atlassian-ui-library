@@ -20,15 +20,23 @@ export type Flags = {
   [flagName: string]: FlagShape;
 };
 
+export type ReservedAttributes = {
+  flagKey: string;
+  reason: Reason;
+  ruleId?: string;
+  value: boolean | string | object;
+};
+
+export type CustomAttributes = {
+  [attributeName: string]: string | number | boolean;
+};
+
+export type ExposureEventAttributes = ReservedAttributes & CustomAttributes;
+
 export type ExposureEvent = {
   action: string;
   actionSubject: string;
-  attributes: {
-    flagKey: string;
-    reason: Reason;
-    ruleId?: RuleId;
-    value: boolean | string | object;
-  };
+  attributes: ExposureEventAttributes;
   source: string;
 };
 
@@ -43,12 +51,14 @@ export interface Flag {
   getBooleanValue(options: {
     default: boolean;
     shouldTrackExposureEvent?: boolean;
+    data: CustomAttributes;
   }): boolean;
 
   getVariantValue(options: {
     default: string;
     oneOf: string[];
     shouldTrackExposureEvent?: boolean;
+    data: CustomAttributes;
   }): string;
 
   getJSONValue(): object;

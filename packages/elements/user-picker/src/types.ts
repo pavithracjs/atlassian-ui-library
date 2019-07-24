@@ -26,7 +26,12 @@ export type UserPickerProps = {
   width?: number | string;
   /** Sets the minimum width for the menu. If not set, menu will always have the same width of the field. */
   menuMinWidth?: number;
-  /** Function used to load options asynchronously. */
+  /**
+   * Function used to load options asynchronously.
+   * accepts two optional params:
+   * searchText?: optional text to filter results
+   * sessionId?: user picker session identifier, used to track success metric for users providers
+   */
   loadOptions?: LoadOptions;
   /** Callback for value change events fired whenever a selection is inserted or removed. */
   onChange?: OnChange;
@@ -180,11 +185,11 @@ export type ActionTypes =
 
 export type OnChange = (value: Value, action: ActionTypes) => void;
 
-export type OnInputChange = (query?: string) => void;
+export type OnInputChange = (query?: string, sessionId?: string) => void;
 
-export type OnPicker = () => void;
+export type OnPicker = (sessionId?: string) => void;
 
-export type OnOption = (value: Value) => void;
+export type OnOption = (value: Value, sessionId?: string) => void;
 
 export type Option = {
   label: string;
@@ -193,7 +198,7 @@ export type Option = {
 };
 
 export interface LoadOptions {
-  (searchText?: string):
+  (searchText?: string, sessionId?: string):
     | Promisable<OptionData | OptionData[]>
     | Iterable<
         Promisable<OptionData[] | OptionData> | OptionData | OptionData[]

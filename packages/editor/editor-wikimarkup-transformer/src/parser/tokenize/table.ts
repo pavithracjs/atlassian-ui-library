@@ -5,6 +5,7 @@ import { parseString } from '../text';
 import { normalizePMNodes } from '../utils/normalize';
 import { linkFormat } from './links/link-format';
 import { media } from './media';
+import { emoji } from './emoji';
 import { TokenType, TokenParser, Context } from './';
 import { parseNewlineOnly } from './whitespace';
 import { parseMacroKeyword } from './keyword';
@@ -29,6 +30,7 @@ const processState = {
   LINK: 8,
   MEDIA: 9,
   MACRO: 10,
+  EMOJI: 11,
 };
 
 export const table: TokenParser = ({ input, position, schema, context }) => {
@@ -133,11 +135,16 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
               cellStyle = cellMatch[2];
               // Move into the cell content
               index += cellMatch[2].length;
-              // Remove empty spaces after new cell
-              index += cellMatch[3].length;
               continue;
             }
             break;
+          }
+
+          case ':':
+          case ';':
+          case '(': {
+            currentState = processState.EMOJI;
+            continue;
           }
 
           case '[': {
@@ -202,6 +209,13 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
         currentState = processState.BUFFER;
         continue;
       }
+      case processState.EMOJI: {
+        const token = emoji({ input, schema, context, position: index });
+        buffer += input.substr(index, token.length);
+        index += token.length;
+        currentState = processState.BUFFER;
+        continue;
+      }
       case processState.LINK: {
         /**
          * We should "fly over" the link format and we dont want
@@ -241,14 +255,23 @@ export const table: TokenParser = ({ input, position, schema, context }) => {
     index++;
   }
 
-  bufferToCells(
-    cellStyle,
-    buffer,
-    cellsBuffer,
-    schema,
-    ignoreTokenTypes,
-    context,
-  );
+  /**
+   * If there are left over content which didn't have a closing |
+   * For example
+   * |cell1|cell2|cell3
+   * we still want to create a new cell for the last cell3 if it's
+   * not empty.
+   */
+  if (buffer.trim().length > 0) {
+    bufferToCells(
+      cellStyle,
+      buffer,
+      cellsBuffer,
+      schema,
+      ignoreTokenTypes,
+      context,
+    );
+  }
 
   if (builder) {
     if (cellsBuffer.length) {

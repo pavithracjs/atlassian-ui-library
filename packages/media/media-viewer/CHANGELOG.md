@@ -1,5 +1,101 @@
 # @atlaskit/media-viewer
 
+## 43.2.5
+
+### Patch Changes
+
+- [patch][0b662ba2e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b662ba2e0):
+
+  Use Inactivity Detector component for hiding controls
+
+## 43.2.4
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 43.2.3
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 43.2.2
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 43.2.1
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 43.2.0
+
+### Minor Changes
+
+- [minor][a552f93596](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a552f93596):
+
+  Increase image preview max height and width to 4096px
+
+## 43.1.4
+
+### Patch Changes
+
+- [patch][79d79bf098](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79d79bf098):
+
+  Remove constructAuthTokenURL and replace with mediaClient
+
+## 43.1.3
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/media-card@63.3.1
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/media-ui@11.4.1
+  - @atlaskit/icon@19.0.0
+
+## 43.1.2
+
+### Patch Changes
+
+- [patch][4a9ea62c07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a9ea62c07):
+
+  Fix selected state on arrow navigation buttons in MV
+
 ## 43.1.1
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

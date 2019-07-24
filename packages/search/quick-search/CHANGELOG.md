@@ -1,5 +1,84 @@
 # @atlaskit/quick-search
 
+## 7.6.6
+
+- Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
+  - @atlaskit/drawer@5.0.0
+
+## 7.6.5
+
+### Patch Changes
+
+- [patch][dd9ca0710e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd9ca0710e):
+
+  Removed incorrect jsnext:main field from package.json
+
+## 7.6.4
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
+## 7.6.3
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 7.6.2
+
+### Patch Changes
+
+- [patch][5427f7028a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5427f7028a):
+
+  Fixing problem with subtext colours not matching between pages and people in the Quick Search complex experiment.
+
+## 7.6.1
+
+### Patch Changes
+
+- [patch][8f711664af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f711664af):
+
+  Added analytics for current space filter component
+
+## 7.6.0
+
+### Minor Changes
+
+- [minor][8d013cf28c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8d013cf28c):
+
+  added more filters button next to confluence current space filter
+
+## 7.5.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/item@10.0.5
+  - @atlaskit/navigation@35.1.8
+  - @atlaskit/icon@19.0.0
+
+## 7.5.0
+
+### Minor Changes
+
+- [minor][e6f5e7a694](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f5e7a694):
+
+  added current space filter for confluence
+
 ## 7.4.1
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):

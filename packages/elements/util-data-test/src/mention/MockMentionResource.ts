@@ -9,7 +9,12 @@ import {
   ResolvingMentionProvider,
   MentionNameDetails,
   MentionNameStatus,
+  TeamMentionProvider,
 } from '@atlaskit/mention/resource';
+import {
+  UIAnalyticsEvent,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import debug from '../logger';
 import { mentionResult } from './mention-data';
 import { MockMentionNameClient } from './MockMentionNameClient';
@@ -26,13 +31,25 @@ export interface MockMentionConfig {
   minWait?: number;
   maxWait?: number;
   mentionNameResolver?: MentionNameResolver;
+  enableSpotlight?: boolean;
 }
 
-export const createMockMentionNameResolver = () =>
-  new DefaultMentionNameResolver(new MockMentionNameClient());
+export const createMockMentionNameResolver = () => {
+  const analyticsProps: WithAnalyticsEventProps = {
+    createAnalyticsEvent: payload => {
+      // eslint-disable-next-line no-console
+      console.log('analytics event', payload);
+      return new UIAnalyticsEvent({ payload });
+    },
+  };
+  return new DefaultMentionNameResolver(
+    new MockMentionNameClient(),
+    analyticsProps,
+  );
+};
 
 export class MockMentionResource extends AbstractMentionResource
-  implements ResolvingMentionProvider {
+  implements ResolvingMentionProvider, TeamMentionProvider {
   private config: MockMentionConfig;
   private lastReturnedSearch: number;
 
@@ -125,4 +142,6 @@ export class MockMentionResource extends AbstractMentionResource
   shouldHighlightMention(mention: MentionDescription): boolean {
     return mention.id === 'oscar';
   }
+
+  mentionTypeaheadSpotlightEnabled = () => this.config.enableSpotlight || false;
 }

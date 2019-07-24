@@ -40,17 +40,21 @@ var _styledComponents = _interopRequireDefault(require('styled-components'));
 var _theme = require('@atlaskit/theme');
 
 var sizes = {
-  small: '16px',
-  medium: '24px',
-  large: '32px',
-  xlarge: '48px',
+  small: {
+    height: '16px',
+    width: '16px',
+  },
+  medium: {
+    height: '24px',
+    width: '24px',
+  },
 };
 
 var getSize = function getSize(props) {
   if (props.size) {
     return 'height: '
-      .concat(sizes[props.size], '; width: ')
-      .concat(sizes[props.size], ';');
+      .concat(sizes[props.size].height, '; width: ')
+      .concat(sizes[props.size].width, ';');
   }
 
   return null;
@@ -58,7 +62,7 @@ var getSize = function getSize(props) {
 
 var IconWrapper = _styledComponents.default.span.withConfig({
   displayName: 'Icon__IconWrapper',
-  componentId: 'lhzn3w-0',
+  componentId: 'zi76n5-0',
 })(
   [
     '\n  ',

@@ -36,7 +36,7 @@ const CenterAlignedIconWrapper = styled.div`
 
 export const FromWrapper = styled.div`
   [class^='FormHeader__FormHeaderWrapper'] {
-    h1 {
+    h1:first-child {
       ${typography.h500()}
       
       > span {
@@ -65,7 +65,7 @@ export const FromWrapper = styled.div`
 
 type ShareError = {
   message: string;
-} | null;
+};
 
 export type ShareData = {
   users: OptionData[];
@@ -79,7 +79,7 @@ export type Props = {
   isSharing?: boolean;
   loadOptions?: LoadOptions;
   onLinkCopy?: (link: string) => void;
-  onShareClick?: (data: ShareData) => void;
+  onSubmit?: (data: ShareData) => void;
   shareError?: ShareError;
   submitButtonLabel?: React.ReactNode;
   title?: React.ReactNode;
@@ -184,7 +184,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
 const InternalFormWithIntl = injectIntl(InternalForm);
 
 export const ShareForm: React.StatelessComponent<Props> = props => (
-  <Form onSubmit={props.onShareClick}>
+  <Form onSubmit={props.onSubmit}>
     {({ formProps, getValues }: FormChildrenArgs<ShareData>) => (
       <InternalFormWithIntl
         {...props}
@@ -197,5 +197,5 @@ export const ShareForm: React.StatelessComponent<Props> = props => (
 
 ShareForm.defaultProps = {
   isSharing: false,
-  onShareClick: () => {},
+  onSubmit: () => {},
 };

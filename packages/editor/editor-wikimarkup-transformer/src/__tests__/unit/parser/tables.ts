@@ -39,6 +39,30 @@ this is a new line text, not in the table`,
       'should parse properly medias inside a cell',
       '|!quicktime.mov|width=300,height=400!|',
     ],
+    [
+      'HOT-87510 should respect emoji first in table content',
+      `
+|| Day / Status || Mon (!) || Tue (!) || Wed (!) || Thu (!) || Fri (!) ||
+| Queue Size | 4 | 4 | 4 | 2 | 5 |`,
+    ],
+    [
+      'CS-916 should respect empty columns',
+      `
+||Heading 1||Heading 2||
+|Empty cell on the right ->| |
+
+|Empty cell on the right ->| |
+|Col A1|Col A2|
+
+|Empty cell on the right ->| |
+|Empty cell on the right ->| |
+
+|Heading 1|Empty cell on the right ->| |
+|Two empty cells on the right ->| | |
+
+|Empty cell on the right ->| |<- Empty cell on the left|
+|Empty cell on the right ->| |<- Empty cell on the left|`,
+    ],
   ];
 
   for (const [testCaseDescription, markup] of testCases) {

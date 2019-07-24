@@ -2,7 +2,7 @@ import { State } from '../domain';
 import {
   SAVE_COLLECTION_ITEMS_SUBSCRIPTION,
   SaveCollectionItemsSubscriptionAction,
-} from '../actions';
+} from '../actions/saveCollectionItemsSubscription';
 
 export default function saveCollectionItemsSubscription(
   state: State,

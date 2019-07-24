@@ -1,5 +1,23 @@
 # @atlaskit/multi-select
 
+## 13.0.8
+
+- Updated dependencies [1adb8727e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1adb8727e3):
+  - @atlaskit/tag-group@8.0.2
+  - @atlaskit/tag@9.0.0
+
+## 13.0.7
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/droplist@9.0.8
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/tag@8.0.5
+  - @atlaskit/icon@19.0.0
+
 ## 13.0.6
 
 ### Patch Changes

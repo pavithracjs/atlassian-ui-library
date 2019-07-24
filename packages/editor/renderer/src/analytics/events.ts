@@ -14,4 +14,17 @@ type RendererStartAEP = AEP<
   EVENT_TYPE.UI
 >;
 
-export type AnalyticsEventPayload = RendererStartAEP;
+type RendererRenderedAEP = AEP<
+  ACTION.RENDERED,
+  ACTION_SUBJECT.RENDERER,
+  undefined,
+  {
+    platform: PLATFORM.WEB;
+    duration: number;
+    ttfb?: number;
+    nodes: Record<string, number>;
+  },
+  EVENT_TYPE.OPERATIONAL
+>;
+
+export type AnalyticsEventPayload = RendererStartAEP | RendererRenderedAEP;

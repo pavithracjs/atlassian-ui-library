@@ -2,7 +2,11 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { ExtensionLayout } from '@atlaskit/adf-schema';
-import { ProviderFactory, ExtensionHandlers } from '@atlaskit/editor-common';
+import {
+  ProviderFactory,
+  ExtensionHandlers,
+  UpdateExtension,
+} from '@atlaskit/editor-common';
 import { Dispatch } from '../../event-dispatcher';
 import { PortalProviderAPI } from '../../ui/PortalProvider';
 import ExtensionNodeView from './nodeviews/extension';
@@ -19,6 +23,8 @@ export type ExtensionState = {
   node: { pos: number; node: PMNode };
   allowBreakout: boolean;
   stickToolbarToBottom: boolean;
+  showEditButton: boolean;
+  updateExtension: UpdateExtension<object>;
 };
 
 export default (
@@ -98,13 +104,26 @@ export default (
                   selectedExtDomNode
               : undefined;
 
-          if (pluginState.element !== newElement) {
+          if (pluginState.element !== newElement && selectedExtNode) {
+            const { extensionType, layout } = selectedExtNode.node.attrs;
+            const extensionHandler = extensionHandlers[extensionType];
+
+            let showEditButton = true;
+            let updateExtension;
+
+            if (extensionHandler && typeof extensionHandler === 'object') {
+              showEditButton = !!extensionHandler.update;
+              updateExtension = extensionHandler.update;
+            }
+
             editorDispatch(
               state.tr.setMeta(pluginKey, {
                 ...pluginState,
                 element: newElement,
-                layout: selectedExtNode && selectedExtNode!.node.attrs.layout,
+                layout,
                 node: selectedExtNode,
+                showEditButton,
+                updateExtension,
               }),
             );
             return true;

@@ -1,6 +1,11 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { ABTest, DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
+import {
+  ABTest,
+  DEFAULT_AB_TEST,
+  Filter,
+  FilterType,
+} from '../../../api/CrossProductSearchClient';
 import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
 import {
   PartiallyLoadedRecentItems,
@@ -9,7 +14,6 @@ import {
   SearchResultProps,
 } from '../../../components/common/QuickSearchContainer';
 import { GlobalQuickSearch } from '../../../components/GlobalQuickSearch';
-import { GenericResultMap } from '../../../model/Result';
 import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import {
   PerformanceTiming,
@@ -18,12 +22,18 @@ import {
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 import { QuickSearchContext } from '../../../api/types';
 import { mockLogger } from '../mocks/_mockLogger';
+import { JiraResultsMap, ConfluenceResultsMap } from '../../../model/Result';
+import uuid from 'uuid/v4';
+import { DEFAULT_FEATURES } from '../../../util/features';
 
+const defaultAutocompleteData = ['autocomplete', 'automock', 'automation'];
 const defaultReferralContext = {
   searchReferrerId: 'referrerId',
   currentContentId: 'currentContentId',
   currentContainerId: 'currentContainerId',
 };
+
+type GenericResultMap = JiraResultsMap | ConfluenceResultsMap;
 
 const mapToResultGroup = (resultMap: GenericResultMap) =>
   Object.keys(resultMap).map(key => ({
@@ -52,15 +62,15 @@ const defaultProps = {
     (query: string, sessionId: string, startTime: number) =>
       Promise.resolve({ results: {} }),
   ),
+  getAutocompleteSuggestions: jest.fn((query: string) =>
+    Promise.resolve(defaultAutocompleteData),
+  ),
   createAnalyticsEvent: jest.fn(() => mockEvent),
   handleSearchSubmit: jest.fn(),
   referralContextIdentifiers: defaultReferralContext,
   getPreQueryDisplayedResults: jest.fn(mapToResultGroup),
   getPostQueryDisplayedResults: jest.fn(mapToResultGroup),
-  features: {
-    abTest: DEFAULT_AB_TEST,
-    searchExtensionsEnabled: false,
-  },
+  features: DEFAULT_FEATURES,
 };
 
 const mountQuickSearchContainer = (
@@ -70,7 +80,7 @@ const mountQuickSearchContainer = (
     ...defaultProps,
     ...partialProps,
   };
-  return mount(<QuickSearchContainer {...props} />);
+  return mount(<QuickSearchContainer {...props} searchSessionId={uuid()} />);
 };
 
 const mountQuickSearchContainerWaitingForRender = async (
@@ -108,6 +118,7 @@ describe('QuickSearchContainer', () => {
       timings: PerformanceTiming,
       searchSessionId: string,
       query: string,
+      filtersApplied: { [filterType: string]: boolean },
       createAnalyticsEvent: CreateAnalyticsEventFn,
       abTest: ABTest,
       referralContextIdentifiers?: ReferralContextIdentifiers,
@@ -156,6 +167,7 @@ describe('QuickSearchContainer', () => {
       [x: string]: any;
       spaces?: { key: string }[] | { key: string }[];
     },
+    filtersApplied: { [filterType: string]: boolean } = {},
   ) => {
     expect(firePostQueryShownEventSpy).toBeCalled();
     expect(defaultProps.getPostQueryDisplayedResults).toBeCalled();
@@ -177,6 +189,7 @@ describe('QuickSearchContainer', () => {
       }),
       expect.any(String),
       query,
+      filtersApplied,
       defaultProps.createAnalyticsEvent,
       DEFAULT_AB_TEST,
       defaultReferralContext,
@@ -224,7 +237,7 @@ describe('QuickSearchContainer', () => {
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
     wrapper.update();
 
-    const { searchSessionId } = wrapper.find(QuickSearchContainer).state();
+    const { searchSessionId } = wrapper.find(QuickSearchContainer).props();
     expect(searchSessionId).not.toBeNull();
 
     expect(defaultProps.handleSearchSubmit).toHaveBeenCalledWith(
@@ -341,10 +354,11 @@ describe('QuickSearchContainer', () => {
         | Promise<{ results: { spaces: { key: string }[] } }>
         | Promise<never>
         | Promise<{ results: { spaces: { key: string }[] } }>,
+      filters: Filter[] = [],
     ) => {
       getSearchResults.mockReturnValueOnce(resultPromise);
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
-      await globalQuickSearch.props().onSearch(query, 0);
+      await globalQuickSearch.props().onSearch(query, 0, filters);
 
       globalQuickSearch = wrapper.find(GlobalQuickSearch);
       expect(globalQuickSearch.props().isLoading).toBe(false);
@@ -375,6 +389,30 @@ describe('QuickSearchContainer', () => {
         isError: false,
       });
       assertPostQueryAnalytics(query, searchResults);
+    });
+
+    it('should handle search with filters', async () => {
+      const searchResults = {
+        spaces: [
+          {
+            key: 'space-1',
+          },
+        ],
+      };
+      const query = 'query';
+      const wrapper = await renderAndWait();
+      await search(
+        wrapper,
+        query,
+        Promise.resolve({ results: searchResults }),
+        [{ '@type': FilterType.Spaces, spaceKeys: ['abc123'] }],
+      );
+      assertLastCall(defaultProps.getSearchResultsComponent, {
+        searchResults,
+        isLoading: false,
+        isError: false,
+      });
+      assertPostQueryAnalytics(query, searchResults, { spaces: true });
     });
 
     it('should handle error', async () => {
@@ -426,6 +464,55 @@ describe('QuickSearchContainer', () => {
         latestSearchQuery: newQuery,
       });
       assertPostQueryAnalytics(newQuery, searchResults);
+    });
+  });
+
+  describe('Autocomplete', () => {
+    it('renders GlobalQuickSearch with undefined autocomplete data', async () => {
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
+
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
+    });
+
+    it('should call getAutocomplete when onAutocomplete is triggered', async () => {
+      const query = 'auto';
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
+
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      expect(defaultProps.getAutocompleteSuggestions).toHaveBeenCalledWith(
+        query,
+      );
+    });
+
+    it('should pass down the results of getAutocomplete to GlobalQuickSearch', async () => {
+      const query = 'auto';
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
+
+      let globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      wrapper.update();
+      globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocompleteSuggestions')).toBe(
+        defaultAutocompleteData,
+      );
+    });
+
+    it('should handle error', async () => {
+      const query = 'auto';
+      const wrapper = await mountQuickSearchContainerWaitingForRender({
+        getAutocompleteSuggestions: () =>
+          Promise.reject(new Error('everything is broken')),
+      });
+
+      let globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
     });
   });
 });

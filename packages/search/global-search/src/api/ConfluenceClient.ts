@@ -3,31 +3,21 @@ import {
   ServiceConfig,
   utils,
 } from '@atlaskit/util-service-support';
-import URI from 'urijs';
-import unescapeHtml from 'unescape';
 import {
   AnalyticsType,
   ConfluenceObjectResult,
   ContainerResult,
   ContentType,
-  PersonResult,
   Result,
   ResultType,
 } from '../model/Result';
 
 const RECENT_PAGES_PATH: string = 'rest/recentlyviewed/1.0/recent';
 const RECENT_SPACE_PATH: string = 'rest/recentlyviewed/1.0/recent/spaces';
-const QUICK_NAV_PATH: string = 'rest/quicknav/1/search';
-
-const QUICKNAV_CLASSNAME_PERSON = 'content-type-userinfo';
 
 export interface ConfluenceClient {
-  getRecentItems(searchSessionId: string): Promise<ConfluenceObjectResult[]>;
-  getRecentSpaces(searchSessionId: string): Promise<Result[]>;
-  searchPeopleInQuickNav(
-    query: string,
-    searchSessionId: string,
-  ): Promise<Result[]>;
+  getRecentItems(): Promise<ConfluenceObjectResult[]>;
+  getRecentSpaces(): Promise<Result[]>;
 }
 
 export type ConfluenceContentType = 'blogpost' | 'page';
@@ -39,7 +29,7 @@ export interface RecentPage {
   lastSeen: number;
   space: string;
   spaceKey: string;
-  title: string;
+  title?: string; // Due to some Confluence bug there is a chance that recent pages come back with NO title
   type: string;
   url: string;
   iconClass: string;
@@ -52,18 +42,6 @@ export interface RecentSpace {
   name: string;
 }
 
-export interface QuickNavResponse {
-  contentNameMatches: QuickNavResult[][];
-}
-
-export interface QuickNavResult {
-  className: string;
-  href: string;
-  name: string;
-  id: string;
-  icon: string;
-}
-
 export default class ConfluenceClientImpl implements ConfluenceClient {
   private serviceConfig: ServiceConfig;
 
@@ -71,53 +49,26 @@ export default class ConfluenceClientImpl implements ConfluenceClient {
     this.serviceConfig = { url: url };
   }
 
-  public async searchPeopleInQuickNav(
-    query: string,
-    searchSessionId: string,
-  ): Promise<PersonResult[]> {
-    const quickNavResponse = await this.createQuickNavRequestPromise(query);
-
-    return quickNavResultsToResults(
-      quickNavResponse.contentNameMatches,
-      searchSessionId,
-    );
-  }
-
-  public async getRecentItems(
-    searchSessionId: string,
-  ): Promise<ConfluenceObjectResult[]> {
+  public async getRecentItems(): Promise<ConfluenceObjectResult[]> {
     const recentPages = await this.createRecentRequestPromise<RecentPage>(
       RECENT_PAGES_PATH,
     );
     const baseUrl = this.serviceConfig.url;
 
-    return recentPages.map(recentPage =>
-      recentPageToResult(recentPage, baseUrl, searchSessionId),
-    );
+    return recentPages
+      .filter(page => !!page.title)
+      .map(recentPage => recentPageToResult(recentPage, baseUrl));
   }
 
-  public async getRecentSpaces(searchSessionId: string): Promise<Result[]> {
+  public async getRecentSpaces(): Promise<Result[]> {
     const recentSpaces = await this.createRecentRequestPromise<RecentSpace>(
       RECENT_SPACE_PATH,
     );
     const baseUrl = this.serviceConfig.url;
 
     return recentSpaces.map(recentSpace =>
-      recentSpaceToResult(recentSpace, baseUrl, searchSessionId),
+      recentSpaceToResult(recentSpace, baseUrl),
     );
-  }
-
-  private createQuickNavRequestPromise(
-    query: string,
-  ): Promise<QuickNavResponse> {
-    const options: RequestServiceOptions = {
-      path: QUICK_NAV_PATH,
-      queryParams: {
-        query: query.trim(),
-      },
-    };
-
-    return utils.requestService(this.serviceConfig, options);
   }
 
   private createRecentRequestPromise<T>(path: string): Promise<Array<T>> {
@@ -132,14 +83,11 @@ export default class ConfluenceClientImpl implements ConfluenceClient {
 function recentPageToResult(
   recentPage: RecentPage,
   baseUrl: string,
-  searchSessionId: string,
 ): ConfluenceObjectResult {
-  const href = new URI(`${baseUrl}${recentPage.url}`);
-
   return {
     resultId: String(recentPage.id),
-    name: recentPage.title,
-    href: href.toString(),
+    name: recentPage.title || '', // This is a failsafe, there should be a filter to drop pages with no titles
+    href: `${baseUrl}${recentPage.url}`,
     containerName: recentPage.space,
     analyticsType: AnalyticsType.RecentConfluence,
     resultType: ResultType.ConfluenceObjectResult,
@@ -147,13 +95,13 @@ function recentPageToResult(
     iconClass: recentPage.iconClass,
     containerId: recentPage.spaceKey,
     isRecentResult: true,
+    friendlyLastModified: undefined, // not available for recent results
   };
 }
 
 function recentSpaceToResult(
   recentSpace: RecentSpace,
   baseUrl: string,
-  searchSessionId: string,
 ): Result {
   return {
     resultId: recentSpace.id,
@@ -164,43 +112,4 @@ function recentSpaceToResult(
     resultType: ResultType.GenericContainerResult,
     contentType: ContentType.ConfluenceSpace,
   } as ContainerResult;
-}
-
-function quickNavResultToObjectResult(
-  quickNavResult: QuickNavResult,
-  searchSessionId: string,
-): PersonResult {
-  return {
-    resultId: quickNavResult.id,
-    name: unescapeHtml(quickNavResult.name),
-    href: quickNavResult.href,
-    avatarUrl: quickNavResult.icon,
-    resultType: ResultType.PersonResult,
-    contentType: ContentType.Person,
-    analyticsType: AnalyticsType.ResultPerson,
-    mentionName: quickNavResult.name,
-    presenceMessage: '',
-  };
-}
-
-function quickNavResultsToResults(
-  quickNavResultGroups: QuickNavResult[][],
-  searchSessionId: string,
-): PersonResult[] {
-  // flatten the array as the response comes back as 2d array, then
-  const flattenedResults: QuickNavResult[] = ([] as QuickNavResult[]).concat(
-    ...quickNavResultGroups,
-  );
-
-  // filter out people results
-  const isPeopleResult = (result: QuickNavResult) =>
-    result.className.startsWith(QUICKNAV_CLASSNAME_PERSON);
-  const peopleResults = flattenedResults.filter(isPeopleResult);
-
-  // map the results to our representation of a result
-  const results = peopleResults.map(result =>
-    quickNavResultToObjectResult(result, searchSessionId),
-  );
-
-  return results;
 }

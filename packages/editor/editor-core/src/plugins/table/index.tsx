@@ -1,37 +1,38 @@
-import * as React from 'react';
+import { table, tableCell, tableHeader, tableRow } from '@atlaskit/adf-schema';
 import { tableEditing } from 'prosemirror-tables';
 import { createTable } from 'prosemirror-utils';
-import { table, tableCell, tableHeader, tableRow } from '@atlaskit/adf-schema';
-
-import LayoutButton from './ui/LayoutButton';
+import * as React from 'react';
+import { toggleTable, tooltip } from '../../keymaps';
 import { EditorPlugin } from '../../types';
 import WithPluginState from '../../ui/WithPluginState';
-import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import {
-  PluginConfig,
-  PermittedLayoutsDescriptor,
-  ColumnResizingPluginState,
-} from './types';
-import { createPlugin, pluginKey } from './pm-plugins/main';
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  addAnalytics,
+  EVENT_TYPE,
+  INPUT_METHOD,
+} from '../analytics';
+import { messages } from '../insert-block/ui/ToolbarInsertBlock';
+import { IconTable } from '../quick-insert/assets';
 import { keymapPlugin } from './pm-plugins/keymap';
+import { createPlugin, getPluginState, pluginKey } from './pm-plugins/main';
 import {
   createPlugin as createFlexiResizingPlugin,
   pluginKey as tableResizingPluginKey,
 } from './pm-plugins/table-resizing';
 import { getToolbarConfig } from './toolbar';
-import FloatingContextualMenu from './ui/FloatingContextualMenu';
-import FloatingContextualButton from './ui/FloatingContextualButton';
-import { isLayoutSupported } from './utils';
 import {
-  addAnalytics,
-  ACTION,
-  ACTION_SUBJECT,
-  ACTION_SUBJECT_ID,
-  INPUT_METHOD,
-  EVENT_TYPE,
-} from '../analytics';
-import { tooltip, toggleTable } from '../../keymaps';
-import { IconTable } from '../quick-insert/assets';
+  ColumnResizingPluginState,
+  PermittedLayoutsDescriptor,
+  PluginConfig,
+} from './types';
+import FloatingContextualButton from './ui/FloatingContextualButton';
+import FloatingContextualMenu from './ui/FloatingContextualMenu';
+import FloatingDeleteButton from './ui/FloatingDeleteButton';
+import FloatingInsertButton from './ui/FloatingInsertButton';
+import LayoutButton from './ui/LayoutButton';
+import { isLayoutSupported } from './utils';
 
 export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
   const config =
@@ -121,13 +122,18 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
         }}
         render={_ => {
           const { state } = editorView;
-          const pluginState = pluginKey.getState(state);
+          const pluginState = getPluginState(state);
           const tableResizingPluginState = tableResizingPluginKey.getState(
             state,
           );
           const isDragging =
             tableResizingPluginState && tableResizingPluginState.dragging;
           const isMobile = appearance === 'mobile';
+          const allowControls =
+            pluginState &&
+            pluginState.pluginConfig &&
+            pluginState.pluginConfig.allowControls;
+
           return (
             <>
               {pluginState.targetCellPosition && !isDragging && !isMobile && (
@@ -137,6 +143,21 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                   targetCellPosition={pluginState.targetCellPosition}
                   scrollableElement={popupsScrollableElement}
                   isContextualMenuOpen={pluginState.isContextualMenuOpen}
+                  layout={pluginState.layout}
+                />
+              )}
+              {allowControls && (
+                <FloatingInsertButton
+                  tableNode={pluginState.tableNode}
+                  tableRef={pluginState.tableRef}
+                  insertColumnButtonIndex={pluginState.insertColumnButtonIndex}
+                  insertRowButtonIndex={pluginState.insertRowButtonIndex}
+                  isHeaderColumnEnabled={pluginState.isHeaderColumnEnabled}
+                  isHeaderRowEnabled={pluginState.isHeaderRowEnabled}
+                  editorView={editorView}
+                  mountPoint={popupsMountPoint}
+                  boundariesElement={popupsBoundariesElement}
+                  scrollableElement={popupsScrollableElement}
                 />
               )}
               <FloatingContextualMenu
@@ -144,9 +165,19 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                 mountPoint={popupsMountPoint}
                 boundariesElement={popupsBoundariesElement}
                 targetCellPosition={pluginState.targetCellPosition}
-                isOpen={pluginState.isContextualMenuOpen}
+                isOpen={Boolean(pluginState.isContextualMenuOpen)}
                 pluginConfig={pluginState.pluginConfig}
               />
+              {allowControls && (
+                <FloatingDeleteButton
+                  editorView={editorView}
+                  selection={editorView.state.selection}
+                  tableRef={pluginState.tableRef as HTMLTableElement}
+                  mountPoint={popupsMountPoint}
+                  boundariesElement={popupsBoundariesElement}
+                  scrollableElement={popupsScrollableElement}
+                />
+              )}
               {appearance === 'full-page' &&
                 isLayoutSupported(state) &&
                 !disableBreakoutUI && (
@@ -156,6 +187,7 @@ const tablesPlugin = (disableBreakoutUI?: boolean): EditorPlugin => ({
                     boundariesElement={popupsBoundariesElement}
                     scrollableElement={popupsScrollableElement}
                     targetRef={pluginState.tableWrapperTarget!}
+                    layout={pluginState.layout}
                     isResizing={
                       !!tableResizingPluginState &&
                       !!tableResizingPluginState.dragging

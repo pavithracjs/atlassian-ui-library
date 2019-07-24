@@ -1,5 +1,867 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`JIRA wiki markup - Tables CS-916 should respect empty columns 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Heading 1",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Heading 2",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Empty cell on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Empty cell on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Col A1",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Col A2",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Empty cell on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Empty cell on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Heading 1",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Empty cell on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Two empty cells on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Empty cell on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "<- Empty cell on the left",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Empty cell on the right ->",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "<- Empty cell on the left",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`JIRA wiki markup - Tables HOT-87510 should respect emoji first in table content 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Day / Status ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Mon ",
+                      "type": "text",
+                    },
+                    Object {
+                      "attrs": Object {
+                        "id": "atlassian-warning",
+                        "shortName": ":warning:",
+                        "text": ":warning:",
+                      },
+                      "type": "emoji",
+                    },
+                    Object {
+                      "text": " ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Tue ",
+                      "type": "text",
+                    },
+                    Object {
+                      "attrs": Object {
+                        "id": "atlassian-warning",
+                        "shortName": ":warning:",
+                        "text": ":warning:",
+                      },
+                      "type": "emoji",
+                    },
+                    Object {
+                      "text": " ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Wed ",
+                      "type": "text",
+                    },
+                    Object {
+                      "attrs": Object {
+                        "id": "atlassian-warning",
+                        "shortName": ":warning:",
+                        "text": ":warning:",
+                      },
+                      "type": "emoji",
+                    },
+                    Object {
+                      "text": " ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Thu ",
+                      "type": "text",
+                    },
+                    Object {
+                      "attrs": Object {
+                        "id": "atlassian-warning",
+                        "shortName": ":warning:",
+                        "text": ":warning:",
+                      },
+                      "type": "emoji",
+                    },
+                    Object {
+                      "text": " ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Fri ",
+                      "type": "text",
+                    },
+                    Object {
+                      "attrs": Object {
+                        "id": "atlassian-warning",
+                        "shortName": ":warning:",
+                        "text": ":warning:",
+                      },
+                      "type": "emoji",
+                    },
+                    Object {
+                      "text": " ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "Queue Size ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "4 ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "4 ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "4 ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "2 ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": null,
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "content": Array [
+                    Object {
+                      "text": "5 ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
 exports[`JIRA wiki markup - Tables macros should parse anchor 1`] = `
 Object {
   "content": Array [
@@ -999,6 +1861,7 @@ Object {
                   "content": Array [
                     Object {
                       "attrs": Object {
+                        "__contextId": null,
                         "__displayType": null,
                         "__fileMimeType": null,
                         "__fileName": null,

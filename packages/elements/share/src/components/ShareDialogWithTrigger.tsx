@@ -7,6 +7,7 @@ import {
 import { ButtonAppearances } from '@atlaskit/button';
 import ShareIcon from '@atlaskit/icon/glyph/share';
 import InlineDialog from '@atlaskit/inline-dialog';
+import Aktooltip from '@atlaskit/tooltip';
 import { LoadOptions } from '@atlaskit/user-picker';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
@@ -23,13 +24,16 @@ import {
   RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareError,
+  TooltipPosition,
 } from '../types';
 import {
-  buttonClicked,
   cancelShare,
-  copyShareLink,
+  CHANNEL_ID,
+  copyLinkButtonClicked,
+  formShareSubmitted,
   screenEvent,
-  submitShare,
+  shareTriggerButtonClicked,
+  ANALYTICS_SOURCE,
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -49,24 +53,34 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderCustomTriggerButton;
   copyLink: string;
+  analyticsDecorator?: (
+    payload: AnalyticsEventPayload,
+  ) => AnalyticsEventPayload;
   dialogPlacement?: DialogPlacement;
-  fetchConfig: Function;
   isDisabled?: boolean;
   isFetchingConfig?: boolean;
   loadUserOptions?: LoadOptions;
-  onLinkCopy?: Function;
+  onDialogOpen?: () => void;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
-  copyLinkOrigin?: OriginTracing | null;
-  formShareOrigin?: OriginTracing | null;
+  copyLinkOrigin?: OriginTracing;
+  formShareOrigin?: OriginTracing;
   shouldCloseOnEscapePress?: boolean;
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
+  triggerButtonTooltipPosition?: TooltipPosition;
+  triggerButtonTooltipText?: React.ReactNode;
   bottomMessage?: React.ReactNode;
+  submitButtonLabel?: React.ReactNode;
 };
+
+const ShareButtonWrapper = styled.div`
+  display: inline-flex;
+  outline: none;
+`;
 
 const InlineDialogFormWrapper = styled.div`
   width: 352px;
@@ -85,21 +99,20 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-class ShareDialogWithTriggerInternal extends React.Component<
+export class ShareDialogWithTriggerInternal extends React.PureComponent<
   Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
     isDisabled: false,
-    dialogPlacement: 'bottom-end' as 'bottom-end',
+    dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: true,
-    triggerButtonAppearance: 'subtle' as 'subtle',
-    triggerButtonStyle: 'icon-only' as 'icon-only',
+    triggerButtonAppearance: 'subtle',
+    triggerButtonStyle: 'icon-only',
+    triggerButtonTooltipPosition: 'top',
   };
   private containerRef = React.createRef<HTMLDivElement>();
   private start: number = 0;
-
-  escapeIsHeldDown: boolean = false;
 
   state: State = {
     isDialogOpen: false,
@@ -118,10 +131,9 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private createAndFireEvent = (payload: AnalyticsEventPayload) => {
-    const { createAnalyticsEvent } = this.props;
-    if (createAnalyticsEvent) {
-      createAnalyticsEvent(payload).fire('fabric-elements');
-    }
+    const { createAnalyticsEvent, analyticsDecorator } = this.props;
+    if (analyticsDecorator) payload = analyticsDecorator(payload);
+    if (createAnalyticsEvent) createAnalyticsEvent(payload).fire(CHANNEL_ID);
   };
 
   private getFlags = (
@@ -193,25 +205,24 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private onTriggerClick = () => {
-    this.createAndFireEvent(buttonClicked());
+    this.createAndFireEvent(shareTriggerButtonClicked());
 
     this.setState(
-      {
-        isDialogOpen: !this.state.isDialogOpen,
+      state => ({
+        isDialogOpen: !state.isDialogOpen,
         ignoreIntermediateState: false,
-      },
+      }),
       () => {
+        const { onDialogOpen } = this.props;
         const { isDialogOpen } = this.state;
         if (isDialogOpen) {
           this.start = Date.now();
           this.createAndFireEvent(screenEvent());
+          if (onDialogOpen) onDialogOpen();
 
           if (this.containerRef.current) {
             this.containerRef.current.focus();
           }
-
-          // always refetch the config when modal is re-opened
-          this.props.fetchConfig();
         }
       },
     );
@@ -236,7 +247,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
     this.setState({ isSharing: true });
 
     this.createAndFireEvent(
-      submitShare(this.start, data, shareContentType, formShareOrigin, config),
+      formShareSubmitted(
+        this.start,
+        data,
+        shareContentType,
+        formShareOrigin,
+        config,
+      ),
     );
 
     onShareSubmit(data)
@@ -262,44 +279,106 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   handleCopyLink = () => {
-    const { copyLinkOrigin } = this.props;
-    this.createAndFireEvent(copyShareLink(this.start, copyLinkOrigin));
+    const { copyLinkOrigin, shareContentType } = this.props;
+    this.createAndFireEvent(
+      copyLinkButtonClicked(this.start, shareContentType, copyLinkOrigin),
+    );
+  };
+
+  renderShareTriggerButton = () => {
+    const { isDialogOpen } = this.state;
+    const {
+      intl: { formatMessage },
+      isDisabled,
+      renderCustomTriggerButton,
+      triggerButtonTooltipText,
+      triggerButtonTooltipPosition,
+      triggerButtonAppearance,
+      triggerButtonStyle,
+    } = this.props;
+
+    let button: React.ReactNode;
+
+    if (renderCustomTriggerButton) {
+      const { shareError } = this.state;
+      button = renderCustomTriggerButton({
+        error: shareError,
+        isSelected: isDialogOpen,
+        onClick: this.onTriggerClick,
+      });
+    } else {
+      button = (
+        <ShareButton
+          appearance={triggerButtonAppearance}
+          text={
+            triggerButtonStyle !== 'icon-only' ? (
+              <FormattedMessage {...messages.shareTriggerButtonText} />
+            ) : null
+          }
+          onClick={this.onTriggerClick}
+          iconBefore={
+            triggerButtonStyle !== 'text-only' ? (
+              <ShareIcon
+                label={formatMessage(messages.shareTriggerButtonIconLabel)}
+              />
+            ) : (
+              undefined
+            )
+          }
+          isSelected={isDialogOpen}
+          isDisabled={isDisabled}
+        />
+      );
+    }
+
+    if (triggerButtonStyle === 'icon-only') {
+      button = (
+        <Aktooltip
+          content={
+            triggerButtonTooltipText ||
+            formatMessage(messages.shareTriggerButtonTooltipText)
+          }
+          position={triggerButtonTooltipPosition}
+        >
+          {button}
+        </Aktooltip>
+      );
+    }
+
+    return button;
   };
 
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
-      intl: { formatMessage },
       copyLink,
       dialogPlacement,
-      isDisabled,
       isFetchingConfig,
       loadUserOptions,
       shareFormTitle,
       config,
-      triggerButtonAppearance,
-      triggerButtonStyle,
       bottomMessage,
+      submitButtonLabel,
     } = this.props;
 
     // for performance purposes, we may want to have a loadable content i.e. ShareForm
     return (
-      <div
+      <ShareButtonWrapper
         tabIndex={0}
         onKeyDown={this.handleKeyDown}
         style={{ outline: 'none' }}
-        ref={this.containerRef}
+        innerRef={this.containerRef}
       >
         <InlineDialog
           content={
-            <AnalyticsContext data={{ source: 'shareModal' }}>
+            <AnalyticsContext data={{ source: ANALYTICS_SOURCE }}>
               <>
                 <InlineDialogFormWrapper>
                   <ShareForm
                     copyLink={copyLink}
                     loadOptions={loadUserOptions}
                     isSharing={isSharing}
-                    onShareClick={this.handleShareSubmit}
+                    onSubmit={this.handleShareSubmit}
                     title={shareFormTitle}
                     shareError={shareError}
                     onDismiss={this.handleFormDismiss}
@@ -307,6 +386,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
                     config={config}
                     onLinkCopy={this.handleCopyLink}
                     isFetchingConfig={isFetchingConfig}
+                    submitButtonLabel={submitButtonLabel}
                   />
                 </InlineDialogFormWrapper>
                 {bottomMessage ? (
@@ -319,40 +399,13 @@ class ShareDialogWithTriggerInternal extends React.Component<
           onClose={this.handleCloseDialog}
           placement={dialogPlacement}
         >
-          {this.props.renderCustomTriggerButton ? (
-            this.props.renderCustomTriggerButton({
-              error: shareError,
-              isSelected: isDialogOpen,
-              onClick: this.onTriggerClick,
-            })
-          ) : (
-            <ShareButton
-              appearance={triggerButtonAppearance}
-              text={
-                triggerButtonStyle !== 'icon-only' ? (
-                  <FormattedMessage {...messages.shareTriggerButtonText} />
-                ) : null
-              }
-              onClick={this.onTriggerClick}
-              iconBefore={
-                triggerButtonStyle !== 'text-only' ? (
-                  <ShareIcon
-                    label={formatMessage(messages.shareTriggerButtonIconLabel)}
-                  />
-                ) : (
-                  undefined
-                )
-              }
-              isSelected={isDialogOpen}
-              isDisabled={isDisabled}
-            />
-          )}
+          {this.renderShareTriggerButton()}
         </InlineDialog>
-      </div>
+      </ShareButtonWrapper>
     );
   }
 }
 
-export const ShareDialogWithTrigger: React.ComponentType<
-  Props
-> = withAnalyticsEvents()(injectIntl(ShareDialogWithTriggerInternal));
+export const ShareDialogWithTrigger = withAnalyticsEvents<Props>()(
+  injectIntl<Props>(ShareDialogWithTriggerInternal),
+);

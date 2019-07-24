@@ -6,30 +6,48 @@ import { diffArr, objectMap } from '../utils';
 
 export const RefinementBarContext = React.createContext({});
 
+type FieldKey = string;
+type FieldKeys = Array<FieldKey>;
 type FieldType = {
   label: string,
   type: ComponentType<*>,
 };
-type FieldConfigType = { [key: string]: FieldType };
-type Keys = Array<string>;
+type FieldConfigType = { [FieldKey]: FieldType };
 type Meta = {
   type: 'add' | 'remove' | 'update',
-  key: string,
+  key: FieldKey,
   data?: any,
 };
 
-type ProviderProps = {
-  children?: Node,
+export type ValuesType = { [FieldKey]: any };
+export type CommonProps = {
+  /** All fields that may be rendered in the refinement bar. */
   fieldConfig: FieldConfigType,
-  irremovableKeys: Keys,
+  /** All fields that may be rendered in the refinement bar. */
+  irremovableKeys: FieldKeys,
+  /** Handle what happens when one of the field's values changes. */
   onChange: (value: Object, meta: Meta) => void,
-  value: Object,
+  /** The current value of each field in the refinement bar. */
+  value: ValuesType,
 };
-type State = {
+export type ProviderContext = {
+  ...CommonProps,
+  fieldKeys: FieldKeys,
+  removeableKeys: FieldKeys,
+  selectedKeys: FieldKeys,
+  valueKeys: FieldKeys,
+};
+type ProviderProps = CommonProps & {
+  children?: Node,
+};
+type ProviderState = {
   fieldConfig: FieldConfigType,
 };
 
-export class RefinementBarProvider extends Component<ProviderProps, State> {
+export class RefinementBarProvider extends Component<
+  ProviderProps,
+  ProviderState,
+> {
   static defaultProps = {
     irremovableKeys: [],
   };
@@ -50,26 +68,34 @@ export class RefinementBarProvider extends Component<ProviderProps, State> {
     };
   }
 
-  get removeableKeys() {
-    const all = Object.keys(this.props.fieldConfig);
-    const irremovable = this.props.irremovableKeys;
-    return diffArr(all, irremovable);
+  get fieldKeys(): FieldKeys {
+    return Object.keys(this.props.fieldConfig);
   }
 
-  get selectedKeys() {
-    const values = Object.keys(this.props.value);
+  get valueKeys(): FieldKeys {
+    return Object.keys(this.props.value);
+  }
+
+  get removeableKeys(): FieldKeys {
     const irremovable = this.props.irremovableKeys;
-    return diffArr(values, irremovable);
+    return diffArr(this.fieldKeys, irremovable);
+  }
+
+  get selectedKeys(): FieldKeys {
+    const irremovable = this.props.irremovableKeys;
+    return diffArr(this.valueKeys, irremovable);
   }
 
   render() {
     const context = {
       fieldConfig: this.state.fieldConfig,
+      fieldKeys: this.fieldKeys,
       irremovableKeys: this.props.irremovableKeys,
       onChange: this.props.onChange,
       removeableKeys: this.removeableKeys,
       selectedKeys: this.selectedKeys,
       value: this.props.value,
+      valueKeys: this.valueKeys,
     };
 
     return (
@@ -90,11 +116,5 @@ export const RefinementBarConsumer = ({
   </RefinementBarContext.Consumer>
 );
 
-// Required until atlaskit upgrades to react >= 16.6 😞
-export const withRefinementBarContext = (Comp: ComponentType<*>) => (
-  props: *,
-) => (
-  <RefinementBarContext.Consumer>
-    {c => <Comp {...props} tempContextFromProps={c} />}
-  </RefinementBarContext.Consumer>
-);
+// $FlowFixMe useContext
+export const useRefinementBar = () => React.useContext(RefinementBarContext);

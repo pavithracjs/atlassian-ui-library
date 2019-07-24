@@ -52,6 +52,13 @@ export type InsertMenuCustomItem = {
   onClick?: (editorActions: EditorActions) => void;
 };
 
+export type FeedbackInfo = {
+  product?: string;
+  packageVersion?: string;
+  packageName?: string;
+  labels?: Array<string>;
+};
+
 export type AllowedBlockTypes =
   | 'heading'
   | 'blockquote'
@@ -110,6 +117,10 @@ export interface EditorProps {
 
   // Enable the editor help dialog.
   allowHelpDialog?: boolean;
+
+  // Information required for editor to display the feedback modal.
+  // This is also required to enable quick insert plugin for feedback modal.
+  feedbackInfo?: FeedbackInfo;
 
   // This is a temporary setting for Confluence until we ship smart cards. **Please do not use.**
   allowJiraIssue?: boolean;
@@ -251,4 +262,8 @@ export interface EditorProps {
 
   // Flag to remove private content such as mention names
   sanitizePrivateContent?: boolean;
+
+  // flag to indicate display name instead of nick name should be inserted for mentions
+  // default: false, which inserts the nick name
+  mentionInsertDisplayName?: boolean;
 }

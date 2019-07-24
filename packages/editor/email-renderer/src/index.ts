@@ -1,4 +1,3 @@
-import { fontFamily, fontSize } from '@atlaskit/theme';
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 import flow from 'lodash.flow';
@@ -7,11 +6,13 @@ import {
   SerializeFragmentWithAttachmentsResult,
   SerializerWithImages,
 } from './serializer';
-import { nodeSerializers } from './serializers';
+import { nodeSerializers } from './node-serializers';
 import styles from './styles';
 import juice from 'juice';
-import { escapeHtmlString } from './util';
-import { getImageProcessor } from './static';
+import { escapeHtmlString } from './escape-html-string';
+import { processImages } from './static';
+import { createClassName } from './styles/util';
+import { fontFamily, fontSize } from './styles/common';
 
 const serializeNode = (
   node: PMNode,
@@ -76,20 +77,29 @@ const traverseTree = (fragment: Fragment, parent?: PMNode): any => {
 };
 
 export const commonStyle = {
-  'font-family': fontFamily(),
-  'font-size': `${fontSize()}px`,
+  'font-family': fontFamily,
+  'font-size': fontSize,
   'font-weight': 400,
   'line-height': '24px',
 };
 
 const wrapAdf = (content: any[]) => ({ version: 1, type: 'doc', content });
 
-const juicify = (html: string): string =>
-  juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
+const juicify = (html: string, inlineCSS: boolean): string => {
+  const opts: juice.Options = {};
+  if (inlineCSS) {
+    opts.extraCss = styles;
+  }
+  return juice(
+    `<div class="${createClassName('wrapper')}">${html}</div>`,
+    opts,
+  );
+};
 
 // replace all CID image references with a fake image
-const stubImages = (isMockEnabled: boolean) => (
+const stubImages = (
   content: SerializeFragmentWithAttachmentsResult,
+  isMockEnabled: boolean,
 ) =>
   isMockEnabled
     ? {
@@ -100,6 +110,11 @@ const stubImages = (isMockEnabled: boolean) => (
         embeddedImages: content.embeddedImages,
       }
     : content;
+
+export interface EmailSerializerOpts {
+  isImageStubEnabled: boolean;
+  isInlineCSSEnabled: boolean;
+}
 /**
  * EmailSerializer allows to disable/mock images via isImageStubEnabled flag.
  * The reason behind this is that in emails, images are embedded separately as inline attachemnts
@@ -107,10 +122,21 @@ const stubImages = (isMockEnabled: boolean) => (
  * when rendered in demo page, so we instead inline the image data.
  */
 export default class EmailSerializer implements SerializerWithImages<string> {
+  readonly opts: EmailSerializerOpts;
+  private static readonly defaultOpts: EmailSerializerOpts = {
+    isImageStubEnabled: false,
+    isInlineCSSEnabled: false,
+  };
+
   constructor(
     private schema: Schema = defaultSchema,
-    private isImageStubEnabled = false,
-  ) {}
+    opts: Partial<EmailSerializerOpts> = {},
+  ) {
+    this.opts = {
+      ...EmailSerializer.defaultOpts,
+      ...opts,
+    };
+  }
 
   serializeFragmentWithImages = flow(
     (fragment: Fragment) => fragment.toJSON(),
@@ -121,9 +147,9 @@ export default class EmailSerializer implements SerializerWithImages<string> {
     this.schema.nodeFromJSON,
     property('content'),
     traverseTree,
-    juicify,
-    getImageProcessor(this.isImageStubEnabled),
-    stubImages(this.isImageStubEnabled),
+    html => juicify(html, this.opts.isInlineCSSEnabled),
+    html => processImages(html, this.opts.isImageStubEnabled), // inline static assets for demo purposes
+    result => stubImages(result, this.opts.isImageStubEnabled), // stub user uploaded images to prevent console.errors
   );
 
   serializeFragment: (...args: any) => string = flow(
@@ -131,7 +157,10 @@ export default class EmailSerializer implements SerializerWithImages<string> {
     property('result'),
   );
 
-  static fromSchema(schema: Schema = defaultSchema): EmailSerializer {
-    return new EmailSerializer(schema);
+  static fromSchema(
+    schema: Schema = defaultSchema,
+    opts: Partial<EmailSerializerOpts> = {},
+  ): EmailSerializer {
+    return new EmailSerializer(schema, opts);
   }
 }

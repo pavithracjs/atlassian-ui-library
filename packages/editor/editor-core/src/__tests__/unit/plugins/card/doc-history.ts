@@ -61,7 +61,7 @@ describe('card', () => {
         promises = [];
       });
 
-      describe('replacedQueuedCardWithUrl', async () => {
+      describe('replacedQueuedCardWithUrl', () => {
         it('closes history around the transaction', async () => {
           const href = 'http://www.atlassian.com/';
           const initialDoc = doc(

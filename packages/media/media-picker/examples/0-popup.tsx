@@ -100,7 +100,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
       userAuthProvider,
     };
 
-    const newPopup = await MediaPicker('popup', mediaClientConfig, {
+    const newPopup = await MediaPicker(mediaClientConfig, {
       container: document.body,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,

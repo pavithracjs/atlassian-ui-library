@@ -1,368 +1,415 @@
 import * as React from 'react';
 import { md, code, Example, AtlassianInternalWarning } from '@atlaskit/docs';
 
-import dropzone from './dropzone.png';
-import browser from './browser.png';
 import popup from './popup.png';
 
 const CreateImage = (filename: string) => <img src={filename} />;
 
 export default md`
   ${<AtlassianInternalWarning />}
-  
+
   # Documentation
 
   ## Table of contents
-
-  - [Working with the Library](#working-with-the-library)
-  - [Arguments](#arguments)
-  - [Component Creation](#component-creation)
+  - [Installing @atlaskit/media-picker](#install-media-picker)
+  - [Media Picker Component Overview](#media-picker-overview)
+  - [Configuring](#configuring)
+    - [MediaClientConfig](#media-client-config)
+    - [AuthProvider](#auth-provider)
+    - [Component-specific Config](#component-config)
+  - [Working with the Components](#working-with-components)
+    - [React based](#react-based):
+      - [Dropzone](#dropzone)
+      - [Clipboard](#clipboard)
+      - [Browser](#browser)
+    - [non-React based](#non-react-based):
+      - [Popup (aka. MediaPicker)](#popup)
   - [Typescript](#typescript)
-  - [Events](#events)
-  - [Components](#components)
-    - [Dropzone](#dropzone)
-    - [Clipboard](#clipboard)
-    - [Browser](#browser)
-    - [Popup](#popup)
+    - [AuthProvider Service Example](#authprovider)
+  - [Popup Example](#example)
 
-  <a name="working-with-the-library"></a>
-  ## Working with the Library
+  ### Note:
 
-  MediaPicker library is the composition of different components. All of the components have the same interface.
+  Don't forget to add these polyfills to your product build if you're using emoji or mentions in the editor and you want to target older browsers:
 
-  Let's take the **Browser** component as an example and see how to write a simple file uploading app around it.
-  The easiest integration may look like this:
+  * \`ChildNode.remove()\` ([polyfill](https://www.npmjs.com/package/element-remove), [browser support](https://caniuse.com/#feat=childnode-remove))
 
-  
-  ${code`import { MediaPicker } from '@atlaskit/media-picker';
+  <a name="install-media-picker"></a>
+  ## Installing @atlaskit/media-picker
 
-  const authProvider = (context) => Promise.resolve({
-    clientId: 'your-app-client-id',
-    token: 'your-generated-token',
-    baseUrl: 'https://media-api.atlassian.io'
-  });
-
-  const context = ContextFactory.create({authProvider});
-
-  const browser = MediaPicker('browser', context);
-  browser.on('upload-end', payload => {console.log(payload.public)});
-
-  ...
-
-  browser.browse();
+${code`
+  yarn add @atlaskit/media-picker
 `}
 
-  This little app will let the user browse a file on their hard drive and upload it by clicking the button.
-  The upload-end event provides the file selected/uploaded, with a new public id.
-  You can read more detailed documentation of the MediaPickerBrowser component below.
+  <a name="media-picker-overview"></a>
+  ## Media Picker Component Overview
 
-  ---
-  <a name="arguments"></a>
-  ## Arguments
+  The MediaPicker library is made up of several components which allow the user to select media in different ways.
 
-  There are two required and 1 optional arguments:
+  The following components are React-based:
 
-  ${code`const browser = MediaPicker(typeOfPicker, context, config);`}
+  * **Browser** - provides the native file browser to allow the user to select a local file
+  * **DropZone** - provides a drag &amp; drop area for the user to drag &amp; drop a local file
+  * **Clipboard** - provides copy and paste support for the user
+  
+  There is also a non-React-based component called **Popup** (aka. MediaPicker) which provides a custom picker UI which supports the following sources:
 
-  ### Type of picker
+  * Local file via native files browser
+  * Local file via drag &amp; drop
+  * GIPHY
+  * Dropbox
+  * Google Drive
 
-  First argument is a <_string_>. It defined what kind of picker will be created:
+  <a name="configuring"></a>
+  ## Configuring
 
-  - **browser**: will open browser default file dialog for user to choose file from
-  - **clipboard**: allows user to paste a file from clipboard
-  - **dropzone**: allows user to drag and drop a file
-  - **popup**: will open a custom rich user experience for picking file from multiple sources
+  MediaPicker components require several configuration details to work correctly. They are described below.
 
-  ### Context object
+  <a name="media-client-config"></a>
+  ### MediaClientConfig
 
-  Second argument is all about providing authentication. To create object of this type special factory
-  needs to be used:
+  No matter which component you use, you'll need to create a \`MediaClientConfig\` object and pass it to the component via the **mediaClientConfig** prop. This should be 
+  done at/by the product level, so that a common config can be passed down to the components.
+  
+  \`MediaClientConfig\` must contain a property **authProvider** of function type \`AuthProvider\` (explained in more detail below). This enables
+  the component to communicate correctly with the Media Services backend API by passing tokens.
 
+  ${code`const mediaClientConfig = {
+  authProvider: myAuthProviderFn
+};`}
 
-  ${code`const context = ContextFactory.create({
-    authProvider, // Required property. See bellow
-    userAuthProvider, // Optional property. Required if popup type is chosen.
-    cacheSize  // Optional property. Number of items cached. Default ios 200
-  });`}
+  Pass it to the React component via the \`mediaClientConfig\` prop, or to the \`MediaPicker\` factory method when using the non-React **Popup** component.
 
-  authProvider and userAuthProvider are of type <_[AuthProvider](./authProvider.md)_>
+  <a name="auth-provider"></a>
+  ### AuthProvider
 
-  ### Config object
+  The **authProvider** value of the \`MediaClientConfig\` object is a function which returns a Promise which resolves to a type \`Auth\`. The function is passed a single argument of type \`AuthContext\` 
+  which contains a **collectionName** string property. This can be used to pass to your auth provider for additional context (ie. which collection you need to access).
 
-  Third is an optional parameter where you can configure some of the parameters:
+  \`AuthProvider\` type can be described as:
 
-  ---
-  <a name="components-creation"></a>
-  ## Component creation
+  ${code`function(context?: AuthContext): Promise<Auth>`}
 
-  All MediaPicker components are created the same way. The first parameter is always the name of the component,
-  the second is the general MediaPicker context and the third is the component-specific config
+  The \`AuthProvider\` can support client-based auth (you provide the auth service) or ASAP-based auth (Atlassian provides it).
 
- ${code`
-  const dropzone = MediaPicker('dropzone', context, {
-    container: document.body,
-  });
-  `}
+  ${code`interface ClientBasedAuth {
+  clientId: string;
+  token: string;
+  baseUrl: string;
+}
 
-  Please note that you don't need to specify the **new** keyword before creating a component.
-  MediaPicker will do it internally.
+export interface AsapBasedAuth {
+  asapIssuer: string;
+  token: string;
+  baseUrl: string;
+}
 
-  #### Typescript
+type Auth = ClientBasedAuth | AsapBasedAuth;
 
-  MediaPicker is fully written in Typescript, and it exports all its public types and interfaces.
-  We refer to some of those objects in the docs, if you want to know more about those please have a look into:
+interface AuthContext {
+  collectionName?: string;
+}
 
-  - media-picker/src/domain
-  - media-picker/popup/src/domain
+// The signature for an AuthProvider function...
+type AuthProvider = (context?: AuthContext) => Promise<Auth>;`}
 
-  <a name="events"></a>
-  ## Events
+  You might write something like this as your \`AuthProvider\`.
 
-  All MediaPicker components are emitting the same set of generic events. It doesn't matter whether file was uploaded from the local drive or picked from Dropbox — all the following events will be emitted in the same way.
+  ${code`const myAuthProviderFn = (context: AuthContext) => {
+  /// the response should be of type Auth...
+  return fetch("https://get-auth?collection=" + context.collectionName);
+}`}
 
-  ### Events
+  <a name="component-config"></a>
+  ### Component Configuration
 
-  #### uploads-start _{file: MediaFile[]}_
+  Apart from requiring a \`MediaClientConfig\` with an \`AuthProvider\`, each component can be configured for additional component-specific settings. 
+  
+  These are the base properties for each component configuration, meaning each component can be configured with these common properties:
 
-  Emitted when uploads have started
+  * **uploadParams?**: \`object\` - an object containing the following properties:
+    * **collection?**: \`string\` - the collection name to upload file(s) to
+  * **shouldCopyFileToRecents?**: \`boolean\` - whether or not the file(s) should appear in the clients recents collection
+  
+  There are additional config properties available for each component, they are described with each component below.
 
-  #### upload-preview-update _{file: MediaFile, preview: Preview}_
+  <a name="working-with-components"></a>
+  ### Working with the Components
 
-  Emitted when MediaPicker has a preview. Will not be raised if a preview could not be generated,
-  therefore preview will always have a value.
+  <a name="react-based"></a>
+  #### React based:
 
-  #### upload-status-update _{file: MediaFile, progress: MediaProgress}_
+  The React components are imported from the library as needed.
 
-  Emitted when upload is in action
+  ${code`import { Dropzone, Clipboard, Browse } from '@atlaskit/media-picker'`}
 
-  #### upload-processing _{file: MediaFile}_
+  You would then wrap these components in another component and render them as part of that components render logic.
 
-  Emitted when server got all the chunks and started to process the file
+  Each React component has the following standard props, which allow you to receive events about the uploads.
 
-  #### upload-end _{file: MediaFile, public: &lt;the object returned by fileStore get method&gt;}_
+  * **onUploadStart?**: \`(payload: UploadsStartEventPayload) => void\` - This event is fired when files begin to upload
+  * **onProcessing?**: \`(payload: UploadProcessingEventPayload) => void\` - This event is fired when the file is being processed by the server
+  * **onStatusUpdate?**: \`(payload: UploadStatusUpdateEventPayload) => void\` - This event is fired to update the status of processing
+  * **onPreviewUpdate?**: \`(payload: UploadPreviewUpdateEventPayload) => void\` - This event is fired when a preview (image) of the files uploaded is available
+  * **onError?**: \`(payload: UploadErrorEventPayload) => void\` - This event is fired when errors occur during upload
+  * **onEnd?**: \`(payload: UploadEndEventPayload) => void\` - This event is fired when the upload ends
 
-  Emitted when server finished processing file and made it available to download
-
-  #### upload-error _{error: MediaError}_
-
-  Emitted if library got an error it can not recover from
-
- ${code`
-  browser.on('upload-end', payload => {
-    console.log(payload.public);
-  });
-  `}
-
-  <a name="components"></a>
-  ## Components
+  The following sections describe how to work with the React components. _It is assumed you would have already created a \`MediaClientConfig\` with \`AuthProvider\` as described above._
 
   <a name="dropzone"></a>
   ### Dropzone
 
-  Allows user to drag & drop files into the page. Has a design first seen in [https://enso.me/](Enso).
+  The \`Dropzone\` React component provides a drag &amp; drop solution for uploads.
 
-  ${CreateImage(dropzone)}
+  It has some additional properties to the standard event properties on all the React components:
 
-  #### Usage
+  * **onDragEnter?**: \`(payload: DropzoneDragEnterEventPayload) => void\` - fired when a file is dragged over the drop zone
+  * **onDragLeave?**: \`(payload: DropzoneDragLeaveEventPayload) => void\` - fired when a file is dragged away from the drop zone after entering
+  * **onDrop?**: \`() => void\` - fired when a file is dropped on the drop zone
+  * **onCancelFn?**: \`(cancel: (uploadId: string) => void) => void\` - provides a callback which can be used to manually cancel an upload if required
 
- ${code`
-  const context = ContextFactory.create({
-    authProvider: () =>
-      Promise.resolve({
-        clientId: 'your-app-client-id',
-        token: 'your-generated-token',
-        baseUrl: 'https://media-api.atlassian.io',
-      }),
-  });
+  You can configure it with these options:
 
-  const dropzone = MediaPicker('dropzone', context, {
-    container: document.getElementById('container'),
-  });
-  dropzone.on('upload-end', payload => {
-    console.log(payload.public);
-  });
-  dropzone.activate();
-  `}
+  * **container?**: HTMLElement - Container element for dropzone to render
 
-  #### Additional parameters
+  Here's an example of using the component.
 
-  **container?** <_HTML Element | JQuery Selector_> —
-  Element where the popup should be placed. The default value is the document Body.
+  **NOTE:**
+  
+  * To cancel the upload take a look at the \`onCancelFn\` prop. You are passed a ref to a function which you can call later by passing an upload id you received before.
 
-  **headless?** <_boolean_> — If true, no UI will be shown. The integrator should listen
-  to drag-enter and drag-leave events to show custom UI.
+  ${code`import { Dropzone } from '@atlaskit/media-picker';
 
-  #### Methods
+const mediaClientConfig = {
+  authProvider: myAuthProviderFn
+};
+  
+const dropZoneConfig = {
+  container: document.getElementById('dropZone'),
+  uploadParams: {
+    collection: 'some-collection',
+  }
+}`}
 
-  **activate()** — Activates the dropzone
+  Here's an example of using the component.
 
-  **deactivate()** — Make container ignore the dragged & dropped files
+  **NOTE:**
+  
+  * To cancel the upload take a look at the \`onCancelFn\` prop. You are passed a ref to a function which you can call later by passing an upload id you received before.
 
-  #### Dropzone Events
+  ${code`function onCancelFn(cancelFn) {
+    // do something with cancelFn when needed...
+    setTimeout(() => cancelFn('some-upload-id'), 1000)
+  }
 
-  **drag-enter** <_{ length: number }_> — Emitted when user dragged file over the container and
-  contains the number of dragged files
+<Dropzone
+  mediaClientConfig={mediaClientConfig}
+  config={dropZoneConfig}
+  onDragEnter={onDragEnterFn}
+  onDragLeave={onDragLeaveFn}
+  onDrop={onDropFn}
+  onCancelFn={onCancelFn}
+  onUploadsStart={onUploadsStartFn}
+  onProcessing={onProcessingFn}
+  onStatusUpdate={onStatusUpdateFn}
+  onPreviewUpdate={onPreviewUpdateFn}
+  onError={onErrorHandler}
+  onEnd={onEndHandler}
+/>`}
 
-  > Special cases
-
-  - This event doesn't support dragged directories, it will return 1 as length.
-  - IE11 and Safari don't return the number of dragged items. This will return 0 as length.
-
-  **drag-leave** <_{ }_> — Emitted when user moved file away from the container
-
-  **_drop_** <_{ }_> — Emitted when user dropped a file
-
-  > Special cases
-
-  - IE11: doesn't upload files when a folder is dropped.
-  - Firefox: doesn't upload files recursively within a folder.
-
-  ---
   <a name="clipboard"></a>
   ### Clipboard
 
-  Allows a user to paste files from the clipboard. You can try this feature in project.
+  The \`Clipboard\` React component provides copy &amp; paste capabilities. This allows the user to paste copied files into the browser.
 
-  #### Usage
+  _It does not have any additional configuration beyond the base configuration options available._
 
- ${code`
-  const context = ContextFactory.create({
-    authProvider: () =>
-      Promise.resolve({
-        clientId: 'your-app-client-id',
-        token: 'your-generated-token',
-        baseUrl: 'https://media-api.atlassian.io',
-      }),
-  });
+  Here's an example of using the component.
 
-  const clipboard = MediaPicker('clipboard', context);
-  clipboard.on('upload-end', payload => {
-    console.log(payload.public);
-  });
-  clipboard.activate();
-  `}
+  ${code`import { Clipboard } from '@atlaskit/media-picker';
 
-  #### Methods
+  const mediaClientConfig = {
+    authProvider: myAuthProviderFn
+  };
+    
+  const clipboardConfig = {
+    uploadParams: {
+      collection: 'some-collection',
+    }
+  }
+}`}
 
-  **activate()** — Start listen to clipboard events
+Here's an example of using the component.
 
-  **deactivate()** — Stop listen to clipboard events
+${code`<Clipboard
+  mediaClientConfig={mediaClientConfig}
+  config={clipboardConfig}
+  onUploadsStart={onUploadsStartFn}
+  onProcessing={onProcessingFn}
+  onStatusUpdate={onStatusUpdateFn}
+  onPreviewUpdate={onPreviewUpdateFn}
+  onError={onErrorHandler}
+  onEnd={onEndHandler}
+/>`}
 
-  ---
   <a name="browser"></a>
   ### Browser
 
-  Opens native Operating System file browser window.
+  The \`Browser\` React component enables the user to select local files via the native browser file dialog.
 
-  ${CreateImage(browser)}
+  It has some additional properties to the standard event properties on all the React components:
 
-  #### Usage
+  * **isOpen?**: \`boolean\` - when true, the dialog will show when the component is first rendered _(NOTE: without this value, no dialog will appear unless you use the **onBrowserFn** hook)_
+  * **onBrowserFn?**: \`(browse: () => void) => void\` - provides a callback to manually invoke the dialog. This can be useful for cases where the action is required outside of React render lifecycle
+  * **onCancelFn?**: \`(cancel: (uploadId: string) => void) => void\` - provides a callback which can be used to manually cancel an upload if required
 
-  ${code`const context = ContextFactory.create({
-    authProvider: () =>
-      Promise.resolve({
-        clientId: 'your-app-client-id',
-        token: 'your-generated-token',
-        baseUrl: ''https://media-api.atlassian.io'
-      }),
-  });
+  You can configure it with these options:
 
-  const browserConfig = {
-    multiple: true,
-    fileExtensions: ['.jpg'],
-  };
+  * **multiple?**: \`boolean\` - whether or not to allow multiple files during selection
+  * **fileExtensions?**: \`Array<string>\` - limit file types to given extensions
+  
+  Here's an example of using the component.
 
-  const browser = MediaPicker('browser', context, browserConfig);
-  browser.on('upload-end', payload => {
-    console.log(payload.public);
-  });
+  **NOTE:**
 
-  browser.browse();
-  `}
+  * To cancel the upload take a look at the \`onCancelFn\` prop. You are passed a ref to a function which you can call later by passing an upload id you received before.
+  * If you want to render the component without showing the native dialog immediately, you can use the \`onBrowseFn\` prop to receive a function which can be called later.
 
-  #### Additional parameters
+  ${code`import { Clipboard } from '@atlaskit/media-picker';
 
-  **multiple?** <_boolean_> —
-  Defines whether client app accepts multiple files. The default value is true.
+const mediaClientConfig = {
+  authProvider: myAuthProviderFn
+};
+  
+const browserConfig = {
+  multiple: true,
+  fileExtensions: ['image/jpeg', 'image/png', 'video/mp4'],
+  uploadParams: {
+    collection: 'some-collection',
+  },
+};`}
 
-  **fileExtensions?** <_array<*string*>_> —
-  An array of allowed file extensions. All extensions are allowed by default.
+${code`function onCancelFn(cancelFn) {
+  // cancel known upload with cancelFn when needed...
+  setTimeout(() => cancelFn('some-upload-id'), 1000)
+}
 
-  #### Methods
+function onBrowseFnHandler(browseFn) {
+  // show native browser dialog with browseFn when needed...
+  setTimeout(() => browseFn(), 1000)
+}
 
-  **browse()** — Open a dialog with the files on the local drive. Allows multiple file uploads.
+<Browser
+  mediaClientConfig={mediaClientConfig}
+  config={browserConfig}
+  isOpen={true}
+  onBrowseFn={onBrowseFnHandler}
+  onCancelFn={onCancelFn}
+  onUploadsStart={onUploadsStartFn}
+  onProcessing={onProcessingFn}
+  onStatusUpdate={onStatusUpdateFn}
+  onPreviewUpdate={onPreviewUpdateFn}
+  onError={onErrorHandler}
+  onEnd={onEndHandler}
+/>`}
 
-  ---
+  <a name="non-react-based"></a>
+  ### Non-React based
 
-  #### Methods
-
-  **upload(base64 <string>, fileName <string>)** —
-  Starts upload of the file encoded in base64 with the specified fileName
-
-  #### Special events
-
-  No special events for this module
-
-  ---
   <a name="popup"></a>
-  ### Popup
+  ### Popup (aka. MediaPicker)
 
-  Lets user pick files from their local computer or cloud storage.
-
-  The popup component requires userAuthProvider (in addition to the authProvider because it displays
-  files from and uploads files to the user's recent file collection). You will be need to cache this
-  token returned by userAuthProvider because the popup will call this provider on every request
-  to the media api concerning the users collection and cloud accounts. You cannot use the popup component
-  if you can't obtain a token for the user's collection - use the Browser component instead.
-  It can be optionally passed Legacy Context from any "parent" element to make analytics-next events bubble up to listeners.
+  The \`Popup\` component provides a custom UI which allows the user to select a file from multiple sources, both local and cloud.
 
   ${CreateImage(popup)}
 
-  #### Usage
+  It has the following configuration properties, including the [base configuration properties](#component-config):
 
-  ${code`const context = ContextFactory.create({
-    authProvider: () =>
-      Promise.resolve({
-        clientId: 'your-app-client-id',
-        token: 'your-generated-token',
-        baseUrl: ''https://media-api.atlassian.io'
-      }),
-    userAuthProvider: () =>
-      Promise.resolve({
-        clientId: 'your-user-client-id',
-        token: 'your-user-generated-token',
-        baseUrl: ''https://media-api.atlassian.io'
-      })
-  });
+  * **container?**: \`HTMLElement\` - the DOM element to use as a container
+  * **proxyReactContext?**: \`AppProxyReactContext\` - (advanced, not required on average) an object to use when needing React context from a different tree
+  * **singleSelect?**: \`boolean\` - whether or not to allow multiple or just single selections
 
-  const popupConfig = {
-    container: document.getElementById('container'),
-    proxyReactContext?: {
-      getAtlaskitAnalyticsEventHandlers: () => {}
-    }
-  };
+  Import the \`MediaPicker\` factory method and pass a \`MediaClientConfig\` object along with a custom configuration object to it. _NOTE: Since 
+  the class is code split (will load async on demand) you need to use the \`await\` keyword, or use a promise syntax._
 
-  const popup = MediaPicker('popup', context, popupConfig);
-  popup.on('upload-end', payload => {
-    console.log(payload.public);
-  });
-  popup.show();
-  `}
+  ${code`import { MediaPicker } from '@atlaskit/media-picker';
 
-  #### Additional parameters
+const mediaClientConfig = {
+  authProvider: myAuthProviderFn
+};
 
-  **container?** <_HTML Element | JQuery Selector_> —
-  The element where the popup should be placed. The default value is the document Body.
+const popupConfig = {
+  uploadParams: {
+    collection: 'some-collection'
+  }
+};
 
-  #### Methods
+// es6 using async/await...
+const popup = await MediaPicker(mediaClientConfig, popupConfig);
+doSomethingWith(popup);
 
-  **show()** – Shows the popup
+// or es5 way with Promises...
+MediaPicker(mediaClientConfig, popupConfig).then(popup => doSomethingWith(popup));`}
 
-  **hide()** – Hides the popup
+You'll then need to subscribe to its events. These events are the same as the React events described above in terms of functionality:
 
-  #### Special events
+${code`popup.on('uploads-start', onUploadsStartFn);
+popup.on('upload-preview-update', onUploadPreviewHandler);
+popup.on('upload-status-update', onUploadStatusUpdateHandler);
+popup.on('upload-processing', onUploadProcessingHandler);
+popup.on('upload-end', onUploadEndHandler);
+popup.on('upload-error', onUploadErrorHandler);
+popup.on('closed', onClosedHandler);`}
 
-  **closed** - emitted when the popup its disappears, this can happen when its either closed or submitted.
+The popup provides the following methods:
+
+* **show(): Promise<void>** - open/show the picker UI
+* **hide(): void** - hide/close the picker UI
+* **cancel(uploadId?: string | Promise<string>):  Promise<void>** - cancel all/specific uploads in progress
+* **setUploadParams({ collection: string }): void** - provide upload parameters to specify collection
+* **removeAllListeners(): void** - remove all listeners bound with .on()
+* **emitClosed(): void** - remove all listeners bound with .on()
+* **teardown(): void** - cleanup
+
+  <a name="typescript"></a>
+  ### Typescript
+
+  MediaPicker is fully written in Typescript, and exports all its public types and interfaces.
+  We refer to some of those objects in the docs, if you want to know more about those please have a look into:
+
+  - [packages/media/media-picker/src/domain](https://bitbucket.org/atlassian/atlaskit-mk-2/src/master/packages/media/media-picker/src/domain/)
+  - [packages/media/media-picker/src/popup/domain](https://bitbucket.org/atlassian/atlaskit-mk-2/src/master/packages/media/media-picker/src/popup/domain/)
+
+  <a name="authprovider"></a>
+  ### AuthProvider Service Example
+
+  Media Picker requires a signed JWT for uploading files into the Media API. 
+  The token is usually created on the backend by your service with a function similar to this:
+
+  ${code`function createFileStoreToken() {
+  const tolerance = 60 * 1; // 1 minute
+  const now = Math.floor(Date.now() / 1000) - tolerance;
+  return jwt.sign(
+    {
+      access: {
+        'urn:filestore:collection': ['create'],
+        'urn:filestore:collection:test-collection': ['read', 'insert'],
+        'urn:filestore:chunk:*': ['create', 'read'],
+        'urn:filestore:upload': ['create'],
+        'urn:filestore:upload:*': ['read', 'update'],
+      },
+      nbf: now,
+      exp: now + 60 * 60, // 60 minutes
+    },
+    YOUR_SECRET,
+    { issuer: YOUR_CLIENT_ID },
+  );
+}`}
+
+  Please note, that you need access to the upload API filestore:upload to perform requests.
+
+  <a name="example"></a>
+  ### Popup Example
 
   ${(
     <Example
@@ -371,6 +418,4 @@ export default md`
       source={require('!!raw-loader!../examples/0-popup')}
     />
   )}
-  `;
-// TODO: add all the props from all the components using react prop types instead.
-// There is a bug at the moment that does not allow to do it properly.
+`;

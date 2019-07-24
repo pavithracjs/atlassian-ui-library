@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -35,12 +35,12 @@ class Blanket extends React.Component<Props, {}> {
 export { Blanket as BlanketWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'blanket',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onBlanketClicked: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'blanket',

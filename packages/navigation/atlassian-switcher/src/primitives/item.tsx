@@ -32,7 +32,6 @@ type SwitcherItemProps = {
 class SwitcherItem extends React.Component<SwitcherItemProps> {
   render() {
     const { icon, description, ...rest } = this.props;
-
     return (
       <FadeIn>
         <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
@@ -43,7 +42,7 @@ class SwitcherItem extends React.Component<SwitcherItemProps> {
   }
 }
 
-const SwitcherItemWithEvents = withAnalyticsEvents({
+const SwitcherItemWithEvents = withAnalyticsEvents<SwitcherItemProps>({
   onClick: createAndFireNavigationEvent({
     eventType: UI_EVENT_TYPE,
     action: 'clicked',

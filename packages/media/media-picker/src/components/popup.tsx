@@ -6,7 +6,6 @@ import * as exenv from 'exenv';
 import App, { AppProxyReactContext } from '../popup/components/app';
 import { cancelUpload } from '../popup/actions/cancelUpload';
 import { showPopup } from '../popup/actions/showPopup';
-import { resetView } from '../popup/actions/resetView';
 import { getFilesInRecents } from '../popup/actions/getFilesInRecents';
 import { State } from '../popup/domain';
 import { hidePopup } from '../popup/actions/hidePopup';
@@ -79,7 +78,6 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
   public async show(): Promise<void> {
     const { dispatch } = this.store;
 
-    dispatch(resetView());
     dispatch(getFilesInRecents());
     dispatch(showPopup());
   }
@@ -101,7 +99,11 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
       return;
     }
     unmountComponentAtNode(this.container);
-    this.container.remove();
+    if (this.container && typeof this.container.remove === 'function') {
+      this.container.remove();
+    } else {
+      // TODO [MS-2138]: add track when remove polyfill is not available on consumer side
+    }
   }
 
   public hide(): void {

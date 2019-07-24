@@ -42,7 +42,6 @@ export type ConfigResponseMode =
 
 export const DEFAULT_SHARE_PATH = 'share';
 export const SHARE_CONFIG_PATH = 'share/config';
-// TODO: replace with the real stargate namespace
 export const DEFAULT_SHARE_SERVICE_URL = '/gateway/api';
 
 export class ShareServiceClient implements ShareClient {

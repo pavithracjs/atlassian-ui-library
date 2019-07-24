@@ -1,5 +1,941 @@
 # @atlaskit/editor-core
 
+## 112.36.0
+
+### Minor Changes
+
+- [minor][06cfea0870](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06cfea0870):
+
+  TEAMS-549 : Adding capability to show a spotlight in Fabric Editor
+
+## 112.35.3
+
+### Patch Changes
+
+- [patch][b62ca2126a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b62ca2126a):
+
+  ED-7304 Fix bug where column keep selection UI when you select a cell
+
+## 112.35.2
+
+### Patch Changes
+
+- [patch][0bb88234e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0bb88234e6):
+
+  Upgrade prosemirror-view to 1.9.12
+
+## 112.35.1
+
+### Patch Changes
+
+- [patch][f6ea3777ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f6ea3777ff):
+
+  Upgrade media editor in editor core
+
+## 112.35.0
+
+### Minor Changes
+
+- [minor][d4218e8388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4218e8388):
+
+  [ED-7018] Improve table performance moving the column controls from external divs to Prosemirror Decorations inside of the table cells.
+
+## 112.34.2
+
+- Updated dependencies [bc0d3bf0b2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bc0d3bf0b2):
+  - @atlaskit/share@0.6.0
+
+## 112.34.1
+
+### Patch Changes
+
+- [patch][ec8066a555](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec8066a555):
+
+  Upgrade `@types/prosemirror-view` Typescript definitions to latest 1.9.x API
+
+## 112.34.0
+
+### Minor Changes
+
+- [minor][8ea4c1d314](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ea4c1d314):
+
+  ED-6382 Added quick insert option to open the feedback modal dialog in editor
+
+  **Interface Changes**
+  There are also changes in the interface of `Editor` component and `ToolbarFeedback` component.
+
+  **`Editor`**
+  For `Editor` component, a property called `feedbackInfo` is added contains the following properties:
+
+  - `product`
+  - `packageName`
+  - `packageVersion`
+  - `labels`
+
+  The above properties will provide environmental context for the feedback dialog.
+
+  Note that `feedbackInfo` is required to enable editor quick insert option for the feedback dialog.
+
+  **`ToolbarFeedback`**
+  For `ToolbarFeedback` component, the following feedback related properties are deprecated in favour of using the `feedbackInfo` property on Editor.
+
+  - `packageName`
+  - `packageVersion`
+  - `labels`
+
+  **Compatibility**
+  Existing code using the `ToolbarFeedback` component will still work, there will be not no changes on the feedback dialog behavior. However, in order to enable opening feedback dialog from quick insert menu, you need to add `feedbackInfo` property on `Editor`.
+
+  If you have put different value for `packageName`, `packageVersion` and `labels` in both `Editor` and `ToolbarFeedback`, depends on how you opening the feedback dialog, it will use different properties.
+  For example, if a user opens the feedback dialog using the quick insert menu, the feedback modal will use relevant properties from `Editor` component, otherwise opening from toolbar feedback button will bring up a dialog uses relevant properties from `ToolbarFeedback` component.
+
+  **Explanation**
+  In order to enable opening feedback dialog from the quick insert menu, we need to move the feedback dialog code from ToolbarFeedback to Editor itself, because initialize editor plugin from a UI component is not ideal, and it would be very difficult to get properties from an UI component.
+
+## 112.33.35
+
+### Patch Changes
+
+- [patch][d5444d841f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5444d841f):
+
+  Upgrade media-editor in to pull in latest cjs change
+
+## 112.33.34
+
+### Patch Changes
+
+- [patch][926ca90f35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/926ca90f35):
+
+  Update i18n strings with latest translations
+
+## 112.33.33
+
+### Patch Changes
+
+- [patch][31a61bf470](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/31a61bf470):
+
+  ED-6379 Prevent layout trashing on table resizing/update.
+
+## 112.33.32
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/avatar-group@4.0.7
+  - @atlaskit/share@0.5.15
+  - @atlaskit/media-card@63.3.7
+  - @atlaskit/media-picker@45.0.6
+  - @atlaskit/toggle@8.0.0
+
+## 112.33.31
+
+### Patch Changes
+
+- [patch][0c43589d06](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c43589d06):
+
+  fix: 🐛 ED-4920: set GapCursor selection after pasting mediaSingle in a table cell
+
+## 112.33.30
+
+### Patch Changes
+
+- [patch][51fa352bef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51fa352bef):
+
+  ED-7275 Fix bug where inserting a new column in a merged column, add the column at the beggining.
+
+## 112.33.29
+
+### Patch Changes
+
+- [patch][846f0e72ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/846f0e72ba):
+
+  ED-7280: Editor shouldnt attempt to apply focus while it isnt editable. If our disabled flag changes to false and we have the prop shouldFocus, attempt to apply focus at this point.
+
+## 112.33.28
+
+### Patch Changes
+
+- [patch][a1b3b85cf4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b3b85cf4):
+
+  ED-6475 Show overflow shadow when table is not selected
+
+## 112.33.27
+
+### Patch Changes
+
+- [patch][7b5254402e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7b5254402e):
+
+  ED-7268 Fix regression where table insert button is not shown when a cell is selected
+
+## 112.33.26
+
+### Patch Changes
+
+- [patch][8b3bf71af7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b3bf71af7):
+
+  ED-7274: Applying text colour over a range should only apply to text nodes
+
+## 112.33.25
+
+### Patch Changes
+
+- [patch][ba223c9878](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ba223c9878):
+
+  ED-7267: Validate URLs passing through smart links- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 112.33.24
+
+### Patch Changes
+
+- [patch][ee02cca952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee02cca952):
+
+  ED-6152: Fixes previous inline cursor regression where you couldnt type after the inline cursor
+
+## 112.33.23
+
+### Patch Changes
+
+- [patch][92419b2ad8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92419b2ad8):
+
+  ED-7116 Update logic for image sizing when changing layout to/from aligned
+
+  - If an image is smaller than 50% of line length the image will preserve its original size when aligned, else it will be capped at 50% line length
+  - When returning to a centred image after aligning the image will use its most recent resized size (whether that happened when aligned or when it was previously centred) or, if never resized, fall back to its original size
+
+## 112.33.22
+
+### Patch Changes
+
+- [patch][2588afa0a7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2588afa0a7):
+
+  ED-6864: fix pasting tables with cells without content
+
+## 112.33.21
+
+### Patch Changes
+
+- [patch][c0ba9ee289](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c0ba9ee289):
+
+  set viewMediaClientConfig when properties change in MediaSingle node
+
+  This fixes [ED-7269] + [FEF-8938]: issue with images not loading when the page transition from view to edit mode
+
+## 112.33.20
+
+### Patch Changes
+
+- [patch][41dce81d89](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41dce81d89):
+
+  ED-6985 Avoid overflow when table change to a bigger layout
+
+## 112.33.19
+
+### Patch Changes
+
+- [patch][00c8b76ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00c8b76ccc):
+
+  ED-7259 Fix Table Insert Menu rerender for each table change
+
+## 112.33.18
+
+### Patch Changes
+
+- [patch][1ddb0c3fef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ddb0c3fef):
+
+  ED-6152: Fix cursor alignment after emoji
+
+## 112.33.17
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 112.33.16
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 112.33.15
+
+### Patch Changes
+
+- [patch][e0ebde5385](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0ebde5385):
+
+  ED-7257: Disable breakout for extensions in Full Width mode. Minor fixes for extension selection and spacing
+
+## 112.33.14
+
+### Patch Changes
+
+- [patch][979464019f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/979464019f):
+
+  ED-7073: fixed table clear cell not working (caused by `prosemirror-utils@0.9.3`)
+
+## 112.33.13
+
+### Patch Changes
+
+- [patch][030ead1ffa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/030ead1ffa):
+
+  ED-7262: Fix text color dropdown alignment on smaller viewports (it would appear outside the viewport)
+
+## 112.33.12
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 112.33.11
+
+### Patch Changes
+
+- [patch][5ca03a3267](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca03a3267):
+
+  ED-7242 Use calculated offset to position table InsertButton (Use allowOutOfBound from popup)
+
+## 112.33.10
+
+### Patch Changes
+
+- [patch][64868b4e0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64868b4e0e):
+
+  ED-7249 Fix regression where table Insert Column button doesn't hide.
+
+## 112.33.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/logo@12.1.1
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/share@0.5.9
+  - @atlaskit/user-picker@4.0.13
+  - @atlaskit/media-picker@45.0.1
+  - @atlaskit/media-test-helpers@24.3.1
+  - @atlaskit/select@10.0.0
+
+## 112.33.8
+
+### Patch Changes
+
+- [patch][eaebe8551f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaebe8551f):
+
+  Update i18n strings with latest translations.
+
+## 112.33.7
+
+### Patch Changes
+
+- [patch][95c6536030](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95c6536030):
+
+  ED-7247 Fix regression where table insert button is not shown when hover on numbered controls.
+
+## 112.33.6
+
+### Patch Changes
+
+- [patch][f37cdc770c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f37cdc770c):
+
+  [ED-7243] Improve table decorations architecture
+
+## 112.33.5
+
+### Patch Changes
+
+- [patch][66809023e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66809023e3):
+
+  ED-7210: Fire link insertion event when exiting from floating toolbar
+
+## 112.33.4
+
+### Patch Changes
+
+- [patch][e14708091e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e14708091e):
+
+  ED-7211: Handle paste events with only an anchor tag
+
+## 112.33.3
+
+### Patch Changes
+
+- [patch][5f09ffcf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f09ffcf70):
+
+  ED-7097 Improve table performance, extract the DeleteButton from Table controls as a Floating element.
+
+## 112.33.2
+
+### Patch Changes
+
+- [patch][4b27187d8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b27187d8e):
+
+  [ED-7215] Improve table performance moving the column line markers from React Component to CSS only
+
+## 112.33.1
+
+### Patch Changes
+
+- [patch][fabee8bd0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fabee8bd0e):
+
+  ED-7238: refactor test to use EditorProps over importing mentionPlugin
+
+## 112.33.0
+
+### Minor Changes
+
+- [minor][13ca42c394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13ca42c394):
+
+  # use getAuthFromContext from media when a file if pasted from a different collection
+
+  Now products can provide auth using **getAuthFromContext** on MediaClientConfig:
+
+  ```
+  import {MediaClientConfig} from '@atlaskit/media-core'
+  import Editor from '@atlaskit/editor-core'
+
+  const viewMediaClientConfig: MediaClientConfig = {
+    authProvider // already exists
+    getAuthFromContext(contextId: string) {
+      // here products can return auth for external pages.
+      // in case of copy & paste on Confluence, they can provide read token for
+      // files on the source collection
+    }
+  }
+  const mediaProvider: = {
+    viewMediaClientConfig
+  }
+
+  <Editor {...otherNonRelatedProps} media={{provider: mediaProvider}} />
+  ```
+
+## 112.32.0
+
+### Minor Changes
+
+- [minor][f60618b0f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f60618b0f0):
+
+  ED-5844 Adding media link UI to editor
+
+## 112.31.2
+
+### Patch Changes
+
+- [patch][96bb8c8f70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96bb8c8f70):
+
+  Create viewMediaClientConfig & uploadMediaClientConfig on Editor if they are missing
+
+## 112.31.1
+
+### Patch Changes
+
+- [patch][428874c03b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/428874c03b):
+
+  ED-7166: Lists can now be toggled inside panels
+
+## 112.31.0
+
+### Minor Changes
+
+- [minor][e9cdfa5aed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9cdfa5aed):
+
+  ED-7188: Full width mode is now centre aligned.
+
+## 112.30.0
+
+### Minor Changes
+
+- [minor][4a22a774a6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a22a774a6):
+
+  AUX-36 Add update support for extension handler
+
+## 112.29.0
+
+### Minor Changes
+
+- [minor][e754b5f85e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e754b5f85e):
+
+  Media Picker Dropone component is now migrated to React.
+
+  - Previous vanilla js API:
+
+  ```
+  // instantiation
+  const dropzone = await new MediaPicker('dropzone', context, pickerConfig).init();
+
+  // subscribe to upload events
+  dropzone.on('uploads-start', onUploadsStart);
+  dropzone.on('upload-preview-update', onUploadPreviewUpdate);
+  dropzone.on('upload-status-update', onUploadStatusUpdate);
+  dropzone.on('upload-processing', onUploadProcessing);
+  dropzone.on('upload-end', onUploadEnd);
+  dropzone.on('upload-error', onUploadError);
+  ```
+
+
+    // activate/deactivate dropone
+    dropzone.activate();
+    dropzone.deactivate();
+
+    // cancel ongoing upload
+    dropzone.cancel(uploadId);
+
+    // when we want to dispose the component
+    dropzone.teardown();
+    ```
+
+    - New React API:
+
+    ```
+    class DropzoneConsumer extends React.Component {
+      render() {
+        return (
+          <Dropzone
+            config={config}
+            context={context}
+            onProcessing={onProcessing}
+            onError={onError}
+            onPreviewUpdate={onPreviewUpdate}
+          />
+        )
+      }
+    }
+    ```
+
+    Notes on new API:
+
+    - old `MediaPicker` constructor does not recieve `pickerType` as first parameter anymore, since the only component left to migrate to react is `popup`.
+    Meaning that if before we were doing:
+     ```
+     new MediaPicker('popup', context, config)
+     ```
+    now we will need to just do
+     ```
+     new MediaPicker(context, config)
+     ```
+
+    - No need to explicitly teardown the component. Unmounting the component will do the work
+
+    - `onCancelFn` is a workaround to cancel an ongoing upload. Refer to its type definitions for more info. Before we were saving a ref and calling `ref.cancel()`.
+
+    Basically if we render `Dropzone` component in isolation (meaning, not inside another react component), we will need to do something like:
+
+    ```
+    const saveCancelUploadFn = (cancel) => this.cancelUpload = cancel;
+
+    ...
+
+    <Dropzone
+      onCancelFn={(cancel) => saveCancelUploadFn(cancel)}
+      config={config}
+      context={context}
+      onProcessing={onProcessing}
+      onError={onError}
+      onPreviewUpdate={onPreviewUpdate}
+    />
+    ```
+
+    At a later point we will just need to call `this.cancelUpload` function in that example, in order to cancel an ongoing upload if needed.
+
+## 112.28.2
+
+### Patch Changes
+
+- [patch][216a679624](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/216a679624):
+
+  ED-7212 Add cleanup to the macroProvider such that it unsubscribes on destroy
+
+## 112.28.1
+
+### Patch Changes
+
+- [patch][6504d78bf2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6504d78bf2):
+
+  [ED-7167] Improve table performance, extracting the InsertButton position logic from row & column controls to prosemirror event handles
+
+## 112.28.0
+
+### Minor Changes
+
+- [minor][efb8f04952](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/efb8f04952):
+
+  ED-5657 Add keyboard shortcuts for lists on Windows (number & bullet)
+
+## 112.27.1
+
+### Patch Changes
+
+- [patch][e80e60b358](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80e60b358):
+
+  FM-2123: fixed double @ insertion on mention composition (Android)
+
+## 112.27.0
+
+### Minor Changes
+
+- [minor][d217a12e31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d217a12e31):
+
+  ED-7056: Update prosemirror-utils, this enables us to replace selected nodes while inserting
+  ED-6668: Adds a selected ring to all extensions
+
+## 112.26.2
+
+### Patch Changes
+
+- [patch][278a1cbdae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/278a1cbdae):
+
+  ED-7195 Change messages to sentence case instead of Title Case. Clarify wording of some quick insert messages.
+
+## 112.26.1
+
+### Patch Changes
+
+- [patch][2714c80a0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2714c80a0b):
+
+  ED-7191 Fix regression where cell popup is not place on the correct horizontal place
+
+## 112.26.0
+
+### Minor Changes
+
+- [minor][143dcb8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/143dcb8704):
+
+  ED-2362 Add keyboard shortcuts for headings and normal text
+
+## 112.25.3
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/avatar-group@4.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/calendar@8.0.3
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/droplist@9.0.8
+  - @atlaskit/item@10.0.5
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/select@9.1.8
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/editor-common@39.13.2
+  - @atlaskit/editor-test-helpers@9.5.2
+  - @atlaskit/renderer@49.4.1
+  - @atlaskit/emoji@62.2.1
+  - @atlaskit/mention@18.6.2
+  - @atlaskit/share@0.5.4
+  - @atlaskit/status@0.9.3
+  - @atlaskit/task-decision@15.1.1
+  - @atlaskit/user-picker@4.0.12
+  - @atlaskit/media-card@63.3.1
+  - @atlaskit/media-editor@36.2.1
+  - @atlaskit/media-filmstrip@34.2.2
+  - @atlaskit/media-picker@44.0.1
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/smart-card@12.2.3
+  - @atlaskit/icon@19.0.0
+
+## 112.25.2
+
+### Patch Changes
+
+- [patch][4c0fcec857](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0fcec857):
+
+  ED-7059: fix trailing slashes for hyperlinks being removed, and smart links resolving
+
+## 112.25.1
+
+### Patch Changes
+
+- [patch][5aece1fc5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5aece1fc5c):
+
+  [ED-7126] Improve table performance, reducing the number of re-renders on LayoutButton and FloatingContextualButton
+
+## 112.25.0
+
+### Minor Changes
+
+- [minor][9f3daa0d1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f3daa0d1e):
+
+  ED-7190 Update style of keybard shortcuts in toolbar & context menus
+
+## 112.24.0
+
+### Minor Changes
+
+- [minor][b2deccb03d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b2deccb03d):
+
+  FS-4051 Add editor prop to configure either nickName or name to use for the mention name when inserted
+
+## 112.23.3
+
+### Patch Changes
+
+- [patch][3dd3d45b66](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3dd3d45b66):
+
+  ED-7100: Ensure Breakout buttons dont use stale state when trying to change or remove breakout modes.
+
+## 112.23.2
+
+### Patch Changes
+
+- [patch][53995e1bc9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/53995e1bc9):
+
+  Use explicits imports for importing Headings Icons
+
+## 112.23.1
+
+### Patch Changes
+
+- [patch][1a0451f225](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a0451f225):
+
+  ED-5972: Media should correctly render when pasting mixed text and images
+
+## 112.23.0
+
+### Minor Changes
+
+- [minor][241a14694e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/241a14694e):
+
+  Add RUM to renderer
+
+## 112.22.3
+
+### Patch Changes
+
+- [patch][b8acca53b9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8acca53b9):
+
+  ED-6447 make heading 6 compliant with the ADG h100 styling
+
+## 112.22.2
+
+### Patch Changes
+
+- [patch][f6be43668f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f6be43668f):
+
+  ED-7159 Add i18n translations for Comment appearance Save and Cancel buttons
+
+## 112.22.1
+
+### Patch Changes
+
+- [patch][a99d463b7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a99d463b7d):
+
+  FS-4043 - Fix @ prefix from doc being stored in mention name cache
+
+## 112.22.0
+
+### Minor Changes
+
+- [minor][d6c31deacf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6c31deacf):
+
+  ED-6701 Upgrade prosemirror-view to 1.9.10 and prosemirror-inputrules to 1.0.4 for composition input improvements
+
+## 112.21.1
+
+### Patch Changes
+
+- [patch][3511ec9566](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3511ec9566):
+
+  [ED-7108] Fix table row & column header state syncing when applied from toolbar
+
+## 112.21.0
+
+### Minor Changes
+
+- [minor][6f12bd05c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f12bd05c7):
+
+  ED-6811 Added headings to the quick insert menu. Amended heading anayltics to also show previousHeadingLevel
+
+## 112.20.0
+
+### Minor Changes
+
+- [minor][bb64fcedcb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bb64fcedcb):
+
+  uploadContext and viewContext fields of MediaProvider (part of Editor and Renderer props) are deprecated. New fields uploadMediaClientConfig and viewMediaClientConfig should be used from now on.
+
+## 112.19.1
+
+### Patch Changes
+
+- [patch][e4943e98e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e4943e98e0):
+
+  Fix breaking change in editorActions#getValue
+
+## 112.19.0
+
+### Minor Changes
+
+- [minor][0202c1d464](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0202c1d464):
+
+  [ED-7076] Improve table performance reducing the number of React elements on ColumnControl, moving out InsertButton component.
+
+## 112.18.1
+
+### Patch Changes
+
+- [patch][5f4afa52a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5f4afa52a9):
+
+  Media Picker Browser component is now migrated to React.
+
+  ## Previous vanilla js API:
+
+  ```
+  // instantiation
+  const browser = await new MediaPicker('browser', context, pickerConfig).init();
+
+  // subscribe to upload events
+  this.mpBrowser.on('uploads-start', onUploadsStart);
+  this.mpBrowser.on('upload-preview-update', onUploadPreviewUpdate);
+  this.mpBrowser.on('upload-status-update', onUploadStatusUpdate);
+  this.mpBrowser.on('upload-processing', onUploadProcessing);
+  this.mpBrowser.on('upload-end', onUploadEnd);
+  this.mpBrowser.on('upload-error', onUploadError);
+
+  // open the native file browser
+  browser.browse();
+
+  // cancel ongoing upload
+  browse.cancel(uploadId);
+
+  // when we want to dispose the component
+  browser.teardown();
+  ```
+
+  ## New React API:
+
+  ```
+  class BrowserConsumer etends React.Component {
+    render() {
+      return (
+        <Browser
+          isOpen={this.props.isOpen}
+          config={config}
+          context={context}
+          onProcessing={onProcessing}
+          onError={onError}
+          onPreviewUpdate={onPreviewUpdate}
+        />
+      )
+    }
+  }
+  ```
+
+  Notes on new API:
+
+  - No need to explicitly teardown the component. Unmounting the component will do the work
+  - `onBrowseFn` and `onCancelFn` are workarounds to open the file browser and cancel an ongoing upload. Refer to its type definitions for more info.
+    Before we were saving a ref and call `ref.browse()` or `ref.cancel()`.
+  - In some cases you will need to provide either `onBrowserFn` or `onCancelFn` in order to open the file browser or to cancel an ongoing upload programatically.
+    Typically this will be needed when this component is being rendered outside a react component, and we cannot take advantage of using `isOpen` directly.
+    A good example of this can be seen in -> https://bitbucket.org/atlassian/atlaskit-mk-2/src/d7a2e4a8fb8e35b841d751f5ecccff188c955c7a/packages/editor/editor-core/src/plugins/media/index.tsx#lines-178 where `BrowserMediaPickerWrapper` is rendered.
+
+  Basically if we render `Browser` component in isolation (meaning, not inside another react component), we will need to do something like:
+
+  ```
+  const saveOpenBrowserFunction = (browse) => this.openBrowser = browse;
+
+  ...
+
+  <Browser
+    onBrowseFn={(browse) => saveOpenBrowserFunction(browse)}
+    config={config}
+    context={context}
+    onProcessing={onProcessing}
+    onError={onError}
+    onPreviewUpdate={onPreviewUpdate}
+  />
+  ```
+
+  At a later point we will just need to call `this.openBrowser` function in that example, in order to open the native File browser. Same applies to `onCancelFn`.
+
+## 112.18.0
+
+### Minor Changes
+
+- [minor][e40e9ca1d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e40e9ca1d8):
+
+  Adds basic real user metrics, e.g. time to render prosemirror, etc...
+
+## 112.17.0
+
+### Minor Changes
+
+- [minor][58dd589a04](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58dd589a04):
+
+  Update TeamMentionResource to accept teamLinkResolver option which is used to construct a team link.
+  Fix missing userId of user mentions in analytics in editor-core
+
+## 112.16.2
+
+### Patch Changes
+
+- [patch][b229885814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b229885814):
+
+  ED-7125 Fix composition input within Action and Decision list items for the first word entered.
+
+## 112.16.1
+
+### Patch Changes
+
+- [patch][2526630b84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2526630b84):
+
+  ED-6405 The shortcuts in editor tooltips are now highlighted.
+
+## 112.16.0
+
+### Minor Changes
+
+- [minor][86bf524679](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86bf524679):
+
+  ED-7117, ED-7087: Fix copy pasting smart links out of editor. Fallback to HTML anchor tag if errors occur during rendering (e.g. no provider found).
+
+## 112.15.5
+
+### Patch Changes
+
+- [patch][d348e409ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d348e409ed):
+
+  ED-7127: Toggling between modes no longer destroys plugin states, they are maintained while accepting new plugins and re-creating nodeviews.
+
+## 112.15.4
+
+### Patch Changes
+
+- [patch][0438f37f2c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0438f37f2c):
+
+  ED-7105 Fix issue where images in full-width mode page could be a different size between the editor and renderer
+
+## 112.15.3
+
+- Updated dependencies [dc965edbe6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc965edbe6):
+  - @atlaskit/share@0.5.0
+
 ## 112.15.2
 
 ### Patch Changes

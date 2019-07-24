@@ -27,6 +27,8 @@ import {
   isAdvancedSearchResult,
   ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
 } from './SearchResultsUtil';
+import { getAutocompleteText } from '../util/autocomplete';
+import { Filter } from './../api/CrossProductSearchClient';
 
 const ATLASKIT_QUICKSEARCH_NS = 'atlaskit.navigation.quick-search';
 const QS_ANALYTICS_EV_KB_CTRLS_USED = `${ATLASKIT_QUICKSEARCH_NS}.keyboard-controls-used`;
@@ -34,8 +36,9 @@ const QS_ANALYTICS_EV_SUBMIT = `${ATLASKIT_QUICKSEARCH_NS}.submit`;
 
 export interface Props {
   onMount?: () => void;
-  onSearch(query: string, queryVersion: number): void;
+  onSearch(query: string, queryVersion: number, filters?: Filter[]): void;
   onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
+  onAutocomplete?(query: string): void;
   isLoading: boolean;
   placeholder?: string;
   searchSessionId: string;
@@ -46,7 +49,9 @@ export interface Props {
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | number | null) => void;
   inputControls?: JSX.Element;
+  autocompleteSuggestions?: string[];
   referralContextIdentifiers?: ReferralContextIdentifiers;
+  filters?: Filter[];
 }
 
 export interface State {
@@ -74,13 +79,21 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       query,
     });
     this.debouncedSearch(query);
+    if (query.length > 0) {
+      this.debouncedAutocomplete(query);
+    }
   };
 
   debouncedSearch = debounce(this.doSearch, 350);
 
   doSearch(query: string) {
-    const { onSearch, searchSessionId, createAnalyticsEvent } = this.props;
-    onSearch(query.trim(), this.queryVersion);
+    const {
+      onSearch,
+      searchSessionId,
+      createAnalyticsEvent,
+      filters,
+    } = this.props;
+    onSearch(query.trim(), this.queryVersion, filters);
     fireTextEnteredEvent(
       query,
       searchSessionId,
@@ -88,6 +101,13 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       createAnalyticsEvent,
     );
     this.queryVersion++;
+  }
+
+  debouncedAutocomplete = debounce(this.doAutocomplete, 100);
+
+  doAutocomplete(query: string) {
+    const { onAutocomplete } = this.props;
+    onAutocomplete && onAutocomplete(query);
   }
 
   fireSearchResultSelectedEvent = (eventData: SelectedSearchResultEvent) => {
@@ -169,7 +189,14 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       selectedResultId,
       onSelectedResultIdChanged,
       inputControls,
+      autocompleteSuggestions,
     } = this.props;
+    const { query } = this.state;
+
+    const autocompleteText = getAutocompleteText(
+      query,
+      autocompleteSuggestions,
+    );
 
     return (
       <AnalyticsContext data={{ searchSessionId: this.props.searchSessionId }}>
@@ -178,12 +205,13 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
           isLoading={isLoading}
           onSearchInput={this.handleSearchInput}
           placeholder={placeholder}
-          value={this.state.query}
+          value={query}
           linkComponent={linkComponent}
           onSearchSubmit={onSearchSubmit}
           selectedResultId={selectedResultId}
           onSelectedResultIdChanged={onSelectedResultIdChanged}
           inputControls={inputControls}
+          autocompleteText={autocompleteText}
         >
           {children}
         </QuickSearch>
@@ -192,4 +220,4 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   }
 }
 
-export default withAnalyticsEvents()(GlobalQuickSearch);
+export default withAnalyticsEvents<Props>()(GlobalQuickSearch);

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
+import { EditorViewWithComposition } from '../types';
 import {
   Editor,
   MediaProvider as MediaProviderType,
@@ -21,7 +22,6 @@ import {
   TaskDecisionProvider,
   MockEmojiProvider,
 } from '../providers';
-import { ProseMirrorDOMChange } from '../types';
 import { parseLocationSearch } from '../bridge-utils';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { cardClient, cardProvider } from '../providers/cardProvider';
@@ -35,7 +35,7 @@ export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl
 
 class EditorWithState extends Editor {
   onEditorCreated(instance: {
-    view: EditorView & ProseMirrorDOMChange;
+    view: EditorView & EditorViewWithComposition;
     eventDispatcher: any;
     transformer?: any;
   }) {
@@ -74,8 +74,11 @@ type Props = EditorProps & {
 export default function mobileEditor(props: Props) {
   // eg. If the URL parameter is like ?mode=dark use that, otherwise check the prop (used in example)
   const mode = (params && params.theme) || props.mode || 'light';
+  // Temporarily opting out of the default oauth2 flow for phase 1 of Smart Links
+  // See https://product-fabric.atlassian.net/browse/FM-2149 for details.
+  const authFlow = 'disabled';
   return (
-    <SmartCardProvider client={cardClient}>
+    <SmartCardProvider client={cardClient} authFlow={authFlow}>
       <AtlaskitThemeProvider mode={mode}>
         <EditorWithState
           appearance="mobile"

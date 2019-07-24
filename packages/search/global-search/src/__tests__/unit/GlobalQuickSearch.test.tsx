@@ -7,10 +7,12 @@ import GlobalQuickSearchWithAnalytics, {
 import * as AnalyticsHelper from '../../util/analytics-event-helper';
 import { CreateAnalyticsEventFn } from '../../components/analytics/types';
 import { ReferralContextIdentifiers } from '../../components/GlobalQuickSearchWrapper';
+import { FilterType, Filter } from '../../api/CrossProductSearchClient';
 
 const noop = () => {};
 const DEFAULT_PROPS = {
   onSearch: noop,
+  onAutocomplete: noop,
   onMount: noop,
   isLoading: false,
   searchSessionId: 'abc',
@@ -54,7 +56,23 @@ describe('GlobalQuickSearch', () => {
       .prop('onSearchInput');
     onSearchInput({ target: { value: 'foo' } });
 
-    expect(searchMock).toHaveBeenCalledWith('foo', 0);
+    expect(searchMock).toHaveBeenCalledWith('foo', 0, undefined);
+  });
+
+  it('should handle searching with filter applied', () => {
+    const searchMock = jest.fn();
+    const filters: Filter[] = [
+      { '@type': FilterType.Spaces, spaceKeys: ['TEST'] },
+    ];
+    const wrapper = render({ onSearch: searchMock, filters });
+
+    const onSearchInput: Function = wrapper
+      .children()
+      .first()
+      .prop('onSearchInput');
+    onSearchInput({ target: { value: 'foo' } });
+
+    expect(searchMock).toHaveBeenCalledWith('foo', 0, filters);
   });
 
   it('should fire searches with the queryVersion parameter incrementing', () => {
@@ -67,10 +85,10 @@ describe('GlobalQuickSearch', () => {
       .prop('onSearchInput');
 
     onSearchInput({ target: { value: 'foo' } });
-    expect(searchMock).toHaveBeenNthCalledWith(1, 'foo', 0);
+    expect(searchMock).toHaveBeenNthCalledWith(1, 'foo', 0, undefined);
 
     onSearchInput({ target: { value: 'foo' } });
-    expect(searchMock).toHaveBeenNthCalledWith(2, 'foo', 1);
+    expect(searchMock).toHaveBeenNthCalledWith(2, 'foo', 1, undefined);
   });
 
   it('should trim the search input', () => {
@@ -83,7 +101,7 @@ describe('GlobalQuickSearch', () => {
       .prop('onSearchInput');
     onSearchInput({ target: { value: '  pattio   ' } });
 
-    expect(searchMock).toHaveBeenCalledWith('pattio', 0);
+    expect(searchMock).toHaveBeenCalledWith('pattio', 0, undefined);
   });
 
   describe('Search result events', () => {

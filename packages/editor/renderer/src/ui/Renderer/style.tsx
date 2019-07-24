@@ -33,6 +33,7 @@ import {
   shadowSharedStyle,
   shadowClassNames,
   dateSharedStyle,
+  akEditorFullWidthLayoutWidth,
 } from '@atlaskit/editor-common';
 import { RendererCssClassName } from '../../consts';
 import { RendererAppearance } from './types';
@@ -72,7 +73,8 @@ const fullWidthStyles = ({ appearance }: RendererWrapperProps) => {
   }
 
   return `
-  max-width: 1800px;
+  max-width: ${akEditorFullWidthLayoutWidth}px;
+  margin: 0 auto;
 
   .fabric-editor-breakout-mark,
   .pm-table-container,

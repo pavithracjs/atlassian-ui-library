@@ -1,5 +1,38 @@
 # @atlaskit/media-avatar-picker
 
+## 21.0.11
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
+## 21.0.10
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 21.0.9
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/media-test-helpers@24.1.2
+  - @atlaskit/media-ui@11.4.1
+  - @atlaskit/icon@19.0.0
+
 ## 21.0.8
 
 - Updated dependencies [4a08d1912e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a08d1912e):

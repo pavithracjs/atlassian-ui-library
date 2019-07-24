@@ -27,5 +27,6 @@ export const teamMention: MentionDescription = {
     ],
     includesYou: true,
     memberCount: 5,
+    teamLink: '/wiki/people/team/12345',
   },
 };

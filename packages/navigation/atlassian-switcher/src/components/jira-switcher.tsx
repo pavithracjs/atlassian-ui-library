@@ -7,38 +7,56 @@ import {
 } from '../providers/jira-data-providers';
 import CommonDataProvider from '../providers/common-data-provider';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
-import { FeatureFlagProps } from '../types';
+import {
+  FeatureMap,
+  AvailableProductsResponse,
+  RecommendationsFeatureFlags,
+} from '../types';
+import { AvailableProductsProvider } from '../providers/products-data-provider';
+import { ProviderResult } from '../providers/as-data-provider';
 
 type JiraSwitcherProps = {
   cloudId: string;
   messages: Messages;
-  features: FeatureFlagProps;
+  features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 
 export default (props: JiraSwitcherProps) => (
   <CustomLinksProvider>
     {customLinks => (
-      <CommonDataProvider cloudId={props.cloudId}>
-        {providerResults => {
-          const {
-            showManageLink,
-            ...switcherLinks
-          } = mapResultsToSwitcherProps(
-            props.cloudId,
-            { customLinks, ...providerResults },
-            { ...props.features, xflow: true },
-          );
+      <AvailableProductsProvider
+        isUserCentric={props.features.enableUserCentricProducts}
+      >
+        {(availableProducts: ProviderResult<AvailableProductsResponse>) => (
+          <CommonDataProvider
+            cloudId={props.cloudId}
+            isUserCentric={props.features.enableUserCentricProducts}
+            recommendationsFeatureFlags={props.recommendationsFeatureFlags}
+          >
+            {providerResults => {
+              const {
+                showManageLink,
+                ...switcherLinks
+              } = mapResultsToSwitcherProps(
+                props.cloudId,
+                { customLinks, ...providerResults },
+                props.features,
+                availableProducts,
+              );
 
-          return (
-            <Switcher
-              {...props}
-              {...switcherLinks}
-              manageLink={showManageLink ? MANAGE_HREF : undefined}
-            />
-          );
-        }}
-      </CommonDataProvider>
+              return (
+                <Switcher
+                  {...props}
+                  {...switcherLinks}
+                  manageLink={showManageLink ? MANAGE_HREF : undefined}
+                />
+              );
+            }}
+          </CommonDataProvider>
+        )}
+      </AvailableProductsProvider>
     )}
   </CustomLinksProvider>
 );

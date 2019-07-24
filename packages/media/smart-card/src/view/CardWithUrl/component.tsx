@@ -1,13 +1,35 @@
 import * as React from 'react';
 import { MouseEvent, KeyboardEvent } from 'react';
+import LazilyRender from 'react-lazily-render';
+import { CardLinkView } from '@atlaskit/media-ui';
 
 import { CardWithUrlContentProps } from './types';
 import { uiCardClickedEvent } from '../../utils/analytics';
-import { isSpecialKey } from '../../utils';
+import { isSpecialEvent } from '../../utils';
 import { getDefinitionId, getServices } from '../../state/actions/helpers';
 import { BlockCard } from '../BlockCard';
 import { InlineCard } from '../InlineCard';
 import { useSmartLink } from '../../state';
+
+export function LazyCardWithUrlContent(props: CardWithUrlContentProps) {
+  const { appearance, isSelected, container, url } = props;
+  const offset = Math.ceil(window.innerHeight / 4);
+  return (
+    <LazilyRender
+      offset={offset}
+      component={appearance === 'inline' ? 'span' : 'div'}
+      placeholder={
+        <CardLinkView
+          isSelected={isSelected}
+          key={'lazy-render-placeholder'}
+          link={url}
+        />
+      }
+      scrollContainer={container}
+      content={<CardWithUrlContent {...props} />}
+    />
+  );
+}
 
 export function CardWithUrlContent({
   url,
@@ -21,7 +43,7 @@ export function CardWithUrlContent({
   const services = getServices(state.details);
   // Setup UI handlers.
   const handleClick = (event: MouseEvent | KeyboardEvent) => {
-    isSpecialKey(event)
+    isSpecialEvent(event)
       ? window.open(url, '_blank')
       : window.open(url, '_self');
   };
@@ -33,7 +55,7 @@ export function CardWithUrlContent({
   };
   const handleClickWrapper = (event: MouseEvent | KeyboardEvent) => {
     handleAnalytics();
-    (onClick && onClick(event)) || handleClick(event);
+    onClick ? onClick(event) : handleClick(event);
   };
   const handleAuthorize = () => actions.authorize(appearance);
   // Lazily render into the viewport.

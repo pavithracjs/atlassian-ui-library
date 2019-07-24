@@ -1,34 +1,31 @@
-import * as React from 'react';
-import { selectTable, selectRow, getSelectionRect } from 'prosemirror-utils';
 import {
-  doc,
-  p,
   createEditorFactory,
-  table,
-  tr,
-  tdEmpty,
-  tdCursor,
-  td,
-  thEmpty,
+  doc,
   mountWithIntl,
+  p,
   selectRows,
+  table,
+  td,
+  tdCursor,
+  tdEmpty,
+  thEmpty,
+  tr,
 } from '@atlaskit/editor-test-helpers';
+import { getSelectionRect, selectRow } from 'prosemirror-utils';
+import * as React from 'react';
+import { setTextSelection } from '../../../../../index';
+import { tablesPlugin } from '../../../../../plugins';
+import { hoverRows } from '../../../../../plugins/table/commands';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 import {
-  TablePluginState,
   TableCssClassName as ClassName,
+  TablePluginState,
 } from '../../../../../plugins/table/types';
-import RowControls from '../../../../../plugins/table/ui/TableFloatingControls/RowControls';
 import TableFloatingControls from '../../../../../plugins/table/ui/TableFloatingControls';
-import { hoverRows } from '../../../../../plugins/table/commands';
-import { tablesPlugin } from '../../../../../plugins';
-import { setTextSelection } from '../../../../../index';
+import RowControls from '../../../../../plugins/table/ui/TableFloatingControls/RowControls';
 
 const ControlsButton = `.${ClassName.CONTROLS_BUTTON}`;
 const RowControlsButtonWrap = `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}`;
-const DeleteRowButton = `.${ClassName.CONTROLS_DELETE_BUTTON_WRAP}`;
-const InsertRowButton = `.${ClassName.CONTROLS_INSERT_BUTTON_WRAP}`;
-const InsertColumnButtonInner = `.${ClassName.CONTROLS_INSERT_BUTTON_INNER}`;
 
 describe('RowControls', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -111,73 +108,6 @@ describe('RowControls', () => {
         floatingControls.unmount();
       });
     });
-
-    describe('DeleteRowButton', () => {
-      it(`renders a delete button with row ${row} selected`, () => {
-        const { editorView } = editor(
-          doc(
-            table()(
-              tr(thEmpty, td({})(p('<>')), thEmpty),
-              tr(tdCursor, tdEmpty, tdEmpty),
-              tr(tdEmpty, tdEmpty, tdEmpty),
-            ),
-          ),
-        );
-
-        const floatingControls = mountWithIntl(
-          <RowControls
-            tableRef={document.querySelector('table')!}
-            editorView={editorView}
-            hoverRows={(rows, danger) => {
-              hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-            }}
-            selectRow={row => {
-              editorView.dispatch(selectRow(row)(editorView.state.tr));
-            }}
-          />,
-        );
-
-        // now click the row
-        floatingControls
-          .find(RowControlsButtonWrap)
-          .at(row)
-          .find('button')
-          .first()
-          .simulate('click');
-
-        // selecting the row mutates the editor state (which is inside editorView)
-        // we set tableHeight prop to trick shouldComponentUpdate and force re-render
-        floatingControls.setProps({ tableHeight: 100 });
-
-        // we should now have a delete button
-        expect(floatingControls.find(DeleteRowButton).length).toBe(1);
-        floatingControls.unmount();
-      });
-    });
-  });
-
-  describe('DeleteRowButton', () => {
-    it('does not render a delete button with no selection', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, td({})(p()), thEmpty),
-            tr(tdCursor, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <TableFloatingControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-        />,
-      );
-
-      expect(floatingControls.find(DeleteRowButton).length).toBe(0);
-      floatingControls.unmount();
-    });
   });
 
   it('applies the danger class to the row buttons', () => {
@@ -214,184 +144,6 @@ describe('RowControls', () => {
       });
 
     floatingControls.unmount();
-  });
-
-  it('does not render a delete button with whole table selected', () => {
-    const { editorView } = editor(
-      doc(
-        table()(
-          tr(thEmpty, thEmpty, thEmpty),
-          tr(tdCursor, tdEmpty, tdEmpty),
-          tr(tdEmpty, tdEmpty, tdEmpty),
-        ),
-      ),
-    );
-
-    const floatingControls = mountWithIntl(
-      <RowControls
-        tableRef={document.querySelector('table')!}
-        editorView={editorView}
-        hoverRows={(rows, danger) => {
-          hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-        }}
-        selectRow={row => {
-          editorView.dispatch(selectRow(row)(editorView.state.tr));
-        }}
-      />,
-    );
-
-    // select the whole table
-    editorView.dispatch(selectTable(editorView.state.tr));
-
-    // selecting the row mutates the editor state (which is inside editorView)
-    // we set tableHeight prop to trick shouldComponentUpdate and force re-render
-    floatingControls.setProps({ tableHeight: 100 });
-
-    expect(floatingControls.find(DeleteRowButton).length).toBe(0);
-    floatingControls.unmount();
-  });
-
-  describe('hides add button when delete button overlaps it', () => {
-    it('hides one when two rows are selected', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdCursor, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <RowControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          hoverRows={(rows, danger) => {
-            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-          }}
-          selectRow={row => {
-            editorView.dispatch(selectRow(row)(editorView.state.tr));
-          }}
-        />,
-      );
-
-      expect(floatingControls.find(InsertRowButton).length).toBe(3);
-
-      selectRows([0, 1])(editorView.state, editorView.dispatch);
-
-      // selecting the row mutates the editor state (which is inside editorView)
-      // we set tableHeight prop to trick shouldComponentUpdate and force re-render
-      floatingControls.setProps({ tableHeight: 100 });
-
-      expect(floatingControls.find(InsertRowButton).length).toBe(2);
-      expect(
-        floatingControls
-          .find(RowControlsButtonWrap)
-          .first()
-          .find(InsertRowButton).length,
-      ).toBe(0);
-
-      floatingControls.unmount();
-    });
-
-    it('only renders a single delete button over multiple row selections', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, td({})(p()), thEmpty),
-            tr(tdCursor, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <RowControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          hoverRows={(rows, danger) => {
-            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-          }}
-          selectRow={row => {
-            editorView.dispatch(selectRow(row)(editorView.state.tr));
-          }}
-        />,
-      );
-
-      selectRows([0, 1])(editorView.state, editorView.dispatch);
-
-      // selecting the row mutates the editor state (which is inside editorView)
-      // we set tableHeight prop to trick shouldComponentUpdate and force re-render
-      floatingControls.setProps({ tableHeight: 100 });
-
-      expect(floatingControls.find(DeleteRowButton).length).toBe(1);
-
-      floatingControls.unmount();
-    });
-  });
-
-  describe('hides add button when isResizing prop is truthy', () => {
-    it('unaffected add button when isRsizing is falsy', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <RowControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          hoverRows={(rows, danger) => {
-            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-          }}
-          selectRow={row => {
-            editorView.dispatch(selectRow(row)(editorView.state.tr));
-          }}
-          insertRowButtonIndex={1}
-        />,
-      );
-
-      expect(floatingControls.find(InsertColumnButtonInner).length).toBe(1);
-
-      floatingControls.unmount();
-    });
-
-    it('hides add button when isRsizing is truthy', () => {
-      const { editorView } = editor(
-        doc(
-          table()(
-            tr(thEmpty, thEmpty, thEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-            tr(tdEmpty, tdEmpty, tdEmpty),
-          ),
-        ),
-      );
-
-      const floatingControls = mountWithIntl(
-        <RowControls
-          tableRef={document.querySelector('table')!}
-          editorView={editorView}
-          hoverRows={(rows, danger) => {
-            hoverRows(rows, danger)(editorView.state, editorView.dispatch);
-          }}
-          selectRow={row => {
-            editorView.dispatch(selectRow(row)(editorView.state.tr));
-          }}
-          insertRowButtonIndex={1}
-          isResizing={true}
-        />,
-      );
-
-      expect(floatingControls.find(InsertColumnButtonInner).length).toBe(0);
-
-      floatingControls.unmount();
-    });
   });
 
   describe('row shift selection', () => {

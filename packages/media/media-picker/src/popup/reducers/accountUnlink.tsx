@@ -1,4 +1,7 @@
-import { UNLINK_ACCOUNT, UnlinkCloudAccountAction } from '../actions';
+import {
+  UNLINK_ACCOUNT,
+  UnlinkCloudAccountAction,
+} from '../actions/unlinkCloudAccount';
 import { State, ServiceAccountWithType } from '../domain';
 
 export default function(state: State, action: UnlinkCloudAccountAction): State {
