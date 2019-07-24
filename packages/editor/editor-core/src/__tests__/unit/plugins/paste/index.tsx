@@ -1128,6 +1128,18 @@ describe('paste plugins', () => {
   });
 
   describe('table copy-paste', () => {
+    it('should handle bad copy-paste from table cell with hard break', () => {
+      const { editorView } = editor(doc(table({})(tr(td()(p('{<>}'))))));
+
+      dispatchPasteEvent(editorView, {
+        html: `<meta charset='utf-8'><table data-number-column="true" style="margin: 24px 0px 0px; border-collapse: collapse; width: 678.889px; border: 1px solid rgb(193, 199, 208); table-layout: fixed; font-size: 14px; color: rgb(23, 43, 77); font-family: -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, &quot;Fira Sans&quot;, &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre-wrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><tbody style="border-bottom: none; box-sizing: border-box;"><tr style="box-sizing: border-box;"><td rowspan="1" colspan="1" style="border-width: 1px 0px 0px 1px; border-style: solid; border-color: rgb(193, 199, 208); border-image: initial; padding: 8px; text-align: left; box-sizing: border-box; min-width: 48px; font-weight: normal; vertical-align: top; background-clip: padding-box;"><p style="margin: 0px; padding: 0px; font-size: 1em; line-height: 1.714; font-weight: normal; letter-spacing: -0.005em; box-sizing: border-box;">TEST WITH HARDBREAK<br style="box-sizing: border-box;"></p></td><td rowspan="1" colspan="1" style="border-width: 1px 0px 0px 1px; border-style: solid; border-color: rgb(193, 199, 208); border-image: initial; padding: 8px; text-align: left; box-sizing: border-box; min-width: 48px; font-weight: normal; vertical-align: top; background-clip: padding-box;"></tr></tbody></table><br class="Apple-interchange-newline">`,
+      });
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(table({})(tr(td()(p('TEST WITH HARDBREAK', hardBreak()))))),
+      );
+    });
+
     it('should handle numbered table copied inside editor', () => {
       const { editorView } = editor(doc(p('{<>}')));
 

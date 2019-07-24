@@ -14,6 +14,7 @@ import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
 import {
   transformSliceToRemoveOpenTable,
   transformSliceToCorrectEmptyTableCells,
+  transformSliceToFixHardBreakProblemOnCopyFromCell,
 } from '../../table/utils';
 import { transformSliceToAddTableHeaders } from '../../table/commands';
 import { handleMacroAutoConvert, handleMention } from '../handlers';
@@ -256,6 +257,10 @@ export function createPlugin(
           slice = handleMention(slice, schema);
         }
 
+        slice = transformSliceToFixHardBreakProblemOnCopyFromCell(
+          slice,
+          schema,
+        );
         /** If a partial paste of table, paste only table's content */
         slice = transformSliceToRemoveOpenTable(slice, schema);
 
