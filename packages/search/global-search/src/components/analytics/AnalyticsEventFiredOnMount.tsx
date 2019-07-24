@@ -18,7 +18,7 @@ export class UnwrappedAnalyticsEventFiredOnMount extends React.Component<
 > {
   componentDidMount() {
     if (this.props.createAnalyticsEvent) {
-      const event = this.props.createAnalyticsEvent();
+      const event = this.props.createAnalyticsEvent({});
       event.update(this.props.payloadProvider()).fire(DEFAULT_GAS_CHANNEL);
       this.props.onEventFired();
     }
