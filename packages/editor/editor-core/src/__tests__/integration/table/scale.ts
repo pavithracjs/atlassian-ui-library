@@ -28,7 +28,7 @@ BrowserTestCase(
       },
     });
 
-    await insertColumn(page, 6);
+    await insertColumn(page, 5, 'left');
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -49,7 +49,7 @@ BrowserTestCase(
       },
     });
 
-    await deleteColumn(page, 2);
+    await deleteColumn(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

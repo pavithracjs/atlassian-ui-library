@@ -29,7 +29,7 @@ export interface RecentPage {
   lastSeen: number;
   space: string;
   spaceKey: string;
-  title: string;
+  title?: string; // Due to some Confluence bug there is a chance that recent pages come back with NO title
   type: string;
   url: string;
   iconClass: string;
@@ -55,9 +55,9 @@ export default class ConfluenceClientImpl implements ConfluenceClient {
     );
     const baseUrl = this.serviceConfig.url;
 
-    return recentPages.map(recentPage =>
-      recentPageToResult(recentPage, baseUrl),
-    );
+    return recentPages
+      .filter(page => !!page.title)
+      .map(recentPage => recentPageToResult(recentPage, baseUrl));
   }
 
   public async getRecentSpaces(): Promise<Result[]> {
@@ -86,7 +86,7 @@ function recentPageToResult(
 ): ConfluenceObjectResult {
   return {
     resultId: String(recentPage.id),
-    name: recentPage.title,
+    name: recentPage.title || '', // This is a failsafe, there should be a filter to drop pages with no titles
     href: `${baseUrl}${recentPage.url}`,
     containerName: recentPage.space,
     analyticsType: AnalyticsType.RecentConfluence,

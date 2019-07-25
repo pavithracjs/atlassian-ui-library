@@ -11,7 +11,6 @@ import {
 import { nextTick } from '@atlaskit/media-test-helpers';
 
 import { getFreshMediaProvider } from '../media/_utils';
-import { mediaPlugin } from '../../../../plugins';
 import {
   pluginKey as mediaEditorPluginKey,
   getPluginState,
@@ -34,13 +33,13 @@ describe('media editor', () => {
     return createEditor({
       ...createEditorOptions,
       doc,
-      editorPlugins: [
-        mediaPlugin({
-          provider: mediaProvider,
-          allowMediaSingle: true,
+      editorProps: {
+        media: {
           allowAnnotation: true,
-        }),
-      ],
+          allowMediaSingle: true,
+          provider: mediaProvider,
+        },
+      },
       pluginKey: mediaEditorPluginKey,
     });
   };

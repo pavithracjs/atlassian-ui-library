@@ -9,9 +9,6 @@ import { mention as mentionData } from '@atlaskit/util-data-test';
 import { MentionProvider } from '@atlaskit/mention/resource';
 import { ProviderFactory } from '@atlaskit/editor-common';
 
-import collabPlugin from '../../../../plugins/collab-edit';
-import mentionPlugin from '../../../../plugins/mentions';
-
 import { handleInit } from '../../../../plugins/collab-edit/actions';
 import {
   InitData,
@@ -90,14 +87,11 @@ describe('collab-edit: actions', () => {
   ) => {
     return createEditor({
       doc,
-      editorPlugins: [
-        collabPlugin,
-        mentionPlugin(undefined, sanitizePrivateContent),
-      ],
       editorProps: {
         allowUnsupportedContent: true,
         mentionProvider,
         collabEdit,
+        sanitizePrivateContent,
       },
       providerFactory,
     });

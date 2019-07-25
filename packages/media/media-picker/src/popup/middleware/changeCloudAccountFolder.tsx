@@ -1,9 +1,7 @@
 import { Action, Store, Dispatch } from 'redux';
 
-import {
-  requestUnlinkCloudAccount,
-  isChangeCloudAccountFolderAction,
-} from '../actions';
+import { requestUnlinkCloudAccount } from '../actions/unlinkCloudAccount';
+import { isChangeCloudAccountFolderAction } from '../actions/changeCloudAccountFolder';
 import { fileListUpdate } from '../actions/fileListUpdate';
 import { Fetcher } from '../tools/fetcher/fetcher';
 import { State } from '../domain';

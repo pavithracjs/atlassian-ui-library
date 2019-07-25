@@ -41,15 +41,6 @@ import { emoji as emojiData } from '@atlaskit/util-data-test';
 import { Node as PMNode } from 'prosemirror-model';
 
 import { JSONTransformer, JSONDocNode } from '../../index';
-import emojiPlugin from '../../../../editor-core/src/plugins/emoji';
-import mentionsPlugin from '../../../../editor-core/src/plugins/mentions';
-import codeBlockPlugin from '../../../../editor-core/src/plugins/code-block';
-import mediaPlugin from '../../../../editor-core/src/plugins/media';
-import textColorPlugin from '../../../../editor-core/src/plugins/text-color';
-import panelPlugin from '../../../../editor-core/src/plugins/panel';
-import listPlugin from '../../../../editor-core/src/plugins/lists';
-import rulePlugin from '../../../../editor-core/src/plugins/rule';
-import tablesPlugin from '../../../../editor-core/src/plugins/table';
 
 const transformer = new JSONTransformer();
 const toJSON = (node: PMNode) => transformer.encode(node);
@@ -68,17 +59,17 @@ describe('JSONTransformer:', () => {
     const editor = (doc: any) =>
       createEditor({
         doc,
-        editorPlugins: [
-          emojiPlugin(),
-          mentionsPlugin(),
-          codeBlockPlugin(),
-          mediaPlugin(),
-          textColorPlugin,
-          panelPlugin,
-          listPlugin,
-          rulePlugin,
-          tablesPlugin(),
-        ],
+        editorProps: {
+          emojiProvider: new Promise(() => {}),
+          mentionProvider: new Promise(() => {}),
+          allowCodeBlocks: true,
+          media: {},
+          allowTextColor: true,
+          allowPanel: true,
+          allowLists: true,
+          allowRule: true,
+          allowTables: true,
+        },
         providerFactory: ProviderFactory.create({ emojiProvider }),
       });
 

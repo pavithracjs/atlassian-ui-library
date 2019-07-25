@@ -1,34 +1,50 @@
 [
   {
+    "team": "css packs",
+    "package": "@atlaskit/css-reset",
+    "version": "5.0.1",
+    "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 11432,
-      "gzipSize": 2866
+      "size": 11583,
+      "gzipSize": 2750
     }
   },
   {
+    "team": "css packs",
+    "package": "@atlaskit/css-reset",
+    "version": "5.0.1",
+    "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 4788,
-      "gzipSize": 1610
+      "size": 3640,
+      "gzipSize": 1298
     }
   },
   {
+    "team": "css packs",
+    "package": "@atlaskit/css-reset",
+    "version": "5.0.1",
+    "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 19061,
-      "gzipSize": 5204
+      "size": 15157,
+      "gzipSize": 3869
     }
   },
   {
+    "team": "css packs",
+    "package": "@atlaskit/css-reset",
+    "version": "5.0.1",
+    "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 34546,
-      "gzipSize": 8734
+      "size": 28016,
+      "gzipSize": 7020
     }
   }
 ]

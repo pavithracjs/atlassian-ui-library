@@ -58,6 +58,7 @@ import { Clipboard } from '../../components/clipboard/clipboard';
 import { Dropzone } from '../../components/dropzone/dropzone';
 import { Browser as BrowserComponent } from '../../components/browser/browser';
 import { LocalUploadComponent } from '../../components/localUpload';
+import { resetView } from '../actions/resetView';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
@@ -350,7 +351,10 @@ const mapDispatchToProps = (dispatch: Dispatch<State>): AppDispatchProps => ({
   onStartApp: (payload: StartAppActionPayload) => dispatch(startApp(payload)),
   onUploadsStart: (payload: UploadsStartEventPayload) =>
     dispatch(fileUploadsStart(payload)),
-  onClose: () => dispatch(hidePopup()),
+  onClose: () => {
+    dispatch(resetView());
+    dispatch(hidePopup());
+  },
   onUploadPreviewUpdate: (payload: UploadPreviewUpdateEventPayload) =>
     dispatch(fileUploadPreviewUpdate(payload)),
   onUploadStatusUpdate: (payload: UploadStatusUpdateEventPayload) =>

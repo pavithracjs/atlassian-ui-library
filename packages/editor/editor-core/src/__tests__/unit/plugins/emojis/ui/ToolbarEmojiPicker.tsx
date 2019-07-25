@@ -17,9 +17,6 @@ import {
   emojiPluginKey as pluginKey,
   EmojiState,
 } from '../../../../../plugins/emoji/pm-plugins/main';
-import emojiPlugin from '../../../../../plugins/emoji';
-import codeBlockPlugin from '../../../../../plugins/code-block';
-import mentionsPlugin from '../../../../../plugins/mentions';
 
 const { testData } = emojiTestData;
 
@@ -38,9 +35,11 @@ describe('@atlaskit/editor-core/ui/ToolbarEmojiPicker', () => {
   const editor = (doc: any, analyticsHandler = () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [emojiPlugin(), codeBlockPlugin(), mentionsPlugin()],
       editorProps: {
         analyticsHandler,
+        emojiProvider: new Promise(() => {}),
+        mentionProvider: new Promise(() => {}),
+        allowCodeBlocks: true,
       },
       providerFactory: ProviderFactory.create({ emojiProvider }),
     });

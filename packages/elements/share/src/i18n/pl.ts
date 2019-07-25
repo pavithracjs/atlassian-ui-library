@@ -25,6 +25,7 @@ export default {
     'Nie udało się znaleźć wyników dla „{inputValue}”. Zaproś ludzi, używając adresu e-mail.',
   'fabric.elements.share.trigger.button.icon.label': 'Udostępnij ikonę',
   'fabric.elements.share.trigger.button.text': 'Udostępnij',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Udostępnij',
   'fabric.elements.share.trigger.button.invite.text': 'Zaproś',
   'fabric.elements.share.copylink.button.icon.label': 'Ikona kopiowania łącza',
   'fabric.elements.share.copylink.button.text': 'Kopiuj łącze',

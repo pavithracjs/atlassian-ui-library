@@ -20,7 +20,7 @@ const createPlugin: PMPluginFactory = ({ portalProviderAPI }) => {
   });
 };
 
-const jiraIssuePlugin: EditorPlugin = {
+const jiraIssuePlugin = (): EditorPlugin => ({
   nodes() {
     return [{ name: 'confluenceJiraIssue', node: confluenceJiraIssue }];
   },
@@ -33,6 +33,6 @@ const jiraIssuePlugin: EditorPlugin = {
       },
     ];
   },
-};
+});
 
 export default jiraIssuePlugin;

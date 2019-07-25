@@ -46,9 +46,7 @@ export default class extends React.Component<{}, { cloudId: string }> {
               e.query
             }", searchSessionId "${
               e.searchSessionId
-            }" and additionalSearchParams ${JSON.stringify(
-              e.additionalSearchParams,
-            )}`,
+            }" and spaces ${JSON.stringify(e.spaces)}`,
           );
         }}
       />

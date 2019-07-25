@@ -13,7 +13,7 @@ import { inputRulePlugin } from './pm-plugins/input-rules';
 import { keymapPlugin } from './pm-plugins/keymap';
 import { TypeAhead } from './ui/TypeAhead';
 
-const typeAheadPlugin: EditorPlugin = {
+const typeAheadPlugin = (): EditorPlugin => ({
   name: 'typeAhead',
 
   marks() {
@@ -74,13 +74,14 @@ const typeAheadPlugin: EditorPlugin = {
               isLoading={!!typeAhead.itemsLoader}
               items={typeAhead.items}
               currentIndex={typeAhead.currentIndex}
+              spotlight={typeAhead.spotlight}
             />
           );
         }}
       />
     );
   },
-};
+});
 
 export { typeAheadPluginKey, TypeAheadPluginState };
 export default typeAheadPlugin;

@@ -1,9 +1,10 @@
 import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import ShareIcon from '@atlaskit/icon/glyph/share';
 import InlineDialog from '@atlaskit/inline-dialog';
+import Aktooltip from '@atlaskit/tooltip';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
-import { FormattedMessage, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import { ConfigResponse } from '../../../clients/ShareServiceClient';
 import ShareButton, {
   Props as ShareButtonProps,
@@ -11,18 +12,24 @@ import ShareButton, {
 import {
   defaultShareContentState,
   Props,
-  ShareDialogWithTrigger,
   ShareDialogWithTriggerInternal,
   State,
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
 import { messages } from '../../../i18n';
-import { ADMIN_NOTIFIED, DialogPlacement, OBJECT_SHARED } from '../../../types';
+import {
+  ADMIN_NOTIFIED,
+  DialogPlacement,
+  OBJECT_SHARED,
+  RenderCustomTriggerButton,
+  TooltipPosition,
+} from '../../../types';
 import { Omit, PropsOf } from '../_testUtils';
 import mockPopper from '../_mockPopper';
 mockPopper();
 
 describe('ShareDialogWithTrigger', () => {
+  let mockCreateAnalyticsEvent: jest.Mock;
   let mockOnShareSubmit: jest.Mock = jest.fn();
   const mockLoadOptions = () => [];
   const mockShowFlags: jest.Mock = jest.fn();
@@ -40,17 +47,20 @@ describe('ShareDialogWithTrigger', () => {
       onShareSubmit: mockOnShareSubmit,
       shareContentType: 'page',
       showFlags: mockShowFlags,
+      createAnalyticsEvent: mockCreateAnalyticsEvent,
 
       ...overrides,
     };
 
-    return shallowWithIntl<Props>(<ShareDialogWithTrigger {...props} />)
-      .dive()
-      .dive()
-      .dive();
+    const WithIntl = injectIntl(ShareDialogWithTriggerInternal);
+
+    return shallowWithIntl<Props>(<WithIntl {...props} />);
   }
 
   beforeEach(() => {
+    mockCreateAnalyticsEvent = jest.fn().mockReturnValue({
+      fire: jest.fn(),
+    });
     mockOnShareSubmit.mockReset();
     mockShowFlags.mockReset();
     mockOnDialogOpen.mockReset();
@@ -271,7 +281,33 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockOnDialogOpen).toHaveBeenCalledTimes(1);
     });
 
-    it.skip('should send an analytic event', () => {});
+    it('should send an analytic event', () => {
+      const wrapper = getWrapper();
+      expect(mockCreateAnalyticsEvent).not.toHaveBeenCalled();
+
+      wrapper.find(ShareButton).simulate('click');
+      expect(mockCreateAnalyticsEvent).toHaveBeenCalledTimes(2);
+      // Share button clicked event
+      expect(mockCreateAnalyticsEvent.mock.calls[0][0]).toMatchObject({
+        eventType: 'ui',
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: 'share',
+        attributes: {
+          packageName: expect.any(String),
+          packageVersion: expect.any(String),
+        },
+      });
+      // Share modal screen event
+      expect(mockCreateAnalyticsEvent.mock.calls[1][0]).toMatchObject({
+        eventType: 'screen',
+        name: 'shareModal',
+        attributes: {
+          packageName: expect.any(String),
+          packageVersion: expect.any(String),
+        },
+      });
+    });
   });
 
   describe('handleCloseDialog', () => {
@@ -284,8 +320,6 @@ describe('ShareDialogWithTrigger', () => {
         .simulate('close', { isOpen: false, event: { type: 'submit' } });
       expect((wrapper.state() as State).isDialogOpen).toEqual(false);
     });
-
-    it.skip('should send an analytic event', () => {});
 
     it('should be triggered when the InlineDialog is closed', () => {
       const wrapper = getWrapper();
@@ -337,7 +371,10 @@ describe('ShareDialogWithTrigger', () => {
         defaultValue: mockShareData,
         shareError: new Error('unable to share'),
       });
-      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      wrapper
+        .dive()
+        .find('div')
+        .simulate('keydown', escapeKeyDownEvent);
       expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
       expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
       expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
@@ -373,7 +410,10 @@ describe('ShareDialogWithTrigger', () => {
         shareError: new Error('unable to share'),
       };
       wrapper.setState(state);
-      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      wrapper
+        .dive()
+        .find('div')
+        .simulate('keydown', escapeKeyDownEvent);
       expect(escapeKeyDownEvent.stopPropagation).not.toHaveBeenCalled();
       expect(wrapper.state() as State).toMatchObject(state);
     });
@@ -403,7 +443,10 @@ describe('ShareDialogWithTrigger', () => {
         defaultValue: mockShareData,
         shareError: new Error('unable to share'),
       });
-      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      wrapper
+        .dive()
+        .find('div')
+        .simulate('keydown', escapeKeyDownEvent);
       expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
       expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
       expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
@@ -537,6 +580,86 @@ describe('ShareDialogWithTrigger', () => {
           type: OBJECT_SHARED,
         },
       ]);
+    });
+  });
+
+  describe('Aktooltip', () => {
+    it('should be rendered if the props.triggerButtonStyle is `icon-only`', () => {
+      const wrapper = getWrapper({
+        triggerButtonStyle: 'icon-only',
+      });
+      expect(wrapper.dive().find(Aktooltip)).toHaveLength(1);
+      expect(
+        wrapper
+          .dive()
+          .find(Aktooltip)
+          .find(ShareButton),
+      ).toHaveLength(1);
+
+      wrapper.setProps({ triggerButtonStyle: 'icon-with-text' });
+      expect(wrapper.dive().find(Aktooltip)).toHaveLength(0);
+      expect(wrapper.dive().find(ShareButton)).toHaveLength(1);
+
+      wrapper.setProps({ triggerButtonStyle: 'text-only' });
+      expect(wrapper.dive().find(Aktooltip)).toHaveLength(0);
+      expect(wrapper.dive().find(ShareButton)).toHaveLength(1);
+
+      const MockCustomButton = () => <button />;
+      const renderCustomTriggerButton: RenderCustomTriggerButton = ({
+        onClick = () => {},
+      }) => <MockCustomButton />;
+
+      wrapper.setProps({
+        triggerButtonStyle: 'icon-only',
+        renderCustomTriggerButton,
+      });
+
+      expect(wrapper.dive().find(Aktooltip)).toHaveLength(1);
+      expect(
+        wrapper
+          .dive()
+          .find(Aktooltip)
+          .find(MockCustomButton),
+      ).toHaveLength(1);
+    });
+
+    it('should digest props.triggerButtonTooltipText as content and props.triggerButtonTooltipPosition as position', () => {
+      const wrapper = getWrapper({
+        triggerButtonStyle: 'icon-only',
+      });
+      expect(
+        (wrapper
+          .dive()
+          .find(Aktooltip)
+          .props() as any).content,
+      ).toEqual('Share');
+      expect(
+        (wrapper
+          .dive()
+          .find(Aktooltip)
+          .props() as any).position,
+      ).toEqual('top');
+
+      const customTooltipText = 'Custom Share';
+      const customTooltipPosition: TooltipPosition = 'mouse';
+
+      wrapper.setProps({
+        triggerButtonTooltipText: customTooltipText,
+        triggerButtonTooltipPosition: customTooltipPosition,
+      });
+
+      expect(
+        (wrapper
+          .dive()
+          .find(Aktooltip)
+          .props() as any).content,
+      ).toEqual('Custom Share');
+      expect(
+        (wrapper
+          .dive()
+          .find(Aktooltip)
+          .props() as any).position,
+      ).toEqual('mouse');
     });
   });
 

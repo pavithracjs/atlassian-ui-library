@@ -8,7 +8,6 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
 import ToolbarDecision from '../../../../../plugins/tasks-and-decisions/ui/ToolbarDecision';
-import tasksAndDecisionsPlugin from '../../../../../plugins/tasks-and-decisions';
 
 describe('@atlaskit/editor-core/ui/ToolbarDecision', () => {
   const createEditor = createEditorFactory();
@@ -17,7 +16,9 @@ describe('@atlaskit/editor-core/ui/ToolbarDecision', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tasksAndDecisionsPlugin],
+      editorProps: {
+        allowTasksAndDecisions: true,
+      },
     });
 
   afterAll(() => {

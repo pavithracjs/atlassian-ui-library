@@ -110,13 +110,6 @@ export default class ResizeTransition extends PureComponent<Props> {
             entered: getStyle({ keys: properties, values: to }),
           };
 
-          // due to the use of 3d transform for GPU acceleration, which
-          // changes the stacking context, we only apply the transform during
-          // the animation period.
-          const gpuAcceleration = isTransitioning(transitionState)
-            ? { transform: 'translate3d(0, 0, 0)' }
-            : {};
-
           // let the browser know what we're up to
           const willChange = getChanges(properties);
 
@@ -124,7 +117,6 @@ export default class ResizeTransition extends PureComponent<Props> {
           const transitionStyle = {
             ...willChange,
             ...cssTransition,
-            ...gpuAcceleration,
             ...dynamicProperties[transitionState],
           };
 

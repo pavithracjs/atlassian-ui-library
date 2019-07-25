@@ -4,7 +4,7 @@ import { MacroProvider } from './types';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { setMacroProvider } from './actions';
 import { Dispatch } from '../../event-dispatcher';
-import { PMPluginFactoryParams } from '../../types';
+import { PMPluginFactoryParams, EditorPlugin } from '../../types';
 
 export * from './types';
 export * from './actions';
@@ -53,7 +53,7 @@ export const createPlugin = (
     },
   });
 
-export default {
+const macroPlugin = (): EditorPlugin => ({
   pmPlugins() {
     return [
       {
@@ -63,4 +63,6 @@ export default {
       },
     ];
   },
-};
+});
+
+export default macroPlugin;

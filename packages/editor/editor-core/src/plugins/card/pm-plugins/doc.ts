@@ -24,6 +24,7 @@ import {
 } from '../../../plugins/analytics';
 import { SmartLinkNodeContext } from '../../analytics/types/smart-links';
 import { safeInsert } from 'prosemirror-utils';
+import { isSafeUrl } from '@atlaskit/adf-schema';
 
 export function shouldReplace(
   node: Node,
@@ -78,6 +79,11 @@ function replaceLinksToCards(
 ): string | undefined {
   const { inlineCard } = schema.nodes;
   const { url } = request;
+
+  if (!isSafeUrl(url)) {
+    return;
+  }
+
   // replace all the outstanding links with their cards
   const pos = tr.mapping.map(request.pos);
   const $pos = tr.doc.resolve(pos);

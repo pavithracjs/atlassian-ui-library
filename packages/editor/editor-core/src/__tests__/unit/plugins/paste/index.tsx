@@ -36,24 +36,15 @@ import {
   createAnalyticsEventMock,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
+import { mention as mentionData } from '@atlaskit/util-data-test';
 import { TextSelection } from 'prosemirror-state';
-import mentionsPlugin from '../../../../plugins/mentions';
-import mediaPlugin from '../../../../plugins/media';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import extensionPlugin from '../../../../plugins/extension';
-import listPlugin from '../../../../plugins/lists';
-import tablesPlugin from '../../../../plugins/table';
-import macroPlugin, {
-  setMacroProvider,
-  MacroAttributes,
-} from '../../../../plugins/macro';
+import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import { panelPlugin, cardPlugin } from '../../../../plugins';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import { ACTION_SUBJECT_ID } from '../../../../plugins/analytics';
 import { CardProvider } from '../../../../plugins/card';
+import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import { EditorProps } from '../../../..';
 
 describe('paste plugins', () => {
@@ -66,23 +57,20 @@ describe('paste plugins', () => {
       createAnalyticsEvent: createAnalyticsEvent as any,
       editorProps: {
         allowAnalyticsGASV3: true,
+        allowExtension: true,
+        allowCodeBlocks: true,
+        allowLists: true,
+        allowPanel: true,
+        allowTasksAndDecisions: true,
+        allowTables: true,
+        mentionProvider: Promise.resolve(
+          mentionData.storyData.resourceProvider,
+        ),
+        macroProvider: Promise.resolve(new MockMacroProvider({})),
+        UNSAFE_cards: {},
+        media: { allowMediaSingle: true },
         ...props,
       },
-      editorPlugins: [
-        mentionsPlugin(
-          createAnalyticsEvent as any,
-          props.sanitizePrivateContent,
-        ),
-        mediaPlugin({ allowMediaSingle: true }),
-        macroPlugin,
-        codeBlockPlugin(),
-        extensionPlugin,
-        listPlugin,
-        panelPlugin,
-        tasksAndDecisionsPlugin,
-        tablesPlugin(),
-        cardPlugin,
-      ],
     });
 
     createAnalyticsEvent.mockClear();
@@ -162,6 +150,46 @@ describe('paste plugins', () => {
                 })(),
               ),
             ),
+          );
+        });
+      });
+
+      describe('when pasted inside table', () => {
+        it('should set a GapCursor after it', () => {
+          const { editorView } = editor(doc(table({})(tr(td()(p('{<>}'))))));
+
+          dispatchPasteEvent(editorView, {
+            html: `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div>`,
+          });
+
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table({})(
+                tr(
+                  td()(
+                    mediaSingle({ layout: 'center' })(
+                      media({
+                        id: '9b5c6412-6de0-42cb-837f-bc08c24b4383',
+                        type: 'file',
+                        collection: 'MediaServicesSample',
+                        __fileMimeType: 'image/png',
+                        __fileName: 'image-20190325-222039.png',
+                        __fileSize: 29502,
+                        height: 288,
+                        width: 490,
+                      })(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          const { selection, schema } = editorView.state;
+          expect(selection instanceof GapCursorSelection).toBe(true);
+          expect((selection as GapCursorSelection).side).toBe(Side.RIGHT);
+          expect(selection.$from.nodeBefore!.type).toEqual(
+            schema.nodes.mediaSingle,
           );
         });
       });
@@ -1099,6 +1127,18 @@ describe('paste plugins', () => {
   });
 
   describe('table copy-paste', () => {
+    it('should handle bad copy-paste from table cell with hard break', () => {
+      const { editorView } = editor(doc(table({})(tr(td()(p('{<>}'))))));
+
+      dispatchPasteEvent(editorView, {
+        html: `<meta charset='utf-8'><table data-number-column="true" style="margin: 24px 0px 0px; border-collapse: collapse; width: 678.889px; border: 1px solid rgb(193, 199, 208); table-layout: fixed; font-size: 14px; color: rgb(23, 43, 77); font-family: -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, &quot;Fira Sans&quot;, &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre-wrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><tbody style="border-bottom: none; box-sizing: border-box;"><tr style="box-sizing: border-box;"><td rowspan="1" colspan="1" style="border-width: 1px 0px 0px 1px; border-style: solid; border-color: rgb(193, 199, 208); border-image: initial; padding: 8px; text-align: left; box-sizing: border-box; min-width: 48px; font-weight: normal; vertical-align: top; background-clip: padding-box;"><p style="margin: 0px; padding: 0px; font-size: 1em; line-height: 1.714; font-weight: normal; letter-spacing: -0.005em; box-sizing: border-box;">TEST WITH HARDBREAK<br style="box-sizing: border-box;"></p></td><td rowspan="1" colspan="1" style="border-width: 1px 0px 0px 1px; border-style: solid; border-color: rgb(193, 199, 208); border-image: initial; padding: 8px; text-align: left; box-sizing: border-box; min-width: 48px; font-weight: normal; vertical-align: top; background-clip: padding-box;"></tr></tbody></table><br class="Apple-interchange-newline">`,
+      });
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(table({})(tr(td()(p('TEST WITH HARDBREAK', hardBreak()))))),
+      );
+    });
+
     it('should handle numbered table copied inside editor', () => {
       const { editorView } = editor(doc(p('{<>}')));
 
@@ -1130,6 +1170,23 @@ describe('paste plugins', () => {
             tr(th()(p('One')), th()(p('Two'))),
             tr(td()(p('Three')), td()(p('Four'))),
             tr(td()(p('Five')), td()(p('Six'))),
+          ),
+        ),
+      );
+    });
+
+    it('should paste table with cells that dont have paragraphs', () => {
+      const { editorView } = editor(doc(p('{<>}')));
+
+      const html = `<meta charset='utf-8'><meta name="generator" content="Sheets"/><style type="text/css"><!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}--></style><table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" cellpadding="0" dir="ltr" border="1" style="table-layout:fixed;font-size:10pt;font-family:arial,sans,sans-serif;width:0px;border-collapse:collapse;border:none"><colgroup><col width="100"/><col width="86"/></colgroup><tbody><tr style="height:21px;"><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;"></td><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;text-align:right;" data-sheets-value="{&quot;1&quot;:3,&quot;3&quot;:2}">2</td></tr><tr style="height:21px;"><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;text-align:right;" data-sheets-value="{&quot;1&quot;:3,&quot;3&quot;:3}">3</td><td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;text-align:right;" data-sheets-value="{&quot;1&quot;:3,&quot;3&quot;:4}">4</td></tr></tbody></table>`;
+
+      dispatchPasteEvent(editorView, { html });
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          table({})(
+            tr(td()(p('')), td()(p('2'))),
+            tr(td()(p('3')), td()(p('4'))),
           ),
         ),
       );
@@ -1232,7 +1289,7 @@ describe('paste plugins', () => {
         [
           'a media single',
           'mediaSingle',
-          `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div`,
+          `<meta charset='utf-8'><div data-node-type="mediaSingle" data-layout="center" data-width=""><div data-id="9b5c6412-6de0-42cb-837f-bc08c24b4383" data-node-type="media" data-type="file" data-collection="MediaServicesSample" data-width="490" data-height="288" title="Attachment" style="display: inline-block; border-radius: 3px; background: #EBECF0; box-shadow: 0 1px 1px rgba(9, 30, 66, 0.2), 0 0 1px 0 rgba(9, 30, 66, 0.24);" data-file-name="image-20190325-222039.png" data-file-size="29502" data-file-mime-type="image/png"></div></div>`,
           '',
         ],
         [

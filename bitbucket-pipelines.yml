@@ -22,10 +22,10 @@ pipelines:
             # We push the bumped packages to master now as it's much better to fail whilst BB is
             # ahead of npm, than the other way round.
             - git push
-            # We run the build:pkg script again, because the versions in our package.jsons may have changed
+            # We run the copy:version script again, because the versions in our package.jsons may have changed
             # after the bump. We've kept it running in both places, just to limit the scope of this change
             # so that we don't break anything that was working previously.
-            - yarn build:pkg
+            - yarn copy:version
             # Because we distribute precompiled code for mobile, for version accuracy, it needs to be built after the bump.
             # Unfortunately, we can't rely on `run.if.package.changed.js` here because it runs against the last commit,
             # which contains our changeset bump rather than the actual changes.
@@ -513,7 +513,7 @@ pipelines:
           script:
             - source ./build-setup.sh
             - bolt install --pure-lockfile
-            - yarn measure:dependents --s3
+            - yarn measure:dependents:s3
             - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize
             - if [ -e ".currentBundleSize/merged.json" ]; then node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json; fi
           artifacts:
@@ -580,7 +580,7 @@ pipelines:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem
+                - export input=elements,bitbucket,css-packs,growth,help,home,jira,navigation,people-and-teams,search,teamwork-ecosystem,engagement-platform
                 - node build/ci-scripts/get.pkgs.in.team.js $input| xargs -n1 -P2 yarn measure --updateSnapshot --s3
               # required to debug, may be we can remove this later
               artifacts:

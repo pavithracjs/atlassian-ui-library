@@ -4,6 +4,7 @@ import {
   media,
   mediaGroup,
   storyMediaProviderFactory,
+  storyContextIdentifierProviderFactory,
   createEditorFactory,
 } from '@atlaskit/editor-test-helpers';
 
@@ -11,14 +12,14 @@ import {
   stateKey as mediaPluginKey,
   MediaPluginState,
 } from '../../../../plugins/media/pm-plugins/main';
-import mediaPlugin from '../../../../plugins/media';
-import { EditorPlugin } from '../../../../types';
+import { EditorProps } from '../../../../types';
 import { EditorView } from 'prosemirror-view';
 import { insertMediaGroupNode } from '../../../../plugins/media/utils/media-files';
 import {
   ImagePreview,
   MediaFile,
 } from '../../../../../../../media/media-picker';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
 export const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 export const temporaryFileId = `temporary:${randomId()}`;
@@ -75,23 +76,32 @@ export const waitForAllPickersInitialised = async (
 const createEditor = createEditorFactory<MediaPluginState>();
 export const mediaEditor = (
   doc: any,
-  additionalPlugins: Array<EditorPlugin> = [],
+  additionalProps: Partial<EditorProps> = {},
   uploadErrorHandler?: () => void,
 ) => {
+  const contextIdentifierProvider = storyContextIdentifierProviderFactory();
   const mediaProvider = storyMediaProviderFactory({
     collectionName: testCollectionName,
     includeUserAuthProvider: true,
   });
 
+  const providerFactory = ProviderFactory.create({
+    mediaProvider,
+    contextIdentifierProvider,
+  });
+
   return createEditor({
     doc,
-    editorPlugins: [
-      ...additionalPlugins,
-      mediaPlugin({ provider: mediaProvider, allowMediaSingle: true }),
-    ],
     editorProps: {
       uploadErrorHandler,
+      media: {
+        provider: mediaProvider,
+        allowMediaSingle: true,
+      },
+      contextIdentifierProvider,
+      ...additionalProps,
     },
+    providerFactory,
     pluginKey: mediaPluginKey,
   });
 };

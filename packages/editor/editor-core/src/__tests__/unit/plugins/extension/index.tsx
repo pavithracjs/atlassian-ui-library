@@ -26,10 +26,8 @@ import {
   updateExtensionLayout,
 } from '../../../../plugins/extension/actions';
 import { pluginKey } from '../../../../plugins/extension/plugin';
-import extensionPlugin from '../../../../plugins/extension';
 import { findParentNodeOfType } from 'prosemirror-utils';
 import { setNodeSelection } from '../../../../utils';
-import { mediaPlugin } from '../../../../plugins';
 
 const macroProviderPromise = Promise.resolve(macroProvider);
 
@@ -42,7 +40,6 @@ describe('extension', () => {
   const editor = (doc: any, extensionHandlers?: ExtensionHandlers) => {
     return createEditor({
       doc,
-      editorPlugins: [extensionPlugin, mediaPlugin({ allowMediaSingle: true })],
       editorProps: {
         allowExtension: {
           allowBreakout: true,

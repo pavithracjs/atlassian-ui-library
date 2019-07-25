@@ -12,7 +12,6 @@ import {
   tdEmpty,
 } from '@atlaskit/editor-test-helpers';
 import { TablePluginState } from '../../../../../plugins/table/types';
-import tablesPlugin from '../../../../../plugins/table';
 import { deleteRows } from '../../../../../plugins/table/transforms';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 
@@ -29,7 +28,7 @@ describe('table plugin -> transforms -> delete rows', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 

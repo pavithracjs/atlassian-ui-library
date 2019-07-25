@@ -99,7 +99,7 @@ function createPlugin({
   });
 }
 
-const breakoutPlugin: EditorPlugin = {
+const breakoutPlugin = (): EditorPlugin => ({
   pmPlugins() {
     return [{ name: 'breakout', plugin: createPlugin }];
   },
@@ -135,6 +135,6 @@ const breakoutPlugin: EditorPlugin = {
       />
     );
   },
-};
+});
 
 export default breakoutPlugin;

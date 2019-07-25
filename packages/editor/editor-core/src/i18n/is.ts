@@ -6,7 +6,7 @@
  */
 // Icelandic
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Bæta við tengli',
   'fabric.editor.openLink': 'Opna tengil í nýjum flipa',
   'fabric.editor.unlink': 'Fjarlægja tengil',
   'fabric.editor.editLink': 'Breyta tengli',
@@ -127,7 +127,7 @@ export default {
   'fabric.editor.annotate': 'Skrifa skýringar',
   'fabric.editor.wrapLeft': 'Vinstriskrið',
   'fabric.editor.wrapRight': 'Hægriskrið',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Til baka',
   'fabric.editor.info': 'Upplýsingar',
   'fabric.editor.note': 'Athugasemd',
   'fabric.editor.success': 'Tókst',
@@ -165,7 +165,7 @@ export default {
   'fabric.editor.bold': 'Djörf',
   'fabric.editor.italic': 'Skáletrað',
   'fabric.theme.#172b4d': 'Dökkgrátt',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Ljósgrátt',
   'fabric.theme.#6554c0': 'Fjólublár',
   'fabric.theme.#00b8d9': 'Fölgrænt',
   'fabric.theme.#36b37e': 'Grænt',

@@ -74,8 +74,11 @@ type Props = EditorProps & {
 export default function mobileEditor(props: Props) {
   // eg. If the URL parameter is like ?mode=dark use that, otherwise check the prop (used in example)
   const mode = (params && params.theme) || props.mode || 'light';
+  // Temporarily opting out of the default oauth2 flow for phase 1 of Smart Links
+  // See https://product-fabric.atlassian.net/browse/FM-2149 for details.
+  const authFlow = 'disabled';
   return (
-    <SmartCardProvider client={cardClient}>
+    <SmartCardProvider client={cardClient} authFlow={authFlow}>
       <AtlaskitThemeProvider mode={mode}>
         <EditorWithState
           appearance="mobile"

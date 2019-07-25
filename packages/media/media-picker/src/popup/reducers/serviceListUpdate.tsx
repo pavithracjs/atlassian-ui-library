@@ -1,4 +1,7 @@
-import { UPDATE_SERVICE_LIST, UpdateServiceListAction } from '../actions';
+import {
+  UPDATE_SERVICE_LIST,
+  UpdateServiceListAction,
+} from '../actions/updateServiceList';
 import { State } from '../domain';
 
 export default function serviceListUpdate(

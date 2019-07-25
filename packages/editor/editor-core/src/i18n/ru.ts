@@ -6,7 +6,7 @@
  */
 // Russian
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Добавить ссылку',
   'fabric.editor.openLink': 'Открыть ссылку на новой вкладке',
   'fabric.editor.unlink': 'Удалить ссылку',
   'fabric.editor.editLink': 'Изменить ссылку',
@@ -119,7 +119,7 @@ export default {
   'fabric.editor.annotate': 'Добавить пометки',
   'fabric.editor.wrapLeft': 'Заверстать влево',
   'fabric.editor.wrapRight': 'Заверстать вправо',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Назад',
   'fabric.editor.info': 'Информация',
   'fabric.editor.note': 'Примечание',
   'fabric.editor.success': 'Готово',
@@ -157,7 +157,7 @@ export default {
   'fabric.editor.bold': 'Жирный',
   'fabric.editor.italic': 'Курсив',
   'fabric.theme.#172b4d': 'Темно-серый',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Светло-серый',
   'fabric.theme.#6554c0': 'Фиолетовый',
   'fabric.theme.#00b8d9': 'Бирюзовый',
   'fabric.theme.#36b37e': 'Зеленый',

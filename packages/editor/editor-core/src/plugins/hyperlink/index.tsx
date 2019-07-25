@@ -18,7 +18,7 @@ import { getToolbarConfig } from './Toolbar';
 import { tooltip, addLink } from '../../keymaps';
 import { IconLink } from '../quick-insert/assets';
 
-const hyperlinkPlugin: EditorPlugin = {
+const hyperlinkPlugin = (): EditorPlugin => ({
   marks() {
     return [{ name: 'link', mark: link }];
   },
@@ -72,7 +72,7 @@ const hyperlinkPlugin: EditorPlugin = {
     ],
     floatingToolbar: getToolbarConfig,
   },
-};
+});
 
 export { HyperlinkState } from './pm-plugins/main';
 

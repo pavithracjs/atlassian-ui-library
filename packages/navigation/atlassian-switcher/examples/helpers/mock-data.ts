@@ -12,7 +12,7 @@ export interface MockData {
   };
   XFLOW_SETTINGS: object;
 }
-
+// Mock data can be overriden in the story so be careful when testing.
 const ORIGINAL_MOCK_DATA: MockData = {
   AVAILABLE_PRODUCTS_DATA: {
     sites: [

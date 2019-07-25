@@ -191,15 +191,14 @@ export default class Editor extends React.Component<Props, State> {
       onChange: debounce(() => this.onChange(actions), 250),
       defaultValue,
       allowHelpDialog: allowFeedbackAndHelpButtons,
+      feedbackInfo: allowFeedbackAndHelpButtons
+        ? {
+            packageVersion: packageVersion,
+            packageName: packageName,
+          }
+        : undefined,
       primaryToolbarComponents: allowFeedbackAndHelpButtons
-        ? [
-            <ToolbarFeedback
-              key="feedback"
-              packageName={packageName}
-              packageVersion={packageVersion}
-            />,
-            <ToolbarHelp key="help" />,
-          ]
+        ? [<ToolbarFeedback key="feedback" />, <ToolbarHelp key="help" />]
         : undefined,
       ...providers,
     };

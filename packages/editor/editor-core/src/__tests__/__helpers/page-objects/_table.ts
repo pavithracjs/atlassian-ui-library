@@ -16,6 +16,7 @@ import {
 } from '../../__helpers/page-objects/_keyboard';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 import { isVisualRegression } from '../utils';
+import { Page } from 'puppeteer';
 
 export const tableSelectors = {
   contextualMenu: `.${ClassName.CONTEXTUAL_MENU_BUTTON}`,
@@ -23,24 +24,19 @@ export const tableSelectors = {
   nthRowControl: (n: number) =>
     `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
   nthColumnControl: (n: number) =>
-    `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}:nth-child(${n}) button`,
+    `.${ClassName.COLUMN_CONTROLS_DECORATIONS}[data-start-index='${n}']`,
   nthNumberedColumnRowControl: (n: number) =>
     `.${ClassName.NUMBERED_COLUMN_BUTTON}:nth-child(${n})`,
   firstRowControl: `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(1) button`,
   firstColumnControl: `.${
-    ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-  }:nth-child(1) button`,
+    ClassName.COLUMN_CONTROLS_DECORATIONS
+  }[data-start-index='0'] `,
   lastRowControl: `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}:nth-child(3) button`,
-  lastColumnControl: `.${
-    ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-  }:nth-child(3) button`,
   rowControlSelector: ClassName.ROW_CONTROLS_BUTTON_WRAP,
-  columnControlSelector: ClassName.COLUMN_CONTROLS_BUTTON_WRAP,
   deleteButtonSelector: `.${ClassName.CONTROLS_DELETE_BUTTON_WRAP} .${
     ClassName.CONTROLS_DELETE_BUTTON
   }`,
   rowControls: ClassName.ROW_CONTROLS_WRAPPER,
-  columnControls: ClassName.COLUMN_CONTROLS_WRAPPER,
   insertColumnButton: `.${ClassName.CONTROLS_INSERT_COLUMN}`,
   insertRowButton: `.${ClassName.CONTROLS_INSERT_ROW}`,
   insertButton: `.${ClassName.CONTROLS_INSERT_BUTTON}`,
@@ -202,7 +198,28 @@ export const insertRow = async (page: any, atIndex: number) => {
   }
 };
 
-export const insertColumn = async (page: any, atIndex: number) => {
+export const hoverColumnControls = async (
+  page: any,
+  atIndex: number,
+  side: 'left' | 'right' = 'left',
+) => {
+  const bounds = await getBoundingRect(
+    page,
+    tableSelectors.nthColumnControl(atIndex),
+  );
+
+  let offset = bounds.width * (side === 'left' ? 0.5 : 0.55);
+
+  const x = bounds.left + offset;
+  const y = bounds.top + bounds.height - 5;
+  return await page.mouse.move(x, y);
+};
+
+export const insertColumn = async (
+  page: any,
+  atIndex: number,
+  side: 'left' | 'right' = 'left',
+) => {
   await clickFirstCell(page);
 
   const bounds = await getBoundingRect(
@@ -210,27 +227,25 @@ export const insertColumn = async (page: any, atIndex: number) => {
     tableSelectors.nthColumnControl(atIndex),
   );
 
-  let coords: { x: number; y: number };
-
   if (isVisualRegression()) {
-    let offset = atIndex % 2 === 0 ? 1 : 1.5;
+    let offset = bounds.width * (side === 'left' ? 0.5 : 0.55);
 
-    const x = bounds.left * offset;
+    const x = bounds.left + offset;
     const y = bounds.top + bounds.height - 5;
-    coords = { x, y };
     await page.mouse.move(x, y);
   } else {
-    const x = atIndex % 2 === 0 ? 1 : Math.ceil(bounds.width * 0.55);
-    await page.moveTo(tableSelectors.nthColumnControl(atIndex), x, 1);
+    const x = side === 'left' ? 1 : Math.ceil(bounds.width * 0.55);
+    const columnDecorationSelector = tableSelectors.nthColumnControl(atIndex);
+    await page.moveTo(columnDecorationSelector, x, 1);
   }
 
   await page.waitForSelector(tableSelectors.insertButton);
   await page.click(tableSelectors.insertButton);
 
   if (isVisualRegression()) {
-    // cursor could or could not be over an insert col button so move it up
+    // cursor could or could not be over an insert col button so move it to 0,0
     // and wait for tooltip to fade (if one was previously showing)
-    await page.mouse.move(coords!.x, coords!.y - 20);
+    await page.mouse.move(0, 0);
     await waitForNoTooltip(page);
   }
 };
@@ -243,9 +258,9 @@ export const deleteRow = async (page: any, atIndex: number) => {
 };
 
 export const deleteColumn = async (page: any, atIndex: number) => {
-  const controlSelector = `.${tableSelectors.columnControls} .${
-    ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-  }:nth-child(${atIndex}) .${ClassName.CONTROLS_BUTTON}`;
+  const controlSelector = `.${
+    ClassName.COLUMN_CONTROLS_DECORATIONS
+  }[data-start-index="${atIndex}"]`;
   await deleteRowOrColumn(page, controlSelector);
 };
 
@@ -350,6 +365,23 @@ export const grabResizeHandle = async (
   await page.mouse.down();
 };
 
+export const scrollTable = async (page: any, percentage: number = 1) => {
+  await page.evaluate(
+    (selector: string, percentage: number) => {
+      const element = document.querySelector(selector) as HTMLElement;
+
+      if (element) {
+        element.scrollTo(
+          (element.scrollWidth - element.offsetWidth) * percentage,
+          0,
+        );
+      }
+    },
+    `.${ClassName.TABLE_NODE_WRAPPER}`,
+    percentage,
+  );
+};
+
 export const toggleBreakout = async (page: any, times: number) => {
   const timesArray = Array.from({ length: times });
 
@@ -363,6 +395,15 @@ export const scrollToTable = async (page: any) => {
   await scrollToElement(page, tableSelectors.tableTd, 50);
 };
 
+export const unselectTable = async (page: Page) => {
+  const rect = await getBoundingRect(page, `.${ClassName.TABLE_NODE_WRAPPER}`)!;
+
+  await page.mouse.click(
+    rect.left + rect.width * 0.5, // Middle of the table
+    rect.top - 20, // 20px outside the top of the table
+  );
+};
+
 const select = (type: 'row' | 'column' | 'numbered') => async (
   n: number,
   isShiftPressed: boolean = false,
@@ -373,7 +414,7 @@ const select = (type: 'row' | 'column' | 'numbered') => async (
     type === 'row'
       ? tableSelectors.nthRowControl(n + 1)
       : type === 'column'
-      ? tableSelectors.nthColumnControl(n + 1)
+      ? tableSelectors.nthColumnControl(n)
       : tableSelectors.nthNumberedColumnRowControl(n + 1);
 
   await page.waitForSelector(selector);

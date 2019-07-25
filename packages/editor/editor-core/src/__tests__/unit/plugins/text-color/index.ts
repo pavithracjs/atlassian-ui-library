@@ -3,6 +3,7 @@ import {
   code,
   textColor,
   p,
+  hardBreak,
   createEditorFactory,
   a,
   strong,
@@ -12,7 +13,6 @@ import {
   pluginKey as textColorPluginKey,
 } from '../../../../plugins/text-color/pm-plugins/main';
 import { changeColor } from '../../../../plugins/text-color/commands/change-color';
-import textColorPlugin from '../../../../plugins/text-color';
 
 describe('text-color', () => {
   const createEditor = createEditorFactory<TextColorPluginState>();
@@ -20,7 +20,7 @@ describe('text-color', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [textColorPlugin],
+      editorProps: { allowTextColor: true },
       pluginKey: textColorPluginKey,
     });
 
@@ -161,5 +161,23 @@ describe('text-color', () => {
     );
 
     expect(pluginState.color).toBe(testColor1);
+  });
+
+  it(`shouldn't apply color to a non text node`, () => {
+    const { editorView } = editor(doc(p('t{<}ext', hardBreak(), 'text{>}')));
+    const { dispatch, state } = editorView;
+
+    changeColor(testColor1)(state, dispatch);
+
+    expect(editorView.state.doc).toEqualDocument(
+      doc(
+        p(
+          't',
+          textColor({ color: testColor1 })('ext'),
+          hardBreak(),
+          textColor({ color: testColor1 })('text'),
+        ),
+      ),
+    );
   });
 });

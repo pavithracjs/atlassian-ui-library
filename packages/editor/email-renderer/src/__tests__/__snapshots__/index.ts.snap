@@ -1135,51 +1135,274 @@ exports[`Renderer - EmailSerializer should render lists: html 1`] = `
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render media based on given context: html 1`] = `
+<div
+  class="csg-wrapper"
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; vertical-align: baseline;"
+>
+  <div
+    style="width: 100%;"
+  >
+    <div
+      class="csg-media-wrapper"
+      style="margin: 12px; text-align: center;"
+    >
+      <img
+        class="csg-media-img"
+        src="cid:media-type-image"
+        style="max-width: 100%;"
+      />
+    </div>
+    <div
+      class="csg-media-preview-wrapper"
+      style="margin: 8px 0px; padding: 0; display: table;"
+    >
+      <img
+        class="csg-media-preview-img"
+        height="108"
+        src="cid:media-type-doc"
+        style="width: 162px; height: 108px; background-color: #EBECF0; display: block; object-fit: contain; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        width="162"
+      />
+      <div
+        class="csg-media-preview-desc"
+        style="margin-top: 3px; line-height: 16px; display: inline-block; width: 162px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-documentAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-preview-text"
+          style="color: #0052CC; text-overflow: ellipsis; margin-left: 4px; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
+        >
+          My bachelor thesis.pdf
+        </span>
+      </div>
+    </div>
+    <div
+      class="csg-media-preview-wrapper"
+      style="margin: 8px 0px; padding: 0; display: table;"
+    >
+      <img
+        class="csg-media-preview-img"
+        height="108"
+        src="cid:media-type-video"
+        style="width: 162px; height: 108px; background-color: #EBECF0; display: block; object-fit: contain; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+        width="162"
+      />
+      <div
+        class="csg-media-preview-desc"
+        style="margin-top: 3px; line-height: 16px; display: inline-block; width: 162px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-videoAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-preview-text"
+          style="color: #0052CC; text-overflow: ellipsis; margin-left: 4px; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
+        >
+          Metallica full concert.mpeg
+        </span>
+      </div>
+    </div>
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-audioAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          The sound of silence.mp3
+        </span>
+      </div>
+    </div>
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-archiveAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          The Slackening.zip
+        </span>
+      </div>
+    </div>
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          unknown
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render media group correctly: html 1`] = `
 <div
   class="csg-wrapper"
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; vertical-align: baseline;"
 >
   <div
-    style=""
+    style="width: 100%;"
   >
     <div
-      class="csg-media-wrapper"
-      style="margin: 24px auto; text-align: center;"
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
     >
-      <img
-        src="cid:15a9fb95-2d72-4d28-b338-00fd6bea121b"
-        style="max-width: 100%;"
-      />
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
     </div>
     <div
-      class="csg-media-wrapper"
-      style="margin: 24px auto; text-align: center;"
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
     >
-      <img
-        height="600"
-        src="cid:410f38f7-ce31-4527-a69d-740e958bf1d1"
-        style="max-width: 100%;"
-        width="800"
-      />
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
     </div>
     <div
-      class="csg-media-wrapper"
-      style="margin: 24px auto; text-align: center;"
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
     >
-      <img
-        src="https://www.google.com.au/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
-        style="max-width: 100%;"
-      />
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
     </div>
     <div
-      class="csg-media-wrapper"
-      style="margin: 24px auto; text-align: center;"
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
     >
-      <img
-        src="https://www.google.com.au/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
-        style="max-width: 100%;"
-      />
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
     </div>
   </div>
 </div>
@@ -1190,19 +1413,274 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
   class="csg-wrapper"
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; vertical-align: baseline;"
 >
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Wrap-left:
+  </p>
   <div
-    style="width: 100%;"
+    class="csg-media-single-wrap-left"
+    style="float: left; width: 33.33%; max-width: 100%;"
   >
     <div
-      class="csg-media-wrapper"
-      style="margin: 24px auto; text-align: center;"
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
     >
-      <img
-        height="600"
-        src="cid:2aa22582-ca0e-4bd4-b1bc-9369d10a0719"
-        style="max-width: 100%;"
-        width="800"
-      />
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
+    </div>
+  </div>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Bacon ipsum dolor amet kevin bacon pork cupim. Bresaola beef sirloin pork. Sausage ribeye tongue burgdoggen frankfurter meatball. Brisket chuck capicola, beef ribs meatball tenderloin short ribs pancetta pork loin filet mignon jowl bresaola shoulder biltong. Cupim burgdoggen ribeye, prosciutto kielbasa ball tip swine chuck pork biltong jerky leberkas alcatra. Hamburger pancetta prosciutto kielbasa, alcatra pork chop ground round porchetta frankfurter beef ribs cupim picanha shank. Tail buffalo pork loin, t-bone brisket landjaeger shoulder.
+  </p>
+  <div
+    class="csg-media-single-wrap-right"
+    style="float: right; width: 33.33%; max-width: 100%;"
+  >
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
+    </div>
+  </div>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Wrap-right:
+  </p>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Rump tongue tenderloin, pork chop meatball filet mignon pork ham hock pastrami cow. Beef porchetta bresaola shank rump, tenderloin kielbasa pork loin brisket pancetta. Frankfurter tail pig salami pork beef ribs pastrami doner flank kielbasa meatloaf strip steak spare ribs pork chop. Strip steak drumstick filet mignon jerky cupim ribeye meatloaf doner turkey ground round shank tongue salami. Alcatra shankle tri-tip pork chop meatball brisket filet mignon prosciutto shoulder biltong hamburger beef ribs ball tip. Ham landjaeger tri-tip beef andouille, short ribs pancetta meatloaf bacon flank venison. Prosciutto shankle leberkas turkey frankfurter tail flank bresaola.
+  </p>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Align right:
+  </p>
+  <div
+    class="csg-media-single-align-end"
+    style="margin-left: auto; margin-right: 0px; width: 33.33%; max-width: 100%;"
+  >
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
+    </div>
+  </div>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Align left:
+  </p>
+  <div
+    class="csg-media-single-align-start"
+    style="margin-left: 0px; margin-right: auto; width: 33.33%; max-width: 100%;"
+  >
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
+    </div>
+  </div>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Center align:
+  </p>
+  <div
+    class="csg-media-single-center"
+    style="margin-left: auto; margin-right: auto; width: 33.33333333333333%; max-width: 100%;"
+  >
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
+    </div>
+  </div>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Bacon ipsum dolor amet kevin bacon pork cupim. Bresaola beef sirloin pork. Sausage ribeye tongue burgdoggen frankfurter meatball. Brisket chuck capicola, beef ribs meatball tenderloin short ribs pancetta pork loin filet mignon jowl bresaola shoulder biltong. Cupim burgdoggen ribeye, prosciutto kielbasa ball tip swine chuck pork biltong jerky leberkas alcatra. Hamburger pancetta prosciutto kielbasa, alcatra pork chop ground round porchetta frankfurter beef ribs cupim picanha shank. Tail buffalo pork loin, t-bone brisket landjaeger shoulder.
+  </p>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Wide:
+  </p>
+  <div
+    class="csg-media-single-wide"
+    style="width: 100%; max-width: 100%;"
+  >
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
+    </div>
+  </div>
+  <p
+    class="csg-p"
+    style="margin: 0; padding: 0px; margin-bottom: 7px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    Full-width:
+  </p>
+  <div
+    class="csg-media-single-full-width"
+    style="width: 100%; max-width: 100%;"
+  >
+    <div
+      class="csg-media-lozenge-wrapper"
+      style="margin: 8px 0;"
+    >
+      <div
+        class="csg-media-lozenge"
+        style="line-height: 14px; display: inline-block; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;"
+      >
+        <span>
+          <img
+            class="csg-media-lozenge-icon"
+            height="14px"
+            src="cid:csg-icon-genericAttachment"
+            style="vertical-align: bottom;"
+            width="14px"
+          />
+        </span>
+        <span
+          class="csg-media-lozenge-text"
+          style="color: #0052CC; margin-left: 4px;"
+        >
+          Attached file
+        </span>
+      </div>
     </div>
   </div>
 </div>

@@ -14,7 +14,6 @@ import {
   InsertStatus,
   stateKey,
 } from '../../../../plugins/hyperlink/pm-plugins/main';
-import quickInsertPlugin from '../../../../plugins/quick-insert';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 describe('hyperlink - keymap', () => {
@@ -188,9 +187,7 @@ describe('hyperlink - keymap', () => {
     });
 
     it('should trigger link typeahead invoked analytics event', () => {
-      const { editorView } = editor(doc(p('{<>}')), {
-        editorPlugins: [quickInsertPlugin],
-      });
+      const { editorView } = editor(doc(p('{<>}')));
       sendKeyToPm(editorView, 'Mod-k');
       expect(createAnalyticsEvent).toHaveBeenCalledWith({
         action: 'invoked',

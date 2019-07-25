@@ -4,10 +4,28 @@ jest.mock('../../../plugins', () => ({
   mediaPlugin: jest.fn(),
   tablesPlugin: jest.fn(),
   insertBlockPlugin: jest.fn(),
+  feedbackDialogPlugin: jest.fn(),
   placeholderTextPlugin: jest.fn(),
   textFormattingPlugin: jest.fn(),
   codeBlockPlugin: jest.fn(),
   statusPlugin: jest.fn(),
+  pastePlugin: jest.fn(),
+  blockTypePlugin: jest.fn(),
+  placeholderPlugin: jest.fn(),
+  clearMarksOnChangeToEmptyDocumentPlugin: jest.fn(),
+  hyperlinkPlugin: jest.fn(),
+  widthPlugin: jest.fn(),
+  typeAheadPlugin: jest.fn(),
+  unsupportedContentPlugin: jest.fn(),
+  editorDisabledPlugin: jest.fn(),
+  gapCursorPlugin: jest.fn(),
+  gridPlugin: jest.fn(),
+  submitEditorPlugin: jest.fn(),
+  helpDialogPlugin: jest.fn(),
+  fakeTextCursorPlugin: jest.fn(),
+  layoutPlugin: jest.fn(),
+  floatingToolbarPlugin: jest.fn(),
+  quickInsertPlugin: jest.fn(),
 }));
 
 import {
@@ -19,6 +37,7 @@ import {
   fakeTextCursorPlugin,
   submitEditorPlugin,
   insertBlockPlugin,
+  feedbackDialogPlugin,
   placeholderTextPlugin,
   layoutPlugin,
   statusPlugin,
@@ -37,12 +56,12 @@ describe('createPluginsList', () => {
 
   it('should add helpDialogPlugin if allowHelpDialog is true', () => {
     const plugins = createPluginsList({ allowHelpDialog: true });
-    expect(plugins).toContain(helpDialogPlugin);
+    expect(plugins).toContain(helpDialogPlugin());
   });
 
   it('should add fakeTextCursorPlugin by default', () => {
     const plugins = createPluginsList({});
-    expect(plugins).toContain(fakeTextCursorPlugin);
+    expect(plugins).toContain(fakeTextCursorPlugin());
   });
 
   it('should add tablePlugin if allowTables is true', () => {
@@ -53,7 +72,7 @@ describe('createPluginsList', () => {
 
   it('should always add submitEditorPlugin to the editor', () => {
     const plugins = createPluginsList({});
-    expect(plugins).toContain(submitEditorPlugin);
+    expect(plugins).toContain(submitEditorPlugin());
   });
 
   it('should add mediaPlugin if media prop is provided', () => {
@@ -88,7 +107,7 @@ describe('createPluginsList', () => {
 
   it('should add layoutPlugin if allowLayout prop is provided', () => {
     const plugins = createPluginsList({ allowLayouts: true });
-    expect(plugins).toContain(layoutPlugin);
+    expect(plugins).toContain(layoutPlugin());
   });
 
   it('should not add statusPlugin if allowStatus prop is false', () => {
@@ -139,6 +158,16 @@ describe('createPluginsList', () => {
     expect(analyticsPlugin).not.toHaveBeenCalled();
   });
 
+  it('should add feedbackDialogPlugin if feedbackInfo is provided for editor props', () => {
+    const feedbackInfo = {
+      product: 'bitbucket',
+      packageName: 'editor',
+      packageVersion: '1.1.1',
+    };
+    createPluginsList({ feedbackInfo });
+    expect(feedbackDialogPlugin).toBeCalledWith(feedbackInfo);
+  });
+
   it('should always add insertBlockPlugin to the editor with insertMenuItems', () => {
     const customItems = [
       {
@@ -158,6 +187,7 @@ describe('createPluginsList', () => {
     ];
 
     const props = {
+      allowTables: true,
       insertMenuItems: customItems,
       nativeStatusSupported: false,
     };

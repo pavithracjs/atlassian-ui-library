@@ -6,7 +6,7 @@
  */
 // Romanian
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Adăugare link',
   'fabric.editor.openLink': 'Deschideți linkul într-o filă nouă',
   'fabric.editor.unlink': 'Anulare link',
   'fabric.editor.editLink': 'Editați linkul',
@@ -127,7 +127,7 @@ export default {
   'fabric.editor.annotate': 'Adnotare',
   'fabric.editor.wrapLeft': 'Încadrare stânga',
   'fabric.editor.wrapRight': 'Încadrare dreapta',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Reveniți',
   'fabric.editor.info': 'Informații',
   'fabric.editor.note': 'Notă',
   'fabric.editor.success': 'Succes',
@@ -165,7 +165,7 @@ export default {
   'fabric.editor.bold': 'Bold',
   'fabric.editor.italic': 'Italic',
   'fabric.theme.#172b4d': 'Gri închis',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Gri deschis',
   'fabric.theme.#6554c0': 'Violet',
   'fabric.theme.#00b8d9': 'Albastru verzui',
   'fabric.theme.#36b37e': 'Verde',

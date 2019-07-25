@@ -36,11 +36,14 @@ BrowserTestCase(
     await page.click(`.${ClassName.LAYOUT_BUTTON}`);
     await page.click(`.${ClassName.LAYOUT_BUTTON}`);
 
+    await page.click(editable);
+
     // Select button wrapper from last column
-    const controlSelector = `.${ClassName.COLUMN_CONTROLS_WRAPPER} .${
-      ClassName.COLUMN_CONTROLS_BUTTON_WRAP
-    }:last-child .${ClassName.CONTROLS_BUTTON}`;
+    const controlSelector = `.${
+      ClassName.COLUMN_CONTROLS_DECORATIONS
+    }[data-start-index="2"]`;
     await page.waitForSelector(controlSelector);
+    await page.hover(controlSelector);
     await page.click(controlSelector);
 
     // Click on delete row button

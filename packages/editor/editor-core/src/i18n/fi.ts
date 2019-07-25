@@ -6,7 +6,7 @@
  */
 // Finnish
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Lisää linkki',
   'fabric.editor.openLink': 'Avaa linkki uudessa välilehdessä',
   'fabric.editor.unlink': 'Poista linkitys',
   'fabric.editor.editLink': 'Muokkaa linkkiä',
@@ -127,7 +127,7 @@ export default {
   'fabric.editor.annotate': 'Lisää huomautus',
   'fabric.editor.wrapLeft': 'Rivitä vasemmalle',
   'fabric.editor.wrapRight': 'Rivitä oikealle',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Siirry takaisin',
   'fabric.editor.info': 'Tietoja',
   'fabric.editor.note': 'Huomautus',
   'fabric.editor.success': 'Onnistunut',
@@ -165,7 +165,7 @@ export default {
   'fabric.editor.bold': 'Lihavoitu',
   'fabric.editor.italic': 'Kursivoitu',
   'fabric.theme.#172b4d': 'Tummanharmaa',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Vaaleanharmaa',
   'fabric.theme.#6554c0': 'Violetti',
   'fabric.theme.#00b8d9': 'Sinivihreä',
   'fabric.theme.#36b37e': 'Vihreä',

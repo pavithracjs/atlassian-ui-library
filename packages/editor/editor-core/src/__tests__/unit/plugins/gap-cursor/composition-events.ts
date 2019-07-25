@@ -2,15 +2,8 @@ import { doc, createEditorFactory, p } from '@atlaskit/editor-test-helpers';
 import { EditorView } from 'prosemirror-view';
 
 import { setGapCursorSelection } from '../../../../utils';
-import gapCursorPlugin, { Side } from '../../../../plugins/gap-cursor';
+import { Side } from '../../../../plugins/gap-cursor';
 import { pluginKey } from '../../../../plugins/gap-cursor/pm-plugins/main';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import rulePlugin from '../../../../plugins/rule';
-import panelPlugin from '../../../../plugins/panel';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import tablesPlugin from '../../../../plugins/table';
-import extensionPlugin from '../../../../plugins/extension';
-import mediaPlugin from '../../../../plugins/media';
 
 import {
   blockNodes,
@@ -34,18 +27,15 @@ describe('gap-cursor: composition events', () => {
   const editor = (doc: any, trackEvent?: () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [
-        gapCursorPlugin,
-        mediaPlugin({ allowMediaSingle: true }),
-        extensionPlugin,
-        tablesPlugin(),
-        tasksAndDecisionsPlugin,
-        codeBlockPlugin(),
-        rulePlugin,
-        panelPlugin,
-      ],
       editorProps: {
         analyticsHandler: trackEvent,
+        allowExtension: true,
+        allowPanel: true,
+        allowRule: true,
+        allowCodeBlocks: true,
+        allowTasksAndDecisions: true,
+        allowTables: true,
+        media: { allowMediaSingle: true },
       },
       pluginKey,
     });

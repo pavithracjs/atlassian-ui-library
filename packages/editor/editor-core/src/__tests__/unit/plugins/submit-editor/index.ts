@@ -5,7 +5,6 @@ import {
   p,
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
-import submitPlugin from '../../../../plugins/submit-editor';
 import { EditorProps } from '../../../../types';
 
 describe('submit-editor', () => {
@@ -18,7 +17,6 @@ describe('submit-editor', () => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({
       doc,
-      editorPlugins: [submitPlugin],
       editorProps: {
         onSave,
         allowAnalyticsGASV3: true,

@@ -23,6 +23,8 @@ const defaultProps = {
   getPostQueryGroups: () => [],
   query: '',
   searchMore: () => {},
+  currentFilters: [],
+  onFilterChanged: () => {},
 };
 
 const mockResultsGroup = [

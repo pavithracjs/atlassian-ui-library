@@ -4,6 +4,7 @@ import {
   RecentPage,
   RecentSpace,
 } from '../../../api/ConfluenceClient';
+import uuid from 'uuid/v4';
 
 export const DUMMY_CONFLUENCE_HOST = 'http://localhost';
 export const DUMMY_CLOUD_ID = '123';
@@ -12,19 +13,24 @@ export const BLOG_CLASSNAME = 'content-type-blogpost';
 export const SPACE_CLASSNAME = 'content-type-space';
 export const PEOPLE_CLASSNAME = 'content-type-userinfo';
 
-export function buildMockPage(type: ConfluenceContentType): RecentPage {
-  return {
+export function buildMockPage(
+  type: ConfluenceContentType,
+  overrides: Partial<RecentPage> = {},
+): RecentPage {
+  const defaultPage = {
     available: true,
     contentType: type,
-    id: 123,
-    lastSeen: 123,
-    space: 'Search & Smarts',
-    spaceKey: 'abc',
-    title: 'Page title',
-    type: 'page',
-    url: '/content/123',
-    iconClass: 'iconClass',
+    id: Math.floor(Math.random() * 1000),
+    lastSeen: Math.floor(Math.random() * 1000),
+    space: 'Search & Smarts ' + uuid(),
+    spaceKey: 'abc ' + uuid(),
+    title: 'Page title ' + uuid(),
+    type: 'page ' + uuid(),
+    url: '/content/123 ' + uuid(),
+    iconClass: 'iconClass' + uuid(),
   };
+
+  return { ...defaultPage, ...overrides };
 }
 
 export const MOCK_SPACE = {

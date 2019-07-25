@@ -1,5 +1,4 @@
 import { pluginKey } from '../../../../plugins/card/pm-plugins/main';
-import cardPlugin from '../../../../plugins/card';
 import {
   setProvider,
   queueCards,
@@ -32,10 +31,9 @@ describe('card', () => {
     createAnalyticsEvent = createAnalyticsEventMock();
     const wrapper = createEditor({
       doc,
-      editorPlugins: [cardPlugin],
       pluginKey,
       createAnalyticsEvent: createAnalyticsEvent as any,
-      editorProps: { allowAnalyticsGASV3: true },
+      editorProps: { allowAnalyticsGASV3: true, UNSAFE_cards: {} },
     });
     createAnalyticsEvent.mockClear();
     return wrapper;

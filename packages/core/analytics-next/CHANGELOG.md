@@ -1,5 +1,37 @@
 # @atlaskit/analytics-next
 
+## 5.2.0
+
+### Minor Changes
+
+- [minor][8fcbe23ec6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fcbe23ec6):
+
+  Updated types for analytics-next and buttons to make them easier to consume
+
+## 5.1.3
+
+### Patch Changes
+
+- [patch][c6ad66d326](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c6ad66d326):
+
+  The types property in package.json now points to the correct file"
+
+## 5.1.2
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 5.1.1
+
+### Patch Changes
+
+- [patch][6ea9bb7873](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ea9bb7873):
+
+  analytics-next now exports an ambient module declaration which resolves an issue with types being required via relative imports
+
 ## 5.1.0
 
 ### Minor Changes

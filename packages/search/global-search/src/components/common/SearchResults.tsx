@@ -12,6 +12,7 @@ import SearchError from '../SearchError';
 import deepEqual from 'deep-equal';
 import { Scope } from '../../api/types';
 import { CancelableEvent } from '../../../../quick-search';
+import { Filter } from '../../api/CrossProductSearchClient';
 
 export interface Props {
   isPreQuery: boolean;
@@ -32,6 +33,18 @@ export interface Props {
   postQueryScreenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
   onSearchMoreAdvancedSearchClicked?: (event: CancelableEvent) => void;
+  getFilterComponent(props: FilterComponentProps): React.ReactNode;
+  currentFilters: Filter[];
+  onFilterChanged(filter: Filter[]): void;
+}
+
+export interface FilterComponentProps {
+  latestSearchQuery: string;
+  searchResultsTotalSize: number;
+  isLoading: boolean;
+  searchSessionId: string;
+  currentFilters: Filter[];
+  onFilterChanged(filter: Filter[]): void;
 }
 
 export enum SearchResultsState {
@@ -84,6 +97,10 @@ export const getSearchResultState = ({
 };
 
 export default class SearchResults extends React.Component<Props> {
+  static defaultProps = {
+    getFilterComponent: () => null,
+  };
+
   shouldComponentUpdate(nextProps: Props) {
     return !deepEqual(nextProps, this.props);
   }
@@ -159,20 +176,38 @@ export default class SearchResults extends React.Component<Props> {
       searchMore,
       onSearchMoreAdvancedSearchClicked,
       query,
+      getFilterComponent,
+      isLoading,
+      currentFilters,
+      onFilterChanged,
     } = this.props;
 
+    const resultGroups = getPostQueryGroups();
+    const topGroup = resultGroups.length > 0 ? resultGroups[0] : null;
+
     return (
-      <ResultGroupsComponent
-        query={query}
-        type={ResultGroupType.PostQuery}
-        renderAdvancedSearch={renderAdvancedSearchGroup}
-        resultsGroups={getPostQueryGroups()}
-        searchSessionId={searchSessionId}
-        screenCounter={postQueryScreenCounter}
-        referralContextIdentifiers={referralContextIdentifiers}
-        onShowMoreClicked={searchMore || (() => {})}
-        onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
-      />
+      <>
+        {topGroup &&
+          getFilterComponent({
+            latestSearchQuery: query,
+            searchResultsTotalSize: topGroup.totalSize,
+            isLoading,
+            searchSessionId,
+            currentFilters,
+            onFilterChanged,
+          })}
+        <ResultGroupsComponent
+          query={query}
+          type={ResultGroupType.PostQuery}
+          renderAdvancedSearch={renderAdvancedSearchGroup}
+          resultsGroups={resultGroups}
+          searchSessionId={searchSessionId}
+          screenCounter={postQueryScreenCounter}
+          referralContextIdentifiers={referralContextIdentifiers}
+          onShowMoreClicked={searchMore || (() => {})}
+          onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
+        />
+      </>
     );
   }
 

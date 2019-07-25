@@ -6,7 +6,6 @@ import {
   p,
   inlineCard,
 } from '@atlaskit/editor-test-helpers';
-import { cardPlugin } from '../../../../plugins';
 import { pluginKey } from '../../../../plugins/card/pm-plugins/main';
 
 import commonMessages from '../../../../messages';
@@ -22,7 +21,9 @@ describe('card', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [cardPlugin],
+      editorProps: {
+        UNSAFE_cards: {},
+      },
       pluginKey,
     });
   };
@@ -35,7 +36,16 @@ describe('card', () => {
     const removeTitle = intl.formatMessage(commonMessages.remove);
 
     it('has a remove button', () => {
-      const { editorView } = editor(doc(p()));
+      const { editorView } = editor(
+        doc(
+          p(
+            '{<node>}',
+            inlineCard({
+              url: 'http://www.atlassian.com/',
+            })(),
+          ),
+        ),
+      );
 
       const toolbar = floatingToolbar(editorView.state, intl);
       expect(toolbar).toBeDefined();
@@ -51,7 +61,16 @@ describe('card', () => {
     });
 
     it('has a visit button', () => {
-      const { editorView } = editor(doc(p()));
+      const { editorView } = editor(
+        doc(
+          p(
+            '{<node>}',
+            inlineCard({
+              url: 'http://www.atlassian.com/',
+            })(),
+          ),
+        ),
+      );
 
       const toolbar = floatingToolbar(editorView.state, intl);
       expect(toolbar).toBeDefined();
@@ -123,10 +142,11 @@ describe('card', () => {
       const { editorView, refs } = editor(
         doc(
           p(
-            'ab{<}',
+            'ab',
+            '{<node>}',
             inlineCard({
               url: 'http://www.atlassian.com/',
-            })('{>}'),
+            })(),
             'cd',
           ),
         ),
@@ -141,6 +161,38 @@ describe('card', () => {
 
       removeButton.onClick(editorView.state, editorView.dispatch);
       expect(editorView.state.doc).toEqualDocument(doc(p('abcd')));
+    });
+
+    it('has no remove button when url is invalid', () => {
+      const { editorView } = editor(
+        doc(
+          p(
+            '{<node>}',
+            inlineCard({
+              url: 'javascript:alert(document.domain)',
+            })(),
+          ),
+        ),
+      );
+
+      const toolbar = floatingToolbar(editorView.state, intl);
+      expect(toolbar).toBeUndefined();
+    });
+
+    it('has no visit button when url is invalid', () => {
+      const { editorView } = editor(
+        doc(
+          p(
+            '{<node>}',
+            inlineCard({
+              url: 'javascript:alert(document.domain)',
+            })(),
+          ),
+        ),
+      );
+
+      const toolbar = floatingToolbar(editorView.state, intl);
+      expect(toolbar).toBeUndefined();
     });
   });
 });

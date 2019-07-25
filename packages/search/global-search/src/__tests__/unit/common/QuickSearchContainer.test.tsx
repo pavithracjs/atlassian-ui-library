@@ -4,6 +4,7 @@ import {
   ABTest,
   DEFAULT_AB_TEST,
   Filter,
+  FilterType,
 } from '../../../api/CrossProductSearchClient';
 import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
 import {
@@ -404,7 +405,7 @@ describe('QuickSearchContainer', () => {
         wrapper,
         query,
         Promise.resolve({ results: searchResults }),
-        [{ '@type': 'spaces', spaceKeys: ['abc123'] }],
+        [{ '@type': FilterType.Spaces, spaceKeys: ['abc123'] }],
       );
       assertLastCall(defaultProps.getSearchResultsComponent, {
         searchResults,

@@ -108,11 +108,7 @@ export default class JiraClientImpl implements JiraClient {
   private cloudId: string;
   private canSearchUsersCache: boolean | undefined;
 
-  constructor(
-    url: string,
-    cloudId: string,
-    addSessionIdToJiraResult?: boolean,
-  ) {
+  constructor(url: string, cloudId: string) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
   }

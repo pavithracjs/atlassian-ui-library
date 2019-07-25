@@ -15,13 +15,11 @@ import {
   isRowDeleteButtonVisible,
   getColumnDeleteButtonParams,
   getRowDeleteButtonParams,
-  getColumnsParams,
   getRowsParams,
   getColumnClassNames,
   getRowClassNames,
 } from '../../../../plugins/table/utils';
 import { TablePluginState } from '../../../../plugins/table/types';
-import tablesPlugin from '../../../../plugins/table';
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';
 
 describe('table plugin: utils', () => {
@@ -30,7 +28,7 @@ describe('table plugin: utils', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 
@@ -369,33 +367,6 @@ describe('table plugin: utils', () => {
           expect(indexes).toEqual([0, 2]);
           expect(top > 0).toBe(true);
         });
-      });
-    });
-  });
-
-  describe('#getColumnsParams', () => {
-    describe('columnsWidths = [100, 150, 200]', () => {
-      it('should return consecutive indexes', () => {
-        const columnsWidths = [100, 150, 200];
-        const columns = getColumnsParams(columnsWidths);
-        columns.forEach((column, index) => {
-          expect(column.startIndex).toEqual(index);
-          expect(column.endIndex).toEqual(index + 1);
-          expect(column.width).toEqual(columnsWidths[index]);
-        });
-      });
-    });
-    describe('columnsWidths = [100, ,150, ,200]', () => {
-      it('should return correct indexes', () => {
-        const columnsWidths = [100, , 150, , 200];
-        const columns = getColumnsParams(columnsWidths);
-        const expectedIndexes = [0, 2, 4, 5];
-        for (let i = 0, count = columns.length; i < count; i++) {
-          const column = columns[i];
-          expect(column.startIndex).toEqual(expectedIndexes[i]);
-          expect(column.endIndex).toEqual(expectedIndexes[i + 1]);
-          expect(column.width).toEqual(columnsWidths[expectedIndexes[i]]);
-        }
       });
     });
   });

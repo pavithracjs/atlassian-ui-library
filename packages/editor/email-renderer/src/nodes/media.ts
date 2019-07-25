@@ -1,35 +1,56 @@
-import { NodeSerializerOpts } from '../interfaces';
+import {
+  NodeSerializerOpts,
+  MediaMetaDataContextItem,
+  MediaType,
+} from '../interfaces';
 import { createTag } from '../create-tag';
-import { serializeStyle } from '../serialize-style';
-import { N30, N50, N800 } from '@atlaskit/adf-schema';
-import { createClassName } from '../styles/util';
+import { N30, B400 } from '@atlaskit/adf-schema';
+import {
+  createClassName,
+  MEDIA_PREVIEW_IMAGE_WIDTH,
+  MEDIA_PREVIEW_IMAGE_HEIGHT,
+} from '../styles/util';
+import { createContentId, IconString } from '../static';
 
 const className = createClassName('media');
+const ICON_DIMENSION = 14;
 
-export const styles = `
-.${className}-placeholder-inner {
-  background-color: ${N30};
-  border: 10px solid ${N30};
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  color: ${N800},
+export default function media(node: NodeSerializerOpts) {
+  const { context, attrs } = node;
+
+  // Without metadata, we render a generic lozenge
+  if (!context || !context.mediaMetaData || !context.mediaMetaData[attrs.id]) {
+    return renderLozenge();
+  }
+
+  const metadata = context.mediaMetaData[attrs.id];
+  switch (metadata.mediaType) {
+    case 'image':
+      return renderImage(node, metadata);
+    case 'video':
+    case 'doc':
+      return renderPreview(node, metadata);
+    case 'audio':
+    case 'unknown':
+    default:
+      return renderLozenge(metadata);
+  }
 }
-.${className}-placeholder-outer {
-  border: 1px solid ${N50};
-  margin-top: 10px;
-  border-radius: 3px;
-  border-style: dashed;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-}
+
+const imageStyles = `
 .${className}-wrapper {
-  margin: 24px auto;
+  margin: 12px;
   text-align: center;
+}
+.${className}-img {
+  max-width: 100%;
 }
 `;
 
-export default function media({ attrs }: NodeSerializerOpts) {
+const renderImage = (
+  { attrs }: NodeSerializerOpts,
+  metadata?: MediaMetaDataContextItem,
+) => {
   let src;
   if (attrs.id) {
     // ID is defined, render image using CID:
@@ -39,29 +60,152 @@ export default function media({ attrs }: NodeSerializerOpts) {
     src = attrs.url;
   }
   if (src) {
-    const style: any = {
-      'max-width': '100%',
-    };
-    const elementAttrs: any = {};
-
-    if (attrs.width) {
-      elementAttrs.width = attrs.width;
-    }
-    if (attrs.height) {
-      elementAttrs.height = attrs.height;
-    }
     const img = createTag('img', {
-      style: serializeStyle(style),
+      class: `${className}-img`,
       src,
-      ...elementAttrs,
     });
     return createTag('div', { class: `${className}-wrapper` }, img);
   }
-  // no id or url found, fall back to placeholder
-  const inner = createTag(
-    'div',
-    { class: `${className}-placeholder-inner` },
-    `&nbsp;&rtri;&nbsp;${attrs.type}:&nbsp;${attrs.collection}&nbsp;`,
-  );
-  return createTag('div', { class: `${className}-placeholder-outer` }, inner);
+  // no id or url found, fall back to lozenge
+  return renderLozenge(metadata);
+};
+
+const lozengeStyles = `
+.${className}-lozenge-wrapper {
+  margin: 8px 0;
 }
+.${className}-lozenge-icon {
+  vertical-align: bottom;
+}
+.${className}-lozenge {
+  line-height: 14px;
+  display: inline-block;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+.${className}-lozenge-text {
+  color: ${B400};
+  margin-left: 4px;
+}
+`;
+
+const renderLozenge = (metadata?: MediaMetaDataContextItem) => {
+  let iconType;
+  let text;
+  if (metadata) {
+    text = metadata.name || 'Attached file';
+    iconType = getIconFromMediaType(metadata.mediaType);
+  } else {
+    iconType = 'genericAttachment';
+    text = 'Attached file';
+  }
+  const icon = createTag('img', {
+    class: className + '-lozenge-icon',
+    src: createContentId(iconType as IconString),
+    width: `${ICON_DIMENSION}px`,
+    height: `${ICON_DIMENSION}px`,
+  });
+
+  const iconTag = createTag('span', {}, icon);
+  const textTag = createTag(
+    'span',
+    { class: `${className}-lozenge-text` },
+    text,
+  );
+  const lozenge = createTag(
+    'div',
+    { class: `${className}-lozenge` },
+    iconTag + textTag,
+  );
+  return createTag('div', { class: `${className}-lozenge-wrapper` }, lozenge);
+};
+
+const previewStyles = `
+.${className}-preview-img {
+  width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
+  height: ${MEDIA_PREVIEW_IMAGE_HEIGHT}px;
+  background-color: ${N30};
+  display: block;
+  object-fit: contain;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+.${className}-preview-wrapper {
+  margin: 8px 0px;
+  padding: 0;
+  display: table;
+}
+.${className}-preview-desc {
+  margin-top: 3px;
+  line-height: 16px;
+  display: inline-block;
+  width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
+}
+.${className}-preview-text {
+  color: ${B400};
+  text-overflow: ellipsis;
+  margin-left: 4px;
+  width: ${MEDIA_PREVIEW_IMAGE_WIDTH - ICON_DIMENSION - 4}px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+}
+`;
+
+const renderPreview = (
+  node: NodeSerializerOpts,
+  metadata: MediaMetaDataContextItem,
+) => {
+  const previewImg = createTag('img', {
+    class: `${className}-preview-img`,
+    src: `cid:${node.attrs.id}`,
+  });
+
+  const iconType = getIconFromMediaType(metadata.mediaType);
+  const icon = createTag('img', {
+    class: className + '-lozenge-icon',
+    src: createContentId(iconType as IconString),
+    width: `${ICON_DIMENSION}px`,
+    height: `${ICON_DIMENSION}px`,
+  });
+  const iconTag = createTag('span', {}, icon);
+  const textTag = createTag(
+    'span',
+    { class: `${className}-preview-text` },
+    metadata.name || 'Attached file',
+  );
+  const description = createTag(
+    'div',
+    { class: `${className}-preview-desc` },
+    iconTag + textTag,
+  );
+
+  return createTag(
+    'div',
+    { class: `${className}-preview-wrapper` },
+    previewImg + description,
+  );
+};
+
+const getIconFromMediaType = (mediaType: MediaType) => {
+  switch (mediaType) {
+    case 'archive':
+      return 'archiveAttachment';
+    case 'audio':
+      return 'audioAttachment';
+    case 'doc':
+      return 'documentAttachment';
+    case 'video':
+      return 'videoAttachment';
+    default:
+      return 'genericAttachment';
+  }
+};
+
+export const styles = `
+${imageStyles}
+${lozengeStyles}
+${previewStyles}
+`;

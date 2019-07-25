@@ -19,6 +19,10 @@ export interface Props {
   onClose: () => void;
 }
 
+export interface State {
+  isSpotlightClosed: boolean;
+}
+
 const ICON_URL =
   'https://ptc-directory-sited-static.us-east-1.prod.public.atl-paas.net/teams/avatars/2.svg';
 
@@ -32,8 +36,10 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
     super(props);
     this.elWrapper = React.createRef();
     this.elCloseWrapper = React.createRef();
+    this.state = {
+      isSpotlightClosed: false,
+    };
   }
-
   componentDidMount() {
     this.addEventHandler();
     MentionSpotlightController.registerRender();
@@ -55,7 +61,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
       this.elCloseWrapper.current &&
       this.elCloseWrapper.current.contains(event.target);
     if (isClickOnCloseButotn) {
-      this.props.onClose();
+      this.onCloseClick();
     }
 
     // Allow default so the link to create team still works, but prevent the rest
@@ -76,8 +82,18 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
       );
   }
 
+  onCloseClick = () => {
+    this.setState({ isSpotlightClosed: true });
+    this.props.onClose();
+  };
+
   render() {
-    const { onClose, createTeamLink } = this.props;
+    const { createTeamLink } = this.props;
+    const { isSpotlightClosed } = this.state;
+
+    if (isSpotlightClosed) {
+      return null;
+    }
 
     return (
       <div ref={this.elWrapper}>
@@ -124,7 +140,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
                         iconBefore={
                           <EditorCloseIcon label="Close" size="medium" />
                         }
-                        onClick={onClose}
+                        onClick={this.onCloseClick()}
                         spacing="none"
                       />
                     </Tooltip>

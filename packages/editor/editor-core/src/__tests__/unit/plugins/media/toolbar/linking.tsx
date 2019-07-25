@@ -17,6 +17,7 @@ import {
   media,
   mediaSingle,
   mountWithIntl,
+  storyContextIdentifierProviderFactory,
 } from '@atlaskit/editor-test-helpers';
 import { ReactWrapper } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
@@ -90,11 +91,17 @@ describe('media', () => {
   const createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
 
   const editor = (doc: any, mediaPropsOverride: MediaOptions = {}) => {
+    const contextIdentifierProvider = storyContextIdentifierProviderFactory();
+    const mediaProvider = getFreshMediaProvider();
+    const providerFactory = ProviderFactory.create({
+      contextIdentifierProvider,
+      mediaProvider,
+    });
     const wrapper = createEditor({
       doc,
       editorProps: {
         media: {
-          provider: getFreshMediaProvider(),
+          provider: mediaProvider,
           allowMediaSingle: true,
           ...mediaPropsOverride,
         },
@@ -104,7 +111,9 @@ describe('media', () => {
         allowTables: true,
         allowAnalyticsGASV3: true,
         analyticsHandler: jest.fn(),
+        contextIdentifierProvider,
       },
+      providerFactory,
       createAnalyticsEvent,
       pluginKey: stateKey,
     });
@@ -118,6 +127,7 @@ describe('media', () => {
     type: 'file',
     collection: testCollectionName,
     __fileMimeType: 'image/png',
+    __contextId: 'DUMMY-OBJECT-ID',
     width: 100,
     height: 100,
   })();

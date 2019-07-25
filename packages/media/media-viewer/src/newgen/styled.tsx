@@ -22,8 +22,6 @@ export const mediaTypeIconColors = {
 
 export const blanketColor = colors.DN30;
 
-export const hideControlsClassName = 'mvng-hide-controls';
-
 export const Blanket = styled.div`
   position: fixed;
   top: 0;
@@ -107,26 +105,6 @@ export const ZoomLevelIndicator = styled.span`
   color: #b8c7e0;
   pointer-events: all;
 `;
-
-const handleControlsVisibility = ({ showControls }: ContentWrapperProps) => `
-  transition: opacity .3s;
-  opacity: ${showControls ? '1' : '0'};
-`;
-
-export const ContentWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  overflow: auto;
-  align-items: center;
-  justify-content: center;
-
-  .${hideControlsClassName} {
-    ${handleControlsVisibility};
-  }
-`;
-
-ContentWrapper.displayName = 'Content';
 
 export const ErrorMessageWrapper = styled.div`
   text-align: center;

@@ -34,14 +34,14 @@ describe('CachingConfluenceClient', () => {
     objects: {
       items: pages.map(page => ({
         resultId: page.id + '',
-        name: page.title,
+        name: page.title || '',
         href: `${DUMMY_CONFLUENCE_HOST}${page.url}`,
         containerName: page.space,
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.ConfluenceObjectResult as ResultType.ConfluenceObjectResult,
         contentType: `confluence-${page.contentType}` as ContentType,
-        containerId: 'abc',
-        iconClass: 'iconClass',
+        containerId: page.spaceKey,
+        iconClass: page.iconClass,
         isRecentResult: true,
         friendlyLastModified: undefined, // not available for recent results
       })),
@@ -83,8 +83,8 @@ describe('CachingConfluenceClient', () => {
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.ConfluenceObjectResult,
         contentType: ContentType.ConfluencePage,
-        containerId: 'abc',
-        iconClass: 'iconClass',
+        containerId: pages[0].spaceKey,
+        iconClass: pages[0].iconClass,
         isRecentResult: true,
       },
       {
@@ -95,8 +95,8 @@ describe('CachingConfluenceClient', () => {
         analyticsType: AnalyticsType.RecentConfluence,
         resultType: ResultType.ConfluenceObjectResult,
         contentType: ContentType.ConfluenceBlogpost,
-        containerId: 'abc',
-        iconClass: 'iconClass',
+        containerId: pages[1].spaceKey,
+        iconClass: pages[1].iconClass,
         isRecentResult: true,
       },
     ];

@@ -1,5 +1,19 @@
 # @atlaskit/inline-dialog
 
+## 12.0.8
+
+- Updated dependencies [ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):
+  - @atlaskit/datetime-picker@8.0.11
+  - @atlaskit/popper@3.0.0
+
+## 12.0.7
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
 ## 12.0.6
 
 ### Patch Changes

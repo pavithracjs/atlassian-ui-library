@@ -15,7 +15,7 @@ import {
   selectByIndex,
   selectItem,
 } from '../../../../../plugins/type-ahead/commands/select-item';
-import { datePlugin, extensionPlugin } from '../../../../../plugins';
+import { datePlugin } from '../../../../../plugins';
 import { TypeAheadSelectItem } from '../../../../../plugins/type-ahead/types';
 
 const createTypeAheadPlugin = ({
@@ -145,7 +145,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {
@@ -167,7 +167,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {
@@ -184,7 +184,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
 
       selectItem(
@@ -305,7 +305,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {
@@ -328,7 +328,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {
@@ -347,7 +347,6 @@ describe('typeahead plugin -> commands -> select-item', () => {
     });
 
     it("should normalise a nodes layout if it's being nested.", () => {
-      const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(
           bodiedExtension({
@@ -355,7 +354,9 @@ describe('typeahead plugin -> commands -> select-item', () => {
             extensionType: 'atlassian.com.editor',
           })(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
         ),
-        editorPlugins: [plugin, extensionPlugin],
+        editorProps: {
+          allowExtension: true,
+        },
       });
       selectItem(
         {
