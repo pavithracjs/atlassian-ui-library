@@ -263,19 +263,9 @@
         "../../core/feedback-collector/src/types",
         "./packages/core/feedback-collector/src/types"
       ],
-<<<<<<< HEAD
-      "@atlaskit/field-base/index.d": [
-        "../../core/field-base/src/index.d",
-        "./packages/core/field-base/src/index.d"
-      ],
-      "@atlaskit/field-base/index": [
-        "../../core/field-base/src/index",
-        "./packages/core/field-base/src/index"
-=======
       "@atlaskit/field-base": [
         "../../core/field-base/src/",
         "./packages/core/field-base/src/"
->>>>>>> 0d75ecde94... fixup! updates entrypoints to provide fallbacks main entrypoints
       ],
       "@atlaskit/field-base/types": [
         "../../core/field-base/src/types",
@@ -329,19 +319,9 @@
         "../../core/field-text/src/FieldTextStateless",
         "./packages/core/field-text/src/FieldTextStateless"
       ],
-<<<<<<< HEAD
-      "@atlaskit/field-text/index.d": [
-        "../../core/field-text/src/index.d",
-        "./packages/core/field-text/src/index.d"
-      ],
-      "@atlaskit/field-text/index": [
-        "../../core/field-text/src/index",
-        "./packages/core/field-text/src/index"
-=======
       "@atlaskit/field-text": [
         "../../core/field-text/src/",
         "./packages/core/field-text/src/"
->>>>>>> 0d75ecde94... fixup! updates entrypoints to provide fallbacks main entrypoints
       ],
       "@atlaskit/field-text/types": [
         "../../core/field-text/src/types",
@@ -355,19 +335,9 @@
         "../../core/field-text-area/src/FieldTextAreaStateless",
         "./packages/core/field-text-area/src/FieldTextAreaStateless"
       ],
-<<<<<<< HEAD
-      "@atlaskit/field-text-area/index.d": [
-        "../../core/field-text-area/src/index.d",
-        "./packages/core/field-text-area/src/index.d"
-      ],
-      "@atlaskit/field-text-area/index": [
-        "../../core/field-text-area/src/index",
-        "./packages/core/field-text-area/src/index"
-=======
       "@atlaskit/field-text-area": [
         "../../core/field-text-area/src/",
         "./packages/core/field-text-area/src/"
->>>>>>> 0d75ecde94... fixup! updates entrypoints to provide fallbacks main entrypoints
       ],
       "@atlaskit/flag": [
         "../../core/flag/src/",

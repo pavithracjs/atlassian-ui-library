@@ -71,7 +71,7 @@ export class StatusPicker extends PureComponent<Props, any> {
     }
   };
 
-  private handleInputRef = (ref: HTMLInputElement | null) => {
+  private handleInputRef = (ref?: HTMLInputElement) => {
     if (ref && this.props.autoFocus) {
       // Defer to prevent editor scrolling to top (See FS-3227, also ED-2992)
       setTimeout(() => {

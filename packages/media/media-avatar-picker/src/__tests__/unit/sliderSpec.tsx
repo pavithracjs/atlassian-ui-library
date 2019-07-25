@@ -20,10 +20,7 @@ describe('Slider', () => {
   it('should pass FieldRange values back', () => {
     const { element, onChange } = setup();
     const fieldRange = element.find(FieldRange);
-    const sliderOnChangeHandler: (value: number) => void = fieldRange.prop(
-      'onChange',
-    );
-    sliderOnChangeHandler(25);
+    fieldRange.prop('onChange')!(25);
     expect(onChange).toHaveBeenCalledWith(25);
   });
 

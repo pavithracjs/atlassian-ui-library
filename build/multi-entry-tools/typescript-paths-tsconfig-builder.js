@@ -1,7 +1,5 @@
 const getAlternativeEntryPointAliasMap = require('./module-resolve-map-builder');
 const fromEntries = require('./utils/fromEntries');
-const fs = require('fs');
-const path = require('path');
 
 async function main() {
   const isProjectLevel = process.argv[2] === '--project';

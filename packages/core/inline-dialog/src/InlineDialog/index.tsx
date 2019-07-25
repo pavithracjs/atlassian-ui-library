@@ -13,16 +13,8 @@ import {
 } from '../version.json';
 import { Container } from './styled';
 
-interface PopperProps {
-  ref: (node: HTMLElement | null) => void;
-  style: React.CSSProperties;
-  outOfBoundaries: boolean | null;
-}
-
 class InlineDialog extends Component<Props, {}> {
   static defaultProps = {
-    children: null,
-    content: null,
     isOpen: false,
     onContentBlur: () => {},
     onContentClick: () => {},
@@ -90,7 +82,7 @@ class InlineDialog extends Component<Props, {}> {
 
     const popper = isOpen ? (
       <Popper placement={placement}>
-        {({ ref, style }: PopperProps) => (
+        {({ ref, style }) => (
           <Container
             onBlur={onContentBlur}
             onFocus={onContentFocus}
@@ -110,7 +102,7 @@ class InlineDialog extends Component<Props, {}> {
     return (
       <Manager>
         <Reference>
-          {({ ref }: PopperProps) => (
+          {({ ref }) => (
             <NodeResolver
               innerRef={(node: HTMLElement) => {
                 this.triggerRef = node;

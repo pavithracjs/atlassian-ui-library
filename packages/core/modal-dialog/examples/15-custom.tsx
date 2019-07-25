@@ -93,7 +93,7 @@ class Footer extends React.Component<FooterProps, FooterState> {
         <InlineDialog
           content="Some hint text?"
           isOpen={isOpen}
-          position="top left"
+          placement="top-start"
         >
           <Hint onMouseEnter={this.open} onMouseLeave={this.close}>
             <Avatar size="small" />
