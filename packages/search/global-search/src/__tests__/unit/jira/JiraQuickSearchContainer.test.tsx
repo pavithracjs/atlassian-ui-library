@@ -258,13 +258,14 @@ describe('Jira Quick Search Container', () => {
 
       getSearchResults('query', sessionId, 100, dummyQueryVersion);
 
-      expect(searchSpy).toHaveBeenCalledWith(
-        'query',
-        sessionId,
-        expect.any(Array),
+      expect(searchSpy).toHaveBeenCalledWith({
+        query: 'query',
+        sessionId: sessionId,
+        referrerId: '123-search-referrer',
+        scopes: expect.any(Array),
         modelParams,
-        expect.any(Number),
-      );
+        resultLimit: expect.any(Number),
+      });
 
       searchSpy.mockRestore();
     });

@@ -4,11 +4,12 @@ import {
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   DEFAULT_AB_TEST,
+  SearchParams,
 } from '../../../api/CrossProductSearchClient';
 import { Scope } from '../../../api/types';
 
 export const noResultsCrossProductSearchClient: CrossProductSearchClient = {
-  search(query: string) {
+  search(params: SearchParams) {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
   },
   getAbTestDataForProduct() {
@@ -23,7 +24,7 @@ export const noResultsCrossProductSearchClient: CrossProductSearchClient = {
 };
 
 export const errorCrossProductSearchClient: CrossProductSearchClient = {
-  search(query: string) {
+  search(params: SearchParams) {
     return Promise.reject('error');
   },
   getAbTestDataForProduct() {
@@ -41,11 +42,7 @@ export const mockCrossProductSearchClient = (
   data: CrossProductSearchResults,
   abTest: ABTest,
 ): CrossProductSearchClient => ({
-  search(
-    query: string,
-    sessionId: string,
-    scopes: Scope[],
-  ): Promise<CrossProductSearchResults> {
+  search(params: SearchParams): Promise<CrossProductSearchResults> {
     return Promise.resolve(data);
   },
   getAbTestDataForProduct() {
