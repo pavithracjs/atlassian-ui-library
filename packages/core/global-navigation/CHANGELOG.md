@@ -1,5 +1,52 @@
 # @atlaskit/global-navigation
 
+## 7.3.5
+
+- Updated dependencies [1adb8727e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1adb8727e3):
+  - @atlaskit/tag@9.0.0
+
+## 7.3.4
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/navigation-next@6.3.7
+  - @atlaskit/toggle@8.0.0
+
+## 7.3.3
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 7.3.2
+
+### Patch Changes
+
+- [patch][ff3bea5617](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff3bea5617):
+
+  Fix the issue with aria-label not set for profile menu
+
+## 7.3.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/field-radio-group@6.0.4
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/navigation-next@6.3.2
+  - @atlaskit/onboarding@8.0.6
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/tag@8.0.5
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/atlassian-switcher@3.1.1
+  - @atlaskit/icon@19.0.0
+
 ## 7.3.0
 
 ### Minor Changes

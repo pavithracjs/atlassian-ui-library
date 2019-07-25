@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import * as React from 'react';
+import React from 'react';
 import Calendar from '@atlaskit/icon/glyph/calendar';
 import Page from '@atlaskit/icon/glyph/page';
 import Question from '@atlaskit/icon/glyph/question';

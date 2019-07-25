@@ -1,5 +1,4 @@
 import * as React from 'react';
-import uuid from 'uuid/v4';
 import {
   LinkComponent,
   Logger,
@@ -36,6 +35,10 @@ import {
 import { Scope, QuickSearchContext } from '../../api/types';
 import { CONF_OBJECTS_ITEMS_PER_PAGE } from '../../util/experiment-utils';
 import { Filter } from '../../api/CrossProductSearchClient';
+import {
+  injectSearchSession,
+  SearchSessionProps,
+} from '../SearchSessionProvider';
 
 const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
   results.map(result => result.items);
@@ -43,14 +46,7 @@ const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
 export interface SearchResultProps<T> extends State<T> {
   retrySearch: () => void;
   searchMore: (scope: Scope) => void;
-  onFilterChanged(filter: Filter[]): void;
-}
-
-export interface FilterComponentProps<T> {
-  latestSearchQuery: string;
-  searchResults: T | null;
-  isLoading: boolean;
-  currentFilters: Filter[];
+  searchSessionId: string;
   onFilterChanged(filter: Filter[]): void;
 }
 
@@ -59,7 +55,7 @@ export interface PartiallyLoadedRecentItems<
 > {
   // Represents recent items that should be present before any UI is shown
   eagerRecentItemsPromise: Promise<ResultsWithTiming<T>>;
-  // Represents items which can load in after initial UI is shown
+  // Represents items which can load in after initi7al UI is shown
   lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
 }
 
@@ -68,7 +64,6 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   linkComponent?: LinkComponent;
   product: QuickSearchContext;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
-  getFilterComponent(props: FilterComponentProps<T>): React.ReactNode;
   getRecentItems(sessionId: string): PartiallyLoadedRecentItems<T>;
   getSearchResults(
     query: string,
@@ -118,9 +113,11 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   features: JiraFeatures | ConfluenceFeatures | CommonFeatures;
 }
 
+type CompleteProps<T extends ConfluenceResultsMap | JiraResultsMap> = Props<T> &
+  SearchSessionProps;
+
 export interface State<T> {
   latestSearchQuery: string;
-  searchSessionId: string;
   isLoading: boolean;
   isError: boolean;
   keepPreQueryState: boolean;
@@ -136,22 +133,17 @@ const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
  */
 export class QuickSearchContainer<
   T extends ConfluenceResultsMap | JiraResultsMap
-> extends React.Component<Props<T>, State<T>> {
+> extends React.Component<CompleteProps<T>, State<T>> {
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: boolean = false;
   latestQueryVersion: number = 0;
 
-  static defaultProps = {
-    getFilterComponent: () => null,
-  };
-
-  constructor(props: Props<T>) {
+  constructor(props: CompleteProps<T>) {
     super(props);
     this.state = {
       isLoading: true,
       isError: false,
       latestSearchQuery: '',
-      searchSessionId: uuid(), // unique id for search attribution
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
@@ -159,7 +151,7 @@ export class QuickSearchContainer<
     };
   }
 
-  shouldComponentUpdate(nextProps: Props<T>, nextState: State<T>) {
+  shouldComponentUpdate(nextProps: CompleteProps<T>, nextState: State<T>) {
     return (
       !deepEqual(nextProps, this.props) || !deepEqual(nextState, this.state)
     );
@@ -170,7 +162,7 @@ export class QuickSearchContainer<
       error,
       info,
       safeState: {
-        searchSessionId: this.state.searchSessionId,
+        searchSessionId: this.props.searchSessionId,
         latestSearchQuery: !!this.state.latestSearchQuery,
         isLoading: this.state.isLoading,
         isError: this.state.isError,
@@ -196,7 +188,7 @@ export class QuickSearchContainer<
     try {
       const { results, timings } = await this.props.getSearchResults(
         query,
-        this.state.searchSessionId,
+        this.props.searchSessionId,
         startTime,
         queryVersion,
         filters,
@@ -222,8 +214,9 @@ export class QuickSearchContainer<
               this.state.searchResults || ({} as any), // Remove 'any' as part of QS-740
               this.state.recentItems || ({} as any), // Remove 'any' as part of QS-740
               timings || {},
-              this.state.searchSessionId,
+              this.props.searchSessionId,
               this.state.latestSearchQuery,
+              this.state.currentFilters || [],
               this.state.isLoading,
             );
           },
@@ -244,8 +237,7 @@ export class QuickSearchContainer<
   };
 
   fireExperimentExposureEvent = () => {
-    const { createAnalyticsEvent, features } = this.props;
-    const { searchSessionId } = this.state;
+    const { createAnalyticsEvent, features, searchSessionId } = this.props;
 
     if (createAnalyticsEvent) {
       fireExperimentExposureEvent(
@@ -260,7 +252,8 @@ export class QuickSearchContainer<
     requestStartTime?: number,
     renderStartTime?: number,
   ) => {
-    const { searchSessionId, recentItems } = this.state;
+    const { searchSessionId } = this.props;
+    const { recentItems } = this.state;
 
     const {
       createAnalyticsEvent,
@@ -306,6 +299,7 @@ export class QuickSearchContainer<
     timings: Record<string, number | React.ReactText>,
     searchSessionId: string,
     latestSearchQuery: string,
+    latestFilters: Filter[],
     isLoading: boolean,
   ) => {
     const { features } = this.props;
@@ -319,6 +313,11 @@ export class QuickSearchContainer<
       getPostQueryDisplayedResults,
       referralContextIdentifiers,
     } = this.props;
+
+    const filtersApplied: { [filterType: string]: boolean } = {};
+    for (const filter of latestFilters) {
+      filtersApplied[filter['@type']] = true;
+    }
 
     if (createAnalyticsEvent && getPostQueryDisplayedResults) {
       const resultsArray: Result[][] = resultMapToArray(
@@ -338,6 +337,7 @@ export class QuickSearchContainer<
         performanceTiming,
         searchSessionId,
         latestSearchQuery,
+        filtersApplied,
         createAnalyticsEvent,
         features.abTest,
         referralContextIdentifiers,
@@ -398,7 +398,7 @@ export class QuickSearchContainer<
       const {
         eagerRecentItemsPromise,
         lazyLoadedRecentItemsPromise,
-      } = this.props.getRecentItems(this.state.searchSessionId);
+      } = this.props.getRecentItems(this.props.searchSessionId);
 
       const { results } = await eagerRecentItemsPromise;
 
@@ -502,7 +502,7 @@ export class QuickSearchContainer<
   handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { handleSearchSubmit } = this.props;
     if (handleSearchSubmit) {
-      handleSearchSubmit(event, this.state.searchSessionId);
+      handleSearchSubmit(event, this.props.searchSessionId);
     }
   };
 
@@ -517,16 +517,15 @@ export class QuickSearchContainer<
   render() {
     const {
       linkComponent,
-      getFilterComponent,
       getSearchResultsComponent,
       placeholder,
       selectedResultId,
       onSelectedResultIdChanged,
       inputControls,
+      searchSessionId,
     } = this.props;
     const {
       isLoading,
-      searchSessionId,
       latestSearchQuery,
       isError,
       searchResults,
@@ -551,13 +550,6 @@ export class QuickSearchContainer<
         autocompleteSuggestions={autocompleteSuggestions}
         filters={this.state.currentFilters}
       >
-        {getFilterComponent({
-          onFilterChanged: this.handleFilter,
-          searchResults,
-          currentFilters,
-          isLoading,
-          latestSearchQuery,
-        })}
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,
           latestSearchQuery,
@@ -576,6 +568,13 @@ export class QuickSearchContainer<
   }
 }
 
-export default withAnalyticsEvents()(
+const WithAnalyticsQuickSearchContainer = withAnalyticsEvents<any>()(
   QuickSearchContainer,
-) as typeof QuickSearchContainer;
+);
+
+export const BaseConfluenceQuickSearchContainer = injectSearchSession<
+  Props<ConfluenceResultsMap>
+>(WithAnalyticsQuickSearchContainer);
+export const BaseJiraQuickSearchContainerJira = injectSearchSession<
+  Props<JiraResultsMap>
+>(WithAnalyticsQuickSearchContainer);

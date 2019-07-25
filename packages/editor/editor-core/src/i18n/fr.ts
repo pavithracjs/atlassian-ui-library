@@ -6,6 +6,14 @@
  */
 // French
 export default {
+  'fabric.editor.mediaAddLink': 'Ajouter un lien',
+  'fabric.editor.openLink': 'Ouvrir le lien dans un nouvel onglet',
+  'fabric.editor.unlink': 'Dissocier',
+  'fabric.editor.editLink': 'Modifier le lien',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Coller un lien ou rechercher les pages récemment consultées',
+  'fabric.editor.linkPlaceholder': 'Coller un lien',
+  'fabric.editor.linkAddress': 'Adresse du lien',
   'fabric.editor.layoutFixedWidth': 'Centrer à nouveau',
   'fabric.editor.layoutWide': 'Passer en mode élargi',
   'fabric.editor.layoutFullWidth': 'Passer en mode pleine largeur',
@@ -15,14 +23,28 @@ export default {
   'fabric.editor.remove': 'Supprimer',
   'fabric.editor.visit': 'Ouvrir le lien dans une nouvelle fenêtre',
   'fabric.editor.editMode.inviteToEditButton.title': 'Inviter à modifier',
+  'fabric.editor.saveButton': 'Enregistrer',
+  'fabric.editor.cancelButton': 'Annuler',
   'fabric.editor.alignment': 'Alignement',
   'fabric.editor.normal': 'Texte normal',
   'fabric.editor.heading1': 'En-tête 1',
+  'fabric.editor.heading1Description':
+    'Utilisez ceci pour définir un titre principal',
   'fabric.editor.heading2': 'En-tête 2',
+  'fabric.editor.heading2Description':
+    'Utilisez ceci pour définir des sections principales',
   'fabric.editor.heading3': 'En-tête 3',
+  'fabric.editor.heading3Description':
+    'Utilisez ceci pour définir des sous-sections et des titres de groupe',
   'fabric.editor.heading4': 'En-tête 4',
+  'fabric.editor.heading4Description':
+    'Utilisez ceci pour définir des titres de niveau inférieur',
   'fabric.editor.heading5': 'En-tête 5',
+  'fabric.editor.heading5Description':
+    'Utilisez ceci pour regrouper des éléments de liste',
   'fabric.editor.heading6': 'En-tête 6',
+  'fabric.editor.heading6Description':
+    'Utilisez ceci pour définir un sous-titre',
   'fabric.editor.blockquote': 'Citation',
   'fabric.editor.blockquote.description': 'Insérer une citation',
   'fabric.editor.codeblock': 'Extrait de code',
@@ -61,21 +83,13 @@ export default {
   'fabric.editor.altText': 'Texte de remplacement',
   'fabric.editor.closeHelpDialog': "Fermer la boîte de dialogue d'aide",
   'fabric.editor.quickInsert': 'Insertion rapide',
-  'fabric.editor.openLink': 'Ouvrir le lien dans un nouvel onglet',
-  'fabric.editor.unlink': 'Dissocier',
-  'fabric.editor.editLink': 'Modifier le lien',
-  'fabric.editor.hyperlinkToolbarPlaceholder':
-    'Coller un lien ou rechercher les pages récemment consultées',
-  'fabric.editor.linkPlaceholder': 'Coller un lien',
-  'fabric.editor.linkAddress': 'Adresse du lien',
   'fabric.editor.displayText': 'Texte à afficher',
   'fabric.editor.clearLinkText': 'Effacer le texte',
   'fabric.editor.clearLink': 'Effacer le lien',
   'fabric.editor.action': 'Tâche',
-  'fabric.editor.action.description':
-    "Enregistrer des actions pour accélérer l'avancement d'un projet",
+  'fabric.editor.action.description': 'Créer et assigner des tâches',
   'fabric.editor.link': 'Lien',
-  'fabric.editor.link.description': 'Lien vers une page interne ou externe',
+  'fabric.editor.link.description': 'Insérer un lien',
   'fabric.editor.filesAndImages': 'Fichiers et images',
   'fabric.editor.filesAndImages.description':
     "Ajouter des images et d'autres fichiers à votre page",
@@ -101,7 +115,7 @@ export default {
   'fabric.editor.columns.description': 'Organiser votre page en sections',
   'fabric.editor.status': 'État',
   'fabric.editor.status.description':
-    "Créer un losange coloré avec du texte à l'intérieur",
+    "Ajouter une étiquette d'état personnalisée",
   'fabric.editor.viewMore': 'Voir plus',
   'fabric.editor.insertMenu': 'Insertion',
   'fabric.editor.twoColumns': 'Deux colonnes',
@@ -118,6 +132,7 @@ export default {
   'fabric.editor.annotate': 'Annoter',
   'fabric.editor.wrapLeft': 'Ajuster vers la gauche',
   'fabric.editor.wrapRight': 'Ajuster vers la droite',
+  'fabric.editor.backLink': 'Retour',
   'fabric.editor.info': 'Informations',
   'fabric.editor.note': 'Note',
   'fabric.editor.success': 'Opération réussie',

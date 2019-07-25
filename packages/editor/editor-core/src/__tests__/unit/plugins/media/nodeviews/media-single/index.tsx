@@ -5,7 +5,7 @@ import {
   mediaSingle,
   media,
   randomId,
-  storyMediaProviderFactory,
+  fakeMediaProvider,
   Image,
 } from '@atlaskit/editor-test-helpers';
 import { defaultSchema, MediaAttributes } from '@atlaskit/adf-schema';
@@ -22,6 +22,7 @@ import Media from '../../../../../../plugins/media/nodeviews/media';
 import {
   ProviderFactory,
   MediaSingle as MediaSingleWrapper,
+  ContextIdentifierProvider,
 } from '@atlaskit/editor-common';
 import { EventDispatcher } from '../../../../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../../../../ui/PortalProvider';
@@ -29,13 +30,13 @@ import { stateKey as SelectionChangePluginKey } from '../../../../../../plugins/
 import { MediaOptions } from '../../../../../../plugins/media';
 import * as mediaCommands from '../../../../../../plugins/media/commands';
 import ResizableMediaSingle from '../../../../../../plugins/media/ui/ResizableMediaSingle';
+import { nextTick } from '@atlaskit/media-test-helpers';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
 const getFreshMediaProvider = () =>
-  storyMediaProviderFactory({
+  fakeMediaProvider({
     collectionName: testCollectionName,
-    includeUserAuthProvider: true,
   });
 
 describe('nodeviews/mediaSingle', () => {
@@ -75,10 +76,15 @@ describe('nodeviews/mediaSingle', () => {
   } as any;
   let mediaProvider: Promise<MediaProvider>;
   let providerFactory: ProviderFactory;
+  let contextIdentifierProvider: Promise<ContextIdentifierProvider>;
   let getDimensions: any;
 
   beforeEach(() => {
     mediaProvider = getFreshMediaProvider();
+    contextIdentifierProvider = Promise.resolve({
+      containerId: '',
+      objectId: '',
+    });
     providerFactory = ProviderFactory.create({ mediaProvider });
     pluginState = ({
       getMediaNodeStateStatus: () => 'ready',
@@ -146,6 +152,7 @@ describe('nodeviews/mediaSingle', () => {
           editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
+          contextIdentifierProvider={contextIdentifierProvider}
           mediaPluginState={pluginState}
         />,
       );
@@ -191,6 +198,7 @@ describe('nodeviews/mediaSingle', () => {
             allowResizing: true,
           }}
           mediaProvider={mediaProvider}
+          contextIdentifierProvider={contextIdentifierProvider}
           mediaPluginState={pluginState}
         />,
       );
@@ -220,6 +228,7 @@ describe('nodeviews/mediaSingle', () => {
         editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
       />,
     );
@@ -252,11 +261,12 @@ describe('nodeviews/mediaSingle', () => {
         editorAppearance="mobile"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
       />,
     );
 
-    (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+    (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
       wrapper,
     );
 
@@ -282,11 +292,12 @@ describe('nodeviews/mediaSingle', () => {
         editorAppearance="mobile"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
       />,
     );
 
-    (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+    (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
       wrapper,
     );
 
@@ -364,11 +375,12 @@ describe('nodeviews/mediaSingle', () => {
           editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
+          contextIdentifierProvider={contextIdentifierProvider}
           mediaPluginState={pluginState}
         />,
       );
 
-      (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+      (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
         wrapper,
       );
 
@@ -409,11 +421,12 @@ describe('nodeviews/mediaSingle', () => {
           editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
+          contextIdentifierProvider={contextIdentifierProvider}
           mediaPluginState={pluginState}
         />,
       );
 
-      (wrapper.instance() as MediaSingle).getRemoteDimensions = getDimensions(
+      (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
         wrapper,
       );
 
@@ -421,6 +434,86 @@ describe('nodeviews/mediaSingle', () => {
       expect(updateMediaNodeAttrsSpy).toHaveBeenCalledTimes(0);
     });
   });
+
+  it('should copy node if its collection is different than the current upload one', async () => {
+    const mediaNodeAttrs = {
+      id: 'node-file-id',
+      type: 'file',
+      collection: 'node-source-collection',
+    };
+
+    const mediaNode = media(mediaNodeAttrs as MediaAttributes)();
+    const mediaSingleNodeFromDifferentCollection = mediaSingle()(mediaNode);
+
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNodeFromDifferentCollection(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="full-page"
+        mediaOptions={mediaOptions}
+        mediaProvider={mediaProvider}
+        contextIdentifierProvider={contextIdentifierProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+    const instance = wrapper.instance() as MediaSingle;
+
+    instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
+    instance.mediaNodeUpdater.isNodeFromDifferentCollection = jest
+      .fn()
+      .mockReturnValue(true);
+    instance.mediaNodeUpdater.copyNode = jest.fn();
+    instance.mediaNodeUpdater.updateContextId = jest.fn();
+    await instance.componentDidMount();
+    expect(
+      instance.mediaNodeUpdater.isNodeFromDifferentCollection,
+    ).toHaveBeenCalled();
+    expect(instance.mediaNodeUpdater.copyNode).toHaveBeenCalled();
+  });
+
+  it('should set viewMediaClientConfig if mediaProvider changes', async () => {
+    const mediaNodeAttrs = {
+      id: 'some-id',
+      type: 'file',
+      collection: 'collection',
+    };
+
+    const mediaNode = media(mediaNodeAttrs as MediaAttributes)();
+    const mediaSingleNode = mediaSingle()(mediaNode);
+    const wrapper = mount(
+      <MediaSingle
+        view={view}
+        eventDispatcher={eventDispatcher}
+        node={mediaSingleNode(defaultSchema)}
+        lineLength={680}
+        getPos={getPos}
+        width={123}
+        selected={() => 1}
+        editorAppearance="full-page"
+        mediaOptions={mediaOptions}
+        contextIdentifierProvider={contextIdentifierProvider}
+        mediaPluginState={pluginState}
+      />,
+    );
+    const instance = wrapper.instance() as MediaSingle;
+
+    instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
+
+    expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
+    wrapper.setProps({ mediaProvider });
+    // We need to await to ticks since we await 2 different promises on the componentWillReceiveProps
+    // unfortunately we can't access the real promises here
+    await nextTick();
+    await nextTick();
+
+    expect(wrapper.state('viewMediaClientConfig')).toBeDefined();
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });

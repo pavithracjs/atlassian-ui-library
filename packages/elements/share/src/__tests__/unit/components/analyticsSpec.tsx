@@ -1,17 +1,19 @@
+import { Team } from '@atlaskit/user-picker';
 import {
-  shareTriggerButtonClicked,
   cancelShare,
-  shortUrlRequested,
   copyLinkButtonClicked,
-  screenEvent,
+  errorEncountered,
   formShareSubmitted,
+  screenEvent,
+  shareTriggerButtonClicked,
+  shortUrlGenerated,
+  shortUrlRequested,
 } from '../../../components/analytics';
 import {
   ConfigResponse,
   DialogContentState,
   OriginTracing,
 } from '../../../types';
-import { Team } from '@atlaskit/user-picker';
 
 describe('share analytics', () => {
   const mockShareOrigin = (): OriginTracing => ({
@@ -21,6 +23,22 @@ describe('share analytics', () => {
       originIdGenerated: 'abc-123',
       originProduct: 'jest',
     })),
+  });
+
+  describe('errorEncountered', () => {
+    it('should create a correct event payload', () => {
+      expect(errorEncountered('foo')).toMatchObject({
+        eventType: 'operational',
+        action: 'encountered',
+        actionSubject: 'error',
+        actionSubjectId: 'foo',
+        attributes: expect.objectContaining({
+          source: 'shareModal',
+          packageVersion: expect.any(String),
+          packageName: '@atlaskit/share',
+        }),
+      });
+    });
   });
 
   describe('shareTriggerButtonClicked', () => {
@@ -63,6 +81,24 @@ describe('share analytics', () => {
         actionSubjectId: undefined,
         attributes: expect.objectContaining({
           source: 'shareModal',
+          packageVersion: expect.any(String),
+          packageName: '@atlaskit/share',
+        }),
+      });
+    });
+  });
+
+  describe('shortUrlGenerated', () => {
+    it('should create a correct event payload', () => {
+      expect(shortUrlGenerated(100, false)).toMatchObject({
+        eventType: 'operational',
+        action: 'generated',
+        actionSubject: 'shortUrl',
+        actionSubjectId: undefined,
+        attributes: expect.objectContaining({
+          duration: expect.any(Number),
+          source: 'shareModal',
+          tooSlow: false,
         }),
       });
     });
@@ -83,7 +119,7 @@ describe('share analytics', () => {
 
   describe('copyLinkButtonClicked', () => {
     it('should create event payload without origin id', () => {
-      expect(copyLinkButtonClicked(100, true)).toMatchObject({
+      expect(copyLinkButtonClicked(100)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -92,14 +128,14 @@ describe('share analytics', () => {
           duration: expect.any(Number),
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
-          shortUrl: true,
+          shortUrl: undefined,
         }),
       });
     });
 
     it('should create event payload with origin id', () => {
       const shareOrigin: OriginTracing = mockShareOrigin();
-      expect(copyLinkButtonClicked(100, false, shareOrigin)).toMatchObject({
+      expect(copyLinkButtonClicked(100, 'issue', shareOrigin)).toMatchObject({
         eventType: 'ui',
         action: 'clicked',
         actionSubject: 'button',
@@ -109,8 +145,9 @@ describe('share analytics', () => {
           packageVersion: expect.any(String),
           packageName: '@atlaskit/share',
           originIdGenerated: 'abc-123',
-          shortUrl: false,
+          shortUrl: undefined,
           originProduct: 'jest',
+          contentType: 'issue',
         }),
       });
       expect(shareOrigin.toAnalyticsAttributes).toHaveBeenCalledTimes(1);

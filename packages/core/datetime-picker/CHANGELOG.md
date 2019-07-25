@@ -1,5 +1,45 @@
 # @atlaskit/datetime-picker
 
+## 8.0.11
+
+- Updated dependencies [ebfeb03eb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebfeb03eb7):
+  - @atlaskit/popper@3.0.0
+  - @atlaskit/calendar@8.0.5
+
+## 8.0.10
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 8.0.9
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/select@10.0.0
+
+## 8.0.8
+
+### Patch Changes
+
+- [patch][19d9d0f13f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/19d9d0f13f):
+
+  Fixing a rare bug in Safari and malformed date string.
+
+## 8.0.7
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/calendar@8.0.3
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/select@9.1.8
+  - @atlaskit/icon@19.0.0
+
 ## 8.0.6
 
 ### Patch Changes

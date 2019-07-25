@@ -1,5 +1,28 @@
 # @atlaskit/table-tree
 
+## 7.0.8
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 7.0.7
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/select@10.0.0
+
+## 7.0.6
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/select@9.1.8
+  - @atlaskit/icon@19.0.0
+
 ## 7.0.5
 
 ### Patch Changes

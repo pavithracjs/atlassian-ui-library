@@ -5,7 +5,8 @@ import {
   JiraQuickSearchContainer,
   Props,
 } from '../../../components/jira/JiraQuickSearchContainer';
-import QuickSearchContainer, {
+import {
+  BaseJiraQuickSearchContainerJira,
   Props as QuickSearchContainerProps,
 } from '../../../components/common/QuickSearchContainer';
 import {
@@ -35,6 +36,7 @@ import {
   SearchResultsMap,
 } from '../../../api/CrossProductSearchClient';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
+import { DEFAULT_FEATURES } from '../../../util/features';
 
 const issues = [
   makeJiraObjectResult({
@@ -71,12 +73,7 @@ describe('Jira Quick Search Container', () => {
       linkComponent: undefined,
       onAdvancedSearch: undefined,
       appPermission: undefined,
-      features: {
-        abTest: DEFAULT_AB_TEST,
-        disableJiraPreQueryPeopleSearch: false,
-        enablePreQueryFromAggregator: false,
-        searchExtensionsEnabled: false,
-      },
+      features: DEFAULT_FEATURES,
       ...partialProps,
     };
 
@@ -88,10 +85,8 @@ describe('Jira Quick Search Container', () => {
     wrapper: ShallowWrapper,
     property: keyof QuickSearchContainerProps<JiraResultsMap>,
   ) => {
-    const quickSearch = wrapper.find(QuickSearchContainer);
-    const quickSearchProps = quickSearch.props() as QuickSearchContainerProps<
-      JiraResultsMap
-    >;
+    const quickSearch = wrapper.find(BaseJiraQuickSearchContainerJira);
+    const quickSearchProps = quickSearch.props();
     return quickSearchProps[property] as any;
   };
 
@@ -107,7 +102,7 @@ describe('Jira Quick Search Container', () => {
 
   it('should render quick search with correct props', () => {
     const wrapper = renderComponent();
-    const quickSearch = wrapper.find(QuickSearchContainer);
+    const quickSearch = wrapper.find(BaseJiraQuickSearchContainerJira);
     expect(quickSearch.props()).toMatchObject({
       placeholder: 'Search Jira',
       getPreQueryDisplayedResults: expect.any(Function),
@@ -392,7 +387,9 @@ describe('Jira Quick Search Container', () => {
         const wrapper = renderComponent({
           onAdvancedSearch: spy,
         });
-        const quickSearchContainer = wrapper.find(QuickSearchContainer);
+        const quickSearchContainer = wrapper.find(
+          BaseJiraQuickSearchContainerJira,
+        );
 
         const props = quickSearchContainer.props() as any;
         expect(props).toHaveProperty('handleSearchSubmit');

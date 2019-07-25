@@ -18,6 +18,7 @@ describe('Provider', () => {
         config: {
           maxAge: 15000,
           maxLoadingDelay: 1200,
+          authFlow: 'oauth2',
         },
         connections: {
           client,
@@ -39,7 +40,11 @@ describe('Provider', () => {
     );
     expect(render).toBeCalledWith(
       expect.objectContaining({
-        config: { maxAge: 100, maxLoadingDelay: 100 },
+        config: {
+          maxAge: 100,
+          maxLoadingDelay: 100,
+          authFlow: 'oauth2',
+        },
         connections: {
           client,
         },
@@ -62,7 +67,11 @@ describe('Provider', () => {
     );
     expect(render).toBeCalledWith(
       expect.objectContaining({
-        config: { maxAge: 100, maxLoadingDelay: 100 },
+        config: {
+          maxAge: 100,
+          maxLoadingDelay: 100,
+          authFlow: 'oauth2',
+        },
         connections: {
           client,
         },

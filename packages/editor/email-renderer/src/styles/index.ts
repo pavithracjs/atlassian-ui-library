@@ -20,6 +20,7 @@ import { styles as inlineCardStyles } from '../nodes/inline-card';
 import { styles as panelStyles } from '../nodes/panel';
 import { styles as taskItemStyles } from '../nodes/task-item';
 import { styles as mediaStyles } from '../nodes/media';
+import { styles as mediaSingleStyles } from '../nodes/media-single';
 import { styles as tableStyles } from '../nodes/table';
 import { styles as taskListStyles } from '../nodes/task-list';
 import { styles as decisionListStyles } from '../nodes/decision-list';
@@ -65,6 +66,7 @@ const styles = `
   ${panelStyles}
   ${taskItemStyles}
   ${mediaStyles}
+  ${mediaSingleStyles}
   ${tableStyles}
   ${tableUtilStyles}
   ${taskListStyles}
@@ -82,7 +84,8 @@ const styles = `
   /* Hacks to bypass diff styles */
 
   .${createClassName('taskItem')}-iconTd
-    span.diff-image-container:first-child:nth-last-child(2) {
+  span.diff-image-container:first-child:nth-last-child(2),
+  .${createClassName('panel')} > span.diff-image-container.diff-removed {
     display: none;
   }
   .${createClassName('panel')} span.diff-image-overlay,

@@ -25,6 +25,7 @@ const confluenceBaseResults: ConfluenceResultsMap = {
         contentType: ContentType.ConfluencePage,
         containerName: 'space',
         containerId: 'space-id',
+        friendlyLastModified: 'friendly-last-modified',
       },
     ],
     totalSize: 1,

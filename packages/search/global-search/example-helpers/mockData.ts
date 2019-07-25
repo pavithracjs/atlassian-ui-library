@@ -1,9 +1,9 @@
 import { GraphqlResponse, SearchResult } from '../src/api/PeopleSearchClient';
-import { QuickNavResult } from '../src/api/ConfluenceClient';
 import {
   CrossProductSearchResponse,
   CrossProductExperimentResponse,
   Filter,
+  SpaceFilter,
 } from '../src/api/CrossProductSearchClient';
 import {
   Scope,
@@ -192,6 +192,7 @@ export function makeCrossProductSearchData(
         },
       },
       iconCssClass: icon,
+      friendlyLastModified: 'about 7 hours ago',
     });
   }
 
@@ -226,6 +227,12 @@ export function makeCrossProductSearchData(
         },
       },
       iconCssClass: icon,
+      friendlyLastModified: pickRandom([
+        'about 7 hours ago',
+        'Dec 23, 2018',
+        'Jun 17, 2018',
+        'Jan 23, 2018',
+      ]),
     };
 
     confDataWithAttachments.push(newAttachment);
@@ -255,6 +262,7 @@ export function makeCrossProductSearchData(
         },
       },
       iconCssClass: 'aui-iconfont-space-default',
+      friendlyLastModified: 'about 7 hours ago',
     });
   }
 
@@ -299,7 +307,12 @@ export function makeCrossProductSearchData(
 
   return (term: string, filters: Filter[] = []) => {
     term = term.toLowerCase();
-    const spaceFilter = filters.find(filter => filter['@type'] === 'spaces');
+
+    function instanceOfSpaceFilter(filter: Filter): filter is SpaceFilter {
+      return filter['@type'] === 'spaces';
+    }
+
+    const spaceFilter = filters.find(instanceOfSpaceFilter);
     const filteredSpaceKey = spaceFilter && spaceFilter['spaceKeys'][0];
 
     const applySpaceFilter = (result: ConfluenceItem) =>
@@ -476,69 +489,6 @@ export function makePeopleSearchData(
         AccountCentricUserSearch: filteredItems,
         Collaborators: filteredItems,
       },
-    };
-  };
-}
-
-function generateRandomQuickNavItem(className: string): QuickNavResult {
-  return {
-    className: className,
-    name: getMockName(),
-    href: getMockUrl(),
-    id: uuid(),
-    icon: getMockAvatarUrl(),
-  };
-}
-
-export function makeQuickNavSearchData(n: number = 50) {
-  // create some attachments
-  const attachments: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem(
-      'content-type-attachment-' + pickRandom(['image', 'pdf']),
-    ),
-  );
-
-  // create some pages
-  const pages: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-page'),
-  );
-
-  // create some blogposts
-  const blogs: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-blogpost'),
-  );
-
-  // create some people
-  const people: QuickNavResult[] = generateRandomElements(() =>
-    generateRandomQuickNavItem('content-type-userinfo'),
-  );
-
-  return (term: string) => {
-    term = term.toLowerCase();
-
-    const filteredPages = pages.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredBlogposts = blogs.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredAttachments = attachments.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    const filteredPeople = people.filter(
-      result => result.name.toLowerCase().indexOf(term) > -1,
-    );
-
-    return {
-      contentNameMatches: [
-        filteredPages,
-        filteredAttachments,
-        filteredBlogposts,
-        filteredPeople,
-      ],
     };
   };
 }

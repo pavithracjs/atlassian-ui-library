@@ -177,7 +177,7 @@ export function applyPropertyStyle(
     return 'initial';
   }
 
-  // Check for relevant fallbacks.
+  // Check for relevant fallbacks
   if (!propertyStyles[appearance]) {
     if (!propertyStyles['default']) {
       return fallbacks[property][mode] ? fallbacks[property][mode] : 'initial';

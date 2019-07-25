@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/build-utils",
-  "version": "2.2.0",
+  "version": "2.2.3",
   "description": "Collection of utilities to used during the release process of Atlaskit",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@atlaskit/build-releases": "^3.0.0",
-    "bitbucket-build-status": "^1.0.3",
+    "bitbucket-build-status": "^1.1.0",
     "chalk": "^2.1.0",
     "editor": "^1.0.0",
     "fuzzy": "^0.1.3",

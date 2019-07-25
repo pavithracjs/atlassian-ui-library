@@ -21,7 +21,8 @@ import {
   Logger,
   JiraApplicationPermission,
 } from '../GlobalQuickSearchWrapper';
-import QuickSearchContainer, {
+import {
+  BaseJiraQuickSearchContainerJira,
   SearchResultProps,
   PartiallyLoadedRecentItems,
 } from '../common/QuickSearchContainer';
@@ -61,6 +62,7 @@ import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 import { getJiraMaxObjects } from '../../util/experiment-utils';
 import { buildJiraModelParams } from '../../util/model-parameters';
 import { JiraFeatures } from '../../util/features';
+import { injectFeatures } from '../FeaturesProvider';
 
 const JIRA_RESULT_LIMIT = 6;
 const JIRA_PREQUERY_RESULT_LIMIT = 10;
@@ -80,7 +82,7 @@ const BeforePreQueryStateContainer = styled.div`
  * This improves type safety and prevent us from accidentally forgetting a parameter.
  */
 export interface Props {
-  createAnalyticsEvent: CreateAnalyticsEventFn | undefined;
+  createAnalyticsEvent?: CreateAnalyticsEventFn | undefined;
   linkComponent: LinkComponent | undefined;
   referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   jiraClient: JiraClient;
@@ -233,6 +235,8 @@ export class JiraQuickSearchContainer extends React.Component<
     keepPreQueryState,
     searchSessionId,
     searchMore,
+    currentFilters,
+    onFilterChanged,
   }: SearchResultProps<JiraResultsMap>) => {
     const query = latestSearchQuery;
     const {
@@ -253,6 +257,8 @@ export class JiraQuickSearchContainer extends React.Component<
         {...this.screenCounters}
         referralContextIdentifiers={referralContextIdentifiers}
         searchMore={searchMore}
+        currentFilters={currentFilters}
+        onFilterChanged={onFilterChanged}
         renderNoRecentActivity={() => (
           <>
             <FormattedHTMLMessage {...messages.jira_no_recent_activity_body} />
@@ -573,20 +579,21 @@ export class JiraQuickSearchContainer extends React.Component<
     const { selectedResultId } = this.state;
 
     return (
-      <QuickSearchContainer
+      <BaseJiraQuickSearchContainerJira
         placeholder={this.props.intl.formatMessage(
           messages.jira_search_placeholder,
         )}
         linkComponent={linkComponent}
-        getPreQueryDisplayedResults={(recentItems, searchSessionId) =>
-          this.getPreQueryDisplayedResults(recentItems, searchSessionId)
-        }
+        getPreQueryDisplayedResults={(
+          recentItems: JiraResultsMap | null,
+          searchSessionId: string,
+        ) => this.getPreQueryDisplayedResults(recentItems, searchSessionId)}
         getPostQueryDisplayedResults={(
-          searchResults,
-          query,
-          _recentItems,
-          _isLoading,
-          searchSessionId,
+          searchResults: JiraResultsMap | null,
+          query: string,
+          _recentItems: any,
+          _isLoading: boolean,
+          searchSessionId: string,
         ) =>
           this.getPostQueryDisplayedResults(
             searchResults,
@@ -617,4 +624,6 @@ const JiraQuickSearchContainerWithIntl = injectIntl<Props>(
   withAnalytics(JiraQuickSearchContainer, {}, {}),
 );
 
-export default withAnalyticsEvents()(JiraQuickSearchContainerWithIntl);
+export default injectFeatures(
+  withAnalyticsEvents<Props>()(JiraQuickSearchContainerWithIntl),
+);

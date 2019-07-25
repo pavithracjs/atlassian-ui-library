@@ -22,11 +22,13 @@ export function parseString({
   schema,
   ignoreTokenTypes = [],
   context,
+  includeLeadingSpace = false,
 }: {
   input: string;
   schema: Schema;
   ignoreTokenTypes: TokenType[];
   context: Context;
+  includeLeadingSpace?: boolean;
 }): PMNode[] {
   let index = 0;
   let state = processState.NEWLINE;
@@ -47,6 +49,9 @@ export function parseString({
         const length = parseWhitespaceOnly(substring);
         if (length) {
           index += length;
+          if (includeLeadingSpace) {
+            buffer += char;
+          }
           continue;
         }
 

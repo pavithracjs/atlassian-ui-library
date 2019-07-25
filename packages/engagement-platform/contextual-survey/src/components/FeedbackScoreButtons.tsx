@@ -42,12 +42,14 @@ export default ({ onChange, value }: Props) => (
     >
       {Array.from({ length: 7 }, (_, i) => {
         const score = i + 1;
+        const isSelected: boolean = value === score;
 
         return (
           <Tooltip content={tooltipMessage[i]} key={score} hideTooltipOnClick>
             <Button
               onClick={() => onChange(score)}
-              isSelected={value === score}
+              isSelected={isSelected}
+              aria-pressed={isSelected}
               aria-describedby="contextualSurveyStatement"
               aria-label={tooltipMessage[i]}
             >

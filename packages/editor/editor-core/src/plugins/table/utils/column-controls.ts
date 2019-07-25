@@ -10,12 +10,7 @@ import {
 import { Selection } from 'prosemirror-state';
 import { TableMap, CellSelection } from 'prosemirror-tables';
 import { tableDeleteButtonSize } from '../ui/styles';
-
-export interface ColumnParams {
-  startIndex: number;
-  endIndex: number;
-  width: number;
-}
+import { TableCssClassName as ClassName } from '../types';
 
 export const getColumnsWidths = (
   view: EditorView,
@@ -85,27 +80,6 @@ export const getColumnDeleteButtonParams = (
   return { left, indexes };
 };
 
-export const getColumnsParams = (
-  columnsWidths: Array<number | undefined>,
-): ColumnParams[] => {
-  const columns: ColumnParams[] = [];
-  for (let i = 0, count = columnsWidths.length; i < count; i++) {
-    const width = columnsWidths[i];
-    if (!width) {
-      continue;
-    }
-    let endIndex = columnsWidths.length;
-    for (let k = i + 1, count = columnsWidths.length; k < count; k++) {
-      if (columnsWidths[k]) {
-        endIndex = k;
-        break;
-      }
-    }
-    columns.push({ startIndex: i, endIndex, width });
-  }
-  return columns;
-};
-
 export const getColumnClassNames = (
   index: number,
   selection: Selection,
@@ -118,9 +92,9 @@ export const getColumnClassNames = (
     isColumnSelected(index)(selection) ||
     (hoveredColumns.indexOf(index) > -1 && !isResizing)
   ) {
-    classNames.push('active');
+    classNames.push(ClassName.HOVERED_CELL_ACTIVE);
     if (isInDanger) {
-      classNames.push('danger');
+      classNames.push(ClassName.HOVERED_CELL_IN_DANGER);
     }
   }
   return classNames.join(' ');

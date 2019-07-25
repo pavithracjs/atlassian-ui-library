@@ -133,9 +133,21 @@ const triggerButtonStyleOptions: Array<{
   { label: 'text-only', value: 'text-only' },
 ];
 
+const triggerButtonTooltipPositionOptions: Array<{
+  label: string;
+  value: State['triggerButtonTooltipPosition'];
+}> = [
+  { label: 'top', value: 'top' },
+  { label: 'left', value: 'left' },
+  { label: 'bottom', value: 'bottom' },
+  { label: 'right', value: 'right' },
+  { label: 'mouse', value: 'mouse' },
+];
+
 type ExampleState = {
   customButton: boolean;
   customTitle: boolean;
+  customTooltipText: boolean;
   escapeOnKeyPress: boolean;
   restrictionMessage: boolean;
   useUrlShortener: boolean;
@@ -172,6 +184,7 @@ export default class Example extends React.Component<{}, State> {
     allowedDomains: ['atlassian.com'],
     customButton: false,
     customTitle: false,
+    customTooltipText: false,
     restrictionMessage: false,
     useUrlShortener: false,
     dialogPlacement: dialogPlacementOptions[2].value,
@@ -179,6 +192,7 @@ export default class Example extends React.Component<{}, State> {
     mode: modeOptions[0].value,
     triggerButtonAppearance: triggerButtonAppearanceOptions[0].value,
     triggerButtonStyle: triggerButtonStyleOptions[0].value,
+    triggerButtonTooltipPosition: triggerButtonTooltipPositionOptions[0].value,
   };
 
   key: number = 0;
@@ -227,11 +241,13 @@ export default class Example extends React.Component<{}, State> {
       allowedDomains,
       customButton,
       customTitle,
+      customTooltipText,
       dialogPlacement,
       escapeOnKeyPress,
       mode,
       triggerButtonAppearance,
       triggerButtonStyle,
+      triggerButtonTooltipPosition,
       restrictionMessage,
       useUrlShortener,
     } = this.state;
@@ -259,12 +275,15 @@ export default class Example extends React.Component<{}, State> {
                   shareAri="ari"
                   shareContentType="issue"
                   shareFormTitle={customTitle ? 'Custom Title' : undefined}
-                  shareLink={window.location.href}
                   shareTitle="My Share"
                   shouldCloseOnEscapePress={escapeOnKeyPress}
                   showFlags={showFlags}
                   triggerButtonAppearance={triggerButtonAppearance}
                   triggerButtonStyle={triggerButtonStyle}
+                  triggerButtonTooltipText={
+                    customTooltipText ? 'Custom Tooltip Text' : undefined
+                  }
+                  triggerButtonTooltipPosition={triggerButtonTooltipPosition}
                   bottomMessage={
                     restrictionMessage ? <RestrictionMessage /> : null
                   }
@@ -309,6 +328,15 @@ export default class Example extends React.Component<{}, State> {
                     isChecked={customTitle}
                     onChange={() =>
                       this.setState({ customTitle: !customTitle })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Custom Trigger Button Tooltip Text
+                  <Toggle
+                    isChecked={customTooltipText}
+                    onChange={() =>
+                      this.setState({ customTooltipText: !customTooltipText })
                     }
                   />
                 </WrapperWithMarginTop>
@@ -375,6 +403,21 @@ export default class Example extends React.Component<{}, State> {
                     options={triggerButtonAppearanceOptions}
                     onChange={(option: any) =>
                       this.setState({ triggerButtonAppearance: option.value })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Trigger Button Tooltip Position
+                  <Select
+                    value={{
+                      label: triggerButtonTooltipPosition,
+                      value: triggerButtonTooltipPosition,
+                    }}
+                    options={triggerButtonTooltipPositionOptions}
+                    onChange={(option: any) =>
+                      this.setState({
+                        triggerButtonTooltipPosition: option.value,
+                      })
                     }
                   />
                 </WrapperWithMarginTop>

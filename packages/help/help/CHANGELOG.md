@@ -1,5 +1,54 @@
 ## 0.1.0
 
+## 0.12.0
+
+### Minor Changes
+
+- [minor][7880462487](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7880462487):
+
+  Updated design. Added new props related to feedback from
+
+## 0.11.4
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 0.11.3
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 0.11.2
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/form@6.1.1
+  - @atlaskit/item@10.0.5
+  - @atlaskit/navigation@35.1.8
+  - @atlaskit/radio@3.0.6
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/quick-search@7.5.1
+  - @atlaskit/icon@19.0.0
+
 ## 0.11.1
 
 - Updated dependencies [07c2c73a69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07c2c73a69):

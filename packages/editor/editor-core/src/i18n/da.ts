@@ -6,6 +6,14 @@
  */
 // Danish
 export default {
+  'fabric.editor.mediaAddLink': 'Tilføj link',
+  'fabric.editor.openLink': 'Åbn link i en nye fane',
+  'fabric.editor.unlink': 'Fjern link',
+  'fabric.editor.editLink': 'Redigér link',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Indsæt link, eller søg efter senest viste',
+  'fabric.editor.linkPlaceholder': 'Indsæt link',
+  'fabric.editor.linkAddress': 'Linkadresse',
   'fabric.editor.layoutFixedWidth': 'Tilbage til centrering',
   'fabric.editor.layoutWide': 'Vis bred',
   'fabric.editor.layoutFullWidth': 'Vis i fuld bredde',
@@ -15,14 +23,26 @@ export default {
   'fabric.editor.remove': 'Fjern',
   'fabric.editor.visit': 'Åbn link i et nyt vindue',
   'fabric.editor.editMode.inviteToEditButton.title': 'Invitér til at redigere',
+  'fabric.editor.saveButton': 'Gem',
+  'fabric.editor.cancelButton': 'Annullér',
   'fabric.editor.alignment': 'Placering',
   'fabric.editor.normal': 'Normal tekst',
   'fabric.editor.heading1': 'Overskrift 1',
+  'fabric.editor.heading1Description':
+    'Brug denne til overskrift på øverste niveau',
   'fabric.editor.heading2': 'Overskrift 2',
+  'fabric.editor.heading2Description': 'Brug denne til hovedafsnit',
   'fabric.editor.heading3': 'Overskrift 3',
+  'fabric.editor.heading3Description':
+    'Brug denne til underafsnit og mindre overskrifter',
   'fabric.editor.heading4': 'Overskrift 4',
+  'fabric.editor.heading4Description': 'Brug denne til dybe overskrifter',
   'fabric.editor.heading5': 'Overskrift 5',
+  'fabric.editor.heading5Description':
+    'Brug denne til at gruppere listeelementer',
   'fabric.editor.heading6': 'Overskrift 6',
+  'fabric.editor.heading6Description':
+    'Brug denne til overskrift på lavt niveau',
   'fabric.editor.blockquote': 'Citat',
   'fabric.editor.blockquote.description': 'Indsæt citat',
   'fabric.editor.codeblock': 'Kodestump',
@@ -57,21 +77,13 @@ export default {
   'fabric.editor.altText': 'Al tekst',
   'fabric.editor.closeHelpDialog': 'Luk dialogboksen',
   'fabric.editor.quickInsert': 'Hurtig indsætning',
-  'fabric.editor.openLink': 'Åbn link i en nye fane',
-  'fabric.editor.unlink': 'Fjern link',
-  'fabric.editor.editLink': 'Redigér link',
-  'fabric.editor.hyperlinkToolbarPlaceholder':
-    'Indsæt link, eller søg efter senest viste',
-  'fabric.editor.linkPlaceholder': 'Indsæt link',
-  'fabric.editor.linkAddress': 'Linkadresse',
   'fabric.editor.displayText': 'Vist tekst',
   'fabric.editor.clearLinkText': 'Ryd tekst',
   'fabric.editor.clearLink': 'Ryd link',
   'fabric.editor.action': 'Handlingsgenstand',
-  'fabric.editor.action.description':
-    'Registrér handlinger for at færdiggøre arbejde',
+  'fabric.editor.action.description': 'Opret og tildel handlingsgenstande',
   'fabric.editor.link': 'Link',
-  'fabric.editor.link.description': 'Link til en intern eller ekstern side',
+  'fabric.editor.link.description': 'Indsæt et link',
   'fabric.editor.filesAndImages': 'Filer og billeder',
   'fabric.editor.filesAndImages.description':
     'Tilføj billeder eller andre filer til din side',
@@ -96,7 +108,7 @@ export default {
   'fabric.editor.columns': 'Layout',
   'fabric.editor.columns.description': 'Opdel din side i afsnit',
   'fabric.editor.status': 'Status',
-  'fabric.editor.status.description': 'Opret en rombe med tekst indeni',
+  'fabric.editor.status.description': 'Tilføj en brugerdefineret statusetiket',
   'fabric.editor.viewMore': 'Vis mere',
   'fabric.editor.insertMenu': 'Indsæt',
   'fabric.editor.twoColumns': 'To kolonner',
@@ -112,6 +124,7 @@ export default {
   'fabric.editor.annotate': 'Annotér',
   'fabric.editor.wrapLeft': 'Skub til venstre',
   'fabric.editor.wrapRight': 'Skub til højre',
+  'fabric.editor.backLink': 'Gå tilbage',
   'fabric.editor.info': 'Info',
   'fabric.editor.note': 'Note',
   'fabric.editor.success': 'Succes',

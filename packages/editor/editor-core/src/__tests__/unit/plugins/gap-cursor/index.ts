@@ -14,18 +14,8 @@ import {
 
 import { setTextSelection } from '../../../../index';
 import { setGapCursorSelection } from '../../../../utils';
-import gapCursorPlugin, {
-  GapCursorSelection,
-  Side,
-} from '../../../../plugins/gap-cursor';
+import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import { pluginKey } from '../../../../plugins/gap-cursor/pm-plugins/main';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import rulePlugin from '../../../../plugins/rule';
-import panelPlugin from '../../../../plugins/panel';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import tablesPlugin from '../../../../plugins/table';
-import extensionPlugin from '../../../../plugins/extension';
-import mediaPlugin from '../../../../plugins/media';
 
 import {
   blockNodes,
@@ -40,18 +30,15 @@ describe('gap-cursor', () => {
   const editor = (doc: any, trackEvent?: () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [
-        gapCursorPlugin,
-        mediaPlugin({ allowMediaSingle: true }),
-        extensionPlugin,
-        tablesPlugin(),
-        tasksAndDecisionsPlugin,
-        codeBlockPlugin(),
-        rulePlugin,
-        panelPlugin,
-      ],
       editorProps: {
         analyticsHandler: trackEvent,
+        allowExtension: true,
+        allowTables: true,
+        allowTasksAndDecisions: true,
+        allowCodeBlocks: true,
+        allowRule: true,
+        allowPanel: true,
+        media: { allowMediaSingle: true },
       },
       pluginKey,
     });
@@ -75,9 +62,9 @@ describe('gap-cursor', () => {
       });
     });
 
-    describe('when selection moving to preceding block node', () =>
-      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName =>
-        describe(nodeName, () =>
+    describe('when selection moving to preceding block node', () => {
+      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName => {
+        describe(nodeName, () => {
           it(`should create TextSelection on preceding ${nodeName}`, () => {
             const { editorView } = editor(
               doc(
@@ -89,13 +76,14 @@ describe('gap-cursor', () => {
             expect(editorView.state.selection instanceof TextSelection).toBe(
               true,
             );
-          }),
-        ),
-      ));
+          });
+        });
+      });
+    });
 
-    describe('when selection moving to following block node', () =>
-      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName =>
-        describe(nodeName, () =>
+    describe('when selection moving to following block node', () => {
+      (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName => {
+        describe(nodeName, () => {
           it(`should create TextSelection on following ${nodeName}`, () => {
             const { editorView } = editor(
               doc(
@@ -107,9 +95,10 @@ describe('gap-cursor', () => {
             expect(editorView.state.selection instanceof TextSelection).toBe(
               true,
             );
-          }),
-        ),
-      ));
+          });
+        });
+      });
+    });
   });
 
   describe('when block nodes allow gap cursor', () => {
@@ -244,11 +233,11 @@ describe('gap-cursor', () => {
       });
     });
 
-    ['ArrowLeft', 'ArrowUp'].forEach(direction =>
-      describe(`when pressing ${direction}`, () =>
-        describe('when cursor is inside first content block node of document', () =>
-          (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName =>
-            describe(nodeName, () =>
+    ['ArrowLeft', 'ArrowUp'].forEach(direction => {
+      describe(`when pressing ${direction}`, () => {
+        describe('when cursor is inside first content block node of document', () => {
+          (Object.keys(blockNodes) as BlockNodesKeys).forEach(nodeName => {
+            describe(nodeName, () => {
               it('should set GapCursorSelection', () => {
                 const { editorView } = editor(
                   doc((blockNodes[nodeName] as any)()),
@@ -260,10 +249,12 @@ describe('gap-cursor', () => {
                 expect(
                   (editorView.state.selection as GapCursorSelection).side,
                 ).toEqual(Side.LEFT);
-              }),
-            ),
-          ))),
-    );
+              });
+            });
+          });
+        });
+      });
+    });
   });
 
   describe('when inside of a table', () => {

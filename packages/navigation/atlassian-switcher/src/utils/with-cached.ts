@@ -14,7 +14,7 @@ export type WithCached<F extends Func> = ProxyFunc<F> & {
 };
 
 /**
- * withPrefetch wraps a function and keeps track of in-flight promises:
+ * withCached wraps a function and keeps track of in-flight promises:
  *
  * 1. First call will result to normal invocation. After promise is resolved
  * it will be removed from the promise-cache and store value into result-cache.

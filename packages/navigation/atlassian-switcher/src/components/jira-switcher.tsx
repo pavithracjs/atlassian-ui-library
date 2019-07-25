@@ -7,15 +7,20 @@ import {
 } from '../providers/jira-data-providers';
 import CommonDataProvider from '../providers/common-data-provider';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
-import { FeatureFlagProps, AvailableProductsResponse } from '../types';
+import {
+  FeatureMap,
+  AvailableProductsResponse,
+  RecommendationsFeatureFlags,
+} from '../types';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 import { ProviderResult } from '../providers/as-data-provider';
 
 type JiraSwitcherProps = {
   cloudId: string;
   messages: Messages;
-  features: FeatureFlagProps;
+  features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 
 export default (props: JiraSwitcherProps) => (
@@ -28,6 +33,7 @@ export default (props: JiraSwitcherProps) => (
           <CommonDataProvider
             cloudId={props.cloudId}
             isUserCentric={props.features.enableUserCentricProducts}
+            recommendationsFeatureFlags={props.recommendationsFeatureFlags}
           >
             {providerResults => {
               const {
@@ -36,7 +42,7 @@ export default (props: JiraSwitcherProps) => (
               } = mapResultsToSwitcherProps(
                 props.cloudId,
                 { customLinks, ...providerResults },
-                { ...props.features, xflow: true },
+                props.features,
                 availableProducts,
               );
 

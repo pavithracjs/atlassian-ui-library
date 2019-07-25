@@ -489,7 +489,7 @@ const getRecentItems = (product: string) =>
                     resultsCount: 1,
                   },
                   {
-                    id: 'jira-project-result',
+                    id: expect.stringMatching(/jira-(object|project)-result/), // since it's random this can be either, not great, QS-200
                     hasContainerId: false,
                     resultsCount: 6,
                   },

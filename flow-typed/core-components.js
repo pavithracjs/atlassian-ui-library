@@ -45,6 +45,10 @@ declare module '@atlaskit/flag' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/icon' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/inline-dialog' {
   declare module.exports: any;
 }
@@ -93,10 +97,22 @@ declare module '@atlaskit/spinner' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/tag' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/toggle' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/tooltip' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/popper' {
   declare module.exports: any;
 }

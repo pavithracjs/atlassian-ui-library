@@ -21,6 +21,15 @@ import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss'
 import collabPlugin from '../../../../plugins/collab-edit';
 import mentionPlugin from '../../../../plugins/mentions';
 
+let mockRegisterTeamMention = jest.fn();
+
+jest.mock('@atlaskit/mention', () => ({
+  __esModule: true,
+  MentionSpotlightController: {
+    registerTeamMention: () => mockRegisterTeamMention(),
+  },
+}));
+
 describe('mentionTypeahead', () => {
   const createEditor = createEditorFactory();
   const sessionIdRegex = /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/i;
@@ -561,6 +570,15 @@ describe('mentionTypeahead', () => {
       );
 
       it(
+        'should not register a team mention while selecting a user',
+        withMentionQuery('here', ({ editorView, mentionProvider }) => {
+          // select a user
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+          expect(mockRegisterTeamMention).not.toHaveBeenCalled();
+        }),
+      );
+
+      it(
         'should not insert mention name when collabEdit.sanitizePrivateContent is true and mentionInsertDisplayName is true',
         withMentionQuery(
           'april',
@@ -705,6 +723,15 @@ describe('mentionTypeahead', () => {
               ),
             ),
           );
+        }),
+      );
+
+      it(
+        'should register a team mention ',
+        withMentionQuery('Team Beta', ({ editorView }) => {
+          // select Team Beta team
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+          expect(mockRegisterTeamMention).toHaveBeenCalled();
         }),
       );
 

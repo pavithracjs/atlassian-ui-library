@@ -85,6 +85,7 @@ export interface ConfluenceObjectResult extends Result {
   contentType: ContentType;
   resultType: ResultType.ConfluenceObjectResult;
   iconClass?: string;
+  friendlyLastModified: string | undefined;
 }
 
 export type ResultsGroup = {

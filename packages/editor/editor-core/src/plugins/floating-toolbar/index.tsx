@@ -121,6 +121,7 @@ const floatingToolbarPlugin: EditorPlugin = {
               height,
               width,
               offset = [0, 12],
+              forcePlacement,
             } = floatingToolbarConfig;
             const targetRef = getDomRef(editorView);
 
@@ -131,6 +132,7 @@ const floatingToolbarPlugin: EditorPlugin = {
                   offset={offset}
                   target={targetRef}
                   alignY="bottom"
+                  forcePlacement={forcePlacement}
                   fitHeight={height}
                   fitWidth={width}
                   alignX={align}

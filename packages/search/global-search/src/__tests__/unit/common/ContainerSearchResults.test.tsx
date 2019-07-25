@@ -11,7 +11,9 @@ import {
   Props as ConfluenceProps,
 } from '../../../components/confluence/ConfluenceQuickSearchContainer';
 
-import QuickSearchContainer, {
+import {
+  BaseConfluenceQuickSearchContainer,
+  BaseJiraQuickSearchContainerJira,
   Props as QuickSearchContainerProps,
   SearchResultProps,
 } from '../../../components/common/QuickSearchContainer';
@@ -128,6 +130,7 @@ const renderComponent = (product: QuickSearchContext) => {
     logger,
     createAnalyticsEvent: createAnalyticsEventSpy,
     confluenceClient: noResultsConfluenceClient,
+    confluenceUrl: 'mockConfluenceUrl',
     features: DEFAULT_FEATURES,
     onAdvancedSearch: undefined,
     linkComponent: undefined,
@@ -434,15 +437,18 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
         getAdvancedSearchUrlSpy.mockReturnValue(
           product === 'jira' ? 'jiraUrl' : 'confUrl',
         );
-        const quickSearchContainer = wrapper.find(QuickSearchContainer);
         searchResultsComponent =
           product === 'jira'
-            ? (quickSearchContainer.props() as QuickSearchContainerProps<
+            ? (wrapper
+                .find(BaseJiraQuickSearchContainerJira)
+                .props() as QuickSearchContainerProps<
                 JiraResultsMap
               >).getSearchResultsComponent(
                 getSearchAndRecentItemsForJira(sessionId),
               )
-            : (quickSearchContainer.props() as QuickSearchContainerProps<
+            : (wrapper
+                .find(BaseConfluenceQuickSearchContainer)
+                .props() as QuickSearchContainerProps<
                 ConfluenceResultsMap
               >).getSearchResultsComponent(
                 getSearchAndRecentItemsForConfluence(sessionId),
@@ -517,7 +523,7 @@ const getPreQueryResults = (sessionId: string, product: QuickSearchContext) =>
 describe('jira', () => {
   it('should not render lozenge for pre-query screen', () => {
     const wrapper = renderComponent('jira');
-    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+    const quickSearchContainer = wrapper.find(BaseJiraQuickSearchContainerJira);
     const searchResultsComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
       JiraResultsMap
     >).getSearchResultsComponent(

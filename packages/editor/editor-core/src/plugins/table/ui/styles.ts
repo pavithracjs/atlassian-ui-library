@@ -12,6 +12,7 @@ import {
   akEditorTableNumberColumnWidth,
   akEditorTableBorder,
   tableCellPadding,
+  tableCellBorderWidth,
 } from '@atlaskit/editor-common';
 import { scrollbarStyles } from '../../../ui/styles';
 import { TableCssClassName as ClassName } from '../types';
@@ -45,19 +46,24 @@ export const tableBorderSelectedColor = B300;
 export const tableCellDeleteColor = R50;
 export const tableBorderDeleteColor = R300;
 export const tableToolbarDeleteColor = R75;
-
 export const tableToolbarSize = akEditorTableToolbarSize;
 export const tableBorderRadiusSize = 3;
 export const tableInsertColumnButtonSize = 20;
 export const tableDeleteButtonSize = 16;
+export const tableDeleteButtonOffset = 6;
 export const tablePadding = 8;
 export const contextualMenuTriggerSize = 16;
 export const contextualMenuDropdownWidth = 180;
 export const layoutButtonSize = 32;
-export const tableInsertColumnButtonLeftOffset = 22;
-export const tableInsertColumnButtonTopOffset = 22;
+export const tableInsertColumnButtonOffset = 3;
 export const tableScrollbarOffset = 15;
 export const tableMarginFullWidthMode = 2;
+export const lineMarkerOffsetFromColumnControls = 13;
+export const lineMarkerSize = 4;
+export const columnControlsDecorationHeight = 25;
+export const columnControlsZIndex = akEditorUnitZIndex * 10;
+export const columnControlsSelectedZIndex = columnControlsZIndex + 1;
+export const columnResizeHandleZIndex = columnControlsSelectedZIndex + 1;
 
 const isIE11 = browser.ie_version === 11;
 
@@ -71,14 +77,18 @@ const InsertLine = (css?: string) => `
   }
 `;
 
+const Marker = `
+  background-color: ${tableBorderColor};
+  position: absolute;
+  height: ${lineMarkerSize}px;
+  width: ${lineMarkerSize}px;
+  border-radius: 50%;
+  pointer-events: none;
+`;
+
 const InsertMarker = (css?: string) => `
   .${ClassName.CONTROLS_INSERT_MARKER} {
-    background-color: ${tableBorderColor};
-    position: absolute;
-    height: 4px;
-    width: 4px;
-    border-radius: 50%;
-    pointer-events: none;
+    ${Marker};
     ${css}
   }
 `;
@@ -118,12 +128,25 @@ const HeaderButton = (css?: string) => `
     }
     ${css}
   }
+
+  .${ClassName.ROW_CONTROLS_BUTTON}::after {
+    content: ' ';
+    background-color: transparent;
+    left: -15px;
+    top: 0;
+    position: absolute;
+    width: 15px;
+    height: 100%;
+    z-index: 1;
+  }
+
   .active .${ClassName.CONTROLS_BUTTON} {
     color: ${N0};
     background-color: ${tableToolbarSelectedColor};
     border-color: ${tableBorderSelectedColor};
   }
 `;
+
 
 const HeaderButtonHover = () => `
   .${ClassName.CONTROLS_BUTTON}:hover {
@@ -177,33 +200,6 @@ const InsertButtonHover = () => `
   }
 `;
 
-const DeleteButton = (css?: string) => `
-  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
-  .${ClassName.CONTROLS_DELETE_BUTTON} {
-    height: ${tableDeleteButtonSize}px;
-    width: ${tableDeleteButtonSize}px;
-  }
-  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
-    position: absolute;
-    ${css}
-
-    .${ClassName.CONTROLS_DELETE_BUTTON} {
-      ${Button(`
-        background: ${N20A};
-        color: ${N300};
-      `)}
-    }
-  }
-`;
-
-const DeleteButtonHover = () => `
-  .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
-    background: ${R300};
-    color: white;
-    cursor: pointer;
-  }
-`;
-
 const insertColumnButtonWrapper = `
   ${InsertButton()}
   ${InsertButtonHover()}
@@ -223,6 +219,152 @@ const insertRowButtonWrapper = `
   `)}
 `;
 
+const columnControlsLineMarker = `
+  .${ClassName.TABLE_CONTAINER}.${ClassName.WITH_CONTROLS} table tr:first-child td,
+  .${ClassName.TABLE_CONTAINER}.${ClassName.WITH_CONTROLS} table tr:first-child th {
+    position: relative;
+
+    &::before {
+      content: ' ';
+      ${Marker};
+      top: -${tableToolbarSize + lineMarkerOffsetFromColumnControls}px;
+      right: -${lineMarkerSize / 2}px;
+    }
+  }
+`
+
+const DeleteButton = `
+  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP},
+  .${ClassName.CONTROLS_DELETE_BUTTON} {
+    height: ${tableDeleteButtonSize}px;
+    width: ${tableDeleteButtonSize}px;
+  }
+  .${ClassName.CONTROLS_DELETE_BUTTON_WRAP} {
+    .${ClassName.CONTROLS_DELETE_BUTTON} {
+      ${Button(`
+        background: ${N20A};
+        color: ${N300};
+      `)}
+    }
+  }
+
+  .${ClassName.CONTROLS_DELETE_BUTTON}:hover {
+    background: ${R300};
+    color: white;
+    cursor: pointer;
+  }
+`;
+
+const OverflowShadow = `
+.${ClassName.TABLE_RIGHT_SHADOW},
+.${ClassName.TABLE_LEFT_SHADOW}{
+  display: block;
+  height: calc(100% - ${tableMarginTop + tableMarginBottom + tableToolbarSize - 2}px);
+  position: absolute;
+  pointer-events: none;
+  top: ${tableMarginTop + tableToolbarSize - 1}px;
+  z-index: ${akEditorSmallZIndex};
+  width: 8px;
+}
+.${ClassName.TABLE_LEFT_SHADOW} {
+  background: linear-gradient(
+    to left,
+    rgba(99, 114, 130, 0) 0,
+    ${N40A} 100%
+  );
+  left: 0px;
+}
+.${ClassName.TABLE_RIGHT_SHADOW} {
+  background: linear-gradient(
+    to right,
+    rgba(99, 114, 130, 0) 0,
+    ${N40A} 100%
+  );
+  left: calc(100% + 2px);
+}
+.${ClassName.WITH_CONTROLS} {
+  .${ClassName.TABLE_RIGHT_SHADOW},
+  .${ClassName.TABLE_LEFT_SHADOW}{
+    height: calc(100% - ${tableMarginTop + tableMarginBottom - 2}px);
+    top: ${tableMarginTop - 1}px;
+  }
+  .${ClassName.TABLE_LEFT_SHADOW} {
+    border-left: 1px solid ${tableBorderColor};
+  }
+}
+`;
+
+const columnHeaderButton = (css?: string) => `
+  background: ${tableToolbarColor};
+  border-top: 1px solid ${tableBorderColor};
+  border-left: 1px solid ${tableBorderColor};
+  display: block;
+  box-sizing: border-box;
+  padding: 0;
+
+  :focus {
+    outline: none;
+  }
+
+  ${css}
+`;
+
+const columnHeaderButtonSelected = `
+  color: ${N0};
+  background-color: ${tableToolbarSelectedColor};
+  border-color: ${tableBorderSelectedColor};
+  z-index: ${columnControlsSelectedZIndex};
+`;
+
+const columnControlsDecoration = `
+  .${ClassName.COLUMN_CONTROLS_DECORATIONS} {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    width: calc(100% + ${(tableCellPadding + tableCellBorderWidth) * 2}px);
+    left: -${tableCellPadding + tableCellBorderWidth}px;
+    top: -${columnControlsDecorationHeight + tableCellPadding + tableCellBorderWidth}px;
+    height: ${columnControlsDecorationHeight}px;
+
+    &::after {
+      content: ' ';
+
+      ${columnHeaderButton(`
+        border-right: ${tableCellBorderWidth}px solid ${tableBorderColor};
+        border-bottom: none;
+        height: ${tableToolbarSize}px;
+        width: 100%;
+        position: absolute;
+        top: ${columnControlsDecorationHeight - tableToolbarSize}px;
+        left: 0px;
+        z-index: ${columnControlsZIndex};
+      `)}
+    }
+  }
+
+  .${ClassName.WITH_CONTROLS} .${ClassName.COLUMN_CONTROLS_DECORATIONS} {
+    display: block;
+  }
+
+  table tr:first-child td.${ClassName.TABLE_CELL_NODE_WRAPPER},
+  table tr:first-child th.${ClassName.TABLE_HEADER_NODE_WRAPPER} {
+    &.${ClassName.COLUMN_SELECTED},
+    &.${ClassName.HOVERED_COLUMN},
+    &.${ClassName.HOVERED_TABLE} {
+      .${ClassName.COLUMN_CONTROLS_DECORATIONS}::after {
+        ${columnHeaderButtonSelected};
+      }
+
+      &.danger .${ClassName.COLUMN_CONTROLS_DECORATIONS}::after {
+        background-color: ${tableToolbarDeleteColor};
+        border: 1px solid ${tableBorderDeleteColor};
+        border-bottom: none;
+        z-index: ${akEditorUnitZIndex * 100};
+      }
+    }
+  }
+`;
+
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
     background: ${N20A};
@@ -236,8 +378,11 @@ export const tableStyles = css`
     cursor: pointer;
   }
 
+
   .ProseMirror {
-    ${tableSharedStyle}
+    ${tableSharedStyle};
+    ${columnControlsLineMarker};
+
     .${ClassName.CONTROLS_FLOATING_BUTTON_COLUMN} {
       ${insertColumnButtonWrapper}
     }
@@ -246,6 +391,11 @@ export const tableStyles = css`
       ${insertRowButtonWrapper}
     }
 
+    /* Delete button*/
+    ${DeleteButton}
+    /* Ends Delete button*/
+
+    ${OverflowShadow}
     .less-padding {
       padding: 0 ${tablePadding}px;
 
@@ -268,65 +418,8 @@ export const tableStyles = css`
       width: 100% !important;
     }
 
-    /* Column controls */
-    .${ClassName.COLUMN_CONTROLS} {
-      height: ${tableToolbarSize}px;
-      box-sizing: border-box;
-      display: none;
+    ${columnControlsDecoration};
 
-      ${InsertMarker(`
-        right: -1px;
-        top: -12px;
-      `)};
-
-      .${ClassName.COLUMN_CONTROLS_INNER} {
-        display: flex;
-      }
-      .${ClassName.COLUMN_CONTROLS_BUTTON_WRAP} {
-        position: relative;
-        margin-right: -1px;
-      }
-      .${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}:last-child > button {
-        border-top-right-radius: ${tableBorderRadiusSize}px;
-      }
-      .${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}.active .${ClassName.CONTROLS_BUTTON},
-      .${ClassName.CONTROLS_BUTTON}:hover {
-        z-index: ${akEditorUnitZIndex};
-        position: relative;
-      }
-      ${HeaderButton(`
-        border-right: 1px solid ${tableBorderColor};
-        border-bottom: none;
-        height: ${tableToolbarSize}px;
-        width: 100%;
-
-        .${ClassName.CONTROLS_BUTTON_OVERLAY} {
-          position: absolute;
-          width: 50%;
-          height: 30px;
-          bottom: 0;
-          right: 0;
-        }
-        .${ClassName.CONTROLS_BUTTON_OVERLAY}:first-child {
-          left: 0;
-        }
-      `)}
-    }
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.COLUMN_CONTROLS} {
-      ${HeaderButtonHover()}
-      ${HeaderButtonDanger()}
-    }
-    .${ClassName.COLUMN_CONTROLS},
-    .${ClassName.CORNER_CONTROLS} {
-      ${DeleteButton(`
-        top: -${tableDeleteButtonSize + 4}px;
-      `)}
-    }
-
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.COLUMN_CONTROLS},
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.CORNER_CONTROLS} {
-      ${ DeleteButtonHover()}
-    }
     /* Corner controls */
     .${ClassName.CORNER_CONTROLS} {
       width: ${tableToolbarSize + 1}px;
@@ -417,16 +510,13 @@ export const tableStyles = css`
       .${ClassName.CONTROLS_BUTTON}:hover {
         z-index: ${akEditorUnitZIndex};
       }
-      ${DeleteButton(`
-        bottom: -${tableInsertColumnButtonSize / 2}px;
-        left: -${tableDeleteButtonSize + 6}px;
-      `)}
+
       ${HeaderButton(`
         border-bottom: 1px solid ${tableBorderColor};
-        border-right: 1px solid ${tableBorderColor};
+        border-right: 0px;
         border-radius: 0;
         height: 100%;
-        width: ${tableToolbarSize + 1}px;
+        width: ${tableToolbarSize}px;
 
         .${ClassName.CONTROLS_BUTTON_OVERLAY} {
           position: absolute;
@@ -443,7 +533,6 @@ export const tableStyles = css`
     :not(.${ClassName.IS_RESIZING}) .${ClassName.ROW_CONTROLS} {
       ${HeaderButtonHover()}
       ${HeaderButtonDanger()}
-      ${DeleteButtonHover()}
     }
 
     /* Numbered column */
@@ -476,7 +565,6 @@ export const tableStyles = css`
       }
     }
     .${ClassName.WITH_CONTROLS} {
-      .${ClassName.COLUMN_CONTROLS},
       .${ClassName.CORNER_CONTROLS},
       .${ClassName.ROW_CONTROLS} {
         display: block;
@@ -494,37 +582,6 @@ export const tableStyles = css`
           z-index: ${akEditorUnitZIndex};
           color: ${N0};
         }
-      }
-
-      /* scroll shadows */
-      .${ClassName.TABLE_RIGHT_SHADOW},
-      .${ClassName.TABLE_LEFT_SHADOW}::after {
-        display: block;
-        position: absolute;
-        pointer-events: none;
-        z-index: ${akEditorSmallZIndex};
-        width: 8px;
-      }
-      .${ClassName.TABLE_LEFT_SHADOW}::after {
-        background: linear-gradient(
-          to left,
-          rgba(99, 114, 130, 0) 0,
-          ${N40A} 100%
-        );
-        content: '';
-        height: 100%;
-        right: -8px;
-        bottom: 0;
-      }
-      .${ClassName.TABLE_RIGHT_SHADOW} {
-        background: linear-gradient(
-          to right,
-          rgba(99, 114, 130, 0) 0,
-          ${N40A} 100%
-        );
-        height: calc(100% - ${tableMarginTop + tableMarginBottom - 2}px);
-        left: calc(100% + 2px);
-        top: ${tableMarginTop - 1}px;
       }
     }
     :not(.${ClassName.IS_RESIZING}) .${ClassName.WITH_CONTROLS} {
@@ -550,11 +607,16 @@ export const tableStyles = css`
 
     /* Table */
     .${ClassName.TABLE_NODE_WRAPPER} > table {
-      overflow: hidden;
+      overflow: hidden visible;
       table-layout: fixed;
 
-      .${ClassName.CELL_NODEVIEW_WRAPPER} {
+      .${ClassName.CELL_NODEVIEW_WRAPPER},
+      .${ClassName.TABLE_CELL_NODEVIEW_CONTENT_DOM} {
         position: relative;
+      }
+
+      .${ClassName.COLUMN_CONTROLS_DECORATIONS} + * {
+        margin-top: 0;
       }
 
       .${ClassName.SELECTED_CELL} {
@@ -588,16 +650,12 @@ export const tableStyles = css`
         background: ${tableCellDeleteColor};
       }
     }
-    .${ClassName.COLUMN_CONTROLS_WRAPPER},
     .${ClassName.ROW_CONTROLS_WRAPPER} {
       position: absolute;
       top: ${tableMarginTop - 1}px;
     }
     .${ClassName.ROW_CONTROLS_WRAPPER}.${ClassName.TABLE_LEFT_SHADOW} {
       z-index: ${akEditorUnitZIndex};
-    }
-    .${ClassName.COLUMN_CONTROLS_WRAPPER} {
-      left: 0;
     }
     .${ClassName.ROW_CONTROLS_WRAPPER} {
       left: -${tableToolbarSize}px;
@@ -621,7 +679,7 @@ export const tableStyles = css`
       width: 2px;
       pointer-events: none;
       background-color: ${tableBorderSelectedColor};
-      z-index: ${akEditorUnitZIndex};
+      z-index: ${columnResizeHandleZIndex};
     }
   }
 

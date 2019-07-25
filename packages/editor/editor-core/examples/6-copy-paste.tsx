@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
+import { ReactRenderer } from '@atlaskit/renderer';
 import Editor, { EditorProps, EditorAppearance } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
 import WithEditorActions from './../src/ui/WithEditorActions';
@@ -21,41 +22,38 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { TitleInput } from '../example-helpers/PageElements';
-import { EditorActions, MediaProvider } from './../src';
+import { EditorActions, MediaProvider, MediaOptions } from './../src';
 import BreadcrumbsMiscActions from '../example-helpers/breadcrumbs-misc-actions';
-import {
-  DEFAULT_MODE,
-  LOCALSTORAGE_defaultMode,
-} from '../example-helpers/example-constants';
 import {
   defaultCollectionName,
   defaultMediaPickerCollectionName,
 } from '@atlaskit/media-test-helpers';
+import { ProviderFactory } from '@atlaskit/editor-common';
 
-export const Wrapper: any = styled.div`
+const Wrapper = styled.div`
   box-sizing: border-box;
   height: calc(100vh - 32px);
   display: flex;
 `;
-Wrapper.displayName = 'Wrapper';
-
-export const Content: any = styled.div`
+const Content = styled.div`
   padding: 0;
   height: 100%;
   width: 50%;
   border: 2px solid #ccc;
   box-sizing: border-box;
 `;
-Content.displayName = 'Content';
+const RendererWrapper = styled.div`
+  width: 500px;
+`;
 
+const getLocalStorageKey = (collectionName: string) =>
+  `fabric.editor.example.copypaste-${collectionName}`;
 // eslint-disable-next-line no-console
-export const analyticsHandler = (actionName: string, props?: {}) =>
+const analyticsHandler = (actionName: string, props?: {}) =>
   console.log(actionName, props);
 
-export const LOCALSTORAGE_defaultDocKey = 'fabric.editor.example.full-page';
-export const LOCALSTORAGE_defaultTitleKey =
-  'fabric.editor.example.full-page.title';
-export const SaveAndCancelButtons = (props: {
+const LOCALSTORAGE_defaultTitleKey = 'fabric.editor.example.full-page.title';
+const createSaveAndCancelButtons = (collectionName: string) => (props: {
   editorActions?: EditorActions;
 }) => (
   <ButtonGroup>
@@ -71,7 +69,7 @@ export const SaveAndCancelButtons = (props: {
           // eslint-disable-next-line no-console
           console.log(value);
           localStorage.setItem(
-            LOCALSTORAGE_defaultDocKey,
+            getLocalStorageKey(collectionName),
             JSON.stringify(value),
           );
         });
@@ -87,7 +85,7 @@ export const SaveAndCancelButtons = (props: {
           return;
         }
         props.editorActions.clear();
-        localStorage.removeItem(LOCALSTORAGE_defaultDocKey);
+        localStorage.removeItem(getLocalStorageKey(collectionName));
         localStorage.removeItem(LOCALSTORAGE_defaultTitleKey);
       }}
     >
@@ -100,9 +98,10 @@ export type State = {
   disabled: boolean;
   title?: string;
   appearance: EditorAppearance;
+  mediaOptions: Map<string, Promise<MediaProvider>>;
 };
-
-export const providers: any = {
+const contextIdentifierProvider = storyContextIdentifierProviderFactory();
+const providers: any = {
   emojiProvider: emoji.storyData.getEmojiResource({
     uploadSupported: true,
     currentUser: {
@@ -113,7 +112,7 @@ export const providers: any = {
   taskDecisionProvider: Promise.resolve(
     taskDecision.getMockTaskDecisionResource(),
   ),
-  contextIdentifierProvider: storyContextIdentifierProviderFactory(),
+  contextIdentifierProvider,
   activityProvider: Promise.resolve(new MockActivityResource()),
   macroProvider: Promise.resolve(macroProvider),
   autoformattingProvider: Promise.resolve(autoformattingProvider),
@@ -136,18 +135,63 @@ const getMediaProvider = (collectionName: string): Promise<MediaProvider> => {
   }
 };
 
-export const quickInsertProvider = quickInsertProviderFactory();
-
-export const getAppearance = (): EditorAppearance => {
-  return (localStorage.getItem(LOCALSTORAGE_defaultMode) || DEFAULT_MODE) ===
-    DEFAULT_MODE
-    ? 'full-page'
-    : 'full-width';
-};
+const quickInsertProvider = quickInsertProviderFactory();
 
 export interface ExampleProps {
   onTitleChange?: (title: string) => void;
 }
+
+const rendererDoc = {
+  type: 'doc',
+  version: 1,
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'This is a paragraph with a text node',
+        },
+      ],
+    },
+    {
+      type: 'mediaSingle',
+      attrs: {
+        layout: 'full-width',
+      },
+      content: [
+        {
+          type: 'media',
+          attrs: {
+            id: '2aa22582-ca0e-4bd4-b1bc-9369d10a0719',
+            type: 'file',
+            collection: 'MediaServicesSample',
+            width: 5845,
+            height: 1243,
+          },
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: '\n',
+        },
+        {
+          type: 'text',
+          text: 'that contains a new line',
+        },
+      ],
+    },
+  ],
+};
+const mediaProvider = getMediaProvider(defaultCollectionName);
+const dataProviders = ProviderFactory.create({
+  mediaProvider,
+  contextIdentifierProvider,
+});
 
 class ExampleEditorComponent extends React.Component<
   EditorProps & ExampleProps,
@@ -156,8 +200,24 @@ class ExampleEditorComponent extends React.Component<
   state: State = {
     disabled: true,
     title: localStorage.getItem(LOCALSTORAGE_defaultTitleKey) || '',
-    appearance: this.props.appearance || getAppearance(),
+    appearance: 'full-page',
+    mediaOptions: new Map(),
   };
+
+  async componentDidMount() {
+    const { mediaOptions } = this.state;
+    // Simulate adding mediaProvider async
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    mediaOptions.set(
+      defaultCollectionName,
+      getMediaProvider(defaultCollectionName),
+    );
+    mediaOptions.set(
+      defaultMediaPickerCollectionName,
+      getMediaProvider(defaultMediaPickerCollectionName),
+    );
+    this.setState({ mediaOptions });
+  }
 
   componentDidUpdate(prevProps: EditorProps) {
     if (prevProps.appearance !== this.props.appearance) {
@@ -202,9 +262,23 @@ class ExampleEditorComponent extends React.Component<
   };
 
   renderEditor = (collectionName: string) => {
+    const defaultValue =
+      (localStorage &&
+        localStorage.getItem(getLocalStorageKey(collectionName))) ||
+      undefined;
+    const SaveAndCancelButtons = createSaveAndCancelButtons(collectionName);
+    const { mediaOptions } = this.state;
+    const media: MediaOptions = {
+      provider: mediaOptions.get(collectionName),
+      allowMediaSingle: true,
+      allowResizing: true,
+      allowAnnotation: true,
+    };
+
     return (
       <EditorContext key={collectionName}>
         <Content>
+          <h2>Editor ({collectionName})</h2>
           <SmartCardProvider>
             <WithEditorActions
               render={actions => (
@@ -243,20 +317,11 @@ class ExampleEditorComponent extends React.Component<
                   allowStatus={true}
                   {...providers}
                   editorActions={actions}
-                  media={{
-                    provider: getMediaProvider(collectionName),
-                    allowMediaSingle: true,
-                    allowResizing: true,
-                    allowAnnotation: true,
-                  }}
+                  media={media}
                   placeholder="Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule."
                   shouldFocus={false}
                   disabled={this.state.disabled}
-                  defaultValue={
-                    (localStorage &&
-                      localStorage.getItem(LOCALSTORAGE_defaultDocKey)) ||
-                    undefined
-                  }
+                  defaultValue={defaultValue}
                   contentComponents={
                     <>
                       <BreadcrumbsMiscActions
@@ -294,11 +359,25 @@ class ExampleEditorComponent extends React.Component<
     );
   };
 
+  renderRenderer = () => {
+    return (
+      <RendererWrapper>
+        <h2>Renderer ({defaultCollectionName})</h2>
+        <ReactRenderer
+          document={rendererDoc}
+          adfStage="stage0"
+          dataProviders={dataProviders}
+        />
+      </RendererWrapper>
+    );
+  };
+
   render() {
     return (
       <Wrapper>
         {this.renderEditor(defaultCollectionName)}
         {this.renderEditor(defaultMediaPickerCollectionName)}
+        {this.renderRenderer()}
       </Wrapper>
     );
   }

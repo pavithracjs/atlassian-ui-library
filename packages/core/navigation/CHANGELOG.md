@@ -1,5 +1,62 @@
 # @atlaskit/navigation
 
+## 35.1.12
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/page@11.0.5
+  - @atlaskit/toggle@8.0.0
+
+## 35.1.11
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 35.1.10
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 35.1.9
+
+- Updated dependencies [87a2638655](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a2638655):
+  - @atlaskit/button@13.0.10
+  - @atlaskit/checkbox@9.0.0
+
+## 35.1.8
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/checkbox@8.0.5
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/item@10.0.5
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/single-select@8.0.6
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/quick-search@7.5.1
+  - @atlaskit/icon@19.0.0
+
 ## 35.1.7
 
 ### Patch Changes

@@ -511,11 +511,7 @@ export function liftListItems(): Command {
     tr.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
       // Following condition will ensure that block types paragraph, heading, codeBlock, blockquote, panel are lifted.
       // isTextblock is true for paragraph, heading, codeBlock.
-      if (
-        node.isTextblock ||
-        node.type.name === 'blockquote' ||
-        node.type.name === 'panel'
-      ) {
+      if (node.isTextblock) {
         const sel = new NodeSelection(tr.doc.resolve(tr.mapping.map(pos)));
         const range = sel.$from.blockRange(sel.$to);
 

@@ -170,7 +170,7 @@ describe('FieldTextAreaStateless', () => {
       { maxLength: 5 },
       { required: true },
     ].forEach(prop =>
-      describe(JSON.stringify(prop), () =>
+      describe(JSON.stringify(prop), () => {
         it('TextArea should have attribute defined', () => {
           const key = Object.keys(prop)[0];
           // $FlowFixMe
@@ -182,8 +182,8 @@ describe('FieldTextAreaStateless', () => {
               .find(TextArea)
               .prop(key),
           ).toBe(value);
-        }),
-      ),
+        });
+      }),
     );
 
     it('TextArea should have value="something"', () =>

@@ -1,23 +1,14 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { EditorView } from 'prosemirror-view';
-import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
-
-import { INPUT_METHOD } from '../../../../analytics';
 import { clearHoverSelection } from '../../../commands';
-import { getPluginState } from '../../../pm-plugins/main';
-import { deleteRowsWithAnalytics } from '../../../commands-with-analytics';
 import { TableCssClassName as ClassName } from '../../../types';
 import {
   RowParams,
   getRowHeights,
-  isRowDeleteButtonVisible,
-  getRowDeleteButtonParams,
   getRowsParams,
   getRowClassNames,
 } from '../../../utils';
-import tableMessages from '../../messages';
-import DeleteButton from '../DeleteButton';
 
 export interface Props {
   editorView: EditorView;
@@ -45,7 +36,6 @@ export default class RowControls extends Component<Props, any> {
     const { selection } = editorView.state;
     const rowHeights = getRowHeights(tableRef);
     const rowsParams = getRowsParams(rowHeights);
-    const deleteBtnParams = getRowDeleteButtonParams(rowHeights, selection);
 
     return (
       <div className={ClassName.ROW_CONTROLS}>
@@ -66,43 +56,21 @@ export default class RowControls extends Component<Props, any> {
             >
               <button
                 type="button"
-                className={ClassName.CONTROLS_BUTTON}
+                className={`${ClassName.ROW_CONTROLS_BUTTON}
+                  ${ClassName.CONTROLS_BUTTON}
+                `}
                 onClick={event =>
                   this.props.selectRow(startIndex, event.shiftKey)
                 }
                 onMouseOver={() => this.props.hoverRows([startIndex])}
-                onMouseMove={e => e.preventDefault()}
                 onMouseOut={this.clearHoverSelection}
-              >
-                {!isCellSelection(selection) && (
-                  <>
-                    <div
-                      className={ClassName.CONTROLS_BUTTON_OVERLAY}
-                      data-index={startIndex}
-                    />
-                    <div
-                      className={ClassName.CONTROLS_BUTTON_OVERLAY}
-                      data-index={endIndex}
-                    />
-                  </>
-                )}
-              </button>
+                data-start-index={startIndex}
+                data-end-index={endIndex}
+              />
 
               <div className={ClassName.CONTROLS_INSERT_MARKER} />
             </div>
           ))}
-          {isRowDeleteButtonVisible(selection) && deleteBtnParams && (
-            <DeleteButton
-              key="delete"
-              removeLabel={tableMessages.removeRows}
-              style={{ top: deleteBtnParams.top }}
-              onClick={this.deleteRows}
-              onMouseEnter={() =>
-                this.props.hoverRows(deleteBtnParams.indexes, true)
-              }
-              onMouseLeave={this.clearHoverSelection}
-            />
-          )}
         </div>
       </div>
     );
@@ -111,22 +79,5 @@ export default class RowControls extends Component<Props, any> {
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;
     clearHoverSelection()(state, dispatch);
-  };
-
-  private deleteRows = () => {
-    const { state, dispatch } = this.props.editorView;
-    const {
-      pluginConfig: { isHeaderRowRequired },
-    } = getPluginState(state);
-
-    const rect = getSelectionRect(state.selection);
-    if (rect) {
-      deleteRowsWithAnalytics(INPUT_METHOD.BUTTON, rect, !!isHeaderRowRequired)(
-        state,
-        dispatch,
-      );
-    }
-
-    this.clearHoverSelection();
   };
 }

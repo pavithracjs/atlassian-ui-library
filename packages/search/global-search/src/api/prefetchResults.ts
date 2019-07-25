@@ -20,14 +20,12 @@ export type GlobalSearchPrefetchedResults =
   | ConfluencePrefetchedResults
   | JiraPrefetchedResults;
 
-const PREFETCH_SEARCH_SESSION_ID = 'prefetch-unavailable';
-
 const prefetchConfluence = async (
   confluenceClient: ConfluenceClient,
 ): Promise<ConfluenceRecentsMap> => {
   const [objects, spaces] = await Promise.all([
-    confluenceClient.getRecentItems(PREFETCH_SEARCH_SESSION_ID),
-    confluenceClient.getRecentSpaces(PREFETCH_SEARCH_SESSION_ID),
+    confluenceClient.getRecentItems(),
+    confluenceClient.getRecentSpaces(),
   ]);
 
   return {

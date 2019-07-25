@@ -1,5 +1,45 @@
 # @atlaskit/email-renderer
 
+## 2.9.0
+
+### Minor Changes
+
+- [minor][435258881c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/435258881c):
+
+  CS-1238 Media honor width and flow settings
+
+## 2.8.0
+
+### Minor Changes
+
+- [minor][4c3772ce61](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c3772ce61):
+
+  CS-1238 Added generic icon for media attachments
+
+## 2.7.1
+
+### Patch Changes
+
+- [patch][59fb844cd5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59fb844cd5):
+
+  CS-1184 Email renderer - prevent tables from flowing outside container
+
+## 2.7.0
+
+### Minor Changes
+
+- [minor][5b89d23a43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b89d23a43):
+
+  CS-1184 Email renderer icons compressed, rendered diff looks better for some nodes
+
+## 2.6.0
+
+### Minor Changes
+
+- [minor][d08834952b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d08834952b):
+
+  CS-1184 CSS prefix shortened
+
 ## 2.5.0
 
 ### Minor Changes

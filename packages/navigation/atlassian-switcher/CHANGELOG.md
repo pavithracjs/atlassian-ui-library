@@ -1,5 +1,154 @@
 # @atlaskit/atlassian-switcher
 
+## 3.8.1
+
+### Patch Changes
+
+- [patch][91ec1329f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/91ec1329f7):
+
+  Changing flag key for JSW to Opsgenie experiment
+
+## 3.8.0
+
+### Minor Changes
+
+- [minor][3e25438208](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e25438208):
+
+  Enables AtlassianSwitcher to receive recommendationFeatureFlags which is then passed to the RecommendationProvider to be parsed and handle output based on feature flag values.
+
+## 3.7.0
+
+### Minor Changes
+
+- [minor][5ac638ae2e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ac638ae2e):
+
+  Revert the change that filteres the current product from the list of products in switcher because that makes filtering too eager
+
+## 3.6.0
+
+### Minor Changes
+
+- [minor][f5d0b1aef8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f5d0b1aef8):
+
+  Removed the site-product combination the user is on from the switcher options
+
+## 3.5.1
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 3.5.0
+
+### Minor Changes
+
+- [minor][a6dcd23804](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6dcd23804):
+
+  Add a new provider to suggest a list of recommended products, and refactor existing logic
+
+## 3.4.6
+
+### Patch Changes
+
+- [patch][7016422921](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7016422921):
+
+  Passed in empty object in order to get the correct cache key
+
+## 3.4.5
+
+### Patch Changes
+
+- [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
+
+  bugfix, fixes missing version.json file
+
+## 3.4.4
+
+### Patch Changes
+
+- [patch][3371cb9ba0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3371cb9ba0):
+
+  Updated Atlassian Switcher prefecth trigger to accept enableUserCentricProducts feature flag
+
+## 3.4.3
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 3.4.2
+
+### Patch Changes
+
+- [patch][4344114172](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4344114172):
+
+  Update analytics event to include products shown when viewed.
+
+## 3.4.1
+
+### Patch Changes
+
+- [patch][d0db01b410](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0db01b410):
+
+  TypeScript users of withAnalyticsEvents and withAnalyticsContext are now required to provide props as a generic type. This is so that TypeScript can correctly calculate the props and defaultProps of the returned component.
+
+  Before:
+
+  ```typescript
+  withAnalyticsEvents()(Button) as ComponentClass<Props>;
+  ```
+
+  After:
+
+  ```typescript
+  withAnalyticsEvents<Props>()(Button);
+  ```
+
+## 3.4.0
+
+### Minor Changes
+
+- [minor][986a1cc91d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986a1cc91d):
+
+  Enable prefetching for available-products endpoint
+
+## 3.3.0
+
+### Minor Changes
+
+- [minor][b81d931ee3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d931ee3):
+
+  Added new OpsGenie logo, fixed the gradient for the StatusPage logo, and refactored atlassian-switcher to use the new logos
+
+## 3.2.0
+
+### Minor Changes
+
+- [minor][85291ccc2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85291ccc2b):
+
+  Infer xflow enabled flag from props
+
+## 3.1.1
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/button@13.0.9
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/item@10.0.5
+  - @atlaskit/navigation@35.1.8
+  - @atlaskit/icon@19.0.0
+
 ## 3.1.0
 
 ### Minor Changes

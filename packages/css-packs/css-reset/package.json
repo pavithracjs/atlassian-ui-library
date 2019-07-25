@@ -1,9 +1,8 @@
 {
   "name": "@atlaskit/css-reset",
-  "version": "5.0.2",
+  "version": "5.0.4",
   "description": "Base stylesheet for ADG",
   "license": "Apache-2.0",
-  "types": "index.d.ts",
   "module": "dist/bundle.css",
   "main": "dist/bundle.css",
   "atlaskit:src": "src/index.ts",

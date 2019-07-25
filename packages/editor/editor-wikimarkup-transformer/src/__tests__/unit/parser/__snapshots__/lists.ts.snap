@@ -127,6 +127,7 @@ Object {
       "content": Array [
         Object {
           "attrs": Object {
+            "__contextId": null,
             "__displayType": null,
             "__fileMimeType": null,
             "__fileName": null,
@@ -213,6 +214,7 @@ Object {
       "content": Array [
         Object {
           "attrs": Object {
+            "__contextId": null,
             "__displayType": null,
             "__fileMimeType": null,
             "__fileName": null,
@@ -1111,7 +1113,7 @@ Object {
                   "type": "hardBreak",
                 },
                 Object {
-                  "text": "spaces in front of me",
+                  "text": "       spaces in front of me",
                   "type": "text",
                 },
               ],
@@ -1542,6 +1544,57 @@ Object {
 }
 `;
 
+exports[`JIRA wiki markup - Lists should not break {color} macro to differnt lines 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "content": Array [
+                Object {
+                  "marks": Array [
+                    Object {
+                      "attrs": Object {
+                        "color": "#205081",
+                      },
+                      "type": "textColor",
+                    },
+                  ],
+                  "text": "123",
+                  "type": "text",
+                },
+                Object {
+                  "text": " ",
+                  "type": "text",
+                },
+                Object {
+                  "marks": Array [
+                    Object {
+                      "attrs": Object {
+                        "color": "#d04437",
+                      },
+                      "type": "textColor",
+                    },
+                  ],
+                  "text": "456",
+                  "type": "text",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "listItem",
+        },
+      ],
+      "type": "bulletList",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
 exports[`JIRA wiki markup - Lists should not create a list if started with multiple dashes 1`] = `
 Object {
   "content": Array [
@@ -1734,6 +1787,7 @@ Object {
               "content": Array [
                 Object {
                   "attrs": Object {
+                    "__contextId": null,
                     "__displayType": null,
                     "__fileMimeType": null,
                     "__fileName": null,

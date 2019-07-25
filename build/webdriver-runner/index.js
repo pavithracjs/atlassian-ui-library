@@ -37,7 +37,24 @@ const cli = meow({
 });
 
 function getExitCode(result /*: any */) {
-  return !result || result.success ? 0 : 1;
+  // we don't check result.success as this is false when there are obsolete
+  // snapshots, which can legitimately happen with Webdriver tests on CI
+  // as they are only run on Chrome in the Landkid build
+  if (
+    !result ||
+    (result.numFailedTestSuites === 0 && result.numFailedTests === 0)
+  ) {
+    return 0;
+  }
+  return 1;
+}
+
+function isSnapshotAddedFailure(testResult /*: any */) /*: boolean*/ {
+  if (!testResult.failureMessage) {
+    return false;
+  }
+  // When updating Jest, check that this message is still correct
+  return testResult.failureMessage.indexOf('New snapshot was not written') > -1;
 }
 
 async function runJest(testPaths) {
@@ -55,8 +72,7 @@ async function runJest(testPaths) {
       ],
       passWithNoTests: true,
       updateSnapshot: cli.flags.updateSnapshot,
-      // https://product-fabric.atlassian.net/browse/BUILDTOOLS-108
-      // ci: process.env.CI,
+      ci: process.env.CI,
     },
     [process.cwd()],
   );
@@ -64,24 +80,33 @@ async function runJest(testPaths) {
   return status.results;
 }
 
-async function rerunFailedTests(result) {
-  const failingTestPaths = result.testResults
+async function rerunFailedTests(results) {
+  const { testResults } = results;
+  if (!testResults) {
+    return results;
+  }
+
+  const failingTestPaths = testResults
     // If a test **suite** fails (where no tests are executed), we should check to see if
     // failureMessage is truthy, as no tests have actually run in this scenario.
-    .filter(
-      testResult =>
-        testResult.numFailingTests > 0 ||
-        (testResult.failureMessage && result.numFailedTestSuites > 0),
-    )
+    // If a test suite has failed because only because snapshots were added
+    // there is no point in re-running the tests as we know they will fail.
+    .filter(testResult => {
+      return (
+        (testResult.numFailingTests > 0 ||
+          (testResult.failureMessage && results.numFailedTestSuites > 0)) &&
+        !isSnapshotAddedFailure(testResult)
+      );
+    })
     .map(testResult => testResult.testFilePath);
 
   if (!failingTestPaths.length) {
-    return getExitCode(result);
+    return results;
   }
 
   console.log(
     `Re-running ${
-      result.numFailedTestSuites
+      failingTestPaths.length
     } test suites.\n${failingTestPaths.join('\n')}`,
   );
 
@@ -91,8 +116,7 @@ async function rerunFailedTests(result) {
     process.cwd(),
     'test-reports/junit-rerun.xml',
   );
-  const results = await runJest(failingTestPaths);
-  return results;
+  return runJest(failingTestPaths);
 }
 
 function runTestsWithRetry() {
@@ -125,15 +149,20 @@ function runTestsWithRetry() {
       }
 
       code = getExitCode(results);
-      console.log('initalTestExitStatus', code);
+
       // Only retry and report results in CI.
-      // We have an additional check for `unchecked` snapshots
-      // These refer to 'obsolete' snapshots. We should fail instead of retry if these exist
-      // TODO: https://product-fabric.atlassian.net/browse/BUILDTOOLS-108
-      if (code !== 0 && process.env.CI && results.snapshot.unchecked === 0) {
+      if (code !== 0 && process.env.CI) {
+        let snapshotsAdded = false;
+        if (results.testResults) {
+          snapshotsAdded =
+            results.testResults.filter(testResult =>
+              isSnapshotAddedFailure(testResult),
+            ).length > 0;
+        }
         results = await rerunFailedTests(results);
 
-        code = getExitCode(results);
+        code = snapshotsAdded ? 1 : getExitCode(results);
+
         /**
          * If the re-run succeeds,
          * log the previously failed tests to indicate flakiness

@@ -16,8 +16,17 @@ export default function InlineCard(props: {
 
   const cardProps = { url, data, onClick };
   return (
-    <CardErrorBoundary unsupportedComponent={UnsupportedInline} {...cardProps}>
-      <Card appearance="inline" {...cardProps} />
-    </CardErrorBoundary>
+    <span
+      data-inline-card
+      data-card-data={data ? JSON.stringify(data) : undefined}
+      data-card-url={url}
+    >
+      <CardErrorBoundary
+        unsupportedComponent={UnsupportedInline}
+        {...cardProps}
+      >
+        <Card appearance="inline" {...cardProps} />
+      </CardErrorBoundary>
+    </span>
   );
 }

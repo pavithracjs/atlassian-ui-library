@@ -19,7 +19,7 @@ const exportOpts = imageSources.map(file => ({
   input: resolve(coreIconSrc, `${file.input}.svg`),
   output:
     resolve(tempFolder, `./${file.name}.${imageOutputType}`) +
-    ` ${file.exportSize}`,
+    ` ${file.exportSize} 80%`,
 }));
 
 const createIcons = () => {

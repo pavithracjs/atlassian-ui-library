@@ -25,7 +25,7 @@ const formatOptionLabel = (option, { context }) => {
       </div>
     );
   }
-  return option.value;
+  return option.label;
 };
 const OptionWithDescription = () => (
   <Select

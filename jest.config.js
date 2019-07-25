@@ -55,6 +55,10 @@ const config = {
   watchPathIgnorePatterns: [
     '\\/packages\\/core\\/navigation-next\\/[^\\/]*\\.js$',
   ],
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname',
+  ],
   modulePathIgnorePatterns: ['/__fixtures__/', './node_modules', '/dist/'],
   // don't transform any files under node_modules except @atlaskit/* and react-syntax-highlighter (it
   // uses dynamic imports which are not valid in node)

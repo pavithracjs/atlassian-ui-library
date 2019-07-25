@@ -7,17 +7,20 @@ import asDataProvider, {
   Status,
 } from './as-data-provider';
 import { AvailableProductsResponse } from '../types';
+import { withCached } from '../utils/with-cached';
 
 export const MANAGE_HREF = '/plugins/servlet/customize-application-navigator';
 
-const fetchAvailableProducts = () =>
+const fetchAvailableProducts = withCached((param: object) =>
   fetchJson<AvailableProductsResponse>(
     `/gateway/api/worklens/api/available-products`,
-  );
+  ),
+);
 
 const RealDataProvider = asDataProvider(
   'availableProducts',
   fetchAvailableProducts,
+  fetchAvailableProducts.cached,
 );
 
 const unresolvedAvailableProducts: ResultLoading = {
@@ -41,4 +44,12 @@ export const AvailableProductsProvider = ({
   return (
     <React.Fragment>{children(unresolvedAvailableProducts)}</React.Fragment>
   );
+};
+
+export const prefetchAvailableProducts = () => {
+  fetchAvailableProducts({});
+};
+
+export const resetAvailableProducts = () => {
+  fetchAvailableProducts.reset();
 };

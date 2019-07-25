@@ -1,5 +1,107 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.12
+
+### Patch Changes
+
+- [patch][0bb88234e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0bb88234e6):
+
+  Upgrade prosemirror-view to 1.9.12
+
+## 8.8.11
+
+### Patch Changes
+
+- [patch][ec8066a555](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec8066a555):
+
+  Upgrade `@types/prosemirror-view` Typescript definitions to latest 1.9.x API
+
+## 8.8.10
+
+### Patch Changes
+
+- [patch][66e3f954c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66e3f954c2):
+
+  FM-2149 Disable default oauth2 flow when resolving smart links. Native to resolve auth on their side instead.
+
+## 8.8.9
+
+### Patch Changes
+
+- [patch][bbff8a7d87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bbff8a7d87):
+
+  Fixes bug, missing version.json file
+
+## 8.8.8
+
+### Patch Changes
+
+- [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
+
+  In this PR, we are:
+
+  - Re-introducing dist build folders
+  - Adding back cjs
+  - Replacing es5 by cjs and es2015 by esm
+  - Creating folders at the root for entry-points
+  - Removing the generation of the entry-points at the root
+    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+
+## 8.8.7
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/form@6.1.4
+  - @atlaskit/editor-core@112.33.9
+  - @atlaskit/media-test-helpers@24.3.1
+  - @atlaskit/select@10.0.0
+
+## 8.8.6
+
+### Patch Changes
+
+- [patch][fabee8bd0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fabee8bd0e):
+
+  ED-7238: refactor test to use EditorProps over importing mentionPlugin
+
+## 8.8.5
+
+### Patch Changes
+
+- [patch][29854703dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29854703dc):
+
+  ED-6896 Fix to ensure editor-mobile-bridge releases contain the precompiled app within ./dist
+
+## 8.8.4
+
+> **DON'T USE** - This release is missing a precompiled dist.
+
+### Patch Changes
+
+- [patch][f7d5a189ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f7d5a189ab):
+
+  Release non-empty dist package 🤞
+
+## 8.8.3
+
+> **DON'T USE** - This release is missing a precompiled dist.
+
+### Patch Changes
+
+- [patch][ed1fd9801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed1fd9801e):
+
+  ED-6896 Leverage buid pipeline fix to ensure correct version number is compiled into dist
+
+## 8.8.2
+
+> **DON'T USE** - This release is missing a precompiled dist.
+
+### Patch Changes
+
+- [patch][e80e60b358](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80e60b358):
+
+  FM-2123: fixed double @ insertion on mention composition (Android)
+
 ## 8.8.1
 
 ### Patch Changes

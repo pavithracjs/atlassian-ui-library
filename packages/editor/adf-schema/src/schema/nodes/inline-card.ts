@@ -24,6 +24,7 @@ export const inlineCard: NodeSpec = {
   inline: true,
   group: 'inline',
   selectable: true,
+  draggable: true,
   attrs: {
     url: { default: '' },
     data: { default: null },
@@ -31,12 +32,31 @@ export const inlineCard: NodeSpec = {
   parseDOM: [
     {
       tag: 'a[data-inline-card]',
+
+      // bump priority higher than hyperlink
+      priority: 100,
+
       getAttrs: dom => {
         const anchor = dom as HTMLAnchorElement;
         const data = anchor.getAttribute('data-card-data');
 
         return {
           url: anchor.getAttribute('href'),
+          data: data ? JSON.parse(data) : null,
+        };
+      },
+    },
+
+    // for renderer
+    {
+      tag: 'div[data-inline-card]',
+
+      getAttrs: dom => {
+        const anchor = dom as HTMLDivElement;
+        const data = anchor.getAttribute('data-card-data');
+
+        return {
+          url: anchor.getAttribute('data-card-url'),
           data: data ? JSON.parse(data) : null,
         };
       },

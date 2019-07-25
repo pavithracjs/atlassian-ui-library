@@ -42,7 +42,7 @@ export default class Example extends React.Component<{}, State> {
   state: State = { events: [], dataSourceType: 'list' };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', context, {
+    const popup = await MediaPicker(context, {
       uploadParams: {
         collection: defaultCollectionName,
       },

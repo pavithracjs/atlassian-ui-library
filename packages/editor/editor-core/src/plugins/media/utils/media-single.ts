@@ -23,9 +23,23 @@ import { getParentNodeWidth } from '../../../utils/node-width';
 import { alignmentLayouts } from '../ui/ResizableMediaSingle/utils';
 import { WidthPluginState } from '../../width';
 
+export const wrappedLayouts: MediaSingleLayout[] = [
+  'wrap-left',
+  'wrap-right',
+  'align-end',
+  'align-start',
+];
+
+export const nonWrappedLayouts: MediaSingleLayout[] = [
+  'center',
+  'wide',
+  'full-width',
+];
+
 export interface MediaSingleState extends MediaState {
   dimensions: { width: number; height: number };
   scaleFactor?: number;
+  contextId?: string;
 }
 
 function shouldAddParagraph(state: EditorState) {
@@ -107,6 +121,8 @@ export const insertMediaSingleNode = (
         shouldAddParagraph(view.state)
           ? Fragment.fromArray([node, state.schema.nodes.paragraph.create()])
           : node,
+        undefined,
+        true,
       )(state.tr),
     );
   }
@@ -117,7 +133,7 @@ export const insertMediaSingleNode = (
 export const createMediaSingleNode = (schema: Schema, collection: string) => (
   mediaState: MediaSingleState,
 ) => {
-  const { id, dimensions, scaleFactor = 1 } = mediaState;
+  const { id, dimensions, contextId, scaleFactor = 1 } = mediaState;
   const { width, height } = dimensions || {
     height: undefined,
     width: undefined,
@@ -128,6 +144,7 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
     id,
     type: 'file',
     collection,
+    contextId,
     width: width && Math.round(width / scaleFactor),
     height: height && Math.round(height / scaleFactor),
   });
@@ -169,21 +186,18 @@ export const alignAttributes = (
 ): MediaSingleAttributes => {
   let width = oldAttrs.width;
   const oldLayout: MediaSingleLayout = oldAttrs.layout;
-  const wrappedLayouts: MediaSingleLayout[] = [
-    'wrap-left',
-    'wrap-right',
-    'align-end',
-    'align-start',
-  ];
 
   if (
-    (!width || width === 100) &&
-    ['align-start', 'align-end', 'wrap-left', 'wrap-right'].indexOf(
-      oldLayout,
-    ) === -1 &&
-    ['align-start', 'align-end', 'wrap-left', 'wrap-right'].indexOf(layout) > -1
+    wrappedLayouts.indexOf(oldLayout) === -1 &&
+    wrappedLayouts.indexOf(layout) > -1
   ) {
-    width = 50;
+    if (
+      !width ||
+      width >= 100 ||
+      ['full-width', 'wide'].indexOf(oldLayout) > -1
+    ) {
+      width = 50;
+    }
   } else if (
     layout !== oldLayout &&
     ['full-width', 'wide'].indexOf(oldLayout) > -1
@@ -194,18 +208,13 @@ export const alignAttributes = (
     const cols = Math.round((width / 100) * gridSize);
     let targetCols = cols;
 
-    const nonWrappedLayouts: MediaSingleLayout[] = [
-      'center',
-      'wide',
-      'full-width',
-    ];
-
     if (
       wrappedLayouts.indexOf(oldLayout) > -1 &&
       nonWrappedLayouts.indexOf(layout) > -1
     ) {
       // wrap -> center needs to align to even grid
       targetCols = Math.floor(targetCols / 2) * 2;
+      width = undefined;
     } else if (
       nonWrappedLayouts.indexOf(oldLayout) > -1 &&
       wrappedLayouts.indexOf(layout) > -1
@@ -236,10 +245,11 @@ export const calcMediaPxWidth = (opts: {
   origHeight: number;
   state: EditorState;
   containerWidth: WidthPluginState;
-  layout?: string;
+  layout?: MediaSingleLayout;
   pctWidth?: number;
   pos?: number;
   isFullWidthModeEnabled?: boolean;
+  resizedPctWidth?: number;
 }): number => {
   const {
     origWidth,
@@ -250,6 +260,7 @@ export const calcMediaPxWidth = (opts: {
     isFullWidthModeEnabled,
     pos,
     state,
+    resizedPctWidth,
   } = opts;
   const { width, lineLength } = containerWidth;
   const nestedWidth = getParentNodeWidth(
@@ -258,10 +269,18 @@ export const calcMediaPxWidth = (opts: {
     containerWidth,
     isFullWidthModeEnabled,
   );
-  const calculatedPctWidth =
-    pctWidth && origWidth && origHeight
-      ? Math.ceil(calcPxFromPct(pctWidth / 100, lineLength || width))
-      : undefined;
+  const calculatedPctWidth = calcPctWidth(
+    containerWidth,
+    pctWidth,
+    origWidth,
+    origHeight,
+  );
+  const calculatedResizedPctWidth = calcPctWidth(
+    containerWidth,
+    resizedPctWidth,
+    origWidth,
+    origHeight,
+  );
 
   if (nestedWidth) {
     return Math.min(calculatedPctWidth || origWidth, nestedWidth);
@@ -273,8 +292,23 @@ export const calcMediaPxWidth = (opts: {
   } else if (layout === 'full-width') {
     return width - akEditorBreakoutPadding;
   } else if (calculatedPctWidth) {
+    if (wrappedLayouts.indexOf(layout!) > -1) {
+      if (calculatedResizedPctWidth) {
+        if (resizedPctWidth! < 50) {
+          return calculatedResizedPctWidth;
+        }
+        return calculatedPctWidth;
+      }
+      return Math.min(calculatedPctWidth, origWidth);
+    }
+    if (calculatedResizedPctWidth) {
+      return calculatedResizedPctWidth;
+    }
     return calculatedPctWidth;
   } else if (layout === 'center') {
+    if (calculatedResizedPctWidth) {
+      return calculatedResizedPctWidth;
+    }
     return Math.min(origWidth, lineLength || width);
   } else if (layout && alignmentLayouts.indexOf(layout) !== -1) {
     const halfLineLength = Math.ceil((lineLength || width) / 2);
@@ -283,3 +317,19 @@ export const calcMediaPxWidth = (opts: {
 
   return origWidth;
 };
+
+const calcPctWidth = (
+  containerWidth: WidthPluginState,
+  pctWidth?: number,
+  origWidth?: number,
+  origHeight?: number,
+): number | undefined =>
+  pctWidth &&
+  origWidth &&
+  origHeight &&
+  Math.ceil(
+    calcPxFromPct(
+      pctWidth / 100,
+      containerWidth.lineLength || containerWidth.width,
+    ),
+  );

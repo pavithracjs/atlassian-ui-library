@@ -37,6 +37,7 @@ interface WithMediaClientConfig {
 
 export type FilmstripProps = {
   items: FilmstripItem[];
+  shouldOpenMediaViewer?: boolean;
 } & XOR<WithContext, WithMediaClientConfig>;
 
 export interface FilmstripState {
@@ -60,7 +61,12 @@ export class Filmstrip extends Component<FilmstripProps, FilmstripState> {
       items,
       mediaClientConfig: mediaClientConfigProp,
       context,
+      shouldOpenMediaViewer,
     } = this.props;
+
+    const mediaViewerDataSource = shouldOpenMediaViewer
+      ? { list: items.map(item => item.identifier) }
+      : undefined;
 
     return items.map(item => {
       const key = generateIdentifierKey(item.identifier);
@@ -82,6 +88,8 @@ export class Filmstrip extends Component<FilmstripProps, FilmstripState> {
           mediaClientConfig={mediaClientConfig}
           dimensions={defaultImageCardDimensions}
           useInlinePlayer={false}
+          shouldOpenMediaViewer={shouldOpenMediaViewer}
+          mediaViewerDataSource={mediaViewerDataSource}
           {...item}
         />
       );

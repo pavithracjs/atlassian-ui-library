@@ -16,18 +16,19 @@ import { Props, EnabledHandles } from './types';
 import Resizer from './Resizer';
 import { snapTo, handleSides, imageAlignmentMap } from './utils';
 import { isFullPage } from '../../../../utils/is-full-page';
-import { calcMediaPxWidth } from '../../utils/media-single';
+import { calcMediaPxWidth, wrappedLayouts } from '../../utils/media-single';
 
 type State = {
   offsetLeft: number;
   isVideoFile: boolean;
+  resizedPctWidth?: number;
 };
 
 export default class ResizableMediaSingle extends React.Component<
   Props,
   State
 > {
-  state = {
+  state: State = {
     offsetLeft: this.calcOffsetLeft(),
 
     // We default to true until we resolve the file type
@@ -44,13 +45,7 @@ export default class ResizableMediaSingle extends React.Component<
   }
 
   get wrappedLayout() {
-    const { layout } = this.props;
-    return (
-      layout === 'wrap-left' ||
-      layout === 'wrap-right' ||
-      layout === 'align-start' ||
-      layout === 'align-end'
-    );
+    return wrappedLayouts.indexOf(this.props.layout) > -1;
   }
 
   async componentDidMount() {
@@ -63,6 +58,9 @@ export default class ResizableMediaSingle extends React.Component<
   componentWillReceiveProps(nextProps: Props) {
     if (this.props.viewMediaClientConfig !== nextProps.viewMediaClientConfig) {
       this.checkVideoFile(nextProps.viewMediaClientConfig);
+    }
+    if (this.props.layout !== nextProps.layout) {
+      this.checkLayout(this.props.layout, nextProps.layout);
     }
   }
 
@@ -85,33 +83,63 @@ export default class ResizableMediaSingle extends React.Component<
     }
   }
 
+  /**
+   * When returning to center layout from a wrapped/aligned layout, it might actually
+   * be wide or full-width
+   */
+  checkLayout(oldLayout: MediaSingleLayout, newLayout: MediaSingleLayout) {
+    const { resizedPctWidth } = this.state;
+    if (
+      wrappedLayouts.indexOf(oldLayout) > -1 &&
+      newLayout === 'center' &&
+      resizedPctWidth
+    ) {
+      const layout = this.calcUnwrappedLayout(
+        resizedPctWidth,
+        this.calcPxWidth(newLayout),
+      );
+      this.props.updateSize(resizedPctWidth, layout);
+    }
+  }
+
   calcNewSize = (newWidth: number, stop: boolean) => {
     const { layout } = this.props;
 
     const newPct = calcPctFromPx(newWidth, this.props.lineLength) * 100;
+    this.setState({ resizedPctWidth: newPct });
+
+    let newLayout: MediaSingleLayout = this.calcUnwrappedLayout(
+      newPct,
+      newWidth,
+    );
 
     if (newPct <= 100) {
-      let newLayout: MediaSingleLayout;
       if (this.wrappedLayout && (stop ? newPct !== 100 : true)) {
         newLayout = layout;
-      } else {
-        newLayout = 'center';
       }
-
       return {
         width: newPct,
         layout: newLayout,
       };
     } else {
-      // wide or full-width
-      const newLayout: MediaSingleLayout =
-        newWidth <= akEditorWideLayoutWidth ? 'wide' : 'full-width';
-
       return {
         width: this.props.pctWidth || null,
         layout: newLayout,
       };
     }
+  };
+
+  calcUnwrappedLayout = (
+    pct: number,
+    width: number,
+  ): 'center' | 'wide' | 'full-width' => {
+    if (pct <= 100) {
+      return 'center';
+    }
+    if (width <= akEditorWideLayoutWidth) {
+      return 'wide';
+    }
+    return 'full-width';
   };
 
   get $pos() {
@@ -199,7 +227,7 @@ export default class ResizableMediaSingle extends React.Component<
     return snapPoints;
   }
 
-  calcPxWidth = (): number => {
+  calcPxWidth = (useLayout?: MediaSingleLayout): number => {
     const {
       width: origWidth,
       height: origHeight,
@@ -211,6 +239,7 @@ export default class ResizableMediaSingle extends React.Component<
       getPos,
       state,
     } = this.props;
+    const { resizedPctWidth } = this.state;
 
     return calcMediaPxWidth({
       origWidth,
@@ -219,8 +248,9 @@ export default class ResizableMediaSingle extends React.Component<
       state,
       containerWidth: { width: containerWidth, lineLength },
       isFullWidthModeEnabled: fullWidthMode,
-      layout,
+      layout: useLayout || layout,
       pos: getPos(),
+      resizedPctWidth,
     });
   };
 

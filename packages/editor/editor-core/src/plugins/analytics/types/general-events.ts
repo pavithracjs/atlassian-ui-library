@@ -31,6 +31,13 @@ type PickerAEP<ActionSubjectID, Attributes> = UIAEP<
   Attributes
 >;
 
+type FeedbackAEP = UIAEP<
+  ACTION.OPENED,
+  ACTION_SUBJECT.FEEDBACK_DIALOG,
+  undefined,
+  { inputMethod: INPUT_METHOD.QUICK_INSERT }
+>;
+
 type TypeAheadAEP<ActionSubjectID, Attributes> = UIAEP<
   ACTION.INVOKED,
   ACTION_SUBJECT.TYPEAHEAD,
@@ -161,6 +168,7 @@ export type GeneralEventPayload =
   | ButtonFeedbackAEP
   | PickerEmojiAEP
   | PickerImageAEP
+  | FeedbackAEP
   | TypeAheadQuickInsertAEP
   | TypeAheadEmojiAEP
   | TypeAheadLinkAEP

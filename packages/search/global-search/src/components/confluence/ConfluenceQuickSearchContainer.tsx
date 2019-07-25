@@ -4,7 +4,8 @@ import {
   InjectedIntlProps,
   FormattedHTMLMessage,
 } from 'react-intl';
-import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
+// @ts-ignore
+import { withAnalytics } from '@atlaskit/analytics';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import { ConfluenceClient } from '../../api/ConfluenceClient';
 import {
@@ -12,6 +13,7 @@ import {
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   Filter,
+  SpaceFilter,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceModelContext } from '../../api/types';
 import {
@@ -35,14 +37,16 @@ import {
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
-import QuickSearchContainer, {
+import {
+  BaseConfluenceQuickSearchContainer,
   SearchResultProps,
   PartiallyLoadedRecentItems,
-  FilterComponentProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import NoResultsState from './NoResultsState';
-import SearchResultsComponent from '../common/SearchResults';
+import SearchResultsComponent, {
+  FilterComponentProps,
+} from '../common/SearchResults';
 import { getConfluenceAdvancedSearchLink } from '../SearchResultsUtil';
 import AdvancedSearchGroup from './AdvancedSearchGroup';
 import {
@@ -54,10 +58,11 @@ import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { AutocompleteClient } from '../../api/AutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
-import { ConfluenceFeatures } from '../../util/features';
 import ConfluenceFilterGroup from './ConfluenceFilterGroup';
 import NoResultsInFilterState from './NoResultsInFilterState';
 import some from 'lodash.some';
+import { injectFeatures } from '../FeaturesProvider';
+import { ConfluenceFeatures } from '../../util/features';
 
 /**
  * NOTE: This component is only consumed internally as such avoid using optional props
@@ -81,13 +86,15 @@ export interface Props {
         entity: string,
         query: string,
         searchSessionId: string,
+        spaces?: string[],
       ) => void);
   inputControls: JSX.Element | undefined;
   features: ConfluenceFeatures;
 
   // These are provided by the withAnalytics HOC
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
+  firePrivateAnalyticsEvent?: any;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
+  confluenceUrl: string;
 }
 
 const getRecentItemMatches = (
@@ -327,8 +334,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const { confluenceClient } = this.props;
 
     const recentActivityPromisesMap = {
-      'recent-confluence-items': confluenceClient.getRecentItems(sessionId),
-      'recent-confluence-spaces': confluenceClient.getRecentSpaces(sessionId),
+      'recent-confluence-items': confluenceClient.getRecentItems(),
+      'recent-confluence-spaces': confluenceClient.getRecentSpaces(),
     };
 
     const recentActivityPromises: Promise<Result[]>[] = (Object.keys(
@@ -479,12 +486,19 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   getFilterComponent = ({
     latestSearchQuery,
-    searchResults,
+    searchResultsTotalSize,
     isLoading,
+    searchSessionId,
     currentFilters,
     onFilterChanged,
-  }: FilterComponentProps<ConfluenceResultsMap>) => {
-    const { referralContextIdentifiers, modelContext, features } = this.props;
+  }: FilterComponentProps) => {
+    const {
+      onAdvancedSearch = () => {},
+      referralContextIdentifiers,
+      modelContext,
+      features,
+      confluenceUrl,
+    } = this.props;
 
     if (!features.complexSearchExtensionsEnabled) {
       return;
@@ -494,12 +508,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     if (!latestSearchQuery) {
       return;
     }
+
     // don't show space filter if there are no results in all spaces
-    if (
-      currentFilters.length === 0 &&
-      (searchResults === null || searchResults.objects.totalSize === 0)
-    ) {
+    if (currentFilters.length === 0 && searchResultsTotalSize === 0) {
       return;
+    }
+
+    function instanceOfSpaceFilter(filter: Filter): filter is SpaceFilter {
+      return filter['@type'] === 'spaces';
     }
 
     if (
@@ -509,14 +525,28 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       modelContext &&
       modelContext.spaceKey
     ) {
+      const spaceFilter = currentFilters.find(instanceOfSpaceFilter);
+      const spaces = spaceFilter ? spaceFilter.spaceKeys : [];
       return (
         <ConfluenceFilterGroup
           onFilterChanged={onFilterChanged}
           isDisabled={isLoading}
           spaceTitle={referralContextIdentifiers.currentContainerName}
-          spaceAvatar={referralContextIdentifiers.currentContainerIcon}
+          spaceAvatar={`${confluenceUrl}${
+            referralContextIdentifiers.currentContainerIcon
+          }`}
           spaceKey={modelContext.spaceKey}
           isFilterOn={currentFilters.length !== 0}
+          searchSessionId={searchSessionId}
+          onAdvancedSearch={(event: CancelableEvent) =>
+            onAdvancedSearch(
+              event,
+              ConfluenceAdvancedSearchTypes.Content,
+              latestSearchQuery,
+              searchSessionId,
+              spaces,
+            )
+          }
         />
       );
     }
@@ -560,6 +590,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
+        getFilterComponent={this.getFilterComponent}
+        currentFilters={currentFilters}
+        onFilterChanged={onFilterChanged}
         renderNoRecentActivity={() => (
           <FormattedHTMLMessage
             {...messages.no_recent_activity_body}
@@ -610,13 +643,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const { isAutocompleteEnabled } = features;
 
     return (
-      <QuickSearchContainer
+      <BaseConfluenceQuickSearchContainer
         placeholder={this.props.intl.formatMessage(
           messages.confluence_search_placeholder,
         )}
         linkComponent={linkComponent}
         getSearchResultsComponent={this.getSearchResultsComponent}
-        getFilterComponent={this.getFilterComponent}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
@@ -635,6 +667,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   }
 }
 
-export default injectIntl<Props>(
-  withAnalytics(ConfluenceQuickSearchContainer, {}, {}),
+export default injectFeatures(
+  injectIntl<Props>(withAnalytics(ConfluenceQuickSearchContainer, {}, {})),
 );

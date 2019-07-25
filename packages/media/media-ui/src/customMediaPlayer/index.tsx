@@ -43,14 +43,14 @@ import {
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../messages';
 import simultaneousPlayManager from './simultaneousPlayManager';
+import { WithShowControlMethodProp } from '../types';
 
-export interface CustomMediaPlayerProps {
+export interface CustomMediaPlayerProps extends WithShowControlMethodProp {
   readonly type: 'audio' | 'video';
   readonly src: string;
   readonly isHDActive?: boolean;
   readonly onHDToggleClick?: () => void;
   readonly isHDAvailable?: boolean;
-  readonly showControls?: () => void;
   readonly isAutoPlay: boolean;
   readonly isShortcutEnabled?: boolean;
   readonly onCanPlay?: () => void;

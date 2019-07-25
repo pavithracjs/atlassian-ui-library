@@ -26,6 +26,7 @@ import {
   JiraSoftwareIcon,
   JiraSoftwareWordmark,
 } from './JiraSoftwareLogo';
+import { OpsGenieLogo, OpsGenieIcon, OpsGenieWordmark } from './OpsGenieLogo';
 import {
   StatuspageLogo,
   StatuspageIcon,
@@ -58,6 +59,9 @@ export {
   JiraSoftwareLogo,
   JiraSoftwareIcon,
   JiraSoftwareWordmark,
+  OpsGenieLogo,
+  OpsGenieIcon,
+  OpsGenieWordmark,
   StatuspageLogo,
   StatuspageIcon,
   StatuspageWordmark,

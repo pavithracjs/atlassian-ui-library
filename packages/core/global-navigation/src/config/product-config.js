@@ -23,12 +23,16 @@ const generateAvatar = profileIconUrl => {
   const GeneratedAvatar = ({
     className,
     onClick,
+    label,
   }: {
     className: string,
     onClick: () => void,
+    label: string,
   }) => (
     <span className={className}>
       <Avatar
+        name={label}
+        enableTooltip={false}
         borderColor="transparent"
         src={profileIconUrl}
         isActive={false}

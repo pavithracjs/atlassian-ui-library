@@ -1,1 +1,1 @@
-export * from './dist/es5/validator';
+export * from './dist/cjs/validator';

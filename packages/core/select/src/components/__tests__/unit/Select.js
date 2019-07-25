@@ -2,7 +2,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import AtlaskitSelect, { PopupSelect } from '../../..';
+import AtlaskitSelect from '../../..';
 
 const OPTIONS = [
   { label: '0', value: 'zero' },
@@ -147,20 +147,3 @@ test.skip('filterOption is called when input of select is changed', () => {
   expect(filterOptionSpy).toHaveBeenCalledTimes(2);
 });
 /* eslint-enable */
-
-test('popup select stays open when cleared', () => {
-  const atlaskitSelectWrapper = mount(
-    <PopupSelect
-      options={OPTIONS}
-      value={OPTIONS[0]}
-      isClearable
-      target={({ ref }) => <button ref={ref}>Target</button>}
-    />,
-  );
-  atlaskitSelectWrapper.setState({ isOpen: true });
-  // Check ClearIndicator exists
-  expect(atlaskitSelectWrapper.find('ClearIndicator').exists()).toBeTruthy();
-  atlaskitSelectWrapper.find('ClearIndicator').prop('clearValue')();
-  // Menu should still be open
-  expect(atlaskitSelectWrapper.find('Menu').exists()).toBeTruthy();
-});

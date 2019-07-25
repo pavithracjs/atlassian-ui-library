@@ -1,24 +1,49 @@
 import React, { createContext } from 'react';
-import { createAndFire, withAnalyticsEvents } from '../analytics';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { withAnalyticsEvents } from '../analytics';
+import {
+  CreateUIAnalyticsEventSignature,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next';
 
-import { Analytics } from '../model/Analytics';
 import { Article, ArticleItem, ArticleFeedback } from '../model/Article';
 import { REQUEST_STATE } from '../model/Requests';
 
 import { MIN_CHARACTERS_FOR_SEARCH, VIEW, LOADING_TIMEOUT } from './constants';
 
+export interface HistoryItem {
+  uid: number;
+  id: string;
+  state: REQUEST_STATE;
+  article?: Article;
+}
+
 export interface Props {
-  // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
-  onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
   // Id of the article to display. This prop is optional, if is not defined the default content will be displayed
   articleId?: string;
   // Function used to get an article content. This prop is optional, if is not defined the default content will be displayed
   onGetArticle?(id: string): Promise<Article>;
   // Function used to search an article.  This prop is optional, if is not defined search input will be hidden
   onSearch?(value: string): Promise<ArticleItem[]>;
+  // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
+  onButtonCloseClick?(
+    event?: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): void;
   // Function used when the user submits the "Was this helpful" form. This prop is optional, if is not defined the "Was this helpful" section will be hidden
-  onWasHelpfulSubmit?(value: any): Promise<boolean>;
+  onWasHelpfulSubmit?(
+    value: ArticleFeedback,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): Promise<boolean>;
+  // Event handler for the "Yes" button of the "Was this helpful" section. This prop is optional
+  onWasHelpfulYesButtonClick?(
+    event?: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): void;
+  // Event handler for the "No" button of the "Was this helpful" section. This prop is optional
+  onWasHelpfulNoButtonClick?(
+    event?: React.MouseEvent<HTMLElement, MouseEvent>,
+    analyticsEvent?: UIAnalyticsEvent,
+  ): void;
   // Default content. This prop is optional
   defaultContent?: React.ReactNode;
 }
@@ -27,9 +52,9 @@ export interface State {
   view: VIEW;
   defaultContent?: React.ReactNode;
   // Article
-  mainArticle?: Article; // Article to display, if is empty the default content should be displayed
-  articleState: REQUEST_STATE;
-  history: Article[]; // holds all the articles ID the user has navigated
+  articleId: string;
+  history: HistoryItem[]; // holds all the articles ID the user has navigated
+  hasNavigatedToDefaultContent: boolean;
   // Search
   searchValue: string;
   searchResult: ArticleItem[];
@@ -40,17 +65,28 @@ export interface HelpContextInterface {
   help: {
     view: VIEW;
     isSearchVisible(): boolean;
-    loadArticle(): void;
+    loadArticle(id?: string): void;
     isArticleVisible(): boolean;
-    getCurrentArticle(): Article | null;
-    onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
-    mainArticle?: Article; // Article to display, if is empty the default content should be displayed
-    articleState: REQUEST_STATE;
-    history: Article[]; // holds all the articles ID the user has navigated
+    getCurrentArticle(): HistoryItem | undefined;
+    onButtonCloseClick?(
+      event?: React.MouseEvent<HTMLElement, MouseEvent>,
+      analyticsEvent?: UIAnalyticsEvent,
+    ): void;
+    onWasHelpfulYesButtonClick?(
+      event?: React.MouseEvent<HTMLElement, MouseEvent>,
+      analyticsEvent?: UIAnalyticsEvent,
+    ): void;
+    onWasHelpfulNoButtonClick?(
+      event?: React.MouseEvent<HTMLElement, MouseEvent>,
+      analyticsEvent?: UIAnalyticsEvent,
+    ): void;
+    history: HistoryItem[]; // holds all the articles ID the user has navigated
     defaultContent?: React.ReactNode;
     navigateBack(): void;
-    navigateTo(id: string): void;
-    onWasHelpfulSubmit?(value: ArticleFeedback): Promise<boolean>;
+    onWasHelpfulSubmit?(
+      value: ArticleFeedback,
+      analyticsEvent?: UIAnalyticsEvent,
+    ): Promise<boolean>;
     onSearch(value: string): void;
     searchResult: ArticleItem[];
     searchState: REQUEST_STATE;
@@ -63,10 +99,10 @@ const defaultValues = {
   view: VIEW.DEFAULT_CONTENT,
   defaultContent: undefined,
   // Article
-  mainArticle: undefined, // Article to display, if is empty the default content should be displayed
-  articleState: REQUEST_STATE.done,
+  articleId: '',
   history: [], // holds all the articles ID the user has navigated
-  // Search
+  hasNavigatedToDefaultContent: false,
+  // Search values
   searchValue: '',
   searchResult: [],
   searchState: REQUEST_STATE.done,
@@ -79,23 +115,18 @@ const initialiseHelpData = (data: State) => {
 const HelpContext = createContext<Partial<HelpContextInterface>>({});
 
 class HelpContextProviderImplementation extends React.Component<
-  Props &
-    Analytics & {
-      createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-    },
+  Props & { createAnalyticsEvent?: CreateUIAnalyticsEventSignature },
   State
 > {
   requestLoadingTimeout: any;
 
-  constructor(
-    props: Props &
-      Analytics & {
-        createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-      },
-  ) {
+  constructor(props: Props) {
     super(props);
 
-    this.state = initialiseHelpData(defaultValues);
+    this.state = initialiseHelpData({
+      ...defaultValues,
+      articleId: this.props.articleId ? this.props.articleId : '',
+    });
   }
 
   componentDidMount() {
@@ -106,11 +137,28 @@ class HelpContextProviderImplementation extends React.Component<
     clearTimeout(this.requestLoadingTimeout);
   }
 
-  componentDidUpdate(prevProps: Props) {
-    const { articleId } = this.props;
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    // sync state.articleId with prop.articleId
+    if (this.props.articleId !== prevProps.articleId) {
+      this.setState({
+        articleId: this.props.articleId ? this.props.articleId : '',
+      });
+    }
 
-    // When the articleId is defined, get the content of that article
-    if (articleId !== prevProps.articleId) {
+    if (
+      this.state.view === prevState.view &&
+      this.state.view === VIEW.DEFAULT_CONTENT &&
+      this.props.articleId === prevProps.articleId &&
+      this.state.hasNavigatedToDefaultContent
+    ) {
+      this.setState({
+        view: VIEW.ARTICLE,
+        hasNavigatedToDefaultContent: false,
+      });
+    }
+
+    // When the articleId changes, get the content of that article
+    if (this.state.articleId !== prevState.articleId) {
       this.loadArticle();
     }
   }
@@ -149,30 +197,103 @@ class HelpContextProviderImplementation extends React.Component<
     }
   };
 
-  loadArticle = async () => {
-    const { articleId } = this.props;
+  loadArticle = async (id?: string) => {
+    const articleId = id ? id : this.state.articleId;
+
+    // If articleId isn't empty, try lo load the article with ID = articleId
+    // otherwise display the default content
     if (articleId) {
-      const article = await this.getArticle(articleId);
-      this.setState({ mainArticle: article, view: VIEW.ARTICLE });
+      this.setState({ view: VIEW.ARTICLE });
+      this.getArticle(articleId);
+    } else {
+      this.setState({
+        history: [],
+        view: VIEW.DEFAULT_CONTENT,
+      });
     }
   };
 
-  getArticle = async (articleId: string) => {
-    // Execute this function only if onGetArticle was defined
-    const { onGetArticle } = this.props;
-    if (onGetArticle) {
-      try {
-        // display loading state after LOADING_TIMEOUT ms passed after the request
-        this.requestLoadingTimeout = setTimeout(() => {
-          this.setState({ articleState: REQUEST_STATE.loading });
-        }, LOADING_TIMEOUT);
+  updateHistoryItem = (uid: number, update: Partial<HistoryItem>) => {
+    const history: HistoryItem[] = [...this.state.history];
+    const index = history.findIndex(
+      (historyItem: HistoryItem) => historyItem.uid === uid,
+    );
 
-        const article = await onGetArticle(articleId);
-        this.setState({ articleState: REQUEST_STATE.done });
-        clearTimeout(this.requestLoadingTimeout);
-        return article;
+    // update the historyItem only if exist in the state.history array
+    if (index !== -1) {
+      history[index] = {
+        ...history[index],
+        ...update,
+      };
+
+      this.setState({ history });
+    }
+  };
+
+  getArticle = (articleId: string) => {
+    let newHistoryItemAdded: boolean = false;
+    const uid = Math.floor(Math.random() * Math.pow(10, 17));
+
+    const updateNewLastItem = (uid: number, update: any) => {
+      // if the new historyItem wasn't added to the history yet
+      // add it and update the values with what it comes from the "update" param
+      if (!newHistoryItemAdded) {
+        // New article
+        let newHistoryItem: HistoryItem = {
+          uid,
+          id: articleId,
+          state: REQUEST_STATE.done,
+          ...update,
+        };
+
+        this.setState(
+          prevState => ({
+            history: [...prevState.history, newHistoryItem],
+          }),
+          () => {
+            newHistoryItemAdded = true;
+          },
+        );
+      } else {
+        // if the new historyItem was added already, just update its value
+        // with what it comes from the "update" param
+        this.updateHistoryItem(uid, update);
+      }
+    };
+
+    // Execute this function only if onGetArticle was defined
+    if (this.props.onGetArticle) {
+      try {
+        const { view } = this.state;
+        // if the view === ARTICLE display loading state after ${LOADING_TIMEOUT}ms
+        // passed after the request. Otherwise, display the loading state immediately
+        if (view === VIEW.ARTICLE) {
+          this.requestLoadingTimeout = setTimeout(() => {
+            updateNewLastItem(uid, { state: REQUEST_STATE.loading });
+          }, LOADING_TIMEOUT);
+        } else {
+          updateNewLastItem(uid, { state: REQUEST_STATE.loading });
+        }
+
+        // get the article
+        this.props.onGetArticle(articleId).then(article => {
+          if (article) {
+            // add the article value to the last historyItem
+            // and update the state of the last historyItem to done
+            updateNewLastItem(uid, {
+              state: REQUEST_STATE.done,
+              article: article,
+            });
+          } else {
+            // If we don't get any article, set the state of
+            // the last historyItem to error
+            updateNewLastItem(uid, { state: REQUEST_STATE.error });
+          }
+
+          clearTimeout(this.requestLoadingTimeout);
+        });
       } catch (error) {
-        this.setState({ articleState: REQUEST_STATE.error });
+        updateNewLastItem(uid, { state: REQUEST_STATE.error });
         clearTimeout(this.requestLoadingTimeout);
       }
     }
@@ -181,42 +302,30 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   navigateBack = async () => {
-    if (this.state.history.length > 0 && this.state.history !== undefined) {
+    const { history } = this.state;
+
+    // If the history isn't empty, navigate back through the history
+    if (history.length > 1) {
       this.setState(prevState => {
-        const newState = { history: [...prevState.history.slice(0, -1)] };
-        const historyLastItem = newState.history[newState.history.length - 1];
-        if (historyLastItem) {
-          const id = historyLastItem.id;
-
-          createAndFire({
-            action: 'help-article-changed',
-            attributes: { id },
-          })(this.props.createAnalyticsEvent);
-        }
-
-        return newState;
+        return { history: [...prevState.history.slice(0, -1)] };
       });
-    }
-  };
-
-  navigateTo = async (id: string) => {
-    const article = await this.getArticle(id);
-    if (article) {
-      this.setState(prevState => ({
-        history: [...prevState.history, article],
-      }));
-
-      createAndFire({
-        action: 'help-article-changed',
-        attributes: { id },
-      })(this.props.createAnalyticsEvent);
+    } else if (history.length === 1) {
+      this.setState({
+        history: [],
+        view: VIEW.DEFAULT_CONTENT,
+        hasNavigatedToDefaultContent: true,
+      });
     }
   };
 
   isSearchVisible = (): boolean => {
     if (this.props.onSearch) {
-      return this.state.view === VIEW.ARTICLE;
+      return (
+        this.state.view === VIEW.ARTICLE ||
+        this.state.view === VIEW.DEFAULT_CONTENT
+      );
     }
+
     return false;
   };
 
@@ -228,32 +337,31 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   getCurrentArticle = () => {
-    if (this.state.history.length > 0) {
-      return this.state.history[this.state.history.length - 1];
-    } else if (this.state.mainArticle !== undefined) {
-      return this.state.mainArticle;
-    } else {
-      return null;
-    }
+    const currentArticleItem = this.state.history[
+      this.state.history.length - 1
+    ];
+    return currentArticleItem;
   };
 
   render() {
+    const { hasNavigatedToDefaultContent, ...restState } = this.state;
     return (
       <HelpContext.Provider
         value={{
           help: {
-            ...this.state,
+            ...restState,
             loadArticle: this.loadArticle,
             isSearchVisible: this.isSearchVisible,
             isArticleVisible: this.isArticleVisible,
             navigateBack: this.navigateBack,
-            navigateTo: this.navigateTo,
             onSearch: this.onSearch,
             getCurrentArticle: this.getCurrentArticle,
-            onBtnCloseClick: this.props.onBtnCloseClick,
+            onButtonCloseClick: this.props.onButtonCloseClick,
             onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
+            onWasHelpfulYesButtonClick: this.props.onWasHelpfulYesButtonClick,
+            onWasHelpfulNoButtonClick: this.props.onWasHelpfulNoButtonClick,
             defaultContent: this.props.defaultContent,
-            articleId: this.props.articleId,
+            articleId: this.state.articleId,
           },
         }}
         children={this.props.children}
@@ -262,7 +370,7 @@ class HelpContextProviderImplementation extends React.Component<
   }
 }
 
-export const HelpContextProvider = withAnalyticsEvents()(
+export const HelpContextProvider = withAnalyticsEvents<Props>()(
   HelpContextProviderImplementation,
 );
 

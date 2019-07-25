@@ -1,5 +1,65 @@
 # @atlaskit/navigation-next
 
+## 6.3.7
+
+- Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):
+  - @atlaskit/avatar@16.0.8
+  - @atlaskit/global-navigation@7.3.4
+  - @atlaskit/toggle@8.0.0
+
+## 6.3.6
+
+### Patch Changes
+
+- [patch][aa493c8ee5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa493c8ee5):
+
+  - Fixes app crash issue due to too much recursion.
+  - Fixes issue where children with `postion: fixed` would flicker during nav expand/collapse.
+
+## 6.3.5
+
+### Patch Changes
+
+- [patch][9f8ab1084b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f8ab1084b):
+
+  Consume analytics-next ts type definitions as an ambient declaration.
+
+## 6.3.4
+
+- Updated dependencies [790e66bece](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/790e66bece):
+  - @atlaskit/button@13.0.11
+  - @atlaskit/inline-dialog@12.0.5
+  - @atlaskit/logo@12.1.1
+  - @atlaskit/modal-dialog@10.0.10
+  - @atlaskit/select@10.0.0
+
+## 6.3.3
+
+### Patch Changes
+
+- [patch][ad3e77e5f9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad3e77e5f9):
+
+  Fixes styling issue which happens on pages with page banner and scrollable page content
+
+## 6.3.2
+
+- Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
+  - @atlaskit/docs@8.1.3
+  - @atlaskit/avatar@16.0.6
+  - @atlaskit/button@13.0.9
+  - @atlaskit/drawer@4.2.1
+  - @atlaskit/dropdown-menu@8.0.8
+  - @atlaskit/field-base@13.0.6
+  - @atlaskit/global-navigation@7.3.1
+  - @atlaskit/inline-dialog@12.0.3
+  - @atlaskit/modal-dialog@10.0.7
+  - @atlaskit/onboarding@8.0.6
+  - @atlaskit/section-message@4.0.5
+  - @atlaskit/select@9.1.8
+  - @atlaskit/toggle@7.0.3
+  - @atlaskit/tooltip@15.0.2
+  - @atlaskit/icon@19.0.0
+
 ## 6.3.1
 
 ### Patch Changes

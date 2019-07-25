@@ -11,7 +11,6 @@ export default () => (
         font-weight: 600;
         margin-top: 0;
         line-height: ${gridSize() * 3}px;
-        margin-bottom: ${gridSize()}px;
       `}
     >
       Thanks for your feedback

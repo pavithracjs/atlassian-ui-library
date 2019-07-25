@@ -11,7 +11,8 @@ import {
   mockAutocompleteClient,
 } from '../mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
-import QuickSearchContainer, {
+import {
+  BaseConfluenceQuickSearchContainer as QuickSearchContainer,
   Props as QuickSearchContainerProps,
 } from '../../../components/common/QuickSearchContainer';
 import { makeConfluenceObjectResult, makePersonResult } from '../_test-util';
@@ -29,13 +30,14 @@ import {
   DEFAULT_AB_TEST,
   CrossProductSearchClient,
   SearchResultsMap,
+  FilterType,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
 import { mockLogger } from '../mocks/_mockLogger';
 import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 import { ConfluenceFeatures } from '../../../util/features';
-import ConfluenceFilterGroup from '../../../components/confluence/ConfluenceFilterGroup';
+import { shallow } from 'enzyme';
 
 const sessionId = 'sessionId';
 const referralContextIdentifiers: ReferralContextIdentifiers = {
@@ -68,6 +70,7 @@ function render(partialProps?: Partial<Props>) {
     onAdvancedSearch: undefined,
     linkComponent: undefined,
     modelContext: undefined,
+    confluenceUrl: 'mockConfluenceUrl',
     ...partialProps,
   };
 
@@ -140,6 +143,7 @@ describe('ConfluenceQuickSearchContainer', () => {
               avatarUrl: 'avatarUrl',
               href: 'href',
               resultId: 'resultId',
+              friendlyLastModified: 'friendly-last-modified',
             },
           ],
           totalSize: 1,
@@ -384,6 +388,8 @@ describe('ConfluenceQuickSearchContainer', () => {
 
   describe('getFilterComponent', () => {
     const dummySpaceKey = 'abc123';
+    const mockSearchSessionId = 'someSearchSessionId';
+    const onAdvancedSearch = jest.fn();
 
     const wrapper = render({
       features: { ...DEFAULT_FEATURES, complexSearchExtensionsEnabled: true },
@@ -392,6 +398,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       modelContext: {
         spaceKey: dummySpaceKey,
       },
+      confluenceUrl: 'mockConfluenceUrl',
       referralContextIdentifiers: {
         currentContainerName: 'Dummy space',
         currentContentId: '123',
@@ -399,6 +406,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         currentContainerId: '123',
         searchReferrerId: '123',
       },
+      onAdvancedSearch,
     });
 
     const results: ConfluenceResultsMap = {
@@ -414,6 +422,7 @@ describe('ConfluenceQuickSearchContainer', () => {
             avatarUrl: 'avatarUrl',
             href: 'href',
             resultId: 'resultId',
+            friendlyLastModified: 'friendlyLastModified',
           },
         ],
         totalSize: 1,
@@ -428,8 +437,6 @@ describe('ConfluenceQuickSearchContainer', () => {
       },
     };
 
-    const quickSearchContainer = wrapper.find(QuickSearchContainer);
-
     const baseFilterComponentProps = {
       isLoading: false,
       currentFilters: [],
@@ -437,66 +444,95 @@ describe('ConfluenceQuickSearchContainer', () => {
     };
 
     it('Renders filter component', () => {
-      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
-        ConfluenceResultsMap
-      >).getFilterComponent({
-        ...baseFilterComponentProps,
-        latestSearchQuery: 'a',
-        searchResults: results,
-      });
+      const filterComponent = (wrapper.instance() as ConfluenceQuickSearchContainer).getFilterComponent(
+        {
+          ...baseFilterComponentProps,
+          latestSearchQuery: 'a',
+          searchResultsTotalSize: results.objects.totalSize,
+          searchSessionId: mockSearchSessionId,
+        },
+      );
 
       expect(filterComponent).toBeDefined();
       expect(filterComponent).not.toBeNull();
 
-      expect(
-        (filterComponent as ConfluenceFilterGroup).props.isDisabled,
-      ).toBeFalsy();
-      expect((filterComponent as ConfluenceFilterGroup).props.spaceKey).toEqual(
-        dummySpaceKey,
+      if (filterComponent) {
+        expect(filterComponent.props.isDisabled).toBeFalsy();
+        expect(filterComponent.props.spaceKey).toEqual(dummySpaceKey);
+      }
+    });
+
+    it('onAdvancedSearch is passed correct params', () => {
+      const filterComponent = (wrapper.instance() as ConfluenceQuickSearchContainer).getFilterComponent(
+        {
+          ...baseFilterComponentProps,
+          latestSearchQuery: 'a',
+          searchResultsTotalSize: results.objects.totalSize,
+          currentFilters: [
+            { '@type': FilterType.Spaces, spaceKeys: [dummySpaceKey] },
+          ],
+          searchSessionId: mockSearchSessionId,
+        },
       );
+
+      expect(filterComponent).not.toBeNull();
+
+      if (filterComponent) {
+        const filterWrapper = shallow(filterComponent);
+        filterWrapper.props().wrappedComponentProps.onAdvancedSearch();
+
+        expect(onAdvancedSearch).toHaveBeenCalledWith(
+          undefined,
+          'content',
+          'a',
+          'someSearchSessionId',
+          [dummySpaceKey],
+        );
+      }
     });
 
     it('Filter component is disabled when results are loading', () => {
-      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
-        ConfluenceResultsMap
-      >).getFilterComponent({
-        ...baseFilterComponentProps,
-        isLoading: true,
-        latestSearchQuery: 'a',
-        searchResults: results,
-      });
+      const filterComponent = (wrapper.instance() as ConfluenceQuickSearchContainer).getFilterComponent(
+        {
+          ...baseFilterComponentProps,
+          isLoading: true,
+          latestSearchQuery: 'a',
+          searchResultsTotalSize: results.objects.totalSize,
+          searchSessionId: mockSearchSessionId,
+        },
+      );
 
       expect(filterComponent).toBeDefined();
       expect(filterComponent).not.toBeNull();
 
-      expect(
-        (filterComponent as ConfluenceFilterGroup).props.isDisabled,
-      ).toBeTruthy();
-      expect((filterComponent as ConfluenceFilterGroup).props.spaceKey).toEqual(
-        dummySpaceKey,
-      );
+      if (filterComponent) {
+        expect(filterComponent.props.isDisabled).toBeTruthy();
+        expect(filterComponent.props.spaceKey).toEqual(dummySpaceKey);
+      }
     });
 
     it("Doesn't render filter component on pre-query", () => {
-      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
-        ConfluenceResultsMap
-      >).getFilterComponent({
-        ...baseFilterComponentProps,
-        latestSearchQuery: '',
-        searchResults: results,
-      });
+      const filterComponent = (wrapper.instance() as ConfluenceQuickSearchContainer).getFilterComponent(
+        {
+          ...baseFilterComponentProps,
+          latestSearchQuery: '',
+          searchResultsTotalSize: results.objects.totalSize,
+          searchSessionId: mockSearchSessionId,
+        },
+      );
 
       expect(filterComponent).toBeUndefined();
     });
 
     it("Doesn't render filter component if there are no search results", () => {
-      const filterComponent = (quickSearchContainer.props() as QuickSearchContainerProps<
-        ConfluenceResultsMap
-      >).getFilterComponent({
-        ...baseFilterComponentProps,
-        latestSearchQuery: 'a',
-        searchResults: null,
-      });
+      const filterComponent = (wrapper.instance() as ConfluenceQuickSearchContainer).getFilterComponent(
+        {
+          ...baseFilterComponentProps,
+          latestSearchQuery: 'a',
+          searchResultsTotalSize: 0,
+          searchSessionId: mockSearchSessionId,
+        },
+      );
 
       expect(filterComponent).toBeUndefined();
     });

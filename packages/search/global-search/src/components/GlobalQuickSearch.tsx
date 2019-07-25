@@ -220,4 +220,4 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   }
 }
 
-export default withAnalyticsEvents()(GlobalQuickSearch);
+export default withAnalyticsEvents<Props>()(GlobalQuickSearch);

@@ -26,7 +26,6 @@ import { EditorView } from 'prosemirror-view';
 import { Fragment, Slice, Node } from 'prosemirror-model';
 
 import { pluginKey } from '../../../../plugins/card/pm-plugins/main';
-import cardPlugin from '../../../../plugins/card';
 import { CardProvider, CardPluginState } from '../../../../plugins/card/types';
 import {
   setProvider,
@@ -38,11 +37,6 @@ import {
   queueCardsFromChangedTr,
   shouldReplace,
 } from '../../../../plugins/card/pm-plugins/doc';
-import { panelPlugin } from '../../../../plugins';
-import tablePlugin from '../../../../plugins/table';
-import listsPlugin from '../../../../plugins/lists';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import extensionPlugin from '../../../../plugins/extension';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { createCardRequest, setupProvider, ProviderWrapper } from './_helpers';
@@ -74,15 +68,12 @@ describe('card', () => {
           advanced: true,
         },
         allowAnalyticsGASV3: true,
+        allowExtension: true,
+        allowPanel: true,
+        allowLists: true,
+        allowTasksAndDecisions: true,
+        UNSAFE_cards: {},
       },
-      editorPlugins: [
-        cardPlugin,
-        panelPlugin,
-        tablePlugin(),
-        listsPlugin,
-        tasksAndDecisionsPlugin,
-        extensionPlugin,
-      ],
       createAnalyticsEvent: createAnalyticsEvent as any,
       pluginKey,
     });
@@ -93,7 +84,7 @@ describe('card', () => {
   };
 
   describe('doc', () => {
-    describe('#state.update', async () => {
+    describe('#state.update', () => {
       it('keeps positions the same for typing after the link', () => {
         const { editorView, refs } = editor(
           doc(

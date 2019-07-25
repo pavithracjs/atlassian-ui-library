@@ -24,6 +24,7 @@ export interface BlockCardDefinition {
 export const blockCard: NodeSpec = {
   inline: false,
   group: 'block',
+  draggable: true,
   attrs: {
     url: { default: '' },
     data: { default: null },
@@ -31,12 +32,30 @@ export const blockCard: NodeSpec = {
   parseDOM: [
     {
       tag: 'a[data-block-card]',
+
+      // bump priority higher than hyperlink
+      priority: 100,
+
       getAttrs: dom => {
         const anchor = dom as HTMLAnchorElement;
         const data = anchor.getAttribute('data-card-data');
 
         return {
           url: anchor.getAttribute('href'),
+          data: data ? JSON.parse(data) : null,
+        };
+      },
+    },
+
+    {
+      tag: 'div[data-block-card]',
+
+      getAttrs: dom => {
+        const anchor = dom as HTMLDivElement;
+        const data = anchor.getAttribute('data-card-data');
+
+        return {
+          url: anchor.getAttribute('data-card-url'),
           data: data ? JSON.parse(data) : null,
         };
       },

@@ -2,6 +2,7 @@ import * as React from 'react';
 import throttle from 'lodash.throttle';
 import now from '../utils/performance-now';
 import { prefetchAll } from '../providers/instance-data-providers';
+import { prefetchAvailableProducts } from '../providers/products-data-provider';
 import {
   NAVIGATION_CHANNEL,
   NavigationAnalyticsContext,
@@ -15,6 +16,7 @@ import {
   WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
 import packageContext from '../utils/package-context';
+import { FeatureFlagProps } from '../types';
 
 const THROTTLE_EXPIRES = 60 * 1000; // 60 seconds
 const THROTTLE_OPTIONS = {
@@ -27,11 +29,11 @@ const TRIGGER_CONTEXT = {
   ...packageContext,
 };
 
-interface PrefetchTriggerProps {
+type PrefetchTriggerProps = {
   children: React.ReactNode;
   cloudId: string;
   Container?: React.ReactType;
-}
+} & Partial<FeatureFlagProps>;
 
 class PrefetchTrigger extends React.Component<
   PrefetchTriggerProps & WithAnalyticsEventProps
@@ -53,6 +55,9 @@ class PrefetchTrigger extends React.Component<
   private triggerPrefetch: typeof prefetchAll = throttle(
     (params: any) => {
       prefetchAll(params);
+      if (this.props.enableUserCentricProducts) {
+        prefetchAvailableProducts();
+      }
       this.fireOperationalEvent({
         action: 'triggered',
       });
@@ -91,7 +96,9 @@ class PrefetchTrigger extends React.Component<
   }
 }
 
-const PrefetchTriggerWithEvents = withAnalyticsEvents()(PrefetchTrigger);
+const PrefetchTriggerWithEvents = withAnalyticsEvents<PrefetchTriggerProps>()(
+  PrefetchTrigger,
+);
 
 export default (props: PrefetchTriggerProps) => (
   <NavigationAnalyticsContext data={TRIGGER_CONTEXT}>

@@ -9,7 +9,7 @@ import {
   withAnalyticsContext,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
-import { format, isValid, parse, getDaysInMonth } from 'date-fns';
+import { format, isValid, parse, lastDayOfMonth } from 'date-fns';
 import pick from 'lodash.pick';
 import React, { Component, type Node, type ElementRef } from 'react';
 import styled from 'styled-components';
@@ -192,12 +192,25 @@ class DatePicker extends Component<Props, State> {
     const [year, month, date] = iso.split('-');
     let newIso = iso;
 
-    const lastDayInMonth = getDaysInMonth(
-      new Date(parseInt(year, 10), parseInt(month, 10) - 1),
-    );
+    const parsedDate: number = parseInt(date, 10);
+    const parsedMonth: number = parseInt(month, 10);
+    const parsedYear: number = parseInt(year, 10);
 
-    if (parseInt(lastDayInMonth, 10) < parseInt(date, 10)) {
-      newIso = `${year}-${month}-${lastDayInMonth}`;
+    const lastDayInMonth: number = lastDayOfMonth(
+      new Date(
+        parsedYear,
+        parsedMonth - 1, // This needs to be -1, because the Date constructor expects an index of the given month
+      ),
+    ).getDate();
+
+    const parsedLastDayInMonth: number = parseInt(lastDayInMonth, 10);
+
+    if (parsedLastDayInMonth < parsedDate) {
+      newIso = `${year}-${padToTwo(parsedMonth)}-${padToTwo(
+        parsedLastDayInMonth,
+      )}`;
+    } else {
+      newIso = `${year}-${padToTwo(parsedMonth)}-${padToTwo(parsedDate)}`;
     }
 
     this.setState({ view: newIso });

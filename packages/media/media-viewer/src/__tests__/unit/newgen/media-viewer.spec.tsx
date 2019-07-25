@@ -20,7 +20,6 @@ import {
   asMock,
 } from '@atlaskit/media-test-helpers';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
-import { Content } from '../../../newgen/content';
 import { MediaViewer } from '../../../newgen/media-viewer';
 import { CloseButtonWrapper } from '../../../newgen/styled';
 import Header from '../../../newgen/header';
@@ -56,12 +55,6 @@ describe('<MediaViewer />', () => {
     occurrenceKey: 'some-custom-occurrence-key',
     mediaItemType: 'file',
   };
-
-  it('should close Media Viewer on click', () => {
-    const { el, onClose } = createFixture([identifier], identifier);
-    el.find(Content).simulate('click');
-    expect(onClose).toHaveBeenCalled();
-  });
 
   it.skip('should close Media Viewer on ESC shortcut', () => {
     const { onClose } = createFixture([identifier], identifier);

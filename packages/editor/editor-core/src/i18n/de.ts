@@ -6,6 +6,14 @@
  */
 // German
 export default {
+  'fabric.editor.mediaAddLink': 'Link hinzufügen',
+  'fabric.editor.openLink': 'Link in neuer Registerkarte öffnen',
+  'fabric.editor.unlink': 'Verknüpfung löschen',
+  'fabric.editor.editLink': 'Link ändern',
+  'fabric.editor.hyperlinkToolbarPlaceholder':
+    'Link einfügen oder suche kürzlich angesehene',
+  'fabric.editor.linkPlaceholder': 'Link einfügen',
+  'fabric.editor.linkAddress': 'Link-Adresse',
   'fabric.editor.layoutFixedWidth': 'Zurück zur Mitte',
   'fabric.editor.layoutWide': 'Verbreitern',
   'fabric.editor.layoutFullWidth': 'Volle Breite wählen',
@@ -15,14 +23,28 @@ export default {
   'fabric.editor.remove': 'Entfernen',
   'fabric.editor.visit': 'Link in neuem Fenster öffnen',
   'fabric.editor.editMode.inviteToEditButton.title': 'Zum Ändern einladen',
+  'fabric.editor.saveButton': 'Speichern',
+  'fabric.editor.cancelButton': 'Abbrechen',
   'fabric.editor.alignment': 'Ausrichtung',
   'fabric.editor.normal': 'Normaler Text',
   'fabric.editor.heading1': 'Überschrift 1',
+  'fabric.editor.heading1Description':
+    'Verwenden Sie dies für Überschriften oberster Ebene.',
   'fabric.editor.heading2': 'Überschrift 2',
+  'fabric.editor.heading2Description':
+    'Verwenden Sie dies für Schlüsselbereiche.',
   'fabric.editor.heading3': 'Überschrift 3',
+  'fabric.editor.heading3Description':
+    'Verwenden Sie dies für Unterbereiche und Gruppenüberschriften.',
   'fabric.editor.heading4': 'Überschrift 4',
+  'fabric.editor.heading4Description':
+    'Verwenden Sie dies für die Überschrift tieferer Ebene.',
   'fabric.editor.heading5': 'Überschrift 5',
+  'fabric.editor.heading5Description':
+    'Verwenden Sie dies für die Gruppierung von Listenelementen.',
   'fabric.editor.heading6': 'Überschrift 6',
+  'fabric.editor.heading6Description':
+    'Verwenden Sie dies für Überschriften niedrigerer Ebene.',
   'fabric.editor.blockquote': 'Zitieren',
   'fabric.editor.blockquote.description': 'Zitat einfügen',
   'fabric.editor.codeblock': 'Code-Auszug',
@@ -61,21 +83,13 @@ export default {
   'fabric.editor.altText': 'Alt-Text',
   'fabric.editor.closeHelpDialog': 'Hilfedialog schließen',
   'fabric.editor.quickInsert': 'Schnelleinfügung',
-  'fabric.editor.openLink': 'Link in neuer Registerkarte öffnen',
-  'fabric.editor.unlink': 'Verknüpfung löschen',
-  'fabric.editor.editLink': 'Link ändern',
-  'fabric.editor.hyperlinkToolbarPlaceholder':
-    'Link einfügen oder suche kürzlich angesehene',
-  'fabric.editor.linkPlaceholder': 'Link einfügen',
-  'fabric.editor.linkAddress': 'Link-Adresse',
   'fabric.editor.displayText': 'Text zum Anzeigen',
   'fabric.editor.clearLinkText': 'Text löschen',
   'fabric.editor.clearLink': 'Link löschen',
   'fabric.editor.action': 'Aufgelistete Aufgabe',
-  'fabric.editor.action.description':
-    'Aktionen erfassen, um die Arbeit zu beschleunigen',
+  'fabric.editor.action.description': 'Aktionselemente erstellen und zuweisen',
   'fabric.editor.link': 'Link',
-  'fabric.editor.link.description': 'Link zu interner oder externer Seite',
+  'fabric.editor.link.description': 'Link einfügen',
   'fabric.editor.filesAndImages': 'Dateien und Bilder',
   'fabric.editor.filesAndImages.description':
     'Bilder oder andere Dateien zu Ihrer Seite hinzufügen',
@@ -101,7 +115,8 @@ export default {
   'fabric.editor.columns.description':
     'Seite mithilfe von Abschnitten strukturieren',
   'fabric.editor.status': 'Status',
-  'fabric.editor.status.description': 'Farbige Raute mit Text erstellen',
+  'fabric.editor.status.description':
+    'Benutzerdefiniertes Status-Label hinzufügen',
   'fabric.editor.viewMore': 'Mehr anzeigen',
   'fabric.editor.insertMenu': 'Einfügen',
   'fabric.editor.twoColumns': 'Zwei Spalten',
@@ -117,6 +132,7 @@ export default {
   'fabric.editor.annotate': 'Anmerkung hinzufügen',
   'fabric.editor.wrapLeft': 'Links umwickeln',
   'fabric.editor.wrapRight': 'Rechts umwickeln',
+  'fabric.editor.backLink': 'Zurück',
   'fabric.editor.info': 'Info',
   'fabric.editor.note': 'Hinweis',
   'fabric.editor.success': 'Erfolgreich',

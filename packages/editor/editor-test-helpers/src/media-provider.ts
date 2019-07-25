@@ -4,6 +4,8 @@ import {
   userAuthProvider,
   mediaPickerAuthProvider,
   defaultMediaPickerAuthProvider,
+  getAuthFromContextProvider,
+  fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { MediaProvider } from '@atlaskit/editor-core';
 
@@ -35,7 +37,10 @@ export function storyMediaProviderFactory(
       : defaultMediaPickerAuthProvider,
     userAuthProvider:
       includeUserAuthProvider === false ? undefined : userAuthProvider,
+    getAuthFromContext: getAuthFromContextProvider,
   };
+  // Feel free to up-comment this and farther lines to verify it works with old context stack.
+  // const context: Context = ContextFactory.create(mediaClientConfig);
 
   return Promise.resolve<MediaProvider>({
     featureFlags: {},
@@ -43,8 +48,26 @@ export function storyMediaProviderFactory(
     viewMediaClientConfig: mediaClientConfig,
     uploadMediaClientConfig:
       includeUploadMediaClientConfig === false ? undefined : mediaClientConfig,
+    // viewContext: Promise.resolve(context),
+    // uploadContext: includeUploadMediaClientConfig === false ? undefined : Promise.resolve(context),
   });
 }
+
+// This method returns an instance of MediaProvider ready to use in tests and side effect free
+// We should migrate unit tests to this method and stop using storyMediaProviderFactory
+export const fakeMediaProvider = (
+  mediaProviderFactoryConfig: MediaProviderFactoryConfig = {},
+): Promise<MediaProvider> => {
+  const { collectionName } = mediaProviderFactoryConfig;
+  const collection = collectionName || defaultCollectionName;
+  const mediaClientConfig = fakeMediaClient().config;
+  return Promise.resolve<MediaProvider>({
+    featureFlags: {},
+    uploadParams: { collection },
+    viewMediaClientConfig: mediaClientConfig,
+    uploadMediaClientConfig: mediaClientConfig,
+  });
+};
 
 export type promisedString = Promise<string>;
 export type resolveFn = (...v: any) => any;

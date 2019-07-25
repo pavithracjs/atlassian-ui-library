@@ -60,9 +60,17 @@ const ContentArea = styled.div`
     TOTAL_PADDING}px;
   transition: margin-left ${SWOOP_ANIMATION}, max-width ${SWOOP_ANIMATION};
   margin-left: ${({ theme, fullWidthMode }: any) =>
-    fullWidthMode
-      ? 0
-      : `calc(50% - ${(theme.layoutMaxWidth + TOTAL_PADDING) / 2}px)`};
+    !fullWidthMode &&
+    `calc(50% - ${(theme.layoutMaxWidth + TOTAL_PADDING) / 2}px)`};
+
+  ${({ fullWidthMode }) =>
+    fullWidthMode &&
+    `
+    @media (min-width: ${akEditorFullWidthLayoutWidth + TOTAL_PADDING}px) {
+      margin-left: ${`calc(50% - ${(akEditorFullWidthLayoutWidth +
+        TOTAL_PADDING) /
+        2}px)`};
+  }`}
 
   ${({ theme }) => `
     @media (max-width: ${theme.layoutMaxWidth + TOTAL_PADDING}px) {

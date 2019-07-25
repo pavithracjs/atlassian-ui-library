@@ -5,11 +5,12 @@ import {
   MediaImageBase64,
 } from '../serializer';
 import { base64Prefix, imageOutputType } from './generator/constants';
+import { CS_CONTENT_PREFIX } from '../styles/util';
 
 export * from './icons';
 
 const cidPrefix = 'cid:';
-const pfcsPrefix = 'pfcs-generated';
+const pfcsPrefix = CS_CONTENT_PREFIX;
 const cidMatcher = new RegExp(
   `src="${cidPrefix}${pfcsPrefix}-([\\w]*)-([\\w-]*)"`,
   'gi',

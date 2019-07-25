@@ -10,20 +10,35 @@ export default {
   'fabric.elements.share.form.send': 'Küldés',
   'fabric.elements.share.form.retry': 'Újra',
   'fabric.elements.share.form.comment.placeholder': 'Üzenet hozzáadása',
-  'fabric.elements.share.form.user-picker.placeholder':
-    'Adja meg a nevet, csapatot vagy e-mail-címet',
+  'fabric.elements.share.form.user-picker.placeholder.generic':
+    'Add meg a nevet, csapatot vagy e-mail-címet',
+  'fabric.elements.share.form.user-picker.placeholder.existingUserOnly':
+    'Add meg a nevet vagy csapatot',
   'fabric.elements.share.form.user-picker.add-more': 'Továbbiak megadása',
   'fabric.elements.share.form.user-picker.validation.required':
     'Válasszon ki legalább egy felhasználót, csapatot vagy e-mail-címet.',
-  'fabric.elements.share.form.user-picker.no-options.emptyQuery':
-    'Nincs találat. Próbáld meg módosítani a keresési feltételeket.',
-  'fabric.elements.share.form.user-picker.no-options':
+  'fabric.elements.share.form.user-picker.no-options.domainBasedUserOnly':
+    'Csak {domains} e-mail-címmel rendelkező személyeket hívhatsz meg. Egyéb személyek meghívásához fordulj a webhely-adminisztrátorodhoz.',
+  'fabric.elements.share.form.user-picker.no-options.existingUserOnly':
+    'Nincs találat a következő keresésre: „{inputValue}”.',
+  'fabric.elements.share.form.user-picker.no-options.generic':
     'Nincs találat a következő keresésre: „{inputValue}”. Hívj meg embereket az e-mail-címük alapján.',
+  'fabric.elements.share.trigger.button.icon.label': 'Ikon megosztása',
   'fabric.elements.share.trigger.button.text': 'Megosztás',
+  'fabric.elements.share.trigger.button.tooltip.text': 'Megosztás',
+  'fabric.elements.share.trigger.button.invite.text': 'Meghívás',
+  'fabric.elements.share.copylink.button.icon.label': 'Hivatkozásikon másolása',
   'fabric.elements.share.copylink.button.text': 'Hivatkozás másolása',
+  'fabric.elements.share.copied.to.clipboard.icon.label':
+    'Sikeres hivatkozási ikon másolása',
   'fabric.elements.share.copied.to.clipboard.message':
     'Hivatkozás átmásolva a vágólapra',
   'fabric.elements.share.form.capabilities.info.message':
     'A meghívóját a rendszer elküldi egy adminisztrátornak jóváhagyásra',
+  'fabric.elements.share.failure.icon.label': 'Hiba ikon',
   'fabric.elements.share.failure.message': 'Nem lehet megosztani',
+  'fabric.elements.share.success.message':
+    '{object, select, blogpost {Blog post shared} tábla {Board shared} naptár {Calendar shared} vázlat {Draft shared} szűrő {Filter shared} ügy {Issue shared} média {Media shared} oldal {Page shared} projekt {Project shared} pull-kérelem {Pull Request shared} kérdés {Question shared} jelentés {Report shared} tárház {Repository shared} kérés {Request shared} ütemterv {Roadmap shared} webhely {Site shared} munkatér {Space shared} egyéb {Link Shared}}',
+  'fabric.elements.share.admin.notified.message':
+    'Az adminisztrátorod értesítettük',
 };
