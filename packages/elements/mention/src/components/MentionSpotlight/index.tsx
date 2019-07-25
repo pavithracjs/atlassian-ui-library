@@ -140,7 +140,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
                         iconBefore={
                           <EditorCloseIcon label="Close" size="medium" />
                         }
-                        onClick={this.onCloseClick()}
+                        onClick={this.onCloseClick}
                         spacing="none"
                       />
                     </Tooltip>
