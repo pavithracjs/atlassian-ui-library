@@ -4,7 +4,6 @@ import { closeHistory } from 'prosemirror-history';
 import { doc, createEditorFactory, p, a } from '@atlaskit/editor-test-helpers';
 
 import { pluginKey } from '../../../../plugins/card/pm-plugins/main';
-import cardPlugin from '../../../../plugins/card';
 import { CardProvider } from '../../../../plugins/card/types';
 import {
   setProvider,
@@ -18,7 +17,9 @@ describe('card', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [cardPlugin],
+      editorProps: {
+        UNSAFE_cards: {},
+      },
       pluginKey,
     });
   };

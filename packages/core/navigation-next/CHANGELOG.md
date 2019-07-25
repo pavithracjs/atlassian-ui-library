@@ -1,5 +1,11 @@
 # @atlaskit/navigation-next
 
+## 6.3.8
+
+- Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
+  - @atlaskit/global-navigation@7.3.6
+  - @atlaskit/drawer@5.0.0
+
 ## 6.3.7
 
 - Updated dependencies [7e9d653278](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e9d653278):

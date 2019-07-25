@@ -1,5 +1,45 @@
 # @atlaskit/editor-core
 
+## 112.39.1
+
+### Patch Changes
+
+- [patch][2d5136732c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d5136732c):
+
+  ED-7315 Ensure text selection remains inside inserted action/decision item when inserting into an empty paragraph below another paragraph
+
+## 112.39.0
+
+### Minor Changes
+
+- [minor][ec66d3c646](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec66d3c646):
+
+  Improve performance of pages with smart cards
+
+## 112.38.0
+
+### Minor Changes
+
+- [minor][e81d32fe9a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e81d32fe9a):
+
+  TEAMS-588 : Refactors the Team Spotlight ( which is used in mention typeahead for Fabric Editor and TinyMCE editor). Now can close the spotlight from Fabric Editor by clicking on the x button.
+
+## 112.37.0
+
+### Minor Changes
+
+- [minor][4fc000749a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4fc000749a):
+
+  ED-7216: Internal: Align plugin initialisation
+
+## 112.36.1
+
+### Patch Changes
+
+- [patch][3d94fcc7d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d94fcc7d8):
+
+  [ED-7128] Fix table split when copy from a table cell with a hard break at the end
+
 ## 112.36.0
 
 ### Minor Changes

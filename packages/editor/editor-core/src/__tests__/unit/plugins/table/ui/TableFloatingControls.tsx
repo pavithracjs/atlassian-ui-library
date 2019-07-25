@@ -21,7 +21,6 @@ import { hoverTable } from '../../../../../plugins/table/commands';
 import TableFloatingControls from '../../../../../plugins/table/ui/TableFloatingControls';
 import CornerControls from '../../../../../plugins/table/ui/TableFloatingControls/CornerControls';
 import RowControls from '../../../../../plugins/table/ui/TableFloatingControls/RowControls';
-import tablesPlugin from '../../../../../plugins/table';
 
 describe('TableFloatingControls', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -29,7 +28,7 @@ describe('TableFloatingControls', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey: pluginKey,
     });
 

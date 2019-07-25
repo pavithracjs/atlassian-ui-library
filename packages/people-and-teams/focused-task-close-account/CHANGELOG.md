@@ -1,5 +1,10 @@
 # @atlaskit/focused-task-close-account
 
+## 0.12.6
+
+- Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
+  - @atlaskit/drawer@5.0.0
+
 ## 0.12.5
 
 ### Patch Changes

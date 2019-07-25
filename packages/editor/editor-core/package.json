@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-core",
-  "version": "112.36.0",
+  "version": "112.39.1",
   "description": "A package contains Atlassian editor core functionality",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@atlaskit/activity": "^1.0.1",
-    "@atlaskit/adf-schema": "^2.12.4",
+    "@atlaskit/adf-schema": "^2.13.0",
     "@atlaskit/adf-utils": "^6.1.2",
     "@atlaskit/analytics-gas-types": "^4.0.7",
     "@atlaskit/analytics-listeners": "^6.1.4",
@@ -49,7 +49,7 @@
     "@atlaskit/media-editor": "^36.2.6",
     "@atlaskit/media-filmstrip": "^34.2.5",
     "@atlaskit/media-picker": "^45.0.6",
-    "@atlaskit/mention": "^18.9.0",
+    "@atlaskit/mention": "^18.10.0",
     "@atlaskit/modal-dialog": "^10.0.14",
     "@atlaskit/select": "^10.0.1",
     "@atlaskit/smart-card": "^12.3.2",

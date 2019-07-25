@@ -568,13 +568,12 @@ export class QuickSearchContainer<
   }
 }
 
-const WithAnalyticsQuickSearchContainer = withAnalyticsEvents<any>()(
-  QuickSearchContainer,
+export const BaseConfluenceQuickSearchContainer = injectSearchSession(
+  withAnalyticsEvents<CompleteProps<ConfluenceResultsMap>>()(
+    QuickSearchContainer,
+  ),
 );
 
-export const BaseConfluenceQuickSearchContainer = injectSearchSession<
-  Props<ConfluenceResultsMap>
->(WithAnalyticsQuickSearchContainer);
-export const BaseJiraQuickSearchContainerJira = injectSearchSession<
-  Props<JiraResultsMap>
->(WithAnalyticsQuickSearchContainer);
+export const BaseJiraQuickSearchContainerJira = injectSearchSession(
+  withAnalyticsEvents<CompleteProps<JiraResultsMap>>()(QuickSearchContainer),
+);

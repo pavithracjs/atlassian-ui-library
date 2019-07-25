@@ -14,7 +14,6 @@ import {
 import { getSelectionRect, selectRow } from 'prosemirror-utils';
 import * as React from 'react';
 import { setTextSelection } from '../../../../../index';
-import { tablesPlugin } from '../../../../../plugins';
 import { hoverRows } from '../../../../../plugins/table/commands';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 import {
@@ -33,7 +32,7 @@ describe('RowControls', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 

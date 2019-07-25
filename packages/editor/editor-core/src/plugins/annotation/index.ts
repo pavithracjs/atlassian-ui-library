@@ -1,7 +1,7 @@
 import { EditorPlugin } from '../../types';
 import { annotation } from '@atlaskit/adf-schema';
 
-const annotationPlugin: EditorPlugin = {
+const annotationPlugin = (): EditorPlugin => ({
   marks() {
     return [
       {
@@ -10,6 +10,6 @@ const annotationPlugin: EditorPlugin = {
       },
     ];
   },
-};
+});
 
 export default annotationPlugin;

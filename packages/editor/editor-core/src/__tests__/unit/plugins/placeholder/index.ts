@@ -11,7 +11,6 @@ describe('placeholder', () => {
   const editor = (doc: any, trackEvent = () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [],
       editorProps: {
         placeholder: 'potato',
         analyticsHandler: trackEvent,

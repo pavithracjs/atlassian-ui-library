@@ -11,9 +11,6 @@ import {
   dispatchPasteEvent,
 } from '@atlaskit/editor-test-helpers';
 import { setNodeSelection } from '../../../../utils';
-import imageUpload from '../../../../plugins/image-upload';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import mediaPlugin from '../../../../plugins/media';
 import {
   insertExternalImage,
   startImageUpload,
@@ -30,11 +27,13 @@ describe('image-upload', () => {
   const editor = (doc: any, imageUploadProvider?: any) =>
     createEditor({
       doc,
-      editorPlugins: [
-        imageUpload,
-        codeBlockPlugin(),
-        mediaPlugin({ allowMediaSingle: true }),
-      ],
+      editorProps: {
+        legacyImageUploadProvider: Promise.resolve(() => {}),
+        allowCodeBlocks: true,
+        media: {
+          allowMediaSingle: true,
+        },
+      },
       providerFactory: ProviderFactory.create({ imageUploadProvider }),
       pluginKey: imageUploadPluginKey,
     });

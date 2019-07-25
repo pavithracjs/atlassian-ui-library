@@ -116,7 +116,9 @@ declare module '@atlaskit/analytics-next' {
 
   type AnalyticsHOC<Props, AppliedProps> = (
     Component: React.ComponentType<Props>,
-  ) => React.ComponentType<Props & AppliedProps>;
+  ) => React.ComponentType<
+    Pick<Props, Exclude<keyof Props, keyof AppliedProps>> & AppliedProps
+  >;
 
   /*
     withAnalyticsContext.js

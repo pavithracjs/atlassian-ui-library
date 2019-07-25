@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 3.8.2
+
+- Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
+  - @atlaskit/drawer@5.0.0
+
 ## 3.8.1
 
 ### Patch Changes

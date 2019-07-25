@@ -53,7 +53,7 @@ export function createPlugin(dispatch: Function, imageEnabled: boolean) {
   });
 }
 
-const helpDialog: EditorPlugin = {
+const helpDialog = (): EditorPlugin => ({
   pmPlugins() {
     return [
       {
@@ -87,7 +87,7 @@ const helpDialog: EditorPlugin = {
       />
     );
   },
-};
+});
 
 const keymapPlugin = (): Plugin => {
   const list = {};

@@ -9,7 +9,6 @@ import {
   removePanel,
   changePanelType,
 } from '../../../../plugins/panel/actions';
-import { panelPlugin } from '../../../../plugins';
 import { PanelType } from '../../../../../../adf-schema';
 
 describe('panel actions', () => {
@@ -20,8 +19,7 @@ describe('panel actions', () => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({
       doc,
-      editorProps: { allowAnalyticsGASV3: true },
-      editorPlugins: [panelPlugin],
+      editorProps: { allowAnalyticsGASV3: true, allowPanel: true },
       createAnalyticsEvent,
     });
   };

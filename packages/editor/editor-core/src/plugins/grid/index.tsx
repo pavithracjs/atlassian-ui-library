@@ -192,7 +192,7 @@ class Grid extends React.Component<Props> {
 
 const ThemedGrid = withTheme(Grid);
 
-const gridPlugin: EditorPlugin = {
+const gridPlugin = (): EditorPlugin => ({
   contentComponent: ({ editorView, appearance }) => {
     return (
       <WithPluginState
@@ -223,7 +223,7 @@ const gridPlugin: EditorPlugin = {
       />
     );
   },
-};
+});
 
 export default gridPlugin;
 export { GRID_GUTTER } from './styles';

@@ -40,7 +40,6 @@ import {
   INPUT_METHOD,
   DispatchAnalyticsEvent,
 } from '../../../../../plugins/analytics';
-import tablesPlugin from '../../../../../plugins/table';
 import { AnalyticsHandler } from '../../../../../analytics';
 import { ReactWrapper, mount } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
@@ -114,7 +113,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
   let dispatchAnalyticsSpy: jest.SpyInstance<DispatchAnalyticsEvent>;
   let dispatchSpy: jest.SpyInstance;
 
-  const editor = (doc: any, editorPlugins?: any[]) => {
+  const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
@@ -126,12 +125,12 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
         allowLists: true,
         allowPanel: true,
         allowRule: true,
+        allowTables: true,
         allowAnalyticsGASV3: true,
         taskDecisionProvider: Promise.resolve(
           taskDecision.getMockTaskDecisionResource(),
         ),
       },
-      editorPlugins,
       providerFactory,
       createAnalyticsEvent,
     });
@@ -422,7 +421,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
 
       describe('click table option', () => {
         beforeEach(() => {
-          ({ editorView } = editor(doc(p('text')), [tablesPlugin()]));
+          ({ editorView } = editor(doc(p('text'))));
           buildToolbarForMenu({ tableSupported: true });
           menu.clickButton(messages.table.defaultMessage, toolbarOption);
         });

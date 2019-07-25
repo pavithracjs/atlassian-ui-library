@@ -31,7 +31,6 @@ import {
   TableDecorations,
   TableCssClassName as ClassName,
 } from '../../../../plugins/table/types';
-import tablesPlugin from '../../../../plugins/table';
 
 describe('table hover selection plugin', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -39,7 +38,7 @@ describe('table hover selection plugin', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 

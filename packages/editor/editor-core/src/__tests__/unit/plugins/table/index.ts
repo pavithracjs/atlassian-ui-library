@@ -44,12 +44,7 @@ import {
   checkIfHeaderColumnEnabled,
   checkIfHeaderRowEnabled,
 } from '../../../../plugins/table/utils';
-import tablesPlugin from '../../../../plugins/table';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import quickInsertPlugin from '../../../../plugins/quick-insert';
-import { mediaPlugin } from '../../../../plugins';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
-import listPlugin from '../../../../plugins/lists';
 import { AnalyticsHandler } from '../../../../analytics';
 
 describe('table plugin', () => {
@@ -65,17 +60,15 @@ describe('table plugin', () => {
 
     return createEditor({
       doc,
-      editorPlugins: [
-        listPlugin,
-        tablesPlugin(),
-        codeBlockPlugin(),
-        mediaPlugin({ allowMediaSingle: true }),
-        quickInsertPlugin,
-      ],
       editorProps: {
         analyticsHandler: trackEvent,
         allowTables: tableOptions,
         allowAnalyticsGASV3: true,
+        allowLists: true,
+        allowCodeBlocks: true,
+        media: {
+          allowMediaSingle: true,
+        },
       },
       pluginKey,
     });

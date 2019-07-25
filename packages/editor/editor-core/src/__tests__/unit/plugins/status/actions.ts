@@ -4,7 +4,6 @@ import {
   p,
   status,
 } from '@atlaskit/editor-test-helpers';
-import statusPlugin from '../../../../plugins/status';
 import { pluginKey } from '../../../../plugins/status/plugin';
 import {
   commitStatusPicker,
@@ -20,7 +19,11 @@ describe('status plugin: actions', () => {
   const editor = (doc: any) => {
     return createEditor({
       doc,
-      editorPlugins: [statusPlugin({ menuDisabled: false })],
+      editorProps: {
+        allowStatus: {
+          menuDisabled: false,
+        },
+      },
     });
   };
 

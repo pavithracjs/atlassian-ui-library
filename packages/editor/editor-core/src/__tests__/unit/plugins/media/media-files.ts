@@ -12,17 +12,12 @@ import {
   code_block,
   panel,
 } from '@atlaskit/editor-test-helpers';
+import { MockMentionResource } from '@atlaskit/util-data-test';
 import {
   insertMediaGroupNode,
   getPosInList,
 } from '../../../../plugins/media/utils/media-files';
 import { setNodeSelection } from '../../../../utils';
-import mediaPlugin from '../../../../plugins/media';
-import listsPlugin from '../../../../plugins/lists';
-import mentionsPlugin from '../../../../plugins/mentions';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import rulePlugin from '../../../../plugins/rule';
-import { panelPlugin } from '../../../../plugins';
 import {
   testCollectionName,
   temporaryMediaGroup,
@@ -36,14 +31,14 @@ describe('media-files', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [
-        mediaPlugin(),
-        mentionsPlugin(),
-        codeBlockPlugin(),
-        rulePlugin,
-        listsPlugin,
-        panelPlugin,
-      ],
+      editorProps: {
+        media: {},
+        mentionProvider: Promise.resolve(new MockMentionResource({})),
+        allowCodeBlocks: true,
+        allowRule: true,
+        allowLists: true,
+        allowPanel: true,
+      },
     });
 
   describe('when cursor is at the end of a text block', () => {

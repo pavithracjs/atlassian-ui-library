@@ -5,14 +5,12 @@ import {
   p,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 
 describe('Delete', () => {
   const createEditor = createEditorFactory();
   const editorFactory = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tasksAndDecisionsPlugin],
     });
 
   it(`should merge paragraph and preserve content`, () => {

@@ -15,7 +15,6 @@ import {
 
 import { pluginKey as tablePluginKey } from '../../../../plugins/table/pm-plugins/main';
 import { setResizeHandlePos } from '../../../../plugins/table/pm-plugins/table-resizing/commands';
-import tablesPlugin from '../../../../plugins/table';
 
 describe('Tables with Collab editing', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -30,7 +29,6 @@ describe('Tables with Collab editing', () => {
     } as PluginConfig;
     return createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
       editorProps: {
         allowTables: tableOptions,
       },

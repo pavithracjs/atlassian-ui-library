@@ -7,8 +7,6 @@ import {
   createAnalyticsEventMock,
 } from '@atlaskit/editor-test-helpers';
 import { AnalyticsHandler } from '../../../../../analytics';
-import listPlugin from '../../../../../plugins/lists';
-import tasksAndDecisionsPlugin from '../../../../../plugins/tasks-and-decisions';
 import {
   ListsPluginState,
   pluginKey,
@@ -54,10 +52,11 @@ describe('ToolbarLists', () => {
     analyticsHandler = jest.fn();
     return createEditor({
       doc,
-      editorPlugins: [listPlugin, tasksAndDecisionsPlugin],
       editorProps: {
         analyticsHandler,
         allowAnalyticsGASV3: true,
+        allowLists: true,
+        allowTasksAndDecisions: true,
       },
       pluginKey,
       createAnalyticsEvent: createAnalyticsEvent as any,

@@ -1,5 +1,10 @@
 # @atlaskit/quick-search
 
+## 7.6.6
+
+- Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
+  - @atlaskit/drawer@5.0.0
+
 ## 7.6.5
 
 ### Patch Changes

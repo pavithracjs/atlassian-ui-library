@@ -72,7 +72,7 @@ const headingPluginOptions = ({
     };
   });
 
-const blockType: EditorPlugin = {
+const blockTypePlugin = (): EditorPlugin => ({
   nodes({ allowBlockType }) {
     const nodes: BlockTypeNode[] = [
       { name: 'heading', node: heading },
@@ -183,7 +183,7 @@ const blockType: EditorPlugin = {
       ];
     },
   },
-};
+});
 
-export default blockType;
+export default blockTypePlugin;
 export { pluginKey, BlockTypeState } from './pm-plugins/main';

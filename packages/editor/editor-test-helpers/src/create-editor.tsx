@@ -80,10 +80,7 @@ export default function createEditorFactoryForTests<T = any>() {
   } => {
     let portalProviderAPI: PortalProviderAPI | undefined;
     const plugins = editorPlugins
-      ? [
-          ...getDefaultPluginsList(editorProps, createAnalyticsEvent),
-          ...editorPlugins,
-        ]
+      ? [...getDefaultPluginsList(editorProps), ...editorPlugins]
       : undefined;
     place = document.body.appendChild(document.createElement('div'));
 
