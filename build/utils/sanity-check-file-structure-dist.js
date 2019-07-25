@@ -19,7 +19,7 @@ const checkForDirEmpty = (folderName /*: string*/) /*: boolean */ => {
     const content = fs.readdirSync(folderName);
     if (content.length > 0) hasFolder = true;
   } catch (err) {
-    throw err;
+    console.error(err);
   }
   return hasFolder;
 };
@@ -29,7 +29,7 @@ const checkForFile = (fileName /*: string*/) /*: boolean */ => {
   try {
     if (fs.existsSync(fileName)) hasFile = true;
   } catch (err) {
-    throw err;
+    console.error(err);
   }
   return hasFile;
 };
