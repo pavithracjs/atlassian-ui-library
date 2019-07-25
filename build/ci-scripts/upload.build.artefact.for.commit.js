@@ -52,7 +52,7 @@ npmRun.sync(
   `s3-cli --region="${BUCKET_REGION}" put ${pathToFile} ${bucketPath}`,
 );
 
-const publicUrl = `s3-${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${commitHash}/${outputPath}${fileName}`;
+const publicUrl = `https://s3-${BUCKET_REGION}.amazonaws.com/${BUCKET_NAME}/${commitHash}/${outputPath}${fileName}`;
 console.log('Successfully published to', publicUrl);
 console.log('You can also fetch this file again by running:');
 console.log(`node ./build/download.build.artefact.for.commit.js ${outputPath}`);

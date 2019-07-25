@@ -1,7 +1,7 @@
 const bolt = require('bolt');
 const fs = require('fs-extra');
 const path = require('path');
-const customFs = require('../utils/fs');
+const customFs = require('../../utils/fs');
 
 const CHANGED_PACKAGES = process.env.CHANGED_PACKAGES;
 const changedPackages = JSON.parse(CHANGED_PACKAGES);
