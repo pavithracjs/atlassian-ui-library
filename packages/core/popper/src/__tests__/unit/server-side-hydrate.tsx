@@ -41,8 +41,8 @@ test('should ssr then hydrate popper correctly', async () => {
   ReactDOM.hydrate(<Example />, elem);
   await waitForExpect(() => {
     // ignore warnings caused by emotion's server-side rendering approach
-    // eslint-disable-next-line no-console
     // @ts-ignore
+    // eslint-disable-next-line no-console
     const mockCalls = console.error.mock.calls.filter(
       // @ts-ignore
       ([f, s]) =>

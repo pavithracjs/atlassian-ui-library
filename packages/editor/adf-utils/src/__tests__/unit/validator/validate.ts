@@ -52,15 +52,12 @@ describe('validate', () => {
       });
     });
 
-<<<<<<< HEAD
     let invalid = [];
     try {
       invalid = readFilesSync(`${BASE_DIR}/${schemaType}/invalid`);
     } catch (e) {
       return;
     }
-=======
->>>>>>> ignore broken test
     invalid.forEach((file: any) => {
       it(`does not validate '${file.name}'`, async () => {
         const run = () => {

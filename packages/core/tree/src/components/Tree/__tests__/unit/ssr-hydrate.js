@@ -39,8 +39,8 @@ const App = () => (
   />
 );
 
-// unskip as part of https://ecosystem.atlassian.net/browse/AK-5809
-test('should ssr then hydrate tree correctly', () => {
+//TODO: https://ecosystem.atlassian.net/browse/AK-6450
+test.skip('should ssr then hydrate tree correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
 
   // server-side
