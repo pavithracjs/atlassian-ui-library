@@ -14,7 +14,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 // TODO: https://ecosystem.atlassian.net/browse/AK-6356
-test.skip('should ssr then hydrate input correctly', async () => {
+test('should ssr then hydrate input correctly', async () => {
   const [example] = await getExamplesFor('input');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

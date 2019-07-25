@@ -14,7 +14,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate size-detector correctly', async () => {
+test('should ssr then hydrate size-detector correctly', async () => {
   const [example] = await getExamplesFor('size-detector');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

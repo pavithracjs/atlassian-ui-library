@@ -14,7 +14,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate droplist correctly', async () => {
+test('should ssr then hydrate droplist correctly', async () => {
   const [example] = await getExamplesFor('droplist');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

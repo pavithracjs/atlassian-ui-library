@@ -16,7 +16,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate modal-dialog correctly', async () => {
+test('should ssr then hydrate modal-dialog correctly', async () => {
   const [example] = await getExamplesFor('modal-dialog');
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 

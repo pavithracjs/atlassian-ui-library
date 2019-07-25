@@ -17,7 +17,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate toggle correctly', async () => {
+test('should ssr then hydrate toggle correctly', async () => {
   const [example] = await getExamplesFor('toggle');
   const Example = await require(example.filePath).default;
 

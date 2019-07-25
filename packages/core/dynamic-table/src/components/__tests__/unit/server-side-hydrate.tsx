@@ -13,7 +13,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate dynamic-table correctly', async done => {
+test('should ssr then hydrate dynamic-table correctly', async done => {
   const [example] = await getExamplesFor('dynamic-table');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
