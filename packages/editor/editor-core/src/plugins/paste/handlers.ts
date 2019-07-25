@@ -3,7 +3,7 @@ import { hasParentNodeOfType } from 'prosemirror-utils';
 
 import { taskDecisionSliceFilter } from '../../utils/filter';
 import { linkifyContent } from '../hyperlink/utils';
-import { Slice, Mark } from 'prosemirror-model';
+import { Slice, Mark, Node as PMNode, Fragment } from 'prosemirror-model';
 import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { runMacroAutoConvert } from '../macro';
@@ -407,6 +407,35 @@ function hasInlineCode(state: EditorState, slice: Slice) {
   );
 }
 
+function isList(schema: Schema, node: PMNode | null | undefined) {
+  const { bulletList, orderedList } = schema.nodes;
+  return node && (node.type === bulletList || node.type === orderedList);
+}
+
+function flattenList(state: EditorState, node: PMNode, nodesArr: PMNode[]) {
+  const { listItem } = state.schema.nodes;
+  node.content.forEach(child => {
+    if (
+      isList(state.schema, child) ||
+      (child.type === listItem && isList(state.schema, child.firstChild))
+    ) {
+      flattenList(state, child, nodesArr);
+    } else {
+      nodesArr.push(child);
+    }
+  });
+}
+
+function shouldFlattenList(state: EditorState, slice: Slice) {
+  const node = slice.content.firstChild;
+  return (
+    node &&
+    insideTable(state) &&
+    isList(state.schema, node) &&
+    slice.openStart > slice.openEnd
+  );
+}
+
 export function handleRichText(slice: Slice): Command {
   return (state, dispatch) => {
     const { codeBlock } = state.schema.nodes;
@@ -415,6 +444,36 @@ export function handleRichText(slice: Slice): Command {
     const tr = state.tr;
     if (hasInlineCode(state, slice)) {
       removePrecedingBackTick(tr);
+    }
+    /**
+     * ED-6300: When a nested list is pasted in a table cell and the slice has openStart > openEnd,
+     * it splits the table. As a workaround, we flatten the list to even openStart and openEnd
+     *
+     *  Before:
+     *  ul
+     *    ┗━ li
+     *      ┗━ ul
+     *        ┗━ li
+     *          ┗━ p -> "one"
+     *    ┗━ li
+     *      ┗━ p -> "two"
+     *
+     *  After:
+     *  ul
+     *    ┗━ li
+     *      ┗━ p -> "one"
+     *    ┗━ li
+     *      ┗━p -> "two"
+     */
+    if (shouldFlattenList(state, slice) && slice.content.firstChild) {
+      const node = slice.content.firstChild;
+      const nodes: PMNode[] = [];
+      flattenList(state, node, nodes);
+      slice = new Slice(
+        Fragment.from(node.type.createChecked(node.attrs, nodes)),
+        slice.openEnd,
+        slice.openEnd,
+      );
     }
 
     closeHistory(tr);
