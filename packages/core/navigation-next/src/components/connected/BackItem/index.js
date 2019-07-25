@@ -13,9 +13,22 @@ const ArrowLeft = () => (
   <ArrowLeftCircleIcon primaryColor="currentColor" secondaryColor="inherit" />
 );
 
-export default class BackItem extends Component<BackItemProps> {
+type State = {
+  tabindex: number,
+};
+export default class BackItem extends Component<BackItemProps, State> {
   static defaultProps = {
     text: 'Back',
+  };
+
+  state = {
+    tabindex: 0,
+  };
+
+  resetTabIndex = () => {
+    this.setState({
+      tabindex: -1,
+    });
   };
 
   render() {
@@ -31,7 +44,8 @@ export default class BackItem extends Component<BackItemProps> {
         // This is added so that the correct element can
         // tabbed on page transition when navigating via keyboard.
         // eslint-disable-next-line
-        tabIndex="0"
+        tabIndex={this.state.tabindex}
+        onFocus={this.resetTabIndex}
         css={{ marginBottom: gridSize * 2, outline: 'none' }}
       >
         <ConnectedItem {...props} after={null} before={before} text={text} />
