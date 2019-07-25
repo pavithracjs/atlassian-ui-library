@@ -105,6 +105,19 @@ describe('tasks and decisions - commands', () => {
             compareSelection(editorFactory, expectedDoc, editorView);
           });
 
+          it(`can convert empty paragraph (below another paragraph node) to a selected ${name} node`, () => {
+            const { editorView } = editorFactory(
+              doc(p('Hello World'), p('{<>}')),
+            );
+            expect(insertTaskDecision(editorView, listName)).toBe(true);
+            const expectedDoc = doc(
+              p('Hello World'),
+              list(listProps)(item(itemProps)('{<>}')),
+            );
+            expect(editorView.state.doc).toEqualDocument(expectedDoc);
+            compareSelection(editorFactory, expectedDoc, editorView);
+          });
+
           it(`can convert blockquote to ${name}`, () => {
             const { editorView } = editorFactory(
               doc(blockquote(p('Hello{<>} World'))),

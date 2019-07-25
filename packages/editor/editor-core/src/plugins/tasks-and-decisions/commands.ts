@@ -288,8 +288,17 @@ export const createListAtSelection = (
 
   // try to replace any of the given nodeTypes
   if (isSupportedSourceNode(schema, selection)) {
+    // A text selection within one of these node types converts the node type.
+    const nodeTypesToReplace = [blockquote, decisionList, taskList];
+    const { type: nodeType, childCount } = selection.$from.node();
+    if (nodeType === paragraph && childCount > 0) {
+      // Only convert paragraphs containing content.
+      // Empty paragraphs use the default flow.
+      // This distinction ensures the text selection remains in the correct location.
+      nodeTypesToReplace.push(paragraph);
+    }
     const newTr = replaceParentNodeOfType(
-      [blockquote, paragraph, decisionList, taskList],
+      nodeTypesToReplace,
       list.create({ localId: uuid.generate() }, [
         item.create(
           { localId: uuid.generate() },
