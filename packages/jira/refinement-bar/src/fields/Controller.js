@@ -5,7 +5,7 @@ type InitialValueSignature = () => any;
 type HasValueSignature = (value: any) => boolean;
 
 export default class FieldController {
-  constructor(config: *) {
+  constructor(config: Object) {
     this.config = config;
     this.key = config.key;
     this.label = config.label;
@@ -17,13 +17,13 @@ export default class FieldController {
     }
   }
 
-  validate: ValidateSignature;
-
   config: Object;
 
   key: string;
 
   label: string;
+
+  validate: ValidateSignature;
 
   type: {
     controller: Object,

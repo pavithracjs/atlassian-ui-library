@@ -22,9 +22,9 @@ export default class TextController extends FieldController {
 
     return (
       <span>
-        <strong>{this.label}:</strong>
-        {hasValue ? ` ${typeLabel}` : null}
-        {hasValue && type !== 'is_not_set' ? ` "${value}"` : null}
+        <strong>{this.label}: </strong>
+        {typeLabel}
+        {type !== 'is_not_set' ? ` "${value}"` : null}
       </span>
     );
   };
