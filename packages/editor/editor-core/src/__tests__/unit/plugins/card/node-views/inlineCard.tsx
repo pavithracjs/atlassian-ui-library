@@ -12,7 +12,7 @@ import { mount } from 'enzyme';
 import { inlineCard, defaultSchema } from '@atlaskit/editor-test-helpers';
 import { Card } from '@atlaskit/smart-card';
 
-import { InlineCard } from '../../../../../plugins/card/nodeviews/inlineCard';
+import { InlineCardComponent } from '../../../../../plugins/card/nodeviews/inlineCard';
 import { EditorView } from 'prosemirror-view';
 
 describe('inlineCard', () => {
@@ -40,7 +40,7 @@ describe('inlineCard', () => {
       defaultSchema,
     );
     const mockInlineCardNode = mount(
-      <InlineCard
+      <InlineCardComponent
         node={mockInlinePmNode}
         view={mockEditorView}
         selected={false}
@@ -60,7 +60,7 @@ describe('inlineCard', () => {
       defaultSchema,
     );
     const mockInlineCardNode = mount(
-      <InlineCard
+      <InlineCardComponent
         node={mockInlinePmNode}
         view={mockEditorView}
         selected={false}
