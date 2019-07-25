@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.9.0
+
+### Minor Changes
+
+- [minor][7bc30c4cce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bc30c4cce):
+
+  Added a new prop to disable recent containers
+
 ## 3.8.2
 
 - Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
