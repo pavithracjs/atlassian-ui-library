@@ -489,7 +489,7 @@ class ResizeControl extends PureComponent<Props, State> {
         <VisuallyHidden>{`Click to ${
           isCollapsed ? 'expand' : 'collapse'
         } navigation`}</VisuallyHidden>
-        <ButtonIcon ariaHidden />
+        <ButtonIcon />
       </Button>
     );
     const shadowDirection = flyoutIsOpen ? 'to right' : 'to left';

@@ -26,7 +26,11 @@ export default class BackItem extends Component<BackItemProps> {
     }
 
     return (
-      <div css={{ marginBottom: gridSize * 2 }}>
+      <div
+        data-id="back-item"
+        tabIndex="0"
+        css={{ marginBottom: gridSize * 2, outline: 'none' }}
+      >
         <ConnectedItem {...props} after={null} before={before} text={text} />
       </div>
     );

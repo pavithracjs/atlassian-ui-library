@@ -40,6 +40,9 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
           isVisible={false}
           onClick={[Function]}
         >
+          <VisuallyHidden>
+            Click to collapse navigation
+          </VisuallyHidden>
           <ChevronLeftIcon />
         </Button>
       </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
@@ -105,6 +108,9 @@ exports[`ResizeControlBase should render correctly 1`] = `
           isVisible={false}
           onClick={[Function]}
         >
+          <VisuallyHidden>
+            Click to collapse navigation
+          </VisuallyHidden>
           <ChevronLeftIcon />
         </Button>
       </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
