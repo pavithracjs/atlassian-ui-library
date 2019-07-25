@@ -14,7 +14,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate media-filmstrip correctly', async () => {
+test('should ssr then hydrate media-filmstrip correctly', async () => {
   const [example] = await getExamplesFor('media-filmstrip');
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
   const elem = document.createElement('div');
