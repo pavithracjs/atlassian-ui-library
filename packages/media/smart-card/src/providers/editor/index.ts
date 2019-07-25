@@ -1,25 +1,27 @@
 import { CardAppearance } from '../../view/Card';
-import { getEnvironment } from '../../utils/environments';
-import { EnvironmentsKeys, ClientEnvironment } from '../../client/types';
+import { getResolverUrl, getBaseUrl } from '../../utils/environments';
+import { EnvironmentsKeys } from '../../client/types';
 import { CardProvider, ORSCheckResponse } from './types';
 
 export class EditorCardProvider implements CardProvider {
-  private env: ClientEnvironment;
+  private baseUrl: string;
+  private resolverUrl: string;
 
-  constructor(envKey: EnvironmentsKeys = 'prod') {
-    this.env = getEnvironment(envKey);
+  constructor(envKey?: EnvironmentsKeys) {
+    this.baseUrl = getBaseUrl(envKey);
+    this.resolverUrl = getResolverUrl(envKey);
   }
 
   async resolve(url: string, appearance: CardAppearance): Promise<any> {
     try {
-      const constructedUrl = `${this.env.resolverUrl}/check`;
+      const constructedUrl = `${this.resolverUrl}/check`;
       const result: ORSCheckResponse = await (await fetch(constructedUrl, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Origin: this.env.baseUrl,
+          Origin: this.baseUrl,
         },
         body: JSON.stringify({ resourceUrl: url }),
       })).json();
