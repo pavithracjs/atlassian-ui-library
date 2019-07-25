@@ -42,23 +42,26 @@ export default class MediaSingleNode extends Component<
   MediaSingleNodeProps,
   MediaSingleNodeState
 > {
+  mediaNodeUpdater: MediaNodeUpdater;
   static defaultProps: Partial<MediaSingleNodeProps> = {
     mediaOptions: {},
   };
-
-  mediaNodeUpdater: MediaNodeUpdater;
-
-  constructor(props: MediaSingleNodeProps) {
-    super(props);
-
-    this.mediaNodeUpdater = new MediaNodeUpdater(props);
-  }
 
   state = {
     width: undefined,
     height: undefined,
     viewMediaClientConfig: undefined,
   };
+
+  constructor(props: MediaSingleNodeProps) {
+    super(props);
+    const node = this.props.node.firstChild;
+    this.mediaNodeUpdater = new MediaNodeUpdater({
+      ...props,
+      node: node as PMNode,
+      isMediaSingle: true,
+    });
+  }
 
   componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
     if (nextProps.mediaProvider !== this.props.mediaProvider) {
@@ -82,15 +85,19 @@ export default class MediaSingleNode extends Component<
   async componentDidMount() {
     this.setViewMediaClientConfig(this.props);
 
+    // we want the first child of MediaSingle (type "media")
+    const node = this.props.node.firstChild;
+
+    if (!node) {
+      return;
+    }
+
     const updatedDimensions = await this.mediaNodeUpdater.getRemoteDimensions();
     if (updatedDimensions) {
       this.mediaNodeUpdater.updateDimensions(updatedDimensions);
     }
 
-    const { node } = this.props;
-    const childNode = node.firstChild;
-
-    if (!childNode || childNode.attrs.type === 'external') {
+    if (node.attrs.type === 'external') {
       return;
     }
 

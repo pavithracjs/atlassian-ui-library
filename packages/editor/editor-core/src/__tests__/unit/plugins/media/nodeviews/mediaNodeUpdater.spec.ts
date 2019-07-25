@@ -10,15 +10,14 @@ import {
 } from '@atlaskit/media-test-helpers';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import * as commands from '../../../../../plugins/media/commands';
-import { MediaNodeUpdater } from '../../../../../plugins/media/nodeviews/mediaNodeUpdater';
-import { EventDispatcher } from '../../../../../event-dispatcher';
 import {
-  MediaPluginState,
-  MediaProvider,
-} from '../../../../../plugins/media/pm-plugins/main';
+  MediaNodeUpdater,
+  MediaNodeUpdaterProps,
+} from '../../../../../plugins/media/nodeviews/mediaNodeUpdater';
+import { MediaProvider } from '../../../../../plugins/media/pm-plugins/main';
 
 describe('MediaNodeUpdater', () => {
-  const setup = () => {
+  const setup = (props?: Partial<MediaNodeUpdaterProps>) => {
     jest.resetAllMocks();
     jest.spyOn(commands, 'updateMediaNodeAttrs').mockReturnValue(() => {});
 
@@ -48,26 +47,20 @@ describe('MediaNodeUpdater', () => {
       },
     });
     const node: any = {
-      firstChild: {
-        attrs: {
-          id: 'source-file-id',
-          collection: 'source-collection',
-          __contextId: 'source-context-id',
-        },
-      } as any,
+      attrs: {
+        id: 'source-file-id',
+        collection: 'source-collection',
+        __contextId: 'source-context-id',
+      },
     };
     const mediaNodeUpdater = new MediaNodeUpdater({
-      contextIdentifierProvider,
-      eventDispatcher: new EventDispatcher(),
-      getPos: () => 1,
-      lineLength: 1,
-      mediaOptions: {},
-      mediaPluginState: {} as MediaPluginState,
-      node,
-      selected() {},
       view: {} as EditorView,
-      width: 1,
+      node,
+      editorAppearance: 'full-page',
+      contextIdentifierProvider,
       mediaProvider,
+      isMediaSingle: true,
+      ...props,
     });
 
     return {
@@ -143,7 +136,7 @@ describe('MediaNodeUpdater', () => {
     });
 
     it('should update media node attrs with the new id', async () => {
-      const { mediaNodeUpdater } = setup();
+      const { mediaNodeUpdater } = setup({ isMediaSingle: false });
 
       await mediaNodeUpdater.copyNode();
 
@@ -154,7 +147,7 @@ describe('MediaNodeUpdater', () => {
           id: 'copied-file-id',
           collection: 'destination-collection',
         },
-        true,
+        false,
       );
     });
   });

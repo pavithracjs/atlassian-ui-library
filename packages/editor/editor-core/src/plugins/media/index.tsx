@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { media, mediaGroup, mediaSingle } from '@atlaskit/adf-schema';
-import { EditorPlugin, PMPluginFactoryParams } from '../../types';
+import {
+  EditorPlugin,
+  EditorAppearance,
+  PMPluginFactoryParams,
+} from '../../types';
 import {
   stateKey as pluginKey,
   createPlugin,
@@ -51,20 +55,9 @@ export interface MediaSingleOptions {
   disableLayout?: boolean;
 }
 
-export interface MediaPMPluginOptions {
-  allowLazyLoading?: boolean;
-  allowBreakoutSnapPoints?: boolean;
-  allowAdvancedToolBarOptions?: boolean;
-  allowMediaSingleEditable?: boolean;
-  allowRemoteDimensionsFetch?: boolean;
-  allowDropzoneDropLine?: boolean;
-  allowMarkingUploadsAsIncomplete?: boolean;
-  fullWidthEnabled?: boolean;
-}
-
 const mediaPlugin = (
   options?: MediaOptions,
-  pluginOptions?: MediaPMPluginOptions,
+  appearance?: EditorAppearance,
 ): EditorPlugin => ({
   nodes() {
     return [
@@ -100,6 +93,7 @@ const mediaPlugin = (
           errorReporter,
           portalProviderAPI,
           reactContext,
+          dispatchAnalyticsEvent,
         }: PMPluginFactoryParams) =>
           createPlugin(
             schema,
@@ -108,15 +102,16 @@ const mediaPlugin = (
               nodeViews: {
                 mediaGroup: ReactMediaGroupNode(
                   portalProviderAPI,
-                  pluginOptions && pluginOptions.allowLazyLoading,
+                  providerFactory,
+                  props.appearance,
                 ),
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,
                   eventDispatcher,
                   providerFactory,
                   options,
-                  pluginOptions,
-                  pluginOptions && pluginOptions.fullWidthEnabled,
+                  props.appearance,
+                  props.appearance === 'full-width',
                 ),
               },
               errorReporter,
@@ -125,11 +120,13 @@ const mediaPlugin = (
               customDropzoneContainer:
                 options && options.customDropzoneContainer,
               customMediaPicker: options && options.customMediaPicker,
+              appearance: props.appearance,
               allowResizing: !!(options && options.allowResizing),
             },
             reactContext,
             dispatch,
-            pluginOptions,
+            props.appearance,
+            dispatchAnalyticsEvent,
           ),
       },
       { name: 'mediaKeymap', plugin: () => keymapPlugin() },
@@ -138,7 +135,8 @@ const mediaPlugin = (
     if (options && options.allowMediaSingle) {
       pmPlugins.push({
         name: 'mediaSingleKeymap',
-        plugin: ({ schema }) => keymapMediaSinglePlugin(schema),
+        plugin: ({ schema, props }) =>
+          keymapMediaSinglePlugin(schema, props.appearance),
       });
     }
 
@@ -236,11 +234,10 @@ const mediaPlugin = (
     floatingToolbar: (state, intl, providerFactory) =>
       floatingToolbar(state, intl, {
         providerFactory,
+        appearance,
         allowResizing: options && options.allowResizing,
         allowAnnotation: options && options.allowAnnotation,
         allowLinking: options && options.allowLinking,
-        allowAdvancedToolBarOptions:
-          pluginOptions && pluginOptions.allowAdvancedToolBarOptions,
       }),
   },
 });

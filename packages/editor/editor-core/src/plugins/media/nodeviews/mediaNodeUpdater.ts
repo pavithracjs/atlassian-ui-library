@@ -1,6 +1,5 @@
 import uuidV4 from 'uuid/v4';
 import { updateMediaNodeAttrs } from '../commands';
-import { MediaSingleNodeProps } from './types';
 import { MediaAttributes, ExternalMediaAttributes } from '@atlaskit/adf-schema';
 import {
   DEFAULT_IMAGE_HEIGHT,
@@ -11,12 +10,27 @@ import {
   getUploadMediaClientConfigFromMediaProvider,
 } from '../utils/media-common';
 import { getMediaClient } from '@atlaskit/media-client';
+import { Node as PMNode } from 'prosemirror-model';
+import { EditorView } from 'prosemirror-view';
+import { EditorAppearance } from '../../../types';
+import { MediaProvider } from '../types';
+import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 
 export type RemoteDimensions = { id: string; height: number; width: number };
-export class MediaNodeUpdater {
-  props: MediaSingleNodeProps;
 
-  constructor(props: MediaSingleNodeProps) {
+export interface MediaNodeUpdaterProps {
+  view: EditorView;
+  node: PMNode; // assumed to be media type node (ie. child of MediaSingle, MediaGroup)
+  editorAppearance: EditorAppearance;
+  mediaProvider?: Promise<MediaProvider>;
+  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+  isMediaSingle: boolean;
+}
+
+export class MediaNodeUpdater {
+  props: MediaNodeUpdaterProps;
+
+  constructor(props: MediaNodeUpdaterProps) {
     this.props = props;
   }
 
@@ -36,14 +50,14 @@ export class MediaNodeUpdater {
         __contextId: objectId,
         contextId: objectId,
       },
-      true,
+      this.props.isMediaSingle,
     )(this.props.view.state, this.props.view.dispatch);
   };
 
   getAttrs = (): MediaAttributes | undefined => {
-    const { firstChild } = this.props.node;
-    if (firstChild) {
-      return firstChild.attrs as MediaAttributes;
+    const { attrs } = this.props.node;
+    if (attrs) {
+      return attrs as MediaAttributes;
     }
 
     return undefined;
@@ -78,24 +92,23 @@ export class MediaNodeUpdater {
 
   async getRemoteDimensions(): Promise<false | RemoteDimensions> {
     const mediaProvider = await this.props.mediaProvider;
-    const { node, mediaPluginOptions } = this.props;
-    const { firstChild } = node;
-    if (!mediaProvider || !firstChild) {
+    const { attrs } = this.props.node;
+    if (!mediaProvider || !attrs) {
       return false;
     }
-    const { height, type, width } = firstChild.attrs as
+    const { height, type, width } = attrs as
       | MediaAttributes
       | ExternalMediaAttributes;
     if (type === 'external') {
       return false;
     }
-    const { id, collection } = firstChild.attrs as MediaAttributes;
+    const { id, collection } = attrs as MediaAttributes;
     if (height && width) {
       return false;
     }
 
     // can't fetch remote dimensions on mobile, so we'll default them
-    if (mediaPluginOptions && !mediaPluginOptions.allowRemoteDimensionsFetch) {
+    if (this.props.editorAppearance === 'mobile') {
       return {
         id,
         height: DEFAULT_IMAGE_HEIGHT,
@@ -186,7 +199,7 @@ export class MediaNodeUpdater {
           id: mediaFile.id,
           collection: currentCollectionName,
         },
-        true,
+        this.props.isMediaSingle,
       )(this.props.view.state, this.props.view.dispatch);
     }
   };
