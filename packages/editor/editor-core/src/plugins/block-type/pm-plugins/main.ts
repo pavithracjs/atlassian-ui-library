@@ -84,6 +84,13 @@ const detectBlockType = (
   }
   let blockType: BlockType | undefined;
   const { $from, $to } = state.selection;
+  if (state.selection.empty) {
+    return (
+      availableBlockTypes.find(
+        blockType => blockType === blockTypeForNode($from.parent, state.schema),
+      ) || OTHER
+    );
+  }
   state.doc.nodesBetween($from.pos, $to.pos, node => {
     const nodeBlockType = availableBlockTypes.filter(
       blockType => blockType === blockTypeForNode(node, state.schema),
