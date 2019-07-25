@@ -7,6 +7,12 @@ const fs = require('fs');
 const path = require('path');
 const { getPackagesInfo } = require('./tools');
 
+const exceptions = [
+  '@atlaskit/updater-cli',
+  '@atlaskit/dependency-version-analytics',
+  '@atlaskit/code-insights',
+];
+
 const checkForDirEmpty = (folderName /*: string*/) /*: boolean */ => {
   let hasFolder = false;
   try {
@@ -42,10 +48,12 @@ const getHasDistAndVersionPackages = (dist /* array<string */) => {
   const cwd = process.cwd();
   const packagesInfo = await getPackagesInfo(cwd);
   const packagesHasDist = getHasDistAndVersionPackages(
-    packagesInfo.filter(pkg => pkg.dir.includes('/packages')),
+    packagesInfo.filter(
+      pkg => pkg.dir.includes('/packages') && !exceptions.includes(pkg.name),
+    ),
   ).filter(
     pkg =>
-      !pkg.hasCjs || !pkg.hasEsm || !pkg.hasCjsVersion || !pkg.hasEsmVersion,
+      !pkg.hasCjs && !pkg.hasEsm && !pkg.hasCjsVersion && !pkg.hasEsmVersion,
   );
   if (packagesHasDist.length > 0) {
     console.log(
