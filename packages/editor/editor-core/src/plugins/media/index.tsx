@@ -102,6 +102,7 @@ const mediaPlugin = (
               nodeViews: {
                 mediaGroup: ReactMediaGroupNode(
                   portalProviderAPI,
+                  providerFactory,
                   props.appearance,
                 ),
                 mediaSingle: ReactMediaSingleNode(

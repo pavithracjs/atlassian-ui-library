@@ -1,6 +1,5 @@
 import uuidV4 from 'uuid/v4';
 import { updateMediaNodeAttrs } from '../commands';
-import { MediaSingleNodeProps } from './types';
 import { MediaAttributes, ExternalMediaAttributes } from '@atlaskit/adf-schema';
 import {
   DEFAULT_IMAGE_HEIGHT,
@@ -11,12 +10,26 @@ import {
   getUploadMediaClientConfigFromMediaProvider,
 } from '../utils/media-common';
 import { getMediaClient } from '@atlaskit/media-client';
+import { Node as PMNode } from 'prosemirror-model';
+import { EditorView } from 'prosemirror-view';
+import { EditorAppearance } from '../../../types';
+import { MediaProvider } from '../types';
+import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 
 export type RemoteDimensions = { id: string; height: number; width: number };
-export class MediaNodeUpdater {
-  props: MediaSingleNodeProps;
 
-  constructor(props: MediaSingleNodeProps) {
+export interface MediaNodeUpdaterProps {
+  view: EditorView;
+  node: PMNode;
+  editorAppearance: EditorAppearance;
+  mediaProvider?: Promise<MediaProvider>;
+  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+}
+
+export class MediaNodeUpdater {
+  props: MediaNodeUpdaterProps;
+
+  constructor(props: MediaNodeUpdaterProps) {
     this.props = props;
   }
 

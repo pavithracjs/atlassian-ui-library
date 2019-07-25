@@ -19,12 +19,12 @@ import {
   EditorDisabledPluginState,
 } from '../../editor-disabled';
 import { EditorAppearance } from '../../../types';
-
-export interface Props {
-  children?: React.ReactNode;
-  view: EditorView;
-  node: PMNode;
-}
+import {
+  WithProviders,
+  ProviderFactory,
+  ContextIdentifierProvider,
+} from '@atlaskit/editor-common';
+import { MediaProvider } from '../types';
 
 export type MediaGroupProps = {
   forwardRef?: (ref: HTMLElement) => void;
@@ -34,6 +34,8 @@ export type MediaGroupProps = {
   selected: number | null;
   disabled?: boolean;
   editorAppearance: EditorAppearance;
+  mediaProvider: Promise<MediaProvider>;
+  contextIdentifierProvider: Promise<ContextIdentifierProvider>;
 };
 
 export interface MediaGroupState {
@@ -58,8 +60,16 @@ export default class MediaGroup extends React.Component<
     this.setMediaItems(props);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.updateMediaClientConfig();
+
+    // TODO: no need for constructor, iterate all nodes and create one for each here
+    // const contextId = this.mediaNodeUpdater.getCurrentContextId();
+    // if (!contextId) {
+    //   await this.mediaNodeUpdater.updateContextId();
+    // }
+
+    this.mediaNodes.forEach(n => console.log(n));
   }
 
   componentWillReceiveProps(props: MediaGroupProps) {
@@ -147,32 +157,44 @@ export default class MediaGroup extends React.Component<
 
 class MediaGroupNodeView extends ReactNodeView {
   render(_props: any, forwardRef: ForwardRef) {
-    const { editorAppearance } = this.reactComponentProps;
+    // TODO: improve React component prop types
+    const { editorAppearance, providerFactory } = this.reactComponentProps;
     return (
-      <WithPluginState
-        editorView={this.view}
-        plugins={{
-          reactNodeViewState: reactNodeViewStateKey,
-          editorDisabledPlugin: editorDisabledPluginKey,
-        }}
-        render={({
-          editorDisabledPlugin,
-        }: {
-          editorDisabledPlugin: EditorDisabledPluginState;
-        }) => {
-          const nodePos = this.getPos();
-          const { $anchor, $head } = this.view.state.selection;
-          const isSelected =
-            nodePos < $anchor.pos && $head.pos < nodePos + this.node.nodeSize;
+      <WithProviders
+        providers={['mediaProvider', 'contextIdentifierProvider']}
+        providerFactory={providerFactory}
+        renderNode={({ mediaProvider, contextIdentifierProvider }) => {
           return (
-            <MediaGroup
-              node={this.node}
-              getPos={this.getPos}
-              view={this.view}
-              forwardRef={forwardRef}
-              selected={isSelected ? $anchor.pos : null}
-              disabled={(editorDisabledPlugin || {}).editorDisabled}
-              editorAppearance={editorAppearance}
+            <WithPluginState
+              editorView={this.view}
+              plugins={{
+                reactNodeViewState: reactNodeViewStateKey,
+                editorDisabledPlugin: editorDisabledPluginKey,
+              }}
+              render={({
+                editorDisabledPlugin,
+              }: {
+                editorDisabledPlugin: EditorDisabledPluginState;
+              }) => {
+                const nodePos = this.getPos();
+                const { $anchor, $head } = this.view.state.selection;
+                const isSelected =
+                  nodePos < $anchor.pos &&
+                  $head.pos < nodePos + this.node.nodeSize;
+                return (
+                  <MediaGroup
+                    node={this.node}
+                    getPos={this.getPos}
+                    view={this.view}
+                    forwardRef={forwardRef}
+                    selected={isSelected ? $anchor.pos : null}
+                    disabled={(editorDisabledPlugin || {}).editorDisabled}
+                    editorAppearance={editorAppearance}
+                    mediaProvider={mediaProvider}
+                    contextIdentifierProvider={contextIdentifierProvider}
+                  />
+                );
+              }}
             />
           );
         }}
@@ -183,9 +205,11 @@ class MediaGroupNodeView extends ReactNodeView {
 
 export const ReactMediaGroupNode = (
   portalProviderAPI: PortalProviderAPI,
+  providerFactory: ProviderFactory,
   editorAppearance?: EditorAppearance,
 ) => (node: PMNode, view: EditorView, getPos: () => number): NodeView => {
   return new MediaGroupNodeView(node, view, getPos, portalProviderAPI, {
     editorAppearance,
+    providerFactory,
   }).init();
 };
