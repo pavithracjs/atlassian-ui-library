@@ -25,6 +25,7 @@ import {
   ContextIdentifierProvider,
 } from '@atlaskit/editor-common';
 import { MediaProvider } from '../types';
+import { MediaNodeUpdater } from './mediaNodeUpdater';
 
 export type MediaGroupProps = {
   forwardRef?: (ref: HTMLElement) => void;
@@ -63,13 +64,28 @@ export default class MediaGroup extends React.Component<
   async componentDidMount() {
     this.updateMediaClientConfig();
 
-    // TODO: no need for constructor, iterate all nodes and create one for each here
-    // const contextId = this.mediaNodeUpdater.getCurrentContextId();
-    // if (!contextId) {
-    //   await this.mediaNodeUpdater.updateContextId();
-    // }
+    this.mediaNodes.forEach(async (node: PMNode) => {
+      const mediaNodeUpdater = new MediaNodeUpdater({
+        ...this.props,
+        node,
+        isMediaSingle: false,
+      });
 
-    this.mediaNodes.forEach(n => console.log(n));
+      if (node.attrs.type === 'external') {
+        return;
+      }
+
+      const contextId = mediaNodeUpdater.getCurrentContextId();
+      if (!contextId) {
+        await mediaNodeUpdater.updateContextId();
+      }
+
+      const isNodeFromDifferentCollection = await mediaNodeUpdater.isNodeFromDifferentCollection();
+
+      if (isNodeFromDifferentCollection) {
+        mediaNodeUpdater.copyNode();
+      }
+    });
   }
 
   componentWillReceiveProps(props: MediaGroupProps) {

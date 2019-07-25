@@ -20,10 +20,11 @@ export type RemoteDimensions = { id: string; height: number; width: number };
 
 export interface MediaNodeUpdaterProps {
   view: EditorView;
-  node: PMNode;
+  node: PMNode; // assumed to be media type node (ie. child of MediaSingle, MediaGroup)
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
   contextIdentifierProvider: Promise<ContextIdentifierProvider>;
+  isMediaSingle: boolean;
 }
 
 export class MediaNodeUpdater {
@@ -49,14 +50,14 @@ export class MediaNodeUpdater {
         __contextId: objectId,
         contextId: objectId,
       },
-      true,
+      this.props.isMediaSingle,
     )(this.props.view.state, this.props.view.dispatch);
   };
 
   getAttrs = (): MediaAttributes | undefined => {
-    const { firstChild } = this.props.node;
-    if (firstChild) {
-      return firstChild.attrs as MediaAttributes;
+    const { attrs } = this.props.node;
+    if (attrs) {
+      return attrs as MediaAttributes;
     }
 
     return undefined;
@@ -91,17 +92,17 @@ export class MediaNodeUpdater {
 
   async getRemoteDimensions(): Promise<false | RemoteDimensions> {
     const mediaProvider = await this.props.mediaProvider;
-    const { firstChild } = this.props.node;
-    if (!mediaProvider || !firstChild) {
+    const { attrs } = this.props.node;
+    if (!mediaProvider || !attrs) {
       return false;
     }
-    const { height, type, width } = firstChild.attrs as
+    const { height, type, width } = attrs as
       | MediaAttributes
       | ExternalMediaAttributes;
     if (type === 'external') {
       return false;
     }
-    const { id, collection } = firstChild.attrs as MediaAttributes;
+    const { id, collection } = attrs as MediaAttributes;
     if (height && width) {
       return false;
     }
@@ -189,6 +190,7 @@ export class MediaNodeUpdater {
         collection: currentCollectionName,
         authProvider: uploadMediaClientConfig.authProvider,
         occurrenceKey: uuidV4(),
+        replaceFileId: uuidV4(),
       };
       const mediaFile = await mediaClient.file.copyFile(source, destination);
 
@@ -198,7 +200,7 @@ export class MediaNodeUpdater {
           id: mediaFile.id,
           collection: currentCollectionName,
         },
-        true,
+        this.props.isMediaSingle,
       )(this.props.view.state, this.props.view.dispatch);
     }
   };

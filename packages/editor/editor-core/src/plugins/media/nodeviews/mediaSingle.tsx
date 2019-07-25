@@ -75,17 +75,25 @@ export default class MediaSingleNode extends Component<
   async componentDidMount() {
     this.setViewMediaClientConfig(this.props);
 
-    const mediaNodeUpdater = new MediaNodeUpdater(this.props);
+    // we want the first child of MediaSingle (type "media")
+    const node = this.props.node.firstChild;
+
+    if (!node) {
+      return;
+    }
+
+    const mediaNodeUpdater = new MediaNodeUpdater({
+      ...this.props,
+      node,
+      isMediaSingle: true,
+    });
 
     const updatedDimensions = await mediaNodeUpdater.getRemoteDimensions();
     if (updatedDimensions) {
       mediaNodeUpdater.updateDimensions(updatedDimensions);
     }
 
-    const { node } = this.props;
-    const childNode = node.firstChild;
-
-    if (!childNode || childNode.attrs.type === 'external') {
+    if (node.attrs.type === 'external') {
       return;
     }
 
