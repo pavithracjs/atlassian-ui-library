@@ -38,6 +38,24 @@ const shouldResetGrabArea = (width: number) => {
   return width >= GLOBAL_NAV_COLLAPSE_THRESHOLD && width < CONTENT_NAV_WIDTH;
 };
 
+// https://allyjs.io/tutorials/hiding-elements.html#2017-edition-of-visuallyhidden
+const VisuallyHidden = (props: *) => (
+  <span
+    css={{
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      margin: '-1px',
+      border: '0',
+      padding: '0',
+      whiteSpace: 'nowrap',
+      clipPath: 'inset(100%)',
+      clip: 'rect(0 0 0 0)',
+      overflow: 'hidden',
+    }}
+    {...props}
+  />
+);
 const Outer = (props: *) => (
   <div css={{ position: 'relative', width: OUTER_WIDTH }} {...props} />
 );
@@ -123,6 +141,12 @@ const Button = ({
         color: 'white',
       },
       ':active': {
+        backgroundColor: colors.B200,
+        color: 'white',
+      },
+
+      ':focus': {
+        opacity: 1,
         backgroundColor: colors.B200,
         color: 'white',
       },
@@ -462,7 +486,10 @@ class ResizeControl extends PureComponent<Props, State> {
         hasHighlight={mouseIsDown || mouseIsOverGrabArea}
         innerRef={expandCollapseAffordanceRef}
       >
-        <ButtonIcon />
+        <VisuallyHidden>{`Click to ${
+          isCollapsed ? 'expand' : 'collapse'
+        } navigation`}</VisuallyHidden>
+        <ButtonIcon ariaHidden />
       </Button>
     );
     const shadowDirection = flyoutIsOpen ? 'to right' : 'to left';
