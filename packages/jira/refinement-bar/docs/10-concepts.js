@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import { code, Example, md } from '@atlaskit/docs';
+
+import { code, md } from '@atlaskit/docs';
 
 export default md`
 This documentation attempts to provide further detail on the various concepts behind the refinement bar.
