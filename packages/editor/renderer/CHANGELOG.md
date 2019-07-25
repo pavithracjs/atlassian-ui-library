@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 49.7.4
+
+### Patch Changes
+
+- [patch][a892339c19](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a892339c19):
+
+  Give all editor decorations a key to prevent ProseMirror from re-rendering decorations constantly.
+
+  Enables YAML language for codeblocks
+
 ## 49.7.3
 
 ### Patch Changes
