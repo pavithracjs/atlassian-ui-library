@@ -1,10 +1,9 @@
 import * as api from './api';
-import { getEnvironment } from '../utils/environments';
+import { getResolverUrl } from '../utils/environments';
 import { getError } from '../state/actions/helpers';
 import {
   JsonLd,
   CardClient as CardClientInterface,
-  ClientEnvironment,
   EnvironmentsKeys,
   JsonLdBatch,
   JsonLdResponse,
@@ -22,20 +21,19 @@ export class FetchError extends Error {
 }
 
 export default class CardClient implements CardClientInterface {
-  private environment: ClientEnvironment;
+  private resolverUrl: string;
   private loadersByDomain: Record<string, DataLoader<string, JsonLdResponse>>;
 
-  constructor(environment?: EnvironmentsKeys) {
-    this.environment = getEnvironment(environment || 'prod');
+  constructor(envKey?: EnvironmentsKeys) {
+    this.resolverUrl = getResolverUrl(envKey);
     this.loadersByDomain = {};
   }
 
   private async batchResolve(resourceUrls: string[]): Promise<JsonLdBatch> {
-    const { resolverUrl } = this.environment;
     const urls = resourceUrls.map(resourceUrl => ({ resourceUrl }));
     return await api.request<JsonLdBatch>(
       'post',
-      `${resolverUrl}/resolve/batch`,
+      `${this.resolverUrl}/resolve/batch`,
       urls,
     );
   }
