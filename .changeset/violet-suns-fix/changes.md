@@ -1,0 +1,1 @@
+Fixes regression where pasting a plain text link wouldnt convert to link

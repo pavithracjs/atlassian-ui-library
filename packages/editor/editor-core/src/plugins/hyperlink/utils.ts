@@ -80,9 +80,9 @@ export function linkifyContent(schema: Schema): (slice: Slice) => Slice {
     mapSlice(slice, (node, parent) => {
       const isAllowedInParent =
         !parent || parent.type !== schema.nodes.codeBlock;
-      if (isAllowedInParent && node.isText) {
+      const link = node.type.schema.marks.link;
+      if (isAllowedInParent && node.isText && !link.isInSet(node.marks)) {
         const linkified = [] as Node[];
-        const link = node.type.schema.marks['link'];
         const text = node.text!;
         const matches: any[] = findLinkMatches(text);
         let pos = 0;
