@@ -16,7 +16,10 @@ export function createPlaceholderDecoration(
   placeholderNode.textContent = placeholderText;
   placeholderDecoration.appendChild(placeholderNode);
   return DecorationSet.create(doc, [
-    Decoration.widget(1, placeholderDecoration, { side: -1 }),
+    Decoration.widget(1, placeholderDecoration, {
+      side: -1,
+      key: 'placeholder',
+    }),
   ]);
 }
 
