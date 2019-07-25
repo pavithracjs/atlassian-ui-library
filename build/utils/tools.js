@@ -71,7 +71,7 @@ async function getPackagesInfo(cwd /*: string */) {
 }
 
 const TOOL_NAME_TO_FILTERS /*: { [key: string]: (pkg: Object) => boolean } */ = {
-  typescript: pkg => pkg.isTypeScript,
+  typescript: pkg => !pkg.isTypeScriptCLI && pkg.isTypeScript,
   typescriptcli: pkg => pkg.isTypeScriptCLI,
   babel: pkg => pkg.isBabel,
   flow: pkg => pkg.isFlow,
