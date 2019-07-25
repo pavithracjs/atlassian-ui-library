@@ -14,6 +14,7 @@ import {
   akEditorDeleteBorder,
   akEditorSelectedBorderBoldSize,
 } from '@atlaskit/editor-common';
+import { colors } from '@atlaskit/theme';
 
 import { telepointerStyle } from '../../plugins/collab-edit/styles';
 import { gapCursorStyles } from '../../plugins/gap-cursor/styles';
@@ -144,6 +145,11 @@ const ContentStyles: ComponentClass<
   }
 
   /** Needed to override any cleared floats, e.g. image wrapping */
+
+  span.fabric-editor-annotation {
+    background-color: ${colors.Y200};
+  }
+
   div.fabric-editor-block-mark[class^='fabric-editor-align'] {
     clear: none !important;
   }

@@ -134,7 +134,6 @@ export default {
   marks: [
     // Inline marks
     'link',
-    'confluenceInlineComment',
     'em',
     'strong',
     'textColor',
@@ -150,6 +149,7 @@ export default {
     'alignment',
     'breakout',
     'indentation',
+    'annotationQuery',
     'annotation',
   ],
 };

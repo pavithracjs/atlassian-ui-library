@@ -46,4 +46,6 @@ export {
   annotation,
   AnnotationMarkDefinition,
   AnnotationMarkAttributes,
+  INLINE_COMMENT,
 } from './annotation';
+export { annotationQuery } from './annotation-query';

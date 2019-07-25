@@ -1,7 +1,8 @@
 import { toggleMark } from 'prosemirror-commands';
 import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
 import { Dispatch } from '../../../event-dispatcher';
-import { anyMarkActive, shallowEqual } from '../utils';
+import { shallowEqual } from '../../../utils';
+import { anyMarkActive } from '../utils';
 import { createInlineCodeFromTextInputWithAnalytics } from '../commands/text-formatting';
 import { EditorView } from 'prosemirror-view';
 import * as keymaps from '../../../keymaps';

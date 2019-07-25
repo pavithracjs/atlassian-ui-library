@@ -7,7 +7,6 @@ import {
   clearMarksOnChangeToEmptyDocumentPlugin,
   codeBlockPlugin,
   collabEditPlugin,
-  confluenceInlineComment,
   datePlugin,
   emojiPlugin,
   extensionPlugin,
@@ -199,8 +198,8 @@ export default function createPluginsList(
     plugins.push(macroPlugin());
   }
 
-  if (props.allowConfluenceInlineComment) {
-    plugins.push(confluenceInlineComment(), annotationPlugin());
+  if (props.UNSAFE_annotationProvider) {
+    plugins.push(annotationPlugin());
   }
 
   if (props.allowDate) {

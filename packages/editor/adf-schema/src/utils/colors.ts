@@ -15,6 +15,7 @@ export const R500 = '#BF2600';
 
 export const Y50 = '#FFFAE6';
 export const Y75 = '#FFF0B3';
+export const Y200 = '#FFC400';
 export const Y400 = '#FF991F';
 export const Y500 = '#FF8B00';
 

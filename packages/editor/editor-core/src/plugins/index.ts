@@ -6,9 +6,6 @@ export {
 } from './clear-marks-on-change-to-empty-document';
 export { default as codeBlockPlugin } from './code-block';
 export { default as collabEditPlugin, CollabEditProvider } from './collab-edit';
-export {
-  default as confluenceInlineComment,
-} from './confluence-inline-comment';
 export { default as datePlugin } from './date';
 export { default as emojiPlugin } from './emoji';
 export { default as extensionPlugin } from './extension';

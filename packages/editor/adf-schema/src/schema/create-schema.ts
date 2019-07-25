@@ -17,6 +17,7 @@ import {
   breakout,
   alignment,
   indentation,
+  annotationQuery,
   annotation,
 } from './marks';
 
@@ -189,8 +190,9 @@ const marksInOrder: SchemaBuiltInItem[] = [
   { name: 'typeAheadQuery', spec: typeAheadQuery },
   { name: 'action', spec: action },
   { name: 'alignment', spec: alignment },
-  { name: 'annotation', spec: annotation },
   { name: 'confluenceInlineComment', spec: confluenceInlineComment },
+  { name: 'annotationQuery', spec: annotationQuery },
+  { name: 'annotation', spec: annotation },
   ...markGroupDeclarations,
   { name: 'breakout', spec: breakout },
   { name: 'indentation', spec: indentation },

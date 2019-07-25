@@ -1,27 +1,25 @@
 import styled from 'styled-components';
-
 import * as React from 'react';
+import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import Button, { ButtonGroup } from '@atlaskit/button';
 
-import Editor, { EditorProps, EditorAppearance } from './../src/editor';
-import EditorContext from './../src/ui/EditorContext';
-import WithEditorActions from './../src/ui/WithEditorActions';
 import {
   cardProvider,
+  customInsertMenuItems,
+  extensionHandlers,
   storyMediaProviderFactory,
   storyContextIdentifierProviderFactory,
   macroProvider,
   autoformattingProvider,
 } from '@atlaskit/editor-test-helpers';
-import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
-import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
+
 import { EmojiProvider } from '@atlaskit/emoji/resource';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
+import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 
-import {
-  customInsertMenuItems,
-  extensionHandlers,
-} from '@atlaskit/editor-test-helpers';
+import Editor, { EditorProps, EditorAppearance } from './../src/editor';
+import EditorContext from './../src/ui/EditorContext';
+import WithEditorActions from './../src/ui/WithEditorActions';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
 import { TitleInput } from '../example-helpers/PageElements';
@@ -32,6 +30,7 @@ import {
   DEFAULT_MODE,
   LOCALSTORAGE_defaultMode,
 } from '../example-helpers/example-constants';
+import ExampleInlineCommentComponent from '../src/plugins/annotation/ui/ExampleInlineCommentComponent';
 
 /**
  * +-------------------------------+
@@ -208,6 +207,9 @@ class ExampleEditorComponent extends React.Component<
               allowTemplatePlaceholders={{ allowInserting: true }}
               UNSAFE_cards={{
                 provider: Promise.resolve(cardProvider),
+              }}
+              UNSAFE_annotationProvider={{
+                inlineCommentComponent: ExampleInlineCommentComponent,
               }}
               allowStatus={true}
               {...providers}

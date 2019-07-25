@@ -55,6 +55,7 @@ export {
   hardBreak,
   emojiQuery,
   typeAheadQuery,
+  annotationQuery,
   media,
   mediaGroup,
   mediaSingle,
