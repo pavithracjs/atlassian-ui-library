@@ -15,6 +15,10 @@ import {
 import { TableMap } from 'prosemirror-tables';
 import { getPluginState } from '../pm-plugins/main';
 import { CellAttributes } from '@atlaskit/adf-schema';
+import {
+  tableCellBorderWidth,
+  tableCellPadding,
+} from '@atlaskit/editor-common';
 
 const filterDecorationByKey = (
   key: TableDecorations,
@@ -111,27 +115,48 @@ export const createColumnControlsDecoration = (
 ): Decoration[] => {
   const cells: ContentNodeWithPos[] = getCellsInRow(0)(selection) || [];
   let index = 0;
-  return cells.map(cell => {
+  return cells.reduce<Decoration[]>((decorations, cell) => {
     const colspan = (cell.node.attrs as CellAttributes).colspan || 1;
-    const element = document.createElement('div');
-    element.classList.add(ClassName.COLUMN_CONTROLS_DECORATIONS);
-    element.dataset.startIndex = `${index}`;
-    index += colspan;
-    element.dataset.endIndex = `${index}`;
+    const colswidth = (cell.node.attrs as CellAttributes).colwidth;
+    const columnDecorations = [];
 
-    return Decoration.widget(
-      cell.pos + 1,
-      // Do not delay the rendering for this Decoration
-      // because we need to always render all controls
-      // to keep the order safe
-      element,
-      {
-        key: `${TableDecorations.COLUMN_CONTROLS_DECORATIONS}_${index}`,
-        // this decoration should be the first one, even before gap cursor.
-        side: -100,
-      },
-    );
-  });
+    for (let i = 0; i < colspan; i++) {
+      const element = document.createElement('div');
+      element.classList.add(ClassName.COLUMN_CONTROLS_DECORATIONS);
+      element.dataset.startIndex = `${index}`;
+      index += 1;
+      element.dataset.endIndex = `${index}`;
+
+      if (colswidth) {
+        const lastWidth = i === 0 ? 0 : colswidth[i - 1];
+        const width = colswidth[i];
+        element.style.width =
+          i + 1 === colspan
+            ? `calc(100% + ${tableCellPadding * 2 +
+                tableCellBorderWidth -
+                lastWidth}px)`
+            : `${width}px`;
+        element.style.marginLeft = `${lastWidth + tableCellBorderWidth}px`;
+      }
+
+      const decoration = Decoration.widget(
+        cell.pos + 1,
+        // Do not delay the rendering for this Decoration
+        // because we need to always render all controls
+        // to keep the order safe
+        element,
+        {
+          key: `${TableDecorations.COLUMN_CONTROLS_DECORATIONS}_${index}`,
+          // this decoration should be the first one, even before gap cursor.
+          side: -100,
+        },
+      );
+
+      columnDecorations.push(decoration);
+    }
+
+    return [...decorations, ...columnDecorations];
+  }, []);
 };
 
 export const updateNodeDecorations = (

@@ -332,6 +332,7 @@ const columnControlsDecoration = `
       ${columnHeaderButton(`
         border-right: ${tableCellBorderWidth}px solid ${tableBorderColor};
         border-bottom: none;
+        border-left: none;
         height: ${tableToolbarSize}px;
         width: 100%;
         position: absolute;
