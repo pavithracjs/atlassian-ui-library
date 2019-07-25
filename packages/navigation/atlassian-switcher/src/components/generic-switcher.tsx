@@ -22,6 +22,7 @@ export default (props: GenericSwitcherProps) => (
       <CommonDataProvider
         cloudId={props.cloudId}
         isUserCentric={Boolean(props.features.enableUserCentricProducts)}
+        disableRecentContainers={props.features.disableRecentContainers}
       >
         {providerResults => {
           const switcherLinks = mapResultsToSwitcherProps(

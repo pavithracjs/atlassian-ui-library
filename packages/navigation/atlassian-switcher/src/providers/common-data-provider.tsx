@@ -19,6 +19,7 @@ import {
 interface CommonDataProviderProps {
   cloudId: string;
   isUserCentric: boolean;
+  disableRecentContainers: boolean;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
   children: (
     props: {
@@ -37,9 +38,13 @@ export default ({
   children,
   isUserCentric,
   recommendationsFeatureFlags,
+  disableRecentContainers,
 }: CommonDataProviderProps) => {
   return (
-    <RecentContainersProvider cloudId={cloudId}>
+    <RecentContainersProvider
+      cloudId={cloudId}
+      disableRecentContainers={disableRecentContainers}
+    >
       {recentContainers => (
         <LicenseInformationProvider
           cloudId={cloudId}

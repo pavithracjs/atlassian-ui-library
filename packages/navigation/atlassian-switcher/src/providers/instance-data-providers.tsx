@@ -5,6 +5,7 @@ import asDataProvider, {
   ProviderResult,
   Status,
   ResultLoading,
+  ResultComplete,
 } from './as-data-provider';
 import {
   LicenseInformationResponse,
@@ -22,10 +23,36 @@ const fetchRecentContainers = ({ cloudId }: WithCloudId) =>
     `/gateway/api/activity/api/client/recent/containers?cloudId=${cloudId}`,
   );
 
-export const RecentContainersProvider = asDataProvider(
+const RealRecentContainersProvider = asDataProvider(
   'recentContainers',
   fetchRecentContainers,
 );
+
+const emptyRecentContainers: ResultComplete<RecentContainersResponse> = {
+  status: Status.COMPLETE,
+  data: { data: [] },
+};
+
+export const RecentContainersProvider = ({
+  cloudId,
+  disableRecentContainers,
+  children,
+}: {
+  disableRecentContainers?: boolean;
+  children: (
+    recentContainers: ProviderResult<RecentContainersResponse>,
+  ) => React.ReactNode;
+} & WithCloudId) => {
+  if (disableRecentContainers) {
+    return <React.Fragment>{children(emptyRecentContainers)}</React.Fragment>;
+  }
+
+  return (
+    <RealRecentContainersProvider cloudId={cloudId}>
+      {children}
+    </RealRecentContainersProvider>
+  );
+};
 
 // License information api
 const fetchLicenseInformation = withCached(({ cloudId }: WithCloudId) =>

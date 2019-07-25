@@ -1,0 +1,1 @@
+Added a new prop to disable recent containers
