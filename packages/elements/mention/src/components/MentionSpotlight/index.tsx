@@ -56,11 +56,11 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   // This is to stop overly aggressive behaviour where clicking anywhere in the spotlight would immediate close the entire
   // dropdown dialog
   private preventClickOnCard = (event: any) => {
-    // We stop the event from propogating, so we need to manually close
-    const isClickOnCloseButotn =
+    // We stop the event from propagating, so we need to manually close
+    const isClickOnCloseButton =
       this.elCloseWrapper.current &&
       this.elCloseWrapper.current.contains(event.target);
-    if (isClickOnCloseButotn) {
+    if (isClickOnCloseButton) {
       this.onCloseClick();
     }
 
