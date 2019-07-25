@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.4.0
+
+### Minor Changes
+
+- [minor][b19bf68c22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b19bf68c22):
+
+  fix: when environment is not provided then default to using the edge proxy instead
+
 ## 12.3.5
 
 ### Patch Changes

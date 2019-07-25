@@ -1,1 +1,0 @@
-fix: when environment is not provided then default to using the edge proxy instead
