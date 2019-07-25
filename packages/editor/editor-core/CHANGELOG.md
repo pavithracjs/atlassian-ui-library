@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.2
+
+### Patch Changes
+
+- [patch][c68c5119c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c68c5119c8):
+
+  Fixes regression where pasting a plain text link wouldnt convert to link
+
 ## 112.39.1
 
 ### Patch Changes
