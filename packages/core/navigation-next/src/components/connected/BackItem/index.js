@@ -28,6 +28,9 @@ export default class BackItem extends Component<BackItemProps> {
     return (
       <div
         data-id="back-item"
+        // This is added so that the correct element can
+        // tabbed on page transition when navigating via keyboard.
+        // eslint-disable-next-line
         tabIndex="0"
         css={{ marginBottom: gridSize * 2, outline: 'none' }}
       >
