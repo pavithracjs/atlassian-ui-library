@@ -22,7 +22,13 @@ export const BlockCard: FC<BlockCardProps> = ({
 }) => {
   switch (status) {
     case 'pending':
-      return <CardLinkView link={url} isSelected={isSelected} />;
+      return (
+        <CardLinkView
+          link={url}
+          isSelected={isSelected}
+          onClick={handleFrameClick}
+        />
+      );
     case 'resolving':
       return (
         <BlockCardResolvingView

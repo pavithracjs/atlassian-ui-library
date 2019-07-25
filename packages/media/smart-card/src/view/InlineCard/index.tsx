@@ -22,7 +22,13 @@ export const InlineCard: FC<InlineCardProps> = ({
   const { status, details } = cardState;
   switch (status) {
     case 'pending':
-      return <CardLinkView link={url} isSelected={isSelected} />;
+      return (
+        <CardLinkView
+          link={url}
+          isSelected={isSelected}
+          onClick={handleFrameClick}
+        />
+      );
     case 'resolving':
       return (
         <InlineCardResolvingView
@@ -68,6 +74,12 @@ export const InlineCard: FC<InlineCardProps> = ({
         />
       );
     case 'errored':
-      return <CardLinkView link={url} isSelected={isSelected} />;
+      return (
+        <CardLinkView
+          link={url}
+          isSelected={isSelected}
+          onClick={handleFrameClick}
+        />
+      );
   }
 };
