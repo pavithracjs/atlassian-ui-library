@@ -13,10 +13,10 @@ const ArrowLeft = () => (
   <ArrowLeftCircleIcon primaryColor="currentColor" secondaryColor="inherit" />
 );
 
-type State = {
+type BackItemState = {
   tabindex: number,
 };
-export default class BackItem extends Component<BackItemProps, State> {
+export default class BackItem extends Component<BackItemProps, BackItemState> {
   static defaultProps = {
     text: 'Back',
   };
