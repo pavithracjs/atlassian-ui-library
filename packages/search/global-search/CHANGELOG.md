@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.6.3
+
+### Patch Changes
+
+- [patch][8123915fe4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8123915fe4):
+
+  Added back analytic information to request for quick search
+
 ## 10.6.2
 
 - Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):
