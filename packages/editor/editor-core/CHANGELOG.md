@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.4
+
+### Patch Changes
+
+- [patch][25d1a4dd68](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d1a4dd68):
+
+  ED-6300: fix pasting lists in tables where pasted slice has openStart > openEnd
+
 ## 112.39.3
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-ED-6300: fix pasting lists in tables where pasted slice has openStart > openEnd
