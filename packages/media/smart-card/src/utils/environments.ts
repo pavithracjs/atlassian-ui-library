@@ -15,11 +15,13 @@ export const BaseUrls = {
 };
 
 export const getBaseUrl = (envKey?: keyof typeof BaseUrls) => {
+  // If an environment is provided, then use Stargate.
   if (envKey) {
     return envKey in BaseUrls ? BaseUrls[envKey] : prodBaseUrl;
   }
 
-  return prodBaseUrl;
+  // Otherwise, use the current origin of the page.
+  return window.location.origin;
 };
 
 export const getResolverUrl = (envKey?: keyof typeof BaseUrls) => {
