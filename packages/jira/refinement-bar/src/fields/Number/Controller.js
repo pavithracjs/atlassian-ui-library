@@ -27,7 +27,7 @@ export default class NumberController extends FieldController {
 
   note: ?string;
 
-  formatButtonLabel = ({ type, value }: *) => {
+  formatLabel = ({ type, value }: *) => {
     // $FlowFixMe
     const typeLabel = this.getFilterTypes().find(f => f.type === type).label;
     const showValue = type !== 'is_not_set';
@@ -84,14 +84,14 @@ export default class NumberController extends FieldController {
       hasInput: true,
     },
     {
-      type: `between`,
+      type: 'between',
       label: 'between',
       hasInput: true,
     },
     { type: 'is_not_set', label: 'has no value' },
   ];
 
-  defaultValidation = ({ type, value }: *) => {
+  defaultValidate = ({ type, value }: *) => {
     let result = null;
     const nameMap = { lt: 'to', gt: 'from' };
 

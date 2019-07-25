@@ -1,6 +1,6 @@
 // @flow
 
-type ValidationSignature = (value: any) => string | null;
+type ValidateSignature = (value: any) => string | null;
 type InitialValueSignature = () => any;
 type HasValueSignature = (value: any) => boolean;
 
@@ -10,14 +10,14 @@ export default class FieldController {
     this.key = config.key;
     this.label = config.label;
     this.type = config.type;
-    this.validate = config.validate || this.defaultValidation;
+    this.validate = config.validate || this.defaultValidate;
 
     if (!this.label) {
       throw Error(`"${this.key}" requires a label.`);
     }
   }
 
-  validate: ValidationSignature;
+  validate: ValidateSignature;
 
   config: Object;
 
@@ -45,5 +45,5 @@ export default class FieldController {
     );
   };
 
-  defaultValidation: ValidationSignature = () => null;
+  defaultValidate: ValidateSignature = () => null;
 }

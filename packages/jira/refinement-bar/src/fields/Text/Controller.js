@@ -11,7 +11,7 @@ export default class TextController extends FieldController {
 
   note: ?string;
 
-  formatButtonLabel = ({ type, value }: *) => {
+  formatLabel = ({ type, value }: *) => {
     // $FlowFixMe
     const typeLabel = this.getFilterTypes().find(f => f.type === type).label;
     const hasValue = this.hasValue({ type, value });
@@ -61,7 +61,7 @@ export default class TextController extends FieldController {
     { type: 'is_not_set', label: 'is empty' },
   ];
 
-  defaultValidation = ({ type, value }: *) => {
+  defaultValidate = ({ type, value }: *) => {
     if (type === 'is_not_set') {
       return null;
     }

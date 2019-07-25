@@ -37,7 +37,7 @@ export default class SelectController extends FieldController {
 
   getInitialValue = () => [];
 
-  formatButtonLabel = (value: *) => {
+  formatLabel = (value: *) => {
     const separator = ', ';
     const max = 3;
     const makeLabel = suffix => (

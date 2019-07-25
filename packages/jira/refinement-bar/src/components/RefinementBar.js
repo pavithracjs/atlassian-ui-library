@@ -261,7 +261,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     const storedValue = this.context.value[key] || initialValue;
     const localValue = this.state.values[key] || initialValue;
 
-    const hasPopup = typeof field.formatButtonLabel === 'function';
+    const hasPopup = typeof field.formatLabel === 'function';
     const popupIsOpen = this.getActivePopup() === key;
 
     const fieldUI = renderContextProps => {
@@ -269,7 +269,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
 
       return (
         <FieldView
-          closePopup={this.closePopup}
+          closePopup={hasPopup ? this.closePopup : undefined}
           field={field}
           invalidMessage={invalidMessage}
           key={key}
@@ -309,7 +309,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
             }
             ref={ref}
           >
-            {field.formatButtonLabel(storedValue)}
+            {field.formatLabel(storedValue)}
           </FilterButton>
         )}
       >

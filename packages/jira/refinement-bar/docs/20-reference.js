@@ -73,14 +73,15 @@ updated value object for the refinement bar and meta is some information about
 the type of change.
 
 ${code`
+type FieldValue = any
 type Value = {
-  [FieldKey]: any,
+  [FieldKey]: FieldValue,
 }
 
 type Meta = {
   type: 'add' | 'remove' | 'update' | 'clear',
   key: FieldKey,
-  data?: any,
+  data?: FieldValue,
 }
 
 type OnChange = (Value, Meta) => void
@@ -105,7 +106,7 @@ support further configuration.
 ${code`
 type DefaultConfig = {
   label: string,
-  type: React.ComponentType<*>,
+  type: $React.ComponentType<*>,
 }
 `}
 
@@ -126,12 +127,14 @@ ${code`
 type Option = { value: any, label: string }
 type Options = Array<Option>
 
-type SelectConfig = DefaultConfig & {
+type SelectFieldConfig = DefaultConfig & {
   onMenuScrollToBottom?: (event: WheelEvent) => void,
   onMenuScrollToTop?: (event: WheelEvent) => void,
   options: Options | (refinementBarValue: Object) => Options,
   placeholder?: string, // Default "Search..."
 }
+
+type SelectFieldValue = Options
 `}
 
 ${(
@@ -204,7 +207,7 @@ The \`loadOptions\` function returns a promise, which is the set of options to
 be used once the promise resolves.
 
 ${code`
-type AsyncSelectConfig = SelectConfig & {
+type AsyncSelectFieldConfig = SelectFieldConfig & {
   cacheOptions?: any,
   defaultOptions?: Options,
   defaultOptionsLabel?: string,
@@ -279,25 +282,33 @@ The number filter, in addition to the default config also accepts (optionally) \
 for custom validation, and a \`note\` to be rendered beneath the filter UI.
 
 ${code`
-type ValidationSignature = ({ type?: string, value: any }) => string | null
+type Type = 'is' | 'not' | 'gt' | 'lt' | 'between' | 'is_not_set'
+type Value = { gt: number, lt: number } | number | null
 
-type NumberConfig = {
+type ValidateSignature = (value: NumberFieldValue) => string | null
+
+type NumberFieldConfig = {
   label: string,
   note?: string,
   type: NumberFilter,
-  validate?: ValidationSignature,
+  validate?: ValidateSignature,
+}
+
+type NumberFieldValue = {
+  type: Type,
+  value: Value,
 }
 `}
 
 The number filter's value can be of 6 different \`types\`, with slight variants
 amongst the value shape:
 
-- \`'is'\`, where the value must be \`number\`
-- \`'not'\`, where the value must be \`number\`
-- \`'gt'\`, where the value must be \`number\`
-- \`'lt'\`, where the value must be \`number\`
-- \`'between'\`, where the value must be \`{ gt: number, lt: number }\`
-- \`'is_not_set'\`, where the value must be \`null\`
+- \`'is'\` where the value is \`number\`
+- \`'not'\` where the value is \`number\`
+- \`'gt'\` where the value is \`number\`
+- \`'lt'\` where the value is \`number\`
+- \`'between'\` where the value is \`{ gt: number, lt: number }\`
+- \`'is_not_set'\` where the value is \`null\`
 
 The number filter has quite strict default validation, and will fail if:
 
@@ -322,23 +333,31 @@ The text filter, in addition to the default config also accepts (optionally) \`v
 for custom validation, and a \`note\` to be rendered beneath the filter UI.
 
 ${code`
-type ValidationSignature = ({ type?: string, value: any }) => string | null
+type Type = 'contains' | 'not_contains' | 'is' | 'is_not_set'
+type Value = string | null
 
-type TextConfig = {
+type ValidateSignature = (value: TextFieldValue) => string | null
+
+type TextFieldConfig = {
   label: string,
   note?: string,
   type: TextFilter,
-  validate?: ValidationSignature,
+  validate?: ValidateSignature,
+}
+
+type TextFieldValue = {
+  type: Type,
+  value: Value,
 }
 `}
 
 The text filter's value can be of 4 different \`types\`, with slight variants
 amongst the value shape:
 
-- \`'contains'\`, where the value must be \`string\`
-- \`'not_contains'\`, where the value must be \`string\`
-- \`'is'\`, where the value must be \`string\`
-- \`'is_not_set'\`, where the value must be \`null\`
+- \`'contains'\` where the value is \`string\`
+- \`'not_contains'\` where the value is \`string\`
+- \`'is'\` where the value is \`string\`
+- \`'is_not_set'\` where the value is \`null\`
 
 The config reference below implements a custom validate function. Try beginning
 your search string with either \`'*'\` or \`'?'\`.
@@ -358,10 +377,12 @@ ${(
 The search filter has no additional config beyond the default.
 
 ${code`
-type SearchConfig = {
+type SearchFieldConfig = {
   label: string,
   type: SearchFilter,
 }
+
+type SearchFieldValue = string
 `}
 
 ${(
