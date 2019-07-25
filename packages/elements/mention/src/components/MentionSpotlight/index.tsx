@@ -26,13 +26,13 @@ export interface State {
 const ICON_URL =
   'https://ptc-directory-sited-static.us-east-1.prod.public.atl-paas.net/teams/avatars/2.svg';
 
-export default class MentionSpotlight extends React.Component<Props, {}> {
+export default class MentionSpotlight extends React.Component<Props, State> {
   // Wrap whole dialog so we can catch events, see preventClickOnCard
   elWrapper: RefObject<HTMLDivElement>;
   // Wrap the close button, so we can still manually invoke onClose()
   elCloseWrapper: RefObject<HTMLDivElement>;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.elWrapper = React.createRef();
     this.elCloseWrapper = React.createRef();
@@ -55,7 +55,7 @@ export default class MentionSpotlight extends React.Component<Props, {}> {
 
   // This is to stop overly aggressive behaviour where clicking anywhere in the spotlight would immediate close the entire
   // dropdown dialog
-  private preventClickOnCard = event => {
+  private preventClickOnCard = (event: any) => {
     // We stop the event from propogating, so we need to manually close
     const isClickOnCloseButotn =
       this.elCloseWrapper.current &&
