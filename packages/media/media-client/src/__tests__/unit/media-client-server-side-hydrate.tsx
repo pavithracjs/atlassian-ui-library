@@ -11,7 +11,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate media-client correctly', async () => {
+test('should ssr then hydrate media-client correctly', async () => {
   const [example] = await getExamplesFor('media-client');
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
   const elem = document.createElement('div');
