@@ -1,0 +1,1 @@
+Improve typing performance by avoiding unnecessary nodesBetween calls in detectNodeType
