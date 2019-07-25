@@ -1,5 +1,10 @@
 # @atlaskit/email-renderer
 
+## 2.10.1
+
+- Updated dependencies [6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):
+  - @atlaskit/adf-schema@3.0.0
+
 ## 2.10.0
 
 ### Minor Changes

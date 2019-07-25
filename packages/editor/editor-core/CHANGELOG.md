@@ -1,5 +1,17 @@
 # @atlaskit/editor-core
 
+## 112.39.5
+
+- Updated dependencies [6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):
+  - @atlaskit/adf-utils@6.1.3
+  - @atlaskit/editor-bitbucket-transformer@6.1.3
+  - @atlaskit/editor-json-transformer@6.2.3
+  - @atlaskit/editor-markdown-transformer@3.1.3
+  - @atlaskit/editor-test-helpers@9.11.3
+  - @atlaskit/adf-schema@3.0.0
+  - @atlaskit/editor-common@39.17.0
+  - @atlaskit/renderer@49.7.5
+
 ## 112.39.4
 
 ### Patch Changes

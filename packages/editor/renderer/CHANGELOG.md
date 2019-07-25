@@ -1,5 +1,32 @@
 # @atlaskit/renderer
 
+## 49.7.5
+
+### Patch Changes
+
+- [patch][6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):
+
+  ED-6806 Move 'calcTableColumnWidths' from adf-schema into editor-common
+
+  BREAKING CHANGE
+
+  We move 'calcTableColumnWidths' helper from adf-schema into our helper library editor-common, you can use it from editor-common in the same way:
+
+  Before:
+
+  ```javascript
+  import { calcTableColumnWidths } from '@atlaskit/adf-schema';
+  ```
+
+  Now:
+
+  ````javascript
+  import { calcTableColumnWidths } from '@atlaskit/editor-common';
+  ```- [patch] [d4223be707](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4223be707):
+
+  ED-6805 Fix table column widths calculation (renderer/confluence-transformer)
+  ````
+
 ## 49.7.4
 
 ### Patch Changes

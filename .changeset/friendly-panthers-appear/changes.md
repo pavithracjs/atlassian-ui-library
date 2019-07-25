@@ -1,1 +1,0 @@
-ED-6805 Fix table column widths calculation (renderer/confluence-transformer)
