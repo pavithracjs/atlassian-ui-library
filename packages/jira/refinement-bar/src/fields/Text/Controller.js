@@ -7,6 +7,7 @@ export default class TextController extends FieldController {
   constructor(config: *) {
     super(config);
     this.note = config.note;
+    this.validate = config.validate || this.defaultValidate;
   }
 
   note: ?string;
