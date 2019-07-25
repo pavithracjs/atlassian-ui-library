@@ -1,1 +1,0 @@
-Improve performance of pages with smart cards

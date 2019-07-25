@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.0
+
+### Minor Changes
+
+- [minor][ec66d3c646](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec66d3c646):
+
+  Improve performance of pages with smart cards
+
 ## 112.38.0
 
 ### Minor Changes
