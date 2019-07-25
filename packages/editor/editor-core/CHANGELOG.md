@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.1
+
+### Patch Changes
+
+- [patch][2d5136732c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d5136732c):
+
+  ED-7315 Ensure text selection remains inside inserted action/decision item when inserting into an empty paragraph below another paragraph
+
 ## 112.39.0
 
 ### Minor Changes
