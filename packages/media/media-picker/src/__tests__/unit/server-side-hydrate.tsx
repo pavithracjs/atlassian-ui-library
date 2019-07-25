@@ -6,8 +6,13 @@ import waitForExpect from 'wait-for-expect';
 
 const getConsoleMockCalls = mockConsole(console);
 
+beforeAll(() => {
+  jest.setTimeout(20000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
+  jest.restoreAllMocks();
 });
 
 test.skip('should ssr then hydrate media-picker correctly', async () => {
@@ -16,9 +21,8 @@ test.skip('should ssr then hydrate media-picker correctly', async () => {
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
-  ReactDOM.hydrate(<Example />, elem);
-
-  waitForExpect(() => {
+  await waitForExpect(() => {
+    ReactDOM.hydrate(<Example />, elem);
     const mockCalls = getConsoleMockCalls();
     expect(mockCalls.length).toBe(0);
   });

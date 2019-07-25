@@ -4,7 +4,9 @@ import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr, mockConsole } from '@atlaskit/ssr';
 
 const getConsoleMockCalls = mockConsole(console);
-
+beforeAll(() => {
+  jest.setTimeout(30000);
+});
 afterEach(() => {
   jest.resetAllMocks();
 });

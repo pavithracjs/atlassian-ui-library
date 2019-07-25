@@ -8,10 +8,14 @@ declare var global: any;
 
 jest.spyOn(global.console, 'error');
 
+beforeAll(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
-
+// TODO: https://ecosystem.atlassian.net/browse/AK-6450
 test.skip('should ssr then hydrate checkbox correctly', async () => {
   const [example] = await getExamplesFor('checkbox');
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
@@ -19,8 +23,8 @@ test.skip('should ssr then hydrate checkbox correctly', async () => {
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
-  await ReactDOM.hydrate(<Example />, elem);
-  waitForExpect(() => {
+  ReactDOM.hydrate(<Example />, elem);
+  await waitForExpect(() => {
     expect(console.error).not.toBeCalled(); // eslint-disable-line no-console
   });
 });

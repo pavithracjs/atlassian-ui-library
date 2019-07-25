@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import exenv from 'exenv';
+import Pagination from '../..';
 
-import SectionMessage from '../..';
+declare var global: any;
 
 jest.mock('exenv', () => ({
   get canUseDOM() {
@@ -11,27 +12,17 @@ jest.mock('exenv', () => ({
   },
 }));
 
-// @ts-ignore - global usage
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 jest.spyOn(global.console, 'error');
 
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-const App = () => (
-  <SectionMessage
-    title="Lorem Ipsum"
-    actions={[
-      {
-        href: 'https://en.wikipedia.org/wiki/Mary_Shelley',
-        key: 'mary',
-        text: 'Mary',
-      },
-    ]}
-  >
-    <p>Lorem Ipsum...</p>
-  </SectionMessage>
-);
+const App = () => <Pagination pages={[1, 2, 3]} />;
 
 test('should ssr then hydrate tag correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
@@ -46,7 +37,6 @@ test('should ssr then hydrate tag correctly', () => {
   elem.innerHTML = serverHTML;
 
   ReactDOM.hydrate(<App />, elem);
-
   // eslint-disable-next-line no-console
   expect(console.error).not.toBeCalled();
 });
