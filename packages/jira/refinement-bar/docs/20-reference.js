@@ -98,6 +98,7 @@ The object representing the value of fields.
 For a field to be rendered in the refinement bar its key must be present in
 either \`irremovableKeys\` or in the \`value\` object.
 
+<a name="fields"></a>
 ## Fields
 
 Field definitions expect a minimum of \`label\` and \`type\`, but may require or

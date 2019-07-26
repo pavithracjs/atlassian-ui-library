@@ -61,8 +61,9 @@ ${code`
 type InitialValueSignature = () => any;
 `}
 
-\`getInitialValue\` returns the initial value of the field type. The value may
-be anything applicable to that field type.
+Returns the initial value of the field type. Check out the [reference
+docs](/packages/jira/refinement-bar/docs/reference#fields) for each field's
+value shape.
 
 <a name="controller-hasValue"></a>
 ### \`hasValue\`
@@ -71,8 +72,8 @@ ${code`
 type HasValueSignature = (value: any) => boolean;
 `}
 
-Let the view know when this field has a valid value. Used for things like
-formatting the button label.
+Returns whether or not a given field has value. Let the view know when this
+field has a valid value, used for things like formatting the button label.
 
 <a name="controller-validate"></a>
 ### \`validate\` and \`defaultValidate\`
@@ -104,11 +105,12 @@ const FIELD_CONFIG = {
 `}
 
 
+<a name="view"></a>
 ## View
 
 A react component. The UI necessary for a user to filter a set of data. Because
 of space constraints simple field types (e.g. \`Search\`) may have inline
-interfaces; more sophisticated filtering requires two parts:
+interfaces. More sophisticated filtering requires two parts:
 
 - A button, containing a summary of the filter's value, which invokes a popup
 - The actuall filter UI, which is displayed in the popup
