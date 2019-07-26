@@ -88,8 +88,8 @@ const styles = `
   .${createClassName('panel')} > span.diff-image-container.diff-removed {
     display: none;
   }
-  .${createClassName('panel')} span.diff-image-overlay,
-  .${createClassName('taskItem')}-iconTd span.diff-image-overlay {
+  /* Do not display "Image added" or "Image removed" in CS generated content */
+  .${createClassName('wrapper')} span.diff-image-overlay {
     display: none;
   }
 `;
