@@ -245,8 +245,8 @@ export class SelectionBasedNodeView extends ReactNodeView {
   private oldSelection: Selection;
   private selectionChangeState: ReactNodeViewState;
 
-  private pos: number | undefined;
-  private posEnd: number | undefined;
+  pos: number | undefined;
+  posEnd: number | undefined;
 
   constructor(
     node: PMNode,
@@ -306,7 +306,11 @@ export class SelectionBasedNodeView extends ReactNodeView {
   };
 
   insideSelection = () => {
-    const { from, to } = this.view.state.selection;
+    const selection = this.view.state.selection;
+    const { from, to } = selection;
+    if (selection instanceof NodeSelection) {
+      return selection.node === this.node;
+    }
     return this.isSelectionInsideNode(from, to);
   };
 

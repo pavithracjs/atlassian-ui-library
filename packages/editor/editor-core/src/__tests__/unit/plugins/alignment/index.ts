@@ -17,12 +17,7 @@ import {
   pluginKey as alignmentPluginKey,
 } from '../../../../plugins/alignment/pm-plugins/main';
 import { changeAlignment } from '../../../../plugins/alignment/commands/index';
-import alignment from '../../../../plugins/alignment';
-import panelPlugin from '../../../../plugins/panel';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import tablesPlugin from '../../../../plugins/table';
 import { insertBlockType } from '../../../../plugins/block-type/commands';
-import listPlugin from '../../../../plugins/lists';
 import { toggleBulletList } from '../../../../plugins/lists/commands';
 
 describe('alignment', () => {
@@ -31,13 +26,6 @@ describe('alignment', () => {
     createEditor({
       doc,
       pluginKey: alignmentPluginKey,
-      editorPlugins: [
-        listPlugin,
-        tablesPlugin(),
-        codeBlockPlugin(),
-        panelPlugin,
-        alignment,
-      ],
       editorProps: {
         allowTextAlignment: true,
         allowPanel: true,

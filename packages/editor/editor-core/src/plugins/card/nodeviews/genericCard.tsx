@@ -4,12 +4,11 @@ import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import { Context as SmartCardContext } from '@atlaskit/smart-card';
 
-import { ClickWrapperProps } from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
 import { isSafeUrl } from '@atlaskit/adf-schema';
 
 type EditorContext<T> = React.Context<T> & { value: T };
 
-export interface CardProps extends Partial<ClickWrapperProps> {
+export interface CardProps {
   children?: React.ReactNode;
   node: PMNode;
   selected: boolean;

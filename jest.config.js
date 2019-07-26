@@ -81,7 +81,7 @@ const config = {
     '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/fileMock.js',
   },
   snapshotSerializers: ['enzyme-to-json/serializer'],
-  setupFiles: ['./build/jest-config/setup.js'],
+  setupFiles: ['./build/jest-config/setup.js', 'jest-canvas-mock'],
   setupFilesAfterEnv: [`${__dirname}/jestFrameworkSetup.js`],
   testResultsProcessor: 'jest-junit',
   testEnvironmentOptions: {

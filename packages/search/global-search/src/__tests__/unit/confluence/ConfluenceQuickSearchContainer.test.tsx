@@ -31,6 +31,7 @@ import {
   CrossProductSearchClient,
   SearchResultsMap,
   FilterType,
+  SearchParams,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
@@ -79,7 +80,7 @@ function render(partialProps?: Partial<Props>) {
 }
 
 const mockCrossProductSearchClient = {
-  search(query: string, sessionId: string, scopes: Scope[]) {
+  search(searchParams: SearchParams) {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE) as any;
   },
   getAbTestDataForProduct() {
@@ -227,7 +228,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         },
       },
       crossProductSearchClient: {
-        search(query: string, sessionId: string, scopes: Scope[]) {
+        search(params: SearchParams) {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
         getAbTestDataForProduct() {
@@ -315,14 +316,15 @@ describe('ConfluenceQuickSearchContainer', () => {
       ConfluenceResultsMap
     >).getSearchResults('query', sessionId, 100, dummyQueryVersion, []);
 
-    expect(searchSpy).toHaveBeenCalledWith(
-      'query',
-      sessionId,
-      expect.any(Array),
+    expect(searchSpy).toHaveBeenCalledWith({
+      query: 'query',
+      sessionId: sessionId,
+      referrerId: '123-search-referrer',
+      scopes: expect.any(Array),
+      filters: [],
       modelParams,
-      null,
-      [],
-    );
+      resultLimit: undefined,
+    });
 
     searchSpy.mockRestore();
   });
@@ -331,7 +333,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     const wrapper = render({
       crossProductSearchClient: {
         ...mockCrossProductSearchClient,
-        search(query: string, sessionId: string, scopes: Scope[]) {
+        search({ scopes }: SearchParams) {
           // only return items when People scope is set
           if (scopes.find(s => s === Scope.People)) {
             return mockSingleResultPromise(Scope.People, makePersonResult());

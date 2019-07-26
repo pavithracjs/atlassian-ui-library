@@ -17,8 +17,6 @@ import ToolbarButton from '../../../../../ui/ToolbarButton';
 import ToolbarTextColor, {
   Props as ToolbarTextColorProps,
 } from '../../../../../plugins/text-color/ui/ToolbarTextColor';
-import textColorPlugin from '../../../../../plugins/text-color';
-import codeBlockPlugin from '../../../../../plugins/code-block';
 import { ReactWrapper } from 'enzyme';
 import { AnalyticsHandler } from '../../../../../analytics';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
@@ -83,10 +81,11 @@ describe('ToolbarTextColor', () => {
     analyticsHandler = jest.fn();
     return createEditor({
       doc,
-      editorPlugins: [textColorPlugin, codeBlockPlugin()],
       editorProps: {
         analyticsHandler: analyticsHandler as any,
         allowAnalyticsGASV3: true,
+        allowTextColor: true,
+        allowCodeBlocks: true,
       },
       pluginKey,
       createAnalyticsEvent: createAnalyticsEvent as any,

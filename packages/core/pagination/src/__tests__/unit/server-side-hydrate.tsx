@@ -8,11 +8,15 @@ declare var console: any;
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate pagination correctly', async () => {
+test('should ssr then hydrate pagination correctly', async () => {
   const [example] = await getExamplesFor('pagination');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

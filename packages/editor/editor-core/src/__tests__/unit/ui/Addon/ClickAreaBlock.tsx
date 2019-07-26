@@ -7,11 +7,7 @@ import {
   panel,
 } from '@atlaskit/editor-test-helpers';
 import { ClickAreaBlock } from '../../../../ui/Addon';
-import gapCursorPlugin, {
-  GapCursorSelection,
-  Side,
-} from '../../../../plugins/gap-cursor';
-import panelPlugin from '../../../../plugins/panel';
+import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import * as utils from '../../../../utils';
 
 describe('ClickAreaBlock', () => {
@@ -19,7 +15,7 @@ describe('ClickAreaBlock', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [gapCursorPlugin, panelPlugin],
+      editorProps: { allowPanel: true },
     });
 
   it('should create empty terminal empty paragraph when clicked', () => {

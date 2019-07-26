@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-test-helpers",
-  "version": "9.11.2",
+  "version": "9.11.3",
   "description": "Test Helpers for Atlassian Editor components",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -18,10 +18,10 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/adf-schema": "^2.12.4",
+    "@atlaskit/adf-schema": "^3.0.0",
     "@atlaskit/analytics-next": "^5.1.2",
-    "@atlaskit/editor-common": "^39.16.7",
-    "@atlaskit/editor-core": "^112.35.2",
+    "@atlaskit/editor-common": "^39.17.0",
+    "@atlaskit/editor-core": "^112.39.5",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/media-core": "^30.0.8",
     "@atlaskit/media-test-helpers": "^24.3.3",

@@ -18,10 +18,6 @@ import {
   insertText,
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
-import panelPlugin from '../../../../plugins/panel';
-import listPlugin from '../../../../plugins/lists';
-import tablesPlugin from '../../../../plugins/table';
-import quickInsertPlugin from '../../../../plugins/quick-insert';
 import {
   removePanel,
   changePanelType,
@@ -37,13 +33,12 @@ describe('@atlaskit/editor-core ui/PanelPlugin', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [
-        panelPlugin,
-        listPlugin,
-        tablesPlugin(),
-        quickInsertPlugin,
-      ],
-      editorProps: { allowAnalyticsGASV3: true },
+      editorProps: {
+        allowAnalyticsGASV3: true,
+        allowPanel: true,
+        allowLists: true,
+        allowTables: true,
+      },
       pluginKey: panelPluginKey,
       createAnalyticsEvent,
     });

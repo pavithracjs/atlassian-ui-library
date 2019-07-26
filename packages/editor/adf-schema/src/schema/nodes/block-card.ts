@@ -25,6 +25,7 @@ export const blockCard: NodeSpec = {
   inline: false,
   group: 'block',
   draggable: true,
+  selectable: true,
   attrs: {
     url: { default: '' },
     data: { default: null },

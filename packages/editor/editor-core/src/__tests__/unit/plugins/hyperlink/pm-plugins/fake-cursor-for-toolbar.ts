@@ -54,7 +54,9 @@ describe('hyperlink', () => {
 
       const decorations = getDecorations(editorView.state);
       expect(decorations.find()).toEqual([
-        Decoration.widget(1, expect.any(HTMLElement)),
+        Decoration.widget(1, expect.any(HTMLElement), {
+          key: 'hyperlink-text-cursor',
+        }),
       ]);
     });
 

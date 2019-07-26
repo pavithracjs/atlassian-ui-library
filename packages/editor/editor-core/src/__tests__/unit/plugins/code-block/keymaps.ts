@@ -14,13 +14,6 @@ import {
   layoutSection,
   layoutColumn,
 } from '@atlaskit/editor-test-helpers';
-import {
-  codeBlockPlugin,
-  breakoutPlugin,
-  listsPlugin,
-  tablesPlugin,
-  layoutPlugin,
-} from '../../../../plugins';
 
 describe('codeBlock - keymaps', () => {
   const createEditor = createEditorFactory();
@@ -28,13 +21,14 @@ describe('codeBlock - keymaps', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [
-        codeBlockPlugin(),
-        breakoutPlugin,
-        listsPlugin,
-        tablesPlugin(),
-        layoutPlugin,
-      ],
+      editorProps: {
+        appearance: 'full-page',
+        allowCodeBlocks: true,
+        allowBreakout: true,
+        allowLists: true,
+        allowTables: true,
+        allowLayouts: true,
+      },
     });
 
   describe('Enter keypress', () => {

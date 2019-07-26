@@ -14,7 +14,10 @@ import {
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
-import { MentionSpotlight } from '@atlaskit/mention';
+import {
+  MentionSpotlight,
+  MentionSpotlightController,
+} from '@atlaskit/mention';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';
@@ -55,7 +58,6 @@ import {
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
 import { IconMention } from '../quick-insert/assets';
-import { MentionSpotlightController } from '@atlaskit/mention';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -161,13 +163,15 @@ const mentionsPlugin = (
             provider &&
             (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
           ) {
+            const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
             if (
-              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled()
+              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled() &&
+              enabledViaLocalStorage
             ) {
               return (
                 <MentionSpotlight
                   createTeamLink="/people/search#createTeam"
-                  onClose={() => null}
+                  onClose={() => MentionSpotlightController.registerClosed()} // todo - TEAMS-605 - use a proper function here which sends both analytics and register the close as well
                 />
               );
             }

@@ -14,7 +14,6 @@ import { ReactWrapper } from 'enzyme';
 import { selectTable } from 'prosemirror-utils';
 import { EditorView } from 'prosemirror-view';
 import * as React from 'react';
-import { tablesPlugin } from '../../../../../plugins';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 import {
   TablePluginState,
@@ -33,7 +32,7 @@ describe('Floating Delete Button', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 

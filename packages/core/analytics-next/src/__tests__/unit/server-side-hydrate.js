@@ -6,11 +6,15 @@ import { ssr } from '@atlaskit/ssr';
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+beforeAll(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate analytics-next correctly', async () => {
+test('should ssr then hydrate analytics-next correctly', async () => {
   const [example] = await getExamplesFor('analytics-next');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

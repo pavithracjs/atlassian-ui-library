@@ -191,6 +191,7 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
           );
 
           if (insertTr) {
+            insertTr.scrollIntoView();
             dispatch(insertTr);
           }
           return true;

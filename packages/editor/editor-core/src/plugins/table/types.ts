@@ -185,6 +185,7 @@ export const TableCssClassName = {
   HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
   HOVERED_CELL_IN_DANGER: 'danger',
   HOVERED_CELL_ACTIVE: 'active',
+  HOVERED_DELETE_BUTTON: `${tablePrefixSelector}-hovered-delete-button`,
   WITH_CONTROLS: `${tablePrefixSelector}-with-controls`,
   RESIZING_PLUGIN: `${tablePrefixSelector}-resizing-plugin`,
   RESIZE_CURSOR: `${tablePrefixSelector}-resize-cursor`,

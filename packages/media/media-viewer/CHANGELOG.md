@@ -1,5 +1,13 @@
 # @atlaskit/media-viewer
 
+## 43.2.6
+
+### Patch Changes
+
+- [patch][82a76462a4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/82a76462a4):
+
+  Pinning pdfjs version to known good
+
 ## 43.2.5
 
 ### Patch Changes

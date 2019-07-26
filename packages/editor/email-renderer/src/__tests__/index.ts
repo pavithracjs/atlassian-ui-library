@@ -22,6 +22,7 @@ import * as extensions from './__fixtures__/extensions.adf.json';
 import * as date from './__fixtures__/date.adf.json';
 import * as mediaSingle from './__fixtures__/media-single.adf.json';
 import * as mediaGroup from './__fixtures__/media-group.adf.json';
+import * as mediaGroupAllTypes from './__fixtures__/media-group-all-types.adf.json';
 import * as lists from './__fixtures__/lists.adf.json';
 import * as text from './__fixtures__/text.adf.json';
 
@@ -30,6 +31,7 @@ import * as placeholder from './__fixtures__/placeholder.adf.json';
 import * as action from './__fixtures__/action.adf.json';
 import * as annotation from './__fixtures__/annotation.adf.json';
 import * as breakout from './__fixtures__/breakout.adf.json';
+import { MetaDataContext } from '../interfaces';
 
 const defaultTestOpts: EmailSerializerOpts = {
   isImageStubEnabled: false,
@@ -39,6 +41,7 @@ const defaultTestOpts: EmailSerializerOpts = {
 const render = (
   doc: any,
   serializerOptions: Partial<EmailSerializerOpts> = {},
+  context?: MetaDataContext,
 ) => {
   const opts = {
     ...defaultTestOpts,
@@ -48,6 +51,7 @@ const render = (
   const docFromSchema = schema.nodeFromJSON(doc);
   const { result, embeddedImages } = serializer.serializeFragmentWithImages(
     docFromSchema.content,
+    context,
   );
   const node = document.createElement('div');
   node.innerHTML = result!;
@@ -244,6 +248,51 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should not inline CSS', () => {
     const { result } = render(status, { isInlineCSSEnabled: false });
+    expect(result).toMatchSnapshot('html');
+  });
+
+  it('should render media based on given context', () => {
+    const context: MetaDataContext = {
+      mediaMetaData: {
+        'media-type-image': {
+          name: 'Dark wallpaper theme.jpg',
+          mediaType: 'image',
+          mimeType: 'image/jpeg',
+          size: 54981,
+        },
+        'media-type-doc': {
+          name: 'My bachelor thesis.pdf',
+          mediaType: 'doc',
+          mimeType: 'application/pdf',
+          size: 12345,
+        },
+        'media-type-video': {
+          name: 'Metallica full concert.mpeg',
+          mediaType: 'video',
+          mimeType: 'vide/mpeg',
+          size: 982347,
+        },
+        'media-type-audio': {
+          name: 'The sound of silence.mp3',
+          mediaType: 'audio',
+          mimeType: 'audio/mpeg',
+          size: 98734,
+        },
+        'media-type-archive': {
+          name: 'The Slackening.zip',
+          mediaType: 'archive',
+          mimeType: 'application/zip',
+          size: 4383,
+        },
+        'media-type-unknown': {
+          name: 'unknown',
+          mediaType: 'unknown',
+          mimeType: 'unknown',
+          size: 54981,
+        },
+      },
+    };
+    const { result } = render(mediaGroupAllTypes, undefined, context);
     expect(result).toMatchSnapshot('html');
   });
 });

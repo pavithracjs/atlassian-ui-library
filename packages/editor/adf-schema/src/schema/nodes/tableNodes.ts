@@ -27,7 +27,6 @@ export const tableHeaderSelector = `${tablePrefixSelector}-header-content-wrap`;
 export const tableCellContentWrapperSelector = `${tablePrefixSelector}-cell-nodeview-wrapper`;
 export const tableCellContentDomSelector = `${tablePrefixSelector}-cell-nodeview-content-dom`;
 
-const akEditorTableNumberColumnWidth = 42;
 const DEFAULT_TABLE_HEADER_CELL_BACKGROUND = N20.toLocaleLowerCase();
 
 const getCellAttrs = (dom: HTMLElement, defaultValues: CellAttributes = {}) => {
@@ -136,32 +135,6 @@ export const tableBackgroundColorNames = new Map<string, string>();
     colorValue.toLowerCase(),
   );
 });
-
-export function calcTableColumnWidths(node: PmNode): number[] {
-  let tableColumnWidths: Array<number> = [];
-  const { isNumberColumnEnabled } = node.attrs;
-
-  node.forEach((rowNode, _) => {
-    rowNode.forEach((colNode, _, j) => {
-      let colwidth = colNode.attrs.colwidth || [0];
-
-      if (isNumberColumnEnabled && j === 0) {
-        if (!colwidth) {
-          colwidth = [akEditorTableNumberColumnWidth];
-        }
-      }
-
-      // if we have a colwidth attr for this cell, and it contains new
-      // colwidths we haven't seen for the whole table yet, add those
-      // (colwidths over the table are defined as-we-go)
-      if (colwidth && colwidth.length + j > tableColumnWidths.length) {
-        tableColumnWidths = tableColumnWidths.slice(0, j).concat(colwidth);
-      }
-    });
-  });
-
-  return tableColumnWidths;
-}
 
 export type Layout = 'default' | 'full-width' | 'wide';
 

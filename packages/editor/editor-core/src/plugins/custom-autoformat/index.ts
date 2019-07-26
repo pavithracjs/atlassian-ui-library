@@ -115,10 +115,10 @@ export const createPMPlugin = ({ providerFactory }: PMPluginFactoryParams) => {
   });
 };
 
-const customAutoformatPlugin: EditorPlugin = {
+const customAutoformatPlugin = (): EditorPlugin => ({
   pmPlugins() {
     return [{ name: 'customAutoformat', plugin: createPMPlugin }];
   },
-};
+});
 
 export default customAutoformatPlugin;

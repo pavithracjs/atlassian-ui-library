@@ -8,12 +8,14 @@ import * as clipboard from '../../../utils/clipboard';
 import { transformSliceForMedia } from '../../media/utils/media-single';
 import linkify from '../linkify-md-plugin';
 import { escapeLinks } from '../util';
+import { linkifyContent } from '../../hyperlink/utils';
 import { transformSliceToRemoveOpenBodiedExtension } from '../../extension/actions';
 import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
 import {
   transformSliceToRemoveOpenTable,
   transformSliceToCorrectEmptyTableCells,
+  transformSliceToFixHardBreakProblemOnCopyFromCell,
 } from '../../table/utils';
 import { transformSliceToAddTableHeaders } from '../../table/commands';
 import { handleMacroAutoConvert, handleMention } from '../handlers';
@@ -200,6 +202,8 @@ export function createPlugin(
 
         // finally, handle rich-text copy-paste
         if (isRichText) {
+          // linkify the text where possible
+          slice = linkifyContent(state.schema)(slice);
           // run macro autoconvert prior to other conversions
           if (
             handleMacroAutoConvert(text, slice, cardOptions)(
@@ -256,6 +260,10 @@ export function createPlugin(
           slice = handleMention(slice, schema);
         }
 
+        slice = transformSliceToFixHardBreakProblemOnCopyFromCell(
+          slice,
+          schema,
+        );
         /** If a partial paste of table, paste only table's content */
         slice = transformSliceToRemoveOpenTable(slice, schema);
 

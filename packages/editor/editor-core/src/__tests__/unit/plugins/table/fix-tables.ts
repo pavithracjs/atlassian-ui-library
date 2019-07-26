@@ -13,7 +13,6 @@ import {
 } from '../../../../plugins/table/types';
 
 import { pluginKey as tablePluginKey } from '../../../../plugins/table/pm-plugins/main';
-import tablesPlugin from '../../../../plugins/table';
 
 describe('fix tables', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -30,7 +29,6 @@ describe('fix tables', () => {
     } as PluginConfig;
     return createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
       editorProps: {
         allowTables: tableOptions,
       },

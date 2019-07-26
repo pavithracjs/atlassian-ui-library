@@ -13,8 +13,6 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { emoji as emojiData } from '@atlaskit/util-data-test';
-import emojiPlugin from '../../../../plugins/emoji';
-import codeBlockPlugin from '../../../../plugins/code-block';
 import { EditorState } from 'prosemirror-state';
 
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
@@ -29,8 +27,11 @@ describe('ascii emojis - input rules', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     const editor = createEditor({
       doc,
-      editorPlugins: [emojiPlugin(), codeBlockPlugin()],
-      editorProps: { allowAnalyticsGASV3: true },
+      editorProps: {
+        allowAnalyticsGASV3: true,
+        emojiProvider: new Promise(() => {}),
+        allowCodeBlocks: true,
+      },
       providerFactory,
       createAnalyticsEvent,
     });

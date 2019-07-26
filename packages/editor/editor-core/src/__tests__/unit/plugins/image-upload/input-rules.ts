@@ -7,9 +7,6 @@ import {
   media,
   mediaSingle,
 } from '@atlaskit/editor-test-helpers';
-import imageUpload from '../../../../plugins/image-upload';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import mediaPlugin from '../../../../plugins/media';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();
@@ -17,12 +14,14 @@ describe('inputrules', () => {
   const editor = (doc: any, trackEvent?: () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [
-        imageUpload,
-        codeBlockPlugin(),
-        mediaPlugin({ allowMediaSingle: true }),
-      ],
-      editorProps: { analyticsHandler: trackEvent },
+      editorProps: {
+        legacyImageUploadProvider: Promise.resolve(() => {}),
+        allowCodeBlocks: true,
+        media: {
+          allowMediaSingle: true,
+        },
+        analyticsHandler: trackEvent,
+      },
     });
 
   describe('image rule', () => {

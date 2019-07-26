@@ -9,10 +9,6 @@ import {
   tdCursor,
   createEditorFactory,
 } from '@atlaskit/editor-test-helpers';
-import tablesPlugin from '../../../../plugins/table';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import { mediaPlugin } from '../../../../plugins';
-import listPlugin from '../../../../plugins/lists';
 import TableView from '../../../../plugins/table/nodeviews/table';
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';
 import {
@@ -32,15 +28,14 @@ describe('TableView', () => {
     } as PluginConfig;
     return createEditor({
       doc,
-      editorPlugins: [
-        listPlugin,
-        tablesPlugin(),
-        codeBlockPlugin(),
-        mediaPlugin({ allowMediaSingle: true }),
-      ],
       editorProps: {
         analyticsHandler: trackEvent,
         allowTables: tableOptions,
+        allowLists: true,
+        allowCodeBlocks: true,
+        media: {
+          allowMediaSingle: true,
+        },
       },
       pluginKey,
     });

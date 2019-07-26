@@ -145,7 +145,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {
@@ -167,7 +167,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {
@@ -184,7 +184,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
 
       selectItem(
@@ -305,7 +305,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {
@@ -328,7 +328,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
         doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
-        editorPlugins: [plugin, datePlugin],
+        editorPlugins: [plugin, datePlugin()],
       });
       selectItem(
         {

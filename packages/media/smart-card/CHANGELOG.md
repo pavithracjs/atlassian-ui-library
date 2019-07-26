@@ -1,5 +1,21 @@
 # @atlaskit/smart-card
 
+## 12.4.0
+
+### Minor Changes
+
+- [minor][b19bf68c22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b19bf68c22):
+
+  fix: when environment is not provided then default to using the edge proxy instead
+
+## 12.3.5
+
+### Patch Changes
+
+- [patch][6695dbd447](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695dbd447):
+
+  fix: ensure smartlinks render a not found view when the link resource isn't found
+
 ## 12.3.4
 
 ### Patch Changes

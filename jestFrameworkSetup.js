@@ -8,6 +8,9 @@ import 'jest-localstorage-mock';
 import ScreenshotReporter from './build/visual-regression/utils/screenshotReporter';
 import { cleanup } from '@testing-library/react';
 
+// override timeout
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000;
+
 // https://product-fabric.atlassian.net/browse/BUILDTOOLS-176
 global.XMLHttpRequest = XMLHttpRequest;
 global.fetch = require('jest-fetch-mock');

@@ -40,7 +40,6 @@ import {
   stateKey as mediaPluginKey,
   MediaPluginState,
 } from '../../../../plugins/media/pm-plugins/main';
-import mediaPlugin from '../../../../plugins/media';
 import { waitForAllPickersInitialised } from './_utils';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
@@ -63,14 +62,14 @@ describe('Media with mock facade', () => {
   ) =>
     createEditor({
       doc,
-      editorPlugins: [
-        mediaPlugin({
+      editorProps: {
+        ...editorProps,
+        media: {
           provider: mediaProvider,
           allowMediaSingle: true,
           customDropzoneContainer: dropzoneContainer,
-        }),
-      ],
-      editorProps: editorProps,
+        },
+      },
       providerFactory,
       pluginKey: mediaPluginKey,
     });

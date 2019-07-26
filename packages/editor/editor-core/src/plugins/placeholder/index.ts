@@ -16,7 +16,10 @@ export function createPlaceholderDecoration(
   placeholderNode.textContent = placeholderText;
   placeholderDecoration.appendChild(placeholderNode);
   return DecorationSet.create(doc, [
-    Decoration.widget(1, placeholderDecoration, { side: -1 }),
+    Decoration.widget(1, placeholderDecoration, {
+      side: -1,
+      key: 'placeholder',
+    }),
   ]);
 }
 
@@ -108,7 +111,7 @@ export function createPlugin(placeholderText?: string): Plugin | undefined {
   });
 }
 
-const placeholderPlugin: EditorPlugin = {
+const placeholderPlugin = (): EditorPlugin => ({
   pmPlugins() {
     return [
       {
@@ -117,6 +120,6 @@ const placeholderPlugin: EditorPlugin = {
       },
     ];
   },
-};
+});
 
 export default placeholderPlugin;

@@ -6,11 +6,15 @@ import { ssr } from '@atlaskit/ssr';
 // @ts-ignore
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate logo correctly', async () => {
+test('should ssr then hydrate logo correctly', async () => {
   const [example] = await getExamplesFor('logo');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

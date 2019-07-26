@@ -206,6 +206,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         }}
         className={classnames(ClassName.TABLE_CONTAINER, {
           [ClassName.WITH_CONTROLS]: tableActive,
+          [ClassName.HOVERED_DELETE_BUTTON]: isInDanger,
           'less-padding': width < akEditorMobileBreakoutPoint,
         })}
         data-number-column={node.attrs.isNumberColumnEnabled}

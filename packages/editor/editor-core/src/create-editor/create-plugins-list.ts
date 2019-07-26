@@ -44,7 +44,7 @@ import {
   floatingToolbarPlugin,
   statusPlugin,
   gridPlugin,
-  alignment,
+  alignmentPlugin,
   editorDisabledPlugin,
   indentationPlugin,
   annotationPlugin,
@@ -57,29 +57,25 @@ import { isFullPage } from '../utils/is-full-page';
 /**
  * Returns list of plugins that are absolutely necessary for editor to work
  */
-export function getDefaultPluginsList(
-  props: EditorProps,
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
-): EditorPlugin[] {
-  let defaultPluginList: EditorPlugin[] = [];
-
-  if (props.allowAnalyticsGASV3) {
-    defaultPluginList.push(analyticsPlugin(createAnalyticsEvent));
-  }
-
-  return defaultPluginList.concat([
-    pastePlugin,
+export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
+  return [
+    pastePlugin(),
     basePlugin(props.appearance),
-    blockTypePlugin,
-    placeholderPlugin,
-    clearMarksOnChangeToEmptyDocumentPlugin,
-    hyperlinkPlugin,
+    blockTypePlugin(),
+    placeholderPlugin(),
+    clearMarksOnChangeToEmptyDocumentPlugin(),
+    hyperlinkPlugin(),
     textFormattingPlugin(props.textFormatting || {}),
-    widthPlugin,
-    typeAheadPlugin,
-    unsupportedContentPlugin,
-    editorDisabledPlugin,
-  ]);
+    widthPlugin(),
+    typeAheadPlugin(),
+    unsupportedContentPlugin(),
+    editorDisabledPlugin(),
+    gapCursorPlugin(),
+    gridPlugin(),
+    submitEditorPlugin(),
+    fakeTextCursorPlugin(),
+    floatingToolbarPlugin(),
+  ];
 }
 
 /**
@@ -89,30 +85,34 @@ export default function createPluginsList(
   props: EditorProps,
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
 ): EditorPlugin[] {
-  const plugins = getDefaultPluginsList(props, createAnalyticsEvent);
+  const plugins = getDefaultPluginsList(props);
+
+  if (props.allowAnalyticsGASV3) {
+    plugins.push(analyticsPlugin(createAnalyticsEvent));
+  }
 
   if (props.allowBreakout && isFullPage(props.appearance)) {
-    plugins.push(breakoutPlugin);
+    plugins.push(breakoutPlugin());
   }
 
   if (props.allowTextAlignment) {
-    plugins.push(alignment);
+    plugins.push(alignmentPlugin());
   }
 
   if (props.allowInlineAction) {
-    plugins.push(inlineActionPlugin);
+    plugins.push(inlineActionPlugin());
   }
 
   if (props.allowTextColor) {
-    plugins.push(textColorPlugin);
+    plugins.push(textColorPlugin());
   }
 
   if (props.allowLists) {
-    plugins.push(listsPlugin);
+    plugins.push(listsPlugin());
   }
 
   if (props.allowRule) {
-    plugins.push(rulePlugin);
+    plugins.push(rulePlugin());
   }
 
   if (props.media || props.mediaProvider) {
@@ -143,7 +143,7 @@ export default function createPluginsList(
   }
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
-    plugins.push(tasksAndDecisionsPlugin);
+    plugins.push(tasksAndDecisionsPlugin());
   }
 
   if (props.feedbackInfo) {
@@ -151,15 +151,15 @@ export default function createPluginsList(
   }
 
   if (props.allowHelpDialog) {
-    plugins.push(helpDialogPlugin);
+    plugins.push(helpDialogPlugin());
   }
 
   if (props.saveOnEnter) {
-    plugins.push(saveOnEnterPlugin);
+    plugins.push(saveOnEnterPlugin());
   }
 
   if (props.legacyImageUploadProvider) {
-    plugins.push(imageUploadPlugin);
+    plugins.push(imageUploadPlugin());
 
     if (!props.media && !props.mediaProvider) {
       plugins.push(
@@ -178,15 +178,15 @@ export default function createPluginsList(
   }
 
   if (props.maxContentSize) {
-    plugins.push(maxContentSizePlugin);
+    plugins.push(maxContentSizePlugin());
   }
 
   if (props.allowJiraIssue) {
-    plugins.push(jiraIssuePlugin);
+    plugins.push(jiraIssuePlugin());
   }
 
   if (props.allowPanel) {
-    plugins.push(panelPlugin);
+    plugins.push(panelPlugin());
   }
 
   if (props.allowExtension) {
@@ -196,15 +196,15 @@ export default function createPluginsList(
   }
 
   if (props.macroProvider) {
-    plugins.push(macroPlugin);
+    plugins.push(macroPlugin());
   }
 
   if (props.allowConfluenceInlineComment) {
-    plugins.push(confluenceInlineComment);
+    plugins.push(confluenceInlineComment(), annotationPlugin());
   }
 
   if (props.allowDate) {
-    plugins.push(datePlugin);
+    plugins.push(datePlugin());
   }
 
   if (props.allowTemplatePlaceholders) {
@@ -216,15 +216,15 @@ export default function createPluginsList(
   }
 
   if (props.allowLayouts) {
-    plugins.push(layoutPlugin);
+    plugins.push(layoutPlugin());
   }
 
   if (props.UNSAFE_cards) {
-    plugins.push(cardPlugin);
+    plugins.push(cardPlugin());
   }
 
   if (props.autoformattingProvider) {
-    plugins.push(customAutoformatPlugin);
+    plugins.push(customAutoformatPlugin());
   }
 
   let statusMenuDisabled = true;
@@ -237,7 +237,7 @@ export default function createPluginsList(
   }
 
   if (props.allowIndentation) {
-    plugins.push(indentationPlugin);
+    plugins.push(indentationPlugin());
   }
 
   // UI only plugins
@@ -250,18 +250,8 @@ export default function createPluginsList(
     }),
   );
 
-  if (props.allowConfluenceInlineComment) {
-    plugins.push(annotationPlugin);
-  }
-
-  plugins.push(gapCursorPlugin);
-  plugins.push(gridPlugin);
-  plugins.push(submitEditorPlugin);
-  plugins.push(fakeTextCursorPlugin);
-  plugins.push(floatingToolbarPlugin);
-
   if (props.appearance !== 'mobile') {
-    plugins.push(quickInsertPlugin);
+    plugins.push(quickInsertPlugin());
   }
 
   return plugins;

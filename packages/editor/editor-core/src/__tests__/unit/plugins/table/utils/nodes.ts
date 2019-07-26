@@ -11,7 +11,6 @@ import {
   thEmpty,
 } from '@atlaskit/editor-test-helpers';
 import { TablePluginState } from '../../../../../plugins/table/types';
-import tablesPlugin from '../../../../../plugins/table';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 import { containsHeaderColumn } from '../../../../../plugins/table/utils/nodes';
 
@@ -21,7 +20,7 @@ describe('table merging logic', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 

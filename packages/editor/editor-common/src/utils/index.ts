@@ -15,3 +15,5 @@ export { measureRender } from './performance/measure-render';
 export { startMeasure, stopMeasure, clearMeasure } from './performance/measure';
 export { getResponseEndTime } from './performance/navigation';
 export { getExtensionRenderer } from './extension-handler';
+
+export { calcTableColumnWidths } from './table';

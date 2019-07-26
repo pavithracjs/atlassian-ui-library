@@ -10,7 +10,6 @@ import {
   tdEmpty,
 } from '@atlaskit/editor-test-helpers';
 import { TablePluginState } from '../../../../../plugins/table/types';
-import tablesPlugin from '../../../../../plugins/table';
 import { deleteColumns } from '../../../../../plugins/table/transforms';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 import { getSelectionRect } from 'prosemirror-utils';
@@ -28,7 +27,7 @@ describe('table plugin -> transforms -> delete columns', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [tablesPlugin()],
+      editorProps: { allowTables: true },
       pluginKey,
     });
 

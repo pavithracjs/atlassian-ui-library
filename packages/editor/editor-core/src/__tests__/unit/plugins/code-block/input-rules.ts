@@ -9,9 +9,6 @@ import {
   panel,
   hardBreak,
 } from '@atlaskit/editor-test-helpers';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import listPlugin from '../../../../plugins/lists';
-import panelPlugin from '../../../../plugins/panel';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();
@@ -19,9 +16,10 @@ describe('inputrules', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [codeBlockPlugin(), listPlugin, panelPlugin],
       editorProps: {
         allowPanel: true,
+        allowLists: true,
+        allowCodeBlocks: true,
         textFormatting: {
           disableCode: true,
         },

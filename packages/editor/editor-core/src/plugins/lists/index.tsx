@@ -19,7 +19,7 @@ import {
 import { tooltip, toggleBulletList, toggleOrderedList } from '../../keymaps';
 import { IconList, IconListNumber } from '../quick-insert/assets';
 
-const listPlugin: EditorPlugin = {
+const listPlugin = (): EditorPlugin => ({
   nodes() {
     return [
       { name: 'bulletList', node: bulletList },
@@ -140,6 +140,6 @@ const listPlugin: EditorPlugin = {
       />
     );
   },
-};
+});
 
 export default listPlugin;

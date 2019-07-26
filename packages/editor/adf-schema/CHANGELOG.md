@@ -1,5 +1,47 @@
 # @atlaskit/adf-schema
 
+## 3.0.0
+
+### Major Changes
+
+- [major][6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):
+
+  ED-6806 Move 'calcTableColumnWidths' from adf-schema into editor-common
+
+  BREAKING CHANGE
+
+  We move 'calcTableColumnWidths' helper from adf-schema into our helper library editor-common, you can use it from editor-common in the same way:
+
+  Before:
+
+  ```javascript
+  import { calcTableColumnWidths } from '@atlaskit/adf-schema';
+  ```
+
+  Now:
+
+  ```javascript
+  import { calcTableColumnWidths } from '@atlaskit/editor-common';
+  ```
+
+## 2.13.1
+
+### Patch Changes
+
+- [patch][a892339c19](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a892339c19):
+
+  Give all editor decorations a key to prevent ProseMirror from re-rendering decorations constantly.
+
+  Enables YAML language for codeblocks
+
+## 2.13.0
+
+### Minor Changes
+
+- [minor][ec66d3c646](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec66d3c646):
+
+  Improve performance of pages with smart cards
+
 ## 2.12.4
 
 ### Patch Changes

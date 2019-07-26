@@ -47,7 +47,6 @@ export interface Props {
 export interface State {
   resourceError?: Error;
   mentions: MentionDescription[];
-  isHighlightClosed: boolean;
 }
 
 export default class ResourcedMentionList extends React.PureComponent<
@@ -63,7 +62,6 @@ export default class ResourcedMentionList extends React.PureComponent<
     this.state = {
       resourceError: undefined,
       mentions: [],
-      isHighlightClosed: false,
     };
 
     this.applyPropChanges({} as Props, props);
@@ -226,17 +224,15 @@ export default class ResourcedMentionList extends React.PureComponent<
 
   private closeHighlight = () => {
     MentionSpotlightController.registerClosed();
-    this.setState({ isHighlightClosed: true });
   };
 
   private mentionsHighlight = () => {
-    const { mentions, isHighlightClosed } = this.state;
+    const { mentions } = this.state;
     const { isTeamMentionHighlightEnabled } = this.props;
     const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
 
     const shouldShow =
       enabledViaLocalStorage &&
-      !isHighlightClosed &&
       isTeamMentionHighlightEnabled &&
       mentions &&
       mentions.length > 0;
