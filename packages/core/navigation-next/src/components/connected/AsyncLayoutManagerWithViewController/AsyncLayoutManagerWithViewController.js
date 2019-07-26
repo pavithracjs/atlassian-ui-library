@@ -147,6 +147,7 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
   render() {
     const {
       children,
+      datasets,
       experimental_flyoutOnHover,
       experimental_alternateFlyoutBehaviour,
       experimental_fullWidthFlyout,
@@ -198,6 +199,7 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
           getRefs={getRefs}
           topOffset={topOffset}
           shouldHideGlobalNavShadow={shouldHideGlobalNavShadow}
+          datasets={datasets}
           view={view}
         >
           {children}
