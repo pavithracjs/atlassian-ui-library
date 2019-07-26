@@ -11,7 +11,6 @@ import {
   FeatureMap,
   AvailableProductsResponse,
   RecommendationsFeatureFlags,
-  CustomLink,
 } from '../types';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 import { ProviderResult } from '../providers/as-data-provider';
@@ -24,49 +23,41 @@ type JiraSwitcherProps = {
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 
-const getAvailableProductsProvider = (
-  props: JiraSwitcherProps,
-  customLinks?: ProviderResult<CustomLink[]>,
-) => (
-  <AvailableProductsProvider
-    isUserCentric={props.features.enableUserCentricProducts}
-  >
-    {(availableProducts: ProviderResult<AvailableProductsResponse>) => (
-      <CommonDataProvider
-        cloudId={props.cloudId}
-        disableRecentContainers={props.features.disableRecentContainers}
+export default (props: JiraSwitcherProps) => (
+  <CustomLinksProvider disableCustomLinks={props.features.disableCustomLinks}>
+    {customLinks => (
+      <AvailableProductsProvider
         isUserCentric={props.features.enableUserCentricProducts}
-        recommendationsFeatureFlags={props.recommendationsFeatureFlags}
       >
-        {providerResults => {
-          const {
-            showManageLink,
-            ...switcherLinks
-          } = mapResultsToSwitcherProps(
-            props.cloudId,
-            customLinks ? { customLinks, ...providerResults } : providerResults,
-            props.features,
-            availableProducts,
-          );
+        {(availableProducts: ProviderResult<AvailableProductsResponse>) => (
+          <CommonDataProvider
+            cloudId={props.cloudId}
+            disableRecentContainers={props.features.disableRecentContainers}
+            isUserCentric={props.features.enableUserCentricProducts}
+            recommendationsFeatureFlags={props.recommendationsFeatureFlags}
+          >
+            {providerResults => {
+              const {
+                showManageLink,
+                ...switcherLinks
+              } = mapResultsToSwitcherProps(
+                props.cloudId,
+                { customLinks, ...providerResults },
+                props.features,
+                availableProducts,
+              );
 
-          return (
-            <Switcher
-              {...props}
-              {...switcherLinks}
-              manageLink={showManageLink ? MANAGE_HREF : undefined}
-            />
-          );
-        }}
-      </CommonDataProvider>
+              return (
+                <Switcher
+                  {...props}
+                  {...switcherLinks}
+                  manageLink={showManageLink ? MANAGE_HREF : undefined}
+                />
+              );
+            }}
+          </CommonDataProvider>
+        )}
+      </AvailableProductsProvider>
     )}
-  </AvailableProductsProvider>
+  </CustomLinksProvider>
 );
-
-export default (props: JiraSwitcherProps) =>
-  props.features.disableCustomLinks ? (
-    getAvailableProductsProvider(props)
-  ) : (
-    <CustomLinksProvider>
-      {customLinks => getAvailableProductsProvider(props, customLinks)}
-    </CustomLinksProvider>
-  );
