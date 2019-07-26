@@ -20,6 +20,7 @@ const getDecorationSet = (
   tr: Transaction,
   allowControls: boolean,
   tableNode?: PmNode,
+  tableRef?: HTMLTableElement,
 ): DecorationSet => {
   let decorationSet = DecorationSet.empty;
 
@@ -27,7 +28,7 @@ const getDecorationSet = (
     decorationSet = updateNodeDecorations(
       tr.doc,
       decorationSet,
-      createControlsDecoration(tr.selection),
+      createControlsDecoration(tr.selection, tableRef),
       TableDecorations.COLUMN_CONTROLS_DECORATIONS,
     );
   }
@@ -77,7 +78,12 @@ export const handleDocOrSelectionChanged = (
     hoverDecoration.length ||
     selectedColumnControlsDecoration.length
   ) {
-    const decorationSet = getDecorationSet(tr, allowControls, tableNode);
+    const decorationSet = getDecorationSet(
+      tr,
+      allowControls,
+      tableNode,
+      pluginState.tableRef as HTMLTableElement,
+    );
 
     const nextPluginState = {
       ...pluginState,

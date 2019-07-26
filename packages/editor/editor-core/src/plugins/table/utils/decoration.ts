@@ -16,6 +16,13 @@ import {
 import { TableMap } from 'prosemirror-tables';
 import { getPluginState } from '../pm-plugins/main';
 import { CellAttributes } from '@atlaskit/adf-schema';
+import { getRowHeights } from './row-controls';
+import {
+  tableCellPadding,
+  tableCellBorderWidth,
+} from '@atlaskit/editor-common';
+import { closestElement } from '../../../utils';
+import { tableToolbarSize } from '../ui/styles';
 
 const filterDecorationByKey = (
   key: TableDecorations,
@@ -109,8 +116,9 @@ export const createColumnSelectedDecorations = (
 
 export const createControlsDecoration = (
   selection: Selection,
+  tableRef?: HTMLTableElement,
 ): Decoration[] => {
-  const rowDecorations = createRowControlsDecoration(selection);
+  const rowDecorations = createRowControlsDecoration(selection, tableRef);
   const columnDecorations = createColumnControlsDecoration(selection);
 
   return [...rowDecorations, ...columnDecorations];
@@ -118,30 +126,56 @@ export const createControlsDecoration = (
 
 export const createRowControlsDecoration = (
   selection: Selection,
+  tableRef?: HTMLTableElement,
 ): Decoration[] => {
+  if (!tableRef) {
+    return [];
+  }
+  const tableWrapper = closestElement(
+    tableRef,
+    `.${ClassName.TABLE_NODE_WRAPPER}`,
+  );
+
+  const heights = getRowHeights(tableRef);
+  const scrollLeft = (tableWrapper && tableWrapper.scrollLeft) || 0;
   const cells: ContentNodeWithPos[] = getCellsInColumn(0)(selection) || [];
   let index = 0;
-  return cells.map(cell => {
+  return cells.reduce<Decoration[]>((decorations, cell) => {
     const rowspan = (cell.node.attrs as CellAttributes).rowspan || 1;
-    const element = document.createElement('div');
-    element.classList.add(ClassName.ROW_CONTROLS_DECORATIONS);
-    element.dataset.startIndex = `${index}`;
-    index += rowspan;
-    element.dataset.endIndex = `${index}`;
+    let newDecorations = [];
+    for (let i = 0; i < rowspan; i++) {
+      const element = document.createElement('div');
+      element.classList.add(ClassName.ROW_CONTROLS_DECORATIONS);
+      element.style.height = `${heights[index] - tableCellBorderWidth}px`;
+      const lastHeight = i === 0 ? 0 : heights[index - 1];
+      element.style.marginTop = `${lastHeight - tableCellPadding}px`;
+      element.style.left = `${scrollLeft -
+        tableToolbarSize -
+        tableCellPadding -
+        tableCellBorderWidth}px`;
+      element.dataset.startIndex = `${index}`;
 
-    return Decoration.widget(
-      cell.pos + 1,
-      // Do not delay the rendering for this Decoration
-      // because we need to always render all controls
-      // to keep the order safe
-      element,
-      {
-        key: `${TableDecorations.ROW_CONTROLS_DECORATIONS}_${index}`,
-        // this decoration should be the first one, even before gap cursor.
-        side: -100,
-      },
-    );
-  });
+      index += 1;
+      element.dataset.endIndex = `${index}`;
+
+      newDecorations.push(
+        Decoration.widget(
+          cell.pos + 1,
+          // Do not delay the rendering for this Decoration
+          // because we need to always render all controls
+          // to keep the order safe
+          element,
+          {
+            key: `${TableDecorations.ROW_CONTROLS_DECORATIONS}_${index}`,
+            // this decoration should be the first one, even before gap cursor.
+            side: -100,
+          },
+        ),
+      );
+    }
+
+    return [...decorations, ...newDecorations];
+  }, []);
 };
 
 export const createColumnControlsDecoration = (

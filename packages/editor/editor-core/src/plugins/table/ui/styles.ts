@@ -401,12 +401,14 @@ const RowControls = `
           border-bottom: ${tableCellBorderWidth}px solid ${tableBorderColor};
           border-top: none;
           width: ${tableToolbarSize}px;
-          height: 100%;
           position: absolute;
-          left: -${tableToolbarSize + 8}px;
           top: 0px;
           z-index: ${columnControlsZIndex};
         `)}
+    }
+
+    .${ClassName.ROW_CONTROLS_DECORATIONS} + * {
+      margin-top: 0;
     }
   }
   
