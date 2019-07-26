@@ -17,6 +17,7 @@ and components that combine to make the refinement bar.
   * [AvatarSelect](#fields-AvatarSelect)
   * [IssueSelect](#fields-IssueSelect)
   * [AsyncSelect](#fields-AsyncSelect)
+  * [LozengeAsyncSelect](#fields-LozengeAsyncSelect)
   * [AvatarAsyncSelect](#fields-AvatarAsyncSelect)
   * [IssueAsyncSelect](#fields-IssueAsyncSelect)
   * [Number](#fields-Number)
@@ -276,6 +277,27 @@ ${(
     packageName="@atlaskit/refinement-bar"
     source={require('!!raw-loader!../examples/95-issue-async-select-filter-config-reference')}
     title="IssueAsyncSelect filter config reference"
+  />
+)}
+
+<a name="fields-LozengeAsyncSelect"></a>
+### LozengeAsyncSelect
+
+The \`LozengeAsyncSelect\` filter extends the \`AsyncSelect\` filter. Instead of rendering values as text, it renders them
+inside the [Lozenge component](/packages/core/lozenge) component and extends its \`fieldConfig\` to include props accepted by the Lozenge.
+
+For the extended prop list, please see the [Lozenge component](/packages/core/lozenge). All other props are indentical
+to the \`AsyncSelect\` filter.
+
+${(
+  <Example
+    Component={
+      require('../examples/99-lozenge-async-select-filter-config-reference')
+        .default
+    }
+    packageName="@atlaskit/refinement-bar"
+    source={require('!!raw-loader!../examples/99-lozenge-async-select-filter-config-reference')}
+    title="LozengeAsyncSelect filter config reference"
   />
 )}
 
