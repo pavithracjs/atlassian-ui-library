@@ -1,0 +1,1 @@
+[ED-5195] Fix red borders when the user hover the remove column button on tables with merged cells
