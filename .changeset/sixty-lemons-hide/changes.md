@@ -1,0 +1,1 @@
+ED-7308: added performance measurements of ProseMirror document updates
