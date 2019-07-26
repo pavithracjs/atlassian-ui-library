@@ -1,0 +1,4 @@
+{
+  "releases": [{ "name": "@atlaskit/refinement-bar", "type": "major" }],
+  "dependents": []
+}
