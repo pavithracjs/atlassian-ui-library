@@ -1,5 +1,13 @@
 # @atlaskit/refinement-bar
 
+## 1.0.0
+
+### Major Changes
+
+- [major][d5077a4045](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5077a4045):
+
+  add documentation. finalise some naming decisions.
+
 ## 0.5.2
 
 ### Patch Changes
