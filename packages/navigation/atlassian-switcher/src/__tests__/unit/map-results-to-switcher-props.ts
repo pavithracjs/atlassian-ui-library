@@ -19,6 +19,7 @@ describe('map-results-to-switcher-props', () => {
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
+          disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
         },
@@ -79,6 +80,7 @@ describe('map-results-to-switcher-props', () => {
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
+          disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
         },
@@ -111,6 +113,7 @@ describe('map-results-to-switcher-props', () => {
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
+          disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
         },
