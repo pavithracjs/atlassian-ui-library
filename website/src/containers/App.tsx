@@ -5,14 +5,14 @@ import Page from '@atlaskit/page';
 import { RouteProps } from 'react-router';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Nav from './Nav';
-import MobileNav from './MobileNav';
 import { DESKTOP_BREAKPOINT_MIN } from '../constants';
 import FullscreenExamples from '../pages/Examples';
 import { modalRoutes, pageRoutes } from '../routes';
 import ScrollHandler from '../components/ScrollToTop';
 import ErrorBoundary from '../components/ErrorBoundary';
 import AnalyticsListeners from '../components/Analytics/AnalyticsListeners';
+import DesktopNav from './DesktopNav';
+import MobileNav from './MobileNav';
 
 export default () => {
   return (
@@ -31,7 +31,7 @@ export default () => {
                   render={appRouteDetails => (
                     <Page
                       navigation={
-                        isDesktop ? <Nav {...appRouteDetails} /> : false
+                        isDesktop ? <DesktopNav {...appRouteDetails} /> : false
                       }
                     >
                       {!isDesktop && (
