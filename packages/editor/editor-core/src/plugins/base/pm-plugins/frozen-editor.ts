@@ -47,7 +47,7 @@ export default (dispatchAnalyticsEvent: DispatchAnalyticsEvent) =>
         'visibilitychange',
         () => {
           if (document.visibilityState == 'hidden') {
-            clearTimeout(freezeTimer);
+            clearInterval(freezeTimer);
           } else {
             freezeTimer = freezeCheckTimer(dispatchAnalyticsEvent, view);
           }
