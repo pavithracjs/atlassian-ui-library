@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.6
+
+### Patch Changes
+
+- [patch][8c50c8731b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c50c8731b):
+
+  [ED-5195] Fix red borders when the user hover the remove column button on tables with merged cells
+
 ## 112.39.5
 
 - Updated dependencies [6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):
