@@ -47,13 +47,11 @@ describe('MediaNodeUpdater', () => {
       },
     });
     const node: any = {
-      firstChild: {
-        attrs: {
-          id: 'source-file-id',
-          collection: 'source-collection',
-          __contextId: 'source-context-id',
-        },
-      } as any,
+      attrs: {
+        id: 'source-file-id',
+        collection: 'source-collection',
+        __contextId: 'source-context-id',
+      },
     };
     const mediaNodeUpdater = new MediaNodeUpdater({
       view: {} as EditorView,
@@ -130,6 +128,7 @@ describe('MediaNodeUpdater', () => {
           collection: 'destination-collection',
           authProvider: uploadMediaClientConfig.authProvider,
           occurrenceKey: expect.anything(),
+          replaceFileId: expect.anything(),
         },
       );
       const authProvider = (mediaClient.file.copyFile as jest.Mock).mock
