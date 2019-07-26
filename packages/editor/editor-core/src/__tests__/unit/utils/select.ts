@@ -9,7 +9,7 @@ import {
 import { GapCursorSide } from '../../..';
 import { setGapCursorSelection } from '../../../utils';
 
-describe('toEqualDocument ref comparison', () => {
+describe('toEqualDocumentAndSelection matches', () => {
   const createEditor = createEditorFactory();
   const editor = (doc: any) =>
     createEditor({
@@ -19,14 +19,14 @@ describe('toEqualDocument ref comparison', () => {
       },
     });
 
-  it('matching cursor position', () => {
+  it('cursor positions', () => {
     const { editorView } = editor(doc(p('Hello{<>}World')));
     expect(editorView.state).toEqualDocumentAndSelection(
       doc(p('Hello{<>}World')),
     );
   });
 
-  it('moved cursor position', () => {
+  it('moved cursor positions', () => {
     const { editorView } = editor(doc(p('Hello{<>}')));
     insertText(editorView, 'World');
     expect(editorView.state).toEqualDocumentAndSelection(
@@ -34,14 +34,14 @@ describe('toEqualDocument ref comparison', () => {
     );
   });
 
-  it('matching text selection', () => {
+  it('text selections', () => {
     const { editorView } = editor(doc(p('Hello{<}World{>}')));
     expect(editorView.state).toEqualDocumentAndSelection(
       doc(p('Hello{<}World{>}')),
     );
   });
 
-  it('matches node selections', () => {
+  it('node selections', () => {
     const { editorView, refs } = editor(
       doc(p('HelloWorld{<>}'), '{nextPos}', hr()),
     );
@@ -54,14 +54,14 @@ describe('toEqualDocument ref comparison', () => {
     );
   });
 
-  it('matches gap cursor selection', () => {
+  it('gap cursor selections', () => {
     const { editorView, refs } = editor(
       doc(p('HelloWorld'), hr(), '{nextPos}'),
     );
     setGapCursorSelection(editorView, refs.nextPos, GapCursorSide.RIGHT);
 
     expect(editorView.state).toEqualDocumentAndSelection(
-      doc(p('HelloWorld'), hr(), '{|gap}'),
+      doc(p('HelloWorld'), hr(), '{<|gap>}'),
     );
   });
 });

@@ -9,10 +9,6 @@ import ScreenshotReporter from './build/visual-regression/utils/screenshotReport
 import { cleanup } from '@testing-library/react';
 import { NodeSelection } from 'prosemirror-state';
 import { CellSelection } from 'prosemirror-tables';
-import {
-  GapCursorSelection,
-  GapCursorSide,
-} from './packages/editor/editor-core';
 
 // override timeout
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000;
@@ -259,15 +255,13 @@ const toEqualDocument = (equals, utils, expand) => (actual, expected) => {
 
 /* eslint-disable no-undef */
 expect.extend({
-  // toEqualDocument(actual, expected) {
-  //   return toEqualDocument.call(this, actual, expected)
-  // },
   toEqualDocument(actual, expected) {
     return toEqualDocument(this.equals, this.utils, this.expand)(
       actual,
       expected,
     );
   },
+
   toEqualDocumentAndSelection(actual, expected) {
     const { doc: actualDoc, selection: actualSelection } = actual;
     const docComparison = toEqualDocument(this.equals, this.utils, this.expand)(
@@ -300,18 +294,16 @@ expect.extend({
         '<node>': (position, selection) =>
           selection instanceof NodeSelection &&
           position === selection.$from.pos,
-        '<cell': (position, selection) =>
-          selection instanceof CellSelection &&
+        // The | denotes the gap cursor's side, based on the node on the side of the |.
+        '<|gap>': (position, selection) =>
+          // Using literal values from constructor as unable to import type from editor-core
+          // Some tests use mock packages which will conflict with jestFrameworkSetup.js
+          selection.constructor.name === 'GapCursorSelection' &&
+          selection.side === 'right' &&
           position === selection.$from.pos,
-        'cell>': (position, selection) =>
-          selection instanceof CellSelection && position === selection.$to.pos,
-        '|gap': (position, selection) =>
-          selection instanceof GapCursorSelection &&
-          selection.side === GapCursorSide.RIGHT &&
-          position === selection.$from.pos,
-        'gap|': (position, selection) =>
-          selection instanceof GapCursorSelection &&
-          selection.side === GapCursorSide.LEFT &&
+        '<gap|>': (position, selection) =>
+          selection.constructor.name === 'GapCursorSelection' &&
+          selection.side === 'left' &&
           position === selection.$from.pos,
       };
 

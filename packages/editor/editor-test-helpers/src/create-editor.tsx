@@ -179,21 +179,25 @@ export default function createEditorFactoryForTests<T = any>() {
           dispatch(tr.setSelection(NodeSelection.create(doc, refs['<node>'])));
         }
         // GapCursor right
-        else if (refs['gap|']) {
+        // This may look the wrong way around here, but looks correct in the tests. Eg:
+        // doc(hr(), '{<|gap>}') = Horizontal rule with a gap cursor on its right
+        // The | denotes the gap cursor's side, based on the node on the side of the |.
+        else if (refs['<|gap>']) {
           dispatch(
             tr.setSelection(
               new GapCursorSelection(
-                doc.resolve(refs['gap|']),
+                doc.resolve(refs['<|gap>']),
                 GapCursorSide.RIGHT,
               ),
             ),
           );
-          // GapCursor left
-        } else if (refs['|gap']) {
+        }
+        // GapCursor left
+        else if (refs['<gap|>']) {
           dispatch(
             tr.setSelection(
               new GapCursorSelection(
-                doc.resolve(refs['|gap']),
+                doc.resolve(refs['<gap|>']),
                 GapCursorSide.LEFT,
               ),
             ),
