@@ -27,10 +27,10 @@ export default class AsyncSelectView extends PureComponent<*, State> {
       ...props
     } = this.props;
 
-    let visibleOptions = props.value;
-
-    if (field.defaultOptions) {
-      visibleOptions = visibleOptions
+    let defaultOptions = props.value;
+    if (Array.isArray(field.defaultOptions)) {
+      // Show only visible options
+      defaultOptions = props.value
         .filter(o => !field.defaultOptions.includes(o))
         .concat([
           {
@@ -38,6 +38,8 @@ export default class AsyncSelectView extends PureComponent<*, State> {
             options: field.defaultOptions,
           },
         ]);
+    } else if (typeof field.defaultOptions === 'boolean') {
+      defaultOptions = field.defaultOptions; // eslint-disable-line prefer-destructuring
     }
 
     return (
@@ -45,7 +47,7 @@ export default class AsyncSelectView extends PureComponent<*, State> {
         <AsyncSelect
           cacheOptions={field.cacheOptions}
           components={selectComponents}
-          defaultOptions={visibleOptions}
+          defaultOptions={defaultOptions}
           defaultOptionsLabel={field.defaultOptionsLabel}
           inputValue={field.inputValue}
           loadOptions={field.loadOptions}

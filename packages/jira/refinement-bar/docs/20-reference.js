@@ -207,10 +207,13 @@ will remain until \`cacheOptions\` changes value.
 The \`loadOptions\` function returns a promise, which is the set of options to
 be used once the promise resolves.
 
+The \`defaultOptions\` property when given a boolean \`true\` will call the function
+given to \`loadOptions\` when the user interacts, and display the resultant data.
+
 ${code`
 type AsyncSelectFieldConfig = SelectFieldConfig & {
   cacheOptions?: any,
-  defaultOptions?: Options,
+  defaultOptions?: Options | boolean,
   defaultOptionsLabel?: string,
   inputValue?: string,
   loadOptions: (inputValue: string) => Options,
