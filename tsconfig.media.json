@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "noImplicitReturns": true,
-    "noUnusedParameters": true,
-    "strict": true
-  }
-}
