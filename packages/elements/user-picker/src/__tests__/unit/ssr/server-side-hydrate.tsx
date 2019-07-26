@@ -1,6 +1,7 @@
 import { ssr_hydrate } from '@atlaskit/elements-test-helpers';
 
 const ExamplesPath = '../../../../examples';
+//TODO: Please remove the commented examples when https://product-fabric.atlassian.net/browse/FS-4164 is fixed.
 
 describe.skip('server side rendering and hydration', () => {
   beforeEach(() => {
