@@ -1,17 +1,8 @@
 // @flow
 
-import React, { type Node } from 'react';
+import React from 'react';
 import FieldController from '../Controller';
 import { isObject } from '../../utils';
-
-export interface SelectControllerInterface {
-  config: Object;
-  hasValue: (*) => boolean;
-  getInitialValue: (*) => any;
-  formatButtonLabel: (*) => Node;
-  validateOptions: (*) => Object;
-  validateValue: (*) => boolean;
-}
 
 type Options = Array<Object>;
 
@@ -26,10 +17,19 @@ export default class SelectController extends FieldController {
     //   );
     // }
 
+    this.onMenuScrollToBottom = this.config.onMenuScrollToBottom;
+    this.onMenuScrollToTop = this.config.onMenuScrollToTop;
     this.options = this.config.options;
+    this.placeholder = this.config.placeholder;
   }
 
   options: Options | (Object => Options);
+
+  onMenuScrollToBottom: ?Function;
+
+  onMenuScrollToTop: ?Function;
+
+  placeholder: ?string;
 
   hasValue = (value: *) => {
     return Array.isArray(value) ? value.length > 0 : isObject(value);
@@ -37,7 +37,7 @@ export default class SelectController extends FieldController {
 
   getInitialValue = () => [];
 
-  formatButtonLabel = (value: *) => {
+  formatLabel = (value: *) => {
     const separator = ', ';
     const max = 3;
     const makeLabel = suffix => (
@@ -60,26 +60,8 @@ export default class SelectController extends FieldController {
 
     return makeLabel(
       valueLength > max
-        ? `${valueMap.slice(0, max).join(separator)} +${valueLength - 3} more`
+        ? `${valueMap.slice(0, max).join(separator)} +${valueLength - max} more`
         : valueMap.join(separator),
     );
-  };
-
-  // Implementation
-
-  validateOptions = (options: *) => {
-    let message = null;
-    let validity = true;
-
-    if (!Array.isArray(options)) {
-      validity = false;
-      message = 'Options must be an array.';
-    }
-    if (options.length > 0 && isObject(options[0])) {
-      validity = false;
-      message = 'Options array must contain objects.';
-    }
-
-    return { message, validity };
   };
 }

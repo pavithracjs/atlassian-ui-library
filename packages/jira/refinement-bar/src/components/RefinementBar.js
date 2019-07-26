@@ -44,7 +44,7 @@ type Props = {
   onPopupOpen?: (key: string) => void,
   /** Called when a field popup is closed. */
   onPopupClose?: () => void,
-  /** Access the the field elements by reference. Any keys present should match those of the `fieldConfig`. */
+  /** Access the field elements by reference. Any keys present should match those of the `fieldConfig`. */
   refs: Object,
 };
 type State = {
@@ -200,12 +200,12 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     const values = cloneObj(this.state.values, { add: { [key]: value } });
 
     const field = fieldConfig[key];
-    const { message, isInvalid } = field.validateValue(value);
+    const invalidMessage = field.validate(value);
 
     let invalid = oldInvalid;
 
-    if (isInvalid) {
-      invalid = cloneObj(oldInvalid, { add: { [key]: message } });
+    if (invalidMessage) {
+      invalid = cloneObj(oldInvalid, { add: { [key]: invalidMessage } });
     } else if (oldInvalid[key]) {
       invalid = cloneObj(oldInvalid, { remove: key });
     }
@@ -261,7 +261,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
     const storedValue = this.context.value[key] || initialValue;
     const localValue = this.state.values[key] || initialValue;
 
-    const hasPopup = typeof field.formatButtonLabel === 'function';
+    const hasPopup = typeof field.formatLabel === 'function';
     const popupIsOpen = this.getActivePopup() === key;
 
     const fieldUI = renderContextProps => {
@@ -269,7 +269,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
 
       return (
         <FieldView
-          closePopup={this.closePopup}
+          closePopup={hasPopup ? this.closePopup : undefined}
           field={field}
           invalidMessage={invalidMessage}
           key={key}
@@ -309,7 +309,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
             }
             ref={ref}
           >
-            {field.formatButtonLabel(storedValue)}
+            {field.formatLabel(storedValue)}
           </FilterButton>
         )}
       >

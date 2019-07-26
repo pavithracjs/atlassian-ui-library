@@ -1,0 +1,1 @@
+add documentation. finalise some naming decisions.

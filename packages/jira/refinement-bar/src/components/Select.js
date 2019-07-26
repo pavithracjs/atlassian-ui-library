@@ -104,13 +104,9 @@ type State = {
 };
 
 export class BaseSelect extends React.Component<*, State> {
-  state = { inputValue: '' };
+  state = { inputValue: this.props.inputValue || '' };
 
   selectRef = React.createRef();
-
-  onInputChange = (inputValue: string) => {
-    this.setState({ inputValue });
-  };
 
   componentDidMount() {
     if (this.selectRef.current) {
