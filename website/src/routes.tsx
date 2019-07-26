@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { ModalTransition } from '@atlaskit/modal-dialog';
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 // we explicitly do not want to use our wrapped loadable here, as the modal being loaded should
 // be handled by the iframe sendApdex
 import Loadable from 'react-loadable';

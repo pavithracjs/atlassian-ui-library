@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import FourOhFour from '../pages/FourOhFour';
 
 export default class Boundary extends React.Component {

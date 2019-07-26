@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { toClass } from 'recompose';
 import { RouteComponentProps } from 'react-router-dom';
 import Tooltip from '@atlaskit/tooltip';

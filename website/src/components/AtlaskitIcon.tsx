@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import atlaskitLogo from '../assets/atlaskit-logo-inverted.png';
 import atlaskitLogoMonochrome from '../assets/atlaskit-logo-monochrome.png';
 

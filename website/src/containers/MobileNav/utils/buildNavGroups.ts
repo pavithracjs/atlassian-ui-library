@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Directory, NavGroupItem, File } from '../../../types';
 import * as fs from '../../../utils/fs';
 

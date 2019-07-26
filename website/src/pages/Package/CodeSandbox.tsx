@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import CodeSandboxer from 'react-codesandboxer';
 import { replaceSrc } from '@atlaskit/docs';
 
@@ -34,7 +34,7 @@ const baseFiles = (
 
   If this fails in any other way, contact Ben Conolly (https://bitbucket.org/bconolly)
 */
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import '@atlaskit/css-reset';
 import Example from './example';

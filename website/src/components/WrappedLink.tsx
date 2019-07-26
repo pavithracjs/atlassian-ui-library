@@ -1,5 +1,5 @@
 import { Link as BaseLink } from 'react-router-dom';
-import * as React from 'react';
+import React from 'react';
 
 export interface LinkProps {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;

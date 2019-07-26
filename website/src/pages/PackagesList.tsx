@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Table from '@atlaskit/dynamic-table';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';

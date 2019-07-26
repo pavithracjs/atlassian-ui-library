@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { match } from 'react-router';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';

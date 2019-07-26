@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Media from 'react-media';
 import GlobalTheme from '@atlaskit/theme';
 import Page from '@atlaskit/page';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import CodeIcon from '@atlaskit/icon/glyph/code';
 import { Directory } from '../../../types';
 import renderNav from '../utils/renderNav';

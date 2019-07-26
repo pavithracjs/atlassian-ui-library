@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Loadable from '../components/WrappedLoader';
 import * as fs from '../utils/fs';
 import { File } from '../types';

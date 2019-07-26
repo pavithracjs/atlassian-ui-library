@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { match } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import Loadable from '../components/WrappedLoader';

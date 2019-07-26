@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import HomeFilledIcon from '@atlaskit/icon/glyph/home-filled';
 import ComponentIcon from '@atlaskit/icon/glyph/component';
 import OverviewIcon from '@atlaskit/icon/glyph/overview';

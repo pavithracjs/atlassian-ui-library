@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Link, LinkProps } from '../../components/WrappedLink';
 import { toClass } from 'recompose';
 import {

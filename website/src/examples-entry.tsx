@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import cssResetStyles from '@atlaskit/css-reset';
 import 'regenerator-runtime/runtime';

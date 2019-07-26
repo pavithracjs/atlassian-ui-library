@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import * as CommonMark from 'commonmark';
 import * as ReactRenderer from 'commonmark-react-renderer';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 const DEFAULT_SIZE = 20;
 const DEFAULT_FILL = 'currentColor';

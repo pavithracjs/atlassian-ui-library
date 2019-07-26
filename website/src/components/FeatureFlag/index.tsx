@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import LaunchDarkly, { LDClient } from 'ldclient-js';
 import uuid from 'uuid/v4';
 import {

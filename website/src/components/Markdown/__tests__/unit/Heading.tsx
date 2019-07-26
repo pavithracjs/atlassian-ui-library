@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Heading from '../../Heading';
 import { mount, ReactWrapper } from 'enzyme';
 // A console error is thrown because 'h' + level is not recognized as a React component

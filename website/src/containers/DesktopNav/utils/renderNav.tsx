@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { AkNavigationItemGroup } from '@atlaskit/navigation';
 import { RouterNavigationItem, ExternalNavigationItem } from './linkComponents';
 import { NavGroup } from '../../../types';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PageIcon from '@atlaskit/icon/glyph/page';
 import { Directory } from '../../../types';
 import renderNav from '../utils/renderNav';

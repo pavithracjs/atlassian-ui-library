@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Media from 'react-media';
 import { match, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';

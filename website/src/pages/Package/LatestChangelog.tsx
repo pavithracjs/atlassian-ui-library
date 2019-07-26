@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Lozenge from '@atlaskit/lozenge';
 import Icon from '@atlaskit/icon/glyph/bullet-list';

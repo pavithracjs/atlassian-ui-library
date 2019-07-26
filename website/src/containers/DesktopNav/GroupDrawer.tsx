@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { AkCustomDrawer } from '@atlaskit/navigation';
 
 import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left';
