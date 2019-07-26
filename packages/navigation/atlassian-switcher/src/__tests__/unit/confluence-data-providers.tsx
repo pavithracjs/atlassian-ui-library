@@ -1,7 +1,7 @@
 declare var global: any;
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { CustomLinksProvider } from '../../providers//confluence-data-providers';
+import { CustomLinksProvider } from '../../providers/confluence-data-providers';
 
 describe('confluence-data-providers', () => {
   let fetchMock: any;
