@@ -55,7 +55,7 @@ export default class Section extends PureComponent<SectionProps, SectionState> {
     }
   }
 
-  focusBackItem = (children: Node) => {
+  focusBackItem = (children: HTMLDivElement) => {
     if (children.querySelector('[data-id="back-item"]')) {
       children.querySelector('[data-id="back-item"]').focus();
     }
