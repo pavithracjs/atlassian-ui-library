@@ -1,4 +1,4 @@
-import { splitCell, Rect } from 'prosemirror-tables';
+import { Rect } from 'prosemirror-tables';
 import { findCellClosestToPos } from 'prosemirror-utils';
 import { TableLayout, tableBackgroundColorPalette } from '@atlaskit/adf-schema';
 
@@ -33,6 +33,7 @@ import {
 } from './utils';
 import { getPluginState } from './pm-plugins/main';
 import { mergeCells, deleteColumns, deleteRows } from './transforms';
+import { splitCell } from './commands/misc';
 
 const TABLE_BREAKOUT_NAME_MAPPING = {
   default: TABLE_BREAKOUT.NORMAL,
