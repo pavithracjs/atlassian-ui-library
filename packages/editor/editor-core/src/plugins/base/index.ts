@@ -10,6 +10,7 @@ import inlineCursorTargetPlugin from './pm-plugins/inline-cursor-target';
 import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
 import scrollGutter from './pm-plugins/scroll-gutter';
+import frozenEditor from './pm-plugins/frozen-editor';
 import { isFullPage } from '../../utils/is-full-page';
 
 const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
@@ -33,6 +34,11 @@ const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
         plugin: newlinePreserveMarksPlugin,
       },
       { name: 'reactNodeView', plugin: () => reactNodeView },
+      {
+        name: 'frozenEditor',
+        plugin: ({ dispatchAnalyticsEvent }) =>
+          frozenEditor(dispatchAnalyticsEvent),
+      },
       { name: 'decorationPlugin', plugin: () => decorationPlugin() },
       { name: 'history', plugin: () => history() },
       // should be last :(

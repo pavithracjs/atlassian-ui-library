@@ -64,6 +64,16 @@ type EditorPerfAEP = OperationalAEP<
   }
 >;
 
+type BrowserFreezePayload = OperationalAEP<
+  ACTION.BROWSER_FREEZE,
+  ACTION_SUBJECT.EDITOR,
+  undefined,
+  {
+    freezeTime: number;
+    nodeSize: number;
+  }
+>;
+
 type EditorStopAEP = UIAEP<
   ACTION.STOPPED,
   ACTION_SUBJECT.EDITOR,
@@ -174,4 +184,5 @@ export type GeneralEventPayload =
   | TypeAheadLinkAEP
   | TypeAheadMentionAEP
   | FullWidthModeAEP
-  | EditorPerfAEP;
+  | EditorPerfAEP
+  | BrowserFreezePayload;

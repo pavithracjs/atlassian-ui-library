@@ -1,0 +1,1 @@
+ED-7149: Measaure the amount of jankiness in the editor
