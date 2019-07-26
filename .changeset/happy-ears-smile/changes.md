@@ -1,0 +1,1 @@
+Lozenge async filter and support async loading of defaultOptions in all AsyncSelect-based filters.
