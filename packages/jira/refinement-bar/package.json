@@ -26,6 +26,7 @@
     "@atlaskit/button": "^13.0.16",
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/icon-object": "^4.0.3",
+    "@atlaskit/lozenge": "^9.0.3",
     "@atlaskit/select": "^10.0.1",
     "@atlaskit/spinner": "^12.0.1",
     "@atlaskit/textfield": "^2.0.4",

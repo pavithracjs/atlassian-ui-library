@@ -17,6 +17,7 @@ and components that combine to make the refinement bar.
   * [AvatarSelect](#fields-AvatarSelect)
   * [IssueSelect](#fields-IssueSelect)
   * [AsyncSelect](#fields-AsyncSelect)
+  * [LozengeAsyncSelect](#fields-LozengeAsyncSelect)
   * [AvatarAsyncSelect](#fields-AvatarAsyncSelect)
   * [IssueAsyncSelect](#fields-IssueAsyncSelect)
   * [Number](#fields-Number)
@@ -207,10 +208,13 @@ will remain until \`cacheOptions\` changes value.
 The \`loadOptions\` function returns a promise, which is the set of options to
 be used once the promise resolves.
 
+The \`defaultOptions\` property when given a boolean \`true\` will call the function
+given to \`loadOptions\` when the user interacts, and display the resultant data.
+
 ${code`
 type AsyncSelectFieldConfig = SelectFieldConfig & {
   cacheOptions?: any,
-  defaultOptions?: Options,
+  defaultOptions?: Options | boolean,
   defaultOptionsLabel?: string,
   inputValue?: string,
   loadOptions: (inputValue: string) => Options,
@@ -273,6 +277,27 @@ ${(
     packageName="@atlaskit/refinement-bar"
     source={require('!!raw-loader!../examples/95-issue-async-select-filter-config-reference')}
     title="IssueAsyncSelect filter config reference"
+  />
+)}
+
+<a name="fields-LozengeAsyncSelect"></a>
+### LozengeAsyncSelect
+
+The \`LozengeAsyncSelect\` filter extends the \`AsyncSelect\` filter. Instead of rendering values as text, it renders them
+inside the [Lozenge component](/packages/core/lozenge) component and extends its \`fieldConfig\` to include props accepted by the Lozenge.
+
+For the extended prop list, please see the [Lozenge component](/packages/core/lozenge). All other props are indentical
+to the \`AsyncSelect\` filter.
+
+${(
+  <Example
+    Component={
+      require('../examples/99-lozenge-async-select-filter-config-reference')
+        .default
+    }
+    packageName="@atlaskit/refinement-bar"
+    source={require('!!raw-loader!../examples/99-lozenge-async-select-filter-config-reference')}
+    title="LozengeAsyncSelect filter config reference"
   />
 )}
 
