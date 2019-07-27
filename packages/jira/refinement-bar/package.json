@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/refinement-bar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Jira Refinement Bar Component",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",

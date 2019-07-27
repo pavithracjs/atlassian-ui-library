@@ -1,5 +1,13 @@
 # @atlaskit/refinement-bar
 
+## 1.1.0
+
+### Minor Changes
+
+- [minor][6c6762f732](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c6762f732):
+
+  Lozenge async filter and support async loading of defaultOptions in all AsyncSelect-based filters.
+
 ## 1.0.0
 
 ### Major Changes
