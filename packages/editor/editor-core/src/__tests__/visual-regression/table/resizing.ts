@@ -11,6 +11,39 @@ import {
   unselectTable,
 } from '../../__helpers/page-objects/_table';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
+import { TableCssClassName } from '../../../plugins/table/types';
+import { pressKey } from '../../__helpers/page-objects/_keyboard';
+
+describe('Snapshot Test: table resizing - resize handle zone', () => {
+  let page: any;
+  beforeEach(async () => {
+    // @ts-ignore
+    page = global.page;
+
+    await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
+    await insertTable(page);
+
+    // Set a background color to resize handler zone
+    const css = `
+      .${TableCssClassName.CELL_NODEVIEW_WRAPPER}:after,
+      .${TableCssClassName.CELL_NODEVIEW_WRAPPER}:before {
+        background-color: red;
+      }
+    `;
+    await page.addStyleTag({ content: css });
+  });
+
+  afterEach(async () => {
+    await page.reload(); // Clean css
+  });
+
+  it('should cover all cell height', async () => {
+    await clickFirstCell(page);
+    await pressKey(page, ['Enter', 'Enter', 'Enter', 'Enter']);
+
+    await snapshot(page);
+  });
+});
 
 describe('Snapshot Test: table resizing', () => {
   describe('Re-sizing', () => {

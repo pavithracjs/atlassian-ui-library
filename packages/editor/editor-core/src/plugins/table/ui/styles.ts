@@ -709,6 +709,11 @@ export const tableStyles = css`
 
 
   .ProseMirror.${ClassName.RESIZING_PLUGIN} {
+    /* We need to set height 100% to all table related nodes, in order to get 100% cell div*/
+    table, tr, td, th, .${ClassName.CELL_NODEVIEW_WRAPPER} {
+      height: 100%;
+    }
+
     .${ClassName.CELL_NODEVIEW_WRAPPER}:before,
     .${ClassName.CELL_NODEVIEW_WRAPPER}:after {
       content: '';
@@ -718,6 +723,7 @@ export const tableStyles = css`
       cursor: col-resize;
       position: absolute;
       top: -${tableCellPadding}px;
+      
     }
     .${ClassName.CELL_NODEVIEW_WRAPPER}:before{
       left: -${tableCellPadding + 1}px;
