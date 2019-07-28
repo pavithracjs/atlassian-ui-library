@@ -1,16 +1,11 @@
 import * as React from 'react';
-import {
-  DataProviderProps,
-  ProviderResult,
-  ResultComplete,
-  Status,
-} from './as-data-provider';
+import { DataProviderProps, ResultComplete, Status } from './as-data-provider';
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
-export interface OptionalCloudId {
+export type OptionalCloudId<U> = {
   cloudId?: string;
-}
+} & DataProviderProps<U>;
 
 /**
  * Inject the ability to handle cases when cloudID is missing into the provided component.
@@ -28,11 +23,8 @@ function withHandleOptionalCloudId<P extends DataProviderProps<U>, U>(
   ProviderComponent: React.ComponentType<P>,
   fallbackProviderResult: U,
 ) {
-  return function(props: Overwrite<P, OptionalCloudId>) {
-    const { cloudId } = props;
-    const children = (props.children as unknown) as ((
-      props: ProviderResult<U>,
-    ) => React.ReactNode);
+  return function(props: Overwrite<P, OptionalCloudId<U>>) {
+    const { cloudId, children } = props;
 
     if (cloudId) {
       return <ProviderComponent {...props as P}>{children}</ProviderComponent>;
