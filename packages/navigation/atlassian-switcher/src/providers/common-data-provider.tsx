@@ -17,7 +17,7 @@ import {
 } from '../types';
 
 interface CommonDataProviderProps {
-  cloudId: string;
+  cloudId?: string;
   isUserCentric: boolean;
   disableRecentContainers: boolean;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
