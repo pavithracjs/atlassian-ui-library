@@ -1,0 +1,1 @@
+Adding triggerProductStore callback prop onto the Atlassian Switcher API
