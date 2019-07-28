@@ -1,0 +1,1 @@
+ED-7258 Fix resize handler to take full cell height
