@@ -1,1 +1,0 @@
-Added an optional parameter to allow an option to disable custom links in Jira and Confluence switcher

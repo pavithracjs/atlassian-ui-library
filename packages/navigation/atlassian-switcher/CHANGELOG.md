@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.10.0
+
+### Minor Changes
+
+- [minor][fee77d9245](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fee77d9245):
+
+  Added an optional parameter to allow an option to disable custom links in Jira and Confluence switcher
+
 ## 3.9.0
 
 ### Minor Changes
