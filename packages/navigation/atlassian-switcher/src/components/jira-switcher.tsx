@@ -11,6 +11,8 @@ import {
   FeatureMap,
   AvailableProductsResponse,
   RecommendationsFeatureFlags,
+  TriggerProductStoreCallback,
+  TriggerXFlowCallback,
 } from '../types';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 import { ProviderResult } from '../providers/as-data-provider';
@@ -19,7 +21,8 @@ type JiraSwitcherProps = {
   cloudId: string;
   messages: Messages;
   features: FeatureMap;
-  triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  triggerXFlow: TriggerXFlowCallback;
+  triggerProductStore: TriggerProductStoreCallback;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 

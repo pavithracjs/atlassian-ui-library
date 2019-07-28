@@ -23,7 +23,7 @@ import {
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback, TriggerProductStore } from '../types';
+import { TriggerXFlowCallback, TriggerProductStoreCallback } from '../types';
 import { urlToHostname } from '../utils/url-to-hostname';
 
 const noop = () => void 0;
@@ -31,7 +31,7 @@ const noop = () => void 0;
 type SwitcherProps = {
   messages: Messages;
   triggerXFlow: TriggerXFlowCallback;
-  triggerProductStore: TriggerProductStore;
+  triggerProductStore: TriggerProductStoreCallback;
   isLoading: boolean;
   licensedProductLinks: SwitcherItemType[];
   suggestedProductLinks: SwitcherItemType[];
