@@ -111,6 +111,7 @@ function collectAdminLinks(
   cloudId: string,
   managePermission: ProviderResults['managePermission'],
   addProductsPermission: ProviderResults['addProductsPermission'],
+  isProductStoreEnabled: boolean,
 ) {
   if (isError(managePermission) || isError(addProductsPermission)) {
     return [];
@@ -118,15 +119,20 @@ function collectAdminLinks(
 
   if (isComplete(managePermission) && isComplete(addProductsPermission)) {
     if (managePermission.data || addProductsPermission.data) {
-      return getAdministrationLinks(managePermission.data);
+      return getAdministrationLinks(
+        managePermission.data,
+        isProductStoreEnabled,
+      );
     }
 
     return [];
   }
 }
 
-export function collectFixedProductLinks(): SwitcherItemType[] {
-  return getFixedProductLinks();
+export function collectFixedProductLinks(
+  isProductStoreEnabled: boolean,
+): SwitcherItemType[] {
+  return getFixedProductLinks(isProductStoreEnabled);
 }
 
 function collectRecentLinks(
@@ -280,9 +286,14 @@ export function mapResultsToSwitcherProps(
           [],
         )
       : [],
-    fixedLinks: collect(collectFixedProductLinks(), []),
+    fixedLinks: collect(collectFixedProductLinks(features.productStore), []),
     adminLinks: collect(
-      collectAdminLinks(cloudId, managePermission, addProductsPermission),
+      collectAdminLinks(
+        cloudId,
+        managePermission,
+        addProductsPermission,
+        features.productStore,
+      ),
       [],
     ),
     recentLinks: collect(

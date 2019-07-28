@@ -5,6 +5,7 @@ import GenericSwitcher from './generic-switcher';
 import ErrorBoundary from './error-boundary';
 import {
   TriggerXFlowCallback,
+  TriggerProductStore,
   FeatureFlagProps,
   Product,
   RecommendationsFeatureFlags,
@@ -24,6 +25,7 @@ type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
   triggerXFlow?: TriggerXFlowCallback;
+  triggerProductStore?: TriggerProductStore;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 } & Partial<FeatureFlagProps>;
 

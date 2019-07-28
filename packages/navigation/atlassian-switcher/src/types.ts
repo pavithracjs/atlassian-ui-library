@@ -8,6 +8,9 @@ export interface TriggerXFlowCallback {
     analyticsEvent: UIAnalyticsEventInterface,
   ): void;
 }
+export interface TriggerProductStore {
+  (event: any, analyticsEvent: UIAnalyticsEventInterface): void;
+}
 
 export interface WithCloudId {
   cloudId: string;
@@ -51,6 +54,7 @@ export enum Feature {
   enableUserCentricProducts = 'enableUserCentricProducts',
   disableRecentContainers = 'disableRecentContainers',
   xflow = 'xflow',
+  productStore = 'productStore',
 }
 
 export type FeatureFlagProps = {
