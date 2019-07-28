@@ -55,7 +55,7 @@ export const RecentContainersProvider = withHandleOptionalCloudId(
       </RealRecentContainersProvider>
     );
   },
-  emptyRecentContainers.data as RecentContainersResponse,
+  emptyRecentContainers.data,
 );
 
 // License information api

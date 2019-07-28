@@ -24,7 +24,7 @@ export interface OptionalCloudId {
  * @type P component props
  * @type U provider result type
  */
-function withHandleOptionalCloudId<U, P extends DataProviderProps<U>>(
+function withHandleOptionalCloudId<P extends DataProviderProps<U>, U>(
   ProviderComponent: React.ComponentType<P>,
   fallbackProviderResult: U,
 ) {
