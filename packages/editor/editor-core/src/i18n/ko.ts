@@ -93,6 +93,9 @@ export default {
   'fabric.editor.table.description': '표 삽입',
   'fabric.editor.decision': '의사결정',
   'fabric.editor.decision.description': '추적하기 쉽도록 결정 캡처',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': '칸막이',
   'fabric.editor.horizontalRule.description': '가로선으로 콘텐츠 구분',
   'fabric.editor.date': '날짜',
