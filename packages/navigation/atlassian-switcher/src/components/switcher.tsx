@@ -208,7 +208,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 <SwitcherItem
                   icon={<item.Icon theme="product" />}
                   href={item.href}
-                  onClick={this.onFixedLinkClick(item.href)}
+                  onClick={this.onFixedLinkClick(item.key)}
                 >
                   {item.label}
                 </SwitcherItem>
