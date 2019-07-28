@@ -8,7 +8,7 @@ export interface TriggerXFlowCallback {
     analyticsEvent: UIAnalyticsEventInterface,
   ): void;
 }
-export interface TriggerProductStore {
+export interface TriggerProductStoreCallback {
   (event: any, analyticsEvent: UIAnalyticsEventInterface): void;
 }
 

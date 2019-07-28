@@ -2,7 +2,12 @@ import * as React from 'react';
 import { Messages } from 'react-intl';
 import Switcher from './switcher';
 import CommonDataProvider from '../providers/common-data-provider';
-import { Product, FeatureMap } from '../types';
+import {
+  Product,
+  FeatureMap,
+  TriggerProductStoreCallback,
+  TriggerXFlowCallback,
+} from '../types';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 
@@ -10,7 +15,8 @@ type GenericSwitcherProps = {
   cloudId: string;
   messages: Messages;
   features: FeatureMap;
-  triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  triggerXFlow: TriggerXFlowCallback;
+  triggerProductStore: TriggerProductStoreCallback;
   product: Exclude<Product, Product.JIRA | Product.CONFLUENCE>;
 };
 
