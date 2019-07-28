@@ -23,12 +23,15 @@ import {
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback } from '../types';
+import { TriggerXFlowCallback, TriggerProductStore } from '../types';
 import { urlToHostname } from '../utils/url-to-hostname';
+
+const noop = () => void 0;
 
 type SwitcherProps = {
   messages: Messages;
   triggerXFlow: TriggerXFlowCallback;
+  triggerProductStore: TriggerProductStore;
   isLoading: boolean;
   licensedProductLinks: SwitcherItemType[];
   suggestedProductLinks: SwitcherItemType[];
@@ -82,6 +85,14 @@ export default class Switcher extends React.Component<SwitcherProps> {
     const { triggerXFlow } = this.props;
     triggerXFlow(key, 'atlassian-switcher', event, analyticsEvent);
   };
+
+  onFixedLinkClick = (key: string) =>
+    key === 'product-store'
+      ? (event: any, analyticsEvent: UIAnalyticsEventInterface) => {
+          const { triggerProductStore } = this.props;
+          triggerProductStore(event, analyticsEvent);
+        }
+      : noop;
 
   render() {
     const {
@@ -197,6 +208,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 <SwitcherItem
                   icon={<item.Icon theme="product" />}
                   href={item.href}
+                  onClick={this.onFixedLinkClick(item.href)}
                 >
                   {item.label}
                 </SwitcherItem>
