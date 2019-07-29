@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.9
+
+### Patch Changes
+
+- [patch][6874801bc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6874801bc0):
+
+  ED-7314 Added test helpers for comparing selections. Includes new builders for gap cursors.
+
 ## 112.39.8
 
 ### Patch Changes
