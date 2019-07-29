@@ -79,12 +79,14 @@ class OptionalContainersExample extends React.Component {
           Open drawer
         </Button>
 
-        <h5 style={{ paddingBottom: '10px' }}>Optional props</h5>
+        <h5 style={{ paddingBottom: '10px' }}>Optional togglable props</h5>
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            width: '500px',
+            flexDirection: 'column',
+            width: 'fit-content',
+            height: '200px',
           }}
         >
           <Button
