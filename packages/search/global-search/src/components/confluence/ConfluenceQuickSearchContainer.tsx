@@ -37,7 +37,8 @@ import {
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
-import QuickSearchContainer, {
+import {
+  BaseConfluenceQuickSearchContainer,
   SearchResultProps,
   PartiallyLoadedRecentItems,
   FilterComponentProps,
@@ -675,7 +676,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const { isNavAutocompleteEnabled } = features;
 
     return (
-      <QuickSearchContainer
+      <BaseConfluenceQuickSearchContainer
         placeholder={this.props.intl.formatMessage(
           messages.confluence_search_placeholder,
         )}
