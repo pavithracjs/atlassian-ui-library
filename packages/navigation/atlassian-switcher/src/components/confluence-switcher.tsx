@@ -27,7 +27,7 @@ type ConfluenceSwitcherProps = {
 };
 
 export default (props: ConfluenceSwitcherProps) => (
-  <CustomLinksProvider>
+  <CustomLinksProvider disableCustomLinks={props.features.disableCustomLinks}>
     {customLinks => (
       <AvailableProductsProvider
         isUserCentric={props.features.enableUserCentricProducts}

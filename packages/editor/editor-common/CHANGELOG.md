@@ -1,5 +1,13 @@
 # @atlaskit/editor-common
 
+## 39.17.1
+
+### Patch Changes
+
+- [patch][87719d77c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87719d77c7):
+
+  ED-7308: added performance measurements of ProseMirror document updates
+
 ## 39.17.0
 
 ### Minor Changes

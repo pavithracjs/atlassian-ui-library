@@ -2,23 +2,19 @@
   "extends": "./tsconfig.entry-points.json",
   "compilerOptions": {
     "allowJs": false,
+    "strict": true,
     "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
     "declaration": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "downlevelIteration": true,
     "importHelpers": true,
     "jsx": "react",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "strictNullChecks": true,
     "skipLibCheck": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
     "target": "es5",
     "module": "esnext",
     "lib": [
@@ -31,10 +27,7 @@
       "es2015.iterable",
       "es2015.promise",
       "es2016.array.include"
-    ],
-    "types": ["jest", "react","react-router","history", "enzyme", "css-color-names", "jest-styled-components", "styled-components", "linkify-it", "url-search-params"],
-    "typeRoots": ["./typings", "./node_modules/@types"],
-    "esModuleInterop": true
+    ]
   },
   "files": [
     "./typings/atlaskit.d.ts",
@@ -70,7 +63,6 @@
     "./typings/querystring.d.ts",
     "./typings/raf-schd.d.ts",
     "./typings/raf-stub.d.ts",
-    "./typings/react-node-resolver.d.ts",
     "./typings/react-lorem-component.d.ts",
     "./typings/react-node-resolver.d.ts",
     "./typings/react-scrolllock.d.ts",
@@ -85,6 +77,7 @@
     "./typings/utf8-string-bytes.d.ts",
     "./typings/uuid.d.ts",
     "./typings/webpack.d.ts",
-    "./typings/yarn-deduplicate.d.ts"
+    "./typings/yarn-deduplicate.d.ts",
+    "./typings/css-color-names/index.d.ts"
   ]
 }

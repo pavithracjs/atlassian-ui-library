@@ -7,7 +7,7 @@ import { colors } from '@atlaskit/theme';
 
 import { BaseSelect, selectComponents } from './Select';
 
-export const CLEAR_DATA = {
+const CLEAR_DATA = {
   value: '__remove-all',
   label: 'Remove all filters',
 };

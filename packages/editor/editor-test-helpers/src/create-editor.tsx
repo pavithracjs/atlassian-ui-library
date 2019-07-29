@@ -12,6 +12,8 @@ import {
   PortalProvider,
   PortalProviderAPI,
   PortalRenderer,
+  GapCursorSelection,
+  GapCursorSide,
 } from '@atlaskit/editor-core';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { mount, ReactWrapper } from 'enzyme';
@@ -145,6 +147,7 @@ export default function createEditorFactoryForTests<T = any>() {
 
       refs = defaultDoc.refs;
       if (refs) {
+        const { doc, tr } = editorView.state;
         // Collapsed selection.
         if ('<>' in refs) {
           setTextSelection(editorView!, refs['<>']);
@@ -160,28 +163,43 @@ export default function createEditorFactoryForTests<T = any>() {
         }
         // CellSelection
         else if (refs['<cell'] && refs['cell>']) {
-          const { state } = editorView;
-          const anchorCell = findCellClosestToPos(
-            state.doc.resolve(refs['<cell']),
-          );
-          const headCell = findCellClosestToPos(
-            state.doc.resolve(refs['cell>']),
-          );
+          const anchorCell = findCellClosestToPos(doc.resolve(refs['<cell']));
+          const headCell = findCellClosestToPos(doc.resolve(refs['cell>']));
           if (anchorCell && headCell) {
             dispatch(
-              state.tr.setSelection(new CellSelection(
-                state.doc.resolve(anchorCell.pos),
-                state.doc.resolve(headCell.pos),
+              tr.setSelection(new CellSelection(
+                doc.resolve(anchorCell.pos),
+                doc.resolve(headCell.pos),
               ) as any),
             );
           }
         }
         // NodeSelection
         else if (refs['<node>']) {
-          const { state } = editorView;
+          dispatch(tr.setSelection(NodeSelection.create(doc, refs['<node>'])));
+        }
+        // GapCursor right
+        // This may look the wrong way around here, but looks correct in the tests. Eg:
+        // doc(hr(), '{<|gap>}') = Horizontal rule with a gap cursor on its right
+        // The | denotes the gap cursor's side, based on the node on the side of the |.
+        else if (refs['<|gap>']) {
           dispatch(
-            state.tr.setSelection(
-              NodeSelection.create(state.doc, refs['<node>']),
+            tr.setSelection(
+              new GapCursorSelection(
+                doc.resolve(refs['<|gap>']),
+                GapCursorSide.RIGHT,
+              ),
+            ),
+          );
+        }
+        // GapCursor left
+        else if (refs['<gap|>']) {
+          dispatch(
+            tr.setSelection(
+              new GapCursorSelection(
+                doc.resolve(refs['<gap|>']),
+                GapCursorSide.LEFT,
+              ),
             ),
           );
         }

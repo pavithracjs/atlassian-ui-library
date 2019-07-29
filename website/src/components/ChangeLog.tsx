@@ -16,12 +16,10 @@ function getVersion(str: string) {
 }
 const Heading = ({
   children,
-  packageName,
   href,
 }: {
   children: React.ReactChild;
   level: number;
-  packageName: string;
   href: string;
 }) => {
   const childrenArray = React.Children.toArray(children);

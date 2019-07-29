@@ -49,7 +49,6 @@ function getExpandLink(
 }
 
 function collectAvailableProductLinks(
-  cloudId: string,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
@@ -65,7 +64,6 @@ function collectAvailableProductLinks(
 }
 
 function collectProductLinks(
-  cloudId: string,
   licenseInformation: ProviderResults['licenseInformation'],
 ): SwitcherItemType[] | undefined {
   if (isError(licenseInformation)) {
@@ -108,7 +106,6 @@ function collectCanManageLinks(
 }
 
 function collectAdminLinks(
-  cloudId: string,
   managePermission: ProviderResults['managePermission'],
   addProductsPermission: ProviderResults['addProductsPermission'],
   isProductStoreEnabled: boolean,
@@ -241,7 +238,7 @@ function asLicenseInformationProviderResult(
 }
 
 export function mapResultsToSwitcherProps(
-  cloudId: string,
+  cloudId: string | null | undefined,
   results: ProviderResults,
   features: FeatureMap,
   availableProducts: ProviderResult<AvailableProductsResponse>,
@@ -260,11 +257,10 @@ export function mapResultsToSwitcherProps(
   if (isError(licenseInformation)) {
     throw licenseInformation.error;
   }
-  const resolvedLicenseInformation: ProviderResult<
-    LicenseInformationResponse
-  > = features.enableUserCentricProducts
-    ? asLicenseInformationProviderResult(availableProducts, cloudId)
-    : licenseInformation;
+  const resolvedLicenseInformation: ProviderResult<LicenseInformationResponse> =
+    features.enableUserCentricProducts && cloudId
+      ? asLicenseInformationProviderResult(availableProducts, cloudId)
+      : licenseInformation;
 
   return {
     expandLink: features.enableUserCentricProducts
@@ -272,8 +268,8 @@ export function mapResultsToSwitcherProps(
       : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
-        ? collectAvailableProductLinks(cloudId, availableProducts)
-        : collectProductLinks(cloudId, licenseInformation),
+        ? collectAvailableProductLinks(availableProducts)
+        : collectProductLinks(licenseInformation),
       [],
     ),
     suggestedProductLinks: features.xflow
@@ -289,7 +285,6 @@ export function mapResultsToSwitcherProps(
     fixedLinks: collect(collectFixedProductLinks(features.productStore), []),
     adminLinks: collect(
       collectAdminLinks(
-        cloudId,
         managePermission,
         addProductsPermission,
         features.productStore,

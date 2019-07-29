@@ -356,3 +356,19 @@ export function fireMoreFiltersButtonClickEvent(
     },
   );
 }
+
+export function fireSpaceFilterShownEvent(
+  searchSessionId: string,
+  createAnalyticsEvent?: CreateAnalyticsEventFn,
+) {
+  fireGasEvent(
+    createAnalyticsEvent,
+    'shown',
+    'filter',
+    'spaceFilterButton',
+    'ui',
+    {
+      searchSessionId,
+    },
+  );
+}

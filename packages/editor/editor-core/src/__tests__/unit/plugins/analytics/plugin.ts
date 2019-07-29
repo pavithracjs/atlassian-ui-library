@@ -8,6 +8,7 @@ import {
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
 } from '../../../../plugins/analytics';
+import { extendPayload } from '../../../../plugins/analytics/plugin';
 import { EditorState, Transaction } from 'prosemirror-state';
 import { createEditorFactory, doc, p } from '@atlaskit/editor-test-helpers';
 import { CommandDispatch } from '../../../../types';
@@ -83,6 +84,14 @@ describe('analytics', () => {
 
       expect(createAnalyticsEvent).toHaveBeenCalledWith(payload);
       expect(createAnalyticsEvent).toHaveBeenCalledWith(secondPayload);
+    });
+
+    describe('#extendPayload', () => {
+      it('should extend event attributes with performance metric: duration', () => {
+        expect(extendPayload(payload, 123).attributes).toHaveProperty(
+          'duration',
+        );
+      });
     });
   });
 });

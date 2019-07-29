@@ -5,6 +5,17 @@ import { jsx } from '@emotion/core';
 import CloseIcon from '@atlaskit/icon/glyph/editor/close';
 import { borderRadius, colors } from '@atlaskit/theme';
 
+const hiddenStyles = {
+  background: 0,
+  backgroundClip: '-1px -1px -1px -1px',
+  border: 0,
+  height: 1,
+  opacity: 0,
+  padding: 0,
+  position: 'absolute',
+  width: 1,
+};
+
 export const Note = (props: *) => (
   <div
     css={{
@@ -16,20 +27,12 @@ export const Note = (props: *) => (
   />
 );
 
-export const HiddenSubmitButton = (props: *) => (
-  <button
-    css={{
-      background: 0,
-      backgroundClip: '-1px -1px -1px -1px',
-      border: 0,
-      height: 1,
-      opacity: 0,
-      padding: 0,
-      position: 'absolute',
-      width: 1,
-    }}
-    {...props}
-  />
+export const HiddenButton = (props: *) => (
+  <button css={hiddenStyles} {...props} />
+);
+
+export const HiddenLabel = (props: *) => (
+  <label css={hiddenStyles} {...props} />
 );
 
 export const ClearButton = ({ label, isSelected, ...props }: *) => {
