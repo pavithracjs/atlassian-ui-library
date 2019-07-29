@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { withHelp, HelpContextInterface } from '../../HelpContext';
 import { ArticleItem } from '../../../model/Article';
 import {
   ArticlesListItemTitleIcon,
@@ -43,4 +42,4 @@ const ArticlesListItem = (props: Props) => {
   );
 };
 
-export default withHelp(ArticlesListItem);
+export default ArticlesListItem;
