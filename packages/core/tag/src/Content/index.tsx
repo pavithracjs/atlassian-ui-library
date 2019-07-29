@@ -48,7 +48,7 @@ export default class Content extends Component<Props> {
     const LinkComponent = this.getLinkComponent();
 
     return href && LinkComponent ? (
-      <LinkComponent {...styledProps} href={href} tabIndex="-1">
+      <LinkComponent {...styledProps} href={href} tabIndex={-1}>
         {children}
       </LinkComponent>
     ) : (
