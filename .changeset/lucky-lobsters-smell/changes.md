@@ -1,1 +1,0 @@
-Minor tweaks in rendering of media previews
