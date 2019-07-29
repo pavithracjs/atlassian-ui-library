@@ -51,7 +51,7 @@ export class NavAutocompleteClientImpl implements NavAutocompleteClient {
     >(this.serviceConfig, options);
 
     const matchingScope: NavScopeResult | undefined = results.scopes.find(
-      scope => scope.id == Scope.NavSearchComplete,
+      scope => scope.id === Scope.NavSearchComplete,
     );
 
     const matchingDocuments = matchingScope ? matchingScope.results : [];
@@ -60,7 +60,6 @@ export class NavAutocompleteClientImpl implements NavAutocompleteClient {
   }
 
   async getNavAutocompleteSuggestions(query: string): Promise<string[]> {
-    console.log('hits getNavautocompletionSugestions');
     return this.createNavAutocompleteRequestPromise(query);
   }
 }
