@@ -11,7 +11,6 @@ import { ConfluenceClient } from '../../api/ConfluenceClient';
 import {
   CrossProductSearchClient,
   CrossProductSearchResults,
-  EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   Filter,
   SpaceFilter,
 } from '../../api/CrossProductSearchClient';
