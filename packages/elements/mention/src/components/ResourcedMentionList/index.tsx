@@ -8,6 +8,15 @@ import MentionList from '../MentionList';
 import MentionSpotlight from '../MentionSpotlight';
 import MentionSpotlightController from '../MentionSpotlight/MentionSpotlightController';
 
+export interface Props {
+  resourceProvider: MentionProvider;
+  presenceProvider?: PresenceProvider;
+  query?: string;
+  onSelection?: OnMentionEvent;
+  resourceError?: Error;
+  isTeamMentionHighlightEnabled?: boolean;
+}
+
 function applyPresence(mentions: MentionDescription[], presences: PresenceMap) {
   const updatedMentions: MentionDescription[] = [];
   for (let i = 0; i < mentions.length; i++) {
@@ -33,15 +42,6 @@ function extractPresences(mentions: MentionDescription[]) {
     }
   }
   return presences;
-}
-
-export interface Props {
-  resourceProvider: MentionProvider;
-  presenceProvider?: PresenceProvider;
-  query?: string;
-  onSelection?: OnMentionEvent;
-  resourceError?: Error;
-  isTeamMentionHighlightEnabled?: boolean;
 }
 
 export interface State {
