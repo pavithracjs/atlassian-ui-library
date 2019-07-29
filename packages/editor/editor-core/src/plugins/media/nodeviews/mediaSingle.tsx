@@ -250,7 +250,17 @@ export default class MediaSingleNode extends Component<
   }
 }
 
-class MediaSingleNodeView extends SelectionBasedNodeView {
+interface MediaSingleNodeViewProps {
+  editorAppearance: EditorAppearance;
+  eventDispatcher: any;
+  fullWidthMode: any;
+  providerFactory: any;
+  mediaOptions: any;
+}
+
+class MediaSingleNodeView extends SelectionBasedNodeView<
+  MediaSingleNodeViewProps
+> {
   lastOffsetLeft = 0;
   forceViewUpdate = false;
 
@@ -374,7 +384,7 @@ export const ReactMediaSingleNode = (
   eventDispatcher: EventDispatcher,
   providerFactory: ProviderFactory,
   mediaOptions: MediaOptions = {},
-  editorAppearance?: EditorAppearance,
+  editorAppearance: EditorAppearance,
   fullWidthMode?: boolean,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {

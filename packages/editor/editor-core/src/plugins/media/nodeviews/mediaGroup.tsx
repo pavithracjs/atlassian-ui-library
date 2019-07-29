@@ -145,7 +145,11 @@ export default class MediaGroup extends React.Component<
   }
 }
 
-class MediaGroupNodeView extends ReactNodeView {
+interface MediaGroupNodeViewProps {
+  editorAppearance: EditorAppearance;
+}
+
+class MediaGroupNodeView extends ReactNodeView<MediaGroupNodeViewProps> {
   render(_props: any, forwardRef: ForwardRef) {
     const { editorAppearance } = this.reactComponentProps;
     return (
@@ -183,7 +187,7 @@ class MediaGroupNodeView extends ReactNodeView {
 
 export const ReactMediaGroupNode = (
   portalProviderAPI: PortalProviderAPI,
-  editorAppearance?: EditorAppearance,
+  editorAppearance: EditorAppearance,
 ) => (node: PMNode, view: EditorView, getPos: () => number): NodeView => {
   return new MediaGroupNodeView(node, view, getPos, portalProviderAPI, {
     editorAppearance,
