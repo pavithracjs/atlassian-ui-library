@@ -3,7 +3,7 @@ import { Skeleton } from '@atlaskit/navigation';
 import { RouteComponentProps } from 'react-router-dom';
 
 const SkeletonNav = ({ location }: RouteComponentProps) => {
-  const isContainerNavOpen = location.pathname === '/';
+  const isContainerNavOpen = location ? location.pathname === '/' : true;
   return <Skeleton isCollapsed={isContainerNavOpen} />;
 };
 

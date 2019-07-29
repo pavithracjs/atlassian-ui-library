@@ -1,17 +1,19 @@
 import React from 'react';
-import { render, waitForElement } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import DesktopNav from '../../DesktopNav';
 import MobileNav from '../../MobileNav';
 
-test('DesktopNav should be lazy rendered ', async () => {
-  const { getByText } = render(<DesktopNav isCollapsed />);
-  const lazyDesktop = await waitForElement(() => getByText(''));
-  expect(lazyDesktop).toBeDefined();
+describe('Desktop navigation', () => {
+  test('should render fallback', async () => {
+    const { findAllByAltText } = render(<DesktopNav />);
+    expect(() => findAllByAltText('Atlaskit logo')).toBeTruthy();
+  });
 });
 
-test('MobileNav should be lazy rendered', async () => {
-  const { getByText } = render(<MobileNav isCollapsed />);
-  const lazyMobile = await waitForElement(() => getByText(''));
-  expect(lazyMobile).toBeDefined();
+describe('Mobile navigation', () => {
+  test('should render fallback', async () => {
+    const { findAllByLabelText } = render(<MobileNav />);
+    expect(() => findAllByLabelText('Open navigation')).toBeTruthy();
+  });
 });
