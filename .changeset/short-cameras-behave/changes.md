@@ -1,0 +1,1 @@
+ED-7314 Added test helpers for comparing selections. Includes new builders for gap cursors.

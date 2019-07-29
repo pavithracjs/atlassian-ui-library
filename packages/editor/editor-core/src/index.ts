@@ -103,3 +103,7 @@ export {
   PortalProviderAPI,
   PortalRenderer,
 } from './ui/PortalProvider';
+export {
+  GapCursorSelection,
+  Side as GapCursorSide,
+} from './plugins/gap-cursor';
