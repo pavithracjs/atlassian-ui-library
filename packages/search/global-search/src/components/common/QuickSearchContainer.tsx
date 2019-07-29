@@ -351,17 +351,15 @@ export class QuickSearchContainer<
     filters: Filter[],
   ) => {
     if (
-      this.state.latestSearchQuery === newLatestSearchQuery &&
-      filters === this.state.currentFilters
+      this.state.latestSearchQuery !== newLatestSearchQuery ||
+      filters !== this.state.currentFilters
     ) {
-      return;
+      this.setState({
+        latestSearchQuery: newLatestSearchQuery,
+        currentFilters: filters,
+        isLoading: true,
+      });
     }
-
-    this.setState({
-      latestSearchQuery: newLatestSearchQuery,
-      currentFilters: filters,
-      isLoading: true,
-    });
 
     if (newLatestSearchQuery.length === 0) {
       // reset search results so that internal state between query and results stays consistent

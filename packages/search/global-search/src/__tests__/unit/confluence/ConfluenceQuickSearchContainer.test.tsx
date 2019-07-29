@@ -3,7 +3,10 @@ import {
   ConfluenceQuickSearchContainer,
   Props,
 } from '../../../components/confluence/ConfluenceQuickSearchContainer';
-import { noResultsCrossProductSearchClient } from '../mocks/_mockCrossProductSearchClient';
+import {
+  noResultsCrossProductSearchClient,
+  errorCrossProductSearchClient,
+} from '../mocks/_mockCrossProductSearchClient';
 import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
 import {
   noResultsConfluenceClient,
@@ -113,6 +116,19 @@ describe('ConfluenceQuickSearchContainer', () => {
 
     const props = quickSearchContainer.props();
     expect(props).toHaveProperty('getSearchResultsComponent');
+  });
+
+  it('getSearchResults should fail if request to search client fails', async () => {
+    const wrapper = render({
+      crossProductSearchClient: errorCrossProductSearchClient,
+    });
+    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+
+    await expect(
+      (quickSearchContainer.props() as QuickSearchContainerProps<
+        ConfluenceResultsMap
+      >).getSearchResults('query', sessionId, 100, 0, []),
+    ).rejects.toEqual('error');
   });
 
   it('should return recent viewed items', async () => {

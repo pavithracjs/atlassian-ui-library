@@ -273,14 +273,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     queryVersion: number,
     filters: Filter[],
   ): Promise<ResultsWithTiming<ConfluenceResultsMap>> => {
-    const confXpSearchPromise = handlePromiseError(
-      this.searchCrossProductConfluence(
-        query,
-        sessionId,
-        queryVersion,
-        filters,
-      ),
-      EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
+    const confXpSearchPromise = this.searchCrossProductConfluence(
+      query,
+      sessionId,
+      queryVersion,
+      filters,
+    );
+
+    confXpSearchPromise.catch(
       this.handleSearchErrorAnalyticsThunk('xpsearch-confluence'),
     );
 
