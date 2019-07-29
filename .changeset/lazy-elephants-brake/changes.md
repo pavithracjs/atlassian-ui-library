@@ -1,1 +1,0 @@
-Include new analytics event when the space filter is shown

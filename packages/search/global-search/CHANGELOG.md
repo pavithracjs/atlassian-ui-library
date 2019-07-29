@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.6.4
+
+### Patch Changes
+
+- [patch][87510283c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87510283c3):
+
+  Include new analytics event when the space filter is shown
+
 ## 10.6.3
 
 ### Patch Changes
