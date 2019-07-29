@@ -1,1 +1,0 @@
-Reduced the number of results we get from simple experiments
