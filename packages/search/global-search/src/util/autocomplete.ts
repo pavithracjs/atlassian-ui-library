@@ -8,7 +8,6 @@ export const getAutocompleteText = memoizeOne(
     if (autocompleteSuggestions.length === 0) {
       return query;
     }
-    debugger;
     const lowerCaseQuery = query.toLowerCase();
     const match = autocompleteSuggestions.find(suggestion =>
       suggestion.toLowerCase().startsWith(lowerCaseQuery),
