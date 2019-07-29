@@ -1,0 +1,1 @@
+ED-7142: Prevent block extensions from being re-mounted during a layout change.
