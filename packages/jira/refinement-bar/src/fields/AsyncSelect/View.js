@@ -27,26 +27,35 @@ export default class AsyncSelectView extends PureComponent<*, State> {
       ...props
     } = this.props;
 
-    const visibleOptions = props.value
-      .filter(o => !field.defaultOptions.includes(o))
-      .concat([{ label: 'Recommended', options: field.defaultOptions }]);
+    let defaultOptions = props.value;
+    if (Array.isArray(field.defaultOptions)) {
+      // Show only visible options
+      defaultOptions = props.value
+        .filter(o => !field.defaultOptions.includes(o))
+        .concat([
+          {
+            label: field.defaultOptionsLabel,
+            options: field.defaultOptions,
+          },
+        ]);
+    } else if (typeof field.defaultOptions === 'boolean') {
+      defaultOptions = field.defaultOptions; // eslint-disable-line prefer-destructuring
+    }
 
     return (
       <DialogInner minWidth={220}>
         <AsyncSelect
+          cacheOptions={field.cacheOptions}
           components={selectComponents}
-          defaultOptions={visibleOptions}
+          defaultOptions={defaultOptions}
+          defaultOptionsLabel={field.defaultOptionsLabel}
+          inputValue={field.inputValue}
           loadOptions={field.loadOptions}
+          onInputChange={field.onInputChange}
+          onMenuScrollToBottom={field.onMenuScrollToBottom}
+          onMenuScrollToTop={field.onMenuScrollToTop}
+          placeholder={field.placeholder}
           {...props}
-
-          // alternative behaviour; don't throw away results on select...
-          // onInputChange={(newValue, { action }) => {
-          //   const inputValue =
-          //     action === 'set-value' ? this.state.inputValue : newValue;
-          //   this.setState({ inputValue });
-          //
-          //   return inputValue;
-          // }}
         />
       </DialogInner>
     );

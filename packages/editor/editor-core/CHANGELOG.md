@@ -1,5 +1,21 @@
 # @atlaskit/editor-core
 
+## 112.39.8
+
+### Patch Changes
+
+- [patch][060752953d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/060752953d):
+
+  ED-7297: Fixes missing `popupsScrollableElement` prop not being passed down correctly
+
+## 112.39.7
+
+### Patch Changes
+
+- [patch][87719d77c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87719d77c7):
+
+  ED-7308: added performance measurements of ProseMirror document updates
+
 ## 112.39.6
 
 ### Patch Changes

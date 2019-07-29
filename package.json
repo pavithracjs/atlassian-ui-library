@@ -82,6 +82,7 @@
     "start:home": "                          yarn run website:start **/packages/home/**",
     "start:jira": "                          yarn run website:start **/packages/jira/**",
     "start:media": "                         yarn run website:start **/packages/media/**",
+    "start:navigation": "                    yarn run website:start **/packages/navigation/**",
     "start:people-and-teams": "              yarn run website:start **/packages/people-and-teams/**",
     "start:search": "                        yarn run website:start **/packages/search/**",
     "start:trello": "                        yarn run website:start **/packages/trello/**",

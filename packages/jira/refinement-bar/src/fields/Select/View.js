@@ -94,15 +94,18 @@ export default class SelectView extends PureComponent<*, *> {
   };
 
   render() {
-    const { onChange, storedValue, ...props } = this.props;
+    const { field, onChange, storedValue, ...props } = this.props;
 
     return (
       <DialogInner minWidth={220}>
         <BaseSelect
           components={this.state.components}
           filterOption={this.filterOptionFn}
-          options={this.options}
           onChange={this.handleChange}
+          onMenuScrollToBottom={field.onMenuScrollToBottom}
+          onMenuScrollToTop={field.onMenuScrollToTop}
+          options={this.options}
+          placeholder={field.placeholder}
           {...props}
         />
       </DialogInner>
