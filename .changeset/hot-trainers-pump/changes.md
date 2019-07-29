@@ -1,0 +1,1 @@
+BUILDTOOLS-260/BUILDTOOLS-261: Replace data-test-id by data-testid to be consistent with react-testing-library.
