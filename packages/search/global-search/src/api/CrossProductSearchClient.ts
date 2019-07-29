@@ -22,6 +22,7 @@ import {
   PersonItem,
   QuickSearchContext,
   UrsPersonItem,
+  NavScopeResultItem,
 } from './types';
 import { ModelParam } from '../util/model-parameters';
 import { GlobalSearchPrefetchedResults } from './prefetchResults';
@@ -94,7 +95,12 @@ export interface CrossProductExperimentResponse {
   scopes: Experiment[];
 }
 
-export type SearchItem = ConfluenceItem | JiraItem | PersonItem | UrsPersonItem;
+export type SearchItem =
+  | ConfluenceItem
+  | JiraItem
+  | PersonItem
+  | UrsPersonItem
+  | NavScopeResultItem;
 
 export interface ABTest {
   abTestId: string;

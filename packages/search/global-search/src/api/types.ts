@@ -83,6 +83,15 @@ export interface JiraItemV2 {
   attributes: JiraItemAttributes;
 }
 
+export interface NavScopeResultItem {
+  query: string;
+}
+
+export interface NavScopeResult {
+  id: string;
+  results: NavScopeResultItem[];
+}
+
 export type JiraItem = JiraItemV1 | JiraItemV2;
 
 export interface PersonItem {

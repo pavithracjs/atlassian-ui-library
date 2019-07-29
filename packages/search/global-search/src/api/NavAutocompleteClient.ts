@@ -3,19 +3,10 @@ import {
   ServiceConfig,
   utils,
 } from '@atlaskit/util-service-support';
-import { Scope } from './types';
+import { Scope, NavScopeResult } from './types';
 
 export interface NavAutocompleteClient {
   getNavAutocompleteSuggestions(query: string): Promise<string[]>;
-}
-
-export interface NavScopeResultItem {
-  query: string;
-}
-
-export interface NavScopeResult {
-  id: string;
-  results: NavScopeResultItem[];
 }
 
 export interface CrossProductSearchResponse {
@@ -58,9 +49,14 @@ export class NavAutocompleteClientImpl implements NavAutocompleteClient {
     const results: CrossProductSearchResponse = await utils.requestService<
       CrossProductSearchResponse
     >(this.serviceConfig, options);
-    const matchingDocuments: NavScopeResult = results.scopes[0];
 
-    return matchingDocuments.results.map(item => item.query);
+    const matchingScope: NavScopeResult | undefined = results.scopes.find(
+      scope => scope.id == Scope.NavSearchComplete,
+    );
+
+    const matchingDocuments = matchingScope ? matchingScope.results : [];
+
+    return matchingDocuments.map(item => item.query);
   }
 
   async getNavAutocompleteSuggestions(query: string): Promise<string[]> {
