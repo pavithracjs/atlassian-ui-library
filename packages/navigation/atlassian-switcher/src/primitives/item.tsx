@@ -21,6 +21,11 @@ const itemTheme = {
   },
 };
 
+export interface SwitcherChildItem {
+  label: string;
+  href: string;
+}
+
 type SwitcherItemProps = {
   children: React.ReactNode;
   icon: React.ReactNode;
@@ -28,14 +33,59 @@ type SwitcherItemProps = {
   onClick?: Function;
   href?: string;
   isDisabled?: boolean;
+  childItems?: SwitcherChildItem[];
 };
-class SwitcherItem extends React.Component<SwitcherItemProps> {
+
+interface SwitcherItemState {
+  showChildItems: boolean;
+}
+
+class SwitcherItem extends React.Component<
+  SwitcherItemProps,
+  SwitcherItemState
+> {
+  constructor(props: SwitcherItemProps) {
+    super(props);
+    this.state = {
+      showChildItems: false,
+    };
+  }
+
+  toggleChildItemsVisibility(event: React.SyntheticEvent) {
+    event.preventDefault();
+    this.setState({
+      showChildItems: !this.state.showChildItems,
+    });
+  }
+
   render() {
-    const { icon, description, ...rest } = this.props;
+    const { icon, description, childItems, ...rest } = this.props;
     return (
       <FadeIn>
         <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
-          <Item elemBefore={icon} description={description} {...rest} />
+          <React.Fragment>
+            <Item
+              elemBefore={icon}
+              elemAfter={
+                childItems && this.toggleChildItemsVisibility.length > 0 ? (
+                  <div onClick={e => this.toggleChildItemsVisibility(e)}>
+                    down
+                  </div>
+                ) : (
+                  undefined
+                )
+              }
+              description={description}
+              {...rest}
+            />
+            {this.state.showChildItems &&
+              childItems &&
+              childItems.map(item => (
+                <Item href={item.href} key={item.label}>
+                  {item.label}
+                </Item>
+              ))}
+          </React.Fragment>
         </ThemeProvider>
       </FadeIn>
     );

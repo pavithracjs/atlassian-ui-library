@@ -57,7 +57,7 @@ function collectAvailableProductLinks(
       return [];
     }
     if (isComplete(availableProducts)) {
-      return getAvailableProductLinks(availableProducts.data);
+      return getAvailableProductLinks(availableProducts.data, cloudId);
     }
     return;
   }
