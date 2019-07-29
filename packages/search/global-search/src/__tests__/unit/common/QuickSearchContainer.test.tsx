@@ -424,10 +424,10 @@ describe('QuickSearchContainer', () => {
         Promise.reject(new Error('something wrong')),
       );
       expect(getSearchResults)
-        .toHaveBeenCalledTimes(1)(wrapper.instance() as QuickSearchContainer<
-          ConfluenceResultsMap
-        >)
+        .toHaveBeenCalledTimes(1)
+        (wrapper.instance() as QuickSearchContainer<ConfluenceResultsMap>)
         .retrySearch();
+
       expect(getSearchResults).toHaveBeenCalledTimes(2);
     });
 
