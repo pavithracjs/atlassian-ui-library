@@ -1,0 +1,1 @@
+Allow to pass placeholder to MediaAvatarPicker to render a custom component while it loads
