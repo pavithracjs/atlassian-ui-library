@@ -32,9 +32,7 @@ import PeopleLogo from './assets/people';
 import { CustomLink, RecentContainer } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
-
-// Show a maximum of this many produts (only used in user-centric mode)
-export const MAX_PRODUCT_COUNT = 5;
+import { SwitcherChildItem } from 'src/primitives/item';
 
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',
@@ -53,6 +51,7 @@ export type SwitcherItemType = {
   description?: React.ReactNode;
   Icon: IconType;
   href: string;
+  childItems?: SwitcherChildItem[];
 };
 
 export type RecentItemType = SwitcherItemType & {
@@ -181,6 +180,13 @@ export const AVAILABLE_PRODUCT_DATA_MAP: {
   },
 };
 
+interface ConnectedSite {
+  activityCount: number;
+  isCurrentSite: boolean;
+  siteName: string;
+  siteUrl: string;
+}
+
 const getAvailableProductLink = (
   site: AvailableSite,
   product: AvailableProduct,
@@ -196,7 +202,6 @@ const getAvailableProductLink = (
     return {
       key: product.productType + site.displayName,
       ...productLinkProperties,
-      description: site.displayName,
       href: product.url,
     };
   }
@@ -204,32 +209,71 @@ const getAvailableProductLink = (
   return {
     key: product.productType + site.displayName,
     ...productLinkProperties,
-    description: site.displayName,
     href: site.url + productLinkProperties.href,
+  };
+};
+
+const getAvailableProductLinkFromSiteProduct = (
+  product: WorklensProductType,
+  connectedSites: ConnectedSite[],
+): SwitcherItemType => {
+  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[product];
+  const topSite =
+    connectedSites.find(site => site.isCurrentSite) ||
+    connectedSites.sort((a, b) => a.activityCount - b.activityCount)[0];
+
+  return {
+    key: product + topSite.siteName,
+    ...productLinkProperties,
+    href: topSite.siteUrl + productLinkProperties.href,
+    description: topSite.siteName,
+    childItems: connectedSites
+      .filter(site => site.siteUrl !== topSite.siteUrl)
+      .map(site => ({
+        href: site.siteUrl + productLinkProperties.href,
+        label: site.siteName,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
   };
 };
 
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
+  cloudId: string,
 ): SwitcherItemType[] => {
-  const productLinks: SwitcherItemType[] = [];
-  const activityCounts: { [key: string]: number } = {};
+  if (availableProducts.sites.length === 1) {
+    const site = availableProducts.sites[0];
+    return site.availableProducts.map(product =>
+      getAvailableProductLink(site, product),
+    );
+  }
+
+  // initialise this properly (empty array per product type)
+  const productsMap: { [key: string]: ConnectedSite[] } = {};
+  const productsList: SwitcherItemType[] = [];
 
   availableProducts.sites.forEach(site => {
     site.availableProducts.forEach(product => {
-      const availableProductLink = getAvailableProductLink(site, product);
-      productLinks.push(availableProductLink);
-      activityCounts[availableProductLink.key] = product.activityCount;
+      if (!productsMap[product.productType]) {
+        productsMap[product.productType] = [];
+      }
+
+      productsMap[product.productType].push({
+        activityCount: product.activityCount,
+        isCurrentSite: site.cloudId === cloudId,
+        siteName: site.displayName,
+        siteUrl: site.url,
+      });
     });
   });
 
-  productLinks.sort((a, b) => {
-    const aCount = activityCounts[a.key] || 0;
-    const bCount = activityCounts[b.key] || 0;
-    return bCount - aCount; // most frequently accessed first
-  });
+  for (const product in productsMap) {
+    productsList.push(
+      getAvailableProductLinkFromSiteProduct(product, productsMap[product]),
+    );
+  }
 
-  return productLinks.slice(0, MAX_PRODUCT_COUNT);
+  return productsList;
 };
 
 export const getProductLink = (

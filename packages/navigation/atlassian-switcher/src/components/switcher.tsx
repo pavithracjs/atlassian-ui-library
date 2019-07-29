@@ -192,6 +192,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   icon={<item.Icon theme="product" />}
                   description={item.description}
                   href={item.href}
+                  childItems={item.childItems}
                 >
                   {item.label}
                 </SwitcherItem>
