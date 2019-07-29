@@ -305,7 +305,7 @@ describe('ItemStateManager', () => {
   });
 
   describe('config', () => {
-    describe('#cacheInitialState', () => {
+    describe('#disableServiceHydration', () => {
       const task: BaseItem<TaskState> = {
         ...objectKey,
         state: 'DONE',
@@ -322,10 +322,10 @@ describe('ItemStateManager', () => {
         });
       });
 
-      it('cacheInitialState is true, subscribe caches initial state', () => {
+      it('disableServiceHydration is true, subscribe caches initial state', () => {
         const itemStateManager = new ItemStateManager({
           url: '',
-          cacheInitialState: true,
+          disableServiceHydration: true,
         });
 
         itemStateManager.subscribe(objectKey, () => {}, task);
@@ -353,7 +353,7 @@ describe('ItemStateManager', () => {
         });
       });
 
-      it('cacheInitialState is falsy, subscribe hydrates initial state', () => {
+      it('disableServiceHydration is falsy, subscribe hydrates initial state', () => {
         const itemStateManager = new ItemStateManager({
           url: '',
         });

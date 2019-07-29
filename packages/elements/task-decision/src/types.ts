@@ -182,15 +182,18 @@ export interface RecentUpdatesListener {
 export interface TaskDecisionResourceConfig extends ServiceConfig {
   currentUser?: User;
   pubSubClient?: PubSubClient;
+
   /**
    * Indicates if initial state for an action or decision is should be cached,
-   * i.e. was originally hydrated from the service initially, and so should be
-   * considered up to date.
+   * from the content, i.e. was originally hydrated from the service initially,
+   * and so should be considered up to date.
    *
    * Will stop the initiation of the hydration from the service the first
    * time an action or decision is seen.
+   *
+   * If false the state will always be hydrated from the service on first view.
    */
-  cacheInitialState?: boolean;
+  disableServiceHydration?: boolean;
 }
 
 export interface TaskDecisionProvider {

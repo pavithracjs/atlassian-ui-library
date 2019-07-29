@@ -266,7 +266,7 @@ export class ItemStateManager {
       return;
     }
 
-    if (this.serviceConfig.cacheInitialState && item) {
+    if (this.serviceConfig.disableServiceHydration && item) {
       this.updateCache(item);
       return;
     }
