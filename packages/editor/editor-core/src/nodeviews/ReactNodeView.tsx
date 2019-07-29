@@ -35,7 +35,7 @@ export default class ReactNodeView<P = ReactComponentProps>
     view: EditorView,
     getPos: getPosHandler,
     portalProviderAPI: PortalProviderAPI,
-    reactComponentProps: P,
+    reactComponentProps?: P,
     reactComponent?: React.ComponentType<any>,
     hasContext: boolean = false,
     viewShouldUpdate?: shouldUpdate,
@@ -44,7 +44,7 @@ export default class ReactNodeView<P = ReactComponentProps>
     this.view = view;
     this.getPos = getPos;
     this.portalProviderAPI = portalProviderAPI;
-    this.reactComponentProps = reactComponentProps;
+    this.reactComponentProps = reactComponentProps || ({} as any);
     this.reactComponent = reactComponent;
     this.hasContext = hasContext;
     this._viewShouldUpdate = viewShouldUpdate;
@@ -242,7 +242,9 @@ export default class ReactNodeView<P = ReactComponentProps>
  *   return super.viewShouldUpdate(nextNode);
  * }```
  */
-export class SelectionBasedNodeView<P> extends ReactNodeView<P> {
+export class SelectionBasedNodeView<
+  P = ReactComponentProps
+> extends ReactNodeView<P> {
   private oldSelection: Selection;
   private selectionChangeState: ReactNodeViewState;
 

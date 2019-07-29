@@ -251,7 +251,7 @@ export default class MediaSingleNode extends Component<
 }
 
 interface MediaSingleNodeViewProps {
-  editorAppearance: EditorAppearance;
+  editorAppearance: any;
   eventDispatcher: any;
   fullWidthMode: any;
   providerFactory: any;
@@ -384,7 +384,7 @@ export const ReactMediaSingleNode = (
   eventDispatcher: EventDispatcher,
   providerFactory: ProviderFactory,
   mediaOptions: MediaOptions = {},
-  editorAppearance: EditorAppearance,
+  editorAppearance?: EditorAppearance,
   fullWidthMode?: boolean,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {
