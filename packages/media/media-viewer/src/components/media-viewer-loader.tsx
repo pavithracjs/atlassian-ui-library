@@ -45,6 +45,7 @@ export default class AsyncMediaViewer extends React.PureComponent<
   render() {
     if (!this.state.MediaViewer) {
       return (
+        // we hardcode the color rather than using "colors.DN30" intentionally to reduce initial bundle size
         <ModalSpinner blankedColor={'#1B2638'} invertSpinnerColor={true} />
       );
     }
