@@ -31,6 +31,8 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   elWrapper: RefObject<HTMLDivElement>;
   // Wrap the close button, so we can still manually invoke onClose()
   elCloseWrapper: RefObject<HTMLDivElement>;
+  // Wrap the create team link, so we can still manually invoke the analytics
+  elCreateTeamWrapper: RefObject<HTMLDivElement>;
 
   static defaultProps = {
     createTeamLink: '/people/search#createTeam',
@@ -40,6 +42,7 @@ export default class MentionSpotlight extends React.Component<Props, State> {
     super(props);
     this.elWrapper = React.createRef();
     this.elCloseWrapper = React.createRef();
+    this.elCreateTeamWrapper = React.createRef();
     this.state = {
       isSpotlightClosed: false,
     };
@@ -53,7 +56,7 @@ export default class MentionSpotlight extends React.Component<Props, State> {
     this.removeEventHandler();
   }
 
-  onClick = () => {
+  onCreateTeamLinkClick = () => {
     MentionSpotlightController.registerCreateLinkClick();
   };
 
@@ -66,6 +69,13 @@ export default class MentionSpotlight extends React.Component<Props, State> {
       this.elCloseWrapper.current.contains(event.target);
     if (isClickOnCloseButton) {
       this.onCloseClick();
+    }
+
+    const isClickCreateTeamLink =
+      this.elCreateTeamWrapper.current &&
+      this.elCreateTeamWrapper.current.contains(event.target);
+    if (isClickCreateTeamLink) {
+      this.onCreateTeamLinkClick();
     }
 
     // Allow default so the link to create team still works, but prevent the rest
@@ -117,18 +127,16 @@ export default class MentionSpotlight extends React.Component<Props, State> {
                   {description => (
                     <p>
                       {description}
-                      <SpotlightDescriptionLink>
-                        {linkText => (
-                          <a
-                            href={createTeamLink}
-                            target="_blank"
-                            onClick={this.onClick}
-                          >
-                            {' '}
-                            {linkText}
-                          </a>
-                        )}
-                      </SpotlightDescriptionLink>
+                      <div ref={this.elCreateTeamWrapper}>
+                        <SpotlightDescriptionLink>
+                          {linkText => (
+                            <a href={createTeamLink} target="_blank">
+                              {' '}
+                              {linkText}
+                            </a>
+                          )}
+                        </SpotlightDescriptionLink>
+                      </div>
                     </p>
                   )}
                 </SpotlightDescription>
