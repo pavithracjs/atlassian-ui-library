@@ -390,6 +390,11 @@ export default class WebBridgeImpl extends WebBridge
   setKeyboardControlsHeight(height: number) {
     // TODO: dispatch transaction with meta object which iosscrolling plugin listens for and updates internal state...
     console.log(`setKeyboardControlsHeight: ${height}px`);
+    (window as any).setKeyboardControlsHeight(
+      this.editorView!.state.tr,
+      height,
+      this.editorView!.dispatch,
+    );
   }
 
   flushDOM() {

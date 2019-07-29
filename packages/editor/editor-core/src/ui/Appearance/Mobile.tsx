@@ -34,11 +34,16 @@ const MobileEditor: any = styled.div`
 MobileEditor.displayName = 'MobileEditor';
 
 const ContentArea = styled(ContentStyles)`
-  height: 100%;
-
   .ProseMirror {
-    /** Make it full page minus the padding */
-    min-height: calc(100vh - 40px);
+    /*
+      Fill the viewport height to ensure tapping anywhere on screen
+      grants focus to the editor.
+
+      Note, this gets overwritten at runtime by a calculated value
+      which takes into consideration the keyboard and/or controls bar.
+      e.g. calc(100vh - controlsHeight)
+    */
+    min-height: 100vh;
   }
 `;
 ContentArea.displayName = 'ContentArea';
