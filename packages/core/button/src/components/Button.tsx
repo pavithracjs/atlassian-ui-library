@@ -40,7 +40,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   // ref can be a range of things because we render button, a, span or other React components
-  button = React.createRef<HTMLElement>();
+  button: React.Ref<HTMLButtonElement> = React.createRef<HTMLButtonElement>();
 
   // Makes sure we don't call ref every render.
   getComposedRefs = memoize(composeRefs);
@@ -241,7 +241,9 @@ const ButtonWithRef = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 ButtonWithRef.displayName = 'Button';
 
-export default withAnalyticsContext<ButtonProps>({
+export default withAnalyticsContext<
+  ButtonProps & { ref?: React.Ref<HTMLButtonElement> }
+>({
   componentName: 'button',
   packageName,
   packageVersion,
