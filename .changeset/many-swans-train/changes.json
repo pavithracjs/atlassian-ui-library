@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/ci-scripts", "type": "minor" },
+    { "name": "@atlaskit/build-utils", "type": "patch" }
+  ],
+  "dependents": []
+}
