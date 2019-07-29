@@ -12,7 +12,11 @@ export type Props = {
   pathname: string;
 };
 
-const GroupDrawer = ({ closeDrawer, isOpen, pathname }: Props) => (
+const GroupDrawer: React.StatelessComponent<Props> = ({
+  closeDrawer,
+  isOpen,
+  pathname,
+}: Props) => (
   <AkCustomDrawer
     backIcon={<ArrowLeftIcon label="go back" />}
     isOpen={isOpen}
