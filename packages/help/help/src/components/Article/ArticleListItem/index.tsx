@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { ArticleItem } from '../../../model/Article';
 import {
   ArticlesListItemTitleIcon,
   ArticlesListItemWrapper,
@@ -13,8 +12,7 @@ interface Props {
   onClick: (id: string) => void;
   title: string;
   description: string;
-  relatedArticle: ArticleItem;
-  icon: Element;
+  icon: React.ReactNode;
   id: string;
 }
 
