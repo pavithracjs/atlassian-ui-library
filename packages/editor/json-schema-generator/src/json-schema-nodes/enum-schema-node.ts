@@ -1,6 +1,7 @@
 import SchemaNode from './schema-node';
+import ts from 'typescript';
 
-export type EnumTypes = string | number | boolean;
+export type EnumTypes = string | number | boolean | ts.PseudoBigInt;
 
 export default class EnumSchemaNode extends SchemaNode {
   values: Set<EnumTypes>;

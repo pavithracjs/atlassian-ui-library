@@ -30,7 +30,7 @@ export function getTags(tagInfo: ts.JSDocTagInfo[]): TagInfo {
   );
 }
 
-export type PrimitiveType = number | boolean | string;
+export type PrimitiveType = number | boolean | string | ts.PseudoBigInt;
 
 export function extractLiteralValue(typ: ts.Type): PrimitiveType {
   /* eslint-disable no-bitwise */
