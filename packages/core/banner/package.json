@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/banner",
-  "version": "10.0.7",
+  "version": "10.0.8",
   "description": "React component that displays a prominent banner message and icon",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",
