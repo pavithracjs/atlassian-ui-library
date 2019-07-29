@@ -37,6 +37,11 @@ process.on('unhandledRejection', reason => {
   console.log('REJECTION', reason);
 });
 
+// We need to ensure that each test has at least one assertion.
+beforeEach(() => {
+  expect.hasAssertions();
+});
+
 /*
   This file is executed after the test framework is setup for each test file. Addons that modify
   the `expect` object can be applied here.
