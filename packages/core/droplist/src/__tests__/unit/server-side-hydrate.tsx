@@ -22,6 +22,8 @@ test('should ssr then hydrate droplist correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
+
+  // @ts-ignore
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
     ([f, s]: [string, string]) =>

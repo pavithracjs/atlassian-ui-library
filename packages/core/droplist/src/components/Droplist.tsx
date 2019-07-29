@@ -210,7 +210,11 @@ class Droplist extends Component<Props, {}> {
     ) : null;
 
     return (
-      <Wrapper fit={shouldFitContainer} onClick={onClick} onKeyDown={onKeyDown}>
+      <Wrapper
+        fit={shouldFitContainer!}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+      >
         <Layer
           autoFlip={shouldFlip}
           boundariesElement={boundariesElement}
@@ -220,7 +224,7 @@ class Droplist extends Component<Props, {}> {
           isAlwaysFixed={isOpen && isMenuFixed}
           onPositioned={onPositioned}
         >
-          <Trigger fit={shouldFitContainer} innerRef={this.handleTriggerRef}>
+          <Trigger fit={shouldFitContainer!} innerRef={this.handleTriggerRef}>
             {trigger}
           </Trigger>
         </Layer>

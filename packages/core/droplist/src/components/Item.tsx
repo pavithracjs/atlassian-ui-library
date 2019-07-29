@@ -87,7 +87,7 @@ class Item extends PureComponent<Props, State> {
     itemContext: 'menu',
     onActivate: () => {},
     tooltipPosition: 'right' as Position,
-    type: 'link',
+    type: 'link' as AriaTypes,
   };
 
   state = {
