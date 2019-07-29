@@ -29,16 +29,19 @@ const freezeCheckTimer = (
 ) =>
   runFreezeCheck((time: number) => {
     const { state } = view;
-    dispatchAnalyticsEvent({
-      action: ACTION.BROWSER_FREEZE,
-      actionSubject: ACTION_SUBJECT.EDITOR,
-      attributes: {
-        freezeTime: time,
-        nodeSize: state.doc.nodeSize,
-        nodes: getNodesCount(state.doc),
-      },
-      eventType: EVENT_TYPE.OPERATIONAL,
-    });
+    // Safe check to not fire events on tab blur
+    if (document.visibilityState === 'hidden') {
+      dispatchAnalyticsEvent({
+        action: ACTION.BROWSER_FREEZE,
+        actionSubject: ACTION_SUBJECT.EDITOR,
+        attributes: {
+          freezeTime: time,
+          nodeSize: state.doc.nodeSize,
+          nodes: getNodesCount(state.doc),
+        },
+        eventType: EVENT_TYPE.OPERATIONAL,
+      });
+    }
   });
 
 export default (dispatchAnalyticsEvent: DispatchAnalyticsEvent) =>
@@ -52,7 +55,7 @@ export default (dispatchAnalyticsEvent: DispatchAnalyticsEvent) =>
         dispatchAnalyticsEvent: DispatchAnalyticsEvent,
         view: EditorView,
       ) => {
-        if (document.visibilityState == 'hidden') {
+        if (document.visibilityState === 'hidden') {
           window.clearInterval(freezeTimer);
           freezeTimer = undefined;
         } else {
