@@ -1,108 +1,120 @@
-const spawn = require('projector-spawn');
 const fetch = require('node-fetch');
+const path = require('path');
+const spawn = require('projector-spawn');
+const changeset = require('../utils/changeset');
 const git = require('../utils/git');
 
+/**
+ * `packages` defines the packages to be updated and set the reviewers for the changes.
+ * packagePath: Path to the package relative to repo root.
+ * maintainers: List of reviewer's (by BitBucket username) to be added to the pull request.
+ * targetBranch (optional): Destination branch for PR. If omitted, default is 'master'.
+ */
 const packages = [
   {
-    path: './packages/editor/editor-core',
-    maintainers: ['samuellewis'],
+    packagePath: './packages/editor/editor-core',
+    maintainers: ['samuellewis', 'nathanflew'],
+    targetBranch: 'editor-next-release',
   },
 ];
 
-const APP_USER = process.env.i18n_PR_BOT_USERNAME;
-const APP_KEY = process.env.i18n_PR_BOT_ACCESS;
+const APP_USER = process.env.i18n_PR_BOT_USERNAME || '';
+const APP_KEY = process.env.i18n_PR_BOT_ACCESS || '';
 
-const push = async ({ path }) => {
+const push = async ({ packagePath }) => {
   try {
-    console.log('Pushing messages to i18n service for', path);
-    await spawn('yarn', ['--cwd', path, 'i18n:push']);
+    await spawn('yarn', ['--cwd', packagePath, 'i18n:push']);
   } catch (err) {
-    console.error('Could not push to translation service', err);
+    console.error(
+      `Failed to push to translation service for ${packagePath}: ${err}`,
+    );
     process.exit(1);
   }
 };
 
-const pull = async ({ path, maintainers }) => {
-  console.log('Pulling translations for', path);
-
-  try {
-    await spawn('rm', ['-f', '/opt/atlassian/pipelines/build/.git/index.lock']);
-  } catch (err) {
-    console.error('Could not remove .git/index', err);
-    // process.exit(1);
-  }
-
-  const packageName = path.split('/').pop();
+const pull = async ({ packagePath, maintainers, targetBranch = 'master' }) => {
+  const packageName = packagePath.split('/').pop();
   const today = new Date().toISOString().slice(0, 10);
   const branchName = `${packageName}-translation-update-${today}`;
+  const message = `Update i18n translations for ${packageName}`;
 
   try {
     // Create a branch from master
-    console.log('Checking out master');
-    await git.checkout('master');
-    console.log('Branching to', branchName);
+    await git.checkout(targetBranch);
     await git.branch(branchName);
 
     // Pull translations
-    console.log(`running 'yarn --cwd ${path} i18n:pull'`);
-    const pull = await spawn('yarn', ['--cwd', path, 'i18n:pull']);
-    console.log('pull result', pull.stdout);
+    await spawn('yarn', ['--cwd', packagePath, 'i18n:pull']);
   } catch (err) {
-    console.error(err);
+    console.error(`Failed to pull translations for ${packagePath}: ${err}`);
     process.exit(1);
   }
 
   // Check for changes, else no pull request needed
   try {
-    console.log('Getting git diff');
     const changes = await spawn('git', ['diff', '--name-only']);
-    if (!changes.stdout.trim()) {
-      console.log('No changes found. No pull request needed.');
+    console.log(changes);
+    process.exit(1);
+    if (!changes.stdout || changes.stdout === '') {
+      // No changes, don't create pull request
       return;
     }
   } catch (err) {
-    console.error('Failed to check changes: ', err);
+    console.error(
+      `Failed to execute git command 'git diff --name-only' for ${packagePath}: ${err}`,
+    );
     process.exit(1);
   }
 
   try {
     // Add content and create pull request
-    console.log('Adding files at path', path);
-    await git.add(path);
-    console.log('Committing');
-    await git.commit(`Update i18n translations for ${packageName}`);
-    // TODO: Add changeset generation. Pending accessible CLI for the existing changeset tool.
-    console.log(`git push --set-upstream origin ${branchName}`);
-    const push = await git.push(['--set-upstream', 'origin', branchName]);
-    if (!push) {
-      console.error('Failed to git push');
-    }
+    await changeset.createChangeset(
+      [{ name: `@atlaskit/${packageName}`, type: 'patch' }],
+      message,
+    );
+    await git.add(path.join(process.cwd(), '.changeset'));
+    await git.add(packagePath);
+    await git.commit(message);
+    await git.push(['--set-upstream', 'origin', branchName]);
   } catch (err) {
-    console.error('Failed to push branch:', err);
+    console.error(
+      `Failed to push branch ${branchName} for ${packagePath}: ${err}`,
+    );
     process.exit(1);
   }
 
-  createPullRequest(branchName, packageName, maintainers);
+  await createPullRequest(branchName, maintainers, message, targetBranch);
 };
 
-async function createPullRequest(branchName, packageName, maintainers) {
+async function createPullRequest(
+  branchName,
+  reviewers,
+  title,
+  targetBranch = 'master',
+) {
+  if (APP_USER === '' || APP_KEY === '') {
+    console.error(
+      'Failed to create pull request: Could not find BitBucket auth keys',
+    );
+    process.exit(1);
+  }
+
   const data = {
-    title: `Update i18n translations for ${packageName}`,
+    title,
     description: '',
     source: {
       branch: { name: branchName },
     },
     destination: {
-      branch: { name: 'master' },
+      branch: { name: targetBranch },
     },
-    reviewers: maintainers.map(username => {
+    reviewers: reviewers.map(username => {
       return { username };
     }),
 
     close_source_branch: true,
   };
 
-  console.log('Creating pull request');
   await fetch(
     'https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pullrequests',
     {
@@ -115,23 +127,22 @@ async function createPullRequest(branchName, packageName, maintainers) {
       body: JSON.stringify(data),
     },
   ).catch(err => {
-    console.error('Failed to create pull request:', err);
+    console.error(
+      `Failed to create pull request for branch ${targetBranch}: ${err}`,
+    );
     process.exit(1);
   });
 }
 
 (async () => {
-  let operation = () => {};
-  switch (process.argv[2]) {
-    case 'push':
-      operation = push;
-      break;
-    case 'pull':
-      operation = pull;
-      break;
-    default:
-      console.error('Invalid argument. Use `push` or `pull`');
-      return;
+  const operation = {
+    push: push,
+    pull: pull,
+  }[process.argv[2]];
+
+  if (!operation) {
+    console.error('Invalid argument. Use `push` or `pull`');
+    process.exit(1);
   }
 
   packages.map(operation);

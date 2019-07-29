@@ -1,1 +1,0 @@
-Add a new pipeline that pulls and pushes to external translation service. Currently only setpu for editor-core package.
