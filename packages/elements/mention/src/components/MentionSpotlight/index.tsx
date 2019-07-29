@@ -14,7 +14,7 @@ import {
 import * as Styled from './styles';
 
 export interface Props {
-  createTeamLink: string;
+  createTeamLink?: string;
   /** Callback to track the event where user click on x icon */
   onClose: () => void;
 }
@@ -31,6 +31,10 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   elWrapper: RefObject<HTMLDivElement>;
   // Wrap the close button, so we can still manually invoke onClose()
   elCloseWrapper: RefObject<HTMLDivElement>;
+
+  static defaultProps = {
+    createTeamLink: '/people/search#createTeam',
+  };
 
   constructor(props: Props) {
     super(props);
