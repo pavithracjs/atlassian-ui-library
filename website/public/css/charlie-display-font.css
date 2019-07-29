@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "Charlie_Display_Regular";
+  font-family: "Charlie_Display-Regular";
   src: url("../font/Charlie_Display-Regular.woff") format("font-woff"),
        url("../font/Charlie_Display-Regular.woff2") format("woff2");
   font-weight: normal;
@@ -7,9 +7,13 @@
 }
 
 @font-face {
-  font-family: "Charlie_Display_Semibold";
+  font-family: "Charlie_Display-Semibold";
   src: url("../font/Charlie_Display-Semibold.woff") format("font-woff"),
        url("../font/Charlie_Display-Semibold.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
+}
+
+body{
+  font-family: ‘Fira Code’, monospace;
 }

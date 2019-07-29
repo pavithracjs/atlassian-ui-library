@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import Cards from './Cards';
 import { DESKTOP_BREAKPOINT_MIN } from '../../constants';
-import '../../../public/css/charlie-display-font.less';
 
 const fonts =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
