@@ -366,6 +366,9 @@ export default class Editor extends React.Component<EditorProps, {}> {
                                   popupsBoundariesElement={
                                     this.props.popupsBoundariesElement
                                   }
+                                  popupsScrollableElement={
+                                    this.props.popupsScrollableElement
+                                  }
                                   contentComponents={config.contentComponents}
                                   primaryToolbarComponents={
                                     config.primaryToolbarComponents
