@@ -6,6 +6,7 @@ import Dropdown from '../../../../ui/Dropdown';
 import EditorAlignLeftIcon from '@atlaskit/icon/glyph/editor/align-left';
 import EditorAlignCenterIcon from '@atlaskit/icon/glyph/editor/align-center';
 import EditorAlignRightIcon from '@atlaskit/icon/glyph/editor/align-right';
+import withOuterListeners from '../../../../ui/with-outer-listeners';
 
 export const iconMap = {
   start: <EditorAlignLeftIcon label="Align left" />,
@@ -67,7 +68,8 @@ class AlignmentToolbar extends React.Component<Props, State> {
           boundariesElement={popupsBoundariesElement}
           scrollableElement={popupsScrollableElement}
           isOpen={this.state.isOpen}
-          onOpenChange={this.handleOpenChange}
+          handleClickOutside={this.hide}
+          handleEscapeKeydown={this.hide}
           fitWidth={242}
           fitHeight={80}
           trigger={
@@ -111,6 +113,12 @@ class AlignmentToolbar extends React.Component<Props, State> {
 
   private handleOpenChange = ({ isOpen }: { isOpen: boolean }) => {
     this.setState({ isOpen });
+  };
+
+  private hide = () => {
+    if (this.state.isOpen === true) {
+      this.setState({ isOpen: false });
+    }
   };
 }
 
