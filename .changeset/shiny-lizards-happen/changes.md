@@ -1,0 +1,1 @@
+Hardcode color in MediaViewer loader to reduce initial bundle size
