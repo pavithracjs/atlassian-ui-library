@@ -42,6 +42,7 @@ export {
   findFarthestParentNode,
   isSelectionEndOfParagraph,
   nodesBetweenChanged,
+  getNodesCount,
 } from './document';
 
 export * from './action';

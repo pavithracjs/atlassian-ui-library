@@ -12,6 +12,7 @@ import decorationPlugin from './pm-plugins/decoration';
 import scrollGutter from './pm-plugins/scroll-gutter';
 import frozenEditor from './pm-plugins/frozen-editor';
 import { isFullPage } from '../../utils/is-full-page';
+import { isPerformanceAPIAvailable } from '@atlaskit/editor-common';
 
 const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
   pmPlugins() {
@@ -37,7 +38,9 @@ const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
       {
         name: 'frozenEditor',
         plugin: ({ dispatchAnalyticsEvent }) =>
-          frozenEditor(dispatchAnalyticsEvent),
+          appearance === 'full-page' && isPerformanceAPIAvailable
+            ? frozenEditor(dispatchAnalyticsEvent)
+            : undefined,
       },
       { name: 'decorationPlugin', plugin: () => decorationPlugin() },
       { name: 'history', plugin: () => history() },
