@@ -30,7 +30,7 @@ const freezeCheckTimer = (
   runFreezeCheck((time: number) => {
     const { state } = view;
     // Safe check to not fire events on tab blur
-    if (document.visibilityState === 'hidden') {
+    if (document.visibilityState !== 'hidden') {
       dispatchAnalyticsEvent({
         action: ACTION.BROWSER_FREEZE,
         actionSubject: ACTION_SUBJECT.EDITOR,
