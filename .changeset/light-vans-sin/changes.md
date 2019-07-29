@@ -1,0 +1,1 @@
+fix: ensure smart cards lazily load correctly
