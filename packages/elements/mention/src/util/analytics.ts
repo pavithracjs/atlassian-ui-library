@@ -2,7 +2,6 @@ import {
   UIAnalyticsEventInterface,
   WithAnalyticsEventProps,
   CreateUIAnalyticsEventSignature,
-  createAndFireEvent,
 } from '@atlaskit/analytics-next';
 
 import {
@@ -29,10 +28,6 @@ export enum Actions {
   CLICKED = 'clicked',
   CLOSED = 'closed',
 }
-
-const createAndFireEventOnElementsChannel = createAndFireEvent(
-  ELEMENTS_CHANNEL,
-);
 
 export const fireAnalyticsMentionTypeaheadEvent = (
   props: WithAnalyticsEventProps,
@@ -73,7 +68,7 @@ export const fireAnalyticsSpotlightMentionEvent = (
   ...args: any[]
 ): void => {
   if (createEvent) {
-    createAndFireEventOnElementsChannel({
+    const eventPayload: GasPayload = {
       action,
       actionSubject,
       actionSubjectId,
@@ -85,7 +80,9 @@ export const fireAnalyticsSpotlightMentionEvent = (
         componentName: ComponentNames.SPOTLIGHT,
         ...args,
       },
-    })(createEvent);
+    };
+    const analyticsEvent: UIAnalyticsEventInterface = createEvent(eventPayload);
+    analyticsEvent.fire(ELEMENTS_CHANNEL);
   }
 };
 
