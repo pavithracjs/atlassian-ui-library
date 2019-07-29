@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "module": "dist/bundle.css",
   "main": "dist/bundle.css",
+  "types": "dist/cjs/index.d.ts",
   "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/overview",
   "author": "Atlassian Pty Ltd",

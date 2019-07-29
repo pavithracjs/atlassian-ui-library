@@ -1,0 +1,1 @@
+Type definition files are now referenced in package.json

@@ -1,0 +1,19 @@
+{
+  "releases": [
+    { "name": "@atlaskit/banner", "type": "patch" },
+    { "name": "@atlaskit/breadcrumbs", "type": "patch" },
+    { "name": "@atlaskit/inline-dialog", "type": "patch" },
+    { "name": "@atlaskit/logo", "type": "patch" },
+    { "name": "@atlaskit/popper", "type": "patch" },
+    { "name": "@atlaskit/range", "type": "patch" },
+    { "name": "@atlaskit/right-side-panel", "type": "patch" },
+    { "name": "@atlaskit/tabs", "type": "patch" },
+    { "name": "@atlaskit/tag", "type": "patch" },
+    { "name": "@atlaskit/tooltip", "type": "patch" },
+    { "name": "@atlaskit/css-reset", "type": "patch" },
+    { "name": "@atlaskit/editor-json-transformer", "type": "patch" },
+    { "name": "@atlaskit/editor-mobile-bridge", "type": "patch" },
+    { "name": "@atlaskit/contextual-survey", "type": "patch" }
+  ],
+  "dependents": []
+}
