@@ -544,7 +544,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     // don't show space filter if there are no results in all spaces
     if (
       currentFilters.length === 0 &&
-      (searchResults === null || searchResults.objects.totalSize === 0)
+      (!searchResults || searchResults.objects.totalSize === 0)
     ) {
       return;
     }
@@ -615,9 +615,11 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         query={latestSearchQuery}
         isPreQuery={!latestSearchQuery}
         isError={isError}
+        onFilterChanged={onFilterChanged}
         isLoading={isLoading}
         retrySearch={retrySearch}
         searchMore={searchMore}
+        currentFilters={currentFilters}
         onSearchMoreAdvancedSearchClicked={onSearchMoreAdvancedSearchClicked}
         keepPreQueryState={
           features.isInFasterSearchExperiment ? false : keepPreQueryState
