@@ -55,7 +55,7 @@ import {
 } from './ConfluenceSearchResultsMapper';
 import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { AutocompleteClient } from '../../api/AutocompleteClient';
-import { NavAutocompleteClient } from '../../api/NavAutoCompleteClient';
+import { NavAutocompleteClient } from '../../api/NavAutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
 import ConfluenceFilterGroup from './ConfluenceFilterGroup';
