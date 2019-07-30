@@ -75,6 +75,7 @@ describe(name, () => {
               options={sampleOptions}
             />,
           );
+          expect(wrapper.find(Radio)).toBeDefined();
           wrapper
             .find(Radio)
             .forEach(radio => expect(radio.prop('isDisabled')).toBe(true));
@@ -96,6 +97,7 @@ describe(name, () => {
               ]}
             />,
           );
+          expect(wrapper.find(Radio)).toBeDefined();
           wrapper.find(Radio).forEach(radio => {
             expect(radio.prop('isDisabled')).toBe(true);
           });
@@ -111,6 +113,7 @@ describe(name, () => {
               options={sampleOptions}
             />,
           );
+          expect(wrapper.find(Radio)).toBeDefined();
           wrapper.find(Radio).forEach(radio => {
             expect(radio.prop('isRequired')).not.toBe(undefined);
           });
@@ -278,6 +281,7 @@ describe(name, () => {
             value={options[2].value}
           />,
         );
+        expect(wrapper).toBeDefined();
         expectRadioChecked(wrapper, 2);
       });
       it('does not select an option if not specified', () => {
@@ -289,6 +293,7 @@ describe(name, () => {
         const wrapper = shallow(
           <RadioGroup onChange={() => {}} options={options} />,
         );
+        expect(wrapper).toBeDefined();
         expectNoRadioChecked(wrapper);
       });
       it('can select a radio which is disabled', () => {
@@ -304,6 +309,7 @@ describe(name, () => {
             value={options[2].value}
           />,
         );
+        expect(wrapper).toBeDefined();
         expectRadioChecked(wrapper, 2);
       });
     });

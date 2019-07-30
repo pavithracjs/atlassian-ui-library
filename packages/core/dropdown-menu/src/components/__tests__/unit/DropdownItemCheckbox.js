@@ -14,7 +14,7 @@ import DropdownMenu, {
   DropdownItemGroupCheckbox,
 } from '../../..';
 
-test('Skipped tests', () => {});
+test.skip('Skipped tests', () => {});
 /**
  * TODO: replace these tests - AK-5183
  */

@@ -36,9 +36,9 @@ describe('GoToItemBase', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should set view to the 'goTo' prop via the navigation view controller when clicked", () => {});
+  it.skip("should set view to the 'goTo' prop via the navigation view controller when clicked", () => {});
 
-  it("should not set view when 'goTo' prop is undefined", () => {});
+  it.skip("should not set view when 'goTo' prop is undefined", () => {});
 
   describe('Default After prop', () => {
     it('should be provided to ConnectedItem if one is not provided to GoTo item', () => {
