@@ -363,6 +363,13 @@ const columnControlsDecoration = `
       }
     }
   }
+
+  .${ClassName.TABLE_SELECTED} table tr:first-child td.${ClassName.TABLE_CELL_NODE_WRAPPER},
+  .${ClassName.TABLE_SELECTED} table tr:first-child th.${ClassName.TABLE_HEADER_NODE_WRAPPER} {
+    .${ClassName.COLUMN_CONTROLS_DECORATIONS}::after {
+      ${columnHeaderButtonSelected};
+    }
+  }
 `;
 
 const hoveredDeleteButton = `
