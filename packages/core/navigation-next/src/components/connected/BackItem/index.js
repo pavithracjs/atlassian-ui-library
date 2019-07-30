@@ -21,6 +21,14 @@ export default class BackItem extends Component<BackItemProps, BackItemState> {
     text: 'Back',
   };
 
+  backItemRef = React.createRef();
+
+  componentDidMount() {
+    if (this.backItemRef.current) {
+      this.backItemRef.current.focus();
+    }
+  }
+
   state = {
     tabindex: 0,
   };
@@ -40,7 +48,7 @@ export default class BackItem extends Component<BackItemProps, BackItemState> {
 
     return (
       <div
-        data-id="back-item"
+        ref={this.backItemRef}
         // This is added so that the correct element can
         // tabbed on page transition when navigating via keyboard.
         // eslint-disable-next-line

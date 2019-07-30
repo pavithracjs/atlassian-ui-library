@@ -55,13 +55,6 @@ export default class Section extends PureComponent<SectionProps, SectionState> {
     }
   }
 
-  focusBackItem = (children: HTMLDivElement) => {
-    const backItem = children.querySelector('[data-id="back-item"]');
-    if (backItem) {
-      backItem.focus();
-    }
-  };
-
   render() {
     const {
       alwaysShowScrollHint,
@@ -87,7 +80,6 @@ export default class Section extends PureComponent<SectionProps, SectionState> {
         <Transition
           key={id}
           timeout={this.isMounted ? transitionDurationMs : 0}
-          onEntered={this.focusBackItem}
         >
           {state => {
             const { traversalDirection } = this.state;
