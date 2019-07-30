@@ -67,7 +67,9 @@ class SwitcherItem extends React.Component<
             <Item
               elemBefore={icon}
               elemAfter={
-                childItems && this.toggleChildItemsVisibility.length > 0 ? (
+                childItems &&
+                childItems.length > 0 &&
+                this.toggleChildItemsVisibility.length > 0 ? (
                   <div onClick={e => this.toggleChildItemsVisibility(e)}>
                     down
                   </div>
