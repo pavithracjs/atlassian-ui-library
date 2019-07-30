@@ -15,12 +15,12 @@ import {
   OpsGenieIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
+import { SwitcherChildItem } from '../primitives/item';
 import {
   LicenseInformationResponse,
   ProductLicenseInformation,
   RecentContainerType,
   AvailableProductsResponse,
-  AvailableSite,
   AvailableProduct,
   WorklensProductType,
   ProductKey,
@@ -32,7 +32,6 @@ import PeopleLogo from './assets/people';
 import { CustomLink, RecentContainer } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
-import { SwitcherChildItem } from 'src/primitives/item';
 
 export const MAX_PRODUCT_COUNT = 5;
 
@@ -182,57 +181,68 @@ export const AVAILABLE_PRODUCT_DATA_MAP: {
   },
 };
 
+const PRODUCT_ORDER = [
+  WorklensProductType.JIRA_SOFTWARE,
+  WorklensProductType.JIRA_SERVICE_DESK,
+  WorklensProductType.JIRA_BUSINESS,
+  WorklensProductType.CONFLUENCE,
+  WorklensProductType.BITBUCKET,
+  WorklensProductType.OPSGENIE,
+];
+
 interface ConnectedSite {
-  activityCount: number;
+  product: AvailableProduct;
   isCurrentSite: boolean;
   siteName: string;
   siteUrl: string;
 }
 
-const getAvailableProductLink = (
-  site: AvailableSite,
-  product: AvailableProduct,
-): SwitcherItemType => {
-  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[product.productType];
+const getProductSiteUrl = (connectedSite: ConnectedSite): string => {
+  const { product, siteUrl } = connectedSite;
 
   if (
     product.productType === WorklensProductType.OPSGENIE ||
     product.productType === WorklensProductType.BITBUCKET
   ) {
-    // Prefer applicationUrl provided by license information (TCS)
-    // Fallback to hard-coded URL
-    return {
-      key: product.productType + site.displayName,
-      ...productLinkProperties,
-      href: product.url,
-    };
+    return product.url;
   }
 
-  return {
-    key: product.productType + site.displayName,
-    ...productLinkProperties,
-    href: site.url + productLinkProperties.href,
-  };
+  return siteUrl + AVAILABLE_PRODUCT_DATA_MAP[product.productType].href;
+};
+
+const getLinkDescription = (
+  siteName: string,
+  singleSite: boolean,
+  productType: WorklensProductType,
+): string | undefined => {
+  if (singleSite || productType === WorklensProductType.BITBUCKET) {
+    return undefined;
+  }
+
+  return siteName;
 };
 
 const getAvailableProductLinkFromSiteProduct = (
-  product: WorklensProductType,
   connectedSites: ConnectedSite[],
+  singleSite: boolean,
 ): SwitcherItemType => {
-  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[product];
   const topSite =
     connectedSites.find(site => site.isCurrentSite) ||
-    connectedSites.sort((a, b) => a.activityCount - b.activityCount)[0];
+    connectedSites.sort(
+      (a, b) => b.product.activityCount - a.product.activityCount,
+    )[0];
+  const productType = topSite.product.productType;
+  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[productType];
 
   return {
-    key: product + topSite.siteName,
     ...productLinkProperties,
-    href: topSite.siteUrl + productLinkProperties.href,
-    description: topSite.siteName,
+    key: productType + topSite.siteName,
+    href: getProductSiteUrl(topSite),
+    description: getLinkDescription(topSite.siteName, singleSite, productType),
     childItems: connectedSites
       .filter(site => site.siteUrl !== topSite.siteUrl)
       .map(site => ({
-        href: site.siteUrl + productLinkProperties.href,
+        href: getProductSiteUrl(site),
         label: site.siteName,
       }))
       .sort((a, b) => a.label.localeCompare(b.label)),
@@ -243,39 +253,36 @@ export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
   cloudId: string | null | undefined,
 ): SwitcherItemType[] => {
-  if (availableProducts.sites.length === 1) {
-    const site = availableProducts.sites[0];
-    return site.availableProducts.map(product =>
-      getAvailableProductLink(site, product),
-    );
-  }
-
-  // initialise this properly (empty array per product type)
   const productsMap: { [key: string]: ConnectedSite[] } = {};
-  const productsList: SwitcherItemType[] = [];
 
   availableProducts.sites.forEach(site => {
-    site.availableProducts.forEach(product => {
-      if (!productsMap[product.productType]) {
-        productsMap[product.productType] = [];
+    const { availableProducts, displayName, url } = site;
+    availableProducts.forEach(product => {
+      const { productType } = product;
+
+      if (!productsMap[productType]) {
+        productsMap[productType] = [];
       }
 
-      productsMap[product.productType].push({
-        activityCount: product.activityCount,
-        isCurrentSite: site.cloudId === cloudId, // kinda dodgy
-        siteName: site.displayName,
-        siteUrl: site.url,
+      productsMap[productType].push({
+        product,
+        isCurrentSite: Boolean(cloudId) && site.cloudId === cloudId,
+        siteName: displayName,
+        siteUrl: url,
       });
     });
   });
 
-  for (const product in productsMap) {
-    productsList.push(
-      getAvailableProductLinkFromSiteProduct(product, productsMap[product]),
+  return PRODUCT_ORDER.map(productType => {
+    const connectedSites = productsMap[productType];
+    return (
+      connectedSites &&
+      getAvailableProductLinkFromSiteProduct(
+        connectedSites,
+        availableProducts.sites.length === 1,
+      )
     );
-  }
-
-  return productsList;
+  }).filter(link => !!link);
 };
 
 export const getProductLink = (
