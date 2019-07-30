@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.39.12
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
+## 112.39.11
+
+### Patch Changes
+
+- [patch][51e0d438ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51e0d438ce):
+
+  Make ReactNodeView and SelectionBasedNodeView generic
+
+## 112.39.10
+
+### Patch Changes
+
+- [patch][690e0a151d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/690e0a151d):
+
+  [ED-7324] Fix table selected columns controls colors
+
 ## 112.39.9
 
 ### Patch Changes

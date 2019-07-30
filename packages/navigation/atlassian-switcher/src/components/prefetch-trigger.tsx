@@ -31,7 +31,7 @@ const TRIGGER_CONTEXT = {
 
 type PrefetchTriggerProps = {
   children: React.ReactNode;
-  cloudId: string;
+  cloudId?: string;
   Container?: React.ReactType;
 } & Partial<FeatureFlagProps>;
 
@@ -52,9 +52,12 @@ class PrefetchTrigger extends React.Component<
     }
   };
 
-  private triggerPrefetch: typeof prefetchAll = throttle(
-    (params: any) => {
-      prefetchAll(params);
+  private triggerPrefetch = throttle(
+    () => {
+      const { cloudId } = this.props;
+      if (cloudId) {
+        prefetchAll({ cloudId });
+      }
       if (this.props.enableUserCentricProducts) {
         prefetchAvailableProducts();
       }
@@ -67,7 +70,7 @@ class PrefetchTrigger extends React.Component<
   );
 
   private handleMouseEnter = () => {
-    this.triggerPrefetch({ cloudId: this.props.cloudId });
+    this.triggerPrefetch();
     this.lastEnteredAt = now();
   };
 

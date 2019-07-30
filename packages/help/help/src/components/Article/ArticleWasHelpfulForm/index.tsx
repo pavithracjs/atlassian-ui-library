@@ -111,11 +111,11 @@ export class ArticleWasHelpfulForm extends React.Component<
         <ButtonGroup>
           <ArticleWasHelpfulYesButton
             onClick={() => this.onWasHelpfulOptionClicked(true)}
-            appearance={wasHelpful === true ? 'primary' : 'default'}
+            isSelected={wasHelpful === true}
           />
           <ArticleWasHelpfulNoButton
             onClick={() => this.onWasHelpfulOptionClicked(false)}
-            appearance={wasHelpful === false ? 'primary' : 'default'}
+            isSelected={wasHelpful === false}
           />
         </ButtonGroup>
 

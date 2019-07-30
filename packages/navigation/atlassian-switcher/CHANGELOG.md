@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.12.0
+
+### Minor Changes
+
+- [minor][6c449d7c77](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c449d7c77):
+
+  Also made cloud ID optional in the prefetch trigger
+
 ## 3.11.0
 
 ### Minor Changes

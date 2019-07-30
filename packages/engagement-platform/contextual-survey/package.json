@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/contextual-survey",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React component used to ask the user for feedback",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -27,7 +27,7 @@
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/textarea": "^2.1.0",
     "@atlaskit/theme": "^9.1.1",
-    "@atlaskit/tooltip": "^15.0.2",
+    "@atlaskit/tooltip": "^15.0.7",
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",
     "react-transition-group": "^2.2.1",
