@@ -15,6 +15,7 @@ import {
   InlineEditUncontrolledProps,
   FieldChildProps,
   FormChildProps,
+  InlineDialogProps,
 } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';

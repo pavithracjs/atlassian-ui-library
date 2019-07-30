@@ -43,6 +43,7 @@
     "@atlaskit/single-select": "^8.0.6",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
+    "@types/react": "^16.8.0",
     "enzyme": "^3.7.0",
     "react-dom": "^16.8.0",
     "react-lorem-component": "^0.12.2"

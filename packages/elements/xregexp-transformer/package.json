@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.1.1",
+    "@types/jest": "^23.3.7",
     "@types/node": "^11.11.7",
     "ttypescript": "^1.5.5"
   },
