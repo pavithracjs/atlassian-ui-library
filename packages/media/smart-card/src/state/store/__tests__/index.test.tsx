@@ -1,8 +1,8 @@
 import { renderSmartLinkHook } from '../../../utils/test-utils';
 import { useSmartCardState } from '..';
 import { CardStore } from '../../types';
-
-describe('useSmartCardState()', () => {
+// TODO: Those tests are wrong and are not entering into the renderHook callbacks.
+describe.skip('useSmartCardState()', () => {
   let mockUrl = 'some.url';
 
   it('correctly returns default state', () => {

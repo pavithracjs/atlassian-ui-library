@@ -1,8 +1,8 @@
 import { renderHook, renderSmartLinkHook } from '../../../utils/test-utils';
 import { useSmartLinkContext } from '..';
 import CardClient from '../../../client';
-
-describe('useSmartCardContext()', () => {
+// TODO: Those tests are wrong and are not entering into the renderHook callbacks.
+describe.skip('useSmartCardContext()', () => {
   it('throws if required context not present', () => {
     renderHook(() => {
       const result = useSmartLinkContext();

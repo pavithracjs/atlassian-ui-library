@@ -61,7 +61,7 @@ describe('auth()', () => {
       }),
     );
 
-    promise.then(() => done.fail(), () => done.fail());
+    expect(promise.then(() => done.fail(), () => done.fail())).toBeTruthy();
 
     window.setTimeout(done, 500);
   });
@@ -80,7 +80,7 @@ describe('auth()', () => {
       }),
     );
 
-    promise.then(() => done.fail(), () => done.fail());
+    expect(promise.then(() => done.fail(), () => done.fail())).toBeTruthy();
 
     window.setTimeout(done, 500);
   });

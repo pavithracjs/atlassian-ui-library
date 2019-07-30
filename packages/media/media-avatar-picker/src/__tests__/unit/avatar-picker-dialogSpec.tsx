@@ -305,5 +305,5 @@ describe('Avatar Picker Dialog', () => {
     ).toEqual('some text');
   });
 
-  it('should return fixed crop when exporting', () => {});
+  it.skip('should return fixed crop when exporting', () => {});
 });

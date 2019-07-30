@@ -93,12 +93,16 @@ describe('request', () => {
     });
   });
 
-  it('should not fail if response is 300', () => {
+  it('should not fail if response is 300', async () => {
     fetchMock.restore();
     fetchMock.mock('*', {
       status: 300,
       __redirectUrl: 'http://other-url',
     });
-    return request(url);
+    const response = await request(url);
+    expect(response.status).toBe(200);
+    expect(response._bodyText).toBe(
+      '{"status":300,"__redirectUrl":"http://other-url"}',
+    );
   });
 });

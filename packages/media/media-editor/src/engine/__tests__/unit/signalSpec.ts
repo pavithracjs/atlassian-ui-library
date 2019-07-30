@@ -10,11 +10,13 @@ describe('MediaEditor Signal', () => {
   it('should successfully emit with no handler', () => {
     const signal = new Signal<SignalData>();
     signal.emit(someData);
+    expect(signal).toBeDefined();
   });
 
   it('should successfully call reset with no handler', () => {
     const signal = new Signal<SignalData>();
     signal.reset();
+    expect(signal).toBeDefined();
   });
 
   it('should successfully emit with handler', done => {
@@ -33,6 +35,7 @@ describe('MediaEditor Signal', () => {
     });
     signal.reset();
     signal.emit(someData);
+    expect(signal).toBeDefined();
   });
 
   it('should call second handler after listen twice', done => {
