@@ -41,6 +41,7 @@ export const InlineCard: FC<InlineCardProps> = ({
       return (
         <InlineCardResolvedView
           {...extractInlinePropsFromJSONLD((details && details.data) || {})}
+          link={url}
           isSelected={isSelected}
           onClick={handleFrameClick}
         />

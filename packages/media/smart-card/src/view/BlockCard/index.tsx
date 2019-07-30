@@ -40,6 +40,7 @@ export const BlockCard: FC<BlockCardProps> = ({
       return (
         <BlockCardResolvedView
           {...extractBlockPropsFromJSONLD((details && details.data) || {})}
+          link={url}
           isSelected={isSelected}
           onClick={handleFrameClick}
         />
