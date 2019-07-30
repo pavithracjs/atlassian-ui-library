@@ -1,5 +1,13 @@
 # @atlaskit/contextual-survey
 
+## 1.0.1
+
+### Patch Changes
+
+- [patch][f34776be97](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f34776be97):
+
+  Type definition files are now referenced in package.json
+
 ## 1.0.0
 
 ### Major Changes

@@ -1,5 +1,13 @@
 # @atlaskit/editor-json-transformer
 
+## 6.2.4
+
+### Patch Changes
+
+- [patch][f34776be97](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f34776be97):
+
+  Type definition files are now referenced in package.json
+
 ## 6.2.3
 
 - Updated dependencies [6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):

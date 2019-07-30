@@ -22,7 +22,7 @@ import mapPropsToFeatures from '../utils/map-props-to-features';
 
 type AtlassianSwitcherProps = {
   product: string;
-  cloudId: string;
+  cloudId?: string;
   triggerXFlow?: TriggerXFlowCallback;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 } & Partial<FeatureFlagProps>;
