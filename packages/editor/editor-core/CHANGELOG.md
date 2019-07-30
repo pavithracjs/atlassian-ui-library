@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.11
+
+### Patch Changes
+
+- [patch][51e0d438ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51e0d438ce):
+
+  Make ReactNodeView and SelectionBasedNodeView generic
+
 ## 112.39.10
 
 ### Patch Changes
