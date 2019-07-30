@@ -26,7 +26,7 @@ interface SkeletonTextProps {
 const gridSize = gridSizeFn();
 
 /* Primitives */
-const Wrapper: React.StatelessComponent<WrapperProps> = ({
+const Wrapper: React.ComponentType<WrapperProps> = ({
   isAvatarHidden,
   isHeader,
   ...props

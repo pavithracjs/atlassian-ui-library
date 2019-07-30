@@ -31,10 +31,9 @@ interface PositionerProps {
   widthName?: WidthNames;
   widthValue?: string | number;
 }
-export const Positioner: React.StatelessComponent<PositionerProps> = ({
-  scrollBehavior,
-  ...props
-}: PositionerProps) => {
+export const Positioner: React.ComponentType<
+  PositionerProps
+> = function Positioner({ scrollBehavior, ...props }: PositionerProps) {
   const PositionComponent =
     scrollBehavior === 'inside' ? PositionerAbsolute : PositionerRelative;
 

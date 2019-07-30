@@ -77,9 +77,7 @@ class TransitionHandler extends Component<TransitionProps & HandlerProps> {
   }
 }
 
-export const Fade: React.StatelessComponent<TransitionProps> = ({
-  ...props
-}) => (
+export const Fade: React.ComponentType<TransitionProps> = ({ ...props }) => (
   <TransitionHandler
     defaultStyles={{
       transition: `opacity ${transitionDurationMs}ms ${transitionTimingFunction}`,
@@ -95,7 +93,7 @@ export const Fade: React.StatelessComponent<TransitionProps> = ({
   />
 );
 
-export const Slide: React.StatelessComponent<TransitionProps> = ({
+export const Slide: React.ComponentType<TransitionProps> = ({
   shouldUnmountOnExit = true,
   ...props
 }) => (
