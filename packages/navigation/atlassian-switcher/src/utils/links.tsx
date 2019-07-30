@@ -33,6 +33,8 @@ import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
 import { SwitcherChildItem } from 'src/primitives/item';
 
+export const MAX_PRODUCT_COUNT = 5;
+
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',
   DEACTIVATED = 'DEACTIVATED',
@@ -223,7 +225,7 @@ const getAvailableProductLinkFromSiteProduct = (
 
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
-  cloudId: string,
+  cloudId: string | null | undefined,
 ): SwitcherItemType[] => {
   if (availableProducts.sites.length === 1) {
     const site = availableProducts.sites[0];
@@ -244,7 +246,7 @@ export const getAvailableProductLinks = (
 
       productsMap[product.productType].push({
         activityCount: product.activityCount,
-        isCurrentSite: site.cloudId === cloudId,
+        isCurrentSite: site.cloudId === cloudId, // kinda dodgy
         siteName: site.displayName,
         siteUrl: site.url,
       });

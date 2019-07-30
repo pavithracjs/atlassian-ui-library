@@ -49,6 +49,7 @@ function getExpandLink(
 }
 
 function collectAvailableProductLinks(
+  cloudId: string | null | undefined,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
@@ -262,7 +263,7 @@ export function mapResultsToSwitcherProps(
       : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
-        ? collectAvailableProductLinks(availableProducts)
+        ? collectAvailableProductLinks(cloudId, availableProducts)
         : collectProductLinks(licenseInformation),
       [],
     ),
