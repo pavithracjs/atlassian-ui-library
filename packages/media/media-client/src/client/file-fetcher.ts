@@ -423,18 +423,7 @@ export class FileFetcherImpl implements FileFetcher {
 
     const copiedFile = (await mediaStore.copyFileWithToken(body, params)).data;
     const copiedFileObservable = new ReplaySubject<FileState>(1);
-    const copiedFileState: FileState = {
-      id: copiedFile.id,
-      status: 'processing',
-      artifacts: copiedFile.artifacts,
-      mediaType: copiedFile.mediaType,
-      mimeType: copiedFile.mimeType,
-      name: copiedFile.name,
-      occurrenceKey,
-      size: copiedFile.size,
-      representations: copiedFile.representations,
-    };
-    const copiedFileState: FileSate = mapMediaFileToFileState({
+    const copiedFileState: FileState = mapMediaFileToFileState({
       data: copiedFile,
     });
 
