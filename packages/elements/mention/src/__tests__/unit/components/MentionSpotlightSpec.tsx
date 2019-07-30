@@ -15,6 +15,13 @@ function render(props: Partial<Props>) {
 }
 
 let mockRegisterRender = jest.fn();
+
+const mockRegisterRenderObject = {
+  seenCount: 1,
+};
+
+mockRegisterRender.mockReturnValue(mockRegisterRenderObject);
+
 let mockRegisterCreateLinkClick = jest.fn();
 let mockFireAnalyticsSpotlightMentionEvent = jest.fn();
 
