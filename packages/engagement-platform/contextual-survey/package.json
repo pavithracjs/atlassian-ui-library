@@ -25,6 +25,7 @@
     "@atlaskit/checkbox": "^9.0.0",
     "@atlaskit/form": "^6.1.2",
     "@atlaskit/icon": "^19.0.0",
+    "@atlaskit/portal": "^3.0.9",
     "@atlaskit/textarea": "^2.1.0",
     "@atlaskit/theme": "^9.1.1",
     "@atlaskit/tooltip": "^15.0.7",
