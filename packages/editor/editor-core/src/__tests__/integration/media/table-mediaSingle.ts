@@ -27,16 +27,16 @@ BrowserTestCase(
         allowMediaGroup: true,
       },
     });
+
     await page.click(
       `[aria-label="${insertBlockMessages.table.defaultMessage}"]`,
     );
 
     // second cell
-    await page.type(editable, 'Down arrow');
+    await page.keys(['ArrowDown']);
 
     // now we can insert media as necessary
     await insertMedia(page);
-
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },
