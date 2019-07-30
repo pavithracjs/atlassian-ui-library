@@ -1,1 +1,1 @@
-TypeScript typechecking changes to un-ignore errors during build. This should effect the distributables but creating patch for it for the sake of tracability if we do have problems due to this change.
+TypeScript typechecking changes to un-ignore errors during build. This should not **affect** the distributables but creating patch for it for the sake of tracability if we do have problems due to this change.
