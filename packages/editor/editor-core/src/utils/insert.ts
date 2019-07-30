@@ -4,8 +4,10 @@ import {
   safeInsert as pmuSafeInsert,
 } from 'prosemirror-utils';
 import { Transaction } from 'prosemirror-state';
-import { Node, Fragment, ResolvedPos } from 'prosemirror-model';
+import { Node, Fragment } from 'prosemirror-model';
 import { GapCursorSelection, Side } from '../plugins/gap-cursor';
+import { ReplaceStep } from 'prosemirror-transform';
+import { isEmptyParagraph } from './document';
 
 export type InsertableContent = Node | Fragment;
 
@@ -20,11 +22,9 @@ export const safeInsert = (
     return pmuSafeInsert(content, position, tryToReplace)(tr);
   }
 
-  // "Is the user selecting something"
-  // Check for selection
-  if (isNodeSelection(tr.selection) || !tr.selection.empty) {
-    // NOT IMPLEMENTED
-    return pmuSafeInsert(content, position, tryToReplace)(tr);
+  // Clear existing selection
+  if (!tr.selection.empty || isNodeSelection(tr.selection)) {
+    tr.deleteSelection();
   }
 
   const hasPosition = typeof position === 'number';
@@ -35,14 +35,6 @@ export const safeInsert = (
     ? tr.doc.resolve($from.pos + 1)
     : $from;
 
-  // Content is inline
-  if (!content.isBlock) {
-    // NOT IMPLEMENTED
-    return pmuSafeInsert(content, position, tryToReplace)(tr);
-  }
-
-  console.log('new safeInsert:', content.type.name);
-
   let lookDirection: 'before' | 'after';
   if ($insertPos.pos === $insertPos.end()) {
     lookDirection = 'after';
@@ -50,30 +42,54 @@ export const safeInsert = (
     lookDirection = 'before';
   } else {
     // Insert by split
-    return finaliseInsert(tr.insert($insertPos.pos, content), $insertPos);
+    return finaliseInsert(tr.insert($insertPos.pos, content), content.nodeSize);
+  }
+
+  // Replace empty paragraph
+  if (isEmptyParagraph($insertPos.parent)) {
+    return finaliseInsert(
+      tr.replaceWith($insertPos.before(), $insertPos.after(), content),
+      -1, // FIXME: This is a magic number
+    );
   }
 
   let proposedPosition = $insertPos;
   while (proposedPosition.depth > 0) {
-    // Insert in place
-    if (tr.selection.empty && canInsert(proposedPosition, content)) {
+    // Insert at position (before or after target node)
+    if (canInsert(proposedPosition, content)) {
       return finaliseInsert(
         tr.insert(proposedPosition.pos, content),
-        proposedPosition,
+        content.nodeSize,
+      );
+    }
+
+    // Special case for splitting on lists
+    if (
+      proposedPosition.parent.type === tr.doc.type.schema.nodes.orderedList ||
+      proposedPosition.parent.type === tr.doc.type.schema.nodes.bulletList
+    ) {
+      return finaliseInsert(
+        tr.insert(proposedPosition.pos, content),
+        content.nodeSize,
       );
     }
 
     // Can not insert into current parent, step up one parent
     proposedPosition = tr.doc.resolve(proposedPosition[lookDirection]());
   }
+
   return finaliseInsert(
     tr.insert(proposedPosition.pos, content),
-    proposedPosition,
+    content.nodeSize,
   );
 };
 
-const finaliseInsert = (tr: Transaction, insertPos: ResolvedPos) => {
+const finaliseInsert = (tr: Transaction, nodeLength: number) => {
+  const lastStep = tr.steps[tr.steps.length - 1] as ReplaceStep;
+  const gapCursorPos = lastStep.to + lastStep.slice.openStart + nodeLength;
   return tr
-    .setSelection(new GapCursorSelection(insertPos, Side.RIGHT))
+    .setSelection(
+      new GapCursorSelection(tr.doc.resolve(gapCursorPos), Side.RIGHT),
+    )
     .scrollIntoView();
 };
