@@ -155,6 +155,7 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
                         }
                         onClick={this.onCloseClick}
                         spacing="none"
+                        css=""
                       />
                     </Tooltip>
                   )}
@@ -177,7 +178,7 @@ const MentionSpotlightWithAnalytics = withAnalyticsEvents<OwnProps>({
       'closeButton',
     );
   },
-})(MentionSpotlightInternal) as React.ComponentClass<OwnProps>;
+})(MentionSpotlightInternal) as React.ComponentClass<OwnProps, State>;
 
 const MentionSpotlight = MentionSpotlightWithAnalytics;
 type MentionSpotlight = MentionSpotlightInternal;
