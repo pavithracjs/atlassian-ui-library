@@ -34,6 +34,7 @@ const {
 
   let packages = await getPackagesInfo(cwd);
   let relativePaths = packages
+    .filter(package => package.name !== '@atlaskit/media-client')
     .filter(pkg => filters.every(filter => filter(pkg)))
     .map(pkg => pkg.relativeDir);
 
