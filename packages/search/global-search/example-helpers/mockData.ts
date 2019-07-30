@@ -13,7 +13,6 @@ import {
   JiraItemV2,
   PersonItem,
   UrsPersonItem,
-  NavScopeResult,
   NavScopeResultItem,
 } from '../src/api/types';
 import {

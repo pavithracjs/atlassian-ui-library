@@ -57,6 +57,7 @@ const DEFAULT_FEATURES: ConfluenceFeatures = {
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  isNavAutocompleteEnabled: false,
 };
 
 function render(partialProps?: Partial<Props>) {
@@ -66,6 +67,7 @@ function render(partialProps?: Partial<Props>) {
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
     autocompleteClient: mockAutocompleteClient,
+    navAutocompleteClient: mockNavAutocompleteClient,
     logger,
     referralContextIdentifiers,
     features: DEFAULT_FEATURES,
@@ -446,6 +448,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       isLoading: false,
       currentFilters: [],
       onFilterChanged: jest.fn(),
+      searchResults: results,
     };
 
     it('Renders filter component', () => {
@@ -453,7 +456,6 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
-          searchResultsTotalSize: results.objects.totalSize,
           searchSessionId: mockSearchSessionId,
         },
       );
@@ -472,7 +474,6 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
-          searchResultsTotalSize: results.objects.totalSize,
           currentFilters: [
             { '@type': FilterType.Spaces, spaceKeys: [dummySpaceKey] },
           ],
@@ -502,7 +503,6 @@ describe('ConfluenceQuickSearchContainer', () => {
           ...baseFilterComponentProps,
           isLoading: true,
           latestSearchQuery: 'a',
-          searchResultsTotalSize: results.objects.totalSize,
           searchSessionId: mockSearchSessionId,
         },
       );
@@ -521,7 +521,6 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: '',
-          searchResultsTotalSize: results.objects.totalSize,
           searchSessionId: mockSearchSessionId,
         },
       );
@@ -534,8 +533,14 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
-          searchResultsTotalSize: 0,
           searchSessionId: mockSearchSessionId,
+          searchResults: {
+            ...results,
+            objects: {
+              items: [],
+              totalSize: 0,
+            },
+          },
         },
       );
 
