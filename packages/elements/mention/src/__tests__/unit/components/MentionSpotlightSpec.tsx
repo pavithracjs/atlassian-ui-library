@@ -58,14 +58,9 @@ describe('MentionSpotlight', () => {
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
     const onClose = jest.fn();
-    const spotlight = shallow(
-      <MentionSpotlight createTeamLink="somelink" onClose={onClose} />,
-    );
-
-    spotlight.setState({
-      isSpotlightClosed: true,
-    });
-
-    expect(spotlight).toMatchObject({});
+    const spotlight = render({ onClose: onClose });
+    expect(spotlight.html()).not.toBeNull();
+    spotlight.find(Button).simulate('click');
+    expect(spotlight.html()).toBeNull();
   });
 });
