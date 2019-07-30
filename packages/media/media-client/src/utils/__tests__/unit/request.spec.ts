@@ -101,6 +101,7 @@ describe('request', () => {
     });
     const response = await request(url);
     expect(response.status).toBe(200);
+    // @ts-ignore: Property '_bodyText' does not exist on type 'Response'.
     expect(response._bodyText).toBe(
       '{"status":300,"__redirectUrl":"http://other-url"}',
     );
