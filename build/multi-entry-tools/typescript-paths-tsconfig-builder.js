@@ -18,8 +18,14 @@ async function main() {
         return [
           [modulePattern],
           [
-            resolutionPath.replace(`${cwd}/packages`, '../..'),
-            resolutionPath.replace(`${cwd}/`, './'),
+            resolutionPath.replace(
+              new RegExp(`${cwd}/packages/[A-z\-]+/`),
+              `../../node_modules/@atlaskit/`,
+            ),
+            resolutionPath.replace(
+              new RegExp(`${cwd}/[A-z]+/[A-z\-]+/`),
+              `./node_modules/@atlaskit/`,
+            ),
           ],
         ];
       }),
