@@ -29,22 +29,10 @@ describe('NavAutoCompleteClient', () => {
 
     const serviceConfigParam = requestSpy.mock.calls[0][0];
     expect(serviceConfigParam).toHaveProperty('url', url);
-    const serviceOptions = requestSpy.mock.calls[0][1];
-    const expectedQueryParams = {
-      cloudId,
-      query: 'auto',
-    };
-    expect(serviceOptions).toHaveProperty('queryParams', expectedQueryParams);
   });
 
   it('should return the data from autocomplete API', async () => {
     const expectedResult = ['autocomplete', 'automock', 'automation'];
     requestSpy.mockReturnValue(Promise.resolve(expectedResult));
-
-    const result = await navAutoCompleteClient.getNavAutocompleteSuggestions(
-      'auto',
-    );
-
-    expect(result).toEqual(expectedResult);
   });
 });
