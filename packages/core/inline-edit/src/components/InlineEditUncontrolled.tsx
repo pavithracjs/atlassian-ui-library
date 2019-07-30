@@ -1,5 +1,5 @@
 import React from 'react';
-import Loadable from 'react-loadable';
+import Loadable, { OptionsWithoutRender } from 'react-loadable';
 
 import {
   withAnalyticsEvents,
@@ -41,9 +41,13 @@ interface State {
 /** This means that InlineDialog is only loaded if necessary */
 const InlineDialog = Loadable({
   loader: () =>
-    import('@atlaskit/inline-dialog').then(module => module.default),
+    import(/* webpackChunkName:"@atlaskit-internal-inline-edit-inline-dialog" */ '@atlaskit/inline-dialog').then(
+      module => module.default,
+    ),
   loading: () => null,
-});
+  // For some reason TypeScript wasn't picking up the right options signature here.
+  // Forcing it to the correct one with "as"
+} as OptionsWithoutRender<InlineDialogProps>);
 
 class InlineEditUncontrolled extends React.Component<
   InlineEditUncontrolledProps,
