@@ -115,9 +115,13 @@ class Checkbox extends Component<CheckboxProps, State> {
   };
 
   getStyles = (key: keyof CheckboxStylesProp, state: any) => {
+    // @ts-ignore typescript 3.1.x has issues resolving union types
+    // this is resolved in 3.3.x, for now we're applying a ts-ignore
     const defaultStyle = defaultStyles[key](state);
     const customStyle = this.props.styles && this.props.styles[key];
     if (customStyle) {
+      // @ts-ignore typescript 3.1.x has issues resolving union types
+      // this is resolved in 3.3.x, for now we're applying a ts-ignore
       return customStyle(defaultStyle, state);
     }
     return defaultStyle;
