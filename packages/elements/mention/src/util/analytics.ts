@@ -65,7 +65,7 @@ export const fireAnalyticsSpotlightMentionEvent = (
   action: string,
   source: string,
   actionSubjectId?: string,
-  ...args: any[]
+  viewedCount?: number,
 ): void => {
   if (createEvent) {
     const eventPayload: GasPayload = {
@@ -78,7 +78,7 @@ export const fireAnalyticsSpotlightMentionEvent = (
         packageName,
         packageVersion,
         componentName: ComponentNames.SPOTLIGHT,
-        ...args,
+        viewedCount,
       },
     };
     const analyticsEvent: UIAnalyticsEventInterface = createEvent(eventPayload);

@@ -27,6 +27,7 @@ export interface OwnProps {
   createTeamLink: string;
   /** Callback to track the event where user click on x icon */
   onClose: () => void;
+  onViewed?: () => void;
 }
 
 export interface State {
@@ -54,8 +55,13 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const { onViewed } = this.props;
     this.addEventHandler();
-    MentionSpotlightController.registerRender();
+    if (onViewed) {
+      onViewed();
+    } else {
+      MentionSpotlightController.registerRender();
+    }
   }
 
   componentWillUnmount() {
@@ -175,6 +181,15 @@ const MentionSpotlightWithAnalytics = withAnalyticsEvents<OwnProps>({
       Actions.CLOSED,
       ComponentNames.MENTION,
       'closeButton',
+    );
+  },
+  onViewed: (createEvent: CreateUIAnalyticsEventSignature) => {
+    fireAnalyticsSpotlightMentionEvent(createEvent)(
+      ComponentNames.SPOTLIGHT,
+      Actions.VIEWED,
+      ComponentNames.MENTION,
+      undefined,
+      MentionSpotlightController.registerRender().seenCount,
     );
   },
 })(MentionSpotlightInternal) as React.ComponentClass<OwnProps, State>;
