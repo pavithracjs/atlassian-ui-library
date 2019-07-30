@@ -174,7 +174,25 @@ export class QuickSearch extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  static getDerivedStateFromProps(props: Props, state: State) {
+    // keep context state in sync
+    const { sendAnalytics, linkComponent } = state.context;
+    if (
+      sendAnalytics !== props.firePrivateAnalyticsEvent ||
+      linkComponent !== props.linkComponent
+    ) {
+      return {
+        context: {
+          ...state.context,
+          sendAnalytics: props.firePrivateAnalyticsEvent,
+          linkComponent: props.linkComponent,
+        },
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(nextProps: Props) {
     if (nextProps.children !== this.props.children) {
       this.setState({
         selectedResultId: nextProps.selectedResultId || null,
@@ -185,21 +203,6 @@ export class QuickSearch extends React.Component<Props, State> {
     ) {
       this.setState({
         selectedResultId: nextProps.selectedResultId || null,
-      });
-    }
-
-    // keep context state in sync
-    const { sendAnalytics, linkComponent } = this.state.context;
-    if (
-      sendAnalytics !== nextProps.firePrivateAnalyticsEvent ||
-      linkComponent !== nextProps.linkComponent
-    ) {
-      this.setState({
-        context: {
-          ...this.state.context,
-          sendAnalytics: nextProps.firePrivateAnalyticsEvent,
-          linkComponent: nextProps.linkComponent,
-        },
       });
     }
 
