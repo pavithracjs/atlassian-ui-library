@@ -27,6 +27,7 @@ export interface OwnProps {
   createTeamLink: string;
   /** Callback to track the event where user click on x icon */
   onClose: () => void;
+  onCreateTeamLinkClick?: () => void;
 }
 
 export interface State {
@@ -63,7 +64,11 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
   }
 
   onClick = () => {
+    const { onCreateTeamLinkClick } = this.props;
     MentionSpotlightController.registerCreateLinkClick();
+    if (onCreateTeamLinkClick) {
+      onCreateTeamLinkClick();
+    }
   };
 
   // This is to stop overly aggressive behaviour where clicking anywhere in the spotlight would immediate close the entire
@@ -175,6 +180,15 @@ const MentionSpotlightWithAnalytics = withAnalyticsEvents<OwnProps>({
       Actions.CLOSED,
       ComponentNames.MENTION,
       'closeButton',
+    );
+  },
+
+  onCreateTeamLinkClick: (createEvent: CreateUIAnalyticsEventSignature) => {
+    fireAnalyticsSpotlightMentionEvent(createEvent)(
+      ComponentNames.SPOTLIGHT,
+      Actions.CLICKED,
+      ComponentNames.MENTION,
+      'createTeamLink',
     );
   },
 })(MentionSpotlightInternal) as React.ComponentClass<OwnProps, State>;
