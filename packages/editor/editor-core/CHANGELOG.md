@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.10
+
+### Patch Changes
+
+- [patch][690e0a151d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/690e0a151d):
+
+  [ED-7324] Fix table selected columns controls colors
+
 ## 112.39.9
 
 ### Patch Changes

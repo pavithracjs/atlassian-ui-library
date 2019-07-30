@@ -1,1 +1,0 @@
-[ED-7324] Fix table selected columns controls colors
