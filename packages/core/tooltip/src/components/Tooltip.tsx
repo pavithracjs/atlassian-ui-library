@@ -3,7 +3,7 @@
 import React from 'react';
 import NodeResolver from 'react-node-resolver';
 import flushable from 'flushable';
-import { Popper } from '@atlaskit/popper';
+import { Popper, Placement } from '@atlaskit/popper';
 import Portal from '@atlaskit/portal';
 import { layers } from '@atlaskit/theme';
 
@@ -303,7 +303,9 @@ class Tooltip extends React.Component<TooltipProps, State> {
                 // https://github.com/FezVrasta/react-popper#usage-without-a-reference-htmlelement
                 // We are using a popper technique to pass in a faked element when we use mouse.
                 // This is fine.
-                position === 'mouse' ? this.fakeMouseElement : this.targetRef
+                position === 'mouse'
+                  ? (this.fakeMouseElement as HTMLElement)
+                  : this.targetRef
               }
               placement={position === 'mouse' ? mousePosition : position}
             >
@@ -314,7 +316,7 @@ class Tooltip extends React.Component<TooltipProps, State> {
               }: {
                 ref: (elm: HTMLElement) => void;
                 style: Object;
-                placement: PositionTypeBase;
+                placement: Placement;
               }) =>
                 TooltipContainer && (
                   <Animation
@@ -328,7 +330,11 @@ class Tooltip extends React.Component<TooltipProps, State> {
                         innerRef={ref}
                         className="Tooltip"
                         style={{
-                          ...getAnimationStyles(placement),
+                          // Yet another TypeScript hack, we only allow PositionTypeBase placement's in the definition of this popper
+                          // But typescript can't link that to this lower children function, so placement on the closure has to be typed as Placement
+                          // Which is a superset of PositionTypeBase. Type checking wise this is correct because the Placement given as prop to <Popper> is also PositionTypeBase
+                          // There's just no way to express that in TypeScript without fiddling with the popper typescript definition.
+                          ...getAnimationStyles(placement as PositionTypeBase),
                           ...style,
                         }}
                         truncate={truncate || false}
