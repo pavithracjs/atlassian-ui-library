@@ -34,7 +34,6 @@ describe('UploadService', () => {
   const baseUrl = 'some-api-url';
   const clientId = 'some-client-id';
   const token = 'some-token';
-  const upfrontId = Promise.resolve('1');
   let authProvider: AuthProvider;
   const usersClientId = 'some-users-collection-client-id';
   const usersToken = 'some-users-collection-client-id';
@@ -179,7 +178,6 @@ describe('UploadService', () => {
           name: 'some-filename',
           size: 100,
           type: 'video/mp4',
-          upfrontId,
           occurrenceKey: expect.any(String),
           userUpfrontId: undefined,
           userOccurrenceKey: undefined,
@@ -205,7 +203,6 @@ describe('UploadService', () => {
           name: 'some-filename',
           size: 100,
           type: 'image/png',
-          upfrontId,
           occurrenceKey: expect.any(String),
           userUpfrontId: undefined,
           userOccurrenceKey: undefined,
@@ -264,7 +261,6 @@ describe('UploadService', () => {
             name: 'some-filename',
             size: 100,
             type: 'video/mp4',
-            upfrontId,
             occurrenceKey: expect.any(String),
             userUpfrontId: undefined,
             userOccurrenceKey: undefined,
@@ -275,7 +271,6 @@ describe('UploadService', () => {
             name: 'some-other-filename',
             size: 100000000,
             type: 'image/png',
-            upfrontId,
             occurrenceKey: expect.any(String),
             userUpfrontId: undefined,
             userOccurrenceKey: undefined,
@@ -353,7 +348,6 @@ describe('UploadService', () => {
             name: 'some-filename',
             size: 100,
             type: 'video/mp4',
-            upfrontId,
           },
         });
       });
@@ -389,7 +383,6 @@ describe('UploadService', () => {
         name: 'some-filename',
         size: 100,
         type: 'video/mp4',
-        upfrontId,
       };
       expect(fileUploadingCallback).toHaveBeenCalledWith({
         file: expectedMediaFile,
@@ -425,7 +418,6 @@ describe('UploadService', () => {
         name: 'some-filename',
         size: 100,
         type: 'video/mp4',
-        upfrontId,
       };
       expect(fileUploadErrorCallback).toHaveBeenCalledWith({
         file: expectedMediaFile,

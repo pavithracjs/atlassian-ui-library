@@ -21,14 +21,10 @@ export class UploadPreview extends React.Component<PreviewData> {
   }
 
   render() {
-    const { upfrontId, preview } = this.props;
-
-    if (!upfrontId) {
-      return <div />;
-    }
+    const { fileId, preview } = this.props;
 
     const identifier: FileIdentifier = {
-      id: upfrontId,
+      id: fileId,
       mediaItemType: 'file',
     };
 

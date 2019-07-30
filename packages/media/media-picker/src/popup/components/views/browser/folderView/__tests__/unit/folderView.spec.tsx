@@ -18,7 +18,6 @@ describe('<FolderViewer />', () => {
       mimeType: 'some-mime-type',
       name: 'some-name',
       size: 42,
-      upfrontId: Promise.resolve('id1'),
       date: date.getTime(),
     };
     props = {
@@ -33,7 +32,6 @@ describe('<FolderViewer />', () => {
       onFileClick: jest.fn(),
       onFolderClick: jest.fn(),
       onLoadMoreClick: jest.fn(),
-      setUpfrontIdDeferred: jest.fn(),
     };
   });
 

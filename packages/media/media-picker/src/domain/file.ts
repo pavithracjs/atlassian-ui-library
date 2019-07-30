@@ -1,6 +1,5 @@
 export type MediaFile = {
   readonly id: string;
-  readonly upfrontId: Promise<string>;
   readonly userUpfrontId?: Promise<string>;
   readonly userOccurrenceKey?: Promise<string>;
   readonly name: string;
@@ -16,7 +15,6 @@ export function copyMediaFileForUpload(
     size,
     creationDate,
     type,
-    upfrontId,
     userUpfrontId,
     occurrenceKey,
     userOccurrenceKey,
@@ -30,7 +28,6 @@ export function copyMediaFileForUpload(
     size,
     creationDate,
     type,
-    upfrontId,
     userUpfrontId,
     occurrenceKey,
     userOccurrenceKey,

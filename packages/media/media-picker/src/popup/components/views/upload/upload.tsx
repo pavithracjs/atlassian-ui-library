@@ -28,7 +28,6 @@ import { Dropzone } from './dropzone';
 import { fileClick } from '../../../actions/fileClick';
 import { editorShowImage } from '../../../actions/editorShowImage';
 import { editRemoteImage } from '../../../actions/editRemoteImage';
-import { setUpfrontIdDeferred } from '../../../actions/setUpfrontIdDeferred';
 
 import {
   FileReference,
@@ -96,11 +95,6 @@ export interface UploadViewDispatchProps {
   readonly onEditRemoteImage: (
     file: FileReference,
     collectionName: string,
-  ) => void;
-  readonly setUpfrontIdDeferred: (
-    id: string,
-    resolver: (id: string) => void,
-    rejecter: Function,
   ) => void;
   readonly removeFileFromRecents: (
     id: string,
@@ -336,21 +330,13 @@ export class StatelessUploadView extends Component<
         ...file.metadata,
         mimeType: mediaType,
       };
-      const {
-        id,
-        userOccurrenceKey,
-        userUpfrontId,
-        size,
-        name,
-        upfrontId,
-      } = fileMetadata;
+      const { id, userOccurrenceKey, userUpfrontId, size, name } = fileMetadata;
       const selected = selectedUploadIds.indexOf(id) > -1;
       const serviceFile: ServiceFile = {
         id,
         mimeType: mediaType,
         name,
         size,
-        upfrontId,
         occurrenceKey: fileMetadata.occurrenceKey,
         date: 0,
       };
@@ -395,7 +381,6 @@ export class StatelessUploadView extends Component<
       selectedItems,
       onFileClick,
       onEditRemoteImage,
-      setUpfrontIdDeferred,
       intl: { formatMessage },
     } = this.props;
     const { items } = recents;
@@ -407,9 +392,6 @@ export class StatelessUploadView extends Component<
       const fileDetails = mediaItemDetails as FileDetails;
       if (fileDetails) {
         const { id } = fileDetails;
-        const upfrontId = new Promise<string>((resolve, reject) => {
-          setUpfrontIdDeferred(id, resolve, reject);
-        });
 
         onFileClick(
           {
@@ -418,7 +400,6 @@ export class StatelessUploadView extends Component<
             name: fileDetails.name || '',
             mimeType: fileDetails.mimeType || '',
             size: fileDetails.size || 0,
-            upfrontId,
           },
           'recent_files',
         );
@@ -511,8 +492,6 @@ const mapDispatchToProps = (
     dispatch(editorShowImage(dataUri, file)),
   onEditRemoteImage: (file, collectionName) =>
     dispatch(editRemoteImage(file, collectionName)),
-  setUpfrontIdDeferred: (id, resolver, rejecter) =>
-    dispatch(setUpfrontIdDeferred(id, resolver, rejecter)),
   removeFileFromRecents: (id, occurrenceKey, userFileId) =>
     dispatch(removeFileFromRecents(id, occurrenceKey, userFileId)),
 });

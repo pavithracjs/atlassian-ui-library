@@ -43,7 +43,6 @@ const testFile1: MediaFile = {
   creationDate: 1,
   type: 'type1',
   userUpfrontId: Promise.resolve('id1'),
-  upfrontId: Promise.resolve('id1'),
 };
 
 const testFile2: MediaFile = {
@@ -52,7 +51,6 @@ const testFile2: MediaFile = {
   size: 2,
   creationDate: 2,
   type: 'type2',
-  upfrontId: Promise.resolve('id2'),
 };
 
 const attributes = {
@@ -281,7 +279,6 @@ describe('analyticsProcessing middleware', () => {
             size: 10,
             date: 0,
             serviceName: UPLOAD,
-            upfrontId: Promise.resolve(''),
           },
         ],
       },
@@ -324,7 +321,6 @@ describe('analyticsProcessing middleware', () => {
             size: 10,
             date: 0,
             serviceName: UPLOAD,
-            upfrontId: Promise.resolve(''),
           },
           {
             mimeType: 'image/png',
@@ -333,7 +329,6 @@ describe('analyticsProcessing middleware', () => {
             size: 20,
             date: 0,
             serviceName: UPLOAD,
-            upfrontId: Promise.resolve(''),
           },
         ],
       },
@@ -544,7 +539,6 @@ describe('analyticsProcessing middleware', () => {
                 name: 'file1',
                 size: 1,
                 mimeType: 'type1',
-                upfrontId: Promise.resolve(''),
                 userUpfrontId: Promise.resolve(''),
                 userOccurrenceKey: Promise.resolve(''),
               },
@@ -602,7 +596,6 @@ describe('analyticsProcessing middleware', () => {
                 name: 'file1',
                 size: 1,
                 mimeType: 'type1',
-                upfrontId: Promise.resolve(''),
                 userUpfrontId: Promise.resolve(''),
                 userOccurrenceKey: Promise.resolve(''),
               },
