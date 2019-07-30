@@ -145,7 +145,11 @@ export default class MediaGroup extends React.Component<
   }
 }
 
-class MediaGroupNodeView extends ReactNodeView {
+interface MediaGroupNodeViewProps {
+  editorAppearance: any;
+}
+
+class MediaGroupNodeView extends ReactNodeView<MediaGroupNodeViewProps> {
   render(_props: any, forwardRef: ForwardRef) {
     const { editorAppearance } = this.reactComponentProps;
     return (

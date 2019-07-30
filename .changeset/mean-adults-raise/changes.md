@@ -1,0 +1,1 @@
+Make ReactNodeView and SelectionBasedNodeView generic
