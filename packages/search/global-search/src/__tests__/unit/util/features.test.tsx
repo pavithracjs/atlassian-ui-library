@@ -15,6 +15,7 @@ describe('isInFasterSearchExperiment', () => {
     disableJiraPreQueryPeopleSearch: false,
     enablePreQueryFromAggregator: false,
     isAutocompleteEnabled: false,
+    isNavAutocompleteEnabled: false,
   };
 
   it('returns false if part of an experiment that is not faster-search', () => {
