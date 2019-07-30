@@ -1,4 +1,4 @@
-import React, { Component, KeyboardEvent, MouseEvent } from 'react';
+import React, { Component, KeyboardEvent } from 'react';
 import { Nav, NavLine, NavWrapper } from '../styled';
 import { TabData, TabsNavigationProps } from '../types';
 
@@ -28,11 +28,25 @@ export default class TabsNavigation extends Component<TabsNavigationProps> {
     this.elementRefs[newselectedIndex].focus();
   };
 
+  /* 
+    For some reason MouseEvent throws an typecheck error because it's private.
+    Looks like a TS bug, maybe we should try removing the comment after we upgrade TypeScript.
+    Error:
+    
+    src/components/TabsNavigation.tsx:1:43 - error TS6133: 'MouseEvent' is declared but its value is never read.
+
+    1 import React, { Component, KeyboardEvent, MouseEvent } from 'react';
+                                                ~~~~~~~~~~
+
+
+    */
+  tabMouseDownHandler = (
+    e: { preventDefault: () => void } /*MouseEvent<HTMLElement>*/,
+  ) => e.preventDefault();
+
   onSelect = (selected: TabData, selectedIndex: number) => {
     this.props.onSelect(selected, selectedIndex);
   };
-
-  tabMouseDownHandler = (e: MouseEvent<HTMLElement>) => e.preventDefault();
 
   render() {
     const { selected, component: Item, tabs } = this.props;
