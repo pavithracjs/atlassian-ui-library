@@ -9,6 +9,14 @@ export function setKeyboardControlsHeight(
   dispatch: Function,
 ): void {
   dispatch(tr.setMeta(pluginKey, height));
+
+  const { scrollHeight, clientHeight } = document.documentElement;
+  if (scrollHeight > clientHeight && window.innerHeight < clientHeight) {
+    // When closing the soft keyboard, if the content exceeds the viewport height, and if the viewport
+    // has been shifted up off screen above the keyboard (scrolled near the bottom), then we need
+    // to redraw to prevent surplus whitespace at the botom of the screen where the keyboard was.
+    document.body.scrollIntoView(false);
+  }
 }
 
 function onViewportResize(e: Event) {}
@@ -56,8 +64,15 @@ const plugin = new Plugin({
     apply(tr: Transaction, value: number): number {
       const newKeyboardControlsHeight = parseInt(tr.getMeta(pluginKey));
       if (newKeyboardControlsHeight >= 0) {
+        // By default the viewport fills the screen, with the soft keyboard sitting over the top of viewport layer.
+        // If the content exceeds (overflows) the viewport height, then as the user scrolls towards the bottom it
+        // incrementally shifts (offsets) the viewport upward so that it eventually ends at the top of the keyboard.
+        // The `window.innerHeight` value is reduced when this occurs, indicating the visible area, instead of
+        // the original viewport height (which becomes partially off screen due to the offset).
+        // The body's clientHeight value remains accurate to the true viewport height, regardless of whether
+        // the content overflows, or what the scroll position is.
         const viewportHeight = ((window as any).viewportHeight =
-          document.documentElement.scrollHeight);
+          document.documentElement.clientHeight);
         const controlsHeight = ((window as any).controlsHeight = newKeyboardControlsHeight); //parseInt(newKeyboardControlsHeight);
         const contentVisibleHeight = ((window as any).contentVisibleHeight =
           viewportHeight - controlsHeight);
