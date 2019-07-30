@@ -1,0 +1,1 @@
+Front end support for xpsearch-nav-searcher
