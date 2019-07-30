@@ -20,6 +20,10 @@ async function main() {
           [
             resolutionPath.replace(
               new RegExp(`${cwd}/packages/[A-z\-]+/`),
+              `../../../build/multi-entry-tools/node_modules/@atlaskit/`,
+            ),
+            resolutionPath.replace(
+              new RegExp(`${cwd}/packages/[A-z\-]+/`),
               `../../node_modules/@atlaskit/`,
             ),
             resolutionPath.replace(
