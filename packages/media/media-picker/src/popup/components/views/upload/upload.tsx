@@ -290,7 +290,6 @@ export class StatelessUploadView extends Component<
     return (
       <FlagGroup onDismissed={this.onFlagDismissed}>
         <Flag
-          shouldDismiss={this.state.shouldDismissWebGLWarningFlag}
           description={formatMessage(messages.webgl_warning_description)}
           icon={<EditorInfoIcon label="info" />}
           id="webgl-warning-flag"

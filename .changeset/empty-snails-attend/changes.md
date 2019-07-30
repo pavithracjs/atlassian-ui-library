@@ -1,0 +1,1 @@
+Fixes various TypeScript errors which were previously failing silently

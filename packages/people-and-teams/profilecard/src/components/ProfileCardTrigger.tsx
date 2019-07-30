@@ -32,7 +32,7 @@ class ProfilecardTrigger extends React.Component<
     customElevation: 'e200',
   };
 
-  targetRef?: HTMLElement | null;
+  targetRef?: HTMLElement;
 
   _isMounted: boolean = false;
   showDelay: number = this.props.trigger === 'click' ? 0 : 500;

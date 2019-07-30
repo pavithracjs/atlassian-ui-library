@@ -1,10 +1,10 @@
 import * as React from 'react';
-import InlineDialog from '@atlaskit/inline-dialog';
+import InlineDialog, { Placement } from '@atlaskit/inline-dialog';
 
 interface Props {
   children: React.ReactNode;
   content: React.ReactNode;
-  placement?: string;
+  placement?: Placement;
 }
 
 interface State {
