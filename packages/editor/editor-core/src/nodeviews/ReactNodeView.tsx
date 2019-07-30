@@ -120,10 +120,7 @@ export default class ReactNodeView<P = ReactComponentProps>
     }
   }
 
-  render(
-    props: ReactComponentProps,
-    forwardRef?: ForwardRef,
-  ): React.ReactElement<any> | null {
+  render(props: P, forwardRef?: ForwardRef): React.ReactElement<any> | null {
     return this.reactComponent ? (
       <this.reactComponent
         view={this.view}
