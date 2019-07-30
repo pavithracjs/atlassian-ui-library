@@ -145,7 +145,6 @@ function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
     new RegExp('gateway/api/ccsearch-autocomplete'),
     (request: Request) => {
       const query = request.split('query=')[1];
-      console.log('hits mockAutoCompleteApi', query);
       const tokens = query.split('+');
       const lastToken = tokens.slice(-1)[0];
       if (lastToken.length === 0) {
