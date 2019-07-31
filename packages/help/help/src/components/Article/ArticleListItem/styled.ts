@@ -49,7 +49,7 @@ export const ArticlesListItemTitleIcon = styled.div`
 
 export const ArticlesListItemTitleText = styled.span`
   text-decoration: none;
-  color: ${colors.N400};
+  color: ${colors.N800};
   font-size: ${fontSize()}px;
   font-weight: 600;
   display: inline-block;
@@ -60,7 +60,7 @@ export const ArticlesListItemTitleText = styled.span`
 
 export const ArticlesListItemDescription = styled.p`
   display: block;
-  color: ${colors.N200};
+  color: ${colors.N400};
   padding-left: ${gridSize() * 4}px;
   max-height: 3.6rem;
   margin: 0;
