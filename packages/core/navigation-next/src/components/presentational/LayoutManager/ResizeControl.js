@@ -38,24 +38,6 @@ const shouldResetGrabArea = (width: number) => {
   return width >= GLOBAL_NAV_COLLAPSE_THRESHOLD && width < CONTENT_NAV_WIDTH;
 };
 
-// https://allyjs.io/tutorials/hiding-elements.html#2017-edition-of-visuallyhidden
-const VisuallyHidden = (props: *) => (
-  <span
-    css={{
-      position: 'absolute',
-      width: '1px',
-      height: '1px',
-      margin: '-1px',
-      border: '0',
-      padding: '0',
-      whiteSpace: 'nowrap',
-      clipPath: 'inset(100%)',
-      clip: 'rect(0 0 0 0)',
-      overflow: 'hidden',
-    }}
-    {...props}
-  />
-);
 const Outer = (props: *) => (
   <div css={{ position: 'relative', width: OUTER_WIDTH }} {...props} />
 );
