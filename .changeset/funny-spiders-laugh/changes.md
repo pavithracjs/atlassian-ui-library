@@ -1,0 +1,1 @@
+Added analytics when user clicks the create team link
