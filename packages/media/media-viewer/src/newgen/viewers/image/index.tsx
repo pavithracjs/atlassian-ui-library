@@ -63,35 +63,35 @@ export class ImageViewer extends BaseViewer<
       let orientation = 1;
       let objectUrl: string;
 
-      if (isImageRepresentationReady(file)) {
-        const item = processedFileStateToMediaItem(file);
-        const controller =
-          typeof AbortController !== 'undefined'
-            ? new AbortController()
-            : undefined;
-        const response = mediaClient.getImage(
-          item.details.id,
-          {
-            width: 4096,
-            height: 4096,
-            mode: 'fit',
-            allowAnimated: true,
-            collection: collectionName,
-          },
-          controller,
-        );
-        this.cancelImageFetch = () => controller && controller.abort();
-        objectUrl = URL.createObjectURL(await response);
+      const { preview } = file;
+      if (preview) {
+        const { value } = await preview;
+        if (value instanceof Blob) {
+          orientation = await getOrientation(value as File);
+          objectUrl = URL.createObjectURL(value);
+        } else {
+          objectUrl = value;
+        }
       } else {
-        const { preview } = file;
-        if (preview) {
-          const { value } = await preview;
-          if (value instanceof Blob) {
-            orientation = await getOrientation(value as File);
-            objectUrl = URL.createObjectURL(value);
-          } else {
-            objectUrl = value;
-          }
+        if (isImageRepresentationReady(file)) {
+          const item = processedFileStateToMediaItem(file);
+          const controller =
+            typeof AbortController !== 'undefined'
+              ? new AbortController()
+              : undefined;
+          const response = mediaClient.getImage(
+            item.details.id,
+            {
+              width: 4096,
+              height: 4096,
+              mode: 'fit',
+              allowAnimated: true,
+              collection: collectionName,
+            },
+            controller,
+          );
+          this.cancelImageFetch = () => controller && controller.abort();
+          objectUrl = URL.createObjectURL(await response);
         } else {
           this.setState({
             content: Outcome.pending(),

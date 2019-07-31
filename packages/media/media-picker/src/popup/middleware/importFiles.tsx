@@ -130,8 +130,9 @@ const getPreviewByService = (
       // We fetch a good size image, since it can be opened later on in MV
       const blob = await userMediaClient.getImage(fileId, {
         collection: RECENTS_COLLECTION,
-        width: 1920,
-        height: 1080,
+        width: 4096,
+        height: 4096,
+        allowAnimated: true,
         mode: 'fit',
       });
 

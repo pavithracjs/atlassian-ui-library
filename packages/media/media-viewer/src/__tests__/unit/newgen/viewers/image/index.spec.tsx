@@ -93,7 +93,7 @@ describe('ImageViewer', () => {
     expect(revokeObjectUrl).toHaveBeenCalled();
   });
 
-  it('should call mediaClient.getImage when image representation is present', async () => {
+  it('should call mediaClient.getImage when image representation is present and no preview is present', async () => {
     const response = Promise.resolve(new Blob());
     const { el, mediaClient } = createFixture(response);
 
@@ -111,6 +111,19 @@ describe('ImageViewer', () => {
       }),
       expect.anything(),
     );
+  });
+
+  it('should not call mediaClient.getImage when image representation and a preview is present', async () => {
+    const response = Promise.resolve(new Blob());
+    const { el, mediaClient } = createFixture(response, {
+      ...imageItem,
+      preview: { value: new Blob() },
+    });
+
+    await response;
+    el.update();
+
+    expect(mediaClient.getImage).not.toHaveBeenCalled();
   });
 
   it('should not call mediaClient.getImage when image representation is not present', async () => {

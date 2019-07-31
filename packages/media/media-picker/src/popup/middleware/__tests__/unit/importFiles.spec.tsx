@@ -653,9 +653,10 @@ describe('importFiles middleware', () => {
             expect(userMediaClient.getImage).toBeCalledTimes(1);
             expect(userMediaClient.getImage).toBeCalledWith('id-1', {
               collection: RECENTS_COLLECTION,
-              width: 1920,
-              height: 1080,
+              width: 4096,
+              height: 4096,
               mode: 'fit',
+              allowAnimated: true,
             });
             done();
           }
