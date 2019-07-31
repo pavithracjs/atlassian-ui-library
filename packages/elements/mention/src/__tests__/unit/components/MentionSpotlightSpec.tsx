@@ -17,7 +17,17 @@ function render(props: Partial<Props>) {
 let mockRegisterRender = jest.fn();
 let mockRegisterCreateLinkClick = jest.fn();
 let mockFireAnalyticsSpotlightMentionEvent = jest.fn();
-//mockFireAnalyticsSpotlightMentionEvent.mockReturnValue = () => jest.fn();
+
+jest.mock(
+  '../../../components/MentionSpotlight/MentionSpotlightController',
+  () => ({
+    __esModule: true,
+    default: {
+      registerRender: () => mockRegisterRender(),
+      registerCreateLinkClick: () => mockRegisterCreateLinkClick(),
+    },
+  }),
+);
 
 jest.mock('../../../util/analytics', () => {
   const mockActualAnalytics = require.requireActual('../../../util/analytics');
