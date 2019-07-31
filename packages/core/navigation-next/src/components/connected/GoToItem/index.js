@@ -49,6 +49,17 @@ class GoToItem extends Component<GoToItemProps> {
       return;
     }
 
+    // Hijack focus only if the event is
+    // from a keyboard.
+    const scrollProvider = document.querySelector('[data-scroll-provider]');
+    if (
+      e.nativeEvent.clientX === 0 &&
+      e.nativeEvent.clientY === 0 &&
+      scrollProvider
+    ) {
+      scrollProvider.focus();
+    }
+
     navigationViewController.setView(goTo);
   };
 

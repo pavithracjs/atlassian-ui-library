@@ -40,6 +40,11 @@ const ScrollProvider = ({ isVisible, ...props }: any) => (
       overflowY: 'auto',
       width: '100%',
     }}
+    tabIndex={-1}
+    role="group"
+    // the data-attribute is used to set focus
+    // during keyboard driven nested nav transitions
+    data-scroll-provider
     {...props}
   />
 );

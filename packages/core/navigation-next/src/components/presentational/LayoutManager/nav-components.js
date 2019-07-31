@@ -99,7 +99,7 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
                 backgroundColor: colors.N40A,
               },
             }}
-            tabIndex="0"
+            tabIndex={-1}
           />
         ) : /* eslint-enable */
         null}
