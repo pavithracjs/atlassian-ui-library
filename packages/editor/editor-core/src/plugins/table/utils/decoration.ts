@@ -130,13 +130,11 @@ export const createColumnControlsDecoration = (
       if (colswidth) {
         const lastWidth = i === 0 ? 0 : colswidth[i - 1];
         const width = colswidth[i];
-        element.style.width =
-          i + 1 === colspan
-            ? `calc(100% + ${tableCellPadding * 2 +
-                tableCellBorderWidth -
-                lastWidth}px)`
-            : `${width}px`;
-        element.style.marginLeft = `${lastWidth + tableCellBorderWidth}px`;
+        element.style.width = `${width}px`;
+        element.style.marginLeft = `${lastWidth}px`;
+      } else {
+        element.style.width = `calc(100% + ${tableCellPadding * 2 +
+          tableCellBorderWidth}px)`;
       }
 
       const decoration = Decoration.widget(

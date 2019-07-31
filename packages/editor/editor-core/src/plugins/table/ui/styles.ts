@@ -321,7 +321,7 @@ const columnControlsDecoration = `
     display: none;
     cursor: pointer;
     position: absolute;
-    width: calc(100% + ${(tableCellPadding + tableCellBorderWidth) * 2}px);
+
     left: -${tableCellPadding + tableCellBorderWidth}px;
     top: -${columnControlsDecorationHeight + tableCellPadding + tableCellBorderWidth}px;
     height: ${columnControlsDecorationHeight}px;
@@ -337,7 +337,7 @@ const columnControlsDecoration = `
         width: 100%;
         position: absolute;
         top: ${columnControlsDecorationHeight - tableToolbarSize}px;
-        left: 0px;
+        left: ${tableCellBorderWidth}px;
         z-index: ${columnControlsZIndex};
       `)}
     }
