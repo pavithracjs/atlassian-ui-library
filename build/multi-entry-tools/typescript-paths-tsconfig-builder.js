@@ -24,11 +24,7 @@ async function main() {
             ),
             resolutionPath.replace(
               new RegExp(`${cwd}/packages/[A-z\-]+/`),
-              `../../node_modules/@atlaskit/`,
-            ),
-            resolutionPath.replace(
-              new RegExp(`${cwd}/[A-z]+/[A-z\-]+/`),
-              `./node_modules/@atlaskit/`,
+              `./build/multi-entry-tools/node_modules/@atlaskit/`,
             ),
           ],
         ];

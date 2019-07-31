@@ -5,2658 +5,2127 @@
     "paths": {
       "@atlaskit/codemod-util-shared-styles-to-theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/",
-        "../../node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/",
-        "./node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/"
       ],
       "@atlaskit/codemod-util-shared-styles-to-theme/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/utils",
-        "../../node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/utils",
-        "./node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/codemod-util-shared-styles-to-theme/src/utils"
       ],
       "@atlaskit/mobile-header": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mobile-header/src/",
-        "../../node_modules/@atlaskit/mobile-header/src/",
-        "./node_modules/@atlaskit/mobile-header/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mobile-header/src/"
       ],
       "@atlaskit/mobile-header/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mobile-header/src/styled",
-        "../../node_modules/@atlaskit/mobile-header/src/styled",
-        "./node_modules/@atlaskit/mobile-header/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mobile-header/src/styled"
       ],
       "@atlaskit/panel": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/panel/src/",
-        "../../node_modules/@atlaskit/panel/src/",
-        "./node_modules/@atlaskit/panel/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/panel/src/"
       ],
       "@atlaskit/panel/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/panel/src/types",
-        "../../node_modules/@atlaskit/panel/src/types",
-        "./node_modules/@atlaskit/panel/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/panel/src/types"
       ],
       "@atlaskit/analytics/AnalyticsDecorator": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/AnalyticsDecorator",
-        "../../node_modules/@atlaskit/analytics/src/AnalyticsDecorator",
-        "./node_modules/@atlaskit/analytics/src/AnalyticsDecorator"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/AnalyticsDecorator"
       ],
       "@atlaskit/analytics/AnalyticsDelegate": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/AnalyticsDelegate",
-        "../../node_modules/@atlaskit/analytics/src/AnalyticsDelegate",
-        "./node_modules/@atlaskit/analytics/src/AnalyticsDelegate"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/AnalyticsDelegate"
       ],
       "@atlaskit/analytics/AnalyticsListener": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/AnalyticsListener",
-        "../../node_modules/@atlaskit/analytics/src/AnalyticsListener",
-        "./node_modules/@atlaskit/analytics/src/AnalyticsListener"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/AnalyticsListener"
       ],
       "@atlaskit/analytics/cleanProps": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/cleanProps",
-        "../../node_modules/@atlaskit/analytics/src/cleanProps",
-        "./node_modules/@atlaskit/analytics/src/cleanProps"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/cleanProps"
       ],
       "@atlaskit/analytics.d": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/.d",
-        "../../node_modules/@atlaskit/analytics/src/.d",
-        "./node_modules/@atlaskit/analytics/src/.d"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/.d"
       ],
       "@atlaskit/analytics": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/",
-        "../../node_modules/@atlaskit/analytics/src/",
-        "./node_modules/@atlaskit/analytics/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/"
       ],
       "@atlaskit/analytics/matchEvent": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/matchEvent",
-        "../../node_modules/@atlaskit/analytics/src/matchEvent",
-        "./node_modules/@atlaskit/analytics/src/matchEvent"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/matchEvent"
       ],
       "@atlaskit/analytics/withAnalytics": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics/src/withAnalytics",
-        "../../node_modules/@atlaskit/analytics/src/withAnalytics",
-        "./node_modules/@atlaskit/analytics/src/withAnalytics"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics/src/withAnalytics"
       ],
       "@atlaskit/analytics-next/AnalyticsContext": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsContext",
-        "../../node_modules/@atlaskit/analytics-next/src/AnalyticsContext",
-        "./node_modules/@atlaskit/analytics-next/src/AnalyticsContext"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsContext"
       ],
       "@atlaskit/analytics-next/AnalyticsEvent": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsEvent",
-        "../../node_modules/@atlaskit/analytics-next/src/AnalyticsEvent",
-        "./node_modules/@atlaskit/analytics-next/src/AnalyticsEvent"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsEvent"
       ],
       "@atlaskit/analytics-next/AnalyticsEventMap": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsEventMap",
-        "../../node_modules/@atlaskit/analytics-next/src/AnalyticsEventMap",
-        "./node_modules/@atlaskit/analytics-next/src/AnalyticsEventMap"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsEventMap"
       ],
       "@atlaskit/analytics-next/AnalyticsListener": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsListener",
-        "../../node_modules/@atlaskit/analytics-next/src/AnalyticsListener",
-        "./node_modules/@atlaskit/analytics-next/src/AnalyticsListener"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/AnalyticsListener"
       ],
       "@atlaskit/analytics-next/cleanProps": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/cleanProps",
-        "../../node_modules/@atlaskit/analytics-next/src/cleanProps",
-        "./node_modules/@atlaskit/analytics-next/src/cleanProps"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/cleanProps"
       ],
       "@atlaskit/analytics-next/createAndFireEvent": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/createAndFireEvent",
-        "../../node_modules/@atlaskit/analytics-next/src/createAndFireEvent",
-        "./node_modules/@atlaskit/analytics-next/src/createAndFireEvent"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/createAndFireEvent"
       ],
       "@atlaskit/analytics-next": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/",
-        "../../node_modules/@atlaskit/analytics-next/src/",
-        "./node_modules/@atlaskit/analytics-next/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/"
       ],
       "@atlaskit/analytics-next/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/types",
-        "../../node_modules/@atlaskit/analytics-next/src/types",
-        "./node_modules/@atlaskit/analytics-next/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/types"
       ],
       "@atlaskit/analytics-next/UIAnalyticsEvent": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/UIAnalyticsEvent",
-        "../../node_modules/@atlaskit/analytics-next/src/UIAnalyticsEvent",
-        "./node_modules/@atlaskit/analytics-next/src/UIAnalyticsEvent"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/UIAnalyticsEvent"
       ],
       "@atlaskit/analytics-next/withAnalyticsContext": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/withAnalyticsContext",
-        "../../node_modules/@atlaskit/analytics-next/src/withAnalyticsContext",
-        "./node_modules/@atlaskit/analytics-next/src/withAnalyticsContext"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/withAnalyticsContext"
       ],
       "@atlaskit/analytics-next/withAnalyticsEvents": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/withAnalyticsEvents",
-        "../../node_modules/@atlaskit/analytics-next/src/withAnalyticsEvents",
-        "./node_modules/@atlaskit/analytics-next/src/withAnalyticsEvents"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-next/src/withAnalyticsEvents"
       ],
       "@atlaskit/avatar": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/avatar/src/",
-        "../../node_modules/@atlaskit/avatar/src/",
-        "./node_modules/@atlaskit/avatar/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/avatar/src/"
       ],
       "@atlaskit/avatar/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/avatar/src/types",
-        "../../node_modules/@atlaskit/avatar/src/types",
-        "./node_modules/@atlaskit/avatar/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/avatar/src/types"
       ],
       "@atlaskit/avatar/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/avatar/src/utils",
-        "../../node_modules/@atlaskit/avatar/src/utils",
-        "./node_modules/@atlaskit/avatar/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/avatar/src/utils"
       ],
       "@atlaskit/avatar-group": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/avatar-group/src/",
-        "../../node_modules/@atlaskit/avatar-group/src/",
-        "./node_modules/@atlaskit/avatar-group/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/avatar-group/src/"
       ],
       "@atlaskit/badge": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/badge/src/",
-        "../../node_modules/@atlaskit/badge/src/",
-        "./node_modules/@atlaskit/badge/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/badge/src/"
       ],
       "@atlaskit/badge/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/badge/src/theme",
-        "../../node_modules/@atlaskit/badge/src/theme",
-        "./node_modules/@atlaskit/badge/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/badge/src/theme"
       ],
       "@atlaskit/banner": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/banner/src/",
-        "../../node_modules/@atlaskit/banner/src/",
-        "./node_modules/@atlaskit/banner/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/banner/src/"
       ],
       "@atlaskit/banner/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/banner/src/styled",
-        "../../node_modules/@atlaskit/banner/src/styled",
-        "./node_modules/@atlaskit/banner/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/banner/src/styled"
       ],
       "@atlaskit/blanket/Blanket": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/blanket/src/Blanket",
-        "../../node_modules/@atlaskit/blanket/src/Blanket",
-        "./node_modules/@atlaskit/blanket/src/Blanket"
+        "./build/multi-entry-tools/node_modules/@atlaskit/blanket/src/Blanket"
       ],
       "@atlaskit/blanket": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/blanket/src/",
-        "../../node_modules/@atlaskit/blanket/src/",
-        "./node_modules/@atlaskit/blanket/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/blanket/src/"
       ],
       "@atlaskit/blanket/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/blanket/src/styled",
-        "../../node_modules/@atlaskit/blanket/src/styled",
-        "./node_modules/@atlaskit/blanket/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/blanket/src/styled"
       ],
       "@atlaskit/breadcrumbs": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/breadcrumbs/src/",
-        "../../node_modules/@atlaskit/breadcrumbs/src/",
-        "./node_modules/@atlaskit/breadcrumbs/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/breadcrumbs/src/"
       ],
       "@atlaskit/breadcrumbs/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/breadcrumbs/src/types",
-        "../../node_modules/@atlaskit/breadcrumbs/src/types",
-        "./node_modules/@atlaskit/breadcrumbs/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/breadcrumbs/src/types"
       ],
       "@atlaskit/button": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/button/src/",
-        "../../node_modules/@atlaskit/button/src/",
-        "./node_modules/@atlaskit/button/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/button/src/"
       ],
       "@atlaskit/button/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/button/src/theme",
-        "../../node_modules/@atlaskit/button/src/theme",
-        "./node_modules/@atlaskit/button/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/button/src/theme"
       ],
       "@atlaskit/button/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/button/src/types",
-        "../../node_modules/@atlaskit/button/src/types",
-        "./node_modules/@atlaskit/button/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/button/src/types"
       ],
       "@atlaskit/calendar": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/calendar/src/",
-        "../../node_modules/@atlaskit/calendar/src/",
-        "./node_modules/@atlaskit/calendar/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/calendar/src/"
       ],
       "@atlaskit/calendar/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/calendar/src/types",
-        "../../node_modules/@atlaskit/calendar/src/types",
-        "./node_modules/@atlaskit/calendar/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/calendar/src/types"
       ],
       "@atlaskit/checkbox/Checkbox": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/Checkbox",
-        "../../node_modules/@atlaskit/checkbox/src/Checkbox",
-        "./node_modules/@atlaskit/checkbox/src/Checkbox"
+        "./build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/Checkbox"
       ],
       "@atlaskit/checkbox/CheckboxIcon": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/CheckboxIcon",
-        "../../node_modules/@atlaskit/checkbox/src/CheckboxIcon",
-        "./node_modules/@atlaskit/checkbox/src/CheckboxIcon"
+        "./build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/CheckboxIcon"
       ],
       "@atlaskit/checkbox": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/",
-        "../../node_modules/@atlaskit/checkbox/src/",
-        "./node_modules/@atlaskit/checkbox/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/"
       ],
       "@atlaskit/checkbox/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/types",
-        "../../node_modules/@atlaskit/checkbox/src/types",
-        "./node_modules/@atlaskit/checkbox/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/checkbox/src/types"
       ],
       "@atlaskit/code": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/code/src/",
-        "../../node_modules/@atlaskit/code/src/",
-        "./node_modules/@atlaskit/code/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/code/src/"
       ],
       "@atlaskit/code/supportedLanguages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/code/src/supportedLanguages",
-        "../../node_modules/@atlaskit/code/src/supportedLanguages",
-        "./node_modules/@atlaskit/code/src/supportedLanguages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/code/src/supportedLanguages"
       ],
       "@atlaskit/code/ThemedCode": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/code/src/ThemedCode",
-        "../../node_modules/@atlaskit/code/src/ThemedCode",
-        "./node_modules/@atlaskit/code/src/ThemedCode"
+        "./build/multi-entry-tools/node_modules/@atlaskit/code/src/ThemedCode"
       ],
       "@atlaskit/code/ThemedCodeBlock": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/code/src/ThemedCodeBlock",
-        "../../node_modules/@atlaskit/code/src/ThemedCodeBlock",
-        "./node_modules/@atlaskit/code/src/ThemedCodeBlock"
+        "./build/multi-entry-tools/node_modules/@atlaskit/code/src/ThemedCodeBlock"
       ],
       "@atlaskit/comment": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/comment/src/",
-        "../../node_modules/@atlaskit/comment/src/",
-        "./node_modules/@atlaskit/comment/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/comment/src/"
       ],
       "@atlaskit/datetime-picker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/datetime-picker/src/",
-        "../../node_modules/@atlaskit/datetime-picker/src/",
-        "./node_modules/@atlaskit/datetime-picker/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/datetime-picker/src/"
       ],
       "@atlaskit/drawer/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/drawer/src/constants",
-        "../../node_modules/@atlaskit/drawer/src/constants",
-        "./node_modules/@atlaskit/drawer/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/drawer/src/constants"
       ],
       "@atlaskit/drawer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/drawer/src/",
-        "../../node_modules/@atlaskit/drawer/src/",
-        "./node_modules/@atlaskit/drawer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/drawer/src/"
       ],
       "@atlaskit/dropdown-menu": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dropdown-menu/src/",
-        "../../node_modules/@atlaskit/dropdown-menu/src/",
-        "./node_modules/@atlaskit/dropdown-menu/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dropdown-menu/src/"
       ],
       "@atlaskit/dropdown-menu/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dropdown-menu/src/types",
-        "../../node_modules/@atlaskit/dropdown-menu/src/types",
-        "./node_modules/@atlaskit/dropdown-menu/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dropdown-menu/src/types"
       ],
       "@atlaskit/droplist": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/droplist/src/",
-        "../../node_modules/@atlaskit/droplist/src/",
-        "./node_modules/@atlaskit/droplist/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/droplist/src/"
       ],
       "@atlaskit/droplist/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/droplist/src/types",
-        "../../node_modules/@atlaskit/droplist/src/types",
-        "./node_modules/@atlaskit/droplist/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/droplist/src/types"
       ],
       "@atlaskit/dynamic-table": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dynamic-table/src/",
-        "../../node_modules/@atlaskit/dynamic-table/src/",
-        "./node_modules/@atlaskit/dynamic-table/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dynamic-table/src/"
       ],
       "@atlaskit/dynamic-table/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dynamic-table/src/theme",
-        "../../node_modules/@atlaskit/dynamic-table/src/theme",
-        "./node_modules/@atlaskit/dynamic-table/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dynamic-table/src/theme"
       ],
       "@atlaskit/dynamic-table/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dynamic-table/src/types",
-        "../../node_modules/@atlaskit/dynamic-table/src/types",
-        "./node_modules/@atlaskit/dynamic-table/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dynamic-table/src/types"
       ],
       "@atlaskit/empty-state": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/empty-state/src/",
-        "../../node_modules/@atlaskit/empty-state/src/",
-        "./node_modules/@atlaskit/empty-state/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/empty-state/src/"
       ],
       "@atlaskit/feedback-collector": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feedback-collector/src/",
-        "../../node_modules/@atlaskit/feedback-collector/src/",
-        "./node_modules/@atlaskit/feedback-collector/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feedback-collector/src/"
       ],
       "@atlaskit/feedback-collector/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feedback-collector/src/types",
-        "../../node_modules/@atlaskit/feedback-collector/src/types",
-        "./node_modules/@atlaskit/feedback-collector/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feedback-collector/src/types"
       ],
       "@atlaskit/field-base": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-base/src/",
-        "../../node_modules/@atlaskit/field-base/src/",
-        "./node_modules/@atlaskit/field-base/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-base/src/"
       ],
       "@atlaskit/field-base/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-base/src/types",
-        "../../node_modules/@atlaskit/field-base/src/types",
-        "./node_modules/@atlaskit/field-base/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-base/src/types"
       ],
       "@atlaskit/field-radio-group": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/",
-        "../../node_modules/@atlaskit/field-radio-group/src/",
-        "./node_modules/@atlaskit/field-radio-group/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/"
       ],
       "@atlaskit/field-radio-group/Radio": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/Radio",
-        "../../node_modules/@atlaskit/field-radio-group/src/Radio",
-        "./node_modules/@atlaskit/field-radio-group/src/Radio"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/Radio"
       ],
       "@atlaskit/field-radio-group/RadioBase": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/RadioBase",
-        "../../node_modules/@atlaskit/field-radio-group/src/RadioBase",
-        "./node_modules/@atlaskit/field-radio-group/src/RadioBase"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/RadioBase"
       ],
       "@atlaskit/field-radio-group/RadioGroup": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/RadioGroup",
-        "../../node_modules/@atlaskit/field-radio-group/src/RadioGroup",
-        "./node_modules/@atlaskit/field-radio-group/src/RadioGroup"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/RadioGroup"
       ],
       "@atlaskit/field-radio-group/RadioGroupStateless": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/RadioGroupStateless",
-        "../../node_modules/@atlaskit/field-radio-group/src/RadioGroupStateless",
-        "./node_modules/@atlaskit/field-radio-group/src/RadioGroupStateless"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/RadioGroupStateless"
       ],
       "@atlaskit/field-radio-group/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/types",
-        "../../node_modules/@atlaskit/field-radio-group/src/types",
-        "./node_modules/@atlaskit/field-radio-group/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-radio-group/src/types"
       ],
       "@atlaskit/field-range/FieldRange": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-range/src/FieldRange",
-        "../../node_modules/@atlaskit/field-range/src/FieldRange",
-        "./node_modules/@atlaskit/field-range/src/FieldRange"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-range/src/FieldRange"
       ],
       "@atlaskit/field-range": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-range/src/",
-        "../../node_modules/@atlaskit/field-range/src/",
-        "./node_modules/@atlaskit/field-range/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-range/src/"
       ],
       "@atlaskit/field-range/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-range/src/styled",
-        "../../node_modules/@atlaskit/field-range/src/styled",
-        "./node_modules/@atlaskit/field-range/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-range/src/styled"
       ],
       "@atlaskit/field-range/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-range/src/theme",
-        "../../node_modules/@atlaskit/field-range/src/theme",
-        "./node_modules/@atlaskit/field-range/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-range/src/theme"
       ],
       "@atlaskit/field-text/FieldText": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-text/src/FieldText",
-        "../../node_modules/@atlaskit/field-text/src/FieldText",
-        "./node_modules/@atlaskit/field-text/src/FieldText"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-text/src/FieldText"
       ],
       "@atlaskit/field-text/FieldTextStateless": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-text/src/FieldTextStateless",
-        "../../node_modules/@atlaskit/field-text/src/FieldTextStateless",
-        "./node_modules/@atlaskit/field-text/src/FieldTextStateless"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-text/src/FieldTextStateless"
       ],
       "@atlaskit/field-text": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-text/src/",
-        "../../node_modules/@atlaskit/field-text/src/",
-        "./node_modules/@atlaskit/field-text/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-text/src/"
       ],
       "@atlaskit/field-text/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-text/src/types",
-        "../../node_modules/@atlaskit/field-text/src/types",
-        "./node_modules/@atlaskit/field-text/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-text/src/types"
       ],
       "@atlaskit/field-text-area/FieldTextArea": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-text-area/src/FieldTextArea",
-        "../../node_modules/@atlaskit/field-text-area/src/FieldTextArea",
-        "./node_modules/@atlaskit/field-text-area/src/FieldTextArea"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-text-area/src/FieldTextArea"
       ],
       "@atlaskit/field-text-area/FieldTextAreaStateless": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-text-area/src/FieldTextAreaStateless",
-        "../../node_modules/@atlaskit/field-text-area/src/FieldTextAreaStateless",
-        "./node_modules/@atlaskit/field-text-area/src/FieldTextAreaStateless"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-text-area/src/FieldTextAreaStateless"
       ],
       "@atlaskit/field-text-area": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/field-text-area/src/",
-        "../../node_modules/@atlaskit/field-text-area/src/",
-        "./node_modules/@atlaskit/field-text-area/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/field-text-area/src/"
       ],
       "@atlaskit/flag": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/flag/src/",
-        "../../node_modules/@atlaskit/flag/src/",
-        "./node_modules/@atlaskit/flag/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/flag/src/"
       ],
       "@atlaskit/flag/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/flag/src/theme",
-        "../../node_modules/@atlaskit/flag/src/theme",
-        "./node_modules/@atlaskit/flag/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/flag/src/theme"
       ],
       "@atlaskit/flag/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/flag/src/types",
-        "../../node_modules/@atlaskit/flag/src/types",
-        "./node_modules/@atlaskit/flag/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/flag/src/types"
       ],
       "@atlaskit/form/CheckboxField": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/CheckboxField",
-        "../../node_modules/@atlaskit/form/src/CheckboxField",
-        "./node_modules/@atlaskit/form/src/CheckboxField"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/CheckboxField"
       ],
       "@atlaskit/form/Field": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/Field",
-        "../../node_modules/@atlaskit/form/src/Field",
-        "./node_modules/@atlaskit/form/src/Field"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/Field"
       ],
       "@atlaskit/form/Fieldset": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/Fieldset",
-        "../../node_modules/@atlaskit/form/src/Fieldset",
-        "./node_modules/@atlaskit/form/src/Fieldset"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/Fieldset"
       ],
       "@atlaskit/form/Form": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/Form",
-        "../../node_modules/@atlaskit/form/src/Form",
-        "./node_modules/@atlaskit/form/src/Form"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/Form"
       ],
       "@atlaskit/form/FormFooter": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/FormFooter",
-        "../../node_modules/@atlaskit/form/src/FormFooter",
-        "./node_modules/@atlaskit/form/src/FormFooter"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/FormFooter"
       ],
       "@atlaskit/form/FormHeader": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/FormHeader",
-        "../../node_modules/@atlaskit/form/src/FormHeader",
-        "./node_modules/@atlaskit/form/src/FormHeader"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/FormHeader"
       ],
       "@atlaskit/form/FormSection": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/FormSection",
-        "../../node_modules/@atlaskit/form/src/FormSection",
-        "./node_modules/@atlaskit/form/src/FormSection"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/FormSection"
       ],
       "@atlaskit/form": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/",
-        "../../node_modules/@atlaskit/form/src/",
-        "./node_modules/@atlaskit/form/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/"
       ],
       "@atlaskit/form/Messages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/form/src/Messages",
-        "../../node_modules/@atlaskit/form/src/Messages",
-        "./node_modules/@atlaskit/form/src/Messages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/form/src/Messages"
       ],
       "@atlaskit/global-navigation/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/global-navigation/src/constants",
-        "../../node_modules/@atlaskit/global-navigation/src/constants",
-        "./node_modules/@atlaskit/global-navigation/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/global-navigation/src/constants"
       ],
       "@atlaskit/global-navigation": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/global-navigation/src/",
-        "../../node_modules/@atlaskit/global-navigation/src/",
-        "./node_modules/@atlaskit/global-navigation/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/global-navigation/src/"
       ],
       "@atlaskit/icon/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon/src/constants",
-        "../../node_modules/@atlaskit/icon/src/constants",
-        "./node_modules/@atlaskit/icon/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon/src/constants"
       ],
       "@atlaskit/icon": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon/src/",
-        "../../node_modules/@atlaskit/icon/src/",
-        "./node_modules/@atlaskit/icon/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon/src/"
       ],
       "@atlaskit/icon/metadata": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon/src/metadata",
-        "../../node_modules/@atlaskit/icon/src/metadata",
-        "./node_modules/@atlaskit/icon/src/metadata"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon/src/metadata"
       ],
       "@atlaskit/icon/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon/src/types",
-        "../../node_modules/@atlaskit/icon/src/types",
-        "./node_modules/@atlaskit/icon/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon/src/types"
       ],
       "@atlaskit/icon-file-type": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon-file-type/src/",
-        "../../node_modules/@atlaskit/icon-file-type/src/",
-        "./node_modules/@atlaskit/icon-file-type/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon-file-type/src/"
       ],
       "@atlaskit/icon-file-type/metadata": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon-file-type/src/metadata",
-        "../../node_modules/@atlaskit/icon-file-type/src/metadata",
-        "./node_modules/@atlaskit/icon-file-type/src/metadata"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon-file-type/src/metadata"
       ],
       "@atlaskit/icon-object": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon-object/src/",
-        "../../node_modules/@atlaskit/icon-object/src/",
-        "./node_modules/@atlaskit/icon-object/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon-object/src/"
       ],
       "@atlaskit/icon-object/metadata": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon-object/src/metadata",
-        "../../node_modules/@atlaskit/icon-object/src/metadata",
-        "./node_modules/@atlaskit/icon-object/src/metadata"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon-object/src/metadata"
       ],
       "@atlaskit/icon-priority": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon-priority/src/",
-        "../../node_modules/@atlaskit/icon-priority/src/",
-        "./node_modules/@atlaskit/icon-priority/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon-priority/src/"
       ],
       "@atlaskit/icon-priority/metadata": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/icon-priority/src/metadata",
-        "../../node_modules/@atlaskit/icon-priority/src/metadata",
-        "./node_modules/@atlaskit/icon-priority/src/metadata"
+        "./build/multi-entry-tools/node_modules/@atlaskit/icon-priority/src/metadata"
       ],
       "@atlaskit/inline-dialog": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/inline-dialog/src/",
-        "../../node_modules/@atlaskit/inline-dialog/src/",
-        "./node_modules/@atlaskit/inline-dialog/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/inline-dialog/src/"
       ],
       "@atlaskit/inline-dialog/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/inline-dialog/src/types",
-        "../../node_modules/@atlaskit/inline-dialog/src/types",
-        "./node_modules/@atlaskit/inline-dialog/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/inline-dialog/src/types"
       ],
       "@atlaskit/inline-edit": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/inline-edit/src/",
-        "../../node_modules/@atlaskit/inline-edit/src/",
-        "./node_modules/@atlaskit/inline-edit/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/inline-edit/src/"
       ],
       "@atlaskit/inline-edit/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/inline-edit/src/types",
-        "../../node_modules/@atlaskit/inline-edit/src/types",
-        "./node_modules/@atlaskit/inline-edit/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/inline-edit/src/types"
       ],
       "@atlaskit/inline-message/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/inline-message/src/constants",
-        "../../node_modules/@atlaskit/inline-message/src/constants",
-        "./node_modules/@atlaskit/inline-message/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/inline-message/src/constants"
       ],
       "@atlaskit/inline-message": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/inline-message/src/",
-        "../../node_modules/@atlaskit/inline-message/src/",
-        "./node_modules/@atlaskit/inline-message/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/inline-message/src/"
       ],
       "@atlaskit/inline-message/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/inline-message/src/types",
-        "../../node_modules/@atlaskit/inline-message/src/types",
-        "./node_modules/@atlaskit/inline-message/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/inline-message/src/types"
       ],
       "@atlaskit/input": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/input/src/",
-        "../../node_modules/@atlaskit/input/src/",
-        "./node_modules/@atlaskit/input/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/input/src/"
       ],
       "@atlaskit/input/SingleLineTextInput": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/input/src/SingleLineTextInput",
-        "../../node_modules/@atlaskit/input/src/SingleLineTextInput",
-        "./node_modules/@atlaskit/input/src/SingleLineTextInput"
+        "./build/multi-entry-tools/node_modules/@atlaskit/input/src/SingleLineTextInput"
       ],
       "@atlaskit/item": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/item/src/",
-        "../../node_modules/@atlaskit/item/src/",
-        "./node_modules/@atlaskit/item/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/item/src/"
       ],
       "@atlaskit/item/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/item/src/types",
-        "../../node_modules/@atlaskit/item/src/types",
-        "./node_modules/@atlaskit/item/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/item/src/types"
       ],
       "@atlaskit/layer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/layer/src/",
-        "../../node_modules/@atlaskit/layer/src/",
-        "./node_modules/@atlaskit/layer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/layer/src/"
       ],
       "@atlaskit/layer/styledContentContainer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/layer/src/styledContentContainer",
-        "../../node_modules/@atlaskit/layer/src/styledContentContainer",
-        "./node_modules/@atlaskit/layer/src/styledContentContainer"
+        "./build/multi-entry-tools/node_modules/@atlaskit/layer/src/styledContentContainer"
       ],
       "@atlaskit/layer/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/layer/src/types",
-        "../../node_modules/@atlaskit/layer/src/types",
-        "./node_modules/@atlaskit/layer/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/layer/src/types"
       ],
       "@atlaskit/layer-manager": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/layer-manager/src/",
-        "../../node_modules/@atlaskit/layer-manager/src/",
-        "./node_modules/@atlaskit/layer-manager/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/layer-manager/src/"
       ],
       "@atlaskit/logo/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/logo/src/constants",
-        "../../node_modules/@atlaskit/logo/src/constants",
-        "./node_modules/@atlaskit/logo/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/logo/src/constants"
       ],
       "@atlaskit/logo": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/logo/src/",
-        "../../node_modules/@atlaskit/logo/src/",
-        "./node_modules/@atlaskit/logo/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/logo/src/"
       ],
       "@atlaskit/logo/Wrapper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/logo/src/Wrapper",
-        "../../node_modules/@atlaskit/logo/src/Wrapper",
-        "./node_modules/@atlaskit/logo/src/Wrapper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/logo/src/Wrapper"
       ],
       "@atlaskit/lozenge": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/lozenge/src/",
-        "../../node_modules/@atlaskit/lozenge/src/",
-        "./node_modules/@atlaskit/lozenge/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/lozenge/src/"
       ],
       "@atlaskit/lozenge/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/lozenge/src/theme",
-        "../../node_modules/@atlaskit/lozenge/src/theme",
-        "./node_modules/@atlaskit/lozenge/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/lozenge/src/theme"
       ],
       "@atlaskit/modal-dialog": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/modal-dialog/src/",
-        "../../node_modules/@atlaskit/modal-dialog/src/",
-        "./node_modules/@atlaskit/modal-dialog/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/modal-dialog/src/"
       ],
       "@atlaskit/modal-dialog/shared-variables": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/modal-dialog/src/shared-variables",
-        "../../node_modules/@atlaskit/modal-dialog/src/shared-variables",
-        "./node_modules/@atlaskit/modal-dialog/src/shared-variables"
+        "./build/multi-entry-tools/node_modules/@atlaskit/modal-dialog/src/shared-variables"
       ],
       "@atlaskit/modal-dialog/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/modal-dialog/src/types",
-        "../../node_modules/@atlaskit/modal-dialog/src/types",
-        "./node_modules/@atlaskit/modal-dialog/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/modal-dialog/src/types"
       ],
       "@atlaskit/multi-select": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/multi-select/src/",
-        "../../node_modules/@atlaskit/multi-select/src/",
-        "./node_modules/@atlaskit/multi-select/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/multi-select/src/"
       ],
       "@atlaskit/multi-select/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/multi-select/src/types",
-        "../../node_modules/@atlaskit/multi-select/src/types",
-        "./node_modules/@atlaskit/multi-select/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/multi-select/src/types"
       ],
       "@atlaskit/navigation": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation/src/",
-        "../../node_modules/@atlaskit/navigation/src/",
-        "./node_modules/@atlaskit/navigation/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation/src/"
       ],
       "@atlaskit/navigation/shared-variables": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation/src/shared-variables",
-        "../../node_modules/@atlaskit/navigation/src/shared-variables",
-        "./node_modules/@atlaskit/navigation/src/shared-variables"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation/src/shared-variables"
       ],
       "@atlaskit/navigation/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation/src/types",
-        "../../node_modules/@atlaskit/navigation/src/types",
-        "./node_modules/@atlaskit/navigation/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation/src/types"
       ],
       "@atlaskit/navigation-next/AsyncLayoutManagerWithViewController": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/AsyncLayoutManagerWithViewController",
-        "../../node_modules/@atlaskit/navigation-next/src/AsyncLayoutManagerWithViewController",
-        "./node_modules/@atlaskit/navigation-next/src/AsyncLayoutManagerWithViewController"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/AsyncLayoutManagerWithViewController"
       ],
       "@atlaskit/navigation-next/GlobalNavigationSkeleton": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/GlobalNavigationSkeleton",
-        "../../node_modules/@atlaskit/navigation-next/src/GlobalNavigationSkeleton",
-        "./node_modules/@atlaskit/navigation-next/src/GlobalNavigationSkeleton"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/GlobalNavigationSkeleton"
       ],
       "@atlaskit/navigation-next": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/",
-        "../../node_modules/@atlaskit/navigation-next/src/",
-        "./node_modules/@atlaskit/navigation-next/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/"
       ],
       "@atlaskit/navigation-next/ItemsRenderer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/ItemsRenderer",
-        "../../node_modules/@atlaskit/navigation-next/src/ItemsRenderer",
-        "./node_modules/@atlaskit/navigation-next/src/ItemsRenderer"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/ItemsRenderer"
       ],
       "@atlaskit/navigation-next/LayoutManagerWithViewController": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/LayoutManagerWithViewController",
-        "../../node_modules/@atlaskit/navigation-next/src/LayoutManagerWithViewController",
-        "./node_modules/@atlaskit/navigation-next/src/LayoutManagerWithViewController"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/LayoutManagerWithViewController"
       ],
       "@atlaskit/navigation-next/NavigationProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/NavigationProvider",
-        "../../node_modules/@atlaskit/navigation-next/src/NavigationProvider",
-        "./node_modules/@atlaskit/navigation-next/src/NavigationProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/NavigationProvider"
       ],
       "@atlaskit/navigation-next/SkeletonContainerView": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/SkeletonContainerView",
-        "../../node_modules/@atlaskit/navigation-next/src/SkeletonContainerView",
-        "./node_modules/@atlaskit/navigation-next/src/SkeletonContainerView"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/SkeletonContainerView"
       ],
       "@atlaskit/navigation-next/ui-controller": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/ui-controller",
-        "../../node_modules/@atlaskit/navigation-next/src/ui-controller",
-        "./node_modules/@atlaskit/navigation-next/src/ui-controller"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/ui-controller"
       ],
       "@atlaskit/navigation-next/view-controller": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/view-controller",
-        "../../node_modules/@atlaskit/navigation-next/src/view-controller",
-        "./node_modules/@atlaskit/navigation-next/src/view-controller"
+        "./build/multi-entry-tools/node_modules/@atlaskit/navigation-next/src/view-controller"
       ],
       "@atlaskit/nps": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/nps/src/",
-        "../../node_modules/@atlaskit/nps/src/",
-        "./node_modules/@atlaskit/nps/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/nps/src/"
       ],
       "@atlaskit/onboarding": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/onboarding/src/",
-        "../../node_modules/@atlaskit/onboarding/src/",
-        "./node_modules/@atlaskit/onboarding/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/onboarding/src/"
       ],
       "@atlaskit/onboarding/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/onboarding/src/types",
-        "../../node_modules/@atlaskit/onboarding/src/types",
-        "./node_modules/@atlaskit/onboarding/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/onboarding/src/types"
       ],
       "@atlaskit/page/Grid": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/page/src/Grid",
-        "../../node_modules/@atlaskit/page/src/Grid",
-        "./node_modules/@atlaskit/page/src/Grid"
+        "./build/multi-entry-tools/node_modules/@atlaskit/page/src/Grid"
       ],
       "@atlaskit/page/GridColumn": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/page/src/GridColumn",
-        "../../node_modules/@atlaskit/page/src/GridColumn",
-        "./node_modules/@atlaskit/page/src/GridColumn"
+        "./build/multi-entry-tools/node_modules/@atlaskit/page/src/GridColumn"
       ],
       "@atlaskit/page": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/page/src/",
-        "../../node_modules/@atlaskit/page/src/",
-        "./node_modules/@atlaskit/page/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/page/src/"
       ],
       "@atlaskit/page/Page": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/page/src/Page",
-        "../../node_modules/@atlaskit/page/src/Page",
-        "./node_modules/@atlaskit/page/src/Page"
+        "./build/multi-entry-tools/node_modules/@atlaskit/page/src/Page"
       ],
       "@atlaskit/page/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/page/src/types",
-        "../../node_modules/@atlaskit/page/src/types",
-        "./node_modules/@atlaskit/page/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/page/src/types"
       ],
       "@atlaskit/page-header": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/page-header/src/",
-        "../../node_modules/@atlaskit/page-header/src/",
-        "./node_modules/@atlaskit/page-header/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/page-header/src/"
       ],
       "@atlaskit/pagination": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/pagination/src/",
-        "../../node_modules/@atlaskit/pagination/src/",
-        "./node_modules/@atlaskit/pagination/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/pagination/src/"
       ],
       "@atlaskit/pagination/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/pagination/src/types",
-        "../../node_modules/@atlaskit/pagination/src/types",
-        "./node_modules/@atlaskit/pagination/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/pagination/src/types"
       ],
       "@atlaskit/popper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/popper/src/",
-        "../../node_modules/@atlaskit/popper/src/",
-        "./node_modules/@atlaskit/popper/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/popper/src/"
       ],
       "@atlaskit/popper/Popper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/popper/src/Popper",
-        "../../node_modules/@atlaskit/popper/src/Popper",
-        "./node_modules/@atlaskit/popper/src/Popper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/popper/src/Popper"
       ],
       "@atlaskit/popper/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/popper/src/types",
-        "../../node_modules/@atlaskit/popper/src/types",
-        "./node_modules/@atlaskit/popper/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/popper/src/types"
       ],
       "@atlaskit/portal": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/portal/src/",
-        "../../node_modules/@atlaskit/portal/src/",
-        "./node_modules/@atlaskit/portal/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/portal/src/"
       ],
       "@atlaskit/progress-indicator": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/progress-indicator/src/",
-        "../../node_modules/@atlaskit/progress-indicator/src/",
-        "./node_modules/@atlaskit/progress-indicator/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/progress-indicator/src/"
       ],
       "@atlaskit/progress-tracker/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/progress-tracker/src/constants",
-        "../../node_modules/@atlaskit/progress-tracker/src/constants",
-        "./node_modules/@atlaskit/progress-tracker/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/progress-tracker/src/constants"
       ],
       "@atlaskit/progress-tracker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/progress-tracker/src/",
-        "../../node_modules/@atlaskit/progress-tracker/src/",
-        "./node_modules/@atlaskit/progress-tracker/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/progress-tracker/src/"
       ],
       "@atlaskit/progress-tracker/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/progress-tracker/src/types",
-        "../../node_modules/@atlaskit/progress-tracker/src/types",
-        "./node_modules/@atlaskit/progress-tracker/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/progress-tracker/src/types"
       ],
       "@atlaskit/radio": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/radio/src/",
-        "../../node_modules/@atlaskit/radio/src/",
-        "./node_modules/@atlaskit/radio/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/radio/src/"
       ],
       "@atlaskit/radio/Radio": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/radio/src/Radio",
-        "../../node_modules/@atlaskit/radio/src/Radio",
-        "./node_modules/@atlaskit/radio/src/Radio"
+        "./build/multi-entry-tools/node_modules/@atlaskit/radio/src/Radio"
       ],
       "@atlaskit/radio/RadioGroup": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/radio/src/RadioGroup",
-        "../../node_modules/@atlaskit/radio/src/RadioGroup",
-        "./node_modules/@atlaskit/radio/src/RadioGroup"
+        "./build/multi-entry-tools/node_modules/@atlaskit/radio/src/RadioGroup"
       ],
       "@atlaskit/radio/RadioIcon": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/radio/src/RadioIcon",
-        "../../node_modules/@atlaskit/radio/src/RadioIcon",
-        "./node_modules/@atlaskit/radio/src/RadioIcon"
+        "./build/multi-entry-tools/node_modules/@atlaskit/radio/src/RadioIcon"
       ],
       "@atlaskit/radio/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/radio/src/types",
-        "../../node_modules/@atlaskit/radio/src/types",
-        "./node_modules/@atlaskit/radio/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/radio/src/types"
       ],
       "@atlaskit/range": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/range/src/",
-        "../../node_modules/@atlaskit/range/src/",
-        "./node_modules/@atlaskit/range/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/range/src/"
       ],
       "@atlaskit/range/Range": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/range/src/Range",
-        "../../node_modules/@atlaskit/range/src/Range",
-        "./node_modules/@atlaskit/range/src/Range"
+        "./build/multi-entry-tools/node_modules/@atlaskit/range/src/Range"
       ],
       "@atlaskit/range/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/range/src/styled",
-        "../../node_modules/@atlaskit/range/src/styled",
-        "./node_modules/@atlaskit/range/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/range/src/styled"
       ],
       "@atlaskit/range/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/range/src/theme",
-        "../../node_modules/@atlaskit/range/src/theme",
-        "./node_modules/@atlaskit/range/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/range/src/theme"
       ],
       "@atlaskit/right-side-panel": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/right-side-panel/src/",
-        "../../node_modules/@atlaskit/right-side-panel/src/",
-        "./node_modules/@atlaskit/right-side-panel/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/right-side-panel/src/"
       ],
       "@atlaskit/section-message": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/section-message/src/",
-        "../../node_modules/@atlaskit/section-message/src/",
-        "./node_modules/@atlaskit/section-message/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/section-message/src/"
       ],
       "@atlaskit/section-message/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/section-message/src/theme",
-        "../../node_modules/@atlaskit/section-message/src/theme",
-        "./node_modules/@atlaskit/section-message/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/section-message/src/theme"
       ],
       "@atlaskit/section-message/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/section-message/src/types",
-        "../../node_modules/@atlaskit/section-message/src/types",
-        "./node_modules/@atlaskit/section-message/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/section-message/src/types"
       ],
       "@atlaskit/select/AsyncCreatableSelect": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/AsyncCreatableSelect",
-        "../../node_modules/@atlaskit/select/src/AsyncCreatableSelect",
-        "./node_modules/@atlaskit/select/src/AsyncCreatableSelect"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/AsyncCreatableSelect"
       ],
       "@atlaskit/select/AsyncSelect": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/AsyncSelect",
-        "../../node_modules/@atlaskit/select/src/AsyncSelect",
-        "./node_modules/@atlaskit/select/src/AsyncSelect"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/AsyncSelect"
       ],
       "@atlaskit/select/CheckboxSelect": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/CheckboxSelect",
-        "../../node_modules/@atlaskit/select/src/CheckboxSelect",
-        "./node_modules/@atlaskit/select/src/CheckboxSelect"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/CheckboxSelect"
       ],
       "@atlaskit/select/CountrySelect": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/CountrySelect",
-        "../../node_modules/@atlaskit/select/src/CountrySelect",
-        "./node_modules/@atlaskit/select/src/CountrySelect"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/CountrySelect"
       ],
       "@atlaskit/select/CreatableSelect": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/CreatableSelect",
-        "../../node_modules/@atlaskit/select/src/CreatableSelect",
-        "./node_modules/@atlaskit/select/src/CreatableSelect"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/CreatableSelect"
       ],
       "@atlaskit/select/createSelect": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/createSelect",
-        "../../node_modules/@atlaskit/select/src/createSelect",
-        "./node_modules/@atlaskit/select/src/createSelect"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/createSelect"
       ],
       "@atlaskit/select": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/",
-        "../../node_modules/@atlaskit/select/src/",
-        "./node_modules/@atlaskit/select/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/"
       ],
       "@atlaskit/select/RadioSelect": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/RadioSelect",
-        "../../node_modules/@atlaskit/select/src/RadioSelect",
-        "./node_modules/@atlaskit/select/src/RadioSelect"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/RadioSelect"
       ],
       "@atlaskit/select/Select": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/select/src/Select",
-        "../../node_modules/@atlaskit/select/src/Select",
-        "./node_modules/@atlaskit/select/src/Select"
+        "./build/multi-entry-tools/node_modules/@atlaskit/select/src/Select"
       ],
       "@atlaskit/single-select": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/single-select/src/",
-        "../../node_modules/@atlaskit/single-select/src/",
-        "./node_modules/@atlaskit/single-select/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/single-select/src/"
       ],
       "@atlaskit/single-select/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/single-select/src/types",
-        "../../node_modules/@atlaskit/single-select/src/types",
-        "./node_modules/@atlaskit/single-select/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/single-select/src/types"
       ],
       "@atlaskit/size-detector": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/size-detector/src/",
-        "../../node_modules/@atlaskit/size-detector/src/",
-        "./node_modules/@atlaskit/size-detector/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/size-detector/src/"
       ],
       "@atlaskit/size-detector/SizeDetector": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/size-detector/src/SizeDetector",
-        "../../node_modules/@atlaskit/size-detector/src/SizeDetector",
-        "./node_modules/@atlaskit/size-detector/src/SizeDetector"
+        "./build/multi-entry-tools/node_modules/@atlaskit/size-detector/src/SizeDetector"
       ],
       "@atlaskit/size-detector/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/size-detector/src/types",
-        "../../node_modules/@atlaskit/size-detector/src/types",
-        "./node_modules/@atlaskit/size-detector/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/size-detector/src/types"
       ],
       "@atlaskit/spinner": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/spinner/src/",
-        "../../node_modules/@atlaskit/spinner/src/",
-        "./node_modules/@atlaskit/spinner/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/spinner/src/"
       ],
       "@atlaskit/spinner/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/spinner/src/types",
-        "../../node_modules/@atlaskit/spinner/src/types",
-        "./node_modules/@atlaskit/spinner/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/spinner/src/types"
       ],
       "@atlaskit/table-tree": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/table-tree/src/",
-        "../../node_modules/@atlaskit/table-tree/src/",
-        "./node_modules/@atlaskit/table-tree/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/table-tree/src/"
       ],
       "@atlaskit/table-tree/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/table-tree/src/styled",
-        "../../node_modules/@atlaskit/table-tree/src/styled",
-        "./node_modules/@atlaskit/table-tree/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/table-tree/src/styled"
       ],
       "@atlaskit/table-tree/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/table-tree/src/types",
-        "../../node_modules/@atlaskit/table-tree/src/types",
-        "./node_modules/@atlaskit/table-tree/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/table-tree/src/types"
       ],
       "@atlaskit/tabs": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tabs/src/",
-        "../../node_modules/@atlaskit/tabs/src/",
-        "./node_modules/@atlaskit/tabs/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tabs/src/"
       ],
       "@atlaskit/tabs/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tabs/src/styled",
-        "../../node_modules/@atlaskit/tabs/src/styled",
-        "./node_modules/@atlaskit/tabs/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tabs/src/styled"
       ],
       "@atlaskit/tabs/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tabs/src/types",
-        "../../node_modules/@atlaskit/tabs/src/types",
-        "./node_modules/@atlaskit/tabs/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tabs/src/types"
       ],
       "@atlaskit/tag/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tag/src/constants",
-        "../../node_modules/@atlaskit/tag/src/constants",
-        "./node_modules/@atlaskit/tag/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tag/src/constants"
       ],
       "@atlaskit/tag": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tag/src/",
-        "../../node_modules/@atlaskit/tag/src/",
-        "./node_modules/@atlaskit/tag/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tag/src/"
       ],
       "@atlaskit/tag/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tag/src/theme",
-        "../../node_modules/@atlaskit/tag/src/theme",
-        "./node_modules/@atlaskit/tag/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tag/src/theme"
       ],
       "@atlaskit/tag/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tag/src/types",
-        "../../node_modules/@atlaskit/tag/src/types",
-        "./node_modules/@atlaskit/tag/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tag/src/types"
       ],
       "@atlaskit/tag-group": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tag-group/src/",
-        "../../node_modules/@atlaskit/tag-group/src/",
-        "./node_modules/@atlaskit/tag-group/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tag-group/src/"
       ],
       "@atlaskit/textarea/component-tokens": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textarea/src/component-tokens",
-        "../../node_modules/@atlaskit/textarea/src/component-tokens",
-        "./node_modules/@atlaskit/textarea/src/component-tokens"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textarea/src/component-tokens"
       ],
       "@atlaskit/textarea": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textarea/src/",
-        "../../node_modules/@atlaskit/textarea/src/",
-        "./node_modules/@atlaskit/textarea/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textarea/src/"
       ],
       "@atlaskit/textarea/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textarea/src/theme",
-        "../../node_modules/@atlaskit/textarea/src/theme",
-        "./node_modules/@atlaskit/textarea/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textarea/src/theme"
       ],
       "@atlaskit/textfield/component-tokens": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/component-tokens",
-        "../../node_modules/@atlaskit/textfield/src/component-tokens",
-        "./node_modules/@atlaskit/textfield/src/component-tokens"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/component-tokens"
       ],
       "@atlaskit/textfield": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/",
-        "../../node_modules/@atlaskit/textfield/src/",
-        "./node_modules/@atlaskit/textfield/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/"
       ],
       "@atlaskit/textfield/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/theme",
-        "../../node_modules/@atlaskit/textfield/src/theme",
-        "./node_modules/@atlaskit/textfield/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/theme"
       ],
       "@atlaskit/textfield/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/types",
-        "../../node_modules/@atlaskit/textfield/src/types",
-        "./node_modules/@atlaskit/textfield/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/types"
       ],
       "@atlaskit/theme/colors": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/colors",
-        "../../node_modules/@atlaskit/theme/src/colors",
-        "./node_modules/@atlaskit/theme/src/colors"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/colors"
       ],
       "@atlaskit/theme/components.d": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/components.d",
-        "../../node_modules/@atlaskit/theme/src/components.d",
-        "./node_modules/@atlaskit/theme/src/components.d"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/components.d"
       ],
       "@atlaskit/theme/components": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/components",
-        "../../node_modules/@atlaskit/theme/src/components",
-        "./node_modules/@atlaskit/theme/src/components"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/components"
       ],
       "@atlaskit/theme/constants.d": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/constants.d",
-        "../../node_modules/@atlaskit/theme/src/constants.d",
-        "./node_modules/@atlaskit/theme/src/constants.d"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/constants.d"
       ],
       "@atlaskit/theme/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/constants",
-        "../../node_modules/@atlaskit/theme/src/constants",
-        "./node_modules/@atlaskit/theme/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/constants"
       ],
       "@atlaskit/theme/elevation": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/elevation",
-        "../../node_modules/@atlaskit/theme/src/elevation",
-        "./node_modules/@atlaskit/theme/src/elevation"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/elevation"
       ],
       "@atlaskit/theme/hoc": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/hoc",
-        "../../node_modules/@atlaskit/theme/src/hoc",
-        "./node_modules/@atlaskit/theme/src/hoc"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/hoc"
       ],
       "@atlaskit/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/",
-        "../../node_modules/@atlaskit/theme/src/",
-        "./node_modules/@atlaskit/theme/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/"
       ],
       "@atlaskit/theme/math": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/math",
-        "../../node_modules/@atlaskit/theme/src/math",
-        "./node_modules/@atlaskit/theme/src/math"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/math"
       ],
       "@atlaskit/theme/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/types",
-        "../../node_modules/@atlaskit/theme/src/types",
-        "./node_modules/@atlaskit/theme/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/types"
       ],
       "@atlaskit/theme/typography": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/theme/src/typography",
-        "../../node_modules/@atlaskit/theme/src/typography",
-        "./node_modules/@atlaskit/theme/src/typography"
+        "./build/multi-entry-tools/node_modules/@atlaskit/theme/src/typography"
       ],
       "@atlaskit/toggle": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/toggle/src/",
-        "../../node_modules/@atlaskit/toggle/src/",
-        "./node_modules/@atlaskit/toggle/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/toggle/src/"
       ],
       "@atlaskit/toggle/Toggle": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/toggle/src/Toggle",
-        "../../node_modules/@atlaskit/toggle/src/Toggle",
-        "./node_modules/@atlaskit/toggle/src/Toggle"
+        "./build/multi-entry-tools/node_modules/@atlaskit/toggle/src/Toggle"
       ],
       "@atlaskit/toggle/ToggleStateless": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/toggle/src/ToggleStateless",
-        "../../node_modules/@atlaskit/toggle/src/ToggleStateless",
-        "./node_modules/@atlaskit/toggle/src/ToggleStateless"
+        "./build/multi-entry-tools/node_modules/@atlaskit/toggle/src/ToggleStateless"
       ],
       "@atlaskit/toggle/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/toggle/src/types",
-        "../../node_modules/@atlaskit/toggle/src/types",
-        "./node_modules/@atlaskit/toggle/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/toggle/src/types"
       ],
       "@atlaskit/tooltip": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tooltip/src/",
-        "../../node_modules/@atlaskit/tooltip/src/",
-        "./node_modules/@atlaskit/tooltip/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tooltip/src/"
       ],
       "@atlaskit/tooltip/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tooltip/src/styled",
-        "../../node_modules/@atlaskit/tooltip/src/styled",
-        "./node_modules/@atlaskit/tooltip/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tooltip/src/styled"
       ],
       "@atlaskit/tooltip/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tooltip/src/types",
-        "../../node_modules/@atlaskit/tooltip/src/types",
-        "./node_modules/@atlaskit/tooltip/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tooltip/src/types"
       ],
       "@atlaskit/tree": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tree/src/",
-        "../../node_modules/@atlaskit/tree/src/",
-        "./node_modules/@atlaskit/tree/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tree/src/"
       ],
       "@atlaskit/tree/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/tree/src/types",
-        "../../node_modules/@atlaskit/tree/src/types",
-        "./node_modules/@atlaskit/tree/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/tree/src/types"
       ],
       "@atlaskit/type-helpers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/type-helpers/src/",
-        "../../node_modules/@atlaskit/type-helpers/src/",
-        "./node_modules/@atlaskit/type-helpers/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/type-helpers/src/"
       ],
       "@atlaskit/width-detector": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/width-detector/src/",
-        "../../node_modules/@atlaskit/width-detector/src/",
-        "./node_modules/@atlaskit/width-detector/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/width-detector/src/"
       ],
       "@atlaskit/width-detector/WidthDetector": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/width-detector/src/WidthDetector",
-        "../../node_modules/@atlaskit/width-detector/src/WidthDetector",
-        "./node_modules/@atlaskit/width-detector/src/WidthDetector"
+        "./build/multi-entry-tools/node_modules/@atlaskit/width-detector/src/WidthDetector"
       ],
       "@atlaskit/css-reset/base": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/base",
-        "../../node_modules/@atlaskit/css-reset/src/base",
-        "./node_modules/@atlaskit/css-reset/src/base"
+        "./build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/base"
       ],
       "@atlaskit/css-reset/browser-fixes": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/browser-fixes",
-        "../../node_modules/@atlaskit/css-reset/src/browser-fixes",
-        "./node_modules/@atlaskit/css-reset/src/browser-fixes"
+        "./build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/browser-fixes"
       ],
       "@atlaskit/css-reset": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/",
-        "../../node_modules/@atlaskit/css-reset/src/",
-        "./node_modules/@atlaskit/css-reset/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/"
       ],
       "@atlaskit/css-reset/reset": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/reset",
-        "../../node_modules/@atlaskit/css-reset/src/reset",
-        "./node_modules/@atlaskit/css-reset/src/reset"
+        "./build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/reset"
       ],
       "@atlaskit/css-reset/tables": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/tables",
-        "../../node_modules/@atlaskit/css-reset/src/tables",
-        "./node_modules/@atlaskit/css-reset/src/tables"
+        "./build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/tables"
       ],
       "@atlaskit/css-reset/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/utils",
-        "../../node_modules/@atlaskit/css-reset/src/utils",
-        "./node_modules/@atlaskit/css-reset/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/css-reset/src/utils"
       ],
       "@atlaskit/reduced-ui-pack/buttons": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/buttons",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/buttons",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/buttons"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/buttons"
       ],
       "@atlaskit/reduced-ui-pack/forms": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/forms",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/forms",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/forms"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/forms"
       ],
       "@atlaskit/reduced-ui-pack/grid": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/grid",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/grid",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/grid"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/grid"
       ],
       "@atlaskit/reduced-ui-pack/icons": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/icons",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/icons",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/icons"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/icons"
       ],
       "@atlaskit/reduced-ui-pack": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/"
       ],
       "@atlaskit/reduced-ui-pack/lozenge": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/lozenge",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/lozenge",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/lozenge"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/lozenge"
       ],
       "@atlaskit/reduced-ui-pack/toggle": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/toggle",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/toggle",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/toggle"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/toggle"
       ],
       "@atlaskit/reduced-ui-pack/tooltip": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/tooltip",
-        "../../node_modules/@atlaskit/reduced-ui-pack/src/tooltip",
-        "./node_modules/@atlaskit/reduced-ui-pack/src/tooltip"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reduced-ui-pack/src/tooltip"
       ],
       "@atlaskit/adf-schema": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/adf-schema/src/",
-        "../../node_modules/@atlaskit/adf-schema/src/",
-        "./node_modules/@atlaskit/adf-schema/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/adf-schema/src/"
       ],
       "@atlaskit/adf-utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/adf-utils/src/",
-        "../../node_modules/@atlaskit/adf-utils/src/",
-        "./node_modules/@atlaskit/adf-utils/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/adf-utils/src/"
       ],
       "@atlaskit/conversation": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/conversation/src/",
-        "../../node_modules/@atlaskit/conversation/src/",
-        "./node_modules/@atlaskit/conversation/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/conversation/src/"
       ],
       "@atlaskit/editor-bitbucket-transformer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/",
-        "../../node_modules/@atlaskit/editor-bitbucket-transformer/src/",
-        "./node_modules/@atlaskit/editor-bitbucket-transformer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/"
       ],
       "@atlaskit/editor-bitbucket-transformer/serializer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/serializer",
-        "../../node_modules/@atlaskit/editor-bitbucket-transformer/src/serializer",
-        "./node_modules/@atlaskit/editor-bitbucket-transformer/src/serializer"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/serializer"
       ],
       "@atlaskit/editor-bitbucket-transformer/tableSerializer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/tableSerializer",
-        "../../node_modules/@atlaskit/editor-bitbucket-transformer/src/tableSerializer",
-        "./node_modules/@atlaskit/editor-bitbucket-transformer/src/tableSerializer"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/tableSerializer"
       ],
       "@atlaskit/editor-bitbucket-transformer/util": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/util",
-        "../../node_modules/@atlaskit/editor-bitbucket-transformer/src/util",
-        "./node_modules/@atlaskit/editor-bitbucket-transformer/src/util"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-bitbucket-transformer/src/util"
       ],
       "@atlaskit/editor-common": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-common/src/",
-        "../../node_modules/@atlaskit/editor-common/src/",
-        "./node_modules/@atlaskit/editor-common/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-common/src/"
       ],
       "@atlaskit/editor-confluence-transformer/collapse-whitespace": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/collapse-whitespace",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/collapse-whitespace",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/collapse-whitespace"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/collapse-whitespace"
       ],
       "@atlaskit/editor-confluence-transformer/content-wrapper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/content-wrapper",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/content-wrapper",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/content-wrapper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/content-wrapper"
       ],
       "@atlaskit/editor-confluence-transformer/encode-cxhtml": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/encode-cxhtml",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/encode-cxhtml",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/encode-cxhtml"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/encode-cxhtml"
       ],
       "@atlaskit/editor-confluence-transformer/encode": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/encode",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/encode",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/encode"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/encode"
       ],
       "@atlaskit/editor-confluence-transformer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/"
       ],
       "@atlaskit/editor-confluence-transformer/languageMap": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/languageMap",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/languageMap",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/languageMap"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/languageMap"
       ],
       "@atlaskit/editor-confluence-transformer/parse-cxhtml": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/parse-cxhtml",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/parse-cxhtml",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/parse-cxhtml"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/parse-cxhtml"
       ],
       "@atlaskit/editor-confluence-transformer/parse": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/parse",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/parse",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/parse"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/parse"
       ],
       "@atlaskit/editor-confluence-transformer/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/types",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/types",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/types"
       ],
       "@atlaskit/editor-confluence-transformer/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/utils",
-        "../../node_modules/@atlaskit/editor-confluence-transformer/src/utils",
-        "./node_modules/@atlaskit/editor-confluence-transformer/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-confluence-transformer/src/utils"
       ],
       "@atlaskit/editor-core/editor": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/editor",
-        "../../node_modules/@atlaskit/editor-core/src/editor",
-        "./node_modules/@atlaskit/editor-core/src/editor"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/editor"
       ],
       "@atlaskit/editor-core": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/",
-        "../../node_modules/@atlaskit/editor-core/src/",
-        "./node_modules/@atlaskit/editor-core/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/"
       ],
       "@atlaskit/editor-core/messages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/messages",
-        "../../node_modules/@atlaskit/editor-core/src/messages",
-        "./node_modules/@atlaskit/editor-core/src/messages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/messages"
       ],
       "@atlaskit/editor-core/version-wrapper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/version-wrapper",
-        "../../node_modules/@atlaskit/editor-core/src/version-wrapper",
-        "./node_modules/@atlaskit/editor-core/src/version-wrapper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-core/src/version-wrapper"
       ],
       "@atlaskit/editor-jira-transformer/collapse-whitespace": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/collapse-whitespace",
-        "../../node_modules/@atlaskit/editor-jira-transformer/src/collapse-whitespace",
-        "./node_modules/@atlaskit/editor-jira-transformer/src/collapse-whitespace"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/collapse-whitespace"
       ],
       "@atlaskit/editor-jira-transformer/emojiHelper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/emojiHelper",
-        "../../node_modules/@atlaskit/editor-jira-transformer/src/emojiHelper",
-        "./node_modules/@atlaskit/editor-jira-transformer/src/emojiHelper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/emojiHelper"
       ],
       "@atlaskit/editor-jira-transformer/fix-doc": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/fix-doc",
-        "../../node_modules/@atlaskit/editor-jira-transformer/src/fix-doc",
-        "./node_modules/@atlaskit/editor-jira-transformer/src/fix-doc"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/fix-doc"
       ],
       "@atlaskit/editor-jira-transformer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/",
-        "../../node_modules/@atlaskit/editor-jira-transformer/src/",
-        "./node_modules/@atlaskit/editor-jira-transformer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/"
       ],
       "@atlaskit/editor-jira-transformer/parse-html": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/parse-html",
-        "../../node_modules/@atlaskit/editor-jira-transformer/src/parse-html",
-        "./node_modules/@atlaskit/editor-jira-transformer/src/parse-html"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/parse-html"
       ],
       "@atlaskit/editor-jira-transformer/schema": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/schema",
-        "../../node_modules/@atlaskit/editor-jira-transformer/src/schema",
-        "./node_modules/@atlaskit/editor-jira-transformer/src/schema"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/schema"
       ],
       "@atlaskit/editor-jira-transformer/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/utils",
-        "../../node_modules/@atlaskit/editor-jira-transformer/src/utils",
-        "./node_modules/@atlaskit/editor-jira-transformer/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-jira-transformer/src/utils"
       ],
       "@atlaskit/editor-json-transformer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-json-transformer/src/",
-        "../../node_modules/@atlaskit/editor-json-transformer/src/",
-        "./node_modules/@atlaskit/editor-json-transformer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-json-transformer/src/"
       ],
       "@atlaskit/editor-markdown-transformer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-markdown-transformer/src/",
-        "../../node_modules/@atlaskit/editor-markdown-transformer/src/",
-        "./node_modules/@atlaskit/editor-markdown-transformer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-markdown-transformer/src/"
       ],
       "@atlaskit/editor-markdown-transformer/media": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-markdown-transformer/src/media",
-        "../../node_modules/@atlaskit/editor-markdown-transformer/src/media",
-        "./node_modules/@atlaskit/editor-markdown-transformer/src/media"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-markdown-transformer/src/media"
       ],
       "@atlaskit/editor-mobile-bridge/bridge-utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/bridge-utils",
-        "../../node_modules/@atlaskit/editor-mobile-bridge/src/bridge-utils",
-        "./node_modules/@atlaskit/editor-mobile-bridge/src/bridge-utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/bridge-utils"
       ],
       "@atlaskit/editor-mobile-bridge/cross-platform-promise": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/cross-platform-promise",
-        "../../node_modules/@atlaskit/editor-mobile-bridge/src/cross-platform-promise",
-        "./node_modules/@atlaskit/editor-mobile-bridge/src/cross-platform-promise"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/cross-platform-promise"
       ],
       "@atlaskit/editor-mobile-bridge/error-reporter": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/error-reporter",
-        "../../node_modules/@atlaskit/editor-mobile-bridge/src/error-reporter",
-        "./node_modules/@atlaskit/editor-mobile-bridge/src/error-reporter"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/error-reporter"
       ],
       "@atlaskit/editor-mobile-bridge/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/types",
-        "../../node_modules/@atlaskit/editor-mobile-bridge/src/types",
-        "./node_modules/@atlaskit/editor-mobile-bridge/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/types"
       ],
       "@atlaskit/editor-mobile-bridge/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/utils",
-        "../../node_modules/@atlaskit/editor-mobile-bridge/src/utils",
-        "./node_modules/@atlaskit/editor-mobile-bridge/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/utils"
       ],
       "@atlaskit/editor-mobile-bridge/web-bridge": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/web-bridge",
-        "../../node_modules/@atlaskit/editor-mobile-bridge/src/web-bridge",
-        "./node_modules/@atlaskit/editor-mobile-bridge/src/web-bridge"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-mobile-bridge/src/web-bridge"
       ],
       "@atlaskit/editor-test-helpers/activity-provider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/activity-provider",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/activity-provider",
-        "./node_modules/@atlaskit/editor-test-helpers/src/activity-provider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/activity-provider"
       ],
       "@atlaskit/editor-test-helpers/analytics-client-mock": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/analytics-client-mock",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/analytics-client-mock",
-        "./node_modules/@atlaskit/editor-test-helpers/src/analytics-client-mock"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/analytics-client-mock"
       ],
       "@atlaskit/editor-test-helpers/autoformatting-provider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/autoformatting-provider",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/autoformatting-provider",
-        "./node_modules/@atlaskit/editor-test-helpers/src/autoformatting-provider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/autoformatting-provider"
       ],
       "@atlaskit/editor-test-helpers/base64fileconverter": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/base64fileconverter",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/base64fileconverter",
-        "./node_modules/@atlaskit/editor-test-helpers/src/base64fileconverter"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/base64fileconverter"
       ],
       "@atlaskit/editor-test-helpers/card-provider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/card-provider",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/card-provider",
-        "./node_modules/@atlaskit/editor-test-helpers/src/card-provider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/card-provider"
       ],
       "@atlaskit/editor-test-helpers/chai": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/chai",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/chai",
-        "./node_modules/@atlaskit/editor-test-helpers/src/chai"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/chai"
       ],
       "@atlaskit/editor-test-helpers/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/constants",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/constants",
-        "./node_modules/@atlaskit/editor-test-helpers/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/constants"
       ],
       "@atlaskit/editor-test-helpers/context-identifier-provider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/context-identifier-provider",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/context-identifier-provider",
-        "./node_modules/@atlaskit/editor-test-helpers/src/context-identifier-provider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/context-identifier-provider"
       ],
       "@atlaskit/editor-test-helpers/create-analytics-event-mock": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/create-analytics-event-mock",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/create-analytics-event-mock",
-        "./node_modules/@atlaskit/editor-test-helpers/src/create-analytics-event-mock"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/create-analytics-event-mock"
       ],
       "@atlaskit/editor-test-helpers/create-editor": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/create-editor",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/create-editor",
-        "./node_modules/@atlaskit/editor-test-helpers/src/create-editor"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/create-editor"
       ],
       "@atlaskit/editor-test-helpers/create-event": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/create-event",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/create-event",
-        "./node_modules/@atlaskit/editor-test-helpers/src/create-event"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/create-event"
       ],
       "@atlaskit/editor-test-helpers/device": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/device",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/device",
-        "./node_modules/@atlaskit/editor-test-helpers/src/device"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/device"
       ],
       "@atlaskit/editor-test-helpers/dispatch-paste-event": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/dispatch-paste-event",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/dispatch-paste-event",
-        "./node_modules/@atlaskit/editor-test-helpers/src/dispatch-paste-event"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/dispatch-paste-event"
       ],
       "@atlaskit/editor-test-helpers/enzyme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/enzyme",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/enzyme",
-        "./node_modules/@atlaskit/editor-test-helpers/src/enzyme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/enzyme"
       ],
       "@atlaskit/editor-test-helpers/extensions": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/extensions",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/extensions",
-        "./node_modules/@atlaskit/editor-test-helpers/src/extensions"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/extensions"
       ],
       "@atlaskit/editor-test-helpers/fixtures": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/fixtures",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/fixtures",
-        "./node_modules/@atlaskit/editor-test-helpers/src/fixtures"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/fixtures"
       ],
       "@atlaskit/editor-test-helpers/html-helpers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/html-helpers",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/html-helpers",
-        "./node_modules/@atlaskit/editor-test-helpers/src/html-helpers"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/html-helpers"
       ],
       "@atlaskit/editor-test-helpers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/",
-        "./node_modules/@atlaskit/editor-test-helpers/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/"
       ],
       "@atlaskit/editor-test-helpers/jsdom-fixtures": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/jsdom-fixtures",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/jsdom-fixtures",
-        "./node_modules/@atlaskit/editor-test-helpers/src/jsdom-fixtures"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/jsdom-fixtures"
       ],
       "@atlaskit/editor-test-helpers/key-codes": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/key-codes",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/key-codes",
-        "./node_modules/@atlaskit/editor-test-helpers/src/key-codes"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/key-codes"
       ],
       "@atlaskit/editor-test-helpers/matches": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/matches",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/matches",
-        "./node_modules/@atlaskit/editor-test-helpers/src/matches"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/matches"
       ],
       "@atlaskit/editor-test-helpers/media-provider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/media-provider",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/media-provider",
-        "./node_modules/@atlaskit/editor-test-helpers/src/media-provider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/media-provider"
       ],
       "@atlaskit/editor-test-helpers/mock-extension-data": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/mock-extension-data",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/mock-extension-data",
-        "./node_modules/@atlaskit/editor-test-helpers/src/mock-extension-data"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/mock-extension-data"
       ],
       "@atlaskit/editor-test-helpers/mock-insert-menu": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/mock-insert-menu",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/mock-insert-menu",
-        "./node_modules/@atlaskit/editor-test-helpers/src/mock-insert-menu"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/mock-insert-menu"
       ],
       "@atlaskit/editor-test-helpers/mock-macro-provider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/mock-macro-provider",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/mock-macro-provider",
-        "./node_modules/@atlaskit/editor-test-helpers/src/mock-macro-provider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/mock-macro-provider"
       ],
       "@atlaskit/editor-test-helpers/random-id": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/random-id",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/random-id",
-        "./node_modules/@atlaskit/editor-test-helpers/src/random-id"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/random-id"
       ],
       "@atlaskit/editor-test-helpers/schema-builder": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/schema-builder",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/schema-builder",
-        "./node_modules/@atlaskit/editor-test-helpers/src/schema-builder"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/schema-builder"
       ],
       "@atlaskit/editor-test-helpers/schema-element-builder": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/schema-element-builder",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/schema-element-builder",
-        "./node_modules/@atlaskit/editor-test-helpers/src/schema-element-builder"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/schema-element-builder"
       ],
       "@atlaskit/editor-test-helpers/schema": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/schema",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/schema",
-        "./node_modules/@atlaskit/editor-test-helpers/src/schema"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/schema"
       ],
       "@atlaskit/editor-test-helpers/selection": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/selection",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/selection",
-        "./node_modules/@atlaskit/editor-test-helpers/src/selection"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/selection"
       ],
       "@atlaskit/editor-test-helpers/send-key-to-pm": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/send-key-to-pm",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/send-key-to-pm",
-        "./node_modules/@atlaskit/editor-test-helpers/src/send-key-to-pm"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/send-key-to-pm"
       ],
       "@atlaskit/editor-test-helpers/simulatePlatform": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/simulatePlatform",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/simulatePlatform",
-        "./node_modules/@atlaskit/editor-test-helpers/src/simulatePlatform"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/simulatePlatform"
       ],
       "@atlaskit/editor-test-helpers/sleep": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/sleep",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/sleep",
-        "./node_modules/@atlaskit/editor-test-helpers/src/sleep"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/sleep"
       ],
       "@atlaskit/editor-test-helpers/spy-on-return-value": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/spy-on-return-value",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/spy-on-return-value",
-        "./node_modules/@atlaskit/editor-test-helpers/src/spy-on-return-value"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/spy-on-return-value"
       ],
       "@atlaskit/editor-test-helpers/table": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/table",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/table",
-        "./node_modules/@atlaskit/editor-test-helpers/src/table"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/table"
       ],
       "@atlaskit/editor-test-helpers/transactions": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/transactions",
-        "../../node_modules/@atlaskit/editor-test-helpers/src/transactions",
-        "./node_modules/@atlaskit/editor-test-helpers/src/transactions"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-test-helpers/src/transactions"
       ],
       "@atlaskit/editor-wikimarkup-transformer/char": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-wikimarkup-transformer/src/char",
-        "../../node_modules/@atlaskit/editor-wikimarkup-transformer/src/char",
-        "./node_modules/@atlaskit/editor-wikimarkup-transformer/src/char"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-wikimarkup-transformer/src/char"
       ],
       "@atlaskit/editor-wikimarkup-transformer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-wikimarkup-transformer/src/",
-        "../../node_modules/@atlaskit/editor-wikimarkup-transformer/src/",
-        "./node_modules/@atlaskit/editor-wikimarkup-transformer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-wikimarkup-transformer/src/"
       ],
       "@atlaskit/editor-wikimarkup-transformer/interfaces": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/editor-wikimarkup-transformer/src/interfaces",
-        "../../node_modules/@atlaskit/editor-wikimarkup-transformer/src/interfaces",
-        "./node_modules/@atlaskit/editor-wikimarkup-transformer/src/interfaces"
+        "./build/multi-entry-tools/node_modules/@atlaskit/editor-wikimarkup-transformer/src/interfaces"
       ],
       "@atlaskit/email-renderer/apply-marks": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/apply-marks",
-        "../../node_modules/@atlaskit/email-renderer/src/apply-marks",
-        "./node_modules/@atlaskit/email-renderer/src/apply-marks"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/apply-marks"
       ],
       "@atlaskit/email-renderer/create-tag": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/create-tag",
-        "../../node_modules/@atlaskit/email-renderer/src/create-tag",
-        "./node_modules/@atlaskit/email-renderer/src/create-tag"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/create-tag"
       ],
       "@atlaskit/email-renderer/date-helper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/date-helper",
-        "../../node_modules/@atlaskit/email-renderer/src/date-helper",
-        "./node_modules/@atlaskit/email-renderer/src/date-helper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/date-helper"
       ],
       "@atlaskit/email-renderer/escape-html-string": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/escape-html-string",
-        "../../node_modules/@atlaskit/email-renderer/src/escape-html-string",
-        "./node_modules/@atlaskit/email-renderer/src/escape-html-string"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/escape-html-string"
       ],
       "@atlaskit/email-renderer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/",
-        "../../node_modules/@atlaskit/email-renderer/src/",
-        "./node_modules/@atlaskit/email-renderer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/"
       ],
       "@atlaskit/email-renderer/interfaces": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/interfaces",
-        "../../node_modules/@atlaskit/email-renderer/src/interfaces",
-        "./node_modules/@atlaskit/email-renderer/src/interfaces"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/interfaces"
       ],
       "@atlaskit/email-renderer/mark-serializers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/mark-serializers",
-        "../../node_modules/@atlaskit/email-renderer/src/mark-serializers",
-        "./node_modules/@atlaskit/email-renderer/src/mark-serializers"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/mark-serializers"
       ],
       "@atlaskit/email-renderer/node-serializers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/node-serializers",
-        "../../node_modules/@atlaskit/email-renderer/src/node-serializers",
-        "./node_modules/@atlaskit/email-renderer/src/node-serializers"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/node-serializers"
       ],
       "@atlaskit/email-renderer/serialize-style": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/serialize-style",
-        "../../node_modules/@atlaskit/email-renderer/src/serialize-style",
-        "./node_modules/@atlaskit/email-renderer/src/serialize-style"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/serialize-style"
       ],
       "@atlaskit/email-renderer/serializer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/serializer",
-        "../../node_modules/@atlaskit/email-renderer/src/serializer",
-        "./node_modules/@atlaskit/email-renderer/src/serializer"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/serializer"
       ],
       "@atlaskit/email-renderer/table-util": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/table-util",
-        "../../node_modules/@atlaskit/email-renderer/src/table-util",
-        "./node_modules/@atlaskit/email-renderer/src/table-util"
+        "./build/multi-entry-tools/node_modules/@atlaskit/email-renderer/src/table-util"
       ],
       "@atlaskit/embedded-document": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/embedded-document/src/",
-        "../../node_modules/@atlaskit/embedded-document/src/",
-        "./node_modules/@atlaskit/embedded-document/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/embedded-document/src/"
       ],
       "@atlaskit/json-schema-generator/cli": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/json-schema-generator/src/cli",
-        "../../node_modules/@atlaskit/json-schema-generator/src/cli",
-        "./node_modules/@atlaskit/json-schema-generator/src/cli"
+        "./build/multi-entry-tools/node_modules/@atlaskit/json-schema-generator/src/cli"
       ],
       "@atlaskit/json-schema-generator": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/json-schema-generator/src/",
-        "../../node_modules/@atlaskit/json-schema-generator/src/",
-        "./node_modules/@atlaskit/json-schema-generator/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/json-schema-generator/src/"
       ],
       "@atlaskit/json-schema-generator/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/json-schema-generator/src/utils",
-        "../../node_modules/@atlaskit/json-schema-generator/src/utils",
-        "./node_modules/@atlaskit/json-schema-generator/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/json-schema-generator/src/utils"
       ],
       "@atlaskit/renderer/consts": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/renderer/src/consts",
-        "../../node_modules/@atlaskit/renderer/src/consts",
-        "./node_modules/@atlaskit/renderer/src/consts"
+        "./build/multi-entry-tools/node_modules/@atlaskit/renderer/src/consts"
       ],
       "@atlaskit/renderer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/renderer/src/",
-        "../../node_modules/@atlaskit/renderer/src/",
-        "./node_modules/@atlaskit/renderer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/renderer/src/"
       ],
       "@atlaskit/renderer/render-document": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/renderer/src/render-document",
-        "../../node_modules/@atlaskit/renderer/src/render-document",
-        "./node_modules/@atlaskit/renderer/src/render-document"
+        "./build/multi-entry-tools/node_modules/@atlaskit/renderer/src/render-document"
       ],
       "@atlaskit/renderer/serializer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/renderer/src/serializer",
-        "../../node_modules/@atlaskit/renderer/src/serializer",
-        "./node_modules/@atlaskit/renderer/src/serializer"
+        "./build/multi-entry-tools/node_modules/@atlaskit/renderer/src/serializer"
       ],
       "@atlaskit/renderer/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/renderer/src/utils",
-        "../../node_modules/@atlaskit/renderer/src/utils",
-        "./node_modules/@atlaskit/renderer/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/renderer/src/utils"
       ],
       "@atlaskit/updater-cli": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/updater-cli/src/",
-        "../../node_modules/@atlaskit/updater-cli/src/",
-        "./node_modules/@atlaskit/updater-cli/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/updater-cli/src/"
       ],
       "@atlaskit/updater-cli/runner": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/updater-cli/src/runner",
-        "../../node_modules/@atlaskit/updater-cli/src/runner",
-        "./node_modules/@atlaskit/updater-cli/src/runner"
+        "./build/multi-entry-tools/node_modules/@atlaskit/updater-cli/src/runner"
       ],
       "@atlaskit/analytics-gas-types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-gas-types/src/",
-        "../../node_modules/@atlaskit/analytics-gas-types/src/",
-        "./node_modules/@atlaskit/analytics-gas-types/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-gas-types/src/"
       ],
       "@atlaskit/analytics-listeners/analytics-web-client-wrapper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/analytics-web-client-wrapper",
-        "../../node_modules/@atlaskit/analytics-listeners/src/analytics-web-client-wrapper",
-        "./node_modules/@atlaskit/analytics-listeners/src/analytics-web-client-wrapper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/analytics-web-client-wrapper"
       ],
       "@atlaskit/analytics-listeners/FabricAnalyticsListeners": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/FabricAnalyticsListeners",
-        "../../node_modules/@atlaskit/analytics-listeners/src/FabricAnalyticsListeners",
-        "./node_modules/@atlaskit/analytics-listeners/src/FabricAnalyticsListeners"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/FabricAnalyticsListeners"
       ],
       "@atlaskit/analytics-listeners": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/",
-        "../../node_modules/@atlaskit/analytics-listeners/src/",
-        "./node_modules/@atlaskit/analytics-listeners/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/"
       ],
       "@atlaskit/analytics-listeners/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/types",
-        "../../node_modules/@atlaskit/analytics-listeners/src/types",
-        "./node_modules/@atlaskit/analytics-listeners/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-listeners/src/types"
       ],
       "@atlaskit/analytics-namespaced-context/FabricEditorAnalyticsContext": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/FabricEditorAnalyticsContext",
-        "../../node_modules/@atlaskit/analytics-namespaced-context/src/FabricEditorAnalyticsContext",
-        "./node_modules/@atlaskit/analytics-namespaced-context/src/FabricEditorAnalyticsContext"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/FabricEditorAnalyticsContext"
       ],
       "@atlaskit/analytics-namespaced-context/FabricElementsAnalyticsContext": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/FabricElementsAnalyticsContext",
-        "../../node_modules/@atlaskit/analytics-namespaced-context/src/FabricElementsAnalyticsContext",
-        "./node_modules/@atlaskit/analytics-namespaced-context/src/FabricElementsAnalyticsContext"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/FabricElementsAnalyticsContext"
       ],
       "@atlaskit/analytics-namespaced-context": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/",
-        "../../node_modules/@atlaskit/analytics-namespaced-context/src/",
-        "./node_modules/@atlaskit/analytics-namespaced-context/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/"
       ],
       "@atlaskit/analytics-namespaced-context/NavigationAnalyticsContext": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/NavigationAnalyticsContext",
-        "../../node_modules/@atlaskit/analytics-namespaced-context/src/NavigationAnalyticsContext",
-        "./node_modules/@atlaskit/analytics-namespaced-context/src/NavigationAnalyticsContext"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-namespaced-context/src/NavigationAnalyticsContext"
       ],
       "@atlaskit/analytics-viewer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/analytics-viewer/src/",
-        "../../node_modules/@atlaskit/analytics-viewer/src/",
-        "./node_modules/@atlaskit/analytics-viewer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/analytics-viewer/src/"
       ],
       "@atlaskit/date": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/date/src/",
-        "../../node_modules/@atlaskit/date/src/",
-        "./node_modules/@atlaskit/date/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/date/src/"
       ],
       "@atlaskit/elements-test-helpers/demo-ssr-hydrate": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/elements-test-helpers/src/demo-ssr-hydrate",
-        "../../node_modules/@atlaskit/elements-test-helpers/src/demo-ssr-hydrate",
-        "./node_modules/@atlaskit/elements-test-helpers/src/demo-ssr-hydrate"
+        "./build/multi-entry-tools/node_modules/@atlaskit/elements-test-helpers/src/demo-ssr-hydrate"
       ],
       "@atlaskit/elements-test-helpers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/elements-test-helpers/src/",
-        "../../node_modules/@atlaskit/elements-test-helpers/src/",
-        "./node_modules/@atlaskit/elements-test-helpers/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/elements-test-helpers/src/"
       ],
       "@atlaskit/elements-test-helpers/ssr-util": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/elements-test-helpers/src/ssr-util",
-        "../../node_modules/@atlaskit/elements-test-helpers/src/ssr-util",
-        "./node_modules/@atlaskit/elements-test-helpers/src/ssr-util"
+        "./build/multi-entry-tools/node_modules/@atlaskit/elements-test-helpers/src/ssr-util"
       ],
       "@atlaskit/emoji/admin": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/admin",
-        "../../node_modules/@atlaskit/emoji/src/admin",
-        "./node_modules/@atlaskit/emoji/src/admin"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/admin"
       ],
       "@atlaskit/emoji/element": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/element",
-        "../../node_modules/@atlaskit/emoji/src/element",
-        "./node_modules/@atlaskit/emoji/src/element"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/element"
       ],
       "@atlaskit/emoji": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/",
-        "../../node_modules/@atlaskit/emoji/src/",
-        "./node_modules/@atlaskit/emoji/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/"
       ],
       "@atlaskit/emoji/picker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/picker",
-        "../../node_modules/@atlaskit/emoji/src/picker",
-        "./node_modules/@atlaskit/emoji/src/picker"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/picker"
       ],
       "@atlaskit/emoji/resource": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/resource",
-        "../../node_modules/@atlaskit/emoji/src/resource",
-        "./node_modules/@atlaskit/emoji/src/resource"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/resource"
       ],
       "@atlaskit/emoji/typeahead": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/typeahead",
-        "../../node_modules/@atlaskit/emoji/src/typeahead",
-        "./node_modules/@atlaskit/emoji/src/typeahead"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/typeahead"
       ],
       "@atlaskit/emoji/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/types",
-        "../../node_modules/@atlaskit/emoji/src/types",
-        "./node_modules/@atlaskit/emoji/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/types"
       ],
       "@atlaskit/emoji/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/emoji/src/utils",
-        "../../node_modules/@atlaskit/emoji/src/utils",
-        "./node_modules/@atlaskit/emoji/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/emoji/src/utils"
       ],
       "@atlaskit/mention/_constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/_constants",
-        "../../node_modules/@atlaskit/mention/src/_constants",
-        "./node_modules/@atlaskit/mention/src/_constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/_constants"
       ],
       "@atlaskit/mention/element": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/element",
-        "../../node_modules/@atlaskit/mention/src/element",
-        "./node_modules/@atlaskit/mention/src/element"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/element"
       ],
       "@atlaskit/mention/i18n": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/i18n",
-        "../../node_modules/@atlaskit/mention/src/i18n",
-        "./node_modules/@atlaskit/mention/src/i18n"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/i18n"
       ],
       "@atlaskit/mention": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/",
-        "../../node_modules/@atlaskit/mention/src/",
-        "./node_modules/@atlaskit/mention/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/"
       ],
       "@atlaskit/mention/item": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/item",
-        "../../node_modules/@atlaskit/mention/src/item",
-        "./node_modules/@atlaskit/mention/src/item"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/item"
       ],
       "@atlaskit/mention/resource": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/resource",
-        "../../node_modules/@atlaskit/mention/src/resource",
-        "./node_modules/@atlaskit/mention/src/resource"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/resource"
       ],
       "@atlaskit/mention/shared-styles": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/shared-styles",
-        "../../node_modules/@atlaskit/mention/src/shared-styles",
-        "./node_modules/@atlaskit/mention/src/shared-styles"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/shared-styles"
       ],
       "@atlaskit/mention/team-resource": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/team-resource",
-        "../../node_modules/@atlaskit/mention/src/team-resource",
-        "./node_modules/@atlaskit/mention/src/team-resource"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/team-resource"
       ],
       "@atlaskit/mention/typeahead": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/typeahead",
-        "../../node_modules/@atlaskit/mention/src/typeahead",
-        "./node_modules/@atlaskit/mention/src/typeahead"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/typeahead"
       ],
       "@atlaskit/mention/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/mention/src/types",
-        "../../node_modules/@atlaskit/mention/src/types",
-        "./node_modules/@atlaskit/mention/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/mention/src/types"
       ],
       "@atlaskit/pubsub/apiTypes": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/apiTypes",
-        "../../node_modules/@atlaskit/pubsub/src/apiTypes",
-        "./node_modules/@atlaskit/pubsub/src/apiTypes"
+        "./build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/apiTypes"
       ],
       "@atlaskit/pubsub/client": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/client",
-        "../../node_modules/@atlaskit/pubsub/src/client",
-        "./node_modules/@atlaskit/pubsub/src/client"
+        "./build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/client"
       ],
       "@atlaskit/pubsub/featureFlags": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/featureFlags",
-        "../../node_modules/@atlaskit/pubsub/src/featureFlags",
-        "./node_modules/@atlaskit/pubsub/src/featureFlags"
+        "./build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/featureFlags"
       ],
       "@atlaskit/pubsub": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/",
-        "../../node_modules/@atlaskit/pubsub/src/",
-        "./node_modules/@atlaskit/pubsub/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/"
       ],
       "@atlaskit/pubsub/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/types",
-        "../../node_modules/@atlaskit/pubsub/src/types",
-        "./node_modules/@atlaskit/pubsub/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/pubsub/src/types"
       ],
       "@atlaskit/reactions": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/reactions/src/",
-        "../../node_modules/@atlaskit/reactions/src/",
-        "./node_modules/@atlaskit/reactions/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/reactions/src/"
       ],
       "@atlaskit/share/i18n": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/share/src/i18n",
-        "../../node_modules/@atlaskit/share/src/i18n",
-        "./node_modules/@atlaskit/share/src/i18n"
+        "./build/multi-entry-tools/node_modules/@atlaskit/share/src/i18n"
       ],
       "@atlaskit/share": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/share/src/",
-        "../../node_modules/@atlaskit/share/src/",
-        "./node_modules/@atlaskit/share/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/share/src/"
       ],
       "@atlaskit/status/element": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/status/src/element",
-        "../../node_modules/@atlaskit/status/src/element",
-        "./node_modules/@atlaskit/status/src/element"
+        "./build/multi-entry-tools/node_modules/@atlaskit/status/src/element"
       ],
       "@atlaskit/status": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/status/src/",
-        "../../node_modules/@atlaskit/status/src/",
-        "./node_modules/@atlaskit/status/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/status/src/"
       ],
       "@atlaskit/status/picker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/status/src/picker",
-        "../../node_modules/@atlaskit/status/src/picker",
-        "./node_modules/@atlaskit/status/src/picker"
+        "./build/multi-entry-tools/node_modules/@atlaskit/status/src/picker"
       ],
       "@atlaskit/task-decision/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/constants",
-        "../../node_modules/@atlaskit/task-decision/src/constants",
-        "./node_modules/@atlaskit/task-decision/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/constants"
       ],
       "@atlaskit/task-decision": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/",
-        "../../node_modules/@atlaskit/task-decision/src/",
-        "./node_modules/@atlaskit/task-decision/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/"
       ],
       "@atlaskit/task-decision/type-helpers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/type-helpers",
-        "../../node_modules/@atlaskit/task-decision/src/type-helpers",
-        "./node_modules/@atlaskit/task-decision/src/type-helpers"
+        "./build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/type-helpers"
       ],
       "@atlaskit/task-decision/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/types",
-        "../../node_modules/@atlaskit/task-decision/src/types",
-        "./node_modules/@atlaskit/task-decision/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/task-decision/src/types"
       ],
       "@atlaskit/user-picker/analytics": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/user-picker/src/analytics",
-        "../../node_modules/@atlaskit/user-picker/src/analytics",
-        "./node_modules/@atlaskit/user-picker/src/analytics"
+        "./build/multi-entry-tools/node_modules/@atlaskit/user-picker/src/analytics"
       ],
       "@atlaskit/user-picker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/user-picker/src/",
-        "../../node_modules/@atlaskit/user-picker/src/",
-        "./node_modules/@atlaskit/user-picker/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/user-picker/src/"
       ],
       "@atlaskit/user-picker/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/user-picker/src/types",
-        "../../node_modules/@atlaskit/user-picker/src/types",
-        "./node_modules/@atlaskit/user-picker/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/user-picker/src/types"
       ],
       "@atlaskit/util-data-test": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/util-data-test/src/",
-        "../../node_modules/@atlaskit/util-data-test/src/",
-        "./node_modules/@atlaskit/util-data-test/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/util-data-test/src/"
       ],
       "@atlaskit/util-data-test/logger": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/util-data-test/src/logger",
-        "../../node_modules/@atlaskit/util-data-test/src/logger",
-        "./node_modules/@atlaskit/util-data-test/src/logger"
+        "./build/multi-entry-tools/node_modules/@atlaskit/util-data-test/src/logger"
       ],
       "@atlaskit/util-service-support": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/",
-        "../../node_modules/@atlaskit/util-service-support/src/",
-        "./node_modules/@atlaskit/util-service-support/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/"
       ],
       "@atlaskit/util-service-support/serviceResources": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/serviceResources",
-        "../../node_modules/@atlaskit/util-service-support/src/serviceResources",
-        "./node_modules/@atlaskit/util-service-support/src/serviceResources"
+        "./build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/serviceResources"
       ],
       "@atlaskit/util-service-support/serviceUtils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/serviceUtils",
-        "../../node_modules/@atlaskit/util-service-support/src/serviceUtils",
-        "./node_modules/@atlaskit/util-service-support/src/serviceUtils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/serviceUtils"
       ],
       "@atlaskit/util-service-support/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/types",
-        "../../node_modules/@atlaskit/util-service-support/src/types",
-        "./node_modules/@atlaskit/util-service-support/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/util-service-support/src/types"
       ],
       "@atlaskit/xregexp-transformer/sample": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/xregexp-transformer/src/sample",
-        "../../node_modules/@atlaskit/xregexp-transformer/src/sample",
-        "./node_modules/@atlaskit/xregexp-transformer/src/sample"
+        "./build/multi-entry-tools/node_modules/@atlaskit/xregexp-transformer/src/sample"
       ],
       "@atlaskit/contextual-survey/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/contextual-survey/src/constants",
-        "../../node_modules/@atlaskit/contextual-survey/src/constants",
-        "./node_modules/@atlaskit/contextual-survey/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/contextual-survey/src/constants"
       ],
       "@atlaskit/contextual-survey": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/contextual-survey/src/",
-        "../../node_modules/@atlaskit/contextual-survey/src/",
-        "./node_modules/@atlaskit/contextual-survey/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/contextual-survey/src/"
       ],
       "@atlaskit/contextual-survey/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/contextual-survey/src/types",
-        "../../node_modules/@atlaskit/contextual-survey/src/types",
-        "./node_modules/@atlaskit/contextual-survey/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/contextual-survey/src/types"
       ],
       "@atlaskit/feature-flag-client/client": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/client",
-        "../../node_modules/@atlaskit/feature-flag-client/src/client",
-        "./node_modules/@atlaskit/feature-flag-client/src/client"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/client"
       ],
       "@atlaskit/feature-flag-client": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/",
-        "../../node_modules/@atlaskit/feature-flag-client/src/",
-        "./node_modules/@atlaskit/feature-flag-client/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/"
       ],
       "@atlaskit/feature-flag-client/lib": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/lib",
-        "../../node_modules/@atlaskit/feature-flag-client/src/lib",
-        "./node_modules/@atlaskit/feature-flag-client/src/lib"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/lib"
       ],
       "@atlaskit/feature-flag-client/tracked-flag": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/tracked-flag",
-        "../../node_modules/@atlaskit/feature-flag-client/src/tracked-flag",
-        "./node_modules/@atlaskit/feature-flag-client/src/tracked-flag"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/tracked-flag"
       ],
       "@atlaskit/feature-flag-client/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/types",
-        "../../node_modules/@atlaskit/feature-flag-client/src/types",
-        "./node_modules/@atlaskit/feature-flag-client/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/types"
       ],
       "@atlaskit/feature-flag-client/untracked-flag": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/untracked-flag",
-        "../../node_modules/@atlaskit/feature-flag-client/src/untracked-flag",
-        "./node_modules/@atlaskit/feature-flag-client/src/untracked-flag"
+        "./build/multi-entry-tools/node_modules/@atlaskit/feature-flag-client/src/untracked-flag"
       ],
       "@atlaskit/react-experiment-framework/asExperiment": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/asExperiment",
-        "../../node_modules/@atlaskit/react-experiment-framework/src/asExperiment",
-        "./node_modules/@atlaskit/react-experiment-framework/src/asExperiment"
+        "./build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/asExperiment"
       ],
       "@atlaskit/react-experiment-framework/CohortTracker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/CohortTracker",
-        "../../node_modules/@atlaskit/react-experiment-framework/src/CohortTracker",
-        "./node_modules/@atlaskit/react-experiment-framework/src/CohortTracker"
+        "./build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/CohortTracker"
       ],
       "@atlaskit/react-experiment-framework/ExperimentContext": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/ExperimentContext",
-        "../../node_modules/@atlaskit/react-experiment-framework/src/ExperimentContext",
-        "./node_modules/@atlaskit/react-experiment-framework/src/ExperimentContext"
+        "./build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/ExperimentContext"
       ],
       "@atlaskit/react-experiment-framework/ExperimentController": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/ExperimentController",
-        "../../node_modules/@atlaskit/react-experiment-framework/src/ExperimentController",
-        "./node_modules/@atlaskit/react-experiment-framework/src/ExperimentController"
+        "./build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/ExperimentController"
       ],
       "@atlaskit/react-experiment-framework": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/",
-        "../../node_modules/@atlaskit/react-experiment-framework/src/",
-        "./node_modules/@atlaskit/react-experiment-framework/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/"
       ],
       "@atlaskit/react-experiment-framework/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/types",
-        "../../node_modules/@atlaskit/react-experiment-framework/src/types",
-        "./node_modules/@atlaskit/react-experiment-framework/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/react-experiment-framework/src/types"
       ],
       "@atlaskit/help/analytics": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/help/src/analytics",
-        "../../node_modules/@atlaskit/help/src/analytics",
-        "./node_modules/@atlaskit/help/src/analytics"
+        "./build/multi-entry-tools/node_modules/@atlaskit/help/src/analytics"
       ],
       "@atlaskit/help": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/help/src/",
-        "../../node_modules/@atlaskit/help/src/",
-        "./node_modules/@atlaskit/help/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/help/src/"
       ],
       "@atlaskit/help/messages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/help/src/messages",
-        "../../node_modules/@atlaskit/help/src/messages",
-        "./node_modules/@atlaskit/help/src/messages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/help/src/messages"
       ],
       "@atlaskit/help-article": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/help-article/src/",
-        "../../node_modules/@atlaskit/help-article/src/",
-        "./node_modules/@atlaskit/help-article/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/help-article/src/"
       ],
       "@atlaskit/notification-indicator": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/notification-indicator/src/",
-        "../../node_modules/@atlaskit/notification-indicator/src/",
-        "./node_modules/@atlaskit/notification-indicator/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/notification-indicator/src/"
       ],
       "@atlaskit/notification-indicator/NotificationIndicator": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/notification-indicator/src/NotificationIndicator",
-        "../../node_modules/@atlaskit/notification-indicator/src/NotificationIndicator",
-        "./node_modules/@atlaskit/notification-indicator/src/NotificationIndicator"
+        "./build/multi-entry-tools/node_modules/@atlaskit/notification-indicator/src/NotificationIndicator"
       ],
       "@atlaskit/notification-log-client": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/notification-log-client/src/",
-        "../../node_modules/@atlaskit/notification-log-client/src/",
-        "./node_modules/@atlaskit/notification-log-client/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/notification-log-client/src/"
       ],
       "@atlaskit/notification-log-client/NotificationLogClient": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/notification-log-client/src/NotificationLogClient",
-        "../../node_modules/@atlaskit/notification-log-client/src/NotificationLogClient",
-        "./node_modules/@atlaskit/notification-log-client/src/NotificationLogClient"
+        "./build/multi-entry-tools/node_modules/@atlaskit/notification-log-client/src/NotificationLogClient"
       ],
       "@atlaskit/notification-log-client/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/notification-log-client/src/types",
-        "../../node_modules/@atlaskit/notification-log-client/src/types",
-        "./node_modules/@atlaskit/notification-log-client/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/notification-log-client/src/types"
       ],
       "@atlaskit/color-picker/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/color-picker/src/constants",
-        "../../node_modules/@atlaskit/color-picker/src/constants",
-        "./node_modules/@atlaskit/color-picker/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/color-picker/src/constants"
       ],
       "@atlaskit/color-picker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/color-picker/src/",
-        "../../node_modules/@atlaskit/color-picker/src/",
-        "./node_modules/@atlaskit/color-picker/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/color-picker/src/"
       ],
       "@atlaskit/color-picker/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/color-picker/src/types",
-        "../../node_modules/@atlaskit/color-picker/src/types",
-        "./node_modules/@atlaskit/color-picker/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/color-picker/src/types"
       ],
       "@atlaskit/refinement-bar/analytics": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/refinement-bar/src/analytics",
-        "../../node_modules/@atlaskit/refinement-bar/src/analytics",
-        "./node_modules/@atlaskit/refinement-bar/src/analytics"
+        "./build/multi-entry-tools/node_modules/@atlaskit/refinement-bar/src/analytics"
       ],
       "@atlaskit/refinement-bar": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/refinement-bar/src/",
-        "../../node_modules/@atlaskit/refinement-bar/src/",
-        "./node_modules/@atlaskit/refinement-bar/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/refinement-bar/src/"
       ],
       "@atlaskit/refinement-bar/utils": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/refinement-bar/src/utils",
-        "../../node_modules/@atlaskit/refinement-bar/src/utils",
-        "./node_modules/@atlaskit/refinement-bar/src/utils"
+        "./build/multi-entry-tools/node_modules/@atlaskit/refinement-bar/src/utils"
       ],
       "@atlaskit/media-avatar-picker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-avatar-picker/src/",
-        "../../node_modules/@atlaskit/media-avatar-picker/src/",
-        "./node_modules/@atlaskit/media-avatar-picker/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-avatar-picker/src/"
       ],
       "@atlaskit/media-avatar-picker/util": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-avatar-picker/src/util",
-        "../../node_modules/@atlaskit/media-avatar-picker/src/util",
-        "./node_modules/@atlaskit/media-avatar-picker/src/util"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-avatar-picker/src/util"
       ],
       "@atlaskit/media-card/actions": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-card/src/actions",
-        "../../node_modules/@atlaskit/media-card/src/actions",
-        "./node_modules/@atlaskit/media-card/src/actions"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-card/src/actions"
       ],
       "@atlaskit/media-card": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-card/src/",
-        "../../node_modules/@atlaskit/media-card/src/",
-        "./node_modules/@atlaskit/media-card/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-card/src/"
       ],
       "@atlaskit/media-client/file-streams-cache": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-client/src/file-streams-cache",
-        "../../node_modules/@atlaskit/media-client/src/file-streams-cache",
-        "./node_modules/@atlaskit/media-client/src/file-streams-cache"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-client/src/file-streams-cache"
       ],
       "@atlaskit/media-client/globalMediaEventEmitter": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-client/src/globalMediaEventEmitter",
-        "../../node_modules/@atlaskit/media-client/src/globalMediaEventEmitter",
-        "./node_modules/@atlaskit/media-client/src/globalMediaEventEmitter"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-client/src/globalMediaEventEmitter"
       ],
       "@atlaskit/media-client/identifier": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-client/src/identifier",
-        "../../node_modules/@atlaskit/media-client/src/identifier",
-        "./node_modules/@atlaskit/media-client/src/identifier"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-client/src/identifier"
       ],
       "@atlaskit/media-client": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-client/src/",
-        "../../node_modules/@atlaskit/media-client/src/",
-        "./node_modules/@atlaskit/media-client/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-client/src/"
       ],
       "@atlaskit/media-client/upload-controller": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-client/src/upload-controller",
-        "../../node_modules/@atlaskit/media-client/src/upload-controller",
-        "./node_modules/@atlaskit/media-client/src/upload-controller"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-client/src/upload-controller"
       ],
       "@atlaskit/media-client/uploader": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-client/src/uploader",
-        "../../node_modules/@atlaskit/media-client/src/uploader",
-        "./node_modules/@atlaskit/media-client/src/uploader"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-client/src/uploader"
       ],
       "@atlaskit/media-core/auth": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-core/src/auth",
-        "../../node_modules/@atlaskit/media-core/src/auth",
-        "./node_modules/@atlaskit/media-core/src/auth"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-core/src/auth"
       ],
       "@atlaskit/media-core/cache": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-core/src/cache",
-        "../../node_modules/@atlaskit/media-core/src/cache",
-        "./node_modules/@atlaskit/media-core/src/cache"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-core/src/cache"
       ],
       "@atlaskit/media-core": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-core/src/",
-        "../../node_modules/@atlaskit/media-core/src/",
-        "./node_modules/@atlaskit/media-core/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-core/src/"
       ],
       "@atlaskit/media-editor/common": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-editor/src/common",
-        "../../node_modules/@atlaskit/media-editor/src/common",
-        "./node_modules/@atlaskit/media-editor/src/common"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-editor/src/common"
       ],
       "@atlaskit/media-editor": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-editor/src/",
-        "../../node_modules/@atlaskit/media-editor/src/",
-        "./node_modules/@atlaskit/media-editor/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-editor/src/"
       ],
       "@atlaskit/media-editor/util": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-editor/src/util",
-        "../../node_modules/@atlaskit/media-editor/src/util",
-        "./node_modules/@atlaskit/media-editor/src/util"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-editor/src/util"
       ],
       "@atlaskit/media-filmstrip/filmstrip": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-filmstrip/src/filmstrip",
-        "../../node_modules/@atlaskit/media-filmstrip/src/filmstrip",
-        "./node_modules/@atlaskit/media-filmstrip/src/filmstrip"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-filmstrip/src/filmstrip"
       ],
       "@atlaskit/media-filmstrip": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-filmstrip/src/",
-        "../../node_modules/@atlaskit/media-filmstrip/src/",
-        "./node_modules/@atlaskit/media-filmstrip/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-filmstrip/src/"
       ],
       "@atlaskit/media-image": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-image/src/",
-        "../../node_modules/@atlaskit/media-image/src/",
-        "./node_modules/@atlaskit/media-image/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-image/src/"
       ],
       "@atlaskit/media-image/mediaImage": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-image/src/mediaImage",
-        "../../node_modules/@atlaskit/media-image/src/mediaImage",
-        "./node_modules/@atlaskit/media-image/src/mediaImage"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-image/src/mediaImage"
       ],
       "@atlaskit/media-picker/config": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-picker/src/config",
-        "../../node_modules/@atlaskit/media-picker/src/config",
-        "./node_modules/@atlaskit/media-picker/src/config"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-picker/src/config"
       ],
       "@atlaskit/media-picker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-picker/src/",
-        "../../node_modules/@atlaskit/media-picker/src/",
-        "./node_modules/@atlaskit/media-picker/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-picker/src/"
       ],
       "@atlaskit/media-store": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-store/src/",
-        "../../node_modules/@atlaskit/media-store/src/",
-        "./node_modules/@atlaskit/media-store/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-store/src/"
       ],
       "@atlaskit/media-test-helpers/authProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/authProvider",
-        "../../node_modules/@atlaskit/media-test-helpers/src/authProvider",
-        "./node_modules/@atlaskit/media-test-helpers/src/authProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/authProvider"
       ],
       "@atlaskit/media-test-helpers/await-error": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/await-error",
-        "../../node_modules/@atlaskit/media-test-helpers/src/await-error",
-        "./node_modules/@atlaskit/media-test-helpers/src/await-error"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/await-error"
       ],
       "@atlaskit/media-test-helpers/clipboardEventMocks": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/clipboardEventMocks",
-        "../../node_modules/@atlaskit/media-test-helpers/src/clipboardEventMocks",
-        "./node_modules/@atlaskit/media-test-helpers/src/clipboardEventMocks"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/clipboardEventMocks"
       ],
       "@atlaskit/media-test-helpers/collectionNames": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/collectionNames",
-        "../../node_modules/@atlaskit/media-test-helpers/src/collectionNames",
-        "./node_modules/@atlaskit/media-test-helpers/src/collectionNames"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/collectionNames"
       ],
       "@atlaskit/media-test-helpers/contextProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/contextProvider",
-        "../../node_modules/@atlaskit/media-test-helpers/src/contextProvider",
-        "./node_modules/@atlaskit/media-test-helpers/src/contextProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/contextProvider"
       ],
       "@atlaskit/media-test-helpers/createMouseEvent": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/createMouseEvent",
-        "../../node_modules/@atlaskit/media-test-helpers/src/createMouseEvent",
-        "./node_modules/@atlaskit/media-test-helpers/src/createMouseEvent"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/createMouseEvent"
       ],
       "@atlaskit/media-test-helpers/createTouchEvent": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/createTouchEvent",
-        "../../node_modules/@atlaskit/media-test-helpers/src/createTouchEvent",
-        "./node_modules/@atlaskit/media-test-helpers/src/createTouchEvent"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/createTouchEvent"
       ],
       "@atlaskit/media-test-helpers/exampleMediaItems": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/exampleMediaItems",
-        "../../node_modules/@atlaskit/media-test-helpers/src/exampleMediaItems",
-        "./node_modules/@atlaskit/media-test-helpers/src/exampleMediaItems"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/exampleMediaItems"
       ],
       "@atlaskit/media-test-helpers/fakeContextProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fakeContextProvider",
-        "../../node_modules/@atlaskit/media-test-helpers/src/fakeContextProvider",
-        "./node_modules/@atlaskit/media-test-helpers/src/fakeContextProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fakeContextProvider"
       ],
       "@atlaskit/media-test-helpers/fakeI18n": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fakeI18n",
-        "../../node_modules/@atlaskit/media-test-helpers/src/fakeI18n",
-        "./node_modules/@atlaskit/media-test-helpers/src/fakeI18n"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fakeI18n"
       ],
       "@atlaskit/media-test-helpers/fakeMediaClient": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fakeMediaClient",
-        "../../node_modules/@atlaskit/media-test-helpers/src/fakeMediaClient",
-        "./node_modules/@atlaskit/media-test-helpers/src/fakeMediaClient"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fakeMediaClient"
       ],
       "@atlaskit/media-test-helpers/fileReader": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fileReader",
-        "../../node_modules/@atlaskit/media-test-helpers/src/fileReader",
-        "./node_modules/@atlaskit/media-test-helpers/src/fileReader"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/fileReader"
       ],
       "@atlaskit/media-test-helpers/getAuthFromContextProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/getAuthFromContextProvider",
-        "../../node_modules/@atlaskit/media-test-helpers/src/getAuthFromContextProvider",
-        "./node_modules/@atlaskit/media-test-helpers/src/getAuthFromContextProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/getAuthFromContextProvider"
       ],
       "@atlaskit/media-test-helpers/I18nWrapper": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/I18nWrapper",
-        "../../node_modules/@atlaskit/media-test-helpers/src/I18nWrapper",
-        "./node_modules/@atlaskit/media-test-helpers/src/I18nWrapper"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/I18nWrapper"
       ],
       "@atlaskit/media-test-helpers/images": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/images",
-        "../../node_modules/@atlaskit/media-test-helpers/src/images",
-        "./node_modules/@atlaskit/media-test-helpers/src/images"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/images"
       ],
       "@atlaskit/media-test-helpers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/",
-        "../../node_modules/@atlaskit/media-test-helpers/src/",
-        "./node_modules/@atlaskit/media-test-helpers/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/"
       ],
       "@atlaskit/media-test-helpers/jest_check": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/jest_check",
-        "../../node_modules/@atlaskit/media-test-helpers/src/jest_check",
-        "./node_modules/@atlaskit/media-test-helpers/src/jest_check"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/jest_check"
       ],
       "@atlaskit/media-test-helpers/jestHelpers": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/jestHelpers",
-        "../../node_modules/@atlaskit/media-test-helpers/src/jestHelpers",
-        "./node_modules/@atlaskit/media-test-helpers/src/jestHelpers"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/jestHelpers"
       ],
       "@atlaskit/media-test-helpers/keyboardEventWithKeyCode": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/keyboardEventWithKeyCode",
-        "../../node_modules/@atlaskit/media-test-helpers/src/keyboardEventWithKeyCode",
-        "./node_modules/@atlaskit/media-test-helpers/src/keyboardEventWithKeyCode"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/keyboardEventWithKeyCode"
       ],
       "@atlaskit/media-test-helpers/LanguagePicker": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/LanguagePicker",
-        "../../node_modules/@atlaskit/media-test-helpers/src/LanguagePicker",
-        "./node_modules/@atlaskit/media-test-helpers/src/LanguagePicker"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/LanguagePicker"
       ],
       "@atlaskit/media-test-helpers/mediaClientProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mediaClientProvider",
-        "../../node_modules/@atlaskit/media-test-helpers/src/mediaClientProvider",
-        "./node_modules/@atlaskit/media-test-helpers/src/mediaClientProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mediaClientProvider"
       ],
       "@atlaskit/media-test-helpers/mediaPickerAuthProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mediaPickerAuthProvider",
-        "../../node_modules/@atlaskit/media-test-helpers/src/mediaPickerAuthProvider",
-        "./node_modules/@atlaskit/media-test-helpers/src/mediaPickerAuthProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mediaPickerAuthProvider"
       ],
       "@atlaskit/media-test-helpers/mediaPickerMocks": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mediaPickerMocks",
-        "../../node_modules/@atlaskit/media-test-helpers/src/mediaPickerMocks",
-        "./node_modules/@atlaskit/media-test-helpers/src/mediaPickerMocks"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mediaPickerMocks"
       ],
       "@atlaskit/media-test-helpers/mockCanvas": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mockCanvas",
-        "../../node_modules/@atlaskit/media-test-helpers/src/mockCanvas",
-        "./node_modules/@atlaskit/media-test-helpers/src/mockCanvas"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mockCanvas"
       ],
       "@atlaskit/media-test-helpers/mockLoadImage": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mockLoadImage",
-        "../../node_modules/@atlaskit/media-test-helpers/src/mockLoadImage",
-        "./node_modules/@atlaskit/media-test-helpers/src/mockLoadImage"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mockLoadImage"
       ],
       "@atlaskit/media-test-helpers/mountWithIntlContext": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mountWithIntlContext",
-        "../../node_modules/@atlaskit/media-test-helpers/src/mountWithIntlContext",
-        "./node_modules/@atlaskit/media-test-helpers/src/mountWithIntlContext"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/mountWithIntlContext"
       ],
       "@atlaskit/media-test-helpers/nextTick": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/nextTick",
-        "../../node_modules/@atlaskit/media-test-helpers/src/nextTick",
-        "./node_modules/@atlaskit/media-test-helpers/src/nextTick"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/nextTick"
       ],
       "@atlaskit/media-test-helpers/story-list": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/story-list",
-        "../../node_modules/@atlaskit/media-test-helpers/src/story-list",
-        "./node_modules/@atlaskit/media-test-helpers/src/story-list"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/story-list"
       ],
       "@atlaskit/media-test-helpers/story-styles": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/story-styles",
-        "../../node_modules/@atlaskit/media-test-helpers/src/story-styles",
-        "./node_modules/@atlaskit/media-test-helpers/src/story-styles"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/story-styles"
       ],
       "@atlaskit/media-test-helpers/styled": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/styled",
-        "../../node_modules/@atlaskit/media-test-helpers/src/styled",
-        "./node_modules/@atlaskit/media-test-helpers/src/styled"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/styled"
       ],
       "@atlaskit/media-test-helpers/userAuthProvider": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/userAuthProvider",
-        "../../node_modules/@atlaskit/media-test-helpers/src/userAuthProvider",
-        "./node_modules/@atlaskit/media-test-helpers/src/userAuthProvider"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/userAuthProvider"
       ],
       "@atlaskit/media-test-helpers/waitUntil": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/waitUntil",
-        "../../node_modules/@atlaskit/media-test-helpers/src/waitUntil",
-        "./node_modules/@atlaskit/media-test-helpers/src/waitUntil"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-test-helpers/src/waitUntil"
       ],
       "@atlaskit/media-ui/camera": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/camera",
-        "../../node_modules/@atlaskit/media-ui/src/camera",
-        "./node_modules/@atlaskit/media-ui/src/camera"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/camera"
       ],
       "@atlaskit/media-ui/classNames": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/classNames",
-        "../../node_modules/@atlaskit/media-ui/src/classNames",
-        "./node_modules/@atlaskit/media-ui/src/classNames"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/classNames"
       ],
       "@atlaskit/media-ui/common": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/common",
-        "../../node_modules/@atlaskit/media-ui/src/common",
-        "./node_modules/@atlaskit/media-ui/src/common"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/common"
       ],
       "@atlaskit/media-ui/ellipsify": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/ellipsify",
-        "../../node_modules/@atlaskit/media-ui/src/ellipsify",
-        "./node_modules/@atlaskit/media-ui/src/ellipsify"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/ellipsify"
       ],
       "@atlaskit/media-ui/formatDuration": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/formatDuration",
-        "../../node_modules/@atlaskit/media-ui/src/formatDuration",
-        "./node_modules/@atlaskit/media-ui/src/formatDuration"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/formatDuration"
       ],
       "@atlaskit/media-ui/humanReadableSize": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/humanReadableSize",
-        "../../node_modules/@atlaskit/media-ui/src/humanReadableSize",
-        "./node_modules/@atlaskit/media-ui/src/humanReadableSize"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/humanReadableSize"
       ],
       "@atlaskit/media-ui": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/",
-        "../../node_modules/@atlaskit/media-ui/src/",
-        "./node_modules/@atlaskit/media-ui/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/"
       ],
       "@atlaskit/media-ui/infiniteScroll": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/infiniteScroll",
-        "../../node_modules/@atlaskit/media-ui/src/infiniteScroll",
-        "./node_modules/@atlaskit/media-ui/src/infiniteScroll"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/infiniteScroll"
       ],
       "@atlaskit/media-ui/MediaButton": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/MediaButton",
-        "../../node_modules/@atlaskit/media-ui/src/MediaButton",
-        "./node_modules/@atlaskit/media-ui/src/MediaButton"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/MediaButton"
       ],
       "@atlaskit/media-ui/messages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/messages",
-        "../../node_modules/@atlaskit/media-ui/src/messages",
-        "./node_modules/@atlaskit/media-ui/src/messages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/messages"
       ],
       "@atlaskit/media-ui/mixins": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/mixins",
-        "../../node_modules/@atlaskit/media-ui/src/mixins",
-        "./node_modules/@atlaskit/media-ui/src/mixins"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/mixins"
       ],
       "@atlaskit/media-ui/modalSpinner": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/modalSpinner",
-        "../../node_modules/@atlaskit/media-ui/src/modalSpinner",
-        "./node_modules/@atlaskit/media-ui/src/modalSpinner"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/modalSpinner"
       ],
       "@atlaskit/media-ui/shortcut": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/shortcut",
-        "../../node_modules/@atlaskit/media-ui/src/shortcut",
-        "./node_modules/@atlaskit/media-ui/src/shortcut"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/shortcut"
       ],
       "@atlaskit/media-ui/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/types",
-        "../../node_modules/@atlaskit/media-ui/src/types",
-        "./node_modules/@atlaskit/media-ui/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/types"
       ],
       "@atlaskit/media-ui/util": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/util",
-        "../../node_modules/@atlaskit/media-ui/src/util",
-        "./node_modules/@atlaskit/media-ui/src/util"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-ui/src/util"
       ],
       "@atlaskit/media-viewer": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/media-viewer/src/",
-        "../../node_modules/@atlaskit/media-viewer/src/",
-        "./node_modules/@atlaskit/media-viewer/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/media-viewer/src/"
       ],
       "@atlaskit/smart-card": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/smart-card/src/",
-        "../../node_modules/@atlaskit/smart-card/src/",
-        "./node_modules/@atlaskit/smart-card/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/smart-card/src/"
       ],
       "@atlaskit/code-insights": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/code-insights/src/",
-        "../../node_modules/@atlaskit/code-insights/src/",
-        "./node_modules/@atlaskit/code-insights/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/code-insights/src/"
       ],
       "@atlaskit/dependency-version-analytics/cli": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/cli",
-        "../../node_modules/@atlaskit/dependency-version-analytics/src/cli",
-        "./node_modules/@atlaskit/dependency-version-analytics/src/cli"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/cli"
       ],
       "@atlaskit/dependency-version-analytics/constants": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/constants",
-        "../../node_modules/@atlaskit/dependency-version-analytics/src/constants",
-        "./node_modules/@atlaskit/dependency-version-analytics/src/constants"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/constants"
       ],
       "@atlaskit/dependency-version-analytics": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/",
-        "../../node_modules/@atlaskit/dependency-version-analytics/src/",
-        "./node_modules/@atlaskit/dependency-version-analytics/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/"
       ],
       "@atlaskit/dependency-version-analytics/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/types",
-        "../../node_modules/@atlaskit/dependency-version-analytics/src/types",
-        "./node_modules/@atlaskit/dependency-version-analytics/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/dependency-version-analytics/src/types"
       ],
       "@atlaskit/atlassian-switcher": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/atlassian-switcher/src/",
-        "../../node_modules/@atlaskit/atlassian-switcher/src/",
-        "./node_modules/@atlaskit/atlassian-switcher/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/atlassian-switcher/src/"
       ],
       "@atlaskit/atlassian-switcher/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/atlassian-switcher/src/types",
-        "../../node_modules/@atlaskit/atlassian-switcher/src/types",
-        "./node_modules/@atlaskit/atlassian-switcher/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/atlassian-switcher/src/types"
       ],
       "@atlaskit/focused-task-close-account": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/focused-task-close-account/src/",
-        "../../node_modules/@atlaskit/focused-task-close-account/src/",
-        "./node_modules/@atlaskit/focused-task-close-account/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/focused-task-close-account/src/"
       ],
       "@atlaskit/focused-task-close-account/messages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/focused-task-close-account/src/messages",
-        "../../node_modules/@atlaskit/focused-task-close-account/src/messages",
-        "./node_modules/@atlaskit/focused-task-close-account/src/messages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/focused-task-close-account/src/messages"
       ],
       "@atlaskit/focused-task-close-account/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/focused-task-close-account/src/types",
-        "../../node_modules/@atlaskit/focused-task-close-account/src/types",
-        "./node_modules/@atlaskit/focused-task-close-account/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/focused-task-close-account/src/types"
       ],
       "@atlaskit/profilecard": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/profilecard/src/",
-        "../../node_modules/@atlaskit/profilecard/src/",
-        "./node_modules/@atlaskit/profilecard/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/profilecard/src/"
       ],
       "@atlaskit/profilecard/messages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/profilecard/src/messages",
-        "../../node_modules/@atlaskit/profilecard/src/messages",
-        "./node_modules/@atlaskit/profilecard/src/messages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/profilecard/src/messages"
       ],
       "@atlaskit/profilecard/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/profilecard/src/types",
-        "../../node_modules/@atlaskit/profilecard/src/types",
-        "./node_modules/@atlaskit/profilecard/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/profilecard/src/types"
       ],
       "@atlaskit/global-search": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/global-search/src/",
-        "../../node_modules/@atlaskit/global-search/src/",
-        "./node_modules/@atlaskit/global-search/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/global-search/src/"
       ],
       "@atlaskit/global-search/messages": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/global-search/src/messages",
-        "../../node_modules/@atlaskit/global-search/src/messages",
-        "./node_modules/@atlaskit/global-search/src/messages"
+        "./build/multi-entry-tools/node_modules/@atlaskit/global-search/src/messages"
       ],
       "@atlaskit/global-search/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/global-search/src/types",
-        "../../node_modules/@atlaskit/global-search/src/types",
-        "./node_modules/@atlaskit/global-search/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/global-search/src/types"
       ],
       "@atlaskit/quick-search": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/quick-search/src/",
-        "../../node_modules/@atlaskit/quick-search/src/",
-        "./node_modules/@atlaskit/quick-search/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/quick-search/src/"
       ],
       "@atlaskit/progress-bar": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/progress-bar/src/",
-        "../../node_modules/@atlaskit/progress-bar/src/",
-        "./node_modules/@atlaskit/progress-bar/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/progress-bar/src/"
       ],
       "@atlaskit/progress-bar/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/progress-bar/src/theme",
-        "../../node_modules/@atlaskit/progress-bar/src/theme",
-        "./node_modules/@atlaskit/progress-bar/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/progress-bar/src/theme"
       ],
       "@atlaskit/progress-bar/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/progress-bar/src/types",
-        "../../node_modules/@atlaskit/progress-bar/src/types",
-        "./node_modules/@atlaskit/progress-bar/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/progress-bar/src/types"
       ],
       "@atlaskit/outbound-auth-flow-client": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/outbound-auth-flow-client/src/",
-        "../../node_modules/@atlaskit/outbound-auth-flow-client/src/",
-        "./node_modules/@atlaskit/outbound-auth-flow-client/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/outbound-auth-flow-client/src/"
       ],
       "@atlaskit/nachos-textfield/colors": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/colors",
-        "../../node_modules/@atlaskit/textfield/src/colors",
-        "./node_modules/@atlaskit/textfield/src/colors"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/colors"
       ],
       "@atlaskit/nachos-textfield": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/",
-        "../../node_modules/@atlaskit/textfield/src/",
-        "./node_modules/@atlaskit/textfield/src/"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/"
       ],
       "@atlaskit/nachos-textfield/theme": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/theme",
-        "../../node_modules/@atlaskit/textfield/src/theme",
-        "./node_modules/@atlaskit/textfield/src/theme"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/theme"
       ],
       "@atlaskit/nachos-textfield/types": [
         "../../../build/multi-entry-tools/node_modules/@atlaskit/textfield/src/types",
-        "../../node_modules/@atlaskit/textfield/src/types",
-        "./node_modules/@atlaskit/textfield/src/types"
+        "./build/multi-entry-tools/node_modules/@atlaskit/textfield/src/types"
       ]
     }
   }
