@@ -108,7 +108,7 @@ function collectCanManageLinks(
 function collectAdminLinks(
   managePermission: ProviderResults['managePermission'],
   addProductsPermission: ProviderResults['addProductsPermission'],
-  isProductStoreEnabled: boolean,
+  isDiscoverMoreForEveryoneEnabled: boolean,
 ) {
   if (isError(managePermission) || isError(addProductsPermission)) {
     return [];
@@ -118,7 +118,7 @@ function collectAdminLinks(
     if (managePermission.data || addProductsPermission.data) {
       return getAdministrationLinks(
         managePermission.data,
-        isProductStoreEnabled,
+        isDiscoverMoreForEveryoneEnabled,
       );
     }
 
@@ -127,9 +127,9 @@ function collectAdminLinks(
 }
 
 export function collectFixedProductLinks(
-  isProductStoreEnabled: boolean,
+  isDiscoverMoreForEveryoneEnabled: boolean,
 ): SwitcherItemType[] {
-  return getFixedProductLinks(isProductStoreEnabled);
+  return getFixedProductLinks(isDiscoverMoreForEveryoneEnabled);
 }
 
 function collectRecentLinks(
@@ -282,12 +282,15 @@ export function mapResultsToSwitcherProps(
           [],
         )
       : [],
-    fixedLinks: collect(collectFixedProductLinks(features.productStore), []),
+    fixedLinks: collect(
+      collectFixedProductLinks(features.isDiscoverMoreForEveryoneEnabled),
+      [],
+    ),
     adminLinks: collect(
       collectAdminLinks(
         managePermission,
         addProductsPermission,
-        features.productStore,
+        features.isDiscoverMoreForEveryoneEnabled,
       ),
       [],
     ),

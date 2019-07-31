@@ -8,7 +8,7 @@ export interface TriggerXFlowCallback {
     analyticsEvent: UIAnalyticsEventInterface,
   ): void;
 }
-export interface TriggerProductStoreCallback {
+export interface DiscoverMoreCallback {
   (event: any, analyticsEvent: UIAnalyticsEventInterface): void;
 }
 
@@ -55,7 +55,7 @@ export enum Feature {
   disableCustomLinks = 'disableCustomLinks',
   disableRecentContainers = 'disableRecentContainers',
   xflow = 'xflow',
-  productStore = 'productStore',
+  isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
 }
 
 export type FeatureFlagProps = {

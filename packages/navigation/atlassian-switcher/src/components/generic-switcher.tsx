@@ -5,7 +5,7 @@ import CommonDataProvider from '../providers/common-data-provider';
 import {
   Product,
   FeatureMap,
-  TriggerProductStoreCallback,
+  DiscoverMoreCallback,
   TriggerXFlowCallback,
 } from '../types';
 import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
@@ -16,7 +16,7 @@ type GenericSwitcherProps = {
   messages: Messages;
   features: FeatureMap;
   triggerXFlow: TriggerXFlowCallback;
-  triggerProductStore: TriggerProductStoreCallback;
+  onDiscoverMoreClicked: DiscoverMoreCallback;
   product: Exclude<Product, Product.JIRA | Product.CONFLUENCE>;
 };
 

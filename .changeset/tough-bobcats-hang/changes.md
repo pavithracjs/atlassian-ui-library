@@ -1,1 +1,1 @@
-Adding triggerProductStore callback prop onto the Atlassian Switcher API
+Adding isDiscoverMoreForEveryoneEnabled and onDiscoverMoreClicked props onto the Atlassian Switcher API

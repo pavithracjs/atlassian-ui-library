@@ -22,7 +22,7 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
-          productStore: false,
+          isDiscoverMoreForEveryoneEnabled: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -84,7 +84,7 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
-          productStore: false,
+          isDiscoverMoreForEveryoneEnabled: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -118,7 +118,7 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
-          productStore: false,
+          isDiscoverMoreForEveryoneEnabled: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [

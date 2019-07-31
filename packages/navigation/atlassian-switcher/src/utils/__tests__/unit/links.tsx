@@ -48,15 +48,15 @@ const generateOpsgenieLicenseInformation = (
 describe('utils/links', () => {
   describe('fixed product links', () => {
     it('should have link for People', () => {
-      const isProductStoreEnabled = false;
+      const isDiscoverMoreForEveryoneEnabled = false;
       const expectedProducts = ['people'];
-      const fixedLinks = getFixedProductLinks(isProductStoreEnabled);
+      const fixedLinks = getFixedProductLinks(isDiscoverMoreForEveryoneEnabled);
       expect(fixedLinks.map(({ key }) => key)).toMatchObject(expectedProducts);
     });
     it('should have product store link if enabled', () => {
-      const isProductStoreEnabled = true;
+      const isDiscoverMoreForEveryoneEnabled = true;
       const expectedProducts = ['people', 'product-store'];
-      const fixedLinks = getFixedProductLinks(isProductStoreEnabled);
+      const fixedLinks = getFixedProductLinks(isDiscoverMoreForEveryoneEnabled);
       expect(fixedLinks.map(({ key }) => key)).toMatchObject(expectedProducts);
     });
   });
@@ -166,15 +166,21 @@ describe('utils/links', () => {
   describe('getAdministrationLinks', () => {
     it('should assemble admin links for site admins', () => {
       const isAdmin = true;
-      const isProductStoreEnabled = false;
-      const result = getAdministrationLinks(isAdmin, isProductStoreEnabled);
+      const isDiscoverMoreForEveryoneEnabled = false;
+      const result = getAdministrationLinks(
+        isAdmin,
+        isDiscoverMoreForEveryoneEnabled,
+      );
       const expectedResult = [`/admin/billing/addapplication`, `/admin`];
       expect(result.map(({ href }) => href)).toMatchObject(expectedResult);
     });
     it('should assemble admin links for site trusted users', () => {
       const isAdmin = false;
-      const isProductStoreEnabled = false;
-      const result = getAdministrationLinks(isAdmin, isProductStoreEnabled);
+      const isDiscoverMoreForEveryoneEnabled = false;
+      const result = getAdministrationLinks(
+        isAdmin,
+        isDiscoverMoreForEveryoneEnabled,
+      );
       const expectedResult = [
         `/trusted-admin/billing/addapplication`,
         `/trusted-admin`,
@@ -182,8 +188,11 @@ describe('utils/links', () => {
       expect(result.map(({ href }) => href)).toMatchObject(expectedResult);
     });
     it('should not include discover more if product store is enabled', () => {
-      const isProductStoreEnabled = true;
-      const result = getAdministrationLinks(true, isProductStoreEnabled);
+      const isDiscoverMoreForEveryoneEnabled = true;
+      const result = getAdministrationLinks(
+        true,
+        isDiscoverMoreForEveryoneEnabled,
+      );
 
       const expectedResult = [`administration`];
       expect(result.map(({ key }) => key)).toMatchObject(expectedResult);
