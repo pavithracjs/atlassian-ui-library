@@ -42,7 +42,7 @@ export interface CancellableFileUpload {
   cancel?: () => void;
 }
 
-export class NewUploadServiceImpl implements UploadService {
+export class UploadServiceImpl implements UploadService {
   private readonly userMediaStore?: MediaStore;
   private readonly tenantMediaStore: MediaStore;
   private readonly userMediaClient?: MediaClient;
