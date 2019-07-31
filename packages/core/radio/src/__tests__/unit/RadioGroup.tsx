@@ -75,7 +75,7 @@ describe(name, () => {
               options={sampleOptions}
             />,
           );
-          expect(wrapper.find(Radio)).toBeDefined();
+          expect(wrapper.find(Radio).length).toBeGreaterThan(0);
           wrapper
             .find(Radio)
             .forEach(radio => expect(radio.prop('isDisabled')).toBe(true));
@@ -97,7 +97,7 @@ describe(name, () => {
               ]}
             />,
           );
-          expect(wrapper.find(Radio)).toBeDefined();
+          expect(wrapper.find(Radio).length).toBeGreaterThan(0);
           wrapper.find(Radio).forEach(radio => {
             expect(radio.prop('isDisabled')).toBe(true);
           });
@@ -113,7 +113,7 @@ describe(name, () => {
               options={sampleOptions}
             />,
           );
-          expect(wrapper.find(Radio)).toBeDefined();
+          expect(wrapper.find(Radio).length).toBeGreaterThan(0);
           wrapper.find(Radio).forEach(radio => {
             expect(radio.prop('isRequired')).not.toBe(undefined);
           });

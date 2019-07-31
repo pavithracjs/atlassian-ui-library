@@ -13,8 +13,6 @@ import DropdownMenu, {
   DropdownMenuStateless,
 } from '../../..';
 
-test.skip('Skipped tests', () => {});
-
 /* TODO: create integration tests to replace these See https://ecosystem.atlassian.net/browse/AK-5183
 describe('dropdown menu - DropdownItemRadio', () => {
   const isIconSelected = icon =>

@@ -92,7 +92,7 @@ describe(name, () => {
               isRequired={isRequired}
             />,
           );
-          expect(wrapper.find(Radio)).toBeDefined();
+          expect(wrapper.find(Radio).length).toBeGreaterThan(0);
           wrapper
             .find(Radio)
             .forEach(radio =>

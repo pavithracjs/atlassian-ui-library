@@ -728,8 +728,8 @@ describe('<Navigation />', () => {
           wrapper
             .find(GlobalNavigation)
             .find(GlobalSecondaryActions)
-            .find(Child).length,
-        ).toBe(2);
+            .find(Child),
+        ).toHaveLength(2);
       });
       it('linkComponent is passed on to <GlobalNavigation/>', () => {
         const linkComponent = () => null;
