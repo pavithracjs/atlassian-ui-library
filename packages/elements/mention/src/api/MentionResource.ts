@@ -89,6 +89,7 @@ export interface MentionProvider
 
 export interface TeamMentionProvider extends MentionProvider {
   mentionTypeaheadSpotlightEnabled: () => boolean;
+  createTeamPath?: string;
 }
 
 /**

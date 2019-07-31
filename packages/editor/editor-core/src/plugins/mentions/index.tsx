@@ -159,16 +159,15 @@ const mentionsPlugin = (
         getSpotlight: (state: EditorState) => {
           const pluginState = getMentionPluginState(state);
           const provider = pluginState.mentionProvider;
-          if (
-            provider &&
-            (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
-          ) {
+          if (provider) {
+            const teamMentionProvider = provider as TeamMentionProvider;
             if (
-              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled()
+              teamMentionProvider.mentionTypeaheadSpotlightEnabled &&
+              teamMentionProvider.mentionTypeaheadSpotlightEnabled()
             ) {
               return (
                 <MentionSpotlight
-                  createTeamLink="/people/search#createTeam"
+                  createTeamLink={teamMentionProvider.createTeamPath}
                   onClose={() => MentionSpotlightController.registerClosed()} // todo - TEAMS-605 - use a proper function here which sends both analytics and register the close as well
                 />
               );
