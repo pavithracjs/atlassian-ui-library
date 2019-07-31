@@ -38,9 +38,13 @@ process.on('unhandledRejection', reason => {
 });
 
 // We need to ensure that each test has at least one assertion.
-beforeEach(() => {
-  expect.hasAssertions();
-});
+// Currently, the integration tests are using a custom matcher and it is not considered as an assertion.
+// `expect.hasAssertions()` will only run for Visual Regression And Unit tests.
+if (!process.env.INTEGRATION_TESTS) {
+  beforeEach(() => {
+    expect.hasAssertions();
+  });
+}
 
 /*
   This file is executed after the test framework is setup for each test file. Addons that modify
@@ -336,7 +340,6 @@ expect.extend({
    */
   toMatchCustomSnapshot(actual, testCase) {
     const fakeThis = { ...this, currentTestName: testCase };
-    expect(true).toBe(true);
     return toMatchSnapshot.call(fakeThis, actual);
   },
 
@@ -365,8 +368,6 @@ expect.extend({
     });
     const fakeThis = { ...this, currentTestName: testCase };
     const ret = toMatchSnapshot.call(fakeThis, transformedDoc);
-    // This has been added because custom matchers are not fully expecting something and fails the check `expect.hasAssertions`.
-    expect(true).toBe(true);
     return ret;
   },
 
@@ -406,8 +407,6 @@ expect.extend({
     const ret = toMatchSnapshot.call(this, transformedDoc);
 
     this.currentTestName = oldTestName;
-    // This has been added because custom matchers are not fully expecting something and fails the check `expect.hasAssertions`.
-    expect(true).toBe(true);
     return ret;
   },
 });

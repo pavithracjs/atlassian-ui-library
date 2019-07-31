@@ -13,8 +13,8 @@ import DropdownMenu, {
   DropdownMenuStateless,
 } from '../../..';
 
-/* TODO: create integration tests to replace these See https://ecosystem.atlassian.net/browse/AK-5183
-describe('dropdown menu - DropdownItemRadio', () => {
+/* TODO: create integration tests to replace these See https://ecosystem.atlassian.net/browse/AK-5183 */
+describe.skip('dropdown menu - DropdownItemRadio', () => {
   const isIconSelected = icon =>
     icon.prop('primaryColor') === colors.B400 &&
     icon.prop('secondaryColor') === colors.N40;
@@ -28,7 +28,7 @@ describe('dropdown menu - DropdownItemRadio', () => {
         .first()
         .simulate('click');
     };
-    
+
     beforeEach(() => {
       wrapper = mount(
         <DropdownMenuStateless isOpen>
@@ -226,4 +226,3 @@ describe('dropdown menu - DropdownItemRadio', () => {
     });
   });
 });
-*/
