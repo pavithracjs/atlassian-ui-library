@@ -76,6 +76,10 @@ export default class MentionSpotlightController {
     return item;
   };
 
+  static getSeenCount = (): number => {
+    return MentionSpotlightController.readFromLocalStorage().seenCount;
+  };
+
   static registerCreateLinkClick = MentionSpotlightController.markAsDone;
   static registerTeamMention = MentionSpotlightController.markAsDone;
   static registerClosed = MentionSpotlightController.markAsDone;

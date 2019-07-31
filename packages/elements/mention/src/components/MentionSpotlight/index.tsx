@@ -57,10 +57,9 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
   componentDidMount() {
     const { onViewed } = this.props;
     this.addEventHandler();
+    MentionSpotlightController.registerRender();
     if (onViewed) {
       onViewed();
-    } else {
-      MentionSpotlightController.registerRender();
     }
   }
 
@@ -189,7 +188,7 @@ const MentionSpotlightWithAnalytics = withAnalyticsEvents<OwnProps>({
       Actions.VIEWED,
       ComponentNames.MENTION,
       undefined,
-      MentionSpotlightController.registerRender().seenCount,
+      MentionSpotlightController.getSeenCount(),
     );
   },
 })(MentionSpotlightInternal) as React.ComponentClass<OwnProps, State>;
