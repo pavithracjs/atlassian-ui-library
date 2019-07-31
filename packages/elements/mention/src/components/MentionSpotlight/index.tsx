@@ -21,6 +21,10 @@ export interface Props {
 
 export interface State {
   isSpotlightClosed: boolean;
+  /** If Spotlight is re-rendered after updating the counts at MentionSpotlightController, spotlight will
+   * appear for sometime and then disappear. Below state prevents that from happening
+   */
+  wasSpotlightEnabledAtComponentMount: boolean;
 }
 
 const ICON_URL =
@@ -38,10 +42,15 @@ export default class MentionSpotlight extends React.Component<Props, State> {
     this.elCloseWrapper = React.createRef();
     this.state = {
       isSpotlightClosed: false,
+      wasSpotlightEnabledAtComponentMount: false,
     };
   }
   componentDidMount() {
     this.addEventHandler();
+    //need to check before registering this mounting
+    if (MentionSpotlightController.isSpotlightEnabled()) {
+      this.setState({ wasSpotlightEnabledAtComponentMount: true });
+    }
     MentionSpotlightController.registerRender();
   }
 
@@ -89,9 +98,12 @@ export default class MentionSpotlight extends React.Component<Props, State> {
 
   render() {
     const { createTeamLink } = this.props;
-    const { isSpotlightClosed } = this.state;
+    const {
+      isSpotlightClosed,
+      wasSpotlightEnabledAtComponentMount: wasSpotlightShownAtComponentMount,
+    } = this.state;
 
-    if (isSpotlightClosed) {
+    if (isSpotlightClosed || !wasSpotlightShownAtComponentMount) {
       return null;
     }
 
