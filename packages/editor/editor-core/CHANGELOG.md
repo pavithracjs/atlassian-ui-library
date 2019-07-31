@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.14
+
+### Patch Changes
+
+- [patch][ce4419f491](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4419f491):
+
+  ED-7142: Prevent block extensions from being re-mounted during a layout change.
+
 ## 112.39.13
 
 ### Patch Changes
