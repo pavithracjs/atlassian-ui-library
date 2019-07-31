@@ -151,6 +151,7 @@ const mergeSearchResultsWithRecentItems = (
 };
 
 const LOGGER_NAME = 'AK.GlobalSearch.ConfluenceQuickSearchContainer';
+const CCS_AUTOCOMPLETE = 'ccsearch-autocomplete';
 /**
  * Container Component that handles the data fetching when the user interacts with Search.
  */
@@ -413,7 +414,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const autocompletePromise = handlePromiseError(
       autocompleteClient.getAutocompleteSuggestions(query),
       [query],
-      this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
+      this.handleSearchErrorAnalyticsThunk(CCS_AUTOCOMPLETE),
     );
 
     return autocompletePromise;
@@ -425,7 +426,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const navAutocompletePromise = handlePromiseError(
       navAutocompleteClient.getNavAutocompleteSuggestions(query),
       [query],
-      this.handleSearchErrorAnalyticsThunk('ccsearch-autocomplete'),
+      this.handleSearchErrorAnalyticsThunk(CCS_AUTOCOMPLETE),
     );
 
     return navAutocompletePromise;

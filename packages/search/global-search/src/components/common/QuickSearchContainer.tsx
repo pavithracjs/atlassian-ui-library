@@ -455,9 +455,7 @@ export class QuickSearchContainer<
       getAutocompleteSuggestions,
       getNavAutocompleteSuggestions,
     } = this.props;
-    // if (!getAutocompleteSuggestions && !getNavAutocompleteSuggestions) {
-    //   return;
-    // }
+
     try {
       let results;
 

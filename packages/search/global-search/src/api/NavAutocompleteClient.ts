@@ -13,6 +13,8 @@ export interface CrossProductSearchResponse {
   scopes: NavScopeResult[];
 }
 
+const NAV_AUTOCOMPLETE_PATH = 'quicksearch/v1';
+
 export class NavAutocompleteClientImpl implements NavAutocompleteClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
@@ -25,7 +27,7 @@ export class NavAutocompleteClientImpl implements NavAutocompleteClient {
   private async createNavAutocompleteRequestPromise<T>(
     query: string,
   ): Promise<string[]> {
-    const path = 'quicksearch/v1';
+    const path = NAV_AUTOCOMPLETE_PATH;
     const options: RequestServiceOptions = {
       path,
       requestInit: {
