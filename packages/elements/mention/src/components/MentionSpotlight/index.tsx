@@ -20,11 +20,7 @@ export interface Props {
 }
 
 export interface State {
-  isSpotlightClosed: boolean;
-  /** If Spotlight is re-rendered after updating the counts at MentionSpotlightController, spotlight will
-   * appear for sometime and then disappear. Below state prevents that from happening
-   */
-  wasSpotlightEnabledAtComponentMount: boolean;
+  isSpotlightHidden: boolean;
 }
 
 const ICON_URL =
@@ -41,15 +37,16 @@ export default class MentionSpotlight extends React.Component<Props, State> {
     this.elWrapper = React.createRef();
     this.elCloseWrapper = React.createRef();
     this.state = {
-      isSpotlightClosed: false,
-      wasSpotlightEnabledAtComponentMount: false,
+      isSpotlightHidden: false,
     };
   }
   componentDidMount() {
     this.addEventHandler();
-    //need to check before registering this mounting
-    if (MentionSpotlightController.isSpotlightEnabled()) {
-      this.setState({ wasSpotlightEnabledAtComponentMount: true });
+    // Spotlight hiding logic was moved to Mount method because if Spotlight is re-rendered after updating the
+    // counts at MentionSpotlightController, spotlight will appear for sometime and then disappear. As of the time
+    // of writing this code, this was only happening in Fabric Editor ( See TEAMS-623 )
+    if (!MentionSpotlightController.isSpotlightEnabled()) {
+      this.setState({ isSpotlightHidden: true });
     }
     MentionSpotlightController.registerRender();
   }
@@ -92,18 +89,15 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   }
 
   onCloseClick = () => {
-    this.setState({ isSpotlightClosed: true });
+    this.setState({ isSpotlightHidden: true });
     this.props.onClose();
   };
 
   render() {
     const { createTeamLink } = this.props;
-    const {
-      isSpotlightClosed,
-      wasSpotlightEnabledAtComponentMount: wasSpotlightShownAtComponentMount,
-    } = this.state;
+    const { isSpotlightHidden: isSpotlightClosed } = this.state;
 
-    if (isSpotlightClosed || !wasSpotlightShownAtComponentMount) {
+    if (isSpotlightClosed) {
       return null;
     }
 
