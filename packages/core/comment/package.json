@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/patterns/comments",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
@@ -26,7 +26,7 @@
     "@atlaskit/icon": "^19.0.0",
     "@atlaskit/lozenge": "^9.0.0",
     "@atlaskit/theme": "^9.1.1",
-    "@babel/runtime": "^7.0.0"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0",
@@ -47,5 +47,6 @@
     "comment",
     "react",
     "ui"
-  ]
+  ],
+  "types": "dist/cjs/index.d.ts"
 }

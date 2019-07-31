@@ -37,6 +37,10 @@ declare module '@atlaskit/code' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/comment' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/drawer' {
   declare module.exports: any;
 }
@@ -85,6 +89,10 @@ declare module '@atlaskit/pagination' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/popper' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/portal' {
   declare module.exports: any;
 }
@@ -114,9 +122,5 @@ declare module '@atlaskit/toggle' {
 }
 
 declare module '@atlaskit/tooltip' {
-  declare module.exports: any;
-}
-
-declare module '@atlaskit/popper' {
   declare module.exports: any;
 }
