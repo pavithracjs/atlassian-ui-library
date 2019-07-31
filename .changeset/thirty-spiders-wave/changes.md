@@ -1,1 +1,0 @@
-Import editor-core dependencies via module name
