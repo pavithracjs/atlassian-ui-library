@@ -5,7 +5,7 @@ const ThemeColor = {
   text: colors.N500,
 };
 
-interface commonProps {
+interface CommonProps {
   hasAuthor?: boolean;
 }
 const common = ({ hasAuthor }: commonProps) => css`
