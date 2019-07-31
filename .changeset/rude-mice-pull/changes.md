@@ -1,1 +1,0 @@
-TEAMS-602 : Can pass the team creation link from confluence as an optional parameter to the Team Mention Spotlight
