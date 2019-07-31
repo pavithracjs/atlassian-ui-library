@@ -84,6 +84,7 @@ describe('@atlaskit comments', () => {
 
       it('should not render the container if no nested comments are provided', () => {
         const wrapper = mount(<CommentLayout />);
+        //@ts-ignore
         expect(wrapper.contains(NestedCommentsDiv)).toBe(false);
       });
 

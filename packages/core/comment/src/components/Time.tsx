@@ -42,12 +42,12 @@ class Time extends Component<Props> {
 export { Time as CommentTimeWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'commentTime',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'commentTime',

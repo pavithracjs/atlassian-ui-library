@@ -33,12 +33,12 @@ class Edited extends Component<Props, {}> {
 export { Edited as CommentEditedWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'commentEdited',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'commentEdited',

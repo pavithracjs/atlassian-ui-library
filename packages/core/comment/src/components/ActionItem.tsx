@@ -41,12 +41,12 @@ class ActionItem extends Component<Props, {}> {
 export { ActionItem as CommentActionWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<Props>({
   componentName: 'commentAction',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<Props>({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'commentAction',
