@@ -4,8 +4,6 @@ const propToFeature = (props: any, key: string) => {
   switch (key) {
     case Feature.xflow:
       return typeof props.triggerXFlow === 'function';
-    case Feature.productStore:
-      return typeof props.triggerProductStore === 'function';
     default:
       return Boolean(props[key]);
   }

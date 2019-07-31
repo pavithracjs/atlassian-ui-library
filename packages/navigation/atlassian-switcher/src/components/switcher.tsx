@@ -23,7 +23,7 @@ import {
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback, TriggerProductStoreCallback } from '../types';
+import { TriggerXFlowCallback, DiscoverMoreCallback } from '../types';
 import { urlToHostname } from '../utils/url-to-hostname';
 
 const noop = () => void 0;
@@ -31,7 +31,7 @@ const noop = () => void 0;
 type SwitcherProps = {
   messages: Messages;
   triggerXFlow: TriggerXFlowCallback;
-  triggerProductStore: TriggerProductStoreCallback;
+  onDiscoverMoreClicked: DiscoverMoreCallback;
   isLoading: boolean;
   licensedProductLinks: SwitcherItemType[];
   suggestedProductLinks: SwitcherItemType[];
@@ -99,13 +99,13 @@ export default class Switcher extends React.Component<SwitcherProps> {
    *  href is not valid for this case the item will instead call the onClick callback provided.
    *  */
 
-  onFixedLinkClick = (key: string) =>
-    key === 'product-store'
-      ? (event: any, analyticsEvent: UIAnalyticsEventInterface) => {
-          const { triggerProductStore } = this.props;
-          triggerProductStore(event, analyticsEvent);
-        }
-      : noop;
+  onDiscoverMoreClicked = (
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ) => {
+    const { onDiscoverMoreClicked } = this.props;
+    onDiscoverMoreClicked(event, analyticsEvent);
+  };
 
   render() {
     const {
@@ -221,7 +221,11 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 <SwitcherItem
                   icon={<item.Icon theme="product" />}
                   href={item.href}
-                  onClick={this.onFixedLinkClick(item.key)}
+                  onClick={
+                    item.key === 'discover-more'
+                      ? this.onDiscoverMoreClicked
+                      : noop
+                  }
                 >
                   {item.label}
                 </SwitcherItem>

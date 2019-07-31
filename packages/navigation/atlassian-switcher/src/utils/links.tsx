@@ -118,7 +118,7 @@ export const getObjectTypeLabel = (type: string): React.ReactNode => {
 };
 
 export const getFixedProductLinks = (
-  isProductStoreEnabled: boolean,
+  isDiscoverMoreForEveryoneEnabled: boolean,
 ): SwitcherItemType[] => {
   const fixedLinks = [
     {
@@ -128,9 +128,9 @@ export const getFixedProductLinks = (
       href: `/people`,
     },
   ];
-  if (isProductStoreEnabled) {
+  if (isDiscoverMoreForEveryoneEnabled) {
     fixedLinks.push({
-      key: 'product-store',
+      key: 'discover-more',
       label: <FormattedMessage {...messages.discoverMore} />,
       Icon: createIcon(AddIcon, { size: 'medium' }),
       href: '',
@@ -288,7 +288,7 @@ export const getLicensedProductLinks = (
 
 export const getAdministrationLinks = (
   isAdmin: boolean,
-  isProductStoreEnabled: boolean,
+  isDiscoverMoreForEveryoneEnabled: boolean,
 ): SwitcherItemType[] => {
   const adminBaseUrl = isAdmin ? `/admin` : '/trusted-admin';
   const adminLinks = [
@@ -299,7 +299,7 @@ export const getAdministrationLinks = (
       href: adminBaseUrl,
     },
   ];
-  if (!isProductStoreEnabled) {
+  if (!isDiscoverMoreForEveryoneEnabled) {
     adminLinks.unshift({
       key: 'discover-applications',
       label: <FormattedMessage {...messages.discoverMore} />,
