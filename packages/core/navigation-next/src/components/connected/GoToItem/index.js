@@ -40,7 +40,7 @@ class GoToItem extends Component<GoToItemProps> {
     spinnerDelay: 200,
   };
 
-  handleClick = (e: SyntheticEvent<*>) => {
+  handleClick = (e: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>) => {
     const { goTo, navigationViewController } = this.props;
 
     e.preventDefault();
@@ -52,11 +52,7 @@ class GoToItem extends Component<GoToItemProps> {
     // Hijack focus only if the event is
     // from a keyboard.
     const scrollProvider = document.querySelector('[data-scroll-provider]');
-    if (
-      e.nativeEvent.clientX === 0 &&
-      e.nativeEvent.clientY === 0 &&
-      scrollProvider
-    ) {
+    if (e.clientX === 0 && e.clientY === 0 && scrollProvider) {
       scrollProvider.focus();
     }
 
