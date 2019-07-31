@@ -167,10 +167,8 @@ const mentionsPlugin = (options?: MentionPluginOptions): EditorPlugin => {
             provider &&
             (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled
           ) {
-            const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
             if (
-              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled() &&
-              enabledViaLocalStorage
+              (provider as TeamMentionProvider).mentionTypeaheadSpotlightEnabled()
             ) {
               return (
                 <MentionSpotlight
