@@ -155,7 +155,6 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
                         }
                         onClick={this.onCloseClick}
                         spacing="none"
-                        css=""
                       />
                     </Tooltip>
                   )}
