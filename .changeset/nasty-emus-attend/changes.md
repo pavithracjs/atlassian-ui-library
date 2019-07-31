@@ -1,0 +1,1 @@
+Updated ArticleListItem Title color
