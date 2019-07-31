@@ -18,11 +18,9 @@ const confluenceRecentItemsPromise: Promise<
 });
 const abTestPromise: Promise<Result[]> = Promise.resolve([]);
 
-export const getConfluencePrefetchedData = jest.fn(() => {
+export const mockConfluencePrefetchedData = jest.fn(() => {
   return {
     confluenceRecentItemsPromise,
     abTestPromise,
   };
 });
-
-export { confluenceRecentItemsPromise, abTestPromise };

@@ -1,19 +1,20 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
+import { QuickSearchContext } from '../../api/types';
+import { mockConfluencePrefetchedData } from '../../__tests__/unit/mocks/_mockPrefetchResults';
+
+jest.doMock('../../api/prefetchResults', () => ({
+  getConfluencePrefetchedData: mockConfluencePrefetchedData,
+}));
+
 import PrefetchedResultsProvider, {
   GlobalSearchPreFetchContext,
 } from '../PrefetchedResultsProvider';
 
 import {
-  // @ts-ignore (additional export from mocked version)
-  confluenceRecentItemsPromise,
-  // @ts-ignore (additional export from mocked version)
-  abTestPromise,
   getConfluencePrefetchedData,
+  ConfluencePrefetchedResults,
 } from '../../api/prefetchResults';
-import { QuickSearchContext } from '../../api/types';
-
-jest.mock('../../api/prefetchResults');
 
 function render(
   context: QuickSearchContext,
@@ -30,8 +31,7 @@ function render(
 
 describe('PrefetchedResultsProvider', () => {
   afterEach(() => {
-    // @ts-ignore
-    getConfluencePrefetchedData.mockClear();
+    jest.clearAllMocks();
   });
 
   describe('confluence', () => {
@@ -54,30 +54,27 @@ describe('PrefetchedResultsProvider', () => {
     });
 
     it('should get confluence prefetch data', async () => {
-      await confluenceRecentItemsPromise;
-
       expect(getConfluencePrefetchedData).toHaveBeenCalled();
-      expect(
-        prefetchedResultsHelper.mock.calls[1][0].confluenceRecentItemsPromise,
-      ).toEqual(confluenceRecentItemsPromise);
+
+      const results = (getConfluencePrefetchedData as jest.Mock).mock.results[0]
+        .value as ConfluencePrefetchedResults;
+
+      const promiseResult = await results.confluenceRecentItemsPromise;
+
+      expect(promiseResult.objects).toBeTruthy();
+      expect(promiseResult.people).toBeTruthy();
+      expect(promiseResult.spaces).toBeTruthy();
     });
 
     it('should get ab test prefetch data', async () => {
-      await confluenceRecentItemsPromise;
-
       expect(getConfluencePrefetchedData).toHaveBeenCalled();
-      expect(prefetchedResultsHelper.mock.calls[1][0].abTestPromise).toEqual(
-        abTestPromise,
-      );
-    });
 
-    it('should NOT get recent people prefetch data', async () => {
-      await confluenceRecentItemsPromise;
+      const results = (getConfluencePrefetchedData as jest.Mock).mock.results[0]
+        .value as ConfluencePrefetchedResults;
 
-      expect(getConfluencePrefetchedData).toHaveBeenCalled();
-      expect(
-        prefetchedResultsHelper.mock.calls[1][0].recentPeoplePromise,
-      ).toBeUndefined();
+      const promiseResult = await results.abTestPromise;
+
+      expect(promiseResult).toBeTruthy();
     });
   });
 
@@ -88,15 +85,5 @@ describe('PrefetchedResultsProvider', () => {
     render('confluence', child, cloudId);
 
     expect(getConfluencePrefetchedData).not.toHaveBeenCalled();
-  });
-
-  it('should not pre fetch if no cloud id is supplied', async () => {
-    const child = <div />;
-
-    const mount = render('confluence', child, 'abc123');
-
-    mount.update();
-
-    expect(getConfluencePrefetchedData).toHaveBeenCalledTimes(1);
   });
 });
