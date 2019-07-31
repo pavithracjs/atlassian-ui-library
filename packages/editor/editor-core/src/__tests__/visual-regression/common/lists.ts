@@ -29,8 +29,8 @@ import {
   scrollToBottom,
 } from '../../__helpers/page-objects/_editor';
 import { EditorTestCardProvider } from '../../../../../editor-test-helpers';
-// TODO: talk to Heather
-describe.skip('Lists', () => {
+
+describe('Lists', () => {
   let page: Page;
   const cardProvider = new EditorTestCardProvider();
 
