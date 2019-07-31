@@ -41,20 +41,16 @@ describe('MentionSpotlight', () => {
     const spotlight = render({ onClose: onClose });
 
     spotlight.find(Button).simulate('click');
-
     expect(onClose).toHaveBeenCalled();
   });
 
   it('Should register render on mount', () => {
-    const onClose = jest.fn();
-    render({ onClose: onClose });
-
+    render({});
     expect(mockRegisterRender).toHaveBeenCalled();
   });
 
   it('Should register link on click', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({});
 
     spotlight.find('a').simulate('click');
 
@@ -62,8 +58,7 @@ describe('MentionSpotlight', () => {
   });
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({});
 
     spotlight.setState({
       isSpotlightHidden: true,
@@ -74,8 +69,7 @@ describe('MentionSpotlight', () => {
 
   it('should not show spotlight after re-render if the Spotlight Controller asked not to render it at the first mount', () => {
     mockIsSpotlightEnabled = false;
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({});
 
     expect(spotlight.isEmptyRender()).toBeTruthy();
 
@@ -88,8 +82,7 @@ describe('MentionSpotlight', () => {
   });
 
   it('should show spotlight after re-render if the Spotlight Controller asked to render it at the first mount', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({});
 
     // Should render in the first time
     expect(spotlight.isEmptyRender()).toBeFalsy();
