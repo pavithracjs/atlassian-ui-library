@@ -1,5 +1,13 @@
 ## 0.1.0
 
+## 0.13.1
+
+### Patch Changes
+
+- [patch][95cbef78d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95cbef78d5):
+
+  Updated ArticleListItem Title color
+
 ## 0.13.0
 
 ### Minor Changes
