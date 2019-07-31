@@ -129,6 +129,7 @@ export const getFixedProductLinks = (
     },
   ];
   if (isDiscoverMoreForEveryoneEnabled) {
+    // The discover more link href is intentionally empty to prioritise the onDiscoverMoreClicked callback
     fixedLinks.push({
       key: 'discover-more',
       label: <FormattedMessage {...messages.discoverMore} />,
