@@ -1,0 +1,1 @@
+Fix version.json (cli version in analytics) being one version behind
