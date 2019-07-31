@@ -34,6 +34,7 @@ jest.mock(
 describe('MentionSpotlight', () => {
   beforeEach(() => {
     mockIsSpotlightEnabled = true;
+    mockRegisterRender.mockReset();
   });
 
   it('Should call onCall callback when the x is clicked', () => {
@@ -47,6 +48,12 @@ describe('MentionSpotlight', () => {
   it('Should register render on mount', () => {
     render({});
     expect(mockRegisterRender).toHaveBeenCalled();
+  });
+
+  it('should not call registerRender if Spotlight Controller asked not to render spotlight', () => {
+    mockIsSpotlightEnabled = false;
+    render({});
+    expect(mockRegisterRender).toHaveBeenCalledTimes(0);
   });
 
   it('Should register link on click', () => {
