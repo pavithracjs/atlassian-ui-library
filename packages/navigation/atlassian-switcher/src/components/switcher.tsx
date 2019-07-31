@@ -93,7 +93,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
    *  * The People link is rendered with href="/people” and onClick=noop. Even though the latter won't be called
    *  when a user clicks on the item when this component is rendered via enzyme for jest tests it will actually
    *  call the callback... In order for that test to stop breaking we add noop callback in the case where we're
-   *  rendering a fixed product link that's not the product-store item.
+   *  rendering a fixed product link that's not the discover-more item.
    *
    *  * The Discover more link is rendered with href=”” and onClick={actualImplementation}. Because the value of
    *  href is not valid for this case the item will instead call the onClick callback provided.
