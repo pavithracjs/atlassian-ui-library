@@ -47,8 +47,9 @@ export default class MentionSpotlight extends React.Component<Props, State> {
     // of writing this code, this was only happening in Fabric Editor ( See TEAMS-623 )
     if (!MentionSpotlightController.isSpotlightEnabled()) {
       this.setState({ isSpotlightHidden: true });
+    } else {
+      MentionSpotlightController.registerRender();
     }
-    MentionSpotlightController.registerRender();
   }
 
   componentWillUnmount() {
@@ -95,9 +96,9 @@ export default class MentionSpotlight extends React.Component<Props, State> {
 
   render() {
     const { createTeamLink } = this.props;
-    const { isSpotlightHidden: isSpotlightClosed } = this.state;
+    const { isSpotlightHidden } = this.state;
 
-    if (isSpotlightClosed) {
+    if (isSpotlightHidden) {
       return null;
     }
 
