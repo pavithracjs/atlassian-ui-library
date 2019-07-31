@@ -53,9 +53,9 @@ describe('utils/links', () => {
       const fixedLinks = getFixedProductLinks(isDiscoverMoreForEveryoneEnabled);
       expect(fixedLinks.map(({ key }) => key)).toMatchObject(expectedProducts);
     });
-    it('should have product store link if enabled', () => {
+    it('should have discover more button if enabled', () => {
       const isDiscoverMoreForEveryoneEnabled = true;
-      const expectedProducts = ['people', 'product-store'];
+      const expectedProducts = ['people', 'discover-more'];
       const fixedLinks = getFixedProductLinks(isDiscoverMoreForEveryoneEnabled);
       expect(fixedLinks.map(({ key }) => key)).toMatchObject(expectedProducts);
     });
@@ -187,7 +187,7 @@ describe('utils/links', () => {
       ];
       expect(result.map(({ href }) => href)).toMatchObject(expectedResult);
     });
-    it('should not include discover more if product store is enabled', () => {
+    it('should not include discover admin link if more if discover more button is enabled for all users', () => {
       const isDiscoverMoreForEveryoneEnabled = true;
       const result = getAdministrationLinks(
         true,
