@@ -30,6 +30,8 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
         position="right"
       >
         <Button
+          aria-expanded={true}
+          aria-label="Toggle navigation"
           hasHighlight={false}
           hitAreaSize="large"
           innerRef={
@@ -40,9 +42,6 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
           isVisible={false}
           onClick={[Function]}
         >
-          <VisuallyHidden>
-            Click to collapse navigation
-          </VisuallyHidden>
           <ChevronLeftIcon />
         </Button>
       </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
@@ -98,6 +97,8 @@ exports[`ResizeControlBase should render correctly 1`] = `
         position="right"
       >
         <Button
+          aria-expanded={true}
+          aria-label="Toggle navigation"
           hasHighlight={false}
           hitAreaSize="large"
           innerRef={
@@ -108,9 +109,6 @@ exports[`ResizeControlBase should render correctly 1`] = `
           isVisible={false}
           onClick={[Function]}
         >
-          <VisuallyHidden>
-            Click to collapse navigation
-          </VisuallyHidden>
           <ChevronLeftIcon />
         </Button>
       </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
