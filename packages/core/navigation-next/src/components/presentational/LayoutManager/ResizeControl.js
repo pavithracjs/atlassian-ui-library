@@ -144,7 +144,6 @@ const Button = ({
         backgroundColor: colors.B200,
         color: 'white',
       },
-
       ':focus': {
         opacity: 1,
         backgroundColor: colors.B200,
@@ -485,10 +484,9 @@ class ResizeControl extends PureComponent<Props, State> {
         isVisible={isCollapsed || mouseIsDown || mouseIsOverNavigation}
         hasHighlight={mouseIsDown || mouseIsOverGrabArea}
         innerRef={expandCollapseAffordanceRef}
+        aria-expanded={!isCollapsed}
+        aria-label="Toggle navigation"
       >
-        <VisuallyHidden>{`Click to ${
-          isCollapsed ? 'expand' : 'collapse'
-        } navigation`}</VisuallyHidden>
         <ButtonIcon />
       </Button>
     );
