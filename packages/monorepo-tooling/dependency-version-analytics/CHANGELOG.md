@@ -1,5 +1,13 @@
 # @atlaskit/dependency-version-analytics
 
+## 0.1.3
+
+### Patch Changes
+
+- [patch][10b3af15f6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/10b3af15f6):
+
+  Fix version.json (cli version in analytics) being one version behind
+
 ## 0.1.2
 
 ### Patch Changes
