@@ -18,7 +18,7 @@ import uuidV4 from 'uuid/v4';
 import { asMock, fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs';
-import { NewUploadServiceImpl } from '../../newUploadServiceImpl';
+import { UploadServiceImpl } from '../../uploadServiceImpl';
 import { MediaFile, UploadParams } from '../../..';
 import * as getPreviewModule from '../../../util/getPreviewFromBlob';
 import * as getPreviewFromImage from '../../../util/getPreviewFromImage';
@@ -87,7 +87,7 @@ describe('UploadService', () => {
       Promise.resolve(previewObject),
     );
 
-    const uploadService = new NewUploadServiceImpl(
+    const uploadService = new UploadServiceImpl(
       mediaClient,
       tenantUploadParams,
       shouldCopyFileToRecents,
@@ -142,7 +142,7 @@ describe('UploadService', () => {
 
   describe('setUploadParams', () => {
     const setup = () => ({
-      uploadService: new NewUploadServiceImpl(getMediaClient(), {}, false),
+      uploadService: new UploadServiceImpl(getMediaClient(), {}, false),
     });
 
     it('should set new uploadParams', () => {
@@ -529,7 +529,7 @@ describe('UploadService', () => {
       });
 
       const collectionNameStub = 'some-collection-name';
-      const uploadService = new NewUploadServiceImpl(
+      const uploadService = new UploadServiceImpl(
         mediaClient,
         { collection: collectionNameStub },
         true,
