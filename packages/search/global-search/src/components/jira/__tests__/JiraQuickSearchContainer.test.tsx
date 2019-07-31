@@ -30,7 +30,7 @@ import { ContentType, JiraResultsMap } from '../../../model/Result';
 import { Scope } from '../../../api/types';
 import * as SearchUtils from '../../SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
-import { CancelableEvent } from '../../../../../quick-search/dist/cjs';
+import { CancelableEvent } from '@atlaskit/quick-search';
 import {
   DEFAULT_AB_TEST,
   SearchResultsMap,

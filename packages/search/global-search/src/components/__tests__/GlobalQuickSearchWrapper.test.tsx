@@ -1,151 +1,172 @@
 import * as React from 'react';
-import CachingConfluenceClient from '../../api/CachingConfluenceClient';
-import {
-  // @ts-ignore (additional export from mocked version)
-  confluenceRecentItemsPromise,
-} from '../../api/prefetchResults';
-
-import { ConfluenceQuickSearchContainer } from '../confluence/ConfluenceQuickSearchContainer';
-import { JiraQuickSearchContainer } from '../jira/JiraQuickSearchContainer';
-import PrefetchedResultsProvider from '../PrefetchedResultsProvider';
-import { mountWithIntl } from '../../__tests__/unit/helpers/_intl-enzyme-test-helper';
-import { QuickSearchContext } from '../../api/types';
+import { shallow, ShallowWrapper } from 'enzyme';
+import { mockConfluencePrefetchedData } from '../../__tests__/unit/mocks/_mockPrefetchResults';
 import { DEFAULT_AB_TEST } from '../../api/CrossProductSearchClient';
+import ConfluenceQuickSearchContainer from '../confluence/ConfluenceQuickSearchContainer';
+import JiraQuickSearchContainer from '../jira/JiraQuickSearchContainer';
+import { QuickSearchContext } from '../../api/types';
 
-jest.mock('../../api/prefetchResults');
+jest.mock('../FeaturesProvider');
 jest.mock('../../api/CachingConfluenceClient');
-jest.doMock('../../components/AbTestProvider', () => ({
+jest.mock('../MessagesIntlProvider');
+jest.mock('../feedback/withFeedbackButton', () => ({
+  withFeedbackButton: (component: any) => component,
+}));
+jest.mock(
+  '../confluence/ConfluenceQuickSearchContainer',
+  () => 'ConfluenceQuickSearchContainer',
+);
+jest.mock('../jira/JiraQuickSearchContainer', () => 'JiraQuickSearchContainer');
+jest.doMock('../PrefetchedResultsProvider', () => ({
+  GlobalSearchPreFetchContext: {
+    Consumer: ({ children }: any) => children(mockConfluencePrefetchedData()),
+  },
+}));
+jest.doMock('../AbTestProvider', () => ({
   ABTestProvider: ({ children }: any) => children(DEFAULT_AB_TEST),
 }));
 
 import GlobalQuickSearch from '../GlobalQuickSearchWrapper';
 
-it('should render the confluence container with context confluence', () => {
-  const wrapper = mountWithIntl(
-    <GlobalQuickSearch cloudId="123" context="confluence" />,
-  );
+describe('GlobalQuickSearchWrapper', () => {
+  // Unravels the GlobalQuickSearchWrapper either ConfluenceQuickSearchContainer or JiraQuickSearchContainer
+  // can be retrieved via `find()`
+  const diveToQuickSearchContainer = (wrapper: ShallowWrapper) => {
+    return wrapper
+      .childAt(0)
+      .dive()
+      .dive();
+  };
 
-  expect(wrapper.find(ConfluenceQuickSearchContainer).exists()).toBe(true);
-});
-
-const MyLinkComponent = class extends React.Component<{
-  className: string;
-  children: React.ReactNode;
-}> {
-  render() {
-    return <div />;
-  }
-};
-
-it('should pass through the linkComponent prop', () => {
-  const wrapper = mountWithIntl(
-    <GlobalQuickSearch
-      cloudId="123"
-      context="confluence"
-      linkComponent={MyLinkComponent}
-    />,
-  );
-
-  expect(
-    wrapper.find(ConfluenceQuickSearchContainer).prop('linkComponent'),
-  ).toBe(MyLinkComponent);
-});
-
-describe('Prefetch', () => {
-  it('should use prefetched data', async () => {
-    const cloudId = '123';
-    const context = 'confluence';
-
-    mountWithIntl(
-      <PrefetchedResultsProvider context={context} cloudId={cloudId}>
-        <GlobalQuickSearch
-          cloudId={cloudId}
-          context={context}
-          linkComponent={MyLinkComponent}
-        />
-      </PrefetchedResultsProvider>,
+  it('should render PrefetchedResultsProvider wrapper matching snapshot', () => {
+    const wrapper = shallow(
+      <GlobalQuickSearch cloudId="123" context="confluence" />,
     );
 
-    await confluenceRecentItemsPromise;
-
-    expect(CachingConfluenceClient).toHaveBeenCalledWith(
-      '/wiki',
-      confluenceRecentItemsPromise,
-    );
+    expect(wrapper).toMatchSnapshot();
   });
-});
 
-describe('advanced search callback', () => {
-  [
-    {
-      product: 'jira',
-      Component: JiraQuickSearchContainer,
-      category: 'issues',
-    },
-    {
-      product: 'confluence',
-      Component: ConfluenceQuickSearchContainer,
-      category: 'conent',
-    },
-  ].forEach(({ product, Component, category }) => {
-    it(`should call on advanced callback on ${product} component`, () => {
-      const spy = jest.fn();
-      const wrapper = mountWithIntl(
-        <GlobalQuickSearch
-          cloudId="123"
-          context={product as QuickSearchContext}
-          onAdvancedSearch={spy}
-        />,
-      );
+  it('should render AbTestProvider wrapper matching snapshot', () => {
+    const wrapper = shallow(
+      <GlobalQuickSearch cloudId="123" context="confluence" />,
+    );
 
-      const component = wrapper.find(Component);
-      expect(component.exists()).toBe(true);
+    expect(wrapper.childAt(0).dive()).toMatchSnapshot();
+  });
 
-      const callback = component.prop('onAdvancedSearch');
-      expect(callback).toBeInstanceOf(Function);
+  it('should render the confluence container with context confluence', () => {
+    const wrapper = shallow(
+      <GlobalQuickSearch cloudId="123" context="confluence" />,
+    );
 
-      const event = {
-        stopPropagation: jest.fn(),
-        preventDefault: jest.fn(),
-      };
+    const featuresProviderWrapper = wrapper
+      .childAt(0)
+      .dive()
+      .dive();
+    expect(
+      featuresProviderWrapper.find(ConfluenceQuickSearchContainer).exists(),
+    ).toBe(true);
+  });
 
-      if (callback) {
+  it('should render the jira container with context jira', () => {
+    const wrapper = shallow(<GlobalQuickSearch cloudId="123" context="jira" />);
+
+    const featuresProviderWrapper = wrapper
+      .childAt(0)
+      .dive()
+      .dive();
+    expect(
+      featuresProviderWrapper.find(JiraQuickSearchContainer).exists(),
+    ).toBe(true);
+  });
+
+  it('should pass through the linkComponent prop', () => {
+    const MyLinkComponent = () => <div />;
+
+    const wrapper = shallow(
+      <GlobalQuickSearch
+        cloudId="123"
+        context="confluence"
+        linkComponent={MyLinkComponent}
+      />,
+    );
+
+    const confluenceContainer = diveToQuickSearchContainer(wrapper)
+      .find(ConfluenceQuickSearchContainer)
+      .prop('linkComponent');
+    expect(confluenceContainer).toBe(MyLinkComponent);
+  });
+
+  describe('onAdvancedSearchCallback', () => {
+    [
+      {
+        product: 'jira',
+        Component: JiraQuickSearchContainer,
+        category: 'issues',
+      },
+      {
+        product: 'confluence',
+        Component: ConfluenceQuickSearchContainer,
+        category: 'conent',
+      },
+    ].forEach(({ product, Component, category }) => {
+      it(`should call on advanced callback on ${product} component`, () => {
+        const spy = jest.fn();
+        const wrapper = shallow(
+          <GlobalQuickSearch
+            cloudId="123"
+            context={product as QuickSearchContext}
+            onAdvancedSearch={spy}
+          />,
+        );
+
+        const container = diveToQuickSearchContainer(wrapper).find(Component);
+        const callback = container.prop('onAdvancedSearch');
+        expect(callback).toBeInstanceOf(Function);
+
+        const event = {
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn(),
+        };
+
         callback(event, category, 'query', 'sessionId');
-      }
 
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith({
-        category,
-        query: 'query',
-        preventDefault: expect.any(Function),
-        originalEvent: event,
-        searchSessionId: 'sessionId',
-        spaces: [],
+        expect(spy).toBeCalledTimes(1);
+        expect(spy).toBeCalledWith({
+          category,
+          query: 'query',
+          preventDefault: expect.any(Function),
+          originalEvent: event,
+          searchSessionId: 'sessionId',
+          spaces: [],
+        });
       });
-    });
 
-    it('should call prevent default and stop propagation', () => {
-      const spy = jest.fn(e => {
-        e.preventDefault();
-      });
-      const wrapper = mountWithIntl(
-        <GlobalQuickSearch
-          cloudId="123"
-          context={product as QuickSearchContext}
-          onAdvancedSearch={spy}
-        />,
-      );
-      const mockedEvent = {
-        stopPropagation: jest.fn(),
-        preventDefault: jest.fn(),
-      };
-      const callback = wrapper.find(Component).prop('onAdvancedSearch');
-      if (callback) {
+      it('should call prevent default and stop propagation', () => {
+        const spy = jest.fn(e => {
+          e.preventDefault();
+        });
+        const wrapper = shallow(
+          <GlobalQuickSearch
+            cloudId="123"
+            context={product as QuickSearchContext}
+            onAdvancedSearch={spy}
+          />,
+        );
+        const mockedEvent = {
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn(),
+        };
+
+        const container = diveToQuickSearchContainer(wrapper).find(Component);
+
+        const callback = container.prop('onAdvancedSearch');
+
         callback(mockedEvent, category, 'query', 'sessionId');
-      }
 
-      expect(mockedEvent.preventDefault).toBeCalledTimes(1);
-      expect(mockedEvent.stopPropagation).toBeCalledTimes(1);
+        expect(mockedEvent.preventDefault).toBeCalledTimes(1);
+        expect(mockedEvent.stopPropagation).toBeCalledTimes(1);
+      });
     });
   });
 });
