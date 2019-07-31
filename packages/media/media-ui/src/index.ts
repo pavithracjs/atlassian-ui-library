@@ -23,6 +23,7 @@ export {
   getFileInfoFromSrc,
   loadImage,
   findParentByClassname,
+  defaultImageLoadParams,
 } from './util';
 export { default as CustomMediaPlayer } from './customMediaPlayer/index';
 export * from './customMediaPlayer/timeRange';

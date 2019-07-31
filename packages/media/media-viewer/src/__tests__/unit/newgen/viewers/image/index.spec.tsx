@@ -1,10 +1,13 @@
 import * as React from 'react';
+
 import { ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
+import { defaultImageLoadParams } from '@atlaskit/media-ui';
+
 import {
   ImageViewer,
   REQUEST_CANCELLED,
@@ -103,10 +106,7 @@ describe('ImageViewer', () => {
     expect(mediaClient.getImage).toHaveBeenCalledWith(
       'some-id',
       expect.objectContaining({
-        width: 4096,
-        height: 4096,
-        mode: 'fit',
-        allowAnimated: true,
+        ...defaultImageLoadParams,
         collection: 'some-collection',
       }),
       expect.anything(),

@@ -1,11 +1,13 @@
 import * as React from 'react';
+
 import {
   MediaClient,
   FileItem,
   FileState,
   isImageRepresentationReady,
 } from '@atlaskit/media-client';
-import { getOrientation } from '@atlaskit/media-ui';
+import { getOrientation, defaultImageLoadParams } from '@atlaskit/media-ui';
+
 import { Outcome } from '../../domain';
 import { createError, MediaViewerError } from '../../error';
 import { InteractiveImg } from './interactive-img';
@@ -82,11 +84,8 @@ export class ImageViewer extends BaseViewer<
           const response = mediaClient.getImage(
             item.details.id,
             {
-              width: 4096,
-              height: 4096,
-              mode: 'fit',
-              allowAnimated: true,
               collection: collectionName,
+              ...defaultImageLoadParams,
             },
             controller,
           );

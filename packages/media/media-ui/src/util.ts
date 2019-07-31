@@ -131,3 +131,10 @@ export const findParentByClassname = (
 
   return undefined;
 };
+
+export const defaultImageLoadParams = {
+  width: 4096,
+  height: 4096,
+  allowAnimated: true,
+  mode: 'fit' as 'fit',
+};

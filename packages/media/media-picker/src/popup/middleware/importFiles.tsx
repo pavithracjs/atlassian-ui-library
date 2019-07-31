@@ -2,6 +2,7 @@ import uuid from 'uuid/v4';
 import { Store, Dispatch, Middleware } from 'redux';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { map } from 'rxjs/operators/map';
+
 import {
   TouchFileDescriptor,
   FileState,
@@ -12,6 +13,8 @@ import {
   MediaType,
   globalMediaEventEmitter,
 } from '@atlaskit/media-client';
+import { defaultImageLoadParams } from '@atlaskit/media-ui';
+
 import { State, SelectedItem, LocalUpload, ServiceName } from '../domain';
 import { isStartImportAction } from '../actions/startImport';
 import { finalizeUpload } from '../actions/finalizeUpload';
@@ -130,10 +133,7 @@ const getPreviewByService = (
       // We fetch a good size image, since it can be opened later on in MV
       const blob = await userMediaClient.getImage(fileId, {
         collection: RECENTS_COLLECTION,
-        width: 4096,
-        height: 4096,
-        allowAnimated: true,
-        mode: 'fit',
+        ...defaultImageLoadParams,
       });
 
       resolve({ value: blob });

@@ -5,6 +5,7 @@ import {
   mockWsConnectionHolder,
   mockPopupUploadEventEmitter,
 } from '@atlaskit/media-test-helpers';
+import { defaultImageLoadParams } from '@atlaskit/media-ui';
 
 import {
   importFilesMiddleware,
@@ -653,10 +654,7 @@ describe('importFiles middleware', () => {
             expect(userMediaClient.getImage).toBeCalledTimes(1);
             expect(userMediaClient.getImage).toBeCalledWith('id-1', {
               collection: RECENTS_COLLECTION,
-              width: 4096,
-              height: 4096,
-              mode: 'fit',
-              allowAnimated: true,
+              ...defaultImageLoadParams,
             });
             done();
           }
