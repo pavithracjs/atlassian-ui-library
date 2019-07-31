@@ -1,1 +1,0 @@
-populate media cache when using FileFetcher:copyFile
