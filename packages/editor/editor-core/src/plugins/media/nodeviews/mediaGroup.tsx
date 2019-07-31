@@ -182,6 +182,7 @@ export default class MediaGroup extends React.Component<
 
 interface MediaGroupNodeViewProps {
   editorAppearance: any;
+  providerFactory: ProviderFactory;
 }
 
 class MediaGroupNodeView extends ReactNodeView<MediaGroupNodeViewProps> {
