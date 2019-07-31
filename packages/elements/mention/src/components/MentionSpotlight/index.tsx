@@ -57,12 +57,16 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   }
 
   onCreateTeamLinkClick = () => {
+    this.setState({ isSpotlightClosed: true });
     MentionSpotlightController.registerCreateLinkClick();
   };
 
-  // This is to stop overly aggressive behaviour where clicking anywhere in the spotlight would immediate close the entire
-  // dropdown dialog
+  // This is to stop overly aggressive behaviour in tinyMCe editor where clicking anywhere in the spotlight would immediate close the entire
+  // dropdown dialog. Note we were unable to test this behaviour in unit-tests, will need to be manually tested.
+  // see TEAMS-611
   private preventClickOnCard = (event: any) => {
+    // event is a MouseEvent
+
     // We stop the event from propagating, so we need to manually close
     const isClickOnCloseButton =
       this.elCloseWrapper.current &&
@@ -71,6 +75,7 @@ export default class MentionSpotlight extends React.Component<Props, State> {
       this.onCloseClick();
     }
 
+    // Manually perform on-click for the link, if the link was clicked.
     const isClickCreateTeamLink =
       this.elCreateTeamWrapper.current &&
       this.elCreateTeamWrapper.current.contains(event.target);
@@ -125,19 +130,23 @@ export default class MentionSpotlight extends React.Component<Props, State> {
               <Styled.Body>
                 <SpotlightDescription>
                   {description => (
-                    <p>
+                    <div>
                       {description}
-                      <div ref={this.elCreateTeamWrapper}>
+                      <div
+                        ref={this.elCreateTeamWrapper}
+                        style={{ display: 'inline' }}
+                      >
                         <SpotlightDescriptionLink>
                           {linkText => (
                             <a href={createTeamLink} target="_blank">
                               {' '}
                               {linkText}
                             </a>
+                            // on click fired by preventClickOnCard, not here
                           )}
                         </SpotlightDescriptionLink>
                       </div>
-                    </p>
+                    </div>
                   )}
                 </SpotlightDescription>
               </Styled.Body>
@@ -152,8 +161,8 @@ export default class MentionSpotlight extends React.Component<Props, State> {
                         iconBefore={
                           <EditorCloseIcon label="Close" size="medium" />
                         }
-                        onClick={this.onCloseClick}
                         spacing="none"
+                        // on click fired by preventClickOnCard, not here
                       />
                     </Tooltip>
                   )}
