@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
-import { shallow } from 'enzyme';
 import { noop } from '@babel/types';
 import Button from '@atlaskit/button';
 
@@ -18,6 +17,7 @@ function render(props: Partial<Props>) {
 
 let mockRegisterRender = jest.fn();
 let mockRegisterCreateLinkClick = jest.fn();
+let mockIsSpotlightEnabled = true;
 
 jest.mock(
   '../../../components/MentionSpotlight/MentionSpotlightController',
@@ -26,11 +26,16 @@ jest.mock(
     default: {
       registerRender: () => mockRegisterRender(),
       registerCreateLinkClick: () => mockRegisterCreateLinkClick(),
+      isSpotlightEnabled: () => mockIsSpotlightEnabled,
     },
   }),
 );
 
 describe('MentionSpotlight', () => {
+  beforeEach(() => {
+    mockIsSpotlightEnabled = true;
+  });
+
   it('Should call onCall callback when the x is clicked', () => {
     const onClose = jest.fn();
     const spotlight = render({ onClose: onClose });
@@ -58,14 +63,42 @@ describe('MentionSpotlight', () => {
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
     const onClose = jest.fn();
-    const spotlight = shallow(
-      <MentionSpotlight createTeamLink="somelink" onClose={onClose} />,
-    );
+    const spotlight = render({ onClose: onClose });
 
     spotlight.setState({
-      isSpotlightClosed: true,
+      isSpotlightHidden: true,
     });
 
-    expect(spotlight).toMatchObject({});
+    expect(spotlight.isEmptyRender()).toBeTruthy();
+  });
+
+  it('should not show spotlight after re-render if the Spotlight Controller asked not to render it at the first mount', () => {
+    mockIsSpotlightEnabled = false;
+    const onClose = jest.fn();
+    const spotlight = render({ onClose: onClose });
+
+    expect(spotlight.isEmptyRender()).toBeTruthy();
+
+    // after first render, ask controller to show it
+    mockIsSpotlightEnabled = true;
+
+    //should still hide the spotlight after re-render
+    spotlight.render();
+    expect(spotlight.isEmptyRender()).toBeTruthy();
+  });
+
+  it('should show spotlight after re-render if the Spotlight Controller asked to render it at the first mount', () => {
+    const onClose = jest.fn();
+    const spotlight = render({ onClose: onClose });
+
+    // Should render in the first time
+    expect(spotlight.isEmptyRender()).toBeFalsy();
+
+    //after first render, ask controller to hide it
+    mockIsSpotlightEnabled = false;
+
+    //should still show the spotlight after re-render
+    spotlight.render();
+    expect(spotlight.isEmptyRender()).toBeFalsy();
   });
 });
