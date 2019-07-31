@@ -55,7 +55,7 @@ const getItemComponentProps = (props: ItemPrimitiveProps) => {
 class ItemPrimitive extends Component<ItemPrimitiveProps> {
   static defaultProps = {
     dataset: {
-      'data-test-id': 'NavigationItem',
+      'data-testid': 'NavigationItem',
     },
     isActive: false,
     isDragging: false,

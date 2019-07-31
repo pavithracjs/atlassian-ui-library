@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.15
+
+### Patch Changes
+
+- [patch][696c032471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/696c032471):
+
+  Import editor-core dependencies via module name
+
 ## 112.39.14
 
 ### Patch Changes
