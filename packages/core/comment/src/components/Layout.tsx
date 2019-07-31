@@ -1,4 +1,4 @@
-import React, { Component, Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import {
   AvatarSectionDiv,
   Container,
@@ -9,16 +9,16 @@ import {
 
 interface Props {
   /** The element to display as the Comment avatar - generally an Atlaskit Avatar */
-  avatar?: Node,
+  avatar?: ReactNode;
   /** Nested comments to render */
-  children?: Node,
+  children?: ReactNode;
   /** The main content of the Comment */
-  content?: Node,
+  content?: ReactNode;
   /** Whether this comment should appear highlighted */
-  highlighted?: boolean,
+  highlighted?: boolean;
   /** Optional ID for the comment */
-  id?: string,
-};
+  id?: string;
+}
 
 export default class Layout extends Component<Props> {
   renderAvatar() {

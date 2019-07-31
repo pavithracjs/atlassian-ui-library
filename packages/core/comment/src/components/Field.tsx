@@ -1,14 +1,14 @@
-import React, { Component, Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { Anchor, Span } from '../styled/FieldStyles';
 
 interface Props {
-  hasAuthor?: boolean,
-  children?: Node,
-  href?: string,
-  onClick?: Function,
-  onFocus?: Function,
-  onMouseOver?: Function,
-};
+  hasAuthor?: boolean;
+  children?: ReactNode;
+  href?: string;
+  onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLSpanElement>) => void;
+  onMouseOver?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+}
 
 export default class CommentField extends Component<Props> {
   render() {

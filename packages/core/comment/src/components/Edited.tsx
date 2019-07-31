@@ -1,4 +1,4 @@
-import React, { Component, Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -12,12 +12,12 @@ import EditedStyles from '../styled/EditedStyles';
 
 interface Props {
   /** Content to render indicating that the comment has been edited. */
-  children?: Node,
+  children?: ReactNode;
   /** Handler called when the element is focused. */
-  onFocus?: Function,
+  onFocus?: (event: React.FocusEvent<HTMLSpanElement>) => void;
   /** Handler called when the element is moused over. */
-  onMouseOver?: Function,
-};
+  onMouseOver?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+}
 
 class Edited extends Component<Props, {}> {
   render() {

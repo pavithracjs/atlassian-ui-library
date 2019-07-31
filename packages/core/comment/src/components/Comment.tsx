@@ -1,4 +1,4 @@
-import React, { Component, Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 
 import CommentLayout from './Layout';
 import HeaderItems from './Header';
@@ -7,38 +7,38 @@ import { Content } from '../styled/CommentStyles';
 
 interface Props {
   /** An list of CommentAction items rendered as a row of buttons below the comment content */
-  actions?: Array<Node>,
+  actions?: Array<ReactNode>;
   /** A CommentAuthor element containing the name of the comment author. */
-  author?: Node,
+  author?: ReactNode;
   /** The element to display as the Comment avatar - generally an Atlaskit Avatar */
-  avatar: Node,
+  avatar: ReactNode;
   /** Nested comments should be provided as children of the Comment */
-  children?: Node,
+  children?: ReactNode;
   /** The main content of the Comment */
-  content?: Node,
+  content?: ReactNode;
   /** Whether this comment should appear highlighted */
-  highlighted?: boolean,
+  highlighted?: boolean;
   /** Text to show in the "restricted to" label. Will display in the top items */
-  restrictedTo?: Node,
+  restrictedTo?: ReactNode;
   /** Enable "optimistic saving" mode, remove actions and show `savingText` prop */
-  isSaving?: boolean,
+  isSaving?: boolean;
   /** Text to show when in "optimistic saving" mode */
-  savingText?: string,
+  savingText?: string;
   /** A CommentTime element containing the time to be displayed */
-  time?: Node,
-  /** The interface of the comment - will be rendered in a lozenge at the top of the Comment */
-  interface?: string,
+  time?: ReactNode;
+  /** The type of the comment - will be rendered in a lozenge at the top of the Comment */
+  type?: string;
   /** will be rendered beside the time to show whether the comment is edited or not */
-  edited?: Node,
+  edited?: ReactNode;
   /** Indicates whether the component is in an error state - hides actions and time */
-  isError?: boolean,
+  isError?: boolean;
   /** A list of CommentAction items rendered with a warning icon instead of the actions */
-  errorActions?: Array<Node>,
+  errorActions?: Array<ReactNode>;
   /** Text to show in the error icon label */
-  errorIconLabel?: string,
+  errorIconLabel?: string;
   /** Optional ID for the comment */
-  id?: string,
-};
+  id?: string;
+}
 
 export default class Comment extends Component<Props, {}> {
   static defaultProps = {
@@ -68,7 +68,7 @@ export default class Comment extends Component<Props, {}> {
       restrictedTo,
       savingText,
       time,
-      interface,
+      type,
       id,
     } = this.props;
 
@@ -80,7 +80,7 @@ export default class Comment extends Component<Props, {}> {
       restrictedTo,
       savingText,
       time,
-      interface,
+      type,
     };
     const footerProps = {
       actions,

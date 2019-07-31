@@ -11,7 +11,7 @@ describe('@atlaskit comments', () => {
     describe('exports', () => {
       it('the CommentAction component', () => {
         expect(CommentAction).not.toBe(undefined);
-        expect(new CommentAction()).toBeInstanceOf(Component);
+        expect(new CommentAction({})).toBeInstanceOf(Component);
       });
     });
 
@@ -30,7 +30,7 @@ describe('@atlaskit comments', () => {
       });
 
       it('should reflect onClick, onFocus, and onMouseOver to a wrapping element', () => {
-        const props = {
+        const props: { [index: string]: () => void } = {
           onClick: () => {},
           onFocus: () => {},
           onMouseOver: () => {},
@@ -50,7 +50,9 @@ describe('CommentActionWithAnalytics', () => {
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
+    // @ts-ignore - Property 'mockRestore' does not exist
     global.console.warn.mockRestore();
+    // @ts-ignore - Property 'mockRestore' does not exist
     global.console.error.mockRestore();
   });
 

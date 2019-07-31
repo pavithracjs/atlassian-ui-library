@@ -1,4 +1,4 @@
-import React, { Node } from 'react';
+import React, { ReactNode } from 'react';
 import Lozenge from '@atlaskit/lozenge';
 import LockFilledIcon from '@atlaskit/icon/glyph/lock-filled';
 import {
@@ -10,15 +10,15 @@ import {
 } from '../styled/HeaderStyles';
 
 interface Props {
-  author?: Node,
-  restrictedTo?: Node,
-  isSaving?: boolean,
-  savingText?: string,
-  time?: Node,
-  interface?: string,
-  edited?: Node,
-  isError?: boolean,
-};
+  author?: ReactNode;
+  restrictedTo?: ReactNode;
+  isSaving?: boolean;
+  savingText?: string;
+  time?: ReactNode;
+  type?: string;
+  edited?: ReactNode;
+  isError?: boolean;
+}
 
 const HeaderItems = ({
   author,
@@ -28,13 +28,13 @@ const HeaderItems = ({
   restrictedTo,
   savingText,
   time,
-  interface,
+  type,
 }: Props) => {
   const restrictedElement = restrictedTo ? (
     <Restricted>
       <BulletSpacer>&bull;</BulletSpacer>
       <RestrictedIconWrapper>
-        <LockFilledIcon size="small" />
+        <LockFilledIcon label="" size="small" />
       </RestrictedIconWrapper>{' '}
       {restrictedTo}
     </Restricted>
@@ -42,7 +42,7 @@ const HeaderItems = ({
 
   const items = [
     author || null,
-    interface ? <Lozenge>{interface}</Lozenge> : null,
+    type ? <Lozenge>{type}</Lozenge> : null,
     time && !isSaving && !isError ? time : null,
     edited || null,
     isSaving ? savingText : null,

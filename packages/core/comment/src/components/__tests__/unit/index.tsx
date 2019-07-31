@@ -25,7 +25,7 @@ describe('@atlaskit comments', () => {
     describe('exports', () => {
       it('the Comment component', () => {
         expect(Comment).not.toBe(undefined);
-        expect(new Comment()).toBeInstanceOf(Component);
+        expect(new Comment({ avatar: undefined })).toBeInstanceOf(Component);
       });
     });
 
@@ -100,10 +100,10 @@ describe('@atlaskit comments', () => {
         });
       });
 
-      describe('interface prop', () => {
-        it('should render a Lozenge with the interface in the correct container', () => {
+      describe('type prop', () => {
+        it('should render a Lozenge with the type in the correct container', () => {
           const type = 'type';
-          const wrapper mount(<Comment avatar="" interface={interface} />);
+          const wrapper = mount(<Comment avatar="" type={type} />);
           expect(wrapper.find(TopItem).find(Lozenge).length).toBe(1);
         });
       });
@@ -285,7 +285,7 @@ describe('@atlaskit comments', () => {
       });
 
       describe('Top items', () => {
-        it('Should render in the order author, interface, time, restrictedTo', () => {
+        it('Should render in the order author, type, time, restrictedTo', () => {
           const time = <CommentTime>30 August, 2016</CommentTime>;
           const wrapper = mount(
             <Comment
@@ -299,13 +299,13 @@ describe('@atlaskit comments', () => {
           const headerItems = wrapper.find(HeaderItems);
           expect(headerItems.props().author).toBe('Mary');
           expect(headerItems.props().restrictedTo).toBe('atlassian-staff');
-          expect(headerItems.props().interface).toContain('Type');
+          expect(headerItems.props().type).toContain('Type');
           expect(headerItems.find(CommentTime).text()).toContain(
             '30 August, 2016',
           );
         });
 
-        it('Should render in the order author, interface, savingText, restrictedTo', () => {
+        it('Should render in the order author, type, savingText, restrictedTo', () => {
           const wrapper = mount(
             <Comment
               author="Mary"

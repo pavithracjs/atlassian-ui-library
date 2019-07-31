@@ -1,4 +1,4 @@
-import React, { Component, Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -12,16 +12,16 @@ import Field from './Field';
 
 interface Props {
   /** The time of the comment. */
-  children?: Node,
+  children?: ReactNode;
   /** The URL of the link. If not provided, the element will be rendered as text. */
-  href?: string,
+  href?: string;
   /** Handler called when the element is clicked. */
-  onClick?: Function,
+  onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
   /** Handler called when the element is focused. */
-  onFocus?: Function,
+  onFocus?: (event: React.FocusEvent<HTMLSpanElement>) => void;
   /** Handler called when the element is moused over. */
-  onMouseOver?: Function,
-};
+  onMouseOver?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+}
 
 class Time extends Component<Props> {
   render() {

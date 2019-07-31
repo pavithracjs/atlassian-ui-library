@@ -1,4 +1,4 @@
-import React, { Node } from 'react';
+import React, { ReactNode } from 'react';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 
 import {
@@ -8,14 +8,14 @@ import {
 } from '../styled/FooterStyles';
 
 interface Props {
-  actions?: Array<Node>,
-  errorActions?: Array<Node>,
-  errorIconLabel?: string,
-  isError?: boolean,
-  isSaving?: boolean,
-};
+  actions?: Array<ReactNode>;
+  errorActions?: Array<ReactNode>;
+  errorIconLabel?: string;
+  isError?: boolean;
+  isSaving?: boolean;
+}
 
-const mapActions = items =>
+const mapActions = (items: React.ReactNode[]) =>
   items.map((item, index) => (
     // eslint-disable-next-line react/no-array-index-key
     <ActionsItem key={index}>{item}</ActionsItem>
@@ -38,7 +38,7 @@ const FooterItems = ({
     <ActionsContainer>
       {isError ? (
         <ErrorIcon>
-          <WarningIcon label={errorIconLabel} />
+          <WarningIcon label={errorIconLabel ? errorIconLabel : ''} />
         </ErrorIcon>
       ) : null}
       {items}

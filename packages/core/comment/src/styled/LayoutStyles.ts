@@ -40,7 +40,7 @@ export const Container = styled.div`
   /* We need both selectors as there is not a common wrapper component around
   comments. We also provide isFirst as an escape hatch. */
   &:first-child,
-  &:first-of-interface {
+  &:first-of-type {
     padding-top: 0;
   }
 `;

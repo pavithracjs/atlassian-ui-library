@@ -9,7 +9,7 @@ describe('@atlaskit comments', () => {
     describe('exports', () => {
       it('the CommentField component', () => {
         expect(CommentField).not.toBe(undefined);
-        expect(new CommentField()).toBeInstanceOf(Component);
+        expect(new CommentField({})).toBeInstanceOf(Component);
       });
     });
 
@@ -39,7 +39,7 @@ describe('@atlaskit comments', () => {
         });
 
         it('should reflect onClick, onFocus, and onMouseOver to the link element', () => {
-          const props = {
+          const props: { [index: string]: () => void } = {
             onClick: () => {},
             onFocus: () => {},
             onMouseOver: () => {},
@@ -66,7 +66,7 @@ describe('@atlaskit comments', () => {
         });
 
         it('should reflect onClick, onFocus, and onMouseOver to the span', () => {
-          const props = {
+          const props: { [index: string]: () => void } = {
             onClick: () => {},
             onFocus: () => {},
             onMouseOver: () => {},

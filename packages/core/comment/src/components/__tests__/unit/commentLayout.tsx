@@ -14,7 +14,7 @@ describe('@atlaskit comments', () => {
     describe('exports', () => {
       it('the CommentLayout component', () => {
         expect(CommentLayout).not.toBe(undefined);
-        expect(new CommentLayout()).toBeInstanceOf(Component);
+        expect(new CommentLayout({})).toBeInstanceOf(Component);
       });
     });
 

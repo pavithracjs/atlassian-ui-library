@@ -1,4 +1,4 @@
-import React, { Component, Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -13,14 +13,14 @@ import {
 
 interface Props {
   /** The content to render inside the action button. */
-  children?: Node,
+  children?: ReactNode;
   /** Handler called when the element is clicked. */
-  onClick?: Function,
+  onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
   /** Handler called when the element is focused. */
-  onFocus?: Function,
+  onFocus?: (event: React.FocusEvent<HTMLSpanElement>) => void;
   /** Handler called when the element is moused over. */
-  onMouseOver?: Function,
-};
+  onMouseOver?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+}
 
 class ActionItem extends Component<Props, {}> {
   render() {
