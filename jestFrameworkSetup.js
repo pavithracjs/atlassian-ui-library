@@ -38,9 +38,13 @@ process.on('unhandledRejection', reason => {
 });
 
 // We need to ensure that each test has at least one assertion.
-beforeEach(() => {
-  expect.hasAssertions();
-});
+// Currently, the integration tests are using a custom matcher and it is not considered as an assertion.
+// `expect.hasAssertions()` will only run for Visual Regression And Unit tests.
+if (!process.env.INTEGRATION_TESTS) {
+  beforeEach(() => {
+    expect.hasAssertions();
+  });
+}
 
 /*
   This file is executed after the test framework is setup for each test file. Addons that modify
