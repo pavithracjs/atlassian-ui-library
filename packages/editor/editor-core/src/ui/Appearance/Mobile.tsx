@@ -17,7 +17,6 @@ export interface MobileEditorProps {
 }
 
 const MobileEditor: any = styled.div`
-  height: 100%;
   min-height: 30px;
   width: 100%;
   max-width: inherit;
