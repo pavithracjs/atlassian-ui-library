@@ -77,7 +77,7 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
-              - bolt measure:dependents
+              - bolt measure:dependents:s3
             after-script:
               - yarn send:stepFailureEvents
             caches:
