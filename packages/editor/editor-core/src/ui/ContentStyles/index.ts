@@ -170,9 +170,7 @@ const ContentStyles: ComponentClass<
       & > h4,
       & > h5,
       & > h6 {
-        & > .heading-content {
-          display: inline-block;
-        } 
+        display: inline-block;
       }
     }
   }

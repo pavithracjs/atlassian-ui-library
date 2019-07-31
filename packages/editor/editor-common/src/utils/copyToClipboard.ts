@@ -2,8 +2,8 @@ export const clipboardApiSupported = !!(
   navigator.clipboard && typeof navigator.clipboard.writeText === 'function'
 );
 
-// For safari and IE, this this a synchronize function,
-// It is wrapped into a promise to be consistent with "copyToClipboard" function.
+// For safari and IE, this is a synchronize function.
+// But it is wrapped into a promise to be consistent with "copyToClipboard" function.
 export const copyToClipboardLegacy = (
   textToCopy: string,
   copyAreaRef: HTMLElement | null,

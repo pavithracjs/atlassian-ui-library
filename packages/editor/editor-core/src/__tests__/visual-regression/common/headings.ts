@@ -1,5 +1,5 @@
 import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
-import headings from './__fixtures__/headings.json';
+import headings from './__fixtures__/headings-adf.json';
 import { waitForTooltip } from '@atlaskit/visual-regression/helper';
 
 describe('Heading:', () => {
@@ -12,7 +12,7 @@ describe('Heading:', () => {
       adf: headings,
       editorProps: { allowHeadingAnchorLink: true },
       appearance: Appearance.fullPage,
-      viewport: { width: 800, height: 1400 },
+      viewport: { width: 800, height: 800 },
     });
   });
 
@@ -20,10 +20,12 @@ describe('Heading:', () => {
     await snapshot(page);
   });
 
-  it('should render anchor link tooltip correctly', async () => {
-    await page.waitForSelector('.headingView-content-wrap:first-of-type');
-    await page.hover('.headingView-content-wrap:first-of-type');
-    await page.hover('.copy-anchor:first-of-type');
-    await waitForTooltip(page);
+  [1, 2, 3, 4, 5, 6].forEach(headingLevel => {
+    it(`should render anchor link tooltip for h${headingLevel} correctly`, async () => {
+      await page.waitForSelector(`h${headingLevel}:first-of-type`);
+      await page.hover(`h${headingLevel}:first-of-type`);
+      await page.hover(`h${headingLevel}:first-of-type button`);
+      await waitForTooltip(page);
+    });
   });
 });

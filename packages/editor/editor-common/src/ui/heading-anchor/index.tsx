@@ -5,9 +5,10 @@ import { colors } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import messages from './messages';
+import { HeadingAnchorWrapperClass } from './heading-anchor-wrapper';
 
 const HeadingComponentWithAnchor = styled.div`
-  & .heading-anchor button {
+  & .${HeadingAnchorWrapperClass} button {
     opacity: 0;
     transform: translate(8px, 0px);
     transition: opacity 0.2s ease 0s, transform 0.2s ease 0s;
@@ -15,7 +16,7 @@ const HeadingComponentWithAnchor = styled.div`
   }
 
   &:hover {
-    & .heading-anchor button {
+    & .${HeadingAnchorWrapperClass} button {
       opacity: 1;
       transform: none;
       width: unset;
@@ -46,7 +47,7 @@ const CopyAnchorWrapper = styled.div`
 
 const CopyAnchor = styled.button`
   outline: none;
-  background-color: white;
+  background-color: transparent;
   border: none;
   color: ${colors.N500};
   cursor: pointer;
@@ -57,27 +58,29 @@ const CopyAnchor = styled.button`
 class HeadingAnchor extends React.PureComponent<
   { onClick: () => Promise<void> } & React.Props<any> & InjectedIntlProps
 > {
-  initialCopyMessage = this.props.intl.formatMessage(
+  initialTooltipMessage = this.props.intl.formatMessage(
     messages.copyHeadingLinkToClipboard,
   );
 
   state = {
-    copySuccess: this.initialCopyMessage,
+    tooltipMessage: this.initialTooltipMessage,
   };
 
   copyToClipboard = async () => {
-    this.setState({ copySuccess: '' });
+    // This is needed to reset tooltip to reposition it.
+    // Might be better to fix tooltip reposition bug.
+    this.setState({ tooltipMessage: '' });
 
     try {
       await this.props.onClick();
       this.setState({
-        copySuccess: this.props.intl.formatMessage(
+        tooltipMessage: this.props.intl.formatMessage(
           messages.copiedHeadingLinkToClipboard,
         ),
       });
     } catch (e) {
       this.setState({
-        copySuccess: this.props.intl.formatMessage(
+        tooltipMessage: this.props.intl.formatMessage(
           messages.failedToCopyHeadingLink,
         ),
       });
@@ -86,14 +89,13 @@ class HeadingAnchor extends React.PureComponent<
 
   resetMessage = () => {
     setTimeout(() => {
-      this.setState({ copySuccess: this.initialCopyMessage });
+      this.setState({ tooltipMessage: this.initialTooltipMessage });
     }, 0);
   };
 
   renderAnchor() {
     return (
       <CopyAnchor
-        className="copy-anchor"
         onMouseLeave={this.resetMessage}
         onClick={this.copyToClipboard}
       >
@@ -105,8 +107,8 @@ class HeadingAnchor extends React.PureComponent<
   render() {
     return (
       <CopyAnchorWrapper>
-        {this.state.copySuccess ? (
-          <Tooltip content={this.state.copySuccess} position="top" delay={0}>
+        {this.state.tooltipMessage ? (
+          <Tooltip content={this.state.tooltipMessage} position="top" delay={0}>
             {this.renderAnchor()}
           </Tooltip>
         ) : (
@@ -118,3 +120,7 @@ class HeadingAnchor extends React.PureComponent<
 }
 
 export default injectIntl(HeadingAnchor);
+export {
+  HeadingAnchorWrapperClass,
+  HeadingAnchorWrapper,
+} from './heading-anchor-wrapper';

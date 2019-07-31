@@ -1,7 +1,10 @@
 import React from 'react';
-import { headingSizes, HeadingAnchor } from '@atlaskit/editor-common';
+import { HeadingAnchor } from '@atlaskit/editor-common';
 import { HeadingLevels } from '../../block-type/types';
-import { HeadingComponents } from '@atlaskit/editor-common/src/ui/heading-anchor';
+import {
+  HeadingComponents,
+  HeadingAnchorWrapper,
+} from '@atlaskit/editor-common/src/ui/heading-anchor';
 
 export interface Props {
   level: HeadingLevels;
@@ -22,19 +25,14 @@ class Heading extends React.PureComponent<Props & React.Props<any>> {
 
     return (
       <HeadingTag>
-        <div className="heading-content" ref={this.props.forwardRef}>
-          {visible && (
-            <div
-              id={headingId}
-              className="heading-anchor"
-              style={{
-                position: 'absolute',
-                height: `${headingSizes[HX].lineHeight}em`,
-              }}
-            >
-              <HeadingAnchor onClick={this.props.onClick} />
-            </div>
-          )}
+        <div ref={this.props.forwardRef}>
+          <HeadingAnchorWrapper
+            visible={!!visible}
+            anchorId={headingId}
+            ref={this.props.forwardRef}
+          >
+            <HeadingAnchor onClick={this.props.onClick} />
+          </HeadingAnchorWrapper>
         </div>
       </HeadingTag>
     );

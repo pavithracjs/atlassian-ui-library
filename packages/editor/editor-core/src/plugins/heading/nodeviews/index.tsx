@@ -1,28 +1,24 @@
-import * as React from 'react';
+import React from 'react';
 import { Node as PMNode, DOMSerializer } from 'prosemirror-model';
 import { EditorView, NodeView } from 'prosemirror-view';
-import { ProviderFactory } from '@atlaskit/editor-common';
+
+import { getCurrentUrlWithoutHash } from '@atlaskit/editor-common/src/utils/urls';
+import { getText } from '@atlaskit/renderer/src/utils';
 
 import { getPosHandler, ForwardRef } from '../../../nodeviews';
 import { createMobileInlineDomRef } from '../../../ui/InlineNodeWrapper';
-
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { EditorAppearance } from '../../../types';
 import Heading from './heading';
 import {
   SelectionBasedNodeView,
   ReactComponentProps,
   shouldUpdate,
 } from '../../../nodeviews/ReactNodeView';
-import { getText } from '@atlaskit/renderer/src/utils';
+
 import { hasParentNodeOfType, findChildren } from 'prosemirror-utils';
 import { copyTextToClipboard } from '..';
-import { getCurrentUrlWithoutHash } from '@atlaskit/editor-common/src/utils/urls';
 
-export interface Props {
-  providerFactory: ProviderFactory;
-  editorAppearance?: EditorAppearance;
-}
+import { Selection } from 'prosemirror-state';
 
 export class HeadingNodeView extends SelectionBasedNodeView {
   private oldHeadingContent: string;
@@ -87,7 +83,8 @@ export class HeadingNodeView extends SelectionBasedNodeView {
   currentHeadingId = () => {
     const headingNodes = findChildren(
       this.view.state.doc,
-      (node: PMNode): boolean => node.type.name === 'heading',
+      (node: PMNode): boolean =>
+        node.type.name === this.view.state.doc.type.schema.nodes.heading.name,
     );
 
     const headingIds = [];
@@ -116,13 +113,14 @@ export class HeadingNodeView extends SelectionBasedNodeView {
       )}`,
     );
 
-  render(_props: Props, forwardRef: ForwardRef) {
+  render(_props: any, forwardRef: ForwardRef) {
     const {
-      selection,
       schema: {
         nodes: {
           panel,
           table,
+          tableRow,
+          tableHeader,
           layoutSection,
           layoutColumn,
           extension,
@@ -131,14 +129,17 @@ export class HeadingNodeView extends SelectionBasedNodeView {
       },
     } = this.view.state;
 
+    const pos = this.view.state.doc.resolve(this.getPos());
     const hasUnsupportedParentType = hasParentNodeOfType([
       panel,
       table,
+      tableRow,
+      tableHeader,
       layoutSection,
       layoutColumn,
       extension,
       bodiedExtension,
-    ])(selection);
+    ])(new Selection(pos, pos));
 
     return (
       <Heading
