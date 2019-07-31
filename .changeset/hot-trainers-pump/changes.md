@@ -1,0 +1,2 @@
+BUILDTOOLS-260/BUILDTOOLS-261: Replace data-test-id by data-testid to be consistent with react-testing-library.
+**Products**, you may require to update your integration and end to end tests if they are based on `data-test-id` please replace by `data-testid`.

@@ -1,0 +1,8 @@
+{
+  "releases": [
+    { "name": "@atlaskit/global-navigation", "type": "patch" },
+    { "name": "@atlaskit/navigation-next", "type": "patch" },
+    { "name": "@atlaskit/website", "type": "patch" }
+  ],
+  "dependents": []
+}

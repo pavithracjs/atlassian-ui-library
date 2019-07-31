@@ -6,7 +6,7 @@ const urlHome = 'http://localhost:9000/';
 
 const app = '#app';
 const atlaskitLogo = '[alt="Atlaskit logo"]';
-const atlaskitTitle = 'h1[data-test-id="title"]';
+const atlaskitTitle = 'h1[data-testid="title"]';
 const openNavigationButton = '[aria-label="Open navigation"]';
 
 BrowserTestCase(
