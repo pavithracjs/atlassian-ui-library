@@ -20,7 +20,7 @@ describe('MediaEditor ResourceManager', () => {
   it('should successfully releaseAll if holds no resources', () => {
     const resourceManager = new ResourceManager();
     resourceManager.releaseAll();
-    expect(resourceManager).toBeDefined();
+    expect(() => resourceManager.releaseAll()).not.toThrow();
   });
 
   it('should successfully release resource', () => {

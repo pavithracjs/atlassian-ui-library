@@ -2,6 +2,7 @@ import { renderHook, renderSmartLinkHook } from '../../../utils/test-utils';
 import { useSmartLinkContext } from '..';
 import CardClient from '../../../client';
 // TODO: Those tests are wrong and are not entering into the renderHook callbacks.
+// https://product-fabric.atlassian.net/browse/SL-366
 describe.skip('useSmartCardContext()', () => {
   it('throws if required context not present', () => {
     renderHook(() => {

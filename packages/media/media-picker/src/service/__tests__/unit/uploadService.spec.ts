@@ -639,6 +639,7 @@ describe('UploadService', () => {
       );
     });
     //TODO: to discuss with Hector: https://jestjs.io/docs/en/asynchronous.html
+    // https://product-fabric.atlassian.net/browse/MS-2223
     it.skip('resolves when userAuthProvider fails', () => {
       const userAuthProvider = () => Promise.reject(new Error('some-error'));
 
