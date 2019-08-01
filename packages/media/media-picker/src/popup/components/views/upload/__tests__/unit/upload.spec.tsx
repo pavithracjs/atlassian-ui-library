@@ -493,27 +493,6 @@ describe('<UploadView />', () => {
     expect(isWebGLAvailable).toHaveBeenCalled();
   });
 
-  // it('should set deferred upfront id when clicking on a card', () => {
-  //   const { component, dispatch } = createConnectedComponent(state);
-  //
-  //   const props = component
-  //     .find(Card)
-  //     .last()
-  //     .props();
-  //   if (props.onClick) {
-  //     props.onClick({ mediaItemDetails: { id: 'some-id' } } as any);
-  //   } else {
-  //     fail('onClick property is missing in props');
-  //   }
-  //
-  //   expect(dispatch.mock.calls[0][0]).toEqual({
-  //     id: 'some-id',
-  //     type: 'SET_UPFRONT_ID_DEFERRED',
-  //     resolver: expect.anything(),
-  //     rejecter: expect.anything(),
-  //   });
-  // });
-
   it('should fire an analytics event when given a react context', () => {
     const aHandler = jest.fn();
     const { component } = createConnectedComponent(state, {
