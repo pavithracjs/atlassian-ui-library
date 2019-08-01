@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.39.16
+
+### Patch Changes
+
+- [patch][2703a8e39e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2703a8e39e):
+
+  ED-7310: Add work-around for Russian keyboard layouts where undo wouldn't fire correctly.
+
 ## 112.39.15
 
 ### Patch Changes
