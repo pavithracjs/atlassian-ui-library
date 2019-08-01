@@ -1,0 +1,1 @@
+Fix regression in populate-package where new packages would throw an error
