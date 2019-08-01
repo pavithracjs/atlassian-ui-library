@@ -104,7 +104,7 @@ describe('LayoutManagerWithViewController', () => {
     expect(containerSkeletonEl.find(SkeletonContainerView)).toHaveLength(1);
     expect(containerSkeletonEl.find(SkeletonContainerView).props()).toEqual({
       dataset: {
-        'data-test-id': 'ContextualNavigationSkeleton',
+        'data-testid': 'ContextualNavigationSkeleton',
       },
       type: 'product',
     });

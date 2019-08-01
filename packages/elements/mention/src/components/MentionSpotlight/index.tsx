@@ -30,7 +30,7 @@ export interface OwnProps {
 }
 
 export interface State {
-  isSpotlightClosed: boolean;
+  isSpotlightHidden: boolean;
 }
 
 export type Props = OwnProps & WithAnalyticsEventProps;
@@ -49,13 +49,20 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
     this.elWrapper = React.createRef();
     this.elCloseWrapper = React.createRef();
     this.state = {
-      isSpotlightClosed: false,
+      isSpotlightHidden: false,
     };
   }
 
   componentDidMount() {
     this.addEventHandler();
-    MentionSpotlightController.registerRender();
+    // Spotlight hiding logic was moved to Mount method because if Spotlight is re-rendered after updating the
+    // counts at MentionSpotlightController, spotlight will appear for sometime and then disappear. As of the time
+    // of writing this code, this was only happening in Fabric Editor ( See TEAMS-623 )
+    if (!MentionSpotlightController.isSpotlightEnabled()) {
+      this.setState({ isSpotlightHidden: true });
+    } else {
+      MentionSpotlightController.registerRender();
+    }
   }
 
   componentWillUnmount() {
@@ -96,15 +103,15 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
   }
 
   onCloseClick = () => {
-    this.setState({ isSpotlightClosed: true });
+    this.setState({ isSpotlightHidden: true });
     this.props.onClose();
   };
 
   render() {
     const { createTeamLink } = this.props;
-    const { isSpotlightClosed } = this.state;
+    const { isSpotlightHidden } = this.state;
 
-    if (isSpotlightClosed) {
+    if (isSpotlightHidden) {
       return null;
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-core",
-  "version": "112.39.15",
+  "version": "112.39.16",
   "description": "A package contains Atlassian editor core functionality",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -97,7 +97,8 @@
     "re-resizable": "^4.9.0",
     "react-loadable": "^5.1.0",
     "tslib": "^1.9.3",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "w3c-keyname": "^2.1.0"
   },
   "peerDependencies": {
     "@atlaskit/media-core": "^30.0.8",
