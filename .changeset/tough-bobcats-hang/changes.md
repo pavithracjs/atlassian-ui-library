@@ -1,0 +1,1 @@
+Adding isDiscoverMoreForEveryoneEnabled and onDiscoverMoreClicked props onto the Atlassian Switcher API
