@@ -1,4 +1,4 @@
-import createStream from '../stream';
+import createStream from '../../../test-helpers/stream';
 
 describe('event-stream', () => {
   describe('next', () => {
