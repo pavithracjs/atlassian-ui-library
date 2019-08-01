@@ -643,4 +643,94 @@ describe('ConfluenceQuickSearchContainer', () => {
       expect(props.getAutocompleteSuggestions).not.toBeUndefined();
     });
   });
+
+  describe('NavAutocomplete', () => {
+    it('should not call getNavAutocompleteSuggestions if isNavAutocompleteEnabled and isAutocompleteEnabled are false', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
+
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).toBeUndefined();
+
+      if (props.getAutocompleteSuggestions) {
+        props.getAutocompleteSuggestions('query');
+      }
+
+      expect(getNavSuggestionsSpy).toHaveBeenCalledTimes(0);
+      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call getNavAutocompleteSuggestions if isNavAutocompleteEnabled is true', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
+
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES, isNavAutocompleteEnabled: true },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+
+      if (props.getAutocompleteSuggestions) {
+        props.getAutocompleteSuggestions('query');
+      }
+
+      expect(getNavSuggestionsSpy).toHaveBeenCalledWith('query');
+      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call getNavAutocompleteSuggestions if both isAutoEnabled and isNavAutocompleteEnabled are true', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
+
+      const wrapper = render({
+        features: {
+          ...DEFAULT_FEATURES,
+          isNavAutocompleteEnabled: true,
+          isAutocompleteEnabled: true,
+        },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+
+      if (props.getAutocompleteSuggestions) {
+        props.getAutocompleteSuggestions('query');
+      }
+
+      expect(getNavSuggestionsSpy).toHaveBeenCalledWith('query');
+      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
+    });
+  });
 });

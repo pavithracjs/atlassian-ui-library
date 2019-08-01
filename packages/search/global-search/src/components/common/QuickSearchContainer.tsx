@@ -83,6 +83,7 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
     filters: Filter[],
   ): Promise<ResultsWithTiming<T>>;
   getAutocompleteSuggestions?(query: string): Promise<string[]>;
+  getNavAutocompleteSuggestions?(query: string): Promise<string[]>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
