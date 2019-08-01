@@ -1,1 +1,0 @@
-ED-7054: Adding border to block extension
