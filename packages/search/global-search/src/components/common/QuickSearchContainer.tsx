@@ -452,14 +452,12 @@ export class QuickSearchContainer<
   handleAutocomplete = async (query: string) => {
     const { getAutocompleteSuggestions } = this.props;
 
-    try {
-      let results;
+    if (!getAutocompleteSuggestions) {
+      return;
+    }
 
-      if (getAutocompleteSuggestions) {
-        results = await getAutocompleteSuggestions(query);
-      } else {
-        return;
-      }
+    try {
+      const results = await getAutocompleteSuggestions(query);
 
       if (this.unmounted) {
         return;
