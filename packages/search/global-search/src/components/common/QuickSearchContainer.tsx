@@ -83,7 +83,6 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
     filters: Filter[],
   ): Promise<ResultsWithTiming<T>>;
   getAutocompleteSuggestions?(query: string): Promise<string[]>;
-  getNavAutocompleteSuggestions?(query: string): Promise<string[]>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
@@ -451,18 +450,13 @@ export class QuickSearchContainer<
   }
 
   handleAutocomplete = async (query: string) => {
-    const {
-      getAutocompleteSuggestions,
-      getNavAutocompleteSuggestions,
-    } = this.props;
+    const { getAutocompleteSuggestions } = this.props;
 
     try {
       let results;
 
       if (getAutocompleteSuggestions) {
         results = await getAutocompleteSuggestions(query);
-      } else if (getNavAutocompleteSuggestions) {
-        results = await getNavAutocompleteSuggestions(query);
       } else {
         return;
       }

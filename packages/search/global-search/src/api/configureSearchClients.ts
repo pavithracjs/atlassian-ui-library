@@ -14,10 +14,6 @@ import {
   AutocompleteClientImpl,
   AutocompleteClient,
 } from './AutocompleteClient';
-import {
-  NavAutocompleteClientImpl,
-  NavAutocompleteClient,
-} from './NavAutocompleteClient';
 import memoizeOne from 'memoize-one';
 import deepEqual from 'deep-equal';
 
@@ -27,7 +23,6 @@ export interface SearchClients {
   confluenceClient: ConfluenceClient;
   jiraClient: JiraClient;
   autocompleteClient: AutocompleteClient;
-  navAutocompleteClient: NavAutocompleteClient;
 }
 
 export interface Config {
@@ -82,10 +77,6 @@ function configureSearchClients(
     ),
     autocompleteClient: new AutocompleteClientImpl(
       config.autocompleteUrl,
-      cloudId,
-    ),
-    navAutocompleteClient: new NavAutocompleteClientImpl(
-      config.searchAggregatorServiceUrl,
       cloudId,
     ),
     jiraClient: new JiraClientImpl(config.jiraUrl, cloudId),

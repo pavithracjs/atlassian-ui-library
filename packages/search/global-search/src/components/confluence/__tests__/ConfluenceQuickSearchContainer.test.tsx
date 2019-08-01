@@ -9,7 +9,6 @@ import {
   noResultsConfluenceClient,
   makeConfluenceClient,
   mockAutocompleteClient,
-  mockNavAutocompleteClient,
 } from '../../../__tests__/unit/mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../../../__tests__/unit/helpers/_intl-enzyme-test-helper';
 import {
@@ -68,7 +67,6 @@ function render(partialProps?: Partial<Props>) {
     crossProductSearchClient: noResultsCrossProductSearchClient,
     peopleSearchClient: noResultsPeopleSearchClient,
     autocompleteClient: mockAutocompleteClient,
-    navAutocompleteClient: mockNavAutocompleteClient,
     logger,
     referralContextIdentifiers,
     features: DEFAULT_FEATURES,
@@ -97,6 +95,9 @@ const mockCrossProductSearchClient = {
   },
   getPeople() {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+  },
+  getNavAutocompleteSuggestions() {
+    return Promise.resolve([]);
   },
 } as CrossProductSearchClient;
 
@@ -245,6 +246,9 @@ describe('ConfluenceQuickSearchContainer', () => {
         },
         getPeople() {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getNavAutocompleteSuggestions() {
+          return Promise.resolve([]);
         },
       },
     });

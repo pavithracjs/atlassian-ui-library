@@ -166,6 +166,7 @@ export interface CrossProductSearchClient {
   getPeople(params: SearchPeopleParams): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
   getAbTestDataForProduct(product: QuickSearchContext): Promise<ABTest>;
+  getNavAutocompleteSuggestions(query: string): Promise<string[]>;
 }
 
 export default class CachingCrossProductSearchClientImpl
@@ -186,6 +187,26 @@ export default class CachingCrossProductSearchClientImpl
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
+  }
+
+  public async getNavAutocompleteSuggestions(query: string): Promise<string[]> {
+    const path = 'quicksearch/v1';
+
+    const results: CrossProductSearchResponse = await this.makeRequest<
+      CrossProductSearchResponse
+    >(path, {
+      cloudId: this.cloudId,
+      scopes: [Scope.NavSearchComplete],
+      query,
+    });
+
+    const matchingScope: ScopeResult | undefined = results.scopes.find(
+      scope => scope.id === Scope.NavSearchComplete,
+    );
+
+    const matchingDocuments = matchingScope ? matchingScope.results : [];
+
+    return matchingDocuments.map(mapItemToNavCompletionString);
   }
 
   public async getPeople({
@@ -414,4 +435,10 @@ function mapItemToResult(scope: Scope, item: SearchItem): Result {
   }
 
   throw new Error(`Non-exhaustive match for scope: ${scope}`);
+}
+
+function mapItemToNavCompletionString(item: SearchItem): string {
+  const completionItem = item as NavScopeResultItem;
+
+  return completionItem.query;
 }

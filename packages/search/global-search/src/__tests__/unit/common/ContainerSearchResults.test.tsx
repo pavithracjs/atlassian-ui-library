@@ -20,7 +20,6 @@ import {
 import {
   noResultsConfluenceClient,
   mockAutocompleteClient,
-  mockNavAutocompleteClient,
 } from '../mocks/_mockConfluenceClient';
 import { noResultsCrossProductSearchClient } from '../mocks/_mockCrossProductSearchClient';
 import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
@@ -129,7 +128,6 @@ const renderComponent = (product: QuickSearchContext) => {
     peopleSearchClient: noResultsPeopleSearchClient,
     jiraClient: mockNoResultJiraClient(),
     autocompleteClient: mockAutocompleteClient,
-    navAutocompleteClient: mockNavAutocompleteClient,
     logger,
     createAnalyticsEvent: createAnalyticsEventSpy,
     confluenceClient: noResultsConfluenceClient,

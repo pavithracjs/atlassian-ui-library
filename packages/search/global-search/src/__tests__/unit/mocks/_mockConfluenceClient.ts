@@ -2,7 +2,6 @@ import { ConfluenceClient } from '../../../api/ConfluenceClient';
 import { AutocompleteClient } from '../../../api/AutocompleteClient';
 import { makeConfluenceObjectResult } from '../_test-util';
 import { Result } from '../../../model/Result';
-import { NavAutocompleteClient } from '../../../api/NavAutocompleteClient';
 
 const EMPTY_PROMISE = () => Promise.resolve([]);
 
@@ -28,8 +27,4 @@ export function makeSingleResultQuickNavSearchResponse(
 
 export const mockAutocompleteClient: AutocompleteClient = {
   getAutocompleteSuggestions: EMPTY_PROMISE,
-};
-
-export const mockNavAutocompleteClient: NavAutocompleteClient = {
-  getNavAutocompleteSuggestions: EMPTY_PROMISE,
 };

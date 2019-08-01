@@ -55,7 +55,6 @@ import {
 } from './ConfluenceSearchResultsMapper';
 import { CONF_MAX_DISPLAYED_RESULTS } from '../../util/experiment-utils';
 import { AutocompleteClient } from '../../api/AutocompleteClient';
-import { NavAutocompleteClient } from '../../api/NavAutocompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { buildConfluenceModelParams } from '../../util/model-parameters';
 import ConfluenceFilterGroup from './ConfluenceFilterGroup';
@@ -75,7 +74,6 @@ export interface Props {
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
   autocompleteClient: AutocompleteClient;
-  navAutocompleteClient: NavAutocompleteClient;
   linkComponent: LinkComponent | undefined;
   referralContextIdentifiers: ReferralContextIdentifiers | undefined;
   logger: Logger;
@@ -409,27 +407,29 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   };
 
   getAutocompleteSuggestions = (query: string): Promise<string[]> => {
-    const { autocompleteClient } = this.props;
+    const { autocompleteClient, features } = this.props;
 
-    const autocompletePromise = handlePromiseError(
-      autocompleteClient.getAutocompleteSuggestions(query),
-      [query],
-      this.handleSearchErrorAnalyticsThunk(CCS_AUTOCOMPLETE),
-    );
+    if (features.isNavAutocompleteEnabled) {
+      const { crossProductSearchClient } = this.props;
 
-    return autocompletePromise;
-  };
+      const navAutocompletePromise = handlePromiseError(
+        crossProductSearchClient.getNavAutocompleteSuggestions(query),
+        [query],
+        this.handleSearchErrorAnalyticsThunk(CCS_AUTOCOMPLETE),
+      );
 
-  getNavAutocompleteSuggestions = (query: string): Promise<string[]> => {
-    const { navAutocompleteClient } = this.props;
+      return navAutocompletePromise;
+    } else if (features.isAutocompleteEnabled) {
+      const autocompletePromise = handlePromiseError(
+        autocompleteClient.getAutocompleteSuggestions(query),
+        [query],
+        this.handleSearchErrorAnalyticsThunk(CCS_AUTOCOMPLETE),
+      );
 
-    const navAutocompletePromise = handlePromiseError(
-      navAutocompleteClient.getNavAutocompleteSuggestions(query),
-      [query],
-      this.handleSearchErrorAnalyticsThunk(CCS_AUTOCOMPLETE),
-    );
+      return autocompletePromise;
+    }
 
-    return navAutocompletePromise;
+    return Promise.resolve([]);
   };
 
   getPreQueryDisplayedResults = (
@@ -690,11 +690,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         getAutocompleteSuggestions={
-          isAutocompleteEnabled ? this.getAutocompleteSuggestions : undefined
-        }
-        getNavAutocompleteSuggestions={
-          isNavAutocompleteEnabled
-            ? this.getNavAutocompleteSuggestions
+          isAutocompleteEnabled || isNavAutocompleteEnabled
+            ? this.getAutocompleteSuggestions
             : undefined
         }
         product="confluence"
