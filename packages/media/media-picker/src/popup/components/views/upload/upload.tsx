@@ -96,11 +96,7 @@ export interface UploadViewDispatchProps {
     file: FileReference,
     collectionName: string,
   ) => void;
-  readonly removeFileFromRecents: (
-    id: string,
-    occurrenceKey?: string,
-    userFileId?: string,
-  ) => void;
+  readonly removeFileFromRecents: (id: string, occurrenceKey?: string) => void;
 }
 
 export type UploadViewProps = UploadViewOwnProps &
@@ -115,8 +111,7 @@ export interface UploadViewState {
   readonly isLoadingNextPage: boolean;
   readonly deletionCandidate?: {
     id: string;
-    occurrenceKey: string;
-    userFileId?: string;
+    occurrenceKey?: string;
   };
 }
 
@@ -179,12 +174,12 @@ export class StatelessUploadView extends Component<
       return null;
     }
 
-    const { id, occurrenceKey, userFileId } = deletionCandidate;
+    const { id, occurrenceKey } = deletionCandidate;
     const actions = [
       {
         text: 'Delete permanently',
         onClick: () => {
-          removeFileFromRecents(id, occurrenceKey, userFileId);
+          removeFileFromRecents(id, occurrenceKey);
           closeDialog();
         },
       },
@@ -330,29 +325,27 @@ export class StatelessUploadView extends Component<
         ...file.metadata,
         mimeType: mediaType,
       };
-      const { id, userOccurrenceKey, userUpfrontId, size, name } = fileMetadata;
+      const { id, size, name, occurrenceKey } = fileMetadata;
       const selected = selectedUploadIds.indexOf(id) > -1;
       const serviceFile: ServiceFile = {
         id,
         mimeType: mediaType,
         name,
         size,
-        occurrenceKey: fileMetadata.occurrenceKey,
+        occurrenceKey,
         date: 0,
       };
       const onClick = () => onFileClick(serviceFile, 'upload');
       const actions: CardAction[] = [
         createDeleteCardAction(async () => {
-          const userFileId = await userUpfrontId;
-          const occurrenceKey = await userOccurrenceKey;
           this.setState({
-            deletionCandidate: { id, occurrenceKey, userFileId },
+            deletionCandidate: { id, occurrenceKey },
           });
         }),
       ]; // TODO [MS-1017]: allow file annotation for uploading files
 
       const identifier: FileIdentifier = {
-        id: userUpfrontId,
+        id,
         mediaItemType: 'file',
       };
 
@@ -492,8 +485,8 @@ const mapDispatchToProps = (
     dispatch(editorShowImage(dataUri, file)),
   onEditRemoteImage: (file, collectionName) =>
     dispatch(editRemoteImage(file, collectionName)),
-  removeFileFromRecents: (id, occurrenceKey, userFileId) =>
-    dispatch(removeFileFromRecents(id, occurrenceKey, userFileId)),
+  removeFileFromRecents: (id, occurrenceKey) =>
+    dispatch(removeFileFromRecents(id, occurrenceKey)),
 });
 
 export default connect<

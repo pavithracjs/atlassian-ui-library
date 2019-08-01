@@ -11,37 +11,23 @@ export default function fileUploadsAdd(state: State, action: Action): State {
     const newUploads: { [id: string]: LocalUpload } = {};
 
     let newLastUploadIndex = lastUploadIndex;
-    files.forEach(
-      ({
-        id,
-        name,
-        type,
-        size,
-        userUpfrontId,
-        userOccurrenceKey,
-        occurrenceKey,
-      }) => {
-        if (userUpfrontId && userOccurrenceKey) {
-          newUploads[id] = {
-            file: {
-              metadata: {
-                id,
-                name,
-                mimeType: type,
-                size,
-                userUpfrontId,
-                userOccurrenceKey,
-                occurrenceKey,
-              },
-            },
-            timeStarted: Date.now(),
-            progress: 0,
-            events: [], // uploads-start is not part of events. It will be emitted manually in importFiles.tsx
-            index: newLastUploadIndex++, // this index helps to sort upload items, so that latest come first
-          };
-        }
-      },
-    );
+    files.forEach(({ id, name, type, size, occurrenceKey }) => {
+      newUploads[id] = {
+        file: {
+          metadata: {
+            id,
+            name,
+            mimeType: type,
+            size,
+            occurrenceKey,
+          },
+        },
+        timeStarted: Date.now(),
+        progress: 0,
+        events: [], // uploads-start is not part of events. It will be emitted manually in importFiles.tsx
+        index: newLastUploadIndex++, // this index helps to sort upload items, so that latest come first
+      };
+    });
 
     const newSelectedItems: SelectedItem[] = files.map(
       ({ id, name, type, size, occurrenceKey }) =>

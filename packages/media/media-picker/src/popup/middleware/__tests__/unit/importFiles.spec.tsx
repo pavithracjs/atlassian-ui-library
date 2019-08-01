@@ -141,8 +141,6 @@ describe('importFiles middleware', () => {
         file: {
           metadata: {
             ...makeFileData(index),
-            userUpfrontId: Promise.resolve(''),
-            userOccurrenceKey: Promise.resolve(''),
           },
         },
         events: [

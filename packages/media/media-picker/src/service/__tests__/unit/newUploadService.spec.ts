@@ -92,10 +92,6 @@ describe('UploadService', () => {
       shouldCopyFileToRecents,
     );
 
-    jest
-      .spyOn((uploadService as any).tenantMediaStore, 'createFile')
-      .mockResolvedValue({ data: { id: 'some-new-tenant-file-id' } });
-
     const filesAddedPromise = new Promise(resolve =>
       uploadService.on('files-added', () => resolve()),
     );
@@ -179,8 +175,6 @@ describe('UploadService', () => {
           size: 100,
           type: 'video/mp4',
           occurrenceKey: expect.any(String),
-          userUpfrontId: undefined,
-          userOccurrenceKey: undefined,
         },
         preview: previewObject,
       };
@@ -204,8 +198,6 @@ describe('UploadService', () => {
           size: 100,
           type: 'image/png',
           occurrenceKey: expect.any(String),
-          userUpfrontId: undefined,
-          userOccurrenceKey: undefined,
         },
         preview: previewObject,
       };
@@ -262,8 +254,6 @@ describe('UploadService', () => {
             size: 100,
             type: 'video/mp4',
             occurrenceKey: expect.any(String),
-            userUpfrontId: undefined,
-            userOccurrenceKey: undefined,
           },
           {
             id: expect.any(String),
@@ -272,8 +262,6 @@ describe('UploadService', () => {
             size: 100000000,
             type: 'image/png',
             occurrenceKey: expect.any(String),
-            userUpfrontId: undefined,
-            userOccurrenceKey: undefined,
           },
         ],
       };

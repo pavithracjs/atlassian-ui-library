@@ -28,8 +28,6 @@ describe('fileUploadsAdd() reducer', () => {
     creationDate: nowDate,
     size: 42,
     occurrenceKey,
-    userUpfrontId: Promise.resolve(''),
-    userOccurrenceKey: Promise.resolve(''),
   };
   const file2: MediaFile = {
     name: 'some-file2.ext',
@@ -38,8 +36,6 @@ describe('fileUploadsAdd() reducer', () => {
     creationDate: nowDate,
     size: 42,
     occurrenceKey,
-    userUpfrontId: Promise.resolve(''),
-    userOccurrenceKey: Promise.resolve(''),
   };
 
   it('returns same state if action has different type', () => {
@@ -65,8 +61,6 @@ describe('fileUploadsAdd() reducer', () => {
           mimeType: 'image/some',
           size: 42,
           occurrenceKey,
-          userUpfrontId: expect.any(Promise),
-          userOccurrenceKey: expect.any(Promise),
         },
       },
       progress: 0,

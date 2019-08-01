@@ -36,7 +36,6 @@ export const mockState: State = {
   tenantMediaClient: fakeMediaClient(),
   userMediaClient: fakeMediaClient(),
   config: {},
-  deferredIdUpfronts: {},
 };
 
 export const mockStore = (state?: Partial<State>) => ({

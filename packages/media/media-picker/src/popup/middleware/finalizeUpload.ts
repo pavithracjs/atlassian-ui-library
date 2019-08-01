@@ -154,12 +154,6 @@ async function copyFile({
       );
     })
     .catch(error => {
-      if (deferred) {
-        const { rejecter } = deferred;
-
-        rejecter();
-      }
-
       return store.dispatch(
         sendUploadEvent({
           event: {

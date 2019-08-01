@@ -191,7 +191,6 @@ describe('<StatelessUploadView />', () => {
               id: 'id1',
               mimeType: 'image/jpeg',
               name: 'some-file-name',
-              userUpfrontId: Promise.resolve('id2'),
             },
           },
         } as LocalUpload,
@@ -213,7 +212,7 @@ describe('<StatelessUploadView />', () => {
     expect(component.find(Card).prop('selectable')).toEqual(true);
     expect(component.find(Card).prop('selected')).toEqual(true);
     expect(component.find(Card).prop('identifier')).toEqual({
-      id: Promise.resolve('id1'),
+      id: 'id1',
       mediaItemType: 'file',
     });
   });
@@ -236,15 +235,11 @@ describe('<StatelessUploadView />', () => {
     });
 
     const setup = () => {
-      const userUpfrontId = Promise.resolve('id2');
-      const userOccurrenceKey = Promise.resolve('userOccurrenceKey1');
       const metadata: LocalUploadFileMetadata = {
         id: 'id1',
         mimeType: 'image/jpeg',
         name: 'some-file-name',
         size: 42,
-        userUpfrontId,
-        userOccurrenceKey,
       };
 
       const mockStateOverride: Partial<State> = {
@@ -271,17 +266,15 @@ describe('<StatelessUploadView />', () => {
         ),
       );
       const deleteActionHandler = getDeleteActionHandler(component);
-      const readyIds = Promise.all([userUpfrontId, userOccurrenceKey]);
-      return { component, deleteActionHandler, readyIds };
+      return { component, deleteActionHandler };
     };
 
     const setupAndClickDelete = async () => {
-      const { component, deleteActionHandler, readyIds } = setup();
+      const { component, deleteActionHandler } = setup();
 
       deleteActionHandler();
       component.update();
 
-      await readyIds;
       await nextTick();
 
       component.update();
@@ -303,11 +296,7 @@ describe('<StatelessUploadView />', () => {
       component.update();
       const modalDialog = component.find(ModalDialog);
       expect(modalDialog).toHaveLength(0);
-      expect(removeFileFromRecents).toHaveBeenCalledWith(
-        'id1',
-        'userOccurrenceKey1',
-        'id2',
-      );
+      expect(removeFileFromRecents).toHaveBeenCalledWith('id1', undefined);
     });
 
     it('should close dialog without deleting file when cancel clicked', async () => {
@@ -384,7 +373,6 @@ describe('<StatelessUploadView />', () => {
       expect(removeFileFromRecents).toHaveBeenCalledWith(
         'some-id',
         'some-occurrence-key',
-        undefined,
       );
     });
   });
@@ -392,7 +380,6 @@ describe('<StatelessUploadView />', () => {
 
 describe('<UploadView />', () => {
   let state: State;
-  const userUpfrontId = Promise.resolve('');
   beforeEach(() => {
     state = {
       ...mockState,
@@ -422,8 +409,6 @@ describe('<UploadView />', () => {
               name: 'some-name',
               size: 1000,
               mimeType: 'image/png',
-              userUpfrontId,
-              userOccurrenceKey: Promise.resolve('some-user-occurrence-key'),
             },
           },
           index: 0,

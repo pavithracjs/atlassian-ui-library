@@ -163,18 +163,8 @@ export class NewUploadServiceImpl implements UploadService {
           uploadableUpfrontIds,
         );
 
-        let userUpfrontId: Promise<string> | undefined;
-        let userOccurrenceKey: Promise<string> | undefined;
-
-        if (!shouldCopyFileToRecents) {
-          userUpfrontId = Promise.resolve(id);
-          userOccurrenceKey = Promise.resolve(occurrenceKey);
-        }
-
         const mediaFile: MediaFile = {
           id,
-          userUpfrontId,
-          userOccurrenceKey,
           name: file.name,
           size: file.size,
           creationDate,
