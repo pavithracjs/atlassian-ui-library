@@ -7,10 +7,6 @@ export const removeFileFromRecents = (store: Store<State>) => (
   next: Dispatch<State>,
 ) => (action: Action) => {
   if (isRemoveFileFromRecentsAction(action)) {
-    console.log({
-      userFileId: action.userFileId,
-      id: action.id,
-    });
     store
       .getState()
       .userMediaClient.collection.removeFile(
