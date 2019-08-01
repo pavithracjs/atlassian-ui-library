@@ -17,6 +17,7 @@ import {
   toggleList,
 } from '../../../../plugins/lists/commands';
 import { GapCursorSelection } from '../../../../plugins/gap-cursor';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('lists plugin -> commands', () => {
   const createEditor = createEditorFactory();
@@ -121,6 +122,7 @@ describe('lists plugin -> commands', () => {
         editorView.dispatch,
         editorView,
         'bulletList',
+        INPUT_METHOD.TOOLBAR,
       );
 
       expect(editorView.state.doc).toEqualDocument(
@@ -142,6 +144,7 @@ describe('lists plugin -> commands', () => {
         editorView.dispatch,
         editorView,
         'orderedList',
+        INPUT_METHOD.TOOLBAR,
       );
 
       expect(editorView.state.doc).toEqualDocument(

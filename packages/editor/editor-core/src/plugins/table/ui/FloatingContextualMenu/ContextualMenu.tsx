@@ -41,6 +41,7 @@ import {
   addRowAfter,
   backspace,
 } from '../../../../keymaps';
+import { DropdownItem } from '../../../block-type/ui/ToolbarBlockType';
 
 export const messages = defineMessages({
   cellBackground: {
@@ -233,7 +234,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     return items.length ? [{ items }] : null;
   };
 
-  private onMenuItemActivated = ({ item }: { item: any }) => {
+  private onMenuItemActivated = ({ item }: { item: DropdownItem }) => {
     const { editorView, selectionRect, targetCellPosition } = this.props;
     const { state, dispatch } = editorView;
 

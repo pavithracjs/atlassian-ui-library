@@ -77,7 +77,8 @@ type BrowserFreezePayload = OperationalAEP<
   {
     freezeTime: number;
     nodeSize: number;
-  }
+  },
+  undefined
 >;
 
 type SlowInputAEP = OperationalAEP<
@@ -88,7 +89,8 @@ type SlowInputAEP = OperationalAEP<
     time: number;
     nodeSize: number;
     nodes?: Record<string, number>;
-  }
+  },
+  undefined
 >;
 
 type EditorStopAEP = UIAEP<

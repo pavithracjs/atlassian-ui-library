@@ -8,6 +8,15 @@ import {
 import { EditorView } from 'prosemirror-view';
 import { uuid } from '@atlaskit/adf-schema';
 import { pluginKey, StatusType } from './plugin';
+import { TOOLBAR_MENU_TYPE } from '../insert-block/ui/ToolbarInsertBlock';
+import {
+  withAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+} from '../analytics';
+import { Command } from '../../types';
 
 export const DEFAULT_STATUS: StatusType = {
   text: '',
@@ -33,10 +42,10 @@ export const createStatus = (showStatusPickerAtOffset = -2) => (
     });
 };
 
-export const updateStatus = (status?: StatusType) => (
-  editorView: EditorView,
-): boolean => {
-  const { state, dispatch } = editorView;
+export const updateStatus = (status?: StatusType): Command => (
+  state,
+  dispatch,
+) => {
   const { schema } = state;
 
   const selectedStatus = status
@@ -68,7 +77,9 @@ export const updateStatus = (status?: StatusType) => (
         isNew: true,
       })
       .scrollIntoView();
-    dispatch(tr);
+    if (dispatch) {
+      dispatch(tr);
+    }
     return true;
   }
 
@@ -77,12 +88,26 @@ export const updateStatus = (status?: StatusType) => (
     tr = tr.setSelection(NodeSelection.create(tr.doc, showStatusPickerAt));
     tr = tr.setMeta(pluginKey, { showStatusPickerAt }).scrollIntoView();
 
-    dispatch(tr);
+    if (dispatch) {
+      dispatch(tr);
+    }
     return true;
   }
 
   return false;
 };
+
+export const updateStatusWithAnalytics = (
+  inputMethod: TOOLBAR_MENU_TYPE,
+  status?: StatusType,
+): Command =>
+  withAnalytics({
+    action: ACTION.INSERTED,
+    actionSubject: ACTION_SUBJECT.DOCUMENT,
+    actionSubjectId: ACTION_SUBJECT_ID.STATUS,
+    attributes: { inputMethod },
+    eventType: EVENT_TYPE.TRACK,
+  })(updateStatus(status));
 
 export const setStatusPickerAt = (showStatusPickerAt: number | null) => (
   state: EditorState,

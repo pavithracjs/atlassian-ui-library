@@ -17,6 +17,7 @@ import {
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { emojiPluginKey } from '../../../../plugins/emoji';
 import { insertEmoji } from '../../../../plugins/emoji/commands/insert-emoji';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 const { testData } = emojiData;
 
@@ -65,7 +66,7 @@ describe('emojis', () => {
         fallback: 'Oscar Wallhult',
         shortName: 'oscar',
         id: '1234',
-      } as any)(editorView.state, editorView.dispatch);
+      })(editorView.state, editorView.dispatch);
 
       expect((editorView.state.doc.nodeAt(1) as PMNode).type.spec).toEqual(
         emojiNode,
@@ -75,7 +76,7 @@ describe('emojis', () => {
     it('should insert a space after the emoji-node', () => {
       const { editorView } = editor(doc(p('{<>}')));
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      insertEmoji(grinEmojiId)(editorView.state, editorView.dispatch);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(emoji(grinEmojiId)(), ' ')),
@@ -85,10 +86,7 @@ describe('emojis', () => {
     it('should allow inserting multiple emojis next to each other', () => {
       const { editorView } = editor(doc(p(emoji(grinEmojiId)(), ' ', '{<>}')));
 
-      insertEmoji(evilburnsEmojiId as any)(
-        editorView.state,
-        editorView.dispatch,
-      );
+      insertEmoji(evilburnsEmojiId)(editorView.state, editorView.dispatch);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(emoji(grinEmojiId)(), ' ', emoji(evilburnsEmojiId)(), ' ')),
@@ -98,7 +96,7 @@ describe('emojis', () => {
     it('should allow inserting emoji on new line after hard break', () => {
       const { editorView } = editor(doc(p(br(), '{<>}')));
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      insertEmoji(grinEmojiId)(editorView.state, editorView.dispatch);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(br(), emoji(grinEmojiId)(), ' ')),
@@ -110,7 +108,7 @@ describe('emojis', () => {
         doc(ul(li(p('One')), li(p('Two ', '{<>}')), li(p('Three')))),
       );
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      insertEmoji(grinEmojiId)(editorView.state, editorView.dispatch);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
@@ -126,7 +124,7 @@ describe('emojis', () => {
     it('should insert only 1 emoji at a time inside blockqoute', () => {
       const { editorView } = editor(doc(blockquote(p('Hello ', '{<>}'))));
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      insertEmoji(grinEmojiId)(editorView.state, editorView.dispatch);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(blockquote(p('Hello ', emoji(grinEmojiId)(), ' '))),
@@ -136,6 +134,22 @@ describe('emojis', () => {
         emojiNode,
       );
       expect(editorView.state.doc.nodeAt(10)).toBe(null);
+    });
+
+    it('should fire analytics event when insert emoji', () => {
+      const { editorView } = editor(doc(p('{<>}')));
+      insertEmoji(grinEmojiId, INPUT_METHOD.PICKER)(
+        editorView.state,
+        editorView.dispatch,
+      );
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'emoji',
+        eventType: 'track',
+        attributes: { inputMethod: 'picker' },
+      });
     });
   });
 

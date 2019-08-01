@@ -100,7 +100,6 @@ const mediaPlugin = (
           errorReporter,
           portalProviderAPI,
           reactContext,
-          dispatchAnalyticsEvent,
         }: PMPluginFactoryParams) =>
           createPlugin(
             schema,
@@ -130,7 +129,6 @@ const mediaPlugin = (
             },
             reactContext,
             dispatch,
-            dispatchAnalyticsEvent,
             pluginOptions,
           ),
       },

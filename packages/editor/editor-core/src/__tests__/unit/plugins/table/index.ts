@@ -46,6 +46,7 @@ import {
 } from '../../../../plugins/table/utils';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 import { AnalyticsHandler } from '../../../../analytics';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('table plugin', () => {
   const createEditor = createEditorFactory<TablePluginState>();
@@ -712,6 +713,7 @@ describe('table plugin', () => {
           collection: testCollectionName,
           __fileMimeType: 'image/png',
         })()(editorView.state.schema),
+        INPUT_METHOD.PICKER_CLOUD,
       );
 
       expect(editorView.state.doc).toEqualDocument(

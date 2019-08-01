@@ -17,9 +17,8 @@ import {
   InputWrapper,
   UrlInputWrapper,
 } from '../../../../ui/RecentSearch/ToolbarComponents';
-import { DispatchAnalyticsEvent, INPUT_METHOD } from '../../../analytics';
+import { INPUT_METHOD } from '../../../analytics';
 import { normalizeUrl } from '../../utils';
-import { getLinkCreationAnalyticsEvent } from '../../analytics';
 
 const ClearText = styled.span`
   cursor: pointer;
@@ -65,12 +64,11 @@ export interface Props {
     displayText: string,
     isTabPressed?: boolean,
   ) => void;
-  onSubmit?: (href: string, text: string, type?: LinkInputType) => void;
+  onSubmit?: (href: string, text: string, inputMethod: LinkInputType) => void;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   autoFocus?: boolean;
   provider: Promise<ActivityProvider>;
-  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   displayText?: string;
   displayUrl?: string;
 }
@@ -277,8 +275,6 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
           );
           this.trackAutoCompleteAnalyticsEvent(
             'atlassian.editor.format.hyperlink.autocomplete.click',
-            INPUT_METHOD.TYPEAHEAD,
-            href,
           );
         }
       },
@@ -309,8 +305,6 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
         );
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.keyboard',
-          INPUT_METHOD.TYPEAHEAD,
-          item.url,
         );
       }
     } else if (text && text.length > 0) {
@@ -323,8 +317,6 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
         );
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.notselected',
-          INPUT_METHOD.MANUAL,
-          text,
         );
       }
     }
@@ -372,19 +364,9 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
     }
   };
 
-  private trackAutoCompleteAnalyticsEvent(
-    name: string,
-    method: INPUT_METHOD.TYPEAHEAD | INPUT_METHOD.MANUAL,
-    url: string,
-  ) {
+  private trackAutoCompleteAnalyticsEvent(name: string) {
     const numChars = this.state.text ? this.state.text.length : 0;
     analyticsService.trackEvent(name, { numChars: numChars });
-
-    if (this.props.dispatchAnalyticsEvent) {
-      this.props.dispatchAnalyticsEvent(
-        getLinkCreationAnalyticsEvent(method, url),
-      );
-    }
   }
 }
 
