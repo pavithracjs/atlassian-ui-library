@@ -371,7 +371,7 @@ describe('hyperlink', () => {
         actionSubjectId: 'link',
         attributes: { inputMethod: 'autoDetect' },
         eventType: 'track',
-        nonPrivacySafeAttributes: { linkDomain: 'www.atlassian.com' },
+        nonPrivacySafeAttributes: { linkDomain: 'atlassian.com' },
       });
     });
 

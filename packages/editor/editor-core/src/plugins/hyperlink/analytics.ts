@@ -11,11 +11,12 @@ export function getLinkCreationAnalyticsEvent(
   inputMethod: InputMethodInsertLink,
   url: string,
 ): AnalyticsEventPayload {
-  // Remove protocol, if it exists
+  // Remove protocol and www., if either exists
   const withoutProtocol = url.toLowerCase().replace(/^(.*):\/\//, '');
+  const withoutWWW = withoutProtocol.replace(/^(www\.)?/, '');
 
   // Remove port, fragment, path, query string
-  const linkDomain = withoutProtocol.replace(/[:\/?#](.*)$/, '');
+  const linkDomain = withoutWWW.replace(/[:\/?#](.*)$/, '');
 
   return {
     action: ACTION.INSERTED,
