@@ -2,6 +2,7 @@ import { renderSmartLinkHook } from '../../../utils/test-utils';
 import { useSmartCardState } from '..';
 import { CardStore } from '../../types';
 // TODO: Those tests are wrong and are not entering into the renderHook callbacks.
+// https://product-fabric.atlassian.net/browse/SL-366
 describe.skip('useSmartCardState()', () => {
   let mockUrl = 'some.url';
 
