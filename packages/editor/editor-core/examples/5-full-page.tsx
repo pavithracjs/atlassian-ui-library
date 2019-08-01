@@ -191,6 +191,7 @@ class ExampleEditorComponent extends React.Component<
               }}
               allowBreakout={true}
               allowJiraIssue={true}
+              allowHeadingAnchorLink={true}
               allowUnsupportedContent={true}
               allowPanel={true}
               allowExtension={{

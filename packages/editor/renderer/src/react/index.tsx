@@ -259,19 +259,13 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     };
   }
 
-  private hasUnsupportedParent(path: Array<Node> = []): boolean {
-    return path.every(
-      node => ['panel', 'layoutSection', 'table'].indexOf(node.type.name) < 0,
-    );
-  }
-
   private getHeadingProps(node: Node, path: Array<Node> = []) {
+    const isTopLevelHeading = path.length === 0;
     return {
       ...node.attrs,
       content: node.content ? node.content.toJSON() : undefined,
       headingId: this.getHeadingId(node),
-      showAnchorLink:
-        !this.disableHeadingIDs && this.hasUnsupportedParent(path),
+      showAnchorLink: !this.disableHeadingIDs && isTopLevelHeading,
     };
   }
 

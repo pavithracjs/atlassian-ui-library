@@ -1,7 +1,7 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import { HeadingLevels } from '../../block-type/types';
 import { IconProps } from '../types';
+import { HeadingLevels } from '@atlaskit/editor-common';
 
 export const IconAction = Loadable({
   loader: () =>

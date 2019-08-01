@@ -8,6 +8,7 @@
 // nomenclature for what 'block type' is active.
 import { defineMessages } from 'react-intl';
 import { MessageDescriptor } from '../../types';
+import { HeadingLevels } from '@atlaskit/editor-common';
 
 export const messages = defineMessages({
   normal: {
@@ -288,6 +289,5 @@ export interface BlockType {
   level?: HeadingLevelsAndNormalText;
 }
 
-export type HeadingLevels = 1 | 2 | 3 | 4 | 5 | 6;
 export type NormalTextLevel = 0;
 export type HeadingLevelsAndNormalText = HeadingLevels | NormalTextLevel;

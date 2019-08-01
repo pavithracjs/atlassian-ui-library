@@ -1,7 +1,10 @@
 import React from 'react';
 import { getCurrentUrlWithoutHash } from '@atlaskit/editor-common/src/utils/urls';
-import { HeadingLevels } from '../../../../editor-core/src/plugins/block-type/types';
-import { HeadingAnchor, CopyTextConsumer } from '@atlaskit/editor-common';
+import {
+  HeadingAnchor,
+  CopyTextConsumer,
+  HeadingLevels,
+} from '@atlaskit/editor-common';
 import {
   HeadingComponents,
   HeadingAnchorWrapper,
@@ -19,27 +22,26 @@ function Heading(
 
   return (
     <HeadingTag>
-      <HeadingAnchorWrapper
-        anchorId="headingId"
-        visible={!!props.showAnchorLink}
-      >
-        <CopyTextConsumer>
-          {({ copyTextToClipboard }) => {
-            return (
-              headingId && (
-                <HeadingAnchor
-                  onClick={() => {
-                    return copyTextToClipboard(
-                      `${getCurrentUrlWithoutHash()}#${encodeURIComponent(
-                        headingId,
-                      )}`,
-                    );
-                  }}
-                />
-              )
-            );
-          }}
-        </CopyTextConsumer>
+      <HeadingAnchorWrapper anchorId={headingId}>
+        {!!props.showAnchorLink && (
+          <CopyTextConsumer>
+            {({ copyTextToClipboard }) => {
+              return (
+                headingId && (
+                  <HeadingAnchor
+                    onClick={() => {
+                      return copyTextToClipboard(
+                        `${getCurrentUrlWithoutHash()}#${encodeURIComponent(
+                          headingId,
+                        )}`,
+                      );
+                    }}
+                  />
+                )
+              );
+            }}
+          </CopyTextConsumer>
+        )}
       </HeadingAnchorWrapper>
       {props.children}
     </HeadingTag>

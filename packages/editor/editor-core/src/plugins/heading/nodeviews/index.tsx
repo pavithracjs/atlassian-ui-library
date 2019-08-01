@@ -14,11 +14,8 @@ import {
   ReactComponentProps,
   shouldUpdate,
 } from '../../../nodeviews/ReactNodeView';
-
-import { hasParentNodeOfType, findChildren } from 'prosemirror-utils';
 import { copyTextToClipboard } from '..';
-
-import { Selection } from 'prosemirror-state';
+import { findChildren } from 'prosemirror-utils';
 
 export class HeadingNodeView extends SelectionBasedNodeView {
   private oldHeadingContent: string;
@@ -114,39 +111,14 @@ export class HeadingNodeView extends SelectionBasedNodeView {
     );
 
   render(_props: any, forwardRef: ForwardRef) {
-    const {
-      schema: {
-        nodes: {
-          panel,
-          table,
-          tableRow,
-          tableHeader,
-          layoutSection,
-          layoutColumn,
-          extension,
-          bodiedExtension,
-        },
-      },
-    } = this.view.state;
-
     const pos = this.view.state.doc.resolve(this.getPos());
-    const hasUnsupportedParentType = hasParentNodeOfType([
-      panel,
-      table,
-      tableRow,
-      tableHeader,
-      layoutSection,
-      layoutColumn,
-      extension,
-      bodiedExtension,
-    ])(new Selection(pos, pos));
 
     return (
       <Heading
         headingId={this.currentHeadingId()}
         level={this.node.attrs.level}
         onClick={this.copyText}
-        isTopLevelHeading={!hasUnsupportedParentType}
+        isTopLevelHeading={!pos.depth}
         forwardRef={forwardRef}
       />
     );

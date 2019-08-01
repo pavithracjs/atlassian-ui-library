@@ -1,6 +1,5 @@
 import React from 'react';
-import { HeadingAnchor } from '@atlaskit/editor-common';
-import { HeadingLevels } from '../../block-type/types';
+import { HeadingAnchor, HeadingLevels } from '@atlaskit/editor-common';
 import {
   HeadingComponents,
   HeadingAnchorWrapper,
@@ -24,16 +23,10 @@ class Heading extends React.PureComponent<Props & React.Props<any>> {
     const HeadingTag = HeadingComponents[HX];
 
     return (
-      <HeadingTag>
-        <div ref={this.props.forwardRef}>
-          <HeadingAnchorWrapper
-            visible={!!visible}
-            anchorId={headingId}
-            ref={this.props.forwardRef}
-          >
-            <HeadingAnchor onClick={this.props.onClick} />
-          </HeadingAnchorWrapper>
-        </div>
+      <HeadingTag innerRef={this.props.forwardRef}>
+        <HeadingAnchorWrapper anchorId={headingId}>
+          {!!visible && <HeadingAnchor onClick={this.props.onClick} />}
+        </HeadingAnchorWrapper>
       </HeadingTag>
     );
   }
