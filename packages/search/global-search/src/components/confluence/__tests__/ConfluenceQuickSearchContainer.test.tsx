@@ -9,6 +9,7 @@ import {
   noResultsConfluenceClient,
   makeConfluenceClient,
   mockAutocompleteClient,
+  mockNavAutocompleteClient,
 } from '../../../__tests__/unit/mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../../../__tests__/unit/helpers/_intl-enzyme-test-helper';
 import {
