@@ -8,18 +8,18 @@ jest.autoMockOff();
 const { runInlineTest } = require('jscodeshift/dist/testUtils');
 
 // $FlowFixMe - in require it should be a string litteral
-const transformFn = require(path.resolve(__dirname, '..', 'src', 'index.js')); // eslint-disable-line
+const transformFn = require(path.resolve(__dirname, '..', '..', 'index.js')); // eslint-disable-line
 
 function getFixtureFiles() {
   return fs
-    .readdirSync(path.resolve(__dirname, '..', '__fixtures__'))
+    .readdirSync(path.resolve(__dirname, '..', '..', '..', '__fixtures__'))
     .filter(x => x.includes('.js'));
 }
 
 // Reads a fixture file (which contains input and expected) and returns an array
 function getFixtureParts(testFixture) {
   const src = fs.readFileSync(
-    path.resolve(__dirname, '..', '__fixtures__', testFixture),
+    path.resolve(__dirname, '..', '..', '..', '__fixtures__', testFixture),
     { encoding: 'utf8' },
   );
   return src.split('//////');
