@@ -3,6 +3,6 @@ import StorybookQuickSearch from '../example-helpers/StorybookQuickSearch';
 
 export default class GlobalQuickSearchExample extends React.Component {
   render() {
-    return <StorybookQuickSearch />;
+    return <StorybookQuickSearch experimentId="search-extensions-complex" />;
   }
 }

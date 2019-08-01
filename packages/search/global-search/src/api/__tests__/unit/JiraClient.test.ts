@@ -4,8 +4,8 @@ import JiraClientImpl, { JiraClient } from '../../JiraClient';
 import {
   JiraRecentResponse,
   TransformedResponse,
-} from '../../../../example-helpers/jiraRecentResponseData';
-import { jiraRecentResponseWithAttributes } from '../../../../example-helpers/jiraRecentResponseDataWithAttributes';
+} from '../../../../example-helpers/mocks/jiraRecentResponseData';
+import { jiraRecentResponseWithAttributes } from '../../../../example-helpers/mocks/jiraRecentResponseDataWithAttributes';
 import { ContentType, JiraResult } from '../../../model/Result';
 
 const url = 'https://www.example.jira.dev.com/';
