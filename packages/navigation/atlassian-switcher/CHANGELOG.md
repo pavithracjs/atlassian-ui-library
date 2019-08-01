@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.13.0
+
+### Minor Changes
+
+- [minor][43a5cd1e3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/43a5cd1e3c):
+
+  Adding isDiscoverMoreForEveryoneEnabled and onDiscoverMoreClicked props onto the Atlassian Switcher API
+
 ## 3.12.0
 
 ### Minor Changes

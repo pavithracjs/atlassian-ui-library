@@ -20,7 +20,8 @@ import {
 } from '../util/features';
 import { ABTest } from '../api/CrossProductSearchClient';
 import { ABTestProvider } from './AbTestProvider';
-import withFeedbackButton, {
+import {
+  withFeedbackButton,
   FeedbackCollectorProps,
 } from './feedback/withFeedbackButton';
 import FeaturesProvider from './FeaturesProvider';

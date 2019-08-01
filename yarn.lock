@@ -18814,6 +18814,11 @@ w3c-keyname@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/w3c-keyname/-/w3c-keyname-1.1.8.tgz#4e2219663760fd6535b7a1550f1552d71fc9372c"
 
+w3c-keyname@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/w3c-keyname/-/w3c-keyname-2.1.0.tgz#45dd2da6de8c89cce56132132ab13a74d93ce1d4"
+  integrity sha512-IDJf9/rvYW5xb5It7p33WfpGTg7lM1P1kmDxUofCFAqTamhj/anz8KuD7bX7UDvftNKQ23nBhEsYvqddSVIjkA==
+
 w3c-xmlserializer@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/w3c-xmlserializer/-/w3c-xmlserializer-1.1.2.tgz#30485ca7d70a6fd052420a3d12fd90e6339ce794"

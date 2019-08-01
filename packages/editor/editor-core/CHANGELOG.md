@@ -1,5 +1,29 @@
 # @atlaskit/editor-core
 
+## 112.40.1
+
+### Patch Changes
+
+- [patch][7515b0b50f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7515b0b50f):
+
+  ED-7054: Adding border to block extension
+
+## 112.40.0
+
+### Minor Changes
+
+- [minor][cda47d4480](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cda47d4480):
+
+  TEAMS-623 : Before this fix, when Spotlight was being rendered for the 5th time, it briefly appeared and then disappeared. This change fixes that.
+
+## 112.39.16
+
+### Patch Changes
+
+- [patch][2703a8e39e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2703a8e39e):
+
+  ED-7310: Add work-around for Russian keyboard layouts where undo wouldn't fire correctly.
+
 ## 112.39.15
 
 ### Patch Changes
