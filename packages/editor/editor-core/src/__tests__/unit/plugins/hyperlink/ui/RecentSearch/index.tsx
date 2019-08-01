@@ -134,6 +134,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
             inputMethod: 'typeAhead',
           },
           eventType: 'track',
+          nonPrivacySafeAttributes: {
+            linkDomain: 'recent1-url.com',
+          },
         });
       });
 
@@ -151,6 +154,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
             inputMethod: 'typeAhead',
           },
           eventType: 'track',
+          nonPrivacySafeAttributes: {
+            linkDomain: 'recent2-url.com',
+          },
         });
       });
     });
@@ -168,6 +174,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
           inputMethod: 'manual',
         },
         eventType: 'track',
+        nonPrivacySafeAttributes: {
+          linkDomain: 'example.com',
+        },
       });
     });
   });

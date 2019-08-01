@@ -5,6 +5,7 @@ type MediaLinkAEP<Action> = TrackAEP<
   Action,
   ACTION_SUBJECT.MEDIA_SINGLE,
   ACTION_SUBJECT_ID.MEDIA_LINK,
+  undefined,
   undefined
 >;
 
