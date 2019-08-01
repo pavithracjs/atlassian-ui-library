@@ -53,11 +53,7 @@ export class NavAutocompleteClientImpl implements NavAutocompleteClient {
     >(this.serviceConfig, options);
 
     const matchingScope: NavScopeResult | undefined = results.scopes.find(
-<<<<<<< HEAD
       scope => scope.id === Scope.NavSearchComplete,
-=======
-      scope => scope.id == Scope.NavSearchComplete,
->>>>>>> XPSRCH-1697
     );
 
     const matchingDocuments = matchingScope ? matchingScope.results : [];

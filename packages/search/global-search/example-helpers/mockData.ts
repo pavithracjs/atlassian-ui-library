@@ -13,10 +13,6 @@ import {
   JiraItemV2,
   PersonItem,
   UrsPersonItem,
-<<<<<<< HEAD
-=======
-  NavScopeResult,
->>>>>>> XPSRCH-1697
   NavScopeResultItem,
 } from '../src/api/types';
 import {
