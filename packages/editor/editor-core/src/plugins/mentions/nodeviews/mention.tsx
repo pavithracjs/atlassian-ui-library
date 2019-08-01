@@ -32,21 +32,11 @@ export class MentionNodeView extends ReactNodeView<Props> {
     const { providerFactory, options } = props;
     const { id, text, accessLevel } = this.node.attrs;
 
-    /**
-     * Work around to bypass continuing a composition event.
-     * TODO: we should be able to remove this now, needs testing.
-     * @see ED-5924
-     */
-    let mentionText = text;
-    if (text && options && options.useInlineWrapper) {
-      mentionText = `‌‌ ${mentionText}‌‌ `;
-    }
-
     return (
       <InlineNodeWrapper useInlineWrapper={options && options.useInlineWrapper}>
         <Mention
           id={id}
-          text={mentionText}
+          text={text}
           accessLevel={accessLevel}
           providers={providerFactory}
         />

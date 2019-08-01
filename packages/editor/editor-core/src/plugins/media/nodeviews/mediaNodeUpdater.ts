@@ -95,10 +95,7 @@ export class MediaNodeUpdater {
     }
 
     // can't fetch remote dimensions on mobile, so we'll default them
-    if (
-      mediaPluginOptions &&
-      mediaPluginOptions.allowRemoteDimensionsFetch === false
-    ) {
+    if (mediaPluginOptions && !mediaPluginOptions.allowRemoteDimensionsFetch) {
       return {
         id,
         height: DEFAULT_IMAGE_HEIGHT,
