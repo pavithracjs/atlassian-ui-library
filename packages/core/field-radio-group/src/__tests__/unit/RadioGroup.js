@@ -83,16 +83,16 @@ describe(name, () => {
           );
           expect(wrapper.find(Base).prop('isRequired')).toBe(isRequired);
         });
-        // TODO: To sit with Alex R or Sean Curtis to understand why this test does not work.
-        it.skip('is reflected to each Radio item', () => {
+        it('is reflected to each Radio item', () => {
           const isRequired = true;
-          const wrapper = shallow(
+          const wrapper = mount(
             <AkFieldRadioGroup
               onRadioChange={() => {}}
               isRequired={isRequired}
+              items={sampleItems}
             />,
           );
-
+          expect(wrapper.find(Radio).length).toBeGreaterThan(0);
           wrapper.find(Radio).forEach(radio => {
             expect(radio.prop('isRequired', isRequired)).not.toBe(undefined);
           });
