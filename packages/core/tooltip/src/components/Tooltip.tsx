@@ -52,7 +52,7 @@ function getMousePosition(
   };
 }
 
-interface Props {
+export interface TooltipProps {
   /** The content of the tooltip */
   content: React.ReactNode;
   /** Extend `TooltipPrimitive` to create your own tooptip and pass it as component */
@@ -132,9 +132,9 @@ const hideTooltip = (fn: (flushed: boolean) => void, defaultDelay: number) => {
   return pendingHide.cancel;
 };
 
-class Tooltip extends React.Component<Props, State> {
+class Tooltip extends React.Component<TooltipProps, State> {
   static defaultProps: Pick<
-    Props,
+    TooltipProps,
     'component' | 'delay' | 'mousePosition' | 'position' | 'tag'
   > = {
     component: StyledTooltip,
@@ -165,7 +165,7 @@ class Tooltip extends React.Component<Props, State> {
     this.removeScrollListener();
   }
 
-  componentDidUpdate(_prevProps: Props, prevState: State) {
+  componentDidUpdate(_prevProps: TooltipProps, prevState: State) {
     if (!prevState.isVisible && this.state.isVisible) {
       if (this.props.onShow) this.props.onShow();
 
@@ -298,6 +298,7 @@ class Tooltip extends React.Component<Props, State> {
         {renderTooltip && this.targetRef && this.fakeMouseElement ? (
           <Portal zIndex={layers.tooltip()}>
             <Popper
+              // @ts-ignore
               referenceElement={
                 // https://github.com/FezVrasta/react-popper#usage-without-a-reference-htmlelement
                 // We are using a popper technique to pass in a faked element when we use mouse.
@@ -352,12 +353,12 @@ const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export type TooltipType = Tooltip;
 
-export default withAnalyticsContext<Props>({
+export default withAnalyticsContext<TooltipProps>({
   componentName: 'tooltip',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<Props>({
+  withAnalyticsEvents<TooltipProps>({
     onHide: unhoveredPayload,
     onShow: createAndFireEventOnAtlaskit({ ...hoveredPayload }),
   })(Tooltip),

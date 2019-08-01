@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/inline-edit",
-  "version": "10.0.11",
+  "version": "10.0.12",
   "description": "A base component used to build inline-editable components that match the Atlassian Design Guidelines",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -23,10 +23,10 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^5.1.2",
-    "@atlaskit/button": "^13.0.16",
+    "@atlaskit/button": "^13.1.1",
     "@atlaskit/form": "^6.1.4",
     "@atlaskit/icon": "^19.0.0",
-    "@atlaskit/inline-dialog": "^12.0.7",
+    "@atlaskit/inline-dialog": "^12.0.10",
     "@atlaskit/textfield": "^2.0.4",
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",

@@ -7,7 +7,7 @@ import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-prop
 import { AvailableProductsProvider } from '../providers/products-data-provider';
 
 type GenericSwitcherProps = {
-  cloudId: string;
+  cloudId?: string;
   messages: Messages;
   features: FeatureMap;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;

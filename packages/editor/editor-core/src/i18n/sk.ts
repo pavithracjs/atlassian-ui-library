@@ -96,6 +96,9 @@ export default {
   'fabric.editor.decision': 'Rozhodnutie',
   'fabric.editor.decision.description':
     'Zaznamenajte rozhodnutia, aby sa mohli jednoducho sledovať',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': 'Rozdeľovač',
   'fabric.editor.horizontalRule.description': 'Oddeľte obsah vodorovnou čiarou',
   'fabric.editor.date': 'Dátum',

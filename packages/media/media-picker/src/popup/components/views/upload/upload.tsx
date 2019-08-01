@@ -130,12 +130,22 @@ export class StatelessUploadView extends Component<
   UploadViewProps,
   UploadViewState
 > {
+  private mounted = false;
+
   state: UploadViewState = {
     hasPopupBeenVisible: false,
     isWebGLWarningFlagVisible: false,
     shouldDismissWebGLWarningFlag: false,
     isLoadingNextPage: false,
   };
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
 
   render() {
     const { isLoading, browserRef } = this.props;
@@ -220,7 +230,9 @@ export class StatelessUploadView extends Component<
         const { mediaClient } = this.props;
         await mediaClient.collection.loadNextPage(RECENTS_COLLECTION);
       } finally {
-        this.setState({ isLoadingNextPage: false });
+        if (this.mounted) {
+          this.setState({ isLoadingNextPage: false });
+        }
       }
     });
   };
@@ -278,7 +290,6 @@ export class StatelessUploadView extends Component<
     return (
       <FlagGroup onDismissed={this.onFlagDismissed}>
         <Flag
-          shouldDismiss={this.state.shouldDismissWebGLWarningFlag}
           description={formatMessage(messages.webgl_warning_description)}
           icon={<EditorInfoIcon label="info" />}
           id="webgl-warning-flag"

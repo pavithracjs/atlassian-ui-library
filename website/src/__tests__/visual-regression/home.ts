@@ -3,7 +3,7 @@ import { DESKTOP_BREAKPOINT_MIN } from '../../constants';
 
 const app = '#app';
 const atlaskitLogo = '[alt="Atlaskit logo"]';
-const atlaskitTitle = 'h1[data-test-id="title"]';
+const atlaskitTitle = 'h1[data-testid="title"]';
 const header = 'header';
 
 describe('Snapshot Test', () => {

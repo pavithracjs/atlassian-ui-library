@@ -87,6 +87,9 @@ export default {
   'fabric.editor.table.description': '插入表格',
   'fabric.editor.decision': ' 决定',
   'fabric.editor.decision.description': '捕获决策，以便轻松跟踪',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': '分隔条',
   'fabric.editor.horizontalRule.description': '使用水平线分隔内容',
   'fabric.editor.date': '日期',

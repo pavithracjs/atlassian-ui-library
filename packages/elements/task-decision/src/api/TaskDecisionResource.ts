@@ -1,6 +1,6 @@
 import uuid from 'uuid';
 import { RequestServiceOptions, utils } from '@atlaskit/util-service-support';
-import { PubSubSpecialEventType, PubSubClient } from '../types';
+
 import { defaultLimit } from '../constants';
 
 import {
@@ -21,6 +21,8 @@ import {
   Handler,
   ItemResponse,
   ObjectKey,
+  PubSubSpecialEventType,
+  PubSubClient,
   Query,
   RecentUpdateContext,
   RecentUpdatesId,
@@ -34,7 +36,11 @@ import {
   ServiceItem,
 } from '../types';
 
-import { objectKeyToString, toggleTaskState } from '../type-helpers';
+import {
+  objectKeyToString,
+  toggleTaskState,
+  toObjectKey,
+} from '../type-helpers';
 
 interface RecentUpdateByIdValue {
   listener: RecentUpdatesListener;
@@ -184,7 +190,7 @@ export class ItemStateManager {
     }
 
     // Update cache optimistically
-    this.cachedItems.set(stringKey, {
+    this.updateCache({
       ...objectKey,
       lastUpdateDate: new Date(),
       type: 'TASK',
@@ -216,9 +222,7 @@ export class ItemStateManager {
             .requestService<ServiceTask>(this.serviceConfig, options)
             .then(convertServiceTaskToTask)
             .then(task => {
-              const key = objectKeyToString(objectKey);
-              this.cachedItems.set(key, task);
-
+              this.updateCache(task);
               resolve(state);
               // Notify subscribers that the task have been updated so that they can re-render accordingly
               this.notifyUpdated(objectKey, state);
@@ -226,13 +230,12 @@ export class ItemStateManager {
             .catch(() => {
               // Undo optimistic change
               const previousState = toggleTaskState(state);
-              this.cachedItems.set(stringKey, {
+              this.updateCache({
                 ...objectKey,
                 lastUpdateDate: new Date(),
                 type: 'TASK',
                 state: previousState,
               });
-
               this.notifyUpdated(objectKey, previousState);
               reject();
             });
@@ -246,16 +249,25 @@ export class ItemStateManager {
     this.scheduleGetTaskState();
   }
 
-  subscribe(objectKey: ObjectKey, handler: Handler) {
+  subscribe(
+    objectKey: ObjectKey,
+    handler: Handler,
+    item?: BaseItem<TaskState | DecisionState>,
+  ) {
     const key = objectKeyToString(objectKey);
     const handlers = this.subscribers.get(key) || [];
     handlers.push(handler);
     this.subscribers.set(key, handlers);
     this.trackedObjectKeys.set(key, objectKey);
 
-    const cached = this.cachedItems.get(key);
+    const cached = this.getCached(objectKey);
     if (cached) {
       this.notifyUpdated(objectKey, cached.state);
+      return;
+    }
+
+    if (this.serviceConfig.disableServiceHydration && item) {
+      this.updateCache(item);
       return;
     }
 
@@ -321,9 +333,7 @@ export class ItemStateManager {
     const { containerAri, objectAri, localId } = payload;
     const objectKey = { containerAri, objectAri, localId };
 
-    const key = objectKeyToString(objectKey);
-
-    const cached = this.cachedItems.get(key);
+    const cached = this.getCached(objectKey);
     if (!cached) {
       // ignore unknown task
       return;
@@ -331,7 +341,7 @@ export class ItemStateManager {
 
     const lastUpdateDate = new Date(payload.lastUpdateDate);
     if (lastUpdateDate > cached.lastUpdateDate) {
-      this.cachedItems.set(key, convertServiceTaskStateToBaseItem(payload));
+      this.updateCache(convertServiceTaskStateToBaseItem(payload));
       this.notifyUpdated(objectKey, payload.state);
       return;
     }
@@ -340,6 +350,17 @@ export class ItemStateManager {
   onReconnect = () => {
     this.refreshAllTasks();
   };
+
+  private updateCache(item: BaseItem<TaskState | DecisionState>) {
+    const stringKey = objectKeyToString(toObjectKey(item));
+    this.cachedItems.set(stringKey, item);
+  }
+
+  private getCached(
+    objectKey: ObjectKey,
+  ): BaseItem<DecisionState | TaskState> | undefined {
+    return this.cachedItems.get(objectKeyToString(objectKey));
+  }
 
   private subscribeToPubSubEvents() {
     if (this.serviceConfig.pubSubClient) {
@@ -395,11 +416,7 @@ export class ItemStateManager {
         tasks.forEach(task => {
           const { containerAri, objectAri, localId } = task;
           const objectKey = { containerAri, objectAri, localId };
-          this.cachedItems.set(
-            objectKeyToString(objectKey),
-            convertServiceTaskStateToBaseItem(task),
-          );
-
+          this.updateCache(convertServiceTaskStateToBaseItem(task));
           this.dequeueItem(objectKey);
           this.notifyUpdated(objectKey, task.state);
         });
@@ -512,8 +529,12 @@ export default class TaskDecisionResource implements TaskDecisionProvider {
     return this.itemStateManager.toggleTask(objectKey, state);
   }
 
-  subscribe(objectKey: ObjectKey, handler: Handler) {
-    this.itemStateManager.subscribe(objectKey, handler);
+  subscribe(
+    objectKey: ObjectKey,
+    handler: Handler,
+    item?: BaseItem<TaskState | DecisionState>,
+  ) {
+    this.itemStateManager.subscribe(objectKey, handler, item);
   }
 
   unsubscribe(objectKey: ObjectKey, handler: Handler) {

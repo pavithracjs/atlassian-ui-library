@@ -373,18 +373,21 @@ export function makeCrossProductSearchData(
           experimentId: 'experiment-1',
           abTest,
           results: filteredConfResults,
+          size: filteredConfResults.length,
         },
         {
           id: Scope.ConfluencePageBlogAttachment,
           experimentId: 'experiment-1',
           abTest,
           results: filteredConfResultsWithAttachments,
+          size: filteredConfResultsWithAttachments.length,
         },
         {
           id: Scope.JiraIssue,
           experimentId: 'experiment-1',
           abTest,
           results: filteredJiraIssueResults,
+          size: filteredJiraIssueResults.length,
         },
         {
           id: Scope.JiraBoardProjectFilter,

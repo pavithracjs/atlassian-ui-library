@@ -5,10 +5,8 @@ import { ssr } from '@atlaskit/ssr';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-const global: any = { console: { error: () => {} } };
-jest.spyOn(global.console, 'error').mockImplementation(() => {});
-
 beforeEach(() => {
+  jest.spyOn(global.console, 'error').mockImplementation(() => {});
   jest.setTimeout(10000);
 });
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-jest.mock('../../../service/newUploadServiceImpl');
+jest.mock('../../../service/uploadServiceImpl');
 import { Dropzone } from '../../dropzone/dropzone';
 import { mount, ReactWrapper } from 'enzyme';
 import { DropzoneDragEnterEventPayload } from '../../types';

@@ -15,7 +15,6 @@ import {
   InlineEditUncontrolledProps,
   FieldChildProps,
   FormChildProps,
-  InlineDialogProps,
 } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
@@ -40,7 +39,7 @@ interface State {
 }
 
 /** This means that InlineDialog is only loaded if necessary */
-const InlineDialog = Loadable<InlineDialogProps, {}>({
+const InlineDialog = Loadable({
   loader: () =>
     import('@atlaskit/inline-dialog').then(module => module.default),
   loading: () => null,
