@@ -8,17 +8,20 @@ import InlineNodeWrapper, {
   createMobileInlineDomRef,
 } from '../../../ui/InlineNodeWrapper';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { EditorAppearance } from '../../../types';
 import { ZeroWidthSpace } from '../../../utils';
+import { EmojiPluginOptions } from '../index';
 
 export interface Props {
   providerFactory: ProviderFactory;
-  editorAppearance?: EditorAppearance;
+  options?: EmojiPluginOptions;
 }
 
-export class EmojiNodeView extends ReactNodeView {
+export class EmojiNodeView extends ReactNodeView<Props> {
   createDomRef() {
-    if (this.reactComponentProps.editorAppearance === 'mobile') {
+    if (
+      this.reactComponentProps.options &&
+      this.reactComponentProps.options.useInlineWrapper
+    ) {
       return createMobileInlineDomRef();
     }
 
@@ -26,18 +29,18 @@ export class EmojiNodeView extends ReactNodeView {
   }
 
   render(props: Props) {
-    const { providerFactory, editorAppearance } = props;
+    const { providerFactory, options } = props;
     const { shortName, id, text } = this.node.attrs;
 
     return (
-      <InlineNodeWrapper appearance={editorAppearance}>
+      <InlineNodeWrapper useInlineWrapper={options && options.useInlineWrapper}>
         <Emoji
           providers={providerFactory}
           id={id}
           shortName={shortName}
           fallback={text}
         />
-        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+        {options && options.allowZeroWidthSpaceAfter && ZeroWidthSpace}
       </InlineNodeWrapper>
     );
   }
@@ -46,11 +49,11 @@ export class EmojiNodeView extends ReactNodeView {
 export default function emojiNodeView(
   portalProviderAPI: PortalProviderAPI,
   providerFactory: ProviderFactory,
-  editorAppearance?: EditorAppearance,
+  options?: EmojiPluginOptions,
 ) {
   return (node: PMNode, view: EditorView, getPos: getPosHandler): NodeView =>
     new EmojiNodeView(node, view, getPos, portalProviderAPI, {
       providerFactory,
-      editorAppearance,
+      options,
     }).init();
 }

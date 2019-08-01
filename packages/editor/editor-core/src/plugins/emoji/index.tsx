@@ -21,9 +21,13 @@ import {
 } from '../analytics';
 import { IconEmoji } from '../quick-insert/assets';
 
-const emojiPlugin = (
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
-): EditorPlugin => ({
+export interface EmojiPluginOptions {
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
+  allowZeroWidthSpaceAfter?: boolean;
+  useInlineWrapper?: boolean;
+}
+
+const emojiPlugin = (options?: EmojiPluginOptions): EditorPlugin => ({
   nodes() {
     return [{ name: 'emoji', node: emoji }];
   },
@@ -36,8 +40,8 @@ const emojiPlugin = (
     return [
       {
         name: 'emoji',
-        plugin: ({ providerFactory, portalProviderAPI, props }) =>
-          createPlugin(portalProviderAPI, providerFactory, props.appearance),
+        plugin: ({ providerFactory, portalProviderAPI }) =>
+          createPlugin(portalProviderAPI, providerFactory, options),
       },
       {
         name: 'emojiInputRule',
@@ -68,7 +72,7 @@ const emojiPlugin = (
           popupsMountPoint={popupsMountPoint}
           popupsBoundariesElement={popupsBoundariesElement}
           dispatchAnalyticsEvent={dispatchAnalyticsEvent}
-          createAnalyticsEvent={createAnalyticsEvent}
+          createAnalyticsEvent={options && options.createAnalyticsEvent}
         />
       );
     };

@@ -9,25 +9,25 @@ import InlineNodeWrapper, {
 describe('@atlaskit/editor-core/ui/InlineNodeWrapper', () => {
   it('should wrap inline node on mobile', () => {
     const inlineNode1 = mount(
-      <InlineNodeWrapper appearance="mobile">
+      <InlineNodeWrapper useInlineWrapper={true}>
         <span>text</span>
       </InlineNodeWrapper>,
     );
 
     const inlineNode2 = mount(
-      <InlineNodeWrapper appearance="chromeless">
+      <InlineNodeWrapper useInlineWrapper={false}>
         <span>text</span>
       </InlineNodeWrapper>,
     );
 
     const inlineNode3 = mount(
-      <InlineNodeWrapper appearance="full-page">
+      <InlineNodeWrapper useInlineWrapper={false}>
         <span>text</span>
       </InlineNodeWrapper>,
     );
 
     const inlineNode4 = mount(
-      <InlineNodeWrapper appearance="comment">
+      <InlineNodeWrapper useInlineWrapper={false}>
         <span>text</span>
       </InlineNodeWrapper>,
     );

@@ -23,7 +23,6 @@ import analyticsService from '../../../analytics/service';
 import { isImage } from '../../../utils';
 import { Dispatch } from '../../../event-dispatcher';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
-import { EditorAppearance } from '../../../types/editor-props';
 import DropPlaceholder, { PlaceholderType } from '../ui/Media/DropPlaceholder';
 import { MediaPluginOptions } from '../media-plugin-options';
 import { insertMediaGroupNode } from '../utils/media-files';
@@ -52,9 +51,9 @@ import {
   InputMethodInsertMedia,
   DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
-import { isFullPage } from '../../../utils/is-full-page';
 import * as helpers from '../commands/helpers';
 import { updateMediaNodeAttrs } from '../commands';
+import { MediaPMPluginOptions } from '..';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -93,8 +92,8 @@ export class MediaPluginState {
 
   public editingMediaSinglePos?: number;
   public showEditingDialog?: boolean;
+  public mediaPluginOptions?: MediaPMPluginOptions;
 
-  public editorAppearance: EditorAppearance;
   private removeOnCloseListener: () => void = () => {};
   private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   private openMediaPickerBrowser?: () => void;
@@ -106,12 +105,12 @@ export class MediaPluginState {
     state: EditorState,
     options: MediaPluginOptions,
     reactContext: () => {},
-    editorAppearance?: EditorAppearance,
     dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
+    mediaPluginOptions?: MediaPMPluginOptions,
   ) {
     this.reactContext = reactContext;
     this.options = options;
-    this.editorAppearance = editorAppearance!;
+    this.mediaPluginOptions = mediaPluginOptions;
     this.waitForMediaUpload =
       options.waitForMediaUpload === undefined
         ? true
@@ -307,7 +306,10 @@ export class MediaPluginState {
       return;
     }
 
-    if (this.editorAppearance === 'mobile') {
+    if (
+      this.mediaPluginOptions &&
+      this.mediaPluginOptions.allowMarkingUploadsAsIncomplete
+    ) {
       this.mobileUploadComplete[mediaStateWithContext.id] = false;
     }
 
@@ -705,9 +707,9 @@ export class MediaPluginState {
   };
 }
 
-const createDropPlaceholder = (editorAppearance?: EditorAppearance) => {
+const createDropPlaceholder = (allowDropLine?: boolean) => {
   const dropPlaceholder = document.createElement('div');
-  if (isFullPage(editorAppearance)) {
+  if (allowDropLine) {
     ReactDOM.render(
       React.createElement(DropPlaceholder, { type: 'single' } as {
         type: PlaceholderType;
@@ -729,10 +731,12 @@ export const createPlugin = (
   options: MediaPluginOptions,
   reactContext: () => {},
   dispatch?: Dispatch,
-  editorAppearance?: EditorAppearance,
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
+  mediaPluginOptions?: MediaPMPluginOptions,
 ) => {
-  const dropPlaceholder = createDropPlaceholder(editorAppearance);
+  const dropPlaceholder = createDropPlaceholder(
+    mediaPluginOptions && mediaPluginOptions.allowDropzoneDropLine,
+  );
 
   return new Plugin({
     state: {
@@ -741,8 +745,8 @@ export const createPlugin = (
           state,
           options,
           reactContext,
-          editorAppearance,
           dispatchAnalyticsEvent,
+          mediaPluginOptions,
         );
       },
       apply(tr, pluginState: MediaPluginState) {

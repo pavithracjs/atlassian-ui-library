@@ -426,7 +426,6 @@ export const getComponentFromKeymap = (keymap: keymaps.Keymap) => {
 export interface Props {
   editorView: EditorView;
   isVisible: boolean;
-  appearance?: string;
   imageEnabled?: boolean;
   quickInsertEnabled?: boolean;
 }
@@ -525,9 +524,7 @@ class HelpDialog extends React.Component<Props & InjectedIntlProps> {
                       .map(form => (
                         <Row key={`textFormatting-${form.name}`}>
                           <span>{form.name}</span>
-                          {getComponentFromKeymap(
-                            form.keymap!({ appearance: this.props.appearance }),
-                          )}
+                          {getComponentFromKeymap(form.keymap!())}
                         </Row>
                       ))}
 

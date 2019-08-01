@@ -1,7 +1,6 @@
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import { MediaSingleProps } from '@atlaskit/editor-common';
 import { MediaClientConfig } from '@atlaskit/media-core';
-import { EditorAppearance } from '../../../../types';
 import { GridType } from '../../../grid/types';
 import { EditorView } from 'prosemirror-view';
 import { EditorState } from 'prosemirror-state';
@@ -21,7 +20,7 @@ export type Props = MediaSingleProps & {
   lineLength: number;
   gridSize: number;
   containerWidth: number;
-  appearance?: EditorAppearance;
+  allowBreakoutSnapPoints?: boolean;
   selected: boolean;
   viewMediaClientConfig?: MediaClientConfig;
   fullWidthMode?: boolean;

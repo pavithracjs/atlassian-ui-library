@@ -8,17 +8,20 @@ import InlineNodeWrapper, {
   createMobileInlineDomRef,
 } from '../../../ui/InlineNodeWrapper';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { EditorAppearance } from '../../../types';
 import { ZeroWidthSpace } from '../../../utils';
+import { MentionPluginOptions } from '../index';
 
 export interface Props {
   providerFactory: ProviderFactory;
-  editorAppearance?: EditorAppearance;
+  options?: MentionPluginOptions;
 }
 
-export class MentionNodeView extends ReactNodeView {
+export class MentionNodeView extends ReactNodeView<Props> {
   createDomRef() {
-    if (this.reactComponentProps.editorAppearance === 'mobile') {
+    if (
+      this.reactComponentProps.options &&
+      this.reactComponentProps.options.useInlineWrapper
+    ) {
       return createMobileInlineDomRef();
     }
 
@@ -26,27 +29,28 @@ export class MentionNodeView extends ReactNodeView {
   }
 
   render(props: Props) {
-    const { providerFactory, editorAppearance } = props;
+    const { providerFactory, options } = props;
     const { id, text, accessLevel } = this.node.attrs;
 
     /**
      * Work around to bypass continuing a composition event.
+     * TODO: we should be able to remove this now, needs testing.
      * @see ED-5924
      */
     let mentionText = text;
-    if (text && editorAppearance === 'mobile') {
+    if (text && options && options.useInlineWrapper) {
       mentionText = `‌‌ ${mentionText}‌‌ `;
     }
 
     return (
-      <InlineNodeWrapper appearance={editorAppearance}>
+      <InlineNodeWrapper useInlineWrapper={options && options.useInlineWrapper}>
         <Mention
           id={id}
           text={mentionText}
           accessLevel={accessLevel}
           providers={providerFactory}
         />
-        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+        {options && options.allowZeroWidthSpaceAfter && ZeroWidthSpace}
       </InlineNodeWrapper>
     );
   }
@@ -55,11 +59,11 @@ export class MentionNodeView extends ReactNodeView {
 export default function mentionNodeView(
   portalProviderAPI: PortalProviderAPI,
   providerFactory: ProviderFactory,
-  editorAppearance?: EditorAppearance,
+  options?: MentionPluginOptions,
 ) {
   return (node: PMNode, view: EditorView, getPos: getPosHandler): NodeView =>
     new MentionNodeView(node, view, getPos, portalProviderAPI, {
       providerFactory,
-      editorAppearance,
+      options,
     }).init();
 }

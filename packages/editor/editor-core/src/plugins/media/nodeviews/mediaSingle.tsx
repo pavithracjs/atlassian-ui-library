@@ -24,12 +24,11 @@ import { setNodeSelection } from '../../../utils';
 import ResizableMediaSingle from '../ui/ResizableMediaSingle';
 import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
-import { EditorAppearance } from '../../../types';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { MediaOptions } from '../';
+import { MediaOptions, MediaPMPluginOptions } from '../index';
 import { stateKey as mediaPluginKey } from '../pm-plugins/main';
 import { isMobileUploadCompleted } from '../commands/helpers';
-import { MediaSingleNodeProps } from './types';
+import { MediaSingleNodeProps, MediaSingleNodeViewProps } from './types';
 import { MediaNodeUpdater } from './mediaNodeUpdater';
 import { getViewMediaClientConfigFromMediaProvider } from '../utils/media-common';
 
@@ -153,7 +152,7 @@ export default class MediaSingleNode extends Component<
       getPos,
       node,
       view: { state },
-      editorAppearance,
+      mediaPluginOptions,
       fullWidthMode,
     } = this.props;
 
@@ -223,7 +222,9 @@ export default class MediaSingleNode extends Component<
         selected={selected()}
         onClick={this.selectMediaSingle}
         onExternalImageLoaded={this.onExternalImageLoaded}
-        editorAppearance={editorAppearance}
+        allowLazyLoading={
+          mediaPluginOptions && mediaPluginOptions.allowLazyLoading
+        }
         uploadComplete={uploadComplete}
         url={childNode.attrs.url}
       />
@@ -239,7 +240,9 @@ export default class MediaSingleNode extends Component<
         gridSize={12}
         viewMediaClientConfig={this.state.viewMediaClientConfig}
         state={this.props.view.state}
-        appearance={this.props.editorAppearance}
+        allowBreakoutSnapPoints={
+          mediaPluginOptions && mediaPluginOptions.allowBreakoutSnapPoints
+        }
         selected={this.props.selected()}
       >
         {MediaChild}
@@ -248,14 +251,6 @@ export default class MediaSingleNode extends Component<
       <MediaSingle {...props}>{MediaChild}</MediaSingle>
     );
   }
-}
-
-interface MediaSingleNodeViewProps {
-  editorAppearance: any;
-  eventDispatcher: any;
-  fullWidthMode: any;
-  providerFactory: any;
-  mediaOptions: any;
 }
 
 class MediaSingleNodeView extends SelectionBasedNodeView<
@@ -268,7 +263,8 @@ class MediaSingleNodeView extends SelectionBasedNodeView<
     const domRef = document.createElement('div');
     if (
       browser.chrome &&
-      this.reactComponentProps.editorAppearance !== 'mobile'
+      this.reactComponentProps.mediaPluginOptions &&
+      this.reactComponentProps.mediaPluginOptions.allowMediaSingleEditable
     ) {
       // workaround Chrome bug in https://product-fabric.atlassian.net/browse/ED-5379
       // see also: https://github.com/ProseMirror/prosemirror/issues/884
@@ -312,10 +308,10 @@ class MediaSingleNodeView extends SelectionBasedNodeView<
   render() {
     const {
       eventDispatcher,
-      editorAppearance,
       fullWidthMode,
       providerFactory,
       mediaOptions,
+      mediaPluginOptions,
     } = this.reactComponentProps;
 
     return (
@@ -350,7 +346,7 @@ class MediaSingleNodeView extends SelectionBasedNodeView<
                     fullWidthMode={fullWidthMode}
                     selected={isSelected}
                     eventDispatcher={eventDispatcher}
-                    editorAppearance={editorAppearance}
+                    mediaPluginOptions={mediaPluginOptions}
                     mediaPluginState={mediaPluginState}
                   />
                 );
@@ -384,12 +380,12 @@ export const ReactMediaSingleNode = (
   eventDispatcher: EventDispatcher,
   providerFactory: ProviderFactory,
   mediaOptions: MediaOptions = {},
-  editorAppearance?: EditorAppearance,
+  pluginOptions?: MediaPMPluginOptions,
   fullWidthMode?: boolean,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {
     eventDispatcher,
-    editorAppearance,
+    mediaPluginOptions: pluginOptions,
     fullWidthMode,
     providerFactory,
     mediaOptions,

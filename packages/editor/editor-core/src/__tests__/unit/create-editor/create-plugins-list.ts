@@ -80,9 +80,8 @@ describe('createPluginsList', () => {
       provider: Promise.resolve() as any,
       allowMediaSingle: true,
     };
-    createPluginsList({ media, appearance: 'full-page' });
+    createPluginsList({ media });
     expect(mediaPlugin).toHaveBeenCalledTimes(1);
-    expect(mediaPlugin).toHaveBeenCalledWith(media, 'full-page');
   });
 
   it('should add placeholderText plugin if allowTemplatePlaceholders prop is provided', () => {
@@ -121,7 +120,11 @@ describe('createPluginsList', () => {
   it('should add statusPlugin if allowStatus prop is true', () => {
     createPluginsList({ allowStatus: true });
     expect(statusPlugin).toHaveBeenCalledTimes(1);
-    expect(statusPlugin).toHaveBeenCalledWith({ menuDisabled: false });
+    expect(statusPlugin).toHaveBeenCalledWith({
+      menuDisabled: false,
+      allowZeroWidthSpaceAfter: true,
+      useInlineWrapper: false,
+    });
     expect(insertBlockPlugin).toBeCalledWith(
       expect.objectContaining({ nativeStatusSupported: true }),
     );
@@ -130,7 +133,11 @@ describe('createPluginsList', () => {
   it('should add statusPlugin if allowStatus prop is provided with menuDisabled true', () => {
     createPluginsList({ allowStatus: { menuDisabled: true } });
     expect(statusPlugin).toHaveBeenCalledTimes(1);
-    expect(statusPlugin).toHaveBeenCalledWith({ menuDisabled: true });
+    expect(statusPlugin).toHaveBeenCalledWith({
+      menuDisabled: true,
+      allowZeroWidthSpaceAfter: true,
+      useInlineWrapper: false,
+    });
     expect(insertBlockPlugin).toBeCalledWith(
       expect.objectContaining({ nativeStatusSupported: false }),
     );
@@ -139,7 +146,11 @@ describe('createPluginsList', () => {
   it('should add statusPlugin if allowStatus prop is provided with menuDisabled false', () => {
     createPluginsList({ allowStatus: { menuDisabled: false } });
     expect(statusPlugin).toHaveBeenCalledTimes(1);
-    expect(statusPlugin).toHaveBeenCalledWith({ menuDisabled: false });
+    expect(statusPlugin).toHaveBeenCalledWith({
+      menuDisabled: false,
+      allowZeroWidthSpaceAfter: true,
+      useInlineWrapper: false,
+    });
     expect(insertBlockPlugin).toBeCalledWith(
       expect.objectContaining({ nativeStatusSupported: true }),
     );
@@ -147,14 +158,22 @@ describe('createPluginsList', () => {
 
   it('should add analyticsPlugin if allowAnalyticsGASV3 prop is provided', () => {
     const createAnalyticsEvent = jest.fn();
-    createPluginsList({ allowAnalyticsGASV3: true }, createAnalyticsEvent);
+    createPluginsList(
+      { allowAnalyticsGASV3: true },
+      undefined,
+      createAnalyticsEvent,
+    );
     expect(analyticsPlugin).toHaveBeenCalledTimes(1);
     expect(analyticsPlugin).toHaveBeenCalledWith(createAnalyticsEvent);
   });
 
   it('should no add analyticsPlugin if allowAnalyticsGASV3 prop is false', () => {
     const createAnalyticsEvent = jest.fn();
-    createPluginsList({ allowAnalyticsGASV3: false }, createAnalyticsEvent);
+    createPluginsList(
+      { allowAnalyticsGASV3: false },
+      undefined,
+      createAnalyticsEvent,
+    );
     expect(analyticsPlugin).not.toHaveBeenCalled();
   });
 

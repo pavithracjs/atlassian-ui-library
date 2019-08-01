@@ -232,7 +232,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
 
     this.config = processPluginsList(
-      this.getPlugins(props.editorProps, props.createAnalyticsEvent),
+      this.getPlugins(
+        props.editorProps,
+        this.props.editorProps,
+        props.createAnalyticsEvent,
+      ),
       props.editorProps,
     );
 
@@ -302,9 +306,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
   // Helper to allow tests to inject plugins directly
   getPlugins(
     editorProps: EditorProps,
+    prevEditorProps?: EditorProps,
     createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
   ): EditorPlugin[] {
-    return createPluginList(editorProps, createAnalyticsEvent);
+    return createPluginList(editorProps, prevEditorProps, createAnalyticsEvent);
   }
 
   createEditorState = (options: {
@@ -329,6 +334,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     this.config = processPluginsList(
       this.getPlugins(
         options.props.editorProps,
+        undefined,
         options.props.createAnalyticsEvent,
       ),
       options.props.editorProps,

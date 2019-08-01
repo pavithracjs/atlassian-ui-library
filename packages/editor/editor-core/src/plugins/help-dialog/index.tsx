@@ -68,7 +68,7 @@ const helpDialog = (): EditorPlugin => ({
     ];
   },
 
-  contentComponent({ editorView, appearance }) {
+  contentComponent({ editorView }) {
     return (
       <WithPluginState
         plugins={{
@@ -77,7 +77,6 @@ const helpDialog = (): EditorPlugin => ({
         }}
         render={({ helpDialog = {} as any, quickInsert }) => (
           <HelpDialogLoader
-            appearance={appearance}
             editorView={editorView}
             isVisible={helpDialog.isVisible}
             quickInsertEnabled={!!quickInsert}

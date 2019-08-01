@@ -11,10 +11,10 @@ import InlineNodeWrapper, {
   createMobileInlineDomRef,
 } from '../../../ui/InlineNodeWrapper';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { EditorAppearance } from '../../../types';
 import { ZeroWidthSpace } from '../../../utils';
 import WithPluginState from '../../../ui/WithPluginState';
 import { EventDispatcher } from '../../../event-dispatcher';
+import { StatusPluginOptions } from '../index';
 
 export const messages = defineMessages({
   placeholder: {
@@ -128,12 +128,15 @@ class StatusContainerView extends React.Component<
 export const IntlStatusContainerView = injectIntl(StatusContainerView);
 
 export interface Props {
-  editorAppearance?: EditorAppearance;
+  options?: StatusPluginOptions;
 }
 
-export class StatusNodeView extends ReactNodeView {
+export class StatusNodeView extends ReactNodeView<Props> {
   createDomRef() {
-    if (this.reactComponentProps.editorAppearance === 'mobile') {
+    if (
+      this.reactComponentProps.options &&
+      this.reactComponentProps.options.useInlineWrapper
+    ) {
       return createMobileInlineDomRef();
     }
 
@@ -149,11 +152,11 @@ export class StatusNodeView extends ReactNodeView {
   }
 
   render(props: Props) {
-    const { editorAppearance } = props;
+    const { options } = props;
     const { text, color, localId, style } = this.node.attrs;
 
     return (
-      <InlineNodeWrapper appearance={editorAppearance}>
+      <InlineNodeWrapper useInlineWrapper={options && options.useInlineWrapper}>
         <IntlStatusContainerView
           view={this.view}
           text={text}
@@ -161,7 +164,7 @@ export class StatusNodeView extends ReactNodeView {
           style={style}
           localId={localId}
         />
-        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+        {options && options.allowZeroWidthSpaceAfter && ZeroWidthSpace}
       </InlineNodeWrapper>
     );
   }
@@ -169,10 +172,10 @@ export class StatusNodeView extends ReactNodeView {
 
 export default function statusNodeView(
   portalProviderAPI: PortalProviderAPI,
-  editorAppearance?: EditorAppearance,
+  options?: StatusPluginOptions,
 ) {
   return (node: PMNode, view: EditorView, getPos: getPosHandler): NodeView =>
     new StatusNodeView(node, view, getPos, portalProviderAPI, {
-      editorAppearance,
+      options,
     }).init();
 }

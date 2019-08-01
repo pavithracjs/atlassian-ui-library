@@ -190,7 +190,7 @@ describe('media', () => {
 
     const toolbar = floatingToolbar(editorView.state, intl, {
       allowLinking: true,
-      appearance: 'full-page',
+      allowAdvancedToolBarOptions: true,
       providerFactory: ProviderFactory.create({
         activityProvider: activityProviderFactory(items),
       }),
@@ -228,7 +228,7 @@ describe('media', () => {
       it('should hide buttons when feature flag is off', async () => {
         ({ buttons } = await setupToolbar(docWithMediaSingle, {
           allowLinking: false,
-          appearance: 'full-page',
+          allowAdvancedToolBarOptions: true,
         }));
 
         expect(buttons.addLink).toBeUndefined();
@@ -240,7 +240,7 @@ describe('media', () => {
         beforeEach(async () => {
           toolbarWrapper = await setupToolbar(docWithMediaSingle, {
             allowLinking: true,
-            appearance: 'full-page',
+            allowAdvancedToolBarOptions: true,
           });
           ({ editorView, buttons } = toolbarWrapper);
         });
@@ -341,7 +341,7 @@ describe('media', () => {
         beforeEach(async () => {
           toolbarWrapper = await setupToolbar(docWithMediaSingleLinked, {
             allowLinking: true,
-            appearance: 'full-page',
+            allowAdvancedToolBarOptions: true,
           });
           ({ editorView, buttons } = toolbarWrapper);
         });

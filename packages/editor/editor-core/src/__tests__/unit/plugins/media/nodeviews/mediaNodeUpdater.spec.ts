@@ -58,7 +58,6 @@ describe('MediaNodeUpdater', () => {
     };
     const mediaNodeUpdater = new MediaNodeUpdater({
       contextIdentifierProvider,
-      editorAppearance: 'full-page',
       eventDispatcher: new EventDispatcher(),
       getPos: () => 1,
       lineLength: 1,

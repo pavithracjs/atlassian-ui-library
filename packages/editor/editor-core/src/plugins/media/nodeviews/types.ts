@@ -1,11 +1,13 @@
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { ContextIdentifierProvider } from '@atlaskit/editor-common';
+import {
+  ContextIdentifierProvider,
+  ProviderFactory,
+} from '@atlaskit/editor-common';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { MediaProvider } from '../types';
-import { EditorAppearance } from '../../../types';
-import { MediaOptions } from '../';
+import { MediaOptions, MediaPMPluginOptions } from '../index';
 import { MediaPluginState } from '../pm-plugins/main';
 import { MediaSingleNodeProps } from './types';
 
@@ -17,10 +19,18 @@ export interface MediaSingleNodeProps {
   width: number;
   selected: Function;
   lineLength: number;
-  editorAppearance: EditorAppearance;
+  mediaPluginOptions?: MediaPMPluginOptions;
   mediaOptions: MediaOptions;
   mediaProvider?: Promise<MediaProvider>;
   contextIdentifierProvider: Promise<ContextIdentifierProvider>;
   fullWidthMode?: boolean;
   mediaPluginState: MediaPluginState;
+}
+
+export interface MediaSingleNodeViewProps {
+  eventDispatcher: EventDispatcher;
+  providerFactory: ProviderFactory;
+  mediaOptions: MediaOptions;
+  mediaPluginOptions?: MediaPMPluginOptions;
+  fullWidthMode?: boolean;
 }

@@ -10,7 +10,7 @@ import {
 } from '../plugins/base/pm-plugins/react-nodeview';
 
 export type getPosHandler = () => number;
-export type ReactComponentProps = { [key: string]: any };
+export type ReactComponentProps = { [key: string]: unknown };
 export type ForwardRef = (node: HTMLElement | null) => void;
 export type shouldUpdate = (nextNode: PMNode) => boolean;
 
