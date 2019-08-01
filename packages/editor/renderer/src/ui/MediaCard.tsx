@@ -16,6 +16,8 @@ import {
   FileIdentifier,
   ExternalImageIdentifier,
   Identifier,
+  getMediaClient,
+  FileState,
 } from '@atlaskit/media-client';
 import { MediaType } from '@atlaskit/adf-schema';
 import {
@@ -71,6 +73,7 @@ export interface MediaCardProps {
 export interface State {
   mediaClientConfig?: MediaClientConfig;
   contextIdentifierProvider?: ContextIdentifierProvider;
+  fileState?: FileState;
 }
 
 const mediaIdentifierMap: Map<string, Identifier> = new Map();
@@ -155,6 +158,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     this.setState({
       mediaClientConfig: mediaClientConfig,
     });
+
+    this.saveFileState(mediaClientConfig);
   }
 
   componentWillUnmount() {
@@ -166,6 +171,22 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       mediaIdentifierMap.delete(dataURI);
     }
   }
+
+  saveFileState = async (mediaClientConfig: MediaClientConfig) => {
+    const { id } = this.props;
+    if (!mediaClientConfig || !id) {
+      return;
+    }
+
+    const mediaClient = getMediaClient({
+      mediaClientConfig,
+    });
+    const fileState = await mediaClient.file.getCurrentState(id);
+
+    this.setState({
+      fileState,
+    });
+  };
 
   private renderLoadingCard = () => {
     const { cardDimensions } = this.props;
@@ -240,7 +261,11 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
   };
 
   render() {
-    const { contextIdentifierProvider, mediaClientConfig } = this.state;
+    const {
+      contextIdentifierProvider,
+      mediaClientConfig,
+      fileState,
+    } = this.state;
     const {
       id,
       type,
@@ -291,6 +316,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
           collection,
           contextIdentifierProvider,
           cardDimensions,
+          fileState,
         })}
       >
         <Card
@@ -320,11 +346,13 @@ export const getClipboardAttrs = ({
   collection,
   contextIdentifierProvider,
   cardDimensions,
+  fileState,
 }: {
   id: string;
   collection?: string;
   contextIdentifierProvider?: ContextIdentifierProvider;
   cardDimensions?: CardDimensions;
+  fileState?: FileState;
 }): { [key: string]: string | number | undefined } => {
   const contextId =
     contextIdentifierProvider && contextIdentifierProvider.objectId;
@@ -336,6 +364,15 @@ export const getClipboardAttrs = ({
     cardDimensions &&
     cardDimensions.height &&
     parseInt(`${cardDimensions.height}`);
+  let fileName = 'filename';
+  let fileSize = 1;
+  let fileMimeType = '';
+
+  if (fileState && fileState.status !== 'error') {
+    fileSize = fileState.size;
+    fileName = fileState.name;
+    fileMimeType = fileState.mimeType;
+  }
 
   return {
     'data-context-id': contextId,
@@ -345,6 +382,9 @@ export const getClipboardAttrs = ({
     'data-height': height,
     'data-id': id,
     'data-collection': collection,
+    'data-file-name': fileName,
+    'data-file-size': fileSize,
+    'data-file-mime-type': fileMimeType,
   };
 };
 
