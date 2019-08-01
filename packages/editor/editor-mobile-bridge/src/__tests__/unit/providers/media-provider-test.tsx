@@ -37,6 +37,7 @@ import {
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { of } from 'rxjs/observable/of';
+import { INPUT_METHOD } from '../../../../../editor-core/src/plugins/analytics';
 
 let testFileId: string;
 
@@ -155,6 +156,7 @@ describe('Mobile MediaProvider', () => {
         insertMediaSingleNode(
           editorView,
           createMediaState(testCollectionName, 128, 256),
+          INPUT_METHOD.CLIPBOARD,
           testCollectionName,
         );
 
@@ -192,6 +194,7 @@ describe('Mobile MediaProvider', () => {
         insertMediaSingleNode(
           editorView,
           createMediaState(emptyCollectionName, 128, 256),
+          INPUT_METHOD.CLIPBOARD,
           emptyCollectionName,
         );
 

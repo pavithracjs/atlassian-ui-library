@@ -14,6 +14,7 @@ import {
   hideLinkToolbar,
   setLinkHref,
   updateLink,
+  insertLinkWithAnalytics,
 } from './commands';
 import RecentList from './ui/HyperlinkAddToolbar';
 import { EditorView } from 'prosemirror-view';
@@ -22,7 +23,6 @@ import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
 import OpenIcon from '@atlaskit/icon/glyph/shortcut';
 import { normalizeUrl } from './utils';
 import { EditorState } from 'prosemirror-state';
-import { DispatchAnalyticsEvent } from '../analytics';
 import { linkToolbarMessages as linkToolbarCommonMessages } from '../../messages';
 import {
   RECENT_SEARCH_HEIGHT_IN_PX,
@@ -196,7 +196,6 @@ export const getToolbarConfig: FloatingToolbarHandler = (
               render: (
                 view?: EditorView,
                 idx?: number,
-                dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
               ):
                 | React.ComponentClass
                 | React.SFC
@@ -211,13 +210,14 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                     displayUrl={link}
                     displayText={displayText || ''}
                     providerFactory={providerFactory}
-                    onSubmit={(href, text) => {
+                    onSubmit={(href, text, inputMethod) => {
                       isEditLink(activeLinkMark)
                         ? updateLink(href, text, activeLinkMark.pos)(
                             view.state,
                             view.dispatch,
                           )
-                        : insertLink(
+                        : insertLinkWithAnalytics(
+                            inputMethod,
                             activeLinkMark.from,
                             activeLinkMark.to,
                             href,
@@ -226,7 +226,6 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                       view.focus();
                     }}
                     onBlur={handleBlur(activeLinkMark, view)}
-                    dispatchAnalyticsEvent={dispatchAnalyticsEvent}
                   />
                 );
               },

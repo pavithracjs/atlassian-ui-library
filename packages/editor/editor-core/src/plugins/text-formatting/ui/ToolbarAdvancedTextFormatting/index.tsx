@@ -25,6 +25,7 @@ import {
 import * as commands from '../../commands/text-formatting';
 import { clearFormattingWithAnalytics } from '../../commands/clear-formatting';
 import { INPUT_METHOD } from '../../../analytics';
+import { DropdownItem } from '../../../block-type/ui/ToolbarBlockType';
 
 export interface Props {
   isDisabled?: boolean;
@@ -290,7 +291,7 @@ class ToolbarAdvancedTextFormatting extends PureComponent<
     });
   };
 
-  private onItemActivated = ({ item }: { item: any }) => {
+  private onItemActivated = ({ item }: { item: DropdownItem }) => {
     analyticsService.trackEvent(`atlassian.editor.format.${item.value}.button`);
 
     const { state, dispatch } = this.props.editorView;
