@@ -69,8 +69,7 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   };
 
   // This is to stop overly aggressive behaviour in tinyMCe editor where clicking anywhere in the spotlight would immediate close the entire
-  // dropdown dialog. Note we were unable to test this behaviour in unit-tests, will need to be manually tested.
-  // see TEAMS-611
+  // dropdown dialog. See TEAMS-611
   private preventClickOnCard = (event: any) => {
     // event is a MouseEvent
 

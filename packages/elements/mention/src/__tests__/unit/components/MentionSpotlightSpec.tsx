@@ -31,20 +31,28 @@ jest.mock(
 );
 
 describe('MentionSpotlight', () => {
-  // Note: Unable to test link and x clicking due to the strange way it was wired, which is outside of Jest's control
-  // Please check that manually if making changes in that area
   beforeEach(() => {
     mockIsSpotlightEnabled = true;
     mockRegisterRender.mockReset();
   });
 
-  // it('Should call onCall callback when the x is clicked', () => {
-  //   const onClose = jest.fn();
-  //   const spotlight = render({ onClose: onClose });
+  // Because we manually bind events, we need to fire events and test outside of React
+  it('Should register closed on button click', () => {
+    const onClose = jest.fn();
+    const spotlight = render({ onClose: onClose });
 
-  //   spotlight.find(Button).simulate('click');
-  //   expect(onClose).toHaveBeenCalled();
-  // });
+    const closeButton = spotlight.find('button').getDOMNode();
+
+    // make sure the click event is able to bubble
+    const event = new Event('click', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+    });
+    closeButton.dispatchEvent(event);
+
+    expect(onClose).toHaveBeenCalled();
+  });
 
   it('Should register render on mount', () => {
     render({});
@@ -57,13 +65,23 @@ describe('MentionSpotlight', () => {
     expect(mockRegisterRender).toHaveBeenCalledTimes(0);
   });
 
-  // it('Should register link on click', () => {
-  //   const spotlight = render({});
+  // Because we manually bind events, we need to fire events and test outside of React
+  it('Should register link on click', () => {
+    const onClose = jest.fn();
+    const spotlight = render({ onClose: onClose });
 
-  //   spotlight.find('a').simulate('click');
+    const link = spotlight.find('a').getDOMNode();
 
-  //   expect(mockRegisterCreateLinkClick).toHaveBeenCalled();
-  // });
+    // make sure the click event is able to bubble
+    const event = new Event('click', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+    });
+    link.dispatchEvent(event);
+
+    expect(mockRegisterCreateLinkClick).toHaveBeenCalled();
+  });
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
     const spotlight = render({});
