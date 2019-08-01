@@ -104,7 +104,7 @@ class Task extends ReactNodeView<Props> {
           }}
           render={({
             editorDisabledPlugin,
-	    taskDecisionPlugin,
+            taskDecisionPlugin,
           }: {
             editorDisabledPlugin: EditorDisabledPluginState;
             taskDecisionPlugin: TaskDecisionPluginState;
