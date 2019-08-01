@@ -64,7 +64,7 @@ export default class MentionSpotlight extends React.Component<Props, State> {
   }
 
   onCreateTeamLinkClick = () => {
-    this.setState({ isSpotlightClosed: true });
+    this.setState({ isSpotlightHidden: true });
     MentionSpotlightController.registerCreateLinkClick();
   };
 
