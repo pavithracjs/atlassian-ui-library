@@ -91,8 +91,7 @@ export interface Props {
   features: ConfluenceFeatures;
 
   // These are provided by the withAnalytics HOC
-  // @ts-ignore
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
+  firePrivateAnalyticsEvent?: any;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   confluenceUrl: string;
 }
