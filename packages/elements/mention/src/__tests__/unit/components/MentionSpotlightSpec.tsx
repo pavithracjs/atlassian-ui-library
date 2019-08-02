@@ -4,6 +4,7 @@ import { noop } from '@babel/types';
 import Button from '@atlaskit/button';
 import MentionSpotlight, { Props } from '../../../components/MentionSpotlight';
 import * as SpotlightAnalytics from '../../../util/analytics';
+
 function render(props: Partial<Props>) {
   return mountWithIntl(
     <MentionSpotlight
@@ -52,11 +53,21 @@ describe('MentionSpotlight', () => {
     mockRegisterRender.mockReset();
   });
 
-  it('Should call onCall callback when the x is clicked', () => {
+  // Because we manually bind events, we need to fire events and test outside of React
+  it('Should register closed on button click', () => {
     const onClose = jest.fn();
     const spotlight = render({ onClose: onClose });
 
-    spotlight.find(Button).simulate('click');
+    const closeButton = spotlight.find('button').getDOMNode();
+
+    // make sure the click event is able to bubble
+    const event = new Event('click', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+    });
+    closeButton.dispatchEvent(event);
+
     expect(onClose).toHaveBeenCalled();
   });
 
@@ -71,11 +82,21 @@ describe('MentionSpotlight', () => {
     expect(mockRegisterRender).toHaveBeenCalledTimes(0);
   });
 
+  // Because we manually bind events, we need to fire events and test outside of React
   it('Should register link on click', () => {
-    mockRegisterCreateLinkClick = jest.fn();
     const spotlight = render({});
+    const link = spotlight.find('a').getDOMNode();
+    mockRegisterCreateLinkClick.mockReset();
 
-    spotlight.find('a').simulate('click');
+    // mockRegisterCreateLinkClick = jest.fn();
+
+    // make sure the click event is able to bubble
+    const event = new Event('click', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+    });
+    link.dispatchEvent(event);
 
     expect(mockRegisterCreateLinkClick).toHaveBeenCalled();
   });
@@ -83,7 +104,16 @@ describe('MentionSpotlight', () => {
   it('should not show the highlight if the spotlight has been closed by the user', () => {
     const spotlight = render({ onClose: jest.fn() });
     expect(spotlight.html()).not.toBeNull();
-    spotlight.find(Button).simulate('click');
+
+    const closeButton = spotlight.find('button').getDOMNode();
+    // make sure the click event is able to bubble
+    const event = new Event('click', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+    });
+    closeButton.dispatchEvent(event);
+
     expect(spotlight.html()).toBeNull();
   });
 

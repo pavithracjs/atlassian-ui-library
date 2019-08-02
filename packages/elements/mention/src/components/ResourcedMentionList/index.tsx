@@ -42,6 +42,7 @@ export interface Props {
   onSelection?: OnMentionEvent;
   resourceError?: Error;
   isTeamMentionHighlightEnabled?: boolean;
+  createTeamPath?: string; // link to create a team, with context for in-product directories
 }
 
 export interface State {
@@ -228,7 +229,7 @@ export default class ResourcedMentionList extends React.PureComponent<
 
   private mentionsHighlight = () => {
     const { mentions } = this.state;
-    const { isTeamMentionHighlightEnabled } = this.props;
+    const { isTeamMentionHighlightEnabled, createTeamPath } = this.props;
     const enabledViaLocalStorage = MentionSpotlightController.isSpotlightEnabled();
 
     const shouldShow =
@@ -242,7 +243,7 @@ export default class ResourcedMentionList extends React.PureComponent<
 
     return (
       <MentionSpotlight
-        createTeamLink="/people/search#createTeam"
+        createTeamLink={createTeamPath}
         onClose={this.closeHighlight}
       />
     );
