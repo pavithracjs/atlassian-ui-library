@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/comment", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/conversation",
+      "type": "patch",
+      "dependencies": ["@atlaskit/comment"]
+    }
+  ]
+}
