@@ -17,7 +17,7 @@ import {
 import {
   MentionSpotlight,
   MentionSpotlightController,
-} from '@atlaskit/mention';
+} from '@atlaskit/mention/spotlight';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
 import { mention } from '@atlaskit/adf-schema';

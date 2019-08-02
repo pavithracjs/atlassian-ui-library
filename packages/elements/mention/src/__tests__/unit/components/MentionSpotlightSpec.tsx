@@ -2,9 +2,8 @@ import * as React from 'react';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import { noop } from '@babel/types';
 import Button from '@atlaskit/button';
-
 import MentionSpotlight, { Props } from '../../../components/MentionSpotlight';
-
+import * as SpotlightAnalytics from '../../../util/analytics';
 function render(props: Partial<Props>) {
   return mountWithIntl(
     <MentionSpotlight
@@ -17,7 +16,11 @@ function render(props: Partial<Props>) {
 
 let mockRegisterRender = jest.fn();
 let mockRegisterCreateLinkClick = jest.fn();
+let mockGetSeenCount = jest.fn();
+let mockFireAnalyticsSpotlightMentionEvent = jest.fn();
 let mockIsSpotlightEnabled = true;
+
+mockGetSeenCount.mockReturnValue('testValue');
 
 jest.mock(
   '../../../components/MentionSpotlight/MentionSpotlightController',
@@ -26,10 +29,22 @@ jest.mock(
     default: {
       registerRender: () => mockRegisterRender(),
       registerCreateLinkClick: () => mockRegisterCreateLinkClick(),
+      getSeenCount: () => mockGetSeenCount(),
       isSpotlightEnabled: () => mockIsSpotlightEnabled,
     },
   }),
 );
+
+jest.mock('../../../util/analytics', () => {
+  const mockActualAnalytics = require.requireActual('../../../util/analytics');
+
+  return {
+    Actions: mockActualAnalytics.Actions,
+    ComponentNames: mockActualAnalytics.ComponentNames,
+    fireAnalyticsSpotlightMentionEvent: () =>
+      mockFireAnalyticsSpotlightMentionEvent,
+  };
+});
 
 describe('MentionSpotlight', () => {
   beforeEach(() => {
@@ -65,40 +80,66 @@ describe('MentionSpotlight', () => {
   });
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
-    const spotlight = render({});
+    const spotlight = render({ onClose: jest.fn() });
+    expect(spotlight.html()).not.toBeNull();
+    spotlight.find(Button).simulate('click');
+    expect(spotlight.html()).toBeNull();
+  });
 
-    spotlight.setState({
-      isSpotlightHidden: true,
-    });
+  it('should send analytics data if the spotlight has been closed by the user', () => {
+    const spotlight = render({ onClose: jest.fn() });
+    expect(spotlight.html()).not.toBeNull();
+    spotlight.find(Button).simulate('click');
+    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
+      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
+      SpotlightAnalytics.Actions.CLOSED,
+      SpotlightAnalytics.ComponentNames.MENTION,
+      'closeButton',
+    );
+  });
 
-    expect(spotlight.isEmptyRender()).toBeTruthy();
+  it('should send analytics data if the spotlight has been displayed', () => {
+    mockRegisterRender = jest.fn();
+    mockGetSeenCount = jest.fn();
+    render({ onClose: jest.fn() });
+
+    expect(mockRegisterRender).toHaveBeenCalledTimes(1);
+    expect(mockGetSeenCount).toHaveBeenCalledTimes(1);
+
+    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
+      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
+      SpotlightAnalytics.Actions.VIEWED,
+      SpotlightAnalytics.ComponentNames.MENTION,
+      undefined,
+      'testValue',
+    );
   });
 
   it('should not show spotlight after re-render if the Spotlight Controller asked not to render it at the first mount', () => {
     mockIsSpotlightEnabled = false;
     const spotlight = render({});
 
-    expect(spotlight.isEmptyRender()).toBeTruthy();
+    expect(spotlight.html()).toBeNull();
 
     // after first render, ask controller to show it
     mockIsSpotlightEnabled = true;
 
     //should still hide the spotlight after re-render
     spotlight.render();
-    expect(spotlight.isEmptyRender()).toBeTruthy();
+    expect(spotlight.html()).toBeNull();
   });
 
   it('should show spotlight after re-render if the Spotlight Controller asked to render it at the first mount', () => {
     const spotlight = render({});
 
     // Should render in the first time
-    expect(spotlight.isEmptyRender()).toBeFalsy();
+    expect(spotlight.html()).not.toBeNull();
 
     //after first render, ask controller to hide it
     mockIsSpotlightEnabled = false;
 
     //should still show the spotlight after re-render
     spotlight.render();
-    expect(spotlight.isEmptyRender()).toBeFalsy();
+    expect(spotlight.html()).not.toBeNull();
   });
 });

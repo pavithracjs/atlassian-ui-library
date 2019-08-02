@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.11.1
+
+### Patch Changes
+
+- [patch][23f9c8ff08](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/23f9c8ff08):
+
+  Added analytics on closing team mention spotlight
+
 ## 18.11.0
 
 ### Minor Changes

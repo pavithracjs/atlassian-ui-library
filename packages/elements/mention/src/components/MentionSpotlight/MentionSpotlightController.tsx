@@ -66,13 +66,18 @@ export default class MentionSpotlightController {
     return item.seenCount < MAX_SEEN_LIMIT && !item.dontShow;
   };
 
-  static registerRender = () => {
+  static registerRender = (): TeamMentionState => {
     const item = MentionSpotlightController.readFromLocalStorage();
     item.seenCount += 1;
     if (item.seenCount > MAX_SEEN_LIMIT) {
       item.dontShow = true;
     }
     MentionSpotlightController.saveToLocalStorage(item);
+    return item;
+  };
+
+  static getSeenCount = (): number => {
+    return MentionSpotlightController.readFromLocalStorage().seenCount;
   };
 
   static registerCreateLinkClick = MentionSpotlightController.markAsDone;

@@ -23,7 +23,7 @@ import mentionPlugin from '../../../../plugins/mentions';
 
 let mockRegisterTeamMention = jest.fn();
 
-jest.mock('@atlaskit/mention', () => ({
+jest.mock('@atlaskit/mention/spotlight', () => ({
   __esModule: true,
   MentionSpotlightController: {
     registerTeamMention: () => mockRegisterTeamMention(),

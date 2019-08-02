@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 112.40.1
+
+### Patch Changes
+
+- [patch][7515b0b50f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7515b0b50f):
+
+  ED-7054: Adding border to block extension
+
 ## 112.40.0
 
 ### Minor Changes

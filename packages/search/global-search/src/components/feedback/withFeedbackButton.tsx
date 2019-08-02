@@ -23,7 +23,7 @@ interface State {
   displayFlag: boolean;
 }
 
-export default function withFeedbackButton<P extends InjectedInputControlProps>(
+export function withFeedbackButton<P extends InjectedInputControlProps>(
   WrappedComponent: ComponentType<P>,
 ) {
   class WithFeedbackButton extends React.Component<
