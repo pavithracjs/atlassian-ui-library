@@ -72,6 +72,7 @@ describe('MentionSpotlight', () => {
   });
 
   it('Should register link on click', () => {
+    mockRegisterCreateLinkClick = jest.fn();
     const spotlight = render({});
 
     spotlight.find('a').simulate('click');
@@ -95,6 +96,18 @@ describe('MentionSpotlight', () => {
       SpotlightAnalytics.Actions.CLOSED,
       SpotlightAnalytics.ComponentNames.MENTION,
       'closeButton',
+    );
+  });
+
+  it('should send analytics data if user clicks on spotlight link', () => {
+    const spotlight = render({ onClose: jest.fn() });
+    expect(spotlight.html()).not.toBeNull();
+    spotlight.find('a').simulate('click');
+    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
+      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
+      SpotlightAnalytics.Actions.CLICKED,
+      SpotlightAnalytics.ComponentNames.MENTION,
+      'createTeamLink',
     );
   });
 
