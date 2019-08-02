@@ -1,5 +1,21 @@
 # @atlaskit/atlassian-switcher
 
+## 3.14.0
+
+### Minor Changes
+
+- [minor][d4e8e68bf1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4e8e68bf1):
+
+  Added adminLinks to switcher viewed event, so we could know when we show try discover more links to users. Fixed suggestedProductLinks that used to be empty on mount due to race conditions"
+
+## 3.13.0
+
+### Minor Changes
+
+- [minor][43a5cd1e3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/43a5cd1e3c):
+
+  Adding isDiscoverMoreForEveryoneEnabled and onDiscoverMoreClicked props onto the Atlassian Switcher API
+
 ## 3.12.0
 
 ### Minor Changes

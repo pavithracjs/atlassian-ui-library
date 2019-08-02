@@ -5,7 +5,7 @@ import { NodeType } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { InjectedIntl } from 'react-intl';
-import { ProviderFactory } from '../../../../../editor-common';
+import { ProviderFactory } from '@atlaskit/editor-common';
 import { Command } from '../../../types';
 import {
   ACTION,

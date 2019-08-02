@@ -8,6 +8,9 @@ export interface TriggerXFlowCallback {
     analyticsEvent: UIAnalyticsEventInterface,
   ): void;
 }
+export interface DiscoverMoreCallback {
+  (event: any, analyticsEvent: UIAnalyticsEventInterface): void;
+}
 
 export interface WithCloudId {
   cloudId: string;
@@ -52,6 +55,7 @@ export enum Feature {
   disableCustomLinks = 'disableCustomLinks',
   disableRecentContainers = 'disableRecentContainers',
   xflow = 'xflow',
+  isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
 }
 
 export type FeatureFlagProps = {

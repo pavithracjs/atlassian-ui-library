@@ -1,5 +1,13 @@
 # @atlaskit/media-client
 
+## 1.5.3
+
+### Patch Changes
+
+- [patch][13eed9b89c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13eed9b89c):
+
+  populate media cache when using FileFetcher:copyFile
+
 ## 1.5.2
 
 ### Patch Changes

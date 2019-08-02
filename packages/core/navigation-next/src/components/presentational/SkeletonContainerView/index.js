@@ -17,7 +17,7 @@ import { Container, HeaderContainer } from './primitives';
 export default class SkeletonContainerView extends Component<SkeletonContainerViewProps> {
   static defaultProps = {
     dataset: {
-      'data-test-id': 'ContextualNavigationSkeleton',
+      'data-testid': 'ContextualNavigationSkeleton',
     },
   };
 
