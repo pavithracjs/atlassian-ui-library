@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-jest.mock('../../../service/newUploadServiceImpl');
+jest.mock('../../../service/uploadServiceImpl');
 
 import { MockFile, fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { LocalFileSource } from '../../../service/types';

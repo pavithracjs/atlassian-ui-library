@@ -1,6 +1,5 @@
 import { baseKeymap } from 'prosemirror-commands';
 import { history } from 'prosemirror-history';
-import { keymap } from 'prosemirror-keymap';
 import { doc, paragraph, text } from '@atlaskit/adf-schema';
 import { EditorPlugin, EditorAppearance, PMPluginFactory } from '../../types';
 import filterStepsPlugin from './pm-plugins/filter-steps';
@@ -11,6 +10,7 @@ import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
 import scrollGutter from './pm-plugins/scroll-gutter';
 import { isFullPage } from '../../utils/is-full-page';
+import { keymap } from '../../utils/keymap';
 
 const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
   pmPlugins() {
