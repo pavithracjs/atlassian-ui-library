@@ -7,7 +7,7 @@ import { injectIntl, InjectedIntlProps } from 'react-intl';
 import Button from '@atlaskit/button';
 
 import { messages } from '../../messages';
-import { TRANSITION_DURATION_MS, TRANSITION_STATUS, VIEW } from '../constants';
+import { TRANSITION_DURATION_MS, TRANSITION_STATUS } from '../constants';
 
 import { withHelp, HelpContextInterface } from '../HelpContext';
 import CloseButton from './CloseButton';
