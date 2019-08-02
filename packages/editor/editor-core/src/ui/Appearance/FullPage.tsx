@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import {

@@ -69,7 +69,7 @@ const submitEditorPlugin = (): EditorPlugin => ({
     return [
       {
         name: 'submitEditor',
-        plugin: ({ dispatch }) => createPlugin(dispatch),
+        plugin: ({ props, dispatch }) => createPlugin(dispatch, props.onSave),
       },
     ];
   },

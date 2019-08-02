@@ -2,18 +2,24 @@ import rafSchedule from 'raf-schd';
 import * as React from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
-import { Editor, EditorSharedConfigConsumer } from './lego/Editor';
-import { BaseTheme, akEditorMenuZIndex } from '../../editor-common';
-import ContentStyles from './ui/ContentStyles';
-import { scrollbarStyles } from './ui/styles';
-import { tableFullPageEditorStyles } from './plugins/table/ui/styles';
-import { akEditorToolbarKeylineHeight } from './styles';
-import { Toolbar } from './lego/Toolbar';
-import { EditorContent } from './lego/EditorContent';
-import { ContentComponents } from './lego/ContentComponents';
-import { ClickAreaBlock } from './ui/Addon';
-import Avatars from './plugins/collab-edit/ui/avatars';
-import WidthEmitter from './ui/WidthEmitter';
+import {
+  Editor,
+  EditorSharedConfigConsumer,
+  EditorSharedConfig,
+} from './Editor';
+import { BaseTheme, akEditorMenuZIndex } from '@atlaskit/editor-common';
+import ContentStyles from '../../ui/ContentStyles';
+import { scrollbarStyles } from '../../ui/styles';
+import { tableFullPageEditorStyles } from '../../plugins/table/ui/styles';
+import { akEditorToolbarKeylineHeight } from '../../styles';
+import { Toolbar } from './Toolbar';
+import { EditorContent } from './EditorContent';
+import { ContentComponents } from './ContentComponents';
+import { ClickAreaBlock } from '../../ui/Addon';
+import Avatars from '../../plugins/collab-edit/ui/avatars';
+import WidthEmitter from '../../ui/WidthEmitter';
+import { EditorProps } from '../../types';
+
 const FullPageEditorWrapper = styled.div`
   min-width: 340px;
   height: 100%;
@@ -115,7 +121,12 @@ const SecondaryToolbar = styled.div`
 `;
 SecondaryToolbar.displayName = 'SecondaryToolbar';
 
-export class FullPage extends React.Component {
+interface State {
+  showKeyline: boolean;
+  containerWidth?: number;
+}
+
+export class FullPage extends React.Component<EditorProps, State> {
   state = { showKeyline: false };
 
   static displayName = 'FullPageEditor';
@@ -210,15 +221,19 @@ export class FullPage extends React.Component {
             >
               <EditorSharedConfigConsumer>
                 {config => (
-                  <ClickAreaBlock editorView={(config || {}).editorView}>
+                  <ClickAreaBlock
+                    editorView={
+                      (config || ({} as EditorSharedConfig)).editorView
+                    }
+                  >
                     <ContentArea>
                       <div
                         style={{ padding: `0 ${GUTTER_PADDING}px` }}
                         className="ak-editor-content-area"
                       >
                         {contentComponents}
-                        <ContentComponents />
                         <EditorContent />
+                        <ContentComponents />
                       </div>
                     </ContentArea>
                   </ClickAreaBlock>
@@ -228,7 +243,9 @@ export class FullPage extends React.Component {
             <EditorSharedConfigConsumer>
               {config => (
                 <WidthEmitter
-                  editorView={(config || {}).editorView!}
+                  editorView={
+                    (config || ({} as EditorSharedConfig)).editorView!
+                  }
                   contentArea={this.scrollContainer}
                 />
               )}

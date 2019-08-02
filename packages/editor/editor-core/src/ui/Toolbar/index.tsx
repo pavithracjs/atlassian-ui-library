@@ -104,7 +104,7 @@ export class ToolbarInner extends React.Component<ToolbarInnerProps> {
             editorActions: editorActions as EditorActions,
             eventDispatcher,
             providerFactory,
-            appearance,
+            appearance: appearance!,
             popupsMountPoint,
             popupsBoundariesElement,
             popupsScrollableElement,

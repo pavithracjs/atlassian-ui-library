@@ -93,6 +93,7 @@ const mediaPlugin = (
         name: 'media',
         plugin: ({
           schema,
+          props,
           dispatch,
           eventDispatcher,
           providerFactory,
@@ -104,7 +105,6 @@ const mediaPlugin = (
           createPlugin(
             schema,
             {
-              provider: (options || {}).provider,
               providerFactory,
               nodeViews: {
                 mediaGroup: ReactMediaGroupNode(
@@ -121,8 +121,8 @@ const mediaPlugin = (
                 ),
               },
               errorReporter,
-              uploadErrorHandler: () => {},
-              waitForMediaUpload: false,
+              uploadErrorHandler: props.uploadErrorHandler,
+              waitForMediaUpload: props.waitForMediaUpload,
               customDropzoneContainer:
                 options && options.customDropzoneContainer,
               customMediaPicker: options && options.customMediaPicker,

@@ -383,9 +383,7 @@ export function defaultActionHandler({
       >);
       typeAheadItems = pluginState.items;
     }
-  } catch (e) {
-    console.error(e);
-  }
+  } catch (e) {}
 
   const queryMark = findTypeAheadQuery(state);
 

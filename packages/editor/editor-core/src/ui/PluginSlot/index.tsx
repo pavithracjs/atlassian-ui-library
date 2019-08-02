@@ -134,7 +134,7 @@ export default class PluginSlot extends React.Component<Props, any> {
             eventDispatcher: eventDispatcher as EventDispatcher,
             providerFactory,
             dispatchAnalyticsEvent,
-            appearance,
+            appearance: appearance!,
             popupsMountPoint,
             popupsBoundariesElement,
             popupsScrollableElement,

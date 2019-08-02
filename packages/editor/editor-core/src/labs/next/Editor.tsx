@@ -2,25 +2,33 @@ import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
 import { Schema } from 'prosemirror-model';
 import * as PropTypes from 'prop-types';
-import { EditorPlugin } from '../types';
-import EditorContext from '../ui/EditorContext';
+import { EditorPlugin, EditorAppearanceComponentProps } from '../../types';
+import EditorContext from '../../ui/EditorContext';
 import { EditorContentProvider } from './EditorContent';
-import { EventDispatcher, createDispatch } from '../event-dispatcher';
+import {
+  EventDispatcher,
+  createDispatch,
+  Dispatch,
+} from '../../event-dispatcher';
 import {
   processPluginsList,
   createPMPlugins,
   createSchema,
-} from '../create-editor/create-editor';
+} from '../../create-editor/create-editor';
 import { intlShape, IntlProvider } from 'react-intl';
 import {
   PortalProvider,
   PortalRenderer,
   PortalProviderAPI,
-} from '../ui/PortalProvider';
-import { ProviderFactory, WidthProvider } from '../../../editor-common';
+} from '../../ui/PortalProvider';
+import {
+  ProviderFactory,
+  WidthProvider,
+  Transformer,
+} from '@atlaskit/editor-common';
 import { EditorState } from 'prosemirror-state';
-import { EditorActions } from '..';
-import { processRawValue } from '../utils';
+import { EditorActions } from '../../index';
+import { processRawValue } from '../../utils';
 import {
   basePlugin,
   placeholderPlugin,
@@ -28,7 +36,7 @@ import {
   typeAheadPlugin,
   floatingToolbarPlugin,
   gapCursorPlugin,
-} from '../plugins';
+} from '../../plugins';
 
 export type EditorProps = {
   plugins?: Array<EditorPlugin>;
@@ -43,6 +51,7 @@ export type EditorProps = {
   popupsScrollableElement?: HTMLElement;
 
   disabled?: boolean;
+  placeholder?: string;
 };
 
 export type EditorPropsExtended = EditorProps & {
@@ -56,15 +65,35 @@ const {
 
 export { PresetProvider };
 
-export function corePlugins(props) {
+export function corePlugins(props: EditorProps) {
   return [
-    basePlugin,
-    placeholderPlugin(props.placeholder),
-    editorDisabledPlugin,
-    typeAheadPlugin,
-    floatingToolbarPlugin,
-    gapCursorPlugin,
+    basePlugin({
+      allowInlineCursorTarget: true,
+      allowScrollGutter: () =>
+        document.querySelector('.fabric-editor-popup-scroll-parent'),
+    }),
+    placeholderPlugin({ placeholder: props.placeholder }),
+    editorDisabledPlugin(),
+    typeAheadPlugin(),
+    floatingToolbarPlugin(),
+    gapCursorPlugin(),
   ];
+}
+
+export interface EditorSharedConfig {
+  editorView: EditorView;
+  eventDispatcher: EventDispatcher;
+  dispatch: Dispatch;
+
+  primaryToolbarComponents: EditorAppearanceComponentProps['primaryToolbarComponents'];
+  contentComponents: EditorAppearanceComponentProps['contentComponents'];
+
+  popupsMountPoint: EditorProps['popupsMountPoint'];
+  popupsBoundariesElement: EditorProps['popupsBoundariesElement'];
+  popupsScrollableElement: EditorProps['popupsScrollableElement'];
+  providerFactory: EditorAppearanceComponentProps['providerFactory'];
+
+  disabled: EditorProps['disabled'];
 }
 
 export class Editor extends React.Component<EditorProps> {
@@ -95,7 +124,10 @@ export class Editor extends React.Component<EditorProps> {
   }
 }
 
-export class EditorInternal extends React.Component<EditorPropsExtended> {
+export class EditorInternal extends React.Component<
+  EditorPropsExtended,
+  EditorSharedConfig
+> {
   editorActions: EditorActions;
 
   static contextTypes = {
@@ -114,6 +146,7 @@ export class EditorInternal extends React.Component<EditorPropsExtended> {
     }
 
     const eventDispatcher = new EventDispatcher();
+    const providerFactory = new ProviderFactory();
     const dispatch = createDispatch(eventDispatcher);
     const editorConfig = processPluginsList(this.props.plugins || [], {});
     const schema = createSchema(editorConfig);
@@ -124,8 +157,9 @@ export class EditorInternal extends React.Component<EditorPropsExtended> {
       eventDispatcher,
       props: {},
       portalProviderAPI: this.props.portalProviderAPI,
-      providerFactory: new ProviderFactory(),
+      providerFactory,
       reactContext: () => this.context,
+      dispatchAnalyticsEvent: () => {},
     });
     const state = EditorState.create({
       schema,
@@ -149,6 +183,7 @@ export class EditorInternal extends React.Component<EditorPropsExtended> {
       popupsScrollableElement: this.props.popupsScrollableElement,
 
       disabled: this.props.disabled,
+      providerFactory,
     });
 
     this.editorActions._privateRegisterEditor(editorView, eventDispatcher);
@@ -169,9 +204,14 @@ export class EditorInternal extends React.Component<EditorPropsExtended> {
   }
 }
 
-const { Provider, Consumer } = React.createContext(null);
+const { Provider, Consumer } = React.createContext<EditorSharedConfig | null>(
+  null,
+);
 
-export class EditorSharedConfigProvider extends React.Component<any, any> {
+export class EditorSharedConfigProvider extends React.Component<
+  { value: EditorSharedConfig | null },
+  any
+> {
   static childContextTypes = {
     editorSharedConfig: PropTypes.object,
   };
@@ -187,7 +227,12 @@ export class EditorSharedConfigProvider extends React.Component<any, any> {
   }
 }
 
-export class EditorSharedConfigConsumer extends React.Component<any, any> {
+interface EditorSharedConfigConsumerProps {
+  children: (value: EditorSharedConfig | null) => React.ReactNode | null;
+}
+export class EditorSharedConfigConsumer extends React.Component<
+  EditorSharedConfigConsumerProps
+> {
   static contextTypes = {
     editorSharedConfig: PropTypes.object,
   };
@@ -195,9 +240,7 @@ export class EditorSharedConfigConsumer extends React.Component<any, any> {
   render() {
     return (
       <Consumer>
-        {value =>
-          (this.props.children as any)(this.context.editorSharedConfig || value)
-        }
+        {value => this.props.children(this.context.editorSharedConfig || value)}
       </Consumer>
     );
   }

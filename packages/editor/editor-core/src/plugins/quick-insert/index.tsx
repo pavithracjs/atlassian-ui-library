@@ -74,6 +74,7 @@ const quickInsertPlugin = (): EditorPlugin => ({
               return defaultSearch();
             });
         }
+
         return defaultSearch();
       },
       selectItem: (state, item, insert) => {

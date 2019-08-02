@@ -26,7 +26,7 @@ const layoutPlugin = (): EditorPlugin => ({
     return [
       {
         name: 'layout',
-        plugin: () => createLayoutPlugin(),
+        plugin: ({ props }) => createLayoutPlugin(props.allowLayouts),
       },
     ];
   },

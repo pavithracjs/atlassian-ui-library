@@ -4,6 +4,7 @@ import { EditorView } from 'prosemirror-view';
 import * as PropTypes from 'prop-types';
 import { EventDispatcher } from '../../event-dispatcher';
 import EditorActions from '../../actions';
+import { EditorSharedConfig } from '../../labs/next/Editor';
 
 export interface State {
   [name: string]: any;
@@ -12,7 +13,7 @@ export interface State {
 export type PluginsConfig = { [name: string]: PluginKey };
 export type Context = {
   editorActions?: EditorActions;
-  editorSharedConfig?: any;
+  editorSharedConfig?: EditorSharedConfig;
 };
 
 export interface Props {

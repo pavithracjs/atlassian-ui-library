@@ -1,22 +1,21 @@
 import * as React from 'react';
 import { EditorSharedConfigConsumer } from './Editor';
-import PluginSlot from '../ui/PluginSlot';
+import ToolBar from '../../ui/Toolbar';
 
-export function ContentComponents() {
+export function Toolbar() {
   return (
     <EditorSharedConfigConsumer>
       {config => {
         return !config ? null : (
-          <PluginSlot
+          <ToolBar
             editorView={config.editorView}
-            eventDispatcher={config.eventDispatcher}
+            eventDispatcher={config.eventDispatcher!}
             providerFactory={config.providerFactory}
-            items={config.contentComponents}
+            items={config.primaryToolbarComponents}
             popupsMountPoint={config.popupsMountPoint}
             popupsBoundariesElement={config.popupsBoundariesElement}
             popupsScrollableElement={config.popupsScrollableElement}
-            disabled={config.disabled}
-            containerElement={undefined}
+            disabled={config.disabled || false}
           />
         );
       }}
