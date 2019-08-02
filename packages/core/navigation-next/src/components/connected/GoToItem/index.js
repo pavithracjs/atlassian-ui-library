@@ -1,12 +1,13 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type ComponentType } from 'react';
 import ArrowRightCircleIcon from '@atlaskit/icon/glyph/arrow-right-circle';
 import Spinner from '@atlaskit/spinner';
 
 import { withNavigationViewController } from '../../../view-controller';
 import ConnectedItem from '../ConnectedItem';
 
+import { ScrollProviderRef } from '../../presentational/ContentNavigation/primitives';
 import type { GoToItemProps, AfterComponentProps } from './types';
 import type { ItemPresentationProps } from '../../presentational/Item/types';
 
@@ -35,7 +36,7 @@ const After = ({
   return null;
 };
 
-class GoToItem extends Component<GoToItemProps> {
+class GoToItem extends Component<GoToItemProps | ScrollProviderRefProps> {
   static defaultProps = {
     spinnerDelay: 200,
   };
@@ -49,11 +50,11 @@ class GoToItem extends Component<GoToItemProps> {
       return;
     }
 
+    const scrollProviderRef = this.props.scrollProviderRef.current;
     // Hijack focus only if the event is
     // from a keyboard.
-    const scrollProvider = document.querySelector('[data-scroll-provider]');
-    if (e.clientX === 0 && e.clientY === 0 && scrollProvider) {
-      scrollProvider.focus();
+    if (e.clientX === 0 && e.clientY === 0 && scrollProviderRef) {
+      scrollProviderRef.focus();
     }
 
     navigationViewController.setView(goTo);
@@ -84,6 +85,22 @@ class GoToItem extends Component<GoToItemProps> {
   }
 }
 
-export { GoToItem as GoToItemBase };
+type Ref = {| current: any |};
+type ScrollProviderRefProps = {|
+  scrollProviderRef: Ref,
+|};
+const withScrollProviderRef = (Children: ComponentType<GoToItem>) => {
+  return class extends Component<GoToItemProps | ScrollProviderRefProps> {
+    render() {
+      return (
+        <ScrollProviderRef.Consumer>
+          {ref => <Children scrollProviderRef={ref} {...this.props} />}
+        </ScrollProviderRef.Consumer>
+      );
+    }
+  };
+};
+const GoToItemBase = withScrollProviderRef(GoToItem);
 
-export default withNavigationViewController(GoToItem);
+export { GoToItemBase };
+export default withNavigationViewController(GoToItemBase);

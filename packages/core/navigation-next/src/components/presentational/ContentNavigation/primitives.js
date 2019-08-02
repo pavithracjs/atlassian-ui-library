@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment, type Node } from 'react';
+import React, { Component, Fragment, type Node } from 'react';
 import { css, keyframes } from '@emotion/core';
 import { colors } from '@atlaskit/theme';
 
@@ -29,26 +29,32 @@ import type {
  *    - ContainerOverlay
  */
 
-const ScrollProvider = ({ isVisible, ...props }: any) => (
-  <div
-    css={{
-      boxSizing: 'border-box',
-      display: isVisible ? 'flex' : 'none',
-      flexDirection: 'column',
-      height: '100%',
-      overflowX: 'hidden',
-      overflowY: 'auto',
-      width: '100%',
-    }}
-    tabIndex={-1}
-    role="group"
-    // the data-attribute is used to set focus
-    // during keyboard driven nested nav transitions
-    data-scroll-provider
-    {...props}
-  />
-);
-
+export const ScrollProviderRef = React.createContext();
+const scrollProviderRef = React.createRef();
+class ScrollProvider extends Component {
+  render() {
+    const { isVisible, ...props } = this.props;
+    return (
+      <ScrollProviderRef.Provider value={scrollProviderRef}>
+        <div
+          css={{
+            boxSizing: 'border-box',
+            display: isVisible ? 'flex' : 'none',
+            flexDirection: 'column',
+            height: '100%',
+            overflowX: 'hidden',
+            overflowY: 'auto',
+            width: '100%',
+          }}
+          tabIndex={-1}
+          role="group"
+          ref={scrollProviderRef}
+          {...props}
+        />
+      </ScrollProviderRef.Provider>
+    );
+  }
+}
 /**
  * ProductNavigation
  */
