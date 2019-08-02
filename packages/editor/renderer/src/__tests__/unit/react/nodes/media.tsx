@@ -3,12 +3,17 @@ import { mount } from 'enzyme';
 
 import { MediaType } from '@atlaskit/adf-schema';
 import { Card, CardEvent } from '@atlaskit/media-card';
-import { sleep } from '@atlaskit/media-test-helpers';
+import { sleep, nextTick, fakeMediaClient } from '@atlaskit/media-test-helpers';
 
 import {
   FileIdentifier,
   ExternalImageIdentifier,
+  // @ts-ignore
+  getMediaClient,
 } from '@atlaskit/media-client';
+const mediaClient = fakeMediaClient();
+// @ts-ignore
+getMediaClient = jest.fn().mockReturnValue(mediaClient);
 
 import Media from '../../../../react/nodes/media';
 import {
@@ -196,6 +201,23 @@ describe('Media', () => {
       };
       cardComponent.props().onClick!(event);
       expect(onClick).not.toHaveBeenCalled();
+    });
+
+    it('should save fileState as a component state', async () => {
+      const fileIdentifier = createFileIdentifier();
+      const component = await mountFileCard(fileIdentifier);
+
+      await nextTick();
+      component.update();
+      expect(mediaClient.file.getCurrentState).toBeCalled();
+      expect(mediaClient.file.getCurrentState).toBeCalledWith(
+        fileIdentifier.id,
+      );
+      await nextTick();
+      component.update();
+      expect(component.find(MediaCardInternal).state('fileState')).toEqual({
+        id: 'file-id',
+      });
     });
 
     describe('populates identifier cache for the page mediaClientConfig', () => {

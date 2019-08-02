@@ -128,7 +128,6 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         contextIdentifierProvider: await contextIdentifierProvider,
       });
     }
-
     const mediaProviderObject = await mediaProvider;
     let mediaClientConfig: MediaClientConfig;
     if (mediaProviderObject.viewMediaClientConfig) {
@@ -154,12 +153,21 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         }
       });
     }
-
     this.setState({
       mediaClientConfig: mediaClientConfig,
     });
 
-    this.saveFileState(mediaClientConfig);
+    if (id) {
+      this.saveFileState(id, mediaClientConfig);
+    }
+  }
+
+  componentWillReceiveProps(newProps: MediaCardProps) {
+    const { mediaClientConfig } = this.state;
+    const { id: newId } = newProps;
+    if (mediaClientConfig && newId && newId !== this.props.id) {
+      this.saveFileState(newId, mediaClientConfig);
+    }
   }
 
   componentWillUnmount() {
@@ -172,17 +180,11 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     }
   }
 
-  saveFileState = async (mediaClientConfig: MediaClientConfig) => {
-    const { id } = this.props;
-    if (!mediaClientConfig || !id) {
-      return;
-    }
-
+  saveFileState = async (id: string, mediaClientConfig: MediaClientConfig) => {
     const mediaClient = getMediaClient({
       mediaClientConfig,
     });
     const fileState = await mediaClient.file.getCurrentState(id);
-
     this.setState({
       fileState,
     });
