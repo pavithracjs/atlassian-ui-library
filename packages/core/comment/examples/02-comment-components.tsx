@@ -19,7 +19,12 @@ export default () => (
       <CommentEdited>Edited</CommentEdited>
     </div>
     <div>
-      <CommentAction onClick={e => console.log(e.target.textContent)}>
+      <CommentAction
+        onClick={e => {
+          const element = e.target as HTMLElement;
+          return console.log(element.textContent);
+        }}
+      >
         Like
       </CommentAction>
     </div>
