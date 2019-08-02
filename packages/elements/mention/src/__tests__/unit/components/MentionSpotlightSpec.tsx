@@ -16,8 +16,11 @@ function render(props: Partial<Props>) {
 
 let mockRegisterRender = jest.fn();
 let mockRegisterCreateLinkClick = jest.fn();
+let mockGetSeenCount = jest.fn();
 let mockFireAnalyticsSpotlightMentionEvent = jest.fn();
 let mockIsSpotlightEnabled = true;
+
+mockGetSeenCount.mockReturnValue('testValue');
 
 jest.mock(
   '../../../components/MentionSpotlight/MentionSpotlightController',
@@ -26,6 +29,7 @@ jest.mock(
     default: {
       registerRender: () => mockRegisterRender(),
       registerCreateLinkClick: () => mockRegisterCreateLinkClick(),
+      getSeenCount: () => mockGetSeenCount(),
       isSpotlightEnabled: () => mockIsSpotlightEnabled,
     },
   }),
@@ -77,16 +81,14 @@ describe('MentionSpotlight', () => {
   });
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({ onClose: jest.fn() });
     expect(spotlight.html()).not.toBeNull();
     spotlight.find(Button).simulate('click');
     expect(spotlight.html()).toBeNull();
   });
 
   it('should send analytics data if the spotlight has been closed by the user', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({ onClose: jest.fn() });
     expect(spotlight.html()).not.toBeNull();
     spotlight.find(Button).simulate('click');
     expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
@@ -106,6 +108,23 @@ describe('MentionSpotlight', () => {
       SpotlightAnalytics.Actions.CLICKED,
       SpotlightAnalytics.ComponentNames.MENTION,
       'createTeamLink',
+    );
+  });
+
+  it('should send analytics data if the spotlight has been displayed', () => {
+    mockRegisterRender = jest.fn();
+    mockGetSeenCount = jest.fn();
+    render({ onClose: jest.fn() });
+
+    expect(mockRegisterRender).toHaveBeenCalledTimes(1);
+    expect(mockGetSeenCount).toHaveBeenCalledTimes(1);
+
+    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
+      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
+      SpotlightAnalytics.Actions.VIEWED,
+      SpotlightAnalytics.ComponentNames.MENTION,
+      undefined,
+      'testValue',
     );
   });
 

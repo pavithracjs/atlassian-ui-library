@@ -28,6 +28,7 @@ export interface OwnProps {
   /** Callback to track the event where user click on x icon */
   onClose: () => void;
   onCreateTeamLinkClick?: () => void;
+  onViewed?: () => void;
 }
 
 export interface State {
@@ -55,7 +56,9 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const { onViewed } = this.props;
     this.addEventHandler();
+
     // Spotlight hiding logic was moved to Mount method because if Spotlight is re-rendered after updating the
     // counts at MentionSpotlightController, spotlight will appear for sometime and then disappear. As of the time
     // of writing this code, this was only happening in Fabric Editor ( See TEAMS-623 )
@@ -63,6 +66,9 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
       this.setState({ isSpotlightHidden: true });
     } else {
       MentionSpotlightController.registerRender();
+      if (onViewed) {
+        onViewed();
+      }
     }
   }
 
@@ -196,6 +202,16 @@ const MentionSpotlightWithAnalytics = withAnalyticsEvents<OwnProps>({
       Actions.CLICKED,
       ComponentNames.MENTION,
       'createTeamLink',
+    );
+  },
+
+  onViewed: (createEvent: CreateUIAnalyticsEventSignature) => {
+    fireAnalyticsSpotlightMentionEvent(createEvent)(
+      ComponentNames.SPOTLIGHT,
+      Actions.VIEWED,
+      ComponentNames.MENTION,
+      undefined,
+      MentionSpotlightController.getSeenCount(),
     );
   },
 })(MentionSpotlightInternal) as React.ComponentClass<OwnProps, State>;

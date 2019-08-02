@@ -36,6 +36,6 @@ test('should ssr then hydrate comment correctly', async () => {
       ),
   );
   await waitForExpect(() => {
-    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+    expect(mockCalls.length).toBe(0);
   });
 });
