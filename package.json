@@ -349,6 +349,7 @@
     "adf-builder": "^3.2.0",
     "ajv": "^4.11.3",
     "algoliasearch": "^3.33.0",
+    "angular": "^1.7.8",
     "apply-ref": "^0.2.0",
     "array-find": "^1.0.0",
     "axios": "^0.18.0",
