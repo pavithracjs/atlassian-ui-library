@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Item, { itemThemeNamespace } from '@atlaskit/item';
-import { gridSize } from '@atlaskit/theme';
+import { colors, gridSize } from '@atlaskit/theme';
 import {
   createAndFireNavigationEvent,
   withAnalyticsEvents,
@@ -19,12 +19,10 @@ const itemTheme = {
       right: gridSize(),
     },
   },
+  hover: {
+    background: colors.N20A,
+  },
 };
-
-export interface SwitcherChildItem {
-  label: string;
-  href: string;
-}
 
 type SwitcherItemProps = {
   children: React.ReactNode;
@@ -33,60 +31,16 @@ type SwitcherItemProps = {
   onClick?: Function;
   href?: string;
   isDisabled?: boolean;
-  childItems?: SwitcherChildItem[];
 };
 
-interface SwitcherItemState {
-  showChildItems: boolean;
-}
-
-class SwitcherItem extends React.Component<
-  SwitcherItemProps,
-  SwitcherItemState
-> {
-  constructor(props: SwitcherItemProps) {
-    super(props);
-    this.state = {
-      showChildItems: false,
-    };
-  }
-
-  toggleChildItemsVisibility(event: React.SyntheticEvent) {
-    event.preventDefault();
-    this.setState({
-      showChildItems: !this.state.showChildItems,
-    });
-  }
-
+class SwitcherItem extends React.Component<SwitcherItemProps> {
   render() {
-    const { icon, description, childItems, ...rest } = this.props;
+    const { icon, description, ...rest } = this.props;
     return (
       <FadeIn>
         <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
           <React.Fragment>
-            <Item
-              elemBefore={icon}
-              elemAfter={
-                childItems &&
-                childItems.length > 0 &&
-                this.toggleChildItemsVisibility.length > 0 ? (
-                  <div onClick={e => this.toggleChildItemsVisibility(e)}>
-                    down
-                  </div>
-                ) : (
-                  undefined
-                )
-              }
-              description={description}
-              {...rest}
-            />
-            {this.state.showChildItems &&
-              childItems &&
-              childItems.map(item => (
-                <Item href={item.href} key={item.label}>
-                  {item.label}
-                </Item>
-              ))}
+            <Item elemBefore={icon} description={description} {...rest} />
           </React.Fragment>
         </ThemeProvider>
       </FadeIn>

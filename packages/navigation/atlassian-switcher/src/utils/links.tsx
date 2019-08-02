@@ -15,7 +15,7 @@ import {
   OpsGenieIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
-import { SwitcherChildItem } from '../primitives/item';
+import { SwitcherChildItem } from '../primitives/item-with-dropdown';
 import {
   LicenseInformationResponse,
   ProductLicenseInformation,

@@ -6,6 +6,7 @@ import isEqual from 'lodash.isequal';
 import {
   SwitcherWrapper,
   SwitcherItem,
+  SwitcherItemWithDropdown,
   Section,
   ManageButton,
   Skeleton,
@@ -188,14 +189,15 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   item.href,
                 )}
               >
-                <SwitcherItem
+                <SwitcherItemWithDropdown
                   icon={<item.Icon theme="product" />}
+                  childIcon={<item.Icon theme="subtle" />}
                   description={item.description}
                   href={item.href}
                   childItems={item.childItems}
                 >
                   {item.label}
-                </SwitcherItem>
+                </SwitcherItemWithDropdown>
               </NavigationAnalyticsContext>
             ))}
             {suggestedProductLinks.map(item => (
