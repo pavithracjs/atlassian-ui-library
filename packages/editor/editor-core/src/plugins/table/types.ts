@@ -6,7 +6,6 @@ import {
   tablePrefixSelector,
   tableCellSelector,
   tableHeaderSelector,
-  tableCellContentWrapperSelector,
 } from '@atlaskit/adf-schema';
 import { TableSharedCssClassName } from '@atlaskit/editor-common';
 
@@ -191,22 +190,22 @@ export const TableCssClassName = {
   RESIZE_CURSOR: `${tablePrefixSelector}-resize-cursor`,
   IS_RESIZING: `${tablePrefixSelector}-is-resizing`,
 
+  RESIZE_HANDLE: `${tablePrefixSelector}-resize-handle`,
+
   CONTEXTUAL_SUBMENU: `${tablePrefixSelector}-contextual-submenu`,
   CONTEXTUAL_MENU_BUTTON_WRAP: `${tablePrefixSelector}-contextual-menu-button-wrap`,
   CONTEXTUAL_MENU_BUTTON: `${tablePrefixSelector}-contextual-menu-button`,
   CONTEXTUAL_MENU_ICON: `${tablePrefixSelector}-contextual-submenu-icon`,
 
   // come from prosemirror-table
-  COLUMN_RESIZE_HANDLE: 'column-resize-handle',
   SELECTED_CELL: 'selectedCell',
 
   // defined in ReactNodeView based on PM node name
   NODEVIEW_WRAPPER: 'tableView-content-wrap',
 
   TABLE_SELECTED: `${tablePrefixSelector}-table__selected`,
-  TABLE_CELL_NODE_WRAPPER: tableCellSelector,
-  TABLE_HEADER_NODE_WRAPPER: tableHeaderSelector,
-  CELL_NODEVIEW_WRAPPER: tableCellContentWrapperSelector,
+  TABLE_CELL: tableCellSelector,
+  TABLE_HEADER_CELL: tableHeaderSelector,
 
   TOP_LEFT_CELL: 'table > tbody > tr:nth-child(2) > td:nth-child(1)',
 };

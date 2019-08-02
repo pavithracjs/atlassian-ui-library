@@ -1,5 +1,6 @@
 import { TableCssClassName as ClassName } from '../types';
 import { closestElement } from '../../../utils';
+import { tableToolbarSize } from '../ui/styles';
 
 export const isCell = (node: HTMLElement): boolean => {
   return node && ['TH', 'TD'].indexOf(node.tagName) > -1;
@@ -80,4 +81,20 @@ export const getMousePositionVerticalRelativeByElement = (
   }
 
   return null;
+};
+
+export const updateResizeHandles = (
+  tableRef: HTMLElement | null | undefined,
+) => {
+  if (!tableRef) {
+    return;
+  }
+  const height = tableRef.offsetHeight + tableToolbarSize;
+  const nodes = tableRef.querySelectorAll(
+    `.${ClassName.RESIZE_HANDLE}`,
+  ) as NodeListOf<HTMLElement>;
+
+  nodes.forEach(node => {
+    node.style.height = `${height}px`;
+  });
 };

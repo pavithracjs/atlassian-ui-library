@@ -1,4 +1,3 @@
-import { cellAround, TableMap } from 'prosemirror-tables';
 import { EditorView } from 'prosemirror-view';
 import { ResolvedPos, NodeSpec } from 'prosemirror-model';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
@@ -62,38 +61,6 @@ export function pointsAtCell($pos: ResolvedPos<any>) {
     ($pos.parent.type.spec as NodeSpec & { tableRole: string }).tableRole ===
       'row' && $pos.nodeAfter
   );
-}
-
-// Returns the pos of the cell on the side requested.
-export function edgeCell(
-  view: EditorView,
-  event: MouseEvent,
-  side: string,
-  handleWidth: number,
-): number | null {
-  const buffer = side === 'right' ? -handleWidth : handleWidth; // Fixes finicky bug where posAtCoords could return wrong pos.
-  let posResult = view.posAtCoords({
-    left: event.clientX + buffer,
-    top: event.clientY,
-  });
-
-  if (!posResult || !posResult.pos) {
-    return null;
-  }
-
-  let $cell = cellAround(view.state.doc.resolve(posResult.pos));
-  if (!$cell) {
-    return null;
-  }
-  if (side === 'right') {
-    return $cell.pos;
-  }
-
-  let map = TableMap.get($cell.node(-1));
-  let start = $cell.start(-1);
-  let index = map.map.indexOf($cell.pos - start);
-
-  return index % map.width === 0 ? null : start + map.map[index - 1];
 }
 
 // Get the current col width, handles colspan.
