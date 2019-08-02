@@ -1,1 +1,0 @@
-Added analytics on closing team mention spotlight
