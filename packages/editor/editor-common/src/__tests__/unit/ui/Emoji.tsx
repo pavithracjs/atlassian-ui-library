@@ -17,7 +17,7 @@ describe('Emoji', () => {
     );
 
     const fallbackSpan = component.find('span');
-    expect(fallbackSpan.length).toHaveLength(1);
+    expect(fallbackSpan).toHaveLength(1);
     expect(fallbackSpan.text()).toEqual('fallback');
     component.unmount();
   });
@@ -44,7 +44,7 @@ describe('Emoji', () => {
     );
 
     const fallbackSpan = component.find('span');
-    expect(fallbackSpan.length).toHaveLength(1);
+    expect(fallbackSpan).toHaveLength(1);
     expect(fallbackSpan.text()).toEqual(':anything:');
     component.unmount();
   });
@@ -60,7 +60,7 @@ describe('Emoji', () => {
     const component = mount(<Emoji providers={providerFactory} {...emojiId} />);
 
     const resourcedEmoji = component.find(ResourcedEmoji);
-    expect(resourcedEmoji.length).toEqual(1);
+    expect(resourcedEmoji).toHaveLength(1);
     expect(resourcedEmoji.prop('emojiId')).toStrictEqual(emojiId);
     expect(resourcedEmoji.prop('emojiProvider')).toEqual(emojiProvider);
     component.unmount();
@@ -79,7 +79,7 @@ describe('Emoji', () => {
     );
 
     const resourcedEmoji = component.find(ResourcedEmoji);
-    expect(resourcedEmoji.length).toHaveLength(1);
+    expect(resourcedEmoji).toHaveLength(1);
     expect(resourcedEmoji.prop('fitToHeight')).toStrictEqual(32);
     component.unmount();
   });
