@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.11.3
+
+### Patch Changes
+
+- [patch][c72cca2853](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c72cca2853):
+
+  Added analytics when user clicks the create team link
+
 ## 18.11.2
 
 ### Patch Changes
