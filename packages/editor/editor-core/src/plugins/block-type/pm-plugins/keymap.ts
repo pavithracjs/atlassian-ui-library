@@ -1,6 +1,5 @@
 import { chainCommands } from 'prosemirror-commands';
 import { undoInputRule } from 'prosemirror-inputrules';
-import { keymap } from 'prosemirror-keymap';
 import { redo, undo } from 'prosemirror-history';
 import { Schema } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
@@ -8,6 +7,7 @@ import * as keymaps from '../../../keymaps';
 import * as commands from '../../../commands';
 import { trackAndInvoke } from '../../../analytics';
 import * as blockTypes from '../types';
+import { keymap } from '../../../utils/keymap';
 import {
   cleanUpAtTheStartOfDocument,
   insertBlockTypesWithAnalytics,
@@ -50,6 +50,7 @@ export default function keymapPlugin(schema: Schema): Plugin {
     trackAndInvoke('atlassian.editor.redo.keyboard', redo),
     list,
   );
+
   keymaps.bindKeymapWithCommand(
     keymaps.undo.common!,
     trackAndInvoke(
