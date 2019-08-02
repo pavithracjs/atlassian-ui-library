@@ -1,1 +1,0 @@
-The mention spotlight can take a context path, and fixing a bug with on-click for the create team link
