@@ -1,3 +1,4 @@
+export { compareNodes } from './compareNodes';
 export {
   getSelectedColumnIndexes,
   getSelectedRowIndexes,
@@ -9,6 +10,7 @@ export {
   createControlsHoverDecoration,
   createColumnControlsDecoration,
   createColumnSelectedDecorations,
+  createCellHoverDecoration,
   updatePluginStateDecorations,
   updateNodeDecorations,
 } from './decoration';
@@ -60,3 +62,4 @@ export {
   copyPreviousRow,
 } from './row-controls';
 export { getSelectedTableInfo, getSelectedCellInfo } from './analytics';
+export { getMergedCellsPositions } from './table';
