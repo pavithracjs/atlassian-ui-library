@@ -5,9 +5,9 @@ interface Props {
   hasAuthor?: boolean;
   children?: ReactNode;
   href?: string;
-  onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
-  onFocus?: (event: React.FocusEvent<HTMLSpanElement>) => void;
-  onMouseOver?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLElement>) => void;
+  onMouseOver?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 export default class CommentField extends Component<Props> {

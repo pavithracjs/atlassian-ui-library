@@ -14,9 +14,9 @@ interface Props {
   /** Content to render indicating that the comment has been edited. */
   children?: ReactNode;
   /** Handler called when the element is focused. */
-  onFocus?: (event: React.FocusEvent<HTMLSpanElement>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLElement>) => void;
   /** Handler called when the element is moused over. */
-  onMouseOver?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  onMouseOver?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 class Edited extends Component<Props, {}> {
