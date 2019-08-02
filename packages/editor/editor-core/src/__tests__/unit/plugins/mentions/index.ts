@@ -22,7 +22,7 @@ import { EditorProps } from '../../../../types';
 
 let mockRegisterTeamMention = jest.fn();
 
-jest.mock('@atlaskit/mention', () => ({
+jest.mock('@atlaskit/mention/spotlight', () => ({
   __esModule: true,
   MentionSpotlightController: {
     registerTeamMention: () => mockRegisterTeamMention(),
