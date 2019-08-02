@@ -77,14 +77,17 @@ describe('<QuickSearch />', () => {
     });
 
     it('should support non-component children', () => {
-      const child = render({ children: 'child' });
-      expect(child).not.toThrow();
+      render({ children: 'child' });
+      // Modified as per BUILDTOOLS-220: expect.hasAssertions(), please modify accordingly.
+      expect(wrapper.children).toBeDefined();
       /* Expect that no errors occur while parsing children */
     });
 
     it('should support non-component grandchildren', () => {
-      const child = render({ children: <div>grandchild</div> });
-      expect(child).not.toThrow();
+      render({ children: <div>grandchild</div> });
+      // Modified as per BUILDTOOLS-220: expect.hasAssertions(), please modify accordingly.
+      expect(wrapper.find('div').exists()).toBe(true);
+      expect(wrapper.find('div').children).toBeDefined();
       /* Expect that no errors occur while parsing children */
     });
   });
