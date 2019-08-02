@@ -162,10 +162,7 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
                   {description => (
                     <div>
                       {description}
-                      <div
-                        ref={this.elCreateTeamWrapper}
-                        style={{ display: 'inline' }}
-                      >
+                      <span ref={this.elCreateTeamWrapper}>
                         <SpotlightDescriptionLink>
                           {linkText => (
                             <a href={createTeamLink} target="_blank">
@@ -175,7 +172,7 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
                             // on click fired by preventClickOnCard, not here
                           )}
                         </SpotlightDescriptionLink>
-                      </div>
+                      </span>
                     </div>
                   )}
                 </SpotlightDescription>
