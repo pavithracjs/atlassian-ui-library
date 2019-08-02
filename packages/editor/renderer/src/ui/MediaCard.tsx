@@ -364,7 +364,7 @@ export const getClipboardAttrs = ({
     cardDimensions &&
     cardDimensions.height &&
     parseInt(`${cardDimensions.height}`);
-  let fileName = 'filename';
+  let fileName = 'file'; // default name is needed for Confluence
   let fileSize = 1;
   let fileMimeType = '';
 

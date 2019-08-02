@@ -354,6 +354,9 @@ describe('Media', () => {
         'data-height': undefined,
         'data-id': '1',
         'data-collection': 'collection',
+        'data-file-name': 'file',
+        'data-file-size': 1,
+        'data-file-mime-type': '',
       });
     });
 
@@ -371,6 +374,9 @@ describe('Media', () => {
         'data-height': 40,
         'data-id': '1',
         'data-collection': undefined,
+        'data-file-name': 'file',
+        'data-file-size': 1,
+        'data-file-mime-type': '',
       });
     });
 
@@ -391,6 +397,40 @@ describe('Media', () => {
         'data-height': undefined,
         'data-id': '1',
         'data-collection': undefined,
+        'data-file-name': 'file',
+        'data-file-size': 1,
+        'data-file-mime-type': '',
+      });
+    });
+
+    it('should use fileState fields', () => {
+      expect(
+        getClipboardAttrs({
+          id: '1',
+          contextIdentifierProvider: {
+            objectId: 'object-id',
+            containerId: 'container',
+          },
+          fileState: {
+            status: 'processing',
+            id: '1',
+            mediaType: 'image',
+            mimeType: 'image/png',
+            name: 'some_name',
+            size: 5,
+          },
+        }),
+      ).toEqual({
+        'data-context-id': 'object-id',
+        'data-type': 'file',
+        'data-node-type': 'media',
+        'data-width': undefined,
+        'data-height': undefined,
+        'data-id': '1',
+        'data-collection': undefined,
+        'data-file-name': 'some_name',
+        'data-file-size': 5,
+        'data-file-mime-type': 'image/png',
       });
     });
   });
