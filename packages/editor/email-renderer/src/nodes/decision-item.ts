@@ -1,3 +1,4 @@
+import { N30 } from '@atlaskit/adf-schema';
 import { NodeSerializerOpts } from '../interfaces';
 import { createTable, TableData } from '../table-util';
 import { createTag } from '../create-tag';
@@ -14,6 +15,7 @@ export const styles = `
   padding: 4px 0px 4px 0;
 }
 .${className}-content {
+  background-color: ${N30};
   border-radius: 3px;
   table-layout: fixed;
   line-height: 20px;
