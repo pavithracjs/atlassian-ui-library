@@ -152,14 +152,10 @@ export default class Switcher extends React.Component<SwitcherProps> {
             <ViewedTracker
               subject={SWITCHER_SUBJECT}
               data={{
-                switcherProducts: {
-                  licensed: licensedProductLinks.map(item => item.key),
-                  suggested: suggestedProductLinks.map(item => item.key),
-                },
-                switcherLinks: {
-                  admin: adminLinks.map(item => item.key),
-                  fixed: fixedLinks.map(item => item.key),
-                },
+                licensedProducts: licensedProductLinks.map(item => item.key),
+                suggestedProducts: suggestedProductLinks.map(item => item.key),
+                adminLinks: adminLinks.map(item => item.key),
+                fixedLinks: fixedLinks.map(item => item.key),
               }}
             />
           )}
