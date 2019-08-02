@@ -1,1 +1,0 @@
-Fixed articles navigation
