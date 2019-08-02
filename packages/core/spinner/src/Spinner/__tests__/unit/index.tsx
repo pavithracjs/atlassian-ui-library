@@ -38,12 +38,13 @@ describe('Spinner', () => {
     expect(wrapper.find(Container).prop('phase')).toBe('DELAY');
   });
 
-  it('should leave the DELAY state after some time', () => {
+  it('should leave the DELAY state after some time', done => {
     const wrapper = mount(<Spinner />);
     wrapper.find(Container).simulate('animationEnd');
-    setTimeout(() =>
-      expect(wrapper.find(Container).prop('phase')).not.toBe('DELAY'),
-    );
+    setTimeout(() => {
+      expect(wrapper.find(Container).prop('phase')).not.toBe('DELAY');
+      done();
+    }, 10000);
   });
 
   describe('delay prop', () => {

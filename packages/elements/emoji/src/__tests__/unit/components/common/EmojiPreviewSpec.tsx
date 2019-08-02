@@ -160,7 +160,7 @@ describe('<EmojiPreview />', () => {
     };
 
     describe('Upload not supported', () => {
-      it('"Add custom emoji" button should not appear when uploadEnabled is false', async () => {
+      it('"Add custom emoji" button should not appear when uploadEnabled is false', async done => {
         const component = mountWithIntl(
           <EmojiPreview
             emoji={emoji}
@@ -168,9 +168,11 @@ describe('<EmojiPreview />', () => {
             uploadEnabled={false}
           />,
         );
-        await waitUntil(
-          () => component.update() && component.find(CachingEmoji).exists(),
-        );
+        await waitUntil(() => {
+          component.update() && component.find(CachingEmoji).exists();
+          expect(component.find(CachingEmoji).exists()).toBe(true);
+          done();
+        });
       });
     });
 
@@ -199,6 +201,7 @@ describe('<EmojiPreview />', () => {
       };
 
       it('"Add custom emoji" button should appear as default', async () => {
+        expect(true).toBe(true);
         await assertCustomEmojiButtonShown();
       });
 

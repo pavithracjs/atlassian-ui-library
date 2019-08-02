@@ -33,8 +33,10 @@ describe('MediaEditor DefaultMouseInput', () => {
   });
 
   afterEach(() => {
-    (global.console.warn as any).mockRestore();
-    (global.console.warn as any).mockRestore();
+    //@ts-ignore no mockRestore on warn
+    global.console.warn.mockRestore();
+    //@ts-ignore no mockRestore on error
+    global.console.error.mockRestore();
     mouseInput.unload();
   });
 
