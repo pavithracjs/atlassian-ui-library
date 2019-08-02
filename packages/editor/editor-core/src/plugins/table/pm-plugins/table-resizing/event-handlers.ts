@@ -14,8 +14,6 @@ import {
   getLayoutSize,
   currentColWidth,
   pointsAtCell,
-  createResizeHandle,
-  updateResizeHandle,
   updateControls,
 } from './utils';
 import { getSelectedColumnIndexes } from '../../utils';
@@ -29,7 +27,7 @@ export const handleMouseDown = (
   event: MouseEvent,
   resizeHandlePos: number,
   dynamicTextSizing: boolean,
-) => {
+): boolean => {
   const { state, dispatch } = view;
   const { editorDisabled } = editorDisabledPluginKey.getState(state);
   const domAtPos = view.domAtPos.bind(view);
@@ -51,10 +49,6 @@ export const handleMouseDown = (
   while (dom.nodeName !== 'TABLE') {
     dom = dom.parentNode! as HTMLTableElement;
   }
-
-  let resizeHandleRef: HTMLDivElement | null = createResizeHandle(
-    dom as HTMLTableElement,
-  );
 
   const containerWidth = widthPluginKey.getState(state);
   const parentWidth = getParentNodeWidth(start, state, containerWidth);
@@ -102,11 +96,6 @@ export const handleMouseDown = (
   function finish(event: MouseEvent) {
     window.removeEventListener('mouseup', finish);
     window.removeEventListener('mousemove', move);
-
-    if (resizeHandleRef && resizeHandleRef.parentNode) {
-      resizeHandleRef.parentNode.removeChild(resizeHandleRef);
-      resizeHandleRef = null;
-    }
 
     const { clientX } = event;
     const { state, dispatch } = view;
@@ -187,7 +176,6 @@ export const handleMouseDown = (
     resizeColumn(resizeState, colIndex, clientX - dragging.startX);
 
     updateControls(state);
-    updateResizeHandle(state, domAtPos, resizeHandlePos);
   }
 
   window.addEventListener('mouseup', finish);

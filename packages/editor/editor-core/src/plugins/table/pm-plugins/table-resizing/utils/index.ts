@@ -29,15 +29,8 @@ export {
   getLayoutSize,
   getDefaultLayoutMaxWidth,
   pointsAtCell,
-  edgeCell,
   currentColWidth,
   domCellAround,
 } from './misc';
-export {
-  updateControls,
-  isClickNear,
-  updateResizeHandle,
-  createResizeHandle,
-  getResizeCellPos,
-} from './dom';
+export { updateControls, isClickNear, getResizeCellPos } from './dom';
 export { ScaleOptions, scale, scaleWithParent } from './scale-table';
