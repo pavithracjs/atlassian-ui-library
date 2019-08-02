@@ -32,7 +32,7 @@ export const getResolverUrl = (envKey?: keyof typeof BaseUrls) => {
   } else {
     // Otherwise, we fallback to using the Edge Proxy to access Stargate,
     // which fixes some cookie issues with strict Browser policies.
-    return '/gateway/object-resolver';
+    return '/gateway/api/object-resolver';
   }
 };
 
