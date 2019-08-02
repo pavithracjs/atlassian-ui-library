@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.11.2
+
+### Patch Changes
+
+- [patch][b4d2284e01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4d2284e01):
+
+  Added analytics on spotlight viewed.
+
 ## 18.11.1
 
 ### Patch Changes
