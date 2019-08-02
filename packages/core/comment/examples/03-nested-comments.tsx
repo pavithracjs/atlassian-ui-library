@@ -1,11 +1,11 @@
-import React, { Node } from 'react';
+import React, { ReactNode } from 'react';
 import Avatar from '@atlaskit/avatar';
 import Comment, { CommentAuthor } from '../src';
 import avatarImg from './utils/sample-avatar.png';
 
 interface Props {
-  children?: Node,
-};
+  children?: ReactNode;
+}
 
 const ExampleComment = ({ children }: Props) => (
   <Comment

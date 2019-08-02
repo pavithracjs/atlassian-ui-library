@@ -7,8 +7,6 @@ import { CommentLayout } from '../src';
 export default () => (
   <CommentLayout
     avatar={<Avatar src={avatarImg} label="User avatar" size="medium" />}
-    content={
-      <Editor appearance="comment" allowTextFormatting isExpandedByDefault />
-    }
+    content={<Editor appearance="comment" />}
   />
 );
