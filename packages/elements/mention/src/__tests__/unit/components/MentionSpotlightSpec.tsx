@@ -17,8 +17,11 @@ function render(props: Partial<Props>) {
 
 let mockRegisterRender = jest.fn();
 let mockRegisterCreateLinkClick = jest.fn();
+let mockGetSeenCount = jest.fn();
 let mockFireAnalyticsSpotlightMentionEvent = jest.fn();
 let mockIsSpotlightEnabled = true;
+
+mockGetSeenCount.mockReturnValue('testValue');
 
 jest.mock(
   '../../../components/MentionSpotlight/MentionSpotlightController',
@@ -27,6 +30,7 @@ jest.mock(
     default: {
       registerRender: () => mockRegisterRender(),
       registerCreateLinkClick: () => mockRegisterCreateLinkClick(),
+      getSeenCount: () => mockGetSeenCount(),
       isSpotlightEnabled: () => mockIsSpotlightEnabled,
     },
   }),
@@ -80,10 +84,11 @@ describe('MentionSpotlight', () => {
 
   // Because we manually bind events, we need to fire events and test outside of React
   it('Should register link on click', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
-
+    const spotlight = render({});
     const link = spotlight.find('a').getDOMNode();
+    mockRegisterCreateLinkClick.mockReset();
+
+    // mockRegisterCreateLinkClick = jest.fn();
 
     // make sure the click event is able to bubble
     const event = new Event('click', {
@@ -97,8 +102,7 @@ describe('MentionSpotlight', () => {
   });
 
   it('should not show the highlight if the spotlight has been closed by the user', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({ onClose: jest.fn() });
     expect(spotlight.html()).not.toBeNull();
 
     const closeButton = spotlight.find('button').getDOMNode();
@@ -114,8 +118,7 @@ describe('MentionSpotlight', () => {
   });
 
   it('should send analytics data if the spotlight has been closed by the user', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({ onClose: jest.fn() });
     expect(spotlight.html()).not.toBeNull();
     spotlight.find(Button).simulate('click');
     expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
@@ -123,6 +126,35 @@ describe('MentionSpotlight', () => {
       SpotlightAnalytics.Actions.CLOSED,
       SpotlightAnalytics.ComponentNames.MENTION,
       'closeButton',
+    );
+  });
+
+  it('should send analytics data if user clicks on spotlight link', () => {
+    const spotlight = render({ onClose: jest.fn() });
+    expect(spotlight.html()).not.toBeNull();
+    spotlight.find('a').simulate('click');
+    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
+      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
+      SpotlightAnalytics.Actions.CLICKED,
+      SpotlightAnalytics.ComponentNames.MENTION,
+      'createTeamLink',
+    );
+  });
+
+  it('should send analytics data if the spotlight has been displayed', () => {
+    mockRegisterRender = jest.fn();
+    mockGetSeenCount = jest.fn();
+    render({ onClose: jest.fn() });
+
+    expect(mockRegisterRender).toHaveBeenCalledTimes(1);
+    expect(mockGetSeenCount).toHaveBeenCalledTimes(1);
+
+    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
+      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
+      SpotlightAnalytics.Actions.VIEWED,
+      SpotlightAnalytics.ComponentNames.MENTION,
+      undefined,
+      'testValue',
     );
   });
 
