@@ -1,9 +1,19 @@
 import React, { RefObject } from 'react';
-
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+  CreateUIAnalyticsEventSignature,
+} from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';
 import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close';
 import Tooltip from '@atlaskit/tooltip';
 import MentionSpotlightController from './MentionSpotlightController';
+
+import {
+  fireAnalyticsSpotlightMentionEvent,
+  ComponentNames,
+  Actions,
+} from '../../util/analytics';
 
 import {
   SpotlightTitle,
@@ -13,7 +23,7 @@ import {
 } from '../../util/i18n';
 import * as Styled from './styles';
 
-export interface Props {
+export interface OwnProps {
   createTeamLink: string;
   /** Callback to track the event where user click on x icon */
   onClose: () => void;
@@ -23,10 +33,12 @@ export interface State {
   isSpotlightHidden: boolean;
 }
 
+export type Props = OwnProps & WithAnalyticsEventProps;
+
 const ICON_URL =
   'https://ptc-directory-sited-static.us-east-1.prod.public.atl-paas.net/teams/avatars/2.svg';
 
-export default class MentionSpotlight extends React.Component<Props, State> {
+export class MentionSpotlightInternal extends React.Component<Props, State> {
   // Wrap whole dialog so we can catch events, see preventClickOnCard
   elWrapper: RefObject<HTMLDivElement>;
   // Wrap the close button, so we can still manually invoke onClose()
@@ -40,6 +52,7 @@ export default class MentionSpotlight extends React.Component<Props, State> {
       isSpotlightHidden: false,
     };
   }
+
   componentDidMount() {
     this.addEventHandler();
     // Spotlight hiding logic was moved to Mount method because if Spotlight is re-rendered after updating the
@@ -161,3 +174,19 @@ export default class MentionSpotlight extends React.Component<Props, State> {
     );
   }
 }
+
+const MentionSpotlightWithAnalytics = withAnalyticsEvents<OwnProps>({
+  onClose: (createEvent: CreateUIAnalyticsEventSignature) => {
+    fireAnalyticsSpotlightMentionEvent(createEvent)(
+      ComponentNames.SPOTLIGHT,
+      Actions.CLOSED,
+      ComponentNames.MENTION,
+      'closeButton',
+    );
+  },
+})(MentionSpotlightInternal) as React.ComponentClass<OwnProps, State>;
+
+const MentionSpotlight = MentionSpotlightWithAnalytics;
+type MentionSpotlight = MentionSpotlightInternal;
+
+export default MentionSpotlight;
