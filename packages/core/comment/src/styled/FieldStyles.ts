@@ -8,7 +8,7 @@ const ThemeColor = {
 interface CommonProps {
   hasAuthor?: boolean;
 }
-const common = ({ hasAuthor }: commonProps) => css`
+const common = ({ hasAuthor }: CommonProps) => css`
   &:not(:hover):not(:active) {
     color: ${ThemeColor.text};
   }
@@ -16,8 +16,8 @@ const common = ({ hasAuthor }: commonProps) => css`
 `;
 
 export const Anchor = styled.a`
-  ${(p: commonProps) => common(p)};
+  ${(p: CommonProps) => common(p)};
 `;
 export const Span = styled.span`
-  ${(p: commonProps) => common(p)};
+  ${(p: CommonProps) => common(p)};
 `;
