@@ -162,14 +162,13 @@ const mentionsPlugin = (
           if (provider) {
             const teamMentionProvider = provider as TeamMentionProvider;
             if (
-              teamMentionProvider.mentionTypeaheadSpotlightEnabled &&
-              teamMentionProvider.mentionTypeaheadCreateTeamPath &&
+              isTeamMentionProvider(teamMentionProvider) &&
               teamMentionProvider.mentionTypeaheadSpotlightEnabled()
             ) {
               return (
                 <MentionSpotlight
                   createTeamLink={teamMentionProvider.mentionTypeaheadCreateTeamPath()}
-                  onClose={() => MentionSpotlightController.registerClosed()} // todo - TEAMS-605 - use a proper function here which sends both analytics and register the close as well
+                  onClose={() => MentionSpotlightController.registerClosed()}
                 />
               );
             }
@@ -646,3 +645,9 @@ function buildNodesForTeamMention(
   inlineNodes.push(closeBracketText);
   return Fragment.fromArray(inlineNodes);
 }
+
+const isTeamMentionProvider = (p: any): p is TeamMentionProvider =>
+  !!(
+    (p as TeamMentionProvider).mentionTypeaheadSpotlightEnabled &&
+    (p as TeamMentionProvider).mentionTypeaheadCreateTeamPath
+  );
