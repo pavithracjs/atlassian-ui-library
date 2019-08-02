@@ -12,9 +12,9 @@ import {
 import {
   isComplete,
   isError,
-  isLoading,
   ProviderResult,
   Status,
+  hasLoaded,
 } from '../providers/as-data-provider';
 import {
   CustomLinksResponse,
@@ -262,6 +262,13 @@ export function mapResultsToSwitcherProps(
       ? asLicenseInformationProviderResult(availableProducts, cloudId)
       : licenseInformation;
 
+  const hasLoadedLicenseInformation = hasLoaded(resolvedLicenseInformation);
+  const hasLoadedAdminLinks =
+    hasLoaded(managePermission) && hasLoaded(addProductsPermission);
+  const hasLoadedSuggestedProducts = features.xflow
+    ? hasLoaded(productRecommendations) && hasLoaded(isXFlowEnabled)
+    : true;
+
   return {
     expandLink: features.enableUserCentricProducts
       ? getExpandLink(availableProducts)
@@ -304,6 +311,10 @@ export function mapResultsToSwitcherProps(
     ),
 
     showManageLink: collect(collectCanManageLinks(managePermission), false),
-    isLoading: isLoading(resolvedLicenseInformation),
+    hasLoaded:
+      hasLoadedLicenseInformation &&
+      hasLoadedAdminLinks &&
+      hasLoadedSuggestedProducts,
+    hasLoadedCritical: hasLoadedLicenseInformation,
   };
 }
