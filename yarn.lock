@@ -1656,6 +1656,11 @@
   version "3.30.8"
   resolved "https://registry.yarnpkg.com/@types/algoliasearch/-/algoliasearch-3.30.8.tgz#f7004bd905e61f7f56b0e6da2744ebd4dbafc87c"
 
+"@types/angular@^1.6.55":
+  version "1.6.55"
+  resolved "https://registry.yarnpkg.com/@types/angular/-/angular-1.6.55.tgz#1d745af6deadcb5c2c0f6f6e9d85bc18c25a520b"
+  integrity sha512-jpQ5K6t76thd9Ook5x4Xj9K462hMje6/Q84SFxglBmaW8HOLblVnALpvg6w6aV3Oe6o9jWXnYH8gHHKrfSRxNQ==
+
 "@types/babel__core@^7.1.0":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.2.tgz#608c74f55928033fce18b99b213c16be4b3d114f"

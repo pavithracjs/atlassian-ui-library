@@ -290,6 +290,7 @@
     "@emotion/styled": "^10.0.7",
     "@sentry/browser": "^4.6.3",
     "@types/algoliasearch": "^3.30.8",
+    "@types/angular": "^1.6.55",
     "@types/bricks.js": "^1.8.0",
     "@types/bytes": "^2.4.33",
     "@types/chalk": "^2.2.0",
