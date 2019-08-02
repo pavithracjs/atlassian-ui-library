@@ -11,7 +11,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-interface Props {
+export interface Props {
   /** The content to render inside the action button. */
   children?: ReactNode;
   /** Handler called when the element is clicked. */

@@ -3,6 +3,7 @@ import { shallow, mount } from 'enzyme';
 import Button from '@atlaskit/button';
 
 import CommentActionWithAnalytics, {
+  Props,
   CommentActionWithoutAnalytics as CommentAction,
 } from '../../ActionItem';
 
@@ -30,13 +31,14 @@ describe('@atlaskit comments', () => {
       });
 
       it('should reflect onClick, onFocus, and onMouseOver to a wrapping element', () => {
-        const props: { [index: string]: () => void } = {
+        const props: Props = {
           onClick: () => {},
           onFocus: () => {},
           onMouseOver: () => {},
         };
         const wrapper = shallow(<CommentAction {...props} />);
-        Object.keys(props).forEach(propName => {
+        const Keys = Object.keys(props) as (keyof Props)[];
+        Keys.forEach(propName => {
           expect(wrapper.prop(propName)).toBe(props[propName]);
         });
       });
