@@ -3,6 +3,7 @@ import {
   ResultLoading,
   Status,
   ResultComplete,
+  ResultError,
 } from '../../providers/as-data-provider';
 import {
   AvailableProductsResponse,
@@ -12,6 +13,96 @@ import {
 } from '../../types';
 
 describe('map-results-to-switcher-props', () => {
+  describe('hasLoaded flags', () => {
+    it('hasLoadedCritical is set when license information has been loaded', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        loadingProvidersResult,
+        {
+          enableUserCentricProducts: true,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          xflow: true,
+        },
+        asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
+      );
+
+      expect(props.hasLoadedCritical).toEqual(true);
+      expect(props.hasLoaded).toEqual(false);
+    });
+
+    it('hasLoaded is set when license information + permissions + product recommendations have been loaded', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        {
+          ...loadingProvidersResult,
+          isXFlowEnabled: asCompletedProvider(true),
+          managePermission: asCompletedProvider(true),
+          addProductsPermission: asCompletedProvider(true),
+          productRecommendations: asCompletedProvider([]),
+        },
+        {
+          enableUserCentricProducts: true,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          xflow: true,
+        },
+        asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
+      );
+
+      expect(props.hasLoadedCritical).toEqual(true);
+      expect(props.hasLoaded).toEqual(true);
+    });
+
+    it('hasLoaded is not blocked on failed request', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        {
+          ...loadingProvidersResult,
+          isXFlowEnabled: asFailedProvider(),
+          managePermission: asFailedProvider(),
+          addProductsPermission: asFailedProvider(),
+          productRecommendations: asFailedProvider(),
+        },
+        {
+          enableUserCentricProducts: true,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          xflow: true,
+        },
+        asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
+      );
+
+      expect(props.hasLoadedCritical).toEqual(true);
+      expect(props.hasLoaded).toEqual(true);
+    });
+
+    it('xflow does not block hasLoaded if not enabled', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        {
+          ...loadingProvidersResult,
+          managePermission: asCompletedProvider(true),
+          addProductsPermission: asFailedProvider(),
+        },
+        {
+          enableUserCentricProducts: true,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          isDiscoverMoreForEveryoneEnabled: false,
+          xflow: false,
+        },
+        asCompletedProvider<AvailableProductsResponse>({ sites: [] }),
+      );
+
+      expect(props.hasLoadedCritical).toEqual(true);
+      expect(props.hasLoaded).toEqual(true);
+    });
+  });
+
   describe('user-centric products', () => {
     it('displays the 5 most active products with an expand link', () => {
       const props = mapResultsToSwitcherProps(
@@ -22,6 +113,7 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
+          isDiscoverMoreForEveryoneEnabled: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -83,6 +175,7 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
+          isDiscoverMoreForEveryoneEnabled: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -116,6 +209,7 @@ describe('map-results-to-switcher-props', () => {
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
+          isDiscoverMoreForEveryoneEnabled: false,
         },
         asCompletedProvider<AvailableProductsResponse>({
           sites: [
@@ -174,6 +268,14 @@ function generateSite(
 }
 
 const cloudId = 'some-cloud-id';
+
+function asFailedProvider(): ResultError {
+  return {
+    status: Status.ERROR,
+    error: 'error',
+    data: null,
+  };
+}
 
 function asCompletedProvider<T>(data: T): ResultComplete<T> {
   return {
