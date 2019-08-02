@@ -18,6 +18,7 @@ let mockRegisterRender = jest.fn();
 let mockRegisterCreateLinkClick = jest.fn();
 let mockGetSeenCount = jest.fn();
 let mockFireAnalyticsSpotlightMentionEvent = jest.fn();
+let mockIsSpotlightEnabled = true;
 
 mockGetSeenCount.mockReturnValue('testValue');
 
@@ -29,6 +30,7 @@ jest.mock(
       registerRender: () => mockRegisterRender(),
       registerCreateLinkClick: () => mockRegisterCreateLinkClick(),
       getSeenCount: () => mockGetSeenCount(),
+      isSpotlightEnabled: () => mockIsSpotlightEnabled,
     },
   }),
 );
@@ -45,25 +47,32 @@ jest.mock('../../../util/analytics', () => {
 });
 
 describe('MentionSpotlight', () => {
+  beforeEach(() => {
+    mockIsSpotlightEnabled = true;
+    mockRegisterRender.mockReset();
+  });
+
   it('Should call onCall callback when the x is clicked', () => {
     const onClose = jest.fn();
     const spotlight = render({ onClose: onClose });
 
     spotlight.find(Button).simulate('click');
-
     expect(onClose).toHaveBeenCalled();
   });
 
   it('Should register render on mount', () => {
-    const onClose = jest.fn();
-    render({ onClose: onClose });
-
+    render({});
     expect(mockRegisterRender).toHaveBeenCalled();
   });
 
+  it('should not call registerRender if Spotlight Controller asked not to render spotlight', () => {
+    mockIsSpotlightEnabled = false;
+    render({});
+    expect(mockRegisterRender).toHaveBeenCalledTimes(0);
+  });
+
   it('Should register link on click', () => {
-    const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const spotlight = render({});
 
     spotlight.find('a').simulate('click');
 
@@ -104,5 +113,33 @@ describe('MentionSpotlight', () => {
       undefined,
       'testValue',
     );
+  });
+
+  it('should not show spotlight after re-render if the Spotlight Controller asked not to render it at the first mount', () => {
+    mockIsSpotlightEnabled = false;
+    const spotlight = render({});
+
+    expect(spotlight.html()).toBeNull();
+
+    // after first render, ask controller to show it
+    mockIsSpotlightEnabled = true;
+
+    //should still hide the spotlight after re-render
+    spotlight.render();
+    expect(spotlight.html()).toBeNull();
+  });
+
+  it('should show spotlight after re-render if the Spotlight Controller asked to render it at the first mount', () => {
+    const spotlight = render({});
+
+    // Should render in the first time
+    expect(spotlight.html()).not.toBeNull();
+
+    //after first render, ask controller to hide it
+    mockIsSpotlightEnabled = false;
+
+    //should still show the spotlight after re-render
+    spotlight.render();
+    expect(spotlight.html()).not.toBeNull();
   });
 });
