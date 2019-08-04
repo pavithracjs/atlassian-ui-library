@@ -24,9 +24,10 @@ import {
 import * as Styled from './styles';
 
 export interface OwnProps {
-  createTeamLink: string;
+  createTeamLink?: string;
   /** Callback to track the event where user click on x icon */
   onClose: () => void;
+  onCreateTeamLinkClick?: () => void;
   onViewed?: () => void;
 }
 
@@ -44,11 +45,18 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
   elWrapper: RefObject<HTMLDivElement>;
   // Wrap the close button, so we can still manually invoke onClose()
   elCloseWrapper: RefObject<HTMLDivElement>;
+  // Wrap the create team link, so we can still manually invoke the analytics
+  elCreateTeamWrapper: RefObject<HTMLDivElement>;
+
+  static defaultProps = {
+    createTeamLink: '/people/search#createTeam',
+  };
 
   constructor(props: Props) {
     super(props);
     this.elWrapper = React.createRef();
     this.elCloseWrapper = React.createRef();
+    this.elCreateTeamWrapper = React.createRef();
     this.state = {
       isSpotlightHidden: false,
     };
@@ -74,19 +82,34 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
     this.removeEventHandler();
   }
 
-  onClick = () => {
+  onCreateTeamLinkClick = () => {
+    this.setState({ isSpotlightHidden: true });
+    const { onCreateTeamLinkClick } = this.props;
     MentionSpotlightController.registerCreateLinkClick();
+    if (onCreateTeamLinkClick) {
+      onCreateTeamLinkClick();
+    }
   };
 
-  // This is to stop overly aggressive behaviour where clicking anywhere in the spotlight would immediate close the entire
-  // dropdown dialog
+  // This is to stop overly aggressive behaviour in tinyMCe editor where clicking anywhere in the spotlight would immediate close the entire
+  // dropdown dialog. See TEAMS-611
   private preventClickOnCard = (event: any) => {
+    // event is a MouseEvent
+
     // We stop the event from propagating, so we need to manually close
     const isClickOnCloseButton =
       this.elCloseWrapper.current &&
       this.elCloseWrapper.current.contains(event.target);
     if (isClickOnCloseButton) {
       this.onCloseClick();
+    }
+
+    // Manually perform on-click for the link, if the link was clicked.
+    const isClickCreateTeamLink =
+      this.elCreateTeamWrapper.current &&
+      this.elCreateTeamWrapper.current.contains(event.target);
+    if (isClickCreateTeamLink) {
+      this.onCreateTeamLinkClick();
     }
 
     // Allow default so the link to create team still works, but prevent the rest
@@ -136,21 +159,20 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
               <Styled.Body>
                 <SpotlightDescription>
                   {description => (
-                    <p>
+                    <div>
                       {description}
-                      <SpotlightDescriptionLink>
-                        {linkText => (
-                          <a
-                            href={createTeamLink}
-                            target="_blank"
-                            onClick={this.onClick}
-                          >
-                            {' '}
-                            {linkText}
-                          </a>
-                        )}
-                      </SpotlightDescriptionLink>
-                    </p>
+                      <span ref={this.elCreateTeamWrapper}>
+                        <SpotlightDescriptionLink>
+                          {linkText => (
+                            <a href={createTeamLink} target="_blank">
+                              {' '}
+                              {linkText}
+                            </a>
+                            // on click fired by preventClickOnCard, not here
+                          )}
+                        </SpotlightDescriptionLink>
+                      </span>
+                    </div>
                   )}
                 </SpotlightDescription>
               </Styled.Body>
@@ -165,8 +187,8 @@ export class MentionSpotlightInternal extends React.Component<Props, State> {
                         iconBefore={
                           <EditorCloseIcon label="Close" size="medium" />
                         }
-                        onClick={this.onCloseClick}
                         spacing="none"
+                        // on click fired by preventClickOnCard, not here
                       />
                     </Tooltip>
                   )}
@@ -189,6 +211,16 @@ const MentionSpotlightWithAnalytics = withAnalyticsEvents<OwnProps>({
       'closeButton',
     );
   },
+
+  onCreateTeamLinkClick: (createEvent: CreateUIAnalyticsEventSignature) => {
+    fireAnalyticsSpotlightMentionEvent(createEvent)(
+      ComponentNames.SPOTLIGHT,
+      Actions.CLICKED,
+      ComponentNames.MENTION,
+      'createTeamLink',
+    );
+  },
+
   onViewed: (createEvent: CreateUIAnalyticsEventSignature) => {
     fireAnalyticsSpotlightMentionEvent(createEvent)(
       ComponentNames.SPOTLIGHT,

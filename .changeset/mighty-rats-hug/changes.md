@@ -1,1 +1,0 @@
-Added analytics on spotlight viewed.
