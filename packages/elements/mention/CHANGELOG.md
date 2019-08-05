@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.11.4
+
+### Patch Changes
+
+- [patch][2f62d55150](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f62d55150):
+
+  The mention spotlight can take a context path, and fixing a bug with on-click for the create team link
+
 ## 18.11.3
 
 ### Patch Changes

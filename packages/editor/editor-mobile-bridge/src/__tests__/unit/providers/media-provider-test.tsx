@@ -6,7 +6,6 @@ import {
 } from '@atlaskit/editor-common';
 import {
   insertMediaSingleNode,
-  mediaPlugin,
   mediaPluginKey,
   MediaOptions,
   MediaState,
@@ -130,9 +129,9 @@ describe('Mobile MediaProvider', () => {
     createEditor({
       doc,
       editorProps: {
+        media: mediaOptions,
         appearance: 'mobile',
       },
-      editorPlugins: [mediaPlugin(mediaOptions)],
       pluginKey: mediaPluginKey,
       providerFactory,
     });

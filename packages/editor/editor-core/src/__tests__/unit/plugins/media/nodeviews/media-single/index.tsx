@@ -149,7 +149,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
           contextIdentifierProvider={contextIdentifierProvider}
@@ -192,7 +191,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={{
             ...mediaOptions,
             allowResizing: true,
@@ -225,7 +223,6 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
@@ -245,7 +242,9 @@ describe('nodeviews/mediaSingle', () => {
   });
 
   it('propagates mobile upload progress to Media component', async () => {
-    pluginState.editorAppearance = 'mobile';
+    pluginState.mediaPluginOptions = {
+      allowMarkingUploadsAsIncomplete: true,
+    };
     pluginState.mobileUploadComplete = { foo: false };
 
     const mediaSingleNode = mediaSingle()(mediaNode);
@@ -258,11 +257,13 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="mobile"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
+        mediaPluginOptions={{
+          allowMarkingUploadsAsIncomplete: true,
+        }}
       />,
     );
 
@@ -276,7 +277,9 @@ describe('nodeviews/mediaSingle', () => {
   });
 
   it('propagates mobile upload complete to Media component', async () => {
-    pluginState.editorAppearance = 'mobile';
+    pluginState.mediaPluginOptions = {
+      allowMarkingUploadsAsIncomplete: true,
+    };
     pluginState.mobileUploadComplete = { foo: true };
 
     const mediaSingleNode = mediaSingle()(mediaNode);
@@ -289,11 +292,13 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="mobile"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}
+        mediaPluginOptions={{
+          allowMarkingUploadsAsIncomplete: true,
+        }}
       />,
     );
 
@@ -315,7 +320,6 @@ describe('nodeviews/mediaSingle', () => {
         eventDispatcher,
         providerFactory,
         mediaOptions,
-        'full-page',
       )(node, view, getPos);
 
       const renderMock = jest.fn();
@@ -331,7 +335,6 @@ describe('nodeviews/mediaSingle', () => {
         eventDispatcher,
         providerFactory,
         mediaOptions,
-        'full-page',
       )(node, view, getPos);
 
       const renderMock = jest.fn();
@@ -372,7 +375,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
           contextIdentifierProvider={contextIdentifierProvider}
@@ -418,7 +420,6 @@ describe('nodeviews/mediaSingle', () => {
           getPos={getPos}
           width={123}
           selected={() => 1}
-          editorAppearance="full-page"
           mediaOptions={mediaOptions}
           mediaProvider={mediaProvider}
           contextIdentifierProvider={contextIdentifierProvider}
@@ -454,7 +455,6 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="full-page"
         mediaOptions={mediaOptions}
         mediaProvider={mediaProvider}
         contextIdentifierProvider={contextIdentifierProvider}
@@ -494,7 +494,6 @@ describe('nodeviews/mediaSingle', () => {
         getPos={getPos}
         width={123}
         selected={() => 1}
-        editorAppearance="full-page"
         mediaOptions={mediaOptions}
         contextIdentifierProvider={contextIdentifierProvider}
         mediaPluginState={pluginState}

@@ -5,14 +5,13 @@ import { removeSelectedNode } from 'prosemirror-utils';
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
 
 import commonMessages from '../../../messages';
-import { Command, EditorAppearance } from '../../../../src/types';
+import { Command } from '../../../../src/types';
 import {
   FloatingToolbarConfig,
   FloatingToolbarItem,
 } from '../../../../src/plugins/floating-toolbar/types';
 import { stateKey, MediaPluginState } from '../pm-plugins/main';
 import { hoverDecoration } from '../../base/pm-plugins/decoration';
-import { isFullPage } from '../../../utils/is-full-page';
 import { renderAnnotationButton } from './annotation';
 import {
   getLinkingToolbar,
@@ -34,8 +33,8 @@ export type MediaFloatingToolbarOptions = {
   providerFactory?: ProviderFactory;
   allowResizing?: boolean;
   allowAnnotation?: boolean;
-  allowLinking?: Boolean;
-  appearance?: EditorAppearance;
+  allowLinking?: boolean;
+  allowAdvancedToolBarOptions?: boolean;
 };
 
 export const floatingToolbar = (
@@ -48,7 +47,7 @@ export const floatingToolbar = (
     allowResizing,
     allowAnnotation,
     allowLinking,
-    appearance,
+    allowAdvancedToolBarOptions,
   } = options;
   const { mediaSingle } = state.schema.nodes;
   const pluginState: MediaPluginState | undefined = stateKey.getState(state);
@@ -82,7 +81,7 @@ export const floatingToolbar = (
   }
 
   let toolbarButtons: FloatingToolbarItem<Command>[] = [];
-  if (isFullPage(appearance)) {
+  if (allowAdvancedToolBarOptions) {
     toolbarButtons = buildLayoutButtons(state, intl, allowResizing);
     if (toolbarButtons.length) {
       if (allowAnnotation) {

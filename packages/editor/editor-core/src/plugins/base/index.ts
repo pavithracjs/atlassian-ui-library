@@ -1,7 +1,8 @@
 import { baseKeymap } from 'prosemirror-commands';
 import { history } from 'prosemirror-history';
+import { EditorView } from 'prosemirror-view';
 import { doc, paragraph, text } from '@atlaskit/adf-schema';
-import { EditorPlugin, EditorAppearance, PMPluginFactory } from '../../types';
+import { EditorPlugin, PMPluginFactory } from '../../types';
 import filterStepsPlugin from './pm-plugins/filter-steps';
 import focusHandlerPlugin from './pm-plugins/focus-handler';
 import newlinePreserveMarksPlugin from './pm-plugins/newline-preserve-marks';
@@ -9,10 +10,14 @@ import inlineCursorTargetPlugin from './pm-plugins/inline-cursor-target';
 import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
 import scrollGutter from './pm-plugins/scroll-gutter';
-import { isFullPage } from '../../utils/is-full-page';
 import { keymap } from '../../utils/keymap';
 
-const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
+interface BasePluginOptions {
+  allowScrollGutter?: ((view: EditorView) => HTMLElement | null) | undefined;
+  allowInlineCursorTarget?: boolean;
+}
+
+const basePlugin = (options?: BasePluginOptions): EditorPlugin => ({
   pmPlugins() {
     const plugins: { name: string; plugin: PMPluginFactory }[] = [
       {
@@ -22,7 +27,9 @@ const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
       {
         name: 'inlineCursorTargetPlugin',
         plugin: () =>
-          appearance !== 'mobile' ? inlineCursorTargetPlugin() : undefined,
+          options && options.allowInlineCursorTarget
+            ? inlineCursorTargetPlugin()
+            : undefined,
       },
       {
         name: 'focusHandlerPlugin',
@@ -47,10 +54,10 @@ const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
       },
     ];
 
-    if (isFullPage(appearance)) {
+    if (options && options.allowScrollGutter) {
       plugins.push({
         name: 'scrollGutterPlugin',
-        plugin: () => scrollGutter(),
+        plugin: () => scrollGutter(options.allowScrollGutter),
       });
     }
 

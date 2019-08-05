@@ -24,6 +24,7 @@ describe('extension toolbar', () => {
     return createEditor({
       doc,
       editorProps: {
+        appearance: 'full-page',
         allowBreakout: true,
         allowExtension: {
           allowBreakout: true,

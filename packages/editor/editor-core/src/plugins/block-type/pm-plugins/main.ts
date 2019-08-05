@@ -22,7 +22,6 @@ import {
   HeadingLevelsAndNormalText,
 } from '../types';
 import { areBlockTypesDisabled } from '../../../utils';
-import { EditorAppearance } from '../../../types';
 import { HEADING_KEYS } from '../../../keymaps';
 import {
   setHeadingWithAnalytics,
@@ -120,7 +119,7 @@ const autoformatHeading = (
 export const pluginKey = new PluginKey('blockTypePlugin');
 export const createPlugin = (
   dispatch: (eventName: string | PluginKey, data: any) => void,
-  appearance?: EditorAppearance,
+  lastNodeMustBeParagraph?: boolean,
 ) => {
   let altKeyLocation = 0;
 
@@ -130,7 +129,7 @@ export const createPlugin = (
       _oldState: EditorState,
       newState: EditorState,
     ): Transaction | void {
-      if (appearance === 'comment') {
+      if (lastNodeMustBeParagraph) {
         const pos = newState.doc.resolve(newState.doc.content.size - 1);
         const lastNode = pos.node(1);
         const { paragraph } = newState.schema.nodes;

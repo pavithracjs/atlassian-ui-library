@@ -44,6 +44,7 @@ export interface Props {
   offsetY?: number;
 
   showTeamMentionsHighlight?: boolean;
+  createTeamPath?: string;
 }
 
 export interface State {
@@ -228,6 +229,7 @@ export class MentionPicker extends React.PureComponent<
 
   render() {
     const {
+      createTeamPath,
       resourceProvider,
       presenceProvider,
       onSelection,
@@ -249,6 +251,7 @@ export class MentionPicker extends React.PureComponent<
         query={query}
         ref={this.handleMentionListRef}
         isTeamMentionHighlightEnabled={!!showTeamMentionsHighlight}
+        createTeamPath={createTeamPath}
       />
     );
 

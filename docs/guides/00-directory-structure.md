@@ -131,20 +131,20 @@ Your structure may look something like this:
         ├─ __tests__ ············ Tests for Avatar.js, index.js, styled.js
         | ├─ unit ............... Unit tests for Avatar.js, index.js, styled.js
         | ├─ integration ........ Integration tests Avatar.js, index.js, styled.js
-        | ├─visual-regression ... Visual regression tests Avatar.js, index.js, styled.js
+        | ├─ visual-regression .. Visual regression tests Avatar.js, index.js, styled.js
         | |  ...............
         ├─ Avatar ··············· Directory form of Avatar.js
         │ ├─ __tests__ ·········· Tests for Avatar/index.js
         | |  ├─ unit ............ Unit tests for Avatar
         | |  ├─ integration ..... Integration tests for Avatar
-        | |  ├─ visual-regression Visual regression for Avatar
+        | |  ├─ visual-regression Visual regression tests for Avatar
         | |  ...............
         │ └─ index.js ··········· Default export for Avatar
         │ └─ styled ············· Directory for styled components
         │   ├─ __tests__ ········ Tests for Styled/index.js, MyComponent.js
         |   | ├─ unit ............ Unit tests for Styled/index.js, MyComponent.js
         |   | ├─ integration ..... Integration tests for Styled/index.js, MyComponent.js
-        |   | ├─ visual-regression Visual regression for Styled/index.js, MyComponent.js
+        |   | ├─ visual-regression Visual regression tests for Styled/index.js, MyComponent.js
         |   |   ...............
         │   ├─ index.js ········· Exports MyComponent
         │   └─ MyComponent.js ··· Exported by index.js

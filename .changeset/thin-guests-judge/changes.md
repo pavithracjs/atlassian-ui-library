@@ -1,0 +1,1 @@
+ED-7217: Remove mention workaround for composition on mobile.

@@ -42,6 +42,7 @@ export {
   getColumnOrRowIndex,
   getMousePositionHorizontalRelativeByElement,
   getMousePositionVerticalRelativeByElement,
+  updateResizeHandles,
 } from './dom';
 export {
   getColumnsWidths,

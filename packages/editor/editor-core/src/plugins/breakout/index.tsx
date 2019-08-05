@@ -99,7 +99,11 @@ function createPlugin({
   });
 }
 
-const breakoutPlugin = (): EditorPlugin => ({
+interface BreakoutPluginOptions {
+  allowBreakoutButton?: boolean;
+}
+
+const breakoutPlugin = (options?: BreakoutPluginOptions): EditorPlugin => ({
   pmPlugins() {
     return [{ name: 'breakout', plugin: createPlugin }];
   },
@@ -109,12 +113,12 @@ const breakoutPlugin = (): EditorPlugin => ({
 
   contentComponent({
     editorView,
-    appearance,
     popupsMountPoint,
     popupsBoundariesElement,
     popupsScrollableElement,
   }) {
-    if (appearance !== 'full-page') {
+    // This is a bit crappy, but should be resolved once we move to a static schema.
+    if (options && !options.allowBreakoutButton) {
       return null;
     }
 

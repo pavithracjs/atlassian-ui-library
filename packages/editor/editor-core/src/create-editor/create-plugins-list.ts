@@ -52,30 +52,52 @@ import {
   customAutoformatPlugin,
   feedbackDialogPlugin,
 } from '../plugins';
-import { isFullPage } from '../utils/is-full-page';
+import { isFullPage as fullPageCheck } from '../utils/is-full-page';
+import { EditorView } from 'prosemirror-view';
 
 /**
  * Returns list of plugins that are absolutely necessary for editor to work
  */
 export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
+  const { appearance, textFormatting } = props;
+  const isFullPage = fullPageCheck(appearance);
+
   return [
     pastePlugin(),
-    basePlugin(props.appearance),
-    blockTypePlugin(),
+    basePlugin({
+      allowInlineCursorTarget: appearance !== 'mobile',
+      allowScrollGutter: allowScrollGutter(props),
+    }),
+    blockTypePlugin({ lastNodeMustBeParagraph: appearance === 'comment' }),
     placeholderPlugin(),
     clearMarksOnChangeToEmptyDocumentPlugin(),
     hyperlinkPlugin(),
-    textFormattingPlugin(props.textFormatting || {}),
+    textFormattingPlugin(textFormatting || {}),
     widthPlugin(),
     typeAheadPlugin(),
     unsupportedContentPlugin(),
     editorDisabledPlugin(),
     gapCursorPlugin(),
-    gridPlugin(),
+    gridPlugin({ shouldCalcBreakoutGridLines: isFullPage }),
     submitEditorPlugin(),
     fakeTextCursorPlugin(),
     floatingToolbarPlugin(),
   ];
+}
+
+function allowScrollGutter(
+  props: EditorProps,
+): ((view: EditorView) => HTMLElement | null) | undefined {
+  const { appearance } = props;
+  if (fullPageCheck(appearance)) {
+    // Full Page appearance uses a scrollable div wrapper
+    return () => document.querySelector('.fabric-editor-popup-scroll-parent');
+  }
+  if (appearance === 'mobile') {
+    // Mobile appearance uses body scrolling for improved performance on low powered devices.
+    return () => document.body;
+  }
+  return undefined;
 }
 
 /**
@@ -83,16 +105,21 @@ export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
  */
 export default function createPluginsList(
   props: EditorProps,
+  prevProps?: EditorProps,
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
 ): EditorPlugin[] {
+  const isMobile = props.appearance === 'mobile';
+  const isFullPage = fullPageCheck(props.appearance);
   const plugins = getDefaultPluginsList(props);
 
   if (props.allowAnalyticsGASV3) {
     plugins.push(analyticsPlugin(createAnalyticsEvent));
   }
 
-  if (props.allowBreakout && isFullPage(props.appearance)) {
-    plugins.push(breakoutPlugin());
+  if (props.allowBreakout && isFullPage) {
+    plugins.push(
+      breakoutPlugin({ allowBreakoutButton: props.appearance === 'full-page' }),
+    );
   }
 
   if (props.allowTextAlignment) {
@@ -116,7 +143,20 @@ export default function createPluginsList(
   }
 
   if (props.media || props.mediaProvider) {
-    plugins.push(mediaPlugin(props.media, props.appearance));
+    plugins.push(
+      mediaPlugin(props.media, {
+        allowLazyLoading: !isMobile,
+        allowBreakoutSnapPoints: isFullPage,
+        allowAdvancedToolBarOptions: isFullPage,
+        allowDropzoneDropLine: isFullPage,
+        allowMediaSingleEditable: !isMobile,
+        allowRemoteDimensionsFetch: !isMobile,
+        // This is a wild one. I didnt quite understand what the code was doing
+        // so a bit of guess for now.
+        allowMarkingUploadsAsIncomplete: isMobile,
+        fullWidthEnabled: props.appearance === 'full-width',
+      }),
+    );
   }
 
   if (props.allowCodeBlocks) {
@@ -126,20 +166,41 @@ export default function createPluginsList(
 
   if (props.mentionProvider) {
     plugins.push(
-      mentionsPlugin(
+      mentionsPlugin({
         createAnalyticsEvent,
-        props.sanitizePrivateContent,
-        props.mentionInsertDisplayName,
-      ),
+        sanitizePrivateContent: props.sanitizePrivateContent,
+        mentionInsertDisplayName: props.mentionInsertDisplayName,
+        useInlineWrapper: isMobile,
+        allowZeroWidthSpaceAfter: !isMobile,
+      }),
     );
   }
 
   if (props.emojiProvider) {
-    plugins.push(emojiPlugin(createAnalyticsEvent));
+    plugins.push(
+      emojiPlugin({
+        createAnalyticsEvent,
+        useInlineWrapper: isMobile,
+        allowZeroWidthSpaceAfter: !isMobile,
+      }),
+    );
   }
 
   if (props.allowTables) {
-    plugins.push(tablesPlugin(props.appearance === 'full-width'));
+    const tableOptions =
+      !props.allowTables || typeof props.allowTables === 'boolean'
+        ? {}
+        : props.allowTables;
+    plugins.push(
+      tablesPlugin({
+        tableOptions,
+        breakoutEnabled: props.appearance === 'full-page',
+        allowContextualMenu: !isMobile,
+        fullWidthEnabled: props.appearance === 'full-width',
+        wasFullWidthEnabled: prevProps && prevProps.appearance === 'full-width',
+        dynamicSizingEnabled: props.allowDynamicTextSizing,
+      }),
+    );
   }
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
@@ -233,7 +294,13 @@ export default function createPluginsList(
       typeof props.allowStatus === 'object'
         ? props.allowStatus.menuDisabled
         : false;
-    plugins.push(statusPlugin({ menuDisabled: statusMenuDisabled }));
+    plugins.push(
+      statusPlugin({
+        menuDisabled: statusMenuDisabled,
+        useInlineWrapper: isMobile,
+        allowZeroWidthSpaceAfter: !isMobile,
+      }),
+    );
   }
 
   if (props.allowIndentation) {
@@ -250,7 +317,7 @@ export default function createPluginsList(
     }),
   );
 
-  if (props.appearance !== 'mobile') {
+  if (!isMobile) {
     plugins.push(quickInsertPlugin());
   }
 

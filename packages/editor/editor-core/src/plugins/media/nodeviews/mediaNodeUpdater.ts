@@ -78,7 +78,8 @@ export class MediaNodeUpdater {
 
   async getRemoteDimensions(): Promise<false | RemoteDimensions> {
     const mediaProvider = await this.props.mediaProvider;
-    const { firstChild } = this.props.node;
+    const { node, mediaPluginOptions } = this.props;
+    const { firstChild } = node;
     if (!mediaProvider || !firstChild) {
       return false;
     }
@@ -94,7 +95,7 @@ export class MediaNodeUpdater {
     }
 
     // can't fetch remote dimensions on mobile, so we'll default them
-    if (this.props.editorAppearance === 'mobile') {
+    if (mediaPluginOptions && !mediaPluginOptions.allowRemoteDimensionsFetch) {
       return {
         id,
         height: DEFAULT_IMAGE_HEIGHT,

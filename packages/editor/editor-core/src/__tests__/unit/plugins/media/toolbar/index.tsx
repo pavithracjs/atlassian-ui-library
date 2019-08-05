@@ -129,7 +129,7 @@ describe('media', () => {
       const { editorView } = editor(docWithMediaSingle);
 
       const toolbar = floatingToolbar(editorView.state, intl, {
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(11);
@@ -140,7 +140,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(8);
@@ -152,7 +152,7 @@ describe('media', () => {
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
         allowAnnotation: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(9);
@@ -165,7 +165,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'comment',
+        allowAdvancedToolBarOptions: false,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -183,7 +183,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -201,7 +201,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -212,7 +212,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -225,7 +225,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       expect(toolbar).toBeDefined();
       expect(toolbar!.items.length).toEqual(1);
@@ -252,7 +252,7 @@ describe('media', () => {
 
       const toolbar = floatingToolbar(editorView.state, intl, {
         allowResizing: true,
-        appearance: 'full-page',
+        allowAdvancedToolBarOptions: true,
       });
       const button = toolbar!.items.find(
         item => item.type === 'button' && item.title === alignLeftTitle,
@@ -303,7 +303,7 @@ describe('media', () => {
         const toolbar = floatingToolbar(editorView.state, intl, {
           allowResizing: true,
           allowAnnotation: true,
-          appearance: 'full-page',
+          allowAdvancedToolBarOptions: true,
         });
 
         const annotateToolbarComponent = toolbar!.items.find(

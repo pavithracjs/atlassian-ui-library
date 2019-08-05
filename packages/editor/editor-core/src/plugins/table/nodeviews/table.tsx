@@ -147,9 +147,7 @@ export default class TableView extends ReactNodeView {
     const { view } = this;
     const elemOrWrapper = closestElement(
       target,
-      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
-        ClassName.TABLE_CELL_NODE_WRAPPER
-      }`,
+      `.${ClassName.TABLE_HEADER_CELL}, .${ClassName.TABLE_CELL}`,
     );
     const { minWidth } = contentWidth(target, target);
 
@@ -183,9 +181,7 @@ export default class TableView extends ReactNodeView {
     }
     const container = closestElement(
       target,
-      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
-        ClassName.TABLE_CELL_NODE_WRAPPER
-      }`,
+      `.${ClassName.TABLE_HEADER_CELL}, .${ClassName.TABLE_CELL}`,
     ) as HTMLTableElement;
     if (!container) {
       return;

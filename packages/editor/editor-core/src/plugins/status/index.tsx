@@ -14,7 +14,13 @@ import { keymapPlugin } from './keymap';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { IconStatus } from '../quick-insert/assets';
 
-const baseStatusPlugin = (): EditorPlugin => ({
+export interface StatusPluginOptions {
+  menuDisabled: boolean;
+  useInlineWrapper?: boolean;
+  allowZeroWidthSpaceAfter?: boolean;
+}
+
+const baseStatusPlugin = (options?: StatusPluginOptions): EditorPlugin => ({
   nodes() {
     return [{ name: 'status', node: status }];
   },
@@ -23,7 +29,8 @@ const baseStatusPlugin = (): EditorPlugin => ({
     return [
       {
         name: 'status',
-        plugin: createStatusPlugin,
+        plugin: ({ dispatch, portalProviderAPI }) =>
+          createStatusPlugin(dispatch, portalProviderAPI, options),
       },
       { name: 'statusKeymap', plugin: keymapPlugin },
     ];
@@ -84,13 +91,9 @@ const baseStatusPlugin = (): EditorPlugin => ({
   },
 });
 
-export interface StatusOptions {
-  menuDisabled: boolean;
-}
-
 const decorateWithPluginOptions = (
   plugin: EditorPlugin,
-  options: StatusOptions,
+  options: StatusPluginOptions,
 ): EditorPlugin => {
   if (options.menuDisabled === true) {
     return plugin;
@@ -110,7 +113,7 @@ const decorateWithPluginOptions = (
   return plugin;
 };
 
-const statusPlugin = (options: StatusOptions): EditorPlugin =>
-  decorateWithPluginOptions(baseStatusPlugin(), options);
+const statusPlugin = (options: StatusPluginOptions): EditorPlugin =>
+  decorateWithPluginOptions(baseStatusPlugin(options), options);
 
 export default statusPlugin;

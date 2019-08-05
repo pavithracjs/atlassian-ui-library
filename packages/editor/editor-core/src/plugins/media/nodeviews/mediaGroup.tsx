@@ -18,7 +18,6 @@ import {
   pluginKey as editorDisabledPluginKey,
   EditorDisabledPluginState,
 } from '../../editor-disabled';
-import { EditorAppearance } from '../../../types';
 
 export interface Props {
   children?: React.ReactNode;
@@ -33,7 +32,7 @@ export type MediaGroupProps = {
   getPos: () => number;
   selected: number | null;
   disabled?: boolean;
-  editorAppearance: EditorAppearance;
+  allowLazyLoading?: boolean;
 };
 
 export interface MediaGroupState {
@@ -115,7 +114,7 @@ export default class MediaGroup extends React.Component<
       return {
         identifier,
         selectable: true,
-        isLazy: this.props.editorAppearance !== 'mobile',
+        isLazy: this.props.allowLazyLoading,
         selected: this.props.selected === nodePos,
         onClick: () => {
           setNodeSelection(this.props.view, nodePos);
@@ -146,12 +145,12 @@ export default class MediaGroup extends React.Component<
 }
 
 interface MediaGroupNodeViewProps {
-  editorAppearance: any;
+  allowLazyLoading?: boolean;
 }
 
 class MediaGroupNodeView extends ReactNodeView<MediaGroupNodeViewProps> {
-  render(_props: any, forwardRef: ForwardRef) {
-    const { editorAppearance } = this.reactComponentProps;
+  render(props: MediaGroupNodeViewProps, forwardRef: ForwardRef) {
+    const { allowLazyLoading } = props;
     return (
       <WithPluginState
         editorView={this.view}
@@ -176,7 +175,7 @@ class MediaGroupNodeView extends ReactNodeView<MediaGroupNodeViewProps> {
               forwardRef={forwardRef}
               selected={isSelected ? $anchor.pos : null}
               disabled={(editorDisabledPlugin || {}).editorDisabled}
-              editorAppearance={editorAppearance}
+              allowLazyLoading={allowLazyLoading}
             />
           );
         }}
@@ -187,9 +186,9 @@ class MediaGroupNodeView extends ReactNodeView<MediaGroupNodeViewProps> {
 
 export const ReactMediaGroupNode = (
   portalProviderAPI: PortalProviderAPI,
-  editorAppearance?: EditorAppearance,
+  allowLazyLoading?: boolean,
 ) => (node: PMNode, view: EditorView, getPos: () => number): NodeView => {
   return new MediaGroupNodeView(node, view, getPos, portalProviderAPI, {
-    editorAppearance,
+    allowLazyLoading,
   }).init();
 };

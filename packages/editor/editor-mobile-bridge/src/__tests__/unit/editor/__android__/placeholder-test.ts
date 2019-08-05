@@ -19,7 +19,6 @@ describe('placeholder on mobile', () => {
   const editor = (doc: any): EditorViewWithComposition => {
     const { editorView } = createEditor({
       doc,
-      editorPlugins: [],
       editorProps: {
         placeholder: 'potato',
         analyticsHandler: () => {},
