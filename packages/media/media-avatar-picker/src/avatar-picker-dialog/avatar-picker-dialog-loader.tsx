@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { ReactNode } from 'react';
 import { ModalSpinner } from '@atlaskit/media-ui';
 
 import { AvatarPickerDialog } from '.';
@@ -9,8 +9,12 @@ interface AsyncAvatarPickerDialogState {
   AvatarPickerDialog?: typeof AvatarPickerDialog;
 }
 
+export type AsyncAvatarPickerDialogProps = AvatarPickerDialogProps & {
+  placeholder?: ReactNode;
+};
+
 export default class AsyncAvatarPickerDialog extends React.PureComponent<
-  AvatarPickerDialogProps & AsyncAvatarPickerDialogState,
+  AsyncAvatarPickerDialogProps,
   AsyncAvatarPickerDialogState
 > {
   static displayName = 'AsyncAvatarPickerDialog';
@@ -32,6 +36,11 @@ export default class AsyncAvatarPickerDialog extends React.PureComponent<
 
   render() {
     if (!this.state.AvatarPickerDialog) {
+      const { placeholder } = this.props;
+      if (placeholder) {
+        return placeholder;
+      }
+
       return (
         <ModalSpinner
           blankedColor="rgba(255, 255, 255, 0.53)"

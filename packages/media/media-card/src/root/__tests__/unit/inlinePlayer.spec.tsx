@@ -107,8 +107,6 @@ describe('<InlinePlayer />', () => {
     });
   });
 
-  it('should use default dimensions', () => {});
-
   it('should set width according to dimensions in the wrapper element', async () => {
     const { component } = setup({
       dimensions: {

@@ -105,6 +105,7 @@ describe('MediaEditor TimerFactory', () => {
   it('should ignore stop for not started', () => {
     const id = timerFactory.createTimer();
     timerFactory.stopTimer(id);
+    expect(timerCallbacks[1]).toBeUndefined();
   });
 
   it('should ignore stop for invalid id', () => {

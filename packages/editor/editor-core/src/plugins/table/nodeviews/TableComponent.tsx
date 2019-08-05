@@ -2,6 +2,7 @@ import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
+import { isTableSelected } from 'prosemirror-utils';
 import {
   browser,
   calcTableWidth,
@@ -207,6 +208,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         className={classnames(ClassName.TABLE_CONTAINER, {
           [ClassName.WITH_CONTROLS]: tableActive,
           [ClassName.HOVERED_DELETE_BUTTON]: isInDanger,
+          [ClassName.TABLE_SELECTED]: isTableSelected(view.state.selection),
           'less-padding': width < akEditorMobileBreakoutPoint,
         })}
         data-number-column={node.attrs.isNumberColumnEnabled}

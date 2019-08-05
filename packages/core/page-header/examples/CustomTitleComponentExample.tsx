@@ -1,4 +1,4 @@
-import React, { RefObject, Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
@@ -67,9 +67,7 @@ const CustomTitleComponent = () => {
   return (
     <InlineEdit
       readView={() => <ReadView>Editable title</ReadView>}
-      editView={({ ref, ...rest }: { ref: RefObject<Component> }) => (
-        <EditView {...rest} innerRef={ref} />
-      )}
+      editView={(props, ref) => <EditView {...props} innerRef={ref} />}
       defaultValue="Editable title"
       onConfirm={() => {}}
     />

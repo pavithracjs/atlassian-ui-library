@@ -5,10 +5,8 @@ import { ssr } from '@atlaskit/ssr';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-const global: any = { console: { error: () => {} } };
-jest.spyOn(global.console, 'error').mockImplementation(() => {});
-
 beforeEach(() => {
+  jest.spyOn(global.console, 'error').mockImplementation(() => {});
   jest.setTimeout(10000);
 });
 
@@ -37,7 +35,6 @@ test('should ssr then hydrate drawer correctly', async () => {
           s === 'style'
         ),
     );
-
-    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+    expect(mockCalls.length).toBe(0);
   });
 });
