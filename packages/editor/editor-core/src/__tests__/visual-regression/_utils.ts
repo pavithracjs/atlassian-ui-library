@@ -30,34 +30,6 @@ export const dynamicTextViewportSizes = [
   { width: 1024, height: 4000 },
 ];
 
-// TODO: remove this gotoExample step
-export const initEditor = async (page: any, appearance: string) => {
-  const url = getExampleUrl(
-    'editor',
-    'editor-core',
-    appearance,
-    // @ts-ignore
-    global.__BASEURL__,
-  );
-  await navigateToUrl(page, url);
-  if (appearance === 'comment') {
-    const placeholder = 'input[placeholder="What do you want to say?"]';
-    await page.waitForSelector(placeholder);
-    await page.click(placeholder);
-  }
-
-  await page.setViewport({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
-  await page.waitForSelector(editorSelector);
-  await page.click(editorSelector);
-  await page.addStyleTag({
-    content: `
-      .json-output { display: none; }
-      .ProseMirror { caret-color: transparent; }
-      .ProseMirror-gapcursor span::after { animation-play-state: paused !important; }
-    `,
-  });
-};
-
 export enum Device {
   Default = 'Default',
   LaptopHiDPI = 'LaptopHiDPI',
