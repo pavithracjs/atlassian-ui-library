@@ -73,7 +73,7 @@ const GoToItem = (gotoItemProps: GoToItemProps) => {
     incomingView: navigationViewController.state.incomingView,
   };
 
-  const props = { ...rest, after, spinnerDelay };
+  const props = { ...rest, after };
 
   return (
     <ConnectedItem onClick={handleClick} {...props} {...propsForAfterComp} />
