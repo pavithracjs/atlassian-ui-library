@@ -5,11 +5,11 @@ import Button from '@atlaskit/button';
 import TeamMentionHighlight, {
   Props,
 } from '../../../components/MentionSpotlight';
-import * as SpotlightAnalytics from '../../../util/analytics';
+import * as TeamMentionHighlightAnalytics from '../../../util/analytics';
 
 function render(props: Partial<Props>) {
   return mountWithIntl(
-    <MentionSpotlight
+    <TeamMentionHighlight
       createTeamLink="somelink"
       onClose={() => noop}
       {...props}
@@ -20,8 +20,8 @@ function render(props: Partial<Props>) {
 let mockRegisterRender = jest.fn();
 let mockRegisterCreateLinkClick = jest.fn();
 let mockGetSeenCount = jest.fn();
-let mockFireAnalyticsSpotlightMentionEvent = jest.fn();
-let mockIsSpotlightEnabled = true;
+let mockFireAnalyticsHighlightMentionEvent = jest.fn();
+let mockIsTeamMentionHighlightEnabled = true;
 
 mockGetSeenCount.mockReturnValue('testValue');
 
@@ -33,7 +33,7 @@ jest.mock(
       registerRender: () => mockRegisterRender(),
       registerCreateLinkClick: () => mockRegisterCreateLinkClick(),
       getSeenCount: () => mockGetSeenCount(),
-      isSpotlightEnabled: () => mockIsSpotlightEnabled,
+      isHighlightEnabled: () => mockIsTeamMentionHighlightEnabled,
     },
   }),
 );
@@ -44,23 +44,23 @@ jest.mock('../../../util/analytics', () => {
   return {
     Actions: mockActualAnalytics.Actions,
     ComponentNames: mockActualAnalytics.ComponentNames,
-    fireAnalyticsSpotlightMentionEvent: () =>
-      mockFireAnalyticsSpotlightMentionEvent,
+    fireAnalyticsTeamMentionHighlightEvent: () =>
+      mockFireAnalyticsHighlightMentionEvent,
   };
 });
 
-describe('MentionSpotlight', () => {
+describe('MentionHighlight', () => {
   beforeEach(() => {
-    mockIsSpotlightEnabled = true;
+    mockIsTeamMentionHighlightEnabled = true;
     mockRegisterRender.mockReset();
   });
 
   // Because we manually bind events, we need to fire events and test outside of React
   it('Should register closed on button click', () => {
     const onClose = jest.fn();
-    const spotlight = render({ onClose: onClose });
+    const highlight = render({ onClose: onClose });
 
-    const closeButton = spotlight.find('button').getDOMNode();
+    const closeButton = highlight.find('button').getDOMNode();
 
     // make sure the click event is able to bubble
     const event = new Event('click', {
@@ -78,19 +78,17 @@ describe('MentionSpotlight', () => {
     expect(mockRegisterRender).toHaveBeenCalled();
   });
 
-  it('should not call registerRender if Spotlight Controller asked not to render spotlight', () => {
-    mockIsSpotlightEnabled = false;
+  it('should not call registerRender if Highlight Controller asked not to render highlight', () => {
+    mockIsTeamMentionHighlightEnabled = false;
     render({});
     expect(mockRegisterRender).toHaveBeenCalledTimes(0);
   });
 
   // Because we manually bind events, we need to fire events and test outside of React
   it('Should register link on click', () => {
-    const spotlight = render({});
-    const link = spotlight.find('a').getDOMNode();
+    const highlight = render({});
+    const link = highlight.find('a').getDOMNode();
     mockRegisterCreateLinkClick.mockReset();
-
-    // mockRegisterCreateLinkClick = jest.fn();
 
     // make sure the click event is able to bubble
     const event = new Event('click', {
@@ -103,11 +101,11 @@ describe('MentionSpotlight', () => {
     expect(mockRegisterCreateLinkClick).toHaveBeenCalled();
   });
 
-  it('should not show the highlight if the spotlight has been closed by the user', () => {
-    const spotlight = render({ onClose: jest.fn() });
-    expect(spotlight.html()).not.toBeNull();
+  it('should not show the highlight if the highlight has been closed by the user', () => {
+    const highlight = render({ onClose: jest.fn() });
+    expect(highlight.html()).not.toBeNull();
 
-    const closeButton = spotlight.find('button').getDOMNode();
+    const closeButton = highlight.find('button').getDOMNode();
     // make sure the click event is able to bubble
     const event = new Event('click', {
       bubbles: true,
@@ -116,34 +114,34 @@ describe('MentionSpotlight', () => {
     });
     closeButton.dispatchEvent(event);
 
-    expect(spotlight.html()).toBeNull();
+    expect(highlight.html()).toBeNull();
   });
 
-  it('should send analytics data if the spotlight has been closed by the user', () => {
-    const spotlight = render({ onClose: jest.fn() });
-    expect(spotlight.html()).not.toBeNull();
-    spotlight.find(Button).simulate('click');
-    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
-      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
-      SpotlightAnalytics.Actions.CLOSED,
-      SpotlightAnalytics.ComponentNames.MENTION,
+  it('should send analytics data if the highlight has been closed by the user', () => {
+    const highlight = render({ onClose: jest.fn() });
+    expect(highlight.html()).not.toBeNull();
+    highlight.find(Button).simulate('click');
+    expect(mockFireAnalyticsHighlightMentionEvent).toHaveBeenCalledWith(
+      TeamMentionHighlightAnalytics.ComponentNames.TEAM_MENTION_HIGHLIGHT,
+      TeamMentionHighlightAnalytics.Actions.CLOSED,
+      TeamMentionHighlightAnalytics.ComponentNames.MENTION,
       'closeButton',
     );
   });
 
-  it('should send analytics data if user clicks on spotlight link', () => {
-    const spotlight = render({ onClose: jest.fn() });
-    expect(spotlight.html()).not.toBeNull();
-    spotlight.find('a').simulate('click');
-    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
-      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
-      SpotlightAnalytics.Actions.CLICKED,
-      SpotlightAnalytics.ComponentNames.MENTION,
+  it('should send analytics data if user clicks on highlight link', () => {
+    const highlight = render({ onClose: jest.fn() });
+    expect(highlight.html()).not.toBeNull();
+    highlight.find('a').simulate('click');
+    expect(mockFireAnalyticsHighlightMentionEvent).toHaveBeenCalledWith(
+      TeamMentionHighlightAnalytics.ComponentNames.TEAM_MENTION_HIGHLIGHT,
+      TeamMentionHighlightAnalytics.Actions.CLICKED,
+      TeamMentionHighlightAnalytics.ComponentNames.MENTION,
       'createTeamLink',
     );
   });
 
-  it('should send analytics data if the spotlight has been displayed', () => {
+  it('should send analytics data if the highlight has been displayed', () => {
     mockRegisterRender = jest.fn();
     mockGetSeenCount = jest.fn();
     render({ onClose: jest.fn() });
@@ -151,40 +149,40 @@ describe('MentionSpotlight', () => {
     expect(mockRegisterRender).toHaveBeenCalledTimes(1);
     expect(mockGetSeenCount).toHaveBeenCalledTimes(1);
 
-    expect(mockFireAnalyticsSpotlightMentionEvent).toHaveBeenCalledWith(
-      SpotlightAnalytics.ComponentNames.SPOTLIGHT,
-      SpotlightAnalytics.Actions.VIEWED,
-      SpotlightAnalytics.ComponentNames.MENTION,
+    expect(mockFireAnalyticsHighlightMentionEvent).toHaveBeenCalledWith(
+      TeamMentionHighlightAnalytics.ComponentNames.TEAM_MENTION_HIGHLIGHT,
+      TeamMentionHighlightAnalytics.Actions.VIEWED,
+      TeamMentionHighlightAnalytics.ComponentNames.MENTION,
       undefined,
       'testValue',
     );
   });
 
-  it('should not show spotlight after re-render if the Spotlight Controller asked not to render it at the first mount', () => {
-    mockIsSpotlightEnabled = false;
-    const spotlight = render({});
+  it('should not show highlight after re-render if the Highlight Controller asked not to render it at the first mount', () => {
+    mockIsTeamMentionHighlightEnabled = false;
+    const highlight = render({});
 
-    expect(spotlight.html()).toBeNull();
+    expect(highlight.html()).toBeNull();
 
     // after first render, ask controller to show it
-    mockIsSpotlightEnabled = true;
+    mockIsTeamMentionHighlightEnabled = true;
 
-    //should still hide the spotlight after re-render
-    spotlight.render();
-    expect(spotlight.html()).toBeNull();
+    //should still hide the highlight after re-render
+    highlight.render();
+    expect(highlight.html()).toBeNull();
   });
 
-  it('should show spotlight after re-render if the Spotlight Controller asked to render it at the first mount', () => {
-    const spotlight = render({});
+  it('should show highlight after re-render if the Highlight Controller asked to render it at the first mount', () => {
+    const highlight = render({});
 
     // Should render in the first time
-    expect(spotlight.html()).not.toBeNull();
+    expect(highlight.html()).not.toBeNull();
 
     //after first render, ask controller to hide it
-    mockIsSpotlightEnabled = false;
+    mockIsTeamMentionHighlightEnabled = false;
 
-    //should still show the spotlight after re-render
-    spotlight.render();
-    expect(spotlight.html()).not.toBeNull();
+    //should still show the highlight after re-render
+    highlight.render();
+    expect(highlight.html()).not.toBeNull();
   });
 });
