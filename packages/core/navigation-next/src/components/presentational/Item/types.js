@@ -55,7 +55,7 @@ export type ItemBaseProps = {|
   /** Whether this Item should display as being selected. */
   isSelected: boolean,
   /** A handler which will be called when the Item is clicked. */
-  onClick?: (SyntheticMouseEvent<*>) => void,
+  onClick?: (SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>) => void,
   /** How tight the spacing between the elements inside the Item should be. */
   spacing: Spacing,
   /** A function which will be passed the default styles object for the Item as
