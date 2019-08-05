@@ -13,6 +13,7 @@ import {
   JiraServiceDeskIcon,
   JiraCoreIcon,
   OpsGenieIcon,
+  StatuspageIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
 import {
@@ -176,6 +177,11 @@ export const AVAILABLE_PRODUCT_DATA_MAP: {
     Icon: createIcon(OpsGenieIcon, { size: 'small' }),
     href: 'https://app.opsgenie.com',
   },
+  [WorklensProductType.STATUSPAGE]: {
+    label: 'Statuspage',
+    Icon: createIcon(StatuspageIcon, { size: 'small' }),
+    href: '#',
+  },
 };
 
 const PRODUCT_ORDER = [
@@ -183,8 +189,9 @@ const PRODUCT_ORDER = [
   WorklensProductType.JIRA_SERVICE_DESK,
   WorklensProductType.JIRA_BUSINESS,
   WorklensProductType.CONFLUENCE,
-  WorklensProductType.BITBUCKET,
   WorklensProductType.OPSGENIE,
+  WorklensProductType.BITBUCKET,
+  WorklensProductType.STATUSPAGE,
 ];
 
 interface ConnectedSite {
