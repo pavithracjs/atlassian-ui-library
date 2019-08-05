@@ -16,10 +16,10 @@ import {
 } from '../../util/analytics';
 
 import {
-  SpotlightTitle,
-  SpotlightCloseTooltip,
-  SpotlightDescription,
-  SpotlightDescriptionLink,
+  TeamMentionHighlightTitle,
+  TeamMentionHighlightCloseTooltip,
+  TeamMentionHighlightDescription,
+  TeamMentionHighlightDescriptionLink,
 } from '../../util/i18n';
 import * as Styled from './styles';
 
@@ -157,16 +157,16 @@ export class TeamMentionHighlightInternal extends React.Component<
             <Styled.Section>
               <Styled.Heading>
                 <Styled.Title>
-                  <SpotlightTitle />
+                  <TeamMentionHighlightTitle />
                 </Styled.Title>
               </Styled.Heading>
               <Styled.Body>
-                <SpotlightDescription>
+                <TeamMentionHighlightDescription>
                   {description => (
                     <div>
                       {description}
                       <span ref={this.elCreateTeamWrapper}>
-                        <SpotlightDescriptionLink>
+                        <TeamMentionHighlightDescriptionLink>
                           {linkText => (
                             <a href={createTeamLink} target="_blank">
                               {' '}
@@ -174,16 +174,16 @@ export class TeamMentionHighlightInternal extends React.Component<
                             </a>
                             // on click fired by preventClickOnCard, not here
                           )}
-                        </SpotlightDescriptionLink>
+                        </TeamMentionHighlightDescriptionLink>
                       </span>
                     </div>
                   )}
-                </SpotlightDescription>
+                </TeamMentionHighlightDescription>
               </Styled.Body>
             </Styled.Section>
             <Styled.Actions>
               <div ref={this.elCloseWrapper}>
-                <SpotlightCloseTooltip>
+                <TeamMentionHighlightCloseTooltip>
                   {tooltip => (
                     <Tooltip content={tooltip} position="bottom">
                       <Button
@@ -196,7 +196,7 @@ export class TeamMentionHighlightInternal extends React.Component<
                       />
                     </Tooltip>
                   )}
-                </SpotlightCloseTooltip>
+                </TeamMentionHighlightCloseTooltip>
               </div>
             </Styled.Actions>
           </Styled.Content>
