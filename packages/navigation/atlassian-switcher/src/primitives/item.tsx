@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Item, { itemThemeNamespace } from '@atlaskit/item';
-import { colors, gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme';
 import {
   createAndFireNavigationEvent,
   withAnalyticsEvents,
@@ -18,9 +18,6 @@ const itemTheme = {
       top: gridSize(),
       right: gridSize(),
     },
-  },
-  hover: {
-    background: colors.N20A,
   },
 };
 
@@ -39,9 +36,7 @@ class SwitcherItem extends React.Component<SwitcherItemProps> {
     return (
       <FadeIn>
         <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
-          <React.Fragment>
-            <Item elemBefore={icon} description={description} {...rest} />
-          </React.Fragment>
+          <Item elemBefore={icon} description={description} {...rest} />
         </ThemeProvider>
       </FadeIn>
     );

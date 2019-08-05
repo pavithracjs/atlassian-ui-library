@@ -15,7 +15,6 @@ import {
   OpsGenieIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
-import { SwitcherChildItem } from '../primitives/item-with-dropdown';
 import {
   LicenseInformationResponse,
   ProductLicenseInformation,
@@ -29,11 +28,9 @@ import {
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
 import PeopleLogo from './assets/people';
-import { CustomLink, RecentContainer } from '../types';
+import { CustomLink, RecentContainer, SwitcherChildItem } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
-
-export const MAX_PRODUCT_COUNT = 5;
 
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',

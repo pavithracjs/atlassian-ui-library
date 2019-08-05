@@ -174,11 +174,6 @@ describe('map-results-to-switcher-props', () => {
           childItems: [],
         },
       ]);
-
-      // Expand link is rendered when there are more items.
-      expect(props.expandLink).toEqual(
-        'https://start.atlassian.com?utm_source=switcher',
-      );
     });
 
     it('shows descriptions for products that belong to multiple sites', () => {
@@ -210,9 +205,6 @@ describe('map-results-to-switcher-props', () => {
         { label: 'Bitbucket', childItems: [] },
         { description: 'site20', label: 'Opsgenie', childItems: [] },
       ]);
-
-      // Expand link is not rendered when the full list of products is displayed.
-      expect(props.expandLink).toBeUndefined();
     });
 
     it('does not show descriptions for products that belong to the one site', () => {
@@ -241,9 +233,6 @@ describe('map-results-to-switcher-props', () => {
         { label: 'Confluence', childItems: [] },
         { label: 'Bitbucket', childItems: [] },
       ]);
-
-      // Expand link is not rendered when the full list of products is displayed.
-      expect(props.expandLink).toBeUndefined();
     });
 
     it('renders opsgenie and bitbucket correctly', () => {

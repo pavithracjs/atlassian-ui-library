@@ -10,7 +10,6 @@ import {
   Section,
   ManageButton,
   Skeleton,
-  ExpandLink,
 } from '../primitives';
 import { SwitcherItemType, RecentItemType } from '../utils/links';
 
@@ -48,7 +47,6 @@ type SwitcherProps = {
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
   manageLink?: string;
-  expandLink?: string;
 };
 
 const getAnalyticsContext = (itemsCount: number) => ({
@@ -118,7 +116,6 @@ export default class Switcher extends React.Component<SwitcherProps> {
   render() {
     const {
       messages,
-      expandLink,
       licensedProductLinks,
       suggestedProductLinks,
       fixedLinks,
@@ -168,16 +165,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
           )}
           <Section
             sectionId="switchTo"
-            title={
-              expandLink ? (
-                <ExpandLink
-                  href={expandLink}
-                  title={<FormattedMessage {...messages.switchTo} />}
-                />
-              ) : (
-                <FormattedMessage {...messages.switchTo} />
-              )
-            }
+            title={<FormattedMessage {...messages.switchTo} />}
           >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext

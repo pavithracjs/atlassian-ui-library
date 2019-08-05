@@ -146,3 +146,8 @@ export interface RecommendationItem {
 export type RecommendationsFeatureFlags = {
   [key: string]: string | boolean;
 };
+
+export interface SwitcherChildItem {
+  href: string;
+  label: string;
+}
