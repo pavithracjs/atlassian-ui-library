@@ -1,5 +1,53 @@
 # @atlaskit/atlassian-switcher
 
+## 3.14.0
+
+### Minor Changes
+
+- [minor][d4e8e68bf1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4e8e68bf1):
+
+  Added adminLinks to switcher viewed event, so we could know when we show try discover more links to users. Fixed suggestedProductLinks that used to be empty on mount due to race conditions"
+
+## 3.13.0
+
+### Minor Changes
+
+- [minor][43a5cd1e3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/43a5cd1e3c):
+
+  Adding isDiscoverMoreForEveryoneEnabled and onDiscoverMoreClicked props onto the Atlassian Switcher API
+
+## 3.12.0
+
+### Minor Changes
+
+- [minor][6c449d7c77](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c449d7c77):
+
+  Also made cloud ID optional in the prefetch trigger
+
+## 3.11.0
+
+### Minor Changes
+
+- [minor][f0eeeb4f8a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f0eeeb4f8a):
+
+  Cloud ID is now an optional props. When Cloud ID is not provided, sections like recent containers, admin links, etc will be skipped and not rendered
+
+## 3.10.0
+
+### Minor Changes
+
+- [minor][fee77d9245](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fee77d9245):
+
+  Added an optional parameter to allow an option to disable custom links in Jira and Confluence switcher
+
+## 3.9.0
+
+### Minor Changes
+
+- [minor][7bc30c4cce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bc30c4cce):
+
+  Added a new prop to disable recent containers
+
 ## 3.8.2
 
 - Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):

@@ -1,5 +1,45 @@
 # @atlaskit/mention
 
+## 18.11.4
+
+### Patch Changes
+
+- [patch][2f62d55150](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f62d55150):
+
+  The mention spotlight can take a context path, and fixing a bug with on-click for the create team link
+
+## 18.11.3
+
+### Patch Changes
+
+- [patch][c72cca2853](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c72cca2853):
+
+  Added analytics when user clicks the create team link
+
+## 18.11.2
+
+### Patch Changes
+
+- [patch][b4d2284e01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4d2284e01):
+
+  Added analytics on spotlight viewed.
+
+## 18.11.1
+
+### Patch Changes
+
+- [patch][23f9c8ff08](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/23f9c8ff08):
+
+  Added analytics on closing team mention spotlight
+
+## 18.11.0
+
+### Minor Changes
+
+- [minor][cda47d4480](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cda47d4480):
+
+  TEAMS-623 : Before this fix, when Spotlight was being rendered for the 5th time, it briefly appeared and then disappeared. This change fixes that.
+
 ## 18.10.0
 
 ### Minor Changes

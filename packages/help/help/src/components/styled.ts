@@ -27,5 +27,6 @@ export const ItemGroupTitle = styled.div`
   font-size: ${ItemGroupTitleSize}px;
   line-height: ${(gridSize() * 2) / ItemGroupTitleSize};
   font-weight: 600;
+  padding-bottom: ${gridSize()}px;
   ${truncate()}
 `;

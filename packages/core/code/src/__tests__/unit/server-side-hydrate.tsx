@@ -8,11 +8,15 @@ declare var console: any;
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate code correctly', async done => {
+test('should ssr then hydrate code correctly', async () => {
   const [example] = await getExamplesFor('code');
 
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
@@ -33,5 +37,4 @@ test.skip('should ssr then hydrate code correctly', async done => {
   );
 
   expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
-  done();
 });

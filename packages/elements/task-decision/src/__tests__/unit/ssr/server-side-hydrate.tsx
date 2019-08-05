@@ -2,7 +2,11 @@ import { ssr_hydrate } from '@atlaskit/elements-test-helpers';
 const SamplesPath = './samples';
 const ExamplesPath = '../../../../examples';
 
-describe.skip('server side rendering and hydration', () => {
+describe('server side rendering and hydration', () => {
+  beforeAll(() => {
+    jest.setTimeout(10000);
+  });
+
   beforeEach(() => {
     jest.spyOn(global.console, 'error');
   });

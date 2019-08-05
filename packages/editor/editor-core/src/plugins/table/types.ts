@@ -185,6 +185,7 @@ export const TableCssClassName = {
   HOVERED_CELL: `${tablePrefixSelector}-hovered-cell`,
   HOVERED_CELL_IN_DANGER: 'danger',
   HOVERED_CELL_ACTIVE: 'active',
+  HOVERED_DELETE_BUTTON: `${tablePrefixSelector}-hovered-delete-button`,
   WITH_CONTROLS: `${tablePrefixSelector}-with-controls`,
   RESIZING_PLUGIN: `${tablePrefixSelector}-resizing-plugin`,
   RESIZE_CURSOR: `${tablePrefixSelector}-resize-cursor`,
@@ -202,6 +203,7 @@ export const TableCssClassName = {
   // defined in ReactNodeView based on PM node name
   NODEVIEW_WRAPPER: 'tableView-content-wrap',
 
+  TABLE_SELECTED: `${tablePrefixSelector}-table__selected`,
   TABLE_CELL_NODE_WRAPPER: tableCellSelector,
   TABLE_HEADER_NODE_WRAPPER: tableHeaderSelector,
   CELL_NODEVIEW_WRAPPER: tableCellContentWrapperSelector,

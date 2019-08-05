@@ -84,6 +84,7 @@ export default md`
       title="Props can not be displayed for the time being."
       actions={[
         {
+          key: '1',
           href:
             'https://bitbucket.org/atlassian/atlaskit-mk-2/src/master/packages/elements/emoji/src/components/common/Emoji.tsx',
           text: 'Emoji Props',

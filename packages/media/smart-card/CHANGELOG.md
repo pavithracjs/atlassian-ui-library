@@ -1,5 +1,29 @@
 # @atlaskit/smart-card
 
+## 12.4.2
+
+### Patch Changes
+
+- [patch][77b09e36eb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77b09e36eb):
+
+  fix: provide the correct url for the edge proxy to api-private.atlassian.com
+
+## 12.4.1
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
+## 12.4.0
+
+### Minor Changes
+
+- [minor][b19bf68c22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b19bf68c22):
+
+  fix: when environment is not provided then default to using the edge proxy instead
+
 ## 12.3.5
 
 ### Patch Changes

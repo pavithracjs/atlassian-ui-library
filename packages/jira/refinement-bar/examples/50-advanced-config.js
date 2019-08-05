@@ -99,7 +99,7 @@ const FIELD_CONFIG = (function fieldConfig() {
     browser: {
       label: 'Browser',
       type: TextFilter,
-      note: 'The browser(s) in which this issue is reproducible (if any)',
+      note: 'The browser(s) in which this issue is reproducible.',
     },
     comment: {
       label: 'Comment',
@@ -108,22 +108,18 @@ const FIELD_CONFIG = (function fieldConfig() {
     description: {
       label: 'Description',
       type: TextFilter,
-      validateValue: ({ type, value }: *) => {
+      validate: ({ type, value }: *) => {
         const INVALID_FIRST_CHARS = ['*', '?'];
-        const defaultReturn = { message: null, isInvalid: false };
+        const defaultReturn = null;
 
         if (type === 'is_not_set') {
           return defaultReturn;
         }
         if (!value) {
-          return { message: 'Please provide some text.', isInvalid: true };
+          return 'Please provide some text.';
         }
         if (INVALID_FIRST_CHARS.includes(value.charAt(0))) {
-          return {
-            message:
-              "The '*' and '?' are not allowed as first character in a 'wildard' search.",
-            isInvalid: true,
-          };
+          return "The '*' and '?' are not allowed as first character in a 'wildard' search.";
         }
 
         return defaultReturn;
@@ -169,7 +165,7 @@ const FIELD_CONFIG = (function fieldConfig() {
     issueAssignee: {
       type: AvatarAsyncSelectFilter,
       label: 'Assignee',
-      cacheOptions: true,
+      defaultOptionsLabel: 'Recommended',
       defaultOptions: [
         {
           value: '__current-user',

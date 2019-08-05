@@ -11,6 +11,8 @@ import {
   FeatureMap,
   AvailableProductsResponse,
   RecommendationsFeatureFlags,
+  DiscoverMoreCallback,
+  TriggerXFlowCallback,
 } from '../types';
 import { ProviderResult } from '../providers/as-data-provider';
 import { AvailableProductsProvider } from '../providers/products-data-provider';
@@ -19,12 +21,13 @@ type ConfluenceSwitcherProps = {
   cloudId: string;
   messages: Messages;
   features: FeatureMap;
-  triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  triggerXFlow: TriggerXFlowCallback;
+  onDiscoverMoreClicked: DiscoverMoreCallback;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 };
 
 export default (props: ConfluenceSwitcherProps) => (
-  <CustomLinksProvider>
+  <CustomLinksProvider disableCustomLinks={props.features.disableCustomLinks}>
     {customLinks => (
       <AvailableProductsProvider
         isUserCentric={props.features.enableUserCentricProducts}
@@ -33,6 +36,7 @@ export default (props: ConfluenceSwitcherProps) => (
           <CommonDataProvider
             cloudId={props.cloudId}
             isUserCentric={props.features.enableUserCentricProducts}
+            disableRecentContainers={props.features.disableRecentContainers}
           >
             {providerResults => {
               const {

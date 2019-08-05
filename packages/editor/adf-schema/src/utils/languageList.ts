@@ -96,6 +96,7 @@ export const DEFAULT_LANGUAGES: Language[] = [
   { name: 'VisualBasic', alias: ['visualbasic', 'vb'] },
   { name: 'XML', alias: ['xml'] },
   { name: 'XQuery', alias: ['xquery', 'xqy', 'xq', 'xql', 'xqm'] },
+  { name: 'YAML', alias: ['yaml', 'yml'] },
 ];
 
 export function findMatchedLanguage(

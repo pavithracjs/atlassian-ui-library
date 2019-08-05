@@ -3,8 +3,9 @@ import React from 'react';
 import { fetchJson, postJson } from '../utils/fetch';
 import asDataProvider, {
   ProviderResult,
-  Status,
+  ResultComplete,
   ResultLoading,
+  Status,
 } from './as-data-provider';
 import {
   LicenseInformationResponse,
@@ -15,6 +16,7 @@ import {
   XFlowSettingsResponse,
 } from '../types';
 import { withCached } from '../utils/with-cached';
+import withHandleOptionalCloudId from './with-handle-optional-cloud-id';
 
 // Recent activity api
 const fetchRecentContainers = ({ cloudId }: WithCloudId) =>
@@ -22,9 +24,38 @@ const fetchRecentContainers = ({ cloudId }: WithCloudId) =>
     `/gateway/api/activity/api/client/recent/containers?cloudId=${cloudId}`,
   );
 
-export const RecentContainersProvider = asDataProvider(
+const RealRecentContainersProvider = asDataProvider(
   'recentContainers',
   fetchRecentContainers,
+);
+
+const emptyRecentContainers: ResultComplete<RecentContainersResponse> = {
+  status: Status.COMPLETE,
+  data: { data: [] },
+};
+
+export const RecentContainersProvider = withHandleOptionalCloudId(
+  ({
+    cloudId,
+    disableRecentContainers,
+    children,
+  }: {
+    disableRecentContainers?: boolean;
+    children: (
+      recentContainers: ProviderResult<RecentContainersResponse>,
+    ) => React.ReactNode;
+  } & WithCloudId) => {
+    if (disableRecentContainers) {
+      return <React.Fragment>{children(emptyRecentContainers)}</React.Fragment>;
+    }
+
+    return (
+      <RealRecentContainersProvider cloudId={cloudId}>
+        {children}
+      </RealRecentContainersProvider>
+    );
+  },
+  emptyRecentContainers.data,
 );
 
 // License information api
@@ -45,29 +76,35 @@ const unresolvedLicenseInformation: ResultLoading = {
   data: null,
 };
 
-export const LicenseInformationProvider = ({
-  cloudId,
-  isUserCentric,
-  children,
-}: {
-  cloudId: string;
-  isUserCentric: boolean;
-  children: (
-    licenseInformation: ProviderResult<LicenseInformationResponse>,
-  ) => React.ReactNode;
-}) => {
-  if (!isUserCentric) {
+export const LicenseInformationProvider = withHandleOptionalCloudId(
+  ({
+    cloudId,
+    isUserCentric,
+    children,
+  }: {
+    cloudId: string;
+    isUserCentric: boolean;
+    children: (
+      licenseInformation: ProviderResult<LicenseInformationResponse>,
+    ) => React.ReactNode;
+  }) => {
+    if (!isUserCentric) {
+      return (
+        <RealLicenseInformationProvider cloudId={cloudId}>
+          {children}
+        </RealLicenseInformationProvider>
+      );
+    }
+    // We should never be reading from this provider in user-centric mode, so here I model it as a provider that never resolves.
     return (
-      <RealLicenseInformationProvider cloudId={cloudId}>
-        {children}
-      </RealLicenseInformationProvider>
+      <React.Fragment>{children(unresolvedLicenseInformation)}</React.Fragment>
     );
-  }
-  // We should never be reading from this provider in user-centric mode, so here I model it as a provider that never resolves.
-  return (
-    <React.Fragment>{children(unresolvedLicenseInformation)}</React.Fragment>
-  );
-};
+  },
+  {
+    hostname: '',
+    products: {},
+  },
+);
 
 // Permissions api
 type FetchPermissionParamsType = WithCloudId & {
@@ -81,10 +118,9 @@ const fetchPermission = withCached(
     }).then(permission => permission.permitted),
 );
 
-export const UserPermissionProvider = asDataProvider(
-  'permission',
-  fetchPermission,
-  fetchPermission.cached,
+export const UserPermissionProvider = withHandleOptionalCloudId(
+  asDataProvider('permission', fetchPermission, fetchPermission.cached),
+  false,
 );
 
 // Xflow settings api
@@ -98,10 +134,13 @@ const fetchXflowSettings = withCached(({ cloudId }: WithCloudId) =>
   ),
 );
 
-export const XFlowSettingsProvider = asDataProvider(
-  'xflowSettings',
-  fetchXflowSettings,
-  fetchXflowSettings.cached,
+export const XFlowSettingsProvider = withHandleOptionalCloudId(
+  asDataProvider(
+    'xflowSettings',
+    fetchXflowSettings,
+    fetchXflowSettings.cached,
+  ),
+  false,
 );
 
 export const prefetchAll = ({ cloudId }: WithCloudId) => {

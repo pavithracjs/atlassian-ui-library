@@ -158,7 +158,7 @@ const HeaderButtonHover = () => `
 `;
 
 const HeaderButtonDanger = () => `
-  .danger .${ClassName.CONTROLS_BUTTON} {
+  .${ClassName.HOVERED_CELL_IN_DANGER} .${ClassName.CONTROLS_BUTTON} {
     background-color: ${tableToolbarDeleteColor};
     border-color: ${tableBorderDeleteColor};
     position: relative;
@@ -355,7 +355,7 @@ const columnControlsDecoration = `
         ${columnHeaderButtonSelected};
       }
 
-      &.danger .${ClassName.COLUMN_CONTROLS_DECORATIONS}::after {
+      &.${ClassName.HOVERED_CELL_IN_DANGER} .${ClassName.COLUMN_CONTROLS_DECORATIONS}::after {
         background-color: ${tableToolbarDeleteColor};
         border: 1px solid ${tableBorderDeleteColor};
         border-bottom: none;
@@ -363,7 +363,37 @@ const columnControlsDecoration = `
       }
     }
   }
+
+  .${ClassName.TABLE_SELECTED} table tr:first-child td.${ClassName.TABLE_CELL_NODE_WRAPPER},
+  .${ClassName.TABLE_SELECTED} table tr:first-child th.${ClassName.TABLE_HEADER_NODE_WRAPPER} {
+    .${ClassName.COLUMN_CONTROLS_DECORATIONS}::after {
+      ${columnHeaderButtonSelected};
+    }
+  }
 `;
+
+const hoveredDeleteButton = `
+  .${ClassName.TABLE_CONTAINER}.${ClassName.HOVERED_DELETE_BUTTON} {
+    .${ClassName.SELECTED_CELL},
+    .${ClassName.COLUMN_SELECTED},
+    .${ClassName.HOVERED_CELL} {
+      border: 1px solid ${tableBorderDeleteColor};
+      background: ${tableCellDeleteColor};
+    }
+    .${ClassName.SELECTED_CELL}::after {
+      background: ${tableCellDeleteColor};
+    }
+  }
+`;
+
+const hoveredCell = `
+  :not(.${ClassName.IS_RESIZING}) .${ClassName.TABLE_CONTAINER}:not(.${ClassName.HOVERED_DELETE_BUTTON}) {
+    .${ClassName.HOVERED_CELL} {
+      position: relative;
+      border: 1px solid ${tableBorderSelectedColor};
+    }
+  }
+`
 
 export const tableStyles = css`
   .${ClassName.LAYOUT_BUTTON} button {
@@ -382,6 +412,8 @@ export const tableStyles = css`
   .ProseMirror {
     ${tableSharedStyle};
     ${columnControlsLineMarker};
+    ${hoveredDeleteButton};
+    ${hoveredCell};
 
     .${ClassName.CONTROLS_FLOATING_BUTTON_COLUMN} {
       ${insertColumnButtonWrapper}
@@ -477,7 +509,7 @@ export const tableStyles = css`
       background: ${tableToolbarSelectedColor};
       cursor: pointer;
     }
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.CONTROLS_CORNER_BUTTON}.danger {
+    :not(.${ClassName.IS_RESIZING}) .${ClassName.CONTROLS_CORNER_BUTTON}.${ClassName.HOVERED_CELL_IN_DANGER} {
       border-color: ${tableBorderDeleteColor};
       background: ${tableToolbarDeleteColor};
     }
@@ -596,9 +628,10 @@ export const tableStyles = css`
         z-index: ${akEditorUnitZIndex};
         color: ${N0};
       }
-      .${ClassName.NUMBERED_COLUMN_BUTTON}.danger {
+      .${ClassName.NUMBERED_COLUMN_BUTTON}.${ClassName.HOVERED_CELL_IN_DANGER} {
         background-color: ${tableToolbarDeleteColor};
         border: 1px solid ${tableBorderDeleteColor};
+        border-left: 0;
         color: ${R500};
         position: relative;
         z-index: ${akEditorUnitZIndex};
@@ -635,19 +668,6 @@ export const tableStyles = css`
         background: ${tableCellSelectedColor};
         opacity: 0.3;
         pointer-events: none;
-      }
-    }
-    :not(.${ClassName.IS_RESIZING}) .${ClassName.TABLE_NODE_WRAPPER} > table {
-      .${ClassName.HOVERED_CELL} {
-        position: relative;
-        border: 1px solid ${tableBorderSelectedColor};
-      }
-      .${ClassName.SELECTED_CELL}.danger,
-      .${ClassName.HOVERED_CELL}.danger {
-        border: 1px solid ${tableBorderDeleteColor};
-      }
-      .${ClassName.SELECTED_CELL}.danger::after {
-        background: ${tableCellDeleteColor};
       }
     }
     .${ClassName.ROW_CONTROLS_WRAPPER} {
@@ -745,15 +765,6 @@ export const tableFullPageEditorStyles = css`
     margin-left: 0;
     margin-right: 0;
     width: 100%;
-  }
-  .ProseMirror:not(.${ClassName.IS_RESIZING}) .${ClassName.TABLE_NODE_WRAPPER} {
-    .${ClassName.SELECTED_CELL}.danger, .${ClassName.HOVERED_CELL}.danger {
-      border: 1px solid ${tableBorderDeleteColor};
-      background: ${tableCellDeleteColor};
-    }
-    .${ClassName.SELECTED_CELL}.danger:after {
-      background: ${tableCellDeleteColor};
-    }
   }
 `;
 

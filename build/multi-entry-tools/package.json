@@ -1,15 +1,14 @@
 {
   "name": "@atlaskit/multi-entry-tools",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tools for supporting multiple entry points",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Atlassian Pty Ltd",
   "license": "Apache-2.0",
-  "dependencies": {
-  },
+  "dependencies": {},
   "bin": {
     "get-multi-entry-map": "./cli.js"
   }

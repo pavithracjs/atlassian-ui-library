@@ -1,11 +1,13 @@
 {
-  "extends": "./tsconfig.base",
+  "extends": "./tsconfig",
   "include": [
     "./packages/**/*",
     "./website/**/*",
   ],
+  "exclude": [
+    "./packages/**/**/dist"
+  ],
   "compilerOptions": {
-    "baseUrl": "./",
-    
+    "baseUrl": "./"
   }
 }

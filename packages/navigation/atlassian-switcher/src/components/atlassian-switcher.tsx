@@ -5,6 +5,7 @@ import GenericSwitcher from './generic-switcher';
 import ErrorBoundary from './error-boundary';
 import {
   TriggerXFlowCallback,
+  DiscoverMoreCallback,
   FeatureFlagProps,
   Product,
   RecommendationsFeatureFlags,
@@ -22,8 +23,10 @@ import mapPropsToFeatures from '../utils/map-props-to-features';
 
 type AtlassianSwitcherProps = {
   product: string;
-  cloudId: string;
+  cloudId?: string;
   triggerXFlow?: TriggerXFlowCallback;
+  isDiscoverMoreForEveryoneEnabled?: boolean;
+  onDiscoverMoreClicked?: DiscoverMoreCallback;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 } & Partial<FeatureFlagProps>;
 

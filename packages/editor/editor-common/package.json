@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-common",
-  "version": "39.16.7",
+  "version": "39.17.1",
   "description": "A package that contains common classes and components for editor and renderer",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -20,7 +20,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/adf-schema": "^2.12.4",
+    "@atlaskit/adf-schema": "^3.0.0",
     "@atlaskit/analytics-namespaced-context": "^4.1.4",
     "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/emoji": "^62.2.5",
@@ -48,8 +48,8 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/editor-json-transformer": "^6.2.2",
-    "@atlaskit/editor-test-helpers": "^9.11.2",
+    "@atlaskit/editor-json-transformer": "^6.2.3",
+    "@atlaskit/editor-test-helpers": "^9.11.3",
     "@atlaskit/media-core": "^30.0.8",
     "@atlaskit/visual-regression": "^0.1.0",
     "@atlaskit/webdriver-runner": "^0.1.2",

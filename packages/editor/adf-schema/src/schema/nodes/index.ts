@@ -77,7 +77,6 @@ export {
   tableBackgroundColorNames,
   CellAttributes,
   Layout as TableLayout,
-  calcTableColumnWidths,
   TableDefinition,
   TableCell as TableCellDefinition,
   TableHeader as TableHeaderDefinition,

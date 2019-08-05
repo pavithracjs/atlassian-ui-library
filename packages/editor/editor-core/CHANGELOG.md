@@ -1,5 +1,163 @@
 # @atlaskit/editor-core
 
+## 112.40.1
+
+### Patch Changes
+
+- [patch][7515b0b50f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7515b0b50f):
+
+  ED-7054: Adding border to block extension
+
+## 112.40.0
+
+### Minor Changes
+
+- [minor][cda47d4480](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cda47d4480):
+
+  TEAMS-623 : Before this fix, when Spotlight was being rendered for the 5th time, it briefly appeared and then disappeared. This change fixes that.
+
+## 112.39.16
+
+### Patch Changes
+
+- [patch][2703a8e39e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2703a8e39e):
+
+  ED-7310: Add work-around for Russian keyboard layouts where undo wouldn't fire correctly.
+
+## 112.39.15
+
+### Patch Changes
+
+- [patch][696c032471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/696c032471):
+
+  Import editor-core dependencies via module name
+
+## 112.39.14
+
+### Patch Changes
+
+- [patch][ce4419f491](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4419f491):
+
+  ED-7142: Prevent block extensions from being re-mounted during a layout change.
+
+## 112.39.13
+
+### Patch Changes
+
+- [patch][64874a4740](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64874a4740):
+
+  Update i18n strings with latest translations
+
+## 112.39.12
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
+## 112.39.11
+
+### Patch Changes
+
+- [patch][51e0d438ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51e0d438ce):
+
+  Make ReactNodeView and SelectionBasedNodeView generic
+
+## 112.39.10
+
+### Patch Changes
+
+- [patch][690e0a151d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/690e0a151d):
+
+  [ED-7324] Fix table selected columns controls colors
+
+## 112.39.9
+
+### Patch Changes
+
+- [patch][6874801bc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6874801bc0):
+
+  ED-7314 Added test helpers for comparing selections. Includes new builders for gap cursors.
+
+## 112.39.8
+
+### Patch Changes
+
+- [patch][060752953d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/060752953d):
+
+  ED-7297: Fixes missing `popupsScrollableElement` prop not being passed down correctly
+
+## 112.39.7
+
+### Patch Changes
+
+- [patch][87719d77c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87719d77c7):
+
+  ED-7308: added performance measurements of ProseMirror document updates
+
+## 112.39.6
+
+### Patch Changes
+
+- [patch][8c50c8731b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c50c8731b):
+
+  [ED-5195] Fix red borders when the user hover the remove column button on tables with merged cells
+
+## 112.39.5
+
+- Updated dependencies [6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):
+  - @atlaskit/adf-utils@6.1.3
+  - @atlaskit/editor-bitbucket-transformer@6.1.3
+  - @atlaskit/editor-json-transformer@6.2.3
+  - @atlaskit/editor-markdown-transformer@3.1.3
+  - @atlaskit/editor-test-helpers@9.11.3
+  - @atlaskit/adf-schema@3.0.0
+  - @atlaskit/editor-common@39.17.0
+  - @atlaskit/renderer@49.7.5
+
+## 112.39.4
+
+### Patch Changes
+
+- [patch][25d1a4dd68](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25d1a4dd68):
+
+  ED-6300: fix pasting lists in tables where pasted slice has openStart > openEnd
+
+## 112.39.3
+
+### Patch Changes
+
+- [patch][a892339c19](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a892339c19):
+
+  Give all editor decorations a key to prevent ProseMirror from re-rendering decorations constantly.
+
+  Enables YAML language for codeblocks
+
+## 112.39.2
+
+### Patch Changes
+
+- [patch][c68c5119c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c68c5119c8):
+
+  Fixes regression where pasting a plain text link wouldnt convert to link
+
+## 112.39.1
+
+### Patch Changes
+
+- [patch][2d5136732c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d5136732c):
+
+  ED-7315 Ensure text selection remains inside inserted action/decision item when inserting into an empty paragraph below another paragraph
+
+## 112.39.0
+
+### Minor Changes
+
+- [minor][ec66d3c646](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ec66d3c646):
+
+  Improve performance of pages with smart cards
+
 ## 112.38.0
 
 ### Minor Changes

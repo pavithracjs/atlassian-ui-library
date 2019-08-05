@@ -1,12 +1,12 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "noImplicitAny": true,
     "baseUrl": "./",
-    
+
   },
   "include": [
     "./src/**/*.ts",
-    "./src/**/*.tsx"
+    "./src/**/*.tsx", "src/api/__tests__/__mocks__", "src/api/__tests__/__mocks__"
   ]
 }

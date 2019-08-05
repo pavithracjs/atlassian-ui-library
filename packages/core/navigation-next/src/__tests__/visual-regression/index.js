@@ -171,7 +171,7 @@ describe('Snapshot Test', () => {
     );
     const { page } = global;
     // TODO: Fix button selector
-    const button = "[data-test-id='Navigation'] > div:last-of-type button";
+    const button = "[data-testid='Navigation'] > div:last-of-type button";
 
     await page.goto(url);
     await page.setViewport({ width: 750, height: 700 });

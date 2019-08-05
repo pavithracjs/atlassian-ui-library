@@ -33,7 +33,7 @@ const App = () => (
   </SectionMessage>
 );
 
-test.skip('should ssr then hydrate tag correctly', () => {
+test('should ssr then hydrate tag correctly', () => {
   const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
 
   // server-side

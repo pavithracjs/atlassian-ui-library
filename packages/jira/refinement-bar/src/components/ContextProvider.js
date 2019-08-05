@@ -14,16 +14,16 @@ type FieldType = {
 };
 type FieldConfigType = { [FieldKey]: FieldType };
 type Meta = {
-  type: 'add' | 'remove' | 'update',
+  type: 'add' | 'clear' | 'remove' | 'update',
   key: FieldKey,
   data?: any,
 };
 
 export type ValuesType = { [FieldKey]: any };
 export type CommonProps = {
-  /** All fields that may be rendered in the refinement bar. */
+  /** The configuration object for each field that may be rendered in the refinement bar. */
   fieldConfig: FieldConfigType,
-  /** All fields that may be rendered in the refinement bar. */
+  /** Which fields, if any, may not be removed from the refinement-bar by the user. */
   irremovableKeys: FieldKeys,
   /** Handle what happens when one of the field's values changes. */
   onChange: (value: Object, meta: Meta) => void,

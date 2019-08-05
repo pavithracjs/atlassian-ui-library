@@ -8,11 +8,15 @@ import waitForExpect from 'wait-for-expect';
 
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
+beforeEach(() => {
+  jest.setTimeout(10000);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test.skip('should ssr then hydrate comment correctly', async () => {
+test('should ssr then hydrate comment correctly', async () => {
   const [example] = await getExamplesFor('comment');
   // $StringLitteral
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
@@ -31,7 +35,7 @@ test.skip('should ssr then hydrate comment correctly', async () => {
         s === 'style'
       ),
   );
-  waitForExpect(() => {
-    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+  await waitForExpect(() => {
+    expect(mockCalls.length).toBe(0);
   });
 });

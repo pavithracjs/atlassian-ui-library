@@ -6,30 +6,36 @@ import FieldController from '../Controller';
 export default class TextController extends FieldController {
   constructor(config: *) {
     super(config);
-
-    this.validateValue = config.validateValue || this.defaultValidation;
+    this.note = config.note;
+    this.validate = config.validate || this.defaultValidate;
   }
 
-  formatButtonLabel = ({ type, value }: *) => {
-    const exact = type === 'is';
-    const notset = type === 'is_not_set';
+  note: ?string;
 
+  formatLabel = ({ type, value }: *) => {
     // $FlowFixMe
     const typeLabel = this.getFilterTypes().find(f => f.type === type).label;
-    const showType = exact || notset || this.hasValue({ value });
-    const showValue = exact || this.hasValue({ value });
+    const hasValue = this.hasValue({ type, value });
 
-    if (!showType && !showValue) {
+    if (!hasValue) {
       return this.label;
     }
 
     return (
       <span>
-        <strong>{this.label}:</strong>
-        {showType ? ` ${typeLabel}` : null}
-        {showValue ? ` "${value}"` : null}
+        <strong>{this.label}: </strong>
+        {typeLabel}
+        {type !== 'is_not_set' ? ` "${value}"` : null}
       </span>
     );
+  };
+
+  hasValue = ({ type, value }: Object) => {
+    if (type === 'is_not_set') {
+      return true;
+    }
+
+    return typeof value === 'string' && value.length;
   };
 
   getInitialValue = () => ({
@@ -56,18 +62,14 @@ export default class TextController extends FieldController {
     { type: 'is_not_set', label: 'is empty' },
   ];
 
-  // Implementation
-
-  defaultValidation = ({ type, value }: *) => {
-    const defaultReturn = { message: null, isInvalid: false };
-
+  defaultValidate = ({ type, value }: *) => {
     if (type === 'is_not_set') {
-      return defaultReturn;
+      return null;
     }
-    if (!value) {
-      return { message: 'Please provide some text.', isInvalid: true };
+    if (!value || !value.length) {
+      return 'Please provide some text.';
     }
 
-    return defaultReturn;
+    return null;
   };
 }

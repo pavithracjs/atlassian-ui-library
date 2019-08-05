@@ -9,7 +9,7 @@ import {
 const createTextCursor = (pos: number): Decoration => {
   const node = document.createElement('div');
   node.className = 'ProseMirror-fake-text-cursor';
-  return Decoration.widget(pos, node);
+  return Decoration.widget(pos, node, { key: 'hyperlink-text-cursor' });
 };
 
 const createTextSelection = (from: number, to: number): Decoration =>

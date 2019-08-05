@@ -27,7 +27,7 @@ describe('inline-dialog', () => {
   describe('default', () => {
     it('should render any children passed to it', () => {
       const wrapper = mount(
-        <InlineDialog>
+        <InlineDialog content={() => null}>
           <div id="children" />
         </InlineDialog>,
       );
@@ -37,12 +37,20 @@ describe('inline-dialog', () => {
 
   describe('isOpen prop', () => {
     it('should render the content container if isOpen is set', () => {
-      const wrapper = mount(<InlineDialog isOpen />);
+      const wrapper = mount(
+        <InlineDialog content={() => null} isOpen>
+          <div id="children" />
+        </InlineDialog>,
+      );
       expect(wrapper.find(Container).exists()).toBe(true);
     });
 
     it('should not render the content container if isOpen is not set', () => {
-      const wrapper = mount(<InlineDialog />);
+      const wrapper = mount(
+        <InlineDialog content={() => null}>
+          <div id="children" />
+        </InlineDialog>,
+      );
       expect(wrapper.find(Container).exists()).toBe(false);
     });
   });
@@ -51,19 +59,31 @@ describe('inline-dialog', () => {
     const content = <div id="someContent">This is some content</div>;
 
     it('should render content if isOpen is set', () => {
-      const wrapper = mount(<InlineDialog content={content} isOpen />);
+      const wrapper = mount(
+        <InlineDialog content={content} isOpen>
+          <div id="children" />
+        </InlineDialog>,
+      );
       expect(wrapper.find('#someContent').exists()).toBe(true);
     });
 
     it('should not render content if isOpen is not set', () => {
-      const wrapper = mount(<InlineDialog content={content} />);
+      const wrapper = mount(
+        <InlineDialog content={content}>
+          <div id="children" />
+        </InlineDialog>,
+      );
       expect(wrapper.find('#content').exists()).toBe(false);
     });
   });
 
   describe('placement prop', () => {
     it('should be reflected onto the Popper component', () => {
-      const wrapper = shallow(<InlineDialog placement="right" isOpen />);
+      const wrapper = shallow(
+        <InlineDialog placement="right" content={() => {}} isOpen>
+          <div id="children" />
+        </InlineDialog>,
+      );
       const popper = wrapper.find(PopperComponent);
 
       expect(popper.length).toBeGreaterThan(0);
@@ -94,7 +114,9 @@ describe('inline-dialog', () => {
         </a>
       );
       const wrapper = mount(
-        <InlineDialog onContentFocus={spy} content={dummyLink} isOpen />,
+        <InlineDialog onContentFocus={spy} content={dummyLink} isOpen>
+          <div id="children" />
+        </InlineDialog>,
       );
 
       wrapper.find('#dummyLink').simulate('focus');
@@ -111,7 +133,9 @@ describe('inline-dialog', () => {
         </a>
       );
       const wrapper = mount(
-        <InlineDialog onContentBlur={spy} content={dummyLink} isOpen />,
+        <InlineDialog onContentBlur={spy} content={dummyLink} isOpen>
+          <div id="children" />
+        </InlineDialog>,
       );
 
       wrapper.find('#dummyLink').simulate('blur');
@@ -122,7 +146,11 @@ describe('inline-dialog', () => {
   describe('handleClickOutside', () => {
     it('should not trigger the onClose prop if event is defaultPrevented', () => {
       const spy = jest.fn();
-      const wrapper = mount(<InlineDialog onClose={spy} isOpen />);
+      const wrapper = mount(
+        <InlineDialog content={() => null} onClose={spy} isOpen>
+          <div id="children" />
+        </InlineDialog>,
+      );
       const event = {
         target: document.createElement('div'),
         defaultPrevented: true,
@@ -136,7 +164,11 @@ describe('inline-dialog', () => {
 
     it('should trigger the onClose prop', () => {
       const spy = jest.fn();
-      const wrapper = mount(<InlineDialog onClose={spy} isOpen />);
+      const wrapper = mount(
+        <InlineDialog content={() => null} onClose={spy} isOpen>
+          <div id="children" />
+        </InlineDialog>,
+      );
       const event = {
         target: document.createElement('div'),
       };
@@ -150,7 +182,11 @@ describe('inline-dialog', () => {
 
     it('should NOT trigger the onClose prop when isOpen is false', () => {
       const spy = jest.fn();
-      const wrapper = mount(<InlineDialog onClose={spy} />);
+      const wrapper = mount(
+        <InlineDialog content={() => null} onClose={spy}>
+          <div id="children" />
+        </InlineDialog>,
+      );
       const event = {
         target: document.createElement('div'),
       };

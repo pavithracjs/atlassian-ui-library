@@ -1,34 +1,39 @@
 const devBaseUrl = 'https://api-private.dev.atlassian.com';
-const devEnvironment = {
-  baseUrl: devBaseUrl,
-  resolverUrl: `${devBaseUrl}/object-resolver`,
-};
-
 const stgBaseUrl = 'https://api-private.stg.atlassian.com';
-const stagingEnvironment = {
-  baseUrl: stgBaseUrl,
-  resolverUrl: `${stgBaseUrl}/object-resolver`,
-};
-
 const prodBaseUrl = 'https://api-private.atlassian.com';
-const prodEnvironment = {
-  baseUrl: prodBaseUrl,
-  resolverUrl: `${prodBaseUrl}/object-resolver`,
+
+export const BaseUrls = {
+  dev: devBaseUrl,
+  development: devBaseUrl,
+
+  stg: stgBaseUrl,
+  staging: stgBaseUrl,
+
+  prd: prodBaseUrl,
+  prod: prodBaseUrl,
+  production: prodBaseUrl,
 };
 
-export const Environments = {
-  dev: devEnvironment,
-  development: devEnvironment,
+export const getBaseUrl = (envKey?: keyof typeof BaseUrls) => {
+  // If an environment is provided, then use Stargate.
+  if (envKey) {
+    return envKey in BaseUrls ? BaseUrls[envKey] : prodBaseUrl;
+  }
 
-  stg: stagingEnvironment,
-  staging: stagingEnvironment,
-
-  prd: prodEnvironment,
-  prod: prodEnvironment,
-  production: prodEnvironment,
+  // Otherwise, use the current origin of the page.
+  return window.location.origin;
 };
 
-export const getEnvironment = (envKey: keyof typeof Environments) =>
-  envKey in Environments ? Environments[envKey] : prodEnvironment;
+export const getResolverUrl = (envKey?: keyof typeof BaseUrls) => {
+  // If an environment is provided, then use Stargate directly for requests.
+  if (envKey) {
+    const baseUrl = getBaseUrl(envKey);
+    return `${baseUrl}/object-resolver`;
+  } else {
+    // Otherwise, we fallback to using the Edge Proxy to access Stargate,
+    // which fixes some cookie issues with strict Browser policies.
+    return '/gateway/api/object-resolver';
+  }
+};
 
-export default Environments;
+export default BaseUrls;

@@ -29,6 +29,7 @@ describe('ZoomLevel', () => {
     scaleGenerator(),
     scale => {
       const zoomLevel = new ZoomLevel(scale);
+      expect(zoomLevel.value === scale).toBeTruthy();
       return zoomLevel.value === scale;
     },
   );
@@ -38,6 +39,9 @@ describe('ZoomLevel', () => {
     scaleGenerator(),
     scale => {
       const zoomLevel = new ZoomLevel(scale);
+      expect(
+        zoomLevel.zoomLevels.filter(i => i === 1).length === 1,
+      ).toBeTruthy();
       return zoomLevel.zoomLevels.filter(i => i === 1).length === 1;
     },
   );
@@ -48,6 +52,7 @@ describe('ZoomLevel', () => {
     scale => {
       const original = new ZoomLevel(scale);
       const zoomed = original.zoomIn();
+      expect(original.initialValue === zoomed.initialValue).toBeTruthy();
       return original.initialValue === zoomed.initialValue;
     },
   );
@@ -58,6 +63,7 @@ describe('ZoomLevel', () => {
     scale => {
       const original = new ZoomLevel(scale);
       const zoomed = original.zoomOut();
+      expect(original.initialValue === zoomed.initialValue).toBeTruthy();
       return original.initialValue === zoomed.initialValue;
     },
   );
@@ -67,6 +73,7 @@ describe('ZoomLevel', () => {
     scaleGenerator(),
     scale => {
       const zoomLevel = new ZoomLevel(scale);
+      expect(zoomLevel.zoomIn().value > zoomLevel.value).toBeTruthy();
       return zoomLevel.zoomIn().value > zoomLevel.value;
     },
   );
@@ -76,6 +83,7 @@ describe('ZoomLevel', () => {
     scaleGenerator(),
     scale => {
       const zoomLevel = new ZoomLevel(scale);
+      expect(zoomLevel.zoomOut().value < zoomLevel.value).toBeTruthy();
       return zoomLevel.zoomOut().value < zoomLevel.value;
     },
   );
@@ -85,6 +93,7 @@ describe('ZoomLevel', () => {
     scaleGenerator(),
     scale => {
       const zoomLevel = new ZoomLevel(scale).fullyZoomIn();
+      expect(zoomLevel.zoomIn().value === zoomLevel.value).toBeTruthy();
       return zoomLevel.zoomIn().value === zoomLevel.value;
     },
   );
@@ -94,6 +103,7 @@ describe('ZoomLevel', () => {
     scaleGenerator(),
     scale => {
       const zoomLevel = new ZoomLevel(scale).fullyZoomOut();
+      expect(zoomLevel.zoomOut().value === zoomLevel.value).toBeTruthy();
       return zoomLevel.zoomOut().value === zoomLevel.value;
     },
   );
@@ -104,6 +114,9 @@ describe('ZoomLevel', () => {
     scale => {
       const zoomLevelDefault = new ZoomLevel(scale);
       const zoomLevelMin = new ZoomLevel(scale).fullyZoomOut();
+      expect(
+        zoomLevelDefault.canZoomOut && !zoomLevelMin.canZoomOut,
+      ).toBeTruthy();
       return zoomLevelDefault.canZoomOut && !zoomLevelMin.canZoomOut;
     },
   );
@@ -114,6 +127,9 @@ describe('ZoomLevel', () => {
     scale => {
       const zoomLevelDefault = new ZoomLevel(scale);
       const zoomLevelMax = new ZoomLevel(scale).fullyZoomIn();
+      expect(
+        zoomLevelDefault.canZoomIn && !zoomLevelMax.canZoomIn,
+      ).toBeTruthy();
       return zoomLevelDefault.canZoomIn && !zoomLevelMax.canZoomIn;
     },
   );
@@ -123,6 +139,7 @@ describe('ZoomLevel', () => {
     scaleGenerator(),
     scale => {
       const zoomLevel = new ZoomLevel(scale);
+      expect(zoomLevel.asPercentage.includes('.')).toBeFalsy();
       return !zoomLevel.asPercentage.includes('.');
     },
   );

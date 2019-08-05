@@ -9,7 +9,7 @@ export interface ExampleState {
   currentTime3: number;
 }
 
-export default class Example extends Component<any, ExampleState> {
+class Example extends Component<any, ExampleState> {
   state: ExampleState = {
     currentTime1: 20,
     currentTime2: 0,
@@ -66,3 +66,5 @@ export default class Example extends Component<any, ExampleState> {
     );
   }
 }
+
+export default () => <Example />;
