@@ -40,6 +40,38 @@ export class MediaNodeUpdater {
     )(this.props.view.state, this.props.view.dispatch);
   };
 
+  updateFileAttrs = async () => {
+    const attrs = this.getAttrs();
+    const mediaProvider = await this.props.mediaProvider;
+
+    if (!mediaProvider || !mediaProvider.uploadParams || !attrs || !attrs.id) {
+      return;
+    }
+
+    const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+      mediaProvider,
+    );
+    const mediaClient = getMediaClient({
+      mediaClientConfig: viewMediaClientConfig,
+    });
+
+    const fileState = await mediaClient.file.getCurrentState(attrs.id);
+
+    if (fileState.status === 'error') {
+      return;
+    }
+
+    updateMediaNodeAttrs(
+      attrs.id,
+      {
+        __fileName: fileState.name,
+        __fileMimeType: fileState.mimeType,
+        __fileSize: fileState.size,
+      },
+      true,
+    )(this.props.view.state, this.props.view.dispatch);
+  };
+
   getAttrs = (): MediaAttributes | undefined => {
     const { firstChild } = this.props.node;
     if (firstChild) {
