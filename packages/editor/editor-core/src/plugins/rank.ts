@@ -3,6 +3,7 @@ export default {
     'compositionPlugin',
     'inlineCursorTargetPlugin',
     'focusHandlerPlugin',
+    'frozenEditor',
     'submitEditor',
     'customAutoformatting',
     'newlinePreserveMarksPlugin',

@@ -11,10 +11,12 @@ import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
 import scrollGutter from './pm-plugins/scroll-gutter';
 import { keymap } from '../../utils/keymap';
+import frozenEditor from './pm-plugins/frozen-editor';
 
 interface BasePluginOptions {
   allowScrollGutter?: ((view: EditorView) => HTMLElement | null) | undefined;
   allowInlineCursorTarget?: boolean;
+  addRunTimePerformanceCheck?: boolean;
 }
 
 const basePlugin = (options?: BasePluginOptions): EditorPlugin => ({
@@ -40,6 +42,13 @@ const basePlugin = (options?: BasePluginOptions): EditorPlugin => ({
         plugin: newlinePreserveMarksPlugin,
       },
       { name: 'reactNodeView', plugin: () => reactNodeView },
+      {
+        name: 'frozenEditor',
+        plugin: ({ dispatchAnalyticsEvent }) =>
+          options && options.addRunTimePerformanceCheck
+            ? frozenEditor(dispatchAnalyticsEvent)
+            : undefined,
+      },
       { name: 'decorationPlugin', plugin: () => decorationPlugin() },
       { name: 'history', plugin: () => history() },
       // should be last :(

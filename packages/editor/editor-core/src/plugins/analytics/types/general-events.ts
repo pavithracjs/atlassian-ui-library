@@ -64,6 +64,27 @@ type EditorPerfAEP = OperationalAEP<
   }
 >;
 
+type BrowserFreezePayload = OperationalAEP<
+  ACTION.BROWSER_FREEZE,
+  ACTION_SUBJECT.EDITOR,
+  undefined,
+  {
+    freezeTime: number;
+    nodeSize: number;
+  }
+>;
+
+type SlowInputAEP = OperationalAEP<
+  ACTION.SLOW_INPUT,
+  ACTION_SUBJECT.EDITOR,
+  undefined,
+  {
+    time: number;
+    nodeSize: number;
+    nodes?: Record<string, number>;
+  }
+>;
+
 type EditorStopAEP = UIAEP<
   ACTION.STOPPED,
   ACTION_SUBJECT.EDITOR,
@@ -174,4 +195,6 @@ export type GeneralEventPayload =
   | TypeAheadLinkAEP
   | TypeAheadMentionAEP
   | FullWidthModeAEP
-  | EditorPerfAEP;
+  | EditorPerfAEP
+  | BrowserFreezePayload
+  | SlowInputAEP;

@@ -26,6 +26,8 @@ export enum ACTION {
   SUBSTITUTED = 'autoSubstituted',
   UNLINK = 'unlinked',
   VISITED = 'visited',
+  BROWSER_FREEZE = 'browserFreeze',
+  SLOW_INPUT = 'slowInput',
 }
 
 export enum INPUT_METHOD {
