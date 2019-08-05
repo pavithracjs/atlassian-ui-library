@@ -17,6 +17,7 @@ const DEFAULT_PROPS = {
   isLoading: false,
   searchSessionId: 'abc',
   children: [],
+  advancedSearchId: 'product_advanced_search',
 };
 
 function render(partialProps: Partial<Props>) {
