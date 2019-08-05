@@ -1,4 +1,4 @@
-import MentionSpotlightController from '../../../components/MentionSpotlight/MentionSpotlightController';
+import TeamMentionHighlightController from '../../../components/MentionSpotlight/MentionSpotlightController';
 
 describe('MentionSpotlightController', () => {
   beforeEach(() => {
@@ -6,51 +6,51 @@ describe('MentionSpotlightController', () => {
   });
 
   it('should return viewable when going from scratch', () => {
-    const isEnabled = MentionSpotlightController.isSpotlightEnabled();
+    const isEnabled = TeamMentionHighlightController.isHighlightEnabled();
     expect(isEnabled).toBe(true);
   });
 
   it('should not be viewable after 5 renders', () => {
     // Four times is fine
-    MentionSpotlightController.registerRender();
-    MentionSpotlightController.registerRender();
-    MentionSpotlightController.registerRender();
-    MentionSpotlightController.registerRender();
+    TeamMentionHighlightController.registerRender();
+    TeamMentionHighlightController.registerRender();
+    TeamMentionHighlightController.registerRender();
+    TeamMentionHighlightController.registerRender();
 
-    const isEnabledFour = MentionSpotlightController.isSpotlightEnabled();
+    const isEnabledFour = TeamMentionHighlightController.isHighlightEnabled();
     expect(isEnabledFour).toBe(true);
 
     // Fifth is not
-    MentionSpotlightController.registerRender();
-    const isEnabledFive = MentionSpotlightController.isSpotlightEnabled();
+    TeamMentionHighlightController.registerRender();
+    const isEnabledFive = TeamMentionHighlightController.isHighlightEnabled();
     expect(isEnabledFive).toBe(false);
   });
 
   it('should not be viewable after closing dialog', () => {
-    MentionSpotlightController.registerClosed();
-    const isEnabled = MentionSpotlightController.isSpotlightEnabled();
+    TeamMentionHighlightController.registerClosed();
+    const isEnabled = TeamMentionHighlightController.isHighlightEnabled();
     expect(isEnabled).toBe(false);
   });
 
   it('should not be viewable after making a team mention', () => {
-    MentionSpotlightController.registerTeamMention();
-    const isEnabled = MentionSpotlightController.isSpotlightEnabled();
+    TeamMentionHighlightController.registerTeamMention();
+    const isEnabled = TeamMentionHighlightController.isHighlightEnabled();
     expect(isEnabled).toBe(false);
   });
 
   it('should not be viewable after creating a team', () => {
-    MentionSpotlightController.registerCreateLinkClick();
-    const isEnabled = MentionSpotlightController.isSpotlightEnabled();
+    TeamMentionHighlightController.registerCreateLinkClick();
+    const isEnabled = TeamMentionHighlightController.isHighlightEnabled();
     expect(isEnabled).toBe(false);
   });
 
   it('should not be viewable after multple criteria met', () => {
-    MentionSpotlightController.registerRender();
-    MentionSpotlightController.registerClosed();
-    MentionSpotlightController.registerCreateLinkClick();
-    MentionSpotlightController.registerRender();
+    TeamMentionHighlightController.registerRender();
+    TeamMentionHighlightController.registerClosed();
+    TeamMentionHighlightController.registerCreateLinkClick();
+    TeamMentionHighlightController.registerRender();
 
-    const isEnabled = MentionSpotlightController.isSpotlightEnabled();
+    const isEnabled = TeamMentionHighlightController.isHighlightEnabled();
     expect(isEnabled).toBe(false);
   });
 });

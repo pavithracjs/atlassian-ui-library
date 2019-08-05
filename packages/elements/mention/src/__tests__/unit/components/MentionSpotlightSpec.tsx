@@ -2,7 +2,9 @@ import * as React from 'react';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import { noop } from '@babel/types';
 import Button from '@atlaskit/button';
-import MentionSpotlight, { Props } from '../../../components/MentionSpotlight';
+import TeamMentionHighlight, {
+  Props,
+} from '../../../components/MentionSpotlight';
 import * as SpotlightAnalytics from '../../../util/analytics';
 
 function render(props: Partial<Props>) {
