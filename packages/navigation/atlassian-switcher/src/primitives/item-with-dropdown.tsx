@@ -5,6 +5,14 @@ import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
 import Item, { itemThemeNamespace } from '@atlaskit/item';
 import { colors, gridSize } from '@atlaskit/theme';
 import { FadeIn } from './fade-in';
+import {
+  createAndFireNavigationEvent,
+  withAnalyticsEvents,
+  UI_EVENT_TYPE,
+  SWITCHER_CHILD_ITEM_SUBJECT,
+  SWITCHER_ITEM_SUBJECT,
+  SWITCHER_ITEM_EXPAND_SUBJECT,
+} from '../utils/analytics';
 import { createIcon } from '../utils/icon-themes';
 import { SwitcherChildItem } from 'src/types';
 
@@ -100,7 +108,9 @@ type Props = {
   children: React.ReactNode;
   icon: React.ReactNode;
   description?: React.ReactNode;
-  onClick?: Function;
+  onChildItemClick?: Function;
+  onExpandClick?: Function;
+  onItemClick?: Function;
   href?: string;
   isDisabled?: boolean;
   childIcon?: React.ReactNode;
@@ -112,17 +122,22 @@ interface State {
   showChildItems: boolean;
 }
 
-export default class SwitcherItemWithDropDown extends React.Component<
-  Props,
-  State
-> {
+class SwitcherItemWithDropDown extends React.Component<Props, State> {
   state = {
     itemHovered: false,
     showChildItems: false,
   };
 
   render() {
-    const { icon, description, childItems, childIcon, ...rest } = this.props;
+    const {
+      icon,
+      description,
+      childItems,
+      childIcon,
+      onItemClick,
+      onChildItemClick,
+      ...rest
+    } = this.props;
     const { showChildItems, itemHovered } = this.state;
     const childItemsExist = childItems && childItems.length > 0;
 
@@ -140,24 +155,30 @@ export default class SwitcherItemWithDropDown extends React.Component<
                   : itemTheme,
               }}
             >
-              <Item elemBefore={icon} description={description} {...rest} />
+              <Item
+                elemBefore={icon}
+                description={description}
+                onClick={onItemClick}
+                {...rest}
+              />
             </ThemeProvider>
             {childItemsExist && this.getToggle(showChildItems, itemHovered)}
           </ItemContainer>
           {showChildItems && childItems && (
-            <ChildItemsContainer>
-              {childItems.map(item => (
-                <ThemeProvider theme={{ [itemThemeNamespace]: childItemTheme }}>
+            <ThemeProvider theme={{ [itemThemeNamespace]: childItemTheme }}>
+              <ChildItemsContainer>
+                {childItems.map(item => (
                   <Item
                     elemBefore={childIcon}
                     href={item.href}
                     key={item.label}
+                    onClick={onChildItemClick}
                   >
                     {item.label}
                   </Item>
-                </ThemeProvider>
-              ))}
-            </ChildItemsContainer>
+                ))}
+              </ChildItemsContainer>
+            </ThemeProvider>
           )}
         </React.Fragment>
       </FadeIn>
@@ -167,9 +188,12 @@ export default class SwitcherItemWithDropDown extends React.Component<
   private toggleChildItemsVisibility(event: React.SyntheticEvent) {
     event.preventDefault();
     this.setState({
-      ...this.state,
       showChildItems: !this.state.showChildItems,
     });
+
+    if (!this.state.showChildItems) {
+      this.props.onExpandClick && this.props.onExpandClick();
+    }
   }
 
   private getToggle(showChildItems: boolean, isParentHovered: boolean) {
@@ -189,7 +213,6 @@ export default class SwitcherItemWithDropDown extends React.Component<
 
   private toggleItemHovered(value: boolean) {
     this.setState({
-      ...this.state,
       itemHovered: value,
     });
   }
@@ -197,3 +220,23 @@ export default class SwitcherItemWithDropDown extends React.Component<
   private onMouseEnter = () => this.toggleItemHovered(true);
   private onMouseLeave = () => this.toggleItemHovered(false);
 }
+
+const SwitcherItemWithDropDownWithEvents = withAnalyticsEvents<Props>({
+  onChildItemClick: createAndFireNavigationEvent({
+    eventType: UI_EVENT_TYPE,
+    action: 'clicked',
+    actionSubject: SWITCHER_CHILD_ITEM_SUBJECT,
+  }),
+  onExpandClick: createAndFireNavigationEvent({
+    eventType: UI_EVENT_TYPE,
+    action: 'clicked',
+    actionSubject: SWITCHER_ITEM_EXPAND_SUBJECT,
+  }),
+  onItemClick: createAndFireNavigationEvent({
+    eventType: UI_EVENT_TYPE,
+    action: 'clicked',
+    actionSubject: SWITCHER_ITEM_SUBJECT,
+  }),
+})(SwitcherItemWithDropDown);
+
+export default SwitcherItemWithDropDownWithEvents;
