@@ -93,6 +93,7 @@ export enum WorklensProductType {
   CONFLUENCE = 'CONFLUENCE',
   OPSGENIE = 'OPSGENIE',
   BITBUCKET = 'BITBUCKET',
+  STATUSPAGE = 'STATUSPAGE',
 }
 
 export type AvailableProduct =
