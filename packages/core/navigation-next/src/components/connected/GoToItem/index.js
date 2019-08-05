@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Component, useContext } from 'react';
+// $FlowFixMe useContext
+import React, { useContext } from 'react';
 import ArrowRightCircleIcon from '@atlaskit/icon/glyph/arrow-right-circle';
 import Spinner from '@atlaskit/spinner';
 
