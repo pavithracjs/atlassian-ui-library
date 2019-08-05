@@ -1,0 +1,1 @@
+Expose default image params for fetching by Media Picker and Media Viewer
