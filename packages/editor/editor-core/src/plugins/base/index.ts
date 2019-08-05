@@ -1,5 +1,6 @@
 import { baseKeymap } from 'prosemirror-commands';
 import { history } from 'prosemirror-history';
+import { EditorView } from 'prosemirror-view';
 import { doc, paragraph, text } from '@atlaskit/adf-schema';
 import { EditorPlugin, PMPluginFactory } from '../../types';
 import filterStepsPlugin from './pm-plugins/filter-steps';
@@ -12,7 +13,7 @@ import scrollGutter from './pm-plugins/scroll-gutter';
 import { keymap } from '../../utils/keymap';
 
 interface BasePluginOptions {
-  allowScrollGutter?: boolean;
+  allowScrollGutter?: ((view: EditorView) => HTMLElement | null) | undefined;
   allowInlineCursorTarget?: boolean;
 }
 
@@ -56,7 +57,7 @@ const basePlugin = (options?: BasePluginOptions): EditorPlugin => ({
     if (options && options.allowScrollGutter) {
       plugins.push({
         name: 'scrollGutterPlugin',
-        plugin: () => scrollGutter(),
+        plugin: () => scrollGutter(options.allowScrollGutter),
       });
     }
 

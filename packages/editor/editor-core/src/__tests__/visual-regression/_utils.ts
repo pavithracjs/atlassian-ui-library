@@ -7,6 +7,7 @@ import {
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
 import { animationFrame } from '../__helpers/page-objects/_editor';
+import { GUTTER_SELECTOR } from '../../plugins/base/pm-plugins/scroll-gutter';
 
 export {
   setupMediaMocksProviders,
@@ -74,6 +75,26 @@ export const deviceViewPorts = {
   [Device.iPad]: { width: 768, height: 1024 },
   [Device.iPhonePlus]: { width: 414, height: 736 },
 };
+
+/**
+ * Sometimes it's useful to visualise whitespace, invisible elements, or bounding boxes
+ * to track layout changes and capture regressions in CI.
+ *
+ * Green is used to ensure it doesn't clash with the red and yellow used by jest-image-snapshot.
+ */
+const WHITESPACE_DEBUGGING_FILL_COLOR = '#0c0';
+
+async function visualiseInvisibleElements(page: any) {
+  await page.addStyleTag({
+    content: `
+      /*
+        Visualise the invisible scroll gutter (padding at bottom of full page editor).
+        This allows us to see whether the element exists within a snapshot, and compare the scroll offset.
+      */
+      ${GUTTER_SELECTOR} { background: ${WHITESPACE_DEBUGGING_FILL_COLOR}; }
+    `,
+  });
+}
 
 function getEditorProps(appearance: Appearance) {
   const enableAllEditorProps = {
@@ -221,6 +242,9 @@ export const initEditorWithAdf = async (
   // because we cannot control and affect snapshots
   // You can override this disabling if you are sure that you need it in your test
   await disableAllSideEffects(page, allowSideEffects);
+
+  // Visualise invisible elements
+  await visualiseInvisibleElements(page);
 };
 
 export const initFullPageEditorWithAdf = async (

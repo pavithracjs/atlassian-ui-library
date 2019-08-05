@@ -53,6 +53,7 @@ import {
   feedbackDialogPlugin,
 } from '../plugins';
 import { isFullPage as fullPageCheck } from '../utils/is-full-page';
+import { EditorView } from 'prosemirror-view';
 
 /**
  * Returns list of plugins that are absolutely necessary for editor to work
@@ -65,7 +66,7 @@ export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
     pastePlugin(),
     basePlugin({
       allowInlineCursorTarget: appearance !== 'mobile',
-      allowScrollGutter: isFullPage,
+      allowScrollGutter: allowScrollGutter(props),
     }),
     blockTypePlugin({ lastNodeMustBeParagraph: appearance === 'comment' }),
     placeholderPlugin(),
@@ -82,6 +83,21 @@ export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
     fakeTextCursorPlugin(),
     floatingToolbarPlugin(),
   ];
+}
+
+function allowScrollGutter(
+  props: EditorProps,
+): ((view: EditorView) => HTMLElement | null) | undefined {
+  const { appearance } = props;
+  if (fullPageCheck(appearance)) {
+    // Full Page appearance uses a scrollable div wrapper
+    return () => document.querySelector('.fabric-editor-popup-scroll-parent');
+  }
+  if (appearance === 'mobile') {
+    // Mobile appearance uses body scrolling for improved performance on low powered devices.
+    return () => document.body;
+  }
+  return undefined;
 }
 
 /**
