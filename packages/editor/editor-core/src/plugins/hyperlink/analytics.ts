@@ -13,7 +13,7 @@ export function getLinkCreationAnalyticsEvent(
 ): AnalyticsEventPayload {
   // Remove protocol and www., if either exists
   const withoutProtocol = url.toLowerCase().replace(/^(.*):\/\//, '');
-  const withoutWWW = withoutProtocol.replace(/^(www\.)?/, '');
+  const withoutWWW = withoutProtocol.replace(/^(www\.)/, '');
 
   // Remove port, fragment, path, query string
   const linkDomain = withoutWWW.replace(/[:\/?#](.*)$/, '');
