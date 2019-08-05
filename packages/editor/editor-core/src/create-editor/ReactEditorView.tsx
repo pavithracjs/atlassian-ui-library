@@ -62,6 +62,7 @@ export interface EditorViewProps {
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
   allowAnalyticsGASV3?: boolean;
+  disabled?: boolean;
   render?: (
     props: {
       editor: JSX.Element;

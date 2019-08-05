@@ -174,8 +174,10 @@ export class MediaPluginState {
         const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
           this.mediaProvider,
         );
+
         if (viewMediaClientConfig) {
-          this.mediaProvider.viewMediaClientConfig = viewMediaClientConfig;
+          (this
+            .mediaProvider as MediaProvider).viewMediaClientConfig = viewMediaClientConfig;
         }
       }
 

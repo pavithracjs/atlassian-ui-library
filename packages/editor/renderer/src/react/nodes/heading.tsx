@@ -10,7 +10,7 @@ export default function Heading(
   } & React.Props<any>,
 ) {
   const { level, children, headingId } = props;
-  const HX = `h${level}`;
+  const HX = `h${level}` as 'h1';
 
   return (
     <HX id={headingId}>
