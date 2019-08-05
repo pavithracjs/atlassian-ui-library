@@ -757,7 +757,7 @@ describe('CrossProductSearchClient', () => {
       const serviceOptions = requestSpy.mock.calls[0][1];
       const expectedBody = {
         cloudId: '123',
-        scopes: [Scope.NavSearchComplete],
+        scopes: [Scope.NavSearchCompleteConfluence],
         query: 'auto',
       };
       expect(JSON.parse(serviceOptions.requestInit.body)).toEqual(expectedBody);
@@ -767,7 +767,7 @@ describe('CrossProductSearchClient', () => {
       const mockResponse = {
         scopes: [
           {
-            id: 'nav.completion',
+            id: 'nav.completion-confluence',
             results: [
               {
                 dateTime: '2019-07-09T23:55:48.785Z',
@@ -818,7 +818,7 @@ describe('CrossProductSearchClient', () => {
       const mockResponse = {
         scopes: [
           {
-            id: 'nav.completion',
+            id: 'nav.completion-confluence',
             results: [],
             size: 0,
           },

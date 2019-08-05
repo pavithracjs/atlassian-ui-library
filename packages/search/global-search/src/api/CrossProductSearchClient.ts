@@ -196,12 +196,12 @@ export default class CachingCrossProductSearchClientImpl
       CrossProductSearchResponse
     >(path, {
       cloudId: this.cloudId,
-      scopes: [Scope.NavSearchComplete],
+      scopes: [Scope.NavSearchCompleteConfluence],
       query,
     });
 
     const matchingScope: ScopeResult | undefined = results.scopes.find(
-      scope => scope.id === Scope.NavSearchComplete,
+      scope => scope.id === Scope.NavSearchCompleteConfluence,
     );
 
     const matchingDocuments = matchingScope ? matchingScope.results : [];

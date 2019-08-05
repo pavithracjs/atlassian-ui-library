@@ -403,7 +403,7 @@ export function makeCrossProductSearchData(
           size: filteredConfResults.length,
         },
         {
-          id: Scope.NavSearchComplete,
+          id: Scope.NavSearchCompleteConfluence,
           experimentId: 'experiment-1',
           abTest,
           results: filteredNavResults,

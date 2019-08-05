@@ -10,7 +10,7 @@ export enum Scope {
   People = 'cpus.user',
   UserJira = 'urs.user-jira',
   UserConfluence = 'urs.user-confluence',
-  NavSearchComplete = 'nav.completion',
+  NavSearchCompleteConfluence = 'nav.completion-confluence',
 }
 
 export type QuickSearchContext = 'jira' | 'confluence';
