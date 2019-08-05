@@ -57,8 +57,8 @@ export default class TeamMentionResource extends MentionResource
     }
   }
 
-  mentionTypeaheadSpotlightEnabled = () =>
-    this.teamMentionConfig.teamSpotlightEnabled || false;
+  mentionTypeaheadHighlightEnabled = () =>
+    this.teamMentionConfig.teamHighlightEnabled || false;
 
   mentionTypeaheadCreateTeamPath = () => this.teamMentionConfig.createTeamPath;
 

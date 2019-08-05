@@ -24,8 +24,8 @@ import ResourcedMentionList from './components/ResourcedMentionList';
 import { MentionPickerWithAnalytics as MentionPicker } from './components/MentionPicker';
 import Mention from './components/Mention';
 import ResourcedMention from './components/Mention/ResourcedMention';
-import TeamMentionHighlight from './components/MentionSpotlight';
-import TeamMentionHighlightController from './components/MentionSpotlight/MentionSpotlightController';
+import TeamMentionHighlight from './components/TeamMentionHighlight';
+import TeamMentionHighlightController from './components/TeamMentionHighlight/TeamMentionHighlightController';
 import {
   MentionDescription,
   MentionsResult,

@@ -7,7 +7,7 @@ import {
 import Button from '@atlaskit/button';
 import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close';
 import Tooltip from '@atlaskit/tooltip';
-import TeamMentionHighlightController from './MentionSpotlightController';
+import TeamMentionHighlightController from './TeamMentionHighlightController';
 
 import {
   fireAnalyticsTeamMentionHighlightEvent,

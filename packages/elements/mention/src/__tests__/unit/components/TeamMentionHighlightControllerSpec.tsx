@@ -1,4 +1,4 @@
-import TeamMentionHighlightController from '../../../components/MentionSpotlight/MentionSpotlightController';
+import TeamMentionHighlightController from '../../../components/TeamMentionHighlight/TeamMentionHighlightController';
 
 describe('MentionHighlightController', () => {
   beforeEach(() => {

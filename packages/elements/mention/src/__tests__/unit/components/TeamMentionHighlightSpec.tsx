@@ -4,7 +4,7 @@ import { noop } from '@babel/types';
 import Button from '@atlaskit/button';
 import TeamMentionHighlight, {
   Props,
-} from '../../../components/MentionSpotlight';
+} from '../../../components/TeamMentionHighlight';
 import * as TeamMentionHighlightAnalytics from '../../../util/analytics';
 
 function render(props: Partial<Props>) {
@@ -26,7 +26,7 @@ let mockIsTeamMentionHighlightEnabled = true;
 mockGetSeenCount.mockReturnValue('testValue');
 
 jest.mock(
-  '../../../components/MentionSpotlight/MentionSpotlightController',
+  '../../../components/TeamMentionHighlight/TeamMentionHighlightController',
   () => ({
     __esModule: true,
     default: {

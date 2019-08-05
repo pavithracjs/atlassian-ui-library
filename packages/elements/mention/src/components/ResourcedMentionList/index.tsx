@@ -5,8 +5,8 @@ import { MentionDescription, OnMentionEvent } from '../../types';
 import uniqueId from '../../util/id';
 import debug from '../../util/logger';
 import MentionList from '../MentionList';
-import TeamMentionHighlight from '../MentionSpotlight';
-import TeamMentionHighlightController from '../MentionSpotlight/MentionSpotlightController';
+import TeamMentionHighlight from '../TeamMentionHighlight';
+import TeamMentionHighlightController from '../TeamMentionHighlight/TeamMentionHighlightController';
 
 function applyPresence(mentions: MentionDescription[], presences: PresenceMap) {
   const updatedMentions: MentionDescription[] = [];
@@ -242,7 +242,7 @@ export default class ResourcedMentionList extends React.PureComponent<
     }
 
     return (
-      <MentionSpotlight
+      <TeamMentionHighlight
         createTeamLink={createTeamPath}
         onClose={this.closeHighlight}
       />
