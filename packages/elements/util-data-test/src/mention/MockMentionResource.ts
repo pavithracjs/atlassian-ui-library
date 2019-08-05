@@ -144,4 +144,6 @@ export class MockMentionResource extends AbstractMentionResource
   }
 
   mentionTypeaheadSpotlightEnabled = () => this.config.enableSpotlight || false;
+
+  mentionTypeaheadCreateTeamPath = () => '/people/search#createTeam';
 }
