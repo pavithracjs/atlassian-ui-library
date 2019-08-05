@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.6.7
+
+### Patch Changes
+
+- [patch][4b11eb641c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b11eb641c):
+
+  fix bugs with error state
+
 ## 10.6.6
 
 ### Patch Changes

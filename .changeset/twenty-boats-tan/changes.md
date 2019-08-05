@@ -1,1 +1,0 @@
-fix bugs with error state
