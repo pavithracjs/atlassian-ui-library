@@ -5,7 +5,7 @@ import { ComponentType } from 'react';
 
 interface IconBaseProps {
   bgColor: string;
-  noElevation?: boolean;
+  iconElevation?: string;
 }
 
 const IconBase = styled.div<IconBaseProps>`
@@ -15,7 +15,7 @@ const IconBase = styled.div<IconBaseProps>`
   width: ${4 * gridSize()}px;
   height: ${4 * gridSize()}px;
   border-radius: ${gridSize()}px;
-  ${({ noElevation }) => (noElevation ? '' : elevation.e100)};
+  ${({ iconElevation }) => (iconElevation ? iconElevation : '')};
   background-color: ${({ bgColor }) => bgColor}
   overflow: hidden;
 `;
@@ -45,7 +45,7 @@ interface IconBackgroundTheme {
 interface IconTheme {
   primaryColor: string;
   iconColor?: string;
-  noElevation?: boolean;
+  iconElevation?: string;
 }
 
 type IconThemeMap = {
@@ -56,24 +56,27 @@ export const themes: IconThemeMap = {
   default: {
     backgroundColor: '#fff',
     primaryColor: '#000',
+    iconElevation: elevation.e100,
   },
   product: {
     iconColor: colors.N0,
     backgroundColor: colors.B400,
     primaryColor: colors.N0,
+    iconElevation: elevation.e100,
   },
   admin: {
     backgroundColor: colors.DN70,
     primaryColor: colors.N0,
+    iconElevation: elevation.e100,
   },
   custom: {
     backgroundColor: colors.N0,
     primaryColor: colors.DN70,
+    iconElevation: elevation.e100,
   },
   subtle: {
     backgroundColor: 'transparent',
     primaryColor: colors.text,
-    noElevation: true,
   },
 };
 
@@ -87,11 +90,11 @@ export const createIcon = (
   InnerIcon: React.ComponentType<any>,
   defaultProps?: AkIconProps | AkLogoProps,
 ): IconType => props => {
-  const { backgroundColor, noElevation, ...iconProps } =
+  const { backgroundColor, iconElevation, ...iconProps } =
     themes[props.theme] || themes.default;
 
   return (
-    <IconBase bgColor={backgroundColor} noElevation={noElevation}>
+    <IconBase bgColor={backgroundColor} iconElevation={iconElevation}>
       <InnerIcon {...defaultProps} {...iconProps} />
     </IconBase>
   );
