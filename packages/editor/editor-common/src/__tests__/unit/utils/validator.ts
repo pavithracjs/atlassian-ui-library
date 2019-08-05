@@ -1513,8 +1513,6 @@ describe('Renderer - Validator', () => {
           'strike',
           'underline',
           'link',
-          'mentionQuery',
-          'emojiQuery',
           'textColor',
           'subsup',
         ],

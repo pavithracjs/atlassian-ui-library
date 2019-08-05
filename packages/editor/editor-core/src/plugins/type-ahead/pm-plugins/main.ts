@@ -18,6 +18,7 @@ import { itemsListUpdated } from '../commands/items-list-updated';
 import { updateQueryCommand } from '../commands/update-query';
 import { isQueryActive } from '../utils/is-query-active';
 import { findTypeAheadQuery } from '../utils/find-query-mark';
+import { selectCurrentItem } from '../commands/select-item';
 
 export const pluginKey = new PluginKey('typeAheadPlugin');
 
@@ -187,6 +188,25 @@ export function createPlugin(
           }
         },
       };
+    },
+    appendTransaction(_trs, _oldState, newState) {
+      const pluginState = pluginKey.getState(newState) as PluginState;
+      if (
+        pluginState.active &&
+        pluginState.query &&
+        pluginState.typeAheadHandler &&
+        pluginState.typeAheadHandler.forceSelect &&
+        pluginState.typeAheadHandler.forceSelect(
+          pluginState.query,
+          pluginState.items,
+        )
+      ) {
+        let newTr;
+        selectCurrentItem()(newState, tr => (newTr = tr));
+        return newTr;
+      }
+
+      return null;
     },
     props: {
       handleDOMEvents: {
