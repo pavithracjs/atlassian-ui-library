@@ -7,7 +7,8 @@ import { HyperlinkState, stateKey } from '../pm-plugins/main';
 import { showLinkToolbar, hideLinkToolbar } from '../commands';
 import { queueCards } from '../../card/pm-plugins/actions';
 import { Command } from '../../../types';
-import { INPUT_METHOD } from '../../analytics';
+import { INPUT_METHOD, addAnalytics } from '../../analytics';
+import { getLinkCreationAnalyticsEvent } from '../analytics';
 
 export function createKeymapPlugin(): Plugin | undefined {
   const list = {};
@@ -89,7 +90,12 @@ const mayConvertLastWordToHyperlink: Command = (state, dispatch) => {
     );
 
     if (dispatch) {
-      dispatch(tr);
+      dispatch(
+        addAnalytics(
+          tr,
+          getLinkCreationAnalyticsEvent(INPUT_METHOD.AUTO_DETECT, url),
+        ),
+      );
     }
   }
   return false;

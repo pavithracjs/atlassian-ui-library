@@ -21,35 +21,40 @@ type ButtonAEP<ActionSubjectID, Attributes> = UIAEP<
   ACTION.CLICKED,
   ACTION_SUBJECT.BUTTON,
   ActionSubjectID,
-  Attributes
+  Attributes,
+  undefined
 >;
 
 type PickerAEP<ActionSubjectID, Attributes> = UIAEP<
   ACTION.OPENED,
   ACTION_SUBJECT.PICKER,
   ActionSubjectID,
-  Attributes
+  Attributes,
+  undefined
 >;
 
 type FeedbackAEP = UIAEP<
   ACTION.OPENED,
   ACTION_SUBJECT.FEEDBACK_DIALOG,
   undefined,
-  { inputMethod: INPUT_METHOD.QUICK_INSERT }
+  { inputMethod: INPUT_METHOD.QUICK_INSERT },
+  undefined
 >;
 
 type TypeAheadAEP<ActionSubjectID, Attributes> = UIAEP<
   ACTION.INVOKED,
   ACTION_SUBJECT.TYPEAHEAD,
   ActionSubjectID,
-  Attributes
+  Attributes,
+  undefined
 >;
 
 type EditorStartAEP = UIAEP<
   ACTION.STARTED,
   ACTION_SUBJECT.EDITOR,
   undefined,
-  { platform: PLATFORMS.NATIVE | PLATFORMS.HYBRID | PLATFORMS.WEB }
+  { platform: PLATFORMS.NATIVE | PLATFORMS.HYBRID | PLATFORMS.WEB },
+  undefined
 >;
 
 type EditorPerfAEP = OperationalAEP<
@@ -61,7 +66,8 @@ type EditorPerfAEP = OperationalAEP<
     startTime: number;
     nodes?: Record<string, number>;
     ttfb?: number;
-  }
+  },
+  undefined
 >;
 
 type BrowserFreezePayload = OperationalAEP<
@@ -104,13 +110,15 @@ type EditorStopAEP = UIAEP<
       actions: number;
       codeBlocks: number;
     };
-  }
+  },
+  undefined
 >;
 
 type AnnotateButtonAEP = UIAEP<
   ACTION.CLICKED,
   ACTION_SUBJECT.MEDIA,
   ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
+  undefined,
   undefined
 >;
 
@@ -178,7 +186,8 @@ type FullWidthModeAEP = TrackAEP<
   {
     previousMode: FULL_WIDTH_MODE;
     newMode: FULL_WIDTH_MODE;
-  }
+  },
+  undefined
 >;
 
 export type GeneralEventPayload =

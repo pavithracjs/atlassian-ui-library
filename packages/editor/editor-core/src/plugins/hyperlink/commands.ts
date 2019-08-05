@@ -144,16 +144,17 @@ export function insertLink(
     const link = state.schema.marks.link;
     if (href.trim()) {
       const { tr } = state;
+      const normalizedUrl = normalizeUrl(href);
       if (from === to) {
         const textContent = text || href;
         tr.insertText(textContent, from, to);
         tr.addMark(
           from,
           from + textContent.length,
-          link.create({ href: normalizeUrl(href) }),
+          link.create({ href: normalizedUrl }),
         );
       } else {
-        tr.addMark(from, to, link.create({ href: normalizeUrl(href) }));
+        tr.addMark(from, to, link.create({ href: normalizedUrl }));
         tr.setSelection(Selection.near(tr.doc.resolve(to)));
       }
 
