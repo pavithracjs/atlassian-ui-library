@@ -10,7 +10,7 @@ import Tooltip from '@atlaskit/tooltip';
 import TeamMentionHighlightController from './MentionSpotlightController';
 
 import {
-  fireAnalyticsSpotlightMentionEvent,
+  fireAnalyticsTeamMentionHighlightEvent,
   ComponentNames,
   Actions,
 } from '../../util/analytics';
@@ -208,8 +208,8 @@ export class TeamMentionHighlightInternal extends React.Component<
 
 const TeamMentionHighlightWithAnalytics = withAnalyticsEvents<OwnProps>({
   onClose: (createEvent: CreateUIAnalyticsEventSignature) => {
-    fireAnalyticsSpotlightMentionEvent(createEvent)(
-      ComponentNames.SPOTLIGHT,
+    fireAnalyticsTeamMentionHighlightEvent(createEvent)(
+      ComponentNames.TEAM_MENTION_HIGHLIGHT,
       Actions.CLOSED,
       ComponentNames.MENTION,
       'closeButton',
@@ -217,8 +217,8 @@ const TeamMentionHighlightWithAnalytics = withAnalyticsEvents<OwnProps>({
   },
 
   onCreateTeamLinkClick: (createEvent: CreateUIAnalyticsEventSignature) => {
-    fireAnalyticsSpotlightMentionEvent(createEvent)(
-      ComponentNames.SPOTLIGHT,
+    fireAnalyticsTeamMentionHighlightEvent(createEvent)(
+      ComponentNames.TEAM_MENTION_HIGHLIGHT,
       Actions.CLICKED,
       ComponentNames.MENTION,
       'createTeamLink',
@@ -226,8 +226,8 @@ const TeamMentionHighlightWithAnalytics = withAnalyticsEvents<OwnProps>({
   },
 
   onViewed: (createEvent: CreateUIAnalyticsEventSignature) => {
-    fireAnalyticsSpotlightMentionEvent(createEvent)(
-      ComponentNames.SPOTLIGHT,
+    fireAnalyticsTeamMentionHighlightEvent(createEvent)(
+      ComponentNames.TEAM_MENTION_HIGHLIGHT,
       Actions.VIEWED,
       ComponentNames.MENTION,
       undefined,

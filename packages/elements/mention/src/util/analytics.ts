@@ -20,7 +20,7 @@ import { isSpecialMentionText } from '../types';
 export enum ComponentNames {
   TYPEAHEAD = 'mentionTypeahead',
   MENTION = 'mention',
-  SPOTLIGHT = 'mentionSpotlight',
+  TEAM_MENTION_HIGHLIGHT = 'teamMentionHighlight',
 }
 
 export enum Actions {
@@ -58,7 +58,7 @@ export const fireAnalyticsMentionTypeaheadEvent = (
   }
 };
 
-export const fireAnalyticsSpotlightMentionEvent = (
+export const fireAnalyticsTeamMentionHighlightEvent = (
   createEvent: CreateUIAnalyticsEventSignature,
 ) => (
   actionSubject: string,
@@ -77,7 +77,7 @@ export const fireAnalyticsSpotlightMentionEvent = (
         source,
         packageName,
         packageVersion,
-        componentName: ComponentNames.SPOTLIGHT,
+        componentName: ComponentNames.TEAM_MENTION_HIGHLIGHT,
         viewedCount,
       },
     };
