@@ -349,8 +349,8 @@ export function defaultActionHandler({
       dispatch,
     );
 
-    if (typeAheadHandler.getSpotlight) {
-      highlight = typeAheadHandler.getSpotlight(state);
+    if (typeAheadHandler.getHighlight) {
+      highlight = typeAheadHandler.getHighlight(state);
     }
 
     if (pluginState.itemsLoader) {

@@ -156,7 +156,7 @@ const mentionsPlugin = (
         // Custom regex must have a capture group around trigger
         // so it's possible to use it without needing to scan through all triggers again
         customRegex: '\\(?(@)',
-        getSpotlight: (state: EditorState) => {
+        getHighlight: (state: EditorState) => {
           const pluginState = getMentionPluginState(state);
           const provider = pluginState.mentionProvider;
           if (provider) {
