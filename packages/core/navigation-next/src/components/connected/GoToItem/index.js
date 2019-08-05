@@ -37,14 +37,14 @@ const After = ({
   return null;
 };
 
-const GoToItem = (otherProps: GoToItemProps) => {
+const GoToItem = (gotoItemProps: GoToItemProps) => {
   const scrollProviderRef = useContext(ScrollProviderRef);
-  const spinnerDelay = otherProps.spinnerDelay || 200;
+  const spinnerDelay = gotoItemProps.spinnerDelay || 200;
 
   const handleClick = (
     e: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
   ) => {
-    const { goTo, navigationViewController } = otherProps;
+    const { goTo, navigationViewController } = gotoItemProps;
 
     e.preventDefault();
     if (typeof goTo !== 'string') {
@@ -64,13 +64,13 @@ const GoToItem = (otherProps: GoToItemProps) => {
     goTo,
     navigationViewController,
     ...rest
-  } = otherProps;
+  } = gotoItemProps;
 
   const after = typeof afterProp === 'undefined' ? After : afterProp;
   const propsForAfterComp = {
-    afterGoTo: otherProps.goTo || null,
+    afterGoTo: goTo || null,
     spinnerDelay,
-    incomingView: otherProps.navigationViewController.state.incomingView,
+    incomingView: navigationViewController.state.incomingView,
   };
 
   const props = { ...rest, after, spinnerDelay };
