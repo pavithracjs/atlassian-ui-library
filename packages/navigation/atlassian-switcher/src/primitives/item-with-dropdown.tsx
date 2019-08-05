@@ -6,6 +6,7 @@ import Item, { itemThemeNamespace } from '@atlaskit/item';
 import { colors, gridSize } from '@atlaskit/theme';
 import { FadeIn } from './fade-in';
 import { createIcon } from '../utils/icon-themes';
+import { SwitcherChildItem } from 'src/types';
 
 const itemTheme = {
   padding: {
@@ -95,12 +96,7 @@ interface ToggleProps {
   isParentHovered?: boolean;
 }
 
-export interface SwitcherChildItem {
-  href: string;
-  label: string;
-}
-
-type SwitcherItemWithDropdownProps = {
+type Props = {
   children: React.ReactNode;
   icon: React.ReactNode;
   description?: React.ReactNode;
@@ -111,52 +107,19 @@ type SwitcherItemWithDropdownProps = {
   childItems?: SwitcherChildItem[];
 };
 
-interface SwitcherItemState {
+interface State {
   itemHovered: boolean;
   showChildItems: boolean;
 }
 
 export default class SwitcherItemWithDropDown extends React.Component<
-  SwitcherItemWithDropdownProps,
-  SwitcherItemState
+  Props,
+  State
 > {
-  constructor(props: SwitcherItemWithDropdownProps) {
-    super(props);
-    this.state = {
-      itemHovered: false,
-      showChildItems: false,
-    };
-  }
-
-  toggleChildItemsVisibility(event: React.SyntheticEvent) {
-    event.preventDefault();
-    this.setState({
-      ...this.state,
-      showChildItems: !this.state.showChildItems,
-    });
-  }
-
-  toggleItemHovered(value: boolean) {
-    this.setState({
-      ...this.state,
-      itemHovered: value,
-    });
-  }
-
-  getToggle(showChildItems: boolean, isParentHovered: boolean) {
-    const Icon = createIcon(showChildItems ? ChevronUpIcon : ChevronDownIcon, {
-      size: 'medium',
-    });
-
-    return (
-      <Toggle
-        onClick={e => this.toggleChildItemsVisibility(e)}
-        isParentHovered={isParentHovered}
-      >
-        <Icon theme="subtle" />
-      </Toggle>
-    );
-  }
+  state = {
+    itemHovered: false,
+    showChildItems: false,
+  };
 
   render() {
     const { icon, description, childItems, childIcon, ...rest } = this.props;
@@ -167,8 +130,8 @@ export default class SwitcherItemWithDropDown extends React.Component<
       <FadeIn>
         <React.Fragment>
           <ItemContainer
-            onMouseEnter={() => this.toggleItemHovered(true)}
-            onMouseLeave={() => this.toggleItemHovered(false)}
+            onMouseEnter={this.onMouseEnter}
+            onMouseLeave={this.onMouseLeave}
           >
             <ThemeProvider
               theme={{
@@ -200,4 +163,37 @@ export default class SwitcherItemWithDropDown extends React.Component<
       </FadeIn>
     );
   }
+
+  private toggleChildItemsVisibility(event: React.SyntheticEvent) {
+    event.preventDefault();
+    this.setState({
+      ...this.state,
+      showChildItems: !this.state.showChildItems,
+    });
+  }
+
+  private getToggle(showChildItems: boolean, isParentHovered: boolean) {
+    const Icon = createIcon(showChildItems ? ChevronUpIcon : ChevronDownIcon, {
+      size: 'medium',
+    });
+
+    return (
+      <Toggle
+        onClick={e => this.toggleChildItemsVisibility(e)}
+        isParentHovered={isParentHovered}
+      >
+        <Icon theme="subtle" />
+      </Toggle>
+    );
+  }
+
+  private toggleItemHovered(value: boolean) {
+    this.setState({
+      ...this.state,
+      itemHovered: value,
+    });
+  }
+
+  private onMouseEnter = () => this.toggleItemHovered(true);
+  private onMouseLeave = () => this.toggleItemHovered(false);
 }
