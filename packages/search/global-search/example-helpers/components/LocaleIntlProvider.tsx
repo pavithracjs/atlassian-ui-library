@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IntlProvider, addLocaleData } from 'react-intl';
-import MessagesIntlProvider from '../src/components/MessagesIntlProvider';
+import MessagesIntlProvider from '../../src/components/MessagesIntlProvider';
 
 import * as fr from 'react-intl/locale-data/fr';
 import * as es from 'react-intl/locale-data/es';
