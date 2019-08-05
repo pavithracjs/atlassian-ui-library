@@ -30,6 +30,11 @@ import isValidId from 'uuid-validate';
 import { getMediaTypeFromUploadableFile } from '../utils/getMediaTypeFromUploadableFile';
 import { convertBase64ToBlob } from '../utils/convertBase64ToBlob';
 import { observableToPromise } from '../utils/observableToPromise';
+import {
+  getDimensionsFromBlob,
+  Dimensions,
+} from '../utils/getDimensionsFromBlob';
+import { getMediaTypeFromMimeType } from '../utils/getMediaTypeFromMimeType';
 
 const POLLING_INTERVAL = 1000;
 const maxNumberOfItemsPerCall = 100;
@@ -78,33 +83,11 @@ export interface CopyDestination extends MediaStoreCopyFileWithTokenParams {
 
 type DataloaderResult = MediaCollectionItemFullDetails | undefined;
 
-// TODO: check if we have this type somewhere else
-export type Dimensions = {
-  width: number;
-  height: number;
-};
 export type ExternalUploadPayload = {
   uploadableFileUpfrontIds: UploadableFileUpfrontIds;
   dimensions: Dimensions;
 };
 
-// TODO: move to different file
-
-const getDimensionsFromBlob = (blob: Blob): Promise<Dimensions> => {
-  return new Promise<Dimensions>((resolve, reject) => {
-    const imageSrc = URL.createObjectURL(blob);
-    const img = new Image();
-    img.src = imageSrc;
-
-    img.onload = () => {
-      const dimensions = { width: img.width, height: img.height };
-
-      URL.revokeObjectURL(imageSrc);
-      resolve(dimensions);
-    };
-    img.onerror = reject;
-  });
-};
 export interface FileFetcher {
   getFileState(id: string, options?: GetFileOptions): Observable<FileState>;
   getArtifactURL(
@@ -306,29 +289,47 @@ export class FileFetcherImpl implements FileFetcher {
     const { id, occurrenceKey } = uploadableFileUpfrontIds;
     const subject = new ReplaySubject<FileState>(1);
     const deferredBlob = fetch(url).then(response => response.blob());
-    const previewPromise = new Promise<FilePreview>(async resolve => {
+    const preview = new Promise<FilePreview>(async resolve => {
       resolve({ value: await deferredBlob });
     });
+    const name = url.split('/').pop() || '';
+    // we create a initial fileState with the minimum info that we have at this point
     const fileState: ProcessingFileState = {
       status: 'processing',
-      name: '',
+      name,
       size: 0,
-      mediaType: 'image',
-      mimeType: '', // TODO: should we extend this after fetching blob?
+      mediaType: 'unknown',
+      mimeType: '',
       id,
       occurrenceKey,
-      preview: previewPromise,
+      preview,
     };
     subject.next(fileState);
+    // we save it into the cache as soon as possible, in case someone subscribes
     getFileStreamsCache().set(id, subject);
 
     return new Promise<ExternalUploadPayload>(async resolve => {
       const blob = await deferredBlob;
+      const { type, size } = blob;
       const file: UploadableFile = {
         content: blob,
-        mimeType: blob.type,
+        mimeType: type,
         collection,
+        name,
       };
+      const mediaType = getMediaTypeFromMimeType(type);
+
+      // we emit a richer state after the blob is fetched
+      subject.next({
+        status: 'processing',
+        name,
+        size,
+        mediaType,
+        mimeType: type,
+        id,
+        occurrenceKey,
+        preview,
+      });
       this.upload(file, undefined, uploadableFileUpfrontIds);
 
       const dimensions = await getDimensionsFromBlob(blob);
