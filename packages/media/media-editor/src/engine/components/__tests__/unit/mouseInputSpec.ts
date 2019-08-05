@@ -26,11 +26,17 @@ describe('MediaEditor DefaultMouseInput', () => {
   const end = { x: xEnd / width, y: yEnd / height };
 
   beforeEach(() => {
+    jest.spyOn(global.console, 'warn');
+    jest.spyOn(global.console, 'error');
     element = document.createElement('div');
     mouseInput = new DefaultMouseInput(element, positionCalculator);
   });
 
   afterEach(() => {
+    //@ts-ignore no mockRestore on warn
+    global.console.warn.mockRestore();
+    //@ts-ignore no mockRestore on error
+    global.console.error.mockRestore();
     mouseInput.unload();
   });
 
@@ -53,6 +59,10 @@ describe('MediaEditor DefaultMouseInput', () => {
 
     window.dispatchEvent(createMouseEvent('mousedown'));
     window.dispatchEvent(createMouseEvent('mouseup'));
+    /* eslint-disable no-console */
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+    /* eslint-enable no-console */
   });
 
   it('should report nothing if right button is clicked', () => {
@@ -74,6 +84,10 @@ describe('MediaEditor DefaultMouseInput', () => {
 
     element.dispatchEvent(createMouseEvent('mousedown', { mouseButton: 2 }));
     window.dispatchEvent(createMouseEvent('mouseup', { mouseButton: 2 }));
+    /* eslint-disable no-console */
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+    /* eslint-enable no-console */
   });
 
   it('should report nothing if right button is dragged', () => {
@@ -96,6 +110,10 @@ describe('MediaEditor DefaultMouseInput', () => {
     element.dispatchEvent(createMouseEvent('mousedown', { mouseButton: 2 }));
     element.dispatchEvent(createMouseEvent('mousemove', { mouseButton: 2 }));
     window.dispatchEvent(createMouseEvent('mouseup', { mouseButton: 2 }));
+    /* eslint-disable no-console */
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+    /* eslint-enable no-console */
   });
 
   it('should report one click if left button is down and up', () => {
@@ -211,6 +229,10 @@ describe('MediaEditor DefaultMouseInput', () => {
       }),
     );
     window.dispatchEvent(createEvent('blur'));
+    /* eslint-disable no-console */
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+    /* eslint-enable no-console */
   });
 
   it('should report drag lost if the window is blurred during mouse dragging', () => {

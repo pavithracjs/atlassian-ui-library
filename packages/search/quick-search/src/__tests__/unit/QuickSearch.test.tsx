@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import * as PropTypes from 'prop-types';
-import { QuickSearch, ResultItemGroup, PersonResult } from '..';
-import AkSearch from '../components/Search/Search';
-import ResultItem from '../components/ResultItem/ResultItem';
+import { QuickSearch, ResultItemGroup, PersonResult } from '../..';
+import AkSearch from '../../components/Search/Search';
+import ResultItem from '../../components/ResultItem/ResultItem';
 
 import {
   QS_ANALYTICS_EV_CLOSE,
@@ -11,7 +11,7 @@ import {
   QS_ANALYTICS_EV_OPEN,
   QS_ANALYTICS_EV_QUERY_ENTERED,
   QS_ANALYTICS_EV_SUBMIT,
-} from '../components/constants';
+} from '../../components/constants';
 
 const noOp = () => {};
 
@@ -78,11 +78,16 @@ describe('<QuickSearch />', () => {
 
     it('should support non-component children', () => {
       render({ children: 'child' });
+      // Modified as per BUILDTOOLS-220: expect.hasAssertions(), please modify accordingly.
+      expect(wrapper.children).toBeDefined();
       /* Expect that no errors occur while parsing children */
     });
 
     it('should support non-component grandchildren', () => {
       render({ children: <div>grandchild</div> });
+      // Modified as per BUILDTOOLS-220: expect.hasAssertions(), please modify accordingly.
+      expect(wrapper.find('div').exists()).toBe(true);
+      expect(wrapper.find('div').children).toBeDefined();
       /* Expect that no errors occur while parsing children */
     });
   });
