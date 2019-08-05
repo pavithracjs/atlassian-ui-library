@@ -9,7 +9,7 @@ import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
 import { pluginKey as editorDisabledPluginKey } from '../../../editor-disabled';
 import { updateColumnWidths } from '../../transforms';
 import {
-  getResizeStateFromDOM,
+  getResizeState,
   resizeColumn,
   getLayoutSize,
   currentColWidth,
@@ -67,7 +67,7 @@ export const handleMouseDown = (
     maxSize -= akEditorTableNumberColumnWidth;
   }
 
-  const resizeState = getResizeStateFromDOM({
+  const resizeState = getResizeState({
     minWidth: tableCellMinWidth,
     maxSize,
     table: originalTable,
@@ -143,6 +143,7 @@ export const handleMouseDown = (
           resizeState,
           colIndex,
           clientX - startX,
+          dom,
           resizingSelectedColumns ? selectedColumns : undefined,
         );
         tr = updateColumnWidths(newResizeState, table, start)(tr);
@@ -173,7 +174,7 @@ export const handleMouseDown = (
       $cell.nodeAfter!.attrs.colspan -
       1;
 
-    resizeColumn(resizeState, colIndex, clientX - dragging.startX);
+    resizeColumn(resizeState, colIndex, clientX - dragging.startX, dom);
 
     updateControls(state);
   }

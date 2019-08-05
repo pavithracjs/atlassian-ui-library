@@ -464,7 +464,7 @@ Object {
                 "background": "#ffffff",
                 "colspan": 1,
                 "colwidth": Array [
-                  213,
+                  214,
                 ],
                 "rowspan": 1,
               },
@@ -486,7 +486,7 @@ Object {
                 "background": "#deebff",
                 "colspan": 1,
                 "colwidth": Array [
-                  138,
+                  137,
                 ],
                 "rowspan": 1,
               },
@@ -557,7 +557,7 @@ Object {
                 "background": "#e6fcff",
                 "colspan": 1,
                 "colwidth": Array [
-                  213,
+                  214,
                 ],
                 "rowspan": 1,
               },
@@ -579,7 +579,7 @@ Object {
                 "background": "#fffae6",
                 "colspan": 2,
                 "colwidth": Array [
-                  138,
+                  137,
                   116,
                 ],
                 "rowspan": 3,
@@ -623,7 +623,7 @@ Object {
                 "background": "#ffebe6",
                 "colspan": 1,
                 "colwidth": Array [
-                  213,
+                  214,
                 ],
                 "rowspan": 1,
               },
@@ -672,7 +672,7 @@ Object {
                 "background": "#e3fcef",
                 "colspan": 1,
                 "colwidth": Array [
-                  213,
+                  214,
                 ],
                 "rowspan": 1,
               },
@@ -721,7 +721,7 @@ Object {
                 "background": "#ffffff",
                 "colspan": 1,
                 "colwidth": Array [
-                  213,
+                  214,
                 ],
                 "rowspan": 1,
               },
@@ -743,7 +743,7 @@ Object {
                 "background": "#deebff",
                 "colspan": 1,
                 "colwidth": Array [
-                  138,
+                  137,
                 ],
                 "rowspan": 1,
               },
