@@ -50,12 +50,14 @@ const getItemAnalyticsContext = (
   id: string | null,
   type: string,
   href: string,
+  productType?: string,
 ) => ({
   ...analyticsAttributes({
     groupItemIndex: index,
     itemId: id,
     itemType: type,
     domain: urlToHostname(href),
+    productType,
   }),
 });
 
@@ -141,6 +143,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   item.key,
                   'product',
                   item.href,
+                  item.productType,
                 )}
               >
                 <SwitcherItemWithDropdown

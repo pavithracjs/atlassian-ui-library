@@ -50,6 +50,7 @@ export type SwitcherItemType = {
   Icon: IconType;
   href: string;
   childItems?: SwitcherChildItem[];
+  productType?: WorklensProductType;
 };
 
 export type RecentItemType = SwitcherItemType & {
@@ -227,6 +228,7 @@ const getAvailableProductLinkFromSiteProduct = (
     key: productType + topSite.siteName,
     href: getProductSiteUrl(topSite),
     description: getLinkDescription(topSite.siteName, singleSite, productType),
+    productType,
     childItems: connectedSites
       .filter(site => site.siteUrl !== topSite.siteUrl)
       .map(site => ({

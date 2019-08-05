@@ -109,8 +109,8 @@ describe('map-results-to-switcher-props', () => {
         { description: 'site50', label: 'Jira Service Desk', childItems: [] },
         { description: 'site30', label: 'Jira Core', childItems: [] },
         { description: 'site40', label: 'Confluence', childItems: [] },
-        { label: 'Bitbucket', childItems: [] },
         { description: 'site20', label: 'Opsgenie', childItems: [] },
+        { label: 'Bitbucket', childItems: [] },
       ]);
     });
 
@@ -170,14 +170,14 @@ describe('map-results-to-switcher-props', () => {
 
       expect(props.licensedProductLinks).toMatchObject([
         {
-          label: 'Bitbucket',
-          href: 'https://bitbucket.org',
-          childItems: [],
-        },
-        {
           description: 'opsgenie',
           label: 'Opsgenie',
           href: 'https://app.opsgenie.com',
+          childItems: [],
+        },
+        {
+          label: 'Bitbucket',
+          href: 'https://bitbucket.org',
           childItems: [],
         },
       ]);
