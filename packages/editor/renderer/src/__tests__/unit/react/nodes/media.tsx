@@ -11,7 +11,7 @@ import {
   // @ts-ignore
   getMediaClient,
 } from '@atlaskit/media-client';
-const mediaClient = fakeMediaClient();
+let mediaClient = fakeMediaClient();
 // @ts-ignore
 getMediaClient = jest.fn().mockReturnValue(mediaClient);
 
@@ -53,6 +53,9 @@ describe('Media', () => {
   });
 
   const mountFileCard = async (identifier: FileIdentifier) => {
+    mediaClient = fakeMediaClient();
+    // @ts-ignore
+    getMediaClient = jest.fn().mockReturnValue(mediaClient);
     const card = mount(
       <MediaCard
         type="file"
@@ -218,6 +221,22 @@ describe('Media', () => {
       expect(component.find(MediaCardInternal).state('fileState')).toEqual({
         id: 'file-id',
       });
+    });
+
+    it('should save fileState when id changes', async () => {
+      const fileIdentifier = createFileIdentifier();
+      const component = await mountFileCard(fileIdentifier);
+
+      await nextTick();
+      component.update();
+
+      component.setProps({
+        id: '123',
+      });
+
+      await nextTick();
+      component.update();
+      expect(mediaClient.file.getCurrentState).toBeCalledTimes(2);
     });
 
     describe('populates identifier cache for the page mediaClientConfig', () => {
