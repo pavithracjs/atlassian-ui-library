@@ -34,7 +34,7 @@ import FloatingInsertButton from './ui/FloatingInsertButton';
 import LayoutButton from './ui/LayoutButton';
 import { isLayoutSupported } from './utils';
 
-export const pluginConfig = (config: PluginConfig) => {
+export const pluginConfig = (config: PluginConfig = {}) => {
   return config.advanced
     ? {
         allowBackgroundColor: true,
