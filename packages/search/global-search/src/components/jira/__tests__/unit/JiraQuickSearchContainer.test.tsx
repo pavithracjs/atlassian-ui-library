@@ -13,6 +13,7 @@ import {
   noResultsCrossProductSearchClient,
   errorCrossProductSearchClient,
   mockCrossProductSearchClient,
+  mockErrorCrossProductSearchClient,
 } from '../../../../__tests__/unit/mocks/_mockCrossProductSearchClient';
 import {
   noResultsPeopleSearchClient,
@@ -20,11 +21,7 @@ import {
   mockPeopleSearchClient,
 } from '../../../../__tests__/unit/mocks/_mockPeopleSearchClient';
 import { mockLogger } from '../../../../__tests__/unit/mocks/_mockLogger';
-import {
-  mockErrorJiraClient,
-  mockJiraClientWithData,
-  mockNoResultJiraClient,
-} from '../../../../__tests__/unit/mocks/_mockJiraClient';
+import { mockNoResultJiraClient } from '../../../../__tests__/unit/mocks/_mockJiraClient';
 import {
   makeJiraObjectResult,
   makePersonResult,
@@ -54,6 +51,18 @@ const boards = [
     contentType: ContentType.JiraBoard,
   }),
 ];
+
+const recentlytIssuesAndBoards: SearchResultsMap = {
+  'jira.issue': {
+    items: issues,
+    totalSize: issues.length,
+  },
+  'jira.board,project,filter': {
+    items: boards,
+    totalSize: boards.length,
+  },
+} as SearchResultsMap;
+
 const people = [makePersonResult(), makePersonResult(), makePersonResult()];
 const referralContextIdentifiers: ReferralContextIdentifiers = {
   currentContainerId: '123-container',
@@ -121,13 +130,14 @@ describe('Jira Quick Search Container', () => {
   describe('getRecentItems', () => {
     it('should not throw when recent promise throw', async () => {
       const error = new Error('something wrong');
-      const jiraClient = mockErrorJiraClient(error);
+      const crossProductSearchClient = mockErrorCrossProductSearchClient(error);
+      const recentsSpy = jest.spyOn(crossProductSearchClient, 'getRecentItems');
       const getRecentItems = getQuickSearchProperty(
-        renderComponent({ jiraClient }),
+        renderComponent({ crossProductSearchClient }),
         'getRecentItems',
       );
-      const { eagerRecentItemsPromise } = getRecentItems(sessionId);
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      const { eagerRecentItemsPromise } = getRecentItems();
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: [],
@@ -144,16 +154,19 @@ describe('Jira Quick Search Container', () => {
     });
 
     it('should not throw when people recent promise is rejected', async () => {
-      const jiraClient = mockNoResultJiraClient();
+      const recentsSpy = jest.spyOn(
+        noResultsCrossProductSearchClient,
+        'getRecentItems',
+      );
       const getRecentItems = getQuickSearchProperty(
         renderComponent({
-          jiraClient,
+          crossProductSearchClient: noResultsCrossProductSearchClient,
           peopleSearchClient: errorPeopleSearchClient,
         }),
         'getRecentItems',
       );
-      const { eagerRecentItemsPromise } = getRecentItems(sessionId);
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      const { eagerRecentItemsPromise } = getRecentItems();
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: [],
@@ -170,20 +183,24 @@ describe('Jira Quick Search Container', () => {
     });
 
     it('should return correct recent items', async () => {
-      const jiraClient = mockJiraClientWithData([...issues, ...boards]);
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        { results: recentlytIssuesAndBoards },
+        DEFAULT_AB_TEST,
+      );
+      const recentsSpy = jest.spyOn(crossProductSearchClient, 'getRecentItems');
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: people,
       });
 
       const getRecentItems = getQuickSearchProperty(
-        renderComponent({ jiraClient, peopleSearchClient }),
+        renderComponent({ crossProductSearchClient, peopleSearchClient }),
         'getRecentItems',
       );
       const {
         eagerRecentItemsPromise,
         lazyLoadedRecentItemsPromise,
-      } = getRecentItems(sessionId);
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      } = getRecentItems();
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(await eagerRecentItemsPromise).toMatchObject({
         results: {
           objects: issues,
@@ -197,18 +214,27 @@ describe('Jira Quick Search Container', () => {
     });
 
     it('should not return recent people if no browse permission', async () => {
-      const jiraClient = mockJiraClientWithData([...issues, ...boards], false);
+      const jiraClient = mockNoResultJiraClient(false);
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        { results: recentlytIssuesAndBoards },
+        DEFAULT_AB_TEST,
+      );
+      const recentsSpy = jest.spyOn(crossProductSearchClient, 'getRecentItems');
+
       const peopleSearchClient = mockPeopleSearchClient({
         recentPeople: people,
       });
 
       const getRecentItems = getQuickSearchProperty(
-        renderComponent({ jiraClient, peopleSearchClient }),
+        renderComponent({
+          jiraClient,
+          crossProductSearchClient,
+          peopleSearchClient,
+        }),
         'getRecentItems',
       );
-      const recentItems = await getRecentItems(sessionId)
-        .eagerRecentItemsPromise;
-      expect(jiraClient.getRecentItems).toHaveBeenCalledTimes(1);
+      const recentItems = await getRecentItems().eagerRecentItemsPromise;
+      expect(recentsSpy).toHaveBeenCalledTimes(1);
       expect(recentItems).toMatchObject({
         results: {
           objects: issues,

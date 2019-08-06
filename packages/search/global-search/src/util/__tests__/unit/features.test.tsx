@@ -33,13 +33,4 @@ describe('features', () => {
     });
     expect(features.disableJiraPreQueryPeopleSearch).toEqual(true);
   });
-
-  it('returns expected value for enablePreQueryFromAggregator', () => {
-    const features = createFeatures({
-      ...defaultParameters,
-      abTest: abTestData('', 'default'),
-      enablePreQueryFromAggregator: true,
-    });
-    expect(features.enablePreQueryFromAggregator).toEqual(true);
-  });
 });
