@@ -94,6 +94,7 @@ export enum ACTION_SUBJECT_ID {
   FORMAT_SUB = 'subscript',
   FORMAT_SUPER = 'superscript',
   FORMAT_UNDERLINE = 'underline',
+  HEADING_ANCHOR_LINK = 'headingAnchorLink',
   LINE_BREAK = 'lineBreak',
   LINK = 'link',
   MEDIA_LINK = 'mediaLink',

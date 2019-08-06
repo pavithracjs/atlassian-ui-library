@@ -103,6 +103,11 @@ type ButtonFeedbackAEP = ButtonAEP<
   undefined
 >;
 
+type HeadingAnchorLinkAEP = ButtonAEP<
+  ACTION_SUBJECT_ID.HEADING_ANCHOR_LINK,
+  undefined
+>;
+
 type PickerEmojiAEP = PickerAEP<
   ACTION_SUBJECT_ID.PICKER_EMOJI,
   { inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.INSERT_MENU }
@@ -169,6 +174,7 @@ export type GeneralEventPayload =
   | PickerEmojiAEP
   | PickerImageAEP
   | FeedbackAEP
+  | HeadingAnchorLinkAEP
   | TypeAheadQuickInsertAEP
   | TypeAheadEmojiAEP
   | TypeAheadLinkAEP

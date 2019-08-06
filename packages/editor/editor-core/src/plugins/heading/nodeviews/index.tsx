@@ -16,15 +16,24 @@ import {
 } from '../../../nodeviews/ReactNodeView';
 import { copyTextToClipboard } from '..';
 import { findChildren } from 'prosemirror-utils';
+import {
+  DispatchAnalyticsEvent,
+  ACTION,
+  ACTION_SUBJECT,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+} from '../../analytics';
 
 export class HeadingNodeView extends SelectionBasedNodeView {
   private oldHeadingContent: string;
+  private dispatchAnalyticsEvent: DispatchAnalyticsEvent;
 
   constructor(
     node: PMNode,
     view: EditorView,
     getPos: getPosHandler,
     portalProviderAPI: PortalProviderAPI,
+    dispatchAnalyticsEvent: DispatchAnalyticsEvent,
     reactComponentProps: ReactComponentProps = {},
     reactComponent?: React.ComponentType<any>,
     hasContext: boolean = false,
@@ -40,6 +49,8 @@ export class HeadingNodeView extends SelectionBasedNodeView {
       hasContext,
       viewShouldUpdate,
     );
+
+    this.dispatchAnalyticsEvent = dispatchAnalyticsEvent;
 
     this.oldHeadingContent = node.content.toString();
   }
@@ -117,7 +128,15 @@ export class HeadingNodeView extends SelectionBasedNodeView {
       <Heading
         headingId={this.currentHeadingId()}
         level={this.node.attrs.level}
-        onClick={this.copyText}
+        onClick={() => {
+          this.dispatchAnalyticsEvent({
+            action: ACTION.CLICKED,
+            actionSubject: ACTION_SUBJECT.BUTTON,
+            actionSubjectId: ACTION_SUBJECT_ID.HEADING_ANCHOR_LINK,
+            eventType: EVENT_TYPE.UI,
+          });
+          return this.copyText();
+        }}
         isTopLevelHeading={!pos.depth}
         forwardRef={forwardRef}
       />
@@ -125,7 +144,16 @@ export class HeadingNodeView extends SelectionBasedNodeView {
   }
 }
 
-export default function headingNodeView(portalProviderAPI: PortalProviderAPI) {
+export default function headingNodeView(
+  portalProviderAPI: PortalProviderAPI,
+  dispatchAnalyticsEvent: DispatchAnalyticsEvent,
+) {
   return (node: PMNode, view: EditorView, getPos: getPosHandler): NodeView =>
-    new HeadingNodeView(node, view, getPos, portalProviderAPI).init();
+    new HeadingNodeView(
+      node,
+      view,
+      getPos,
+      portalProviderAPI,
+      dispatchAnalyticsEvent,
+    ).init();
 }

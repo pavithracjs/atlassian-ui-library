@@ -27,7 +27,8 @@ const headingPlugin = (): EditorPlugin => ({
     return [
       {
         name: 'heading',
-        plugin: ({ portalProviderAPI }) => createPlugin(portalProviderAPI),
+        plugin: ({ portalProviderAPI, dispatchAnalyticsEvent }) =>
+          createPlugin(portalProviderAPI, dispatchAnalyticsEvent),
       },
     ];
   },
