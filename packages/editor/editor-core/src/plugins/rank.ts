@@ -3,6 +3,7 @@ export default {
     'compositionPlugin',
     'inlineCursorTargetPlugin',
     'focusHandlerPlugin',
+    'frozenEditor',
     'submitEditor',
     'customAutoformatting',
     'newlinePreserveMarksPlugin',
@@ -144,7 +145,6 @@ export default {
     'underline',
     'code',
     'typeAheadQuery',
-    'emojiQuery',
 
     // Block marks
     'alignment',

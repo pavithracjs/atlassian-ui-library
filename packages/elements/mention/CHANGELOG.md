@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.12.0
+
+### Minor Changes
+
+- [minor][fe1a882fbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe1a882fbb):
+
+  TEAMS-602 : Can pass the team creation link from confluence as an optional parameter to the Team Mention Spotlight
+
 ## 18.11.4
 
 ### Patch Changes

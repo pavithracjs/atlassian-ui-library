@@ -296,7 +296,6 @@ export default function encode(node: PMNode, schema: Schema) {
             elem = elem.appendChild(encodeTextColor(node, schema));
             break;
           case 'emojiQuery':
-            elem.textContent = node.text;
             break;
           default:
             throw new Error(`Unable to encode mark '${type}'`);

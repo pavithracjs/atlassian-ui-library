@@ -257,6 +257,7 @@ describe('zoomLevelAfterResize', () => {
         oldCamera,
         oldZoomLevel,
       );
+      expect(newZoomLevel.value === newCamera.scaleDownToFit).toBeTruthy();
       return newZoomLevel.value === newCamera.scaleDownToFit;
     },
   );
@@ -281,6 +282,7 @@ describe('zoomLevelAfterResize', () => {
         oldCamera,
         oldZoomLevel,
       );
+      expect(newZoomLevel.value === oldZoomLevel.value).toBeTruthy();
       return newZoomLevel.value === oldZoomLevel.value;
     },
   );

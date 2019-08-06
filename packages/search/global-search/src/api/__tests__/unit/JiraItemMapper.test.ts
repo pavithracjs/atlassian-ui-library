@@ -7,8 +7,8 @@ import {
   generateRandomJiraBoard,
   generateRandomJiraFilter,
   generateRandomJiraProject,
-} from '../../../../example-helpers/mockJira';
-import { JiraItemV1, JiraItemV2 } from '../../types';
+} from '../../../../example-helpers/mocks/mockJira';
+import { JiraItemV1, JiraItemV2 } from '../../../api/types';
 
 describe('mapJiraItemToResult', () => {
   it('should be able to parse issue V1 response', () => {

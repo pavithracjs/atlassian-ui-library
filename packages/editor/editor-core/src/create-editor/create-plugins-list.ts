@@ -67,6 +67,7 @@ export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
     basePlugin({
       allowInlineCursorTarget: appearance !== 'mobile',
       allowScrollGutter: allowScrollGutter(props),
+      addRunTimePerformanceCheck: isFullPage,
     }),
     blockTypePlugin({ lastNodeMustBeParagraph: appearance === 'comment' }),
     placeholderPlugin(),

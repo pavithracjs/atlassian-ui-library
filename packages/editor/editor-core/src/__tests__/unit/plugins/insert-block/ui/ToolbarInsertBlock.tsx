@@ -262,8 +262,8 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
         beforeEach(() => {
           buildToolbarForMenu({
             emojiDisabled: false,
+            isTypeAheadAllowed: true,
             emojiProvider,
-            insertEmoji: jest.fn(),
           });
           clickEmojiOption();
         });

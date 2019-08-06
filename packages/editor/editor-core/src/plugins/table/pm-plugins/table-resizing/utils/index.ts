@@ -15,7 +15,7 @@ export {
 export { growColumn, shrinkColumn, reduceSpace } from './resize-logic';
 export {
   ResizeState,
-  getResizeStateFromDOM,
+  getResizeState,
   resizeColumn,
   updateColgroup,
   getTotalWidth,

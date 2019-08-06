@@ -17,16 +17,9 @@ import {
   InputWrapper,
   UrlInputWrapper,
 } from '../../../../ui/RecentSearch/ToolbarComponents';
-import {
-  ACTION,
-  ACTION_SUBJECT,
-  ACTION_SUBJECT_ID,
-  AnalyticsEventPayload,
-  DispatchAnalyticsEvent,
-  EVENT_TYPE,
-  INPUT_METHOD,
-} from '../../../analytics';
+import { DispatchAnalyticsEvent, INPUT_METHOD } from '../../../analytics';
 import { normalizeUrl } from '../../utils';
+import { getLinkCreationAnalyticsEvent } from '../../analytics';
 
 const ClearText = styled.span`
   cursor: pointer;
@@ -285,6 +278,7 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
           this.trackAutoCompleteAnalyticsEvent(
             'atlassian.editor.format.hyperlink.autocomplete.click',
             INPUT_METHOD.TYPEAHEAD,
+            href,
           );
         }
       },
@@ -316,6 +310,7 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.keyboard',
           INPUT_METHOD.TYPEAHEAD,
+          item.url,
         );
       }
     } else if (text && text.length > 0) {
@@ -329,6 +324,7 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.notselected',
           INPUT_METHOD.MANUAL,
+          text,
         );
       }
     }
@@ -379,20 +375,15 @@ class LinkAddToolbar extends PureComponent<Props & InjectedIntlProps, State> {
   private trackAutoCompleteAnalyticsEvent(
     name: string,
     method: INPUT_METHOD.TYPEAHEAD | INPUT_METHOD.MANUAL,
+    url: string,
   ) {
     const numChars = this.state.text ? this.state.text.length : 0;
     analyticsService.trackEvent(name, { numChars: numChars });
 
-    const payload: AnalyticsEventPayload = {
-      action: ACTION.INSERTED,
-      actionSubject: ACTION_SUBJECT.DOCUMENT,
-      actionSubjectId: ACTION_SUBJECT_ID.LINK,
-      attributes: { inputMethod: method },
-      eventType: EVENT_TYPE.TRACK,
-    };
-
     if (this.props.dispatchAnalyticsEvent) {
-      this.props.dispatchAnalyticsEvent(payload);
+      this.props.dispatchAnalyticsEvent(
+        getLinkCreationAnalyticsEvent(method, url),
+      );
     }
   }
 }

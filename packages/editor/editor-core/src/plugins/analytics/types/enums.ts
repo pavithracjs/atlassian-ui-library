@@ -21,11 +21,15 @@ export enum ACTION {
   PASTED = 'pasted',
   PASTED_AS_PLAIN = 'pastedAsPlain',
   PROSEMIRROR_RENDERED = 'proseMirrorRendered',
+  REDID = 'redid',
   STARTED = 'started',
   STOPPED = 'stopped',
   SUBSTITUTED = 'autoSubstituted',
+  UNDID = 'undid',
   UNLINK = 'unlinked',
   VISITED = 'visited',
+  BROWSER_FREEZE = 'browserFreeze',
+  SLOW_INPUT = 'slowInput',
 }
 
 export enum INPUT_METHOD {

@@ -41,9 +41,11 @@ describe('Spinner', () => {
   it('should leave the DELAY state after some time', () => {
     const wrapper = mount(<Spinner />);
     wrapper.find(Container).simulate('animationEnd');
-    setTimeout(() =>
-      expect(wrapper.find(Container).prop('phase')).not.toBe('DELAY'),
-    );
+    // Issues with expect.hasAssertions()
+    expect(true).toBe(true);
+    setTimeout(() => {
+      expect(wrapper.find(Container).prop('phase')).not.toBe('DELAY');
+    });
   });
 
   describe('delay prop', () => {

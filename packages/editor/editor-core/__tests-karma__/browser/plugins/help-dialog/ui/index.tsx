@@ -105,7 +105,7 @@ describe('@atlaskit/editor-core/editor/ui/HelpDialog', () => {
         'bulletList',
         'listItem',
       ],
-      marks: ['link', 'em', 'underline', 'emojiQuery', 'textColor', 'code'],
+      marks: ['link', 'em', 'underline', 'textColor', 'code'],
       customNodeSpecs: { doc },
     });
     it('should return only the list of formatting supported by schema', () => {
