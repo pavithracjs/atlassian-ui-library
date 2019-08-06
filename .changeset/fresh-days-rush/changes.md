@@ -1,0 +1,1 @@
+Prevent unnecessary re-renders of tables on initial render
