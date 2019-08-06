@@ -93,11 +93,13 @@ function mockCrossProductSearchApi(delayMs: number, queryMockSearch: any) {
           };
         })
         .filter((scope: ScopeResult) => {
-          // filter out nav completion scope results if nav completion isn't requested.
-          return (
-            !includesNavCompletionScope &&
-            scope.id != Scope.NavSearchCompleteConfluence
-          );
+          if (!includesNavCompletionScope) {
+            return scope.id === Scope.NavSearchCompleteConfluence
+              ? false
+              : true;
+          } else {
+            return true;
+          }
         });
 
       return delay(delayMs, { ...response, scopes: scopeResponses });
