@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import Button from '@atlaskit/button';
 import EmptyState from '../src';
@@ -33,6 +31,7 @@ const props = {
   imageUrl: exampleImage,
   primaryAction,
   tertiaryAction,
+  isLoading: true,
 };
 
 export default () => <EmptyState {...props} />;

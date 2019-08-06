@@ -1,4 +1,3 @@
-// @flow
 import {
   getExampleUrl,
   takeScreenShot,
@@ -14,7 +13,6 @@ describe('Snapshot Test', () => {
     );
     const image = await takeScreenShot(global.page, url);
     // Allow two percent tolerance for comparision
-    //$FlowFixMe
     expect(image).toMatchProdImageSnapshot({
       failureThreshold: '0.02',
       failureThresholdType: 'percent',
