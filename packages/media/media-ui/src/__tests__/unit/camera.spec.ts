@@ -21,6 +21,10 @@ describe('Rectangle', () => {
         const fitted = original.scaled(
           original.scaleToFitLargestSide(containing),
         );
+        expect(
+          Math.round(fitted.width) > Math.round(containing.width) ||
+            Math.round(fitted.height) > Math.round(containing.height),
+        ).toBeFalsy();
         return !(
           Math.round(fitted.width) > Math.round(containing.width) ||
           Math.round(fitted.height) > Math.round(containing.height)
@@ -40,6 +44,10 @@ describe('Rectangle', () => {
         const fitted = original.scaled(
           original.scaleToFitSmallestSide(containing),
         );
+        expect(
+          Math.round(fitted.width) === Math.round(containing.width) ||
+            Math.round(fitted.height) === Math.round(containing.height),
+        ).toBeTruthy();
         return (
           Math.round(fitted.width) === Math.round(containing.width) ||
           Math.round(fitted.height) === Math.round(containing.height)
@@ -59,6 +67,10 @@ describe('Rectangle', () => {
         const fitted = original.scaled(
           original.scaleToFitSmallestSide(containing),
         );
+        expect(
+          original.aspectRatio - fitted.aspectRatio <=
+            ACCEPTABLE_FLOATING_ERROR,
+        ).toBeTruthy();
         return (
           original.aspectRatio - fitted.aspectRatio <= ACCEPTABLE_FLOATING_ERROR
         );
@@ -132,6 +144,7 @@ describe('Camera', () => {
         const viewport = new Rectangle(side1, side2);
         const originalImg = new Rectangle(side3, side4);
         const camera = new Camera(viewport, originalImg);
+        expect(camera.scaleDownToFit <= 1).toBeTruthy();
         return camera.scaleDownToFit <= 1;
       },
     );
@@ -146,6 +159,7 @@ describe('Camera', () => {
         const viewport = new Rectangle(side1 + side3, side2 + side4);
         const originalImg = new Rectangle(side3, side4);
         const camera = new Camera(viewport, originalImg);
+        expect(camera.scaleDownToFit === 1).toBeTruthy();
         return camera.scaleDownToFit === 1;
       },
     );
@@ -160,6 +174,7 @@ describe('Camera', () => {
         const viewport = new Rectangle(side1, side2);
         const originalImg = new Rectangle(side1 + side3, side2 + side4);
         const camera = new Camera(viewport, originalImg);
+        expect(camera.scaleDownToFit < 1).toBeTruthy();
         return camera.scaleDownToFit < 1;
       },
     );
@@ -179,6 +194,9 @@ describe('Camera', () => {
         const camera = new Camera(viewport, originalImg);
         const fitted = camera.fittedImg;
         const upscaled = camera.scaledImg(scale);
+        expect(
+          fitted.width < upscaled.width && fitted.height < upscaled.height,
+        ).toBeTruthy();
         return fitted.width < upscaled.width && fitted.height < upscaled.height;
       },
     );
@@ -195,6 +213,10 @@ describe('Camera', () => {
         const originalImg = new Rectangle(side3, side4);
         const camera = new Camera(viewport, originalImg);
         const downscaled = camera.scaledImg(scale);
+        expect(
+          originalImg.width > downscaled.width &&
+            originalImg.height > downscaled.height,
+        ).toBeTruthy();
         return (
           originalImg.width > downscaled.width &&
           originalImg.height > downscaled.height
@@ -218,6 +240,7 @@ describe('Camera', () => {
         const prevOffset = new Vector2(0, 0);
         const fitted = camera.scaledOffset(prevOffset, 1, 1);
         const upscaled = camera.scaledOffset(prevOffset, 1, scale);
+        expect(fitted.x < upscaled.x && fitted.y < upscaled.y).toBeTruthy();
         return fitted.x < upscaled.x && fitted.y < upscaled.y;
       },
     );
@@ -236,6 +259,7 @@ describe('Camera', () => {
         const prevOffset = new Vector2(0, 0);
         const fitted = camera.scaledOffset(prevOffset, 1, 1);
         const downscaled = camera.scaledOffset(prevOffset, 1, scale);
+        expect(fitted.x > downscaled.x && fitted.y > downscaled.y).toBeTruthy();
         return fitted.x > downscaled.x && fitted.y > downscaled.y;
       },
     );

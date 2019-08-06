@@ -4,7 +4,7 @@ import {
   getMockAbbreviation,
   getMockLastName,
 } from './mockData';
-import { JiraItem } from '../src/api/types';
+import { JiraItem } from '../../src/api/types';
 import uuid from 'uuid/v4';
 
 const issueTypeMap = {

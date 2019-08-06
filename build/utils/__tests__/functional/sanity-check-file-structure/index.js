@@ -9,7 +9,7 @@ describe('TypeScript dist check', function() {
         if (error || stderr) {
           return done.fail(error || stderr);
         }
-
+        expect(stdout).toBeDefined();
         return done();
       },
     );

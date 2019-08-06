@@ -59,9 +59,6 @@ describe('@atlaskit/tree - utils/flat-tree', () => {
 
     describe('moving down', () => {
       describe('same parent', () => {
-        it('moves to the top of the list', () => {
-          // not valid
-        });
         it('moves to the middle of the list', () => {
           expect(getDestinationPath(flatComplexTree, 3, 4)).toEqual([2, 1]);
         });
@@ -81,9 +78,6 @@ describe('@atlaskit/tree - utils/flat-tree', () => {
 
       describe('different parent', () => {
         describe('higher level', () => {
-          it('moves to the top of the list', () => {
-            // not valid
-          });
           it('moves to the middle of the list', () => {
             expect(getDestinationPath(flatComplexTree, 4, 8)).toEqual([5]);
           });
@@ -143,9 +137,6 @@ describe('@atlaskit/tree - utils/flat-tree', () => {
         it('moves to the middle of the list', () => {
           expect(getDestinationPath(flatComplexTree, 5, 4)).toEqual([2, 1]);
         });
-        it('moves to the end of the list', () => {
-          // not valid
-        });
       });
 
       describe('different parent', () => {
@@ -158,9 +149,6 @@ describe('@atlaskit/tree - utils/flat-tree', () => {
           });
           it('moves to the middle of the list', () => {
             expect(getDestinationPath(flatComplexTree, 4, 1)).toEqual([1]);
-          });
-          it('moves to the end of the list', () => {
-            // not valid
           });
         });
 

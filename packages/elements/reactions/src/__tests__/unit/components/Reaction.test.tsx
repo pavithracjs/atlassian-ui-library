@@ -52,7 +52,7 @@ const renderReaction = (
 );
 
 describe('@atlaskit/reactions/reaction', () => {
-  it('should render emoji with resolved emoji data', () => {
+  it('should render emoji with resolved emoji data', done => {
     const reaction = mount(renderReaction(false, 1, () => {}));
 
     waitUntil(() => hasSelector(reaction, Emoji)).then(() => {
@@ -60,6 +60,7 @@ describe('@atlaskit/reactions/reaction', () => {
       expect(emoji.length).toEqual(1);
       const emojiDesc = emoji.prop('emoji');
       expect(emojiDesc.id).toEqual(grinning.id);
+      done();
     });
   });
 

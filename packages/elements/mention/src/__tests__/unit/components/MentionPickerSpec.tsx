@@ -78,11 +78,12 @@ function hasExpectedItems(
     mentionsComponent.update() &&
     mentionsComponent.find(MentionItem).length === numItems;
 }
-
+// TODO: After updating to expect.hasAssertions(), it identified some tests that are not correctly written.
+// Please refer to: https://product-fabric.atlassian.net/browse/FS-4183
 describe('MentionPicker', () => {
   it('should accept all mention names by default', () => {
     const component = setupPicker();
-
+    expect(component).toBeDefined();
     return waitUntil(hasExpectedItems(component, MAX_NOTIFIED_ITEMS));
   });
 
@@ -90,6 +91,7 @@ describe('MentionPicker', () => {
     const component = setupPicker({
       query: 's',
     } as Props);
+    expect(component).toBeDefined();
     return waitUntil(hasExpectedItems(component, 6));
   });
 
@@ -97,12 +99,13 @@ describe('MentionPicker', () => {
     const component = setupPicker({
       query: 'shae',
     } as Props);
+    expect(component).toBeDefined();
     return waitUntil(hasExpectedItems(component, 1));
   });
 
   it('should report error when service fails', () => {
     const component = setupPicker();
-
+    expect(component).toBeDefined();
     return waitUntil(createDefaultMentionItemsShowTest(component))
       .then(() => {
         component.setProps({ query: 'nothing' });
@@ -135,7 +138,7 @@ describe('MentionPicker', () => {
 
   it('should display particular message for 403 HTTP response', () => {
     const component = setupPicker();
-
+    expect(component).toBeDefined();
     return waitUntil(createDefaultMentionItemsShowTest(component))
       .then(() => {
         component.setProps({ query: 'nothing' });
@@ -154,6 +157,7 @@ describe('MentionPicker', () => {
 
   it('should display previous mention if error straight after', () => {
     const component = setupPicker();
+    expect(component).toBeDefined();
     const defaultMentionItemsShowTest = () =>
       createDefaultMentionItemsShowTest(component);
     const mentionErrorProcessed = () => {
@@ -172,6 +176,7 @@ describe('MentionPicker', () => {
 
   it('should change selection when navigating next', () => {
     const component = setupPicker();
+    expect(component).toBeDefined();
     const secondItemSelected = () =>
       isMentionItemSelected(component, mentions[1].id);
 
@@ -185,6 +190,7 @@ describe('MentionPicker', () => {
 
   it('should change selection when selectIndex called', () => {
     const component = setupPicker();
+    expect(component).toBeDefined();
     const thirdItemSelected = () =>
       isMentionItemSelected(component, mentions[2].id);
 
@@ -198,6 +204,7 @@ describe('MentionPicker', () => {
 
   it('should change selection when selectId called', () => {
     const component = setupPicker();
+    expect(component).toBeDefined();
     const thirdItemSelected = () =>
       isMentionItemSelected(component, mentions[2].id);
 
@@ -211,6 +218,7 @@ describe('MentionPicker', () => {
 
   it('should change selection when navigating previous', () => {
     const component = setupPicker();
+    expect(component).toBeDefined();
     const lastItemSelected = () =>
       isMentionItemSelected(component, mentions[MAX_NOTIFIED_ITEMS - 1].id);
 
@@ -230,6 +238,7 @@ describe('MentionPicker', () => {
         chosenMention = mention;
       },
     } as Props);
+    expect(component).toBeDefined();
     const secondItemSelected = () =>
       isMentionItemSelected(component, mentions[1].id);
     const chooseSecondItem = () =>
@@ -258,6 +267,7 @@ describe('MentionPicker', () => {
         chosenMention = mention;
       },
     } as Props);
+    expect(component).toBeDefined();
     const chooseThirdItem = () =>
       chosenMention && chosenMention.id === mentions[2].id;
 
