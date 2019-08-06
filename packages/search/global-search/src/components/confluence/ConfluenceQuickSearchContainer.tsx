@@ -33,6 +33,7 @@ import {
   ConfluenceAdvancedSearchTypes,
   redirectToConfluenceAdvancedSearch,
   handlePromiseError,
+  ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
@@ -680,6 +681,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         logger={logger}
         inputControls={inputControls}
         features={features}
+        advancedSearchId={ADVANCED_CONFLUENCE_SEARCH_RESULT_ID}
       />
     );
   }
