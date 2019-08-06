@@ -10,7 +10,7 @@ let mockRegisterClosed = jest.fn();
 let mockIsHighlightEnabled = jest.fn();
 
 jest.mock(
-  '../../../components/MentionHighlight/MentionHighlightController',
+  '../../../components/TeamMentionHighlight/TeamMentionHighlightController',
   () => ({
     __esModule: true,
     default: {
