@@ -15,7 +15,7 @@ import {
   UploadsStartEventPayload,
 } from '../../../domain/uploadEvent';
 
-jest.mock('../../../service/newUploadServiceImpl');
+jest.mock('../../../service/uploadServiceImpl');
 jest.mock('../../component');
 
 import { SCALE_FACTOR_DEFAULT } from '../../../util/getPreviewFromImage';

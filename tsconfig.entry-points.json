@@ -1507,6 +1507,10 @@
         "../../elements/mention/src/shared-styles",
         "./packages/elements/mention/src/shared-styles"
       ],
+      "@atlaskit/mention/spotlight": [
+        "../../elements/mention/src/spotlight",
+        "./packages/elements/mention/src/spotlight"
+      ],
       "@atlaskit/mention/team-resource": [
         "../../elements/mention/src/team-resource",
         "./packages/elements/mention/src/team-resource"

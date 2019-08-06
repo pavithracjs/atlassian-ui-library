@@ -23,7 +23,7 @@ describe('SkeletonContainerView', () => {
     it(`should apply a default dataset to the container element when given a ${type} type and dataset is not provided`, () => {
       const wrapper = render(<SkeletonContainerView type={type} />);
       expect(wrapper.data()).toEqual({
-        testId: 'ContextualNavigationSkeleton',
+        testid: 'ContextualNavigationSkeleton',
       });
     });
 

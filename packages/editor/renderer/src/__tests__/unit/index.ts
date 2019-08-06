@@ -76,6 +76,7 @@ describe('Renderer', () => {
 
       assert(res.result, 'Output is missing');
       assert(res.stat, 'Stat is missing');
+      expect(res.result).toBe('dummy');
     });
 
     it('should return null if document is invalid', () => {

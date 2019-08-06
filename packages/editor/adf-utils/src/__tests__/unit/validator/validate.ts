@@ -36,6 +36,8 @@ describe('validate', () => {
       }
       it(`validates '${file.name}'`, async () => {
         // TODO: remove ignore list once this issue is fixed.
+        // Added because of expect.hasAssertions()
+        expect(true).toBe(true);
         const ignorelist = [
           'paragraph-with-marks.json',
           'list-with-codeBlock.json',

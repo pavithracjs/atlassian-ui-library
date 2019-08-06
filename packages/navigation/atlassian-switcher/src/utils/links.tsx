@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FormattedMessage as FormattedMessageNamespace } from 'react-intl';
 
 import DiscoverFilledGlyph from '@atlaskit/icon/glyph/discover-filled';
+import AddIcon from '@atlaskit/icon/glyph/add';
 import SettingsGlyph from '@atlaskit/icon/glyph/settings';
 
 import {
@@ -116,14 +117,29 @@ export const getObjectTypeLabel = (type: string): React.ReactNode => {
   );
 };
 
-export const getFixedProductLinks = (): SwitcherItemType[] => [
-  {
-    key: 'people',
-    label: <FormattedMessage {...messages.people} />,
-    Icon: createIcon(PeopleLogo, { size: 'small' }),
-    href: `/people`,
-  },
-];
+export const getFixedProductLinks = (
+  isDiscoverMoreForEveryoneEnabled: boolean,
+): SwitcherItemType[] => {
+  const fixedLinks = [
+    {
+      key: 'people',
+      label: <FormattedMessage {...messages.people} />,
+      Icon: createIcon(PeopleLogo, { size: 'small' }),
+      href: `/people`,
+    },
+  ];
+  if (isDiscoverMoreForEveryoneEnabled) {
+    // The discover more link href is intentionally empty to prioritise the onDiscoverMoreClicked callback
+    fixedLinks.push({
+      key: 'discover-more',
+      label: <FormattedMessage {...messages.discoverMore} />,
+      Icon: createIcon(AddIcon, { size: 'medium' }),
+      href: '',
+    });
+  }
+
+  return fixedLinks;
+};
 
 type AvailableProductDetails = Pick<
   SwitcherItemType,
@@ -273,15 +289,10 @@ export const getLicensedProductLinks = (
 
 export const getAdministrationLinks = (
   isAdmin: boolean,
+  isDiscoverMoreForEveryoneEnabled: boolean,
 ): SwitcherItemType[] => {
   const adminBaseUrl = isAdmin ? `/admin` : '/trusted-admin';
-  return [
-    {
-      key: 'discover-applications',
-      label: <FormattedMessage {...messages.discoverMore} />,
-      Icon: createIcon(DiscoverFilledGlyph, { size: 'medium' }),
-      href: `${adminBaseUrl}/billing/addapplication`,
-    },
+  const adminLinks = [
     {
       key: 'administration',
       label: <FormattedMessage {...messages.administration} />,
@@ -289,6 +300,15 @@ export const getAdministrationLinks = (
       href: adminBaseUrl,
     },
   ];
+  if (!isDiscoverMoreForEveryoneEnabled) {
+    adminLinks.unshift({
+      key: 'discover-applications',
+      label: <FormattedMessage {...messages.discoverMore} />,
+      Icon: createIcon(DiscoverFilledGlyph, { size: 'medium' }),
+      href: `${adminBaseUrl}/billing/addapplication`,
+    });
+  }
+  return adminLinks;
 };
 
 const PRODUCT_RECOMMENDATION_LIMIT = 2;

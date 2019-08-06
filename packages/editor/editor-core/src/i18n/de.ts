@@ -105,6 +105,9 @@ export default {
   'fabric.editor.decision': 'Entscheidung',
   'fabric.editor.decision.description':
     'Entscheidungen erfassen, um sie leicht zu verfolgen',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': 'Trennlinie',
   'fabric.editor.horizontalRule.description':
     'Inhalte mithilfe einer horizontalen Linie unterteilen',

@@ -11,7 +11,6 @@ import { ConfluenceClient } from '../../api/ConfluenceClient';
 import {
   CrossProductSearchClient,
   CrossProductSearchResults,
-  EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   Filter,
   SpaceFilter,
 } from '../../api/CrossProductSearchClient';
@@ -34,6 +33,7 @@ import {
   ConfluenceAdvancedSearchTypes,
   redirectToConfluenceAdvancedSearch,
   handlePromiseError,
+  ADVANCED_CONFLUENCE_SEARCH_RESULT_ID,
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
@@ -273,14 +273,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     queryVersion: number,
     filters: Filter[],
   ): Promise<ResultsWithTiming<ConfluenceResultsMap>> => {
-    const confXpSearchPromise = handlePromiseError(
-      this.searchCrossProductConfluence(
-        query,
-        sessionId,
-        queryVersion,
-        filters,
-      ),
-      EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
+    const confXpSearchPromise = this.searchCrossProductConfluence(
+      query,
+      sessionId,
+      queryVersion,
+      filters,
+    );
+
+    confXpSearchPromise.catch(
       this.handleSearchErrorAnalyticsThunk('xpsearch-confluence'),
     );
 
@@ -681,6 +681,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         logger={logger}
         inputControls={inputControls}
         features={features}
+        advancedSearchId={ADVANCED_CONFLUENCE_SEARCH_RESULT_ID}
       />
     );
   }
