@@ -118,7 +118,7 @@ export default class WebBridgeImpl extends WebBridge
         text,
         color,
         localId: uuid,
-      })(this.editorView);
+      })(this.editorView.state, this.editorView.dispatch);
     }
   }
 

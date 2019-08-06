@@ -15,7 +15,7 @@ import {
   tooltip,
 } from '../../../../keymaps';
 import ToolbarButton from '../../../../ui/ToolbarButton';
-import DropdownMenu from '../../../../ui/DropdownMenu';
+import DropdownMenu, { MenuItem } from '../../../../ui/DropdownMenu';
 import {
   TriggerWrapper,
   Wrapper,
@@ -81,6 +81,8 @@ export const messages = defineMessages({
 export interface State {
   isOpen?: boolean;
 }
+
+type ToolbarItem = MenuItem & { value: string };
 
 class ToolbarAdvancedTextFormatting extends PureComponent<
   Props & InjectedIntlProps,
@@ -198,7 +200,7 @@ class ToolbarAdvancedTextFormatting extends PureComponent<
       intl: { formatMessage },
     } = this.props;
     const { code, underline, subsup, strike } = editorView.state.schema.marks;
-    let items: any[] = [];
+    let items: ToolbarItem[] = [];
 
     if (textFormattingState) {
       const {
@@ -260,7 +262,7 @@ class ToolbarAdvancedTextFormatting extends PureComponent<
   };
 
   private addRecordToItems = (
-    items: Array<any>,
+    items: ToolbarItem[],
     content: string,
     value: string,
     tooltip?: string,
@@ -290,7 +292,7 @@ class ToolbarAdvancedTextFormatting extends PureComponent<
     });
   };
 
-  private onItemActivated = ({ item }: { item: any }) => {
+  private onItemActivated = ({ item }: { item: ToolbarItem }) => {
     analyticsService.trackEvent(`atlassian.editor.format.${item.value}.button`);
 
     const { state, dispatch } = this.props.editorView;

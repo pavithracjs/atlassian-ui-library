@@ -10,10 +10,10 @@ import {
   Plugin,
   PluginKey,
 } from 'prosemirror-state';
+import { findDomRefAtPos } from 'prosemirror-utils';
 import { UploadParams, PopupConfig } from '@atlaskit/media-picker';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
-
 import {
   ErrorReporter,
   ContextIdentifierProvider,
@@ -39,21 +39,14 @@ import PickerFacade, {
 } from '../picker-facade';
 import { MediaState, MediaProvider, MediaStateStatus } from '../types';
 import { insertMediaSingleNode, isMediaSingle } from '../utils/media-single';
-
-import { findDomRefAtPos } from 'prosemirror-utils';
 import {
-  ACTION_SUBJECT_ID,
-  ACTION_SUBJECT,
-  ACTION,
-  EVENT_TYPE,
-  AnalyticsEventPayload,
   INPUT_METHOD,
   InputMethodInsertMedia,
-  DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 import * as helpers from '../commands/helpers';
 import { updateMediaNodeAttrs } from '../commands';
 import { MediaPMPluginOptions } from '..';
+
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -95,7 +88,6 @@ export class MediaPluginState {
   public mediaPluginOptions?: MediaPMPluginOptions;
 
   private removeOnCloseListener: () => void = () => {};
-  private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   private openMediaPickerBrowser?: () => void;
   private onPopupToogleCallback: (isOpen: boolean) => void = () => {};
 
@@ -105,7 +97,6 @@ export class MediaPluginState {
     state: EditorState,
     options: MediaPluginOptions,
     reactContext: () => {},
-    dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
     mediaPluginOptions?: MediaPMPluginOptions,
   ) {
     this.reactContext = reactContext;
@@ -134,7 +125,6 @@ export class MediaPluginState {
     );
 
     this.errorReporter = options.errorReporter || new ErrorReporter();
-    this.dispatchAnalyticsEvent = dispatchAnalyticsEvent;
   }
 
   onContextIdentifierProvider = async (
@@ -293,6 +283,7 @@ export class MediaPluginState {
   insertFile = (
     mediaState: MediaState,
     onMediaStateChanged: MediaStateEventSubscriber,
+    pickerType?: string,
   ) => {
     const mediaStateWithContext: MediaState = {
       ...mediaState,
@@ -318,7 +309,12 @@ export class MediaPluginState {
     if (
       isMediaSingle(this.view.state.schema, mediaStateWithContext.fileMimeType)
     ) {
-      insertMediaSingleNode(this.view, mediaStateWithContext, collection);
+      insertMediaSingleNode(
+        this.view,
+        mediaStateWithContext,
+        this.getInputMethod(pickerType),
+        collection,
+      );
     } else {
       insertMediaGroupNode(this.view, [mediaStateWithContext], collection);
     }
@@ -540,7 +536,7 @@ export class MediaPluginState {
 
       pickers.forEach(picker => {
         picker.onNewMedia(this.insertFile);
-        picker.onNewMedia(this.trackNewMediaEvent(picker.type));
+        picker.onNewMedia(this.trackNewMediaEvent);
       });
     }
 
@@ -548,39 +544,19 @@ export class MediaPluginState {
     pickers.forEach(picker => picker.setUploadParams(uploadParams));
   }
 
-  public trackNewMediaEvent(pickerType: string) {
-    return (mediaState: MediaState) => {
-      analyticsService.trackEvent(
-        `atlassian.editor.media.file.${pickerType}`,
-        mediaState.fileMimeType
-          ? { fileMimeType: mediaState.fileMimeType }
-          : {},
-      );
-
-      if (this.dispatchAnalyticsEvent) {
-        const inputMethod = this.getInputMethod(
-          pickerType,
-        ) as InputMethodInsertMedia;
-        const extensionIdx = mediaState.fileName!.lastIndexOf('.');
-        const fileExtension =
-          extensionIdx >= 0
-            ? mediaState.fileName!.substring(extensionIdx + 1)
-            : undefined;
-
-        const payload: AnalyticsEventPayload = {
-          action: ACTION.INSERTED,
-          actionSubject: ACTION_SUBJECT.DOCUMENT,
-          actionSubjectId: ACTION_SUBJECT_ID.MEDIA,
-          attributes: { inputMethod, fileExtension },
-          eventType: EVENT_TYPE.TRACK,
-        };
-        this.dispatchAnalyticsEvent(payload);
-      }
-    };
+  public trackNewMediaEvent(
+    mediaState: MediaState,
+    onMediaStateChanged: MediaStateEventSubscriber,
+    pickerType?: string,
+  ) {
+    analyticsService.trackEvent(
+      `atlassian.editor.media.file.${pickerType}`,
+      mediaState.fileMimeType ? { fileMimeType: mediaState.fileMimeType } : {},
+    );
   }
 
   private getInputMethod = (
-    pickerType: string,
+    pickerType?: string,
   ): InputMethodInsertMedia | undefined => {
     switch (pickerType) {
       case 'popup':
@@ -731,7 +707,6 @@ export const createPlugin = (
   options: MediaPluginOptions,
   reactContext: () => {},
   dispatch?: Dispatch,
-  dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
   mediaPluginOptions?: MediaPMPluginOptions,
 ) => {
   const dropPlaceholder = createDropPlaceholder(
@@ -745,7 +720,6 @@ export const createPlugin = (
           state,
           options,
           reactContext,
-          dispatchAnalyticsEvent,
           mediaPluginOptions,
         );
       },

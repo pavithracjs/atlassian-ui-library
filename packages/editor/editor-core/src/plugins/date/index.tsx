@@ -17,6 +17,14 @@ import {
   EditorDisabledPluginState,
 } from '../editor-disabled';
 import { IconDate } from '../quick-insert/assets';
+import {
+  addAnalytics,
+  INPUT_METHOD,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+} from '../analytics';
 
 const DatePicker = Loadable({
   loader: () =>
@@ -115,6 +123,13 @@ const datePlugin = (): EditorPlugin => ({
           });
 
           const tr = insert(dateNode, { selectInlineNode: true });
+          addAnalytics(tr, {
+            action: ACTION.INSERTED,
+            actionSubject: ACTION_SUBJECT.DOCUMENT,
+            actionSubjectId: ACTION_SUBJECT_ID.DATE,
+            eventType: EVENT_TYPE.TRACK,
+            attributes: { inputMethod: INPUT_METHOD.QUICK_INSERT },
+          });
           return tr.setMeta(datePluginKey, {
             showDatePickerAt: tr.selection.from,
           });

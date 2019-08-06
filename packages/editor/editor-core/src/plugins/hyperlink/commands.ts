@@ -15,8 +15,11 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
+  withAnalytics,
 } from '../analytics';
 import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
+import { LinkInputType } from './ui/HyperlinkAddToolbar/HyperlinkAddToolbar';
+import { getLinkCreationAnalyticsEvent } from './analytics';
 
 export function isTextAtPos(pos: number): Predicate {
   return (state: EditorState) => {
@@ -169,6 +172,17 @@ export function insertLink(
     return false;
   });
 }
+
+export const insertLinkWithAnalytics = (
+  inputMethod: LinkInputType,
+  from: number,
+  to: number,
+  href: string,
+  text?: string,
+) =>
+  withAnalytics(getLinkCreationAnalyticsEvent(inputMethod, href))(
+    insertLink(from, to, href, text, inputMethod),
+  );
 
 export function removeLink(pos: number): Command {
   return setLinkHref('', pos);

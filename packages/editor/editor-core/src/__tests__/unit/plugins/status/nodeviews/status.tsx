@@ -44,7 +44,7 @@ describe('Status - NodeView', () => {
   it('should use status component', () => {
     const { editorView: view } = editor(doc(p('Status: {<>}')));
 
-    Actions.updateStatus(testStatus)(view);
+    Actions.updateStatus(testStatus)(view.state, view.dispatch);
 
     const wrapper = mountWithIntl(
       <IntlStatusContainerView
@@ -64,7 +64,10 @@ describe('Status - NodeView', () => {
   it('should use status as placeholder when no text', () => {
     const { editorView: view } = editor(doc(p('Status: {<>}')));
 
-    Actions.updateStatus({ ...testStatus, text: '' })(view);
+    Actions.updateStatus({ ...testStatus, text: '' })(
+      view.state,
+      view.dispatch,
+    );
 
     const wrapper = mountWithIntl(
       <IntlStatusContainerView view={view} color="blue" localId="666" />,
@@ -80,7 +83,10 @@ describe('Status - NodeView', () => {
   it('should use status as placeholder when empty text', () => {
     const { editorView: view } = editor(doc(p('Status: {<>}')));
 
-    Actions.updateStatus({ ...testStatus, text: '        ' })(view);
+    Actions.updateStatus({ ...testStatus, text: '        ' })(
+      view.state,
+      view.dispatch,
+    );
 
     const wrapper = mountWithIntl(
       <IntlStatusContainerView
@@ -128,7 +134,7 @@ describe('Status - NodeView', () => {
       editorInstance = editor(doc(p('Status: {<>}')));
       const { editorView: view, eventDispatcher } = editorInstance;
 
-      Actions.updateStatus(testStatus)(view);
+      Actions.updateStatus(testStatus)(view.state, view.dispatch);
 
       // @ts-ignore
       wrapper = mountWithIntl(

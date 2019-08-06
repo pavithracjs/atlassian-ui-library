@@ -129,7 +129,7 @@ describe('Media Analytics', () => {
         ...imageFile,
         id: '3',
         upfrontId: Promise.resolve('3'),
-        type: '',
+        type: 'image/png',
         name: 'bettong',
       };
       insertMedia(imageNoExtension);

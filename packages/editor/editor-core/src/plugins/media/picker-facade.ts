@@ -19,10 +19,16 @@ import {
   MobileUploadEndEventPayload,
 } from './types';
 
-export type PickerType = 'popup' | 'customMediaPicker';
+export type PickerType =
+  | 'popup'
+  | 'clipboard'
+  | 'dropzone'
+  | 'customMediaPicker';
 export type ExtendedComponentConfigs = {
   popup: PopupConfig;
   customMediaPicker: CustomMediaPicker;
+  dropzone: null;
+  clipboard: null;
 };
 
 export type PickerFacadeConfig = {
@@ -39,6 +45,7 @@ export type MediaStateEventSubscriber = ((
 export type NewMediaEvent = (
   state: MediaState,
   onStateChanged: MediaStateEventSubscriber,
+  pickerType?: string,
 ) => void;
 
 export default class PickerFacade {
@@ -51,15 +58,18 @@ export default class PickerFacade {
     string,
     Array<MediaStateEventListener> | undefined
   > = {};
+  private analyticsName: string | undefined;
 
   constructor(
     pickerType: PickerType,
     readonly config: PickerFacadeConfig,
     readonly pickerConfig?: ExtendedComponentConfigs[PickerType],
     readonly mediaPickerFactoryClass = MediaPicker,
+    analyticsName?: string,
   ) {
     this.pickerType = pickerType;
     this.errorReporter = config.errorReporter;
+    this.analyticsName = analyticsName;
   }
 
   async init(): Promise<PickerFacade> {
@@ -173,7 +183,11 @@ export default class PickerFacade {
 
     this.eventListeners[file.id] = [];
     this.onStartListeners.forEach(cb =>
-      cb(state, evt => this.subscribeStateChanged(file, evt)),
+      cb(
+        state,
+        evt => this.subscribeStateChanged(file, evt),
+        this.analyticsName || this.pickerType,
+      ),
     );
   };
 

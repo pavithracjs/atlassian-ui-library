@@ -1,0 +1,1 @@
+ED-7277 Update way of firing insert analytics events so that they automatically work for undo/redo events 

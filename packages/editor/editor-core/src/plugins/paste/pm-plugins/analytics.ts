@@ -306,7 +306,7 @@ export const handleMediaSingleWithAnalytics = (
   type: PasteType,
 ): Command =>
   pipe(
-    handleMediaSingle,
+    handleMediaSingle(INPUT_METHOD.CLIPBOARD),
     commandWithV2Analytics('atlassian.editor.paste', {
       source: getPasteSource(event),
     }),
