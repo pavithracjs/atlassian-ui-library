@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.13.0
+
+### Minor Changes
+
+- [minor][9b83fdea35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b83fdea35):
+
+  TEAMS-618 : Rename Team mention spotlight to Team Mention Highlight
+
 ## 18.12.0
 
 ### Minor Changes
