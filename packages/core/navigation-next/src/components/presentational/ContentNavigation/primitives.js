@@ -30,31 +30,30 @@ import type {
  */
 
 export const ScrollProviderRef = React.createContext();
-const scrollProviderRef = React.createRef();
-class ScrollProvider extends Component<*> {
-  render() {
-    const { isVisible, ...props } = this.props;
-    return (
-      <ScrollProviderRef.Provider value={scrollProviderRef}>
-        <div
-          css={{
-            boxSizing: 'border-box',
-            display: isVisible ? 'flex' : 'none',
-            flexDirection: 'column',
-            height: '100%',
-            overflowX: 'hidden',
-            overflowY: 'auto',
-            width: '100%',
-          }}
-          tabIndex={-1}
-          role="group"
-          ref={scrollProviderRef}
-          {...props}
-        />
-      </ScrollProviderRef.Provider>
-    );
-  }
-}
+const ScrollProvider = ({ isVisible, ...props }: any) => {
+  const scrollProviderRef = React.createRef();
+
+  return (
+    <ScrollProviderRef.Provider value={scrollProviderRef}>
+      <div
+        css={{
+          boxSizing: 'border-box',
+          display: isVisible ? 'flex' : 'none',
+          flexDirection: 'column',
+          height: '100%',
+          overflowX: 'hidden',
+          overflowY: 'auto',
+          width: '100%',
+        }}
+        tabIndex={-1}
+        role="group"
+        ref={scrollProviderRef}
+        {...props}
+      />
+    </ScrollProviderRef.Provider>
+  );
+};
+
 /**
  * ProductNavigation
  */
