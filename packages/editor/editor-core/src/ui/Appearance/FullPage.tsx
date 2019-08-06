@@ -267,6 +267,15 @@ export default class Editor extends React.Component<
     window.addEventListener('resize', this.handleResize, false);
   }
 
+  componentDidUpdate() {
+    if (
+      this.scrollContainer &&
+      this.scrollContainer.clientWidth !== this.state.containerWidth
+    ) {
+      this.updateContainerWidth();
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
 
