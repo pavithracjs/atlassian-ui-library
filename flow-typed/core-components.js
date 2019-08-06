@@ -9,6 +9,10 @@ declare module '@atlaskit/atlassian-switcher' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/analytics-next' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/badge' {
   declare module.exports: any;
 }
