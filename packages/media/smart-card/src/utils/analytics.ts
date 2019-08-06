@@ -2,7 +2,7 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../version.json';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { AnalyticsPayload } from './types';
 
 export const ANALYTICS_CHANNEL = 'media';
@@ -18,7 +18,7 @@ export const context = {
 
 export const fireSmartLinkEvent = (
   payload: AnalyticsPayload,
-  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  createAnalyticsEvent?: CreateUIAnalyticsEvent,
 ) => {
   if (createAnalyticsEvent) {
     createAnalyticsEvent(payload).fire(ANALYTICS_CHANNEL);

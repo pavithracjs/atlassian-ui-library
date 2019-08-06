@@ -165,8 +165,8 @@ class Pagination extends Component<PaginationPropTypes, State> {
   }
 }
 
-export default withAnalyticsContext<PaginationPropTypes>({
+export default withAnalyticsContext({
   componentName: 'pagination',
   packageName,
   packageVersion,
-})(withAnalyticsEvents<PaginationPropTypes>()(Pagination));
+})(withAnalyticsEvents()(Pagination));

@@ -1,4 +1,5 @@
 import { ReactNode, SyntheticEvent } from 'react';
+import { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 // Used by RadioGroupStateless
 export type OptionPropType = {
@@ -47,7 +48,7 @@ export type RadioInputProps = RadioIconProps & {
   value?: string;
 };
 
-export type RadioProps = {
+export interface RadioProps extends WithAnalyticsEventsProps {
   /** the aria-label attribute associated with the radio element */
   ariaLabel?: string;
   /** Field disabled */
@@ -74,4 +75,4 @@ export type RadioProps = {
   onInvalid?: (e: SyntheticEvent<any>) => void;
   /** Field value */
   value?: string | number;
-};
+}

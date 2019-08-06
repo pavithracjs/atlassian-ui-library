@@ -13,7 +13,7 @@ import {
 } from '@atlaskit/mention/resource';
 import {
   UIAnalyticsEvent,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import debug from '../logger';
 import { mentionResult } from './mention-data';
@@ -35,7 +35,7 @@ export interface MockMentionConfig {
 }
 
 export const createMockMentionNameResolver = () => {
-  const analyticsProps: WithAnalyticsEventProps = {
+  const analyticsProps: WithAnalyticsEventsProps = {
     createAnalyticsEvent: payload => {
       // eslint-disable-next-line no-console
       console.log('analytics event', payload);

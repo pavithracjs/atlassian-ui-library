@@ -146,7 +146,7 @@ const mapDispatchToProps = (
   },
 });
 
-const ResourcedConversation = withAnalyticsEvents<BaseProps>()(
+const ResourcedConversation = withAnalyticsEvents()(
   connect(
     mapStateToProps,
     mapDispatchToProps,

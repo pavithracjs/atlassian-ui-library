@@ -1,5 +1,5 @@
 import { GasPayload } from '@atlaskit/analytics-gas-types';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 export type AnalyticsNextEvent = {
   payload: GasPayload;
@@ -8,4 +8,4 @@ export type AnalyticsNextEvent = {
   fire: (string: string) => AnalyticsNextEvent;
 };
 
-export type CreateAnalyticsEventFn = CreateUIAnalyticsEventSignature;
+export type CreateAnalyticsEventFn = CreateUIAnalyticsEvent;

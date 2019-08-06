@@ -3,7 +3,7 @@ import {
   AnalyticsContext,
   AnalyticsListener,
   withAnalyticsEvents,
-  WithAnalyticsEventProps,
+  WithAnalyticsEventsProps,
 } from '@atlaskit/analytics-next';
 import { mount } from 'enzyme';
 import * as React from 'react';
@@ -131,7 +131,7 @@ describe('<FabricElementsListener />', () => {
     });
 
     describe('with source from context', () => {
-      class DummyComponent extends React.Component<WithAnalyticsEventProps> {
+      class DummyComponent extends React.Component<WithAnalyticsEventsProps> {
         render() {
           return (
             <div

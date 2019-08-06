@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 import { waitUntil } from '@atlaskit/util-common-test';
 import {
   AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
+  CreateUIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
 import {
@@ -60,10 +60,8 @@ function setupTypeAhead(props?: Props): Promise<ReactWrapper<any, any>> {
 
 const getCreateAnalyticsSpy = (
   spy: (payload: AnalyticsEventPayload) => void,
-): CreateUIAnalyticsEventSignature => {
-  const wrapper: CreateUIAnalyticsEventSignature = ((
-    payload: AnalyticsEventPayload,
-  ) => {
+): CreateUIAnalyticsEvent => {
+  const wrapper: CreateUIAnalyticsEvent = ((payload: AnalyticsEventPayload) => {
     spy(payload);
     return {
       fire: (_: string) => {},
