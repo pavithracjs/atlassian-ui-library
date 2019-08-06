@@ -9,7 +9,7 @@ import {
 
 BrowserTestCase(
   'Headings will generate correct anchor name',
-  { skip: ['ie', 'edge', 'safari'] },
+  { skip: [] },
   async (client: any, _testName: string) => {
     const page = await goToEditorTestingExample(client);
 

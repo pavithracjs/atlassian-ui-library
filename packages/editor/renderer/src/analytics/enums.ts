@@ -13,10 +13,12 @@ export enum ACTION {
 
 export enum ACTION_SUBJECT {
   RENDERER = 'renderer',
-  HEADING_ANCHOR_LINK = 'headingAnchorLink',
+  BUTTON = 'button',
 }
 
-export enum ACTION_SUBJECT_ID {}
+export enum ACTION_SUBJECT_ID {
+  HEADING_ANCHOR_LINK = 'headingAnchorLink',
+}
 
 export type AEP<
   Action,

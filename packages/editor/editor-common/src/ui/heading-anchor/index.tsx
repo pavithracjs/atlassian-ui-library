@@ -5,10 +5,10 @@ import { colors } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import messages from './messages';
-import { HeadingAnchorWrapperClass } from './heading-anchor-wrapper';
+import { HeadingAnchorWrapperClassName } from './heading-anchor-wrapper';
 
 const HeadingComponentWithAnchor = styled.div`
-  & .${HeadingAnchorWrapperClass} button {
+  & .${HeadingAnchorWrapperClassName} button {
     opacity: 0;
     transform: translate(8px, 0px);
     transition: opacity 0.2s ease 0s, transform 0.2s ease 0s;
@@ -16,7 +16,7 @@ const HeadingComponentWithAnchor = styled.div`
   }
 
   &:hover {
-    & .${HeadingAnchorWrapperClass} button {
+    & .${HeadingAnchorWrapperClassName} button {
       opacity: 1;
       transform: none;
       width: unset;
@@ -121,6 +121,6 @@ class HeadingAnchor extends React.PureComponent<
 
 export default injectIntl(HeadingAnchor);
 export {
-  HeadingAnchorWrapperClass,
+  HeadingAnchorWrapperClassName,
   HeadingAnchorWrapper,
 } from './heading-anchor-wrapper';

@@ -1,18 +1,23 @@
 import React from 'react';
-import { getCurrentUrlWithoutHash } from '@atlaskit/editor-common/src/utils/urls';
+import { getCurrentUrlWithHash } from '@atlaskit/editor-common/src/utils/urls';
 import {
   HeadingAnchor,
   CopyTextConsumer,
   HeadingLevels,
-  WithCreateAnalyticsEvent,
 } from '@atlaskit/editor-common';
 import {
   HeadingComponents,
   HeadingAnchorWrapper,
 } from '@atlaskit/editor-common/src/ui/heading-anchor';
-import { FabricChannel } from '../../../../../elements/analytics-listeners/src';
-import { ACTION, ACTION_SUBJECT, EVENT_TYPE } from '../../analytics/enums';
+
+import {
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+} from '../../analytics/enums';
 import { PLATFORM } from '../../analytics/events';
+import AnalyticsContext from '../../analytics/analyticsContext';
 
 function Heading(
   props: {
@@ -32,28 +37,25 @@ function Heading(
             {({ copyTextToClipboard }) => {
               return (
                 headingId && (
-                  <WithCreateAnalyticsEvent
-                    render={createAnalyticsEvent => (
+                  <AnalyticsContext.Consumer>
+                    {({ fireAnalyticsEvent }) => (
                       <HeadingAnchor
                         onClick={() => {
-                          if (createAnalyticsEvent) {
-                            createAnalyticsEvent({
-                              action: ACTION.CLICKED,
-                              actionSubject: ACTION_SUBJECT.HEADING_ANCHOR_LINK,
-                              attributes: { platform: PLATFORM.WEB },
-                              eventType: EVENT_TYPE.UI,
-                            }).fire(FabricChannel.editor);
-                          }
+                          fireAnalyticsEvent({
+                            action: ACTION.CLICKED,
+                            actionSubject: ACTION_SUBJECT.BUTTON,
+                            actionSubjectId:
+                              ACTION_SUBJECT_ID.HEADING_ANCHOR_LINK,
+                            eventType: EVENT_TYPE.UI,
+                          });
 
                           return copyTextToClipboard(
-                            `${getCurrentUrlWithoutHash()}#${encodeURIComponent(
-                              headingId,
-                            )}`,
+                            getCurrentUrlWithHash(headingId),
                           );
                         }}
                       />
                     )}
-                  />
+                  </AnalyticsContext.Consumer>
                 )
               );
             }}

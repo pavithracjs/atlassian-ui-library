@@ -4,11 +4,11 @@ interface Props {
   anchorId?: string;
 }
 
-export const HeadingAnchorWrapperClass: string = 'heading-anchor-wrapper';
+export const HeadingAnchorWrapperClassName: string = 'heading-anchor-wrapper';
 
 export function HeadingAnchorWrapper(props: Props & React.Props<any>) {
   return (
-    <div id={props.anchorId} className={HeadingAnchorWrapperClass}>
+    <div id={props.anchorId} className={HeadingAnchorWrapperClassName}>
       {props.children}
     </div>
   );

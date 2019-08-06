@@ -28,6 +28,7 @@ import { TruncatedWrapper } from './truncated-wrapper';
 import { RendererAppearance } from './types';
 import { ACTION, ACTION_SUBJECT, EVENT_TYPE } from '../../analytics/enums';
 import { AnalyticsEventPayload, PLATFORM } from '../../analytics/events';
+import AnalyticsContext from '../../analytics/analyticsContext';
 
 export interface Extension<T> {
   extensionKey: string;
@@ -169,12 +170,19 @@ export class Renderer extends PureComponent<Props, {}> {
       }
       const rendererOutput = (
         <CopyTextProvider>
-          <RendererWrapper
-            appearance={appearance}
-            dynamicTextSizing={!!allowDynamicTextSizing}
+          <AnalyticsContext.Provider
+            value={{
+              fireAnalyticsEvent: (event: AnalyticsEventPayload) =>
+                this.fireAnalyticsEvent(event, FabricChannel.editor),
+            }}
           >
-            {result}
-          </RendererWrapper>
+            <RendererWrapper
+              appearance={appearance}
+              dynamicTextSizing={!!allowDynamicTextSizing}
+            >
+              {result}
+            </RendererWrapper>
+          </AnalyticsContext.Provider>
         </CopyTextProvider>
       );
 

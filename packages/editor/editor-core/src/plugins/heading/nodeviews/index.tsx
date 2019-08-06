@@ -2,7 +2,7 @@ import React from 'react';
 import { Node as PMNode, DOMSerializer } from 'prosemirror-model';
 import { EditorView, NodeView } from 'prosemirror-view';
 
-import { getCurrentUrlWithoutHash } from '@atlaskit/editor-common/src/utils/urls';
+import { getCurrentUrlWithHash } from '@atlaskit/editor-common/src/utils/urls';
 import { getText } from '@atlaskit/renderer/src/utils';
 
 import { getPosHandler, ForwardRef } from '../../../nodeviews';
@@ -115,11 +115,7 @@ export class HeadingNodeView extends SelectionBasedNodeView {
   };
 
   copyText = (): Promise<void> =>
-    copyTextToClipboard(
-      `${getCurrentUrlWithoutHash()}#${encodeURIComponent(
-        this.currentHeadingId(),
-      )}`,
-    );
+    copyTextToClipboard(getCurrentUrlWithHash(this.currentHeadingId()));
 
   render(_props: any, forwardRef: ForwardRef) {
     const pos = this.view.state.doc.resolve(this.getPos());
