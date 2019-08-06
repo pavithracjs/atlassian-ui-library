@@ -59,7 +59,12 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
   state = {
     scroll: 0,
     tableContainerWidth: 'inherit',
-    parentWidth: undefined,
+    parentWidth: getParentNodeWidth(
+      this.props.getPos(),
+      this.props.view.state,
+      this.props.containerWidth,
+      this.props.options && this.props.options.isFullWidthModeEnabled,
+    ),
   };
 
   private wrapper?: HTMLDivElement | null;
