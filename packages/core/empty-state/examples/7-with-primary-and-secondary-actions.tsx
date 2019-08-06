@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import Button from '@atlaskit/button';
 import EmptyState from '../src';
@@ -14,6 +12,12 @@ const primaryAction = (
   </Button>
 );
 
+const secondaryAction = (
+  <Button onClick={() => console.log('secondary action clicked')}>
+    Secondary action
+  </Button>
+);
+
 const props = {
   header: 'I am the header',
   description: `Lorem ipsum is a pseudo-Latin text used in web design, 
@@ -22,6 +26,7 @@ const props = {
         text. It's a convenient tool for mock-ups.`,
   imageUrl: exampleImage,
   primaryAction,
+  secondaryAction,
 };
 
 export default () => <EmptyState {...props} />;

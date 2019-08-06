@@ -1,8 +1,6 @@
-// @flow
-
 import React from 'react';
 import EmptyState from '../src';
-import exampleImage from './img/example-image.png';
+import exampleImage from './img/example-image.svg';
 
 const props = {
   header: 'I am the header',
@@ -12,6 +10,8 @@ const props = {
         text. It's a convenient tool for mock-ups.`,
   imageUrl: exampleImage,
   size: 'narrow',
+  maxImageWidth: 400,
+  maxImageHeight: 400,
 };
 
 export default () => <EmptyState {...props} />;
