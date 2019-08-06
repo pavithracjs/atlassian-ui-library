@@ -35,7 +35,9 @@ import {
   MockMacroProvider,
   createAnalyticsEventMock,
   inlineCard,
+  storyContextIdentifierProviderFactory,
 } from '@atlaskit/editor-test-helpers';
+import { ProviderFactory } from '@atlaskit/editor-common';
 import { mention as mentionData } from '@atlaskit/util-data-test';
 import { TextSelection } from 'prosemirror-state';
 import { setMacroProvider, MacroAttributes } from '../../../../plugins/macro';
@@ -49,12 +51,19 @@ import { EditorProps } from '../../../..';
 
 describe('paste plugins', () => {
   const createEditor = createEditorFactory();
+  let providerFactory: ProviderFactory;
+
   let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
   const editor = (doc: any, props: Partial<EditorProps> = {}) => {
+    const contextIdentifierProvider = storyContextIdentifierProviderFactory();
+    providerFactory = ProviderFactory.create({
+      contextIdentifierProvider,
+    });
     createAnalyticsEvent = createAnalyticsEventMock();
     const wrapper = createEditor({
       doc,
       createAnalyticsEvent: createAnalyticsEvent as any,
+      providerFactory,
       editorProps: {
         allowAnalyticsGASV3: true,
         allowExtension: true,
@@ -69,6 +78,7 @@ describe('paste plugins', () => {
         macroProvider: Promise.resolve(new MockMacroProvider({})),
         UNSAFE_cards: {},
         media: { allowMediaSingle: true },
+        contextIdentifierProvider,
         ...props,
       },
     });
@@ -381,6 +391,22 @@ describe('paste plugins', () => {
 
         const tr = dispatchSpy.mock.calls[0][0];
         expect(tr.scrolledIntoView).toBe(true);
+      });
+    });
+
+    describe('paste in panel', () => {
+      it('should paste list inside empty panel', () => {
+        const listHtml = `<meta charset='utf-8'><p data-pm-slice="1 1 [&quot;bulletList&quot;,null,&quot;listItem&quot;,null]">hello</p>`;
+
+        const { editorView } = editor(
+          doc(panel({ panelType: 'info' })(p('{<>}'))),
+        );
+        dispatchPasteEvent(editorView, {
+          html: listHtml,
+        });
+        expect(editorView.state).toEqualDocumentAndSelection(
+          doc(panel({ panelType: 'info' })(ul(li(p('hello{<>}'))))),
+        );
       });
     });
 
