@@ -1,0 +1,1 @@
+Remove three fields from MediaFile interface: upfrontId, userUpfrontId and userOccurrenceKey.
