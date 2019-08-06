@@ -15,8 +15,8 @@ import {
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention/resource';
 import {
-  MentionSpotlight,
-  MentionSpotlightController,
+  TeamMentionHighlight,
+  TeamMentionHighlightController,
 } from '@atlaskit/mention/spotlight';
 import { MentionItem } from '@atlaskit/mention/item';
 import { TeamMember } from '@atlaskit/mention/team-resource';
@@ -156,19 +156,21 @@ const mentionsPlugin = (
         // Custom regex must have a capture group around trigger
         // so it's possible to use it without needing to scan through all triggers again
         customRegex: '\\(?(@)',
-        getSpotlight: (state: EditorState) => {
+        getHighlight: (state: EditorState) => {
           const pluginState = getMentionPluginState(state);
           const provider = pluginState.mentionProvider;
           if (provider) {
             const teamMentionProvider = provider as TeamMentionProvider;
             if (
               isTeamMentionProvider(teamMentionProvider) &&
-              teamMentionProvider.mentionTypeaheadSpotlightEnabled()
+              teamMentionProvider.mentionTypeaheadHighlightEnabled()
             ) {
               return (
-                <MentionSpotlight
+                <TeamMentionHighlight
                   createTeamLink={teamMentionProvider.mentionTypeaheadCreateTeamPath()}
-                  onClose={() => MentionSpotlightController.registerClosed()}
+                  onClose={() =>
+                    TeamMentionHighlightController.registerClosed()
+                  }
                 />
               );
             }
@@ -287,7 +289,7 @@ const mentionsPlugin = (
           sessionId = uuid();
 
           if (mentionProvider && isTeamType(userType)) {
-            MentionSpotlightController.registerTeamMention();
+            TeamMentionHighlightController.registerTeamMention();
 
             return insert(
               buildNodesForTeamMention(
@@ -648,6 +650,6 @@ function buildNodesForTeamMention(
 
 const isTeamMentionProvider = (p: any): p is TeamMentionProvider =>
   !!(
-    (p as TeamMentionProvider).mentionTypeaheadSpotlightEnabled &&
+    (p as TeamMentionProvider).mentionTypeaheadHighlightEnabled &&
     (p as TeamMentionProvider).mentionTypeaheadCreateTeamPath
   );
