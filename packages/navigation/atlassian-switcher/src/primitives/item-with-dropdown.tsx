@@ -5,6 +5,7 @@ import ChevronUpIcon from '@atlaskit/icon/glyph/chevron-up';
 import Item, { itemThemeNamespace } from '@atlaskit/item';
 import { colors, gridSize } from '@atlaskit/theme';
 import { FadeIn } from './fade-in';
+import { SwitcherChildItem } from '../types';
 import {
   createAndFireNavigationEvent,
   withAnalyticsEvents,
@@ -14,7 +15,6 @@ import {
   SWITCHER_ITEM_EXPAND_SUBJECT,
 } from '../utils/analytics';
 import { createIcon } from '../utils/icon-themes';
-import { SwitcherChildItem } from 'src/types';
 
 const itemTheme = {
   padding: {
@@ -173,6 +173,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
                     href={item.href}
                     key={item.label}
                     onClick={onChildItemClick}
+                    data-test-id="switcher-child-item"
                   >
                     {item.label}
                   </Item>
@@ -205,6 +206,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
       <Toggle
         onClick={e => this.toggleChildItemsVisibility(e)}
         isParentHovered={isParentHovered}
+        data-test-id="switcher-expand-toggle"
       >
         <Icon theme="subtle" />
       </Toggle>
