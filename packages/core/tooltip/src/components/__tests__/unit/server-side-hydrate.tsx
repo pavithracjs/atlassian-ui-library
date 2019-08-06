@@ -31,7 +31,6 @@ test('should ssr then hydrate tooltip correctly', async () => {
           s === 'style'
         ),
     );
-
-    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+    expect(mockCalls.length).toBe(0);
   });
 });

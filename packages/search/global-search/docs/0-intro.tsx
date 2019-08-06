@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  md,
-  code,
-  Example,
-  Props,
-  AtlassianInternalWarning,
-} from '@atlaskit/docs';
+import { md, code, Props, AtlassianInternalWarning } from '@atlaskit/docs';
 
 export default md`
   ${<AtlassianInternalWarning />}
@@ -29,14 +23,6 @@ export default md`
       ]}
     </Navigation>
   `}
-
-  ${(
-    <Example
-      Component={require('../examples/11-Search-In-Drawer').default}
-      title="Search In Drawer"
-      source={require('!!raw-loader!../examples/11-Search-In-Drawer')}
-    />
-  )}
 
   ${(
     <Props

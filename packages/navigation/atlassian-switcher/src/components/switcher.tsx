@@ -31,8 +31,15 @@ const noop = () => void 0;
 type SwitcherProps = {
   messages: Messages;
   triggerXFlow: TriggerXFlowCallback;
+  /**
+   * Whether all the contents have been loaded
+   */
+  hasLoaded: boolean;
+  /**
+   * Whether contents considered critical path have been loaded
+   */
+  hasLoadedCritical: boolean;
   onDiscoverMoreClicked: DiscoverMoreCallback;
-  isLoading: boolean;
   licensedProductLinks: SwitcherItemType[];
   suggestedProductLinks: SwitcherItemType[];
   fixedLinks: SwitcherItemType[];
@@ -118,7 +125,8 @@ export default class Switcher extends React.Component<SwitcherProps> {
       recentLinks,
       customLinks,
       manageLink,
-      isLoading,
+      hasLoaded,
+      hasLoadedCritical,
     } = this.props;
 
     /**
@@ -140,15 +148,17 @@ export default class Switcher extends React.Component<SwitcherProps> {
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
-          <ViewedTracker
-            subject={SWITCHER_SUBJECT}
-            data={{
-              switcherItems: {
+          {hasLoaded && (
+            <ViewedTracker
+              subject={SWITCHER_SUBJECT}
+              data={{
                 licensedProducts: licensedProductLinks.map(item => item.key),
                 suggestedProducts: suggestedProductLinks.map(item => item.key),
-              },
-            }}
-          />
+                adminLinks: adminLinks.map(item => item.key),
+                fixedLinks: fixedLinks.map(item => item.key),
+              }}
+            />
+          )}
           {firstContentArrived && (
             <RenderTracker
               subject={SWITCHER_SUBJECT}
@@ -287,7 +297,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               </NavigationAnalyticsContext>
             ))}
           </Section>
-          {isLoading && <Skeleton />}
+          {!hasLoadedCritical && <Skeleton />}
           {manageLink && <ManageButton href={manageLink} />}
         </SwitcherWrapper>
       </NavigationAnalyticsContext>

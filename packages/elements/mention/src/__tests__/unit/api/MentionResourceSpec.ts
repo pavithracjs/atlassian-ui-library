@@ -272,6 +272,7 @@ describe('MentionResource', () => {
           throw new Error('listener should not be called');
         },
         () => {
+          expect(true).toBe(true);
           done();
         },
       );
