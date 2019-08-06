@@ -13,7 +13,6 @@ import {
   MediaType,
   globalMediaEventEmitter,
 } from '@atlaskit/media-client';
-import { defaultImageLoadParams } from '@atlaskit/media-ui';
 
 import { State, SelectedItem, LocalUpload, ServiceName } from '../domain';
 import { isStartImportAction } from '../actions/startImport';
@@ -131,10 +130,14 @@ const getPreviewByService = (
   } else if (serviceName === 'recent_files' && isPreviewableType(mediaType)) {
     return new Promise<FilePreview>(async resolve => {
       // We fetch a good size image, since it can be opened later on in MV
-      const blob = await userMediaClient.getImage(fileId, {
-        collection: RECENTS_COLLECTION,
-        ...defaultImageLoadParams,
-      });
+      const blob = await userMediaClient.getImage(
+        fileId,
+        {
+          collection: RECENTS_COLLECTION,
+        },
+        undefined,
+        true,
+      );
 
       resolve({ value: blob });
     });

@@ -6,7 +6,6 @@ import {
   mountWithIntlContext,
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
-import { defaultImageLoadParams } from '@atlaskit/media-ui';
 
 import {
   ImageViewer,
@@ -106,10 +105,10 @@ describe('ImageViewer', () => {
     expect(mediaClient.getImage).toHaveBeenCalledWith(
       'some-id',
       expect.objectContaining({
-        ...defaultImageLoadParams,
         collection: 'some-collection',
       }),
       expect.anything(),
+      true,
     );
   });
 

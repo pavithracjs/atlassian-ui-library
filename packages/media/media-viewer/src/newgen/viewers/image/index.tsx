@@ -6,7 +6,7 @@ import {
   FileState,
   isImageRepresentationReady,
 } from '@atlaskit/media-client';
-import { getOrientation, defaultImageLoadParams } from '@atlaskit/media-ui';
+import { getOrientation } from '@atlaskit/media-ui';
 
 import { Outcome } from '../../domain';
 import { createError, MediaViewerError } from '../../error';
@@ -85,9 +85,9 @@ export class ImageViewer extends BaseViewer<
             item.details.id,
             {
               collection: collectionName,
-              ...defaultImageLoadParams,
             },
             controller,
+            true,
           );
           this.cancelImageFetch = () => controller && controller.abort();
           objectUrl = URL.createObjectURL(await response);
