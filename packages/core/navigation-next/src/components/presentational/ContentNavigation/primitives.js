@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment, type Node } from 'react';
+import React, { Fragment, type Node } from 'react';
 import { css, keyframes } from '@emotion/core';
 import { colors } from '@atlaskit/theme';
 
