@@ -1,6 +1,7 @@
 import React from 'react';
+import Vue from 'vue';
 import BreadcrumbsStateless from './BreadcrumbsStateless';
-
+console.log(Vue); // eslint-disable-line no-console
 interface IState {
   isExpanded?: boolean;
 }

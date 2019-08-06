@@ -27,7 +27,8 @@
     "@atlaskit/theme": "^9.0.0",
     "@atlaskit/tooltip": "^15.0.7",
     "@babel/runtime": "^7.0.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "vue": "^2.6.10"
   },
   "peerDependencies": {
     "react": "^16.8.0",
