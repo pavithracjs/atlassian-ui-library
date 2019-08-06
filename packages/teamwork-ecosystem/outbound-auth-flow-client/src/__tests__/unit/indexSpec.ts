@@ -63,7 +63,10 @@ describe('auth()', () => {
 
     promise.then(() => done.fail(), () => done.fail());
 
-    window.setTimeout(done, 500);
+    window.setTimeout(() => {
+      expect(true).toBe(true);
+      done();
+    }, 500);
   });
 
   it('should not reject when the message indicates failure and is from another window', done => {
@@ -82,7 +85,10 @@ describe('auth()', () => {
 
     promise.then(() => done.fail(), () => done.fail());
 
-    window.setTimeout(done, 500);
+    window.setTimeout(() => {
+      expect(true).toBe(true);
+      done();
+    }, 500);
   });
 
   it('should resolve when the message indicates success and it is from the same window', () => {

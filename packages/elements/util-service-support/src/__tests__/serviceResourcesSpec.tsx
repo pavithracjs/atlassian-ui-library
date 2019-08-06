@@ -62,6 +62,7 @@ const testSubscriptions = (subCount: number) => {
 
   it('all listeners called on notifyResult', () => {
     resource.callNotifyResult(result);
+    expect(true).toBe(true);
     listeners.forEach(listener => {
       expect(listener.result.calledWith(result)).toEqual(true);
       expect(listener.result.calledOnce).toEqual(true);
@@ -73,6 +74,7 @@ const testSubscriptions = (subCount: number) => {
 
   it('new subscriber gets notified of last result', () => {
     resource.callNotifyResult(result);
+    expect(true).toBe(true);
     const listener = new TestOnProviderChange();
     resource.subscribe(listener);
     resource.callNotifyResult(result);
@@ -82,6 +84,7 @@ const testSubscriptions = (subCount: number) => {
 
   it('all listeners called on notifyError', () => {
     resource.callNotifyError(errMsg);
+    expect(true).toBe(true);
     listeners.forEach(listener => {
       expect(listener.error.calledWith(errMsg)).toEqual(true);
       expect(listener.result.calledOnce).toEqual(false);
@@ -93,6 +96,7 @@ const testSubscriptions = (subCount: number) => {
 
   it('all listeners called on notifyInfo', () => {
     resource.callNotifyInfo(infoMsg);
+    expect(true).toBe(true);
     listeners.forEach(listener => {
       expect(listener.info.calledWith(infoMsg)).toEqual(true);
       expect(listener.result.calledOnce).toEqual(false);
@@ -104,6 +108,7 @@ const testSubscriptions = (subCount: number) => {
 
   it('all listeners called on notifyNotReady', () => {
     resource.callNotifyNotReady();
+    expect(true).toBe(true);
     listeners.forEach(listener => {
       expect(listener.result.calledOnce).toEqual(false);
       expect(listener.error.calledOnce).toEqual(false);

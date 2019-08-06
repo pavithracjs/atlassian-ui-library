@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.14.0
+
+### Minor Changes
+
+- [minor][d4e8e68bf1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d4e8e68bf1):
+
+  Added adminLinks to switcher viewed event, so we could know when we show try discover more links to users. Fixed suggestedProductLinks that used to be empty on mount due to race conditions"
+
 ## 3.13.0
 
 ### Minor Changes
