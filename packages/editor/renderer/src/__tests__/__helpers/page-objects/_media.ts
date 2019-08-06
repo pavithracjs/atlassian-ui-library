@@ -1,3 +1,3 @@
 export const selectors = {
-  errorLoading: '.media-single .overlay.error',
+  errorLoading: '.media-single .wrapper',
 };

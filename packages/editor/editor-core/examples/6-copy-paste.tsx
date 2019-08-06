@@ -27,6 +27,7 @@ import BreadcrumbsMiscActions from '../example-helpers/breadcrumbs-misc-actions'
 import {
   defaultCollectionName,
   defaultMediaPickerCollectionName,
+  videoFileId,
 } from '@atlaskit/media-test-helpers';
 import { ProviderFactory } from '@atlaskit/editor-common';
 
@@ -182,6 +183,35 @@ const rendererDoc = {
         {
           type: 'text',
           text: 'that contains a new line',
+        },
+      ],
+    },
+    {
+      type: 'mediaSingle',
+      attrs: {},
+      content: [
+        {
+          type: 'media',
+          attrs: {
+            id: videoFileId.id,
+            type: 'file',
+            collection: 'MediaServicesSample',
+            width: 300,
+            height: 150,
+          },
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: '\n',
+        },
+        {
+          type: 'text',
+          text: 'some text bellow the video',
         },
       ],
     },
