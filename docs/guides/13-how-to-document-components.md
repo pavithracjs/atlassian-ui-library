@@ -127,6 +127,13 @@ An example file template to use as a starter is available [here](https://bitbuck
 
 #### What your documentation text should cover
 
+Your documentation text must include (in addition to the Header, Content and Examples mentioned above):
+
+- An inline example (if your component can be rendered inline)
+- Prop imports
+
+These do not have to be on the main page but must be included, if possible, on each sub page that documents a component.
+
 #### How to use inline examples
 
 Inline examples can be a good way to show off the component in action. When using inline examples a good guide is that you should:
