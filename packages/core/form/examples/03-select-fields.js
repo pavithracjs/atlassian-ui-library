@@ -75,7 +75,7 @@ export default () => (
       }}
     >
       {({ formProps }) => (
-        <form {...formProps}>
+        <form {...formProps} name="select-fields">
           <Field name="colors" label="Select a colour" defaultValue={[]}>
             {({ fieldProps: { id, ...rest }, error }) => (
               <Fragment>
@@ -93,6 +93,7 @@ export default () => (
             {({ fieldProps: { id, ...rest }, error }) => (
               <Fragment>
                 <Select
+                  classNamePrefix="react-select"
                   validationState={error ? 'error' : 'none'}
                   inputId={id}
                   {...rest}
