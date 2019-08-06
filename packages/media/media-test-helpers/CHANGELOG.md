@@ -1,5 +1,13 @@
 # @atlaskit/media-test-helpers
 
+## 24.3.4
+
+### Patch Changes
+
+- [patch][4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):
+
+  Remove three fields from MediaFile interface: upfrontId, userUpfrontId and userOccurrenceKey.
+
 ## 24.3.3
 
 ### Patch Changes

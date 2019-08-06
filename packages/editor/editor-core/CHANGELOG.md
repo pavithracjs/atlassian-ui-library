@@ -1,5 +1,11 @@
 # @atlaskit/editor-core
 
+## 112.41.1
+
+- Updated dependencies [4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):
+  - @atlaskit/media-picker@46.0.0
+  - @atlaskit/media-test-helpers@24.3.4
+
 ## 112.41.0
 
 ### Minor Changes
