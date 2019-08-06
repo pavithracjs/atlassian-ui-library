@@ -12,6 +12,7 @@ import {
   UIAnalyticsEventInterface,
   ObjectType,
 } from '@atlaskit/analytics-next';
+import { WorklensProductType } from '../../types';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
   const stubIcon = () => <span />;
@@ -22,6 +23,17 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
         label: 'Jira',
         Icon: stubIcon,
         href: '/secure/MyJiraHome.jspa',
+        productType: WorklensProductType.JIRA_BUSINESS,
+        childItems: [
+          {
+            label: 'some-site',
+            href: '/some-jira-site',
+          },
+          {
+            label: 'other-site',
+            href: '/other-jira-site',
+          },
+        ],
       },
     ],
     suggestedProductLinks: [
@@ -222,6 +234,53 @@ describe('Atlassian Switcher - Component Analytics', () => {
         });
       });
     }
+  });
+
+  it('should fire "atlassianSwitcherItemExpand clicked" and "atlassianSwitcherChildItem clicked"', async () => {
+    const analyticsData = {
+      itemType: 'product',
+      itemId: 'jira',
+      itemsCount: 6,
+      groupItemIndex: 0,
+      groupItemsCount: 4,
+      domain: 'invalid',
+      productType: WorklensProductType.JIRA_BUSINESS,
+    };
+
+    // skip viewed/rendered events
+    eventStream.skip(2);
+
+    const expandToggle = wrapper.find(
+      '[data-test-id="switcher-expand-toggle"]',
+    );
+    expandToggle.at(0).simulate('click');
+    const { payload, context } = await eventStream.next();
+    expect(payload).toMatchObject({
+      eventType: 'ui',
+      action: 'clicked',
+      actionSubject: 'atlassianSwitcherItemExpand',
+    });
+    expect(flattenContext(context)).toMatchObject({
+      group: 'switchTo',
+      ...analyticsData,
+    });
+
+    const childItem = wrapper.find('[data-test-id="switcher-child-item"]');
+    childItem.at(0).simulate('click');
+
+    const {
+      payload: childItemClickPayload,
+      context: childItemClickContext,
+    } = await eventStream.next();
+    expect(childItemClickPayload).toMatchObject({
+      eventType: 'ui',
+      action: 'clicked',
+      actionSubject: 'atlassianSwitcherChildItem',
+    });
+    expect(flattenContext(childItemClickContext)).toMatchObject({
+      group: 'switchTo',
+      ...analyticsData,
+    });
   });
 
   it('should fire "button clicked - manageListButton"', async () => {
