@@ -69,10 +69,9 @@ const ItemContainer = styled.div`
   box-sizing: border-box;
   border-radius: 3px;
 
-  &&& {
-    > * {
-      flex-grow: 1;
-    }
+  // make the selector specific enough to overwrite flex-grow property on Item
+  &&& > *:first-child {
+    flex-grow: 1;
   }
 `;
 
@@ -91,10 +90,6 @@ const Toggle = styled.div<ToggleProps>`
   ${({ isParentHovered }) =>
     isParentHovered ? `background-color: ${colors.N20A}` : ''};
 
-  &&& {
-    flex-grow: 0;
-  }
-
   &:hover {
     background-color: ${colors.N30A};
   }
@@ -104,7 +99,7 @@ interface ToggleProps {
   isParentHovered?: boolean;
 }
 
-type Props = {
+interface Props {
   children: React.ReactNode;
   icon: React.ReactNode;
   description?: React.ReactNode;
@@ -115,7 +110,7 @@ type Props = {
   isDisabled?: boolean;
   childIcon?: React.ReactNode;
   childItems?: SwitcherChildItem[];
-};
+}
 
 interface State {
   itemHovered: boolean;
@@ -186,17 +181,6 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
     );
   }
 
-  private toggleChildItemsVisibility(event: React.SyntheticEvent) {
-    event.preventDefault();
-    this.setState({
-      showChildItems: !this.state.showChildItems,
-    });
-
-    if (!this.state.showChildItems) {
-      this.props.onExpandClick && this.props.onExpandClick();
-    }
-  }
-
   private getToggle(showChildItems: boolean, isParentHovered: boolean) {
     const Icon = createIcon(showChildItems ? ChevronUpIcon : ChevronDownIcon, {
       size: 'medium',
@@ -204,7 +188,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
 
     return (
       <Toggle
-        onClick={e => this.toggleChildItemsVisibility(e)}
+        onClick={this.toggleChildItemsVisibility}
         isParentHovered={isParentHovered}
         data-test-id="switcher-expand-toggle"
       >
@@ -213,11 +197,22 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
     );
   }
 
-  private toggleItemHovered(value: boolean) {
+  private toggleChildItemsVisibility = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    this.setState({
+      showChildItems: !this.state.showChildItems,
+    });
+
+    if (!this.state.showChildItems) {
+      this.props.onExpandClick && this.props.onExpandClick();
+    }
+  };
+
+  private toggleItemHovered = (value: boolean) => {
     this.setState({
       itemHovered: value,
     });
-  }
+  };
 
   private onMouseEnter = () => this.toggleItemHovered(true);
   private onMouseLeave = () => this.toggleItemHovered(false);
