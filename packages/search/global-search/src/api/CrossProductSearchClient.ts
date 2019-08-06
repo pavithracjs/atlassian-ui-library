@@ -422,6 +422,7 @@ function mapItemToResult(scope: Scope, item: SearchItem): Result {
   if (scope.startsWith('confluence')) {
     return mapConfluenceItemToResult(scope, item as ConfluenceItem);
   }
+
   if (scope.startsWith('jira')) {
     return mapJiraItemToResult(item as JiraItem);
   }
@@ -432,6 +433,12 @@ function mapItemToResult(scope: Scope, item: SearchItem): Result {
 
   if (scope === Scope.UserConfluence || scope === Scope.UserJira) {
     return mapUrsResultItemToResult(item as UrsPersonItem);
+  }
+
+  if (scope === Scope.NavSearchCompleteConfluence) {
+    throw new Error(
+      'nav.completion-confluence cannot be transformed into a result because it is not a search result',
+    );
   }
 
   throw new Error(`Non-exhaustive match for scope: ${scope}`);
