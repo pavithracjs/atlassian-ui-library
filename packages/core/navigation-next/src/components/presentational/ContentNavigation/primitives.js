@@ -29,20 +29,30 @@ import type {
  *    - ContainerOverlay
  */
 
-const ScrollProvider = ({ isVisible, ...props }: any) => (
-  <div
-    css={{
-      boxSizing: 'border-box',
-      display: isVisible ? 'flex' : 'none',
-      flexDirection: 'column',
-      height: '100%',
-      overflowX: 'hidden',
-      overflowY: 'auto',
-      width: '100%',
-    }}
-    {...props}
-  />
-);
+export const ScrollProviderRef = React.createContext();
+const ScrollProvider = ({ isVisible, ...props }: any) => {
+  const scrollProviderRef = React.createRef();
+
+  return (
+    <ScrollProviderRef.Provider value={scrollProviderRef}>
+      <div
+        css={{
+          boxSizing: 'border-box',
+          display: isVisible ? 'flex' : 'none',
+          flexDirection: 'column',
+          height: '100%',
+          overflowX: 'hidden',
+          overflowY: 'auto',
+          width: '100%',
+        }}
+        tabIndex={-1}
+        role="group"
+        ref={scrollProviderRef}
+        {...props}
+      />
+    </ScrollProviderRef.Provider>
+  );
+};
 
 /**
  * ProductNavigation
