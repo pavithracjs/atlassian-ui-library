@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.6.8
+
+### Patch Changes
+
+- [patch][3c4273bb14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3c4273bb14):
+
+  minor fix to analytics event
+
 ## 10.6.7
 
 ### Patch Changes
