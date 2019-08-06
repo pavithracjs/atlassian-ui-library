@@ -124,7 +124,6 @@ describe('<StatelessUploadView />', () => {
     const recents = {
       items: recentItems,
     };
-    const setUpfrontIdDeferred = jest.fn();
 
     return (
       <Provider store={store}>
@@ -139,7 +138,6 @@ describe('<StatelessUploadView />', () => {
           onFileClick={() => {}}
           onEditorShowImage={() => {}}
           onEditRemoteImage={() => {}}
-          setUpfrontIdDeferred={setUpfrontIdDeferred}
           removeFileFromRecents={removeFileFromRecents}
           intl={fakeIntl}
         />
@@ -185,7 +183,6 @@ describe('<StatelessUploadView />', () => {
   });
 
   it('should render currently uploading items', () => {
-    const upfrontId = Promise.resolve('id1');
     const mockStateOverride: Partial<State> = {
       uploads: {
         uploadId1: {
@@ -194,7 +191,6 @@ describe('<StatelessUploadView />', () => {
               id: 'id1',
               mimeType: 'image/jpeg',
               name: 'some-file-name',
-              userUpfrontId: upfrontId,
             },
           },
         } as LocalUpload,
@@ -216,7 +212,7 @@ describe('<StatelessUploadView />', () => {
     expect(component.find(Card).prop('selectable')).toEqual(true);
     expect(component.find(Card).prop('selected')).toEqual(true);
     expect(component.find(Card).prop('identifier')).toEqual({
-      id: upfrontId,
+      id: 'id1',
       mediaItemType: 'file',
     });
   });
@@ -239,17 +235,11 @@ describe('<StatelessUploadView />', () => {
     });
 
     const setup = () => {
-      const upfrontId = Promise.resolve('id1');
-      const userUpfrontId = Promise.resolve('id2');
-      const userOccurrenceKey = Promise.resolve('userOccurrenceKey1');
       const metadata: LocalUploadFileMetadata = {
         id: 'id1',
         mimeType: 'image/jpeg',
         name: 'some-file-name',
         size: 42,
-        upfrontId,
-        userUpfrontId,
-        userOccurrenceKey,
       };
 
       const mockStateOverride: Partial<State> = {
@@ -276,21 +266,15 @@ describe('<StatelessUploadView />', () => {
         ),
       );
       const deleteActionHandler = getDeleteActionHandler(component);
-      const readyIds = Promise.all([
-        upfrontId,
-        userUpfrontId,
-        userOccurrenceKey,
-      ]);
-      return { component, deleteActionHandler, readyIds };
+      return { component, deleteActionHandler };
     };
 
     const setupAndClickDelete = async () => {
-      const { component, deleteActionHandler, readyIds } = setup();
+      const { component, deleteActionHandler } = setup();
 
       deleteActionHandler();
       component.update();
 
-      await readyIds;
       await nextTick();
 
       component.update();
@@ -312,11 +296,7 @@ describe('<StatelessUploadView />', () => {
       component.update();
       const modalDialog = component.find(ModalDialog);
       expect(modalDialog).toHaveLength(0);
-      expect(removeFileFromRecents).toHaveBeenCalledWith(
-        'id1',
-        'userOccurrenceKey1',
-        'id2',
-      );
+      expect(removeFileFromRecents).toHaveBeenCalledWith('id1', undefined);
     });
 
     it('should close dialog without deleting file when cancel clicked', async () => {
@@ -393,7 +373,6 @@ describe('<StatelessUploadView />', () => {
       expect(removeFileFromRecents).toHaveBeenCalledWith(
         'some-id',
         'some-occurrence-key',
-        undefined,
       );
     });
   });
@@ -401,8 +380,6 @@ describe('<StatelessUploadView />', () => {
 
 describe('<UploadView />', () => {
   let state: State;
-  const upfrontId = Promise.resolve('');
-  const userUpfrontId = Promise.resolve('');
   beforeEach(() => {
     state = {
       ...mockState,
@@ -432,9 +409,6 @@ describe('<UploadView />', () => {
               name: 'some-name',
               size: 1000,
               mimeType: 'image/png',
-              upfrontId,
-              userUpfrontId,
-              userOccurrenceKey: Promise.resolve('some-user-occurrence-key'),
             },
           },
           index: 0,
@@ -462,7 +436,6 @@ describe('<UploadView />', () => {
       mimeType: 'some-mime-type',
       name: 'some-name',
       size: 42,
-      upfrontId,
       date: Date.now(),
     };
     props.onFileClick(metadata, 'google');
@@ -474,7 +447,6 @@ describe('<UploadView />', () => {
           name: 'some-name',
           size: 42,
           date: expect.any(Number),
-          upfrontId,
         },
         'google',
       ),
@@ -519,27 +491,6 @@ describe('<UploadView />', () => {
 
     expect(root.find(FlagGroup)).toHaveLength(1);
     expect(isWebGLAvailable).toHaveBeenCalled();
-  });
-
-  it('should set deferred upfront id when clicking on a card', () => {
-    const { component, dispatch } = createConnectedComponent(state);
-
-    const props = component
-      .find(Card)
-      .last()
-      .props();
-    if (props.onClick) {
-      props.onClick({ mediaItemDetails: { id: 'some-id' } } as any);
-    } else {
-      fail('onClick property is missing in props');
-    }
-
-    expect(dispatch.mock.calls[0][0]).toEqual({
-      id: 'some-id',
-      type: 'SET_UPFRONT_ID_DEFERRED',
-      resolver: expect.anything(),
-      rejecter: expect.anything(),
-    });
   });
 
   it('should fire an analytics event when given a react context', () => {

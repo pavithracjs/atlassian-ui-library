@@ -24,14 +24,12 @@ describe('finalizeUploadMiddleware', () => {
     token: 'some-token',
     baseUrl: 'some-base-url',
   };
-  const upfrontId = Promise.resolve('1');
   const file = {
     id: 'some-file-id',
     name: 'some-file-name',
     type: 'some-file-type',
     creationDate: Date.now(),
     size: 12345,
-    upfrontId,
   };
   const copiedFile = {
     ...file,
@@ -144,24 +142,6 @@ describe('finalizeUploadMiddleware', () => {
           uploadId,
         }),
       );
-    });
-  });
-
-  it('Should resolve deferred id when the source id is on the store', () => {
-    const resolver = jest.fn();
-    const rejecter = jest.fn();
-    const { fetcher, store, action } = setup({
-      deferredIdUpfronts: {
-        'some-file-id': {
-          resolver,
-          rejecter,
-        },
-      },
-    });
-
-    return finalizeUpload(fetcher, store, action).then(() => {
-      expect(resolver).toHaveBeenCalledTimes(1);
-      expect(resolver).toBeCalledWith('some-copied-file-id');
     });
   });
 

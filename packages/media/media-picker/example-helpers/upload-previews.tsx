@@ -35,11 +35,10 @@ export class UploadPreviews extends React.Component<
     const { files } = event;
 
     const newPreviewData: PreviewData[] = files.map(file => {
-      const { id, upfrontId } = file;
+      const { id } = file;
 
       return {
         fileId: id,
-        upfrontId,
       };
     });
 
@@ -76,7 +75,6 @@ export class UploadPreviews extends React.Component<
           <UploadPreview
             key={`${index}`}
             fileId={previewsData.fileId}
-            upfrontId={previewsData.upfrontId}
             preview={previewsData.preview}
           />
         ))}

@@ -17,7 +17,6 @@ import {
 } from '../tools/websocket/upload/wsUploadEvents';
 import { MediaFile } from '../../domain/file';
 import { sendUploadEvent } from '../actions/sendUploadEvent';
-import { setUpfrontIdDeferred } from '../actions/setUpfrontIdDeferred';
 
 type CloudFetchingEventAction = HandleCloudFetchingEventAction<
   keyof WsUploadEvents
@@ -82,9 +81,7 @@ export const handleCloudFetchingEvent = (store: Store<State>) => (
     file: MediaFile,
     data: RemoteUploadEndPayload,
   ) => {
-    const { deferredIdUpfronts } = store.getState();
     const { uploadId, fileId } = data;
-    const deferred = deferredIdUpfronts[uploadId];
     const source = {
       id: fileId,
       collection: RECENTS_COLLECTION,
@@ -94,11 +91,6 @@ export const handleCloudFetchingEvent = (store: Store<State>) => (
       id: fileId,
     };
 
-    if (deferred) {
-      const { rejecter, resolver } = deferred;
-      // We asociate the uploadId with the public fileId on the user collection
-      store.dispatch(setUpfrontIdDeferred(fileId, resolver, rejecter));
-    }
     store.dispatch(finalizeUpload(uploadedFile, uploadId, source, file.id));
   };
 

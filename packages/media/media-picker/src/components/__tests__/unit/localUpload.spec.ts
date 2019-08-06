@@ -11,7 +11,6 @@ describe('MediaLocalUpload', () => {
     size: 12345,
     creationDate: Date.now(),
     type: 'image/jpg',
-    upfrontId: Promise.resolve('some-public-id'),
   };
   const setup = (options: { shouldCopyFileToRecents?: boolean } = {}) => {
     const mediaClient = fakeMediaClient();

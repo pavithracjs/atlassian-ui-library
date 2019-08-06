@@ -14,8 +14,7 @@ export type DefaultStateKeys =
   | 'isCancelling'
   | 'lastUploadIndex'
   | 'giphy'
-  | 'onCancelUpload'
-  | 'deferredIdUpfronts';
+  | 'onCancelUpload';
 
 // TODO when AK moves to Typescript 3 please replace above hardcoded list with this:
 // export type DefaultStateKeys = Exclude<
@@ -55,7 +54,6 @@ const defaultState: DefaultState = {
   onCancelUpload: () => {
     throw new Error('onCancelUpload has not been set yet.');
   },
-  deferredIdUpfronts: {},
 };
 
 export default defaultState;

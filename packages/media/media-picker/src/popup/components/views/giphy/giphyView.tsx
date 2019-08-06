@@ -11,7 +11,6 @@ import { Card } from '@atlaskit/media-card';
 import { ExternalImageIdentifier } from '@atlaskit/media-client';
 import { BricksLayout } from './bricksGrid';
 import { fileClick } from '../../../actions/fileClick';
-import { setUpfrontIdDeferred } from '../../../actions/setUpfrontIdDeferred';
 import { ImageCardModel } from '../../../tools/fetcher/fetcher';
 import gridCellScaler from '../../../tools/gridCellScaler';
 import { State, SelectedItem } from '../../../domain';
@@ -46,12 +45,7 @@ export interface GiphyViewStateProps {
 export interface GiphyViewDispatchProps {
   onSearchQueryChange(query: string): void;
   onLoadMoreButtonClick(query: string, shouldAppendResults: boolean): void;
-  onCardClick(item: ImageCardModel, upfrontId: Promise<string>): void;
-  setUpfrontIdDeferred: (
-    id: string,
-    resolver: (id: string) => void,
-    rejecter: Function,
-  ) => void;
+  onCardClick(item: ImageCardModel): void;
 }
 
 export type GiphyViewProps = GiphyViewStateProps &
@@ -256,13 +250,9 @@ export class GiphyView extends Component<GiphyViewProps, GiphyViewState> {
   };
 
   private createClickHandler = (cardModel: ImageCardModel) => () => {
-    const { onCardClick, setUpfrontIdDeferred } = this.props;
-    const upfrontId = new Promise<string>((resolve, reject) => {
-      const { id } = cardModel.metadata;
-      setUpfrontIdDeferred(id, resolve, reject);
-    });
+    const { onCardClick } = this.props;
 
-    onCardClick(cardModel, upfrontId);
+    onCardClick(cardModel);
   };
 
   private handleLoadMoreButtonClick = () => {
@@ -288,7 +278,7 @@ export default connect<GiphyViewStateProps, GiphyViewDispatchProps, {}, State>(
     onSearchQueryChange: query => dispatch(searchGiphy(query, false)),
     onLoadMoreButtonClick: (query, shouldAppendResults) =>
       dispatch(searchGiphy(query, shouldAppendResults)),
-    onCardClick: (cardModel, upfrontId) => {
+    onCardClick: cardModel => {
       const { id, name, size } = cardModel.metadata;
 
       dispatch(
@@ -299,13 +289,10 @@ export default connect<GiphyViewStateProps, GiphyViewDispatchProps, {}, State>(
             name: name || '',
             size: size || 0,
             date: Date.now(),
-            upfrontId,
           },
           'giphy',
         ),
       );
     },
-    setUpfrontIdDeferred: (id, resolver, rejecter) =>
-      dispatch(setUpfrontIdDeferred(id, resolver, rejecter)),
   }),
 )(injectIntl(GiphyView));

@@ -44,7 +44,6 @@ export const temporaryMediaGroup = mediaGroup(temporaryMedia);
 
 export const imageFile: MediaFile = {
   id: '1',
-  upfrontId: Promise.resolve('1'),
   type: 'image/jpeg',
   name: 'quokka.jpg',
   size: 100,

@@ -14,16 +14,12 @@ let consoleError = console.error;
 
 describe('sendUploadEvent middleware', () => {
   const uploadId = 'some-upload-id';
-  const upfrontId = Promise.resolve('1');
-  const userUpfrontId = Promise.resolve('');
   const file: MediaFile = {
     id: 'some-file-id',
     name: 'some-file-name',
     size: 12345,
     creationDate: Date.now(),
     type: 'image/jpg',
-    upfrontId,
-    userUpfrontId,
   };
   const setup = () => ({
     eventEmitter: mockPopupUploadEventEmitter(),
