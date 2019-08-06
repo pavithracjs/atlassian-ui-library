@@ -30,6 +30,8 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
         position="right"
       >
         <Button
+          aria-expanded={true}
+          aria-label="Toggle navigation"
           hasHighlight={false}
           hitAreaSize="large"
           innerRef={
@@ -95,6 +97,8 @@ exports[`ResizeControlBase should render correctly 1`] = `
         position="right"
       >
         <Button
+          aria-expanded={true}
+          aria-label="Toggle navigation"
           hasHighlight={false}
           hitAreaSize="large"
           innerRef={

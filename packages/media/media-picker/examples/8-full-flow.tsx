@@ -63,9 +63,7 @@ export default class Example extends React.Component<{}, State> {
     popup.on('uploads-start', (payload: { files: MediaFile[] }) => {
       const { events } = this.state;
       payload.files.forEach(file => {
-        file.upfrontId.then(id => {
-          console.log('PUBLIC: uploads-start', file.id, id);
-        });
+        console.log('PUBLIC: uploads-start', file.id);
       });
 
       this.setState({
@@ -88,11 +86,7 @@ export default class Example extends React.Component<{}, State> {
   private onUploadPreviewUpdate = async (
     event: UploadPreviewUpdateEventPayload,
   ) => {
-    console.log(
-      'PUBLIC: upload-preview-update',
-      event.file.id,
-      await event.file.upfrontId,
-    );
+    console.log('PUBLIC: upload-preview-update', event.file.id);
   };
 
   private getMediaViewerDataSource = (): MediaViewerDataSource => {

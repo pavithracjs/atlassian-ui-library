@@ -122,6 +122,7 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   enablePreQueryFromAggregator?: boolean;
   inputControls?: JSX.Element;
   features: JiraFeatures | ConfluenceFeatures | CommonFeatures;
+  advancedSearchId: string;
 }
 
 type CompleteProps<T extends ConfluenceResultsMap | JiraResultsMap> = Props<T> &
@@ -539,6 +540,7 @@ export class QuickSearchContainer<
       onSelectedResultIdChanged,
       inputControls,
       searchSessionId,
+      advancedSearchId,
     } = this.props;
     const {
       isLoading,
@@ -565,6 +567,7 @@ export class QuickSearchContainer<
         inputControls={inputControls}
         autocompleteSuggestions={autocompleteSuggestions}
         filters={this.state.currentFilters}
+        advancedSearchId={advancedSearchId}
       >
         {getFilterComponent({
           onFilterChanged: this.handleFilter,

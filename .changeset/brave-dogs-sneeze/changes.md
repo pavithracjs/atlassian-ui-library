@@ -1,1 +1,0 @@
-TEAMS-618 : Rename Team mention spotlight to Team Mention Highlight

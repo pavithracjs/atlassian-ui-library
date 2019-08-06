@@ -20,12 +20,10 @@ export const isRemoveFileFromRecentsAction = (
 export const removeFileFromRecents = (
   id: string,
   occurrenceKey?: string,
-  userFileId?: string,
 ): RemoveFileFromRecentsAction => {
   return {
     type: REMOVE_FILES_FROM_RECENTS,
     id,
-    userFileId,
     occurrenceKey,
   };
 };
