@@ -31,7 +31,6 @@
     "exenv": "^1.2.2",
     "prop-types": "^15.5.10",
     "raf-schd": "^2.1.0",
-    "react-dom": "^16.8.0",
     "react-focus-lock": "^1.19.1",
     "react-transition-group": "^2.2.1",
     "tiny-invariant": "^0.0.3",
@@ -50,6 +49,7 @@
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
+    "react-dom": "^16.8.0",
     "enzyme": "^3.7.0",
     "lodash.throttle": "^4.1.1",
     "react-lorem-component": "^0.12.2"
