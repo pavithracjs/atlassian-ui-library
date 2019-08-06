@@ -1,3 +1,0 @@
-- Fixes accesibility issues with the expand/collapse affordance.
-- Fixes keyboard tab order when navigating nested nav transistions.
-- Passes `dataset` props correctly when using `AsyncLayoutManagerWithViewController`
