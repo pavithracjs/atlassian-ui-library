@@ -8,6 +8,7 @@ import {
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
 import Tooltip from '@atlaskit/tooltip';
+import Vue from 'vue';
 import {
   name as packageName,
   version as packageVersion,
@@ -23,6 +24,7 @@ import { mapProps, withPseudoState } from '../hoc';
 import { Theme } from '../theme';
 import type { AvatarPropTypes, SupportedSizeWithAnIcon } from '../types';
 
+console.log(Vue); // eslint-disable-line no-console
 const warn = (message: string) => {
   if (process.env.NODE_ENV !== 'production') {
     console.warn(message); // eslint-disable-line no-console

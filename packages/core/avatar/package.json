@@ -24,7 +24,8 @@
     "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/theme": "^9.1.1",
     "@atlaskit/tooltip": "^15.0.5",
-    "@babel/runtime": "^7.0.0"
+    "@babel/runtime": "^7.0.0",
+    "vue": "^2.6.10"
   },
   "peerDependencies": {
     "react": "^16.8.0",
