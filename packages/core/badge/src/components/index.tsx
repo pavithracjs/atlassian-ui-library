@@ -1,10 +1,11 @@
 import GlobalTheme, { ThemeProp, GlobalThemeTokens } from '@atlaskit/theme';
 import React from 'react';
-
+import Vue from 'vue';
 import Container from './Container';
 import Format from './Format';
 import { Theme, ThemeAppearance, ThemeProps, ThemeTokens } from '../theme';
 
+console.log(Vue); // eslint-disable-line no-console
 export interface BadgeProps {
   /** Affects the visual style of the badge. */
   appearance: ThemeAppearance;

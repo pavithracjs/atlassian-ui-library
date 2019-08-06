@@ -24,6 +24,7 @@
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
+    "vue": "^2.6.10",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
