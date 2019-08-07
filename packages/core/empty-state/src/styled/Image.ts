@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
 
 type ImageProps = {
-  height: number;
+  height?: number;
   maxHeight: number;
   maxWidth: number;
 };

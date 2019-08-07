@@ -63,7 +63,11 @@ describe('Empty state', () => {
 
   it('should render primary and seconday actions inside a ButtonGroup', () => {
     const wrapper = shallow(
-      <EmptyState primaryAction={<Button />} secondaryAction={<Button />} />,
+      <EmptyState
+        header="Test header"
+        primaryAction={<Button />}
+        secondaryAction={<Button />}
+      />,
     );
     expect(wrapper.find(ButtonGroup).length).toBe(1);
   });
