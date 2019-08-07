@@ -10,15 +10,30 @@ import {
   DropzoneUploadEventPayloadMap,
 } from '../types';
 
+import {
+  withAnalyticsEvents,
+  withAnalyticsContext,
+  WithAnalyticsEventProps,
+  AnalyticsEventPayload,
+} from '@atlaskit/analytics-next';
+
+import {
+  name as packageName,
+  version as packageVersion,
+} from '../../version.json';
+
 const toArray = (arr: any) => [].slice.call(arr, 0);
 
-export type DropzoneProps = LocalUploadComponentBaseProps & {
-  config: DropzoneConfig;
-  onDrop?: () => void;
-  onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
-  onDragLeave?: (payload: DropzoneDragLeaveEventPayload) => void;
-  onCancelFn?: (cancel: (uploadId: string) => void) => void;
-};
+const ANALYTICS_CHANNEL = 'media';
+
+export type DropzoneProps = LocalUploadComponentBaseProps &
+  WithAnalyticsEventProps & {
+    config: DropzoneConfig;
+    onDrop?: () => void;
+    onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
+    onDragLeave?: (payload: DropzoneDragLeaveEventPayload) => void;
+    onCancelFn?: (cancel: (uploadId: string) => void) => void;
+  };
 
 function dragContainsFiles(event: DragEvent): boolean {
   if (!event.dataTransfer) {
@@ -28,7 +43,7 @@ function dragContainsFiles(event: DragEvent): boolean {
   return toArray(types).indexOf('Files') > -1;
 }
 
-export class Dropzone extends LocalUploadComponentReact<
+export class DropzoneBase extends LocalUploadComponentReact<
   DropzoneProps,
   DropzoneUploadEventPayloadMap
 > {
@@ -127,8 +142,9 @@ export class Dropzone extends LocalUploadComponentReact<
     dragEvent.stopPropagation();
     this.onDrop(dragEvent);
 
-    const filesArray = [].slice.call(dragEvent.dataTransfer.files);
-    this.uploadService.addFiles(filesArray);
+    const files = Array.from(dragEvent.dataTransfer.files);
+
+    this.uploadService.addFiles(files);
   };
 
   // Cross-browser way of getting dragged items length, we prioritize "items" if present
@@ -149,16 +165,34 @@ export class Dropzone extends LocalUploadComponentReact<
     if (e.dataTransfer && dragContainsFiles(e)) {
       const dataTransfer = e.dataTransfer;
       const length = this.getDraggedItemsLength(dataTransfer);
+
+      this.fireAnalyticsEvent({
+        action: 'droppedInto',
+        actionSubject: 'dropzone',
+        attributes: {
+          fileCount: length,
+        },
+      });
+
       if (this.props.onDrop) this.props.onDrop();
       this.emitDragLeave({ length });
     }
   };
 
-  private emitDragOver(e: DropzoneDragEnterEventPayload): void {
+  private emitDragOver(payload: DropzoneDragEnterEventPayload): void {
     if (!this.uiActive) {
       const { onDragEnter } = this.props;
       this.uiActive = true;
-      if (onDragEnter) onDragEnter(e);
+
+      this.fireAnalyticsEvent({
+        action: 'draggedInto',
+        actionSubject: 'dropzone',
+        attributes: {
+          fileCount: payload.length,
+        },
+      });
+
+      if (onDragEnter) onDragEnter(payload);
     }
   }
 
@@ -172,9 +206,25 @@ export class Dropzone extends LocalUploadComponentReact<
       window.setTimeout(() => {
         if (!this.uiActive) {
           const { onDragLeave } = this.props;
+
+          this.fireAnalyticsEvent({
+            action: 'draggedOut',
+            actionSubject: 'dropzone',
+            attributes: {
+              fileCount: payload.length,
+            },
+          });
+
           if (onDragLeave) onDragLeave(payload);
         }
       }, 50);
+    }
+  }
+
+  private fireAnalyticsEvent(payload: AnalyticsEventPayload): void {
+    if (this.props.createAnalyticsEvent) {
+      const analyticsEvent = this.props.createAnalyticsEvent(payload);
+      analyticsEvent.fire(ANALYTICS_CHANNEL);
     }
   }
 
@@ -182,3 +232,13 @@ export class Dropzone extends LocalUploadComponentReact<
     return null;
   }
 }
+
+const DropzoneWithAnalyticsEvents = withAnalyticsEvents<DropzoneProps>()(
+  DropzoneBase,
+);
+
+export const Dropzone = withAnalyticsContext<DropzoneProps>({
+  componentName: 'dropzone',
+  packageName,
+  packageVersion,
+})(DropzoneWithAnalyticsEvents) as React.ComponentType<DropzoneProps>;
