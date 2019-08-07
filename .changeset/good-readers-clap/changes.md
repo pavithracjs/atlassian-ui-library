@@ -1,0 +1,1 @@
+Simple experiment with faster search is now default behaviour and can no longer be toggled
