@@ -1,1 +1,0 @@
-TEAMS-618 : Exporting Team mention spotlight with correct name

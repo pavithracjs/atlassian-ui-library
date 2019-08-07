@@ -1,5 +1,13 @@
 # @atlaskit/mention
 
+## 18.14.0
+
+### Minor Changes
+
+- [minor][a22fc8004f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a22fc8004f):
+
+  TEAMS-618 : Exporting Team mention spotlight with correct name
+
 ## 18.13.0
 
 ### Minor Changes
