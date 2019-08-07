@@ -218,6 +218,7 @@ describe('map-results-to-switcher-props', () => {
         loadingProvidersResult,
         {
           enableUserCentricProducts: true,
+          isDiscoverMoreForEveryoneEnabled: false,
           disableCustomLinks: false,
           disableRecentContainers: false,
           xflow: false,
