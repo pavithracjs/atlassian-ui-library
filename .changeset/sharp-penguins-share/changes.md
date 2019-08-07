@@ -1,0 +1,1 @@
+enhance media-group schema to support copy paste between renderer->editor
