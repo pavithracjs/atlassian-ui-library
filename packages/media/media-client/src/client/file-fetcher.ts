@@ -29,6 +29,7 @@ import {
 import isValidId from 'uuid-validate';
 import { getMediaTypeFromUploadableFile } from '../utils/getMediaTypeFromUploadableFile';
 import { convertBase64ToBlob } from '../utils/convertBase64ToBlob';
+import { observableToPromise } from '../utils/observableToPromise';
 
 const POLLING_INTERVAL = 1000;
 const maxNumberOfItemsPerCall = 100;
@@ -177,7 +178,7 @@ export class FileFetcherImpl implements FileFetcher {
   }
 
   getCurrentState(id: string): Promise<FileState> {
-    return getFileStreamsCache().getCurrentState(id);
+    return observableToPromise(this.getFileState(id));
   }
 
   public getArtifactURL(
