@@ -154,11 +154,10 @@ export default function withSortedPageRows<
       } = this.props;
 
       return (
-        // @ts-ignore - could be instantiated with a different subtype of constraint WithSortedPageRowsProps & Props
         <WrappedComponent
           pageRows={this.state.pageRows}
           head={head}
-          {...restProps}
+          {...restProps as WrappedComponentProps}
         />
       );
     }

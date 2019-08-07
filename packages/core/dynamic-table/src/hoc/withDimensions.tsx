@@ -68,12 +68,11 @@ export default function withDimensions<
       const { refWidth, refHeight } = this.state;
 
       return (
-        // @ts-ignore - could be instantiated with a different subtype of constraint WithSortedPageRowsProps & Props
         <WrappedComponent
           refWidth={refWidth}
           refHeight={refHeight}
           innerRef={this.innerRef}
-          {...this.props}
+          {...this.props as WrappedComponentProps}
         />
       );
     }
