@@ -189,6 +189,7 @@ export default class CachingCrossProductSearchClientImpl
   private cloudId: string;
   private abTestDataCache: { [scope: string]: Promise<ABTest> };
   private bootstrapPeopleCache: Promise<CrossProductSearchResults> | undefined;
+  private crossProductRecentsCache: Promise<SearchResultsMap> | undefined;
 
   // result limit per scope
   private readonly RESULT_LIMIT = 10;
@@ -201,6 +202,9 @@ export default class CachingCrossProductSearchClientImpl
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
+    this.crossProductRecentsCache = prefetchResults
+      ? prefetchResults.crossProductRecentItemsPromise
+      : undefined;
   }
 
   public async getNavAutocompleteSuggestions(query: string): Promise<string[]> {
@@ -303,11 +307,22 @@ export default class CachingCrossProductSearchClientImpl
     filters = [],
     mapItemToResult,
   }: RecentParams): Promise<CrossProductSearchResults> {
+    const scopes = mapContextToScopes(context);
+
+    if (this.crossProductRecentsCache) {
+      const recents = await this.crossProductRecentsCache;
+      if (areAllScopesInCache(scopes, recents)) {
+        return {
+          results: recents,
+        };
+      }
+    }
+
     const body = {
       query: '',
       cloudId: this.cloudId,
       limit: resultLimit,
-      scopes: mapContextToScopes(context),
+      scopes,
       filters: filters,
       ...(modelParams.length > 0 ? { modelParams } : {}),
     };
@@ -495,4 +510,8 @@ function mapContextToScopes(context: QuickSearchContext) {
       `Supplied contet ${context} is not supported for pre-fetching`,
     );
   }
+}
+
+function areAllScopesInCache(scopes: Scope[], cache: SearchResultsMap) {
+  return scopes.filter(scope => cache[scope] === undefined).length === 0;
 }

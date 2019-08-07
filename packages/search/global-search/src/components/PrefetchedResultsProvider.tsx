@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   getConfluencePrefetchedData,
   GlobalSearchPrefetchedResults,
+  getJiraPrefetchedData,
 } from '../api/prefetchResults';
 import { QuickSearchContext } from '../api/types';
 
@@ -36,8 +37,9 @@ export default class PrefetchedResultsProvider extends React.Component<
     switch (context) {
       case 'confluence':
         return getConfluencePrefetchedData(cloudId, baseUrl);
+      case 'jira':
+        return getJiraPrefetchedData(cloudId, baseUrl);
       default:
-        // To be implemented in https://product-fabric.atlassian.net/browse/QS-623
         throw new Error(
           `Prefetching is not supported for context: ${context} - did you set the PrefetchResultProvider context incorrectly?`,
         );
