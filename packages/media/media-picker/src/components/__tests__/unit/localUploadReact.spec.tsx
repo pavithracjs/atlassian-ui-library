@@ -28,7 +28,6 @@ const imageFile: MediaFile = {
   size: 12345,
   creationDate: Date.now(),
   type: 'image/jpg',
-  upfrontId: Promise.resolve('some-public-id'),
 };
 
 class DummyLocalUploadComponent extends LocalUploadComponentReact<

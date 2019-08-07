@@ -630,6 +630,7 @@ export class JiraQuickSearchContainer extends React.Component<
         referralContextIdentifiers={referralContextIdentifiers}
         product="jira"
         features={features}
+        advancedSearchId={ADVANCED_JIRA_SEARCH_RESULT_ID}
       />
     );
   }
