@@ -24,7 +24,7 @@ let mockRegisterTeamMention = jest.fn();
 
 jest.mock('@atlaskit/mention/spotlight', () => ({
   __esModule: true,
-  MentionSpotlightController: {
+  TeamMentionHighlightController: {
     registerTeamMention: () => mockRegisterTeamMention(),
   },
 }));

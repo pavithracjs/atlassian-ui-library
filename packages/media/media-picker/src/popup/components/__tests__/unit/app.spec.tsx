@@ -36,7 +36,6 @@ const userAuthProvider: AuthProvider = () =>
 
 const makeFile = (id: string): MediaFile => ({
   id: `id${id}`,
-  upfrontId: Promise.resolve(`id${id}`),
   name: `name${id}`,
   size: 1,
   type: 'type',
@@ -274,7 +273,6 @@ describe('Connected App', () => {
 
   it('should dispatch FILE_UPLOADS_START when onUploadsStart is called', () => {
     const { component, dispatch } = setup();
-    const upfrontId = Promise.resolve('');
     const nowDate = Date.now();
     const payload = {
       files: [
@@ -284,7 +282,6 @@ describe('Connected App', () => {
           size: 42,
           creationDate: nowDate,
           type: 'image/jpg',
-          upfrontId,
         },
       ],
     };
@@ -299,7 +296,6 @@ describe('Connected App', () => {
             size: 42,
             creationDate: nowDate,
             type: 'image/jpg',
-            upfrontId,
           },
         ],
       }),

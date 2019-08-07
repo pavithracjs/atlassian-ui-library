@@ -1141,7 +1141,6 @@ describe('Media plugin', () => {
           name: 'test.png',
           size: 1,
           type: 'file/test',
-          upfrontId: Promise.resolve('test'),
           creationDate: 1,
         },
         preview: {

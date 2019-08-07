@@ -23,7 +23,7 @@ describe('GoToItemBase', () => {
   });
 
   it('should render a ConnectedItem', () => {
-    const wrapper = shallow(
+    const wrapper = mount(
       <GoToItemBase
         {...baseProps}
         goTo="another-view"
@@ -37,7 +37,7 @@ describe('GoToItemBase', () => {
   });
   describe('Default After prop', () => {
     it('should be provided to ConnectedItem if one is not provided to GoTo item', () => {
-      const wrapper = shallow(
+      const wrapper = mount(
         <GoToItemBase
           {...baseProps}
           goTo="another-view"
@@ -51,7 +51,7 @@ describe('GoToItemBase', () => {
     });
 
     it('should only show on hover or active or focus', () => {
-      const wrapper = shallow(
+      const wrapper = mount(
         <GoToItemBase
           {...baseProps}
           goTo="another-view"
@@ -115,7 +115,7 @@ describe('GoToItemBase', () => {
 
     it('should be replaced by after prop of GoToItem if passed in', () => {
       const MyAfterComp = () => <span>...</span>;
-      const wrapper = shallow(
+      const wrapper = mount(
         <GoToItemBase
           {...baseProps}
           after={MyAfterComp}

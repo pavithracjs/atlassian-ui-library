@@ -3,8 +3,8 @@ interface TeamMentionState {
   dontShow: boolean;
 }
 
-export const mentionSpotlightLocalStorageKey =
-  'atlassian.people.context.mention.spotlight';
+export const mentionHighlightLocalStorageKey =
+  'atlassian.people.context.team.mention.highlight';
 
 const EMPTY: TeamMentionState = {
   seenCount: 0,
@@ -19,19 +19,19 @@ const DISABLED_LOCAL_STORAGE: TeamMentionState = {
 
 const MAX_SEEN_LIMIT = 5;
 
-export default class MentionSpotlightController {
+export default class TeamMentionHighlightController {
   // Note - not a simple look up to avoid showing it to users that have local storage disabled
   private static readFromLocalStorage(): TeamMentionState {
     try {
-      let localVal = localStorage.getItem(mentionSpotlightLocalStorageKey);
+      let localVal = localStorage.getItem(mentionHighlightLocalStorageKey);
 
       if (!localVal) {
         // Attempt to write to see if the user has local storage access
         localStorage.setItem(
-          mentionSpotlightLocalStorageKey,
+          mentionHighlightLocalStorageKey,
           JSON.stringify(EMPTY),
         );
-        localVal = localStorage.getItem(mentionSpotlightLocalStorageKey);
+        localVal = localStorage.getItem(mentionHighlightLocalStorageKey);
       }
 
       if (localVal) {
@@ -47,7 +47,7 @@ export default class MentionSpotlightController {
   private static saveToLocalStorage(item: TeamMentionState) {
     try {
       localStorage.setItem(
-        mentionSpotlightLocalStorageKey,
+        mentionHighlightLocalStorageKey,
         JSON.stringify(item),
       );
     } catch (err) {
@@ -56,31 +56,31 @@ export default class MentionSpotlightController {
   }
 
   private static markAsDone = () => {
-    const item = MentionSpotlightController.readFromLocalStorage();
+    const item = TeamMentionHighlightController.readFromLocalStorage();
     item.dontShow = true;
-    MentionSpotlightController.saveToLocalStorage(item);
+    TeamMentionHighlightController.saveToLocalStorage(item);
   };
 
-  static isSpotlightEnabled = () => {
-    const item = MentionSpotlightController.readFromLocalStorage();
+  static isHighlightEnabled = () => {
+    const item = TeamMentionHighlightController.readFromLocalStorage();
     return item.seenCount < MAX_SEEN_LIMIT && !item.dontShow;
   };
 
   static registerRender = (): TeamMentionState => {
-    const item = MentionSpotlightController.readFromLocalStorage();
+    const item = TeamMentionHighlightController.readFromLocalStorage();
     item.seenCount += 1;
     if (item.seenCount > MAX_SEEN_LIMIT) {
       item.dontShow = true;
     }
-    MentionSpotlightController.saveToLocalStorage(item);
+    TeamMentionHighlightController.saveToLocalStorage(item);
     return item;
   };
 
   static getSeenCount = (): number => {
-    return MentionSpotlightController.readFromLocalStorage().seenCount;
+    return TeamMentionHighlightController.readFromLocalStorage().seenCount;
   };
 
-  static registerCreateLinkClick = MentionSpotlightController.markAsDone;
-  static registerTeamMention = MentionSpotlightController.markAsDone;
-  static registerClosed = MentionSpotlightController.markAsDone;
+  static registerCreateLinkClick = TeamMentionHighlightController.markAsDone;
+  static registerTeamMention = TeamMentionHighlightController.markAsDone;
+  static registerClosed = TeamMentionHighlightController.markAsDone;
 }

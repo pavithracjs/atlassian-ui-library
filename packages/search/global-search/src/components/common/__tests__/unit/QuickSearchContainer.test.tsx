@@ -70,6 +70,7 @@ const defaultProps = {
   referralContextIdentifiers: defaultReferralContext,
   getPreQueryDisplayedResults: jest.fn(mapToResultGroup),
   getPostQueryDisplayedResults: jest.fn(mapToResultGroup),
+  advancedSearchId: 'product_advanced_search',
   features: DEFAULT_FEATURES,
 };
 

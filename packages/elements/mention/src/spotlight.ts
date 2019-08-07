@@ -1,8 +1,8 @@
-import MentionSpotlight from './components/MentionSpotlight';
-import MentionSpotlightController from './components/MentionSpotlight/MentionSpotlightController';
+import TeamMentionHighlight from './components/TeamMentionHighlight';
+import TeamMentionHighlightController from './components/TeamMentionHighlight/TeamMentionHighlightController';
 
 export {
   // Components
-  MentionSpotlight,
-  MentionSpotlightController,
+  TeamMentionHighlight,
+  TeamMentionHighlightController,
 };

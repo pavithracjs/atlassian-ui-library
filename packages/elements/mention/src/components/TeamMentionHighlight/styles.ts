@@ -27,7 +27,7 @@ export const Card = styled.div`
   padding-bottom: ${gridSize() * 2}px;
   padding-left: ${gridSize() * 2}px;
   padding-right: 0px;
-  margin-top: -${gridSize() * 0.5}px; /* Negative margin is used to fill the entire top of the mention dropdown with background colour of spotlight*/
+  margin-top: -${gridSize() * 0.5}px; /* Negative margin is used to fill the entire top of the mention dropdown with background colour of highlight*/
 `;
 
 export const Content = styled.div`

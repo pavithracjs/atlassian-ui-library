@@ -13,14 +13,12 @@ describe('getPreviewMiddleware', () => {
     token: 'some-token',
     baseUrl: '',
   };
-  const upfrontId = Promise.resolve('1');
   const file = {
     id: 'some-file-id',
     name: 'some-file-name',
     type: 'some-file-type',
     creationDate: Date.now(),
     size: 12345,
-    upfrontId,
   };
   const collection = 'some-collection';
   const uploadId = 'some-upload-id';
