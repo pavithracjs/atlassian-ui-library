@@ -66,5 +66,7 @@ export {
   updateServiceList,
   UpdateServiceListAction,
 } from './updateServiceList';
+export { FAILURE_ERROR, isFailureErrorAction } from './failureErrorLogger';
+
 export * from './searchGiphy';
 export * from './saveCollectionItemsSubscription';
