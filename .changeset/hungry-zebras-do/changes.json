@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/empty-state", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/table-tree",
+      "type": "patch",
+      "dependencies": ["@atlaskit/empty-state"]
+    }
+  ]
+}
