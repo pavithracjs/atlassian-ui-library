@@ -466,4 +466,116 @@ describe('Jira Quick Search Container', () => {
       });
     });
   });
+
+  describe('faster search', () => {
+    const mockSearchResults: JiraResultsMap = {
+      objects: issues,
+      containers: boards,
+      people: [makePersonResult()],
+    };
+
+    const recentItemCommon1a = 'Common-1-A';
+    const recentItemCommon1b = 'Common-1-B';
+    const recentItemCommon2 = 'Common-2';
+
+    const mockRecentItems: JiraResultsMap = {
+      objects: [
+        makeJiraObjectResult({
+          resultId: recentItemCommon2,
+          name: recentItemCommon2,
+          contentType: ContentType.JiraIssue,
+        }),
+        makeJiraObjectResult({
+          resultId: recentItemCommon1a,
+          name: recentItemCommon1a,
+          contentType: ContentType.JiraIssue,
+        }),
+        makeJiraObjectResult({
+          resultId: recentItemCommon1b,
+          name: recentItemCommon1b,
+          contentType: ContentType.JiraIssue,
+        }),
+      ],
+      containers: [
+        makeJiraObjectResult({
+          name: 'Common-Board',
+          contentType: ContentType.JiraBoard,
+        }),
+      ],
+      people: [makePersonResult()],
+    };
+
+    it('should show filtered list of recent issues when loading', () => {
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'common-1',
+        mockRecentItems,
+        true,
+        'some-session-id',
+      );
+
+      // We expect 4 groups: advanced, objects, containers and people
+      expect(displayedResults.length).toBe(4);
+      // Only show the first group (issues) when loading, we also expect the results to be filtered by name
+      const issueNames = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.name);
+      expect(issueNames).toEqual([recentItemCommon1a, recentItemCommon1b]);
+
+      // Expect all the other results to be empty (we also exclude issue-advanced because that's a group hacked on to show advanced search)
+      displayedResults
+        .filter(
+          result => result.key !== 'issues' && result.key !== 'issue-advanced',
+        )
+        .forEach(resultGroup => {
+          expect(resultGroup.items.length).toBe(0);
+        });
+    });
+
+    it('should show normal list of issues when not loading with matching recent items at the top', () => {
+      const component = renderComponent({
+        features: {
+          ...DEFAULT_FEATURES,
+          isInFasterSearchExperiment: true,
+        },
+      });
+
+      const displayedResults = (component.instance() as JiraQuickSearchContainer).getPostQueryDisplayedResults(
+        mockSearchResults,
+        'common-1',
+        mockRecentItems,
+        false,
+        'some-session-id',
+      );
+
+      // We expect 4 groups: advanced, objects, containers and people
+      expect(displayedResults.length).toBe(4);
+      // Only show the first group (issues) when loading, we also expect the results to be filtered by name
+      const issueNames = displayedResults
+        .find(result => result.key === 'issues')!
+        .items.map(issue => issue.name);
+      const searchResultNames = mockSearchResults.objects.map(
+        issue => issue.name,
+      );
+      expect(issueNames).toEqual([
+        recentItemCommon1a,
+        recentItemCommon1b,
+        ...searchResultNames,
+      ]);
+
+      // Expect all the other results to not be empty (we also exclude search-jira because that's a group hacked on to show advanced search)
+      displayedResults
+        .filter(result => result.key !== 'issues')
+        .forEach(resultGroup => {
+          expect(resultGroup.items.length).not.toBe(0);
+        });
+    });
+  });
 });

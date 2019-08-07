@@ -52,7 +52,7 @@ export default class WithNavigation extends React.Component<
   State
 > {
   state = {
-    context: 'confluence' as QuickSearchContext,
+    context: this.props.context || 'confluence',
     locale: 'en',
     currentConfig: 'local',
     toggleRequestSpeedSettings: 'fast',
