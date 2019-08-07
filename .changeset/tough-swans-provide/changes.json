@@ -1,0 +1,14 @@
+{
+  "releases": [
+    { "name": "@atlaskit/avatar-group", "type": "patch" },
+    { "name": "@atlaskit/droplist", "type": "patch" },
+    { "name": "@atlaskit/global-navigation", "type": "patch" },
+    { "name": "@atlaskit/navigation", "type": "patch" },
+    { "name": "@atlaskit/progress-tracker", "type": "patch" },
+    { "name": "@atlaskit/select", "type": "patch" },
+    { "name": "@atlaskit/tabs", "type": "patch" },
+    { "name": "@atlaskit/textfield", "type": "patch" },
+    { "name": "@atlaskit/tree", "type": "patch" }
+  ],
+  "dependents": []
+}
