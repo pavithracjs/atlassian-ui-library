@@ -4,8 +4,9 @@ This feature is only enabled for top level headings(e.g. not nested in other blo
 
 ### For editor:
 
-Heading anchor is disable by default. `allowHeadingAnchorLink` attribute is added to EditorProps, set it to true to enable headings anchor link in editor,
+Heading anchors are disable by default. `allowHeadingAnchorLinks` attribute is added to both `EditorProps` and `Renderer` props, set it to true to enable headings anchor link in `Editor` or `Render` ,
 
 ### For renderer:
 
-Heading anchor is enabled by default in renderer. Set `disableHeadingIDs` for renderer to false to disable heading anchor links in the renderer.
+Beside `allowHeadingAnchorLinks`, setting `disableHeadingIDs` to true will also disable the copy anchor link button.
+When you set both `disableHeadingIDs` and `allowHeadingAnchorLinks` to false, the anchor link button will not display, however the heading anchor id will still be in the DOM.

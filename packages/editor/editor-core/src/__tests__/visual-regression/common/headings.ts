@@ -10,7 +10,7 @@ describe('Heading:', () => {
     page = global.page;
     await initEditorWithAdf(page, {
       adf: headings,
-      editorProps: { allowHeadingAnchorLink: true },
+      editorProps: { allowHeadingAnchorLinks: true },
       appearance: Appearance.fullPage,
       viewport: { width: 800, height: 800 },
     });

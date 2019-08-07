@@ -16,7 +16,6 @@ import {
   ACTION_SUBJECT_ID,
   EVENT_TYPE,
 } from '../../analytics/enums';
-import { PLATFORM } from '../../analytics/events';
 import AnalyticsContext from '../../analytics/analyticsContext';
 
 function Heading(

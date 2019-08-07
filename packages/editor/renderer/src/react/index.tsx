@@ -42,6 +42,7 @@ export interface ConstructorParams {
   appearance?: RendererAppearance;
   disableHeadingIDs?: boolean;
   allowDynamicTextSizing?: boolean;
+  allowHeadingAnchorLinks?: boolean;
 }
 
 type MarkWithContent = Partial<Mark<any>> & {
@@ -83,6 +84,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
   private disableHeadingIDs?: boolean;
   private headingIds: string[] = [];
   private allowDynamicTextSizing?: boolean;
+  private allowHeadingAnchorLinks?: boolean;
 
   constructor({
     providers,
@@ -93,6 +95,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     appearance,
     disableHeadingIDs,
     allowDynamicTextSizing,
+    allowHeadingAnchorLinks,
   }: ConstructorParams) {
     this.providers = providers;
     this.eventHandlers = eventHandlers;
@@ -102,6 +105,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
     this.appearance = appearance;
     this.disableHeadingIDs = disableHeadingIDs;
     this.allowDynamicTextSizing = allowDynamicTextSizing;
+    this.allowHeadingAnchorLinks = allowHeadingAnchorLinks;
   }
 
   private resetState() {
@@ -254,18 +258,33 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
       serializer: this,
       content: node.content ? node.content.toJSON() : undefined,
       allowDynamicTextSizing: this.allowDynamicTextSizing,
+      allowHeadingAnchorLinks: this.allowHeadingAnchorLinks,
       rendererAppearance: this.appearance,
       ...node.attrs,
     };
   }
 
+  private hasUnsupportedParent(path: Array<Node> = []): boolean {
+    return path.some(
+      node =>
+        ['panel', 'table', 'tableRow', 'tableCell', 'tableHeader'].indexOf(
+          node.type.name,
+        ) >= 0,
+    );
+  }
+
   private getHeadingProps(node: Node, path: Array<Node> = []) {
-    const isTopLevelHeading = path.length === 0;
+    const isTopLevelHeading =
+      path.length === 0 || !this.hasUnsupportedParent(path);
+
     return {
       ...node.attrs,
       content: node.content ? node.content.toJSON() : undefined,
       headingId: this.getHeadingId(node),
-      showAnchorLink: !this.disableHeadingIDs && isTopLevelHeading,
+      showAnchorLink:
+        this.allowHeadingAnchorLinks &&
+        !this.disableHeadingIDs &&
+        isTopLevelHeading,
     };
   }
 
@@ -355,6 +374,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     }: ConstructorParams,
   ): ReactSerializer {
     // TODO: Do we actually need the schema here?
@@ -365,6 +385,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     });
   }
 }

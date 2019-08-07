@@ -3,7 +3,9 @@ import {
   clipboardApiSupported,
   copyToClipboard,
   copyToClipboardLegacy,
-} from '../../utils/copyToClipboard';
+} from '../../utils/copy-to-clipboard';
+
+const isClipboardApiSupported = clipboardApiSupported();
 
 const CopyTextContext = React.createContext<{
   copyTextToClipboard: (textToCopy: string) => Promise<void>;
@@ -34,7 +36,7 @@ export class CopyTextProvider extends React.Component {
   private copyAreaRef: React.RefObject<HTMLElement> = React.createRef();
 
   copyTextToClipboard = (textToCopy: string): Promise<void> => {
-    if (clipboardApiSupported) {
+    if (isClipboardApiSupported) {
       return copyToClipboard(textToCopy);
     } else {
       return copyToClipboardLegacy(textToCopy, this.copyAreaRef.current);
@@ -44,7 +46,7 @@ export class CopyTextProvider extends React.Component {
   render() {
     return (
       <>
-        {!clipboardApiSupported && <CopyArea ref={this.copyAreaRef} />}
+        {!isClipboardApiSupported && <CopyArea ref={this.copyAreaRef} />}
         <Provider
           value={{
             copyTextToClipboard: this.copyTextToClipboard,

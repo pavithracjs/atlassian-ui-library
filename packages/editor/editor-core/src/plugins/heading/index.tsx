@@ -7,12 +7,12 @@ import {
   clipboardApiSupported,
   copyToClipboard,
   copyToClipboardLegacy,
-} from '@atlaskit/editor-common/src/utils/copyToClipboard';
+} from '@atlaskit/editor-common/src/utils/copy-to-clipboard';
 
 const copyAreaRef: RefObject<HTMLElement> = React.createRef();
 
 export const copyTextToClipboard = (textToCopy: string): Promise<void> => {
-  if (clipboardApiSupported) {
+  if (clipboardApiSupported()) {
     return copyToClipboard(textToCopy);
   }
   return copyToClipboardLegacy(textToCopy, copyAreaRef.current);
@@ -34,7 +34,7 @@ const headingPlugin = (): EditorPlugin => ({
   },
 
   contentComponent: () =>
-    clipboardApiSupported ? null : <CopyArea ref={copyAreaRef} />,
+    clipboardApiSupported() ? null : <CopyArea ref={copyAreaRef} />,
 });
 
 export default headingPlugin;

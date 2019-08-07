@@ -106,7 +106,7 @@ export interface EditorProps {
   allowCodeBlocks?: boolean | CodeBlockOptions;
 
   // Enable heading link anchor.
-  allowHeadingAnchorLink?: boolean;
+  allowHeadingAnchorLinks?: boolean;
 
   // Enables bullet and numbered lists.
   allowLists?: boolean;

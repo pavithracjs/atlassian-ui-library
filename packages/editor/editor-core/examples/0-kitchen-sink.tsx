@@ -432,6 +432,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
                             eventHandlers={this.legacyMediaEventHandlers()}
                             // @ts-ignore
                             appearance={this.state.appearance}
+                            allowHeadingAnchorLinks={true}
                           />
                         </SmartCardProvider>
                       </IntlProvider>

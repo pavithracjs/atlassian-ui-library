@@ -88,6 +88,7 @@ class HeadingAnchor extends React.PureComponent<
   };
 
   resetMessage = () => {
+    this.setState({ tooltipMessage: '' });
     setTimeout(() => {
       this.setState({ tooltipMessage: this.initialTooltipMessage });
     }, 0);

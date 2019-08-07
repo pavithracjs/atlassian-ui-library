@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
+import { IntlProvider } from 'react-intl';
 import { Schema } from 'prosemirror-model';
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { reduce } from '@atlaskit/adf-utils';
@@ -49,6 +50,7 @@ export interface Props {
   adfStage?: ADFStage;
   disableHeadingIDs?: boolean;
   allowDynamicTextSizing?: boolean;
+  allowHeadingAnchorLinks?: boolean;
   maxHeight?: number;
   truncated?: boolean;
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
@@ -117,6 +119,7 @@ export class Renderer extends PureComponent<Props, {}> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     } = props;
 
     this.serializer = new ReactSerializer({
@@ -132,6 +135,7 @@ export class Renderer extends PureComponent<Props, {}> {
       appearance,
       disableHeadingIDs,
       allowDynamicTextSizing,
+      allowHeadingAnchorLinks,
     });
   }
 
@@ -170,19 +174,21 @@ export class Renderer extends PureComponent<Props, {}> {
       }
       const rendererOutput = (
         <CopyTextProvider>
-          <AnalyticsContext.Provider
-            value={{
-              fireAnalyticsEvent: (event: AnalyticsEventPayload) =>
-                this.fireAnalyticsEvent(event, FabricChannel.editor),
-            }}
-          >
-            <RendererWrapper
-              appearance={appearance}
-              dynamicTextSizing={!!allowDynamicTextSizing}
+          <IntlProvider>
+            <AnalyticsContext.Provider
+              value={{
+                fireAnalyticsEvent: (event: AnalyticsEventPayload) =>
+                  this.fireAnalyticsEvent(event, FabricChannel.editor),
+              }}
             >
-              {result}
-            </RendererWrapper>
-          </AnalyticsContext.Provider>
+              <RendererWrapper
+                appearance={appearance}
+                dynamicTextSizing={!!allowDynamicTextSizing}
+              >
+                {result}
+              </RendererWrapper>
+            </AnalyticsContext.Provider>
+          </IntlProvider>
         </CopyTextProvider>
       );
 

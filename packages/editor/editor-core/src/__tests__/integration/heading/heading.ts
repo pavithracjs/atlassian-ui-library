@@ -9,13 +9,13 @@ import {
 
 BrowserTestCase(
   'Headings will generate correct anchor name',
-  { skip: [] },
+  { skip: ['edge', 'ie', 'safari', 'firefox'] },
   async (client: any, _testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
       appearance: 'full-page',
-      allowHeadingAnchorLink: true,
+      allowHeadingAnchorLinks: true,
       defaultValue: JSON.stringify(headings),
     });
 

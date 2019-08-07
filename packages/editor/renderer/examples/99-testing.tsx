@@ -11,7 +11,6 @@ import {
 import { default as Renderer } from '../src/ui/Renderer';
 import { document as defaultDoc } from './helper/story-data';
 import Sidebar from './helper/NavigationNext';
-import { IntlProvider } from 'react-intl';
 
 const mediaProvider = storyMediaProviderFactory();
 const emojiProvider = emoji.storyData.getEmojiResource();
@@ -51,22 +50,19 @@ function createRendererWindowBindings(win: Window) {
 
     ReactDOM.unmountComponentAtNode(target);
     ReactDOM.render(
-      <IntlProvider>
-        <Provider>
-          <Sidebar showSidebar={!!showSidebar}>
-            {(additionalRendererProps: any) => (
-              <Renderer
-                dataProviders={providerFactory}
-                document={adf}
-                extensionHandlers={extensionHandlers}
-                {...reactProps}
-                {...additionalRendererProps}
-              />
-            )}
-          </Sidebar>
-        </Provider>
-      </IntlProvider>,
-
+      <Provider>
+        <Sidebar showSidebar={!!showSidebar}>
+          {(additionalRendererProps: any) => (
+            <Renderer
+              dataProviders={providerFactory}
+              document={adf}
+              extensionHandlers={extensionHandlers}
+              {...reactProps}
+              {...additionalRendererProps}
+            />
+          )}
+        </Sidebar>
+      </Provider>,
       target,
     );
   };

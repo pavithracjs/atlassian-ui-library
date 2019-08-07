@@ -11,6 +11,10 @@ describe('Headings:', () => {
     page = global.page;
     await initRendererWithADF(page, {
       adf: headings,
+      rendererProps: {
+        allowHeadingAnchorLinks: true,
+        disableHeadingIDs: false,
+      },
       appearance: 'full-page',
     });
   });

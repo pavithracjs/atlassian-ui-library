@@ -1,10 +1,9 @@
-export const clipboardApiSupported = !!(
-  navigator.clipboard && typeof navigator.clipboard.writeText === 'function'
-);
+export const clipboardApiSupported = () =>
+  !!navigator.clipboard && typeof navigator.clipboard.writeText === 'function';
 
 // This function is needed for safari and IE
-// It is a synchronous function,
-// But it is wrapped into a promise to be consistent with "copyToClipboard" function.
+// This function is a synchronous function,
+// But it is wrapped into a promise to be consistent with "copyToClipboard".
 export const copyToClipboardLegacy = (
   textToCopy: string,
   copyAreaRef: HTMLElement | null,
@@ -29,7 +28,6 @@ export const copyToClipboardLegacy = (
     }
   });
 
-// Need to wrap the native clipboard.writeText promise to es6 promise
 export const copyToClipboard = (textToCopy: string): Promise<void> =>
   new Promise<void>((resolve: () => void, reject: (str: string) => void) => {
     if (

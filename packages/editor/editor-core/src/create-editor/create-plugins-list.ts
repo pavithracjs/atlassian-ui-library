@@ -108,7 +108,7 @@ export default function createPluginsList(
     plugins.push(textColorPlugin());
   }
 
-  if (props.allowHeadingAnchorLink) {
+  if (props.allowHeadingAnchorLinks) {
     plugins.push(headingPlugin());
   }
 

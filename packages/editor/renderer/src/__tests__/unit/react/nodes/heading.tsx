@@ -3,11 +3,13 @@ import Heading from '../../../../react/nodes/heading';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import { CopyTextContext } from '@atlaskit/editor-common/src/ui/CopyTextProvider';
 import { HeadingLevels, HeadingAnchor } from '@atlaskit/editor-common';
-import { HeadingAnchorWrapperClass } from '@atlaskit/editor-common/src/ui/heading-anchor';
+import { HeadingAnchorWrapperClassName } from '@atlaskit/editor-common/src/ui/heading-anchor';
+import AnalyticsContext from '../../../../analytics/analyticsContext';
 
 describe('<Heading />', () => {
   let heading: any;
   const copyTextToClipboard = jest.fn();
+  const fireAnalyticsEvent = jest.fn();
 
   [1, 2, 3, 4, 5, 6].forEach(headingLevel => {
     it(`should wrap content with <h${headingLevel}>-tag`, () => {
@@ -22,9 +24,9 @@ describe('<Heading />', () => {
       );
 
       expect(heading.find(`h${headingLevel}`).exists()).toBe(true);
-      expect(heading.find(`.${HeadingAnchorWrapperClass}`).prop('id')).toEqual(
-        `This-is-a-Heading-${headingLevel}`,
-      );
+      expect(
+        heading.find(`.${HeadingAnchorWrapperClassName}`).prop('id'),
+      ).toEqual(`This-is-a-Heading-${headingLevel}`);
     });
   });
 
@@ -54,13 +56,19 @@ describe('<Heading />', () => {
             copyTextToClipboard: copyTextToClipboard,
           }}
         >
-          <Heading
-            level={1}
-            headingId="This-is-a-Heading-1"
-            showAnchorLink={true}
+          <AnalyticsContext.Provider
+            value={{
+              fireAnalyticsEvent: fireAnalyticsEvent,
+            }}
           >
-            This is a Heading 1
-          </Heading>
+            <Heading
+              level={1}
+              headingId="This-is-a-Heading-1"
+              showAnchorLink={true}
+            >
+              This is a Heading 1
+            </Heading>
+          </AnalyticsContext.Provider>
           ,
         </CopyTextContext.Provider>,
       );
@@ -74,6 +82,12 @@ describe('<Heading />', () => {
       expect(copyTextToClipboard).toHaveBeenCalledWith(
         'http://localhost/#This-is-a-Heading-1',
       );
+      expect(fireAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'clicked',
+        actionSubject: 'button',
+        actionSubjectId: 'headingAnchorLink',
+        eventType: 'ui',
+      });
     });
   });
 });

@@ -25,25 +25,15 @@ describe('heading', () => {
     expect(subject.find(HeadingAnchor).exists()).toBe(true);
   });
 
-  describe('when isTopLevelHeading is false', () => {
-    beforeEach(() => {
-      props.isTopLevelHeading = false;
-    });
-
-    it("should not render 'HeadingAnchor'", () => {
-      subject = shallow(<Heading {...props} />);
-      expect(subject.find(HeadingAnchor).exists()).toBe(false);
-    });
+  it("should not render 'HeadingAnchor' when isTopLevelHeading is false", () => {
+    props.isTopLevelHeading = false;
+    subject = shallow(<Heading {...props} />);
+    expect(subject.find(HeadingAnchor).exists()).toBe(false);
   });
 
-  describe('when headingId is null', () => {
-    beforeEach(() => {
-      props.headingId = undefined;
-    });
-
-    it("should not render 'HeadingAnchor'", () => {
-      subject = shallow(<Heading {...props} />);
-      expect(subject.find(HeadingAnchor).exists()).toBe(false);
-    });
+  it("should not render 'HeadingAnchor' when headingId is null", () => {
+    props.headingId = undefined;
+    subject = shallow(<Heading {...props} />);
+    expect(subject.find(HeadingAnchor).exists()).toBe(false);
   });
 });
