@@ -99,10 +99,9 @@ class ChooseEmojiFile extends PureComponent<ChooseEmojiFileProps, {}> {
           <span className={styles.uploadChooseFileEmojiName}>
             <AkFieldBase
               appearance="standard"
-              isCompact={true}
-              isLabelHidden={true}
-              isFocused={true}
-              isFitContainerWidthEnabled={true}
+              isCompact
+              defaultIsFocused
+              isFitContainerWidthEnabled
             >
               <FormattedMessage {...messages.emojiPlaceholder}>
                 {message => (
@@ -116,7 +115,7 @@ class ChooseEmojiFile extends PureComponent<ChooseEmojiFileProps, {}> {
                         onKeyDown={this.onKeyDown}
                         value={name}
                         ref="name"
-                        autoFocus={true}
+                        autoFocus
                       />
                     )}
                   </FormattedMessage>

@@ -76,6 +76,8 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
           triggerXFlow={() => 'triggering xflow'}
           manageLink={MANAGE_HREF}
           messages={messages}
+          hasLoaded
+          hasLoadedCritical
           {...switcherLinks}
           {...props}
         />
@@ -111,10 +113,10 @@ describe('Atlassian Switcher - Component Analytics', () => {
       action: 'viewed',
       actionSubject: 'atlassianSwitcher',
       attributes: {
-        switcherItems: {
-          suggestedProducts: ['confluence.ondemand'],
-          licensedProducts: ['jira'],
-        },
+        suggestedProducts: ['confluence.ondemand'],
+        licensedProducts: ['jira'],
+        adminLinks: ['discoverMore'],
+        fixedLinks: ['people'],
       },
     });
 

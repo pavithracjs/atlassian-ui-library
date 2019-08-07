@@ -119,7 +119,7 @@ class Example extends React.Component<{}, ExampleState> {
                             isChecked={isSelected}
                             onChange={this.handleIsSelected}
                             label="is selected"
-                            value={true}
+                            value="isSelected"
                             name="isSelected"
                           />
                         )}

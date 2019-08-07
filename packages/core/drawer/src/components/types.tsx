@@ -16,7 +16,7 @@ export interface BaseProps {
   /** Icon to be rendered in your drawer as a component, if available */
   icon?: ComponentType<any>;
   /** Available drawer sizes */
-  width: DrawerWidth;
+  width?: DrawerWidth;
   /** A callback function that will be called when the drawer has finished its close transition. */
   onCloseComplete?: (node: HTMLElement) => void;
   /** Boolean that controls if drawer should be retained/discarded */

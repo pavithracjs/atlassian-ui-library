@@ -17,12 +17,21 @@ export class BrowserLoader extends React.PureComponent<
   BrowserWithMediaClientConfigProps,
   State
 > {
+  private mounted: boolean = false;
   static displayName = 'AsyncBrowser';
   static Browser?: BrowserWithMediaClientConfigComponent;
 
   state = {
     Browser: BrowserLoader.Browser,
   };
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
 
   async componentWillMount() {
     if (!this.state.Browser) {
@@ -35,9 +44,11 @@ export class BrowserLoader extends React.PureComponent<
         browserModule.Browser,
       );
 
-      this.setState({
-        Browser: BrowserLoader.Browser,
-      });
+      if (this.mounted) {
+        this.setState({
+          Browser: BrowserLoader.Browser,
+        });
+      }
     }
   }
 

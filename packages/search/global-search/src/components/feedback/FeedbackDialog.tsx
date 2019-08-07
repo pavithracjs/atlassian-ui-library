@@ -32,9 +32,9 @@ export default class FeedbackDialog extends React.Component<Props> {
     this.props.onSubmit();
   };
 
-  handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  handleTextAreaChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     this.setState({
-      feedbackText: e.target.value.trim(),
+      feedbackText: e.currentTarget.value.trim(),
       isInvalid: false,
     });
   };

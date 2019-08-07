@@ -1,8 +1,9 @@
 {
   "name": "@atlaskit/popper",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Wrapper for react-popper with common config and some helpers",
   "license": "Apache-2.0",
+  "types": "dist/cjs/index.d.ts",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "atlaskit:src": "src/index.ts",

@@ -19,7 +19,7 @@ export const CONF_OBJECTS_ITEMS_PER_PAGE = 10;
 /**
  *  Max number of result items otherwise recommend advanced search
  */
-export const CONF_MAX_DISPLAYED_RESULTS = 100;
+export const CONF_MAX_DISPLAYED_RESULTS = 30;
 
 export const getConfluenceMaxObjects = (
   abTest: ABTest,

@@ -2,109 +2,109 @@
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 12446,
-      "gzipSize": 3918
+      "size": 12583,
+      "gzipSize": 3972
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 6778,
-      "gzipSize": 2412
+      "size": 6442,
+      "gzipSize": 2375
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 1549647,
-      "gzipSize": 437591
+      "size": 1500205,
+      "gzipSize": 425925
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 26168,
-      "gzipSize": 6822
+      "size": 26498,
+      "gzipSize": 6820
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 97343,
-      "gzipSize": 22248
+      "size": 105974,
+      "gzipSize": 24474
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 5157,
+      "size": 5158,
       "gzipSize": 1610
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 285539,
-      "gzipSize": 68511
+      "size": 285762,
+      "gzipSize": 67628
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 50016,
-      "gzipSize": 13593
+      "size": 50086,
+      "gzipSize": 13459
     }
   },
   {
     "team": "media",
     "package": "@atlaskit/media-filmstrip",
-    "version": "34.2.1",
+    "version": "34.3.0",
     "dependent": true,
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 1930926,
-      "gzipSize": 528824
+      "size": 1889912,
+      "gzipSize": 518716
     }
   }
 ]

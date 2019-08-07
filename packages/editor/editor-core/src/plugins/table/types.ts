@@ -203,6 +203,7 @@ export const TableCssClassName = {
   // defined in ReactNodeView based on PM node name
   NODEVIEW_WRAPPER: 'tableView-content-wrap',
 
+  TABLE_SELECTED: `${tablePrefixSelector}-table__selected`,
   TABLE_CELL_NODE_WRAPPER: tableCellSelector,
   TABLE_HEADER_NODE_WRAPPER: tableHeaderSelector,
   CELL_NODEVIEW_WRAPPER: tableCellContentWrapperSelector,

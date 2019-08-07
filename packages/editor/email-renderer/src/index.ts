@@ -143,7 +143,7 @@ export class EmailSerializer implements SerializerWithImages<string> {
   serializeFragmentWithImages = (
     fragment: Fragment,
     context?: MetaDataContext,
-  ) => {
+  ): SerializeFragmentWithAttachmentsResult => {
     return _.flow(
       (fragment: Fragment) => fragment.toJSON(),
       JSON.stringify,

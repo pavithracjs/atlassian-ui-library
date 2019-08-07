@@ -1,5 +1,45 @@
 # @atlaskit/global-search
 
+## 10.6.8
+
+### Patch Changes
+
+- [patch][3c4273bb14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3c4273bb14):
+
+  minor fix to analytics event
+
+## 10.6.7
+
+### Patch Changes
+
+- [patch][4b11eb641c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4b11eb641c):
+
+  fix bugs with error state
+
+## 10.6.6
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
+## 10.6.5
+
+### Patch Changes
+
+- [patch][c9fb04b37b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c9fb04b37b):
+
+  Reduced the number of results we get from simple experiments
+
+## 10.6.4
+
+### Patch Changes
+
+- [patch][87510283c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87510283c3):
+
+  Include new analytics event when the space filter is shown
+
 ## 10.6.3
 
 ### Patch Changes

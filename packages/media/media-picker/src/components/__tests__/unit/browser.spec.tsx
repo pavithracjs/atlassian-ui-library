@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 
-jest.mock('../../../service/newUploadServiceImpl');
+jest.mock('../../../service/uploadServiceImpl');
 import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { Browser } from '../../browser/browser';
 

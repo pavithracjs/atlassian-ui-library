@@ -1,5 +1,13 @@
 # @atlaskit/task-decision
 
+## 15.2.0
+
+### Minor Changes
+
+- [minor][cb33e2866d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb33e2866d):
+
+  FS-4100 - Allow disabling of initial state hydration
+
 ## 15.1.5
 
 ### Patch Changes

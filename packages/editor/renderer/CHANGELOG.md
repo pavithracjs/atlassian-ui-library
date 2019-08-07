@@ -1,5 +1,13 @@
 # @atlaskit/renderer
 
+## 49.7.6
+
+### Patch Changes
+
+- [patch][80a3f4224a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80a3f4224a):
+
+  fix: ensure smart cards lazily load correctly
+
 ## 49.7.5
 
 ### Patch Changes

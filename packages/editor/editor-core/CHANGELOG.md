@@ -1,5 +1,115 @@
 # @atlaskit/editor-core
 
+## 112.41.1
+
+- Updated dependencies [4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):
+  - @atlaskit/media-picker@46.0.0
+  - @atlaskit/media-test-helpers@24.3.4
+
+## 112.41.0
+
+### Minor Changes
+
+- [minor][9b83fdea35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b83fdea35):
+
+  TEAMS-618 : Rename Team mention spotlight to Team Mention Highlight
+
+## 112.40.2
+
+### Patch Changes
+
+- [patch][fe1a882fbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe1a882fbb):
+
+  TEAMS-602 : Can pass the team creation link from confluence as an optional parameter to the Team Mention Spotlight
+
+## 112.40.1
+
+### Patch Changes
+
+- [patch][7515b0b50f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7515b0b50f):
+
+  ED-7054: Adding border to block extension
+
+## 112.40.0
+
+### Minor Changes
+
+- [minor][cda47d4480](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cda47d4480):
+
+  TEAMS-623 : Before this fix, when Spotlight was being rendered for the 5th time, it briefly appeared and then disappeared. This change fixes that.
+
+## 112.39.16
+
+### Patch Changes
+
+- [patch][2703a8e39e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2703a8e39e):
+
+  ED-7310: Add work-around for Russian keyboard layouts where undo wouldn't fire correctly.
+
+## 112.39.15
+
+### Patch Changes
+
+- [patch][696c032471](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/696c032471):
+
+  Import editor-core dependencies via module name
+
+## 112.39.14
+
+### Patch Changes
+
+- [patch][ce4419f491](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4419f491):
+
+  ED-7142: Prevent block extensions from being re-mounted during a layout change.
+
+## 112.39.13
+
+### Patch Changes
+
+- [patch][64874a4740](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64874a4740):
+
+  Update i18n strings with latest translations
+
+## 112.39.12
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
+## 112.39.11
+
+### Patch Changes
+
+- [patch][51e0d438ce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/51e0d438ce):
+
+  Make ReactNodeView and SelectionBasedNodeView generic
+
+## 112.39.10
+
+### Patch Changes
+
+- [patch][690e0a151d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/690e0a151d):
+
+  [ED-7324] Fix table selected columns controls colors
+
+## 112.39.9
+
+### Patch Changes
+
+- [patch][6874801bc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6874801bc0):
+
+  ED-7314 Added test helpers for comparing selections. Includes new builders for gap cursors.
+
+## 112.39.8
+
+### Patch Changes
+
+- [patch][060752953d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/060752953d):
+
+  ED-7297: Fixes missing `popupsScrollableElement` prop not being passed down correctly
+
 ## 112.39.7
 
 ### Patch Changes

@@ -1,8 +1,9 @@
 {
   "name": "@atlaskit/breadcrumbs",
-  "version": "9.0.6",
+  "version": "9.0.7",
   "description": "A component used for navigation, with each item acting as a link",
   "license": "Apache-2.0",
+  "types": "dist/cjs/index.d.ts",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "atlaskit:src": "src/index.ts",
@@ -24,7 +25,7 @@
     "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/button": "^13.0.16",
     "@atlaskit/theme": "^9.0.0",
-    "@atlaskit/tooltip": "^15.0.5",
+    "@atlaskit/tooltip": "^15.0.7",
     "@babel/runtime": "^7.0.0",
     "tslib": "^1.9.3"
   },
@@ -36,7 +37,7 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/docs": "^8.1.1",
-    "@atlaskit/logo": "^12.1.1",
+    "@atlaskit/logo": "^12.1.4",
     "@atlaskit/select": "^10.0.1",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",

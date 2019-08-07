@@ -59,9 +59,8 @@ describe('ImageViewer', () => {
     const { el } = createFixture(response);
 
     (el as any).instance()['preventRaceCondition'] = jest.fn();
-
     await awaitError(response, REQUEST_CANCELLED);
-
+    expect(response).toBeDefined();
     expect(
       (el as any).instance()['preventRaceCondition'].mock.calls.length === 1,
     );

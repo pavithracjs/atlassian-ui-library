@@ -93,6 +93,9 @@ export default {
   'fabric.editor.table.description': '表を挿入',
   'fabric.editor.decision': '決定事項',
   'fabric.editor.decision.description': '決定事項をキャプチャして簡単に追跡',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': '分割線',
   'fabric.editor.horizontalRule.description':
     '水平線を使用してコンテンツを分割',

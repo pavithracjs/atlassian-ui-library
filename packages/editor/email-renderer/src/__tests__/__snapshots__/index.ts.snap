@@ -1166,20 +1166,23 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
       />
       <div
         class="csg-media-preview-desc"
-        style="margin-top: 3px; line-height: 16px; display: inline-block; width: 162px;"
+        style="margin-top: 3px; line-height: 14px; display: block;"
       >
-        <span>
+        <span
+          class="csg-media-preview-img-wrapper"
+          style="width: 162px;"
+        >
           <img
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-documentAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-preview-text"
-          style="color: #0052CC; text-overflow: ellipsis; margin-left: 4px; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
+          style="text-overflow: ellipsis; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
         >
           My bachelor thesis.pdf
         </span>
@@ -1198,20 +1201,23 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
       />
       <div
         class="csg-media-preview-desc"
-        style="margin-top: 3px; line-height: 16px; display: inline-block; width: 162px;"
+        style="margin-top: 3px; line-height: 14px; display: block;"
       >
-        <span>
+        <span
+          class="csg-media-preview-img-wrapper"
+          style="width: 162px;"
+        >
           <img
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-videoAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-preview-text"
-          style="color: #0052CC; text-overflow: ellipsis; margin-left: 4px; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
+          style="text-overflow: ellipsis; width: 144px; overflow: hidden; white-space: nowrap; display: inline-block;"
         >
           Metallica full concert.mpeg
         </span>
@@ -1230,13 +1236,13 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-audioAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           The sound of silence.mp3
         </span>
@@ -1255,13 +1261,13 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-archiveAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           The Slackening.zip
         </span>
@@ -1280,13 +1286,13 @@ exports[`Renderer - EmailSerializer should render media based on given context: 
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           unknown
         </span>
@@ -1317,13 +1323,13 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1342,13 +1348,13 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1367,13 +1373,13 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1392,13 +1398,13 @@ exports[`Renderer - EmailSerializer should render media group correctly: html 1`
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1436,13 +1442,13 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1472,13 +1478,13 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1520,13 +1526,13 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1556,13 +1562,13 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1592,13 +1598,13 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1634,13 +1640,13 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>
@@ -1670,13 +1676,13 @@ exports[`Renderer - EmailSerializer should render media single correctly: html 1
             class="csg-media-lozenge-icon"
             height="14px"
             src="cid:csg-icon-genericAttachment"
-            style="vertical-align: bottom;"
+            style="vertical-align: baseline;"
             width="14px"
           />
         </span>
         <span
           class="csg-media-lozenge-text"
-          style="color: #0052CC; margin-left: 4px;"
+          style="overflow: hidden; display: inline-block;"
         >
           Attached file
         </span>

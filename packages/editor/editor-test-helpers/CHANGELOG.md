@@ -1,5 +1,21 @@
 # @atlaskit/editor-test-helpers
 
+## 9.11.5
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
+## 9.11.4
+
+### Patch Changes
+
+- [patch][6874801bc0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6874801bc0):
+
+  ED-7314 Added test helpers for comparing selections. Includes new builders for gap cursors.
+
 ## 9.11.3
 
 - Updated dependencies [6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):

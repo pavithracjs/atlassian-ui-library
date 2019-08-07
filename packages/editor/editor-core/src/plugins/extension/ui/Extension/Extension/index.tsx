@@ -78,7 +78,8 @@ class Extension extends Component<Props & OverflowShadowProps, any> {
                   onClick={this.onSelectExtension}
                   className={hasChildren ? 'with-children' : ''}
                 >
-                  {children ? children : <ExtensionLozenge node={node} />}
+                  <ExtensionLozenge node={node} />
+                  {children}
                 </Header>
                 {hasBody && (
                   <ContentWrapper>

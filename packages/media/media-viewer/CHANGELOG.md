@@ -1,5 +1,13 @@
 # @atlaskit/media-viewer
 
+## 43.2.7
+
+### Patch Changes
+
+- [patch][e5acd6d0d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e5acd6d0d5):
+
+  Hardcode color in MediaViewer loader to reduce initial bundle size
+
 ## 43.2.6
 
 ### Patch Changes

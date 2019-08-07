@@ -14,7 +14,7 @@ export const ButtonsWrapper = styled.div`
 `;
 
 export const HelpWrapper = styled.div`
-  width: ${gridSize() * 23}px;
+  width: ${gridSize() * 46}px;
   position: relative;
   overflow-x: hidden;
 `;

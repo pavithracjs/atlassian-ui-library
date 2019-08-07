@@ -21,7 +21,7 @@ describe('GlobalNavigationSkeleton', () => {
 
   it('should apply a default dataset to the container element when dataset is not provided', () => {
     expect(render(<GlobalNavigationSkeleton {...props} />).data()).toEqual({
-      testId: 'GlobalNavigationSkeleton',
+      testid: 'GlobalNavigationSkeleton',
     });
   });
 

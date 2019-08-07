@@ -12,9 +12,9 @@ import {
 import {
   isComplete,
   isError,
-  isLoading,
   ProviderResult,
   Status,
+  hasLoaded,
 } from '../providers/as-data-provider';
 import {
   CustomLinksResponse,
@@ -49,7 +49,6 @@ function getExpandLink(
 }
 
 function collectAvailableProductLinks(
-  cloudId: string,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
@@ -65,7 +64,6 @@ function collectAvailableProductLinks(
 }
 
 function collectProductLinks(
-  cloudId: string,
   licenseInformation: ProviderResults['licenseInformation'],
 ): SwitcherItemType[] | undefined {
   if (isError(licenseInformation)) {
@@ -108,9 +106,9 @@ function collectCanManageLinks(
 }
 
 function collectAdminLinks(
-  cloudId: string,
   managePermission: ProviderResults['managePermission'],
   addProductsPermission: ProviderResults['addProductsPermission'],
+  isDiscoverMoreForEveryoneEnabled: boolean,
 ) {
   if (isError(managePermission) || isError(addProductsPermission)) {
     return [];
@@ -118,15 +116,20 @@ function collectAdminLinks(
 
   if (isComplete(managePermission) && isComplete(addProductsPermission)) {
     if (managePermission.data || addProductsPermission.data) {
-      return getAdministrationLinks(managePermission.data);
+      return getAdministrationLinks(
+        managePermission.data,
+        isDiscoverMoreForEveryoneEnabled,
+      );
     }
 
     return [];
   }
 }
 
-export function collectFixedProductLinks(): SwitcherItemType[] {
-  return getFixedProductLinks();
+export function collectFixedProductLinks(
+  isDiscoverMoreForEveryoneEnabled: boolean,
+): SwitcherItemType[] {
+  return getFixedProductLinks(isDiscoverMoreForEveryoneEnabled);
 }
 
 function collectRecentLinks(
@@ -235,7 +238,7 @@ function asLicenseInformationProviderResult(
 }
 
 export function mapResultsToSwitcherProps(
-  cloudId: string,
+  cloudId: string | null | undefined,
   results: ProviderResults,
   features: FeatureMap,
   availableProducts: ProviderResult<AvailableProductsResponse>,
@@ -254,11 +257,17 @@ export function mapResultsToSwitcherProps(
   if (isError(licenseInformation)) {
     throw licenseInformation.error;
   }
-  const resolvedLicenseInformation: ProviderResult<
-    LicenseInformationResponse
-  > = features.enableUserCentricProducts
-    ? asLicenseInformationProviderResult(availableProducts, cloudId)
-    : licenseInformation;
+  const resolvedLicenseInformation: ProviderResult<LicenseInformationResponse> =
+    features.enableUserCentricProducts && cloudId
+      ? asLicenseInformationProviderResult(availableProducts, cloudId)
+      : licenseInformation;
+
+  const hasLoadedLicenseInformation = hasLoaded(resolvedLicenseInformation);
+  const hasLoadedAdminLinks =
+    hasLoaded(managePermission) && hasLoaded(addProductsPermission);
+  const hasLoadedSuggestedProducts = features.xflow
+    ? hasLoaded(productRecommendations) && hasLoaded(isXFlowEnabled)
+    : true;
 
   return {
     expandLink: features.enableUserCentricProducts
@@ -266,8 +275,8 @@ export function mapResultsToSwitcherProps(
       : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
-        ? collectAvailableProductLinks(cloudId, availableProducts)
-        : collectProductLinks(cloudId, licenseInformation),
+        ? collectAvailableProductLinks(availableProducts)
+        : collectProductLinks(licenseInformation),
       [],
     ),
     suggestedProductLinks: features.xflow
@@ -280,9 +289,16 @@ export function mapResultsToSwitcherProps(
           [],
         )
       : [],
-    fixedLinks: collect(collectFixedProductLinks(), []),
+    fixedLinks: collect(
+      collectFixedProductLinks(features.isDiscoverMoreForEveryoneEnabled),
+      [],
+    ),
     adminLinks: collect(
-      collectAdminLinks(cloudId, managePermission, addProductsPermission),
+      collectAdminLinks(
+        managePermission,
+        addProductsPermission,
+        features.isDiscoverMoreForEveryoneEnabled,
+      ),
       [],
     ),
     recentLinks: collect(
@@ -295,6 +311,10 @@ export function mapResultsToSwitcherProps(
     ),
 
     showManageLink: collect(collectCanManageLinks(managePermission), false),
-    isLoading: isLoading(resolvedLicenseInformation),
+    hasLoaded:
+      hasLoadedLicenseInformation &&
+      hasLoadedAdminLinks &&
+      hasLoadedSuggestedProducts,
+    hasLoadedCritical: hasLoadedLicenseInformation,
   };
 }

@@ -4,7 +4,7 @@ import {
   MediaType,
 } from '../interfaces';
 import { createTag } from '../create-tag';
-import { N30, B400 } from '@atlaskit/adf-schema';
+import { N30 } from '@atlaskit/adf-schema';
 import {
   createClassName,
   MEDIA_PREVIEW_IMAGE_WIDTH,
@@ -75,7 +75,7 @@ const lozengeStyles = `
   margin: 8px 0;
 }
 .${className}-lozenge-icon {
-  vertical-align: bottom;
+  vertical-align: baseline;
 }
 .${className}-lozenge {
   line-height: 14px;
@@ -85,8 +85,8 @@ const lozengeStyles = `
   -moz-border-radius: 3px;
 }
 .${className}-lozenge-text {
-  color: ${B400};
-  margin-left: 4px;
+  overflow: hidden;
+  display: inline-block;
 }
 `;
 
@@ -101,7 +101,7 @@ const renderLozenge = (metadata?: MediaMetaDataContextItem) => {
     text = 'Attached file';
   }
   const icon = createTag('img', {
-    class: className + '-lozenge-icon',
+    class: `${className}-lozenge-icon`,
     src: createContentId(iconType as IconString),
     width: `${ICON_DIMENSION}px`,
     height: `${ICON_DIMENSION}px`,
@@ -122,6 +122,9 @@ const renderLozenge = (metadata?: MediaMetaDataContextItem) => {
 };
 
 const previewStyles = `
+.${className}-preview-img-wrapper {
+  width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
+}
 .${className}-preview-img {
   width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
   height: ${MEDIA_PREVIEW_IMAGE_HEIGHT}px;
@@ -139,18 +142,23 @@ const previewStyles = `
 }
 .${className}-preview-desc {
   margin-top: 3px;
-  line-height: 16px;
-  display: inline-block;
-  width: ${MEDIA_PREVIEW_IMAGE_WIDTH}px;
+  line-height: 14px;
+  display: block;
 }
 .${className}-preview-text {
-  color: ${B400};
   text-overflow: ellipsis;
-  margin-left: 4px;
   width: ${MEDIA_PREVIEW_IMAGE_WIDTH - ICON_DIMENSION - 4}px;
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
+}
+.${className}-preview-wrapper .diff-image-container {
+  display: inline-block;
+  padding: 4px;
+}
+.${className}-preview-desc .diff-image-container {
+  display: inline-block;
+  padding: 0 4px;
 }
 `;
 
@@ -165,12 +173,16 @@ const renderPreview = (
 
   const iconType = getIconFromMediaType(metadata.mediaType);
   const icon = createTag('img', {
-    class: className + '-lozenge-icon',
+    class: `${className}-lozenge-icon`,
     src: createContentId(iconType as IconString),
     width: `${ICON_DIMENSION}px`,
     height: `${ICON_DIMENSION}px`,
   });
-  const iconTag = createTag('span', {}, icon);
+  const iconTag = createTag(
+    'span',
+    { class: `${className}-preview-img-wrapper` },
+    icon,
+  );
   const textTag = createTag(
     'span',
     { class: `${className}-preview-text` },

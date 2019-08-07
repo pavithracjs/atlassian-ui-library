@@ -1,10 +1,11 @@
 {
   "name": "@atlaskit/css-reset",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "description": "Base stylesheet for ADG",
   "license": "Apache-2.0",
   "module": "dist/bundle.css",
   "main": "dist/bundle.css",
+  "types": "dist/cjs/index.d.ts",
   "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/overview",
   "author": "Atlassian Pty Ltd",

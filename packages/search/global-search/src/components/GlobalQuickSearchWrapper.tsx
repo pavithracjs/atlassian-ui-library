@@ -20,7 +20,8 @@ import {
 } from '../util/features';
 import { ABTest } from '../api/CrossProductSearchClient';
 import { ABTestProvider } from './AbTestProvider';
-import withFeedbackButton, {
+import {
+  withFeedbackButton,
   FeedbackCollectorProps,
 } from './feedback/withFeedbackButton';
 import FeaturesProvider from './FeaturesProvider';
@@ -274,7 +275,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         spaces,
       });
 
-      if (preventEventDefault) {
+      if (preventEventDefault && e) {
         e.preventDefault();
         e.stopPropagation();
       }

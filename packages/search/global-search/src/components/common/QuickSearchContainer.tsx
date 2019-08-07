@@ -111,6 +111,7 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   enablePreQueryFromAggregator?: boolean;
   inputControls?: JSX.Element;
   features: JiraFeatures | ConfluenceFeatures | CommonFeatures;
+  advancedSearchId: string;
 }
 
 type CompleteProps<T extends ConfluenceResultsMap | JiraResultsMap> = Props<T> &
@@ -351,17 +352,15 @@ export class QuickSearchContainer<
     filters: Filter[],
   ) => {
     if (
-      this.state.latestSearchQuery === newLatestSearchQuery &&
-      filters === this.state.currentFilters
+      this.state.latestSearchQuery !== newLatestSearchQuery ||
+      filters !== this.state.currentFilters
     ) {
-      return;
+      this.setState({
+        latestSearchQuery: newLatestSearchQuery,
+        currentFilters: filters,
+        isLoading: true,
+      });
     }
-
-    this.setState({
-      latestSearchQuery: newLatestSearchQuery,
-      currentFilters: filters,
-      isLoading: true,
-    });
 
     if (newLatestSearchQuery.length === 0) {
       // reset search results so that internal state between query and results stays consistent
@@ -523,6 +522,7 @@ export class QuickSearchContainer<
       onSelectedResultIdChanged,
       inputControls,
       searchSessionId,
+      advancedSearchId,
     } = this.props;
     const {
       isLoading,
@@ -549,6 +549,7 @@ export class QuickSearchContainer<
         inputControls={inputControls}
         autocompleteSuggestions={autocompleteSuggestions}
         filters={this.state.currentFilters}
+        advancedSearchId={advancedSearchId}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,

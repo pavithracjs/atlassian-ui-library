@@ -111,7 +111,7 @@ export function text(value: string, schema: Schema): RefsContentItem {
   const isEven = (n: number) => n % 2 === 0;
   for (const match of matches(
     value,
-    /([\\]+)?{(\w+|<|>|<>|<cell|cell>|<node>)}/g,
+    /([\\]+)?{(\w+|<|>|<>|<cell|cell>|<node>|<\|gap>|<gap\|>)}/g,
   )) {
     const [refToken, skipChars, refName] = match;
     let { index } = match;

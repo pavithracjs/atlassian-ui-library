@@ -26,7 +26,7 @@ describe('BitbucketTransformer: serializer', () => {
             tr(td({})(p('c21')), td({})(p('c22')), td({})(p('c23'))),
           )(defaultSchema),
         ),
-      );
+      ).toBeDefined();
     });
 
     it('should serialized table correctly', () => {

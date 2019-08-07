@@ -4699,17 +4699,10 @@ caniuse-db@^1.0.30000951:
   version "1.0.30000954"
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000954.tgz#ab9b0000d92a055747f380701684b9c9d017fca4"
 
-caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805:
-  version "1.0.30000885"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000885.tgz#e889e9f8e7e50e769f2a49634c932b8aee622984"
-
-caniuse-lite@^1.0.30000929:
-  version "1.0.30000938"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000938.tgz#b64bf1427438df40183fce910fe24e34feda7a3f"
-
-caniuse-lite@^1.0.30000951:
-  version "1.0.30000954"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000954.tgz#227c2743e40f07c71e6683b6ca9491bfd5755b8e"
+caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000929, caniuse-lite@^1.0.30000951:
+  version "1.0.30000986"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000986.tgz#f34350e367cc900509511574817ac092112bf7ab"
+  integrity sha512-pM+LnkoAX0+QnIH3tpW5EnkmfpEoqOD8FAcoBvsl3Xh6DXkgctiCxeCbXphP/k3XJtJzm+zOAJbi6U6IVkpWZQ==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -18683,6 +18676,11 @@ w3c-hr-time@^1.0.1:
 w3c-keyname@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/w3c-keyname/-/w3c-keyname-1.1.8.tgz#4e2219663760fd6535b7a1550f1552d71fc9372c"
+
+w3c-keyname@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/w3c-keyname/-/w3c-keyname-2.1.0.tgz#45dd2da6de8c89cce56132132ab13a74d93ce1d4"
+  integrity sha512-IDJf9/rvYW5xb5It7p33WfpGTg7lM1P1kmDxUofCFAqTamhj/anz8KuD7bX7UDvftNKQ23nBhEsYvqddSVIjkA==
 
 w3c-xmlserializer@^1.1.2:
   version "1.1.2"

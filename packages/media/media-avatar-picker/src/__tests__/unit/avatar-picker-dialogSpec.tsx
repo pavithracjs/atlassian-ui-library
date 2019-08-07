@@ -304,6 +304,4 @@ describe('Avatar Picker Dialog', () => {
       component.find(PredefinedAvatarView).prop('predefinedAvatarsText'),
     ).toEqual('some text');
   });
-
-  it('should return fixed crop when exporting', () => {});
 });

@@ -4,7 +4,10 @@
     "./packages/**/*",
     "./website/**/*",
   ],
+  "exclude": [
+    "./packages/**/**/dist"
+  ],
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./"
   }
 }

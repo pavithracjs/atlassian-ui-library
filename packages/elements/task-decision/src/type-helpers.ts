@@ -1,4 +1,5 @@
 import {
+  BaseItem,
   Decision,
   Item,
   ObjectKey,
@@ -27,7 +28,7 @@ export const isDateSortCriteria = (sortCriteria?: SortCriteria) =>
   sortCriteria === 'lastUpdateDate';
 
 export const toObjectKey = (
-  item: Item | ServiceDecision | ServiceTask,
+  item: Item | ServiceDecision | ServiceTask | BaseItem<any>,
 ): ObjectKey => {
   const { containerAri, localId, objectAri } = item;
   return {

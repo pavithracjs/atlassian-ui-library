@@ -257,8 +257,8 @@ export const messages = defineMessages({
       'Text for button that is used to load more results for a search',
   },
   show_more_button_advanced_search: {
-    id: 'global_search.show_more_button_advanced_search',
-    defaultMessage: 'Refine results with advanced search',
+    id: 'global_search.show_more_button_advanced_search_v2',
+    defaultMessage: 'View all results',
     description:
       'Text for button that is used when we cannot load more results and direct user to advanced search',
   },

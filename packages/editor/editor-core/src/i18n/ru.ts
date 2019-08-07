@@ -93,6 +93,9 @@ export default {
   'fabric.editor.decision': 'Решение',
   'fabric.editor.decision.description':
     'Записывайте решения, чтобы их было проще отслеживать',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': 'Разделитель',
   'fabric.editor.horizontalRule.description':
     'Разделение контента горизонтальной линией',

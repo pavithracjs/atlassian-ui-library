@@ -1,5 +1,24 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.8.14
+
+- Updated dependencies [688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+  - @atlaskit/multi-entry-tools@0.0.2
+  - @atlaskit/button@13.1.1
+  - @atlaskit/editor-core@112.39.12
+  - @atlaskit/editor-test-helpers@9.11.5
+  - @atlaskit/emoji@62.2.6
+  - @atlaskit/status@0.9.8
+  - @atlaskit/smart-card@12.4.1
+
+## 8.8.13
+
+### Patch Changes
+
+- [patch][f34776be97](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f34776be97):
+
+  Type definition files are now referenced in package.json
+
 ## 8.8.12
 
 ### Patch Changes

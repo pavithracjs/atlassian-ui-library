@@ -1,5 +1,13 @@
 # @atlaskit/email-renderer
 
+## 2.10.2
+
+### Patch Changes
+
+- [patch][13cc59f1fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13cc59f1fd):
+
+  Minor tweaks in rendering of media previews
+
 ## 2.10.1
 
 - Updated dependencies [6164bc2629](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6164bc2629):
