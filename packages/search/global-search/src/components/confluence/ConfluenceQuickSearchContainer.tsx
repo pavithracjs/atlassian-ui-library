@@ -199,7 +199,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     const {
       crossProductSearchClient,
       modelContext,
-      features,
       referralContextIdentifiers,
     } = this.props;
 
@@ -214,10 +213,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       modelContext || {},
     );
 
-    const limit = features.searchExtensionsEnabled
-      ? CONF_MAX_DISPLAYED_RESULTS
-      : undefined;
-
     const referrerId =
       referralContextIdentifiers && referralContextIdentifiers.searchReferrerId;
 
@@ -227,7 +222,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       referrerId,
       scopes,
       modelParams,
-      resultLimit: limit,
+      resultLimit: CONF_MAX_DISPLAYED_RESULTS,
       filters,
     });
 

@@ -57,7 +57,6 @@ const referralContextIdentifiers: ReferralContextIdentifiers = {
 const DEFAULT_FEATURES: ConfluenceFeatures = {
   abTest: DEFAULT_AB_TEST,
   useUrsForBootstrapping: false,
-  searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
   isNavAutocompleteEnabled: false,
@@ -359,7 +358,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       scopes: expect.any(Array),
       filters: [],
       modelParams,
-      resultLimit: undefined,
+      resultLimit: 30,
     });
 
     searchSpy.mockRestore();
