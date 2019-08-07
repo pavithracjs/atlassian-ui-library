@@ -157,6 +157,18 @@ describe('Atlassian Switcher - Component Analytics', () => {
         },
       },
       {
+        name: 'for licensedProductLinks expand',
+        data: {
+          itemType: 'product',
+          itemId: 'jira',
+          itemsCount: 6,
+          groupItemIndex: 0,
+          groupItemsCount: 4,
+          domain: 'invalid',
+        },
+        subject: 'atlassianSwitcherItemExpand',
+      },
+      {
         name: 'for suggestedProductLinks',
         data: {
           itemType: 'try',
@@ -226,7 +238,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
         expect(payload).toMatchObject({
           eventType: 'ui',
           action: 'clicked',
-          actionSubject: 'atlassianSwitcherItem',
+          actionSubject:
+            appSwitcherLinkCategory.subject || 'atlassianSwitcherItem',
         });
         expect(flattenContext(context)).toMatchObject({
           group: 'switchTo',

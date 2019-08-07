@@ -151,6 +151,11 @@ describe('map-results-to-switcher-props', () => {
               href:
                 'https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
             },
+            {
+              label: 'site60',
+              href:
+                'https://site60.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
           ],
         },
         {
