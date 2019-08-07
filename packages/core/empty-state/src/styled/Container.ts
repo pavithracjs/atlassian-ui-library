@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
+import { Sizes } from '../';
 
 const verticalMarginSize = gridSize() * 6;
 
@@ -13,7 +14,7 @@ const Container = styled.div`
   margin: ${verticalMarginSize}px auto;
   text-align: center;
   /* Use max-width so the component can shrink on smaller viewports. */
-  max-width: ${(props: { size: 'narrow' | 'wide' }) =>
+  max-width: ${(props: { size: Sizes }) =>
     props.size === 'narrow' ? narrowContainerWidth : wideContainerWidth}px;
 `;
 
