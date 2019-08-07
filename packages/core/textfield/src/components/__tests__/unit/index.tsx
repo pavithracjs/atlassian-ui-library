@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import { mount } from 'enzyme';
 
@@ -64,7 +62,7 @@ describe('Textfield', () => {
     describe('native input props', () => {
       test('should pass through any native input props to the input', () => {
         const nativeProps = {
-          type: 'text',
+          interface: 'text',
           disabled: true,
           name: 'test',
           placeholder: 'test placeholder',

@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import Textfield from '../src';
 
@@ -12,7 +10,7 @@ const eventResultStyle = {
   margin: '0.5em 0',
 };
 
-type Props = {};
+interface Props {};
 type State = {| eventResult: string |};
 
 export default class TextfieldExample extends Component<Props, State> {

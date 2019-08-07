@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component, Fragment } from 'react';
 import Button from '@atlaskit/button';
 import Form, {

@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import Avatar from '@atlaskit/avatar';

@@ -1,11 +1,9 @@
-// @flow
-
-import React, { Component, type ElementRef } from 'react';
+import React, { Component, ElementRef } from 'react';
 import Button from '@atlaskit/button';
 import Textfield from '../src';
 
-type Props = {};
-type FormRef = {
+interface Props {};
+interface FormRef {
   focus: () => any,
 };
 

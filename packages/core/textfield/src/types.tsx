@@ -1,10 +1,8 @@
-// @flow
+import { ThemeProp } from '@atlaskit/theme';
+import { Node } from 'react';
+import { ThemeProps, ThemeTokens } from './theme';
 
-import type { ThemeProp } from '@atlaskit/theme';
-import type { Node } from 'react';
-import type { ThemeProps, ThemeTokens } from './theme';
-
-export type InputProps = {
+export interface InputProps {
   /** Controls the appearance of the field.
    * `subtle` shows styling on hover.
    * `none` hides all field styling.
@@ -43,7 +41,7 @@ export type InputProps = {
   theme: ThemeTokens,
 };
 
-export type TextFieldProps = {
+export interface TextFieldProps {
   /** Controls the appearance of the field.
    * `subtle` shows styling on hover.
    * `none` hides all field styling.

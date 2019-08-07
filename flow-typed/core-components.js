@@ -85,6 +85,10 @@ declare module '@atlaskit/pagination' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/popper' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/portal' {
   declare module.exports: any;
 }
@@ -109,14 +113,14 @@ declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/textfield' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/toggle' {
   declare module.exports: any;
 }
 
 declare module '@atlaskit/tooltip' {
-  declare module.exports: any;
-}
-
-declare module '@atlaskit/popper' {
   declare module.exports: any;
 }

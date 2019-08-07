@@ -1,5 +1,3 @@
-// @flow
-
 import {
   createTheme,
   codeFontFamily,
@@ -214,7 +212,7 @@ const getMaxWidth = ({ width }) => {
 };
 
 export type ThemeAppearance = 'subtle' | 'standard' | 'none';
-export type ThemeProps = {
+export interface ThemeProps {
   appearance: ThemeAppearance,
   isDisabled: boolean,
   isInvalid: boolean,
@@ -225,7 +223,7 @@ export type ThemeProps = {
   mode: 'dark' | 'light',
   width?: string | number,
 };
-export type ThemeTokens = {
+export interface ThemeTokens {
   container: Object,
   input: Object,
 };
