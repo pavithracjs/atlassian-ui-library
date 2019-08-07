@@ -41,7 +41,7 @@ interface Props {
 }
 
 export default class EmptyState extends React.Component<Props> {
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
     size: 'wide' as Sizes,
     maxImageWidth: 160,
     maxImageHeight: 160,
