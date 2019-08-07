@@ -119,6 +119,7 @@ const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  isNavAutocompleteEnabled: false,
 };
 
 const renderComponent = (product: QuickSearchContext) => {

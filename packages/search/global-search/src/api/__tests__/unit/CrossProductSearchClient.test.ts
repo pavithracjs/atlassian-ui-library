@@ -1,3 +1,5 @@
+import { utils } from '@atlaskit/util-service-support';
+
 import CrossProductSearchClient, {
   CrossProductSearchResponse,
   ScopeResult,
@@ -730,6 +732,106 @@ describe('CrossProductSearchClient', () => {
       );
 
       expect(result1).not.toEqual(result2);
+    });
+  });
+  describe('NavCompletion', () => {
+    let requestSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      requestSpy = jest.spyOn(utils, 'requestService');
+      requestSpy.mockReturnValue(Promise.resolve(undefined));
+    });
+
+    afterEach(() => {
+      requestSpy.mockRestore();
+    });
+
+    it('requests are made with the correct request body for the query', () => {
+      searchClient.getNavAutocompleteSuggestions('auto');
+
+      expect(requestSpy).toHaveBeenCalledTimes(1);
+
+      const serviceConfigParam = requestSpy.mock.calls[0][0];
+      expect(serviceConfigParam).toHaveProperty('url', 'localhost');
+
+      const serviceOptions = requestSpy.mock.calls[0][1];
+      const expectedBody = {
+        cloudId: '123',
+        scopes: [Scope.NavSearchCompleteConfluence],
+        query: 'auto',
+      };
+      expect(JSON.parse(serviceOptions.requestInit.body)).toEqual(expectedBody);
+    });
+
+    it('should correctly parse responses from the API and return the correct data', async () => {
+      const mockResponse = {
+        scopes: [
+          {
+            id: 'nav.completion-confluence',
+            results: [
+              {
+                dateTime: '2019-07-09T23:55:48.785Z',
+                product: 'confluence',
+                query: 'confluence test',
+                cloudId: 'DUMMY-a5a01d21-1cc3-4f29-9565-f2bb8cd969f5',
+                resources: 'query',
+                principalId: '5ce5ec61c9167e0d6ea2a5ad',
+                sessionId: 'f78da746-d495-4845-8620-6a32b8dc89df',
+                es_metadata_id: 'f78da746-d495-4845-8620-6a32b8dc89df',
+              },
+              {
+                dateTime: '2019-07-08T18:27:45.824Z',
+                product: 'confluence',
+                query: 'confluence',
+                cloudId: 'DUMMY-a5a01d21-1cc3-4f29-9565-f2bb8cd969f5',
+                resources: 'query',
+                principalId: '5ce5ec61c9167e0d6ea2a5ad',
+                sessionId: '4a0dfeff-32fb-4a2f-8d17-a7eb2e0a0857',
+                es_metadata_id: '4a0dfeff-32fb-4a2f-8d17-a7eb2e0a0857',
+              },
+              {
+                dateTime: '2019-07-26T20:56:30.576Z',
+                product: 'confluence',
+                query: 'conf',
+                cloudId: 'DUMMY-a5a01d21-1cc3-4f29-9565-f2bb8cd969f5',
+                resources: 'query',
+                principalId: '5ce5ec61c9167e0d6ea2a5ad',
+                sessionId: '4c2c80c8-5269-4e54-bb66-28f3a34093c4',
+                es_metadata_id: '4c2c80c8-5269-4e54-bb66-28f3a34093c4',
+              },
+            ],
+            size: 3,
+          },
+        ],
+      };
+
+      const expectedParsedResult = ['confluence test', 'confluence', 'conf'];
+
+      requestSpy.mockReturnValue(Promise.resolve(mockResponse));
+
+      const result = await searchClient.getNavAutocompleteSuggestions('auto');
+
+      expect(result).toEqual(expectedParsedResult);
+    });
+
+    it('should correctly parse responses which are empty', async () => {
+      const mockResponse = {
+        scopes: [
+          {
+            id: 'nav.completion-confluence',
+            results: [],
+            size: 0,
+          },
+        ],
+      };
+
+      const expectedParsedResult: string[] = [];
+
+      requestSpy.mockReturnValue(Promise.resolve(mockResponse));
+
+      const result = await searchClient.getNavAutocompleteSuggestions('auto');
+
+      expect(result).toEqual(expectedParsedResult);
     });
   });
 });

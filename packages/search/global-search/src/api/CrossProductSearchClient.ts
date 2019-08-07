@@ -22,6 +22,7 @@ import {
   PersonItem,
   QuickSearchContext,
   UrsPersonItem,
+  NavScopeResultItem,
 } from './types';
 import { ModelParam } from '../util/model-parameters';
 import { GlobalSearchPrefetchedResults } from './prefetchResults';
@@ -94,7 +95,12 @@ export interface CrossProductExperimentResponse {
   scopes: Experiment[];
 }
 
-export type SearchItem = ConfluenceItem | JiraItem | PersonItem | UrsPersonItem;
+export type SearchItem =
+  | ConfluenceItem
+  | JiraItem
+  | PersonItem
+  | UrsPersonItem
+  | NavScopeResultItem;
 
 export interface ABTest {
   abTestId: string;
@@ -160,6 +166,7 @@ export interface CrossProductSearchClient {
   getPeople(params: SearchPeopleParams): Promise<CrossProductSearchResults>;
   getAbTestData(scope: Scope): Promise<ABTest>;
   getAbTestDataForProduct(product: QuickSearchContext): Promise<ABTest>;
+  getNavAutocompleteSuggestions(query: string): Promise<string[]>;
 }
 
 export default class CachingCrossProductSearchClientImpl
@@ -180,6 +187,26 @@ export default class CachingCrossProductSearchClientImpl
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.abTestDataCache = prefetchResults ? prefetchResults.abTestPromise : {};
+  }
+
+  public async getNavAutocompleteSuggestions(query: string): Promise<string[]> {
+    const path = 'quicksearch/v1';
+
+    const results: CrossProductSearchResponse = await this.makeRequest<
+      CrossProductSearchResponse
+    >(path, {
+      cloudId: this.cloudId,
+      scopes: [Scope.NavSearchCompleteConfluence],
+      query,
+    });
+
+    const matchingScope: ScopeResult | undefined = results.scopes.find(
+      scope => scope.id === Scope.NavSearchCompleteConfluence,
+    );
+
+    const matchingDocuments = matchingScope ? matchingScope.results : [];
+
+    return matchingDocuments.map(mapItemToNavCompletionString);
   }
 
   public async getPeople({
@@ -395,6 +422,7 @@ function mapItemToResult(scope: Scope, item: SearchItem): Result {
   if (scope.startsWith('confluence')) {
     return mapConfluenceItemToResult(scope, item as ConfluenceItem);
   }
+
   if (scope.startsWith('jira')) {
     return mapJiraItemToResult(item as JiraItem);
   }
@@ -407,5 +435,17 @@ function mapItemToResult(scope: Scope, item: SearchItem): Result {
     return mapUrsResultItemToResult(item as UrsPersonItem);
   }
 
+  if (scope === Scope.NavSearchCompleteConfluence) {
+    throw new Error(
+      'nav.completion-confluence cannot be transformed into a result because it is not a search result',
+    );
+  }
+
   throw new Error(`Non-exhaustive match for scope: ${scope}`);
+}
+
+function mapItemToNavCompletionString(item: SearchItem): string {
+  const completionItem = item as NavScopeResultItem;
+
+  return completionItem.query;
 }
