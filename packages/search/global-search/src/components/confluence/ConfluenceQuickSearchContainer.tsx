@@ -40,11 +40,12 @@ import {
   BaseConfluenceQuickSearchContainer,
   SearchResultProps,
   PartiallyLoadedRecentItems,
-  FilterComponentProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import NoResultsState from './NoResultsState';
-import SearchResultsComponent from '../common/SearchResults';
+import SearchResultsComponent, {
+  FilterComponentProps,
+} from '../common/SearchResults';
 import { getConfluenceAdvancedSearchLink } from '../SearchResultsUtil';
 import AdvancedSearchGroup from './AdvancedSearchGroup';
 import {
@@ -518,12 +519,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
   getFilterComponent = ({
     latestSearchQuery,
-    searchResults,
+    searchResultsTotalSize,
     isLoading,
     searchSessionId,
     currentFilters,
     onFilterChanged,
-  }: FilterComponentProps<ConfluenceResultsMap>) => {
+  }: FilterComponentProps) => {
     const {
       onAdvancedSearch = () => {},
       referralContextIdentifiers,
@@ -541,10 +542,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       return;
     }
     // don't show space filter if there are no results in all spaces
-    if (
-      currentFilters.length === 0 &&
-      (!searchResults || searchResults.objects.totalSize === 0)
-    ) {
+    if (currentFilters.length === 0 && searchResultsTotalSize === 0) {
       return;
     }
 
@@ -615,6 +613,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         isPreQuery={!latestSearchQuery}
         isError={isError}
         onFilterChanged={onFilterChanged}
+        getFilterComponent={this.getFilterComponent}
         isLoading={isLoading}
         retrySearch={retrySearch}
         searchMore={searchMore}
@@ -683,7 +682,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         )}
         linkComponent={linkComponent}
         getSearchResultsComponent={this.getSearchResultsComponent}
-        getFilterComponent={this.getFilterComponent}
         referralContextIdentifiers={this.props.referralContextIdentifiers}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}

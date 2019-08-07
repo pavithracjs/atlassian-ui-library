@@ -620,7 +620,6 @@ export class JiraQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         handleSearchSubmit={this.handleSearchSubmit}
-        getFilterComponent={() => undefined}
         createAnalyticsEvent={createAnalyticsEvent}
         logger={logger}
         selectedResultId={selectedResultId}

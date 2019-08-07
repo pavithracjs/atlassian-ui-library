@@ -469,7 +469,6 @@ describe('ConfluenceQuickSearchContainer', () => {
       isLoading: false,
       currentFilters: [],
       onFilterChanged: jest.fn(),
-      searchResults: results,
     };
 
     it('Renders filter component', () => {
@@ -477,6 +476,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
+          searchResultsTotalSize: results.objects.totalSize,
           searchSessionId: mockSearchSessionId,
         },
       );
@@ -495,6 +495,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
+          searchResultsTotalSize: results.objects.totalSize,
           currentFilters: [
             { '@type': FilterType.Spaces, spaceKeys: [dummySpaceKey] },
           ],
@@ -524,6 +525,7 @@ describe('ConfluenceQuickSearchContainer', () => {
           ...baseFilterComponentProps,
           isLoading: true,
           latestSearchQuery: 'a',
+          searchResultsTotalSize: results.objects.totalSize,
           searchSessionId: mockSearchSessionId,
         },
       );
@@ -542,6 +544,7 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: '',
+          searchResultsTotalSize: results.objects.totalSize,
           searchSessionId: mockSearchSessionId,
         },
       );
@@ -555,13 +558,7 @@ describe('ConfluenceQuickSearchContainer', () => {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
           searchSessionId: mockSearchSessionId,
-          searchResults: {
-            ...results,
-            objects: {
-              items: [],
-              totalSize: 0,
-            },
-          },
+          searchResultsTotalSize: 0,
         },
       );
 

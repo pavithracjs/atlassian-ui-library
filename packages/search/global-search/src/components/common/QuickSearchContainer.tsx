@@ -50,15 +50,6 @@ export interface SearchResultProps<T> extends State<T> {
   onFilterChanged(filter: Filter[]): void;
 }
 
-export interface FilterComponentProps<T> {
-  latestSearchQuery: string;
-  searchResults: T | null;
-  isLoading: boolean;
-  searchSessionId: string;
-  currentFilters: Filter[];
-  onFilterChanged(filter: Filter[]): void;
-}
-
 export interface PartiallyLoadedRecentItems<
   T extends ConfluenceResultsMap | JiraResultsMap
 > {
@@ -73,7 +64,6 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
   linkComponent?: LinkComponent;
   product: QuickSearchContext;
   getSearchResultsComponent(state: SearchResultProps<T>): React.ReactNode;
-  getFilterComponent(props: FilterComponentProps<T>): React.ReactNode;
   getRecentItems(sessionId: string): PartiallyLoadedRecentItems<T>;
   getSearchResults(
     query: string,
@@ -148,10 +138,6 @@ export class QuickSearchContainer<
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: boolean = false;
   latestQueryVersion: number = 0;
-
-  static defaultProps = {
-    getFilterComponent: () => null,
-  };
 
   constructor(props: CompleteProps<T>) {
     super(props);
@@ -532,7 +518,6 @@ export class QuickSearchContainer<
   render() {
     const {
       linkComponent,
-      getFilterComponent,
       getSearchResultsComponent,
       placeholder,
       selectedResultId,
@@ -566,14 +551,6 @@ export class QuickSearchContainer<
         autocompleteSuggestions={autocompleteSuggestions}
         filters={this.state.currentFilters}
       >
-        {getFilterComponent({
-          onFilterChanged: this.handleFilter,
-          searchResults,
-          currentFilters,
-          isLoading,
-          latestSearchQuery,
-          searchSessionId,
-        })}
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,
           latestSearchQuery,
