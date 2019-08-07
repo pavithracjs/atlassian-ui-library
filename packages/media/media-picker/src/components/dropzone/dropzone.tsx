@@ -23,8 +23,6 @@ import {
   version as packageVersion,
 } from '../../version.json';
 
-const toArray = (arr: any): Array<any> => [].slice.call(arr, 0);
-
 const ANALYTICS_CHANNEL = 'media';
 
 export type DropzoneProps = LocalUploadComponentBaseProps &
@@ -42,7 +40,7 @@ function dragContainsFiles(event: DragEvent): boolean {
     return false;
   }
   const { types } = event.dataTransfer;
-  return toArray(types).indexOf('Files') > -1;
+  return Array.from(types).indexOf('Files') > -1;
 }
 
 export class DropzoneBase extends LocalUploadComponentReact<
@@ -156,7 +154,7 @@ export class DropzoneBase extends LocalUploadComponentReact<
   // available on 'drop'
   private getDraggedItemsLength(dataTransfer: DataTransfer): number {
     if (dataTransfer.items) {
-      const items = toArray(dataTransfer.items);
+      const items = Array.from(dataTransfer.items);
       return items.filter((i: DataTransferItem) => i.kind === 'file').length;
     }
     // This is required for IE11
