@@ -3,12 +3,15 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { BaseAnalyticsErrorBoundary as AnalyticsErrorBoundary } from '../../AnalyticsErrorBoundary';
+import UIAnalyticsEvent from '../../UIAnalyticsEvent';
 
+const createAnalyticsEvent = jest.fn();
 const props = {
   channel: 'atlaskit',
   componentName: 'button',
   packageName: '@atlaskit/button',
   componentVersion: '999.9.9',
+  createAnalyticsEvent,
 };
 
 describe('AnalyticsErrorBoundary', () => {
@@ -31,6 +34,21 @@ describe('AnalyticsErrorBoundary', () => {
   });
 
   it('should fire an analytics event if error has been triggered in one of the children components', () => {
+    const analyticsEvent = new UIAnalyticsEvent({
+      context: [],
+      handlers: [],
+      payload: {
+        action: 'click',
+        a: { b: 'c' },
+      },
+    });
+
+    jest.spyOn(analyticsEvent, 'fire');
+
+    createAnalyticsEvent.mockImplementation(() => {
+      return analyticsEvent;
+    });
+
     const error = new Error('Error');
     const Something = (p: { error: boolean }) => {
       if (p.error) {
@@ -40,8 +58,6 @@ describe('AnalyticsErrorBoundary', () => {
       return <div className="child-component" />;
     };
 
-    const fire = jest.fn();
-    const createAnalyticsEvent = jest.fn().mockImplementation(() => ({ fire }));
     expect(() => {
       mount(
         <AnalyticsErrorBoundary
@@ -70,6 +86,6 @@ describe('AnalyticsErrorBoundary', () => {
         eventType: 'ui',
       }),
     );
-    expect(fire).toHaveBeenNthCalledWith(1, 'atlaskit');
+    expect(analyticsEvent.fire).toHaveBeenNthCalledWith(1, 'atlaskit');
   });
 });

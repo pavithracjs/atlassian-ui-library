@@ -9,7 +9,8 @@ type AnalyticsErrorBoundaryErrorInfo = {
   componentStack: string,
 };
 
-export type AnalyticsErrorBoundaryProps = WithAnalyticsEventsProps & {
+export type AnalyticsErrorBoundaryProps = {
+  ...$Exact<WithAnalyticsEventsProps>,
   /** React component to be wrapped */
   children: Node,
   /** Package name of the wrapped component (it will be added on payload) */
@@ -109,7 +110,7 @@ export class BaseAnalyticsErrorBoundary extends Component<
   }
 }
 
-const AnalyticsErrorBoundary = withAnalyticsEvents<AnalyticsErrorBoundaryProps>()(
+const AnalyticsErrorBoundary = withAnalyticsEvents()(
   BaseAnalyticsErrorBoundary,
 );
 
