@@ -2,43 +2,43 @@
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.3.1",
+    "version": "7.3.8",
     "dependent": true,
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 20289,
-      "gzipSize": 6971
+      "size": 20312,
+      "gzipSize": 6974
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.3.1",
+    "version": "7.3.8",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 209422,
-      "gzipSize": 63313
+      "size": 271006,
+      "gzipSize": 78751
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.3.1",
+    "version": "7.3.8",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 244900,
-      "gzipSize": 56670
+      "size": 191455,
+      "gzipSize": 47666
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.3.1",
+    "version": "7.3.8",
     "dependent": true,
     "id": "atlaskit.elements.main",
     "name": "main",
@@ -50,37 +50,37 @@
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.3.1",
+    "version": "7.3.8",
     "dependent": true,
     "id": "atlaskit.home.main",
     "name": "main",
     "stats": {
-      "size": 3990,
-      "gzipSize": 1473
+      "size": 3992,
+      "gzipSize": 1471
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.3.1",
+    "version": "7.3.8",
     "dependent": true,
     "id": "atlaskit.navigation.main",
     "name": "main",
     "stats": {
-      "size": 61026,
-      "gzipSize": 16040
+      "size": 67926,
+      "gzipSize": 17798
     }
   },
   {
     "team": "core",
     "package": "@atlaskit/global-navigation",
-    "version": "7.3.1",
+    "version": "7.3.8",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 533187,
-      "gzipSize": 142777
+      "size": 548937,
+      "gzipSize": 151701
     }
   }
 ]
