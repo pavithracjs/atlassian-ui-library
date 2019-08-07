@@ -1,5 +1,5 @@
 import * as React from 'react';
-jest.mock('../../../service/newUploadServiceImpl');
+jest.mock('../../../service/uploadServiceImpl');
 import { Dropzone } from '../../dropzone/dropzone';
 import { mount, ReactWrapper } from 'enzyme';
 import { DropzoneDragEnterEventPayload } from '../../types';
@@ -49,7 +49,7 @@ const container = document.createElement('div');
     expectedContainer: document.body,
   },
 ].forEach(data => {
-  describe(`Dropzone with config: ${data.config}`, () => {
+  describe(`Dropzone with config: ${JSON.stringify(data.config)}`, () => {
     let component: ReactWrapper;
     const { config, expectedContainer } = data;
 
@@ -105,11 +105,13 @@ const container = document.createElement('div');
           mediaClient={mediaClient}
           config={config}
           onDragEnter={() => {
-            done(new Error('drag-enter should not be emitted'));
+            expect(
+              done(new Error('drag-enter should not be emitted')),
+            ).not.toThrowError();
           }}
         />,
       );
-
+      expect(component).toBeDefined();
       expectedContainer.dispatchEvent(createDragOverEvent('Not Files'));
       done();
     });
@@ -124,7 +126,7 @@ const container = document.createElement('div');
           }}
         />,
       );
-
+      expect(component).toBeDefined();
       expectedContainer.dispatchEvent(createDragOverEvent());
       expectedContainer.dispatchEvent(createDragLeaveEvent());
     });
@@ -139,7 +141,7 @@ const container = document.createElement('div');
           }}
         />,
       );
-
+      expect(component).toBeDefined();
       expectedContainer.dispatchEvent(createDragLeaveEvent());
     });
 

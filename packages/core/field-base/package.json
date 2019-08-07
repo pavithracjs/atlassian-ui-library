@@ -1,8 +1,9 @@
 {
   "name": "@atlaskit/field-base",
-  "version": "13.0.6",
+  "version": "13.0.7",
   "description": "Wraps fields and provides styles for focus/hover states",
   "license": "Apache-2.0",
+  "types": "index.d.ts",
   "module": "dist/esm/index.js",
   "main": "dist/cjs/index.js",
   "atlaskit:src": "src/index.js",
@@ -17,7 +18,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/icon": "^19.0.0",
-    "@atlaskit/inline-dialog": "^12.0.3",
+    "@atlaskit/inline-dialog": "^12.0.10",
     "@atlaskit/spinner": "^12.0.1",
     "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0"

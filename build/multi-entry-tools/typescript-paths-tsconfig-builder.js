@@ -10,25 +10,20 @@ async function main() {
     Object.entries(mapping)
       .filter(([, path]) => path.includes('/packages/'))
       .map(([moduleName, modulePath]) => {
-        const modulePathWithoutExtension = modulePath.replace(
-          /(\.tsx?|\.js)$/,
-          '',
-        );
+        const modulePattern = moduleName.replace('/index', '');
+        const resolutionPath = modulePath
+          .replace('/index', '/')
+          .replace(/(\.tsx?|\.js)$/, '');
 
         return [
-          [moduleName],
+          [modulePattern],
           [
-            modulePathWithoutExtension.replace(`${cwd}/packages`, '../..'),
-            modulePathWithoutExtension.replace(`${cwd}/`, './'),
+            resolutionPath.replace(`${cwd}/packages`, '../..'),
+            resolutionPath.replace(`${cwd}/`, './'),
           ],
         ];
       }),
   );
-
-  paths['@atlaskit/analytics-next'] = [
-    'node_modules/@atlaskit/analytics-next-types',
-    'packages/elements/analytics-next-types',
-  ];
 
   console.log(
     '/* This file is auto-generated to get multi entry points to type check correctly */',

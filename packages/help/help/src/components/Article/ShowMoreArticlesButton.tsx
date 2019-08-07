@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../../messages';
+import { ToggleShowMoreArticles } from './styled';
 
 export interface Props {
   showMoreToggeled: boolean;
@@ -18,15 +19,15 @@ export class ShowMoreArticlesButton extends React.Component<
     } = this.props;
     if (showMoreToggeled) {
       return (
-        <a onClick={toggleRelatedArticles} style={{ cursor: 'pointer' }}>
+        <ToggleShowMoreArticles onClick={toggleRelatedArticles}>
           {formatMessage(messages.help_panel_related_article_show_more)}
-        </a>
+        </ToggleShowMoreArticles>
       );
     } else {
       return (
-        <a onClick={toggleRelatedArticles} style={{ cursor: 'pointer' }}>
+        <ToggleShowMoreArticles>
           {formatMessage(messages.help_panel_related_article_show_less)}
-        </a>
+        </ToggleShowMoreArticles>
       );
     }
   }

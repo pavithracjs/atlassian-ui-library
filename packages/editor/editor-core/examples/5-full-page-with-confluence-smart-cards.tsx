@@ -122,7 +122,7 @@ class FullPageWithFF extends React.Component<
       <div>
         <div>
           <ToggleStateless
-            isChecked={this.state.resolveBeforeMacros.length}
+            isChecked={!!this.state.resolveBeforeMacros.length}
             onChange={this.toggleFF}
             label={`Resolve ${RESOLVE_BEFORE_MACROS.join(
               ',',

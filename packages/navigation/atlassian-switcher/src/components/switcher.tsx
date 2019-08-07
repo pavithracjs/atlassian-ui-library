@@ -23,13 +23,23 @@ import {
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback } from '../types';
+import { TriggerXFlowCallback, DiscoverMoreCallback } from '../types';
 import { urlToHostname } from '../utils/url-to-hostname';
+
+const noop = () => void 0;
 
 type SwitcherProps = {
   messages: Messages;
   triggerXFlow: TriggerXFlowCallback;
-  isLoading: boolean;
+  /**
+   * Whether all the contents have been loaded
+   */
+  hasLoaded: boolean;
+  /**
+   * Whether contents considered critical path have been loaded
+   */
+  hasLoadedCritical: boolean;
+  onDiscoverMoreClicked: DiscoverMoreCallback;
   licensedProductLinks: SwitcherItemType[];
   suggestedProductLinks: SwitcherItemType[];
   fixedLinks: SwitcherItemType[];
@@ -84,6 +94,27 @@ export default class Switcher extends React.Component<SwitcherProps> {
     triggerXFlow(key, 'atlassian-switcher', event, analyticsEvent);
   };
 
+  /** https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/6522/issue-prst-13-adding-discover-more-button/
+   * Currently Atlaskit's Item prioritises the usage of href over onClick in the case the href is a valid value.
+   * Two cases now happen in this render:
+   *
+   *  * The People link is rendered with href="/people” and onClick=noop. Even though the latter won't be called
+   *  when a user clicks on the item when this component is rendered via enzyme for jest tests it will actually
+   *  call the callback... In order for that test to stop breaking we add noop callback in the case where we're
+   *  rendering a fixed product link that's not the discover-more item.
+   *
+   *  * The Discover more link is rendered with href=”” and onClick={actualImplementation}. Because the value of
+   *  href is not valid for this case the item will instead call the onClick callback provided.
+   *  */
+
+  onDiscoverMoreClicked = (
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ) => {
+    const { onDiscoverMoreClicked } = this.props;
+    onDiscoverMoreClicked(event, analyticsEvent);
+  };
+
   render() {
     const {
       messages,
@@ -94,7 +125,8 @@ export default class Switcher extends React.Component<SwitcherProps> {
       recentLinks,
       customLinks,
       manageLink,
-      isLoading,
+      hasLoaded,
+      hasLoadedCritical,
     } = this.props;
 
     /**
@@ -116,15 +148,17 @@ export default class Switcher extends React.Component<SwitcherProps> {
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
-          <ViewedTracker
-            subject={SWITCHER_SUBJECT}
-            data={{
-              switcherItems: {
+          {hasLoaded && (
+            <ViewedTracker
+              subject={SWITCHER_SUBJECT}
+              data={{
                 licensedProducts: licensedProductLinks.map(item => item.key),
                 suggestedProducts: suggestedProductLinks.map(item => item.key),
-              },
-            }}
-          />
+                adminLinks: adminLinks.map(item => item.key),
+                fixedLinks: fixedLinks.map(item => item.key),
+              }}
+            />
+          )}
           {firstContentArrived && (
             <RenderTracker
               subject={SWITCHER_SUBJECT}
@@ -194,6 +228,11 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 <SwitcherItem
                   icon={<item.Icon theme="product" />}
                   href={item.href}
+                  onClick={
+                    item.key === 'discover-more'
+                      ? this.onDiscoverMoreClicked
+                      : noop
+                  }
                 >
                   {item.label}
                 </SwitcherItem>
@@ -255,7 +294,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               </NavigationAnalyticsContext>
             ))}
           </Section>
-          {isLoading && <Skeleton />}
+          {!hasLoadedCritical && <Skeleton />}
           {manageLink && <ManageButton href={manageLink} />}
         </SwitcherWrapper>
       </NavigationAnalyticsContext>

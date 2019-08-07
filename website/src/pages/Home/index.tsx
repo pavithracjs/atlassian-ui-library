@@ -62,7 +62,7 @@ export default class HomePage extends React.Component {
           <title>{`${BASE_TITLE}`}</title>
         </Helmet>
         <Style />
-        <Title data-test-id="title">Atlaskit</Title>
+        <Title data-testid="title">Atlaskit</Title>
         <Intro>
           Atlassian&#39;s official UI library, built according to the
           Atlassian&nbsp;Design&nbsp;Guidelines.

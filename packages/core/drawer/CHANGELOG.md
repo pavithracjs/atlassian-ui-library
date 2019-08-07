@@ -1,5 +1,21 @@
 # @atlaskit/drawer
 
+## 5.0.2
+
+### Patch Changes
+
+- [patch][2c0216ff0a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2c0216ff0a):
+
+  Remove react-dom from dependencies to devDependencies
+
+## 5.0.1
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
 ## 5.0.0
 
 ### Major Changes

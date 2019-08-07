@@ -109,9 +109,8 @@ export default class EmojiPickerListSearch extends PureComponent<Props> {
           {searchLabel => (
             <AkFieldBase
               appearance="standard"
-              isCompact={true}
-              isLabelHidden={true}
-              isFitContainerWidthEnabled={true}
+              isCompact
+              isFitContainerWidthEnabled
             >
               <span className={styles.searchIcon}>
                 <SearchIcon label={searchLabel as string} />

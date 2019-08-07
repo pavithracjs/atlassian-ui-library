@@ -56,9 +56,13 @@ describe('PickerFacadeProvider', () => {
       nodeViews: {},
       allowResizing: false,
     };
+    jest.spyOn(global.console, 'warn');
+    jest.spyOn(global.console, 'error');
   });
 
   afterEach(() => {
+    (global.console.warn as jest.Mock).mockRestore();
+    (global.console.error as jest.Mock).mockRestore();
     jest.clearAllMocks();
   });
   it('should initialize PickerFacade properly', () => {
@@ -112,7 +116,7 @@ describe('PickerFacadeProvider', () => {
 
   it('should not render children if mediaClientConfig is not defined', () => {
     provider.uploadMediaClientConfig = Promise.resolve() as any;
-    mount(
+    const wrapper = mount(
       <PickerFacadeProvider
         mediaState={pluginState}
         analyticsName="analyticsNameTest"
@@ -122,11 +126,16 @@ describe('PickerFacadeProvider', () => {
         }}
       </PickerFacadeProvider>,
     );
+    expect(wrapper).toBeDefined();
+    /* eslint-disable no-console */
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+    /* eslint-enable no-console */
   });
 
   it('should not render children if config is not defined', () => {
     provider.uploadParams = undefined;
-    mount(
+    const wrapper = mount(
       <PickerFacadeProvider
         mediaState={pluginState}
         analyticsName="analyticsNameTest"
@@ -136,5 +145,10 @@ describe('PickerFacadeProvider', () => {
         }}
       </PickerFacadeProvider>,
     );
+    expect(wrapper).toBeDefined();
+    /* eslint-disable no-console */
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+    /* eslint-enable no-console */
   });
 });

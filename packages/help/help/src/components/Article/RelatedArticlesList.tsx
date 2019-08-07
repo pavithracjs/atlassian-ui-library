@@ -1,16 +1,25 @@
 import * as React from 'react';
+import * as colors from '@atlaskit/theme/colors';
+import DocumentFilledIcon from '@atlaskit/icon/glyph/document-filled';
 
+import { withHelp, HelpContextInterface } from '../HelpContext';
 import { ArticleItem } from '../../model/Article';
 
-import RelatedArticlesListItem from './RelatedArticlesListItem';
+import RelatedArticlesListItem from './ArticleListItem';
 
 interface Props {
   relatedArticles?: ArticleItem[];
   numberOfArticlesToDisplay: number;
 }
 
-const RelatedArticlesList: React.SFC<Props> = (props: Props) => {
-  const { relatedArticles, numberOfArticlesToDisplay } = props;
+const RelatedArticlesList: React.SFC<Props & HelpContextInterface> = (
+  props: Props & HelpContextInterface,
+) => {
+  const { relatedArticles, numberOfArticlesToDisplay, help } = props;
+
+  const handleOnClick = (id: string) => {
+    help.loadArticle(id);
+  };
 
   if (relatedArticles) {
     const relatedArticlesElm = relatedArticles
@@ -18,8 +27,18 @@ const RelatedArticlesList: React.SFC<Props> = (props: Props) => {
       .map(relatedArticle => {
         return (
           <RelatedArticlesListItem
-            relatedArticle={relatedArticle}
+            id={relatedArticle.id}
+            onClick={handleOnClick}
+            title={relatedArticle.title}
+            description={relatedArticle.description}
             key={relatedArticle.id}
+            icon={
+              <DocumentFilledIcon
+                primaryColor={colors.P300}
+                size="medium"
+                label={relatedArticle.title}
+              />
+            }
           />
         );
       });
@@ -30,4 +49,4 @@ const RelatedArticlesList: React.SFC<Props> = (props: Props) => {
   return null;
 };
 
-export default RelatedArticlesList;
+export default withHelp(RelatedArticlesList);

@@ -102,6 +102,9 @@ export default {
   'fabric.editor.decision': 'Decisão',
   'fabric.editor.decision.description':
     'Registre decisões para facilitar o acompanhamento',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': 'Divisória',
   'fabric.editor.horizontalRule.description':
     'Separar conteúdo com uma linha horizontal',

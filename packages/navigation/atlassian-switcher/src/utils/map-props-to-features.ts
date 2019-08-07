@@ -1,10 +1,12 @@
 import { Feature, FeatureMap } from '../types';
 
 const propToFeature = (props: any, key: string) => {
-  if (key === Feature.xflow) {
-    return typeof props.triggerXFlow === 'function';
+  switch (key) {
+    case Feature.xflow:
+      return typeof props.triggerXFlow === 'function';
+    default:
+      return Boolean(props[key]);
   }
-  return Boolean(props[key]);
 };
 
 export default function mapPropsToFeatures(props: any): FeatureMap {

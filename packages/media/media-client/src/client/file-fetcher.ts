@@ -24,6 +24,7 @@ import {
   MediaFile,
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
+  mapMediaFileToFileState,
 } from '..';
 import isValidId from 'uuid-validate';
 import { getMediaTypeFromUploadableFile } from '../utils/getMediaTypeFromUploadableFile';
@@ -399,11 +400,9 @@ export class FileFetcherImpl implements FileFetcher {
       replaceFileId,
       occurrenceKey,
     } = destination;
-
     const mediaStore = new MediaStore({
       authProvider: destinationAuthProvider,
     });
-
     const owner = authToOwner(
       await authProvider({ collectionName: sourceCollection }),
     );
@@ -422,6 +421,15 @@ export class FileFetcherImpl implements FileFetcher {
       occurrenceKey,
     };
 
-    return (await mediaStore.copyFileWithToken(body, params)).data;
+    const copiedFile = (await mediaStore.copyFileWithToken(body, params)).data;
+    const copiedFileObservable = new ReplaySubject<FileState>(1);
+    const copiedFileState: FileState = mapMediaFileToFileState({
+      data: copiedFile,
+    });
+
+    copiedFileObservable.next(copiedFileState);
+    getFileStreamsCache().set(copiedFile.id, copiedFileObservable);
+
+    return copiedFile;
   }
 }

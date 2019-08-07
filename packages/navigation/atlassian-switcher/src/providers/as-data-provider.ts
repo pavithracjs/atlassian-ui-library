@@ -45,6 +45,9 @@ export const isLoading = <T>(
   result: ProviderResult<T>,
 ): result is ResultLoading => result.status === Status.LOADING;
 
+export const hasLoaded = <T>(result: ProviderResult<T>) =>
+  result.status !== Status.LOADING;
+
 export type ProviderResult<T> = ResultComplete<T> | ResultLoading | ResultError;
 
 interface PropsToPromiseMapper<P, D> extends Function {

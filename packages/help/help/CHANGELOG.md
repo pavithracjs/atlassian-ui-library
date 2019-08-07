@@ -1,5 +1,29 @@
 ## 0.1.0
 
+## 0.14.0
+
+### Minor Changes
+
+- [minor][30d333543b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/30d333543b):
+
+  Fixed articles navigation
+
+## 0.13.1
+
+### Patch Changes
+
+- [patch][95cbef78d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95cbef78d5):
+
+  Updated ArticleListItem Title color
+
+## 0.13.0
+
+### Minor Changes
+
+- [minor][5141af87be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5141af87be):
+
+  Updated design and expose ArticleListItem
+
 ## 0.12.0
 
 ### Minor Changes

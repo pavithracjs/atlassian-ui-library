@@ -52,3 +52,9 @@ export const ArticleRateText = styled.div`
 export const ArticleRateAnswerWrapper = styled.div`
   padding-top: ${gridSize() * 2}px;
 `;
+
+export const ToggleShowMoreArticles = styled.a`
+  padding-top: ${gridSize()}px;
+  display: inline-block;
+  cursor: pointer;
+`;

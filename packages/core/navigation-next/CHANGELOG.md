@@ -1,5 +1,32 @@
 # @atlaskit/navigation-next
 
+## 6.4.0
+
+### Minor Changes
+
+- [minor][570524869c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/570524869c):
+
+  Add bottom shadow on navigation scrollable Section
+
+## 6.3.10
+
+### Patch Changes
+
+- [patch][5e132b0820](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e132b0820):
+
+  - Fixes accesibility issues with the expand/collapse affordance.
+  - Fixes keyboard tab order when navigating nested nav transistions.
+  - Passes `dataset` props correctly when using `AsyncLayoutManagerWithViewController`
+
+## 6.3.9
+
+### Patch Changes
+
+- [patch][a73580e138](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a73580e138):
+
+  BUILDTOOLS-260/BUILDTOOLS-261: Replace data-test-id by data-testid to be consistent with react-testing-library.
+  **Products**, you may require to update your integration and end to end tests if they are based on `data-test-id` please replace by `data-testid`.
+
 ## 6.3.8
 
 - Updated dependencies [75c64ee36a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c64ee36a):

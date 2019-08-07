@@ -15,7 +15,7 @@ import type {
 class GlobalNavigationItemPrimitive extends Component<GlobalItemPrimitiveProps> {
   static defaultProps = {
     dataset: {
-      'data-test-id': 'GlobalNavigationItem',
+      'data-testid': 'GlobalNavigationItem',
     },
     isActive: false,
     isHover: false,

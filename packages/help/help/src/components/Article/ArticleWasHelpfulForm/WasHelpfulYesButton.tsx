@@ -5,7 +5,7 @@ import {
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 
-import Button, { ButtonAppearances } from '@atlaskit/button';
+import Button from '@atlaskit/button';
 
 import {
   name as packageName,
@@ -19,7 +19,7 @@ import { withHelp, HelpContextInterface } from '../../HelpContext';
 
 export interface Props {
   onClick?: () => void;
-  appearance?: ButtonAppearances;
+  isSelected?: boolean;
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
@@ -30,7 +30,7 @@ const ArticleWasHelpfulYesButton = (
     help: { onWasHelpfulNoButtonClick },
     intl: { formatMessage },
     createAnalyticsEvent,
-    appearance,
+    isSelected,
     onClick,
   } = props;
 
@@ -50,7 +50,7 @@ const ArticleWasHelpfulYesButton = (
   };
 
   return (
-    <Button onClick={handleButtonClick} appearance={appearance}>
+    <Button onClick={handleButtonClick} isSelected={isSelected}>
       {formatMessage(messages.help_panel_article_rating_option_yes)}
     </Button>
   );

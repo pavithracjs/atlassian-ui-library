@@ -1,12 +1,40 @@
 # @atlaskit/media-avatar-picker
 
+## 21.1.1
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
+## 21.1.0
+
+### Minor Changes
+
+- [minor][ad020848a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad020848a9):
+
+  Allow to pass placeholder to MediaAvatarPicker to render a custom component while it loads
+
+  ```
+  import {AvatarPickerDialog} from '@atlaskit/media-avatar-loader'
+  ```
+
+<AvatarPickerDialog
+placeholder={<div>Avatar picker is loading...</div>}
+/>
+
+```
+
+Otherwise still defaults to the existing `ModalSpinner` component
+
 ## 21.0.11
 
 ### Patch Changes
 
 - [patch][6742fbf2cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6742fbf2cc):
 
-  bugfix, fixes missing version.json file
+bugfix, fixes missing version.json file
 
 ## 21.0.10
 
@@ -14,406 +42,406 @@
 
 - [patch][18dfac7332](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/18dfac7332):
 
-  In this PR, we are:
+In this PR, we are:
 
-  - Re-introducing dist build folders
-  - Adding back cjs
-  - Replacing es5 by cjs and es2015 by esm
-  - Creating folders at the root for entry-points
-  - Removing the generation of the entry-points at the root
-    Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
+- Re-introducing dist build folders
+- Adding back cjs
+- Replacing es5 by cjs and es2015 by esm
+- Creating folders at the root for entry-points
+- Removing the generation of the entry-points at the root
+  Please see this [ticket](https://product-fabric.atlassian.net/browse/BUILDTOOLS-118) or this [page](https://hello.atlassian.net/wiki/spaces/FED/pages/452325500/Finishing+Atlaskit+multiple+entry+points) for further details
 
 ## 21.0.9
 
 - Updated dependencies [06326ef3f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06326ef3f7):
-  - @atlaskit/docs@8.1.3
-  - @atlaskit/button@13.0.9
-  - @atlaskit/modal-dialog@10.0.7
-  - @atlaskit/media-test-helpers@24.1.2
-  - @atlaskit/media-ui@11.4.1
-  - @atlaskit/icon@19.0.0
+- @atlaskit/docs@8.1.3
+- @atlaskit/button@13.0.9
+- @atlaskit/modal-dialog@10.0.7
+- @atlaskit/media-test-helpers@24.1.2
+- @atlaskit/media-ui@11.4.1
+- @atlaskit/icon@19.0.0
 
 ## 21.0.8
 
 - Updated dependencies [4a08d1912e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a08d1912e):
-  - @atlaskit/range@3.0.0
+- @atlaskit/range@3.0.0
 
 ## 21.0.7
 
 - Updated dependencies [cfc3c8adb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfc3c8adb3):
-  - @atlaskit/docs@8.1.2
-  - @atlaskit/button@13.0.8
-  - @atlaskit/modal-dialog@10.0.4
-  - @atlaskit/media-test-helpers@24.0.3
-  - @atlaskit/media-ui@11.2.8
-  - @atlaskit/field-range@7.0.4
-  - @atlaskit/icon@18.0.0
+- @atlaskit/docs@8.1.2
+- @atlaskit/button@13.0.8
+- @atlaskit/modal-dialog@10.0.4
+- @atlaskit/media-test-helpers@24.0.3
+- @atlaskit/media-ui@11.2.8
+- @atlaskit/field-range@7.0.4
+- @atlaskit/icon@18.0.0
 
 ## 21.0.6
 
 - [patch][b0ef06c685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0ef06c685):
 
-  - This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
+- This is just a safety release in case anything strange happened in in the previous one. See Pull Request #5942 for details
 
 ## 21.0.5
 
 - [patch][92381960e9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92381960e9):
 
-  - Updated types to support modal-dialog typescript conversion
+- Updated types to support modal-dialog typescript conversion
 
 - Updated dependencies [215688984e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/215688984e):
 - Updated dependencies [06c5cccf9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06c5cccf9d):
 - Updated dependencies [9ecfef12ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ecfef12ac):
-  - @atlaskit/button@13.0.4
-  - @atlaskit/media-ui@11.2.5
-  - @atlaskit/spinner@12.0.0
-  - @atlaskit/icon@17.1.2
-  - @atlaskit/modal-dialog@10.0.0
-  - @atlaskit/media-core@30.0.3
-  - @atlaskit/media-test-helpers@24.0.0
+- @atlaskit/button@13.0.4
+- @atlaskit/media-ui@11.2.5
+- @atlaskit/spinner@12.0.0
+- @atlaskit/icon@17.1.2
+- @atlaskit/modal-dialog@10.0.0
+- @atlaskit/media-core@30.0.3
+- @atlaskit/media-test-helpers@24.0.0
 
 ## 21.0.4
 
 - Updated dependencies [3af5a7e685](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3af5a7e685):
-  - @atlaskit/media-ui@11.2.4
-  - @atlaskit/page@11.0.0
+- @atlaskit/media-ui@11.2.4
+- @atlaskit/page@11.0.0
 
 ## 21.0.3
 
 - [patch][76ebbc0130](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76ebbc0130):
 
-  - Fix panning and zooming with avatar picker using new viewport.
+- Fix panning and zooming with avatar picker using new viewport.
 
 ## 21.0.2
 
 - [patch][6f712416f4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f712416f4):
 
-  - Removing dependency of media-core on media-avatar-picker
+- Removing dependency of media-core on media-avatar-picker
 
 ## 21.0.1
 
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
-  - @atlaskit/media-core@30.0.1
-  - @atlaskit/media-ui@11.1.1
-  - @atlaskit/media-test-helpers@23.0.0
+- @atlaskit/media-core@30.0.1
+- @atlaskit/media-ui@11.1.1
+- @atlaskit/media-test-helpers@23.0.0
 
 ## 21.0.0
 
 - [major][7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
-  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
 
 - Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
-  - @atlaskit/docs@8.0.0
-  - @atlaskit/button@13.0.0
-  - @atlaskit/field-range@7.0.0
-  - @atlaskit/icon@17.0.0
-  - @atlaskit/modal-dialog@9.0.0
-  - @atlaskit/page@10.0.0
-  - @atlaskit/spinner@11.0.0
-  - @atlaskit/theme@9.0.0
-  - @atlaskit/media-core@30.0.0
-  - @atlaskit/media-test-helpers@22.0.0
-  - @atlaskit/media-ui@11.0.0
+- @atlaskit/docs@8.0.0
+- @atlaskit/button@13.0.0
+- @atlaskit/field-range@7.0.0
+- @atlaskit/icon@17.0.0
+- @atlaskit/modal-dialog@9.0.0
+- @atlaskit/page@10.0.0
+- @atlaskit/spinner@11.0.0
+- @atlaskit/theme@9.0.0
+- @atlaskit/media-core@30.0.0
+- @atlaskit/media-test-helpers@22.0.0
+- @atlaskit/media-ui@11.0.0
 
 ## 20.0.0
 
 - Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
-  - @atlaskit/media-test-helpers@21.4.0
-  - @atlaskit/media-core@29.3.0
+- @atlaskit/media-test-helpers@21.4.0
+- @atlaskit/media-core@29.3.0
 
 ## 19.0.0
 
 - Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
-  - @atlaskit/media-test-helpers@21.3.0
-  - @atlaskit/media-core@29.2.0
+- @atlaskit/media-test-helpers@21.3.0
+- @atlaskit/media-core@29.2.0
 
 ## 18.0.3
 
 - [patch][0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 
-  - Bump tslib
+- Bump tslib
 
 ## 18.0.2
 
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
-  - @atlaskit/docs@7.0.3
-  - @atlaskit/button@12.0.3
-  - @atlaskit/field-range@6.0.4
-  - @atlaskit/icon@16.0.9
-  - @atlaskit/modal-dialog@8.0.7
-  - @atlaskit/spinner@10.0.7
-  - @atlaskit/media-ui@10.1.5
-  - @atlaskit/theme@8.1.7
+- @atlaskit/docs@7.0.3
+- @atlaskit/button@12.0.3
+- @atlaskit/field-range@6.0.4
+- @atlaskit/icon@16.0.9
+- @atlaskit/modal-dialog@8.0.7
+- @atlaskit/spinner@10.0.7
+- @atlaskit/media-ui@10.1.5
+- @atlaskit/theme@8.1.7
 
 ## 18.0.1
 
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
-  - @atlaskit/docs@7.0.2
-  - @atlaskit/icon@16.0.8
-  - @atlaskit/modal-dialog@8.0.6
-  - @atlaskit/page@9.0.3
-  - @atlaskit/spinner@10.0.5
-  - @atlaskit/theme@8.1.6
-  - @atlaskit/media-core@29.1.4
-  - @atlaskit/media-ui@10.1.3
-  - @atlaskit/field-range@6.0.3
-  - @atlaskit/button@12.0.0
+- @atlaskit/docs@7.0.2
+- @atlaskit/icon@16.0.8
+- @atlaskit/modal-dialog@8.0.6
+- @atlaskit/page@9.0.3
+- @atlaskit/spinner@10.0.5
+- @atlaskit/theme@8.1.6
+- @atlaskit/media-core@29.1.4
+- @atlaskit/media-ui@10.1.3
+- @atlaskit/field-range@6.0.3
+- @atlaskit/button@12.0.0
 
 ## 18.0.0
 
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
-  - @atlaskit/media-test-helpers@21.1.0
-  - @atlaskit/media-core@29.1.0
+- @atlaskit/media-test-helpers@21.1.0
+- @atlaskit/media-core@29.1.0
 
 ## 17.0.2
 
 - [patch][730d7657fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/730d7657fc):
 
-  - Support images with EXIF orientation tag
+- Support images with EXIF orientation tag
 
 ## 17.0.1
 
 - [patch][1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
-  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+- Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
 
 ## 17.0.0
 
 - [major][9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 
-  - Dropped ES5 distributables from the typescript packages
+- Dropped ES5 distributables from the typescript packages
 
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
-  - @atlaskit/docs@7.0.1
-  - @atlaskit/icon@16.0.5
-  - @atlaskit/modal-dialog@8.0.2
-  - @atlaskit/page@9.0.1
-  - @atlaskit/spinner@10.0.1
-  - @atlaskit/theme@8.0.1
-  - @atlaskit/field-range@6.0.1
-  - @atlaskit/button@11.0.0
-  - @atlaskit/media-core@29.0.0
-  - @atlaskit/media-test-helpers@21.0.0
-  - @atlaskit/media-ui@10.0.0
+- @atlaskit/docs@7.0.1
+- @atlaskit/icon@16.0.5
+- @atlaskit/modal-dialog@8.0.2
+- @atlaskit/page@9.0.1
+- @atlaskit/spinner@10.0.1
+- @atlaskit/theme@8.0.1
+- @atlaskit/field-range@6.0.1
+- @atlaskit/button@11.0.0
+- @atlaskit/media-core@29.0.0
+- @atlaskit/media-test-helpers@21.0.0
+- @atlaskit/media-ui@10.0.0
 
 ## 16.0.0
 
 - Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
-  - @atlaskit/media-test-helpers@20.1.8
-  - @atlaskit/media-core@28.0.0
+- @atlaskit/media-test-helpers@20.1.8
+- @atlaskit/media-core@28.0.0
 
 ## 15.0.1
 
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
-  - @atlaskit/button@10.1.3
-  - @atlaskit/icon@16.0.4
-  - @atlaskit/media-core@27.2.3
-  - @atlaskit/media-ui@9.2.1
-  - @atlaskit/media-test-helpers@20.1.7
-  - @atlaskit/docs@7.0.0
-  - @atlaskit/field-range@6.0.0
-  - @atlaskit/modal-dialog@8.0.0
-  - @atlaskit/page@9.0.0
-  - @atlaskit/spinner@10.0.0
-  - @atlaskit/theme@8.0.0
+- @atlaskit/button@10.1.3
+- @atlaskit/icon@16.0.4
+- @atlaskit/media-core@27.2.3
+- @atlaskit/media-ui@9.2.1
+- @atlaskit/media-test-helpers@20.1.7
+- @atlaskit/docs@7.0.0
+- @atlaskit/field-range@6.0.0
+- @atlaskit/modal-dialog@8.0.0
+- @atlaskit/page@9.0.0
+- @atlaskit/spinner@10.0.0
+- @atlaskit/theme@8.0.0
 
 ## 15.0.0
 
 - Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
-  - @atlaskit/media-test-helpers@20.1.6
-  - @atlaskit/media-core@27.2.0
+- @atlaskit/media-test-helpers@20.1.6
+- @atlaskit/media-core@27.2.0
 
 ## 14.0.0
 
 - Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
-  - @atlaskit/media-test-helpers@20.1.5
-  - @atlaskit/media-core@27.1.0
+- @atlaskit/media-test-helpers@20.1.5
+- @atlaskit/media-core@27.1.0
 
 ## 13.0.2
 
 - [patch][87a9c70162](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87a9c70162):
 
-  - Update use of ModalSpinner component
+- Update use of ModalSpinner component
 
 - Updated dependencies [d5bce1ea15](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5bce1ea15):
-  - @atlaskit/media-test-helpers@20.1.2
-  - @atlaskit/media-ui@9.0.0
+- @atlaskit/media-test-helpers@20.1.2
+- @atlaskit/media-ui@9.0.0
 
 ## 13.0.1
 
 - [patch][ef469cbb0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef469cbb0b):
 
-  - MS-357 replaced @atlaskit/util-shared-styles from media components by @atlaskit/theme
+- MS-357 replaced @atlaskit/util-shared-styles from media components by @atlaskit/theme
 
 ## 13.0.0
 
 - [major][a0972d484a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a0972d484a):
 
-  - Remove from export everything but AvatarPickerDialog and Avatar (which is TS interface)
+- Remove from export everything but AvatarPickerDialog and Avatar (which is TS interface)
 
 ## 12.1.12
 
 - Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
-  - @atlaskit/media-test-helpers@20.1.0
-  - @atlaskit/media-core@27.0.0
+- @atlaskit/media-test-helpers@20.1.0
+- @atlaskit/media-core@27.0.0
 
 ## 12.1.11
 
 - Updated dependencies [07a187bb30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07a187bb30):
-  - @atlaskit/media-core@26.2.1
-  - @atlaskit/media-ui@8.2.6
-  - @atlaskit/media-test-helpers@20.0.0
+- @atlaskit/media-core@26.2.1
+- @atlaskit/media-ui@8.2.6
+- @atlaskit/media-test-helpers@20.0.0
 
 ## 12.1.10
 
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
-  - @atlaskit/docs@6.0.1
-  - @atlaskit/button@10.1.2
-  - @atlaskit/modal-dialog@7.2.1
-  - @atlaskit/media-test-helpers@19.1.1
-  - @atlaskit/media-ui@8.2.5
-  - @atlaskit/field-range@5.0.14
-  - @atlaskit/icon@16.0.0
+- @atlaskit/docs@6.0.1
+- @atlaskit/button@10.1.2
+- @atlaskit/modal-dialog@7.2.1
+- @atlaskit/media-test-helpers@19.1.1
+- @atlaskit/media-ui@8.2.5
+- @atlaskit/field-range@5.0.14
+- @atlaskit/icon@16.0.0
 
 ## 12.1.9
 
 - Updated dependencies [3ad16f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ad16f3):
-  - @atlaskit/media-core@26.1.0
-  - @atlaskit/media-ui@8.2.4
-  - @atlaskit/media-test-helpers@19.0.0
+- @atlaskit/media-core@26.1.0
+- @atlaskit/media-ui@8.2.4
+- @atlaskit/media-test-helpers@19.0.0
 
 ## 12.1.8
 
 - [patch][6855bec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6855bec):
 
-  - Updated internal use of ModalDialog to use new composition API
+- Updated internal use of ModalDialog to use new composition API
 
 ## 12.1.7
 
 - [patch][e6516fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6516fb):
 
-  - Move media mocks into right location to prevent them to be included in dist
+- Move media mocks into right location to prevent them to be included in dist
 
 ## 12.1.6
 
 - Updated dependencies [cbb8cb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbb8cb5):
-  - @atlaskit/media-test-helpers@18.9.1
-  - @atlaskit/media-core@26.0.0
+- @atlaskit/media-test-helpers@18.9.1
+- @atlaskit/media-core@26.0.0
 
 ## 12.1.5
 
 - Updated dependencies [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
-  - @atlaskit/media-core@25.0.0
-  - @atlaskit/media-test-helpers@18.9.0
+- @atlaskit/media-core@25.0.0
+- @atlaskit/media-test-helpers@18.9.0
 
 ## 12.1.4
 
 - [patch][ca16fa9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca16fa9):
 
-  - Add SSR support to media components
+- Add SSR support to media components
 
 ## 12.1.3
 
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
-  - @atlaskit/button@10.1.1
-  - @atlaskit/field-range@5.0.12
-  - @atlaskit/icon@15.0.2
-  - @atlaskit/modal-dialog@7.1.1
-  - @atlaskit/page@8.0.12
-  - @atlaskit/spinner@9.0.13
-  - @atlaskit/media-core@24.5.2
-  - @atlaskit/media-ui@8.1.2
-  - @atlaskit/docs@6.0.0
+- @atlaskit/button@10.1.1
+- @atlaskit/field-range@5.0.12
+- @atlaskit/icon@15.0.2
+- @atlaskit/modal-dialog@7.1.1
+- @atlaskit/page@8.0.12
+- @atlaskit/spinner@9.0.13
+- @atlaskit/media-core@24.5.2
+- @atlaskit/media-ui@8.1.2
+- @atlaskit/docs@6.0.0
 
 ## 12.1.2
 
 - [patch][e375b42](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e375b42):
 
-  - Update props description
+- Update props description
 
 ## 12.1.1
 
 - Updated dependencies [5de3574](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5de3574):
-  - @atlaskit/media-test-helpers@18.5.2
-  - @atlaskit/media-ui@8.0.0
+- @atlaskit/media-test-helpers@18.5.2
+- @atlaskit/media-ui@8.0.0
 
 ## 12.1.0
 
 - [minor][87fe781](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87fe781):
 
-  # Productionise ImagePlacer component
+# Productionise ImagePlacer component
 
-  The ImagePlacer component provides a polished and flexible solution when
-  users require placement of an image inside a fixed area, such as avatar or header image selection.
-  The component is designed to work with mouse and touch events, respond to wheel events, is optimised
-  to handle large images, and can also respect Exif orientation values.
+The ImagePlacer component provides a polished and flexible solution when
+users require placement of an image inside a fixed area, such as avatar or header image selection.
+The component is designed to work with mouse and touch events, respond to wheel events, is optimised
+to handle large images, and can also respect Exif orientation values.
 
 ## 12.0.3
 
 - [patch][5a6de24](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a6de24):
 
-  - translate component properties in media components
+- translate component properties in media components
 
 ## 12.0.2
 
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
-  - @atlaskit/docs@5.2.2
-  - @atlaskit/button@10.0.1
-  - @atlaskit/modal-dialog@7.0.13
-  - @atlaskit/media-test-helpers@18.3.1
-  - @atlaskit/media-ui@7.6.2
-  - @atlaskit/icon@15.0.0
+- @atlaskit/docs@5.2.2
+- @atlaskit/button@10.0.1
+- @atlaskit/modal-dialog@7.0.13
+- @atlaskit/media-test-helpers@18.3.1
+- @atlaskit/media-ui@7.6.2
+- @atlaskit/icon@15.0.0
 
 ## 12.0.1
 
 - Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
-  - @atlaskit/docs@5.2.1
-  - @atlaskit/icon@14.6.1
-  - @atlaskit/modal-dialog@7.0.12
-  - @atlaskit/spinner@9.0.11
-  - @atlaskit/media-ui@7.6.1
-  - @atlaskit/field-range@5.0.9
-  - @atlaskit/button@10.0.0
+- @atlaskit/docs@5.2.1
+- @atlaskit/icon@14.6.1
+- @atlaskit/modal-dialog@7.0.12
+- @atlaskit/spinner@9.0.11
+- @atlaskit/media-ui@7.6.1
+- @atlaskit/field-range@5.0.9
+- @atlaskit/button@10.0.0
 
 ## 12.0.0
 
 - [major][b758737](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b758737):
 
-  - add i18n support to media-avatar-picker
+- add i18n support to media-avatar-picker
 
 ## 11.0.5
 
 - [patch] Updated dependencies [ced32d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ced32d0)
-  - @atlaskit/media-test-helpers@18.2.10
-  - @atlaskit/media-ui@7.0.0
+- @atlaskit/media-test-helpers@18.2.10
+- @atlaskit/media-ui@7.0.0
 
 ## 11.0.4
 
 - [patch] Updated dependencies [65c6514](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65c6514)
-  - @atlaskit/docs@5.0.8
-  - @atlaskit/button@9.0.13
-  - @atlaskit/modal-dialog@7.0.2
-  - @atlaskit/media-test-helpers@18.2.1
-  - @atlaskit/media-ui@6.0.1
-  - @atlaskit/icon@14.0.0
+- @atlaskit/docs@5.0.8
+- @atlaskit/button@9.0.13
+- @atlaskit/modal-dialog@7.0.2
+- @atlaskit/media-test-helpers@18.2.1
+- @atlaskit/media-ui@6.0.1
+- @atlaskit/icon@14.0.0
 
 ## 11.0.3
 
 - [patch] Updated dependencies [dae7792](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dae7792)
-  - @atlaskit/media-test-helpers@18.2.0
-  - @atlaskit/media-ui@6.0.0
+- @atlaskit/media-test-helpers@18.2.0
+- @atlaskit/media-ui@6.0.0
 
 ## 11.0.2
 
 - [patch] Updated dependencies [927ae63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/927ae63)
-  - @atlaskit/media-test-helpers@18.0.0
+- @atlaskit/media-test-helpers@18.0.0
 
 ## 11.0.1
 
 - [patch] Update TS to 3.0 [f68d367](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f68d367)
 - [none] Updated dependencies [f68d367](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f68d367)
-  - @atlaskit/media-test-helpers@17.0.2
+- @atlaskit/media-test-helpers@17.0.2
 
 ## 11.0.0
 
@@ -422,49 +450,49 @@
 ## 10.0.3
 
 - [patch] Updated dependencies [911a570](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/911a570)
-  - @atlaskit/media-test-helpers@17.0.0
+- @atlaskit/media-test-helpers@17.0.0
 
 ## 10.0.2
 
 - [patch] Updated dependencies [b12f7e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b12f7e6)
-  - @atlaskit/media-ui@5.1.2
+- @atlaskit/media-ui@5.1.2
 
 ## 10.0.1
 
 - [patch] Use Camera class in avatar picker [335ab1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/335ab1e)
 - [patch] Updated dependencies [335ab1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/335ab1e)
-  - @atlaskit/media-ui@5.1.0
+- @atlaskit/media-ui@5.1.0
 
 ## 10.0.0
 
 - [major] Updated dependencies [d02746f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d02746f)
-  - @atlaskit/media-test-helpers@16.0.0
+- @atlaskit/media-test-helpers@16.0.0
 
 ## 9.2.1
 
 - [patch] Updated dependencies [acd86a1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acd86a1)
-  - @atlaskit/media-ui@5.0.2
-  - @atlaskit/icon@13.2.2
-  - @atlaskit/button@9.0.4
-  - @atlaskit/media-test-helpers@15.2.1
-  - @atlaskit/field-range@5.0.2
-  - @atlaskit/spinner@9.0.4
-  - @atlaskit/docs@5.0.2
-  - @atlaskit/modal-dialog@6.0.5
+- @atlaskit/media-ui@5.0.2
+- @atlaskit/icon@13.2.2
+- @atlaskit/button@9.0.4
+- @atlaskit/media-test-helpers@15.2.1
+- @atlaskit/field-range@5.0.2
+- @atlaskit/spinner@9.0.4
+- @atlaskit/docs@5.0.2
+- @atlaskit/modal-dialog@6.0.5
 
 ## 9.2.0
 
 - [patch] Updated dependencies [fa6f865](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fa6f865)
-  - @atlaskit/media-ui@5.0.0
-  - @atlaskit/media-test-helpers@15.1.0
+- @atlaskit/media-ui@5.0.0
+- @atlaskit/media-test-helpers@15.1.0
 - [patch] Updated dependencies [fdd03d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdd03d8)
-  - @atlaskit/media-ui@5.0.0
-  - @atlaskit/media-test-helpers@15.1.0
+- @atlaskit/media-ui@5.0.0
+- @atlaskit/media-test-helpers@15.1.0
 - [patch] Updated dependencies [49c8425](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/49c8425)
-  - @atlaskit/media-ui@5.0.0
-  - @atlaskit/media-test-helpers@15.1.0
+- @atlaskit/media-ui@5.0.0
+- @atlaskit/media-test-helpers@15.1.0
 - [minor] Updated dependencies [3476e01](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3476e01)
-  - @atlaskit/media-ui@5.0.0
+- @atlaskit/media-ui@5.0.0
 
 ## 9.1.0
 
@@ -474,112 +502,112 @@
 
 - [major] Updates to React ^16.4.0 [7edb866](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7edb866)
 - [major] Updated dependencies [563a7eb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/563a7eb)
-  - @atlaskit/modal-dialog@6.0.0
-  - @atlaskit/button@9.0.0
-  - @atlaskit/media-ui@4.0.0
-  - @atlaskit/media-test-helpers@15.0.0
-  - @atlaskit/field-range@5.0.0
-  - @atlaskit/spinner@9.0.0
-  - @atlaskit/docs@5.0.0
-  - @atlaskit/icon@13.0.0
+- @atlaskit/modal-dialog@6.0.0
+- @atlaskit/button@9.0.0
+- @atlaskit/media-ui@4.0.0
+- @atlaskit/media-test-helpers@15.0.0
+- @atlaskit/field-range@5.0.0
+- @atlaskit/spinner@9.0.0
+- @atlaskit/docs@5.0.0
+- @atlaskit/icon@13.0.0
 - [major] Updated dependencies [7edb866](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7edb866)
-  - @atlaskit/media-ui@4.0.0
-  - @atlaskit/media-test-helpers@15.0.0
-  - @atlaskit/modal-dialog@6.0.0
-  - @atlaskit/button@9.0.0
-  - @atlaskit/field-range@5.0.0
-  - @atlaskit/spinner@9.0.0
-  - @atlaskit/docs@5.0.0
-  - @atlaskit/icon@13.0.0
+- @atlaskit/media-ui@4.0.0
+- @atlaskit/media-test-helpers@15.0.0
+- @atlaskit/modal-dialog@6.0.0
+- @atlaskit/button@9.0.0
+- @atlaskit/field-range@5.0.0
+- @atlaskit/spinner@9.0.0
+- @atlaskit/docs@5.0.0
+- @atlaskit/icon@13.0.0
 
 ## 8.1.3
 
 - [patch] Updated dependencies [cdba8b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cdba8b3)
-  - @atlaskit/spinner@8.0.0
-  - @atlaskit/button@8.2.3
+- @atlaskit/spinner@8.0.0
+- @atlaskit/button@8.2.3
 
 ## 8.1.2
 
 - [patch] Clean Changelogs - remove duplicates and empty entries [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
 - [none] Updated dependencies [e7756cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7756cd)
-  - @atlaskit/media-ui@3.1.2
-  - @atlaskit/media-test-helpers@14.0.3
-  - @atlaskit/modal-dialog@5.2.2
-  - @atlaskit/button@8.1.2
-  - @atlaskit/field-range@4.0.3
-  - @atlaskit/spinner@7.0.2
-  - @atlaskit/icon@12.1.2
+- @atlaskit/media-ui@3.1.2
+- @atlaskit/media-test-helpers@14.0.3
+- @atlaskit/modal-dialog@5.2.2
+- @atlaskit/button@8.1.2
+- @atlaskit/field-range@4.0.3
+- @atlaskit/spinner@7.0.2
+- @atlaskit/icon@12.1.2
 
 ## 8.1.1
 
 - [patch] Update changelogs to remove duplicate [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
 - [none] Updated dependencies [cc58e17](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc58e17)
-  - @atlaskit/media-ui@3.1.1
-  - @atlaskit/media-test-helpers@14.0.2
-  - @atlaskit/spinner@7.0.1
-  - @atlaskit/modal-dialog@5.1.1
-  - @atlaskit/icon@12.1.1
-  - @atlaskit/button@8.1.1
-  - @atlaskit/docs@4.1.1
+- @atlaskit/media-ui@3.1.1
+- @atlaskit/media-test-helpers@14.0.2
+- @atlaskit/spinner@7.0.1
+- @atlaskit/modal-dialog@5.1.1
+- @atlaskit/icon@12.1.1
+- @atlaskit/button@8.1.1
+- @atlaskit/docs@4.1.1
 
 ## 8.1.0
 
 - [patch] Updated dependencies [9d20f54](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d20f54)
-  - @atlaskit/spinner@7.0.0
-  - @atlaskit/modal-dialog@5.1.0
-  - @atlaskit/icon@12.1.0
-  - @atlaskit/media-ui@3.1.0
-  - @atlaskit/docs@4.1.0
-  - @atlaskit/media-test-helpers@14.0.1
-  - @atlaskit/field-range@4.0.2
-  - @atlaskit/button@8.1.0
+- @atlaskit/spinner@7.0.0
+- @atlaskit/modal-dialog@5.1.0
+- @atlaskit/icon@12.1.0
+- @atlaskit/media-ui@3.1.0
+- @atlaskit/docs@4.1.0
+- @atlaskit/media-test-helpers@14.0.1
+- @atlaskit/field-range@4.0.2
+- @atlaskit/button@8.1.0
 
 ## 8.0.1
 
 - [patch] Updated dependencies [223cd67](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/223cd67)
-  - @atlaskit/modal-dialog@5.0.1
-  - @atlaskit/icon@12.0.1
-  - @atlaskit/button@8.0.1
-  - @atlaskit/field-range@4.0.1
-  - @atlaskit/spinner@6.0.1
-  - @atlaskit/docs@4.0.1
+- @atlaskit/modal-dialog@5.0.1
+- @atlaskit/icon@12.0.1
+- @atlaskit/button@8.0.1
+- @atlaskit/field-range@4.0.1
+- @atlaskit/spinner@6.0.1
+- @atlaskit/docs@4.0.1
 
 ## 8.0.0
 
 - [major] makes styled-components a peer dependency and upgrades version range from 1.4.6 - 3 to ^3.2.6 [1e80619](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e80619)
 - [patch] Updated dependencies [1e80619](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e80619)
-  - @atlaskit/media-ui@3.0.0
-  - @atlaskit/media-test-helpers@14.0.0
-  - @atlaskit/modal-dialog@5.0.0
-  - @atlaskit/icon@12.0.0
-  - @atlaskit/button@8.0.0
-  - @atlaskit/field-range@4.0.0
-  - @atlaskit/spinner@6.0.0
-  - @atlaskit/docs@4.0.0
+- @atlaskit/media-ui@3.0.0
+- @atlaskit/media-test-helpers@14.0.0
+- @atlaskit/modal-dialog@5.0.0
+- @atlaskit/icon@12.0.0
+- @atlaskit/button@8.0.0
+- @atlaskit/field-range@4.0.0
+- @atlaskit/spinner@6.0.0
+- @atlaskit/docs@4.0.0
 
 ## 7.1.3
 
 - [patch] Updated dependencies [bd26d3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bd26d3c)
-  - @atlaskit/media-test-helpers@13.0.1
+- @atlaskit/media-test-helpers@13.0.1
 
 ## 7.1.2
 
 - [patch] Updated dependencies [84f6f91](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/84f6f91)
-  - @atlaskit/media-test-helpers@13.0.0
+- @atlaskit/media-test-helpers@13.0.0
 - [patch] Updated dependencies [9041d71](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9041d71)
-  - @atlaskit/media-test-helpers@13.0.0
+- @atlaskit/media-test-helpers@13.0.0
 
 ## 7.1.1
 
 - [patch] Updated dependencies [d662caa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d662caa)
-  - @atlaskit/icon@11.3.0
-  - @atlaskit/media-ui@2.1.1
-  - @atlaskit/modal-dialog@4.0.5
-  - @atlaskit/media-test-helpers@12.0.4
-  - @atlaskit/button@7.2.5
-  - @atlaskit/field-range@3.0.2
-  - @atlaskit/spinner@5.0.2
-  - @atlaskit/docs@3.0.4
+- @atlaskit/icon@11.3.0
+- @atlaskit/media-ui@2.1.1
+- @atlaskit/modal-dialog@4.0.5
+- @atlaskit/media-test-helpers@12.0.4
+- @atlaskit/button@7.2.5
+- @atlaskit/field-range@3.0.2
+- @atlaskit/spinner@5.0.2
+- @atlaskit/docs@3.0.4
 
 ## 7.1.0
 
@@ -758,3 +786,4 @@
 ## 1.0.0 (2017-04-19)
 
 - feature; add export functionality to ImageNavigator component ([7c08a4e](https://bitbucket.org/atlassian/atlaskit/commits/7c08a4e))
+```

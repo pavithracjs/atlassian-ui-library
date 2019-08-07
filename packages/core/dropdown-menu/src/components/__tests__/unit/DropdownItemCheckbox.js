@@ -14,13 +14,11 @@ import DropdownMenu, {
   DropdownItemGroupCheckbox,
 } from '../../..';
 
-test('Skipped tests', () => {});
 /**
  * TODO: replace these tests - AK-5183
  */
-/*
 
-describe('dropdown menu - DropdownItemCheckbox', () => {
+describe.skip('dropdown menu - DropdownItemCheckbox', () => {
   const isIconSelected = icon =>
     icon.prop('primaryColor') === colors.B400 &&
     icon.prop('secondaryColor') === colors.N40;
@@ -254,4 +252,3 @@ describe('dropdown menu - DropdownItemCheckbox', () => {
     });
   });
 });
-*/

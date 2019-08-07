@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/navigation-next",
-  "version": "6.3.8",
+  "version": "6.4.0",
   "description": "The Atlassian navigation component.",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
@@ -53,7 +53,7 @@
     "@atlaskit/drawer": "^5.0.0",
     "@atlaskit/dropdown-menu": "^8.0.11",
     "@atlaskit/field-base": "^13.0.6",
-    "@atlaskit/global-navigation": "^7.3.6",
+    "@atlaskit/global-navigation": "^7.3.7",
     "@atlaskit/inline-dialog": "^12.0.7",
     "@atlaskit/logo": "^12.1.1",
     "@atlaskit/lozenge": "^9.0.0",

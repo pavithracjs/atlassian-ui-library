@@ -20,7 +20,8 @@ import {
 } from '../util/features';
 import { ABTest } from '../api/CrossProductSearchClient';
 import { ABTestProvider } from './AbTestProvider';
-import withFeedbackButton, {
+import {
+  withFeedbackButton,
   FeedbackCollectorProps,
 } from './feedback/withFeedbackButton';
 import FeaturesProvider from './FeaturesProvider';
@@ -144,6 +145,11 @@ export interface Props {
    * Indicates whether or not autocompletion features is enabled
    */
   isAutocompleteEnabled?: boolean;
+
+  /**
+   * Indicates whether or not navautocompletion features is enabled
+   */
+  isNavAutocompleteEnabled?: boolean;
 
   /**
    * Indicates whether to disable Jira people search on the pre-query screen
@@ -274,7 +280,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         spaces,
       });
 
-      if (preventEventDefault) {
+      if (preventEventDefault && e) {
         e.preventDefault();
         e.stopPropagation();
       }
@@ -288,6 +294,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       fasterSearchFFEnabled,
       useUrsForBootstrapping,
       isAutocompleteEnabled,
+      isNavAutocompleteEnabled,
     } = this.props;
 
     return createFeatures({
@@ -297,6 +304,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,
       isAutocompleteEnabled: !!isAutocompleteEnabled,
+      isNavAutocompleteEnabled: !!isNavAutocompleteEnabled,
     });
   }
 

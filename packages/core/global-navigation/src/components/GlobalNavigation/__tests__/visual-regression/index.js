@@ -77,7 +77,7 @@ describe('Snapshot Test', () => {
       global.__BASEURL__,
     );
     const { page } = global;
-    const button = '[data-test-id="Navigation"] + div button';
+    const button = '[data-testid="Navigation"] + div button';
     await page.goto(url);
     await page.waitForSelector(button);
 

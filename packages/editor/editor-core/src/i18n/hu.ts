@@ -6,7 +6,7 @@
  */
 // Hungarian
 export default {
-  'fabric.editor.mediaAddLink': 'Add link',
+  'fabric.editor.mediaAddLink': 'Hivatkozás hozzáadása',
   'fabric.editor.openLink': 'Hivatkozás megnyitása új lapon',
   'fabric.editor.unlink': 'Hivatkozás törlése',
   'fabric.editor.editLink': 'Hivatkozás szerkesztése',
@@ -100,6 +100,9 @@ export default {
   'fabric.editor.decision': 'Döntés',
   'fabric.editor.decision.description':
     'Döntések rögzítése az egyszerű nyomon követés érdekében',
+  'fabric.editor.feedbackDialog': 'Give feedback',
+  'fabric.editor.feedbackDialog.description':
+    'Tell us about your experience using the new editor',
   'fabric.editor.horizontalRule': 'Elválasztó',
   'fabric.editor.horizontalRule.description':
     'Tartalom elválasztása egy vízszintes vonallal',
@@ -128,7 +131,7 @@ export default {
   'fabric.editor.annotate': 'Jegyzetkészítés',
   'fabric.editor.wrapLeft': 'Balra igazítás',
   'fabric.editor.wrapRight': 'Jobbra igazítás',
-  'fabric.editor.backLink': 'Go back',
+  'fabric.editor.backLink': 'Vissza',
   'fabric.editor.info': 'Információ',
   'fabric.editor.note': 'Megjegyzés',
   'fabric.editor.success': 'Sikerült',
@@ -166,7 +169,7 @@ export default {
   'fabric.editor.bold': 'Félkövér',
   'fabric.editor.italic': 'Dőlt',
   'fabric.theme.#172b4d': 'Sötétszürke',
-  'fabric.theme.#97a0af': 'Light gray',
+  'fabric.theme.#97a0af': 'Világosszürke',
   'fabric.theme.#6554c0': 'Lila',
   'fabric.theme.#00b8d9': 'Zöldeskék',
   'fabric.theme.#36b37e': 'Zöld',

@@ -1,5 +1,21 @@
 # @atlaskit/media-picker
 
+## 46.0.0
+
+### Major Changes
+
+- [major][4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):
+
+  Remove three fields from MediaFile interface: upfrontId, userUpfrontId and userOccurrenceKey.
+
+## 45.0.9
+
+### Patch Changes
+
+- [patch][688f2957ca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/688f2957ca):
+
+  Fixes various TypeScript errors which were previously failing silently
+
 ## 45.0.8
 
 ### Patch Changes

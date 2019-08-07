@@ -1,5 +1,13 @@
 # @atlaskit/popper
 
+## 3.1.0
+
+### Minor Changes
+
+- [minor][0a3116e217](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a3116e217):
+
+  Add ability to overwrite and adjust modifiers in popper
+
 ## 3.0.1
 
 ### Patch Changes
