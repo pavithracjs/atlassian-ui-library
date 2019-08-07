@@ -32,7 +32,6 @@
     "react-node-resolver": "^1.0.1",
     "react-popper": "1.0.2",
     "react-select": "^3.0.4",
-    "react-transition-group": "^2.2.1",
     "shallow-equal": "^1.0.0"
   },
   "peerDependencies": {

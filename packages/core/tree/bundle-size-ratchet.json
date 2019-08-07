@@ -2,7 +2,7 @@
   {
     "team": "core",
     "package": "@atlaskit/tree",
-    "version": "6.0.3",
+    "version": "6.0.5",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "core",
     "package": "@atlaskit/tree",
-    "version": "6.0.3",
+    "version": "6.0.5",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -26,7 +26,7 @@
   {
     "team": "core",
     "package": "@atlaskit/tree",
-    "version": "6.0.3",
+    "version": "6.0.5",
     "dependent": true,
     "id": "combined.main",
     "name": "main",
