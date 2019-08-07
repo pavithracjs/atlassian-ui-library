@@ -33,6 +33,7 @@ const features: ConfluenceFeatures = {
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  isNavAutocompleteEnabled: false,
 };
 
 const searchSessionId = 'searchSessionId';

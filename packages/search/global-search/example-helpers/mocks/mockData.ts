@@ -16,6 +16,7 @@ import {
   JiraItemV2,
   PersonItem,
   UrsPersonItem,
+  NavScopeResultItem,
 } from '../../src/api/types';
 import {
   generateRandomJiraIssue,
@@ -131,6 +132,20 @@ const mockLastNames = [
   'Schulist',
   'Osinski',
 ];
+const mockQueries = [
+  'confluence',
+  'jira',
+  'reddis',
+  'activity',
+  'fix jira',
+  'search',
+  'confluence',
+  'query',
+  'blog',
+  'jira',
+  'defective',
+  'front end',
+];
 
 export const getMockCompanyName = () => pickRandom(mockCompanyNames);
 export const getMockCatchPhrase = () => pickRandom(mockCatchPhrases);
@@ -141,6 +156,7 @@ export const getMockName = () => pickRandom(mockNames);
 export const getMockJobTitle = () => pickRandom(mockJobTitles);
 export const getMockJobType = () => pickRandom(mockJobTypes);
 export const getMockLastName = () => pickRandom(mockLastNames);
+export const getMockQuery = () => pickRandom(mockQueries);
 
 const getDateWithOffset = (offset: number) => {
   let time = new Date();
@@ -165,6 +181,7 @@ export function makeCrossProductSearchData(
   const confDataWithAttachments: ConfluenceItem[] = [];
   const jiraObjects: JiraItem[] = [];
   const jiraContainers: JiraItem[] = [];
+  const navResults: NavScopeResultItem[] = [];
   const peopleData: PersonItem[] = [];
   const ursPeopleData: UrsPersonItem[] = [];
 
@@ -297,6 +314,12 @@ export function makeCrossProductSearchData(
   }
 
   for (let i = 0; i < n; i++) {
+    navResults.push({
+      query: getMockQuery(),
+    });
+  }
+
+  for (let i = 0; i < n; i++) {
     const ursPeopleEntry = {
       id: uuid(),
       name: getMockName(),
@@ -341,6 +364,10 @@ export function makeCrossProductSearchData(
         (<JiraItemV2>result).name.toLocaleLowerCase().indexOf(term) > -1,
     );
 
+    const filteredNavResults = navResults.filter(result =>
+      result.query.toLocaleLowerCase().startsWith(term),
+    );
+
     const filteredSpaceResults = spaceFilter
       ? []
       : confSpaceData.filter(
@@ -377,6 +404,12 @@ export function makeCrossProductSearchData(
           abTest,
           results: filteredConfResults,
           size: filteredConfResults.length,
+        },
+        {
+          id: Scope.NavSearchCompleteConfluence,
+          experimentId: 'experiment-1',
+          abTest,
+          results: filteredNavResults,
         },
         {
           id: Scope.ConfluencePageBlogAttachment,
