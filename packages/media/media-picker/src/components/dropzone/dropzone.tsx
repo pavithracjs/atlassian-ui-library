@@ -233,12 +233,8 @@ export class DropzoneBase extends LocalUploadComponentReact<
   }
 }
 
-const DropzoneWithForwardRef = React.forwardRef<DropzoneBase, DropzoneProps>(
-  (props, ref) => <DropzoneBase {...props} ref={ref} />,
-);
-
 export const Dropzone = withAnalyticsContext<DropzoneProps>({
   componentName: 'dropzone',
   packageName,
   packageVersion,
-})(withAnalyticsEvents<DropzoneProps>()(DropzoneWithForwardRef));
+})(withAnalyticsEvents<DropzoneProps>()(DropzoneBase));
