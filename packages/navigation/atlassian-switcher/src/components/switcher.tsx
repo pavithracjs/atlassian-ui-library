@@ -186,6 +186,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   description={item.description}
                   href={item.href}
                   childItems={item.childItems}
+                  tooltipContent={
+                    <FormattedMessage {...messages.showMoreSites} />
+                  }
                 >
                   {item.label}
                 </SwitcherItemWithDropdown>

@@ -219,9 +219,9 @@ const getLinkDescription = (
   siteName: string,
   singleSite: boolean,
   productType: WorklensProductType,
-): string | undefined => {
+): string | null => {
   if (singleSite || productType === WorklensProductType.BITBUCKET) {
-    return undefined;
+    return null;
   }
 
   return siteName;
@@ -245,13 +245,15 @@ const getAvailableProductLinkFromSiteProduct = (
     href: getProductSiteUrl(topSite),
     description: getLinkDescription(topSite.siteName, singleSite, productType),
     productType,
-    childItems: connectedSites
-      .filter(site => site.siteUrl !== topSite.siteUrl)
-      .map(site => ({
-        href: getProductSiteUrl(site),
-        label: site.siteName,
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label)),
+    childItems:
+      connectedSites.length > 1
+        ? connectedSites
+            .map(site => ({
+              href: getProductSiteUrl(site),
+              label: site.siteName,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label))
+        : [],
   };
 };
 
