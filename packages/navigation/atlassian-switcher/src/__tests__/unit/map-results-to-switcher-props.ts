@@ -210,9 +210,9 @@ describe('map-results-to-switcher-props', () => {
 
       expect(props.licensedProductLinks).toMatchObject([
         {
-          description: cloudId,
+          description: 'site60',
           label: 'Jira Software',
-          href: `https://${cloudId}.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software`,
+          href: `https://site60.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software`,
           childItems: [
             {
               label: 'site10',
