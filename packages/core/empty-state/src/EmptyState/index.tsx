@@ -40,56 +40,48 @@ interface Props {
   imageHeight?: number;
 }
 
-export default class EmptyState extends React.Component<Props> {
-  static defaultProps: Partial<Props> = {
-    size: 'wide',
-    maxImageWidth: 160,
-    maxImageHeight: 160,
-  };
+const EmptyState = ({
+  description,
+  header,
+  imageHeight,
+  imageUrl,
+  imageWidth,
+  isLoading,
+  maxImageHeight = 160,
+  maxImageWidth = 160,
+  primaryAction,
+  secondaryAction,
+  size = 'wide',
+  tertiaryAction,
+}: Props) => {
+  const actionsContainer =
+    primaryAction || secondaryAction || isLoading ? (
+      <ActionsContainer>
+        <ButtonGroup>
+          {primaryAction}
+          {secondaryAction}
+        </ButtonGroup>
+        <SpinnerContainer>{isLoading && <Spinner />}</SpinnerContainer>
+      </ActionsContainer>
+    ) : null;
 
-  render() {
-    const {
-      header,
-      description,
-      size,
-      imageUrl,
-      imageWidth,
-      imageHeight,
-      maxImageWidth,
-      maxImageHeight,
-      primaryAction,
-      secondaryAction,
-      tertiaryAction,
-      isLoading,
-    } = this.props;
+  return (
+    <Container size={size}>
+      {imageUrl && (
+        <Image
+          src={imageUrl}
+          maxWidth={maxImageWidth}
+          maxHeight={maxImageHeight}
+          width={imageWidth}
+          height={imageHeight}
+        />
+      )}
+      <Header>{header}</Header>
+      {description && <Description>{description}</Description>}
+      {actionsContainer}
+      {tertiaryAction}
+    </Container>
+  );
+};
 
-    const actionsContainer =
-      primaryAction || secondaryAction || isLoading ? (
-        <ActionsContainer>
-          <ButtonGroup>
-            {primaryAction}
-            {secondaryAction}
-          </ButtonGroup>
-          <SpinnerContainer>{isLoading && <Spinner />}</SpinnerContainer>
-        </ActionsContainer>
-      ) : null;
-
-    return (
-      <Container size={size!}>
-        {imageUrl && (
-          <Image
-            src={imageUrl}
-            maxWidth={maxImageWidth!}
-            maxHeight={maxImageHeight!}
-            width={imageWidth}
-            height={imageHeight}
-          />
-        )}
-        <Header>{header}</Header>
-        {description && <Description>{description}</Description>}
-        {actionsContainer}
-        {tertiaryAction}
-      </Container>
-    );
-  }
-}
+export default EmptyState;
