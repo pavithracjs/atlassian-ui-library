@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 10.7.0
+
+### Minor Changes
+
+- [minor][339c4517c0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/339c4517c0):
+
+  Front end support for xpsearch-nav-searcher
+
 ## 10.6.8
 
 ### Patch Changes
