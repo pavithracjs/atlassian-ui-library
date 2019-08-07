@@ -662,8 +662,6 @@ describe('ConfluenceQuickSearchContainer', () => {
       const getNavSuggestionsSpy = jest.fn();
       const getAutocompleteSuggestionsSpy = jest.fn();
 
-      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
-
       const wrapper = render({
         features: { ...DEFAULT_FEATURES },
         crossProductSearchClient: {
@@ -677,13 +675,6 @@ describe('ConfluenceQuickSearchContainer', () => {
       const quickSearchContainer = wrapper.find(QuickSearchContainer);
       const props = quickSearchContainer.props();
       expect(props.getAutocompleteSuggestions).toBeUndefined();
-
-      if (props.getAutocompleteSuggestions) {
-        props.getAutocompleteSuggestions('query');
-      }
-
-      expect(getNavSuggestionsSpy).toHaveBeenCalledTimes(0);
-      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
     });
 
     it('should call getNavAutocompleteSuggestions if isNavAutocompleteEnabled is true', () => {
