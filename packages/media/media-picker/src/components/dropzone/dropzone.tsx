@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
   LocalUploadComponentReact,
   LocalUploadComponentBaseProps,
@@ -22,12 +23,13 @@ import {
   version as packageVersion,
 } from '../../version.json';
 
-const toArray = (arr: any) => [].slice.call(arr, 0);
+const toArray = (arr: any): Array<any> => [].slice.call(arr, 0);
 
 const ANALYTICS_CHANNEL = 'media';
 
 export type DropzoneProps = LocalUploadComponentBaseProps &
-  WithAnalyticsEventProps & {
+  WithAnalyticsEventProps &
+  React.RefAttributes<DropzoneBase> & {
     config: DropzoneConfig;
     onDrop?: () => void;
     onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
@@ -233,12 +235,12 @@ export class DropzoneBase extends LocalUploadComponentReact<
   }
 }
 
-const DropzoneWithAnalyticsEvents = withAnalyticsEvents<DropzoneProps>()(
-  DropzoneBase,
+const DropzoneWithForwardRef = React.forwardRef<DropzoneBase, DropzoneProps>(
+  (props, ref) => <DropzoneBase {...props} ref={ref} />,
 );
 
 export const Dropzone = withAnalyticsContext<DropzoneProps>({
   componentName: 'dropzone',
   packageName,
   packageVersion,
-})(DropzoneWithAnalyticsEvents) as React.ComponentType<DropzoneProps>;
+})(withAnalyticsEvents<DropzoneProps>()(DropzoneWithForwardRef));
