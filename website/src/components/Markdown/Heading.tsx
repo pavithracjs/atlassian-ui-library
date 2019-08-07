@@ -30,18 +30,22 @@ export default class Heading extends React.Component<Props, State> {
     const { handleHideAnchor, handleShowAnchor } = this;
     const { children, level } = this.props;
     const { shouldShowAnchor } = this.state;
-    const Tag = `h${level}`;
     const id = dashcase(children);
 
     // H1 on the documentation specifies the main page title
     // We should implement this using gray-matter to have meta data *title* in markdown
     // Currently gray-matter breaks in IE11, please see https://github.com/jonschlinkert/gray-matter/pull/76 for reference
-    return (
-      <Tag
-        id={id}
-        onMouseEnter={handleShowAnchor}
-        onMouseLeave={handleHideAnchor}
-      >
+
+    // Typescript ^3.3 does not support dynamic tag names without using createElement.
+    // It may be worth re-working this approach if it not supported by TS
+    return React.createElement(
+      `h${level}`,
+      {
+        id: id,
+        onMouseEnter: handleShowAnchor,
+        onMouseLeave: handleHideAnchor,
+      },
+      <>
         {level === 1 ? (
           <Helmet>
             <title>
@@ -55,7 +59,7 @@ export default class Heading extends React.Component<Props, State> {
         {children}
         {shouldShowAnchor ? ' ' : ''}
         {shouldShowAnchor ? <a href={`#${id}`}>#</a> : ''}
-      </Tag>
+      </>,
     );
   }
 }
