@@ -1,0 +1,1 @@
+Remove getCurrentState method from FileStreamCache
