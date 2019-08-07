@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import Spinner from '@atlaskit/spinner';
 import { ButtonGroup } from '@atlaskit/button';
@@ -12,7 +12,7 @@ import {
   SpinnerContainer,
 } from '../styled';
 
-type Sizes = 'narrow' | 'wide';
+export type Sizes = 'narrow' | 'wide';
 interface Props {
   /** Title that briefly describes the page to the user. */
   header: string;
@@ -27,11 +27,11 @@ interface Props {
   /** Maximum height (in pixels) of the image, default value is 160. */
   maxImageHeight?: number;
   /** Primary action button for the page, usually it will be something like "Create" (or "Retry" for error pages). */
-  primaryAction?: Element<any>;
+  primaryAction?: ReactNode;
   /** Secondary action button for the page. */
-  secondaryAction?: Element<any>;
+  secondaryAction?: ReactNode;
   /** Button with link to some external resource like documentation or tutorial, it will be opened in a new tab. */
-  tertiaryAction?: Element<any>;
+  tertiaryAction?: ReactNode;
   /** Shows spinner next to the action buttons. Primary and secondary action buttons are disabled when this prop is set to true. */
   isLoading?: boolean;
   /** Width of the image that is rendered in EmptyState component. It is useful when you want image to be of exact width to stop it bouncing around when loading in. Only set `height` if you want the image to resize down on smaller devices. */
@@ -79,8 +79,8 @@ export default class EmptyState extends React.Component<Props> {
         {imageUrl && (
           <Image
             src={imageUrl}
-            maxWidth={maxImageWidth}
-            maxHeight={maxImageHeight}
+            maxWidth={maxImageWidth!}
+            maxHeight={maxImageHeight!}
             width={imageWidth}
             height={imageHeight}
           />

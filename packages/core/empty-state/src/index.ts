@@ -1,1 +1,1 @@
-export { default } from './EmptyState';
+export { default, Sizes } from './EmptyState';
