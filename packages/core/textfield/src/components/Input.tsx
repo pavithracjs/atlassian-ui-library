@@ -1,11 +1,12 @@
-import React from 'react';
+/** @jsx jsx */
+import { jsx, CSSObject } from '@emotion/core';
 import { InputProps } from '../types';
 
-export default ({
+export default function Input({
   appearance,
   elemAfterInput,
   elemBeforeInput,
-  forwardedRef,
+  innerRef,
   isCompact,
   isDisabled,
   isFocused,
@@ -19,23 +20,24 @@ export default ({
   onMouseLeave,
   theme,
   ...rest
-}: InputProps) => (
-  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-  <div
-    css={theme.container}
-    onMouseDown={onMouseDown}
-    onMouseEnter={onMouseEnter}
-    onMouseLeave={onMouseLeave}
-  >
-    {elemBeforeInput}
-    <input
-      ref={forwardedRef}
-      disabled={isDisabled}
-      readOnly={isReadOnly}
-      required={isRequired}
-      css={theme.input}
-      {...rest}
-    />
-    {elemAfterInput}
-  </div>
-);
+}: InputProps) {
+  return (
+    <div
+      css={theme.container as CSSObject}
+      onMouseDown={onMouseDown}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {elemBeforeInput}
+      <input
+        ref={innerRef}
+        disabled={isDisabled}
+        readOnly={isReadOnly}
+        required={isRequired}
+        css={theme.input as CSSObject}
+        {...rest}
+      />
+      {elemAfterInput}
+    </div>
+  );
+}

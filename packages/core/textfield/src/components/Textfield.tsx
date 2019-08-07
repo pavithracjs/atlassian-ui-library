@@ -1,4 +1,4 @@
-import GlobalTheme from '@atlaskit/theme';
+import GlobalTheme, { GlobalThemeTokens } from '@atlaskit/theme';
 import React, { Component } from 'react';
 import {
   withAnalyticsEvents,
@@ -12,14 +12,16 @@ import {
 
 import Input from './Input';
 import { Theme } from '../theme';
-import { TextFieldProps } from '../types';
+import { TextFieldProps as PublicProps } from '../types';
 
 interface State {
-  isFocused: boolean,
-  isHovered: boolean,
-};
+  isFocused: boolean;
+  isHovered: boolean;
+}
 
-class Textfield extends Component<TextFieldProps, State> {
+type Props = PublicProps & { forwardedRef: React.Ref<HTMLInputElement> };
+
+class Textfield extends Component<Props, State> {
   static defaultProps = {
     appearance: 'standard',
     isCompact: false,
@@ -32,26 +34,28 @@ class Textfield extends Component<TextFieldProps, State> {
     isHovered: false,
   };
 
-  input: ?HTMLInputElement;
+  input: HTMLInputElement | null = null;
 
-  handleOnFocus = (e: SyntheticEvent<HTMLInputElement>) => {
+  handleOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({ isFocused: true });
     if (this.props.onFocus) {
-      this.props.onFocus(e);
+      this.props.onFocus(event);
     }
   };
 
-  handleOnBlur = (e: SyntheticEvent<HTMLInputElement>) => {
+  handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({ isFocused: false });
     if (this.props.onBlur) {
-      this.props.onBlur(e);
+      this.props.onBlur(event);
     }
   };
 
-  handleOnMouseDown = (e: SyntheticMouseEvent<*>) => {
+  handleOnMouseDown = (event: React.MouseEvent<HTMLInputElement>) => {
     /** Running e.preventDefault() on the INPUT prevents double click behaviour */
-    if (e.target.tagName !== 'INPUT') {
-      e.preventDefault();
+    // Sadly we needed this cast as the target type is being correctly set
+    const target: HTMLInputElement = event.target as HTMLInputElement;
+    if (target.tagName !== 'INPUT') {
+      event.preventDefault();
     }
     if (
       this.input &&
@@ -61,7 +65,7 @@ class Textfield extends Component<TextFieldProps, State> {
       this.input.focus();
     }
     if (this.props.onMouseDown) {
-      this.props.onMouseDown(e);
+      this.props.onMouseDown(event);
     }
   };
 
@@ -77,15 +81,25 @@ class Textfield extends Component<TextFieldProps, State> {
     }
   };
 
-  setInputRef = (input: ?HTMLInputElement) => {
+  // we want to keep a copy of the ref as well as pass it along
+  setInputRef = (input: HTMLInputElement | null) => {
     this.input = input;
 
-    const { forwardedRef } = this.props;
+    const forwardedRef = this.props.forwardedRef;
 
-    if (forwardedRef && typeof forwardedRef === 'object') {
+    if (!forwardedRef) {
+      return;
+    }
+
+    if (typeof forwardedRef === 'object') {
+      // This is a blunder on the part of @types/react
+      // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065
+      // .current should be assignable
+      // @ts-ignore
       forwardedRef.current = input;
     }
-    if (forwardedRef && typeof forwardedRef === 'function') {
+
+    if (typeof forwardedRef === 'function') {
       forwardedRef(input);
     }
   };
@@ -110,7 +124,7 @@ class Textfield extends Component<TextFieldProps, State> {
     return (
       <Theme.Provider value={theme}>
         <GlobalTheme.Consumer>
-          {({ mode }) => (
+          {({ mode }: GlobalThemeTokens) => (
             <Theme.Consumer
               appearance={appearance}
               mode={mode}
@@ -131,10 +145,10 @@ class Textfield extends Component<TextFieldProps, State> {
                   isHovered={isHovered}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
-                  forwardedRef={this.setInputRef}
                   onFocus={this.handleOnFocus}
                   onBlur={this.handleOnBlur}
                   onMouseDown={this.handleOnMouseDown}
+                  innerRef={this.setInputRef}
                 />
               )}
             </Theme.Consumer>
@@ -145,10 +159,11 @@ class Textfield extends Component<TextFieldProps, State> {
   }
 }
 
-// $ExpectError - flow 0.67 doesn't know about forwardRef
-const ForwardRefTextfield = React.forwardRef((props, ref) => (
-  <Textfield {...props} forwardedRef={ref} />
-));
+const ForwardRefTextfield = React.forwardRef(
+  (props: PublicProps, ref: React.Ref<HTMLInputElement>) => (
+    <Textfield {...props} forwardedRef={ref} />
+  ),
+);
 
 export { ForwardRefTextfield as TextFieldWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
