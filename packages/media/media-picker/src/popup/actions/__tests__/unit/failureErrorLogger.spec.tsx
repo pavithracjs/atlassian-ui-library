@@ -1,11 +1,7 @@
-import {
-  failureErrorLogger,
-  FAILURE_ERROR,
-  FailureErrorLoggerPayload,
-} from '../../failureErrorLogger';
+import { failureErrorLogger, FAILURE_ERROR } from '../../failureErrorLogger';
 
 describe('failureErrorLogger action creator', () => {
-  const failureErrorPayload: FailureErrorLoggerPayload = {
+  const failureErrorPayload: any = {
     error: 'Some error',
     info: 'Some info',
   };

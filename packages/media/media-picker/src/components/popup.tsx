@@ -96,7 +96,6 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
   }
 
   public teardown(): void {
-    debugger;
     if (!this.container) {
       return;
     }
