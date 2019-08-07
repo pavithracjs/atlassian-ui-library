@@ -162,7 +162,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
                 />
               </ThemeProvider>
             </ItemWrapper>
-            {childItemsExist && this.getToggle(showChildItems, itemHovered)}
+            {childItemsExist && this.renderToggle(showChildItems, itemHovered)}
           </ItemContainer>
           {showChildItems && childItems && (
             <ThemeProvider theme={{ [itemThemeNamespace]: childItemTheme }}>
@@ -186,7 +186,7 @@ class SwitcherItemWithDropDown extends React.Component<Props, State> {
     );
   }
 
-  private getToggle(showChildItems: boolean, isParentHovered: boolean) {
+  private renderToggle(showChildItems: boolean, isParentHovered: boolean) {
     const Icon = createIcon(showChildItems ? ChevronUpIcon : ChevronDownIcon, {
       size: 'medium',
     });
