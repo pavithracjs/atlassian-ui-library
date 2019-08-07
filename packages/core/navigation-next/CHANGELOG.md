@@ -1,5 +1,13 @@
 # @atlaskit/navigation-next
 
+## 6.4.0
+
+### Minor Changes
+
+- [minor][570524869c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/570524869c):
+
+  Add bottom shadow on navigation scrollable Section
+
 ## 6.3.10
 
 ### Patch Changes

@@ -1,1 +1,0 @@
-Add bottom shadow on navigation scrollable Section
