@@ -7,14 +7,29 @@ const pWaitFor = require('p-wait-for');
 const CDN_URL_BASE =
   'http://s3-ap-southeast-2.amazonaws.com/atlaskit-artefacts';
 
-async function getManifestForCommit(commitHash, options = {}) {
-  const manifestUrl = `${CDN_URL_BASE}/${commitHash}/dists/manifest.json`;
-  const { interval, timeout } = options;
+// This function needs to be shared between the cli and the main node entry point
+// so that they can print different error messages
+function validateOptions(commitHash, options = {}) {
+  const errors = [];
+  const { engine, cmd, timeout, interval } = options;
 
-  await pWaitFor(() => urlExists(manifestUrl, options), { interval, timeout });
-  const manifest = await fetchVerbose(manifestUrl, options);
+  if (!commitHash || commitHash.length < 12) {
+    errors.push('Commit hash is required and must be at least 12 characters');
+  }
+  if (!['yarn', 'bolt'].includes(engine)) {
+    errors.push('engine must be one of [yarn, bolt]');
+  }
+  if (!['add', 'upgrade'].includes(cmd)) {
+    errors.push('cmd must be one of [add, upgrade]');
+  }
+  if (timeout < 1) {
+    errors.push('timeout must be more than 1ms');
+  }
+  if (interval < 1) {
+    errors.push('interval be more than 1ms');
+  }
 
-  return manifest;
+  return errors;
 }
 
 // returns a function used for logging or doing nothing (depending on shouldLog)
@@ -33,6 +48,19 @@ const createLogger = shouldLog => {
 
   return () => {};
 };
+
+async function getManifestForCommit(commitHash, options = {}) {
+  const manifestUrl = `${CDN_URL_BASE}/${commitHash}/dists/manifest.json`;
+  const { log } = options;
+  const { interval, timeout } = options;
+
+  log(`Fetching manifest from ${manifestUrl}`);
+
+  await pWaitFor(() => urlExists(manifestUrl, options), { interval, timeout });
+  const manifest = await fetchVerbose(manifestUrl, options);
+
+  return manifest;
+}
 
 const urlExists = async (url, options = {}) => {
   const { verboseLog } = options;
@@ -57,7 +85,36 @@ const fetchVerbose = async (url, options = {}) => {
   return result;
 };
 
-async function installFromCommit(commitHash, options = {}) {
+/**
+ * Might look weird to have this extra wrapping function, but its so that when requiring from
+ * node we can throw an error that can be caught, and from the cli we can print them and correctly
+ * process.exit
+ */
+async function installFromCommit(fullCommitHash = '', userOptions = {}) {
+  const defaultOptions = {
+    dryRun: false,
+    verbose: false,
+    engine: 'yarn',
+    cmd: 'add',
+    packages: 'all',
+    timeout: 20000,
+    interval: 5000,
+  };
+  const options = {
+    ...defaultOptions,
+    ...userOptions,
+  };
+  const commitHash = fullCommitHash.substr(0, 12);
+  const errors = validateOptions(commitHash, options);
+
+  if (errors.length !== 0) {
+    throw new Error(errors.join('\n'));
+  }
+
+  return _installFromCommit(commitHash, options);
+}
+
+async function _installFromCommit(commitHash = '', options = {}) {
   const log = createLogger(true);
   const verboseLog = createLogger(options.verbose);
 
@@ -98,4 +155,8 @@ async function installFromCommit(commitHash, options = {}) {
   }
 }
 
-module.exports = installFromCommit;
+module.exports = {
+  installFromCommit,
+  _installFromCommit,
+  validateOptions,
+};

@@ -2,7 +2,10 @@
 const log = console.log;
 const meow = require('meow');
 const chalk = require('chalk');
-const installFromCommit = require('./src/install-from-commit');
+const {
+  _installFromCommit,
+  validateOptions,
+} = require('./src/install-from-commit');
 
 let cli = meow(
   `
@@ -59,26 +62,15 @@ let cli = meow(
   },
 );
 
-// Validate all the flags
-let flagsAllValid = true;
-const commitHash = cli.input[0].substr(0, 12);
-const error = message => console.log(chalk.red(`Error: ${message}`));
+const input = cli.input[0] || '';
+const commitHash = input.substr(0, 12);
 
-if (!commitHash || commitHash.length !== 12) {
-  error('Commit hash is required and must be at least 12 characters');
-  flagsAllValid = false;
-}
-if (!['yarn', 'bolt'].includes(cli.flags.engine)) {
-  error('--engine flag must be one of [yarn, bolt]');
-  flagsAllValid = false;
-}
-if (!['add', 'upgrade'].includes(cli.flags.cmd)) {
-  error('--cmd flag must be one of [add, upgrade]');
-  flagsAllValid = false;
-}
+const errors = validateOptions({ commitHash, ...cli.flags });
 
-if (flagsAllValid) {
-  installFromCommit(commitHash, cli.flags);
+if (errors.length === 0) {
+  _installFromCommit(commitHash, cli.flags).catch(e => process.exit(1));
 } else {
+  console.error(chalk.red(errors.join('\n')));
   cli.showHelp();
+  process.exit(1);
 }
