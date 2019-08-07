@@ -1,0 +1,14 @@
+{
+  "releases": [
+    { "name": "@atlaskit/date", "type": "patch" },
+    { "name": "@atlaskit/emoji", "type": "patch" },
+    { "name": "@atlaskit/task-decision", "type": "patch" },
+    { "name": "@atlaskit/media-picker", "type": "patch" },
+    { "name": "@atlaskit/media-store", "type": "patch" },
+    { "name": "@atlaskit/media-ui", "type": "patch" },
+    { "name": "@atlaskit/code-insights", "type": "patch" },
+    { "name": "@atlaskit/dependency-version-analytics", "type": "patch" },
+    { "name": "@atlaskit/global-search", "type": "patch" }
+  ],
+  "dependents": []
+}

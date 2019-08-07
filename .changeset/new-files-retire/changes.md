@@ -1,0 +1,1 @@
+Move @types from dependencies to devDependencies.
