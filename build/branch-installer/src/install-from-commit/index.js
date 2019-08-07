@@ -79,7 +79,7 @@ async function installFromCommit(commitHash, options = {}) {
 
   packages.forEach(pkg => {
     if (!manifest[pkg]) {
-      log(`Error: Unable to find url for ${pkg} in maniest.json`);
+      log(`Error: Unable to find url for ${pkg} in manifest.json`);
     } else {
       const tarUrl = `${CDN_URL_BASE}/${commitHash}/dists/${
         manifest[pkg].tarFile
