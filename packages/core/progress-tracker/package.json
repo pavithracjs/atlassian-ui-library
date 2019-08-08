@@ -24,7 +24,6 @@
     "@atlaskit/page": "^11.0.2",
     "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
-    "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.2.1"
   },
   "peerDependencies": {
@@ -32,6 +31,7 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
+    "react-router-dom": "^4.2.2",
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/docs": "^8.1.1",
     "@atlaskit/ssr": "^0.1.0",

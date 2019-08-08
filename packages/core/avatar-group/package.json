@@ -25,7 +25,6 @@
     "@atlaskit/dropdown-menu": "^8.0.8",
     "@atlaskit/item": "^10.0.5",
     "@atlaskit/theme": "^9.1.1",
-    "@atlaskit/tooltip": "^15.0.2",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {

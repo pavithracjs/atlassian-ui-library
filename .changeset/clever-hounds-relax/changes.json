@@ -1,0 +1,4 @@
+{
+  "releases": [{ "name": "@atlaskit/progress-tracker", "type": "patch" }],
+  "dependents": []
+}

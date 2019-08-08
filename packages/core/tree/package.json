@@ -24,7 +24,6 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "css-box-model": "^1.0.0",
-    "memoize-one": "^3.0.1",
     "react-beautiful-dnd": "^10.0.2"
   },
   "peerDependencies": {
