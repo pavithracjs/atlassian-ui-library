@@ -543,5 +543,12 @@ describe('@atlaskit/editore-core/utils', () => {
 
       expect(shallowEqual(objA, objB)).toBe(false);
     });
+
+    it('should return false if obj2 has different number of keys', () => {
+      const objA = { test: 'ok' };
+      const objB = { test: 'ok', num: 2, prop: { sub: 'ok' } };
+
+      expect(shallowEqual(objA, objB)).toBe(false);
+    });
   });
 });
