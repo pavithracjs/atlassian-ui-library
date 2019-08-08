@@ -8,7 +8,7 @@ import {
   Transaction,
 } from 'prosemirror-state';
 import { Dispatch } from '../../../event-dispatcher';
-import { shallowEqual } from '../../../plugins/text-formatting/utils';
+import { shallowEqual } from '../../../utils';
 
 export enum LinkAction {
   SHOW_INSERT_TOOLBAR = 'SHOW_INSERT_TOOLBAR',

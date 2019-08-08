@@ -15,6 +15,7 @@ import { mention } from '@atlaskit/util-data-test';
 import Editor from './../src/editor';
 import { EditorAppearance } from '../src/types';
 import { EditorActions } from '../src';
+import { ExampleInlineCommentComponent } from '@atlaskit/editor-test-helpers';
 
 import {
   providers,
@@ -89,6 +90,9 @@ export default class KitchenSinkEditor extends React.Component<Props, State> {
           allowTemplatePlaceholders={{ allowInserting: true }}
           UNSAFE_cards={{
             provider: this.cardProviderPromise,
+          }}
+          annotationProvider={{
+            component: ExampleInlineCommentComponent,
           }}
           allowStatus={true}
           {...providers}

@@ -131,6 +131,8 @@ export default class Editor extends React.Component<EditorProps, {}> {
         type: 'removed',
       },
       allowConfluenceInlineComment: {
+        message:
+          'To integrate inline comments use experimental annotationProvider – <Editor annotationProvider={{ provider }} />',
         type: 'removed',
       },
       addonToolbarComponents: {

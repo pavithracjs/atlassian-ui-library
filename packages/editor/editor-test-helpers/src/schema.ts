@@ -69,6 +69,7 @@ export default createSchema({
     'breakout',
     'alignment',
     'indentation',
+    'annotation',
   ],
   customNodeSpecs: {
     plain: { ...paragraph, content: 'text*', marks: '' },

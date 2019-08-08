@@ -26,6 +26,7 @@
     "@atlaskit/media-core": "^30.0.10",
     "@atlaskit/media-test-helpers": "^25.0.0",
     "@atlaskit/smart-card": "^12.5.0",
+    "@atlaskit/textarea": "^2.1.4",
     "enzyme": "^3.7.0",
     "prosemirror-commands": "^1.0.7",
     "prosemirror-keymap": "^1.0.1",

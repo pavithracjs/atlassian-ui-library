@@ -27,6 +27,11 @@ export {
 } from '@atlaskit/mention/resource';
 export { TeamMentionResource } from '@atlaskit/mention/team-resource';
 export {
+  AnnotationProvider,
+  AnnotationComponentProps,
+  AnnotationInfo,
+} from './plugins/annotation';
+export {
   QuickInsertProvider,
   QuickInsertItem,
 } from './plugins/quick-insert/types';

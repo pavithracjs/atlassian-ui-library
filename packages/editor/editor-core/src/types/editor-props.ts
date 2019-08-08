@@ -30,6 +30,7 @@ import { CodeBlockOptions } from '../plugins/code-block';
 import { CardProvider, CardOptions } from '../plugins/card/types';
 import { QuickInsertOptions } from '../plugins/quick-insert/types';
 import { AutoformattingProvider } from '../plugins/custom-autoformat/types';
+import { AnnotationProvider } from '../plugins/annotation/types';
 
 export type EditorAppearance =
   | 'comment'
@@ -196,6 +197,9 @@ export interface EditorProps {
   uploadErrorHandler?: (state: MediaState) => void;
 
   activityProvider?: Promise<ActivityProvider>;
+
+  annotationProvider?: AnnotationProvider;
+
   collabEditProvider?: Promise<CollabEditProvider>;
   presenceProvider?: Promise<any>;
   emojiProvider?: Promise<EmojiProvider>;

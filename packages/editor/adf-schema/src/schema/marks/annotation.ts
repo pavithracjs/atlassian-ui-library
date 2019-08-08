@@ -18,6 +18,7 @@ export type AnnotationType = 'inlineComment';
 
 export const annotation: MarkSpec = {
   inclusive: false,
+  group: 'annotation',
   excludes: '',
   attrs: {
     id: {
@@ -27,7 +28,23 @@ export const annotation: MarkSpec = {
       default: INLINE_COMMENT,
     },
   },
-  parseDOM: [{ tag: 'span[data-mark-type="annotation"]' }],
+  parseDOM: [
+    {
+      tag: 'span[data-mark-type="annotation"]',
+      getAttrs: dom => {
+        const elem = dom as Element;
+        const annotationType = elem.getAttribute('data-mark-annotation-type');
+        if (!annotationType) {
+          return false;
+        }
+
+        return {
+          id: elem.getAttribute('data-id'),
+          annotationType,
+        };
+      },
+    },
+  ],
   toDOM(node) {
     /*
       Data attributes on the DOM node are a temporary means of
@@ -38,10 +55,12 @@ export const annotation: MarkSpec = {
     return [
       'span',
       {
+        class: 'fabric-editor-annotation',
         'data-mark-type': 'annotation',
         'data-mark-annotation-type': node.attrs.annotationType,
         'data-id': node.attrs.id,
       },
+      0,
     ];
   },
 };

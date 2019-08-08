@@ -11,6 +11,7 @@ import {
   BreakoutMarkAttrs,
   AlignmentAttributes,
   IndentationMarkAttributes,
+  AnnotationMarkAttributes,
 } from '@atlaskit/adf-schema';
 import {
   Fragment,
@@ -436,6 +437,8 @@ export const confluenceInlineComment = (attrs: { reference: string }) =>
     attrs ? attrs : {},
     true,
   );
+export const annotation = (attrs: AnnotationMarkAttributes) =>
+  markFactory(sampleSchema.marks.annotation, attrs, true);
 
 //
 // Block Marks

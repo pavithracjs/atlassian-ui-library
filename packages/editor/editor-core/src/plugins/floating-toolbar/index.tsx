@@ -128,60 +128,70 @@ const floatingToolbarPlugin = (): EditorPlugin => ({
           floatingToolbarState?: ConfigWithNodeInfo;
           editorDisabledPlugin: EditorDisabledPluginState;
         }) => {
-          if (floatingToolbarState && floatingToolbarState.config) {
-            const {
-              title,
-              getDomRef = getDomRefFromSelection,
-              items,
-              align = 'center',
-              className = '',
-              height,
-              width,
-              offset = [0, 12],
-              forcePlacement,
-            } = floatingToolbarState.config;
-            const targetRef = getDomRef(editorView);
-
-            if (targetRef && !(editorDisabledPlugin || {}).editorDisabled) {
-              const toolbarItems = Array.isArray(items)
-                ? items
-                : items(floatingToolbarState.node);
-              return (
-                <Popup
-                  ariaLabel={title}
-                  offset={offset}
-                  target={targetRef}
-                  alignY="bottom"
-                  forcePlacement={forcePlacement}
-                  fitHeight={height}
-                  fitWidth={width}
-                  alignX={align}
-                  stick={true}
-                  mountTo={popupsMountPoint}
-                  boundariesElement={popupsBoundariesElement}
-                  scrollableElement={popupsScrollableElement}
-                >
-                  <ToolbarLoader
-                    target={targetRef}
-                    items={toolbarItems}
-                    node={floatingToolbarState.node}
-                    dispatchCommand={(fn?: Function) =>
-                      fn && fn(editorView.state, editorView.dispatch)
-                    }
-                    editorView={editorView}
-                    className={className}
-                    focusEditor={() => editorView.focus()}
-                    providerFactory={providerFactory}
-                    popupsMountPoint={popupsMountPoint}
-                    popupsBoundariesElement={popupsBoundariesElement}
-                    popupsScrollableElement={popupsScrollableElement}
-                    dispatchAnalyticsEvent={dispatchAnalyticsEvent}
-                  />
-                </Popup>
-              );
-            }
+          if (
+            !floatingToolbarState ||
+            !floatingToolbarState.config ||
+            (typeof floatingToolbarState.config.visible !== 'undefined' &&
+              !floatingToolbarState.config.visible)
+          ) {
+            return null;
           }
-          return null;
+
+          const {
+            title,
+            getDomRef = getDomRefFromSelection,
+            items,
+            align = 'center',
+            className = '',
+            height,
+            width,
+            offset = [0, 12],
+            forcePlacement,
+          } = floatingToolbarState.config;
+          const targetRef = getDomRef(editorView);
+
+          if (
+            !targetRef ||
+            (editorDisabledPlugin && editorDisabledPlugin.editorDisabled)
+          ) {
+            return null;
+          }
+          const toolbarItems = Array.isArray(items)
+            ? items
+            : items(floatingToolbarState.node);
+          return (
+            <Popup
+              ariaLabel={title}
+              offset={offset}
+              target={targetRef}
+              alignY="bottom"
+              forcePlacement={forcePlacement}
+              fitHeight={height}
+              fitWidth={width}
+              alignX={align}
+              stick={true}
+              mountTo={popupsMountPoint}
+              boundariesElement={popupsBoundariesElement}
+              scrollableElement={popupsScrollableElement}
+            >
+              <ToolbarLoader
+                target={targetRef}
+                items={toolbarItems}
+                node={floatingToolbarState.node}
+                dispatchCommand={(fn?: Function) =>
+                  fn && fn(editorView.state, editorView.dispatch)
+                }
+                editorView={editorView}
+                className={className}
+                focusEditor={() => editorView.focus()}
+                providerFactory={providerFactory}
+                popupsMountPoint={popupsMountPoint}
+                popupsBoundariesElement={popupsBoundariesElement}
+                popupsScrollableElement={popupsScrollableElement}
+                dispatchAnalyticsEvent={dispatchAnalyticsEvent}
+              />
+            </Popup>
+          );
         }}
       />
     );
