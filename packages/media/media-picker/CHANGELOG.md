@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 46.0.2
+
+### Patch Changes
+
+- [patch][da814b8ebc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da814b8ebc):
+
+  Bump media-picker to fix the master bbranch where bitbucket and npm are out of sync.
+
 ## 46.0.1
 
 ### Patch Changes

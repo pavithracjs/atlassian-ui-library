@@ -1,1 +1,0 @@
-Bump global-search to fix an issue with current master branch getting out of sync between bitbucket and npm. 

@@ -1,1 +1,0 @@
-Bump media-picker to fix the master bbranch where bitbucket and npm are out of sync.
