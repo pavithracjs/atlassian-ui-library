@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/ci-scripts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "A collection of scripts for use in CI",
   "main": "index.js",
