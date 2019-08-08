@@ -46,7 +46,7 @@ type SwitcherProps = {
   adminLinks: SwitcherItemType[];
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
-  experimental_productTopItemMostFrequent: boolean | null;
+  experimental_productTopItemMostFrequent?: boolean;
   manageLink?: string;
 };
 
