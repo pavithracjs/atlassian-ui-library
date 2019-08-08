@@ -1,0 +1,1 @@
+Move @types/seedrandom from dependencies to devDependencies.
