@@ -17,7 +17,7 @@ afterEach(() => {
 
 test('should ssr then hydrate media-picker correctly', async () => {
   const [example] = await getExamplesFor('media-picker');
-  const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+  const Example = await require(example.filePath).default;
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
