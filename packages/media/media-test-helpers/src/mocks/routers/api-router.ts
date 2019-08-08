@@ -293,7 +293,8 @@ export function createApiRouter(): Router<DatabaseSchema> {
     const records = descriptors.map((descriptor: any) => {
       const record = database.findOne('collectionItem', {
         id: descriptor.id,
-        collectionName: descriptor.collection,
+        // TODO []: remove check once ResizableMediaSingle passes collection to getCurrentState
+        // collectionName: descriptor.collection,
       });
       if (record) {
         return {
