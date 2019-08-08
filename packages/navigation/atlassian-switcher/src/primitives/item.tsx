@@ -29,6 +29,7 @@ type SwitcherItemProps = {
   href?: string;
   isDisabled?: boolean;
 };
+
 class SwitcherItem extends React.Component<SwitcherItemProps> {
   render() {
     const { icon, description, ...rest } = this.props;

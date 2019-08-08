@@ -1,0 +1,1 @@
+Removed unused dependencies from package.json for tree: memoize-one was unused.
