@@ -13,6 +13,7 @@ class OptionalContainersExample extends React.Component {
     disableRecentContainers: false,
     disableCloudId: false,
     disableXFlow: false,
+    productTopItemMostFrequent: false,
   };
 
   openDrawer = () => {
@@ -61,6 +62,7 @@ class OptionalContainersExample extends React.Component {
       disableXFlow,
       enableUserCentricProducts,
       disableCustomLinks,
+      productTopItemMostFrequent,
     } = this.state;
 
     return (
@@ -73,6 +75,7 @@ class OptionalContainersExample extends React.Component {
             disableCustomLinks={disableCustomLinks}
             enableUserCentricProducts={enableUserCentricProducts}
             triggerXFlow={disableXFlow ? undefined : this.onTriggerXFlow}
+            experimental_productTopItemMostFrequent={productTopItemMostFrequent}
           />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
@@ -124,6 +127,13 @@ class OptionalContainersExample extends React.Component {
           >
             Custom links
           </Button>
+          <Button
+            type="button"
+            onClick={this.toggleProductTopItemMostFrequent}
+            isSelected={!productTopItemMostFrequent}
+          >
+            Product top item is the most frequent
+          </Button>
         </div>
       </div>
     );
@@ -156,6 +166,12 @@ class OptionalContainersExample extends React.Component {
   private toggleDisableCustomLinks = () => {
     this.setState({
       disableCustomLinks: !this.state.disableCustomLinks,
+    });
+  };
+
+  private toggleProductTopItemMostFrequent = () => {
+    this.setState({
+      productTopItemMostFrequent: !this.state.productTopItemMostFrequent,
     });
   };
 }
