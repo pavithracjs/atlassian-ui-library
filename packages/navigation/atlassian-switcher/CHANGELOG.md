@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.15.0
+
+### Minor Changes
+
+- [minor][aac9ae7ee8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aac9ae7ee8):
+
+  Licensed links in switcher are now grouped by product, with a dropdown that containing individual site options for sited products
+
 ## 3.14.0
 
 ### Minor Changes

@@ -4,6 +4,7 @@
 
 import * as React from 'react';
 import { Component } from 'react';
+import * as PropTypes from 'prop-types';
 import Button from '@atlaskit/button';
 import {
   defaultMediaPickerCollectionName,
@@ -37,11 +38,20 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
     uploadingFileIds: [],
   };
 
+  static contextTypes = {
+    // Required context in order to integrate analytics in media picker
+    getAtlaskitAnalyticsEventHandlers: PropTypes.func,
+  };
+
   async componentDidMount() {
     const popup = await MediaPicker(mediaClientConfig, {
+      container: document.body,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },
+      // Media picker requires `proxyReactContext` to enable analytics
+      // otherwise, analytics Gasv3 integrations won't work
+      proxyReactContext: this.context,
     });
 
     popup.on(

@@ -55,11 +55,11 @@ const referralContextIdentifiers: ReferralContextIdentifiers = {
 
 const DEFAULT_FEATURES: ConfluenceFeatures = {
   abTest: DEFAULT_AB_TEST,
-  isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
+  isNavAutocompleteEnabled: false,
 };
 
 function render(partialProps?: Partial<Props>) {
@@ -97,6 +97,9 @@ const mockCrossProductSearchClient = {
   },
   getPeople() {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+  },
+  getNavAutocompleteSuggestions() {
+    return Promise.resolve([]);
   },
 } as CrossProductSearchClient;
 
@@ -258,6 +261,9 @@ describe('ConfluenceQuickSearchContainer', () => {
         },
         getPeople() {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
+        },
+        getNavAutocompleteSuggestions() {
+          return Promise.resolve([]);
         },
       },
     });
@@ -550,8 +556,8 @@ describe('ConfluenceQuickSearchContainer', () => {
         {
           ...baseFilterComponentProps,
           latestSearchQuery: 'a',
-          searchResultsTotalSize: 0,
           searchSessionId: mockSearchSessionId,
+          searchResultsTotalSize: 0,
         },
       );
 
@@ -647,6 +653,87 @@ describe('ConfluenceQuickSearchContainer', () => {
       const quickSearchContainer = wrapper.find(QuickSearchContainer);
       const props = quickSearchContainer.props();
       expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+    });
+  });
+
+  describe('NavAutocomplete', () => {
+    it('should not call getNavAutocompleteSuggestions if isNavAutocompleteEnabled and isAutocompleteEnabled are false', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).toBeUndefined();
+    });
+
+    it('should call getNavAutocompleteSuggestions if isNavAutocompleteEnabled is true', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
+
+      const wrapper = render({
+        features: { ...DEFAULT_FEATURES, isNavAutocompleteEnabled: true },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+
+      if (props.getAutocompleteSuggestions) {
+        props.getAutocompleteSuggestions('query');
+      }
+
+      expect(getNavSuggestionsSpy).toHaveBeenCalledWith('query');
+      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call getNavAutocompleteSuggestions if both isAutoEnabled and isNavAutocompleteEnabled are true', () => {
+      const getNavSuggestionsSpy = jest.fn();
+      const getAutocompleteSuggestionsSpy = jest.fn();
+
+      getNavSuggestionsSpy.mockReturnValue(Promise.resolve([]));
+
+      const wrapper = render({
+        features: {
+          ...DEFAULT_FEATURES,
+          isNavAutocompleteEnabled: true,
+          isAutocompleteEnabled: true,
+        },
+        crossProductSearchClient: {
+          ...noResultsCrossProductSearchClient,
+          getNavAutocompleteSuggestions: getNavSuggestionsSpy,
+        },
+        autocompleteClient: {
+          getAutocompleteSuggestions: getAutocompleteSuggestionsSpy,
+        },
+      });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+      const props = quickSearchContainer.props();
+      expect(props.getAutocompleteSuggestions).not.toBeUndefined();
+
+      if (props.getAutocompleteSuggestions) {
+        props.getAutocompleteSuggestions('query');
+      }
+
+      expect(getNavSuggestionsSpy).toHaveBeenCalledWith('query');
+      expect(getAutocompleteSuggestionsSpy).toHaveBeenCalledTimes(0);
     });
   });
 });

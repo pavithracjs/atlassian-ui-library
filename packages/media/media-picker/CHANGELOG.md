@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 46.0.1
+
+### Patch Changes
+
+- [patch][6744fe7753](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6744fe7753):
+
+  Adding dispatch for failure errors in media picker
+
 ## 46.0.0
 
 ### Major Changes

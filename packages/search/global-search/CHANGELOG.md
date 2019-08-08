@@ -1,5 +1,21 @@
 # @atlaskit/global-search
 
+## 11.0.0
+
+### Major Changes
+
+- [major][5ea608f95d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ea608f95d):
+
+  Enables faster search by default. Modified date is now part of simple extensions
+
+## 10.7.0
+
+### Minor Changes
+
+- [minor][339c4517c0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/339c4517c0):
+
+  Front end support for xpsearch-nav-searcher
+
 ## 10.6.8
 
 ### Patch Changes

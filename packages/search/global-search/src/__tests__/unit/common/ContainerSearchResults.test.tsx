@@ -50,7 +50,7 @@ import ConfluenceAdvancedSearchGroup from '../../../components/confluence/Advanc
 import JiraAdvancedSearchGroup from '../../../components/jira/JiraAdvancedSearch';
 import StickyFooter from '../../../components/common/StickyFooter';
 import { QuickSearchContext } from '../../../api/types';
-import { JiraFeatures, ConfluenceFeatures } from '../../../util/features';
+import { DEFAULT_FEATURES } from '../../../util/features';
 
 const getIssues = (searchSessionId: string) => [
   makeJiraObjectResult({
@@ -92,12 +92,6 @@ const getRecentlyInteractedPeople = (
   ];
 };
 
-const abTest = {
-  experimentId: 'test-experiement-id',
-  abTestId: 'test-abtest-id',
-  controlId: 'test-control-id',
-};
-
 const logger = mockLogger();
 const createAnalyticsEventSpy = jest.fn();
 const renderJiraQuickSearchContainer = (props: JiraProps) => {
@@ -108,17 +102,6 @@ const renderJiraQuickSearchContainer = (props: JiraProps) => {
 const renderConfluenceQuickSearchContainer = (props: ConfluenceProps) => {
   // @ts-ignore - doesn't recognise injected intl prop
   return shallowWithIntl(<ConfluenceQuickSearchContainer {...props} />);
-};
-
-const DEFAULT_FEATURES: JiraFeatures & ConfluenceFeatures = {
-  abTest,
-  isInFasterSearchExperiment: false,
-  useUrsForBootstrapping: false,
-  disableJiraPreQueryPeopleSearch: false,
-  enablePreQueryFromAggregator: false,
-  searchExtensionsEnabled: false,
-  isAutocompleteEnabled: false,
-  complexSearchExtensionsEnabled: false,
 };
 
 const renderComponent = (product: QuickSearchContext) => {

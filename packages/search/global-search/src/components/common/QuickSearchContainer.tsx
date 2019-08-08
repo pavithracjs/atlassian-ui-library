@@ -55,7 +55,7 @@ export interface PartiallyLoadedRecentItems<
 > {
   // Represents recent items that should be present before any UI is shown
   eagerRecentItemsPromise: Promise<ResultsWithTiming<T>>;
-  // Represents items which can load in after initi7al UI is shown
+  // Represents items which can load in after initial UI is shown
   lazyLoadedRecentItemsPromise: Promise<Partial<T>>;
 }
 
@@ -73,6 +73,7 @@ export interface Props<T extends ConfluenceResultsMap | JiraResultsMap> {
     filters: Filter[],
   ): Promise<ResultsWithTiming<T>>;
   getAutocompleteSuggestions?(query: string): Promise<string[]>;
+  getNavAutocompleteSuggestions?(query: string): Promise<string[]>;
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
@@ -436,9 +437,11 @@ export class QuickSearchContainer<
 
   handleAutocomplete = async (query: string) => {
     const { getAutocompleteSuggestions } = this.props;
+
     if (!getAutocompleteSuggestions) {
       return;
     }
+
     try {
       const results = await getAutocompleteSuggestions(query);
 

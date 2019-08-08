@@ -97,6 +97,7 @@ export enum WorklensProductType {
   CONFLUENCE = 'CONFLUENCE',
   OPSGENIE = 'OPSGENIE',
   BITBUCKET = 'BITBUCKET',
+  STATUSPAGE = 'STATUSPAGE',
 }
 
 export type AvailableProduct =
@@ -146,3 +147,8 @@ export interface RecommendationItem {
 export type RecommendationsFeatureFlags = {
   [key: string]: string | boolean;
 };
+
+export interface SwitcherChildItem {
+  href: string;
+  label: string;
+}
