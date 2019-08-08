@@ -1,1 +1,0 @@
-Enables faster search by default. Modified date is now part of simple extensions
