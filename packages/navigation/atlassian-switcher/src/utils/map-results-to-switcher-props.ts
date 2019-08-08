@@ -31,7 +31,7 @@ import { createCollector } from './create-collector';
 function collectAvailableProductLinks(
   cloudId: string | null | undefined,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
-  productTopItemVariation?: boolean,
+  productTopItemMostFrequent?: boolean,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
     if (isError(availableProducts)) {
@@ -41,7 +41,7 @@ function collectAvailableProductLinks(
       return getAvailableProductLinks(
         availableProducts.data,
         cloudId,
-        Boolean(productTopItemVariation),
+        Boolean(productTopItemMostFrequent),
       );
     }
     return;
@@ -261,7 +261,7 @@ export function mapResultsToSwitcherProps(
         ? collectAvailableProductLinks(
             cloudId,
             availableProducts,
-            features.productTopItemVariation,
+            features.experimental_productTopItemMostFrequent,
           )
         : collectProductLinks(licenseInformation),
       [],
