@@ -48,11 +48,16 @@ export class MediaNodeUpdater {
       return;
     }
 
-    const viewMediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
+    // If file attributes are defined we just exit execution.
+    if (attrs.__fileName && attrs.__fileMimeType && attrs.__fileSize) {
+      return;
+    }
+
+    const mediaClientConfig = await getViewMediaClientConfigFromMediaProvider(
       mediaProvider,
     );
     const mediaClient = getMediaClient({
-      mediaClientConfig: viewMediaClientConfig,
+      mediaClientConfig,
     });
 
     const fileState = await mediaClient.file.getCurrentState(attrs.id);

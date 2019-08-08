@@ -52,9 +52,9 @@ export default class MediaSingleNode extends Component<
     viewMediaClientConfig: undefined,
   };
 
-  async componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
+  componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
     if (nextProps.mediaProvider !== this.props.mediaProvider) {
-      await this.setViewMediaClientConfig(nextProps);
+      this.setViewMediaClientConfig(nextProps);
       const mediaNodeUpdater = new MediaNodeUpdater(nextProps);
       mediaNodeUpdater.updateFileAttrs();
     }
@@ -102,7 +102,7 @@ export default class MediaSingleNode extends Component<
 
   async componentDidMount() {
     await this.setViewMediaClientConfig(this.props);
-    this.updateMediaNodeAttributes(this.props);
+    await this.updateMediaNodeAttributes(this.props);
   }
 
   private onExternalImageLoaded = ({
