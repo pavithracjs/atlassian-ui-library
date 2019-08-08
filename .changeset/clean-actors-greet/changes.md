@@ -1,1 +1,1 @@
-Removed unused dependencies from package.json for packages:- 
+Removed unused dependencies from package.json for tabs: keycode was unused.

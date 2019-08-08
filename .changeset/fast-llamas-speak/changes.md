@@ -1,1 +1,1 @@
-Removed unused dependencies from package.json for packages: select: react-transition-group was unused.
+Removed unused dependencies from package.json for select: react-transition-group was unused.
