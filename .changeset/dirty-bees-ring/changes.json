@@ -1,0 +1,8 @@
+{
+  "releases": [
+    { "name": "@atlaskit/atlaskid", "type": "patch" },
+    { "name": "@atlaskit/ci-scripts", "type": "patch" },
+    { "name": "@atlaskit/emoji", "type": "patch" }
+  ],
+  "dependents": []
+}
