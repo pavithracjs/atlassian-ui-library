@@ -51,7 +51,13 @@ describe('FloatingToolbar', () => {
 
 describe('Renders custom UI on toolbar', () => {
   it('should render a custom react component', () => {
-    const wrapper = mount(<Toolbar items={items} dispatchCommand={() => {}} />);
+    const wrapper = mount(
+      <Toolbar
+        items={items}
+        dispatchCommand={() => {}}
+        node={undefined as any}
+      />,
+    );
     expect(wrapper.length).toBe(1);
     expect(wrapper.find('.dummy-container').length).toEqual(1);
   });

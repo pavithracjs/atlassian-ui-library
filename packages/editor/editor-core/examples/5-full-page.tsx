@@ -16,7 +16,10 @@ import {
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import { EmojiProvider } from '@atlaskit/emoji/resource';
-import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
+import {
+  Provider as SmartCardProvider,
+  Client as SmartCardClient,
+} from '@atlaskit/smart-card';
 
 import {
   customInsertMenuItems,
@@ -178,7 +181,7 @@ class ExampleEditorComponent extends React.Component<
     return (
       <Wrapper>
         <Content>
-          <SmartCardProvider>
+          <SmartCardProvider client={new SmartCardClient('prod')}>
             <Editor
               analyticsHandler={analyticsHandler}
               allowAnalyticsGASV3={true}
