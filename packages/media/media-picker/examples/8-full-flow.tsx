@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import {
   defaultCollectionName,
   createUploadContext,
@@ -41,11 +42,20 @@ export interface State {
 export default class Example extends React.Component<{}, State> {
   state: State = { events: [], dataSourceType: 'list' };
 
+  static contextTypes = {
+    // Required context in order to integrate analytics in media picker
+    getAtlaskitAnalyticsEventHandlers: PropTypes.func,
+  };
+
   async componentDidMount() {
     const popup = await MediaPicker(context, {
       uploadParams: {
         collection: defaultCollectionName,
       },
+      container: document.body,
+      // Media picker requires `proxyReactContext` to enable analytics
+      // otherwise, analytics Gasv3 integrations won't work
+      proxyReactContext: this.context,
     });
 
     context.on('file-added', file => {
