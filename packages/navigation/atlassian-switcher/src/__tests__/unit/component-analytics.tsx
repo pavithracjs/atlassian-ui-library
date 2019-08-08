@@ -129,6 +129,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
         licensedProducts: ['jira'],
         adminLinks: ['discoverMore'],
         fixedLinks: ['people'],
+        experimental_productTopItemMostFrequent: null,
       },
     });
 
