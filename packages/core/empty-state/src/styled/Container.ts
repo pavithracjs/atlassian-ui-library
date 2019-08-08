@@ -1,7 +1,6 @@
-// @flow
-
 import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
+import { Sizes } from '../';
 
 const verticalMarginSize = gridSize() * 6;
 
@@ -11,7 +10,7 @@ const gutter = gridSize() * 2;
 const wideContainerWidth = columnWidth * 6 + gutter * 5;
 const narrowContainerWidth = columnWidth * 4 + gutter * 3;
 
-const Container = styled.div`
+const Container = styled.div<{ size: Sizes }>`
   margin: ${verticalMarginSize}px auto;
   text-align: center;
   /* Use max-width so the component can shrink on smaller viewports. */

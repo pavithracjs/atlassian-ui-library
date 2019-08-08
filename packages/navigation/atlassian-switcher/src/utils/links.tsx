@@ -13,6 +13,7 @@ import {
   JiraServiceDeskIcon,
   JiraCoreIcon,
   OpsGenieIcon,
+  StatuspageIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
 import {
@@ -20,7 +21,6 @@ import {
   ProductLicenseInformation,
   RecentContainerType,
   AvailableProductsResponse,
-  AvailableSite,
   AvailableProduct,
   WorklensProductType,
   ProductKey,
@@ -29,12 +29,9 @@ import {
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
 import PeopleLogo from './assets/people';
-import { CustomLink, RecentContainer } from '../types';
+import { CustomLink, RecentContainer, SwitcherChildItem } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
 import { createIcon, createImageIcon, IconType } from './icon-themes';
-
-// Show a maximum of this many produts (only used in user-centric mode)
-export const MAX_PRODUCT_COUNT = 5;
 
 enum ProductActivationStatus {
   ACTIVE = 'ACTIVE',
@@ -53,6 +50,8 @@ export type SwitcherItemType = {
   description?: React.ReactNode;
   Icon: IconType;
   href: string;
+  childItems?: SwitcherChildItem[];
+  productType?: WorklensProductType;
 };
 
 export type RecentItemType = SwitcherItemType & {
@@ -179,57 +178,119 @@ export const AVAILABLE_PRODUCT_DATA_MAP: {
     Icon: createIcon(OpsGenieIcon, { size: 'small' }),
     href: 'https://app.opsgenie.com',
   },
+  [WorklensProductType.STATUSPAGE]: {
+    label: 'Statuspage',
+    Icon: createIcon(StatuspageIcon, { size: 'small' }),
+    href: '#',
+  },
 };
 
-const getAvailableProductLink = (
-  site: AvailableSite,
-  product: AvailableProduct,
-): SwitcherItemType => {
-  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[product.productType];
+const PRODUCT_ORDER = [
+  WorklensProductType.JIRA_SOFTWARE,
+  WorklensProductType.JIRA_SERVICE_DESK,
+  WorklensProductType.JIRA_BUSINESS,
+  WorklensProductType.CONFLUENCE,
+  WorklensProductType.OPSGENIE,
+  WorklensProductType.BITBUCKET,
+  WorklensProductType.STATUSPAGE,
+];
+
+interface ConnectedSite {
+  product: AvailableProduct;
+  isCurrentSite: boolean;
+  siteName: string;
+  siteUrl: string;
+}
+
+const getProductSiteUrl = (connectedSite: ConnectedSite): string => {
+  const { product, siteUrl } = connectedSite;
 
   if (
     product.productType === WorklensProductType.OPSGENIE ||
     product.productType === WorklensProductType.BITBUCKET
   ) {
-    // Prefer applicationUrl provided by license information (TCS)
-    // Fallback to hard-coded URL
-    return {
-      key: product.productType + site.displayName,
-      ...productLinkProperties,
-      description: site.displayName,
-      href: product.url,
-    };
+    return product.url;
   }
 
+  return siteUrl + AVAILABLE_PRODUCT_DATA_MAP[product.productType].href;
+};
+
+const getLinkDescription = (
+  siteName: string,
+  singleSite: boolean,
+  productType: WorklensProductType,
+): string | null => {
+  if (singleSite || productType === WorklensProductType.BITBUCKET) {
+    return null;
+  }
+
+  return siteName;
+};
+
+const getAvailableProductLinkFromSiteProduct = (
+  connectedSites: ConnectedSite[],
+  singleSite: boolean,
+): SwitcherItemType => {
+  const topSite =
+    connectedSites.find(site => site.isCurrentSite) ||
+    connectedSites.sort(
+      (a, b) => b.product.activityCount - a.product.activityCount,
+    )[0];
+  const productType = topSite.product.productType;
+  const productLinkProperties = AVAILABLE_PRODUCT_DATA_MAP[productType];
+
   return {
-    key: product.productType + site.displayName,
     ...productLinkProperties,
-    description: site.displayName,
-    href: site.url + productLinkProperties.href,
+    key: productType + topSite.siteName,
+    href: getProductSiteUrl(topSite),
+    description: getLinkDescription(topSite.siteName, singleSite, productType),
+    productType,
+    childItems:
+      connectedSites.length > 1
+        ? connectedSites
+            .map(site => ({
+              href: getProductSiteUrl(site),
+              label: site.siteName,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label))
+        : [],
   };
 };
 
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
+  cloudId: string | null | undefined,
 ): SwitcherItemType[] => {
-  const productLinks: SwitcherItemType[] = [];
-  const activityCounts: { [key: string]: number } = {};
+  const productsMap: { [key: string]: ConnectedSite[] } = {};
 
   availableProducts.sites.forEach(site => {
-    site.availableProducts.forEach(product => {
-      const availableProductLink = getAvailableProductLink(site, product);
-      productLinks.push(availableProductLink);
-      activityCounts[availableProductLink.key] = product.activityCount;
+    const { availableProducts, displayName, url } = site;
+    availableProducts.forEach(product => {
+      const { productType } = product;
+
+      if (!productsMap[productType]) {
+        productsMap[productType] = [];
+      }
+
+      productsMap[productType].push({
+        product,
+        isCurrentSite: Boolean(cloudId) && site.cloudId === cloudId,
+        siteName: displayName,
+        siteUrl: url,
+      });
     });
   });
 
-  productLinks.sort((a, b) => {
-    const aCount = activityCounts[a.key] || 0;
-    const bCount = activityCounts[b.key] || 0;
-    return bCount - aCount; // most frequently accessed first
-  });
-
-  return productLinks.slice(0, MAX_PRODUCT_COUNT);
+  return PRODUCT_ORDER.map(productType => {
+    const connectedSites = productsMap[productType];
+    return (
+      connectedSites &&
+      getAvailableProductLinkFromSiteProduct(
+        connectedSites,
+        availableProducts.sites.length === 1,
+      )
+    );
+  }).filter(link => !!link);
 };
 
 export const getProductLink = (

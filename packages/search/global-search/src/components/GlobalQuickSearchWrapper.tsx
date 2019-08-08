@@ -183,12 +183,6 @@ export interface Props {
   appPermission?: JiraApplicationPermission;
 
   /**
-   * Determine whether to enable faster search for control (aka 'default').
-   * This is used for Confluence only.
-   */
-  fasterSearchFFEnabled?: boolean;
-
-  /**
    * Determine whether to enable urs for bootstrapping people search.
    */
   useUrsForBootstrapping?: boolean;
@@ -291,7 +285,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     const {
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
-      fasterSearchFFEnabled,
       useUrsForBootstrapping,
       isAutocompleteEnabled,
       isNavAutocompleteEnabled,
@@ -299,7 +292,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
     return createFeatures({
       abTest,
-      fasterSearchFFEnabled: !!fasterSearchFFEnabled,
       useUrsForBootstrapping: !!useUrsForBootstrapping,
       disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,

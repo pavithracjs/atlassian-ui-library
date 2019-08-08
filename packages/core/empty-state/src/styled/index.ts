@@ -1,5 +1,3 @@
-// @flow
-
 export { default as ActionsContainer } from './ActionsContainer';
 export { default as Container } from './Container';
 export { default as Description } from './Description';

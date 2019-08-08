@@ -5,7 +5,6 @@ import * as PropTypes from 'prop-types';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import Button from '@atlaskit/button';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
-import AKListeners from '@atlaskit/analytics-listeners';
 import {
   userAuthProvider,
   mediaPickerAuthProvider,
@@ -74,6 +73,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   static contextTypes = {
+    // Required context in order to integrate analytics in media picker
     getAtlaskitAnalyticsEventHandlers: PropTypes.func,
   };
 
@@ -106,6 +106,8 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
         collection: defaultMediaPickerCollectionName,
       },
       singleSelect,
+      // Media picker requires `proxyReactContext` to enable analytics
+      // otherwise, analytics Gasv3 integrations won't work
       proxyReactContext: this.state.useProxyContext ? this.context : undefined,
     });
 
@@ -459,15 +461,4 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   }
 }
 
-export default () => (
-  <AKListeners
-    client={{
-      sendUIEvent: () => {},
-      sendOperationalEvent: () => {},
-      sendTrackEvent: () => {},
-      sendScreenEvent: () => {},
-    }}
-  >
-    <PopupWrapper />
-  </AKListeners>
-);
+export default () => <PopupWrapper />;
