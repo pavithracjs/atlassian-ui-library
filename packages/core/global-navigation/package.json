@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/global-navigation",
-  "version": "7.3.8",
+  "version": "7.3.9",
   "description": "Global navigation component for Atlassian",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty Ltd",
@@ -23,7 +23,6 @@
     "@atlaskit/atlassian-switcher": "^3.8.2",
     "@atlaskit/avatar": "^16.0.8",
     "@atlaskit/badge": "^12.0.0",
-    "@atlaskit/blanket": "^10.0.7",
     "@atlaskit/drawer": "^5.0.2",
     "@atlaskit/dropdown-menu": "^8.0.11",
     "@atlaskit/icon": "^19.0.0",
@@ -33,9 +32,7 @@
     "@atlaskit/spinner": "^12.0.1",
     "@atlaskit/theme": "^9.1.1",
     "@babel/runtime": "^7.0.0",
-    "@emotion/core": "^10.0.9",
     "prop-types": "^15.5.10",
-    "react-transition-group": "^2.2.1",
     "url-parse": "^1.4.3"
   },
   "peerDependencies": {

@@ -100,7 +100,7 @@ it('should pass the correct properties to PersonResult for people results', () =
   });
 });
 
-it('should pass the correct properties to ObjectResult for Confluence results', () => {
+it('should not render the friendly last modified date if the search extensions feature is disabled', () => {
   const confluenceResults: ConfluenceObjectResult[] = [
     makeConfluenceObjectResult({
       resultId: 'resultId',
@@ -108,10 +108,16 @@ it('should pass the correct properties to ObjectResult for Confluence results', 
     }),
   ];
 
-  const wrapper = render({
-    results: confluenceResults,
-    analyticsData: DUMMY_ANALYTICS_DATA,
-  });
+  const wrapper = render(
+    {
+      results: confluenceResults,
+      analyticsData: DUMMY_ANALYTICS_DATA,
+    },
+    {
+      ...DEFAULT_FEATURES,
+      searchExtensionsEnabled: false,
+    },
+  );
 
   expect(wrapper.find(ObjectResultComponent).props()).toMatchObject({
     href: 'href',
@@ -127,7 +133,7 @@ it('should pass the correct properties to ObjectResult for Confluence results', 
   expect(avatar.type).toEqual(PageIcon);
 });
 
-it('should render the friendly last modified date if the complex extensions feature is enabled', () => {
+it('should pass the correct properties to ObjectResult for Confluence results if search extensions if enabled', () => {
   const confluenceResults: ConfluenceObjectResult[] = [
     makeConfluenceObjectResult({
       resultId: 'resultId',
@@ -142,7 +148,7 @@ it('should render the friendly last modified date if the complex extensions feat
     },
     {
       ...DEFAULT_FEATURES,
-      complexSearchExtensionsEnabled: true,
+      searchExtensionsEnabled: true,
     },
   );
 
