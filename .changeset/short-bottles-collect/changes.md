@@ -1,0 +1,1 @@
+Removed unused dependencies from package.json for packagesglobal-navigation: @emotion/core, @atlaskit/blanket and react-transition-group were unused.
