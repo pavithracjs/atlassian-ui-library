@@ -163,7 +163,6 @@ const ContentStyles: ComponentClass<
   .fabric-editor-align-start,
   .fabric-editor-align-center,
   .fabric-editor-align-end {
-    & > .headingView-content-wrap {
       & > h1,
       & > h2,
       & > h3,
@@ -172,7 +171,6 @@ const ContentStyles: ComponentClass<
       & > h6 {
         display: inline-block;
       }
-    }
   }
 
   .hyperlink-floating-toolbar {

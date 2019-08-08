@@ -1,4 +1,4 @@
-import { copyTextToClipboard } from '../../../../plugins/heading';
+import { copyHeadingAnchorLink } from '../../../../plugins/heading';
 
 jest.mock('@atlaskit/editor-common/src/utils/copy-to-clipboard', () => ({
   clipboardApiSupported: jest.fn(),
@@ -16,15 +16,15 @@ import { asMock } from '../../../../../../../media/media-test-helpers/src';
 describe('heading', () => {
   it('returns calls copyToClipboard when clipboardApiSupported return true', () => {
     asMock(clipboardApiSupported).mockReturnValue(true);
-    copyTextToClipboard('test1');
-    expect(copyToClipboard).toHaveBeenCalledWith('test1');
+    copyHeadingAnchorLink('test1');
+    expect(copyToClipboard).toHaveBeenCalledWith('http://localhost/#test1');
   });
 
   it('returns calls copyToClipboardLegacy when clipboardApiSupported return false', () => {
     asMock(clipboardApiSupported).mockReturnValue(false);
-    copyTextToClipboard('test2');
+    copyHeadingAnchorLink('test2');
     expect(copyToClipboardLegacy).toHaveBeenCalledWith(
-      'test2',
+      'http://localhost/#test2',
       jasmine.any(Object),
     );
   });

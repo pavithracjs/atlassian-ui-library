@@ -265,7 +265,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
   }
 
   private hasSupportedParent(parent: Node): boolean {
-    return parent.type.name === 'layout';
+    return parent.type.name === 'layoutColumn';
   }
 
   private getHeadingProps(node: Node, path: Array<Node> = []) {

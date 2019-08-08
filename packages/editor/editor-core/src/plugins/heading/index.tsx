@@ -8,14 +8,16 @@ import {
   copyToClipboard,
   copyToClipboardLegacy,
 } from '@atlaskit/editor-common/src/utils/copy-to-clipboard';
+import { getCurrentUrlWithHash } from '@atlaskit/editor-common/src/utils/urls';
 
 const copyAreaRef: RefObject<HTMLElement> = React.createRef();
 
-export const copyTextToClipboard = (textToCopy: string): Promise<void> => {
+export const copyHeadingAnchorLink = (anchorName: string): Promise<void> => {
+  const link = getCurrentUrlWithHash(anchorName);
   if (clipboardApiSupported()) {
-    return copyToClipboard(textToCopy);
+    return copyToClipboard(link);
   }
-  return copyToClipboardLegacy(textToCopy, copyAreaRef.current);
+  return copyToClipboardLegacy(link, copyAreaRef.current);
 };
 
 const headingPlugin = (): EditorPlugin => ({
@@ -27,8 +29,12 @@ const headingPlugin = (): EditorPlugin => ({
     return [
       {
         name: 'heading',
-        plugin: ({ portalProviderAPI, dispatchAnalyticsEvent }) =>
-          createPlugin(portalProviderAPI, dispatchAnalyticsEvent),
+        plugin: ({ dispatchAnalyticsEvent, reactContext }) =>
+          createPlugin(
+            copyHeadingAnchorLink,
+            dispatchAnalyticsEvent,
+            reactContext,
+          ),
       },
     ];
   },

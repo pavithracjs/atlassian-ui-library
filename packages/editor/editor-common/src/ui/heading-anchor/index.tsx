@@ -5,24 +5,8 @@ import { colors } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import messages from './messages';
-import { HeadingAnchorWrapperClassName } from './heading-anchor-wrapper';
 
-const HeadingComponentWithAnchor = styled.div`
-  & .${HeadingAnchorWrapperClassName} button {
-    opacity: 0;
-    transform: translate(8px, 0px);
-    transition: opacity 0.2s ease 0s, transform 0.2s ease 0s;
-    width: 0;
-  }
-
-  &:hover {
-    & .${HeadingAnchorWrapperClassName} button {
-      opacity: 1;
-      transform: none;
-      width: unset;
-    }
-  }
-`;
+const HeadingComponentWithAnchor = styled.div``;
 
 export const HeadingComponents: {
   [key: string]: StyledComponentClass<any, any, any>;

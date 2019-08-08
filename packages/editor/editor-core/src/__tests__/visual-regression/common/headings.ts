@@ -18,6 +18,7 @@ describe('Heading:', () => {
 
   afterEach(async () => {
     await snapshot(page);
+    await page.mouse.move(-1, -1);
   });
 
   [1, 2, 3, 4, 5, 6].forEach(headingLevel => {
