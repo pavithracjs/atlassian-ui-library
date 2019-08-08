@@ -134,39 +134,54 @@ describe('map-results-to-switcher-props', () => {
           label: 'Jira Software',
           href:
             'https://site60.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          childItems: [
+            {
+              label: 'site00',
+              href:
+                'https://site00.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+            {
+              label: 'site10',
+              href:
+                'https://site10.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+
+            {
+              label: 'site30',
+              href:
+                'https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+            {
+              label: 'site60',
+              href:
+                'https://site60.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+            },
+          ],
         },
         {
           description: 'site50',
           label: 'Jira Service Desk',
           href:
             'https://site50.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=service_desk',
+          childItems: [],
         },
         {
           description: 'site40',
           label: 'Jira Core',
           href:
             'https://site40.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=business',
-        },
-        {
-          description: 'site30',
-          label: 'Jira Software',
-          href:
-            'https://site30.atlassian.net/secure/BrowseProjects.jspa?selectedProjectType=software',
+          childItems: [],
         },
         {
           description: 'site20',
           label: 'Confluence',
           href: 'https://site20.atlassian.net/wiki',
+          childItems: [],
         },
       ]);
-
-      // Expand link is rendered when there are more items.
-      expect(props.expandLink).toEqual(
-        'https://start.atlassian.com?utm_source=switcher',
-      );
     });
 
-    it('displays the 5 most active products without an expand link', () => {
+    it('shows descriptions for products that belong to multiple sites', () => {
       const props = mapResultsToSwitcherProps(
         cloudId,
         loadingProvidersResult,
@@ -189,15 +204,41 @@ describe('map-results-to-switcher-props', () => {
       );
 
       expect(props.licensedProductLinks).toMatchObject([
-        { description: 'site50', label: 'Jira Service Desk' },
-        { description: 'site40', label: 'Confluence' },
-        { description: 'site30', label: 'Jira Core' },
-        { description: 'site20', label: 'Opsgenie' },
-        { description: 'bitbucket', label: 'Bitbucket' },
+        { description: 'site50', label: 'Jira Service Desk', childItems: [] },
+        { description: 'site30', label: 'Jira Core', childItems: [] },
+        { description: 'site40', label: 'Confluence', childItems: [] },
+        { description: 'site20', label: 'Opsgenie', childItems: [] },
+        { label: 'Bitbucket', childItems: [] },
       ]);
+    });
 
-      // Expand link is not rendered when the full list of products is displayed.
-      expect(props.expandLink).toBeUndefined();
+    it('does not show descriptions for products that belong to the one site', () => {
+      const props = mapResultsToSwitcherProps(
+        cloudId,
+        loadingProvidersResult,
+        {
+          enableUserCentricProducts: true,
+          isDiscoverMoreForEveryoneEnabled: false,
+          disableCustomLinks: false,
+          disableRecentContainers: false,
+          xflow: false,
+        },
+        asCompletedProvider<AvailableProductsResponse>({
+          sites: [
+            generateSite('site10', [WorklensProductType.JIRA_SERVICE_DESK, 50]),
+            generateSite('site10', [WorklensProductType.JIRA_BUSINESS, 30]),
+            generateSite('site10', [WorklensProductType.CONFLUENCE, 40]),
+            generateSite('bitbucket', [WorklensProductType.BITBUCKET, 0]),
+          ],
+        }),
+      );
+
+      expect(props.licensedProductLinks).toMatchObject([
+        { label: 'Jira Service Desk', childItems: [] },
+        { label: 'Jira Core', childItems: [] },
+        { label: 'Confluence', childItems: [] },
+        { label: 'Bitbucket', childItems: [] },
+      ]);
     });
 
     it('renders opsgenie and bitbucket correctly', () => {
@@ -232,11 +273,12 @@ describe('map-results-to-switcher-props', () => {
           description: 'opsgenie',
           label: 'Opsgenie',
           href: 'https://app.opsgenie.com',
+          childItems: [],
         },
         {
-          description: 'bitbucket',
           label: 'Bitbucket',
           href: 'https://bitbucket.org',
+          childItems: [],
         },
       ]);
     });
