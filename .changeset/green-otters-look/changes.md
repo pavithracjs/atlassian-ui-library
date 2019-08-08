@@ -1,0 +1,1 @@
+Removed unused dependencies from package.json for droplist: keycode and classnames were unused.
