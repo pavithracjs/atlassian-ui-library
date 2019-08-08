@@ -1,5 +1,3 @@
-// @flow
-
 import styled from 'styled-components';
 import { gridSize, colors } from '@atlaskit/theme';
 
