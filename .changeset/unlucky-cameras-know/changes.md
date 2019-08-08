@@ -1,0 +1,1 @@
+@types/node-fetch was declared in devDependencies and dependencies. Move @types/node-fetch, @types/node, @types/url-parse from dependencies to devDependencies.

@@ -1,0 +1,6 @@
+{
+  "releases": [
+    { "name": "@atlaskit/dependency-version-analytics", "type": "patch" }
+  ],
+  "dependents": []
+}
