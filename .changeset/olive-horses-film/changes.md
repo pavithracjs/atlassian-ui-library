@@ -1,1 +1,0 @@
-Licensed links in switcher are now grouped by product, with a dropdown that containing individual site options for sited products
