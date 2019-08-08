@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tabs",
-  "version": "11.0.3",
+  "version": "11.0.4",
   "description": "A React component for displaying multiple panels within a single window",
   "license": "Apache-2.0",
   "types": "dist/cjs/index.d.ts",

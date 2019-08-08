@@ -1,1 +1,0 @@
-Moved dependencies to devDependencies in progress-tracker: move 'react-dom' to devDependencies.
