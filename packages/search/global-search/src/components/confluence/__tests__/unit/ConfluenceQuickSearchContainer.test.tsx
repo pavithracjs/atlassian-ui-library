@@ -55,7 +55,6 @@ const referralContextIdentifiers: ReferralContextIdentifiers = {
 
 const DEFAULT_FEATURES: ConfluenceFeatures = {
   abTest: DEFAULT_AB_TEST,
-  isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,
