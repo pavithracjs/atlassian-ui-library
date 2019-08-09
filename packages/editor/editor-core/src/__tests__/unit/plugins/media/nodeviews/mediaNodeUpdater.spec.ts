@@ -10,6 +10,7 @@ import {
 } from '@atlaskit/media-test-helpers';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import * as commands from '../../../../../plugins/media/commands';
+import * as mediaCommon from '../../../../../plugins/media/utils/media-common';
 import { MediaNodeUpdater } from '../../../../../plugins/media/nodeviews/mediaNodeUpdater';
 import { EventDispatcher } from '../../../../../event-dispatcher';
 import {
@@ -21,6 +22,9 @@ describe('MediaNodeUpdater', () => {
   const setup = () => {
     jest.resetAllMocks();
     jest.spyOn(commands, 'updateMediaNodeAttrs').mockReturnValue(() => {});
+    jest
+      .spyOn(mediaCommon, 'getViewMediaClientConfigFromMediaProvider')
+      .mockReturnValue(getDefaultMediaClientConfig());
 
     const mediaClient = fakeMediaClient();
     asMockReturnValue(getMediaClient, mediaClient);
@@ -90,6 +94,37 @@ describe('MediaNodeUpdater', () => {
         {
           __contextId: 'object-id',
           contextId: 'object-id',
+        },
+        true,
+      );
+    });
+  });
+
+  describe('updateFileAttrs()', () => {
+    it('should update node attrs with file attributes', async () => {
+      const { mediaNodeUpdater } = setup();
+
+      const mediaClient = fakeMediaClient();
+      asMockReturnValue(
+        mediaClient.file.getCurrentState,
+        Promise.resolve({
+          size: 10,
+          name: 'some-file',
+          mimeType: 'image/jpeg',
+        } as any),
+      );
+
+      asMockReturnValue(getMediaClient, mediaClient);
+
+      await mediaNodeUpdater.updateFileAttrs();
+
+      expect(commands.updateMediaNodeAttrs).toBeCalledTimes(1);
+      expect(commands.updateMediaNodeAttrs).toBeCalledWith(
+        'source-file-id',
+        {
+          __fileName: 'some-file',
+          __fileMimeType: 'image/jpeg',
+          __fileSize: 10,
         },
         true,
       );
