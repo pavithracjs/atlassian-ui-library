@@ -1,5 +1,13 @@
 # @atlaskit/media-store
 
+## 12.0.7
+
+### Patch Changes
+
+- [patch][ae61b5d061](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ae61b5d061):
+
+  Move @types/query-string from dependencies to devDependencies.
+
 ## 12.0.6
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):

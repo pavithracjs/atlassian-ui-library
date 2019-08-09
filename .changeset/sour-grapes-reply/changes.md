@@ -1,1 +1,0 @@
-Move @types/query-string from dependencies to devDependencies.

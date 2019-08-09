@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 46.0.5
+
+### Patch Changes
+
+- [patch][7c762529af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c762529af):
+
+  Move @types/bricks.js from dependencies to devDependencies.
+
 ## 46.0.4
 
 ### Patch Changes

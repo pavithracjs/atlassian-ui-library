@@ -1,1 +1,0 @@
-Move @types/js-search from dependencies to devDependencies.

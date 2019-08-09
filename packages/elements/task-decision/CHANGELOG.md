@@ -1,5 +1,13 @@
 # @atlaskit/task-decision
 
+## 15.2.1
+
+### Patch Changes
+
+- [patch][aaefedf60d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aaefedf60d):
+
+  Move @types/react-loadable from dependencies to devDependencies.
+
 ## 15.2.0
 
 ### Minor Changes

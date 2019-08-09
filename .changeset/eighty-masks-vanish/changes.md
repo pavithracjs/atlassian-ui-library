@@ -1,1 +1,0 @@
-Move @types/bytes from dependencies to devDependencies.

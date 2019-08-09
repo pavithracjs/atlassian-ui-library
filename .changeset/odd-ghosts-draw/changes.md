@@ -1,1 +1,0 @@
-Move @types/bricks.js from dependencies to devDependencies.

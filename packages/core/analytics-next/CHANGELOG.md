@@ -1,5 +1,13 @@
 # @atlaskit/analytics-next
 
+## 5.3.0
+
+### Minor Changes
+
+- [minor][ed9ae90c94](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed9ae90c94):
+
+  Adding Analytics Error Boundary component
+
 ## 5.2.0
 
 ### Minor Changes
