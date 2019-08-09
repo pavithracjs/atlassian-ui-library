@@ -56,6 +56,7 @@ export enum Feature {
   disableRecentContainers = 'disableRecentContainers',
   xflow = 'xflow',
   isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
+  experimental_productTopItemMostFrequent = 'experimental_productTopItemMostFrequent',
 }
 
 export type FeatureFlagProps = {

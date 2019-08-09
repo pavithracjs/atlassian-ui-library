@@ -230,9 +230,12 @@ const getLinkDescription = (
 const getAvailableProductLinkFromSiteProduct = (
   connectedSites: ConnectedSite[],
   singleSite: boolean,
+  productTopItemMostFrequent: boolean,
 ): SwitcherItemType => {
+  // if productTopItemMostFrequent feature flag is enabled, always show most frequently visited site at the top
   const topSite =
-    connectedSites.find(site => site.isCurrentSite) ||
+    (!productTopItemMostFrequent &&
+      connectedSites.find(site => site.isCurrentSite)) ||
     connectedSites.sort(
       (a, b) => b.product.activityCount - a.product.activityCount,
     )[0];
@@ -260,6 +263,7 @@ const getAvailableProductLinkFromSiteProduct = (
 export const getAvailableProductLinks = (
   availableProducts: AvailableProductsResponse,
   cloudId: string | null | undefined,
+  productTopItemMostFrequent: boolean,
 ): SwitcherItemType[] => {
   const productsMap: { [key: string]: ConnectedSite[] } = {};
 
@@ -288,6 +292,7 @@ export const getAvailableProductLinks = (
       getAvailableProductLinkFromSiteProduct(
         connectedSites,
         availableProducts.sites.length === 1,
+        productTopItemMostFrequent,
       )
     );
   }).filter(link => !!link);
