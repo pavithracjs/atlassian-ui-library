@@ -2,11 +2,12 @@ jest.mock('@atlaskit/media-client');
 
 import { ContextIdentifierProvider } from '@atlaskit/editor-common';
 import { EditorView } from 'prosemirror-view';
-import { getMediaClient } from '@atlaskit/media-client';
+import { getMediaClient, FileState } from '@atlaskit/media-client';
 import {
   getDefaultMediaClientConfig,
   asMockReturnValue,
   fakeMediaClient,
+  asMock,
 } from '@atlaskit/media-test-helpers';
 import { MediaClientConfig } from '@atlaskit/media-core';
 import * as commands from '../../../../../plugins/media/commands';
@@ -105,13 +106,15 @@ describe('MediaNodeUpdater', () => {
       const { mediaNodeUpdater } = setup();
 
       const mediaClient = fakeMediaClient();
-      asMockReturnValue(
-        mediaClient.file.getCurrentState,
-        Promise.resolve({
-          size: 10,
-          name: 'some-file',
-          mimeType: 'image/jpeg',
-        } as any),
+
+      const fileState: Partial<FileState> = {
+        size: 10,
+        name: 'some-file',
+        mimeType: 'image/jpeg',
+      };
+
+      asMock(mediaClient.file.getCurrentState).mockReturnValue(
+        Promise.resolve(fileState),
       );
 
       asMockReturnValue(getMediaClient, mediaClient);
