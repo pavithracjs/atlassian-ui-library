@@ -215,6 +215,53 @@ const rendererDoc = {
         },
       ],
     },
+    {
+      type: 'mediaGroup',
+      content: [
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: '26adc5af-3af4-42a8-9c24-62b6ce0f9369',
+            collection: 'MediaServicesSample',
+            width: 480,
+            height: 320,
+          },
+        },
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: '71cd7e7d-4e86-4b89-a0b4-7f6ffe013c94',
+            collection: 'MediaServicesSample',
+          },
+        },
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: '1b01a476-83b4-4f44-8192-f83b2d00913a',
+            collection: 'MediaServicesSample',
+          },
+        },
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: 'a965c8df-1d64-4db8-9de5-16dfa8fd2e12',
+            collection: 'MediaServicesSample',
+          },
+        },
+        {
+          type: 'media',
+          attrs: {
+            type: 'file',
+            id: '2dfcc12d-04d7-46e7-9fdf-3715ff00ba40',
+            collection: 'MediaServicesSample',
+          },
+        },
+      ],
+    },
   ],
 };
 const mediaProvider = getMediaProvider(defaultCollectionName);

@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { media, mediaGroup, mediaSingle } from '@atlaskit/adf-schema';
-import { EditorPlugin, PMPluginFactoryParams } from '../../types';
+import {
+  EditorPlugin,
+  EditorAppearance,
+  PMPluginFactoryParams,
+} from '../../types';
 import {
   stateKey as pluginKey,
   createPlugin,
@@ -65,6 +69,7 @@ export interface MediaPMPluginOptions {
 const mediaPlugin = (
   options?: MediaOptions,
   pluginOptions?: MediaPMPluginOptions,
+  appearance?: EditorAppearance,
 ): EditorPlugin => ({
   nodes() {
     return [
@@ -108,7 +113,9 @@ const mediaPlugin = (
               nodeViews: {
                 mediaGroup: ReactMediaGroupNode(
                   portalProviderAPI,
+                  providerFactory,
                   pluginOptions && pluginOptions.allowLazyLoading,
+                  // props.appearance, TODO: required? not in ENR
                 ),
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,
@@ -236,6 +243,7 @@ const mediaPlugin = (
     floatingToolbar: (state, intl, providerFactory) =>
       floatingToolbar(state, intl, {
         providerFactory,
+        // appearance, // TODO: required?
         allowResizing: options && options.allowResizing,
         allowAnnotation: options && options.allowAnnotation,
         allowLinking: options && options.allowLinking,
