@@ -29,7 +29,7 @@ class TableHead extends React.Component<Props, {}> {
     }
   }
 
-  canSortOnEnter = (e: KeyboardEvent, isSortable: Boolean | void) =>
+  canSortOnEnterPressed = (e: KeyboardEvent, isSortable: Boolean | void) =>
     isSortable && e.key === 'Enter';
 
   render() {
@@ -65,7 +65,7 @@ class TableHead extends React.Component<Props, {}> {
                 key={key || index}
                 onClick={isSortable ? onSort(cell) : undefined}
                 onKeyDown={(e: KeyboardEvent) =>
-                  this.canSortOnEnter(e, isSortable)
+                  this.canSortOnEnterPressed(e, isSortable)
                     ? onSort(cell)()
                     : undefined
                 }
