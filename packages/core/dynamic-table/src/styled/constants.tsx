@@ -37,7 +37,7 @@ export const onClickStyle = ({ onClick }: { onClick?: boolean }) =>
   css`
     &:hover {
       cursor: pointer;
-      background-color: ${colors.N20A};
+      background-color: ${colors.N30A};
     }
   `;
 
