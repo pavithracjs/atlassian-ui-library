@@ -3,7 +3,7 @@ import Button from '../src';
 
 export default () => (
   <Button
-    data-testid="MyButtonTestId"
+    testId="MyButtonTestId"
     onClick={() => alert('Button has been clicked!')}
   >
     Button
