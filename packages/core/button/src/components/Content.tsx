@@ -7,8 +7,9 @@ import { getLoadingStyle } from './utils';
 interface Props {
   followsIcon: boolean;
   spacing: string;
-  isLoading?: boolean;
   children?: React.ReactNode;
+  isLoading?: boolean;
+  testId?: string;
 }
 
 export default ({
