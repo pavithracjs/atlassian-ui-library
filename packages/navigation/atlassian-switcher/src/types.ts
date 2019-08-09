@@ -56,14 +56,19 @@ export enum Feature {
   disableRecentContainers = 'disableRecentContainers',
   xflow = 'xflow',
   isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
-  experimental_productTopItemMostFrequent = 'experimental_productTopItemMostFrequent',
+}
+
+export enum MultiVariateFeature {
+  productTopItemVariation = 'productTopItemVariation',
 }
 
 export type FeatureFlagProps = {
   [key in Exclude<Feature, typeof Feature.xflow>]: boolean
-};
+} &
+  { [key in MultiVariateFeature]: string };
 
-export type FeatureMap = { [key in Feature]: boolean };
+export type FeatureMap = { [key in Feature]: boolean } &
+  { [key in MultiVariateFeature]: string };
 
 export type CustomLinksResponse = CustomLink[];
 

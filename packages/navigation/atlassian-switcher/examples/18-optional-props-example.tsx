@@ -5,6 +5,9 @@ import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
 
+const MOST_FREQUENT_SITE = 'most-frequent-site';
+const CURRENT_SITE = 'current-site';
+
 class OptionalContainersExample extends React.Component {
   state = {
     isDrawerOpen: false,
@@ -13,7 +16,7 @@ class OptionalContainersExample extends React.Component {
     disableRecentContainers: false,
     disableCloudId: false,
     disableXFlow: false,
-    productTopItemMostFrequent: false,
+    productTopItemVariation: MOST_FREQUENT_SITE,
   };
 
   openDrawer = () => {
@@ -62,7 +65,7 @@ class OptionalContainersExample extends React.Component {
       disableXFlow,
       enableUserCentricProducts,
       disableCustomLinks,
-      productTopItemMostFrequent,
+      productTopItemVariation,
     } = this.state;
 
     return (
@@ -75,7 +78,7 @@ class OptionalContainersExample extends React.Component {
             disableCustomLinks={disableCustomLinks}
             enableUserCentricProducts={enableUserCentricProducts}
             triggerXFlow={disableXFlow ? undefined : this.onTriggerXFlow}
-            experimental_productTopItemMostFrequent={productTopItemMostFrequent}
+            productTopItemVariation={productTopItemVariation}
           />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
@@ -127,12 +130,8 @@ class OptionalContainersExample extends React.Component {
           >
             Custom links
           </Button>
-          <Button
-            type="button"
-            onClick={this.toggleProductTopItemMostFrequent}
-            isSelected={!productTopItemMostFrequent}
-          >
-            Product top item is the most frequent
+          <Button type="button" onClick={this.toggleProductTopItemVariation}>
+            Product top item is {productTopItemVariation}
           </Button>
         </div>
       </div>
@@ -169,9 +168,13 @@ class OptionalContainersExample extends React.Component {
     });
   };
 
-  private toggleProductTopItemMostFrequent = () => {
+  private toggleProductTopItemVariation = () => {
+    const { productTopItemVariation } = this.state;
     this.setState({
-      productTopItemMostFrequent: !this.state.productTopItemMostFrequent,
+      productTopItemVariation:
+        productTopItemVariation === MOST_FREQUENT_SITE
+          ? CURRENT_SITE
+          : MOST_FREQUENT_SITE,
     });
   };
 }

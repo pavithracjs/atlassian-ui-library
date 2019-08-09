@@ -46,7 +46,7 @@ type SwitcherProps = {
   adminLinks: SwitcherItemType[];
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
-  experimental_productTopItemMostFrequent?: boolean;
+  productTopItemVariation?: string;
   manageLink?: string;
 };
 
@@ -128,7 +128,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
       manageLink,
       hasLoaded,
       hasLoadedCritical,
-      experimental_productTopItemMostFrequent,
+      productTopItemVariation,
     } = this.props;
 
     /**
@@ -147,16 +147,17 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     const firstContentArrived = Boolean(licensedProductLinks.length);
 
-    const allSites =
-      licensedProductLinks &&
-      licensedProductLinks.map(item => {
-        const connectedSites = item.childItems
-          ? item.childItems.map(childItem => childItem.label)
-          : [];
+    let numberOfSites = firstContentArrived ? 1 : 0;
+    if (licensedProductLinks) {
+      const allSites = licensedProductLinks
+        .map(item => (item.childItems || []).map(childItem => childItem.label))
+        .reduce((previous, current) => [...previous, ...current], []);
 
-        return [item.description, ...connectedSites];
-      });
-    const hasMultipleSites = allSites && [...new Set(allSites)].length > 1;
+      const uniqueSites = new Set(allSites);
+      if (uniqueSites.size > 0) {
+        numberOfSites = uniqueSites.size;
+      }
+    }
 
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
@@ -169,9 +170,8 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 suggestedProducts: suggestedProductLinks.map(item => item.key),
                 adminLinks: adminLinks.map(item => item.key),
                 fixedLinks: fixedLinks.map(item => item.key),
-                experimental_productTopItemMostFrequent: hasMultipleSites
-                  ? Boolean(experimental_productTopItemMostFrequent)
-                  : null,
+                numberOfSites,
+                productTopItemVariation,
               }}
             />
           )}
