@@ -31,8 +31,17 @@ describe('AnalyticsErrorBoundary', () => {
         <div className="child-component" />
       </AnalyticsErrorBoundary>,
     );
-
     expect(wrapper.find('.child-component')).toHaveLength(1);
+  });
+
+  it('should NOT be called if there is no error', () => {
+    mount(
+      <AnalyticsErrorBoundary {...props}>
+        <div className="child-component" />
+      </AnalyticsErrorBoundary>,
+    );
+
+    expect(createAnalyticsEvent).not.toHaveBeenCalled();
   });
 
   it('should fire an analytics event if error has been triggered in one of the children components', () => {
@@ -60,16 +69,14 @@ describe('AnalyticsErrorBoundary', () => {
       return <div className="child-component" />;
     };
 
-    expect(() => {
-      mount(
-        <AnalyticsErrorBoundary
-          {...props}
-          createAnalyticsEvent={createAnalyticsEvent}
-        >
-          <Something error />
-        </AnalyticsErrorBoundary>,
-      );
-    }).toThrow();
+    mount(
+      <AnalyticsErrorBoundary
+        {...props}
+        createAnalyticsEvent={createAnalyticsEvent}
+      >
+        <Something error />
+      </AnalyticsErrorBoundary>,
+    );
 
     expect(createAnalyticsEvent).toHaveBeenNthCalledWith(
       1,

@@ -13,7 +13,7 @@ export type AnalyticsErrorBoundaryProps = {
   ...$Exact<WithAnalyticsEventsProps>,
   /** React component to be wrapped */
   children: Node,
-  channel: String,
+  channel: string,
   data: {},
 };
 
