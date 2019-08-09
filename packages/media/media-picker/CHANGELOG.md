@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 46.0.4
+
+### Patch Changes
+
+- [patch][116236c249](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/116236c249):
+
+  Instrument analytics for media-picker's dropzone draggedInto, draggedOut and droppedInto actions
+
 ## 46.0.3
 
 - Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):
