@@ -1,0 +1,1 @@
+Move @types/react-loadable from dependencies to devDependencies.
