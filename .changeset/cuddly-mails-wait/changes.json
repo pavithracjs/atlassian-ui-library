@@ -1,0 +1,146 @@
+{
+  "releases": [{ "name": "@atlaskit/media-client", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/editor-common",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/editor-common",
+        "@atlaskit/renderer",
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-editor",
+        "@atlaskit/media-filmstrip",
+        "@atlaskit/media-picker",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/editor-mobile-bridge",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/editor-common",
+        "@atlaskit/editor-core",
+        "@atlaskit/renderer",
+        "@atlaskit/media-core",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/renderer",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/editor-common",
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-filmstrip",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-card",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-store",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-viewer",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-editor",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-store",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-filmstrip",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-image",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-store",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-editor",
+        "@atlaskit/media-store",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-viewer",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-store",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-test-helpers",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-picker",
+        "@atlaskit/media-store",
+        "@atlaskit/media-client"
+      ]
+    },
+    {
+      "name": "@atlaskit/media-viewer",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/media-card",
+        "@atlaskit/media-core",
+        "@atlaskit/media-store",
+        "@atlaskit/media-test-helpers",
+        "@atlaskit/media-client"
+      ]
+    }
+  ]
+}
