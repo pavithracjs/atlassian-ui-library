@@ -18,12 +18,12 @@ import {
   AnalyticsEventPayload,
 } from '@atlaskit/analytics-next';
 
+import { FabricChannel } from '@atlaskit/analytics-listeners';
+
 import {
   name as packageName,
   version as packageVersion,
 } from '../../version.json';
-
-const ANALYTICS_CHANNEL = 'media';
 
 export type DropzoneProps = LocalUploadComponentBaseProps &
   WithAnalyticsEventProps &
@@ -222,9 +222,10 @@ export class DropzoneBase extends LocalUploadComponentReact<
   }
 
   private fireAnalyticsEvent(payload: AnalyticsEventPayload): void {
-    if (this.props.createAnalyticsEvent) {
-      const analyticsEvent = this.props.createAnalyticsEvent(payload);
-      analyticsEvent.fire(ANALYTICS_CHANNEL);
+    const { createAnalyticsEvent } = this.props;
+    if (createAnalyticsEvent) {
+      const analyticsEvent = createAnalyticsEvent(payload);
+      analyticsEvent.fire(FabricChannel.media);
     }
   }
 
