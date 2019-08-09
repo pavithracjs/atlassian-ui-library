@@ -52,9 +52,12 @@ export default class App extends Component<void> {
       <AnalyticsListener channel="atlaskit" onEvent={this.handleEvent}>
         <AnalyticsErrorBoundary
           channel="atlaskit"
-          componentName="button"
-          packageName="@atlaskit/button"
-          componentVersion="999.9.9"
+          data={{
+            componentName: 'button',
+            packageName: '@atlaskit/button',
+            componentVersion: '999.9.9',
+          }}
+          createAnalyticsEvent
         >
           <>
             <p>

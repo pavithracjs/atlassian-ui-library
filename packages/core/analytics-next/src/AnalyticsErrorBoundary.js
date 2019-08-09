@@ -13,19 +13,8 @@ export type AnalyticsErrorBoundaryProps = {
   ...$Exact<WithAnalyticsEventsProps>,
   /** React component to be wrapped */
   children: Node,
-  /** Package name of the wrapped component (it will be added on payload) */
-  packageName: string,
-  /** Version of the wrapped component (it will be added on payload) */
-  componentVersion: string,
-  /** Name of the wrapped component (it will be added on payload) */
-  componentName: string,
-  /** The channel to listen for events on. */
-  channel?: string,
-};
-
-export type AnalyticsErrorBoundaryState = {
-  error: ?Error,
-  info: ?AnalyticsErrorBoundaryErrorInfo,
+  channel: String,
+  data: {},
 };
 
 type AnalyticsErrorBoundaryPayload = {
@@ -39,74 +28,44 @@ const isObject = (o: any) =>
 
 export class BaseAnalyticsErrorBoundary extends Component<
   AnalyticsErrorBoundaryProps,
-  AnalyticsErrorBoundaryState,
+  {},
 > {
-  state = {
-    error: null,
-    info: null,
-  };
-
   fireAnalytics = (analyticsErrorPayload: AnalyticsErrorBoundaryPayload) => {
-    const {
-      createAnalyticsEvent,
-      packageName,
-      componentVersion,
-      componentName,
-      channel,
-    } = this.props;
+    const { createAnalyticsEvent, channel, data } = this.props;
 
-    if (typeof createAnalyticsEvent === 'function') {
-      // Create our analytics event
-      const analyticsEvent = createAnalyticsEvent({
-        action: 'UnhandledError',
-        eventType: 'ui',
-        attributes: {
-          browserInfo:
-            window && window.navigator && window.navigator.userAgent
-              ? window.navigator.userAgent
-              : 'unknown',
-          componentName,
-          componentVersion,
-          packageName,
-          ...(isObject(analyticsErrorPayload) ? analyticsErrorPayload : {}),
-        },
-      });
-      // Fire our analytics event on the 'atlaskit' channel
-      analyticsEvent.fire(channel);
-    }
+    // Create our analytics event
+    const analyticsEvent = createAnalyticsEvent({
+      action: 'UnhandledError',
+      eventType: 'ui',
+      attributes: {
+        browserInfo:
+          window && window.navigator && window.navigator.userAgent
+            ? window.navigator.userAgent
+            : 'unknown',
+        ...data,
+        ...(isObject(analyticsErrorPayload) ? analyticsErrorPayload : {}),
+      },
+    });
+
+    // Fire our analytics event on the channel
+    analyticsEvent.fire(channel);
   };
 
   componentDidCatch(
     error: Error,
     info?: AnalyticsErrorBoundaryErrorInfo,
   ): void {
-    const { createAnalyticsEvent } = this.props;
-    if (typeof createAnalyticsEvent === 'function') {
-      const payload: AnalyticsErrorBoundaryPayload = {
-        error,
-        info,
-      };
-      // Fire our analytics event on the given channel
-      this.fireAnalytics(payload);
-    }
+    const payload: AnalyticsErrorBoundaryPayload = {
+      error,
+      info,
+    };
 
-    this.setState({ error, info: info || null });
+    this.fireAnalytics(payload);
   }
 
   render() {
-    const { packageName, componentVersion, componentName } = this.props;
-
-    const analyticsContextData = {
-      packageName,
-      componentVersion,
-      componentName,
-    };
-
-    return (
-      <AnalyticsContext data={analyticsContextData}>
-        {this.props.children}
-      </AnalyticsContext>
-    );
+    const { data, children } = this.props;
+    return <AnalyticsContext data={data}>{children}</AnalyticsContext>;
   }
 }
 

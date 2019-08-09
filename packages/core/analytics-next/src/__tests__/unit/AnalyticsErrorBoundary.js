@@ -8,10 +8,12 @@ import UIAnalyticsEvent from '../../UIAnalyticsEvent';
 const createAnalyticsEvent = jest.fn();
 const props = {
   channel: 'atlaskit',
-  componentName: 'button',
-  packageName: '@atlaskit/button',
-  componentVersion: '999.9.9',
   createAnalyticsEvent,
+  data: {
+    componentName: 'button',
+    packageName: '@atlaskit/button',
+    componentVersion: '999.9.9',
+  },
 };
 
 describe('AnalyticsErrorBoundary', () => {
