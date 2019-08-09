@@ -1,5 +1,13 @@
 # @atlaskit/textfield
 
+## 2.0.5
+
+### Patch Changes
+
+- [patch][2fe6e8fbdf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2fe6e8fbdf):
+
+  Removed unused dependencies from package.json for textfield: @emotion/core was unused.
+
 ## 2.0.4
 
 ### Patch Changes

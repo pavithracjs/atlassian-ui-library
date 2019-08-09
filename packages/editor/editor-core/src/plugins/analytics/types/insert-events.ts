@@ -176,7 +176,7 @@ type InsertMediaAEP = InsertAEP<
   ACTION_SUBJECT_ID.MEDIA,
   {
     inputMethod: InputMethodInsertMedia;
-    fileExtension: string | undefined;
+    fileExtension?: string;
   },
   undefined
 >;
@@ -234,6 +234,28 @@ type InsertMediaLinkAEP = InsertAEP<
   undefined
 >;
 
+type InsertLayoutAEP = InsertAEP<
+  ACTION_SUBJECT_ID.LAYOUT,
+  {
+    inputMethod:
+      | INPUT_METHOD.TOOLBAR
+      | INPUT_METHOD.INSERT_MENU
+      | INPUT_METHOD.QUICK_INSERT;
+  },
+  undefined
+>;
+
+type InsertDateAEP = InsertAEP<
+  ACTION_SUBJECT_ID.DATE,
+  {
+    inputMethod:
+      | INPUT_METHOD.QUICK_INSERT
+      | INPUT_METHOD.TOOLBAR
+      | INPUT_METHOD.INSERT_MENU;
+  },
+  undefined
+>;
+
 export type InsertEventPayload =
   | InsertDividerAEP
   | InsertLineBreakAEP
@@ -247,4 +269,6 @@ export type InsertEventPayload =
   | InsertLinkAEP
   | InsertLinkPreviewAEP
   | InsertMediaLinkAEP
-  | InsertSmartLinkAEP;
+  | InsertSmartLinkAEP
+  | InsertLayoutAEP
+  | InsertDateAEP;

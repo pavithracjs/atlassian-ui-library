@@ -1,5 +1,13 @@
 # @atlaskit/emoji
 
+## 62.2.7
+
+### Patch Changes
+
+- [patch][43f66019ee](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/43f66019ee):
+
+  Updates dependency on p-wait-for
+
 ## 62.2.6
 
 ### Patch Changes

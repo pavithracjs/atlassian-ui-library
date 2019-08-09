@@ -110,7 +110,6 @@ describe('Media Analytics', () => {
       const imageFilePng: MediaFile = {
         ...imageFile,
         id: '2',
-        upfrontId: Promise.resolve('2'),
         type: 'image/png',
         name: 'bilby.png',
       };
@@ -128,8 +127,7 @@ describe('Media Analytics', () => {
       const imageNoExtension: MediaFile = {
         ...imageFile,
         id: '3',
-        upfrontId: Promise.resolve('3'),
-        type: '',
+        type: 'image/png',
         name: 'bettong',
       };
       insertMedia(imageNoExtension);

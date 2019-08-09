@@ -18,7 +18,6 @@ import {
   UploadableFileUpfrontIds,
 } from '@atlaskit/media-store';
 import { EventEmitter2 } from 'eventemitter2';
-import { map } from 'rxjs/operators/map';
 import { MediaFile } from '../domain/file';
 
 import { RECENTS_COLLECTION } from '../popup/config';
@@ -44,7 +43,6 @@ export interface CancellableFileUpload {
 
 export class UploadServiceImpl implements UploadService {
   private readonly userMediaStore?: MediaStore;
-  private readonly tenantMediaStore: MediaStore;
   private readonly userMediaClient?: MediaClient;
   private readonly emitter: EventEmitter2;
   private cancellableFilesUploads: { [key: string]: CancellableFileUpload };
@@ -56,14 +54,7 @@ export class UploadServiceImpl implements UploadService {
   ) {
     this.emitter = new EventEmitter2();
     this.cancellableFilesUploads = {};
-    const {
-      authProvider: tenantAuthProvider,
-      userAuthProvider,
-    } = tenantMediaClient.config;
-    // We need a non user auth store, since we want to create the empty file in the public collection
-    this.tenantMediaStore = new MediaStore({
-      authProvider: tenantAuthProvider,
-    });
+    const { userAuthProvider } = tenantMediaClient.config;
 
     if (userAuthProvider) {
       this.userMediaStore = new MediaStore({
@@ -172,32 +163,8 @@ export class UploadServiceImpl implements UploadService {
           uploadableUpfrontIds,
         );
 
-        let userUpfrontId: Promise<string> | undefined;
-        let userOccurrenceKey: Promise<string> | undefined;
-        let upfrontId = Promise.resolve(id);
-
-        if (!shouldCopyFileToRecents) {
-          const tenantOccurrenceKey = uuidV4();
-          const { collection } = this.tenantUploadParams;
-          const options = {
-            collection,
-            occurrenceKey: tenantOccurrenceKey,
-          };
-          // We want to create an empty file in the tenant collection
-          // TODO [MS-1355]: using mediaClient.file.touchFiles instead of createFile will speed up things
-          // since we can lookup the id in the cache without wait for this to finish
-          upfrontId = this.tenantMediaStore
-            .createFile(options)
-            .then(response => response.data.id);
-          userUpfrontId = Promise.resolve(id);
-          userOccurrenceKey = Promise.resolve(occurrenceKey);
-        }
-
         const mediaFile: MediaFile = {
           id,
-          upfrontId,
-          userUpfrontId,
-          userOccurrenceKey,
           name: file.name,
           size: file.size,
           creationDate,
@@ -238,16 +205,6 @@ export class UploadServiceImpl implements UploadService {
         // Save observable in the cache
         // We want to save the observable without collection too, due consumers using cards without collection.
         getFileStreamsCache().set(id, observable);
-        upfrontId.then(id => {
-          // We assign the tenant id to the observable to not emit user id instead
-          const tenantObservable = observable.pipe(
-            map(file => ({
-              ...file,
-              id,
-            })),
-          );
-          getFileStreamsCache().set(id, tenantObservable);
-        });
 
         return cancellableFileUpload;
       },

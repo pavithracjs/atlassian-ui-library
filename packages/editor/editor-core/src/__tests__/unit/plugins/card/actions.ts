@@ -49,8 +49,10 @@ describe('card', () => {
         dispatch(setProvider(provider)(state.tr));
 
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [],
           provider: provider,
+          showLinkingToolbar: false,
         });
       });
     });
@@ -103,8 +105,10 @@ describe('card', () => {
         editorView.dispatch(resolveCard(atlassianUrl)(editorView.state.tr));
 
         expect(pluginKey.getState(editorView.state)).toEqual({
+          cards: [],
           requests: [],
           provider: null,
+          showLinkingToolbar: false,
         });
       });
     });

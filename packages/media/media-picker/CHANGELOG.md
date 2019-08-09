@@ -1,5 +1,29 @@
 # @atlaskit/media-picker
 
+## 46.0.2
+
+### Patch Changes
+
+- [patch][da814b8ebc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da814b8ebc):
+
+  Bump media-picker to fix the master bbranch where bitbucket and npm are out of sync.
+
+## 46.0.1
+
+### Patch Changes
+
+- [patch][6744fe7753](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6744fe7753):
+
+  Adding dispatch for failure errors in media picker
+
+## 46.0.0
+
+### Major Changes
+
+- [major][4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):
+
+  Remove three fields from MediaFile interface: upfrontId, userUpfrontId and userOccurrenceKey.
+
 ## 45.0.9
 
 ### Patch Changes

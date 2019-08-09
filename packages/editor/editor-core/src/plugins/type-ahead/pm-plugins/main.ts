@@ -36,7 +36,7 @@ export type PluginState = {
   queryStarted: number;
   upKeyCount: number;
   downKeyCount: number;
-  spotlight?: JSX.Element | null;
+  highlight?: JSX.Element | null;
 };
 
 export const ACTIONS = {
@@ -353,7 +353,7 @@ export function defaultActionHandler({
   const typeAheadHandler = typeAhead.find(t => t.trigger === trigger)!;
   let typeAheadItems: Array<TypeAheadItem> | Promise<Array<TypeAheadItem>> = [];
   let itemsLoader: TypeAheadItemsLoader = null;
-  let spotlight: JSX.Element | null = null;
+  let highlight: JSX.Element | null = null;
 
   try {
     const { intl } = reactContext();
@@ -369,8 +369,8 @@ export function defaultActionHandler({
       dispatch,
     );
 
-    if (typeAheadHandler.getSpotlight) {
-      spotlight = typeAheadHandler.getSpotlight(state);
+    if (typeAheadHandler.getHighlight) {
+      highlight = typeAheadHandler.getHighlight(state);
     }
 
     if (pluginState.itemsLoader) {
@@ -401,7 +401,7 @@ export function defaultActionHandler({
     queryStarted: Date.now(),
     upKeyCount: 0,
     downKeyCount: 0,
-    spotlight,
+    highlight,
   };
 
   dispatch(pluginKey, newPluginState);

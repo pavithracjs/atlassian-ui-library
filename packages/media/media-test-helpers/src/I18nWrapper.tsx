@@ -7,6 +7,11 @@ import * as es from 'react-intl/locale-data/es';
 
 addLocaleData(es);
 
+// Using it to show only the messages with i18 integrated
+const enabledLanguages = {
+  en: languages.en,
+  es: languages.es,
+};
 export interface I18NWrapperState {
   locale: string;
 }
@@ -37,9 +42,13 @@ export class I18NWrapper extends Component<I18NWrapperProps, I18NWrapperState> {
         locale={this.getLocalTag(locale)}
         messages={locales[locale]}
       >
-        <div>
+        <div style={{ paddingTop: '40px' }}>
+          <p>
+            Use the Select to move between "English" and "Spanish", click in the
+            "Show Popup" to check the i18 integration.
+          </p>
           <LanguagePicker
-            languages={languages}
+            languages={enabledLanguages}
             locale={locale}
             onChange={this.loadLocale}
           />

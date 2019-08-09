@@ -2,7 +2,7 @@
   {
     "team": "core",
     "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "dependent": true,
     "id": "src.main",
     "name": "main",
@@ -14,7 +14,7 @@
   {
     "team": "core",
     "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "dependent": true,
     "id": "node_modules.main",
     "name": "node_modules [main]",
@@ -26,7 +26,7 @@
   {
     "team": "core",
     "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "dependent": true,
     "id": "atlaskit.core.main",
     "name": "main",
@@ -38,7 +38,7 @@
   {
     "team": "core",
     "package": "@atlaskit/progress-tracker",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "dependent": true,
     "id": "combined.main",
     "name": "main",

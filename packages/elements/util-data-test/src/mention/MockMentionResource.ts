@@ -31,7 +31,7 @@ export interface MockMentionConfig {
   minWait?: number;
   maxWait?: number;
   mentionNameResolver?: MentionNameResolver;
-  enableSpotlight?: boolean;
+  enableTeamMentionHighlight?: boolean;
 }
 
 export const createMockMentionNameResolver = () => {
@@ -143,7 +143,8 @@ export class MockMentionResource extends AbstractMentionResource
     return mention.id === 'oscar';
   }
 
-  mentionTypeaheadSpotlightEnabled = () => this.config.enableSpotlight || false;
+  mentionTypeaheadHighlightEnabled = () =>
+    this.config.enableTeamMentionHighlight || false;
 
   mentionTypeaheadCreateTeamPath = () => '/people/search#createTeam';
 }

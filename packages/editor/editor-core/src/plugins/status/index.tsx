@@ -13,6 +13,14 @@ import { commitStatusPicker, updateStatus, createStatus } from './actions';
 import { keymapPlugin } from './keymap';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { IconStatus } from '../quick-insert/assets';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  INPUT_METHOD,
+  EVENT_TYPE,
+} from '../analytics';
 
 export interface StatusPluginOptions {
   menuDisabled: boolean;
@@ -72,10 +80,10 @@ const baseStatusPlugin = (options?: StatusPluginOptions): EditorPlugin => ({
               defaultColor={color}
               defaultLocalId={localId}
               onSelect={(status: StatusType) => {
-                updateStatus(status)(editorView);
+                updateStatus(status)(editorView.state, editorView.dispatch);
               }}
               onTextChanged={(status: StatusType) => {
-                updateStatus(status)(editorView);
+                updateStatus(status)(editorView.state, editorView.dispatch);
               }}
               closeStatusPicker={() => {
                 commitStatusPicker()(editorView);
@@ -106,7 +114,17 @@ const decorateWithPluginOptions = (
         priority: 700,
         keywords: ['lozenge'],
         icon: () => <IconStatus label={formatMessage(messages.status)} />,
-        action: createStatus(),
+        action(insert, state) {
+          return addAnalytics(createStatus()(insert, state), {
+            action: ACTION.INSERTED,
+            actionSubject: ACTION_SUBJECT.DOCUMENT,
+            actionSubjectId: ACTION_SUBJECT_ID.STATUS,
+            attributes: {
+              inputMethod: INPUT_METHOD.QUICK_INSERT,
+            },
+            eventType: EVENT_TYPE.TRACK,
+          });
+        },
       },
     ],
   };

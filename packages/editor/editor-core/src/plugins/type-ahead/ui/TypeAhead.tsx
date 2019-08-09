@@ -32,7 +32,7 @@ export type TypeAheadProps = {
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
-  spotlight?: JSX.Element | null;
+  highlight?: JSX.Element | null;
 };
 
 export class TypeAhead extends React.Component<TypeAheadProps> {
@@ -62,7 +62,7 @@ export class TypeAhead extends React.Component<TypeAheadProps> {
       popupsMountPoint,
       popupsBoundariesElement,
       popupsScrollableElement,
-      spotlight,
+      highlight,
     } = this.props;
 
     if (!active || !anchorElement || !items || !items.length) {
@@ -80,7 +80,7 @@ export class TypeAhead extends React.Component<TypeAheadProps> {
         offset={[0, 8]}
       >
         <TypeAheadContent className="fabric-editor-typeahead">
-          {spotlight}
+          {highlight}
           {Array.isArray(items) ? (
             <TypeAheadItemsList
               insertByIndex={this.insertByIndex}

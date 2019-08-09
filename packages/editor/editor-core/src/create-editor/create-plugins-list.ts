@@ -59,7 +59,7 @@ import { EditorView } from 'prosemirror-view';
  * Returns list of plugins that are absolutely necessary for editor to work
  */
 export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
-  const { appearance, textFormatting } = props;
+  const { appearance, textFormatting, placeholder } = props;
   const isFullPage = fullPageCheck(appearance);
 
   return [
@@ -70,7 +70,7 @@ export function getDefaultPluginsList(props: EditorProps): EditorPlugin[] {
       addRunTimePerformanceCheck: isFullPage,
     }),
     blockTypePlugin({ lastNodeMustBeParagraph: appearance === 'comment' }),
-    placeholderPlugin(),
+    placeholderPlugin({ placeholder }),
     clearMarksOnChangeToEmptyDocumentPlugin(),
     hyperlinkPlugin(),
     textFormattingPlugin(textFormatting || {}),

@@ -56,6 +56,10 @@ import {
   testCollectionName,
 } from '../_utils';
 import safeUnmount from '../../../../__helpers/safeUnmount';
+import {
+  findToolbarBtn,
+  getToolbarItems,
+} from '../../floating-toolbar/_helpers';
 
 interface ToolbarWrapper {
   editorView: EditorView;
@@ -65,13 +69,6 @@ interface ToolbarWrapper {
     editLink: FloatingToolbarButton<Command> | undefined;
     openLink: FloatingToolbarButton<Command> | undefined;
   };
-}
-
-function findButtonWithTitle<T>(
-  items: Array<FloatingToolbarItem<T>>,
-  title: string,
-): FloatingToolbarItem<T> | undefined {
-  return items.find(item => item.type === 'button' && item.title === title);
 }
 
 const recentItem1: ActivityItem = {
@@ -156,23 +153,21 @@ describe('media', () => {
     setNodeSelection(editorView, pos);
 
     const toolbar = floatingToolbar(editorView.state, intl, options);
+    const items = getToolbarItems(toolbar!, editorView);
 
     return {
       editorView,
       toolbar,
       buttons: {
-        addLink: findButtonWithTitle(
-          toolbar!.items,
-          formattedMessages.addLink,
-        ) as FloatingToolbarButton<Command> | undefined,
-        editLink: findButtonWithTitle(
-          toolbar!.items,
-          formattedMessages.editLink,
-        ) as FloatingToolbarButton<Command> | undefined,
-        openLink: findButtonWithTitle(
-          toolbar!.items,
-          formattedMessages.openLink,
-        ) as FloatingToolbarButton<Command> | undefined,
+        addLink: findToolbarBtn(items, formattedMessages.addLink) as
+          | FloatingToolbarButton<Command>
+          | undefined,
+        editLink: findToolbarBtn(items, formattedMessages.editLink) as
+          | FloatingToolbarButton<Command>
+          | undefined,
+        openLink: findToolbarBtn(items, formattedMessages.openLink) as
+          | FloatingToolbarButton<Command>
+          | undefined,
       },
     };
   }
@@ -196,7 +191,7 @@ describe('media', () => {
       }),
     });
 
-    const linkingToolbarComponent = toolbar!.items.find(
+    const linkingToolbarComponent = getToolbarItems(toolbar!, editorView).find(
       item => item.type === 'custom',
     ) as FloatingToolbarCustom;
 

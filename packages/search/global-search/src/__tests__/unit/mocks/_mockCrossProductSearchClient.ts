@@ -21,6 +21,9 @@ export const noResultsCrossProductSearchClient: CrossProductSearchClient = {
   getPeople() {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
   },
+  getNavAutocompleteSuggestions() {
+    return Promise.resolve([]);
+  },
 };
 
 export const errorCrossProductSearchClient: CrossProductSearchClient = {
@@ -34,6 +37,9 @@ export const errorCrossProductSearchClient: CrossProductSearchClient = {
     return Promise.reject('error');
   },
   getPeople() {
+    return Promise.reject('error');
+  },
+  getNavAutocompleteSuggestions() {
     return Promise.reject('error');
   },
 };
@@ -53,5 +59,8 @@ export const mockCrossProductSearchClient = (
   },
   getPeople() {
     return Promise.resolve(data);
+  },
+  getNavAutocompleteSuggestions() {
+    return Promise.resolve([]);
   },
 });
