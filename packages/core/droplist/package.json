@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/droplist",
-  "version": "9.0.9",
+  "version": "9.0.10",
   "description": "Droplist component",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",

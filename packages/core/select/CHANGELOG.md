@@ -1,5 +1,13 @@
 # @atlaskit/select
 
+## 10.0.2
+
+### Patch Changes
+
+- [patch][f20ac3080c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f20ac3080c):
+
+  Removed unused dependencies from package.json for select: react-transition-group was unused.
+
 ## 10.0.1
 
 ### Patch Changes

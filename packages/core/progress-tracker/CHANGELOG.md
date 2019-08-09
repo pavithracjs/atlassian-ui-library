@@ -1,5 +1,13 @@
 # @atlaskit/progress-tracker
 
+## 6.0.3
+
+### Patch Changes
+
+- [patch][202fda1d9e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/202fda1d9e):
+
+  Moved dependencies to devDependencies in progress-tracker: move 'react-dom' to devDependencies.
+
 ## 6.0.2
 
 ### Patch Changes
