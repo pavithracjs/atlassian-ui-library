@@ -56,12 +56,12 @@ class SpotlightInner extends React.Component<
     this.props.onClosed();
   }
 
-  isPositionFixed = (element: HTMLElement) =>
+  isPositionFixed = (element: Element) =>
     window.getComputedStyle(element).position === 'fixed';
 
   getTargetNodeRect = () => {
     const { targetNode } = this.props;
-    const { offsetParent }: { offsetParent: HTMLElement } = targetNode;
+    const { offsetParent } = targetNode;
     const { height, left, top, width } = targetNode.getBoundingClientRect();
 
     if (
