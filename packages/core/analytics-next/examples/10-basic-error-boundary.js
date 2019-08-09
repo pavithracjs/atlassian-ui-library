@@ -56,13 +56,15 @@ export default class App extends Component<void> {
           packageName="@atlaskit/button"
           componentVersion="999.9.9"
         >
-          <p>
-            This example simulates a JS error in one of the children components
-            of `AnalyticsErrorBoundary`. To check that in action, please open
-            your DevTools, click in the button and check the console for the
-            event track.
-          </p>
-          <Button>Click me</Button>
+          <>
+            <p>
+              This example simulates a JS error in one of the children
+              components of `AnalyticsErrorBoundary`. To check that in action,
+              please open your DevTools, click in the button and check the
+              console for the event track.
+            </p>
+            <Button>Click me</Button>
+          </>
         </AnalyticsErrorBoundary>
       </AnalyticsListener>
     );
