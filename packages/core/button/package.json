@@ -43,6 +43,8 @@
     "@atlaskit/select": "^10.0.1",
     "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/webdriver-runner": "^0.1.0",
+    "@testing-library/react": "^8.0.1",
     "@types/react-router-dom": "^4.3.1",
     "enzyme": "^3.7.0",
     "jest-emotion": "^10.0.10",

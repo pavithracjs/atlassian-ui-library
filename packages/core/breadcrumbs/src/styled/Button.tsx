@@ -9,8 +9,6 @@ export default React.forwardRef<HTMLButtonElement, Props>(
   ({ truncationWidth, ...props }, ref) => (
     <Button
       {...props}
-      // @ts-ignore
-      data-testid={props.testId ? props.appearance : 'hello'}
       ref={ref}
       theme={(currentTheme, themeProps) => {
         const { buttonStyles, ...rest } = currentTheme(themeProps);
