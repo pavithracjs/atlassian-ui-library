@@ -149,13 +149,16 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     let numberOfSites = firstContentArrived ? 1 : 0;
     if (licensedProductLinks) {
-      const allSites = licensedProductLinks
-        .map(item => (item.childItems || []).map(childItem => childItem.label))
-        .reduce((previous, current) => [...previous, ...current], []);
+      const uniqueSets: { [key: string]: boolean } = {};
+      licensedProductLinks.forEach(link => {
+        (link.childItems || []).forEach(item => {
+          uniqueSets[item.label] = true;
+        });
+      });
 
-      const uniqueSites = new Set(allSites);
-      if (uniqueSites.size > 0) {
-        numberOfSites = uniqueSites.size;
+      const numbberOfUniqueSites = Object.keys(uniqueSets).length;
+      if (numbberOfUniqueSites > 0) {
+        numberOfSites = numbberOfUniqueSites;
       }
     }
 
