@@ -16,7 +16,8 @@ BrowserTestCase(
     await buttonTest.goto(urlButton);
     await buttonTest.waitFor(buttonTestId, 5000);
     await buttonTest.click(buttonTestId);
-    const isAlertOpen = await buttonTest.isAlertOpen();
-    expect(isAlertOpen).toBeTruthy();
+    const textAlert = await buttonTest.getAlertText();
+    expect(textAlert).toBe('Button has been clicked!');
+    await buttonTest.acceptAlert();
   },
 );
