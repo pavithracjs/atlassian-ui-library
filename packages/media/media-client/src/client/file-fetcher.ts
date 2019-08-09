@@ -333,8 +333,8 @@ export class FileFetcherImpl implements FileFetcher {
         occurrenceKey,
         preview,
       });
+      // we don't want to wait for the file to be upload
       this.upload(file, undefined, uploadableFileUpfrontIds);
-
       const dimensions = await getDimensionsFromBlob(blob);
       resolve({
         dimensions,
