@@ -22,5 +22,5 @@ RUN build_deps="curl" && \
 # Install bolt - note: the globally installed bolt is really only used for the base `bolt install`.
 # Everything else is done in yarn scripts using the locally installed bolt version (this version is
 # much easier to update obviously).
-ENV BOLT_VERSION "0.23.1"
+ENV BOLT_VERSION "0.23.6"
 RUN yarn global add "bolt@$BOLT_VERSION"
