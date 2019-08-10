@@ -2,18 +2,20 @@
 
 import React from 'react';
 import { mount } from 'enzyme';
-import { BaseAnalyticsErrorBoundary as AnalyticsErrorBoundary } from '../../AnalyticsErrorBoundary';
+import AnalyticsErrorBoundary, {
+  BaseAnalyticsErrorBoundary,
+} from '../../AnalyticsErrorBoundary';
 import UIAnalyticsEvent from '../../UIAnalyticsEvent';
 
 const createAnalyticsEvent = jest.fn();
 const props = {
   channel: 'atlaskit',
-  createAnalyticsEvent,
   data: {
     componentName: 'button',
     packageName: '@atlaskit/button',
     componentVersion: '999.9.9',
   },
+  children: <div className="child-component" />,
 };
 
 describe('AnalyticsErrorBoundary', () => {
@@ -26,19 +28,16 @@ describe('AnalyticsErrorBoundary', () => {
   });
 
   it('should render the child component', () => {
-    const wrapper = mount(
-      <AnalyticsErrorBoundary {...props}>
-        <div className="child-component" />
-      </AnalyticsErrorBoundary>,
-    );
+    const wrapper = mount(<AnalyticsErrorBoundary {...props} />);
     expect(wrapper.find('.child-component')).toHaveLength(1);
   });
 
   it('should NOT be called if there is no error', () => {
     mount(
-      <AnalyticsErrorBoundary {...props}>
-        <div className="child-component" />
-      </AnalyticsErrorBoundary>,
+      <AnalyticsErrorBoundary
+        {...props}
+        createAnalyticsEvent={createAnalyticsEvent}
+      />,
     );
 
     expect(createAnalyticsEvent).not.toHaveBeenCalled();
@@ -70,12 +69,12 @@ describe('AnalyticsErrorBoundary', () => {
     };
 
     mount(
-      <AnalyticsErrorBoundary
+      <BaseAnalyticsErrorBoundary
         {...props}
         createAnalyticsEvent={createAnalyticsEvent}
       >
         <Something error />
-      </AnalyticsErrorBoundary>,
+      </BaseAnalyticsErrorBoundary>,
     );
 
     expect(createAnalyticsEvent).toHaveBeenNthCalledWith(

@@ -57,7 +57,6 @@ export default class App extends Component<void> {
             packageName: '@atlaskit/button',
             componentVersion: '999.9.9',
           }}
-          createAnalyticsEvent
         >
           <>
             <p>
