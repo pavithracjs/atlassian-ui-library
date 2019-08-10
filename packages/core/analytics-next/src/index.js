@@ -17,10 +17,8 @@ export type { AnalyticsContextWrappedComp } from './withAnalyticsContext';
 export { default as withAnalyticsContext } from './withAnalyticsContext';
 
 // AnalyticsErrorBoundary component
-export {
-  default as AnalyticsErrorBoundary,
-  AnalyticsErrorBoundaryProps,
-} from './AnalyticsErrorBoundary';
+export { default as AnalyticsErrorBoundary } from './AnalyticsErrorBoundary';
+export type { AnalyticsErrorBoundaryProps } from './AnalyticsErrorBoundary';
 
 // createAnalyticsEvent HOC
 export type {
