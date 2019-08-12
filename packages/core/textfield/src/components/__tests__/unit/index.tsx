@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-
 import Textfield from '../../Textfield';
 
 describe('Textfield', () => {
@@ -20,13 +19,6 @@ describe('Textfield', () => {
     describe('isDisabled', () => {
       test("should set it's value to true on the input", () => {
         const wrapper = mount(<Textfield isDisabled />).props().isDisabled;
-        expect(wrapper).toBe(true);
-      });
-    });
-
-    describe('isFocused', () => {
-      test("should set it's value to true on the input", () => {
-        const wrapper = mount(<Textfield isFocused />).props().isFocused;
         expect(wrapper).toBe(true);
       });
     });
@@ -150,7 +142,7 @@ test('textfield ref should be an input', () => {
   mount(
     <div>
       <Textfield
-        ref={input => {
+        ref={(input: HTMLInputElement) => {
           ref = input;
         }}
       />

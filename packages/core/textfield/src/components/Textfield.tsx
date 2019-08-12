@@ -12,21 +12,22 @@ import {
 
 import Input from './Input';
 import { Theme } from '../theme';
-import { TextFieldProps as PublicProps } from '../types';
+import { PublicProps, InternalProps } from '../types';
 
 interface State {
   isFocused: boolean;
   isHovered: boolean;
 }
 
-type Props = PublicProps & { forwardedRef: React.Ref<HTMLInputElement> };
-
-class Textfield extends Component<Props, State> {
+class Textfield extends Component<InternalProps, State> {
   static defaultProps = {
     appearance: 'standard',
     isCompact: false,
     isMonospaced: false,
     isInvalid: false,
+    isRequired: false,
+    isReadOnly: false,
+    isDisabled: false,
   };
 
   state = {
@@ -50,7 +51,7 @@ class Textfield extends Component<Props, State> {
     }
   };
 
-  handleOnMouseDown = (event: React.MouseEvent<HTMLInputElement>) => {
+  handleOnMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     /** Running e.preventDefault() on the INPUT prevents double click behaviour */
     // Sadly we needed this cast as the target type is being correctly set
     const target: HTMLInputElement = event.target as HTMLInputElement;
@@ -108,17 +109,22 @@ class Textfield extends Component<Props, State> {
     const { isFocused, isHovered } = this.state;
     const {
       appearance,
-      // createAnalytics passed through from analytics-next
-      // we don't want to spread this onto our input
-      createAnalyticsEvent, // eslint-disable-line react/prop-types
-      forwardedRef,
       isCompact,
+      name,
       isDisabled,
       isInvalid,
+      isRequired,
+      isReadOnly,
       isMonospaced,
+      onChange,
+      value,
+      defaultValue,
+      placeholder,
       theme,
       width,
-      ...rest
+      elemAfterInput,
+      elemBeforeInput,
+      overrides,
     } = this.props;
 
     return (
@@ -138,17 +144,24 @@ class Textfield extends Component<Props, State> {
             >
               {tokens => (
                 <Input
-                  {...rest}
-                  theme={tokens}
+                  name={name}
+                  defaultValue={defaultValue}
+                  value={value}
                   isDisabled={isDisabled}
-                  isFocused={isFocused}
-                  isHovered={isHovered}
+                  isReadOnly={isReadOnly}
+                  isRequired={isRequired}
+                  theme={tokens}
+                  placeholder={placeholder}
+                  onChange={onChange}
+                  onBlur={this.handleOnBlur}
+                  onFocus={this.handleOnFocus}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
-                  onFocus={this.handleOnFocus}
-                  onBlur={this.handleOnBlur}
                   onMouseDown={this.handleOnMouseDown}
+                  elemAfterInput={elemAfterInput}
+                  elemBeforeInput={elemBeforeInput}
                   innerRef={this.setInputRef}
+                  overrides={overrides}
                 />
               )}
             </Theme.Consumer>
@@ -168,12 +181,12 @@ const ForwardRefTextfield = React.forwardRef(
 export { ForwardRefTextfield as TextFieldWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext({
+export default withAnalyticsContext<PublicProps>({
   componentName: 'textField',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents({
+  withAnalyticsEvents<PublicProps>({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'textField',

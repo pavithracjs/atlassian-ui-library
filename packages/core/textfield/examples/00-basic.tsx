@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Textfield from '../src';
+import Textfield, { InputProps } from '../src';
 
 const eventResultStyle = {
   borderStyle: 'dashed',
@@ -10,16 +10,15 @@ const eventResultStyle = {
   margin: '0.5em 0',
 };
 
-interface Props {};
-type State = {| eventResult: string |};
+type State = { eventResult: string };
 
-export default class TextfieldExample extends Component<Props, State> {
+export default class TextfieldExample extends Component<void, State> {
   state = {
     eventResult:
       'Click into & out of the input above to trigger onBlur & onFocus.',
   };
 
-  handleOnChange = (e: any) => {
+  handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       eventResult: `onChange called with value: ${e.target.value}`,
     });
@@ -66,11 +65,31 @@ export default class TextfieldExample extends Component<Props, State> {
         <label htmlFor="placeholder">Placeholder</label>
         <Textfield name="placeholder" placeholder="Click here to input..." />
 
-        <label htmlFor="auto-focus">Auto Focus</label>
-        <Textfield name="auto-focus" autoFocus />
+        <label htmlFor="auto-focus">Auto Focus (uses custom attribute)</label>
+        <Textfield
+          name="auto-focus"
+          overrides={{
+            Input: {
+              attributes: (props: InputProps) => ({
+                ...props,
+                autoFocus: true,
+              }),
+            },
+          }}
+        />
 
-        <label htmlFor="spell-check">Spell Check</label>
-        <Textfield name="spell-check" spellCheck />
+        <label htmlFor="spell-check">Spell Check (uses custom attribute)</label>
+        <Textfield
+          name="spell-check"
+          overrides={{
+            Input: {
+              attributes: (props: InputProps) => ({
+                ...props,
+                spellCheck: true,
+              }),
+            },
+          }}
+        />
       </div>
     );
   }
