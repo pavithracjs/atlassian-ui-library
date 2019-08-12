@@ -1,0 +1,1 @@
+Remove feature flag to get jira recent items from the aggregator
