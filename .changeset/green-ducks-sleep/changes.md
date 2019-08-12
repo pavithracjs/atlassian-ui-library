@@ -1,1 +1,0 @@
-Fix issue where popup media-picker doesn't throw upload-end event
