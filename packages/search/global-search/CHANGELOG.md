@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.1.0
+
+### Minor Changes
+
+- [minor][f874437a5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f874437a5c):
+
+  Remove feature flag to get jira recent items from the aggregator
+
 ## 11.0.2
 
 ### Patch Changes
