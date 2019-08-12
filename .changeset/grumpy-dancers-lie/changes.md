@@ -1,1 +1,0 @@
-Remove "overflow: auto;" CSS rule from LayoutContainer. This was added earlier to resolve a problem with showing site banners.  
