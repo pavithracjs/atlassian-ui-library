@@ -1,0 +1,1 @@
+[ED-7312] Add sorting table by column
