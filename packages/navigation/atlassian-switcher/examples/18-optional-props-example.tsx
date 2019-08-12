@@ -4,9 +4,7 @@ import Drawer from '@atlaskit/drawer';
 import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger, withIntlProvider } from './helpers';
 import AtlassianSwitcher from '../src';
-
-const MOST_FREQUENT_SITE = 'most-frequent-site';
-const CURRENT_SITE = 'current-site';
+import { ProductTopItemVariation } from '@atlaskit/atlassian-switcher/types';
 
 class OptionalContainersExample extends React.Component {
   state = {
@@ -16,7 +14,7 @@ class OptionalContainersExample extends React.Component {
     disableRecentContainers: false,
     disableCloudId: false,
     disableXFlow: false,
-    productTopItemVariation: MOST_FREQUENT_SITE,
+    productTopItemVariation: ProductTopItemVariation.mostFrequentSite,
   };
 
   openDrawer = () => {
@@ -172,9 +170,9 @@ class OptionalContainersExample extends React.Component {
     const { productTopItemVariation } = this.state;
     this.setState({
       productTopItemVariation:
-        productTopItemVariation === MOST_FREQUENT_SITE
-          ? CURRENT_SITE
-          : MOST_FREQUENT_SITE,
+        productTopItemVariation === ProductTopItemVariation.mostFrequentSite
+          ? ProductTopItemVariation.currentSite
+          : ProductTopItemVariation.mostFrequentSite,
     });
   };
 }

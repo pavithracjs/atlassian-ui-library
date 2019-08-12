@@ -25,6 +25,7 @@ import {
   WorklensProductType,
   ProductKey,
   RecommendationsEngineResponse,
+  ProductTopItemVariation,
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
@@ -234,7 +235,7 @@ const getAvailableProductLinkFromSiteProduct = (
 ): SwitcherItemType => {
   // if productTopItemVariation is 'most-frequent-site', we show most frequently visited site at the top
   const shouldEnableMostFrequentSortForTopItem =
-    productTopItemVariation === 'most-frequent-site';
+    productTopItemVariation === ProductTopItemVariation.mostFrequentSite;
 
   const topSite =
     (!shouldEnableMostFrequentSortForTopItem &&

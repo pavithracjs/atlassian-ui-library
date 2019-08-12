@@ -62,13 +62,20 @@ export enum MultiVariateFeature {
   productTopItemVariation = 'productTopItemVariation',
 }
 
+export enum ProductTopItemVariation {
+  mostFrequentSite = 'most-frequent-site',
+  currentSite = 'current-site',
+}
+
 export type FeatureFlagProps = {
   [key in Exclude<Feature, typeof Feature.xflow>]: boolean
-} &
-  { [key in MultiVariateFeature]: string };
+} & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
+};
 
-export type FeatureMap = { [key in Feature]: boolean } &
-  { [key in MultiVariateFeature]: string };
+export type FeatureMap = { [key in Feature]: boolean } & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
+};
 
 export type CustomLinksResponse = CustomLink[];
 

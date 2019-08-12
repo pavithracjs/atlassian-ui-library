@@ -12,7 +12,7 @@ import {
   UIAnalyticsEventInterface,
   ObjectType,
 } from '@atlaskit/analytics-next';
-import { WorklensProductType } from '../../types';
+import { ProductTopItemVariation, WorklensProductType } from '../../types';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
   const stubIcon = () => <span />;
@@ -91,7 +91,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
           messages={messages}
           hasLoaded
           hasLoadedCritical
-          productTopItemVariation="most-frequent-site"
+          productTopItemVariation={ProductTopItemVariation.mostFrequentSite}
           {...switcherLinks}
           {...props}
         />
@@ -131,7 +131,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
         licensedProducts: ['jira'],
         adminLinks: ['discoverMore'],
         fixedLinks: ['people'],
-        productTopItemVariation: 'most-frequent-site',
+        productTopItemVariation: ProductTopItemVariation.mostFrequentSite,
         numberOfSites: 2,
       },
     });
@@ -164,7 +164,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
     wrapper = mount(
       <DefaultAtlassianSwitcher
         onEventFired={eventStream}
-        productTopItemVariation="current-site"
+        productTopItemVariation={ProductTopItemVariation.currentSite}
         overrideSwitcherLinks={overrideSwitcherLinks}
       />,
     );
@@ -180,7 +180,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
         licensedProducts: ['jira'],
         adminLinks: ['discoverMore'],
         fixedLinks: ['people'],
-        productTopItemVariation: 'current-site',
+        productTopItemVariation: ProductTopItemVariation.currentSite,
         numberOfSites: 1,
       },
     });
