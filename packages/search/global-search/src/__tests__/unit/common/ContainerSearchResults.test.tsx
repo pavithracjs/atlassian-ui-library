@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedHTMLMessage } from 'react-intl';
 import uuid from 'uuid/v4';
-import { QuickSearchContext } from '../../../api/types';``
+import { QuickSearchContext } from '../../../api/types';
 import {
   BaseConfluenceQuickSearchContainer,
   BaseJiraQuickSearchContainerJira,
