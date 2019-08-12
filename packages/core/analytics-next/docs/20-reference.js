@@ -9,6 +9,7 @@ export default md`
   * [UIAnalyticsEvent](#UIAnalyticsEvent)
   * [withAnalyticsEvents](#withAnalyticsEvents)
   * [AnalyticsListener](#AnalyticsListener)
+  * [AnalyticsErrorBoundary](#AnalyticsErrorBoundary)
   * [AnalyticsContext](#AnalyticsContext)
   * [withAnalyticsContext](#withAnalyticsContext)
   * [AnalyticsEvent](#AnalyticsEvent)
@@ -66,7 +67,7 @@ update(
   ${code`import { withAnalyticsEvents } from '@atlaskit/analytics-next';`}
 
   A HOC which provides the wrapped component with a method for creating \`UIAnalyticsEvent\`s, via \`props.createAnalyticsEvent\`.
-  See the section on [creating your own events](/packages/core/analytics-next/docs/concepts#creating-your-own-events) 
+  See the section on [creating your own events](/packages/core/analytics-next/docs/concepts#creating-your-own-events)
   in the Concepts page for a thorough explanation of how to use this component.
 
   Usage:
@@ -113,6 +114,62 @@ ${code`
       props={require('!!extract-react-types-loader!../src/AnalyticsListener')}
     />
   )}
+
+
+  <a name="AnalyticsErrorBoundary"></a>
+  ### AnalyticsErrorBoundary
+
+  &nbsp;
+
+  ${code`import { AnalyticsErrorBoundary } from '@atlaskit/analytics-next';`}
+
+  Wrap part of your tree in \`AnalyticsErrorBoundary\` to provide error boundary track to any events created beneath it.
+
+  When a component is created verifies all of the components above it in the tree and any error will be catched and tracked automatically.
+
+  It's up to the developer pass this information when you're adding the component.
+
+  Usage:
+
+${code`
+import {
+  AnalyticsListener,
+  AnalyticsErrorBoundary
+} from '@atlaskit/analytics-next';
+
+// Wrapping your component with the component
+class ButtonWithAnalyticsErrorBoundary etends React.Component {
+  handleEvent = (analyticsEvent) => {
+    const { payload, context } = analyticsEvent;
+    console.log('Received event:', analyticsEvent, { payload, context });
+  };
+
+  render() {
+    return (
+      <AnalyticsListener channel="atlaskit" onEvent={this.handleEvent}>
+        <AnalyticsErrorBoundary
+          channel="atlaskit"
+          data={{
+            componentName: 'button',
+            packageName: '@atlaskit/button',
+            componentVersion: '999.9.9',
+          }}
+        >
+          <Button>Click me</Button>
+        </AnalyticsErrorBoundary>
+      </AnalyticsListener>
+    )
+  }
+}
+`}
+
+  ${(
+    <Props
+      heading="AnalyticsErrorBoundary Props"
+      props={require('!!extract-react-types-loader!../src/AnalyticsErrorBoundary')}
+    />
+  )}
+
 
   <a name="AnalyticsContext"></a>
   ### AnalyticsContext
