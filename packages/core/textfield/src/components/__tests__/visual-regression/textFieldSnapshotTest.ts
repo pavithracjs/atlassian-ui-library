@@ -3,6 +3,8 @@ import {
   takeScreenShot,
 } from '@atlaskit/visual-regression/helper';
 
+declare var global: any;
+
 // TODO - identify threshold or do not set cursor
 describe('Snapshot Test', () => {
   it('Textfield basic should match production example', async () => {

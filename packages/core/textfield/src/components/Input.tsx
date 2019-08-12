@@ -47,7 +47,7 @@ function withOverrides(
   input: InputProps,
   container: ContainerProps,
 ): Result {
-  let result: Result = { input, container };
+  const result: Result = { input, container };
 
   if (!overrides) {
     return result;

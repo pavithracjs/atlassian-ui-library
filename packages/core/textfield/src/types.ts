@@ -78,7 +78,23 @@ export interface PublicProps {
   width?: string | number;
   /** The theme the component should use. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>;
-  /** Mechanism to override attributes applied to the elements */
+  /**
+    Mechanism to modify attributes applied to the raw DOM elements of this component
+
+    - `Container`: element that wraps the `input` element. It contains the `elemBeforeInput` and `elemAfterInput`
+    - `Input`: raw `input` element
+
+   This `overrides` object contains functions that are used to return the *attributes* that will be applied to the raw elements
+   The functions are provided with the *attributes* we hope to apply to each element. You are welcome to monkey patch,
+   and add additional *attributes* to be applied to the DOM elements.
+
+
+    You can use this mechanism to apply additional React HTML props such as:
+
+    - `spellCheck`
+    - data attributes (eg `data-testid`)
+    - additional event handlers (eg `onKeyUp`)
+   */
   overrides?: Overrides;
 }
 
