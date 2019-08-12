@@ -17,8 +17,9 @@ interface Props {
   // Theme controls a number of visual stylings
   theme: ThemeTokens;
 
-  // user provided
+  // user provided (others can be provided through overrides)
   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+  onKeyDown: React.KeyboardEventHandler<HTMLInputElement> | undefined;
 
   // needed by TextField
   onBlur: React.FocusEventHandler<HTMLInputElement>;
@@ -70,6 +71,7 @@ export default function Input({
   isReadOnly,
   isRequired,
   onChange,
+  onKeyDown,
   onMouseDown,
   onMouseEnter,
   onMouseLeave,
@@ -89,6 +91,7 @@ export default function Input({
     required: isRequired,
     placeholder,
     onChange,
+    onKeyDown,
     onBlur,
     onFocus,
     name,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Textfield from '../../Textfield';
+import { TextFieldWithoutAnalytics as Textfield } from '../../Textfield';
 
 describe('Textfield', () => {
   test('should show defaults', () => {

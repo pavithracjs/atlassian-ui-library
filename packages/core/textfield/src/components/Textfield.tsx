@@ -132,24 +132,24 @@ class Textfield extends React.Component<InternalProps, State> {
         <GlobalTheme.Consumer>
           {({ mode }: GlobalThemeTokens) => (
             <Theme.Consumer
-              appearance={appearance}
+              appearance={appearance!}
               mode={mode}
               width={width}
-              isDisabled={isDisabled}
-              isCompact={isCompact}
-              isMonospaced={isMonospaced}
+              isDisabled={isDisabled!}
+              isCompact={isCompact!}
+              isMonospaced={isMonospaced!}
               isFocused={isFocused}
               isHovered={isHovered}
-              isInvalid={isInvalid}
+              isInvalid={isInvalid!}
             >
               {tokens => (
                 <Input
                   name={name}
                   defaultValue={defaultValue}
                   value={value}
-                  isDisabled={isDisabled}
-                  isReadOnly={isReadOnly}
-                  isRequired={isRequired}
+                  isDisabled={isDisabled!}
+                  isReadOnly={isReadOnly!}
+                  isRequired={isRequired!}
                   theme={tokens}
                   placeholder={placeholder}
                   onChange={onChange}

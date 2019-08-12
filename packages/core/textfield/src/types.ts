@@ -9,6 +9,7 @@ export interface InputProps {
   required: boolean;
   placeholder: string | undefined;
   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+  onKeyDown: React.KeyboardEventHandler<HTMLInputElement> | undefined;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   onFocus: React.FocusEventHandler<HTMLInputElement>;
   defaultValue: string | string[] | undefined;
@@ -46,23 +47,25 @@ export interface PublicProps {
    * `subtle` shows styling on hover.
    * `none` hides all field styling.
    */
-  appearance: 'standard' | 'none' | 'subtle';
+  appearance?: 'standard' | 'none' | 'subtle';
   /** Applies compact styling, making the field smaller */
-  isCompact: boolean;
+  isCompact?: boolean;
   /** Sets the field as uneditable, with a changed hover state. */
-  isDisabled: boolean;
+  isDisabled?: boolean;
   /** Sets styling to indicate that the input is invalid */
-  isInvalid: boolean;
+  isInvalid?: boolean;
   /** Sets content text value to monospace */
-  isMonospaced: boolean;
+  isMonospaced?: boolean;
   /** If true, prevents the value of the input from being edited. */
-  isReadOnly: boolean;
+  isReadOnly?: boolean;
   /** Set required for form that the field is part of. */
-  isRequired: boolean;
+  isRequired?: boolean;
   /** Element after input in textfield. */
   elemAfterInput?: React.ReactNode;
   /** Element before input in textfield. */
   elemBeforeInput?: React.ReactNode;
+  /** Handler called when a keydown is registered */
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   /** Handler called when the value of the input changes */
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   /** Handler to be called when the input loses focus. */
@@ -75,7 +78,7 @@ export interface PublicProps {
   width?: string | number;
   /** The theme the component should use. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>;
-
+  /** Mechanism to override attributes applied to the elements */
   overrides?: Overrides;
 }
 
