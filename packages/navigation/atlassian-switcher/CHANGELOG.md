@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.17.0
+
+### Minor Changes
+
+- [minor][520e77bd9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/520e77bd9c):
+
+  Fixed analytics bug for A/B testing product sorting algorithm for account-centric products
+
 ## 3.16.0
 
 ### Minor Changes
