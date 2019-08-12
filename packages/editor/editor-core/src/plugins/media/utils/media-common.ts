@@ -26,7 +26,11 @@ import {
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import { MediaProvider, MediaState } from '../types';
 import { mapSlice } from '../../../utils/slice';
-import { walkUpTreeUntil } from '../../../utils/dom';
+import {
+  walkUpTreeUntil,
+  removeNestedEmptyEls,
+  unwrap,
+} from '../../../utils/dom';
 
 export const posOfMediaGroupNearby = (
   state: EditorState,
@@ -306,6 +310,14 @@ export const unwrapNestedMediaElements = (html: string) => {
   const wrapper = document.createElement('div');
   wrapper.innerHTML = html;
 
+  // Remove Google Doc's wrapper <b> el
+  const docsWrapper = wrapper.querySelector<HTMLElement>(
+    'b[id^="docs-internal-guid-"]',
+  );
+  if (docsWrapper) {
+    unwrap(wrapper, docsWrapper);
+  }
+
   const imageTags = wrapper.querySelectorAll('img');
   if (!imageTags.length) {
     return html;
@@ -337,18 +349,24 @@ export const unwrapNestedMediaElements = (html: string) => {
     // Here we try to insert the media right after its top most parent element
     // Unless its the last element in our structure then we will insert above it.
     if (rootElement) {
-      // Only remove the media if we have somewhere else to place it.
-      mediaParent.removeChild(imageTag);
-      // Attempt to clean up lines left behind by the image
-      mediaParent.innerText = mediaParent.innerText.trim();
-
       // Insert as close as possible to the root element's index in the tree.
       wrapper.insertBefore(
         imageTag,
         rootElement.nextElementSibling || rootElement,
       );
+
+      // Attempt to clean up lines left behind by the image
+      mediaParent.innerText = mediaParent.innerText.trim();
+
+      // Walk up and delete empty elements left over after removing the image tag
+      removeNestedEmptyEls(mediaParent);
     }
   });
+
+  // If last child is a hardbreak we don't want it
+  if (wrapper.lastElementChild && wrapper.lastElementChild.tagName === 'BR') {
+    wrapper.removeChild(wrapper.lastElementChild);
+  }
 
   return wrapper.innerHTML;
 };
