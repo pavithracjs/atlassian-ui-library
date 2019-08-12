@@ -6,7 +6,7 @@
  */
 // Portuguese (Brazil)
 export default {
-  'fabric.mention.unknow.user.error': 'Usuário desconhecido {id}',
+  'fabric.mention.unknow.user.error': 'Usuário desconhecido {userId}',
   'fabric.mention.noAccess.warning':
     '{name} não será notificado(a) porque não tem acesso',
   'fabric.mention.noAccess.label': 'Sem acesso',
@@ -17,8 +17,16 @@ export default {
   'fabric.elements.mentions.team.member.count':
     '{0, plural, one{1 membro} other{{0} membros}}',
   'fabric.elements.mentions.team.member.count.including.you':
-    '{0, plural, one{{0} użytkownika wliczając Ciebie} other{{0} użytkownika wliczając Ciebie}}',
+    '{0, plural, one{{0} użytkownika wliczając Ciebie} other{{0} membros, incluindo você}}',
   'fabric.elements.mentions.team.member.50plus': '50+ membros',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ membros, incluindo você',
+  'fabric.elements.mentions.team.mention.highlight.title':
+    'Mencione sua equipe',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Inclua todos na página com apenas um clique. Não tem uma equipe?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Crie uma.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Ignorar',
 };

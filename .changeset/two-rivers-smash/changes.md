@@ -1,0 +1,1 @@
+TEAMS-626 : Adding translations for team mention spotlight

@@ -6,7 +6,7 @@
  */
 // Finnish
 export default {
-  'fabric.mention.unknow.user.error': 'Tuntematon käyttäjä {id}',
+  'fabric.mention.unknow.user.error': 'Tuntematon käyttäjä {userId}',
   'fabric.mention.noAccess.warning':
     '{name} ei saa ilmoitusta, koska hänellä ei ole pääsyä',
   'fabric.mention.noAccess.label': 'Ei pääsyä',
@@ -21,4 +21,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ jäsentä',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ jäsentä, mukaan lukien sinut',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Merkitse tiimisi',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Saa kaikki sivulle yhdellä napsautuksella. Eikö sinulla ole tiimiä?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Aloita tiimi.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Hylkää',
 };

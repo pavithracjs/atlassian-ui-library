@@ -1,5 +1,13 @@
 # @atlaskit/atlassian-switcher
 
+## 3.16.0
+
+### Minor Changes
+
+- [minor][74501ba0ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/74501ba0ea):
+
+  Accept a feature flag to AB test which site to show at the top of the product (efault being the current site, and variation being the most frequently visited)
+
 ## 3.15.0
 
 ### Minor Changes
