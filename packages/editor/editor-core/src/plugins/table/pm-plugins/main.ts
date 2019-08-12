@@ -90,7 +90,7 @@ export const createPlugin = (
     insertRowButtonIndex: undefined,
     decorationSet: DecorationSet.empty,
     isFullWidthModeEnabled,
-    isHeaderRowEnabled: true,
+    isHeaderRowEnabled: !!pluginConfig.allowHeaderRow,
     isHeaderColumnEnabled: false,
     ...defaultTableSelection,
   });
@@ -106,12 +106,12 @@ export const createPlugin = (
       const tr = transactions.find(tr => tr.getMeta('uiEvent') === 'cut');
       if (tr) {
         // "fixTables" removes empty rows as we don't allow that in schema
-        return fixTables(handleCut(tr, oldState, newState));
+        const updatedTr = handleCut(tr, oldState, newState);
+        return fixTables(updatedTr) || updatedTr;
       }
       if (transactions.find(tr => tr.docChanged)) {
         return fixTables(newState.tr);
       }
-      return;
     },
     view: (editorView: EditorView) => {
       const domAtPos = editorView.domAtPos.bind(editorView);
