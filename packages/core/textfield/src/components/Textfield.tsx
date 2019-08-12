@@ -1,5 +1,5 @@
 import GlobalTheme, { GlobalThemeTokens } from '@atlaskit/theme';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -19,7 +19,7 @@ interface State {
   isHovered: boolean;
 }
 
-class Textfield extends Component<InternalProps, State> {
+class Textfield extends React.Component<InternalProps, State> {
   static defaultProps = {
     appearance: 'standard',
     isCompact: false,

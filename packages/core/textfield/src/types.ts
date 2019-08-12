@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import { ThemeProp } from '@atlaskit/theme';
 import { ThemeProps, ThemeTokens } from './theme';
 
@@ -23,10 +23,12 @@ export interface ContainerProps {
 
 export interface Overrides {
   Container?: {
-    attributes?: (props: ContainerProps) => HTMLAttributes<HTMLElement>;
+    attributes?: (props: ContainerProps) => React.HTMLAttributes<HTMLElement>;
   };
   Input?: {
-    attributes?: (props: InputProps) => InputHTMLAttributes<HTMLInputElement>;
+    attributes?: (
+      props: InputProps,
+    ) => React.InputHTMLAttributes<HTMLInputElement>;
   };
 }
 

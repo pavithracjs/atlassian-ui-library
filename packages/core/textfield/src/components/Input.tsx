@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { InputHTMLAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import { jsx, CSSObject } from '@emotion/core';
 import { Overrides, InputProps, ContainerProps } from '../types';
 import { ThemeTokens } from '../theme';
@@ -37,8 +37,8 @@ interface Props {
 }
 
 type Result = {
-  container: HTMLAttributes<HTMLElement>;
-  input: InputHTMLAttributes<HTMLInputElement>;
+  container: React.HTMLAttributes<HTMLElement>;
+  input: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
 function withOverrides(
