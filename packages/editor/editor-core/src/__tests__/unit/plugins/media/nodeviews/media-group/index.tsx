@@ -51,7 +51,7 @@ describe('nodeviews/mediaGroup', () => {
     pluginState.mediaGroupNodes = {};
     pluginState.handleMediaNodeRemoval = () => {};
     jest.spyOn(mediaStateKey, 'getState').mockImplementation(() => pluginState);
-    (MediaNodeUpdater as any).mockReset(); // part of mocked class API, not original
+    (MediaNodeUpdater as jest.Mock<MediaNodeUpdater>).mockReset(); // part of mocked class API, not original
   });
 
   it('should re-render for custom media picker with no thumb', () => {

@@ -267,7 +267,7 @@ describe('nodeviews/mediaSingle', () => {
       />,
     );
 
-    (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
+    (wrapper.instance() as MediaSingle).mediaNodeUpdater!.getRemoteDimensions = getDimensions(
       wrapper,
     );
 
@@ -302,7 +302,7 @@ describe('nodeviews/mediaSingle', () => {
       />,
     );
 
-    (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
+    (wrapper.instance() as MediaSingle).mediaNodeUpdater!.getRemoteDimensions = getDimensions(
       wrapper,
     );
 
@@ -382,7 +382,7 @@ describe('nodeviews/mediaSingle', () => {
         />,
       );
 
-      (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
+      (wrapper.instance() as MediaSingle).mediaNodeUpdater!.getRemoteDimensions = getDimensions(
         wrapper,
       );
 
@@ -427,7 +427,7 @@ describe('nodeviews/mediaSingle', () => {
         />,
       );
 
-      (wrapper.instance() as MediaSingle).mediaNodeUpdater.getRemoteDimensions = getDimensions(
+      (wrapper.instance() as MediaSingle).mediaNodeUpdater!.getRemoteDimensions = getDimensions(
         wrapper,
       );
 
@@ -462,18 +462,17 @@ describe('nodeviews/mediaSingle', () => {
       />,
     );
     const instance = wrapper.instance() as MediaSingle;
+    const mediaNodeUpdater = instance.mediaNodeUpdater!;
 
-    instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
-    instance.mediaNodeUpdater.isNodeFromDifferentCollection = jest
+    mediaNodeUpdater.getRemoteDimensions = jest.fn();
+    mediaNodeUpdater.isNodeFromDifferentCollection = jest
       .fn()
       .mockReturnValue(true);
-    instance.mediaNodeUpdater.copyNode = jest.fn();
-    instance.mediaNodeUpdater.updateContextId = jest.fn();
+    mediaNodeUpdater.copyNode = jest.fn();
+    mediaNodeUpdater.updateContextId = jest.fn();
     await instance.componentDidMount();
-    expect(
-      instance.mediaNodeUpdater.isNodeFromDifferentCollection,
-    ).toHaveBeenCalled();
-    expect(instance.mediaNodeUpdater.copyNode).toHaveBeenCalled();
+    expect(mediaNodeUpdater.isNodeFromDifferentCollection).toHaveBeenCalled();
+    expect(mediaNodeUpdater.copyNode).toHaveBeenCalled();
   });
 
   it('should set viewMediaClientConfig if mediaProvider changes', async () => {
@@ -501,7 +500,7 @@ describe('nodeviews/mediaSingle', () => {
     );
     const instance = wrapper.instance() as MediaSingle;
 
-    instance.mediaNodeUpdater.getRemoteDimensions = jest.fn();
+    instance.mediaNodeUpdater!.getRemoteDimensions = jest.fn();
 
     expect(wrapper.state('viewMediaClientConfig')).toBeUndefined();
     wrapper.setProps({ mediaProvider });

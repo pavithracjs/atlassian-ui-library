@@ -162,6 +162,7 @@ export class MediaNodeUpdater {
 
   copyNode = async () => {
     const mediaProvider = await this.props.mediaProvider;
+    const { isMediaSingle, view } = this.props;
     const attrs = this.getAttrs();
     if (!mediaProvider || !mediaProvider.uploadParams || !attrs) {
       return;
@@ -200,8 +201,8 @@ export class MediaNodeUpdater {
           id: mediaFile.id,
           collection: currentCollectionName,
         },
-        this.props.isMediaSingle,
-      )(this.props.view.state, this.props.view.dispatch);
+        isMediaSingle,
+      )(view.state, view.dispatch);
     }
   };
 }

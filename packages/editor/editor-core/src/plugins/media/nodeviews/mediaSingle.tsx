@@ -46,7 +46,7 @@ export default class MediaSingleNode extends Component<
     mediaOptions: {},
   };
 
-  mediaNodeUpdater: MediaNodeUpdater;
+  mediaNodeUpdater?: MediaNodeUpdater;
 
   state = {
     width: undefined,
@@ -57,14 +57,16 @@ export default class MediaSingleNode extends Component<
   constructor(props: MediaSingleNodeProps) {
     super(props);
     const node = this.props.node.firstChild;
-    this.mediaNodeUpdater = new MediaNodeUpdater({
-      view: props.view,
-      node: node as PMNode,
-      mediaProvider: props.mediaProvider,
-      contextIdentifierProvider: props.contextIdentifierProvider,
-      isMediaSingle: true,
-      mediaPluginOptions: props.mediaPluginOptions,
-    });
+    if (node) {
+      this.mediaNodeUpdater = new MediaNodeUpdater({
+        view: props.view,
+        node: node as PMNode,
+        mediaProvider: props.mediaProvider,
+        contextIdentifierProvider: props.contextIdentifierProvider,
+        isMediaSingle: true,
+        mediaPluginOptions: props.mediaPluginOptions,
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps: MediaSingleNodeProps) {
@@ -92,7 +94,7 @@ export default class MediaSingleNode extends Component<
     // we want the first child of MediaSingle (type "media")
     const node = this.props.node.firstChild;
 
-    if (!node) {
+    if (!node || !this.mediaNodeUpdater) {
       return;
     }
 

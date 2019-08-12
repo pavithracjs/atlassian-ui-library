@@ -56,7 +56,6 @@ describe('MediaNodeUpdater', () => {
     const mediaNodeUpdater = new MediaNodeUpdater({
       view: {} as EditorView,
       node,
-      editorAppearance: 'full-page',
       contextIdentifierProvider,
       mediaProvider,
       isMediaSingle: true,
