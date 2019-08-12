@@ -15,7 +15,7 @@ export default function resetView(state: State, action: Action): State {
     const oldUploads = state.uploads;
     const uploads = Object.keys(oldUploads)
       .filter(uploadId => {
-        // remove files that hasn't finished uploading and processing
+        // remove files that has finished uploading and processing
         return !hasEndOrErrorEvent(oldUploads[uploadId]);
       })
       .reduce<LocalUploads>((uploads, fileIdToKeep) => {

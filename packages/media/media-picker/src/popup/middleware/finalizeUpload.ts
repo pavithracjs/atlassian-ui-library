@@ -114,7 +114,7 @@ async function copyFile({
     const subject = getFileStreamsCache().get(
       processedDestinationFile.id,
     ) as ReplaySubject<FileState>;
-    // We need to cast to ReplaySubject and check for "next" method since the current
+
     if (subject && subject.next) {
       const subscription = subject.subscribe({
         next(currentState) {
