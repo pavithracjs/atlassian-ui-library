@@ -85,6 +85,7 @@ function mockCrossProductSearchApi(delayMs: number, queryMockSearch: any) {
         body.scopes.indexOf(Scope.NavSearchCompleteConfluence) > -1;
 
       const scopeResponses = response.scopes
+        .filter((scope: ScopeResult) => body.scopes.includes(scope.id))
         .map((scope: ScopeResult) => {
           const { results, ...rest } = scope;
           return {

@@ -13,7 +13,7 @@ import { JiraItemV1, JiraItemV2 } from '../../../api/types';
 describe('mapJiraItemToResult', () => {
   it('should be able to parse issue V1 response', () => {
     const issue = generateRandomIssueV1() as JiraItemV1;
-    const result = mapJiraItemToResult(issue);
+    const result = mapJiraItemToResult(AnalyticsType.ResultJira)(issue);
 
     expect(result).toMatchObject({
       resultId: issue.key,
@@ -30,7 +30,7 @@ describe('mapJiraItemToResult', () => {
 
   it('should be able to parse issue V2 respnse', () => {
     const issue = generateRandomJiraIssue() as JiraItemV2;
-    const result = mapJiraItemToResult(issue);
+    const result = mapJiraItemToResult(AnalyticsType.ResultJira)(issue);
 
     const avatar = issue.attributes.avatar || {};
     expect(result).toMatchObject({
@@ -49,7 +49,7 @@ describe('mapJiraItemToResult', () => {
 
   it('should be able to parse jira filter', () => {
     const filter = generateRandomJiraFilter() as JiraItemV2;
-    const result = mapJiraItemToResult(filter);
+    const result = mapJiraItemToResult(AnalyticsType.ResultJira)(filter);
 
     const avatar = filter.attributes.avatar || {};
     expect(result).toMatchObject({
@@ -66,7 +66,7 @@ describe('mapJiraItemToResult', () => {
 
   it('should be able to parse jira board', () => {
     const board = generateRandomJiraBoard() as JiraItemV2;
-    const result = mapJiraItemToResult(board);
+    const result = mapJiraItemToResult(AnalyticsType.ResultJira)(board);
 
     const avatar = board.attributes.avatar || {};
     expect(result).toMatchObject({
@@ -84,7 +84,7 @@ describe('mapJiraItemToResult', () => {
 
   it('should be able to parse jira project', () => {
     const project = generateRandomJiraProject() as JiraItemV2;
-    const result = mapJiraItemToResult(project);
+    const result = mapJiraItemToResult(AnalyticsType.ResultJira)(project);
 
     const avatar = project.attributes.avatar || {};
     expect(result).toMatchObject({
@@ -107,10 +107,21 @@ describe('mapJiraItemToResult', () => {
       ...(generateRandomJiraBoard() as JiraItemV2),
       url,
     };
-    const result = mapJiraItemToResult(board);
+    const result = mapJiraItemToResult(AnalyticsType.ResultJira)(board);
 
     expect(result.href).toEqual(url);
   });
+
+  [AnalyticsType.ResultJira, AnalyticsType.RecentJira].forEach(
+    analyticsType => {
+      it(`should take the ${analyticsType} analytics type`, () => {
+        const board = generateRandomJiraBoard() as JiraItemV2;
+        const result = mapJiraItemToResult(analyticsType)(board);
+
+        expect(result.analyticsType).toEqual(analyticsType);
+      });
+    },
+  );
 
   describe('avatar url', () => {
     it('should be able to extract the 48x48 avatar url', () => {
@@ -118,7 +129,7 @@ describe('mapJiraItemToResult', () => {
       const avatar = issue.attributes.avatar || {};
       avatar.url = undefined;
       avatar.urls = { ['32x32']: 'http://32url', ['48x48']: 'http://48url' };
-      const result = mapJiraItemToResult(issue);
+      const result = mapJiraItemToResult(AnalyticsType.ResultJira)(issue);
       expect(result.avatarUrl).toBe('http://48url');
     });
 
@@ -127,7 +138,7 @@ describe('mapJiraItemToResult', () => {
       const avatar = issue.attributes.avatar || {};
       avatar.url = undefined;
       avatar.urls = { ['32x32']: 'http://32url', ['16x16']: 'http://16url' };
-      const result = mapJiraItemToResult(issue);
+      const result = mapJiraItemToResult(AnalyticsType.ResultJira)(issue);
       expect(result.avatarUrl).toBe('http://32url');
     });
   });

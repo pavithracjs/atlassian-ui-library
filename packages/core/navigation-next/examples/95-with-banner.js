@@ -124,7 +124,7 @@ export default class Example extends Component<{}, State> {
   state = {
     shouldDisplayContainerNav: true,
     isBannerVisible: true,
-    bannerHeight: 200,
+    bannerHeight: 52,
   };
 
   toggleContainerNav = () => {
@@ -203,9 +203,13 @@ export default class Example extends Component<{}, State> {
           <div
             css={{
               height: `${bannerHeight}px`,
-              padding: '2rem',
               boxSizing: 'border-box',
               backgroundColor: 'salmon',
+              zIndex: 1,
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
             }}
           >
             HTML banner
