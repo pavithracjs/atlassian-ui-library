@@ -24,6 +24,7 @@ describe('Snapshot Test: Extensions', () => {
   });
 
   afterEach(async () => {
+    await page.waitFor(300); // wait overflow shadow to render.
     await snapshot(page);
   });
 

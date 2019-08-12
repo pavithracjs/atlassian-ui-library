@@ -23,6 +23,7 @@ export interface OverflowShadowOptions {
 }
 
 const isIE11 = browser.ie_version === 11;
+const defaultDebounceTime = 250;
 
 export default function overflowShadow<P extends OverflowShadowProps>(
   Component: React.ComponentType<P> | React.StatelessComponent<P>,
@@ -36,10 +37,17 @@ export default function overflowShadow<P extends OverflowShadowProps>(
     container?: HTMLElement;
     scrollable?: NodeList;
     diff?: number;
+    updateRightShadowDebounce?: number;
 
     state = {
       showLeftShadow: false,
       showRightShadow: false,
+    };
+
+    clearUpdateRightShadowDebounce = () => {
+      if (this.updateRightShadowDebounce) {
+        clearTimeout(this.updateRightShadowDebounce);
+      }
     };
 
     componentWillUnmount() {
@@ -50,8 +58,8 @@ export default function overflowShadow<P extends OverflowShadowProps>(
         );
       }
 
-      this.handleUpdateRightShadow.cancel();
       this.handleScrollDebounced.cancel();
+      this.clearUpdateRightShadowDebounce();
     }
 
     componentDidUpdate() {
@@ -82,7 +90,13 @@ export default function overflowShadow<P extends OverflowShadowProps>(
       }
     };
 
-    handleUpdateRightShadow = rafSchedule(this.updateRightShadow);
+    handleUpdateRightShadow = () => {
+      this.clearUpdateRightShadowDebounce();
+      this.updateRightShadowDebounce = window.setTimeout(
+        () => this.updateRightShadow(),
+        defaultDebounceTime,
+      );
+    };
     handleScrollDebounced = rafSchedule(this.handleScroll);
 
     calcOverflowDiff = () => {

@@ -18,6 +18,7 @@ describe('Snapshot Test: Overflow shadows', () => {
   });
 
   afterEach(async () => {
+    await page.waitFor(300);
     await snapshot(page);
   });
 
