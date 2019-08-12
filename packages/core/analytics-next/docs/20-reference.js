@@ -123,7 +123,11 @@ ${code`
 
   ${code`import { AnalyticsErrorBoundary } from '@atlaskit/analytics-next';`}
 
-  Wrap part of your tree in \`AnalyticsErrorBoundary\` to provide error boundary track to any events created beneath it. When an component is created it verify all of the components above it in the tree and any error will be catched and tracked automatically. It's up to you to pass this information when you're adding the component.
+  Wrap part of your tree in \`AnalyticsErrorBoundary\` to provide error boundary track to any events created beneath it.
+
+  When a component is created verifies all of the components above it in the tree and any error will be catched and tracked automatically.
+
+  It's up to the developer pass this information when you're adding the component.
 
   Usage:
 
