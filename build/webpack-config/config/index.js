@@ -242,7 +242,7 @@ function getPlugins(
     websiteEnv,
     report,
     isAnalyticsGASv3Enabled = false,
-  } /*: { websiteDir: string, websiteEnv: string, report: boolean, isProduction: boolean } */,
+  } /*: { websiteDir: string, websiteEnv: string, report: boolean, isProduction: boolean, isAnalyticsGASv3Enabled: boolean } */,
 ) {
   const faviconPath = path.join(
     websiteDir,
@@ -266,7 +266,7 @@ function getPlugins(
     }),
 
     new webpack.DefinePlugin({
-      ENABLE_ANALYTICS_GASV3: `${isAnalyticsGASv3Enabled}`,
+      ENABLE_ANALYTICS_GASV3: `${String(isAnalyticsGASv3Enabled)}`,
       WEBSITE_ENV: `"${websiteEnv}"`,
       BASE_TITLE: `"Atlaskit by Atlassian ${!isProduction ? '- DEV' : ''}"`,
       DEFAULT_META_DESCRIPTION: `"Atlaskit is the official component library for Atlassian's Design System."`,
