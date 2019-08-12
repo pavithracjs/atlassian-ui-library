@@ -6,7 +6,7 @@
  */
 // Chinese
 export default {
-  'fabric.mention.unknow.user.error': '未知用户 {id}',
+  'fabric.mention.unknow.user.error': '未知用户 {userId}',
   'fabric.mention.noAccess.warning': '将不会通知{name}因为他们无法访问',
   'fabric.mention.noAccess.label': '无法访问',
   'fabric.mention.error.defaultHeadline': '出错了',
@@ -20,4 +20,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50 多位成员',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50 多位成员，包括您',
+  'fabric.elements.mentions.team.mention.highlight.title': '提及您的团队',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    '一键提及此页面的所有人。无需提及团队？',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    '开始一项。',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    '放弃',
 };
