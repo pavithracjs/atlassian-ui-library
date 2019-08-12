@@ -12,7 +12,7 @@ import {
   UIAnalyticsEventInterface,
   ObjectType,
 } from '@atlaskit/analytics-next';
-import { WorklensProductType } from '../../types';
+import { ProductTopItemVariation, WorklensProductType } from '../../types';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
   const stubIcon = () => <span />;
@@ -78,6 +78,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
         href: 'https://example.com',
       },
     ],
+    ...(props.overrideSwitcherLinks || {}),
   };
   return (
     <IntlProvider locale="en">
@@ -90,6 +91,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
           messages={messages}
           hasLoaded
           hasLoadedCritical
+          productTopItemVariation={ProductTopItemVariation.mostFrequentSite}
           {...switcherLinks}
           {...props}
         />
@@ -129,7 +131,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
         licensedProducts: ['jira'],
         adminLinks: ['discoverMore'],
         fixedLinks: ['people'],
-        experimental_productTopItemMostFrequent: null,
+        productTopItemVariation: ProductTopItemVariation.mostFrequentSite,
+        numberOfSites: 2,
       },
     });
 
@@ -142,6 +145,45 @@ describe('Atlassian Switcher - Component Analytics', () => {
     });
     expect(payload.attributes).toHaveProperty('duration');
     expect(payload.attributes.duration).toBeGreaterThanOrEqual(0);
+  });
+
+  it('should fire "atlassianSwitcher viewed" with correct numberOfSites for site-centric', async () => {
+    // site-centric response doesn't have any childItems
+    const overrideSwitcherLinks = {
+      licensedProductLinks: [
+        {
+          key: 'jira',
+          label: 'Jira',
+          Icon: () => <span />,
+          href: '/secure/MyJiraHome.jspa',
+          productType: WorklensProductType.JIRA_BUSINESS,
+        },
+      ],
+    };
+    eventStream = createStream();
+    wrapper = mount(
+      <DefaultAtlassianSwitcher
+        onEventFired={eventStream}
+        productTopItemVariation={ProductTopItemVariation.currentSite}
+        overrideSwitcherLinks={overrideSwitcherLinks}
+      />,
+    );
+
+    // UI event when the Switcher is viewed at all (before content load)
+    const { payload: viewedPayload } = await eventStream.next();
+    expect(viewedPayload).toMatchObject({
+      eventType: 'ui',
+      action: 'viewed',
+      actionSubject: 'atlassianSwitcher',
+      attributes: {
+        suggestedProducts: ['confluence.ondemand'],
+        licensedProducts: ['jira'],
+        adminLinks: ['discoverMore'],
+        fixedLinks: ['people'],
+        productTopItemVariation: ProductTopItemVariation.currentSite,
+        numberOfSites: 1,
+      },
+    });
   });
 
   describe('should fire "atlassianSwitcherItem clicked"', () => {

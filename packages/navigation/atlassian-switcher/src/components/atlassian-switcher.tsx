@@ -25,9 +25,7 @@ type AtlassianSwitcherProps = {
   product: string;
   cloudId?: string;
   triggerXFlow?: TriggerXFlowCallback;
-  isDiscoverMoreForEveryoneEnabled?: boolean;
   onDiscoverMoreClicked?: DiscoverMoreCallback;
-  experimental_productTopItemMostFrequent?: boolean;
   recommendationsFeatureFlags?: RecommendationsFeatureFlags;
 } & Partial<FeatureFlagProps>;
 
