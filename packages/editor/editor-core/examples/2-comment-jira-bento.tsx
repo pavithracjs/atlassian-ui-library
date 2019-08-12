@@ -74,8 +74,8 @@ export class CommentEditorJiraBento extends React.Component<Props, State> {
                 allowTextColor={true}
                 allowTables={true}
                 allowPanel={true}
+                allowHelpDialog={true}
                 placeholder="We support markdown! Try **bold**, `inline code`, or ``` for code blocks."
-                allowHelpDialog
                 primaryToolbarComponents={[
                   <ToolbarHelp titlePosition="top" title="Help" />,
                 ]}
