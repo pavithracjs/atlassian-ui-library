@@ -1,5 +1,13 @@
 # @atlaskit/media-picker
 
+## 46.0.6
+
+### Patch Changes
+
+- [patch][15290ac8ad](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/15290ac8ad):
+
+  Fix issue where popup media-picker doesn't throw upload-end event
+
 ## 46.0.5
 
 ### Patch Changes

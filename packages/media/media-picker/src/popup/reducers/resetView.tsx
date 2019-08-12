@@ -1,7 +1,12 @@
 import { Action } from 'redux';
 
 import { isResetViewAction } from '../actions/resetView';
-import { State, SelectedItem, LocalUploads } from '../domain';
+import { State, SelectedItem, LocalUploads, LocalUpload } from '../domain';
+
+const hasEndOrErrorEvent = (localUpload: LocalUpload) =>
+  !!localUpload.events.find(
+    event => event.name === 'upload-end' || event.name === 'upload-error',
+  );
 
 export default function resetView(state: State, action: Action): State {
   if (isResetViewAction(action)) {
@@ -10,8 +15,8 @@ export default function resetView(state: State, action: Action): State {
     const oldUploads = state.uploads;
     const uploads = Object.keys(oldUploads)
       .filter(uploadId => {
-        const progress = oldUploads[uploadId].progress;
-        return typeof progress === 'number' && progress < 1; // remove files that finished upload
+        // remove files that has finished uploading and processing
+        return !hasEndOrErrorEvent(oldUploads[uploadId]);
       })
       .reduce<LocalUploads>((uploads, fileIdToKeep) => {
         uploads[fileIdToKeep] = oldUploads[fileIdToKeep];

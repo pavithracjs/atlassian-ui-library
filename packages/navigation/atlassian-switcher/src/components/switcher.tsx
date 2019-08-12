@@ -46,7 +46,7 @@ type SwitcherProps = {
   adminLinks: SwitcherItemType[];
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
-  experimental_productTopItemMostFrequent?: boolean;
+  productTopItemVariation?: string;
   manageLink?: string;
 };
 
@@ -128,7 +128,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
       manageLink,
       hasLoaded,
       hasLoadedCritical,
-      experimental_productTopItemMostFrequent,
+      productTopItemVariation,
     } = this.props;
 
     /**
@@ -147,16 +147,20 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     const firstContentArrived = Boolean(licensedProductLinks.length);
 
-    const allSites =
-      licensedProductLinks &&
-      licensedProductLinks.map(item => {
-        const connectedSites = item.childItems
-          ? item.childItems.map(childItem => childItem.label)
-          : [];
-
-        return [item.description, ...connectedSites];
+    let numberOfSites = firstContentArrived ? 1 : 0;
+    if (licensedProductLinks) {
+      const uniqueSets: { [key: string]: boolean } = {};
+      licensedProductLinks.forEach(link => {
+        (link.childItems || []).forEach(item => {
+          uniqueSets[item.label] = true;
+        });
       });
-    const hasMultipleSites = allSites && [...new Set(allSites)].length > 1;
+
+      const numbberOfUniqueSites = Object.keys(uniqueSets).length;
+      if (numbberOfUniqueSites > 0) {
+        numberOfSites = numbberOfUniqueSites;
+      }
+    }
 
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
@@ -169,9 +173,8 @@ export default class Switcher extends React.Component<SwitcherProps> {
                 suggestedProducts: suggestedProductLinks.map(item => item.key),
                 adminLinks: adminLinks.map(item => item.key),
                 fixedLinks: fixedLinks.map(item => item.key),
-                experimental_productTopItemMostFrequent: hasMultipleSites
-                  ? Boolean(experimental_productTopItemMostFrequent)
-                  : null,
+                numberOfSites,
+                productTopItemVariation,
               }}
             />
           )}
