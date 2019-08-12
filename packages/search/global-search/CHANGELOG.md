@@ -1,5 +1,29 @@
 # @atlaskit/global-search
 
+## 11.0.2
+
+### Patch Changes
+
+- [patch][3aae2cb8c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3aae2cb8c7):
+
+  Move @types/seedrandom from dependencies to devDependencies.
+
+## 11.0.1
+
+### Patch Changes
+
+- [patch][a601885d40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a601885d40):
+
+  Bump global-search to fix an issue with current master branch getting out of sync between bitbucket and npm.
+
+## 11.0.0
+
+### Major Changes
+
+- [major][5ea608f95d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ea608f95d):
+
+  Enables faster search by default. Modified date is now part of simple extensions
+
 ## 10.7.0
 
 ### Minor Changes

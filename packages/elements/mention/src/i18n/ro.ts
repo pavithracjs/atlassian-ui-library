@@ -6,7 +6,7 @@
  */
 // Romanian
 export default {
-  'fabric.mention.unknow.user.error': 'Utilizator necunoscut {id}',
+  'fabric.mention.unknow.user.error': 'Utilizator necunoscut {userId}',
   'fabric.mention.noAccess.warning':
     '{name} nu va fi notificat deoarece nu are acces',
   'fabric.mention.noAccess.label': 'Fără acces',
@@ -21,4 +21,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ membri',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ membri, inclusiv dvs.',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Menționați echipa',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Aduceți pe toată lumea pe pagină cu un singur click. Nu este nicio echipă?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Începere',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Ignorare',
 };

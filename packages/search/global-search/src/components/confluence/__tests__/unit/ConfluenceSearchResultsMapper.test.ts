@@ -28,7 +28,6 @@ const abTest = {
 
 const features: ConfluenceFeatures = {
   abTest,
-  isInFasterSearchExperiment: false,
   useUrsForBootstrapping: false,
   searchExtensionsEnabled: false,
   isAutocompleteEnabled: false,

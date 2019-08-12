@@ -1,5 +1,13 @@
 # @atlaskit/droplist
 
+## 9.0.10
+
+### Patch Changes
+
+- [patch][27ae405d29](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27ae405d29):
+
+  Removed unused dependencies from package.json for droplist: keycode and classnames were unused.
+
 ## 9.0.9
 
 ### Patch Changes

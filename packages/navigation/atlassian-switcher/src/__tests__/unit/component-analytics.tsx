@@ -12,6 +12,7 @@ import {
   UIAnalyticsEventInterface,
   ObjectType,
 } from '@atlaskit/analytics-next';
+import { ProductTopItemVariation, WorklensProductType } from '../../types';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
   const stubIcon = () => <span />;
@@ -22,6 +23,17 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
         label: 'Jira',
         Icon: stubIcon,
         href: '/secure/MyJiraHome.jspa',
+        productType: WorklensProductType.JIRA_BUSINESS,
+        childItems: [
+          {
+            label: 'some-site',
+            href: '/some-jira-site',
+          },
+          {
+            label: 'other-site',
+            href: '/other-jira-site',
+          },
+        ],
       },
     ],
     suggestedProductLinks: [
@@ -66,6 +78,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
         href: 'https://example.com',
       },
     ],
+    ...(props.overrideSwitcherLinks || {}),
   };
   return (
     <IntlProvider locale="en">
@@ -78,6 +91,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
           messages={messages}
           hasLoaded
           hasLoadedCritical
+          productTopItemVariation={ProductTopItemVariation.mostFrequentSite}
           {...switcherLinks}
           {...props}
         />
@@ -117,6 +131,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
         licensedProducts: ['jira'],
         adminLinks: ['discoverMore'],
         fixedLinks: ['people'],
+        productTopItemVariation: ProductTopItemVariation.mostFrequentSite,
+        numberOfSites: 2,
       },
     });
 
@@ -131,6 +147,45 @@ describe('Atlassian Switcher - Component Analytics', () => {
     expect(payload.attributes.duration).toBeGreaterThanOrEqual(0);
   });
 
+  it('should fire "atlassianSwitcher viewed" with correct numberOfSites for site-centric', async () => {
+    // site-centric response doesn't have any childItems
+    const overrideSwitcherLinks = {
+      licensedProductLinks: [
+        {
+          key: 'jira',
+          label: 'Jira',
+          Icon: () => <span />,
+          href: '/secure/MyJiraHome.jspa',
+          productType: WorklensProductType.JIRA_BUSINESS,
+        },
+      ],
+    };
+    eventStream = createStream();
+    wrapper = mount(
+      <DefaultAtlassianSwitcher
+        onEventFired={eventStream}
+        productTopItemVariation={ProductTopItemVariation.currentSite}
+        overrideSwitcherLinks={overrideSwitcherLinks}
+      />,
+    );
+
+    // UI event when the Switcher is viewed at all (before content load)
+    const { payload: viewedPayload } = await eventStream.next();
+    expect(viewedPayload).toMatchObject({
+      eventType: 'ui',
+      action: 'viewed',
+      actionSubject: 'atlassianSwitcher',
+      attributes: {
+        suggestedProducts: ['confluence.ondemand'],
+        licensedProducts: ['jira'],
+        adminLinks: ['discoverMore'],
+        fixedLinks: ['people'],
+        productTopItemVariation: ProductTopItemVariation.currentSite,
+        numberOfSites: 1,
+      },
+    });
+  });
+
   describe('should fire "atlassianSwitcherItem clicked"', () => {
     const appSwitcherLinksCategories = [
       {
@@ -143,6 +198,18 @@ describe('Atlassian Switcher - Component Analytics', () => {
           groupItemsCount: 4,
           domain: 'invalid',
         },
+      },
+      {
+        name: 'for licensedProductLinks expand',
+        data: {
+          itemType: 'product',
+          itemId: 'jira',
+          itemsCount: 6,
+          groupItemIndex: 0,
+          groupItemsCount: 4,
+          domain: 'invalid',
+        },
+        subject: 'atlassianSwitcherItemExpand',
       },
       {
         name: 'for suggestedProductLinks',
@@ -214,7 +281,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
         expect(payload).toMatchObject({
           eventType: 'ui',
           action: 'clicked',
-          actionSubject: 'atlassianSwitcherItem',
+          actionSubject:
+            appSwitcherLinkCategory.subject || 'atlassianSwitcherItem',
         });
         expect(flattenContext(context)).toMatchObject({
           group: 'switchTo',
@@ -222,6 +290,53 @@ describe('Atlassian Switcher - Component Analytics', () => {
         });
       });
     }
+  });
+
+  it('should fire "atlassianSwitcherItemExpand clicked" and "atlassianSwitcherChildItem clicked"', async () => {
+    const analyticsData = {
+      itemType: 'product',
+      itemId: 'jira',
+      itemsCount: 6,
+      groupItemIndex: 0,
+      groupItemsCount: 4,
+      domain: 'invalid',
+      productType: WorklensProductType.JIRA_BUSINESS,
+    };
+
+    // skip viewed/rendered events
+    eventStream.skip(2);
+
+    const expandToggle = wrapper.find(
+      '[data-test-id="switcher-expand-toggle"]',
+    );
+    expandToggle.at(0).simulate('click');
+    const { payload, context } = await eventStream.next();
+    expect(payload).toMatchObject({
+      eventType: 'ui',
+      action: 'clicked',
+      actionSubject: 'atlassianSwitcherItemExpand',
+    });
+    expect(flattenContext(context)).toMatchObject({
+      group: 'switchTo',
+      ...analyticsData,
+    });
+
+    const childItem = wrapper.find('[data-test-id="switcher-child-item"]');
+    childItem.at(0).simulate('click');
+
+    const {
+      payload: childItemClickPayload,
+      context: childItemClickContext,
+    } = await eventStream.next();
+    expect(childItemClickPayload).toMatchObject({
+      eventType: 'ui',
+      action: 'clicked',
+      actionSubject: 'atlassianSwitcherChildItem',
+    });
+    expect(flattenContext(childItemClickContext)).toMatchObject({
+      group: 'switchTo',
+      ...analyticsData,
+    });
   });
 
   it('should fire "button clicked - manageListButton"', async () => {

@@ -1,5 +1,13 @@
 # @atlaskit/date
 
+## 0.7.3
+
+### Patch Changes
+
+- [patch][01cfa54997](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/01cfa54997):
+
+  Move @types/date-fns from dependencies to devDependencies.
+
 ## 0.7.2
 
 ### Patch Changes

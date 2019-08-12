@@ -10,7 +10,6 @@ declare module '@atlaskit/comment';
 declare module '@atlaskit/datetime-picker';
 declare module '@atlaskit/dropdown-menu';
 declare module '@atlaskit/droplist';
-declare module '@atlaskit/empty-state';
 declare module '@atlaskit/feedback-collector';
 declare module '@atlaskit/field-radio-group';
 declare module '@atlaskit/field-range';
