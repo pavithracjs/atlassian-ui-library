@@ -101,8 +101,10 @@ export default class MediaSingleNode extends Component<
   };
 
   async componentDidMount() {
-    await this.setViewMediaClientConfig(this.props);
-    await this.updateMediaNodeAttributes(this.props);
+    await Promise.all([
+      this.setViewMediaClientConfig(this.props),
+      this.updateMediaNodeAttributes(this.props),
+    ]);
   }
 
   private onExternalImageLoaded = ({

@@ -40,16 +40,24 @@ export class MediaNodeUpdater {
     )(this.props.view.state, this.props.view.dispatch);
   };
 
+  hasFileAttributesDefined = () => {
+    const attrs = this.getAttrs();
+    return (
+      attrs && attrs.__fileName && attrs.__fileMimeType && attrs.__fileSize
+    );
+  };
+
   updateFileAttrs = async () => {
     const attrs = this.getAttrs();
     const mediaProvider = await this.props.mediaProvider;
 
-    if (!mediaProvider || !mediaProvider.uploadParams || !attrs || !attrs.id) {
-      return;
-    }
-
-    // If file attributes are defined we just exit execution.
-    if (attrs.__fileName && attrs.__fileMimeType && attrs.__fileSize) {
+    if (
+      !mediaProvider ||
+      !mediaProvider.uploadParams ||
+      !attrs ||
+      !attrs.id ||
+      this.hasFileAttributesDefined()
+    ) {
       return;
     }
 
@@ -66,12 +74,14 @@ export class MediaNodeUpdater {
       return;
     }
 
+    const { name, mimeType, size } = fileState;
+
     updateMediaNodeAttrs(
       attrs.id,
       {
-        __fileName: fileState.name,
-        __fileMimeType: fileState.mimeType,
-        __fileSize: fileState.size,
+        __fileName: name,
+        __fileMimeType: mimeType,
+        __fileSize: size,
       },
       true,
     )(this.props.view.state, this.props.view.dispatch);
