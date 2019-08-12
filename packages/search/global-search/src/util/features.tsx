@@ -30,7 +30,6 @@ export interface ConfluenceFeatures extends CommonFeatures {
 
 export interface JiraFeatures extends CommonFeatures {
   disableJiraPreQueryPeopleSearch: boolean;
-  enablePreQueryFromAggregator: boolean;
 }
 
 export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
@@ -39,7 +38,6 @@ export const DEFAULT_FEATURES: ConfluenceFeatures & JiraFeatures = {
   isNavAutocompleteEnabled: false,
   complexSearchExtensionsEnabled: false,
   disableJiraPreQueryPeopleSearch: false,
-  enablePreQueryFromAggregator: false,
   searchExtensionsEnabled: false,
   abTest: DEFAULT_AB_TEST,
 };
