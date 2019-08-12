@@ -366,7 +366,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
     return this.props.crossProductSearchClient
       .getRecentItems({
-        scopes: SCOPES,
+        context: 'jira',
         modelParams: [],
         resultLimit: getJiraMaxObjects(
           features.abTest,

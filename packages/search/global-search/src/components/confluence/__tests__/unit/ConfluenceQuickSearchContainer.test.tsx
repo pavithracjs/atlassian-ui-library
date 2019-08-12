@@ -38,6 +38,7 @@ import {
   SearchResultsMap,
   FilterType,
   SearchParams,
+  RecentParams,
 } from '../../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../SearchResultsUtil';
 
@@ -89,7 +90,7 @@ const mockCrossProductSearchClient = {
   search(searchParams: SearchParams) {
     return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE) as any;
   },
-  getRecentItems(searchParams: SearchParams) {
+  getRecentItems(searchParams: RecentParams) {
     return Promise.reject(
       'Recent items is not supported for Confluence scopes',
     );

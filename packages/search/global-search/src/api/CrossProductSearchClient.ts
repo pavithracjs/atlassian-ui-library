@@ -157,7 +157,7 @@ export interface SearchParams {
 }
 
 export interface RecentParams {
-  scopes: Scope[];
+  context: QuickSearchContext;
   modelParams: ModelParam[];
   resultLimit?: number;
   filters?: Filter[];
@@ -297,7 +297,7 @@ export default class CachingCrossProductSearchClientImpl
   }
 
   public async getRecentItems({
-    scopes,
+    context,
     modelParams,
     resultLimit = this.RESULT_LIMIT,
     filters = [],
@@ -307,7 +307,7 @@ export default class CachingCrossProductSearchClientImpl
       query: '',
       cloudId: this.cloudId,
       limit: resultLimit,
-      scopes,
+      scopes: mapContextToScopes(context),
       filters: filters,
       ...(modelParams.length > 0 ? { modelParams } : {}),
     };
@@ -485,4 +485,14 @@ function mapItemToNavCompletionString(item: SearchItem): string {
   const completionItem = item as NavScopeResultItem;
 
   return completionItem.query;
+}
+
+function mapContextToScopes(context: QuickSearchContext) {
+  if ((context = 'jira')) {
+    return [Scope.JiraIssue, Scope.JiraBoardProjectFilter];
+  } else {
+    throw new Error(
+      `Supplied contet ${context} is not supported for pre-fetching`,
+    );
+  }
 }
