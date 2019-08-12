@@ -6,7 +6,7 @@
  */
 // Russian
 export default {
-  'fabric.mention.unknow.user.error': 'Неизвестный пользователь: {id}',
+  'fabric.mention.unknow.user.error': 'Неизвестный пользователь: {userId}',
   'fabric.mention.noAccess.warning':
     '{name} не получит уведомление, так как доступ для этого пользователя закрыт.',
   'fabric.mention.noAccess.label': 'Нет доступа',
@@ -23,4 +23,12 @@ export default {
   'fabric.elements.mentions.team.member.50plus': 'Более 50 участников',
   'fabric.elements.mentions.team.member.50plus.including.you':
     'Более 50 участников, включая вас',
+  'fabric.elements.mentions.team.mention.highlight.title':
+    'Упомяните свою команду',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Добавьте всех на страницу одним кликом. У вас нет команды?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Давайте создадим ее!',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Закрыть',
 };

@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.0.2
+
+### Patch Changes
+
+- [patch][3aae2cb8c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3aae2cb8c7):
+
+  Move @types/seedrandom from dependencies to devDependencies.
+
 ## 11.0.1
 
 ### Patch Changes

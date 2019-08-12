@@ -1,0 +1,1 @@
+ED-7344: trigger mutation observer callback only when new DIV nodes are inserted into table cells

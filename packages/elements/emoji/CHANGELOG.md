@@ -1,5 +1,13 @@
 # @atlaskit/emoji
 
+## 62.2.8
+
+### Patch Changes
+
+- [patch][6785d8d4e4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6785d8d4e4):
+
+  Move @types/js-search from dependencies to devDependencies.
+
 ## 62.2.7
 
 ### Patch Changes

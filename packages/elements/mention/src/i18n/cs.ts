@@ -6,7 +6,7 @@
  */
 // Czech
 export default {
-  'fabric.mention.unknow.user.error': 'Neznámý uživatel {id}',
+  'fabric.mention.unknow.user.error': 'Neznámý uživatel {userId}',
   'fabric.mention.noAccess.warning':
     'Uživatel {name} nebude informován, protože nemá přístup',
   'fabric.mention.noAccess.label': 'Žádný přístup',
@@ -21,4 +21,11 @@ export default {
   'fabric.elements.mentions.team.member.50plus': '50+ členů',
   'fabric.elements.mentions.team.member.50plus.including.you':
     '50+ členů včetně vás',
+  'fabric.elements.mentions.team.mention.highlight.title': 'Zmiňte svůj tým',
+  'fabric.elements.mentions.team.mention.highlight.description':
+    'Informujte všechny jedním kliknutím. Nemáte tým?',
+  'fabric.elements.mentions.team.mention.highlight.description.link':
+    'Zadejte zmínku.',
+  'fabric.elements.mentions.team.meantion.highlight.close.button.tooltip':
+    'Zavřít',
 };
