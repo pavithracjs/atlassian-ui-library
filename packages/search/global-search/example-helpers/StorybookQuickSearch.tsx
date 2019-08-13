@@ -218,20 +218,20 @@ export default class WithNavigation extends React.Component<
     const { context: currentContext, locale } = this.state;
 
     return (
-      <BasicNavigation
-        searchDrawerContent={() => (
-          <LocaleIntlProvider locale={locale}>
-            <PrefetchedResultsProvider context={currentContext} cloudId="123">
+      <PrefetchedResultsProvider context={currentContext} cloudId="123">
+        <BasicNavigation
+          searchDrawerContent={() => (
+            <LocaleIntlProvider locale={locale}>
               <DefaultQuickSearchWrapper
                 context={currentContext}
                 //@ts-ignore
                 {...presetConfig[this.state.currentConfig] || {}}
                 {...this.props}
               />
-            </PrefetchedResultsProvider>
-          </LocaleIntlProvider>
-        )}
-      />
+            </LocaleIntlProvider>
+          )}
+        />
+      </PrefetchedResultsProvider>
     );
   };
 
