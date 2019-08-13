@@ -1,1 +1,0 @@
-Allow app to configure a backIcon for drawer component inside global navigation
