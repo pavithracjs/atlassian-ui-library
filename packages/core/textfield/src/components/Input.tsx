@@ -11,7 +11,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   // Theme controls a number of visual stylings
   theme: ThemeTokens;
 
-  // needed by TextField
+  // Needed by TextField
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   onFocus: React.FocusEventHandler<HTMLInputElement>;
   onMouseDown: React.MouseEventHandler<HTMLElement>;
@@ -43,8 +43,10 @@ export default function Input({
   ...otherProps
 }: Props) {
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
-    // we are going to override any clashes
     ...otherProps,
+    // we are going to override any clashes
+    onFocus,
+    onBlur,
     disabled: isDisabled,
     readOnly: isReadOnly,
     required: isRequired,
