@@ -5,7 +5,9 @@ import { ssr } from '@atlaskit/ssr';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import waitForExpect from 'wait-for-expect';
 
-jest.spyOn(global.console, 'error').mockImplementation(() => {});
+const error: jest.Mock = jest
+  .spyOn(global.console, 'error')
+  .mockImplementation(() => {});
 
 beforeEach(() => {
   jest.setTimeout(10000);
@@ -24,9 +26,7 @@ test('should ssr then hydrate textfield correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   await waitForExpect(() => {
-    // ignore warnings caused by emotion's server-side rendering approach
-    // eslint-disable-next-line no-console
-    const mockCalls = console.error.mock.calls.filter(
+    const mockCalls = error.mock.calls.filter(
       ([f, s]) =>
         !(
           f ===

@@ -103,6 +103,7 @@ describe('Textfield', () => {
         const focusSpy = jest.fn();
         const wrapper = mount(<Textfield onFocus={focusSpy} />);
         expect(focusSpy).toHaveBeenCalledTimes(0);
+        // @ts-ignore
         wrapper.find('input').prop('onFocus')();
         expect(focusSpy).toHaveBeenCalledTimes(1);
       });
