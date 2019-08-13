@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.2.0
+
+### Minor Changes
+
+- [minor][f0887d7b06](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f0887d7b06):
+
+  Faster search now works for Jira
+
 ## 11.1.2
 
 ### Patch Changes

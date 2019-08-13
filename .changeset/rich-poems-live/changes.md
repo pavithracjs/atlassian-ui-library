@@ -1,1 +1,0 @@
-Faster search now works for Jira
