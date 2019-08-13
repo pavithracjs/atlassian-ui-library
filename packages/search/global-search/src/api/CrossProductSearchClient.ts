@@ -488,7 +488,7 @@ function mapItemToNavCompletionString(item: SearchItem): string {
 }
 
 function mapContextToScopes(context: QuickSearchContext) {
-  if ((context = 'jira')) {
+  if (context === 'jira') {
     return [Scope.JiraIssue, Scope.JiraBoardProjectFilter];
   } else {
     throw new Error(
