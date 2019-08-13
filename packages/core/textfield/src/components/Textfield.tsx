@@ -179,12 +179,14 @@ const ForwardRefTextfield = React.forwardRef(
 export { ForwardRefTextfield as TextFieldWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<PublicProps>({
+export default withAnalyticsContext<
+  React.ComponentProps<typeof ForwardRefTextfield>
+>({
   componentName: 'textField',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<PublicProps>({
+  withAnalyticsEvents<React.ComponentProps<typeof ForwardRefTextfield>>({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'textField',

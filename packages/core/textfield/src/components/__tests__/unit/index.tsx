@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { TextFieldWithoutAnalytics as Textfield } from '../../Textfield';
+import Textfield from '../../../';
 
 describe('Textfield', () => {
   test('should show defaults', () => {
@@ -160,7 +160,7 @@ test('textfield ref should be an input', () => {
   mount(
     <div>
       <Textfield
-        ref={(input: HTMLInputElement) => {
+        ref={(input: HTMLInputElement | null) => {
           ref = input;
         }}
       />
