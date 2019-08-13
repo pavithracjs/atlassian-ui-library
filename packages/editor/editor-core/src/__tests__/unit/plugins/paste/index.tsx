@@ -49,6 +49,9 @@ import { CardProvider } from '../../../../plugins/card';
 import { GapCursorSelection, Side } from '../../../../plugins/gap-cursor';
 import { EditorProps } from '../../../..';
 
+// @ts-ignore
+import { __serializeForClipboard } from 'prosemirror-view';
+
 describe('paste plugins', () => {
   const createEditor = createEditorFactory();
   let providerFactory: ProviderFactory;
@@ -1242,6 +1245,29 @@ describe('paste plugins', () => {
           ),
         ),
       );
+    });
+  });
+
+  describe('code-block copy-paste', () => {
+    it('should persist selected language from clipboard', () => {
+      const content = doc(
+        '{<}',
+        code_block({ language: 'javascript' })(
+          'Shiver me timbers quarterdeck.',
+        ),
+        p('{>}'),
+      );
+      const { editorView } = editor(content);
+
+      // Copy code block
+      const { dom, text } = __serializeForClipboard(
+        editorView,
+        editorView.state.selection.content(),
+      );
+
+      // Paste code block
+      dispatchPasteEvent(editorView, { html: dom.innerHTML, plain: text });
+      expect(editorView.state.doc).toEqualDocument(content);
     });
   });
 
