@@ -77,7 +77,12 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
-              - bolt measure:dependents
+              - bolt measure:dependents:s3
+              - node build/ci-scripts/merge.json.in.folder.js .currentBundleSize
+              - if [ -e ".currentBundleSize/merged.json" ]; then node build/ci-scripts/upload.build.artefact.for.commit.js .currentBundleSize/merged.json; fi
+            artifacts:
+              # Remove this adding for debugging
+              - .currentBundleSize/**
             after-script:
               - yarn send:stepFailureEvents
             caches:
