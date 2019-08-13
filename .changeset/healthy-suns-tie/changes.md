@@ -1,1 +1,0 @@
-CEMS-201: Fix icon sizes in block extension headers
