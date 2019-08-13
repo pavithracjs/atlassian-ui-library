@@ -442,6 +442,8 @@ if (typeof document !== 'undefined' && typeof window !== 'undefined') {
 }
 
 if (process.env.CI) {
+  // Currently, a lot of warnings are thrown because of the component deprecation.
+  process.env.NODE_ENV = 'production';
   beforeEach(() => {
     consoleError = console.error;
     consoleWarn = console.warn;
