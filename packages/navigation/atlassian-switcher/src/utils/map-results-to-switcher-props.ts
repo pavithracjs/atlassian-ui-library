@@ -7,14 +7,13 @@ import {
   getSuggestedProductLink,
   SwitcherItemType,
   getAvailableProductLinks,
-  MAX_PRODUCT_COUNT,
 } from './links';
 import {
   isComplete,
   isError,
-  isLoading,
   ProviderResult,
   Status,
+  hasLoaded,
 } from '../providers/as-data-provider';
 import {
   CustomLinksResponse,
@@ -29,34 +28,21 @@ import {
 } from '../types';
 import { createCollector } from './create-collector';
 
-function getExpandLink(
-  availableProducts: ProviderResult<AvailableProductsResponse>,
-) {
-  if (availableProducts === undefined || isError(availableProducts)) {
-    return 'https://start.atlassian.com?utm_source=switcher';
-  }
-  if (
-    isComplete(availableProducts) &&
-    availableProducts.data.sites.length > MAX_PRODUCT_COUNT
-  ) {
-    const isStagingInstance = availableProducts.data.sites.some(
-      site => site.url.indexOf('.jira-dev.com') !== -1,
-    );
-    return `https://start.${
-      isStagingInstance ? 'stg.' : ''
-    }atlassian.com?utm_source=switcher`;
-  }
-}
-
 function collectAvailableProductLinks(
+  cloudId: string | null | undefined,
   availableProducts?: ProviderResult<AvailableProductsResponse>,
+  productTopItemVariation?: string,
 ): SwitcherItemType[] | undefined {
   if (availableProducts) {
     if (isError(availableProducts)) {
       return [];
     }
     if (isComplete(availableProducts)) {
-      return getAvailableProductLinks(availableProducts.data);
+      return getAvailableProductLinks(
+        availableProducts.data,
+        cloudId,
+        productTopItemVariation,
+      );
     }
     return;
   }
@@ -262,13 +248,21 @@ export function mapResultsToSwitcherProps(
       ? asLicenseInformationProviderResult(availableProducts, cloudId)
       : licenseInformation;
 
+  const hasLoadedLicenseInformation = hasLoaded(resolvedLicenseInformation);
+  const hasLoadedAdminLinks =
+    hasLoaded(managePermission) && hasLoaded(addProductsPermission);
+  const hasLoadedSuggestedProducts = features.xflow
+    ? hasLoaded(productRecommendations) && hasLoaded(isXFlowEnabled)
+    : true;
+
   return {
-    expandLink: features.enableUserCentricProducts
-      ? getExpandLink(availableProducts)
-      : '',
     licensedProductLinks: collect(
       features.enableUserCentricProducts
-        ? collectAvailableProductLinks(availableProducts)
+        ? collectAvailableProductLinks(
+            cloudId,
+            availableProducts,
+            features.productTopItemVariation,
+          )
         : collectProductLinks(licenseInformation),
       [],
     ),
@@ -304,6 +298,10 @@ export function mapResultsToSwitcherProps(
     ),
 
     showManageLink: collect(collectCanManageLinks(managePermission), false),
-    isLoading: isLoading(resolvedLicenseInformation),
+    hasLoaded:
+      hasLoadedLicenseInformation &&
+      hasLoadedAdminLinks &&
+      hasLoadedSuggestedProducts,
+    hasLoadedCritical: hasLoadedLicenseInformation,
   };
 }

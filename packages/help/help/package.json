@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/help",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "A cross-product help component",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",

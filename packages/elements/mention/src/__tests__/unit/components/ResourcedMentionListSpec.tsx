@@ -7,15 +7,15 @@ import ResourcedMentionList, {
 } from '../../../components/ResourcedMentionList';
 
 let mockRegisterClosed = jest.fn();
-let mockIsSpotlightEnabled = jest.fn();
+let mockIsHighlightEnabled = jest.fn();
 
 jest.mock(
-  '../../../components/MentionSpotlight/MentionSpotlightController',
+  '../../../components/TeamMentionHighlight/TeamMentionHighlightController',
   () => ({
     __esModule: true,
     default: {
       registerClosed: () => mockRegisterClosed(),
-      isSpotlightEnabled: () => mockIsSpotlightEnabled(),
+      isHighlightEnabled: () => mockIsHighlightEnabled(),
     },
   }),
 );
@@ -35,48 +35,48 @@ describe('ResourcedMentionList', () => {
   }
 
   it('should show the highlight if conditions are just right', () => {
-    mockIsSpotlightEnabled.mockReturnValue(true);
+    mockIsHighlightEnabled.mockReturnValue(true);
     const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlightElement;
-    expect(spotlight).toBeDefined();
+    const highlight = element.find(MentionList).props().initialHighlightElement;
+    expect(highlight).toBeDefined();
   });
 
   it('should not show the highlight if there are no users', () => {
-    mockIsSpotlightEnabled.mockReturnValue(true);
+    mockIsHighlightEnabled.mockReturnValue(true);
     const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [] });
 
-    const spotlight = element.find(MentionList).props().initialHighlightElement;
-    expect(spotlight).toBeNull();
+    const highlight = element.find(MentionList).props().initialHighlightElement;
+    expect(highlight).toBeNull();
   });
 
-  it('should not show the highlight if the spotlight flag is disabled', () => {
-    mockIsSpotlightEnabled.mockReturnValue(true);
+  it('should not show the highlight if the highlight flag is disabled', () => {
+    mockIsHighlightEnabled.mockReturnValue(true);
     const element = render({ isTeamMentionHighlightEnabled: false });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlightElement;
-    expect(spotlight).toBeNull();
+    const highlight = element.find(MentionList).props().initialHighlightElement;
+    expect(highlight).toBeNull();
   });
 
   it('should not show the highlight if the user has opted out', () => {
-    mockIsSpotlightEnabled.mockReturnValue(false);
+    mockIsHighlightEnabled.mockReturnValue(false);
     const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlightElement;
-    expect(spotlight).toBeNull();
+    const highlight = element.find(MentionList).props().initialHighlightElement;
+    expect(highlight).toBeNull();
   });
 
   it('should register a closed event when users closes', () => {
-    mockIsSpotlightEnabled.mockReturnValue(true);
+    mockIsHighlightEnabled.mockReturnValue(true);
     const element = render({ isTeamMentionHighlightEnabled: true });
     element.setState({ mentions: [{ id: 'someUser' }] });
 
-    const spotlight = element.find(MentionList).props().initialHighlightElement;
-    spotlight && spotlight.props.onClose();
+    const highlight = element.find(MentionList).props().initialHighlightElement;
+    highlight && highlight.props.onClose();
 
     expect(mockRegisterClosed).toHaveBeenCalled();
   });

@@ -11,7 +11,7 @@ jest.spyOn(global.console, 'error').mockImplementation(() => {});
 afterEach(() => {
   jest.resetAllMocks();
 });
-// TODO: https://ecosystem.atlassian.net/browse/AK-6450
+// TODO: https://ecosystem.atlassian.net/browse/AK-6450// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
 test.skip('should ssr then hydrate tree correctly', async () => {
   const [example] = await getExamplesFor('tree');
   // $StringLitteral
@@ -32,7 +32,6 @@ test.skip('should ssr then hydrate tree correctly', async () => {
           s === 'style'
         ),
     );
-
-    expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
+    expect(mockCalls.length).toBe(0);
   });
 });

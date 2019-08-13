@@ -147,6 +147,11 @@ export interface Props {
   isAutocompleteEnabled?: boolean;
 
   /**
+   * Indicates whether or not navautocompletion features is enabled
+   */
+  isNavAutocompleteEnabled?: boolean;
+
+  /**
    * Indicates whether to disable Jira people search on the pre-query screen
    */
   disableJiraPreQueryPeopleSearch?: boolean;
@@ -176,12 +181,6 @@ export interface Props {
    * optional because it is passed only for jira
    */
   appPermission?: JiraApplicationPermission;
-
-  /**
-   * Determine whether to enable faster search for control (aka 'default').
-   * This is used for Confluence only.
-   */
-  fasterSearchFFEnabled?: boolean;
 
   /**
    * Determine whether to enable urs for bootstrapping people search.
@@ -275,7 +274,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
         spaces,
       });
 
-      if (preventEventDefault) {
+      if (preventEventDefault && e) {
         e.preventDefault();
         e.stopPropagation();
       }
@@ -286,18 +285,18 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     const {
       disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator,
-      fasterSearchFFEnabled,
       useUrsForBootstrapping,
       isAutocompleteEnabled,
+      isNavAutocompleteEnabled,
     } = this.props;
 
     return createFeatures({
       abTest,
-      fasterSearchFFEnabled: !!fasterSearchFFEnabled,
       useUrsForBootstrapping: !!useUrsForBootstrapping,
       disableJiraPreQueryPeopleSearch: !!disableJiraPreQueryPeopleSearch,
       enablePreQueryFromAggregator: !!enablePreQueryFromAggregator,
       isAutocompleteEnabled: !!isAutocompleteEnabled,
+      isNavAutocompleteEnabled: !!isNavAutocompleteEnabled,
     });
   }
 

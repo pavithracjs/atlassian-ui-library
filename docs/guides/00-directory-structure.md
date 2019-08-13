@@ -116,7 +116,10 @@ Each package's source should contain a similar directory structure. Essentially 
 3. The file name should be the name of the export. For example, if `Avatar` is a default export for a file, the file name should be `Avatar.js`. For a HoC, this might look something like `withAvatar`.
 4. In lieu of a file, you may use a directory with an `index.js` file. For example, `Avatar/index.js`.
 5. Styled components should go in a `styled.js` file, or you can use a `styled/index.js` file that exports sibling files with default exports that conform to #3 or #4. This should also follow something similar to #6 and have this for every level of components.
-6. Tests should be in a `__tests__` that correspond to the level of files you're testing and the type of testing you want to apply. A good rule of thumb is that `__tests__` should be placed under `src`. In addition, if you write different types of testing, to avoid confusion, you may club tests under subfolders. For further information about testing, please consult this [page](./testing).
+6. Tests should be in a `__tests__` that correspond to the level of files you're testing and the type of testing you want to apply. A good rule of thumb is that `__tests__` should be placed under `src`. In addition, to avoid confusion, it is mandatory to club tests files under subfolders based on their types( Unit, Integration, Visual-regression...etc). For further information about testing, please consult this [page](./testing).
+
+**Notes:** The rules listed above are exhaustive. Anything outside of them are not supported. This includes things like leading underscores (_filename.js), underscored names (file_name.js) and dotted names (file.name.js). Those statements do not apply for files under `__tests__`folders.
+
 
 Your structure may look something like this:
 
@@ -126,17 +129,23 @@ Your structure may look something like this:
     └─ avatar
       └─ src
         ├─ __tests__ ············ Tests for Avatar.js, index.js, styled.js
+        | ├─ unit ............... Unit tests for Avatar.js, index.js, styled.js
+        | ├─ integration ........ Integration tests Avatar.js, index.js, styled.js
+        | ├─ visual-regression .. Visual regression tests Avatar.js, index.js, styled.js
+        | |  ...............
         ├─ Avatar ··············· Directory form of Avatar.js
         │ ├─ __tests__ ·········· Tests for Avatar/index.js
         | |  ├─ unit ............ Unit tests for Avatar
-          |  ├─ integration ..... Integration tests for Avatar
-          |  ...............
+        | |  ├─ integration ..... Integration tests for Avatar
+        | |  ├─ visual-regression Visual regression tests for Avatar
+        | |  ...............
         │ └─ index.js ··········· Default export for Avatar
         │ └─ styled ············· Directory for styled components
         │   ├─ __tests__ ········ Tests for Styled/index.js, MyComponent.js
-        |      ├─ unit ............ Unit tests for Avatar
-        |      ├─ integration ..... Integration tests for Avatar
-        |      ...............
+        |   | ├─ unit ............ Unit tests for Styled/index.js, MyComponent.js
+        |   | ├─ integration ..... Integration tests for Styled/index.js, MyComponent.js
+        |   | ├─ visual-regression Visual regression tests for Styled/index.js, MyComponent.js
+        |   |   ...............
         │   ├─ index.js ········· Exports MyComponent
         │   └─ MyComponent.js ··· Exported by index.js
         ├─ Avatar.js ············ Simpler form of Avatar/index.js
@@ -146,8 +155,6 @@ Your structure may look something like this:
 ```
 
 The key difference between the file and directory forms (i.e. `styled.js` vs `styled/index.js`) is how complex your component becomes. What matters here is that consistency is still very close and your imports do not change.
-
-_The rules listed above are exhaustive. Anything outside of them are not supported. This includes things like leading underscores (_filename.js), underscored names (file_name.js) and dotted names (file.name.js)._
 
 #### `CHANGELOG.md`
 

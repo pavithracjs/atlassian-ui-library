@@ -136,7 +136,21 @@ export default () => (
               {scrollingItems.map(itemProps => (
                 <Item key={itemProps.text} {...itemProps} />
               ))}
-              <Separator />
+            </div>
+          )}
+        </Section>
+      </ScrollableSectionWrapper>
+    </VariationWrapper>
+    <VariationWrapper>
+      <h3>Scrollable section without overflow</h3>
+      <ScrollableSectionWrapper>
+        <Section key="scrollable-section" shouldGrow>
+          {({ css }) => (
+            <div css={css}>
+              <SectionHeading>Section heading</SectionHeading>
+              {scrollingItems.slice(0, 5).map(itemProps => (
+                <Item key={itemProps.text} {...itemProps} />
+              ))}
             </div>
           )}
         </Section>

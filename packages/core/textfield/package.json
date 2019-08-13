@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/textfield",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Text Field Component",
   "license": "Apache-2.0",
   "module": "dist/esm/index.js",
@@ -23,8 +23,7 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^5.1.2",
     "@atlaskit/theme": "^9.1.1",
-    "@babel/runtime": "^7.0.0",
-    "@emotion/core": "^10.0.9"
+    "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0"

@@ -39,11 +39,18 @@ export default class extends React.Component {
     );
   };
 
-  openDrawer = (articleId: string = '') =>
-    this.setState({
+  openDrawer = async (articleId: string = '') => {
+    if (articleId === this.state.articleId) {
+      await this.setState({
+        articleId: '',
+      });
+    }
+
+    await this.setState({
       isOpen: true,
       articleId,
     });
+  };
 
   closeDrawer = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -127,9 +134,7 @@ export default class extends React.Component {
                     onWasHelpfulNoButtonClick={
                       this.articleWasHelpfulNoButtonClick
                     }
-                  >
-                    <span>Default content</span>
-                  </Help>
+                  />
                 </LocaleIntlProvider>
               </RightSidePanel>
             </Page>

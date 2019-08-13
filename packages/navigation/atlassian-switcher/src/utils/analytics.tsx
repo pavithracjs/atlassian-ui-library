@@ -15,6 +15,8 @@ type PropsToContextMapper<P, C> = (props: P) => C;
 export const NAVIGATION_CHANNEL = 'navigation';
 export const SWITCHER_SUBJECT = 'atlassianSwitcher';
 export const SWITCHER_ITEM_SUBJECT = 'atlassianSwitcherItem';
+export const SWITCHER_CHILD_ITEM_SUBJECT = 'atlassianSwitcherChildItem';
+export const SWITCHER_ITEM_EXPAND_SUBJECT = 'atlassianSwitcherItemExpand';
 export const SWITCHER_COMPONENT = 'atlassianSwitcher';
 export const SWITCHER_SOURCE = 'atlassianSwitcher';
 export const TRIGGER_COMPONENT = 'atlassianSwitcherPrefetch';

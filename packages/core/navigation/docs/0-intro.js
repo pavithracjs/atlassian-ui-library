@@ -4,16 +4,16 @@ import { md, Props, code } from '@atlaskit/docs';
 import SectionMessage from '@atlaskit/section-message';
 
 export default md`
-  # Concepts
+${(
+  <SectionMessage
+    appearance="warning"
+    title="Note: @atlaskit/navigation is deprecated."
+  >
+    Please use @atlaskit/navigation-next instead.
+  </SectionMessage>
+)}
 
-  ${(
-    <SectionMessage appearance="error">
-      <p>
-        <strong>Note: @atlaskit/navigation is now deprecated.</strong>
-      </p>
-      <p>We recommend upgrading to @atlaskit/navigation-next</p>
-    </SectionMessage>
-  )}
+  # Concepts
 
   The navigation package is not designed to be a single component, but instead
   a composable navigation layout to sit at the far left of your app, with links

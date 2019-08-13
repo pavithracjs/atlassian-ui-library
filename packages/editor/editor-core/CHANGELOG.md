@@ -1,5 +1,48 @@
 # @atlaskit/editor-core
 
+## 112.41.3
+
+### Patch Changes
+
+- [patch][af9fb044da](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af9fb044da):
+
+  CEMS-201: Fix icon sizes in block extension headers
+
+## 112.41.2
+
+- Updated dependencies [ee804f3eeb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee804f3eeb):
+  - @atlaskit/editor-common@39.17.2
+  - @atlaskit/renderer@49.7.7
+  - @atlaskit/media-card@63.3.9
+  - @atlaskit/media-core@30.0.9
+  - @atlaskit/media-editor@36.2.7
+  - @atlaskit/media-filmstrip@34.3.1
+  - @atlaskit/media-picker@46.0.3
+  - @atlaskit/media-test-helpers@24.3.5
+  - @atlaskit/media-client@2.0.0
+
+## 112.41.1
+
+- Updated dependencies [4e8f6f609f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e8f6f609f):
+  - @atlaskit/media-picker@46.0.0
+  - @atlaskit/media-test-helpers@24.3.4
+
+## 112.41.0
+
+### Minor Changes
+
+- [minor][9b83fdea35](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b83fdea35):
+
+  TEAMS-618 : Rename Team mention spotlight to Team Mention Highlight
+
+## 112.40.2
+
+### Patch Changes
+
+- [patch][fe1a882fbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe1a882fbb):
+
+  TEAMS-602 : Can pass the team creation link from confluence as an optional parameter to the Team Mention Spotlight
+
 ## 112.40.1
 
 ### Patch Changes

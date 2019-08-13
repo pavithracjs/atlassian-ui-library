@@ -37,5 +37,6 @@ describe('Shortcut', () => {
       keyCode: 37,
     } as any);
     document.dispatchEvent(e);
+    expect(document.dispatchEvent(e)).toBeTruthy();
   });
 });

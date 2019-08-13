@@ -63,6 +63,10 @@
         "../../core/analytics-next/src/AnalyticsContext",
         "./packages/core/analytics-next/src/AnalyticsContext"
       ],
+      "@atlaskit/analytics-next/AnalyticsErrorBoundary": [
+        "../../core/analytics-next/src/AnalyticsErrorBoundary",
+        "./packages/core/analytics-next/src/AnalyticsErrorBoundary"
+      ],
       "@atlaskit/analytics-next/AnalyticsEvent": [
         "../../core/analytics-next/src/AnalyticsEvent",
         "./packages/core/analytics-next/src/AnalyticsEvent"
@@ -1506,6 +1510,10 @@
       "@atlaskit/mention/shared-styles": [
         "../../elements/mention/src/shared-styles",
         "./packages/elements/mention/src/shared-styles"
+      ],
+      "@atlaskit/mention/spotlight": [
+        "../../elements/mention/src/spotlight",
+        "./packages/elements/mention/src/spotlight"
       ],
       "@atlaskit/mention/team-resource": [
         "../../elements/mention/src/team-resource",

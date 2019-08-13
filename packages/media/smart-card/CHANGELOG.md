@@ -1,5 +1,13 @@
 # @atlaskit/smart-card
 
+## 12.4.2
+
+### Patch Changes
+
+- [patch][77b09e36eb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77b09e36eb):
+
+  fix: provide the correct url for the edge proxy to api-private.atlassian.com
+
 ## 12.4.1
 
 ### Patch Changes

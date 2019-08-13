@@ -10,6 +10,7 @@ import {
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { sendUploadEvent } from '../../../actions/sendUploadEvent';
+import { resetView } from '../../../actions';
 import finalizeUploadMiddleware, { finalizeUpload } from '../../finalizeUpload';
 import {
   FinalizeUploadAction,
@@ -24,14 +25,12 @@ describe('finalizeUploadMiddleware', () => {
     token: 'some-token',
     baseUrl: 'some-base-url',
   };
-  const upfrontId = Promise.resolve('1');
   const file = {
     id: 'some-file-id',
     name: 'some-file-name',
     type: 'some-file-type',
     creationDate: Date.now(),
     size: 12345,
-    upfrontId,
   };
   const copiedFile = {
     ...file,
@@ -147,24 +146,6 @@ describe('finalizeUploadMiddleware', () => {
     });
   });
 
-  it('Should resolve deferred id when the source id is on the store', () => {
-    const resolver = jest.fn();
-    const rejecter = jest.fn();
-    const { fetcher, store, action } = setup({
-      deferredIdUpfronts: {
-        'some-file-id': {
-          resolver,
-          rejecter,
-        },
-      },
-    });
-
-    return finalizeUpload(fetcher, store, action).then(() => {
-      expect(resolver).toHaveBeenCalledTimes(1);
-      expect(resolver).toBeCalledWith('some-copied-file-id');
-    });
-  });
-
   it('should call copyFileWithToken with the right params', async () => {
     const tenantMediaClient = fakeMediaClient();
     const { fetcher, store, action } = setup({
@@ -232,5 +213,13 @@ describe('finalizeUploadMiddleware', () => {
       name: 'some-file-name',
       size: 12345,
     });
+  });
+
+  it('should call reset view', async () => {
+    const { fetcher, store, action } = setup();
+
+    await finalizeUpload(fetcher, store, action);
+
+    expect(store.dispatch).toHaveBeenCalledWith(resetView());
   });
 });

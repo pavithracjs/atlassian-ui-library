@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { GasPurePayload, UI_EVENT_TYPE } from '@atlaskit/analytics-gas-types';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { mount } from 'enzyme';

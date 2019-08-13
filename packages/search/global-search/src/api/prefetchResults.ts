@@ -1,20 +1,25 @@
-import { ConfluenceRecentsMap, JiraResultsMap } from '../model/Result';
+import { AnalyticsType, ConfluenceRecentsMap } from '../model/Result';
 import configureSearchClients from './configureSearchClients';
 import { ConfluenceClient } from './ConfluenceClient';
-import { ABTest } from './CrossProductSearchClient';
-import { Scope } from './types';
+import {
+  ABTest,
+  CrossProductSearchClient,
+  SearchResultsMap,
+  EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
+} from './CrossProductSearchClient';
+import { mapJiraItemToResult } from './JiraItemMapper';
+import { JiraItem, Scope } from './types';
 
 interface CommonPrefetchedResults {
   abTestPromise: { [scope: string]: Promise<ABTest> };
+  crossProductRecentItemsPromise: Promise<SearchResultsMap>;
 }
 
 export interface ConfluencePrefetchedResults extends CommonPrefetchedResults {
   confluenceRecentItemsPromise: Promise<ConfluenceRecentsMap>;
 }
 
-export interface JiraPrefetchedResults extends CommonPrefetchedResults {
-  jiraRecentItemsPromise: Promise<JiraResultsMap>;
-}
+export interface JiraPrefetchedResults extends CommonPrefetchedResults {}
 
 export type GlobalSearchPrefetchedResults =
   | ConfluencePrefetchedResults
@@ -44,6 +49,20 @@ const prefetchConfluence = async (
   };
 };
 
+const prefetchJira = async (
+  crossProductSearchClient: CrossProductSearchClient,
+): Promise<SearchResultsMap> => {
+  const { results } = await crossProductSearchClient.getRecentItems({
+    context: 'jira',
+    modelParams: [],
+    resultLimit: 250,
+    mapItemToResult: (_: Scope, item) =>
+      mapJiraItemToResult(AnalyticsType.RecentJira)(item as JiraItem),
+  });
+
+  return results;
+};
+
 export const getConfluencePrefetchedData = (
   cloudId: string,
   confluenceUrl?: string,
@@ -65,6 +84,30 @@ export const getConfluencePrefetchedData = (
     abTestPromise: {
       [Scope.ConfluencePageBlogAttachment]: crossProductSearchClient.getAbTestData(
         Scope.ConfluencePageBlogAttachment,
+      ),
+    },
+    crossProductRecentItemsPromise: Promise.resolve(
+      EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE.results,
+    ),
+  };
+};
+
+export const getJiraPrefetchedData = (
+  cloudId: string,
+  jiraUrl?: string,
+): JiraPrefetchedResults => {
+  const config = jiraUrl
+    ? {
+        jiraUrl,
+      }
+    : {};
+  const { crossProductSearchClient } = configureSearchClients(cloudId, config);
+
+  return {
+    crossProductRecentItemsPromise: prefetchJira(crossProductSearchClient),
+    abTestPromise: {
+      [Scope.JiraIssue]: crossProductSearchClient.getAbTestData(
+        Scope.JiraIssue,
       ),
     },
   };

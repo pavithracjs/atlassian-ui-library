@@ -4,6 +4,7 @@ import {
   userAuthProvider,
   mediaMock,
 } from '@atlaskit/media-test-helpers';
+import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { Component } from 'react';
 import Button from '@atlaskit/button';
@@ -36,11 +37,20 @@ export default class Example extends Component<Props, State> {
     events: [],
   };
 
+  static contextTypes = {
+    // Required context in order to integrate analytics in media picker
+    getAtlaskitAnalyticsEventHandlers: PropTypes.func,
+  };
+
   async componentDidMount() {
     const popup = await MediaPicker(mediaClientConfig, {
       uploadParams: {
         collection: defaultCollectionName,
       },
+      container: document.body,
+      // Media picker requires `proxyReactContext` to enable analytics
+      // otherwise, analytics Gasv3 integrations won't work
+      proxyReactContext: this.context,
     });
 
     popup.show();

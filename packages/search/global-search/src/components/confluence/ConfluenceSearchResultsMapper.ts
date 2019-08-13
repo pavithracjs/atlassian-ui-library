@@ -102,6 +102,7 @@ export const mapSearchResultsToUIGroups = (
   searchResultsObjects: ConfluenceResultsMap | null,
   features: ConfluenceFeatures,
   searchSessionId: string,
+  hideAllSizeLozenge?: boolean,
 ): ResultsGroup[] => {
   const sliced = sliceResults(searchResultsObjects, features);
 
@@ -116,7 +117,7 @@ export const mapSearchResultsToUIGroups = (
       key: 'objects',
       title: messages.confluence_confluence_objects_heading,
       totalSize: objects.totalSize,
-      showTotalSize: features.searchExtensionsEnabled,
+      showTotalSize: !hideAllSizeLozenge && features.searchExtensionsEnabled,
     },
     {
       items: spaces.items,

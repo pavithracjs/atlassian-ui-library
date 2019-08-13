@@ -58,11 +58,24 @@ export enum Feature {
   isDiscoverMoreForEveryoneEnabled = 'isDiscoverMoreForEveryoneEnabled',
 }
 
+export enum MultiVariateFeature {
+  productTopItemVariation = 'productTopItemVariation',
+}
+
+export enum ProductTopItemVariation {
+  mostFrequentSite = 'most-frequent-site',
+  currentSite = 'current-site',
+}
+
 export type FeatureFlagProps = {
   [key in Exclude<Feature, typeof Feature.xflow>]: boolean
+} & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
 };
 
-export type FeatureMap = { [key in Feature]: boolean };
+export type FeatureMap = { [key in Feature]: boolean } & {
+  [MultiVariateFeature.productTopItemVariation]: ProductTopItemVariation;
+};
 
 export type CustomLinksResponse = CustomLink[];
 
@@ -97,6 +110,7 @@ export enum WorklensProductType {
   CONFLUENCE = 'CONFLUENCE',
   OPSGENIE = 'OPSGENIE',
   BITBUCKET = 'BITBUCKET',
+  STATUSPAGE = 'STATUSPAGE',
 }
 
 export type AvailableProduct =
@@ -146,3 +160,8 @@ export interface RecommendationItem {
 export type RecommendationsFeatureFlags = {
   [key: string]: string | boolean;
 };
+
+export interface SwitcherChildItem {
+  href: string;
+  label: string;
+}

@@ -595,3 +595,15 @@ pipelines:
                 - .masterBundleSize/**
               caches:
                 - node
+    # A pipeline to update a package's i18n translation messages.
+    # Per package, it will push i18n messages and pull translations. This is based on the package.json (i18n:push, i18n:pull)
+    # A pull request is created and assigned to defined reviewers.
+    # Each package can be configured within update.i18n.translations.js
+    update-i18n-translations:
+      - step:
+          name: Push and pull translations and create pull request
+          script:
+            - source ./build-setup.sh
+            - bolt install --pure-lockfile
+            - echo 'Pushing'; node build/ci-scripts/update.i18n.translations push
+            - echo 'Pulling'; node build/ci-scripts/update.i18n.translations pull

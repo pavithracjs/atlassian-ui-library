@@ -6,10 +6,10 @@ import isEqual from 'lodash.isequal';
 import {
   SwitcherWrapper,
   SwitcherItem,
+  SwitcherItemWithDropdown,
   Section,
   ManageButton,
   Skeleton,
-  ExpandLink,
 } from '../primitives';
 import { SwitcherItemType, RecentItemType } from '../utils/links';
 
@@ -31,16 +31,23 @@ const noop = () => void 0;
 type SwitcherProps = {
   messages: Messages;
   triggerXFlow: TriggerXFlowCallback;
+  /**
+   * Whether all the contents have been loaded
+   */
+  hasLoaded: boolean;
+  /**
+   * Whether contents considered critical path have been loaded
+   */
+  hasLoadedCritical: boolean;
   onDiscoverMoreClicked: DiscoverMoreCallback;
-  isLoading: boolean;
   licensedProductLinks: SwitcherItemType[];
   suggestedProductLinks: SwitcherItemType[];
   fixedLinks: SwitcherItemType[];
   adminLinks: SwitcherItemType[];
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
+  productTopItemVariation?: string;
   manageLink?: string;
-  expandLink?: string;
 };
 
 const getAnalyticsContext = (itemsCount: number) => ({
@@ -54,12 +61,14 @@ const getItemAnalyticsContext = (
   id: string | null,
   type: string,
   href: string,
+  productType?: string,
 ) => ({
   ...analyticsAttributes({
     groupItemIndex: index,
     itemId: id,
     itemType: type,
     domain: urlToHostname(href),
+    productType,
   }),
 });
 
@@ -110,7 +119,6 @@ export default class Switcher extends React.Component<SwitcherProps> {
   render() {
     const {
       messages,
-      expandLink,
       licensedProductLinks,
       suggestedProductLinks,
       fixedLinks,
@@ -118,7 +126,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
       recentLinks,
       customLinks,
       manageLink,
-      isLoading,
+      hasLoaded,
+      hasLoadedCritical,
+      productTopItemVariation,
     } = this.props;
 
     /**
@@ -137,18 +147,37 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     const firstContentArrived = Boolean(licensedProductLinks.length);
 
+    let numberOfSites = firstContentArrived ? 1 : 0;
+    if (licensedProductLinks) {
+      const uniqueSets: { [key: string]: boolean } = {};
+      licensedProductLinks.forEach(link => {
+        (link.childItems || []).forEach(item => {
+          uniqueSets[item.label] = true;
+        });
+      });
+
+      const numbberOfUniqueSites = Object.keys(uniqueSets).length;
+      if (numbberOfUniqueSites > 0) {
+        numberOfSites = numbberOfUniqueSites;
+      }
+    }
+
     return (
       <NavigationAnalyticsContext data={getAnalyticsContext(itemsCount)}>
         <SwitcherWrapper>
-          <ViewedTracker
-            subject={SWITCHER_SUBJECT}
-            data={{
-              switcherItems: {
+          {hasLoaded && (
+            <ViewedTracker
+              subject={SWITCHER_SUBJECT}
+              data={{
                 licensedProducts: licensedProductLinks.map(item => item.key),
                 suggestedProducts: suggestedProductLinks.map(item => item.key),
-              },
-            }}
-          />
+                adminLinks: adminLinks.map(item => item.key),
+                fixedLinks: fixedLinks.map(item => item.key),
+                numberOfSites,
+                productTopItemVariation,
+              }}
+            />
+          )}
           {firstContentArrived && (
             <RenderTracker
               subject={SWITCHER_SUBJECT}
@@ -157,16 +186,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
           )}
           <Section
             sectionId="switchTo"
-            title={
-              expandLink ? (
-                <ExpandLink
-                  href={expandLink}
-                  title={<FormattedMessage {...messages.switchTo} />}
-                />
-              ) : (
-                <FormattedMessage {...messages.switchTo} />
-              )
-            }
+            title={<FormattedMessage {...messages.switchTo} />}
           >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext
@@ -176,15 +196,21 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   item.key,
                   'product',
                   item.href,
+                  item.productType,
                 )}
               >
-                <SwitcherItem
+                <SwitcherItemWithDropdown
                   icon={<item.Icon theme="product" />}
+                  childIcon={<item.Icon theme="subtle" />}
                   description={item.description}
                   href={item.href}
+                  childItems={item.childItems}
+                  tooltipContent={
+                    <FormattedMessage {...messages.showMoreSites} />
+                  }
                 >
                   {item.label}
-                </SwitcherItem>
+                </SwitcherItemWithDropdown>
               </NavigationAnalyticsContext>
             ))}
             {suggestedProductLinks.map(item => (
@@ -287,7 +313,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               </NavigationAnalyticsContext>
             ))}
           </Section>
-          {isLoading && <Skeleton />}
+          {!hasLoadedCritical && <Skeleton />}
           {manageLink && <ManageButton href={manageLink} />}
         </SwitcherWrapper>
       </NavigationAnalyticsContext>

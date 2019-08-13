@@ -18,6 +18,7 @@ import {
   sendUploadEvent,
   SendUploadEventAction,
 } from '../actions/sendUploadEvent';
+import { resetView } from '../actions';
 
 export default function(fetcher: Fetcher): Middleware {
   return store => (next: Dispatch<State>) => (action: any) => {
@@ -72,9 +73,8 @@ async function copyFile({
   sourceFile,
   replaceFileId,
 }: CopyFileParams): Promise<SendUploadEventAction> {
-  const { deferredIdUpfronts, tenantMediaClient, config } = store.getState();
+  const { tenantMediaClient, config } = store.getState();
   const collection = config.uploadParams && config.uploadParams.collection;
-  const deferred = deferredIdUpfronts[sourceFile.id];
   const mediaStore = new MediaStore({
     authProvider: tenantMediaClient.config.authProvider,
   });
@@ -87,99 +87,90 @@ async function copyFile({
     occurrenceKey: file.occurrenceKey,
   };
 
-  return mediaStore
-    .copyFileWithToken(body, params)
-    .then(async destinationFile => {
-      const { id: publicId } = destinationFile.data;
-      if (deferred) {
-        const { resolver } = deferred;
+  try {
+    const destinationFile = await mediaStore.copyFileWithToken(body, params);
+    const { id: publicId } = destinationFile.data;
 
-        resolver(publicId);
-      }
-
-      store.dispatch(
-        sendUploadEvent({
-          event: {
-            name: 'upload-processing',
-            data: {
-              file,
-            },
+    store.dispatch(
+      sendUploadEvent({
+        event: {
+          name: 'upload-processing',
+          data: {
+            file,
           },
-          uploadId,
-        }),
-      );
-      const auth = await tenantMediaClient.config.authProvider({
-        collectionName: collection,
-      });
-      // TODO [MS-725]: replace by context.getFile
-      return fetcher.pollFile(auth, publicId, collection);
-    })
-    .then(processedDestinationFile => {
-      const subject = getFileStreamsCache().get(
-        processedDestinationFile.id,
-      ) as ReplaySubject<FileState>;
-      // We need to cast to ReplaySubject and check for "next" method since the current
-      if (subject && subject.next) {
-        const subscription = subject.subscribe({
-          next(currentState) {
-            setTimeout(() => subscription.unsubscribe(), 0);
-            setTimeout(() => {
-              const {
-                artifacts,
-                mediaType,
-                mimeType,
-                name,
-                size,
-                representations,
-              } = processedDestinationFile;
-              subject.next({
-                ...currentState,
-                status: 'processed',
-                artifacts,
-                mediaType,
-                mimeType,
-                name,
-                size,
-                representations,
-              });
-            }, 0);
-          },
-        });
-      }
-      return store.dispatch(
-        sendUploadEvent({
-          event: {
-            name: 'upload-end',
-            data: {
-              file,
-              public: processedDestinationFile,
-            },
-          },
-          uploadId,
-        }),
-      );
-    })
-    .catch(error => {
-      if (deferred) {
-        const { rejecter } = deferred;
-
-        rejecter();
-      }
-
-      return store.dispatch(
-        sendUploadEvent({
-          event: {
-            name: 'upload-error',
-            data: {
-              file,
-              error: {
-                name: 'object_create_fail',
-                description: error.message,
-              },
-            },
-          },
-          uploadId,
-        }),
-      );
+        },
+        uploadId,
+      }),
+    );
+    const auth = await tenantMediaClient.config.authProvider({
+      collectionName: collection,
     });
+    // TODO [MS-725]: replace by context.getFile
+    const processedDestinationFile = await fetcher.pollFile(
+      auth,
+      publicId,
+      collection,
+    );
+    const subject = getFileStreamsCache().get(
+      processedDestinationFile.id,
+    ) as ReplaySubject<FileState>;
+
+    if (subject && subject.next) {
+      const subscription = subject.subscribe({
+        next(currentState) {
+          setTimeout(() => subscription.unsubscribe(), 0);
+          setTimeout(() => {
+            const {
+              artifacts,
+              mediaType,
+              mimeType,
+              name,
+              size,
+              representations,
+            } = processedDestinationFile;
+            subject.next({
+              ...currentState,
+              status: 'processed',
+              artifacts,
+              mediaType,
+              mimeType,
+              name,
+              size,
+              representations,
+            });
+          }, 0);
+        },
+      });
+    }
+    return store.dispatch(
+      sendUploadEvent({
+        event: {
+          name: 'upload-end',
+          data: {
+            file,
+            public: processedDestinationFile,
+          },
+        },
+        uploadId,
+      }),
+    );
+  } catch (error) {
+    return store.dispatch(
+      sendUploadEvent({
+        event: {
+          name: 'upload-error',
+          data: {
+            file,
+            error: {
+              name: 'object_create_fail',
+              description: error.message,
+            },
+          },
+        },
+        uploadId,
+      }),
+    );
+  } finally {
+    store.dispatch(resetView());
+  }
 }

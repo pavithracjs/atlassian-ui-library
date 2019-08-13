@@ -7,6 +7,7 @@ import { AkFieldRadioGroup as StatelessRadioGroup } from '@atlaskit/field-radio-
 import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import { AtlassianIcon } from '@atlaskit/logo';
 import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
+import CrossIcon from '@atlaskit/icon/glyph/cross';
 import {
   GlobalItem,
   LayoutManager,
@@ -295,6 +296,8 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           inviteDrawerContents={this.renderInviteDrawerContents}
           onInviteDrawerCloseComplete={this.onCloseComplete}
           shouldInviteDrawerUnmountOnExit={unmountOnExit}
+          // define drawer back icon
+          drawerBackIcon={CrossIcon}
         />
         <ModalTransition>
           {this.state.isCreateModalOpen && (

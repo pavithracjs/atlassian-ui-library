@@ -1,4 +1,5 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
+import { testMediaFileId } from '@atlaskit/editor-test-helpers';
 import { editable, getDocFromElement, fullpage } from '../_helpers';
 import {
   goToEditorTestingExample,
@@ -28,7 +29,7 @@ const baseADF = {
         {
           type: 'media',
           attrs: {
-            id: 'a559980d-cd47-43e2-8377-27359fcb905f',
+            id: testMediaFileId,
             type: 'file',
             collection: 'MediaServicesSample',
             width: 2378,
@@ -47,7 +48,7 @@ const baseADF = {
         {
           type: 'media',
           attrs: {
-            id: 'a559980d-cd47-43e2-8377-27359fcb905f',
+            id: testMediaFileId,
             type: 'file',
             collection: 'MediaServicesSample',
             width: 2378,
@@ -66,7 +67,7 @@ const baseADF = {
         {
           type: 'media',
           attrs: {
-            id: 'a559980d-cd47-43e2-8377-27359fcb905f',
+            id: testMediaFileId,
             type: 'file',
             collection: 'MediaServicesSample',
             width: 2378,
