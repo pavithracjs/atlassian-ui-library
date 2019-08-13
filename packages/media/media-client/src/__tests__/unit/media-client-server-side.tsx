@@ -22,8 +22,8 @@ class Example extends React.Component {
     return <div />;
   }
 }
-
-test('media-client server side rendering of project examples', async () => {
+// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
+test.skip('media-client server side rendering of project examples', async () => {
   const examples = await getExamplesFor('media-client');
   for (const example of examples) {
     const Example = await require(example.filePath).default;
@@ -31,7 +31,7 @@ test('media-client server side rendering of project examples', async () => {
     expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
   }
 });
-
-test('media-client server side rendering of simple component', () => {
+// https://product-fabric.atlassian.net/browse/BUILDTOOLS-282: SSR tests are still timing out in Landkid.
+test.skip('media-client server side rendering of simple component', () => {
   expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
 });
