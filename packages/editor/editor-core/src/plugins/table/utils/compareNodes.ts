@@ -5,18 +5,27 @@ import {
   MentionAttributes,
 } from '@atlaskit/adf-schema';
 
+enum ContentType {
+  NUMBER = 0,
+  TEXT = 5,
+  MENTION = 10,
+  DATE = 15,
+  STATUS = 20,
+  LINK = 25,
+}
+
 interface NodeMetaGenerator<Type, Value> {
   type: Type;
   value: Value;
 }
-type TextNodeMeta = NodeMetaGenerator<'text', string>;
+type TextNodeMeta = NodeMetaGenerator<ContentType.TEXT, string>;
 type NodeMeta =
   | TextNodeMeta
-  | NodeMetaGenerator<'number', number>
-  | NodeMetaGenerator<'status', string>
-  | NodeMetaGenerator<'date', number>
-  | NodeMetaGenerator<'mention', string>
-  | NodeMetaGenerator<'link', string>;
+  | NodeMetaGenerator<ContentType.NUMBER, number>
+  | NodeMetaGenerator<ContentType.STATUS, string>
+  | NodeMetaGenerator<ContentType.DATE, number>
+  | NodeMetaGenerator<ContentType.MENTION, string>
+  | NodeMetaGenerator<ContentType.LINK, string>;
 
 function getLinkMark(node: PMNode): Mark | null {
   const [linkMark] = node.marks.filter(mark => mark.type.name === 'link');
@@ -40,7 +49,7 @@ function getMetaFromNode(node: PMNode): NodeMeta | null {
       if (linkMark) {
         const value = firstChild.text || '';
         return {
-          type: 'link',
+          type: ContentType.LINK,
           value,
         };
       }
@@ -52,19 +61,19 @@ function getMetaFromNode(node: PMNode): NodeMeta | null {
       const maybeANumber = Number.parseFloat(firstWord);
       if (!Number.isNaN(maybeANumber)) {
         return {
-          type: 'number',
+          type: ContentType.NUMBER,
           value: maybeANumber,
         };
       }
       return {
-        type: 'text',
+        type: ContentType.TEXT,
         value: firstWord,
       };
     }
     case 'status': {
       const text = (firstChild.attrs as StatusDefinition['attrs']).text;
       return {
-        type: 'status',
+        type: ContentType.STATUS,
         value: text,
       };
     }
@@ -74,7 +83,7 @@ function getMetaFromNode(node: PMNode): NodeMeta | null {
         20,
       );
       return {
-        type: 'date',
+        type: ContentType.DATE,
         value: timestamp,
       };
     }
@@ -82,7 +91,7 @@ function getMetaFromNode(node: PMNode): NodeMeta | null {
       // TODO: Check what should be the fallback when mention does not have a text
       const text = (firstChild.attrs as MentionAttributes).text || '';
       return {
-        type: 'mention',
+        type: ContentType.MENTION,
         value: text,
       };
     }
@@ -125,8 +134,13 @@ export const compareNodes = (
   if (metaNodeA === metaNodeB) {
     return 0;
   }
+
   if (metaNodeA === null || metaNodeB === null) {
     return metaNodeB === null ? 1 : -1;
+  }
+
+  if (metaNodeA.type !== metaNodeB.type) {
+    return metaNodeA.type > metaNodeB.type ? 1 : -1;
   }
 
   return compareValue(metaNodeA.value, metaNodeB.value);

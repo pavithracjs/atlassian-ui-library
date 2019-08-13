@@ -6,6 +6,7 @@ import {
   td,
   mention,
   a,
+  BuilderContent,
 } from '@atlaskit/editor-test-helpers';
 import { EditorView } from 'prosemirror-view';
 import { compareNodes } from '../../../../../plugins/table/utils';
@@ -196,5 +197,63 @@ describe('Compare Nodes', () => {
         expect(compareNodes(nodeA, nodeB)).toBe(compareResultToValue[expected]);
       },
     );
+  });
+
+  describe('Compare mixed content', () => {
+    function testMixedNodesComparison(
+      cases: Array<[BuilderContent, CompareResult, BuilderContent]>,
+    ) {
+      test.each(cases)(
+        `should node a %p be %s than node b %p`,
+        (a: BuilderContent, expected: CompareResult, b: BuilderContent) => {
+          const nodeA = td()(a)(editorView.state.schema);
+          const nodeB = td()(b)(editorView.state.schema);
+
+          expect(compareNodes(nodeA, nodeB)).toBe(
+            compareResultToValue[expected],
+          );
+        },
+      );
+    }
+
+    testMixedNodesComparison([
+      [p('10'), CompareResult.less, p('a1')],
+      [p('10'), CompareResult.less, p(mention({ id: 'a', text: '10' })())],
+      [
+        p('10'),
+        CompareResult.less,
+        p(date({ timestamp: new Date('2019-01-01').getTime() })),
+      ],
+      [
+        p('10'),
+        CompareResult.less,
+        p(status({ text: '10', color: '#FFF', localId: 'a' })),
+      ],
+      [p('10'), CompareResult.less, p(a({ href: '' })('10'))],
+
+      [p('a1'), CompareResult.less, p(mention({ id: 'a', text: 'a1' })())],
+      [
+        p('a1'),
+        CompareResult.less,
+        p(date({ timestamp: new Date('2019-01-01').getTime() })),
+      ],
+      [
+        p('a1'),
+        CompareResult.less,
+        p(status({ text: 'a1', color: '#FFF', localId: 'a' })),
+      ],
+      [p('a1'), CompareResult.less, p(a({ href: '' })('10'))],
+
+      [
+        p(mention({ id: 'a', text: 'a1' })()),
+        CompareResult.less,
+        p(date({ timestamp: new Date('2019-01-01').getTime() })),
+      ],
+      [
+        p(mention({ id: 'a', text: 'a1' })()),
+        CompareResult.less,
+        p(status({ text: 'a1', color: '#FFF', localId: 'a' })),
+      ],
+    ]);
   });
 });
