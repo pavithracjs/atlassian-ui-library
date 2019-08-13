@@ -33,6 +33,7 @@ import JiraAdvancedSearch from './JiraAdvancedSearch';
 import {
   mapRecentResultsToUIGroups,
   mapSearchResultsToUIGroups,
+  MAX_RECENT_RESULTS_TO_SHOW,
 } from './JiraSearchResultsMapper';
 import {
   handlePromiseError,
@@ -64,6 +65,7 @@ import { buildJiraModelParams } from '../../util/model-parameters';
 import { JiraFeatures } from '../../util/features';
 import { injectFeatures } from '../FeaturesProvider';
 import { mapJiraItemToResult } from '../../api/JiraItemMapper';
+import { appendListWithoutDuplication } from '../../util/search-results-utils';
 
 const JIRA_RESULT_LIMIT = 6;
 const JIRA_PREQUERY_RESULT_LIMIT = 10;
@@ -75,6 +77,40 @@ const NoResultsAdvancedSearchContainer = styled.div`
 const BeforePreQueryStateContainer = styled.div`
   margin-top: ${gridSize()}px;
 `;
+
+const getRecentItemMatches = (
+  query: string,
+  recentItems: JiraResultsMap | null,
+): Result[] => {
+  if (!recentItems) {
+    return [];
+  }
+
+  return recentItems.objects
+    .filter(result => {
+      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+    })
+    .slice(0, MAX_RECENT_RESULTS_TO_SHOW);
+};
+
+const mergeSearchResultsWithRecentItems = (
+  searchResults: JiraResultsMap,
+  recentItems: Result[],
+): JiraResultsMap => {
+  const defaultSearchResults: JiraResultsMap = {
+    objects: [],
+    containers: [],
+    people: [],
+  };
+
+  const results = { ...defaultSearchResults, ...searchResults };
+
+  return {
+    objects: appendListWithoutDuplication(recentItems, results.objects),
+    containers: results.containers,
+    people: results.people,
+  };
+};
 
 /**
  * NOTE: This component is only consumed internally as such avoid using optional props
@@ -205,17 +241,41 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getPostQueryDisplayedResults = (
     searchResults: JiraResultsMap | null,
-    query: string,
+    latestSearchQuery: string,
+    recentItems: JiraResultsMap | null,
+    isLoading: boolean,
     searchSessionId: string,
   ) => {
     const { features } = this.props;
+    if (features.isInFasterSearchExperiment) {
+      const currentSearchResults: JiraResultsMap =
+        isLoading || !searchResults ? ({} as JiraResultsMap) : searchResults;
+
+      const recentResults = getRecentItemMatches(
+        latestSearchQuery,
+        recentItems,
+      );
+
+      const mergedRecentSearchResults = mergeSearchResultsWithRecentItems(
+        currentSearchResults,
+        recentResults,
+      );
+
+      return mapSearchResultsToUIGroups(
+        mergedRecentSearchResults,
+        searchSessionId,
+        features,
+        this.props.appPermission,
+        latestSearchQuery,
+      );
+    }
 
     return mapSearchResultsToUIGroups(
       searchResults as JiraResultsMap,
       searchSessionId,
       features,
       this.props.appPermission,
-      query,
+      latestSearchQuery,
     );
   };
 
@@ -237,6 +297,7 @@ export class JiraQuickSearchContainer extends React.Component<
       referralContextIdentifiers,
       onAdvancedSearch = () => {},
       appPermission,
+      features,
     } = this.props;
 
     return (
@@ -246,7 +307,9 @@ export class JiraQuickSearchContainer extends React.Component<
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}
-        keepPreQueryState={keepPreQueryState}
+        keepPreQueryState={
+          features.isInFasterSearchExperiment ? false : keepPreQueryState
+        }
         searchSessionId={searchSessionId}
         {...this.screenCounters}
         referralContextIdentifiers={referralContextIdentifiers}
@@ -314,7 +377,9 @@ export class JiraQuickSearchContainer extends React.Component<
         getPostQueryGroups={() =>
           this.getPostQueryDisplayedResults(
             searchResults,
-            query,
+            latestSearchQuery,
+            recentItems,
+            isLoading,
             searchSessionId,
           )
         }
@@ -423,16 +488,17 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getRecentItems = (): PartiallyLoadedRecentItems<JiraResultsMap> => {
     return {
-      eagerRecentItemsPromise: Promise.all([
-        this.getJiraRecentItems(),
+      eagerRecentItemsPromise: this.getJiraRecentItems().then(
+        results => ({ results } as ResultsWithTiming<JiraResultsMap>),
+      ),
+      lazyLoadedRecentItemsPromise: Promise.all([
         this.getRecentlyInteractedPeople(),
         this.canSearchUsers(),
-      ])
-        .then(([jiraItems, people, canSearchUsers]) => {
-          return { ...jiraItems, people: canSearchUsers ? people : [] };
-        })
-        .then(results => ({ results } as ResultsWithTiming<JiraResultsMap>)),
-      lazyLoadedRecentItemsPromise: Promise.resolve({}),
+      ]).then(([people, canSearchUsers]) => {
+        return {
+          people: canSearchUsers ? people : [],
+        };
+      }),
     };
   };
 
@@ -554,19 +620,7 @@ export class JiraQuickSearchContainer extends React.Component<
           recentItems: JiraResultsMap | null,
           searchSessionId: string,
         ) => this.getPreQueryDisplayedResults(recentItems, searchSessionId)}
-        getPostQueryDisplayedResults={(
-          searchResults: JiraResultsMap | null,
-          query: string,
-          _recentItems: any,
-          _isLoading: boolean,
-          searchSessionId: string,
-        ) =>
-          this.getPostQueryDisplayedResults(
-            searchResults,
-            query,
-            searchSessionId,
-          )
-        }
+        getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}

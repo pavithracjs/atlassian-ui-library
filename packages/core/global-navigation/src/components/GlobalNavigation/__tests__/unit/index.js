@@ -7,6 +7,8 @@ import Badge from '@atlaskit/badge';
 import { DropdownItem } from '@atlaskit/dropdown-menu';
 import Drawer from '@atlaskit/drawer';
 import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
+import CrossIcon from '@atlaskit/icon/glyph/cross';
+import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left';
 import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
@@ -209,6 +211,36 @@ describe('GlobalNavigation', () => {
           const wrapper = shallow(<GlobalNavigation {...props} />);
           expect(wrapper.find(Drawer).props()).toMatchObject({
             onCloseComplete,
+          });
+        });
+
+        describe('BackIcon', () => {
+          it(`should render correct backIcon`, () => {
+            // Testing XDrawerContents positive
+            const props = {
+              drawerBackIcon: CrossIcon,
+              [`${name}DrawerContents`]: DrawerContents,
+            };
+            const wrapper = mount(<GlobalNavigation {...props} />);
+            expect(wrapper.find(CrossIcon).exists()).toBeFalsy();
+
+            const icon = wrapper.find(akIcon);
+            icon.simulate('click');
+
+            expect(wrapper.find(CrossIcon).exists()).toBeTruthy();
+          });
+          it(`should render correct default backIcon`, () => {
+            // Testing XDrawerContents positive
+            const props = {
+              [`${name}DrawerContents`]: DrawerContents,
+            };
+            const wrapper = mount(<GlobalNavigation {...props} />);
+            expect(wrapper.find(ArrowLeftIcon).exists()).toBeFalsy();
+
+            const icon = wrapper.find(akIcon);
+            icon.simulate('click');
+
+            expect(wrapper.find(ArrowLeftIcon).exists()).toBeTruthy();
           });
         });
 

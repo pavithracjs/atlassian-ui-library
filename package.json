@@ -601,6 +601,7 @@
     "ie 11"
   ],
   "peerDependencies": {
-    "@atlassiansox/analytics-node-client": "^1.0.103"
+    "@atlassiansox/analytics-node-client": "^1.0.103",
+    "@atlassiansox/analytics-web-client": "^1.7.1"
   }
 }

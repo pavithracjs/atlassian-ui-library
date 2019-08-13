@@ -65,6 +65,13 @@ type Props = {
   onPositioned?: Function,
 };
 
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '@atlaskit/droplist has been deprecated. It is an internal component and should not be used directly.',
+  );
+}
+
 class Droplist extends Component<Props, void> {
   static defaultProps = {
     appearance: 'default',
