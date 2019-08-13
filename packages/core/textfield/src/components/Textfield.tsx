@@ -179,14 +179,16 @@ const ForwardRefTextfield = React.forwardRef(
 export { ForwardRefTextfield as TextFieldWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsContext<
-  React.ComponentProps<typeof ForwardRefTextfield>
->({
+// Need to pass this into Analytics to avoid the 'ref' being lost
+// Otherwise would be passing in PublicProps
+type PropsWithRef = React.ComponentProps<typeof ForwardRefTextfield>;
+
+export default withAnalyticsContext<PropsWithRef>({
   componentName: 'textField',
   packageName,
   packageVersion,
 })(
-  withAnalyticsEvents<React.ComponentProps<typeof ForwardRefTextfield>>({
+  withAnalyticsEvents<PropsWithRef>({
     onBlur: createAndFireEventOnAtlaskit({
       action: 'blurred',
       actionSubject: 'textField',
