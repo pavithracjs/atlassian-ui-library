@@ -6,10 +6,8 @@ import { FileIdentifier } from '..';
 import { Card } from '@atlaskit/media-card';
 import Button from '@atlaskit/button';
 import { CardsWrapper, Header } from '../example-helpers/styled';
-import { ContextFactory } from '@atlaskit/media-core';
 
 const mediaClient = createUserMediaClient();
-const context = ContextFactory.create(mediaClient.config);
 
 const collectionName = 'recents';
 export interface ExampleState {
@@ -44,7 +42,7 @@ class Example extends Component<{}, ExampleState> {
 
       return (
         <Card
-          context={context}
+          mediaClientConfig={mediaClient.config}
           key={id}
           identifier={identifier}
           dimensions={{

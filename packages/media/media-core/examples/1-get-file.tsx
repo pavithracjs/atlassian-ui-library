@@ -6,8 +6,7 @@ import {
   defaultCollectionName,
   mediaPickerAuthProvider,
 } from '@atlaskit/media-test-helpers';
-import { FileState } from '@atlaskit/media-client';
-import { ContextFactory } from '../src';
+import { FileState, getMediaClient } from '@atlaskit/media-client';
 import { FilesWrapper, FileWrapper } from '../example-helpers/styled';
 import { Observable } from 'rxjs/Observable';
 
@@ -16,8 +15,10 @@ export interface ComponentState {
   files: { [id: string]: FileState };
 }
 
-const mediaContext = ContextFactory.create({
-  authProvider: mediaPickerAuthProvider('asap'),
+const mediaContext = getMediaClient({
+  mediaClientConfig: {
+    authProvider: mediaPickerAuthProvider('asap'),
+  },
 });
 
 class Example extends Component<ComponentProps, ComponentState> {
