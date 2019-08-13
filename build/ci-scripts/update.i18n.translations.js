@@ -53,8 +53,6 @@ const pull = async ({ packagePath, maintainers, targetBranch = 'master' }) => {
   // Check for changes, else no pull request needed
   try {
     const changes = await spawn('git', ['diff', '--name-only']);
-    console.log(changes);
-    process.exit(1);
     if (!changes.stdout || changes.stdout === '') {
       // No changes, don't create pull request
       return;
