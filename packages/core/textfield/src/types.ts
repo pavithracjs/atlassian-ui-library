@@ -35,7 +35,7 @@ export interface PublicProps
   width?: string | number;
   /** The theme the component should use. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>;
-
+  /** Mousedown handler that will fire on the container element */
   onMouseDown?: React.MouseEventHandler<HTMLElement>;
 }
 
