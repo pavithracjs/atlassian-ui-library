@@ -432,7 +432,10 @@ export class MediaPluginState {
    * Called from React UI Component when user clicks on "Delete" icon
    * inside of it
    */
-  handleMediaNodeRemoval = (node: PMNode, getPos: ProsemirrorGetPosHandler) => {
+  handleMediaNodeRemoval = (
+    node: PMNode | undefined,
+    getPos: ProsemirrorGetPosHandler,
+  ) => {
     let getNode = node;
     if (!getNode) {
       getNode = this.view.state.doc.nodeAt(getPos()) as PMNode;

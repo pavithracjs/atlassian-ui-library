@@ -123,10 +123,10 @@ export default class MediaGroup extends React.Component<
         actions: [
           {
             handler: this.props.disabled
-              ? {}
+              ? () => {}
               : this.mediaPluginState.handleMediaNodeRemoval.bind(
                   null,
-                  null,
+                  undefined,
                   () => nodePos,
                 ),
             icon: <EditorCloseIcon label="delete" />,
