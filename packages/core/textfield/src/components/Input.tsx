@@ -3,6 +3,25 @@ import React from 'react';
 import { jsx, CSSObject } from '@emotion/core';
 import { ThemeTokens } from '../theme';
 
+function warnIfClash(
+  ours: React.InputHTMLAttributes<HTMLInputElement>,
+  theirs: React.InputHTMLAttributes<HTMLInputElement>,
+) {
+  const ourKeys: string[] = Object.keys(ours);
+  const theirKeys: string[] = Object.keys(theirs);
+
+  ourKeys.forEach((key: string) => {
+    if (theirKeys.includes(key)) {
+      console.warn(`
+          FieldText:
+          You are attempting to add prop "${key}" to the input field.
+          It is clashing with one of our supplied props.
+          Please try to control this prop through our public API
+        `);
+    }
+  });
+}
+
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   isDisabled: boolean;
   isReadOnly: boolean;
@@ -40,7 +59,7 @@ export default function Input({
   onFocus,
   theme,
   innerRef,
-  ...otherProps
+  ...theirInputProps
 }: Props) {
   const ourInputProps: React.InputHTMLAttributes<HTMLInputElement> = {
     onFocus,
@@ -50,25 +69,13 @@ export default function Input({
     required: isRequired,
   };
 
-  // check for any clashes when in development
+  // Check for any clashes when in development
   if (process.env.NODE_ENV !== 'production') {
-    const ours: string[] = Object.keys(ourInputProps);
-    const supplied: string[] = Object.keys(otherProps);
-
-    ours.forEach((key: string) => {
-      if (supplied.includes(key)) {
-        console.warn(`
-          FieldText:
-          You are attempting to add prop "${key}" to the input field.
-          It is clashing with one of our supplied props.
-          Please try to control this prop through our public API
-        `);
-      }
-    });
+    warnIfClash(ourInputProps, theirInputProps);
   }
 
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
-    ...otherProps,
+    ...theirInputProps,
     // overriding any clashes
     ...ourInputProps,
   };
