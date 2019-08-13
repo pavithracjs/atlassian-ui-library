@@ -1,1 +1,3 @@
-Converting from flow to typescript
+- Converting from flow to typescript 🎉
+- Correctly typing the current prop spreading onto the internal `<input>` element
+- Removing `isHovered` and `isFocused` from public API as they previously did not do anything
