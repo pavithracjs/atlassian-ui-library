@@ -205,11 +205,12 @@ describe('Jira Quick Search Container', () => {
         results: {
           objects: issues,
           containers: boards,
-          people: people,
         },
       });
 
-      expect(await lazyLoadedRecentItemsPromise).toEqual({});
+      expect(await lazyLoadedRecentItemsPromise).toEqual({
+        people,
+      });
       expect(logger.safeError).toHaveBeenCalledTimes(0);
     });
 

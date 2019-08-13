@@ -14,6 +14,7 @@ import {
   MessageContainer,
   TogglesAndMessagePanel,
 } from './components/ToggleAndMessageContainer';
+import PrefetchedResultsProvider from '../src/components/PrefetchedResultsProvider';
 
 const availableContext = ['jira', 'confluence'];
 const presetConfig = {
@@ -217,18 +218,20 @@ export default class WithNavigation extends React.Component<
     const { context: currentContext, locale } = this.state;
 
     return (
-      <BasicNavigation
-        searchDrawerContent={() => (
-          <LocaleIntlProvider locale={locale}>
-            <DefaultQuickSearchWrapper
-              context={currentContext}
-              //@ts-ignore
-              {...presetConfig[this.state.currentConfig] || {}}
-              {...this.props}
-            />
-          </LocaleIntlProvider>
-        )}
-      />
+      <PrefetchedResultsProvider context={currentContext} cloudId="123">
+        <BasicNavigation
+          searchDrawerContent={() => (
+            <LocaleIntlProvider locale={locale}>
+              <DefaultQuickSearchWrapper
+                context={currentContext}
+                //@ts-ignore
+                {...presetConfig[this.state.currentConfig] || {}}
+                {...this.props}
+              />
+            </LocaleIntlProvider>
+          )}
+        />
+      </PrefetchedResultsProvider>
     );
   };
 

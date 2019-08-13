@@ -423,16 +423,17 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getRecentItems = (): PartiallyLoadedRecentItems<JiraResultsMap> => {
     return {
-      eagerRecentItemsPromise: Promise.all([
-        this.getJiraRecentItems(),
+      eagerRecentItemsPromise: this.getJiraRecentItems().then(
+        results => ({ results } as ResultsWithTiming<JiraResultsMap>),
+      ),
+      lazyLoadedRecentItemsPromise: Promise.all([
         this.getRecentlyInteractedPeople(),
         this.canSearchUsers(),
-      ])
-        .then(([jiraItems, people, canSearchUsers]) => {
-          return { ...jiraItems, people: canSearchUsers ? people : [] };
-        })
-        .then(results => ({ results } as ResultsWithTiming<JiraResultsMap>)),
-      lazyLoadedRecentItemsPromise: Promise.resolve({}),
+      ]).then(([people, canSearchUsers]) => {
+        return {
+          people: canSearchUsers ? people : [],
+        };
+      }),
     };
   };
 
