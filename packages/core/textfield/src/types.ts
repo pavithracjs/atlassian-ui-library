@@ -3,17 +3,21 @@ import { ThemeProp } from '@atlaskit/theme';
 import { ThemeProps, ThemeTokens } from './theme';
 
 export interface InputProps {
-  name: string | undefined;
+  // always set
   disabled: boolean;
   readOnly: boolean;
   required: boolean;
+  onBlur: React.FocusEventHandler<HTMLInputElement>;
+  onFocus: React.FocusEventHandler<HTMLInputElement>;
+
+  // Optional values
+  name: string | undefined;
   placeholder: string | undefined;
   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
   onKeyDown: React.KeyboardEventHandler<HTMLInputElement> | undefined;
-  onBlur: React.FocusEventHandler<HTMLInputElement>;
-  onFocus: React.FocusEventHandler<HTMLInputElement>;
   defaultValue: string | string[] | undefined;
   value: string | number | string[] | undefined;
+  type: string | undefined;
 }
 
 export interface ContainerProps {
@@ -43,6 +47,8 @@ export interface PublicProps {
   defaultValue?: string;
   /** Placeholder value to be set when there is no input */
   placeholder?: string;
+  /** The type of the input field */
+  type?: string;
   /** Controls the appearance of the field.
    * `subtle` shows styling on hover.
    * `none` hides all field styling.

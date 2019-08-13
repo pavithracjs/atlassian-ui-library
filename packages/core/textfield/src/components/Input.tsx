@@ -12,6 +12,7 @@ interface Props {
   placeholder: string | undefined;
   defaultValue: string | string[] | undefined;
   value: string | number | undefined;
+  type: string | undefined;
   overrides: Overrides | undefined;
 
   // Theme controls a number of visual stylings
@@ -79,8 +80,9 @@ export default function Input({
   onFocus,
   name,
   value,
-  placeholder,
   defaultValue,
+  placeholder,
+  type,
   theme,
   innerRef,
   overrides,
@@ -89,6 +91,7 @@ export default function Input({
     disabled: isDisabled,
     readOnly: isReadOnly,
     required: isRequired,
+    type,
     placeholder,
     onChange,
     onKeyDown,

@@ -118,6 +118,7 @@ class Textfield extends React.Component<InternalProps, State> {
       isMonospaced,
       onChange,
       value,
+      type,
       defaultValue,
       placeholder,
       theme,
@@ -148,6 +149,7 @@ class Textfield extends React.Component<InternalProps, State> {
                   name={name}
                   defaultValue={defaultValue}
                   value={value}
+                  type={type}
                   isDisabled={isDisabled!}
                   isReadOnly={isReadOnly!}
                   isRequired={isRequired!}
