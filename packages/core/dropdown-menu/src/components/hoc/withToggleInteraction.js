@@ -63,7 +63,7 @@ const withToggleInteraction = (
     };
 
     warnIfUseControlledAndUncontrolledState = () => {
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV !== 'production' && !process.env.CI) {
         if (this.props.defaultSelected && this.props.isSelected) {
           // eslint-disable-next-line no-console
           console.warn(
