@@ -122,6 +122,7 @@ class Textfield extends React.Component<InternalProps, State> {
       placeholder,
       theme,
       width,
+      onKeyDown,
       elemAfterInput,
       elemBeforeInput,
       overrides,
@@ -155,6 +156,7 @@ class Textfield extends React.Component<InternalProps, State> {
                   onChange={onChange}
                   onBlur={this.handleOnBlur}
                   onFocus={this.handleOnFocus}
+                  onKeyDown={onKeyDown}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.handleOnMouseDown}

@@ -46,8 +46,10 @@ export default class TextfieldExample extends Component<void, State> {
         />
         <div style={eventResultStyle}>{eventResult}</div>
 
-        <label htmlFor="default-value">Default Value</label>
-        <Textfield isCompact name="default-value" defaultValue="candy" />
+        <label htmlFor="default-value">
+          Default value (not the same as a placeholder)
+        </label>
+        <Textfield name="default-value" defaultValue="candy" />
 
         <label htmlFor="disabled">Disabled</label>
         <Textfield
