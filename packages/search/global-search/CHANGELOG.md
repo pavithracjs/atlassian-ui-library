@@ -1,5 +1,13 @@
 # @atlaskit/global-search
 
+## 11.1.1
+
+### Patch Changes
+
+- [patch][a047bbaff3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a047bbaff3):
+
+  Fixed a minor bug with Jira prefetching
+
 ## 11.1.0
 
 ### Minor Changes

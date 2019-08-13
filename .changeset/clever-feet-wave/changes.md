@@ -1,1 +1,0 @@
-Fixed a minor bug with Jira prefetching
