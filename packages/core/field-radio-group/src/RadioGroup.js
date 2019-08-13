@@ -14,6 +14,7 @@ type DefaultPropsTypes = {
   items: ItemsPropTypeSmart,
   onRadioChange: (SyntheticEvent<*>) => mixed,
 };
+
 export default class FieldRadioGroup extends Component<
   RadioGroupPropTypes,
   State,
