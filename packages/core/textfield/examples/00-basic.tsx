@@ -37,11 +37,6 @@ export default class TextfieldExample extends Component<void, State> {
 
     return (
       <div>
-        <p>
-          <code>{'<Textfield />'}</code> will pass through any{' '}
-          <code>{'<React.InputHTMLAttributes<HTMLInputElement>'}</code> on the
-          underlying <code>{'<input />'}</code> element
-        </p>
         <label htmlFor="event-handlers">Event Handlers</label>
         <Textfield
           name="event-handlers"
