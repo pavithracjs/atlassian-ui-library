@@ -5,6 +5,7 @@ import Portal from '@atlaskit/portal';
 import ScrollLock from 'react-scrolllock';
 import NodeResovler from 'react-node-resolver';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { canUseDOM } from 'exenv';
 import { Fade } from './Animation';
 import Clone from './Clone';
 import SpotlightDialog from './SpotlightDialog';
@@ -60,6 +61,9 @@ class SpotlightInner extends React.Component<
     window.getComputedStyle(element).position === 'fixed';
 
   getTargetNodeRect = () => {
+    if (!canUseDOM) {
+      return {};
+    }
     const { targetNode } = this.props;
     const { offsetParent } = targetNode;
     const { height, left, top, width } = targetNode.getBoundingClientRect();
