@@ -42,15 +42,37 @@ export default function Input({
   innerRef,
   ...otherProps
 }: Props) {
-  const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
-    ...otherProps,
-    // we are going to override any clashes
+  const ourInputProps: React.InputHTMLAttributes<HTMLInputElement> = {
     onFocus,
     onBlur,
     disabled: isDisabled,
     readOnly: isReadOnly,
     required: isRequired,
   };
+
+  // check for any clashes when in development
+  if (process.env.NODE_ENV !== 'production') {
+    const ours: string[] = Object.keys(ourInputProps);
+    const supplied: string[] = Object.keys(otherProps);
+
+    ours.forEach((key: string) => {
+      if (supplied.includes(key)) {
+        console.warn(`
+          FieldText:
+          You are attempting to add prop "${key}" to the input field.
+          It is clashing with one of our supplied props.
+          Please try to control this prop through our public API
+        `);
+      }
+    });
+  }
+
+  const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+    ...otherProps,
+    // overriding any clashes
+    ...ourInputProps,
+  };
+
   const containerProps: React.HTMLAttributes<HTMLElement> = {
     onMouseDown,
     onMouseEnter,

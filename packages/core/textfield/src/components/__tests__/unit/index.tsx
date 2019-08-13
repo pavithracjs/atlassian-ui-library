@@ -55,22 +55,39 @@ describe('Textfield', () => {
       test('should pass through any native input props to the input', () => {
         const nativeProps = {
           type: 'text',
-          disabled: true,
           name: 'test',
           placeholder: 'test placeholder',
           maxLength: 8,
           min: 1,
           max: 8,
-          required: true,
           autoComplete: 'on',
           form: 'test-form',
           pattern: '/.+/',
         };
 
-        const wrapper = mount(<Textfield {...nativeProps} />)
+        const props = mount(<Textfield {...nativeProps} />)
           .find('input')
           .props();
-        expect(wrapper).toEqual(expect.objectContaining(nativeProps));
+        expect(props).toEqual(expect.objectContaining(nativeProps));
+      });
+
+      test('should override any native input prop clashes', () => {
+        const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const nativeProps = {
+          disabled: true,
+        };
+
+        const props = mount(<Textfield {...nativeProps} />)
+          .find('input')
+          .props();
+        expect(props.disabled).toEqual(false);
+
+        expect(warn).toHaveBeenCalledWith(
+          expect.stringContaining(
+            'You are attempting to add prop "disabled" to the input field',
+          ),
+        );
+        warn.mockClear();
       });
     });
 
