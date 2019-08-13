@@ -108,25 +108,25 @@ class Textfield extends React.Component<InternalProps, State> {
   render() {
     const { isFocused, isHovered } = this.state;
     const {
+      // Sadly need to pull these out.
+      // It is injected by the HOC and we don't want to pass it onto the HTML input
+      // @ts-ignore: not passed onto input
+      createAnalyticsEvent,
+      // @ts-ignore: not passed onto input
+      forwardedRef,
+
       appearance,
       isCompact,
-      name,
       isDisabled,
       isInvalid,
       isRequired,
       isReadOnly,
       isMonospaced,
-      onChange,
-      value,
-      type,
-      defaultValue,
-      placeholder,
       theme,
       width,
-      onKeyDown,
       elemAfterInput,
       elemBeforeInput,
-      overrides,
+      ...otherProps
     } = this.props;
 
     return (
@@ -146,26 +146,19 @@ class Textfield extends React.Component<InternalProps, State> {
             >
               {tokens => (
                 <Input
-                  name={name}
-                  defaultValue={defaultValue}
-                  value={value}
-                  type={type}
                   isDisabled={isDisabled!}
                   isReadOnly={isReadOnly!}
                   isRequired={isRequired!}
                   theme={tokens}
-                  placeholder={placeholder}
-                  onChange={onChange}
                   onBlur={this.handleOnBlur}
                   onFocus={this.handleOnFocus}
-                  onKeyDown={onKeyDown}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.handleOnMouseDown}
                   elemAfterInput={elemAfterInput}
                   elemBeforeInput={elemBeforeInput}
                   innerRef={this.setInputRef}
-                  overrides={overrides}
+                  {...otherProps}
                 />
               )}
             </Theme.Consumer>

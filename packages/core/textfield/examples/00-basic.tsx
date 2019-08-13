@@ -67,31 +67,11 @@ export default class TextfieldExample extends Component<void, State> {
         <label htmlFor="placeholder">Placeholder</label>
         <Textfield name="placeholder" placeholder="Click here to input..." />
 
-        <label htmlFor="auto-focus">Auto Focus (uses custom attribute)</label>
-        <Textfield
-          name="auto-focus"
-          overrides={{
-            Input: {
-              attributes: (props: InputProps) => ({
-                ...props,
-                autoFocus: true,
-              }),
-            },
-          }}
-        />
+        <label htmlFor="auto-focus">Auto Focus</label>
+        <Textfield name="auto-focus" autoFocus />
 
-        <label htmlFor="spell-check">Spell Check (uses custom attribute)</label>
-        <Textfield
-          name="spell-check"
-          overrides={{
-            Input: {
-              attributes: (props: InputProps) => ({
-                ...props,
-                spellCheck: true,
-              }),
-            },
-          }}
-        />
+        <label htmlFor="spell-check">Spell Check</label>
+        <Textfield name="spell-check" spellCheck />
       </div>
     );
   }

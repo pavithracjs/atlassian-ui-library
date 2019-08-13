@@ -4,33 +4,16 @@ import { ThemeProps, ThemeTokens } from './theme';
 
 export interface Overrides {
   Container?: {
-    attributes?: (
-      defaults: React.HTMLAttributes<HTMLElement>,
-    ) => React.HTMLAttributes<HTMLElement>;
+    attributes?: () => React.HTMLAttributes<HTMLElement>;
   };
   Input?: {
-    attributes?: (
-      defaults: React.InputHTMLAttributes<HTMLInputElement>,
-    ) => React.InputHTMLAttributes<HTMLInputElement>;
+    attributes?: () => React.InputHTMLAttributes<HTMLInputElement>;
   };
 }
 
 // External component
-export interface PublicProps {
-  /* The name attribute to be applied to the input element */
-  name?: string | undefined;
-  /** The value of the input. */
-  value?: string | number;
-  /** Sets a default value as input value */
-  defaultValue?: string;
-  /** Placeholder value to be set when there is no input */
-  placeholder?: string;
-  /** The type of the input field */
-  type?: string;
-  /** Controls the appearance of the field.
-   * `subtle` shows styling on hover.
-   * `none` hides all field styling.
-   */
+export interface PublicProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   appearance?: 'standard' | 'none' | 'subtle';
   /** Applies compact styling, making the field smaller */
   isCompact?: boolean;
@@ -48,38 +31,12 @@ export interface PublicProps {
   elemAfterInput?: React.ReactNode;
   /** Element before input in textfield. */
   elemBeforeInput?: React.ReactNode;
-  /** Handler called when a keydown is registered */
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-  /** Handler called when the value of the input changes */
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  /** Handler to be called when the input loses focus. */
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  /** Handler to be called when the input receives focus. */
-  onFocus?: React.FocusEventHandler<HTMLInputElement>;
-  /** Handler called when mouse is pressed down. */
-  onMouseDown?: React.MouseEventHandler<HTMLElement>;
   /** Sets maximum width of input */
   width?: string | number;
   /** The theme the component should use. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>;
-  /**
-    Mechanism to modify attributes applied to the raw DOM elements of this component
 
-    - `Container`: element that wraps the `input` element. It contains the `elemBeforeInput` and `elemAfterInput`
-    - `Input`: raw `input` element
-
-   This `overrides` object contains functions that are used to return the *attributes* that will be applied to the raw elements
-   The functions are provided with the *attributes* we hope to apply to each element. You are welcome to monkey patch,
-   and add additional *attributes* to be applied to the DOM elements.
-
-
-    You can use this mechanism to apply additional React HTML props such as:
-
-    - `spellCheck`
-    - data attributes (eg `data-testid`)
-    - additional event handlers (eg `onKeyUp`)
-   */
-  overrides?: Overrides;
+  onMouseDown?: React.MouseEventHandler<HTMLElement>;
 }
 
 export interface InternalProps extends PublicProps {
