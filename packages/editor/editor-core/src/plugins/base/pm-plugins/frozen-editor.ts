@@ -13,7 +13,7 @@ import {
 } from '@atlaskit/editor-common';
 
 const FREEZE_CHECK_TIME = 600;
-const SLOW_INPUT_TIME = 200;
+const SLOW_INPUT_TIME = 300;
 
 const dispatchLongTaskEvent = (
   dispatchAnalyticsEvent: DispatchAnalyticsEvent,
