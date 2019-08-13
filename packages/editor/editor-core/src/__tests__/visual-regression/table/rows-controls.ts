@@ -31,7 +31,7 @@ describe('Snapshot Test: hover rows controlls', () => {
         const y = bounds.top + 5;
 
         await page.mouse.move(x, y);
-        await snapshot(page, undefined, '.fabric-editor-popup-scroll-parent');
+        await snapshot(page);
       },
     );
 
@@ -50,7 +50,7 @@ describe('Snapshot Test: hover rows controlls', () => {
         const y = bounds.top + bounds.height - 5;
 
         await page.mouse.move(x, y);
-        await snapshot(page, undefined, '.fabric-editor-popup-scroll-parent');
+        await snapshot(page);
       },
     );
   });
