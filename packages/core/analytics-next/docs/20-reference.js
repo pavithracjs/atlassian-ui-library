@@ -138,7 +138,7 @@ import {
 } from '@atlaskit/analytics-next';
 
 // Wrapping your component with the component
-class ButtonWithAnalyticsErrorBoundary etends React.Component {
+class ButtonWithAnalyticsErrorBoundary extends React.Component {
   handleEvent = (analyticsEvent) => {
     const { payload, context } = analyticsEvent;
     console.log('Received event:', analyticsEvent, { payload, context });
