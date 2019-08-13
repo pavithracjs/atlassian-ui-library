@@ -2,37 +2,15 @@ import React from 'react';
 import { ThemeProp } from '@atlaskit/theme';
 import { ThemeProps, ThemeTokens } from './theme';
 
-export interface InputProps {
-  // always set
-  disabled: boolean;
-  readOnly: boolean;
-  required: boolean;
-  onBlur: React.FocusEventHandler<HTMLInputElement>;
-  onFocus: React.FocusEventHandler<HTMLInputElement>;
-
-  // Optional values
-  name: string | undefined;
-  placeholder: string | undefined;
-  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
-  onKeyDown: React.KeyboardEventHandler<HTMLInputElement> | undefined;
-  defaultValue: string | string[] | undefined;
-  value: string | number | string[] | undefined;
-  type: string | undefined;
-}
-
-export interface ContainerProps {
-  onMouseDown: React.MouseEventHandler<HTMLElement>;
-  onMouseEnter: React.MouseEventHandler<HTMLElement>;
-  onMouseLeave: React.MouseEventHandler<HTMLElement>;
-}
-
 export interface Overrides {
   Container?: {
-    attributes?: (props: ContainerProps) => React.HTMLAttributes<HTMLElement>;
+    attributes?: (
+      defaults: React.HTMLAttributes<HTMLElement>,
+    ) => React.HTMLAttributes<HTMLElement>;
   };
   Input?: {
     attributes?: (
-      props: InputProps,
+      defaults: React.InputHTMLAttributes<HTMLInputElement>,
     ) => React.InputHTMLAttributes<HTMLInputElement>;
   };
 }

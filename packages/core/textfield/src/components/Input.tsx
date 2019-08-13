@@ -1,14 +1,14 @@
 /** @jsx jsx */
 import React from 'react';
 import { jsx, CSSObject } from '@emotion/core';
-import { Overrides, InputProps, ContainerProps } from '../types';
+import { Overrides } from '../types';
 import { ThemeTokens } from '../theme';
 
 interface Props {
   isDisabled: boolean;
   isReadOnly: boolean;
   isRequired: boolean;
-  name: string | undefined;
+  name?: string | undefined;
   placeholder: string | undefined;
   defaultValue: string | string[] | undefined;
   value: string | number | undefined;
@@ -45,10 +45,10 @@ type Result = {
 
 function withOverrides(
   overrides: Overrides | undefined,
-  input: InputProps,
-  container: ContainerProps,
+  input: React.InputHTMLAttributes<HTMLInputElement>,
+  container: React.HTMLAttributes<HTMLElement>,
 ): Result {
-  const result: Result = { input, container };
+  const result = { input, container };
 
   if (!overrides) {
     return result;
@@ -87,7 +87,7 @@ export default function Input({
   innerRef,
   overrides,
 }: Props) {
-  const inputProps: InputProps = {
+  const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
     disabled: isDisabled,
     readOnly: isReadOnly,
     required: isRequired,
@@ -101,7 +101,7 @@ export default function Input({
     value,
     defaultValue,
   };
-  const containerProps: ContainerProps = {
+  const containerProps: React.HTMLAttributes<HTMLElement> = {
     onMouseDown,
     onMouseEnter,
     onMouseLeave,
