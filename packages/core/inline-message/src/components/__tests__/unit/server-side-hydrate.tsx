@@ -11,7 +11,7 @@ afterEach(() => {
 
 test('should ssr then hydrate inline-message correctly', async () => {
   const [example] = await getExamplesFor('inline-message');
-  // $StringLitteral
+
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');

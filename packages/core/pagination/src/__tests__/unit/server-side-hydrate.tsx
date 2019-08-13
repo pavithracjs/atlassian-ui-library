@@ -18,7 +18,7 @@ afterEach(() => {
 
 test('should ssr then hydrate pagination correctly', async () => {
   const [example] = await getExamplesFor('pagination');
-  // $StringLitteral
+
   const Example = await require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
