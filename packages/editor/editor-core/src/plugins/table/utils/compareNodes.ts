@@ -92,7 +92,7 @@ function getMetaFromNode(node: PMNode): NodeMeta | null {
       const text = (firstChild.attrs as MentionAttributes).text || '';
       return {
         type: ContentType.MENTION,
-        value: text,
+        value: text.toLowerCase(),
       };
     }
     default:

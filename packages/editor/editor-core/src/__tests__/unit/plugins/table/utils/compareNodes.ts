@@ -156,6 +156,8 @@ describe('Compare Nodes', () => {
 
   describe('Mention inline node', () => {
     test.each([
+      ['awood', CompareResult.less, 'Carolyn'],
+      ['Carolyn', CompareResult.greater, 'awood'],
       ['John Doe', CompareResult.greater, 'Jane Doe'],
       ['John Doe', CompareResult.equal, 'John Doe'],
       ['John Doe', CompareResult.less, 'John Smith'],
