@@ -30,6 +30,7 @@ import {
   handleCut,
   handleMouseOut,
   handleMouseDown,
+  whenTableInFocus,
 } from '../event-handlers';
 import { findControlsHoverDecoration, updateResizeHandles } from '../utils';
 import { fixTables } from '../transforms';
@@ -191,14 +192,14 @@ export const createPlugin = (
       },
 
       handleDOMEvents: {
-        blur: handleBlur,
         focus: handleFocus,
+        blur: whenTableInFocus(handleBlur),
         mousedown: handleMouseDown,
-        mouseover: handleMouseOver,
-        mouseleave: handleMouseLeave,
-        mouseout: handleMouseOut,
-        mousemove: handleMouseMove,
-        click: handleClick,
+        mouseover: whenTableInFocus(handleMouseOver),
+        mouseleave: whenTableInFocus(handleMouseLeave),
+        mouseout: whenTableInFocus(handleMouseOut),
+        mousemove: whenTableInFocus(handleMouseMove),
+        click: whenTableInFocus(handleClick),
       },
 
       handleTripleClick,
