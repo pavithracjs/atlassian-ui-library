@@ -54,7 +54,7 @@ describe('Textfield', () => {
     describe('native input props', () => {
       test('should pass through any native input props to the input', () => {
         const nativeProps = {
-          interface: 'text',
+          type: 'text',
           disabled: true,
           name: 'test',
           placeholder: 'test placeholder',
