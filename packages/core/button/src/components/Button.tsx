@@ -20,13 +20,6 @@ import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { ButtonProps, ThemeMode, ThemeProps, ThemeTokens } from '../types';
 
-import * as jquery from 'jquery';
-import * as angular from 'angular';
-// eslint-disable-next-line no-console
-console.log(jquery);
-// eslint-disable-next-line no-console
-console.log(angular);
-
 export type ButtonState = {
   isHover: boolean;
   isActive: boolean;
